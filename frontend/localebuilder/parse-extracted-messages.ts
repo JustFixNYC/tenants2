@@ -1,4 +1,5 @@
 import PO from "pofile";
+import chalk from "chalk";
 
 /**
  * Encapsulates information about a Lingui extracted message
@@ -12,6 +13,39 @@ export class ExtractedMessageCatalog {
      */
     readonly msgidSourceFiles: Map<string, string[]>
   ) {}
+
+  validateIdLengths(maxLength: number) {
+    let numViolations = 0;
+    for (let [id, sources] of this.msgidSourceFiles.entries()) {
+      if (id.length > maxLength) {
+        const EXCERPT_LEN = 30;
+        const excerpt = JSON.stringify(id.substring(0, EXCERPT_LEN));
+        const { length } = id;
+
+        // The id would actually take up 2x the space in our bundle because
+        // it will be used in the source code to reference an entry in
+        // the JS locale bundle.
+        const bundleSize = length * 2;
+
+        console.warn(
+          `Message id beginning with ${chalk.whiteBright(
+            excerpt
+          )} is ${chalk.redBright(length.toString())} characters.`
+        );
+        console.warn(`This message is found in ${chalk.yellow(sources[0])}.`);
+        console.warn(
+          `Due to its size, this id would actually consume around ` +
+            `${bundleSize} bytes in our source code. Please shorten it!`
+        );
+        numViolations += 1;
+      }
+    }
+    if (numViolations > 0) {
+      throw new Error(
+        `${numViolations} message(s) are longer than ${maxLength} characters!`
+      );
+    }
+  }
 }
 
 /**

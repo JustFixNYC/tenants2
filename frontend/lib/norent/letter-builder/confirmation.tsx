@@ -180,20 +180,18 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
       <h3 className="title jf-alt-title-font">
         <Trans>Build power in numbers</Trans>
       </h3>
-      <p>
-        <Trans>
+      <Trans id="norent.callToActionForCancelRentCampaign">
+        <p>
           Our homes, health, and collective safety and futures are on the line.
           Millions of us don’t know how we are going to pay our rent, mortgage,
           or utilities on May 1st, yet landlords and banks are expecting payment
           as if it’s business as usual. It’s not.
-        </Trans>
-      </p>
-      <p>
-        <Trans>
+        </p>
+        <p>
           Join millions of us to fight for a future free from debt and to win a
           national suspension on rent, mortgage and utility payments!
-        </Trans>
-      </p>
+        </p>
+      </Trans>
       <p className="has-text-centered">
         <OutboundLink
           className="button is-primary is-large jf-is-extra-wide"

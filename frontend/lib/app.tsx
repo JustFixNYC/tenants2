@@ -40,10 +40,10 @@ import { SupportedLocale } from "./i18n";
 import { getGlobalSiteRoutes } from "./routes";
 import { ensureNextRedirectIsHard } from "./browser-redirect";
 import {
-  getAmplitude,
   updateAmplitudeUserPropertiesOnSessionChange,
   trackLoginInAmplitude,
   trackLogoutInAmplitude,
+  logAmplitudePageView,
 } from "./analytics/amplitude";
 
 // Note that these don't need any special fallback loading screens
@@ -226,13 +226,6 @@ export class AppWithoutRouter extends React.Component<
     }
   }
 
-  trackAmplitudePageView(pathname = this.props.location.pathname) {
-    getAmplitude()?.logEvent("Page viewed", {
-      pathname,
-      siteType: this.props.server.siteType,
-    });
-  }
-
   handlePathnameChange(
     prevPathname: string,
     prevHash: string,
@@ -242,7 +235,7 @@ export class AppWithoutRouter extends React.Component<
   ) {
     if (prevPathname !== pathname) {
       trackPageView(pathname);
-      this.trackAmplitudePageView(pathname);
+      logAmplitudePageView(pathname);
       this.handleFocusDuringPathnameChange(prevPathname, pathname, hash);
       this.handleScrollPositionDuringPathnameChange(
         prevPathname,
@@ -289,7 +282,7 @@ export class AppWithoutRouter extends React.Component<
     if (this.state.session.userId !== null) {
       this.handleLogin();
     }
-    this.trackAmplitudePageView();
+    logAmplitudePageView(this.props.location.pathname);
   }
 
   componentDidUpdate(prevProps: AppPropsWithRouter, prevState: AppState) {

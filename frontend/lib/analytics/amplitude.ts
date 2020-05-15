@@ -1,11 +1,15 @@
-import { AmplitudeClient, LogReturn } from "amplitude-js";
+import { AmplitudeClient } from "amplitude-js";
 import { SiteChoice } from "../../../common-data/site-choices";
 import { USStateChoice } from "../../../common-data/us-state-choices";
 import { SignupIntent } from "../../../common-data/signup-intent-choices";
 import { LeaseChoice } from "../../../common-data/lease-choices";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
-import { isDeepEqual, assertNotNull } from "../util/util";
+import { isDeepEqual } from "../util/util";
 import { ServerFormFieldError } from "../forms/form-errors";
+import { getGlobalSiteRoutes } from "../routes";
+import { getGlobalAppServerInfo, AppServerInfo } from "../app-context";
+import { LocaleChoice } from "../../../common-data/locale-choices";
+import i18n from "../i18n";
 
 export type JustfixAmplitudeUserProperties = {
   city: string;
@@ -19,37 +23,24 @@ export type JustfixAmplitudeUserProperties = {
   issueCount: number;
 };
 
+type PageInfo = {
+  pathname: string;
+  locale: LocaleChoice;
+  siteType: SiteChoice;
+};
+
+type FormSubmissionEventData = PageInfo & {
+  formKind: string;
+  formId?: string;
+  redirect?: string;
+  errorMessages?: string[];
+  errorCodes?: string[];
+};
+
 export type JustfixAmplitudeClient = Omit<
   AmplitudeClient,
-  "logEvent" | "setUserProperties"
+  "setUserProperties"
 > & {
-  logEvent(
-    event: "Page viewed",
-    data: {
-      pathname: string;
-      siteType: SiteChoice;
-    }
-  ): LogReturn;
-
-  logEvent(
-    event: "Exception occurred",
-    data: {
-      errorString: string;
-    }
-  ): LogReturn;
-
-  logEvent(
-    event: "Form submitted",
-    data: {
-      pathname: string;
-      formKind: string;
-      formId?: string;
-      redirect?: string;
-      errorMessages?: string[];
-      errorCodes?: string[];
-    }
-  ): LogReturn;
-
   setUserProperties(properties: Partial<JustfixAmplitudeUserProperties>): void;
 };
 
@@ -63,7 +54,7 @@ declare global {
   }
 }
 
-export function getAmplitude(): JustfixAmplitudeClient | undefined {
+function getAmplitude(): JustfixAmplitudeClient | undefined {
   if (typeof window === "undefined") return undefined;
   return window.amplitude?.getInstance();
 }
@@ -109,7 +100,9 @@ export function updateAmplitudeUserPropertiesOnSessionChange(
 }
 
 export function trackLoginInAmplitude(s: AllSessionInfo) {
-  const userId = assertNotNull(s.userId).toString();
+  // This will make it easier to distinguish our user IDs from
+  // Amplitude ones, which are just really large numbers.
+  const userId = `justfix:${s.userId}`;
   getAmplitude()?.setUserId(userId);
   getAmplitude()?.setUserProperties(getUserPropertiesFromSession(s));
 }
@@ -122,6 +115,45 @@ export function trackLogoutInAmplitude(s: AllSessionInfo) {
   // device, so we're not going to do that.
   getAmplitude()?.setUserId(null);
   getAmplitude()?.setUserProperties(getUserPropertiesFromSession(s));
+}
+
+const FRIENDLY_SITE_NAMES: { [k in SiteChoice]: string } = {
+  JUSTFIX: "justfix.nyc",
+  NORENT: "norent.org",
+};
+
+function getPageInfo(pathname: string): PageInfo {
+  const serverInfo = getGlobalAppServerInfo();
+  return {
+    pathname: unlocalizePathname(pathname, serverInfo),
+    locale: i18n.locale,
+    siteType: serverInfo.siteType,
+  };
+}
+
+function unlocalizePathname(
+  pathname: string,
+  serverInfo: AppServerInfo
+): string {
+  const { prefix } = getGlobalSiteRoutes(serverInfo).locale;
+  return pathname.startsWith(prefix + "/")
+    ? pathname.substring(prefix.length)
+    : pathname;
+}
+
+function getFriendlyAmplitudePagePath(
+  pathname: string,
+  serverInfo = getGlobalAppServerInfo()
+): string {
+  const siteName = FRIENDLY_SITE_NAMES[serverInfo.siteType];
+  pathname = unlocalizePathname(pathname, serverInfo);
+  return `${siteName}${pathname}`;
+}
+
+export function logAmplitudePageView(pathname: string) {
+  const data: PageInfo = getPageInfo(pathname);
+  const eventName = `Viewed page ${getFriendlyAmplitudePagePath(pathname)}`;
+  getAmplitude()?.logEvent(eventName, data);
 }
 
 export function logAmplitudeFormSubmission(options: {
@@ -147,12 +179,16 @@ export function logAmplitudeFormSubmission(options: {
     }
   }
 
-  getAmplitude()?.logEvent("Form submitted", {
-    pathname: options.pathname,
+  const formName = options.formId ? `Form ${options.formId}` : "Form";
+  const friendlyPath = getFriendlyAmplitudePagePath(options.pathname);
+  const eventName = `Submitted ${formName} on ${friendlyPath}`;
+  const data: FormSubmissionEventData = {
+    ...getPageInfo(options.pathname),
     formKind: options.formKind,
     formId: options.formId,
     redirect: options.redirect ?? undefined,
     errorMessages,
     errorCodes,
-  });
+  };
+  getAmplitude()?.logEvent(eventName, data);
 }

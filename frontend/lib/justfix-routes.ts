@@ -232,6 +232,9 @@ export type LocalizedRouteInfo = ReturnType<typeof createLocalizedRouteInfo>;
 
 function createLocalizedRouteInfo(prefix: string) {
   return {
+    /** The locale prefix, e.g. `/en`. */
+    [ROUTE_PREFIX]: prefix,
+
     /** The login page. */
     login: `${prefix}/login`,
 

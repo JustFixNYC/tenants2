@@ -18,7 +18,7 @@ const LOCALES_DIR = path.resolve(path.join(MY_DIR, "..", "..", "locales"));
 /**
  * The maximum preferred length of a message id.
  */
-const MAX_ID_LENGTH = 100;
+const MAX_ID_LENGTH = 175;
 
 /**
  * This encapsulates our criteria for splitting up Lingui's

@@ -179,7 +179,7 @@ export const NorentHomePage: React.FC<{}> = () => {
                 <Trans>Legally vetted</Trans>
               </h2>
               <p className="subtitle is-size-5">
-                <Trans>
+                <Trans id="norent.explanationOfPartnerships">
                   Our free letter builder was built with{" "}
                   <Link to={NorentRoutes.locale.about}>
                     lawyers and non-profit tenants rights organizations
@@ -323,7 +323,7 @@ export const NorentHomePage: React.FC<{}> = () => {
                     <Trans>Dear Landlord/Management.</Trans>
                   </p>
                   <br />
-                  <Trans>
+                  <Trans id="norent.sampleNoRentLetter">
                     <p>
                       I am writing to inform you that I have experienced a loss
                       of income, increased expenses and/or other financial

@@ -83,7 +83,7 @@ export const NorentFooter: React.FC<{}> = () => (
       <div className="columns">
         <div className="column is-8">
           <div className="content is-size-7">
-            <Trans>
+            <Trans id="norent.legalDisclaimer">
               <p>
                 Disclaimer: The information in JustFix.nyc does not constitute
                 legal advice and must not be used as a substitute for the advice

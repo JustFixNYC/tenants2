@@ -13,7 +13,7 @@ type NorentLogoColor = "white" | "dark" | "default" | null;
 export const NorentLogo = (props: {
   size: BulmaImageClass;
   color?: NorentLogoColor;
-  altText?: string;
+  children?: string;
 }) => (
   <div className="jf-norent-logo">
     <StaticImage
@@ -25,7 +25,7 @@ export const NorentLogo = (props: {
           ? "logo-dark"
           : "logo"
       )}
-      alt={props.altText || "No Rent"}
+      alt={props.children || "NoRent"}
     />
   </div>
 );

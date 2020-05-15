@@ -82,7 +82,8 @@ export const LandingPageChecklist = (props: {
       <div className="container jf-has-text-centered-tablet">
         <h3 className="is-size-5 is-spaced has-text-weight-normal">
           <Trans>
-            Here’s what you can do with <NorentLogo size="is-128x128" />
+            Here’s what you can do with{" "}
+            <NorentLogo size="is-128x128">NoRent</NorentLogo>
           </Trans>
         </h3>
       </div>

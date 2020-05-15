@@ -7,6 +7,7 @@
     "lingui": "lingui",
     "lingui:extract": "lingui extract",
     "lingui:compile": "lingui compile && node localebuilder.js",
+    "lingui:check": "node localebuilder.js --check",
     "prettier": "prettier",
     "prettier:check": "prettier \"**/*.{scss,json,js,ts,tsx}\" --check",
     "prettier:fix": "prettier \"**/*.{scss,json,js,ts,tsx}\" --write",

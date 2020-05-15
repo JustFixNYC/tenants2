@@ -10,6 +10,8 @@ import { getGlobalSiteRoutes } from "../routes";
 import { getGlobalAppServerInfo, AppServerInfo } from "../app-context";
 import { LocaleChoice } from "../../../common-data/locale-choices";
 import i18n from "../i18n";
+import JustfixRoutes from "../justfix-routes";
+import { NorentRoutes } from "../norent/routes";
 
 export type JustfixAmplitudeUserProperties = {
   city: string;
@@ -117,11 +119,6 @@ export function trackLogoutInAmplitude(s: AllSessionInfo) {
   getAmplitude()?.setUserProperties(getUserPropertiesFromSession(s));
 }
 
-const FRIENDLY_SITE_NAMES: { [k in SiteChoice]: string } = {
-  JUSTFIX: "justfix.nyc",
-  NORENT: "norent.org",
-};
-
 function getPageInfo(pathname: string): PageInfo {
   const serverInfo = getGlobalAppServerInfo();
   return {
@@ -141,18 +138,9 @@ function unlocalizePathname(
     : pathname;
 }
 
-function getFriendlyAmplitudePagePath(
-  pathname: string,
-  serverInfo = getGlobalAppServerInfo()
-): string {
-  const siteName = FRIENDLY_SITE_NAMES[serverInfo.siteType];
-  pathname = unlocalizePathname(pathname, serverInfo);
-  return `${siteName}${pathname}`;
-}
-
 export function logAmplitudePageView(pathname: string) {
   const data: PageInfo = getPageInfo(pathname);
-  const eventName = `Viewed page ${getFriendlyAmplitudePagePath(pathname)}`;
+  const eventName = `Viewed ${getAmplitudePageType(pathname)}`;
   getAmplitude()?.logEvent(eventName, data);
 }
 
@@ -179,9 +167,6 @@ export function logAmplitudeFormSubmission(options: {
     }
   }
 
-  const formName = options.formId ? `Form ${options.formId}` : "Form";
-  const friendlyPath = getFriendlyAmplitudePagePath(options.pathname);
-  const eventName = `Submitted ${formName} on ${friendlyPath}`;
   const data: FormSubmissionEventData = {
     ...getPageInfo(options.pathname),
     formKind: options.formKind,
@@ -190,5 +175,51 @@ export function logAmplitudeFormSubmission(options: {
     errorMessages,
     errorCodes,
   };
+  const eventName =
+    errorMessages && errorMessages.length
+      ? "Submitted form with errors"
+      : "Submitted form successfully";
   getAmplitude()?.logEvent(eventName, data);
+}
+
+type StringMapping = {
+  [k: string]: string;
+};
+
+function findBestPage(pathname: string, mapping: StringMapping): string {
+  for (let [prefix, name] of Object.entries(mapping)) {
+    if (pathname.startsWith(prefix)) {
+      return `${name} page`;
+    }
+  }
+  return "page";
+}
+
+function getJustfixPageType(pathname: string): string {
+  const r = JustfixRoutes.locale;
+  if (pathname === r.home) return "DDO";
+  return findBestPage(pathname, {
+    [r.ehp.prefix]: "Emergency HP Action",
+    [r.hp.prefix]: "HP Action",
+    [r.loc.prefix]: "Letter of Complaint",
+    [r.rh.prefix]: "Rent History",
+  });
+}
+
+function getNorentPageType(pathname: string): string {
+  const r = NorentRoutes.locale;
+  return findBestPage(pathname, {
+    [r.letter.prefix]: "letter builder",
+  });
+}
+
+export function getAmplitudePageType(pathname: string): string {
+  const { siteType } = getGlobalAppServerInfo();
+
+  switch (siteType) {
+    case "JUSTFIX":
+      return "JustFix " + getJustfixPageType(pathname);
+    case "NORENT":
+      return "NoRent " + getNorentPageType(pathname);
+  }
 }

@@ -21,7 +21,7 @@ export const MigrateLegacyTenantsUser: React.FC<StartAccountOrLoginProps> = ({
       <div className="content">
         <Trans id="norent.legacyUserBlurb">
           <p>
-            This is a new system. You will need a new account use it. We're
+            This is a new system. You will need a new account to use it. We're
             happy to set you up with one!
           </p>
           <p>

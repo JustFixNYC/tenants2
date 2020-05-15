@@ -46,7 +46,10 @@ const ForgotPasswordModal: React.FC<StartAccountOrLoginProps> = ({
                   >
                     <Trans>Go back</Trans>
                   </Link>
-                  <NextButton isLoading={ctx.isLoading} label="Send code" />
+                  <NextButton
+                    isLoading={ctx.isLoading}
+                    label={li18n._(t`Send code`)}
+                  />
                 </div>
               </>
             )}

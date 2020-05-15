@@ -8,16 +8,22 @@ import { TextualFormField } from "../../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import Page from "../../ui/page";
 import { StartAccountOrLoginProps } from "./steps";
+import { li18n } from "../../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 export const SetPassword: React.FC<StartAccountOrLoginProps> = ({
   routes,
   nextStep,
 }) => {
   return (
-    <Page title="Set your new password">
-      <h1 className="title is-4 is-spaced">Set your password</h1>
+    <Page title={li18n._(t`Set your new password`)}>
+      <h1 className="title is-4 is-spaced">
+        <Trans>Set your password</Trans>
+      </h1>
       <p className="subtitle is-6">
-        Let's set you up with a new password, so you can easily login again.
+        <Trans>
+          Let's set you up with a new password, so you can easily login again.
+        </Trans>
       </p>
       <SessionUpdatingFormSubmitter
         mutation={PasswordResetConfirmAndLoginMutation}
@@ -28,12 +34,12 @@ export const SetPassword: React.FC<StartAccountOrLoginProps> = ({
           <>
             <TextualFormField
               type="password"
-              label="New password"
+              label={li18n._(t`New password`)}
               {...ctx.fieldPropsFor("password")}
             />
             <TextualFormField
               type="password"
-              label="Confirm your new password"
+              label={li18n._(t`Confirm your new password`)}
               {...ctx.fieldPropsFor("confirmPassword")}
             />
             <br />

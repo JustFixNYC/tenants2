@@ -6,6 +6,8 @@ import { ProgressButtons } from "../../ui/buttons";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { PrepareLegacyTenantsAccountForMigrationMutation } from "../../queries/PrepareLegacyTenantsAccountForMigrationMutation";
 import { CustomerSupportLink } from "../../ui/customer-support-link";
+import { li18n } from "../../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 export const MigrateLegacyTenantsUser: React.FC<StartAccountOrLoginProps> = ({
   routes,
@@ -13,34 +15,36 @@ export const MigrateLegacyTenantsUser: React.FC<StartAccountOrLoginProps> = ({
 }) => {
   return (
     <Page
-      title="Hello, long-time JustFix.nyc user! We appreciate you."
+      title={li18n._(t`Hello, long-time JustFix.nyc user! We appreciate you.`)}
       withHeading="big"
     >
       <div className="content">
-        <p>
-          This is a new system. You will need a new account use it. We're happy
-          to set you up with one!
-        </p>
-        <p>
-          Meanwhile, whenever you want to sign into your "Build your case" or
-          Advocate Dashboard account, you can sign in with your old account
-          information at this URL:
-        </p>
-        <p className="has-text-centered">
-          <OutboundLink href="https://beta.justfix.nyc">
-            beta.justfix.nyc
-          </OutboundLink>{" "}
-        </p>
-        <p>
-          <strong>Please write this URL down to remember it later.</strong>
-        </p>
-        <p>
-          Your new account will be used to access JustFix.nyc's new services.
-        </p>
-        <p>
-          If you have any questions, please feel free to email us at{" "}
-          <CustomerSupportLink />.
-        </p>
+        <Trans id="norent.legacyUserBlurb">
+          <p>
+            This is a new system. You will need a new account to use it. We're
+            happy to set you up with one!
+          </p>
+          <p>
+            Meanwhile, whenever you want to sign into your "Build your case" or
+            Advocate Dashboard account, you can sign in with your old account
+            information at this URL:
+          </p>
+          <p className="has-text-centered">
+            <OutboundLink href="https://beta.justfix.nyc">
+              beta.justfix.nyc
+            </OutboundLink>{" "}
+          </p>
+          <p>
+            <strong>Please write this URL down to remember it later.</strong>
+          </p>
+          <p>
+            Your new account will be used to access JustFix.nyc's new services.
+          </p>
+          <p>
+            If you have any questions, please feel free to email us at{" "}
+            <CustomerSupportLink />.
+          </p>
+        </Trans>
         <SessionUpdatingFormSubmitter
           mutation={PrepareLegacyTenantsAccountForMigrationMutation}
           initialState={{}}
@@ -48,7 +52,7 @@ export const MigrateLegacyTenantsUser: React.FC<StartAccountOrLoginProps> = ({
         >
           {(ctx) => (
             <ProgressButtons
-              nextLabel="Create new account"
+              nextLabel={li18n._(t`Create new account`)}
               isLoading={ctx.isLoading}
               back={props.prevStep}
             ></ProgressButtons>

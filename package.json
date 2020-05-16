@@ -14,7 +14,7 @@
     "lint:fix": "yarn typecheck && yarn eslint && yarn prettier:fix",
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --noEmit --watch --preserveWatchOutput",
-    "eslint": "eslint frontend/lib --ext .ts,.tsx --rulesdir frontend/eslint",
+    "eslint": "eslint frontend/lib --ext .ts,.tsx --rulesdir frontend/eslint/rules",
     "test": "jest",
     "test:watch": "jest --watch",
     "sass_norent": "node-sass-chokidar frontend/sass/norent/styles.scss frontend/static/frontend/styles-norent.css --source-map frontend/static/frontend/styles-norent.css.map --source-map-contents --output-style compressed",

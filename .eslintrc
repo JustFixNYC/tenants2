@@ -10,5 +10,8 @@
   ],
   "parserOptions": {
     "sourceType": "module"
+  },
+  "rules": {
+    "justfix-validate-import": "error"
   }
 }

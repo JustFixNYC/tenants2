@@ -14,7 +14,7 @@
     "lint:fix": "yarn typecheck && yarn eslint && yarn prettier:fix",
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --noEmit --watch --preserveWatchOutput",
-    "eslint": "eslint frontend/lib --ext .ts,.tsx",
+    "eslint": "eslint frontend/lib --ext .ts,.tsx --rulesdir frontend/eslint",
     "test": "jest",
     "test:watch": "jest --watch",
     "sass_norent": "node-sass-chokidar frontend/sass/norent/styles.scss frontend/static/frontend/styles-norent.css --source-map frontend/static/frontend/styles-norent.css.map --source-map-contents --output-style compressed",
@@ -46,6 +46,7 @@
   "devDependencies": {
     "@testing-library/dom": "7.5.2",
     "@testing-library/react": "10.0.4",
+    "@types/eslint": "6.8.0",
     "@types/jest": "25.1.4",
     "@types/webpack": "4.41.0",
     "@types/webpack-bundle-analyzer": "2.13.3",

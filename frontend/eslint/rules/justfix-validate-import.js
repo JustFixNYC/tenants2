@@ -22,14 +22,12 @@ module.exports = {
         assert(node.type === "ImportDeclaration");
         assert(typeof node.source.value === "string");
         const importStr = node.source.value;
-        if (importStr.startsWith(".")) {
-          const filename = context.getFilename();
-          if (!TESTS_DIR_RE.test(filename) && TESTS_DIR_RE.test(importStr)) {
-            context.report({
-              node,
-              message: `Production code is importing test suite code at "${importStr}"!`,
-            });
-          }
+        const filename = context.getFilename();
+        if (TESTS_DIR_RE.test(importStr) && !TESTS_DIR_RE.test(filename)) {
+          context.report({
+            node,
+            message: `Production code is importing test suite code at "${importStr}"!`,
+          });
         }
       },
     };

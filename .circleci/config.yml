@@ -161,7 +161,7 @@ jobs:
               export CACHE_FROM=self
             fi
             python deploy.py selfcheck
-            python deploy.py heroku -r heroku --cache-from=${CACHE}
+            python deploy.py heroku -r heroku --cache-from=${CACHE_FROM}
 workflows:
   version: 2
   build_and_deploy:

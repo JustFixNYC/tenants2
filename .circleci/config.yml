@@ -150,12 +150,18 @@ jobs:
             if [[ "${CIRCLE_BRANCH}" == "production" ]]; then
               # This should be the Heroku app name of our production instance.
               heroku git:remote -a tenants2
+
+              # We actually want to use the development instance as our cache,
+              # because it's very likely we're just deploying the same image
+              # it's already running.
+              export CACHE_FROM=registry.heroku.com/tenants2-dev/web:latest
             else
               # This should be the Heroku app name of our development instance.
               heroku git:remote -a tenants2-dev
+              export CACHE_FROM=self
             fi
             python deploy.py selfcheck
-            python deploy.py heroku -r heroku --cache-from-docker-registry
+            python deploy.py heroku -r heroku --cache-from=${CACHE}
 workflows:
   version: 2
   build_and_deploy:

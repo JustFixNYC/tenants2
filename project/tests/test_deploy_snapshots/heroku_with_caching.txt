@@ -1,0 +1,5 @@
+Caching from registry.heroku.com/boop/web:latest.
+Running "docker login --username=_ --password=00112233-aabb-ccdd-eeff-001122334455 registry.heroku.com".
+Running "docker pull registry.heroku.com/boop/web:latest".
+Running "docker build --cache-from registry.heroku.com/boop/web:latest -f Dockerfile.web -t registry.heroku.com/boop/web --build-arg GIT_REVISION=e7408710b8d091377041cfbe4c185931a214f280 --build-arg IS_GIT_REPO_PRISTINE=False .".
+Running "docker build -f Dockerfile.worker -t registry.heroku.com/boop/worker --build-arg DOCKERFILE_WEB=registry.heroku.com/boop/web /tmp/somedir".

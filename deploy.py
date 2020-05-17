@@ -196,15 +196,17 @@ class HerokuDeployer:
         subprocess.check_call(['docker', 'push', self.container_tag])
         subprocess.check_call(['docker', 'push', self.worker_container_tag])
 
-    def pull_from_docker_registry(self) -> None:
+    def pull_from_docker_registry(self, tag: str) -> None:
         self.login_to_docker_registry()
-        subprocess.check_call(['docker', 'pull', self.container_tag])
+        subprocess.check_call(['docker', 'pull', tag])
 
-    def build(self, cache_from_docker_registry: bool):
-        if cache_from_docker_registry:
-            self.pull_from_docker_registry()
-            build_local_container(
-                self.container_tag, cache_from=f"{self.container_tag}:latest")
+    def build(self, cache_from: str):
+        if cache_from:
+            if cache_from == 'self':
+                cache_from = f"{self.container_tag}:latest"
+            print(f"Caching from {cache_from}.")
+            self.pull_from_docker_registry(cache_from)
+            build_local_container(self.container_tag, cache_from=cache_from)
         else:
             build_local_container(self.container_tag)
 
@@ -272,7 +274,7 @@ class HerokuDeployer:
 
 def deploy_heroku(args):
     deployer = HerokuDeployer(args.remote)
-    deployer.build(cache_from_docker_registry=args.cache_from_docker_registry)
+    deployer.build(cache_from=args.cache_from)
     if not args.build_only:
         deployer.deploy()
 
@@ -331,11 +333,13 @@ def main(args: Optional[List[str]] = None):
         help="Build containers only (don't deploy)."
     )
     parser_heroku.add_argument(
-        '--cache-from-docker-registry',
-        action='store_true',
+        '--cache-from',
+        default='',
         help=(
-            "Whether to pull the latest container image from the Heroku Docker "
-            "registry and use it as a cache when building the container."
+            "Pull a container image from a Docker registry and use it "
+            "as a cache when building the container. Pass 'self' to use "
+            "the latest container image from the Heroku Docker "
+            "registry, or a fully-qualified image/tag name."
         )
     )
     parser_heroku.set_defaults(func=deploy_heroku)

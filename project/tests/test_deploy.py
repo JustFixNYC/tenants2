@@ -124,6 +124,17 @@ def test_heroku_works(subprocess, capsys):
     assert snapshot.expected == snapshot.actual
 
 
+def test_heroku_with_caching(subprocess, capsys):
+    subprocess.check_output.side_effect = create_check_output()
+    subprocess.call.side_effect = successful_check_call_with_print
+    subprocess.check_call.side_effect = successful_check_call_with_print
+
+    deploy.main(['heroku', '-r', 'myapp', '--cache-from', 'self', '--build-only'])
+
+    snapshot = Snapshot(capsys.readouterr().out, SNAPSHOT_DIR / "heroku_with_caching.txt")
+    assert snapshot.expected == snapshot.actual
+
+
 def test_heroku_with_preboot(subprocess, capsys):
     subprocess.check_output.side_effect = create_check_output({
         "heroku features:info preboot --json": json.dumps({

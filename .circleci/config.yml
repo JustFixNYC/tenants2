@@ -13,7 +13,7 @@ jobs:
           CC_TEST_REPORTER_ID: 0b47f78787493d017e97f3f141ab138e9188d1ebbe149bb0f28a8ff3314dfdd7
           GIT_LFS_SKIP_SMUDGE: 1
           USE_LAMBDA_HTTP_SERVER: yup
-      - image: mdillon/postgis:10-alpine
+      - image: circleci/postgres:10-alpine-postgis-ram
         environment:
           POSTGRES_DB: justfix
           POSTGRES_USER: justfix

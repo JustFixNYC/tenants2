@@ -31,6 +31,13 @@ def build_container(
         container_name
     ]
 
+    if os.environ.get('DOCKER_BUILDKIT') == '1':
+        print("Embedding BuildKit inline cache.")
+        build_args = {
+            **(build_args or {}),
+            'BUILDKIT_INLINE_CACHE': '1',
+        }
+
     for name, value in (build_args or {}).items():
         args.append('--build-arg')
         args.append(f'{name}={value}')

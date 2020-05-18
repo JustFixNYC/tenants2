@@ -261,7 +261,10 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The password reset flow. */
     passwordReset: createPasswordResetRouteInfo(`${prefix}/password-reset`),
 
-    /** The onboarding flow. */
+    /**
+     * The onboarding flow for Letter of Complaint (onboarding flows
+     * for other products are embedded within their product's prefix).
+     */
     onboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),
 
     /** The Letter of Complaint flow. */

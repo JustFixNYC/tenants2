@@ -381,16 +381,17 @@ def entrypoint(argv):  # type: (List[str]) -> None
                 # The home directory already exists; just to be safe,
                 # let's make sure it's owned by our UID.
                 user_owned_dirs.append(home_dir)
-            else:
+#            else:
                 # The home directory doesn't already exist, so tell
                 # useradd to make it for us.
-                extra_useradd_options.append('-m')
+#                extra_useradd_options.append('-m')
 
             subprocess.check_call([
-                'useradd',
-                '-d', home_dir,
+                'adduser',
+                '--home', home_dir,
+                '--disabled-password',
                 username,
-                '-u', str(HOST_UID)
+                '--uid', str(HOST_UID)
             ] + extra_useradd_options)
             gid = grp.getgrnam(username).gr_gid
 
@@ -414,16 +415,59 @@ def entrypoint(argv):  # type: (List[str]) -> None
 
         if not os.path.exists(activate_this):
             subprocess.check_call([
-                'virtualenv',
+                'python', '-m', 'venv',
                 '.',
             ], cwd=VENV_DIR)
 
         # https://virtualenv.pypa.io/en/latest/userguide.html
-        with open(activate_this) as f:
-            exec(f.read(), dict(__file__=activate_this))
+        #with open(activate_this) as f:
+        exec(ACTIVATE_THIS_PY, dict(__file__=activate_this))
 
     os.execvp(argv[1], argv[1:])
 
+
+ACTIVATE_THIS_PY = """
+import os
+import site
+import sys
+
+try:
+    __file__
+except NameError:
+    raise AssertionError("You must use exec(open(this_file).read(), {'__file__': this_file}))")
+
+# prepend bin to PATH (this file is inside the bin directory)
+bin_dir = os.path.dirname(os.path.abspath(__file__))
+os.environ["PATH"] = os.pathsep.join([bin_dir] + os.environ.get("PATH", "").split(os.pathsep))
+
+base = os.path.dirname(bin_dir)
+
+# virtual env is right above bin directory
+os.environ["VIRTUAL_ENV"] = base
+
+# add the virtual environments site-package to the host python import mechanism
+IS_PYPY = hasattr(sys, "pypy_version_info")
+IS_JYTHON = sys.platform.startswith("java")
+if IS_JYTHON:
+    site_packages = os.path.join(base, "Lib", "site-packages")
+elif IS_PYPY:
+    site_packages = os.path.join(base, "site-packages")
+else:
+    IS_WIN = sys.platform == "win32"
+    if IS_WIN:
+        site_packages = os.path.join(base, "Lib", "site-packages")
+    else:
+        site_packages = os.path.join(base, "lib", "python{}.{}".format(*sys.version_info), "site-packages")
+
+prev = set(sys.path)
+site.addsitedir(site_packages)
+sys.real_prefix = sys.prefix
+sys.prefix = base
+
+# Move the added items to the front of the path, in place
+new = list(sys.path)
+sys.path[:] = [i for i in new if i not in prev] + [i for i in new if i in prev]
+"""
 
 if __name__ == "__main__":
     entrypoint(sys.argv)

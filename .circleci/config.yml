@@ -1,6 +1,11 @@
 version: 2
 jobs:
   lint_and_stuff:
+    # Aside from running linters and other things that don't measure
+    # code coverage, this step also writes to our caches, because it's
+    # expected to take less time to run than the 'test' step that's
+    # run in parallel with it. This allows the two steps to
+    # collectively reduce the total test time as much as possible.
     working_directory: ~/tenants2
     docker:
       - image: justfixnyc/tenants2_base:0.9
@@ -76,7 +81,7 @@ jobs:
             yarn lingui:extract-and-check
             pipenv run "flake8"
             pipenv run "mypy" .
-  build:
+  test:
     working_directory: ~/tenants2
     docker:
       - image: justfixnyc/tenants2_base:0.9
@@ -193,7 +198,7 @@ jobs:
             python deploy.py heroku -r heroku --cache-from=${CACHE_FROM}
 workflows:
   version: 2
-  build_and_deploy:
+  test_and_deploy:
     jobs:
       - lint_and_stuff:
           filters:
@@ -207,7 +212,7 @@ workflows:
                 # production is a fast-forward merge and therefore represents
                 # the exact same code that's already been tested on master.
                 - production
-      - build:
+      - test:
           filters:
             branches:
               ignore:
@@ -215,7 +220,8 @@ workflows:
                 - production
       - deploy:
           requires:
-            - build
+            - test
+            - lint_and_stuff
           filters:
             branches:
               only:

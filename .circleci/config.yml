@@ -93,7 +93,7 @@ jobs:
             yarn build
             yarn test --runInBand
             yarn lint
-            yarn lingui:check
+            yarn lingui:extract-and-check
             pipenv run "pytest" --cov=. --cov-report xml:./coverage/python/coverage.xml
       - run:
           name: CodeClimate combine and upload coverage

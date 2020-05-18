@@ -200,7 +200,7 @@ class HerokuDeployer:
         self.login_to_docker_registry()
         subprocess.check_call(['docker', 'pull', tag])
 
-    def build(self, cache_from: str):
+    def build_container(self, cache_from: str):
         if cache_from:
             if cache_from == 'self':
                 cache_from = f"{self.container_tag}:latest"
@@ -209,6 +209,20 @@ class HerokuDeployer:
             build_local_container(self.container_tag, cache_from=cache_from)
         else:
             build_local_container(self.container_tag)
+
+    def build(self, cache_from: str, save_to: str, load_from: str):
+        if load_from:
+            print(f"Loading {self.container_tag} from {load_from}.")
+            subprocess.check_call(f"docker load < {load_from}", shell=True)
+        else:
+            self.build_container(cache_from)
+
+        if save_to:
+            print(f"Saving {self.container_tag} to {save_to}.")
+            subprocess.check_call(
+                f"docker save {self.container_tag}:latest | gzip > {save_to}",
+                shell=True
+            )
 
         build_worker_container(self.worker_container_tag, dockerfile_web=self.container_tag)
 
@@ -274,7 +288,11 @@ class HerokuDeployer:
 
 def deploy_heroku(args):
     deployer = HerokuDeployer(args.remote)
-    deployer.build(cache_from=args.cache_from)
+    deployer.build(
+        cache_from=args.cache_from,
+        save_to=args.save_to,
+        load_from=args.load_from,
+    )
     if not args.build_only:
         deployer.deploy()
 
@@ -341,6 +359,14 @@ def main(args: Optional[List[str]] = None):
             "the latest container image from the Heroku Docker "
             "registry, or a fully-qualified image/tag name."
         )
+    )
+    parser_heroku.add_argument(
+        '--save-to',
+        default='',
+    )
+    parser_heroku.add_argument(
+        '--load-from',
+        default='',
     )
     parser_heroku.set_defaults(func=deploy_heroku)
 

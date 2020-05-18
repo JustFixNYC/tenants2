@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     working_directory: ~/tenants2
     docker:
       - image: justfixnyc/tenants2_base:0.9
@@ -21,13 +21,13 @@ jobs:
       - checkout
       - restore_cache:
           name: Restore Git LFS cache
-          key: gitlfs-build
+          key: gitlfs-test
       - shell:
           name: Pull Git LFS files
           command: git lfs pull
       - save_cache:
           name: Save Git LFS cache
-          key: gitlfs-build
+          key: gitlfs-test
           paths:
             # We need to save the Git LFS cache directory to save bandwidth, because GitHub only
             # allows for 1 GB download of anything stored in Git LFS per month.
@@ -109,8 +109,8 @@ jobs:
       - store_artifacts:
           path: test-results
           destination: tr1
-  deploy:
-    working_directory: ~/tenants2_deploy
+  build:
+    working_directory: ~/tenants2_build
     docker:
       - image: circleci/python:3.8
         environment:
@@ -129,18 +129,18 @@ jobs:
             git lfs install
       - checkout
       - restore_cache:
-          key: gitlfs-deploy
+          key: gitlfs-build
       - shell:
           name: Pull Git LFS files
           command: git lfs pull
       - save_cache:
-          key: gitlfs-deploy
+          key: gitlfs-build
           paths:
             # We need to save the Git LFS cache directory to save bandwidth, because GitHub only
             # allows for 1 GB download of anything stored in Git LFS per month.
             - .git/lfs
       - run:
-          name: Deploy
+          name: Build
           command: |
             # Note that you will need to set HEROKU_API_KEY in the CircleCI
             # settings for this to work. You can generate a Heroku API key
@@ -152,7 +152,7 @@ jobs:
               heroku git:remote -a tenants2
 
               # We actually want to use the development instance as our cache,
-              # because it's very likely we're just deploying the same image
+              # because it's very likely we're just building the same image
               # it's already running.
               export CACHE_FROM=registry.heroku.com/tenants2-dev/web:latest
             else
@@ -161,34 +161,55 @@ jobs:
               export CACHE_FROM=self
             fi
             python deploy.py selfcheck
-            python deploy.py heroku -r heroku --cache-from=${CACHE_FROM}
+            mkdir -p /tmp/workspace
+            python deploy.py heroku -r heroku --cache-from=${CACHE_FROM} --build-only --save-to=/tmp/workspace/container.tar.gz
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - container.tar.gz
+  deploy:
+    working_directory: ~/tenants2_deploy
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Deploy
+          command: |
+            # Note that you will need to set HEROKU_API_KEY in the CircleCI
+            # settings for this to work. You can generate a Heroku API key
+            # from the command-line with `heroku authorizations:create` for
+            # production apps or `heroku auth:token` for development.
+            curl https://cli-assets.heroku.com/install.sh | sh
+            if [[ "${CIRCLE_BRANCH}" == "production" ]]; then
+              # This should be the Heroku app name of our production instance.
+              heroku git:remote -a tenants2
+            else
+              # This should be the Heroku app name of our development instance.
+              heroku git:remote -a tenants2-dev
+            fi
+            python deploy.py heroku -r heroku --load-from=/tmp/workspace/container.tar.gz  
 workflows:
   version: 2
-  build_and_deploy:
+  test_and_build_and_deploy:
     jobs:
+      - test
       - build:
           filters:
             branches:
-              ignore:
-                # This is a bit counter-intuitive, but we've been extremely
-                # diligent about only pushing to production once something
-                # has been verified to pass CI on master. Because of this,
-                # it's wasted effort to run the exact same tests on production
-                # when we push to it, particularly since the merge on
-                # production is a fast-forward merge and therefore represents
-                # the exact same code that's already been tested on master.
+              only:
+                - master
                 - production
+                - docker-save
       - deploy:
           requires:
+            - test
             - build
           filters:
             branches:
               only:
                 - master
-  only_deploy:
-    jobs:
-      - deploy:
-          filters:
-            branches:
-              only:
                 - production
+                - docker-save

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-06 12:01+0000\n"
-"PO-Revision-Date: 2020-05-18 16:41\n"
+"PO-Revision-Date: 2020-05-18 19:53\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -30,7 +30,7 @@ msgstr "¡Las contraseñas no coinciden!"
 
 #: project/tests/test_compilemessages.py:4
 msgid "Hello world"
-msgstr ""
+msgstr "Hola mundo"
 
 #: project/util/mailing_address.py:19
 msgid "Enter a valid U.S. zip code."

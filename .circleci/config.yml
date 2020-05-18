@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  lint_and_stuff:
+  lint:
     # Aside from running linters and other things that don't measure
     # code coverage, this step also writes to our caches, because it's
     # expected to take less time to run than the 'test' step that's
@@ -74,7 +74,7 @@ jobs:
             - /usr/local/share/.cache/yarn
           key: yarn-packages-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
-          name: Run linters and stuff
+          name: Run linters
           command: |
             yarn build
             yarn lint
@@ -200,7 +200,7 @@ workflows:
   version: 2
   test_and_deploy:
     jobs:
-      - lint_and_stuff:
+      - lint:
           filters:
             branches:
               ignore:
@@ -221,7 +221,7 @@ workflows:
       - deploy:
           requires:
             - test
-            - lint_and_stuff
+            - lint
           filters:
             branches:
               only:

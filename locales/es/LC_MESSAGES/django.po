@@ -1,35 +1,32 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-06 12:01+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2020-05-18 19:53\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language-Team: Spanish\n"
+"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tenants2\n"
+"X-Crowdin-Language: es-ES\n"
+"X-Crowdin-File: /master/locales/en/LC_MESSAGES/django.po\n"
 
 #: norent/forms.py:42
 #, python-format
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
-msgstr "%(city)s, %(state_name)s no parece existir."
+msgstr "¡%(city)s, %(state_name)s no existe!"
 
 #: project/forms.py:13
 msgid "Please choose at least one option."
-msgstr ""
+msgstr "Por favor, escoja al menos una opción."
 
 #: project/forms.py:136
 msgid "Passwords do not match!"
-msgstr ""
+msgstr "¡Las contraseñas no coinciden!"
 
 #: project/tests/test_compilemessages.py:4
 msgid "Hello world"
@@ -37,4 +34,5 @@ msgstr "Hola mundo"
 
 #: project/util/mailing_address.py:19
 msgid "Enter a valid U.S. zip code."
-msgstr ""
+msgstr "Introduzca un código postal válido en los Estados Unidos."
+

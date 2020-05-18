@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NorentLetterContent> works 1`] = `
+<div>
+  <h1
+    class="has-text-right"
+    style="white-space: pre-wrap;"
+  >
+    <span
+      class="is-uppercase"
+    >
+      Notice of COVID-19 impact on rent
+    </span>
+    
+
+    at 
+    654 Park Place #2
+    , 
+    Brooklyn
+    , 
+    NY
+     
+    12345
+  </h1>
+  <p
+    class="has-text-right"
+  >
+    Monday, May 18, 2020
+  </p>
+  <dl
+    class="jf-letter-heading"
+  >
+    <dt>
+      To
+    </dt>
+    <dd>
+      LANDLORDO CALRISSIAN
+      <br />
+      1 Cloud City Drive
+      <br />
+      Bespin, OH 41235
+    </dd>
+    <dt>
+      From
+    </dt>
+    <dd>
+      Boop
+       
+      Jones
+      <br />
+      654 Park Place #2
+      <br />
+      Brooklyn
+      , 
+      NY
+       
+      12345
+      <br />
+      (555) 123-4567
+    </dd>
+  </dl>
+  <p>
+    Dear 
+    LANDLORDO CALRISSIAN
+    ,
+  </p>
+  <p>
+    This letter is to notify you that I will be unable to pay rent starting on 
+    Friday, May 1, 2020
+     and until further notice due to loss of income, increased expenses, and/or other financial circumstances related to COVID-19.
+  </p>
+  <p>
+    Tenants impacted by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:
+  </p>
+  <ul>
+    <li>
+      Governor Andrew Cuomo, Executive Order 202.8, March 20, 2020
+    </li>
+    <li>
+      Judge Marks, Chief Administrative Judge of the Courts, Administrative Order AO/85/20, April 8, 2020
+    </li>
+  </ul>
+  <p>
+    Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are also protected from eviction for non-payment or any other reason until August 23, 2020. Tenants cannot be charged late fees, interest, or other penalties through July 25, 2020. Please let me know right away if you believe this property is not covered by the CARES Act and explain why the property is not covered.
+  </p>
+  <p>
+    In order to document our communication and to avoid misunderstandings, please reply to me via mail or text rather than a call or visit.
+  </p>
+  <p>
+    Thank you for your understanding and cooperation.
+  </p>
+  <p
+    class="jf-signature"
+  >
+    Regards,
+    <br />
+    <br />
+    Boop
+     
+    Jones
+  </p>
+</div>
+`;

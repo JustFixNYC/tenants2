@@ -46,6 +46,14 @@ const FullName: React.FC<NorentLetterContentProps> = (props) => (
   </>
 );
 
+export const getStreetWithApt = ({
+  street,
+  aptNumber,
+}: Pick<NorentLetterContentProps, "street" | "aptNumber">) => {
+  if (!aptNumber) return street;
+  return `${street} #${aptNumber}`;
+};
+
 const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
   /*
    * We originally had a <br> in this <h1>, but React self-closes the
@@ -55,7 +63,7 @@ const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
   <h1 className="has-text-right" style={{ whiteSpace: "pre-wrap" }}>
     <span className="is-uppercase">Notice of COVID-19 impact on rent</span>
     {"\n"}
-    at {props.street}, {props.city}, {props.state} {props.zipCode}
+    at {getStreetWithApt(props)}, {props.city}, {props.state} {props.zipCode}
   </h1>
 );
 
@@ -82,7 +90,7 @@ const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
     <dd>
       <FullName {...props} />
       <br />
-      {props.street}
+      {getStreetWithApt(props)}
       <br />
       {props.city}, {props.state} {props.zipCode}
       <br />

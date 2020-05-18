@@ -9,7 +9,7 @@ import { OnboardingStep4Version2Mutation } from "../../queries/OnboardingStep4Ve
 import { BlankAllSessionInfo } from "../../queries/AllSessionInfo";
 
 const PROPS = {
-  routes: JustfixRoutes.locale.onboarding,
+  routes: JustfixRoutes.locale.locOnboarding,
   toSuccess: "/success",
   signupIntent: OnboardingInfoSignupIntent.HP,
 };

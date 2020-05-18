@@ -202,7 +202,7 @@ function getJustfixPageType(pathname: string): string {
     [r.ehp.prefix]: "Emergency HP Action",
     [r.hp.prefix]: "HP Action",
     [r.loc.prefix]: "Letter of Complaint",
-    [r.onboarding.prefix]: "Letter of Complaint",
+    [r.locOnboarding.prefix]: "Letter of Complaint",
     [r.rh.prefix]: "Rent History",
   });
 }

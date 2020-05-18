@@ -10,7 +10,7 @@ import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
 import { LogoutMutation } from "../../queries/LogoutMutation";
 
 const PROPS = {
-  routes: JustfixRoutes.locale.onboarding,
+  routes: JustfixRoutes.locale.locOnboarding,
   toCancel: "/cancel",
   signupIntent: OnboardingInfoSignupIntent.LOC,
 };

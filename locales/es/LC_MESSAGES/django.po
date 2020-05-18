@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-06 12:01+0000\n"
-"PO-Revision-Date: 2020-05-18 14:56\n"
+"PO-Revision-Date: 2020-05-18 16:31\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -18,15 +18,15 @@ msgstr ""
 #: norent/forms.py:42
 #, python-format
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
-msgstr ""
+msgstr "¡%(city)s, %(state_name)s no existe!"
 
 #: project/forms.py:13
 msgid "Please choose at least one option."
-msgstr ""
+msgstr "Por favor, escoja al menos una opción."
 
 #: project/forms.py:136
 msgid "Passwords do not match!"
-msgstr ""
+msgstr "¡Las contraseñas no coinciden!"
 
 #: project/tests/test_compilemessages.py:4
 msgid "Hello world"

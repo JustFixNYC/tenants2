@@ -8,7 +8,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-18 14:56\n"
+"PO-Revision-Date: 2020-05-18 19:53\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -370,7 +370,7 @@ msgstr ""
 #: frontend/lib/tests/i18n-lingui.test.tsx:25
 #: frontend/lib/tests/i18n-lingui.test.tsx:32
 msgid "Hello world"
-msgstr ""
+msgstr "Hola mundo"
 
 #: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:23
 msgid "Hello, long-time JustFix.nyc user! We appreciate you."
@@ -727,7 +727,7 @@ msgstr ""
 
 #: common-data/us-state-choices.ts:96
 msgid "New Mexico"
-msgstr ""
+msgstr "Nuevo México"
 
 #: common-data/us-state-choices.ts:97
 msgid "New York"

@@ -8,7 +8,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-18 19:53\n"
+"PO-Revision-Date: 2020-05-18 20:01\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -152,7 +152,7 @@ msgstr ""
 #: frontend/lib/norent/components/footer.tsx:42
 #: frontend/lib/norent/site.tsx:64
 msgid "Build my Letter"
-msgstr ""
+msgstr "Construye mi Carta"
 
 #: frontend/lib/norent/homepage.tsx:29
 msgid "Build my letter"
@@ -311,7 +311,7 @@ msgstr ""
 
 #: frontend/lib/norent/faqs.tsx:80
 msgid "FAQs"
-msgstr ""
+msgstr "Preguntas Frecuentes"
 
 #: frontend/lib/norent/components/footer.tsx:48
 #: frontend/lib/norent/site.tsx:70

@@ -1,22 +1,15 @@
 version: 2
 jobs:
-  build:
+  lint_and_stuff:
     working_directory: ~/tenants2
     docker:
       - image: justfixnyc/tenants2_base:0.9
-        environment:
+        environment: &env
           PIPENV_VENV_IN_PROJECT: true
-          DATABASE_URL: postgis://justfix@localhost/justfix
           DEBUG: yup
           ENABLE_WEBPACK_CONTENT_HASH: yup
           ENABLE_FINDHELP: yup
-          CC_TEST_REPORTER_ID: 0b47f78787493d017e97f3f141ab138e9188d1ebbe149bb0f28a8ff3314dfdd7
           GIT_LFS_SKIP_SMUDGE: 1
-          USE_LAMBDA_HTTP_SERVER: yup
-      - image: mdillon/postgis:10-alpine
-        environment:
-          POSTGRES_DB: justfix
-          POSTGRES_USER: justfix
     steps:
       - checkout
       - restore_cache:
@@ -32,7 +25,7 @@ jobs:
             # We need to save the Git LFS cache directory to save bandwidth, because GitHub only
             # allows for 1 GB download of anything stored in Git LFS per month.
             - .git/lfs
-      - restore_cache:
+      - restore_cache: &restore_pipenv_cache
           # https://circleci.com/docs/2.0/caching/#pip-python
           name: Restore Pipenv cache
           keys:
@@ -41,7 +34,7 @@ jobs:
             - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
             - pip-packages-v1-{{ .Branch }}-
             - pip-packages-v1-
-      - run:
+      - run: &install_python_deps
           name: Install Python dependencies
           command: |
              pipenv sync --dev
@@ -51,7 +44,7 @@ jobs:
           key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "requirements.production.txt" }}
           paths:
             - ".venv"
-      - restore_cache:
+      - restore_cache: &restore_yarn_cache
           # https://circleci.com/docs/2.0/caching/#yarn-node
           name: Restore Yarn cache
           keys:
@@ -59,7 +52,7 @@ jobs:
             - yarn-packages-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
             - yarn-packages-v2-{{ .Branch }}-
             - yarn-packages-v2-
-      - run:
+      - run: &install_node_deps
           name: Install Node dependencies
           command: |
              # Print out yarn's cache dir for debugging purposes.
@@ -75,6 +68,43 @@ jobs:
           paths:
             - /usr/local/share/.cache/yarn
           key: yarn-packages-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: Run linters and stuff
+          command: |
+            yarn build
+            yarn lint
+            yarn lingui:extract-and-check
+            pipenv run "flake8"
+            pipenv run "mypy" .
+  build:
+    working_directory: ~/tenants2
+    docker:
+      - image: justfixnyc/tenants2_base:0.9
+        environment:
+          <<: *env
+          DATABASE_URL: postgis://justfix@localhost/justfix
+          CC_TEST_REPORTER_ID: 0b47f78787493d017e97f3f141ab138e9188d1ebbe149bb0f28a8ff3314dfdd7
+          USE_LAMBDA_HTTP_SERVER: yup
+      - image: mdillon/postgis:10-alpine
+        environment:
+          POSTGRES_DB: justfix
+          POSTGRES_USER: justfix
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Git LFS cache
+          key: gitlfs-build
+      - shell:
+          name: Pull Git LFS files
+          command: git lfs pull
+      - restore_cache:
+          <<: *restore_pipenv_cache
+      - run:
+          <<: *install_python_deps
+      - restore_cache:
+          <<: *restore_yarn_cache
+      - run:
+          <<: *install_node_deps
       - run:
           name: CodeClimate before-build
           command: |
@@ -92,8 +122,6 @@ jobs:
 
             yarn build
             yarn test --runInBand
-            yarn lint
-            yarn lingui:extract-and-check
             pipenv run "pytest" --cov=. --cov-report xml:./coverage/python/coverage.xml
       - run:
           name: CodeClimate combine and upload coverage
@@ -167,7 +195,7 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build:
+      - lint_and_stuff:
           filters:
             branches:
               ignore:
@@ -178,6 +206,12 @@ workflows:
                 # when we push to it, particularly since the merge on
                 # production is a fast-forward merge and therefore represents
                 # the exact same code that's already been tested on master.
+                - production
+      - build:
+          filters:
+            branches:
+              ignore:
+                # See above note on why we're ignoring production here.
                 - production
       - deploy:
           requires:

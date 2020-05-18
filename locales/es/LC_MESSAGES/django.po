@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-06 12:01+0000\n"
-"PO-Revision-Date: 2020-05-18 16:31\n"
+"PO-Revision-Date: 2020-05-18 16:41\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -34,5 +34,5 @@ msgstr ""
 
 #: project/util/mailing_address.py:19
 msgid "Enter a valid U.S. zip code."
-msgstr ""
+msgstr "Introduzca un código postal válido en los Estados Unidos."
 

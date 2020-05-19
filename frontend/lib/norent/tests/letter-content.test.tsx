@@ -6,12 +6,15 @@ import {
   getStreetWithApt,
 } from "../letter-content";
 import { initNationalMetadataForTesting } from "../letter-builder/tests/national-metadata-test-util";
+import { override } from "../../tests/util";
 
 beforeAll(initNationalMetadataForTesting);
 
 describe("<NorentLetterContent>", () => {
   it("works", () => {
-    const props = noRentSampleLetterProps;
+    const props = override(noRentSampleLetterProps, {
+      todaysDate: "2020-04-15T15:41:37.114Z",
+    });
     const pal = new ReactTestingLibraryPal(<NorentLetterContent {...props} />);
     expect(pal.rr.container).toMatchSnapshot();
   });

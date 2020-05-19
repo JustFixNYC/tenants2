@@ -55,9 +55,9 @@ class GarblerState implements Iterator<string> {
     return { value, done: false };
   }
 
-  pushCodeUntil(char: string) {
+  pushCodeUntil(chars: string) {
     for (let ch of this) {
-      if (ch === char) {
+      if (chars.indexOf(ch) !== -1) {
         this.pushCode();
         this.next();
         return;
@@ -82,13 +82,19 @@ type StateHandlerMap = {
   [ch: string]: StateHandler | undefined;
 };
 
-const handleEnglish: StateHandler = (s) => {
+const handleEnglish = (s: GarblerState, untilChar?: string) => {
   const handlers: StateHandlerMap = {
     "{": handleVariable,
     "<": handleTag,
   };
 
   for (let ch of s) {
+    if (ch === untilChar) {
+      s.backtrack();
+      s.pushEnglish();
+      return;
+    }
+
     let newHandler = handlers[ch];
 
     if (newHandler) {
@@ -101,6 +107,19 @@ const handleEnglish: StateHandler = (s) => {
   s.pushEnglish();
 };
 
-const handleVariable: StateHandler = (s) => s.pushCodeUntil("}");
+const handleVariable: StateHandler = (s) => {
+  s.next();
+  for (let ch of s) {
+    if (ch === '{') {
+      s.pushCode();
+      handleEnglish(s, '}');
+      s.next();
+    } else if (ch === '}') {
+      s.pushCode();
+      s.next();
+      return;
+    }
+  }
+};
 
 const handleTag: StateHandler = (s) => s.pushCodeUntil(">");

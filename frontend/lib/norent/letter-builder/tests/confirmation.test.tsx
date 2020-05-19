@@ -45,9 +45,9 @@ describe("NoRent confirmation page", () => {
 
   it("renders full state documentation requirements", () => {
     const pal = createPal("CA");
-    pal.rr.getByText(/California has specific documentation/i);
+    pal.rr.getByText(/has specific documentation/i);
     pal.rr.getByText("Find out more");
-    pal.rr.getByText("7 days");
+    pal.rr.getByText(/days/i, { selector: "span" });
   });
 
   it("renders state-specific legal aid link", () => {

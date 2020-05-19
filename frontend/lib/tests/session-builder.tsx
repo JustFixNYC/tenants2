@@ -5,6 +5,7 @@ import {
   BlankNorentScaffolding,
 } from "../queries/NorentScaffolding";
 import { BlankOnboardingInfo, OnboardingInfo } from "../queries/OnboardingInfo";
+import { PhoneNumberAccountStatus, Borough } from "../queries/globalTypes";
 
 /**
  * An attempt to encapsulate the creation of a GraphQL session object
@@ -40,14 +41,40 @@ export class SessionBuilder {
   }
 
   withLoggedInUser(): SessionBuilder {
-    return new SessionBuilder(
-      override(this.value, {
-        firstName: "Boop",
-        lastName: "Jones",
-        phoneNumber: "5551234567",
-        userId: 123,
-      })
-    );
+    return this.with({
+      firstName: "Boop",
+      lastName: "Jones",
+      phoneNumber: "5551234567",
+      userId: 123,
+      email: "boop@jones.net",
+    });
+  }
+
+  withLoggedInJustfixUser(): SessionBuilder {
+    return this.withLoggedInUser().withOnboardingInfo({
+      address: "150 Court St",
+      borough: Borough.BROOKLYN,
+      state: "NY",
+      zipcode: "11201",
+      agreedToJustfixTerms: true,
+    });
+  }
+
+  withLoggedInNationalUser(): SessionBuilder {
+    return this.withLoggedInUser().withOnboardingInfo({
+      address: "152 W. 32nd St",
+      city: "Los Angeles",
+      state: "CA",
+      zipcode: "90007",
+      agreedToNorentTerms: true,
+    });
+  }
+
+  withQueriedPhoneNumber(status: PhoneNumberAccountStatus): SessionBuilder {
+    return this.with({
+      lastQueriedPhoneNumber: "5551234567",
+      lastQueriedPhoneNumberAccountStatus: status,
+    });
   }
 }
 

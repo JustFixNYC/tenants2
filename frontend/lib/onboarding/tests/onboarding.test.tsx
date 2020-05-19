@@ -11,7 +11,7 @@ import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
 const PROPS: OnboardingRoutesProps = {
   toCancel: "/cancel",
   toSuccess: "/success",
-  routes: JustfixRoutes.locale.onboarding,
+  routes: JustfixRoutes.locale.locOnboarding,
   signupIntent: OnboardingInfoSignupIntent.LOC,
 };
 
@@ -23,7 +23,7 @@ describe("latest step redirector", () => {
 
   it("returns step 1 by default", () => {
     expect(getLatestOnboardingStep(FakeSessionInfo)).toBe(
-      JustfixRoutes.locale.onboarding.step1
+      JustfixRoutes.locale.locOnboarding.step1
     );
   });
 
@@ -33,7 +33,7 @@ describe("latest step redirector", () => {
         ...FakeSessionInfo,
         onboardingStep1: {} as any,
       })
-    ).toBe(JustfixRoutes.locale.onboarding.step3);
+    ).toBe(JustfixRoutes.locale.locOnboarding.step3);
   });
 
   it("returns step 4 when step 3 is complete", () => {
@@ -43,14 +43,14 @@ describe("latest step redirector", () => {
         onboardingStep1: {} as any,
         onboardingStep3: {} as any,
       })
-    ).toBe(JustfixRoutes.locale.onboarding.step4);
+    ).toBe(JustfixRoutes.locale.locOnboarding.step4);
   });
 });
 
 describe("Onboarding", () => {
   it("redirects to latest step", () => {
     const pal = new AppTesterPal(<OnboardingRoutes {...PROPS} />, {
-      url: JustfixRoutes.locale.onboarding.latestStep,
+      url: JustfixRoutes.locale.locOnboarding.latestStep,
     });
     expect(pal.history.location.pathname).toEqual("/en/onboarding/step/1");
     pal.rr.getByLabelText("First name");

@@ -1,4 +1,4 @@
-import { createRoutesForSite } from "../util/route-util";
+import { createRoutesForSite, ROUTE_PREFIX } from "../util/route-util";
 import { createDevRouteInfo } from "../dev/routes";
 import { createLetterStaticPageRouteInfo } from "../static-page/routes";
 import { createNorentLetterBuilderRouteInfo } from "./letter-builder/routes";
@@ -10,6 +10,9 @@ import { createNorentLetterBuilderRouteInfo } from "./letter-builder/routes";
  */
 function createLocalizedRouteInfo(prefix: string) {
   return {
+    /** The locale prefix, e.g. `/en`. */
+    [ROUTE_PREFIX]: prefix,
+
     /** The home page. */
     home: `${prefix}/`,
 

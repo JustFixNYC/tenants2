@@ -1,5 +1,7 @@
 import React from "react";
 import { OutboundLink } from "../../analytics/google-analytics";
+import { li18n } from "../../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 export type FaqCategory =
   | "Letter Builder"
@@ -8,13 +10,29 @@ export type FaqCategory =
   | "After Sending Your Letter"
   | "States with Limited Protections";
 
+type FaqCategoryLabels = {
+  [k in FaqCategory]: string;
+};
+
+export function getFaqCategoryLabels(): FaqCategoryLabels {
+  return {
+    "Letter Builder": li18n._(t`Letter Builder`),
+    "Tenant Rights": li18n._(t`Tenant Rights`),
+    "Connecting With Others": li18n._(t`Connecting With Others`),
+    "After Sending Your Letter": li18n._(t`After Sending Your Letter`),
+    "States with Limited Protections": li18n._(
+      t`States with Limited Protections`
+    ),
+  };
+}
+
 export type Faq = {
-  question: string;
-  category: FaqCategory;
-  answerFull: React.ReactNode;
+  question: string; // Localized
+  category: FaqCategory; // Not localized here, but gets localized in the front-end by the getFaqCategoryLabels() function
+  answerFull: React.ReactNode; // Localized
   previewOptions?: {
-    priorityInPreview: number;
-    answerPreview: React.ReactNode;
+    priorityInPreview: number; // Not Localized
+    answerPreview: React.ReactNode; // Localized
   };
 };
 
@@ -60,7 +78,7 @@ const RentStrike2020Link = () => (
     target="_blank"
     rel="noopener noreferrer"
   >
-    Rent Strike 2020: A Resource List
+    <Trans>Rent Strike 2020: A Resource List</Trans>
   </OutboundLink>
 );
 
@@ -71,7 +89,7 @@ const EmergencyTenantProtectionsMapLink = () => (
     target="_blank"
     rel="noopener noreferrer"
   >
-    COVID-19 Emergency Tenant Protections & Rent Strikes Map
+    <Trans>COVID-19 Emergency Tenant Protections & Rent Strikes Map</Trans>
   </OutboundLink>
 );
 
@@ -82,14 +100,14 @@ const MHActionLink = () => (
     target="_blank"
     rel="noopener noreferrer"
   >
-    Click here to join MHAction’s movement
+    <Trans>Click here to join MHAction’s movement</Trans>
   </OutboundLink>
 );
 
 // COMMON BLOCKS OF CONTENT
 
 const NonpaymentDocumentation = () => (
-  <>
+  <Trans id="norent.listOfSuggestedNonpaymentDocumentation">
     <p>
       While you wait for your landlord to respond, gather as much documentation
       as you can. Some types of documentation you can gather include:
@@ -154,20 +172,44 @@ const NonpaymentDocumentation = () => (
         impacted your ability to pay rent.
       </li>
     </ul>
-  </>
+  </Trans>
 );
 
 export const NorentNonpaymentDocumentation = NonpaymentDocumentation;
 
 const ConnectWithLawyer = () => (
-  <p>
-    If you’re facing an emergency, you can find further legal assistance in your
-    state at <LawHelpLink />.
-  </p>
+  <Trans>
+    <p>
+      If you’re facing an emergency, you can find further legal assistance in
+      your state at <LawHelpLink />.
+    </p>
+  </Trans>
+);
+
+const LandlordRetaliation = () => (
+  <Trans id="norent.whatToDoIfLandlordRetaliates">
+    <p>
+      It’s normal to feel anxious or scared that your landlord will retaliate.
+      If your landlord is harassing you, denying you repairs, or trying to
+      illegally evict you, reach out to legal assistance at <LawHelpLink /> and
+      connect with tenant organizers at <RightToTheCityLink />.
+    </p>
+  </Trans>
+);
+
+const ConnectWithOrganizers = () => (
+  <Trans id="norent.instructionsForConnectingWithOrganizers">
+    <p>
+      Connect to organizers through the <RightToTheCityLink />, a national
+      alliance of organizers building the tenant movement since 2007. You can
+      join their call for renters across the country to fight for the
+      cancellation of rent at <CancelRentLink />.
+    </p>
+  </Trans>
 );
 
 const CollectiveOrganizing = () => (
-  <>
+  <Trans id="norent.infoAboutCollectiveOrganizing">
     <p>
       The most important place to start is where you live. Connect safely with
       other tenants in your building or home and start by organizing a means of
@@ -179,7 +221,7 @@ const CollectiveOrganizing = () => (
       <RentStrike2020Link />. You may also connect with local organizing groups
       affiliated with the national <RightToTheCityLink />.
     </p>
-  </>
+  </Trans>
 );
 
 /**
@@ -193,142 +235,133 @@ const CollectiveOrganizing = () => (
  */
 export const FaqsContent: Faq[] = [
   {
-    question: "I'm scared. What happens if my landlord retaliates?",
+    question: li18n._(t`I'm scared. What happens if my landlord retaliates?`),
     category: "After Sending Your Letter",
     previewOptions: {
       priorityInPreview: 1,
-      answerPreview: (
-        <p>
-          It’s normal to feel anxious or scared that your landlord will
-          retaliate. If your landlord is harassing you, denying you repairs, or
-          trying to illegally evict you, reach out to legal assistance at{" "}
-          <LawHelpLink /> and connect with tenant organizers at{" "}
-          <RightToTheCityLink />.
-        </p>
-      ),
+      answerPreview: <LandlordRetaliation />,
     },
-    answerFull: (
-      <p>
-        It’s normal to feel anxious or scared that your landlord will retaliate.
-        If your landlord is harassing you, denying you repairs, or trying to
-        illegally evict you, reach out to legal assistance at <LawHelpLink />{" "}
-        and connect with tenant organizers at <RightToTheCityLink />
-        .s
-      </p>
-    ),
+    answerFull: <LandlordRetaliation />,
   },
   {
-    question: "Is this free?",
+    question: li18n._(t`Is this free?`),
     category: "Letter Builder",
     previewOptions: {
       priorityInPreview: 2,
       answerPreview: (
+        <Trans>
+          <p>
+            Yes, this is a free website created by 501(c)3 non-profit
+            organizations across the United States.
+          </p>
+        </Trans>
+      ),
+    },
+    answerFull: (
+      <Trans>
         <p>
           Yes, this is a free website created by 501(c)3 non-profit
           organizations across the United States.
         </p>
-      ),
-    },
-    answerFull: (
-      <p>
-        Yes, this is a free website created by 501(c)3 non-profit organizations
-        across the United States.
-      </p>
+      </Trans>
     ),
   },
   {
-    question: "Do I have to go to the post office to mail  my letter?",
+    question: li18n._(t`Do I have to go to the post office to mail my letter?`),
     category: "Letter Builder",
     previewOptions: {
       priorityInPreview: 3,
       answerPreview: (
+        <Trans>
+          <p>
+            No, you can use this website to send a letter to your landlord via
+            email or USPS mail. You do not have to pay for the letter to be
+            mailed.
+          </p>
+        </Trans>
+      ),
+    },
+    answerFull: (
+      <Trans>
         <p>
           No, you can use this website to send a letter to your landlord via
           email or USPS mail. You do not have to pay for the letter to be
           mailed.
         </p>
-      ),
-    },
-    answerFull: (
-      <p>
-        No, you can use this website to send a letter to your landlord via email
-        or USPS mail. You do not have to pay for the letter to be mailed.
-      </p>
+      </Trans>
     ),
   },
   {
-    question: "Is there someone I can connect with after this to get help?",
+    question: li18n._(
+      t`Is there someone I can connect with after this to get help?`
+    ),
     category: "Connecting With Others",
     previewOptions: {
       priorityInPreview: 4,
-      answerPreview: (
-        <p>
-          Connect to organizers through the <RightToTheCityLink />, a national
-          alliance of organizers building the tenant movement since 2007. You
-          can join their call for renters across the country to fight for the
-          cancellation of rent at <CancelRentLink />.
-        </p>
-      ),
+      answerPreview: <ConnectWithOrganizers />,
     },
     answerFull: (
-      <>
-        <p>
-          Connect to organizers through the <RightToTheCityLink />, a national
-          alliance of organizers building the tenant movement since 2007. You
-          can join their call for renters across the country to fight for the
-          cancellation of rent at <CancelRentLink />.
-        </p>
+      <Trans id="norent.additionalInstructionsForConnectingWithOrganizers">
+        <ConnectWithOrganizers />
         <p>
           You can also connect with your neighbors and organize your building to
           demand more by taking collective action. Read more about forming
           tenant unions and starting a rent strike at <RentStrike2020Link />.
         </p>
-      </>
+      </Trans>
     ),
   },
   {
-    question: "What does this tool do?",
+    question: li18n._(t`What does this tool do?`),
     category: "Letter Builder",
     answerFull: (
-      <p>
-        NoRent.org guides you through the process of notifying your landlord
-        that you cannot pay the rent due to a COVID-19 related issue. We’ll also
-        help you learn more about the rights that protect tenants in your state
-        and refer you to resources to take legal or organizing action.
-      </p>
+      <Trans id="norent.explanationOfWhatToolDoes">
+        <p>
+          NoRent.org guides you through the process of notifying your landlord
+          that you cannot pay the rent due to a COVID-19 related issue. We’ll
+          also help you learn more about the rights that protect tenants in your
+          state and refer you to resources to take legal or organizing action.
+        </p>
+      </Trans>
     ),
   },
   {
-    question: "Is this tool right for me?",
+    question: li18n._(t`Is this tool right for me?`),
     category: "Letter Builder",
     answerFull: (
-      <p>
-        If you’re not able to pay the rent this month because of a COVID-19
-        related issue (i.e. employment changes, loss of income, medical
-        expenses, or loss of childcare) this tool is for you. Although the rules
-        for exercising your rights will vary by state, NoRent.org can help walk
-        you through the complexities and connect you to resources.
-      </p>
+      <Trans id="norent.whoThisToolIsFor">
+        <p>
+          If you’re not able to pay the rent this month because of a COVID-19
+          related issue (i.e. employment changes, loss of income, medical
+          expenses, or loss of childcare) this tool is for you. Although the
+          rules for exercising your rights will vary by state, NoRent.org can
+          help walk you through the complexities and connect you to resources.
+        </p>
+      </Trans>
     ),
   },
   {
-    question: "Why should I notify my landlord if I can’t pay my rent?",
+    question: li18n._(
+      t`Why should I notify my landlord if I can’t pay my rent?`
+    ),
     category: "Tenant Rights",
     answerFull: (
-      <p>
-        In some states, in order to benefit from the eviction protections that
-        elected officials have put in place you should notify your landlord of
-        your non-payment for reasons related to COVID-19. In the event that your
-        landlord tries to evict you, the courts may view this as a proactive
-        step that helps establish your defense.
-      </p>
+      <Trans id="norent.whyYouShouldNotifyAboutNotPayingRent">
+        <p>
+          In some states, in order to benefit from the eviction protections that
+          elected officials have put in place you should notify your landlord of
+          your non-payment for reasons related to COVID-19. In the event that
+          your landlord tries to evict you, the courts may view this as a
+          proactive step that helps establish your defense.
+        </p>
+      </Trans>
     ),
   },
   {
-    question: "What does an eviction moratorium mean?",
+    question: li18n._(t`What does an eviction moratorium mean?`),
     category: "Tenant Rights",
     answerFull: (
-      <>
+      <Trans id="norent.definitionOfEvictionMoratorium">
         <p>
           An “eviction moratorium” can mean something different in every
           jurisdiction, but in short, a moratorium temporarily pauses certain
@@ -348,14 +381,14 @@ export const FaqsContent: Faq[] = [
           in your jurisdiction at the Anti-Eviction Mapping Project’s{" "}
           <EmergencyTenantProtectionsMapLink />.
         </p>
-      </>
+      </Trans>
     ),
   },
   {
-    question: "What happens when the eviction moratorium ends?",
+    question: li18n._(t`What happens when the eviction moratorium ends?`),
     category: "Tenant Rights",
     answerFull: (
-      <>
+      <Trans id="norent.explanationOfWhatHappensWhenEvictionMoratoriumEnds">
         <p>
           Once a moratorium is lifted, eviction processes in courts and
           enforcement by local law enforcement may resume.
@@ -371,15 +404,16 @@ export const FaqsContent: Faq[] = [
           suspension, among other demands. This is the time to organize! Get
           involved at <CancelRentLink />.
         </p>
-      </>
+      </Trans>
     ),
   },
   {
-    question:
-      "Is not paying my rent because of COVID-19 considered a “rent strike”?",
+    question: li18n._(
+      t`Is not paying my rent because of COVID-19 considered a “rent strike”?`
+    ),
     category: "Tenant Rights",
     answerFull: (
-      <>
+      <Trans id="norent.explanationOfWithholdingRent">
         <p>
           There’s a difference between a “rent strike”, or withholding rent, and
           not paying rent. This letter notifies the landlord that you’re not
@@ -400,37 +434,40 @@ export const FaqsContent: Faq[] = [
           organize, and to contact organizations that have provided tools and
           resources.
         </p>
-      </>
+      </Trans>
     ),
   },
   {
-    question:
-      "How do I organize with other tenants in my building, block, or neighborhood?",
+    question: li18n._(
+      t`How do I organize with other tenants in my building, block, or neighborhood?`
+    ),
     category: "Connecting With Others",
     answerFull: <CollectiveOrganizing />,
   },
   {
-    question: "How can I connect with a lawyer?",
+    question: li18n._(t`How can I connect with a lawyer?`),
     category: "Connecting With Others",
     answerFull: <ConnectWithLawyer />,
   },
   {
-    question: "What if I live in a manufactured or mobile home?",
+    question: li18n._(t`What if I live in a manufactured or mobile home?`),
     category: "Connecting With Others",
     answerFull: (
-      <p>
-        Join a movement of manufactured homeowners who are standing together to
-        make their communities affordable, healthy, safe, and beautiful places
-        to live. Mobile Home/Manufactured Home Owners: <MHActionLink /> to hold
-        corporate community owners accountable.
-      </p>
+      <Trans id="norent.howToConnectWithManufacturedHomeOwners">
+        <p>
+          Join a movement of manufactured homeowners who are standing together
+          to make their communities affordable, healthy, safe, and beautiful
+          places to live. Mobile Home/Manufactured Home Owners: <MHActionLink />{" "}
+          to hold corporate community owners accountable.
+        </p>
+      </Trans>
     ),
   },
   {
-    question: "What happens after I send this letter?",
+    question: li18n._(t`What happens after I send this letter?`),
     category: "After Sending Your Letter",
     answerFull: (
-      <>
+      <Trans id="norent.instructionsForAfterSendingLetter">
         <p>
           After you send this letter, your landlord may get in touch with you to
           ask for more information or discuss a repayment plan. Make sure all
@@ -444,41 +481,48 @@ export const FaqsContent: Faq[] = [
           You should continue to collect documentation that shows you’ve been
           financially impacted by COVID-19.
         </p>
-      </>
+      </Trans>
     ),
   },
   {
-    question: "Will I still owe my rent after I send this letter?",
+    question: li18n._(t`Will I still owe my rent after I send this letter?`),
     category: "After Sending Your Letter",
     answerFull: (
-      <p>
-        Yes, you’ll still owe rent after sending the letter because our state
-        and federal governments have not adopted a rent cancellation policy.
-        Call for cancellation of rent at <CancelRentLink />.
-      </p>
+      <Trans id="norent.whyYouStillOweRentAfterSendingLetter">
+        <p>
+          Yes, you’ll still owe rent after sending the letter because our state
+          and federal governments have not adopted a rent cancellation policy.
+          Call for cancellation of rent at <CancelRentLink />.
+        </p>
+      </Trans>
     ),
   },
   {
-    question: "Help! My landlord is already trying to evict me.",
+    question: li18n._(t`Help! My landlord is already trying to evict me.`),
     category: "After Sending Your Letter",
     answerFull: (
-      <p>
-        If your landlord is trying to illegally evict you, reach out to legal
-        assistance at <LawHelpLink /> immediately.
-      </p>
+      <Trans>
+        <p>
+          If your landlord is trying to illegally evict you, reach out to legal
+          assistance at <LawHelpLink /> immediately.
+        </p>
+      </Trans>
     ),
   },
   {
-    question:
-      "What kind of documentation should I collect to prove I can’t pay rent?",
+    question: li18n._(
+      t`What kind of documentation should I collect to prove I can’t pay rent?`
+    ),
     category: "After Sending Your Letter",
     answerFull: <NonpaymentDocumentation />,
   },
   {
-    question: "What if I live in a state without an eviction moratorium?",
+    question: li18n._(
+      t`What if I live in a state without an eviction moratorium?`
+    ),
     category: "States with Limited Protections",
     answerFull: (
-      <>
+      <Trans id="norent.instructionsForStatesWithLimitedProtections">
         <p>
           On a national level, Congress passed the CARES Act on March 27, 2020
           (Public Law 116-136). Tenants in covered properties are protected from
@@ -486,7 +530,6 @@ export const FaqsContent: Faq[] = [
           Tenants cannot be charged late fees, interest, or other penalties
           through July 25, 2020.
         </p>
-
         <p>
           Also know that you’re not alone. In states without eviction
           moratoriums, it’s important to both protect yourself legally and build
@@ -512,21 +555,21 @@ export const FaqsContent: Faq[] = [
           national tenant protections, an immediate rent freeze, and rent
           suspension. Sign on at <CancelRentLink />.
         </p>
-      </>
+      </Trans>
     ),
   },
   {
-    question: "How can I document my hardships related to COVID-19?",
+    question: li18n._(t`How can I document my hardships related to COVID-19?`),
     category: "States with Limited Protections",
     answerFull: <NonpaymentDocumentation />,
   },
   {
-    question: "How can I connect with a lawyer?",
+    question: li18n._(t`How can I connect with a lawyer?`),
     category: "States with Limited Protections",
     answerFull: <ConnectWithLawyer />,
   },
   {
-    question: "How can I build collective power with other tenants?",
+    question: li18n._(t`How can I build collective power with other tenants?`),
     category: "States with Limited Protections",
     answerFull: <CollectiveOrganizing />,
   },

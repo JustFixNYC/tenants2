@@ -39,6 +39,12 @@ import { getNorentJumpToTopOfPageRoutes } from "./norent/routes";
 import { SupportedLocale } from "./i18n";
 import { getGlobalSiteRoutes } from "./routes";
 import { ensureNextRedirectIsHard } from "./browser-redirect";
+import {
+  updateAmplitudeUserPropertiesOnSessionChange,
+  trackLoginInAmplitude,
+  trackLogoutInAmplitude,
+  logAmplitudePageView,
+} from "./analytics/amplitude";
 
 // Note that these don't need any special fallback loading screens
 // because they will never need to be dynamically loaded on the
@@ -229,6 +235,7 @@ export class AppWithoutRouter extends React.Component<
   ) {
     if (prevPathname !== pathname) {
       trackPageView(pathname);
+      logAmplitudePageView(pathname);
       this.handleFocusDuringPathnameChange(prevPathname, pathname, hash);
       this.handleScrollPositionDuringPathnameChange(
         prevPathname,
@@ -259,9 +266,12 @@ export class AppWithoutRouter extends React.Component<
         displayName: `${firstName || ""} (#${userId})`,
       });
     }
+    trackLoginInAmplitude(this.state.session);
   }
 
   handleLogout() {
+    trackLogoutInAmplitude(this.state.session);
+
     // We're not going to bother telling FullStory that the user logged out,
     // because we don't really want it associating the current user with a
     // brand-new anonymous user (as FullStory's priced plans have strict limits
@@ -272,6 +282,7 @@ export class AppWithoutRouter extends React.Component<
     if (this.state.session.userId !== null) {
       this.handleLogin();
     }
+    logAmplitudePageView(this.props.location.pathname);
   }
 
   componentDidUpdate(prevProps: AppPropsWithRouter, prevState: AppState) {
@@ -281,6 +292,11 @@ export class AppWithoutRouter extends React.Component<
       } else {
         this.handleLogin();
       }
+    } else {
+      updateAmplitudeUserPropertiesOnSessionChange(
+        prevState.session,
+        this.state.session
+      );
     }
     if (prevState.session.csrfToken !== this.state.session.csrfToken) {
       this.gqlClient.csrfToken = this.state.session.csrfToken;

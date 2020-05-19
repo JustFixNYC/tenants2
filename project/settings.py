@@ -148,6 +148,7 @@ TEMPLATES = [
                 'project.context_processors.gtm_noscript_snippet',
                 'project.context_processors.facebook_pixel_snippet',
                 'project.context_processors.facebook_pixel_noscript_snippet',
+                'project.context_processors.amplitude_snippet',
                 'project.context_processors.fullstory_snippet',
                 'project.context_processors.rollbar_snippet',
             ],
@@ -385,6 +386,8 @@ GA_TRACKING_ID = env.GA_TRACKING_ID
 GTM_CONTAINER_ID = env.GTM_CONTAINER_ID
 
 FACEBOOK_PIXEL_ID = env.FACEBOOK_PIXEL_ID
+
+AMPLITUDE_API_KEY = env.AMPLITUDE_API_KEY
 
 FULLSTORY_ORG_ID = env.FULLSTORY_ORG_ID
 

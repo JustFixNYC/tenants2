@@ -1,6 +1,8 @@
 import React from "react";
 import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
 import { ProgressButtonsAsLinks } from "../../ui/buttons";
+import { li18n } from "../../i18n-lingui";
+import { t } from "@lingui/macro";
 
 type NorentConfirmationModalProps = {
   nextStep: string;
@@ -32,9 +34,9 @@ export const NorentConfirmationModal: React.FC<NorentConfirmationModalProps> = (
           {props.children}
           <ProgressButtonsAsLinks
             back={ctx.getLinkCloseProps().to}
-            backLabel="No"
+            backLabel={li18n._(t`No`)}
             next={props.nextStep}
-            nextLabel="Yes"
+            nextLabel={li18n._(t`Yes`)}
           />
         </>
       )}

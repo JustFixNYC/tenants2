@@ -6,6 +6,8 @@ import { TextualFormField, HiddenFormField } from "../../forms/form-fields";
 import { ProgressButtons } from "../../ui/buttons";
 import { AppContext } from "../../app-context";
 import { NorentNotSentLetterStep } from "./step-decorators";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../../i18n-lingui";
 
 export const NorentLandlordEmail = NorentNotSentLetterStep((props) => {
   const { session } = useContext(AppContext);
@@ -13,13 +15,17 @@ export const NorentLandlordEmail = NorentNotSentLetterStep((props) => {
 
   return (
     <Page
-      title="Your landlord or management company's email"
+      title={li18n._(t`Your landlord or management company's email`)}
       withHeading="big"
       className="content"
     >
       <p>
-        We'll use this information to send your letter.{" "}
-        {!required && <>This is optional.</>}
+        <Trans>We'll use this information to send your letter.</Trans>{" "}
+        {!required && (
+          <>
+            <Trans>This is optional.</Trans>
+          </>
+        )}
       </p>
       <SessionUpdatingFormSubmitter
         mutation={OptionalLandlordDetailsMutation}
@@ -36,9 +42,11 @@ export const NorentLandlordEmail = NorentNotSentLetterStep((props) => {
               type="email"
               {...ctx.fieldPropsFor("email")}
               required={required}
-              label={`Landlord/management company's email ${
-                required ? "" : "(optional)"
-              }`}
+              label={
+                li18n._(t`Landlord/management company's email`) + required
+                  ? ""
+                  : " " + li18n._(t`(optional)`)
+              }
             />
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>

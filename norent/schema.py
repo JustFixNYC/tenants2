@@ -32,6 +32,13 @@ class NorentScaffolding(graphene.ObjectType):
 
     is_city_in_nyc = graphene.Boolean()
 
+    is_in_los_angeles = graphene.Boolean(
+        description=(
+            "Whether the onboarding user is in Los Angeles. If "
+            "we don't have enough information to tell, this will be null."
+        )
+    )
+
     state = graphene.String(required=True)
 
     zip_code = graphene.String(required=True)
@@ -80,6 +87,9 @@ class NorentScaffolding(graphene.ObjectType):
 
     def resolve_is_city_in_nyc(self, info: ResolveInfo) -> Optional[bool]:
         return self.is_city_in_nyc()
+
+    def resolve_is_in_los_angeles(self, info: ResolveInfo) -> Optional[bool]:
+        return self.is_zip_code_in_la()
 
 
 class NorentLetter(DjangoObjectType):

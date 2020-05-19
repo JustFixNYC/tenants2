@@ -11,6 +11,8 @@ import classnames from "classnames";
 import { ScrollyLink } from "../ui/scrolly-link";
 import { Link } from "react-router-dom";
 import { LetterCounter } from "./components/letter-counter";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 type NorentImageType = "png" | "svg";
 
@@ -40,7 +42,7 @@ export const JumpArrow = (props: { to: string; altText: string }) => (
 export const BuildMyLetterButton = (props: { isHiddenMobile?: boolean }) => (
   <span className={classnames(props.isHiddenMobile && "is-hidden-mobile")}>
     <CenteredPrimaryButtonLink to={NorentRoutes.locale.letter.latestStep}>
-      Build my letter
+      <Trans>Build my letter</Trans>
     </CenteredPrimaryButtonLink>
   </span>
 );
@@ -57,11 +59,11 @@ export const StickyLetterButtonContainer = (props: {
   </div>
 );
 
-const checklistItems = [
-  "Build a letter using our free letter builder",
-  "Send your letter by email",
-  "Send your letter by certified mail for free",
-  "Cite up-to-date legal ordinances in your letter",
+const checklistItems = () => [
+  li18n._(t`Build a letter using our free letter builder`),
+  li18n._(t`Send your letter by email`),
+  li18n._(t`Send your letter by certified mail for free`),
+  li18n._(t`Cite up-to-date legal ordinances in your letter`),
 ];
 
 type ChecklistBackgroundColor = "off-white" | "white";
@@ -79,19 +81,22 @@ export const LandingPageChecklist = (props: {
     <div className="hero-body">
       <div className="container jf-has-text-centered-tablet">
         <h3 className="is-size-5 is-spaced has-text-weight-normal">
-          Here’s what you can do with <NorentLogo size="is-128x128" />
+          <Trans>
+            Here’s what you can do with{" "}
+            <NorentLogo size="is-128x128">NoRent</NorentLogo>
+          </Trans>
         </h3>
       </div>
       <div className="container jf-tight-container">
         <br />
         <div className="jf-space-below-2rem">
-          {checklistItems.map((checklistItem, i) => (
+          {checklistItems().map((checklistItem, i) => (
             <article className="media" key={i}>
               <div className="media-left">
                 <StaticImage
                   ratio="is-32x32"
                   src={getImageSrc("checkmark")}
-                  alt="You can"
+                  alt={li18n._(t`You can`)}
                 />
               </div>
               <div className="media-content">{checklistItem}</div>
@@ -104,15 +109,15 @@ export const LandingPageChecklist = (props: {
   </section>
 );
 
-const demandsListItems = [
-  "Going on rent strike",
-  "Cancelling rent",
-  "Banning evictions",
+const demandsListItems = () => [
+  li18n._(t`Going on rent strike`),
+  li18n._(t`Cancelling rent`),
+  li18n._(t`Banning evictions`),
 ];
 
 const LandingPageCollectiveActionList = () => (
   <div className="container jf-collective-action-list jf-space-below-2rem">
-    {demandsListItems.map((demand, i) => (
+    {demandsListItems().map((demand, i) => (
       <article className="media" key={i}>
         <div className="media-left">
           <StaticImage ratio="is-64x64" src={getImageSrc("fistpump")} alt="" />
@@ -131,31 +136,37 @@ export const NorentHomePage: React.FC<{}> = () => {
       <section className="hero is-fullheight-with-navbar">
         <div className="hero-body">
           <div className="container jf-has-text-centered-tablet">
-            <h1 className="title is-spaced has-text-info">Can't pay rent?</h1>
+            <h1 className="title is-spaced has-text-info">
+              <Trans>Can't pay rent?</Trans>
+            </h1>
             <br />
             <p className="subtitle">
-              You’re not alone. Millions of Americans won’t be able to pay rent
-              because of COVID&#8209;19. Use our FREE tool to take action by
-              writing a letter to your landlord.
+              <Trans>
+                You’re not alone. Millions of Americans won’t be able to pay
+                rent because of COVID&#8209;19. Use our FREE tool to take action
+                by writing a letter to your landlord.
+              </Trans>
             </p>
             <br />
             <BuildMyLetterButton isHiddenMobile />
             <br />
             <p className="is-size-6">
-              A national tool by non-profit{" "}
-              <OutboundLink
-                href="https://www.justfix.nyc/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                JustFix.nyc
-              </OutboundLink>
+              <Trans>
+                A national tool by non-profit{" "}
+                <OutboundLink
+                  href="https://www.justfix.nyc/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  JustFix.nyc
+                </OutboundLink>
+              </Trans>
             </p>
             <br />
           </div>
         </div>
         <div className="container jf-has-centered-images jf-space-below-2rem">
-          <JumpArrow to="#more-info" altText="Explore the tool" />
+          <JumpArrow to="#more-info" altText={li18n._(t`Explore the tool`)} />
         </div>
       </section>
 
@@ -165,14 +176,18 @@ export const NorentHomePage: React.FC<{}> = () => {
         <section className="hero has-background-white-ter jf-space-below-2rem">
           <div className="hero-body">
             <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
-              <h2 className="title is-spaced">Legally vetted</h2>
+              <h2 className="title is-spaced">
+                <Trans>Legally vetted</Trans>
+              </h2>
               <p className="subtitle is-size-5">
-                Our free letter builder was built with{" "}
-                <Link to={NorentRoutes.locale.about}>
-                  lawyers and non-profit tenants rights organizations
-                </Link>{" "}
-                across the nation to ensure that your letter gives you the most
-                protections based on your state.
+                <Trans id="norent.explanationOfPartnerships">
+                  Our free letter builder was built with{" "}
+                  <Link to={NorentRoutes.locale.about}>
+                    lawyers and non-profit tenants rights organizations
+                  </Link>{" "}
+                  across the nation to ensure that your letter gives you the
+                  most protections based on your state.
+                </Trans>
               </p>
               <br />
             </div>
@@ -211,10 +226,14 @@ export const NorentHomePage: React.FC<{}> = () => {
         <section className="hero has-background-white-ter">
           <div className="hero-body">
             <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
-              <h2 className="title is-spaced">How it works</h2>
+              <h2 className="title is-spaced">
+                <Trans>How it works</Trans>
+              </h2>
               <p className="subtitle is-size-5">
-                We make it easy to notify your landlord by email or by certified
-                mail for free.
+                <Trans>
+                  We make it easy to notify your landlord by email or by
+                  certified mail for free.
+                </Trans>
               </p>
               <br />
             </div>
@@ -230,11 +249,14 @@ export const NorentHomePage: React.FC<{}> = () => {
                   </div>
                   <div>
                     <p className="title is-size-4 jf-alt-title-font">
-                      8 Minutes
+                      <Trans>8 Minutes</Trans>
                     </p>
                     <p>
-                      Answer a few questions about yourself and your landlord or
-                      management company. It'll take no more than 8 minutes.
+                      <Trans>
+                        Answer a few questions about yourself and your landlord
+                        or management company. It'll take no more than 8
+                        minutes.
+                      </Trans>
                     </p>
                   </div>{" "}
                 </div>
@@ -248,11 +270,13 @@ export const NorentHomePage: React.FC<{}> = () => {
                   </div>
                   <div>
                     <p className="title is-size-4 jf-alt-title-font">
-                      Legal Protections
+                      <Trans>Legal Protections</Trans>
                     </p>
                     <p>
-                      Our letter cites the most up-to-date legal ordinances that
-                      protect tenant rights in your state.
+                      <Trans>
+                        Our letter cites the most up-to-date legal ordinances
+                        that protect tenant rights in your state.
+                      </Trans>
                     </p>
                   </div>
                 </div>
@@ -266,11 +290,13 @@ export const NorentHomePage: React.FC<{}> = () => {
                   </div>
                   <div>
                     <p className="title is-size-4 jf-alt-title-font">
-                      Free Certified Mail
+                      <Trans>Free Certified Mail</Trans>
                     </p>
                     <p>
-                      After you’ve reviewed your letter, we send it to your
-                      landlord on your behalf by email and by certified mail.
+                      <Trans>
+                        After you’ve reviewed your letter, we send it to your
+                        landlord on your behalf by email and by certified mail.
+                      </Trans>
                     </p>
                   </div>
                 </div>
@@ -285,7 +311,7 @@ export const NorentHomePage: React.FC<{}> = () => {
           <div className="hero-body jf-letter-preview-container">
             <div className="container jf-has-text-centered-tablet">
               <h3 className="is-size-5 is-spaced has-text-weight-normal">
-                Here’s a preview of what the letter looks like:
+                <Trans>Here’s a preview of what the letter looks like:</Trans>
               </h3>
               <br />
               {/* NOTE: 
@@ -294,33 +320,38 @@ export const NorentHomePage: React.FC<{}> = () => {
               rather than a detailed example of what an actual letter looks like. */}
               <article className="message">
                 <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
-                  <p>Dear Landlord/Management.</p>
-                  <br />
                   <p>
-                    I am writing to inform you that I have experienced a loss of
-                    income, increased expenses and/or other financial
-                    circumstances related to the pandemic. Until further notice,
-                    the COVID-19 emergency may impact my ability to pay rent.
+                    <Trans>Dear Landlord/Management.</Trans>
                   </p>
                   <br />
-                  <p>
-                    Tenants in Florida are protected from eviction for
-                    non-payment by Executive Order 20-94, issued by Governor Ron
-                    DeSantis on April 2, 2020.
-                  </p>
-                  <br />
-                  <p className="is-hidden-mobile">
-                    Tenants in covered properties are also protected from
-                    eviction, fees, penalties, and other charges related to
-                    non-payment by the CARES Act (Title IV, Sec. 4024) enacted
-                    by Congress on March 27, 2020.
-                  </p>
-                  <br />
-                  <p className="is-hidden-mobile">
-                    Along with my neighbors, I am organizing, encouraging,
-                    and/or participating in a tenant organization so that we may
-                    support
-                  </p>
+                  <Trans id="norent.sampleNoRentLetter">
+                    <p>
+                      I am writing to inform you that I have experienced a loss
+                      of income, increased expenses and/or other financial
+                      circumstances related to the pandemic. Until further
+                      notice, the COVID-19 emergency may impact my ability to
+                      pay rent.
+                    </p>
+                    <br />
+                    <p>
+                      Tenants in Florida are protected from eviction for
+                      non-payment by Executive Order 20-94, issued by Governor
+                      Ron DeSantis on April 2, 2020.
+                    </p>
+                    <br />
+                    <p className="is-hidden-mobile">
+                      Tenants in covered properties are also protected from
+                      eviction, fees, penalties, and other charges related to
+                      non-payment by the CARES Act (Title IV, Sec. 4024) enacted
+                      by Congress on March 27, 2020.
+                    </p>
+                    <br />
+                    <p className="is-hidden-mobile">
+                      Along with my neighbors, I am organizing, encouraging,
+                      and/or participating in a tenant organization so that we
+                      may support
+                    </p>
+                  </Trans>
                 </div>
                 <div className="jf-letter-preview-fadeout" />
               </article>
@@ -331,15 +362,19 @@ export const NorentHomePage: React.FC<{}> = () => {
         <section className="hero has-background-white-ter">
           <div className="hero-body">
             <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
-              <h2 className="title is-spaced">Locally supported</h2>
+              <h2 className="title is-spaced">
+                <Trans>Locally supported</Trans>
+              </h2>
               <p className="subtitle is-size-5">
-                After sending your letter, we can connect you to{" "}
-                <Link to={NorentRoutes.locale.about}>local groups</Link> to
-                organize for greater demands with other tenants.
+                <Trans>
+                  After sending your letter, we can connect you to{" "}
+                  <Link to={NorentRoutes.locale.about}>local groups</Link> to
+                  organize for greater demands with other tenants.
+                </Trans>
               </p>
               <br />
               <p className="subtitle is-size-5">
-                Collective action is a powerful tool for:
+                <Trans>Collective action is a powerful tool for:</Trans>
               </p>
             </div>
             <LandingPageCollectiveActionList />

@@ -6,17 +6,25 @@ import { NorentEmailMutation } from "../../queries/NorentEmailMutation";
 import { TextualFormField } from "../../forms/form-fields";
 import { ProgressButtons } from "../../ui/buttons";
 import { useIsOnboardingUserInStateWithProtections } from "./national-metadata";
+import { li18n } from "../../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 export const NorentLbAskEmail = MiddleProgressStep((props) => {
   const isWritingLetter = useIsOnboardingUserInStateWithProtections();
 
   return (
-    <Page title="Your email address" withHeading="big">
+    <Page title={li18n._(t`Your email address`)} withHeading="big">
       <div className="content">
         {isWritingLetter ? (
-          <p>We'll use this information to email you a copy of your letter.</p>
+          <p>
+            <Trans>
+              We'll use this information to email you a copy of your letter.
+            </Trans>
+          </p>
         ) : (
-          <p>We'll use this information to send you updates.</p>
+          <p>
+            <Trans>We'll use this information to send you updates.</Trans>
+          </p>
         )}
       </div>
       <SessionUpdatingFormSubmitter
@@ -31,7 +39,7 @@ export const NorentLbAskEmail = MiddleProgressStep((props) => {
             <TextualFormField
               type="email"
               {...ctx.fieldPropsFor("email")}
-              label="Email address"
+              label={li18n._(t`Email address`)}
             />
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>

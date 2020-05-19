@@ -45,7 +45,7 @@ export function getSignupIntentOnboardingInfo(
       return {
         preOnboarding: JustfixRoutes.locale.loc.splash,
         postOnboarding: JustfixRoutes.locale.loc.latestStep,
-        onboarding: JustfixRoutes.locale.onboarding,
+        onboarding: JustfixRoutes.locale.locOnboarding,
       };
 
     case OnboardingInfoSignupIntent.HP:
@@ -232,6 +232,9 @@ export type LocalizedRouteInfo = ReturnType<typeof createLocalizedRouteInfo>;
 
 function createLocalizedRouteInfo(prefix: string) {
   return {
+    /** The locale prefix, e.g. `/en`. */
+    [ROUTE_PREFIX]: prefix,
+
     /** The login page. */
     login: `${prefix}/login`,
 
@@ -258,8 +261,11 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The password reset flow. */
     passwordReset: createPasswordResetRouteInfo(`${prefix}/password-reset`),
 
-    /** The onboarding flow. */
-    onboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),
+    /**
+     * The onboarding flow for Letter of Complaint (onboarding flows
+     * for other products are embedded within their product's prefix).
+     */
+    locOnboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),
 
     /** The Letter of Complaint flow. */
     loc: createLetterOfComplaintRouteInfo(`${prefix}/loc`),

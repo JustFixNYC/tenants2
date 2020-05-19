@@ -10,6 +10,8 @@ import { PhoneNumberAccountStatus } from "../../queries/globalTypes";
 import { LetterBuilderAccordion } from "../letter-builder/welcome";
 import { ModalLink } from "../../ui/modal";
 import { PrivacyInfoModal } from "../../ui/privacy-info-modal";
+import { li18n } from "../../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 export function getRouteForAccountStatus(
   { routes, nextStep }: StartAccountOrLoginProps,
@@ -29,11 +31,13 @@ export function getRouteForAccountStatus(
 
 export const AskPhoneNumber: React.FC<StartAccountOrLoginProps> = (props) => {
   return (
-    <Page title="Your phone number" withHeading="big">
+    <Page title={li18n._(t`Your phone number`)} withHeading="big">
       <div className="content">
         <p className="jf-space-below-2rem">
-          Whether it's your first time here, or you're a returning user, let's
-          start with your number.
+          <Trans>
+            Whether it's your first time here, or you're a returning user, let's
+            start with your number.
+          </Trans>
         </p>
       </div>
       <SessionUpdatingFormSubmitter
@@ -47,26 +51,34 @@ export const AskPhoneNumber: React.FC<StartAccountOrLoginProps> = (props) => {
           <>
             <PhoneNumberFormField
               {...ctx.fieldPropsFor("phoneNumber")}
-              label="Phone number"
+              label={li18n._(t`Phone number`)}
             />
             <div className="content">
-              <LetterBuilderAccordion question="Why do you need this information?">
-                We’ll use this information to either:
-                <ol className="is-marginless">
-                  <li>Log you into your existing account</li>
-                  <li>Match with a pre-existing account </li>
-                  <li>Sign you up for a new account.</li>
-                </ol>
+              <LetterBuilderAccordion
+                question={li18n._(t`Why do you need this information?`)}
+              >
+                <Trans id="norent.whyIsPhoneNumberNeeded">
+                  We’ll use this information to either:
+                  <ol className="is-marginless">
+                    <li>Log you into your existing account</li>
+                    <li>Match with a pre-existing account </li>
+                    <li>Sign you up for a new account.</li>
+                  </ol>
+                </Trans>
               </LetterBuilderAccordion>
               <p className="is-size-6">
-                Your privacy is very important to us! Everything on JustFix.nyc
-                is secure.{" "}
+                <Trans>
+                  Your privacy is very important to us! Everything on
+                  JustFix.nyc is secure.
+                </Trans>{" "}
                 <ModalLink
                   to={props.routes.phoneNumberTermsModal}
                   component={() => <PrivacyInfoModal />}
                   className="has-text-weight-normal"
                 >
-                  Click here to learn more about our privacy policy.
+                  <Trans>
+                    Click here to learn more about our privacy policy.
+                  </Trans>
                 </ModalLink>
               </p>
             </div>

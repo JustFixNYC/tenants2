@@ -13,6 +13,8 @@ import { areAddressesTheSame } from "../../ui/address-confirmation";
 import { isUserLoggedIn } from "../../util/session-predicates";
 import { NorentAlreadyLoggedInErrorPage } from "./error-pages";
 import { CityAndStateField } from "../../forms/city-and-state-form-field";
+import { li18n } from "../../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 const getConfirmModalRoute = () => NorentRoutes.locale.letter.cityConfirmModal;
 
@@ -22,10 +24,12 @@ const ConfirmCityModal: React.FC<{ nextStep: string }> = (props) => {
   return (
     <NorentConfirmationModal
       nextStep={props.nextStep}
-      title="Confirming the city"
+      title={li18n._(t`Confirming the city`)}
     >
       <p>
-        Do you live in {scf?.city}, {scf?.state}?
+        <Trans>
+          Do you live in {scf?.city}, {scf?.state}?
+        </Trans>
       </p>
     </NorentConfirmationModal>
   );
@@ -37,11 +41,13 @@ export const NorentLbAskCityState = MiddleProgressStep((props) => {
   }
 
   return (
-    <Page title="Your city" withHeading="big">
+    <Page title={li18n._(t`Where do you live?`)} withHeading="big">
       <div className="content">
         <p>
-          We’ll use this information to pull the most up-to-date ordinances that
-          protect your rights as a tenant in your letter.
+          <Trans>
+            We’ll use this information to pull the most up-to-date ordinances
+            that protect your rights as a tenant in your letter.
+          </Trans>
         </p>
       </div>
       <br />

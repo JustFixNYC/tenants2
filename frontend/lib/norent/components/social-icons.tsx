@@ -3,6 +3,8 @@ import { StaticImage } from "../../ui/static-image";
 import { getImageSrc } from "../homepage";
 import { OutboundLink } from "../../analytics/google-analytics";
 import { getGlobalAppServerInfo } from "../../app-context";
+import { li18n } from "../../i18n-lingui";
+import { t } from "@lingui/macro";
 
 /**
  * Links to JustFix.nyc's main social media pages.
@@ -13,16 +15,22 @@ const socialMediaPageLinks = [
   { name: "instagram", url: "https://www.instagram.com/justfixnyc/" },
 ];
 
-const prefilledTwitterCopy =
-  "No idea how you'll pay rent this month? Tell your landlord with norent.org from @JustFixNYC. " +
-  "This free tool sends a certified letter informing them of your protections. " +
-  "Join the #cancelrent movement at norent.org.";
-const prefilledEmailSubject =
-  "Just used JustFix.nyc's new free tool to tell my landlord I can't pay rent";
-const prefilledEmailBody =
-  "I used www.norent.org to tell my landlord that I'm unable to pay this month's rent. " +
-  "This free tool helps you build and send a letter to your landlord, cites legal protections in your state, " +
-  "and connects you to other people in your community working to #cancelrent";
+const prefilledTwitterCopy = () =>
+  li18n._(
+    t(
+      "norent.tweetTemplateForSharingNoRent"
+    )`No idea how you'll pay rent this month? Tell your landlord with norent.org from @JustFixNYC. This free tool sends a certified letter informing them of your protections. Join the #cancelrent movement at norent.org.`
+  );
+const prefilledEmailSubject = () =>
+  li18n._(
+    t`Just used JustFix.nyc's new free tool to tell my landlord I can't pay rent`
+  );
+const prefilledEmailBody = () =>
+  li18n._(
+    t(
+      "norent.emailBodyTemplateForSharingNoRent"
+    )`I used www.norent.org to tell my landlord that I'm unable to pay this month's rent. This free tool helps you build and send a letter to your landlord, cites legal protections in your state, and connects you to other people in your community working to #cancelrent`
+  );
 
 /**
  * Links for users to share out the product on social media
@@ -33,7 +41,7 @@ const socialMediaShareOutLinks = () => [
     name: "twitter",
     url:
       `https://twitter.com/intent/tweet` +
-      `?text=${encodeURIComponent(prefilledTwitterCopy)}`,
+      `?text=${encodeURIComponent(prefilledTwitterCopy())}`,
   },
   {
     name: "facebook",
@@ -51,8 +59,8 @@ const socialMediaShareOutLinks = () => [
     name: "email",
     url:
       `mailto:` +
-      `?subject=${encodeURIComponent(prefilledEmailSubject)}` +
-      `&body=${encodeURIComponent(prefilledEmailBody)}`,
+      `?subject=${encodeURIComponent(prefilledEmailSubject())}` +
+      `&body=${encodeURIComponent(prefilledEmailBody())}`,
   },
 ];
 

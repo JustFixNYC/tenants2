@@ -1,4 +1,3 @@
-from io import BytesIO
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 import pytest
@@ -6,6 +5,7 @@ import pytest
 from project.tests.test_mailing_address import EXAMPLE_KWARGS as ADDRESS_KWARGS
 from onboarding.tests.factories import OnboardingInfoFactory
 from loc.tests.factories import LandlordDetailsV2Factory
+from .factories import ONE_PAGE_PDF
 from hpaction.models import ServingPapers
 from hpaction.admin_views import (
     ServingPapersForm
@@ -114,13 +114,13 @@ class TestCreateServingPapersView:
         res = self.client.post(get_create_url(sender.pk), {
             'name': 'Landlordo',
             **ADDRESS_KWARGS,
-            'pdf_file': BytesIO(b'blah')
+            'pdf_file': ONE_PAGE_PDF.open('rb')
         })
         assert res.status_code == 302
         assert res['Location'].startswith('/admin/hpaction/hpuser/')
         sp = ServingPapers.objects.get(sender=sender)
         assert sp.name == "Landlordo"
-        assert sp.pdf_file.open().read() == b"blah"
+        assert sp.pdf_file.open().read()
         assert sp.tracking_number == mocklob.sample_letter["tracking_number"]
 
         # It would be great if we could verify that the uploader is the

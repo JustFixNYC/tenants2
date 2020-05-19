@@ -106,21 +106,21 @@ const NorentMenuItems: React.FC<{}> = () => {
         <Trans>Build my Letter</Trans>
       </Link>
       <Link className="navbar-item" to={Routes.locale.aboutLetter}>
-        The Letter
+        <Trans>The Letter</Trans>
       </Link>
       <Link className="navbar-item" to={Routes.locale.faqs}>
-        Faqs
+        <Trans>Faqs</Trans>
       </Link>
       <Link className="navbar-item" to={Routes.locale.about}>
-        About
+        <Trans>About</Trans>
       </Link>
       {session.phoneNumber ? (
         <Link className="navbar-item" to={Routes.locale.logout}>
-          Log out
+          <Trans>Log out</Trans>
         </Link>
       ) : (
         <Link className="navbar-item" to={Routes.locale.letter.phoneNumber}>
-          Log in
+          <Trans>Log in</Trans>
         </Link>
       )}
     </>
@@ -135,10 +135,14 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
 
     const NorentBrand: React.FC<{}> = () => (
       <Link className="navbar-item" to={Routes.locale.home}>
-        <NorentLogo
-          size="is-96x96"
-          color={isPrimaryPage ? "default" : "white"}
-        />
+        <Trans>
+          <NorentLogo
+            size="is-96x96"
+            color={isPrimaryPage ? "default" : "white"}
+          >
+            Homepage
+          </NorentLogo>
+        </Trans>
       </Link>
     );
     return (

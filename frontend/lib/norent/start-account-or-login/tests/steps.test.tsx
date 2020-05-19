@@ -52,10 +52,7 @@ describe("start-account-or-login flow", () => {
         phoneNumber: "5551234567",
       })
       .respondWithSuccess({
-        session: pal.sessionBuilder.with({
-          lastQueriedPhoneNumber: "5551234567",
-          lastQueriedPhoneNumberAccountStatus: status,
-        }).value,
+        session: pal.sessionBuilder.withQueriedPhoneNumber(status).value,
         accountStatus: status,
       });
     return pal;
@@ -123,10 +120,9 @@ describe("start-account-or-login flow", () => {
       .withFormMutation(PrepareLegacyTenantsAccountForMigrationMutation)
       .expect({})
       .respondWithSuccess({
-        session: pal.sessionBuilder.with({
-          lastQueriedPhoneNumberAccountStatus:
-            PhoneNumberAccountStatus.NO_ACCOUNT,
-        }).value,
+        session: pal.sessionBuilder.withQueriedPhoneNumber(
+          PhoneNumberAccountStatus.NO_ACCOUNT
+        ).value,
       });
 
     await pal.waitForLocation("/done");

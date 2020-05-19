@@ -5,6 +5,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
+"X-Crowdin-SourceKey: msgstr\n"
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
@@ -1347,4 +1348,3 @@ msgstr ""
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr ""
-

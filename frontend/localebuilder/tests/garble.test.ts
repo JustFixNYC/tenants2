@@ -22,6 +22,10 @@ describe("garbleMessage()", () => {
     expect(garble("Hello {firstName} how goes")).toBe("X {firstName} X X");
   });
 
+  it("Doesn't garble variables in tags", () => {
+    expect(garble("Hello <0>{firstName}</0> how goes")).toBe("X <0>{firstName}</0> X X");
+  });
+
   it("Doesn't garble plurals", () => {
     expect(
       garble(

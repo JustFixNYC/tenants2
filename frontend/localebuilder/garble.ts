@@ -101,6 +101,7 @@ const handleEnglish = (s: GarblerState, untilChar?: string) => {
       s.backtrack();
       s.pushEnglish();
       newHandler(s);
+      s.backtrack();
     }
   }
 

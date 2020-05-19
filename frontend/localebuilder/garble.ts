@@ -9,70 +9,80 @@ export type Garbler = (text: string) => string;
  * gobbledygook.
  */
 export function garbleMessage(garbler: Garbler, source: string): string {
-  const mg = new MessageGarbler(source, garbler);
-  return mg.garble();
+  const state = handleEnglish({
+    garbler,
+    source,
+    parts: [],
+    i: 0,
+  });
+  return state.parts.join("");
 }
 
-class MessageGarbler {
-  private parts: string[] = [];
-
-  constructor(
-    readonly source: string,
-    readonly garbler: Garbler,
-  ) {}
-
-  garble(): string {
-    this.processEnglish(0);
-    return this.parts.join('');
-  }
-
-  private chompUntil(i: number, char: string): number {
-    while (i < this.source.length) {
-      const ch = this.source[i];
-
-      if (ch === char) {
-        this.parts.push(ch);
-        return i + 1;
-      } else {
-        this.parts.push(ch);
-      }
-
-      i++;
-    }
-    return i;
-  }
-
-  private processVariable(i: number): number {
-    return this.chompUntil(i, '}');
-  }
-
-  private processTag(i: number): number {
-    return this.chompUntil(i, '>');
-  }
-
-  private processEnglish(i: number) {
-    let start = i;
-
-    const pushGarbledEnglish = () => {
-      const english = this.source.substring(start, i);
-      this.parts.push(this.garbler(english));
-    };
-
-    while (i < this.source.length) {
-      const ch = this.source[i];
-
-      if (ch === '{') {
-        pushGarbledEnglish();
-        i = this.processVariable(i);
-        start = i;
-      } else if (ch === '<') {
-        pushGarbledEnglish();
-        i = this.processTag(i);
-        start = i;
-      }
-      i++;
-    }
-
-    pushGarbledEnglish();
-  }
+type GarblerState = {
+  parts: string[];
+  source: string;
+  i: number;
+  garbler: Garbler;
 };
+
+type StateHandler = (s: GarblerState) => GarblerState;
+
+const handleEnglish: StateHandler = (s) => {
+  let { i, source, garbler, parts } = s;
+  let start = s.i;
+
+  const pushGarbledEnglish = () => {
+    const english = s.source.substring(start, i);
+    parts = [...parts, garbler(english)];
+  };
+
+  while (i < source.length) {
+    const ch = source[i];
+    let newProcessor: StateHandler | null = null;
+
+    if (ch === "{") {
+      newProcessor = handleVariable;
+    } else if (ch === "<") {
+      newProcessor = handleTag;
+    }
+
+    if (newProcessor) {
+      pushGarbledEnglish();
+      ({ i, parts } = newProcessor({ ...s, i, parts }));
+      start = i;
+    }
+
+    i++;
+  }
+
+  pushGarbledEnglish();
+
+  return { ...s, i, parts };
+};
+
+function chompUntil(s: GarblerState, char: string): GarblerState {
+  let { i, source } = s;
+  const newParts: string[] = [];
+  const finish = (i: number): GarblerState => {
+    return {
+      ...s,
+      i,
+      parts: [...s.parts, newParts.join("")],
+    };
+  };
+
+  while (i < source.length) {
+    const ch = source[i];
+    newParts.push(ch);
+    if (ch === char) {
+      return finish(i + 1);
+    }
+    i++;
+  }
+
+  return finish(i);
+}
+
+const handleVariable: StateHandler = (s) => chompUntil(s, "}");
+
+const handleTag: StateHandler = (s) => chompUntil(s, ">");

@@ -1082,7 +1082,7 @@ msgid "Where do I find this information?"
 msgstr "Where do I find this information?"
 
 #: frontend/lib/norent/letter-builder/ask-city-state.tsx:33
-msgid "Where do you live"
+msgid "Where do you live?"
 msgstr ""
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:30

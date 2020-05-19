@@ -25,14 +25,6 @@ msgstr "(optional)"
 msgid "8 Minutes"
 msgstr "8 Minutes"
 
-#: frontend/lib/norent/components/footer.tsx:69
-#~ msgid "<0/> <1>brought to you by JustFix.nyc</1>"
-#~ msgstr "<0/> <1>brought to you by JustFix.nyc</1>"
-
-#: frontend/lib/norent/components/letter-counter.tsx:15
-#~ msgid "<0/> <1>letters sent by tenants across the USA</1><2>Since April 2020</2>"
-#~ msgstr "<0/> <1>letters sent by tenants across the USA</1><2>Since April 2020</2>"
-
 #: frontend/lib/norent/site.tsx:85
 msgid "<0>Homepage</0>"
 msgstr "<0>Homepage</0>"
@@ -406,16 +398,8 @@ msgid "Here’s what the letter will look like:"
 msgstr "Here’s what the letter will look like:"
 
 #: frontend/lib/norent/homepage.tsx:48
-#~ msgid "Here’s what you can do with <0/>"
-#~ msgstr "Here’s what you can do with <0/>"
-
-#: frontend/lib/norent/homepage.tsx:48
 msgid "Here’s what you can do with <0>NoRent</0>"
 msgstr "Here’s what you can do with <0>NoRent</0>"
-
-#: frontend/lib/norent/site.tsx:85
-#~ msgid "Homepage"
-#~ msgstr "Homepage"
 
 #: frontend/lib/norent/about.tsx:36
 msgid "Housing Justice for All"
@@ -1097,6 +1081,10 @@ msgstr "What kind of documentation should I collect to prove I can’t pay rent?
 msgid "Where do I find this information?"
 msgstr "Where do I find this information?"
 
+#: frontend/lib/norent/letter-builder/ask-city-state.tsx:33
+msgid "Where you live"
+msgstr ""
+
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:30
 msgid "Whether it's your first time here, or you're a returning user, let's start with your number."
 msgstr "Whether it's your first time here, or you're a returning user, let's start with your number."
@@ -1174,10 +1162,6 @@ msgstr "Your Letter Is Ready To Send!"
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:8
 msgid "Your account is set up"
 msgstr "Your account is set up"
-
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:33
-msgid "Your city"
-msgstr "Your city"
 
 #: frontend/lib/norent/letter-builder/ask-email.tsx:13
 msgid "Your email address"

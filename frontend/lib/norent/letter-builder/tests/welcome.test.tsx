@@ -1,12 +1,13 @@
+import React from "react";
+
 import { AppTesterPal } from "../../../tests/app-tester-pal";
-import { createProgressStepJSX } from "../../../progress/tests/progress-step-test-util";
-import { NorentLbWelcome } from "../welcome";
-import { LogoutMutation } from "../../../queries/LogoutMutation";
-import { BlankAllSessionInfo } from "../../../queries/AllSessionInfo";
+import { NorentRoutes } from "../../routes";
+import { NorentLetterBuilderRoutes } from "../steps";
 
 describe("NoRent welcome page", () => {
   const createPal = (phoneNumber?: string) => {
-    return new AppTesterPal(createProgressStepJSX(NorentLbWelcome), {
+    return new AppTesterPal(<NorentLetterBuilderRoutes />, {
+      url: NorentRoutes.locale.letter.welcome,
       session: {
         phoneNumber: phoneNumber,
       },
@@ -17,20 +18,11 @@ describe("NoRent welcome page", () => {
     const pal = createPal();
     pal.rr.getByText("Build your letter");
     pal.clickButtonOrLink("Next");
-    await pal.rt.waitFor(() => pal.rr.getByText("Your phone number"));
+    await pal.waitForLocation(NorentRoutes.locale.letter.phoneNumber);
   });
 
   it("should show special welcome message for logged-in users", () => {
     const pal = createPal("1234567890");
     pal.rr.getByText("Welcome back!");
-  });
-
-  it("should clear the user's session when Cancel button is clicked", async () => {
-    const pal = createPal("1234567890");
-    pal.clickButtonOrLink("Cancel");
-    pal.withFormMutation(LogoutMutation).respondWithSuccess({
-      session: { ...BlankAllSessionInfo },
-    });
-    await pal.rt.waitFor(() => pal.rr.getByText("Can't pay rent?"));
   });
 });

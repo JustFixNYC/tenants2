@@ -8,7 +8,7 @@ const MapboxWidgets: React.FC<{}> = () => {
   return (
     <SimpleProgressiveEnhancement>
       <MapboxCityAutocomplete
-        label="What city do you live in?"
+        label="What city/township/borough do you live in?"
         onChange={(item) => console.log("onChange", item)}
         onNetworkError={(err) => console.error("onNetworkError", err)}
       />

@@ -37,7 +37,7 @@ export function LocSplash(): JSX.Element {
               . This service is free and secure.
             </p>
             <GetStartedButton
-              to={JustfixRoutes.locale.onboarding.latestStep}
+              to={JustfixRoutes.locale.locOnboarding.latestStep}
               intent={OnboardingInfoSignupIntent.LOC}
               pageType="splash"
             >
@@ -88,7 +88,7 @@ export function LocSplash(): JSX.Element {
             </li>
           </BigList>
           <GetStartedButton
-            to={JustfixRoutes.locale.onboarding.latestStep}
+            to={JustfixRoutes.locale.locOnboarding.latestStep}
             intent={OnboardingInfoSignupIntent.LOC}
             pageType="splash"
           >

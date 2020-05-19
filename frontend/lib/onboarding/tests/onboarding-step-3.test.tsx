@@ -8,7 +8,7 @@ import JustfixRoutes from "../../justfix-routes";
 import { getLeaseChoiceLabels } from "../../../../common-data/lease-choices";
 
 const PROPS = {
-  routes: JustfixRoutes.locale.onboarding,
+  routes: JustfixRoutes.locale.locOnboarding,
 };
 
 const STEP_3 = new OnboardingStep3(PROPS);

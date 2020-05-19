@@ -34,6 +34,7 @@ export type NorentLetterContentProps = {
   landlordAddress: string;
   landlordEmail: string;
   paymentDate: GraphQLDate;
+  todaysDate?: GraphQLDate;
 };
 
 const LandlordName: React.FC<NorentLetterContentProps> = (props) => (
@@ -46,6 +47,14 @@ const FullName: React.FC<NorentLetterContentProps> = (props) => (
   </>
 );
 
+export const getStreetWithApt = ({
+  street,
+  aptNumber,
+}: Pick<NorentLetterContentProps, "street" | "aptNumber">) => {
+  if (!aptNumber) return street;
+  return `${street} #${aptNumber}`;
+};
+
 const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
   /*
    * We originally had a <br> in this <h1>, but React self-closes the
@@ -55,15 +64,19 @@ const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
   <h1 className="has-text-right" style={{ whiteSpace: "pre-wrap" }}>
     <span className="is-uppercase">Notice of COVID-19 impact on rent</span>
     {"\n"}
-    at {props.street}, {props.city}, {props.state} {props.zipCode}
+    at {getStreetWithApt(props)}, {props.city}, {props.state} {props.zipCode}
   </h1>
 );
 
+// Oy, server dates are in midnight UTC time, and we explicitly want
+// to *not* convert it to any other time zone, otherwise it may
+// appear as a different date.
+function friendlyUTCDate(date: GraphQLDate) {
+  return friendlyDate(new Date(date), "UTC");
+}
+
 const PaymentDate: React.FC<{ paymentDate: GraphQLDate }> = (props) => (
-  // Oy, the payment date is in midnight UTC time, and we explicitly want
-  // to *not* convert it to any other time zone, otherwise it may
-  // appear as a different date.
-  <>{friendlyDate(new Date(props.paymentDate), "UTC")}</>
+  <>{friendlyUTCDate(props.paymentDate)}</>
 );
 
 const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
@@ -82,7 +95,7 @@ const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
     <dd>
       <FullName {...props} />
       <br />
-      {props.street}
+      {getStreetWithApt(props)}
       <br />
       {props.city}, {props.state} {props.zipCode}
       <br />
@@ -166,10 +179,13 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
   const state = props.state as USStateChoice;
   const letterVersion = getNorentMetadataForUSState(state).lawForLetter
     .whichVersion;
+  const todaysDate = props.todaysDate
+    ? friendlyUTCDate(props.todaysDate)
+    : friendlyDate(new Date());
   return (
     <>
       <LetterTitle {...props} />
-      <p className="has-text-right">{friendlyDate(new Date())}</p>
+      <p className="has-text-right">{todaysDate}</p>
       <LetterHeading {...props} />
       <p>
         Dear <LandlordName {...props} />,
@@ -307,10 +323,19 @@ export const noRentSampleLetterProps: NorentLetterContentProps = {
 
 export const NorentSampleLetterSamplePage: React.FC<{ isPdf?: boolean }> = ({
   isPdf,
-}) => (
-  <NorentLetterStaticPage
-    {...noRentSampleLetterProps}
-    title="Sample NoRent.org letter"
-    isPdf={isPdf}
-  />
-);
+}) => {
+  const { session } = useContext(AppContext);
+  const props: NorentLetterContentProps = {
+    ...noRentSampleLetterProps,
+    paymentDate:
+      session.norentLatestRentPeriod?.paymentDate ||
+      noRentSampleLetterProps.paymentDate,
+  };
+  return (
+    <NorentLetterStaticPage
+      {...props}
+      title="Sample NoRent.org letter"
+      isPdf={isPdf}
+    />
+  );
+};

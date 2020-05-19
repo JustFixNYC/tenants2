@@ -34,6 +34,7 @@ export type NorentLetterContentProps = {
   landlordAddress: string;
   landlordEmail: string;
   paymentDate: GraphQLDate;
+  todaysDate?: GraphQLDate;
 };
 
 const LandlordName: React.FC<NorentLetterContentProps> = (props) => (
@@ -67,11 +68,15 @@ const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
   </h1>
 );
 
+// Oy, server dates are in midnight UTC time, and we explicitly want
+// to *not* convert it to any other time zone, otherwise it may
+// appear as a different date.
+function friendlyUTCDate(date: GraphQLDate) {
+  return friendlyDate(new Date(date), "UTC");
+}
+
 const PaymentDate: React.FC<{ paymentDate: GraphQLDate }> = (props) => (
-  // Oy, the payment date is in midnight UTC time, and we explicitly want
-  // to *not* convert it to any other time zone, otherwise it may
-  // appear as a different date.
-  <>{friendlyDate(new Date(props.paymentDate), "UTC")}</>
+  <>{friendlyUTCDate(props.paymentDate)}</>
 );
 
 const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
@@ -174,10 +179,13 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
   const state = props.state as USStateChoice;
   const letterVersion = getNorentMetadataForUSState(state).lawForLetter
     .whichVersion;
+  const todaysDate = props.todaysDate
+    ? friendlyUTCDate(props.todaysDate)
+    : friendlyDate(new Date());
   return (
     <>
       <LetterTitle {...props} />
-      <p className="has-text-right">{friendlyDate(new Date())}</p>
+      <p className="has-text-right">{todaysDate}</p>
       <LetterHeading {...props} />
       <p>
         Dear <LandlordName {...props} />,
@@ -315,10 +323,19 @@ export const noRentSampleLetterProps: NorentLetterContentProps = {
 
 export const NorentSampleLetterSamplePage: React.FC<{ isPdf?: boolean }> = ({
   isPdf,
-}) => (
-  <NorentLetterStaticPage
-    {...noRentSampleLetterProps}
-    title="Sample NoRent.org letter"
-    isPdf={isPdf}
-  />
-);
+}) => {
+  const { session } = useContext(AppContext);
+  const props: NorentLetterContentProps = {
+    ...noRentSampleLetterProps,
+    paymentDate:
+      session.norentLatestRentPeriod?.paymentDate ||
+      noRentSampleLetterProps.paymentDate,
+  };
+  return (
+    <NorentLetterStaticPage
+      {...props}
+      title="Sample NoRent.org letter"
+      isPdf={isPdf}
+    />
+  );
+};

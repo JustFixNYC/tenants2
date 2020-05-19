@@ -41,7 +41,7 @@ export const NorentLbAskCityState = MiddleProgressStep((props) => {
   }
 
   return (
-    <Page title={li18n._(t`Your city`)} withHeading="big">
+    <Page title={li18n._(t`Where do you live?`)} withHeading="big">
       <div className="content">
         <p>
           <Trans>

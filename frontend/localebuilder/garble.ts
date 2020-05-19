@@ -5,84 +5,102 @@
 export type Garbler = (text: string) => string;
 
 /**
- * Take the raw string from a message catalog and "garble" it into
- * gobbledygook.
+ * Take the raw string from a message catalog and "garble" its English
+ * text into gobbledygook, while preserving all code.
  */
 export function garbleMessage(garbler: Garbler, source: string): string {
-  const state = handleEnglish({
-    garbler,
-    source,
-    parts: [],
-    i: 0,
-  });
-  return state.parts.join("");
+  const s = new GarblerState(garbler, source);
+  handleEnglish(s);
+  return s.value;
 }
 
-type GarblerState = {
-  parts: string[];
-  source: string;
-  i: number;
-  garbler: Garbler;
-};
+class GarblerState implements Iterator<string> {
+  private parts: string[] = [];
+  private i: number = 0;
+  private substringStartIndex: number = 0;
 
-type StateHandler = (s: GarblerState) => GarblerState;
+  constructor(readonly garbler: Garbler, readonly source: string) {}
+
+  private get hasSubstring() {
+    return this.i - this.substringStartIndex > 0;
+  }
+
+  private get substring() {
+    return this.source.substring(this.substringStartIndex, this.i);
+  }
+
+  private push(value: string) {
+    this.parts.push(value);
+    this.substringStartIndex = this.i;
+  }
+
+  pushEnglish() {
+    this.hasSubstring && this.push(this.garbler(this.substring));
+  }
+
+  pushCode() {
+    this.hasSubstring && this.push(this.substring);
+  }
+
+  backtrack() {
+    this.i--;
+  }
+
+  next() {
+    if (this.i === this.source.length) {
+      return { value: "", done: true };
+    }
+    const value = this.source[this.i];
+    this.i++;
+    return { value, done: false };
+  }
+
+  pushCodeUntil(char: string) {
+    for (let ch of this) {
+      if (ch === char) {
+        this.pushCode();
+        this.next();
+        return;
+      }
+    }
+
+    this.pushCode();
+  }
+
+  [Symbol.iterator]() {
+    return this;
+  }
+
+  get value() {
+    return this.parts.join("");
+  }
+}
+
+type StateHandler = (s: GarblerState) => void;
+
+type StateHandlerMap = {
+  [ch: string]: StateHandler | undefined;
+};
 
 const handleEnglish: StateHandler = (s) => {
-  let { i, source, garbler, parts } = s;
-  let start = s.i;
-
-  const pushGarbledEnglish = (): string[] => {
-    const english = s.source.substring(start, i);
-    return [...parts, garbler(english)];
+  const handlers: StateHandlerMap = {
+    "{": handleVariable,
+    "<": handleTag,
   };
 
-  while (i < source.length) {
-    const ch = source[i];
-    let newProcessor: StateHandler | null = null;
+  for (let ch of s) {
+    let newHandler = handlers[ch];
 
-    if (ch === "{") {
-      newProcessor = handleVariable;
-    } else if (ch === "<") {
-      newProcessor = handleTag;
+    if (newHandler) {
+      s.backtrack();
+      s.pushEnglish();
+      newHandler(s);
     }
-
-    if (newProcessor) {
-      parts = pushGarbledEnglish();
-      ({ i, parts } = newProcessor({ ...s, i, parts }));
-      start = i;
-    }
-
-    i++;
   }
 
-  parts = pushGarbledEnglish();
-
-  return { ...s, i, parts };
+  s.pushEnglish();
 };
 
-function chompUntil(s: GarblerState, char: string): GarblerState {
-  let { i, source } = s;
-  const newParts: string[] = [];
-  const finish = (i: number): GarblerState => {
-    return {
-      ...s,
-      i,
-      parts: [...s.parts, newParts.join("")],
-    };
-  };
+const handleVariable: StateHandler = (s) => s.pushCodeUntil("}");
 
-  while (i < source.length) {
-    const ch = source[i];
-    newParts.push(ch);
-    if (ch === char) {
-      return finish(i + 1);
-    }
-    i++;
-  }
-
-  return finish(i);
-}
-
-const handleVariable: StateHandler = (s) => chompUntil(s, "}");
-
-const handleTag: StateHandler = (s) => chompUntil(s, ">");
+const handleTag: StateHandler = (s) => s.pushCodeUntil(">");

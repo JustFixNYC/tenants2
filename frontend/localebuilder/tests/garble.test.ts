@@ -23,7 +23,9 @@ describe("garbleMessage()", () => {
   });
 
   it("Doesn't garble variables in tags", () => {
-    expect(garble("Hello <0>{firstName}</0> how goes")).toBe("X <0>{firstName}</0> X X");
+    expect(garble("Hello <0>{firstName}</0> how goes")).toBe(
+      "X <0>{firstName}</0> X X"
+    );
   });
 
   it("Doesn't garble plurals", () => {
@@ -32,8 +34,6 @@ describe("garbleMessage()", () => {
         "Marshals scheduled {totalEvictions, plural, one {one eviction} " +
           "other {# evictions}} across this portfolio."
       )
-    ).toBe(
-      "X X {totalEvictions, plural, one {X X} other {X X}} X X X"
-    );
+    ).toBe("X X {totalEvictions, plural, one {X X} other {X X}} X X X");
   });
 });

@@ -87,7 +87,7 @@ function processLocale(paths: MessageCatalogPaths, validate: boolean) {
 }
 
 const defaultGarbler: Garbler = (text) => {
-  return text.replace(/[A-Za-z]/g, '?');
+  return text.replace(/[A-Za-z]/g, "?");
 };
 
 function garbleMessageCatalogs(
@@ -117,7 +117,7 @@ function garbleMessageCatalogs(
     }
 
     console.log(`Garbling ${paths.po}.`);
-    fs.writeFileSync(paths.po, localePo.toString(), { encoding: 'utf-8'});
+    fs.writeFileSync(paths.po, localePo.toString(), { encoding: "utf-8" });
   }
 }
 

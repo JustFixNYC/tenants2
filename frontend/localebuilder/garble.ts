@@ -111,11 +111,11 @@ const handleEnglish = (s: GarblerState, untilChar?: string) => {
 const handleVariable: StateHandler = (s) => {
   s.next();
   for (let ch of s) {
-    if (ch === '{') {
+    if (ch === "{") {
       s.pushCode();
-      handleEnglish(s, '}');
+      handleEnglish(s, "}");
       s.next();
-    } else if (ch === '}') {
+    } else if (ch === "}") {
       s.pushCode();
       s.next();
       return;

@@ -1079,8 +1079,8 @@ msgid "Where do I find this information?"
 msgstr "Where do I find this information?"
 
 #: frontend/lib/norent/letter-builder/ask-city-state.tsx:33
-msgid "Where you live"
-msgstr "Where you live"
+msgid "Where do you live"
+msgstr "Where do you live"
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:30
 msgid "Whether it's your first time here, or you're a returning user, let's start with your number."

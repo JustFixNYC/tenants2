@@ -31,9 +31,9 @@ const handleEnglish: StateHandler = (s) => {
   let { i, source, garbler, parts } = s;
   let start = s.i;
 
-  const pushGarbledEnglish = () => {
+  const pushGarbledEnglish = (): string[] => {
     const english = s.source.substring(start, i);
-    parts = [...parts, garbler(english)];
+    return [...parts, garbler(english)];
   };
 
   while (i < source.length) {
@@ -47,7 +47,7 @@ const handleEnglish: StateHandler = (s) => {
     }
 
     if (newProcessor) {
-      pushGarbledEnglish();
+      parts = pushGarbledEnglish();
       ({ i, parts } = newProcessor({ ...s, i, parts }));
       start = i;
     }
@@ -55,7 +55,7 @@ const handleEnglish: StateHandler = (s) => {
     i++;
   }
 
-  pushGarbledEnglish();
+  parts = pushGarbledEnglish();
 
   return { ...s, i, parts };
 };

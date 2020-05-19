@@ -78,6 +78,25 @@ def test_is_city_in_nyc_works(graphql_client, city, state, expected):
     assert actual is expected
 
 
+@pytest.mark.parametrize('zip_code,expected', [
+    ('', None),
+    ('90210', True),
+    ('11201', False),
+])
+def test_is_in_los_angeles_works(graphql_client, zip_code, expected):
+    update_scaffolding(graphql_client.request, {
+        'zip_code': zip_code,
+    })
+
+    actual = graphql_client.execute(
+        '''
+        query { session { norentScaffolding { isInLosAngeles } } }
+        '''
+    )['data']['session']['norentScaffolding']['isInLosAngeles']
+
+    assert actual is expected
+
+
 def test_email_mutation_updates_session_if_not_logged_in(db, graphql_client):
     output = graphql_client.execute(
         '''

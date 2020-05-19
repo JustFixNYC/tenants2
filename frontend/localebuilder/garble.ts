@@ -53,7 +53,7 @@ class MessageGarbler {
   private processEnglish(i: number) {
     let start = i;
 
-    const pushToParts = () => {
+    const pushGarbledEnglish = () => {
       const english = this.source.substring(start, i);
       this.parts.push(this.garbler(english));
     };
@@ -62,17 +62,17 @@ class MessageGarbler {
       const ch = this.source[i];
 
       if (ch === '{') {
-        pushToParts();
+        pushGarbledEnglish();
         i = this.processVariable(i);
         start = i;
       } else if (ch === '<') {
-        pushToParts();
+        pushGarbledEnglish();
         i = this.processTag(i);
         start = i;
       }
       i++;
     }
 
-    pushToParts();
+    pushGarbledEnglish();
   }
 };

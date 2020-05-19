@@ -24,10 +24,7 @@ import {
   NorentLbKnowYourRights,
   hasUserSeenRttcCheckboxYet,
 } from "./know-your-rights";
-import {
-  isZipCodeInLosAngeles,
-  isLoggedInUserInStateWithProtections,
-} from "./national-metadata";
+import { isLoggedInUserInStateWithProtections } from "./national-metadata";
 import { NorentLbLosAngelesRedirect } from "./la-address-redirect";
 import { PostSignupNoProtections } from "./post-signup-no-protections";
 import { hasNorentLetterBeenSentForThisRentPeriod } from "./step-decorators";
@@ -50,10 +47,7 @@ function isUserLoggedInWithEmail(s: AllSessionInfo): boolean {
 }
 
 function isUserInLA(s: AllSessionInfo): boolean {
-  const norent = s.norentScaffolding;
-  if (!(norent && norent.zipCode)) return false;
-  if (isUserInNYC(s)) return false;
-  return isZipCodeInLosAngeles(norent.zipCode);
+  return s.norentScaffolding?.isInLosAngeles ?? false;
 }
 
 function isUserOutsideLA(s: AllSessionInfo): boolean {

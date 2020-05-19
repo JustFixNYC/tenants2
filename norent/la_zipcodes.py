@@ -1,4 +1,4 @@
-export const LosAngelesZipCodes: string[] = [
+LOS_ANGELES_ZIP_CODES = set([
   "90713",
   "91306",
   "90002",
@@ -369,4 +369,4 @@ export const LosAngelesZipCodes: string[] = [
   "90601",
   "90630",
   "91759",
-];
+])

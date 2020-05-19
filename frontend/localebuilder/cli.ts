@@ -13,6 +13,8 @@ import {
 import { argvHasOption } from "../querybuilder/util";
 import { checkExtractedMessagesSync } from "./check-extracted-messages";
 import { assertNotUndefined } from "../lib/util/util";
+import PO from "pofile";
+import { garbleMessage, Garbler } from "./garble";
 
 const MY_DIR = __dirname;
 
@@ -57,19 +59,21 @@ const SPLIT_CHUNK_CONFIGS: MessageCatalogSplitterChunkConfig[] = [
   },
 ];
 
+function readTextFileSync(path: string): string {
+  return fs.readFileSync(path, {
+    encoding: "utf-8",
+  });
+}
+
 /**
  * Split up the message catalog for a single locale.
  */
 function processLocale(paths: MessageCatalogPaths, validate: boolean) {
   console.log(`Processing locale '${paths.locale}'.`);
 
-  const messagesJs = fs.readFileSync(paths.js, {
-    encoding: "utf-8",
-  });
+  const messagesJs = readTextFileSync(paths.js);
   const compiled = parseCompiledMessages(messagesJs);
-  const messagesPo = fs.readFileSync(paths.po, {
-    encoding: "utf-8",
-  });
+  const messagesPo = readTextFileSync(paths.po);
   var extracted = parseExtractedMessages(messagesPo);
   if (validate) {
     extracted.validateIdLengths(MAX_ID_LENGTH);
@@ -82,6 +86,40 @@ function processLocale(paths: MessageCatalogPaths, validate: boolean) {
   splitter.split();
 }
 
+const garbler: Garbler = (text) => {
+  return text.toUpperCase();
+};
+
+function garbleMessageCatalogs(
+  allPaths: MessageCatalogPaths[],
+  defaultPaths: MessageCatalogPaths
+) {
+  const defaultPo = PO.parse(readTextFileSync(defaultPaths.po));
+  const sources = new Map<string, string>();
+
+  for (let item of defaultPo.items) {
+    sources.set(item.msgid, garbleMessage(garbler, item.msgstr.join("")));
+  }
+
+  for (let paths of allPaths) {
+    if (paths === defaultPaths) continue;
+    const localePo = PO.parse(readTextFileSync(paths.po));
+
+    for (let item of localePo.items) {
+      const garbled = sources.get(item.msgid);
+      if (!garbled) {
+        throw new Error(
+          `${defaultPaths.locale} source not found for msgid "${item.msgid}"!`
+        );
+      }
+      item.msgstr = [garbled];
+    }
+
+    console.log(`Garbling ${paths.po}.`);
+    fs.writeFileSync(paths.po, localePo.toString(), { encoding: 'utf-8'});
+  }
+}
+
 /**
  * Main function to run the localebuilder CLI.
  */
@@ -90,6 +128,7 @@ export function run() {
     console.log(`usage: ${process.argv[1]} [OPTIONS]`);
     console.log(`options:\n`);
     console.log("  --check         Ensure PO files are up to date");
+    console.log("  --garble        Enact gobbledygook translation");
     console.log("  -h / --help     Show this help");
     console.log("  -v / --version  Show the version number");
     process.exit(0);
@@ -104,6 +143,11 @@ export function run() {
 
   if (argvHasOption("--check")) {
     checkExtractedMessagesSync(defaultPath.po, EXTRACT_CMD);
+    process.exit(0);
+  }
+
+  if (argvHasOption("--garble")) {
+    garbleMessageCatalogs(allPaths, defaultPath);
     process.exit(0);
   }
 

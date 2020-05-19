@@ -86,13 +86,14 @@ function processLocale(paths: MessageCatalogPaths, validate: boolean) {
   splitter.split();
 }
 
-const garbler: Garbler = (text) => {
-  return text.toUpperCase();
+const defaultGarbler: Garbler = (text) => {
+  return text.replace(/[A-Za-z]/g, '?');
 };
 
 function garbleMessageCatalogs(
   allPaths: MessageCatalogPaths[],
-  defaultPaths: MessageCatalogPaths
+  defaultPaths: MessageCatalogPaths,
+  garbler: Garbler = defaultGarbler
 ) {
   const defaultPo = PO.parse(readTextFileSync(defaultPaths.po));
   const sources = new Map<string, string>();

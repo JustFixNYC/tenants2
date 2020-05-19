@@ -37,7 +37,7 @@
   },
   "FL": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis until May 17, 2020."
+    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis until June 2, 2020."
   },
   "GA": {
     "stateWithoutProtections": true,
@@ -160,7 +160,8 @@
     "stateWithoutProtections": true
   },
   "TN": {
-    "stateWithoutProtections": true
+    "stateWithoutProtections": false,
+    "textOfLegislation": "The Tennessee Supreme Court has ordered that no court shall take any action to evict or displace tenants due to non-payment of rent until May 31, 2020."
   },
   "TX": {
     "stateWithoutProtections": true,

@@ -26,11 +26,11 @@ class MessageGarbler {
     return this.parts.join('');
   }
 
-  private processVariable(i: number): number {
+  private chompUntil(i: number, char: string): number {
     while (i < this.source.length) {
       const ch = this.source[i];
 
-      if (ch === '}') {
+      if (ch === char) {
         this.parts.push(ch);
         return i + 1;
       } else {
@@ -42,22 +42,37 @@ class MessageGarbler {
     return i;
   }
 
+  private processVariable(i: number): number {
+    return this.chompUntil(i, '}');
+  }
+
+  private processTag(i: number): number {
+    return this.chompUntil(i, '>');
+  }
+
   private processEnglish(i: number) {
     let start = i;
+
+    const pushToParts = () => {
+      const english = this.source.substring(start, i);
+      this.parts.push(this.garbler(english));
+    };
 
     while (i < this.source.length) {
       const ch = this.source[i];
 
       if (ch === '{') {
-        const english = this.source.substring(start, i);
-        this.parts.push(this.garbler(english));
+        pushToParts();
         i = this.processVariable(i);
+        start = i;
+      } else if (ch === '<') {
+        pushToParts();
+        i = this.processTag(i);
         start = i;
       }
       i++;
     }
 
-    const english = this.source.substring(start, i);
-    this.parts.push(this.garbler(english));
+    pushToParts();
   }
 };

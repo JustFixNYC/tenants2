@@ -1,6 +1,8 @@
 from typing import Optional
 import pydantic
 
+from .la_zipcodes import LOS_ANGELES_ZIP_CODES
+
 
 # This should change whenever our scaffolding model's fields change.
 VERSION = '1'
@@ -73,3 +75,8 @@ class NorentScaffolding(pydantic.BaseModel):
         if not (self.state and self.city):
             return None
         return self.state == "NY" and self.city.lower() in NYC_CITIES
+
+    def is_zip_code_in_la(self) -> Optional[bool]:
+        if not self.zip_code:
+            return None
+        return self.zip_code in LOS_ANGELES_ZIP_CODES

@@ -27,7 +27,7 @@ function safeGetUSStateChoice(state: string): USStateChoice | null {
 
 const BaselineField: React.FC<CityAndStateFieldProps> = (props) => (
   <>
-    <TextualFormField {...props.cityProps} label="City" />
+    <TextualFormField {...props.cityProps} label="City/township/borough" />
     <USStateFormField {...props.stateProps} />
   </>
 );
@@ -50,7 +50,7 @@ const EnhancedField: React.FC<
 
   return (
     <MapboxCityAutocomplete
-      label="What city do you live in?"
+      label="City/township/borough"
       initialValue={initialValue}
       onChange={(item) => {
         cityProps.onChange(item.city);

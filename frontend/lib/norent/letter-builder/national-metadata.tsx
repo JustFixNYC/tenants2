@@ -3,7 +3,6 @@ import {
   USStateChoice,
   isUSStateChoice,
 } from "../../../../common-data/us-state-choices";
-import { LosAngelesZipCodes } from "../data/la-zipcodes";
 import { AllSessionInfo } from "../../queries/AllSessionInfo.js";
 import { useContext } from "react";
 import { AppContext } from "../../app-context";
@@ -171,14 +170,6 @@ export const getNorentMetadataForUSState = (state: USStateChoice) => {
     docs: localizedMetadata.documentationRequirements[state],
     legalAid: localizedMetadata.legalAidProviders[state],
   };
-};
-
-/**
- * Return a boolean determining whether a given zipcode is within
- * our array of Los Angeles County zipcodes.
- */
-export const isZipCodeInLosAngeles = (zipCode: string) => {
-  return LosAngelesZipCodes.includes(zipCode);
 };
 
 /**

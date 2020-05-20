@@ -43,6 +43,7 @@ describe("NoRent letter builder steps", () => {
       city: "Los Angeles",
       state: "CA",
       zipCode: "90210",
+      isInLosAngeles: true,
     }),
     startingAtStep: "/en/letter/kyr",
     expectSteps: [

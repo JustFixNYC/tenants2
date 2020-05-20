@@ -7,6 +7,7 @@ import {
   RouteComponentProps,
 } from "react-router-dom";
 import { smoothlyScrollToLocation } from "../util/scrolling";
+import { resolveLocationDescriptor } from "../util/react-router-util";
 
 export type ScrollyLinkProps = Omit<LinkProps, "onClick">;
 
@@ -20,7 +21,7 @@ export const ScrollyLink = withRouter(
     const { staticContext, ...linkProps } = props;
     const handleClick = () => {
       const toLoc = history.createLocation(
-        props.to,
+        resolveLocationDescriptor(props.to, props.location),
         undefined,
         undefined,
         props.location

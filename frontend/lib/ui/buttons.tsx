@@ -3,7 +3,7 @@ import classnames from "classnames";
 
 import { bulmaClasses, BulmaClassName } from "./bulma";
 import { Link, LinkProps } from "react-router-dom";
-import { LocationDescriptor } from "history";
+import { LocationDescriptorOrResolver } from "../util/react-router-util";
 
 type ProgressButtonsOptions =
   | {
@@ -11,7 +11,7 @@ type ProgressButtonsOptions =
     }
   | {
       children?: undefined;
-      back: string;
+      back: LocationDescriptorOrResolver<any>;
       isLoading: boolean;
       nextLabel?: string;
     };
@@ -43,9 +43,9 @@ export function ProgressButtons(props: ProgressButtonsOptions) {
  * as in they don't involve any form submission or mutation.
  */
 export function ProgressButtonsAsLinks(props: {
-  back: LocationDescriptor<any>;
+  back: LocationDescriptorOrResolver<any>;
   backLabel?: string;
-  next: LocationDescriptor<any>;
+  next: LocationDescriptorOrResolver<any>;
   nextLabel?: string;
 }): JSX.Element {
   return (
@@ -64,7 +64,7 @@ export function ProgressButtonsAsLinks(props: {
 /** A back button, meant to go back to the previous step in a flow. */
 export function BackButton(props: {
   buttonClass?: BulmaClassName;
-  to: LocationDescriptor<any>;
+  to: LocationDescriptorOrResolver<any>;
   label?: string;
 }): JSX.Element {
   return (

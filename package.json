@@ -54,13 +54,13 @@
     "@types/webpack-node-externals": "1.7.0",
     "@typescript-eslint/eslint-plugin": "2.32.0",
     "@typescript-eslint/parser": "2.32.0",
-    "babel-jest": "25.1.0",
+    "babel-jest": "26.0.1",
     "chokidar": "3.3.0",
     "concurrently": "3.6.1",
     "dotenv": "8.2.0",
     "eslint": "^6.8.0",
     "eslint-plugin-react-hooks": "^3.0.0",
-    "jest": "25.1.0",
+    "jest": "26.0.1",
     "prettier": "2.0.4",
     "webpack-bundle-analyzer": "3.6.0"
   },
@@ -68,7 +68,7 @@
     "@types/react": "16.8.22"
   },
   "dependencies": {
-    "@babel/core": "7.7.5",
+    "@babel/core": "7.9.6",
     "@babel/plugin-proposal-class-properties": "7.7.4",
     "@babel/plugin-proposal-decorators": "7.7.4",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.7.4",

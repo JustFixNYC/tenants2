@@ -3,6 +3,7 @@ from typing import Optional, Dict, Any, List, Type
 from django.contrib.auth import login
 from django.conf import settings
 from django.http import HttpRequest
+from django.utils import translation
 import graphene
 from graphql import ResolveInfo
 from graphene_django.types import DjangoObjectType
@@ -99,6 +100,7 @@ def complete_onboarding(request, info, password: Optional[str]) -> JustfixUser:
             email=info['email'],
             phone_number=info['phone_number'],
             password=password,
+            locale=translation.get_language_from_request(request, check_path=True),
         )
 
         oi = OnboardingInfo(user=user, **pick_model_fields(

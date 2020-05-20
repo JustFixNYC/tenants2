@@ -55,7 +55,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
     fieldsets = (
         ('Personal info', {'fields': (
             'first_name', 'last_name', 'email', 'is_email_verified',
-            'phone_number', 'phone_number_lookup_details'
+            'phone_number', 'phone_number_lookup_details', 'locale',
         )}),
         ('Username and password', {
             'fields': ('username', 'password'),

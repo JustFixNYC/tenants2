@@ -12,19 +12,10 @@ const nodeExternals = require("webpack-node-externals");
 const LoadablePlugin = require("@loadable/webpack-plugin");
 const NotifyServerOfNewBuildPlugin = require("./notify-server-of-new-build");
 const { getEnvBoolean } = require("./env-util");
+const { DEV_DEPS_AVAIL } = require("./are-dev-deps-available");
 
 /** Are we in watch mode, or are we being run as a one-off process? */
 const IN_WATCH_MODE = process.argv.includes("--watch");
-
-/** @type {boolean} Whether or not development dependencies are installed. */
-let DEV_DEPS_AVAIL = (() => {
-  try {
-    require("dotenv");
-    return true;
-  } catch (e) {
-    return false;
-  }
-})();
 
 const BASE_DIR = path.resolve(path.join(__dirname, "..", ".."));
 

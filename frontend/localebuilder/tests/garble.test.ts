@@ -14,6 +14,12 @@ describe("garbleMessage()", () => {
     expect(garble("Hello world")).toBe("X X");
   });
 
+  it("Doesn't garble gettext variables", () => {
+    expect(garble("Hello %(first_name)s how goes")).toBe(
+      "X %(first_name)s X X"
+    );
+  });
+
   it("Doesn't garble tags", () => {
     expect(garble("<0>Hello world</0> <1/>")).toBe("<0>X X</0> <1/>");
   });

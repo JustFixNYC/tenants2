@@ -136,7 +136,7 @@
     "textOfLegislation": "TODO: Translate text of legislation to Spanish!"
   },
   "NY": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "TODO: Translate text of legislation to Spanish!"
   },
   "OH": {

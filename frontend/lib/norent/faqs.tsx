@@ -118,9 +118,7 @@ export const NorentFaqsPage: React.FC<{}> = () => {
           <div className="container jf-tight-container">
             <br />
             {FAQS_PAGE_CATEGORIES_IN_ORDER.map((category, i) => {
-              const faqs = allFaqs.filter(
-                (faq) => faq.category === category
-              );
+              const faqs = allFaqs.filter((faq) => faq.category === category);
 
               const formatCategoryID = function (
                 categoryTitle: string

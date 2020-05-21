@@ -610,10 +610,6 @@ msgstr "Log in"
 msgid "Log out"
 msgstr "Log out"
 
-#: frontend/lib/norent/letter-builder/welcome.tsx:18
-msgid "Look's like you've been here before. Click \"Next\" to be taken to where you left off."
-msgstr ""
-
 #: frontend/lib/norent/letter-builder/error-pages.tsx:31
 msgid "Looks like you're already logged in"
 msgstr "Looks like you're already logged in"
@@ -629,6 +625,10 @@ msgstr "Looks like you're not logged in"
 #: frontend/lib/norent/letter-builder/error-pages.tsx:21
 msgid "Looks like you've already sent a letter"
 msgstr "Looks like you've already sent a letter"
+
+#: frontend/lib/norent/letter-builder/welcome.tsx:18
+msgid "Looks like you've been here before. Click \"Next\" to be taken to where you left off."
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/la-address-redirect.tsx:11
 msgid "Los Angeles County"

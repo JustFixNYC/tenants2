@@ -1,5 +1,6 @@
 from typing import NamedTuple
 from django import forms
+from django.utils.translation import gettext as _
 import graphene
 
 from project import geocoding
@@ -67,7 +68,7 @@ def verify_address(address: str, borough: str) -> AddressVerificationResult:
     elif len(features) == 0:
         # The geocoding service is available, but the
         # address produces no results.
-        raise forms.ValidationError('The address provided is invalid.')
+        raise forms.ValidationError(_('The address provided is invalid.'))
     else:
         address_verified = True
         props = features[0].properties

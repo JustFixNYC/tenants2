@@ -14,6 +14,8 @@ import {
   USStateChoice,
   isUSStateChoice,
 } from "../../../common-data/us-state-choices";
+import { li18n } from "../i18n-lingui";
+import { t } from "@lingui/macro";
 
 export type CityAndStateFieldProps = {
   cityProps: BaseFormFieldProps<string>;
@@ -25,9 +27,11 @@ function safeGetUSStateChoice(state: string): USStateChoice | null {
   return null;
 }
 
+const getCityLabel = () => li18n._(t`City/township/borough`);
+
 const BaselineField: React.FC<CityAndStateFieldProps> = (props) => (
   <>
-    <TextualFormField {...props.cityProps} label="City/township/borough" />
+    <TextualFormField {...props.cityProps} label={getCityLabel()} />
     <USStateFormField {...props.stateProps} />
   </>
 );
@@ -50,7 +54,7 @@ const EnhancedField: React.FC<
 
   return (
     <MapboxCityAutocomplete
-      label="City/township/borough"
+      label={getCityLabel()}
       initialValue={initialValue}
       onChange={(item) => {
         cityProps.onChange(item.city);

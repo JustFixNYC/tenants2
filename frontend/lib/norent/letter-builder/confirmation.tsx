@@ -125,7 +125,7 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
           </p>
         )}
         {stateName && (
-          <LetterBuilderAccordion question="Find out more">
+          <LetterBuilderAccordion question={li18n._(t`Find out more`)}>
             <article className="message">
               <div className="message-body has-background-grey-lighter has-text-left">
                 {needsToSendLandlord && (

@@ -227,7 +227,7 @@ const CollectiveOrganizing = () => (
 );
 
 /**
- * All content for FAQ entries throughout the site.
+ * Get all content for FAQ entries throughout the site.
  *
  * The order of entries in this array determines the order in which entries appear on the FAQs page,
  * once entries are sorted by category.
@@ -235,7 +235,7 @@ const CollectiveOrganizing = () => (
  * For any FAQ preview section, only entries that have priorityInPreview defined will be shown,
  * and these entries will be sorted by their priorityInPreview number.
  */
-export const FaqsContent: Faq[] = [
+export const getFaqsContent: () => Faq[] = () => [
   {
     question: li18n._(t`I'm scared. What happens if my landlord retaliates?`),
     category: "After Sending Your Letter",
@@ -582,20 +582,24 @@ export type FaqWithPreviewOptions = Faq & {
 };
 
 /**
- * A list of all FAQs with preview options, pre-sorted to reflect
+ * Return a list of all FAQs with preview options, pre-sorted to reflect
  * their priority.
  */
-export const FaqsWithPreviewContent: FaqWithPreviewOptions[] = [];
+export const getFaqsWithPreviewContent: () => FaqWithPreviewOptions[] = () => {
+  const results = [];
 
-for (let faq of FaqsContent) {
-  const { previewOptions } = faq;
-  if (previewOptions) {
-    FaqsWithPreviewContent.push({ ...faq, previewOptions });
+  for (let faq of getFaqsContent()) {
+    const { previewOptions } = faq;
+    if (previewOptions) {
+      results.push({ ...faq, previewOptions });
+    }
   }
-}
 
-FaqsWithPreviewContent.sort(
-  (faq1, faq2) =>
-    faq1.previewOptions.priorityInPreview -
-    faq2.previewOptions.priorityInPreview
-);
+  results.sort(
+    (faq1, faq2) =>
+      faq1.previewOptions.priorityInPreview -
+      faq2.previewOptions.priorityInPreview
+  );
+
+  return results;
+};

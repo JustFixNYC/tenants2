@@ -4,11 +4,11 @@ import { getImageSrc, JumpArrow } from "./homepage";
 import { Link } from "react-router-dom";
 import { NorentRoutes } from "./routes";
 import {
-  FaqsContent,
+  getFaqsContent,
   Faq,
   FaqCategory,
   getFaqCategoryLabels,
-  FaqsWithPreviewContent,
+  getFaqsWithPreviewContent,
 } from "./data/faqs-content";
 import Page from "../ui/page";
 import { ScrollyLink } from "../ui/scrolly-link";
@@ -72,7 +72,7 @@ export const NorentFaqsPreview = () => {
           </h3>
           <br />
           <div className="jf-space-below-2rem">
-            {generateFaqsListFromData(FaqsWithPreviewContent, true)}
+            {generateFaqsListFromData(getFaqsWithPreviewContent(), true)}
           </div>
           <Link
             to={NorentRoutes.locale.faqs}
@@ -87,6 +87,8 @@ export const NorentFaqsPreview = () => {
 };
 
 export const NorentFaqsPage: React.FC<{}> = () => {
+  const allFaqs = getFaqsContent();
+
   return (
     <Page title={li18n._(t`FAQs`)} className="content">
       <section className="hero is-medium">
@@ -116,7 +118,7 @@ export const NorentFaqsPage: React.FC<{}> = () => {
           <div className="container jf-tight-container">
             <br />
             {FAQS_PAGE_CATEGORIES_IN_ORDER.map((category, i) => {
-              const faqs = FaqsContent.filter(
+              const faqs = allFaqs.filter(
                 (faq) => faq.category === category
               );
 

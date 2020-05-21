@@ -22,18 +22,18 @@ def get_model_field_kwargs() -> Dict[str, Any]:
 def validate_phone_number(value: str) -> None:
     if len(value) != PHONE_NUMBER_LEN:
         raise ValidationError(
-            _('U.S. phone numbers must be %(PHONE_NUMBER_LEN)s digits.' % {
-                'PHONE_NUMBER_LEN': PHONE_NUMBER_LEN,
-            })
+            _('U.S. phone numbers must be %(phone_number_len)s digits.') % {
+                'phone_number_len': PHONE_NUMBER_LEN,
+            }
         )
     if not ALL_DIGITS_RE.fullmatch(value):
         raise ValidationError(_('Phone numbers can only contain digits.'))
     if value[0] in ('0', '1'):
         # 0 and 1 are invalid leading digits of area codes:
         # https://en.wikipedia.org/wiki/List_of_North_American_Numbering_Plan_area_codes
-        raise ValidationError(_('%(areacode)s is an invalid area code.' % {
+        raise ValidationError(_('%(areacode)s is an invalid area code.') % {
             'areacode': value[0:3],
-        }))
+        })
 
 
 def humanize(phone_number: str) -> str:

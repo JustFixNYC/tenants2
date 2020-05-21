@@ -2,6 +2,7 @@ import re
 from typing import Dict, Any
 
 from django import forms
+from django.utils.translation import gettext as _
 from django.core.exceptions import ValidationError
 
 
@@ -20,13 +21,19 @@ def get_model_field_kwargs() -> Dict[str, Any]:
 
 def validate_phone_number(value: str) -> None:
     if len(value) != PHONE_NUMBER_LEN:
-        raise ValidationError(f'U.S. phone numbers must be {PHONE_NUMBER_LEN} digits.')
+        raise ValidationError(
+            _('U.S. phone numbers must be %(PHONE_NUMBER_LEN)s digits.' % {
+                'PHONE_NUMBER_LEN': PHONE_NUMBER_LEN,
+            })
+        )
     if not ALL_DIGITS_RE.fullmatch(value):
-        raise ValidationError(f'Phone numbers can only contain digits.')
+        raise ValidationError(_('Phone numbers can only contain digits.'))
     if value[0] in ('0', '1'):
         # 0 and 1 are invalid leading digits of area codes:
         # https://en.wikipedia.org/wiki/List_of_North_American_Numbering_Plan_area_codes
-        raise ValidationError(f'{value[0:3]} is an invalid area code.')
+        raise ValidationError(_('%(areacode)s is an invalid area code.' % {
+            'areacode': value[0:3],
+        }))
 
 
 def humanize(phone_number: str) -> str:
@@ -57,9 +64,9 @@ class USPhoneNumberField(forms.CharField):
             # The user specified the country calling code, remove it.
             cleaned = cleaned[1:]
         if len(cleaned) != PHONE_NUMBER_LEN:
-            raise ValidationError(
+            raise ValidationError(_(
                 'This does not look like a U.S. phone number. '
                 'Please include the area code, e.g. (555) 123-4567.'
-            )
+            ))
         validate_phone_number(cleaned)
         return cleaned

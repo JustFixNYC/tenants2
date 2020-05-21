@@ -1,4 +1,3 @@
-from unittest.mock  import MagicMock
 from django.utils import timezone
 import pytest
 

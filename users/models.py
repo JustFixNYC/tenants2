@@ -8,6 +8,7 @@ from django.utils.crypto import get_random_string
 from texting import twilio
 from project.util.site_util import absolute_reverse
 from project.util import phone_number as pn
+from project.locales import LOCALE_KWARGS
 from .permission_util import ModelPermissions
 
 
@@ -116,6 +117,11 @@ class JustfixUser(AbstractUser):
             "Whether the user has verified that they 'own' their email "
             "address by clicking on a link we emailed them."
         ),
+    )
+
+    locale = models.CharField(
+        **LOCALE_KWARGS,
+        help_text="The user's preferred locale/language.",
     )
 
     objects = JustfixUserManager()

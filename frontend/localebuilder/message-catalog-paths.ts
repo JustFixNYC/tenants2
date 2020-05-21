@@ -26,6 +26,12 @@ export type MessageCatalogPaths = {
    * (PO) for the locale.
    */
   po: string;
+
+  /**
+   * The absolute path to the extracted Django message catalog
+   * (PO) for the locale.
+   */
+  djangoPo: string;
 };
 
 /**
@@ -44,8 +50,9 @@ export function getAllMessageCatalogPaths(
     if (!stat.isDirectory()) return;
     const js = path.join(abspath, "messages.js");
     const po = path.join(abspath, "messages.po");
+    const djangoPo = path.join(abspath, "LC_MESSAGES", "django.po");
     if (fs.existsSync(js) && fs.existsSync(po)) {
-      result.push({ locale: filename, rootDir: abspath, js, po });
+      result.push({ locale: filename, rootDir: abspath, js, po, djangoPo });
     }
   });
 

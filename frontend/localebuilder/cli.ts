@@ -106,6 +106,8 @@ function garbleMessageCatalogs(
     if (paths === defaultPaths) continue;
     const localePo = PO.parse(readTextFileSync(paths.po));
 
+    console.log(`Garbling ${paths.po}.`);
+
     for (let item of localePo.items) {
       const garbled = sources.get(item.msgid);
       if (!garbled) {
@@ -116,8 +118,19 @@ function garbleMessageCatalogs(
       item.msgstr = [garbled];
     }
 
-    console.log(`Garbling ${paths.po}.`);
     fs.writeFileSync(paths.po, localePo.toString(), { encoding: "utf-8" });
+
+    console.log(`Garbling ${paths.djangoPo}`);
+    const djangoPo = PO.parse(readTextFileSync(paths.djangoPo));
+
+    for (let item of djangoPo.items) {
+      const garbled = garbleMessage(garbler, item.msgid);
+      item.msgstr = [garbled];
+    }
+
+    fs.writeFileSync(paths.djangoPo, djangoPo.toString(), {
+      encoding: "utf-8",
+    });
   }
 }
 

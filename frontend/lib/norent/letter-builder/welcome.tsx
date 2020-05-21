@@ -26,7 +26,7 @@ const WelcomePage: React.FC<ProgressStepProps> = (props) => {
       {session.phoneNumber ? (
         <p>
           <Trans>
-            Look's like you've been here before. Click "Next" to be taken to
+            Looks like you've been here before. Click "Next" to be taken to
             where you left off.
           </Trans>
         </p>

@@ -129,7 +129,7 @@
     "stateWithoutProtections": true
   },
   "NY": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "Tenants in New York State are protected from eviction until June 20, 2020 by Executive Order 202.8, issued by Governor Andrew Cuomo on March 20, 2020."
   },
   "OH": {

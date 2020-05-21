@@ -102,7 +102,7 @@ describe("NoRent letter builder steps", () => {
     expectSteps: [
       "/en/letter/terms",
       "/en/letter/kyr",
-      "/en/letter/landlord/name",
+      "/en/letter/post-signup-no-protections",
     ],
   });
 

@@ -23,7 +23,7 @@ describe("<NorentLbKnowYourRights>", () => {
   };
 
   it("shows KYR info for states w/ protections", () => {
-    const pal = createPal("NY");
+    const pal = createPal("CA");
     pal.rr.getByText(/support once you’ve sent your letter/i);
   });
 
@@ -38,7 +38,7 @@ describe("<NorentLbKnowYourRights>", () => {
   });
 
   it("defaults RTTC checkbox to checked", () => {
-    const pal = createPal("NY");
+    const pal = createPal("CA");
     const checkbox = pal.rr.getByLabelText(
       /contact me to provide/
     ) as HTMLInputElement;

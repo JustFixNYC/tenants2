@@ -26,14 +26,16 @@ export function getFaqCategoryLabels(): FaqCategoryLabels {
   };
 }
 
+type FaqPreviewOptions = {
+  priorityInPreview: number; // Not Localized
+  answerPreview: React.ReactNode; // Localized
+};
+
 export type Faq = {
   question: string; // Localized
   category: FaqCategory; // Not localized here, but gets localized in the front-end by the getFaqCategoryLabels() function
   answerFull: React.ReactNode; // Localized
-  previewOptions?: {
-    priorityInPreview: number; // Not Localized
-    answerPreview: React.ReactNode; // Localized
-  };
+  previewOptions?: FaqPreviewOptions;
 };
 
 // COMMON OUTBOUND LINKS
@@ -574,3 +576,26 @@ export const FaqsContent: Faq[] = [
     answerFull: <CollectiveOrganizing />,
   },
 ];
+
+export type FaqWithPreviewOptions = Faq & {
+  previewOptions: FaqPreviewOptions;
+};
+
+/**
+ * A list of all FAQs with preview options, pre-sorted to reflect
+ * their priority.
+ */
+export const FaqsWithPreviewContent: FaqWithPreviewOptions[] = [];
+
+for (let faq of FaqsContent) {
+  const { previewOptions } = faq;
+  if (previewOptions) {
+    FaqsWithPreviewContent.push({ ...faq, previewOptions });
+  }
+}
+
+FaqsWithPreviewContent.sort(
+  (faq1, faq2) =>
+    faq1.previewOptions.priorityInPreview -
+    faq2.previewOptions.priorityInPreview
+);

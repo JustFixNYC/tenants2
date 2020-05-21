@@ -8,6 +8,7 @@ import {
   Faq,
   FaqCategory,
   getFaqCategoryLabels,
+  FaqsWithPreviewContent,
 } from "./data/faqs-content";
 import Page from "../ui/page";
 import { ScrollyLink } from "../ui/scrolly-link";
@@ -56,19 +57,6 @@ export const ChevronIcon = () => (
 );
 
 export const NorentFaqsPreview = () => {
-  const FaqsPreviewContent = FaqsContent.filter(
-    (faq) => faq.previewOptions
-  ).sort((faq1, faq2) =>
-    // This implementation of the "sort" function is definitely messy,
-    // but typescript requires that we check to make sure each value we reference isn't undefined.
-    // Something to rethink at a later date, perhaps...
-    faq1.previewOptions?.priorityInPreview &&
-    faq2.previewOptions?.priorityInPreview
-      ? faq1.previewOptions.priorityInPreview -
-        faq2.previewOptions.priorityInPreview
-      : 0
-  );
-
   return (
     <section className="hero jf-faqs-preview">
       <div className="hero-body">
@@ -84,7 +72,7 @@ export const NorentFaqsPreview = () => {
           </h3>
           <br />
           <div className="jf-space-below-2rem">
-            {generateFaqsListFromData(FaqsPreviewContent, true)}
+            {generateFaqsListFromData(FaqsWithPreviewContent, true)}
           </div>
           <Link
             to={NorentRoutes.locale.faqs}

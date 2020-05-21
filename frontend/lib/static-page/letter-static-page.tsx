@@ -1,6 +1,7 @@
 import React from "react";
 import { StaticPage } from "./static-page";
 import { LambdaResponseHttpHeaders } from "../../lambda/lambda-response-http-headers";
+import i18n from "../i18n";
 
 type LetterStylesCss = {
   /** Inline CSS to embed when generating PDFs from HTML. */
@@ -47,7 +48,7 @@ export const LetterStaticPage: React.FC<
   LetterStylesProps & { title: string; children: React.ReactChild }
 > = ({ isPdf, title, children, css }) => (
   <StaticPage httpHeaders={isPdf ? PDF_HEADERS : HTML_HEADERS}>
-    <html>
+    <html lang={i18n.locale}>
       <head>
         <meta charSet="utf-8" />
         <LetterStyles css={css} isPdf={isPdf} />

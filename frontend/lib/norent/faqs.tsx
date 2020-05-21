@@ -4,10 +4,11 @@ import { getImageSrc, JumpArrow } from "./homepage";
 import { Link } from "react-router-dom";
 import { NorentRoutes } from "./routes";
 import {
-  FaqsContent,
+  getFaqsContent,
   Faq,
   FaqCategory,
   getFaqCategoryLabels,
+  getFaqsWithPreviewContent,
 } from "./data/faqs-content";
 import Page from "../ui/page";
 import { ScrollyLink } from "../ui/scrolly-link";
@@ -56,19 +57,6 @@ export const ChevronIcon = () => (
 );
 
 export const NorentFaqsPreview = () => {
-  const FaqsPreviewContent = FaqsContent.filter(
-    (faq) => faq.previewOptions
-  ).sort((faq1, faq2) =>
-    // This implementation of the "sort" function is definitely messy,
-    // but typescript requires that we check to make sure each value we reference isn't undefined.
-    // Something to rethink at a later date, perhaps...
-    faq1.previewOptions?.priorityInPreview &&
-    faq2.previewOptions?.priorityInPreview
-      ? faq1.previewOptions.priorityInPreview -
-        faq2.previewOptions.priorityInPreview
-      : 0
-  );
-
   return (
     <section className="hero jf-faqs-preview">
       <div className="hero-body">
@@ -84,7 +72,7 @@ export const NorentFaqsPreview = () => {
           </h3>
           <br />
           <div className="jf-space-below-2rem">
-            {generateFaqsListFromData(FaqsPreviewContent, true)}
+            {generateFaqsListFromData(getFaqsWithPreviewContent(), true)}
           </div>
           <Link
             to={NorentRoutes.locale.faqs}
@@ -99,6 +87,8 @@ export const NorentFaqsPreview = () => {
 };
 
 export const NorentFaqsPage: React.FC<{}> = () => {
+  const allFaqs = getFaqsContent();
+
   return (
     <Page title={li18n._(t`FAQs`)} className="content">
       <section className="hero is-medium">
@@ -128,9 +118,7 @@ export const NorentFaqsPage: React.FC<{}> = () => {
           <div className="container jf-tight-container">
             <br />
             {FAQS_PAGE_CATEGORIES_IN_ORDER.map((category, i) => {
-              const faqs = FaqsContent.filter(
-                (faq) => faq.category === category
-              );
+              const faqs = allFaqs.filter((faq) => faq.category === category);
 
               const formatCategoryID = function (
                 categoryTitle: string

@@ -4,9 +4,9 @@ import logging
 from django.http import FileResponse
 from django.conf import settings
 from django.urls import reverse
-from django.utils import timezone
+from django.utils import timezone, translation
 
-from project import slack
+from project import slack, locales
 from project.util.email_attachment import email_file_response_as_attachment
 from project.util.html_to_text import html_to_text
 from project.lambda_response import LambdaResponse
@@ -36,10 +36,11 @@ def render_static_content_via_react(
     user: JustfixUser,
     url: str,
     expected_content_type: str,
+    locale: str,
 ) -> LambdaResponse:
     '''
     Renders the given front-end URL in a React lambda process,
-    automatically prefixing it with the current locale, and
+    automatically prefixing it with the given locale, and
     verifies that it was successful and of the expected
     content type.
     '''
@@ -47,12 +48,13 @@ def render_static_content_via_react(
     # Ugh, need to do this to avoid a circular import.
     from project.views import render_raw_lambda_static_content
 
-    full_url = f"{reverse('react')}{url}"
-    lr = render_raw_lambda_static_content(
-        url=full_url,
-        site=get_site_of_type(SITE_CHOICES.NORENT),
-        user=user,
-    )
+    with translation.override(locale):
+        full_url = f"{reverse('react')}{url}"
+        lr = render_raw_lambda_static_content(
+            url=full_url,
+            site=get_site_of_type(SITE_CHOICES.NORENT),
+            user=user,
+        )
     assert lr is not None, f"Rendering of {full_url} must succeed"
     content_type = lr.http_headers.get('Content-Type')
     assert content_type == expected_content_type, (
@@ -66,17 +68,19 @@ def email_react_rendered_content_with_attachment(
     user: JustfixUser,
     url: str,
     recipients: List[str],
-    attachment: FileResponse
+    attachment: FileResponse,
+    locale: str,
 ) -> None:
     '''
-    Renders an email in the front-end and sends it to
-    the given recipients with the given attachment.
+    Renders an email in the front-end, using the given locale,
+    and sends it to the given recipients with the given attachment.
     '''
 
     lr = render_static_content_via_react(
         user,
         url,
-        "text/plain; charset=utf-8"
+        "text/plain; charset=utf-8",
+        locale=locale
     )
     email_file_response_as_attachment(
         subject=lr.http_headers['X-JustFix-Email-Subject'],
@@ -158,14 +162,15 @@ def email_letter_to_landlord(letter: models.Letter, pdf_bytes: bytes) -> bool:
     ld = letter.user.landlord_details
     assert ld.email
 
-    # TODO: Once we translate to other languages, we'll likely want to
-    # force the locale of this email to English, since that's what the
-    # landlord will read the email as.
     email_react_rendered_content_with_attachment(
         letter.user,
         NORENT_EMAIL_TO_LANDLORD_URL,
         recipients=[ld.email],
         attachment=norent_pdf_response(pdf_bytes),
+
+        # Force the locale of this email to English, since that's what the
+        # landlord will read the email as.
+        locale=locales.DEFAULT,
     )
     letter.letter_emailed_at = timezone.now()
     letter.save()
@@ -177,18 +182,28 @@ def create_letter(user: JustfixUser, rp: models.RentPeriod) -> models.Letter:
     Create a Letter model and set its PDF HTML content.
     '''
 
-    # TODO: Once we translate to other languages, we'll likely want to
-    # force the locale of this letter to English, since that's what the
-    # landlord will read the letter as.
-    lr = render_static_content_via_react(
+    html_content = render_static_content_via_react(
         user,
         NORENT_LETTER_PDF_URL,
-        "application/pdf"
-    )
+        "application/pdf",
+        locale=locales.DEFAULT
+    ).html
+
+    localized_html_content = ''
+    if user.locale != locales.DEFAULT:
+        localized_html_content = render_static_content_via_react(
+            user,
+            NORENT_LETTER_PDF_URL,
+            "application/pdf",
+            locale=user.locale
+        ).html
+
     letter = models.Letter(
         user=user,
+        locale=user.locale,
         rent_period=rp,
-        html_content=lr.html,
+        html_content=html_content,
+        localized_html_content=localized_html_content
     )
     letter.full_clean()
     letter.save()
@@ -223,6 +238,10 @@ def send_letter(letter: models.Letter):
             NORENT_EMAIL_TO_USER_URL,
             recipients=[user.email],
             attachment=norent_pdf_response(pdf_bytes),
+
+            # Use the user's preferred locale, since they will be the one
+            # reading it.
+            locale=user.locale,
         )
 
     slack.sendmsg_async(

@@ -22,6 +22,10 @@ msgstr "(optional)"
 msgid "8 Minutes"
 msgstr "8 Minutes"
 
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:31
+msgid "<0/> makes use of a <1/> and <2/>, which you can review."
+msgstr "<0/> makes use of a <1/> and <2/>, which you can review."
+
 #: frontend/lib/norent/site.tsx:85
 msgid "<0>Homepage</0>"
 msgstr "<0>Homepage</0>"
@@ -67,6 +71,7 @@ msgstr "A national tool by non-profit <0>JustFix.nyc</0>"
 msgid "About"
 msgstr "About"
 
+#: frontend/lib/forms/address-and-borough-form-field.tsx:9
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:99
 msgid "Address"
 msgstr "Address"
@@ -99,6 +104,10 @@ msgstr "Alaska"
 msgid "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
 msgstr "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
 
+#: frontend/lib/forms/apt-number-form-fields.tsx:13
+msgid "Apartment number"
+msgstr "Apartment number"
+
 #: frontend/lib/norent/log-out.tsx:11
 msgid "Are you sure you want to log out?"
 msgstr "Are you sure you want to log out?"
@@ -115,7 +124,11 @@ msgstr "Arizona"
 msgid "Arkansas"
 msgstr "Arkansas"
 
-#: frontend/lib/norent/faqs.tsx:120
+#: frontend/lib/ui/buttons.tsx:38
+msgid "Back"
+msgstr "Back"
+
+#: frontend/lib/norent/faqs.tsx:111
 msgid "Back to top"
 msgstr "Back to top"
 
@@ -131,7 +144,7 @@ msgstr "Before you send your letter, let's review what will be sent to make sure
 msgid "Benefit from the eviction protections that local elected officials have put in place, by notifying your landlord of your inability to pay rent for reasons related to COVID-19"
 msgstr "Benefit from the eviction protections that local elected officials have put in place, by notifying your landlord of your inability to pay rent for reasons related to COVID-19"
 
-#: frontend/lib/norent/faqs.tsx:98
+#: frontend/lib/norent/faqs.tsx:89
 msgid "Browse the FAQs"
 msgstr "Browse the FAQs"
 
@@ -169,6 +182,10 @@ msgstr "California"
 msgid "Can't pay rent?"
 msgstr "Can't pay rent?"
 
+#: frontend/lib/forms/clear-session-button.tsx:9
+msgid "Cancel"
+msgstr "Cancel"
+
 #: frontend/lib/norent/homepage.tsx:70
 msgid "Cancelling rent"
 msgstr "Cancelling rent"
@@ -177,9 +194,13 @@ msgstr "Cancelling rent"
 msgid "Cite up-to-date legal ordinances in your letter"
 msgstr "Cite up-to-date legal ordinances in your letter"
 
-#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:38
+#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:39
 msgid "City"
 msgstr "City"
+
+#: frontend/lib/forms/city-and-state-form-field.tsx:15
+msgid "City/township/borough"
+msgstr "City/township/borough"
 
 #: frontend/lib/norent/data/faqs-content.tsx:31
 msgid "Click here to join MHAction’s movement"
@@ -218,7 +239,7 @@ msgstr "Confirm your new password"
 msgid "Confirming the address"
 msgstr "Confirming the address"
 
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:21
+#: frontend/lib/norent/letter-builder/ask-city-state.tsx:22
 msgid "Confirming the city"
 msgstr "Confirming the city"
 
@@ -259,11 +280,11 @@ msgstr "District of Columbia"
 msgid "Do I have to go to the post office to mail my letter?"
 msgstr "Do I have to go to the post office to mail my letter?"
 
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:23
+#: frontend/lib/norent/letter-builder/ask-city-state.tsx:24
 msgid "Do you live in {0}, {1}?"
 msgstr "Do you live in {0}, {1}?"
 
-#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:22
+#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:23
 msgid "Do you still want to mail to:"
 msgstr "Do you still want to mail to:"
 
@@ -299,7 +320,7 @@ msgstr "Exercise your rights"
 msgid "Explore the tool"
 msgstr "Explore the tool"
 
-#: frontend/lib/norent/faqs.tsx:80
+#: frontend/lib/norent/faqs.tsx:71
 msgid "FAQs"
 msgstr "FAQs"
 
@@ -307,6 +328,10 @@ msgstr "FAQs"
 #: frontend/lib/norent/site.tsx:70
 msgid "Faqs"
 msgstr "Faqs"
+
+#: frontend/lib/norent/letter-builder/confirmation.tsx:85
+msgid "Find out more"
+msgstr "Find out more"
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:26
 msgid "First name"
@@ -320,7 +345,7 @@ msgstr "Florida"
 msgid "Free Certified Mail"
 msgstr "Free Certified Mail"
 
-#: frontend/lib/norent/faqs.tsx:85
+#: frontend/lib/norent/faqs.tsx:76
 msgid "Frequently Asked Questions"
 msgstr "Frequently Asked Questions"
 
@@ -351,6 +376,10 @@ msgstr "Go to website"
 #: frontend/lib/norent/homepage.tsx:69
 msgid "Going on rent strike"
 msgstr "Going on rent strike"
+
+#: frontend/lib/ui/privacy-info-modal.tsx:59
+msgid "Got it!"
+msgstr "Got it!"
 
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"
@@ -423,6 +452,10 @@ msgstr "How do I organize with other tenants in my building, block, or neighborh
 msgid "How it works"
 msgstr "How it works"
 
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:43
+msgid "I agree to the <0/> terms and conditions."
+msgstr "I agree to the <0/> terms and conditions."
+
 #: frontend/lib/norent/letter-builder/create-account.tsx:43
 msgid "I agree to the <0>NoRent.org terms and conditions</0>."
 msgstr "I agree to the <0>NoRent.org terms and conditions</0>."
@@ -430,6 +463,10 @@ msgstr "I agree to the <0>NoRent.org terms and conditions</0>."
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:64
 msgid "I forgot my password"
 msgstr "I forgot my password"
+
+#: frontend/lib/forms/apt-number-form-fields.tsx:15
+msgid "I have no apartment number"
+msgstr "I have no apartment number"
 
 #: frontend/lib/norent/data/faqs-content.tsx:147
 msgid "I'm scared. What happens if my landlord retaliates?"
@@ -724,6 +761,8 @@ msgid "New password"
 msgstr "New password"
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:56
+#: frontend/lib/ui/buttons.tsx:30
+#: frontend/lib/ui/buttons.tsx:48
 msgid "Next"
 msgstr "Next"
 
@@ -785,7 +824,7 @@ msgstr "Our records have shown us a similar address. Would you like to proceed w
 msgid "Our records tell us that this address is invalid."
 msgstr "Our records tell us that this address is invalid."
 
-#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:20
+#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:21
 msgid "Our records tell us that this address is undeliverable."
 msgstr "Our records tell us that this address is undeliverable."
 
@@ -806,10 +845,18 @@ msgstr "Phone number"
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Please <0>go back and choose a state</0>."
 
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:29
+msgid "Please agree to our terms and conditions"
+msgstr "Please agree to our terms and conditions"
+
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:54
 #: frontend/lib/norent/the-letter.tsx:92
 msgid "Preview of your NoRent.org letter"
 msgstr "Preview of your NoRent.org letter"
+
+#: frontend/lib/ui/privacy-info-modal.tsx:25
+msgid "Privacy Policy"
+msgstr "Privacy Policy"
 
 #: common-data/us-state-choices.ts:104
 msgid "Puerto Rico"
@@ -835,7 +882,7 @@ msgstr "Right to the City"
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Right to the City Alliance can contact me to provide additional support."
 
-#: frontend/lib/norent/faqs.tsx:73
+#: frontend/lib/norent/faqs.tsx:63
 msgid "See more FAQs"
 msgstr "See more FAQs"
 
@@ -851,11 +898,11 @@ msgstr "Send your letter by certified mail for free"
 msgid "Send your letter by email"
 msgstr "Send your letter by email"
 
-#: frontend/lib/norent/faqs.tsx:89
+#: frontend/lib/norent/faqs.tsx:80
 msgid "Sending a letter to your landlord is a big step. Check out our frequently asked questions from people who have used our tool:"
 msgstr "Sending a letter to your landlord is a big step. Check out our frequently asked questions from people who have used our tool:"
 
-#: frontend/lib/norent/faqs.tsx:60
+#: frontend/lib/norent/faqs.tsx:50
 msgid "Sending a letter to your landlord is a big step. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
 msgstr "Sending a letter to your landlord is a big step. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
 
@@ -895,6 +942,10 @@ msgstr "South Carolina"
 msgid "South Dakota"
 msgstr "South Dakota"
 
+#: frontend/lib/forms/mailing-address-fields.tsx:7
+msgid "State"
+msgstr "State"
+
 #: frontend/lib/norent/data/faqs-content.tsx:11
 msgid "States with Limited Protections"
 msgstr "States with Limited Protections"
@@ -903,7 +954,7 @@ msgstr "States with Limited Protections"
 msgid "Strategic Actions for a Just Economy"
 msgstr "Strategic Actions for a Just Economy"
 
-#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:37
+#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:38
 msgid "Street address"
 msgstr "Street address"
 
@@ -919,6 +970,10 @@ msgstr "Tenant Rights"
 #: common-data/us-state-choices.ts:108
 msgid "Tennessee"
 msgstr "Tennessee"
+
+#: frontend/lib/ui/privacy-info-modal.tsx:26
+msgid "Terms of Use"
+msgstr "Terms of Use"
 
 #: common-data/us-state-choices.ts:109
 msgid "Texas"
@@ -1009,7 +1064,7 @@ msgid "We'll use this information to send you updates."
 msgstr "We'll use this information to send you updates."
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:17
-#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:32
+#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:33
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:45
 msgid "We'll use this information to send your letter."
 msgstr "We'll use this information to send your letter."
@@ -1026,7 +1081,7 @@ msgstr "Welcome back!"
 msgid "West Virginia"
 msgstr "West Virginia"
 
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:36
+#: frontend/lib/norent/letter-builder/ask-city-state.tsx:37
 msgid "We’ll use this information to pull the most up-to-date ordinances that protect your rights as a tenant in your letter."
 msgstr "We’ll use this information to pull the most up-to-date ordinances that protect your rights as a tenant in your letter."
 
@@ -1078,6 +1133,10 @@ msgstr "What if I live in a manufactured or mobile home?"
 msgid "What if I live in a state without an eviction moratorium?"
 msgstr "What if I live in a state without an eviction moratorium?"
 
+#: frontend/lib/forms/address-and-borough-form-field.tsx:19
+msgid "What is your borough?"
+msgstr "What is your borough?"
+
 #: frontend/lib/norent/data/faqs-content.tsx:384
 msgid "What kind of documentation should I collect to prove I can’t pay rent?"
 msgstr "What kind of documentation should I collect to prove I can’t pay rent?"
@@ -1086,7 +1145,7 @@ msgstr "What kind of documentation should I collect to prove I can’t pay rent?
 msgid "Where do I find this information?"
 msgstr "Where do I find this information?"
 
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:33
+#: frontend/lib/norent/letter-builder/ask-city-state.tsx:34
 msgid "Where do you live?"
 msgstr "Where do you live?"
 
@@ -1172,7 +1231,7 @@ msgstr "Your account is set up"
 msgid "Your email address"
 msgstr "Your email address"
 
-#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:30
+#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:31
 msgid "Your landlord or management company's address"
 msgstr "Your landlord or management company's address"
 
@@ -1196,6 +1255,10 @@ msgstr "Your letter has been sent to your landlord via email. A copy of your let
 msgid "Your phone number"
 msgstr "Your phone number"
 
+#: frontend/lib/ui/privacy-info-modal.tsx:28
+msgid "Your privacy is very important to us!"
+msgstr "Your privacy is very important to us!"
+
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:51
 msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 msgstr "Your privacy is very important to us! Everything on JustFix.nyc is secure."
@@ -1210,13 +1273,17 @@ msgid "You’re not alone. Millions of Americans won’t be able to pay rent bec
 msgstr "You’re not alone. Millions of Americans won’t be able to pay rent because of COVID‑19. Use our FREE tool to take action by writing a letter to your landlord."
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:101
-#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:40
+#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:41
 msgid "Zip code"
 msgstr "Zip code"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:60
 msgid "and"
 msgstr "and"
+
+#: frontend/lib/ui/privacy-info-modal.tsx:30
+msgid "justfix.privacyInfoModalText"
+msgstr "<0>Your privacy is very important to us! Here are some important things to know:</0><1><2>Your personal information is secure.</2><3>We don’t use your personal information for profit or sell it to third parties.</3><4>We use your address to find information about your landlord and your building.</4></1><5>Our Privacy Policy enables sharing anonymized data with approved tenant advocacy organizations exclusively to help further our tenants rights mission. The Privacy Policy contains information regarding what data we collect, how we use it, and the choices you have regarding your personal information. If you’d like to read more, please review our full <6/> and <7/>.</5>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:202
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"

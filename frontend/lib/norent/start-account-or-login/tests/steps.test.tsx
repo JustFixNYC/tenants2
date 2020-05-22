@@ -63,7 +63,7 @@ describe("start-account-or-login flow", () => {
     pal.ensureLinkGoesTo(/back/i, "/welcome");
     pal.clickButtonOrLink(/privacy/i);
     pal.ensureLocation(routes.phoneNumberTermsModal);
-    pal.rr.getByText(/anonymized data/i);
+    pal.rr.getByText("justfix.privacyInfoModalText");
     pal.clickButtonOrLink(/got it/i);
     pal.ensureLocation("/phone/ask");
   });

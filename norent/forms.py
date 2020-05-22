@@ -39,7 +39,10 @@ class CityState(forms.Form):
         if len(cities) == 0:
             state_name = US_STATE_CHOICES.get_label(state)
             raise ValidationError(
-                _("%(city)s, %(state_name)s doesn't seem to exist!") % locals()
+                _("%(city)s, %(state_name)s doesn't seem to exist!") % {
+                    'city': city,
+                    'state_name': state_name,
+                }
             )
         return cities[0]
 

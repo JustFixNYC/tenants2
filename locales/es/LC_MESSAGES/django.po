@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-06 12:01+0000\n"
+"POT-Creation-Date: 2020-05-21 20:55+0000\n"
 "PO-Revision-Date: 2020-05-18 19:53\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish\n"
@@ -15,24 +15,92 @@ msgstr ""
 "X-Crowdin-Language: es-ES\n"
 "X-Crowdin-File: /master/locales/en/LC_MESSAGES/django.po\n"
 
+#: frontend/templates/frontend/safe_mode_ui.html:9
+msgid ""
+"This site is currently in <strong>compatibility mode</strong>. For an "
+"enhanced experience, you can disable it, but this may cause compatibility "
+"issues with your current browser."
+msgstr ""
+
+#: frontend/templates/frontend/safe_mode_ui.html:12
+msgid "Deactivate compatibility mode"
+msgstr ""
+
+#: frontend/templates/frontend/safe_mode_ui.html:26
+msgid ""
+"Having problems using this page? We're sorry for the inconvenience. Activate "
+"this site's <strong>compatibility mode</strong> for a better experience."
+msgstr ""
+
+#: frontend/templates/frontend/safe_mode_ui.html:29
+msgid "Activate compatibility mode"
+msgstr ""
+
+#: frontend/templates/frontend/safe_mode_ui.html:33
+msgid "close"
+msgstr ""
+
 #: norent/forms.py:42
 #, python-format
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
 msgstr "¡%(city)s, %(state_name)s no existe!"
 
+#: onboarding/forms.py:52
+msgid ""
+"Please either provide an apartment number or check the \"I have no apartment "
+"number\" checkbox (but not both)."
+msgstr ""
+
+#: onboarding/forms.py:58
+msgid ""
+"Please either provide an apartment number or check the \"I have no apartment "
+"number\" checkbox."
+msgstr ""
+
 #: project/forms.py:13
 msgid "Please choose at least one option."
 msgstr "Por favor, escoja al menos una opción."
+
+#: project/forms.py:62
+msgid "Invalid phone number or password."
+msgstr ""
+
+#: project/forms.py:109
+msgid "A user with that email address already exists."
+msgstr ""
 
 #: project/forms.py:136
 msgid "Passwords do not match!"
 msgstr "¡Las contraseñas no coinciden!"
 
-#: project/tests/test_compilemessages.py:4
+#: project/tests/test_compilemessages.py:6
 msgid "Hello world"
 msgstr "Hola mundo"
+
+#: project/util/address_form_fields.py:71
+msgid "The address provided is invalid."
+msgstr ""
 
 #: project/util/mailing_address.py:19
 msgid "Enter a valid U.S. zip code."
 msgstr "Introduzca un código postal válido en los Estados Unidos."
 
+#: project/util/phone_number.py:25
+#, python-format
+msgid "U.S. phone numbers must be %(phone_number_len)s digits."
+msgstr ""
+
+#: project/util/phone_number.py:30
+msgid "Phone numbers can only contain digits."
+msgstr ""
+
+#: project/util/phone_number.py:34
+#, python-format
+msgid "%(areacode)s is an invalid area code."
+msgstr ""
+
+#: project/util/phone_number.py:68
+msgid ""
+"This does not look like a U.S. phone number. Please include the area code, e."
+"g. (555) 123-4567."
+msgstr ""

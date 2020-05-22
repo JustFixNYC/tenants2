@@ -7,8 +7,10 @@ import { ProgressiveEnhancement } from "../ui/progressive-enhancement";
 import { bulmaClasses } from "../ui/bulma";
 import { FormContext } from "./form-context";
 import { LogoutInput } from "../queries/globalTypes";
+import { li18n } from "../i18n-lingui";
+import { t } from "@lingui/macro";
 
-const DEFAULT_LABEL = "Cancel";
+const getDefaultLabel = () => li18n._(t`Cancel`);
 
 export type ClearSessionButtonProps = {
   /** The route to redirect the user to after they click the button. */
@@ -49,7 +51,7 @@ export type ClearSessionButtonProps = {
  *      users will see this version.
  */
 export function ClearSessionButton(props: ClearSessionButtonProps) {
-  const label = props.label || DEFAULT_LABEL;
+  const label = props.label || getDefaultLabel();
 
   return (
     <SessionUpdatingFormSubmitter
@@ -106,7 +108,7 @@ export const SimpleClearSessionButton: React.FC<Pick<
       mutation={LogoutMutation}
       initialState={{}}
       onSuccessRedirect={props.to}
-      children={createButton.bind(null, props.label || DEFAULT_LABEL)}
+      children={createButton.bind(null, props.label || getDefaultLabel())}
     />
   );
 };

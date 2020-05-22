@@ -12,6 +12,8 @@ import { ProgressButtons } from "../ui/buttons";
 import { CheckboxFormField, HiddenFormField } from "../forms/form-fields";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { isUserLoggedIn } from "../util/session-predicates";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 export function hasLoggedInUserAgreedToTerms(s: AllSessionInfo): boolean {
   if (!s.onboardingInfo) {
@@ -33,10 +35,15 @@ export const CrossSiteAgreeToTerms = MiddleProgressStep((props) => {
   const { siteType } = useContext(AppContext).server;
 
   return (
-    <Page title="Please agree to our terms and conditions" withHeading="big">
+    <Page
+      title={li18n._(t`Please agree to our terms and conditions`)}
+      withHeading="big"
+    >
       <p>
-        <SiteName short /> makes use of a <PrivacyPolicyLink /> and{" "}
-        <TermsOfUseLink />, which you can review.
+        <Trans>
+          <SiteName short /> makes use of a <PrivacyPolicyLink /> and{" "}
+          <TermsOfUseLink />, which you can review.
+        </Trans>
       </p>
       <SessionUpdatingFormSubmitter
         mutation={AgreeToTermsMutation}
@@ -50,7 +57,9 @@ export const CrossSiteAgreeToTerms = MiddleProgressStep((props) => {
           <>
             <HiddenFormField {...ctx.fieldPropsFor("site")} />
             <CheckboxFormField {...ctx.fieldPropsFor("agreeToTerms")}>
-              I agree to the <SiteName short /> terms and conditions.
+              <Trans>
+                I agree to the <SiteName short /> terms and conditions.
+              </Trans>
             </CheckboxFormField>
             <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
           </>

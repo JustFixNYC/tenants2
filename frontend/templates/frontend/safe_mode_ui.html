@@ -1,3 +1,4 @@
+{% load i18n %}
 {% if is_safe_mode_enabled %}
 <div class="safe-mode-disable">
   <div class="container">
@@ -5,12 +6,10 @@
       <form method="post" action="{% url 'safe_mode:disable' %}">
         <div class="columns">
           <div class="column is-8">
-            This site is currently in <strong>compatibility mode</strong>. For an enhanced
-            experience, you can disable it, but this may cause compatibility issues
-            with your current browser.
+            {% blocktrans %}This site is currently in <strong>compatibility mode</strong>. For an enhanced experience, you can disable it, but this may cause compatibility issues with your current browser.{% endblocktrans %}
           </div>
           <div class="column is-4 has-text-right">
-            <button class="button is-fullwidth" type="submit">Deactivate compatibility mode</button>
+            <button class="button is-fullwidth" type="submit">{% blocktrans %}Deactivate compatibility mode{% endblocktrans %}</button>
           </div>
         </div>
       </form>
@@ -24,16 +23,14 @@
       <form method="post" action="{% url 'safe_mode:enable' %}">
         <div class="columns">
           <div class="column is-8">
-            Having problems using this page? We're sorry for the inconvenience.
-            Activate this site's <strong>compatibility mode</strong> for a better
-            experience.
+            {% blocktrans %}Having problems using this page? We're sorry for the inconvenience. Activate this site's <strong>compatibility mode</strong> for a better experience.{% endblocktrans %}
           </div>
           <div class="column is-4 has-text-right">
-            <button class="button is-fullwidth" type="submit">Activate compatibility mode</button>
+            <button class="button is-fullwidth" type="submit">{% blocktrans %}Activate compatibility mode{% endblocktrans %}</button>
           </div>
         </div>
       </form>
-      <button class="delete">close</button>
+      <button class="delete">{% blocktrans %}close{% endblocktrans %}</button>
     </div>
   </div>
 </aside>

@@ -5,6 +5,8 @@ import {
   USStateChoices,
   getUSStateChoiceLabels,
 } from "../../../common-data/us-state-choices";
+import { li18n } from "../i18n-lingui";
+import { t } from "@lingui/macro";
 
 export const USStateFormField: React.FC<Omit<
   ChoiceFormFieldProps,
@@ -13,6 +15,6 @@ export const USStateFormField: React.FC<Omit<
   <SelectFormField
     {...props}
     choices={toDjangoChoices(USStateChoices, getUSStateChoiceLabels())}
-    label="State"
+    label={li18n._(t`State`)}
   />
 );

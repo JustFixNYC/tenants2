@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lingui": "lingui",
+    "django:makemessages": "python manage.py makemessages -e py,html -i coverage",
     "lingui:extract": "lingui extract",
     "lingui:compile": "lingui compile && node localebuilder.js",
     "lingui:extract-and-check": "node localebuilder.js --check",

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-22 20:29\n"
+"PO-Revision-Date: 2020-05-22 20:39\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -31,7 +31,7 @@ msgstr "<0/> usa un <1/> y un <2/>, que puedes revisar."
 
 #: frontend/lib/norent/site.tsx:85
 msgid "<0>Homepage</0>"
-msgstr "<0>Homepage</0>"
+msgstr "<0>Página Principal</0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:376
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
@@ -39,49 +39,49 @@ msgstr "<0>Si el dueño de tu edificio te está intentando desahuciar de forma i
 
 #: frontend/lib/norent/data/faqs-content.tsx:101
 msgid "<0>If you’re facing an emergency, you can find further legal assistance in your state at <1/>.</0>"
-msgstr "<0>Si te enfrentas a una emergencia, puede encontrar asistencia legal en su estado en <1/>.</0>"
+msgstr "<0>Si te enfrentas a una emergencia, puede encontrar asistencia legal adicional en tu estado en <1/>.</0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:179
 #: frontend/lib/norent/data/faqs-content.tsx:187
 msgid "<0>No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed.</0>"
-msgstr "<0>No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed.</0>"
+msgstr "<0>No, puedes usar este sitio web para enviar una carta al dueño de tu edificio por correo electrónico o correo postal vía USPS. No tienes que pagar para que la carta sea enviada por correo postal.</0>"
 
 #: frontend/lib/norent/components/footer.tsx:69
 msgid "<0>NoRent</0> <1>brought to you by JustFix.nyc</1>"
-msgstr "<0>NoRent</0> <1>brought to you by JustFix.nyc</1>"
+msgstr "<0>NoRent</0> <1>Proporcionado por JustFix.nyc</1>"
 
 #: frontend/lib/norent/components/letter-counter.tsx:15
 msgid "<0>NoRent</0> <1>letters sent by tenants across the USA</1><2>Since April 2020</2>"
-msgstr "<0>NoRent</0> <1>letters sent by tenants across the USA</1><2>Since April 2020</2>"
+msgstr "<0>NoRent</0> <1>cartas enviadas por inquilinos en todo Estados Unidos de América</1><2>Desde Abril del 2020</2>"
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:22
 msgid "<0>Our tool only allows you to send one letter at a time.</0><1>Continue to the confirmation page for what to do next.</1>"
-msgstr "<0>Our tool only allows you to send one letter at a time.</0><1>Continue to the confirmation page for what to do next.</1>"
+msgstr "<0>Nuestra herramienta sólo te permite enviar una carta a la vez.</0><1>Continúa a la página de confirmación para averiguar qué hacer a continuación.</1>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:160
 #: frontend/lib/norent/data/faqs-content.tsx:167
 msgid "<0>Yes, this is a free website created by 501(c)3 non-profit organizations across the United States.</0>"
-msgstr "<0>Yes, this is a free website created by 501(c)3 non-profit organizations across the United States.</0>"
+msgstr "<0>Sí, este es un sitio web gratuito creado por organizaciones sin fines de lucro, con exención tributaria 501(c)(3), en todo Estados Unidos.</0>"
 
 #: frontend/lib/norent/homepage.tsx:103
 msgid "A national tool by non-profit <0>JustFix.nyc</0>"
-msgstr "A national tool by non-profit <0>JustFix.nyc</0>"
+msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines de lucro"
 
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
 #: frontend/lib/norent/components/footer.tsx:51
 #: frontend/lib/norent/site.tsx:73
 msgid "About"
-msgstr "About"
+msgstr "Acerca de"
 
 #: frontend/lib/forms/address-and-borough-form-field.tsx:9
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:99
 msgid "Address"
-msgstr "Address"
+msgstr "Dirección"
 
 #: frontend/lib/norent/data/faqs-content.tsx:10
 msgid "After Sending Your Letter"
-msgstr "After Sending Your Letter"
+msgstr "Después de enviar tu carta"
 
 #: frontend/lib/norent/homepage.tsx:291
 msgid "After sending your letter, we can connect you to <0>local groups</0> to organize for greater demands with other tenants."

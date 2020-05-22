@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-22 20:39\n"
+"PO-Revision-Date: 2020-05-22 20:49\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -85,15 +85,15 @@ msgstr "Después de enviar tu carta"
 
 #: frontend/lib/norent/homepage.tsx:291
 msgid "After sending your letter, we can connect you to <0>local groups</0> to organize for greater demands with other tenants."
-msgstr "After sending your letter, we can connect you to <0>local groups</0> to organize for greater demands with other tenants."
+msgstr "Después de enviar tu carta, podemos conectarte con <0>grupos locales</0> para que te organizes con tus vecinos para hacer mayores demandas y ejercer tus derechos."
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:19
 msgid "After this step, you cannot go back to make changes. But don’t worry, we’ll explain what to do next."
-msgstr "After this step, you cannot go back to make changes. But don’t worry, we’ll explain what to do next."
+msgstr "Después de este paso, no puedes volver a hacer cambios. Pero no te preocupes, te explicaremos qué hacer después de enviar la carta."
 
 #: frontend/lib/norent/homepage.tsx:221
 msgid "After you’ve reviewed your letter, we send it to your landlord on your behalf by email and by certified mail."
-msgstr "After you’ve reviewed your letter, we send it to your landlord on your behalf by email and by certified mail."
+msgstr "Después de que hayas revisado tu carta, la enviaremos al dueño de tu edificio por correo electrónico y por correo postal certificado."
 
 #: common-data/us-state-choices.ts:66
 msgid "Alabama"
@@ -105,19 +105,19 @@ msgstr "Alaska"
 
 #: frontend/lib/norent/homepage.tsx:188
 msgid "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
-msgstr "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
+msgstr "Contesta algunas preguntas sobre ti y el dueño o manager de tu edificio. Tardarás menos de 8 minutos."
 
 #: frontend/lib/forms/apt-number-form-fields.tsx:13
 msgid "Apartment number"
-msgstr "Apartment number"
+msgstr "Número de apartamento"
 
 #: frontend/lib/norent/log-out.tsx:11
 msgid "Are you sure you want to log out?"
-msgstr "Are you sure you want to log out?"
+msgstr "¿Estás seguro de que quieres cerrar la sesión?"
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:50
 msgid "Are you sure you want to proceed with the following address?"
-msgstr "Are you sure you want to proceed with the following address?"
+msgstr "¿Seguro que quieres continuar con la siguiente dirección?"
 
 #: common-data/us-state-choices.ts:67
 msgid "Arizona"
@@ -129,7 +129,7 @@ msgstr "Arkansas"
 
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
-msgstr "Back"
+msgstr "Atrás"
 
 #: frontend/lib/norent/faqs.tsx:111
 msgid "Back to top"
@@ -645,7 +645,7 @@ msgstr "Log in"
 #: frontend/lib/norent/log-out.tsx:9
 #: frontend/lib/norent/site.tsx:76
 msgid "Log out"
-msgstr "Log out"
+msgstr "Cerrar sesión"
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:31
 msgid "Looks like you're already logged in"
@@ -1203,7 +1203,7 @@ msgstr "Yes, JustFix.nyc can text me to follow up about my housing issues."
 
 #: frontend/lib/norent/log-out.tsx:21
 msgid "Yes, Sign Out"
-msgstr "Yes, Sign Out"
+msgstr "Sí, cerrar sesión"
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:49
 msgid "You already have an account"

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-22 20:59\n"
+"PO-Revision-Date: 2020-05-22 21:35\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -149,20 +149,20 @@ msgstr "Benefit from the eviction protections that local elected officials have 
 
 #: frontend/lib/norent/faqs.tsx:89
 msgid "Browse the FAQs"
-msgstr "Browse the FAQs"
+msgstr "Explora las preguntas más frecuentes"
 
 #: frontend/lib/norent/homepage.tsx:39
 msgid "Build a letter using our free letter builder"
-msgstr "Build a letter using our free letter builder"
+msgstr "Crea una carta con nuestro compositor de cartas gratis"
 
 #: frontend/lib/norent/components/footer.tsx:42
 #: frontend/lib/norent/site.tsx:64
 msgid "Build my Letter"
-msgstr "Construye mi Carta"
+msgstr "Crear mi carta"
 
 #: frontend/lib/norent/homepage.tsx:29
 msgid "Build my letter"
-msgstr "Build my letter"
+msgstr "Crear mi carta"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:126
 msgid "Build power in numbers"

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-22 20:49\n"
+"PO-Revision-Date: 2020-05-22 20:59\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -133,15 +133,15 @@ msgstr "Atrás"
 
 #: frontend/lib/norent/faqs.tsx:111
 msgid "Back to top"
-msgstr "Back to top"
+msgstr "Volver al inicio de esta sección"
 
 #: frontend/lib/norent/homepage.tsx:71
 msgid "Banning evictions"
-msgstr "Banning evictions"
+msgstr "Prohibir desalojos"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:42
 msgid "Before you send your letter, let's review what will be sent to make sure all the information is correct."
-msgstr "Before you send your letter, let's review what will be sent to make sure all the information is correct."
+msgstr "Antes de enviar tu carta, revisémosla para asegurarnos de que toda la información es correcta."
 
 #: frontend/lib/norent/the-letter.tsx:56
 msgid "Benefit from the eviction protections that local elected officials have put in place, by notifying your landlord of your inability to pay rent for reasons related to COVID-19"

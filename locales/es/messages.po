@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-22 21:59\n"
+"PO-Revision-Date: 2020-05-22 22:10\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -465,11 +465,11 @@ msgstr "Acepto los <0>términos y condiciones de NoRent.org</0>."
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:64
 msgid "I forgot my password"
-msgstr "I forgot my password"
+msgstr "He perdido mi contraseña"
 
 #: frontend/lib/forms/apt-number-form-fields.tsx:15
 msgid "I have no apartment number"
-msgstr "I have no apartment number"
+msgstr "No tengo ningún número de apartamento"
 
 #: frontend/lib/norent/data/faqs-content.tsx:147
 msgid "I'm scared. What happens if my landlord retaliates?"
@@ -481,23 +481,23 @@ msgstr "Idaho"
 
 #: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:25
 msgid "If you didn't receive a code, please contact <0/>."
-msgstr "If you didn't receive a code, please contact <0/>."
+msgstr "Si no recibiste un código, por favor contacta con <0/>."
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:33
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
-msgstr "If you need to make changes to your name or contact information, please contact <0/>."
+msgstr "Si necesitas cambiar tu nombre o tu información de contacto, ponte en contacto con <0/>."
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:59
 msgid "If you write checks or transfer money through your bank to pay your rent, use that name here."
-msgstr "If you write checks or transfer money through your bank to pay your rent, use that name here."
+msgstr "Usa el nombre al pagas la renta."
 
 #: frontend/lib/norent/letter-builder/la-address-redirect.tsx:29
 msgid "If you're interested, <0>check out the tool here</0>."
-msgstr "If you're interested, <0>check out the tool here</0>."
+msgstr "Si te interesa, <0>aquí le puedes echar un vistazo a la herramienta</0>."
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:48
 msgid "If you’d still like to create an account, we can send you updates in the future."
-msgstr "If you’d still like to create an account, we can send you updates in the future."
+msgstr "Si aún así quieres crear una cuenta, podemos enviarte noticias en el futuro."
 
 #: common-data/us-state-choices.ts:78
 msgid "Illinois"
@@ -509,11 +509,11 @@ msgstr "In the event that your landlord tries to evict you, the courts will see 
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:89
 msgid "In {stateName}, you have <0>{numDaysToSend} days </0>to send documentation to your landlord proving you can’t pay rent."
-msgstr "In {stateName}, you have <0>{numDaysToSend} days </0>to send documentation to your landlord proving you can’t pay rent."
+msgstr "En {stateName}, tienes <0>{numDaysToSend} días </0>para enviar documentación al dueño de tu edificio para demostrar que no puedes pagar el alquiler."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:96
 msgid "In {stateName}, you have to send documentation to your landlord proving you can’t pay rent."
-msgstr "In {stateName}, you have to send documentation to your landlord proving you can’t pay rent."
+msgstr "En {stateName}, tienes que enviar documentación al dueño de tu edificio para probar que no puedes pagar el alquiler."
 
 #: common-data/us-state-choices.ts:79
 msgid "Indiana"
@@ -541,19 +541,19 @@ msgstr "Is this tool right for me?"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:112
 msgid "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."
-msgstr "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."
+msgstr "Puede ser que el dueño de tu edificio tome represalias tras recibir tu carta. Esto es ilegal. Póngase en contacto con <0>un proveedor local de asistencia legal</0> para obtener ayuda."
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:11
 msgid "It’s your first time here!"
-msgstr "It’s your first time here!"
+msgstr "¡Es la primera vez que estás aquí!"
 
 #: frontend/lib/norent/components/footer.tsx:32
 msgid "Join our <0/>mailing list"
-msgstr "Join our <0/>mailing list"
+msgstr "¡Únete a nuestra lista de distribución!"
 
 #: frontend/lib/norent/components/social-icons.tsx:17
 msgid "Just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
-msgstr "Just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
+msgstr "Acabo de utilizar la nueva herramienta gratuita de JustFix.nyc para comunicarle al dueño de mi edificio que no puedo pagar el alquiler"
 
 #: common-data/us-state-choices.ts:81
 msgid "Kansas"
@@ -565,19 +565,19 @@ msgstr "Kentucky"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:90
 msgid "Know your rights"
-msgstr "Know your rights"
+msgstr "Conoce tus derechos"
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:33
 msgid "Landlord address"
-msgstr "Landlord address"
+msgstr "Dirección de correo del dueño de tu edificio"
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:26
 msgid "Landlord name"
-msgstr "Landlord name"
+msgstr "Nombre del dueño de tu edificio"
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:31
 msgid "Landlord/management company's email"
-msgstr "Landlord/management company's email"
+msgstr "Dirección de correo electrónico del dueño o manager de tu edificio"
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:57
 msgid "Landlord/management company's name"

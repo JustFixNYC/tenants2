@@ -9,6 +9,7 @@ from project.schema_base import (
     update_last_queried_phone_number,
     PhoneNumberAccountStatus
 )
+import project.locales
 from project.tests.test_mapbox import mock_brl_results, mock_no_results
 from project.util.testing_util import GraphQLTestingPal
 from onboarding.schema import OnboardingStep1Info
@@ -571,15 +572,21 @@ class TestNorentSendLetter:
     def test_it_works(self, allow_lambda_http, use_norent_site,
                       requests_mock, mailoutbox, settings, mocklob):
         settings.IS_DEMO_DEPLOYMENT = False
+        settings.LANGUAGES = project.locales.ALL.choices
         RentPeriodFactory()
+        self.user.locale = 'es'
+        self.user.save()
         self.create_landlord_details()
         OnboardingInfoFactory(user=self.user)
         assert self.execute()['errors'] == []
 
         letter = Letter.objects.get(user=self.graphql_client.request.user)
         assert str(letter.rent_period.payment_date) == '2020-05-01'
+        assert letter.locale == "es"
         assert "unable to pay rent" in letter.html_content
         assert "Boop Jones" in letter.html_content
+        assert 'lang="en"' in letter.html_content
+        assert 'lang="es"' in letter.localized_html_content
         assert letter.letter_sent_at is not None
         assert letter.tracking_number == mocklob.sample_letter['tracking_number']
 
@@ -594,9 +601,15 @@ class TestNorentSendLetter:
 
         user_mail = mailoutbox[1]
         assert user_mail.to == ['boop@jones.net']
+        assert "https://example.com/es/faqs" in user_mail.body
+
+        # The following assertions should actually use Spanish text,
+        # because that's the locale of our user, but we haven't yet
+        # translated the email to Spanish. Once we actually do that,
+        # these assertions will fail and we'll have to fix them.
         assert "Hello Boop" in user_mail.body
-        assert "https://example.com/en/faqs" in user_mail.body
         assert "Here's a copy" in user_mail.subject
+
         assert len(user_mail.attachments) == 1
 
 

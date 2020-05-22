@@ -197,7 +197,7 @@ msgstr "Cancelling rent"
 msgid "Cite up-to-date legal ordinances in your letter"
 msgstr "Cite up-to-date legal ordinances in your letter"
 
-#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:39
+#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:38
 msgid "City"
 msgstr "City"
 
@@ -242,7 +242,7 @@ msgstr "Confirm your new password"
 msgid "Confirming the address"
 msgstr "Confirming the address"
 
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:22
+#: frontend/lib/norent/letter-builder/ask-city-state.tsx:21
 msgid "Confirming the city"
 msgstr "Confirming the city"
 
@@ -283,11 +283,11 @@ msgstr "District of Columbia"
 msgid "Do I have to go to the post office to mail my letter?"
 msgstr "Do I have to go to the post office to mail my letter?"
 
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:24
+#: frontend/lib/norent/letter-builder/ask-city-state.tsx:23
 msgid "Do you live in {0}, {1}?"
 msgstr "Do you live in {0}, {1}?"
 
-#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:23
+#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:22
 msgid "Do you still want to mail to:"
 msgstr "Do you still want to mail to:"
 
@@ -827,7 +827,7 @@ msgstr "Our records have shown us a similar address. Would you like to proceed w
 msgid "Our records tell us that this address is invalid."
 msgstr "Our records tell us that this address is invalid."
 
-#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:21
+#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:20
 msgid "Our records tell us that this address is undeliverable."
 msgstr "Our records tell us that this address is undeliverable."
 
@@ -957,7 +957,7 @@ msgstr "States with Limited Protections"
 msgid "Strategic Actions for a Just Economy"
 msgstr "Strategic Actions for a Just Economy"
 
-#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:38
+#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:37
 msgid "Street address"
 msgstr "Street address"
 
@@ -1067,7 +1067,7 @@ msgid "We'll use this information to send you updates."
 msgstr "We'll use this information to send you updates."
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:17
-#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:33
+#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:32
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:45
 msgid "We'll use this information to send your letter."
 msgstr "We'll use this information to send your letter."
@@ -1084,7 +1084,7 @@ msgstr ""
 msgid "West Virginia"
 msgstr "West Virginia"
 
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:37
+#: frontend/lib/norent/letter-builder/ask-city-state.tsx:36
 msgid "We’ll use this information to pull the most up-to-date ordinances that protect your rights as a tenant in your letter."
 msgstr "We’ll use this information to pull the most up-to-date ordinances that protect your rights as a tenant in your letter."
 
@@ -1148,7 +1148,7 @@ msgstr "What kind of documentation should I collect to prove I can’t pay rent?
 msgid "Where do I find this information?"
 msgstr "Where do I find this information?"
 
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:34
+#: frontend/lib/norent/letter-builder/ask-city-state.tsx:33
 msgid "Where do you live?"
 msgstr ""
 
@@ -1234,7 +1234,7 @@ msgstr "Your account is set up"
 msgid "Your email address"
 msgstr "Your email address"
 
-#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:31
+#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:30
 msgid "Your landlord or management company's address"
 msgstr "Your landlord or management company's address"
 
@@ -1276,7 +1276,7 @@ msgid "You’re not alone. Millions of Americans won’t be able to pay rent bec
 msgstr "You’re not alone. Millions of Americans won’t be able to pay rent because of COVID‑19. Use our FREE tool to take action by writing a letter to your landlord."
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:101
-#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:41
+#: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:40
 msgid "Zip code"
 msgstr "Zip code"
 
@@ -1294,7 +1294,7 @@ msgstr "<0/><1>You can also connect with your neighbors and organize your buildi
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:128
 msgid "norent.callToActionForCancelRentCampaign"
-msgstr "<0>Our homes, health, and collective safety and futures are on the line. Millions of us don’t know how we are going to pay our rent, mortgage, or utilities on May 1st, yet landlords and banks are expecting payment as if it’s business as usual. It’s not.</0><1>Join millions of us to fight for a future free from debt and to win a national suspension on rent, mortgage and utility payments!</1>"
+msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:252
 msgid "norent.definitionOfEvictionMoratorium"
@@ -1401,8 +1401,12 @@ msgid "norent.whyYouStillOweRentAfterSendingLetter"
 msgstr "<0>Yes, you’ll still owe rent after sending the letter because our state and federal governments have not adopted a rent cancellation policy. Call for cancellation of rent at <1/>.</0>"
 
 #: frontend/lib/norent/components/helmet.tsx:13
-msgid "pay rent, rent, can't pay rent, may rent, may 1"
-msgstr "pay rent, rent, can't pay rent, may rent, may 1"
+msgid "pay rent, rent, can't pay rent, june rent, june 1"
+msgstr ""
+
+#: frontend/lib/norent/components/helmet.tsx:13
+#~ msgid "pay rent, rent, can't pay rent, may rent, may 1"
+#~ msgstr "pay rent, rent, can't pay rent, may rent, may 1"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."

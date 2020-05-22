@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-22 22:10\n"
+"PO-Revision-Date: 2020-05-22 22:18\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -581,33 +581,33 @@ msgstr "Dirección de correo electrónico del dueño o manager de tu edificio"
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:57
 msgid "Landlord/management company's name"
-msgstr "Landlord/management company's name"
+msgstr "Nombre del dueño o manager de tu edificio"
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:27
 msgid "Last name"
-msgstr "Last name"
+msgstr "Apellido"
 
 #: frontend/lib/norent/about.tsx:57
 msgid "Learn about why we made this tool, who we are, and who our partners are."
-msgstr "Learn about why we made this tool, who we are, and who our partners are."
+msgstr "Aprenda por qué hemos construido esta herramienta, quiénes somos, y quiénes son nuestros aliados."
 
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:21
 #: frontend/lib/norent/the-letter.tsx:29
 msgid "Learn more"
-msgstr "Learn more"
+msgstr "Aprender más"
 
 #: frontend/lib/norent/about.tsx:111
 msgid "Learn more about our mission on our website"
-msgstr "Learn more about our mission on our website"
+msgstr "Obtén más información a cerca de nuestra misión en nuestro sitio web"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:33
 msgid "Learn more."
-msgstr "Learn more."
+msgstr "Aprender más."
 
 #: frontend/lib/norent/homepage.tsx:202
 msgid "Legal Protections"
-msgstr "Legal Protections"
+msgstr "Protecciones jurídicas"
 
 #: frontend/lib/norent/homepage.tsx:125
 msgid "Legally vetted"
@@ -615,32 +615,32 @@ msgstr "Legally vetted"
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:14
 msgid "Let's get to know you."
-msgstr "Let's get to know you."
+msgstr "Conozcámonos."
 
 #: frontend/lib/norent/start-account-or-login/set-password.tsx:15
 msgid "Let's set you up with a new password, so you can easily login again."
-msgstr "Let's set you up with a new password, so you can easily login again."
+msgstr "Configuremos una nueva contraseña, para que puedas volver fácilmente."
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:26
 msgid "Let's set you up with an account. This will enable you to save your information, and receive updates."
-msgstr "Let's set you up with an account. This will enable you to save your information, and receive updates."
+msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información y recibir noticias."
 
 #: frontend/lib/norent/data/faqs-content.tsx:7
 msgid "Letter Builder"
-msgstr "Letter Builder"
+msgstr "Compositor de Cartas"
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:21
 msgid "Let’s set you up with an account. An account will enable you to save your information, download your letter, and more."
-msgstr "Let’s set you up with an account. An account will enable you to save your information, download your letter, and more."
+msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información, bajarte tu carta, y más."
 
 #: frontend/lib/norent/homepage.tsx:288
 msgid "Locally supported"
-msgstr "Locally supported"
+msgstr "Con apoyo local"
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:18
 #: frontend/lib/norent/site.tsx:78
 msgid "Log in"
-msgstr "Log in"
+msgstr "Iniciar sesión"
 
 #: frontend/lib/norent/log-out.tsx:9
 #: frontend/lib/norent/site.tsx:76
@@ -649,19 +649,19 @@ msgstr "Cerrar sesión"
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:31
 msgid "Looks like you're already logged in"
-msgstr "Looks like you're already logged in"
+msgstr "Parece ser que ya has iniciado tu sesión"
 
 #: frontend/lib/norent/letter-builder/la-address-redirect.tsx:13
 msgid "Looks like you're in <0>Los Angeles County, California</0>"
-msgstr "Looks like you're in <0>Los Angeles County, California</0>"
+msgstr "Parece que estás en <0>el Condado de Los Angeles, California</0>"
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:12
 msgid "Looks like you're not logged in"
-msgstr "Looks like you're not logged in"
+msgstr "Parece que no has iniciado ninguna sesión"
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:21
 msgid "Looks like you've already sent a letter"
-msgstr "Looks like you've already sent a letter"
+msgstr "Parece que ya has enviado una carta"
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:18
 msgid "Looks like you've been here before. Click \"Next\" to be taken to where you left off."

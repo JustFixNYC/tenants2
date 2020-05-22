@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-22 22:18\n"
+"PO-Revision-Date: 2020-05-22 22:28\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -665,19 +665,19 @@ msgstr "Parece que ya has enviado una carta"
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:18
 msgid "Looks like you've been here before. Click \"Next\" to be taken to where you left off."
-msgstr "Looks like you've been here before. Click \"Next\" to be taken to where you left off."
+msgstr "Parece que ya estuviste aquí antes. Haz clic en \"Continuar\" para seguir desde donde te quedaste."
 
 #: frontend/lib/norent/letter-builder/la-address-redirect.tsx:11
 msgid "Los Angeles County"
-msgstr "Los Angeles County"
+msgstr "El Condado de Los Angeles"
 
 #: common-data/us-state-choices.ts:83
 msgid "Louisiana"
-msgstr "Louisiana"
+msgstr "Luisiana"
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:80
 msgid "Mailing address"
-msgstr "Mailing address"
+msgstr "Dirección postal"
 
 #: common-data/us-state-choices.ts:84
 msgid "Maine"
@@ -685,7 +685,7 @@ msgstr "Maine"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:86
 msgid "Make sure all the information above is correct."
-msgstr "Make sure all the information above is correct."
+msgstr "Asegúrate de que la información sea la correcta."
 
 #: frontend/lib/norent/about.tsx:26
 msgid "Manufactured Housing Action"
@@ -705,7 +705,7 @@ msgstr "Michigan"
 
 #: frontend/lib/norent/components/helmet.tsx:12
 msgid "Millions of Americans won’t be able to pay rent because of COVID‑19. Use our free tool to take action by writing a letter to your landlord. You're not alone."
-msgstr "Millions of Americans won’t be able to pay rent because of COVID‑19. Use our free tool to take action by writing a letter to your landlord. You're not alone."
+msgstr "Millones de estadounidenses no podrán pagar la renta debido al COVID 19. Usa nuestra herramienta gratuita para escribirle una carta al dueño de tu edificio y tomar acción. No estás solo/a."
 
 #: common-data/us-state-choices.ts:88
 msgid "Minnesota"
@@ -713,11 +713,11 @@ msgstr "Minnesota"
 
 #: common-data/us-state-choices.ts:89
 msgid "Mississippi"
-msgstr "Mississippi"
+msgstr "Misisipi"
 
 #: common-data/us-state-choices.ts:90
 msgid "Missouri"
-msgstr "Missouri"
+msgstr "Misuri"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:146
 msgid "Mobile/Manufactured Home Residents"
@@ -729,7 +729,7 @@ msgstr "Montana"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:123
 msgid "More resources"
-msgstr "More resources"
+msgstr "Más información"
 
 #: frontend/lib/norent/about.tsx:21
 msgid "Movement Law Lab"
@@ -745,11 +745,11 @@ msgstr "Nevada"
 
 #: common-data/us-state-choices.ts:94
 msgid "New Hampshire"
-msgstr "New Hampshire"
+msgstr "Nuevo Hampshire"
 
 #: common-data/us-state-choices.ts:95
 msgid "New Jersey"
-msgstr "New Jersey"
+msgstr "Nueva Jersey"
 
 #: common-data/us-state-choices.ts:96
 msgid "New Mexico"
@@ -757,17 +757,17 @@ msgstr "Nuevo México"
 
 #: common-data/us-state-choices.ts:97
 msgid "New York"
-msgstr "New York"
+msgstr "Nueva York"
 
 #: frontend/lib/norent/start-account-or-login/set-password.tsx:21
 msgid "New password"
-msgstr "New password"
+msgstr "Contraseña nueva"
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:56
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
 msgid "Next"
-msgstr "Next"
+msgstr "Continuar"
 
 #: frontend/lib/norent/letter-builder/confirmation-modal.tsx:20
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:27
@@ -776,23 +776,23 @@ msgstr "No"
 
 #: frontend/lib/norent/about.tsx:126
 msgid "NoRent.org is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits across the nation."
-msgstr "NoRent.org is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits across the nation."
+msgstr "NoRent.org es una colaboración entre JustFix.nyc, organizaciones legales y organizaciones sin fines de lucro en todo Estados Unidos de América."
 
 #: frontend/lib/norent/about.tsx:99
 msgid "NoRent.org is made by <0>JustFix.nyc</0>. JustFix.nyc co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City."
-msgstr "NoRent.org is made by <0>JustFix.nyc</0>. JustFix.nyc co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City."
+msgstr "NoRent.org está hecho por <0>JustFix.nyc</0>. JustFix.nyc co-diseña y construye herramientas para inquilinos, organizadores de viviendas y abogados que luchan contra el desplazamiento en la ciudad de Nueva York."
 
 #: common-data/us-state-choices.ts:98
 msgid "North Carolina"
-msgstr "North Carolina"
+msgstr "Carolina del Norte"
 
 #: common-data/us-state-choices.ts:99
 msgid "North Dakota"
-msgstr "North Dakota"
+msgstr "Dakota del Norte"
 
 #: frontend/lib/norent/the-letter.tsx:19
 msgid "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
-msgstr "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
+msgstr "No poder pagar el alquiler debido a COVID-19 no es nada de lo que avergonzarse. Nuestro compositor de cartas hace que sea fácil enviarle una carta al dueño de tu edificio."
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:52
 msgid "Now we just need your password. This is the same one you’ve used on JustFix.nyc."
@@ -1102,7 +1102,7 @@ msgstr "We’ve partnered with <0/> to provide additional support."
 
 #: frontend/lib/norent/letter-builder/la-address-redirect.tsx:20
 msgid "We’ve worked with the non-profit organization <0>SAJE</0> to provide you with a custom letter builder."
-msgstr "We’ve worked with the non-profit organization <0>SAJE</0> to provide you with a custom letter builder."
+msgstr "Hemos colaborado con la organización sin fines de lucro <0>SAJE</0> para proporcionarte un compositor de letras específico al contexto de Los Ángeles."
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:65
 msgid "What contact information do you have for your landlord or building management? <0>Choose all that apply.</0>"

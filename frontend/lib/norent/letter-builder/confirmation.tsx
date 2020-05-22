@@ -185,7 +185,7 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
         <p>
           Our homes, health, and collective safety and futures are on the line.
           Millions of us don’t know how we are going to pay our rent, mortgage,
-          or utilities on May 1st, yet landlords and banks are expecting payment
+          or utilities on June 1st, yet landlords and banks are expecting payment
           as if it’s business as usual. It’s not.
         </p>
         <p>

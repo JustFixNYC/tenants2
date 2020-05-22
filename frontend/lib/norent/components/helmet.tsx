@@ -17,7 +17,7 @@ const description = () =>
     t`Millions of Americans won’t be able to pay rent because of COVID‑19. Use our free tool to take action by writing a letter to your landlord. You're not alone.`
   );
 const keywords = () =>
-  li18n._(t`pay rent, rent, can't pay rent, may rent, may 1`);
+  li18n._(t`pay rent, rent, can't pay rent, june rent, june 1`);
 
 export const NorentHelmet = () => {
   const { server } = useContext(AppContext);

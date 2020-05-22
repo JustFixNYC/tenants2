@@ -10,6 +10,7 @@ import ReactTestingLibraryPal from "./rtl-pal";
 import { HelmetProvider } from "react-helmet-async";
 import { MemoryRouter } from "react-router";
 import { defaultContext, AppContext } from "../app-context";
+import { waitFor } from "@testing-library/dom";
 
 describe("App", () => {
   let appContext = defaultContext;
@@ -19,7 +20,7 @@ describe("App", () => {
     return <p>HAI</p>;
   };
 
-  const buildPal = (initialSession = FakeSessionInfo) => {
+  const buildPal = async (initialSession = FakeSessionInfo) => {
     const props: AppProps = {
       initialURL: "/",
       locale: "en",
@@ -36,13 +37,14 @@ describe("App", () => {
         </HelmetProvider>
       )
     );
+    await waitFor(() => pal.rr.getByText("HAI"));
     return pal;
   };
 
-  it("notifies FullStory when user logs in", () => {
+  it("notifies FullStory when user logs in", async () => {
     const identify = jest.fn();
     window.FS = { identify };
-    buildPal();
+    await buildPal();
     expect(identify.mock.calls).toHaveLength(0);
     appContext.updateSession({
       userId: 1,
@@ -54,15 +56,15 @@ describe("App", () => {
     ]);
   });
 
-  it("notifies FullStory on mount if user is already logged in", () => {
+  it("notifies FullStory on mount if user is already logged in", async () => {
     const identify = jest.fn();
     window.FS = { identify };
-    buildPal({ ...FakeSessionInfo, userId: 5, firstName: "blah" });
+    await buildPal({ ...FakeSessionInfo, userId: 5, firstName: "blah" });
     expect(identify.mock.calls).toHaveLength(1);
   });
 
-  it("handles session updates", () => {
-    buildPal();
+  it("handles session updates", async () => {
+    await buildPal();
     appContext.updateSession({ csrfToken: "blug" });
     expect(appContext.session.csrfToken).toBe("blug");
   });

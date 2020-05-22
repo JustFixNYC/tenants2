@@ -339,10 +339,12 @@ export class AppWithoutRouter extends React.Component<
   render() {
     if (this.props.children) {
       return (
-        <AppContext.Provider
-          value={this.getAppContext()}
-          children={this.props.children}
-        />
+        <LinguiI18n>
+          <AppContext.Provider
+            value={this.getAppContext()}
+            children={this.props.children}
+          />
+        </LinguiI18n>
       );
     }
 

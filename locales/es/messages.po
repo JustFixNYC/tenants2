@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-22 21:49\n"
+"PO-Revision-Date: 2020-05-22 21:59\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -354,7 +354,7 @@ msgstr "Preguntas Más Frecuentes"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:69
 msgid "Gather documentation"
-msgstr "Gather documentation"
+msgstr "Recopila documentación"
 
 #: common-data/us-state-choices.ts:75
 msgid "Georgia"
@@ -362,27 +362,27 @@ msgstr "Georgia"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:172
 msgid "Give feedback"
-msgstr "Give feedback"
+msgstr "Comparte tu opinión"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:161
 msgid "Give us feedback"
-msgstr "Give us feedback"
+msgstr "Danos tu opinión"
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:39
 msgid "Go back"
-msgstr "Go back"
+msgstr "Atrás"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:156
 msgid "Go to website"
-msgstr "Go to website"
+msgstr "Ir al sitio web"
 
 #: frontend/lib/norent/homepage.tsx:69
 msgid "Going on rent strike"
-msgstr "Going on rent strike"
+msgstr "Hacer huelga de alquiler"
 
 #: frontend/lib/ui/privacy-info-modal.tsx:59
 msgid "Got it!"
-msgstr "Got it!"
+msgstr "¡Entendido!"
 
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"
@@ -396,39 +396,39 @@ msgstr "Hola mundo"
 
 #: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:23
 msgid "Hello, long-time JustFix.nyc user! We appreciate you."
-msgstr "Hello, long-time JustFix.nyc user! We appreciate you."
+msgstr "¡Hola, usuario de JustFix.nyc! Agradecemos tu lealtad."
 
 #: frontend/lib/norent/data/faqs-content.tsx:374
 msgid "Help! My landlord is already trying to evict me."
-msgstr "Help! My landlord is already trying to evict me."
+msgstr "¡Ayuda! El dueño de mi edificio ya intenta desahuciarme."
 
 #: frontend/lib/norent/the-letter.tsx:44
 msgid "Here are a few benefits to sending a letter to your landlord:"
-msgstr "Here are a few benefits to sending a letter to your landlord:"
+msgstr "Estos son algunos de los beneficios de enviar una carta al dueño de tu edificio:"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:49
 msgid "Here's a preview of the letter that will be attached in an email to your landlord:"
-msgstr "Here's a preview of the letter that will be attached in an email to your landlord:"
+msgstr "Esta es una vista previa de la carta que se adjuntará en un correo electrónico al dueño de tu edificio:"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:52
 msgid "Here's a preview of the letter:"
-msgstr "Here's a preview of the letter:"
+msgstr "Esta es una vista previa de la carta:"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:70
 msgid "Here’s a preview of the email that will be sent on your behalf:"
-msgstr "Here’s a preview of the email that will be sent on your behalf:"
+msgstr "Esta es una vista previa del correo electrónico que se enviará en tu nombre:"
 
 #: frontend/lib/norent/homepage.tsx:239
 msgid "Here’s a preview of what the letter looks like:"
-msgstr "Here’s a preview of what the letter looks like:"
+msgstr "Esta es una vista previa de la carta:"
 
 #: frontend/lib/norent/the-letter.tsx:89
 msgid "Here’s what the letter will look like:"
-msgstr "Here’s what the letter will look like:"
+msgstr "Así será la carta:"
 
 #: frontend/lib/norent/homepage.tsx:48
 msgid "Here’s what you can do with <0>NoRent</0>"
-msgstr "Here’s what you can do with <0>NoRent</0>"
+msgstr "Esto es lo que puedes hacer con <0>NoRent</0>"
 
 #: frontend/lib/norent/about.tsx:36
 msgid "Housing Justice for All"
@@ -453,15 +453,15 @@ msgstr "How do I organize with other tenants in my building, block, or neighborh
 
 #: frontend/lib/norent/homepage.tsx:167
 msgid "How it works"
-msgstr "How it works"
+msgstr "Cómo funciona"
 
 #: frontend/lib/pages/cross-site-terms-opt-in.tsx:43
 msgid "I agree to the <0/> terms and conditions."
-msgstr "I agree to the <0/> terms and conditions."
+msgstr "Acepto los términos y condiciones."
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:43
 msgid "I agree to the <0>NoRent.org terms and conditions</0>."
-msgstr "I agree to the <0>NoRent.org terms and conditions</0>."
+msgstr "Acepto los <0>términos y condiciones de NoRent.org</0>."
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:64
 msgid "I forgot my password"

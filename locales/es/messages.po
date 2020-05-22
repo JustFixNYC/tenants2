@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-22 22:28\n"
+"PO-Revision-Date: 2020-05-22 22:41\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -842,24 +842,24 @@ msgstr "Pennsylvania"
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:38
 msgid "Phone number"
-msgstr "Phone number"
+msgstr "Número de teléfono"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:81
 msgid "Please <0>go back and choose a state</0>."
-msgstr "Please <0>go back and choose a state</0>."
+msgstr "Por favor <0>vuelve y escoge un estado</0>."
 
 #: frontend/lib/pages/cross-site-terms-opt-in.tsx:29
 msgid "Please agree to our terms and conditions"
-msgstr "Please agree to our terms and conditions"
+msgstr "Por favor, acepta nuestros términos y condiciones"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:54
 #: frontend/lib/norent/the-letter.tsx:92
 msgid "Preview of your NoRent.org letter"
-msgstr "Preview of your NoRent.org letter"
+msgstr "Vista previa de tu carta NoRent.org"
 
 #: frontend/lib/ui/privacy-info-modal.tsx:25
 msgid "Privacy Policy"
-msgstr "Privacy Policy"
+msgstr "Política de Privacidad"
 
 #: common-data/us-state-choices.ts:104
 msgid "Puerto Rico"
@@ -867,11 +867,11 @@ msgstr "Puerto Rico"
 
 #: frontend/lib/norent/data/faqs-content.tsx:25
 msgid "Rent Strike 2020: A Resource List"
-msgstr "Rent Strike 2020: A Resource List"
+msgstr "Huelga de Alquiler 2020: Lista de recursos"
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:27
 msgid "Reset your password"
-msgstr "Reset your password"
+msgstr "Cambia tu contraseña"
 
 #: common-data/us-state-choices.ts:105
 msgid "Rhode Island"
@@ -883,19 +883,19 @@ msgstr "Right to the City"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:105
 msgid "Right to the City Alliance can contact me to provide additional support."
-msgstr "Right to the City Alliance can contact me to provide additional support."
+msgstr "Permito que Right to the City se ponga en contacto conmigo para proporcionarme apoyo adicional."
 
 #: frontend/lib/norent/faqs.tsx:63
 msgid "See more FAQs"
-msgstr "See more FAQs"
+msgstr "Ver más preguntas frequentes"
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:41
 msgid "Send code"
-msgstr "Send code"
+msgstr "Enviar código"
 
 #: frontend/lib/norent/homepage.tsx:41
 msgid "Send your letter by certified mail for free"
-msgstr "Send your letter by certified mail for free"
+msgstr "Envía tu carta por correo certificado gratis"
 
 #: frontend/lib/norent/homepage.tsx:40
 msgid "Send your letter by email"

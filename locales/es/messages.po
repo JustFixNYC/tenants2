@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-22 21:35\n"
+"PO-Revision-Date: 2020-05-22 21:49\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -145,7 +145,7 @@ msgstr "Antes de enviar tu carta, revisémosla para asegurarnos de que toda la i
 
 #: frontend/lib/norent/the-letter.tsx:56
 msgid "Benefit from the eviction protections that local elected officials have put in place, by notifying your landlord of your inability to pay rent for reasons related to COVID-19"
-msgstr "Benefit from the eviction protections that local elected officials have put in place, by notifying your landlord of your inability to pay rent for reasons related to COVID-19"
+msgstr "Aprovecha las protecciones de desalojo en tu estado notificando al dueño de tu edificio de que no puedes pagar la renta por razones relacionadas con el COVID-19"
 
 #: frontend/lib/norent/faqs.tsx:89
 msgid "Browse the FAQs"
@@ -166,15 +166,15 @@ msgstr "Crear mi carta"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:126
 msgid "Build power in numbers"
-msgstr "Build power in numbers"
+msgstr "Construye poder común"
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:16
 msgid "Build your letter"
-msgstr "Build your letter"
+msgstr "Crea tu carta"
 
 #: frontend/lib/norent/data/faqs-content.tsx:28
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
-msgstr "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
+msgstr "Mapa de huelgas de alquiler y protección para inquilinos ante la emergencia generada por COVID-19"
 
 #: common-data/us-state-choices.ts:69
 msgid "California"
@@ -183,43 +183,43 @@ msgstr "California"
 #: frontend/lib/norent/components/helmet.tsx:55
 #: frontend/lib/norent/homepage.tsx:89
 msgid "Can't pay rent?"
-msgstr "No puedes pagar el alquiler?"
+msgstr "¿No puedes pagar la renta?"
 
 #: frontend/lib/forms/clear-session-button.tsx:9
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "Cancelar"
 
 #: frontend/lib/norent/homepage.tsx:70
 msgid "Cancelling rent"
-msgstr "Cancelling rent"
+msgstr "Cancelando la renta"
 
 #: frontend/lib/norent/homepage.tsx:42
 msgid "Cite up-to-date legal ordinances in your letter"
-msgstr "Cite up-to-date legal ordinances in your letter"
+msgstr "Cita ordenanzas legales actuales en tu carta"
 
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:38
 msgid "City"
-msgstr "City"
+msgstr "Ciudad"
 
 #: frontend/lib/forms/city-and-state-form-field.tsx:15
 msgid "City/township/borough"
-msgstr "City/township/borough"
+msgstr "Ciudad/pueblo/municipalidad"
 
 #: frontend/lib/norent/data/faqs-content.tsx:31
 msgid "Click here to join MHAction’s movement"
-msgstr "Click here to join MHAction’s movement"
+msgstr "Haz clic aquí para unirte al movimiento de MH Action"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:149
 msgid "Click here to join MHAction’s movement to hold corporate community owners accountable."
-msgstr "Click here to join MHAction’s movement to hold corporate community owners accountable."
+msgstr "Haga clic aquí para unirte al movimiento de MH Action y hacer que los propietarios de la comunidad corporativa rindan cuentas."
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:56
 msgid "Click here to learn more about our privacy policy."
-msgstr "Click here to learn more about our privacy policy."
+msgstr "Haga clic aquí para obtener más información sobre nuestra política de privacidad."
 
 #: frontend/lib/norent/homepage.tsx:299
 msgid "Collective action is a powerful tool for:"
-msgstr "Collective action is a powerful tool for:"
+msgstr "La acción colectiva es una herramienta poderosa para:"
 
 #: common-data/us-state-choices.ts:70
 msgid "Colorado"
@@ -231,20 +231,20 @@ msgstr "Community Justice Project"
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:35
 msgid "Confirm password"
-msgstr "Confirm password"
+msgstr "Confirma la contraseña"
 
 #: frontend/lib/norent/start-account-or-login/set-password.tsx:22
 msgid "Confirm your new password"
-msgstr "Confirm your new password"
+msgstr "Confirma tu nueva contraseña"
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:37
 #: frontend/lib/norent/letter-builder/ask-nyc-address.tsx:25
 msgid "Confirming the address"
-msgstr "Confirming the address"
+msgstr "Confirmando la dirección"
 
 #: frontend/lib/norent/letter-builder/ask-city-state.tsx:21
 msgid "Confirming the city"
-msgstr "Confirming the city"
+msgstr "Confirmando la ciudad"
 
 #: common-data/us-state-choices.ts:71
 msgid "Connecticut"
@@ -252,24 +252,24 @@ msgstr "Connecticut"
 
 #: frontend/lib/norent/data/faqs-content.tsx:9
 msgid "Connecting With Others"
-msgstr "Connecting With Others"
+msgstr "Poniéndose en contacto con otros"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:109
 msgid "Contact a lawyer if your landlord retaliates"
-msgstr "Contact a lawyer if your landlord retaliates"
+msgstr "Ponte en contacto con un abogado si el dueño de tu edificio toma represalias"
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:28
 #: frontend/lib/norent/letter-builder/error-pages.tsx:40
 msgid "Continue"
-msgstr "Continue"
+msgstr "Continuar"
 
 #: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:52
 msgid "Create new account"
-msgstr "Create new account"
+msgstr "Crea una cuenta nueva"
 
 #: frontend/lib/norent/homepage.tsx:246
 msgid "Dear Landlord/Management."
-msgstr "Dear Landlord/Management."
+msgstr "Estimado dueño/manager del edificio."
 
 #: common-data/us-state-choices.ts:72
 msgid "Delaware"
@@ -277,39 +277,39 @@ msgstr "Delaware"
 
 #: common-data/us-state-choices.ts:73
 msgid "District of Columbia"
-msgstr "District of Columbia"
+msgstr "Distrito de Columbia"
 
 #: frontend/lib/norent/data/faqs-content.tsx:175
 msgid "Do I have to go to the post office to mail my letter?"
-msgstr "Do I have to go to the post office to mail my letter?"
+msgstr "¿Tengo que ir a la oficina de correos para enviar mi carta?"
 
 #: frontend/lib/norent/letter-builder/ask-city-state.tsx:23
 msgid "Do you live in {0}, {1}?"
-msgstr "Do you live in {0}, {1}?"
+msgstr "¿Vives en {0}, {1}?"
 
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:22
 msgid "Do you still want to mail to:"
-msgstr "Do you still want to mail to:"
+msgstr "Aún deseas continuar mandando la carta a:"
 
 #: frontend/lib/norent/log-out.tsx:14
 msgid "Don’t worry, we’ll save your progress so you’ll be able to come back to your last step when you log back in."
-msgstr "Don’t worry, we’ll save your progress so you’ll be able to come back to your last step when you log back in."
+msgstr "No te preocupes, guardaremos tus respuestas para que puedas empezar desde donde te quedaste cuando vuelvas a conectarte."
 
 #: frontend/lib/norent/components/footer.tsx:18
 msgid "ENTER YOUR EMAIL"
-msgstr "ENTER YOUR EMAIL"
+msgstr "INTRODUCE TU CORREO ELECTRÓNICO"
 
 #: frontend/lib/norent/components/footer.tsx:16
 msgid "Email"
-msgstr "Email"
+msgstr "Correo electrónico"
 
 #: frontend/lib/norent/letter-builder/ask-email.tsx:30
 msgid "Email address"
-msgstr "Email address"
+msgstr "Dirección de correo electrónico"
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:74
 msgid "Email address <0>(recommended)</0>"
-msgstr "Email address <0>(recommended)</0>"
+msgstr "Dirección de correo electrónico <0>(recomendado)</0>"
 
 #: frontend/lib/norent/the-letter.tsx:66
 msgid "Establish your defense"
@@ -317,11 +317,11 @@ msgstr "Establish your defense"
 
 #: frontend/lib/norent/the-letter.tsx:53
 msgid "Exercise your rights"
-msgstr "Exercise your rights"
+msgstr "Ejercita tus derechos"
 
 #: frontend/lib/norent/homepage.tsx:114
 msgid "Explore the tool"
-msgstr "Explore the tool"
+msgstr "Explora la herramienta"
 
 #: frontend/lib/norent/faqs.tsx:71
 msgid "FAQs"
@@ -330,15 +330,15 @@ msgstr "Preguntas Frecuentes"
 #: frontend/lib/norent/components/footer.tsx:48
 #: frontend/lib/norent/site.tsx:70
 msgid "Faqs"
-msgstr "Faqs"
+msgstr "Preguntas más frecuentes (FAQs)"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:85
 msgid "Find out more"
-msgstr "Find out more"
+msgstr "Más información"
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:26
 msgid "First name"
-msgstr "First name"
+msgstr "Nombre"
 
 #: common-data/us-state-choices.ts:74
 msgid "Florida"
@@ -346,11 +346,11 @@ msgstr "Florida"
 
 #: frontend/lib/norent/homepage.tsx:218
 msgid "Free Certified Mail"
-msgstr "Free Certified Mail"
+msgstr "Correo certificado gratuito"
 
 #: frontend/lib/norent/faqs.tsx:76
 msgid "Frequently Asked Questions"
-msgstr "Frequently Asked Questions"
+msgstr "Preguntas Más Frecuentes"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:69
 msgid "Gather documentation"

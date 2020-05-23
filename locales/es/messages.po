@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-23 22:49\n"
+"PO-Revision-Date: 2020-05-23 22:58\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1252,37 +1252,37 @@ msgstr "Tu carta ha sido enviada al dueño de tu edificio por correo certificado
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:60
 msgid "Your letter has been sent to your landlord via email. A copy of your letter has also been sent to your email."
-msgstr "Your letter has been sent to your landlord via email. A copy of your letter has also been sent to your email."
+msgstr "Tu carta ha sido enviada al dueño o manager de tu edificio por correo certificado de USPS. También hemos enviado una copia de tu carta a tu dirección de correo electrónico."
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:27
 msgid "Your phone number"
-msgstr "Your phone number"
+msgstr "Tu número de teléfono"
 
 #: frontend/lib/ui/privacy-info-modal.tsx:28
 msgid "Your privacy is very important to us!"
-msgstr "Your privacy is very important to us!"
+msgstr "¡Su privacidad es muy importante para nosotros!"
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:51
 msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure."
-msgstr "Your privacy is very important to us! Everything on JustFix.nyc is secure."
+msgstr "¡Tu privacidad es muy importante para nosotros! Todo en JustFix.nyc es seguro."
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:84
 #: frontend/lib/norent/letter-builder/ask-nyc-address.tsx:42
 msgid "Your residence"
-msgstr "Your residence"
+msgstr "Tu hogar"
 
 #: frontend/lib/norent/homepage.tsx:93
 msgid "You’re not alone. Millions of Americans won’t be able to pay rent because of COVID‑19. Use our FREE tool to take action by writing a letter to your landlord."
-msgstr "You’re not alone. Millions of Americans won’t be able to pay rent because of COVID‑19. Use our FREE tool to take action by writing a letter to your landlord."
+msgstr "No estás solo/a. Millones de estadounidenses no podrán pagar el alquiler por culpa del COVID 19. Utiliza nuestra herramienta GRATIS para tomar acción mandando una carta al dueño de tu edificio."
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:101
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:40
 msgid "Zip code"
-msgstr "Zip code"
+msgstr "Código postal"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:60
 msgid "and"
-msgstr "and"
+msgstr "y"
 
 #: frontend/lib/ui/privacy-info-modal.tsx:30
 msgid "justfix.privacyInfoModalText"

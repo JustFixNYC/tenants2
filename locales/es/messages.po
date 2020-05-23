@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-23 22:29\n"
+"PO-Revision-Date: 2020-05-23 22:49\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -489,7 +489,7 @@ msgstr "Si necesitas cambiar tu nombre o tu información de contacto, ponte en c
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:59
 msgid "If you write checks or transfer money through your bank to pay your rent, use that name here."
-msgstr "Usa el nombre al pagas la renta."
+msgstr "Usa el nombre al que pagas la renta."
 
 #: frontend/lib/norent/letter-builder/la-address-redirect.tsx:29
 msgid "If you're interested, <0>check out the tool here</0>."
@@ -1106,23 +1106,23 @@ msgstr "Hemos colaborado con la organización sin fines de lucro <0>SAJE</0> par
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:65
 msgid "What contact information do you have for your landlord or building management? <0>Choose all that apply.</0>"
-msgstr "What contact information do you have for your landlord or building management? <0>Choose all that apply.</0>"
+msgstr "¿Qué información de contacto tienes del dueño o manager de tu edificio? <0>Elige todo lo que aplique.</0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:250
 msgid "What does an eviction moratorium mean?"
-msgstr "What does an eviction moratorium mean?"
+msgstr "¿Qué significa una moratoria del desalojo?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:212
 msgid "What does this tool do?"
-msgstr "What does this tool do?"
+msgstr "¿Qué hace esta herramienta?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:344
 msgid "What happens after I send this letter?"
-msgstr "What happens after I send this letter?"
+msgstr "¿Qué ocurre después de enviar esta carta?"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:66
 msgid "What happens next?"
-msgstr "What happens next?"
+msgstr "¿Y ahora qué?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:275
 msgid "What happens when the eviction moratorium ends?"
@@ -1138,7 +1138,7 @@ msgstr "What if I live in a state without an eviction moratorium?"
 
 #: frontend/lib/forms/address-and-borough-form-field.tsx:19
 msgid "What is your borough?"
-msgstr "What is your borough?"
+msgstr "¿Cuál es tu municipalidad?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:384
 msgid "What kind of documentation should I collect to prove I can’t pay rent?"
@@ -1146,39 +1146,39 @@ msgstr "What kind of documentation should I collect to prove I can’t pay rent?
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:58
 msgid "Where do I find this information?"
-msgstr "Where do I find this information?"
+msgstr "¿Dónde encuentro esta información?"
 
 #: frontend/lib/norent/letter-builder/ask-city-state.tsx:33
 msgid "Where do you live?"
-msgstr "Where do you live?"
+msgstr "¿Dónde vives?"
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:30
 msgid "Whether it's your first time here, or you're a returning user, let's start with your number."
-msgstr "Whether it's your first time here, or you're a returning user, let's start with your number."
+msgstr "Empecemos con tu número de teléfono, ya sea tu primera vez aquí, o estés de vuelta."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:72
 msgid "While you wait for your landlord to respond, gather as much documentation as you can. This can include a letter from your employer, receipts, doctor’s notes etc."
-msgstr "While you wait for your landlord to respond, gather as much documentation as you can. This can include a letter from your employer, receipts, doctor’s notes etc."
+msgstr "Mientras esperas a que el dueño de tu edificio conteste, recopila toda la documentación que puedas. Esto puede incluir una carta de tu jefe, recibos, notas de tu médico, etc."
 
 #: frontend/lib/norent/about.tsx:94
 msgid "Who we are"
-msgstr "Who we are"
+msgstr "Quiénes somos"
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:40
 msgid "Why do you need this information?"
-msgstr "Why do you need this information?"
+msgstr "¿Por qué necesitáis esta información?"
 
 #: frontend/lib/norent/the-letter.tsx:41
 msgid "Why send a letter"
-msgstr "Why send a letter"
+msgstr "Por qué enviar una carta"
 
 #: frontend/lib/norent/data/faqs-content.tsx:237
 msgid "Why should I notify my landlord if I can’t pay my rent?"
-msgstr "Why should I notify my landlord if I can’t pay my rent?"
+msgstr "¿Por qué debo avisar al dueño de mi edificio de que no puedo pagar la renta?"
 
 #: frontend/lib/norent/about.tsx:75
 msgid "Why we made this"
-msgstr "Why we made this"
+msgstr "Por qué hemos creado esta herramienta"
 
 #: frontend/lib/norent/data/faqs-content.tsx:363
 msgid "Will I still owe my rent after I send this letter?"
@@ -1207,48 +1207,48 @@ msgstr "Sí, cerrar sesión"
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:49
 msgid "You already have an account"
-msgstr "You already have an account"
+msgstr "Ya tienes una cuenta"
 
 #: frontend/lib/norent/homepage.tsx:59
 msgid "You can"
-msgstr "You can"
+msgstr "Puedes"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:92
 msgid "You're in <0>{stateName}</0>"
-msgstr "You're in <0>{stateName}</0>"
+msgstr "Estás en <0>{stateName}</0>"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:33
 #: frontend/lib/norent/letter-builder/confirmation.tsx:40
 msgid "You've sent your letter"
-msgstr "You've sent your letter"
+msgstr "Has enviado tu carta"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:40
 msgid "Your Letter Is Ready To Send!"
-msgstr "Your Letter Is Ready To Send!"
+msgstr "¡Tu carta está lista para enviar!"
 
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:8
 msgid "Your account is set up"
-msgstr "Your account is set up"
+msgstr "¡Tu cuenta está lista!"
 
 #: frontend/lib/norent/letter-builder/ask-email.tsx:13
 msgid "Your email address"
-msgstr "Your email address"
+msgstr "Tu dirección de correo electrónico"
 
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:30
 msgid "Your landlord or management company's address"
-msgstr "Your landlord or management company's address"
+msgstr "La dirección del dueño o manager de tu edificio"
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:15
 msgid "Your landlord or management company's email"
-msgstr "Your landlord or management company's email"
+msgstr "La dirección de correo electrónico del dueño o manager de tu edificio"
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:89
 msgid "Your landlord or management company's information"
-msgstr "Your landlord or management company's information"
+msgstr "Los datos del dueño o manager de tu edificio"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:46
 msgid "Your letter has been mailed to your landlord via USPS Certified Mail. A copy of your letter has also been sent to your email."
-msgstr "Your letter has been mailed to your landlord via USPS Certified Mail. A copy of your letter has also been sent to your email."
+msgstr "Tu carta ha sido enviada al dueño de tu edificio por correo certificado por USPS. También hemos enviado una copia de tu carta a tu dirección de correo electrónico."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:60
 msgid "Your letter has been sent to your landlord via email. A copy of your letter has also been sent to your email."

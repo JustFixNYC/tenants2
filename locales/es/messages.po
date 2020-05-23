@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-23 23:27\n"
+"PO-Revision-Date: 2020-05-23 23:48\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -313,7 +313,7 @@ msgstr "Dirección de correo electrónico <0>(recomendado)</0>"
 
 #: frontend/lib/norent/the-letter.tsx:66
 msgid "Establish your defense"
-msgstr "Establish your defense"
+msgstr "Establece tu defensa"
 
 #: frontend/lib/norent/the-letter.tsx:53
 msgid "Exercise your rights"
@@ -505,7 +505,7 @@ msgstr "Illinois"
 
 #: frontend/lib/norent/the-letter.tsx:69
 msgid "In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense."
-msgstr "In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense."
+msgstr "Si el dueño de tu edificio intenta desalojarte, las cortes lo verán como un paso proactivo que ayudará a establecer tu defensa."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:89
 msgid "In {stateName}, you have <0>{numDaysToSend} days </0>to send documentation to your landlord proving you can’t pay rent."
@@ -611,7 +611,7 @@ msgstr "Protecciones jurídicas"
 
 #: frontend/lib/norent/homepage.tsx:125
 msgid "Legally vetted"
-msgstr "Legally vetted"
+msgstr "Verificado legalmente"
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:14
 msgid "Let's get to know you."
@@ -1195,11 +1195,11 @@ msgstr "Wyoming"
 #: frontend/lib/norent/letter-builder/confirmation-modal.tsx:20
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:29
 msgid "Yes"
-msgstr "Yes"
+msgstr "Si"
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:37
 msgid "Yes, JustFix.nyc can text me to follow up about my housing issues."
-msgstr "Yes, JustFix.nyc can text me to follow up about my housing issues."
+msgstr "Sí, JustFix.nyc puede enviarme mensajes de texto para hacer un seguimiento de mis problemas de vivienda."
 
 #: frontend/lib/norent/log-out.tsx:21
 msgid "Yes, Sign Out"
@@ -1346,7 +1346,7 @@ msgstr "<0>Connect to organizers through the <1/>, a national alliance of organi
 
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:9
 msgid "norent.instructionsForNewAccountsCreatedInUnprotectedStates"
-msgstr "<0>Now that you have an account with us, we can let you know when any important changes take place in your state.</0><1>In the meantime, you can read about what you can do next, from documenting your situation to connecting with others.</1>"
+msgstr "<0>Ahora que tienes una cuenta con nosotros, podemos informarte en el caso de que se produzcan cambios importantes en tu estado. </0><1>Mientras tanto, puedes leer sobre lo que puedes hacer a continuación, desde cómo documentar tu situación hasta conectarte con otros inquilinos y el movimiento de derechos de la vivienda.</1>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:391
 msgid "norent.instructionsForStatesWithLimitedProtections"
@@ -1354,15 +1354,15 @@ msgstr "<0>On a national level, Congress passed the CARES Act on March 27, 2020 
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:24
 msgid "norent.introductionToLetterBuilderSteps"
-msgstr "In order to benefit from the eviction protections that local elected officials have put in place, you should notify your landlord of your non-payment for reasons related to COVID-19. <0>In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense.</0>"
+msgstr "Con tal de sacar provecho a las protecciones de desalojo en tu estado, deberías notificar al dueño de tu edificio de que no puedes pagar la renta por razones relacionadas con el COVID-19. <0>En el caso de que el dueño de tu edificio intente desalojarte, las cortes lo verán como un paso proactivo que ayude a establecer tu defensa.</0>"
 
 #: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:25
 msgid "norent.legacyUserBlurb"
-msgstr "<0>This is a new system. You will need a new account to use it. We're happy to set you up with one!</0><1>Meanwhile, whenever you want to sign into your \"Build your case\" or Advocate Dashboard account, you can sign in with your old account information at this URL:</1><2><3>beta.justfix.nyc</3> </2><4><5>Please write this URL down to remember it later.</5></4><6>Your new account will be used to access JustFix.nyc's new services.</6><7>If you have any questions, please feel free to email us at <8/>.</7>"
+msgstr "<0>Este es un sistema nuevo. Necesitarás una nueva cuenta para utilizarlo. Estamos encantados de prepararte una cuenta /0><1>Mientras tanto, cada vez que quieras iniciar sesión en tu cuenta de \"Build your case\" o el panel de control \"Advocate Dashboard\", puedes iniciar sesión con la información de tu cuenta antigua en este enlace:</1><2><3>beta.justfix.nyc</3></2><4><5>Por favor, guarde este enlace para poder encontrarlo más tarde.</5></4>Podrás utilizar tu cuenta nueva para acceder a los nuevos servicios de JustFix.nyc.</6><7>Si tienes alguna pregunta, por favor envíanos un correo electrónico a <8/>.</7>"
 
 #: frontend/lib/norent/components/footer.tsx:60
 msgid "norent.legalDisclaimer"
-msgstr "<0>Disclaimer: The information in JustFix.nyc does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free legal services if necessary.</0>"
+msgstr "<0>Aviso: La información en JustFix.nyc no constituye asesoramiento jurídico y no debe ser utilizado como sustituto del asesoramiento de un abogado cualificado para asesorar sobre cuestiones jurídicas relativas a la vivienda. Si lo necesitas, podemos ayudar a dirigirte a servicios legales gratuitos. </0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:34
 msgid "norent.listOfSuggestedNonpaymentDocumentation"
@@ -1370,7 +1370,7 @@ msgstr "<0>While you wait for your landlord to respond, gather as much documenta
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:35
 msgid "norent.outlineOfLetterBuilderSteps"
-msgstr "<0>In the next few steps, we’ll build your letter using the following information. Have this information on hand if possible:</0><1><2><3>your phone number, email address, and residence</3></2><4><5>your landlord or management company’s mailing and/or email address</5></4></1>"
+msgstr "<0>En los próximos pasos, construiremos tu carta utilizando la siguiente información. Si puedes, ten esta información a mano:</0><1><2><3>tu número de teléfono, dirección de correo electrónico y dirección postal</3></2><4><5>la dirección postal del dueño o manager de tu edificio y/o su dirección de correo electrónico</5></4></1>"
 
 #: frontend/lib/norent/homepage.tsx:249
 msgid "norent.sampleNoRentLetter"
@@ -1378,7 +1378,7 @@ msgstr "<0>I am writing to inform you that I have experienced a loss of income, 
 
 #: frontend/lib/norent/components/social-icons.tsx:16
 msgid "norent.tweetTemplateForSharingNoRent"
-msgstr "No idea how you'll pay rent this month? Tell your landlord with norent.org from @JustFixNYC. This free tool sends a certified letter informing them of your protections. Join the #cancelrent movement at norent.org."
+msgstr "¿No sabes cómo pagarás la renta este mes? Avisa al dueño de tu edificio con NoRent.org de @JustFixNYC. Esta herramienta gratuita envía una carta certificada informándole de tus derechos. Únete al movimiento #cancelrent en NoRent.org."
 
 #: frontend/lib/norent/data/faqs-content.tsx:107
 msgid "norent.whatToDoIfLandlordRetaliates"
@@ -1390,7 +1390,7 @@ msgstr "<0>If you’re not able to pay the rent this month because of a COVID-19
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:41
 msgid "norent.whyIsPhoneNumberNeeded"
-msgstr "We’ll use this information to either:<0><1>Log you into your existing account</1><2>Match with a pre-existing account </2><3>Sign you up for a new account.</3></0>"
+msgstr "Utilizaremos esta información para: <0><1>Acceder a tu cuenta actual</1><2>Comprobar si coincide con una cuenta preexistente </2><3>Abrirte una cuenta nueva.</3></0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:239
 msgid "norent.whyYouShouldNotifyAboutNotPayingRent"
@@ -1402,7 +1402,7 @@ msgstr "<0>Yes, you’ll still owe rent after sending the letter because our sta
 
 #: frontend/lib/norent/components/helmet.tsx:13
 msgid "pay rent, rent, can't pay rent, june rent, june 1"
-msgstr "pay rent, rent, can't pay rent, june rent, june 1"
+msgstr "pagar alquiler, alquiler, no puede pagar alquiler, alquiler de junio, 1 de junio"
 
 #: frontend/lib/norent/components/helmet.tsx:13
 #~ msgid "pay rent, rent, can't pay rent, may rent, may 1"
@@ -1410,5 +1410,5 @@ msgstr "pay rent, rent, can't pay rent, june rent, june 1"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
-msgstr "{stateName} has specific documentation requirements to support your letter to your landlord."
+msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
 

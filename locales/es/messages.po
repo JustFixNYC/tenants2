@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-23 23:18\n"
+"PO-Revision-Date: 2020-05-23 23:27\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1310,11 +1310,11 @@ msgstr "Usé www.norent.org para decirle al dueño de mi edificio de que no pued
 
 #: frontend/lib/norent/about.tsx:79
 msgid "norent.explanationAboutWhyWeMadeThisSite"
-msgstr "Tenants across the nation are being impacted by COVID-19 in ways that are affecting their abilities to pay rent. We made this tool to empower tenants to exercise their rights during this pandemic."
+msgstr "Los inquilinos de todo el país se ven afectados por el COVID-19 de manera que afecta su habilidad para pagar la renta. Creamos esta herramienta para que todos los inquilinos puedan ejercer sus derechos durante la pandemia."
 
 #: frontend/lib/norent/homepage.tsx:128
 msgid "norent.explanationOfPartnerships"
-msgstr "Our free letter builder was built with <0>lawyers and non-profit tenants rights organizations</0> across the nation to ensure that your letter gives you the most protections based on your state."
+msgstr "Nuestro compositor de cartas gratuitas fue construido con <0>abogados y organizaciones de derechos de inquilinos sin fines de lucro</0> en toda la nación para asegurarnos de que tu carta te protege lo más posible según el estado en el que vives."
 
 #: frontend/lib/norent/data/faqs-content.tsx:277
 msgid "norent.explanationOfWhatHappensWhenEvictionMoratoriumEnds"

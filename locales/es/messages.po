@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-23 23:48\n"
+"PO-Revision-Date: 2020-05-23 23:58\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -436,12 +436,12 @@ msgstr "Housing Justice for All"
 
 #: frontend/lib/norent/data/faqs-content.tsx:437
 msgid "How can I build collective power with other tenants?"
-msgstr "How can I build collective power with other tenants?"
+msgstr "¿Cómo puedo construir poder colectivo con otros inquilinos?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:327
 #: frontend/lib/norent/data/faqs-content.tsx:432
 msgid "How can I connect with a lawyer?"
-msgstr "How can I connect with a lawyer?"
+msgstr "¿Cómo puedo conectarme con un abogado?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:427
 msgid "How can I document my hardships related to COVID-19?"

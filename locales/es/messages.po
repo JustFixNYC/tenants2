@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-22 22:41\n"
+"PO-Revision-Date: 2020-05-23 21:59\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -796,7 +796,7 @@ msgstr "No poder pagar el alquiler debido a COVID-19 no es nada de lo que avergo
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:52
 msgid "Now we just need your password. This is the same one you’ve used on JustFix.nyc."
-msgstr "Now we just need your password. This is the same one you’ve used on JustFix.nyc."
+msgstr "Ahora sólo necesitamos tu contraseña. Esta es la misma que usas en JustFix.nyc."
 
 #: common-data/us-state-choices.ts:100
 msgid "Ohio"
@@ -808,37 +808,37 @@ msgstr "Oklahoma"
 
 #: common-data/us-state-choices.ts:102
 msgid "Oregon"
-msgstr "Oregon"
+msgstr "Oregón"
 
 #: frontend/lib/norent/about.tsx:122
 msgid "Our Partners"
-msgstr "Our Partners"
+msgstr "Nuestros aliados"
 
 #: frontend/lib/norent/homepage.tsx:205
 msgid "Our letter cites the most up-to-date legal ordinances that protect tenant rights in your state."
-msgstr "Our letter cites the most up-to-date legal ordinances that protect tenant rights in your state."
+msgstr "Nuestra carta cita las ordenanzas legales actuales que protegen los derechos de los inquilinos en tu estado."
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:39
 #: frontend/lib/norent/letter-builder/ask-nyc-address.tsx:27
 msgid "Our records have shown us a similar address. Would you like to proceed with this address:"
-msgstr "Our records have shown us a similar address. Would you like to proceed with this address:"
+msgstr "Nuestros registros han encontrado una dirección similar. ¿Quieres continuar con la dirección siguiente?"
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:48
 msgid "Our records tell us that this address is invalid."
-msgstr "Our records tell us that this address is invalid."
+msgstr "Nuestros registros indican que esta dirección no es válida."
 
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:20
 msgid "Our records tell us that this address is undeliverable."
-msgstr "Our records tell us that this address is undeliverable."
+msgstr "Nuestros registros indican que no se puede enviar correo a esta dirección."
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:34
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:61
 msgid "Password"
-msgstr "Password"
+msgstr "Contraseña"
 
 #: common-data/us-state-choices.ts:103
 msgid "Pennsylvania"
-msgstr "Pennsylvania"
+msgstr "Pensilvania"
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:38
 msgid "Phone number"
@@ -899,7 +899,7 @@ msgstr "Envía tu carta por correo certificado gratis"
 
 #: frontend/lib/norent/homepage.tsx:40
 msgid "Send your letter by email"
-msgstr "Send your letter by email"
+msgstr "Envía tu carta por correo electrónico"
 
 #: frontend/lib/norent/faqs.tsx:80
 msgid "Sending a letter to your landlord is a big step. Check out our frequently asked questions from people who have used our tool:"

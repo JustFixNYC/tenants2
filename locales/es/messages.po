@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-23 21:59\n"
+"PO-Revision-Date: 2020-05-23 22:20\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -366,7 +366,7 @@ msgstr "Comparte tu opinión"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:161
 msgid "Give us feedback"
-msgstr "Danos tu opinión"
+msgstr "Comparte tu opinión"
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:39
 msgid "Go back"
@@ -903,55 +903,55 @@ msgstr "Envía tu carta por correo electrónico"
 
 #: frontend/lib/norent/faqs.tsx:80
 msgid "Sending a letter to your landlord is a big step. Check out our frequently asked questions from people who have used our tool:"
-msgstr "Sending a letter to your landlord is a big step. Check out our frequently asked questions from people who have used our tool:"
+msgstr "Enviar una carta al dueño de tu edificio es un paso grande. Consulta las preguntas más frecuentes de las personas que han utilizado nuestra herramienta:"
 
 #: frontend/lib/norent/faqs.tsx:50
 msgid "Sending a letter to your landlord is a big step. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
-msgstr "Sending a letter to your landlord is a big step. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
+msgstr "Enviar una carta al dueño de tu edificio es un paso grande. Aquí tienes algunas <0>preguntas más frecuentes</0> de las personas que han utilizado nuestra herramienta:"
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:18
 msgid "Set up an account"
-msgstr "Set up an account"
+msgstr "Configura una cuenta"
 
 #: frontend/lib/norent/start-account-or-login/set-password.tsx:10
 msgid "Set your new password"
-msgstr "Set your new password"
+msgstr "Establece tu nueva contraseña"
 
 #: frontend/lib/norent/start-account-or-login/set-password.tsx:12
 msgid "Set your password"
-msgstr "Set your password"
+msgstr "Establece tu contraseña"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:17
 msgid "Shall we send your letter?"
-msgstr "Shall we send your letter?"
+msgstr "¿Quieres que enviemos tu carta?"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:178
 msgid "Share this tool"
-msgstr "Share this tool"
+msgstr "Compartir esta herramienta"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:142
 msgid "Sign the petition"
-msgstr "Sign the petition"
+msgstr "Firmar la petición"
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:14
 msgid "Sign up or log in to your account to access our tool."
-msgstr "Sign up or log in to your account to access our tool."
+msgstr "Regístrate o inicia una sesión en tu cuenta para acceder a nuestra herramienta."
 
 #: common-data/us-state-choices.ts:106
 msgid "South Carolina"
-msgstr "South Carolina"
+msgstr "Carolina del Sur"
 
 #: common-data/us-state-choices.ts:107
 msgid "South Dakota"
-msgstr "South Dakota"
+msgstr "Dakota del Sur"
 
 #: frontend/lib/forms/mailing-address-fields.tsx:7
 msgid "State"
-msgstr "State"
+msgstr "Estado"
 
 #: frontend/lib/norent/data/faqs-content.tsx:11
 msgid "States with Limited Protections"
-msgstr "States with Limited Protections"
+msgstr "Estados con Protecciones Limitadas"
 
 #: frontend/lib/norent/about.tsx:31
 msgid "Strategic Actions for a Just Economy"
@@ -959,16 +959,16 @@ msgstr "Strategic Actions for a Just Economy"
 
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:37
 msgid "Street address"
-msgstr "Street address"
+msgstr "Dirección"
 
 #: frontend/lib/norent/components/footer.tsx:21
 #: frontend/lib/norent/components/footer.tsx:22
 msgid "Submit email"
-msgstr "Submit email"
+msgstr "Enviar email"
 
 #: frontend/lib/norent/data/faqs-content.tsx:8
 msgid "Tenant Rights"
-msgstr "Tenant Rights"
+msgstr "Derechos del Inquilino"
 
 #: common-data/us-state-choices.ts:108
 msgid "Tennessee"
@@ -976,46 +976,46 @@ msgstr "Tennessee"
 
 #: frontend/lib/ui/privacy-info-modal.tsx:26
 msgid "Terms of Use"
-msgstr "Terms of Use"
+msgstr "Términos de Uso"
 
 #: common-data/us-state-choices.ts:109
 msgid "Texas"
-msgstr "Texas"
+msgstr "Tejas"
 
 #: frontend/lib/norent/components/footer.tsx:45
 #: frontend/lib/norent/site.tsx:67
 #: frontend/lib/norent/the-letter.tsx:10
 #: frontend/lib/norent/the-letter.tsx:15
 msgid "The Letter"
-msgstr "The Letter"
+msgstr "La Carta"
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:19
 msgid "This is optional."
-msgstr "This is optional."
+msgstr "Esto es opcional."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:164
 msgid "This tool is provided by JustFix.nyc. We’re a non-profit that creates tools for tenants and the housing rights movement. We always want feedback to improve our tools."
-msgstr "This tool is provided by JustFix.nyc. We’re a non-profit that creates tools for tenants and the housing rights movement. We always want feedback to improve our tools."
+msgstr "Esta herramienta te la trae JustFix.nyc. Somos una organización sin fines de lucro que crea herramientas para inquilinos y el movimiento de derechos de la vivienda. Siempre nos interesa tu opinión para mejorar nuestras herramientas."
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:29
 msgid "To begin the password reset process, we'll text you a verification code."
-msgstr "To begin the password reset process, we'll text you a verification code."
+msgstr "Para restablecer tu contraseña, te enviaremos un código de verificación."
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:76
 msgid "To:"
-msgstr "To:"
+msgstr "A:"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:53
 msgid "USPS Tracking #:"
-msgstr "USPS Tracking #:"
+msgstr "Número de Seguimiento USPS:"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:28
 msgid "Unfortunately, we do not currently recommend sending a notice of non-payment to your landlord. Sending a notice could put you at risk."
-msgstr "Unfortunately, we do not currently recommend sending a notice of non-payment to your landlord. Sending a notice could put you at risk."
+msgstr "Desafortunadamente, en este momento no recomendamos enviar una carta de impago al dueño de tu edificio. Enviar la carta podría ponerte en riesgo de hostigamiento."
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:100
 msgid "Unit/apt/lot/suite number"
-msgstr "Unit/apt/lot/suite number"
+msgstr "Número de apartamento/unidad/lote/suite"
 
 #: common-data/us-state-choices.ts:110
 msgid "Utah"
@@ -1023,11 +1023,11 @@ msgstr "Utah"
 
 #: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:22
 msgid "Verification code"
-msgstr "Verification code"
+msgstr "Código de verificación"
 
 #: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:11
 msgid "Verify your phone number"
-msgstr "Verify your phone number"
+msgstr "Verifica tu número de teléfono"
 
 #: common-data/us-state-choices.ts:111
 msgid "Vermont"
@@ -1035,7 +1035,7 @@ msgstr "Vermont"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:57
 msgid "View this letter as a PDF"
-msgstr "View this letter as a PDF"
+msgstr "Ver la carta como PDF"
 
 #: common-data/us-state-choices.ts:112
 msgid "Virginia"
@@ -1047,7 +1047,7 @@ msgstr "Washington"
 
 #: frontend/lib/norent/homepage.tsx:170
 msgid "We make it easy to notify your landlord by email or by certified mail for free."
-msgstr "We make it easy to notify your landlord by email or by certified mail for free."
+msgstr "Te facilitamos notificar al dueño de tu edificio por correo electrónico o por correo certificado gratis."
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:61
 msgid "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."

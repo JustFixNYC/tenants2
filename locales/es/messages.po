@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-24 01:42\n"
+"PO-Revision-Date: 2020-05-24 01:57\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -525,19 +525,19 @@ msgstr "Iowa"
 
 #: frontend/lib/norent/data/faqs-content.tsx:296
 msgid "Is not paying my rent because of COVID-19 considered a “rent strike”?"
-msgstr "Is not paying my rent because of COVID-19 considered a “rent strike”?"
+msgstr "¿Se considera una \"huelga de renta\" el no pagar mi alquiler a causa de COVID-19?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:196
 msgid "Is there someone I can connect with after this to get help?"
-msgstr "Is there someone I can connect with after this to get help?"
+msgstr "¿Hay alguien a quien pueda contactar después de esto para obtener ayuda?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:156
 msgid "Is this free?"
-msgstr "Is this free?"
+msgstr "¿Es gratis?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:224
 msgid "Is this tool right for me?"
-msgstr "Is this tool right for me?"
+msgstr "¿Es esta herramienta adecuada para mí?"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:112
 msgid "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."
@@ -1126,7 +1126,7 @@ msgstr "¿Y ahora qué?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:275
 msgid "What happens when the eviction moratorium ends?"
-msgstr "What happens when the eviction moratorium ends?"
+msgstr "¿Qué sucede cuando termine la moratoria de desalojo?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:332
 msgid "What if I live in a manufactured or mobile home?"
@@ -1298,7 +1298,7 @@ msgstr "<0>Están en juego nuestros hogares, salud, seguridad colectiva y futuro
 
 #: frontend/lib/norent/data/faqs-content.tsx:252
 msgid "norent.definitionOfEvictionMoratorium"
-msgstr "<0>An “eviction moratorium” can mean something different in every jurisdiction, but in short, a moratorium temporarily pauses certain types of evictions.</0><1>The exact means by which this pause is enforced and the types of cases that are paused, varies across cities and states. Depending on the jurisdiction, courts may simply be closed or not processing eviction filings, sheriffs may not be enforcing eviction orders, or there may be some combination of these and other methods of suspending evictions.</1><2>NoRent.org will support you with the process of navigating these different rules. You can also read more about the tenant protections in your jurisdiction at the Anti-Eviction Mapping Project’s <3/>.</2>"
+msgstr "<0>Una \"moratoria de desalojo\" puede significar algo diferente en cada jurisdicción, pero en resumen, una moratoria detiene temporalmente ciertos tipos de desalojo.</0><1>El mecanismo exacto por medio del cual se aplica esta suspensión y los tipos de casos que se suspenden, varía de una ciudad a otra. Dependiendo de la jurisdicción, los tribunales pueden simplemente estar cerrados o no tramitar las demandas de desalojo, los alguaciles pueden no hacer cumplir las órdenes de desalojo o puede haber alguna combinación de estos y otros métodos para suspender los desalojos.</1><2>NoRent.org te ayudará orientándote para entender las diferentes reglas. También puedes leer más sobre las protecciones de los inquilinos en tu jurisdicción en el Proyecto de Mapeo Contra los Desalojos COVID-19 Emergency Tenant Protections & Rent Strikes Map (Mapa de huelgas de alquiler y protección para inquilinos ante la emergencia generada por COVID-19)<3/>.</2>"
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:15
 msgid "norent.detailsAboutNYCLandlordInfo"
@@ -1318,15 +1318,15 @@ msgstr "Nuestro generador de cartas gratuitas fue construido con <0>abogados y o
 
 #: frontend/lib/norent/data/faqs-content.tsx:277
 msgid "norent.explanationOfWhatHappensWhenEvictionMoratoriumEnds"
-msgstr "<0>Once a moratorium is lifted, eviction processes in courts and enforcement by local law enforcement may resume.</0><1>If we don’t win additional demands (such as a rent freeze and suspension of rent payments) before the end of these “eviction moratoriums”, then cases will restart, evictions will continue, and new cases will be filed.</1><2>We are working hard to push for an immediate rent freeze and rent suspension, among other demands. This is the time to organize! Get involved at <3/>.</2>"
+msgstr "<0>Una vez que se levante la moratoria, los procesos de desalojo en los tribunales y la aplicación de la ley por parte de las autoridades locales del orden público pueden reanudarse.</0><1>Si no logramos reivindicaciones adicionales (como un congelamiento de la renta y la suspensión de los pagos de alquiler) antes de que estas \"moratorias de desalojo\" terminen, volverán a empezar los procesos, los desalojos continuarán y se presentarán nuevas demandas.</1><2>Estamos trabajando arduamente pidiendo la congelación y suspensión inmediatas del alquiler, entre otras solicitudes. ¡Este es el momento de organizarse! Participa en <3/>.</2>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:214
 msgid "norent.explanationOfWhatToolDoes"
-msgstr "<0>NoRent.org guides you through the process of notifying your landlord that you cannot pay the rent due to a COVID-19 related issue. We’ll also help you learn more about the rights that protect tenants in your state and refer you to resources to take legal or organizing action.</0>"
+msgstr "<0>NoRent.org te guía en el proceso de cómo notificar a tu arrendador que no puedes pagar el alquiler debido a un problema relacionado con COVID-19. También te ayudaremos a obtener más información sobre los derechos que protegen a los inquilinos en tu estado y te daremos información sobre recursos para tomar medidas legales u organizativas.</0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:298
 msgid "norent.explanationOfWithholdingRent"
-msgstr "<0>There’s a difference between a “rent strike”, or withholding rent, and not paying rent. This letter notifies the landlord that you’re not paying rent due to financial impacts of COVID-19, which is a way of delaying rent payments now.</0><1>Withholding your rent, or a rent strike, is declaring that you will not pay the rent, regardless of whether you’re able to. This may put you at risk of legal eviction for failure to pay the rent. You should never withhold rent alone and should only do so when you have gotten the support and buy-in of everyone in your building.</1><2>While this is risky, withholding rent can be an important tactic for tenants to build a movement. If your neighbors are considering a rent strike, you may want to refer to the resources below on how to organize, and to contact organizations that have provided tools and resources.</2>"
+msgstr "<0>Hay una diferencia entre una \"huelga de renta\" o retener la renta, y no pagar la renta. Esta carta le notifica al arrendador que no estás pagando el alquiler debido a los impactos financieros de COVID-19, que ahora es una forma de retrasar los pagos del alquiler.</0><1>Retener tu renta, o una huelga de renta, es declarar que no pagarás la renta, independientemente de si puedes hacerlo. Esto puede ponerte en riesgo de desalojo legal por no pagar el alquiler. Nunca debes ser el único que decide retener el alquiler, solo debes hacerlo cuando hayas obtenido el apoyo y participación de todos en tu edificio.</1><2>Si bien es arriesgado, retener la renta puede ser una táctica importante para que los inquilinos impulsen un movimiento. Si tus vecinos están considerando una huelga de renta, sería conveniente que consultes los recursos a continuación sobre cómo organizarse y ponerse en contacto con las herramientas y recursos que las organizaciones han puesto a disposición.</2>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:334
 msgid "norent.howToConnectWithManufacturedHomeOwners"
@@ -1386,7 +1386,7 @@ msgstr "<0>It’s normal to feel anxious or scared that your landlord will retal
 
 #: frontend/lib/norent/data/faqs-content.tsx:226
 msgid "norent.whoThisToolIsFor"
-msgstr "<0>If you’re not able to pay the rent this month because of a COVID-19 related issue (i.e. employment changes, loss of income, medical expenses, or loss of childcare) this tool is for you. Although the rules for exercising your rights will vary by state, NoRent.org can help walk you through the complexities and connect you to resources.</0>"
+msgstr "<0>Si no puedes pagar el alquiler este mes debido a un problema relacionado con COVID-19 (es decir, debido a cambios en el trabajo, pérdida de ingresos, gastos de salud o pérdida de cuidado de niños), esta herramienta es para ti. Aunque las reglas para ejercer tus derechos variarán según el estado, NoRent.org puede ayudarte a entender las complejidades y ponerte en contacto con los recursos necesarios.</0>"
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:41
 msgid "norent.whyIsPhoneNumberNeeded"
@@ -1394,7 +1394,7 @@ msgstr "Utilizaremos esta información para: <0><1>Acceder a tu cuenta actual</1
 
 #: frontend/lib/norent/data/faqs-content.tsx:239
 msgid "norent.whyYouShouldNotifyAboutNotPayingRent"
-msgstr "<0>In some states, in order to benefit from the eviction protections that elected officials have put in place you should notify your landlord of your non-payment for reasons related to COVID-19. In the event that your landlord tries to evict you, the courts may view this as a proactive step that helps establish your defense.</0>"
+msgstr "<0>En algunos estados, para beneficiarse de las protecciones de desalojo que los funcionarios electos han establecido, debes notificar a tu arrendador que tu falta de pago es por razones relacionadas con COVID-19. En caso de que tu arrendador trate de desalojarte, los tribunales pueden ver esta notificación como una medida proactiva que ayuda a establecer tu defensa.</0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:365
 msgid "norent.whyYouStillOweRentAfterSendingLetter"

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-24 02:26\n"
+"PO-Revision-Date: 2020-05-24 14:29\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -174,7 +174,7 @@ msgstr "Crea tu carta"
 
 #: frontend/lib/norent/data/faqs-content.tsx:28
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
-msgstr "Mapa de huelgas de alquiler y protección para inquilinos ante la emergencia generada por COVID-19"
+msgstr "Mapa de huelgas de renta y protección para inquilinos ante la emergencia generada por COVID-19"
 
 #: common-data/us-state-choices.ts:69
 msgid "California"
@@ -378,7 +378,7 @@ msgstr "Ir al sitio web"
 
 #: frontend/lib/norent/homepage.tsx:69
 msgid "Going on rent strike"
-msgstr "Hacer huelga de alquiler"
+msgstr "Hacer huelga de renta"
 
 #: frontend/lib/ui/privacy-info-modal.tsx:59
 msgid "Got it!"
@@ -509,11 +509,11 @@ msgstr "Si el dueño de tu edificio intenta desalojarte, las cortes lo verán co
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:89
 msgid "In {stateName}, you have <0>{numDaysToSend} days </0>to send documentation to your landlord proving you can’t pay rent."
-msgstr "En {stateName}, tienes <0>{numDaysToSend} días </0>para enviar documentación al dueño de tu edificio para demostrar que no puedes pagar el alquiler."
+msgstr "En {stateName}, tienes <0>{numDaysToSend} días </0>para enviar documentación al dueño de tu edificio para demostrar que no puedes pagar la renta."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:96
 msgid "In {stateName}, you have to send documentation to your landlord proving you can’t pay rent."
-msgstr "En {stateName}, tienes que enviar documentación al dueño de tu edificio para probar que no puedes pagar el alquiler."
+msgstr "En {stateName}, tienes que enviar documentación al dueño de tu edificio para probar que no puedes pagar la renta."
 
 #: common-data/us-state-choices.ts:79
 msgid "Indiana"
@@ -525,7 +525,7 @@ msgstr "Iowa"
 
 #: frontend/lib/norent/data/faqs-content.tsx:296
 msgid "Is not paying my rent because of COVID-19 considered a “rent strike”?"
-msgstr "¿Se considera una \"huelga de renta\" el no pagar mi alquiler a causa de COVID-19?"
+msgstr "¿Se considera una \"huelga de renta\" el no pagar mi renta a causa del COVID-19?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:196
 msgid "Is there someone I can connect with after this to get help?"
@@ -553,7 +553,7 @@ msgstr "¡Únete a nuestra lista de distribución!"
 
 #: frontend/lib/norent/components/social-icons.tsx:17
 msgid "Just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
-msgstr "Acabo de utilizar la nueva herramienta gratuita de JustFix.nyc para comunicarle al dueño de mi edificio que no puedo pagar el alquiler"
+msgstr "Acabo de utilizar la nueva herramienta gratuita de JustFix.nyc para comunicarle al dueño de mi edificio que no puedo pagar la renta"
 
 #: common-data/us-state-choices.ts:81
 msgid "Kansas"
@@ -792,7 +792,7 @@ msgstr "Dakota del Norte"
 
 #: frontend/lib/norent/the-letter.tsx:19
 msgid "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
-msgstr "No poder pagar el alquiler debido a COVID-19 no es nada de lo que avergonzarse. Nuestro generador de cartas hace que sea fácil enviarle una carta al dueño de tu edificio."
+msgstr "No poder pagar la renta debido a COVID-19 no es nada de lo que avergonzarse. Nuestro generador de cartas hace que sea fácil enviarle una carta al dueño de tu edificio."
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:52
 msgid "Now we just need your password. This is the same one you’ve used on JustFix.nyc."
@@ -867,7 +867,7 @@ msgstr "Puerto Rico"
 
 #: frontend/lib/norent/data/faqs-content.tsx:25
 msgid "Rent Strike 2020: A Resource List"
-msgstr "Huelga de Alquiler 2020: Lista de recursos"
+msgstr "Huelga de Renta 2020: Lista de recursos"
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:27
 msgid "Reset your password"
@@ -1142,7 +1142,7 @@ msgstr "¿Cuál es tu municipalidad?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:384
 msgid "What kind of documentation should I collect to prove I can’t pay rent?"
-msgstr "¿Qué tipo de documentación debo recopilar para demostrar que no puedo pagar el alquiler?"
+msgstr "¿Qué tipo de documentación debo recopilar para demostrar que no puedo pagar la renta?"
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:58
 msgid "Where do I find this information?"

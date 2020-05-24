@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-24 14:47\n"
+"PO-Revision-Date: 2020-05-24 19:42\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -473,7 +473,7 @@ msgstr "No tengo ningún número de apartamento"
 
 #: frontend/lib/norent/data/faqs-content.tsx:147
 msgid "I'm scared. What happens if my landlord retaliates?"
-msgstr "Tengo miedo. ¿Qué sucede si mi arrendador toma represalias?"
+msgstr "Tengo miedo. ¿Qué sucede si el dueño de mi edificio toma represalias?"
 
 #: common-data/us-state-choices.ts:77
 msgid "Idaho"
@@ -1322,7 +1322,7 @@ msgstr "<0>Una vez que se levante la moratoria, los procesos de desalojo en los 
 
 #: frontend/lib/norent/data/faqs-content.tsx:214
 msgid "norent.explanationOfWhatToolDoes"
-msgstr "<0>NoRent.org te guía en el proceso de cómo notificar a tu arrendador que no puedes pagar la renta debido a un problema relacionado con el COVID-19. También te ayudaremos a obtener más información sobre los derechos que protegen a los inquilinos en tu estado y te daremos información sobre recursos para tomar medidas legales u organizativas.</0>"
+msgstr "<0>NoRent.org te guía en el proceso de cómo notificar al dueño de tu edificio que no puedes pagar la renta debido a un problema relacionado con el COVID-19. También te ayudaremos a obtener más información sobre los derechos que protegen a los inquilinos en tu estado y te daremos información sobre recursos para tomar medidas legales u organizativas.</0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:298
 msgid "norent.explanationOfWithholdingRent"

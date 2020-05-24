@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-23 23:58\n"
+"PO-Revision-Date: 2020-05-24 01:42\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -153,7 +153,7 @@ msgstr "Explora las preguntas más frecuentes"
 
 #: frontend/lib/norent/homepage.tsx:39
 msgid "Build a letter using our free letter builder"
-msgstr "Crea una carta con nuestro compositor de cartas gratis"
+msgstr "Crea una carta con nuestro generador de cartas gratis"
 
 #: frontend/lib/norent/components/footer.tsx:42
 #: frontend/lib/norent/site.tsx:64
@@ -627,7 +627,7 @@ msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información y rec
 
 #: frontend/lib/norent/data/faqs-content.tsx:7
 msgid "Letter Builder"
-msgstr "Compositor de Cartas"
+msgstr "Generador de cartas"
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:21
 msgid "Let’s set you up with an account. An account will enable you to save your information, download your letter, and more."
@@ -792,7 +792,7 @@ msgstr "Dakota del Norte"
 
 #: frontend/lib/norent/the-letter.tsx:19
 msgid "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
-msgstr "No poder pagar el alquiler debido a COVID-19 no es nada de lo que avergonzarse. Nuestro compositor de cartas hace que sea fácil enviarle una carta al dueño de tu edificio."
+msgstr "No poder pagar el alquiler debido a COVID-19 no es nada de lo que avergonzarse. Nuestro generador de cartas hace que sea fácil enviarle una carta al dueño de tu edificio."
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:52
 msgid "Now we just need your password. This is the same one you’ve used on JustFix.nyc."
@@ -1102,7 +1102,7 @@ msgstr "Nos hemos aliado con <0/> para proporcionarte apoyo adicional."
 
 #: frontend/lib/norent/letter-builder/la-address-redirect.tsx:20
 msgid "We’ve worked with the non-profit organization <0>SAJE</0> to provide you with a custom letter builder."
-msgstr "Hemos colaborado con la organización sin fines de lucro <0>SAJE</0> para proporcionarte un compositor de letras específico al contexto de Los Ángeles."
+msgstr "Hemos colaborado con la organización sin fines de lucro <0>SAJE</0> para proporcionarte un generador de cartas específico al contexto de Los Ángeles."
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:65
 msgid "What contact information do you have for your landlord or building management? <0>Choose all that apply.</0>"
@@ -1314,7 +1314,7 @@ msgstr "Los inquilinos de todo el país se ven afectados por el COVID-19 de mane
 
 #: frontend/lib/norent/homepage.tsx:128
 msgid "norent.explanationOfPartnerships"
-msgstr "Nuestro compositor de cartas gratuitas fue construido con <0>abogados y organizaciones de derechos de inquilinos sin fines de lucro</0> en toda la nación para asegurarnos de que tu carta te protege lo más posible según el estado en el que vives."
+msgstr "Nuestro generador de cartas gratuitas fue construido con <0>abogados y organizaciones de derechos de inquilinos sin fines de lucro</0> en toda la nación para asegurarnos de que tu carta te protege lo más posible según el estado en el que vives."
 
 #: frontend/lib/norent/data/faqs-content.tsx:277
 msgid "norent.explanationOfWhatHappensWhenEvictionMoratoriumEnds"

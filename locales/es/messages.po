@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-26 13:36\n"
+"PO-Revision-Date: 2020-05-26 18:20\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1298,7 +1298,7 @@ msgstr "<0>Están en juego nuestros hogares, salud, seguridad colectiva y futuro
 
 #: frontend/lib/norent/data/faqs-content.tsx:252
 msgid "norent.definitionOfEvictionMoratorium"
-msgstr "<0>Una \"moratoria de desalojo\" puede significar algo diferente en cada jurisdicción, pero en resumen, una moratoria detiene temporalmente ciertos tipos de desalojo.</0><1>El mecanismo exacto por medio del cual se aplica esta suspensión y los tipos de casos que se suspenden, varía de una ciudad a otra. Dependiendo de la jurisdicción, los tribunales pueden simplemente estar cerrados o no tramitar las demandas de desalojo, los alguaciles pueden no hacer cumplir las órdenes de desalojo o puede haber alguna combinación de estos y otros métodos para suspender los desalojos.</1><2>NoRent.org te ayudará orientándote para entender las diferentes reglas. También puedes leer más sobre las protecciones de los inquilinos en tu jurisdicción en el Proyecto de Mapeo Contra los Desalojos COVID-19 Emergency Tenant Protections & Rent Strikes Map (Mapa de huelgas de renta y protección para inquilinos ante la emergencia generada por COVID-19)<3/>.</2>"
+msgstr "<0>Una \"moratoria de desalojo\" puede significar algo diferente en cada jurisdicción, pero en resumen, una moratoria detiene temporalmente ciertos tipos de desalojo.</0><1>El mecanismo exacto por medio del cual se aplica esta suspensión y los tipos de casos que se suspenden, varía de una ciudad a otra. Dependiendo de la jurisdicción, la corte puede simplemente estar cerrados o no tramitar las demandas de desalojo, los alguaciles pueden no hacer cumplir las órdenes de desalojo o puede haber alguna combinación de estos y otros métodos para suspender los desalojos.</1><2>NoRent.org te ayudará orientándote para entender las diferentes reglas. También puedes leer más sobre las protecciones de los inquilinos en tu jurisdicción en el Proyecto de Mapeo Contra los Desalojos COVID-19 Emergency Tenant Protections & Rent Strikes Map (Mapa de huelgas de renta y protección para inquilinos ante la emergencia generada por COVID-19)<3/>.</2>"
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:15
 msgid "norent.detailsAboutNYCLandlordInfo"
@@ -1318,7 +1318,7 @@ msgstr "Nuestro generador de cartas gratuitas fue construido con <0>abogados y o
 
 #: frontend/lib/norent/data/faqs-content.tsx:277
 msgid "norent.explanationOfWhatHappensWhenEvictionMoratoriumEnds"
-msgstr "<0>Una vez que se levante la moratoria, los procesos de desalojo en los tribunales y la aplicación de la ley por parte de las autoridades locales del orden público pueden reanudarse.</0><1>Si no logramos reivindicaciones adicionales (como un congelamiento de la renta y la suspensión de los pagos de renta) antes de que estas \"moratorias de desalojo\" terminen, volverán a empezar los procesos, los desalojos continuarán y se presentarán nuevas demandas judiciales.</1><2>Estamos trabajando arduamente pidiendo la congelación y suspensión inmediatas del alquiler, entre otras solicitudes. ¡Este es el momento de organizarse! Participa en <3/>.</2>"
+msgstr "<0>Una vez que se levante la moratoria, los procesos de desalojo en las cortes y la aplicación de la ley por parte de las autoridades locales del orden público pueden reanudarse.</0><1>Si no logramos reivindicaciones adicionales (como un congelamiento de la renta y la suspensión de los pagos de renta) antes de que estas \"moratorias de desalojo\" terminen, volverán a empezar los procesos, los desalojos continuarán y se presentarán nuevas demandas judiciales.</1><2>Estamos trabajando arduamente pidiendo la congelación y suspensión inmediatas del alquiler, entre otras solicitudes. ¡Este es el momento de organizarse! Participa en <3/>.</2>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:214
 msgid "norent.explanationOfWhatToolDoes"
@@ -1394,7 +1394,7 @@ msgstr "Utilizaremos esta información para: <0><1>Acceder a tu cuenta actual</1
 
 #: frontend/lib/norent/data/faqs-content.tsx:239
 msgid "norent.whyYouShouldNotifyAboutNotPayingRent"
-msgstr "<0>En algunos estados, para beneficiarse de las protecciones de desalojo que los funcionarios electos han establecido, debes notificar a tu arrendador que tu falta de pago es por razones relacionadas con el COVID-19. En caso de que el dueño de tu edificio trate de desalojarte, los tribunales pueden ver esta notificación como una medida proactiva que ayuda a establecer tu defensa.</0>"
+msgstr "<0>En algunos estados, para beneficiarse de las protecciones de desalojo que los funcionarios electos han establecido, debes notificar a tu arrendador que tu falta de pago es por razones relacionadas con el COVID-19. En caso de que el dueño de tu edificio trate de desalojarte, la corte puede ver esta notificación como una medida proactiva que ayuda a establecer tu defensa.</0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:365
 msgid "norent.whyYouStillOweRentAfterSendingLetter"

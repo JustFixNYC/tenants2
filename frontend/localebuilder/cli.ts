@@ -14,6 +14,7 @@ import { checkExtractedMessagesSync } from "./check-extracted-messages";
 import { assertNotUndefined } from "../lib/util/util";
 import { garbleMessageCatalogs } from "./garble-catalogs";
 import { readTextFileSync } from "./util";
+import { fixLinguiIssue616Sync } from "./fix-lingui-issue-616";
 
 const MY_DIR = __dirname;
 
@@ -29,7 +30,7 @@ const DEFAULT_LOCALE = "en";
  * The command to run to extract messages from our source code and
  * regenerate PO files.
  */
-const EXTRACT_CMD = "yarn lingui:extract clean";
+const EXTRACT_CMD = "yarn lingui:extract";
 
 /**
  * The maximum preferred length of a message id.
@@ -88,6 +89,7 @@ export function run() {
     console.log(`options:\n`);
     console.log("  --check         Ensure PO files are up to date");
     console.log("  --garble        Enact gobbledygook translation");
+    console.log("  --fix-616       Fix Lingui issue #616");
     console.log("  -h / --help     Show this help");
     console.log("  -v / --version  Show the version number");
     process.exit(0);
@@ -99,6 +101,11 @@ export function run() {
   )[0];
 
   assertNotUndefined(defaultPath);
+
+  if (argvHasOption("--fix-616")) {
+    fixLinguiIssue616Sync(defaultPath);
+    process.exit(0);
+  }
 
   if (argvHasOption("--check")) {
     checkExtractedMessagesSync(defaultPath.po, EXTRACT_CMD);

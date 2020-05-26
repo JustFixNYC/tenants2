@@ -1401,10 +1401,6 @@ msgstr "<0>Yes, you’ll still owe rent after sending the letter because our sta
 msgid "pay rent, rent, can't pay rent, june rent, june 1"
 msgstr "pay rent, rent, can't pay rent, june rent, june 1"
 
-#: frontend/lib/norent/components/helmet.tsx:13
-#~ msgid "pay rent, rent, can't pay rent, may rent, may 1"
-#~ msgstr "pay rent, rent, can't pay rent, may rent, may 1"
-
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} has specific documentation requirements to support your letter to your landlord."

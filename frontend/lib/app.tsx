@@ -34,7 +34,7 @@ import {
 import { HelmetProvider } from "react-helmet-async";
 import { browserStorage } from "./browser-storage";
 import { areAnalyticsEnabled } from "./analytics/analytics";
-import { LinguiI18n } from "./i18n-lingui";
+import { LinguiI18n, li18n } from "./i18n-lingui";
 import { getNorentJumpToTopOfPageRoutes } from "./norent/routes";
 import { SupportedLocale } from "./i18n";
 import { getGlobalSiteRoutes } from "./routes";
@@ -45,6 +45,7 @@ import {
   trackLogoutInAmplitude,
   logAmplitudePageView,
 } from "./analytics/amplitude";
+import { t } from "@lingui/macro";
 
 // Note that these don't need any special fallback loading screens
 // because they will never need to be dynamically loaded on the
@@ -135,7 +136,7 @@ export class AppWithoutRouter extends React.Component<
   @autobind
   handleFetchError(e: Error) {
     window.alert(
-      `Unfortunately, a network error occurred. Please try again later.`
+      li18n._(t`Unfortunately, a network error occurred. Please try again later.`)
     );
     // We're going to track exceptions in GA because we want to know how frequently
     // folks are experiencing them. However, we won't report the errors

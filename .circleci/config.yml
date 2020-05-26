@@ -78,7 +78,7 @@ jobs:
           command: |
             yarn build
             yarn lint
-            yarn lingui:extract-and-check
+            yarn lingui:extract-and-check-all
             pipenv run "flake8"
             pipenv run "mypy" .
   test:

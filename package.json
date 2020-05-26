@@ -10,6 +10,7 @@
     "lingui:compile": "lingui compile && node localebuilder.js",
     "lingui:extract-and-check": "node localebuilder.js --extract-and-check",
     "lingui:check-ids": "node localebuilder.js --check-ids",
+    "lingui:extract-and-check-all": "yarn lingui:extract-and-check && yarn lingui:check-ids",
     "prettier": "prettier",
     "prettier:check": "prettier \"**/*.{scss,json,js,ts,tsx}\" --check",
     "prettier:fix": "prettier \"**/*.{scss,json,js,ts,tsx}\" --write",

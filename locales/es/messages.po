@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-26 19:18\n"
+"PO-Revision-Date: 2020-05-26 19:29\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -404,7 +404,7 @@ msgstr "¡Ayuda! El dueño de mi edificio ya intenta desalojarme."
 
 #: frontend/lib/norent/the-letter.tsx:44
 msgid "Here are a few benefits to sending a letter to your landlord:"
-msgstr "Estos son algunos de los beneficios de enviar una carta al dueño de tu edificio:"
+msgstr "Éstos son algunos de los beneficios de enviar una carta al dueño de tu edificio:"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:49
 msgid "Here's a preview of the letter that will be attached in an email to your landlord:"
@@ -599,7 +599,7 @@ msgstr "Aprender más"
 
 #: frontend/lib/norent/about.tsx:111
 msgid "Learn more about our mission on our website"
-msgstr "Obtén más información a cerca de nuestra misión en nuestro sitio web"
+msgstr "Obtén más información a cerca de nuestra misión en nuestro sitio web (sólo en inglés)"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:33
 msgid "Learn more."
@@ -780,7 +780,7 @@ msgstr "NoRent.org es una colaboración entre JustFix.nyc, organizaciones legale
 
 #: frontend/lib/norent/about.tsx:99
 msgid "NoRent.org is made by <0>JustFix.nyc</0>. JustFix.nyc co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City."
-msgstr "NoRent.org está hecho por <0>JustFix.nyc</0>. JustFix.nyc co-diseña y construye herramientas para inquilinos, organizadores de viviendas y abogados que luchan contra el desplazamiento en la ciudad de Nueva York."
+msgstr "NoRent.org está hecho por <0>JustFix.nyc</0> una organización sin ánimo de lucro que co-diseña y construye herramientas para inquilinos, organizadores de viviendas y abogados que luchan contra el desplazamiento en la ciudad de Nueva York."
 
 #: common-data/us-state-choices.ts:98
 msgid "North Carolina"
@@ -1086,7 +1086,7 @@ msgstr "Virginia Occidental"
 
 #: frontend/lib/norent/letter-builder/ask-city-state.tsx:36
 msgid "We’ll use this information to pull the most up-to-date ordinances that protect your rights as a tenant in your letter."
-msgstr "Utilizaremos esta información para obtener las ordenanzas actuales que protegen tus derechos como inquilino y citarlas en tu carta."
+msgstr "Utilizaremos esta información para obtener las ordenanzas actuales que protegen tus derechos como inquilino y así citarlas en tu carta."
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:91
 msgid "We’ll use this to reference the latest policies that protect your rights as a tenant."
@@ -1310,7 +1310,7 @@ msgstr "Usé www.norent.org para decirle al dueño de mi edificio de que no pued
 
 #: frontend/lib/norent/about.tsx:79
 msgid "norent.explanationAboutWhyWeMadeThisSite"
-msgstr "Los inquilinos de todo el país se ven afectados por el COVID-19 de manera que afecta su habilidad para pagar la renta. Creamos esta herramienta para que todos los inquilinos puedan ejercer sus derechos durante la pandemia."
+msgstr "Los inquilinos de todo el país se ven afectados por el COVID-19 de manera que afecta su habilidad para pagar la renta. Hemos creado esta herramienta para que todos los inquilinos puedan ejercer sus derechos durante la pandemia."
 
 #: frontend/lib/norent/homepage.tsx:128
 msgid "norent.explanationOfPartnerships"

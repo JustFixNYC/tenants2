@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-26 19:13\n"
+"PO-Revision-Date: 2020-05-26 19:18\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -48,7 +48,7 @@ msgstr "<0>No, puedes utilizar este sitio web para enviar una carta al dueño de
 
 #: frontend/lib/norent/components/footer.tsx:69
 msgid "<0>NoRent</0> <1>brought to you by JustFix.nyc</1>"
-msgstr "<0>NoRent</0> <1>Proporcionado por JustFix.nyc</1>"
+msgstr "<0>NoRent</0> <1>es proporcionado por JustFix.nyc</1>"
 
 #: frontend/lib/norent/components/letter-counter.tsx:15
 msgid "<0>NoRent</0> <1>letters sent by tenants across the USA</1><2>Since April 2020</2>"
@@ -93,7 +93,7 @@ msgstr "Después de este paso, no puedes volver a hacer cambios. Pero no te preo
 
 #: frontend/lib/norent/homepage.tsx:221
 msgid "After you’ve reviewed your letter, we send it to your landlord on your behalf by email and by certified mail."
-msgstr "Después de que hayas revisado tu carta, la enviaremos al dueño de tu edificio por correo electrónico y por correo postal certificado."
+msgstr "Después de que hayas revisado tu carta, la enviaremos al dueño de tu edificio por correo electrónico y por correo postal certificado, según los datos de contacto que nos proporciones."
 
 #: common-data/us-state-choices.ts:66
 msgid "Alabama"
@@ -105,7 +105,7 @@ msgstr "Alaska"
 
 #: frontend/lib/norent/homepage.tsx:188
 msgid "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
-msgstr "Contesta algunas preguntas sobre ti y el dueño o manager de tu edificio. Tardarás menos de 8 minutos."
+msgstr "Contesta algunas preguntas sobre ti y sobre el dueño o manager de tu edificio. Tardarás menos de 8 minutos."
 
 #: frontend/lib/forms/apt-number-form-fields.tsx:13
 msgid "Apartment number"
@@ -191,7 +191,7 @@ msgstr "Cancelar"
 
 #: frontend/lib/norent/homepage.tsx:70
 msgid "Cancelling rent"
-msgstr "Cancelando la renta"
+msgstr "Cancelar la renta"
 
 #: frontend/lib/norent/homepage.tsx:42
 msgid "Cite up-to-date legal ordinances in your letter"
@@ -792,7 +792,7 @@ msgstr "Dakota del Norte"
 
 #: frontend/lib/norent/the-letter.tsx:19
 msgid "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
-msgstr "No poder pagar la renta debido al COVID-19 no es nada de lo que avergonzarse. Nuestro generador de cartas hace que sea fácil enviarle una carta al dueño de tu edificio."
+msgstr "No poder pagar la renta debido al COVID-19 no es nada de lo que avergonzarse. Nuestro generador de cartas hace que sea fácil enviarle una carta al dueño de tu edificio para avisarle."
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:52
 msgid "Now we just need your password. This is the same one you’ve used on JustFix.nyc."
@@ -887,7 +887,7 @@ msgstr "Permito que Right to the City se ponga en contacto conmigo para proporci
 
 #: frontend/lib/norent/faqs.tsx:63
 msgid "See more FAQs"
-msgstr "Ver más preguntas frequentes"
+msgstr "Ver todas las preguntas más frecuentes"
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:41
 msgid "Send code"
@@ -1374,7 +1374,7 @@ msgstr "<0>En los próximos pasos, construiremos tu carta utilizando la siguient
 
 #: frontend/lib/norent/homepage.tsx:249
 msgid "norent.sampleNoRentLetter"
-msgstr "<0>Le escribo para informarle de que he experimentado una pérdida de ingresos, gastos adicionales y/o otras circunstancias financieras relacionadas con el COVID-19. Hasta nuevo aviso, la emergencia COVID-19 puede afectar a mi capacidad de pagar la renta. </0><1/><2>Los inquilinos en Florida están protegidos del desalojo por falta de pago por orden ejecutiva 20-94, emitido por el gobernador Ron DeSantis el 2 de abril de 2020. </2><3/><4>Los inquilinos en propiedades cubiertas también están protegidos contra el desalojo, las tasas, las penalizaciones y otros cargos relacionados con el impago por la ley CARES (Título IV, Sec. 4024) promulgado por el Congreso el 27 de marzo de 2020. </4><5/><6>Junto con mis vecinos, estoy organizando, animando y/o participando en una organización de inquilinos para que podamos apoyar...</6>"
+msgstr "<0>Le escribo para informarle de que he experimentado una pérdida de ingresos, gastos adicionales y/o otras circunstancias financieras relacionadas con el COVID-19. Hasta nuevo aviso, la emergencia COVID-19 puede afectar mi capacidad de pagar la renta. </0><1/><2>Los inquilinos en Florida están protegidos del desalojo por falta de pago por orden ejecutiva 20-94, emitido por el gobernador Ron DeSantis el 2 de abril de 2020. </2><3/><4>Los inquilinos en propiedades cubiertas también están protegidos contra el desalojo, las tasas, las penalizaciones y otros cargos relacionados con el impago por la ley CARES (Título IV, Sec. 4024) promulgado por el Congreso el 27 de marzo de 2020. </4><5/><6>Junto con mis vecinos, estoy organizando, animando y/o participando en una organización de inquilinos para que podamos apoyar...</6>"
 
 #: frontend/lib/norent/components/social-icons.tsx:16
 msgid "norent.tweetTemplateForSharingNoRent"

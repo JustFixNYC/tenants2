@@ -29,10 +29,6 @@ msgstr "8 minutos"
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> usa un <1/> y un <2/>, que puedes revisar."
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:31
-msgid "<0/> makes use of a <1/> and <2/>, which you can review."
-msgstr ""
-
 #: frontend/lib/norent/site.tsx:85
 msgid "<0>Homepage</0>"
 msgstr "<0>Página Principal</0>"
@@ -115,10 +111,6 @@ msgstr "Contesta algunas preguntas sobre ti y el dueño o manager de tu edificio
 msgid "Apartment number"
 msgstr "Número de apartamento"
 
-#: frontend/lib/forms/apt-number-form-fields.tsx:13
-msgid "Apartment number"
-msgstr ""
-
 #: frontend/lib/norent/log-out.tsx:11
 msgid "Are you sure you want to log out?"
 msgstr "¿Estás seguro de que quieres cerrar la sesión?"
@@ -197,10 +189,6 @@ msgstr "¿No puedes pagar la renta?"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: frontend/lib/forms/clear-session-button.tsx:9
-msgid "Cancel"
-msgstr ""
-
 #: frontend/lib/norent/homepage.tsx:70
 msgid "Cancelling rent"
 msgstr "Cancelando la renta"
@@ -216,10 +204,6 @@ msgstr "Ciudad"
 #: frontend/lib/forms/city-and-state-form-field.tsx:15
 msgid "City/township/borough"
 msgstr "Ciudad/pueblo/municipalidad"
-
-#: frontend/lib/forms/city-and-state-form-field.tsx:15
-msgid "City/township/borough"
-msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:31
 msgid "Click here to join MHAction’s movement"
@@ -352,10 +336,6 @@ msgstr "Preguntas más frecuentes (FAQs)"
 msgid "Find out more"
 msgstr "Más información"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:85
-msgid "Find out more"
-msgstr ""
-
 #: frontend/lib/norent/letter-builder/ask-name.tsx:26
 msgid "First name"
 msgstr "Nombre"
@@ -403,10 +383,6 @@ msgstr "Hacer huelga de renta"
 #: frontend/lib/ui/privacy-info-modal.tsx:59
 msgid "Got it!"
 msgstr "¡Entendido!"
-
-#: frontend/lib/ui/privacy-info-modal.tsx:59
-msgid "Got it!"
-msgstr ""
 
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"
@@ -483,10 +459,6 @@ msgstr "Cómo funciona"
 msgid "I agree to the <0/> terms and conditions."
 msgstr "Acepto los términos y condiciones."
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:43
-msgid "I agree to the <0/> terms and conditions."
-msgstr ""
-
 #: frontend/lib/norent/letter-builder/create-account.tsx:43
 msgid "I agree to the <0>NoRent.org terms and conditions</0>."
 msgstr "Acepto los <0>términos y condiciones de NoRent.org</0>."
@@ -498,10 +470,6 @@ msgstr "He perdido mi contraseña"
 #: frontend/lib/forms/apt-number-form-fields.tsx:15
 msgid "I have no apartment number"
 msgstr "No tengo ningún número de apartamento"
-
-#: frontend/lib/forms/apt-number-form-fields.tsx:15
-msgid "I have no apartment number"
-msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:147
 msgid "I'm scared. What happens if my landlord retaliates?"
@@ -699,10 +667,6 @@ msgstr "Parece que ya has enviado una carta"
 msgid "Looks like you've been here before. Click \"Next\" to be taken to where you left off."
 msgstr "Parece que ya estuviste aquí antes. Haz clic en \"Continuar\" para seguir desde donde te quedaste."
 
-#: frontend/lib/norent/letter-builder/welcome.tsx:18
-msgid "Looks like you've been here before. Click \"Next\" to be taken to where you left off."
-msgstr ""
-
 #: frontend/lib/norent/letter-builder/la-address-redirect.tsx:11
 msgid "Los Angeles County"
 msgstr "El Condado de Los Angeles"
@@ -888,10 +852,6 @@ msgstr "Por favor <0>vuelve y escoge un estado</0>."
 msgid "Please agree to our terms and conditions"
 msgstr "Por favor, acepta nuestros términos y condiciones"
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:29
-msgid "Please agree to our terms and conditions"
-msgstr ""
-
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:54
 #: frontend/lib/norent/the-letter.tsx:92
 msgid "Preview of your NoRent.org letter"
@@ -900,10 +860,6 @@ msgstr "Vista previa de tu carta NoRent.org"
 #: frontend/lib/ui/privacy-info-modal.tsx:25
 msgid "Privacy Policy"
 msgstr "Política de Privacidad"
-
-#: frontend/lib/ui/privacy-info-modal.tsx:25
-msgid "Privacy Policy"
-msgstr ""
 
 #: common-data/us-state-choices.ts:104
 msgid "Puerto Rico"
@@ -992,10 +948,6 @@ msgstr "Dakota del Sur"
 #: frontend/lib/forms/mailing-address-fields.tsx:7
 msgid "State"
 msgstr "Estado"
-
-#: frontend/lib/forms/mailing-address-fields.tsx:7
-msgid "State"
-msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:11
 msgid "States with Limited Protections"
@@ -1128,10 +1080,6 @@ msgstr "Acabamos de enviarte un mensaje de texto que contiene un código de veri
 msgid "Welcome back!"
 msgstr "¡Hola de nuevo!"
 
-#: frontend/lib/norent/letter-builder/welcome.tsx:15
-msgid "Welcome back!"
-msgstr ""
-
 #: common-data/us-state-choices.ts:114
 msgid "West Virginia"
 msgstr "Virginia Occidental"
@@ -1191,10 +1139,6 @@ msgstr "¿Qué sucede si vivo en un estado en donde no existe la moratoria de de
 #: frontend/lib/forms/address-and-borough-form-field.tsx:19
 msgid "What is your borough?"
 msgstr "¿Cuál es tu municipalidad?"
-
-#: frontend/lib/forms/address-and-borough-form-field.tsx:19
-msgid "What is your borough?"
-msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:384
 msgid "What kind of documentation should I collect to prove I can’t pay rent?"
@@ -1318,10 +1262,6 @@ msgstr "Tu número de teléfono"
 msgid "Your privacy is very important to us!"
 msgstr "¡Su privacidad es muy importante para nosotros!"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:28
-msgid "Your privacy is very important to us!"
-msgstr ""
-
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:51
 msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 msgstr "¡Tu privacidad es muy importante para nosotros! Todo en JustFix.nyc es seguro."
@@ -1347,10 +1287,6 @@ msgstr "y"
 #: frontend/lib/ui/privacy-info-modal.tsx:30
 msgid "justfix.privacyInfoModalText"
 msgstr "¡<0>Tu privacidad es muy importante para nosotros! Estas son algunas de las cosas más importantes a saber:</0><1><2>Tu información personal está segura. </2><3>No usaremos tu información personal para beneficiarnos ni la venderemos a terceros. </3><4>Utilizaremos tu dirección postal para encontrar datos sobre tu edificio y su dueño. </4></1><5>Nuestra Política de Privacidad permite compartir datos anónimos sólo con organizaciones de defensa de inquilinos autorizadas exclusivamente para ayudar a promover la misión de proteger los derechos de inquilinos. La Política de Privacidad contiene información sobre qué datos recopilamos, cómo la utilizamos y las opciones que tiene respecto a su información personal. Si quieres leer más, por favor revisa nuestro <6/> completo y <7/>.</5>"
-
-#: frontend/lib/ui/privacy-info-modal.tsx:30
-msgid "justfix.privacyInfoModalText"
-msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:202
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"

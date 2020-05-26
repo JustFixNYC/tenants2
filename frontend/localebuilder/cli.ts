@@ -10,11 +10,12 @@ import {
   getAllMessageCatalogPaths,
 } from "./message-catalog-paths";
 import { argvHasOption } from "../querybuilder/util";
-import { checkExtractedMessagesSync } from "./check-extracted-messages";
+import { extractAndCheckMessagesSync } from "./extract-and-check";
 import { assertNotUndefined } from "../lib/util/util";
 import { garbleMessageCatalogs } from "./garble-catalogs";
 import { readTextFileSync } from "./util";
 import { fixLinguiIssue616Sync } from "./fix-lingui-issue-616";
+import { checkMessageIdsSync } from "./check-ids";
 
 const MY_DIR = __dirname;
 
@@ -87,11 +88,11 @@ export function run() {
   if (argvHasOption("-h", "--help")) {
     console.log(`usage: ${process.argv[1]} [OPTIONS]`);
     console.log(`options:\n`);
-    console.log("  --check         Ensure PO files are up to date");
-    console.log("  --garble        Enact gobbledygook translation");
-    console.log("  --fix-616       Fix Lingui issue #616");
-    console.log("  -h / --help     Show this help");
-    console.log("  -v / --version  Show the version number");
+    console.log("  --extract-and-check  Ensure PO files are up to date");
+    console.log("  --check-ids          Ensure PO message IDs are unique");
+    console.log("  --garble             Enact gobbledygook translation");
+    console.log("  --fix-616            Fix Lingui issue #616");
+    console.log("  -h / --help          Show this help");
     process.exit(0);
   }
 
@@ -107,14 +108,23 @@ export function run() {
     process.exit(0);
   }
 
-  if (argvHasOption("--check")) {
-    checkExtractedMessagesSync(defaultPath.po, EXTRACT_CMD);
+  if (argvHasOption("--extract-and-check")) {
+    extractAndCheckMessagesSync(defaultPath.po, EXTRACT_CMD);
     process.exit(0);
   }
 
   if (argvHasOption("--garble")) {
     garbleMessageCatalogs(allPaths, defaultPath);
     process.exit(0);
+  }
+
+  if (argvHasOption("--check-ids")) {
+    process.exit(checkMessageIdsSync(defaultPath));
+  }
+
+  if (process.argv.length > 2) {
+    console.log("Unknown options:", process.argv.slice(2));
+    process.exit(1);
   }
 
   let validate = true;

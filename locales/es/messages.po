@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-26 19:43\n"
+"PO-Revision-Date: 2020-05-26 20:01\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -27,7 +27,7 @@ msgstr "8 minutos"
 
 #: frontend/lib/pages/cross-site-terms-opt-in.tsx:31
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
-msgstr "<0/> usa <1/> y <2/>, que puedes revisar."
+msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
 #: frontend/lib/norent/site.tsx:85
 msgid "<0>Homepage</0>"
@@ -289,7 +289,7 @@ msgstr "¿Vives en {0}, {1}?"
 
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:22
 msgid "Do you still want to mail to:"
-msgstr "Aún deseas continuar mandando la carta a:"
+msgstr "¿Aún deseas continuar?"
 
 #: frontend/lib/norent/log-out.tsx:14
 msgid "Don’t worry, we’ll save your progress so you’ll be able to come back to your last step when you log back in."
@@ -1390,7 +1390,7 @@ msgstr "<0>Si no puedes pagar la renta este mes debido a un problema relacionado
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:41
 msgid "norent.whyIsPhoneNumberNeeded"
-msgstr "Utilizaremos esta información para: <0><1>Acceder a tu cuenta actual</1><2>Comprobar si coincide con una cuenta preexistente </2><3>Abrirte una cuenta nueva.</3></0>"
+msgstr "Utilizaremos esta información para: <0><1>Acceder a tu cuenta actual</1><2>Comprobar si coincide con una cuenta preexistente </2><3>Abrirte una cuenta nueva</3></0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:239
 msgid "norent.whyYouShouldNotifyAboutNotPayingRent"

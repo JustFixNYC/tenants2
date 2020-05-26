@@ -131,9 +131,9 @@ export const NorentAboutPage: React.FC<{}> = () => (
               >
                 JustFix.nyc
               </OutboundLink>
-              . JustFix.nyc co-designs and builds tools for tenants, housing
-              organizers, and legal advocates fighting displacement in New York
-              City.
+              , a non-profit organization that co-designs and builds tools for
+              tenants, housing organizers, and legal advocates fighting
+              displacement in New York City.
             </Trans>
           </p>
           <br />

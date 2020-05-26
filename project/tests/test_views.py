@@ -12,6 +12,7 @@ from project.views import (
     LegacyFormSubmissionError,
     FORMS_COMMON_DATA
 )
+import project.locales
 from project.util.site_util import get_default_site
 from project.graphql_static_request import GraphQLStaticRequest
 from project.util.testing_util import ClassCachedValue
@@ -112,14 +113,14 @@ class TestIndexPage(ClassCachedValue):
 
 
 def test_localized_pages_work(client, settings, use_norent_site):
-    settings.LANGUAGES = [('es', 'Spanish')]
+    settings.LANGUAGES = project.locales.ALL.choices
     response = client.get('/es/faqs')
     assert response.status_code == 200
     html = response.content.decode('utf-8')
     assert '<html lang="es"' in html
     assert 'src="/static/frontend/locales-es-base-chunk.' in html
     assert 'src="/static/frontend/locales-es-norent-chunk.' in html
-    assert 'construye mi carta' in html.lower()
+    assert 'crear mi carta' in html.lower()
     assert 'preguntas frecuentes' in html.lower()
 
 

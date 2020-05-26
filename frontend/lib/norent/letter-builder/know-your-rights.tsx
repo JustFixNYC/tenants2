@@ -47,7 +47,8 @@ const StateWithoutProtectionsContent: ProtectionsContentComponent = (props) => {
       <p>
         <Trans>
           Unfortunately, we do not currently recommend sending a notice of
-          non-payment to your landlord. Sending a notice could put you at risk.
+          non-payment to your landlord. Sending a notice could put you at risk
+          of harassment.
         </Trans>{" "}
         <Link to={getStatesWithLimitedProtectionsFAQSectionURL()}>
           <Trans>Learn more.</Trans>

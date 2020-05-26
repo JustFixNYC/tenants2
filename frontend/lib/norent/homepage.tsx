@@ -295,7 +295,9 @@ export const NorentHomePage: React.FC<{}> = () => {
                     <p>
                       <Trans>
                         After you’ve reviewed your letter, we send it to your
-                        landlord on your behalf by email and by certified mail.
+                        landlord on your behalf by email and by certified mail,
+                        depending on the contact information that you provide
+                        us.
                       </Trans>
                     </p>
                   </div>

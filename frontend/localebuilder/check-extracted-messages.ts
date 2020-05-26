@@ -1,9 +1,9 @@
-import fs from "fs";
 import path from "path";
 import childProcess from "child_process";
 import PO from "pofile";
 import { isDeepEqual } from "../lib/util/util";
 import chalk from "chalk";
+import { readTextFileSync } from "./util";
 
 function getPoMessages(poText: string) {
   const po = PO.parse(poText);
@@ -16,7 +16,7 @@ function getPoMessages(poText: string) {
 
 export function checkExtractedMessagesSync(poPath: string, extractCmd: string) {
   const readPoSync = () =>
-    getPoMessages(fs.readFileSync(poPath, { encoding: "utf-8" }));
+    getPoMessages(readTextFileSync(poPath));
   const relPath = path.relative(process.cwd(), poPath);
   console.log(`Reading ${relPath}.`);
   const origPo = readPoSync();

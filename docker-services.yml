@@ -44,6 +44,7 @@ services:
 
       - BABEL_CACHE_PATH=/tenants2/.babel-cache.json
       - DATABASE_URL=postgis://justfix@db/justfix
+      - NODE_ICU_DATA=/node_modules/icu4c-data
     entrypoint: ["python", "/tenants2/docker_django_management.py"]
     working_dir: /tenants2
     mem_limit: 1G

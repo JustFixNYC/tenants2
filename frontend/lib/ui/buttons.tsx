@@ -3,7 +3,9 @@ import classnames from "classnames";
 
 import { bulmaClasses, BulmaClassName } from "./bulma";
 import { Link, LinkProps } from "react-router-dom";
-import { LocationDescriptor } from "history";
+import { LocationDescriptorOrResolver } from "../util/react-router-util";
+import { li18n } from "../i18n-lingui";
+import { t } from "@lingui/macro";
 
 type ProgressButtonsOptions =
   | {
@@ -11,7 +13,7 @@ type ProgressButtonsOptions =
     }
   | {
       children?: undefined;
-      back: string;
+      back: LocationDescriptorOrResolver<any>;
       isLoading: boolean;
       nextLabel?: string;
     };
@@ -43,9 +45,9 @@ export function ProgressButtons(props: ProgressButtonsOptions) {
  * as in they don't involve any form submission or mutation.
  */
 export function ProgressButtonsAsLinks(props: {
-  back: LocationDescriptor<any>;
+  back: LocationDescriptorOrResolver<any>;
   backLabel?: string;
-  next: LocationDescriptor<any>;
+  next: LocationDescriptorOrResolver<any>;
   nextLabel?: string;
 }): JSX.Element {
   return (
@@ -55,7 +57,7 @@ export function ProgressButtonsAsLinks(props: {
         to={props.next}
         className="button is-primary is-medium jf-is-next-button"
       >
-        {props.nextLabel || "Next"}
+        {props.nextLabel || li18n._(t`Next`)}
       </Link>
     </div>
   );
@@ -64,7 +66,7 @@ export function ProgressButtonsAsLinks(props: {
 /** A back button, meant to go back to the previous step in a flow. */
 export function BackButton(props: {
   buttonClass?: BulmaClassName;
-  to: LocationDescriptor<any>;
+  to: LocationDescriptorOrResolver<any>;
   label?: string;
 }): JSX.Element {
   return (
@@ -75,7 +77,7 @@ export function BackButton(props: {
         bulmaClasses("button", props.buttonClass || "is-light", "is-medium")
       }
     >
-      {props.label || "Back"}
+      {props.label || li18n._(t`Back`)}
     </Link>
   );
 }
@@ -104,7 +106,7 @@ export function NextButton(props: {
         )
       }
     >
-      {props.label || "Next"}
+      {props.label || li18n._(t`Next`)}
     </button>
   );
 }

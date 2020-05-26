@@ -1,9 +1,15 @@
 import autobind from "autobind-decorator";
+import type { AllSessionInfo } from "../queries/AllSessionInfo";
 
 test("dynamic import works", () => {
   return import("./build-pipeline-dynamic-import").then((mod) => {
     expect(mod.blah(5)).toEqual(6);
   });
+});
+
+test("import type works", () => {
+  const boop: Partial<AllSessionInfo> = { phoneNumber: "5551234567" };
+  expect(boop.phoneNumber).toBe("5551234567");
 });
 
 test("autobind decorator works", () => {

@@ -5,6 +5,8 @@ import {
   TextualFormField,
   CheckboxFormField,
 } from "./form-fields";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 type AptNumberFieldsProps = {
   aptNumberProps: BaseFormFieldProps<string>;
@@ -30,12 +32,12 @@ export const AptNumberFormFields: React.FC<AptNumberFieldsProps> = (props) => {
   return (
     <div className="jf-related-text-field-with-checkbox">
       <TextualFormField
-        label={props.aptNumberLabel || "Apartment number"}
+        label={props.aptNumberLabel || li18n._(t`Apartment number`)}
         autoComplete="address-line2 street-address"
         {...props.aptNumberProps}
       />
       <CheckboxFormField {...props.noAptNumberProps}>
-        I have no apartment number
+        <Trans>I have no apartment number</Trans>
       </CheckboxFormField>
     </div>
   );

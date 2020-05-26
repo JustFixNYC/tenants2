@@ -394,7 +394,7 @@ The back-end uses the [Django translation framework][] for internationalization.
 To extract messages for localization, run:
 
 ```
-python manage.py makemessages -e py
+yarn django:makemessages
 ```
 
 One `.po` files have been updated, the catalogs can be compiled with:

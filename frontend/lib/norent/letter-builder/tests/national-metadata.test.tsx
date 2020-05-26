@@ -19,7 +19,7 @@ import { LocaleChoices } from "../../../../../common-data/locale-choices";
 beforeAll(initNationalMetadataForTesting);
 
 test("isLoggedInUserInStateWithProtections() works", () => {
-  const onboardingInfo = override(BlankOnboardingInfo, { state: "NY" });
+  const onboardingInfo = override(BlankOnboardingInfo, { state: "CA" });
   const session = override(BlankAllSessionInfo, { onboardingInfo });
   expect(isLoggedInUserInStateWithProtections(session)).toBe(true);
 

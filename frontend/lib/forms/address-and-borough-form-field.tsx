@@ -18,8 +18,10 @@ import {
   ProgressiveEnhancement,
 } from "../ui/progressive-enhancement";
 import { GeoAutocomplete } from "./geo-autocomplete";
+import { li18n } from "../i18n-lingui";
+import { t } from "@lingui/macro";
 
-const DEFAULT_ADDRESS_LABEL = "Address";
+const getDefaultAddressLabel = () => li18n._(t`Address`);
 
 type AddressAndBoroughFieldProps = {
   disableProgressiveEnhancement?: boolean;
@@ -43,7 +45,7 @@ export class AddressAndBoroughField extends React.Component<
     return (
       <React.Fragment>
         <TextualFormField
-          label={this.props.addressLabel || DEFAULT_ADDRESS_LABEL}
+          label={this.props.addressLabel || getDefaultAddressLabel()}
           renderLabel={this.props.renderAddressLabel}
           {...this.props.addressProps}
         />
@@ -51,7 +53,7 @@ export class AddressAndBoroughField extends React.Component<
           <HiddenFormField {...this.props.boroughProps} />
         ) : (
           <RadiosFormField
-            label="What is your borough?"
+            label={li18n._(t`What is your borough?`)}
             {...this.props.boroughProps}
             choices={toDjangoChoices(BoroughChoices, getBoroughChoiceLabels())}
           />
@@ -75,7 +77,7 @@ export class AddressAndBoroughField extends React.Component<
 
     return (
       <GeoAutocomplete
-        label={this.props.addressLabel || DEFAULT_ADDRESS_LABEL}
+        label={this.props.addressLabel || getDefaultAddressLabel()}
         renderLabel={this.props.renderAddressLabel}
         initialValue={initialValue}
         onChange={(selection) => {

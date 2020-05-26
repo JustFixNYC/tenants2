@@ -18,11 +18,12 @@ import { li18n } from "../../i18n-lingui";
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
-const NATIONAL_LEGAL_AID_URL = "https://www.lawhelp.org";
-const CANCEL_RENT_PETITION_URL = "https://cancelrent.us/";
-const MH_ACTION_URL =
+export const NATIONAL_LEGAL_AID_URL = "https://www.lawhelp.org";
+export const CANCEL_RENT_PETITION_URL = "https://cancelrent.us/";
+export const MH_ACTION_URL =
   "https://actionnetwork.org/forms/join-mhactions-fight-to-ensure-all-families-have-a-place-to-call-home/";
-const NORENT_FEEDBACK_FORM_URL = "https://airtable.com/shrrnQD3kXUQv1xm3";
+export const NORENT_FEEDBACK_FORM_URL =
+  "https://airtable.com/shrrnQD3kXUQv1xm3";
 
 export const NorentConfirmation = NorentRequireLoginStep(() => {
   const { session } = useContext(AppContext);
@@ -125,7 +126,7 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
           </p>
         )}
         {stateName && (
-          <LetterBuilderAccordion question="Find out more">
+          <LetterBuilderAccordion question={li18n._(t`Find out more`)}>
             <article className="message">
               <div className="message-body has-background-grey-lighter has-text-left">
                 {needsToSendLandlord && (
@@ -184,8 +185,8 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
         <p>
           Our homes, health, and collective safety and futures are on the line.
           Millions of us don’t know how we are going to pay our rent, mortgage,
-          or utilities on May 1st, yet landlords and banks are expecting payment
-          as if it’s business as usual. It’s not.
+          or utilities on June 1st, yet landlords and banks are expecting
+          payment as if it’s business as usual. It’s not.
         </p>
         <p>
           Join millions of us to fight for a future free from debt and to win a

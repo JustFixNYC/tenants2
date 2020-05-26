@@ -46,6 +46,10 @@ class GarblerState implements Iterator<string> {
     this.i--;
   }
 
+  peek(): string | undefined {
+    return this.source[this.i];
+  }
+
   next() {
     if (this.i === this.source.length) {
       return { value: "", done: true };
@@ -55,11 +59,17 @@ class GarblerState implements Iterator<string> {
     return { value, done: false };
   }
 
-  pushCodeUntil(chars: string) {
-    for (let ch of this) {
-      if (chars.indexOf(ch) !== -1) {
+  nextMany(count: number) {
+    for (let i = 0; i < count; i++) {
+      this.next();
+    }
+  }
+
+  pushCodeUntil(str: string) {
+    for (let _ of this) {
+      if (this.source.substr(this.i - 1, str.length) == str) {
+        this.nextMany(str.length - 1);
         this.pushCode();
-        this.next();
         return;
       }
     }
@@ -97,6 +107,10 @@ const handleEnglish = (s: GarblerState, untilChar?: string) => {
 
     let newHandler = handlers[ch];
 
+    if (!newHandler && ch === "%" && s.peek() === "(") {
+      newHandler = handleGettextVariable;
+    }
+
     if (newHandler) {
       s.backtrack();
       s.pushEnglish();
@@ -124,3 +138,5 @@ const handleVariable: StateHandler = (s) => {
 };
 
 const handleTag: StateHandler = (s) => s.pushCodeUntil(">");
+
+const handleGettextVariable: StateHandler = (s) => s.pushCodeUntil(")s");

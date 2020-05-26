@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import ValidationError
+from django.utils.translation import gettext as _
 
 from project.forms import (
     SetPasswordForm, OptionalSetPasswordForm, YesNoRadiosField, UniqueEmailForm)
@@ -47,16 +48,16 @@ class AptNumberWithConfirmationForm(forms.Form):
         no_apt_number = cleaned_data.get('no_apt_number')
 
         if apt_number and no_apt_number:
-            raise ValidationError(
+            raise ValidationError(_(
                 'Please either provide an apartment number or check the '
                 '"I have no apartment number" checkbox (but not both).'
-            )
+            ))
 
         if not apt_number and not no_apt_number:
-            raise ValidationError(
+            raise ValidationError(_(
                 'Please either provide an apartment number or check the '
                 '"I have no apartment number" checkbox.'
-            )
+            ))
 
         if 'no_apt_number' in cleaned_data:
             cleaned_data.pop('no_apt_number')

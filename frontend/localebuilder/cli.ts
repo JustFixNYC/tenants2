@@ -1,4 +1,3 @@
-import fs from "fs";
 import path from "path";
 import { parseCompiledMessages } from "./parse-compiled-messages";
 import { parseExtractedMessages } from "./parse-extracted-messages";
@@ -13,8 +12,8 @@ import {
 import { argvHasOption } from "../querybuilder/util";
 import { checkExtractedMessagesSync } from "./check-extracted-messages";
 import { assertNotUndefined } from "../lib/util/util";
-import PO from "pofile";
-import { garbleMessage, Garbler } from "./garble";
+import { garbleMessageCatalogs } from "./garble-catalogs";
+import { readTextFileSync } from "./util";
 
 const MY_DIR = __dirname;
 
@@ -59,12 +58,6 @@ const SPLIT_CHUNK_CONFIGS: MessageCatalogSplitterChunkConfig[] = [
   },
 ];
 
-function readTextFileSync(path: string): string {
-  return fs.readFileSync(path, {
-    encoding: "utf-8",
-  });
-}
-
 /**
  * Split up the message catalog for a single locale.
  */
@@ -84,41 +77,6 @@ function processLocale(paths: MessageCatalogPaths, validate: boolean) {
     chunks: SPLIT_CHUNK_CONFIGS,
   });
   splitter.split();
-}
-
-const defaultGarbler: Garbler = (text) => {
-  return text.replace(/[A-Za-z]/g, "?");
-};
-
-function garbleMessageCatalogs(
-  allPaths: MessageCatalogPaths[],
-  defaultPaths: MessageCatalogPaths,
-  garbler: Garbler = defaultGarbler
-) {
-  const defaultPo = PO.parse(readTextFileSync(defaultPaths.po));
-  const sources = new Map<string, string>();
-
-  for (let item of defaultPo.items) {
-    sources.set(item.msgid, garbleMessage(garbler, item.msgstr.join("")));
-  }
-
-  for (let paths of allPaths) {
-    if (paths === defaultPaths) continue;
-    const localePo = PO.parse(readTextFileSync(paths.po));
-
-    for (let item of localePo.items) {
-      const garbled = sources.get(item.msgid);
-      if (!garbled) {
-        throw new Error(
-          `${defaultPaths.locale} source not found for msgid "${item.msgid}"!`
-        );
-      }
-      item.msgstr = [garbled];
-    }
-
-    console.log(`Garbling ${paths.po}.`);
-    fs.writeFileSync(paths.po, localePo.toString(), { encoding: "utf-8" });
-  }
 }
 
 /**

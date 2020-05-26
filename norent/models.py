@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 
 from users.models import JustfixUser
+from project.locales import LOCALE_KWARGS
 
 
 class RentPeriod(models.Model):
@@ -36,10 +37,33 @@ class Letter(models.Model):
         related_name='norent_letters'
     )
 
+    locale = models.CharField(
+        **LOCALE_KWARGS,
+        help_text=(
+            "The locale of the user who sent the letter, at the time that "
+            "they sent it. Note that this may be different from the user's "
+            "current locale, e.g. if they changed it after sending the "
+            "letter."
+        ),
+    )
+
     rent_period = models.ForeignKey(RentPeriod, on_delete=models.CASCADE)
 
     html_content = models.TextField(
-        help_text="The HTML content of the letter at the time it was sent."
+        help_text=(
+            "The HTML content of the letter at the time it was sent, in "
+            "English."
+        )
+    )
+
+    localized_html_content = models.TextField(
+        help_text=(
+            "The HTML content of the letter at the time it was sent, in "
+            "the user's locale at the time they sent it. If the user's "
+            "locale is English, this will be blank (since the English "
+            "version is already stored in another field)."
+        ),
+        blank=True
     )
 
     lob_letter_object = JSONField(

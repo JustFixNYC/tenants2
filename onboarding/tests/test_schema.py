@@ -2,6 +2,7 @@ from unittest.mock import patch
 import pytest
 from django.contrib.auth.hashers import is_password_usable
 
+import project.locales
 from project.util.testing_util import GraphQLTestingPal
 from project.tests.util import get_frontend_query
 from users.models import JustfixUser
@@ -105,6 +106,14 @@ def execute_onboarding(graphql_client, step_data=VALID_STEP_DATA):
     return result
 
 
+def test_onboarding_sets_locale(db, graphql_client, settings):
+    settings.LANGUAGES = project.locales.ALL.choices
+    graphql_client.request.path_info = '/es/graphql'
+    execute_onboarding(graphql_client)
+    user = JustfixUser.objects.get(phone_number='5551234567')
+    assert user.locale == "es"
+
+
 @pytest.mark.django_db
 def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     result = execute_onboarding(graphql_client)
@@ -119,6 +128,7 @@ def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     assert user.full_name == 'boop jones'
     assert user.email == 'boop@jones.com'
     assert user.pk == request.user.pk
+    assert user.locale == "en"
     assert is_password_usable(user.password) is True
     assert oi.address == '123 boop way'
     assert oi.borough == "MANHATTAN"

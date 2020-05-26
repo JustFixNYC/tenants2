@@ -59,7 +59,7 @@ class LoginForm(forms.Form):
         if phone_number and password:
             user = authenticate(phone_number=phone_number, password=password)
             if user is None:
-                raise ValidationError('Invalid phone number or password.',
+                raise ValidationError(_('Invalid phone number or password.'),
                                       code='authenticate_failed')
             self.authenticated_user = user
 
@@ -106,7 +106,7 @@ class UniqueEmailForm(forms.Form):
         email = self.cleaned_data['email']
         if JustfixUser.objects.filter(email=email).exists():
             # TODO: Are we leaking valuable PII here?
-            raise ValidationError('A user with that email address already exists.')
+            raise ValidationError(_('A user with that email address already exists.'))
         return email
 
 

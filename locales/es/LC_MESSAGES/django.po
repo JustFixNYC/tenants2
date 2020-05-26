@@ -94,3 +94,22 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
 
+#: project/util/phone_number.py:25
+#, python-format
+msgid "U.S. phone numbers must be %(phone_number_len)s digits."
+msgstr ""
+
+#: project/util/phone_number.py:30
+msgid "Phone numbers can only contain digits."
+msgstr ""
+
+#: project/util/phone_number.py:34
+#, python-format
+msgid "%(areacode)s is an invalid area code."
+msgstr ""
+
+#: project/util/phone_number.py:68
+msgid ""
+"This does not look like a U.S. phone number. Please include the area code, e."
+"g. (555) 123-4567."
+msgstr ""

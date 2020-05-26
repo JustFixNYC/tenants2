@@ -85,8 +85,9 @@ function processLocale(paths: MessageCatalogPaths, validate: boolean) {
  * Main function to run the localebuilder CLI.
  */
 export function run() {
+  const relPath = path.relative(process.cwd(), process.argv[1]);
   if (argvHasOption("-h", "--help")) {
-    console.log(`usage: ${process.argv[1]} [OPTIONS]`);
+    console.log(`usage: ${relPath} [OPTIONS]`);
     console.log(`options:\n`);
     console.log("  --extract-and-check  Ensure PO files are up to date");
     console.log("  --check-ids          Ensure PO message IDs are unique");
@@ -119,7 +120,13 @@ export function run() {
   }
 
   if (argvHasOption("--check-ids")) {
-    process.exit(checkMessageIdsSync(defaultPath));
+    const errors = checkMessageIdsSync(defaultPath, argvHasOption("--write"));
+    if (errors > 0) {
+      console.log(
+        `Once you fix the errors, run "node ${relPath} --check-ids --write".`
+      );
+    }
+    process.exit(errors);
   }
 
   if (process.argv.length > 2) {

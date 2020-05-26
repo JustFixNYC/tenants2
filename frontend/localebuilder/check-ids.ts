@@ -28,7 +28,10 @@ function writeIdMapSync(filename: string, map: IDMap) {
   );
 }
 
-export function checkMessageIdsSync(paths: MessageCatalogPaths): number {
+export function checkMessageIdsSync(
+  paths: MessageCatalogPaths,
+  writeChanges: boolean
+): number {
   const po = readPoFileSync(paths.po);
   const idMapPath = path.join(paths.rootDir, "check-ids.json");
   const relPath = path.relative(paths.rootDir, idMapPath);
@@ -47,6 +50,10 @@ export function checkMessageIdsSync(paths: MessageCatalogPaths): number {
       // e.g. reduce our bundle size.
       messageIdsFound++;
       if (!map.has(item.msgid)) {
+        if (!writeChanges) {
+          console.log(`${chalk.redBright(item.msgid)} is not in ${relPath}!`);
+          errorsFound++;
+        }
         map.set(item.msgid, msgstr);
       }
       if (map.get(item.msgid) !== msgstr) {
@@ -55,7 +62,7 @@ export function checkMessageIdsSync(paths: MessageCatalogPaths): number {
             item.msgid
           )} has changed! Please change the message ID to ` +
             `something unique, e.g. by adding a version number to the end, ` +
-            `or remove its entry from ${relPath} and re-run this command.`
+            `or remove its entry from ${relPath}.`
         );
         errorsFound++;
       }
@@ -66,8 +73,10 @@ export function checkMessageIdsSync(paths: MessageCatalogPaths): number {
     `${messageIdsFound} message ID codes found, ${errorsFound} errors.`
   );
 
-  console.log(`Writing ${relPath}.`);
-  writeIdMapSync(idMapPath, map);
+  if (writeChanges) {
+    console.log(`Writing ${relPath}.`);
+    writeIdMapSync(idMapPath, map);
+  }
 
   return errorsFound;
 }

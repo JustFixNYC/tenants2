@@ -14,9 +14,11 @@ function getPoMessages(poText: string) {
   return obj;
 }
 
-export function extractAndCheckMessagesSync(poPath: string, extractCmd: string) {
-  const readPoSync = () =>
-    getPoMessages(readTextFileSync(poPath));
+export function extractAndCheckMessagesSync(
+  poPath: string,
+  extractCmd: string
+) {
+  const readPoSync = () => getPoMessages(readTextFileSync(poPath));
   const relPath = path.relative(process.cwd(), poPath);
   console.log(`Reading ${relPath}.`);
   const origPo = readPoSync();

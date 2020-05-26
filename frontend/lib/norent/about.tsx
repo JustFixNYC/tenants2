@@ -121,7 +121,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
           <br />
           <JustfixLogo isHyperlinked />
           <p className="subtitle is-size-5">
-            <Trans>
+            <Trans id="norent.madeByBlurb">
               NoRent.org is made by{" "}
               <OutboundLink
                 className="has-text-weight-normal"

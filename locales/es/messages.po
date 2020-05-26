@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-26 20:12\n"
+"PO-Revision-Date: 2020-05-26 20:19\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1298,7 +1298,7 @@ msgstr "<0>Están en juego nuestros hogares, salud, seguridad colectiva y futuro
 
 #: frontend/lib/norent/data/faqs-content.tsx:252
 msgid "norent.definitionOfEvictionMoratorium"
-msgstr "<0>Una \"moratoria de desalojo\" puede significar algo diferente en cada jurisdicción, pero en resumen, una moratoria detiene temporalmente ciertos tipos de desalojo.</0><1>El mecanismo exacto por medio del cual se aplica esta suspensión y los tipos de casos que se suspenden, varía de una ciudad a otra. Dependiendo de la jurisdicción, la corte puede simplemente estar cerrados o no tramitar las demandas de desalojo, los alguaciles pueden no hacer cumplir las órdenes de desalojo o puede haber alguna combinación de estos y otros métodos para suspender los desalojos.</1><2>NoRent.org te ayudará orientándote para entender las diferentes reglas. También puedes leer más sobre las protecciones de los inquilinos en tu jurisdicción en el Proyecto de Mapeo Contra los Desalojos COVID-19 Emergency Tenant Protections & Rent Strikes Map (Mapa de huelgas de renta y protección para inquilinos ante la emergencia generada por COVID-19)<3/>.</2>"
+msgstr "<0>Una \"moratoria de desalojo\" puede significar algo diferente en cada jurisdicción, pero en resumen, una moratoria detiene temporalmente ciertos tipos de desalojo.</0><1>El mecanismo exacto por medio del cual se aplica esta suspensión y los tipos de casos que se suspenden, varía de una ciudad a otra. Dependiendo de la jurisdicción, la corte puede simplemente estar cerrados o no tramitar las demandas de desalojo, los alguaciles pueden no hacer cumplir las órdenes de desalojo o puede haber alguna combinación de estos y otros métodos para suspender los desalojos.</1><2>NoRent.org te ayudará orientándote para entender las diferentes reglas. También puedes leer más sobre las protecciones de los inquilinos en tu jurisdicción en el Proyecto de Mapeo Contra los Desalojos COVID-19 Emergency Tenant Protections & Rent Strikes Map <3/>.</2>"
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:15
 msgid "norent.detailsAboutNYCLandlordInfo"
@@ -1358,7 +1358,7 @@ msgstr "Con tal de sacar provecho a las protecciones de desalojo en tu estado, d
 
 #: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:25
 msgid "norent.legacyUserBlurb"
-msgstr "<0>Este es un sistema nuevo. Necesitarás una nueva cuenta para utilizarlo. Estamos encantados de prepararte una cuenta /0><1>Mientras tanto, cada vez que quieras iniciar sesión en tu cuenta de \"Build your case\" o el panel de control \"Advocate Dashboard\", puedes iniciar sesión con la información de tu cuenta antigua en este enlace:</1><2><3>beta.justfix.nyc</3></2><4><5>Por favor, guarde este enlace para poder encontrarlo más tarde.</5></4>Podrás utilizar tu cuenta nueva para acceder a los nuevos servicios de JustFix.nyc.</6><7>Si tienes alguna pregunta, por favor envíanos un correo electrónico a <8/>.</7>"
+msgstr "<0>Este es un sistema nuevo. Necesitarás una nueva cuenta para utilizarlo. Estamos encantados de prepararte una cuenta </0><1>Mientras tanto, cada vez que quieras iniciar sesión en tu cuenta de \"Build your case\" o el panel de control \"Advocate Dashboard\", puedes iniciar sesión con la información de tu cuenta antigua en este enlace:</1><2><3>beta.justfix.nyc</3></2><4><5>Por favor, guarde este enlace para poder encontrarlo más tarde.</5></4><6>Podrás utilizar tu cuenta nueva para acceder a los nuevos servicios de JustFix.nyc.</6><7>Si tienes alguna pregunta, por favor envíanos un correo electrónico a <8/>.</7>"
 
 #: frontend/lib/norent/components/footer.tsx:60
 msgid "norent.legalDisclaimer"

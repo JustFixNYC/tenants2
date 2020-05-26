@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-26 19:29\n"
+"PO-Revision-Date: 2020-05-26 19:43\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -27,7 +27,7 @@ msgstr "8 minutos"
 
 #: frontend/lib/pages/cross-site-terms-opt-in.tsx:31
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
-msgstr "<0/> usa un <1/> y un <2/>, que puedes revisar."
+msgstr "<0/> usa <1/> y <2/>, que puedes revisar."
 
 #: frontend/lib/norent/site.tsx:85
 msgid "<0>Homepage</0>"
@@ -457,7 +457,7 @@ msgstr "Cómo funciona"
 
 #: frontend/lib/pages/cross-site-terms-opt-in.tsx:43
 msgid "I agree to the <0/> terms and conditions."
-msgstr "Acepto los términos y condiciones."
+msgstr "Acepto los términos y condiciones de <0/>."
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:43
 msgid "I agree to the <0>NoRent.org terms and conditions</0>."
@@ -911,7 +911,7 @@ msgstr "Enviar una carta al dueño de tu edificio es un paso grande. Aquí tiene
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:18
 msgid "Set up an account"
-msgstr "Configura una cuenta"
+msgstr "Configura tu cuenta"
 
 #: frontend/lib/norent/start-account-or-login/set-password.tsx:10
 msgid "Set your new password"

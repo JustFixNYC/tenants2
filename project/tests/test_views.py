@@ -119,7 +119,7 @@ def test_localized_pages_work(client, settings, use_norent_site):
     assert '<html lang="es"' in html
     assert 'src="/static/frontend/locales-es-base-chunk.' in html
     assert 'src="/static/frontend/locales-es-norent-chunk.' in html
-    assert 'construye mi carta' in html.lower()
+    assert 'crear mi carta' in html.lower()
     assert 'preguntas frecuentes' in html.lower()
 
 

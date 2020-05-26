@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-26 18:20\n"
+"PO-Revision-Date: 2020-05-26 19:13\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -330,7 +330,7 @@ msgstr "Preguntas Frecuentes"
 #: frontend/lib/norent/components/footer.tsx:48
 #: frontend/lib/norent/site.tsx:70
 msgid "Faqs"
-msgstr "Preguntas más frecuentes (FAQs)"
+msgstr "Preguntas más frecuentes"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:85
 msgid "Find out more"
@@ -1314,7 +1314,7 @@ msgstr "Los inquilinos de todo el país se ven afectados por el COVID-19 de mane
 
 #: frontend/lib/norent/homepage.tsx:128
 msgid "norent.explanationOfPartnerships"
-msgstr "Nuestro generador de cartas gratuitas fue construido con <0>abogados y organizaciones de derechos de inquilinos sin fines de lucro</0> en toda la nación para asegurarnos de que tu carta te protege lo más posible según el estado en el que vives."
+msgstr "Nuestro generador de cartas gratuitas fue construido con <0>abogados y organizaciones de derechos de inquilinos sin fines de lucro</0> en toda la nación para asegurarnos de que tu carta te ofrece las mayores protecciones disponibles según el estado en el que vives."
 
 #: frontend/lib/norent/data/faqs-content.tsx:277
 msgid "norent.explanationOfWhatHappensWhenEvictionMoratoriumEnds"

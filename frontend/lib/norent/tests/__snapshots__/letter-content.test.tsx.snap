@@ -14,13 +14,7 @@ exports[`<NorentLetterContent> works 1`] = `
     
 
     at 
-    654 Park Place #2
-    , 
-    Brooklyn
-    , 
-    NY
-     
-    12345
+    654 Park Place #2, Brooklyn, NY 12345
   </h1>
   <p
     class="has-text-right"
@@ -44,9 +38,7 @@ exports[`<NorentLetterContent> works 1`] = `
       From
     </dt>
     <dd>
-      Boop
-       
-      Jones
+      Boop Jones
       <br />
       654 Park Place #2
       <br />
@@ -95,9 +87,7 @@ exports[`<NorentLetterContent> works 1`] = `
     Regards,
     <br />
     <br />
-    Boop
-     
-    Jones
+    Boop Jones
   </p>
 </div>
 `;

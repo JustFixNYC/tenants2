@@ -17,7 +17,7 @@ export const NorentLetterEmailToUser: React.FC<{}> = () => {
   return (
     <>
       <EmailSubject value={li18n._(t`Here's a copy of your NoRent letter`)} />
-      <Trans>
+      <Trans id="norent.letterEmailToUserBody">
         <p>Hello {session.firstName},</p>
         <p>
           You've sent your NoRent letter. Attached to this email is a PDF copy

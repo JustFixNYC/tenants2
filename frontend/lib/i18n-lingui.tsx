@@ -122,7 +122,10 @@ const catalogs: Catalogs = {};
  * Merge the given catalog for the given locale into our global
  * catalog and activate the locale (if it's not already active).
  */
-function mergeIntoLinguiCatalog(locale: SupportedLocale, catalog: Catalog) {
+export function mergeIntoLinguiCatalog(
+  locale: SupportedLocale,
+  catalog: Catalog
+) {
   const emptyCatalog: Catalog = { messages: {} };
   const currentCatalog: Catalog = catalogs[locale] || emptyCatalog;
   catalogs[locale] = {

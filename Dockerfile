@@ -28,6 +28,7 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
   && rm -rf /var/lib/apt/lists/* \
   && pip install pipenv \
   && rm -rf ~/.cache/pip \
+  # ICU data is needed for server-side NodeJS internationalization.
   && $(node -e 'console.log("npm install --global icu4c-data@"+process.config.variables.icu_ver_major+process.config.variables.icu_endianness)') \
   && npm cache clean --force
 

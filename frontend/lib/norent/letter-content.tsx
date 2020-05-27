@@ -42,16 +42,25 @@ export type NorentLetterContentProps = {
 
 type StringHelper = (props: NorentLetterContentProps) => string;
 
-function componentize(fn: StringHelper): React.FC<NorentLetterContentProps> {
+/**
+ * Some of our helper functions that build strings out of our props
+ * are slightly easier to read as components, so this function
+ * just converts a helper to a component.
+ */
+function componentizeHelper(
+  fn: StringHelper
+): React.FC<NorentLetterContentProps> {
   return (props) => <>{fn(props)}</>;
 }
 
-const LandlordName = componentize((props) => props.landlordName.toUpperCase());
+const LandlordName = componentizeHelper((props) =>
+  props.landlordName.toUpperCase()
+);
 
 const getFullName: StringHelper = (props) =>
   `${props.firstName} ${props.lastName}`;
 
-const FullName = componentize(getFullName);
+const FullName = componentizeHelper(getFullName);
 
 export const getStreetWithApt = ({
   street,
@@ -61,11 +70,12 @@ export const getStreetWithApt = ({
   return `${street} #${aptNumber}`;
 };
 
-const AddressLine = componentize(
+const AddressLine = componentizeHelper(
   (props) =>
     `${getStreetWithApt(props)}, ${props.city}, ${props.state} ${props.zipCode}`
 );
 
+/** An annoying workaround for both WeasyPrint and Lingui. */
 const Newline: React.FC<{}> = () => <>{"\n"}</>;
 
 const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
@@ -90,7 +100,9 @@ function friendlyUTCDate(date: GraphQLDate) {
   return friendlyDate(new Date(date), "UTC");
 }
 
-const PaymentDate = componentize((props) => friendlyUTCDate(props.paymentDate));
+const PaymentDate = componentizeHelper((props) =>
+  friendlyUTCDate(props.paymentDate)
+);
 
 const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
   <dl className="jf-letter-heading">

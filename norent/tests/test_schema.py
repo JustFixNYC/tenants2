@@ -392,6 +392,7 @@ class TestNorentCreateAccount:
         assert oi.zipcode == ''
 
         assert len(smsoutbox) == 1
+        assert smsoutbox[0].body.startswith("Welcome to NoRent")
         assert len(mailoutbox) == 0
 
         assert get_last_queried_phone_number(request) is None

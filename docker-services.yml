@@ -1,7 +1,7 @@
 version: '2'
 services:
   base_app:
-    image: justfixnyc/tenants2_base:0.9
+    image: justfixnyc/tenants2_base:0.10
     volumes:
       # Note that we're storing our Python and Node dependencies
       # in separate volumes, outside of the Docker Host's filesystem.

@@ -6,7 +6,7 @@
 # assets, and so forth, so that the final container is completely
 # self-contained.
 
-FROM justfixnyc/tenants2_base:0.9
+FROM justfixnyc/tenants2_base:0.10
 
 # The way we're using lots of layers here is intentional, as
 # we're first installing our dependencies--which don't change

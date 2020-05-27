@@ -8,7 +8,7 @@ jobs:
     # collectively reduce the total test time as much as possible.
     working_directory: ~/tenants2
     docker:
-      - image: justfixnyc/tenants2_base:0.9
+      - image: justfixnyc/tenants2_base:0.10
         environment: &env
           PIPENV_VENV_IN_PROJECT: true
           DEBUG: yup
@@ -84,7 +84,7 @@ jobs:
   test:
     working_directory: ~/tenants2
     docker:
-      - image: justfixnyc/tenants2_base:0.9
+      - image: justfixnyc/tenants2_base:0.10
         environment:
           <<: *env
           DATABASE_URL: postgis://justfix@localhost/justfix

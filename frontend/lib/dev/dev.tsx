@@ -113,6 +113,34 @@ const ExampleMetaTagPage = () => (
 );
 
 /* istanbul ignore next: this is tested by integration tests. */
+const ExampleIntlPage = () => {
+  const opts: Intl.DateTimeFormatOptions = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const date = new Date(2020, 4, 27);
+  const spanish = new Intl.DateTimeFormat("es", opts);
+  const english = new Intl.DateTimeFormat("en", opts);
+
+  return (
+    <Page title="Intl test" className="content">
+      <p>
+        This page tests that the ECMAScript Internationalization API works on
+        the server and client.
+      </p>
+      <dl>
+        <dt>English</dt>
+        <dd>{english.format(date)}</dd>
+        <dt>Spanish</dt>
+        <dd>{spanish.format(date)}</dd>
+      </dl>
+    </Page>
+  );
+};
+
+/* istanbul ignore next: this is tested by integration tests. */
 function ExampleQueryPage(): JSX.Element {
   return (
     <QueryLoader
@@ -210,6 +238,7 @@ export default function DevRoutes(): JSX.Element {
         component={ExamplePageWithAnchors2}
       />
       <Route path={dev.examples.mapbox} exact component={ExampleMapboxPage} />
+      <Route path={dev.examples.intl} exact component={ExampleIntlPage} />
     </Switch>
   );
 }

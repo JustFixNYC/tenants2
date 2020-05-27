@@ -112,6 +112,14 @@ class TestIndexPage(ClassCachedValue):
         assert DISABLE_ANALYTICS_SENTINEL not in self.html
 
 
+def test_ecmascript_intl_api_works_on_server(client):
+    response = client.get('/dev/examples/intl')
+    assert response.status_code == 200
+    html = response.content.decode('utf-8')
+    assert 'Wednesday, May 27, 2020' in html
+    assert 'miércoles, 27 de mayo de 2020' in html
+
+
 def test_localized_pages_work(client, settings, use_norent_site):
     settings.LANGUAGES = project.locales.ALL.choices
     response = client.get('/es/faqs')

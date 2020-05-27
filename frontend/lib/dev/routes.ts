@@ -28,6 +28,7 @@ export function createDevRouteInfo(prefix: string) {
       staticPage: `${prefix}/examples/static-page`,
       staticPagePdf: `${prefix}/examples/static-page.pdf`,
       staticPageTxt: `${prefix}/examples/static-page.txt`,
+      intl: `${prefix}/examples/intl`,
     },
   };
 }

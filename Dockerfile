@@ -26,6 +26,11 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
     # These are for WeasyPrint.
     libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info \
   && rm -rf /var/lib/apt/lists/* \
-  && pip install pipenv
+  && pip install pipenv \
+  && rm -rf ~/.cache/pip \
+  && $(node -e 'console.log("npm install --global icu4c-data@"+process.config.variables.icu_ver_major+process.config.variables.icu_endianness)') \
+  && npm cache clean --force
+
+ENV NODE_ICU_DATA /usr/lib/node_modules/icu4c-data
 
 ENV PATH /tenants2/node_modules/.bin:/node_modules/.bin:$PATH

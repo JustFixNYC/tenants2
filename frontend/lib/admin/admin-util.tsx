@@ -1,4 +1,4 @@
-import { PREFERRED_TIME_ZONE } from "../util/util";
+import { PREFERRED_TIME_ZONE } from "../util/date-util";
 
 type NiceTimestampOptions = Partial<{
   /** Show the number of seconds into the minute. */

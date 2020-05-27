@@ -14,7 +14,9 @@ class HTMLToTextParser(HTMLParser):
         self.__capture = True
 
     def handle_starttag(self, tag, attrs):
-        if tag in self.IGNORE_TAGS:
+        if tag == "br":
+            self.__curr_block.append("\n")
+        elif tag in self.IGNORE_TAGS:
             self.__capture = False
 
     def handle_data(self, data):

@@ -20,6 +20,8 @@ import {
   CovidStateLawVersion,
 } from "./letter-builder/national-metadata";
 import { BreaksBetweenLines } from "../ui/breaks-between-lines";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 export type NorentLetterContentProps = {
   firstName: string;
@@ -38,15 +40,18 @@ export type NorentLetterContentProps = {
   todaysDate?: GraphQLDate;
 };
 
-const LandlordName: React.FC<NorentLetterContentProps> = (props) => (
-  <>{props.landlordName.toUpperCase()}</>
-);
+type StringHelper = (props: NorentLetterContentProps) => string;
 
-const FullName: React.FC<NorentLetterContentProps> = (props) => (
-  <>
-    {props.firstName} {props.lastName}
-  </>
-);
+function componentize(fn: StringHelper): React.FC<NorentLetterContentProps> {
+  return (props) => <>{fn(props)}</>;
+}
+
+const LandlordName = componentize((props) => props.landlordName.toUpperCase());
+
+const getFullName: StringHelper = (props) =>
+  `${props.firstName} ${props.lastName}`;
+
+const FullName = componentize(getFullName);
 
 export const getStreetWithApt = ({
   street,
@@ -56,6 +61,13 @@ export const getStreetWithApt = ({
   return `${street} #${aptNumber}`;
 };
 
+const AddressLine = componentize(
+  (props) =>
+    `${getStreetWithApt(props)}, ${props.city}, ${props.state} ${props.zipCode}`
+);
+
+const Newline: React.FC<{}> = () => <>{"\n"}</>;
+
 const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
   /*
    * We originally had a <br> in this <h1>, but React self-closes the
@@ -63,9 +75,11 @@ const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
    * include an actual newline and set the style to preserve whitespace.
    */
   <h1 className="has-text-right" style={{ whiteSpace: "pre-wrap" }}>
-    <span className="is-uppercase">Notice of COVID-19 impact on rent</span>
-    {"\n"}
-    at {getStreetWithApt(props)}, {props.city}, {props.state} {props.zipCode}
+    <Trans>
+      <span className="is-uppercase">Notice of COVID-19 impact on rent</span>
+      <Newline />
+      at <AddressLine {...props} />
+    </Trans>
   </h1>
 );
 
@@ -76,13 +90,13 @@ function friendlyUTCDate(date: GraphQLDate) {
   return friendlyDate(new Date(date), "UTC");
 }
 
-const PaymentDate: React.FC<{ paymentDate: GraphQLDate }> = (props) => (
-  <>{friendlyUTCDate(props.paymentDate)}</>
-);
+const PaymentDate = componentize((props) => friendlyUTCDate(props.paymentDate));
 
 const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
   <dl className="jf-letter-heading">
-    <dt>To</dt>
+    <dt>
+      <Trans description="before address in formal letter">To</Trans>
+    </dt>
     <dd>
       <LandlordName {...props} />
       <br />
@@ -92,7 +106,9 @@ const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
         <>{props.landlordEmail}</>
       )}
     </dd>
-    <dt>From</dt>
+    <dt>
+      <Trans description="before address in formal letter">From</Trans>
+    </dt>
     <dd>
       <FullName {...props} />
       <br />
@@ -112,8 +128,10 @@ const TenantProtections: React.FC<NorentLetterContentProps> = (props) => {
   return (
     <>
       <p>
-        Tenants impacted by the COVID-19 crisis are protected from eviction for
-        nonpayment per emergency declaration(s) from:
+        <Trans>
+          Tenants impacted by the COVID-19 crisis are protected from eviction
+          for nonpayment per emergency declaration(s) from:
+        </Trans>
       </p>
       <ul>
         {protectionData &&
@@ -138,28 +156,49 @@ const LetterContentPropsFromSession: React.FC<{
   return children(lcProps);
 };
 
+const DearLandlord: React.FC<NorentLetterContentProps> = (props) => (
+  <p>
+    <Trans description="salutation of formal letter">
+      Dear <LandlordName {...props} />,
+    </Trans>
+  </p>
+);
+
+const Regards: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
+  <p className="jf-signature">
+    <Trans description="before signature in formal letter">Regards,</Trans>
+    {children}
+  </p>
+);
+
 export const NorentLetterEmailToLandlord: React.FC<NorentLetterContentProps> = (
   props
 ) => (
   <>
     <EmailSubject
-      value={`Notice of COVID-19 impact on Rent sent on behalf of ${props.firstName} ${props.lastName}`}
+      value={li18n._(
+        t`Notice of COVID-19 impact on Rent sent on behalf of ${getFullName(
+          props
+        )}`
+      )}
     />
+    <DearLandlord {...props} />
+    <Trans id="norent.emailToLandlordBody">
+      <p>
+        Please see letter attached from <FullName {...props} />.{" "}
+      </p>
+      <p>
+        In order to document communications and avoid misunderstandings, please
+        correspond with <FullName {...props} /> via mail or text rather than a
+        phone call or in-person visit.
+      </p>
+    </Trans>
+    <Regards />
     <p>
-      Dear <LandlordName {...props} />,
-    </p>
-    <p>
-      Please see letter attached from <FullName {...props} />.{" "}
-    </p>
-    <p>
-      In order to document communications and avoid misunderstandings, please
-      correspond with <FullName {...props} /> via mail or text rather than a
-      phone call or in-person visit.
-    </p>
-    <p>Regards,</p>
-    <p>
-      JustFix.nyc <br />
-      sent on behalf of <FullName {...props} />
+      <Trans>
+        JustFix.nyc <br />
+        sent on behalf of <FullName {...props} />
+      </Trans>
     </p>
   </>
 );
@@ -188,52 +227,58 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
       <LetterTitle {...props} />
       <p className="has-text-right">{todaysDate}</p>
       <LetterHeading {...props} />
-      <p>
-        Dear <LandlordName {...props} />,
-      </p>
+      <DearLandlord {...props} />
       {letterVersion === CovidStateLawVersion.V1_NON_PAYMENT ? (
         <p>
-          This letter is to notify you that I will be unable to pay rent
-          starting on <PaymentDate {...props} /> and until further notice due to
-          loss of income, increased expenses, and/or other financial
-          circumstances related to COVID-19.
+          <Trans id="norent.letter.v1NonPayment">
+            This letter is to notify you that I will be unable to pay rent
+            starting on <PaymentDate {...props} /> and until further notice due
+            to loss of income, increased expenses, and/or other financial
+            circumstances related to COVID-19.
+          </Trans>
         </p>
       ) : letterVersion === CovidStateLawVersion.V2_HARDSHIP ? (
         <p>
-          This letter is to notify you that I have experienced a loss of income,
-          increased expenses and/or other financial circumstances related to the
-          pandemic. Until further notice, the COVID-19 emergency may impact my
-          ability to pay rent. I am not waiving my right to assert any other
-          defenses.
+          <Trans id="norent.letter.v2Hardship">
+            This letter is to notify you that I have experienced a loss of
+            income, increased expenses and/or other financial circumstances
+            related to the pandemic. Until further notice, the COVID-19
+            emergency may impact my ability to pay rent. I am not waiving my
+            right to assert any other defenses.
+          </Trans>
         </p>
       ) : (
         // Letter Copy for V3_FEW_PROTECTIONS, the default:
         <p>
-          This letter is to advise you of protections in place for tenants in{" "}
-          {getUSStateChoiceLabels()[state]}. I am not waiving my right to assert
-          any other defenses.
+          <Trans id="norent.letter.v3FewProtections">
+            This letter is to advise you of protections in place for tenants in{" "}
+            {getUSStateChoiceLabels()[state]}. I am not waiving my right to
+            assert any other defenses.
+          </Trans>
         </p>
       )}
       <TenantProtections {...props} />
-      <p>
-        Congress passed the CARES Act on March 27, 2020 (Public Law 116-136).
-        Tenants in covered properties are also protected from eviction for
-        non-payment or any other reason until August 23, 2020. Tenants cannot be
-        charged late fees, interest, or other penalties through July 25, 2020.
-        Please let me know right away if you believe this property is not
-        covered by the CARES Act and explain why the property is not covered.
-      </p>
-      <p>
-        In order to document our communication and to avoid misunderstandings,
-        please reply to me via mail or text rather than a call or visit.
-      </p>
-      <p>Thank you for your understanding and cooperation.</p>
-      <p className="jf-signature">
-        Regards,
+      <Trans id="norent.letter.conclusion">
+        <p>
+          Congress passed the CARES Act on March 27, 2020 (Public Law 116-136).
+          Tenants in covered properties are also protected from eviction for
+          non-payment or any other reason until August 23, 2020. Tenants cannot
+          be charged late fees, interest, or other penalties through July 25,
+          2020. Please let me know right away if you believe this property is
+          not covered by the CARES Act and explain why the property is not
+          covered.
+        </p>
+        <p>
+          In order to document our communication and to avoid misunderstandings,
+          please reply to me via mail or text rather than a call or visit.
+        </p>
+        <p>Thank you for your understanding and cooperation.</p>
+      </Trans>
+      <Regards>
         <br />
         <br />
         <FullName {...props} />
-      </p>
+      </Regards>
     </>
   );
 };
@@ -300,7 +345,7 @@ export const NorentLetterForUserStaticPage: React.FC<{ isPdf?: boolean }> = ({
       <NorentLetterStaticPage
         {...lcProps}
         isPdf={isPdf}
-        title="Your NoRent.org letter"
+        title={li18n._(t`Your NoRent.org letter`)}
       />
     )}
   />
@@ -335,7 +380,7 @@ export const NorentSampleLetterSamplePage: React.FC<{ isPdf?: boolean }> = ({
   return (
     <NorentLetterStaticPage
       {...props}
-      title="Sample NoRent.org letter"
+      title={li18n._(t`Sample NoRent.org letter`)}
       isPdf={isPdf}
     />
   );

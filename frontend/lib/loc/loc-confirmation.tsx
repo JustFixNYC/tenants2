@@ -5,7 +5,7 @@ import { LetterRequestMailChoice } from "../queries/globalTypes";
 import { AllSessionInfo_letterRequest } from "../queries/AllSessionInfo";
 import Page from "../ui/page";
 import classnames from "classnames";
-import { friendlyDate } from "../util/util";
+import { friendlyDate } from "../util/date-util";
 import { OutboundLink } from "../analytics/google-analytics";
 import { PdfLink } from "../ui/pdf-link";
 import { EmailAttachmentForm } from "../forms/email-attachment";

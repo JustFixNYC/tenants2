@@ -4,7 +4,8 @@ import { NorentLetterContentQuery } from "../queries/NorentLetterContentQuery";
 import { LetterStaticPage } from "../static-page/letter-static-page";
 import { AppContext } from "../app-context";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
-import { friendlyDate, assertNotNull } from "../util/util";
+import { assertNotNull } from "../util/util";
+import { friendlyDate } from "../util/date-util";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
 import {
   EmailSubject,

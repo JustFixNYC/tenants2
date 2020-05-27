@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-27 21:52+0000\n"
+"POT-Creation-Date: 2020-05-27 21:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,10 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: frontend/templates/frontend/safe_mode_ui.html:9
-msgid ""
-"This site is currently in <strong>compatibility mode</strong>. For an "
-"enhanced experience, you can disable it, but this may cause compatibility "
-"issues with your current browser."
+msgid "This site is currently in <strong>compatibility mode</strong>. For an enhanced experience, you can disable it, but this may cause compatibility issues with your current browser."
 msgstr ""
 
 #: frontend/templates/frontend/safe_mode_ui.html:12
@@ -30,9 +27,7 @@ msgid "Deactivate compatibility mode"
 msgstr ""
 
 #: frontend/templates/frontend/safe_mode_ui.html:26
-msgid ""
-"Having problems using this page? We're sorry for the inconvenience. Activate "
-"this site's <strong>compatibility mode</strong> for a better experience."
+msgid "Having problems using this page? We're sorry for the inconvenience. Activate this site's <strong>compatibility mode</strong> for a better experience."
 msgstr ""
 
 #: frontend/templates/frontend/safe_mode_ui.html:29
@@ -50,21 +45,15 @@ msgstr ""
 
 #: norent/schema.py:406
 #, python-format
-msgid ""
-"Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you "
-"notifications from this phone number."
+msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
 msgstr ""
 
 #: onboarding/forms.py:52
-msgid ""
-"Please either provide an apartment number or check the \"I have no apartment "
-"number\" checkbox (but not both)."
+msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox (but not both)."
 msgstr ""
 
 #: onboarding/forms.py:58
-msgid ""
-"Please either provide an apartment number or check the \"I have no apartment "
-"number\" checkbox."
+msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox."
 msgstr ""
 
 #: project/forms.py:13
@@ -110,7 +99,5 @@ msgid "%(areacode)s is an invalid area code."
 msgstr ""
 
 #: project/util/phone_number.py:68
-msgid ""
-"This does not look like a U.S. phone number. Please include the area code, e."
-"g. (555) 123-4567."
+msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr ""

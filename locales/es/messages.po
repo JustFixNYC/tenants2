@@ -1442,7 +1442,7 @@ msgstr ""
 
 #: frontend/lib/norent/letter-email-to-user.tsx:13
 msgid "norent.letterEmailToUserBody"
-msgstr ""
+msgstr "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1><2>To learn more about what to do next, check out our FAQ page: {faqURL}</2>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:34
 msgid "norent.listOfSuggestedNonpaymentDocumentation"

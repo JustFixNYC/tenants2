@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-21 20:55+0000\n"
+"POT-Creation-Date: 2020-05-27 21:52+0000\n"
 "PO-Revision-Date: 2020-05-26 19:43\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish\n"
@@ -16,16 +16,26 @@ msgstr ""
 "X-Crowdin-File: /master/locales/en/LC_MESSAGES/django.po\n"
 
 #: frontend/templates/frontend/safe_mode_ui.html:9
-msgid "This site is currently in <strong>compatibility mode</strong>. For an enhanced experience, you can disable it, but this may cause compatibility issues with your current browser."
-msgstr "Este sitio está actualmente en <strong>modo de compatibilidad</strong>. Para una experiencia mejor, puede desactivarlo, pero esto puede causar problemas de compatibilidad con su navegador actual."
+msgid ""
+"This site is currently in <strong>compatibility mode</strong>. For an "
+"enhanced experience, you can disable it, but this may cause compatibility "
+"issues with your current browser."
+msgstr ""
+"Este sitio está actualmente en <strong>modo de compatibilidad</strong>. Para "
+"una experiencia mejor, puede desactivarlo, pero esto puede causar problemas "
+"de compatibilidad con su navegador actual."
 
 #: frontend/templates/frontend/safe_mode_ui.html:12
 msgid "Deactivate compatibility mode"
 msgstr "Desactivar modo de compatibilidad"
 
 #: frontend/templates/frontend/safe_mode_ui.html:26
-msgid "Having problems using this page? We're sorry for the inconvenience. Activate this site's <strong>compatibility mode</strong> for a better experience."
-msgstr "¿Tienes problemas al usar esta página? Disculpa las molestias. Activa el <strong>modo de compatibilidad</strong> para una experiencia mejor."
+msgid ""
+"Having problems using this page? We're sorry for the inconvenience. Activate "
+"this site's <strong>compatibility mode</strong> for a better experience."
+msgstr ""
+"¿Tienes problemas al usar esta página? Disculpa las molestias. Activa el "
+"<strong>modo de compatibilidad</strong> para una experiencia mejor."
 
 #: frontend/templates/frontend/safe_mode_ui.html:29
 msgid "Activate compatibility mode"
@@ -40,13 +50,28 @@ msgstr "cerrar"
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
 msgstr "¡%(city)s, %(state_name)s no existe!"
 
+#: norent/schema.py:406
+#, python-format
+msgid ""
+"Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you "
+"notifications from this phone number."
+msgstr ""
+
 #: onboarding/forms.py:52
-msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox (but not both)."
-msgstr "Por favor proporcione un número de apartamento o marque la casilla \"No tengo número de apartamento\" (pero no ambos)."
+msgid ""
+"Please either provide an apartment number or check the \"I have no apartment "
+"number\" checkbox (but not both)."
+msgstr ""
+"Por favor proporcione un número de apartamento o marque la casilla \"No "
+"tengo número de apartamento\" (pero no ambos)."
 
 #: onboarding/forms.py:58
-msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox."
-msgstr "Por favor proporcione un número de apartamento o marque la casilla \"No tengo ningún número de apartamento\"."
+msgid ""
+"Please either provide an apartment number or check the \"I have no apartment "
+"number\" checkbox."
+msgstr ""
+"Por favor proporcione un número de apartamento o marque la casilla \"No "
+"tengo ningún número de apartamento\"."
 
 #: project/forms.py:13
 msgid "Please choose at least one option."
@@ -79,7 +104,9 @@ msgstr "Introduzca un código postal válido en los Estados Unidos de América."
 #: project/util/phone_number.py:25
 #, python-format
 msgid "U.S. phone numbers must be %(phone_number_len)s digits."
-msgstr "Los números de teléfono de Estados Unidos de América deben tener %(phone_number_len)s dígitos."
+msgstr ""
+"Los números de teléfono de Estados Unidos de América deben tener "
+"%(phone_number_len)s dígitos."
 
 #: project/util/phone_number.py:30
 msgid "Phone numbers can only contain digits."
@@ -91,6 +118,9 @@ msgid "%(areacode)s is an invalid area code."
 msgstr "%(areacode)s no es un prefijo telefónico válido."
 
 #: project/util/phone_number.py:68
-msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
-msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
-
+msgid ""
+"This does not look like a U.S. phone number. Please include the area code, e."
+"g. (555) 123-4567."
+msgstr ""
+"Ese no parece un número de teléfono de los Estados Unidos de América. Por "
+"favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."

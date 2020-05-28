@@ -311,6 +311,11 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # campaign will be disabled.
     RAPIDPRO_FOLLOWUP_CAMPAIGN_HP: str = ''
 
+    # The RapidPro group name and date field key, separated by a comma, that
+    # trigger the follow-up campaign for Emergency HP Action. If empty, this
+    # follow-up campaign will be disabled.
+    RAPIDPRO_FOLLOWUP_CAMPAIGN_EHP: str = ''
+
     # The DocuSign account ID to use. Leaving this empty disables DocuSign
     # integration.
     DOCUSIGN_ACCOUNT_ID: str = ''

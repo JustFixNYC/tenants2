@@ -1,5 +1,6 @@
 import { matchPath } from "react-router-dom";
-import i18n from "../i18n";
+import i18n, { makeLocalePathPrefix } from "../i18n";
+import { LocaleChoice } from "../../../common-data/locale-choices";
 
 /**
  * Special route key indicating the prefix of a set of routes,
@@ -121,6 +122,9 @@ export type RouteInfo<
   /** Localized routes for the user's currently-selected locale. */
   locale: LocalizedRoutes;
 
+  /** Return localized routes for a different locale. */
+  getLocale: (locale: LocaleChoice) => LocalizedRoutes;
+
   /** A utility object for querying information about routes. */
   routeMap: RouteMap;
 };
@@ -136,15 +140,20 @@ export function createRoutesForSite<LocalizedRoutes, NonLocalizedRoutes>(
 ): RouteInfo<LocalizedRoutes, NonLocalizedRoutes> {
   let currentLocaleRoutes: LocalizedRoutes | null = null;
 
-  const baseRoutes = {
+  const baseRoutes: RouteInfo<LocalizedRoutes, NonLocalizedRoutes> = {
     get locale(): LocalizedRoutes {
       if (currentLocaleRoutes === null) {
         currentLocaleRoutes = createLocalizedRouteInfo(i18n.localePathPrefix);
       }
       return currentLocaleRoutes;
     },
+    getLocale: (locale) =>
+      createLocalizedRouteInfo(makeLocalePathPrefix(locale)),
     ...nonLocalizedRouteInfo,
-  } as RouteInfo<LocalizedRoutes, NonLocalizedRoutes>;
+
+    // This is a placeholder, we're about to replace it with something valid.
+    routeMap: null as any,
+  };
 
   baseRoutes.routeMap = new RouteMap(baseRoutes);
 

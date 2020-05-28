@@ -104,11 +104,15 @@ const PaymentDate = componentizeHelper((props) =>
   friendlyUTCDate(props.paymentDate)
 );
 
+/**
+ * The to/from address of the letter.
+ *
+ * Note that this isn't internationalized because we don't actually
+ * show it to the user in their locale.
+ */
 const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
   <dl className="jf-letter-heading">
-    <dt>
-      <Trans description="before address in formal letter">To</Trans>
-    </dt>
+    <dt>To</dt>
     <dd>
       <LandlordName {...props} />
       <br />
@@ -118,9 +122,7 @@ const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
         <>{props.landlordEmail}</>
       )}
     </dd>
-    <dt>
-      <Trans description="before address in formal letter">From</Trans>
-    </dt>
+    <dt>From</dt>
     <dd>
       <FullName {...props} />
       <br />

@@ -276,7 +276,7 @@ msgid "Create new account"
 msgstr "Crea una cuenta nueva"
 
 #. salutation of formal letter
-#: frontend/lib/norent/letter-content.tsx:113
+#: frontend/lib/norent/letter-content.tsx:115
 msgid "Dear <0/>,"
 msgstr ""
 
@@ -364,11 +364,6 @@ msgstr "Correo certificado gratuito"
 #: frontend/lib/norent/faqs.tsx:76
 msgid "Frequently Asked Questions"
 msgstr "Preguntas Más Frecuentes"
-
-#. before address in formal letter
-#: frontend/lib/norent/letter-content.tsx:75
-msgid "From"
-msgstr ""
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:69
 msgid "Gather documentation"
@@ -577,7 +572,7 @@ msgstr "¡Es la primera vez que estás aquí!"
 msgid "Join our <0/>mailing list"
 msgstr "¡Únete a nuestra <0/>lista de distribución!"
 
-#: frontend/lib/norent/letter-content.tsx:136
+#: frontend/lib/norent/letter-content.tsx:138
 msgid "JustFix.nyc <0/>sent on behalf of <1/>"
 msgstr ""
 
@@ -816,7 +811,7 @@ msgstr "Dakota del Norte"
 msgid "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
 msgstr "No poder pagar la renta debido al COVID-19 no es nada de lo que avergonzarse. Nuestro generador de cartas hace que sea fácil enviarle una carta al dueño de tu edificio para avisarle."
 
-#: frontend/lib/norent/letter-content.tsx:122
+#: frontend/lib/norent/letter-content.tsx:124
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 msgstr ""
 
@@ -892,7 +887,7 @@ msgid "Puerto Rico"
 msgstr "Puerto Rico"
 
 #. before signature in formal letter
-#: frontend/lib/norent/letter-content.tsx:118
+#: frontend/lib/norent/letter-content.tsx:120
 msgid "Regards,"
 msgstr ""
 
@@ -916,7 +911,7 @@ msgstr "Right to the City"
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Permito que Right to the City se ponga en contacto conmigo para proporcionarme apoyo adicional."
 
-#: frontend/lib/norent/letter-content.tsx:262
+#: frontend/lib/norent/letter-content.tsx:264
 msgid "Sample NoRent.org letter"
 msgstr ""
 
@@ -1009,7 +1004,7 @@ msgstr "Enviar email"
 msgid "Tenant Rights"
 msgstr "Derechos del Inquilino"
 
-#: frontend/lib/norent/letter-content.tsx:93
+#: frontend/lib/norent/letter-content.tsx:95
 msgid "Tenants impacted by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
 msgstr ""
 
@@ -1039,11 +1034,6 @@ msgstr "Esto es opcional."
 #: frontend/lib/norent/letter-builder/confirmation.tsx:164
 msgid "This tool is provided by JustFix.nyc. We’re a non-profit that creates tools for tenants and the housing rights movement. We always want feedback to improve our tools."
 msgstr "Esta herramienta te la trae JustFix.nyc. Somos una organización sin fines de lucro que crea herramientas para inquilinos y el movimiento de derechos de la vivienda. Siempre nos interesa tu opinión para mejorar nuestras herramientas."
-
-#. before address in formal letter
-#: frontend/lib/norent/letter-content.tsx:67
-msgid "To"
-msgstr ""
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:29
 msgid "To begin the password reset process, we'll text you a verification code."
@@ -1278,7 +1268,7 @@ msgstr "Has enviado tu carta"
 msgid "Your Letter Is Ready To Send!"
 msgstr "¡Tu carta está lista para enviar!"
 
-#: frontend/lib/norent/letter-content.tsx:241
+#: frontend/lib/norent/letter-content.tsx:243
 msgid "Your NoRent.org letter"
 msgstr ""
 
@@ -1364,7 +1354,7 @@ msgstr "<0>Esta es la información del dueño de tu edificio según los registro
 msgid "norent.emailBodyTemplateForSharingNoRent"
 msgstr "Usé www.norent.org para decirle al dueño de mi edificio de que no puedo pagar la renta este mes. Esta herramienta gratuita te ayuda a construir y enviar una carta al dueño de tu edificio, citando las protecciones legales en tu estado, y te conecta con otras personas de tu comunidad que participan en la campaña de #cancelrent"
 
-#: frontend/lib/norent/letter-content.tsx:124
+#: frontend/lib/norent/letter-content.tsx:126
 msgid "norent.emailToLandlordBody"
 msgstr ""
 
@@ -1424,19 +1414,19 @@ msgstr "<0>Este es un sistema nuevo. Necesitarás una nueva cuenta para utilizar
 msgid "norent.legalDisclaimer"
 msgstr "<0>Aviso: La información en JustFix.nyc no constituye asesoramiento jurídico y no debe ser utilizado como sustituto del asesoramiento de un abogado cualificado para asesorar sobre cuestiones jurídicas relativas a la vivienda. Si lo necesitas, podemos ayudar a dirigirte a servicios legales gratuitos. </0>"
 
-#: frontend/lib/norent/letter-content.tsx:181
+#: frontend/lib/norent/letter-content.tsx:183
 msgid "norent.letter.conclusion"
 msgstr ""
 
-#: frontend/lib/norent/letter-content.tsx:157
+#: frontend/lib/norent/letter-content.tsx:159
 msgid "norent.letter.v1NonPayment"
 msgstr ""
 
-#: frontend/lib/norent/letter-content.tsx:164
+#: frontend/lib/norent/letter-content.tsx:166
 msgid "norent.letter.v2Hardship"
 msgstr ""
 
-#: frontend/lib/norent/letter-content.tsx:174
+#: frontend/lib/norent/letter-content.tsx:176
 msgid "norent.letter.v3FewProtections"
 msgstr ""
 

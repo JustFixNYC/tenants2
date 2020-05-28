@@ -59,6 +59,11 @@ msgstr "<0>Notice of COVID-19 impact on rent</0><1/>at <2/>"
 msgid "<0>Our tool only allows you to send one letter at a time.</0><1>Continue to the confirmation page for what to do next.</1>"
 msgstr "<0>Our tool only allows you to send one letter at a time.</0><1>Continue to the confirmation page for what to do next.</1>"
 
+#. heading of formal letter
+#: frontend/lib/norent/letter-content.tsx:83
+msgid "<0>To</0><1/><2>From</2><3/>"
+msgstr "<0>To</0><1/><2>From</2><3/>"
+
 #: frontend/lib/norent/data/faqs-content.tsx:160
 #: frontend/lib/norent/data/faqs-content.tsx:167
 msgid "<0>Yes, this is a free website created by 501(c)3 non-profit organizations across the United States.</0>"
@@ -273,7 +278,7 @@ msgid "Create new account"
 msgstr "Create new account"
 
 #. salutation of formal letter
-#: frontend/lib/norent/letter-content.tsx:115
+#: frontend/lib/norent/letter-content.tsx:116
 msgid "Dear <0/>,"
 msgstr "Dear <0/>,"
 
@@ -569,7 +574,7 @@ msgstr "It’s your first time here!"
 msgid "Join our <0/>mailing list"
 msgstr "Join our <0/>mailing list"
 
-#: frontend/lib/norent/letter-content.tsx:138
+#: frontend/lib/norent/letter-content.tsx:139
 msgid "JustFix.nyc <0/>sent on behalf of <1/>"
 msgstr "JustFix.nyc <0/>sent on behalf of <1/>"
 
@@ -808,7 +813,7 @@ msgstr "North Dakota"
 msgid "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
 msgstr "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
 
-#: frontend/lib/norent/letter-content.tsx:124
+#: frontend/lib/norent/letter-content.tsx:125
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 msgstr "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 
@@ -884,7 +889,7 @@ msgid "Puerto Rico"
 msgstr "Puerto Rico"
 
 #. before signature in formal letter
-#: frontend/lib/norent/letter-content.tsx:120
+#: frontend/lib/norent/letter-content.tsx:121
 msgid "Regards,"
 msgstr "Regards,"
 
@@ -908,7 +913,7 @@ msgstr "Right to the City"
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Right to the City Alliance can contact me to provide additional support."
 
-#: frontend/lib/norent/letter-content.tsx:264
+#: frontend/lib/norent/letter-content.tsx:265
 msgid "Sample NoRent.org letter"
 msgstr "Sample NoRent.org letter"
 
@@ -1001,7 +1006,7 @@ msgstr "Submit email"
 msgid "Tenant Rights"
 msgstr "Tenant Rights"
 
-#: frontend/lib/norent/letter-content.tsx:95
+#: frontend/lib/norent/letter-content.tsx:96
 msgid "Tenants impacted by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
 msgstr "Tenants impacted by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
 
@@ -1265,7 +1270,7 @@ msgstr "You've sent your letter"
 msgid "Your Letter Is Ready To Send!"
 msgstr "Your Letter Is Ready To Send!"
 
-#: frontend/lib/norent/letter-content.tsx:243
+#: frontend/lib/norent/letter-content.tsx:244
 msgid "Your NoRent.org letter"
 msgstr "Your NoRent.org letter"
 
@@ -1351,7 +1356,7 @@ msgstr "<0>This is your landlord’s information as registered with the <1>NYC D
 msgid "norent.emailBodyTemplateForSharingNoRent"
 msgstr "I used www.norent.org to tell my landlord that I'm unable to pay this month's rent. This free tool helps you build and send a letter to your landlord, cites legal protections in your state, and connects you to other people in your community working to #cancelrent"
 
-#: frontend/lib/norent/letter-content.tsx:126
+#: frontend/lib/norent/letter-content.tsx:127
 msgid "norent.emailToLandlordBody"
 msgstr "<0>Please see letter attached from <1/>. </0><2>In order to document communications and avoid misunderstandings, please correspond with <3/> via mail or text rather than a phone call or in-person visit.</2>"
 
@@ -1411,19 +1416,19 @@ msgstr "<0>This is a new system. You will need a new account to use it. We're ha
 msgid "norent.legalDisclaimer"
 msgstr "<0>Disclaimer: The information in JustFix.nyc does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free legal services if necessary.</0>"
 
-#: frontend/lib/norent/letter-content.tsx:183
+#: frontend/lib/norent/letter-content.tsx:184
 msgid "norent.letter.conclusion"
 msgstr "<0>Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are also protected from eviction for non-payment or any other reason until August 23, 2020. Tenants cannot be charged late fees, interest, or other penalties through July 25, 2020. Please let me know right away if you believe this property is not covered by the CARES Act and explain why the property is not covered.</0><1>In order to document our communication and to avoid misunderstandings, please reply to me via mail or text rather than a call or visit.</1><2>Thank you for your understanding and cooperation.</2>"
 
-#: frontend/lib/norent/letter-content.tsx:159
+#: frontend/lib/norent/letter-content.tsx:160
 msgid "norent.letter.v1NonPayment"
 msgstr "This letter is to notify you that I will be unable to pay rent starting on <0/> and until further notice due to loss of income, increased expenses, and/or other financial circumstances related to COVID-19."
 
-#: frontend/lib/norent/letter-content.tsx:166
+#: frontend/lib/norent/letter-content.tsx:167
 msgid "norent.letter.v2Hardship"
 msgstr "This letter is to notify you that I have experienced a loss of income, increased expenses and/or other financial circumstances related to the pandemic. Until further notice, the COVID-19 emergency may impact my ability to pay rent. I am not waiving my right to assert any other defenses."
 
-#: frontend/lib/norent/letter-content.tsx:176
+#: frontend/lib/norent/letter-content.tsx:177
 msgid "norent.letter.v3FewProtections"
 msgstr "This letter is to advise you of protections in place for tenants in {0}. I am not waiving my right to assert any other defenses."
 

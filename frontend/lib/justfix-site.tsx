@@ -93,9 +93,16 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
     enableEHP &&
     !(session.onboardingInfo?.signupIntent === OnboardingInfoSignupIntent.HP);
 
+  // NoRent.org is localized but JustFix.nyc isn't; our server's locale
+  // negotiation logic doesn't know this, so it might send the user to the
+  // Spanish version of JustFix.nyc, and if that happens we want to redirect
+  // the user to the English version, since the Spanish version of JustFix.nyc
+  // isn't ready yet.
+  const localeRedirector = createLocaleRedirectorRoute("es", "en");
+
   return (
     <Switch location={location}>
-      {createLocaleRedirectorRoute("es", "en")}
+      {localeRedirector}
       <Route
         path={JustfixRoutes.locale.home}
         exact

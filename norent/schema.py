@@ -2,6 +2,7 @@ from typing import Optional, Dict, Any, Tuple
 import graphene
 from graphql import ResolveInfo
 from graphene_django.types import DjangoObjectType
+from django.utils.translation import gettext as _
 
 from project import schema_registry
 from project.util.session_mutation import SessionFormMutation
@@ -401,10 +402,11 @@ class NorentCreateAccount(SessionFormMutation):
         allinfo['agreed_to_norent_terms'] = True
         user = complete_onboarding(request, info=allinfo, password=password)
 
-        site_name = site_util.get_site_name("NORENT")
         user.send_sms_async(
-            f"Welcome to {site_name}, a product by JustFix.nyc. "
-            f"We'll be sending you notifications from this phone number.",
+            _("Welcome to %(site_name)s, a product by JustFix.nyc. "
+              "We'll be sending you notifications from this phone number.") % {
+                  'site_name': site_util.get_site_name("NORENT")
+            }
         )
 
         purge_last_queried_phone_number(request)

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-21 20:55+0000\n"
+"POT-Creation-Date: 2020-05-27 21:56+0000\n"
 "PO-Revision-Date: 2020-05-26 19:43\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish\n"
@@ -39,6 +39,11 @@ msgstr "cerrar"
 #, python-format
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
 msgstr "¡%(city)s, %(state_name)s no existe!"
+
+#: norent/schema.py:406
+#, python-format
+msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
+msgstr ""
 
 #: onboarding/forms.py:52
 msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox (but not both)."
@@ -93,4 +98,3 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 #: project/util/phone_number.py:68
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
-

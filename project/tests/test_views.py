@@ -6,6 +6,7 @@ from project.views import (
     get_initial_session,
     execute_query,
     render_raw_lambda_static_content,
+    get_enabled_locales,
     get_legacy_form_submission,
     get_language_from_url_or_default,
     fix_newlines,
@@ -31,6 +32,10 @@ def react_url(path: str) -> str:
     if base_url.endswith('/'):
         base_url = base_url[:-1]
     return f"{base_url}{path}"
+
+
+def test_get_enabled_locales_works():
+    assert 'en' in get_enabled_locales()
 
 
 def test_get_legacy_form_submission_raises_errors(graphql_client):

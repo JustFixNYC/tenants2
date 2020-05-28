@@ -70,6 +70,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   enableSafeModeURL: "/mysafemode/enable",
   redirectToLegacyAppURL: "/myredirect-to-legacy-app",
   mapboxAccessToken: "",
+  enabledLocales: ["en"],
   facebookAppId: "",
 };
 

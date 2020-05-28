@@ -243,6 +243,12 @@ def render_lambda_static_content(lr: LambdaResponse):
     return res
 
 
+def get_enabled_locales() -> List[str]:
+    return [
+        locale for locale, name in settings.LANGUAGES
+    ]
+
+
 def create_initial_props_for_lambda(
     site: Site,
     url: str,
@@ -279,6 +285,7 @@ def create_initial_props_for_lambda(
             'enableEmergencyHPAction': settings.ENABLE_EMERGENCY_HP_ACTION,
             'mapboxAccessToken': settings.MAPBOX_ACCESS_TOKEN,
             'isDemoDeployment': settings.IS_DEMO_DEPLOYMENT,
+            'enabledLocales': get_enabled_locales(),
             'debug': settings.DEBUG,
             'facebookAppId': settings.FACEBOOK_APP_ID
         },

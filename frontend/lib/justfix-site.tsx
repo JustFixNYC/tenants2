@@ -20,6 +20,7 @@ import MoratoriumBanner from "./ui/covid-banners";
 import { AppSiteProps } from "./app";
 import { Footer } from "./ui/footer";
 import { JustfixNavbar } from "./justfix-navbar";
+import { createLocaleRedirectorRoute } from "./util/locale-redirector";
 
 const LoadableDataDrivenOnboardingPage = loadable(
   () => friendlyLoad(import("./data-driven-onboarding/data-driven-onboarding")),
@@ -94,6 +95,7 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
 
   return (
     <Switch location={location}>
+      {createLocaleRedirectorRoute("es", "en")}
       <Route
         path={JustfixRoutes.locale.home}
         exact

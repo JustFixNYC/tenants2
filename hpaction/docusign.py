@@ -452,6 +452,7 @@ def update_envelope_status(de: DocusignEnvelope, event: str) -> None:
             f"has signed their Emergency HP Action documents!",
             is_safe=True
         )
+        user.trigger_followup_campaign_async("EHP")
         de.save()
     elif event == 'decline':
         de.status = HP_DOCUSIGN_STATUS_CHOICES.DECLINED

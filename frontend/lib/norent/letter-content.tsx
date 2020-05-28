@@ -104,34 +104,41 @@ const PaymentDate = componentizeHelper((props) =>
   friendlyUTCDate(props.paymentDate)
 );
 
+const LandlordAddress: React.FC<NorentLetterContentProps> = (props) => (
+  <dd>
+    <LandlordName {...props} />
+    <br />
+    {props.landlordAddress ? (
+      <BreaksBetweenLines lines={props.landlordAddress} />
+    ) : (
+      <>{props.landlordEmail}</>
+    )}
+  </dd>
+);
+
+const Address: React.FC<NorentLetterContentProps> = (props) => (
+  <dd>
+    <FullName {...props} />
+    <br />
+    {getStreetWithApt(props)}
+    <br />
+    {props.city}, {props.state} {props.zipCode}
+    <br />
+    {formatPhoneNumber(props.phoneNumber)}
+  </dd>
+);
+
 /**
  * The to/from address of the letter.
- *
- * Note that this isn't internationalized because we don't actually
- * show it to the user in their locale.
  */
 const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
   <dl className="jf-letter-heading">
-    <dt>To</dt>
-    <dd>
-      <LandlordName {...props} />
-      <br />
-      {props.landlordAddress ? (
-        <BreaksBetweenLines lines={props.landlordAddress} />
-      ) : (
-        <>{props.landlordEmail}</>
-      )}
-    </dd>
-    <dt>From</dt>
-    <dd>
-      <FullName {...props} />
-      <br />
-      {getStreetWithApt(props)}
-      <br />
-      {props.city}, {props.state} {props.zipCode}
-      <br />
-      {formatPhoneNumber(props.phoneNumber)}
-    </dd>
+    <Trans description="heading of formal letter">
+      <dt>To</dt>
+      <LandlordAddress {...props} />
+      <dt>From</dt>
+      <Address {...props} />
+    </Trans>
   </dl>
 );
 

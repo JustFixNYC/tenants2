@@ -7,16 +7,13 @@ exports[`NorentLetterEmailToUser works 1`] = `
     Here's a copy of your NoRent letter
   </p>
   <p>
-    Hello 
-    Boop
-    ,
+    Hello Boop,
   </p>
   <p>
     You've sent your NoRent letter. Attached to this email is a PDF copy for your records.
   </p>
   <p>
-    To learn more about what to do next, check out our FAQ page: 
-    https://myserver.com/en/faqs
+    To learn more about what to do next, check out our FAQ page: https://myserver.com/en/faqs
   </p>
 </div>
 `;

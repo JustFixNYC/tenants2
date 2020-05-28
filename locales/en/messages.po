@@ -15,7 +15,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. This is used when showing the translation of English content in the user's language. It should be localized to use the name of the language itself, e.g. 'Spanish translation'.
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:43
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:51
 msgid "(Name of your language) translation"
 msgstr "(Name of your language) translation"
 
@@ -154,7 +154,7 @@ msgstr "Back to top"
 msgid "Banning evictions"
 msgstr "Banning evictions"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:55
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:63
 msgid "Before you send your letter, let's review what will be sent to make sure all the information is correct."
 msgstr "Before you send your letter, let's review what will be sent to make sure all the information is correct."
 
@@ -331,7 +331,7 @@ msgstr "Email address"
 msgid "Email address <0>(recommended)</0>"
 msgstr "Email address <0>(recommended)</0>"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:71
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:79
 msgid "English version"
 msgstr "English version"
 
@@ -434,15 +434,15 @@ msgstr "Here are a few benefits to sending a letter to your landlord:"
 msgid "Here's a copy of your NoRent letter"
 msgstr "Here's a copy of your NoRent letter"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:62
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:70
 msgid "Here's a preview of the letter that will be attached in an email to your landlord:"
 msgstr "Here's a preview of the letter that will be attached in an email to your landlord:"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:65
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:73
 msgid "Here's a preview of the letter:"
 msgstr "Here's a preview of the letter:"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:90
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:98
 msgid "Here’s a preview of the email that will be sent on your behalf:"
 msgstr "Here’s a preview of the email that will be sent on your behalf:"
 
@@ -715,7 +715,7 @@ msgstr "Mailing address"
 msgid "Maine"
 msgstr "Maine"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:114
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:122
 msgid "Make sure all the information above is correct."
 msgstr "Make sure all the information above is correct."
 
@@ -884,11 +884,11 @@ msgstr "Please <0>go back and choose a state</0>."
 msgid "Please agree to our terms and conditions"
 msgstr "Please agree to our terms and conditions"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:109
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:117
 msgid "Please note, the email will be sent in English."
 msgstr "Please note, the email will be sent in English."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:74
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:82
 #: frontend/lib/norent/the-letter.tsx:92
 msgid "Preview of your NoRent.org letter"
 msgstr "Preview of your NoRent.org letter"
@@ -1054,7 +1054,7 @@ msgstr "This tool is provided by JustFix.nyc. We’re a non-profit that creates 
 msgid "To begin the password reset process, we'll text you a verification code."
 msgstr "To begin the password reset process, we'll text you a verification code."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:99
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:107
 msgid "To:"
 msgstr "To:"
 
@@ -1090,7 +1090,7 @@ msgstr "Verify your phone number"
 msgid "Vermont"
 msgstr "Vermont"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:77
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:85
 msgid "View this letter as a PDF"
 msgstr "View this letter as a PDF"
 
@@ -1106,7 +1106,7 @@ msgstr "Washington"
 msgid "We make it easy to notify your landlord by email or by certified mail for free."
 msgstr "We make it easy to notify your landlord by email or by certified mail for free."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:81
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:89
 msgid "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 msgstr "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 
@@ -1279,7 +1279,7 @@ msgstr "You're in <0>{stateName}</0>"
 msgid "You've sent your letter"
 msgstr "You've sent your letter"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:53
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:61
 msgid "Your Letter Is Ready To Send!"
 msgstr "Your Letter Is Ready To Send!"
 

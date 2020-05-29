@@ -6,7 +6,7 @@
 # assets, and so forth, so that the final container is completely
 # self-contained.
 
-FROM justfixnyc/tenants2_base:0.9
+FROM justfixnyc/tenants2_base:0.10
 
 # The way we're using lots of layers here is intentional, as
 # we're first installing our dependencies--which don't change
@@ -25,7 +25,8 @@ COPY Pipfile* requirements.production.txt /var/tenants2/
 WORKDIR /var/tenants2
 
 RUN pipenv install --system --keep-outdated \
-  && pip install -r requirements.production.txt
+  && pip install -r requirements.production.txt \
+  && rm -rf ~/.cache
 
 WORKDIR /tenants2
 
@@ -36,7 +37,8 @@ RUN useradd -m myuser
 RUN chown myuser /tenants2
 USER myuser
 
-RUN yarn install --frozen-lockfile
+RUN yarn install --frozen-lockfile \
+  && yarn cache clean
 
 ADD --chown=myuser:myuser . /tenants2/
 

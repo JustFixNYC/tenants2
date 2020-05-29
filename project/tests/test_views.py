@@ -6,6 +6,7 @@ from project.views import (
     get_initial_session,
     execute_query,
     render_raw_lambda_static_content,
+    get_enabled_locales,
     get_legacy_form_submission,
     get_language_from_url_or_default,
     fix_newlines,
@@ -31,6 +32,10 @@ def react_url(path: str) -> str:
     if base_url.endswith('/'):
         base_url = base_url[:-1]
     return f"{base_url}{path}"
+
+
+def test_get_enabled_locales_works():
+    assert 'en' in get_enabled_locales()
 
 
 def test_get_legacy_form_submission_raises_errors(graphql_client):
@@ -110,6 +115,14 @@ class TestIndexPage(ClassCachedValue):
     def test_analytics_are_enabled_by_default(self):
         assert ENABLE_ANALYTICS_SENTINEL in self.html
         assert DISABLE_ANALYTICS_SENTINEL not in self.html
+
+
+def test_ecmascript_intl_api_works_on_server(client):
+    response = client.get('/dev/examples/intl')
+    assert response.status_code == 200
+    html = response.content.decode('utf-8')
+    assert 'Wednesday, May 27, 2020' in html
+    assert 'miércoles, 27 de mayo de 2020' in html
 
 
 def test_localized_pages_work(client, settings, use_norent_site):

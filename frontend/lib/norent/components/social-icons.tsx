@@ -23,7 +23,7 @@ const prefilledTwitterCopy = () =>
   );
 const prefilledEmailSubject = () =>
   li18n._(
-    t`Just used JustFix.nyc's new free tool to tell my landlord I can't pay rent`
+    t`I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent`
   );
 const prefilledEmailBody = () =>
   li18n._(

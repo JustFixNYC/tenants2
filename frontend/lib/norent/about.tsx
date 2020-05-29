@@ -121,7 +121,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
           <br />
           <JustfixLogo isHyperlinked />
           <p className="subtitle is-size-5">
-            <Trans>
+            <Trans id="norent.madeByBlurb">
               NoRent.org is made by{" "}
               <OutboundLink
                 className="has-text-weight-normal"
@@ -131,9 +131,9 @@ export const NorentAboutPage: React.FC<{}> = () => (
               >
                 JustFix.nyc
               </OutboundLink>
-              . JustFix.nyc co-designs and builds tools for tenants, housing
-              organizers, and legal advocates fighting displacement in New York
-              City.
+              , a non-profit organization that co-designs and builds tools for
+              tenants, housing organizers, and legal advocates fighting
+              displacement in New York City.
             </Trans>
           </p>
           <br />

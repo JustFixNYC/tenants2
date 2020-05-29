@@ -5,6 +5,7 @@ import { GraphQLFetch } from "./networking/graphql-client";
 import { buildContextHocFactory } from "./util/context-util";
 import { SiteChoice } from "../../common-data/site-choices";
 import { SiteRoutes } from "./routes";
+import { LocaleChoice } from "../../common-data/locale-choices";
 
 /** Metadata about forms submitted via legacy POST. */
 export interface AppLegacyFormSubmission<FormInput = any, FormOutput = any> {
@@ -122,6 +123,11 @@ export interface AppServerInfo {
    * the Django app).
    */
   debug: boolean;
+
+  /**
+   * The locales that are enabled on the server.
+   */
+  enabledLocales: LocaleChoice[];
 
   /**
    * If the page contains a GraphQL query whose result has been pre-fetched

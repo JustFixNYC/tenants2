@@ -10,3 +10,13 @@ def test_it_works():
         'paragraph one\n\n'
         'paragraph two'
     )
+
+
+def test_it_ignores_class_name():
+    assert html_to_text('<p class="blah">a</p>') == 'a'
+
+
+def test_it_supports_br():
+    assert html_to_text('<p>paragraph<br/>one</p>') == (
+        'paragraph\none'
+    )

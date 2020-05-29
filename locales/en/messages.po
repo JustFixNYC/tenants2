@@ -14,6 +14,11 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#. This is used when showing the translation of English content in the user's language. It should be localized to use the name of the language itself, e.g. 'Spanish translation'.
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:51
+msgid "(Name of your language) translation"
+msgstr "(Name of your language) translation"
+
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:33
 msgid "(optional)"
 msgstr "(optional)"
@@ -51,9 +56,18 @@ msgstr "<0>NoRent</0> <1>brought to you by JustFix.nyc</1>"
 msgid "<0>NoRent</0> <1>letters sent by tenants across the USA</1><2>Since April 2020</2>"
 msgstr "<0>NoRent</0> <1>letters sent by tenants across the USA</1><2>Since April 2020</2>"
 
+#: frontend/lib/norent/letter-content.tsx:52
+msgid "<0>Notice of COVID-19 impact on rent</0><1/>at <2/>"
+msgstr "<0>Notice of COVID-19 impact on rent</0><1/>at <2/>"
+
 #: frontend/lib/norent/letter-builder/error-pages.tsx:22
 msgid "<0>Our tool only allows you to send one letter at a time.</0><1>Continue to the confirmation page for what to do next.</1>"
 msgstr "<0>Our tool only allows you to send one letter at a time.</0><1>Continue to the confirmation page for what to do next.</1>"
+
+#. heading of formal letter
+#: frontend/lib/norent/letter-content.tsx:83
+msgid "<0>To</0><1/><2>From</2><3/>"
+msgstr "<0>To</0><1/><2>From</2><3/>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:160
 #: frontend/lib/norent/data/faqs-content.tsx:167
@@ -80,21 +94,25 @@ msgstr "Address"
 msgid "After Sending Your Letter"
 msgstr "After Sending Your Letter"
 
-#: frontend/lib/norent/homepage.tsx:291
+#: frontend/lib/norent/homepage.tsx:293
 msgid "After sending your letter, we can connect you to <0>local groups</0> to organize for greater demands with other tenants."
 msgstr "After sending your letter, we can connect you to <0>local groups</0> to organize for greater demands with other tenants."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:19
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:20
 msgid "After this step, you cannot go back to make changes. But don’t worry, we’ll explain what to do next."
 msgstr "After this step, you cannot go back to make changes. But don’t worry, we’ll explain what to do next."
 
 #: frontend/lib/norent/homepage.tsx:221
-msgid "After you’ve reviewed your letter, we send it to your landlord on your behalf by email and by certified mail."
-msgstr "After you’ve reviewed your letter, we send it to your landlord on your behalf by email and by certified mail."
+msgid "After you’ve reviewed your letter, we send it to your landlord on your behalf by email and by certified mail, depending on the contact information that you provide us."
+msgstr "After you’ve reviewed your letter, we send it to your landlord on your behalf by email and by certified mail, depending on the contact information that you provide us."
 
 #: common-data/us-state-choices.ts:66
 msgid "Alabama"
 msgstr "Alabama"
+
+#: frontend/lib/pages/not-found.tsx:12
+msgid "Alas."
+msgstr "Alas."
 
 #: common-data/us-state-choices.ts:65
 msgid "Alaska"
@@ -136,7 +154,7 @@ msgstr "Back to top"
 msgid "Banning evictions"
 msgstr "Banning evictions"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:42
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:63
 msgid "Before you send your letter, let's review what will be sent to make sure all the information is correct."
 msgstr "Before you send your letter, let's review what will be sent to make sure all the information is correct."
 
@@ -214,7 +232,7 @@ msgstr "Click here to join MHAction’s movement to hold corporate community own
 msgid "Click here to learn more about our privacy policy."
 msgstr "Click here to learn more about our privacy policy."
 
-#: frontend/lib/norent/homepage.tsx:299
+#: frontend/lib/norent/homepage.tsx:301
 msgid "Collective action is a powerful tool for:"
 msgstr "Collective action is a powerful tool for:"
 
@@ -264,7 +282,12 @@ msgstr "Continue"
 msgid "Create new account"
 msgstr "Create new account"
 
-#: frontend/lib/norent/homepage.tsx:246
+#. salutation of formal letter
+#: frontend/lib/norent/letter-content.tsx:132
+msgid "Dear <0/>,"
+msgstr "Dear <0/>,"
+
+#: frontend/lib/norent/homepage.tsx:248
 msgid "Dear Landlord/Management."
 msgstr "Dear Landlord/Management."
 
@@ -307,6 +330,10 @@ msgstr "Email address"
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:74
 msgid "Email address <0>(recommended)</0>"
 msgstr "Email address <0>(recommended)</0>"
+
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:79
+msgid "English version"
+msgstr "English version"
 
 #: frontend/lib/norent/the-letter.tsx:66
 msgid "Establish your defense"
@@ -403,19 +430,23 @@ msgstr "Help! My landlord is already trying to evict me."
 msgid "Here are a few benefits to sending a letter to your landlord:"
 msgstr "Here are a few benefits to sending a letter to your landlord:"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:49
+#: frontend/lib/norent/letter-email-to-user.tsx:12
+msgid "Here's a copy of your NoRent letter"
+msgstr "Here's a copy of your NoRent letter"
+
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:70
 msgid "Here's a preview of the letter that will be attached in an email to your landlord:"
 msgstr "Here's a preview of the letter that will be attached in an email to your landlord:"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:52
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:73
 msgid "Here's a preview of the letter:"
 msgstr "Here's a preview of the letter:"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:70
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:98
 msgid "Here’s a preview of the email that will be sent on your behalf:"
 msgstr "Here’s a preview of the email that will be sent on your behalf:"
 
-#: frontend/lib/norent/homepage.tsx:239
+#: frontend/lib/norent/homepage.tsx:241
 msgid "Here’s a preview of what the letter looks like:"
 msgstr "Here’s a preview of what the letter looks like:"
 
@@ -468,6 +499,10 @@ msgstr "I forgot my password"
 msgid "I have no apartment number"
 msgstr "I have no apartment number"
 
+#: frontend/lib/norent/components/social-icons.tsx:17
+msgid "I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
+msgstr "I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
+
 #: frontend/lib/norent/data/faqs-content.tsx:147
 msgid "I'm scared. What happens if my landlord retaliates?"
 msgstr "I'm scared. What happens if my landlord retaliates?"
@@ -492,7 +527,7 @@ msgstr "If you write checks or transfer money through your bank to pay your rent
 msgid "If you're interested, <0>check out the tool here</0>."
 msgstr "If you're interested, <0>check out the tool here</0>."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:48
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:49
 msgid "If you’d still like to create an account, we can send you updates in the future."
 msgstr "If you’d still like to create an account, we can send you updates in the future."
 
@@ -548,9 +583,9 @@ msgstr "It’s your first time here!"
 msgid "Join our <0/>mailing list"
 msgstr "Join our <0/>mailing list"
 
-#: frontend/lib/norent/components/social-icons.tsx:17
-msgid "Just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
-msgstr "Just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
+#: frontend/lib/norent/letter-content.tsx:155
+msgid "JustFix.nyc <0/>sent on behalf of <1/>"
+msgstr "JustFix.nyc <0/>sent on behalf of <1/>"
 
 #: common-data/us-state-choices.ts:81
 msgid "Kansas"
@@ -560,7 +595,7 @@ msgstr "Kansas"
 msgid "Kentucky"
 msgstr "Kentucky"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:90
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:91
 msgid "Know your rights"
 msgstr "Know your rights"
 
@@ -598,7 +633,7 @@ msgstr "Learn more"
 msgid "Learn more about our mission on our website"
 msgstr "Learn more about our mission on our website"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:33
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:34
 msgid "Learn more."
 msgstr "Learn more."
 
@@ -630,7 +665,7 @@ msgstr "Letter Builder"
 msgid "Let’s set you up with an account. An account will enable you to save your information, download your letter, and more."
 msgstr "Let’s set you up with an account. An account will enable you to save your information, download your letter, and more."
 
-#: frontend/lib/norent/homepage.tsx:288
+#: frontend/lib/norent/homepage.tsx:290
 msgid "Locally supported"
 msgstr "Locally supported"
 
@@ -680,7 +715,7 @@ msgstr "Mailing address"
 msgid "Maine"
 msgstr "Maine"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:86
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:122
 msgid "Make sure all the information above is correct."
 msgstr "Make sure all the information above is correct."
 
@@ -767,17 +802,13 @@ msgid "Next"
 msgstr "Next"
 
 #: frontend/lib/norent/letter-builder/confirmation-modal.tsx:20
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:27
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:28
 msgid "No"
 msgstr "No"
 
 #: frontend/lib/norent/about.tsx:126
 msgid "NoRent.org is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits across the nation."
 msgstr "NoRent.org is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits across the nation."
-
-#: frontend/lib/norent/about.tsx:99
-msgid "NoRent.org is made by <0>JustFix.nyc</0>. JustFix.nyc co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City."
-msgstr "NoRent.org is made by <0>JustFix.nyc</0>. JustFix.nyc co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City."
 
 #: common-data/us-state-choices.ts:98
 msgid "North Carolina"
@@ -790,6 +821,10 @@ msgstr "North Dakota"
 #: frontend/lib/norent/the-letter.tsx:19
 msgid "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
 msgstr "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
+
+#: frontend/lib/norent/letter-content.tsx:141
+msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
+msgstr "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:52
 msgid "Now we just need your password. This is the same one you’ve used on JustFix.nyc."
@@ -841,7 +876,7 @@ msgstr "Pennsylvania"
 msgid "Phone number"
 msgstr "Phone number"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:81
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:82
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Please <0>go back and choose a state</0>."
 
@@ -849,7 +884,11 @@ msgstr "Please <0>go back and choose a state</0>."
 msgid "Please agree to our terms and conditions"
 msgstr "Please agree to our terms and conditions"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:54
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:117
+msgid "Please note, the email will be sent in English."
+msgstr "Please note, the email will be sent in English."
+
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:82
 #: frontend/lib/norent/the-letter.tsx:92
 msgid "Preview of your NoRent.org letter"
 msgstr "Preview of your NoRent.org letter"
@@ -861,6 +900,11 @@ msgstr "Privacy Policy"
 #: common-data/us-state-choices.ts:104
 msgid "Puerto Rico"
 msgstr "Puerto Rico"
+
+#. before signature in formal letter
+#: frontend/lib/norent/letter-content.tsx:137
+msgid "Regards,"
+msgstr "Regards,"
 
 #: frontend/lib/norent/data/faqs-content.tsx:25
 msgid "Rent Strike 2020: A Resource List"
@@ -878,9 +922,13 @@ msgstr "Rhode Island"
 msgid "Right to the City"
 msgstr "Right to the City"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:105
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:106
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Right to the City Alliance can contact me to provide additional support."
+
+#: frontend/lib/norent/letter-content.tsx:286
+msgid "Sample NoRent.org letter"
+msgstr "Sample NoRent.org letter"
 
 #: frontend/lib/norent/faqs.tsx:63
 msgid "See more FAQs"
@@ -918,7 +966,7 @@ msgstr "Set your new password"
 msgid "Set your password"
 msgstr "Set your password"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:17
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:18
 msgid "Shall we send your letter?"
 msgstr "Shall we send your letter?"
 
@@ -933,6 +981,10 @@ msgstr "Sign the petition"
 #: frontend/lib/norent/letter-builder/error-pages.tsx:14
 msgid "Sign up or log in to your account to access our tool."
 msgstr "Sign up or log in to your account to access our tool."
+
+#: frontend/lib/pages/not-found.tsx:15
+msgid "Sorry, the page you are looking for doesn't seem to exist."
+msgstr "Sorry, the page you are looking for doesn't seem to exist."
 
 #: common-data/us-state-choices.ts:106
 msgid "South Carolina"
@@ -967,6 +1019,10 @@ msgstr "Submit email"
 msgid "Tenant Rights"
 msgstr "Tenant Rights"
 
+#: frontend/lib/norent/letter-content.tsx:96
+msgid "Tenants impacted by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
+msgstr "Tenants impacted by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
+
 #: common-data/us-state-choices.ts:108
 msgid "Tennessee"
 msgstr "Tennessee"
@@ -998,7 +1054,7 @@ msgstr "This tool is provided by JustFix.nyc. We’re a non-profit that creates 
 msgid "To begin the password reset process, we'll text you a verification code."
 msgstr "To begin the password reset process, we'll text you a verification code."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:76
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:107
 msgid "To:"
 msgstr "To:"
 
@@ -1006,9 +1062,13 @@ msgstr "To:"
 msgid "USPS Tracking #:"
 msgstr "USPS Tracking #:"
 
+#: frontend/lib/app.tsx:55
+msgid "Unfortunately, a network error occurred. Please try again later."
+msgstr "Unfortunately, a network error occurred. Please try again later."
+
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:28
-msgid "Unfortunately, we do not currently recommend sending a notice of non-payment to your landlord. Sending a notice could put you at risk."
-msgstr "Unfortunately, we do not currently recommend sending a notice of non-payment to your landlord. Sending a notice could put you at risk."
+msgid "Unfortunately, we do not currently recommend sending a notice of non-payment to your landlord. Sending a notice could put you at risk of harassment."
+msgstr "Unfortunately, we do not currently recommend sending a notice of non-payment to your landlord. Sending a notice could put you at risk of harassment."
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:100
 msgid "Unit/apt/lot/suite number"
@@ -1030,7 +1090,7 @@ msgstr "Verify your phone number"
 msgid "Vermont"
 msgstr "Vermont"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:57
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:85
 msgid "View this letter as a PDF"
 msgstr "View this letter as a PDF"
 
@@ -1046,7 +1106,7 @@ msgstr "Washington"
 msgid "We make it easy to notify your landlord by email or by certified mail for free."
 msgstr "We make it easy to notify your landlord by email or by certified mail for free."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:61
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:89
 msgid "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 msgstr "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 
@@ -1089,11 +1149,11 @@ msgstr "We’ll use this information to pull the most up-to-date ordinances that
 msgid "We’ll use this to reference the latest policies that protect your rights as a tenant."
 msgstr "We’ll use this to reference the latest policies that protect your rights as a tenant."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:67
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:68
 msgid "We’ve partnered with <0/> to provide additional support once you’ve sent your letter."
 msgstr "We’ve partnered with <0/> to provide additional support once you’ve sent your letter."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:38
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:39
 msgid "We’ve partnered with <0/> to provide additional support."
 msgstr "We’ve partnered with <0/> to provide additional support."
 
@@ -1190,7 +1250,7 @@ msgid "Wyoming"
 msgstr "Wyoming"
 
 #: frontend/lib/norent/letter-builder/confirmation-modal.tsx:20
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:29
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:30
 msgid "Yes"
 msgstr "Yes"
 
@@ -1210,7 +1270,7 @@ msgstr "You already have an account"
 msgid "You can"
 msgstr "You can"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:92
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:93
 msgid "You're in <0>{stateName}</0>"
 msgstr "You're in <0>{stateName}</0>"
 
@@ -1219,9 +1279,13 @@ msgstr "You're in <0>{stateName}</0>"
 msgid "You've sent your letter"
 msgstr "You've sent your letter"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:40
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:61
 msgid "Your Letter Is Ready To Send!"
 msgstr "Your Letter Is Ready To Send!"
+
+#: frontend/lib/norent/letter-content.tsx:265
+msgid "Your NoRent.org letter"
+msgstr "Your NoRent.org letter"
 
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:8
 msgid "Your account is set up"
@@ -1277,7 +1341,7 @@ msgstr "You’re not alone. Millions of Americans won’t be able to pay rent be
 msgid "Zip code"
 msgstr "Zip code"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:60
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:61
 msgid "and"
 msgstr "and"
 
@@ -1304,6 +1368,10 @@ msgstr "<0>This is your landlord’s information as registered with the <1>NYC D
 #: frontend/lib/norent/components/social-icons.tsx:18
 msgid "norent.emailBodyTemplateForSharingNoRent"
 msgstr "I used www.norent.org to tell my landlord that I'm unable to pay this month's rent. This free tool helps you build and send a letter to your landlord, cites legal protections in your state, and connects you to other people in your community working to #cancelrent"
+
+#: frontend/lib/norent/letter-content.tsx:143
+msgid "norent.emailToLandlordBody"
+msgstr "<0>Please see letter attached from <1/>. </0><2>In order to document communications and avoid misunderstandings, please correspond with <3/> via mail or text rather than a phone call or in-person visit.</2>"
 
 #: frontend/lib/norent/about.tsx:79
 msgid "norent.explanationAboutWhyWeMadeThisSite"
@@ -1361,15 +1429,39 @@ msgstr "<0>This is a new system. You will need a new account to use it. We're ha
 msgid "norent.legalDisclaimer"
 msgstr "<0>Disclaimer: The information in JustFix.nyc does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free legal services if necessary.</0>"
 
+#: frontend/lib/norent/letter-content.tsx:193
+msgid "norent.letter.conclusion"
+msgstr "<0>Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are also protected from eviction for non-payment or any other reason until August 23, 2020. Tenants cannot be charged late fees, interest, or other penalties through July 25, 2020. Please let me know right away if you believe this property is not covered by the CARES Act and explain why the property is not covered.</0><1>In order to document our communication and to avoid misunderstandings, please reply to me via mail or text rather than a call or visit.</1><2>Thank you for your understanding and cooperation.</2>"
+
+#: frontend/lib/norent/letter-content.tsx:169
+msgid "norent.letter.v1NonPayment"
+msgstr "This letter is to notify you that I will be unable to pay rent starting on <0/> and until further notice due to loss of income, increased expenses, and/or other financial circumstances related to COVID-19."
+
+#: frontend/lib/norent/letter-content.tsx:176
+msgid "norent.letter.v2Hardship"
+msgstr "This letter is to notify you that I have experienced a loss of income, increased expenses and/or other financial circumstances related to the pandemic. Until further notice, the COVID-19 emergency may impact my ability to pay rent. I am not waiving my right to assert any other defenses."
+
+#: frontend/lib/norent/letter-content.tsx:186
+msgid "norent.letter.v3FewProtections"
+msgstr "This letter is to advise you of protections in place for tenants in {0}. I am not waiving my right to assert any other defenses."
+
+#: frontend/lib/norent/letter-email-to-user.tsx:13
+msgid "norent.letterEmailToUserBody"
+msgstr "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1><2>To learn more about what to do next, check out our FAQ page: {faqURL}</2>"
+
 #: frontend/lib/norent/data/faqs-content.tsx:34
 msgid "norent.listOfSuggestedNonpaymentDocumentation"
 msgstr "<0>While you wait for your landlord to respond, gather as much documentation as you can. Some types of documentation you can gather include:</0><1><2><3>Employer Letter</3>: A letter from your employer or a co-worker citing COVID-19 showing job loss or hours reduction as a result of COVID-19.</2><4><5>Unemployment Benefits Documents</5>: These are documents that show you’ve applied for or received benefits from the Employment Development Department.</4><6><7>Paystubs</7>: These can be paychecks from before you were terminated or laid-off. If you have had a change in hours, you can send your paychecks before and after that change.</6><8><9>COVID-19 related expenses</9>: These can be receipts showing that you have had increased expenses from issues resulting from the coronavirus, including childcare costs, expenses from complying with public health directives, or other related expenses.</8><10><11>Child’s Enrollment</11>: This might be a notice that your child’s school has closed due to COVID-19. Evidence of your child’s enrollment may also be included.</10><12><13>Financial Statements</13>: These can be budgets, bank statements, or personal records demonstrating how your income was interrupted by COVID-19 related disruption to your job or business. Be sure to avoid sending any sensitive personal financial information you may not want your landlord to view.</12><14><15>COVID-19 Medical records</15>: This might include extraordinary out-of-pocket medical expenses related to the diagnosis and testing for and/or treatment of COVID-19. Due to the sensitivity of medical records, you may not want to send these to your landlord. However, you should keep these expenses for your own record. This can be used as evidence in case you are asked in court proceedings to provide evidence of extraordinary out-of-pocket COVID-19-related medical expenses for you or a family member.</14><16><17>Other evidence of COVID-19 related financial impact</17>: This can be any other evidence that demonstrates how COVID-19 has impacted your ability to pay rent.</16></1>"
+
+#: frontend/lib/norent/about.tsx:99
+msgid "norent.madeByBlurb"
+msgstr "NoRent.org is made by <0>JustFix.nyc</0>, a non-profit organization that co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City."
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:35
 msgid "norent.outlineOfLetterBuilderSteps"
 msgstr "<0>In the next few steps, we’ll build your letter using the following information. Have this information on hand if possible:</0><1><2><3>your phone number, email address, and residence</3></2><4><5>your landlord or management company’s mailing and/or email address</5></4></1>"
 
-#: frontend/lib/norent/homepage.tsx:249
+#: frontend/lib/norent/homepage.tsx:251
 msgid "norent.sampleNoRentLetter"
 msgstr "<0>I am writing to inform you that I have experienced a loss of income, increased expenses and/or other financial circumstances related to the pandemic. Until further notice, the COVID-19 emergency may impact my ability to pay rent.</0><1/><2>Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis on April 2, 2020.</2><3/><4>Tenants in covered properties are also protected from eviction, fees, penalties, and other charges related to non-payment by the CARES Act (Title IV, Sec. 4024) enacted by Congress on March 27, 2020.</4><5/><6>Along with my neighbors, I am organizing, encouraging, and/or participating in a tenant organization so that we may support</6>"
 

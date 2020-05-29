@@ -7,6 +7,8 @@ import {
   asEmailStaticPage,
 } from "../static-page/email-static-page";
 import { NorentRoutes } from "./routes";
+import { li18n } from "../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 export const NorentLetterEmailToUser: React.FC<{}> = () => {
   const { session, server } = useContext(AppContext);
@@ -14,15 +16,17 @@ export const NorentLetterEmailToUser: React.FC<{}> = () => {
 
   return (
     <>
-      <EmailSubject value="Here's a copy of your NoRent letter" />
-      <p>Hello {session.firstName},</p>
-      <p>
-        You've sent your NoRent letter. Attached to this email is a PDF copy for
-        your records.
-      </p>
-      <p>
-        To learn more about what to do next, check out our FAQ page: {faqURL}
-      </p>
+      <EmailSubject value={li18n._(t`Here's a copy of your NoRent letter`)} />
+      <Trans id="norent.letterEmailToUserBody">
+        <p>Hello {session.firstName},</p>
+        <p>
+          You've sent your NoRent letter. Attached to this email is a PDF copy
+          for your records.
+        </p>
+        <p>
+          To learn more about what to do next, check out our FAQ page: {faqURL}
+        </p>
+      </Trans>
     </>
   );
 };

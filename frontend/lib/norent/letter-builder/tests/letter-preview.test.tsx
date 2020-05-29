@@ -4,6 +4,7 @@ import { override } from "../../../tests/util";
 import { BlankLandlordDetailsType } from "../../../queries/LandlordDetailsType";
 import { NorentLetterPreviewPage } from "../letter-preview";
 import { NorentRoutes } from "../../routes";
+import i18n from "../../../i18n";
 
 describe("NoRent letter preview page", () => {
   const createPal = (email?: string, address?: string) => {
@@ -21,14 +22,21 @@ describe("NoRent letter preview page", () => {
   const checkLinkToLetterPdf = (pal: AppTesterPal) =>
     pal.ensureLinkGoesTo(
       "View this letter as a PDF",
-      NorentRoutes.locale.letterContent.pdf
+      NorentRoutes.getLocale("en").letterContent.pdf
     );
 
   const checkEmbedOfLetterPreview = (pal: AppTesterPal) => {
     const iframe = pal.getElement("iframe");
     expect(iframe.title).toBe("Preview of your NoRent.org letter");
-    expect(iframe.src).toContain(NorentRoutes.locale.letterContent.html);
+    expect(iframe.src).toContain(
+      NorentRoutes.getLocale("en").letterContent.html
+    );
   };
+
+  const isLetterTranslationShown = (pal: AppTesterPal) =>
+    pal.rr.baseElement.querySelector(".jf-letter-translation") !== null;
+
+  beforeEach(() => i18n.initialize("en"));
 
   it("should work", () => {
     const pal = createPal("landlordo@gmail.com", "123 Boop Lane");
@@ -37,6 +45,15 @@ describe("NoRent letter preview page", () => {
     pal.rr.getByText(/Here’s a preview of the email/i);
     checkLinkToLetterPdf(pal);
     checkEmbedOfLetterPreview(pal);
+    expect(isLetterTranslationShown(pal)).toBe(false);
+  });
+
+  it("renders specific content when user's locale is non-english", () => {
+    i18n.initialize("es");
+    const pal = createPal("landlordo@gmail.com");
+    expect(isLetterTranslationShown(pal)).toBe(true);
+    checkEmbedOfLetterPreview(pal);
+    checkLinkToLetterPdf(pal);
   });
 
   it("renders specific content for user emailing letter", () => {

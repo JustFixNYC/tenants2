@@ -50,7 +50,7 @@ export class I18n {
    * e.g. '/en'.
    */
   get localePathPrefix(): string {
-    return `/${this.locale}`;
+    return makeLocalePathPrefix(this.locale);
   }
 
   /**
@@ -109,3 +109,10 @@ export class I18n {
 const i18n = new I18n();
 
 export default i18n;
+
+/**
+ * Return the URL path prefix for any locale.
+ * This will be a slash followed by the locale's ISO 639-1 code,
+ * e.g. '/en'.
+ */
+export const makeLocalePathPrefix = (locale: LocaleChoice) => `/${locale}`;

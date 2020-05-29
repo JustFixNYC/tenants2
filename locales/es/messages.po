@@ -17,6 +17,11 @@ msgstr ""
 "X-Crowdin-Language: es-ES\n"
 "X-Crowdin-File: /master/locales/en/messages.po\n"
 
+#. This is used when showing the translation of English content in the user's language. It should be localized to use the name of the language itself, e.g. 'Spanish translation'.
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:51
+msgid "(Name of your language) translation"
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:33
 msgid "(optional)"
 msgstr "(opcional)"
@@ -62,6 +67,11 @@ msgstr ""
 msgid "<0>Our tool only allows you to send one letter at a time.</0><1>Continue to the confirmation page for what to do next.</1>"
 msgstr "<0>Nuestra herramienta sólo te permite enviar una carta a la vez.</0><1>Continúa a la página de confirmación para averiguar qué hacer a continuación.</1>"
 
+#. heading of formal letter
+#: frontend/lib/norent/letter-content.tsx:83
+msgid "<0>To</0><1/><2>From</2><3/>"
+msgstr ""
+
 #: frontend/lib/norent/data/faqs-content.tsx:160
 #: frontend/lib/norent/data/faqs-content.tsx:167
 msgid "<0>Yes, this is a free website created by 501(c)3 non-profit organizations across the United States.</0>"
@@ -91,7 +101,7 @@ msgstr "Después de enviar tu carta"
 msgid "After sending your letter, we can connect you to <0>local groups</0> to organize for greater demands with other tenants."
 msgstr "Después de enviar tu carta, podemos conectarte con <0>grupos locales</0> para que te organizes con tus vecinos para hacer mayores demandas y ejercer tus derechos."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:19
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:20
 msgid "After this step, you cannot go back to make changes. But don’t worry, we’ll explain what to do next."
 msgstr "Después de este paso, no puedes volver a hacer cambios. Pero no te preocupes, te explicaremos qué hacer después de enviar la carta."
 
@@ -147,7 +157,7 @@ msgstr "Volver al inicio de esta sección"
 msgid "Banning evictions"
 msgstr "Prohibir desalojos"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:42
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:63
 msgid "Before you send your letter, let's review what will be sent to make sure all the information is correct."
 msgstr "Antes de enviar tu carta, revisémosla para asegurarnos de que toda la información es correcta."
 
@@ -276,7 +286,7 @@ msgid "Create new account"
 msgstr "Crea una cuenta nueva"
 
 #. salutation of formal letter
-#: frontend/lib/norent/letter-content.tsx:115
+#: frontend/lib/norent/letter-content.tsx:132
 msgid "Dear <0/>,"
 msgstr ""
 
@@ -323,6 +333,10 @@ msgstr "Dirección de correo electrónico"
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:74
 msgid "Email address <0>(recommended)</0>"
 msgstr "Dirección de correo electrónico <0>(recomendado)</0>"
+
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:79
+msgid "English version"
+msgstr ""
 
 #: frontend/lib/norent/the-letter.tsx:66
 msgid "Establish your defense"
@@ -423,15 +437,15 @@ msgstr "Éstos son algunos de los beneficios de enviar una carta al dueño de tu
 msgid "Here's a copy of your NoRent letter"
 msgstr ""
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:49
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:70
 msgid "Here's a preview of the letter that will be attached in an email to your landlord:"
 msgstr "Esta es una vista previa de la carta que se adjuntará en un correo electrónico al dueño de tu edificio:"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:52
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:73
 msgid "Here's a preview of the letter:"
 msgstr "Esta es una vista previa de la carta:"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:70
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:98
 msgid "Here’s a preview of the email that will be sent on your behalf:"
 msgstr "Esta es una vista previa del correo electrónico que se enviará en tu nombre:"
 
@@ -572,7 +586,7 @@ msgstr "¡Es la primera vez que estás aquí!"
 msgid "Join our <0/>mailing list"
 msgstr "¡Únete a nuestra <0/>lista de distribución!"
 
-#: frontend/lib/norent/letter-content.tsx:138
+#: frontend/lib/norent/letter-content.tsx:155
 msgid "JustFix.nyc <0/>sent on behalf of <1/>"
 msgstr ""
 
@@ -704,7 +718,7 @@ msgstr "Dirección postal"
 msgid "Maine"
 msgstr "Maine"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:86
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:122
 msgid "Make sure all the information above is correct."
 msgstr "Asegúrate de que la información sea la correcta."
 
@@ -791,7 +805,7 @@ msgid "Next"
 msgstr "Continuar"
 
 #: frontend/lib/norent/letter-builder/confirmation-modal.tsx:20
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:27
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:28
 msgid "No"
 msgstr "No"
 
@@ -811,7 +825,7 @@ msgstr "Dakota del Norte"
 msgid "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
 msgstr "No poder pagar la renta debido al COVID-19 no es nada de lo que avergonzarse. Nuestro generador de cartas hace que sea fácil enviarle una carta al dueño de tu edificio para avisarle."
 
-#: frontend/lib/norent/letter-content.tsx:124
+#: frontend/lib/norent/letter-content.tsx:141
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 msgstr ""
 
@@ -873,7 +887,11 @@ msgstr "Por favor <0>vuelve y escoge un estado</0>."
 msgid "Please agree to our terms and conditions"
 msgstr "Por favor, acepta nuestros términos y condiciones"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:54
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:117
+msgid "Please note, the email will be sent in English."
+msgstr ""
+
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:82
 #: frontend/lib/norent/the-letter.tsx:92
 msgid "Preview of your NoRent.org letter"
 msgstr "Vista previa de tu carta NoRent.org"
@@ -887,7 +905,7 @@ msgid "Puerto Rico"
 msgstr "Puerto Rico"
 
 #. before signature in formal letter
-#: frontend/lib/norent/letter-content.tsx:120
+#: frontend/lib/norent/letter-content.tsx:137
 msgid "Regards,"
 msgstr ""
 
@@ -911,7 +929,7 @@ msgstr "Right to the City"
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Permito que Right to the City se ponga en contacto conmigo para proporcionarme apoyo adicional."
 
-#: frontend/lib/norent/letter-content.tsx:264
+#: frontend/lib/norent/letter-content.tsx:286
 msgid "Sample NoRent.org letter"
 msgstr ""
 
@@ -951,7 +969,7 @@ msgstr "Establece tu nueva contraseña"
 msgid "Set your password"
 msgstr "Establece tu contraseña"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:17
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:18
 msgid "Shall we send your letter?"
 msgstr "¿Quieres que enviemos tu carta?"
 
@@ -1004,7 +1022,7 @@ msgstr "Enviar email"
 msgid "Tenant Rights"
 msgstr "Derechos del Inquilino"
 
-#: frontend/lib/norent/letter-content.tsx:95
+#: frontend/lib/norent/letter-content.tsx:96
 msgid "Tenants impacted by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
 msgstr ""
 
@@ -1039,7 +1057,7 @@ msgstr "Esta herramienta te la trae JustFix.nyc. Somos una organización sin fin
 msgid "To begin the password reset process, we'll text you a verification code."
 msgstr "Para restablecer tu contraseña, te enviaremos un código de verificación."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:76
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:107
 msgid "To:"
 msgstr "A:"
 
@@ -1075,7 +1093,7 @@ msgstr "Verifica tu número de teléfono"
 msgid "Vermont"
 msgstr "Vermont"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:57
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:85
 msgid "View this letter as a PDF"
 msgstr "Ver la carta como PDF"
 
@@ -1091,7 +1109,7 @@ msgstr "Washington"
 msgid "We make it easy to notify your landlord by email or by certified mail for free."
 msgstr "Te facilitamos notificar al dueño de tu edificio por correo electrónico o por correo certificado gratis."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:61
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:89
 msgid "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 msgstr "Enviaremos la carta en tu nombre por correo certificado de USPS y te proporcionaremos un número de seguimiento."
 
@@ -1235,7 +1253,7 @@ msgid "Wyoming"
 msgstr "Wyoming"
 
 #: frontend/lib/norent/letter-builder/confirmation-modal.tsx:20
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:29
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:30
 msgid "Yes"
 msgstr "Si"
 
@@ -1264,11 +1282,11 @@ msgstr "Estás en <0>{stateName}</0>"
 msgid "You've sent your letter"
 msgstr "Has enviado tu carta"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:40
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:61
 msgid "Your Letter Is Ready To Send!"
 msgstr "¡Tu carta está lista para enviar!"
 
-#: frontend/lib/norent/letter-content.tsx:243
+#: frontend/lib/norent/letter-content.tsx:265
 msgid "Your NoRent.org letter"
 msgstr ""
 
@@ -1354,7 +1372,7 @@ msgstr "<0>Esta es la información del dueño de tu edificio según los registro
 msgid "norent.emailBodyTemplateForSharingNoRent"
 msgstr "Usé www.norent.org para decirle al dueño de mi edificio de que no puedo pagar la renta este mes. Esta herramienta gratuita te ayuda a construir y enviar una carta al dueño de tu edificio, citando las protecciones legales en tu estado, y te conecta con otras personas de tu comunidad que participan en la campaña de #cancelrent"
 
-#: frontend/lib/norent/letter-content.tsx:126
+#: frontend/lib/norent/letter-content.tsx:143
 msgid "norent.emailToLandlordBody"
 msgstr ""
 
@@ -1414,19 +1432,19 @@ msgstr "<0>Este es un sistema nuevo. Necesitarás una nueva cuenta para utilizar
 msgid "norent.legalDisclaimer"
 msgstr "<0>Aviso: La información en JustFix.nyc no constituye asesoramiento jurídico y no debe ser utilizado como sustituto del asesoramiento de un abogado cualificado para asesorar sobre cuestiones jurídicas relativas a la vivienda. Si lo necesitas, podemos ayudar a dirigirte a servicios legales gratuitos. </0>"
 
-#: frontend/lib/norent/letter-content.tsx:183
+#: frontend/lib/norent/letter-content.tsx:193
 msgid "norent.letter.conclusion"
 msgstr ""
 
-#: frontend/lib/norent/letter-content.tsx:159
+#: frontend/lib/norent/letter-content.tsx:169
 msgid "norent.letter.v1NonPayment"
 msgstr ""
 
-#: frontend/lib/norent/letter-content.tsx:166
+#: frontend/lib/norent/letter-content.tsx:176
 msgid "norent.letter.v2Hardship"
 msgstr ""
 
-#: frontend/lib/norent/letter-content.tsx:176
+#: frontend/lib/norent/letter-content.tsx:186
 msgid "norent.letter.v3FewProtections"
 msgstr ""
 

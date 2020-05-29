@@ -104,34 +104,41 @@ const PaymentDate = componentizeHelper((props) =>
   friendlyUTCDate(props.paymentDate)
 );
 
+const LandlordAddress: React.FC<NorentLetterContentProps> = (props) => (
+  <dd>
+    <LandlordName {...props} />
+    <br />
+    {props.landlordAddress ? (
+      <BreaksBetweenLines lines={props.landlordAddress} />
+    ) : (
+      <>{props.landlordEmail}</>
+    )}
+  </dd>
+);
+
+const Address: React.FC<NorentLetterContentProps> = (props) => (
+  <dd>
+    <FullName {...props} />
+    <br />
+    {getStreetWithApt(props)}
+    <br />
+    {props.city}, {props.state} {props.zipCode}
+    <br />
+    {formatPhoneNumber(props.phoneNumber)}
+  </dd>
+);
+
 /**
  * The to/from address of the letter.
- *
- * Note that this isn't internationalized because we don't actually
- * show it to the user in their locale.
  */
 const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
   <dl className="jf-letter-heading">
-    <dt>To</dt>
-    <dd>
-      <LandlordName {...props} />
-      <br />
-      {props.landlordAddress ? (
-        <BreaksBetweenLines lines={props.landlordAddress} />
-      ) : (
-        <>{props.landlordEmail}</>
-      )}
-    </dd>
-    <dt>From</dt>
-    <dd>
-      <FullName {...props} />
-      <br />
-      {getStreetWithApt(props)}
-      <br />
-      {props.city}, {props.state} {props.zipCode}
-      <br />
-      {formatPhoneNumber(props.phoneNumber)}
-    </dd>
+    <Trans description="heading of formal letter">
+      <dt>To</dt>
+      <LandlordAddress {...props} />
+      <dt>From</dt>
+      <Address {...props} />
+    </Trans>
   </dl>
 );
 
@@ -154,6 +161,27 @@ const TenantProtections: React.FC<NorentLetterContentProps> = (props) => {
           ))}
       </ul>
     </>
+  );
+};
+
+export const NorentLetterTranslation: React.FC<{}> = () => {
+  return (
+    <article className="message jf-letter-translation">
+      <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
+        <LetterContentPropsFromSession>
+          {(props) => (
+            <>
+              <DearLandlord {...props} />
+              <LetterBody {...props} />
+              <Regards />
+              <p>
+                <FullName {...props} />
+              </p>
+            </>
+          )}
+        </LetterContentPropsFromSession>
+      </div>
+    </article>
   );
 };
 
@@ -227,21 +255,13 @@ export const NorentLetterEmailToLandlordForUserStaticPage = asEmailStaticPage(
   NorentLetterEmailToLandlordForUser
 );
 
-export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
-  props
-) => {
+const LetterBody: React.FC<NorentLetterContentProps> = (props) => {
   const state = props.state as USStateChoice;
   const letterVersion = getNorentMetadataForUSState(state).lawForLetter
     .whichVersion;
-  const todaysDate = props.todaysDate
-    ? friendlyUTCDate(props.todaysDate)
-    : friendlyDate(new Date());
+
   return (
     <>
-      <LetterTitle {...props} />
-      <p className="has-text-right">{todaysDate}</p>
-      <LetterHeading {...props} />
-      <DearLandlord {...props} />
       {letterVersion === CovidStateLawVersion.V1_NON_PAYMENT ? (
         <p>
           <Trans id="norent.letter.v1NonPayment">
@@ -288,6 +308,23 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
         </p>
         <p>Thank you for your understanding and cooperation.</p>
       </Trans>
+    </>
+  );
+};
+
+export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
+  props
+) => {
+  const todaysDate = props.todaysDate
+    ? friendlyUTCDate(props.todaysDate)
+    : friendlyDate(new Date());
+  return (
+    <>
+      <LetterTitle {...props} />
+      <p className="has-text-right">{todaysDate}</p>
+      <LetterHeading {...props} />
+      <DearLandlord {...props} />
+      <LetterBody {...props} />
       <Regards>
         <br />
         <br />

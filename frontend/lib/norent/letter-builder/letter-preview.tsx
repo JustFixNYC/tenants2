@@ -9,10 +9,14 @@ import { NorentSendLetterMutation } from "../../queries/NorentSendLetterMutation
 import { Route, Link } from "react-router-dom";
 import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
 import { AppContext } from "../../app-context";
-import { NorentLetterEmailToLandlordForUser } from "../letter-content";
+import {
+  NorentLetterEmailToLandlordForUser,
+  NorentLetterTranslation,
+} from "../letter-content";
 import { NorentNotSentLetterStep } from "./step-decorators";
 import { li18n } from "../../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
+import i18n from "../../i18n";
 
 const SendLetterModal: React.FC<{
   nextStep: string;
@@ -56,11 +60,42 @@ const SendLetterModal: React.FC<{
   );
 };
 
+/**
+ * A React component that only renders its children if the user's
+ * current locale is non-English.
+ */
+const ForeignLanguageOnly: React.FC<{ children: React.ReactNode }> = (
+  props
+) => {
+  const isForeignLanguage = i18n.locale !== "en";
+
+  if (!isForeignLanguage) return null;
+
+  return <>{props.children}</>;
+};
+
+const Microcopy: React.FC<{ children: React.ReactNode }> = (props) => (
+  <p className="is-uppercase is-size-7">{props.children}</p>
+);
+
+/**
+ * Microcopy for e.g. "Spanish translation" text. This is potentially
+ * confusing for localizers so we need to add some comments for them!
+ */
+const InYourLanguageMicrocopy: React.FC<{}> = () => (
+  <Microcopy>
+    <Trans description="This is used when showing the translation of English content in the user's language. It should be localized to use the name of the language itself, e.g. 'Spanish translation'.">
+      (Name of your language) translation
+    </Trans>
+  </Microcopy>
+);
+
 export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
-  const { letterContent } = NorentRoutes.locale;
+  const { letterContent } = NorentRoutes.getLocale("en");
   const { session } = useContext(AppContext);
   const isMailingLetter = session.landlordDetails?.address;
   const isEmailingLetter = session.landlordDetails?.email;
+
   return (
     <Page
       title={li18n._(t`Your Letter Is Ready To Send!`)}
@@ -84,6 +119,13 @@ export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
             <Trans>Here's a preview of the letter:</Trans>
           )}
         </p>
+        <ForeignLanguageOnly>
+          <InYourLanguageMicrocopy />
+          <NorentLetterTranslation />
+          <Microcopy>
+            <Trans>English version</Trans>
+          </Microcopy>
+        </ForeignLanguageOnly>
         <LetterPreview
           title={li18n._(t`Preview of your NoRent.org letter`)}
           src={letterContent.html}
@@ -110,6 +152,9 @@ export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
               Here’s a preview of the email that will be sent on your behalf:
             </Trans>
           </p>
+          <ForeignLanguageOnly>
+            <InYourLanguageMicrocopy />
+          </ForeignLanguageOnly>
           <article className="message jf-email-preview">
             <div className="message-header has-text-weight-normal">
               <Trans>To:</Trans> {session.landlordDetails?.name}{" "}
@@ -120,6 +165,11 @@ export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
               <NorentLetterEmailToLandlordForUser />
             </div>
           </article>
+          <ForeignLanguageOnly>
+            <p>
+              <Trans>Please note, the email will be sent in English.</Trans>
+            </p>
+          </ForeignLanguageOnly>
         </>
       )}
       <p>

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-29 10:24\n"
+"PO-Revision-Date: 2020-05-29 16:23\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -51,7 +51,7 @@ msgstr "<0>Si te enfrentas a una emergencia, puede encontrar asistencia legal ad
 msgid "<0>No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed.</0>"
 msgstr "<0>No, puedes utilizar este sitio web para enviar una carta al dueño de tu edificio por correo electrónico o correo postal vía USPS. No tienes que pagar para que la carta sea enviada por correo postal.</0>"
 
-#: frontend/lib/norent/components/footer.tsx:69
+#: frontend/lib/norent/components/footer.tsx:71
 msgid "<0>NoRent</0> <1>brought to you by JustFix.nyc</1>"
 msgstr "<0>NoRent</0> <1>es proporcionado por JustFix.nyc</1>"
 
@@ -83,7 +83,7 @@ msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines
 
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
-#: frontend/lib/norent/components/footer.tsx:51
+#: frontend/lib/norent/components/footer.tsx:52
 #: frontend/lib/norent/site.tsx:73
 msgid "About"
 msgstr "Acerca de"
@@ -173,7 +173,7 @@ msgstr "Explora las preguntas más frecuentes"
 msgid "Build a letter using our free letter builder"
 msgstr "Crea una carta con nuestro generador de cartas gratis"
 
-#: frontend/lib/norent/components/footer.tsx:42
+#: frontend/lib/norent/components/footer.tsx:43
 #: frontend/lib/norent/site.tsx:64
 msgid "Build my Letter"
 msgstr "Crear mi carta"
@@ -318,11 +318,11 @@ msgstr "¿Aún deseas continuar?"
 msgid "Don’t worry, we’ll save your progress so you’ll be able to come back to your last step when you log back in."
 msgstr "No te preocupes, guardaremos tus respuestas para que puedas empezar desde donde te quedaste cuando vuelvas a conectarte."
 
-#: frontend/lib/norent/components/footer.tsx:18
+#: frontend/lib/norent/components/footer.tsx:19
 msgid "ENTER YOUR EMAIL"
 msgstr "INTRODUCE TU CORREO ELECTRÓNICO"
 
-#: frontend/lib/norent/components/footer.tsx:16
+#: frontend/lib/norent/components/footer.tsx:17
 msgid "Email"
 msgstr "Correo electrónico"
 
@@ -354,7 +354,7 @@ msgstr "Explora la herramienta"
 msgid "FAQs"
 msgstr "Preguntas Frecuentes"
 
-#: frontend/lib/norent/components/footer.tsx:48
+#: frontend/lib/norent/components/footer.tsx:49
 #: frontend/lib/norent/site.tsx:70
 msgid "Faqs"
 msgstr "Preguntas más frecuentes"
@@ -582,7 +582,7 @@ msgstr "Puede ser que el dueño de tu edificio tome represalias tras recibir tu 
 msgid "It’s your first time here!"
 msgstr "¡Es la primera vez que estás aquí!"
 
-#: frontend/lib/norent/components/footer.tsx:32
+#: frontend/lib/norent/components/footer.tsx:33
 msgid "Join our <0/>mailing list"
 msgstr "¡Únete a nuestra <0/>lista de distribución!"
 
@@ -617,6 +617,10 @@ msgstr "Dirección de correo electrónico del dueño o manager de tu edificio"
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:57
 msgid "Landlord/management company's name"
 msgstr "Nombre del dueño o manager de tu edificio"
+
+#: frontend/lib/norent/components/language-toggle.tsx:30
+msgid "Language:"
+msgstr "Language:"
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:27
 msgid "Last name"
@@ -1013,8 +1017,8 @@ msgstr "Strategic Actions for a Just Economy"
 msgid "Street address"
 msgstr "Dirección"
 
-#: frontend/lib/norent/components/footer.tsx:21
 #: frontend/lib/norent/components/footer.tsx:22
+#: frontend/lib/norent/components/footer.tsx:23
 msgid "Submit email"
 msgstr "Enviar email"
 
@@ -1038,7 +1042,7 @@ msgstr "Términos de Uso"
 msgid "Texas"
 msgstr "Tejas"
 
-#: frontend/lib/norent/components/footer.tsx:45
+#: frontend/lib/norent/components/footer.tsx:46
 #: frontend/lib/norent/site.tsx:67
 #: frontend/lib/norent/the-letter.tsx:10
 #: frontend/lib/norent/the-letter.tsx:15
@@ -1428,7 +1432,7 @@ msgstr "Con tal de sacar provecho a las protecciones de desalojo en tu estado, d
 msgid "norent.legacyUserBlurb"
 msgstr "<0>Este es un sistema nuevo. Necesitarás una nueva cuenta para utilizarlo. Estamos encantados de prepararte una cuenta </0><1>Mientras tanto, cada vez que quieras iniciar sesión en tu cuenta de \"Build your case\" o el panel de control \"Advocate Dashboard\", puedes iniciar sesión con la información de tu cuenta antigua en este enlace:</1><2><3>beta.justfix.nyc</3></2><4><5>Por favor, guarde este enlace para poder encontrarlo más tarde.</5></4><6>Podrás utilizar tu cuenta nueva para acceder a los nuevos servicios de JustFix.nyc.</6><7>Si tienes alguna pregunta, por favor envíanos un correo electrónico a <8/>.</7>"
 
-#: frontend/lib/norent/components/footer.tsx:60
+#: frontend/lib/norent/components/footer.tsx:62
 msgid "norent.legalDisclaimer"
 msgstr "<0>Aviso: La información en JustFix.nyc no constituye asesoramiento jurídico y no debe ser utilizado como sustituto del asesoramiento de un abogado cualificado para asesorar sobre cuestiones jurídicas relativas a la vivienda. Si lo necesitas, podemos ayudar a dirigirte a servicios legales gratuitos. </0>"
 

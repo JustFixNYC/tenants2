@@ -1,210 +1,319 @@
 {
   "AK": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Corte Suprema de Alaska, Orden No. 1957, 3 de abril de 2020"
+    ],
     "whichVersion": "V2 hardship"
   },
   "AL": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V2 hardship"
   },
   "AR": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V2 hardship"
   },
   "AZ": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernador Douglas Ducey, Orden Ejecutiva 2020-14, 24 de marzo de 2020"
+    ],
     "whichVersion": "V2 hardship"
   },
   "CA": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernador Gavin Newsom, Orden Ejecutiva N-37-20, 27 de marzo de 2020",
+      "Consejo Judicial de California, Regla de Emergencia 1, 6 de abril de 2020"
+    ],
     "whichVersion": "V1 non-payment"
   },
   "CO": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "CT": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernador Ned Lamont, Orden Ejecutuva No. 7X, 10 de abril de 2020"
+    ],
     "whichVersion": "V1 non-payment"
   },
   "DC": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Tribunal Superior del Distrito de Columbia, Orden, 15 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "DE": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernador John Carney, sexta modificaci\u00f3n de la Declaraci\u00f3n del Estado de Emergencia, 24 de marzo de 2020"
+    ],
     "whichVersion": "V1 non-payment"
   },
   "FL": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernador Ron DeSantis, Orden Ejecutiva 20-94, 2 de abril de 2020"
+    ],
     "whichVersion": "V2 hardship"
   },
   "GA": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Corte Suprema de Georgia, orden que extiende la declaratoria de emergencia judicial en todo el estado, 4 de abril de 2020"
+    ],
     "whichVersion": "V2 hardship"
   },
   "HI": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Governor David Ige, Estado de Emergency art\u00edculo 127A-30(2), 17 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "IA": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "ID": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "IL": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernador Pritzker, Orden Ejecutiva COVID-19 No. 28, 23 de abril de 2020"
+    ],
     "whichVersion": "V2 hardship"
   },
   "IN": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernador Holcomb, Orden Ejecutiva 20-06, 19 de marzo de 2020"
+    ],
     "whichVersion": "V2 hardship"
   },
   "KS": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernadora Laura Kelly, Orden Ejecutiva 20-10, 23 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "KY": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernador Beshear, Orden Ejecutiva 2020-257, 25 de marzo de 2020",
+      "Corte Suprema de Kentucky, Orden Judicial 2020-16, 1 de abril de 2020"
+    ],
     "whichVersion": "V1 non-payment"
   },
   "LA": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernador John Bel Edwards, Proclamaci\u00f3n 41-JBE-2020, 2 de abril de 2020",
+      "Orden de la Corte Suprema de Louisiana, 6 de abril de 2020"
+    ],
     "whichVersion": "V1 non-payment"
   },
   "MA": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernador Charlie Baker, Ley 191-H.4647, 20 de abril de 2020"
+    ],
     "whichVersion": "V1 non-payment"
   },
   "MD": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
     "whichVersion": "V3 few protections"
   },
   "ME": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "MI": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernadora Gretchen Whitmer, \u00d3rdenes Ejecutivas 2020-54 y 2020-53, 17 de abril de 2020"
+    ],
     "whichVersion": "V1 non-payment"
   },
   "MN": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernador Tim Walz, Orden Ejecutiva de Emergencia 20-14, 23 de marzo de 2020"
+    ],
     "whichVersion": "V1 non-payment"
   },
   "MO": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "MS": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "MT": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "NC": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "ND": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "NE": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernador Pete Ricketts, Orden Ejecutiva 20-07, 25 de marzo de 2020"
+    ],
     "whichVersion": "V2 hardship"
   },
   "NH": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "NJ": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernador Philip D. Murphy, Orden Ejecutiva N. 106, 19 de marzo de 2020",
+      "Corte Suprema de Nueva Jersey, Presidente de la Corte Stuart Rabner, Segunda orden integral COVID-19 --sobre el funcionamiento de los tribunales y el ejercicio del derecho. Se deben realizar m\u00e1s operaciones a distancia; pr\u00f3rrogas limitadas para exhibici\u00f3n de pruebas y per\u00edodos de interrupci\u00f3n de la prescripci\u00f3n."
+    ],
     "whichVersion": "V1 non-payment"
   },
   "NM": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "NV": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "NY": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernador Andrew Cuomo, Orden Ejecutiva 202.8, 20 de marzo de 2020",
+      "Juez Marks, Presidente del Tribunal del Circuito, Orden Administrativa AO/85/20, 8 de abril de 2020"
+    ],
     "whichVersion": "V1 non-payment"
   },
   "OH": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "OK": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Corte Suprema del Estado de Oklahoma, SCAD No. 2020-29, 27 de marzo de 2020"
+    ],
     "whichVersion": "V1 non-payment"
   },
   "OR": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "PA": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Corte Suprema de Pensilvania, \u00d3rdenes Judiciales 531 y 532, 1 de abril de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "PR": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V2 hardship"
   },
   "RI": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "SC": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "SD": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "TN": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Corte Suprema de Tennessee, No. ADM2020-00428, 24 de abril de 2020"
+    ],
     "whichVersion": "V2 hardship"
   },
   "TX": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Corte Suprema deTexas, Duod\u00e9cima orden de emergencia relacionada con el estado de emergencia por COVID-19, 27 de abril de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "UT": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernador Gary R. Herbert, orden ejecutiva que supende temporalmente los desalojos para personas que sufren p\u00e9rdida de empleo o salarios como resultado de COVID-19, 2 de abril de 2020"
+    ],
     "whichVersion": "V1 non-payment"
   },
   "VA": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Corte Suprema de Virginia, en referencia a la orden que declara la emergencia judicial en respuesta a la emergencia de COVID-19, 16 de marzo de 2020",
+      "Corte Suprema de Virginia, en referencia a la orden que extiende la declaratoria judicial de emergencia en respuesta a la emergencia de COVID-19, 6 de abril de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "VT": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Corte Suprema de Vermont, Orden administrativa No. 49, 21 de abril de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "WA": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Gobernador Jay Inslee, Proclamaci\u00f3n del gobernador y enmienda de Proclamaci\u00f3n 20-05, 18 de marzo de 2020"
+    ],
     "whichVersion": "V1 non-payment"
   },
   "WI": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Corte Suprema de Wisconsin, en referencia a las audiencias a distancia durante la pandemia de COVID-19, 22 de marzo de 2020",
+      "Gobermador Tony Evers, Orden de Emergencia #15, prohibici\u00f3n temporal de desalojos y ejecuciones hipotecarias, 27 de marzo de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "WV": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Corte Suprema de Apelaciones de Virginia Occidental, Orden administrativa en referencia a la emergencia judicial declarada por la segunda orden enmendada, 22 de abril de 2020"
+    ],
     "whichVersion": "V3 few protections"
   },
   "WY": {
-    "textOfLegislation": ["TODO: Translate text of legislation 1 to Spanish!"],
+    "textOfLegislation": [
+      "Corte Suprema del Estado de Wyoming, orden que adopta el plan temporal para enfrentar los riesgos de salud derivados de la pandemia de COVID-19, 18 de marzo de 2020",
+      "Corte Suprema del estado de Wyoming, Orden que extiende las \u00f3rdenes de emergencia COVID-19 hasta el 31 de mayo de 2020, 1 de abril de 2020"
+    ],
     "whichVersion": "V3 few protections"
   }
 }

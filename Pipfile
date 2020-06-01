@@ -43,6 +43,7 @@ django-celery-results = "==1.1.2"
 dj-email-url = "==0.2.0"
 docusign-esign = "==3.1.0"
 pypdf2 = "==1.26.0"
+uuid = "==1.30"
 
 [requires]
 python_version = "3.8.2"

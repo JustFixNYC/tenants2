@@ -10,6 +10,7 @@ from temba_client.v2 import TembaClient, Run
 from rapidpro import rapidpro_util
 from dwh import models
 from dwh.util import uuid_from_url, BatchWriter, iter_cursor_dicts
+from hpaction.models import DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES
 
 
 # The rent history request flow.
@@ -175,6 +176,11 @@ class Command(BaseCommand):
             help="Don't process Letter of Complaint requests.",
             action="store_true",
         )
+        parser.add_argument(
+            '--skip-ehpa',
+            help="Don't process Emergency HP Action signings.",
+            action="store_true",
+        )
 
     def create_views(self):
         base_args: Dict[str, Any] = {
@@ -253,10 +259,23 @@ class Command(BaseCommand):
                     req = models.LetterOfComplaintRequest(**row_dict)
                     writer.write(req)
 
+    def load_ehpa_signings(self):
+        print("Processing EHPA signings.")
+        writer = BatchWriter(models.EmergencyHPASigning)
+        signings = DocusignEnvelope.objects.filter(
+            status=HP_DOCUSIGN_STATUS_CHOICES.SIGNED,
+        )
+        with writer.atomic_transaction(using=settings.DWH_DATABASE, wipe=True):
+            for signing in signings:
+                writer.write(models.EmergencyHPASigning(
+                    created_at=signing.created_at
+                ))
+
     def handle(self, *args, **options):
         skip_online_rent_history: bool = options['skip_online_rent_history']
         skip_rapidpro_runs: bool = options['skip_rapidpro_runs']
         skip_loc: bool = options['skip_loc']
+        skip_ehpa: bool = options['skip_ehpa']
 
         if settings.DWH_DATABASE != 'default':
             call_command("migrate", "dwh", f"--database={settings.DWH_DATABASE}")
@@ -271,3 +290,6 @@ class Command(BaseCommand):
 
         if not skip_rapidpro_runs:
             self.load_rapidpro_runs()
+
+        if not skip_ehpa:
+            self.load_ehpa_signings()

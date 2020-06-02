@@ -204,9 +204,17 @@ msgstr "Can't pay rent?"
 msgid "Cancel"
 msgstr "Cancel"
 
+#: frontend/lib/norent/data/state-localized-resources.tsx:12
+msgid "Cancel Rent Campaign"
+msgstr "Cancel Rent Campaign"
+
 #: frontend/lib/norent/homepage.tsx:70
 msgid "Cancelling rent"
 msgstr "Cancelling rent"
+
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:29
+msgid "Check out these valuable resources for your state:"
+msgstr "Check out these valuable resources for your state:"
 
 #: frontend/lib/norent/homepage.tsx:42
 msgid "Cite up-to-date legal ordinances in your letter"
@@ -339,6 +347,10 @@ msgstr "English version"
 msgid "Establish your defense"
 msgstr "Establish your defense"
 
+#: frontend/lib/norent/data/state-localized-resources.tsx:5
+msgid "Eviction Moratorium updates"
+msgstr "Eviction Moratorium updates"
+
 #: frontend/lib/norent/the-letter.tsx:53
 msgid "Exercise your rights"
 msgstr "Exercise your rights"
@@ -415,6 +427,7 @@ msgstr "Hawaii"
 #: frontend/lib/tests/i18n-lingui.test.tsx:19
 #: frontend/lib/tests/i18n-lingui.test.tsx:25
 #: frontend/lib/tests/i18n-lingui.test.tsx:32
+#: frontend/lib/ui/tests/localized-outbound-link.test.tsx:18
 msgid "Hello world"
 msgstr "Hello world"
 
@@ -527,7 +540,7 @@ msgstr "If you write checks or transfer money through your bank to pay your rent
 msgid "If you're interested, <0>check out the tool here</0>."
 msgstr "If you're interested, <0>check out the tool here</0>."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:49
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:59
 msgid "If you’d still like to create an account, we can send you updates in the future."
 msgstr "If you’d still like to create an account, we can send you updates in the future."
 
@@ -595,7 +608,7 @@ msgstr "Kansas"
 msgid "Kentucky"
 msgstr "Kentucky"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:91
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:101
 msgid "Know your rights"
 msgstr "Know your rights"
 
@@ -637,7 +650,7 @@ msgstr "Learn more"
 msgid "Learn more about our mission on our website"
 msgstr "Learn more about our mission on our website"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:34
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:42
 msgid "Learn more."
 msgstr "Learn more."
 
@@ -880,7 +893,7 @@ msgstr "Pennsylvania"
 msgid "Phone number"
 msgstr "Phone number"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:82
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:92
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Please <0>go back and choose a state</0>."
 
@@ -914,6 +927,10 @@ msgstr "Regards,"
 msgid "Rent Strike 2020: A Resource List"
 msgstr "Rent Strike 2020: A Resource List"
 
+#: frontend/lib/norent/data/state-localized-resources.tsx:19
+msgid "Rent Strike Organizing"
+msgstr "Rent Strike Organizing"
+
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:27
 msgid "Reset your password"
 msgstr "Reset your password"
@@ -926,7 +943,7 @@ msgstr "Rhode Island"
 msgid "Right to the City"
 msgstr "Right to the City"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:106
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:116
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Right to the City Alliance can contact me to provide additional support."
 
@@ -1070,7 +1087,7 @@ msgstr "USPS Tracking #:"
 msgid "Unfortunately, a network error occurred. Please try again later."
 msgstr "Unfortunately, a network error occurred. Please try again later."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:28
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:36
 msgid "Unfortunately, we do not currently recommend sending a notice of non-payment to your landlord. Sending a notice could put you at risk of harassment."
 msgstr "Unfortunately, we do not currently recommend sending a notice of non-payment to your landlord. Sending a notice could put you at risk of harassment."
 
@@ -1153,11 +1170,11 @@ msgstr "We’ll use this information to pull the most up-to-date ordinances that
 msgid "We’ll use this to reference the latest policies that protect your rights as a tenant."
 msgstr "We’ll use this to reference the latest policies that protect your rights as a tenant."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:68
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:78
 msgid "We’ve partnered with <0/> to provide additional support once you’ve sent your letter."
 msgstr "We’ve partnered with <0/> to provide additional support once you’ve sent your letter."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:39
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:49
 msgid "We’ve partnered with <0/> to provide additional support."
 msgstr "We’ve partnered with <0/> to provide additional support."
 
@@ -1274,7 +1291,7 @@ msgstr "You already have an account"
 msgid "You can"
 msgstr "You can"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:93
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:103
 msgid "You're in <0>{stateName}</0>"
 msgstr "You're in <0>{stateName}</0>"
 
@@ -1345,7 +1362,7 @@ msgstr "You’re not alone. Millions of Americans won’t be able to pay rent be
 msgid "Zip code"
 msgstr "Zip code"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:61
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:71
 msgid "and"
 msgstr "and"
 

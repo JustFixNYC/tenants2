@@ -22,7 +22,11 @@ export const LocalizedOutboundLink: React.FC<LocalizedOutboundLinkProps> = (
   const href = props.urls[i18n.locale];
   const text = li18n._(props.text);
 
-  return <OutboundLink href={href}>{text}</OutboundLink>;
+  return (
+    <OutboundLink target="_blank" rel="noopener noreferrer" href={href}>
+      {text}
+    </OutboundLink>
+  );
 };
 
 /**

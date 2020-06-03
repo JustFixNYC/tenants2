@@ -1,5 +1,7 @@
 import "../safe-mode";
 
+window.SafeMode.appIsReady();
+
 describe("safe mode", () => {
   const HIDDEN_ATTR = "data-safe-mode-hidden";
 

@@ -11,7 +11,7 @@ from project.util.email_attachment import email_file_response_as_attachment
 from project.util.html_to_text import html_to_text
 from project.lambda_response import LambdaResponse
 from project.util.site_util import get_site_of_type, SITE_CHOICES
-from project.views import render_raw_lambda_static_content
+from frontend.views import render_raw_lambda_static_content
 from users.models import JustfixUser
 from loc.views import render_pdf_bytes
 from loc import lob_api

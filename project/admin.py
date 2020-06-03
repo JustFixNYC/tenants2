@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 
-from .views import react_rendered_view
+import frontend.views
 from .admin_download_data import DownloadDataViews
 from .admin_dashboard import DashboardViews
 from project.util.site_util import get_site_name
@@ -24,8 +24,8 @@ class JustfixAdminSite(admin.AdminSite):
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
-            path('login/', react_rendered_view),
-            path('conversations/', react_rendered_view),
+            path('login/', frontend.views.react_rendered_view),
+            path('conversations/', frontend.views.react_rendered_view),
             *self.dashboard_views.get_urls(),
             *self.download_data_views.get_urls(),
             *self.loc_views.get_urls(),

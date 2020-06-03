@@ -169,7 +169,7 @@
       errorsToIgnore.push(e.toString());
     },
     appIsReady: function () {
-      clearTimeout(appReadyTimeout);
+      window.clearTimeout(appReadyTimeout);
     },
   };
 

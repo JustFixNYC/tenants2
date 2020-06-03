@@ -390,7 +390,7 @@ def react_rendered_view(request):
     if lambda_response.is_static_content:
         return render_lambda_static_content(lambda_response)
 
-    return render(request, 'index.html', {
+    return render(request, 'frontend/index.html', {
         'initial_render': lambda_response.html,
         'locale': initial_props['locale'],
         'enable_analytics': not request.user.is_staff,

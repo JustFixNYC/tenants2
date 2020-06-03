@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-06-03 15:25\n"
+"PO-Revision-Date: 2020-06-03 17:37\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -20,7 +20,7 @@ msgstr ""
 #. This is used when showing the translation of English content in the user's language. It should be localized to use the name of the language itself, e.g. 'Spanish translation'.
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:51
 msgid "(Name of your language) translation"
-msgstr "(Name of your language) translation"
+msgstr "Traducción en español"
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:33
 msgid "(optional)"
@@ -1438,7 +1438,7 @@ msgstr "<0>Aviso: La información en JustFix.nyc no constituye asesoramiento jur
 
 #: frontend/lib/norent/letter-content.tsx:193
 msgid "norent.letter.conclusion"
-msgstr "<0>Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are also protected from eviction for non-payment or any other reason until August 23, 2020. Tenants cannot be charged late fees, interest, or other penalties through July 25, 2020. Please let me know right away if you believe this property is not covered by the CARES Act and explain why the property is not covered.</0><1>In order to document our communication and to avoid misunderstandings, please reply to me via mail or text rather than a call or visit.</1><2>Thank you for your understanding and cooperation.</2>"
+msgstr "<0>El Congreso aprobó la Ley CARES el 27 de marzo del 2020 (Ley Pública 116-136). Los inquilinos que viven en propiedades cubiertas por esta ley, también están protegidos del desalojo por impago o cualquier otra razón hasta el 23 de agosto de 2020. Arrendadores no tienen permitido cobrar demoras, intereses u otras sanciones hasta el 25 de julio de 2020. Por favor, hágame saber de inmediato si usted cree que esta vivienda no está cubierta por la ley CARES y explique por qué. </0><1>Para documentar nuestra comunicación y evitar malentendidos, por favor responda por correo electrónico o texto en lugar de una llamada o visita. </1><2>Gracias por su comprensión y cooperación.</2>"
 
 #: frontend/lib/norent/letter-content.tsx:169
 msgid "norent.letter.v1NonPayment"
@@ -1454,7 +1454,7 @@ msgstr "Esta carta es para informarle de las protecciones para inquilinos existe
 
 #: frontend/lib/norent/letter-email-to-user.tsx:13
 msgid "norent.letterEmailToUserBody"
-msgstr "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1><2>To learn more about what to do next, check out our FAQ page: {faqURL}</2>"
+msgstr "<0>Hola {0},</0><1>Has enviado tu carta de NoRent. Tienes una copia PDF para tus archivos adjunta a este correo electrónico. </1><2>Para saber más sobre qué hacer a continuación, consulta nuestra página de preguntas más frecuentes: {faqURL}</2>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:34
 msgid "norent.listOfSuggestedNonpaymentDocumentation"
@@ -1462,7 +1462,7 @@ msgstr "<0>Mientras esperas que el dueño de tu edificio te dé una respuesta, r
 
 #: frontend/lib/norent/about.tsx:99
 msgid "norent.madeByBlurb"
-msgstr "NoRent.org is made by <0>JustFix.nyc</0>, a non-profit organization that co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City."
+msgstr "NoRent.org fue creado por <0>JustFix.nyc</0>, una organización sin fines de lucro que co-diseña y construye herramientas para inquilinos, organizadores de viviendas y abogados que luchan contra el desplazamiento en la ciudad de Nueva York."
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:35
 msgid "norent.outlineOfLetterBuilderSteps"

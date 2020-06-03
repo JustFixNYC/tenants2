@@ -20,8 +20,8 @@ from project.util.site_util import (
     get_site_origin,
 )
 from project.graphql_static_request import GraphQLStaticRequest
-from project.lambda_response import GraphQLQueryPrefetchInfo, LambdaResponse
 from project import common_data
+from .lambda_response import GraphQLQueryPrefetchInfo, LambdaResponse
 
 # This is changed by test suites to ensure that
 # everything works okay when the server-side renderer fails

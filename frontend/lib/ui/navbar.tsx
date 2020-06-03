@@ -159,7 +159,7 @@ class NavbarWithoutAppContext extends React.Component<
     const ctx: NavbarContext = {
       isHamburgerOpen: state.isHamburgerOpen,
       isDropdownActive: this.isDropdownActive,
-      toggleDropdown: this.toggleDropdown
+      toggleDropdown: this.toggleDropdown,
     };
 
     return (

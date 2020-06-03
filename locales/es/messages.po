@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-06-03 14:44\n"
+"PO-Revision-Date: 2020-06-03 15:25\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1450,7 +1450,7 @@ msgstr "Esta carta es para notificarle que he experimentado una pérdida de ingr
 
 #: frontend/lib/norent/letter-content.tsx:186
 msgid "norent.letter.v3FewProtections"
-msgstr "This letter is to advise you of protections in place for tenants in {0}. I am not waiving my right to assert any other defenses."
+msgstr "Esta carta es para informarle de las protecciones para inquilinos existentes en {0}. No renuncio a mi derecho a establecer defensas adicionales."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:13
 msgid "norent.letterEmailToUserBody"

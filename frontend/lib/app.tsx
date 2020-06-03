@@ -384,9 +384,11 @@ export function startApp(container: Element, initialProps: AppProps) {
     // necessary JS bundles and bind to the DOM.
     loadableReady(() => {
       ReactDOM.hydrate(el, container);
+      window.SafeMode.appIsReady();
     });
   } else {
     // No initial content was provided, so generate a DOM from scratch.
     ReactDOM.render(el, container);
+    window.SafeMode.appIsReady();
   }
 }

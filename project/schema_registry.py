@@ -48,6 +48,11 @@ def register_mutation(klass: Type[Mutation]) -> Type:
 
 
 def _build_graphene_object_type(name: str, classes: List[Type], __doc__: str) -> Type:
+    # Sort the classes by their names to ensure that they're ultimately
+    # listed in our Schema in an order that's independent of the order in
+    # which the modules that registered them were imported.
+    classes = sorted(classes, key=lambda klass: klass.__name__)
+
     return type(name, tuple([*classes, graphene.ObjectType]), {
         '__doc__': __doc__
     })

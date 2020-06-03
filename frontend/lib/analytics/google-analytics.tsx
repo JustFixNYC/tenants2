@@ -147,19 +147,6 @@ export interface GoogleAnalyticsAPI {
   ): void;
 
   /**
-   * A custom event for when the user toggles a dropdown.
-   *
-   * @param name The name of the dropdown that was toggled.
-   */
-  (
-    cmd: "send",
-    hitType: "event",
-    eventCategory: "dropdown",
-    eventAction: "toggle",
-    name: string
-  ): void;
-
-  /**
    * A custom event for when the safe mode (aka compatibility mode) opt-in is shown or hidden.
    */
   (

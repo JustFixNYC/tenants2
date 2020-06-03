@@ -3,8 +3,6 @@ import pytest
 from django.urls import reverse
 
 from frontend.views import (
-    get_initial_session,
-    execute_query,
     render_raw_lambda_static_content,
     get_enabled_locales,
     get_legacy_form_submission,
@@ -15,7 +13,6 @@ from frontend.views import (
 )
 import project.locales
 from project.util.site_util import get_default_site
-from project.graphql_static_request import GraphQLStaticRequest
 from project.util.testing_util import ClassCachedValue
 from users.tests.factories import UserFactory
 from project.tests.util import qdict
@@ -54,17 +51,6 @@ def test_get_legacy_form_submission_raises_errors(graphql_client):
 
     with pytest.raises(LegacyFormSubmissionError, match='Invalid GraphQL input type'):
         get_legacy_form_submission(request)
-
-
-def test_execute_query_raises_exception_on_errors(graphql_client):
-    with pytest.raises(Exception) as exc_info:
-        execute_query(graphql_client.request, 'bloop')
-    assert 'bloop' in str(exc_info.value)
-
-
-def test_get_initial_session_works(graphql_client):
-    request = graphql_client.request
-    assert len(get_initial_session(request)['csrfToken']) > 0
 
 
 def test_post_is_processed_before_getting_initial_session(client, monkeypatch):
@@ -458,23 +444,3 @@ def test_get_language_from_url_or_default(url, locale, settings):
         ('es', 'Spanish'),
     ]
     assert get_language_from_url_or_default(url) == locale
-
-
-class TestGraphQLStaticRequest:
-    def test_get_initial_session_works_with_anonymous_user(self):
-        request = GraphQLStaticRequest()
-        session = get_initial_session(request)
-
-        assert session['firstName'] is None
-        assert session['csrfToken'] == ''
-        assert session['isSafeModeEnabled'] is False
-        assert request.session == {}
-
-    def test_get_initial_session_works_with_authenticated_user(self, db):
-        request = GraphQLStaticRequest(user=UserFactory())
-        session = get_initial_session(request)
-
-        assert session['firstName'] == 'Boop'
-        assert session['csrfToken'] == ''
-        assert session['isSafeModeEnabled'] is False
-        assert request.session == {}

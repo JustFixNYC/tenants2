@@ -1,4 +1,3 @@
-import re
 import time
 import logging
 from typing import List, Dict, Any, Optional
@@ -9,7 +8,6 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.conf import settings
 from django.contrib.sites.models import Site
-
 from users.models import JustfixUser
 from project.util import django_graphql_forms
 from project.justfix_environment import BASE_DIR
@@ -21,14 +19,13 @@ from project.util.site_util import (
 )
 from project.graphql_static_request import GraphQLStaticRequest
 from project import common_data
+from .graphql import execute_query, get_initial_session
 from .lambda_response import GraphQLQueryPrefetchInfo, LambdaResponse
 
 # This is changed by test suites to ensure that
 # everything works okay when the server-side renderer fails
 # (relatively) gracefully.
 TEST_INTERNAL_SERVER_ERROR = False
-
-FRONTEND_QUERY_DIR = BASE_DIR / 'frontend' / 'lib' / 'queries' / 'autogen'
 
 FORMS_COMMON_DATA = common_data.load_json("forms.json")
 
@@ -59,32 +56,6 @@ else:
         cwd=BASE_DIR,
         restart_on_script_change=settings.DEBUG
     )
-
-
-def find_all_graphql_fragments(query: str) -> List[str]:
-    '''
-    >>> find_all_graphql_fragments('blah')
-    []
-    >>> find_all_graphql_fragments('query { ...Thing,\\n ...OtherThing }')
-    ['Thing', 'OtherThing']
-    '''
-
-    results = re.findall(r'\.\.\.([A-Za-z0-9_]+)', query)
-    return [thing for thing in results]
-
-
-def add_graphql_fragments(query: str) -> str:
-    all_graphql = [query]
-    to_find = find_all_graphql_fragments(query)
-
-    while to_find:
-        fragname = to_find.pop()
-        fragpath = FRONTEND_QUERY_DIR / f"{fragname}.graphql"
-        fragtext = fragpath.read_text()
-        to_find.extend(find_all_graphql_fragments(fragtext))
-        all_graphql.append(fragtext)
-
-    return '\n'.join(all_graphql)
 
 
 def run_react_lambda(initial_props, initial_render_time: int = 0) -> LambdaResponse:
@@ -144,31 +115,6 @@ def run_react_lambda_with_prefetching(initial_props, request) -> LambdaResponse:
         )
 
     return lambda_response
-
-
-def execute_query(request, query: str, variables=None) -> Dict[str, Any]:
-    # We're importing this in this function to avoid a circular
-    # imports by code that needs to import this module.
-    from project.schema import schema
-
-    result = schema.execute(query, context=request, variables=variables)
-    if result.errors:
-        raise Exception(result.errors)
-    return result.data
-
-
-def get_initial_session(request) -> Dict[str, Any]:
-    data = execute_query(
-        request,
-        add_graphql_fragments('''
-        query GetInitialSession {
-            session {
-                ...AllSessionInfo
-            }
-        }
-        ''')
-    )
-    return data['session']
 
 
 class LegacyFormSubmissionError(Exception):

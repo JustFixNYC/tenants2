@@ -9,8 +9,9 @@ from django.utils import timezone, translation
 from project import slack, locales
 from project.util.email_attachment import email_file_response_as_attachment
 from project.util.html_to_text import html_to_text
-from project.lambda_response import LambdaResponse
 from project.util.site_util import get_site_of_type, SITE_CHOICES
+from frontend.views import render_raw_lambda_static_content
+from frontend.lambda_response import LambdaResponse
 from users.models import JustfixUser
 from loc.views import render_pdf_bytes
 from loc import lob_api
@@ -44,9 +45,6 @@ def render_static_content_via_react(
     verifies that it was successful and of the expected
     content type.
     '''
-
-    # Ugh, need to do this to avoid a circular import.
-    from project.views import render_raw_lambda_static_content
 
     with translation.override(locale):
         full_url = f"{reverse('react')}{url}"

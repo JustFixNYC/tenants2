@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
 from project.justfix_environment import BASE_DIR
-from project.views import get_webpack_public_path_url
+from frontend.views import get_webpack_public_path_url
 
 LOADABLE_STATS_JSON = BASE_DIR / 'frontend' / 'static' / 'frontend' / 'loadable-stats.json'
 

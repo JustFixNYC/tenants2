@@ -3,13 +3,6 @@ from functools import wraps
 from django.http import QueryDict
 from django.conf import settings
 
-from project.views import FRONTEND_QUERY_DIR, add_graphql_fragments
-
-
-def get_frontend_query(filename) -> str:
-    query = (FRONTEND_QUERY_DIR / filename).read_text()
-    return add_graphql_fragments(query)
-
 
 def qdict(d=None):
     '''

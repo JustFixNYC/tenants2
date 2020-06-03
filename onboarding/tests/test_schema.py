@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import is_password_usable
 
 import project.locales
 from project.util.testing_util import GraphQLTestingPal
-from project.tests.util import get_frontend_query
+from frontend.tests.util import get_frontend_query
 from users.models import JustfixUser
 from onboarding.schema import session_key_for_step
 from .factories import OnboardingInfoFactory

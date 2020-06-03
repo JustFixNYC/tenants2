@@ -3,13 +3,13 @@ mutation EmergencyHpaIssuesMutation($input: EmergencyHPAIssuesInput!) {
   output: emergencyHpaIssues(input: $input) {
     errors { ...ExtendedFormFieldErrors },
     session {
-      hpActionDetails { ...HPActionDetails },
       issues,
       customIssuesV2 {
         id,
         area,
         description
-      }
+      },
+      hpActionDetails { ...HPActionDetails }
     }
   }
 }

@@ -38,6 +38,10 @@ type NavbarContext = {
   toggleDropdown: (id: DropdownId) => void;
 };
 
+/**
+ * A React Context that carries information and helpers for
+ * Navbar management.
+ */
 const NavbarContext = React.createContext<NavbarContext>({
   isHamburgerOpen: true,
   isDropdownActive: () => false,
@@ -238,11 +242,28 @@ const Navbar = withAppContext(NavbarWithoutAppContext);
 export default Navbar;
 
 interface NavbarDropdownProps {
+  /**
+   * An identifier for the dropdown. This needs to be unique across
+   * all navbar dropdowns.
+   */
   id: string;
+
+  /**
+   * The human-readable name of the dropdown menu.
+   */
   label: string;
+
+  /**
+   * The individual links (or other content) shown when the dropdown
+   * is open.
+   */
   children: React.ReactNode;
 }
 
+/**
+ * A navbar dropdown menu. On mobile, this will be shown as part of
+ * the navbar's hamburger menu (and will always be fully expanded).
+ */
 export function NavbarDropdown(props: NavbarDropdownProps): JSX.Element {
   const ctx = useContext(NavbarContext);
 

@@ -21,7 +21,6 @@ from project.util.site_util import (
     get_site_type,
     get_site_origin,
 )
-from project.schema import schema
 from project.graphql_static_request import GraphQLStaticRequest
 from project.lambda_response import GraphQLQueryPrefetchInfo, LambdaResponse
 from project import common_data
@@ -151,6 +150,10 @@ def run_react_lambda_with_prefetching(initial_props, request) -> LambdaResponse:
 
 
 def execute_query(request, query: str, variables=None) -> Dict[str, Any]:
+    # We're importing this in this function to avoid a circular
+    # imports by code that needs to import this module.
+    from project.schema import schema
+
     result = schema.execute(query, context=request, variables=variables)
     if result.errors:
         raise Exception(result.errors)

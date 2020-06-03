@@ -5,6 +5,7 @@ import i18n from "../../i18n";
 import { useLocation } from "react-router-dom";
 import { NorentRoutes } from "../routes";
 import { Trans } from "@lingui/macro";
+import { NavbarDropdown } from "../../ui/navbar";
 
 /**
  * Names of languages in the language itself.
@@ -14,8 +15,13 @@ const LANGUAGE_NAMES: { [k in LocaleChoice]: string } = {
   es: "Español",
 };
 
-const SwitchLanguage: React.FC<{ locale: LocaleChoice }> = ({ locale }) => {
-  const langName = LANGUAGE_NAMES[locale];
+const SwitchLanguage: React.FC<{
+  locale: LocaleChoice;
+  className?: string;
+  children?: React.ReactNode;
+}> = (props) => {
+  const { locale } = props;
+  const langName = props.children || LANGUAGE_NAMES[locale];
   const location = useLocation();
 
   if (locale === i18n.locale) return <>{langName}</>;
@@ -26,10 +32,14 @@ const SwitchLanguage: React.FC<{ locale: LocaleChoice }> = ({ locale }) => {
 
   // Note that this is an <a> rather than a <Link>, because changing
   // the locale requires a full page refresh.
-  return <a href={pathname}>{langName}</a>;
+  return (
+    <a href={pathname} className={props.className}>
+      {langName}
+    </a>
+  );
 };
 
-export const LanguageToggle: React.FC<{}> = () => {
+export const FooterLanguageToggle: React.FC<{}> = () => {
   const { server } = useContext(AppContext);
 
   if (server.enabledLocales.length === 1) return null;
@@ -45,5 +55,25 @@ export const LanguageToggle: React.FC<{}> = () => {
         ))}
       </ul>
     </div>
+  );
+};
+
+export const NavbarLanguageDropdown: React.FC<{}> = () => {
+  const { server } = useContext(AppContext);
+  const locales = server.enabledLocales;
+  const activeLocale = i18n.locale;
+
+  if (locales.length === 1) return null;
+
+  return (
+    <NavbarDropdown id="locale" label={activeLocale.toUpperCase()}>
+      {locales
+        .filter((locale) => locale !== activeLocale)
+        .map((locale) => (
+          <SwitchLanguage key={locale} locale={locale} className="navbar-item">
+            {locale.toUpperCase()}
+          </SwitchLanguage>
+        ))}
+    </NavbarDropdown>
   );
 };

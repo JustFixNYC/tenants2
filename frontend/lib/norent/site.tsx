@@ -34,6 +34,7 @@ import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
 import { Trans } from "@lingui/macro";
 import { LocalizedNationalMetadataProvider } from "./letter-builder/national-metadata";
 import { createLinguiCatalogLoader } from "../i18n-lingui";
+import { NavbarLanguageDropdown } from "./components/language-toggle";
 
 function getRoutesForPrimaryPages() {
   return new Set(getNorentRoutesForPrimaryPages());
@@ -123,6 +124,7 @@ const NorentMenuItems: React.FC<{}> = () => {
           <Trans>Log in</Trans>
         </Link>
       )}
+      <NavbarLanguageDropdown />
     </>
   );
 };

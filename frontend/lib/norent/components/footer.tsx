@@ -1,5 +1,5 @@
 import React from "react";
-import { LanguageToggle } from "./language-toggle";
+import { FooterLanguageToggle } from "./language-toggle";
 import { NorentRoutes as Routes } from "../routes";
 import { Link } from "react-router-dom";
 import { NorentLogo } from "./logo";
@@ -84,7 +84,7 @@ export const NorentFooter: React.FC<{}> = () => (
       <div className="columns">
         <div className="column is-8">
           <div className="content is-size-7">
-            <LanguageToggle />
+            <FooterLanguageToggle />
             <Trans id="norent.legalDisclaimer">
               <p>
                 Disclaimer: The information in JustFix.nyc does not constitute

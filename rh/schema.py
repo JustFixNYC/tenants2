@@ -9,7 +9,6 @@ from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import absolute_reverse, SITE_CHOICES
 from project import schema_registry
 import project.locales
-from project.util.address_form_fields import BOROUGH_CHOICES
 from frontend.static_content import react_render_email
 from rapidpro.followup_campaigns import trigger_followup_campaign_async
 

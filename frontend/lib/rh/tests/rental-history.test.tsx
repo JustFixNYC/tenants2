@@ -18,6 +18,7 @@ import {
 } from "../../queries/globalTypes";
 import { BlankOnboardingInfo } from "../../queries/OnboardingInfo";
 import { LogoutMutation } from "../../queries/LogoutMutation";
+import { exampleRentalHistoryInfo } from "./example-rh-info";
 
 const tester = new ProgressRoutesTester(
   getRentalHistoryRoutesProps(),
@@ -82,16 +83,7 @@ describe("Rental history frontend", () => {
     const pal = new AppTesterPal(<RentalHistoryRoutes />, {
       url: JustfixRoutes.locale.rh.form,
       session: {
-        rentalHistoryInfo: {
-          firstName: "boop",
-          lastName: "jones",
-          address: "150 DOOMBRINGER STREET",
-          apartmentNumber: "2",
-          phoneNumber: "2120000000",
-          borough: "MANHATTAN",
-          zipcode: "10001",
-          addressVerified: true,
-        },
+        rentalHistoryInfo: exampleRentalHistoryInfo,
       },
     });
     const inputAddress = pal.rr.getAllByLabelText(

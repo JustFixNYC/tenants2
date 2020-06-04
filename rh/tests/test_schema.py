@@ -71,7 +71,7 @@ def test_rh_form_saves_data_to_session(db, graphql_client):
         "addressVerified": False}
 
 
-def test_rh_form_saves_info_to_db(db, graphql_client):
+def test_rh_form_saves_info_to_db(db, graphql_client, allow_lambda_http):
     _exec_rh_form(graphql_client)
     graphql_client.execute(RH_EMAIL_MUTATION)
     rhrs = list(RentalHistoryRequest.objects.all())
@@ -83,13 +83,16 @@ def test_rh_form_saves_info_to_db(db, graphql_client):
     assert rhr.address == '123 Boop Way'
 
 
-def test_rh_form_sends_email_and_clears_session(db, graphql_client, mailoutbox):
+def test_rh_form_sends_email_and_clears_session(db, graphql_client, mailoutbox, allow_lambda_http):
     ob = _exec_rh_form(graphql_client)
     assert ob['errors'] == []
     result = graphql_client.execute(
         RH_EMAIL_MUTATION)['data']['rhSendEmail']
     assert result == {'errors': [], 'session': {'rentalHistoryInfo': None}}
     assert len(mailoutbox) == 1
+    msg = mailoutbox[0]
+    assert msg.subject == "Request for Rent History"
+    assert "I, Boop Jones, am currently living at 123 Boop Way" in msg.body
 
 
 def test_email_fails_with_no_form_data(db, graphql_client, mailoutbox):

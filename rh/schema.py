@@ -6,9 +6,11 @@ from project.util.django_graphql_session_forms import (
     DjangoSessionFormMutation
 )
 from project.util.session_mutation import SessionFormMutation
-from project.util.site_util import absolute_reverse
+from project.util.site_util import absolute_reverse, SITE_CHOICES
 from project import schema_registry
+import project.locales
 from project.util.address_form_fields import BOROUGH_CHOICES
+from frontend.static_content import react_render_email
 from rapidpro.followup_campaigns import trigger_followup_campaign_async
 
 
@@ -57,14 +59,15 @@ class RhSendEmail(SessionFormMutation):
 
         first_name: str = form_data["first_name"]
         last_name: str = form_data["last_name"]
-        email_dhcr.send_email_to_dhcr(
-            first_name,
-            last_name,
-            form_data["address"],
-            BOROUGH_CHOICES.get_label(form_data["borough"]),
-            form_data["zipcode"],
-            form_data["apartment_number"]
+        email = react_render_email(
+            SITE_CHOICES.JUSTFIX,
+            project.locales.DEFAULT,
+            "rh/email-to-dhcr.txt",
+            session={
+                RhFormInfo._meta.session_key: form_data
+            }
         )
+        email_dhcr.send_email_to_dhcr(email.subject, email.body)
         trigger_followup_campaign_async(
             f"{first_name} {last_name}",
             form_data["phone_number"],

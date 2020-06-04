@@ -1,6 +1,6 @@
 import logging
 from enum import Enum
-from typing import Optional, NamedTuple
+from typing import Optional, NamedTuple, Dict, Any
 from django.contrib.sites.models import Site
 from django.utils import translation
 from django.conf import settings
@@ -39,6 +39,7 @@ def react_render(
     url: str,
     expected_content_type: ContentType,
     user: Optional[JustfixUser] = None,
+    session: Optional[Dict[str, Any]] = None,
 ) -> LambdaResponse:
     '''
     Renders the given front-end URL in a React lambda process,
@@ -53,6 +54,7 @@ def react_render(
             url=full_url,
             site=get_site_of_type(site_type),
             user=user,
+            session=session,
         )
     assert lr is not None, f"Rendering of {full_url} must succeed"
     content_type = lr.http_headers.get('Content-Type')
@@ -77,6 +79,7 @@ def react_render_email(
     locale: str,
     url: str,
     user: Optional[JustfixUser] = None,
+    session: Optional[Dict[str, Any]] = None,
 ) -> Email:
     '''
     Renders an email in the front-end, using the given locale,
@@ -89,6 +92,7 @@ def react_render_email(
         url,
         ContentType.PLAINTEXT,
         user=user,
+        session=session,
     )
     return Email(
         subject=lr.http_headers['X-JustFix-Email-Subject'],
@@ -100,6 +104,7 @@ def render_raw_lambda_static_content(
     url: str,
     site: Site,
     user: Optional[JustfixUser] = None,
+    session: Optional[Dict[str, Any]] = None,
 ) -> Optional[LambdaResponse]:
     '''
     This function can be used by the server to render static content in the
@@ -109,7 +114,7 @@ def render_raw_lambda_static_content(
     render an HTML email.
     '''
 
-    request = GraphQLStaticRequest(user=user)
+    request = GraphQLStaticRequest(user=user, session=session)
     initial_props = create_initial_props_for_lambda(
         site=site,
         url=url,

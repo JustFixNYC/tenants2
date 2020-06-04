@@ -14,7 +14,7 @@ import { exactSubsetOrDefault, assertNotNull } from "../util/util";
 import { NextButton, BackButton } from "../ui/buttons";
 import { PhoneNumberFormField } from "../forms/phone-number-form-field";
 import { AppContext, AppContextType } from "../app-context";
-import { Link, Route } from "react-router-dom";
+import { Link, Route, Switch } from "react-router-dom";
 import { RhFormInput } from "../queries/globalTypes";
 import { RhSendEmailMutation } from "../queries/RhSendEmailMutation";
 import { AddressAndBoroughField } from "../forms/address-and-borough-form-field";
@@ -29,7 +29,7 @@ import { updateAddressFromBrowserStorage } from "../browser-storage";
 import { GetStartedButton } from "../ui/get-started-button";
 import { ProgressiveLoadableConfetti } from "../ui/confetti-loadable";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
-import { RhEmailToDhcr } from "./email-to-dhcr";
+import { RhEmailToDhcr, RhEmailToDhcrStaticPage } from "./email-to-dhcr";
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -321,8 +321,19 @@ export const getRentalHistoryRoutesProps = (): ProgressRoutesProps => ({
   ],
 });
 
-const RentalHistoryRoutes = buildProgressRoutesComponent(
+const RentalHistoryProgressRoutes = buildProgressRoutesComponent(
   getRentalHistoryRoutesProps
+);
+
+const RentalHistoryRoutes: React.FC<{}> = () => (
+  <Switch>
+    <Route
+      path={JustfixRoutes.locale.rh.emailToDhcr}
+      exact
+      component={RhEmailToDhcrStaticPage}
+    />
+    <Route component={RentalHistoryProgressRoutes} />
+  </Switch>
 );
 
 export default RentalHistoryRoutes;

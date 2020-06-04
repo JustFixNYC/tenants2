@@ -3,15 +3,12 @@ from io import BytesIO
 import logging
 from django.http import FileResponse
 from django.conf import settings
-from django.urls import reverse
-from django.utils import timezone, translation
+from django.utils import timezone
 
 from project import slack, locales
 from project.util.email_attachment import email_file_response_as_attachment
-from project.util.html_to_text import html_to_text
-from project.util.site_util import get_site_of_type, SITE_CHOICES
-from frontend.static_content import render_raw_lambda_static_content
-from frontend.lambda_response import LambdaResponse
+from project.util.site_util import SITE_CHOICES
+from frontend.static_content import react_render, react_render_email, ContentType
 from users.models import JustfixUser
 from loc.views import render_pdf_bytes
 from loc import lob_api
@@ -33,35 +30,6 @@ NORENT_EMAIL_TO_USER_URL = "letter-email-to-user.txt"
 logger = logging.getLogger(__name__)
 
 
-def render_static_content_via_react(
-    user: JustfixUser,
-    url: str,
-    expected_content_type: str,
-    locale: str,
-) -> LambdaResponse:
-    '''
-    Renders the given front-end URL in a React lambda process,
-    automatically prefixing it with the given locale, and
-    verifies that it was successful and of the expected
-    content type.
-    '''
-
-    with translation.override(locale):
-        full_url = f"{reverse('react')}{url}"
-        lr = render_raw_lambda_static_content(
-            url=full_url,
-            site=get_site_of_type(SITE_CHOICES.NORENT),
-            user=user,
-        )
-    assert lr is not None, f"Rendering of {full_url} must succeed"
-    content_type = lr.http_headers.get('Content-Type')
-    assert content_type == expected_content_type, (
-        f"Expected Content-Type of {full_url} to be "
-        f"{expected_content_type}, but it is {content_type}"
-    )
-    return lr
-
-
 def email_react_rendered_content_with_attachment(
     user: JustfixUser,
     url: str,
@@ -74,15 +42,15 @@ def email_react_rendered_content_with_attachment(
     and sends it to the given recipients with the given attachment.
     '''
 
-    lr = render_static_content_via_react(
-        user,
+    email = react_render_email(
+        SITE_CHOICES.NORENT,
+        locale,
         url,
-        "text/plain; charset=utf-8",
-        locale=locale
+        user=user,
     )
     email_file_response_as_attachment(
-        subject=lr.http_headers['X-JustFix-Email-Subject'],
-        body=html_to_text(lr.html),
+        subject=email.subject,
+        body=email.body,
         recipients=recipients,
         attachment=attachment,
     )
@@ -180,20 +148,22 @@ def create_letter(user: JustfixUser, rp: models.RentPeriod) -> models.Letter:
     Create a Letter model and set its PDF HTML content.
     '''
 
-    html_content = render_static_content_via_react(
-        user,
+    html_content = react_render(
+        SITE_CHOICES.NORENT,
+        locales.DEFAULT,
         NORENT_LETTER_PDF_URL,
-        "application/pdf",
-        locale=locales.DEFAULT
+        ContentType.PDF,
+        user=user,
     ).html
 
     localized_html_content = ''
     if user.locale != locales.DEFAULT:
-        localized_html_content = render_static_content_via_react(
-            user,
+        localized_html_content = react_render(
+            SITE_CHOICES.NORENT,
+            user.locale,
             NORENT_LETTER_PDF_URL,
-            "application/pdf",
-            locale=user.locale
+            ContentType.PDF,
+            user=user
         ).html
 
     letter = models.Letter(

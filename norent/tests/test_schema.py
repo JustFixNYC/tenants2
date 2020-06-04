@@ -603,13 +603,8 @@ class TestNorentSendLetter:
         user_mail = mailoutbox[1]
         assert user_mail.to == ['boop@jones.net']
         assert "https://example.com/es/faqs" in user_mail.body
-
-        # The following assertions should actually use Spanish text,
-        # because that's the locale of our user, but we haven't yet
-        # translated the email to Spanish. Once we actually do that,
-        # these assertions will fail and we'll have to fix them.
-        assert "Hello Boop" in user_mail.body
-        assert "Here's a copy" in user_mail.subject
+        assert "Hola Boop" in user_mail.body
+        assert "Aquí tienes una copia" in user_mail.subject
 
         assert len(user_mail.attachments) == 1
 

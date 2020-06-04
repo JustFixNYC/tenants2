@@ -1,31 +1,16 @@
 import time
 import logging
-from typing import List, Dict, Any, Optional
 from django.http import HttpResponseBadRequest, HttpResponse
 from django.utils.safestring import SafeString
-from django.utils import translation
 from django.shortcuts import render, redirect
-from django.urls import reverse
 from django.conf import settings
-from django.contrib.sites.models import Site
-from users.models import JustfixUser
 from project.justfix_environment import BASE_DIR
 from project.util.lambda_service import LambdaService
-from project.util.site_util import (
-    get_site_from_request_or_default,
-    get_site_type,
-    get_site_origin,
-)
-from project.graphql_static_request import GraphQLStaticRequest
 
-from .graphql import execute_query, get_initial_session
+from .graphql import execute_query
 from .lambda_response import GraphQLQueryPrefetchInfo, LambdaResponse
 from .legacy_forms import LegacyFormSubmissionError, get_legacy_form_submission
-
-# This is changed by test suites to ensure that
-# everything works okay when the server-side renderer fails
-# (relatively) gracefully.
-TEST_INTERNAL_SERVER_ERROR = False
+from .initial_props import create_initial_props_for_lambda_from_request
 
 NS_PER_MS = 1e+6
 
@@ -115,10 +100,6 @@ def run_react_lambda_with_prefetching(initial_props, request) -> LambdaResponse:
     return lambda_response
 
 
-def get_webpack_public_path_url() -> str:
-    return f'{settings.STATIC_URL}frontend/'
-
-
 def render_lambda_static_content(lr: LambdaResponse):
     ctype = lr.http_headers.get('Content-Type')
     if ctype is None:
@@ -138,114 +119,6 @@ def render_lambda_static_content(lr: LambdaResponse):
     for key, value in lr.http_headers.items():
         res[key] = value
     return res
-
-
-def get_enabled_locales() -> List[str]:
-    return [
-        locale for locale, name in settings.LANGUAGES
-    ]
-
-
-def create_initial_props_for_lambda(
-    site: Site,
-    url: str,
-    locale: str,
-    initial_session: Dict[str, Any],
-    origin_url: str,
-    legacy_form_submission: Optional[Dict[str, Any]] = None
-):
-    webpack_public_path_url = get_webpack_public_path_url()
-    site_type = get_site_type(site)
-
-    # Currently, the schema for this structure needs to be mirrored
-    # in the AppProps interface in frontend/lib/app.tsx. So if you
-    # add or remove anything here, make sure to do the same over there!
-    initial_props: Dict[str, Any] = {
-        'initialURL': url,
-        'initialSession': initial_session,
-        'locale': locale,
-        'server': {
-            'originURL': origin_url,
-            'siteName': site.name,
-            'siteType': site_type,
-            'staticURL': settings.STATIC_URL,
-            'webpackPublicPathURL': webpack_public_path_url,
-            'adminIndexURL': reverse('admin:index'),
-            'batchGraphQLURL': reverse('batch-graphql'),
-            'locHtmlURL': reverse('loc', args=('html',)),
-            'locPdfURL': reverse('loc', args=('pdf',)),
-            'enableSafeModeURL': reverse('safe_mode:enable'),
-            'redirectToLegacyAppURL': reverse('redirect-to-legacy-app'),
-            'navbarLabel': settings.NAVBAR_LABEL,
-            'wowOrigin': settings.WOW_ORIGIN,
-            'efnycOrigin': settings.EFNYC_ORIGIN,
-            'enableEmergencyHPAction': settings.ENABLE_EMERGENCY_HP_ACTION,
-            'mapboxAccessToken': settings.MAPBOX_ACCESS_TOKEN,
-            'isDemoDeployment': settings.IS_DEMO_DEPLOYMENT,
-            'enabledLocales': get_enabled_locales(),
-            'debug': settings.DEBUG,
-            'facebookAppId': settings.FACEBOOK_APP_ID
-        },
-        'testInternalServerError': TEST_INTERNAL_SERVER_ERROR,
-    }
-
-    if legacy_form_submission is not None:
-        initial_props['legacyFormSubmission'] = legacy_form_submission
-
-    return initial_props
-
-
-def create_initial_props_for_lambda_from_request(
-    request,
-    url: str,
-    legacy_form_submission: Optional[Dict[str, Any]] = None,
-) -> Dict[str, Any]:
-    locale = translation.get_language_from_request(request, check_path=True)
-
-    return create_initial_props_for_lambda(
-        site=get_site_from_request_or_default(request),
-        url=url,
-        locale=locale,
-        initial_session=get_initial_session(request),
-        origin_url=request.build_absolute_uri('/')[:-1],
-        legacy_form_submission=legacy_form_submission,
-    )
-
-
-def get_language_from_url_or_default(url: str) -> str:
-    return translation.get_language_from_path(url) or settings.LANGUAGE_CODE
-
-
-def render_raw_lambda_static_content(
-    url: str,
-    site: Site,
-    user: Optional[JustfixUser] = None,
-) -> Optional[LambdaResponse]:
-    '''
-    This function can be used by the server to render static content in the
-    lambda service. Normally such content is delivered directly to a user's
-    browser, but sometimes we want to access it in the server so we can
-    do other things with it, e.g. generate a PDF to send to an API, or
-    render an HTML email.
-    '''
-
-    request = GraphQLStaticRequest(user=user)
-    initial_props = create_initial_props_for_lambda(
-        site=site,
-        url=url,
-        locale=get_language_from_url_or_default(url),
-        initial_session=get_initial_session(request),
-        origin_url=get_site_origin(site),
-    )
-    lr = run_react_lambda_with_prefetching(initial_props, request)
-    if not (lr.is_static_content and lr.status == 200):
-        logger.error(
-            "Expected (is_static_content=True, status=200) but got "
-            f"(is_static_content={lr.is_static_content}, status={lr.status}) for "
-            f"{url}"
-        )
-        return None
-    return lr
 
 
 def react_rendered_view(request):

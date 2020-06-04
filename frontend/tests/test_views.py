@@ -1,13 +1,7 @@
 from unittest.mock import patch
 import pytest
 
-from frontend.views import (
-    render_raw_lambda_static_content,
-    get_enabled_locales,
-    get_language_from_url_or_default,
-)
 import project.locales
-from project.util.site_util import get_default_site
 from project.util.testing_util import ClassCachedValue
 from frontend.tests import test_safe_mode
 from .util import react_url
@@ -18,17 +12,13 @@ def setup_fixtures(allow_lambda_http, db):
     pass
 
 
-def test_get_enabled_locales_works():
-    assert 'en' in get_enabled_locales()
-
-
-def test_post_is_processed_before_getting_initial_session(client, monkeypatch):
+def test_post_is_processed_before_getting_initial_props(client, monkeypatch):
     # We're going to test this by making an invalid POST, which should be
-    # processed and thus cause a 400, before the initial session is retrieved.
+    # processed and thus cause a 400, before the initial props are generated.
 
-    # Because the initial session should not *ever* be retrieved, we can delete
-    # the function that retrieves it.
-    monkeypatch.delattr("frontend.views.get_initial_session")
+    # Because the initial props should not *ever* be generated, we can delete
+    # the function that generates it.
+    monkeypatch.delattr("frontend.views.create_initial_props_for_lambda_from_request")
 
     response = client.post(react_url('/'))
     assert response.status_code == 400
@@ -205,37 +195,8 @@ def test_404_works(client):
     assert response.status_code == 404
 
 
-@patch('frontend.views.TEST_INTERNAL_SERVER_ERROR', True)
+@patch('frontend.initial_props.TEST_INTERNAL_SERVER_ERROR', True)
 def test_500_works(client):
     response = client.get(react_url('/'))
     assert response.status_code == 500
     assert response.context['script_tags'] == ''
-
-
-def test_render_raw_lambda_static_content_works(db):
-    lr = render_raw_lambda_static_content(
-        '/dev/examples/static-page.pdf',
-        site=get_default_site(),
-    )
-    assert lr is not None
-    assert "<!DOCTYPE html>" in lr.html
-    assert "This is an example static PDF page" in lr.html
-
-
-def test_render_raw_lambda_static_content_returns_none_on_error(db):
-    lr = render_raw_lambda_static_content('/blarfle', site=get_default_site())
-    assert lr is None
-
-
-@pytest.mark.parametrize("url,locale", [
-    ("/dev/stuff", "en"),
-    ("/en/stuff", "en"),
-    ("/es/stuff", "es"),
-    ("/fr/stuff", "en"),
-])
-def test_get_language_from_url_or_default(url, locale, settings):
-    settings.LANGUAGES = [
-        ('en', 'English'),
-        ('es', 'Spanish'),
-    ]
-    assert get_language_from_url_or_default(url) == locale

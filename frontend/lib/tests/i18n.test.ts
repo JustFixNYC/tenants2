@@ -43,4 +43,11 @@ describe("I18n", () => {
     expect(new I18n("en").localePathPrefix).toBe("/en");
     expect(new I18n("es").localePathPrefix).toBe("/es");
   });
+
+  it("can change locale path prefixes", () => {
+    const en = new I18n("en");
+
+    expect(en.changeLocalePathPrefix("/blah", "es")).toBe(null);
+    expect(en.changeLocalePathPrefix("/en/blah", "es")).toBe("/es/blah");
+  });
 });

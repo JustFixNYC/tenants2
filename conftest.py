@@ -291,7 +291,7 @@ def allow_lambda_http(requests_mock):
     to it, instead of doing any mocking.
     '''
 
-    from project.views import lambda_service
+    from frontend.views import lambda_service
     from project.util.lambda_http_client import LambdaHttpClient
 
     if isinstance(lambda_service, LambdaHttpClient):

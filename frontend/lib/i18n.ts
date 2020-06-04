@@ -54,6 +54,20 @@ export class I18n {
   }
 
   /**
+   * Change the URL path prefix of the given URL from the current locale
+   * to the given one. If the given URL doesn't start with the
+   * current locale, return null.
+   */
+  changeLocalePathPrefix(
+    pathname: string,
+    locale: LocaleChoice
+  ): string | null {
+    const currPrefix = this.localePathPrefix;
+    if (!pathname.startsWith(currPrefix)) return null;
+    return makeLocalePathPrefix(locale) + pathname.substring(currPrefix.length);
+  }
+
+  /**
    * Initialize the instance to the given locale.
    *
    * @param locale An ISO 639-1 code such as 'en' or 'es'.

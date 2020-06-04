@@ -20,13 +20,14 @@ from django.conf.urls.i18n import i18n_patterns
 from graphene_django.views import GraphQLView
 
 from legacy_tenants.views import redirect_to_legacy_app
-from .views import react_rendered_view, example_server_error, redirect_favicon, health
+from .views import example_server_error, redirect_favicon, health
+import frontend.views
 from users.views import verify_email
 import twofactor.views
 
 dev_patterns = ([
     path('examples/server-error/<slug:id>', example_server_error),
-    re_path(r'^.*$', react_rendered_view),
+    re_path(r'^.*$', frontend.views.react_rendered_view),
 ], 'dev')
 
 urlpatterns = [
@@ -53,5 +54,5 @@ urlpatterns += i18n_patterns(
     path('loc/', include('loc.urls')),
     path('hp/', include('hpaction.urls')),
     path('graphql', GraphQLView.as_view(batch=True), name='batch-graphql'),
-    re_path(r'.*$', react_rendered_view, name='react'),
+    re_path(r'.*$', frontend.views.react_rendered_view, name='react'),
 )

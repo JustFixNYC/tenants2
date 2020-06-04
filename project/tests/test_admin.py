@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from .test_views import SAFE_MODE_DISABLED_SENTINEL
+from frontend.tests.test_views import SAFE_MODE_DISABLED_SENTINEL
 
 
 def test_download_data_link_is_visible(admin_client):

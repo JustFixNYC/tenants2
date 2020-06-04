@@ -19,5 +19,12 @@ interface Window {
      * for manual testing, but client code can use it too.
      */
     showUI(): void;
+
+    /**
+     * Used to signal that the app on the page is ready. If
+     * this isn't called within a certain amount of time,
+     * the safe mode UI will display itself as a fail-safe.
+     */
+    appIsReady(): void;
   };
 }

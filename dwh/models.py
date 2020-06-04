@@ -71,3 +71,11 @@ class LetterOfComplaintRequest(models.Model):
     repairs_made_by = models.DateTimeField(null=True, blank=True)
 
     interested_in_hp_action_by = models.DateTimeField(null=True, blank=True)
+
+
+class EmergencyHPASigning(models.Model):
+    '''
+    Represents an Emergency HP Action signing.
+    '''
+
+    created_at = models.DateTimeField()

@@ -1,0 +1,23 @@
+.jf-language-toggle {
+  margin-bottom: 0.5rem;
+
+  ul {
+    display: inline;
+    margin-left: 0.25rem;
+  }
+
+  li {
+    padding: 0;
+  }
+
+  li:not(:last-child):after {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    content: "/";
+  }
+
+  li a:not(.button) {
+    text-transform: inherit;
+    font-weight: normal;
+  }
+}

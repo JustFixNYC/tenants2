@@ -37,7 +37,7 @@
   },
   "FL": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-94, issued by Governor Ron DeSantis until June 2, 2020."
+    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-137, issued by Governor Ron DeSantis until July 1, 2020."
   },
   "GA": {
     "stateWithoutProtections": true,
@@ -75,7 +75,7 @@
     "textOfLegislation": "Governor John Bel Edwards has issued Proclamation 41-JBE-2020 which suspends deadlines in all legal proceedings, including evictions, until at least April 30, 2020. The Supreme Court of Louisiana has ordered courts to limit activity to only essential proceedings, which do not include evictions."
   },
   "MA": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "Tenants in Massachusetts are protected from eviction for non-payment of rent by Chapter 65 of the Acts of 2020 issued by Governor Charlie Baker on April 20, 2020."
   },
   "MD": {
@@ -181,7 +181,7 @@
   },
   "WA": {
     "stateWithoutProtections": true,
-    "textOfLegislation": "Tenants in Washington are temporarily protected from eviction until April 17, 2020 by Proclamation Amending Proclamation 20-05 issued by Governor Jay Inslee on March 18, 2020."
+    "textOfLegislation": "Tenants in Washington are temporarily protected from eviction until June 4, 2020 by Proclamation Amending Proclamation 20-05 and 20-19 issued by Governor Jay Inslee on April 16, 2020."
   },
   "WI": {
     "stateWithoutProtections": true,

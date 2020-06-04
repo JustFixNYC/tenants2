@@ -21,6 +21,13 @@
   var SHOW_UI_DELAY_MS = 250;
 
   /**
+   * The amount of time we'll wait for the application on this
+   * page to let us know it's ready before we show the safe
+   * mode UI. This is essentially a fail-safe mechanism.
+   */
+  var APP_READY_TIMEOUT_MS = 10000;
+
+  /**
    * The data attribute we're using to determine whether the
    * safe mode opt-in UI is hidden or not. We're not using the
    * standard 'hidden' attribute because under some situations,
@@ -53,6 +60,21 @@
    * @type {number|null}
    */
   var showUiTimeout = null;
+
+  /**
+   * If the app doesn't tell us it's ready within a certain
+   * amount of time, we will throw an error (thereby triggering
+   * the display of safe mode) as a fail-safe.
+   *
+   * @type {number}
+   */
+  var appReadyTimeout = window.setTimeout(function () {
+    throw new Error(
+      "SafeMode.appIsReady() was not called within " +
+        APP_READY_TIMEOUT_MS +
+        " ms."
+    );
+  }, APP_READY_TIMEOUT_MS);
 
   /**
    * Check to see if any valid errors have been logged and return
@@ -136,7 +158,7 @@
     scheduleShowUICheck();
   }
 
-  /** Our public API. See safe-mode.d.ts for more documentation. */
+  /** Our public API. See safe-mode-globals.d.ts for more documentation. */
   window.SafeMode = {
     showUI: function () {
       errors.push("showUI() called");
@@ -145,6 +167,9 @@
     reportError: reportError,
     ignoreError: function (e) {
       errorsToIgnore.push(e.toString());
+    },
+    appIsReady: function () {
+      window.clearTimeout(appReadyTimeout);
     },
   };
 

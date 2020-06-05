@@ -344,7 +344,7 @@ class TestFillLandlordInfo:
         assert fill_landlord_info(v, oinfo.user) is was_filled_out
         assert v.user_is_nycha_tf is is_nycha
         if is_nycha:
-            assert v.landlord_entity_name_te == "NYC Housing Authority"
+            assert v.landlord_entity_name_te == "NYC Housing Authority Law Dept"
             llstate = v.landlord_address_state_mc
             assert llstate and llstate.value == "NY"
 

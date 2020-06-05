@@ -33,7 +33,7 @@ describe("HPActionYourLandlord", () => {
         },
       },
     });
-    pal.rr.getByText("NYCHA Law Department");
+    pal.rr.getByText(/nyc housing authority/i);
   });
 
   it("shows manually-entered address in form fields", () => {

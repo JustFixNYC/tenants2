@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-27 21:56+0000\n"
-"PO-Revision-Date: 2020-05-28 13:26\n"
+"PO-Revision-Date: 2020-06-06 17:48\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -43,7 +43,7 @@ msgstr "¡%(city)s, %(state_name)s no existe!"
 #: norent/schema.py:406
 #, python-format
 msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
-msgstr ""
+msgstr "Bienvenido/a %(site_name)s, un producto de JustFix.nyc. Te enviaremos notificaciones desde este número de teléfono."
 
 #: onboarding/forms.py:52
 msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox (but not both)."

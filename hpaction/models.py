@@ -11,7 +11,8 @@ from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import JSONField
 import PyPDF2
 
-from .hpactionvars import HarassmentAllegationsMS
+from .hpactionvars import HarassmentAllegationsMS, CourtLocationMC
+from .hotdocs_xml_parsing import get_answers_xml_court_location_mc
 from project.util.site_util import absolute_reverse
 from loc.lob_api import MAX_NAME_LEN as MAX_LOB_NAME_LEN
 from project.util.mailing_address import MailingAddress
@@ -45,6 +46,10 @@ DOCUSIGN_ENVELOPE_ID_LENGTH = 36
 # Number of pages of instructions LHI pre-pends to the actual
 # HP Action forms.
 NUM_INSTRUCTION_PAGES = 2
+
+# Number of pages of instructions LHI pre-pends to the HP Action
+# forms for Red Hook/Harlem CJCs.
+NUM_REDHOOK_HARLEM_CJC_INSTRUCTION_PAGES = 1
 
 CURRENCY_KWARGS = dict(max_digits=10, decimal_places=2)
 
@@ -448,6 +453,14 @@ class HPActionDocuments(models.Model):
 
     objects = HPActionDocumentsManager()
 
+    def _get_num_instruction_pages(self) -> int:
+        xml_bytes = self.xml_file.open().read()
+        court = get_answers_xml_court_location_mc(xml_bytes)
+        return NUM_REDHOOK_HARLEM_CJC_INSTRUCTION_PAGES if court in [
+            CourtLocationMC.HARLEM_COMMUNITY_JUSTICE_CENTER,
+            CourtLocationMC.RED_HOOK_COMMUNITY_JUSTICE_CENTER,
+        ] else NUM_INSTRUCTION_PAGES
+
     def open_emergency_pdf_file(self) -> Optional[BytesIO]:
         '''
         Renders the emergency (COVID-19) version of the PDF file.
@@ -464,10 +477,12 @@ class HPActionDocuments(models.Model):
 
         if not self.pdf_file:
             return None
+
         pdf_bytes = self.pdf_file.open().read()
         pdf_reader = PyPDF2.PdfFileReader(BytesIO(pdf_bytes))
         num_pages: int = pdf_reader.numPages
-        if num_pages <= NUM_INSTRUCTION_PAGES:
+        num_instruction_pages = self._get_num_instruction_pages()
+        if num_pages <= num_instruction_pages:
             return None
 
         aff_pdf_bytes = ehpa_affadavit.render_affadavit_pdf_for_user(self.user)
@@ -476,7 +491,7 @@ class HPActionDocuments(models.Model):
 
         pdf_writer = PyPDF2.PdfFileWriter()
         pdf_writer.addPage(aff_pdf_reader.getPage(ehpa_affadavit.COVER_SHEET_PAGE))
-        for i in range(NUM_INSTRUCTION_PAGES, num_pages):
+        for i in range(num_instruction_pages, num_pages):
             pdf_writer.addPage(pdf_reader.getPage(i))
         pdf_writer.addPage(aff_pdf_reader.getPage(ehpa_affadavit.FEE_WAIVER_PAGE))
 

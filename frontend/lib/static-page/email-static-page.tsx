@@ -21,7 +21,7 @@ export const EmailSubject = withRouter(
       return null;
     }
 
-    return <p>Subject: {props.value}</p>;
+    return <p className="jf-email-subject">Subject: {props.value}</p>;
   }
 );
 

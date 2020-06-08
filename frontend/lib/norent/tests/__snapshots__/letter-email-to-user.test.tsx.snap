@@ -2,7 +2,9 @@
 
 exports[`NorentLetterEmailToUser works 1`] = `
 <div>
-  <p>
+  <p
+    class="jf-email-subject"
+  >
     Subject: 
     Here's a copy of your NoRent letter
   </p>

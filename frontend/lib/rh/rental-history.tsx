@@ -14,19 +14,14 @@ import { exactSubsetOrDefault, assertNotNull } from "../util/util";
 import { NextButton, BackButton } from "../ui/buttons";
 import { PhoneNumberFormField } from "../forms/phone-number-form-field";
 import { AppContext, AppContextType } from "../app-context";
-import { Link, Route } from "react-router-dom";
+import { Link, Route, Switch } from "react-router-dom";
 import { RhFormInput } from "../queries/globalTypes";
 import { RhSendEmailMutation } from "../queries/RhSendEmailMutation";
-import * as rhEmailText from "../../../common-data/rh.json";
 import { AddressAndBoroughField } from "../forms/address-and-borough-form-field";
 import {
   ConfirmAddressModal,
   redirectToAddressConfirmationOrNextStep,
 } from "../ui/address-confirmation";
-import {
-  getBoroughChoiceLabels,
-  BoroughChoice,
-} from "../../../common-data/borough-choices";
 import { ClearSessionButton } from "../forms/clear-session-button";
 import { OutboundLink } from "../analytics/google-analytics";
 import { CustomerSupportLink } from "../ui/customer-support-link";
@@ -34,6 +29,7 @@ import { updateAddressFromBrowserStorage } from "../browser-storage";
 import { GetStartedButton } from "../ui/get-started-button";
 import { ProgressiveLoadableConfetti } from "../ui/confetti-loadable";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
+import { RhEmailToDhcr, RhEmailToDhcrStaticPage } from "./email-to-dhcr";
 import { renderSuccessHeading } from "../ui/success-heading";
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
@@ -188,9 +184,6 @@ function RentalHistoryForm(): JSX.Element {
 }
 
 function RentalHistoryPreview(): JSX.Element {
-  const appContext = useContext(AppContext);
-  const formData = appContext.session.rentalHistoryInfo;
-
   return (
     <Page title="Review your email to the DHCR">
       <h1 className="title is-4">Review your request to the DHCR</h1>
@@ -199,45 +192,14 @@ function RentalHistoryPreview(): JSX.Element {
         address and apartment number so that the DHCR can mail you.
       </p>
       <br />
-      {formData && (
-        <article className="message">
-          <div className="message-header">
-            <p className="has-text-weight-normal">
-              To: New York Division of Housing and Community Renewal (DHCR)
-            </p>
-          </div>
-          <div className="message-body">
-            <h4 className="is-italic">
-              Subject: {rhEmailText.DHCR_EMAIL_SUBJECT}
-            </h4>
-            <div className="is-divider jf-divider-narrow" />
-            <p>DHCR administrator,</p>
-            <br />
-            <p>
-              {rhEmailText.DHCR_EMAIL_BODY.replace(
-                "FULL_NAME",
-                formData.firstName + " " + formData.lastName
-              )
-                .replace(
-                  "FULL_ADDRESS",
-                  (
-                    formData.address +
-                    ", " +
-                    getBoroughChoiceLabels()[
-                      formData.borough as BoroughChoice
-                    ] +
-                    " " +
-                    formData.zipcode
-                  ).trim()
-                )
-                .replace("APARTMENT_NUMBER", formData.apartmentNumber)}
-            </p>
-            <br />
-            <p>{rhEmailText.DHCR_EMAIL_SIGNATURE} </p>
-            <p>{formData.firstName + " " + formData.lastName}</p>
-          </div>
-        </article>
-      )}
+      <article className="message">
+        <div className="message-header has-text-weight-normal">
+          To: New York Division of Housing and Community Renewal (DHCR)
+        </div>
+        <div className="message-body content">
+          <RhEmailToDhcr />
+        </div>
+      </article>
       <DemoDeploymentNote>
         <p>
           This demo site <strong>will not send</strong> a real request to the
@@ -360,8 +322,19 @@ export const getRentalHistoryRoutesProps = (): ProgressRoutesProps => ({
   ],
 });
 
-const RentalHistoryRoutes = buildProgressRoutesComponent(
+const RentalHistoryProgressRoutes = buildProgressRoutesComponent(
   getRentalHistoryRoutesProps
+);
+
+const RentalHistoryRoutes: React.FC<{}> = () => (
+  <Switch>
+    <Route
+      path={JustfixRoutes.locale.rh.emailToDhcr}
+      exact
+      component={RhEmailToDhcrStaticPage}
+    />
+    <Route component={RentalHistoryProgressRoutes} />
+  </Switch>
 );
 
 export default RentalHistoryRoutes;

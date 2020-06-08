@@ -155,7 +155,7 @@ export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
           <ForeignLanguageOnly>
             <InYourLanguageMicrocopy />
           </ForeignLanguageOnly>
-          <article className="message jf-email-preview">
+          <article className="message">
             <div className="message-header has-text-weight-normal">
               <Trans>To:</Trans> {session.landlordDetails?.name}{" "}
               {session.landlordDetails?.email &&

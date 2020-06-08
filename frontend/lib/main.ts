@@ -36,7 +36,7 @@ function showSafeModeUiOnShake() {
   });
 }
 
-window.addEventListener("load", () => {
+function init() {
   const div = getHTMLElement("div", "#main");
   const initialPropsEl = getHTMLElement("script", "#initial-props");
   if (!initialPropsEl.textContent) {
@@ -58,7 +58,16 @@ window.addEventListener("load", () => {
   startApp(div, initialProps);
   polyfillSmoothScroll();
   showSafeModeUiOnShake();
-});
+}
+
+if (
+  document.readyState === "interactive" ||
+  document.readyState === "complete"
+) {
+  init();
+} else {
+  window.addEventListener("DOMContentLoaded", init);
+}
 
 if (process.env.NODE_ENV !== "production" && DISABLE_DEV_SOURCE_MAPS) {
   console.log(

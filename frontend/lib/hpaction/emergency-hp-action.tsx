@@ -77,8 +77,7 @@ import {
 import { HarassmentCaseHistory } from "./hp-action-case-history";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-steps";
-
-const checkCircleSvg = require("../svg/check-circle-solid.svg") as JSX.Element;
+import { renderSuccessHeading } from "../ui/success-heading";
 
 const HP_ICON = "frontend/img/hp-action.svg";
 
@@ -413,13 +412,12 @@ const ReviewForms: React.FC<ProgressStepProps> = (props) => {
 };
 
 const Confirmation: React.FC<{}> = () => {
-  const title = "Your Emergency HP Action forms have been sent to the court!";
   return (
-    <Page title={title} className="content">
-      <h1 className="jf-heading-with-icon">
-        <i className="has-text-success">{checkCircleSvg}</i>
-        <span>{title}</span>
-      </h1>
+    <Page
+      title="Your Emergency HP Action forms have been sent to the court!"
+      className="content"
+      withHeading={renderSuccessHeading}
+    >
       <p>
         Your completed, signed Emergency HP Action forms have been emailed to
         you and your Borough's Housing Court.

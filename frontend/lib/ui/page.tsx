@@ -5,9 +5,11 @@ import classNames from "classnames";
 import { AppContext } from "../app-context";
 import { SiteChoice } from "../../../common-data/site-choices";
 
+export type HeadingRenderer = (title: string) => JSX.Element;
+
 interface PageProps {
   title: string;
-  withHeading?: boolean | "big" | "small";
+  withHeading?: boolean | "big" | "small" | HeadingRenderer;
   className?: string;
   children?: any;
 }
@@ -75,17 +77,25 @@ export function PageTitle(props: { title: string }): JSX.Element {
   );
 }
 
-export default function Page(props: PageProps): JSX.Element {
-  const { title, withHeading } = props;
+function renderHeading(props: PageProps): JSX.Element | null {
+  const { withHeading, title } = props;
 
+  if (!withHeading) return null;
+
+  if (typeof withHeading === "function") {
+    return withHeading(title);
+  }
+
+  return <h1 className={headingClassName(withHeading)}>{title}</h1>;
+}
+
+export default function Page(props: PageProps): JSX.Element {
   // Note that we want to explicitly wrap this in a container
   // element to make CSS transitions possible.
   return (
     <div className={props.className}>
-      <PageTitle title={title} />
-      {withHeading && (
-        <h1 className={headingClassName(withHeading)}>{title}</h1>
-      )}
+      <PageTitle title={props.title} />
+      {renderHeading(props)}
       {props.children}
     </div>
   );

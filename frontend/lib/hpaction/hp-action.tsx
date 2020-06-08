@@ -57,6 +57,7 @@ import { isUserNycha } from "../util/nycha";
 import { HpActionSue } from "./sue";
 import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-steps";
 import { assertNotNull } from "../util/util";
+import { renderSuccessHeading } from "../ui/success-heading";
 
 const onboardingForHPActionRoute = () =>
   getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.HP).onboarding
@@ -205,7 +206,7 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
   return (
     <Page
       title="Your HP Action packet is ready!"
-      withHeading="big"
+      withHeading={renderSuccessHeading}
       className="content"
     >
       <p>

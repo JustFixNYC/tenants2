@@ -200,8 +200,10 @@ class RollbarSnippet(JsSnippetContextProcessor):
         payload: {
             environment: "%(environment)s",
             client: {
-                source_map_enabled: true,
-                code_version: "%(code_version)s"
+                javascript: {
+                    source_map_enabled: true,
+                    code_version: "%(code_version)s"
+                }
             }
         }
     };

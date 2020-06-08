@@ -30,6 +30,7 @@ import { GetStartedButton } from "../ui/get-started-button";
 import { ProgressiveLoadableConfetti } from "../ui/confetti-loadable";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { RhEmailToDhcr, RhEmailToDhcrStaticPage } from "./email-to-dhcr";
+import { renderSuccessHeading } from "../ui/success-heading";
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -227,7 +228,7 @@ function RentalHistoryConfirmation(): JSX.Element {
   return (
     <Page
       title="Your Rent History has been requested!"
-      withHeading="big"
+      withHeading={renderSuccessHeading}
       className="content"
     >
       <ProgressiveLoadableConfetti regenerateForSecs={1} />

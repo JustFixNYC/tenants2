@@ -14,6 +14,7 @@ import { BigList } from "../ui/big-list";
 import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc.json";
 import { SquareImage } from "../data-driven-onboarding/data-driven-onboarding";
 import { ariaBool } from "../ui/aria";
+import { renderSuccessHeading } from "../ui/success-heading";
 
 const LetterViaEmailInstructions = `If you want to send your Letter of Complaint to your landlord and/or management company via email, download the PDF and include it as an attachment to your regular email.`;
 
@@ -360,19 +361,21 @@ const LetterConfirmation = withAppContext(
     }
 
     return (
-      <Page title={letterConfirmationPageTitle} withHeading="big">
+      <Page
+        title={letterConfirmationPageTitle}
+        withHeading={renderSuccessHeading}
+        className="content"
+      >
         {/* Temporarily remove confetti during COVID-19 crisis :( */}
         {/* <ProgressiveLoadableConfetti regenerateForSecs={1} /> */}
-        <div className="content">
-          {letterStatus}
-          <h2>
-            Email a copy of your letter to yourself, someone you trust, or your
-            landlord.
-          </h2>
-          <EmailAttachmentForm mutation={EmailLetterMutation} noun="letter" />
-          <h2>Want to read more about your rights?</h2>
-          {knowYourRightsList}
-        </div>
+        {letterStatus}
+        <h2>
+          Email a copy of your letter to yourself, someone you trust, or your
+          landlord.
+        </h2>
+        <EmailAttachmentForm mutation={EmailLetterMutation} noun="letter" />
+        <h2>Want to read more about your rights?</h2>
+        {knowYourRightsList}
       </Page>
     );
   }

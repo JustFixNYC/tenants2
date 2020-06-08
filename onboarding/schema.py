@@ -15,6 +15,7 @@ from project.util.django_graphql_session_forms import (
 )
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import get_site_name, SITE_CHOICES
+from project.locales import ALL as LOCALE_CHOICES
 from project import slack, schema_registry
 from users.models import JustfixUser
 from project.util.model_form_util import OneToOneUserModelFormMutation
@@ -111,7 +112,8 @@ def complete_onboarding(request, info, password: Optional[str]) -> JustfixUser:
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
         f"from {slack.escape(oi.city)}, {slack.escape(oi.state)} has signed up for "
-        f"{slack.escape(SIGNUP_INTENT_CHOICES.get_label(oi.signup_intent))}!",
+        f"{slack.escape(SIGNUP_INTENT_CHOICES.get_label(oi.signup_intent))} in "
+        f"{slack.escape(LOCALE_CHOICES.get_label(user.locale))}!",
         is_safe=True
     )
 

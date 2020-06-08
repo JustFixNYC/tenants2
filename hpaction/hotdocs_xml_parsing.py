@@ -2,6 +2,8 @@ from typing import Optional, Union
 from enum import Enum
 import xml.etree.ElementTree as ET
 
+from .hpactionvars import CourtLocationMC
+
 
 def get_answers_xml_tf(root: ET.Element, name: str) -> Optional[bool]:
     nodes = root.findall(f".//Answer[@name='{name}']/TFValue")
@@ -32,3 +34,12 @@ class HPAType(Enum):
             return HPAType.REPAIRS
 
         raise ValueError('XML is suing for neither harassment nor repairs!')
+
+
+def get_answers_xml_court_location_mc(xml_value: Union[str, bytes]) -> Optional[CourtLocationMC]:
+    root = ET.fromstring(xml_value)
+
+    nodes = root.findall(f".//Answer[@name='Court location MC']/MCValue/SelValue")
+    if nodes:
+        return CourtLocationMC(nodes[0].text)
+    return None

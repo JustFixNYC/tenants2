@@ -1,7 +1,13 @@
 import pytest
 
-from hpaction.hpactionvars import HPActionVariables
-from hpaction.hotdocs_xml_parsing import HPAType
+from hpaction.hpactionvars import (
+    HPActionVariables,
+    CourtLocationMC,
+)
+from hpaction.hotdocs_xml_parsing import (
+    HPAType,
+    get_answers_xml_court_location_mc
+)
 
 
 class TestHPAType:
@@ -31,3 +37,13 @@ class TestHPAType:
         xmlstr = str(vars.to_answer_set())
         with pytest.raises(ValueError, match="suing for neither"):
             HPAType.get_from_answers_xml(xmlstr)
+
+
+@pytest.mark.parametrize('vars', [
+    HPActionVariables(court_location_mc=CourtLocationMC.RED_HOOK_COMMUNITY_JUSTICE_CENTER),
+    HPActionVariables(court_location_mc=CourtLocationMC.BRONX_COUNTY),
+    HPActionVariables(),
+])
+def test_get_answers_xml_court_location_mc_works(vars: HPActionVariables):
+    xmlstr = str(vars.to_answer_set())
+    assert get_answers_xml_court_location_mc(xmlstr) == vars.court_location_mc

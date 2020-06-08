@@ -393,7 +393,7 @@ def fill_issues(v: hp.HPActionVariables, user: JustfixUser, kind: str):
         v.tenant_complaints_list.append(complaint)
 
 
-def is_red_hook_cjc(v: hp.HPActionVariables) -> Optional[bool]:
+def is_harlem_cjc(v: hp.HPActionVariables) -> Optional[bool]:
     # This logic needs to mirror the logic in the HotDocs interview file.
     return v.tenant_borough_mc == hp.TenantBoroughMC.MANHATTAN and (
         v.tenant_address_zip_te in ('10035', '10037') or
@@ -401,7 +401,7 @@ def is_red_hook_cjc(v: hp.HPActionVariables) -> Optional[bool]:
     )
 
 
-def is_harlem_cjc(v: hp.HPActionVariables) -> Optional[bool]:
+def is_red_hook_cjc(v: hp.HPActionVariables) -> Optional[bool]:
     # This logic needs to mirror the logic in the HotDocs interview file.
     return v.tenant_borough_mc == hp.TenantBoroughMC.BROOKLYN and \
         v.tenant_address_zip_te == '11231' and v.user_is_nycha_tf

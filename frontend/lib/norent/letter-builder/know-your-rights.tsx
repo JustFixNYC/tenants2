@@ -20,6 +20,11 @@ import { CheckboxFormField } from "../../forms/form-fields";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
+import { STATE_LOCALIZED_RESOURCES } from "../data/state-localized-resources";
+import {
+  LocalizedOutboundLinkProps,
+  LocalizedOutboundLinkList,
+} from "../../ui/localized-outbound-link";
 
 /**
  * The default value of the RTTC checkbox; this will essentially determine if RTTC
@@ -29,6 +34,7 @@ const RTTC_CHECKBOX_DEFAULT = true;
 
 type ProtectionsContentComponent = React.FC<
   NorentMetadataForUSState & {
+    links?: LocalizedOutboundLinkProps[];
     rttcCheckbox: JSX.Element;
   }
 >;
@@ -40,6 +46,17 @@ const getRttcValue = (s: AllSessionInfo) =>
 export function hasUserSeenRttcCheckboxYet(s: AllSessionInfo): boolean {
   return typeof getRttcValue(s) === "boolean" ? true : false;
 }
+
+const StateLocalResources: React.FC<{ links: LocalizedOutboundLinkProps[] }> = (
+  props
+) => (
+  <>
+    <p>
+      <Trans>Check out these valuable resources for your state:</Trans>
+    </p>
+    <LocalizedOutboundLinkList {...props} />
+  </>
+);
 
 const StateWithoutProtectionsContent: ProtectionsContentComponent = (props) => {
   return (
@@ -54,6 +71,8 @@ const StateWithoutProtectionsContent: ProtectionsContentComponent = (props) => {
           <Trans>Learn more.</Trans>
         </Link>
       </p>
+
+      {props.links && <StateLocalResources links={props.links} />}
 
       <p>
         <Trans>
@@ -166,7 +185,11 @@ export const NorentLbKnowYourRights = MiddleProgressStep((props) => {
           return (
             <>
               <div className="content">
-                <ProtectionsComponent {...metadata} rttcCheckbox={checkbox} />
+                <ProtectionsComponent
+                  {...metadata}
+                  links={STATE_LOCALIZED_RESOURCES[state]}
+                  rttcCheckbox={checkbox}
+                />
               </div>
 
               <ProgressButtons

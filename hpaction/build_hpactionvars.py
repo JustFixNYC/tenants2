@@ -2,7 +2,7 @@ from typing import Dict, Iterable, Optional, Callable, Any, List
 from enum import Enum
 
 from users.models import JustfixUser
-from onboarding.models import BOROUGH_CHOICES, LEASE_CHOICES
+from onboarding.models import BOROUGH_CHOICES, LEASE_CHOICES, OnboardingInfo
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 from nycha.models import is_nycha_bbl
 import nycdb.models
@@ -17,14 +17,7 @@ from . import hpactionvars as hp
 NYCHA_ADDRESS = common_data.load_json("nycha-address.json")
 
 
-# TODO: There are more court locations than there are
-# boroughs; specifically, the Harlem and Red Hook Community Justice
-# Centers. Master.cmp has some HotDocs script logic to auto-default
-# to Harlem if the user's zip code is "01035" or "01037" (I assume they
-# should start with "10" though), but no logic to auto-default to
-# Red Hook.  I guess this means we ultimately let the user decide
-# which court to go to, as the LHI form does.
-COURT_LOCATIONS: Dict[str, hp.CourtLocationMC] = {
+BOROUGH_COURT_LOCATIONS: Dict[str, hp.CourtLocationMC] = {
     BOROUGH_CHOICES.MANHATTAN: hp.CourtLocationMC.NEW_YORK_COUNTY,
     BOROUGH_CHOICES.BRONX: hp.CourtLocationMC.BRONX_COUNTY,
     BOROUGH_CHOICES.BROOKLYN: hp.CourtLocationMC.KINGS_COUNTY,
@@ -400,6 +393,39 @@ def fill_issues(v: hp.HPActionVariables, user: JustfixUser, kind: str):
         v.tenant_complaints_list.append(complaint)
 
 
+def is_red_hook_cjc(v: hp.HPActionVariables) -> Optional[bool]:
+    # This logic needs to mirror the logic in the HotDocs interview file.
+    return v.tenant_borough_mc == hp.TenantBoroughMC.MANHATTAN and (
+        v.tenant_address_zip_te in ('10035', '10037') or
+        (v.tenant_address_zip_te == '10029' and v.user_is_nycha_tf)
+    )
+
+
+def is_harlem_cjc(v: hp.HPActionVariables) -> Optional[bool]:
+    # This logic needs to mirror the logic in the HotDocs interview file.
+    return v.tenant_borough_mc == hp.TenantBoroughMC.BROOKLYN and \
+        v.tenant_address_zip_te == '11231' and v.user_is_nycha_tf
+
+
+def fill_onboarding_info(v: hp.HPActionVariables, oinfo: OnboardingInfo) -> None:
+    v.tenant_address_apt_no_te = oinfo.apt_number
+    v.tenant_address_city_te = oinfo.city
+    v.tenant_address_zip_te = oinfo.zipcode
+    v.tenant_address_street_te = oinfo.address
+    v.tenant_borough_mc = BOROUGHS[oinfo.borough]
+    v.court_county_mc = COURT_COUNTIES[oinfo.borough]
+    v.tenant_address_floor_nu = oinfo.floor_number
+
+    assert v.user_is_nycha_tf is not None
+
+    if is_red_hook_cjc(v):
+        v.court_location_mc = hp.CourtLocationMC.RED_HOOK_COMMUNITY_JUSTICE_CENTER
+    elif is_harlem_cjc(v):
+        v.court_location_mc = hp.CourtLocationMC.HARLEM_COMMUNITY_JUSTICE_CENTER
+    else:
+        v.court_location_mc = BOROUGH_COURT_LOCATIONS[oinfo.borough]
+
+
 def user_to_hpactionvars(user: JustfixUser, kind: str) -> hp.HPActionVariables:
     v = hp.HPActionVariables()
 
@@ -438,16 +464,7 @@ def user_to_hpactionvars(user: JustfixUser, kind: str) -> hp.HPActionVariables:
 
     fill_landlord_info(v, user)
 
-    if hasattr(user, 'onboarding_info'):
-        oinfo = user.onboarding_info
-        v.tenant_address_apt_no_te = oinfo.apt_number
-        v.tenant_address_city_te = oinfo.city
-        v.tenant_address_zip_te = oinfo.zipcode
-        v.tenant_address_street_te = oinfo.address
-        v.tenant_borough_mc = BOROUGHS[oinfo.borough]
-        v.court_location_mc = COURT_LOCATIONS[oinfo.borough]
-        v.court_county_mc = COURT_COUNTIES[oinfo.borough]
-        v.tenant_address_floor_nu = oinfo.floor_number
+    fill_if_user_has(fill_onboarding_info, v, user, 'onboarding_info')
 
     fill_issues(v, user, kind)
 

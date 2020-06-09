@@ -5,7 +5,7 @@ import { Trans } from "@lingui/macro";
 import { friendlyUTCDate, friendlyDate } from "./date-util";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { assertNotNull } from "./util";
-import { StringHelperFC, stringHelperFC } from "./string-helper";
+import { makeStringHelperFC } from "./string-helper";
 
 export type BaseLetterContentProps = {
   firstName: string;
@@ -23,7 +23,7 @@ export type BaseLetterContentProps = {
   todaysDate?: GraphQLDate;
 };
 
-const componentizeHelper: StringHelperFC<BaseLetterContentProps> = stringHelperFC;
+const componentizeHelper = makeStringHelperFC<BaseLetterContentProps>();
 
 const LandlordName = componentizeHelper((props) =>
   props.landlordName.toUpperCase()

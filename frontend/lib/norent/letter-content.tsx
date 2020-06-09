@@ -25,13 +25,13 @@ import {
   baseSampleLetterProps,
   getBaseLetterContentPropsFromSession,
 } from "../util/letter-content-util";
-import { stringHelperFC, StringHelperFC } from "../util/string-helper";
+import { makeStringHelperFC } from "../util/string-helper";
 
 export type NorentLetterContentProps = BaseLetterContentProps & {
   paymentDate: GraphQLDate;
 };
 
-const componentizeHelper: StringHelperFC<NorentLetterContentProps> = stringHelperFC;
+const componentizeHelper = makeStringHelperFC<NorentLetterContentProps>();
 
 /** An annoying workaround for both WeasyPrint and Lingui. */
 const Newline: React.FC<{}> = () => <>{"\n"}</>;

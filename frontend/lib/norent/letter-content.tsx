@@ -33,22 +33,14 @@ export type NorentLetterContentProps = BaseLetterContentProps & {
 
 const componentizeHelper = makeStringHelperFC<NorentLetterContentProps>();
 
-/** An annoying workaround for both WeasyPrint and Lingui. */
-const Newline: React.FC<{}> = () => <>{"\n"}</>;
-
 const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
-  /*
-   * We originally had a <br> in this <h1>, but React self-closes the
-   * tag as <br/>, which WeasyPrint doesn't seem to like, so we'll
-   * include an actual newline and set the style to preserve whitespace.
-   */
-  <h1 className="has-text-right" style={{ whiteSpace: "pre-wrap" }}>
+  <letter.Title>
     <Trans>
       <span className="is-uppercase">Notice of COVID-19 impact on rent</span>
-      <Newline />
+      <letter.TitleNewline />
       at <letter.AddressLine {...props} />
     </Trans>
-  </h1>
+  </letter.Title>
 );
 
 const PaymentDate = componentizeHelper((props) =>

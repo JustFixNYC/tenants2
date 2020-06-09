@@ -109,6 +109,20 @@ const Regards: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
   </p>
 );
 
+/** An annoying workaround for both WeasyPrint and Lingui. */
+const TitleNewline: React.FC<{}> = () => <>{"\n"}</>;
+
+const Title: React.FC<{children: React.ReactNode}> = props => (
+  /*
+   * We originally had a <br> in this <h1>, but React self-closes the
+   * tag as <br/>, which WeasyPrint doesn't seem to like, so we'll
+   * include an actual newline and set the style to preserve whitespace.
+   */
+  <h1 className="has-text-right" style={{ whiteSpace: "pre-wrap" }}>
+    {props.children}
+  </h1>
+);
+
 export const baseSampleLetterProps: BaseLetterContentProps = {
   firstName: "Boop",
   lastName: "Jones",
@@ -152,11 +166,13 @@ export function getBaseLetterContentPropsFromSession(
 }
 
 export const letter = {
+  Title,
+  TitleNewline,
+  TodaysDate,
   Addresses,
   DearLandlord,
   Regards,
   FullName,
   AddressLine,
   getFullName,
-  TodaysDate,
 };

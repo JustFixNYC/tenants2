@@ -4,9 +4,7 @@ import {
   letter,
   baseSampleLetterProps,
 } from "../util/letter-content-util";
-import { QueryLoader } from "../networking/query-loader";
-import { LetterStaticPage } from "../static-page/letter-static-page";
-import { LetterStylesQuery } from "../queries/LetterStylesQuery";
+import { createLetterStaticPageWithQuery } from "../static-page/letter-static-page";
 
 type LocContentProps = BaseLetterContentProps;
 
@@ -40,22 +38,7 @@ export const LocContent: React.FC<LocContentProps> = (props) => (
   </>
 );
 
-const LocStaticPage: React.FC<
-  { isPdf?: boolean; title: string } & LocContentProps
-> = ({ isPdf, title, ...props }) => (
-  <QueryLoader
-    query={LetterStylesQuery}
-    render={(output) => {
-      return (
-        <LetterStaticPage title={title} isPdf={isPdf} css={output.letterStyles}>
-          <LocContent {...props} />
-        </LetterStaticPage>
-      );
-    }}
-    input={null}
-    loading={() => null}
-  />
-);
+const LocStaticPage = createLetterStaticPageWithQuery(LocContent);
 
 export const LocSamplePage: React.FC<{ isPdf: boolean }> = ({ isPdf }) => {
   const props: LocContentProps = {

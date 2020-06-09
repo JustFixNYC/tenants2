@@ -20,6 +20,9 @@ import { isUserNycha } from "../util/nycha";
 import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-steps";
 import { ProgressStepProps } from "../progress/progress-step-route";
 import { assertNotNull } from "../util/util";
+import { Switch, Route } from "react-router-dom";
+import { LocSamplePage } from "./letter-content";
+import { createLetterStaticPageRoutes } from "../static-page/routes";
 
 export const Welcome: React.FC<ProgressStepProps> = (props) => {
   const { firstName } = useContext(AppContext).session;
@@ -136,8 +139,20 @@ export const getLOCProgressRoutesProps = (): ProgressRoutesProps => ({
   ],
 });
 
-const LetterOfComplaintRoutes = buildProgressRoutesComponent(
+const LetterOfComplaintProgressRoutes = buildProgressRoutesComponent(
   getLOCProgressRoutesProps
+);
+
+const LetterOfComplaintRoutes: React.FC<{}> = () => (
+  <Switch>
+    {createLetterStaticPageRoutes(
+      JustfixRoutes.locale.loc.sampleLetterContent,
+      (isPdf) => (
+        <LocSamplePage isPdf={isPdf} />
+      )
+    )}
+    <Route component={LetterOfComplaintProgressRoutes} />
+  </Switch>
 );
 
 export default LetterOfComplaintRoutes;

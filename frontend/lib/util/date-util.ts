@@ -50,3 +50,14 @@ export function friendlyDate(
     }
   }
 }
+
+/**
+ * Like `friendlyDate()` but forces the time zone to UTC.
+ *
+ * This is useful because server dates are in midnight UTC time,
+ * and we want to *not* convert it to any other time zone, otherwise it may
+ * appear as a different date.
+ */
+export function friendlyUTCDate(date: GraphQLDate) {
+  return friendlyDate(new Date(date), "UTC");
+}

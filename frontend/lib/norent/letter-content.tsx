@@ -4,9 +4,7 @@ import { NorentLetterContentQuery } from "../queries/NorentLetterContentQuery";
 import { LetterStaticPage } from "../static-page/letter-static-page";
 import { AppContext } from "../app-context";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
-import { assertNotNull } from "../util/util";
-import { friendlyDate } from "../util/date-util";
-import { formatPhoneNumber } from "../forms/phone-number-form-field";
+import { friendlyUTCDate } from "../util/date-util";
 import {
   EmailSubject,
   asEmailStaticPage,
@@ -19,61 +17,28 @@ import {
   getNorentMetadataForUSState,
   CovidStateLawVersion,
 } from "./letter-builder/national-metadata";
-import { BreaksBetweenLines } from "../ui/breaks-between-lines";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
+import {
+  BaseLetterContentProps,
+  LetterHeading,
+  DearLandlord,
+  Regards,
+  FullName,
+  AddressLine,
+  getFullName,
+  stringHelperFC,
+  StringHelperFC,
+  baseSampleLetterProps,
+  getBaseLetterContentPropsFromSession,
+  TodaysDate,
+} from "../util/letter-content-util";
 
-export type NorentLetterContentProps = {
-  firstName: string;
-  lastName: string;
-  street: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  aptNumber: string;
-  email: string;
-  phoneNumber: string;
-  landlordName: string;
-  landlordAddress: string;
-  landlordEmail: string;
+export type NorentLetterContentProps = BaseLetterContentProps & {
   paymentDate: GraphQLDate;
-  todaysDate?: GraphQLDate;
 };
 
-type StringHelper = (props: NorentLetterContentProps) => string;
-
-/**
- * Some of our helper functions that build strings out of our props
- * are slightly easier to read as components, so this function
- * just converts a helper to a component.
- */
-function componentizeHelper(
-  fn: StringHelper
-): React.FC<NorentLetterContentProps> {
-  return (props) => <>{fn(props)}</>;
-}
-
-const LandlordName = componentizeHelper((props) =>
-  props.landlordName.toUpperCase()
-);
-
-const getFullName: StringHelper = (props) =>
-  `${props.firstName} ${props.lastName}`;
-
-const FullName = componentizeHelper(getFullName);
-
-export const getStreetWithApt = ({
-  street,
-  aptNumber,
-}: Pick<NorentLetterContentProps, "street" | "aptNumber">) => {
-  if (!aptNumber) return street;
-  return `${street} #${aptNumber}`;
-};
-
-const AddressLine = componentizeHelper(
-  (props) =>
-    `${getStreetWithApt(props)}, ${props.city}, ${props.state} ${props.zipCode}`
-);
+const componentizeHelper: StringHelperFC<NorentLetterContentProps> = stringHelperFC;
 
 /** An annoying workaround for both WeasyPrint and Lingui. */
 const Newline: React.FC<{}> = () => <>{"\n"}</>;
@@ -93,53 +58,8 @@ const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
   </h1>
 );
 
-// Oy, server dates are in midnight UTC time, and we explicitly want
-// to *not* convert it to any other time zone, otherwise it may
-// appear as a different date.
-function friendlyUTCDate(date: GraphQLDate) {
-  return friendlyDate(new Date(date), "UTC");
-}
-
 const PaymentDate = componentizeHelper((props) =>
   friendlyUTCDate(props.paymentDate)
-);
-
-const LandlordAddress: React.FC<NorentLetterContentProps> = (props) => (
-  <dd>
-    <LandlordName {...props} />
-    <br />
-    {props.landlordAddress ? (
-      <BreaksBetweenLines lines={props.landlordAddress} />
-    ) : (
-      <>{props.landlordEmail}</>
-    )}
-  </dd>
-);
-
-const Address: React.FC<NorentLetterContentProps> = (props) => (
-  <dd>
-    <FullName {...props} />
-    <br />
-    {getStreetWithApt(props)}
-    <br />
-    {props.city}, {props.state} {props.zipCode}
-    <br />
-    {formatPhoneNumber(props.phoneNumber)}
-  </dd>
-);
-
-/**
- * The to/from address of the letter.
- */
-const LetterHeading: React.FC<NorentLetterContentProps> = (props) => (
-  <dl className="jf-letter-heading">
-    <Trans description="heading of formal letter">
-      <dt>To</dt>
-      <LandlordAddress {...props} />
-      <dt>From</dt>
-      <Address {...props} />
-    </Trans>
-  </dl>
 );
 
 const TenantProtections: React.FC<NorentLetterContentProps> = (props) => {
@@ -197,21 +117,6 @@ const LetterContentPropsFromSession: React.FC<{
 
   return children(lcProps);
 };
-
-const DearLandlord: React.FC<NorentLetterContentProps> = (props) => (
-  <p>
-    <Trans description="salutation of formal letter">
-      Dear <LandlordName {...props} />,
-    </Trans>
-  </p>
-);
-
-const Regards: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
-  <p className="jf-signature">
-    <Trans description="before signature in formal letter">Regards,</Trans>
-    {children}
-  </p>
-);
 
 export const NorentLetterEmailToLandlord: React.FC<NorentLetterContentProps> = (
   props
@@ -315,13 +220,10 @@ const LetterBody: React.FC<NorentLetterContentProps> = (props) => {
 export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
   props
 ) => {
-  const todaysDate = props.todaysDate
-    ? friendlyUTCDate(props.todaysDate)
-    : friendlyDate(new Date());
   return (
     <>
       <LetterTitle {...props} />
-      <p className="has-text-right">{todaysDate}</p>
+      <TodaysDate {...props} />
       <LetterHeading {...props} />
       <DearLandlord {...props} />
       <LetterBody {...props} />
@@ -354,9 +256,9 @@ const NorentLetterStaticPage: React.FC<
 function getNorentLetterContentPropsFromSession(
   session: AllSessionInfo
 ): NorentLetterContentProps | null {
-  const onb = session.onboardingInfo;
-  const ld = session.landlordDetails;
-  if (!(ld && onb)) {
+  const baseProps = getBaseLetterContentPropsFromSession(session);
+
+  if (!baseProps) {
     return null;
   }
 
@@ -370,19 +272,8 @@ function getNorentLetterContentPropsFromSession(
   }
 
   const props: NorentLetterContentProps = {
+    ...baseProps,
     paymentDate,
-    phoneNumber: assertNotNull(session.phoneNumber),
-    firstName: assertNotNull(session.firstName),
-    lastName: assertNotNull(session.lastName),
-    email: assertNotNull(session.email),
-    street: onb.address,
-    city: onb.city,
-    state: onb.state,
-    zipCode: onb.zipcode,
-    aptNumber: onb.aptNumber,
-    landlordName: ld.name,
-    landlordAddress: ld.address,
-    landlordEmail: ld.email,
   };
 
   return props;
@@ -403,18 +294,7 @@ export const NorentLetterForUserStaticPage: React.FC<{ isPdf?: boolean }> = ({
 );
 
 export const noRentSampleLetterProps: NorentLetterContentProps = {
-  firstName: "Boop",
-  lastName: "Jones",
-  street: "654 Park Place",
-  city: "Brooklyn",
-  state: "NY",
-  zipCode: "12345",
-  aptNumber: "2",
-  email: "boop@jones.com",
-  phoneNumber: "5551234567",
-  landlordName: "Landlordo Calrissian",
-  landlordAddress: "1 Cloud City Drive\nBespin, OH 41235",
-  landlordEmail: "landlordo@calrissian.net",
+  ...baseSampleLetterProps,
   paymentDate: "2020-05-01T15:41:37.114Z",
 };
 

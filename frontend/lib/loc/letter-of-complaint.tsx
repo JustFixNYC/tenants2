@@ -147,9 +147,7 @@ const LetterOfComplaintRoutes: React.FC<{}> = () => (
   <Switch>
     {createLetterStaticPageRoutes(
       JustfixRoutes.locale.loc.sampleLetterContent,
-      (isPdf) => (
-        <LocSamplePage isPdf={isPdf} />
-      )
+      LocSamplePage
     )}
     <Route component={LetterOfComplaintProgressRoutes} />
   </Switch>

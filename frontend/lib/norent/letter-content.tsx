@@ -264,7 +264,7 @@ function getNorentLetterContentPropsFromSession(
   return props;
 }
 
-export const NorentLetterForUserStaticPage: React.FC<{ isPdf?: boolean }> = ({
+export const NorentLetterForUserStaticPage: React.FC<{ isPdf: boolean }> = ({
   isPdf,
 }) => (
   <LetterContentPropsFromSession
@@ -283,7 +283,7 @@ export const noRentSampleLetterProps: NorentLetterContentProps = {
   paymentDate: "2020-05-01T15:41:37.114Z",
 };
 
-export const NorentSampleLetterSamplePage: React.FC<{ isPdf?: boolean }> = ({
+export const NorentSampleLetterSamplePage: React.FC<{ isPdf: boolean }> = ({
   isPdf,
 }) => {
   const { session } = useContext(AppContext);

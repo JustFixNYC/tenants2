@@ -57,7 +57,7 @@ const LocStaticPage: React.FC<
   />
 );
 
-export const LocSamplePage: React.FC<{ isPdf?: boolean }> = ({ isPdf }) => {
+export const LocSamplePage: React.FC<{ isPdf: boolean }> = ({ isPdf }) => {
   const props: LocContentProps = {
     ...baseSampleLetterProps,
   };

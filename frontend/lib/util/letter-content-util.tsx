@@ -112,7 +112,7 @@ const Regards: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
 /** An annoying workaround for both WeasyPrint and Lingui. */
 const TitleNewline: React.FC<{}> = () => <>{"\n"}</>;
 
-const Title: React.FC<{children: React.ReactNode}> = props => (
+const Title: React.FC<{ children: React.ReactNode }> = (props) => (
   /*
    * We originally had a <br> in this <h1>, but React self-closes the
    * tag as <br/>, which WeasyPrint doesn't seem to like, so we'll

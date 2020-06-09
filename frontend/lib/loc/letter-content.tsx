@@ -18,8 +18,7 @@ const LetterTitle: React.FC<LocContentProps> = (props) => (
 
 const LetterBody: React.FC<LocContentProps> = (props) => (
   <p>
-    I need the following repairs in my home referenced below and/or in the
-    common areas of the building:
+    TODO: This needs to be implemented.
   </p>
 );
 

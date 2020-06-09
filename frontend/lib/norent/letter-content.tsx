@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { QueryLoader } from "../networking/query-loader";
-import { NorentLetterContentQuery } from "../queries/NorentLetterContentQuery";
 import { LetterStaticPage } from "../static-page/letter-static-page";
 import { AppContext } from "../app-context";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
@@ -26,6 +25,7 @@ import {
   getBaseLetterContentPropsFromSession,
 } from "../util/letter-content-util";
 import { makeStringHelperFC } from "../util/string-helper";
+import { LetterStylesQuery } from "../queries/LetterStylesQuery";
 
 export type NorentLetterContentProps = BaseLetterContentProps & {
   paymentDate: GraphQLDate;
@@ -225,7 +225,7 @@ const NorentLetterStaticPage: React.FC<
   { isPdf?: boolean; title: string } & NorentLetterContentProps
 > = ({ isPdf, title, ...props }) => (
   <QueryLoader
-    query={NorentLetterContentQuery}
+    query={LetterStylesQuery}
     render={(output) => {
       return (
         <LetterStaticPage title={title} isPdf={isPdf} css={output.letterStyles}>

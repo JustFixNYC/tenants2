@@ -6,7 +6,7 @@ import {
 } from "../util/letter-content-util";
 import { QueryLoader } from "../networking/query-loader";
 import { LetterStaticPage } from "../static-page/letter-static-page";
-import { NorentLetterContentQuery } from "../queries/NorentLetterContentQuery";
+import { LetterStylesQuery } from "../queries/LetterStylesQuery";
 
 type LocContentProps = BaseLetterContentProps;
 
@@ -44,7 +44,7 @@ const LocStaticPage: React.FC<
   { isPdf?: boolean; title: string } & LocContentProps
 > = ({ isPdf, title, ...props }) => (
   <QueryLoader
-    query={NorentLetterContentQuery}
+    query={LetterStylesQuery}
     render={(output) => {
       return (
         <LetterStaticPage title={title} isPdf={isPdf} css={output.letterStyles}>

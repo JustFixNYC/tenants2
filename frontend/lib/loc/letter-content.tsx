@@ -17,9 +17,7 @@ const LetterTitle: React.FC<LocContentProps> = (props) => (
 );
 
 const LetterBody: React.FC<LocContentProps> = (props) => (
-  <p>
-    TODO: This needs to be implemented.
-  </p>
+  <p>TODO: This needs to be implemented.</p>
 );
 
 export const LocContent: React.FC<LocContentProps> = (props) => (

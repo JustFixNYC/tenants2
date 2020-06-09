@@ -21,20 +21,20 @@ export const createLetterStaticPageRouteInfo = (prefix: string) => ({
  */
 export function createLetterStaticPageRoutes(
   routeInfo: LetterStaticPageRouteInfo,
-  render: (isPdf: boolean) => JSX.Element
+  Component: React.ComponentType<{ isPdf: boolean }>
 ) {
   return [
     <Route
       key={routeInfo.html}
       path={routeInfo.html}
       exact
-      render={() => render(false)}
+      render={() => <Component isPdf={false} />}
     />,
     <Route
       key={routeInfo.pdf}
       path={routeInfo.pdf}
       exact
-      render={() => render(true)}
+      render={() => <Component isPdf={true} />}
     />,
   ];
 }

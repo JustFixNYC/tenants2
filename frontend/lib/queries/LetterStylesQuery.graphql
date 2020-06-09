@@ -1,4 +1,4 @@
-query NorentLetterContentQuery {
+query LetterStylesQuery {
   letterStyles {
     inlinePdfCss,
     htmlCssUrls

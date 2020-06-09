@@ -74,9 +74,10 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
         path={Routes.locale.letter.prefix}
         component={NorentLetterBuilderRoutes}
       />
-      {createLetterStaticPageRoutes(Routes.locale.letterContent, (isPdf) => (
-        <NorentLetterForUserStaticPage isPdf={isPdf} />
-      ))}
+      {createLetterStaticPageRoutes(
+        Routes.locale.letterContent,
+        NorentLetterForUserStaticPage
+      )}
       <Route
         path={Routes.locale.letterEmail}
         exact
@@ -89,9 +90,7 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
       />
       {createLetterStaticPageRoutes(
         Routes.locale.sampleLetterContent,
-        (isPdf) => (
-          <NorentSampleLetterSamplePage isPdf={isPdf} />
-        )
+        NorentSampleLetterSamplePage
       )}
       <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
       <Route component={NotFound} />

@@ -2,6 +2,8 @@ import React from "react";
 import { StaticPage } from "./static-page";
 import { LambdaResponseHttpHeaders } from "../../lambda/lambda-response-http-headers";
 import i18n from "../i18n";
+import { QueryLoader } from "../networking/query-loader";
+import { LetterStylesQuery } from "../queries/LetterStylesQuery";
 
 type LetterStylesCss = {
   /** Inline CSS to embed when generating PDFs from HTML. */
@@ -58,3 +60,26 @@ export const LetterStaticPage: React.FC<
     </html>
   </StaticPage>
 );
+
+export function createLetterStaticPageWithQuery<T>(
+  Component: React.ComponentType<T>
+): React.FC<{ isPdf: boolean; title: string } & T> {
+  return (props) => (
+    <QueryLoader
+      query={LetterStylesQuery}
+      render={(output) => {
+        return (
+          <LetterStaticPage
+            title={props.title}
+            isPdf={props.isPdf}
+            css={output.letterStyles}
+          >
+            <Component {...props} />
+          </LetterStaticPage>
+        );
+      }}
+      input={null}
+      loading={() => null}
+    />
+  );
+}

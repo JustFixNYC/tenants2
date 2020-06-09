@@ -3,6 +3,7 @@ import { OnboardingInfoSignupIntent, Borough } from "./queries/globalTypes";
 import { inputToQuerystring } from "./networking/http-get-query-util";
 import { ROUTE_PREFIX, createRoutesForSite } from "./util/route-util";
 import { createDevRouteInfo } from "./dev/routes";
+import { createLetterStaticPageRouteInfo } from "./static-page/routes";
 
 /**
  * Metadata about signup intents.
@@ -127,6 +128,10 @@ function createLetterOfComplaintRouteInfo(prefix: string) {
   return {
     [ROUTE_PREFIX]: prefix,
     latestStep: prefix,
+    /** The sample letter content (HTML and PDF versions). */
+    sampleLetterContent: createLetterStaticPageRouteInfo(
+      `${prefix}/sample-letter`
+    ),
     splash: `${prefix}/splash`,
     welcome: `${prefix}/welcome`,
     ...createJustfixCrossSiteVisitorRoutes(prefix),

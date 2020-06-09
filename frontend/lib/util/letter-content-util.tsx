@@ -39,21 +39,21 @@ export function stringHelperFC<T>(fn: StringHelper<T>): React.FC<T> {
 
 const componentizeHelper: StringHelperFC<BaseLetterContentProps> = stringHelperFC;
 
-export const LandlordName = componentizeHelper((props) =>
+const LandlordName = componentizeHelper((props) =>
   props.landlordName.toUpperCase()
 );
 
-export const getFullName = (props: BaseLetterContentProps) =>
+const getFullName = (props: BaseLetterContentProps) =>
   `${props.firstName} ${props.lastName}`;
 
-export const FullName = componentizeHelper(getFullName);
+const FullName = componentizeHelper(getFullName);
 
 const getTodaysDate = (props: BaseLetterContentProps) =>
   props.todaysDate
     ? friendlyUTCDate(props.todaysDate)
     : friendlyDate(new Date());
 
-export const TodaysDate: React.FC<BaseLetterContentProps> = (props) => (
+const TodaysDate: React.FC<BaseLetterContentProps> = (props) => (
   <p className="has-text-right">{getTodaysDate(props)}</p>
 );
 
@@ -65,12 +65,12 @@ export const getStreetWithApt = ({
   return `${street} #${aptNumber}`;
 };
 
-export const AddressLine = componentizeHelper(
+const AddressLine = componentizeHelper(
   (props) =>
     `${getStreetWithApt(props)}, ${props.city}, ${props.state} ${props.zipCode}`
 );
 
-export const LandlordAddress: React.FC<BaseLetterContentProps> = (props) => (
+const LandlordAddress: React.FC<BaseLetterContentProps> = (props) => (
   <dd>
     <LandlordName {...props} />
     <br />
@@ -82,7 +82,7 @@ export const LandlordAddress: React.FC<BaseLetterContentProps> = (props) => (
   </dd>
 );
 
-export const Address: React.FC<BaseLetterContentProps> = (props) => (
+const Address: React.FC<BaseLetterContentProps> = (props) => (
   <dd>
     <FullName {...props} />
     <br />
@@ -95,9 +95,9 @@ export const Address: React.FC<BaseLetterContentProps> = (props) => (
 );
 
 /**
- * The to/from address of the letter.
+ * The to/from addresses of the letter.
  */
-export const LetterHeading: React.FC<BaseLetterContentProps> = (props) => (
+const Addresses: React.FC<BaseLetterContentProps> = (props) => (
   <dl className="jf-letter-heading">
     <Trans description="heading of formal letter">
       <dt>To</dt>
@@ -108,7 +108,7 @@ export const LetterHeading: React.FC<BaseLetterContentProps> = (props) => (
   </dl>
 );
 
-export const DearLandlord: React.FC<BaseLetterContentProps> = (props) => (
+const DearLandlord: React.FC<BaseLetterContentProps> = (props) => (
   <p>
     <Trans description="salutation of formal letter">
       Dear <LandlordName {...props} />,
@@ -116,9 +116,7 @@ export const DearLandlord: React.FC<BaseLetterContentProps> = (props) => (
   </p>
 );
 
-export const Regards: React.FC<{ children?: React.ReactNode }> = ({
-  children,
-}) => (
+const Regards: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
   <p className="jf-signature">
     <Trans description="before signature in formal letter">Regards,</Trans>
     {children}
@@ -166,3 +164,13 @@ export function getBaseLetterContentPropsFromSession(
 
   return props;
 }
+
+export const letter = {
+  Addresses,
+  DearLandlord,
+  Regards,
+  FullName,
+  AddressLine,
+  getFullName,
+  TodaysDate,
+};

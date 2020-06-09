@@ -21,17 +21,11 @@ import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
 import {
   BaseLetterContentProps,
-  LetterHeading,
-  DearLandlord,
-  Regards,
-  FullName,
-  AddressLine,
-  getFullName,
+  letter,
   stringHelperFC,
   StringHelperFC,
   baseSampleLetterProps,
   getBaseLetterContentPropsFromSession,
-  TodaysDate,
 } from "../util/letter-content-util";
 
 export type NorentLetterContentProps = BaseLetterContentProps & {
@@ -53,7 +47,7 @@ const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
     <Trans>
       <span className="is-uppercase">Notice of COVID-19 impact on rent</span>
       <Newline />
-      at <AddressLine {...props} />
+      at <letter.AddressLine {...props} />
     </Trans>
   </h1>
 );
@@ -91,11 +85,11 @@ export const NorentLetterTranslation: React.FC<{}> = () => {
         <LetterContentPropsFromSession>
           {(props) => (
             <>
-              <DearLandlord {...props} />
+              <letter.DearLandlord {...props} />
               <LetterBody {...props} />
-              <Regards />
+              <letter.Regards />
               <p>
-                <FullName {...props} />
+                <letter.FullName {...props} />
               </p>
             </>
           )}
@@ -124,27 +118,27 @@ export const NorentLetterEmailToLandlord: React.FC<NorentLetterContentProps> = (
   <>
     <EmailSubject
       value={li18n._(
-        t`Notice of COVID-19 impact on Rent sent on behalf of ${getFullName(
+        t`Notice of COVID-19 impact on Rent sent on behalf of ${letter.getFullName(
           props
         )}`
       )}
     />
-    <DearLandlord {...props} />
+    <letter.DearLandlord {...props} />
     <Trans id="norent.emailToLandlordBody">
       <p>
-        Please see letter attached from <FullName {...props} />.{" "}
+        Please see letter attached from <letter.FullName {...props} />.{" "}
       </p>
       <p>
         In order to document communications and avoid misunderstandings, please
-        correspond with <FullName {...props} /> via mail or text rather than a
-        phone call or in-person visit.
+        correspond with <letter.FullName {...props} /> via mail or text rather
+        than a phone call or in-person visit.
       </p>
     </Trans>
-    <Regards />
+    <letter.Regards />
     <p>
       <Trans>
         JustFix.nyc <br />
-        sent on behalf of <FullName {...props} />
+        sent on behalf of <letter.FullName {...props} />
       </Trans>
     </p>
   </>
@@ -223,15 +217,15 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
   return (
     <>
       <LetterTitle {...props} />
-      <TodaysDate {...props} />
-      <LetterHeading {...props} />
-      <DearLandlord {...props} />
+      <letter.TodaysDate {...props} />
+      <letter.Addresses {...props} />
+      <letter.DearLandlord {...props} />
       <LetterBody {...props} />
-      <Regards>
+      <letter.Regards>
         <br />
         <br />
-        <FullName {...props} />
-      </Regards>
+        <letter.FullName {...props} />
+      </letter.Regards>
     </>
   );
 };

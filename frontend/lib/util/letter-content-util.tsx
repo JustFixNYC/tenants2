@@ -5,6 +5,7 @@ import { Trans } from "@lingui/macro";
 import { friendlyUTCDate, friendlyDate } from "./date-util";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { assertNotNull } from "./util";
+import { StringHelperFC, stringHelperFC } from "./string-helper";
 
 export type BaseLetterContentProps = {
   firstName: string;
@@ -21,21 +22,6 @@ export type BaseLetterContentProps = {
   landlordEmail: string;
   todaysDate?: GraphQLDate;
 };
-
-type StringHelper<T> = (props: T) => string;
-
-export interface StringHelperFC<T> {
-  (fn: StringHelper<T>): React.FC<T>;
-}
-
-/**
- * Some of our helper functions that build strings out of our props
- * are slightly easier to read as components, so this function
- * just converts a helper to a component.
- */
-export function stringHelperFC<T>(fn: StringHelper<T>): React.FC<T> {
-  return (props) => <>{fn(props)}</>;
-}
 
 const componentizeHelper: StringHelperFC<BaseLetterContentProps> = stringHelperFC;
 

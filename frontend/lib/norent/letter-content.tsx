@@ -22,11 +22,10 @@ import { li18n } from "../i18n-lingui";
 import {
   BaseLetterContentProps,
   letter,
-  stringHelperFC,
-  StringHelperFC,
   baseSampleLetterProps,
   getBaseLetterContentPropsFromSession,
 } from "../util/letter-content-util";
+import { stringHelperFC, StringHelperFC } from "../util/string-helper";
 
 export type NorentLetterContentProps = BaseLetterContentProps & {
   paymentDate: GraphQLDate;

@@ -22,6 +22,7 @@ import {
   letter,
   baseSampleLetterProps,
   getBaseLetterContentPropsFromSession,
+  TransformSession,
 } from "../util/letter-content-util";
 import { makeStringHelperFC } from "../util/string-helper";
 
@@ -71,7 +72,7 @@ export const NorentLetterTranslation: React.FC<{}> = () => {
   return (
     <article className="message jf-letter-translation">
       <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
-        <LetterContentPropsFromSession>
+        <TransformSession transformer={getNorentLetterContentPropsFromSession}>
           {(props) => (
             <>
               <letter.DearLandlord {...props} />
@@ -82,23 +83,10 @@ export const NorentLetterTranslation: React.FC<{}> = () => {
               </p>
             </>
           )}
-        </LetterContentPropsFromSession>
+        </TransformSession>
       </div>
     </article>
   );
-};
-
-const LetterContentPropsFromSession: React.FC<{
-  children: (lcProps: NorentLetterContentProps) => JSX.Element;
-}> = ({ children }) => {
-  const { session } = useContext(AppContext);
-  const lcProps = getNorentLetterContentPropsFromSession(session);
-
-  if (!lcProps) {
-    return <p>We don't have enough information to generate a letter yet.</p>;
-  }
-
-  return children(lcProps);
 };
 
 export const NorentLetterEmailToLandlord: React.FC<NorentLetterContentProps> = (
@@ -134,7 +122,8 @@ export const NorentLetterEmailToLandlord: React.FC<NorentLetterContentProps> = (
 );
 
 export const NorentLetterEmailToLandlordForUser: React.FC<{}> = () => (
-  <LetterContentPropsFromSession
+  <TransformSession
+    transformer={getNorentLetterContentPropsFromSession}
     children={(lcProps) => <NorentLetterEmailToLandlord {...lcProps} />}
   />
 );
@@ -252,7 +241,8 @@ function getNorentLetterContentPropsFromSession(
 export const NorentLetterForUserStaticPage: React.FC<{ isPdf: boolean }> = ({
   isPdf,
 }) => (
-  <LetterContentPropsFromSession
+  <TransformSession
+    transformer={getNorentLetterContentPropsFromSession}
     children={(lcProps) => (
       <NorentLetterStaticPage
         {...lcProps}

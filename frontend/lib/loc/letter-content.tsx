@@ -3,17 +3,22 @@ import {
   BaseLetterContentProps,
   letter,
   baseSampleLetterProps,
+  getBaseLetterContentPropsFromSession,
+  TransformSession,
 } from "../util/letter-content-util";
 import { createLetterStaticPageWithQuery } from "../static-page/letter-static-page";
 import {
   IssueAreaChoice,
   getIssueAreaChoiceLabels,
+  IssueAreaChoices,
 } from "../../../common-data/issue-area-choices";
 import {
   IssueChoice,
   getIssueChoiceLabels,
 } from "../../../common-data/issue-choices";
 import { friendlyUTCDate } from "../util/date-util";
+import { AllSessionInfo } from "../queries/AllSessionInfo";
+import { issuesForArea, customIssuesForArea } from "../issues/issues";
 
 const HEAT_ISSUE_CHOICES = new Set<IssueChoice>([
   "HOME__NO_HEAT",
@@ -34,7 +39,7 @@ type AreaIssues = {
 type LocContentProps = BaseLetterContentProps & {
   issues: AreaIssues[];
   accessDates: GraphQLDate[];
-  hasCalled311: boolean;
+  hasCalled311: boolean | null;
 };
 
 const LetterTitle: React.FC<LocContentProps> = (props) => (
@@ -202,6 +207,63 @@ export const LocContent: React.FC<LocContentProps> = (props) => (
 );
 
 const LocStaticPage = createLetterStaticPageWithQuery(LocContent);
+
+function getIssuesFromSession(session: AllSessionInfo): AreaIssues[] {
+  const result: AreaIssues[] = [];
+
+  for (let area of IssueAreaChoices) {
+    const issueChoices: Issue[] = issuesForArea(
+      area,
+      session.issues as IssueChoice[]
+    ).map((choice) => ({
+      kind: "choice",
+      choice,
+    }));
+    const customIssues: Issue[] = customIssuesForArea(
+      area,
+      session.customIssuesV2 || []
+    ).map((ci) => ({
+      kind: "custom",
+      value: ci.description,
+    }));
+    const issues: Issue[] = [...issueChoices, ...customIssues];
+    if (issues.length) {
+      result.push({ area, issues });
+    }
+  }
+
+  return result;
+}
+
+function getLocContentPropsFromSession(
+  session: AllSessionInfo
+): LocContentProps | null {
+  const baseProps = getBaseLetterContentPropsFromSession(session);
+  const onb = session.onboardingInfo;
+
+  if (!(baseProps && onb)) {
+    return null;
+  }
+
+  return {
+    ...baseProps,
+    issues: getIssuesFromSession(session),
+    accessDates: session.accessDates,
+    hasCalled311: onb.hasCalled311,
+  };
+}
+
+export const LocForUserPage: React.FC<{ isPdf: boolean }> = ({ isPdf }) => (
+  <TransformSession transformer={getLocContentPropsFromSession}>
+    {(props) => (
+      <LocStaticPage
+        {...props}
+        isPdf={isPdf}
+        title="Your Letter of Complaint"
+      />
+    )}
+  </TransformSession>
+);
 
 export const locSampleProps: LocContentProps = {
   ...baseSampleLetterProps,

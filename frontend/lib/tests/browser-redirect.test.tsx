@@ -58,13 +58,13 @@ describe("performHardOrSoftRedirect()", () => {
 
   it("performs a hard redirect when the route is on our origin but unknown", () => {
     const push = jest.fn();
-    performHardOrSoftRedirect(`${originURL}/en/loc/letter.pdf`, {
+    performHardOrSoftRedirect(`${originURL}/en/loc/finished-letter.pdf`, {
       push,
     } as any);
     expect(push.mock.calls.length).toBe(0);
     expect(hardRedirect.mock.calls.length).toBe(1);
     expect(hardRedirect.mock.calls[0][0]).toBe(
-      `${originURL}/en/loc/letter.pdf`
+      `${originURL}/en/loc/finished-letter.pdf`
     );
   });
 

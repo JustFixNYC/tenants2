@@ -80,7 +80,7 @@ class LocAdminViews:
 
     def _create_letter(self, request, letter, verifications):
         user = letter.user
-        pdf_file = views.render_letter_of_complaint(request, user, 'pdf').file_to_stream
+        pdf_file = views.render_finished_loc_pdf_for_user(request, user).file_to_stream
         response = lob_api.mail_certified_letter(
             description='Letter of complaint',
             to_address={

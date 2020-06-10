@@ -6,7 +6,7 @@ from users.models import JustfixUser
 from project.util.site_util import get_site_name
 from project.util.celery_util import fire_and_forget_task
 from project.util.email_attachment import email_file_response_as_attachment
-from .views import render_letter_of_complaint
+from .views import render_finished_loc_pdf_for_user
 
 
 def email_letter(user_id: int, recipients: List[str]) -> None:
@@ -20,7 +20,7 @@ def email_letter(user_id: int, recipients: List[str]) -> None:
             f"complaint, which {user.first_name} requested we send you."
         ),
         recipients=recipients,
-        attachment=render_letter_of_complaint(request, user, 'pdf')
+        attachment=render_finished_loc_pdf_for_user(request, user)
     )
 
 

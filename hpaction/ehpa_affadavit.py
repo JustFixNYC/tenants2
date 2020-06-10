@@ -2,12 +2,12 @@ from pathlib import Path
 import pydantic
 
 from users.models import JustfixUser
+from onboarding.models import OnboardingInfo
+from loc.models import LandlordDetails
 from loc.views import (
     pdf_response,
     render_pdf_html,
     render_pdf_bytes,
-    get_onboarding_info,
-    get_landlord_details
 )
 
 
@@ -18,6 +18,18 @@ MY_TEMPLATES_DIR = MY_DIR / 'templates' / 'hpaction'
 PDF_STYLES_CSS = MY_TEMPLATES_DIR / 'ehpa-affadavit.css'
 
 NA = 'N/A'
+
+
+def get_onboarding_info(user) -> OnboardingInfo:
+    if hasattr(user, 'onboarding_info'):
+        return user.onboarding_info
+    return OnboardingInfo()
+
+
+def get_landlord_details(user) -> LandlordDetails:
+    if hasattr(user, 'landlord_details'):
+        return user.landlord_details
+    return LandlordDetails()
 
 
 class EHPAAffadavitVars(pydantic.BaseModel):

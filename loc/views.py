@@ -12,9 +12,6 @@ from django.views.decorators.clickjacking import xframe_options_sameorigin
 
 from twofactor.decorators import twofactor_required
 from users.models import JustfixUser, VIEW_LETTER_REQUEST_PERMISSION
-from loc.models import LandlordDetails
-from onboarding.models import OnboardingInfo
-from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
 
 
 MY_DIR = Path(__file__).parent.resolve()
@@ -63,38 +60,6 @@ def example_doc(request, format):
     }, format)
 
 
-def get_onboarding_info(user) -> OnboardingInfo:
-    if hasattr(user, 'onboarding_info'):
-        return user.onboarding_info
-    return OnboardingInfo()
-
-
-def get_landlord_details(user) -> LandlordDetails:
-    if hasattr(user, 'landlord_details'):
-        return user.landlord_details
-    return LandlordDetails()
-
-
-def get_issues(user):
-    issue_areas: Dict[str, List[str]] = {}
-
-    def append_to_area(area, value):
-        area = ISSUE_AREA_CHOICES.get_label(area)
-        if area not in issue_areas:
-            issue_areas[area] = []
-        issue_areas[area].append(value)
-
-    for issue in user.issues.all():
-        append_to_area(issue.area, ISSUE_CHOICES.get_label(issue.value))
-
-    for issue in user.custom_issues.all():
-        append_to_area(issue.area, issue.description)
-
-    return [
-        (area, issue_areas[area]) for area in issue_areas
-    ]
-
-
 def parse_comma_separated_ints(val: str) -> List[int]:
     result: List[int] = []
     for item in val.split(','):
@@ -123,58 +88,12 @@ def envelopes(request):
     }, 'pdf')
 
 
-def get_letter_context(user: JustfixUser) -> Dict[str, Any]:
-    return {
-        'today': datetime.date.today(),
-        'landlord_details': get_landlord_details(user),
-        'onboarding_info': get_onboarding_info(user),
-        'issues': get_issues(user),
-        'has_heat_issues': any(s in str(get_issues(user)).upper() for s in ('HEAT', 'HOT WATER')),
-        'access_dates': [date.date for date in user.access_dates.all()],
-        'user': user
-    }
-
-
-def render_letter_body(user: JustfixUser) -> str:
-    ctx = get_letter_context(user)
-    html = render_english_to_string(None, 'loc/letter-content.html', ctx)
-    return html
-
-
-def render_letter_of_complaint(
-    request,
-    user: JustfixUser,
-    format: str,
-    force_live_preview: bool = False
-):
-    if (not force_live_preview and
-            hasattr(user, 'letter_request') and
-            user.letter_request.html_content):
-        html = SafeString(user.letter_request.html_content)
-        ctx: Dict[str, Any] = {'prerendered_letter_content': html}
-    else:
-        ctx = get_letter_context(user)
-    return render_document(request, 'loc/letter-of-complaint.html', ctx, format)
-
-
-@login_required
-@xframe_options_sameorigin
-def letter_of_complaint_doc(request, format):
-    live_preview = request.GET.get('live_preview', '')
-    return render_letter_of_complaint(
-        request,
-        request.user,
-        format,
-        force_live_preview=live_preview == 'on'
-    )
-
-
 @permission_required(VIEW_LETTER_REQUEST_PERMISSION)
 @twofactor_required
 @xframe_options_sameorigin
 def letter_of_complaint_pdf_for_user(request, user_id: int):
     user = get_object_or_404(JustfixUser, pk=user_id)
-    return render_finished_loc_for_user(request, user)
+    return render_finished_loc_pdf_for_user(request, user)
 
 
 def template_name_to_pdf_filename(template_name: str) -> str:
@@ -205,7 +124,7 @@ def render_english_to_string(
         return render_to_string(template_name, context=context, request=request)
 
 
-def render_finished_loc_for_user(request, user: JustfixUser):
+def render_finished_loc_pdf_for_user(request, user: JustfixUser):
     from frontend.views import DOCTYPE_HTML_TAG
 
     template_name = 'loc/letter-of-complaint.html'
@@ -224,7 +143,7 @@ def render_finished_loc_for_user(request, user: JustfixUser):
 
 @login_required
 def finished_loc_pdf(request):
-    return render_finished_loc_for_user(request, request.user)
+    return render_finished_loc_pdf_for_user(request, request.user)
 
 
 def render_pdf_html(

@@ -88,11 +88,8 @@ export interface AppServerInfo {
   /** The batch GraphQL endpoint; required if a GraphQL client is not provided. */
   batchGraphQLURL: string;
 
-  /** The letter of complaint URL (HTML format). */
-  locHtmlURL: string;
-
-  /** The letter of complaint URL (PDF format). */
-  locPdfURL: string;
+  /** The finished letter of complaint URL (PDF format). */
+  finishedLocPdfURL: string;
 
   /** The POST endpoint to enable compatibility mode (aka "safe mode"). */
   enableSafeModeURL: string;

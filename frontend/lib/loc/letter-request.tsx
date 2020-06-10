@@ -91,7 +91,7 @@ function FormAsButton(props: FormAsButtonProps): JSX.Element {
 const LocPreview = withAppContext((props) => (
   <LetterPreview
     title="Preview of your letter of complaint"
-    src={`${props.server.locHtmlURL}?live_preview=on`}
+    src={JustfixRoutes.locale.loc.letterContent.html}
   />
 ));
 

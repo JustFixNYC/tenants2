@@ -332,7 +332,7 @@ const knowYourRightsList = (
 const LetterConfirmation = withAppContext(
   (props: AppContextType): JSX.Element => {
     const { letterRequest } = props.session;
-    const letterStatusProps = { locPdfURL: props.server.locPdfURL };
+    const letterStatusProps = { locPdfURL: props.server.finishedLocPdfURL };
     let letterConfirmationPageTitle, letterStatus;
 
     if (letterRequest && letterRequest.trackingNumber) {

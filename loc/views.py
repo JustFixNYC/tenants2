@@ -174,7 +174,7 @@ def letter_of_complaint_doc(request, format):
 @xframe_options_sameorigin
 def letter_of_complaint_pdf_for_user(request, user_id: int):
     user = get_object_or_404(JustfixUser, pk=user_id)
-    return render_letter_of_complaint(request, user, 'pdf')
+    return render_finished_loc_for_user(request, user)
 
 
 def template_name_to_pdf_filename(template_name: str) -> str:
@@ -205,18 +205,26 @@ def render_english_to_string(
         return render_to_string(template_name, context=context, request=request)
 
 
-@login_required
-def finished_loc_pdf(request):
-    user = request.user
+def render_finished_loc_for_user(request, user: JustfixUser):
+    from frontend.views import DOCTYPE_HTML_TAG
+
+    template_name = 'loc/letter-of-complaint.html'
     if not (hasattr(user, 'letter_request') and
             user.letter_request.html_content):
         raise Http404("User does not have a finished letter")
     html = SafeString(user.letter_request.html_content)
-    if html.startswith('<!DOCTYPE'):
+    if html.startswith(DOCTYPE_HTML_TAG):
         # This is the full HTML of the letter, just render it directly.
-        raise NotImplementedError()
+        return pdf_response(html, template_name_to_pdf_filename(template_name))
+    # This is legacy pre-rendered HTML, so it's just the <body>; we
+    # need to render the rest ourselves.
     ctx: Dict[str, Any] = {'prerendered_letter_content': html}
-    return render_document(request, 'loc/letter-of-complaint.html', ctx, "pdf")
+    return render_document(request, template_name, ctx, "pdf")
+
+
+@login_required
+def finished_loc_pdf(request):
+    return render_finished_loc_for_user(request, request.user)
 
 
 def render_pdf_html(

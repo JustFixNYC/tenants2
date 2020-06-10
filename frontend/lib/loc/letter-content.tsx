@@ -235,7 +235,7 @@ function getIssuesFromSession(session: AllSessionInfo): AreaIssues[] {
   return result;
 }
 
-function getLocContentPropsFromSession(
+export function getLocContentPropsFromSession(
   session: AllSessionInfo
 ): LocContentProps | null {
   const baseProps = getBaseLetterContentPropsFromSession(session);

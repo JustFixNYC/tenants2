@@ -206,7 +206,7 @@ def render_english_to_string(
 
 
 @login_required
-def finished_letter_pdf(request):
+def finished_loc_pdf(request):
     user = request.user
     if not (hasattr(user, 'letter_request') and
             user.letter_request.html_content):

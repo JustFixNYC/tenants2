@@ -2,7 +2,7 @@ from typing import Dict, Any, List, Optional
 import datetime
 from pathlib import Path, PurePosixPath
 from io import BytesIO
-from django.http import FileResponse, HttpResponse, HttpRequest
+from django.http import FileResponse, HttpResponse, HttpRequest, Http404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
@@ -203,6 +203,20 @@ def render_english_to_string(
     # the locale here.
     with translation.override('en'):
         return render_to_string(template_name, context=context, request=request)
+
+
+@login_required
+def finished_letter_pdf(request):
+    user = request.user
+    if not (hasattr(user, 'letter_request') and
+            user.letter_request.html_content):
+        raise Http404("User does not have a finished letter")
+    html = SafeString(user.letter_request.html_content)
+    if html.startswith('<!DOCTYPE'):
+        # This is the full HTML of the letter, just render it directly.
+        raise NotImplementedError()
+    ctx: Dict[str, Any] = {'prerendered_letter_content': html}
+    return render_document(request, 'loc/letter-of-complaint.html', ctx, "pdf")
 
 
 def render_pdf_html(

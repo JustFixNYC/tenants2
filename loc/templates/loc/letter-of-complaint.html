@@ -3,9 +3,5 @@
 {% block title %}Letter of complaint{% endblock %}
 
 {% block body %}
-{% if prerendered_letter_content %}
-  {{ prerendered_letter_content }}
-{% else %}
-  {% include "loc/letter-content.html" %}
-{% endif %}
+{{ prerendered_letter_content }}
 {% endblock %}

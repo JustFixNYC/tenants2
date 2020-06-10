@@ -132,6 +132,13 @@ function createLetterOfComplaintRouteInfo(prefix: string) {
     sampleLetterContent: createLetterStaticPageRouteInfo(
       `${prefix}/sample-letter`
     ),
+    /** Letter content for the user (HTML and PDF versions). */
+    letterContent: createLetterStaticPageRouteInfo(
+      // We're calling this 'react-letter' for now because we
+      // don't want to collide with the Django-rendered version
+      // of the letter.
+      `${prefix}/react-letter`
+    ),
     splash: `${prefix}/splash`,
     welcome: `${prefix}/welcome`,
     ...createJustfixCrossSiteVisitorRoutes(prefix),

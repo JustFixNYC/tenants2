@@ -21,7 +21,7 @@ import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visito
 import { ProgressStepProps } from "../progress/progress-step-route";
 import { assertNotNull } from "../util/util";
 import { Switch, Route } from "react-router-dom";
-import { LocSamplePage } from "./letter-content";
+import { LocSamplePage, LocForUserPage } from "./letter-content";
 import { createLetterStaticPageRoutes } from "../static-page/routes";
 
 export const Welcome: React.FC<ProgressStepProps> = (props) => {
@@ -148,6 +148,10 @@ const LetterOfComplaintRoutes: React.FC<{}> = () => (
     {createLetterStaticPageRoutes(
       JustfixRoutes.locale.loc.sampleLetterContent,
       LocSamplePage
+    )}
+    {createLetterStaticPageRoutes(
+      JustfixRoutes.locale.loc.letterContent,
+      LocForUserPage
     )}
     <Route component={LetterOfComplaintProgressRoutes} />
   </Switch>

@@ -174,3 +174,38 @@ exports[`<LocContent> works 1`] = `
   </div>
 </div>
 `;
+
+exports[`getLocContentPropsFromSession() returns expected value when user is logged in 1`] = `
+Object {
+  "accessDates": Array [],
+  "aptNumber": "",
+  "city": "Brooklyn",
+  "email": "boop@jones.net",
+  "firstName": "Boop",
+  "hasCalled311": null,
+  "issues": Array [
+    Object {
+      "area": "HOME",
+      "issues": Array [
+        Object {
+          "choice": "HOME__RATS",
+          "kind": "choice",
+        },
+        Object {
+          "kind": "custom",
+          "value": "Rain enters through roof",
+        },
+      ],
+    },
+  ],
+  "landlordAddress": "123 Cloud City Drive
+Bespin, NY 12345",
+  "landlordEmail": "landlordo@calrissian.net",
+  "landlordName": "Landlordo Calrissian",
+  "lastName": "Jones",
+  "phoneNumber": "5551234567",
+  "state": "NY",
+  "street": "150 Court St",
+  "zipCode": "11201",
+}
+`;

@@ -102,8 +102,8 @@ export function LocSplash(): JSX.Element {
           Why mail a Letter of Complaint?
         </h2>
         <p className="subtitle">
-          Your landlord is responsible for keeping your apartment and the
-          building safe and livable at all times. This is called the{" "}
+          Your landlord is responsible for keeping your home safe and livable at
+          all times. This is called the{" "}
           <strong>Warranty of Habitability</strong>.
         </p>
         <p className="subtitle">

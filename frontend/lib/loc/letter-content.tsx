@@ -85,9 +85,9 @@ const AccessDates: React.FC<LocContentProps> = (props) => (
   <div className="jf-avoid-page-breaks-within">
     <h2>Available access dates</h2>
     <p>
-      Below are dates that I am available to be at my apartment to let in a
-      repair worker. Please contact me (using the information provided at the
-      top of this letter) in order to make arrangements with me{" "}
+      Below are dates that I am available to be at my home to let in a repair
+      worker. Please contact me (using the information provided at the top of
+      this letter) in order to make arrangements with me{" "}
       <strong>at least 24 hours in advance</strong>.
     </p>
     <ul>
@@ -184,7 +184,7 @@ const LetterConclusion: React.FC<LocContentProps> = (props) => (
       </p>
       <p>
         Please contact me as soon as possible to arrange a time to have these
-        repairs made at the number provided below.
+        repairs made at the number provided above.
       </p>
       <letter.Regards>
         <br />

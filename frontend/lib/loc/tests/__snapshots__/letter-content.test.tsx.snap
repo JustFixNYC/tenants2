@@ -80,7 +80,7 @@ exports[`<LocContent> works 1`] = `
       Available access dates
     </h2>
     <p>
-      Below are dates that I am available to be at my apartment to let in a repair worker. Please contact me (using the information provided at the top of this letter) in order to make arrangements with me
+      Below are dates that I am available to be at my home to let in a repair worker. Please contact me (using the information provided at the top of this letter) in order to make arrangements with me
        
       <strong>
         at least 24 hours in advance
@@ -161,7 +161,7 @@ exports[`<LocContent> works 1`] = `
       According to the NYC Admin Code § 27-2115, a civil penalty is also issued where a person willfully makes a false certification of correction of a violation per violation falsely certified.
     </p>
     <p>
-      Please contact me as soon as possible to arrange a time to have these repairs made at the number provided below.
+      Please contact me as soon as possible to arrange a time to have these repairs made at the number provided above.
     </p>
     <p
       class="jf-signature"

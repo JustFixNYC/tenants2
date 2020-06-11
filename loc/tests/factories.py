@@ -58,3 +58,12 @@ def create_user_with_all_info(issues=True, landlord=True, access_dates=True):
     if access_dates:
         AccessDate.objects.set_for_user(user, [datetime.date(2018, 2, 1)])
     return user
+
+
+def create_user_with_finished_letter(html: str = '<p>I am a letter</p>'):
+    user = UserFactory()
+    lr = LetterRequest(
+        user=user, mail_choice=LOC_MAILING_CHOICES.WE_WILL_MAIL,
+        html_content=html)
+    lr.save()
+    return user

@@ -9,7 +9,9 @@ import { newSb } from "../../tests/session-builder";
 
 describe("<LocContent>", () => {
   it("works", () => {
-    const pal = new ReactTestingLibraryPal(<LocContent {...locSampleProps} />);
+    const pal = new ReactTestingLibraryPal(
+      <LocContent {...locSampleProps} todaysDate="2020-06-10" />
+    );
     expect(pal.rr.container).toMatchSnapshot();
   });
 });

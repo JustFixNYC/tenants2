@@ -16,6 +16,8 @@ NS_PER_MS = 1e+6
 
 LAMBDA_SCRIPT = BASE_DIR / 'lambda.js'
 
+DOCTYPE_HTML_TAG = "<!DOCTYPE html>"
+
 logger = logging.getLogger(__name__)
 
 lambda_service: LambdaService
@@ -72,7 +74,7 @@ def run_react_lambda(initial_props, initial_render_time: int = 0) -> LambdaRespo
         logger.error(lr.traceback)
 
     if lr.is_static_content:
-        lr = lr._replace(html="<!DOCTYPE html>" + lr.html)
+        lr = lr._replace(html=DOCTYPE_HTML_TAG + lr.html)
 
     return lr
 

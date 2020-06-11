@@ -161,7 +161,9 @@ exports[`<LocContent> works 1`] = `
       According to the NYC Admin Code § 27-2115, a civil penalty is also issued where a person willfully makes a false certification of correction of a violation per violation falsely certified.
     </p>
     <p>
-      Please contact me as soon as possible to arrange a time to have these repairs made at the number provided below.
+      Please contact me as soon as possible to arrange a time to have these repairs made at 
+      (555) 123-4567
+      .
     </p>
     <p
       class="jf-signature"

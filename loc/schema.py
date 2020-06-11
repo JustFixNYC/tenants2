@@ -25,7 +25,7 @@ class EmailLetter(EmailAttachmentMutation):
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
-        if not views.does_user_have_finished_loc(info.context.user):
+        if not models.does_user_have_finished_loc(info.context.user):
             return cls.make_error("You have not completed a Letter of Complaint!")
         return super().perform_mutate(form, info)
 

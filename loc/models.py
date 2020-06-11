@@ -454,3 +454,7 @@ class LetterRequest(models.Model):
             self._on_tracking_number_changed()
 
         self.__tracking_number_tracker.set_to_unchanged()
+
+
+def does_user_have_finished_loc(user: JustfixUser) -> bool:
+    return hasattr(user, 'letter_request') and bool(user.letter_request.html_content)

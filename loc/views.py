@@ -12,6 +12,7 @@ from django.views.decorators.clickjacking import xframe_options_sameorigin
 
 from twofactor.decorators import twofactor_required
 from users.models import JustfixUser, VIEW_LETTER_REQUEST_PERMISSION
+from .models import does_user_have_finished_loc
 
 
 MY_DIR = Path(__file__).parent.resolve()
@@ -138,10 +139,6 @@ def normalize_prerendered_loc_html(html: str) -> str:
     # need to render the rest ourselves.
     ctx: Dict[str, Any] = {'prerendered_letter_content': safe_html}
     return render_pdf_html(None, 'loc/letter-of-complaint.html', ctx, PDF_STYLES_CSS)
-
-
-def does_user_have_finished_loc(user: JustfixUser) -> bool:
-    return hasattr(user, 'letter_request') and bool(user.letter_request.html_content)
 
 
 def render_finished_loc_pdf_for_user(request, user: JustfixUser):

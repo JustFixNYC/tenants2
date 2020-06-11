@@ -28,7 +28,7 @@ def test_loc_actions_shows_pdf_link_when_user_has_letter_request():
     user = UserFactory()
     lr = LetterRequest(user=user)
     lr.save()
-    assert f'/loc/admin/{user.pk}/finished-letter.pdf' in LetterRequestInline.loc_actions(None, lr)
+    assert f'/loc/admin/{user.pk}/letter.pdf' in LetterRequestInline.loc_actions(None, lr)
 
 
 @pytest.mark.django_db

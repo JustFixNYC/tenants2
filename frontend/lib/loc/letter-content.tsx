@@ -19,6 +19,7 @@ import {
 import { friendlyUTCDate } from "../util/date-util";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { issuesForArea, customIssuesForArea } from "../issues/issues";
+import { formatPhoneNumber } from "../forms/phone-number-form-field";
 
 const HEAT_ISSUE_CHOICES = new Set<IssueChoice>([
   "HOME__NO_HEAT",
@@ -184,7 +185,7 @@ const LetterConclusion: React.FC<LocContentProps> = (props) => (
       </p>
       <p>
         Please contact me as soon as possible to arrange a time to have these
-        repairs made at the number provided below.
+        repairs made at {formatPhoneNumber(props.phoneNumber)}.
       </p>
       <letter.Regards>
         <br />

@@ -1,6 +1,10 @@
 from users.models import JustfixUser
-
-from hpaction.ehpa_affadavit import EHPAAffadavitVars
+from users.tests.factories import UserFactory
+from hpaction.ehpa_affadavit import (
+    EHPAAffadavitVars,
+    get_landlord_details
+)
+from loc.models import LandlordDetails
 from loc.tests.factories import LandlordDetailsV2Factory
 from onboarding.tests.factories import OnboardingInfoFactory
 
@@ -35,3 +39,11 @@ class TestEHPAAffadavitVarsFromUser:
             'landlord_phone': '(555) 203-4032',
             'landlord_address': '123 Cloud City Drive, Bespin, NY 12345'
         }
+
+
+def test_get_landlord_details_works(db):
+    user = UserFactory()
+    assert get_landlord_details(user).name == ''
+
+    user.landlord_details = LandlordDetails(name="Blarg")
+    assert get_landlord_details(user).name == 'Blarg'

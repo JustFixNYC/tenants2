@@ -28,6 +28,9 @@ LOC_FONTS_CSS = MY_STATIC_DIR.joinpath(*LOC_FONTS_PATH_PARTS)
 
 LOC_PREVIEW_STYLES_PATH_PARTS = ['loc', 'loc-preview-styles.css']
 
+# The URL, relative to the localized site root, that renders the LOC PDF.
+LOC_PDF_URL = "loc/letter.pdf"
+
 
 def can_we_render_pdfs():
     try:
@@ -124,26 +127,47 @@ def render_english_to_string(
         return render_to_string(template_name, context=context, request=request)
 
 
-def render_finished_loc_pdf_for_user(request, user: JustfixUser):
+def normalize_prerendered_loc_html(html: str) -> str:
     from frontend.views import DOCTYPE_HTML_TAG
 
-    template_name = 'loc/letter-of-complaint.html'
+    safe_html = SafeString(html)
+    if safe_html.startswith(DOCTYPE_HTML_TAG):
+        # This is the full HTML of the letter, return it.
+        return safe_html
+    # This is legacy pre-rendered HTML, so it's just the <body>; we
+    # need to render the rest ourselves.
+    ctx: Dict[str, Any] = {'prerendered_letter_content': safe_html}
+    return render_pdf_html(None, 'loc/letter-of-complaint.html', ctx, PDF_STYLES_CSS)
+
+
+def render_finished_loc_pdf_for_user(request, user: JustfixUser):
     if not (hasattr(user, 'letter_request') and
             user.letter_request.html_content):
         raise Http404("User does not have a finished letter")
-    html = SafeString(user.letter_request.html_content)
-    if html.startswith(DOCTYPE_HTML_TAG):
-        # This is the full HTML of the letter, just render it directly.
-        return pdf_response(html, template_name_to_pdf_filename(template_name))
-    # This is legacy pre-rendered HTML, so it's just the <body>; we
-    # need to render the rest ourselves.
-    ctx: Dict[str, Any] = {'prerendered_letter_content': html}
-    return render_document(request, template_name, ctx, "pdf")
+    html = normalize_prerendered_loc_html(user.letter_request.html_content)
+    return pdf_response(html, 'letter-of-complaint.pdf')
 
 
 @login_required
 def finished_loc_pdf(request):
     return render_finished_loc_pdf_for_user(request, request.user)
+
+
+def react_render_loc_html(user, locale: str, html_comment: str = '') -> str:
+    from project.util.site_util import SITE_CHOICES
+    from frontend.static_content import react_render, ContentType
+    from frontend.views import DOCTYPE_HTML_TAG
+
+    lr = react_render(
+        SITE_CHOICES.JUSTFIX,
+        locale,
+        LOC_PDF_URL,
+        ContentType.PDF,
+        user=user
+    )
+
+    assert lr.html.startswith(DOCTYPE_HTML_TAG)
+    return DOCTYPE_HTML_TAG + html_comment + lr.html[len(DOCTYPE_HTML_TAG):]
 
 
 def render_pdf_html(

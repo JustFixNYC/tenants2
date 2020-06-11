@@ -96,7 +96,7 @@ def envelopes(request):
 @xframe_options_sameorigin
 def letter_of_complaint_pdf_for_user(request, user_id: int):
     user = get_object_or_404(JustfixUser, pk=user_id)
-    return render_finished_loc_pdf_for_user(request, user)
+    return render_finished_loc_pdf_for_user_or_404(request, user)
 
 
 def template_name_to_pdf_filename(template_name: str) -> str:
@@ -140,17 +140,25 @@ def normalize_prerendered_loc_html(html: str) -> str:
     return render_pdf_html(None, 'loc/letter-of-complaint.html', ctx, PDF_STYLES_CSS)
 
 
+def does_user_have_finished_loc(user: JustfixUser) -> bool:
+    return hasattr(user, 'letter_request') and bool(user.letter_request.html_content)
+
+
 def render_finished_loc_pdf_for_user(request, user: JustfixUser):
-    if not (hasattr(user, 'letter_request') and
-            user.letter_request.html_content):
-        raise Http404("User does not have a finished letter")
+    assert does_user_have_finished_loc(user), "User must have a finished letter"
     html = normalize_prerendered_loc_html(user.letter_request.html_content)
     return pdf_response(html, 'letter-of-complaint.pdf')
 
 
+def render_finished_loc_pdf_for_user_or_404(request, user: JustfixUser):
+    if not does_user_have_finished_loc(user):
+        raise Http404("User does not have a finished letter")
+    return render_finished_loc_pdf_for_user(request, user)
+
+
 @login_required
 def finished_loc_pdf(request):
-    return render_finished_loc_pdf_for_user(request, request.user)
+    return render_finished_loc_pdf_for_user_or_404(request, request.user)
 
 
 def react_render_loc_html(user, locale: str, html_comment: str = '') -> str:

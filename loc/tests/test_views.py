@@ -143,6 +143,12 @@ def test_admin_letter_pdf_returns_404_for_nonexistent_users(admin_client):
     assert res.status_code == 404
 
 
+def test_admin_letter_pdf_returns_404_for_users_without_finished_locs(admin_client):
+    user = UserFactory()
+    res = admin_client.get(admin_letter_url(user.pk))
+    assert res.status_code == 404
+
+
 @pytest.mark.django_db
 def test_admin_letter_pdf_is_inaccessible_to_non_staff_users(client):
     user = UserFactory()

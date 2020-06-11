@@ -1,18 +1,18 @@
 {
   "CA": {
-    "organizationName": "TODO: Translate organization name to Spanish",
+    "organizationName": "Tenants Together",
     "organizationWebsiteLink": "https://www.tenantstogether.org/tenant-rights-hotline"
   },
   "FL": {
-    "organizationName": "TODO: Translate organization name to Spanish",
+    "organizationName": "Community Justice Project",
     "organizationWebsiteLink": "https://florida.evictionprotection.org/"
   },
   "IL": {
-    "organizationName": "TODO: Translate organization name to Spanish",
+    "organizationName": "Lift the Ban Coalition",
     "organizationWebsiteLink": "https://www.ltbcoalition.org/"
   },
   "NY": {
-    "organizationName": "TODO: Translate organization name to Spanish",
+    "organizationName": "Housing Justice for All",
     "organizationWebsiteLink": "https://www.housingjusticeforall.org/covid19"
   }
 }

@@ -3,11 +3,10 @@ from django.urls import reverse
 import pytest
 
 from users.tests.factories import UserFactory
-from loc.models import LetterRequest, LOC_MAILING_CHOICES
 from loc.views import (
     can_we_render_pdfs, render_document, normalize_prerendered_loc_html,
     react_render_loc_html, parse_comma_separated_ints, LOC_PDF_URL)
-from .factories import create_user_with_all_info
+from .factories import create_user_with_all_info, create_user_with_finished_letter
 
 # Text that shows up in the letter of complaint if the user
 # has reported their issues to 311.
@@ -54,15 +53,6 @@ def get_letter_html(client, querystring=''):
     assert res.status_code == 200
     assert res['Content-Type'] == 'text/html; charset=utf-8'
     return res.content.decode('utf-8')
-
-
-def create_user_with_finished_letter(html: str = '<p>I am a letter</p>'):
-    user = UserFactory()
-    lr = LetterRequest(
-        user=user, mail_choice=LOC_MAILING_CHOICES.WE_WILL_MAIL,
-        html_content=html)
-    lr.save()
-    return user
 
 
 @pytest.mark.parametrize('html', [

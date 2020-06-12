@@ -20,7 +20,7 @@ import {
 import { BlankOnboardingInfo } from "../../queries/OnboardingInfo";
 import { LogoutMutation } from "../../queries/LogoutMutation";
 import { exampleRentalHistoryInfo } from "./example-rh-info";
-import { preloadComponent } from "../../networking/tests/testing-preloader";
+import { preloadLingui } from "../../tests/lingui-preloader";
 
 const tester = new ProgressRoutesTester(
   getRentalHistoryRoutesProps(),
@@ -29,7 +29,7 @@ const tester = new ProgressRoutesTester(
 
 tester.defineSmokeTests();
 
-beforeAll(() => preloadComponent(RhLinguiI18n));
+beforeAll(preloadLingui(RhLinguiI18n));
 
 describe("Rental history frontend", () => {
   it("returns splash page by default", () => {

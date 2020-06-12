@@ -3,6 +3,7 @@ import { render, unmountComponentAtNode } from "react-dom";
 import React from "react";
 
 import { useEffect } from "react";
+import { LinguiI18nProps } from "../i18n-lingui";
 
 const RenderChild: React.FC<{ onMount: Function }> = ({ onMount }) => {
   useEffect(() => {
@@ -12,7 +13,7 @@ const RenderChild: React.FC<{ onMount: Function }> = ({ onMount }) => {
   return null;
 };
 
-export function preloadComponent(
+function preloadComponent(
   Component: React.ComponentType<{ children: React.ReactNode }>
 ): Promise<void> {
   return new Promise((resolve) => {
@@ -37,3 +38,7 @@ export function preloadComponent(
     });
   });
 }
+
+export const preloadLingui = (
+  Component: React.ComponentType<LinguiI18nProps>
+) => () => preloadComponent(Component);

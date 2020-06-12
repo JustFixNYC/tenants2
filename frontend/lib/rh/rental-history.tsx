@@ -31,8 +31,16 @@ import { ProgressiveLoadableConfetti } from "../ui/confetti-loadable";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { RhEmailToDhcr, RhEmailToDhcrStaticPage } from "./email-to-dhcr";
 import { renderSuccessHeading } from "../ui/success-heading";
+import { li18n, createLinguiCatalogLoader } from "../i18n-lingui";
+import { t } from "@lingui/macro";
+import loadable from "@loadable/component";
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
+
+const RhLinguiI18n = createLinguiCatalogLoader({
+  en: loadable.lib(() => import("../../../locales/en/rh.chunk") as any),
+  es: loadable.lib(() => import("../../../locales/es/rh.chunk") as any),
+});
 
 function RentalHistorySplash(): JSX.Element {
   return (
@@ -185,8 +193,7 @@ function RentalHistoryForm(): JSX.Element {
 
 function RentalHistoryPreview(): JSX.Element {
   return (
-    <Page title="Review your email to the DHCR">
-      <h1 className="title is-4">Review your request to the DHCR</h1>
+    <Page title={li18n._(t`Review your request to the DHCR`)} withHeading>
       <p>
         Here is a preview of the request for your Rent History. It includes your
         address and apartment number so that the DHCR can mail you.
@@ -327,14 +334,16 @@ const RentalHistoryProgressRoutes = buildProgressRoutesComponent(
 );
 
 const RentalHistoryRoutes: React.FC<{}> = () => (
-  <Switch>
-    <Route
-      path={JustfixRoutes.locale.rh.emailToDhcr}
-      exact
-      component={RhEmailToDhcrStaticPage}
-    />
-    <Route component={RentalHistoryProgressRoutes} />
-  </Switch>
+  <RhLinguiI18n>
+    <Switch>
+      <Route
+        path={JustfixRoutes.locale.rh.emailToDhcr}
+        exact
+        component={RhEmailToDhcrStaticPage}
+      />
+      <Route component={RentalHistoryProgressRoutes} />
+    </Switch>
+  </RhLinguiI18n>
 );
 
 export default RentalHistoryRoutes;

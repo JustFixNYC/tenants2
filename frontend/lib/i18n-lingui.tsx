@@ -4,6 +4,7 @@ import loadable, { LoadableLibrary } from "@loadable/component";
 import { I18nProvider } from "@lingui/react";
 import i18n, { SupportedLocale } from "./i18n";
 import { setupI18n as linguiSetupI18n, Catalogs } from "@lingui/core";
+import { LoadingPageSignaler } from "./networking/loading-page";
 
 /**
  * We use code splitting to make sure that we only load message
@@ -57,6 +58,13 @@ export type LinguiI18nProps = {
   children: React.ReactNode;
 };
 
+const LoadingMessage: React.FC<{}> = () => (
+  <p>
+    Loading locale data...
+    <LoadingPageSignaler />
+  </p>
+);
+
 /**
  * Loads the Lingui base message catalog for the currently selected
  * locale, as dictated by our global i18n module. Children
@@ -76,7 +84,7 @@ export const LinguiI18n: React.FC<LinguiI18nProps> = (props) => {
   const Catalog = BaseCatalogMap[locale];
 
   return (
-    <Catalog fallback={<p>Loading locale data...</p>}>
+    <Catalog fallback={<LoadingMessage />}>
       {(catalog) => <SetupI18n {...props} locale={locale} catalog={catalog} />}
     </Catalog>
   );
@@ -94,7 +102,7 @@ export function createLinguiCatalogLoader(
     const Catalog = catalogMap[locale];
 
     return (
-      <Catalog fallback={<p>Loading locale data...</p>}>
+      <Catalog fallback={<LoadingMessage />}>
         {(catalog) => {
           mergeIntoLinguiCatalog(locale, catalog);
           return props.children;

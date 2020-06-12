@@ -101,7 +101,7 @@ export function createLinguiCatalogLoader(
     const locale = i18n.locale;
     const Catalog = catalogMap[locale];
 
-    if (mergedCatalogs.has(Catalog)) {
+    if (supportPreloadedCatalogs && preloadedCatalogs.has(Catalog)) {
       return <>{props.children}</>;
     }
 
@@ -109,7 +109,7 @@ export function createLinguiCatalogLoader(
       <Catalog fallback={<LoadingMessage />}>
         {(catalog) => {
           mergeIntoLinguiCatalog(locale, catalog);
-          mergedCatalogs.add(Catalog);
+          if (supportPreloadedCatalogs) preloadedCatalogs.add(Catalog);
           return props.children;
         }}
       </Catalog>
@@ -137,7 +137,20 @@ const catalogs: Catalogs = {};
  * ensure that once we have loaded a catalog, we can render
  * anything that depends on it without having to wait.
  */
-const mergedCatalogs = new Set<LoadableLibrary<Catalog>>();
+const preloadedCatalogs = new Set<LoadableLibrary<Catalog>>();
+
+/** Internal global to track whether to support preloaded catalogs. */
+let supportPreloadedCatalogs = false;
+
+/**
+ * Set whether to support preloaded catalogs or not. Generally,
+ * they should only be used during testing, since otherwise
+ * they can result in component heirarchy mismatches
+ * between server and client.
+ */
+export function setSupportPreloadedCatalogs(value: boolean) {
+  supportPreloadedCatalogs = value;
+}
 
 /**
  * Merge the given catalog for the given locale into our global

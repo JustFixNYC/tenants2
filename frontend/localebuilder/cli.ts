@@ -51,6 +51,14 @@ const SPLIT_CHUNK_CONFIGS: MessageCatalogSplitterChunkConfig[] = [
     test: (s) => s.startsWith("frontend/lib/norent/"),
   },
   /**
+   * Any strings that are *only* present in the rh directory
+   * will go into their own chunk.
+   */
+  {
+    name: "rh",
+    test: (s) => s.startsWith("frontend/lib/rh/"),
+  },
+  /**
    * Everything else goes into a separate chunk.
    */
   {

@@ -4,10 +4,12 @@ import chalk from "chalk";
 import "../ui/tests/confetti.setup";
 import i18n from "../i18n";
 import { setFriendlyLoadMs } from "../networking/loading-page";
+import { setSupportPreloadedCatalogs } from "../i18n-lingui";
 
 i18n.initialize("en");
 overrideGlobalAppServerInfo();
 setFriendlyLoadMs(1);
+setSupportPreloadedCatalogs(true);
 
 Object.keys(FakeAppContext).forEach((prop) => {
   Object.defineProperty(defaultContext, prop, {

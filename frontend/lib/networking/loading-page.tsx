@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Page from "../ui/page";
 import autobind from "autobind-decorator";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
@@ -89,33 +89,30 @@ export function LoadingPage(props: {}): JSX.Element {
   return (
     <Page title="Loading...">
       <h1 className="jf-sr-only">Loading...</h1>
-      <LoadingPageContext.Consumer>
-        {(ctx) => <LoadingPageSignaler {...ctx} />}
-      </LoadingPageContext.Consumer>
+      <LoadingPageSignaler />
     </Page>
   );
 }
 
 /**
- * This is a trivial component that just informs us that a
- * resource is being loaded for the duration of the component's
+ * This is a component that informs a parent <LoadingOverlayManager>
+ * that a resource is being loaded for the duration of the component's
  * lifetime. It doesn't actually render anything.
+ *
+ * It can be used within any component that is meant as a fallback
+ * to some other content, which will ensure that the loading overlay
+ * persists during its lifetime, avoiding layout instability (jank).
  */
-export class LoadingPageSignaler extends React.Component<
-  LoadingPageContextType
-> {
-  componentDidMount() {
-    this.props.onLoadStart();
-  }
+export const LoadingPageSignaler: React.FC<{}> = () => {
+  const { onLoadStart, onLoadStop } = useContext(LoadingPageContext);
 
-  componentWillUnmount() {
-    this.props.onLoadStop();
-  }
+  useEffect(() => {
+    onLoadStart();
+    return onLoadStop;
+  }, [onLoadStart, onLoadStop]);
 
-  render() {
-    return null;
-  }
-}
+  return null;
+};
 
 type LoadingOverlayManagerSnapshot = {
   div: HTMLDivElement;

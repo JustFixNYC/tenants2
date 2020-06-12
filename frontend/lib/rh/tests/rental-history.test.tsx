@@ -4,6 +4,7 @@ import { ProgressRoutesTester } from "../../progress/tests/progress-routes-teste
 import RentalHistoryRoutes, {
   getRentalHistoryRoutesProps,
   GenerateUserRhFormInput,
+  RhLinguiI18n,
 } from "../rental-history";
 import JustfixRoutes from "../../justfix-routes";
 import { AppTesterPal } from "../../tests/app-tester-pal";
@@ -19,6 +20,7 @@ import {
 import { BlankOnboardingInfo } from "../../queries/OnboardingInfo";
 import { LogoutMutation } from "../../queries/LogoutMutation";
 import { exampleRentalHistoryInfo } from "./example-rh-info";
+import { preloadLingui } from "../../tests/lingui-preloader";
 
 const tester = new ProgressRoutesTester(
   getRentalHistoryRoutesProps(),
@@ -26,6 +28,8 @@ const tester = new ProgressRoutesTester(
 );
 
 tester.defineSmokeTests();
+
+beforeAll(preloadLingui(RhLinguiI18n));
 
 describe("Rental history frontend", () => {
   it("returns splash page by default", () => {

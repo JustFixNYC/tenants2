@@ -40,7 +40,7 @@ function getRoutesForPrimaryPages() {
   return new Set(getNorentRoutesForPrimaryPages());
 }
 
-const NorentLinguiI18n = createLinguiCatalogLoader({
+export const NorentLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(() => import("../../../locales/en/norent.chunk") as any),
   es: loadable.lib(() => import("../../../locales/es/norent.chunk") as any),
 });

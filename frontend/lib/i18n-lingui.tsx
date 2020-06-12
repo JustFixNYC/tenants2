@@ -4,6 +4,7 @@ import loadable, { LoadableLibrary } from "@loadable/component";
 import { I18nProvider } from "@lingui/react";
 import i18n, { SupportedLocale } from "./i18n";
 import { setupI18n as linguiSetupI18n, Catalogs } from "@lingui/core";
+import { LoadingPageSignaler } from "./networking/loading-page";
 
 /**
  * We use code splitting to make sure that we only load message
@@ -57,6 +58,13 @@ export type LinguiI18nProps = {
   children: React.ReactNode;
 };
 
+const LoadingMessage: React.FC<{}> = () => (
+  <p>
+    Loading locale data...
+    <LoadingPageSignaler />
+  </p>
+);
+
 /**
  * Loads the Lingui base message catalog for the currently selected
  * locale, as dictated by our global i18n module. Children
@@ -76,7 +84,7 @@ export const LinguiI18n: React.FC<LinguiI18nProps> = (props) => {
   const Catalog = BaseCatalogMap[locale];
 
   return (
-    <Catalog fallback={<p>Loading locale data...</p>}>
+    <Catalog fallback={<LoadingMessage />}>
       {(catalog) => <SetupI18n {...props} locale={locale} catalog={catalog} />}
     </Catalog>
   );
@@ -93,10 +101,15 @@ export function createLinguiCatalogLoader(
     const locale = i18n.locale;
     const Catalog = catalogMap[locale];
 
+    if (supportPreloadedCatalogs && preloadedCatalogs.has(Catalog)) {
+      return <>{props.children}</>;
+    }
+
     return (
-      <Catalog fallback={<p>Loading locale data...</p>}>
+      <Catalog fallback={<LoadingMessage />}>
         {(catalog) => {
           mergeIntoLinguiCatalog(locale, catalog);
+          if (supportPreloadedCatalogs) preloadedCatalogs.add(Catalog);
           return props.children;
         }}
       </Catalog>
@@ -117,6 +130,27 @@ export const li18n = linguiSetupI18n();
  * can translate across our various catalog chunks.
  */
 const catalogs: Catalogs = {};
+
+/**
+ * Internal global that keeps track of all lazily-loadable catalogs
+ * we have merged so far. This is primarily useful for testing, to
+ * ensure that once we have loaded a catalog, we can render
+ * anything that depends on it without having to wait.
+ */
+const preloadedCatalogs = new Set<LoadableLibrary<Catalog>>();
+
+/** Internal global to track whether to support preloaded catalogs. */
+let supportPreloadedCatalogs = false;
+
+/**
+ * Set whether to support preloaded catalogs or not. Generally,
+ * they should only be used during testing, since otherwise
+ * they can result in component heirarchy mismatches
+ * between server and client.
+ */
+export function setSupportPreloadedCatalogs(value: boolean) {
+  supportPreloadedCatalogs = value;
+}
 
 /**
  * Merge the given catalog for the given locale into our global

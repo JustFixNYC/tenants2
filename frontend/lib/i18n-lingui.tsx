@@ -101,10 +101,15 @@ export function createLinguiCatalogLoader(
     const locale = i18n.locale;
     const Catalog = catalogMap[locale];
 
+    if (mergedCatalogs.has(Catalog)) {
+      return <>{props.children}</>;
+    }
+
     return (
       <Catalog fallback={<LoadingMessage />}>
         {(catalog) => {
           mergeIntoLinguiCatalog(locale, catalog);
+          mergedCatalogs.add(Catalog);
           return props.children;
         }}
       </Catalog>
@@ -125,6 +130,14 @@ export const li18n = linguiSetupI18n();
  * can translate across our various catalog chunks.
  */
 const catalogs: Catalogs = {};
+
+/**
+ * Internal global that keeps track of all lazily-loadable catalogs
+ * we have merged so far. This is primarily useful for testing, to
+ * ensure that once we have loaded a catalog, we can render
+ * anything that depends on it without having to wait.
+ */
+const mergedCatalogs = new Set<LoadableLibrary<Catalog>>();
 
 /**
  * Merge the given catalog for the given locale into our global

@@ -37,7 +37,7 @@ import loadable from "@loadable/component";
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
-const RhLinguiI18n = createLinguiCatalogLoader({
+export const RhLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(() => import("../../../locales/en/rh.chunk") as any),
   es: loadable.lib(() => import("../../../locales/es/rh.chunk") as any),
 });

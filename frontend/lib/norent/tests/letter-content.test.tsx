@@ -6,9 +6,14 @@ import {
 } from "../letter-content";
 import { initNationalMetadataForTesting } from "../letter-builder/tests/national-metadata-test-util";
 import { override } from "../../tests/util";
-import { NorentI18nProviderForTests } from "./i18n-provider-for-tests";
+import {
+  preloadLingui,
+  PreloadedLinguiI18nProvider,
+} from "../../tests/lingui-preloader";
+import { NorentLinguiI18n } from "../site";
 
 beforeAll(initNationalMetadataForTesting);
+beforeAll(preloadLingui(NorentLinguiI18n));
 
 describe("<NorentLetterContent>", () => {
   it("works", () => {
@@ -17,9 +22,9 @@ describe("<NorentLetterContent>", () => {
     });
     const pal = new ReactTestingLibraryPal(
       (
-        <NorentI18nProviderForTests>
+        <PreloadedLinguiI18nProvider>
           <NorentLetterContent {...props} />
-        </NorentI18nProviderForTests>
+        </PreloadedLinguiI18nProvider>
       )
     );
     expect(pal.rr.container).toMatchSnapshot();

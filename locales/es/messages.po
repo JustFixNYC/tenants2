@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-06-12 14:29\n"
+"PO-Revision-Date: 2020-06-15 15:39\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -211,7 +211,7 @@ msgstr "Cancelar"
 
 #: frontend/lib/norent/data/state-localized-resources.tsx:12
 msgid "Cancel Rent Campaign"
-msgstr "Cancel Rent Campaign"
+msgstr "Campaña para la Anulación de la Renta"
 
 #: frontend/lib/norent/homepage.tsx:70
 msgid "Cancelling rent"
@@ -219,7 +219,7 @@ msgstr "Cancelar la renta"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:29
 msgid "Check out these valuable resources for your state:"
-msgstr "Check out these valuable resources for your state:"
+msgstr "Explora otros recursos específicos para tu estado:"
 
 #: frontend/lib/norent/homepage.tsx:42
 msgid "Cite up-to-date legal ordinances in your letter"

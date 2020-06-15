@@ -19,6 +19,13 @@ const HELLO_WORLD_LINK: LocalizedOutboundLinkProps = {
   },
 };
 
+const HELLO_WORLD_LINK_EN_ONLY: LocalizedOutboundLinkProps = {
+  children: <Trans>Hello world</Trans>,
+  hrefs: {
+    en: "http://english.example.com/",
+  },
+};
+
 function renderLink(
   locale: LocaleChoice,
   props: LocalizedOutboundLinkProps = HELLO_WORLD_LINK
@@ -46,6 +53,15 @@ describe("<LocalizedOutboundLink>", () => {
     const a = await renderLink("es");
     expect(a.textContent).toBe("Hola mundo");
     expect(a.href).toBe("http://spanish.example.com/");
+  });
+
+  it("works in Spanish w/ English-only links", async () => {
+    const a = await renderLink("es", HELLO_WORLD_LINK_EN_ONLY);
+    // This test will eventually fail because the text "in English"
+    // should actually be in Spanish, but we haven't localized
+    // that text yet!  Once this text fails, update the line below.
+    expect(a.textContent).toBe("Hola mundo (in English)");
+    expect(a.href).toBe("http://english.example.com/");
   });
 });
 

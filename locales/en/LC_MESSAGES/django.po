@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-27 21:56+0000\n"
+"POT-Creation-Date: 2020-06-08 10:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,6 +70,11 @@ msgstr ""
 
 #: project/forms.py:136
 msgid "Passwords do not match!"
+msgstr ""
+
+#: project/password_reset.py:65
+#, python-format
+msgid "%(site_name)s here! Your verification code is %(code)s."
 msgstr ""
 
 #: project/tests/test_compilemessages.py:6

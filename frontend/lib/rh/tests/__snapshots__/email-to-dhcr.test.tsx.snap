@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`email to dhcr renders 1`] = `
+<div>
+  <p
+    class="jf-email-subject"
+  >
+    Subject: 
+    Request for Rent History
+  </p>
+  <p>
+    DHCR administrator,
+  </p>
+  <p>
+    I, 
+    boop jones
+    , am currently living at 
+    150 DOOMBRINGER STREET, Manhattan 10001
+     in apartment
+     
+    2
+    , and would like to request the complete Rent History for this apartment back to the year 1984.
+  </p>
+  <p>
+    Thank you,
+    <br />
+    boop jones
+  </p>
+</div>
+`;

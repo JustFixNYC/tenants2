@@ -18,8 +18,3 @@ $widescreen-enabled: false;
 
 // Disable the fullhd breakpoint
 $fullhd-enabled: false;
-
-// Minimize the margin around Bulma dividers
-.is-divider.jf-divider-narrow {
-  margin: 1rem 0;
-}

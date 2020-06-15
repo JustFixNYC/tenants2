@@ -40,7 +40,7 @@ function getRoutesForPrimaryPages() {
   return new Set(getNorentRoutesForPrimaryPages());
 }
 
-const NorentLinguiI18n = createLinguiCatalogLoader({
+export const NorentLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(() => import("../../../locales/en/norent.chunk") as any),
   es: loadable.lib(() => import("../../../locales/es/norent.chunk") as any),
 });
@@ -74,9 +74,10 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
         path={Routes.locale.letter.prefix}
         component={NorentLetterBuilderRoutes}
       />
-      {createLetterStaticPageRoutes(Routes.locale.letterContent, (isPdf) => (
-        <NorentLetterForUserStaticPage isPdf={isPdf} />
-      ))}
+      {createLetterStaticPageRoutes(
+        Routes.locale.letterContent,
+        NorentLetterForUserStaticPage
+      )}
       <Route
         path={Routes.locale.letterEmail}
         exact
@@ -89,9 +90,7 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
       />
       {createLetterStaticPageRoutes(
         Routes.locale.sampleLetterContent,
-        (isPdf) => (
-          <NorentSampleLetterSamplePage isPdf={isPdf} />
-        )
+        NorentSampleLetterSamplePage
       )}
       <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
       <Route component={NotFound} />

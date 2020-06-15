@@ -350,6 +350,15 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # works-in-progress (WIPs), i.e. only partially localized.
     ENABLE_WIP_LOCALES: bool = False
 
+    # A comma-separated list of hostname redirects. Each redirect
+    # is of the form "<src> to <dest>", where src is the hostname to redirect
+    # from, and where dest is the hostname to redirect to.  If any requests
+    # ever come in on one of the src hostnames, they will automatically
+    # be redirected to the corresponding dest hostname. For
+    # example, 'foo.com to bar.com' will result in all requests
+    # to foo.com being redirected to bar.com.
+    HOSTNAME_REDIRECTS: str = ''
+
 
 class JustfixBuildPipelineDefaults(JustfixEnvironment):
     '''

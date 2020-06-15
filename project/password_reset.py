@@ -3,6 +3,7 @@ import logging
 from typing import Optional
 from django.utils.crypto import get_random_string, constant_time_compare
 from django.http import HttpRequest
+from django.utils.translation import gettext as _
 
 from . import slack
 from .util.site_util import get_site_name
@@ -61,7 +62,10 @@ def create_verification_code(request: HttpRequest, phone_number: str):
     request.session[TIMESTAMP_SESSION_KEY] = time.time()
     twilio.send_sms_async(
         phone_number,
-        f"{get_site_name()} here! Your verification code is {vcode}.",
+        _("%(site_name)s here! Your verification code is %(code)s.") % {
+            "site_name": get_site_name(),
+            "code": vcode,
+        }
     )
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "

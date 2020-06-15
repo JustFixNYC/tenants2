@@ -1,10 +1,15 @@
 import pytest
 from freezegun import freeze_time
 
+from project.util.testing_util import one_field_err
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from .test_landlord_lookup import mock_lookup_success, enable_fake_landlord_lookup
-from .factories import create_user_with_all_info, LandlordDetailsV2Factory
+from .factories import (
+    create_user_with_all_info,
+    create_user_with_finished_letter,
+    LandlordDetailsV2Factory
+)
 
 
 DEFAULT_ACCESS_DATES_INPUT = {
@@ -224,7 +229,7 @@ def test_landlord_details_are_created_when_user_has_onboarding_info(
 
 
 @pytest.mark.django_db
-def test_letter_request_works(graphql_client, smsoutbox):
+def test_letter_request_works(graphql_client, smsoutbox, allow_lambda_http):
     graphql_client.request.user = create_user_with_all_info()
 
     result = execute_lr_mutation(graphql_client)
@@ -266,20 +271,30 @@ def test_letter_request_is_null_when_user_has_not_yet_requested_letter(graphql_c
     assert result['data']['session']['letterRequest'] is None
 
 
-def test_email_letter_works(db, graphql_client, mailoutbox):
-    graphql_client.request.user = UserFactory.create()
-    result = graphql_client.execute(
-        """
+class TestEmailLetter:
+    QUERY = '''
         mutation {
             emailLetter(input: {recipients: [{email: "boop@jones.com"}]}) {
                 errors { field, messages }
                 recipients
             }
         }
-        """
-    )['data']['emailLetter']
-    assert result == {'errors': [], 'recipients': ['boop@jones.com']}
-    assert len(mailoutbox) == 1
+    '''
+
+    def test_email_letter_works(self, db, graphql_client, mailoutbox):
+        graphql_client.request.user = create_user_with_finished_letter()
+        result = graphql_client.execute(self.QUERY)['data']['emailLetter']
+        assert result == {'errors': [], 'recipients': ['boop@jones.com']}
+        assert len(mailoutbox) == 1
+
+    def test_email_letter_fails_when_letter_not_finished(self, db, graphql_client, mailoutbox):
+        graphql_client.request.user = UserFactory()
+        result = graphql_client.execute(self.QUERY)['data']['emailLetter']
+        assert result == {
+            'errors': one_field_err('You have not completed a Letter of Complaint!'),
+            'recipients': None
+        }
+        assert len(mailoutbox) == 0
 
 
 def _exec_relief_attempts_form(graphql_client, input):

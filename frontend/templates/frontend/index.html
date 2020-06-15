@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        {{ title_tag }}
         {{ meta_tags }}
         {% if site_type == "NORENT" %}
             <link rel="stylesheet" href="{% static "frontend/styles-norent.css" %}" />
@@ -21,7 +22,6 @@
         {% else %}
             <meta name="enable-analytics" content="0">
         {% endif %}
-        {{ title_tag }}
     </head>
     <body class="{% if not is_safe_mode_enabled %}has-navbar-fixed-top{% endif %} jf-site-{{ site_type|lower }}">
         {% if enable_analytics %}

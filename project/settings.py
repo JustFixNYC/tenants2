@@ -17,7 +17,10 @@ import dj_email_url
 from . import justfix_environment, locales
 from .justfix_environment import BASE_DIR
 from .util.settings_util import (
-    parse_secure_proxy_ssl_header, LazilyImportedFunction)
+    parse_secure_proxy_ssl_header,
+    parse_hostname_redirects,
+    LazilyImportedFunction
+)
 from .util import git
 
 
@@ -30,6 +33,8 @@ DEBUG = env.DEBUG
 # TODO: Figure out if this can securely stay at '*'.
 ALLOWED_HOSTS: List[str] = ['*']
 
+
+HOSTNAME_REDIRECTS = parse_hostname_redirects(env.HOSTNAME_REDIRECTS)
 
 if env.SECURE_PROXY_SSL_HEADER:
     SECURE_PROXY_SSL_HEADER = parse_secure_proxy_ssl_header(
@@ -117,6 +122,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'project.middleware.CSPHashingMiddleware',
+    'project.middleware.hostname_redirect_middleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

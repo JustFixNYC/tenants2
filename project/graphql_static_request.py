@@ -20,7 +20,11 @@ class GraphQLStaticRequest:
     will need to access.
     '''
 
-    def __init__(self, user: Optional[JustfixUser] = None):
+    def __init__(
+        self,
+        user: Optional[JustfixUser] = None,
+        session: Optional[Dict[str, Any]] = None,
+    ):
         if user is None:
             user = AnonymousUser()
 
@@ -28,4 +32,4 @@ class GraphQLStaticRequest:
         self.user = user
 
         # This corresponds to HttpRequest.session.
-        self.session: Dict[str, Any] = {}
+        self.session: Dict[str, Any] = session or {}

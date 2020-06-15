@@ -50,3 +50,15 @@ export function friendlyDate(
     }
   }
 }
+
+/**
+ * Like `friendlyDate()` but takes an ISO 8601-formatted date like "2020-03-13"
+ * and forces the time zone to UTC.
+ *
+ * This is useful because such dates are interpreted to be in midnight UTC time,
+ * and we want to *not* convert it to any other time zone, otherwise it may
+ * appear as a different date.
+ */
+export function friendlyUTCDate(date: GraphQLDate) {
+  return friendlyDate(new Date(date), "UTC");
+}

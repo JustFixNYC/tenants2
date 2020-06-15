@@ -2,7 +2,7 @@ from typing import Dict, Any, List, Optional
 import datetime
 from pathlib import Path, PurePosixPath
 from io import BytesIO
-from django.http import FileResponse, HttpResponse, HttpRequest
+from django.http import FileResponse, HttpResponse, HttpRequest, Http404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
@@ -12,9 +12,7 @@ from django.views.decorators.clickjacking import xframe_options_sameorigin
 
 from twofactor.decorators import twofactor_required
 from users.models import JustfixUser, VIEW_LETTER_REQUEST_PERMISSION
-from loc.models import LandlordDetails
-from onboarding.models import OnboardingInfo
-from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
+from .models import does_user_have_finished_loc
 
 
 MY_DIR = Path(__file__).parent.resolve()
@@ -30,6 +28,9 @@ LOC_FONTS_PATH_PARTS = ['loc', 'loc-fonts.css']
 LOC_FONTS_CSS = MY_STATIC_DIR.joinpath(*LOC_FONTS_PATH_PARTS)
 
 LOC_PREVIEW_STYLES_PATH_PARTS = ['loc', 'loc-preview-styles.css']
+
+# The URL, relative to the localized site root, that renders the LOC PDF.
+LOC_PDF_URL = "loc/letter.pdf"
 
 
 def can_we_render_pdfs():
@@ -63,38 +64,6 @@ def example_doc(request, format):
     }, format)
 
 
-def get_onboarding_info(user) -> OnboardingInfo:
-    if hasattr(user, 'onboarding_info'):
-        return user.onboarding_info
-    return OnboardingInfo()
-
-
-def get_landlord_details(user) -> LandlordDetails:
-    if hasattr(user, 'landlord_details'):
-        return user.landlord_details
-    return LandlordDetails()
-
-
-def get_issues(user):
-    issue_areas: Dict[str, List[str]] = {}
-
-    def append_to_area(area, value):
-        area = ISSUE_AREA_CHOICES.get_label(area)
-        if area not in issue_areas:
-            issue_areas[area] = []
-        issue_areas[area].append(value)
-
-    for issue in user.issues.all():
-        append_to_area(issue.area, ISSUE_CHOICES.get_label(issue.value))
-
-    for issue in user.custom_issues.all():
-        append_to_area(issue.area, issue.description)
-
-    return [
-        (area, issue_areas[area]) for area in issue_areas
-    ]
-
-
 def parse_comma_separated_ints(val: str) -> List[int]:
     result: List[int] = []
     for item in val.split(','):
@@ -123,58 +92,12 @@ def envelopes(request):
     }, 'pdf')
 
 
-def get_letter_context(user: JustfixUser) -> Dict[str, Any]:
-    return {
-        'today': datetime.date.today(),
-        'landlord_details': get_landlord_details(user),
-        'onboarding_info': get_onboarding_info(user),
-        'issues': get_issues(user),
-        'has_heat_issues': any(s in str(get_issues(user)).upper() for s in ('HEAT', 'HOT WATER')),
-        'access_dates': [date.date for date in user.access_dates.all()],
-        'user': user
-    }
-
-
-def render_letter_body(user: JustfixUser) -> str:
-    ctx = get_letter_context(user)
-    html = render_english_to_string(None, 'loc/letter-content.html', ctx)
-    return html
-
-
-def render_letter_of_complaint(
-    request,
-    user: JustfixUser,
-    format: str,
-    force_live_preview: bool = False
-):
-    if (not force_live_preview and
-            hasattr(user, 'letter_request') and
-            user.letter_request.html_content):
-        html = SafeString(user.letter_request.html_content)
-        ctx: Dict[str, Any] = {'prerendered_letter_content': html}
-    else:
-        ctx = get_letter_context(user)
-    return render_document(request, 'loc/letter-of-complaint.html', ctx, format)
-
-
-@login_required
-@xframe_options_sameorigin
-def letter_of_complaint_doc(request, format):
-    live_preview = request.GET.get('live_preview', '')
-    return render_letter_of_complaint(
-        request,
-        request.user,
-        format,
-        force_live_preview=live_preview == 'on'
-    )
-
-
 @permission_required(VIEW_LETTER_REQUEST_PERMISSION)
 @twofactor_required
 @xframe_options_sameorigin
 def letter_of_complaint_pdf_for_user(request, user_id: int):
     user = get_object_or_404(JustfixUser, pk=user_id)
-    return render_letter_of_complaint(request, user, 'pdf')
+    return render_finished_loc_pdf_for_user_or_404(request, user)
 
 
 def template_name_to_pdf_filename(template_name: str) -> str:
@@ -203,6 +126,53 @@ def render_english_to_string(
     # the locale here.
     with translation.override('en'):
         return render_to_string(template_name, context=context, request=request)
+
+
+def normalize_prerendered_loc_html(html: str) -> str:
+    from frontend.views import DOCTYPE_HTML_TAG
+
+    safe_html = SafeString(html)
+    if safe_html.startswith(DOCTYPE_HTML_TAG):
+        # This is the full HTML of the letter, return it.
+        return safe_html
+    # This is legacy pre-rendered HTML, so it's just the <body>; we
+    # need to render the rest ourselves.
+    ctx: Dict[str, Any] = {'prerendered_letter_content': safe_html}
+    return render_pdf_html(None, 'loc/letter-of-complaint.html', ctx, PDF_STYLES_CSS)
+
+
+def render_finished_loc_pdf_for_user(request, user: JustfixUser):
+    assert does_user_have_finished_loc(user), "User must have a finished letter"
+    html = normalize_prerendered_loc_html(user.letter_request.html_content)
+    return pdf_response(html, 'letter-of-complaint.pdf')
+
+
+def render_finished_loc_pdf_for_user_or_404(request, user: JustfixUser):
+    if not does_user_have_finished_loc(user):
+        raise Http404("User does not have a finished letter")
+    return render_finished_loc_pdf_for_user(request, user)
+
+
+@login_required
+def finished_loc_pdf(request):
+    return render_finished_loc_pdf_for_user_or_404(request, request.user)
+
+
+def react_render_loc_html(user, locale: str, html_comment: str = '') -> str:
+    from project.util.site_util import SITE_CHOICES
+    from frontend.static_content import react_render, ContentType
+    from frontend.views import DOCTYPE_HTML_TAG
+
+    lr = react_render(
+        SITE_CHOICES.JUSTFIX,
+        locale,
+        LOC_PDF_URL,
+        ContentType.PDF,
+        user=user
+    )
+
+    assert lr.html.startswith(DOCTYPE_HTML_TAG)
+    return DOCTYPE_HTML_TAG + html_comment + lr.html[len(DOCTYPE_HTML_TAG):]
 
 
 def render_pdf_html(

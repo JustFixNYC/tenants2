@@ -5,7 +5,13 @@ import {
   BlankNorentScaffolding,
 } from "../queries/NorentScaffolding";
 import { BlankOnboardingInfo, OnboardingInfo } from "../queries/OnboardingInfo";
-import { PhoneNumberAccountStatus, Borough } from "../queries/globalTypes";
+import {
+  PhoneNumberAccountStatus,
+  Borough,
+  CustomIssueArea,
+} from "../queries/globalTypes";
+import { IssueChoice } from "../../../common-data/issue-choices";
+import { IssueAreaChoice } from "../../../common-data/issue-area-choices";
 
 /**
  * An attempt to encapsulate the creation of a GraphQL session object
@@ -54,9 +60,43 @@ export class SessionBuilder {
     return this.withLoggedInUser().withOnboardingInfo({
       address: "150 Court St",
       borough: Borough.BROOKLYN,
+      city: "Brooklyn",
       state: "NY",
       zipcode: "11201",
       agreedToJustfixTerms: true,
+    });
+  }
+
+  withIssues(issues: IssueChoice[] = ["HOME__RATS"]): SessionBuilder {
+    return this.with({ issues });
+  }
+
+  withCustomIssue(
+    area: IssueAreaChoice = "HOME",
+    description: string = "Rain enters through roof"
+  ): SessionBuilder {
+    const prevIssues = this.value.customIssuesV2 || [];
+    return this.with({
+      customIssuesV2: [
+        ...prevIssues,
+        { area: area as CustomIssueArea, description, id: area + description },
+      ],
+    });
+  }
+
+  withLandlordDetails(): SessionBuilder {
+    return this.with({
+      landlordDetails: {
+        name: "Landlordo Calrissian",
+        address: "123 Cloud City Drive\nBespin, NY 12345",
+        primaryLine: "123 Cloud City Drive",
+        city: "Bespin",
+        state: "NY",
+        zipCode: "12345",
+        email: "landlordo@calrissian.net",
+        phoneNumber: "5551234567",
+        isLookedUp: false,
+      },
     });
   }
 

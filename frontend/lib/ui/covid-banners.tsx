@@ -8,6 +8,9 @@ import { CSSTransition } from "react-transition-group";
 import JustfixRoutes from "../justfix-routes";
 import { useDebouncedValue } from "../util/use-debounced-value";
 
+export const MORATORIUM_FAQ_URL =
+  "https://www.righttocounselnyc.org/ny_eviction_moratorium_faq";
+
 const getRoutesWithMoratoriumBanner = () => [
   JustfixRoutes.locale.loc.splash,
   JustfixRoutes.locale.hp.splash,
@@ -65,7 +68,7 @@ const MoratoriumBanner = (props: { pathname?: string }) => {
               stronger protections during this time, including a full halt on
               eviction cases.{" "}
               <a
-                href="https://www.righttocounselnyc.org/moratorium_faq"
+                href={MORATORIUM_FAQ_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -110,10 +113,7 @@ export const MoratoriumWarning = () => (
     <Icon type="notice" /> Have you been given an eviction notice?{" "}
     <strong>This is illegal.</strong> An Eviction Moratorium is currently in
     place across New York State.{" "}
-    <OutboundLink
-      href="https://www.righttocounselnyc.org/moratorium_faq"
-      target="_blank"
-    >
+    <OutboundLink href={MORATORIUM_FAQ_URL} target="_blank">
       <span className="has-text-primary jf-has-text-underline">Learn more</span>
     </OutboundLink>
   </div>

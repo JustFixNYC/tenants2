@@ -2,8 +2,11 @@ import base64
 from functools import partial
 from hashlib import sha256
 from typing import Dict, List, Union
-
+from django.conf import settings
+from django.http import HttpResponseRedirect
 from csp.middleware import CSPMiddleware
+
+from project.util.site_util import get_protocol
 
 
 CspUpdateDict = Dict[str, Union[str, List[str]]]
@@ -105,3 +108,15 @@ class CSPHashingMiddleware(CSPMiddleware):
         setattr(response, '_csp_update', self._merge_csp_updates(csp_updates))
 
         return super().process_response(request, response)
+
+
+def hostname_redirect_middleware(get_response):
+    def middleware(request):
+        host = request.get_host()
+        if host in settings.HOSTNAME_REDIRECTS:
+            new_host = settings.HOSTNAME_REDIRECTS[host]
+            path = request.get_full_path()
+            return HttpResponseRedirect(f'{get_protocol()}://{new_host}{path}')
+        return get_response(request)
+
+    return middleware

@@ -23,6 +23,12 @@ class EmailLetter(EmailAttachmentMutation):
     def send_email(cls, user_id: int, recipients: List[str]):
         email_letter.email_letter_async(user_id, recipients)
 
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        if not models.does_user_have_finished_loc(info.context.user):
+            return cls.make_error("You have not completed a Letter of Complaint!")
+        return super().perform_mutate(form, info)
+
 
 @schema_registry.register_mutation
 class AccessDates(SessionFormMutation):

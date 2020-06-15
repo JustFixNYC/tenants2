@@ -1,0 +1,213 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LocContent> works 1`] = `
+<div>
+  <h1
+    class="has-text-right"
+    style="white-space: pre-wrap;"
+  >
+    <span
+      class="is-uppercase"
+    >
+      Request for repairs
+    </span>
+    
+
+    at 
+    654 Park Place #2, Brooklyn, NY 12345
+  </h1>
+  <p
+    class="has-text-right"
+  >
+    Wednesday, June 10, 2020
+  </p>
+  <dl
+    class="jf-letter-heading"
+  >
+    <dt>
+      To
+    </dt>
+    <dd>
+      LANDLORDO CALRISSIAN
+      <br />
+      1 Cloud City Drive
+      <br />
+      Bespin, OH 41235
+    </dd>
+    <dt>
+      From
+    </dt>
+    <dd>
+      Boop Jones
+      <br />
+      654 Park Place #2
+      <br />
+      Brooklyn
+      , 
+      NY
+       
+      12345
+      <br />
+      (555) 123-4567
+    </dd>
+  </dl>
+  <p>
+    Dear 
+    LANDLORDO CALRISSIAN
+    ,
+  </p>
+  <p>
+    I need the following repairs in my home referenced below and/or in the common areas of the building:
+  </p>
+  <h2>
+    Repairs required
+  </h2>
+  <h3>
+    Entire home and hallways
+  </h3>
+  <ul>
+    <li>
+      No Heat
+    </li>
+    <li>
+      Hole in ceiling
+    </li>
+  </ul>
+  <div
+    class="jf-avoid-page-breaks-within"
+  >
+    <h2>
+      Available access dates
+    </h2>
+    <p>
+      Below are dates that I am available to be at my apartment to let in a repair worker. Please contact me (using the information provided at the top of this letter) in order to make arrangements with me
+       
+      <strong>
+        at least 24 hours in advance
+      </strong>
+      .
+    </p>
+    <ul>
+      <li>
+        Friday, May 1, 2020
+      </li>
+      <li>
+        Saturday, May 2, 2020
+      </li>
+    </ul>
+  </div>
+  <div
+    class="jf-avoid-page-breaks-within"
+  >
+    <h2>
+      Requirements
+    </h2>
+    <p>
+      In order to keep my household safe, I request that anyone entering my home to make repairs follow sanitation guidelines from the Center for Disease Control (CDC), including washing their hands before entering, wearing gloves, a mask, and shoe coverings, and practicing physical distancing (keeping 6 feet of distance between me and anyone else in my household).
+    </p>
+    <p>
+      Additionally, I request that you provide the name and contact information for any repair worker assigned to my home at least 24 hours prior to their arrival.
+    </p>
+    <p>
+      Please be advised that the lack of Heat and/or Hot Water constitutes an emergency under the NYC Housing Maintenance Code, Title 27, Chapter 2. Failure to address these repairs will result in an escalation of this issue, and I may exercise my right to file an Emergency HP Action through the NYC Housing Court system.
+    </p>
+  </div>
+  <div
+    class="jf-avoid-page-breaks-within"
+  >
+    <h2>
+      Previous Attempts for Relief
+    </h2>
+    <p>
+      I have already contacted 311 on several occasions, but the issue has not been resolved. In the meantime, I have recorded evidence of the violations should legal action be necessary.
+    </p>
+  </div>
+  <div
+    class="jf-avoid-page-breaks-within"
+  >
+    <h2>
+      Civil penalties
+    </h2>
+    <p>
+      Pursuant to NYC Admin Code § 27-2115 an order of civil penalties for all existing violations for which the time to correct has expired is as follows:
+    </p>
+    <dl>
+      <dt>
+        “C” Violation
+      </dt>
+      <dd>
+        $50 per day per violation (if 1-5 units)
+        <br />
+        $50-$150 one-time penalty per violation plus $125 per day (5 or more units)
+      </dd>
+      <dt>
+        “B” Violation:
+      </dt>
+      <dd>
+        $25-$100 one-time penalty per violation plus $10 per day
+      </dd>
+      <dt>
+        “A” Violation”
+      </dt>
+      <dd>
+        $10-$50 one-time penalty per violation
+      </dd>
+    </dl>
+  </div>
+  <div
+    class="jf-avoid-page-breaks-within"
+  >
+    <p>
+      According to the NYC Admin Code § 27-2115, a civil penalty is also issued where a person willfully makes a false certification of correction of a violation per violation falsely certified.
+    </p>
+    <p>
+      Please contact me as soon as possible to arrange a time to have these repairs made at 
+      (555) 123-4567
+      .
+    </p>
+    <p
+      class="jf-signature"
+    >
+      Regards,
+      <br />
+      <br />
+      Boop Jones
+    </p>
+  </div>
+</div>
+`;
+
+exports[`getLocContentPropsFromSession() returns expected value when user is logged in 1`] = `
+Object {
+  "accessDates": Array [],
+  "aptNumber": "",
+  "city": "Brooklyn",
+  "email": "boop@jones.net",
+  "firstName": "Boop",
+  "hasCalled311": null,
+  "issues": Array [
+    Object {
+      "area": "HOME",
+      "issues": Array [
+        Object {
+          "choice": "HOME__RATS",
+          "kind": "choice",
+        },
+        Object {
+          "kind": "custom",
+          "value": "Rain enters through roof",
+        },
+      ],
+    },
+  ],
+  "landlordAddress": "123 Cloud City Drive
+Bespin, NY 12345",
+  "landlordEmail": "landlordo@calrissian.net",
+  "landlordName": "Landlordo Calrissian",
+  "lastName": "Jones",
+  "phoneNumber": "5551234567",
+  "state": "NY",
+  "street": "150 Court St",
+  "zipCode": "11201",
+}
+`;

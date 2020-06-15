@@ -25,6 +25,7 @@ import { QueryLoaderQuery } from "../networking/query-loader-prefetcher";
 import { waitFor } from "@testing-library/react";
 import autobind from "autobind-decorator";
 import { newSb } from "./session-builder";
+import { PreloadedLinguiI18nProvider } from "./lingui-preloader";
 
 /** Options for AppTester. */
 export interface AppTesterPalOptions {
@@ -149,13 +150,15 @@ export class AppTesterPal extends ReactTestingLibraryPal {
           {...options.router}
         >
           <AppContext.Provider value={appContext}>
-            <Route
-              render={(ctx) => {
-                onRouteComponentProps(ctx);
-                return null;
-              }}
-            />
-            {el}
+            <PreloadedLinguiI18nProvider>
+              <Route
+                render={(ctx) => {
+                  onRouteComponentProps(ctx);
+                  return null;
+                }}
+              />
+              {el}
+            </PreloadedLinguiI18nProvider>
           </AppContext.Provider>
         </MemoryRouter>
       </HelmetProvider>

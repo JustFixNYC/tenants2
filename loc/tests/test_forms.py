@@ -66,7 +66,7 @@ def save_letter_request_form(
     return form
 
 
-def test_letter_request_works(db):
+def test_letter_request_works(db, allow_lambda_http):
     with freeze_time('2018-01-02') as time:
         form = save_letter_request_form()
         data = form.data

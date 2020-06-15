@@ -57,10 +57,7 @@ describe("<LocalizedOutboundLink>", () => {
 
   it("works in Spanish w/ English-only links", async () => {
     const a = await renderLink("es", HELLO_WORLD_LINK_EN_ONLY);
-    // This test will eventually fail because the text "in English"
-    // should actually be in Spanish, but we haven't localized
-    // that text yet!  Once this text fails, update the line below.
-    expect(a.textContent).toBe("Hola mundo (in English)");
+    expect(a.textContent).toBe("Hola mundo (en inglés)");
     expect(a.href).toBe("http://english.example.com/");
   });
 });

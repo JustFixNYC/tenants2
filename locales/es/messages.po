@@ -1526,7 +1526,7 @@ msgstr "pagar la renta, renta, no puedo pagar la renta, renta de junio, 1 de jun
 #. This is used to describe a link to another website that is only available in English.
 #: frontend/lib/ui/localized-outbound-link.tsx:44
 msgid "{0} (in English)"
-msgstr ""
+msgstr "{0} (en inglés)"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."

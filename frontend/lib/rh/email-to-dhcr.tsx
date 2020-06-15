@@ -10,6 +10,8 @@ import {
   getBoroughChoiceLabels,
   BoroughChoice,
 } from "../../../common-data/borough-choices";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 export const RhEmailToDhcr: React.FC<{}> = () => {
   const rh = useContext(AppContext).session.rentalHistoryInfo;
@@ -24,18 +26,21 @@ export const RhEmailToDhcr: React.FC<{}> = () => {
 
   return (
     <>
-      <EmailSubject value="Request for Rent History" />
-      <p>DHCR administrator,</p>
-      <p>
-        I, {fullName}, am currently living at {fullAddress} in apartment{" "}
-        {rh.apartmentNumber}, and would like to request the complete Rent
-        History for this apartment back to the year 1984.
-      </p>
-      <p>
-        Thank you,
-        <br />
-        {fullName}
-      </p>
+      <EmailSubject value={li18n._(t`Request for Rent History`)} />
+
+      <Trans id="justfix.rhRequestToDhcr">
+        <p>DHCR administrator,</p>
+        <p>
+          I, {fullName}, am currently living at {fullAddress} in apartment{" "}
+          {rh.apartmentNumber}, and would like to request the complete Rent
+          History for this apartment back to the year 1984.
+        </p>
+        <p>
+          Thank you,
+          <br />
+          {fullName}
+        </p>
+      </Trans>
     </>
   );
 };

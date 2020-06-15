@@ -58,7 +58,7 @@ function RentalHistorySplash(): JSX.Element {
               </Trans>
             </h1>
             <p className="subtitle">
-              <Trans>
+              <Trans id="justfix.rhExplanation">
                 This document helps you find out if your apartment is{" "}
                 <b>rent stabilized</b> and if you're being <b>overcharged</b>.
                 It shows the registered rents in your apartment since 1984.
@@ -254,7 +254,7 @@ function RentalHistoryConfirmation(): JSX.Element {
         <Trans>What happens next?</Trans>
       </h2>
       <p>
-        <Trans>
+        <Trans id="justfix.rhWhatHappensNext">
           You should receive your Rent History in the mail in about a week. Your
           Rent History is an important document—it shows the registered rents in
           your apartment since 1984. You can learn more about it and how it can

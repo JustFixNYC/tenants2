@@ -126,6 +126,7 @@ msgid "Answer a few questions about yourself and your landlord or management com
 msgstr "Contesta algunas preguntas sobre ti y sobre el dueño o manager de tu edificio. Tardarás menos de 8 minutos."
 
 #: frontend/lib/forms/apt-number-form-fields.tsx:13
+#: frontend/lib/rh/rental-history.tsx:110
 msgid "Apartment number"
 msgstr "Número de apartamento"
 
@@ -209,6 +210,10 @@ msgstr "Cancelar"
 
 #: frontend/lib/norent/data/state-localized-resources.tsx:12
 msgid "Cancel Rent Campaign"
+msgstr ""
+
+#: frontend/lib/rh/rental-history.tsx:118
+msgid "Cancel request"
 msgstr ""
 
 #: frontend/lib/norent/homepage.tsx:70
@@ -358,6 +363,10 @@ msgstr ""
 msgid "Exercise your rights"
 msgstr "Ejercita tus derechos"
 
+#: frontend/lib/rh/rental-history.tsx:182
+msgid "Explore our other tools"
+msgstr ""
+
 #: frontend/lib/norent/homepage.tsx:114
 msgid "Explore the tool"
 msgstr "Explora la herramienta"
@@ -376,6 +385,7 @@ msgid "Find out more"
 msgstr "Más información"
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:26
+#: frontend/lib/rh/rental-history.tsx:103
 msgid "First name"
 msgstr "Nombre"
 
@@ -446,6 +456,10 @@ msgstr "¡Ayuda! El dueño de mi edificio ya intenta desalojarme."
 msgid "Here are a few benefits to sending a letter to your landlord:"
 msgstr "Éstos son algunos de los beneficios de enviar una carta al dueño de tu edificio:"
 
+#: frontend/lib/rh/rental-history.tsx:125
+msgid "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
+msgstr ""
+
 #: frontend/lib/norent/letter-email-to-user.tsx:12
 msgid "Here's a copy of your NoRent letter"
 msgstr "Aquí tienes una copia de tu carta de NoRent"
@@ -473,6 +487,10 @@ msgstr "Así será la carta:"
 #: frontend/lib/norent/homepage.tsx:48
 msgid "Here’s what you can do with <0>NoRent</0>"
 msgstr "Esto es lo que puedes hacer con <0>NoRent</0>"
+
+#: frontend/lib/rh/rental-history.tsx:195
+msgid "Housing Court Answers"
+msgstr ""
 
 #: frontend/lib/norent/about.tsx:36
 msgid "Housing Justice for All"
@@ -530,6 +548,10 @@ msgstr "Idaho"
 #: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:25
 msgid "If you didn't receive a code, please contact <0/>."
 msgstr "Si no recibiste un código, por favor contacta con <0/>."
+
+#: frontend/lib/rh/rental-history.tsx:176
+msgid "If you have more questions, please email us at <0/>."
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:33
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
@@ -603,6 +625,10 @@ msgstr "¡Únete a nuestra <0/>lista de distribución!"
 msgid "JustFix.nyc <0/>sent on behalf of <1/>"
 msgstr "JustFix.nyc <0/>enviado en nombre de <1/>"
 
+#: frontend/lib/rh/rental-history.tsx:200
+msgid "JustFix.nyc's Learning Center"
+msgstr ""
+
 #: common-data/us-state-choices.ts:81
 msgid "Kansas"
 msgstr "Kansas"
@@ -636,6 +662,7 @@ msgid "Language:"
 msgstr "Idioma:"
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:27
+#: frontend/lib/rh/rental-history.tsx:106
 msgid "Last name"
 msgstr "Apellido"
 
@@ -750,6 +777,10 @@ msgstr "Maryland"
 #: common-data/us-state-choices.ts:86
 msgid "Massachusetts"
 msgstr "Massachusetts"
+
+#: frontend/lib/rh/rental-history.tsx:190
+msgid "Met Council on Housing"
+msgstr ""
 
 #: common-data/us-state-choices.ts:87
 msgid "Michigan"
@@ -893,6 +924,7 @@ msgid "Pennsylvania"
 msgstr "Pensilvania"
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:38
+#: frontend/lib/rh/rental-history.tsx:111
 msgid "Phone number"
 msgstr "Número de teléfono"
 
@@ -926,6 +958,10 @@ msgstr "Puerto Rico"
 msgid "Regards,"
 msgstr "Atentamente,"
 
+#: frontend/lib/rh/rental-history.tsx:208
+msgid "Rent History"
+msgstr ""
+
 #: frontend/lib/norent/data/faqs-content.tsx:25
 msgid "Rent Strike 2020: A Resource List"
 msgstr "Huelga de Renta 2020: Lista de recursos (en inglés)"
@@ -934,11 +970,27 @@ msgstr "Huelga de Renta 2020: Lista de recursos (en inglés)"
 msgid "Rent Strike Organizing"
 msgstr ""
 
+#: frontend/lib/rh/email-to-dhcr.tsx:17
+msgid "Request for Rent History"
+msgstr ""
+
+#: frontend/lib/rh/rental-history.tsx:93
+msgid "Request the Rent History for your apartment"
+msgstr ""
+
+#: frontend/lib/rh/rental-history.tsx:43
+msgid "Request your <0>Rent History</0> in two simple steps!"
+msgstr ""
+
+#: frontend/lib/rh/rental-history.tsx:35
+msgid "Request your Rent History"
+msgstr ""
+
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:27
 msgid "Reset your password"
 msgstr "Cambia tu contraseña"
 
-#: frontend/lib/rh/rental-history.tsx:122
+#: frontend/lib/rh/rental-history.tsx:123
 msgid "Review your request to the DHCR"
 msgstr ""
 
@@ -1022,6 +1074,10 @@ msgstr "Carolina del Sur"
 msgid "South Dakota"
 msgstr "Dakota del Sur"
 
+#: frontend/lib/rh/rental-history.tsx:59
+msgid "Start my request"
+msgstr ""
+
 #: frontend/lib/forms/mailing-address-fields.tsx:7
 msgid "State"
 msgstr "Estado"
@@ -1042,6 +1098,10 @@ msgstr "Dirección"
 #: frontend/lib/norent/components/footer.tsx:23
 msgid "Submit email"
 msgstr "Enviar email"
+
+#: frontend/lib/rh/rental-history.tsx:150
+msgid "Submit request"
+msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:8
 msgid "Tenant Rights"
@@ -1074,6 +1134,10 @@ msgstr "La Carta"
 msgid "This is optional."
 msgstr "Esto es opcional."
 
+#: frontend/lib/rh/rental-history.tsx:56
+msgid "This service is free, secure, and confidential."
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/confirmation.tsx:164
 msgid "This tool is provided by JustFix.nyc. We’re a non-profit that creates tools for tenants and the housing rights movement. We always want feedback to improve our tools."
 msgstr "Esta herramienta te la trae JustFix.nyc. Somos una organización sin fines de lucro que crea herramientas para inquilinos y el movimiento de derechos de la vivienda. Siempre nos interesa tu opinión para mejorar nuestras herramientas."
@@ -1085,6 +1149,10 @@ msgstr "Para restablecer tu contraseña, te enviaremos un código de verificaci�
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:107
 msgid "To:"
 msgstr "A:"
+
+#: frontend/lib/rh/rental-history.tsx:133
+msgid "To: New York Division of Housing and Community Renewal (DHCR)"
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:53
 msgid "USPS Tracking #:"
@@ -1125,6 +1193,10 @@ msgstr "Ver la carta como PDF"
 #: common-data/us-state-choices.ts:112
 msgid "Virginia"
 msgstr "Virginia"
+
+#: frontend/lib/rh/rental-history.tsx:185
+msgid "Want to read more about your rights?"
+msgstr ""
 
 #: common-data/us-state-choices.ts:113
 msgid "Washington"
@@ -1206,6 +1278,7 @@ msgid "What happens after I send this letter?"
 msgstr "¿Qué ocurre después de enviar esta carta?"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:66
+#: frontend/lib/rh/rental-history.tsx:161
 msgid "What happens next?"
 msgstr "¿Y ahora qué?"
 
@@ -1315,6 +1388,10 @@ msgstr "¡Tu carta está lista para enviar!"
 msgid "Your NoRent.org letter"
 msgstr "Tu carta de NoRent.org"
 
+#: frontend/lib/rh/rental-history.tsx:158
+msgid "Your Rent History has been requested!"
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:8
 msgid "Your account is set up"
 msgstr "¡Tu cuenta está lista!"
@@ -1376,6 +1453,18 @@ msgstr "y"
 #: frontend/lib/ui/privacy-info-modal.tsx:30
 msgid "justfix.privacyInfoModalText"
 msgstr "¡<0>Tu privacidad es muy importante para nosotros! Estas son algunas de las cosas más importantes a saber:</0><1><2>Tu información personal está segura. </2><3>No usaremos tu información personal para beneficiarnos ni la venderemos a terceros. </3><4>Utilizaremos tu dirección postal para encontrar datos sobre tu edificio y su dueño. </4></1><5>Nuestra Política de Privacidad permite compartir datos anónimos sólo con organizaciones de defensa de inquilinos autorizadas exclusivamente para ayudar a promover la misión de proteger los derechos de inquilinos. La Política de Privacidad contiene información sobre qué datos recopilamos, cómo la utilizamos y las opciones que tiene respecto a su información personal. Si quieres leer más, por favor revisa nuestra <6/> completa y nuestros <7/>.</5>"
+
+#: frontend/lib/rh/rental-history.tsx:49
+msgid "justfix.rhExplanation"
+msgstr ""
+
+#: frontend/lib/rh/email-to-dhcr.tsx:19
+msgid "justfix.rhRequestToDhcr"
+msgstr ""
+
+#: frontend/lib/rh/rental-history.tsx:164
+msgid "justfix.rhWhatHappensNext"
+msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:202
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"

@@ -21,6 +21,7 @@ import { properNoun, numberWithCommas } from "../util/util";
 import { OutboundLink, ga } from "../analytics/google-analytics";
 import { UpdateBrowserStorage } from "../browser-storage";
 import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issues";
+import { MORATORIUM_FAQ_URL } from "../ui/covid-banners";
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
@@ -525,7 +526,6 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       </>
     );
     const covidCtaText = "Learn more";
-    const covidCtaLink = "https://www.righttocounselnyc.org/moratorium_faq";
     return {
       title: "Fight an eviction",
       priority: EFNYC_PRIORITY,
@@ -535,7 +535,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: covidMessage,
       imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
-        to: covidCtaLink,
+        to: MORATORIUM_FAQ_URL,
         gaLabel: "efnyc",
         text: covidCtaText,
       },

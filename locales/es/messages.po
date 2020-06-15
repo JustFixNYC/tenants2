@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-06-15 15:39\n"
+"PO-Revision-Date: 2020-06-15 16:00\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -354,7 +354,7 @@ msgstr "Establece tu defensa"
 
 #: frontend/lib/norent/data/state-localized-resources.tsx:5
 msgid "Eviction Moratorium updates"
-msgstr "Eviction Moratorium updates"
+msgstr "Actualizaciones de la Moratoria de Desalojo"
 
 #: frontend/lib/norent/the-letter.tsx:53
 msgid "Exercise your rights"
@@ -934,7 +934,7 @@ msgstr "Huelga de Renta 2020: Lista de recursos (en inglés)"
 
 #: frontend/lib/norent/data/state-localized-resources.tsx:19
 msgid "Rent Strike Organizing"
-msgstr "Rent Strike Organizing"
+msgstr "Organizar Huelgas de Renta"
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:27
 msgid "Reset your password"
@@ -942,7 +942,7 @@ msgstr "Cambia tu contraseña"
 
 #: frontend/lib/rh/rental-history.tsx:122
 msgid "Review your request to the DHCR"
-msgstr "Review your request to the DHCR"
+msgstr "Revisa tu solicitud al DHCR"
 
 #: common-data/us-state-choices.ts:105
 msgid "Rhode Island"

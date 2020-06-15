@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-08 10:07+0000\n"
-"PO-Revision-Date: 2020-06-06 17:48\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2020-06-15 15:39\n"
+"Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
@@ -12,8 +12,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tenants2\n"
+"X-Crowdin-Project-ID: 402800\n"
 "X-Crowdin-Language: es-ES\n"
 "X-Crowdin-File: /master/locales/en/LC_MESSAGES/django.po\n"
+"X-Crowdin-File-ID: 42\n"
 
 #: frontend/templates/frontend/safe_mode_ui.html:9
 msgid "This site is currently in <strong>compatibility mode</strong>. For an enhanced experience, you can disable it, but this may cause compatibility issues with your current browser."
@@ -72,7 +74,7 @@ msgstr "¡Las contraseñas no coinciden!"
 #: project/password_reset.py:65
 #, python-format
 msgid "%(site_name)s here! Your verification code is %(code)s."
-msgstr ""
+msgstr "Aquí %(site_name)s! Tu código de verificación es %(code)s."
 
 #: project/tests/test_compilemessages.py:6
 msgid "Hello world"
@@ -103,3 +105,4 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 #: project/util/phone_number.py:68
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
+

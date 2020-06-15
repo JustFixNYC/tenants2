@@ -1086,6 +1086,10 @@ msgstr "Estado"
 msgid "States with Limited Protections"
 msgstr "Estados con Protecciones Limitadas"
 
+#: frontend/lib/progress/progress-bar.tsx:112
+msgid "Step {currStep} of {numSteps}"
+msgstr ""
+
 #: frontend/lib/norent/about.tsx:31
 msgid "Strategic Actions for a Just Economy"
 msgstr "Strategic Actions for a Just Economy"

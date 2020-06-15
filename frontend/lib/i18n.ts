@@ -7,6 +7,14 @@ import { LocaleChoice } from "../../common-data/locale-choices";
 export type SupportedLocale = LocaleChoice;
 
 /**
+ * An object mapping supported locales to objects of the
+ * parameterized type.
+ */
+export type SupportedLocaleMap<T> = {
+  [k in SupportedLocale]: T;
+};
+
+/**
  * This class keeps track of internationalization-related data.
  *
  * Instances start out uninitialized, and must be explicitly

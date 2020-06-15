@@ -204,7 +204,7 @@ msgstr "Can't pay rent?"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:12
+#: frontend/lib/norent/data/state-localized-resources.tsx:13
 msgid "Cancel Rent Campaign"
 msgstr "Cancel Rent Campaign"
 
@@ -347,7 +347,7 @@ msgstr "English version"
 msgid "Establish your defense"
 msgstr "Establish your defense"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:5
+#: frontend/lib/norent/data/state-localized-resources.tsx:6
 msgid "Eviction Moratorium updates"
 msgstr "Eviction Moratorium updates"
 
@@ -927,7 +927,7 @@ msgstr "Regards,"
 msgid "Rent Strike 2020: A Resource List"
 msgstr "Rent Strike 2020: A Resource List"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:19
+#: frontend/lib/norent/data/state-localized-resources.tsx:20
 msgid "Rent Strike Organizing"
 msgstr "Rent Strike Organizing"
 
@@ -1517,6 +1517,11 @@ msgstr "<0>Yes, you’ll still owe rent after sending the letter because our sta
 #: frontend/lib/norent/components/helmet.tsx:13
 msgid "pay rent, rent, can't pay rent, june rent, june 1"
 msgstr "pay rent, rent, can't pay rent, june rent, june 1"
+
+#. This is used to describe a link to another website that is only available in English.
+#: frontend/lib/ui/localized-outbound-link.tsx:44
+msgid "{0} (in English)"
+msgstr "{0} (in English)"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."

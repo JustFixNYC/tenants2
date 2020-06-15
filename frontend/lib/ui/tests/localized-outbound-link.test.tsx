@@ -4,7 +4,7 @@ import {
   LocalizedOutboundLink,
   LocalizedOutboundLinkList,
 } from "../localized-outbound-link";
-import { t } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import i18n from "../../i18n";
 import ReactTestingLibraryPal from "../../tests/rtl-pal";
 import { LinguiI18n } from "../../i18n-lingui";
@@ -12,8 +12,8 @@ import { waitFor } from "@testing-library/dom";
 import { LocaleChoice } from "../../../../common-data/locale-choices";
 
 const HELLO_WORLD_LINK: LocalizedOutboundLinkProps = {
-  text: t`Hello world`,
-  urls: {
+  children: <Trans>Hello world</Trans>,
+  hrefs: {
     en: "http://english.example.com/",
     es: "http://spanish.example.com/",
   },

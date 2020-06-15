@@ -5,6 +5,8 @@ justfix_environment.IS_RUNNING_TESTS = True
 
 from .settings import *  # noqa
 
+HOSTNAME_REDIRECTS = {}
+
 # Only support our fully-supported languages by default.
 LANGUAGES = locales.FULLY_SUPPORTED_ONLY.choices  # noqa
 

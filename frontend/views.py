@@ -124,11 +124,7 @@ def render_lambda_static_content(lr: LambdaResponse):
 
 
 def react_rendered_view(request):
-    url = request.path
-    querystring = request.GET.urlencode()
-    if querystring:
-        url += f'?{querystring}'
-
+    url = request.get_full_path()
     legacy_form_submission = None
 
     if request.method == "POST":

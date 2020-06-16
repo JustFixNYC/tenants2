@@ -21,6 +21,16 @@ def test_send_sms_works(db, settings, smsoutbox):
     assert smsoutbox[0].body == 'boop'
 
 
+def test_send_sms_still_works_if_lookup_says_number_is_valid(db, settings, smsoutbox):
+    apply_twilio_settings(settings)
+
+    pn = PhoneNumberLookup(phone_number='5551234567', is_valid=True)
+    pn.carrier = {"blah": 1}
+    pn.save()
+    send_sms('5551234567', 'boop')
+    assert len(smsoutbox) == 1
+
+
 def test_send_sms_async_works(db, settings, smsoutbox):
     settings.TWILIO_PHONE_NUMBER = '9990001234'
 

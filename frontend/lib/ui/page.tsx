@@ -68,7 +68,7 @@ export function PageTitle(props: { title: string }): JSX.Element {
   return (
     <>
       <Helmet>
-        <title>{fullTitle}</title>
+        <title>HELLO {fullTitle}</title>
         <meta property="og:title" content={title} />
         <meta name="twitter:title" content={title} />
       </Helmet>

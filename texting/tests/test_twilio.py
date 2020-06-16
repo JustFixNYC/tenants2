@@ -1,15 +1,17 @@
 import contextlib
 from unittest.mock import patch
 import pytest
+from twilio.base.exceptions import TwilioRestException
 from django.core.exceptions import ImproperlyConfigured
 
+from texting.models import PhoneNumberLookup
 from texting.twilio import (
     send_sms_async, chain_sms_async,
     send_sms, validate_settings, logger, is_phone_number_valid, get_carrier_info
 )
 
 
-def test_send_sms_works(settings, smsoutbox):
+def test_send_sms_works(db, settings, smsoutbox):
     settings.TWILIO_PHONE_NUMBER = '9990001234'
 
     send_sms('5551234567', 'boop')
@@ -19,7 +21,17 @@ def test_send_sms_works(settings, smsoutbox):
     assert smsoutbox[0].body == 'boop'
 
 
-def test_send_sms_async_works(settings, smsoutbox):
+def test_send_sms_still_works_if_lookup_says_number_is_valid(db, settings, smsoutbox):
+    apply_twilio_settings(settings)
+
+    pn = PhoneNumberLookup(phone_number='5551234567', is_valid=True)
+    pn.carrier = {"blah": 1}
+    pn.save()
+    send_sms('5551234567', 'boop')
+    assert len(smsoutbox) == 1
+
+
+def test_send_sms_async_works(db, settings, smsoutbox):
     settings.TWILIO_PHONE_NUMBER = '9990001234'
 
     send_sms_async('5551234567', 'boop')
@@ -39,7 +51,7 @@ def test_chain_sms_async_adds_countdown_between_sends():
         assert third.options == {'countdown': 10}
 
 
-def test_chain_sms_async_works(settings, smsoutbox):
+def test_chain_sms_async_works(db, settings, smsoutbox):
     settings.TWILIO_PHONE_NUMBER = '9990001234'
 
     chain_sms_async('5551234567', ['boop', 'jones'])
@@ -111,14 +123,58 @@ def ensure_twilio_error_is_logged():
     mock_exc.assert_called_once_with('Error while communicating with Twilio')
 
 
-def test_send_sms_logs_errors_when_failing_silently(settings,  requests_mock):
+def test_send_sms_does_not_send_to_invalid_numbers(db, settings,  requests_mock):
+    apply_twilio_settings(settings)
+    PhoneNumberLookup(phone_number='5551234567', is_valid=False).save()
+    assert send_sms('5551234567', 'boop', ignore_invalid_phone_number=True) == ''
+
+
+def mock_invalid_number(settings, requests_mock):
+    status = 400   # I think this is the status for this error but not sure.
+    error_json = {
+        "code": 21211,
+        "message": "blah",
+        "more_info": "https://www.twilio.com/docs/api/errors/21211",
+        "status": status
+    }
+    requests_mock.post(
+        get_twilio_sms_url(settings),
+        status_code=status,
+        json=error_json
+    )
+
+
+def test_send_sms_ignores_invalid_numbers(db, settings,  requests_mock):
+    apply_twilio_settings(settings)
+    mock_invalid_number(settings, requests_mock)
+    assert send_sms('5551234567', 'boop', ignore_invalid_phone_number=True) == ''
+    lookup = PhoneNumberLookup.objects.get(phone_number='5551234567')
+    assert lookup.is_valid is False
+
+
+def test_send_sms_remembers_invalid_numbers_even_when_not_ignoring_them(
+    db,
+    settings,
+    requests_mock
+):
+    apply_twilio_settings(settings)
+    mock_invalid_number(settings, requests_mock)
+    with pytest.raises(TwilioRestException, match='Unable to create record') as excinfo:
+        send_sms('5551234567', 'boop', ignore_invalid_phone_number=False)
+    assert excinfo.value.code == 21211
+
+    lookup = PhoneNumberLookup.objects.get(phone_number='5551234567')
+    assert lookup.is_valid is False
+
+
+def test_send_sms_logs_errors_when_failing_silently(db, settings,  requests_mock):
     apply_twilio_settings(settings)
     requests_mock.post(get_twilio_sms_url(settings), json={})
     with ensure_twilio_error_is_logged():
         send_sms('5551234567', 'boop', fail_silently=True)
 
 
-def test_send_sms_raises_exception_by_default(settings,  requests_mock):
+def test_send_sms_raises_exception_by_default(db, settings,  requests_mock):
     apply_twilio_settings(settings)
     requests_mock.post(get_twilio_sms_url(settings), json={})
     with pytest.raises(KeyError):

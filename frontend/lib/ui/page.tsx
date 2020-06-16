@@ -95,6 +95,7 @@ export default function Page(props: PageProps): JSX.Element {
   return (
     <div className={props.className}>
       <PageTitle title={props.title} />
+      <p>boop</p>
       {renderHeading(props)}
       {props.children}
     </div>

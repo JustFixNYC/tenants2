@@ -283,14 +283,23 @@ type OutboundLinkProps = DetailedHTMLProps<
 > & {
   /** The "href" prop is required on outbound links, not optional. */
   href: string;
+  target: string;
+  rel: string;
 };
 
+const defaultOutboundLinkProps = {
+  target: "_blank",
+  rel: "noopener noreferrer"
+}
 /**
  * A react component that encapsulates a link to an external website,
  * which we want to track with analytics.
  */
 export function OutboundLink(props: OutboundLinkProps): JSX.Element {
-  const { onClick, ...otherProps } = props;
+  console.log("before default", props);
+  props = { ...props, ...defaultOutboundLinkProps,};
+  console.log("after default", props);
+  const {onClick, ...otherProps } = props;
   return (
     <a
       {...otherProps}

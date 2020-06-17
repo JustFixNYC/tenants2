@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Catalog } from "@lingui/core";
 import loadable, { LoadableLibrary } from "@loadable/component";
 import { I18nProvider } from "@lingui/react";
-import i18n, { SupportedLocale } from "./i18n";
+import i18n, { SupportedLocale, SupportedLocaleMap } from "./i18n";
 import { setupI18n as linguiSetupI18n, Catalogs } from "@lingui/core";
 import { LoadingPageSignaler } from "./networking/loading-page";
 
@@ -20,9 +20,7 @@ export type LoadableCatalog = LoadableLibrary<Catalog>;
  * Maps supported locales to components that load a Lingui message
  * catalog for them.
  */
-export type LinguiCatalogMap = {
-  [k in SupportedLocale]: LoadableCatalog;
-};
+export type LinguiCatalogMap = SupportedLocaleMap<LoadableCatalog>;
 
 /**
  * The "base" catalog, which contains the most common strings.

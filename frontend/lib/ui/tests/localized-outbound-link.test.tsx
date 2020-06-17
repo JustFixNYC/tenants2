@@ -4,7 +4,7 @@ import {
   LocalizedOutboundLink,
   LocalizedOutboundLinkList,
 } from "../localized-outbound-link";
-import { t } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import i18n from "../../i18n";
 import ReactTestingLibraryPal from "../../tests/rtl-pal";
 import { LinguiI18n } from "../../i18n-lingui";
@@ -12,10 +12,17 @@ import { waitFor } from "@testing-library/dom";
 import { LocaleChoice } from "../../../../common-data/locale-choices";
 
 const HELLO_WORLD_LINK: LocalizedOutboundLinkProps = {
-  text: t`Hello world`,
-  urls: {
+  children: <Trans>Hello world</Trans>,
+  hrefs: {
     en: "http://english.example.com/",
     es: "http://spanish.example.com/",
+  },
+};
+
+const HELLO_WORLD_LINK_EN_ONLY: LocalizedOutboundLinkProps = {
+  children: <Trans>Hello world</Trans>,
+  hrefs: {
+    en: "http://english.example.com/",
   },
 };
 
@@ -46,6 +53,12 @@ describe("<LocalizedOutboundLink>", () => {
     const a = await renderLink("es");
     expect(a.textContent).toBe("Hola mundo");
     expect(a.href).toBe("http://spanish.example.com/");
+  });
+
+  it("works in Spanish w/ English-only links", async () => {
+    const a = await renderLink("es", HELLO_WORLD_LINK_EN_ONLY);
+    expect(a.textContent).toBe("Hola mundo (en inglés)");
+    expect(a.href).toBe("http://english.example.com/");
   });
 });
 

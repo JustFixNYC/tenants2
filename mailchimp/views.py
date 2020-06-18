@@ -1,4 +1,3 @@
-from typing import Optional
 from django.http import JsonResponse
 from django.conf import settings
 from django.core.validators import EmailValidator, ValidationError
@@ -23,20 +22,6 @@ def is_email_valid(value: str) -> bool:
         return True
     except ValidationError:
         return False
-
-
-def validate_language(value: str) -> Optional[mailchimp.Language]:
-    try:
-        return mailchimp.Language(value)
-    except ValueError:
-        return None
-
-
-def validate_source(value: str) -> Optional[mailchimp.SubscribeSource]:
-    try:
-        return mailchimp.SubscribeSource(value)
-    except ValueError:
-        return None
 
 
 @require_POST
@@ -68,21 +53,26 @@ def subscribe(request):
     Otherwise, a HTTP 200 will be returned.
     '''
 
+    if not settings.MAILCHIMP_API_KEY:
+        return make_json_error('MAILCHIMP_DISABLED', 404)
+
     origin: str = request.META.get('HTTP_ORIGIN', '')
     if origin not in settings.MAILCHIMP_CORS_ORIGINS:
         return make_json_error('INVALID_ORIGIN', 403)
-    email: str = request.POST.get('email', '')
-    language = validate_language(request.POST.get('language', ''))
-    source = validate_source(request.POST.get('source', ''))
 
-    if not is_email_valid(email):
-        return make_json_error('INVALID_EMAIL', 400)
-
-    if not language:
+    try:
+        language = mailchimp.Language(request.POST.get('language', ''))
+    except ValueError:
         return make_json_error('INVALID_LANGUAGE', 400)
 
-    if not source:
+    try:
+        source = mailchimp.SubscribeSource(request.POST.get('source', ''))
+    except ValueError:
         return make_json_error('INVALID_SOURCE', 400)
+
+    email: str = request.POST.get('email', '')
+    if not is_email_valid(email):
+        return make_json_error('INVALID_EMAIL', 400)
 
     mailchimp.subscribe(
         email=email,

@@ -53,7 +53,7 @@ export function PrivacyInfoModal(props: {}): JSX.Element {
       onCloseGoTo={BackOrUpOneDirLevel}
       render={(ctx) => (
         <>
-          <div className="jf-is-scrollable-if-too-tall">
+          <div>
             <Trans id="justfix.privacyInfoModalText">
               <h5>
                 Your privacy is very important to us! Here are some important

@@ -42,6 +42,32 @@ def validate_source(value: str) -> Optional[mailchimp.SubscribeSource]:
 @require_POST
 @csrf_exempt
 def subscribe(request):
+    '''
+    Subscribes an email address to our MailChimp list.
+
+    This POST endpoint requires a CORS request with the
+    following application/x-www-form-urlencoded arguments:
+
+      * `email` is the email address to subscribe.
+
+      * `language` is the ISO 639-1 locale of the subscriber
+        (e.g. `en` or `es`).
+
+      * `source` is the source from which the subscriber is
+        subscribing. It should be one of the values from
+        the `SubscribeSource` enumeration (e.g. `wow`).
+
+    The request must come from an origin in the
+    MAILCHIMP_CORS_ORIGINS setting. If it isn't, a HTTP 403
+    will be returned.
+
+    If any of the arguments are invalid, a HTTP 400 will be
+    returned, and the JSON response will contain an `errorCode`
+    value of `INVALID_EMAIL`, `INVALID_LANGUAGE`, or `INVALID_SOURCE`.
+
+    Otherwise, a HTTP 200 will be returned.
+    '''
+
     origin: str = request.META.get('HTTP_ORIGIN', '')
     if origin not in settings.MAILCHIMP_CORS_ORIGINS:
         return make_json_error('INVALID_ORIGIN', 403)

@@ -44,22 +44,7 @@ def render_subscribe_docs(request):
     })
 
 
-@require_http_methods(["GET", "POST"])
-@csrf_exempt
-def subscribe(request):
-    '''
-    Subscribes an email address to our MailChimp list.
-
-    Paste the URL for this endpoint into a browser to
-    see documentation for it.
-    '''
-
-    if not settings.MAILCHIMP_API_KEY:
-        return make_json_error('MAILCHIMP_DISABLED', 404)
-
-    if request.method == "GET":
-        return render_subscribe_docs(request)
-
+def process_subscription(request):
     origin = get_valid_origin(request)
     if not origin:
         return make_json_error('INVALID_ORIGIN', 403)
@@ -87,3 +72,22 @@ def subscribe(request):
     response = JsonResponse({'status': 200}, status=200)
     response['Access-Control-Allow-Origin'] = origin
     return response
+
+
+@require_http_methods(["GET", "POST"])
+@csrf_exempt
+def subscribe(request):
+    '''
+    Subscribes an email address to our MailChimp list.
+
+    Paste the URL for this endpoint into a browser to
+    see documentation for it.
+    '''
+
+    if not settings.MAILCHIMP_API_KEY:
+        return make_json_error('MAILCHIMP_DISABLED', 404)
+
+    if request.method == "GET":
+        return render_subscribe_docs(request)
+
+    return process_subscription(request)

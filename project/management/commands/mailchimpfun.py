@@ -23,8 +23,10 @@ class Command(BaseCommand):
             # https://api.mailchimp.com/schema/3.0/Lists/Members/Instance.json
             'email_address': email,
             'status_if_new': 'subscribed',
-            'tags': ['blarf'],
             'language': 'es',
+        })
+        client.lists.members.tags.update(MAILCHIMP_LISTID, md5hash, {
+            'tags': [{'name': 'blarf', 'status': 'active'}],
         })
 
         member = client.lists.members.get(MAILCHIMP_LISTID, md5hash)

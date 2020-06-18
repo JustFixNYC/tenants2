@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Mailchimp subscribe API documentation</title>
+<style>
+html {
+  font-family: sans-serif;
+}
+
+label {
+  font-family: monospace;
+}
+
+ul.enum {
+  display: inline;
+  padding: 0;
+}
+
+ul.enum li {
+  display: inline;
+  font-family: monospace;
+}
+
+ul.enum li:not(:last-child)::after {
+  content: ',';
+  font-family: sans-serif;
+}
+</style>
+<h1>Mailchimp subscribe API documentation</h1>
+<p>
+  Sending a POST to this URL will subscribes an
+  email address to the JustFix.nyc Mailchimp list.
+</p>
+<p>
+  The POST requires a CORS request with the
+  following <code>application/x-www-form-urlencoded</code> arguments:
+</p>
+<ul>
+  <li><code>email</code> is the email address to subscribe.</li>
+  <li><code>language</code> is the locale of the subscriber.
+    Valid values are:
+    <ul class="enum">{% for l in languages %} <li>{{ l }}</li>{% endfor %}</ul>.
+  </li>
+  <li><code>source</code> is the source from which the subscriber is subscribing.
+    Valid values are:
+    <ul class="enum">{% for s in sources %} <li>{{ s }}</li>{% endfor %}</ul>.
+  </li>
+</ul>
+<p>
+  If any of the arguments are invalid, a HTTP 400 will be
+  returned, and the JSON response will contain an <code>errorCode</code>
+  value of <code>INVALID_EMAIL</code>, <code>INVALID_LANGUAGE</code>,
+  or <code>INVALID_SOURCE</code>.
+</p>
+<p>
+  The request must come from either this server, or one of the following
+  origins:
+</p>
+<ul>
+  {% for origin in origins %}
+  <li><code>{{ origin }}</code></li>
+  {% endfor %}
+</ul>
+<p>
+  If successful, a HTTP 200 will be returned.
+</p>
+<h2>API sandbox</h2>
+<p>
+  The form below can be used to experiment with the API.
+</p>
+<form action="/mailchimp/subscribe" method="POST">
+  <p>
+    <label for="email">email</label>
+    <input id="email" type="text" name="email">
+  </p>
+  <p>
+    <label for="language">language</label>
+    <select name="language" id="language">
+      {% for language in languages %}
+      <option value="{{ language }}">{{ language }}</value>
+      {% endfor %}
+    </select>
+  </p>
+  <p>
+    <label for="source">source</label>
+    <select name="source" id="source">
+      {% for source in sources %}
+      <option value="{{ source }}">{{ source }}</value>
+      {% endfor %}
+    </select>
+  </p>
+  <button type="submit">Submit</button>
+</form>

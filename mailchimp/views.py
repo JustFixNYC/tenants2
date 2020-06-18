@@ -1,8 +1,10 @@
+from typing import Optional
 from django.http import JsonResponse
 from django.conf import settings
 from django.core.validators import EmailValidator, ValidationError
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render
 
 from . import mailchimp
 
@@ -24,40 +26,42 @@ def is_email_valid(value: str) -> bool:
         return False
 
 
-@require_POST
+def get_valid_origin(request) -> Optional[str]:
+    origin: str = request.META.get('HTTP_ORIGIN', '')
+    host_origin = request.build_absolute_uri('/')[:-1]
+    if origin == host_origin:
+        return origin
+    if origin in settings.MAILCHIMP_CORS_ORIGINS:
+        return origin
+    return None
+
+
+def render_subscribe_docs(request):
+    return render(request, 'mailchimp/subscribe-docs.html', {
+        'languages': [v.value for v in mailchimp.Language],
+        'sources': [v.value for v in mailchimp.SubscribeSource],
+        'origins': settings.MAILCHIMP_CORS_ORIGINS,
+    })
+
+
+@require_http_methods(["GET", "POST"])
 @csrf_exempt
 def subscribe(request):
     '''
     Subscribes an email address to our MailChimp list.
 
-    This POST endpoint requires a CORS request with the
-    following application/x-www-form-urlencoded arguments:
-
-      * `email` is the email address to subscribe.
-
-      * `language` is the ISO 639-1 locale of the subscriber
-        (e.g. `en` or `es`).
-
-      * `source` is the source from which the subscriber is
-        subscribing. It should be one of the values from
-        the `SubscribeSource` enumeration (e.g. `wow`).
-
-    The request must come from an origin in the
-    MAILCHIMP_CORS_ORIGINS setting. If it isn't, a HTTP 403
-    will be returned.
-
-    If any of the arguments are invalid, a HTTP 400 will be
-    returned, and the JSON response will contain an `errorCode`
-    value of `INVALID_EMAIL`, `INVALID_LANGUAGE`, or `INVALID_SOURCE`.
-
-    Otherwise, a HTTP 200 will be returned.
+    Paste the URL for this endpoint into a browser to
+    see documentation for it.
     '''
 
     if not settings.MAILCHIMP_API_KEY:
         return make_json_error('MAILCHIMP_DISABLED', 404)
 
-    origin: str = request.META.get('HTTP_ORIGIN', '')
-    if origin not in settings.MAILCHIMP_CORS_ORIGINS:
+    if request.method == "GET":
+        return render_subscribe_docs(request)
+
+    origin = get_valid_origin(request)
+    if not origin:
         return make_json_error('INVALID_ORIGIN', 403)
 
     try:
@@ -80,8 +84,6 @@ def subscribe(request):
         source=source,
     )
 
-    response = JsonResponse({
-        'status': 200
-    }, status=200)
+    response = JsonResponse({'status': 200}, status=200)
     response['Access-Control-Allow-Origin'] = origin
     return response

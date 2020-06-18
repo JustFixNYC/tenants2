@@ -283,8 +283,6 @@ type OutboundLinkProps = DetailedHTMLProps<
 > & {
   /** The "href" prop is required on outbound links, not optional. */
   href: string;
-  target: string;
-  rel: string;
 };
 
 const defaultOutboundTarget = {

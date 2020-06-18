@@ -19,6 +19,7 @@ from .justfix_environment import BASE_DIR
 from .util.settings_util import (
     parse_secure_proxy_ssl_header,
     parse_hostname_redirects,
+    parse_comma_separated_list,
     LazilyImportedFunction
 )
 from .util import git
@@ -118,6 +119,7 @@ INSTALLED_APPS = [
     'texting_history.apps.TextingHistoryConfig',
     'docusign.apps.DocusignConfig',
     'norent.apps.NorentConfig',
+    'mailchimp.apps.MailchimpConfig',
 ]
 
 MIDDLEWARE = [
@@ -455,6 +457,12 @@ DOCUSIGN_CALLBACK_HANDLERS = [
 ]
 
 ENABLE_EMERGENCY_HP_ACTION = env.ENABLE_EMERGENCY_HP_ACTION
+
+MAILCHIMP_API_KEY = env.MAILCHIMP_API_KEY
+
+MAILCHIMP_LIST_ID = env.MAILCHIMP_LIST_ID
+
+MAILCHIMP_CORS_ORIGINS = parse_comma_separated_list(env.MAILCHIMP_CORS_ORIGINS)
 
 IS_DEMO_DEPLOYMENT = env.IS_DEMO_DEPLOYMENT
 

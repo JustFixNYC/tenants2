@@ -3,6 +3,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 from project.util.settings_util import (
     ensure_dependent_settings_are_nonempty,
+    parse_comma_separated_list,
     LazilyImportedFunction
 )
 
@@ -37,3 +38,13 @@ def test_lazily_imported_function_works():
     lif = LazilyImportedFunction(f'{__name__}.example_lazy_func')
     assert lif(1, b=2) == 'blorp a=1 b=2'
     assert lif(2, b=3) == 'blorp a=2 b=3'
+
+
+@pytest.mark.parametrize('input,output', [
+    ('foo', ['foo']),
+    ('foo, bar', ['foo', 'bar']),
+    ('', []),
+    (',,,,', []),
+])
+def test_parse_comma_separated_list_works(input, output):
+    assert parse_comma_separated_list(input) == output

@@ -359,6 +359,17 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # to foo.com being redirected to bar.com.
     HOSTNAME_REDIRECTS: str = ''
 
+    # The Mailchimp API key. If blank, Mailchimp integration will
+    # be disabled.
+    MAILCHIMP_API_KEY: str = ''
+
+    # The Mailchimp list ID. Required for Mailchimp integration.
+    MAILCHIMP_LIST_ID: str = ''
+
+    # Comma-separated list of HTTP origins that can access our
+    # Mailchimp subscription endpoint.
+    MAILCHIMP_CORS_ORIGINS: str = ''
+
 
 class JustfixBuildPipelineDefaults(JustfixEnvironment):
     '''

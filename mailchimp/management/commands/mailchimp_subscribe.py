@@ -1,5 +1,3 @@
-import pprint
-from django.conf import settings
 from django.core.management import BaseCommand
 
 from mailchimp import mailchimp
@@ -29,10 +27,5 @@ class Command(BaseCommand):
             language=language,
             source=source,
         )
-
-        client = mailchimp.get_client()
-        md5hash = mailchimp.get_email_hash(email)
-        member = client.lists.members.get(settings.MAILCHIMP_LIST_ID, md5hash)
-        pprint.pprint(member)
 
         print("Done.")

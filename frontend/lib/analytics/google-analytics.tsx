@@ -287,8 +287,11 @@ type OutboundLinkProps = DetailedHTMLProps<
   rel: string;
 };
 
-const defaultOutboundLinkProps = {
+const defaultOutboundTarget = {
   target: "_blank",
+}
+
+const defaultOutboundRel = {
   rel: "noopener noreferrer"
 }
 /**
@@ -297,7 +300,12 @@ const defaultOutboundLinkProps = {
  */
 export function OutboundLink(props: OutboundLinkProps): JSX.Element {
   console.log("before default", props);
-  props = { ...props, ...defaultOutboundLinkProps,};
+  if(props.target === undefined){
+  props = {...props, ...defaultOutboundTarget,};
+  } 
+  if(props.rel === undefined){
+    props = {...props, ...defaultOutboundRel,};
+  } 
   console.log("after default", props);
   const {onClick, ...otherProps } = props;
   return (

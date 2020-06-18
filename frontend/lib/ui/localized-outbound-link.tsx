@@ -1,7 +1,7 @@
 import React from "react";
 import i18n, { SupportedLocaleMap } from "../i18n";
 import { OutboundLink } from "../analytics/google-analytics";
-import { Trans } from "@lingui/macro";
+import { Trans } from "@lingui/react";
 
 /**
  * A mapping from supported locales to URLs. At minimum,
@@ -11,7 +11,6 @@ import { Trans } from "@lingui/macro";
 type PartiallyLocalizedHrefs = {
   en: string;
 } & Partial<SupportedLocaleMap<string>>;
-
 export type LocalizedOutboundLinkProps = {
   /**
    * The human-readable text of the link. It should already be

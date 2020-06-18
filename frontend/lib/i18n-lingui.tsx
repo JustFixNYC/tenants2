@@ -15,7 +15,6 @@ import { LoadingPageSignaler } from "./networking/loading-page";
  * argument.
  */
 export type LoadableCatalog = LoadableLibrary<Catalog>;
-
 /**
  * Maps supported locales to components that load a Lingui message
  * catalog for them.

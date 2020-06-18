@@ -1,9 +1,8 @@
-import hashlib
 import pprint
-from django.core.management import BaseCommand
 from django.conf import settings
-from mailchimp3 import MailChimp
-import requests
+from django.core.management import BaseCommand
+
+from mailchimp import mailchimp
 
 
 class Command(BaseCommand):
@@ -12,21 +11,15 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         email: str = options['email']
-        headers = requests.utils.default_headers()
-        headers['User-Agent'] = "JustFix.nyc Tenant Platform"
-        client = MailChimp(mc_api=settings.MAILCHIMP_API_KEY, request_headers=headers)
 
-        md5hash = hashlib.md5(email.lower().encode('ascii')).hexdigest()
-        client.lists.members.create_or_update(settings.MAILCHIMP_LIST_ID, md5hash, {
-            # https://api.mailchimp.com/schema/3.0/Lists/Members/Instance.json
-            'email_address': email,
-            'status_if_new': 'subscribed',
-            'language': 'es',
-        })
-        client.lists.members.tags.update(settings.MAILCHIMP_LIST_ID, md5hash, {
-            'tags': [{'name': 'blarf', 'status': 'active'}],
-        })
+        mailchimp.subscribe(
+            email=email,
+            language=mailchimp.Language.Spanish,
+            source=mailchimp.SubscribeSource.OrgSite,
+        )
 
+        client = mailchimp.get_client()
+        md5hash = mailchimp.get_email_hash(email)
         member = client.lists.members.get(settings.MAILCHIMP_LIST_ID, md5hash)
         pprint.pprint(member)
 

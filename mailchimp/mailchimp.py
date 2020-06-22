@@ -1,5 +1,6 @@
 import hashlib
 from enum import Enum
+from typing import Dict
 from django.conf import settings
 from mailchimp3 import MailChimp
 import requests
@@ -15,6 +16,18 @@ class Language(Enum):
 class SubscribeSource(Enum):
     WhoOwnsWhat = 'wow'
     OrgSite = 'orgsite'
+    NoRent = 'norent'
+
+
+SOURCE_LABELS: Dict[SubscribeSource, str] = {
+    SubscribeSource.WhoOwnsWhat: 'Who Owns What',
+    SubscribeSource.OrgSite: 'Org Site',
+    SubscribeSource.NoRent: 'NoRent.org',
+}
+
+
+def get_tag_for_source(source: SubscribeSource) -> str:
+    return f'Signup: {SOURCE_LABELS[source]}'
 
 
 def get_client() -> MailChimp:
@@ -36,9 +49,8 @@ def subscribe(email: str, language: Language, source: SubscribeSource):
         'status_if_new': 'subscribed',
         'language': language.value,
     })
-    tag = f'source:{source.value}'
     client.lists.members.tags.update(settings.MAILCHIMP_LIST_ID, md5hash, {
-        'tags': [{'name': tag, 'status': 'active'}],
+        'tags': [{'name': get_tag_for_source(source), 'status': 'active'}],
     })
 
 

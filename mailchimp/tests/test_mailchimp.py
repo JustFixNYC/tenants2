@@ -1,4 +1,9 @@
-from mailchimp.mailchimp import get_email_hash, validate_settings
+from mailchimp.mailchimp import (
+    get_email_hash,
+    validate_settings,
+    get_tag_for_source,
+    SubscribeSource,
+)
 
 
 class TestGetEmailHash:
@@ -15,3 +20,8 @@ class TestValidateSettings:
 
     def test_it_works_when_mailchimp_is_enabled(self, mailchimp):
         validate_settings()
+
+
+def test_source_labels_are_exhaustive():
+    for item in SubscribeSource:
+        assert get_tag_for_source(item)

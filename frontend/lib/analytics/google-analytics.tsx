@@ -260,9 +260,7 @@ export function handleOutboundLinkClick(e: MouseEvent<HTMLAnchorElement>) {
   // new window or tab. We don't want to break that.
   const isModifierPressed = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
   const { href, target } = e.currentTarget;
-
   const willOpenInNewWindow = target && target !== window.name;
-
   if (!isModifierPressed && !willOpenInNewWindow) {
     ga("send", "event", "outbound", "click", href, {
       transport: "beacon",
@@ -274,6 +272,7 @@ export function handleOutboundLinkClick(e: MouseEvent<HTMLAnchorElement>) {
     e.preventDefault();
   } else {
     ga("send", "event", "outbound", "click", href);
+    //e.preventDefault();
   }
 }
 
@@ -297,14 +296,12 @@ const defaultOutboundRel = {
  * which we want to track with analytics.
  */
 export function OutboundLink(props: OutboundLinkProps): JSX.Element {
-  console.log("before default", props);
-  if(props.target === undefined){
+  if(props.target !== ""){
   props = {...props, ...defaultOutboundTarget,};
   } 
-  if(props.rel === undefined){
+  if(props.rel !== ""){
     props = {...props, ...defaultOutboundRel,};
   } 
-  console.log("after default", props);
   const {onClick, ...otherProps } = props;
   return (
     <a

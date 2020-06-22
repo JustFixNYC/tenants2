@@ -9,13 +9,15 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-06-03 17:37\n"
+"PO-Revision-Date: 2020-06-15 16:00\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tenants2\n"
+"X-Crowdin-Project-ID: 402800\n"
 "X-Crowdin-Language: es-ES\n"
 "X-Crowdin-File: /master/locales/en/messages.po\n"
+"X-Crowdin-File-ID: 40\n"
 
 #. This is used when showing the translation of English content in the user's language. It should be localized to use the name of the language itself, e.g. 'Spanish translation'.
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:51
@@ -208,9 +210,9 @@ msgstr "¿No puedes pagar la renta?"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:12
+#: frontend/lib/norent/data/state-localized-resources.tsx:13
 msgid "Cancel Rent Campaign"
-msgstr ""
+msgstr "Campaña para la Anulación de la Renta"
 
 #: frontend/lib/rh/rental-history.tsx:118
 msgid "Cancel request"
@@ -222,7 +224,7 @@ msgstr "Cancelar la renta"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:29
 msgid "Check out these valuable resources for your state:"
-msgstr ""
+msgstr "Explora otros recursos específicos para tu estado:"
 
 #: frontend/lib/norent/homepage.tsx:42
 msgid "Cite up-to-date legal ordinances in your letter"
@@ -355,9 +357,9 @@ msgstr "Versión en inglés"
 msgid "Establish your defense"
 msgstr "Establece tu defensa"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:5
+#: frontend/lib/norent/data/state-localized-resources.tsx:6
 msgid "Eviction Moratorium updates"
-msgstr ""
+msgstr "Actualizaciones de la Moratoria de Desalojo"
 
 #: frontend/lib/norent/the-letter.tsx:53
 msgid "Exercise your rights"
@@ -966,9 +968,9 @@ msgstr ""
 msgid "Rent Strike 2020: A Resource List"
 msgstr "Huelga de Renta 2020: Lista de recursos (en inglés)"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:19
+#: frontend/lib/norent/data/state-localized-resources.tsx:20
 msgid "Rent Strike Organizing"
-msgstr ""
+msgstr "Organizar Huelgas de Renta"
 
 #: frontend/lib/rh/email-to-dhcr.tsx:17
 msgid "Request for Rent History"
@@ -992,7 +994,7 @@ msgstr "Cambia tu contraseña"
 
 #: frontend/lib/rh/rental-history.tsx:123
 msgid "Review your request to the DHCR"
-msgstr ""
+msgstr "Revisa tu solicitud al DHCR"
 
 #: common-data/us-state-choices.ts:105
 msgid "Rhode Island"
@@ -1613,6 +1615,11 @@ msgstr "<0>Sí. Después de enviar la carta seguirás obligado a pagar la renta 
 #: frontend/lib/norent/components/helmet.tsx:13
 msgid "pay rent, rent, can't pay rent, june rent, june 1"
 msgstr "pagar la renta, renta, no puedo pagar la renta, renta de junio, 1 de junio"
+
+#. This is used to describe a link to another website that is only available in English.
+#: frontend/lib/ui/localized-outbound-link.tsx:44
+msgid "{0} (in English)"
+msgstr "{0} (en inglés)"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."

@@ -67,6 +67,10 @@ def get_site_origin(site: Site) -> str:
     return absolutify_url('/', site=site)[:-1]
 
 
+def get_protocol() -> str:
+    return 'http' if settings.DEBUG else 'https'
+
+
 def absolutify_url(
     url: str,
     request: Optional[HttpRequest] = None,
@@ -85,10 +89,9 @@ def absolutify_url(
     if not url.startswith('/'):
         raise ValueError(f"url must be an absolute path: {url}")
 
-    protocol = 'http' if settings.DEBUG else 'https'
     site = site or get_site_from_request_or_default(request)
     host = site.domain
-    return f"{protocol}://{host}{url}"
+    return f"{get_protocol()}://{host}{url}"
 
 
 def absolute_reverse(*args, request: Optional[HttpRequest] = None, **kwargs) -> str:

@@ -58,7 +58,12 @@ def tendigit_to_e164(phone_number: str) -> str:
     return f"+1{phone_number}"
 
 
-def send_sms(phone_number: str, body: str, fail_silently=False) -> str:
+def send_sms(
+    phone_number: str,
+    body: str,
+    fail_silently=False,
+    ignore_invalid_phone_number=True,
+) -> str:
     '''
     Send an SMS message to the given phone number, with the given body.
 
@@ -67,9 +72,20 @@ def send_sms(phone_number: str, body: str, fail_silently=False) -> str:
 
     If `fail_silently` is True, any exceptions raised will be logged,
     but not propagated.
+
+    If `ignore_invalid_phone_number' is True, any exceptions raised
+    related to invalid phone numbers will be logged, but not
+    propagated. Furthermore, the SMS won't even be sent if we
+    know the phone number is invalid.
     '''
 
     if settings.TWILIO_ACCOUNT_SID:
+        from .models import PhoneNumberLookup
+        if ignore_invalid_phone_number:
+            lookup = PhoneNumberLookup.objects.filter(phone_number=phone_number).first()
+            if lookup and not lookup.is_valid:
+                logger.info(f'Phone number {phone_number} is invalid, not sending SMS.')
+                return ''
         client = get_client()
         try:
             msg = client.messages.create(
@@ -79,7 +95,14 @@ def send_sms(phone_number: str, body: str, fail_silently=False) -> str:
             )
             logger.info(f'Sent Twilio message with sid {msg.sid}.')
             return msg.sid
-        except Exception:
+        except Exception as e:
+            is_invalid_number = isinstance(e, TwilioRestException) and e.code == 21211
+            if is_invalid_number:
+                logger.info(f'Phone number {phone_number} is invalid.')
+                lookup = PhoneNumberLookup(phone_number=phone_number, is_valid=False)
+                lookup.save()
+                if ignore_invalid_phone_number:
+                    return ''
             if fail_silently:
                 logger.exception(f'Error while communicating with Twilio')
                 return ''

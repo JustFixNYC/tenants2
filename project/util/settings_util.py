@@ -1,4 +1,4 @@
-from typing import Optional, Callable
+from typing import Optional, Callable, Dict
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.module_loading import import_string
@@ -15,6 +15,24 @@ def parse_secure_proxy_ssl_header(field):
 
     name, value = field.split(':')
     return ('HTTP_%s' % name.upper().replace('-', '_'), value.strip())
+
+
+def parse_hostname_redirects(value: str) -> Dict[str, str]:
+    '''
+    Parses a comma-separated list of hostname redirects. Each redirect
+    is of the form "<src> to <dest>", e.g.:
+
+        >>> parse_hostname_redirects('foo.com to bar.com, baz.com to quux.com')
+        {'foo.com': 'bar.com', 'baz.com': 'quux.com'}
+    '''
+
+    redirects: Dict[str, str] = {}
+    for pair in value.split(','):
+        if not pair:
+            continue
+        from_hostname, to_hostname = pair.split(' to ')
+        redirects[from_hostname.strip()] = to_hostname.strip()
+    return redirects
 
 
 def ensure_dependent_settings_are_nonempty(setting: str, *dependent_settings: str):

@@ -4,6 +4,8 @@ from django.conf import settings
 from mailchimp3 import MailChimp
 import requests
 
+from project.util.settings_util import ensure_dependent_settings_are_nonempty
+
 
 class Language(Enum):
     Spanish = 'es'
@@ -38,3 +40,14 @@ def subscribe(email: str, language: Language, source: SubscribeSource):
     client.lists.members.tags.update(settings.MAILCHIMP_LIST_ID, md5hash, {
         'tags': [{'name': tag, 'status': 'active'}],
     })
+
+
+def is_enabled():
+    return bool(settings.MAILCHIMP_API_KEY)
+
+
+def validate_settings():
+    ensure_dependent_settings_are_nonempty(
+        'MAILCHIMP_API_KEY',
+        'MAILCHIMP_LIST_ID',
+    )

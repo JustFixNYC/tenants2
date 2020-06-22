@@ -1,4 +1,4 @@
-from django.core.management import BaseCommand
+from django.core.management import BaseCommand, CommandError
 
 from mailchimp import mailchimp
 
@@ -18,6 +18,9 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        if not mailchimp.is_enabled():
+            raise CommandError("Mailchimp integration is disabled.")
+
         email: str = options['email']
         language = mailchimp.Language(options['language'])
         source = mailchimp.SubscribeSource(options['source'])

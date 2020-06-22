@@ -12,13 +12,6 @@ VALID_SUBSCRIBE_ARGS = {
 }
 
 
-@pytest.fixture
-def mailchimp(settings):
-    settings.MAILCHIMP_API_KEY = '0123456789abcdefffffffffffffffff-us10'
-    settings.MAILCHIMP_CORS_ORIGINS = ['https://www.justfix.nyc']
-    settings.MAILCHIMP_LIST_ID = '1234'
-
-
 class TestSubscribe:
     def post(self, client, origin="https://www.justfix.nyc", **kwargs):
         return client.post(

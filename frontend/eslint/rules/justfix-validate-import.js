@@ -14,30 +14,46 @@ function assert(condition) {
   }
 }
 
+/**
+ * @param {string} importStr
+ * @param {string} filename
+ */
+function get_RE_Case(importStr, filename){
+  if (TESTS_DIR_RE.test(importStr) && !TESTS_DIR_RE.test(filename)) return "test code";
+  if  (TRANS_REACT_RE.test(importStr)) return "lingui/react";
+  return undefined;
+}
+
 /** @type import("eslint").Rule.RuleModule */
 module.exports = {
   create: function (context) {
-    let message = "";
     return {
       ImportDeclaration(node) {
         assert(node.type === "ImportDeclaration");
         assert(typeof node.source.value === "string");
         const importStr = node.source.value;
         const filename = context.getFilename();
-        if (TESTS_DIR_RE.test(importStr) && !TESTS_DIR_RE.test(filename)) {
-            message = `Production code is importing test suite code at "${importStr}"!`;
+        let key = get_RE_Case(importStr, filename);
+        switch (key) {
+          case "test code":
+            context.report({
+              node,
+              message: `Production code is importing test suite code at "${importStr}"!`,
+            }); 
+            break;
+          case "lingui/react":
+            node.specifiers && node.specifiers.map((item) => {
+              if (item.type === "ImportSpecifier" && item.imported.name === "Trans") {
+                context.report({
+                  node,
+                  message: `Trans imported from "${importStr}", please import from @lingui/macro`,
+                }); 
+              }
+            });    
+          break;
+          default:
+          break;
         }
-        if (TRANS_REACT_RE.test(importStr)) {
-          node.specifiers && node.specifiers.map((item) => {
-            if (item.type === "ImportSpecifier" &&item.imported.name === "Trans") {
-                message = `Trans imported from "${importStr}", please import from @lingui/macro`;
-            }
-          });    
-        }
-        context.report({
-          node,
-          message,
-        });
       }
     }
   }

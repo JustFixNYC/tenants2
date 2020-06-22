@@ -62,7 +62,11 @@ describe("OutboundLink", () => {
 
   it("sends hit to GA on click and then redirects", () => {
     const pal = new ReactTestingLibraryPal(
-      <OutboundLink href="https://boop.com/" target = "">boop</OutboundLink>
+      (
+        <OutboundLink href="https://boop.com/" target="">
+          boop
+        </OutboundLink>
+      )
     );
     const wasDefaultPrevented = !pal.clickButtonOrLink("boop");
     expect(gaMock.mock.calls).toHaveLength(1);
@@ -99,7 +103,11 @@ describe("OutboundLink", () => {
 
   it("redirects after a timeout if GA has not responded", () => {
     const pal = new ReactTestingLibraryPal(
-      <OutboundLink href="https://blorp.com/" target = "">blorp</OutboundLink>
+      (
+        <OutboundLink href="https://blorp.com/" target="">
+          blorp
+        </OutboundLink>
+      )
     );
     pal.clickButtonOrLink("blorp");
     jest.advanceTimersByTime(1001);

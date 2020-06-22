@@ -286,23 +286,23 @@ type OutboundLinkProps = DetailedHTMLProps<
 
 const defaultOutboundTarget = {
   target: "_blank",
-}
+};
 
 const defaultOutboundRel = {
-  rel: "noopener noreferrer"
-}
+  rel: "noopener noreferrer",
+};
 /**
  * A react component that encapsulates a link to an external website,
  * which we want to track with analytics.
  */
 export function OutboundLink(props: OutboundLinkProps): JSX.Element {
-  if(props.target !== ""){
-  props = {...props, ...defaultOutboundTarget,};
-  } 
-  if(props.rel !== ""){
-    props = {...props, ...defaultOutboundRel,};
-  } 
-  const {onClick, ...otherProps } = props;
+  if (props.target !== "") {
+    props = { ...props, ...defaultOutboundTarget };
+  }
+  if (props.rel !== "") {
+    props = { ...props, ...defaultOutboundRel };
+  }
+  const { onClick, ...otherProps } = props;
   return (
     <a
       {...otherProps}

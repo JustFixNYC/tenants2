@@ -367,7 +367,8 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     MAILCHIMP_LIST_ID: str = ''
 
     # Comma-separated list of HTTP origins that can access our
-    # Mailchimp subscription endpoint.
+    # Mailchimp subscription endpoint. It can also be '*', in
+    # which case any website can use the endpoint.
     MAILCHIMP_CORS_ORIGINS: str = ''
 
 

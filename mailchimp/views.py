@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Set
 from django.http import JsonResponse
 from django.conf import settings
 from django.core.validators import EmailValidator, ValidationError
@@ -26,14 +26,17 @@ def is_email_valid(value: str) -> bool:
         return False
 
 
+def is_origin_valid(origin: str, valid_origins: Set[str]) -> bool:
+    if '*' in valid_origins:
+        return True
+    return origin in valid_origins
+
+
 def get_valid_origin(request) -> Optional[str]:
     origin: str = request.META.get('HTTP_ORIGIN', '')
     host_origin = request.build_absolute_uri('/')[:-1]
-    if origin == host_origin:
-        return origin
-    if origin in settings.MAILCHIMP_CORS_ORIGINS:
-        return origin
-    return None
+    valid_origins = set([*settings.MAILCHIMP_CORS_ORIGINS, host_origin])
+    return origin if is_origin_valid(origin, valid_origins) else None
 
 
 def render_subscribe_docs(request):

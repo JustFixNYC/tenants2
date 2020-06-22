@@ -1,6 +1,7 @@
 import pytest
 
 from mailchimp.mailchimp import get_email_hash
+from mailchimp.views import is_origin_valid
 
 
 SUBSCRIBE_PATH = '/mailchimp/subscribe'
@@ -10,6 +11,15 @@ VALID_SUBSCRIBE_ARGS = {
     'source': 'orgsite',
     'email': 'boop@jones.com',
 }
+
+
+@pytest.mark.parametrize('origin,valid_origins,result', [
+    ["https://boop.com", {'*'}, True],
+    ["https://boop.com", {'https://boop.com'}, True],
+    ["https://boop.com", {}, False],
+])
+def test_is_origin_valid(origin, valid_origins, result):
+    assert is_origin_valid(origin, valid_origins) is result
 
 
 class TestSubscribe:

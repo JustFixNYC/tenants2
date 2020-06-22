@@ -17,6 +17,7 @@ function assert(condition) {
 /** @type import("eslint").Rule.RuleModule */
 module.exports = {
   create: function (context) {
+    let message = "";
     return {
       ImportDeclaration(node) {
         assert(node.type === "ImportDeclaration");
@@ -24,20 +25,20 @@ module.exports = {
         const importStr = node.source.value;
         const filename = context.getFilename();
         if (TESTS_DIR_RE.test(importStr) && !TESTS_DIR_RE.test(filename)) {
-          context.report({
-            node,
-            message: `Production code is importing test suite code at "${importStr}"!`,
-          });
+            message = `Production code is importing test suite code at "${importStr}"!`;
         }
-        
         if (TRANS_REACT_RE.test(importStr)) {
           node.specifiers && node.specifiers.map((item) => {
-            if(item.type === "ImportSpecifier" && item.imported.name === "Trans"){
-              context.report({node, message: `Trans imported from "${importStr}", please import from @lingui/macro`});
+            if (item.type === "ImportSpecifier" &&item.imported.name === "Trans") {
+                message = `Trans imported from "${importStr}", please import from @lingui/macro`;
             }
-          });
+          });    
         }
-      },
-    };
-  },
-};
+        context.report({
+          node,
+          message,
+        });
+      }
+    }
+  }
+}

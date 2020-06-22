@@ -18,9 +18,10 @@ function assert(condition) {
  * @param {string} importStr
  * @param {string} filename
  */
-function get_RE_Case(importStr, filename){
-  if (TESTS_DIR_RE.test(importStr) && !TESTS_DIR_RE.test(filename)) return "test code";
-  if  (TRANS_REACT_RE.test(importStr)) return "lingui/react";
+function get_RE_Case(importStr, filename) {
+  if (TESTS_DIR_RE.test(importStr) && !TESTS_DIR_RE.test(filename))
+    return "test code";
+  if (TRANS_REACT_RE.test(importStr)) return "lingui/react";
   return undefined;
 }
 
@@ -39,22 +40,26 @@ module.exports = {
             context.report({
               node,
               message: `Production code is importing test suite code at "${importStr}"!`,
-            }); 
+            });
             break;
           case "lingui/react":
-            node.specifiers && node.specifiers.map((item) => {
-              if (item.type === "ImportSpecifier" && item.imported.name === "Trans") {
-                context.report({
-                  node,
-                  message: `Trans imported from "${importStr}", please import from @lingui/macro`,
-                }); 
-              }
-            });    
-          break;
+            node.specifiers &&
+              node.specifiers.map((item) => {
+                if (
+                  item.type === "ImportSpecifier" &&
+                  item.imported.name === "Trans"
+                ) {
+                  context.report({
+                    node,
+                    message: `Trans imported from "${importStr}", please import from @lingui/macro`,
+                  });
+                }
+              });
+            break;
           default:
-          break;
+            break;
         }
-      }
-    }
-  }
-}
+      },
+    };
+  },
+};

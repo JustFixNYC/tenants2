@@ -32,7 +32,7 @@ ruleTester.run("justfix-validate-import", rule, {
       errors: [
         {
           message:
-            "Trans imported from @lingui/react, please import from @lingui/macro",
+            'Trans imported from "@lingui/react", please import from @lingui/macro',
         },
       ],
     },

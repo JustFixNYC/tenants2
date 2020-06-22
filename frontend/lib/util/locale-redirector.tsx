@@ -1,6 +1,7 @@
 import React from "react";
 import { LocaleChoice } from "../../../common-data/locale-choices";
 import { Route, Redirect } from "react-router-dom";
+import * as H from "history";
 
 /**
  * Returns a Route that redirects all requests for the given locale
@@ -8,7 +9,10 @@ import { Route, Redirect } from "react-router-dom";
  */
 export function createLocaleRedirectorRoute(
   from: LocaleChoice,
-  to: LocaleChoice
+  to: LocaleChoice,
+  RedirectComponent: React.ComponentType<{
+    to: H.LocationDescriptor;
+  }> = Redirect
 ): JSX.Element {
   const fromPath = `/${from}/`;
 
@@ -19,7 +23,7 @@ export function createLocaleRedirectorRoute(
         const pathname =
           `/${to}/` + props.location.pathname.substring(fromPath.length);
 
-        return <Redirect to={{ ...props.location, pathname }} />;
+        return <RedirectComponent to={{ ...props.location, pathname }} />;
       }}
     />
   );

@@ -23,7 +23,6 @@ import {
   redirectToAddressConfirmationOrNextStep,
 } from "../ui/address-confirmation";
 import { ClearSessionButton } from "../forms/clear-session-button";
-import { OutboundLink } from "../analytics/google-analytics";
 import { CustomerSupportLink } from "../ui/customer-support-link";
 import { updateAddressFromBrowserStorage } from "../browser-storage";
 import { GetStartedButton } from "../ui/get-started-button";
@@ -34,6 +33,11 @@ import { renderSuccessHeading } from "../ui/success-heading";
 import { li18n, createLinguiCatalogLoader } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import loadable from "@loadable/component";
+import {
+  EnglishOutboundLink,
+  LocalizedOutboundLinkProps,
+  LocalizedOutboundLinkList,
+} from "../ui/localized-outbound-link";
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -240,6 +244,28 @@ function RentalHistoryPreview(): JSX.Element {
   );
 }
 
+const KYR_LINKS: LocalizedOutboundLinkProps[] = [
+  {
+    children: <Trans>Met Council on Housing</Trans>,
+    hrefs: {
+      en: "https://www.metcouncilonhousing.org/help-answers/",
+    },
+  },
+  {
+    children: <Trans>Housing Court Answers</Trans>,
+    hrefs: {
+      en: "http://housingcourtanswers.org/glossary/",
+    },
+  },
+  {
+    children: <Trans>JustFix.nyc's Learning Center</Trans>,
+    hrefs: {
+      en:
+        "https://www.justfix.nyc/learn?utm_source=tenantplatform&utm_medium=rh",
+    },
+  },
+];
+
 function RentalHistoryConfirmation(): JSX.Element {
   const appContext = useContext(AppContext);
   const { onboardingInfo } = appContext.session;
@@ -259,12 +285,9 @@ function RentalHistoryConfirmation(): JSX.Element {
           Rent History is an important document—it shows the registered rents in
           your apartment since 1984. You can learn more about it and how it can
           help you figure out if you’re being overcharged on rent at the{" "}
-          <OutboundLink
-            href="https://www.metcouncilonhousing.org/help-answers/rent-stabilization-overcharges/"
-            target="_blank"
-          >
+          <EnglishOutboundLink href="https://www.metcouncilonhousing.org/help-answers/rent-stabilization-overcharges/">
             Met Council on Housing guide to Rent Stabilization Overcharges
-          </OutboundLink>
+          </EnglishOutboundLink>
           .
         </Trans>
       </p>
@@ -283,32 +306,7 @@ function RentalHistoryConfirmation(): JSX.Element {
       <h2>
         <Trans>Want to read more about your rights?</Trans>
       </h2>
-      <ul>
-        <li>
-          <OutboundLink
-            href="https://www.metcouncilonhousing.org/help-answers/"
-            target="_blank"
-          >
-            <Trans>Met Council on Housing</Trans>
-          </OutboundLink>
-        </li>
-        <li>
-          <OutboundLink
-            href="http://housingcourtanswers.org/glossary/"
-            target="_blank"
-          >
-            <Trans>Housing Court Answers</Trans>
-          </OutboundLink>
-        </li>
-        <li>
-          <OutboundLink
-            href="https://www.justfix.nyc/learn?utm_source=tenantplatform&utm_medium=rh"
-            target="_blank"
-          >
-            <Trans>JustFix.nyc's Learning Center</Trans>
-          </OutboundLink>
-        </li>
-      </ul>
+      <LocalizedOutboundLinkList links={KYR_LINKS} />
     </Page>
   );
 }

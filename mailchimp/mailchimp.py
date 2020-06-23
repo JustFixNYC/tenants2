@@ -3,6 +3,7 @@ from enum import Enum
 from typing import Dict
 from django.conf import settings
 from mailchimp3 import MailChimp
+from mailchimp3.mailchimpclient import MailChimpError
 import requests
 
 from project.util.settings_util import ensure_dependent_settings_are_nonempty
@@ -38,6 +39,16 @@ def get_client() -> MailChimp:
 
 def get_email_hash(email: str):
     return hashlib.md5(email.lower().encode('ascii')).hexdigest()
+
+
+def is_fake_email_err(e: MailChimpError) -> bool:
+    try:
+        # This appears to be the only way to detect this kind of error;
+        # as far as we can tell, Mailchimp has no notion of an "error code"
+        # for it.
+        return 'please enter a real email address' in e.args[0]['detail']
+    except Exception:
+        return False
 
 
 def subscribe(email: str, language: Language, source: SubscribeSource):

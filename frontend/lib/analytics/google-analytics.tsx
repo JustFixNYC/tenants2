@@ -272,7 +272,6 @@ export function handleOutboundLinkClick(e: MouseEvent<HTMLAnchorElement>) {
     e.preventDefault();
   } else {
     ga("send", "event", "outbound", "click", href);
-    //e.preventDefault();
   }
 }
 
@@ -284,25 +283,19 @@ type OutboundLinkProps = DetailedHTMLProps<
   href: string;
 };
 
-const defaultOutboundTarget = {
+const defaultOutboundLinkProps = {
   target: "_blank",
-};
-
-const defaultOutboundRel = {
   rel: "noopener noreferrer",
 };
+
 /**
  * A react component that encapsulates a link to an external website,
  * which we want to track with analytics.
  */
 export function OutboundLink(props: OutboundLinkProps): JSX.Element {
-  if (props.target !== "") {
-    props = { ...props, ...defaultOutboundTarget };
-  }
-  if (props.rel !== "") {
-    props = { ...props, ...defaultOutboundRel };
-  }
+  props = { ...defaultOutboundLinkProps, ...props };
   const { onClick, ...otherProps } = props;
+  console.log(props);
   return (
     <a
       {...otherProps}

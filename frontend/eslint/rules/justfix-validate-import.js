@@ -17,10 +17,15 @@ function assert(condition) {
 /**
  * @param {string} importStr
  * @param {string} filename
+ * @returns {"test_code" | "lingui/react" | undefined}
+ * 
+ * This function checks the string and filename from which a class is imported, 
+ * and if it matches criteria for a custom ESLint case, it will return a corresponding string.
+ * Returns 'undefined' if import strings do not match any case.
  */
-function get_RE_Case(importStr, filename) {
+function getImportCase(importStr, filename) {
   if (TESTS_DIR_RE.test(importStr) && !TESTS_DIR_RE.test(filename))
-    return "test code";
+    return "test_code";
   if (TRANS_REACT_RE.test(importStr)) return "lingui/react";
   return undefined;
 }
@@ -34,9 +39,9 @@ module.exports = {
         assert(typeof node.source.value === "string");
         const importStr = node.source.value;
         const filename = context.getFilename();
-        let key = get_RE_Case(importStr, filename);
+        let key = getImportCase(importStr, filename);
         switch (key) {
-          case "test code":
+          case "test_code":
             context.report({
               node,
               message: `Production code is importing test suite code at "${importStr}"!`,
@@ -56,7 +61,7 @@ module.exports = {
                 }
               });
             break;
-          default:
+          case undefined:
             break;
         }
       },

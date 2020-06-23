@@ -41,6 +41,7 @@ urlpatterns = [
     path('dev/', include(dev_patterns, namespace='dev')),
     path('docusign/', include('docusign.urls')),
     path('data-requests/', include('data_requests.urls')),
+    path('mailchimp/', include('mailchimp.urls')),
 ]
 
 if settings.DEBUG:

@@ -1,4 +1,5 @@
 from typing import Optional, Set
+import logging
 from django.http import JsonResponse
 from django.conf import settings
 from django.core.validators import EmailValidator, ValidationError
@@ -7,6 +8,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 
 from . import mailchimp
+
+
+logger = logging.getLogger(__name__)
 
 
 def make_json_error(error_code: str, status: int) -> JsonResponse:
@@ -47,6 +51,40 @@ def render_subscribe_docs(request):
     })
 
 
+def make_invalid_email_err():
+    return make_json_error('INVALID_EMAIL', 400)
+
+
+def mailchimp_err_to_json_err(e: mailchimp.MailChimpError):
+    if mailchimp.is_fake_email_err(e):
+        return make_invalid_email_err()
+    logger.exception('An error occurred when subscribing to Mailchimp.')
+    return make_json_error('INTERNAL_SERVER_ERROR', 500)
+
+
+def subscribe_and_return_json(
+    origin: str,
+    email: str,
+    language: mailchimp.Language,
+    source: mailchimp.SubscribeSource
+):
+    if not is_email_valid(email):
+        return make_invalid_email_err()
+
+    try:
+        mailchimp.subscribe(
+            email=email,
+            language=language,
+            source=source,
+        )
+    except mailchimp.MailChimpError as e:
+        return mailchimp_err_to_json_err(e)
+
+    response = JsonResponse({'status': 200}, status=200)
+    response['Access-Control-Allow-Origin'] = origin
+    return response
+
+
 def process_subscription(request):
     origin = get_valid_origin(request)
     if not origin:
@@ -62,19 +100,12 @@ def process_subscription(request):
     except ValueError:
         return make_json_error('INVALID_SOURCE', 400)
 
-    email: str = request.POST.get('email', '')
-    if not is_email_valid(email):
-        return make_json_error('INVALID_EMAIL', 400)
-
-    mailchimp.subscribe(
-        email=email,
+    return subscribe_and_return_json(
+        origin=origin,
+        email=request.POST.get('email', ''),
         language=language,
         source=source,
     )
-
-    response = JsonResponse({'status': 200}, status=200)
-    response['Access-Control-Allow-Origin'] = origin
-    return response
 
 
 @require_http_methods(["GET", "POST"])

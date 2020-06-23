@@ -1,8 +1,12 @@
+import pytest
+
 from mailchimp.mailchimp import (
     get_email_hash,
     validate_settings,
     get_tag_for_source,
+    is_fake_email_err,
     SubscribeSource,
+    MailChimpError,
 )
 
 
@@ -25,3 +29,20 @@ class TestValidateSettings:
 def test_source_labels_are_exhaustive():
     for item in SubscribeSource:
         assert get_tag_for_source(item)
+
+
+FAKE_EMAIL_ERR = {
+    'type': 'http://developer.mailchimp.com/documentation/mailchimp/guides/error-glossary/',
+    'title': 'Invalid Resource',
+    'status': 400,
+    'detail': 'foo@example.com looks fake or invalid, please enter a real email address.',
+    'instance': 'bdae75e6-64e2-4e29-a866-cb168ba731ce'
+}
+
+
+@pytest.mark.parametrize('blob,expected', [
+    [{'blah': 1}, False],
+    [FAKE_EMAIL_ERR, True],
+])
+def test_is_fake_email_err_works(blob, expected):
+    assert is_fake_email_err(MailChimpError(blob)) is expected

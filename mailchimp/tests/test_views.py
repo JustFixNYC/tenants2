@@ -1,7 +1,9 @@
 import pytest
+import json
 
-from mailchimp.mailchimp import get_email_hash
-from mailchimp.views import is_origin_valid
+from mailchimp.mailchimp import get_email_hash, MailChimpError
+from mailchimp.views import is_origin_valid, mailchimp_err_to_json_err
+from .test_mailchimp import FAKE_EMAIL_ERR
 
 
 SUBSCRIBE_PATH = '/mailchimp/subscribe'
@@ -20,6 +22,16 @@ VALID_SUBSCRIBE_ARGS = {
 ])
 def test_is_origin_valid(origin, valid_origins, result):
     assert is_origin_valid(origin, valid_origins) is result
+
+
+@pytest.mark.parametrize('blob,err_code', [
+    (FAKE_EMAIL_ERR, 'INVALID_EMAIL'),
+    ({'blah': 1}, 'INTERNAL_SERVER_ERROR'),
+])
+def test_mailchimp_err_to_json_err(blob, err_code):
+    err = mailchimp_err_to_json_err(MailChimpError(blob))
+    parsed = json.loads(err.content)
+    assert parsed['errorCode'] == err_code
 
 
 class TestSubscribe:

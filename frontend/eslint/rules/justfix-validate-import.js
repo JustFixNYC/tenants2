@@ -18,8 +18,8 @@ function assert(condition) {
  * @param {string} importStr
  * @param {string} filename
  * @returns {"test_code" | "lingui/react" | undefined}
- * 
- * This function checks the string and filename from which a class is imported, 
+ *
+ * This function checks the string and filename from which a class is imported,
  * and if it matches criteria for a custom ESLint case, it will return a corresponding string.
  * Returns 'undefined' if import strings do not match any case.
  */

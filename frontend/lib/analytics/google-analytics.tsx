@@ -295,7 +295,6 @@ const defaultOutboundLinkProps = {
 export function OutboundLink(props: OutboundLinkProps): JSX.Element {
   props = { ...defaultOutboundLinkProps, ...props };
   const { onClick, ...otherProps } = props;
-  console.log(props);
   return (
     <a
       {...otherProps}

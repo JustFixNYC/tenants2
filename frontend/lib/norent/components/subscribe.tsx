@@ -28,11 +28,9 @@ class Subscribe extends React.Component<SubscribeProps, SubscribeState> {
 
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const email = this.state.email || null;
     const locale = li18n.language;
 
-    // check if email is missing, return undefined
     if (!email) {
       this.setState({
         response: li18n._(t`Please enter an email address!`),
@@ -40,13 +38,8 @@ class Subscribe extends React.Component<SubscribeProps, SubscribeState> {
       return;
     }
 
-    const tenantPlatformOrigin =
-      process.env.GATSBY_TENANT_PLATFORM_SITE_ORIGIN ||
-      "https://demo.justfix.nyc";
-
-    fetch(`${tenantPlatformOrigin}/mailchimp/subscribe`, {
+    fetch("/mailchimp/subscribe", {
       method: "POST",
-      mode: "cors",
       body: `email=${encodeURIComponent(
         email
       )}&language=${locale}&source=norent`,
@@ -125,6 +118,7 @@ class Subscribe extends React.Component<SubscribeProps, SubscribeState> {
         </form>
         {this.state.response && (
           <>
+            <br />
             <p
               className={
                 this.state.success ? "has-text-white" : "has-text-danger"
@@ -132,7 +126,6 @@ class Subscribe extends React.Component<SubscribeProps, SubscribeState> {
             >
               {this.state.response}
             </p>
-            <br />
           </>
         )}
       </div>

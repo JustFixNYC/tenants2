@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-06-24 22:08\n"
+"PO-Revision-Date: 2020-06-24 22:15\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -125,7 +125,7 @@ msgstr "Alaska"
 
 #: frontend/lib/norent/components/subscribe.tsx:34
 msgid "All set! Thanks for subscribing!"
-msgstr "All set! Thanks for subscribing!"
+msgstr "¡Todo listo! ¡Gracias por suscribirte!"
 
 #: frontend/lib/norent/homepage.tsx:188
 msgid "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
@@ -431,7 +431,7 @@ msgstr "¡Entendido!"
 
 #: frontend/lib/pages/redirect-to-english-page.tsx:13
 msgid "Got it, take me there"
-msgstr "Got it, take me there"
+msgstr "Entiendido, llevame"
 
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"
@@ -873,11 +873,11 @@ msgstr "Oklahoma"
 #: frontend/lib/norent/components/subscribe.tsx:41
 #: frontend/lib/norent/components/subscribe.tsx:45
 msgid "Oops! A network error occurred. Try again later."
-msgstr "Oops! A network error occurred. Try again later."
+msgstr "¡Vaya! Hubo un error en la red. Inténtalo más tarde."
 
 #: frontend/lib/norent/components/subscribe.tsx:37
 msgid "Oops! That email is invalid."
-msgstr "Oops! That email is invalid."
+msgstr "¡Vaya! Ese correo electrónico no es válido."
 
 #: common-data/us-state-choices.ts:102
 msgid "Oregon"
@@ -927,7 +927,7 @@ msgstr "Por favor, acepta nuestros términos y condiciones"
 
 #: frontend/lib/norent/components/subscribe.tsx:19
 msgid "Please enter an email address!"
-msgstr "Please enter an email address!"
+msgstr "Por favor, ¡introduzca una dirección de correo electrónico!"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:117
 msgid "Please note, the email will be sent in English."
@@ -1097,7 +1097,7 @@ msgstr "La Carta"
 
 #: frontend/lib/pages/redirect-to-english-page.tsx:9
 msgid "The webpage that you want to access is only available in English."
-msgstr "The webpage that you want to access is only available in English."
+msgstr "La página web a la que quieres acceder solo está disponible en inglés."
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:19
 msgid "This is optional."
@@ -1549,7 +1549,7 @@ msgstr "pagar la renta, renta, no puedo pagar la renta, renta de junio, 1 de jun
 #. This is used to describe a link to another website that is only available in English.
 #: frontend/lib/ui/localized-outbound-link.tsx:44
 msgid "{0} (in English)"
-msgstr "{0} (in English)"
+msgstr "{0} (en inglés)"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."

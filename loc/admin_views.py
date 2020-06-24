@@ -7,6 +7,7 @@ from django.core import signing
 
 from users.models import CHANGE_LETTER_REQUEST_PERMISSION
 import airtable.sync
+from project import slack
 from . import models, views, lob_api
 
 
@@ -124,6 +125,12 @@ class LocAdminViews:
                 letter.letter_sent_at = timezone.now()
                 letter.save()
                 airtable.sync.sync_user(user)
+                slack.sendmsg_async(
+                    f"{slack.escape(request.user.first_name)} has sent "
+                    f"{slack.hyperlink(text=user.first_name, href=user.admin_url)}'s "
+                    "letter of complaint!",
+                    is_safe=True,
+                )
             else:
                 ctx.update({
                     **self._get_mail_confirmation_context(user),

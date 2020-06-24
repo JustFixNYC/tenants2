@@ -3,6 +3,8 @@ import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
 import { StaticImage } from "../../ui/static-image";
 import { getImageSrc } from "../homepage";
+import { AriaAnnouncement } from "../../ui/aria";
+import { awesomeFetch } from "../../networking/fetch";
 
 const Subscribe = () => {
   const [email, setEmail] = useState("");
@@ -22,7 +24,7 @@ const Subscribe = () => {
       return;
     }
 
-    fetch("/mailchimp/subscribe", {
+    awesomeFetch("/mailchimp/subscribe", {
       method: "POST",
       body: `email=${encodeURIComponent(
         email
@@ -39,11 +41,9 @@ const Subscribe = () => {
         } else if (result.errorCode === "INVALID_EMAIL") {
           setResponse(li18n._(t`Oops! That email is invalid.`));
         } else {
-          window &&
-            window.Rollbar &&
-            window.Rollbar.error(
-              `Mailchimp email signup responded with error code ${result.errorCode}.`
-            );
+          window.Rollbar?.error(
+            `Mailchimp email signup responded with error code ${result.errorCode}.`
+          );
           setResponse(
             li18n._(t`Oops! A network error occurred. Try again later.`)
           );
@@ -92,6 +92,7 @@ const Subscribe = () => {
         <>
           <br />
           <p className={isSuccessful ? "has-text-white" : "has-text-danger"}>
+            <AriaAnnouncement text={response} />
             {response}
           </p>
         </>

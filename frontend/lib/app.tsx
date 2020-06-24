@@ -137,7 +137,7 @@ export class AppWithoutRouter extends React.Component<
   handleFetchError(e: Error) {
     window.alert(
       li18n._(
-        t`Unfortunately, a network error occurred. Please try again later.`
+        t`Oops! A network error occurred. Try again later.`
       )
     );
     // We're going to track exceptions in GA because we want to know how frequently

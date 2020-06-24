@@ -10,6 +10,7 @@ from django.utils import timezone
 
 from users.models import JustfixUser, ADD_SERVING_PAPERS_PERMISSION
 from loc import lob_api
+from project import slack
 from . import models
 from .normalize_serving_papers import convert_to_letter_pages
 
@@ -124,6 +125,12 @@ class HPActionAdminViews:
                 messages.success(
                     request,
                     'The recipient has been served! See below for more details.'
+                )
+                slack.sendmsg_async(
+                    f"{slack.escape(request.user.first_name)} has served "
+                    f"{slack.hyperlink(text=sender.first_name, href=sender.admin_url)}'s "
+                    "landlord!",
+                    is_safe=True,
                 )
                 return HttpResponseRedirect(go_back_href)
         else:

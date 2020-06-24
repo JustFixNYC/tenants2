@@ -123,10 +123,7 @@ const SanitationGuidelines = () => {
                   <p className="is-size-7">
                     For guidance on how to thoroughly sanitize your home and a
                     list of recommended effective cleaning products visit{" "}
-                    <OutboundLink
-                      href="https://www.cdc.gov/coronavirus/2019-ncov/prepare/cleaning-disinfection.html"
-                      target="_blank"
-                    >
+                    <OutboundLink href="https://www.cdc.gov/coronavirus/2019-ncov/prepare/cleaning-disinfection.html">
                       Center for Disease Control (CDC) Guide on How to Clean and
                       Disinfect
                     </OutboundLink>
@@ -212,11 +209,7 @@ function WeMailedLetterStatus(props: {
         <b>
           USPS Certified Mail<sup>&reg;</sup>
         </b>{" "}
-        tracking number is{" "}
-        <a href={url} target="_blank" rel="noopener, noreferrer">
-          {trackingNumber}
-        </a>
-        .
+        tracking number is <a href={url}>{trackingNumber}</a>.
       </p>
       <DownloadLetterLink {...props} />
       <h2>What happens next?</h2>
@@ -295,34 +288,22 @@ function UserWillMailLetterStatus(props: { locPdfURL: string }): JSX.Element {
 const knowYourRightsList = (
   <ul>
     <li>
-      <OutboundLink
-        href="https://www.metcouncilonhousing.org/help-answers/getting-repairs/"
-        target="_blank"
-      >
+      <OutboundLink href="https://www.metcouncilonhousing.org/help-answers/getting-repairs/">
         Met Council on Housing
       </OutboundLink>{" "}
       (
-      <OutboundLink
-        href="https://www.metcouncilonhousing.org/help-answers/how-to-get-repairs-spanish/"
-        target="_blank"
-      >
+      <OutboundLink href="https://www.metcouncilonhousing.org/help-answers/how-to-get-repairs-spanish/">
         en español
       </OutboundLink>
       )
     </li>
     <li>
-      <OutboundLink
-        href="http://housingcourtanswers.org/glossary/"
-        target="_blank"
-      >
+      <OutboundLink href="http://housingcourtanswers.org/glossary/">
         Housing Court Answers
       </OutboundLink>
     </li>
     <li>
-      <OutboundLink
-        href="https://www.justfix.nyc/learn?utm_source=tenantplatform&utm_medium=loc"
-        target="_blank"
-      >
+      <OutboundLink href="https://www.justfix.nyc/learn?utm_source=tenantplatform&utm_medium=loc">
         JustFix.nyc's Learning Center
       </OutboundLink>
     </li>

@@ -260,9 +260,7 @@ export function handleOutboundLinkClick(e: MouseEvent<HTMLAnchorElement>) {
   // new window or tab. We don't want to break that.
   const isModifierPressed = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
   const { href, target } = e.currentTarget;
-
   const willOpenInNewWindow = target && target !== window.name;
-
   if (!isModifierPressed && !willOpenInNewWindow) {
     ga("send", "event", "outbound", "click", href, {
       transport: "beacon",
@@ -285,11 +283,17 @@ type OutboundLinkProps = DetailedHTMLProps<
   href: string;
 };
 
+const defaultOutboundLinkProps = {
+  target: "_blank",
+  rel: "noopener noreferrer",
+};
+
 /**
  * A react component that encapsulates a link to an external website,
  * which we want to track with analytics.
  */
 export function OutboundLink(props: OutboundLinkProps): JSX.Element {
+  props = { ...defaultOutboundLinkProps, ...props };
   const { onClick, ...otherProps } = props;
   return (
     <a

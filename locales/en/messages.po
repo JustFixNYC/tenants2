@@ -48,7 +48,7 @@ msgstr "<0>If you’re facing an emergency, you can find further legal assistanc
 msgid "<0>No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed.</0>"
 msgstr "<0>No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed.</0>"
 
-#: frontend/lib/norent/components/footer.tsx:71
+#: frontend/lib/norent/components/footer.tsx:58
 msgid "<0>NoRent</0> <1>brought to you by JustFix.nyc</1>"
 msgstr "<0>NoRent</0> <1>brought to you by JustFix.nyc</1>"
 
@@ -80,7 +80,7 @@ msgstr "A national tool by non-profit <0>JustFix.nyc</0>"
 
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
-#: frontend/lib/norent/components/footer.tsx:52
+#: frontend/lib/norent/components/footer.tsx:39
 #: frontend/lib/norent/site.tsx:74
 msgid "About"
 msgstr "About"
@@ -117,6 +117,10 @@ msgstr "Alas."
 #: common-data/us-state-choices.ts:65
 msgid "Alaska"
 msgstr "Alaska"
+
+#: frontend/lib/norent/components/subscribe.tsx:34
+msgid "All set! Thanks for subscribing!"
+msgstr "All set! Thanks for subscribing!"
 
 #: frontend/lib/norent/homepage.tsx:188
 msgid "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
@@ -170,7 +174,7 @@ msgstr "Browse the FAQs"
 msgid "Build a letter using our free letter builder"
 msgstr "Build a letter using our free letter builder"
 
-#: frontend/lib/norent/components/footer.tsx:43
+#: frontend/lib/norent/components/footer.tsx:30
 #: frontend/lib/norent/site.tsx:65
 msgid "Build my Letter"
 msgstr "Build my Letter"
@@ -204,7 +208,7 @@ msgstr "Can't pay rent?"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:12
+#: frontend/lib/norent/data/state-localized-resources.tsx:13
 msgid "Cancel Rent Campaign"
 msgstr "Cancel Rent Campaign"
 
@@ -323,11 +327,11 @@ msgstr "Do you still want to mail to:"
 msgid "Don’t worry, we’ll save your progress so you’ll be able to come back to your last step when you log back in."
 msgstr "Don’t worry, we’ll save your progress so you’ll be able to come back to your last step when you log back in."
 
-#: frontend/lib/norent/components/footer.tsx:19
+#: frontend/lib/norent/components/subscribe.tsx:55
 msgid "ENTER YOUR EMAIL"
 msgstr "ENTER YOUR EMAIL"
 
-#: frontend/lib/norent/components/footer.tsx:17
+#: frontend/lib/norent/components/subscribe.tsx:53
 msgid "Email"
 msgstr "Email"
 
@@ -347,7 +351,7 @@ msgstr "English version"
 msgid "Establish your defense"
 msgstr "Establish your defense"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:5
+#: frontend/lib/norent/data/state-localized-resources.tsx:6
 msgid "Eviction Moratorium updates"
 msgstr "Eviction Moratorium updates"
 
@@ -363,7 +367,7 @@ msgstr "Explore the tool"
 msgid "FAQs"
 msgstr "FAQs"
 
-#: frontend/lib/norent/components/footer.tsx:49
+#: frontend/lib/norent/components/footer.tsx:36
 #: frontend/lib/norent/site.tsx:71
 msgid "Faqs"
 msgstr "Faqs"
@@ -420,6 +424,10 @@ msgstr "Going on rent strike"
 msgid "Got it!"
 msgstr "Got it!"
 
+#: frontend/lib/pages/redirect-to-english-page.tsx:13
+msgid "Got it, take me there"
+msgstr "Got it, take me there"
+
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"
 msgstr "Hawaii"
@@ -428,6 +436,7 @@ msgstr "Hawaii"
 #: frontend/lib/tests/i18n-lingui.test.tsx:25
 #: frontend/lib/tests/i18n-lingui.test.tsx:32
 #: frontend/lib/ui/tests/localized-outbound-link.test.tsx:18
+#: frontend/lib/ui/tests/localized-outbound-link.test.tsx:25
 msgid "Hello world"
 msgstr "Hello world"
 
@@ -592,7 +601,7 @@ msgstr "It’s possible that your landlord will retaliate once they’ve receive
 msgid "It’s your first time here!"
 msgstr "It’s your first time here!"
 
-#: frontend/lib/norent/components/footer.tsx:33
+#: frontend/lib/norent/components/footer.tsx:18
 msgid "Join our <0/>mailing list"
 msgstr "Join our <0/>mailing list"
 
@@ -855,6 +864,16 @@ msgstr "Ohio"
 msgid "Oklahoma"
 msgstr "Oklahoma"
 
+#: frontend/lib/app.tsx:55
+#: frontend/lib/norent/components/subscribe.tsx:41
+#: frontend/lib/norent/components/subscribe.tsx:45
+msgid "Oops! A network error occurred. Try again later."
+msgstr "Oops! A network error occurred. Try again later."
+
+#: frontend/lib/norent/components/subscribe.tsx:37
+msgid "Oops! That email is invalid."
+msgstr "Oops! That email is invalid."
+
 #: common-data/us-state-choices.ts:102
 msgid "Oregon"
 msgstr "Oregon"
@@ -901,6 +920,10 @@ msgstr "Please <0>go back and choose a state</0>."
 msgid "Please agree to our terms and conditions"
 msgstr "Please agree to our terms and conditions"
 
+#: frontend/lib/norent/components/subscribe.tsx:19
+msgid "Please enter an email address!"
+msgstr "Please enter an email address!"
+
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:117
 msgid "Please note, the email will be sent in English."
 msgstr "Please note, the email will be sent in English."
@@ -927,7 +950,7 @@ msgstr "Regards,"
 msgid "Rent Strike 2020: A Resource List"
 msgstr "Rent Strike 2020: A Resource List"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:19
+#: frontend/lib/norent/data/state-localized-resources.tsx:20
 msgid "Rent Strike Organizing"
 msgstr "Rent Strike Organizing"
 
@@ -1035,8 +1058,8 @@ msgstr "Strategic Actions for a Just Economy"
 msgid "Street address"
 msgstr "Street address"
 
-#: frontend/lib/norent/components/footer.tsx:22
-#: frontend/lib/norent/components/footer.tsx:23
+#: frontend/lib/norent/components/subscribe.tsx:58
+#: frontend/lib/norent/components/subscribe.tsx:59
 msgid "Submit email"
 msgstr "Submit email"
 
@@ -1060,12 +1083,16 @@ msgstr "Terms of Use"
 msgid "Texas"
 msgstr "Texas"
 
-#: frontend/lib/norent/components/footer.tsx:46
+#: frontend/lib/norent/components/footer.tsx:33
 #: frontend/lib/norent/site.tsx:68
 #: frontend/lib/norent/the-letter.tsx:10
 #: frontend/lib/norent/the-letter.tsx:15
 msgid "The Letter"
 msgstr "The Letter"
+
+#: frontend/lib/pages/redirect-to-english-page.tsx:9
+msgid "The webpage that you want to access is only available in English."
+msgstr "The webpage that you want to access is only available in English."
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:19
 msgid "This is optional."
@@ -1086,10 +1113,6 @@ msgstr "To:"
 #: frontend/lib/norent/letter-builder/confirmation.tsx:53
 msgid "USPS Tracking #:"
 msgstr "USPS Tracking #:"
-
-#: frontend/lib/app.tsx:55
-msgid "Unfortunately, a network error occurred. Please try again later."
-msgstr "Unfortunately, a network error occurred. Please try again later."
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:36
 msgid "Unfortunately, we do not currently recommend sending a notice of non-payment to your landlord. Sending a notice could put you at risk of harassment."
@@ -1450,7 +1473,7 @@ msgstr "In order to benefit from the eviction protections that local elected off
 msgid "norent.legacyUserBlurb"
 msgstr "<0>This is a new system. You will need a new account to use it. We're happy to set you up with one!</0><1>Meanwhile, whenever you want to sign into your \"Build your case\" or Advocate Dashboard account, you can sign in with your old account information at this URL:</1><2><3>beta.justfix.nyc</3> </2><4><5>Please write this URL down to remember it later.</5></4><6>Your new account will be used to access JustFix.nyc's new services.</6><7>If you have any questions, please feel free to email us at <8/>.</7>"
 
-#: frontend/lib/norent/components/footer.tsx:62
+#: frontend/lib/norent/components/footer.tsx:49
 msgid "norent.legalDisclaimer"
 msgstr "<0>Disclaimer: The information in JustFix.nyc does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free legal services if necessary.</0>"
 
@@ -1517,6 +1540,11 @@ msgstr "<0>Yes, you’ll still owe rent after sending the letter because our sta
 #: frontend/lib/norent/components/helmet.tsx:13
 msgid "pay rent, rent, can't pay rent, june rent, june 1"
 msgstr "pay rent, rent, can't pay rent, june rent, june 1"
+
+#. This is used to describe a link to another website that is only available in English.
+#: frontend/lib/ui/localized-outbound-link.tsx:44
+msgid "{0} (in English)"
+msgstr "{0} (in English)"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."

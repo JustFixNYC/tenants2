@@ -52,6 +52,10 @@ LOB_PUBLISHABLE_API_KEY = ''
 DOCUSIGN_ACCOUNT_ID = ''
 DOCUSIGN_INTEGRATION_KEY = ''
 DOCUSIGN_USER_ID = ''
+MAILCHIMP_API_KEY = ''
+MAILCHIMP_LIST_ID = ''
+MAILCHIMP_CORS_ORIGINS = []
+
 
 # Because we generally *don't* do things when we're on a demo
 # deployment, we'll default this to true, which will force tests

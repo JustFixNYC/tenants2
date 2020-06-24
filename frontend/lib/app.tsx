@@ -135,11 +135,7 @@ export class AppWithoutRouter extends React.Component<
 
   @autobind
   handleFetchError(e: Error) {
-    window.alert(
-      li18n._(
-        t`Unfortunately, a network error occurred. Please try again later.`
-      )
-    );
+    window.alert(li18n._(t`Oops! A network error occurred. Try again later.`));
     // We're going to track exceptions in GA because we want to know how frequently
     // folks are experiencing them. However, we won't report the errors
     // to a service like Rollbar because these errors are only worth investigating

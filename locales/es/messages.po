@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-06-15 16:00\n"
+"PO-Revision-Date: 2020-06-24 22:15\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -431,7 +431,7 @@ msgstr "¡Entendido!"
 
 #: frontend/lib/pages/redirect-to-english-page.tsx:13
 msgid "Got it, take me there"
-msgstr ""
+msgstr "Entiendido, llevame"
 
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"
@@ -1097,7 +1097,7 @@ msgstr "La Carta"
 
 #: frontend/lib/pages/redirect-to-english-page.tsx:9
 msgid "The webpage that you want to access is only available in English."
-msgstr ""
+msgstr "La página web a la que quieres acceder solo está disponible en inglés."
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:19
 msgid "This is optional."
@@ -1554,3 +1554,4 @@ msgstr "{0} (en inglés)"
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

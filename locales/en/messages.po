@@ -420,6 +420,10 @@ msgstr "Going on rent strike"
 msgid "Got it!"
 msgstr "Got it!"
 
+#: frontend/lib/pages/redirect-to-english-page.tsx:13
+msgid "Got it, take me there"
+msgstr "Got it, take me there"
+
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"
 msgstr "Hawaii"
@@ -428,6 +432,7 @@ msgstr "Hawaii"
 #: frontend/lib/tests/i18n-lingui.test.tsx:25
 #: frontend/lib/tests/i18n-lingui.test.tsx:32
 #: frontend/lib/ui/tests/localized-outbound-link.test.tsx:18
+#: frontend/lib/ui/tests/localized-outbound-link.test.tsx:25
 msgid "Hello world"
 msgstr "Hello world"
 
@@ -1066,6 +1071,10 @@ msgstr "Texas"
 #: frontend/lib/norent/the-letter.tsx:15
 msgid "The Letter"
 msgstr "The Letter"
+
+#: frontend/lib/pages/redirect-to-english-page.tsx:9
+msgid "The webpage that you want to access is only available in English."
+msgstr "The webpage that you want to access is only available in English."
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:19
 msgid "This is optional."

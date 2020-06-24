@@ -21,6 +21,7 @@ import { AppSiteProps } from "./app";
 import { Footer } from "./ui/footer";
 import { JustfixNavbar } from "./justfix-navbar";
 import { createLocaleRedirectorRoute } from "./util/locale-redirector";
+import { RedirectToEnglishPage } from "./pages/redirect-to-english-page";
 
 const LoadableDataDrivenOnboardingPage = loadable(
   () => friendlyLoad(import("./data-driven-onboarding/data-driven-onboarding")),
@@ -98,7 +99,11 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
   // Spanish version of JustFix.nyc, and if that happens we want to redirect
   // the user to the English version, since the Spanish version of JustFix.nyc
   // isn't ready yet.
-  const localeRedirector = createLocaleRedirectorRoute("es", "en");
+  const localeRedirector = createLocaleRedirectorRoute(
+    "es",
+    "en",
+    RedirectToEnglishPage
+  );
 
   return (
     <Switch location={location}>

@@ -125,7 +125,7 @@ msgstr "Alaska"
 
 #: frontend/lib/norent/components/subscribe.tsx:34
 msgid "All set! Thanks for subscribing!"
-msgstr ""
+msgstr "¡Todo listo! ¡Gracias por suscribirte!"
 
 #: frontend/lib/norent/homepage.tsx:188
 msgid "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
@@ -869,11 +869,11 @@ msgstr "Oklahoma"
 #: frontend/lib/norent/components/subscribe.tsx:41
 #: frontend/lib/norent/components/subscribe.tsx:45
 msgid "Oops! A network error occurred. Try again later."
-msgstr ""
+msgstr "¡Vaya! Hubo un error en la red. Inténtalo más tarde."
 
 #: frontend/lib/norent/components/subscribe.tsx:37
 msgid "Oops! That email is invalid."
-msgstr ""
+msgstr "¡Vaya! Ese correo electrónico no es válido."
 
 #: common-data/us-state-choices.ts:102
 msgid "Oregon"
@@ -923,7 +923,7 @@ msgstr "Por favor, acepta nuestros términos y condiciones"
 
 #: frontend/lib/norent/components/subscribe.tsx:19
 msgid "Please enter an email address!"
-msgstr ""
+msgstr "Por favor, ¡introduzca una dirección de correo electrónico!"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:117
 msgid "Please note, the email will be sent in English."

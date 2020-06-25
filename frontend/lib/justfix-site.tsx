@@ -107,8 +107,8 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
         component={createRedirectWithSearch(JustfixRoutes.locale.home)}
       />
       <PLRoute path={JustfixRoutes.locale.login} exact component={LoginPage} />
-      <PLRoute path={JustfixRoutes.adminLogin} exact component={LoginPage} />
-      <PLRoute
+      <Route path={JustfixRoutes.adminLogin} exact component={LoginPage} />
+      <Route
         path={JustfixRoutes.adminConversations}
         exact
         component={LoadableAdminConversationsRoutes}
@@ -145,7 +145,7 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
       {enableEHP &&
         toPLRoute(getOnboardingRouteForIntent(OnboardingInfoSignupIntent.EHP))}
       {enableEHP && (
-        <Route
+        <PLRoute
           path={JustfixRoutes.locale.ehp.prefix}
           component={LoadableEmergencyHPActionRoutes}
         />
@@ -154,7 +154,7 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
         path={JustfixRoutes.locale.rh.prefix}
         component={LoadableRentalHistoryRoutes}
       />
-      <PLRoute path={JustfixRoutes.dev.prefix} component={LoadableDevRoutes} />
+      <Route path={JustfixRoutes.dev.prefix} component={LoadableDevRoutes} />
       <PLRoute
         path={JustfixRoutes.locale.dataRequests.prefix}
         component={LoadableDataRequestsRoutes}

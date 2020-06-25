@@ -127,6 +127,11 @@ export interface AppServerInfo {
   enabledLocales: LocaleChoice[];
 
   /**
+   * Whether or not to enable work-in-progress locales/localizations.
+   */
+  enableWipLocales: boolean;
+
+  /**
    * If the page contains a GraphQL query whose result has been pre-fetched
    * by the server, this will contain its value.
    */

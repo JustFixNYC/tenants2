@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-06-24 22:15\n"
+"PO-Revision-Date: 2020-06-25 16:30\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -431,7 +431,7 @@ msgstr "¡Entendido!"
 
 #: frontend/lib/pages/redirect-to-english-page.tsx:13
 msgid "Got it, take me there"
-msgstr "Entiendido, llevame"
+msgstr "Entendido, llévame"
 
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"

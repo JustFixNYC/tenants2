@@ -20,7 +20,7 @@ import MoratoriumBanner from "./ui/covid-banners";
 import { AppSiteProps } from "./app";
 import { Footer } from "./ui/footer";
 import { JustfixNavbar } from "./justfix-navbar";
-import { PLRoute, toPLRoute } from "./util/locale-redirector";
+import { PLRoute, toPLRoute } from "./pages/redirect-to-english-page";
 
 const LoadableDataDrivenOnboardingPage = loadable(
   () => friendlyLoad(import("./data-driven-onboarding/data-driven-onboarding")),

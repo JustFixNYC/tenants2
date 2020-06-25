@@ -49,7 +49,7 @@ type ExtraPLRouteProps = {
 
 type PLRouteProps = RouteProps & ExtraPLRouteProps;
 
-function isLocaleSupported(
+export function isLocaleSupported(
   options: ExtraPLRouteProps & { enableWipLocales: boolean }
 ): boolean {
   let locales = options.locales || ["en"];
@@ -61,7 +61,21 @@ function isLocaleSupported(
   return new Set(locales).has(i18n.locale);
 }
 
-/** A partially localized route. */
+/**
+ * A partially localized route. That is, a route that is available only
+ * in certain languages, but not others.
+ *
+ * This takes similar props as React Router's <Route>, only
+ * it has the additional `locales` and `wipLocales` props which
+ * specify what locales are fully supported and/or works-in-progress,
+ * respectively.
+ *
+ * If the route is accessed and the current locale isn't supported,
+ * or if it's a WIP locale and the server isn't configured to
+ * enable WIP locales, then a <RedirectToEnglishPage> is shown
+ * which allows the user to see the English-only version of the
+ * page.
+ */
 export const PLRoute: React.FC<PLRouteProps> = (props) => {
   const { server } = useContext(AppContext);
 
@@ -79,6 +93,7 @@ export const PLRoute: React.FC<PLRouteProps> = (props) => {
   );
 };
 
+/** Helper function that converts a <Route> to a <PLRoute>. */
 export function toPLRoute(
   el: JSX.Element,
   plProps?: ExtraPLRouteProps

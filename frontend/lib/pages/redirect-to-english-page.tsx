@@ -3,7 +3,8 @@ import Page from "../ui/page";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import * as H from "history";
-import { useHistory } from "react-router-dom";
+import { useHistory, RouteComponentProps } from "react-router-dom";
+import i18n from "../i18n";
 
 export const RedirectToEnglishPage: React.FC<{ to: H.LocationDescriptor }> = (
   props
@@ -24,4 +25,13 @@ export const RedirectToEnglishPage: React.FC<{ to: H.LocationDescriptor }> = (
       </p>
     </Page>
   );
+};
+
+export const RedirectCurrentPathToEnglishPage: React.FC<RouteComponentProps> = ({
+  location,
+}) => {
+  const pathname = i18n.changeLocalePathPrefix(location.pathname, "en");
+  if (!pathname)
+    throw new Error(`Path ${location.pathname} is not locale-prefixed!`);
+  return <RedirectToEnglishPage to={{ ...location, pathname }} />;
 };

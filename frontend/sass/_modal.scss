@@ -24,13 +24,12 @@
 
 .jf-modal-dialog {
   cursor: default;
-  overflow-y: initial !important
+  overflow-y: initial !important;
 }
 
 .modal-content {
   // This appears to be the only way to size our modal on mobile
-  // devices in a way that works on *both* IE11 and modern browsers.
-  //@extend: calc(100vw - 40px);
+  // devices in a way that works on *both* IE11 and modern browsers. calc(100vw - 40px);
   width: 90vw;
   height: 80vh;
   overflow-y: auto;
@@ -41,8 +40,7 @@
 // .modal-content rule will override it.
 @media screen and (min-width: $tablet) {
   .modal-content {
-    width: 640px;
-    //width: 90vw;
+    max-width: 640px;
     height: 250px;
     overflow-y: auto;
   }

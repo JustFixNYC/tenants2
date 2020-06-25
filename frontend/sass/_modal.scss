@@ -30,9 +30,9 @@
 .modal-content {
   // This appears to be the only way to size our modal on mobile
   // devices in a way that works on *both* IE11 and modern browsers.
-  width: calc(100vw - 40px);
-  //width: 90vw;
-  height: 250px;
+  //@extend: calc(100vw - 40px);
+  width: 90vw;
+  height: 80vh;
   overflow-y: auto;
 }
 
@@ -42,6 +42,7 @@
 @media screen and (min-width: $tablet) {
   .modal-content {
     width: 640px;
+    //width: 90vw;
     height: 250px;
     overflow-y: auto;
   }

@@ -116,7 +116,7 @@
     "babel-loader": "8.0.5",
     "babel-plugin-dynamic-import-node": "2.2.0",
     "babel-plugin-macros": "2.8.0",
-    "bulma": "0.7.4",
+    "bulma": "0.9.0>",
     "bulma-divider": "0.2.0",
     "chalk": "2.4.1",
     "cheerio": "1.0.0-rc.2",

@@ -53,8 +53,8 @@ export function PrivacyInfoModal(props: {}): JSX.Element {
       onCloseGoTo={BackOrUpOneDirLevel}
       render={(ctx) => (
         <>
-          <div>
-            <Trans id="justfix.privacyInfoModalText">
+          <div >
+            <Trans id="justfix.privacyInfoModalText" >
               <h5>
                 Your privacy is very important to us! Here are some important
                 things to know:

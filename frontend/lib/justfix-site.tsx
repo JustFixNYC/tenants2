@@ -151,7 +151,6 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
         />
       )}
       <PLRoute
-        wipLocales={["es"]}
         path={JustfixRoutes.locale.rh.prefix}
         component={LoadableRentalHistoryRoutes}
       />

@@ -435,7 +435,7 @@ msgstr "¡Entendido!"
 
 #: frontend/lib/pages/redirect-to-english-page.tsx:15
 msgid "Got it, take me there"
-msgstr "Entiendido, llevame"
+msgstr "Entendido, llévame"
 
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"

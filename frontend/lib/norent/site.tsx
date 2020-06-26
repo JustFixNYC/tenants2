@@ -31,9 +31,9 @@ import { NorentLetterBuilderRoutes } from "./letter-builder/steps";
 import { NorentLogoutPage } from "./log-out";
 import { NorentHelmet } from "./components/helmet";
 import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
-import { Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { LocalizedNationalMetadataProvider } from "./letter-builder/national-metadata";
-import { createLinguiCatalogLoader } from "../i18n-lingui";
+import { createLinguiCatalogLoader, li18n } from "../i18n-lingui";
 import { NavbarLanguageDropdown } from "./components/language-toggle";
 
 function getRoutesForPrimaryPages() {
@@ -136,14 +136,11 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
 
     const NorentBrand: React.FC<{}> = () => (
       <Link className="navbar-item" to={Routes.locale.home}>
-        <Trans>
-          <NorentLogo
-            size="is-96x96"
-            color={isPrimaryPage ? "default" : "white"}
-          >
-            Homepage
-          </NorentLogo>
-        </Trans>
+        <NorentLogo
+          size="is-96x96"
+          color={isPrimaryPage ? "default" : "white"}
+          children={li18n._(t`Homepage`)}
+        />
       </Link>
     );
     return (

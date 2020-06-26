@@ -32,8 +32,8 @@ msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> makes use of a <1/> and <2/>, which you can review."
 
 #: frontend/lib/norent/site.tsx:87
-msgid "<0>Homepage</0>"
-msgstr "<0>Homepage</0>"
+#~ msgid "<0>Homepage</0>"
+#~ msgstr "<0>Homepage</0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:376
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
@@ -48,7 +48,7 @@ msgstr "<0>If you’re facing an emergency, you can find further legal assistanc
 msgid "<0>No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed.</0>"
 msgstr "<0>No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed.</0>"
 
-#: frontend/lib/norent/components/footer.tsx:58
+#: frontend/lib/norent/components/footer.tsx:51
 msgid "<0>NoRent</0> <1>brought to you by JustFix.nyc</1>"
 msgstr "<0>NoRent</0> <1>brought to you by JustFix.nyc</1>"
 
@@ -80,7 +80,7 @@ msgstr "A national tool by non-profit <0>JustFix.nyc</0>"
 
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
-#: frontend/lib/norent/components/footer.tsx:39
+#: frontend/lib/norent/components/footer.tsx:40
 #: frontend/lib/norent/site.tsx:74
 msgid "About"
 msgstr "About"
@@ -174,7 +174,7 @@ msgstr "Browse the FAQs"
 msgid "Build a letter using our free letter builder"
 msgstr "Build a letter using our free letter builder"
 
-#: frontend/lib/norent/components/footer.tsx:30
+#: frontend/lib/norent/components/footer.tsx:31
 #: frontend/lib/norent/site.tsx:65
 msgid "Build my Letter"
 msgstr "Build my Letter"
@@ -194,6 +194,10 @@ msgstr "Build your letter"
 #: frontend/lib/norent/data/faqs-content.tsx:28
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
 msgstr "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
+
+#: frontend/lib/ui/covid-banners.tsx:39
+msgid "COVID-19 Update:"
+msgstr "COVID-19 Update:"
 
 #: common-data/us-state-choices.ts:69
 msgid "California"
@@ -307,6 +311,10 @@ msgstr "Dear Landlord/Management."
 msgid "Delaware"
 msgstr "Delaware"
 
+#: frontend/lib/ui/footer.tsx:11
+msgid "Developed with <0>Law Help Interactive</0>"
+msgstr "Developed with <0>Law Help Interactive</0>"
+
 #: common-data/us-state-choices.ts:73
 msgid "District of Columbia"
 msgstr "District of Columbia"
@@ -367,7 +375,7 @@ msgstr "Explore the tool"
 msgid "FAQs"
 msgstr "FAQs"
 
-#: frontend/lib/norent/components/footer.tsx:36
+#: frontend/lib/norent/components/footer.tsx:37
 #: frontend/lib/norent/site.tsx:71
 msgid "Faqs"
 msgstr "Faqs"
@@ -424,7 +432,7 @@ msgstr "Going on rent strike"
 msgid "Got it!"
 msgstr "Got it!"
 
-#: frontend/lib/pages/redirect-to-english-page.tsx:13
+#: frontend/lib/pages/redirect-to-english-page.tsx:15
 msgid "Got it, take me there"
 msgstr "Got it, take me there"
 
@@ -443,6 +451,10 @@ msgstr "Hello world"
 #: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:23
 msgid "Hello, long-time JustFix.nyc user! We appreciate you."
 msgstr "Hello, long-time JustFix.nyc user! We appreciate you."
+
+#: frontend/lib/justfix-navbar.tsx:28
+msgid "Help"
+msgstr "Help"
 
 #: frontend/lib/norent/data/faqs-content.tsx:374
 msgid "Help! My landlord is already trying to evict me."
@@ -479,6 +491,11 @@ msgstr "Here’s what the letter will look like:"
 #: frontend/lib/norent/homepage.tsx:48
 msgid "Here’s what you can do with <0>NoRent</0>"
 msgstr "Here’s what you can do with <0>NoRent</0>"
+
+#: frontend/lib/justfix-navbar.tsx:13
+#: frontend/lib/norent/site.tsx:87
+msgid "Homepage"
+msgstr "Homepage"
 
 #: frontend/lib/norent/about.tsx:36
 msgid "Housing Justice for All"
@@ -601,13 +618,17 @@ msgstr "It’s possible that your landlord will retaliate once they’ve receive
 msgid "It’s your first time here!"
 msgstr "It’s your first time here!"
 
-#: frontend/lib/norent/components/footer.tsx:18
+#: frontend/lib/norent/components/footer.tsx:19
 msgid "Join our <0/>mailing list"
 msgstr "Join our <0/>mailing list"
 
 #: frontend/lib/norent/letter-content.tsx:69
 msgid "JustFix.nyc <0/>sent on behalf of <1/>"
 msgstr "JustFix.nyc <0/>sent on behalf of <1/>"
+
+#: frontend/lib/ui/footer.tsx:25
+msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
+msgstr "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
 
 #: common-data/us-state-choices.ts:81
 msgid "Kansas"
@@ -652,6 +673,7 @@ msgstr "Learn about why we made this tool, who we are, and who our partners are.
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:21
 #: frontend/lib/norent/the-letter.tsx:29
+#: frontend/lib/ui/covid-banners.tsx:50
 msgid "Learn more"
 msgstr "Learn more"
 
@@ -732,6 +754,10 @@ msgstr "Los Angeles County"
 #: common-data/us-state-choices.ts:83
 msgid "Louisiana"
 msgstr "Louisiana"
+
+#: frontend/lib/ui/footer.tsx:33
+msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
+msgstr "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:80
 msgid "Mailing address"
@@ -1022,6 +1048,14 @@ msgstr "Shall we send your letter?"
 msgid "Share this tool"
 msgstr "Share this tool"
 
+#: frontend/lib/justfix-navbar.tsx:25
+msgid "Sign in"
+msgstr "Sign in"
+
+#: frontend/lib/justfix-navbar.tsx:23
+msgid "Sign out"
+msgstr "Sign out"
+
 #: frontend/lib/norent/letter-builder/confirmation.tsx:142
 msgid "Sign the petition"
 msgstr "Sign the petition"
@@ -1063,6 +1097,10 @@ msgstr "Street address"
 msgid "Submit email"
 msgstr "Submit email"
 
+#: frontend/lib/justfix-navbar.tsx:20
+msgid "Take action"
+msgstr "Take action"
+
 #: frontend/lib/norent/data/faqs-content.tsx:8
 msgid "Tenant Rights"
 msgstr "Tenant Rights"
@@ -1083,14 +1121,14 @@ msgstr "Terms of Use"
 msgid "Texas"
 msgstr "Texas"
 
-#: frontend/lib/norent/components/footer.tsx:33
+#: frontend/lib/norent/components/footer.tsx:34
 #: frontend/lib/norent/site.tsx:68
 #: frontend/lib/norent/the-letter.tsx:10
 #: frontend/lib/norent/the-letter.tsx:15
 msgid "The Letter"
 msgstr "The Letter"
 
-#: frontend/lib/pages/redirect-to-english-page.tsx:9
+#: frontend/lib/pages/redirect-to-english-page.tsx:11
 msgid "The webpage that you want to access is only available in English."
 msgstr "The webpage that you want to access is only available in English."
 
@@ -1393,6 +1431,14 @@ msgstr "Zip code"
 msgid "and"
 msgstr "and"
 
+#: frontend/lib/ui/covid-banners.tsx:41
+msgid "justfix.covidBanner"
+msgstr "JustFix.nyc remains in operation, and we are adapting our products to match new rules put in place during the Covid-19 public health crisis. Thanks to organizing from tenant leaders, renters now have stronger protections during this time, including a full halt on eviction cases."
+
+#: frontend/lib/ui/legal-disclaimer.tsx:4
+msgid "justfix.legalDisclaimer"
+msgstr "Disclaimer: The information in {website} does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free legal services if necessary."
+
 #: frontend/lib/ui/privacy-info-modal.tsx:30
 msgid "justfix.privacyInfoModalText"
 msgstr "<0>Your privacy is very important to us! Here are some important things to know:</0><1><2>Your personal information is secure.</2><3>We don’t use your personal information for profit or sell it to third parties.</3><4>We use your address to find information about your landlord and your building.</4></1><5>Our Privacy Policy enables sharing anonymized data with approved tenant advocacy organizations exclusively to help further our tenants rights mission. The Privacy Policy contains information regarding what data we collect, how we use it, and the choices you have regarding your personal information. If you’d like to read more, please review our full <6/> and <7/>.</5>"
@@ -1474,8 +1520,8 @@ msgid "norent.legacyUserBlurb"
 msgstr "<0>This is a new system. You will need a new account to use it. We're happy to set you up with one!</0><1>Meanwhile, whenever you want to sign into your \"Build your case\" or Advocate Dashboard account, you can sign in with your old account information at this URL:</1><2><3>beta.justfix.nyc</3> </2><4><5>Please write this URL down to remember it later.</5></4><6>Your new account will be used to access JustFix.nyc's new services.</6><7>If you have any questions, please feel free to email us at <8/>.</7>"
 
 #: frontend/lib/norent/components/footer.tsx:49
-msgid "norent.legalDisclaimer"
-msgstr "<0>Disclaimer: The information in JustFix.nyc does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free legal services if necessary.</0>"
+#~ msgid "norent.legalDisclaimer"
+#~ msgstr "<0>Disclaimer: The information in JustFix.nyc does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free legal services if necessary.</0>"
 
 #: frontend/lib/norent/letter-content.tsx:107
 msgid "norent.letter.conclusion"

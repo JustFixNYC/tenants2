@@ -70,6 +70,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   redirectToLegacyAppURL: "/myredirect-to-legacy-app",
   mapboxAccessToken: "",
   enabledLocales: ["en"],
+  enableWipLocales: false,
   facebookAppId: "",
 };
 

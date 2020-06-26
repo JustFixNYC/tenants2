@@ -36,10 +36,6 @@ msgstr "8 minutos"
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
-#: frontend/lib/norent/site.tsx:87
-msgid "<0>Homepage</0>"
-msgstr "<0>Página Principal</0>"
-
 #: frontend/lib/norent/data/faqs-content.tsx:376
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
 msgstr "<0>Si el dueño de tu edificio te está intentando desalojar de forma ilegal, contacta con asistencia legal en <1/> inmediatamente.</0>"
@@ -53,7 +49,7 @@ msgstr "<0>Si te enfrentas a una emergencia, puede encontrar asistencia legal ad
 msgid "<0>No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed.</0>"
 msgstr "<0>No, puedes utilizar este sitio web para enviar una carta al dueño de tu edificio por correo electrónico o correo postal vía USPS. No tienes que pagar para que la carta sea enviada por correo postal.</0>"
 
-#: frontend/lib/norent/components/footer.tsx:58
+#: frontend/lib/norent/components/footer.tsx:51
 msgid "<0>NoRent</0> <1>brought to you by JustFix.nyc</1>"
 msgstr "<0>NoRent</0> <1>es proporcionado por JustFix.nyc</1>"
 
@@ -85,7 +81,7 @@ msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines
 
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
-#: frontend/lib/norent/components/footer.tsx:39
+#: frontend/lib/norent/components/footer.tsx:40
 #: frontend/lib/norent/site.tsx:74
 msgid "About"
 msgstr "Acerca de"
@@ -179,7 +175,7 @@ msgstr "Explora las preguntas más frecuentes"
 msgid "Build a letter using our free letter builder"
 msgstr "Crea una carta con nuestro generador de cartas gratis"
 
-#: frontend/lib/norent/components/footer.tsx:30
+#: frontend/lib/norent/components/footer.tsx:31
 #: frontend/lib/norent/site.tsx:65
 msgid "Build my Letter"
 msgstr "Crear mi carta"
@@ -199,6 +195,10 @@ msgstr "Crea tu carta"
 #: frontend/lib/norent/data/faqs-content.tsx:28
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
 msgstr "Mapa de huelgas de renta y protección para inquilinos ante la emergencia generada por el COVID-19"
+
+#: frontend/lib/ui/covid-banners.tsx:39
+msgid "COVID-19 Update:"
+msgstr ""
 
 #: common-data/us-state-choices.ts:69
 msgid "California"
@@ -312,6 +312,10 @@ msgstr "Estimado dueño/manager del edificio."
 msgid "Delaware"
 msgstr "Delaware"
 
+#: frontend/lib/ui/footer.tsx:11
+msgid "Developed with <0>Law Help Interactive</0>"
+msgstr ""
+
 #: common-data/us-state-choices.ts:73
 msgid "District of Columbia"
 msgstr "Distrito de Columbia"
@@ -372,7 +376,7 @@ msgstr "Explora la herramienta"
 msgid "FAQs"
 msgstr "Preguntas Frecuentes"
 
-#: frontend/lib/norent/components/footer.tsx:36
+#: frontend/lib/norent/components/footer.tsx:37
 #: frontend/lib/norent/site.tsx:71
 msgid "Faqs"
 msgstr "Preguntas más frecuentes"
@@ -429,9 +433,9 @@ msgstr "Hacer huelga de renta"
 msgid "Got it!"
 msgstr "¡Entendido!"
 
-#: frontend/lib/pages/redirect-to-english-page.tsx:13
+#: frontend/lib/pages/redirect-to-english-page.tsx:15
 msgid "Got it, take me there"
-msgstr "Entiendido, llevame"
+msgstr "Entendido, llévame"
 
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"
@@ -448,6 +452,10 @@ msgstr "Hola mundo"
 #: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:23
 msgid "Hello, long-time JustFix.nyc user! We appreciate you."
 msgstr "¡Hola, usuario de JustFix.nyc! Agradecemos tu lealtad."
+
+#: frontend/lib/justfix-navbar.tsx:28
+msgid "Help"
+msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:374
 msgid "Help! My landlord is already trying to evict me."
@@ -484,6 +492,11 @@ msgstr "Así será la carta:"
 #: frontend/lib/norent/homepage.tsx:48
 msgid "Here’s what you can do with <0>NoRent</0>"
 msgstr "Esto es lo que puedes hacer con <0>NoRent</0>"
+
+#: frontend/lib/justfix-navbar.tsx:13
+#: frontend/lib/norent/site.tsx:87
+msgid "Homepage"
+msgstr "Página Principal"
 
 #: frontend/lib/norent/about.tsx:36
 msgid "Housing Justice for All"
@@ -606,13 +619,17 @@ msgstr "Puede ser que el dueño de tu edificio tome represalias tras recibir tu 
 msgid "It’s your first time here!"
 msgstr "¡Es la primera vez que estás aquí!"
 
-#: frontend/lib/norent/components/footer.tsx:18
+#: frontend/lib/norent/components/footer.tsx:19
 msgid "Join our <0/>mailing list"
 msgstr "¡Únete a nuestra <0/>lista de distribución!"
 
 #: frontend/lib/norent/letter-content.tsx:69
 msgid "JustFix.nyc <0/>sent on behalf of <1/>"
 msgstr "JustFix.nyc <0/>enviado en nombre de <1/>"
+
+#: frontend/lib/ui/footer.tsx:25
+msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
+msgstr ""
 
 #: common-data/us-state-choices.ts:81
 msgid "Kansas"
@@ -657,6 +674,7 @@ msgstr "Aprenda por qué hemos construido esta herramienta, quiénes somos, y qu
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:21
 #: frontend/lib/norent/the-letter.tsx:29
+#: frontend/lib/ui/covid-banners.tsx:50
 msgid "Learn more"
 msgstr "Aprender más"
 
@@ -737,6 +755,10 @@ msgstr "El Condado de Los Angeles"
 #: common-data/us-state-choices.ts:83
 msgid "Louisiana"
 msgstr "Luisiana"
+
+#: frontend/lib/ui/footer.tsx:33
+msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:80
 msgid "Mailing address"
@@ -1027,6 +1049,14 @@ msgstr "¿Quieres que enviemos tu carta?"
 msgid "Share this tool"
 msgstr "Compartir esta herramienta"
 
+#: frontend/lib/justfix-navbar.tsx:25
+msgid "Sign in"
+msgstr ""
+
+#: frontend/lib/justfix-navbar.tsx:23
+msgid "Sign out"
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/confirmation.tsx:142
 msgid "Sign the petition"
 msgstr "Firmar la petición"
@@ -1068,6 +1098,10 @@ msgstr "Dirección"
 msgid "Submit email"
 msgstr "Enviar email"
 
+#: frontend/lib/justfix-navbar.tsx:20
+msgid "Take action"
+msgstr ""
+
 #: frontend/lib/norent/data/faqs-content.tsx:8
 msgid "Tenant Rights"
 msgstr "Derechos del Inquilino"
@@ -1088,14 +1122,14 @@ msgstr "Términos de Uso"
 msgid "Texas"
 msgstr "Tejas"
 
-#: frontend/lib/norent/components/footer.tsx:33
+#: frontend/lib/norent/components/footer.tsx:34
 #: frontend/lib/norent/site.tsx:68
 #: frontend/lib/norent/the-letter.tsx:10
 #: frontend/lib/norent/the-letter.tsx:15
 msgid "The Letter"
 msgstr "La Carta"
 
-#: frontend/lib/pages/redirect-to-english-page.tsx:9
+#: frontend/lib/pages/redirect-to-english-page.tsx:11
 msgid "The webpage that you want to access is only available in English."
 msgstr "La página web a la que quieres acceder solo está disponible en inglés."
 
@@ -1398,6 +1432,14 @@ msgstr "Código postal"
 msgid "and"
 msgstr "y"
 
+#: frontend/lib/ui/covid-banners.tsx:41
+msgid "justfix.covidBanner"
+msgstr ""
+
+#: frontend/lib/ui/legal-disclaimer.tsx:4
+msgid "justfix.legalDisclaimer"
+msgstr "Aviso: La información en {website} no constituye asesoramiento jurídico y no debe ser utilizado como sustituto del asesoramiento de un abogado cualificado para asesorar sobre cuestiones jurídicas relativas a la vivienda. Si lo necesitas, podemos ayudar a dirigirte a servicios legales gratuitos."
+
 #: frontend/lib/ui/privacy-info-modal.tsx:30
 msgid "justfix.privacyInfoModalText"
 msgstr "¡<0>Tu privacidad es muy importante para nosotros! Estas son algunas de las cosas más importantes a saber:</0><1><2>Tu información personal está segura. </2><3>No usaremos tu información personal para beneficiarnos ni la venderemos a terceros. </3><4>Utilizaremos tu dirección postal para encontrar datos sobre tu edificio y su dueño. </4></1><5>Nuestra Política de Privacidad permite compartir datos anónimos sólo con organizaciones de defensa de inquilinos autorizadas exclusivamente para ayudar a promover la misión de proteger los derechos de inquilinos. La Política de Privacidad contiene información sobre qué datos recopilamos, cómo la utilizamos y las opciones que tiene respecto a su información personal. Si quieres leer más, por favor revisa nuestra <6/> completa y nuestros <7/>.</5>"
@@ -1478,10 +1520,6 @@ msgstr "Con tal de sacar provecho a las protecciones de desalojo en tu estado, d
 msgid "norent.legacyUserBlurb"
 msgstr "<0>Este es un sistema nuevo. Necesitarás una nueva cuenta para utilizarlo. Estamos encantados de prepararte una cuenta </0><1>Mientras tanto, cada vez que quieras iniciar sesión en tu cuenta de \"Build your case\" o el panel de control \"Advocate Dashboard\", puedes iniciar sesión con la información de tu cuenta antigua en este enlace:</1><2><3>beta.justfix.nyc</3></2><4><5>Por favor, guarde este enlace para poder encontrarlo más tarde.</5></4><6>Podrás utilizar tu cuenta nueva para acceder a los nuevos servicios de JustFix.nyc.</6><7>Si tienes alguna pregunta, por favor envíanos un correo electrónico a <8/>.</7>"
 
-#: frontend/lib/norent/components/footer.tsx:49
-msgid "norent.legalDisclaimer"
-msgstr "<0>Aviso: La información en JustFix.nyc no constituye asesoramiento jurídico y no debe ser utilizado como sustituto del asesoramiento de un abogado cualificado para asesorar sobre cuestiones jurídicas relativas a la vivienda. Si lo necesitas, podemos ayudar a dirigirte a servicios legales gratuitos. </0>"
-
 #: frontend/lib/norent/letter-content.tsx:107
 msgid "norent.letter.conclusion"
 msgstr "<0>El Congreso aprobó la Ley CARES el 27 de marzo del 2020 (Ley Pública 116-136). Los inquilinos que viven en propiedades cubiertas por esta ley, también están protegidos del desalojo por impago o cualquier otra razón hasta el 23 de agosto de 2020. Arrendadores no tienen permitido cobrar demoras, intereses u otras sanciones hasta el 25 de julio de 2020. Por favor, hágame saber de inmediato si usted cree que esta vivienda no está cubierta por la ley CARES y explique por qué. </0><1>Para documentar nuestra comunicación y evitar malentendidos, por favor responda por correo electrónico o texto en lugar de una llamada o visita. </1><2>Gracias por su comprensión y cooperación.</2>"
@@ -1554,4 +1592,3 @@ msgstr "{0} (en inglés)"
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-06-24 22:15\n"
+"PO-Revision-Date: 2020-06-26 14:45\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -198,7 +198,7 @@ msgstr "Mapa de huelgas de renta y protección para inquilinos ante la emergenci
 
 #: frontend/lib/ui/covid-banners.tsx:39
 msgid "COVID-19 Update:"
-msgstr ""
+msgstr "Actualización COVID-19:"
 
 #: common-data/us-state-choices.ts:69
 msgid "California"
@@ -314,7 +314,7 @@ msgstr "Delaware"
 
 #: frontend/lib/ui/footer.tsx:11
 msgid "Developed with <0>Law Help Interactive</0>"
-msgstr ""
+msgstr "Desarrollado con <0>Law Help Interactive</0>"
 
 #: common-data/us-state-choices.ts:73
 msgid "District of Columbia"
@@ -455,7 +455,7 @@ msgstr "¡Hola, usuario de JustFix.nyc! Agradecemos tu lealtad."
 
 #: frontend/lib/justfix-navbar.tsx:28
 msgid "Help"
-msgstr ""
+msgstr "Ayuda"
 
 #: frontend/lib/norent/data/faqs-content.tsx:374
 msgid "Help! My landlord is already trying to evict me."
@@ -629,7 +629,7 @@ msgstr "JustFix.nyc <0/>enviado en nombre de <1/>"
 
 #: frontend/lib/ui/footer.tsx:25
 msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
-msgstr ""
+msgstr "JustFix.nyc es una organización registrada 501(c)(3) sin fines de lucro."
 
 #: common-data/us-state-choices.ts:81
 msgid "Kansas"
@@ -758,7 +758,7 @@ msgstr "Luisiana"
 
 #: frontend/lib/ui/footer.tsx:33
 msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
-msgstr ""
+msgstr "Hecho en NYC con ♥ por el equipo de <0>JustFix.nyc</0>"
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:80
 msgid "Mailing address"
@@ -1051,11 +1051,11 @@ msgstr "Compartir esta herramienta"
 
 #: frontend/lib/justfix-navbar.tsx:25
 msgid "Sign in"
-msgstr ""
+msgstr "Iniciar sesión"
 
 #: frontend/lib/justfix-navbar.tsx:23
 msgid "Sign out"
-msgstr ""
+msgstr "Cerrar sesión"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:142
 msgid "Sign the petition"
@@ -1100,7 +1100,7 @@ msgstr "Enviar email"
 
 #: frontend/lib/justfix-navbar.tsx:20
 msgid "Take action"
-msgstr ""
+msgstr "Toma acción"
 
 #: frontend/lib/norent/data/faqs-content.tsx:8
 msgid "Tenant Rights"
@@ -1434,7 +1434,7 @@ msgstr "y"
 
 #: frontend/lib/ui/covid-banners.tsx:41
 msgid "justfix.covidBanner"
-msgstr ""
+msgstr "JustFix.nyc sigue en funcionamiento, y estamos adaptando nuestros productos para cumplir con las nuevas normas establecidas durante la crisis de salud pública Covid-19. Gracias a la organización de los líderes de los inquilinos, los inquilinos ahora tienen protecciones más fuertes durante este tiempo, incluida una suspensión total de los casos de desalojo."
 
 #: frontend/lib/ui/legal-disclaimer.tsx:4
 msgid "justfix.legalDisclaimer"
@@ -1592,3 +1592,4 @@ msgstr "{0} (en inglés)"
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

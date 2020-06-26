@@ -32,6 +32,11 @@
   // devices in a way that works on *both* IE11 and modern browsers. calc(100vw - 40px);
   width: 90vw;
   height: 90vh;
+}
+
+.scrollable {
+  width: 90vw;
+  height: 90vh;
   overflow-y: auto;
 }
 
@@ -41,7 +46,13 @@
 @media screen and (min-width: $tablet) {
   .modal-content {
     max-width: 640px;
+    //height: 250px;
+  }
+  .scrollable {
+    max-width: 640px;
     height: 250px;
     overflow-y: auto;
   }
 }
+
+

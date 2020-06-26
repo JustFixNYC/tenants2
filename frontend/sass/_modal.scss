@@ -22,7 +22,7 @@
   flex-direction: column;
 }
 
-// This styling applies to mobile browsers
+// This styling applies to desktop Internet Explorer
 .scrollable {
   overflow-y: auto;
   max-width: 640px;
@@ -31,33 +31,47 @@
 .jf-modal-dialog {
   cursor: default;
   overflow-y: initial !important;
+  max-width: 75vw;
 }
 
-// This styling applies to desktop Internet Explorer
+// This styling applies to mobile browsers
 @media screen and (max-width: $tablet) {
   .scrollable {
     overflow-y: auto;
-    height: 90vh;
-    width: 90vw;
-    max-width: 640px;
-  }
-  .jf-modal-dialog {
-    cursor: default;
-    overflow-y: initial !important;
+    max-height: 90vh;
+    max-width: 75vw;
   }
 }
 
-// This styling applies to every desktop browser other than Internet Explorer
+// This styling seems to apply to every desktop browser other than Internet Explorer
 @media screen and (min-width: $tablet) {
   .scrollable {
     overflow-y: auto;
-    height: 250px;
-    height: 80vh;
-    max-height: 365px;
+    height: auto;
+    max-height: 90vh;
+    max-width: 75vw;
   }
   .jf-modal-dialog {
     cursor: default;
     position: absolute;
+    max-width: 75vw;
+    left: 28%;
+    left: calc(50% - 320px);
+    top: 15%;
+    overflow-y: initial !important;
+  }
+}
+// This styling applies when a desktop browser is very short vertically
+@media screen and (max-height: 400px) {
+  .scrollable {
+    overflow-y: auto;
+    height: 250px;
+    max-width: 75vw;
+  }
+  .jf-modal-dialog {
+    cursor: default;
+    position: absolute;
+    max-width: 75vw;
     left: 28%;
     left: calc(50% - 320px);
     top: 15%;

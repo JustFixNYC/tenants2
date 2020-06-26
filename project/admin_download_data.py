@@ -102,9 +102,11 @@ DATA_DOWNLOADS = [
         name='EHPA filings',
         slug='ehpa-filings',
         html_desc="""
-            Details about tenants who have filed Emergency HP Actions. Intended
+            Details about tenants who have filed Emergency HP Actions.  Intended
             primarily for handing off to NYC HRA/OCJ.  This contains PII, so
-            please be careful with it.
+            please be careful with it.  <strong>Note:</strong> most of the
+            fields here represent <em>current</em> user data rather than
+            data as it existed when the user filed the EHPA.
             """,
         perms=[CHANGE_USER_PERMISSION],
         execute_query=execute_ehpa_filings_query,

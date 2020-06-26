@@ -22,28 +22,38 @@
   flex-direction: column;
 }
 
+// This styling applies to mobile browsers
+.scrollable {
+  overflow-y: auto;
+  max-width: 640px;
+}
+
 .jf-modal-dialog {
   cursor: default;
   overflow-y: initial !important;
 }
 
-.scrollable {
-  overflow-y: auto;
-  height: 90vh;
-  max-width: 640px;
-  width: 90vw;
+// This styling applies to desktop Internet Explorer
+@media screen and (max-width: $tablet) {
+  .scrollable {
+    overflow-y: auto;
+    height: 90vh;
+    width: 90vw;
+    max-width: 640px;
+  }
+  .jf-modal-dialog {
+    cursor: default;
+    overflow-y: initial !important;
+  }
 }
 
-// This is just a recapitulation of Bulma's default styling, which
-// we apparently need to repeat because otherwise the above
-// .modal-content rule will override it.
+// This styling applies to every desktop browser other than Internet Explorer
 @media screen and (min-width: $tablet) {
   .scrollable {
     overflow-y: auto;
     height: 250px;
     height: 80vh;
     max-height: 365px;
-    max-width: 640px;
   }
   .jf-modal-dialog {
     cursor: default;

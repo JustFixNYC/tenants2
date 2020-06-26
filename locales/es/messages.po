@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-06-26 12:51\n"
+"PO-Revision-Date: 2020-06-26 13:11\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -496,7 +496,7 @@ msgstr "Esto es lo que puedes hacer con <0>NoRent</0>"
 #: frontend/lib/justfix-navbar.tsx:13
 #: frontend/lib/norent/site.tsx:87
 msgid "Homepage"
-msgstr "Homepage"
+msgstr "Página Principal"
 
 #: frontend/lib/norent/about.tsx:36
 msgid "Housing Justice for All"
@@ -1438,7 +1438,7 @@ msgstr "JustFix.nyc remains in operation, and we are adapting our products to ma
 
 #: frontend/lib/ui/legal-disclaimer.tsx:4
 msgid "justfix.legalDisclaimer"
-msgstr "Disclaimer: The information in {website} does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free legal services if necessary."
+msgstr "Aviso: La información en {website} no constituye asesoramiento jurídico y no debe ser utilizado como sustituto del asesoramiento de un abogado cualificado para asesorar sobre cuestiones jurídicas relativas a la vivienda. Si lo necesitas, podemos ayudar a dirigirte a servicios legales gratuitos."
 
 #: frontend/lib/ui/privacy-info-modal.tsx:30
 msgid "justfix.privacyInfoModalText"

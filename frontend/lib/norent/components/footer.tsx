@@ -49,7 +49,7 @@ export const NorentFooter: React.FC<{}> = () => (
         <div className="column is-8">
           <div className="content is-size-7">
             <FooterLanguageToggle />
-            <LegalDisclaimer website="JustFix.nyc" />
+            <LegalDisclaimer website="NoRent.org" />
             <Trans>
               <NorentLogo size="is-64x64" color="white">
                 NoRent

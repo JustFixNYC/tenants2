@@ -17,5 +17,7 @@ LEFT OUTER JOIN
     onboarding_onboardinginfo as onb ON docs.user_id = onb.user_id
 LEFT OUTER JOIN
     hpaction_hpactiondetails as hp ON docs.user_id = hp.user_id
+WHERE
+    de.status = 'SIGNED'
 ORDER BY
     created_at DESC;

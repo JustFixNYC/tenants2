@@ -8,6 +8,7 @@ import { SocialIcons } from "./social-icons";
 import { Trans } from "@lingui/macro";
 import Subscribe from "./subscribe";
 import { SimpleProgressiveEnhancement } from "../../ui/progressive-enhancement";
+import { LegalDisclaimer } from "../../ui/legal-disclaimer";
 
 export const NorentFooter: React.FC<{}> = () => (
   <footer>
@@ -48,15 +49,7 @@ export const NorentFooter: React.FC<{}> = () => (
         <div className="column is-8">
           <div className="content is-size-7">
             <FooterLanguageToggle />
-            <Trans id="norent.legalDisclaimer">
-              <p>
-                Disclaimer: The information in JustFix.nyc does not constitute
-                legal advice and must not be used as a substitute for the advice
-                of a lawyer qualified to give advice on legal issues pertaining
-                to housing. We can help direct you to free legal services if
-                necessary.
-              </p>
-            </Trans>
+            <LegalDisclaimer website="JustFix.nyc" />
             <Trans>
               <NorentLogo size="is-64x64" color="white">
                 NoRent

@@ -7,6 +7,7 @@ import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issu
 import { CSSTransition } from "react-transition-group";
 import JustfixRoutes from "../justfix-routes";
 import { useDebouncedValue } from "../util/use-debounced-value";
+import { Trans } from "@lingui/macro";
 
 export const MORATORIUM_FAQ_URL =
   "https://www.righttocounselnyc.org/ny_eviction_moratorium_faq";
@@ -61,18 +62,24 @@ const MoratoriumBanner = (props: { pathname?: string }) => {
               />
             </SimpleProgressiveEnhancement>
             <p>
-              <span className="has-text-weight-bold">COVID-19 Update: </span>
-              JustFix.nyc remains in operation, and we are adapting our products
-              to match new rules put in place during the Covid-19 public health
-              crisis. Thanks to organizing from tenant leaders, renters now have
-              stronger protections during this time, including a full halt on
-              eviction cases.{" "}
+              <span className="has-text-weight-bold">
+                <Trans>COVID-19 Update:</Trans>{" "}
+              </span>
+              <Trans id="justfix.covidBanner">
+                JustFix.nyc remains in operation, and we are adapting our
+                products to match new rules put in place during the Covid-19
+                public health crisis. Thanks to organizing from tenant leaders,
+                renters now have stronger protections during this time,
+                including a full halt on eviction cases.
+              </Trans>{" "}
               <a
                 href={MORATORIUM_FAQ_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span className="has-text-weight-bold">Learn more</span>
+                <span className="has-text-weight-bold">
+                  <Trans>Learn more</Trans>
+                </span>
               </a>
             </p>
           </div>

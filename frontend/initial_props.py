@@ -62,6 +62,7 @@ def create_initial_props_for_lambda(
             'mapboxAccessToken': settings.MAPBOX_ACCESS_TOKEN,
             'isDemoDeployment': settings.IS_DEMO_DEPLOYMENT,
             'enabledLocales': get_enabled_locales(),
+            'enableWipLocales': settings.ENABLE_WIP_LOCALES,
             'debug': settings.DEBUG,
             'facebookAppId': settings.FACEBOOK_APP_ID
         },

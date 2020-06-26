@@ -2,18 +2,20 @@ import React from "react";
 import { PrivacyPolicyLink, TermsOfUseLink } from "./privacy-info-modal";
 import JustfixRoutes from "../justfix-routes";
 import { ROUTE_PREFIX } from "../util/route-util";
+import { Trans } from "@lingui/macro";
+import { LegalDisclaimer } from "./legal-disclaimer";
 
 const CreditForLHI = (props: { pathname?: string }) =>
   /* Include credit for LHI only on ehp routes */
-  props.pathname &&
-  props.pathname.startsWith(JustfixRoutes.locale.ehp[ROUTE_PREFIX]) ? (
+  props.pathname?.startsWith(JustfixRoutes.locale.ehp[ROUTE_PREFIX]) ||
+  props.pathname?.startsWith(JustfixRoutes.locale.hp[ROUTE_PREFIX]) ? (
     <p>
-      Developed with{" "}
-      <a href="https://lawhelpinteractive.org/">Law Help Interactive</a>
+      <Trans>
+        Developed with{" "}
+        <a href="https://lawhelpinteractive.org/">Law Help Interactive</a>
+      </Trans>
     </p>
-  ) : (
-    <></>
-  );
+  ) : null;
 
 export const Footer = (props: { pathname?: string }) => {
   return (
@@ -22,22 +24,20 @@ export const Footer = (props: { pathname?: string }) => {
         <div className="columns">
           <div className="column is-8">
             <div className="content">
+              <LegalDisclaimer website="JustFix.nyc" />
               <p>
-                Disclaimer: The information in JustFix.nyc does not constitute
-                legal advice and must not be used as a substitute for the advice
-                of a lawyer qualified to give advice on legal issues pertaining
-                to housing. We can help direct you to free legal services if
-                necessary.
-              </p>
-              <p>
-                JustFix.nyc is a registered 501(c)(3) nonprofit organization.
+                <Trans>
+                  JustFix.nyc is a registered 501(c)(3) nonprofit organization.
+                </Trans>
               </p>
             </div>
           </div>
           <div className="column is-4 has-text-right content">
             <p>
-              Made with NYC ♥ by the team at{" "}
-              <a href="https://justfix.nyc">JustFix.nyc</a>
+              <Trans>
+                Made with NYC ♥ by the team at{" "}
+                <a href="https://justfix.nyc">JustFix.nyc</a>
+              </Trans>
             </p>
             <CreditForLHI pathname={props.pathname} />
           </div>

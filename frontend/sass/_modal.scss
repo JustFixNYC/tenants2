@@ -30,6 +30,7 @@
 .scrollable {
   overflow-y: auto;
   height: 90vh;
+  max-width: 640px;
   width: 90vw;
 }
 
@@ -40,13 +41,15 @@
   .scrollable {
     overflow-y: auto;
     height: 250px;
+    height: 80vh;
+    max-height: 365px;
     max-width: 640px;
   }
   .jf-modal-dialog {
     cursor: default;
-    max-width: 640px;
     position: absolute;
-    left: (28%);
+    left: 28%;
+    left: calc(50% - 320px);
     top: 15%;
     overflow-y: initial !important;
   }

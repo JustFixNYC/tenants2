@@ -31,10 +31,6 @@ msgstr "8 Minutes"
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> makes use of a <1/> and <2/>, which you can review."
 
-#: frontend/lib/norent/site.tsx:87
-#~ msgid "<0>Homepage</0>"
-#~ msgstr "<0>Homepage</0>"
-
 #: frontend/lib/norent/data/faqs-content.tsx:376
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
 msgstr "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
@@ -1518,10 +1514,6 @@ msgstr "In order to benefit from the eviction protections that local elected off
 #: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:25
 msgid "norent.legacyUserBlurb"
 msgstr "<0>This is a new system. You will need a new account to use it. We're happy to set you up with one!</0><1>Meanwhile, whenever you want to sign into your \"Build your case\" or Advocate Dashboard account, you can sign in with your old account information at this URL:</1><2><3>beta.justfix.nyc</3> </2><4><5>Please write this URL down to remember it later.</5></4><6>Your new account will be used to access JustFix.nyc's new services.</6><7>If you have any questions, please feel free to email us at <8/>.</7>"
-
-#: frontend/lib/norent/components/footer.tsx:49
-#~ msgid "norent.legalDisclaimer"
-#~ msgstr "<0>Disclaimer: The information in JustFix.nyc does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free legal services if necessary.</0>"
 
 #: frontend/lib/norent/letter-content.tsx:107
 msgid "norent.letter.conclusion"

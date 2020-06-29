@@ -156,7 +156,7 @@ export class ModalWithoutRouter extends React.Component<
     return (
       <>
         <div className="modal-content">
-          <div className="content box scrollable">
+          <div className="content box">
             {this.props.withHeading && (
               <h1 className="title is-4">{this.props.title}</h1>
             )}

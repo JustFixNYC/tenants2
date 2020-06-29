@@ -22,52 +22,31 @@
   flex-direction: column;
 }
 
-// This styling applies to desktop Internet Explorer
-.scrollable {
-  overflow-y: auto;
-  max-width: 640px;
-}
-
 .jf-modal-dialog {
   cursor: default;
-  overflow-y: initial !important;
-  max-width: 90vw;
+  overflow-y: hidden;
+  //outline: 0;
+}
+
+.modal-content {
+  // This appears to be the only way to size our modal on mobile
+  // devices in a way that works on *both* IE11 and modern browsers.
+  width: calc(100vw - 40px);
+  overflow-y: hidden;
+  max-height: 100vh;
+}
+// This is just a recapitulation of Bulma's default styling, which
+// we apparently need to repeat because otherwise the above
+// .modal-content rule will override it.
+@media screen and (min-width: $tablet) {
+  .modal-content {
+    width: 640px;
+  }
 }
 
 // This styling applies to mobile browsers
 @media screen and (max-width: $tablet) {
-  .scrollable {
-    max-height: 90vh;
-    max-width: 90vw;
-  }
-}
-
-// This styling seems to apply to every desktop browser other than Internet Explorer
-@media screen and (min-width: $tablet) {
-  .scrollable {
-    height: auto;
-    max-height: 90vh;
-    max-width: 75vw;
-  }
-  .jf-modal-dialog {
-    position: absolute;
-    max-width: 75vw;
-    left: 28%;
-    left: calc(50% - 320px);
-    top: 15%;
-  }
-}
-// This styling applies when a desktop browser is very short vertically
-@media screen and (max-height: 400px) {
-  .scrollable {
-    height: 250px;
-    max-width: 75vw;
-  }
-  .jf-modal-dialog {
-    position: absolute;
-    max-width: 75vw;
-    left: 28%;
-    left: calc(50% - 320px);
-    top: 15%;
+  .modal-content {
+    width: 90vw;
   }
 }

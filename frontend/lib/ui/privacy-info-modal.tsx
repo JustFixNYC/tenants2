@@ -53,7 +53,7 @@ export function PrivacyInfoModal(props: {}): JSX.Element {
       onCloseGoTo={BackOrUpOneDirLevel}
       render={(ctx) => (
         <>
-          <div>
+          <div className="jf-is-scrollable-if-too-tall">
             <Trans id="justfix.privacyInfoModalText">
               <h5>
                 Your privacy is very important to us! Here are some important
@@ -83,7 +83,7 @@ export function PrivacyInfoModal(props: {}): JSX.Element {
           </div>
           <div className="has-text-centered">
             <Link
-              className="button is-primary is-medium"
+              className="button is-primary is-medium jf-end-of-modal"
               {...ctx.getLinkCloseProps()}
             >
               <Trans>Got it!</Trans>

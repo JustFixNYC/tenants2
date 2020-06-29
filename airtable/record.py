@@ -35,6 +35,9 @@ EXAMPLE_FIELDS = {
     # In Airtable, this should be a "Single line text" field.
     'lease_type': 'RENT_STABILIZED',
 
+    # In Airtable, this should be a "Single line text" field.
+    'borough': 'BROOKLYN',
+
     # In Airtable, this should be a "Date" field.
     'letter_request_date': '2018-01-02',
 
@@ -157,6 +160,9 @@ class Fields(pydantic.BaseModel):
 
     # The user's lease type.
     onboarding_info__lease_type: str = pydantic.Schema(default='', alias='lease_type')
+
+    # The user's borough.
+    onboarding_info__borough: str = pydantic.Schema(default='', alias='borough')
 
     # When the user's letter of complaint was requested.
     letter_request__created_at: Optional[str] = pydantic.Schema(

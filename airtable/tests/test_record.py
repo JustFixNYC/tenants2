@@ -32,7 +32,7 @@ def test_from_user_works_with_minimal_user():
     assert fields.letter_request__letter_sent_at is None
     assert fields.letter_request__rejection_reason == ''
     assert fields.letter_request__tracking_number == ''
-    assert fields.hp_action_details__latest_documents__created_at is None
+    assert fields.annotation__hp_latest_documents_date is None
     assert fields.hp_action_details__sue_for_repairs is False
     assert fields.hp_action_details__sue_for_harassment is False
 
@@ -83,7 +83,7 @@ def test_from_user_works_with_hp_action(django_file_storage):
     with freeze_time('2018-03-04'):
         HPActionDocumentsFactory(user=details.user)
     fields = Fields.from_user(details.user)
-    assert fields.hp_action_details__latest_documents__created_at == '2018-03-04'
+    assert fields.annotation__hp_latest_documents_date == '2018-03-04'
     assert fields.hp_action_details__sue_for_repairs is True
     assert fields.hp_action_details__sue_for_harassment is True
 
@@ -92,6 +92,6 @@ def test_from_user_works_with_hp_action(django_file_storage):
 def test_from_user_works_with_partial_hp_action():
     details = HPActionDetailsFactory(sue_for_repairs=True, sue_for_harassment=True)
     fields = Fields.from_user(details.user)
-    assert fields.hp_action_details__latest_documents__created_at is None
+    assert fields.annotation__hp_latest_documents_date is None
     assert fields.hp_action_details__sue_for_repairs is True
     assert fields.hp_action_details__sue_for_harassment is True

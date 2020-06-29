@@ -79,7 +79,11 @@ EXAMPLE_FIELDS = {
 }
 
 
-def get_user_field_for_airtable(user: JustfixUser, field: pydantic.fields.Field) -> Any:
+def get_user_field_for_airtable(
+    user: JustfixUser,
+    field: pydantic.fields.Field,
+    annotations: Dict[str, Any],
+) -> Any:
     '''
     Given a field name that may have double underscores in it to indicate
     that it spans relationships, find the given user field and
@@ -87,18 +91,27 @@ def get_user_field_for_airtable(user: JustfixUser, field: pydantic.fields.Field)
     '''
 
     attrs = field.name.split('__')
-    obj = user
 
-    final_attr = attrs[-1]
-    for attr in attrs[:-1]:
-        if not hasattr(obj, attr):
-            # The optional spanned relationship doesn't exist.
+    if len(attrs) == 2 and attrs[0] == 'annotation':
+        attr = attrs[1]
+        if not hasattr(user, attr):
+            print("APPLYING ANNOTATIONS")
+            u = JustfixUser.objects.filter(pk=user.pk).annotate(**annotations).first()
+            for key in annotations.keys():
+                setattr(user, key, getattr(u, key))
+        value = getattr(user, attr)
+    else:
+        obj = user
+        final_attr = attrs[-1]
+        for attr in attrs[:-1]:
+            if not hasattr(obj, attr):
+                # The optional spanned relationship doesn't exist.
+                return field.default
+            obj = getattr(obj, attr)
+
+        if obj is None:
             return field.default
-        obj = getattr(obj, attr)
-
-    if obj is None:
-        return field.default
-    value = getattr(obj, final_attr)
+        value = getattr(obj, final_attr)
 
     if isinstance(value, datetime.datetime):
         # Airtable's date fields expect a UTC date string, e.g. "2014-09-05".
@@ -203,7 +216,7 @@ class Fields(pydantic.BaseModel):
         default=False, alias='will_we_mail_letter')
 
     # The most recent date the user's HP action documents were generated.
-    hp_action_details__latest_documents__created_at: Optional[str] = pydantic.Schema(
+    annotation__hp_latest_documents_date: Optional[str] = pydantic.Schema(
         default=None, alias='hp_latest_documents_date')
 
     # Whether the user wants to sue for repairs.
@@ -215,6 +228,14 @@ class Fields(pydantic.BaseModel):
         default=False, alias='hp_sue_for_harassment')
 
     @classmethod
+    def get_annotations(cls):
+        from django.db.models import Max
+
+        return {
+            'hp_latest_documents_date': Max('hpactiondocuments__created_at'),
+        }
+
+    @classmethod
     def from_user(cls: Type[T], user: JustfixUser) -> T:
         '''
         Given a user, return the Fields that represent their data.
@@ -223,7 +244,7 @@ class Fields(pydantic.BaseModel):
         kwargs: Dict[str, Any] = {}
 
         for field in cls.__fields__.values():
-            kwargs[field.alias] = get_user_field_for_airtable(user, field)
+            kwargs[field.alias] = get_user_field_for_airtable(user, field, cls.get_annotations())
 
         return cls(**kwargs)
 

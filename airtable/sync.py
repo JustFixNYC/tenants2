@@ -77,7 +77,9 @@ class AirtableSynchronizer:
         '''
 
         if queryset is None:
-            queryset = JustfixUser.objects.all().select_related(*FIELDS_RELATED_MODELS)
+            queryset = JustfixUser.objects.all()\
+                .select_related(*FIELDS_RELATED_MODELS)\
+                .annotate(**Fields.get_annotations())
         records = self._get_record_dict()
         stdout.write("Synchronizing users...\n")
         for user in queryset:

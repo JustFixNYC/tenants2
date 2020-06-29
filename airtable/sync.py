@@ -24,10 +24,14 @@ class AirtableSynchronizer:
     # A reference to our Airtable API.
     airtable: Airtable
 
-    def __init__(self, airtable: Optional[Airtable] = None) -> None:
+    # Whether or not to actually modify anything on Airtable.
+    dry_run: bool
+
+    def __init__(self, airtable: Optional[Airtable] = None, dry_run: bool = False) -> None:
         if airtable is None:
             airtable = Airtable()
         self.airtable = airtable
+        self.dry_run = dry_run
 
     def _get_record_dict(self) -> Dict[int, Record]:
         '''
@@ -56,13 +60,15 @@ class AirtableSynchronizer:
         record = records.get(user.pk)
         if record is None:
             stdout.write(f"{user} does not exist in Airtable, adding them.\n")
-            self.airtable.create(our_fields)
+            if not self.dry_run:
+                self.airtable.create(our_fields)
         elif record.fields_ == our_fields:
             if verbose:
                 stdout.write(f"{user} is already synced.\n")
         else:
             stdout.write(f"Updating {user}.\n")
-            self.airtable.update(record, our_fields)
+            if not self.dry_run:
+                self.airtable.update(record, our_fields)
 
     def sync_users(self, queryset=None, stdout: TextIO = sys.stdout, verbose: bool = True):
         '''

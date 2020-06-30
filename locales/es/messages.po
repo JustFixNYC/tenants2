@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-06-26 14:45\n"
+"PO-Revision-Date: 2020-06-30 18:07\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -196,7 +196,7 @@ msgstr "Crea tu carta"
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
 msgstr "Mapa de huelgas de renta y protección para inquilinos ante la emergencia generada por el COVID-19"
 
-#: frontend/lib/ui/covid-banners.tsx:39
+#: frontend/lib/ui/covid-banners.tsx:43
 msgid "COVID-19 Update:"
 msgstr "Actualización COVID-19:"
 
@@ -674,7 +674,6 @@ msgstr "Aprenda por qué hemos construido esta herramienta, quiénes somos, y qu
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:21
 #: frontend/lib/norent/the-letter.tsx:29
-#: frontend/lib/ui/covid-banners.tsx:50
 msgid "Learn more"
 msgstr "Aprender más"
 
@@ -1432,9 +1431,9 @@ msgstr "Código postal"
 msgid "and"
 msgstr "y"
 
-#: frontend/lib/ui/covid-banners.tsx:41
-msgid "justfix.covidBanner"
-msgstr "JustFix.nyc sigue en funcionamiento, y estamos adaptando nuestros productos para cumplir con las nuevas normas establecidas durante la crisis de salud pública Covid-19. Gracias a la organización de los líderes de los inquilinos, los inquilinos ahora tienen protecciones más fuertes durante este tiempo, incluida una suspensión total de los casos de desalojo."
+#: frontend/lib/ui/covid-banners.tsx:45
+msgid "justfix.covidBanner2"
+msgstr "JustFix.nyc is operating, and has adapted our products to match preliminary rules put in place during the COVID-19 public health crisis. While NYC is in Phase 2, we still recommend full precautions. Thanks to tenant organizing during this time, renters cannot be evicted for any reason until July 7. Visit <0>Right to Council’s Eviction Moratorium FAQs</0> to learn more."
 
 #: frontend/lib/ui/legal-disclaimer.tsx:4
 msgid "justfix.legalDisclaimer"

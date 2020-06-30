@@ -395,14 +395,6 @@ class HPActionDetails(models.Model):
         )
     )
 
-    @property
-    def latest_documents(self) -> Optional['HPActionDocuments']:
-        '''
-        The most recent of *any* kind of HP Action documents, if any exist.
-        '''
-
-        return HPActionDocuments.objects.get_latest_for_user(self.user, kind=None)
-
 
 class HPActionDocuments(models.Model):
     '''

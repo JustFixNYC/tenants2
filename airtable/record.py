@@ -76,6 +76,12 @@ EXAMPLE_FIELDS = {
 
     # In Airtable, this should be a "Checkbox" field.
     'hp_sue_for_harassment': True,
+
+    # In Airtable, this should be a "Date" field.
+    'ehp_latest_filing_date': '2018-02-04',
+
+    # In Airtable, this should be a "Number" field with an "Integer" format.
+    'ehp_num_filings': 0,
 }
 
 
@@ -234,6 +240,12 @@ class Fields(pydantic.BaseModel):
     hp_action_details__sue_for_harassment: bool = pydantic.Schema(
         default=False, alias='hp_sue_for_harassment')
 
+    # The date of the most recent Emergency HP action the user signed.
+    ehp_latest_filing_date: Optional[str] = None
+
+    # The number of Emergency HP actions the user signed.
+    ehp_num_filings: int = 0
+
     @classmethod
     def get_annotations(cls) -> Dict[str, Any]:
         '''
@@ -246,10 +258,17 @@ class Fields(pydantic.BaseModel):
         [1] https://docs.djangoproject.com/en/3.0/ref/models/querysets/#annotate
         '''
 
-        from django.db.models import Max
+        from django.db.models import Max, Count, Q
+        from hpaction.models import HP_DOCUSIGN_STATUS_CHOICES
+
+        signed = Q(
+            hpactiondocuments__docusignenvelope__status=HP_DOCUSIGN_STATUS_CHOICES.SIGNED)
 
         return {
             'hp_latest_documents_date': Max('hpactiondocuments__created_at'),
+            'ehp_latest_filing_date': Max(
+                'hpactiondocuments__docusignenvelope__created_at', filter=signed),
+            'ehp_num_filings': Count('hpactiondocuments__docusignenvelope', filter=signed),
         }
 
     @classmethod

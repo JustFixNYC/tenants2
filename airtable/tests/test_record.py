@@ -3,11 +3,13 @@ import datetime
 from freezegun import freeze_time
 from django.utils.timezone import make_aware
 
+from users.models import JustfixUser
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from project.tests.util import strip_locale
 from loc.tests.factories import LetterRequestFactory, LandlordDetailsFactory
-from hpaction.tests.factories import HPActionDocumentsFactory, HPActionDetailsFactory
+from hpaction.tests.factories import (
+    HPActionDocumentsFactory, HPActionDetailsFactory, DocusignEnvelopeFactory)
 from airtable.record import Fields, apply_annotations_to_user
 
 
@@ -88,6 +90,21 @@ def test_from_user_works_with_hp_action(django_file_storage):
     assert fields.hp_latest_documents_date == '2018-03-04'
     assert fields.hp_action_details__sue_for_repairs is True
     assert fields.hp_action_details__sue_for_harassment is True
+
+
+@pytest.mark.django_db
+def test_from_user_works_with_emergency_hp_action(django_file_storage):
+    with freeze_time('2018-03-04'):
+        de = DocusignEnvelopeFactory()
+    fields = Fields.from_user(de.docs.user)
+    assert fields.ehp_num_filings == 0
+    assert fields.ehp_latest_filing_date is None
+
+    de.status = 'SIGNED'
+    de.save()
+    fields = Fields.from_user(JustfixUser.objects.get(pk=de.docs.user.pk))
+    assert fields.ehp_num_filings == 1
+    assert fields.ehp_latest_filing_date == '2018-03-04'
 
 
 @pytest.mark.django_db

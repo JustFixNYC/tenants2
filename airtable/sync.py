@@ -24,10 +24,14 @@ class AirtableSynchronizer:
     # A reference to our Airtable API.
     airtable: Airtable
 
-    def __init__(self, airtable: Optional[Airtable] = None) -> None:
+    # Whether or not to actually modify anything on Airtable.
+    dry_run: bool
+
+    def __init__(self, airtable: Optional[Airtable] = None, dry_run: bool = False) -> None:
         if airtable is None:
             airtable = Airtable()
         self.airtable = airtable
+        self.dry_run = dry_run
 
     def _get_record_dict(self) -> Dict[int, Record]:
         '''
@@ -45,6 +49,14 @@ class AirtableSynchronizer:
 
         return records
 
+    def _create_in_airtable(self, our_fields: Fields):
+        if not self.dry_run:
+            self.airtable.create(our_fields)
+
+    def _update_in_airtable(self, record: Record, our_fields: Fields):
+        if not self.dry_run:
+            self.airtable.update(record, our_fields)
+
     def _sync_user(self, user: JustfixUser, records: Dict[int, Record], stdout: TextIO,
                    verbose: bool = True):
         '''
@@ -56,13 +68,13 @@ class AirtableSynchronizer:
         record = records.get(user.pk)
         if record is None:
             stdout.write(f"{user} does not exist in Airtable, adding them.\n")
-            self.airtable.create(our_fields)
+            self._create_in_airtable(our_fields)
         elif record.fields_ == our_fields:
             if verbose:
                 stdout.write(f"{user} is already synced.\n")
         else:
             stdout.write(f"Updating {user}.\n")
-            self.airtable.update(record, our_fields)
+            self._update_in_airtable(record, our_fields)
 
     def sync_users(self, queryset=None, stdout: TextIO = sys.stdout, verbose: bool = True):
         '''
@@ -71,7 +83,9 @@ class AirtableSynchronizer:
         '''
 
         if queryset is None:
-            queryset = JustfixUser.objects.all().select_related(*FIELDS_RELATED_MODELS)
+            queryset = JustfixUser.objects.all()\
+                .select_related(*FIELDS_RELATED_MODELS)\
+                .annotate(**Fields.get_annotations())
         records = self._get_record_dict()
         stdout.write("Synchronizing users...\n")
         for user in queryset:

@@ -8,7 +8,7 @@ from onboarding.tests.factories import OnboardingInfoFactory
 from project.tests.util import strip_locale
 from loc.tests.factories import LetterRequestFactory, LandlordDetailsFactory
 from hpaction.tests.factories import HPActionDocumentsFactory, HPActionDetailsFactory
-from airtable.record import Fields
+from airtable.record import Fields, apply_annotations_to_user
 
 
 @pytest.mark.django_db
@@ -95,3 +95,18 @@ def test_from_user_works_with_partial_hp_action():
     assert fields.hp_latest_documents_date is None
     assert fields.hp_action_details__sue_for_repairs is True
     assert fields.hp_action_details__sue_for_harassment is True
+
+
+class TestApplyAnnotationsToUser:
+    def test_it_does_nothing_if_annotations_exist(self):
+        u = UserFactory.build()
+        setattr(u, 'boop', 1)
+        apply_annotations_to_user(u, {'boop': 'this value should never be used'})
+
+    def test_it_applies_annotations_if_they_do_not_exist(self, db):
+        from django.db.models import F
+        from django.db.models.functions import Upper
+
+        u = UserFactory(first_name='hallo')
+        apply_annotations_to_user(u, {'boop': Upper(F('first_name'))})
+        assert u.boop == 'HALLO'

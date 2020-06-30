@@ -35,6 +35,9 @@ EXAMPLE_FIELDS = {
     # In Airtable, this should be a "Single line text" field.
     'lease_type': 'RENT_STABILIZED',
 
+    # In Airtable, this should be a "Single line text" field.
+    'borough': 'BROOKLYN',
+
     # In Airtable, this should be a "Date" field.
     'letter_request_date': '2018-01-02',
 
@@ -73,6 +76,12 @@ EXAMPLE_FIELDS = {
 
     # In Airtable, this should be a "Checkbox" field.
     'hp_sue_for_harassment': True,
+
+    # In Airtable, this should be a "Date" field.
+    'ehp_latest_filing_date': '2018-02-04',
+
+    # In Airtable, this should be a "Number" field with an "Integer" format.
+    'ehp_num_filings': 0,
 }
 
 
@@ -179,6 +188,9 @@ class Fields(pydantic.BaseModel):
     # The user's lease type.
     onboarding_info__lease_type: str = pydantic.Schema(default='', alias='lease_type')
 
+    # The user's borough.
+    onboarding_info__borough: str = pydantic.Schema(default='', alias='borough')
+
     # When the user's letter of complaint was requested.
     letter_request__created_at: Optional[str] = pydantic.Schema(
         # Note that it's important to set dates to None/null in Airtable if they don't
@@ -228,6 +240,12 @@ class Fields(pydantic.BaseModel):
     hp_action_details__sue_for_harassment: bool = pydantic.Schema(
         default=False, alias='hp_sue_for_harassment')
 
+    # The date of the most recent Emergency HP action the user signed.
+    ehp_latest_filing_date: Optional[str] = None
+
+    # The number of Emergency HP actions the user signed.
+    ehp_num_filings: int = 0
+
     @classmethod
     def get_annotations(cls) -> Dict[str, Any]:
         '''
@@ -240,19 +258,43 @@ class Fields(pydantic.BaseModel):
         [1] https://docs.djangoproject.com/en/3.0/ref/models/querysets/#annotate
         '''
 
-        from django.db.models import Max
+        from django.db.models import Max, Count, Q
+        from hpaction.models import HP_DOCUSIGN_STATUS_CHOICES
+
+        signed = Q(
+            hpactiondocuments__docusignenvelope__status=HP_DOCUSIGN_STATUS_CHOICES.SIGNED)
 
         return {
             'hp_latest_documents_date': Max('hpactiondocuments__created_at'),
+            'ehp_latest_filing_date': Max(
+                'hpactiondocuments__docusignenvelope__created_at', filter=signed),
+            'ehp_num_filings': Count('hpactiondocuments__docusignenvelope', filter=signed),
         }
 
     @classmethod
-    def from_user(cls: Type[T], user: JustfixUser) -> T:
+    def select_related_and_annotate(cls, queryset):
+        '''
+        Given a Queryset of users, select all related models and apply all
+        necessary annotations to create a Fields object without requiring
+        any additional database queries. Return the new Queryset.
+        '''
+
+        return queryset.select_related(*FIELDS_RELATED_MODELS)\
+            .annotate(**cls.get_annotations())
+
+    @classmethod
+    def from_user(cls: Type[T], user: JustfixUser, refresh: bool = False) -> T:
         '''
         Given a user, return the Fields that represent their data.
+
+        If `refresh` is True, the user's data will be refreshed from the database.
         '''
 
         kwargs: Dict[str, Any] = {}
+
+        if refresh:
+            user = cls.select_related_and_annotate(
+                JustfixUser.objects.filter(pk=user.pk)).first()
 
         apply_annotations_to_user(user, cls.get_annotations())
 

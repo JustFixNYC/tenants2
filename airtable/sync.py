@@ -5,7 +5,7 @@ from django.conf import settings
 
 from users.models import JustfixUser
 from .api import Airtable
-from .record import Record, Fields, FIELDS_RELATED_MODELS
+from .record import Record, Fields
 
 logger = logging.getLogger(__name__)
 
@@ -83,9 +83,8 @@ class AirtableSynchronizer:
         '''
 
         if queryset is None:
-            queryset = JustfixUser.objects.all()\
-                .select_related(*FIELDS_RELATED_MODELS)\
-                .annotate(**Fields.get_annotations())
+            queryset = JustfixUser.objects.all()
+        queryset = Fields.select_related_and_annotate(queryset)
         records = self._get_record_dict()
         stdout.write("Synchronizing users...\n")
         for user in queryset:

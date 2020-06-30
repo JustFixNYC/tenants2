@@ -7,7 +7,8 @@ from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from project.tests.util import strip_locale
 from loc.tests.factories import LetterRequestFactory, LandlordDetailsFactory
-from hpaction.tests.factories import HPActionDocumentsFactory, HPActionDetailsFactory
+from hpaction.tests.factories import (
+    HPActionDocumentsFactory, HPActionDetailsFactory, DocusignEnvelopeFactory)
 from airtable.record import Fields, apply_annotations_to_user
 
 
@@ -25,6 +26,7 @@ def test_from_user_works_with_minimal_user():
     assert fields.phone_number == '5551234567'
     assert fields.onboarding_info__can_we_sms is False
     assert fields.onboarding_info__lease_type == ''
+    assert fields.onboarding_info__borough == ''
     assert fields.letter_request__created_at is None
     assert fields.landlord_details__name == ''
     assert fields.landlord_details__address == ''
@@ -45,6 +47,7 @@ def test_from_user_works_with_onboarded_user():
     assert fields.onboarding_info__address_for_mailing == \
         "150 court street\nApartment 2\nBrooklyn, NY"
     assert fields.onboarding_info__lease_type == 'RENT_STABILIZED'
+    assert fields.onboarding_info__borough == 'BROOKLYN'
 
     info.can_we_sms = False
     info.save()
@@ -86,6 +89,22 @@ def test_from_user_works_with_hp_action(django_file_storage):
     assert fields.hp_latest_documents_date == '2018-03-04'
     assert fields.hp_action_details__sue_for_repairs is True
     assert fields.hp_action_details__sue_for_harassment is True
+
+
+@pytest.mark.django_db
+def test_from_user_works_with_emergency_hp_action(django_file_storage):
+    with freeze_time('2018-03-04'):
+        de = DocusignEnvelopeFactory()
+    user = de.docs.user
+    fields = Fields.from_user(user)
+    assert fields.ehp_num_filings == 0
+    assert fields.ehp_latest_filing_date is None
+
+    de.status = 'SIGNED'
+    de.save()
+    fields = Fields.from_user(user, refresh=True)
+    assert fields.ehp_num_filings == 1
+    assert fields.ehp_latest_filing_date == '2018-03-04'
 
 
 @pytest.mark.django_db

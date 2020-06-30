@@ -79,11 +79,23 @@ EXAMPLE_FIELDS = {
 }
 
 
-def get_user_field_for_airtable(
-    user: JustfixUser,
-    field: pydantic.fields.Field,
-    annotations: Dict[str, Any],
-) -> Any:
+def apply_annotations_to_user(user: JustfixUser, annotations: Dict[str, Any]):
+    '''
+    If the given user wasn't fetched from the database with the given annotations,
+    make it appear as though it was. Otherwise, do nothing.
+    '''
+
+    missing_attrs = [
+        key for key in annotations.keys()
+        if not hasattr(user, key)
+    ]
+    if missing_attrs:
+        u = JustfixUser.objects.filter(pk=user.pk).annotate(**annotations).first()
+        for key in missing_attrs:
+            setattr(user, key, getattr(u, key))
+
+
+def get_user_field_for_airtable(user: JustfixUser, field: pydantic.fields.Field) -> Any:
     '''
     Given a field name that may have double underscores in it to indicate
     that it spans relationships, find the given user field and
@@ -91,27 +103,18 @@ def get_user_field_for_airtable(
     '''
 
     attrs = field.name.split('__')
+    obj = user
 
-    if len(attrs) == 2 and attrs[0] == 'annotation':
-        attr = attrs[1]
-        if not hasattr(user, attr):
-            print("APPLYING ANNOTATIONS")
-            u = JustfixUser.objects.filter(pk=user.pk).annotate(**annotations).first()
-            for key in annotations.keys():
-                setattr(user, key, getattr(u, key))
-        value = getattr(user, attr)
-    else:
-        obj = user
-        final_attr = attrs[-1]
-        for attr in attrs[:-1]:
-            if not hasattr(obj, attr):
-                # The optional spanned relationship doesn't exist.
-                return field.default
-            obj = getattr(obj, attr)
-
-        if obj is None:
+    final_attr = attrs[-1]
+    for attr in attrs[:-1]:
+        if not hasattr(obj, attr):
+            # The optional spanned relationship doesn't exist.
             return field.default
-        value = getattr(obj, final_attr)
+        obj = getattr(obj, attr)
+
+    if obj is None:
+        return field.default
+    value = getattr(obj, final_attr)
 
     if isinstance(value, datetime.datetime):
         # Airtable's date fields expect a UTC date string, e.g. "2014-09-05".
@@ -138,9 +141,9 @@ class Fields(pydantic.BaseModel):
     we don't care about for the purposes of syncing.
 
     The names of the fields are either attributes of our
-    user model, or they are attributes of related models, which
-    are named using Django's syntax for lookups that span
-    relationships [1]:
+    user model, custom annotations, or they are attributes
+    of related models, which are named using Django's syntax
+    for lookups that span relationships [1]:
 
     > To span a relationship, just use the field name of related
     > fields across models, separated by double underscores,
@@ -149,6 +152,11 @@ class Fields(pydantic.BaseModel):
     In some cases, we use pydantic's "alias" feature to ensure
     that the Airtable field name is more readable than the
     notation we use internally.
+
+    If the field is a custom annotation, the annotation's
+    query expression should appear as an entry in the dictionary
+    returned by the `get_annotations()` class method. See that
+    class' documentation for more details.
 
     [1] https://docs.djangoproject.com/en/2.1/topics/db/queries/
     '''
@@ -216,8 +224,7 @@ class Fields(pydantic.BaseModel):
         default=False, alias='will_we_mail_letter')
 
     # The most recent date the user's HP action documents were generated.
-    annotation__hp_latest_documents_date: Optional[str] = pydantic.Schema(
-        default=None, alias='hp_latest_documents_date')
+    hp_latest_documents_date: Optional[str] = None
 
     # Whether the user wants to sue for repairs.
     hp_action_details__sue_for_repairs: bool = pydantic.Schema(
@@ -228,7 +235,17 @@ class Fields(pydantic.BaseModel):
         default=False, alias='hp_sue_for_harassment')
 
     @classmethod
-    def get_annotations(cls):
+    def get_annotations(cls) -> Dict[str, Any]:
+        '''
+        Returns a mapping from field names to the query expressions they
+        represent.  An entry must exist for every field on our class
+        that isn't a built-in model field.  For more documentation on
+        what a query expression is, see Django's documentation on
+        `annotate()` [1].
+
+        [1] https://docs.djangoproject.com/en/3.0/ref/models/querysets/#annotate
+        '''
+
         from django.db.models import Max
 
         return {
@@ -243,8 +260,10 @@ class Fields(pydantic.BaseModel):
 
         kwargs: Dict[str, Any] = {}
 
+        apply_annotations_to_user(user, cls.get_annotations())
+
         for field in cls.__fields__.values():
-            kwargs[field.alias] = get_user_field_for_airtable(user, field, cls.get_annotations())
+            kwargs[field.alias] = get_user_field_for_airtable(user, field)
 
         return cls(**kwargs)
 

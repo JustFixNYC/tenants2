@@ -272,12 +272,29 @@ class Fields(pydantic.BaseModel):
         }
 
     @classmethod
-    def from_user(cls: Type[T], user: JustfixUser) -> T:
+    def select_related_and_annotate(cls, queryset):
+        '''
+        Given a Queryset of users, select all related models and apply all
+        necessary annotations to create a Fields object without requiring
+        any additional database queries. Return the new Queryset.
+        '''
+
+        return queryset.select_related(*FIELDS_RELATED_MODELS)\
+            .annotate(**cls.get_annotations())
+
+    @classmethod
+    def from_user(cls: Type[T], user: JustfixUser, refresh: bool = False) -> T:
         '''
         Given a user, return the Fields that represent their data.
+
+        If `refresh` is True, the user's data will be refreshed from the database.
         '''
 
         kwargs: Dict[str, Any] = {}
+
+        if refresh:
+            user = cls.select_related_and_annotate(
+                JustfixUser.objects.filter(pk=user.pk)).first()
 
         apply_annotations_to_user(user, cls.get_annotations())
 

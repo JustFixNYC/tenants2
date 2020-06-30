@@ -96,13 +96,14 @@ def test_from_user_works_with_hp_action(django_file_storage):
 def test_from_user_works_with_emergency_hp_action(django_file_storage):
     with freeze_time('2018-03-04'):
         de = DocusignEnvelopeFactory()
-    fields = Fields.from_user(de.docs.user)
+    user = de.docs.user
+    fields = Fields.from_user(user)
     assert fields.ehp_num_filings == 0
     assert fields.ehp_latest_filing_date is None
 
     de.status = 'SIGNED'
     de.save()
-    fields = Fields.from_user(JustfixUser.objects.get(pk=de.docs.user.pk))
+    fields = Fields.from_user(user, refresh=True)
     assert fields.ehp_num_filings == 1
     assert fields.ehp_latest_filing_date == '2018-03-04'
 

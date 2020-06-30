@@ -3,7 +3,6 @@ import datetime
 from freezegun import freeze_time
 from django.utils.timezone import make_aware
 
-from users.models import JustfixUser
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from project.tests.util import strip_locale

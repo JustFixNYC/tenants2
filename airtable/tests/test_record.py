@@ -25,6 +25,7 @@ def test_from_user_works_with_minimal_user():
     assert fields.phone_number == '5551234567'
     assert fields.onboarding_info__can_we_sms is False
     assert fields.onboarding_info__lease_type == ''
+    assert fields.onboarding_info__borough == ''
     assert fields.letter_request__created_at is None
     assert fields.landlord_details__name == ''
     assert fields.landlord_details__address == ''
@@ -45,6 +46,7 @@ def test_from_user_works_with_onboarded_user():
     assert fields.onboarding_info__address_for_mailing == \
         "150 court street\nApartment 2\nBrooklyn, NY"
     assert fields.onboarding_info__lease_type == 'RENT_STABILIZED'
+    assert fields.onboarding_info__borough == 'BROOKLYN'
 
     info.can_we_sms = False
     info.save()

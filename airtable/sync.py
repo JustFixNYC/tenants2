@@ -49,6 +49,14 @@ class AirtableSynchronizer:
 
         return records
 
+    def _create_in_airtable(self, our_fields: Fields):
+        if not self.dry_run:
+            self.airtable.create(our_fields)
+
+    def _update_in_airtable(self, record: Record, our_fields: Fields):
+        if not self.dry_run:
+            self.airtable.update(record, our_fields)
+
     def _sync_user(self, user: JustfixUser, records: Dict[int, Record], stdout: TextIO,
                    verbose: bool = True):
         '''
@@ -60,15 +68,13 @@ class AirtableSynchronizer:
         record = records.get(user.pk)
         if record is None:
             stdout.write(f"{user} does not exist in Airtable, adding them.\n")
-            if not self.dry_run:
-                self.airtable.create(our_fields)
+            self._create_in_airtable(our_fields)
         elif record.fields_ == our_fields:
             if verbose:
                 stdout.write(f"{user} is already synced.\n")
         else:
             stdout.write(f"Updating {user}.\n")
-            if not self.dry_run:
-                self.airtable.update(record, our_fields)
+            self._update_in_airtable(record, our_fields)
 
     def sync_users(self, queryset=None, stdout: TextIO = sys.stdout, verbose: bool = True):
         '''

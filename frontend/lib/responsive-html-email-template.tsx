@@ -27,6 +27,28 @@ const EmailTable: React.FC<{
   );
 };
 
+const EmailCta: React.FC<{ href: string; children: string }> = (props) => (
+  <EmailTable className="btn btn-primary">
+    <tbody>
+      <tr>
+        <td align="left">
+          <EmailTable>
+            <tbody>
+              <tr>
+                <td>
+                  <a href={props.href} target="_blank">
+                    {props.children}
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </EmailTable>
+        </td>
+      </tr>
+    </tbody>
+  </EmailTable>
+);
+
 // https://github.com/leemunroe/responsive-html-email-template
 const HtmlEmailTemplate: React.FC<{}> = () => (
   <html lang={i18n.locale}>
@@ -60,29 +82,9 @@ const HtmlEmailTemplate: React.FC<{}> = () => (
                             with a simple design and clear call to action. This
                             is it.
                           </p>
-                          <EmailTable className="btn btn-primary">
-                            <tbody>
-                              <tr>
-                                <td align="left">
-                                  <EmailTable>
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          {" "}
-                                          <a
-                                            href="http://htmlemail.io"
-                                            target="_blank"
-                                          >
-                                            Call To Action
-                                          </a>{" "}
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </EmailTable>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </EmailTable>
+                          <EmailCta href="http://htmlemail.io">
+                            Call To Action
+                          </EmailCta>
                           <p>
                             This is a really simple email template. Its sole
                             purpose is to get the recipient to click the button

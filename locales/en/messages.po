@@ -191,7 +191,7 @@ msgstr "Build your letter"
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
 msgstr "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
 
-#: frontend/lib/ui/covid-banners.tsx:39
+#: frontend/lib/ui/covid-banners.tsx:43
 msgid "COVID-19 Update:"
 msgstr "COVID-19 Update:"
 
@@ -669,7 +669,6 @@ msgstr "Learn about why we made this tool, who we are, and who our partners are.
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:21
 #: frontend/lib/norent/the-letter.tsx:29
-#: frontend/lib/ui/covid-banners.tsx:50
 msgid "Learn more"
 msgstr "Learn more"
 
@@ -1427,9 +1426,9 @@ msgstr "Zip code"
 msgid "and"
 msgstr "and"
 
-#: frontend/lib/ui/covid-banners.tsx:41
-msgid "justfix.covidBanner"
-msgstr "JustFix.nyc remains in operation, and we are adapting our products to match new rules put in place during the Covid-19 public health crisis. Thanks to organizing from tenant leaders, renters now have stronger protections during this time, including a full halt on eviction cases."
+#: frontend/lib/ui/covid-banners.tsx:45
+msgid "justfix.covidBanner2"
+msgstr "JustFix.nyc is operating, and has adapted our products to match preliminary rules put in place during the COVID-19 public health crisis. While NYC is in Phase 2, we still recommend full precautions. Thanks to tenant organizing during this time, renters cannot be evicted for any reason until July 7. Visit <0>Right to Council’s Eviction Moratorium FAQs</0> to learn more."
 
 #: frontend/lib/ui/legal-disclaimer.tsx:4
 msgid "justfix.legalDisclaimer"

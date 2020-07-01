@@ -11,6 +11,11 @@ from .record import Record, Fields
 
 logger = logging.getLogger(__name__)
 
+# Using a requests session for all our requests will ensure that we
+# use keep-alive, which is a quick way to improve the speed of syncing
+# when we have lots of data to sync.
+req_session = requests.Session()
+
 # Raw dictionary representation of a row in the Airtable, as retured
 # by the API.
 RawRow = Dict[str, Any]
@@ -43,7 +48,7 @@ def retry_request(method: str, url: str, max_retries: int, headers: Dict[str, st
     attempts = 0
 
     while True:
-        res = requests.request(
+        res = req_session.request(
             method, url, headers=headers, timeout=settings.AIRTABLE_TIMEOUT, **kwargs)
         attempts += 1
         if attempts <= max_retries and res.status_code == RATE_LIMIT_EXCEEDED:

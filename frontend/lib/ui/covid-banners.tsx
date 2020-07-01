@@ -8,9 +8,13 @@ import { CSSTransition } from "react-transition-group";
 import JustfixRoutes from "../justfix-routes";
 import { useDebouncedValue } from "../util/use-debounced-value";
 import { Trans } from "@lingui/macro";
+import { LocalizedOutboundLink } from "./localized-outbound-link";
+import { SupportedLocaleMap } from "../i18n";
 
-export const MORATORIUM_FAQ_URL =
-  "https://www.righttocounselnyc.org/ny_eviction_moratorium_faq";
+export const MORATORIUM_FAQ_URL: SupportedLocaleMap<string> = {
+  en: "https://www.righttocounselnyc.org/ny_eviction_moratorium_faq",
+  es: "https://www.righttocounselnyc.org/moratoria_de_desalojo",
+};
 
 const getRoutesWithMoratoriumBanner = () => [
   JustfixRoutes.locale.loc.splash,
@@ -65,22 +69,17 @@ const MoratoriumBanner = (props: { pathname?: string }) => {
               <span className="has-text-weight-bold">
                 <Trans>COVID-19 Update:</Trans>{" "}
               </span>
-              <Trans id="justfix.covidBanner">
-                JustFix.nyc remains in operation, and we are adapting our
-                products to match new rules put in place during the Covid-19
-                public health crisis. Thanks to organizing from tenant leaders,
-                renters now have stronger protections during this time,
-                including a full halt on eviction cases.
-              </Trans>{" "}
-              <a
-                href={MORATORIUM_FAQ_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="has-text-weight-bold">
-                  <Trans>Learn more</Trans>
-                </span>
-              </a>
+              <Trans id="justfix.covidBanner2">
+                JustFix.nyc is operating, and has adapted our products to match
+                preliminary rules put in place during the COVID-19 public health
+                crisis. While NYC is in Phase 2, we still recommend full
+                precautions. Thanks to tenant organizing during this time,
+                renters cannot be evicted for any reason until July 7. Visit{" "}
+                <LocalizedOutboundLink hrefs={MORATORIUM_FAQ_URL}>
+                  Right to Council’s Eviction Moratorium FAQs
+                </LocalizedOutboundLink>{" "}
+                to learn more.
+              </Trans>
             </p>
           </div>
         </div>
@@ -120,7 +119,7 @@ export const MoratoriumWarning = () => (
     <Icon type="notice" /> Have you been given an eviction notice?{" "}
     <strong>This is illegal.</strong> An Eviction Moratorium is currently in
     place across New York State.{" "}
-    <OutboundLink href={MORATORIUM_FAQ_URL} target="_blank">
+    <OutboundLink href={MORATORIUM_FAQ_URL.en} target="_blank">
       <span className="has-text-primary jf-has-text-underline">Learn more</span>
     </OutboundLink>
   </div>

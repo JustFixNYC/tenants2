@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
 import dj_database_url
 import dj_email_url
 
@@ -471,7 +471,7 @@ IS_DEMO_DEPLOYMENT = env.IS_DEMO_DEPLOYMENT
 # If this is truthy, Rollbar will be enabled on the client-side.
 ROLLBAR_ACCESS_TOKEN = env.ROLLBAR_ACCESS_TOKEN
 
-ROLLBAR: Optional[Dict[str, str]] = None
+ROLLBAR: Optional[Dict[str, Any]] = None
 
 DEBUG_DATA_DIR = env.DEBUG_DATA_DIR
 
@@ -482,6 +482,7 @@ if env.ROLLBAR_SERVER_ACCESS_TOKEN:
         'environment': 'development' if DEBUG else 'production',
         'code_version': GIT_INFO.get_version_str(),
         'root': str(BASE_DIR),
+        'capture_username': True,
     }
     LOGGING['handlers']['rollbar'].update({    # type: ignore
         'class': 'rollbar.logger.RollbarHandler'

@@ -535,7 +535,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: covidMessage,
       imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
-        to: MORATORIUM_FAQ_URL,
+        to: MORATORIUM_FAQ_URL.en,
         gaLabel: "efnyc",
         text: covidCtaText,
       },

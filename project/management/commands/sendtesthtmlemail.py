@@ -17,7 +17,7 @@ class Command(BaseCommand):
         lr = react_render(
             SITE_CHOICES.JUSTFIX,
             "en",
-            "dev/examples/static-html-email",
+            "dev/examples/static-html-email.html",
             ContentType.HTML,
             locale_prefix_url=False,
         )
@@ -27,12 +27,11 @@ class Command(BaseCommand):
         email: str = options['email']
 
         send_mail(
-            subject="This is a test HTML email!",
+            subject=lr.http_headers['X-JustFix-Email-Subject'],
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[email],
             message=text,
             html_message=lr.html,
         )
 
-        print("OK, I just sent an HTML email with the following plaintext:\n")
-        print(text)
+        print("Email sent.")

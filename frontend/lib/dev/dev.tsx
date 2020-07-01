@@ -26,7 +26,8 @@ import {
   ExamplePageWithAnchors2,
 } from "./example-pages-with-anchors";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
-import { ResponsiveHtmlEmailTemplateStaticPage } from "../responsive-html-email-template";
+import { HtmlEmailTemplateStaticPage } from "../responsive-html-email-template";
+import { createHtmlEmailStaticPageRoutes } from "../static-page/routes";
 
 const LoadableExamplePage = loadable(
   () => friendlyLoad(import("./example-loadable-page")),
@@ -228,11 +229,10 @@ export default function DevRoutes(): JSX.Element {
         exact
         component={ExampleStaticPageText}
       />
-      <Route
-        path={dev.examples.staticResponsiveHtmlEmail}
-        exact
-        component={ResponsiveHtmlEmailTemplateStaticPage}
-      />
+      {createHtmlEmailStaticPageRoutes(
+        dev.examples.staticHtmlEmail,
+        HtmlEmailTemplateStaticPage
+      )}
       <Route
         path={dev.examples.anchors1}
         exact

@@ -1,6 +1,9 @@
 import React from "react";
-import { StaticPage } from "./static-page/static-page";
 import i18n from "./i18n";
+import {
+  asEmailStaticPage,
+  EmailSubject,
+} from "./static-page/email-static-page";
 
 const CSS = require("./responsive-html-email-template.css");
 
@@ -25,7 +28,7 @@ const EmailTable: React.FC<{
 };
 
 // https://github.com/leemunroe/responsive-html-email-template
-const ResponsiveHtmlEmailTemplate: React.FC<{}> = () => (
+const HtmlEmailTemplate: React.FC<{}> = () => (
   <html lang={i18n.locale}>
     <head>
       <meta name="viewport" content="width=device-width" />
@@ -37,6 +40,7 @@ const ResponsiveHtmlEmailTemplate: React.FC<{}> = () => (
       <span className="preheader">
         {/* This is preheader text. Some clients will show this text as a preview. */}
       </span>
+      <EmailSubject value="This is a test HTML email!" />
       <EmailTable className="body">
         <tr>
           <td>&nbsp;</td>
@@ -125,8 +129,4 @@ const ResponsiveHtmlEmailTemplate: React.FC<{}> = () => (
   </html>
 );
 
-export const ResponsiveHtmlEmailTemplateStaticPage: React.FC<{}> = () => (
-  <StaticPage>
-    <ResponsiveHtmlEmailTemplate />
-  </StaticPage>
-);
+export const HtmlEmailTemplateStaticPage = asEmailStaticPage(HtmlEmailTemplate);

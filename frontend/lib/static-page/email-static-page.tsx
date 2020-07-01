@@ -3,8 +3,20 @@ import { StaticPage } from "./static-page";
 import { getAppStaticContext } from "../app-static-context";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
-export const EmailStaticPage: React.FC<{ children: JSX.Element }> = (props) => (
-  <StaticPage httpHeaders={{ "Content-Type": "text/plain; charset=utf-8" }}>
+export type EmailStaticPageOptions = {
+  isHtmlEmail?: boolean;
+};
+
+export const EmailStaticPage: React.FC<
+  { children: JSX.Element } & EmailStaticPageOptions
+> = (props) => (
+  <StaticPage
+    httpHeaders={
+      props.isHtmlEmail
+        ? undefined
+        : { "Content-Type": "text/plain; charset=utf-8" }
+    }
+  >
     <EmailContext.Provider value={true}>{props.children}</EmailContext.Provider>
   </StaticPage>
 );
@@ -27,9 +39,9 @@ export const EmailSubject = withRouter(
 
 export function asEmailStaticPage(
   Component: React.ComponentType<{}>
-): React.FC<{}> {
-  return () => (
-    <EmailStaticPage>
+): React.FC<EmailStaticPageOptions> {
+  return ({ isHtmlEmail }) => (
+    <EmailStaticPage isHtmlEmail={isHtmlEmail}>
       <Component />
     </EmailStaticPage>
   );

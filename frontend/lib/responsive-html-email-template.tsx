@@ -1,5 +1,6 @@
 import React from "react";
 import { StaticPage } from "./static-page/static-page";
+import i18n from "./i18n";
 
 const CSS = require("./responsive-html-email-template.css");
 
@@ -25,7 +26,7 @@ const EmailTable: React.FC<{
 
 // https://github.com/leemunroe/responsive-html-email-template
 const ResponsiveHtmlEmailTemplate: React.FC<{}> = () => (
-  <html>
+  <html lang={i18n.locale}>
     <head>
       <meta name="viewport" content="width=device-width" />
       <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />

@@ -1,4 +1,6 @@
 from django.core.management.base import BaseCommand
+from django.core.mail import send_mail
+from django.conf import settings
 
 from project.util.site_util import SITE_CHOICES
 from project.util.html_to_text import html_to_text
@@ -22,7 +24,15 @@ class Command(BaseCommand):
 
         text = html_to_text(lr.html)
 
-        print(text)
+        email: str = options['email']
 
-        # TODO: Actually send email.
-        # email: str = options['email']
+        send_mail(
+            subject="This is a test HTML email!",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[email],
+            message=text,
+            html_message=lr.html,
+        )
+
+        print("OK, I just sent an HTML email with the following plaintext:\n")
+        print(text)

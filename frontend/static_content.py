@@ -50,9 +50,8 @@ def react_render(
     content type.
     '''
 
-    prefix = reverse('react') if locale_prefix_url else "/"
-
     with translation.override(locale):
+        prefix = reverse('react') if locale_prefix_url else "/"
         full_url = f"{prefix}{url}"
         lr = render_raw_lambda_static_content(
             url=full_url,

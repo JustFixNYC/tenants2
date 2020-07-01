@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-06-26 14:45\n"
+"PO-Revision-Date: 2020-07-01 15:04\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1433,7 +1433,7 @@ msgstr "y"
 
 #: frontend/lib/ui/covid-banners.tsx:45
 msgid "justfix.covidBanner2"
-msgstr ""
+msgstr "JustFix.nyc está operativo, y hemos adaptado nuestros productos a las normas establecidas durante la crisis de salud pública debido al COVID-19. Aunque NYC se encuentre en la fase 2, todavía recomendamos que se tomen todas las precauciones posibles. Gracias al poder de la organización de inquilinos, los inquilinos no pueden ser desalojados por ninguna razón hasta el 7 de julio. Visita las <0>Preguntas Más Frecuentes sobre la Moratoria de Desalojo del Right to Council </0> para obtener más información."
 
 #: frontend/lib/ui/legal-disclaimer.tsx:4
 msgid "justfix.legalDisclaimer"
@@ -1591,3 +1591,4 @@ msgstr "{0} (en inglés)"
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 class ContentType(Enum):
+    HTML = None
     PLAINTEXT = "text/plain; charset=utf-8"
     PDF = "application/pdf"
 
@@ -40,16 +41,19 @@ def react_render(
     expected_content_type: ContentType,
     user: Optional[JustfixUser] = None,
     session: Optional[Dict[str, Any]] = None,
+    locale_prefix_url: bool = True,
 ) -> LambdaResponse:
     '''
     Renders the given front-end URL in a React lambda process,
-    automatically prefixing it with the given locale, and
+    automatically prefixing it with the given locale if needed, and
     verifies that it was successful and of the expected
     content type.
     '''
 
+    prefix = reverse('react') if locale_prefix_url else "/"
+
     with translation.override(locale):
-        full_url = f"{reverse('react')}{url}"
+        full_url = f"{prefix}{url}"
         lr = render_raw_lambda_static_content(
             url=full_url,
             site=get_site_of_type(site_type),

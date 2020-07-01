@@ -26,17 +26,24 @@ class HTMLToTextParser(HTMLParser):
         if self.__capture:
             self.__curr_block.append(data)
 
-    def handle_endtag(self, tag):
-        if tag == "a" and self.__href:
+    def __handle_anchor_endtag(self):
+        if self.__href:
             self.__curr_block.append(f": {self.__href}")
             self.__href = ""
+
+    def __append_current_block(self):
+        content = ''.join(self.__curr_block).strip()
+        if content:
+            self.__blocks.append(content)
+        self.__curr_block = []
+
+    def handle_endtag(self, tag):
+        if tag == "a":
+            self.__handle_anchor_endtag()
         if tag in self.IGNORE_TAGS:
             self.__capture = True
         if tag in self.BLOCK_TAGS:
-            content = ''.join(self.__curr_block).strip()
-            if content:
-                self.__blocks.append(content)
-            self.__curr_block = []
+            self.__append_current_block()
 
     def get_text(self) -> str:
         return '\n\n'.join(self.__blocks)

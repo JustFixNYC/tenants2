@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-06-30 18:07\n"
+"PO-Revision-Date: 2020-07-01 15:04\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1433,7 +1433,7 @@ msgstr "y"
 
 #: frontend/lib/ui/covid-banners.tsx:45
 msgid "justfix.covidBanner2"
-msgstr "JustFix.nyc is operating, and has adapted our products to match preliminary rules put in place during the COVID-19 public health crisis. While NYC is in Phase 2, we still recommend full precautions. Thanks to tenant organizing during this time, renters cannot be evicted for any reason until July 7. Visit <0>Right to Council’s Eviction Moratorium FAQs</0> to learn more."
+msgstr "JustFix.nyc está operativo, y hemos adaptado nuestros productos a las normas establecidas durante la crisis de salud pública debido al COVID-19. Aunque NYC se encuentre en la fase 2, todavía recomendamos que se tomen todas las precauciones posibles. Gracias al poder de la organización de inquilinos, los inquilinos no pueden ser desalojados por ninguna razón hasta el 7 de julio. Visita las <0>Preguntas Más Frecuentes sobre la Moratoria de Desalojo del Right to Council </0> para obtener más información."
 
 #: frontend/lib/ui/legal-disclaimer.tsx:4
 msgid "justfix.legalDisclaimer"

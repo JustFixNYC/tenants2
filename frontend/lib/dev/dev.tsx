@@ -26,7 +26,7 @@ import {
   ExamplePageWithAnchors2,
 } from "./example-pages-with-anchors";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
-import { HtmlEmail, EmailCta } from "../responsive-html-email-template";
+import { HtmlEmail, EmailCta } from "../static-page/html-email";
 import { createHtmlEmailStaticPageRoutes } from "../static-page/routes";
 import { asEmailStaticPage } from "../static-page/email-static-page";
 

@@ -1,8 +1,8 @@
 import React from "react";
-import i18n from "./i18n";
-import { EmailSubject } from "./static-page/email-static-page";
+import i18n from "../i18n";
+import { EmailSubject } from "./email-static-page";
 
-const CSS = require("./responsive-html-email-template.css");
+const CSS = require("./html-email.css");
 
 const EmailTable: React.FC<{
   className?: string;

@@ -78,18 +78,16 @@ const HtmlFooter: React.FC<{ children: React.ReactNode }> = (props) => (
 );
 
 /**
- * An empty `<td>`.
- *
- * In the original version of this email template,
- * this contained a non-breaking space (&nbsp) but it triggered
- * a weird `[Message clipped]` on Gmail, and removing it seems to
- * have fixed it. It didn't break anything visual on Gmail, and
- * hopefully it won't break anything anywhere else either.
- *
- * For more details, see:
- * https://support.google.com/mail/thread/10883981?hl=en&msgid=21241319
+ * A `<td>` with a non-breaking space in it.  We're forcing
+ * the space to be serialized as a literal `&nbsp;` rather than
+ * a unicode character, because the latter triggers
+ * a weird `[Message clipped]` on Gmail, and moreover deviates
+ * from the source code of the original HTML email template
+ * we're using.
  */
-const EmptyTableDataCell: React.FC<{}> = () => <td></td>;
+const EmptyTableDataCell: React.FC<{}> = () => (
+  <td dangerouslySetInnerHTML={{ __html: "&nbsp;" }}></td>
+);
 
 /**
  * A simple responsive HTML email. This is based on Lee Munroe's template

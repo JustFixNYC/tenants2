@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 class ContentType(Enum):
+    HTML = None
     PLAINTEXT = "text/plain; charset=utf-8"
     PDF = "application/pdf"
 
@@ -40,16 +41,18 @@ def react_render(
     expected_content_type: ContentType,
     user: Optional[JustfixUser] = None,
     session: Optional[Dict[str, Any]] = None,
+    locale_prefix_url: bool = True,
 ) -> LambdaResponse:
     '''
     Renders the given front-end URL in a React lambda process,
-    automatically prefixing it with the given locale, and
+    automatically prefixing it with the given locale if needed, and
     verifies that it was successful and of the expected
     content type.
     '''
 
     with translation.override(locale):
-        full_url = f"{reverse('react')}{url}"
+        prefix = reverse('react') if locale_prefix_url else "/"
+        full_url = f"{prefix}{url}"
         lr = render_raw_lambda_static_content(
             url=full_url,
             site=get_site_of_type(site_type),
@@ -72,6 +75,7 @@ class Email(NamedTuple):
 
     subject: str
     body: str
+    html_body: Optional[str]
 
 
 def react_render_email(
@@ -80,6 +84,8 @@ def react_render_email(
     url: str,
     user: Optional[JustfixUser] = None,
     session: Optional[Dict[str, Any]] = None,
+    locale_prefix_url: bool = True,
+    is_html_email: bool = False,
 ) -> Email:
     '''
     Renders an email in the front-end, using the given locale,
@@ -90,13 +96,15 @@ def react_render_email(
         site_type,
         locale,
         url,
-        ContentType.PLAINTEXT,
+        ContentType.HTML if is_html_email else ContentType.PLAINTEXT,
         user=user,
         session=session,
+        locale_prefix_url=locale_prefix_url,
     )
     return Email(
         subject=lr.http_headers['X-JustFix-Email-Subject'],
         body=html_to_text(lr.html),
+        html_body=lr.html if is_html_email else None
     )
 
 

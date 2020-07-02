@@ -5,14 +5,18 @@ import { MemoryRouter } from "react-router-dom";
 
 describe("HtmlEmail", () => {
   it("works", () => {
-    const html = ReactDOMServer.renderToString(
+    const html = ReactDOMServer.renderToStaticMarkup(
       <MemoryRouter>
-        <HtmlEmail subject="here is a subject">
+        <HtmlEmail
+          subject="here is a subject"
+          footer={<p>This is a footer.</p>}
+        >
           <p>This is an email!</p>
         </HtmlEmail>
       </MemoryRouter>
     );
-    expect(html).toMatch(/This is an email/);
-    expect(html).toMatch(/here is a subject/);
+    expect(html).toContain("<title>here is a subject</title>");
+    expect(html).toContain("<p>This is an email!</p>");
+    expect(html).toContain("<p>This is a footer.</p>");
   });
 });

@@ -67,12 +67,9 @@ EMAIL_HOST_USER = email_config['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = email_config['EMAIL_HOST_PASSWORD']
 EMAIL_HOST = email_config['EMAIL_HOST']
 EMAIL_PORT = email_config['EMAIL_PORT']
+EMAIL_BACKEND = email_config['EMAIL_BACKEND']
 EMAIL_USE_TLS = email_config['EMAIL_USE_TLS']
 EMAIL_USE_SSL = email_config['EMAIL_USE_SSL']
-
-EMAIL_BACKEND = email_config['EMAIL_BACKEND']
-if EMAIL_BACKEND == 'django.core.mail.backends.console.EmailBackend':
-    EMAIL_BACKEND = 'project.util.friendly_email_console_backend.EmailBackend'
 
 DEFAULT_FROM_EMAIL = env.DEFAULT_FROM_EMAIL
 

@@ -1,11 +1,12 @@
 from typing import List
+import math
 from email.mime.base import MIMEBase
 from django.core.mail.message import EmailMultiAlternatives, EmailMessage
 from django.core.mail.backends.console import EmailBackend as ConsoleEmailBackend
 
 
 def get_kb(content) -> int:
-    return len(content) // 1024
+    return math.ceil(len(content) / 1024)
 
 
 def log_extra_email_content(message: EmailMessage, extra_content: List[str]):

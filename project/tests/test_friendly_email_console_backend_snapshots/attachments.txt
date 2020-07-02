@@ -1,0 +1,14 @@
+The following email has extra information that is not displayed for conciseness:
+  * A 1k application/pdf attachment 'blarf.pdf'.
+  * A 1k image/png attachment.
+
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: here is a subject
+From: no-reply@justfix.nyc
+To: landlordo@calrissian.net
+Date: Wed, 01 Jan 2020 00:00:00 -0000
+
+here is a message
+-------------------------------------------------------------------------------

@@ -8,6 +8,10 @@ const EmailTable: React.FC<{
   className?: string;
   children: React.ReactNode;
 }> = (props) => {
+  // This is largely needed to appease TypeScript, which
+  // doesn't think some of these props are meant to be
+  // on `<table>` elements, but which need to be in order
+  // for the tables to render properly on all email clients.
   const nonStandardProps = {
     border: "0",
     cellPadding: "0",
@@ -24,6 +28,10 @@ const EmailTable: React.FC<{
   );
 };
 
+/**
+ * An HTML email Call To Action (CTA).  This will appear as a big,
+ * eye-catching button in the HTML version of the email.
+ */
 export const EmailCta: React.FC<{ href: string; children: string }> = (
   props
 ) => (
@@ -49,8 +57,13 @@ export const EmailCta: React.FC<{ href: string; children: string }> = (
 );
 
 type HtmlEmailProps = {
+  /** The email's subject. */
   subject: string;
+
+  /** The body of the email. */
   children: React.ReactNode;
+
+  /** The optional footer content of the email. */
   footer?: JSX.Element;
 };
 
@@ -64,7 +77,24 @@ const HtmlFooter: React.FC<{ children: React.ReactNode }> = (props) => (
   </div>
 );
 
-// https://github.com/leemunroe/responsive-html-email-template
+/**
+ * An empty `<td>`.
+ *
+ * In the original version of this email template,
+ * this contained a non-breaking space (&nbsp) but it triggered
+ * a weird `[Message clipped]` on Gmail, and removing it seems to
+ * have fixed it. It didn't break anything visual on Gmail, and
+ * hopefully it won't break anything anywhere else either.
+ *
+ * For more details, see:
+ * https://support.google.com/mail/thread/10883981?hl=en&msgid=21241319
+ */
+const EmptyTableDataCell: React.FC<{}> = () => <td></td>;
+
+/**
+ * A simple responsive HTML email. This is based on Lee Munroe's template
+ * at https://github.com/leemunroe/responsive-html-email-template.
+ */
 export const HtmlEmail: React.FC<HtmlEmailProps> = (props) => (
   <html lang={i18n.locale}>
     <head>
@@ -81,7 +111,7 @@ export const HtmlEmail: React.FC<HtmlEmailProps> = (props) => (
       <EmailSubject value={props.subject} />
       <EmailTable className="body">
         <tr>
-          <td>&nbsp;</td>
+          <EmptyTableDataCell />
           <td className="container">
             <div className="content">
               <table role="presentation" className="main">
@@ -98,7 +128,7 @@ export const HtmlEmail: React.FC<HtmlEmailProps> = (props) => (
               {props.footer && <HtmlFooter>{props.footer}</HtmlFooter>}
             </div>
           </td>
-          <td>&nbsp;</td>
+          <EmptyTableDataCell />
         </tr>
       </EmailTable>
     </body>

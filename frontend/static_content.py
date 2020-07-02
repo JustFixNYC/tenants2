@@ -75,6 +75,7 @@ class Email(NamedTuple):
 
     subject: str
     body: str
+    html_body: Optional[str]
 
 
 def react_render_email(
@@ -83,6 +84,8 @@ def react_render_email(
     url: str,
     user: Optional[JustfixUser] = None,
     session: Optional[Dict[str, Any]] = None,
+    locale_prefix_url: bool = True,
+    is_html_email: bool = False,
 ) -> Email:
     '''
     Renders an email in the front-end, using the given locale,
@@ -93,13 +96,15 @@ def react_render_email(
         site_type,
         locale,
         url,
-        ContentType.PLAINTEXT,
+        ContentType.HTML if is_html_email else ContentType.PLAINTEXT,
         user=user,
         session=session,
+        locale_prefix_url=locale_prefix_url,
     )
     return Email(
         subject=lr.http_headers['X-JustFix-Email-Subject'],
         body=html_to_text(lr.html),
+        html_body=lr.html if is_html_email else None
     )
 
 

@@ -3,8 +3,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 from project.util.site_util import SITE_CHOICES
-from project.util.html_to_text import html_to_text
-from frontend.static_content import react_render, ContentType
+from frontend.static_content import react_render_email
 
 
 class Command(BaseCommand):
@@ -14,24 +13,22 @@ class Command(BaseCommand):
         parser.add_argument('email')
 
     def handle(self, *args, **options):
-        lr = react_render(
+        email = react_render_email(
             SITE_CHOICES.JUSTFIX,
             "en",
             "dev/examples/static-html-email.html",
-            ContentType.HTML,
             locale_prefix_url=False,
+            is_html_email=True,
         )
 
-        text = html_to_text(lr.html)
-
-        email: str = options['email']
+        recipient: str = options['email']
 
         send_mail(
-            subject=lr.http_headers['X-JustFix-Email-Subject'],
+            subject=email.subject,
             from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[email],
-            message=text,
-            html_message=lr.html,
+            recipient_list=[recipient],
+            message=email.body,
+            html_message=email.html_body,
         )
 
         print("Email sent.")

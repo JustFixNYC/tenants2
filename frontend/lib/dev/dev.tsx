@@ -26,8 +26,9 @@ import {
   ExamplePageWithAnchors2,
 } from "./example-pages-with-anchors";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
-import { HtmlEmailTemplateStaticPage } from "../responsive-html-email-template";
+import { HtmlEmail, EmailCta } from "../responsive-html-email-template";
 import { createHtmlEmailStaticPageRoutes } from "../static-page/routes";
+import { asEmailStaticPage } from "../static-page/email-static-page";
 
 const LoadableExamplePage = loadable(
   () => friendlyLoad(import("./example-loadable-page")),
@@ -168,6 +169,25 @@ function ExampleQueryPage(): JSX.Element {
   );
 }
 
+const ExampleHtmlEmailStaticPage = asEmailStaticPage(() => (
+  <HtmlEmail
+    subject="This is a test HTML email!"
+    footer={<p>Here is some footer text.</p>}
+  >
+    <p>Hi there,</p>
+    <p>
+      Sometimes you just want to send a simple HTML email with a simple design
+      and clear call to action. This is it.
+    </p>
+    <EmailCta href="https://example.com/">Call To Action</EmailCta>
+    <p>
+      This is a really simple email template. Its sole purpose is to get the
+      recipient to click the button with no distractions.
+    </p>
+    <p>Good luck! Hope it works.</p>
+  </HtmlEmail>
+));
+
 export default function DevRoutes(): JSX.Element {
   const { siteRoutes } = useContext(AppContext);
   const dev = siteRoutes.dev;
@@ -231,7 +251,7 @@ export default function DevRoutes(): JSX.Element {
       />
       {createHtmlEmailStaticPageRoutes(
         dev.examples.staticHtmlEmail,
-        HtmlEmailTemplateStaticPage
+        ExampleHtmlEmailStaticPage
       )}
       <Route
         path={dev.examples.anchors1}

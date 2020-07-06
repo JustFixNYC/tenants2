@@ -133,6 +133,12 @@ class HTMLToTextParser(HTMLParser):
 
 
 def html_to_text(html: str) -> str:
+    '''
+    Convert HTML to plaintext. Assumes that the HTML was
+    rendered by React, which greatly limits the amount of
+    variation we need to deal with.
+    '''
+
     parser = HTMLToTextParser()
     parser.feed(html)
     return parser.get_text()

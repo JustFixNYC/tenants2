@@ -19,6 +19,7 @@ import { StaticRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { HelmetData } from "react-helmet";
 import { ChunkExtractor, ChunkExtractorManager } from "@loadable/server";
+import juice from "juice";
 
 import { ErrorDisplay, getErrorString } from "../lib/error-boundary";
 import { App, AppProps } from "../lib/app";
@@ -173,6 +174,9 @@ function generateResponse(event: AppProps): LambdaResponse {
   let isStaticContent = false;
   if (context.staticContent) {
     html = renderStaticMarkup(event, context, context.staticContent);
+    if (context.shouldInlineCss) {
+      html = juice(html);
+    }
     isStaticContent = true;
   }
   const modalHtml = context.modal

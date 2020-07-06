@@ -4,7 +4,13 @@ import { getAppStaticContext } from "../app-static-context";
 import { LambdaResponseHttpHeaders } from "../../lambda/lambda-response-http-headers";
 
 export type StaticPageProps = {
+  /** HTTP headers to pass on to our upstream client. */
   httpHeaders?: LambdaResponseHttpHeaders;
+
+  /** Whether to inline `<style>` CSS into the HTML for this page. */
+  shouldInlineCss?: boolean;
+
+  /** The static HTML content for this page. */
   children: JSX.Element;
 };
 
@@ -44,6 +50,7 @@ export const StaticPage = withRouter(
       if (props.httpHeaders) {
         Object.assign(staticCtx.httpHeaders, props.httpHeaders);
       }
+      staticCtx.shouldInlineCss = props.shouldInlineCss;
     }
     return null;
   }

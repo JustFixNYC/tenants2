@@ -91,3 +91,16 @@ def test_it_supports_nested_ordered_lists():
         'b. bye\n\n'
         '2. bap'
     )
+
+
+def test_it_supports_nested_mixed_lists():
+    assert html_to_text(
+        '<ol>'
+        '<li>boop<ul><li>oof</li></ul></li>'
+        '<li>bap</li>'
+        '</ol>'
+    ) == (
+        '1. boop\n\n'
+        '* oof\n\n'
+        '2. bap'
+    )

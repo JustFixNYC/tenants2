@@ -29,13 +29,19 @@ class OrderedCounter(Counter):
 
 
 class UnorderedCounter(Counter):
-    symbol = '*'
+    def __init__(self, symbol: str = '*'):
+        super().__init__()
+        self._symbol = symbol
+
+    @property
+    def symbol(self) -> str:
+        return self._symbol
 
 
 class HTMLToTextParser(HTMLParser):
     IGNORE_TAGS = set(['title', 'style'])
 
-    BLOCK_TAGS = set(['p', 'tr', 'li'])
+    BLOCK_TAGS = set(['p', 'tr', 'li', 'ul'])
 
     def __init__(self):
         super().__init__()
@@ -48,10 +54,12 @@ class HTMLToTextParser(HTMLParser):
     def handle_starttag(self, tag, attrs):
         if tag == "br":
             self.__curr_block.append("\n")
-        elif tag == 'ol':
+        if tag in self.BLOCK_TAGS and self.__curr_block:
+            self.__append_current_block()
+        if tag == 'ol':
             self.__counters.append(OrderedCounter())
         elif tag == 'ul':
-            self.__counters.append(UnorderedCounter())
+            self.__counters.append(self.__make_unordered_counter())
         elif tag == "a":
             self.__href = dict(attrs).get('href', '')
         elif tag in self.IGNORE_TAGS:
@@ -61,11 +69,18 @@ class HTMLToTextParser(HTMLParser):
         if self.__capture:
             self.__curr_block.append(data)
 
-    def __apply_counter(self):
+    def __make_unordered_counter(self) -> UnorderedCounter:
+        count = len([
+            c for c in self.__counters if isinstance(c, UnorderedCounter)
+        ])
+        return UnorderedCounter('*' if count < 1 else '-')
+
+    def __render_counter(self) -> str:
         if self.__counters:
             counter = self.__counters[-1]
             if not counter.was_rendered:
-                self.__curr_block.insert(0, f"{counter.render()} ")
+                return f"{counter.render()} "
+        return ''
 
     def __handle_anchor_endtag(self):
         if self.__href:
@@ -78,10 +93,9 @@ class HTMLToTextParser(HTMLParser):
             counter.increment()
 
     def __append_current_block(self):
-        self.__apply_counter()
         content = ''.join(self.__curr_block).strip()
         if content:
-            self.__blocks.append(content)
+            self.__blocks.append(self.__render_counter() + content)
         self.__curr_block = []
 
     def handle_endtag(self, tag):

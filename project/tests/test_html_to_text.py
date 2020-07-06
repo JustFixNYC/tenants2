@@ -51,6 +51,14 @@ def test_it_supports_unordered_lists():
     )
 
 
+def test_it_supports_nested_unordered_lists():
+    assert html_to_text('<ul><li>boop<ul><li>oof</li></ul></li><li>bap</li></ul>') == (
+        '* boop\n\n'
+        '- oof\n\n'
+        '* bap'
+    )
+
+
 def test_it_supports_ordered_lists():
     assert html_to_text('<ol><li>boop</li><li>bap</li></ol>') == (
         '1. boop\n\n'

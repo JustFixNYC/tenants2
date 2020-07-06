@@ -1,23 +1,22 @@
 // For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.122.1/containers/docker-existing-dockerfile
 {
-	"name": "Existing Dockerfile",
-
-	// Sets the run context to one level up instead of the .devcontainer folder.
+	"name": "JustFix.nyc Tenant Platform VSCode development container",
 	"context": "../.devcontainer",
-
-	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
 	"dockerFile": "../.devcontainer/Dockerfile",
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
 		"terminal.integrated.shell.linux": null,
+		// This is where the virtual environment set up by our Docker Compose config is located.
 		"python.pythonPath": "/venv/bin/python",
 		"python.linting.pylintEnabled": false,
 		"python.linting.flake8Enabled": true,
 		"python.linting.enabled": true,
 		"python.linting.mypyEnabled": true,
 		"eslint.options": {
+			// VSCode will put our tenants2 repository at /workspaces/tenants2,
+			// so that's where we need to find our custom ESLint rules.
 			"rulePaths": ["/workspaces/tenants2/frontend/eslint/rules"]
 		},
 		"[typescriptreact]": {
@@ -47,23 +46,13 @@
 		"dbaeumer.vscode-eslint",
 	],
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
-	// Uncomment the next line to run commands after the container is created - for example installing curl.
-	// "postCreateCommand": "apt-get update && apt-get install -y curl",
-
-	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
-	// "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
-
 	"mounts": [
+		// These mounts will ensure that the volumes our Docker Compose setup uses
+		// (see `docker-services.yml`) will be reused by VSCode.  Note that these
+		// rely on the project to be cloned in a folder called `tenants2`, since
+		// Docker Compose prefixes the volumes it creates with this directory name.
 		"source=tenants2_python-venv,target=/venv/,type=volume",
 		"source=tenants2_unused-node-modules,target=/workspaces/tenants2/node_modules/,type=volume",
 		"source=tenants2_node-modules,target=/node_modules/,type=volume",
 	],
-	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
-	// "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
-
-	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
-	// "remoteUser": "vscode"
 }

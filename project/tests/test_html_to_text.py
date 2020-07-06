@@ -42,3 +42,65 @@ def test_it_ignores_anchors_without_hrefs():
     assert html_to_text('<p><a>visit it</a></p>') == (
         'visit it'
     )
+
+
+def test_it_supports_unordered_lists():
+    assert html_to_text('<ul><li>boop</li><li>bap</li></ul>') == (
+        '* boop\n\n'
+        '* bap'
+    )
+
+
+def test_it_supports_lists_with_blocks():
+    assert html_to_text('<ul><li><p>boop</p><p>hi</p></li><li>bap</li></ul>') == (
+        '* boop\n\n'
+        'hi\n\n'
+        '* bap'
+    )
+
+
+def test_it_supports_nested_unordered_lists():
+    assert html_to_text(
+        '<ul>'
+        '<li>boop<ul><li>oof</li></ul></li>'
+        '<li>bap</li>'
+        '</ul>'
+    ) == (
+        '* boop\n\n'
+        '- oof\n\n'
+        '* bap'
+    )
+
+
+def test_it_supports_ordered_lists():
+    assert html_to_text('<ol><li>boop</li><li>bap</li></ol>') == (
+        '1. boop\n\n'
+        '2. bap'
+    )
+
+
+def test_it_supports_nested_ordered_lists():
+    assert html_to_text(
+        '<ol>'
+        '<li>boop<ol><li>hi</li><li>bye</li></ol></li>'
+        '<li>bap</li>'
+        '</ol>'
+    ) == (
+        '1. boop\n\n'
+        'a. hi\n\n'
+        'b. bye\n\n'
+        '2. bap'
+    )
+
+
+def test_it_supports_nested_mixed_lists():
+    assert html_to_text(
+        '<ol>'
+        '<li>boop<ul><li>oof</li></ul></li>'
+        '<li>bap</li>'
+        '</ol>'
+    ) == (
+        '1. boop\n\n'
+        '* oof\n\n'
+        '2. bap'
+    )

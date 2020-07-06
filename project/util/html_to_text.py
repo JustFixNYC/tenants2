@@ -6,14 +6,20 @@ from html.parser import HTMLParser
 class Counter(abc.ABC):
     def __init__(self):
         self._value = 0
+        self.was_rendered = False
 
     @property
     @abc.abstractmethod
     def symbol(self) -> str:
         pass
 
+    def render(self) -> str:
+        self.was_rendered = True
+        return self.symbol
+
     def increment(self):
         self._value += 1
+        self.was_rendered = False
 
 
 class OrderedCounter(Counter):
@@ -55,33 +61,40 @@ class HTMLToTextParser(HTMLParser):
         if self.__capture:
             self.__curr_block.append(data)
 
+    def __apply_counter(self):
+        if self.__counters:
+            counter = self.__counters[-1]
+            if not counter.was_rendered:
+                self.__curr_block.insert(0, f"{counter.render()} ")
+
     def __handle_anchor_endtag(self):
         if self.__href:
             self.__curr_block.append(f": {self.__href}")
             self.__href = ""
 
     def __handle_list_item_endtag(self) -> None:
-        counter = self.__counters[-1] if self.__counters else UnorderedCounter()
-        self.__curr_block.insert(0, f"{counter.symbol} ")
-        counter.increment()
+        if self.__counters:
+            counter = self.__counters[-1]
+            counter.increment()
 
     def __append_current_block(self):
+        self.__apply_counter()
         content = ''.join(self.__curr_block).strip()
         if content:
             self.__blocks.append(content)
         self.__curr_block = []
 
     def handle_endtag(self, tag):
-        if tag == "li":
-            self.__handle_list_item_endtag()
-        if tag in ["ol", "ul"]:
-            self.__counters.pop()
         if tag == "a":
             self.__handle_anchor_endtag()
         if tag in self.IGNORE_TAGS:
             self.__capture = True
         if tag in self.BLOCK_TAGS:
             self.__append_current_block()
+        if tag == "li":
+            self.__handle_list_item_endtag()
+        if tag in ["ol", "ul"]:
+            self.__counters.pop()
 
     def get_text(self) -> str:
         return '\n\n'.join(self.__blocks)

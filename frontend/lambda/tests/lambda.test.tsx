@@ -33,16 +33,15 @@ describe("generateLambdaResponse()", () => {
     const generate = () =>
       generateLambdaResponse(
         fakeAppProps,
-        (evt, ctx, ext, h) => {
+        (_, ctx, __, h) => {
           fakeHelmet(h);
           ctx.staticContent = <></>;
           ctx.shouldInlineCss = shouldInlineCss;
-          return "this does not matter";
+          return "";
         },
-        (evt, ctx, jsx) => {
-          return UNINLINED_HTML;
-        }
+        () => UNINLINED_HTML
       );
+
     expect(generate().html).toBe(UNINLINED_HTML);
     shouldInlineCss = true;
     expect(generate().html).toBe('<p style="color: pink;">hi</p>');

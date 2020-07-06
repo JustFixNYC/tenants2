@@ -72,3 +72,12 @@ def test_it_supports_ordered_lists():
         '1. boop\n\n'
         '2. bap'
     )
+
+
+def test_it_supports_nested_ordered_lists():
+    assert html_to_text('<ol><li>boop<ol><li>hi</li><li>bye</li></ol></li><li>bap</li></ol>') == (
+        '1. boop\n\n'
+        'a. hi\n\n'
+        'b. bye\n\n'
+        '2. bap'
+    )

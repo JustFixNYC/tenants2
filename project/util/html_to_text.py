@@ -23,9 +23,21 @@ class Counter(abc.ABC):
 
 
 class OrderedCounter(Counter):
+    pass
+
+
+class OrderedNumericCounter(OrderedCounter):
     @property
     def symbol(self) -> str:
         return f'{self._value + 1}.'
+
+
+class OrderedAlphaCounter(OrderedCounter):
+    ASCII_A = 97
+
+    @property
+    def symbol(self) -> str:
+        return f'{chr(self.ASCII_A + self._value)}.'
 
 
 class UnorderedCounter(Counter):
@@ -41,7 +53,7 @@ class UnorderedCounter(Counter):
 class HTMLToTextParser(HTMLParser):
     IGNORE_TAGS = set(['title', 'style'])
 
-    BLOCK_TAGS = set(['p', 'tr', 'li', 'ul'])
+    BLOCK_TAGS = set(['p', 'tr', 'li', 'ul', 'ol'])
 
     def __init__(self):
         super().__init__()
@@ -57,7 +69,7 @@ class HTMLToTextParser(HTMLParser):
         if tag in self.BLOCK_TAGS and self.__curr_block:
             self.__append_current_block()
         if tag == 'ol':
-            self.__counters.append(OrderedCounter())
+            self.__counters.append(self.__make_ordered_counter())
         elif tag == 'ul':
             self.__counters.append(self.__make_unordered_counter())
         elif tag == "a":
@@ -74,6 +86,12 @@ class HTMLToTextParser(HTMLParser):
             c for c in self.__counters if isinstance(c, UnorderedCounter)
         ])
         return UnorderedCounter('*' if count < 1 else '-')
+
+    def __make_ordered_counter(self) -> OrderedCounter:
+        count = len([
+            c for c in self.__counters if isinstance(c, OrderedCounter)
+        ])
+        return OrderedNumericCounter() if count < 1 else OrderedAlphaCounter()
 
     def __render_counter(self) -> str:
         if self.__counters:

@@ -137,11 +137,15 @@ function renderStaticMarkup(
   context: AppStaticContext,
   jsx: JSX.Element
 ): string {
-  return ReactDOMServer.renderToStaticMarkup(
+  let html = ReactDOMServer.renderToStaticMarkup(
     <ServerRouter event={event} context={context}>
       <App {...event} children={jsx} />
     </ServerRouter>
   );
+  if (context.shouldInlineCss) {
+    html = juice(html);
+  }
+  return html;
 }
 
 /**
@@ -174,9 +178,6 @@ function generateResponse(event: AppProps): LambdaResponse {
   let isStaticContent = false;
   if (context.staticContent) {
     html = renderStaticMarkup(event, context, context.staticContent);
-    if (context.shouldInlineCss) {
-      html = juice(html);
-    }
     isStaticContent = true;
   }
   const modalHtml = context.modal

@@ -42,3 +42,17 @@ def test_it_ignores_anchors_without_hrefs():
     assert html_to_text('<p><a>visit it</a></p>') == (
         'visit it'
     )
+
+
+def test_it_supports_unordered_lists():
+    assert html_to_text('<ul><li>boop</li><li>bap</li></ul>') == (
+        '* boop\n\n'
+        '* bap'
+    )
+
+
+def test_it_supports_ordered_lists():
+    assert html_to_text('<ol><li>boop</li><li>bap</li></ol>') == (
+        '1. boop\n\n'
+        '2. bap'
+    )

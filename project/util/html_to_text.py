@@ -1,11 +1,35 @@
 from typing import List
+import abc
 from html.parser import HTMLParser
+
+
+class Counter(abc.ABC):
+    def __init__(self):
+        self._value = 0
+
+    @property
+    @abc.abstractmethod
+    def symbol(self) -> str:
+        pass
+
+    def increment(self):
+        self._value += 1
+
+
+class OrderedCounter(Counter):
+    @property
+    def symbol(self) -> str:
+        return f'{self._value + 1}.'
+
+
+class UnorderedCounter(Counter):
+    symbol = '*'
 
 
 class HTMLToTextParser(HTMLParser):
     IGNORE_TAGS = set(['title', 'style'])
 
-    BLOCK_TAGS = set(['p', 'tr'])
+    BLOCK_TAGS = set(['p', 'tr', 'li'])
 
     def __init__(self):
         super().__init__()
@@ -13,10 +37,15 @@ class HTMLToTextParser(HTMLParser):
         self.__curr_block: List[str] = []
         self.__href = ""
         self.__capture = True
+        self.__counters: List[Counter] = []
 
     def handle_starttag(self, tag, attrs):
         if tag == "br":
             self.__curr_block.append("\n")
+        elif tag == 'ol':
+            self.__counters.append(OrderedCounter())
+        elif tag == 'ul':
+            self.__counters.append(UnorderedCounter())
         elif tag == "a":
             self.__href = dict(attrs).get('href', '')
         elif tag in self.IGNORE_TAGS:
@@ -31,6 +60,11 @@ class HTMLToTextParser(HTMLParser):
             self.__curr_block.append(f": {self.__href}")
             self.__href = ""
 
+    def __handle_list_item_endtag(self) -> None:
+        counter = self.__counters[-1] if self.__counters else UnorderedCounter()
+        self.__curr_block.insert(0, f"{counter.symbol} ")
+        counter.increment()
+
     def __append_current_block(self):
         content = ''.join(self.__curr_block).strip()
         if content:
@@ -38,6 +72,10 @@ class HTMLToTextParser(HTMLParser):
         self.__curr_block = []
 
     def handle_endtag(self, tag):
+        if tag == "li":
+            self.__handle_list_item_endtag()
+        if tag in ["ol", "ul"]:
+            self.__counters.pop()
         if tag == "a":
             self.__handle_anchor_endtag()
         if tag in self.IGNORE_TAGS:

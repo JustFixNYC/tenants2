@@ -12,6 +12,7 @@ schema.json
 
 # This is a weird JSON format, ignore it for now.
 tsconfig.json
+.devcontainer/devcontainer.json
 
 # Don't go in that black hole!
 node_modules

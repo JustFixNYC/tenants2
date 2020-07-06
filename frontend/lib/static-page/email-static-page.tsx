@@ -16,6 +16,7 @@ export const EmailStaticPage: React.FC<
         ? undefined
         : { "Content-Type": "text/plain; charset=utf-8" }
     }
+    shouldInlineCss={props.isHtmlEmail}
   >
     <EmailContext.Provider value={true}>{props.children}</EmailContext.Provider>
   </StaticPage>

@@ -19,6 +19,7 @@ import { StaticRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { HelmetData } from "react-helmet";
 import { ChunkExtractor, ChunkExtractorManager } from "@loadable/server";
+import juice from "juice";
 
 import { ErrorDisplay, getErrorString } from "../lib/error-boundary";
 import { App, AppProps } from "../lib/app";
@@ -131,6 +132,16 @@ function renderAppHtml(
   );
 }
 
+export function postProcessStaticMarkup(
+  html: string,
+  options: Pick<AppStaticContext, "shouldInlineCss">
+) {
+  if (options.shouldInlineCss) {
+    html = juice(html);
+  }
+  return html;
+}
+
 function renderStaticMarkup(
   event: AppProps,
   context: AppStaticContext,
@@ -149,7 +160,11 @@ function renderStaticMarkup(
  *
  * @param event The request.
  */
-function generateResponse(event: AppProps): LambdaResponse {
+export function generateLambdaResponse(
+  event: AppProps,
+  renderer = renderAppHtml,
+  staticRenderer = renderStaticMarkup
+): LambdaResponse {
   i18n.initialize(event.locale);
   setGlobalAppServerInfo(event.server);
 
@@ -168,15 +183,18 @@ function generateResponse(event: AppProps): LambdaResponse {
     publicPath: event.server.webpackPublicPathURL,
   });
   const helmetContext: HelmetContext = {};
-  let html = renderAppHtml(event, context, extractor, helmetContext);
+  let html = renderer(event, context, extractor, helmetContext);
   const helmet = assertNotUndefined(helmetContext.helmet);
   let isStaticContent = false;
   if (context.staticContent) {
-    html = renderStaticMarkup(event, context, context.staticContent);
+    html = postProcessStaticMarkup(
+      staticRenderer(event, context, context.staticContent),
+      context
+    );
     isStaticContent = true;
   }
   const modalHtml = context.modal
-    ? renderStaticMarkup(event, context, context.modal)
+    ? staticRenderer(event, context, context.modal)
     : "";
   let location = null;
   if (context.url) {
@@ -211,7 +229,7 @@ function baseHandler(event: EventProps): LambdaResponse {
     throw new Error("Testing internal server error");
   }
 
-  return generateResponse(event);
+  return generateLambdaResponse(event);
 }
 
 /**

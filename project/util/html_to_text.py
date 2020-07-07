@@ -69,6 +69,8 @@ class HTMLToTextParser(HTMLParser):
         attrs = dict(attrs)
         if tag == "br":
             self.__curr_block.append("\n")
+        if tag == "img" and attrs.get('alt'):
+            self.__curr_block.append(attrs.get('src', ''))
         if tag in self.BLOCK_TAGS and self.__curr_block:
             self.__append_current_block()
         if tag == 'ol':
@@ -134,6 +136,9 @@ class HTMLToTextParser(HTMLParser):
         if tag in ["ol", "ul"]:
             self.__counters.pop()
 
+    def finish(self):
+        self.__append_current_block()
+
     def get_text(self) -> str:
         return '\n\n'.join(self.__blocks)
 
@@ -147,4 +152,5 @@ def html_to_text(html: str) -> str:
 
     parser = HTMLToTextParser()
     parser.feed(html)
+    parser.finish()
     return parser.get_text()

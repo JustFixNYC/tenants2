@@ -2,6 +2,7 @@ import React from "react";
 import { asEmailStaticPage } from "../static-page/email-static-page";
 import { HtmlEmail } from "../static-page/html-email";
 import { friendlyPhoneNumber } from "../util/util";
+import { getAbsoluteStaticURL } from "../app-context";
 
 // TODO: Figure out how many days this is.
 const LAWYER_RESPONSE_MAX_DAYS = "(X)";
@@ -180,8 +181,27 @@ const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
           </Important>
         </li>
       )}
-      {/* TODO: FINISH THIS. */}
     </ol>
+    <h2>Serving the papers</h2>
+    <p>
+      You will find all of the information you need to know (when, what, how,
+      and to whom) in order to serve your paperwork on your landlord and/or
+      management company on the page called “Order to Show Cause”, which is the
+      one with the Judge’s signature. It is in the section below where your
+      court date is listed.
+    </p>
+    <ExampleImage src="osc-callout.jpg" alt="An order to show cause form" />
+    {/* TODO: FINISH THIS. */}
+  </>
+);
+
+const ExampleImage: React.FC<{ src: string; alt: string }> = ({ src, alt }) => (
+  <>
+    <p>Here's an example:</p>
+    <img
+      src={`${getAbsoluteStaticURL()}hpaction/service-instructions/${src}`}
+      alt={alt}
+    />
   </>
 );
 

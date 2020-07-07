@@ -266,3 +266,13 @@ export const defaultContext: AppContextType = {
 export const AppContext = React.createContext<AppContextType>(defaultContext);
 
 export const withAppContext = buildContextHocFactory(AppContext);
+
+/**
+ * Return an absolute URL to the URL of the server's static files, e.g.
+ * "http://example.com/static/".
+ */
+export function getAbsoluteStaticURL(
+  { staticURL, originURL }: AppServerInfo = getGlobalAppServerInfo()
+): string {
+  return staticURL.startsWith("/") ? `${originURL}${staticURL}` : staticURL;
+}

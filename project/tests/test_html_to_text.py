@@ -124,3 +124,11 @@ def test_it_does_not_currently_support_roman_numerals():
 def test_it_raises_value_error_on_unsupported_type():
     with pytest.raises(ValueError, match="Unknown <ol> type \"z\""):
         html_to_text('<ol type="z"></ol>')
+
+
+def test_it_replaces_non_decorative_images_with_urls():
+    assert html_to_text('<img src="blah.jpg" alt="Blah" />') == 'blah.jpg'
+
+
+def test_it_ignores_decorative_images():
+    assert html_to_text('<img src="blah.jpg" alt="" />') == ''

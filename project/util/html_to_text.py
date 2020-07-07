@@ -33,11 +33,13 @@ class OrderedNumericCounter(OrderedCounter):
 
 
 class OrderedAlphaCounter(OrderedCounter):
-    ASCII_A = 97
+    def __init__(self, start_char: str):
+        super().__init__()
+        self.start_char = start_char
 
     @property
     def symbol(self) -> str:
-        return f'{chr(self.ASCII_A + self._value)}.'
+        return f'{chr(ord(self.start_char) + self._value)}.'
 
 
 class UnorderedCounter(Counter):
@@ -64,16 +66,17 @@ class HTMLToTextParser(HTMLParser):
         self.__counters: List[Counter] = []
 
     def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
         if tag == "br":
             self.__curr_block.append("\n")
         if tag in self.BLOCK_TAGS and self.__curr_block:
             self.__append_current_block()
         if tag == 'ol':
-            self.__counters.append(self.__make_ordered_counter())
+            self.__counters.append(self.__make_ordered_counter(attrs.get('type', '1')))
         elif tag == 'ul':
             self.__counters.append(self.__make_unordered_counter())
         elif tag == "a":
-            self.__href = dict(attrs).get('href', '')
+            self.__href = attrs.get('href', '')
         elif tag in self.IGNORE_TAGS:
             self.__capture = False
 
@@ -87,11 +90,14 @@ class HTMLToTextParser(HTMLParser):
         ])
         return UnorderedCounter('*' if count < 1 else '-')
 
-    def __make_ordered_counter(self) -> OrderedCounter:
-        count = len([
-            c for c in self.__counters if isinstance(c, OrderedCounter)
-        ])
-        return OrderedNumericCounter() if count < 1 else OrderedAlphaCounter()
+    def __make_ordered_counter(self, type: str) -> OrderedCounter:
+        if type == '1':
+            return OrderedNumericCounter()
+        elif type.lower() == 'a':
+            return OrderedAlphaCounter(type)
+        elif type.lower() == 'i':
+            raise NotImplementedError("Roman numerals in <ol> are unsupported")
+        raise ValueError(f'Unknown <ol> type "{type}"')
 
     def __render_counter(self) -> str:
         if self.__counters:

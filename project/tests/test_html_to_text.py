@@ -1,3 +1,5 @@
+import pytest
+
 from project.util.html_to_text import html_to_text
 
 
@@ -82,7 +84,7 @@ def test_it_supports_ordered_lists():
 def test_it_supports_nested_ordered_lists():
     assert html_to_text(
         '<ol>'
-        '<li>boop<ol><li>hi</li><li>bye</li></ol></li>'
+        '<li>boop<ol type="a"><li>hi</li><li>bye</li></ol></li>'
         '<li>bap</li>'
         '</ol>'
     ) == (
@@ -104,3 +106,13 @@ def test_it_supports_nested_mixed_lists():
         '* oof\n\n'
         '2. bap'
     )
+
+
+def test_it_does_not_currently_support_roman_numerals():
+    with pytest.raises(NotImplementedError, match="Roman numerals in <ol> are unsupported"):
+        html_to_text('<ol type="i"></ol>')
+
+
+def test_it_raises_value_error_on_unsupported_type():
+    with pytest.raises(ValueError, match="Unknown <ol> type \"z\""):
+        html_to_text('<ol type="z"></ol>')

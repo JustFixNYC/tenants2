@@ -9,6 +9,7 @@ import {
   properNoun,
   numberWithCommas,
   hardFail,
+  friendlyPhoneNumber,
 } from "../util";
 
 describe("properNoun()", () => {
@@ -120,4 +121,10 @@ test("isDeepEqual() works", () => {
 describe("numberWithCommas() works", () => {
   expect(numberWithCommas(1234)).toBe("1,234");
   expect(numberWithCommas(5.2341)).toBe("5.2341");
+});
+
+test("friendlyPhoneNumber() works", () => {
+  expect(friendlyPhoneNumber("+15551234567")).toBe("(555) 123-4567");
+  expect(friendlyPhoneNumber("5551234567")).toBe("(555) 123-4567");
+  expect(friendlyPhoneNumber("blah")).toBe("blah");
 });

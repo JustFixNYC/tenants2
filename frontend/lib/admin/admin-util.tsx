@@ -22,12 +22,3 @@ export function niceAdminTimestamp(
   });
   return options.seconds ? localeDate : localeDate.replace(/(\:\d\d) /, " ");
 }
-
-/**
- * Convert a phone number that from 10-digit or E.164 format into a
- * more human-readable one.
- */
-export function friendlyAdminPhoneNumber(phoneNumber: string): string {
-  const match = phoneNumber.match(/^(?:\+1)?(\d\d\d)(\d\d\d)(\d\d\d\d)$/);
-  return match ? `(${match[1]}) ${match[2]}-${match[3]}` : phoneNumber;
-}

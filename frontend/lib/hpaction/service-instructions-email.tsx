@@ -1,9 +1,32 @@
 import React from "react";
 import { asEmailStaticPage } from "../static-page/email-static-page";
 import { HtmlEmail } from "../static-page/html-email";
+import { friendlyPhoneNumber } from "../util/util";
+
+// TODO: Figure out how many days this is.
+const LAWYER_RESPONSE_MAX_DAYS = "(X)";
+
+const EmailLink: React.FC<{ to: string }> = ({ to }) => (
+  <a href={`mailto:${to}`}>{to}</a>
+);
+
+const TelLink: React.FC<{ to: string }> = ({ to }) => (
+  <a href={`tel:+1${to}`}>{friendlyPhoneNumber(to)}</a>
+);
+
+const Important: React.FC<{ children: React.ReactNode }> = (props) => (
+  <p style={{ color: "red" }}>{props.children}</p>
+);
 
 type ServiceInstructionsProps = {
+  /** The tenant's first name. */
   firstName: string;
+
+  /** The email address of the tenant's court. */
+  courtEmail: string;
+
+  /** The 10-digit phone number of the tenant's court. */
+  courtPhoneNumber: string;
 };
 
 const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
@@ -48,6 +71,68 @@ const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
           </li>
         </ol>
       </li>
+      <li>
+        <strong>Serving the papers</strong>
+        <p>
+          If your case was accepted, now you have to “serve” the papers on your
+          landlord and/or management company. This means that you have to give
+          your landlord or management company a copy of (some) of the papers in
+          the attachment you got from the Clerk. If two addresses are listed you
+          must serve both. You will have to print the pages that you have to
+          serve. If you don’t have a printer, you can go to your local library
+          or your nearest print shop.
+        </p>
+        <Important>
+          This step is very important because if you don’t serve the papers in
+          exactly the way that the Judge ordered and by the deadline, your case
+          will be considered invalid and you will have to start all over again.
+          (The deadline to serve could be very tight, sometimes less than 24
+          hours, so please be aware of doing this quickly.)
+        </Important>
+        <p>
+          <em>See more details on how to serve below.</em>
+        </p>
+      </li>
+      <li>
+        <strong>Possible attorney assignment</strong>
+        <p>
+          Your case might be considered an emergency by the Judge. If so, you
+          will be contacted by a lawyer who will help you with your case. If
+          not, you will need to do everything yourself. (This is called
+          appearing “pro-se”.) If you do not hear from a lawyer within{" "}
+          {LAWYER_RESPONSE_MAX_DAYS} days, you should assume that you will need
+          to be pro-se.
+        </p>
+        <Important>
+          Regardless of whether or not you hear from a lawyer YOU must serve the
+          paperwork on your landlord and/or management company. The lawyer will
+          not do this on your behalf. There are instructions on how to serve
+          following this list.
+        </Important>
+      </li>
+      <li>
+        <strong>Requesting a Virtual Hearing for your court date</strong>
+        <p>
+          You will have a court date assigned to you but remember that you DO
+          NOT have to go to the courthouse in-person right now. Instead, your
+          court hearing can be done virtually through the internet using Skype.
+        </p>
+        <p>
+          To request the instructions to have a virtual hearing email or call
+          your Borough’s office. Make sure to include your name and Index Number
+          (found at the top right of your HP Action paperwork).
+        </p>
+        <ul>
+          <li>
+            <strong>Your Borough office's email:</strong>{" "}
+            <EmailLink to={props.courtEmail} />
+          </li>
+          <li>
+            <strong>Your Borough office's phone number:</strong>{" "}
+            <TelLink to={props.courtPhoneNumber} />
+          </li>
+        </ul>
+      </li>
       {/* TODO: FINISH THIS. */}
     </ol>
   </>
@@ -55,6 +140,10 @@ const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
 
 export const ServiceInstructionsEmail = asEmailStaticPage(() => (
   <HtmlEmail subject="HP Action: service instructions confirmation email">
-    <ServiceInstructionsContent firstName="Boop" />
+    <ServiceInstructionsContent
+      firstName="Boop"
+      courtEmail="bronx@nycourts.gov"
+      courtPhoneNumber="5551234567"
+    />
   </HtmlEmail>
 ));

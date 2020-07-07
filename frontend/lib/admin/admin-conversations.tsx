@@ -22,10 +22,11 @@ import { Helmet } from "react-helmet-async";
 import { whoOwnsWhatURL } from "../ui/wow-link";
 import classnames from "classnames";
 import { UpdateTextingHistoryMutation } from "../queries/UpdateTextingHistoryMutation";
-import { niceAdminTimestamp, friendlyAdminPhoneNumber } from "./admin-util";
+import { niceAdminTimestamp } from "./admin-util";
 import { useRepeatedPromise, useAdminFetch, usePrevious } from "./admin-hooks";
 import { staffOnlyView } from "./staff-only-view";
 import { useDebouncedValue } from "../util/use-debounced-value";
+import { friendlyPhoneNumber } from "../util/util";
 
 const PHONE_QS_VAR = "phone";
 
@@ -270,7 +271,7 @@ const ConversationsSidebar: React.FC<{
                     <div className="jf-heading">
                       <div className="jf-tenant">
                         {conv.userFullName ||
-                          friendlyAdminPhoneNumber(conv.userPhoneNumber)}{" "}
+                          friendlyPhoneNumber(conv.userPhoneNumber)}{" "}
                         {conv.errorMessage && "❌"}
                       </div>
                       <div className="jf-date">
@@ -337,15 +338,14 @@ const ConversationPanel: React.FC<{
               >
                 <h1>
                   Conversation with{" "}
-                  {userFullName ||
-                    friendlyAdminPhoneNumber(selectedPhoneNumber)}
+                  {userFullName || friendlyPhoneNumber(selectedPhoneNumber)}
                 </h1>
                 {user ? (
                   <>
                     {userFullName && (
                       <p>
                         This user's phone number is{" "}
-                        {friendlyAdminPhoneNumber(selectedPhoneNumber)}.
+                        {friendlyPhoneNumber(selectedPhoneNumber)}.
                       </p>
                     )}
                     {user.onboardingInfo && (
@@ -425,7 +425,7 @@ const ConversationPanel: React.FC<{
             <div className="jf-empty-panel">
               <p>
                 Loading conversation for{" "}
-                {friendlyAdminPhoneNumber(selectedPhoneNumber)}...
+                {friendlyPhoneNumber(selectedPhoneNumber)}...
               </p>
             </div>
           )}

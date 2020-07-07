@@ -40,6 +40,14 @@ def test_it_adds_anchor_hrefs():
     )
 
 
+@pytest.mark.parametrize('href,text', [
+    ['mailto:a@b.com', 'a@b.com'],
+    ['tel:+15551234567', '(555) 123-4567'],
+])
+def test_it_ignores_useless_hrefs(href, text):
+    assert html_to_text(f'<p><a href="{href}">{text}</a></p>') == text
+
+
 def test_it_ignores_anchors_without_hrefs():
     assert html_to_text('<p><a>visit it</a></p>') == (
         'visit it'

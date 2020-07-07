@@ -107,7 +107,7 @@ class HTMLToTextParser(HTMLParser):
         return ''
 
     def __handle_anchor_endtag(self):
-        if self.__href:
+        if self.__href and self.__href.startswith('http'):
             self.__curr_block.append(f": {self.__href}")
             self.__href = ""
 

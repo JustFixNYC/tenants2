@@ -168,3 +168,14 @@ export function numberWithCommas(x: number): string {
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return parts.join(".");
 }
+
+/**
+ * Convert a U.S. phone number from 10-digit or E.164 format into a
+ * more human-readable one.
+ *
+ * If the phone number doesn't appear to be valid, it is returned as-is.
+ */
+export function friendlyPhoneNumber(phoneNumber: string): string {
+  const match = phoneNumber.match(/^(?:\+1)?(\d\d\d)(\d\d\d)(\d\d\d\d)$/);
+  return match ? `(${match[1]}) ${match[2]}-${match[3]}` : phoneNumber;
+}

@@ -73,7 +73,7 @@ def verify_address(address: str, borough: str) -> AddressVerificationResult:
         address_verified = True
         props = features[0].properties
         address = props.name
-        zipcode = props.postalcode
+        zipcode = props.postalcode or ''
         borough = BOROUGH_GID_TO_CHOICE[props.borough_gid]
     return AddressVerificationResult(address, borough, address_verified, zipcode)
 

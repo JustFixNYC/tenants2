@@ -18,7 +18,7 @@ class FeatureGeometry(pydantic.BaseModel):
 
 class FeatureProperties(pydantic.BaseModel):
     # The ZIP code, e.g. "11201".
-    postalcode: str
+    postalcode: Optional[str]
 
     # The name, e.g. "666 FIFTH AVENUE".
     name: str

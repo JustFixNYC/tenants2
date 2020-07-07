@@ -18,7 +18,36 @@ const Important: React.FC<{ children: React.ReactNode }> = (props) => (
   <p style={{ color: "red" }}>{props.children}</p>
 );
 
-type ServiceInstructionsProps = {
+type CaseTypeProps = {
+  /** Whether the tenant is suing for repairs. */
+  sueForRepairs: boolean;
+
+  /** Whether the tenant is suing for harassment. */
+  sueForHarassment: boolean;
+};
+
+enum CaseType {
+  Repairs,
+  Harassment,
+  Combined,
+}
+
+const CASE_TYPE_NAMES: { [k in CaseType]: string } = {
+  [CaseType.Repairs]: "Repairs",
+  [CaseType.Harassment]: "Harassment",
+  [CaseType.Combined]: "Repairs and Harassment",
+};
+
+function toCaseType({
+  sueForHarassment,
+  sueForRepairs,
+}: CaseTypeProps): CaseType {
+  if (sueForHarassment && sueForRepairs) return CaseType.Combined;
+  if (sueForHarassment) return CaseType.Harassment;
+  return CaseType.Repairs;
+}
+
+type ServiceInstructionsProps = CaseTypeProps & {
   /** The tenant's first name. */
   firstName: string;
 
@@ -37,7 +66,7 @@ const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
     <p>
       This is JustFix.nyc following up with some{" "}
       <strong>next steps and instructions</strong> now that you’ve filed an “HP
-      Action” case in Housing Court for Repairs and/or Harassment.
+      Action” case in Housing Court for {CASE_TYPE_NAMES[toCaseType(props)]}.
     </p>
     <h2>Next steps</h2>
     <p>
@@ -133,6 +162,24 @@ const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
           </li>
         </ul>
       </li>
+      {props.sueForRepairs && (
+        <li>
+          <strong>HPD inspection</strong>
+          <p>
+            Since you filed for repairs, an inspector from HPD (the Department
+            of Housing Preservation and Development) will come to inspect the
+            conditions in your home to see if they are violations of the law
+            called the Housing Maintenance Code. They will make a report and
+            give it to the court so the court knows what’s going on in your
+            home.
+          </p>
+          <Important>
+            A representative from HPD will call you to arrange the time and date
+            of the inspection. On the day of your inspection, make sure to
+            follow sanitation and social distancing measures as much as you can.
+          </Important>
+        </li>
+      )}
       {/* TODO: FINISH THIS. */}
     </ol>
   </>
@@ -144,6 +191,8 @@ export const ServiceInstructionsEmail = asEmailStaticPage(() => (
       firstName="Boop"
       courtEmail="bronx@nycourts.gov"
       courtPhoneNumber="5551234567"
+      sueForHarassment
+      sueForRepairs
     />
   </HtmlEmail>
 ));

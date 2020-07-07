@@ -3,7 +3,10 @@ import { OnboardingInfoSignupIntent, Borough } from "./queries/globalTypes";
 import { inputToQuerystring } from "./networking/http-get-query-util";
 import { ROUTE_PREFIX, createRoutesForSite } from "./util/route-util";
 import { createDevRouteInfo } from "./dev/routes";
-import { createLetterStaticPageRouteInfo } from "./static-page/routes";
+import {
+  createLetterStaticPageRouteInfo,
+  createHtmlEmailStaticPageRouteInfo,
+} from "./static-page/routes";
 
 /**
  * Metadata about signup intents.
@@ -178,6 +181,9 @@ function createEmergencyHPActionRouteInfo(prefix: string) {
     reviewFormsSignModal: `${prefix}/review/sign-modal`,
     verifyEmail: `${prefix}/verify-email`,
     confirmation: `${prefix}/confirmation`,
+    serviceInstructionsEmail: createHtmlEmailStaticPageRouteInfo(
+      `${prefix}/service-instructions-email`
+    ),
   };
 }
 

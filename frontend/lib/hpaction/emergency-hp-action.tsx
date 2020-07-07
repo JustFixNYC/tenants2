@@ -24,7 +24,7 @@ import {
   ProgressStepProps,
 } from "../progress/progress-step-route";
 import { ProgressButtons, BackButton, NextButton } from "../ui/buttons";
-import { Link } from "react-router-dom";
+import { Link, Switch, Route } from "react-router-dom";
 import { EhpAccessForInspection } from "./hp-action-access-for-inspection";
 import { createHPActionPreviousAttempts } from "./hp-action-previous-attempts";
 import { HPActionYourLandlord } from "./hp-action-your-landlord";
@@ -78,6 +78,8 @@ import { HarassmentCaseHistory } from "./hp-action-case-history";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-steps";
 import { renderSuccessHeading } from "../ui/success-heading";
+import { createHtmlEmailStaticPageRoutes } from "../static-page/routes";
+import { ServiceInstructionsEmail } from "./service-instructions-email";
 
 const HP_ICON = "frontend/img/hp-action.svg";
 
@@ -610,8 +612,18 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
   ],
 });
 
-const EmergencyHPActionRoutes = buildProgressRoutesComponent(
+const EmergencyHPActionProgressRoutes = buildProgressRoutesComponent(
   getEmergencyHPActionProgressRoutesProps
+);
+
+const EmergencyHPActionRoutes: React.FC<{}> = () => (
+  <Switch>
+    {createHtmlEmailStaticPageRoutes(
+      JustfixRoutes.locale.ehp.serviceInstructionsEmail,
+      ServiceInstructionsEmail
+    )}
+    <Route component={EmergencyHPActionProgressRoutes} />
+  </Switch>
 );
 
 export default EmergencyHPActionRoutes;

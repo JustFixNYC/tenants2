@@ -74,6 +74,31 @@ def _log_replacements(old: List[Feature], new: List[Feature]) -> None:
             logger.info(f"Promoting {nstr} over {ostr}.")
 
 
+def _promote_exact_address(search_text: str, features: List[Feature]) -> List[Feature]:
+    '''
+    If the given search text specifies a borough and one or more of the
+    given features match the search text and borough *exactly*, promote
+    them to the top of the list.
+
+    This is actually a workaround for an apparent flaw in
+    GeoSearch/Pelias whereby it sometimes, for some reason, promotes
+    non-exact matches over exact ones.
+    '''
+
+    exact_matches: List[Feature] = []
+    other_matches: List[Feature] = []
+
+    for feature in features:
+        p = feature.properties
+        addr_with_borough = f"{p.name}, {p.borough}"
+        if addr_with_borough.lower() == search_text.lower():
+            exact_matches.append(feature)
+        else:
+            other_matches.append(feature)
+
+    return exact_matches + other_matches
+
+
 def _promote_same_borough(search_text: str, features: List[Feature]) -> List[Feature]:
     '''
     If the given search text specifies a borough, push
@@ -140,4 +165,4 @@ def search(text: str) -> Optional[List[Feature]]:
         logger.exception(f'Error while retrieving data from {settings.GEOCODING_SEARCH_URL}')
         return None
 
-    return _promote_same_borough(text, features)
+    return _promote_exact_address(text, _promote_same_borough(text, features))

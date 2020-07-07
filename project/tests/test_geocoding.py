@@ -63,3 +63,10 @@ def test_search_promotes_results_in_same_borough(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
     results = geocoding.search("150 cody court, staten island")
     assert results[0].properties.label == "150 CODY COURT, Staten Island, New York, NY, USA"
+
+
+@enable_fake_geocoding
+def test_search_promotes_exact_matches(requests_mock):
+    requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
+    results = geocoding.search("150 brightwatr court, brooklyn")
+    assert results[0].properties.label == "150 BRIGHTWATR COURT, Brooklyn, New York, NY, USA"

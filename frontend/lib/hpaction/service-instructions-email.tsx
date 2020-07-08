@@ -61,6 +61,12 @@ function toCaseType({
 }
 
 type ServiceInstructionsProps = CaseTypeProps & {
+  /**
+   * Whether this is an example and doesn't represent real instructions for
+   * an actual person.
+   */
+  isExample?: boolean;
+
   /** The tenant's first name. */
   firstName: string;
 
@@ -114,6 +120,11 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
   props
 ) => (
   <>
+    {props.isExample && (
+      <Important>
+        <strong>NOTE:</strong> This document is for example purposes only.
+      </Important>
+    )}
     <p>Hello {props.firstName},</p>
     <p>
       This is JustFix.nyc following up with some{" "}
@@ -301,7 +312,32 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
         </ul>
       </li>
     </ul>
-    {/* TODO: FINISH THIS. */}
+    <h4>Certified mail receipt slip</h4>
+    <p>
+      The postal worker will give you a green slip as proof that you sent the
+      paperwork by the right date. You can track the progress of the envelope by
+      using the tracking number on the left of the slip.
+    </p>
+    <ExampleImage
+      src="certified-mail-receipt.jpg"
+      alt="Close-up of a USPS Certified Mail Receipt"
+    />
+    <h4>Domestic return receipt requested card</h4>
+    <p>
+      After the envelope reaches its destination, a green card will get mailed
+      back to you at the address that you wrote in the “sender” box, which
+      should be a mailbox that you have access to. Keep an eye out for it.
+    </p>
+    <ExampleImage
+      src="domestic-return-receipt.jpg"
+      alt="Close-up of a USPS Certified Mail Receipt"
+    />
+    <h3>Who to serve</h3>
+    <p>
+      If there are 2 people or companies listed on the paperwork you will need
+      to serve them both. This could be because there is a landlord and a
+      management company.
+    </p>
   </>
 );
 
@@ -331,7 +367,8 @@ const ExampleImage: React.FC<ExampleImageProps> = ({
 );
 
 export const ExampleServiceInstructionsProps: ServiceInstructionsProps = {
-  firstName: "Boop",
+  isExample: true,
+  firstName: "JANE DOE",
   borough: "MANHATTAN",
   sueForHarassment: true,
   sueForRepairs: true,

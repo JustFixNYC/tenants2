@@ -65,6 +65,9 @@ type HtmlEmailProps = {
 
   /** The optional footer content of the email. */
   footer?: JSX.Element;
+
+  /** Extra CSS to add to the email, as raw strings (not filenames). */
+  extraCss?: string[];
 };
 
 const HtmlFooter: React.FC<{ children: React.ReactNode }> = (props) => (
@@ -99,7 +102,9 @@ export const HtmlEmail: React.FC<HtmlEmailProps> = (props) => (
       <meta name="viewport" content="width=device-width" />
       <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
       <title>{props.subject}</title>
-      <style dangerouslySetInnerHTML={{ __html: CSS }} />
+      {[CSS, ...(props.extraCss || [])].map((css, i) => (
+        <style key={i} dangerouslySetInnerHTML={{ __html: css }} />
+      ))}
     </head>
     <body className="">
       <span className="preheader">

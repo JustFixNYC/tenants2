@@ -1,6 +1,17 @@
 /**
  * These styles are intended for HTML emails and are taken from:
- * https://github.com/leemunroe/responsive-html-email-template
+ *
+ *   https://github.com/leemunroe/responsive-html-email-template
+ *
+ * Note that this CSS will be automatically inlined into the HTML,
+ * because that is the only way we can ensure that the email
+ * will look as intended across a wide variety of email clients.
+ *
+ * Also, because the email will be rendered in email clients rather
+ * than browsers, we can only use a subset of CSS, which is
+ * defined here:
+ *
+ *   https://www.campaignmonitor.com/css/
  */
 
 /* -------------------------------------

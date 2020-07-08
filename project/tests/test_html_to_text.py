@@ -1,3 +1,5 @@
+import pytest
+
 from project.util.html_to_text import html_to_text
 
 
@@ -36,6 +38,14 @@ def test_it_adds_anchor_hrefs():
     assert html_to_text('<p><a href="https://boop">visit it</a></p>') == (
         'visit it: https://boop'
     )
+
+
+@pytest.mark.parametrize('href,text', [
+    ['mailto:a@b.com', 'a@b.com'],
+    ['tel:+15551234567', '(555) 123-4567'],
+])
+def test_it_ignores_useless_hrefs(href, text):
+    assert html_to_text(f'<p><a href="{href}">{text}</a></p>') == text
 
 
 def test_it_ignores_anchors_without_hrefs():
@@ -82,7 +92,7 @@ def test_it_supports_ordered_lists():
 def test_it_supports_nested_ordered_lists():
     assert html_to_text(
         '<ol>'
-        '<li>boop<ol><li>hi</li><li>bye</li></ol></li>'
+        '<li>boop<ol type="a"><li>hi</li><li>bye</li></ol></li>'
         '<li>bap</li>'
         '</ol>'
     ) == (
@@ -104,3 +114,31 @@ def test_it_supports_nested_mixed_lists():
         '* oof\n\n'
         '2. bap'
     )
+
+
+def test_it_does_not_currently_support_roman_numerals():
+    with pytest.raises(NotImplementedError, match="Roman numerals in <ol> are unsupported"):
+        html_to_text('<ol type="i"></ol>')
+
+
+def test_it_raises_value_error_on_unsupported_type():
+    with pytest.raises(ValueError, match="Unknown <ol> type \"z\""):
+        html_to_text('<ol type="z"></ol>')
+
+
+def test_it_replaces_non_decorative_images_with_urls():
+    assert html_to_text('<img src="blah.jpg" alt="Blah" />') == 'blah.jpg'
+
+
+def test_it_ignores_decorative_images():
+    assert html_to_text('<img src="blah.jpg" alt="" />') == ''
+
+
+@pytest.mark.parametrize('html,text', [
+    ['<h1>Hi</h1>', 'Hi\n**'],
+    ['<h2>Hi</h2>', 'Hi\n=='],
+    ['<h3>Hi</h3>', 'Hi\n--'],
+    ['<h4>Hi</h4>', 'Hi\n..'],
+])
+def test_it_embellishes_headings(html, text):
+    assert html_to_text(html) == text

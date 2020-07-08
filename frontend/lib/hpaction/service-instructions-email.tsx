@@ -3,6 +3,7 @@ import { asEmailStaticPage } from "../static-page/email-static-page";
 import { HtmlEmail } from "../static-page/html-email";
 import { friendlyPhoneNumber } from "../util/util";
 import { getAbsoluteStaticURL } from "../app-context";
+import { BoroughChoice } from "../../../common-data/borough-choices";
 
 const EXTRA_CSS = require("./service-instructions-email.css");
 
@@ -60,20 +61,70 @@ function toCaseType({
 }
 
 type ServiceInstructionsProps = CaseTypeProps & {
+  /**
+   * Whether this is an example and doesn't represent real instructions for
+   * an actual person.
+   */
+  isExample?: boolean;
+
   /** The tenant's first name. */
   firstName: string;
 
-  /** The email address of the tenant's court. */
-  courtEmail: string;
+  /** The borough of the tenant's court. */
+  borough: BoroughChoice;
+};
 
-  /** The 10-digit phone number of the tenant's court. */
-  courtPhoneNumber: string;
+type CourtInfo = { email: string; phone: string };
+
+const COURT_INFO: { [k in BoroughChoice]: CourtInfo } = {
+  BRONX: {
+    email: "civbxhs-skype-vc@nycourts.gov",
+    phone: "7184663000",
+  },
+  BROOKLYN: {
+    email: "civkin-skype-vc@nycourts.gov",
+    phone: "3474049133",
+  },
+  MANHATTAN: {
+    email: "civnyc-skype-vc@nycourts.gov",
+    phone: "6463865730",
+  },
+  QUEENS: {
+    email: "civqns-skype-vc@nycourts.gov",
+    phone: "7182627300",
+  },
+  STATEN_ISLAND: {
+    email: "civric-skype-vc@nycourts.gov",
+    phone: "3473784143",
+  },
+};
+
+const CourtContactInfo: React.FC<{ borough: BoroughChoice }> = (props) => {
+  const info = COURT_INFO[props.borough];
+
+  return (
+    <ul>
+      <li>
+        <strong>Your Borough office's email:</strong>{" "}
+        <EmailLink to={info.email} />
+      </li>
+      <li>
+        <strong>Your Borough office's phone number:</strong>{" "}
+        <TelLink to={info.phone} />
+      </li>
+    </ul>
+  );
 };
 
 export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
   props
 ) => (
   <>
+    {props.isExample && (
+      <Important>
+        <strong>NOTE:</strong> This document is for example purposes only.
+      </Important>
+    )}
     <p>Hello {props.firstName},</p>
     <p>
       This is JustFix.nyc following up with some{" "}
@@ -163,16 +214,7 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
           your Borough’s office. Make sure to include your name and Index Number
           (found at the top right of your HP Action paperwork).
         </p>
-        <ul>
-          <li>
-            <strong>Your Borough office's email:</strong>{" "}
-            <EmailLink to={props.courtEmail} />
-          </li>
-          <li>
-            <strong>Your Borough office's phone number:</strong>{" "}
-            <TelLink to={props.courtPhoneNumber} />
-          </li>
-        </ul>
+        <CourtContactInfo borough={props.borough} />
       </li>
       {props.sueForRepairs && (
         <li>
@@ -270,7 +312,32 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
         </ul>
       </li>
     </ul>
-    {/* TODO: FINISH THIS. */}
+    <h4>Certified mail receipt slip</h4>
+    <p>
+      The postal worker will give you a green slip as proof that you sent the
+      paperwork by the right date. You can track the progress of the envelope by
+      using the tracking number on the left of the slip.
+    </p>
+    <ExampleImage
+      src="certified-mail-receipt.jpg"
+      alt="Close-up of a USPS Certified Mail Receipt"
+    />
+    <h4>Domestic return receipt requested card</h4>
+    <p>
+      After the envelope reaches its destination, a green card will get mailed
+      back to you at the address that you wrote in the “sender” box, which
+      should be a mailbox that you have access to. Keep an eye out for it.
+    </p>
+    <ExampleImage
+      src="domestic-return-receipt.jpg"
+      alt="Close-up of a USPS Certified Mail Receipt"
+    />
+    <h3>Who to serve</h3>
+    <p>
+      If there are 2 people or companies listed on the paperwork you will need
+      to serve them both. This could be because there is a landlord and a
+      management company.
+    </p>
   </>
 );
 
@@ -300,9 +367,9 @@ const ExampleImage: React.FC<ExampleImageProps> = ({
 );
 
 export const ExampleServiceInstructionsProps: ServiceInstructionsProps = {
-  firstName: "Boop",
-  courtEmail: "bronxfolks@nycourts.gov",
-  courtPhoneNumber: "5551234567",
+  isExample: true,
+  firstName: "JANE DOE",
+  borough: "MANHATTAN",
   sueForHarassment: true,
   sueForRepairs: true,
 };

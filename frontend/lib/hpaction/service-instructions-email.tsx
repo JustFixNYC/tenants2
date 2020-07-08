@@ -70,7 +70,7 @@ type ServiceInstructionsProps = CaseTypeProps & {
   courtPhoneNumber: string;
 };
 
-const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
+export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
   props
 ) => (
   <>
@@ -299,17 +299,19 @@ const ExampleImage: React.FC<ExampleImageProps> = ({
   </>
 );
 
+export const ExampleServiceInstructionsProps: ServiceInstructionsProps = {
+  firstName: "Boop",
+  courtEmail: "bronxfolks@nycourts.gov",
+  courtPhoneNumber: "5551234567",
+  sueForHarassment: true,
+  sueForRepairs: true,
+};
+
 export const ServiceInstructionsEmail = asEmailStaticPage(() => (
   <HtmlEmail
     subject="HP Action: service instructions confirmation email"
     extraCss={[EXTRA_CSS]}
   >
-    <ServiceInstructionsContent
-      firstName="Boop"
-      courtEmail="bronx@nycourts.gov"
-      courtPhoneNumber="5551234567"
-      sueForHarassment
-      sueForRepairs
-    />
+    <ServiceInstructionsContent {...ExampleServiceInstructionsProps} />
   </HtmlEmail>
 ));

@@ -1,0 +1,39 @@
+/**
+ * Note that this CSS will be automatically inlined into the HTML,
+ * because that is the only way we can ensure that the email
+ * will look as intended across a wide variety of email clients.
+ *
+ * Also, because the email will be rendered in email clients rather
+ * than browsers, we can only use a subset of CSS, which is
+ * defined here:
+ *
+ *   https://www.campaignmonitor.com/css/
+ *
+ * Finally, where possible, we use Bulma class
+ * names to keep terminology consistent.
+ */
+
+.has-text-danger {
+  color: #ff3860;
+}
+
+/**
+ * Some of our example images have white backgrounds,
+ * so we'll add a border to make them more distinguishable
+ * from the rest of the email content.
+ */
+.jf-has-border {
+  border: 1px dotted gray;
+}
+
+/**
+ * There are a lot of sections in this email, so let's
+ * make the headings particularly noticeable.
+ */
+h1,
+h2,
+h3,
+h4 {
+  background: #f0f0f0;
+  padding: 4px;
+}

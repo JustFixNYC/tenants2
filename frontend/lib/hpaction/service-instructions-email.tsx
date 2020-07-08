@@ -4,6 +4,8 @@ import { HtmlEmail } from "../static-page/html-email";
 import { friendlyPhoneNumber } from "../util/util";
 import { getAbsoluteStaticURL } from "../app-context";
 
+const EXTRA_CSS = require("./service-instructions-email.css");
+
 // TODO: Figure out how many days this is.
 const LAWYER_RESPONSE_MAX_DAYS = "(X)";
 
@@ -298,7 +300,10 @@ const ExampleImage: React.FC<ExampleImageProps> = ({
 );
 
 export const ServiceInstructionsEmail = asEmailStaticPage(() => (
-  <HtmlEmail subject="HP Action: service instructions confirmation email">
+  <HtmlEmail
+    subject="HP Action: service instructions confirmation email"
+    extraCss={[EXTRA_CSS]}
+  >
     <ServiceInstructionsContent
       firstName="Boop"
       courtEmail="bronx@nycourts.gov"

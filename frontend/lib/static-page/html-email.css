@@ -335,18 +335,3 @@ hr {
     border-color: #34495e !important;
   }
 }
-
-/* -------------------------------------
-   ADDITIONAL JUSTFIX.NYC STYLING
-
-   Where possible, we use Bulma class
-   names to keep terminology consistent.
-   ------------------------------------- */
-
-.has-text-danger {
-  color: #ff3860;
-}
-
-.jf-has-border {
-  border: 1px dotted gray;
-}

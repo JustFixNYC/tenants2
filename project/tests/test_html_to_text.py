@@ -132,3 +132,13 @@ def test_it_replaces_non_decorative_images_with_urls():
 
 def test_it_ignores_decorative_images():
     assert html_to_text('<img src="blah.jpg" alt="" />') == ''
+
+
+@pytest.mark.parametrize('html,text', [
+    ['<h1>Hi</h1>', 'Hi\n**'],
+    ['<h2>Hi</h2>', 'Hi\n=='],
+    ['<h3>Hi</h3>', 'Hi\n--'],
+    ['<h4>Hi</h4>', 'Hi\n..'],
+])
+def test_it_embellishes_headings(html, text):
+    assert html_to_text(html) == text

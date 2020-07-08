@@ -3,6 +3,16 @@ import abc
 from html.parser import HTMLParser
 
 
+HEADER_UNDERLINE_CHARS = {
+    'h1': '*',
+    'h2': '=',
+    'h3': '-',
+    'h4': '.',
+}
+
+MAX_HEADER_UNDERLINE_LENGTH = 80
+
+
 class Counter(abc.ABC):
     def __init__(self):
         self._value = 0
@@ -55,7 +65,9 @@ class UnorderedCounter(Counter):
 class HTMLToTextParser(HTMLParser):
     IGNORE_TAGS = set(['title', 'style'])
 
-    BLOCK_TAGS = set(['p', 'tr', 'li', 'ul', 'ol'])
+    HEADER_TAGS = set(['h1', 'h2', 'h3', 'h4'])
+
+    BLOCK_TAGS = set(['p', 'tr', 'li', 'ul', 'ol']).union(HEADER_TAGS)
 
     def __init__(self):
         super().__init__()
@@ -118,11 +130,22 @@ class HTMLToTextParser(HTMLParser):
             counter = self.__counters[-1]
             counter.increment()
 
-    def __append_current_block(self):
+    def __append_current_block(self) -> bool:
+        was_appended = False
         content = ''.join(self.__curr_block).strip()
         if content:
             self.__blocks.append(self.__render_counter() + content)
+            was_appended = True
         self.__curr_block = []
+        return was_appended
+
+    def __finish_block_tag(self, tag: str):
+        was_appended = self.__append_current_block()
+        if was_appended and tag in self.HEADER_TAGS:
+            text = self.__blocks[-1]
+            count = min(len(text), MAX_HEADER_UNDERLINE_LENGTH)
+            underline = HEADER_UNDERLINE_CHARS[tag] * count
+            self.__blocks[-1] = '\n'.join([text, underline])
 
     def handle_endtag(self, tag):
         if tag == "a":
@@ -130,7 +153,7 @@ class HTMLToTextParser(HTMLParser):
         if tag in self.IGNORE_TAGS:
             self.__capture = True
         if tag in self.BLOCK_TAGS:
-            self.__append_current_block()
+            self.__finish_block_tag(tag)
         if tag == "li":
             self.__handle_list_item_endtag()
         if tag in ["ol", "ul"]:

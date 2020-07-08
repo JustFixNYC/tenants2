@@ -3,6 +3,7 @@ import { asEmailStaticPage } from "../static-page/email-static-page";
 import { HtmlEmail } from "../static-page/html-email";
 import { friendlyPhoneNumber } from "../util/util";
 import { getAbsoluteStaticURL } from "../app-context";
+import { BoroughChoice } from "../../../common-data/borough-choices";
 
 const EXTRA_CSS = require("./service-instructions-email.css");
 
@@ -63,11 +64,50 @@ type ServiceInstructionsProps = CaseTypeProps & {
   /** The tenant's first name. */
   firstName: string;
 
-  /** The email address of the tenant's court. */
-  courtEmail: string;
+  /** The borough of the tenant's court. */
+  borough: BoroughChoice;
+};
 
-  /** The 10-digit phone number of the tenant's court. */
-  courtPhoneNumber: string;
+type CourtInfo = { email: string; phone: string };
+
+const COURT_INFO: { [k in BoroughChoice]: CourtInfo } = {
+  BRONX: {
+    email: "civbxhs-skype-vc@nycourts.gov",
+    phone: "7184663000",
+  },
+  BROOKLYN: {
+    email: "civkin-skype-vc@nycourts.gov",
+    phone: "3474049133",
+  },
+  MANHATTAN: {
+    email: "civnyc-skype-vc@nycourts.gov",
+    phone: "6463865730",
+  },
+  QUEENS: {
+    email: "civqns-skype-vc@nycourts.gov",
+    phone: "7182627300",
+  },
+  STATEN_ISLAND: {
+    email: "civric-skype-vc@nycourts.gov",
+    phone: "3473784143",
+  },
+};
+
+const CourtContactInfo: React.FC<{ borough: BoroughChoice }> = (props) => {
+  const info = COURT_INFO[props.borough];
+
+  return (
+    <ul>
+      <li>
+        <strong>Your Borough office's email:</strong>{" "}
+        <EmailLink to={info.email} />
+      </li>
+      <li>
+        <strong>Your Borough office's phone number:</strong>{" "}
+        <TelLink to={info.phone} />
+      </li>
+    </ul>
+  );
 };
 
 export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
@@ -163,16 +203,7 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
           your Borough’s office. Make sure to include your name and Index Number
           (found at the top right of your HP Action paperwork).
         </p>
-        <ul>
-          <li>
-            <strong>Your Borough office's email:</strong>{" "}
-            <EmailLink to={props.courtEmail} />
-          </li>
-          <li>
-            <strong>Your Borough office's phone number:</strong>{" "}
-            <TelLink to={props.courtPhoneNumber} />
-          </li>
-        </ul>
+        <CourtContactInfo borough={props.borough} />
       </li>
       {props.sueForRepairs && (
         <li>
@@ -301,8 +332,7 @@ const ExampleImage: React.FC<ExampleImageProps> = ({
 
 export const ExampleServiceInstructionsProps: ServiceInstructionsProps = {
   firstName: "Boop",
-  courtEmail: "bronxfolks@nycourts.gov",
-  courtPhoneNumber: "5551234567",
+  borough: "MANHATTAN",
   sueForHarassment: true,
   sueForRepairs: true,
 };

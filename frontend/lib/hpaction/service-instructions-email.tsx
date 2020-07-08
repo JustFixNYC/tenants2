@@ -233,11 +233,47 @@ const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
       you see any papers in the paperwork with that kind of info, please take
       them out and do not send them.
     </p>
+    <h3>How to serve</h3>
+    <p>
+      There are multiple ways to serve the papers and you have to do it exactly
+      in the way that the Judge orders. You will find out what the Judge chose
+      by looking at the page called “Order to Show Cause”, which is the page
+      with the Judge’s signature.
+    </p>
+    <ExampleImage
+      src="how-to-serve.jpg"
+      alt="Close-up of OSC form identifying where information on how to serve is located"
+      className="jf-has-border"
+      preamble="Note that the Judge might have typed-in or hand-written a different way than the standard shown here:"
+    />
+    <p>Possible ways the Judge might ask you to serve:</p>
+    <ul>
+      <li>By email</li>
+      <li>
+        “Personally”, which means in-person.{" "}
+        <span className="has-text-danger">
+          If this is the case you will need to fill out the "Affidavit of
+          Service" at the end of the attachment.
+        </span>
+      </li>
+      <li>
+        By USPS mail using the option that the Judge chose, which might be:
+        <ul>
+          <li>First Class Mail</li>
+          <li>First Class Mail with certificate of mailing</li>
+          <li>Priority Mail/Overnight Mail</li>
+          <li>
+            Certified Mail, Return Receipt Requested (this is the most common)
+          </li>
+        </ul>
+      </li>
+    </ul>
     {/* TODO: FINISH THIS. */}
   </>
 );
 
 type ExampleImageProps = {
+  preamble?: string;
   src: string;
   alt: string;
 } & DetailedHTMLProps<
@@ -245,9 +281,13 @@ type ExampleImageProps = {
   HTMLImageElement
 >;
 
-const ExampleImage: React.FC<ExampleImageProps> = ({ src, ...props }) => (
+const ExampleImage: React.FC<ExampleImageProps> = ({
+  preamble,
+  src,
+  ...props
+}) => (
   <>
-    <p>Here's an example:</p>
+    <p>{preamble || "Here's an example:"}</p>
     <p>
       <img
         src={`${getAbsoluteStaticURL()}hpaction/service-instructions/${src}`}

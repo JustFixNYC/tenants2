@@ -1,4 +1,4 @@
-import React, { DetailedHTMLProps, CSSProperties } from "react";
+import React, { DetailedHTMLProps } from "react";
 import { asEmailStaticPage } from "../static-page/email-static-page";
 import { HtmlEmail } from "../static-page/html-email";
 import { friendlyPhoneNumber } from "../util/util";
@@ -6,10 +6,6 @@ import { getAbsoluteStaticURL } from "../app-context";
 
 // TODO: Figure out how many days this is.
 const LAWYER_RESPONSE_MAX_DAYS = "(X)";
-
-const BORDER_STYLE: CSSProperties = {
-  border: "1px dotted gray",
-};
 
 const EmailLink: React.FC<{ to: string }> = ({ to }) => (
   <a href={`mailto:${to}`}>{to}</a>
@@ -20,7 +16,7 @@ const TelLink: React.FC<{ to: string }> = ({ to }) => (
 );
 
 const Important: React.FC<{ children: React.ReactNode }> = (props) => (
-  <p style={{ color: "red" }}>{props.children}</p>
+  <p className="has-text-danger">{props.children}</p>
 );
 
 type CaseTypeProps = {
@@ -206,7 +202,7 @@ const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
     <ExampleImage
       src="osc-callout.jpg"
       alt="An Order to Show Cause (OSC) form"
-      style={BORDER_STYLE}
+      className="jf-has-border"
     />
     <h3>When to serve</h3>
     <p>
@@ -218,7 +214,7 @@ const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
     <ExampleImage
       src="when-to-serve.jpg"
       alt="Close-up of OSC form identifying where information on when to serve is located"
-      style={BORDER_STYLE}
+      className="jf-has-border"
     />
     <h3>What to serve</h3>
     <p>
@@ -229,7 +225,7 @@ const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
     <ExampleImage
       src="what-to-serve.jpg"
       alt="Close-up of OSC form identifying where information on what to serve is located"
-      style={BORDER_STYLE}
+      className="jf-has-border"
     />
     <p>
       Note that it is important NOT to send any other pieces of information that

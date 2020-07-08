@@ -1,4 +1,4 @@
-import React from "react";
+import React, { DetailedHTMLProps, CSSProperties } from "react";
 import { asEmailStaticPage } from "../static-page/email-static-page";
 import { HtmlEmail } from "../static-page/html-email";
 import { friendlyPhoneNumber } from "../util/util";
@@ -6,6 +6,10 @@ import { getAbsoluteStaticURL } from "../app-context";
 
 // TODO: Figure out how many days this is.
 const LAWYER_RESPONSE_MAX_DAYS = "(X)";
+
+const BORDER_STYLE: CSSProperties = {
+  border: "1px dotted gray",
+};
 
 const EmailLink: React.FC<{ to: string }> = ({ to }) => (
   <a href={`mailto:${to}`}>{to}</a>
@@ -37,6 +41,15 @@ const CASE_TYPE_NAMES: { [k in CaseType]: string } = {
   [CaseType.Repairs]: "Repairs",
   [CaseType.Harassment]: "Harassment",
   [CaseType.Combined]: "Repairs and Harassment",
+};
+
+const WHAT_TO_SERVE: { [k in CaseType]: string } = {
+  [CaseType.Repairs]:
+    "Order to Show Cause + Verified Petition (2 pages in total)",
+  [CaseType.Harassment]:
+    "Order to Show Cause + Verified Petition (3 pages in total)",
+  [CaseType.Combined]:
+    "Order to Show Cause + Verified Petition (4 pages in total)",
 };
 
 function toCaseType({
@@ -190,18 +203,61 @@ const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
       one with the Judge’s signature. It is in the section below where your
       court date is listed.
     </p>
-    <ExampleImage src="osc-callout.jpg" alt="An order to show cause form" />
+    <ExampleImage
+      src="osc-callout.jpg"
+      alt="An Order to Show Cause (OSC) form"
+      style={BORDER_STYLE}
+    />
+    <h3>When to serve</h3>
+    <p>
+      You must serve your paperwork by the deadline set by the Judge on the page
+      called “Order to Show Cause”, which is the page with the Judge’s
+      signature. Remember that most post offices close at 5pm Monday - Friday
+      and 1pm on Saturdays.
+    </p>
+    <ExampleImage
+      src="when-to-serve.jpg"
+      alt="Close-up of OSC form identifying where information on when to serve is located"
+      style={BORDER_STYLE}
+    />
+    <h3>What to serve</h3>
+    <p>
+      Since you are suing for {CASE_TYPE_NAMES[toCaseType(props)]}, the only
+      pages you need to serve your landlord and/or management company are the{" "}
+      <strong>{WHAT_TO_SERVE[toCaseType(props)]}</strong>.
+    </p>
+    <ExampleImage
+      src="what-to-serve.jpg"
+      alt="Close-up of OSC form identifying where information on what to serve is located"
+      style={BORDER_STYLE}
+    />
+    <p>
+      Note that it is important NOT to send any other pieces of information that
+      may contain sensitive details like your email address or financials. If
+      you see any papers in the paperwork with that kind of info, please take
+      them out and do not send them.
+    </p>
     {/* TODO: FINISH THIS. */}
   </>
 );
 
-const ExampleImage: React.FC<{ src: string; alt: string }> = ({ src, alt }) => (
+type ExampleImageProps = {
+  src: string;
+  alt: string;
+} & DetailedHTMLProps<
+  React.ImgHTMLAttributes<HTMLImageElement>,
+  HTMLImageElement
+>;
+
+const ExampleImage: React.FC<ExampleImageProps> = ({ src, ...props }) => (
   <>
     <p>Here's an example:</p>
-    <img
-      src={`${getAbsoluteStaticURL()}hpaction/service-instructions/${src}`}
-      alt={alt}
-    />
+    <p>
+      <img
+        src={`${getAbsoluteStaticURL()}hpaction/service-instructions/${src}`}
+        {...props}
+      />
+    </p>
   </>
 );
 

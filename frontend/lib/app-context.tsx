@@ -272,7 +272,10 @@ export const withAppContext = buildContextHocFactory(AppContext);
  * "http://example.com/static/".
  */
 export function getAbsoluteStaticURL(
-  { staticURL, originURL }: AppServerInfo = getGlobalAppServerInfo()
+  {
+    staticURL,
+    originURL,
+  }: Pick<AppServerInfo, "staticURL" | "originURL"> = getGlobalAppServerInfo()
 ): string {
   return staticURL.startsWith("/") ? `${originURL}${staticURL}` : staticURL;
 }

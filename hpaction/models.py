@@ -220,6 +220,22 @@ class FeeWaiverDetails(models.Model):
         )
 
 
+def rel_short_date(value: date) -> str:
+    '''
+    Returns the date in MM-DD if the date's year is the same as the
+    current year, or YYYY-MM-DD if it's different.
+    '''
+
+    now = date.today()
+    str_then = str(value)
+    now_year = f"{now.year}-"
+
+    if str_then.startswith(now_year):
+        str_then = str_then[len(now_year):]
+
+    return str_then
+
+
 class PriorCase(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
@@ -242,13 +258,16 @@ class PriorCase(models.Model):
 
     @property
     def case_type(self) -> str:
-        return ' & '.join(filter(None, [
-            'harassment' if self.is_harassment else '',
-            'repairs' if self.is_repairs else ''
+        return '&'.join(filter(None, [
+            'H' if self.is_harassment else '',
+            'R' if self.is_repairs else ''
         ]))
 
     def __str__(self) -> str:
-        return f"{self.case_type} case #{self.case_number} on {self.case_date}"
+        # This is *extremely* abbreviated because we'd like to fit it into
+        # the tiny amount of space the HP forms offer without triggering
+        # an addendum.
+        return f"{self.case_type} #{self.case_number} on {rel_short_date(self.case_date)}"
 
     def clean(self):
         super().clean()

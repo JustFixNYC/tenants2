@@ -26,7 +26,7 @@ type TransformSessionProps<T> = {
  *
  * The transformer can return null, however; if it does,
  * a message indicating that we don't have enough information
- * to generate the content is rendered, and a 404 is returned.
+ * to generate the content is rendered.
  */
 export function TransformSession<T>(props: TransformSessionProps<T>) {
   const { session } = useContext(AppContext);
@@ -38,7 +38,7 @@ export function TransformSession<T>(props: TransformSessionProps<T>) {
         if (!transformedProps) {
           const staticCtx = getAppStaticContext(routerProps);
 
-          if (staticCtx) {
+          if (staticCtx && staticCtx.should404OnInvalidState) {
             staticCtx.statusCode = 404;
           }
           return (

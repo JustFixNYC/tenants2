@@ -33,6 +33,13 @@ export interface AppStaticContext {
   staticContent?: JSX.Element;
 
   /**
+   * If we don't have enough information, or the right kind of information,
+   * to render the requested resource, we should return a 404 status code
+   * instead of a 200.
+   */
+  should404OnInvalidState?: boolean;
+
+  /**
    * Whether or not any resulting `<style>` tags in `staticContent` should
    * be inlined into its HTML.
    */

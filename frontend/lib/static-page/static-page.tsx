@@ -46,6 +46,7 @@ export const StaticPage = withRouter(
 
     const staticCtx = getAppStaticContext(props);
     if (staticCtx) {
+      staticCtx.should404OnInvalidState = true;
       staticCtx.staticContent = props.children;
       if (props.httpHeaders) {
         Object.assign(staticCtx.httpHeaders, props.httpHeaders);

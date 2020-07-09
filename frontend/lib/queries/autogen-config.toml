@@ -31,6 +31,7 @@ fragmentName = "FeeWaiverDetails"
 
 [types.HarassmentDetailsType]
 fragmentName = "HarassmentDetails"
+createBlankLiteral = true
 
 [types.StrictFormFieldErrorType]
 fragmentName = "ExtendedFormFieldErrors"

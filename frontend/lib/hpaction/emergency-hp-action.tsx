@@ -79,7 +79,10 @@ import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-steps";
 import { renderSuccessHeading } from "../ui/success-heading";
 import { createHtmlEmailStaticPageRoutes } from "../static-page/routes";
-import { ServiceInstructionsEmail } from "./service-instructions-email";
+import {
+  ExampleServiceInstructionsEmail,
+  ServiceInstructionsEmail,
+} from "./service-instructions-email";
 
 const HP_ICON = "frontend/img/hp-action.svg";
 
@@ -648,6 +651,10 @@ const EmergencyHPActionProgressRoutes = buildProgressRoutesComponent(
 
 const EmergencyHPActionRoutes: React.FC<{}> = () => (
   <Switch>
+    {createHtmlEmailStaticPageRoutes(
+      JustfixRoutes.locale.ehp.exampleServiceInstructionsEmail,
+      ExampleServiceInstructionsEmail
+    )}
     {createHtmlEmailStaticPageRoutes(
       JustfixRoutes.locale.ehp.serviceInstructionsEmail,
       ServiceInstructionsEmail

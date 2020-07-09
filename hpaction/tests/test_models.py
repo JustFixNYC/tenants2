@@ -10,7 +10,7 @@ from .factories import HPActionDocumentsFactory, UploadTokenFactory, PriorCaseFa
 from ..models import (
     HPActionDocuments, UploadToken, UPLOAD_TOKEN_LIFETIME,
     get_upload_status_for_user, HPUploadStatus, FeeWaiverDetails,
-    HP_ACTION_CHOICES, Config)
+    HP_ACTION_CHOICES, Config, rel_short_date)
 
 
 NORMAL = HP_ACTION_CHOICES.NORMAL
@@ -176,17 +176,27 @@ class TestFeeWaiverDetails:
         assert f.non_utility_expenses == Decimal('3.30')
 
 
+class TestRelShortDate:
+    def test_it_includes_year_when_it_is_different(self):
+        with freeze_time('2020-01-01'):
+            assert rel_short_date(datetime.date(2019, 1, 2)) == "2019-01-02"
+
+    def test_it_omits_year_when_it_is_the_same(self):
+        with freeze_time('2020-08-08'):
+            assert rel_short_date(datetime.date(2020, 1, 2)) == "01-02"
+
+
 class TestPriorCase:
     @pytest.mark.parametrize('kwargs, expected', [
-        [dict(is_harassment=False, is_repairs=True), 'repairs'],
-        [dict(is_harassment=True, is_repairs=True), 'harassment & repairs']
+        [dict(is_harassment=False, is_repairs=True), 'R'],
+        [dict(is_harassment=True, is_repairs=True), 'H&R']
     ])
     def test_case_type_works(self, kwargs, expected):
         assert PriorCaseFactory.build(**kwargs).case_type == expected
 
     def test_str_works(self):
         p = PriorCaseFactory.build()
-        assert str(p) == 'repairs case #123456789 on 2018-01-03'
+        assert str(p) == 'R #123456789 on 2018-01-03'
 
     @pytest.mark.parametrize('kwargs', [
         dict(is_harassment=False, is_repairs=True),

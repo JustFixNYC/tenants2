@@ -57,7 +57,7 @@ msgstr "<0>NoRent</0> <1>es proporcionado por JustFix.nyc</1>"
 msgid "<0>NoRent</0> <1>letters sent by tenants across the USA</1><2>Since April 2020</2>"
 msgstr "<0>NoRent</0> <1>cartas de enviadas por inquilinos en todo Estados Unidos (EEUU)</1><2>Desde Abril del 2020</2>"
 
-#: frontend/lib/norent/letter-content.tsx:14
+#: frontend/lib/norent/letter-content.tsx:15
 msgid "<0>Notice of COVID-19 impact on rent</0><1/>at <2/>"
 msgstr "<0>Aviso de impacto del COVID-19 en la renta</0><1/>en <2/>"
 
@@ -66,7 +66,7 @@ msgid "<0>Our tool only allows you to send one letter at a time.</0><1>Continue 
 msgstr "<0>Nuestra herramienta sólo te permite enviar una carta a la vez.</0><1>Continúa a la página de confirmación para averiguar qué hacer a continuación.</1>"
 
 #. heading of formal letter
-#: frontend/lib/util/letter-content-util.tsx:41
+#: frontend/lib/util/letter-content-util.tsx:40
 msgid "<0>To</0><1/><2>From</2><3/>"
 msgstr "<0>De</0><1/><2>Hasta</2><3/>"
 
@@ -300,7 +300,7 @@ msgid "Create new account"
 msgstr "Crea una cuenta nueva"
 
 #. salutation of formal letter
-#: frontend/lib/util/letter-content-util.tsx:49
+#: frontend/lib/util/letter-content-util.tsx:48
 msgid "Dear <0/>,"
 msgstr "Estimado/a <0/>,"
 
@@ -623,7 +623,7 @@ msgstr "¡Es la primera vez que estás aquí!"
 msgid "Join our <0/>mailing list"
 msgstr "¡Únete a nuestra <0/>lista de distribución!"
 
-#: frontend/lib/norent/letter-content.tsx:69
+#: frontend/lib/norent/letter-content.tsx:70
 msgid "JustFix.nyc <0/>sent on behalf of <1/>"
 msgstr "JustFix.nyc <0/>enviado en nombre de <1/>"
 
@@ -874,7 +874,7 @@ msgstr "Dakota del Norte"
 msgid "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
 msgstr "No poder pagar la renta debido al COVID-19 no es nada de lo que avergonzarse. Nuestro generador de cartas hace que sea fácil enviarle una carta al dueño de tu edificio para avisarle."
 
-#: frontend/lib/norent/letter-content.tsx:55
+#: frontend/lib/norent/letter-content.tsx:56
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 msgstr "Aviso de impacto del COVID-19 en la renta enviado en nombre de {0}"
 
@@ -968,7 +968,7 @@ msgid "Puerto Rico"
 msgstr "Puerto Rico"
 
 #. before signature in formal letter
-#: frontend/lib/util/letter-content-util.tsx:54
+#: frontend/lib/util/letter-content-util.tsx:53
 msgid "Regards,"
 msgstr "Atentamente,"
 
@@ -1000,7 +1000,7 @@ msgstr "Right to the City"
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Permito que Right to the City se ponga en contacto conmigo para proporcionarme apoyo adicional."
 
-#: frontend/lib/norent/letter-content.tsx:161
+#: frontend/lib/norent/letter-content.tsx:162
 msgid "Sample NoRent.org letter"
 msgstr "Ejemplar de una carta de NoRent.org"
 
@@ -1105,7 +1105,7 @@ msgstr "Toma acción"
 msgid "Tenant Rights"
 msgstr "Derechos del Inquilino"
 
-#: frontend/lib/norent/letter-content.tsx:27
+#: frontend/lib/norent/letter-content.tsx:28
 msgid "Tenants impacted by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
 msgstr "Los inquilinos afectados por la crisis del COVID-19 están protegidos del desalojo por impago por la(s) declaración(es) de emergencia siguiente(s):"
 
@@ -1369,7 +1369,7 @@ msgstr "Has enviado tu carta"
 msgid "Your Letter Is Ready To Send!"
 msgstr "¡Tu carta está lista para enviar!"
 
-#: frontend/lib/norent/letter-content.tsx:154
+#: frontend/lib/norent/letter-content.tsx:155
 msgid "Your NoRent.org letter"
 msgstr "Tu carta de NoRent.org"
 
@@ -1433,7 +1433,7 @@ msgstr "y"
 
 #: frontend/lib/ui/covid-banners.tsx:45
 msgid "justfix.covidBanner2"
-msgstr "JustFix.nyc está operativo, y hemos adaptado nuestros productos a las normas establecidas durante la crisis de salud pública debido al COVID-19. Aunque NYC se encuentre en la fase 2, todavía recomendamos que se tomen todas las precauciones posibles. Gracias al poder de la organización de inquilinos, los inquilinos no pueden ser desalojados por ninguna razón hasta el 7 de julio. Visita las <0>Preguntas Más Frecuentes sobre la Moratoria de Desalojo del Right to Council </0> para obtener más información."
+msgstr "JustFix.nyc está operativo, y hemos adaptado nuestros productos a las normas establecidas durante la crisis de COVID-19. Aunque NYC se encuentre en la fase 2, todavía recomendamos que se tomen todas las precauciones posibles. Gracias al poder de la organización de inquilinos, los inquilinos no pueden ser desalojados por ninguna razón hasta el 6 de agosto. Visita las <0>Preguntas Más Frecuentes sobre la Moratoria de Desalojo del Right to Council </0> para obtener más información."
 
 #: frontend/lib/ui/legal-disclaimer.tsx:4
 msgid "justfix.legalDisclaimer"
@@ -1463,7 +1463,7 @@ msgstr "<0>Esta es la información del dueño de tu edificio según los registro
 msgid "norent.emailBodyTemplateForSharingNoRent"
 msgstr "Usé www.norent.org para decirle al dueño de mi edificio de que no puedo pagar la renta este mes. Esta herramienta gratuita te ayuda a construir y enviar una carta al dueño de tu edificio, citando las protecciones legales en tu estado, y te conecta con otras personas de tu comunidad que participan en la campaña de #cancelrent"
 
-#: frontend/lib/norent/letter-content.tsx:57
+#: frontend/lib/norent/letter-content.tsx:58
 msgid "norent.emailToLandlordBody"
 msgstr "<0>Por favor, vea la carta adjunta de <1/>. </0><2>Para documentar las comunicaciones y evitar malentendidos, por favor póngase en contacto con <3/> por correo electrónico o por mensaje de texto, en lugar de una llamada telefónica o una visita en persona.</2>"
 
@@ -1519,19 +1519,19 @@ msgstr "Con tal de sacar provecho a las protecciones de desalojo en tu estado, d
 msgid "norent.legacyUserBlurb"
 msgstr "<0>Este es un sistema nuevo. Necesitarás una nueva cuenta para utilizarlo. Estamos encantados de prepararte una cuenta </0><1>Mientras tanto, cada vez que quieras iniciar sesión en tu cuenta de \"Build your case\" o el panel de control \"Advocate Dashboard\", puedes iniciar sesión con la información de tu cuenta antigua en este enlace:</1><2><3>beta.justfix.nyc</3></2><4><5>Por favor, guarde este enlace para poder encontrarlo más tarde.</5></4><6>Podrás utilizar tu cuenta nueva para acceder a los nuevos servicios de JustFix.nyc.</6><7>Si tienes alguna pregunta, por favor envíanos un correo electrónico a <8/>.</7>"
 
-#: frontend/lib/norent/letter-content.tsx:107
+#: frontend/lib/norent/letter-content.tsx:108
 msgid "norent.letter.conclusion"
 msgstr "<0>El Congreso aprobó la Ley CARES el 27 de marzo del 2020 (Ley Pública 116-136). Los inquilinos que viven en propiedades cubiertas por esta ley, también están protegidos del desalojo por impago o cualquier otra razón hasta el 23 de agosto de 2020. Arrendadores no tienen permitido cobrar demoras, intereses u otras sanciones hasta el 25 de julio de 2020. Por favor, hágame saber de inmediato si usted cree que esta vivienda no está cubierta por la ley CARES y explique por qué. </0><1>Para documentar nuestra comunicación y evitar malentendidos, por favor responda por correo electrónico o texto en lugar de una llamada o visita. </1><2>Gracias por su comprensión y cooperación.</2>"
 
-#: frontend/lib/norent/letter-content.tsx:83
+#: frontend/lib/norent/letter-content.tsx:84
 msgid "norent.letter.v1NonPayment"
 msgstr "Esta carta es para notificarle que no podré pagar el alquiler a partir del <0/> y hasta nuevo aviso debido a la pérdida de ingresos, gastos adicionales, y/o otras circunstancias financieras relacionadas con el COVID-19."
 
-#: frontend/lib/norent/letter-content.tsx:90
+#: frontend/lib/norent/letter-content.tsx:91
 msgid "norent.letter.v2Hardship"
 msgstr "Esta carta es para notificarle que he experimentado una pérdida de ingresos, gastos adicionales y/o otras circunstancias financieras relacionadas con la pandemia. Hasta nuevo aviso, la emergencia del COVID-19 puede afectar a mi capacidad de pagar la renta. No renuncio a mi derecho a establecer otras defensas adicionales."
 
-#: frontend/lib/norent/letter-content.tsx:100
+#: frontend/lib/norent/letter-content.tsx:101
 msgid "norent.letter.v3FewProtections"
 msgstr "Esta carta es para informarle de las protecciones para inquilinos existentes en {0}. No renuncio a mi derecho a establecer defensas adicionales."
 
@@ -1591,4 +1591,3 @@ msgstr "{0} (en inglés)"
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

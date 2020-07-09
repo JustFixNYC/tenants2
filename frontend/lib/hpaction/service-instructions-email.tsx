@@ -368,7 +368,7 @@ const ExampleImage: React.FC<ExampleImageProps> = ({
   </>
 );
 
-function getServiceInstructionsPropsFromSession(
+export function getServiceInstructionsPropsFromSession(
   s: AllSessionInfo
 ): ServiceInstructionsProps | null {
   const { firstName, hpActionDetails } = s;

@@ -12,6 +12,14 @@ import {
 } from "../queries/globalTypes";
 import { IssueChoice } from "../../../common-data/issue-choices";
 import { IssueAreaChoice } from "../../../common-data/issue-area-choices";
+import {
+  HarassmentDetails,
+  BlankHarassmentDetails,
+} from "../queries/HarassmentDetails";
+import {
+  HPActionDetails,
+  BlankHPActionDetails,
+} from "../queries/HPActionDetails";
 
 /**
  * An attempt to encapsulate the creation of a GraphQL session object
@@ -24,6 +32,26 @@ export class SessionBuilder {
 
   with(s: Partial<AllSessionInfo>): SessionBuilder {
     return new SessionBuilder(override(this.value, s));
+  }
+
+  withHarassmentDetails(hd?: Partial<HarassmentDetails>): SessionBuilder {
+    return new SessionBuilder({
+      ...this.value,
+      harassmentDetails: override(
+        this.value.harassmentDetails || BlankHarassmentDetails,
+        hd || {}
+      ),
+    });
+  }
+
+  withHpActionDetails(hp?: Partial<HPActionDetails>): SessionBuilder {
+    return new SessionBuilder({
+      ...this.value,
+      hpActionDetails: override(
+        this.value.hpActionDetails || BlankHPActionDetails,
+        hp || {}
+      ),
+    });
   }
 
   withNorentScaffolding(scf: Partial<NorentScaffolding>): SessionBuilder {

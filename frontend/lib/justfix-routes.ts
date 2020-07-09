@@ -184,6 +184,9 @@ function createEmergencyHPActionRouteInfo(prefix: string) {
     serviceInstructionsEmail: createHtmlEmailStaticPageRouteInfo(
       `${prefix}/service-instructions-email`
     ),
+    exampleServiceInstructionsEmail: createHtmlEmailStaticPageRouteInfo(
+      `${prefix}/service-instructions-email/example`
+    ),
   };
 }
 

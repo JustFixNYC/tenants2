@@ -4,6 +4,8 @@ import { HtmlEmail } from "../static-page/html-email";
 import { friendlyPhoneNumber } from "../util/util";
 import { getAbsoluteStaticURL } from "../app-context";
 import { BoroughChoice } from "../../../common-data/borough-choices";
+import { AllSessionInfo } from "../queries/AllSessionInfo";
+import { TransformSession } from "../util/transform-session";
 
 const EXTRA_CSS = require("./service-instructions-email.css");
 
@@ -366,6 +368,25 @@ const ExampleImage: React.FC<ExampleImageProps> = ({
   </>
 );
 
+function getServiceInstructionsPropsFromSession(
+  s: AllSessionInfo
+): ServiceInstructionsProps | null {
+  const { firstName, hpActionDetails } = s;
+  const borough = s.onboardingInfo?.borough;
+
+  if (firstName && hpActionDetails && borough) {
+    const { sueForHarassment, sueForRepairs } = hpActionDetails;
+    if (
+      typeof sueForHarassment == "boolean" &&
+      typeof sueForRepairs === "boolean"
+    ) {
+      return { firstName, borough, sueForHarassment, sueForRepairs };
+    }
+  }
+
+  return null;
+}
+
 export const ExampleServiceInstructionsProps: ServiceInstructionsProps = {
   isExample: true,
   firstName: "JANE DOE",
@@ -374,11 +395,21 @@ export const ExampleServiceInstructionsProps: ServiceInstructionsProps = {
   sueForRepairs: true,
 };
 
-export const ServiceInstructionsEmail = asEmailStaticPage(() => (
-  <HtmlEmail
-    subject="HP Action: service instructions confirmation email"
-    extraCss={[EXTRA_CSS]}
-  >
+const SUBJECT =
+  "Your HP Action case in Housing Court: Instructions and Next Steps";
+
+export const ExampleServiceInstructionsEmail = asEmailStaticPage(() => (
+  <HtmlEmail subject={`${SUBJECT} (EXAMPLE)`} extraCss={[EXTRA_CSS]}>
     <ServiceInstructionsContent {...ExampleServiceInstructionsProps} />
   </HtmlEmail>
+));
+
+export const ServiceInstructionsEmail = asEmailStaticPage(() => (
+  <TransformSession transformer={getServiceInstructionsPropsFromSession}>
+    {(props) => (
+      <HtmlEmail subject={SUBJECT} extraCss={[EXTRA_CSS]}>
+        <ServiceInstructionsContent {...props} />
+      </HtmlEmail>
+    )}
+  </TransformSession>
 ));

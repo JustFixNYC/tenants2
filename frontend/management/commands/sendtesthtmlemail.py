@@ -1,7 +1,9 @@
+from typing import Optional
 from django.core.management.base import BaseCommand
 from django.core.mail import send_mail
 from django.conf import settings
 
+from users.models import JustfixUser
 from project.util.site_util import SITE_CHOICES
 from frontend.static_content import react_render_email
 
@@ -22,9 +24,18 @@ class Command(BaseCommand):
                 f"Defaults to {DEFAULT_URL}."
             )
         )
+        parser.add_argument(
+            '--user',
+            help=f"The username of the user to render the HTML email content as."
+        )
 
     def handle(self, *args, **options):
         url: str = options['url']
+        username: Optional[str] = options['user']
+        user = None
+
+        if username:
+            user = JustfixUser.objects.get(username=username)
 
         email = react_render_email(
             SITE_CHOICES.JUSTFIX,
@@ -32,6 +43,7 @@ class Command(BaseCommand):
             url[1:],
             locale_prefix_url=False,
             is_html_email=True,
+            user=user,
         )
 
         recipient: str = options['email']

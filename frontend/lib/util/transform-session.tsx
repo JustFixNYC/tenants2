@@ -26,28 +26,32 @@ type TransformSessionProps<T> = {
  *
  * The transformer can return null, however; if it does,
  * a message indicating that we don't have enough information
- * to generate the content is rendered.
+ * to generate the content is rendered. Furthermore, if we're
+ * rendering a static page, set the HTTP status code to 404, to
+ * ensure that we don't e.g. accidentally mail a letter or
+ * send an email that contains an error message.
  */
 export function TransformSession<T>(props: TransformSessionProps<T>) {
   const { session } = useContext(AppContext);
   const transformedProps = props.transformer(session);
 
-  return (
-    <Route
-      render={(routerProps) => {
-        if (!transformedProps) {
-          const staticCtx = getAppStaticContext(routerProps);
+  if (!transformedProps) {
+    return <InvalidState />;
+  }
 
-          if (staticCtx && staticCtx.should404OnInvalidState) {
-            staticCtx.statusCode = 404;
-          }
-          return (
-            <p>We don't have enough information to generate this content.</p>
-          );
-        }
-
-        return props.children(transformedProps);
-      }}
-    />
-  );
+  return props.children(transformedProps);
 }
+
+const InvalidState: React.FC<{}> = () => (
+  <Route
+    render={(routerProps) => {
+      const staticCtx = getAppStaticContext(routerProps);
+
+      if (staticCtx && staticCtx.staticContent) {
+        staticCtx.statusCode = 404;
+      }
+
+      return <p>We don't have enough information to generate this content.</p>;
+    }}
+  />
+);

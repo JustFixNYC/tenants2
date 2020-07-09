@@ -11,7 +11,7 @@ from hpaction.build_hpactionvars import (
     fill_tenant_children, get_tenant_repairs_allegations_mc,
     fill_hp_action_details, fill_harassment_details, get_hpactionvars_attr_for_harassment_alleg,
     fill_prior_cases, fill_prior_repairs_and_harassment_mcs,
-    fill_landlord_info)
+    fill_landlord_info, reduce_number_of_lines)
 from .factories import (
     TenantChildFactory, HPActionDetailsFactory, HarassmentDetailsFactory, PriorCaseFactory)
 import hpaction.hpactionvars as hp
@@ -19,6 +19,14 @@ import hpaction.hpactionvars as hp
 
 NORMAL = HP_ACTION_CHOICES.NORMAL
 EMERGENCY = HP_ACTION_CHOICES.EMERGENCY
+
+
+class TestReduceNumberOfLines:
+    def test_it_does_nothing_if_lines_are_not_greater_than_limit(self):
+        assert reduce_number_of_lines('a\nb\nc', 3, 10) == 'a\nb\nc'
+
+    def test_it_removes_lines_if_lines_are_greater_than_limit(self):
+        assert reduce_number_of_lines('a\n\nb\n\nc', 3, 10) == 'a / b / c'
 
 
 def test_justfix_issue_to_hp_room_works():

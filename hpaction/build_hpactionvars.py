@@ -14,6 +14,13 @@ from .forms import EMERGENCY_HPA_ISSUE_LIST
 from . import hpactionvars as hp
 
 
+# How many lines the harassment details section of the HP action form has.
+MAX_HARASSMENT_DETAILS_LINES = 11
+
+# How many characters, on average, fit into a line in the harassment
+# details section. (The font use is not monospaced.)
+HARASSMENT_DETAILS_LINE_LENGTH = 60
+
 NYCHA_ADDRESS = common_data.load_json("nycha-address.json")
 
 
@@ -272,11 +279,38 @@ def flip_null_bool(value: Optional[bool]) -> Optional[bool]:
     return not value
 
 
+def reduce_number_of_lines(value: str, max_lines: int, line_length: int) -> str:
+    '''
+    If the given value, when text-wrapped across the given line length, is
+    greater than the given number of lines, reduce the number of lines by
+    replacing all newlines with ' / '.
+    '''
+
+    import textwrap
+
+    lines = value.split('\n')
+    wrapped_lines: List[str] = []
+    for line in lines:
+        if line.strip():
+            wrapped_lines.extend(textwrap.wrap(line, width=line_length))
+        else:
+            wrapped_lines.append('')
+
+    if len(lines) > max_lines:
+        value = ' / '.join(filter(None, lines))
+
+    return value
+
+
 def fill_harassment_details(v: hp.HPActionVariables, h: HarassmentDetails) -> None:
     fill_harassment_allegations(v, h)
     v.more_than_2_apartments_in_building_tf = flip_null_bool(h.two_or_less_apartments_in_building)
     v.more_than_one_family_per_apartment_tf = h.more_than_one_family_per_apartment
-    v.harassment_details_te = h.harassment_details
+    v.harassment_details_te = reduce_number_of_lines(
+        h.harassment_details,
+        max_lines=MAX_HARASSMENT_DETAILS_LINES,
+        line_length=HARASSMENT_DETAILS_LINE_LENGTH,
+    )
 
 
 def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> None:

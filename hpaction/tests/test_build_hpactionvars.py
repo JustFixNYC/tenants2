@@ -313,7 +313,7 @@ def test_fill_prior_cases_works(db):
     assert v.prior_repairs_case_mc == hp.PriorRepairsCaseMC.YES
     assert v.prior_harassment_case_mc == hp.PriorHarassmentCaseMC.NO
     assert v.prior_relief_sought_case_numbers_and_dates_te == \
-        "repairs case #123456789 on 2018-01-03"
+        "R #123456789 on 2018-01-03"
 
 
 @pytest.mark.parametrize('kwargs,repairs,harassment', [

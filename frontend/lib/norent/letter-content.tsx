@@ -22,9 +22,9 @@ import {
   letter,
   baseSampleLetterProps,
   getBaseLetterContentPropsFromSession,
-  TransformSession,
 } from "../util/letter-content-util";
 import { makeStringHelperFC } from "../util/string-helper";
+import { TransformSession } from "../util/transform-session";
 
 export type NorentLetterContentProps = BaseLetterContentProps & {
   paymentDate: GraphQLDate;

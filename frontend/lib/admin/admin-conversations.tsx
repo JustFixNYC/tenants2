@@ -17,6 +17,7 @@ import {
   AdminConversationVariables,
   AdminConversation,
   AdminConversation_userDetails,
+  AdminConversation_output_messages,
 } from "../queries/AdminConversation";
 import { getQuerystringVar } from "../util/querystring";
 import { Helmet } from "react-helmet-async";
@@ -347,6 +348,38 @@ const UserInfo: React.FC<{
   );
 };
 
+const ConversationMessages: React.FC<{
+  messages: AdminConversation_output_messages[];
+}> = ({ messages }) => {
+  const elements = messages.map((msg) => {
+    return (
+      <div
+        key={msg.sid}
+        className={classnames(
+          msg.isFromUs ? "jf-from-us" : "jf-to-us",
+          "jf-sms"
+        )}
+      >
+        <div
+          className="jf-sms-body"
+          title={`This message was sent on ${niceAdminTimestamp(msg.dateSent, {
+            seconds: true,
+          })}.`}
+        >
+          {msg.body}
+        </div>
+        {msg.errorMessage && (
+          <div className="jf-sms-error">
+            Error sending SMS: {msg.errorMessage}
+          </div>
+        )}
+      </div>
+    );
+  });
+
+  return <>{elements}</>;
+};
+
 function getUserFullName(user: AdminConversation_userDetails): string {
   return [user.firstName, user.lastName].join(" ").trim();
 }
@@ -390,32 +423,7 @@ const ConversationPanel: React.FC<{
               </div>
               <div className={classnames("jf-messages", convStalenessClasses)}>
                 {convMsgs.length ? (
-                  convMsgs.map((msg) => {
-                    return (
-                      <div
-                        key={msg.sid}
-                        className={classnames(
-                          msg.isFromUs ? "jf-from-us" : "jf-to-us",
-                          "jf-sms"
-                        )}
-                      >
-                        <div
-                          className="jf-sms-body"
-                          title={`This message was sent on ${niceAdminTimestamp(
-                            msg.dateSent,
-                            { seconds: true }
-                          )}.`}
-                        >
-                          {msg.body}
-                        </div>
-                        {msg.errorMessage && (
-                          <div className="jf-sms-error">
-                            Error sending SMS: {msg.errorMessage}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })
+                  <ConversationMessages messages={convMsgs} />
                 ) : (
                   <p>
                     We have no record of any SMS messages exchanged with this

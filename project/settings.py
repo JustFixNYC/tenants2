@@ -490,6 +490,7 @@ if env.ROLLBAR_SERVER_ACCESS_TOKEN:
     LOGGING['handlers']['rollbar'].update({    # type: ignore
         'class': 'rollbar.logger.RollbarHandler'
     })
+    MIDDLEWARE.insert(0, 'project.middleware.rollbar_request_middleware')
     MIDDLEWARE.append(
         'rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404')
 

@@ -16,6 +16,8 @@ import { QueryLoaderQuery } from "../networking/query-loader-prefetcher";
 import {
   AdminConversationVariables,
   AdminConversation,
+  AdminConversation_userDetails,
+  AdminConversation_output_messages,
 } from "../queries/AdminConversation";
 import { getQuerystringVar } from "../util/querystring";
 import { Helmet } from "react-helmet-async";
@@ -27,6 +29,7 @@ import { useRepeatedPromise, useAdminFetch, usePrevious } from "./admin-hooks";
 import { staffOnlyView } from "./staff-only-view";
 import { useDebouncedValue } from "../util/use-debounced-value";
 import { friendlyPhoneNumber } from "../util/util";
+import { friendlyDate } from "../util/date-util";
 
 const PHONE_QS_VAR = "phone";
 
@@ -309,6 +312,100 @@ const ConversationsSidebar: React.FC<{
   );
 };
 
+const UserInfo: React.FC<{
+  user: AdminConversation_userDetails;
+  showPhoneNumber: boolean;
+}> = ({ user, showPhoneNumber }) => {
+  return (
+    <>
+      {showPhoneNumber && (
+        <p>
+          This user's phone number is {friendlyPhoneNumber(user.phoneNumber)}.
+        </p>
+      )}
+      {user.onboardingInfo && (
+        <p>The user's signup intent is {user.onboardingInfo.signupIntent}.</p>
+      )}
+      {user.letterRequest && (
+        <p>
+          The user completed a letter of complaint on{" "}
+          {niceAdminTimestamp(user.letterRequest.updatedAt)}.
+        </p>
+      )}
+      <a href={user.adminUrl} className="button is-small" target="_blank">
+        Edit user
+      </a>
+      {user.onboardingInfo?.padBbl && (
+        <a
+          href={whoOwnsWhatURL(user.onboardingInfo.padBbl)}
+          className="button is-small"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View user's building in WoW
+        </a>
+      )}
+    </>
+  );
+};
+
+const ConversationMessages: React.FC<{
+  messages: AdminConversation_output_messages[];
+}> = ({ messages }) => {
+  const elements: JSX.Element[] = [];
+  let currDate = "";
+
+  const writeCurrDate = () => {
+    if (currDate) {
+      elements.push(
+        <div key={currDate} className="jf-date">
+          {currDate}
+        </div>
+      );
+    }
+  };
+
+  for (let msg of messages) {
+    const date = friendlyDate(new Date(msg.dateSent));
+    if (currDate !== date) {
+      writeCurrDate();
+      currDate = date;
+    }
+
+    elements.push(
+      <div
+        key={msg.sid}
+        className={classnames(
+          msg.isFromUs ? "jf-from-us" : "jf-to-us",
+          "jf-sms"
+        )}
+      >
+        <div
+          className="jf-sms-body"
+          title={`This message was sent on ${niceAdminTimestamp(msg.dateSent, {
+            seconds: true,
+          })}.`}
+        >
+          {msg.body}
+        </div>
+        {msg.errorMessage && (
+          <div className="jf-sms-error">
+            Error sending SMS: {msg.errorMessage}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  writeCurrDate();
+
+  return <>{elements}</>;
+};
+
+function getUserFullName(user: AdminConversation_userDetails): string {
+  return [user.firstName, user.lastName].join(" ").trim();
+}
+
 const ConversationPanel: React.FC<{
   selectedPhoneNumber: string | undefined;
   conversation: UseMergedQueryResult<AdminConversation>;
@@ -320,9 +417,7 @@ const ConversationPanel: React.FC<{
   };
   const convMsgs = conversation.value?.output?.messages || [];
   const user = conversation.value?.userDetails;
-  const userFullName = [user?.firstName || "", user?.lastName || ""]
-    .join(" ")
-    .trim();
+  const userFullName = user ? getUserFullName(user) : "";
 
   return (
     <div className="jf-current-conversation">
@@ -341,43 +436,7 @@ const ConversationPanel: React.FC<{
                   {userFullName || friendlyPhoneNumber(selectedPhoneNumber)}
                 </h1>
                 {user ? (
-                  <>
-                    {userFullName && (
-                      <p>
-                        This user's phone number is{" "}
-                        {friendlyPhoneNumber(selectedPhoneNumber)}.
-                      </p>
-                    )}
-                    {user.onboardingInfo && (
-                      <p>
-                        The user's signup intent is{" "}
-                        {user.onboardingInfo.signupIntent}.
-                      </p>
-                    )}
-                    {user.letterRequest && (
-                      <p>
-                        The user completed a letter of complaint on{" "}
-                        {niceAdminTimestamp(user.letterRequest.updatedAt)}.
-                      </p>
-                    )}
-                    <a
-                      href={user.adminUrl}
-                      className="button is-small"
-                      target="_blank"
-                    >
-                      Edit user
-                    </a>
-                    {user.onboardingInfo?.padBbl && (
-                      <a
-                        href={whoOwnsWhatURL(user.onboardingInfo.padBbl)}
-                        className="button is-small"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        View user's building in WoW
-                      </a>
-                    )}
-                  </>
+                  <UserInfo showPhoneNumber={!!userFullName} user={user} />
                 ) : (
                   <p>
                     This phone number does not seem to have an account with us.
@@ -386,32 +445,7 @@ const ConversationPanel: React.FC<{
               </div>
               <div className={classnames("jf-messages", convStalenessClasses)}>
                 {convMsgs.length ? (
-                  convMsgs.map((msg) => {
-                    return (
-                      <div
-                        key={msg.sid}
-                        className={classnames(
-                          msg.isFromUs ? "jf-from-us" : "jf-to-us",
-                          "jf-sms"
-                        )}
-                      >
-                        <div
-                          className="jf-sms-body"
-                          title={`This message was sent on ${niceAdminTimestamp(
-                            msg.dateSent,
-                            { seconds: true }
-                          )}.`}
-                        >
-                          {msg.body}
-                        </div>
-                        {msg.errorMessage && (
-                          <div className="jf-sms-error">
-                            Error sending SMS: {msg.errorMessage}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })
+                  <ConversationMessages messages={convMsgs} />
                 ) : (
                   <p>
                     We have no record of any SMS messages exchanged with this

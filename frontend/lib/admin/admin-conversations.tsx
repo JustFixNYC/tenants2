@@ -29,6 +29,7 @@ import { useRepeatedPromise, useAdminFetch, usePrevious } from "./admin-hooks";
 import { staffOnlyView } from "./staff-only-view";
 import { useDebouncedValue } from "../util/use-debounced-value";
 import { friendlyPhoneNumber } from "../util/util";
+import { friendlyDate } from "../util/date-util";
 
 const PHONE_QS_VAR = "phone";
 
@@ -351,8 +352,27 @@ const UserInfo: React.FC<{
 const ConversationMessages: React.FC<{
   messages: AdminConversation_output_messages[];
 }> = ({ messages }) => {
-  const elements = messages.map((msg) => {
-    return (
+  const elements: JSX.Element[] = [];
+  let currDate = "";
+
+  const writeCurrDate = () => {
+    if (currDate) {
+      elements.push(
+        <div key={currDate} className="jf-date">
+          {currDate}
+        </div>
+      );
+    }
+  };
+
+  for (let msg of messages) {
+    const date = friendlyDate(new Date(msg.dateSent));
+    if (currDate !== date) {
+      writeCurrDate();
+      currDate = date;
+    }
+
+    elements.push(
       <div
         key={msg.sid}
         className={classnames(
@@ -375,7 +395,9 @@ const ConversationMessages: React.FC<{
         )}
       </div>
     );
-  });
+  }
+
+  writeCurrDate();
 
   return <>{elements}</>;
 };

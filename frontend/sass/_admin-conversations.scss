@@ -99,6 +99,15 @@
       overflow-y: auto;
       flex: 1;
 
+      > .jf-date:last-child {
+        padding-top: 1em;
+      }
+
+      > .jf-date {
+        font-weight: bold;
+        text-align: center;
+      }
+
       > .jf-sms {
         padding: 1em 0;
         max-width: 80%;

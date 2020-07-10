@@ -16,6 +16,7 @@ import { QueryLoaderQuery } from "../networking/query-loader-prefetcher";
 import {
   AdminConversationVariables,
   AdminConversation,
+  AdminConversation_userDetails,
 } from "../queries/AdminConversation";
 import { getQuerystringVar } from "../util/querystring";
 import { Helmet } from "react-helmet-async";
@@ -309,6 +310,47 @@ const ConversationsSidebar: React.FC<{
   );
 };
 
+const UserInfo: React.FC<{
+  user: AdminConversation_userDetails;
+  showPhoneNumber: boolean;
+}> = ({ user, showPhoneNumber }) => {
+  return (
+    <>
+      {showPhoneNumber && (
+        <p>
+          This user's phone number is {friendlyPhoneNumber(user.phoneNumber)}.
+        </p>
+      )}
+      {user.onboardingInfo && (
+        <p>The user's signup intent is {user.onboardingInfo.signupIntent}.</p>
+      )}
+      {user.letterRequest && (
+        <p>
+          The user completed a letter of complaint on{" "}
+          {niceAdminTimestamp(user.letterRequest.updatedAt)}.
+        </p>
+      )}
+      <a href={user.adminUrl} className="button is-small" target="_blank">
+        Edit user
+      </a>
+      {user.onboardingInfo?.padBbl && (
+        <a
+          href={whoOwnsWhatURL(user.onboardingInfo.padBbl)}
+          className="button is-small"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View user's building in WoW
+        </a>
+      )}
+    </>
+  );
+};
+
+function getUserFullName(user: AdminConversation_userDetails): string {
+  return [user.firstName, user.lastName].join(" ").trim();
+}
+
 const ConversationPanel: React.FC<{
   selectedPhoneNumber: string | undefined;
   conversation: UseMergedQueryResult<AdminConversation>;
@@ -320,9 +362,7 @@ const ConversationPanel: React.FC<{
   };
   const convMsgs = conversation.value?.output?.messages || [];
   const user = conversation.value?.userDetails;
-  const userFullName = [user?.firstName || "", user?.lastName || ""]
-    .join(" ")
-    .trim();
+  const userFullName = user ? getUserFullName(user) : "";
 
   return (
     <div className="jf-current-conversation">
@@ -341,43 +381,7 @@ const ConversationPanel: React.FC<{
                   {userFullName || friendlyPhoneNumber(selectedPhoneNumber)}
                 </h1>
                 {user ? (
-                  <>
-                    {userFullName && (
-                      <p>
-                        This user's phone number is{" "}
-                        {friendlyPhoneNumber(selectedPhoneNumber)}.
-                      </p>
-                    )}
-                    {user.onboardingInfo && (
-                      <p>
-                        The user's signup intent is{" "}
-                        {user.onboardingInfo.signupIntent}.
-                      </p>
-                    )}
-                    {user.letterRequest && (
-                      <p>
-                        The user completed a letter of complaint on{" "}
-                        {niceAdminTimestamp(user.letterRequest.updatedAt)}.
-                      </p>
-                    )}
-                    <a
-                      href={user.adminUrl}
-                      className="button is-small"
-                      target="_blank"
-                    >
-                      Edit user
-                    </a>
-                    {user.onboardingInfo?.padBbl && (
-                      <a
-                        href={whoOwnsWhatURL(user.onboardingInfo.padBbl)}
-                        className="button is-small"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        View user's building in WoW
-                      </a>
-                    )}
-                  </>
+                  <UserInfo showPhoneNumber={!!userFullName} user={user} />
                 ) : (
                   <p>
                     This phone number does not seem to have an account with us.

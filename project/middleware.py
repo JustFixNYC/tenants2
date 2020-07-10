@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from csp.middleware import CSPMiddleware
 
 from project.util.site_util import get_protocol
+from . import monkeypatch_rollbar
 
 
 CspUpdateDict = Dict[str, Union[str, List[str]]]
@@ -111,6 +112,16 @@ class CSPHashingMiddleware(CSPMiddleware):
 
 
 def hostname_redirect_middleware(get_response):
+    '''
+    Middleware to redirect access to any of the domains specified
+    by the keys in settings.HOSTNAME_REDIRECTS to their corresponding
+    values. Preserves the full path of the URL.
+
+    For example, if settings.HOSTNAME_REDIRECTS is {'foo.com': 'bar.com'},
+    then any accesses to http://foo.com/blah will be redirected to
+    http://bar.com/blah.
+    '''
+
     def middleware(request):
         host = request.get_host()
         if host in settings.HOSTNAME_REDIRECTS:
@@ -118,5 +129,20 @@ def hostname_redirect_middleware(get_response):
             path = request.get_full_path()
             return HttpResponseRedirect(f'{get_protocol()}://{new_host}{path}')
         return get_response(request)
+
+    return middleware
+
+
+def rollbar_request_middleware(get_response):
+    '''
+    For the duration of the current request, hold it in
+    thread-local storage so Rollbar can access it when
+    reporting.
+    '''
+
+    def middleware(request):
+        with monkeypatch_rollbar.set_current_rollbar_request(request):
+            response = get_response(request)
+        return response
 
     return middleware

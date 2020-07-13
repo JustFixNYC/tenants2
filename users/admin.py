@@ -21,6 +21,12 @@ PERMISSIONS_LABEL = 'Permissions'
 NON_SUPERUSER_FIELDSET_LABELS = (PERMISSIONS_LABEL,)
 
 
+def make_button_link(url: str, short_description: str):
+    return format_html(
+        '<a class="button" href="{}">{}</a>', url, short_description
+    )
+
+
 def make_link_to_other_user_view(model_class, short_description):
     '''
     We have specialized proxy views of the User model for different kinds
@@ -34,8 +40,7 @@ def make_link_to_other_user_view(model_class, short_description):
     )
     def link(self, obj):
         url = get_admin_url_for_class(model_class, obj.pk)
-        return format_html(
-            '<a class="button" href="{}">{}</a>', url, short_description)
+        return make_button_link(url, short_description)
 
     return link
 
@@ -55,7 +60,8 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
     fieldsets = (
         ('Personal info', {'fields': (
             'first_name', 'last_name', 'email', 'is_email_verified',
-            'phone_number', 'phone_number_lookup_details', 'locale',
+            'phone_number', 'phone_number_lookup_details',
+            'sms_conversations', 'locale',
         )}),
         ('Username and password', {
             'fields': ('username', 'password'),
@@ -110,6 +116,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
         'norent_info',
         'phone_number_lookup_details',
         'rapidpro_contact_groups',
+        'sms_conversations',
         *UserAdmin.readonly_fields
     ]
 
@@ -142,6 +149,15 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
                 return ', '.join(groups)
 
         return "None"
+
+    @admin_field(
+        short_description="SMS conversations",
+    )
+    def sms_conversations(self, obj):
+        return make_button_link(
+            f'/admin/conversations?phone=%2B1{obj.phone_number}',
+            "SMS conversations"
+        )
 
     def save_model(self, request, obj: JustfixUser, form, change):
         super().save_model(request, obj, form, change)

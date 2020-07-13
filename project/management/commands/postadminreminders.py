@@ -2,7 +2,6 @@ from typing import List
 from datetime import timedelta
 from django.utils import timezone
 from django.core.management.base import BaseCommand
-from django.urls import reverse
 
 from project import slack
 from project.util.site_util import absolute_reverse

@@ -1,6 +1,7 @@
 from typing import List, Optional, Dict
 import datetime
 from django.db import models, transaction
+from django.db.models import Q
 from django.utils import timezone
 from django.utils.html import format_html
 from django.core.exceptions import ValidationError
@@ -32,6 +33,13 @@ LOC_CHANGE_LEEWAY = datetime.timedelta(hours=1)
 
 # Maximum length of a landlord address.
 ADDR_LENGTH = 1000
+
+# Query on the user model to filter only the users who need their LOCs mailed.
+USER_MAILING_NEEDED_Q = (
+    Q(letter_request__mail_choice=LOC_MAILING_CHOICES.WE_WILL_MAIL) &
+    Q(letter_request__tracking_number__exact='') &
+    Q(letter_request__rejection_reason__exact='')
+)
 
 
 class AccessDateManager(models.Manager):

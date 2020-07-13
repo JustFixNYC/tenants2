@@ -26,7 +26,6 @@ class Command(BaseCommand):
     help = 'Post admin reminders to Slack.'
 
     def handle(self, *args, **options) -> None:
-        print("Sending reminders to admins about sending letters of complaint.")
         users = get_old_loc_users()
         if users:
             count = len(users)
@@ -35,10 +34,15 @@ class Command(BaseCommand):
             else:
                 desc = f"{count} users have not had their letters of complaint sent"
 
+            self.stdout.write(
+                "Posting reminder to admins about sending letters of complaint.\n"
+            )
+
             url = absolute_reverse('admin:loc_locuser_changelist')
             link = slack.hyperlink(url, text="send letters of complaint")
             slack.sendmsg(
                 f"{desc} in at least {LOC_OLD_AGE.days} days! Please {link}.",
                 is_safe=True,
             )
-        print("Done.")
+        else:
+            self.stdout.write("No reminders need to be posted.\n")

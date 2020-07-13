@@ -1,6 +1,6 @@
 {
   "AK": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "The Alaska State Supreme Court placed a moratorium on all non-emergency cases including most civil cases on March 13."
   },
   "AL": {
@@ -25,7 +25,7 @@
   },
   "CT": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Landlords in Connecticut can't give tenants a notice to quit or start an eviction in most situations until July 1, 2020 under Executive Order 7X, issued by Governor Ned Lamont on April 10, 2020."
+    "textOfLegislation": "Landlords in Connecticut can't give tenants a notice to quit or start an eviction in most situations until August 25, 2020 under Executive Order 7X, issued by Governor Ned Lamont on April 10, 2020."
   },
   "DC": {
     "stateWithoutProtections": true,
@@ -71,7 +71,7 @@
     "textOfLegislation": "Governor Beshear\u2019s Executive Order protects tenants from eviction during the COVID-19 crisis. And, on April 1, the Kentucky Supreme Court prohibited clerks from accepting eviction filings until May 31."
   },
   "LA": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "Governor John Bel Edwards has issued Proclamation 41-JBE-2020 which suspends deadlines in all legal proceedings, including evictions, until at least April 30, 2020. The Supreme Court of Louisiana has ordered courts to limit activity to only essential proceedings, which do not include evictions."
   },
   "MA": {
@@ -113,7 +113,7 @@
   },
   "NE": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Tenants in Nebraska are protected from eviction until May 31, 2020 from non-payment of rent due on or after March 13, 2020 by Executive Order 20-07 issued by Governor Pete Ricketts. Tenants must be able to show the landlord evidence of lost income related to COVID-19 to delay eviction."
+    "textOfLegislation": "Tenants in Nebraska are protected from eviction until July 31, 2020 from non-payment of rent due on or after March 13, 2020 by Executive Order 20-07 issued by Governor Pete Ricketts. Tenants must be able to show the landlord evidence of lost income related to COVID-19 to delay eviction."
   },
   "NH": {
     "stateWithoutProtections": true
@@ -147,7 +147,7 @@
     "textOfLegislation": "Pennsylvania Supreme Court ordered a stay on all evictions until April 30, 2020."
   },
   "PR": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are protected from eviction for non-payment or any other reason until August 23, 2020."
   },
   "RI": {
@@ -172,7 +172,7 @@
     "textOfLegislation": "Tenants in Utah who were current on rent payments March 31, 2020 and have suffered loss of income or job due to COVID-19 are protected from eviction for non-payment of rent until May 15, 2020 by Executive Order issued by Governor Charlie Baker on April 2, 2020."
   },
   "VA": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "The Virginia Supreme Court has temporarily suspended all non-emergency hearings in all circuit and district courts throughout the state until May 18, 2020."
   },
   "VT": {

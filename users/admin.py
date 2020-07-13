@@ -1,15 +1,14 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.utils.html import format_html
 
-from project.util.admin_util import admin_field, get_admin_url_for_class
+from project.util.admin_util import admin_field, get_admin_url_for_class, make_button_link
 from .forms import JustfixUserCreationForm, JustfixUserChangeForm
 from .models import JustfixUser
 import rapidpro.models
 from onboarding.admin import OnboardingInline
 from legacy_tenants.admin import LegacyUserInline
 from legacy_tenants.models import LegacyUserInfo
-from .admin_user_proxy import user_signup_intent
+from .admin_user_proxy import user_signup_intent, sms_conversations_field
 from texting.models import get_lookup_description_for_phone_number
 from loc.admin import LOCUser, LandlordDetailsInline
 from hpaction.admin import HPUser
@@ -19,12 +18,6 @@ import airtable.sync
 
 PERMISSIONS_LABEL = 'Permissions'
 NON_SUPERUSER_FIELDSET_LABELS = (PERMISSIONS_LABEL,)
-
-
-def make_button_link(url: str, short_description: str):
-    return format_html(
-        '<a class="button" href="{}">{}</a>', url, short_description
-    )
 
 
 def make_link_to_other_user_view(model_class, short_description):
@@ -150,14 +143,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
 
         return "None"
 
-    @admin_field(
-        short_description="SMS conversations",
-    )
-    def sms_conversations(self, obj):
-        return make_button_link(
-            f'/admin/conversations?phone=%2B1{obj.phone_number}',
-            "SMS conversations"
-        )
+    sms_conversations = sms_conversations_field
 
     def save_model(self, request, obj: JustfixUser, form, change):
         super().save_model(request, obj, form, change)

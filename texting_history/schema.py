@@ -12,6 +12,7 @@ from project import schema_registry
 from users.models import VIEW_TEXT_MESSAGE_PERMISSION, JustfixUser
 from twofactor.util import is_request_user_verified
 from project.util.streaming_json import generate_json_rows
+from rapidpro.models import get_group_names_for_user
 from .management.commands.update_texting_history import update_texting_history
 from .models import Message
 from .query_parser import Query
@@ -75,8 +76,19 @@ class JustfixUserType(DjangoObjectType):
 
     admin_url = graphene.String(required=True)
 
+    rapidpro_groups = graphene.Field(
+        graphene.NonNull(graphene.List(graphene.NonNull(graphene.String))),
+        description=(
+            "The RapidPro groups the user is associated with. Note that this "
+            "may be out-of-sync with the RapidPro server."
+        ),
+    )
+
     def resolve_admin_url(self, info):
         return self.admin_url
+
+    def resolve_rapidpro_groups(self, info) -> List[str]:
+        return get_group_names_for_user(self)
 
 
 def is_request_verified_user_with_permission(request):

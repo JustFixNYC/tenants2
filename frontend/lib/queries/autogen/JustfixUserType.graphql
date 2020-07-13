@@ -12,5 +12,6 @@ fragment JustfixUserType on JustfixUserType {
     letterSentAt
   },
   onboardingInfo { ...OnboardingInfo },
-  adminUrl
+  adminUrl,
+  rapidproGroups
 }

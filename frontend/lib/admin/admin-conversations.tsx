@@ -312,6 +312,39 @@ const ConversationsSidebar: React.FC<{
   );
 };
 
+/**
+ * RapidPro group a user is added to if they say they have been
+ * assigned an attorney.
+ */
+const EHPA_ATTORNEY_ASSIGNED_GROUP = "EHPA Attorney Assignment Successful";
+
+/**
+ * RapidPro group a user is added to if they say they have not yet been
+ * assigned an attorney.
+ */
+const EHPA_ATTORNEY_NOT_ASSIGNED_GROUP = "EHPA Attorney Assignment Pending";
+
+const EhpaAttorneyAssigned: React.FC<{ rapidproGroups: string[] }> = (
+  props
+) => {
+  const g = props.rapidproGroups;
+  const title = "EHPA attorney assigned";
+  const wasAssigned = g.includes(EHPA_ATTORNEY_ASSIGNED_GROUP)
+    ? true
+    : g.includes(EHPA_ATTORNEY_NOT_ASSIGNED_GROUP)
+    ? false
+    : null;
+
+  switch (wasAssigned) {
+    case true:
+      return <p>{title}: Yes</p>;
+    case false:
+      return <p>{title}: No</p>;
+    case null:
+      return null;
+  }
+};
+
 const UserInfo: React.FC<{
   user: AdminConversation_userDetails;
   showPhoneNumber: boolean;
@@ -323,6 +356,7 @@ const UserInfo: React.FC<{
           This user's phone number is {friendlyPhoneNumber(user.phoneNumber)}.
         </p>
       )}
+      <EhpaAttorneyAssigned rapidproGroups={user.rapidproGroups} />
       {user.onboardingInfo && (
         <p>The user's signup intent is {user.onboardingInfo.signupIntent}.</p>
       )}

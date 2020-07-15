@@ -7,11 +7,13 @@ CSS = """\
 @page {
     size: letter;
     margin-top: 1in;
+    margin-right: 0.5in;
     margin-bottom: 1in;
 
     @top-right {
         content: counter(page);
-        font-size: 12pt;
+        font-size: 18pt;
+        color: green;
     }
 }
 """

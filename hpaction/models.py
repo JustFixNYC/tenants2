@@ -13,6 +13,7 @@ import PyPDF2
 
 from .hpactionvars import HarassmentAllegationsMS, CourtLocationMC
 from .hotdocs_xml_parsing import get_answers_xml_court_location_mc
+from . import page_numbering
 from project.util.site_util import absolute_reverse
 from loc.lob_api import MAX_NAME_LEN as MAX_LOB_NAME_LEN
 from project.util.mailing_address import MailingAddress
@@ -502,8 +503,15 @@ class HPActionDocuments(models.Model):
 
         pdf_writer = PyPDF2.PdfFileWriter()
         pdf_writer.addPage(aff_pdf_reader.getPage(ehpa_affadavit.COVER_SHEET_PAGE))
+        numbers_pdf = page_numbering.render_pdf(num_pages - num_instruction_pages)
+        numbers_pdf_reader = PyPDF2.PdfFileReader(numbers_pdf)
         for i in range(num_instruction_pages, num_pages):
-            pdf_writer.addPage(pdf_reader.getPage(i))
+            page = pdf_reader.getPage(i)
+            page_numbering.merge_page_with_possible_rotation(
+                page,
+                numbers_pdf_reader.getPage(i - num_instruction_pages),
+            )
+            pdf_writer.addPage(page)
         pdf_writer.addPage(aff_pdf_reader.getPage(ehpa_affadavit.FEE_WAIVER_PAGE))
 
         new_pdf = BytesIO()

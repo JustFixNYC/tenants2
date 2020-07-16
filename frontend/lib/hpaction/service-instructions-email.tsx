@@ -192,10 +192,12 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
           If your case was accepted, now you have to “serve” the papers on your
           landlord and/or management company. This means that you have to give
           your landlord or management company a copy of (some) of the papers in
-          the attachment you got from the Clerk. If two addresses are listed,
-          you must serve copies of the paperwork to both addresses. You will
-          have to print the pages that you have to serve. If you don’t have a
-          printer, you can go to your local library, elected official’s office
+          the attachment you got from the Clerk. Although we wish we could
+          automate this part of the process for you, given the current legal
+          structure, you have to do it yourself. If two or more addresses are
+          listed, you must serve copies of the paperwork to each address. You
+          will have to print the pages that you have to serve. If you don’t have
+          a printer, you can go to your local library, elected official’s office
           or your nearest print shop.
         </p>
         <Important>

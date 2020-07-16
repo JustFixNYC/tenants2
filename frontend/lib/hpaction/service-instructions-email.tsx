@@ -43,18 +43,18 @@ const WHO_TO_SERVE_EXAMPLE_IMG_SRC: CaseTypeMap<string> = {
   [CaseType.Combined]: "who-to-serve-repairs-and-harassment.jpg",
 };
 
-const CASE_TYPE_NAMES: { [k in CaseType]: string } = {
+const CASE_TYPE_NAMES: CaseTypeMap<string> = {
   [CaseType.Repairs]: "Repairs",
   [CaseType.Harassment]: "Harassment",
   [CaseType.Combined]: "Repairs and Harassment",
 };
 
-const WHAT_TO_SERVE: { [k in CaseType]: string } = {
-  [CaseType.Repairs]: "Pages with the numbers 1 and 2 at the top right corner",
+const VERIFIED_PETITION_PAGES: CaseTypeMap<string> = {
+  [CaseType.Repairs]: "the page with the number “2” at the top right",
   [CaseType.Harassment]:
-    "Pages with the numbers 1, 2, and 3 and the top right corner",
+    "the pages with the numbers “2” and “3” at the top right",
   [CaseType.Combined]:
-    "Pages with the numbers 1, 2, 3 and 4 at the top right corner",
+    "the pages with the numbers “2”, “3”, and “4” at the top right",
 };
 
 function toCaseType({
@@ -124,6 +124,10 @@ const CourtContactInfo: React.FC<{ borough: BoroughChoice }> = (props) => {
 
 const OSC: React.FC<{}> = () => (
   <>“Order to Show Cause” (the page with the number “1” at the top right)</>
+);
+
+const VerifiedPetition: React.FC<CaseTypeProps> = (props) => (
+  <>“Verified Petition” ({VERIFIED_PETITION_PAGES[toCaseType(props)]})</>
 );
 
 export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
@@ -296,9 +300,16 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
     <h3>What to serve</h3>
     <p>
       Since you are suing for {CASE_TYPE_NAMES[toCaseType(props)]}, the only
-      pages you need to serve your landlord and/or management company are the{" "}
-      <strong>{WHAT_TO_SERVE[toCaseType(props)]}</strong>.
+      pages you need to serve your landlord and/or management company are:
     </p>
+    <ul>
+      <li>
+        The <OSC />
+      </li>
+      <li>
+        The <VerifiedPetition {...props} />
+      </li>
+    </ul>
     <ExampleImage
       src="what-to-serve.jpg"
       alt="Close-up of OSC form identifying where information on what to serve is located"

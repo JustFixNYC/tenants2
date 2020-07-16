@@ -39,3 +39,8 @@ h4 {
   margin-bottom: 1em;
   padding: 4px;
 }
+
+h5 {
+  font-size: inherit;
+  border-bottom: 1px dotted gray;
+}

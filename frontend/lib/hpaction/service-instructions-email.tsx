@@ -333,31 +333,15 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
       className="jf-has-border"
       preamble="Note that the Judge might have typed-in or hand-written a different way than the standard shown here:"
     />
-    <p>Possible ways the Judge might ask you to serve:</p>
-    <ul>
-      <li>By email</li>
-      <li>
-        “Personally”, which means in-person.{" "}
-        <span className="has-text-danger">
-          If this is the case you will need to fill out the "Affidavit of
-          Service" at the end of the attachment.
-        </span>
-      </li>
-      <li>
-        By USPS mail using the option that the Judge chose, which might be:
-        <ul>
-          <li>First Class Mail</li>
-          <li>First Class Mail with certificate of mailing</li>
-          <li>Priority Mail/Overnight Mail</li>
-          <li>
-            Certified Mail, Return Receipt Requested (this is the most common)
-          </li>
-        </ul>
-      </li>
-    </ul>
-    <h4>Certified mail receipt slip</h4>
+    <h4>The most likely way the Judge might ask you to serve</h4>
     <p>
-      The postal worker will give you this green slip as proof that you sent the
+      <strong>USPS Certified Mail, Return Receipt Requested</strong> is the most
+      likely way the judge might ask you to serve. This will involve keeping two
+      slips ready to show the Clerk on your court date, described below.
+    </p>
+    <h5>Certified mail receipt slip</h5>
+    <p>
+      The postal worker will give you a green slip as proof that you sent the
       paperwork by the right date. You can track the progress of the envelope by
       using the tracking number on the left of the slip. Keep it safe and be
       ready to show it to the Clerk on your court date.
@@ -366,24 +350,58 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
       src="certified-mail-receipt.jpg"
       alt="Close-up of a USPS Certified Mail Receipt"
     />
-    <h4>Return receipt requested slip</h4>
+    <h5>Return receipt requested slip</h5>
     <p>
-      After the envelope reaches its destination, this green card will get
-      mailed back to you at the address that you wrote in the “sender” box,
-      which should be a mailbox that you have access to. Keep an eye out for it.
-      Keep it safe and be ready to show it to the Clerk on your court date.
+      After the envelope reaches its destination, a green card will be mailed
+      back to you at the address that you wrote in the “sender” box, which
+      should be a mailbox that you have access to. Keep an eye out for it. Keep
+      it safe and be ready to show it to the Clerk on your court date.
     </p>
     <ExampleImage
       src="domestic-return-receipt.jpg"
       alt="Close-up of a USPS Certified Mail Receipt"
     />
-    <h4>First class mail with certificate of mailing slip</h4>
+    <h5>Possible additional methods</h5>
     <p>
-      The postal worker will give you this slip as proof that you sent the
-      paperwork by the right date. Keep it safe and be ready to show it to the
-      Clerk on your court date.
+      The Judge may require you to serve a second copy of the papers using
+      another method to make sure that the landlord and/or management company
+      receives them. If this is the case, the Judge will write this additional
+      method on the <OSC />.
     </p>
-    {/* TODO: Insert example image. */}
+    <p>Possible additional methods include:</p>
+    <ul>
+      <li>
+        <strong>Regular first class mail</strong>
+      </li>
+      <li>
+        <strong>Email</strong>
+      </li>
+      <li>
+        <strong>First class mail with certificate of mailing</strong>
+        <p>
+          Using this method, the postal worker will give you a slip as proof
+          that you sent the paperwork by the right date. Keep it safe and be
+          ready to show it to the Clerk on your court date.
+        </p>
+      </li>
+    </ul>
+    <h4>Less likely ways the Judge might ask you to serve</h4>
+    <ul>
+      <li>
+        <strong>USPS Priority mail/overnight mail</strong>
+      </li>
+      <li>
+        <strong>Personally (in-person)</strong>
+        <p>
+          If this is the case, you or someone other than you who is over the age
+          of 18 needs to hand-deliver the <OSC /> and{" "}
+          <VerifiedPetition {...props} /> directly to each person or company you
+          have sued. The person doing the service will need to fill out the
+          "Affidavit of Service" at the end of the attachment and sign as the
+          “Deponent”.
+        </p>
+      </li>
+    </ul>
     <p>
       If you have any further questions, please feel free to respond to this
       email and we will be in touch to help.

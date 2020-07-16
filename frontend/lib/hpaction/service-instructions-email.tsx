@@ -272,7 +272,7 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
       alt="An Order to Show Cause (OSC) form"
       className="jf-has-border"
     />
-    <h3>When to serve</h3>
+    <h3>A. When to serve</h3>
     <p>
       You must serve your paperwork by the deadline set by the Judge on the page
       called <OSC />. Remember that most post offices close at 5pm Monday -
@@ -283,7 +283,7 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
       alt="Close-up of OSC form identifying where information on when to serve is located"
       className="jf-has-border"
     />
-    <h3>Who to serve</h3>
+    <h3>B. Who to serve</h3>
     <p>
       If there are 2 people or companies listed on the paperwork you will need
       to serve them both. This could be because there is a landlord and a
@@ -297,7 +297,7 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
       preamble="You will find their address information here:"
       className="jf-has-border"
     />
-    <h3>What to serve</h3>
+    <h3>C. What to serve</h3>
     <p>
       Since you are suing for {CASE_TYPE_NAMES[toCaseType(props)]}, the only
       pages you need to serve your landlord and/or management company are:
@@ -321,7 +321,7 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
       you see any papers in the paperwork with that kind of info, please take
       them out and do not send them.
     </p>
-    <h3>How to serve</h3>
+    <h3>D. How to serve</h3>
     <p>
       There are multiple ways to serve the papers and you have to do it exactly
       in the way that the Judge orders. You will find out what the Judge chose

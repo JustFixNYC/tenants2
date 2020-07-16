@@ -276,6 +276,9 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # from the site manager(s).
     DEFAULT_FROM_EMAIL = 'no-reply@justfix.nyc'
 
+    # The email address used for court documents (e.g. HP Actions).
+    COURT_DOCUMENTS_EMAIL: str = 'documents@justfix.nyc'
+
     # Sender email address used to send a user's rental history request.
     DHCR_EMAIL_SENDER_ADDRESS: str = 'support@justfix.nyc'
 

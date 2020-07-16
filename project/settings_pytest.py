@@ -100,6 +100,8 @@ NAVBAR_LABEL = ''
 WOW_ORIGIN = 'https://demo-whoownswhat.herokuapp.com'
 EFNYC_ORIGIN = 'https://demo-efnyc.netlify.com'
 
+ENABLE_EMERGENCY_HP_ACTION = True
+
 
 class NotActuallyFileStorage:
     def __init__(self):

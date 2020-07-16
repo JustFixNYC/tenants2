@@ -192,10 +192,12 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
           If your case was accepted, now you have to “serve” the papers on your
           landlord and/or management company. This means that you have to give
           your landlord or management company a copy of (some) of the papers in
-          the attachment you got from the Clerk. If two addresses are listed,
-          you must serve copies of the paperwork to both addresses. You will
-          have to print the pages that you have to serve. If you don’t have a
-          printer, you can go to your local library, elected official’s office
+          the attachment you got from the Clerk. Although we wish we could
+          automate this part of the process for you, given the current legal
+          structure, you have to do it yourself. If two or more addresses are
+          listed, you must serve copies of the paperwork to each address. You
+          will have to print the pages that you have to serve. If you don’t have
+          a printer, you can go to your local library, elected official’s office
           or your nearest print shop.
         </p>
         <Important>
@@ -261,9 +263,19 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
       )}
     </ol>
     <h2>Serving the papers</h2>
+    <p>This section includes instructions for:</p>
     <p>
-      You will find all of the information you need to know (when, what, how,
-      and to whom) in order to serve your paperwork on your landlord and/or
+      A. When to serve
+      <br />
+      B. Who to serve
+      <br />
+      C. What to serve
+      <br />
+      D. How to serve
+    </p>
+    <p>
+      You will find all of the information you need to know (when, to whom,
+      what, and how) in order to serve your paperwork on your landlord and/or
       management company on the page called <OSC />. It is in the section below
       where your court date is listed.
     </p>
@@ -361,7 +373,7 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
       src="domestic-return-receipt.jpg"
       alt="Close-up of a USPS Certified Mail Receipt"
     />
-    <h5>Possible additional methods</h5>
+    <h5>Possible additional secondary methods</h5>
     <p>
       The Judge may require you to serve a second copy of the papers using
       another method to make sure that the landlord and/or management company

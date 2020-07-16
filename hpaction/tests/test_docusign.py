@@ -2,6 +2,7 @@ from django.contrib.auth.models import AnonymousUser
 import pytest
 
 from .factories import (
+    HPActionDetailsFactory,
     HPActionDocumentsFactory,
     HPActionDocumentsForRepairsFactory,
     HPActionDocumentsForHarassmentFactory,
@@ -137,11 +138,30 @@ class TestGetContactInfo:
     ('viewing_complete', 'IN_PROGRESS'),
     ('cancel', 'IN_PROGRESS'),
 ])
-def test_update_envelope_status(db, docusign_event, envelope_status, django_file_storage):
-    de = DocusignEnvelopeFactory()
+def test_update_envelope_status(
+    db,
+    docusign_event,
+    envelope_status,
+    django_file_storage,
+    allow_lambda_http,
+    mailoutbox
+):
+    de = DocusignEnvelopeFactory(docs__user__email='boop@jones.com')
+    user = de.docs.user
+    OnboardingInfoFactory(user=user)
+    HPActionDetailsFactory(user=user, sue_for_harassment=True, sue_for_repairs=True)
     docusign.update_envelope_status(de, docusign_event)
     de.refresh_from_db()
     assert de.status == envelope_status
+
+    if docusign_event == "signing_complete":
+        assert len(mailoutbox) == 1
+        msg = mailoutbox[0]
+        assert 'next steps' in msg.subject.lower()
+        assert msg.from_email == 'documents@justfix.nyc'
+        assert 'hello boop' in msg.body.lower()
+    else:
+        assert len(mailoutbox) == 0
 
 
 class TestCallbackHandler:

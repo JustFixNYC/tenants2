@@ -8,6 +8,7 @@ from django.http import (
     HttpResponseBadRequest,
     HttpResponseForbidden,
 )
+from django.core.mail import send_mail
 from django.conf import settings
 import PyPDF2
 
@@ -17,6 +18,8 @@ from docusign.core import docusign_client_user_id
 from docusign.views import create_callback_url, append_querystring_args
 from onboarding.models import BOROUGH_CHOICES
 import docusign_esign as dse
+from project.util.site_util import SITE_CHOICES
+from frontend.static_content import react_render_email
 from .hotdocs_xml_parsing import HPAType
 from .models import HPActionDocuments, DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES, Config
 
@@ -34,6 +37,9 @@ HPA_DOCUMENT_ID = '1'
 # that aren't part of the official forms
 NUM_COVER_SHEET_PAGES = 1
 
+# The HTML email containing instructions on how to serve the landlord
+# and/or management company.
+SERVICE_INSTRUCTIONS_URL = "ehp/service-instructions-email.html"
 
 logger = logging.getLogger(__name__)
 
@@ -381,6 +387,23 @@ def create_callback_url_for_signing_flow(request, envelope_id: str, next_url: st
     })
 
 
+def send_service_instructions_email(user: JustfixUser) -> None:
+    email = react_render_email(
+        SITE_CHOICES.JUSTFIX,
+        user.locale,
+        SERVICE_INSTRUCTIONS_URL,
+        is_html_email=True,
+        user=user,
+    )
+    send_mail(
+        subject=email.subject,
+        from_email=settings.COURT_DOCUMENTS_EMAIL,
+        recipient_list=[user.email],
+        message=email.body,
+        html_message=email.html_body,
+    )
+
+
 def update_envelope_status(de: DocusignEnvelope, event: str) -> None:
     '''
     Update the given DocuSign envelope model based on the given
@@ -421,6 +444,7 @@ def update_envelope_status(de: DocusignEnvelope, event: str) -> None:
             is_safe=True
         )
         user.trigger_followup_campaign_async("EHP")
+        send_service_instructions_email(user)
         de.save()
     elif event == 'decline':
         de.status = HP_DOCUSIGN_STATUS_CHOICES.DECLINED

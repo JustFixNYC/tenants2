@@ -28,6 +28,14 @@ class Command(BaseCommand):
             '--user',
             help=f"The username of the user to render the HTML email content as."
         )
+        parser.add_argument(
+            '--from',
+            default=settings.DEFAULT_FROM_EMAIL,
+            help=(
+                f"The sender of the email. "
+                f"Defaults to {settings.DEFAULT_FROM_EMAIL}."
+            )
+        )
 
     def handle(self, *args, **options):
         url: str = options['url']
@@ -46,11 +54,12 @@ class Command(BaseCommand):
             user=user,
         )
 
+        sender: str = options['from']
         recipient: str = options['email']
 
         send_mail(
             subject=email.subject,
-            from_email=settings.DEFAULT_FROM_EMAIL,
+            from_email=sender,
             recipient_list=[recipient],
             message=email.body,
             html_message=email.html_body,

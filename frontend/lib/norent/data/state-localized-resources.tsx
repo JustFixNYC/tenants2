@@ -15,7 +15,7 @@ export const STATE_LOCALIZED_RESOURCES: StateLocalizedResources = {
       children: <Trans>Eviction Moratorium updates</Trans>,
       hrefs: {
         en:
-          "https://d3n8a8pro7vhmx.cloudfront.net/righttocounselnyc/pages/191/attachments/original/1590431823/Impact_of_May_7_Order_on_the_Eviction_Moratorium__Last_Updated_5_23_.pdf?1590431823",
+          "https://www.righttocounselnyc.org/ny_eviction_moratorium_faq?utm_campaign=we_are_powerful&utm_medium=email&utm_source=righttocounselnyc",
         es:
           "https://docs.google.com/document/d/1uzT1lduZAzNLpy_WxSOU1oSOTOPs0YrWekzLd8o6tAs/edit",
       },
@@ -23,9 +23,11 @@ export const STATE_LOCALIZED_RESOURCES: StateLocalizedResources = {
     {
       children: <Trans>Cancel Rent Campaign</Trans>,
       hrefs: {
-        en: "https://actionnetwork.org/forms/mayday-cantpay",
+        // Yes, both of these URLs are the same: the english and spanish versions are on the same page.
+        en:
+          "https://actionnetwork.org/petitions/reclaim-our-homes-rent-suspension-now?source=direct_link&referrer=group-right-to-counsel-nyc-coalition",
         es:
-          "https://docs.google.com/document/d/1hPPq5AQJvn-HwaBvg2Rl2kRb0BiNWtpXgT_-PN5tdgw/edit",
+          "https://actionnetwork.org/petitions/reclaim-our-homes-rent-suspension-now?source=direct_link&referrer=group-right-to-counsel-nyc-coalition",
       },
     },
     {

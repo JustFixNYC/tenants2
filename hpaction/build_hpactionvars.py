@@ -296,7 +296,7 @@ def reduce_number_of_lines(value: str, max_lines: int, line_length: int) -> str:
         else:
             wrapped_lines.append('')
 
-    if len(lines) > max_lines:
+    if len(wrapped_lines) > max_lines:
         value = ' / '.join(filter(None, lines))
 
     return value

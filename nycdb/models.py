@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, NamedTuple, List, Union, TypeVar, Generic, Callable
+from typing import Optional, NamedTuple, List, Union, TypeVar, Generic, Callable, Any
 from django.db.utils import DatabaseError
 from dataclasses import dataclass
 from django.conf import settings
@@ -96,6 +96,18 @@ class HPDRegistration(models.Model):
     def pad_bin(self) -> str:
         return str(self.bin) if self.bin else ''
 
+    def __str__(self) -> str:
+        if self.pad_bin:
+            extra = f"BIN {self.pad_bin} / BBL {self.pad_bbl}"
+        else:
+            extra = f"BBL {self.pad_bbl}"
+        return f"HPD Registration #{self.registrationid} for {extra}"
+
+    def _warn_if_multiple(self, items: List[Any], items_plural: str):
+        if len(items) > 1:
+            logger.warn(
+                f"Found {len(items)} {items_plural} but expected one for {str(self)}.")
+
     def _get_company_landlord(self) -> Optional[Company]:
         owners = [
             c.corporationname for c in self.contact_list
@@ -107,6 +119,7 @@ class HPDRegistration(models.Model):
                 if c.type == HPDContact.HEAD_OFFICER and c.address
             ]
             if head_officer_addresses:
+                self._warn_if_multiple(head_officer_addresses, "head officers")
                 first_name, last_name, address = head_officer_addresses[0]
                 return Company(
                     name=f"{first_name} {last_name}",
@@ -120,6 +133,7 @@ class HPDRegistration(models.Model):
             if c.type == HPDContact.INDIVIDUAL_OWNER and c.firstname and c.lastname and c.address
         ]
         if owners:
+            self._warn_if_multiple(owners, "individual owners")
             first_name, last_name, address = owners[0]
             return Individual(
                 first_name=first_name,
@@ -137,6 +151,7 @@ class HPDRegistration(models.Model):
             if c.type == HPDContact.AGENT and c.address and c.corporationname
         ]
         if agents:
+            self._warn_if_multiple(agents, "agents")
             name, address = agents[0]
             return Company(name=name, address=address)
         return None

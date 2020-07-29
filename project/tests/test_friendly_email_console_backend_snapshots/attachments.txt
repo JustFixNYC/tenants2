@@ -6,7 +6,7 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Subject: here is a subject
-From: no-reply@justfix.nyc
+From: JustFix.nyc no-reply <no-reply@justfix.nyc>
 To: landlordo@calrissian.net
 Date: Wed, 01 Jan 2020 00:00:00 -0000
 

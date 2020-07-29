@@ -274,7 +274,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
 
     # Default email address to use for various automated correspondence
     # from the site manager(s).
-    DEFAULT_FROM_EMAIL = 'no-reply@justfix.nyc'
+    DEFAULT_FROM_EMAIL = 'JustFix.nyc no-reply <no-reply@justfix.nyc>'
 
     # The email address used for court documents (e.g. HP Actions).
     COURT_DOCUMENTS_EMAIL: str = 'JustFix.nyc <documents@justfix.nyc>'

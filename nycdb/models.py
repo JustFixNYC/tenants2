@@ -1,4 +1,5 @@
 import logging
+import datetime
 from typing import Optional, NamedTuple, List, Union, TypeVar, Generic, Callable, Any
 from django.db.utils import DatabaseError
 from dataclasses import dataclass
@@ -79,6 +80,8 @@ class HPDRegistration(models.Model):
     objects = HPDRegistrationManager()
 
     registrationid: int = models.IntegerField(primary_key=True)
+    registrationenddate: datetime.date = models.DateField()
+    lastregistrationdate: datetime.date = models.DateField(null=True)
     boroid: int = models.SmallIntegerField()
     block: int = models.SmallIntegerField()
     lot: int = models.SmallIntegerField()
@@ -215,6 +218,12 @@ class HPDContact(models.Model):
         )
 
 
+def filter_and_sort_registrations(qs):
+    return qs.exclude(
+        lastregistrationdate=None,
+    ).order_by('-lastregistrationdate', '-registrationenddate')
+
+
 T = TypeVar('T')
 
 
@@ -236,17 +245,21 @@ class NycdbGetter(Generic[T]):
             return self.getter(reg)
         return None
 
+    def get_registration(self, qs) -> Optional[T]:
+        reg = filter_and_sort_registrations(qs).first()
+        return self.get_from_opt_hpd_registration(reg)
+
     def __call__(self, pad_bbl: str, pad_bin: str = '') -> Optional[T]:
         if not settings.NYCDB_DATABASE:
             return None
         try:
             result: Optional[T] = None
             if pad_bin:
-                result = self.get_from_opt_hpd_registration(
-                    HPDRegistration.objects.filter(bin=int(pad_bin)).first())
+                result = self.get_registration(
+                    HPDRegistration.objects.filter(bin=int(pad_bin)))
             if result is None:
-                result = self.get_from_opt_hpd_registration(
-                    HPDRegistration.objects.from_pad_bbl(pad_bbl).first())
+                result = self.get_registration(
+                    HPDRegistration.objects.from_pad_bbl(pad_bbl))
             return result
         except (DatabaseError, Exception):
             # TODO: Once we have more confidence in the underlying code,

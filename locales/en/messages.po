@@ -534,10 +534,6 @@ msgstr "I forgot my password"
 msgid "I have no apartment number"
 msgstr "I have no apartment number"
 
-#: frontend/lib/norent/letter-content.tsx:113
-msgid "I have suffered a loss of employment, diminished wages or business income, or other monetary loss realized during the Florida State of Emergency directly impacting my ability to make rent payments."
-msgstr "I have suffered a loss of employment, diminished wages or business income, or other monetary loss realized during the Florida State of Emergency directly impacting my ability to make rent payments."
-
 #: frontend/lib/norent/components/social-icons.tsx:17
 msgid "I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
 msgstr "I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
@@ -1525,6 +1521,10 @@ msgstr "<0>This is a new system. You will need a new account to use it. We're ha
 #: frontend/lib/norent/letter-content.tsx:120
 msgid "norent.letter.conclusion"
 msgstr "<0>Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are also protected from eviction for non-payment or any other reason until August 23, 2020. Tenants cannot be charged late fees, interest, or other penalties through July 25, 2020. Please let me know right away if you believe this property is not covered by the CARES Act and explain why the property is not covered.</0><1>In order to document our communication and to avoid misunderstandings, please reply to me via mail or text rather than a call or visit.</1><2>Thank you for your understanding and cooperation.</2>"
+
+#: frontend/lib/norent/letter-content.tsx:113
+msgid "norent.letter.floridaAddition"
+msgstr "I have suffered a loss of employment, diminished wages or business income, or other monetary loss realized during the Florida State of Emergency directly impacting my ability to make rent payments."
 
 #: frontend/lib/norent/letter-content.tsx:87
 msgid "norent.letter.v1NonPayment"

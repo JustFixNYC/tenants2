@@ -539,10 +539,6 @@ msgstr "He perdido mi contraseña"
 msgid "I have no apartment number"
 msgstr "No tengo ningún número de apartamento"
 
-#: frontend/lib/norent/letter-content.tsx:113
-msgid "I have suffered a loss of employment, diminished wages or business income, or other monetary loss realized during the Florida State of Emergency directly impacting my ability to make rent payments."
-msgstr ""
-
 #: frontend/lib/norent/components/social-icons.tsx:17
 msgid "I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
 msgstr "Acabo de usar la nueva herramienta gratuita de JustFix.nyc para decirle a mi arrendador que no puedo pagar la renta"
@@ -1530,6 +1526,10 @@ msgstr "<0>Este es un sistema nuevo. Necesitarás una nueva cuenta para utilizar
 #: frontend/lib/norent/letter-content.tsx:120
 msgid "norent.letter.conclusion"
 msgstr "<0>El Congreso aprobó la Ley CARES el 27 de marzo del 2020 (Ley Pública 116-136). Los inquilinos que viven en propiedades cubiertas por esta ley, también están protegidos del desalojo por impago o cualquier otra razón hasta el 23 de agosto de 2020. Arrendadores no tienen permitido cobrar demoras, intereses u otras sanciones hasta el 25 de julio de 2020. Por favor, hágame saber de inmediato si usted cree que esta vivienda no está cubierta por la ley CARES y explique por qué. </0><1>Para documentar nuestra comunicación y evitar malentendidos, por favor responda por correo electrónico o texto en lugar de una llamada o visita. </1><2>Gracias por su comprensión y cooperación.</2>"
+
+#: frontend/lib/norent/letter-content.tsx:113
+msgid "norent.letter.floridaAddition"
+msgstr ""
 
 #: frontend/lib/norent/letter-content.tsx:87
 msgid "norent.letter.v1NonPayment"

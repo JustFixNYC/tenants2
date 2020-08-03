@@ -43,7 +43,7 @@ const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
 );
 
 const PaymentDate = componentizeHelper((props) =>
-  friendlyUTCDate(props.paymentDate),
+  friendlyUTCDate(props.paymentDate)
 );
 
 const TenantProtections: React.FC<NorentLetterContentProps> = (props) => {
@@ -59,11 +59,11 @@ const TenantProtections: React.FC<NorentLetterContentProps> = (props) => {
             eviction for nonpayment per emergency declaration(s) from:
           </Trans>
         ) : (
-            <Trans>
-              Tenants impacted by the COVID-19 crisis are protected from eviction
-              for nonpayment per emergency declaration(s) from:
-            </Trans>
-          )}
+          <Trans>
+            Tenants impacted by the COVID-19 crisis are protected from eviction
+            for nonpayment per emergency declaration(s) from:
+          </Trans>
+        )}
       </p>
       <ul>
         {protectionData &&
@@ -97,36 +97,36 @@ export const NorentLetterTranslation: React.FC<{}> = () => {
 };
 
 export const NorentLetterEmailToLandlord: React.FC<NorentLetterContentProps> = (
-  props,
+  props
 ) => (
-    <>
-      <EmailSubject
-        value={li18n._(
-          t`Notice of COVID-19 impact on Rent sent on behalf of ${letter.getFullName(
-            props,
-          )}`,
-        )}
-      />
-      <letter.DearLandlord {...props} />
-      <Trans id="norent.emailToLandlordBody">
-        <p>
-          Please see letter attached from <letter.FullName {...props} />.{" "}
-        </p>
-        <p>
-          In order to document communications and avoid misunderstandings, please
+  <>
+    <EmailSubject
+      value={li18n._(
+        t`Notice of COVID-19 impact on Rent sent on behalf of ${letter.getFullName(
+          props
+        )}`
+      )}
+    />
+    <letter.DearLandlord {...props} />
+    <Trans id="norent.emailToLandlordBody">
+      <p>
+        Please see letter attached from <letter.FullName {...props} />.{" "}
+      </p>
+      <p>
+        In order to document communications and avoid misunderstandings, please
         correspond with <letter.FullName {...props} /> via mail or text rather
         than a phone call or in-person visit.
       </p>
-      </Trans>
-      <letter.Regards />
-      <p>
-        <Trans>
-          JustFix.nyc <br />
+    </Trans>
+    <letter.Regards />
+    <p>
+      <Trans>
+        JustFix.nyc <br />
         sent on behalf of <letter.FullName {...props} />
-        </Trans>
-      </p>
-    </>
-  );
+      </Trans>
+    </p>
+  </>
+);
 
 export const NorentLetterEmailToLandlordForUser: React.FC<{}> = () => (
   <TransformSession
@@ -136,7 +136,7 @@ export const NorentLetterEmailToLandlordForUser: React.FC<{}> = () => (
 );
 
 export const NorentLetterEmailToLandlordForUserStaticPage = asEmailStaticPage(
-  NorentLetterEmailToLandlordForUser,
+  NorentLetterEmailToLandlordForUser
 );
 
 const LetterBody: React.FC<NorentLetterContentProps> = (props) => {
@@ -166,24 +166,26 @@ const LetterBody: React.FC<NorentLetterContentProps> = (props) => {
           </Trans>
         </p>
       ) : (
-            // Letter Copy for V3_FEW_PROTECTIONS, the default:
-            <p>
-              <Trans id="norent.letter.v3FewProtections">
-                This letter is to advise you of protections in place for tenants in{" "}
-                {getUSStateChoiceLabels()[state]}. I am not waiving my right to
+        // Letter Copy for V3_FEW_PROTECTIONS, the default:
+        <p>
+          <Trans id="norent.letter.v3FewProtections">
+            This letter is to advise you of protections in place for tenants in{" "}
+            {getUSStateChoiceLabels()[state]}. I am not waiving my right to
             assert any other defenses.
           </Trans>
-            </p>
-          )}
+        </p>
+      )}
       <TenantProtections {...props} />
 
-      {state === 'FL' && <p>
-        <Trans id="norent.letter.floridaAddition">
-          I have suffered a loss of employment, diminished wages or business
-          income, or other monetary loss realized during the Florida State of
-          Emergency directly impacting my ability to make rent payments.
-        </Trans>
-      </p>}
+      {state === "FL" && (
+        <p>
+          <Trans id="norent.letter.floridaAddition">
+            I have suffered a loss of employment, diminished wages or business
+            income, or other monetary loss realized during the Florida State of
+            Emergency directly impacting my ability to make rent payments.
+          </Trans>
+        </p>
+      )}
 
       <Trans id="norent.letter.conclusion">
         <p>
@@ -206,7 +208,7 @@ const LetterBody: React.FC<NorentLetterContentProps> = (props) => {
 };
 
 export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
-  props,
+  props
 ) => {
   return (
     <>
@@ -225,11 +227,11 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
 };
 
 const NorentLetterStaticPage = createLetterStaticPageWithQuery(
-  NorentLetterContent,
+  NorentLetterContent
 );
 
 function getNorentLetterContentPropsFromSession(
-  session: AllSessionInfo,
+  session: AllSessionInfo
 ): NorentLetterContentProps | null {
   const baseProps = getBaseLetterContentPropsFromSession(session);
 
@@ -241,7 +243,7 @@ function getNorentLetterContentPropsFromSession(
 
   if (!paymentDate) {
     console.log(
-      "No latest rent period defined! Please create one in the admin.",
+      "No latest rent period defined! Please create one in the admin."
     );
     return null;
   }
@@ -257,17 +259,17 @@ function getNorentLetterContentPropsFromSession(
 export const NorentLetterForUserStaticPage: React.FC<{ isPdf: boolean }> = ({
   isPdf,
 }) => (
-    <TransformSession
-      transformer={getNorentLetterContentPropsFromSession}
-      children={(lcProps) => (
-        <NorentLetterStaticPage
-          {...lcProps}
-          isPdf={isPdf}
-          title={li18n._(t`Your NoRent.org letter`)}
-        />
-      )}
-    />
-  );
+  <TransformSession
+    transformer={getNorentLetterContentPropsFromSession}
+    children={(lcProps) => (
+      <NorentLetterStaticPage
+        {...lcProps}
+        isPdf={isPdf}
+        title={li18n._(t`Your NoRent.org letter`)}
+      />
+    )}
+  />
+);
 
 export const noRentSampleLetterProps: NorentLetterContentProps = {
   ...baseSampleLetterProps,

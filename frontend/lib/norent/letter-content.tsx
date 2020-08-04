@@ -191,11 +191,9 @@ const LetterBody: React.FC<NorentLetterContentProps> = (props) => {
         <p>
           Congress passed the CARES Act on March 27, 2020 (Public Law 116-136).
           Tenants in covered properties are also protected from eviction for
-          non-payment or any other reason until August 23, 2020. Tenants cannot
-          be charged late fees, interest, or other penalties through July 25,
-          2020. Please let me know right away if you believe this property is
-          not covered by the CARES Act and explain why the property is not
-          covered.
+          non-payment or any other reason until August 23, 2020. Please let me
+          know right away if you believe this property is not covered by the
+          CARES Act and explain why the property is not covered.
         </p>
         <p>
           In order to document our communication and to avoid misunderstandings,

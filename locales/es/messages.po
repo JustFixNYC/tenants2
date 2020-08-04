@@ -1107,7 +1107,7 @@ msgstr "Derechos del Inquilino"
 
 #: frontend/lib/norent/letter-content.tsx:28
 msgid "Tenants adversely affected by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
-msgstr ""
+msgstr "Los inquilinos que se vean negativamente afectados por la crisis del COVID-19 están protegidos del desalojo por impago por la(s) declaración(es) de emergencia siguiente(s):"
 
 #: frontend/lib/norent/letter-content.tsx:31
 msgid "Tenants impacted by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
@@ -1529,7 +1529,7 @@ msgstr "<0>El Congreso aprobó la Ley CARES el 27 de marzo del 2020 (Ley Públic
 
 #: frontend/lib/norent/letter-content.tsx:113
 msgid "norent.letter.floridaAddition"
-msgstr ""
+msgstr "He sufrido una pérdida de empleo, salarios o ingresos durante el estado de emergencia de Florida que afecta directamente mi capacidad de hacer pagos de alquiler."
 
 #: frontend/lib/norent/letter-content.tsx:87
 msgid "norent.letter.v1NonPayment"

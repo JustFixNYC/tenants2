@@ -1,16 +1,11 @@
 import React, { useContext } from "react";
 
-import {
-  RouteComponentProps,
-  Route,
-  Redirect,
-  useLocation,
-} from "react-router";
+import { RouteComponentProps, Route } from "react-router";
 import { getRelativeStep } from "./progress-util";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { AppContext } from "../app-context";
 import { assertNotNull } from "../util/util";
-import { getGlobalSiteRoutes } from "../routes";
+import { RequireLogin } from "../util/require-login";
 
 export type BaseProgressStepRoute = {
   /** The route's URL path. */
@@ -155,9 +150,7 @@ export function getBestNextStep(
 
 function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
   const { step, allSteps, ...routerCtx } = props;
-  const { session, server } = useContext(AppContext);
-  const routes = getGlobalSiteRoutes(server);
-  const location = useLocation();
+  const { session } = useContext(AppContext);
   const prev = getBestPrevStep(session, step.path, allSteps);
   const next = getBestNextStep(session, step.path, allSteps);
   const ctx: ProgressStepProps = {
@@ -165,18 +158,17 @@ function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
     prevStep: prev && prev.path,
     nextStep: next && next.path,
   };
-  if (
-    props.requireLogin &&
-    !session.phoneNumber &&
-    routes.locale.createLoginLink
-  ) {
-    return <Redirect to={routes.locale.createLoginLink(location)} />;
-  }
+
+  let el: JSX.Element;
   if ("component" in step) {
-    return <step.component {...ctx} />;
+    el = <step.component {...ctx} />;
   } else {
-    return step.render(ctx);
+    el = step.render(ctx);
   }
+  if (props.requireLogin) {
+    el = <RequireLogin>{el}</RequireLogin>;
+  }
+  return el;
 }
 
 /**

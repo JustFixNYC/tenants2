@@ -77,6 +77,14 @@ class LandlordDetailsFormV2(forms.ModelForm):
         for field in ['primary_line', 'city', 'state', 'zip_code']:
             self.fields[field].required = True
 
+    def clean_name(self):
+        if self.cleaned_data['name'].lower().startswith('united states'):
+            # This is super weird; we've had at least two users somehow
+            # submit this as their LL name without intending to. We suspect
+            # buggy Chrome form autofill is to blame, but until we figure
+            # out more, we'll just reject this particular value outright.
+            raise ValidationError("This is not a valid landlord name.")
+
 
 class OptionalLandlordDetailsForm(forms.ModelForm):
     class Meta:

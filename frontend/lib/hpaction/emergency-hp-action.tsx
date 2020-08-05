@@ -480,10 +480,9 @@ const Confirmation: React.FC<{}> = () => {
           step of the way.
         </li>
       </BigList>
-      <h2>If you need to re-file your case&hellip;</h2>
+      <h2>Do you need to refile your case?</h2>
       <p>
-        If the court tells you that you need to change something and re-file
-        your case, you can always{" "}
+        If you need to change something and re-file your case, you can always{" "}
         <Link to={JustfixRoutes.locale.ehp.sue}>start a new case</Link>.
       </p>
       <h2>Want to read more about your rights?</h2>

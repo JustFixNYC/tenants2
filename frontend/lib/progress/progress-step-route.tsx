@@ -5,6 +5,7 @@ import { getRelativeStep } from "./progress-util";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { AppContext } from "../app-context";
 import { assertNotNull } from "../util/util";
+import { RequireLogin } from "../util/require-login";
 
 export type BaseProgressStepRoute = {
   /** The route's URL path. */
@@ -33,6 +34,13 @@ export type BaseProgressStepRoute = {
    * link back to.
    */
   neverGoBackTo?: boolean;
+
+  /**
+   * Whether this step requires the user to log in first. If it does,
+   * and if the user is logged out, they will be redirected to the
+   * login page before being ultimately redirected to this step.
+   */
+  requireLogin?: boolean;
 };
 
 export type ProgressStepProps = RouteComponentProps<{}> & {
@@ -86,6 +94,7 @@ export type ProgressStepRoute =
 type StepInfo = {
   step: ProgressStepRoute;
   allSteps: ProgressStepRoute[];
+  requireLogin: boolean;
 };
 
 class StepQuerier {
@@ -149,11 +158,17 @@ function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
     prevStep: prev && prev.path,
     nextStep: next && next.path,
   };
+
+  let el: JSX.Element;
   if ("component" in step) {
-    return <step.component {...ctx} />;
+    el = <step.component {...ctx} />;
   } else {
-    return step.render(ctx);
+    el = step.render(ctx);
   }
+  if (props.requireLogin) {
+    el = <RequireLogin>{el}</RequireLogin>;
+  }
+  return el;
 }
 
 /**
@@ -167,6 +182,7 @@ export function createStepRoute(options: {
   key: string;
   step: ProgressStepRoute;
   allSteps: ProgressStepRoute[];
+  requireLogin: boolean;
 }) {
   const { step, allSteps } = options;
   return (
@@ -177,6 +193,7 @@ export function createStepRoute(options: {
           <ProgressStepRenderer
             step={step}
             allSteps={allSteps}
+            requireLogin={options.requireLogin}
             {...routerCtx}
           />
         );

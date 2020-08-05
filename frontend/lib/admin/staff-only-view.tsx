@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { RouteComponentProps, Redirect } from "react-router-dom";
 import { AppContext } from "../app-context";
 import JustfixRoutes from "../justfix-routes";
-import { NEXT } from "../pages/login-page";
 
 /**
  * Require that anyone visiting the wrapped component have staff (i.e., admin) permission.
@@ -16,10 +15,9 @@ export function staffOnlyView<P extends RouteComponentProps>(
   const StaffOnlyRedirector: React.FC<P> = (props) => {
     const appCtx = useContext(AppContext);
     if (!appCtx.session.isStaff) {
-      const search = `?${NEXT}=${encodeURIComponent(
-        props.location.pathname + props.location.search
-      )}`;
-      return <Redirect to={{ pathname: JustfixRoutes.adminLogin, search }} />;
+      return (
+        <Redirect to={JustfixRoutes.locale.createLoginLink(props.location)} />
+      );
     }
     return <Component {...props} />;
   };

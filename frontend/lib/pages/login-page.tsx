@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import Page from "../ui/page";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes, { NEXT } from "../justfix-routes";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import { LoginMutation, BlankLoginInput } from "../queries/LoginMutation";
 import { TextualFormField } from "../forms/form-fields";
@@ -17,8 +17,6 @@ import {
   performHardOrSoftRedirect,
   absolutifyURLToOurOrigin,
 } from "../browser-redirect";
-
-export const NEXT = "next";
 
 export interface LoginFormProps {
   next: string;

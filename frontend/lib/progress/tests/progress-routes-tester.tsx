@@ -10,7 +10,7 @@ import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { FakeSessionInfo } from "../../tests/util";
 import { AppTesterPal, AppTesterPalOptions } from "../../tests/app-tester-pal";
 import { ProgressStepRoute, getBestNextStep } from "../progress-step-route";
-import { SessionBuilder } from "../../tests/session-builder";
+import { SessionBuilder, newSb } from "../../tests/session-builder";
 
 /**
  * A convenience class that makes it easier to test progress route flows.
@@ -102,6 +102,7 @@ export class ProgressRoutesTester {
       this.allSteps.forEach((step) => {
         it(`${step.path} renders without throwing`, () => {
           new AppTesterPal(this.render(), {
+            session: newSb().withLoggedInUser().value,
             ...this.appTesterPalOptions,
             url: step.path,
           });

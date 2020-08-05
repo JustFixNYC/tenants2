@@ -4,6 +4,7 @@ import { getEmergencyHPActionProgressRoutesProps } from "../emergency-hp-action"
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { ProgressRoutes } from "../../progress/progress-routes";
 import JustfixRoutes from "../../justfix-routes";
+import { newSb } from "../../tests/session-builder";
 
 const tester = new ProgressRoutesTester(
   getEmergencyHPActionProgressRoutesProps(),
@@ -18,6 +19,7 @@ describe("Review page", () => {
       <ProgressRoutes {...getEmergencyHPActionProgressRoutesProps()} />,
       {
         url: JustfixRoutes.locale.ehp.reviewForms,
+        session: newSb().withLoggedInUser().value,
       }
     );
     pal.clickButtonOrLink(/look good to me/);

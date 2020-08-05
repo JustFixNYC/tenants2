@@ -41,7 +41,7 @@ class Command(BaseCommand):
             url = absolute_reverse('admin:loc_locuser_changelist')
             link = slack.hyperlink(url, text="send letters of complaint")
             slack.sendmsg(
-                f"{desc} in at least {LOC_OLD_AGE.days} days! Please {link}.",
+                f"<!channel> {desc} in at least {LOC_OLD_AGE.days} days! Please {link}.",
                 is_safe=True,
             )
         else:

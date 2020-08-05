@@ -42,7 +42,10 @@ describe("landlord details page", () => {
   it("works when user chooses to mail the letter themselves", async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: JustfixRoutes.locale.loc.preview,
-      session: { letterRequest: PRE_EXISTING_LETTER_REQUEST },
+      session: {
+        letterRequest: PRE_EXISTING_LETTER_REQUEST,
+        phoneNumber: "5551234567",
+      },
     });
     clickButtonAndExpectChoice(
       pal,
@@ -54,7 +57,10 @@ describe("landlord details page", () => {
   it("works when user wants us to mail the letter", async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: JustfixRoutes.locale.loc.preview,
-      session: { letterRequest: PRE_EXISTING_LETTER_REQUEST },
+      session: {
+        letterRequest: PRE_EXISTING_LETTER_REQUEST,
+        phoneNumber: "5551234567",
+      },
     });
     pal.clickButtonOrLink(/looks good to me/i);
     await pal.rt.waitFor(() => pal.getDialogWithLabel(/ready to go/i));

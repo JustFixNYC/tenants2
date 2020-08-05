@@ -101,6 +101,12 @@ interface RouteProgressBarProps extends RouteComponentProps<any> {
 
   /** If true, hide the actual progress bar but still render the routes. */
   hideBar?: boolean;
+
+  /**
+   * Whether to require login for every step, by default.
+   * Can be overridden on a per-step basis.
+   */
+  defaultRequireLogin?: boolean;
 }
 
 interface RouteProgressBarState {
@@ -195,6 +201,8 @@ class RouteProgressBarWithoutRouter extends React.Component<
                   key: step.path,
                   step,
                   allSteps: props.outerSteps || props.steps,
+                  requireLogin:
+                    step.requireLogin ?? props.defaultRequireLogin ?? false,
                 })
               )}
             </Switch>

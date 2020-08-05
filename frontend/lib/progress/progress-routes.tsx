@@ -27,6 +27,12 @@ export type ProgressRoutesProps = {
   label?: string;
 
   /**
+   * Whether to require login for every step, by default.
+   * Can be overridden on a per-step basis.
+   */
+  defaultRequireLogin?: boolean;
+
+  /**
    * The steps that welcome the user to the flow, but that we won't
    * display a progress bar for.
    */
@@ -60,10 +66,16 @@ export function getAllSteps(props: ProgressRoutesProps): ProgressStepRoute[] {
 function createRoutesForSteps(
   steps: ProgressStepRoute[],
   allSteps: ProgressStepRoute[],
-  keyPrefix: string
+  keyPrefix: string,
+  options: ProgressRoutesProps
 ) {
   return steps.map((step, i) => {
-    return createStepRoute({ key: keyPrefix + i, step, allSteps });
+    return createStepRoute({
+      key: keyPrefix + i,
+      step,
+      allSteps,
+      requireLogin: step.requireLogin ?? options.defaultRequireLogin ?? false,
+    });
   });
 }
 
@@ -77,8 +89,13 @@ function generateRoutes(props: ProgressRoutesProps): JSX.Element[] {
       exact
       render={() => <RedirectToLatestStep steps={allSteps} />}
     />,
-    ...createRoutesForSteps(props.welcomeSteps, allSteps, "welcome"),
-    ...createRoutesForSteps(props.confirmationSteps, allSteps, "confirmation"),
+    ...createRoutesForSteps(props.welcomeSteps, allSteps, "welcome", props),
+    ...createRoutesForSteps(
+      props.confirmationSteps,
+      allSteps,
+      "confirmation",
+      props
+    ),
     <Route
       key="progressBar"
       render={() => {
@@ -87,6 +104,7 @@ function generateRoutes(props: ProgressRoutesProps): JSX.Element[] {
             label={props.label}
             steps={props.stepsToFillOut}
             outerSteps={allSteps}
+            defaultRequireLogin={props.defaultRequireLogin}
           />
         );
       }}

@@ -1,10 +1,16 @@
 import React, { useContext } from "react";
 
-import { RouteComponentProps, Route } from "react-router";
+import {
+  RouteComponentProps,
+  Route,
+  Redirect,
+  useLocation,
+} from "react-router";
 import { getRelativeStep } from "./progress-util";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { AppContext } from "../app-context";
 import { assertNotNull } from "../util/util";
+import { getGlobalSiteRoutes } from "../routes";
 
 export type BaseProgressStepRoute = {
   /** The route's URL path. */
@@ -33,6 +39,13 @@ export type BaseProgressStepRoute = {
    * link back to.
    */
   neverGoBackTo?: boolean;
+
+  /**
+   * Whether this step requires the user to log in first. If it does,
+   * and if the user is logged out, they will be redirected to the
+   * login page before being ultimately redirected to this step.
+   */
+  requireLogin?: boolean;
 };
 
 export type ProgressStepProps = RouteComponentProps<{}> & {
@@ -86,6 +99,7 @@ export type ProgressStepRoute =
 type StepInfo = {
   step: ProgressStepRoute;
   allSteps: ProgressStepRoute[];
+  requireLogin: boolean;
 };
 
 class StepQuerier {
@@ -141,7 +155,9 @@ export function getBestNextStep(
 
 function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
   const { step, allSteps, ...routerCtx } = props;
-  const { session } = useContext(AppContext);
+  const { session, server } = useContext(AppContext);
+  const routes = getGlobalSiteRoutes(server);
+  const location = useLocation();
   const prev = getBestPrevStep(session, step.path, allSteps);
   const next = getBestNextStep(session, step.path, allSteps);
   const ctx: ProgressStepProps = {
@@ -149,6 +165,13 @@ function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
     prevStep: prev && prev.path,
     nextStep: next && next.path,
   };
+  if (
+    props.requireLogin &&
+    !session.phoneNumber &&
+    routes.locale.createLoginLink
+  ) {
+    return <Redirect to={routes.locale.createLoginLink(location)} />;
+  }
   if ("component" in step) {
     return <step.component {...ctx} />;
   } else {
@@ -167,6 +190,7 @@ export function createStepRoute(options: {
   key: string;
   step: ProgressStepRoute;
   allSteps: ProgressStepRoute[];
+  requireLogin: boolean;
 }) {
   const { step, allSteps } = options;
   return (
@@ -177,6 +201,7 @@ export function createStepRoute(options: {
           <ProgressStepRenderer
             step={step}
             allSteps={allSteps}
+            requireLogin={options.requireLogin}
             {...routerCtx}
           />
         );

@@ -90,9 +90,11 @@ const LetterOfComplaintIssuesRoutes = () => (
 export const getLOCProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: JustfixRoutes.locale.loc.latestStep,
   label: "Letter of Complaint",
+  defaultRequireLogin: true,
   welcomeSteps: [
     {
       path: JustfixRoutes.locale.loc.splash,
+      requireLogin: false,
       exact: true,
       component: LocSplash,
       isComplete: (s) => !!s.phoneNumber,

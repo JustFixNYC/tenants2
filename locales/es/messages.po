@@ -623,7 +623,7 @@ msgstr "¡Es la primera vez que estás aquí!"
 msgid "Join our <0/>mailing list"
 msgstr "¡Únete a nuestra <0/>lista de distribución!"
 
-#: frontend/lib/norent/letter-content.tsx:70
+#: frontend/lib/norent/letter-content.tsx:73
 msgid "JustFix.nyc <0/>sent on behalf of <1/>"
 msgstr "JustFix.nyc <0/>enviado en nombre de <1/>"
 
@@ -874,7 +874,7 @@ msgstr "Dakota del Norte"
 msgid "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
 msgstr "No poder pagar la renta debido al COVID-19 no es nada de lo que avergonzarse. Nuestro generador de cartas hace que sea fácil enviarle una carta al dueño de tu edificio para avisarle."
 
-#: frontend/lib/norent/letter-content.tsx:56
+#: frontend/lib/norent/letter-content.tsx:59
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 msgstr "Aviso de impacto del COVID-19 en la renta enviado en nombre de {0}"
 
@@ -976,7 +976,7 @@ msgstr "Atentamente,"
 msgid "Rent Strike 2020: A Resource List"
 msgstr "Huelga de Renta 2020: Lista de recursos (en inglés)"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:20
+#: frontend/lib/norent/data/state-localized-resources.tsx:21
 msgid "Rent Strike Organizing"
 msgstr "Organizar Huelgas de Renta"
 
@@ -1000,7 +1000,7 @@ msgstr "Right to the City"
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Permito que Right to the City se ponga en contacto conmigo para proporcionarme apoyo adicional."
 
-#: frontend/lib/norent/letter-content.tsx:162
+#: frontend/lib/norent/letter-content.tsx:174
 msgid "Sample NoRent.org letter"
 msgstr "Ejemplar de una carta de NoRent.org"
 
@@ -1106,6 +1106,10 @@ msgid "Tenant Rights"
 msgstr "Derechos del Inquilino"
 
 #: frontend/lib/norent/letter-content.tsx:28
+msgid "Tenants adversely affected by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
+msgstr "Los inquilinos que se vean negativamente afectados por la crisis del COVID-19 están protegidos del desalojo por impago por la(s) declaración(es) de emergencia siguiente(s):"
+
+#: frontend/lib/norent/letter-content.tsx:31
 msgid "Tenants impacted by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
 msgstr "Los inquilinos afectados por la crisis del COVID-19 están protegidos del desalojo por impago por la(s) declaración(es) de emergencia siguiente(s):"
 
@@ -1369,7 +1373,7 @@ msgstr "Has enviado tu carta"
 msgid "Your Letter Is Ready To Send!"
 msgstr "¡Tu carta está lista para enviar!"
 
-#: frontend/lib/norent/letter-content.tsx:155
+#: frontend/lib/norent/letter-content.tsx:167
 msgid "Your NoRent.org letter"
 msgstr "Tu carta de NoRent.org"
 
@@ -1463,7 +1467,7 @@ msgstr "<0>Esta es la información del dueño de tu edificio según los registro
 msgid "norent.emailBodyTemplateForSharingNoRent"
 msgstr "Usé www.norent.org para decirle al dueño de mi edificio de que no puedo pagar la renta este mes. Esta herramienta gratuita te ayuda a construir y enviar una carta al dueño de tu edificio, citando las protecciones legales en tu estado, y te conecta con otras personas de tu comunidad que participan en la campaña de #cancelrent"
 
-#: frontend/lib/norent/letter-content.tsx:58
+#: frontend/lib/norent/letter-content.tsx:61
 msgid "norent.emailToLandlordBody"
 msgstr "<0>Por favor, vea la carta adjunta de <1/>. </0><2>Para documentar las comunicaciones y evitar malentendidos, por favor póngase en contacto con <3/> por correo electrónico o por mensaje de texto, en lugar de una llamada telefónica o una visita en persona.</2>"
 
@@ -1509,7 +1513,7 @@ msgstr "<0>Ahora que tienes una cuenta con nosotros, podemos informarte en el ca
 
 #: frontend/lib/norent/data/faqs-content.tsx:391
 msgid "norent.instructionsForStatesWithLimitedProtections"
-msgstr "<0>El Congreso aprobó a nivel nacional la Ley CARES (Ley 116-136), el 27 de marzo de 2020. Los inquilinos en propiedades cubiertas están protegidos contra el desalojo por falta de pago o por cualquier otro motivo hasta el 23 de agosto de 2020. No se les debe cobrar a los inquilinos recargos por mora, intereses u otras multas hasta el 25 de julio de 2020.</0><1>También debes saber que no estás solo. En los estados sin moratoria de desalojo es importante protegerse legalmente y construir poder colectivo con otros inquilinos.</1><2> Primero, comienza asegurándote de que toda la comunicación con el dueño de tu edificio esté documentada por escrito. Comienza a recopilar toda la documentación de cualquier dificultad que hayas tenido relacionada con el COVID-19. Si te enfrentas a una emergencia, busca de inmediato ayuda legal en tu estado consultando en <3/>.</2><4> Luego, conéctate de manera segura con otros inquilinos en tu edificio o el lugar en donde vives. Comienza organizando un sistema de comunicación entre vosotros para averiguar qué problemas y necesidades tenéis en común. Para obtener más recursos sobre cómo formar un sindicato de inquilinos, consulta <5/>. También puedes contactar a grupos locales que se estén organizando y que estén afiliados a la alianza nacional <6/>.</4><7> Finalmente, únete a los millones de inquilinos que están trabajando arduamente y luchando por la protección nacional de los inquilinos, la congelación y suspensión inmediatas del alquiler. Súmate a <8/>.</7>"
+msgstr "<0>El Congreso aprobó a nivel nacional la Ley CARES (Ley 116-136), el 27 de marzo de 2020. Los inquilinos en propiedades cubiertas están protegidos contra el desalojo por falta de pago o por cualquier otro motivo hasta el 23 de agosto de 2020.</0><1>También debes saber que no estás solo. En los estados sin moratoria de desalojo es importante protegerse legalmente y construir poder colectivo con otros inquilinos.</1><2> Primero, comienza asegurándote de que toda la comunicación con el dueño de tu edificio esté documentada por escrito. Comienza a recopilar toda la documentación de cualquier dificultad que hayas tenido relacionada con el COVID-19. Si te enfrentas a una emergencia, busca de inmediato ayuda legal en tu estado consultando en <3/>.</2><4> Luego, conéctate de manera segura con otros inquilinos en tu edificio o el lugar en donde vives. Comienza organizando un sistema de comunicación entre vosotros para averiguar qué problemas y necesidades tenéis en común. Para obtener más recursos sobre cómo formar un sindicato de inquilinos, consulta <5/>. También puedes contactar a grupos locales que se estén organizando y que estén afiliados a la alianza nacional <6/>.</4><7> Finalmente, únete a los millones de inquilinos que están trabajando arduamente y luchando por la protección nacional de los inquilinos, la congelación y suspensión inmediatas del alquiler. Súmate a <8/>.</7>"
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:24
 msgid "norent.introductionToLetterBuilderSteps"
@@ -1519,19 +1523,23 @@ msgstr "Con tal de sacar provecho a las protecciones de desalojo en tu estado, d
 msgid "norent.legacyUserBlurb"
 msgstr "<0>Este es un sistema nuevo. Necesitarás una nueva cuenta para utilizarlo. Estamos encantados de prepararte una cuenta </0><1>Mientras tanto, cada vez que quieras iniciar sesión en tu cuenta de \"Build your case\" o el panel de control \"Advocate Dashboard\", puedes iniciar sesión con la información de tu cuenta antigua en este enlace:</1><2><3>beta.justfix.nyc</3></2><4><5>Por favor, guarde este enlace para poder encontrarlo más tarde.</5></4><6>Podrás utilizar tu cuenta nueva para acceder a los nuevos servicios de JustFix.nyc.</6><7>Si tienes alguna pregunta, por favor envíanos un correo electrónico a <8/>.</7>"
 
-#: frontend/lib/norent/letter-content.tsx:108
+#: frontend/lib/norent/letter-content.tsx:120
 msgid "norent.letter.conclusion"
-msgstr "<0>El Congreso aprobó la Ley CARES el 27 de marzo del 2020 (Ley Pública 116-136). Los inquilinos que viven en propiedades cubiertas por esta ley, también están protegidos del desalojo por impago o cualquier otra razón hasta el 23 de agosto de 2020. Arrendadores no tienen permitido cobrar demoras, intereses u otras sanciones hasta el 25 de julio de 2020. Por favor, hágame saber de inmediato si usted cree que esta vivienda no está cubierta por la ley CARES y explique por qué. </0><1>Para documentar nuestra comunicación y evitar malentendidos, por favor responda por correo electrónico o texto en lugar de una llamada o visita. </1><2>Gracias por su comprensión y cooperación.</2>"
+msgstr "<0>El Congreso aprobó la Ley CARES el 27 de marzo del 2020 (Ley Pública 116-136). Los inquilinos que viven en propiedades cubiertas por esta ley, también están protegidos del desalojo por impago o cualquier otra razón hasta el 23 de agosto de 2020. Por favor, hágame saber de inmediato si usted cree que esta vivienda no está cubierta por la ley CARES y explique por qué. </0><1>Para documentar nuestra comunicación y evitar malentendidos, por favor responda por correo electrónico o texto en lugar de una llamada o visita. </1><2>Gracias por su comprensión y cooperación.</2>"
 
-#: frontend/lib/norent/letter-content.tsx:84
+#: frontend/lib/norent/letter-content.tsx:113
+msgid "norent.letter.floridaAddition"
+msgstr "He sufrido una pérdida de empleo, salarios o ingresos durante el estado de emergencia de Florida que afecta directamente mi capacidad de hacer pagos de alquiler."
+
+#: frontend/lib/norent/letter-content.tsx:87
 msgid "norent.letter.v1NonPayment"
 msgstr "Esta carta es para notificarle que no podré pagar el alquiler a partir del <0/> y hasta nuevo aviso debido a la pérdida de ingresos, gastos adicionales, y/o otras circunstancias financieras relacionadas con el COVID-19."
 
-#: frontend/lib/norent/letter-content.tsx:91
+#: frontend/lib/norent/letter-content.tsx:94
 msgid "norent.letter.v2Hardship"
-msgstr "Esta carta es para notificarle que he experimentado una pérdida de ingresos, gastos adicionales y/o otras circunstancias financieras relacionadas con la pandemia. Hasta nuevo aviso, la emergencia del COVID-19 puede afectar a mi capacidad de pagar la renta. No renuncio a mi derecho a establecer otras defensas adicionales."
+msgstr "Esta carta es para notificarle que he tenido una pérdida de ingresos, gastos adicionales y/o otras circunstancias financieras relacionadas con la pandemia. Hasta nuevo aviso, la emergencia del COVID-19 puede afectar mi capacidad de pagar la renta. No renuncio a mi derecho a establecer otras defensas adicionales."
 
-#: frontend/lib/norent/letter-content.tsx:101
+#: frontend/lib/norent/letter-content.tsx:104
 msgid "norent.letter.v3FewProtections"
 msgstr "Esta carta es para informarle de las protecciones para inquilinos existentes en {0}. No renuncio a mi derecho a establecer defensas adicionales."
 
@@ -1553,7 +1561,7 @@ msgstr "<0>En los próximos pasos, construiremos tu carta utilizando la siguient
 
 #: frontend/lib/norent/homepage.tsx:251
 msgid "norent.sampleNoRentLetter"
-msgstr "<0>Le escribo para informarle de que he experimentado una pérdida de ingresos, gastos adicionales y/o otras circunstancias financieras relacionadas con el COVID-19. Hasta nuevo aviso, la emergencia COVID-19 puede afectar mi capacidad de pagar la renta. </0><1/><2>Los inquilinos en Florida están protegidos del desalojo por falta de pago por orden ejecutiva 20-94, emitido por el gobernador Ron DeSantis el 2 de abril de 2020. </2><3/><4>Los inquilinos en propiedades cubiertas también están protegidos contra el desalojo, las tasas, las penalizaciones y otros cargos relacionados con el impago por la ley CARES (Título IV, Sec. 4024) promulgado por el Congreso el 27 de marzo de 2020. </4><5/><6>Junto con mis vecinos, estoy organizando, animando y/o participando en una organización de inquilinos para que podamos apoyar...</6>"
+msgstr "<0>Le escribo para informarle de que he tenido una pérdida de ingresos, gastos adicionales y/o otras circunstancias financieras relacionadas con el COVID-19. Hasta nuevo aviso, la emergencia COVID-19 puede afectar mi capacidad de pagar la renta. </0><1/><2>Los inquilinos en Florida están protegidos del desalojo por falta de pago por orden ejecutiva 20-94, emitido por el gobernador Ron DeSantis el 2 de abril de 2020. </2><3/><4>Los inquilinos en propiedades cubiertas también están protegidos contra el desalojo, las tasas, las penalizaciones y otros cargos relacionados con el impago por la ley CARES (Título IV, Sec. 4024) promulgado por el Congreso el 27 de marzo de 2020. </4><5/><6>Junto con mis vecinos, estoy organizando, animando y/o participando en una organización de inquilinos para que podamos apoyar...</6>"
 
 #: frontend/lib/norent/components/social-icons.tsx:16
 msgid "norent.tweetTemplateForSharingNoRent"

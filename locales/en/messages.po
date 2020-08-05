@@ -618,7 +618,7 @@ msgstr "It’s your first time here!"
 msgid "Join our <0/>mailing list"
 msgstr "Join our <0/>mailing list"
 
-#: frontend/lib/norent/letter-content.tsx:70
+#: frontend/lib/norent/letter-content.tsx:73
 msgid "JustFix.nyc <0/>sent on behalf of <1/>"
 msgstr "JustFix.nyc <0/>sent on behalf of <1/>"
 
@@ -869,7 +869,7 @@ msgstr "North Dakota"
 msgid "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
 msgstr "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
 
-#: frontend/lib/norent/letter-content.tsx:56
+#: frontend/lib/norent/letter-content.tsx:59
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 msgstr "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 
@@ -971,7 +971,7 @@ msgstr "Regards,"
 msgid "Rent Strike 2020: A Resource List"
 msgstr "Rent Strike 2020: A Resource List"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:20
+#: frontend/lib/norent/data/state-localized-resources.tsx:21
 msgid "Rent Strike Organizing"
 msgstr "Rent Strike Organizing"
 
@@ -995,7 +995,7 @@ msgstr "Right to the City"
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Right to the City Alliance can contact me to provide additional support."
 
-#: frontend/lib/norent/letter-content.tsx:162
+#: frontend/lib/norent/letter-content.tsx:174
 msgid "Sample NoRent.org letter"
 msgstr "Sample NoRent.org letter"
 
@@ -1101,6 +1101,10 @@ msgid "Tenant Rights"
 msgstr "Tenant Rights"
 
 #: frontend/lib/norent/letter-content.tsx:28
+msgid "Tenants adversely affected by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
+msgstr "Tenants adversely affected by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
+
+#: frontend/lib/norent/letter-content.tsx:31
 msgid "Tenants impacted by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
 msgstr "Tenants impacted by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
 
@@ -1364,7 +1368,7 @@ msgstr "You've sent your letter"
 msgid "Your Letter Is Ready To Send!"
 msgstr "Your Letter Is Ready To Send!"
 
-#: frontend/lib/norent/letter-content.tsx:155
+#: frontend/lib/norent/letter-content.tsx:167
 msgid "Your NoRent.org letter"
 msgstr "Your NoRent.org letter"
 
@@ -1458,7 +1462,7 @@ msgstr "<0>This is your landlord’s information as registered with the <1>NYC D
 msgid "norent.emailBodyTemplateForSharingNoRent"
 msgstr "I used www.norent.org to tell my landlord that I'm unable to pay this month's rent. This free tool helps you build and send a letter to your landlord, cites legal protections in your state, and connects you to other people in your community working to #cancelrent"
 
-#: frontend/lib/norent/letter-content.tsx:58
+#: frontend/lib/norent/letter-content.tsx:61
 msgid "norent.emailToLandlordBody"
 msgstr "<0>Please see letter attached from <1/>. </0><2>In order to document communications and avoid misunderstandings, please correspond with <3/> via mail or text rather than a phone call or in-person visit.</2>"
 
@@ -1504,7 +1508,7 @@ msgstr "<0>Now that you have an account with us, we can let you know when any im
 
 #: frontend/lib/norent/data/faqs-content.tsx:391
 msgid "norent.instructionsForStatesWithLimitedProtections"
-msgstr "<0>On a national level, Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are protected from eviction for non-payment or any other reason until August 23, 2020. Tenants cannot be charged late fees, interest, or other penalties through July 25, 2020.</0><1>Also know that you’re not alone. In states without eviction moratoriums, it’s important to both protect yourself legally and build collective power with other tenants.</1><2>First, start by making sure that all communication between you and your landlord is documented in writing. Begin collecting all documentation of any hardships related to COVID-19. If you’re facing an emergency, immediately find legal assistance in your state at <3/>.</2><4>Next, connect safely with other tenants in your building or home. Start by organizing a means of communicating with one another to find out what issues and needs you share in common. For more resources on forming a tenant union check out <5/>. You may also connect with local organizing groups affiliated with the national <6/>.</4><7>Finally, join millions of tenants who are working hard to fight for national tenant protections, an immediate rent freeze, and rent suspension. Sign on at <8/>.</7>"
+msgstr "<0>On a national level, Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are protected from eviction for non-payment or any other reason until August 23, 2020.</0><1>Also know that you’re not alone. In states without eviction moratoriums, it’s important to both protect yourself legally and build collective power with other tenants.</1><2>First, start by making sure that all communication between you and your landlord is documented in writing. Begin collecting all documentation of any hardships related to COVID-19. If you’re facing an emergency, immediately find legal assistance in your state at <3/>.</2><4>Next, connect safely with other tenants in your building or home. Start by organizing a means of communicating with one another to find out what issues and needs you share in common. For more resources on forming a tenant union check out <5/>. You may also connect with local organizing groups affiliated with the national <6/>.</4><7>Finally, join millions of tenants who are working hard to fight for national tenant protections, an immediate rent freeze, and rent suspension. Sign on at <8/>.</7>"
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:24
 msgid "norent.introductionToLetterBuilderSteps"
@@ -1514,19 +1518,23 @@ msgstr "In order to benefit from the eviction protections that local elected off
 msgid "norent.legacyUserBlurb"
 msgstr "<0>This is a new system. You will need a new account to use it. We're happy to set you up with one!</0><1>Meanwhile, whenever you want to sign into your \"Build your case\" or Advocate Dashboard account, you can sign in with your old account information at this URL:</1><2><3>beta.justfix.nyc</3> </2><4><5>Please write this URL down to remember it later.</5></4><6>Your new account will be used to access JustFix.nyc's new services.</6><7>If you have any questions, please feel free to email us at <8/>.</7>"
 
-#: frontend/lib/norent/letter-content.tsx:108
+#: frontend/lib/norent/letter-content.tsx:120
 msgid "norent.letter.conclusion"
-msgstr "<0>Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are also protected from eviction for non-payment or any other reason until August 23, 2020. Tenants cannot be charged late fees, interest, or other penalties through July 25, 2020. Please let me know right away if you believe this property is not covered by the CARES Act and explain why the property is not covered.</0><1>In order to document our communication and to avoid misunderstandings, please reply to me via mail or text rather than a call or visit.</1><2>Thank you for your understanding and cooperation.</2>"
+msgstr "<0>Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are also protected from eviction for non-payment or any other reason until August 23, 2020. Please let me know right away if you believe this property is not covered by the CARES Act and explain why the property is not covered.</0><1>In order to document our communication and to avoid misunderstandings, please reply to me via mail or text rather than a call or visit.</1><2>Thank you for your understanding and cooperation.</2>"
 
-#: frontend/lib/norent/letter-content.tsx:84
+#: frontend/lib/norent/letter-content.tsx:113
+msgid "norent.letter.floridaAddition"
+msgstr "I have suffered a loss of employment, diminished wages or business income, or other monetary loss realized during the Florida State of Emergency directly impacting my ability to make rent payments."
+
+#: frontend/lib/norent/letter-content.tsx:87
 msgid "norent.letter.v1NonPayment"
 msgstr "This letter is to notify you that I will be unable to pay rent starting on <0/> and until further notice due to loss of income, increased expenses, and/or other financial circumstances related to COVID-19."
 
-#: frontend/lib/norent/letter-content.tsx:91
+#: frontend/lib/norent/letter-content.tsx:94
 msgid "norent.letter.v2Hardship"
 msgstr "This letter is to notify you that I have experienced a loss of income, increased expenses and/or other financial circumstances related to the pandemic. Until further notice, the COVID-19 emergency may impact my ability to pay rent. I am not waiving my right to assert any other defenses."
 
-#: frontend/lib/norent/letter-content.tsx:101
+#: frontend/lib/norent/letter-content.tsx:104
 msgid "norent.letter.v3FewProtections"
 msgstr "This letter is to advise you of protections in place for tenants in {0}. I am not waiving my right to assert any other defenses."
 

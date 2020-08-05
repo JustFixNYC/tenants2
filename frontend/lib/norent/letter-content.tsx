@@ -53,10 +53,17 @@ const TenantProtections: React.FC<NorentLetterContentProps> = (props) => {
   return (
     <>
       <p>
-        <Trans>
-          Tenants impacted by the COVID-19 crisis are protected from eviction
-          for nonpayment per emergency declaration(s) from:
-        </Trans>
+        {state === "FL" ? (
+          <Trans>
+            Tenants adversely affected by the COVID-19 crisis are protected from
+            eviction for nonpayment per emergency declaration(s) from:
+          </Trans>
+        ) : (
+          <Trans>
+            Tenants impacted by the COVID-19 crisis are protected from eviction
+            for nonpayment per emergency declaration(s) from:
+          </Trans>
+        )}
       </p>
       <ul>
         {protectionData &&
@@ -169,15 +176,24 @@ const LetterBody: React.FC<NorentLetterContentProps> = (props) => {
         </p>
       )}
       <TenantProtections {...props} />
+
+      {state === "FL" && (
+        <p>
+          <Trans id="norent.letter.floridaAddition">
+            I have suffered a loss of employment, diminished wages or business
+            income, or other monetary loss realized during the Florida State of
+            Emergency directly impacting my ability to make rent payments.
+          </Trans>
+        </p>
+      )}
+
       <Trans id="norent.letter.conclusion">
         <p>
           Congress passed the CARES Act on March 27, 2020 (Public Law 116-136).
           Tenants in covered properties are also protected from eviction for
-          non-payment or any other reason until August 23, 2020. Tenants cannot
-          be charged late fees, interest, or other penalties through July 25,
-          2020. Please let me know right away if you believe this property is
-          not covered by the CARES Act and explain why the property is not
-          covered.
+          non-payment or any other reason until August 23, 2020. Please let me
+          know right away if you believe this property is not covered by the
+          CARES Act and explain why the property is not covered.
         </p>
         <p>
           In order to document our communication and to avoid misunderstandings,

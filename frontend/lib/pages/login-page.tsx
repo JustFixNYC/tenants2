@@ -17,12 +17,24 @@ import {
   performHardOrSoftRedirect,
   absolutifyURLToOurOrigin,
 } from "../browser-redirect";
+import History from "history";
 
 export const NEXT = "next";
 
 export interface LoginFormProps {
   next: string;
   redirectToLegacyAppURL: string;
+}
+
+/**
+ * Creates a querystring, starting with `?`, for the login page.
+ */
+export function createLoginPageSearch(options: {
+  /** The URL to redirect the user to once they've logged in. */
+  next: History.Location;
+}) {
+  const { next } = options;
+  return `?${NEXT}=${encodeURIComponent(next.pathname + next.search)}`;
 }
 
 export class LoginForm extends React.Component<LoginFormProps> {

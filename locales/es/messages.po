@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-08-05 22:28\n"
+"PO-Revision-Date: 2020-08-10 17:42\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -502,16 +502,16 @@ msgstr "Página Principal"
 msgid "Housing Justice for All"
 msgstr "Housing Justice for All"
 
-#: frontend/lib/norent/data/faqs-content.tsx:437
+#: frontend/lib/norent/data/faqs-content.tsx:435
 msgid "How can I build collective power with other tenants?"
 msgstr "¿Cómo puedo construir poder colectivo con otros inquilinos?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:327
-#: frontend/lib/norent/data/faqs-content.tsx:432
+#: frontend/lib/norent/data/faqs-content.tsx:430
 msgid "How can I connect with a lawyer?"
 msgstr "¿Cómo puedo ponerme en contacto con un abogado?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:427
+#: frontend/lib/norent/data/faqs-content.tsx:425
 msgid "How can I document my hardships related to COVID-19?"
 msgstr "¿Cómo puedo documentar mis dificultades relacionadas con el COVID-19?"
 
@@ -1000,7 +1000,7 @@ msgstr "Right to the City"
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Permito que Right to the City se ponga en contacto conmigo para proporcionarme apoyo adicional."
 
-#: frontend/lib/norent/letter-content.tsx:174
+#: frontend/lib/norent/letter-content.tsx:172
 msgid "Sample NoRent.org letter"
 msgstr "Ejemplar de una carta de NoRent.org"
 
@@ -1107,7 +1107,7 @@ msgstr "Derechos del Inquilino"
 
 #: frontend/lib/norent/letter-content.tsx:28
 msgid "Tenants adversely affected by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
-msgstr "Tenants adversely affected by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
+msgstr "Los inquilinos que se vean negativamente afectados por la crisis del COVID-19 están protegidos del desalojo por impago por la(s) declaración(es) de emergencia siguiente(s):"
 
 #: frontend/lib/norent/letter-content.tsx:31
 msgid "Tenants impacted by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
@@ -1373,7 +1373,7 @@ msgstr "Has enviado tu carta"
 msgid "Your Letter Is Ready To Send!"
 msgstr "¡Tu carta está lista para enviar!"
 
-#: frontend/lib/norent/letter-content.tsx:167
+#: frontend/lib/norent/letter-content.tsx:165
 msgid "Your NoRent.org letter"
 msgstr "Tu carta de NoRent.org"
 
@@ -1437,7 +1437,7 @@ msgstr "y"
 
 #: frontend/lib/ui/covid-banners.tsx:45
 msgid "justfix.covidBanner2"
-msgstr "JustFix.nyc está operativo, y hemos adaptado nuestros productos a las normas establecidas durante la crisis de COVID-19. Aunque NYC se encuentre en la fase 2, todavía recomendamos que se tomen todas las precauciones posibles. Gracias al poder de la organización de inquilinos, los inquilinos no pueden ser desalojados por ninguna razón hasta el 6 de agosto. Visita las <0>Preguntas Más Frecuentes sobre la Moratoria de Desalojo del Right to Council </0> para obtener más información."
+msgstr "JustFix.nyc is operating, and has adapted our products to match preliminary rules put in place during the COVID-19 crisis. We recommend you take full precautions to stay safe during this public health crisis. Thanks to tenant organizing during this time, renters cannot be evicted for any reason. Visit <0>Right to Council’s Eviction Moratorium FAQs</0> to learn more."
 
 #: frontend/lib/ui/legal-disclaimer.tsx:4
 msgid "justfix.legalDisclaimer"
@@ -1513,7 +1513,7 @@ msgstr "<0>Ahora que tienes una cuenta con nosotros, podemos informarte en el ca
 
 #: frontend/lib/norent/data/faqs-content.tsx:391
 msgid "norent.instructionsForStatesWithLimitedProtections"
-msgstr "<0>On a national level, Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are protected from eviction for non-payment or any other reason until August 23, 2020.</0><1>Also know that you’re not alone. In states without eviction moratoriums, it’s important to both protect yourself legally and build collective power with other tenants.</1><2>First, start by making sure that all communication between you and your landlord is documented in writing. Begin collecting all documentation of any hardships related to COVID-19. If you’re facing an emergency, immediately find legal assistance in your state at <3/>.</2><4>Next, connect safely with other tenants in your building or home. Start by organizing a means of communicating with one another to find out what issues and needs you share in common. For more resources on forming a tenant union check out <5/>. You may also connect with local organizing groups affiliated with the national <6/>.</4><7>Finally, join millions of tenants who are working hard to fight for national tenant protections, an immediate rent freeze, and rent suspension. Sign on at <8/>.</7>"
+msgstr "<0>El Congreso aprobó a nivel nacional la Ley CARES (Ley 116-136), el 27 de marzo de 2020. Los inquilinos en propiedades cubiertas están protegidos contra el desalojo por falta de pago o por cualquier otro motivo hasta el 23 de agosto de 2020.</0><1>También debes saber que no estás solo. En los estados sin moratoria de desalojo es importante protegerse legalmente y construir poder colectivo con otros inquilinos.</1><2> Primero, comienza asegurándote de que toda la comunicación con el dueño de tu edificio esté documentada por escrito. Comienza a recopilar toda la documentación de cualquier dificultad que hayas tenido relacionada con el COVID-19. Si te enfrentas a una emergencia, busca de inmediato ayuda legal en tu estado consultando en <3/>.</2><4> Luego, conéctate de manera segura con otros inquilinos en tu edificio o el lugar en donde vives. Comienza organizando un sistema de comunicación entre vosotros para averiguar qué problemas y necesidades tenéis en común. Para obtener más recursos sobre cómo formar un sindicato de inquilinos, consulta <5/>. También puedes contactar a grupos locales que se estén organizando y que estén afiliados a la alianza nacional <6/>.</4><7> Finalmente, únete a los millones de inquilinos que están trabajando arduamente y luchando por la protección nacional de los inquilinos, la congelación y suspensión inmediatas del alquiler. Súmate a <8/>.</7>"
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:24
 msgid "norent.introductionToLetterBuilderSteps"
@@ -1525,11 +1525,11 @@ msgstr "<0>Este es un sistema nuevo. Necesitarás una nueva cuenta para utilizar
 
 #: frontend/lib/norent/letter-content.tsx:120
 msgid "norent.letter.conclusion"
-msgstr "<0>Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are also protected from eviction for non-payment or any other reason until August 23, 2020. Please let me know right away if you believe this property is not covered by the CARES Act and explain why the property is not covered.</0><1>In order to document our communication and to avoid misunderstandings, please reply to me via mail or text rather than a call or visit.</1><2>Thank you for your understanding and cooperation.</2>"
+msgstr "<0>El Congreso aprobó la Ley CARES el 27 de marzo del 2020 (Ley Pública 116-136). Los inquilinos que viven en propiedades cubiertas por esta ley, también están protegidos del desalojo por impago o cualquier otra razón hasta el 23 de agosto de 2020. Por favor, hágame saber de inmediato si usted cree que esta vivienda no está cubierta por la ley CARES y explique por qué. </0><1>Para documentar nuestra comunicación y evitar malentendidos, por favor responda por correo electrónico o texto en lugar de una llamada o visita. </1><2>Gracias por su comprensión y cooperación.</2>"
 
 #: frontend/lib/norent/letter-content.tsx:113
 msgid "norent.letter.floridaAddition"
-msgstr "I have suffered a loss of employment, diminished wages or business income, or other monetary loss realized during the Florida State of Emergency directly impacting my ability to make rent payments."
+msgstr "He sufrido una pérdida de empleo, salarios o ingresos durante el estado de emergencia de Florida que afecta directamente mi capacidad de hacer pagos de alquiler."
 
 #: frontend/lib/norent/letter-content.tsx:87
 msgid "norent.letter.v1NonPayment"

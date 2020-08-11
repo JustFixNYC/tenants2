@@ -1,14 +1,17 @@
-from typing import Optional
+from typing import Optional, Set
 from urllib.parse import urlencode
-from django.core.management import BaseCommand
+from django.core.management import BaseCommand, CommandError
 from django.core.mail import send_mail
 
 from users.models import JustfixUser
 from project.util.site_util import SITE_CHOICES
 from frontend.static_content import react_render_email
+from . import spanishusers
 
 
 SENDER_NAME = "Tahnee Pantig"
+
+LOGFILE = spanishusers.OUTFILE.with_suffix('.log')
 
 
 def send_survey(user: JustfixUser):
@@ -50,12 +53,30 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         username: Optional[str] = options['user']
-        user = None
 
         if username:
             user = JustfixUser.objects.get(username=username)
+            send_survey(user)
+            return
 
-        if user is None:
-            raise NotImplementedError("TODO: Send email to all users")
+        if not spanishusers.OUTFILE.exists():
+            raise CommandError('Please run `manage.py spanishusers` first!')
 
-        send_survey(user)
+        already_sent: Set[str] = set()
+
+        if LOGFILE.exists():
+            already_sent = set(LOGFILE.read_text().splitlines())
+
+        print(f"Loading {spanishusers.OUTFILE}.")
+        usernames = [
+            username for username
+            in spanishusers.OUTFILE.read_text().splitlines()
+            if username not in already_sent
+        ]
+        for username in usernames:
+            user = JustfixUser.objects.get(username=username)
+            send_survey(user)
+            with LOGFILE.open('a') as f:
+                f.write(username + '\n')
+                f.flush()
+        print("Done sending emails.")

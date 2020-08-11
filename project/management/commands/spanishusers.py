@@ -1,4 +1,5 @@
 from django.core.management import BaseCommand
+from pathlib import Path
 from typing import List
 from django.db.models import Count
 
@@ -10,6 +11,9 @@ MAX_SENT = 100
 # Maximum # of users who didn't send a NoRent letter, but
 # entered enough information to.
 MAX_NOT_SENT = 50
+
+# Where we'll write our list of usernames out to.
+OUTFILE = Path("spanishusers.txt")
 
 
 def print_users(title: str, users: List[JustfixUser]):
@@ -50,4 +54,11 @@ class Command(BaseCommand):
             f"Spanish speakers who did NOT send NoRent letters, "
             f"but entered enough information to",
             not_sent
+        )
+
+        print(f"Writing {OUTFILE}.")
+        OUTFILE.write_text(
+            '\n'.join([
+                user.username for user in sent + not_sent
+            ])
         )

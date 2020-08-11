@@ -108,6 +108,10 @@ class TestMapboxPlacesRequest:
         requests_mock.get(f"{MAPBOX_PLACES_URL}/a%20b.json", status_code=500)
         assert mapbox_places_request("a b", {}) is None
 
+    def test_it_returns_empty_results_on_http_422(self, requests_mock):
+        requests_mock.get(f"{MAPBOX_PLACES_URL}/a%20b.json", status_code=422)
+        assert mapbox_places_request("a b", {}).features == []
+
     def test_it_returns_results_on_success(self, requests_mock):
         requests_mock.get(f"{MAPBOX_PLACES_URL}/br.json", json=BROOKLYN_RESULTS_JSON)
         results = mapbox_places_request('br', {})

@@ -18,6 +18,7 @@ describe("HP Action flow", () => {
     const pal = new AppTesterPal(<HPActionRoutes />, {
       url: "/en/hp/confirmation",
       session: {
+        phoneNumber: "5551234567",
         latestHpActionPdfUrl: "/boop.pdf",
       },
     });
@@ -30,7 +31,7 @@ describe("upload status page", () => {
   const makePal = (hpActionUploadStatus: HPUploadStatus) =>
     new AppTesterPal(<HPActionRoutes />, {
       url: "/en/hp/wait",
-      session: { hpActionUploadStatus },
+      session: { hpActionUploadStatus, phoneNumber: "5551234567" },
     });
 
   it('should show "please wait" when docs are being assembled', () => {
@@ -50,7 +51,7 @@ describe("upload status page", () => {
 
   it("should redirect to beginning if docs are not started", () => {
     const pal = makePal(HPUploadStatus.NOT_STARTED);
-    expect(pal.history.location.pathname).toBe("/en/hp/splash");
+    expect(pal.history.location.pathname).toBe("/en/hp/welcome");
   });
 });
 

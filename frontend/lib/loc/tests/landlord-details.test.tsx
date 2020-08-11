@@ -17,7 +17,10 @@ describe("landlord details page", () => {
   it("works when details are not looked up", () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: JustfixRoutes.locale.loc.yourLandlord,
-      session: { landlordDetails: BlankLandlordDetailsType },
+      session: {
+        landlordDetails: BlankLandlordDetailsType,
+        phoneNumber: "5551234567",
+      },
     });
     pal.rr.getByText(/Please enter your landlord's name/i);
     pal.rr.getByText(/Back/);
@@ -27,7 +30,10 @@ describe("landlord details page", () => {
   it("works when details are looked up", () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: JustfixRoutes.locale.loc.yourLandlord,
-      session: { landlordDetails: LOOKED_UP_LANDLORD_DETAILS },
+      session: {
+        landlordDetails: LOOKED_UP_LANDLORD_DETAILS,
+        phoneNumber: "5551234567",
+      },
     });
     pal.rr.getByText(/This may be different .+ rent checks/i);
     pal.rr.getByText(/Back/);
@@ -37,7 +43,10 @@ describe("landlord details page", () => {
   it("redirects to next step after successful submission", async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: JustfixRoutes.locale.loc.yourLandlord,
-      session: { landlordDetails: BlankLandlordDetailsType },
+      session: {
+        landlordDetails: BlankLandlordDetailsType,
+        phoneNumber: "5551234567",
+      },
     });
     const name = "Boop Jones";
     const primaryLine = "123 Boop Way";

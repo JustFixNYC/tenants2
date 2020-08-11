@@ -158,7 +158,7 @@ def test_update_envelope_status(
         assert len(mailoutbox) == 1
         msg = mailoutbox[0]
         assert 'next steps' in msg.subject.lower()
-        assert msg.from_email == 'documents@justfix.nyc'
+        assert msg.from_email == 'JustFix.nyc <documents@justfix.nyc>'
         assert 'hello boop' in msg.body.lower()
     else:
         assert len(mailoutbox) == 0

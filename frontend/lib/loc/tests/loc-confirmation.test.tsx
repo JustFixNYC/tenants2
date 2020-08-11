@@ -12,6 +12,7 @@ describe("letter of complaint confirmation", () => {
     new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: JustfixRoutes.locale.loc.confirmation,
       session: {
+        phoneNumber: "5551234567",
         letterRequest: {
           updatedAt: "2018-09-14T01:42:12.829983+00:00",
           mailChoice,

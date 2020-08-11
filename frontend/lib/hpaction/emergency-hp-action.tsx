@@ -480,6 +480,11 @@ const Confirmation: React.FC<{}> = () => {
           step of the way.
         </li>
       </BigList>
+      <h2>Do you need to re-file your case?</h2>
+      <p>
+        If you need to change something and re-file your case, you can always{" "}
+        <Link to={JustfixRoutes.locale.ehp.sue}>start a new case</Link>.
+      </p>
       <h2>Want to read more about your rights?</h2>
       <ul>
         {/* TODO: This is currently duplicated from the HP action flow, we might want to create a reusable component out of it. */}
@@ -535,9 +540,11 @@ const PreviousAttempts = createHPActionPreviousAttempts(
 export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: JustfixRoutes.locale.ehp.latestStep,
   label: "Emergency HP Action",
+  defaultRequireLogin: true,
   welcomeSteps: [
     {
       path: JustfixRoutes.locale.ehp.splash,
+      requireLogin: false,
       exact: true,
       component: EmergencyHPActionSplash,
       isComplete: (s) => !!s.phoneNumber,

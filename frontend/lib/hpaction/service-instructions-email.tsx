@@ -476,7 +476,7 @@ export const ExampleServiceInstructionsProps: ServiceInstructionsProps = {
 };
 
 const SUBJECT =
-  "Your HP Action case in Housing Court: Instructions and Next Steps";
+  "Your HP Action case in Housing Court: Serving Instructions and Next Steps";
 
 export const ExampleServiceInstructionsEmail = asEmailStaticPage(() => (
   <HtmlEmail subject={`${SUBJECT} (EXAMPLE)`} extraCss={[EXTRA_CSS]}>

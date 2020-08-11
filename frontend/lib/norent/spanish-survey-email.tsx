@@ -2,12 +2,16 @@ import React, { useContext } from "react";
 import { asEmailStaticPage } from "../static-page/email-static-page";
 import { HtmlEmail } from "../static-page/html-email";
 import { AppContext } from "../app-context";
+import { useLocation } from "react-router-dom";
+import { getQuerystringVar } from "../util/querystring";
 
 const Content: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   const firstName = session.firstName || "";
-  const senderFirstName = "Tahnee";
-  const senderFullName = "Tahnee Pantig";
+  const loc = useLocation();
+  const senderFullName =
+    getQuerystringVar(loc.search, "sender") || "Tahnee Pantig";
+  const senderFirstName = senderFullName.split(" ")[0];
 
   return (
     <>

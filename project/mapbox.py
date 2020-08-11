@@ -40,14 +40,22 @@ class StreetAddress(NamedTuple):
 
 def mapbox_places_request(query: str, args: Dict[str, str]) -> Optional[MapboxResults]:
     '''
-    Make a request for the given place to the Mapbox Places API, using the
+    Make a request for the given place to the Mapbox Places API [1], using the
     given arguments.
 
     Returns None if Mapbox isn't configured, or if a network error occurs.
+
+    Note that Mapbox's Places API prohibits semicolons from
+    being in the query, so this function will replace them with commas.
+
+    [1] https://docs.mapbox.com/api/search/#forward-geocoding
     '''
 
     if not settings.MAPBOX_ACCESS_TOKEN:
         return None
+
+    query = query.replace(";", ",")
+
     try:
         response = requests.get(
             f"{MAPBOX_PLACES_URL}/{urllib.parse.quote(query)}.json",
@@ -59,6 +67,10 @@ def mapbox_places_request(query: str, args: Dict[str, str]) -> Optional[MapboxRe
             },
             timeout=settings.MAPBOX_TIMEOUT
         )
+        if response.status_code == 422:
+            # Unprocessable entity; our query was likely too long, so return
+            # an empty result set.
+            return MapboxResults(features=[])
         response.raise_for_status()
         return MapboxResults(**response.json())
     except Exception:

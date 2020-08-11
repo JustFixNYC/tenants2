@@ -11,6 +11,31 @@ from frontend.static_content import react_render_email
 SENDER_NAME = "Tahnee Pantig"
 
 
+def send_survey(user: JustfixUser):
+    url = f"/es/spanish-survey-email.html?{urlencode({'sender': SENDER_NAME})}"
+    email = react_render_email(
+        SITE_CHOICES.NORENT,
+        "es",
+        url[1:],
+        locale_prefix_url=False,
+        is_html_email=True,
+        user=user,
+    )
+
+    sender = f"{SENDER_NAME} <no-reply@justfix.nyc>"
+    recipient = user.email
+
+    send_mail(
+        subject=email.subject,
+        from_email=sender,
+        recipient_list=[recipient],
+        message=email.body,
+        html_message=email.html_body,
+    )
+
+    print(f"Email sent to {user.username}.")
+
+
 class Command(BaseCommand):
     help = 'Send Spanish survey emails.'
 
@@ -24,7 +49,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        url = f"/es/spanish-survey-email.html?{urlencode({'sender': SENDER_NAME})}"
         username: Optional[str] = options['user']
         user = None
 
@@ -34,24 +58,4 @@ class Command(BaseCommand):
         if user is None:
             raise NotImplementedError("TODO: Send email to all users")
 
-        email = react_render_email(
-            SITE_CHOICES.NORENT,
-            "es",
-            url[1:],
-            locale_prefix_url=False,
-            is_html_email=True,
-            user=user,
-        )
-
-        sender = f"{SENDER_NAME} <no-reply@justfix.nyc>"
-        recipient = user.email
-
-        send_mail(
-            subject=email.subject,
-            from_email=sender,
-            recipient_list=[recipient],
-            message=email.body,
-            html_message=email.html_body,
-        )
-
-        print("Email sent.")
+        send_survey(user)

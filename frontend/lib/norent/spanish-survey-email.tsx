@@ -9,16 +9,14 @@ const Content: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   const firstName = session.firstName || "";
   const loc = useLocation();
-  const senderFullName =
-    getQuerystringVar(loc.search, "sender") || "Tahnee Pantig";
-  const senderFirstName = senderFullName.split(" ")[0];
+  const senderName = getQuerystringVar(loc.search, "sender") || "JustFix.nyc";
 
   return (
     <>
       <p>Estimad@ {firstName},</p>
       <p>
-        Aquí {senderFirstName} de JustFix.nyc. Te escribimos porque usaste
-        NoRent.org para enviarle una carta al dueño o manager de tu edificio.
+        Aquí {senderName}. Te escribimos porque usaste NoRent.org para enviarle
+        una carta al dueño o manager de tu edificio.
       </p>
       <p>
         Nos gustaría saber cómo fue tu experiencia con la versión de la
@@ -40,7 +38,7 @@ const Content: React.FC<{}> = () => {
         <a href="https://www.justfix.nyc/">nuestro sitio web</a>.
       </p>
       <p>¡Agradecemos to ayuda!</p>
-      <p>-- {senderFullName}</p>
+      <p>-- {senderName}</p>
     </>
   );
 };

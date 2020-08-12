@@ -9,7 +9,7 @@ from frontend.static_content import react_render_email
 from . import spanishusers
 
 
-SENDER_NAME = "Tahnee Pantig"
+SENDER_NAME = "JustFix.nyc"
 
 LOGFILE = spanishusers.OUTFILE.with_suffix('.log')
 

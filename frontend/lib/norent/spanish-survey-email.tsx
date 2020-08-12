@@ -35,8 +35,8 @@ const Content: React.FC<{}> = () => {
       <p>
         NoRent.org fue creado por el equipo de JustFix.nyc. Somos una
         organización sin fines de lucro que fabrica herramientas digitales para
-        que los inquilinos luchen contra el desplazamiento. Si quieres obtener
-        más información, visita{" "}
+        que los inquilinos luchen contra el desplazamiento logrando permacer en
+        hogares dignos. Si quieres obtener más información, visita{" "}
         <a href="https://www.justfix.nyc/">nuestro sitio web</a>.
       </p>
       <p>¡Agradecemos to ayuda!</p>

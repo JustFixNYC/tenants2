@@ -38,7 +38,7 @@ const Content: React.FC<{}> = () => {
         <a href="https://www.justfix.nyc/">nuestro sitio web</a>.
       </p>
       <p>¡Agradecemos tu ayuda!</p>
-      <p>-- {senderName}</p>
+      <p>-- El equipo de JustFix.nyc</p>
     </>
   );
 };

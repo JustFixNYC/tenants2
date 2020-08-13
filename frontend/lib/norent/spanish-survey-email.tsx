@@ -4,12 +4,21 @@ import { HtmlEmail } from "../static-page/html-email";
 import { AppContext } from "../app-context";
 import { useLocation } from "react-router-dom";
 import { getQuerystringVar } from "../util/querystring";
+import { AllSessionInfo } from "../queries/AllSessionInfo";
+
+function getUserFullName(session: AllSessionInfo): string {
+  return [session.firstName, session.lastName].join(" ").trim();
+}
 
 const Content: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   const firstName = session.firstName || "";
   const loc = useLocation();
   const senderName = getQuerystringVar(loc.search, "sender") || "JustFix.nyc";
+  const fullName = getUserFullName(session);
+  const surveyURL = `https://docs.google.com/forms/d/e/1FAIpQLSdrLRbaclKnZr2y-VSjgcgfD2WPG3K8D8z0mjTzYU26el2WGQ/viewform?usp=pp_url&entry.875680225=${encodeURIComponent(
+    fullName
+  )}`;
 
   return (
     <>
@@ -21,10 +30,8 @@ const Content: React.FC<{}> = () => {
       <p>
         Nos gustaría saber cómo fue tu experiencia con la versión de la
         herramienta en Español. Si quieres dar tu opinión,{" "}
-        <a href="https://forms.gle/RxfbF5kMDsDAADZa8">
-          completa este formulario
-        </a>
-        . Tardarás menos de 10 minutos.
+        <a href={surveyURL}>completa este formulario</a>. Tardarás menos de 10
+        minutos.
       </p>
       <p>
         Si completas la encuesta antes del 31 de Agosto, 2020, te incluiremos en

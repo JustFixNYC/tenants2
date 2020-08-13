@@ -9,7 +9,6 @@ import { NextButton } from "../ui/buttons";
 import { RouteComponentProps } from "react-router";
 import { withAppContext, AppContextType, AppContext } from "../app-context";
 import { PhoneNumberFormField } from "../forms/phone-number-form-field";
-import { assertNotNull } from "../util/util";
 import { getPostOrQuerystringVar } from "../util/querystring";
 import { Link } from "react-router-dom";
 import { getPostOnboardingURL } from "../onboarding/signup-intent";
@@ -20,7 +19,6 @@ import {
 
 export interface LoginFormProps {
   next: string;
-  redirectToLegacyAppURL: string;
 }
 
 export class LoginForm extends React.Component<LoginFormProps> {
@@ -30,9 +28,6 @@ export class LoginForm extends React.Component<LoginFormProps> {
         mutation={LoginMutation}
         initialState={BlankLoginInput}
         onSuccessRedirect={(output, input) => {
-          if (assertNotNull(output.session).prefersLegacyApp) {
-            return this.props.redirectToLegacyAppURL;
-          }
           return this.props.next;
         }}
         performRedirect={performHardOrSoftRedirect}
@@ -72,10 +67,7 @@ const LoginPage = withAppContext(
       <Page title="Sign in">
         <div className="box">
           <h1 className="title">Sign in</h1>
-          <LoginForm
-            next={next}
-            redirectToLegacyAppURL={props.server.redirectToLegacyAppURL}
-          />
+          <LoginForm next={next} />
           <br />
           <div className="content">
             <p>

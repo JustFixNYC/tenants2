@@ -1,6 +1,5 @@
 import pytest
 
-from legacy_tenants.tests.factories import LegacyUserInfoFactory
 from users.models import JustfixUser
 from users.tests.factories import UserFactory
 from project.util import schema_json
@@ -285,18 +284,6 @@ class TestQueryOrVerifyPhoneNumber:
         assert result['errors'] != []
         assert len(self.smsoutbox) == 0
 
-    def test_it_returns_legacy_tenants_account(self):
-        LegacyUserInfoFactory(user__phone_number='5551234567')
-        result = self.execute('5551234567')
-        assert result['accountStatus'] == 'LEGACY_TENANTS_ACCOUNT'
-        assert len(self.smsoutbox) == 0
-
-    def test_it_does_not_return_legacy_tenants_account_for_users_who_dont_prefer_it(self):
-        LegacyUserInfoFactory(user__phone_number='5551234567', prefers_legacy_app=False)
-        result = self.execute('5551234567')
-        assert result['accountStatus'] == 'ACCOUNT_WITH_PASSWORD'
-        assert len(self.smsoutbox) == 0
-
     def test_it_returns_account(self):
         UserFactory(phone_number='5551234567')
         result = self.execute('5551234567')
@@ -335,56 +322,3 @@ def test_last_queried_phone_number_info_returns_none(graphql_client):
             'lastQueriedPhoneNumberAccountStatus': None,
         }}
     }
-
-
-class TestPrepareLegacyTenantsAccountForMigration(GraphQLTestingPal):
-    def execute(self):
-        return self.graphql_client.execute(
-            '''
-            mutation {
-                output: prepareLegacyTenantsAccountForMigration(input: {}) {
-                    errors { field, messages }
-                    session { lastQueriedPhoneNumber, lastQueriedPhoneNumberAccountStatus }
-                }
-            }
-            '''
-        )['data']['output']
-
-    def set_phone_number(self, phone_number, status):
-        update_last_queried_phone_number(
-            self.graphql_client.request,
-            phone_number,
-            status
-        )
-
-    def test_it_raises_err_on_no_phone_number(self):
-        assert self.execute()['errors'] == self.one_field_err(
-            'You have not provided your phone number!')
-
-    def test_it_raises_err_on_invalid_phone_number(self):
-        self.set_phone_number('5551234567', PhoneNumberAccountStatus.NO_ACCOUNT)
-        assert self.execute()['errors'] == self.one_field_err(
-            'You are not eligible for migration!')
-
-    def test_it_raises_err_for_legacy_user_who_doesnt_prefer_legacy_app(self):
-        lui = LegacyUserInfoFactory(prefers_legacy_app=False)
-        self.set_phone_number(
-            lui.user.phone_number, PhoneNumberAccountStatus.LEGACY_TENANTS_ACCOUNT)
-        assert self.execute()['errors'] == self.one_field_err(
-            'You are not eligible for migration!')
-
-    def test_it_works(self):
-        lui = LegacyUserInfoFactory(user__phone_number='4151234567')
-        user = lui.user
-        self.set_phone_number(
-            user.phone_number, PhoneNumberAccountStatus.LEGACY_TENANTS_ACCOUNT)
-        output = self.execute()
-        assert output['errors'] == []
-        assert output['session'] == {
-            'lastQueriedPhoneNumber': '4151234567',
-            'lastQueriedPhoneNumberAccountStatus': 'NO_ACCOUNT'
-        }
-        user.refresh_from_db()
-        assert user.phone_number.startswith('555')
-        assert user.legacy_info.original_phone_number == '4151234567'
-        assert not user.is_active

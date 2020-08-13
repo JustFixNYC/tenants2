@@ -108,6 +108,7 @@ function generateRoutes(props: ProgressRoutesProps): JSX.Element[] {
             steps={props.stepsToFillOut}
             outerSteps={allSteps}
             defaultRequireLogin={props.defaultRequireLogin}
+            defaultWrapContent={props.defaultWrapContent}
           />
         );
       }}

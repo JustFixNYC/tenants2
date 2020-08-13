@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-08-10 17:42\n"
+"PO-Revision-Date: 2020-08-13 13:07\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -245,7 +245,7 @@ msgstr "Haz clic aquí para unirte al movimiento de MH Action"
 msgid "Click here to join MHAction’s movement to hold corporate community owners accountable."
 msgstr "Haga clic aquí para unirte al movimiento de MH Action y hacer que los propietarios de la comunidad corporativa rindan cuentas."
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:56
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:54
 msgid "Click here to learn more about our privacy policy."
 msgstr "Haga clic aquí para obtener más información sobre nuestra política de privacidad."
 
@@ -294,10 +294,6 @@ msgstr "Ponte en contacto con un abogado si el dueño de tu edificio toma repres
 #: frontend/lib/norent/letter-builder/error-pages.tsx:40
 msgid "Continue"
 msgstr "Continuar"
-
-#: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:52
-msgid "Create new account"
-msgstr "Crea una cuenta nueva"
 
 #. salutation of formal letter
 #: frontend/lib/util/letter-content-util.tsx:48
@@ -448,10 +444,6 @@ msgstr "Hawaii"
 #: frontend/lib/ui/tests/localized-outbound-link.test.tsx:25
 msgid "Hello world"
 msgstr "Hola mundo"
-
-#: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:23
-msgid "Hello, long-time JustFix.nyc user! We appreciate you."
-msgstr "¡Hola, usuario de JustFix.nyc! Agradecemos tu lealtad."
 
 #: frontend/lib/justfix-navbar.tsx:28
 msgid "Help"
@@ -934,7 +926,7 @@ msgstr "Contraseña"
 msgid "Pennsylvania"
 msgstr "Pensilvania"
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:38
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:36
 msgid "Phone number"
 msgstr "Número de teléfono"
 
@@ -1299,7 +1291,7 @@ msgstr "¿Dónde encuentro esta información?"
 msgid "Where do you live?"
 msgstr "¿Dónde vives?"
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:30
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:28
 msgid "Whether it's your first time here, or you're a returning user, let's start with your number."
 msgstr "Empecemos con tu número de teléfono, ya sea tu primera vez aquí, o estés de vuelta."
 
@@ -1311,7 +1303,7 @@ msgstr "Mientras esperas a que el dueño de tu edificio conteste, recopila toda 
 msgid "Who we are"
 msgstr "Quiénes somos"
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:40
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:38
 msgid "Why do you need this information?"
 msgstr "¿Por qué necesitáis esta información?"
 
@@ -1405,7 +1397,7 @@ msgstr "Tu carta ha sido enviada al dueño de tu edificio por correo certificado
 msgid "Your letter has been sent to your landlord via email. A copy of your letter has also been sent to your email."
 msgstr "Tu carta ha sido enviada al dueño o manager de tu edificio por correo certificado de USPS. También hemos enviado una copia de tu carta a tu dirección de correo electrónico."
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:27
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:25
 msgid "Your phone number"
 msgstr "Tu número de teléfono"
 
@@ -1413,7 +1405,7 @@ msgstr "Tu número de teléfono"
 msgid "Your privacy is very important to us!"
 msgstr "¡Su privacidad es muy importante para nosotros!"
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:51
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:49
 msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 msgstr "¡Tu privacidad es muy importante para nosotros! Todo en JustFix.nyc es seguro."
 
@@ -1519,10 +1511,6 @@ msgstr "<0>El Congreso aprobó a nivel nacional la Ley CARES (Ley 116-136), el 2
 msgid "norent.introductionToLetterBuilderSteps"
 msgstr "Con tal de sacar provecho a las protecciones de desalojo en tu estado, deberías notificar al dueño de tu edificio de que no puedes pagar la renta por razones relacionadas con el COVID-19. <0>En el caso de que el dueño de tu edificio intente desalojarte, las cortes lo verán como un paso proactivo que ayude a establecer tu defensa.</0>"
 
-#: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:25
-msgid "norent.legacyUserBlurb"
-msgstr "<0>Este es un sistema nuevo. Necesitarás una nueva cuenta para utilizarlo. Estamos encantados de prepararte una cuenta </0><1>Mientras tanto, cada vez que quieras iniciar sesión en tu cuenta de \"Build your case\" o el panel de control \"Advocate Dashboard\", puedes iniciar sesión con la información de tu cuenta antigua en este enlace:</1><2><3>beta.justfix.nyc</3></2><4><5>Por favor, guarde este enlace para poder encontrarlo más tarde.</5></4><6>Podrás utilizar tu cuenta nueva para acceder a los nuevos servicios de JustFix.nyc.</6><7>Si tienes alguna pregunta, por favor envíanos un correo electrónico a <8/>.</7>"
-
 #: frontend/lib/norent/letter-content.tsx:120
 msgid "norent.letter.conclusion"
 msgstr "<0>El Congreso aprobó la Ley CARES el 27 de marzo del 2020 (Ley Pública 116-136). Los inquilinos que viven en propiedades cubiertas por esta ley, también están protegidos del desalojo por impago o cualquier otra razón hasta el 23 de agosto de 2020. Por favor, hágame saber de inmediato si usted cree que esta vivienda no está cubierta por la ley CARES y explique por qué. </0><1>Para documentar nuestra comunicación y evitar malentendidos, por favor responda por correo electrónico o texto en lugar de una llamada o visita. </1><2>Gracias por su comprensión y cooperación.</2>"
@@ -1575,7 +1563,7 @@ msgstr "<0> Es normal sentirse ansioso o asustado si el propietario toma represa
 msgid "norent.whoThisToolIsFor"
 msgstr "<0>Si no puedes pagar la renta este mes debido a un problema relacionado con el COVID-19 (es decir, debido a cambios en el trabajo, pérdida de ingresos, gastos de salud o pérdida de cuidado de niños), esta herramienta es para ti. Aunque las reglas para ejercer tus derechos varían según el estado en el que vives, NoRent.org puede ayudarte a entender las complejidades y ponerte en contacto con los recursos necesarios.</0>"
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:41
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:39
 msgid "norent.whyIsPhoneNumberNeeded"
 msgstr "Utilizaremos esta información para: <0><1>Acceder a tu cuenta actual</1><2>Comprobar si coincide con una cuenta preexistente </2><3>Abrirte una cuenta nueva</3></0>"
 

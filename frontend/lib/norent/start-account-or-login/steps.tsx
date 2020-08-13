@@ -13,7 +13,6 @@ import { SetPassword } from "./set-password";
 import { VerifyPhoneNumber } from "./verify-phone-number";
 import { isUserLoggedIn } from "../../util/session-predicates";
 import { assertNotNull } from "../../util/util";
-import { MigrateLegacyTenantsUser } from "./migrate-legacy-tenants-user";
 
 export type StartAccountOrLoginProps = MiddleProgressStepProps & {
   routes: StartAccountOrLoginRouteInfo;
@@ -42,11 +41,6 @@ export function createStartAccountOrLoginSteps(
       path: routes.phoneNumber,
       shouldBeSkipped: isUserLoggedIn,
       render: wrap(AskPhoneNumber),
-    },
-    {
-      path: routes.migrateLegacyTenantsUser,
-      shouldBeSkipped: isUserLoggedInOrCreatingNewAccount,
-      render: wrap(MigrateLegacyTenantsUser),
     },
     {
       path: routes.verifyPassword,

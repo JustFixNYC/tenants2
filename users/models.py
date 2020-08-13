@@ -29,7 +29,6 @@ ROLES = {}
 ROLES['Outreach Coordinators'] = set([
     'users.add_justfixuser',
     CHANGE_USER_PERMISSION,
-    'legacy_tenants.change_legacyuserinfo',
     *ModelPermissions('loc', 'accessdate').all,
     *ModelPermissions('issues', 'issue').all,
     *ModelPermissions('issues', 'customissue').all,

@@ -12,7 +12,6 @@ import { PasswordResetVerificationCodeMutation } from "../../../queries/Password
 import { PasswordResetConfirmAndLoginMutation } from "../../../queries/PasswordResetConfirmAndLoginMutation";
 import { LoginMutation } from "../../../queries/LoginMutation";
 import { PasswordResetMutation } from "../../../queries/PasswordResetMutation";
-import { PrepareLegacyTenantsAccountForMigrationMutation } from "../../../queries/PrepareLegacyTenantsAccountForMigrationMutation";
 
 const routes = createStartAccountOrLoginRouteInfo("");
 
@@ -108,24 +107,6 @@ describe("start-account-or-login flow", () => {
 
     await pal.waitForLocation("/phone/verify");
     pal.ensureLinkGoesTo(/back/i, "/phone/ask");
-  });
-
-  it("if account is a legacy user, 'migrates' them", async () => {
-    const pal = startFlow(PhoneNumberAccountStatus.LEGACY_TENANTS_ACCOUNT);
-
-    await pal.waitForLocation("/migrate-legacy-tenants-user");
-    pal.ensureLinkGoesTo(/back/i, "/phone/ask");
-    pal.clickButtonOrLink(/create/i);
-    pal
-      .withFormMutation(PrepareLegacyTenantsAccountForMigrationMutation)
-      .expect({})
-      .respondWithSuccess({
-        session: pal.sessionBuilder.withQueriedPhoneNumber(
-          PhoneNumberAccountStatus.NO_ACCOUNT
-        ).value,
-      });
-
-    await pal.waitForLocation("/done");
   });
 
   it("if account has no password, verifies phone, then sets password", async () => {

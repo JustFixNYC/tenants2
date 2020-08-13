@@ -104,7 +104,6 @@ INSTALLED_APPS = [
     'project.apps.DefaultConfig',
     'project.apps.JustfixAdminConfig',
     'frontend',
-    'legacy_tenants.apps.LegacyTenantsConfig',
     'users.apps.UsersConfig',
     'hpaction.apps.HPActionConfig',
     'loc.apps.LocConfig',
@@ -237,7 +236,6 @@ AUTH_USER_MODEL = 'users.JustfixUser'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'legacy_tenants.auth.LegacyTenantsAppBackend',
 ]
 
 LOGIN_URL = '/login'
@@ -391,10 +389,6 @@ GRAPHENE = {
 GEOCODING_SEARCH_URL = "https://geosearch.planninglabs.nyc/v1/search"
 
 GEOCODING_TIMEOUT = 3
-
-LEGACY_MONGODB_URL = env.LEGACY_MONGODB_URL
-
-LEGACY_ORIGIN = env.LEGACY_ORIGIN
 
 GA_TRACKING_ID = env.GA_TRACKING_ID
 

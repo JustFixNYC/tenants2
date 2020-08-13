@@ -54,7 +54,6 @@ def create_initial_props_for_lambda(
             'batchGraphQLURL': reverse('batch-graphql'),
             'finishedLocPdfURL': reverse('finished_loc_pdf'),
             'enableSafeModeURL': reverse('safe_mode:enable'),
-            'redirectToLegacyAppURL': reverse('redirect-to-legacy-app'),
             'navbarLabel': settings.NAVBAR_LABEL,
             'wowOrigin': settings.WOW_ORIGIN,
             'efnycOrigin': settings.EFNYC_ORIGIN,

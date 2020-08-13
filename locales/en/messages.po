@@ -240,7 +240,7 @@ msgstr "Click here to join MHAction’s movement"
 msgid "Click here to join MHAction’s movement to hold corporate community owners accountable."
 msgstr "Click here to join MHAction’s movement to hold corporate community owners accountable."
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:56
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:54
 msgid "Click here to learn more about our privacy policy."
 msgstr "Click here to learn more about our privacy policy."
 
@@ -289,10 +289,6 @@ msgstr "Contact a lawyer if your landlord retaliates"
 #: frontend/lib/norent/letter-builder/error-pages.tsx:40
 msgid "Continue"
 msgstr "Continue"
-
-#: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:52
-msgid "Create new account"
-msgstr "Create new account"
 
 #. salutation of formal letter
 #: frontend/lib/util/letter-content-util.tsx:48
@@ -443,10 +439,6 @@ msgstr "Hawaii"
 #: frontend/lib/ui/tests/localized-outbound-link.test.tsx:25
 msgid "Hello world"
 msgstr "Hello world"
-
-#: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:23
-msgid "Hello, long-time JustFix.nyc user! We appreciate you."
-msgstr "Hello, long-time JustFix.nyc user! We appreciate you."
 
 #: frontend/lib/justfix-navbar.tsx:28
 msgid "Help"
@@ -929,7 +921,7 @@ msgstr "Password"
 msgid "Pennsylvania"
 msgstr "Pennsylvania"
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:38
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:36
 msgid "Phone number"
 msgstr "Phone number"
 
@@ -1294,7 +1286,7 @@ msgstr "Where do I find this information?"
 msgid "Where do you live?"
 msgstr "Where do you live?"
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:30
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:28
 msgid "Whether it's your first time here, or you're a returning user, let's start with your number."
 msgstr "Whether it's your first time here, or you're a returning user, let's start with your number."
 
@@ -1306,7 +1298,7 @@ msgstr "While you wait for your landlord to respond, gather as much documentatio
 msgid "Who we are"
 msgstr "Who we are"
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:40
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:38
 msgid "Why do you need this information?"
 msgstr "Why do you need this information?"
 
@@ -1400,7 +1392,7 @@ msgstr "Your letter has been mailed to your landlord via USPS Certified Mail. A 
 msgid "Your letter has been sent to your landlord via email. A copy of your letter has also been sent to your email."
 msgstr "Your letter has been sent to your landlord via email. A copy of your letter has also been sent to your email."
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:27
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:25
 msgid "Your phone number"
 msgstr "Your phone number"
 
@@ -1408,7 +1400,7 @@ msgstr "Your phone number"
 msgid "Your privacy is very important to us!"
 msgstr "Your privacy is very important to us!"
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:51
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:49
 msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 msgstr "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 
@@ -1514,10 +1506,6 @@ msgstr "<0>On a national level, Congress passed the CARES Act on March 27, 2020 
 msgid "norent.introductionToLetterBuilderSteps"
 msgstr "In order to benefit from the eviction protections that local elected officials have put in place, you should notify your landlord of your non-payment for reasons related to COVID-19. <0>In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense.</0>"
 
-#: frontend/lib/norent/start-account-or-login/migrate-legacy-tenants-user.tsx:25
-msgid "norent.legacyUserBlurb"
-msgstr "<0>This is a new system. You will need a new account to use it. We're happy to set you up with one!</0><1>Meanwhile, whenever you want to sign into your \"Build your case\" or Advocate Dashboard account, you can sign in with your old account information at this URL:</1><2><3>beta.justfix.nyc</3> </2><4><5>Please write this URL down to remember it later.</5></4><6>Your new account will be used to access JustFix.nyc's new services.</6><7>If you have any questions, please feel free to email us at <8/>.</7>"
-
 #: frontend/lib/norent/letter-content.tsx:120
 msgid "norent.letter.conclusion"
 msgstr "<0>Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are also protected from eviction for non-payment or any other reason until August 23, 2020. Please let me know right away if you believe this property is not covered by the CARES Act and explain why the property is not covered.</0><1>In order to document our communication and to avoid misunderstandings, please reply to me via mail or text rather than a call or visit.</1><2>Thank you for your understanding and cooperation.</2>"
@@ -1570,7 +1558,7 @@ msgstr "<0>It’s normal to feel anxious or scared that your landlord will retal
 msgid "norent.whoThisToolIsFor"
 msgstr "<0>If you’re not able to pay the rent this month because of a COVID-19 related issue (i.e. employment changes, loss of income, medical expenses, or loss of childcare) this tool is for you. Although the rules for exercising your rights will vary by state, NoRent.org can help walk you through the complexities and connect you to resources.</0>"
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:41
+#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:39
 msgid "norent.whyIsPhoneNumberNeeded"
 msgstr "We’ll use this information to either:<0><1>Log you into your existing account</1><2>Match with a pre-existing account </2><3>Sign you up for a new account.</3></0>"
 

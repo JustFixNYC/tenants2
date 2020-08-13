@@ -95,12 +95,6 @@ export interface AppServerInfo {
   enableSafeModeURL: string;
 
   /**
-   * The URL that automatically logs-in the current user to the legacy tenant
-   * app and redirects them there.
-   */
-  redirectToLegacyAppURL: string;
-
-  /**
    * An optional label to show the site's navbar.
    */
   navbarLabel?: string;

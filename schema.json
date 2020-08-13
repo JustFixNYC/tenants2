@@ -2116,18 +2116,6 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "Whether we should redirect this user to the legacy tenant app after they log in. If null, the user is either not a legacy user, or legacy app integration is disabled.",
-              "isDeprecated": false,
-              "name": "prefersLegacyApp",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
               "name": "issues",
@@ -2455,6 +2443,18 @@
                   "name": "Boolean",
                   "ofType": null
                 }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": "Legacy app integration is no longer relevant since the legacy app was decommissioned on August 3, 2020.",
+              "description": "Whether we should redirect this user to the legacy tenant app after they log in. If null, the user is either not a legacy user, or legacy app integration is disabled.",
+              "isDeprecated": true,
+              "name": "prefersLegacyApp",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
               }
             },
             {
@@ -4377,12 +4377,6 @@
               "description": null,
               "isDeprecated": false,
               "name": "ACCOUNT_WITH_PASSWORD"
-            },
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "LEGACY_TENANTS_ACCOUNT"
             }
           ],
           "fields": null,
@@ -4659,37 +4653,6 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "PriorHPActionCasesPayload",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [
-                {
-                  "defaultValue": null,
-                  "description": null,
-                  "name": "input",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "PrepareLegacyTenantsAccountForMigrationInput",
-                      "ofType": null
-                    }
-                  }
-                }
-              ],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "prepareLegacyTenantsAccountForMigration",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "PrepareLegacyTenantsAccountForMigrationPayload",
                   "ofType": null
                 }
               }
@@ -7046,86 +7009,6 @@
           "interfaces": null,
           "kind": "INPUT_OBJECT",
           "name": "CasesPriorCaseFormFormSetInput",
-          "possibleTypes": null
-        },
-        {
-          "description": "Prepares a legacy tenants app for migration to the\nnew platform. The account must currently prefer the legacy\ntenants app and have no valuable user data associated with it.",
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
-              "isDeprecated": false,
-              "name": "errors",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "StrictFormFieldErrorType",
-                      "ofType": null
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "session",
-              "type": {
-                "kind": "OBJECT",
-                "name": "SessionInfo",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "clientMutationId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "PrepareLegacyTenantsAccountForMigrationPayload",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "clientMutationId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            }
-          ],
-          "interfaces": null,
-          "kind": "INPUT_OBJECT",
-          "name": "PrepareLegacyTenantsAccountForMigrationInput",
           "possibleTypes": null
         },
         {

@@ -7,6 +7,21 @@ import { AppContext } from "../app-context";
 import { assertNotNull } from "../util/util";
 import { RequireLogin } from "../util/require-login";
 
+export type ProgressStepDefaults = {
+  /**
+   * Whether to require login for every step, by default.
+   * Can be overridden on a per-step basis.
+   */
+  defaultRequireLogin?: boolean;
+
+  /**
+   * A component that only takes `children` props which will be
+   * used to wrap each step's content by default. Can be overridden
+   * on a per-step basis.
+   */
+  defaultWrapContent?: React.ComponentType<React.PropsWithChildren<{}>>;
+};
+
 export type BaseProgressStepRoute = {
   /** The route's URL path. */
   path: string;
@@ -42,6 +57,11 @@ export type BaseProgressStepRoute = {
    */
   requireLogin?: boolean;
 
+  /**
+   * A component that only takes `children` props which will be
+   * used to wrap the step's content. Set this to `false` to
+   * override any value that might be inherited from default settings.
+   */
   wrapContent?: React.ComponentType<React.PropsWithChildren<{}>> | false;
 };
 
@@ -96,8 +116,7 @@ export type ProgressStepRoute =
 type StepInfo = {
   step: ProgressStepRoute;
   allSteps: ProgressStepRoute[];
-  requireLogin: boolean;
-  wrapContent: React.ComponentType<React.PropsWithChildren<{}>> | null;
+  defaults: ProgressStepDefaults;
 };
 
 class StepQuerier {
@@ -152,7 +171,7 @@ export function getBestNextStep(
 }
 
 function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
-  const { step, allSteps, ...routerCtx } = props;
+  const { step, allSteps, defaults, ...routerCtx } = props;
   const { session } = useContext(AppContext);
   const prev = getBestPrevStep(session, step.path, allSteps);
   const next = getBestNextStep(session, step.path, allSteps);
@@ -162,17 +181,20 @@ function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
     nextStep: next && next.path,
   };
 
+  const requireLogin = step.requireLogin ?? defaults.defaultRequireLogin;
+  const wrapContent = step.wrapContent ?? defaults.defaultWrapContent;
+
   let el: JSX.Element;
   if ("component" in step) {
     el = <step.component {...ctx} />;
   } else {
     el = step.render(ctx);
   }
-  if (props.requireLogin) {
+  if (requireLogin) {
     el = <RequireLogin>{el}</RequireLogin>;
   }
-  if (props.wrapContent) {
-    const WrapComponent = props.wrapContent;
+  if (wrapContent) {
+    const WrapComponent = wrapContent;
     el = <WrapComponent>{el}</WrapComponent>;
   }
   return el;
@@ -189,8 +211,7 @@ export function createStepRoute(options: {
   key: string;
   step: ProgressStepRoute;
   allSteps: ProgressStepRoute[];
-  requireLogin: boolean;
-  wrapContent: React.ComponentType<React.PropsWithChildren<{}>> | null;
+  defaults: ProgressStepDefaults;
 }) {
   const { step, allSteps } = options;
   return (
@@ -201,8 +222,7 @@ export function createStepRoute(options: {
           <ProgressStepRenderer
             step={step}
             allSteps={allSteps}
-            requireLogin={options.requireLogin}
-            wrapContent={options.wrapContent}
+            defaults={options.defaults}
             {...routerCtx}
           />
         );

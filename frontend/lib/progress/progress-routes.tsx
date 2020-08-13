@@ -3,7 +3,11 @@ import React from "react";
 import { RedirectToLatestStep } from "./progress-redirection";
 import { Switch, Route } from "react-router";
 import { RouteProgressBar } from "./progress-bar";
-import { createStepRoute, ProgressStepRoute } from "./progress-step-route";
+import {
+  createStepRoute,
+  ProgressStepRoute,
+  ProgressStepDefaults,
+} from "./progress-step-route";
 
 /**
  * These props make it easy to define user flows that correspond to
@@ -12,7 +16,7 @@ import { createStepRoute, ProgressStepRoute } from "./progress-step-route";
  * followed by steps the user needs to fill out information for,
  * followed by one or more confirmation steps.
  */
-export type ProgressRoutesProps = {
+export type ProgressRoutesProps = ProgressStepDefaults & {
   /**
    * The route that, when visited, will redirect the user to the most
    * recently completed step in the flow.
@@ -25,14 +29,6 @@ export type ProgressRoutesProps = {
    * such label will be shown.
    */
   label?: string;
-
-  /**
-   * Whether to require login for every step, by default.
-   * Can be overridden on a per-step basis.
-   */
-  defaultRequireLogin?: boolean;
-
-  defaultWrapContent?: React.ComponentType<React.PropsWithChildren<{}>>;
 
   /**
    * The steps that welcome the user to the flow, but that we won't
@@ -76,8 +72,7 @@ function createRoutesForSteps(
       key: keyPrefix + i,
       step,
       allSteps,
-      requireLogin: step.requireLogin ?? options.defaultRequireLogin ?? false,
-      wrapContent: (step.wrapContent ?? options.defaultWrapContent) || null,
+      defaults: options,
     });
   });
 }
@@ -107,8 +102,7 @@ function generateRoutes(props: ProgressRoutesProps): JSX.Element[] {
             label={props.label}
             steps={props.stepsToFillOut}
             outerSteps={allSteps}
-            defaultRequireLogin={props.defaultRequireLogin}
-            defaultWrapContent={props.defaultWrapContent}
+            defaults={props}
           />
         );
       }}

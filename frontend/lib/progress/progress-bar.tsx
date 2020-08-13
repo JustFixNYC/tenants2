@@ -107,6 +107,8 @@ interface RouteProgressBarProps extends RouteComponentProps<any> {
    * Can be overridden on a per-step basis.
    */
   defaultRequireLogin?: boolean;
+
+  defaultWrapContent?: React.ComponentType<React.PropsWithChildren<{}>>;
 }
 
 interface RouteProgressBarState {
@@ -203,6 +205,8 @@ class RouteProgressBarWithoutRouter extends React.Component<
                   allSteps: props.outerSteps || props.steps,
                   requireLogin:
                     step.requireLogin ?? props.defaultRequireLogin ?? false,
+                  wrapContent:
+                    (step.wrapContent ?? props.defaultWrapContent) || null,
                 })
               )}
             </Switch>

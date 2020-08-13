@@ -23,6 +23,7 @@ import { assertNotNull } from "../util/util";
 import { Switch, Route } from "react-router-dom";
 import { LocSamplePage, LocForUserPage } from "./letter-content";
 import { createLetterStaticPageRoutes } from "../static-page/routes";
+import { NycUsersOnly } from "../pages/nyc-users-only";
 
 export const Welcome: React.FC<ProgressStepProps> = (props) => {
   const { firstName } = useContext(AppContext).session;
@@ -91,10 +92,12 @@ export const getLOCProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: JustfixRoutes.locale.loc.latestStep,
   label: "Letter of Complaint",
   defaultRequireLogin: true,
+  defaultWrapContent: NycUsersOnly,
   welcomeSteps: [
     {
       path: JustfixRoutes.locale.loc.splash,
       requireLogin: false,
+      wrapContent: false,
       exact: true,
       component: LocSplash,
       isComplete: (s) => !!s.phoneNumber,

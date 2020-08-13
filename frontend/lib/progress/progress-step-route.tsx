@@ -41,6 +41,8 @@ export type BaseProgressStepRoute = {
    * login page before being ultimately redirected to this step.
    */
   requireLogin?: boolean;
+
+  wrapContent?: React.ComponentType<React.PropsWithChildren<{}>> | false;
 };
 
 export type ProgressStepProps = RouteComponentProps<{}> & {
@@ -95,6 +97,7 @@ type StepInfo = {
   step: ProgressStepRoute;
   allSteps: ProgressStepRoute[];
   requireLogin: boolean;
+  wrapContent: React.ComponentType<React.PropsWithChildren<{}>> | null;
 };
 
 class StepQuerier {
@@ -168,6 +171,10 @@ function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
   if (props.requireLogin) {
     el = <RequireLogin>{el}</RequireLogin>;
   }
+  if (props.wrapContent) {
+    const WrapComponent = props.wrapContent;
+    el = <WrapComponent>{el}</WrapComponent>;
+  }
   return el;
 }
 
@@ -183,6 +190,7 @@ export function createStepRoute(options: {
   step: ProgressStepRoute;
   allSteps: ProgressStepRoute[];
   requireLogin: boolean;
+  wrapContent: React.ComponentType<React.PropsWithChildren<{}>> | null;
 }) {
   const { step, allSteps } = options;
   return (
@@ -194,6 +202,7 @@ export function createStepRoute(options: {
             step={step}
             allSteps={allSteps}
             requireLogin={options.requireLogin}
+            wrapContent={options.wrapContent}
             {...routerCtx}
           />
         );

@@ -32,6 +32,8 @@ export type ProgressRoutesProps = {
    */
   defaultRequireLogin?: boolean;
 
+  defaultWrapContent?: React.ComponentType<React.PropsWithChildren<{}>>;
+
   /**
    * The steps that welcome the user to the flow, but that we won't
    * display a progress bar for.
@@ -75,6 +77,7 @@ function createRoutesForSteps(
       step,
       allSteps,
       requireLogin: step.requireLogin ?? options.defaultRequireLogin ?? false,
+      wrapContent: (step.wrapContent ?? options.defaultWrapContent) || null,
     });
   });
 }

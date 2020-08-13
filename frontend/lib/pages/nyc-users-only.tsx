@@ -18,6 +18,7 @@ export const NycUsersOnly: React.FC<React.PropsWithChildren<{}>> = ({
         Sorry, but this service currently only supports individuals in New York
         City.
       </p>
+      <p>We'll let you know when we launch a service in your area.</p>
     </Page>
   );
 };

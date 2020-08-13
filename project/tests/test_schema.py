@@ -3,8 +3,6 @@ import pytest
 from users.models import JustfixUser
 from users.tests.factories import UserFactory
 from project.util import schema_json
-from project.util.testing_util import GraphQLTestingPal
-from project.schema_base import update_last_queried_phone_number, PhoneNumberAccountStatus
 from frontend.tests.util import get_frontend_query
 
 EXAMPLE_DEPRECATED_FIELD = 'exampleDeprecatedField'

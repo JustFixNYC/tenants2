@@ -13,7 +13,11 @@ export const NycUsersOnly: React.FC<React.PropsWithChildren<{}>> = ({
   }
 
   return (
-    <Page title="We can't help you&hellip;yet!" withHeading="big">
+    <Page
+      title="We can't help you&hellip;yet!"
+      withHeading="big"
+      className="content"
+    >
       <p>
         Sorry, but this service currently only supports individuals in New York
         City.

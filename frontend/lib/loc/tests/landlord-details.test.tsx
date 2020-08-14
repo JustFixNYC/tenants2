@@ -5,6 +5,9 @@ import LetterOfComplaintRoutes from "../letter-of-complaint";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { BlankLandlordDetailsType } from "../../queries/LandlordDetailsType";
 import { LandlordDetailsV2Mutation } from "../../queries/LandlordDetailsV2Mutation";
+import { newSb } from "../../tests/session-builder";
+
+const sb = newSb().withLoggedInJustfixUser();
 
 const LOOKED_UP_LANDLORD_DETAILS = {
   ...BlankLandlordDetailsType,
@@ -17,10 +20,9 @@ describe("landlord details page", () => {
   it("works when details are not looked up", () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: JustfixRoutes.locale.loc.yourLandlord,
-      session: {
+      session: sb.with({
         landlordDetails: BlankLandlordDetailsType,
-        phoneNumber: "5551234567",
-      },
+      }).value,
     });
     pal.rr.getByText(/Please enter your landlord's name/i);
     pal.rr.getByText(/Back/);
@@ -30,10 +32,9 @@ describe("landlord details page", () => {
   it("works when details are looked up", () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: JustfixRoutes.locale.loc.yourLandlord,
-      session: {
+      session: sb.with({
         landlordDetails: LOOKED_UP_LANDLORD_DETAILS,
-        phoneNumber: "5551234567",
-      },
+      }).value,
     });
     pal.rr.getByText(/This may be different .+ rent checks/i);
     pal.rr.getByText(/Back/);
@@ -43,10 +44,9 @@ describe("landlord details page", () => {
   it("redirects to next step after successful submission", async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: JustfixRoutes.locale.loc.yourLandlord,
-      session: {
+      session: sb.with({
         landlordDetails: BlankLandlordDetailsType,
-        phoneNumber: "5551234567",
-      },
+      }).value,
     });
     const name = "Boop Jones";
     const primaryLine = "123 Boop Way";

@@ -440,7 +440,7 @@ def update_envelope_status(de: DocusignEnvelope, event: str) -> None:
         user = de.docs.user
         slack.sendmsg_async(
             f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
-            f"has signed their Emergency HP Action documents!",
+            f"has signed their Emergency HP Action documents! ❤️",
             is_safe=True
         )
         user.trigger_followup_campaign_async("EHP")

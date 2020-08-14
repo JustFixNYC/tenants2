@@ -66,8 +66,6 @@ createBlankLiteral = true
 fragmentName = "DDOSuggestionsResult"
 createBlankLiteral = true
 
-[mutations.prepareLegacyTenantsAccountForMigration]
-
 [mutations.agreeToTerms]
 sessionFields = ["onboardingInfo"]
 

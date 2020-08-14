@@ -40,7 +40,6 @@ fragment AllSessionInfo on SessionInfo {
     trackingNumber,
     letterSentAt
   },
-  prefersLegacyApp,
   issues,
   customIssuesV2 {
     id,

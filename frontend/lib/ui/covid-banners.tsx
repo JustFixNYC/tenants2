@@ -143,8 +143,8 @@ export const CovidEhpDisclaimer = () => {
   return (
     <div className="jf-covid-ehp-disclaimer notification is-warning">
       <p>
-        Due to the covid-19 pandemic, Housing Courts in New York City are only
-        accepting cases for the following conditions,{" "}
+        Due to the covid-19 pandemic, Housing Courts in New York City are
+        prioritizing cases for the following conditions,{" "}
         <strong>
           or others that threaten the health and safety of your household
         </strong>

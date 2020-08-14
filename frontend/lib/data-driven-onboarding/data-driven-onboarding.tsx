@@ -436,9 +436,9 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     const emergencyCovidMessage = (
       <>
         <span className="subtitle">
-          Due to the covid-19 pandemic, Housing Courts in New York City are only
-          accepting cases for conditions that threaten the health and safety of
-          your household, such as: {issues}.
+          Due to the covid-19 pandemic, Housing Courts in New York City are
+          prioritizing cases for conditions that threaten the health and safety
+          of your household, such as: {issues}.
         </span>
       </>
     );

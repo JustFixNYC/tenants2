@@ -11,7 +11,7 @@ describe("access dates page", () => {
   it("redirects to next step after successful submission", async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: JustfixRoutes.locale.loc.accessDates,
-      session: newSb().withLoggedInUser().value,
+      session: newSb().withLoggedInJustfixUser().value,
     });
 
     pal.fillFormFields([[/First access date/i, "2018-01-02"]]);

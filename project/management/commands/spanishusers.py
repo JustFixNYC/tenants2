@@ -35,6 +35,9 @@ class Command(BaseCommand):
         not_sent: List[JustfixUser] = []
 
         for user in users:
+            if not (user.email and user.first_name):
+                print(f"Weird, user {user} doesn't have email and/or name set.")
+                continue
             if user.num_letters == 0:
                 if len(not_sent) < MAX_NOT_SENT:
                     was_able_to_send = (

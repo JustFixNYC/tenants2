@@ -16,9 +16,10 @@ const Content: React.FC<{}> = () => {
   const loc = useLocation();
   const senderName = getQuerystringVar(loc.search, "sender") || "JustFix.nyc";
   const fullName = getUserFullName(session);
-  const surveyURL = `https://docs.google.com/forms/d/e/1FAIpQLSdrLRbaclKnZr2y-VSjgcgfD2WPG3K8D8z0mjTzYU26el2WGQ/viewform?usp=pp_url&entry.875680225=${encodeURIComponent(
-    fullName
-  )}`;
+  const email = session.email || "";
+  const surveyURL = `https://docs.google.com/forms/d/e/1FAIpQLSdrLRbaclKnZr2y-VSjgcgfD2WPG3K8D8z0mjTzYU26el2WGQ/viewform?usp=pp_url&entry.1339466027=${encodeURIComponent(
+    email
+  )}&entry.875680225=${encodeURIComponent(fullName)}`;
 
   return (
     <>

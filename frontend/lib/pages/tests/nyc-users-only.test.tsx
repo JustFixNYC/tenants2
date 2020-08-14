@@ -3,6 +3,7 @@ import { AppTesterPal } from "../../tests/app-tester-pal";
 import { NycUsersOnly } from "../nyc-users-only";
 import { newSb } from "../../tests/session-builder";
 import { Switch, Route } from "react-router-dom";
+import { createFakeLoginRoute } from "../../tests/util";
 
 const EL = (
   <Switch>
@@ -15,11 +16,7 @@ const EL = (
         </NycUsersOnly>
       )}
     />
-    <Route
-      path="/en/login"
-      exact
-      render={(p) => <p>at login, search is {p.location.search}</p>}
-    />
+    {createFakeLoginRoute()}
   </Switch>
 );
 

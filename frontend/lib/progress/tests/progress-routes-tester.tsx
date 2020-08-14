@@ -97,12 +97,14 @@ export class ProgressRoutesTester {
    * Define a bunch of smoke tests for the routes that just visit
    * each route and make sure an exception isn't thrown.
    */
-  defineSmokeTests() {
+  defineSmokeTests(options?: { session?: Partial<AllSessionInfo> }) {
+    const session = options?.session ?? newSb().withLoggedInUser().value;
+
     describe(`${this.name} steps`, () => {
       this.allSteps.forEach((step) => {
         it(`${step.path} renders without throwing`, () => {
           new AppTesterPal(this.render(), {
-            session: newSb().withLoggedInUser().value,
+            session,
             ...this.appTesterPalOptions,
             url: step.path,
           });

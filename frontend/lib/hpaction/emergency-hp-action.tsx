@@ -83,6 +83,7 @@ import {
   ExampleServiceInstructionsEmail,
   ServiceInstructionsEmail,
 } from "./service-instructions-email";
+import { NycUsersOnly } from "../pages/nyc-users-only";
 
 const HP_ICON = "frontend/img/hp-action.svg";
 
@@ -540,11 +541,11 @@ const PreviousAttempts = createHPActionPreviousAttempts(
 export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: JustfixRoutes.locale.ehp.latestStep,
   label: "Emergency HP Action",
-  defaultRequireLogin: true,
+  defaultWrapContent: NycUsersOnly,
   welcomeSteps: [
     {
       path: JustfixRoutes.locale.ehp.splash,
-      requireLogin: false,
+      wrapContent: false,
       exact: true,
       component: EmergencyHPActionSplash,
       isComplete: (s) => !!s.phoneNumber,

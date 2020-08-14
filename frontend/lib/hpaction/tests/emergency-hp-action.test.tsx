@@ -6,12 +6,16 @@ import { ProgressRoutes } from "../../progress/progress-routes";
 import JustfixRoutes from "../../justfix-routes";
 import { newSb } from "../../tests/session-builder";
 
+const sb = newSb().withLoggedInJustfixUser();
+
 const tester = new ProgressRoutesTester(
   getEmergencyHPActionProgressRoutesProps(),
   "Emergency HP Action"
 );
 
-tester.defineSmokeTests();
+tester.defineSmokeTests({
+  session: sb.value,
+});
 
 describe("Review page", () => {
   it("opens signing modal", () => {
@@ -19,7 +23,7 @@ describe("Review page", () => {
       <ProgressRoutes {...getEmergencyHPActionProgressRoutesProps()} />,
       {
         url: JustfixRoutes.locale.ehp.reviewForms,
-        session: newSb().withLoggedInUser().value,
+        session: sb.value,
       }
     );
     pal.clickButtonOrLink(/look good to me/);

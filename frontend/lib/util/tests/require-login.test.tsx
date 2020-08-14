@@ -3,14 +3,11 @@ import { AppTesterPal } from "../../tests/app-tester-pal";
 import { RequireLogin } from "../require-login";
 import { Switch, Route } from "react-router-dom";
 import { newSb } from "../../tests/session-builder";
+import { createFakeLoginRoute } from "../../tests/util";
 
 const EL = (
   <Switch>
-    <Route
-      path="/en/login"
-      exact
-      render={(p) => <p>at login, search is {p.location.search}</p>}
-    />
+    {createFakeLoginRoute()}
     <Route
       path="/boop"
       exact

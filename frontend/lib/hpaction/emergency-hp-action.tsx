@@ -541,12 +541,10 @@ const PreviousAttempts = createHPActionPreviousAttempts(
 export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: JustfixRoutes.locale.ehp.latestStep,
   label: "Emergency HP Action",
-  defaultRequireLogin: true,
   defaultWrapContent: NycUsersOnly,
   welcomeSteps: [
     {
       path: JustfixRoutes.locale.ehp.splash,
-      requireLogin: false,
       wrapContent: false,
       exact: true,
       component: EmergencyHPActionSplash,

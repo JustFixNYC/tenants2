@@ -9,12 +9,6 @@ import { RequireLogin } from "../util/require-login";
 
 export type ProgressStepDefaults = {
   /**
-   * Whether to require login for every step, by default.
-   * Can be overridden on a per-step basis.
-   */
-  defaultRequireLogin?: boolean;
-
-  /**
    * A component that only takes `children` props which will be
    * used to wrap each step's content by default. Can be overridden
    * on a per-step basis.
@@ -49,13 +43,6 @@ export type BaseProgressStepRoute = {
    * link back to.
    */
   neverGoBackTo?: boolean;
-
-  /**
-   * Whether this step requires the user to log in first. If it does,
-   * and if the user is logged out, they will be redirected to the
-   * login page before being ultimately redirected to this step.
-   */
-  requireLogin?: boolean;
 
   /**
    * A component that only takes `children` props which will be
@@ -181,7 +168,6 @@ function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
     nextStep: next && next.path,
   };
 
-  const requireLogin = step.requireLogin ?? defaults.defaultRequireLogin;
   const wrapContent = step.wrapContent ?? defaults.defaultWrapContent;
 
   let el: JSX.Element;
@@ -189,9 +175,6 @@ function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
     el = <step.component {...ctx} />;
   } else {
     el = step.render(ctx);
-  }
-  if (requireLogin) {
-    el = <RequireLogin>{el}</RequireLogin>;
   }
   if (wrapContent) {
     const WrapComponent = wrapContent;

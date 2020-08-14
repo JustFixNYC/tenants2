@@ -322,12 +322,10 @@ const PreviousAttempts = createHPActionPreviousAttempts(
 export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: JustfixRoutes.locale.hp.latestStep,
   label: "HP Action",
-  defaultRequireLogin: true,
   defaultWrapContent: NycUsersOnly,
   welcomeSteps: [
     {
       path: JustfixRoutes.locale.hp.splash,
-      requireLogin: false,
       wrapContent: false,
       exact: true,
       component: HPActionSplash,

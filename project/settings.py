@@ -388,7 +388,7 @@ GRAPHENE = {
 
 GEOCODING_SEARCH_URL = "https://geosearch.planninglabs.nyc/v1/search"
 
-GEOCODING_TIMEOUT = 3
+GEOCODING_TIMEOUT = 8
 
 GA_TRACKING_ID = env.GA_TRACKING_ID
 

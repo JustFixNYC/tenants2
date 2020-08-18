@@ -196,10 +196,6 @@ msgstr "Crea tu carta"
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
 msgstr "Mapa de huelgas de renta y protección para inquilinos ante la emergencia generada por el COVID-19"
 
-#: frontend/lib/ui/covid-banners.tsx:43
-msgid "COVID-19 Update:"
-msgstr "Actualización COVID-19:"
-
 #: common-data/us-state-choices.ts:69
 msgid "California"
 msgstr "California"
@@ -1426,10 +1422,6 @@ msgstr "Código postal"
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:71
 msgid "and"
 msgstr "y"
-
-#: frontend/lib/ui/covid-banners.tsx:45
-msgid "justfix.covidBanner2"
-msgstr "JustFix.nyc está operativo, y hemos adaptado nuestros productos a las normas establecidas durante la crisis de COVID-19. Todavía recomendamos que se tomen todas las precauciones posibles para mantenerse sanos durante esta crisis de salud pública. Gracias al poder de la organización de inquilinos, los inquilinos no pueden ser desalojados por ninguna razón. Visita las <0>Preguntas Más Frecuentes sobre la Moratoria de Desalojo del Right to Council </0> para obtener más información."
 
 #: frontend/lib/ui/legal-disclaimer.tsx:4
 msgid "justfix.legalDisclaimer"

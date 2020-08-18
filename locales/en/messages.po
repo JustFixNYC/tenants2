@@ -191,10 +191,6 @@ msgstr "Build your letter"
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
 msgstr "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
 
-#: frontend/lib/ui/covid-banners.tsx:43
-msgid "COVID-19 Update:"
-msgstr "COVID-19 Update:"
-
 #: common-data/us-state-choices.ts:69
 msgid "California"
 msgstr "California"
@@ -1421,10 +1417,6 @@ msgstr "Zip code"
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:71
 msgid "and"
 msgstr "and"
-
-#: frontend/lib/ui/covid-banners.tsx:45
-msgid "justfix.covidBanner2"
-msgstr "JustFix.nyc is operating, and has adapted our products to match preliminary rules put in place during the COVID-19 crisis. We recommend you take full precautions to stay safe during this public health crisis. Thanks to tenant organizing during this time, renters cannot be evicted for any reason. Visit <0>Right to Council’s Eviction Moratorium FAQs</0> to learn more."
 
 #: frontend/lib/ui/legal-disclaimer.tsx:4
 msgid "justfix.legalDisclaimer"

@@ -7,9 +7,9 @@ import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issu
 import { CSSTransition } from "react-transition-group";
 import JustfixRoutes from "../justfix-routes";
 import { useDebouncedValue } from "../util/use-debounced-value";
-import { Trans } from "@lingui/macro";
-import { LocalizedOutboundLink } from "./localized-outbound-link";
 import { SupportedLocaleMap } from "../i18n";
+import { CovidMoratoriumBanner } from "@justfixnyc/react-common";
+import { li18n } from "../i18n-lingui";
 
 export const MORATORIUM_FAQ_URL: SupportedLocaleMap<string> = {
   en: "https://www.righttocounselnyc.org/ny_eviction_moratorium_faq",
@@ -66,20 +66,7 @@ const MoratoriumBanner = (props: { pathname?: string }) => {
               />
             </SimpleProgressiveEnhancement>
             <p>
-              <span className="has-text-weight-bold">
-                <Trans>COVID-19 Update:</Trans>{" "}
-              </span>
-              <Trans id="justfix.covidBanner2">
-                JustFix.nyc is operating, and has adapted our products to match
-                preliminary rules put in place during the COVID-19 crisis. We
-                recommend you take full precautions to stay safe during this
-                public health crisis. Thanks to tenant organizing during this
-                time, renters cannot be evicted for any reason. Visit{" "}
-                <LocalizedOutboundLink hrefs={MORATORIUM_FAQ_URL}>
-                  Right to Council’s Eviction Moratorium FAQs
-                </LocalizedOutboundLink>{" "}
-                to learn more.
-              </Trans>
+              <CovidMoratoriumBanner locale={li18n.language} />
             </p>
           </div>
         </div>

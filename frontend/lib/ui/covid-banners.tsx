@@ -8,7 +8,7 @@ import { CSSTransition } from "react-transition-group";
 import JustfixRoutes from "../justfix-routes";
 import { useDebouncedValue } from "../util/use-debounced-value";
 import { SupportedLocaleMap } from "../i18n";
-import { CovidMoratoriumBanner } from "@justfixnyc/react-common"
+import { CovidMoratoriumBanner } from "@justfixnyc/react-common";
 import { li18n } from "../i18n-lingui";
 
 export const MORATORIUM_FAQ_URL: SupportedLocaleMap<string> = {

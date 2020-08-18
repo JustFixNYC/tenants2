@@ -42,7 +42,7 @@ class TestFollowupCampaign:
         mock_query(client, 'get_groups', "FAKE BOOP GROUP")
         campaign = FollowupCampaign('Boop Group', 'date_of_boop')
         with freeze_time('2018-01-02'):
-            campaign.add_contact(client, "Narf Jones", "5551234567")
+            campaign.add_contact(client, "Narf Jones", "5551234567", "en")
         client.update_contact.assert_called_once_with(
             contact,
             groups=["FAKE ARG GROUP", "FAKE BOOP GROUP"],
@@ -57,24 +57,24 @@ class TestTriggerFollowupCampaignAsync:
     @pytest.fixture
     def tasks_trigger(self, monkeypatch):
         tasks_trigger = MagicMock()
-        monkeypatch.setattr(tasks, 'trigger_followup_campaign', tasks_trigger)
+        monkeypatch.setattr(tasks, 'trigger_followup_campaign_v2', tasks_trigger)
         yield tasks_trigger
 
     def test_it_does_nothing_if_rapidpro_is_unconfigured(self, settings, tasks_trigger):
         settings.RAPIDPRO_FOLLOWUP_CAMPAIGN_RH = 'Boop Group,date_of_boop'
-        trigger_followup_campaign_async('Boop', '5551234567', 'RH')
+        trigger_followup_campaign_async('Boop', '5551234567', 'RH', 'en')
         tasks_trigger.assert_not_called()
 
     def test_it_does_nothing_if_campaign_is_unconfigured(self, settings, tasks_trigger):
         settings.RAPIDPRO_API_TOKEN = 'blorp'
-        trigger_followup_campaign_async('Boop', '5551234567', 'RH')
+        trigger_followup_campaign_async('Boop', '5551234567', 'RH', 'en')
         tasks_trigger.assert_not_called()
 
     def test_it_triggers_if_rapidpro_and_campaign_are_configured(self, settings, tasks_trigger):
         settings.RAPIDPRO_FOLLOWUP_CAMPAIGN_RH = 'Boop Group,date_of_boop'
         settings.RAPIDPRO_API_TOKEN = 'blorp'
-        trigger_followup_campaign_async('Boop Jones', '5551234567', 'RH')
-        tasks_trigger.delay.assert_called_once_with('Boop Jones', '5551234567', 'RH')
+        trigger_followup_campaign_async('Boop Jones', '5551234567', 'RH', 'en')
+        tasks_trigger.delay.assert_called_once_with('Boop Jones', '5551234567', 'RH', 'en')
 
     def test_task_works(self, settings, monkeypatch):
         settings.RAPIDPRO_FOLLOWUP_CAMPAIGN_RH = 'Boop Group,date_of_boop'
@@ -83,7 +83,8 @@ class TestTriggerFollowupCampaignAsync:
         campaign = MagicMock()
         dsfc.get_campaign.return_value = campaign
         monkeypatch.setattr(tasks, 'DjangoSettingsFollowupCampaigns', dsfc)
-        trigger_followup_campaign_async('Boop Jones', '5551234567', 'RH')
+        trigger_followup_campaign_async('Boop Jones', '5551234567', 'RH', 'en')
         dsfc.get_campaign.assert_called_once_with('RH')
         campaign.add_contact.assert_called_once()
         assert campaign.add_contact.call_args.args[1:] == ('Boop Jones', '5551234567')
+        assert campaign.add_contact.call_args.kwargs == {'locale': 'en'}

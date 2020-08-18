@@ -5,13 +5,13 @@ fragment JustfixUserType on JustfixUserType {
   firstName,
   lastName,
   phoneNumber,
+  onboardingInfo { ...OnboardingInfo },
   letterRequest {
     updatedAt,
     mailChoice,
     trackingNumber,
     letterSentAt
   },
-  onboardingInfo { ...OnboardingInfo },
   adminUrl,
   rapidproGroups
 }

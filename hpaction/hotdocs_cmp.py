@@ -176,7 +176,7 @@ class HDComponentLibrary:
         tree = ET.parse(str(path))
         root = tree.getroot()
         components = root.find('hd:components', NS)
-        if not components:
+        if components is None:
             raise Exception('Could not find <hd:components> element')
         self.populate_vars(components)
         self.populate_repeats(components)

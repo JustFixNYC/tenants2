@@ -821,10 +821,10 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "letterRequest",
+              "name": "onboardingInfo",
               "type": {
                 "kind": "OBJECT",
-                "name": "LetterRequestType",
+                "name": "OnboardingInfoType",
                 "ofType": null
               }
             },
@@ -833,10 +833,10 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "onboardingInfo",
+              "name": "letterRequest",
               "type": {
                 "kind": "OBJECT",
-                "name": "OnboardingInfoType",
+                "name": "LetterRequestType",
                 "ofType": null
               }
             },
@@ -895,100 +895,6 @@
           "interfaces": null,
           "kind": "SCALAR",
           "name": "ID",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": "",
-              "isDeprecated": false,
-              "name": "updatedAt",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "DateTime",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": "How the letter of complaint will be mailed.",
-              "isDeprecated": false,
-              "name": "mailChoice",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "ENUM",
-                  "name": "LetterRequestMailChoice",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": "The tracking number for the letter. Note that when this is changed, the user will be notified via SMS and added to a LOC follow-up campaign, if one has been configured.",
-              "isDeprecated": false,
-              "name": "trackingNumber",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": "When the letter was mailed through the postal service.",
-              "isDeprecated": false,
-              "name": "letterSentAt",
-              "type": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "LetterRequestType",
-          "possibleTypes": null
-        },
-        {
-          "description": "An enumeration.",
-          "enumValues": [
-            {
-              "deprecationReason": null,
-              "description": "Yes, have JustFix.nyc mail this letter for me.",
-              "isDeprecated": false,
-              "name": "WE_WILL_MAIL"
-            },
-            {
-              "deprecationReason": null,
-              "description": "No thanks, I'll mail it myself.",
-              "isDeprecated": false,
-              "name": "USER_WILL_MAIL"
-            }
-          ],
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "kind": "ENUM",
-          "name": "LetterRequestMailChoice",
           "possibleTypes": null
         },
         {
@@ -1343,6 +1249,100 @@
           "interfaces": null,
           "kind": "ENUM",
           "name": "LeaseType",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "updatedAt",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "How the letter of complaint will be mailed.",
+              "isDeprecated": false,
+              "name": "mailChoice",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "LetterRequestMailChoice",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The tracking number for the letter. Note that when this is changed, the user will be notified via SMS and added to a LOC follow-up campaign, if one has been configured.",
+              "isDeprecated": false,
+              "name": "trackingNumber",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "When the letter was mailed through the postal service.",
+              "isDeprecated": false,
+              "name": "letterSentAt",
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "LetterRequestType",
+          "possibleTypes": null
+        },
+        {
+          "description": "An enumeration.",
+          "enumValues": [
+            {
+              "deprecationReason": null,
+              "description": "Yes, have JustFix.nyc mail this letter for me.",
+              "isDeprecated": false,
+              "name": "WE_WILL_MAIL"
+            },
+            {
+              "deprecationReason": null,
+              "description": "No thanks, I'll mail it myself.",
+              "isDeprecated": false,
+              "name": "USER_WILL_MAIL"
+            }
+          ],
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "ENUM",
+          "name": "LetterRequestMailChoice",
           "possibleTypes": null
         },
         {

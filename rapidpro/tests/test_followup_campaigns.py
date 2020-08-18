@@ -1,5 +1,7 @@
 from unittest.mock import MagicMock
+from celery.exceptions import Retry
 from temba_client.v2.types import Contact
+from temba_client.exceptions import TembaHttpError
 from freezegun import freeze_time
 import pytest
 
@@ -88,3 +90,24 @@ class TestTriggerFollowupCampaignAsync:
         campaign.add_contact.assert_called_once()
         assert campaign.add_contact.call_args.args[1:] == ('Boop Jones', '5551234567')
         assert campaign.add_contact.call_args.kwargs == {'locale': 'en'}
+
+    def test_task_retries_on_api_errors(self, settings, monkeypatch):
+        settings.RAPIDPRO_FOLLOWUP_CAMPAIGN_RH = 'Boop Group,date_of_boop'
+        settings.RAPIDPRO_API_TOKEN = 'blorp'
+        dsfc = MagicMock()
+        campaign = MagicMock()
+        dsfc.get_campaign.return_value = campaign
+        campaign.add_contact.side_effect = TembaHttpError("blah")
+        retry = MagicMock()
+
+        def fake_retry(exc):
+            assert isinstance(exc, TembaHttpError)
+            raise Retry()
+
+        retry.side_effect = fake_retry
+        monkeypatch.setattr(tasks.trigger_followup_campaign, 'retry', retry)
+        monkeypatch.setattr(tasks, 'DjangoSettingsFollowupCampaigns', dsfc)
+        with pytest.raises(Retry):
+            trigger_followup_campaign_async('Boop Jones', '5551234567', 'RH', 'en')
+        dsfc.get_campaign.assert_called_once_with('RH')
+        campaign.add_contact.assert_called_once()

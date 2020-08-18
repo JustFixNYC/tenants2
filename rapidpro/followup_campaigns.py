@@ -94,13 +94,15 @@ class FollowupCampaign(NamedTuple):
             }
         )
 
-    def add_contact(self, client: TembaClient, full_name: str, phone_number: str):
+    def add_contact(self, client: TembaClient, full_name: str, phone_number: str, locale: str):
         """
         Add the given contact to the follow-up campaign, creating a new RapidPro contact
         if needed.
+
+        Locale should be an ISO 639-1 code, e.g. "en".
         """
 
-        contact = get_or_create_contact(client, full_name, phone_number)
+        contact = get_or_create_contact(client, full_name, phone_number, locale=locale)
         self.add_to_group_and_update_date_field(client, contact)
 
     @classmethod
@@ -121,11 +123,16 @@ class FollowupCampaign(NamedTuple):
         return FollowupCampaign(*value.split(',', 1))
 
 
-def trigger_followup_campaign_async(full_name: str, phone_number: str, campaign_name: str):
+def trigger_followup_campaign_async(
+    full_name: str,
+    phone_number: str,
+    campaign_name: str,
+    locale: str
+):
     '''
     Add the given contact to the given follow-up campaign from Django settings, e.g.:
 
-        >>> trigger_followup_campaign_async("Boop Jones", "5551234567", "RH")
+        >>> trigger_followup_campaign_async("Boop Jones", "5551234567", "RH", "en")
 
     If RapidPro or the follow-up campaign isn't configured, nothing is done.
     '''
@@ -134,7 +141,7 @@ def trigger_followup_campaign_async(full_name: str, phone_number: str, campaign_
     campaign = DjangoSettingsFollowupCampaigns.get_campaign(campaign_name)
     if client and campaign:
         from . import tasks
-        tasks.trigger_followup_campaign.delay(full_name, phone_number, campaign_name)
+        tasks.trigger_followup_campaign.delay(full_name, phone_number, campaign_name, locale)
 
 
 def ensure_followup_campaign_exists(campaign_name: str) -> None:

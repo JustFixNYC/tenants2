@@ -12,12 +12,12 @@ def setup_fixture(settings):
 
 def test_it_raises_error_if_campaign_is_invalid():
     with pytest.raises(CommandError, match="choose a valid follow-up campaign"):
-        call_command('trigger_followup_campaign', 'Boop Jones', '5551234567', 'BLOOOP')
+        call_command('trigger_followup_campaign', 'Boop Jones', '5551234567', 'BLOOOP', 'en')
 
 
 def test_it_raises_error_if_campaign_is_unconfigured():
     with pytest.raises(CommandError, match="The RH campaign must be configured"):
-        call_command('trigger_followup_campaign', 'Boop Jones', '5551234567', 'RH')
+        call_command('trigger_followup_campaign', 'Boop Jones', '5551234567', 'RH', 'en')
 
 
 def test_it_works(settings, monkeypatch):
@@ -26,7 +26,7 @@ def test_it_works(settings, monkeypatch):
     campaign = MagicMock()
     get_campaign.return_value = campaign
     monkeypatch.setattr(DjangoSettingsFollowupCampaigns, 'get_campaign', get_campaign)
-    call_command('trigger_followup_campaign', 'Boop Jones', '5551234567', 'RH')
+    call_command('trigger_followup_campaign', 'Boop Jones', '5551234567', 'RH', 'en')
     assert get_campaign.called_once_with('RH')
     assert campaign.add_contact.called_once()
-    assert campaign.add_contact.call_args.args[1:] == ('Boop Jones', '5551234567')
+    assert campaign.add_contact.call_args.args[1:] == ('Boop Jones', '5551234567', 'en')

@@ -174,7 +174,8 @@ class JustfixUser(AbstractUser):
             fc.trigger_followup_campaign_async(
                 self.full_name,
                 self.phone_number,
-                campaign_name
+                campaign_name,
+                locale=self.locale,
             )
         else:
             logging.info(

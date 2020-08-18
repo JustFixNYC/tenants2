@@ -5,6 +5,21 @@ import pytest
 from rapidpro import rapidpro_util
 
 
+@pytest.mark.parametrize('one,two', [
+    ('en', 'eng'),
+    ('es', 'spa'),
+])
+def test_iso639one2two(one, two):
+    assert rapidpro_util.iso639one2two(one) == two
+
+
+def test_iso639one2two_works_for_all_project_locales():
+    from project.locales import ALL
+
+    for locale, _ in ALL.choices:
+        assert len(rapidpro_util.iso639one2two(locale)) == 3
+
+
 class TestGetClientFromSettings:
     def test_it_returns_none_when_rapidpro_is_not_configured(self):
         assert rapidpro_util.get_client_from_settings() is None
@@ -31,7 +46,7 @@ def make_client_mocks(query_method_name, first_result):
 class TestGetOrCreateContact:
     def test_it_returns_pre_existing_contacts(self):
         client, contacts = make_client_mocks('get_contacts', first_result="BOOP")
-        assert rapidpro_util.get_or_create_contact(client, "Blarg", "5551234567") == "BOOP"
+        assert rapidpro_util.get_or_create_contact(client, "Blarg", "5551234567", "en") == "BOOP"
         client.get_contacts.assert_called_once_with(urn="tel:+15551234567")
         contacts.first.assert_called_once()
         client.create_contact.assert_not_called()
@@ -39,10 +54,11 @@ class TestGetOrCreateContact:
     def test_it_creates_contact_when_needed(self):
         client, contacts = make_client_mocks('get_contacts', first_result=None)
         client.create_contact.return_value = "BOOP"
-        assert rapidpro_util.get_or_create_contact(client, "Blarg", "5551234567") == "BOOP"
+        assert rapidpro_util.get_or_create_contact(client, "Blarg", "5551234567", "en") == "BOOP"
         client.get_contacts.assert_called_once_with(urn="tel:+15551234567")
         contacts.first.assert_called_once()
-        client.create_contact.assert_called_once_with(name="Blarg", urns=["tel:+15551234567"])
+        client.create_contact.assert_called_once_with(
+            name="Blarg", urns=["tel:+15551234567"], language="eng")
 
 
 class TestGetField:

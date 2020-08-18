@@ -1,4 +1,5 @@
 from . import models, forms, email_dhcr
+from django.utils import translation
 
 from project import slack
 from project.util.django_graphql_session_forms import (
@@ -70,7 +71,8 @@ class RhSendEmail(SessionFormMutation):
         trigger_followup_campaign_async(
             f"{first_name} {last_name}",
             form_data["phone_number"],
-            "RH"
+            "RH",
+            locale=translation.get_language_from_request(request, check_path=True),
         )
         RhFormInfo.clear_from_request(request)
         return cls.mutation_success()

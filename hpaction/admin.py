@@ -39,7 +39,9 @@ class ConfigAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
 
 @admin.register(models.CourtContact)
 class CourtContactAdmin(admin.ModelAdmin):
-    pass
+    list_display = [
+        'name', 'email', 'court'
+    ]
 
 
 class DocusignEnvelopeInline(admin.StackedInline):

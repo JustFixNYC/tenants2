@@ -69,6 +69,17 @@ class TestGetCourtContactsForBorough:
         ]
 
 
+def test_cc_court_contacts():
+    c1 = CourtContact(name="Boop Jones", email="boop@jones.net")
+    c2 = CourtContact(name="Blap Jones", email="blap@jones.net")
+    ccs = docusign.cc_court_contacts([c1, c2], initial_recipient_id=3)
+    cc_tuples = [(c.name, c.email, c.recipient_id) for c in ccs]
+    assert cc_tuples == [
+        ('Boop Jones', 'boop@jones.net', '3'),
+        ('Blap Jones', 'blap@jones.net', '4'),
+    ]
+
+
 class TestFormsConfig:
     @pytest.mark.parametrize('hpa_type,num_date_signed_tabs', [
         (HPAType.REPAIRS, 4),

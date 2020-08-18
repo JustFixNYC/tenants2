@@ -38,7 +38,7 @@ class ConfigAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
 
 
 @admin.register(models.CourtContact)
-class ConfigAdmin(admin.ModelAdmin):
+class CourtContactAdmin(admin.ModelAdmin):
     pass
 
 

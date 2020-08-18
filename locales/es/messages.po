@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-08-13 13:07\n"
+"PO-Revision-Date: 2020-08-18 12:24\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -195,10 +195,6 @@ msgstr "Crea tu carta"
 #: frontend/lib/norent/data/faqs-content.tsx:28
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
 msgstr "Mapa de huelgas de renta y protección para inquilinos ante la emergencia generada por el COVID-19"
-
-#: frontend/lib/ui/covid-banners.tsx:43
-msgid "COVID-19 Update:"
-msgstr "Actualización COVID-19:"
 
 #: common-data/us-state-choices.ts:69
 msgid "California"
@@ -1426,10 +1422,6 @@ msgstr "Código postal"
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:71
 msgid "and"
 msgstr "y"
-
-#: frontend/lib/ui/covid-banners.tsx:45
-msgid "justfix.covidBanner2"
-msgstr "JustFix.nyc is operating, and has adapted our products to match preliminary rules put in place during the COVID-19 crisis. We recommend you take full precautions to stay safe during this public health crisis. Thanks to tenant organizing during this time, renters cannot be evicted for any reason. Visit <0>Right to Council’s Eviction Moratorium FAQs</0> to learn more."
 
 #: frontend/lib/ui/legal-disclaimer.tsx:4
 msgid "justfix.legalDisclaimer"

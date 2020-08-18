@@ -78,6 +78,12 @@ class CourtContact(models.Model):
         )
     )
 
+    def __str__(self):
+        if self.name and self.email and self.court:
+            court = BOROUGH_CHOICES.get_label(self.court)
+            return f"{self.name} <{self.email}> at {court} housing court"
+        return super().__str__()
+
 
 class Config(models.Model):
     '''

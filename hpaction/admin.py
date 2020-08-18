@@ -37,6 +37,11 @@ class ConfigAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
     pass
 
 
+@admin.register(models.CourtContact)
+class ConfigAdmin(admin.ModelAdmin):
+    pass
+
+
 class DocusignEnvelopeInline(admin.StackedInline):
     model = models.DocusignEnvelope
 

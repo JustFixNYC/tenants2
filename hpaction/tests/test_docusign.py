@@ -14,7 +14,7 @@ from onboarding.tests.factories import OnboardingInfoFactory
 from onboarding.models import BOROUGH_CHOICES
 from users.tests.factories import JustfixUser
 from loc.tests.factories import LandlordDetailsFactory
-from hpaction.models import Config
+from hpaction.models import Config, CourtContact
 from hpaction import docusign
 from hpaction.docusign import HPAType, FormsConfig
 
@@ -28,12 +28,12 @@ def set_config(**kwargs):
     config.save()
 
 
-class TestGetHousingCourtForBorough:
+class TestGetCourtContactsForBorough:
     @pytest.mark.parametrize('borough', ALL_BOROUGHS)
-    def test_it_returns_none_when_config_does_not_exist(self, db, borough):
-        assert docusign.get_housing_court_for_borough(borough) is None
+    def test_it_returns_empty_list_when_nothing_is_configured(self, db, borough):
+        assert docusign.get_court_contacts_for_borough(borough) == []
 
-    def test_it_returns_borough_court_when_it_exists(self, db):
+    def test_it_returns_borough_court_when_configured(self, db):
         set_config(
             manhattan_court_email="manhattan@courts.gov",
             bronx_court_email="bronx@courts.gov",
@@ -41,21 +41,32 @@ class TestGetHousingCourtForBorough:
             queens_court_email="queens@courts.gov",
             staten_island_court_email="si@courts.gov",
         )
-        assert docusign.get_housing_court_for_borough("MANHATTAN") == (
-            "Manhattan Housing Court", "manhattan@courts.gov",
-        )
-        assert docusign.get_housing_court_for_borough("BRONX") == (
-            "Bronx Housing Court", "bronx@courts.gov",
-        )
-        assert docusign.get_housing_court_for_borough("BROOKLYN") == (
-            "Brooklyn Housing Court", "brooklyn@courts.gov",
-        )
-        assert docusign.get_housing_court_for_borough("QUEENS") == (
-            "Queens Housing Court", "queens@courts.gov",
-        )
-        assert docusign.get_housing_court_for_borough("STATEN_ISLAND") == (
-            "Staten Island Housing Court", "si@courts.gov",
-        )
+        CourtContact(
+            name="Boop Jones",
+            email="boop@jones.net",
+            court=BOROUGH_CHOICES.STATEN_ISLAND,
+        ).save()
+
+        def get_contacts(borough: str):
+            contacts = docusign.get_court_contacts_for_borough(borough)
+            return [(c.name, c.email) for c in contacts]
+
+        assert get_contacts("MANHATTAN") == [
+            ("Manhattan Housing Court", "manhattan@courts.gov"),
+        ]
+        assert get_contacts("BRONX") == [
+            ("Bronx Housing Court", "bronx@courts.gov"),
+        ]
+        assert get_contacts("BROOKLYN") == [
+            ("Brooklyn Housing Court", "brooklyn@courts.gov"),
+        ]
+        assert get_contacts("QUEENS") == [
+            ("Queens Housing Court", "queens@courts.gov"),
+        ]
+        assert get_contacts("STATEN_ISLAND") == [
+            ("Staten Island Housing Court", "si@courts.gov"),
+            ("Boop Jones", "boop@jones.net"),
+        ]
 
 
 class TestFormsConfig:

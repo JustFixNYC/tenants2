@@ -18,6 +18,7 @@ from project.util.site_util import absolute_reverse
 from loc.lob_api import MAX_NAME_LEN as MAX_LOB_NAME_LEN
 from project.util.mailing_address import MailingAddress
 from project import common_data
+from onboarding.models import BOROUGH_CHOICES
 from users.models import JustfixUser
 
 HP_ACTION_CHOICES = common_data.Choices.from_file("hp-action-choices.json")
@@ -59,11 +60,34 @@ def attr_name_for_harassment_allegation(name: str) -> str:
     return f"alleg_{name.lower()}"
 
 
+class CourtContact(models.Model):
+    '''
+    A contact at Housing Court whom we can send signed HP Actions to.
+    '''
+
+    name: str = models.CharField(max_length=100, help_text="The contact's name.")
+
+    email: str = models.EmailField(help_text="The contact's email address.")
+
+    court: str = models.CharField(
+        max_length=100,
+        choices=BOROUGH_CHOICES.choices,
+        help_text=(
+            "The housing court the contact belongs to. Signed HPs for this "
+            "court will be sent to this person's email address."
+        )
+    )
+
+
 class Config(models.Model):
     '''
     Contains configuration data for HP actions.
 
     This model is a singleton.
+
+    TODO: This model is now deprecated; we should manually migrate all
+    court emails from here to `CourtContact` models and then get rid
+    of this model.
     '''
 
     manhattan_court_email = models.EmailField(blank=True)

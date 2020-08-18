@@ -57,7 +57,7 @@ class TestTriggerFollowupCampaignAsync:
     @pytest.fixture
     def tasks_trigger(self, monkeypatch):
         tasks_trigger = MagicMock()
-        monkeypatch.setattr(tasks, 'trigger_followup_campaign_v2', tasks_trigger)
+        monkeypatch.setattr(tasks, 'trigger_followup_campaign', tasks_trigger)
         yield tasks_trigger
 
     def test_it_does_nothing_if_rapidpro_is_unconfigured(self, settings, tasks_trigger):

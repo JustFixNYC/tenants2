@@ -141,7 +141,7 @@ def trigger_followup_campaign_async(
     campaign = DjangoSettingsFollowupCampaigns.get_campaign(campaign_name)
     if client and campaign:
         from . import tasks
-        tasks.trigger_followup_campaign_v2.delay(full_name, phone_number, campaign_name, locale)
+        tasks.trigger_followup_campaign.delay(full_name, phone_number, campaign_name, locale)
 
 
 def ensure_followup_campaign_exists(campaign_name: str) -> None:

@@ -348,7 +348,7 @@ class TestFillLandlordInfo:
         ({'pad_bbl': ''}, False, None),
         ({'lease_type': 'NYCHA'}, True, DEFAULT_NYCHA),
         ({'pad_bbl': '1234567890'}, False, None),
-        ({'borough': 'BRONX', 'pad_bbl': '2022150116'}, True, "NYCHA MARBLE HILL HOUSES"),
+        ({'borough': 'BRONX', 'pad_bbl': '2022150116'}, True, "NYCHA Marble Hill Houses"),
         ({'borough': 'BROOKLYN', 'pad_bbl': '3005380001'}, True, DEFAULT_NYCHA),
     ])
     def test_it_sets_nycha_info(self, db, loaded_nycha_csv_data, onb_kwargs, is_nycha, name):

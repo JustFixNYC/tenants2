@@ -198,7 +198,7 @@ def fill_landlord_info_from_nycha(v: hp.HPActionVariables, user: JustfixUser) ->
     if pad_bbl and is_for_bronx_court:
         prop = NychaProperty.objects.filter(pad_bbl=pad_bbl).first()
         if prop:
-            name = f"NYCHA {prop.development} HOUSES"
+            name = f"NYCHA {prop.development.title()} Houses"
 
     v.landlord_entity_name_te = name
     v.landlord_address_street_te = NYCHA_ADDRESS['primaryLine']

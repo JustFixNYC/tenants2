@@ -103,7 +103,6 @@ describe("<AdminConversationsPage>", () => {
         output: {
           messages: [
             {
-              sid: "+15551234567",
               userPhoneNumber: "+15551234567",
               userFullName: "Boop Jones",
               userId: 5,

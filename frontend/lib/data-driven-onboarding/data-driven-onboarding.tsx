@@ -23,8 +23,9 @@ import { UpdateBrowserStorage } from "../browser-storage";
 import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issues";
 import { MORATORIUM_FAQ_URL } from "../ui/covid-banners";
 import i18n from "../i18n";
-import { Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { EnglishOutboundLink } from "../ui/localized-outbound-link";
+import { li18n } from "../i18n-lingui";
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
@@ -352,7 +353,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     const hasMinBuildings = buildings > 1;
 
     return {
-      title: "Research your landlord",
+      title: li18n._(t`Research your landlord`),
       priority: WOW_PRIORITY,
       isRecommended: buildings > 25,
       indicators: [
@@ -387,7 +388,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       cta: {
         to: whoOwnsWhatURL(data.bbl),
         gaLabel: "wow",
-        text: "Visit Who Owns What",
+        text: li18n._(t`Visit Who Owns What`),
       },
     };
   },
@@ -402,7 +403,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       </Trans>
     );
     return {
-      title: "Request repairs from your landlord",
+      title: li18n._(t`Request repairs from your landlord`),
       priority: COMPLAINTS_PRIORITY,
       isRecommended:
         (data.hpdComplaintCount || 0) > 5 ||
@@ -413,7 +414,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       cta: {
         to: JustfixRoutes.locale.loc.latestStep,
         gaLabel: "loc",
-        text: "Send a letter of complaint",
+        text: li18n._(t`Send a letter of complaint`),
       },
     };
   },
@@ -447,7 +448,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       </Trans>
     );
     const normalHpAction: ActionCardProps = {
-      title: "Start a legal case for repairs and/or harassment",
+      title: li18n._(t`Start a legal case for repairs and/or harassment`),
       priority:
         (data.hpdOpenClassCViolationCount || 0) > 2
           ? VIOLATIONS_HIGH_PRIORITY
@@ -464,7 +465,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       cta: {
         to: JustfixRoutes.locale.hp.latestStep,
         gaLabel: "hp",
-        text: "Sue your landlord",
+        text: li18n._(t`Sue your landlord`),
         isBeta: true,
       },
     };
@@ -472,13 +473,13 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     return getGlobalAppServerInfo().enableEmergencyHPAction
       ? {
           ...normalHpAction,
-          title: "Start an emergency legal case for repairs",
+          title: li18n._(t`Start an emergency legal case for repairs`),
           indicators: [emergencyCovidMessage],
           fallbackMessage: emergencyCovidMessage,
           cta: {
             to: JustfixRoutes.locale.ehp.latestStep,
             gaLabel: "ehp",
-            text: "Sue your landlord",
+            text: li18n._(t`Sue your landlord`),
             isBeta: true,
           },
         }
@@ -486,7 +487,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   },
   function rentHistory(data): ActionCardProps {
     return {
-      title: "Learn about your rent",
+      title: li18n._(t`Learn about your rent`),
       priority: RENT_HISTORY_PRIORITY,
       isRecommended: data.unitCount > 6 || (data.yearBuilt || Infinity) < 1974,
       indicators: [
@@ -516,7 +517,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       cta: {
         to: JustfixRoutes.locale.rh.splash,
         gaLabel: "rh",
-        text: "Order rent history",
+        text: li18n._(t`Order rent history`),
       },
     };
   },
@@ -529,9 +530,8 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         This means you <b>cannot be evicted for any reason</b>.
       </Trans>
     );
-    const covidCtaText = "Learn more";
     return {
-      title: "Fight an eviction",
+      title: li18n._(t`Fight an eviction`),
       priority: EFNYC_PRIORITY,
       isRecommended:
         data.isRtcEligible && (data.numberOfEvictionsFromPortfolio || 0) > 0,
@@ -541,7 +541,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       cta: {
         to: MORATORIUM_FAQ_URL[i18n.locale],
         gaLabel: "efnyc",
-        text: covidCtaText,
+        text: li18n._(t`Learn more`),
       },
     };
   },
@@ -602,7 +602,7 @@ export function DataDrivenOnboardingResults(props: DDOData) {
 
   return (
     <>
-      <PageTitle title={`Results for ${props.fullAddress}`} />
+      <PageTitle title={li18n._(t`Results for ${props.fullAddress}`)} />
       <ActionCard {...useBuildingIntroCard(props)} />
       {actions.recommended.length > 0 && (
         <>
@@ -616,7 +616,11 @@ export function DataDrivenOnboardingResults(props: DDOData) {
       )}
       {actions.other.length > 0 && (
         <>
-          <h2>{actions.recommended.length > 0 ? "More actions" : "Actions"}</h2>
+          <h2>
+            {actions.recommended.length > 0
+              ? li18n._(t`More actions`)
+              : li18n._(t`Actions`)}
+          </h2>
           {actions.other.map((props, i) => (
             <ActionCard key={i} {...props} />
           ))}
@@ -634,7 +638,7 @@ function Results(props: { address: string; output: DDOData | null }) {
   } else if (props.address.trim()) {
     content = (
       <>
-        <PageTitle title="Unrecognized address" />
+        <PageTitle title={li18n._(t`Unrecognized address`)} />
         <h3 {...queryFormResultFocusProps}>
           <Trans>Sorry, we don't recognize the address you entered.</Trans>
         </h3>
@@ -689,7 +693,9 @@ export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
                 >
                   <AddressAndBoroughField
                     key={props.location.search}
-                    addressLabel="Enter your address to see some recommended actions."
+                    addressLabel={li18n._(
+                      t`Enter your address to see some recommended actions.`
+                    )}
                     renderAddressLabel={(label, props) => (
                       <label
                         {...props}
@@ -707,7 +713,7 @@ export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
                   />
                   <AutoSubmitter ctx={ctx} autoSubmit={autoSubmit} />
                   <NextButton
-                    label="Search address"
+                    label={li18n._(t`Search address`)}
                     buttonSizeClass="is-normal"
                     isLoading={ctx.isLoading}
                   />

@@ -36,7 +36,7 @@ msgstr "8 minutos"
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:440
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:441
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
 msgstr ""
 
@@ -90,7 +90,7 @@ msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines
 msgid "About"
 msgstr "Acerca de"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:403
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:404
 msgid "Actions"
 msgstr ""
 
@@ -243,8 +243,8 @@ msgstr "Construye poder común"
 msgid "Build your letter"
 msgstr "Crea tu carta"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:215
-msgid "Buildings in your landlord's portfolio are located in {0, plural, one {one zip code} other {# zip codes}}."
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:216
+msgid "Buildings in your landlord's portfolio are located in {0, plural, one {one zip code.} other {# zip codes.}}"
 msgstr ""
 
 #: common-data/issue-choices.ts:164
@@ -482,7 +482,7 @@ msgstr "Dirección de correo electrónico <0>(recomendado)</0>"
 msgid "English version"
 msgstr "Versión en inglés"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:449
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:450
 msgid "Enter your address to see some recommended actions."
 msgstr ""
 
@@ -519,7 +519,7 @@ msgstr ""
 msgid "Faucets not working"
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:342
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:343
 msgid "Fight an eviction"
 msgstr ""
 
@@ -777,7 +777,7 @@ msgstr "¿Es gratis?"
 msgid "Is this tool right for me?"
 msgstr "¿Es esta herramienta adecuada para mí?"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:180
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:182
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 msgstr ""
 
@@ -849,11 +849,11 @@ msgstr ""
 msgid "Learn about why we made this tool, who we are, and who our partners are."
 msgstr "Aprenda por qué hemos construido esta herramienta, quiénes somos, y quiénes son nuestros aliados."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:309
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:310
 msgid "Learn about your rent"
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:351
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:352
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:21
 #: frontend/lib/norent/the-letter.tsx:29
@@ -1015,7 +1015,7 @@ msgstr ""
 msgid "Montana"
 msgstr "Montana"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:402
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:403
 msgid "More actions"
 msgstr ""
 
@@ -1093,8 +1093,8 @@ msgstr ""
 msgid "No Smoke Detector"
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:159
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:178
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:161
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:180
 msgid "No registration found."
 msgstr ""
 
@@ -1144,7 +1144,7 @@ msgstr "¡Vaya! Hubo un error en la red. Inténtalo más tarde."
 msgid "Oops! That email is invalid."
 msgstr "¡Vaya! Ese correo electrónico no es válido."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:330
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:331
 msgid "Order rent history"
 msgstr ""
 
@@ -1259,7 +1259,7 @@ msgstr ""
 msgid "Rats/Mice"
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:395
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:396
 msgid "Recommended actions"
 msgstr ""
 
@@ -1288,11 +1288,11 @@ msgstr "Organizar Huelgas de Renta"
 msgid "Rent receipts incomplete"
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:242
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:243
 msgid "Request repairs from your landlord"
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:206
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:208
 msgid "Research your landlord"
 msgstr ""
 
@@ -1300,7 +1300,7 @@ msgstr ""
 msgid "Reset your password"
 msgstr "Cambia tu contraseña"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:391
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:392
 msgid "Results for {0}"
 msgstr ""
 
@@ -1328,7 +1328,7 @@ msgstr ""
 msgid "Sample NoRent.org letter"
 msgstr "Ejemplar de una carta de NoRent.org"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:453
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:454
 msgid "Search address"
 msgstr ""
 
@@ -1336,7 +1336,7 @@ msgstr ""
 msgid "See more FAQs"
 msgstr "Ver todas las preguntas más frecuentes"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:252
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:253
 msgid "Send a letter of complaint"
 msgstr ""
 
@@ -1460,7 +1460,7 @@ msgstr ""
 msgid "Sorry, the page you are looking for doesn't seem to exist."
 msgstr "Lo sentimos, la página que estás buscando no existe."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:419
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:420
 msgid "Sorry, we don't recognize the address you entered."
 msgstr ""
 
@@ -1472,11 +1472,11 @@ msgstr "Carolina del Sur"
 msgid "South Dakota"
 msgstr "Dakota del Sur"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:280
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:281
 msgid "Start a legal case for repairs and/or harassment"
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:300
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:301
 msgid "Start an emergency legal case for repairs"
 msgstr ""
 
@@ -1509,8 +1509,8 @@ msgstr "Dirección"
 msgid "Submit email"
 msgstr "Enviar email"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:295
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:303
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:296
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:304
 msgid "Sue your landlord"
 msgstr ""
 
@@ -1549,7 +1549,7 @@ msgstr "Tejas"
 msgid "The Letter"
 msgstr "La Carta"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:219
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:220
 msgid "The majority of your landlord's properties are concentrated in {0}."
 msgstr ""
 
@@ -1561,11 +1561,11 @@ msgstr "La página web a la que quieres acceder solo está disponible en inglés
 msgid "There {0, plural, one {is one unit} other {are # units}} in your building."
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:322
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:323
 msgid "Think your apartment may be rent-stabilized? Request its official records."
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:139
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:140
 msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 msgstr ""
 
@@ -1605,7 +1605,7 @@ msgstr "Desafortunadamente, en este momento no recomendamos enviar una carta de 
 msgid "Unit/apt/lot/suite number"
 msgstr "Número de apartamento/unidad/lote/suite"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:417
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:418
 msgid "Unrecognized address"
 msgstr ""
 
@@ -1637,7 +1637,7 @@ msgstr "Ver la carta como PDF"
 msgid "Virginia"
 msgstr "Virginia"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:229
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:230
 msgid "Visit Who Owns What"
 msgstr ""
 
@@ -1866,15 +1866,15 @@ msgstr "Tu carta de NoRent.org"
 msgid "Your account is set up"
 msgstr "¡Tu cuenta está lista!"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:315
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:316
 msgid "Your apartment may be rent stabilized."
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:316
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:317
 msgid "Your building had {0, plural, one {one rent stabilized unit} other {# rent stabilized units}} in 2017."
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:126
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:127
 msgid "Your building was built in {0} or earlier."
 msgstr ""
 
@@ -1882,15 +1882,15 @@ msgstr ""
 msgid "Your email address"
 msgstr "Tu dirección de correo electrónico"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:210
-msgid "Your landlord is associated with {buildings, plural, one {one building} other {# buildings}} ."
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:212
+msgid "Your landlord is associated with {buildings, plural, one {one building} other {# buildings}}."
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:161
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:163
 msgid "Your landlord may be breaking the law!"
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:224
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:225
 msgid "Your landlord might own other buildings, too."
 msgstr ""
 
@@ -1906,8 +1906,8 @@ msgstr "La dirección de correo electrónico del dueño o manager de tu edificio
 msgid "Your landlord or management company's information"
 msgstr "Los datos del dueño o manager de tu edificio"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:147
-msgid "Your landlord owns {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit} other {# units}}."
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:148
+msgid "Your landlord owns {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit.} other {# units.}}"
 msgstr ""
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:46
@@ -1944,27 +1944,28 @@ msgstr "No estás solo. Millones de estadounidenses no podrán pagar la renta po
 msgid "Zip code"
 msgstr "Código postal"
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:200
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:71
 msgid "and"
 msgstr "y"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:163
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:165
 msgid "justfix.DdoMayNeedHpdRegistration"
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:336
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
 msgid "justfix.ddoEfnycCovidMessage"
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:272
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:273
 msgid "justfix.ddoEhpaCovidMessage"
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:258
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:259
 msgid "justfix.ddoHpaCovidMessage"
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:235
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:236
 msgid "justfix.ddoLocCovidMessage"
 msgstr ""
 

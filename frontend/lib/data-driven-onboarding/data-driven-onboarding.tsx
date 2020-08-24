@@ -329,7 +329,9 @@ const useBuildingIntroCard: ActionCardPropsCreator = (
 
 function commaSeparatedConjunction(items: string[]): string {
   return items
-    .map((item, i) => (i === items.length - 1 ? `and ${item}` : item))
+    .map((item, i) =>
+      i === items.length - 1 ? li18n._(t`and`) + ` ${item}` : item
+    )
     .join(", ");
 }
 

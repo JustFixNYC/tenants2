@@ -4,6 +4,9 @@ import { AppTesterPal } from "../../tests/app-tester-pal";
 import LetterOfComplaintRoutes from "../letter-of-complaint";
 import { LetterRequestMutation } from "../../queries/LetterRequestMutation";
 import { LetterRequestMailChoice } from "../../queries/globalTypes";
+import { newSb } from "../../tests/session-builder";
+
+const sb = newSb().withLoggedInJustfixUser();
 
 const PRE_EXISTING_LETTER_REQUEST = {
   mailChoice: LetterRequestMailChoice.WE_WILL_MAIL,
@@ -42,7 +45,9 @@ describe("landlord details page", () => {
   it("works when user chooses to mail the letter themselves", async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: JustfixRoutes.locale.loc.preview,
-      session: { letterRequest: PRE_EXISTING_LETTER_REQUEST },
+      session: sb.with({
+        letterRequest: PRE_EXISTING_LETTER_REQUEST,
+      }).value,
     });
     clickButtonAndExpectChoice(
       pal,
@@ -54,7 +59,9 @@ describe("landlord details page", () => {
   it("works when user wants us to mail the letter", async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: JustfixRoutes.locale.loc.preview,
-      session: { letterRequest: PRE_EXISTING_LETTER_REQUEST },
+      session: sb.with({
+        letterRequest: PRE_EXISTING_LETTER_REQUEST,
+      }).value,
     });
     pal.clickButtonOrLink(/looks good to me/i);
     await pal.rt.waitFor(() => pal.getDialogWithLabel(/ready to go/i));

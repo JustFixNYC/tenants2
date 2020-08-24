@@ -35,6 +35,9 @@ EXAMPLE_FIELDS = {
     # In Airtable, this should be a "Single line text" field.
     'lease_type': 'RENT_STABILIZED',
 
+    # In Airtable, this should be a "Single line text" field.
+    'borough': 'BROOKLYN',
+
     # In Airtable, this should be a "Date" field.
     'letter_request_date': '2018-01-02',
 
@@ -73,7 +76,29 @@ EXAMPLE_FIELDS = {
 
     # In Airtable, this should be a "Checkbox" field.
     'hp_sue_for_harassment': True,
+
+    # In Airtable, this should be a "Date" field.
+    'ehp_latest_filing_date': '2018-02-04',
+
+    # In Airtable, this should be a "Number" field with an "Integer" format.
+    'ehp_num_filings': 0,
 }
+
+
+def apply_annotations_to_user(user: JustfixUser, annotations: Dict[str, Any]):
+    '''
+    If the given user wasn't fetched from the database with the given annotations,
+    make it appear as though it was. Otherwise, do nothing.
+    '''
+
+    missing_attrs = [
+        key for key in annotations.keys()
+        if not hasattr(user, key)
+    ]
+    if missing_attrs:
+        u = JustfixUser.objects.filter(pk=user.pk).annotate(**annotations).first()
+        for key in missing_attrs:
+            setattr(user, key, getattr(u, key))
 
 
 def get_user_field_for_airtable(user: JustfixUser, field: pydantic.fields.Field) -> Any:
@@ -122,9 +147,9 @@ class Fields(pydantic.BaseModel):
     we don't care about for the purposes of syncing.
 
     The names of the fields are either attributes of our
-    user model, or they are attributes of related models, which
-    are named using Django's syntax for lookups that span
-    relationships [1]:
+    user model, custom annotations, or they are attributes
+    of related models, which are named using Django's syntax
+    for lookups that span relationships [1]:
 
     > To span a relationship, just use the field name of related
     > fields across models, separated by double underscores,
@@ -133,6 +158,11 @@ class Fields(pydantic.BaseModel):
     In some cases, we use pydantic's "alias" feature to ensure
     that the Airtable field name is more readable than the
     notation we use internally.
+
+    If the field is a custom annotation, the annotation's
+    query expression should appear as an entry in the dictionary
+    returned by the `get_annotations()` class method. See that
+    class' documentation for more details.
 
     [1] https://docs.djangoproject.com/en/2.1/topics/db/queries/
     '''
@@ -157,6 +187,9 @@ class Fields(pydantic.BaseModel):
 
     # The user's lease type.
     onboarding_info__lease_type: str = pydantic.Schema(default='', alias='lease_type')
+
+    # The user's borough.
+    onboarding_info__borough: str = pydantic.Schema(default='', alias='borough')
 
     # When the user's letter of complaint was requested.
     letter_request__created_at: Optional[str] = pydantic.Schema(
@@ -197,8 +230,7 @@ class Fields(pydantic.BaseModel):
         default=False, alias='will_we_mail_letter')
 
     # The most recent date the user's HP action documents were generated.
-    hp_action_details__latest_documents__created_at: Optional[str] = pydantic.Schema(
-        default=None, alias='hp_latest_documents_date')
+    hp_latest_documents_date: Optional[str] = None
 
     # Whether the user wants to sue for repairs.
     hp_action_details__sue_for_repairs: bool = pydantic.Schema(
@@ -208,13 +240,63 @@ class Fields(pydantic.BaseModel):
     hp_action_details__sue_for_harassment: bool = pydantic.Schema(
         default=False, alias='hp_sue_for_harassment')
 
+    # The date of the most recent Emergency HP action the user signed.
+    ehp_latest_filing_date: Optional[str] = None
+
+    # The number of Emergency HP actions the user signed.
+    ehp_num_filings: int = 0
+
     @classmethod
-    def from_user(cls: Type[T], user: JustfixUser) -> T:
+    def get_annotations(cls) -> Dict[str, Any]:
+        '''
+        Returns a mapping from field names to the query expressions they
+        represent.  An entry must exist for every field on our class
+        that isn't a built-in model field.  For more documentation on
+        what a query expression is, see Django's documentation on
+        `annotate()` [1].
+
+        [1] https://docs.djangoproject.com/en/3.0/ref/models/querysets/#annotate
+        '''
+
+        from django.db.models import Max, Count, Q
+        from hpaction.models import HP_DOCUSIGN_STATUS_CHOICES
+
+        signed = Q(
+            hpactiondocuments__docusignenvelope__status=HP_DOCUSIGN_STATUS_CHOICES.SIGNED)
+
+        return {
+            'hp_latest_documents_date': Max('hpactiondocuments__created_at'),
+            'ehp_latest_filing_date': Max(
+                'hpactiondocuments__docusignenvelope__created_at', filter=signed),
+            'ehp_num_filings': Count('hpactiondocuments__docusignenvelope', filter=signed),
+        }
+
+    @classmethod
+    def select_related_and_annotate(cls, queryset):
+        '''
+        Given a Queryset of users, select all related models and apply all
+        necessary annotations to create a Fields object without requiring
+        any additional database queries. Return the new Queryset.
+        '''
+
+        return queryset.select_related(*FIELDS_RELATED_MODELS)\
+            .annotate(**cls.get_annotations())
+
+    @classmethod
+    def from_user(cls: Type[T], user: JustfixUser, refresh: bool = False) -> T:
         '''
         Given a user, return the Fields that represent their data.
+
+        If `refresh` is True, the user's data will be refreshed from the database.
         '''
 
         kwargs: Dict[str, Any] = {}
+
+        if refresh:
+            user = cls.select_related_and_annotate(
+                JustfixUser.objects.filter(pk=user.pk)).first()
+
+        apply_annotations_to_user(user, cls.get_annotations())
 
         for field in cls.__fields__.values():
             kwargs[field.alias] = get_user_field_for_airtable(user, field)

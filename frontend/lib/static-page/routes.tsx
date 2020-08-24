@@ -38,3 +38,37 @@ export function createLetterStaticPageRoutes(
     />,
   ];
 }
+
+type HtmlEmailStaticPageRouteInfo = ReturnType<
+  typeof createHtmlEmailStaticPageRouteInfo
+>;
+
+/**
+ * Route information about the HTML and plaintext versions of an
+ * email. For example, if passed "/boop", it will represent
+ * routes for "/boop.html" and "/boop.txt".
+ */
+export const createHtmlEmailStaticPageRouteInfo = (prefix: string) => ({
+  html: `${prefix}.html`,
+  txt: `${prefix}.txt`,
+});
+
+export function createHtmlEmailStaticPageRoutes(
+  routeInfo: HtmlEmailStaticPageRouteInfo,
+  Component: React.ComponentType<{ isHtmlEmail?: boolean }>
+) {
+  return [
+    <Route
+      key={routeInfo.html}
+      path={routeInfo.html}
+      exact
+      render={() => <Component isHtmlEmail={true} />}
+    />,
+    <Route
+      key={routeInfo.txt}
+      path={routeInfo.txt}
+      exact
+      render={() => <Component isHtmlEmail={false} />}
+    />,
+  ];
+}

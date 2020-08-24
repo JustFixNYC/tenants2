@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Any, Optional, Dict, Union
 import json
 import requests
 from django.core.management.base import BaseCommand, CommandError
@@ -13,12 +13,34 @@ LOADABLE_STATS_JSON = BASE_DIR / 'frontend' / 'static' / 'frontend' / 'loadable-
 ROLLBAR_SOURCEMAP_URL = "https://api.rollbar.com/api/1/sourcemap/download"
 
 
-def get_bundle_urls() -> List[str]:
-    webpack_public_path_url = get_webpack_public_path_url()
-    loadable_stats = json.loads(LOADABLE_STATS_JSON.read_text())
+def get_js_filename(asset: Union[str, List[str]]) -> str:
+    '''
+    Given an asset in our loadable stats JSON, return its main JS filename.
+
+    This accounts for the fact that, depending on whether we're inlining
+    our sourcemaps or not, the asset can be a single string or a list of
+    strings.
+    '''
+
+    if isinstance(asset, str):
+        return asset
+    assert isinstance(asset, list), f"{asset} should be a list"
+    js_filenames = [f for f in asset if f.endswith('.js')]
+    assert len(js_filenames) == 1, f"{js_filenames} should have one item"
+    return js_filenames[0]
+
+
+def get_bundle_urls(
+    loadable_stats: Optional[Dict[str, Any]] = None,
+    webpack_public_path_url: Optional[str] = None,
+) -> List[str]:
+    if loadable_stats is None:
+        loadable_stats = json.loads(LOADABLE_STATS_JSON.read_text())
+    if webpack_public_path_url is None:
+        webpack_public_path_url = get_webpack_public_path_url()
     return [
-        f"{webpack_public_path_url}{filename}"
-        for filename in loadable_stats["assetsByChunkName"].values()
+        f"{webpack_public_path_url}{get_js_filename(asset)}"
+        for asset in loadable_stats["assetsByChunkName"].values()
     ]
 
 

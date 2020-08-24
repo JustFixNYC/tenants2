@@ -58,6 +58,7 @@ import { HpActionSue } from "./sue";
 import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-steps";
 import { assertNotNull } from "../util/util";
 import { renderSuccessHeading } from "../ui/success-heading";
+import { NycUsersOnly } from "../pages/nyc-users-only";
 
 const onboardingForHPActionRoute = () =>
   getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.HP).onboarding
@@ -321,9 +322,11 @@ const PreviousAttempts = createHPActionPreviousAttempts(
 export const getHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: JustfixRoutes.locale.hp.latestStep,
   label: "HP Action",
+  defaultWrapContent: NycUsersOnly,
   welcomeSteps: [
     {
       path: JustfixRoutes.locale.hp.splash,
+      wrapContent: false,
       exact: true,
       component: HPActionSplash,
       isComplete: (s) => !!s.phoneNumber,

@@ -20,7 +20,7 @@ import MoratoriumBanner from "./ui/covid-banners";
 import { AppSiteProps } from "./app";
 import { Footer } from "./ui/footer";
 import { JustfixNavbar } from "./justfix-navbar";
-import { createLocaleRedirectorRoute } from "./util/locale-redirector";
+import { PLRoute, toPLRoute } from "./pages/redirect-to-english-page";
 
 const LoadableDataDrivenOnboardingPage = loadable(
   () => friendlyLoad(import("./data-driven-onboarding/data-driven-onboarding")),
@@ -93,37 +93,33 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
     enableEHP &&
     !(session.onboardingInfo?.signupIntent === OnboardingInfoSignupIntent.HP);
 
-  // NoRent.org is localized but JustFix.nyc isn't; our server's locale
-  // negotiation logic doesn't know this, so it might send the user to the
-  // Spanish version of JustFix.nyc, and if that happens we want to redirect
-  // the user to the English version, since the Spanish version of JustFix.nyc
-  // isn't ready yet.
-  const localeRedirector = createLocaleRedirectorRoute("es", "en");
-
   return (
     <Switch location={location}>
-      {localeRedirector}
-      <Route
+      <PLRoute
         path={JustfixRoutes.locale.home}
         exact
         component={LoadableDataDrivenOnboardingPage}
       />
-      <Route path={JustfixRoutes.locale.help} component={HelpPage} />
+      <PLRoute path={JustfixRoutes.locale.help} component={HelpPage} />
       <Route
         path={JustfixRoutes.locale.legacyDataDrivenOnboarding}
         exact
         component={createRedirectWithSearch(JustfixRoutes.locale.home)}
       />
-      <Route path={JustfixRoutes.locale.login} exact component={LoginPage} />
+      <PLRoute path={JustfixRoutes.locale.login} exact component={LoginPage} />
       <Route path={JustfixRoutes.adminLogin} exact component={LoginPage} />
       <Route
         path={JustfixRoutes.adminConversations}
         exact
         component={LoadableAdminConversationsRoutes}
       />
-      <Route path={JustfixRoutes.locale.logout} exact component={LogoutPage} />
-      {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC)}
-      <Route
+      <PLRoute
+        path={JustfixRoutes.locale.logout}
+        exact
+        component={LogoutPage}
+      />
+      {toPLRoute(getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC))}
+      <PLRoute
         path={JustfixRoutes.locale.loc.prefix}
         component={LoadableLetterOfComplaintRoutes}
       />
@@ -141,28 +137,29 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
           render={() => <Redirect to={JustfixRoutes.locale.ehp.welcome} />}
         />
       )}
-      {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.HP)}
-      <Route
+      {toPLRoute(getOnboardingRouteForIntent(OnboardingInfoSignupIntent.HP))}
+      <PLRoute
         path={JustfixRoutes.locale.hp.prefix}
         component={LoadableHPActionRoutes}
       />
-      {enableEHP && getOnboardingRouteForIntent(OnboardingInfoSignupIntent.EHP)}
+      {enableEHP &&
+        toPLRoute(getOnboardingRouteForIntent(OnboardingInfoSignupIntent.EHP))}
       {enableEHP && (
-        <Route
+        <PLRoute
           path={JustfixRoutes.locale.ehp.prefix}
           component={LoadableEmergencyHPActionRoutes}
         />
       )}
-      <Route
+      <PLRoute
         path={JustfixRoutes.locale.rh.prefix}
         component={LoadableRentalHistoryRoutes}
       />
       <Route path={JustfixRoutes.dev.prefix} component={LoadableDevRoutes} />
-      <Route
+      <PLRoute
         path={JustfixRoutes.locale.dataRequests.prefix}
         component={LoadableDataRequestsRoutes}
       />
-      <Route
+      <PLRoute
         path={JustfixRoutes.locale.passwordReset.prefix}
         component={LoadablePasswordResetRoutes}
       />

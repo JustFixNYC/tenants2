@@ -7,9 +7,14 @@ import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issu
 import { CSSTransition } from "react-transition-group";
 import JustfixRoutes from "../justfix-routes";
 import { useDebouncedValue } from "../util/use-debounced-value";
+import { SupportedLocaleMap } from "../i18n";
+import { CovidMoratoriumBanner } from "@justfixnyc/react-common";
+import { li18n } from "../i18n-lingui";
 
-export const MORATORIUM_FAQ_URL =
-  "https://www.righttocounselnyc.org/ny_eviction_moratorium_faq";
+export const MORATORIUM_FAQ_URL: SupportedLocaleMap<string> = {
+  en: "https://www.righttocounselnyc.org/ny_eviction_moratorium_faq",
+  es: "https://www.righttocounselnyc.org/moratoria_de_desalojo",
+};
 
 const getRoutesWithMoratoriumBanner = () => [
   JustfixRoutes.locale.loc.splash,
@@ -61,19 +66,7 @@ const MoratoriumBanner = (props: { pathname?: string }) => {
               />
             </SimpleProgressiveEnhancement>
             <p>
-              <span className="has-text-weight-bold">COVID-19 Update: </span>
-              JustFix.nyc remains in operation, and we are adapting our products
-              to match new rules put in place during the Covid-19 public health
-              crisis. Thanks to organizing from tenant leaders, renters now have
-              stronger protections during this time, including a full halt on
-              eviction cases.{" "}
-              <a
-                href={MORATORIUM_FAQ_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="has-text-weight-bold">Learn more</span>
-              </a>
+              <CovidMoratoriumBanner locale={li18n.language} />
             </p>
           </div>
         </div>
@@ -113,7 +106,7 @@ export const MoratoriumWarning = () => (
     <Icon type="notice" /> Have you been given an eviction notice?{" "}
     <strong>This is illegal.</strong> An Eviction Moratorium is currently in
     place across New York State.{" "}
-    <OutboundLink href={MORATORIUM_FAQ_URL} target="_blank">
+    <OutboundLink href={MORATORIUM_FAQ_URL.en} target="_blank">
       <span className="has-text-primary jf-has-text-underline">Learn more</span>
     </OutboundLink>
   </div>
@@ -137,8 +130,8 @@ export const CovidEhpDisclaimer = () => {
   return (
     <div className="jf-covid-ehp-disclaimer notification is-warning">
       <p>
-        Due to the covid-19 pandemic, Housing Courts in New York City are only
-        accepting cases for the following conditions,{" "}
+        Due to the covid-19 pandemic, Housing Courts in New York City are
+        prioritizing cases for the following conditions,{" "}
         <strong>
           or others that threaten the health and safety of your household
         </strong>

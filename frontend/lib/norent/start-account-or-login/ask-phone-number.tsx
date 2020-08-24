@@ -24,8 +24,6 @@ export function getRouteForAccountStatus(
       return routes.verifyPassword;
     case PhoneNumberAccountStatus.ACCOUNT_WITHOUT_PASSWORD:
       return routes.verifyPhoneNumber;
-    case PhoneNumberAccountStatus.LEGACY_TENANTS_ACCOUNT:
-      return routes.migrateLegacyTenantsUser;
   }
 }
 

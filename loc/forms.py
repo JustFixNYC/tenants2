@@ -53,6 +53,15 @@ class AccessDatesForm(forms.Form):
         return result
 
 
+def validate_non_stupid_name(name: str):
+    if name.lower().startswith('united states'):
+        # This is super weird; we've had at least two users somehow
+        # submit this as their LL name without intending to. We suspect
+        # buggy Chrome form autofill is to blame, but until we figure
+        # out more, we'll just reject this particular value outright.
+        raise ValidationError("This is not a valid landlord name.")
+
+
 class LandlordDetailsFormV2(forms.ModelForm):
     class Meta:
         model = models.LandlordDetails
@@ -69,6 +78,7 @@ class LandlordDetailsFormV2(forms.ModelForm):
         # hew to Lob's limits.
         max_length=lob_api.MAX_NAME_LEN,
         required=True,
+        validators=[validate_non_stupid_name],
         help_text=models.LandlordDetails._meta.get_field('name').help_text
     )
 

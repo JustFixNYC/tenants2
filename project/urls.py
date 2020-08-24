@@ -19,7 +19,6 @@ from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from graphene_django.views import GraphQLView
 
-from legacy_tenants.views import redirect_to_legacy_app
 from .views import example_server_error, redirect_favicon, health
 import frontend.views
 from users.views import verify_email
@@ -36,11 +35,11 @@ urlpatterns = [
     path('health', health, name='health'),
     path('admin/', admin.site.urls),
     path('safe-mode/', include('frontend.safe_mode')),
-    path('legacy-app', redirect_to_legacy_app, name='redirect-to-legacy-app'),
     path('favicon.ico', redirect_favicon),
     path('dev/', include(dev_patterns, namespace='dev')),
     path('docusign/', include('docusign.urls')),
     path('data-requests/', include('data_requests.urls')),
+    path('mailchimp/', include('mailchimp.urls')),
 ]
 
 if settings.DEBUG:

@@ -175,10 +175,10 @@ class HerokuDeployer:
     def is_using_rollbar(self) -> bool:
         return len(self.config.get('ROLLBAR_SERVER_ACCESS_TOKEN', '')) > 0
 
-    def run_in_container(self, args: List[str]) -> None:
+    def run_in_container(self, args: List[str], fail_silently: bool = False) -> None:
         cmdline = ' '.join(args)
         returncode = run_local_container(self.container_tag, args, env=self.config)
-        if returncode:
+        if returncode and not fail_silently:
             raise Exception(f'Command failed: {cmdline}')
 
     def login_to_docker_registry(self) -> None:
@@ -251,12 +251,15 @@ class HerokuDeployer:
             print("Uploading static assets to CDN...")
             self.run_in_container(['python', 'manage.py', 'collectstatic', '--noinput'])
 
-            # We're disabling rollbar sourcemap integration for now because (A) rollbar
-            # seems to ignore them and (B) their sourcemap upload endpoint isn't very
-            # reliable, and we don't want that to block deploys. -AV
+            if self.is_using_rollbar:
+                self.run_in_container(
+                    ['python', 'manage.py', 'rollbarsourcemaps'],
 
-            # if self.is_using_rollbar:
-            #     self.run_in_container(['python', 'manage.py', 'rollbarsourcemaps'])
+                    # The rollbar sourcemap upload endpoint isn't terribly reliable, it's
+                    # not the end of the world if it fails anyways, and we don't want it
+                    # to block deploys, so we're going to fail silently.
+                    fail_silently=True,
+                )
 
         with self.maintenance_mode_if_preboot_is_disabled():
             # If Heroku preboot is disabled, then we want migrations to run while we're in

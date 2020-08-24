@@ -57,6 +57,11 @@ export function createMapboxPlacesURL(
   options: MapboxSearchOptions
 ): string {
   const params = mapboxSearchOptionsToURLSearchParams(options).toString();
+
+  // Mapbox's API doesn't like semicolons in the input, so we'll replace
+  // them with commas.
+  query = query.replace(/;/g, ",");
+
   const encodedQuery = encodeURIComponent(query);
   return `${MAPBOX_PLACES_URL}/${encodedQuery}.json?${params}`;
 }

@@ -62,7 +62,11 @@ describe("OutboundLink", () => {
 
   it("sends hit to GA on click and then redirects", () => {
     const pal = new ReactTestingLibraryPal(
-      <OutboundLink href="https://boop.com/">boop</OutboundLink>
+      (
+        <OutboundLink href="https://boop.com/" target={undefined}>
+          boop
+        </OutboundLink>
+      )
     );
     const wasDefaultPrevented = !pal.clickButtonOrLink("boop");
     expect(gaMock.mock.calls).toHaveLength(1);
@@ -99,7 +103,11 @@ describe("OutboundLink", () => {
 
   it("redirects after a timeout if GA has not responded", () => {
     const pal = new ReactTestingLibraryPal(
-      <OutboundLink href="https://blorp.com/">blorp</OutboundLink>
+      (
+        <OutboundLink href="https://blorp.com/" target={undefined}>
+          blorp
+        </OutboundLink>
+      )
     );
     pal.clickButtonOrLink("blorp");
     jest.advanceTimersByTime(1001);
@@ -139,5 +147,45 @@ describe("OutboundLink", () => {
     );
     pal.clickButtonOrLink("boop");
     expect(onClick).toHaveBeenCalledTimes(1);
+  });
+  it('Sets default values for "target" and "rel" props', () => {
+    const pal = new ReactTestingLibraryPal(
+      <OutboundLink href="https://bap.com/">bap</OutboundLink>
+    );
+    expect(pal.rr.container).toMatchSnapshot();
+  });
+  it("Doesn't override user value for 'target' but still inserts default 'rel' prop", () => {
+    const pal = new ReactTestingLibraryPal(
+      (
+        <OutboundLink href="https://bap.com/" target="boop">
+          bap
+        </OutboundLink>
+      )
+    );
+    expect(pal.rr.container).toMatchSnapshot();
+  });
+  it('Allows "target" and "rel" props to be set to empty strings', () => {
+    const pal = new ReactTestingLibraryPal(
+      (
+        <OutboundLink href="https://bap.com/" target="" rel="">
+          bap
+        </OutboundLink>
+      )
+    );
+    expect(pal.rr.container).toMatchSnapshot();
+  });
+  it('Allows "target" and "rel" props to be set to undefined', () => {
+    const pal = new ReactTestingLibraryPal(
+      (
+        <OutboundLink
+          href="https://bap.com/"
+          target={undefined}
+          rel={undefined}
+        >
+          bap
+        </OutboundLink>
+      )
+    );
+    expect(pal.rr.container).toMatchSnapshot();
   });
 });

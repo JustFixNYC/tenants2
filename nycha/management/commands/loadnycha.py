@@ -1,7 +1,7 @@
 import csv
 from pathlib import Path
 from dataclasses import dataclass
-from typing import Dict, Set, TextIO, Iterator, Tuple
+from typing import Dict, Set, TextIO, Iterator, NamedTuple
 from django.core.management.base import BaseCommand
 from django.db import transaction
 import pydantic
@@ -28,6 +28,7 @@ class Row(pydantic.BaseModel):
     LOT: str
     ADDRESS: str
     ZIP_CODE: str = pydantic.Schema(..., alias="ZIP CODE")
+    DEVELOPMENT: str
     MANAGED_BY: str = pydantic.Schema(..., alias="MANAGED BY")
     FACILITY: str
 
@@ -56,10 +57,16 @@ class Row(pydantic.BaseModel):
                 'SATELLITE' not in self.FACILITY)
 
 
+class Property(NamedTuple):
+    pad_bbl: str
+    address: str
+    development: str
+
+
 @dataclass
 class ManagementOffice:
     row: Row
-    pad_bbl_and_addresses: Set[Tuple[str, str]]
+    properties: Set[Property]
 
 
 class NychaCsvLoader:
@@ -104,7 +111,7 @@ class NychaCsvLoader:
                 f"Multiple management offices found for {mgmt_org}! "
                 f"{row.FACILITY} vs. {self.offices[mgmt_org].row.FACILITY}"
             )
-        self.offices[mgmt_org] = ManagementOffice(row=row, pad_bbl_and_addresses=set())
+        self.offices[mgmt_org] = ManagementOffice(row=row, properties=set())
 
     def load_row(self, row: Row) -> None:
         mgmt_org = row.MANAGED_BY
@@ -112,7 +119,11 @@ class NychaCsvLoader:
         if mgmt_org in self.offices:
             office = self.offices[mgmt_org]
             pad_bbl = row.pad_bbl
-            office.pad_bbl_and_addresses.add((pad_bbl, row.ADDRESS))
+            office.properties.add(Property(
+                pad_bbl=pad_bbl,
+                address=row.ADDRESS,
+                development=row.DEVELOPMENT,
+            ))
             if pad_bbl not in self.pad_bbls:
                 self.pad_bbls[pad_bbl] = office
             elif (self.pad_bbls[pad_bbl] is not office and
@@ -139,8 +150,13 @@ class NychaCsvLoader:
             )
             office_model.save()
             NychaProperty.objects.bulk_create([
-                NychaProperty(pad_bbl=bbl, address=address, office=office_model)
-                for bbl, address in office.pad_bbl_and_addresses
+                NychaProperty(
+                    pad_bbl=p.pad_bbl,
+                    address=p.address,
+                    development=p.development,
+                    office=office_model
+                )
+                for p in office.properties
             ])
         self.stdout.write(f'Done.')
 

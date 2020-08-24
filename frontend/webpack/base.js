@@ -127,6 +127,24 @@ const convertSVGsToReactComponents = {
 };
 
 /**
+ * Our webpack rule for loading some files as raw text.
+ *
+ * @type {WebpackRule}
+ */
+const loadCssAsRawText = {
+  test: /\.css$/,
+  exclude: /node_modules/,
+  use: [
+    {
+      loader: "raw-loader",
+      options: {
+        esModule: false,
+      },
+    },
+  ],
+};
+
+/**
  * This returns an array of webpack plugins for all environments.
  *
  * @returns {WebpackPlugin[]} The array of plugins.
@@ -175,6 +193,7 @@ function createNodeScriptConfig(entry, filename, extraPlugins) {
     module: {
       rules: [
         convertSVGsToReactComponents,
+        loadCssAsRawText,
         {
           test: /\.[jt]sx?$/,
           exclude: excludeMostOfNodeModules,
@@ -250,6 +269,7 @@ const webConfig = {
   module: {
     rules: [
       convertSVGsToReactComponents,
+      loadCssAsRawText,
       {
         test: /\.[jt]sx?$/,
         exclude: excludeMostOfNodeModules,

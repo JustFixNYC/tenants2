@@ -6,6 +6,15 @@ import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { AppContext } from "../app-context";
 import { assertNotNull } from "../util/util";
 
+export type ProgressStepDefaults = {
+  /**
+   * A component that only takes `children` props which will be
+   * used to wrap each step's content by default. Can be overridden
+   * on a per-step basis.
+   */
+  defaultWrapContent?: React.ComponentType<React.PropsWithChildren<{}>>;
+};
+
 export type BaseProgressStepRoute = {
   /** The route's URL path. */
   path: string;
@@ -33,6 +42,13 @@ export type BaseProgressStepRoute = {
    * link back to.
    */
   neverGoBackTo?: boolean;
+
+  /**
+   * A component that only takes `children` props which will be
+   * used to wrap the step's content. Set this to `false` to
+   * override any value that might be inherited from default settings.
+   */
+  wrapContent?: React.ComponentType<React.PropsWithChildren<{}>> | false;
 };
 
 export type ProgressStepProps = RouteComponentProps<{}> & {
@@ -86,6 +102,7 @@ export type ProgressStepRoute =
 type StepInfo = {
   step: ProgressStepRoute;
   allSteps: ProgressStepRoute[];
+  defaults: ProgressStepDefaults;
 };
 
 class StepQuerier {
@@ -140,7 +157,7 @@ export function getBestNextStep(
 }
 
 function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
-  const { step, allSteps, ...routerCtx } = props;
+  const { step, allSteps, defaults, ...routerCtx } = props;
   const { session } = useContext(AppContext);
   const prev = getBestPrevStep(session, step.path, allSteps);
   const next = getBestNextStep(session, step.path, allSteps);
@@ -149,11 +166,20 @@ function ProgressStepRenderer(props: StepInfo & RouteComponentProps<any>) {
     prevStep: prev && prev.path,
     nextStep: next && next.path,
   };
+
+  const wrapContent = step.wrapContent ?? defaults.defaultWrapContent;
+
+  let el: JSX.Element;
   if ("component" in step) {
-    return <step.component {...ctx} />;
+    el = <step.component {...ctx} />;
   } else {
-    return step.render(ctx);
+    el = step.render(ctx);
   }
+  if (wrapContent) {
+    const WrapComponent = wrapContent;
+    el = <WrapComponent>{el}</WrapComponent>;
+  }
+  return el;
 }
 
 /**
@@ -167,6 +193,7 @@ export function createStepRoute(options: {
   key: string;
   step: ProgressStepRoute;
   allSteps: ProgressStepRoute[];
+  defaults: ProgressStepDefaults;
 }) {
   const { step, allSteps } = options;
   return (
@@ -177,6 +204,7 @@ export function createStepRoute(options: {
           <ProgressStepRenderer
             step={step}
             allSteps={allSteps}
+            defaults={options.defaults}
             {...routerCtx}
           />
         );

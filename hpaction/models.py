@@ -13,10 +13,12 @@ import PyPDF2
 
 from .hpactionvars import HarassmentAllegationsMS, CourtLocationMC
 from .hotdocs_xml_parsing import get_answers_xml_court_location_mc
+from . import page_numbering
 from project.util.site_util import absolute_reverse
 from loc.lob_api import MAX_NAME_LEN as MAX_LOB_NAME_LEN
 from project.util.mailing_address import MailingAddress
 from project import common_data
+from onboarding.models import BOROUGH_CHOICES
 from users.models import JustfixUser
 
 HP_ACTION_CHOICES = common_data.Choices.from_file("hp-action-choices.json")
@@ -58,11 +60,40 @@ def attr_name_for_harassment_allegation(name: str) -> str:
     return f"alleg_{name.lower()}"
 
 
+class CourtContact(models.Model):
+    '''
+    A contact at Housing Court whom we can send signed HP Actions to.
+    '''
+
+    name: str = models.CharField(max_length=100, help_text="The contact's name.")
+
+    email: str = models.EmailField(help_text="The contact's email address.")
+
+    court: str = models.CharField(
+        max_length=100,
+        choices=BOROUGH_CHOICES.choices,
+        help_text=(
+            "The housing court the contact belongs to. Signed HPs for this "
+            "court will be sent to this person's email address."
+        )
+    )
+
+    def __str__(self):
+        if self.name and self.email and self.court:
+            court = BOROUGH_CHOICES.get_label(self.court)
+            return f"{self.name} <{self.email}> at {court} housing court"
+        return super().__str__()
+
+
 class Config(models.Model):
     '''
     Contains configuration data for HP actions.
 
     This model is a singleton.
+
+    TODO: This model is now deprecated; we should manually migrate all
+    court emails from here to `CourtContact` models and then get rid
+    of this model.
     '''
 
     manhattan_court_email = models.EmailField(blank=True)
@@ -220,6 +251,22 @@ class FeeWaiverDetails(models.Model):
         )
 
 
+def rel_short_date(value: date) -> str:
+    '''
+    Returns the date in MM-DD if the date's year is the same as the
+    current year, or YYYY-MM-DD if it's different.
+    '''
+
+    now = date.today()
+    str_then = str(value)
+    now_year = f"{now.year}-"
+
+    if str_then.startswith(now_year):
+        str_then = str_then[len(now_year):]
+
+    return str_then
+
+
 class PriorCase(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
@@ -242,13 +289,16 @@ class PriorCase(models.Model):
 
     @property
     def case_type(self) -> str:
-        return ' & '.join(filter(None, [
-            'harassment' if self.is_harassment else '',
-            'repairs' if self.is_repairs else ''
+        return '&'.join(filter(None, [
+            'H' if self.is_harassment else '',
+            'R' if self.is_repairs else ''
         ]))
 
     def __str__(self) -> str:
-        return f"{self.case_type} case #{self.case_number} on {self.case_date}"
+        # This is *extremely* abbreviated because we'd like to fit it into
+        # the tiny amount of space the HP forms offer without triggering
+        # an addendum.
+        return f"{self.case_type} #{self.case_number} on {rel_short_date(self.case_date)}"
 
     def clean(self):
         super().clean()
@@ -395,14 +445,6 @@ class HPActionDetails(models.Model):
         )
     )
 
-    @property
-    def latest_documents(self) -> Optional['HPActionDocuments']:
-        '''
-        The most recent of *any* kind of HP Action documents, if any exist.
-        '''
-
-        return HPActionDocuments.objects.get_latest_for_user(self.user, kind=None)
-
 
 class HPActionDocuments(models.Model):
     '''
@@ -491,8 +533,15 @@ class HPActionDocuments(models.Model):
 
         pdf_writer = PyPDF2.PdfFileWriter()
         pdf_writer.addPage(aff_pdf_reader.getPage(ehpa_affadavit.COVER_SHEET_PAGE))
+        numbers_pdf = page_numbering.render_pdf(num_pages - num_instruction_pages)
+        numbers_pdf_reader = PyPDF2.PdfFileReader(numbers_pdf)
         for i in range(num_instruction_pages, num_pages):
-            pdf_writer.addPage(pdf_reader.getPage(i))
+            page = pdf_reader.getPage(i)
+            page_numbering.merge_page_with_possible_rotation(
+                page,
+                numbers_pdf_reader.getPage(i - num_instruction_pages),
+            )
+            pdf_writer.addPage(page)
         pdf_writer.addPage(aff_pdf_reader.getPage(ehpa_affadavit.FEE_WAIVER_PAGE))
 
         new_pdf = BytesIO()

@@ -71,7 +71,7 @@ export function LoadingPageWithRetry(
   if (props.error) {
     return (
       <Page title="Network error">
-        <p>Unfortunately, a network error occurred.</p>
+        <p>Oops! A network error occurred. Try again later.</p>
         <br />
         <button className="button" onClick={props.retry}>
           Retry

@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OutboundLink Allows "target" and "rel" props to be set to empty strings 1`] = `
+<div>
+  <a
+    href="https://bap.com/"
+    rel=""
+    target=""
+  >
+    bap
+  </a>
+</div>
+`;
+
+exports[`OutboundLink Allows "target" and "rel" props to be set to undefined 1`] = `
+<div>
+  <a
+    href="https://bap.com/"
+  >
+    bap
+  </a>
+</div>
+`;
+
+exports[`OutboundLink Doesn't override user value for 'target' but still inserts default 'rel' prop 1`] = `
+<div>
+  <a
+    href="https://bap.com/"
+    rel="noopener noreferrer"
+    target="boop"
+  >
+    bap
+  </a>
+</div>
+`;
+
+exports[`OutboundLink Sets default values for "target" and "rel" props 1`] = `
+<div>
+  <a
+    href="https://bap.com/"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    bap
+  </a>
+</div>
+`;

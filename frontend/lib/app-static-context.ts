@@ -33,6 +33,12 @@ export interface AppStaticContext {
   staticContent?: JSX.Element;
 
   /**
+   * Whether or not any resulting `<style>` tags in `staticContent` should
+   * be inlined into its HTML.
+   */
+  shouldInlineCss?: boolean;
+
+  /**
    * If the page contains a GraphQL query whose results should be
    * pre-fetched, this will contain its value.
    */

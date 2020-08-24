@@ -3,7 +3,11 @@ import React from "react";
 import { RedirectToLatestStep } from "./progress-redirection";
 import { Switch, Route } from "react-router";
 import { RouteProgressBar } from "./progress-bar";
-import { createStepRoute, ProgressStepRoute } from "./progress-step-route";
+import {
+  createStepRoute,
+  ProgressStepRoute,
+  ProgressStepDefaults,
+} from "./progress-step-route";
 
 /**
  * These props make it easy to define user flows that correspond to
@@ -12,7 +16,7 @@ import { createStepRoute, ProgressStepRoute } from "./progress-step-route";
  * followed by steps the user needs to fill out information for,
  * followed by one or more confirmation steps.
  */
-export type ProgressRoutesProps = {
+export type ProgressRoutesProps = ProgressStepDefaults & {
   /**
    * The route that, when visited, will redirect the user to the most
    * recently completed step in the flow.
@@ -60,10 +64,16 @@ export function getAllSteps(props: ProgressRoutesProps): ProgressStepRoute[] {
 function createRoutesForSteps(
   steps: ProgressStepRoute[],
   allSteps: ProgressStepRoute[],
-  keyPrefix: string
+  keyPrefix: string,
+  options: ProgressRoutesProps
 ) {
   return steps.map((step, i) => {
-    return createStepRoute({ key: keyPrefix + i, step, allSteps });
+    return createStepRoute({
+      key: keyPrefix + i,
+      step,
+      allSteps,
+      defaults: options,
+    });
   });
 }
 
@@ -77,8 +87,13 @@ function generateRoutes(props: ProgressRoutesProps): JSX.Element[] {
       exact
       render={() => <RedirectToLatestStep steps={allSteps} />}
     />,
-    ...createRoutesForSteps(props.welcomeSteps, allSteps, "welcome"),
-    ...createRoutesForSteps(props.confirmationSteps, allSteps, "confirmation"),
+    ...createRoutesForSteps(props.welcomeSteps, allSteps, "welcome", props),
+    ...createRoutesForSteps(
+      props.confirmationSteps,
+      allSteps,
+      "confirmation",
+      props
+    ),
     <Route
       key="progressBar"
       render={() => {
@@ -87,6 +102,7 @@ function generateRoutes(props: ProgressRoutesProps): JSX.Element[] {
             label={props.label}
             steps={props.stepsToFillOut}
             outerSteps={allSteps}
+            defaults={props}
           />
         );
       }}

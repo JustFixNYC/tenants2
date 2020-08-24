@@ -12,6 +12,9 @@ ruleTester.run("justfix-validate-import", rule, {
       code: "import boop from '../boop'",
       filename: "lib/tests/boop.test.ts",
     },
+    {
+      code: "import { Trans } from '@lingui/macro'",
+    },
   ],
   invalid: [
     {
@@ -21,6 +24,15 @@ ruleTester.run("justfix-validate-import", rule, {
         {
           message:
             'Production code is importing test suite code at "../tests/boop"!',
+        },
+      ],
+    },
+    {
+      code: "import { Trans } from '@lingui/react'",
+      errors: [
+        {
+          message:
+            'Trans imported from "@lingui/react", please import from @lingui/macro',
         },
       ],
     },

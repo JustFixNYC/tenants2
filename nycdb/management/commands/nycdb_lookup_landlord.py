@@ -5,7 +5,7 @@ from django.core import serializers
 
 from project import geocoding
 from project.util.nyc import BBL, is_bin
-from nycdb.models import HPDRegistration, HPDContact, Contact
+from nycdb.models import HPDRegistration, HPDContact, Contact, filter_and_sort_registrations
 
 
 class Command(BaseCommand):
@@ -38,7 +38,10 @@ class Command(BaseCommand):
         self.stdout.write(f"  {fields}\n")
 
     def show_registration(self, reg: HPDRegistration) -> None:
-        self.stdout.write(f"HPD Registration #{reg.registrationid}:\n")
+        self.stdout.write(
+            f"HPD Registration #{reg.registrationid} "
+            f"({reg.lastregistrationdate} thru {reg.registrationenddate}):\n"
+        )
 
         for contact in reg.contacts.all():
             self.show_raw_contact_info(contact)
@@ -55,12 +58,15 @@ class Command(BaseCommand):
 
     def _get_registrations(self, pad_bbl_or_bin: str):
         if is_bin(pad_bbl_or_bin):
-            return HPDRegistration.objects.filter(bin=int(pad_bbl_or_bin))
-        return HPDRegistration.objects.from_pad_bbl(pad_bbl_or_bin)
+            qs = HPDRegistration.objects.filter(bin=int(pad_bbl_or_bin))
+        else:
+            qs = HPDRegistration.objects.from_pad_bbl(pad_bbl_or_bin)
+        return filter_and_sort_registrations(qs)
 
     def show_registrations(self, pad_bbl_or_bin: str) -> None:
         for reg in self._get_registrations(pad_bbl_or_bin):
             self.show_registration(reg)
+            print()
 
     def dump_models(self, pad_bbl_or_bin: str) -> None:
         regs = self._get_registrations(pad_bbl_or_bin)

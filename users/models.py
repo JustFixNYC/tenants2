@@ -29,7 +29,6 @@ ROLES = {}
 ROLES['Outreach Coordinators'] = set([
     'users.add_justfixuser',
     CHANGE_USER_PERMISSION,
-    'legacy_tenants.change_legacyuserinfo',
     *ModelPermissions('loc', 'accessdate').all,
     *ModelPermissions('issues', 'issue').all,
     *ModelPermissions('issues', 'customissue').all,
@@ -175,7 +174,8 @@ class JustfixUser(AbstractUser):
             fc.trigger_followup_campaign_async(
                 self.full_name,
                 self.phone_number,
-                campaign_name
+                campaign_name,
+                locale=self.locale,
             )
         else:
             logging.info(

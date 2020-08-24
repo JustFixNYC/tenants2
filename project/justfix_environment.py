@@ -60,15 +60,6 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # production-like setups in a jiffy.
     USE_DEVELOPMENT_DEFAULTS: bool = False
 
-    # This is the URL to the MongoDB instance of the legacy
-    # tenants app, e.g. "mongodb://localhost:27017/somedb". If undefined,
-    # connectivity to the legacy tenants app will be disabled.
-    LEGACY_MONGODB_URL: str = ''
-
-    # This is the URL for the origin of the legacy tenants app,
-    # e.g. "https://beta.justfix.nyc".
-    LEGACY_ORIGIN: str = 'https://beta.justfix.nyc'
-
     # This is an optional HTTP request header field name and
     # value indicating that the request is actually secure.
     # For example, Heroku deployments should set this to
@@ -274,7 +265,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
 
     # Default email address to use for various automated correspondence
     # from the site manager(s).
-    DEFAULT_FROM_EMAIL = 'no-reply@justfix.nyc'
+    DEFAULT_FROM_EMAIL = 'JustFix.nyc no-reply <no-reply@justfix.nyc>'
+
+    # The email address used for court documents (e.g. HP Actions).
+    COURT_DOCUMENTS_EMAIL: str = 'JustFix.nyc <documents@justfix.nyc>'
 
     # Sender email address used to send a user's rental history request.
     DHCR_EMAIL_SENDER_ADDRESS: str = 'support@justfix.nyc'
@@ -358,6 +352,18 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # example, 'foo.com to bar.com' will result in all requests
     # to foo.com being redirected to bar.com.
     HOSTNAME_REDIRECTS: str = ''
+
+    # The Mailchimp API key. If blank, Mailchimp integration will
+    # be disabled.
+    MAILCHIMP_API_KEY: str = ''
+
+    # The Mailchimp list ID. Required for Mailchimp integration.
+    MAILCHIMP_LIST_ID: str = ''
+
+    # Comma-separated list of HTTP origins that can access our
+    # Mailchimp subscription endpoint. It can also be '*', in
+    # which case any website can use the endpoint.
+    MAILCHIMP_CORS_ORIGINS: str = ''
 
 
 class JustfixBuildPipelineDefaults(JustfixEnvironment):

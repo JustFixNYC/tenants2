@@ -16,6 +16,16 @@ def test_landlord_details_form_restricts_name_length():
     ]
 
 
+def test_landlord_details_form_restricts_weird_values():
+    form = LandlordDetailsFormV2(data={
+        'name': 'United States',
+    })
+    form.full_clean()
+    assert form.errors['name'] == [
+        'This is not a valid landlord name.'
+    ]
+
+
 def test_form_raises_error_if_dates_are_same():
     form = AccessDatesForm(data={
         'date1': '2018-01-01',

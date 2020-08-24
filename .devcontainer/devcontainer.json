@@ -1,0 +1,58 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.122.1/containers/docker-existing-dockerfile
+{
+	"name": "JustFix.nyc Tenant Platform VSCode development container",
+	"context": "../.devcontainer",
+	"dockerFile": "../.devcontainer/Dockerfile",
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"terminal.integrated.shell.linux": null,
+		// This is where the virtual environment set up by our Docker Compose config is located.
+		"python.pythonPath": "/venv/bin/python",
+		"python.linting.pylintEnabled": false,
+		"python.linting.flake8Enabled": true,
+		"python.linting.enabled": true,
+		"python.linting.mypyEnabled": true,
+		"eslint.options": {
+			// VSCode will put our tenants2 repository at /workspaces/tenants2,
+			// so that's where we need to find our custom ESLint rules.
+			"rulePaths": ["/workspaces/tenants2/frontend/eslint/rules"]
+		},
+		"[typescriptreact]": {
+			"editor.tabSize": 2,
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		},
+		"[typescript]": {
+			"editor.tabSize": 2,
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		},
+		"[json]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		},
+		"[python]": {
+			"editor.detectIndentation": false,
+			"editor.tabSize": 4
+		},
+		"[javascript]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		},
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-python.python",
+		"esbenp.prettier-vscode",
+		"dbaeumer.vscode-eslint",
+	],
+
+	"mounts": [
+		// These mounts will ensure that the volumes our Docker Compose setup uses
+		// (see `docker-services.yml`) will be reused by VSCode.  Note that these
+		// rely on the project to be cloned in a folder called `tenants2`, since
+		// Docker Compose prefixes the volumes it creates with this directory name.
+		"source=tenants2_python-venv,target=/venv/,type=volume",
+		"source=tenants2_unused-node-modules,target=/workspaces/tenants2/node_modules/,type=volume",
+		"source=tenants2_node-modules,target=/node_modules/,type=volume",
+	],
+}

@@ -22,6 +22,7 @@ import { OutboundLink, ga } from "../analytics/google-analytics";
 import { UpdateBrowserStorage } from "../browser-storage";
 import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issues";
 import { MORATORIUM_FAQ_URL } from "../ui/covid-banners";
+import i18n from "../i18n";
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
@@ -436,9 +437,9 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     const emergencyCovidMessage = (
       <>
         <span className="subtitle">
-          Due to the covid-19 pandemic, Housing Courts in New York City are only
-          accepting cases for conditions that threaten the health and safety of
-          your household, such as: {issues}.
+          Due to the covid-19 pandemic, Housing Courts in New York City are
+          prioritizing cases for conditions that threaten the health and safety
+          of your household, such as: {issues}.
         </span>
       </>
     );
@@ -535,7 +536,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: covidMessage,
       imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
-        to: MORATORIUM_FAQ_URL,
+        to: MORATORIUM_FAQ_URL[i18n.locale],
         gaLabel: "efnyc",
         text: covidCtaText,
       },

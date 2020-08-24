@@ -7,8 +7,9 @@ from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from project.tests.util import strip_locale
 from loc.tests.factories import LetterRequestFactory, LandlordDetailsFactory
-from hpaction.tests.factories import HPActionDocumentsFactory, HPActionDetailsFactory
-from airtable.record import Fields
+from hpaction.tests.factories import (
+    HPActionDocumentsFactory, HPActionDetailsFactory, DocusignEnvelopeFactory)
+from airtable.record import Fields, apply_annotations_to_user
 
 
 @pytest.mark.django_db
@@ -25,6 +26,7 @@ def test_from_user_works_with_minimal_user():
     assert fields.phone_number == '5551234567'
     assert fields.onboarding_info__can_we_sms is False
     assert fields.onboarding_info__lease_type == ''
+    assert fields.onboarding_info__borough == ''
     assert fields.letter_request__created_at is None
     assert fields.landlord_details__name == ''
     assert fields.landlord_details__address == ''
@@ -32,7 +34,7 @@ def test_from_user_works_with_minimal_user():
     assert fields.letter_request__letter_sent_at is None
     assert fields.letter_request__rejection_reason == ''
     assert fields.letter_request__tracking_number == ''
-    assert fields.hp_action_details__latest_documents__created_at is None
+    assert fields.hp_latest_documents_date is None
     assert fields.hp_action_details__sue_for_repairs is False
     assert fields.hp_action_details__sue_for_harassment is False
 
@@ -45,6 +47,7 @@ def test_from_user_works_with_onboarded_user():
     assert fields.onboarding_info__address_for_mailing == \
         "150 court street\nApartment 2\nBrooklyn, NY"
     assert fields.onboarding_info__lease_type == 'RENT_STABILIZED'
+    assert fields.onboarding_info__borough == 'BROOKLYN'
 
     info.can_we_sms = False
     info.save()
@@ -83,15 +86,46 @@ def test_from_user_works_with_hp_action(django_file_storage):
     with freeze_time('2018-03-04'):
         HPActionDocumentsFactory(user=details.user)
     fields = Fields.from_user(details.user)
-    assert fields.hp_action_details__latest_documents__created_at == '2018-03-04'
+    assert fields.hp_latest_documents_date == '2018-03-04'
     assert fields.hp_action_details__sue_for_repairs is True
     assert fields.hp_action_details__sue_for_harassment is True
+
+
+@pytest.mark.django_db
+def test_from_user_works_with_emergency_hp_action(django_file_storage):
+    with freeze_time('2018-03-04'):
+        de = DocusignEnvelopeFactory()
+    user = de.docs.user
+    fields = Fields.from_user(user)
+    assert fields.ehp_num_filings == 0
+    assert fields.ehp_latest_filing_date is None
+
+    de.status = 'SIGNED'
+    de.save()
+    fields = Fields.from_user(user, refresh=True)
+    assert fields.ehp_num_filings == 1
+    assert fields.ehp_latest_filing_date == '2018-03-04'
 
 
 @pytest.mark.django_db
 def test_from_user_works_with_partial_hp_action():
     details = HPActionDetailsFactory(sue_for_repairs=True, sue_for_harassment=True)
     fields = Fields.from_user(details.user)
-    assert fields.hp_action_details__latest_documents__created_at is None
+    assert fields.hp_latest_documents_date is None
     assert fields.hp_action_details__sue_for_repairs is True
     assert fields.hp_action_details__sue_for_harassment is True
+
+
+class TestApplyAnnotationsToUser:
+    def test_it_does_nothing_if_annotations_exist(self):
+        u = UserFactory.build()
+        setattr(u, 'boop', 1)
+        apply_annotations_to_user(u, {'boop': 'this value should never be used'})
+
+    def test_it_applies_annotations_if_they_do_not_exist(self, db):
+        from django.db.models import F
+        from django.db.models.functions import Upper
+
+        u = UserFactory(first_name='hallo')
+        apply_annotations_to_user(u, {'boop': Upper(F('first_name'))})
+        assert u.boop == 'HALLO'

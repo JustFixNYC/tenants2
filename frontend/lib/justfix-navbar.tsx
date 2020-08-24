@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { AppContext } from "./app-context";
 import JustfixRoutes from "./justfix-routes";
 import { StaticImage } from "./ui/static-image";
+import { li18n } from "./i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 const JustfixBrand: React.FC<{}> = () => {
   const { onboardingInfo } = useContext(AppContext).session;
@@ -11,7 +13,11 @@ const JustfixBrand: React.FC<{}> = () => {
 
   return (
     <Link className="navbar-item" to={to}>
-      <StaticImage ratio="is-128x128" src="frontend/img/logo.png" alt="Home" />
+      <StaticImage
+        ratio="is-128x128"
+        src="frontend/img/logo.png"
+        alt={li18n._(t`Homepage`)}
+      />
     </Link>
   );
 };
@@ -26,20 +32,20 @@ const JustfixMenuItems: React.FC<{}> = () => {
           className="navbar-item"
           to={JustfixRoutes.locale.homeWithSearch(session.onboardingInfo)}
         >
-          Take action
+          <Trans>Take action</Trans>
         </Link>
       )}
       {session.phoneNumber ? (
         <Link className="navbar-item" to={JustfixRoutes.locale.logout}>
-          Sign out
+          <Trans>Sign out</Trans>
         </Link>
       ) : (
         <Link className="navbar-item" to={JustfixRoutes.locale.login}>
-          Sign in
+          <Trans>Sign in</Trans>
         </Link>
       )}
       <Link className="navbar-item" to={JustfixRoutes.locale.help}>
-        Help
+        <Trans>Help</Trans>
       </Link>
     </>
   );

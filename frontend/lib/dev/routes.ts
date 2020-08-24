@@ -1,4 +1,5 @@
 import { ROUTE_PREFIX } from "../util/route-util";
+import { createHtmlEmailStaticPageRouteInfo } from "../static-page/routes";
 
 export type DevRouteInfo = ReturnType<typeof createDevRouteInfo>;
 
@@ -28,6 +29,9 @@ export function createDevRouteInfo(prefix: string) {
       staticPage: `${prefix}/examples/static-page`,
       staticPagePdf: `${prefix}/examples/static-page.pdf`,
       staticPageTxt: `${prefix}/examples/static-page.txt`,
+      staticHtmlEmail: createHtmlEmailStaticPageRouteInfo(
+        `${prefix}/examples/static-html-email`
+      ),
       intl: `${prefix}/examples/intl`,
     },
   };

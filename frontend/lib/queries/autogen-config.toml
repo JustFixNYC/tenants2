@@ -31,6 +31,7 @@ fragmentName = "FeeWaiverDetails"
 
 [types.HarassmentDetailsType]
 fragmentName = "HarassmentDetails"
+createBlankLiteral = true
 
 [types.StrictFormFieldErrorType]
 fragmentName = "ExtendedFormFieldErrors"
@@ -64,8 +65,6 @@ createBlankLiteral = true
 [types.DDOSuggestionsResult]
 fragmentName = "DDOSuggestionsResult"
 createBlankLiteral = true
-
-[mutations.prepareLegacyTenantsAccountForMigration]
 
 [mutations.agreeToTerms]
 sessionFields = ["onboardingInfo"]

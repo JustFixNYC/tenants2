@@ -154,6 +154,8 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
       )}
       <PLRoute
         path={JustfixRoutes.locale.rh.prefix}
+        locales={["en"]}
+        wipLocales={["es"]}
         component={LoadableRentalHistoryRoutes}
       />
       <Route path={JustfixRoutes.dev.prefix} component={LoadableDevRoutes} />

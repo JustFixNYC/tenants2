@@ -17,13 +17,13 @@ import {
   useQueryFormResultFocusProps,
 } from "../forms/query-form-submitter";
 import { AppContext, getGlobalAppServerInfo } from "../app-context";
-import { properNoun, numberWithCommas } from "../util/util";
+import { properNoun } from "../util/util";
 import { OutboundLink, ga } from "../analytics/google-analytics";
 import { UpdateBrowserStorage } from "../browser-storage";
 import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issues";
 import { MORATORIUM_FAQ_URL } from "../ui/covid-banners";
 import i18n from "../i18n";
-import { Trans, t } from "@lingui/macro";
+import { Trans, t, Plural } from "@lingui/macro";
 import { EnglishOutboundLink } from "../ui/localized-outbound-link";
 import { li18n } from "../i18n-lingui";
 
@@ -68,30 +68,6 @@ function AutoSubmitter(props: { autoSubmit: boolean; ctx: FormContext<any> }) {
 function calcPerUnit(value: number | null, data: DDOData): number {
   if (data.unitCount === 0 || value === null) return 0;
   return value / data.unitCount;
-}
-
-function Indicator(props: {
-  value: number;
-  unit: string;
-  pluralUnit?: string;
-  verb?: string;
-}) {
-  const { value, unit } = props;
-  const isSingular = value === 1;
-  let pluralUnit = props.pluralUnit || `${unit}s`;
-  let verb = props.verb;
-
-  if (verb) {
-    const [singVerb, pluralVerb] = verb.split("/");
-    verb = isSingular ? `${singVerb} ` : `${pluralVerb} `;
-  }
-
-  return (
-    <>
-      {verb}
-      {numberWithCommas(value)} {isSingular ? unit : pluralUnit}
-    </>
-  );
 }
 
 type CallToActionProps = {
@@ -253,8 +229,9 @@ function getUnitsAndDateBuilt(
   return [
     data.unitCount && (
       <Trans>
-        There <Indicator verb="is/are" value={data.unitCount} unit="unit" /> in
-        your building.
+        There{" "}
+        <Plural value={data.unitCount} one="is one unit" other="are # units" />{" "}
+        in your building.
       </Trans>
     ),
     // Note that we don't *actually* need some of these prerequsites, but it looks weird to have
@@ -292,8 +269,17 @@ const useBuildingIntroCard: ActionCardPropsCreator = (
           data.associatedBuildingCount && data.portfolioUnitCount && (
             <Trans>
               Your landlord owns{" "}
-              <Indicator value={data.associatedBuildingCount} unit="building" />{" "}
-              and <Indicator value={data.portfolioUnitCount} unit="unit" />.
+              <Plural
+                value={data.associatedBuildingCount}
+                one="one building"
+                other="# buildings"
+              />{" "}
+              and{" "}
+              <Plural
+                value={data.portfolioUnitCount}
+                one="one unit."
+                other="# units."
+              />
             </Trans>
           ),
           ...getUnitsAndDateBuilt(data),
@@ -360,18 +346,17 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         hasMinBuildings && (
           <Trans>
             Your landlord is associated with{" "}
-            <Indicator
-              value={buildings}
-              unit="property"
-              pluralUnit="properties"
-            />
-            .
+            <Plural value={buildings} one="one building" other="# buildings" />.
           </Trans>
         ),
         data.associatedZipCount && hasMinBuildings && (
           <Trans>
             Buildings in your landlord's portfolio are located in{" "}
-            <Indicator value={data.associatedZipCount} unit="zip code" />.
+            <Plural
+              value={data.associatedZipCount}
+              one="one zip code."
+              other="# zip codes."
+            />
           </Trans>
         ),
         data.portfolioTopBorough && hasMinBuildings && (
@@ -499,9 +484,10 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         data.stabilizedUnitCount2017 && (
           <Trans>
             Your building had{" "}
-            <Indicator
+            <Plural
               value={data.stabilizedUnitCount2017}
-              unit="rent stabilized unit"
+              one="one rent stabilized unit"
+              other="# rent stabilized units"
             />{" "}
             in 2017.
           </Trans>

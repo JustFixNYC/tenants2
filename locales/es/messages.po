@@ -36,6 +36,10 @@ msgstr "8 minutos"
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:447
+msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
+msgstr ""
+
 #: frontend/lib/norent/data/faqs-content.tsx:376
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
 msgstr "<0>Si el dueño de tu edificio te está intentando desalojar de forma ilegal, contacta con asistencia legal en <1/> inmediatamente.</0>"
@@ -191,6 +195,10 @@ msgstr "Construye poder común"
 #: frontend/lib/norent/letter-builder/welcome.tsx:16
 msgid "Build your letter"
 msgstr "Crea tu carta"
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:227
+msgid "Buildings in your landlord's portfolio are located in <0/>."
+msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:28
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
@@ -599,6 +607,10 @@ msgstr "¿Es gratis?"
 msgid "Is this tool right for me?"
 msgstr "¿Es esta herramienta adecuada para mí?"
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:195
+msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/confirmation.tsx:112
 msgid "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."
 msgstr "Puede ser que el dueño de tu edificio tome represalias tras recibir tu carta. Esto es ilegal. Póngase en contacto con <0>un proveedor local de asistencia legal</0> para obtener ayuda."
@@ -846,6 +858,11 @@ msgstr "Continuar"
 msgid "No"
 msgstr "No"
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:173
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:193
+msgid "No registration found."
+msgstr ""
+
 #: frontend/lib/norent/about.tsx:126
 msgid "NoRent.org is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits across the nation."
 msgstr "NoRent.org es una colaboración entre JustFix.nyc, organizaciones legales y organizaciones sin fines de lucro en todo Estados Unidos (EEUU)."
@@ -955,6 +972,10 @@ msgstr "Política de Privacidad"
 msgid "Puerto Rico"
 msgstr "Puerto Rico"
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:407
+msgid "Recommended actions"
+msgstr ""
+
 #. before signature in formal letter
 #: frontend/lib/util/letter-content-util.tsx:53
 msgid "Regards,"
@@ -1056,6 +1077,10 @@ msgstr "Regístrate o inicia una sesión en tu cuenta para acceder a nuestra her
 msgid "Sorry, the page you are looking for doesn't seem to exist."
 msgstr "Lo sentimos, la página que estás buscando no existe."
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:426
+msgid "Sorry, we don't recognize the address you entered."
+msgstr ""
+
 #: common-data/us-state-choices.ts:106
 msgid "South Carolina"
 msgstr "Carolina del Sur"
@@ -1120,9 +1145,25 @@ msgstr "Tejas"
 msgid "The Letter"
 msgstr "La Carta"
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:231
+msgid "The majority of your landlord's properties are concentrated in {0}."
+msgstr ""
+
 #: frontend/lib/pages/redirect-to-english-page.tsx:11
 msgid "The webpage that you want to access is only available in English."
 msgstr "La página web a la que quieres acceder solo está disponible en inglés."
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:133
+msgid "There <0/> in your building."
+msgstr ""
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:334
+msgid "Think your apartment may be rent-stabilized? Request its official records."
+msgstr ""
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:152
+msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:19
 msgid "This is optional."
@@ -1369,9 +1410,33 @@ msgstr "Tu carta de NoRent.org"
 msgid "Your account is set up"
 msgstr "¡Tu cuenta está lista!"
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:327
+msgid "Your apartment may be rent stabilized."
+msgstr ""
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:328
+msgid "Your building had <0/> in 2017."
+msgstr ""
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:139
+msgid "Your building was built in {0} or earlier."
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/ask-email.tsx:13
 msgid "Your email address"
 msgstr "Tu dirección de correo electrónico"
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:222
+msgid "Your landlord is associated with <0/>."
+msgstr ""
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:175
+msgid "Your landlord may be breaking the law!"
+msgstr ""
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:236
+msgid "Your landlord might own other buildings, too."
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:30
 msgid "Your landlord or management company's address"
@@ -1384,6 +1449,10 @@ msgstr "La dirección de correo electrónico del dueño o manager de tu edificio
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:89
 msgid "Your landlord or management company's information"
 msgstr "Los datos del dueño o manager de tu edificio"
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:160
+msgid "Your landlord owns <0/> and <1/>."
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:46
 msgid "Your letter has been mailed to your landlord via USPS Certified Mail. A copy of your letter has also been sent to your email."
@@ -1422,6 +1491,26 @@ msgstr "Código postal"
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:71
 msgid "and"
 msgstr "y"
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:178
+msgid "justfix.DdoMayNeedHpdRegistration"
+msgstr ""
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:348
+msgid "justfix.ddoEfnycCovidMessage"
+msgstr ""
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:284
+msgid "justfix.ddoEhpaCovidMessage"
+msgstr ""
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:270
+msgid "justfix.ddoHpaCovidMessage"
+msgstr ""
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:247
+msgid "justfix.ddoLocCovidMessage"
+msgstr ""
 
 #: frontend/lib/ui/legal-disclaimer.tsx:4
 msgid "justfix.legalDisclaimer"

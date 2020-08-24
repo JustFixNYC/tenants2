@@ -95,7 +95,7 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
 
   return (
     <Switch location={location}>
-      <PLRoute
+      <Route
         path={JustfixRoutes.locale.home}
         exact
         component={LoadableDataDrivenOnboardingPage}

@@ -23,6 +23,8 @@ import { UpdateBrowserStorage } from "../browser-storage";
 import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issues";
 import { MORATORIUM_FAQ_URL } from "../ui/covid-banners";
 import i18n from "../i18n";
+import { Trans } from "@lingui/macro";
+import { EnglishOutboundLink } from "../ui/localized-outbound-link";
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
@@ -249,15 +251,15 @@ function getUnitsAndDateBuilt(
 ): PossibleIndicator[] {
   return [
     data.unitCount && (
-      <>
+      <Trans>
         There <Indicator verb="is/are" value={data.unitCount} unit="unit" /> in
         your building.
-      </>
+      </Trans>
     ),
     // Note that we don't *actually* need some of these prerequsites, but it looks weird to have
     // just the build date as an indicator, so we'll only show it if we also show other info.
     data.unitCount && data.yearBuilt && (
-      <>Your building was built in {data.yearBuilt} or earlier.</>
+      <Trans>Your building was built in {data.yearBuilt} or earlier.</Trans>
     ),
   ];
 }
@@ -278,20 +280,20 @@ const useBuildingIntroCard: ActionCardPropsCreator = (
       ? [
           // Note that this might be a RAD conversion, but since the owner is still technically NYCHA,
           // it is indeed still best to show the following info.
-          <>
+          <Trans>
             This building is owned by the{" "}
             <strong>NYC Housing Authority (NYCHA)</strong>.
-          </>,
+          </Trans>,
           ...getUnitsAndDateBuilt(data),
         ]
       : hasHpdRegistration
       ? [
           data.associatedBuildingCount && data.portfolioUnitCount && (
-            <>
+            <Trans>
               Your landlord owns{" "}
               <Indicator value={data.associatedBuildingCount} unit="building" />{" "}
               and <Indicator value={data.portfolioUnitCount} unit="unit" />.
-            </>
+            </Trans>
           ),
           ...getUnitsAndDateBuilt(data),
         ]
@@ -300,37 +302,36 @@ const useBuildingIntroCard: ActionCardPropsCreator = (
           <>
             <span className="jf-registration-warning">
               <span className="has-text-danger has-text-weight-semibold">
-                No registration found.
+                <Trans>No registration found.</Trans>
               </span>{" "}
-              Your landlord may be breaking the law!
+              <Trans> Your landlord may be breaking the law!</Trans>
             </span>
-            It looks like this building may require registration with HPD.
-            Landlords who don't properly register their properties incur fines
-            and also cannot bring tenants to court for nonpayment of rent. You
-            can find more information on{" "}
-            <OutboundLink
-              href="https://www1.nyc.gov/site/hpd/services-and-information/register-your-property.page"
-              target="_blank"
-            >
-              HPD's Property Management page
-            </OutboundLink>
+            <Trans id="justfix.DdoMayNeedHpdRegistration">
+              It looks like this building may require registration with HPD.
+              Landlords who don't properly register their properties incur fines
+              and also cannot bring tenants to court for nonpayment of rent. You
+              can find more information on{" "}
+              <EnglishOutboundLink href="https://www1.nyc.gov/site/hpd/services-and-information/register-your-property.page">
+                HPD's Property Management page
+              </EnglishOutboundLink>
+            </Trans>
             .
           </>,
         ]
       : [
           <>
             <span className="jf-registration-warning has-text-danger has-text-weight-semibold">
-              No registration found.
+              <Trans>No registration found.</Trans>
             </span>
-            It doesn't seem like this property is required to register with HPD.
-            You can learn about the City's registration requirements on{" "}
-            <OutboundLink
-              href="https://www1.nyc.gov/site/hpd/services-and-information/register-your-property.page"
-              target="_blank"
-            >
-              HPD's Property Management page
-            </OutboundLink>
-            .
+            <Trans>
+              {" "}
+              It doesn't seem like this property is required to register with
+              HPD. You can learn about the City's registration requirements on{" "}
+              <EnglishOutboundLink href="https://www1.nyc.gov/site/hpd/services-and-information/register-your-property.page">
+                HPD's Property Management page
+              </EnglishOutboundLink>
+              .
+            </Trans>
           </>,
         ],
     // This fallback message should never actually appear, as the indicators have been constructed
@@ -356,7 +357,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       isRecommended: buildings > 25,
       indicators: [
         hasMinBuildings && (
-          <>
+          <Trans>
             Your landlord is associated with{" "}
             <Indicator
               value={buildings}
@@ -364,22 +365,24 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
               pluralUnit="properties"
             />
             .
-          </>
+          </Trans>
         ),
         data.associatedZipCount && hasMinBuildings && (
-          <>
+          <Trans>
             Buildings in your landlord's portfolio are located in{" "}
             <Indicator value={data.associatedZipCount} unit="zip code" />.
-          </>
+          </Trans>
         ),
         data.portfolioTopBorough && hasMinBuildings && (
-          <>
+          <Trans>
             The majority of your landlord's properties are concentrated in{" "}
             {properNoun(data.portfolioTopBorough)}.
-          </>
+          </Trans>
         ),
       ],
-      fallbackMessage: <> Your landlord might own other buildings, too. </>,
+      fallbackMessage: (
+        <Trans> Your landlord might own other buildings, too. </Trans>
+      ),
       imageStaticURL: "frontend/img/ddo/network.svg",
       cta: {
         to: whoOwnsWhatURL(data.bbl),
@@ -391,12 +394,12 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   function letterOfComplaint(data): ActionCardProps {
     // Default content temporarily implemented during COVID-19 Outbreak
     const covidMessage = (
-      <>
+      <Trans id="justfix.ddoLocCovidMessage">
         Landlord not responding? You can take action for free to request
         repairs! Due to the Covid-19 health crisis, we recommend requesting
         repairs only in the case of an emergency so you can stay safe and
         healthy by limiting how many people enter your home.
-      </>
+      </Trans>
     );
     return {
       title: "Request repairs from your landlord",
@@ -417,7 +420,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   function hpAction(data): ActionCardProps {
     // Default content temporarily implemented during COVID-19 Outbreak
     const normalCovidMessage = (
-      <>
+      <Trans id="justfix.ddoHpaCovidMessage">
         <span className="subtitle">
           Due to the Covid-19 health crisis, Housing Courts in New York City are
           closed. You can still make the forms to take your landlord to court
@@ -429,19 +432,19 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
           <a href="tel:1-212-962-4795">(212) 962-4795</a> to get assistance
           Mon-Fri, 9am-5pm. Assistance is available in English and Spanish.
         </span>
-      </>
+      </Trans>
     );
     let issues = commaSeparatedConjunction(
       getEmergencyHPAIssueLabels().map((v) => v.toLowerCase())
     );
     const emergencyCovidMessage = (
-      <>
+      <Trans id="justfix.ddoEhpaCovidMessage">
         <span className="subtitle">
           Due to the covid-19 pandemic, Housing Courts in New York City are
           prioritizing cases for conditions that threaten the health and safety
           of your household, such as: {issues}.
         </span>
-      </>
+      </Trans>
     );
     const normalHpAction: ActionCardProps = {
       title: "Start a legal case for repairs and/or harassment",
@@ -490,24 +493,24 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         data.stabilizedUnitCountMaximum > 0 ||
         data.stabilizedUnitCount2007 ||
         data.stabilizedUnitCount2017 ? (
-          <>Your apartment may be rent stabilized.</>
+          <Trans>Your apartment may be rent stabilized.</Trans>
         ) : null,
         data.stabilizedUnitCount2017 && (
-          <>
+          <Trans>
             Your building had{" "}
             <Indicator
               value={data.stabilizedUnitCount2017}
               unit="rent stabilized unit"
             />{" "}
             in 2017.
-          </>
+          </Trans>
         ),
       ],
       fallbackMessage: (
-        <>
+        <Trans>
           Think your apartment may be rent-stabilized? Request its official
           records.
-        </>
+        </Trans>
       ),
       imageStaticURL: "frontend/img/ddo/rent.svg",
       cta: {
@@ -520,11 +523,11 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   function evictionFreeNyc(data): ActionCardProps {
     // Default content temporarily implemented during COVID-19 Outbreak
     const covidMessage = (
-      <>
+      <Trans id="justfix.ddoEfnycCovidMessage">
         An Eviction Moratorium is in place in NY State due to the Covid-19
         public health crisis. All courts that hear eviction cases are closed.
         This means you <b>cannot be evicted for any reason</b>.
-      </>
+      </Trans>
     );
     const covidCtaText = "Learn more";
     return {
@@ -603,7 +606,9 @@ export function DataDrivenOnboardingResults(props: DDOData) {
       <ActionCard {...useBuildingIntroCard(props)} />
       {actions.recommended.length > 0 && (
         <>
-          <h2>Recommended actions</h2>
+          <h2>
+            <Trans>Recommended actions</Trans>
+          </h2>
           {actions.recommended.map((props, i) => (
             <ActionCard key={i} {...props} />
           ))}
@@ -631,7 +636,7 @@ function Results(props: { address: string; output: DDOData | null }) {
       <>
         <PageTitle title="Unrecognized address" />
         <h3 {...queryFormResultFocusProps}>
-          Sorry, we don't recognize the address you entered.
+          <Trans>Sorry, we don't recognize the address you entered.</Trans>
         </h3>
       </>
     );
@@ -667,14 +672,14 @@ export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
             <section className={showHero ? "hero" : ""}>
               <div className={showHero ? "hero-body" : ""}>
                 {showHero && (
-                  <>
+                  <Trans>
                     <h1 className="title is-size-1 is-size-3-mobile is-spaced">
                       Free tools for you to fight for a safe and healthy home
                     </h1>
                     <p className="subtitle">
                       Enter your address to learn more.
                     </p>
-                  </>
+                  </Trans>
                 )}
                 <div
                   className={classnames(

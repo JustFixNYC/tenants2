@@ -31,6 +31,10 @@ msgstr "8 Minutes"
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> makes use of a <1/> and <2/>, which you can review."
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:447
+msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
+msgstr "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
+
 #: frontend/lib/norent/data/faqs-content.tsx:376
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
 msgstr "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
@@ -186,6 +190,10 @@ msgstr "Build power in numbers"
 #: frontend/lib/norent/letter-builder/welcome.tsx:16
 msgid "Build your letter"
 msgstr "Build your letter"
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:227
+msgid "Buildings in your landlord's portfolio are located in <0/>."
+msgstr "Buildings in your landlord's portfolio are located in <0/>."
 
 #: frontend/lib/norent/data/faqs-content.tsx:28
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
@@ -594,6 +602,10 @@ msgstr "Is this free?"
 msgid "Is this tool right for me?"
 msgstr "Is this tool right for me?"
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:195
+msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
+msgstr "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
+
 #: frontend/lib/norent/letter-builder/confirmation.tsx:112
 msgid "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."
 msgstr "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."
@@ -841,6 +853,11 @@ msgstr "Next"
 msgid "No"
 msgstr "No"
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:173
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:193
+msgid "No registration found."
+msgstr "No registration found."
+
 #: frontend/lib/norent/about.tsx:126
 msgid "NoRent.org is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits across the nation."
 msgstr "NoRent.org is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits across the nation."
@@ -950,6 +967,10 @@ msgstr "Privacy Policy"
 msgid "Puerto Rico"
 msgstr "Puerto Rico"
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:407
+msgid "Recommended actions"
+msgstr "Recommended actions"
+
 #. before signature in formal letter
 #: frontend/lib/util/letter-content-util.tsx:53
 msgid "Regards,"
@@ -1051,6 +1072,10 @@ msgstr "Sign up or log in to your account to access our tool."
 msgid "Sorry, the page you are looking for doesn't seem to exist."
 msgstr "Sorry, the page you are looking for doesn't seem to exist."
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:426
+msgid "Sorry, we don't recognize the address you entered."
+msgstr "Sorry, we don't recognize the address you entered."
+
 #: common-data/us-state-choices.ts:106
 msgid "South Carolina"
 msgstr "South Carolina"
@@ -1115,9 +1140,25 @@ msgstr "Texas"
 msgid "The Letter"
 msgstr "The Letter"
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:231
+msgid "The majority of your landlord's properties are concentrated in {0}."
+msgstr "The majority of your landlord's properties are concentrated in {0}."
+
 #: frontend/lib/pages/redirect-to-english-page.tsx:11
 msgid "The webpage that you want to access is only available in English."
 msgstr "The webpage that you want to access is only available in English."
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:133
+msgid "There <0/> in your building."
+msgstr "There <0/> in your building."
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:334
+msgid "Think your apartment may be rent-stabilized? Request its official records."
+msgstr "Think your apartment may be rent-stabilized? Request its official records."
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:152
+msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
+msgstr "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:19
 msgid "This is optional."
@@ -1364,9 +1405,33 @@ msgstr "Your NoRent.org letter"
 msgid "Your account is set up"
 msgstr "Your account is set up"
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:327
+msgid "Your apartment may be rent stabilized."
+msgstr "Your apartment may be rent stabilized."
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:328
+msgid "Your building had <0/> in 2017."
+msgstr "Your building had <0/> in 2017."
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:139
+msgid "Your building was built in {0} or earlier."
+msgstr "Your building was built in {0} or earlier."
+
 #: frontend/lib/norent/letter-builder/ask-email.tsx:13
 msgid "Your email address"
 msgstr "Your email address"
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:222
+msgid "Your landlord is associated with <0/>."
+msgstr "Your landlord is associated with <0/>."
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:175
+msgid "Your landlord may be breaking the law!"
+msgstr "Your landlord may be breaking the law!"
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:236
+msgid "Your landlord might own other buildings, too."
+msgstr "Your landlord might own other buildings, too."
 
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:30
 msgid "Your landlord or management company's address"
@@ -1379,6 +1444,10 @@ msgstr "Your landlord or management company's email"
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:89
 msgid "Your landlord or management company's information"
 msgstr "Your landlord or management company's information"
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:160
+msgid "Your landlord owns <0/> and <1/>."
+msgstr "Your landlord owns <0/> and <1/>."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:46
 msgid "Your letter has been mailed to your landlord via USPS Certified Mail. A copy of your letter has also been sent to your email."
@@ -1417,6 +1486,26 @@ msgstr "Zip code"
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:71
 msgid "and"
 msgstr "and"
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:178
+msgid "justfix.DdoMayNeedHpdRegistration"
+msgstr "It looks like this building may require registration with HPD. Landlords who don't properly register their properties incur fines and also cannot bring tenants to court for nonpayment of rent. You can find more information on <0>HPD's Property Management page</0>"
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:348
+msgid "justfix.ddoEfnycCovidMessage"
+msgstr "An Eviction Moratorium is in place in NY State due to the Covid-19 public health crisis. All courts that hear eviction cases are closed. This means you <0>cannot be evicted for any reason</0>."
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:284
+msgid "justfix.ddoEhpaCovidMessage"
+msgstr "<0>Due to the covid-19 pandemic, Housing Courts in New York City are prioritizing cases for conditions that threaten the health and safety of your household, such as: {issues}.</0>"
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:270
+msgid "justfix.ddoHpaCovidMessage"
+msgstr "<0>Due to the Covid-19 health crisis, Housing Courts in New York City are closed. You can still make the forms to take your landlord to court but you will not be able to file them until the courts re-open.</0><1>If you are facing an emergency such as lack of heat and/or hot water, call the Housing Court Answers Hotline at <2>(212) 962-4795</2> to get assistance Mon-Fri, 9am-5pm. Assistance is available in English and Spanish.</1>"
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:247
+msgid "justfix.ddoLocCovidMessage"
+msgstr "Landlord not responding? You can take action for free to request repairs! Due to the Covid-19 health crisis, we recommend requesting repairs only in the case of an emergency so you can stay safe and healthy by limiting how many people enter your home."
 
 #: frontend/lib/ui/legal-disclaimer.tsx:4
 msgid "justfix.legalDisclaimer"

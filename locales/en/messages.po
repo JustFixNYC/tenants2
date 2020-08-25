@@ -31,9 +31,21 @@ msgstr "8 Minutes"
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> makes use of a <1/> and <2/>, which you can review."
 
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:59
+msgid "<0><1>Customize your letter with a room-by-room issue checklist. We use a lawyer-approved template.</1><2>JustFix.nyc mails your letter via USPS Certified Mail<3>®</3> - for free!</2><4>Wait for your landlord to contact you directly. We'll check in to make sure they follow through.</4><5>If repairs aren't made, learn about additional tactics like organizing and legal actions.</5></0>"
+msgstr "<0><1>Customize your letter with a room-by-room issue checklist. We use a lawyer-approved template.</1><2>JustFix.nyc mails your letter via USPS Certified Mail<3>®</3> - for free!</2><4>Wait for your landlord to contact you directly. We'll check in to make sure they follow through.</4><5>If repairs aren't made, learn about additional tactics like organizing and legal actions.</5></0>"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:175
+msgid "<0>Disclaimer:</0> The information contained in JustFix.nyc does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free and/or low-cost legal services as necessary."
+msgstr "<0>Disclaimer:</0> The information contained in JustFix.nyc does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free and/or low-cost legal services as necessary."
+
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:441
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
 msgstr "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:141
+msgid "<0>I like that you texted me to check in on my status. You all were the first online advocacy group I’ve seen that was accessible and easy to use. JustFix.nyc’s digital platform has definitely been a game changer.</0><1>Steven, 36 years old <2/> East New York</1>"
+msgstr "<0>I like that you texted me to check in on my status. You all were the first online advocacy group I’ve seen that was accessible and easy to use. JustFix.nyc’s digital platform has definitely been a game changer.</0><1>Steven, 36 years old <2/> East New York</1>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:376
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
@@ -64,6 +76,10 @@ msgstr "<0>Notice of COVID-19 impact on rent</0><1/>at <2/>"
 msgid "<0>Our tool only allows you to send one letter at a time.</0><1>Continue to the confirmation page for what to do next.</1>"
 msgstr "<0>Our tool only allows you to send one letter at a time.</0><1>Continue to the confirmation page for what to do next.</1>"
 
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:121
+msgid "<0>They were terrific because their letter got results that mine didn’t. The letters from JustFix.nyc got my landlord to do the work. Now anytime I call, my landlord gets things done.</0><1>Veronica, 45 years old <2/> Hamilton Heights</1>"
+msgstr "<0>They were terrific because their letter got results that mine didn’t. The letters from JustFix.nyc got my landlord to do the work. Now anytime I call, my landlord gets things done.</0><1>Veronica, 45 years old <2/> Hamilton Heights</1>"
+
 #. heading of formal letter
 #: frontend/lib/util/letter-content-util.tsx:40
 msgid "<0>To</0><1/><2>From</2><3/>"
@@ -73,6 +89,10 @@ msgstr "<0>To</0><1/><2>From</2><3/>"
 #: frontend/lib/norent/data/faqs-content.tsx:167
 msgid "<0>Yes, this is a free website created by 501(c)3 non-profit organizations across the United States.</0>"
 msgstr "<0>Yes, this is a free website created by 501(c)3 non-profit organizations across the United States.</0>"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:89
+msgid "<0>Your landlord is responsible for keeping your apartment and the building safe and livable at all times. This is called the <1>Warranty of Habitability</1>.</0><2><3>Having a record of notifying your landlord makes for a stronger legal case.</3> If your landlord has already been unresponsive to your requests to make repairs, a letter is a <4>great tactic to start</4>. Through USPS Certified Mail<5>®</5>, you will have an official record of the requests you’ve made to your landlord. Our nonprofit <6>covers the cost</6> of mailing this letter for you!</2>"
+msgstr "<0>Your landlord is responsible for keeping your apartment and the building safe and livable at all times. This is called the <1>Warranty of Habitability</1>.</0><2><3>Having a record of notifying your landlord makes for a stronger legal case.</3> If your landlord has already been unresponsive to your requests to make repairs, a letter is a <4>great tactic to start</4>. Through USPS Certified Mail<5>®</5>, you will have an official record of the requests you’ve made to your landlord. Our nonprofit <6>covers the cost</6> of mailing this letter for you!</2>"
 
 #: frontend/lib/norent/homepage.tsx:103
 msgid "A national tool by non-profit <0>JustFix.nyc</0>"
@@ -84,6 +104,10 @@ msgstr "A national tool by non-profit <0>JustFix.nyc</0>"
 #: frontend/lib/norent/site.tsx:74
 msgid "About"
 msgstr "About"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:160
+msgid "About our nonprofit organization"
+msgstr "About our nonprofit organization"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:404
 msgid "Actions"
@@ -125,6 +149,10 @@ msgstr "Alaska"
 #: frontend/lib/norent/components/subscribe.tsx:34
 msgid "All set! Thanks for subscribing!"
 msgstr "All set! Thanks for subscribing!"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:38
+msgid "Already have an account? <0>Sign in!</0>"
+msgstr "Already have an account? <0>Sign in!</0>"
 
 #: frontend/lib/norent/homepage.tsx:188
 msgid "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
@@ -604,6 +632,10 @@ msgstr "Got it, take me there"
 msgid "Hawaii"
 msgstr "Hawaii"
 
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:112
+msgid "Hear from tenants who have used JustFix.nyc"
+msgstr "Hear from tenants who have used JustFix.nyc"
+
 #: frontend/lib/tests/i18n-lingui.test.tsx:19
 #: frontend/lib/tests/i18n-lingui.test.tsx:25
 #: frontend/lib/tests/i18n-lingui.test.tsx:32
@@ -668,6 +700,10 @@ msgstr "Housing Court Answers"
 #: frontend/lib/norent/about.tsx:36
 msgid "Housing Justice for All"
 msgstr "Housing Justice for All"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:54
+msgid "How It Works"
+msgstr "How It Works"
 
 #: frontend/lib/norent/data/faqs-content.tsx:435
 msgid "How can I build collective power with other tenants?"
@@ -794,6 +830,10 @@ msgstr "Is this free?"
 msgid "Is this tool right for me?"
 msgstr "Is this tool right for me?"
 
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:22
+msgid "Is your landlord not responding? Take action today!"
+msgstr "Is your landlord not responding? Take action today!"
+
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:182
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 msgstr "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
@@ -817,6 +857,10 @@ msgstr "JustFix.nyc <0/>sent on behalf of <1/>"
 #: frontend/lib/ui/footer.tsx:25
 msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
 msgstr "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:163
+msgid "JustFix.nyc is a tenants rights nonprofit that builds tools for tenants and organizers fighting displacement in NYC. We encourage tenants to take action and fight for safe and healthy homes. Want to know more? <0>Visit our website.</0>"
+msgstr "JustFix.nyc is a tenants rights nonprofit that builds tools for tenants and organizers fighting displacement in NYC. We encourage tenants to take action and fight for safe and healthy homes. Want to know more? <0>Visit our website.</0>"
 
 #: frontend/lib/rh/rental-history.tsx:169
 msgid "JustFix.nyc's Learning Center"
@@ -1527,6 +1571,11 @@ msgstr "Start a legal case for repairs and/or harassment"
 msgid "Start an emergency legal case for repairs"
 msgstr "Start an emergency legal case for repairs"
 
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:35
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:80
+msgid "Start my free letter"
+msgstr "Start my free letter"
+
 #: frontend/lib/rh/rental-history.tsx:59
 msgid "Start my request"
 msgstr "Start my request"
@@ -1576,6 +1625,10 @@ msgstr "Sue your landlord"
 #: frontend/lib/justfix-navbar.tsx:20
 msgid "Take action"
 msgstr "Take action"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:14
+msgid "Technology for Housing Justice"
+msgstr "Technology for Housing Justice"
 
 #: frontend/lib/norent/data/faqs-content.tsx:8
 msgid "Tenant Rights"
@@ -1627,6 +1680,10 @@ msgstr "Think your apartment may be rent-stabilized? Request its official record
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:140
 msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 msgstr "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:25
+msgid "This is a free tool that notifies your landlord of repair issues via <0>USPS Certified Mail<1>®</1></0>. This service is free and secure."
+msgstr "This is a free tool that notifies your landlord of repair issues via <0>USPS Certified Mail<1>®</1></0>. This service is free and secure."
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:19
 msgid "This is optional."
@@ -1853,6 +1910,10 @@ msgstr "Who we are"
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:38
 msgid "Why do you need this information?"
 msgstr "Why do you need this information?"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:87
+msgid "Why mail a Letter of Complaint?"
+msgstr "Why mail a Letter of Complaint?"
 
 #: frontend/lib/norent/the-letter.tsx:41
 msgid "Why send a letter"

@@ -123,6 +123,8 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
       {toPLRoute(getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC))}
       <PLRoute
         path={JustfixRoutes.locale.loc.prefix}
+        locales={["en"]}
+        wipLocales={["es"]}
         component={LoadableLetterOfComplaintRoutes}
       />
       {redirectToEHP && (

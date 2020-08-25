@@ -31,21 +31,9 @@ msgstr "8 Minutes"
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> makes use of a <1/> and <2/>, which you can review."
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:59
-msgid "<0><1>Customize your letter with a room-by-room issue checklist. We use a lawyer-approved template.</1><2>JustFix.nyc mails your letter via USPS Certified Mail<3>®</3> - for free!</2><4>Wait for your landlord to contact you directly. We'll check in to make sure they follow through.</4><5>If repairs aren't made, learn about additional tactics like organizing and legal actions.</5></0>"
-msgstr "<0><1>Customize your letter with a room-by-room issue checklist. We use a lawyer-approved template.</1><2>JustFix.nyc mails your letter via USPS Certified Mail<3>®</3> - for free!</2><4>Wait for your landlord to contact you directly. We'll check in to make sure they follow through.</4><5>If repairs aren't made, learn about additional tactics like organizing and legal actions.</5></0>"
-
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:175
-msgid "<0>Disclaimer:</0> The information contained in JustFix.nyc does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free and/or low-cost legal services as necessary."
-msgstr "<0>Disclaimer:</0> The information contained in JustFix.nyc does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free and/or low-cost legal services as necessary."
-
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:441
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
 msgstr "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
-
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:141
-msgid "<0>I like that you texted me to check in on my status. You all were the first online advocacy group I’ve seen that was accessible and easy to use. JustFix.nyc’s digital platform has definitely been a game changer.</0><1>Steven, 36 years old <2/> East New York</1>"
-msgstr "<0>I like that you texted me to check in on my status. You all were the first online advocacy group I’ve seen that was accessible and easy to use. JustFix.nyc’s digital platform has definitely been a game changer.</0><1>Steven, 36 years old <2/> East New York</1>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:376
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
@@ -76,10 +64,6 @@ msgstr "<0>Notice of COVID-19 impact on rent</0><1/>at <2/>"
 msgid "<0>Our tool only allows you to send one letter at a time.</0><1>Continue to the confirmation page for what to do next.</1>"
 msgstr "<0>Our tool only allows you to send one letter at a time.</0><1>Continue to the confirmation page for what to do next.</1>"
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:121
-msgid "<0>They were terrific because their letter got results that mine didn’t. The letters from JustFix.nyc got my landlord to do the work. Now anytime I call, my landlord gets things done.</0><1>Veronica, 45 years old <2/> Hamilton Heights</1>"
-msgstr "<0>They were terrific because their letter got results that mine didn’t. The letters from JustFix.nyc got my landlord to do the work. Now anytime I call, my landlord gets things done.</0><1>Veronica, 45 years old <2/> Hamilton Heights</1>"
-
 #. heading of formal letter
 #: frontend/lib/util/letter-content-util.tsx:40
 msgid "<0>To</0><1/><2>From</2><3/>"
@@ -89,10 +73,6 @@ msgstr "<0>To</0><1/><2>From</2><3/>"
 #: frontend/lib/norent/data/faqs-content.tsx:167
 msgid "<0>Yes, this is a free website created by 501(c)3 non-profit organizations across the United States.</0>"
 msgstr "<0>Yes, this is a free website created by 501(c)3 non-profit organizations across the United States.</0>"
-
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:89
-msgid "<0>Your landlord is responsible for keeping your apartment and the building safe and livable at all times. This is called the <1>Warranty of Habitability</1>.</0><2><3>Having a record of notifying your landlord makes for a stronger legal case.</3> If your landlord has already been unresponsive to your requests to make repairs, a letter is a <4>great tactic to start</4>. Through USPS Certified Mail<5>®</5>, you will have an official record of the requests you’ve made to your landlord. Our nonprofit <6>covers the cost</6> of mailing this letter for you!</2>"
-msgstr "<0>Your landlord is responsible for keeping your apartment and the building safe and livable at all times. This is called the <1>Warranty of Habitability</1>.</0><2><3>Having a record of notifying your landlord makes for a stronger legal case.</3> If your landlord has already been unresponsive to your requests to make repairs, a letter is a <4>great tactic to start</4>. Through USPS Certified Mail<5>®</5>, you will have an official record of the requests you’ve made to your landlord. Our nonprofit <6>covers the cost</6> of mailing this letter for you!</2>"
 
 #: frontend/lib/norent/homepage.tsx:103
 msgid "A national tool by non-profit <0>JustFix.nyc</0>"
@@ -857,10 +837,6 @@ msgstr "JustFix.nyc <0/>sent on behalf of <1/>"
 #: frontend/lib/ui/footer.tsx:25
 msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
 msgstr "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
-
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:163
-msgid "JustFix.nyc is a tenants rights nonprofit that builds tools for tenants and organizers fighting displacement in NYC. We encourage tenants to take action and fight for safe and healthy homes. Want to know more? <0>Visit our website.</0>"
-msgstr "JustFix.nyc is a tenants rights nonprofit that builds tools for tenants and organizers fighting displacement in NYC. We encourage tenants to take action and fight for safe and healthy homes. Want to know more? <0>Visit our website.</0>"
 
 #: frontend/lib/rh/rental-history.tsx:169
 msgid "JustFix.nyc's Learning Center"
@@ -2089,6 +2065,30 @@ msgstr "and"
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:165
 msgid "justfix.DdoMayNeedHpdRegistration"
 msgstr "It looks like this building may require registration with HPD. Landlords who don't properly register their properties incur fines and also cannot bring tenants to court for nonpayment of rent. You can find more information on <0>HPD's Property Management page</0>"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:163
+msgid "justfix.LocAboutOurNonprofitBlurb"
+msgstr "JustFix.nyc is a tenants rights nonprofit that builds tools for tenants and organizers fighting displacement in NYC. We encourage tenants to take action and fight for safe and healthy homes. Want to know more? <0>Visit our website.</0>"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:175
+msgid "justfix.LocDisclaimer"
+msgstr "<0>Disclaimer:</0> The information contained in JustFix.nyc does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free and/or low-cost legal services as necessary."
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:59
+msgid "justfix.LocHowItWorksList"
+msgstr "<0><1>Customize your letter with a room-by-room issue checklist. We use a lawyer-approved template.</1><2>JustFix.nyc mails your letter via USPS Certified Mail<3>®</3> - for free!</2><4>Wait for your landlord to contact you directly. We'll check in to make sure they follow through.</4><5>If repairs aren't made, learn about additional tactics like organizing and legal actions.</5></0>"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:121
+msgid "justfix.LocUserTestimonial1"
+msgstr "<0>They were terrific because their letter got results that mine didn’t. The letters from JustFix.nyc got my landlord to do the work. Now anytime I call, my landlord gets things done.</0><1>Veronica, 45 years old <2/> Hamilton Heights</1>"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:141
+msgid "justfix.LocUserTestimonial2"
+msgstr "<0>I like that you texted me to check in on my status. You all were the first online advocacy group I’ve seen that was accessible and easy to use. JustFix.nyc’s digital platform has definitely been a game changer.</0><1>Steven, 36 years old <2/> East New York</1>"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:89
+msgid "justfix.LocWhyMailALetterBlurb"
+msgstr "<0>Your landlord is responsible for keeping your apartment and the building safe and livable at all times. This is called the <1>Warranty of Habitability</1>.</0><2><3>Having a record of notifying your landlord makes for a stronger legal case.</3> If your landlord has already been unresponsive to your requests to make repairs, a letter is a <4>great tactic to start</4>. Through USPS Certified Mail<5>®</5>, you will have an official record of the requests you’ve made to your landlord. Our nonprofit <6>covers the cost</6> of mailing this letter for you!</2>"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
 msgid "justfix.ddoEfnycCovidMessage"

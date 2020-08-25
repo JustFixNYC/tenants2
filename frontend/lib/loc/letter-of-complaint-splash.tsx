@@ -77,7 +77,7 @@ export function LocSplash(): JSX.Element {
               allowFullScreen
             ></iframe>
           </figure>
-          <Trans>
+          <Trans id="justfix.LocHowItWorksList">
             <BigList itemClassName="title is-5">
               <li>
                 Customize your letter with a room-by-room issue checklist. We
@@ -111,7 +111,7 @@ export function LocSplash(): JSX.Element {
         <h2 className="title is-spaced has-text-centered">
           <Trans>Why mail a Letter of Complaint?</Trans>
         </h2>
-        <Trans>
+        <Trans id="justfix.LocWhyMailALetterBlurb">
           <p className="subtitle">
             Your landlord is responsible for keeping your apartment and the
             building safe and livable at all times. This is called the{" "}
@@ -148,7 +148,7 @@ export function LocSplash(): JSX.Element {
                     alt="Veronica photo"
                   />
                 </div>
-                <Trans>
+                <Trans id="justfix.LocUserTestimonial1">
                   <p className="subtitle has-text-centered is-spaced">
                     They were terrific because their letter got results that
                     mine didn’t. The letters from JustFix.nyc got my landlord to
@@ -173,7 +173,7 @@ export function LocSplash(): JSX.Element {
                     alt="Steven photo"
                   />
                 </div>
-                <Trans>
+                <Trans id="justfix.LocUserTestimonial2">
                   <p className="subtitle has-text-centered is-spaced">
                     I like that you texted me to check in on my status. You all
                     were the first online advocacy group I’ve seen that was
@@ -195,7 +195,7 @@ export function LocSplash(): JSX.Element {
           <Trans>About our nonprofit organization</Trans>
         </h2>
         <p className="subtitle">
-          <Trans>
+          <Trans id="justfix.LocAboutOurNonprofitBlurb">
             JustFix.nyc is a tenants rights nonprofit that builds tools for
             tenants and organizers fighting displacement in NYC. We encourage
             tenants to take action and fight for safe and healthy homes. Want to
@@ -207,7 +207,7 @@ export function LocSplash(): JSX.Element {
         </p>
         <div className="notification is-warning">
           <p className="subtitle">
-            <Trans>
+            <Trans id="justfix.LocDisclaimer">
               <strong>Disclaimer:</strong> The information contained in
               JustFix.nyc does not constitute legal advice and must not be used
               as a substitute for the advice of a lawyer qualified to give

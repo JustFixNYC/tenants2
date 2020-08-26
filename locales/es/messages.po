@@ -106,12 +106,12 @@ msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines
 msgid "About"
 msgstr "Acerca de"
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:108
-msgid "About rent stabilization"
-
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:160
 msgid "About our nonprofit organization"
 msgstr ""
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:108
+msgid "About rent stabilization"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:404
 msgid "Actions"
@@ -909,12 +909,12 @@ msgstr "¿Es esta herramienta adecuada para mí?"
 msgid "Is this your address?"
 msgstr ""
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:121
-msgid "Is your lease Market Rate?"
-
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:22
 msgid "Is your landlord not responding? Take action today!"
 msgstr ""
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:121
+msgid "Is your lease Market Rate?"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:182
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
@@ -2278,9 +2278,6 @@ msgstr "y"
 msgid "justfix.DdoMayNeedHpdRegistration"
 msgstr ""
 
-#: frontend/lib/onboarding/relief-attempts.tsx:14
-msgid "justfix.LocReliefAttemptsBlurb"
-
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:163
 msgid "justfix.LocAboutOurNonprofitBlurb"
 msgstr ""
@@ -2292,6 +2289,9 @@ msgstr ""
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:59
 msgid "justfix.LocHowItWorksList"
 msgstr ""
+
+#: frontend/lib/onboarding/relief-attempts.tsx:14
+msgid "justfix.LocReliefAttemptsBlurb"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:121
 msgid "justfix.LocUserTestimonial1"

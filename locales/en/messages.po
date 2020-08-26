@@ -101,13 +101,13 @@ msgstr "A national tool by non-profit <0>JustFix.nyc</0>"
 msgid "About"
 msgstr "About"
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:108
-msgid "About rent stabilization"
-msgstr "About rent stabilization"
-
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:160
 msgid "About our nonprofit organization"
 msgstr "About our nonprofit organization"
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:108
+msgid "About rent stabilization"
+msgstr "About rent stabilization"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:404
 msgid "Actions"
@@ -905,13 +905,13 @@ msgstr "Is this tool right for me?"
 msgid "Is this your address?"
 msgstr "Is this your address?"
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:121
-msgid "Is your lease Market Rate?"
-msgstr "Is your lease Market Rate?"
-
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:22
 msgid "Is your landlord not responding? Take action today!"
 msgstr "Is your landlord not responding? Take action today!"
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:121
+msgid "Is your lease Market Rate?"
+msgstr "Is your lease Market Rate?"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:182
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
@@ -2276,10 +2276,6 @@ msgstr "and"
 msgid "justfix.DdoMayNeedHpdRegistration"
 msgstr "It looks like this building may require registration with HPD. Landlords who don't properly register their properties incur fines and also cannot bring tenants to court for nonpayment of rent. You can find more information on <0>HPD's Property Management page</0>"
 
-#: frontend/lib/onboarding/relief-attempts.tsx:14
-msgid "justfix.LocReliefAttemptsBlurb"
-msgstr "It is encouraged that you call 311 to report housing complaints directly with the City. By calling, you will trigger a formal inspection process that may lead to official violations being issued."
-
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:163
 msgid "justfix.LocAboutOurNonprofitBlurb"
 msgstr "JustFix.nyc is a tenants rights nonprofit that builds tools for tenants and organizers fighting displacement in NYC. We encourage tenants to take action and fight for safe and healthy homes. Want to know more? <0>Visit our website.</0>"
@@ -2291,6 +2287,10 @@ msgstr "<0>Disclaimer:</0> The information contained in JustFix.nyc does not con
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:59
 msgid "justfix.LocHowItWorksList"
 msgstr "<0><1>Customize your letter with a room-by-room issue checklist. We use a lawyer-approved template.</1><2>JustFix.nyc mails your letter via USPS Certified Mail<3>®</3> - for free!</2><4>Wait for your landlord to contact you directly. We'll check in to make sure they follow through.</4><5>If repairs aren't made, learn about additional tactics like organizing and legal actions.</5></0>"
+
+#: frontend/lib/onboarding/relief-attempts.tsx:14
+msgid "justfix.LocReliefAttemptsBlurb"
+msgstr "It is encouraged that you call 311 to report housing complaints directly with the City. By calling, you will trigger a formal inspection process that may lead to official violations being issued."
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:121
 msgid "justfix.LocUserTestimonial1"

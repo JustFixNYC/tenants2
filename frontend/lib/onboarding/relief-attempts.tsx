@@ -11,11 +11,8 @@ import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
 
 const ReliefAttemptsPage = MiddleProgressStep((props) => (
-  <Page title={li18n._(t`Previous attempts to get official help`)}>
+  <Page title={li18n._(t`Previous attempts to get official help`)} withHeading>
     <div>
-      <h1 className="title is-4 is-spaced">
-        <Trans>Previous attempts to get official help</Trans>
-      </h1>
       <p className="subtitle is-6">
         <Trans>
           It is encouraged that you call 311 to report housing complaints

@@ -290,11 +290,8 @@ export default class OnboardingStep3 extends React.Component<
 
   render() {
     return (
-      <Page title={li18n._(t`What type of lease do you have?`)}>
+      <Page title={li18n._(t`What type of lease do you have?`)} withHeading>
         <div>
-          <h1 className="title is-4 is-spaced">
-            <Trans>What type of lease do you have?</Trans>
-          </h1>
           <p className="subtitle is-6">
             <Trans>
               Your rights vary depending on what type of lease you have.

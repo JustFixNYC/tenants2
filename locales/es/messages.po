@@ -36,7 +36,7 @@ msgstr "8 minutos"
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
-#: frontend/lib/onboarding/onboarding-thanks.tsx:11
+#: frontend/lib/onboarding/onboarding-thanks.tsx:8
 msgid "<0>An email to verify your account is on its way, from <1>no-reply@justfix.nyc</1>.</0><2>Don't see one? Check your spam folder.</2>"
 msgstr ""
 
@@ -405,15 +405,11 @@ msgstr "Poniéndose en contacto con otros"
 msgid "Contact a lawyer if your landlord retaliates"
 msgstr "Ponte en contacto con un abogado si el dueño de tu edificio toma represalias"
 
-#: frontend/lib/onboarding/onboarding-step-4.tsx:52
-msgid "Contact information"
-msgstr ""
-
 #: frontend/lib/norent/letter-builder/error-pages.tsx:28
 #: frontend/lib/norent/letter-builder/error-pages.tsx:40
 #: frontend/lib/onboarding/onboarding-step-3.tsx:30
 #: frontend/lib/onboarding/onboarding-step-4.tsx:48
-#: frontend/lib/onboarding/onboarding-thanks.tsx:21
+#: frontend/lib/onboarding/onboarding-thanks.tsx:18
 msgid "Continue"
 msgstr "Continuar"
 
@@ -680,7 +676,7 @@ msgstr ""
 msgid "HP Action"
 msgstr ""
 
-#: frontend/lib/onboarding/relief-attempts.tsx:30
+#: frontend/lib/onboarding/relief-attempts.tsx:27
 msgid "Have you previously called 311 with no results?"
 msgstr ""
 
@@ -906,7 +902,7 @@ msgstr ""
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 msgstr ""
 
-#: frontend/lib/onboarding/relief-attempts.tsx:17
+#: frontend/lib/onboarding/relief-attempts.tsx:14
 msgid "It is encouraged that you call 311 to report housing complaints directly with the City. By calling, you will trigger a formal inspection process that may lead to official violations being issued."
 msgstr ""
 
@@ -1439,7 +1435,6 @@ msgid "Preview of your NoRent.org letter"
 msgstr "Vista previa de tu carta NoRent.org"
 
 #: frontend/lib/onboarding/relief-attempts.tsx:11
-#: frontend/lib/onboarding/relief-attempts.tsx:14
 msgid "Previous attempts to get official help"
 msgstr ""
 
@@ -1790,7 +1785,6 @@ msgid "Texas"
 msgstr "Tejas"
 
 #: frontend/lib/onboarding/onboarding-thanks.tsx:7
-#: frontend/lib/onboarding/onboarding-thanks.tsx:9
 msgid "Thanks for signing up!"
 msgstr ""
 
@@ -2024,7 +2018,6 @@ msgid "What kind of documentation should I collect to prove I can’t pay rent?"
 msgstr "¿Qué tipo de documentación debo recopilar para demostrar que no puedo pagar la renta?"
 
 #: frontend/lib/onboarding/onboarding-step-3.tsx:172
-#: frontend/lib/onboarding/onboarding-step-3.tsx:175
 msgid "What type of lease do you have?"
 msgstr ""
 
@@ -2161,7 +2154,7 @@ msgstr ""
 msgid "Your building was built in {0} or earlier."
 msgstr ""
 
-#: frontend/lib/onboarding/onboarding-step-4.tsx:55
+#: frontend/lib/onboarding/onboarding-step-4.tsx:52
 msgid "Your contact information"
 msgstr ""
 
@@ -2226,7 +2219,7 @@ msgstr ""
 msgid "Your residence"
 msgstr "Tu hogar"
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:178
+#: frontend/lib/onboarding/onboarding-step-3.tsx:175
 msgid "Your rights vary depending on what type of lease you have."
 msgstr ""
 

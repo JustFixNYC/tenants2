@@ -8,11 +8,9 @@ export const OnboardingThanks: React.FC<{ next: string }> = ({ next }) => {
   return (
     <Page
       title={li18n._(t`Thanks for signing up!`)}
+      withHeading="big"
       className="content has-text-centered"
     >
-      <h1>
-        <Trans>Thanks for signing up!</Trans>
-      </h1>
       <Trans>
         <p className="subtitle is-4 is-marginless">
           An email to verify your account is on its way, from{" "}

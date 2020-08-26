@@ -31,7 +31,7 @@ msgstr "8 Minutes"
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> makes use of a <1/> and <2/>, which you can review."
 
-#: frontend/lib/onboarding/onboarding-thanks.tsx:11
+#: frontend/lib/onboarding/onboarding-thanks.tsx:8
 msgid "<0>An email to verify your account is on its way, from <1>no-reply@justfix.nyc</1>.</0><2>Don't see one? Check your spam folder.</2>"
 msgstr "<0>An email to verify your account is on its way, from <1>no-reply@justfix.nyc</1>.</0><2>Don't see one? Check your spam folder.</2>"
 
@@ -400,15 +400,11 @@ msgstr "Connecting With Others"
 msgid "Contact a lawyer if your landlord retaliates"
 msgstr "Contact a lawyer if your landlord retaliates"
 
-#: frontend/lib/onboarding/onboarding-step-4.tsx:52
-msgid "Contact information"
-msgstr "Contact information"
-
 #: frontend/lib/norent/letter-builder/error-pages.tsx:28
 #: frontend/lib/norent/letter-builder/error-pages.tsx:40
 #: frontend/lib/onboarding/onboarding-step-3.tsx:30
 #: frontend/lib/onboarding/onboarding-step-4.tsx:48
-#: frontend/lib/onboarding/onboarding-thanks.tsx:21
+#: frontend/lib/onboarding/onboarding-thanks.tsx:18
 msgid "Continue"
 msgstr "Continue"
 
@@ -675,7 +671,7 @@ msgstr "Great news!"
 msgid "HP Action"
 msgstr "HP Action"
 
-#: frontend/lib/onboarding/relief-attempts.tsx:30
+#: frontend/lib/onboarding/relief-attempts.tsx:27
 msgid "Have you previously called 311 with no results?"
 msgstr "Have you previously called 311 with no results?"
 
@@ -901,7 +897,7 @@ msgstr "Is your lease Market Rate?"
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 msgstr "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 
-#: frontend/lib/onboarding/relief-attempts.tsx:17
+#: frontend/lib/onboarding/relief-attempts.tsx:14
 msgid "It is encouraged that you call 311 to report housing complaints directly with the City. By calling, you will trigger a formal inspection process that may lead to official violations being issued."
 msgstr "It is encouraged that you call 311 to report housing complaints directly with the City. By calling, you will trigger a formal inspection process that may lead to official violations being issued."
 
@@ -1434,7 +1430,6 @@ msgid "Preview of your NoRent.org letter"
 msgstr "Preview of your NoRent.org letter"
 
 #: frontend/lib/onboarding/relief-attempts.tsx:11
-#: frontend/lib/onboarding/relief-attempts.tsx:14
 msgid "Previous attempts to get official help"
 msgstr "Previous attempts to get official help"
 
@@ -1785,7 +1780,6 @@ msgid "Texas"
 msgstr "Texas"
 
 #: frontend/lib/onboarding/onboarding-thanks.tsx:7
-#: frontend/lib/onboarding/onboarding-thanks.tsx:9
 msgid "Thanks for signing up!"
 msgstr "Thanks for signing up!"
 
@@ -2019,7 +2013,6 @@ msgid "What kind of documentation should I collect to prove I can’t pay rent?"
 msgstr "What kind of documentation should I collect to prove I can’t pay rent?"
 
 #: frontend/lib/onboarding/onboarding-step-3.tsx:172
-#: frontend/lib/onboarding/onboarding-step-3.tsx:175
 msgid "What type of lease do you have?"
 msgstr "What type of lease do you have?"
 
@@ -2156,7 +2149,7 @@ msgstr "Your building had {0, plural, one {one rent stabilized unit} other {# re
 msgid "Your building was built in {0} or earlier."
 msgstr "Your building was built in {0} or earlier."
 
-#: frontend/lib/onboarding/onboarding-step-4.tsx:55
+#: frontend/lib/onboarding/onboarding-step-4.tsx:52
 msgid "Your contact information"
 msgstr "Your contact information"
 
@@ -2221,7 +2214,7 @@ msgstr "Your privacy is very important to us! Everything on JustFix.nyc is secur
 msgid "Your residence"
 msgstr "Your residence"
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:178
+#: frontend/lib/onboarding/onboarding-step-3.tsx:175
 msgid "Your rights vary depending on what type of lease you have."
 msgstr "Your rights vary depending on what type of lease you have."
 

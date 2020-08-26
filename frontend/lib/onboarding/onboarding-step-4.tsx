@@ -95,11 +95,8 @@ export default class OnboardingStep4 extends React.Component<
 
   render() {
     return (
-      <Page title={li18n._(t`Contact information`)}>
+      <Page title={li18n._(t`Your contact information`)} withHeading>
         <div>
-          <h1 className="title is-4">
-            <Trans>Your contact information</Trans>
-          </h1>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep4Version2Mutation}
             initialState={this.blankInitialState}

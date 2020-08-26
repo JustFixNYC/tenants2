@@ -50,8 +50,8 @@
     "@testing-library/react": "10.0.4",
     "@types/eslint": "6.8.0",
     "@types/jest": "25.1.4",
-    "@types/webpack": "4.41.0",
-    "@types/webpack-bundle-analyzer": "2.13.3",
+    "@types/webpack": "4.41.21",
+    "@types/webpack-bundle-analyzer": "3.8.0",
     "@types/webpack-node-externals": "1.7.0",
     "@typescript-eslint/eslint-plugin": "2.32.0",
     "@typescript-eslint/parser": "2.32.0",
@@ -63,7 +63,7 @@
     "eslint-plugin-react-hooks": "^3.0.0",
     "jest": "26.0.1",
     "prettier": "2.0.4",
-    "webpack-bundle-analyzer": "3.6.0"
+    "webpack-bundle-analyzer": "3.8.0"
   },
   "resolutions": {
     "@types/react": "16.8.22"
@@ -141,8 +141,8 @@
     "toml": "^3.0.0",
     "typescript": "3.9.7",
     "uglify-js": "3.4.9",
-    "webpack": "4.41.2",
-    "webpack-cli": "3.3.10",
+    "webpack": "4.44.1",
+    "webpack-cli": "3.3.12",
     "webpack-node-externals": "1.7.2"
   }
 }

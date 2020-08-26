@@ -7,17 +7,21 @@ import { YesNoRadiosFormField } from "../forms/yes-no-radios-form-field";
 import { ProgressButtons } from "../ui/buttons";
 import { toStringifiedNullBool } from "../forms/form-input-converter";
 import { MiddleProgressStep } from "../progress/progress-step-route";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 const ReliefAttemptsPage = MiddleProgressStep((props) => (
-  <Page title="Previous attempts to get help">
+  <Page title={li18n._(t`Previous attempts to get official help`)}>
     <div>
       <h1 className="title is-4 is-spaced">
-        Previous attempts to get official help
+        <Trans>Previous attempts to get official help</Trans>
       </h1>
       <p className="subtitle is-6">
-        It is encouraged that you call 311 to report housing complaints directly
-        with the City. By calling, you will trigger a formal inspection process
-        that may lead to official violations being issued.
+        <Trans>
+          It is encouraged that you call 311 to report housing complaints
+          directly with the City. By calling, you will trigger a formal
+          inspection process that may lead to official violations being issued.
+        </Trans>
       </p>
       <SessionUpdatingFormSubmitter
         mutation={ReliefAttemptsMutation}
@@ -32,7 +36,9 @@ const ReliefAttemptsPage = MiddleProgressStep((props) => (
           <>
             <YesNoRadiosFormField
               {...ctx.fieldPropsFor("hasCalled311")}
-              label="Have you previously called 311 with no results?"
+              label={li18n._(
+                t`Have you previously called 311 with no results?`
+              )}
             />
             <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
           </>

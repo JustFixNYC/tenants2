@@ -44,7 +44,7 @@ msgstr ""
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
 msgstr ""
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:105
+#: frontend/lib/onboarding/onboarding-step-3.tsx:109
 msgid "<0>If your building has more than 6 units and was built before 1974, your apartment is likely rent stabilized.</0><1>Check your lease to make sure.</1>"
 msgstr ""
 
@@ -83,11 +83,11 @@ msgid "<0>To</0><1/><2>From</2><3/>"
 msgstr "<0>De</0><1/><2>Hasta</2><3/>"
 
 #: frontend/lib/onboarding/onboarding-step-3.tsx:46
-msgid "<0>Warning:</0> If you do not have a lease, taking action against your landlord could provoke retaliation and/or an eviction notice once the Eviction Moratorium is lifted. <1>Take caution and make sure that this service is right for you.</1>"
+msgid "<0>Warning:</0> If you do not have a lease, taking action against your landlord could provoke retaliation and/or an eviction notice once the Eviction Moratorium is lifted."
 msgstr ""
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:74
-msgid "<0>Warning:</0> Taking action against your landlord could provoke retaliation and/or an eviction notice once the Eviction Moratorium is lifted. <1>Take caution and make sure that this service is right for you.</1>"
+#: frontend/lib/onboarding/onboarding-step-3.tsx:76
+msgid "<0>Warning:</0> Taking action against your landlord could provoke retaliation and/or an eviction notice once the Eviction Moratorium is lifted."
 msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:160
@@ -106,7 +106,7 @@ msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines
 msgid "About"
 msgstr "Acerca de"
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:104
+#: frontend/lib/onboarding/onboarding-step-3.tsx:108
 msgid "About rent stabilization"
 msgstr ""
 
@@ -180,7 +180,7 @@ msgstr "Arizona"
 msgid "Arkansas"
 msgstr "Arkansas"
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:61
+#: frontend/lib/onboarding/onboarding-step-3.tsx:63
 msgid "As a rent stabilized tenant, you have additional rights that protect you from landlord retaliation, especially your right to a renewal lease every one or two years."
 msgstr ""
 
@@ -465,7 +465,7 @@ msgstr "¿Tengo que ir a la oficina de correos para enviar mi carta?"
 msgid "Do you live in {0}, {1}?"
 msgstr "¿Vives en {0}, {1}?"
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:159
+#: frontend/lib/onboarding/onboarding-step-3.tsx:163
 msgid "Do you receive a housing voucher (Section 8, FEPS, Link, HASA, other)?"
 msgstr ""
 
@@ -668,7 +668,7 @@ msgstr "¡Entendido!"
 msgid "Got it, take me there"
 msgstr "Entendido, llévame"
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:59
+#: frontend/lib/onboarding/onboarding-step-3.tsx:61
 msgid "Great news!"
 msgstr ""
 
@@ -818,7 +818,7 @@ msgstr "Si no recibiste un código, por favor contacta con <0/>."
 msgid "If you have more questions, please email us at <0/>."
 msgstr ""
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:119
+#: frontend/lib/onboarding/onboarding-step-3.tsx:123
 msgid "If you live in a newer building and your rent is over $2700 a month, you probably have a market rate lease."
 msgstr ""
 
@@ -894,7 +894,7 @@ msgstr "¿Es esta herramienta adecuada para mí?"
 msgid "Is this your address?"
 msgstr ""
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:117
+#: frontend/lib/onboarding/onboarding-step-3.tsx:121
 msgid "Is your lease Market Rate?"
 msgstr ""
 
@@ -902,11 +902,7 @@ msgstr ""
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 msgstr ""
 
-#: frontend/lib/onboarding/relief-attempts.tsx:14
-msgid "It is encouraged that you call 311 to report housing complaints directly with the City. By calling, you will trigger a formal inspection process that may lead to official violations being issued."
-msgstr ""
-
-#: frontend/lib/onboarding/onboarding-step-3.tsx:131
+#: frontend/lib/onboarding/onboarding-step-3.tsx:135
 msgid "It's important that you have a lease. If you are a month-to-month tenant, you don't have as many rights."
 msgstr ""
 
@@ -1003,7 +999,7 @@ msgstr "Aprender más"
 msgid "Learn more about our mission on our website"
 msgstr "Obtén más información a cerca de nuestra misión en nuestro sitio web (sólo en inglés)"
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:150
+#: frontend/lib/onboarding/onboarding-step-3.tsx:154
 msgid "Learn more about {label} leases"
 msgstr ""
 
@@ -1011,7 +1007,7 @@ msgstr ""
 msgid "Learn more."
 msgstr "Aprender más."
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:158
+#: frontend/lib/onboarding/onboarding-step-3.tsx:162
 msgid "Lease type"
 msgstr ""
 
@@ -1124,7 +1120,7 @@ msgstr "Manufactured Housing Action"
 msgid "Market Rate"
 msgstr ""
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:72
+#: frontend/lib/onboarding/onboarding-step-3.tsx:74
 msgid "Market Rate lease"
 msgstr ""
 
@@ -1182,7 +1178,7 @@ msgstr ""
 msgid "Montana"
 msgstr "Montana"
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:129
+#: frontend/lib/onboarding/onboarding-step-3.tsx:133
 msgid "Month-to-month tenants"
 msgstr ""
 
@@ -1268,7 +1264,7 @@ msgstr ""
 msgid "No Smoke Detector"
 msgstr ""
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:95
+#: frontend/lib/onboarding/onboarding-step-3.tsx:99
 msgid "No lease"
 msgstr ""
 
@@ -1340,7 +1336,7 @@ msgid "Oregon"
 msgstr "Oregón"
 
 #: common-data/lease-choices.ts:21
-#: frontend/lib/onboarding/onboarding-step-3.tsx:88
+#: frontend/lib/onboarding/onboarding-step-3.tsx:92
 msgid "Other (Mitchell Lama, COOP/Condo, House, HUD, etc.)"
 msgstr ""
 
@@ -1760,6 +1756,11 @@ msgstr ""
 msgid "Take action"
 msgstr "Toma acción"
 
+#: frontend/lib/onboarding/onboarding-step-3.tsx:52
+#: frontend/lib/onboarding/onboarding-step-3.tsx:82
+msgid "Take caution and make sure that this service is right for you."
+msgstr ""
+
 #: frontend/lib/norent/data/faqs-content.tsx:8
 msgid "Tenant Rights"
 msgstr "Derechos del Inquilino"
@@ -2017,7 +2018,7 @@ msgstr "¿Cuál es tu municipalidad?"
 msgid "What kind of documentation should I collect to prove I can’t pay rent?"
 msgstr "¿Qué tipo de documentación debo recopilar para demostrar que no puedo pagar la renta?"
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:172
+#: frontend/lib/onboarding/onboarding-step-3.tsx:176
 msgid "What type of lease do you have?"
 msgstr ""
 
@@ -2219,7 +2220,7 @@ msgstr ""
 msgid "Your residence"
 msgstr "Tu hogar"
 
-#: frontend/lib/onboarding/onboarding-step-3.tsx:175
+#: frontend/lib/onboarding/onboarding-step-3.tsx:179
 msgid "Your rights vary depending on what type of lease you have."
 msgstr ""
 
@@ -2239,6 +2240,10 @@ msgstr "y"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:165
 msgid "justfix.DdoMayNeedHpdRegistration"
+msgstr ""
+
+#: frontend/lib/onboarding/relief-attempts.tsx:14
+msgid "justfix.LocReliefAttemptsBlurb"
 msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337

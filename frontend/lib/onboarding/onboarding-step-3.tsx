@@ -91,10 +91,12 @@ const GENERIC_NO_LEASE_WARNING = (
       <strong className="has-text-danger">Warning:</strong> If you do not have a
       lease, taking action against your landlord could provoke retaliation
       and/or an eviction notice once the Eviction Moratorium is lifted.{" "}
-      <strong>
-        Take caution and make sure that this service is right for you.
-      </strong>
     </Trans>
+    <strong>
+      <Trans>
+        Take caution and make sure that this service is right for you.
+      </Trans>
+    </strong>
   </p>
 );
 
@@ -130,10 +132,12 @@ export const createLeaseModals = (
             <strong className="has-text-danger">Warning:</strong> Taking action
             against your landlord could provoke retaliation and/or an eviction
             notice once the Eviction Moratorium is lifted.{" "}
-            <strong>
-              Take caution and make sure that this service is right for you.
-            </strong>
           </Trans>
+          <strong>
+            <Trans>
+              Take caution and make sure that this service is right for you.
+            </Trans>
+          </strong>
         </p>
       </LeaseInfoModal>
     ),

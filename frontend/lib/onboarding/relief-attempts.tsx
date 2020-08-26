@@ -14,7 +14,7 @@ const ReliefAttemptsPage = MiddleProgressStep((props) => (
   <Page title={li18n._(t`Previous attempts to get official help`)} withHeading>
     <div>
       <p className="subtitle is-6">
-        <Trans>
+        <Trans id="justfix.LocReliefAttemptsBlurb">
           It is encouraged that you call 311 to report housing complaints
           directly with the City. By calling, you will trigger a formal
           inspection process that may lead to official violations being issued.

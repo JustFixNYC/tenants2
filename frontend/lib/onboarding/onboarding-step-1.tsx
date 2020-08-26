@@ -48,9 +48,7 @@ function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
       <div className="level-right">
         <div className="level-item is-marginless">
           <Link to={toStep1AddressModal} className="is-size-7">
-            <Trans>
-              Why do you need my address?
-            </Trans>
+            <Trans>Why do you need my address?</Trans>
           </Link>
         </div>
       </div>
@@ -74,7 +72,7 @@ type OnboardingStep1Props = {
 
 class OnboardingStep1WithoutContexts extends React.Component<
   OnboardingStep1Props
-  > {
+> {
   readonly cancelControlRef: React.RefObject<
     HTMLDivElement
   > = React.createRef();
@@ -133,12 +131,12 @@ class OnboardingStep1WithoutContexts extends React.Component<
         <p>
           <Trans>
             Your privacy is very important to us! Everything on JustFix.nyc is
-          secure.{" "}
+            secure.{" "}
             <Link to={routes.step1AddressModal}>
               Click here to learn more
-            <span className="jf-sr-only"> about our privacy policy</span>
+              <span className="jf-sr-only"> about our privacy policy</span>
             </Link>
-          .
+            .
           </Trans>
         </p>
         <br />
@@ -153,7 +151,9 @@ class OnboardingStep1WithoutContexts extends React.Component<
 
     return (
       <Page
-        title={li18n._(t`Create an account to get started with your ${actionLabel}!`)}
+        title={li18n._(
+          t`Create an account to get started with your ${actionLabel}!`
+        )}
         withHeading
       >
         <div>
@@ -163,9 +163,9 @@ class OnboardingStep1WithoutContexts extends React.Component<
               exactSubsetOrDefault(
                 s.onboardingStep1
                   ? {
-                    ...s.onboardingStep1,
-                    ...createAptNumberFormInput(s.onboardingStep1.aptNumber),
-                  }
+                      ...s.onboardingStep1,
+                      ...createAptNumberFormInput(s.onboardingStep1.aptNumber),
+                    }
                   : null,
                 BlankOnboardingStep1Input
               )

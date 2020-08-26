@@ -21,7 +21,7 @@ export type OnboardingRoutesProps = {
 
 export default class OnboardingRoutes extends React.Component<
   OnboardingRoutesProps
-  > {
+> {
   readonly onboardingSteps: ProgressStepRoute[];
 
   constructor(props: OnboardingRoutesProps) {

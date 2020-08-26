@@ -22,6 +22,8 @@ import {
   OnboardingStep4Version2Mutation,
 } from "../queries/OnboardingStep4Version2Mutation";
 import { trackSignup } from "../analytics/track-signup";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 type OnboardingStep4Props = {
   routes: OnboardingRouteInfo;
@@ -45,31 +47,33 @@ export default class OnboardingStep4 extends React.Component<
     return (
       <React.Fragment>
         <PhoneNumberFormField
-          label="Phone number"
+          label={li18n._(t`Phone number`)}
           {...ctx.fieldPropsFor("phoneNumber")}
         />
         <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
+          <Trans>
           Yes, JustFix.nyc can text me to follow up about my housing issues.
+          </Trans>
         </CheckboxFormField>
         <TextualFormField
-          label="Email address"
+          label={li18n._(t`Email address`)}
           type="email"
           {...ctx.fieldPropsFor("email")}
         />
         <HiddenFormField {...ctx.fieldPropsFor("signupIntent")} />
         <br />
         <TextualFormField
-          label="Create a password"
+          label={li18n._(t`Create a password`)}
           type="password"
           {...ctx.fieldPropsFor("password")}
         />
         <TextualFormField
-          label="Please confirm your password"
+          label={li18n._(t`Please confirm your password`)}
           type="password"
           {...ctx.fieldPropsFor("confirmPassword")}
         />
         <CheckboxFormField {...ctx.fieldPropsFor("agreeToTerms")}>
-          I agree to the{" "}
+        <Trans>I agree to the{" "}
           <ModalLink
             to={routes.step4TermsModal}
             render={() => <PrivacyInfoModal />}
@@ -77,11 +81,12 @@ export default class OnboardingStep4 extends React.Component<
             JustFix.nyc terms and conditions
           </ModalLink>
           .
+          </Trans>
         </CheckboxFormField>
         <ProgressButtons
           back={routes.step3}
           isLoading={ctx.isLoading}
-          nextLabel="Continue"
+          nextLabel={li18n._(t`Continue`)}
         />
       </React.Fragment>
     );
@@ -89,9 +94,9 @@ export default class OnboardingStep4 extends React.Component<
 
   render() {
     return (
-      <Page title="Contact information">
+      <Page title={li18n._(t`Contact information`)}>
         <div>
-          <h1 className="title is-4">Your contact information</h1>
+          <h1 className="title is-4"><Trans>Your contact information</Trans></h1>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep4Version2Mutation}
             initialState={this.blankInitialState}

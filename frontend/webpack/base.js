@@ -233,19 +233,12 @@ function getWebPlugins() {
 
   if (!DISABLE_WEBPACK_ANALYZER) {
     const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
-    /**
-     * Urgh, it looks like the typings for BundleAnalyzerPlugin are using
-     * a private version of the typings for Webpack, and they're slightly
-     * different from our own typings for Webpack, so we have to appease
-     * TypeScript here.
-     *
-     * @type any
-     */
-    const plugin = new BundleAnalyzerPlugin({
-      analyzerMode: "static",
-      openAnalyzer: false,
-    });
-    plugins.push(plugin);
+    plugins.push(
+      new BundleAnalyzerPlugin({
+        analyzerMode: "static",
+        openAnalyzer: false,
+      })
+    );
   }
 
   return plugins;

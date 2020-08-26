@@ -1232,6 +1232,7 @@ msgstr "New password"
 msgid "Next"
 msgstr "Next"
 
+#: frontend/lib/forms/yes-no-radios-form-field.tsx:20
 #: frontend/lib/norent/letter-builder/confirmation-modal.tsx:20
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:28
 msgid "No"
@@ -2087,6 +2088,7 @@ msgstr "Wisconsin"
 msgid "Wyoming"
 msgstr "Wyoming"
 
+#: frontend/lib/forms/yes-no-radios-form-field.tsx:19
 #: frontend/lib/norent/letter-builder/confirmation-modal.tsx:20
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:30
 msgid "Yes"

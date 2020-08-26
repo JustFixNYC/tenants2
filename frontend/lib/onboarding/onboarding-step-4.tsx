@@ -52,7 +52,7 @@ export default class OnboardingStep4 extends React.Component<
         />
         <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
           <Trans>
-          Yes, JustFix.nyc can text me to follow up about my housing issues.
+            Yes, JustFix.nyc can text me to follow up about my housing issues.
           </Trans>
         </CheckboxFormField>
         <TextualFormField
@@ -73,14 +73,15 @@ export default class OnboardingStep4 extends React.Component<
           {...ctx.fieldPropsFor("confirmPassword")}
         />
         <CheckboxFormField {...ctx.fieldPropsFor("agreeToTerms")}>
-        <Trans>I agree to the{" "}
-          <ModalLink
-            to={routes.step4TermsModal}
-            render={() => <PrivacyInfoModal />}
-          >
-            JustFix.nyc terms and conditions
-          </ModalLink>
-          .
+          <Trans>
+            I agree to the{" "}
+            <ModalLink
+              to={routes.step4TermsModal}
+              render={() => <PrivacyInfoModal />}
+            >
+              JustFix.nyc terms and conditions
+            </ModalLink>
+            .
           </Trans>
         </CheckboxFormField>
         <ProgressButtons
@@ -96,7 +97,9 @@ export default class OnboardingStep4 extends React.Component<
     return (
       <Page title={li18n._(t`Contact information`)}>
         <div>
-          <h1 className="title is-4"><Trans>Your contact information</Trans></h1>
+          <h1 className="title is-4">
+            <Trans>Your contact information</Trans>
+          </h1>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep4Version2Mutation}
             initialState={this.blankInitialState}

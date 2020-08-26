@@ -14,6 +14,7 @@ const config: DjangoChoicesTypescriptConfig = {
       jsonFilename: "issue-area-choices.json",
       typeName: "IssueAreaChoice",
       exportLabels: true,
+      internationalizeLabels: true,
       filterOut: ["LANDLORD"],
     },
     {
@@ -30,11 +31,13 @@ const config: DjangoChoicesTypescriptConfig = {
       jsonFilename: "lease-choices.json",
       typeName: "LeaseChoice",
       exportLabels: true,
+      internationalizeLabels: true,
       filterOut: ["NOT_SURE"],
     },
     {
       jsonFilename: "signup-intent-choices.json",
       typeName: "SignupIntent",
+      internationalizeLabels: true,
       exportLabels: true,
     },
     {

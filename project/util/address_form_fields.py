@@ -8,7 +8,7 @@ from project.common_data import Choices
 
 BOROUGH_CHOICES = Choices.from_file('borough-choices.json', name='Borough')
 
-ADDRESS_MAX_LENGTH = 200
+ADDRESS_MAX_LENGTH = 64
 
 BOROUGH_MAX_LENGTH = 20
 

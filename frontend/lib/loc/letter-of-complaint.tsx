@@ -15,7 +15,7 @@ import { LocSplash } from "./letter-of-complaint-splash";
 import { GetStartedButton } from "../ui/get-started-button";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
 import { CovidRiskBanner, MoratoriumWarning } from "../ui/covid-banners";
-import ReliefAttemptsPage from "../onboarding/relief-attempts";
+import ReliefAttemptsPage from "./relief-attempts";
 import { isUserNycha } from "../util/nycha";
 import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-steps";
 import { ProgressStepProps } from "../progress/progress-step-route";

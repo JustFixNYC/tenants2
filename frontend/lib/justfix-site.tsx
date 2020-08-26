@@ -120,7 +120,10 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
         exact
         component={LogoutPage}
       />
-      {toPLRoute(getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC))}
+      {toPLRoute(getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC), {
+        locales: ["en"],
+        wipLocales: ["es"],
+      })}
       <PLRoute
         path={JustfixRoutes.locale.loc.prefix}
         locales={["en"]}

@@ -41,13 +41,13 @@ class MailingAddress(models.Model):
         abstract = True
 
     primary_line = models.CharField(
-        max_length=255,
+        max_length=64,
         blank=True,
         help_text='Usually the first line of the address, e.g. "150 Court Street"'
     )
 
     secondary_line = models.CharField(
-        max_length=255,
+        max_length=64,
         blank=True,
         help_text='Optional. Usually the second line of the address, e.g. "Suite 2"'
     )

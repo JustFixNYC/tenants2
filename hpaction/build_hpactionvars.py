@@ -190,12 +190,7 @@ def fill_landlord_info_from_nycha(v: hp.HPActionVariables, user: JustfixUser) ->
     name = NYCHA_ADDRESS['name']
     pad_bbl = get_user_onboarding_str_attr(user, 'pad_bbl')
 
-    # Note that at present, only the Bronx Housing Court has asked us
-    # to specify the name of the NYCHA housing development as the
-    # entity name. In the future we might expand the criteria.
-    is_for_bronx_court = get_user_onboarding_str_attr(user, 'borough') == BOROUGH_CHOICES.BRONX
-
-    if pad_bbl and is_for_bronx_court:
+    if pad_bbl:
         prop = NychaProperty.objects.filter(pad_bbl=pad_bbl).first()
         if prop:
             name = f"NYCHA {prop.development.title()} Houses"

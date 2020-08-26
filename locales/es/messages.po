@@ -683,7 +683,7 @@ msgstr ""
 msgid "HP Action"
 msgstr ""
 
-#: frontend/lib/onboarding/relief-attempts.tsx:27
+#: frontend/lib/loc/relief-attempts.tsx:27
 msgid "Have you previously called 311 with no results?"
 msgstr ""
 
@@ -1449,7 +1449,7 @@ msgstr "Tenga en cuenta que el correo electrónico se enviará en inglés."
 msgid "Preview of your NoRent.org letter"
 msgstr "Vista previa de tu carta NoRent.org"
 
-#: frontend/lib/onboarding/relief-attempts.tsx:11
+#: frontend/lib/loc/relief-attempts.tsx:11
 msgid "Previous attempts to get official help"
 msgstr ""
 
@@ -2290,7 +2290,7 @@ msgstr ""
 msgid "justfix.LocHowItWorksList"
 msgstr ""
 
-#: frontend/lib/onboarding/relief-attempts.tsx:14
+#: frontend/lib/loc/relief-attempts.tsx:14
 msgid "justfix.LocReliefAttemptsBlurb"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:121

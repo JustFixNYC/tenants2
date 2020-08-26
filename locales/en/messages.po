@@ -679,7 +679,7 @@ msgstr "Great news!"
 msgid "HP Action"
 msgstr "HP Action"
 
-#: frontend/lib/onboarding/relief-attempts.tsx:27
+#: frontend/lib/loc/relief-attempts.tsx:27
 msgid "Have you previously called 311 with no results?"
 msgstr "Have you previously called 311 with no results?"
 
@@ -1446,7 +1446,7 @@ msgstr "Please note, the email will be sent in English."
 msgid "Preview of your NoRent.org letter"
 msgstr "Preview of your NoRent.org letter"
 
-#: frontend/lib/onboarding/relief-attempts.tsx:11
+#: frontend/lib/loc/relief-attempts.tsx:11
 msgid "Previous attempts to get official help"
 msgstr "Previous attempts to get official help"
 
@@ -2288,7 +2288,7 @@ msgstr "<0>Disclaimer:</0> The information contained in JustFix.nyc does not con
 msgid "justfix.LocHowItWorksList"
 msgstr "<0><1>Customize your letter with a room-by-room issue checklist. We use a lawyer-approved template.</1><2>JustFix.nyc mails your letter via USPS Certified Mail<3>®</3> - for free!</2><4>Wait for your landlord to contact you directly. We'll check in to make sure they follow through.</4><5>If repairs aren't made, learn about additional tactics like organizing and legal actions.</5></0>"
 
-#: frontend/lib/onboarding/relief-attempts.tsx:14
+#: frontend/lib/loc/relief-attempts.tsx:14
 msgid "justfix.LocReliefAttemptsBlurb"
 msgstr "It is encouraged that you call 311 to report housing complaints directly with the City. By calling, you will trigger a formal inspection process that may lead to official violations being issued."
 

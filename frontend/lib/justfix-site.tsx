@@ -124,7 +124,7 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
         locales: ["en"],
         wipLocales: ["es"],
       })}
-      <Route
+      <PLRoute
         path={JustfixRoutes.locale.loc.prefix}
         component={LoadableLetterOfComplaintRoutes}
       />

@@ -108,6 +108,9 @@ msgstr "Acerca de"
 
 #: frontend/lib/onboarding/onboarding-step-3.tsx:108
 msgid "About rent stabilization"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:160
+msgid "About our nonprofit organization"
 msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:404
@@ -150,6 +153,10 @@ msgstr "Alaska"
 #: frontend/lib/norent/components/subscribe.tsx:34
 msgid "All set! Thanks for subscribing!"
 msgstr "¡Todo listo! ¡Gracias por suscribirte!"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:38
+msgid "Already have an account? <0>Sign in!</0>"
+msgstr ""
 
 #: frontend/lib/norent/homepage.tsx:188
 msgid "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
@@ -684,6 +691,10 @@ msgstr ""
 msgid "Hawaii"
 msgstr "Hawaii"
 
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:112
+msgid "Hear from tenants who have used JustFix.nyc"
+msgstr ""
+
 #: frontend/lib/tests/i18n-lingui.test.tsx:19
 #: frontend/lib/tests/i18n-lingui.test.tsx:25
 #: frontend/lib/tests/i18n-lingui.test.tsx:32
@@ -748,6 +759,10 @@ msgstr ""
 #: frontend/lib/norent/about.tsx:36
 msgid "Housing Justice for All"
 msgstr "Housing Justice for All"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:54
+msgid "How It Works"
+msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:435
 msgid "How can I build collective power with other tenants?"
@@ -896,6 +911,9 @@ msgstr ""
 
 #: frontend/lib/onboarding/onboarding-step-3.tsx:121
 msgid "Is your lease Market Rate?"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:22
+msgid "Is your landlord not responding? Take action today!"
 msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:182
@@ -1707,6 +1725,11 @@ msgstr ""
 msgid "Start an emergency legal case for repairs"
 msgstr ""
 
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:35
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:80
+msgid "Start my free letter"
+msgstr ""
+
 #: frontend/lib/rh/rental-history.tsx:59
 msgid "Start my request"
 msgstr ""
@@ -1760,6 +1783,9 @@ msgstr "Toma acción"
 #: frontend/lib/onboarding/onboarding-step-3.tsx:52
 #: frontend/lib/onboarding/onboarding-step-3.tsx:82
 msgid "Take caution and make sure that this service is right for you."
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:14
+msgid "Technology for Housing Justice"
 msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:8
@@ -1815,6 +1841,10 @@ msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:140
 msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
+msgstr ""
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:25
+msgid "This is a free tool that notifies your landlord of repair issues via <0>USPS Certified Mail<1>®</1></0>. This service is free and secure."
 msgstr ""
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:19
@@ -2051,6 +2081,10 @@ msgstr ""
 msgid "Why do you need this information?"
 msgstr "¿Por qué necesitáis esta información?"
 
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:87
+msgid "Why mail a Letter of Complaint?"
+msgstr ""
+
 #: frontend/lib/norent/the-letter.tsx:41
 msgid "Why send a letter"
 msgstr "Por qué enviar una carta"
@@ -2246,6 +2280,29 @@ msgstr ""
 
 #: frontend/lib/onboarding/relief-attempts.tsx:14
 msgid "justfix.LocReliefAttemptsBlurb"
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:163
+msgid "justfix.LocAboutOurNonprofitBlurb"
+msgstr ""
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:175
+msgid "justfix.LocDisclaimer"
+msgstr ""
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:59
+msgid "justfix.LocHowItWorksList"
+msgstr ""
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:121
+msgid "justfix.LocUserTestimonial1"
+msgstr ""
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:141
+msgid "justfix.LocUserTestimonial2"
+msgstr ""
+
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:89
+msgid "justfix.LocWhyMailALetterBlurb"
 msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337

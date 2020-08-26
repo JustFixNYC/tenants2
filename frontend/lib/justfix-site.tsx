@@ -126,6 +126,8 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
       })}
       <PLRoute
         path={JustfixRoutes.locale.loc.prefix}
+        locales={["en"]}
+        wipLocales={["es"]}
         component={LoadableLetterOfComplaintRoutes}
       />
       {redirectToEHP && (

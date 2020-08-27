@@ -618,11 +618,9 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
     asStrings(DEFAULT_INPUT)
   );
   const initialState = qs.toFormInput();
-  const [output, setOutput] = useState(convertFormInput(initialState));
-  const exampleProps: ServiceInstructionsProps = {
-    ...ExampleServiceInstructionsProps,
-    ...output,
-  };
+  const [exampleProps, setExampleProps] = useState(
+    convertFormInput(initialState)
+  );
 
   return (
     <Page
@@ -633,7 +631,7 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
       <Form
         onSubmit={(input) => {
           qs.maybePushToHistory(input, { location, history, match });
-          setOutput(convertFormInput(input));
+          setExampleProps(convertFormInput(input));
         }}
         initialState={initialState}
         isLoading={false}

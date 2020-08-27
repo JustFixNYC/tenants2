@@ -15,7 +15,11 @@ import Page from "../ui/page";
 import { Form } from "../forms/form";
 import { SelectFormField } from "../forms/form-fields";
 import { toDjangoChoices } from "../common-data";
-import { YesNoRadiosFormField } from "../forms/yes-no-radios-form-field";
+import {
+  YesNoRadiosFormField,
+  YES_NO_RADIOS_TRUE,
+  YES_NO_RADIOS_FALSE,
+} from "../forms/yes-no-radios-form-field";
 import { useLocation, useHistory, useRouteMatch } from "react-router-dom";
 import { QuerystringConverter } from "../networking/http-get-query-util";
 
@@ -44,9 +48,9 @@ type CaseTypeProps = {
 };
 
 enum CaseType {
-  Repairs,
-  Harassment,
-  Combined,
+  Repairs = "R",
+  Harassment = "H",
+  Combined = "C",
 }
 
 type CaseTypeMap<T> = { [k in CaseType]: T };
@@ -543,9 +547,12 @@ function convertFormInput(
   let borough: BoroughChoice = isBoroughChoice(input.borough)
     ? input.borough
     : "MANHATTAN";
-  const isNycha = input.isNycha === "True";
-  const sueForHarassment = input.caseType === "H" || input.caseType === "B";
-  const sueForRepairs = input.caseType === "R" || input.caseType === "B";
+  const isNycha = input.isNycha === YES_NO_RADIOS_TRUE;
+  const sueForHarassment =
+    input.caseType === CaseType.Harassment ||
+    input.caseType === CaseType.Combined;
+  const sueForRepairs =
+    input.caseType === CaseType.Repairs || input.caseType === CaseType.Combined;
   return {
     borough,
     isNycha,
@@ -557,8 +564,8 @@ function convertFormInput(
 export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
   const emptyInput: ExampleServiceInstructionsInput = {
     borough: "MANHATTAN",
-    isNycha: "False",
-    caseType: "R",
+    isNycha: YES_NO_RADIOS_FALSE,
+    caseType: CaseType.Combined,
   };
   const location = useLocation();
   const history = useHistory();
@@ -599,11 +606,10 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
               <SelectFormField
                 {...ctx.fieldPropsFor("caseType")}
                 label="Case type"
-                choices={[
-                  ["H", "Harassment"],
-                  ["R", "Repairs"],
-                  ["B", "Harassment and Repairs"],
-                ]}
+                choices={toDjangoChoices(
+                  Object.keys(CASE_TYPE_NAMES),
+                  CASE_TYPE_NAMES
+                )}
               />
               <YesNoRadiosFormField
                 {...ctx.fieldPropsFor("isNycha")}

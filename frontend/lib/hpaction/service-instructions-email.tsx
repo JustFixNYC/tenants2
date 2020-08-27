@@ -1,11 +1,23 @@
-import React, { DetailedHTMLProps } from "react";
+import React, { DetailedHTMLProps, useState } from "react";
 import { asEmailStaticPage } from "../static-page/email-static-page";
 import { HtmlEmail } from "../static-page/html-email";
 import { friendlyPhoneNumber } from "../util/util";
 import { getAbsoluteStaticURL } from "../app-context";
-import { BoroughChoice } from "../../../common-data/borough-choices";
+import {
+  BoroughChoice,
+  BoroughChoices,
+  getBoroughChoiceLabels,
+  isBoroughChoice,
+} from "../../../common-data/borough-choices";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { TransformSession } from "../util/transform-session";
+import Page from "../ui/page";
+import { Form } from "../forms/form";
+import { SelectFormField } from "../forms/form-fields";
+import { toDjangoChoices } from "../common-data";
+import { YesNoRadiosFormField } from "../forms/yes-no-radios-form-field";
+import { useLocation, useHistory, useRouteMatch } from "react-router-dom";
+import { QuerystringConverter } from "../networking/http-get-query-util";
 
 const EXTRA_CSS = require("./service-instructions-email.css");
 
@@ -502,6 +514,17 @@ export function getServiceInstructionsPropsFromSession(
   return null;
 }
 
+type ExampleServiceInstructionsInput = {
+  borough: string;
+  caseType: string;
+  isNycha: string;
+};
+
+type ExampleServiceInstructionsOutput = Pick<
+  ServiceInstructionsProps,
+  "borough" | "sueForHarassment" | "sueForRepairs" | "isNycha"
+>;
+
 export const ExampleServiceInstructionsProps: ServiceInstructionsProps = {
   isExample: true,
   firstName: "JANE DOE",
@@ -513,6 +536,91 @@ export const ExampleServiceInstructionsProps: ServiceInstructionsProps = {
 
 const SUBJECT =
   "Your HP Action case in Housing Court: Serving Instructions and Next Steps";
+
+function convertFormInput(
+  input: ExampleServiceInstructionsInput
+): ExampleServiceInstructionsOutput {
+  let borough: BoroughChoice = isBoroughChoice(input.borough)
+    ? input.borough
+    : "MANHATTAN";
+  const isNycha = input.isNycha === "True";
+  const sueForHarassment = input.caseType === "H" || input.caseType === "B";
+  const sueForRepairs = input.caseType === "R" || input.caseType === "B";
+  return {
+    borough,
+    isNycha,
+    sueForHarassment,
+    sueForRepairs,
+  };
+}
+
+export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
+  const emptyInput: ExampleServiceInstructionsInput = {
+    borough: "MANHATTAN",
+    isNycha: "False",
+    caseType: "R",
+  };
+  const location = useLocation();
+  const history = useHistory();
+  const match = useRouteMatch();
+  const qs = new QuerystringConverter(location.search, emptyInput);
+  const initialState = qs.toFormInput();
+  const [output, setOutput] = useState(convertFormInput(initialState));
+  const exampleProps: ServiceInstructionsProps = {
+    ...ExampleServiceInstructionsProps,
+    ...output,
+  };
+
+  return (
+    <Page
+      title="Example service instructions email"
+      withHeading
+      className="content"
+    >
+      <Form
+        onSubmit={(input) => {
+          qs.maybePushToHistory(input, { location, history, match });
+          setOutput(convertFormInput(input));
+        }}
+        initialState={initialState}
+        isLoading={false}
+      >
+        {(ctx) => {
+          return (
+            <>
+              <SelectFormField
+                {...ctx.fieldPropsFor("borough")}
+                label="Borough of tenant"
+                choices={toDjangoChoices(
+                  BoroughChoices,
+                  getBoroughChoiceLabels()
+                )}
+              />
+              <SelectFormField
+                {...ctx.fieldPropsFor("caseType")}
+                label="Case type"
+                choices={[
+                  ["H", "Harassment"],
+                  ["R", "Repairs"],
+                  ["B", "Harassment and Repairs"],
+                ]}
+              />
+              <YesNoRadiosFormField
+                {...ctx.fieldPropsFor("isNycha")}
+                label="Is the tenant in NYCHA housing?"
+              />
+              <button type="submit" className="button is-primary">
+                Show
+              </button>
+              <hr />
+              <ServiceInstructionsContent {...exampleProps} />
+            </>
+          );
+        }}
+      </Form>
+    </Page>
+  );
+};
 
 export const ExampleServiceInstructionsEmail = asEmailStaticPage(() => (
   <HtmlEmail subject={`${SUBJECT} (EXAMPLE)`} extraCss={[EXTRA_CSS]}>

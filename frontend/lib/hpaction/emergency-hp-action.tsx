@@ -82,6 +82,7 @@ import { createHtmlEmailStaticPageRoutes } from "../static-page/routes";
 import {
   ExampleServiceInstructionsEmail,
   ServiceInstructionsEmail,
+  ExampleServiceInstructionsEmailForm,
 } from "./service-instructions-email";
 import { NycUsersOnly } from "../pages/nyc-users-only";
 
@@ -659,6 +660,11 @@ const EmergencyHPActionProgressRoutes = buildProgressRoutesComponent(
 
 const EmergencyHPActionRoutes: React.FC<{}> = () => (
   <Switch>
+    <Route
+      component={ExampleServiceInstructionsEmailForm}
+      path={JustfixRoutes.locale.ehp.exampleServiceInstructionsEmailForm}
+      exact
+    />
     {createHtmlEmailStaticPageRoutes(
       JustfixRoutes.locale.ehp.exampleServiceInstructionsEmail,
       ExampleServiceInstructionsEmail

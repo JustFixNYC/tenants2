@@ -9,6 +9,8 @@ import { TransformSession } from "../util/transform-session";
 
 const EXTRA_CSS = require("./service-instructions-email.css");
 
+const NYCHA_SERVICE_EMAIL = "serviceECF@nycha.nyc.gov ";
+
 const EmailLink: React.FC<{ to: string }> = ({ to }) => (
   <a href={`mailto:${to}`}>{to}</a>
 );
@@ -78,6 +80,9 @@ type ServiceInstructionsProps = CaseTypeProps & {
 
   /** The borough of the tenant's court. */
   borough: BoroughChoice;
+
+  /** Whether or not the tenant is serving NYCHA. */
+  isNycha: boolean;
 };
 
 type CourtInfo = { email: string; phone: string };
@@ -194,11 +199,7 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
           your landlord or management company a copy of (some) of the papers in
           the attachment you got from the Clerk. Although we wish we could
           automate this part of the process for you, given the current legal
-          structure, you have to do it yourself. If two or more addresses are
-          listed, you must serve copies of the paperwork to each address. You
-          will have to print the pages that you have to serve. If you don’t have
-          a printer, you can go to your local library, elected official’s office
-          or your nearest print shop.
+          structure, you have to do it yourself.
         </p>
         <Important>
           This step is very important because if you don’t serve the papers in
@@ -263,157 +264,11 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
       )}
     </ol>
     <h2>Serving the papers</h2>
-    <p>This section includes instructions for:</p>
-    <p>
-      A. When to serve
-      <br />
-      B. Who to serve
-      <br />
-      C. What to serve
-      <br />
-      D. How to serve
-    </p>
-    <p>
-      You will find all of the information you need to know (when, to whom,
-      what, and how) in order to serve your paperwork on your landlord and/or
-      management company on the page called <OSC />. It is in the section below
-      where your court date is listed.
-    </p>
-    <ExampleImage
-      src="osc-callout.jpg"
-      alt="An Order to Show Cause (OSC) form"
-      className="jf-has-border"
-    />
-    <h3>A. When to serve</h3>
-    <p>
-      You must serve your paperwork by the deadline set by the Judge on the page
-      called <OSC />. Remember that most post offices close at 5pm Monday -
-      Friday and 1pm on Saturdays.
-    </p>
-    <ExampleImage
-      src="when-to-serve.jpg"
-      alt="Close-up of OSC form identifying where information on when to serve is located"
-      className="jf-has-border"
-    />
-    <h3>B. Who to serve</h3>
-    <p>
-      If there are 2 people or companies listed on the paperwork you will need
-      to serve them both. This could be because there is a landlord and a
-      management company.
-    </p>
-    <ExampleImage
-      src={WHO_TO_SERVE_EXAMPLE_IMG_SRC[toCaseType(props)]}
-      alt={`Close-up of form identifying where information on who to serve is located for ${
-        CASE_TYPE_NAMES[toCaseType(props)]
-      } cases`}
-      preamble="You will find their address information here:"
-      className="jf-has-border"
-    />
-    <h3>C. What to serve</h3>
-    <p>
-      Since you are suing for {CASE_TYPE_NAMES[toCaseType(props)]}, the only
-      pages you need to serve your landlord and/or management company are:
-    </p>
-    <ul>
-      <li>
-        The <OSC />
-      </li>
-      <li>
-        The <VerifiedPetition {...props} />
-      </li>
-    </ul>
-    <ExampleImage
-      src="what-to-serve.jpg"
-      alt="Close-up of OSC form identifying where information on what to serve is located"
-      className="jf-has-border"
-    />
-    <p>
-      Note that it is important NOT to send any other pieces of information that
-      may contain sensitive details like your email address or financials. If
-      you see any papers in the paperwork with that kind of info, please take
-      them out and do not send them.
-    </p>
-    <h3>D. How to serve</h3>
-    <p>
-      There are multiple ways to serve the papers and you have to do it exactly
-      in the way that the Judge orders. You will find out what the Judge chose
-      by looking at the page called <OSC />.
-    </p>
-    <ExampleImage
-      src="how-to-serve.jpg"
-      alt="Close-up of OSC form identifying where information on how to serve is located"
-      className="jf-has-border"
-      preamble="Note that the Judge might have typed-in or hand-written a different way than the standard shown here:"
-    />
-    <h4>The most likely way the Judge might ask you to serve</h4>
-    <p>
-      <strong>USPS Certified Mail, Return Receipt Requested</strong> is the most
-      likely way the judge might ask you to serve. This will involve keeping two
-      slips ready to show the Clerk on your court date, described below.
-    </p>
-    <h5>Certified mail receipt slip</h5>
-    <p>
-      The postal worker will give you a green slip as proof that you sent the
-      paperwork by the right date. You can track the progress of the envelope by
-      using the tracking number on the left of the slip. Keep it safe and be
-      ready to show it to the Clerk on your court date.
-    </p>
-    <ExampleImage
-      src="certified-mail-receipt.jpg"
-      alt="Close-up of a USPS Certified Mail Receipt"
-    />
-    <h5>Return receipt requested slip</h5>
-    <p>
-      After the envelope reaches its destination, a green card will be mailed
-      back to you at the address that you wrote in the “sender” box, which
-      should be a mailbox that you have access to. Keep an eye out for it. Keep
-      it safe and be ready to show it to the Clerk on your court date.
-    </p>
-    <ExampleImage
-      src="domestic-return-receipt.jpg"
-      alt="Close-up of a USPS Certified Mail Receipt"
-    />
-    <h5>Possible additional secondary methods</h5>
-    <p>
-      The Judge may require you to serve a second copy of the papers using
-      another method to make sure that the landlord and/or management company
-      receives them. If this is the case, the Judge will write this additional
-      method on the <OSC />.
-    </p>
-    <p>Possible additional methods include:</p>
-    <ul>
-      <li>
-        <strong>Regular first class mail</strong>
-      </li>
-      <li>
-        <strong>Email</strong>
-      </li>
-      <li>
-        <strong>First class mail with certificate of mailing</strong>
-        <p>
-          Using this method, the postal worker will give you a slip as proof
-          that you sent the paperwork by the right date. Keep it safe and be
-          ready to show it to the Clerk on your court date.
-        </p>
-      </li>
-    </ul>
-    <h4>Less likely ways the Judge might ask you to serve</h4>
-    <ul>
-      <li>
-        <strong>USPS Priority mail/overnight mail</strong>
-      </li>
-      <li>
-        <strong>Personally (in-person)</strong>
-        <p>
-          If this is the case, you or someone other than you who is over the age
-          of 18 needs to hand-deliver the <OSC /> and{" "}
-          <VerifiedPetition {...props} /> directly to each person or company you
-          have sued. The person doing the service will need to fill out the
-          "Affidavit of Service" at the end of the attachment and sign as the
-          “Deponent”.
-        </p>
-      </li>
-    </ul>
+    {props.isNycha ? (
+      <NychaServiceInstructions {...props} />
+    ) : (
+      <MailBasedServiceInstructions {...props} />
+    )}
     <p>
       If you have any further questions, please feel free to respond to this
       email and we will be in touch to help.
@@ -422,6 +277,185 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
     <p>The JustFix.nyc Team</p>
   </>
 );
+
+const NychaServiceInstructions: React.FC<ServiceInstructionsProps> = (
+  props
+) => {
+  return (
+    <>
+      <p>
+        Since you are a NYCHA resident, you will need to e-mail your papers to{" "}
+        <a href={`mailto:${NYCHA_SERVICE_EMAIL}`}>{NYCHA_SERVICE_EMAIL}</a>.
+      </p>
+    </>
+  );
+};
+
+const MailBasedServiceInstructions: React.FC<ServiceInstructionsProps> = (
+  props
+) => {
+  return (
+    <>
+      <p>This section includes instructions for:</p>
+      <p>
+        A. When to serve
+        <br />
+        B. Who to serve
+        <br />
+        C. What to serve
+        <br />
+        D. How to serve
+      </p>
+      <p>
+        You will find all of the information you need to know (when, to whom,
+        what, and how) in order to serve your paperwork on your landlord and/or
+        management company on the page called <OSC />. It is in the section
+        below where your court date is listed.
+      </p>
+      <ExampleImage
+        src="osc-callout.jpg"
+        alt="An Order to Show Cause (OSC) form"
+        className="jf-has-border"
+      />
+      <h3>A. When to serve</h3>
+      <p>
+        You must serve your paperwork by the deadline set by the Judge on the
+        page called <OSC />. Remember that most post offices close at 5pm Monday
+        - Friday and 1pm on Saturdays.
+      </p>
+      <ExampleImage
+        src="when-to-serve.jpg"
+        alt="Close-up of OSC form identifying where information on when to serve is located"
+        className="jf-has-border"
+      />
+      <h3>B. Who to serve</h3>
+      <p>
+        If there are 2 people or companies listed on the paperwork you will need
+        to serve them both. This could be because there is a landlord and a
+        management company.
+      </p>
+      <ExampleImage
+        src={WHO_TO_SERVE_EXAMPLE_IMG_SRC[toCaseType(props)]}
+        alt={`Close-up of form identifying where information on who to serve is located for ${
+          CASE_TYPE_NAMES[toCaseType(props)]
+        } cases`}
+        preamble="You will find their address information here:"
+        className="jf-has-border"
+      />
+      <h3>C. What to serve</h3>
+      <p>
+        Since you are suing for {CASE_TYPE_NAMES[toCaseType(props)]}, the only
+        pages you need to serve your landlord and/or management company are:
+      </p>
+      <ul>
+        <li>
+          The <OSC />
+        </li>
+        <li>
+          The <VerifiedPetition {...props} />
+        </li>
+      </ul>
+      <ExampleImage
+        src="what-to-serve.jpg"
+        alt="Close-up of OSC form identifying where information on what to serve is located"
+        className="jf-has-border"
+      />
+      <p>
+        Note that it is important NOT to send any other pieces of information
+        that may contain sensitive details like your email address or
+        financials. If you see any papers in the paperwork with that kind of
+        info, please take them out and do not send them.
+      </p>
+      <h3>D. How to serve</h3>
+      <p>
+        You will have to print the pages that you have to serve. If you don’t
+        have a printer, you can go to your local library, elected official’s
+        office or your nearest print shop.
+      </p>
+      <p>
+        There are multiple ways to serve the papers and you have to do it
+        exactly in the way that the Judge orders. You will find out what the
+        Judge chose by looking at the page called <OSC />.
+      </p>
+      <ExampleImage
+        src="how-to-serve.jpg"
+        alt="Close-up of OSC form identifying where information on how to serve is located"
+        className="jf-has-border"
+        preamble="Note that the Judge might have typed-in or hand-written a different way than the standard shown here:"
+      />
+      <h4>The most likely way the Judge might ask you to serve</h4>
+      <p>
+        <strong>USPS Certified Mail, Return Receipt Requested</strong> is the
+        most likely way the judge might ask you to serve. This will involve
+        keeping two slips ready to show the Clerk on your court date, described
+        below.
+      </p>
+      <h5>Certified mail receipt slip</h5>
+      <p>
+        The postal worker will give you a green slip as proof that you sent the
+        paperwork by the right date. You can track the progress of the envelope
+        by using the tracking number on the left of the slip. Keep it safe and
+        be ready to show it to the Clerk on your court date.
+      </p>
+      <ExampleImage
+        src="certified-mail-receipt.jpg"
+        alt="Close-up of a USPS Certified Mail Receipt"
+      />
+      <h5>Return receipt requested slip</h5>
+      <p>
+        After the envelope reaches its destination, a green card will be mailed
+        back to you at the address that you wrote in the “sender” box, which
+        should be a mailbox that you have access to. Keep an eye out for it.
+        Keep it safe and be ready to show it to the Clerk on your court date.
+      </p>
+      <ExampleImage
+        src="domestic-return-receipt.jpg"
+        alt="Close-up of a USPS Certified Mail Receipt"
+      />
+      <h5>Possible additional secondary methods</h5>
+      <p>
+        The Judge may require you to serve a second copy of the papers using
+        another method to make sure that the landlord and/or management company
+        receives them. If this is the case, the Judge will write this additional
+        method on the <OSC />.
+      </p>
+      <p>Possible additional methods include:</p>
+      <ul>
+        <li>
+          <strong>Regular first class mail</strong>
+        </li>
+        <li>
+          <strong>Email</strong>
+        </li>
+        <li>
+          <strong>First class mail with certificate of mailing</strong>
+          <p>
+            Using this method, the postal worker will give you a slip as proof
+            that you sent the paperwork by the right date. Keep it safe and be
+            ready to show it to the Clerk on your court date.
+          </p>
+        </li>
+      </ul>
+      <h4>Less likely ways the Judge might ask you to serve</h4>
+      <ul>
+        <li>
+          <strong>USPS Priority mail/overnight mail</strong>
+        </li>
+        <li>
+          <strong>Personally (in-person)</strong>
+          <p>
+            If this is the case, you or someone other than you who is over the
+            age of 18 needs to hand-deliver the <OSC /> and{" "}
+            <VerifiedPetition {...props} /> directly to each person or company
+            you have sued. The person doing the service will need to fill out
+            the "Affidavit of Service" at the end of the attachment and sign as
+            the “Deponent”.
+          </p>
+        </li>
+      </ul>
+    </>
+  );
+};
 
 type ExampleImageProps = {
   preamble?: string;
@@ -453,6 +487,7 @@ export function getServiceInstructionsPropsFromSession(
 ): ServiceInstructionsProps | null {
   const { firstName, hpActionDetails } = s;
   const borough = s.onboardingInfo?.borough;
+  const isNycha = s.onboardingInfo?.leaseType === "NYCHA";
 
   if (firstName && hpActionDetails && borough) {
     const { sueForHarassment, sueForRepairs } = hpActionDetails;
@@ -460,7 +495,7 @@ export function getServiceInstructionsPropsFromSession(
       typeof sueForHarassment == "boolean" &&
       typeof sueForRepairs === "boolean"
     ) {
-      return { firstName, borough, sueForHarassment, sueForRepairs };
+      return { firstName, borough, sueForHarassment, sueForRepairs, isNycha };
     }
   }
 
@@ -473,6 +508,7 @@ export const ExampleServiceInstructionsProps: ServiceInstructionsProps = {
   borough: "MANHATTAN",
   sueForHarassment: true,
   sueForRepairs: true,
+  isNycha: false,
 };
 
 const SUBJECT =

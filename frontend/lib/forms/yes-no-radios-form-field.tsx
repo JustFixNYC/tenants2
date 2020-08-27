@@ -2,7 +2,7 @@ import React from "react";
 import { BaseFormFieldProps, RadiosFormField } from "./form-fields";
 import { ReactDjangoChoices } from "../common-data";
 
-export type YesNoChoice = "True"|"False";
+export type YesNoChoice = "True" | "False";
 
 /**
  * Choice when a user selects "yes" from a yes/no radio (specific to Django).

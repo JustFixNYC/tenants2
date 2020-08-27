@@ -31,6 +31,7 @@ describe("getServiceInstructionsPropsFromSession()", () => {
     expect(getServiceInstructionsPropsFromSession(s)).toEqual({
       firstName: "Boop",
       borough: "BROOKLYN",
+      isNycha: false,
       sueForRepairs: true,
       sueForHarassment: false,
     });

@@ -17,8 +17,8 @@ import { SelectFormField } from "../forms/form-fields";
 import { toDjangoChoices } from "../common-data";
 import {
   YesNoRadiosFormField,
-  YES_NO_RADIOS_TRUE,
-  YES_NO_RADIOS_FALSE,
+  YesNoChoice,
+  isYesNoChoice,
 } from "../forms/yes-no-radios-form-field";
 import { useLocation, useHistory, useRouteMatch } from "react-router-dom";
 import { QuerystringConverter } from "../networking/http-get-query-util";
@@ -519,10 +519,61 @@ export function getServiceInstructionsPropsFromSession(
 }
 
 type ExampleServiceInstructionsInput = {
-  borough: string;
-  caseType: string;
-  isNycha: string;
+  borough: BoroughChoice;
+  caseType: CaseType;
+  isNycha: YesNoChoice;
 };
+
+type UnvalidatedInput<Input> = {
+  [k in keyof Input]?: Input[k] extends string ? string : never;
+};
+
+type InputValidator<Input> = {
+  [k in keyof Input]: (value: string) => Input[k] | undefined;
+};
+
+type AsStrings<T> = {
+  [k in keyof T]: T[k] extends string ? string : never;
+};
+
+function asStrings<T>(value: T): AsStrings<T> {
+  return value as any;
+}
+
+function toValidator<T extends string>(
+  isValid: (value: string) => value is T
+): (value: string) => T | undefined {
+  return function (value: string) {
+    return isValid(value) ? value : undefined;
+  };
+}
+
+function isCaseType(value: string): value is CaseType {
+  return Object.keys(CASE_TYPE_NAMES).includes(value);
+}
+
+const exampleInputValidator: InputValidator<ExampleServiceInstructionsInput> = {
+  borough: toValidator(isBoroughChoice),
+  caseType: toValidator(isCaseType),
+  isNycha: toValidator(isYesNoChoice),
+};
+
+function validateInput<Input>(
+  input: UnvalidatedInput<Input>,
+  validator: InputValidator<Input>
+): Partial<Input> {
+  const result: Partial<Input> = {};
+
+  for (let key in validator) {
+    const keyValidator = validator[key];
+    const value = keyValidator((input as any)[key]);
+    if (value !== undefined) {
+      result[key] = value;
+    }
+  }
+
+  return result;
+}
 
 type ExampleServiceInstructionsOutput = Pick<
   ServiceInstructionsProps,
@@ -542,35 +593,40 @@ const SUBJECT =
   "Your HP Action case in Housing Court: Serving Instructions and Next Steps";
 
 function convertFormInput(
-  input: ExampleServiceInstructionsInput
+  input: AsStrings<ExampleServiceInstructionsInput>
 ): ExampleServiceInstructionsOutput {
-  let borough: BoroughChoice = isBoroughChoice(input.borough)
-    ? input.borough
-    : "MANHATTAN";
-  const isNycha = input.isNycha === YES_NO_RADIOS_TRUE;
-  const sueForHarassment =
-    input.caseType === CaseType.Harassment ||
-    input.caseType === CaseType.Combined;
-  const sueForRepairs =
-    input.caseType === CaseType.Repairs || input.caseType === CaseType.Combined;
+  const { borough, caseType, isNycha } = {
+    ...DEFAULT_INPUT,
+    ...validateInput(input, exampleInputValidator),
+  };
+  const sueForHarassment = [CaseType.Harassment, CaseType.Combined].includes(
+    caseType
+  );
+  const sueForRepairs = [CaseType.Repairs, CaseType.Combined].includes(
+    caseType
+  );
   return {
     borough,
-    isNycha,
+    isNycha: isNycha === "True",
     sueForHarassment,
     sueForRepairs,
   };
 }
 
+const DEFAULT_INPUT: ExampleServiceInstructionsInput = {
+  borough: "MANHATTAN",
+  isNycha: "False",
+  caseType: CaseType.Combined,
+};
+
 export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
-  const emptyInput: ExampleServiceInstructionsInput = {
-    borough: "MANHATTAN",
-    isNycha: YES_NO_RADIOS_FALSE,
-    caseType: CaseType.Combined,
-  };
   const location = useLocation();
   const history = useHistory();
   const match = useRouteMatch();
-  const qs = new QuerystringConverter(location.search, emptyInput);
+  const qs = new QuerystringConverter(
+    location.search,
+    asStrings(DEFAULT_INPUT)
+  );
   const initialState = qs.toFormInput();
   const [output, setOutput] = useState(convertFormInput(initialState));
   const exampleProps: ServiceInstructionsProps = {

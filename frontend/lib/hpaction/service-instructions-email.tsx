@@ -22,6 +22,7 @@ import {
 } from "../forms/yes-no-radios-form-field";
 import { useLocation, useHistory, useRouteMatch } from "react-router-dom";
 import { QuerystringConverter } from "../networking/http-get-query-util";
+import { NoScriptFallback } from "../ui/progressive-enhancement";
 
 const EXTRA_CSS = require("./service-instructions-email.css");
 
@@ -621,6 +622,10 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
   const [exampleProps, setExampleProps] = useState(
     convertFormInput(initialState)
   );
+  const onChange = (input: typeof initialState) => {
+    qs.maybePushToHistory(input, { location, history, match });
+    setExampleProps(convertFormInput(input));
+  };
 
   return (
     <Page
@@ -629,10 +634,8 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
       className="content"
     >
       <Form
-        onSubmit={(input) => {
-          qs.maybePushToHistory(input, { location, history, match });
-          setExampleProps(convertFormInput(input));
-        }}
+        onSubmit={onChange}
+        onChange={onChange}
         initialState={initialState}
         isLoading={false}
       >
@@ -659,9 +662,11 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
                 {...ctx.fieldPropsFor("isNycha")}
                 label="Is the tenant in NYCHA housing?"
               />
-              <button type="submit" className="button is-primary">
-                Show
-              </button>
+              <NoScriptFallback>
+                <button type="submit" className="button is-primary">
+                  Show
+                </button>
+              </NoScriptFallback>
               <hr />
               <ServiceInstructionsContent {...exampleProps} />
             </>

@@ -569,11 +569,6 @@ function validateInput<Input>(
   return result;
 }
 
-type ExampleServiceInstructionsOutput = Pick<
-  ServiceInstructionsProps,
-  "borough" | "sueForHarassment" | "sueForRepairs" | "isNycha"
->;
-
 export const ExampleServiceInstructionsProps: ServiceInstructionsProps = {
   isExample: true,
   firstName: "JANE DOE",
@@ -588,7 +583,7 @@ const SUBJECT =
 
 function convertFormInput(
   input: AsStrings<ExampleServiceInstructionsInput>
-): ExampleServiceInstructionsOutput {
+): ServiceInstructionsProps {
   const { borough, caseType, isNycha } = {
     ...DEFAULT_INPUT,
     ...validateInput(input, exampleInputValidator),
@@ -600,6 +595,7 @@ function convertFormInput(
     caseType
   );
   return {
+    ...ExampleServiceInstructionsProps,
     borough,
     isNycha: isNycha === "True",
     sueForHarassment,

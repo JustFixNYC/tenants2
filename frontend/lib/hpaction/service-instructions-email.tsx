@@ -529,7 +529,9 @@ type UnvalidatedInput<Input> = {
 };
 
 type InputValidator<Input> = {
-  [k in keyof Input]: (value: string) => Input[k] | undefined;
+  [k in keyof Input]: Input[k] extends string
+    ? (value: string) => value is Input[k]
+    : never;
 };
 
 type AsStrings<T> = {
@@ -540,22 +542,14 @@ function asStrings<T>(value: T): AsStrings<T> {
   return value as any;
 }
 
-function toValidator<T extends string>(
-  isValid: (value: string) => value is T
-): (value: string) => T | undefined {
-  return function (value: string) {
-    return isValid(value) ? value : undefined;
-  };
-}
-
 function isCaseType(value: string): value is CaseType {
   return Object.keys(CASE_TYPE_NAMES).includes(value);
 }
 
 const exampleInputValidator: InputValidator<ExampleServiceInstructionsInput> = {
-  borough: toValidator(isBoroughChoice),
-  caseType: toValidator(isCaseType),
-  isNycha: toValidator(isYesNoChoice),
+  borough: isBoroughChoice,
+  caseType: isCaseType,
+  isNycha: isYesNoChoice,
 };
 
 function validateInput<Input>(
@@ -565,9 +559,9 @@ function validateInput<Input>(
   const result: Partial<Input> = {};
 
   for (let key in validator) {
-    const keyValidator = validator[key];
-    const value = keyValidator((input as any)[key]);
-    if (value !== undefined) {
+    const isValid = validator[key];
+    const value = input[key];
+    if (typeof value === "string" && isValid(value)) {
       result[key] = value;
     }
   }

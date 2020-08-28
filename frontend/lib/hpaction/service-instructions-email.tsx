@@ -28,6 +28,7 @@ import {
   validateInput,
   asUnvalidatedInput,
 } from "../forms/client-side-validation";
+import JustfixRoutes from "../justfix-routes";
 
 const EXTRA_CSS = require("./service-instructions-email.css");
 
@@ -591,6 +592,7 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
     setLatestInput(input);
   };
   const validatedInput = validateInput(latestInput, exampleInputValidator);
+  const emailPreview = JustfixRoutes.locale.ehp.exampleServiceInstructionsEmail;
 
   return (
     <Page
@@ -639,6 +641,23 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
       </Form>
       {!validatedInput.errors && (
         <>
+          <br />
+          <p>
+            The following content is a preview of instructions sent for serving
+            Emergency HP Actions based on the above options.
+          </p>
+          <p>
+            For a more accurate representation of how users will see it, you can
+            view it as an{" "}
+            <a href={`${emailPreview.html}?${qs.toStableQuerystring()}`}>
+              HTML email
+            </a>{" "}
+            and{" "}
+            <a href={`${emailPreview.txt}?${qs.toStableQuerystring()}`}>
+              plaintext email
+            </a>
+            .
+          </p>
           <hr />
           <ServiceInstructionsContent
             {...formInputToInstructionsProps(validatedInput.result)}
@@ -649,11 +668,23 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
   );
 };
 
-export const ExampleServiceInstructionsEmail = asEmailStaticPage(() => (
-  <HtmlEmail subject={`${SUBJECT} (EXAMPLE)`} extraCss={[EXTRA_CSS]}>
-    <ServiceInstructionsContent {...ExampleServiceInstructionsProps} />
-  </HtmlEmail>
-));
+export const ExampleServiceInstructionsEmail = asEmailStaticPage(() => {
+  const location = useLocation();
+  const qs = new QuerystringConverter(
+    location.search,
+    asUnvalidatedInput(DEFAULT_INPUT)
+  );
+  const exampleProps = formInputToInstructionsProps({
+    ...DEFAULT_INPUT,
+    ...validateInput(qs.toFormInput(), exampleInputValidator).result,
+  });
+
+  return (
+    <HtmlEmail subject={`${SUBJECT} (EXAMPLE)`} extraCss={[EXTRA_CSS]}>
+      <ServiceInstructionsContent {...exampleProps} />
+    </HtmlEmail>
+  );
+});
 
 export const ServiceInstructionsEmail = asEmailStaticPage(() => (
   <TransformSession transformer={getServiceInstructionsPropsFromSession}>

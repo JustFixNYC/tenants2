@@ -525,10 +525,6 @@ type ExampleServiceInstructionsInput = {
   isNycha: YesNoChoice;
 };
 
-type UnvalidatedInput<Input> = {
-  [k in keyof Input]?: Input[k] extends string ? string : never;
-};
-
 type InputValidator<Input> = {
   [k in keyof Input]: Input[k] extends string
     ? (value: string) => value is Input[k]
@@ -554,7 +550,7 @@ const exampleInputValidator: InputValidator<ExampleServiceInstructionsInput> = {
 };
 
 function validateInput<Input>(
-  input: UnvalidatedInput<Input>,
+  input: Partial<AsStrings<Input>>,
   validator: InputValidator<Input>
 ): Partial<Input> {
   const result: Partial<Input> = {};

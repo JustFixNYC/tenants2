@@ -23,7 +23,11 @@ import {
 import { useLocation, useHistory } from "react-router-dom";
 import { QuerystringConverter } from "../networking/http-get-query-util";
 import { NoScriptFallback } from "../ui/progressive-enhancement";
-import { FormError, FormErrors, FormFieldErrorMap } from "../forms/form-errors";
+import {
+  InputValidator,
+  validateInput,
+  asUnvalidatedInput,
+} from "../forms/client-side-validation";
 
 const EXTRA_CSS = require("./service-instructions-email.css");
 
@@ -526,20 +530,6 @@ type ExampleServiceInstructionsInput = {
   isNycha: YesNoChoice;
 };
 
-type InputValidator<Input> = {
-  [k in keyof Input]: Input[k] extends string
-    ? (value: string) => value is Input[k]
-    : never;
-};
-
-/**
- * A utility type that widens any of its keys that
- * are string-like (e.g. `"yes"|"no"`) into regular strings.
- */
-type AsStrings<T> = {
-  [k in keyof T]: T[k] extends string ? string : never;
-};
-
 function isCaseType(value: string): value is CaseType {
   return Object.keys(CASE_TYPE_NAMES).includes(value);
 }
@@ -549,49 +539,6 @@ const exampleInputValidator: InputValidator<ExampleServiceInstructionsInput> = {
   caseType: isCaseType,
   isNycha: isYesNoChoice,
 };
-
-type ValidatedInput<Input> =
-  | {
-      result: Partial<Input>;
-      errors: FormErrors<Input>;
-    }
-  | {
-      result: Input;
-      errors: undefined;
-    };
-
-function validateInput<Input>(
-  input: Partial<AsStrings<Input>>,
-  validator: InputValidator<Input>
-): ValidatedInput<Input> {
-  const result: Partial<Input> = {};
-  const fieldErrors: FormFieldErrorMap<Input> = {};
-  let hasErrors = false;
-
-  for (let key in validator) {
-    const isValid = validator[key];
-    const value = input[key];
-    if (typeof value === "string" && isValid(value)) {
-      result[key] = value;
-    } else {
-      fieldErrors[key] = [new FormError("This value is invalid.")];
-      hasErrors = true;
-    }
-  }
-
-  return hasErrors
-    ? {
-        result,
-        errors: {
-          nonFieldErrors: [],
-          fieldErrors,
-        },
-      }
-    : {
-        result: result as Input,
-        errors: undefined,
-      };
-}
 
 export const ExampleServiceInstructionsProps: ServiceInstructionsProps = {
   isExample: true,
@@ -635,7 +582,7 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
   const history = useHistory();
   const qs = new QuerystringConverter(
     location.search,
-    DEFAULT_INPUT as AsStrings<ExampleServiceInstructionsInput>
+    asUnvalidatedInput(DEFAULT_INPUT)
   );
   const initialState = qs.toFormInput();
   const [latestInput, setLatestInput] = useState(initialState);

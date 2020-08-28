@@ -23,6 +23,7 @@ import {
 import { useLocation, useHistory } from "react-router-dom";
 import { QuerystringConverter } from "../networking/http-get-query-util";
 import { NoScriptFallback } from "../ui/progressive-enhancement";
+import { FormError, FormErrors, FormFieldErrorMap } from "../forms/form-errors";
 
 const EXTRA_CSS = require("./service-instructions-email.css");
 
@@ -549,21 +550,47 @@ const exampleInputValidator: InputValidator<ExampleServiceInstructionsInput> = {
   isNycha: isYesNoChoice,
 };
 
+type ValidatedInput<Input> =
+  | {
+      result: Partial<Input>;
+      errors: FormErrors<Input>;
+    }
+  | {
+      result: Input;
+      errors: undefined;
+    };
+
 function validateInput<Input>(
   input: Partial<AsStrings<Input>>,
   validator: InputValidator<Input>
-): Partial<Input> {
+): ValidatedInput<Input> {
   const result: Partial<Input> = {};
+  const fieldErrors: FormFieldErrorMap<Input> = {};
+  let hasErrors = false;
 
   for (let key in validator) {
     const isValid = validator[key];
     const value = input[key];
     if (typeof value === "string" && isValid(value)) {
       result[key] = value;
+    } else {
+      fieldErrors[key] = [new FormError("This value is invalid.")];
+      hasErrors = true;
     }
   }
 
-  return result;
+  return hasErrors
+    ? {
+        result,
+        errors: {
+          nonFieldErrors: [],
+          fieldErrors,
+        },
+      }
+    : {
+        result: result as Input,
+        errors: undefined,
+      };
 }
 
 export const ExampleServiceInstructionsProps: ServiceInstructionsProps = {
@@ -578,13 +605,10 @@ export const ExampleServiceInstructionsProps: ServiceInstructionsProps = {
 const SUBJECT =
   "Your HP Action case in Housing Court: Serving Instructions and Next Steps";
 
-function convertFormInput(
-  input: AsStrings<ExampleServiceInstructionsInput>
+function formInputToInstructionsProps(
+  input: ExampleServiceInstructionsInput
 ): ServiceInstructionsProps {
-  const { borough, caseType, isNycha } = {
-    ...DEFAULT_INPUT,
-    ...validateInput(input, exampleInputValidator),
-  };
+  const { borough, caseType, isNycha } = input;
   const sueForHarassment = [CaseType.Harassment, CaseType.Combined].includes(
     caseType
   );
@@ -614,13 +638,12 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
     DEFAULT_INPUT as AsStrings<ExampleServiceInstructionsInput>
   );
   const initialState = qs.toFormInput();
-  const [exampleProps, setExampleProps] = useState(
-    convertFormInput(initialState)
-  );
+  const [latestInput, setLatestInput] = useState(initialState);
   const onChange = (input: typeof initialState) => {
     qs.maybePushToHistory(input, { location, history });
-    setExampleProps(convertFormInput(input));
+    setLatestInput(input);
   };
+  const validatedInput = validateInput(latestInput, exampleInputValidator);
 
   return (
     <Page
@@ -632,6 +655,7 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
         onSubmit={onChange}
         onChange={onChange}
         initialState={initialState}
+        errors={validatedInput.errors}
         isLoading={false}
       >
         {(ctx) => {
@@ -662,12 +686,18 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
                   Show
                 </button>
               </NoScriptFallback>
-              <hr />
-              <ServiceInstructionsContent {...exampleProps} />
             </>
           );
         }}
       </Form>
+      {!validatedInput.errors && (
+        <>
+          <hr />
+          <ServiceInstructionsContent
+            {...formInputToInstructionsProps(validatedInput.result)}
+          />
+        </>
+      )}
     </Page>
   );
 };

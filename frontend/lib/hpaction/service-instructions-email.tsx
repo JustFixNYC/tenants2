@@ -613,7 +613,6 @@ const DEFAULT_INPUT: ExampleServiceInstructionsInput = {
 export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
   const location = useLocation();
   const history = useHistory();
-  const match = useRouteMatch();
   const qs = new QuerystringConverter(
     location.search,
     asStrings(DEFAULT_INPUT)
@@ -623,7 +622,7 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
     convertFormInput(initialState)
   );
   const onChange = (input: typeof initialState) => {
-    qs.maybePushToHistory(input, { location, history, match });
+    qs.maybePushToHistory(input, { location, history });
     setExampleProps(convertFormInput(input));
   };
 

@@ -92,7 +92,10 @@ export class QuerystringConverter<T> {
    * push a new entry into the browser history which does reflect
    * it.
    */
-  maybePushToHistory(input: SupportedQsTypes<T>, router: RouteComponentProps) {
+  maybePushToHistory(
+    input: SupportedQsTypes<T>,
+    router: Pick<RouteComponentProps, "location" | "history">
+  ) {
     const currentQs = this.toStableQuerystring();
     const newQs = inputToQuerystring(input);
 

@@ -4,8 +4,10 @@ import {
   ServiceInstructionsContent,
   ExampleServiceInstructionsProps,
   getServiceInstructionsPropsFromSession,
+  ExampleServiceInstructionsEmailForm,
 } from "../service-instructions-email";
 import { newSb } from "../../tests/session-builder";
+import { AppTesterPal } from "../../tests/app-tester-pal";
 
 const sb = newSb();
 
@@ -16,6 +18,12 @@ describe("ServiceInstructionsContent", () => {
     );
     expect(html).toMatch(/serving the papers/i);
   });
+});
+
+test("<ExampleServiceInstructionsEmailForm> does not explode", () => {
+  const pal = new AppTesterPal(<ExampleServiceInstructionsEmailForm />);
+  const a = pal.rr.getByText(/html email/i);
+  expect(a.getAttribute("href")).toMatch(/MANHATTAN/);
 });
 
 describe("getServiceInstructionsPropsFromSession()", () => {

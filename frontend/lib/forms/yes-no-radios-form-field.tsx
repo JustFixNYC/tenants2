@@ -14,6 +14,10 @@ export const YES_NO_RADIOS_TRUE: YesNoChoice = "True";
  */
 export const YES_NO_RADIOS_FALSE: YesNoChoice = "False";
 
+/**
+ * Returns whether the given string value corresponds to a yes/no
+ * radio choice (specific to Django).
+ */
 export function isYesNoChoice(value: string): value is YesNoChoice {
   return value === YES_NO_RADIOS_TRUE || value === YES_NO_RADIOS_FALSE;
 }

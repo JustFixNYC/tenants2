@@ -1,4 +1,10 @@
-import { getYesNoChoices } from "../yes-no-radios-form-field";
+import { getYesNoChoices, isYesNoChoice } from "../yes-no-radios-form-field";
+
+test("isYesNoChoice() works", () => {
+  expect(isYesNoChoice("bleh")).toBe(false);
+  expect(isYesNoChoice("True")).toBe(true);
+  expect(isYesNoChoice("False")).toBe(true);
+});
 
 describe("getYesNoChoices", () => {
   it("works with default options", () => {

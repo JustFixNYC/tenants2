@@ -20,7 +20,7 @@ import {
   YesNoChoice,
   isYesNoChoice,
 } from "../forms/yes-no-radios-form-field";
-import { useLocation, useHistory, useRouteMatch } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { QuerystringConverter } from "../networking/http-get-query-util";
 import { NoScriptFallback } from "../ui/progressive-enhancement";
 
@@ -535,13 +535,13 @@ type InputValidator<Input> = {
     : never;
 };
 
+/**
+ * A utility type that widens any of its keys that
+ * are string-like (e.g. `"yes"|"no"`) into regular strings.
+ */
 type AsStrings<T> = {
   [k in keyof T]: T[k] extends string ? string : never;
 };
-
-function asStrings<T>(value: T): AsStrings<T> {
-  return value as any;
-}
 
 function isCaseType(value: string): value is CaseType {
   return Object.keys(CASE_TYPE_NAMES).includes(value);
@@ -615,7 +615,7 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
   const history = useHistory();
   const qs = new QuerystringConverter(
     location.search,
-    asStrings(DEFAULT_INPUT)
+    DEFAULT_INPUT as AsStrings<ExampleServiceInstructionsInput>
   );
   const initialState = qs.toFormInput();
   const [exampleProps, setExampleProps] = useState(

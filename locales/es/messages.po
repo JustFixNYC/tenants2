@@ -135,7 +135,7 @@ msgstr "Después de enviar tu carta"
 msgid "After sending your letter, we can connect you to <0>local groups</0> to organize for greater demands with other tenants."
 msgstr "Después de enviar tu carta, podemos conectarte con <0>grupos locales</0> para que te organizes con tus vecinos para hacer mayores demandas y ejercer tus derechos."
 
-#: frontend/lib/loc/loc-confirmation.tsx:86
+#: frontend/lib/loc/loc-confirmation.tsx:89
 msgid "After the repair-worker leaves"
 msgstr ""
 
@@ -255,7 +255,7 @@ msgstr ""
 msgid "Bedrooms"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:47
+#: frontend/lib/loc/loc-confirmation.tsx:50
 msgid "Before the repair-worker arrives"
 msgstr ""
 
@@ -529,7 +529,7 @@ msgstr ""
 msgid "Doorbell Defective"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:123
+#: frontend/lib/loc/loc-confirmation.tsx:126
 msgid "Download letter"
 msgstr ""
 
@@ -560,7 +560,7 @@ msgstr ""
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: frontend/lib/loc/loc-confirmation.tsx:287
+#: frontend/lib/loc/loc-confirmation.tsx:290
 msgid "Email a copy of your letter to yourself, someone you trust, or your landlord."
 msgstr ""
 
@@ -733,6 +733,10 @@ msgstr ""
 msgid "HP Action"
 msgstr ""
 
+#: frontend/lib/ui/covid-banners.tsx:76
+msgid "Have you been given an eviction notice? <0>This is illegal.</0> An Eviction Moratorium is currently in place across New York State."
+msgstr ""
+
 #: frontend/lib/loc/relief-attempts.tsx:27
 msgid "Have you previously called 311 with no results?"
 msgstr ""
@@ -765,7 +769,7 @@ msgstr "¡Ayuda! El dueño de mi edificio ya intenta desalojarme."
 msgid "Here are a few benefits to sending a letter to your landlord:"
 msgstr "Éstos son algunos de los beneficios de enviar una carta al dueño de tu edificio:"
 
-#: frontend/lib/loc/loc-confirmation.tsx:224
+#: frontend/lib/loc/loc-confirmation.tsx:227
 msgid "Here is a link to a PDF of your saved letter:"
 msgstr ""
 
@@ -809,7 +813,7 @@ msgstr "Esto es lo que puedes hacer con <0>NoRent</0>"
 msgid "Hi {firstName}, welcome to JustFix.nyc! Let's start your Letter of Complaint."
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:113
+#: frontend/lib/loc/loc-confirmation.tsx:116
 msgid "Hide sanitation guidelines"
 msgstr ""
 
@@ -935,6 +939,10 @@ msgstr "Si aún así quieres crear una cuenta, podemos enviarte noticias en el f
 msgid "Illinois"
 msgstr "Illinois"
 
+#: frontend/lib/loc/loc-confirmation.tsx:31
+msgid "In order to follow social distancing guidelines and to limit your exposure, please follow these steps to stay as safe as possible."
+msgstr ""
+
 #: frontend/lib/norent/the-letter.tsx:69
 msgid "In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense."
 msgstr "Si el dueño de tu edificio intenta desalojarte, las cortes lo verán como un paso proactivo que ayudará a establecer tu defensa."
@@ -1026,7 +1034,7 @@ msgstr "JustFix.nyc es una organización registrada 501(c)(3) sin fines de lucro
 msgid "JustFix.nyc will send this letter via USPS Certified Mail<0>®</0> <1>within 1-2 business days</1> to your landlord:"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:261
+#: frontend/lib/loc/loc-confirmation.tsx:264
 #: frontend/lib/rh/rental-history.tsx:169
 msgid "JustFix.nyc's Learning Center"
 msgstr ""
@@ -1108,6 +1116,7 @@ msgstr ""
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:21
 #: frontend/lib/norent/the-letter.tsx:29
+#: frontend/lib/ui/covid-banners.tsx:82
 msgid "Learn more"
 msgstr "Aprender más"
 
@@ -1447,7 +1456,7 @@ msgstr "Ohio"
 msgid "Oklahoma"
 msgstr "Oklahoma"
 
-#: frontend/lib/loc/loc-confirmation.tsx:127
+#: frontend/lib/loc/loc-confirmation.tsx:130
 msgid "Once received, your landlord should contact you to schedule time to make repairs for the access dates you provided."
 msgstr ""
 
@@ -1547,6 +1556,11 @@ msgstr "Por favor <0>vuelve y escoge un estado</0>."
 msgid "Please agree to our terms and conditions"
 msgstr "Por favor, acepta nuestros términos y condiciones"
 
+#: frontend/lib/loc/loc-confirmation.tsx:27
+#: frontend/lib/ui/covid-banners.tsx:57
+msgid "Please be aware that letting a repair-worker into your home to make repairs may expose you to the Covid-19 virus."
+msgstr ""
+
 #: frontend/lib/onboarding/onboarding-step-4.tsx:38
 msgid "Please confirm your password"
 msgstr ""
@@ -1589,7 +1603,7 @@ msgstr ""
 msgid "Previous attempts to get official help"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:233
+#: frontend/lib/loc/loc-confirmation.tsx:236
 msgid "Print out your letter and <0>mail it via Certified Mail</0> - this allows you to prove that it was sent to your landlord."
 msgstr ""
 
@@ -1798,15 +1812,15 @@ msgstr "¿Quieres que enviemos tu carta?"
 msgid "Share this tool"
 msgstr "Compartir esta herramienta"
 
-#: frontend/lib/loc/loc-confirmation.tsx:114
+#: frontend/lib/loc/loc-confirmation.tsx:117
 msgid "Show less"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:35
+#: frontend/lib/loc/loc-confirmation.tsx:38
 msgid "Show me sanitation guidelines"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:36
+#: frontend/lib/loc/loc-confirmation.tsx:39
 msgid "Show more"
 msgstr ""
 
@@ -1971,7 +1985,7 @@ msgstr "Toma acción"
 #: frontend/lib/onboarding/onboarding-step-3.tsx:82
 msgid "Take caution and make sure that this service is right for you."
 
-#: frontend/lib/loc/loc-confirmation.tsx:50
+#: frontend/lib/loc/loc-confirmation.tsx:53
 msgid "Talk to anyone that you live with and let them know that a repair-worker is coming to perform the repairs that you requested."
 msgstr ""
 
@@ -2142,7 +2156,7 @@ msgstr "Virginia"
 msgid "Visit Who Owns What"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:294
+#: frontend/lib/loc/loc-confirmation.tsx:297
 #: frontend/lib/rh/rental-history.tsx:205
 msgid "Want to read more about your rights?"
 msgstr ""
@@ -2165,7 +2179,7 @@ msgstr ""
 msgid "We make it easy to notify your landlord by email or by certified mail for free."
 msgstr "Te facilitamos notificar al dueño de tu edificio por correo electrónico o por correo certificado gratis."
 
-#: frontend/lib/loc/loc-confirmation.tsx:157
+#: frontend/lib/loc/loc-confirmation.tsx:160
 msgid "We sent your letter of complaint {0} !"
 msgstr ""
 
@@ -2216,7 +2230,7 @@ msgstr "¡Hola de nuevo!"
 msgid "West Virginia"
 msgstr "Virginia Occidental"
 
-#: frontend/lib/loc/loc-confirmation.tsx:207
+#: frontend/lib/loc/loc-confirmation.tsx:210
 msgid "We’ll mail your letter via <0>USPS Certified Mail<1>®</1></0> and provide a tracking number via text message."
 msgstr ""
 
@@ -2256,9 +2270,9 @@ msgstr "¿Qué hace esta herramienta?"
 msgid "What happens after I send this letter?"
 msgstr "¿Qué ocurre después de enviar esta carta?"
 
-#: frontend/lib/loc/loc-confirmation.tsx:177
-#: frontend/lib/loc/loc-confirmation.tsx:202
-#: frontend/lib/loc/loc-confirmation.tsx:228
+#: frontend/lib/loc/loc-confirmation.tsx:180
+#: frontend/lib/loc/loc-confirmation.tsx:205
+#: frontend/lib/loc/loc-confirmation.tsx:231
 #: frontend/lib/norent/letter-builder/confirmation.tsx:66
 #: frontend/lib/rh/rental-history.tsx:181
 msgid "What happens next?"
@@ -2300,7 +2314,7 @@ msgstr "¿Dónde vives?"
 msgid "Whether it's your first time here, or you're a returning user, let's start with your number."
 msgstr "Empecemos con tu número de teléfono, ya sea tu primera vez aquí, o estés de vuelta."
 
-#: frontend/lib/loc/loc-confirmation.tsx:64
+#: frontend/lib/loc/loc-confirmation.tsx:67
 msgid "While the repair-worker is inside your home"
 msgstr ""
 
@@ -2308,7 +2322,7 @@ msgstr ""
 msgid "While you wait for your landlord to respond, gather as much documentation as you can. This can include a letter from your employer, receipts, doctor’s notes etc."
 msgstr "Mientras esperas a que el dueño de tu edificio conteste, recopila toda la documentación que puedas. Esto puede incluir una carta de tu jefe, recibos, notas de tu médico, etc."
 
-#: frontend/lib/loc/loc-confirmation.tsx:135
+#: frontend/lib/loc/loc-confirmation.tsx:138
 msgid "While you wait, you should <0>document your issues with photos</0> and <1>call 311 to request an HPD inspection.</1>"
 msgstr ""
 
@@ -2410,7 +2424,7 @@ msgstr "Estás en <0>{stateName}</0>"
 msgid "You've sent your letter"
 msgstr "Has enviado tu carta"
 
-#: frontend/lib/loc/loc-confirmation.tsx:167
+#: frontend/lib/loc/loc-confirmation.tsx:170
 msgid "Your <0>USPS Certified Mail<1>®</1></0> tracking number is <2>{trackingNumber}</2>."
 msgstr ""
 
@@ -2422,15 +2436,15 @@ msgstr "¡Tu carta está lista para enviar!"
 msgid "Your Letter of Complaint"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:279
+#: frontend/lib/loc/loc-confirmation.tsx:282
 msgid "Your Letter of Complaint has been created!"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:270
+#: frontend/lib/loc/loc-confirmation.tsx:273
 msgid "Your Letter of Complaint has been sent!"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:275
+#: frontend/lib/loc/loc-confirmation.tsx:278
 msgid "Your Letter of Complaint is being sent!"
 msgstr ""
 
@@ -2542,6 +2556,10 @@ msgstr "Código postal"
 msgid "and"
 msgstr "y"
 
+#: frontend/lib/ui/covid-banners.tsx:63
+msgid "justfix.CovidRecForEmergencyRepairsOnly"
+msgstr ""
+
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:165
 msgid "justfix.DdoMayNeedHpdRegistration"
 msgstr ""
@@ -2566,7 +2584,7 @@ msgstr ""
 msgid "justfix.LocFalseCertificationBlurb"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:89
+#: frontend/lib/loc/loc-confirmation.tsx:92
 msgid "justfix.LocGuidelinesAfterRepairWorkerLeaves"
 msgstr ""
 
@@ -2590,18 +2608,18 @@ msgstr ""
 msgid "justfix.LocLetterContentSafetyRequirements"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:145
+#: frontend/lib/loc/loc-confirmation.tsx:148
 msgid "justfix.LocNextStepHpAction"
 msgstr ""
 
 #: frontend/lib/loc/relief-attempts.tsx:14
 msgid "justfix.LocReliefAttemptsBlurb"
 
-#: frontend/lib/loc/loc-confirmation.tsx:66
+#: frontend/lib/loc/loc-confirmation.tsx:69
 msgid "justfix.LocRepairWorkerGuidelines"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:97
+#: frontend/lib/loc/loc-confirmation.tsx:100
 msgid "justfix.LocSanitationLinksFromCdc"
 msgstr ""
 
@@ -2613,11 +2631,7 @@ msgstr ""
 msgid "justfix.LocUserTestimonial2"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:27
-msgid "justfix.LocWarningAboutRepairsDuringCovid"
-msgstr ""
-
-#: frontend/lib/loc/loc-confirmation.tsx:191
+#: frontend/lib/loc/loc-confirmation.tsx:194
 msgid "justfix.LocWeWillMailLetterBlurb"
 msgstr ""
 
@@ -2661,7 +2675,7 @@ msgstr ""
 msgid "justfix.rhWhatHappensNext"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:292
+#: frontend/lib/loc/loc-confirmation.tsx:295
 msgid "letter"
 msgstr ""
 

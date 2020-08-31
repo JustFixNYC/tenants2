@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { SimpleProgressiveEnhancement } from "./progressive-enhancement";
 import classnames from "classnames";
 import { Icon } from "./icon";
-import { OutboundLink } from "../analytics/google-analytics";
 import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issues";
 import { CSSTransition } from "react-transition-group";
 import JustfixRoutes from "../justfix-routes";
@@ -10,6 +9,8 @@ import { useDebouncedValue } from "../util/use-debounced-value";
 import { SupportedLocaleMap } from "../i18n";
 import { CovidMoratoriumBanner } from "@justfixnyc/react-common";
 import { li18n } from "../i18n-lingui";
+import { Trans } from "@lingui/macro";
+import { LocalizedOutboundLink } from "./localized-outbound-link";
 
 export const MORATORIUM_FAQ_URL: SupportedLocaleMap<string> = {
   en: "https://www.righttocounselnyc.org/ny_eviction_moratorium_faq",
@@ -85,13 +86,17 @@ export default MoratoriumBanner;
 export const CovidRiskBanner = () => (
   <div className="notification is-warning">
     <p>
-      Please be aware that letting a repair-worker into your home to make
-      repairs may expose you to the Covid-19 virus.
+      <Trans>
+        Please be aware that letting a repair-worker into your home to make
+        repairs may expose you to the Covid-19 virus.
+      </Trans>
     </p>
     <p>
-      In order to follow social distancing guidelines and to limit your
-      exposure, we recommend only asking for repairs in the case of an emergency
-      such as if you have no heat, no hot water, or no gas.
+      <Trans id="justfix.CovidRecForEmergencyRepairsOnly">
+        In order to follow social distancing guidelines and to limit your
+        exposure, we recommend only asking for repairs in the case of an
+        emergency such as if you have no heat, no hot water, or no gas.
+      </Trans>
     </p>
   </div>
 );
@@ -103,12 +108,16 @@ export const CovidRiskBanner = () => (
 
 export const MoratoriumWarning = () => (
   <div className="content has-text-centered is-size-7">
-    <Icon type="notice" /> Have you been given an eviction notice?{" "}
-    <strong>This is illegal.</strong> An Eviction Moratorium is currently in
-    place across New York State.{" "}
-    <OutboundLink href={MORATORIUM_FAQ_URL.en} target="_blank">
-      <span className="has-text-primary jf-has-text-underline">Learn more</span>
-    </OutboundLink>
+    <Icon type="notice" />{" "}
+    <Trans>
+      Have you been given an eviction notice? <strong>This is illegal.</strong>{" "}
+      An Eviction Moratorium is currently in place across New York State.{" "}
+    </Trans>
+    <LocalizedOutboundLink hrefs={MORATORIUM_FAQ_URL}>
+      <span className="has-text-primary jf-has-text-underline">
+        <Trans>Learn more</Trans>
+      </span>
+    </LocalizedOutboundLink>
   </div>
 );
 

@@ -34,11 +34,14 @@ const SanitationGuidelines = () => {
         return (
           <div className="jf-sanitation-guidelines notification is-warning">
             <div>
-              <Trans id="justfix.LocWarningAboutRepairsDuringCovid">
+              <Trans>
                 Please be aware that letting a repair-worker into your home to
-                make repairs may expose you to the Covid-19 virus. In order to
-                follow social distancing guidelines and to limit your exposure,
-                please follow these steps to stay as safe as possible.
+                make repairs may expose you to the Covid-19 virus.
+              </Trans>{" "}
+              <Trans>
+                In order to follow social distancing guidelines and to limit
+                your exposure, please follow these steps to stay as safe as
+                possible.
               </Trans>
               {!inSafeMode && (
                 <>

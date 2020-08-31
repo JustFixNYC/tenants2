@@ -10,6 +10,39 @@ import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
 import { MoratoriumWarning } from "../ui/covid-banners";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
+import classnames from "classnames";
+
+export const WhyMailALetter: React.FC<{ isBigAndCentered?: boolean }> = ({
+  isBigAndCentered,
+}) => (
+  <>
+    <h2
+      className={classnames(
+        isBigAndCentered && "title is-spaced has-text-centered"
+      )}
+    >
+      <Trans>Why mail a Letter of Complaint?</Trans>
+    </h2>
+    <Trans id="justfix.LocWhyMailALetterBlurb">
+      <p className={classnames(isBigAndCentered && "subtitle")}>
+        Your landlord is responsible for keeping your apartment and the building
+        safe and livable at all times. This is called the{" "}
+        <strong>Warranty of Habitability</strong>.
+      </p>
+      <p className={classnames(isBigAndCentered && "subtitle")}>
+        <strong>
+          Having a record of notifying your landlord makes for a stronger legal
+          case.
+        </strong>{" "}
+        If your landlord has already been unresponsive to your requests to make
+        repairs, a letter is a <strong>great tactic to start</strong>. Through
+        USPS Certified Mail<sup>&reg;</sup>, you will have an official record of
+        the requests you’ve made to your landlord. Our nonprofit{" "}
+        <strong>covers the cost</strong> of mailing this letter for you!
+      </p>
+    </Trans>
+  </>
+);
 
 export function LocSplash(): JSX.Element {
   return (
@@ -108,28 +141,7 @@ export function LocSplash(): JSX.Element {
       </section>
 
       <section className="section">
-        <h2 className="title is-spaced has-text-centered">
-          <Trans>Why mail a Letter of Complaint?</Trans>
-        </h2>
-        <Trans id="justfix.LocWhyMailALetterBlurb">
-          <p className="subtitle">
-            Your landlord is responsible for keeping your apartment and the
-            building safe and livable at all times. This is called the{" "}
-            <strong>Warranty of Habitability</strong>.
-          </p>
-          <p className="subtitle">
-            <strong>
-              Having a record of notifying your landlord makes for a stronger
-              legal case.
-            </strong>{" "}
-            If your landlord has already been unresponsive to your requests to
-            make repairs, a letter is a <strong>great tactic to start</strong>.
-            Through USPS Certified Mail<sup>&reg;</sup>, you will have an
-            official record of the requests you’ve made to your landlord. Our
-            nonprofit <strong>covers the cost</strong> of mailing this letter
-            for you!
-          </p>
-        </Trans>
+        <WhyMailALetter isBigAndCentered />
       </section>
 
       <section className="section section--fullwidth">

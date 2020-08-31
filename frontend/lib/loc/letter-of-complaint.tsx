@@ -11,7 +11,7 @@ import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
 } from "../progress/progress-routes";
-import { LocSplash } from "./letter-of-complaint-splash";
+import { LocSplash, WhyMailALetter } from "./letter-of-complaint-splash";
 import { GetStartedButton } from "../ui/get-started-button";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
 import { CovidRiskBanner, MoratoriumWarning } from "../ui/covid-banners";
@@ -24,31 +24,40 @@ import { Switch, Route } from "react-router-dom";
 import { LocSamplePage, LocForUserPage } from "./letter-content";
 import { createLetterStaticPageRoutes } from "../static-page/routes";
 import { NycUsersOnly } from "../pages/nyc-users-only";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 export const Welcome: React.FC<ProgressStepProps> = (props) => {
   const { firstName } = useContext(AppContext).session;
 
   return (
-    <Page title="Let's start your letter!">
+    <Page title={li18n._(t`Let's start your letter!`)}>
       <div className="content">
         <h1 className="title">
-          Hi {firstName}, welcome to JustFix.nyc! Let's start your Letter of
-          Complaint.
+          <Trans>
+            Hi {firstName}, welcome to JustFix.nyc! Let's start your Letter of
+            Complaint.
+          </Trans>
         </h1>
         <p>
-          We're going to help you create a customized Letter of Complaint that
-          highlights the issues in your apartment that need repair.{" "}
-          <strong>This will take about 5 minutes.</strong>
+          <Trans>
+            We're going to help you create a customized Letter of Complaint that
+            highlights the issues in your apartment that need repair.{" "}
+            <strong>This will take about 5 minutes.</strong>
+          </Trans>
         </p>
         <ol className="has-text-left">
-          <li>
-            First, conduct a <strong>self-inspection of your apartment</strong>{" "}
-            to document all the issues that need repair.
-          </li>
-          <li>
-            Review your Letter of Complaint and JustFix.nyc will send it to your
-            landlord via USPS Certified Mail<sup>&reg;</sup>.
-          </li>
+          <Trans>
+            <li>
+              First, conduct a{" "}
+              <strong>self-inspection of your apartment</strong> to document all
+              the issues that need repair.
+            </li>
+            <li>
+              Review your Letter of Complaint and JustFix.nyc will send it to
+              your landlord via USPS Certified Mail<sup>&reg;</sup>.
+            </li>
+          </Trans>
         </ol>
         <CovidRiskBanner />
         <GetStartedButton
@@ -56,25 +65,10 @@ export const Welcome: React.FC<ProgressStepProps> = (props) => {
           intent={OnboardingInfoSignupIntent.LOC}
           pageType="welcome"
         >
-          Start my free letter
+          <Trans>Start my free letter</Trans>
         </GetStartedButton>
         <MoratoriumWarning />
-        <h2>Why mail a Letter of Complaint?</h2>
-        <p>
-          Your landlord is responsible for keeping your apartment and the
-          building safe and livable at all times. This is called the{" "}
-          <strong>Warranty of Habitability</strong>.
-        </p>
-        <p>
-          <strong>
-            Having a record of notifying your landlord makes for a stronger
-            legal case.
-          </strong>{" "}
-          If your landlord has been unresponsive to your requests to make
-          repairs, a letter is a <strong>great tactic to start</strong>. Through
-          USPS Certified Mail<sup>&reg;</sup>, you will have an official record
-          of the requests you’ve made to your landlord.
-        </p>
+        <WhyMailALetter />
       </div>
     </Page>
   );
@@ -90,7 +84,7 @@ const LetterOfComplaintIssuesRoutes = () => (
 
 export const getLOCProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: JustfixRoutes.locale.loc.latestStep,
-  label: "Letter of Complaint",
+  label: li18n._(t`Letter of Complaint`),
   defaultWrapContent: NycUsersOnly,
   welcomeSteps: [
     {

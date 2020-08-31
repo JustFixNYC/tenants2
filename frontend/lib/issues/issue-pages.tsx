@@ -272,7 +272,7 @@ const CovidRiskMessage = () => (
       </Trans>
     </p>
     <p>
-      <Trans>
+      <Trans id="justfix.CovidRecForEmergencyRepairsOnly">
         In order to follow social distancing guidelines and to limit your
         exposure, we recommend only asking for repairs in the case of an
         emergency such as if you have no heat, no hot water, or no gas.

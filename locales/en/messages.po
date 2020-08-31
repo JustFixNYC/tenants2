@@ -967,10 +967,6 @@ msgstr "Illinois"
 msgid "In order to follow social distancing guidelines and to limit your exposure, please follow these steps to stay as safe as possible."
 msgstr "In order to follow social distancing guidelines and to limit your exposure, please follow these steps to stay as safe as possible."
 
-#: frontend/lib/issues/issue-pages.tsx:177
-msgid "In order to follow social distancing guidelines and to limit your exposure, we recommend only asking for repairs in the case of an emergency such as if you have no heat, no hot water, or no gas."
-msgstr "In order to follow social distancing guidelines and to limit your exposure, we recommend only asking for repairs in the case of an emergency such as if you have no heat, no hot water, or no gas."
-
 #: frontend/lib/norent/the-letter.tsx:69
 msgid "In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense."
 msgstr "In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense."
@@ -2628,6 +2624,7 @@ msgstr "and"
 msgid "issues"
 msgstr "issues"
 
+#: frontend/lib/issues/issue-pages.tsx:177
 #: frontend/lib/ui/covid-banners.tsx:63
 msgid "justfix.CovidRecForEmergencyRepairsOnly"
 msgstr "In order to follow social distancing guidelines and to limit your exposure, we recommend only asking for repairs in the case of an emergency such as if you have no heat, no hot water, or no gas."

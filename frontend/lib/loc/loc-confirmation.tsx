@@ -19,7 +19,10 @@ import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 
-const getLetterViaEmailInstructions = () => li18n._(t`If you want to send your Letter of Complaint to your landlord and/or management company via email, download the PDF and include it as an attachment to your regular email.`);
+const getLetterViaEmailInstructions = () =>
+  li18n._(
+    t`If you want to send your Letter of Complaint to your landlord and/or management company via email, download the PDF and include it as an attachment to your regular email.`
+  );
 
 const SanitationGuidelines = () => {
   const [isExpanded, toggleExpansion] = useState(false);
@@ -31,10 +34,12 @@ const SanitationGuidelines = () => {
         return (
           <div className="jf-sanitation-guidelines notification is-warning">
             <div>
-              <Trans>Please be aware that letting a repair-worker into your home to
-              make repairs may expose you to the Covid-19 virus. In order to
-              follow social distancing guidelines and to limit your exposure,
-              please follow these steps to stay as safe as possible.</Trans>
+              <Trans>
+                Please be aware that letting a repair-worker into your home to
+                make repairs may expose you to the Covid-19 virus. In order to
+                follow social distancing guidelines and to limit your exposure,
+                please follow these steps to stay as safe as possible.
+              </Trans>
               {!inSafeMode && (
                 <>
                   {" "}
@@ -75,9 +80,11 @@ const SanitationGuidelines = () => {
                     <Trans>Before the repair-worker arrives</Trans>
                   </h3>
                   <p>
-                    <Trans>Talk to anyone that you live with and let them know that a
-                    repair-worker is coming to perform the repairs that you
-                    requested.</Trans>
+                    <Trans>
+                      Talk to anyone that you live with and let them know that a
+                      repair-worker is coming to perform the repairs that you
+                      requested.
+                    </Trans>
                   </p>
                 </div>
               </div>
@@ -93,16 +100,18 @@ const SanitationGuidelines = () => {
                   <h3 className="is-size-6 is-uppercase has-text-weight-bold has-text-grey-dark">
                     <Trans>While the repair-worker is inside your home</Trans>
                   </h3>
-                  <Trans><p>
-                    Have the repair-worker wash their hands with soap for at
-                    least 20 seconds as soon as they come into your house.
-                  </p>
+                  <Trans>
                     <p>
-                      If possible, stay in a different room from where the work is
-                      being done. If a separate room is not available, maintain at
-                      least a six-foot distance from the repair-worker until the
-                      repair is completed.
-                  </p></Trans>
+                      Have the repair-worker wash their hands with soap for at
+                      least 20 seconds as soon as they come into your house.
+                    </p>
+                    <p>
+                      If possible, stay in a different room from where the work
+                      is being done. If a separate room is not available,
+                      maintain at least a six-foot distance from the
+                      repair-worker until the repair is completed.
+                    </p>
+                  </Trans>
                 </div>
               </div>
               <div className="columns">
@@ -118,21 +127,29 @@ const SanitationGuidelines = () => {
                     <Trans>After the repair-worker leaves</Trans>
                   </h3>
                   <p>
-                    <Trans>Immediately sanitize all surfaces in your home, especially
-                    doorknobs, the sink where the repair-worker washed their
-                    hands, and any surfaces you know they have likely been in
-                    contact with.</Trans>
+                    <Trans>
+                      Immediately sanitize all surfaces in your home, especially
+                      doorknobs, the sink where the repair-worker washed their
+                      hands, and any surfaces you know they have likely been in
+                      contact with.
+                    </Trans>
                   </p>
                   <p className="is-size-7">
-                    <Trans>For guidance on how to thoroughly sanitize your home and a
-                    list of recommended effective cleaning products visit{" "}
-                      <LocalizedOutboundLink hrefs={{
-                        en: "https://www.cdc.gov/coronavirus/2019-ncov/prepare/cleaning-disinfection.html",
-                        es: "https://espanol.cdc.gov/coronavirus/2019-ncov/prevent-getting-sick/cleaning-disinfection.html"
-                      }} >
-                        Center for Disease Control (CDC) Guide on How to Clean and
-                        Disinfect
-                    </LocalizedOutboundLink></Trans>
+                    <Trans>
+                      For guidance on how to thoroughly sanitize your home and a
+                      list of recommended effective cleaning products visit{" "}
+                      <LocalizedOutboundLink
+                        hrefs={{
+                          en:
+                            "https://www.cdc.gov/coronavirus/2019-ncov/prepare/cleaning-disinfection.html",
+                          es:
+                            "https://espanol.cdc.gov/coronavirus/2019-ncov/prevent-getting-sick/cleaning-disinfection.html",
+                        }}
+                      >
+                        Center for Disease Control (CDC) Guide on How to Clean
+                        and Disinfect
+                      </LocalizedOutboundLink>
+                    </Trans>
                   </p>
                 </div>
               </div>
@@ -160,7 +177,7 @@ const SanitationGuidelines = () => {
           </div>
         );
       }}
-    </AppContext.Consumer >
+    </AppContext.Consumer>
   );
 };
 
@@ -171,23 +188,30 @@ const DownloadLetterLink = (props: { locPdfURL: string }) => (
 const getCommonMailNextSteps = () => [
   <li>
     <p>
-      <Trans>Once received, your landlord should contact you to schedule time to make
-      repairs for the access dates you provided.</Trans>
+      <Trans>
+        Once received, your landlord should contact you to schedule time to make
+        repairs for the access dates you provided.
+      </Trans>
     </p>
     <SanitationGuidelines />
   </li>,
   <li>
-    <Trans>While you wait, you should <strong>document your issues with photos</strong>{" "}
-    and <strong>call 311 to request an HPD inspection.</strong></Trans>
+    <Trans>
+      While you wait, you should{" "}
+      <strong>document your issues with photos</strong> and{" "}
+      <strong>call 311 to request an HPD inspection.</strong>
+    </Trans>
   </li>,
 ];
 
 const getCommonWeMailNextSteps = () => [
   ...getCommonMailNextSteps(),
   <li>
-    <Trans>We will continue to follow up with you via text message. If your landlord
-    does not follow through, you now have better legal standing to sue your
-    landlord. <strong>This is called an HP Action proceeding.</strong></Trans>
+    <Trans>
+      We will continue to follow up with you via text message. If your landlord
+      does not follow through, you now have better legal standing to sue your
+      landlord. <strong>This is called an HP Action proceeding.</strong>
+    </Trans>
   </li>,
 ];
 
@@ -201,24 +225,30 @@ function WeMailedLetterStatus(props: {
   return (
     <>
       <p>
-        <Trans>We sent your letter of complaint
-        {letterSentAt && (
+        <Trans>
+          We sent your letter of complaint
+          {letterSentAt && (
             <>
               {" "}
-            on <strong>{friendlyDate(new Date(letterSentAt))}</strong>
+              on <strong>{friendlyDate(new Date(letterSentAt))}</strong>
             </>
           )}
-        !</Trans>
+          !
+        </Trans>
       </p>
       <p>
-        <Trans>Your{" "}
+        <Trans>
+          Your{" "}
           <b>
             USPS Certified Mail<sup>&reg;</sup>
           </b>{" "}
-        tracking number is <a href={url}>{trackingNumber}</a>.</Trans>
+          tracking number is <a href={url}>{trackingNumber}</a>.
+        </Trans>
       </p>
       <DownloadLetterLink {...props} />
-      <h2><Trans>What happens next?</Trans></h2>
+      <h2>
+        <Trans>What happens next?</Trans>
+      </h2>
       <BigList
         children={[
           <li>
@@ -240,24 +270,30 @@ function WeWillMailLetterStatus(props: {
   return (
     <>
       <p>
-        <Trans>We've received your request to mail a letter of complaint on{" "}
+        <Trans>
+          We've received your request to mail a letter of complaint on{" "}
           <strong>{dateStr}</strong>. We'll text you a link to your{" "}
           <b>
             USPS Certified Mail<sup>&reg;</sup>
           </b>{" "}
-        tracking number once we have it!</Trans>
+          tracking number once we have it!
+        </Trans>
       </p>
       <DownloadLetterLink {...props} />
-      <h2><Trans>What happens next?</Trans></h2>
+      <h2>
+        <Trans>What happens next?</Trans>
+      </h2>
       <BigList
         children={[
           <li>
             <p>
-              <Trans>We’ll mail your letter via{" "}
+              <Trans>
+                We’ll mail your letter via{" "}
                 <b>
                   USPS Certified Mail<sup>&reg;</sup>
                 </b>{" "}
-              and provide a tracking number via text message.</Trans>
+                and provide a tracking number via text message.
+              </Trans>
             </p>
             <p>{getLetterViaEmailInstructions()}</p>
           </li>,
@@ -271,16 +307,22 @@ function WeWillMailLetterStatus(props: {
 function UserWillMailLetterStatus(props: { locPdfURL: string }): JSX.Element {
   return (
     <>
-      <p><Trans>Here is a link to a PDF of your saved letter:</Trans></p>
+      <p>
+        <Trans>Here is a link to a PDF of your saved letter:</Trans>
+      </p>
       <DownloadLetterLink {...props} />
-      <h2><Trans>What happens next?</Trans></h2>
+      <h2>
+        <Trans>What happens next?</Trans>
+      </h2>
       <BigList
         children={[
           <li>
             <p>
-              <Trans>Print out your letter and{" "}
+              <Trans>
+                Print out your letter and{" "}
                 <strong>mail it via Certified Mail</strong> - this allows you to
-              prove that it was sent to your landlord.</Trans>
+                prove that it was sent to your landlord.
+              </Trans>
             </p>
             <p>{getLetterViaEmailInstructions()}</p>
           </li>,
@@ -294,10 +336,14 @@ function UserWillMailLetterStatus(props: { locPdfURL: string }): JSX.Element {
 const knowYourRightsList = (
   <ul>
     <li>
-      <LocalizedOutboundLink hrefs={{
-        en: "https://www.metcouncilonhousing.org/help-answers/getting-repairs/",
-        es: "https://www.metcouncilonhousing.org/help-answers/how-to-get-repairs-spanish/"
-      }}>
+      <LocalizedOutboundLink
+        hrefs={{
+          en:
+            "https://www.metcouncilonhousing.org/help-answers/getting-repairs/",
+          es:
+            "https://www.metcouncilonhousing.org/help-answers/how-to-get-repairs-spanish/",
+        }}
+      >
         Met Council on Housing
       </LocalizedOutboundLink>
     </li>
@@ -321,7 +367,9 @@ const LetterConfirmation = withAppContext(
     let letterConfirmationPageTitle, letterStatus;
 
     if (letterRequest && letterRequest.trackingNumber) {
-      letterConfirmationPageTitle = li18n._(t`Your Letter of Complaint has been sent!`);
+      letterConfirmationPageTitle = li18n._(
+        t`Your Letter of Complaint has been sent!`
+      );
       letterStatus = (
         <WeMailedLetterStatus
           letterRequest={letterRequest}
@@ -332,7 +380,9 @@ const LetterConfirmation = withAppContext(
       letterRequest &&
       letterRequest.mailChoice === LetterRequestMailChoice.WE_WILL_MAIL
     ) {
-    letterConfirmationPageTitle = li18n._(t`Your Letter of Complaint is being sent!`);
+      letterConfirmationPageTitle = li18n._(
+        t`Your Letter of Complaint is being sent!`
+      );
       letterStatus = (
         <WeWillMailLetterStatus
           letterRequest={letterRequest}
@@ -340,8 +390,9 @@ const LetterConfirmation = withAppContext(
         />
       );
     } else {
-      letterConfirmationPageTitle =
-        li18n._(t`Your Letter of Complaint has been created!`);
+      letterConfirmationPageTitle = li18n._(
+        t`Your Letter of Complaint has been created!`
+      );
       letterStatus = <UserWillMailLetterStatus {...letterStatusProps} />;
     }
 
@@ -355,11 +406,15 @@ const LetterConfirmation = withAppContext(
         {/* <ProgressiveLoadableConfetti regenerateForSecs={1} /> */}
         {letterStatus}
         <h2>
-          <Trans>Email a copy of your letter to yourself, someone you trust, or your
-          landlord.</Trans>
+          <Trans>
+            Email a copy of your letter to yourself, someone you trust, or your
+            landlord.
+          </Trans>
         </h2>
         <EmailAttachmentForm mutation={EmailLetterMutation} noun="letter" />
-        <h2><Trans>Want to read more about your rights?</Trans></h2>
+        <h2>
+          <Trans>Want to read more about your rights?</Trans>
+        </h2>
         {knowYourRightsList}
       </Page>
     );

@@ -47,7 +47,9 @@ type LocContentProps = BaseLetterContentProps & {
 
 const LetterTitle: React.FC<LocContentProps> = (props) => (
   <letter.Title>
-    <span className="is-uppercase"><Trans>Request for repairs</Trans></span>
+    <span className="is-uppercase">
+      <Trans>Request for repairs</Trans>
+    </span>
     <letter.TitleNewline />
     at <letter.AddressLine {...props} />
   </letter.Title>
@@ -60,11 +62,15 @@ const AreaIssues: React.FC<LocContentProps> = (props) => {
   return (
     <>
       <p>
-        <Trans>I need the following repairs in my home referenced below and/or in the
-        common areas of the building:</Trans>
+        <Trans>
+          I need the following repairs in my home referenced below and/or in the
+          common areas of the building:
+        </Trans>
       </p>
 
-      <h2><Trans>Repairs required</Trans></h2>
+      <h2>
+        <Trans>Repairs required</Trans>
+      </h2>
 
       {props.issues.map((areaIssues) => (
         <React.Fragment key={areaIssues.area}>
@@ -86,12 +92,16 @@ const AreaIssues: React.FC<LocContentProps> = (props) => {
 
 const AccessDates: React.FC<LocContentProps> = (props) => (
   <div className="jf-avoid-page-breaks-within">
-    <h2><Trans>Available access dates</Trans></h2>
+    <h2>
+      <Trans>Available access dates</Trans>
+    </h2>
     <p>
-      <Trans>Below are dates that I am available to be at my apartment to let in a
-      repair worker. Please contact me (using the information provided at the
-      top of this letter) in order to make arrangements with me{" "}
-        <strong>at least 24 hours in advance</strong>.</Trans>
+      <Trans>
+        Below are dates that I am available to be at my apartment to let in a
+        repair worker. Please contact me (using the information provided at the
+        top of this letter) in order to make arrangements with me{" "}
+        <strong>at least 24 hours in advance</strong>.
+      </Trans>
     </p>
     <ul>
       {props.accessDates.map((date) => (
@@ -111,26 +121,33 @@ function hasHeatIssues(issues: AreaIssues[]): boolean {
 
 const Requirements: React.FC<LocContentProps> = (props) => (
   <div className="jf-avoid-page-breaks-within">
-    <h2><Trans>Requirements</Trans></h2>
-    <Trans id="justfix.LocLetterContentSafetyRequirements"><p>
-      In order to keep my household safe, I request that anyone entering my home
-      to make repairs follow sanitation guidelines from the Center for Disease
-      Control (CDC), including washing their hands before entering, wearing
-      gloves, a mask, and shoe coverings, and practicing physical distancing
-      (keeping 6 feet of distance between me and anyone else in my household).
-    </p>
+    <h2>
+      <Trans>Requirements</Trans>
+    </h2>
+    <Trans id="justfix.LocLetterContentSafetyRequirements">
       <p>
-        Additionally, I request that you provide the name and contact information
-        for any repair worker assigned to my home at least 24 hours prior to their
-        arrival.
-    </p></Trans>
+        In order to keep my household safe, I request that anyone entering my
+        home to make repairs follow sanitation guidelines from the Center for
+        Disease Control (CDC), including washing their hands before entering,
+        wearing gloves, a mask, and shoe coverings, and practicing physical
+        distancing (keeping 6 feet of distance between me and anyone else in my
+        household).
+      </p>
+      <p>
+        Additionally, I request that you provide the name and contact
+        information for any repair worker assigned to my home at least 24 hours
+        prior to their arrival.
+      </p>
+    </Trans>
     {hasHeatIssues(props.issues) && (
       <p>
-        <Trans id="justfix.LocLetterContentForHeatIssues">Please be advised that the lack of Heat and/or Hot Water constitutes an
-        emergency under the NYC Housing Maintenance Code, Title 27, Chapter 2.
-        Failure to address these repairs will result in an escalation of this
-        issue, and I may exercise my right to file an Emergency HP Action
-        through the NYC Housing Court system.</Trans>
+        <Trans id="justfix.LocLetterContentForHeatIssues">
+          Please be advised that the lack of Heat and/or Hot Water constitutes
+          an emergency under the NYC Housing Maintenance Code, Title 27, Chapter
+          2. Failure to address these repairs will result in an escalation of
+          this issue, and I may exercise my right to file an Emergency HP Action
+          through the NYC Housing Court system.
+        </Trans>
       </p>
     )}
   </div>
@@ -138,11 +155,15 @@ const Requirements: React.FC<LocContentProps> = (props) => (
 
 const PreviousReliefAttempts: React.FC<{}> = () => (
   <div className="jf-avoid-page-breaks-within">
-    <h2><Trans>Previous Attempts for Relief</Trans></h2>
+    <h2>
+      <Trans>Previous Attempts for Relief</Trans>
+    </h2>
     <p>
-      <Trans>I have already contacted 311 on several occasions, but the issue has not
-      been resolved. In the meantime, I have recorded evidence of the violations
-      should legal action be necessary.</Trans>
+      <Trans>
+        I have already contacted 311 on several occasions, but the issue has not
+        been resolved. In the meantime, I have recorded evidence of the
+        violations should legal action be necessary.
+      </Trans>
     </p>
   </div>
 );
@@ -159,35 +180,45 @@ const LetterBody: React.FC<LocContentProps> = (props) => (
 const LetterConclusion: React.FC<LocContentProps> = (props) => (
   <>
     <div className="jf-avoid-page-breaks-within">
-      <h2><Trans>Civil penalties</Trans></h2>
+      <h2>
+        <Trans>Civil penalties</Trans>
+      </h2>
       <p>
-        <Trans>Pursuant to NYC Admin Code § 27-2115 an order of civil penalties for all
-        existing violations for which the time to correct has expired is as
-        follows:</Trans>
+        <Trans>
+          Pursuant to NYC Admin Code § 27-2115 an order of civil penalties for
+          all existing violations for which the time to correct has expired is
+          as follows:
+        </Trans>
       </p>
       <dl>
-        <Trans><dt>“C” Violation</dt>
-        <dd>
-          $50 per day per violation (if 1-5 units)
-          <br />
-          $50-$150 one-time penalty per violation plus $125 per day (5 or more
-          units)
-        </dd>
-        <dt>“B” Violation:</dt>
-        <dd>$25-$100 one-time penalty per violation plus $10 per day</dd>
-        <dt>“A” Violation”</dt>
-        <dd>$10-$50 one-time penalty per violation</dd></Trans>
+        <Trans>
+          <dt>“C” Violation</dt>
+          <dd>
+            $50 per day per violation (if 1-5 units)
+            <br />
+            $50-$150 one-time penalty per violation plus $125 per day (5 or more
+            units)
+          </dd>
+          <dt>“B” Violation:</dt>
+          <dd>$25-$100 one-time penalty per violation plus $10 per day</dd>
+          <dt>“A” Violation”</dt>
+          <dd>$10-$50 one-time penalty per violation</dd>
+        </Trans>
       </dl>
     </div>
     <div className="jf-avoid-page-breaks-within">
       <p>
-        <Trans>According to the NYC Admin Code § 27-2115, a civil penalty is also
-        issued where a person willfully makes a false certification of
-        correction of a violation per violation falsely certified.</Trans>
+        <Trans>
+          According to the NYC Admin Code § 27-2115, a civil penalty is also
+          issued where a person willfully makes a false certification of
+          correction of a violation per violation falsely certified.
+        </Trans>
       </p>
       <p>
-        <Trans>Please contact me as soon as possible to arrange a time to have these
-        repairs made at {formatPhoneNumber(props.phoneNumber)}.</Trans>
+        <Trans>
+          Please contact me as soon as possible to arrange a time to have these
+          repairs made at {formatPhoneNumber(props.phoneNumber)}.
+        </Trans>
       </p>
       <letter.Regards>
         <br />

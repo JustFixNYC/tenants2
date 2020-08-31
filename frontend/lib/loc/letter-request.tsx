@@ -34,14 +34,16 @@ export const SendConfirmModal = withAppContext(
         render={(ctx) => (
           <>
             <p>
-              <Trans>JustFix.nyc will send this letter via USPS Certified Mail
-              <sup>&reg;</sup> <strong>within 1-2 business days</strong> to your
-              landlord:</Trans>
+              <Trans>
+                JustFix.nyc will send this letter via USPS Certified Mail
+                <sup>&reg;</sup> <strong>within 1-2 business days</strong> to
+                your landlord:
+              </Trans>
             </p>
             <address className="has-text-centered">
               {landlord.name || li18n._(t`UNKNOWN LANDLORD`)}
               <br />
-            {landlord.address || li18n._(t`UNKNOWN ADDRESS`)}
+              {landlord.address || li18n._(t`UNKNOWN ADDRESS`)}
             </address>
             <br />
             <div className="has-text-centered">
@@ -100,16 +102,22 @@ const LocPreview = withAppContext((props) => (
 const LetterRequestPage = MiddleProgressStep(({ prevStep, nextStep }) => {
   return (
     <Page title={li18n._(t`Review the Letter of Complaint`)}>
-      <h1 className="title is-4 is-spaced"><Trans>Review the Letter of Complaint</Trans></h1>
+      <h1 className="title is-4 is-spaced">
+        <Trans>Review the Letter of Complaint</Trans>
+      </h1>
       <p className="subtitle is-6">
-        <Trans>Here is a preview of the letter for you to review. It includes the
-        repair issues you selected from the Issue Checklist.</Trans>
+        <Trans>
+          Here is a preview of the letter for you to review. It includes the
+          repair issues you selected from the Issue Checklist.
+        </Trans>
       </p>
       <LocPreview />
       <DemoDeploymentNote>
         <p>
-          <Trans>This demo site <strong>will not send</strong> a real letter to your
-          landlord.</Trans>
+          <Trans>
+            This demo site <strong>will not send</strong> a real letter to your
+            landlord.
+          </Trans>
         </p>
       </DemoDeploymentNote>
       <div className="has-text-centered is-grouped">

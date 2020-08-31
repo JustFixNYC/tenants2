@@ -47,12 +47,16 @@ const AccessDatesPage = MiddleProgressStep((props) => {
   return (
     <Page title={li18n._(t`Access dates`)}>
       <div>
-        <h1 className="title is-4 is-spaced"><Trans>Landlord/super access dates</Trans></h1>
+        <h1 className="title is-4 is-spaced">
+          <Trans>Landlord/super access dates</Trans>
+        </h1>
         <p className="subtitle is-6">
-          <Trans>Access dates are times you know when you will be home for the landlord
-          to schedule repairs. Please provide <strong>1 - 3</strong> access
-          dates when you can be available (allowing at least {MIN_DAYS_TEXT} for
-          the letter to be received).</Trans>
+          <Trans>
+            Access dates are times you know when you will be home for the
+            landlord to schedule repairs. Please provide <strong>1 - 3</strong>{" "}
+            access dates when you can be available (allowing at least{" "}
+            {MIN_DAYS_TEXT} for the letter to be received).
+          </Trans>
         </p>
         <SessionUpdatingFormSubmitter
           mutation={AccessDatesMutation}
@@ -62,7 +66,9 @@ const AccessDatesPage = MiddleProgressStep((props) => {
           {(ctx) => (
             <>
               <TextualFormField
-                label={li18n._(t`First access date (at least ${MIN_DAYS_TEXT} from today)`)}
+                label={li18n._(
+                  t`First access date (at least ${MIN_DAYS_TEXT} from today)`
+                )}
                 type="date"
                 min={minDate}
                 required

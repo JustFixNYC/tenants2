@@ -23,19 +23,25 @@ function getIntroText(isLookedUp: boolean | null): JSX.Element {
   return isLookedUp ? (
     <React.Fragment>
       <p className="subtitle is-6">
-        <Trans>This is your landlord’s information as registered with the{" "}
-        <b>NYC Department of Housing and Preservation (HPD)</b>. This may be
-        different than where you send your rent checks.</Trans>
+        <Trans>
+          This is your landlord’s information as registered with the{" "}
+          <b>NYC Department of Housing and Preservation (HPD)</b>. This may be
+          different than where you send your rent checks.
+        </Trans>
       </p>
       <p className="subtitle is-6">
-        <Trans>We will use this address to ensure your landlord receives it.</Trans>
+        <Trans>
+          We will use this address to ensure your landlord receives it.
+        </Trans>
       </p>
     </React.Fragment>
   ) : (
     <React.Fragment>
       <p className="subtitle is-6">
-        <Trans>Please enter your landlord's name and contact information below. You can
-        find this information on your lease and/or rent receipts.</Trans>
+        <Trans>
+          Please enter your landlord's name and contact information below. You
+          can find this information on your lease and/or rent receipts.
+        </Trans>
       </p>
     </React.Fragment>
   );
@@ -51,12 +57,16 @@ function ReadOnlyLandlordDetails(props: {
     <div className="content">
       <dl>
         <dt>
-          <strong><Trans>Landlord name</Trans></strong>
+          <strong>
+            <Trans>Landlord name</Trans>
+          </strong>
         </dt>
         <dd>{details.name}</dd>
         <br />
         <dt>
-          <strong><Trans>Landlord address</Trans></strong>
+          <strong>
+            <Trans>Landlord address</Trans>
+          </strong>
         </dt>
         <dd>
           <BreaksBetweenLines lines={details.address} />
@@ -78,7 +88,9 @@ const LandlordDetailsPage = MiddleProgressStep((props) => {
   return (
     <Page title={li18n._(t`Landlord information`)}>
       <div>
-        <h1 className="title is-4 is-spaced"><Trans>Landlord information</Trans></h1>
+        <h1 className="title is-4 is-spaced">
+          <Trans>Landlord information</Trans>
+        </h1>
         {getIntroText(landlordDetails && landlordDetails.isLookedUp)}
         {landlordDetails && landlordDetails.isLookedUp ? (
           <ReadOnlyLandlordDetails
@@ -108,7 +120,10 @@ const LandlordDetailsPage = MiddleProgressStep((props) => {
                   {...ctx.fieldPropsFor("primaryLine")}
                   label={li18n._(t`Street address`)}
                 />
-                <TextualFormField {...ctx.fieldPropsFor("city")} label={li18n._(t`City`)} />
+                <TextualFormField
+                  {...ctx.fieldPropsFor("city")}
+                  label={li18n._(t`City`)}
+                />
                 <USStateFormField {...ctx.fieldPropsFor("state")} />
                 <TextualFormField
                   {...ctx.fieldPropsFor("zipCode")}

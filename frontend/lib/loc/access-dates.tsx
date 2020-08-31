@@ -13,6 +13,8 @@ import { dateAsISO, addDays } from "../util/date-util";
 
 import validation from "../../../common-data/access-dates-validation.json";
 import { MiddleProgressStep } from "../progress/progress-step-route";
+import { li18n } from "../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 /**
  * The minimum number of days from today that the first access date
@@ -43,14 +45,14 @@ export function getInitialState(
 const AccessDatesPage = MiddleProgressStep((props) => {
   const minDate = dateAsISO(addDays(new Date(), MIN_DAYS));
   return (
-    <Page title="Access dates">
+    <Page title={li18n._(t`Access dates`)}>
       <div>
-        <h1 className="title is-4 is-spaced">Landlord/super access dates</h1>
+        <h1 className="title is-4 is-spaced"><Trans>Landlord/super access dates</Trans></h1>
         <p className="subtitle is-6">
-          Access dates are times you know when you will be home for the landlord
+          <Trans>Access dates are times you know when you will be home for the landlord
           to schedule repairs. Please provide <strong>1 - 3</strong> access
           dates when you can be available (allowing at least {MIN_DAYS_TEXT} for
-          the letter to be received).
+          the letter to be received).</Trans>
         </p>
         <SessionUpdatingFormSubmitter
           mutation={AccessDatesMutation}
@@ -60,20 +62,20 @@ const AccessDatesPage = MiddleProgressStep((props) => {
           {(ctx) => (
             <>
               <TextualFormField
-                label={`First access date (at least ${MIN_DAYS_TEXT} from today)`}
+                label={li18n._(t`First access date (at least ${MIN_DAYS_TEXT} from today)`)}
                 type="date"
                 min={minDate}
                 required
                 {...ctx.fieldPropsFor("date1")}
               />
               <TextualFormField
-                label="Second access date (optional)"
+                label={li18n._(t`Second access date (optional)`)}
                 type="date"
                 min={minDate}
                 {...ctx.fieldPropsFor("date2")}
               />
               <TextualFormField
-                label="Third access date (optional)"
+                label={li18n._(t`Third access date (optional)`)}
                 type="date"
                 min={minDate}
                 {...ctx.fieldPropsFor("date3")}

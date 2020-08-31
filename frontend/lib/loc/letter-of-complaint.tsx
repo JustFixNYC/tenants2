@@ -47,17 +47,19 @@ export const Welcome: React.FC<ProgressStepProps> = (props) => {
           </Trans>
         </p>
         <ol className="has-text-left">
-          <Trans>
-            <li>
+          <li>
+            <Trans>
               First, conduct a{" "}
               <strong>self-inspection of your apartment</strong> to document all
               the issues that need repair.
-            </li>
-            <li>
+            </Trans>
+          </li>
+          <li>
+            <Trans>
               Review your Letter of Complaint and JustFix.nyc will send it to
               your landlord via USPS Certified Mail<sup>&reg;</sup>.
-            </li>
-          </Trans>
+            </Trans>
+          </li>
         </ol>
         <CovidRiskBanner />
         <GetStartedButton

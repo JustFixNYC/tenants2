@@ -34,7 +34,7 @@ const SanitationGuidelines = () => {
         return (
           <div className="jf-sanitation-guidelines notification is-warning">
             <div>
-              <Trans>
+              <Trans id="justfix.LocWarningAboutRepairsDuringCovid">
                 Please be aware that letting a repair-worker into your home to
                 make repairs may expose you to the Covid-19 virus. In order to
                 follow social distancing guidelines and to limit your exposure,
@@ -100,7 +100,7 @@ const SanitationGuidelines = () => {
                   <h3 className="is-size-6 is-uppercase has-text-weight-bold has-text-grey-dark">
                     <Trans>While the repair-worker is inside your home</Trans>
                   </h3>
-                  <Trans>
+                  <Trans id="justfix.LocRepairWorkerGuidelines">
                     <p>
                       Have the repair-worker wash their hands with soap for at
                       least 20 seconds as soon as they come into your house.
@@ -127,7 +127,7 @@ const SanitationGuidelines = () => {
                     <Trans>After the repair-worker leaves</Trans>
                   </h3>
                   <p>
-                    <Trans>
+                    <Trans id="justfix.LocGuidelinesAfterRepairWorkerLeaves">
                       Immediately sanitize all surfaces in your home, especially
                       doorknobs, the sink where the repair-worker washed their
                       hands, and any surfaces you know they have likely been in
@@ -135,7 +135,7 @@ const SanitationGuidelines = () => {
                     </Trans>
                   </p>
                   <p className="is-size-7">
-                    <Trans>
+                    <Trans id="justfix.LocSanitationLinksFromCdc">
                       For guidance on how to thoroughly sanitize your home and a
                       list of recommended effective cleaning products visit{" "}
                       <LocalizedOutboundLink
@@ -207,7 +207,7 @@ const getCommonMailNextSteps = () => [
 const getCommonWeMailNextSteps = () => [
   ...getCommonMailNextSteps(),
   <li>
-    <Trans>
+    <Trans id="justfix.LocNextStepHpAction">
       We will continue to follow up with you via text message. If your landlord
       does not follow through, you now have better legal standing to sue your
       landlord. <strong>This is called an HP Action proceeding.</strong>
@@ -270,7 +270,7 @@ function WeWillMailLetterStatus(props: {
   return (
     <>
       <p>
-        <Trans>
+        <Trans id="justfix.LocWeWillMailLetterBlurb">
           We've received your request to mail a letter of complaint on{" "}
           <strong>{dateStr}</strong>. We'll text you a link to your{" "}
           <b>

@@ -96,7 +96,7 @@ const AccessDates: React.FC<LocContentProps> = (props) => (
       <Trans>Available access dates</Trans>
     </h2>
     <p>
-      <Trans>
+      <Trans id="justfix.LocLetterContentAvailableAccessDates">
         Below are dates that I am available to be at my apartment to let in a
         repair worker. Please contact me (using the information provided at the
         top of this letter) in order to make arrangements with me{" "}
@@ -159,7 +159,7 @@ const PreviousReliefAttempts: React.FC<{}> = () => (
       <Trans>Previous Attempts for Relief</Trans>
     </h2>
     <p>
-      <Trans>
+      <Trans id="justfix.LocLetterContentAlreadyCalled311">
         I have already contacted 311 on several occasions, but the issue has not
         been resolved. In the meantime, I have recorded evidence of the
         violations should legal action be necessary.
@@ -191,7 +191,7 @@ const LetterConclusion: React.FC<LocContentProps> = (props) => (
         </Trans>
       </p>
       <dl>
-        <Trans>
+        <Trans id="justfix.LocBreakdownOfViolationTypes">
           <dt>“C” Violation</dt>
           <dd>
             $50 per day per violation (if 1-5 units)
@@ -208,7 +208,7 @@ const LetterConclusion: React.FC<LocContentProps> = (props) => (
     </div>
     <div className="jf-avoid-page-breaks-within">
       <p>
-        <Trans>
+        <Trans id="justfix.LocFalseCertificationBlurb">
           According to the NYC Admin Code § 27-2115, a civil penalty is also
           issued where a person willfully makes a false certification of
           correction of a violation per violation falsely certified.

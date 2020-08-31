@@ -51,7 +51,7 @@ const AccessDatesPage = MiddleProgressStep((props) => {
           <Trans>Landlord/super access dates</Trans>
         </h1>
         <p className="subtitle is-6">
-          <Trans>
+          <Trans id="justfix.LocAccessDatesDescription">
             Access dates are times you know when you will be home for the
             landlord to schedule repairs. Please provide <strong>1 - 3</strong>{" "}
             access dates when you can be available (allowing at least{" "}

@@ -80,12 +80,7 @@ exports[`<LocContent> works 1`] = `
       Available access dates
     </h2>
     <p>
-      Below are dates that I am available to be at my apartment to let in a repair worker. Please contact me (using the information provided at the top of this letter) in order to make arrangements with me
-       
-      <strong>
-        at least 24 hours in advance
-      </strong>
-      .
+      justfix.LocLetterContentAvailableAccessDates
     </p>
     <ul>
       <li>
@@ -102,14 +97,9 @@ exports[`<LocContent> works 1`] = `
     <h2>
       Requirements
     </h2>
+    justfix.LocLetterContentSafetyRequirements
     <p>
-      In order to keep my household safe, I request that anyone entering my home to make repairs follow sanitation guidelines from the Center for Disease Control (CDC), including washing their hands before entering, wearing gloves, a mask, and shoe coverings, and practicing physical distancing (keeping 6 feet of distance between me and anyone else in my household).
-    </p>
-    <p>
-      Additionally, I request that you provide the name and contact information for any repair worker assigned to my home at least 24 hours prior to their arrival.
-    </p>
-    <p>
-      Please be advised that the lack of Heat and/or Hot Water constitutes an emergency under the NYC Housing Maintenance Code, Title 27, Chapter 2. Failure to address these repairs will result in an escalation of this issue, and I may exercise my right to file an Emergency HP Action through the NYC Housing Court system.
+      justfix.LocLetterContentForHeatIssues
     </p>
   </div>
   <div
@@ -119,7 +109,7 @@ exports[`<LocContent> works 1`] = `
       Previous Attempts for Relief
     </h2>
     <p>
-      I have already contacted 311 on several occasions, but the issue has not been resolved. In the meantime, I have recorded evidence of the violations should legal action be necessary.
+      justfix.LocLetterContentAlreadyCalled311
     </p>
   </div>
   <div
@@ -132,38 +122,17 @@ exports[`<LocContent> works 1`] = `
       Pursuant to NYC Admin Code § 27-2115 an order of civil penalties for all existing violations for which the time to correct has expired is as follows:
     </p>
     <dl>
-      <dt>
-        “C” Violation
-      </dt>
-      <dd>
-        $50 per day per violation (if 1-5 units)
-        <br />
-        $50-$150 one-time penalty per violation plus $125 per day (5 or more units)
-      </dd>
-      <dt>
-        “B” Violation:
-      </dt>
-      <dd>
-        $25-$100 one-time penalty per violation plus $10 per day
-      </dd>
-      <dt>
-        “A” Violation”
-      </dt>
-      <dd>
-        $10-$50 one-time penalty per violation
-      </dd>
+      justfix.LocBreakdownOfViolationTypes
     </dl>
   </div>
   <div
     class="jf-avoid-page-breaks-within"
   >
     <p>
-      According to the NYC Admin Code § 27-2115, a civil penalty is also issued where a person willfully makes a false certification of correction of a violation per violation falsely certified.
+      justfix.LocFalseCertificationBlurb
     </p>
     <p>
-      Please contact me as soon as possible to arrange a time to have these repairs made at 
-      (555) 123-4567
-      .
+      Please contact me as soon as possible to arrange a time to have these repairs made at {0}.
     </p>
     <p
       class="jf-signature"

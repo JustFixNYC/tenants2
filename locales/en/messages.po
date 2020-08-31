@@ -20,6 +20,7 @@ msgid "(Name of your language) translation"
 msgstr "(Name of your language) translation"
 
 #: frontend/lib/forms/email-attachment.tsx:14
+#: frontend/lib/issues/issue-pages.tsx:52
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:33
 msgid "(optional)"
 msgstr "(optional)"
@@ -118,6 +119,14 @@ msgstr "Access dates"
 msgid "Actions"
 msgstr "Actions"
 
+#: frontend/lib/issues/issue-pages.tsx:111
+msgid "Add issues"
+msgstr "Add issues"
+
+#: frontend/lib/issues/issue-pages.tsx:112
+msgid "Add or remove issues"
+msgstr "Add or remove issues"
+
 #: frontend/lib/forms/address-and-borough-form-field.tsx:9
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:99
 msgid "Address"
@@ -176,6 +185,11 @@ msgstr "Apartment Needs Painting"
 msgid "Apartment number"
 msgstr "Apartment number"
 
+#: frontend/lib/issues/issue-pages.tsx:220
+#: frontend/lib/issues/issue-pages.tsx:223
+msgid "Apartment self-inspection"
+msgstr "Apartment self-inspection"
+
 #: frontend/lib/norent/log-out.tsx:11
 msgid "Are you sure you want to log out?"
 msgstr "Are you sure you want to log out?"
@@ -200,6 +214,7 @@ msgstr "As a rent stabilized tenant, you have additional rights that protect you
 msgid "Available access dates"
 msgstr "Available access dates"
 
+#: frontend/lib/issues/issue-pages.tsx:244
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
 msgstr "Back"
@@ -329,6 +344,10 @@ msgstr "Cancel"
 #: frontend/lib/norent/data/state-localized-resources.tsx:13
 msgid "Cancel Rent Campaign"
 msgstr "Cancel Rent Campaign"
+
+#: frontend/lib/issues/issue-pages.tsx:60
+msgid "Cancel and go back"
+msgstr "Cancel and go back"
 
 #: frontend/lib/rh/rental-history.tsx:118
 msgid "Cancel request"
@@ -461,6 +480,10 @@ msgstr "Create an Account"
 msgid "Create an account to get started with your {actionLabel}!"
 msgstr "Create an account to get started with your {actionLabel}!"
 
+#: frontend/lib/issues/issue-pages.tsx:52
+msgid "Custom issue #"
+msgstr "Custom issue #"
+
 #. salutation of formal letter
 #: frontend/lib/util/letter-content-util.tsx:48
 msgid "Dear <0/>,"
@@ -497,6 +520,10 @@ msgstr "Do you receive a housing voucher (Section 8, FEPS, Link, HASA, other)?"
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:22
 msgid "Do you still want to mail to:"
 msgstr "Do you still want to mail to:"
+
+#: frontend/lib/issues/issue-pages.tsx:42
+msgid "Don't see your issues listed? You can add up to {MAX_CUSTOM_ISSUES_PER_AREA} additional issues below."
+msgstr "Don't see your issues listed? You can add up to {MAX_CUSTOM_ISSUES_PER_AREA} additional issues below."
 
 #: frontend/lib/norent/log-out.tsx:14
 msgid "Don’t worry, we’ll save your progress so you’ll be able to come back to your last step when you log back in."
@@ -883,6 +910,7 @@ msgstr "I just used JustFix.nyc's new free tool to tell my landlord I can't pay 
 msgid "I need the following repairs in my home referenced below and/or in the common areas of the building:"
 msgstr "I need the following repairs in my home referenced below and/or in the common areas of the building:"
 
+#: frontend/lib/issues/issue-pages.tsx:197
 #: frontend/lib/onboarding/onboarding-step-3.tsx:29
 msgid "I understand the risk"
 msgstr "I understand the risk"
@@ -938,6 +966,10 @@ msgstr "Illinois"
 #: frontend/lib/loc/loc-confirmation.tsx:31
 msgid "In order to follow social distancing guidelines and to limit your exposure, please follow these steps to stay as safe as possible."
 msgstr "In order to follow social distancing guidelines and to limit your exposure, please follow these steps to stay as safe as possible."
+
+#: frontend/lib/issues/issue-pages.tsx:177
+msgid "In order to follow social distancing guidelines and to limit your exposure, we recommend only asking for repairs in the case of an emergency such as if you have no heat, no hot water, or no gas."
+msgstr "In order to follow social distancing guidelines and to limit your exposure, we recommend only asking for repairs in the case of an emergency such as if you have no heat, no hot water, or no gas."
 
 #: frontend/lib/norent/the-letter.tsx:69
 msgid "In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense."
@@ -998,6 +1030,10 @@ msgstr "Is your landlord not responding? Take action today!"
 #: frontend/lib/onboarding/onboarding-step-3.tsx:121
 msgid "Is your lease Market Rate?"
 msgstr "Is your lease Market Rate?"
+
+#: frontend/lib/issues/issue-pages.tsx:80
+msgid "Issue checklist"
+msgstr "Issue checklist"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:182
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
@@ -1366,6 +1402,7 @@ msgstr "New York"
 msgid "New password"
 msgstr "New password"
 
+#: frontend/lib/issues/issue-pages.tsx:136
 #: frontend/lib/norent/letter-builder/welcome.tsx:56
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
@@ -1399,6 +1436,10 @@ msgstr "No Hot Water"
 #: common-data/issue-choices.ts:153
 msgid "No Smoke Detector"
 msgstr "No Smoke Detector"
+
+#: frontend/lib/issues/issue-pages.tsx:97
+msgid "No issues reported"
+msgstr "No issues reported"
 
 #: frontend/lib/onboarding/onboarding-step-3.tsx:99
 msgid "No lease"
@@ -1456,6 +1497,10 @@ msgstr "Oklahoma"
 #: frontend/lib/loc/loc-confirmation.tsx:130
 msgid "Once received, your landlord should contact you to schedule time to make repairs for the access dates you provided."
 msgstr "Once received, your landlord should contact you to schedule time to make repairs for the access dates you provided."
+
+#: frontend/lib/issues/issue-pages.tsx:99
+msgid "One issue reported"
+msgstr "One issue reported"
 
 #: frontend/lib/app.tsx:55
 #: frontend/lib/norent/components/subscribe.tsx:41
@@ -1553,6 +1598,7 @@ msgstr "Please <0>go back and choose a state</0>."
 msgid "Please agree to our terms and conditions"
 msgstr "Please agree to our terms and conditions"
 
+#: frontend/lib/issues/issue-pages.tsx:171
 #: frontend/lib/loc/loc-confirmation.tsx:27
 #: frontend/lib/ui/covid-banners.tsx:57
 msgid "Please be aware that letting a repair-worker into your home to make repairs may expose you to the Covid-19 virus."
@@ -1573,6 +1619,10 @@ msgstr "Please enter an email address!"
 #: frontend/lib/loc/landlord-details.tsx:31
 msgid "Please enter your landlord's name and contact information below. You can find this information on your lease and/or rent receipts."
 msgstr "Please enter your landlord's name and contact information below. You can find this information on your lease and/or rent receipts."
+
+#: frontend/lib/issues/issue-pages.tsx:226
+msgid "Please go room-by-room and select all of the issues that you are experiencing. {introContent} <0>Don't hold back!</0>"
+msgstr "Please go room-by-room and select all of the issues that you are experiencing. {introContent} <0>Don't hold back!</0>"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:117
 msgid "Please note, the email will be sent in English."
@@ -1753,6 +1803,10 @@ msgstr "Rusty water"
 msgid "Sample NoRent.org letter"
 msgstr "Sample NoRent.org letter"
 
+#: frontend/lib/issues/issue-pages.tsx:61
+msgid "Save"
+msgstr "Save"
+
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:454
 msgid "Search address"
 msgstr "Search address"
@@ -1764,6 +1818,10 @@ msgstr "Second access date (optional)"
 #: frontend/lib/norent/faqs.tsx:63
 msgid "See more FAQs"
 msgstr "See more FAQs"
+
+#: frontend/lib/issues/issue-pages.tsx:39
+msgid "Select your issues"
+msgstr "Select your issues"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:253
 msgid "Send a letter of complaint"
@@ -1896,6 +1954,10 @@ msgstr "Sink: Pipes Leaking"
 #: common-data/issue-choices.ts:154
 msgid "Smoke Detector Defective"
 msgstr "Smoke Detector Defective"
+
+#: frontend/lib/issues/issue-pages.tsx:185
+msgid "Social distancing and repairs"
+msgstr "Social distancing and repairs"
 
 #: frontend/lib/pages/not-found.tsx:15
 msgid "Sorry, the page you are looking for doesn't seem to exist."
@@ -2046,6 +2108,10 @@ msgstr "Think your apartment may be rent-stabilized? Request its official record
 msgid "Third access date (optional)"
 msgstr "Third access date (optional)"
 
+#: frontend/lib/issues/issue-pages.tsx:216
+msgid "This <0>issue checklist</0> will be sent to your landlord."
+msgstr "This <0>issue checklist</0> will be sent to your landlord."
+
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:140
 msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 msgstr "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
@@ -2158,6 +2224,10 @@ msgstr "Visit Who Owns What"
 #: frontend/lib/rh/rental-history.tsx:205
 msgid "Want to read more about your rights?"
 msgstr "Want to read more about your rights?"
+
+#: frontend/lib/issues/issue-pages.tsx:169
+msgid "Warning:"
+msgstr "Warning:"
 
 #: common-data/us-state-choices.ts:113
 msgid "Washington"
@@ -2554,6 +2624,10 @@ msgstr "Zip code"
 msgid "and"
 msgstr "and"
 
+#: frontend/lib/issues/issue-pages.tsx:83
+msgid "issues"
+msgstr "issues"
+
 #: frontend/lib/ui/covid-banners.tsx:63
 msgid "justfix.CovidRecForEmergencyRepairsOnly"
 msgstr "In order to follow social distancing guidelines and to limit your exposure, we recommend only asking for repairs in the case of an emergency such as if you have no heat, no hot water, or no gas."
@@ -2822,6 +2896,10 @@ msgstr "pay rent, rent, can't pay rent, june rent, june 1"
 #: frontend/lib/ui/localized-outbound-link.tsx:44
 msgid "{0} (in English)"
 msgstr "{0} (in English)"
+
+#: frontend/lib/issues/issue-pages.tsx:100
+msgid "{count} issues reported"
+msgstr "{count} issues reported"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."

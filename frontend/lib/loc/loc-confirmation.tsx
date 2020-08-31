@@ -182,7 +182,7 @@ const SanitationGuidelines = () => {
 };
 
 const DownloadLetterLink = (props: { locPdfURL: string }) => (
-  <PdfLink href={props.locPdfURL} label="Download letter" />
+  <PdfLink href={props.locPdfURL} label={li18n._(t`Download letter`)} />
 );
 
 const getCommonMailNextSteps = () => [
@@ -411,7 +411,10 @@ const LetterConfirmation = withAppContext(
             landlord.
           </Trans>
         </h2>
-        <EmailAttachmentForm mutation={EmailLetterMutation} noun="letter" />
+        <EmailAttachmentForm
+          mutation={EmailLetterMutation}
+          noun={li18n._(t`letter`)}
+        />
         <h2>
           <Trans>Want to read more about your rights?</Trans>
         </h2>

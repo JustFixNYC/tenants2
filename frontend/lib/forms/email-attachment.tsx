@@ -8,6 +8,8 @@ import { maxRecipients } from "../../../common-data/email-attachment-validation.
 import { FetchMutationInfo } from "./forms-graphql";
 import { WithServerFormFieldErrors } from "./form-errors";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
+import { li18n } from "../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 type Recipient = {
   email: string;
@@ -29,8 +31,8 @@ export type EmailAttachmentFormProps = {
 const EMPTY_FORM: EmailAttachmentInput = { recipients: [] };
 
 function labelForRecipient(i: number): string {
-  const label = `Email address for recipient #${i + 1}`;
-  return i === 0 ? label : `${label} (optional)`;
+  const label = li18n._(t`Email address for recipient #${i + 1}`);
+  return i === 0 ? label : `${label} ` + li18n._(t`(optional)`);
 }
 
 function SuccessMessage(props: { text: string }) {
@@ -59,19 +61,24 @@ export function EmailAttachmentForm(props: EmailAttachmentFormProps) {
           <>
             {wasSentTo && (
               <SuccessMessage
-                text={`Got it! We're sending your ${noun} to ${wasSentTo.join(
-                  ", "
-                )}.`}
+                text={
+                  li18n._(t`Got it! We're sending your ${noun} to`) +
+                  ` ${wasSentTo.join(", ")}.`
+                }
               />
             )}
             <div className={wasSentTo ? "is-hidden" : ""}>
               <p>
-                You can use the form below if you'd like us to email your {noun}{" "}
-                to up to {maxRecipients} addresses.
+                <Trans>
+                  You can use the form below if you'd like us to email your{" "}
+                  {noun} to up to {maxRecipients} addresses.
+                </Trans>
               </p>
               <DemoDeploymentNote>
                 <p>
-                  Using this form <strong>will send</strong> real e-mails.
+                  <Trans>
+                    Using this form <strong>will send</strong> real e-mails.
+                  </Trans>
                 </p>
               </DemoDeploymentNote>
               <Formset

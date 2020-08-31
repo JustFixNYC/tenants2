@@ -24,6 +24,7 @@ msgstr ""
 msgid "(Name of your language) translation"
 msgstr "Traducción en español"
 
+#: frontend/lib/forms/email-attachment.tsx:14
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:33
 msgid "(optional)"
 msgstr "(opcional)"
@@ -528,6 +529,10 @@ msgstr ""
 msgid "Doorbell Defective"
 msgstr ""
 
+#: frontend/lib/loc/loc-confirmation.tsx:123
+msgid "Download letter"
+msgstr ""
+
 #: common-data/issue-choices.ts:207
 msgid "Drain Stoppage"
 msgstr ""
@@ -567,6 +572,10 @@ msgstr "Dirección de correo electrónico"
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:74
 msgid "Email address <0>(recommended)</0>"
 msgstr "Dirección de correo electrónico <0>(recomendado)</0>"
+
+#: frontend/lib/forms/email-attachment.tsx:13
+msgid "Email address for recipient #{0}"
+msgstr ""
 
 #: common-data/signup-intent-choices.ts:19
 msgid "Emergency HP Action"
@@ -707,6 +716,10 @@ msgstr "Hacer huelga de renta"
 #: frontend/lib/ui/privacy-info-modal.tsx:59
 msgid "Got it!"
 msgstr "¡Entendido!"
+
+#: frontend/lib/forms/email-attachment.tsx:31
+msgid "Got it! We're sending your {noun} to"
+msgstr ""
 
 #: frontend/lib/pages/redirect-to-english-page.tsx:15
 msgid "Got it, take me there"
@@ -2093,6 +2106,10 @@ msgstr "Número de apartamento/unidad/lote/suite"
 msgid "Unrecognized address"
 msgstr ""
 
+#: frontend/lib/forms/email-attachment.tsx:42
+msgid "Using this form <0>will send</0> real e-mails."
+msgstr ""
+
 #: common-data/us-state-choices.ts:110
 msgid "Utah"
 msgstr "Utah"
@@ -2380,6 +2397,10 @@ msgstr "Ya tienes una cuenta"
 msgid "You can"
 msgstr "Puedes"
 
+#: frontend/lib/forms/email-attachment.tsx:35
+msgid "You can use the form below if you'd like us to email your {noun} to up to {maxRecipients} addresses."
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:103
 msgid "You're in <0>{stateName}</0>"
 msgstr "Estás en <0>{stateName}</0>"
@@ -2638,6 +2659,10 @@ msgstr ""
 
 #: frontend/lib/rh/rental-history.tsx:184
 msgid "justfix.rhWhatHappensNext"
+msgstr ""
+
+#: frontend/lib/loc/loc-confirmation.tsx:292
+msgid "letter"
 msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:202

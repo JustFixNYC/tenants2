@@ -5,6 +5,7 @@ import {
   TextareaFormField,
   TextualFormField,
 } from "./form-fields";
+import { Trans, Plural } from "@lingui/macro";
 
 /**
  * Once the user has this percentage of their maximum limit left,
@@ -32,13 +33,17 @@ export function CharsRemaining({
   const remaining = max - current;
   const isNoticeable =
     remaining < max * DANGER_ALERT_PCT || remaining <= DANGER_ALERT_MIN_CHARS;
-  const text = `${remaining} character${remaining === 1 ? "" : "s"} remaining.`;
-  const el = React.createElement(
-    useSpan ? "span" : "p",
-    {
-      className: isNoticeable ? "has-text-danger" : "",
-    },
-    [text]
+  const el = (
+    <Trans
+      render={useSpan ? "span" : "p"}
+      className={isNoticeable ? "has-text-danger" : ""}
+    >
+      <Plural
+        value={remaining}
+        one="1 character remaining"
+        other="# characters remaining"
+      />
+    </Trans>
   );
 
   return <SimpleProgressiveEnhancement>{el}</SimpleProgressiveEnhancement>;

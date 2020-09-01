@@ -24,8 +24,8 @@ msgstr ""
 msgid "(Name of your language) translation"
 msgstr "Traducción en español"
 
-#: frontend/lib/forms/email-attachment.tsx:14
-#: frontend/lib/issues/issue-pages.tsx:52
+#: frontend/lib/forms/email-attachment.tsx:16
+#: frontend/lib/issues/issue-pages.tsx:54
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:33
 msgid "(optional)"
 msgstr "(opcional)"
@@ -123,11 +123,11 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: frontend/lib/issues/issue-pages.tsx:111
+#: frontend/lib/issues/issue-pages.tsx:113
 msgid "Add issues"
 msgstr ""
 
-#: frontend/lib/issues/issue-pages.tsx:112
+#: frontend/lib/issues/issue-pages.tsx:114
 msgid "Add or remove issues"
 msgstr ""
 
@@ -189,8 +189,8 @@ msgstr ""
 msgid "Apartment number"
 msgstr "Número de apartamento"
 
-#: frontend/lib/issues/issue-pages.tsx:220
-#: frontend/lib/issues/issue-pages.tsx:223
+#: frontend/lib/issues/issue-pages.tsx:222
+#: frontend/lib/issues/issue-pages.tsx:225
 msgid "Apartment self-inspection"
 msgstr ""
 
@@ -218,7 +218,7 @@ msgstr ""
 msgid "Available access dates"
 msgstr ""
 
-#: frontend/lib/issues/issue-pages.tsx:244
+#: frontend/lib/issues/issue-pages.tsx:246
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
 msgstr "Atrás"
@@ -349,7 +349,7 @@ msgstr "Cancelar"
 msgid "Cancel Rent Campaign"
 msgstr "Campaña para la Anulación de la Renta"
 
-#: frontend/lib/issues/issue-pages.tsx:60
+#: frontend/lib/issues/issue-pages.tsx:62
 msgid "Cancel and go back"
 msgstr ""
 
@@ -484,7 +484,7 @@ msgstr ""
 msgid "Create an account to get started with your {actionLabel}!"
 msgstr ""
 
-#: frontend/lib/issues/issue-pages.tsx:52
+#: frontend/lib/issues/issue-pages.tsx:54
 msgid "Custom issue #"
 msgstr ""
 
@@ -525,7 +525,7 @@ msgstr ""
 msgid "Do you still want to mail to:"
 msgstr "¿Aún deseas continuar?"
 
-#: frontend/lib/issues/issue-pages.tsx:42
+#: frontend/lib/issues/issue-pages.tsx:44
 msgid "Don't see your issues listed? You can add up to {MAX_CUSTOM_ISSUES_PER_AREA} additional issues below."
 msgstr ""
 
@@ -600,7 +600,7 @@ msgstr "Dirección de correo electrónico"
 msgid "Email address <0>(recommended)</0>"
 msgstr "Dirección de correo electrónico <0>(recomendado)</0>"
 
-#: frontend/lib/forms/email-attachment.tsx:13
+#: frontend/lib/forms/email-attachment.tsx:15
 msgid "Email address for recipient #{0}"
 msgstr ""
 
@@ -744,7 +744,7 @@ msgstr "Hacer huelga de renta"
 msgid "Got it!"
 msgstr "¡Entendido!"
 
-#: frontend/lib/forms/email-attachment.tsx:31
+#: frontend/lib/forms/email-attachment.tsx:33
 msgid "Got it! We're sending your {noun} to"
 msgstr ""
 
@@ -914,7 +914,7 @@ msgstr "Acabo de usar la nueva herramienta gratuita de JustFix.nyc para decirle 
 msgid "I need the following repairs in my home referenced below and/or in the common areas of the building:"
 msgstr ""
 
-#: frontend/lib/issues/issue-pages.tsx:197
+#: frontend/lib/issues/issue-pages.tsx:199
 #: frontend/lib/onboarding/onboarding-step-3.tsx:29
 msgid "I understand the risk"
 msgstr ""
@@ -1030,7 +1030,7 @@ msgstr ""
 #: frontend/lib/onboarding/onboarding-step-3.tsx:121
 msgid "Is your lease Market Rate?"
 
-#: frontend/lib/issues/issue-pages.tsx:80
+#: frontend/lib/issues/issue-pages.tsx:82
 msgid "Issue checklist"
 msgstr ""
 
@@ -1401,7 +1401,7 @@ msgstr "Nueva York"
 msgid "New password"
 msgstr "Contraseña nueva"
 
-#: frontend/lib/issues/issue-pages.tsx:136
+#: frontend/lib/issues/issue-pages.tsx:138
 #: frontend/lib/norent/letter-builder/welcome.tsx:56
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
@@ -1436,7 +1436,7 @@ msgstr ""
 msgid "No Smoke Detector"
 msgstr ""
 
-#: frontend/lib/issues/issue-pages.tsx:97
+#: frontend/lib/issues/issue-pages.tsx:99
 msgid "No issues reported"
 msgstr ""
 
@@ -1497,7 +1497,7 @@ msgstr "Oklahoma"
 msgid "Once received, your landlord should contact you to schedule time to make repairs for the access dates you provided."
 msgstr ""
 
-#: frontend/lib/issues/issue-pages.tsx:99
+#: frontend/lib/issues/issue-pages.tsx:101
 msgid "One issue reported"
 msgstr ""
 
@@ -1597,7 +1597,7 @@ msgstr "Por favor <0>vuelve y escoge un estado</0>."
 msgid "Please agree to our terms and conditions"
 msgstr "Por favor, acepta nuestros términos y condiciones"
 
-#: frontend/lib/issues/issue-pages.tsx:171
+#: frontend/lib/issues/issue-pages.tsx:173
 #: frontend/lib/loc/loc-confirmation.tsx:27
 #: frontend/lib/ui/covid-banners.tsx:57
 msgid "Please be aware that letting a repair-worker into your home to make repairs may expose you to the Covid-19 virus."
@@ -1619,7 +1619,7 @@ msgstr "Por favor, ¡introduzca una dirección de correo electrónico!"
 msgid "Please enter your landlord's name and contact information below. You can find this information on your lease and/or rent receipts."
 msgstr ""
 
-#: frontend/lib/issues/issue-pages.tsx:226
+#: frontend/lib/issues/issue-pages.tsx:228
 msgid "Please go room-by-room and select all of the issues that you are experiencing. {introContent} <0>Don't hold back!</0>"
 msgstr ""
 
@@ -1802,7 +1802,7 @@ msgstr ""
 msgid "Sample NoRent.org letter"
 msgstr "Ejemplar de una carta de NoRent.org"
 
-#: frontend/lib/issues/issue-pages.tsx:61
+#: frontend/lib/issues/issue-pages.tsx:63
 msgid "Save"
 msgstr ""
 
@@ -1818,7 +1818,7 @@ msgstr ""
 msgid "See more FAQs"
 msgstr "Ver todas las preguntas más frecuentes"
 
-#: frontend/lib/issues/issue-pages.tsx:39
+#: frontend/lib/issues/issue-pages.tsx:41
 msgid "Select your issues"
 msgstr ""
 
@@ -1954,7 +1954,7 @@ msgstr ""
 msgid "Smoke Detector Defective"
 msgstr ""
 
-#: frontend/lib/issues/issue-pages.tsx:185
+#: frontend/lib/issues/issue-pages.tsx:187
 msgid "Social distancing and repairs"
 msgstr ""
 
@@ -2106,7 +2106,7 @@ msgstr ""
 msgid "Third access date (optional)"
 msgstr ""
 
-#: frontend/lib/issues/issue-pages.tsx:216
+#: frontend/lib/issues/issue-pages.tsx:218
 msgid "This <0>issue checklist</0> will be sent to your landlord."
 msgstr ""
 
@@ -2182,7 +2182,7 @@ msgstr "Número de apartamento/unidad/lote/suite"
 msgid "Unrecognized address"
 msgstr ""
 
-#: frontend/lib/forms/email-attachment.tsx:42
+#: frontend/lib/forms/email-attachment.tsx:44
 msgid "Using this form <0>will send</0> real e-mails."
 msgstr ""
 
@@ -2223,7 +2223,7 @@ msgstr ""
 msgid "Want to read more about your rights?"
 msgstr ""
 
-#: frontend/lib/issues/issue-pages.tsx:169
+#: frontend/lib/issues/issue-pages.tsx:171
 msgid "Warning:"
 msgstr ""
 
@@ -2477,7 +2477,7 @@ msgstr "Ya tienes una cuenta"
 msgid "You can"
 msgstr "Puedes"
 
-#: frontend/lib/forms/email-attachment.tsx:35
+#: frontend/lib/forms/email-attachment.tsx:37
 msgid "You can use the form below if you'd like us to email your {noun} to up to {maxRecipients} addresses."
 msgstr ""
 
@@ -2622,11 +2622,11 @@ msgstr "Código postal"
 msgid "and"
 msgstr "y"
 
-#: frontend/lib/issues/issue-pages.tsx:83
+#: frontend/lib/issues/issue-pages.tsx:85
 msgid "issues"
 msgstr ""
 
-#: frontend/lib/issues/issue-pages.tsx:177
+#: frontend/lib/issues/issue-pages.tsx:179
 #: frontend/lib/ui/covid-banners.tsx:63
 msgid "justfix.CovidRecForEmergencyRepairsOnly"
 msgstr ""
@@ -2895,8 +2895,12 @@ msgstr "pagar la renta, renta, no puedo pagar la renta, renta de junio, 1 de jun
 msgid "{0} (in English)"
 msgstr "{0} (en inglés)"
 
-#: frontend/lib/issues/issue-pages.tsx:100
+#: frontend/lib/issues/issue-pages.tsx:102
 msgid "{count} issues reported"
+msgstr ""
+
+#: frontend/lib/forms/chars-remaining.tsx:18
+msgid "{remaining, plural, one {1 character remaining} other {# characters remaining}}"
 msgstr ""
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80

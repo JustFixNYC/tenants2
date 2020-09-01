@@ -4,12 +4,15 @@ import { PageTitle } from "../ui/page";
 import { Formset } from "./formset";
 import { TextualFormField } from "./form-fields";
 import { NextButton } from "../ui/buttons";
-import { maxRecipients } from "../../../common-data/email-attachment-validation.json";
+import eav from "../../../common-data/email-attachment-validation.json";
 import { FetchMutationInfo } from "./forms-graphql";
 import { WithServerFormFieldErrors } from "./form-errors";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
+
+// Destructuring here rather than the import because Jest is weird.
+const { maxRecipients } = eav;
 
 type Recipient = {
   email: string;

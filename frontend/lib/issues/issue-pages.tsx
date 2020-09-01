@@ -32,10 +32,7 @@ import {
   IssueAreaChoices,
 } from "../../../common-data/issue-area-choices";
 import { IssueChoice } from "../../../common-data/issue-choices";
-import {
-  CUSTOM_ISSUE_MAX_LENGTH,
-  MAX_CUSTOM_ISSUES_PER_AREA,
-} from "../../../common-data/issue-validation.json";
+import issueConsts from "../../../common-data/issue-validation.json";
 import { FormContext } from "../forms/form-context";
 import { Formset } from "../forms/formset";
 import { FormsetItem, formsetItemProps } from "../forms/formset-item";
@@ -48,6 +45,9 @@ import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 
 const checkSvg = require("../svg/check-solid.svg") as JSX.Element;
+
+// Destructuring here rather than the import because Jest is weird.
+const { CUSTOM_ISSUE_MAX_LENGTH, MAX_CUSTOM_ISSUES_PER_AREA } = issueConsts;
 
 type IssuesAreaPropsWithCtx = IssuesRouteAreaProps & {
   toHome: string;

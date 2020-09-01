@@ -46,7 +46,7 @@ import { t, Trans } from "@lingui/macro";
 
 const checkSvg = require("../svg/check-solid.svg") as JSX.Element;
 
-// Destructuring here rather than the import because Jest is weird.
+// https://github.com/lingui/js-lingui/issues/514
 const { CUSTOM_ISSUE_MAX_LENGTH, MAX_CUSTOM_ISSUES_PER_AREA } = issueConsts;
 
 type IssuesAreaPropsWithCtx = IssuesRouteAreaProps & {

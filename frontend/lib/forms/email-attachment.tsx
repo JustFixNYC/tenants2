@@ -11,7 +11,7 @@ import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 
-// Destructuring here rather than the import because Jest is weird.
+// https://github.com/lingui/js-lingui/issues/514
 const { maxRecipients } = eav;
 
 type Recipient = {

@@ -20,7 +20,7 @@ import { t, Trans } from "@lingui/macro";
  * The minimum number of days from today that the first access date
  * should be.
  */
-const { MIN_DAYS, MIN_DAYS_TEXT } = validation;
+const { MIN_DAYS } = validation;
 
 /**
  * The default number of days from today that we'll set the
@@ -54,8 +54,8 @@ const AccessDatesPage = MiddleProgressStep((props) => {
           <Trans id="justfix.LocAccessDatesDescription">
             Access dates are times you know when you will be home for the
             landlord to schedule repairs. Please provide <strong>1 - 3</strong>{" "}
-            access dates when you can be available (allowing at least{" "}
-            {MIN_DAYS_TEXT} for the letter to be received).
+            access dates when you can be available (allowing at least {MIN_DAYS}{" "}
+            days for the letter to be received).
           </Trans>
         </p>
         <SessionUpdatingFormSubmitter
@@ -67,7 +67,7 @@ const AccessDatesPage = MiddleProgressStep((props) => {
             <>
               <TextualFormField
                 label={li18n._(
-                  t`First access date (at least ${MIN_DAYS_TEXT} from today)`
+                  t`First access date (at least ${MIN_DAYS} days from today)`
                 )}
                 type="date"
                 min={minDate}

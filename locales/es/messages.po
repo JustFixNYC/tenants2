@@ -666,7 +666,7 @@ msgid "Find out more"
 msgstr "Más información"
 
 #: frontend/lib/loc/access-dates.tsx:46
-msgid "First access date (at least {MIN_DAYS_TEXT} from today)"
+msgid "First access date (at least {MIN_DAYS} days from today)"
 msgstr ""
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:26

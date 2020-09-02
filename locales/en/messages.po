@@ -662,8 +662,8 @@ msgid "Find out more"
 msgstr "Find out more"
 
 #: frontend/lib/loc/access-dates.tsx:46
-msgid "First access date (at least {MIN_DAYS_TEXT} from today)"
-msgstr "First access date (at least {MIN_DAYS_TEXT} from today)"
+msgid "First access date (at least {MIN_DAYS} days from today)"
+msgstr "First access date (at least {MIN_DAYS} days from today)"
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:26
 #: frontend/lib/onboarding/onboarding-step-1.tsx:65
@@ -2639,7 +2639,7 @@ msgstr "JustFix.nyc is a tenants rights nonprofit that builds tools for tenants 
 
 #: frontend/lib/loc/access-dates.tsx:37
 msgid "justfix.LocAccessDatesDescription"
-msgstr "Access dates are times you know when you will be home for the landlord to schedule repairs. Please provide <0>1 - 3</0> access dates when you can be available (allowing at least {MIN_DAYS_TEXT} for the letter to be received)."
+msgstr "Access dates are times you know when you will be home for the landlord to schedule repairs. Please provide <0>1 - 3</0> access dates when you can be available (allowing at least {MIN_DAYS} days for the letter to be received)."
 
 #: frontend/lib/loc/letter-content.tsx:131
 msgid "justfix.LocBreakdownOfViolationTypes"

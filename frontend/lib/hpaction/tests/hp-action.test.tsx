@@ -6,6 +6,10 @@ import { ProgressRoutesTester } from "../../progress/tests/progress-routes-teste
 import JustfixRoutes from "../../justfix-routes";
 import { HPUploadStatus } from "../../queries/globalTypes";
 import { newSb } from "../../tests/session-builder";
+import { preloadLingui } from "../../tests/lingui-preloader";
+import { LinguiI18n } from "../../i18n-lingui";
+
+beforeAll(preloadLingui(LinguiI18n));
 
 const sb = newSb().withLoggedInJustfixUser();
 

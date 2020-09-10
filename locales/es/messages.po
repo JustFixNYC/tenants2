@@ -114,6 +114,7 @@ msgstr ""
 
 #: frontend/lib/onboarding/onboarding-step-3.tsx:108
 msgid "About rent stabilization"
+msgstr ""
 
 #: frontend/lib/loc/access-dates.tsx:31
 msgid "Access dates"
@@ -1029,6 +1030,7 @@ msgstr ""
 
 #: frontend/lib/onboarding/onboarding-step-3.tsx:121
 msgid "Is your lease Market Rate?"
+msgstr ""
 
 #: frontend/lib/issues/issue-pages.tsx:82
 msgid "Issue checklist"
@@ -1408,7 +1410,7 @@ msgstr "Contraseña nueva"
 msgid "Next"
 msgstr "Continuar"
 
-#: frontend/lib/forms/yes-no-radios-form-field.tsx:20
+#: frontend/lib/forms/yes-no-radios-form-field.tsx:27
 #: frontend/lib/norent/letter-builder/confirmation-modal.tsx:20
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:28
 msgid "No"
@@ -2042,6 +2044,7 @@ msgstr "Toma acción"
 #: frontend/lib/onboarding/onboarding-step-3.tsx:52
 #: frontend/lib/onboarding/onboarding-step-3.tsx:82
 msgid "Take caution and make sure that this service is right for you."
+msgstr ""
 
 #: frontend/lib/loc/loc-confirmation.tsx:53
 msgid "Talk to anyone that you live with and let them know that a repair-worker is coming to perform the repairs that you requested."
@@ -2450,7 +2453,7 @@ msgstr "Wisconsin"
 msgid "Wyoming"
 msgstr "Wyoming"
 
-#: frontend/lib/forms/yes-no-radios-form-field.tsx:19
+#: frontend/lib/forms/yes-no-radios-form-field.tsx:26
 #: frontend/lib/norent/letter-builder/confirmation-modal.tsx:20
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:30
 msgid "Yes"
@@ -2685,6 +2688,7 @@ msgstr ""
 
 #: frontend/lib/loc/relief-attempts.tsx:14
 msgid "justfix.LocReliefAttemptsBlurb"
+msgstr ""
 
 #: frontend/lib/loc/loc-confirmation.tsx:69
 msgid "justfix.LocRepairWorkerGuidelines"

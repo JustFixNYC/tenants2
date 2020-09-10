@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CharsRemaining> supports use of spans 1`] = `
+<span>
+  14 characters remaining
+</span>
+`;
+
+exports[`<CharsRemaining> works when 1 character remains 1`] = `
+<p
+  class="has-text-danger"
+>
+  1 character remaining
+</p>
+`;
+
+exports[`<CharsRemaining> works when many characters remain 1`] = `
+<p>
+  14 characters remaining
+</p>
+`;

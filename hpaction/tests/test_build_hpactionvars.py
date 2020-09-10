@@ -341,21 +341,23 @@ def test_fill_prior_repairs_and_harassment_mcs_works(kwargs, repairs, harassment
 
 
 class TestFillLandlordInfo:
-    @pytest.mark.parametrize('onb_kwargs,is_nycha', [
-        ({}, False),
-        ({'pad_bbl': ''}, False),
-        ({'lease_type': 'NYCHA'}, True),
-        ({'pad_bbl': '1234567890'}, False),
-        ({'pad_bbl': '2022150116'}, True),
+    DEFAULT_NYCHA = "NYC Housing Authority Law Dept"
+
+    @pytest.mark.parametrize('onb_kwargs,is_nycha,name', [
+        ({}, False, None),
+        ({'pad_bbl': ''}, False, None),
+        ({'lease_type': 'NYCHA'}, True, DEFAULT_NYCHA),
+        ({'pad_bbl': '1234567890'}, False, None),
+        ({'borough': 'BRONX', 'pad_bbl': '2022150116'}, True, "NYCHA Marble Hill Houses"),
     ])
-    def test_it_sets_nycha_info(self, db, loaded_nycha_csv_data, onb_kwargs, is_nycha):
+    def test_it_sets_nycha_info(self, db, loaded_nycha_csv_data, onb_kwargs, is_nycha, name):
         oinfo = OnboardingInfoFactory(**onb_kwargs)
         v = hp.HPActionVariables()
         was_filled_out = is_nycha
         assert fill_landlord_info(v, oinfo.user) is was_filled_out
         assert v.user_is_nycha_tf is is_nycha
+        assert v.landlord_entity_name_te == name
         if is_nycha:
-            assert v.landlord_entity_name_te == "NYC Housing Authority Law Dept"
             llstate = v.landlord_address_state_mc
             assert llstate and llstate.value == "NY"
 

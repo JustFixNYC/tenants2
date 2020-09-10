@@ -1,11 +1,34 @@
-import React, { DetailedHTMLProps } from "react";
+import React, { DetailedHTMLProps, useState } from "react";
 import { asEmailStaticPage } from "../static-page/email-static-page";
 import { HtmlEmail } from "../static-page/html-email";
 import { friendlyPhoneNumber } from "../util/util";
 import { getAbsoluteStaticURL } from "../app-context";
-import { BoroughChoice } from "../../../common-data/borough-choices";
+import {
+  BoroughChoice,
+  BoroughChoices,
+  getBoroughChoiceLabels,
+  isBoroughChoice,
+} from "../../../common-data/borough-choices";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { TransformSession } from "../util/transform-session";
+import Page from "../ui/page";
+import { Form } from "../forms/form";
+import { SelectFormField } from "../forms/form-fields";
+import { toDjangoChoices } from "../common-data";
+import {
+  YesNoRadiosFormField,
+  YesNoChoice,
+  isYesNoChoice,
+} from "../forms/yes-no-radios-form-field";
+import { useLocation, useHistory } from "react-router-dom";
+import { QuerystringConverter } from "../networking/http-get-query-util";
+import { NoScriptFallback } from "../ui/progressive-enhancement";
+import {
+  InputValidator,
+  validateInput,
+  asUnvalidatedInput,
+} from "../forms/client-side-validation";
+import JustfixRoutes from "../justfix-routes";
 
 const EXTRA_CSS = require("./service-instructions-email.css");
 
@@ -30,9 +53,9 @@ type CaseTypeProps = {
 };
 
 enum CaseType {
-  Repairs,
-  Harassment,
-  Combined,
+  Repairs = "R",
+  Harassment = "H",
+  Combined = "C",
 }
 
 type CaseTypeMap<T> = { [k in CaseType]: T };
@@ -78,6 +101,9 @@ type ServiceInstructionsProps = CaseTypeProps & {
 
   /** The borough of the tenant's court. */
   borough: BoroughChoice;
+
+  /** Whether or not the tenant is serving NYCHA. */
+  isNycha: boolean;
 };
 
 type CourtInfo = { email: string; phone: string };
@@ -263,6 +289,12 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
       )}
     </ol>
     <h2>Serving the papers</h2>
+    {/**
+     * TODO: Change these if the user is NYCHA. Also note that a few
+     * paragraphs up, we mention that the user will need to print out
+     * the papers; we'll probably want to move that section to
+     * "How to serve" below, and make sure it's not shown for NYCHA users.
+     */}
     <p>This section includes instructions for:</p>
     <p>
       A. When to serve
@@ -453,6 +485,7 @@ export function getServiceInstructionsPropsFromSession(
 ): ServiceInstructionsProps | null {
   const { firstName, hpActionDetails } = s;
   const borough = s.onboardingInfo?.borough;
+  const isNycha = s.onboardingInfo?.leaseType === "NYCHA";
 
   if (firstName && hpActionDetails && borough) {
     const { sueForHarassment, sueForRepairs } = hpActionDetails;
@@ -460,12 +493,28 @@ export function getServiceInstructionsPropsFromSession(
       typeof sueForHarassment == "boolean" &&
       typeof sueForRepairs === "boolean"
     ) {
-      return { firstName, borough, sueForHarassment, sueForRepairs };
+      return { firstName, borough, sueForHarassment, sueForRepairs, isNycha };
     }
   }
 
   return null;
 }
+
+type ExampleServiceInstructionsInput = {
+  borough: BoroughChoice;
+  caseType: CaseType;
+  isNycha: YesNoChoice;
+};
+
+function isCaseType(value: string): value is CaseType {
+  return Object.keys(CASE_TYPE_NAMES).includes(value);
+}
+
+const exampleInputValidator: InputValidator<ExampleServiceInstructionsInput> = {
+  borough: isBoroughChoice,
+  caseType: isCaseType,
+  isNycha: isYesNoChoice,
+};
 
 export const ExampleServiceInstructionsProps: ServiceInstructionsProps = {
   isExample: true,
@@ -473,16 +522,151 @@ export const ExampleServiceInstructionsProps: ServiceInstructionsProps = {
   borough: "MANHATTAN",
   sueForHarassment: true,
   sueForRepairs: true,
+  isNycha: false,
 };
 
 const SUBJECT =
   "Your HP Action case in Housing Court: Serving Instructions and Next Steps";
 
-export const ExampleServiceInstructionsEmail = asEmailStaticPage(() => (
-  <HtmlEmail subject={`${SUBJECT} (EXAMPLE)`} extraCss={[EXTRA_CSS]}>
-    <ServiceInstructionsContent {...ExampleServiceInstructionsProps} />
-  </HtmlEmail>
-));
+function formInputToInstructionsProps(
+  input: ExampleServiceInstructionsInput
+): ServiceInstructionsProps {
+  const { borough, caseType, isNycha } = input;
+  const sueForHarassment = [CaseType.Harassment, CaseType.Combined].includes(
+    caseType
+  );
+  const sueForRepairs = [CaseType.Repairs, CaseType.Combined].includes(
+    caseType
+  );
+  return {
+    ...ExampleServiceInstructionsProps,
+    borough,
+    isNycha: isNycha === "True",
+    sueForHarassment,
+    sueForRepairs,
+  };
+}
+
+const DEFAULT_INPUT: ExampleServiceInstructionsInput = {
+  borough: "MANHATTAN",
+  isNycha: "False",
+  caseType: CaseType.Combined,
+};
+
+export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
+  const location = useLocation();
+  const history = useHistory();
+  const qs = new QuerystringConverter(
+    location.search,
+    asUnvalidatedInput(DEFAULT_INPUT)
+  );
+  const initialState = qs.toFormInput();
+  const [latestInput, setLatestInput] = useState(initialState);
+  const onChange = (input: typeof initialState) => {
+    qs.maybePushToHistory(input, { location, history });
+    setLatestInput(input);
+  };
+  const validatedInput = validateInput(latestInput, exampleInputValidator);
+  const emailPreview = JustfixRoutes.locale.ehp.exampleServiceInstructionsEmail;
+
+  return (
+    <Page
+      title="Example service instructions email"
+      withHeading
+      className="content"
+    >
+      <Form
+        onSubmit={onChange}
+        onChange={onChange}
+        initialState={initialState}
+        errors={validatedInput.errors}
+        isLoading={false}
+      >
+        {(ctx) => {
+          return (
+            <>
+              <SelectFormField
+                {...ctx.fieldPropsFor("borough")}
+                label="Borough of tenant"
+                choices={toDjangoChoices(
+                  BoroughChoices,
+                  getBoroughChoiceLabels()
+                )}
+              />
+              <SelectFormField
+                {...ctx.fieldPropsFor("caseType")}
+                label="Case type"
+                choices={toDjangoChoices(
+                  Object.keys(CASE_TYPE_NAMES),
+                  CASE_TYPE_NAMES
+                )}
+              />
+              <div style={{ display: "none" }}>
+                {/**
+                 * TODO: We're temporarily hiding this because we're not
+                 * actually using this information yet. We'll want to
+                 * remove the wrapping `<div>` eventually.
+                 */}
+                <YesNoRadiosFormField
+                  {...ctx.fieldPropsFor("isNycha")}
+                  label="Is the tenant in NYCHA housing?"
+                />
+              </div>
+              <NoScriptFallback>
+                <button type="submit" className="button is-primary">
+                  Show
+                </button>
+              </NoScriptFallback>
+            </>
+          );
+        }}
+      </Form>
+      {!validatedInput.errors && (
+        <>
+          <br />
+          <p>
+            The following content is a preview of instructions sent for serving
+            Emergency HP Actions based on the above options.
+          </p>
+          <p>
+            For a more accurate representation of how users will see it, you can
+            view it as an{" "}
+            <a href={`${emailPreview.html}?${qs.toStableQuerystring()}`}>
+              HTML email
+            </a>{" "}
+            and{" "}
+            <a href={`${emailPreview.txt}?${qs.toStableQuerystring()}`}>
+              plaintext email
+            </a>
+            .
+          </p>
+          <hr />
+          <ServiceInstructionsContent
+            {...formInputToInstructionsProps(validatedInput.result)}
+          />
+        </>
+      )}
+    </Page>
+  );
+};
+
+export const ExampleServiceInstructionsEmail = asEmailStaticPage(() => {
+  const location = useLocation();
+  const qs = new QuerystringConverter(
+    location.search,
+    asUnvalidatedInput(DEFAULT_INPUT)
+  );
+  const exampleProps = formInputToInstructionsProps({
+    ...DEFAULT_INPUT,
+    ...validateInput(qs.toFormInput(), exampleInputValidator).result,
+  });
+
+  return (
+    <HtmlEmail subject={`${SUBJECT} (EXAMPLE)`} extraCss={[EXTRA_CSS]}>
+      <ServiceInstructionsContent {...exampleProps} />
+    </HtmlEmail>
+  );
+});
 
 export const ServiceInstructionsEmail = asEmailStaticPage(() => (
   <TransformSession transformer={getServiceInstructionsPropsFromSession}>

@@ -1092,6 +1092,7 @@ msgstr "New password"
 msgid "Next"
 msgstr "Next"
 
+#: frontend/lib/forms/yes-no-radios-form-field.tsx:27
 #: frontend/lib/norent/letter-builder/confirmation-modal.tsx:20
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:28
 msgid "No"
@@ -1896,6 +1897,7 @@ msgstr "Wisconsin"
 msgid "Wyoming"
 msgstr "Wyoming"
 
+#: frontend/lib/forms/yes-no-radios-form-field.tsx:26
 #: frontend/lib/norent/letter-builder/confirmation-modal.tsx:20
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:30
 msgid "Yes"
@@ -2209,6 +2211,10 @@ msgstr "pay rent, rent, can't pay rent, june rent, june 1"
 #: frontend/lib/ui/localized-outbound-link.tsx:44
 msgid "{0} (in English)"
 msgstr "{0} (in English)"
+
+#: frontend/lib/forms/chars-remaining.tsx:18
+msgid "{remaining, plural, one {1 character remaining} other {# characters remaining}}"
+msgstr "{remaining, plural, one {1 character remaining} other {# characters remaining}}"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."

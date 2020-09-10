@@ -36,7 +36,7 @@ export function CharsRemaining({
   const el = (
     <Trans
       render={useSpan ? "span" : "p"}
-      className={isNoticeable ? "has-text-danger" : ""}
+      className={isNoticeable ? "has-text-danger" : undefined}
     >
       <Plural
         value={remaining}

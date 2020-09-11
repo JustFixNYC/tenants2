@@ -97,7 +97,6 @@
     "@types/classnames": "2.2.6",
     "@types/glob": "7.1.1",
     "@types/graphql": "14.2.0",
-    "@types/isomorphic-fetch": "0.0.34",
     "@types/leaflet": "1.4.0",
     "@types/lingui__macro": "2.7.3",
     "@types/lingui__react": "2.8.2",

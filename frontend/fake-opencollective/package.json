@@ -1,7 +1,7 @@
 {
   "name": "opencollective",
   "version": "1.0.0",
-  "description": "Fake opencollective package.",
+  "description": "Fake opencollective package. For more details, see https://github.com/JustFixNYC/tenants2/pull/1661.",
   "main": "index.js",
   "license": "MIT"
 }

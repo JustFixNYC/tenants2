@@ -1,0 +1,7 @@
+{
+  "name": "opencollective",
+  "version": "1.0.0",
+  "description": "Fake opencollective package.",
+  "main": "index.js",
+  "license": "MIT"
+}

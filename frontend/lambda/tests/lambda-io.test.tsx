@@ -5,7 +5,7 @@ import {
   getServerAddress,
 } from "../lambda-io";
 import { Readable } from "stream";
-import fetch from "isomorphic-fetch";
+import fetch from "cross-fetch";
 import { createServer } from "http";
 
 const handler = (event: any) => {

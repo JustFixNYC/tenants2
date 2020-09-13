@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-13 20:59\n"
+"PO-Revision-Date: 2020-09-13 21:10\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1178,7 +1178,7 @@ msgstr "¡Vaya! Ese correo electrónico no es válido."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:331
 msgid "Order rent history"
-msgstr "Order rent history"
+msgstr "Pedir historial de Alquiler"
 
 #: common-data/us-state-choices.ts:102
 msgid "Oregon"
@@ -1210,11 +1210,11 @@ msgstr "Nuestros registros indican que no se puede enviar correo a esta direcci�
 #: common-data/issue-choices.ts:222
 #: common-data/issue-choices.ts:237
 msgid "Outlets defective"
-msgstr "Outlets defective"
+msgstr "Tomas de Corriente Defectuosas"
 
 #: common-data/issue-choices.ts:261
 msgid "Painting overdue (3 years)"
-msgstr "Painting overdue (3 years)"
+msgstr "Pintura Atrasada (cada 3 años)"
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:34
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:61
@@ -1223,13 +1223,13 @@ msgstr "Contraseña"
 
 #: common-data/issue-choices.ts:184
 msgid "Peeling Paint"
-msgstr "Peeling Paint"
+msgstr "Pintura Se Descama"
 
 #: common-data/issue-choices.ts:167
 #: common-data/issue-choices.ts:210
 #: common-data/issue-choices.ts:225
 msgid "Peeling paint"
-msgstr "Peeling paint"
+msgstr "Pintura Se Descama"
 
 #: common-data/issue-choices.ts:262
 msgid "Peeling/flaking paint"
@@ -1660,11 +1660,11 @@ msgstr "To: New York Division of Housing and Community Renewal (DHCR)"
 
 #: common-data/issue-choices.ts:239
 msgid "Toilet leaking"
-msgstr "Toilet leaking"
+msgstr "Inodoro con Fugas"
 
 #: common-data/issue-choices.ts:238
 msgid "Toilet not working"
-msgstr "Toilet not working"
+msgstr "Inodoro No Funciona"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:53
 msgid "USPS Tracking #:"
@@ -1680,7 +1680,7 @@ msgstr "Número de apartamento/unidad/lote/suite"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:418
 msgid "Unrecognized address"
-msgstr "Unrecognized address"
+msgstr "Dirección no reconocida"
 
 #: common-data/us-state-choices.ts:110
 msgid "Utah"
@@ -1688,7 +1688,7 @@ msgstr "Utah"
 
 #: common-data/issue-choices.ts:166
 msgid "Vacate Order Issued"
-msgstr "Vacate Order Issued"
+msgstr "Orden de Vacío Emitida"
 
 #: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:22
 msgid "Verification code"
@@ -1712,11 +1712,11 @@ msgstr "Virginia"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:230
 msgid "Visit Who Owns What"
-msgstr "Visit Who Owns What"
+msgstr "Visita Quién Posee Qué"
 
 #: frontend/lib/rh/rental-history.tsx:205
 msgid "Want to read more about your rights?"
-msgstr "Want to read more about your rights?"
+msgstr "¿Quieres leer más sobre tus derechos?"
 
 #: common-data/us-state-choices.ts:113
 msgid "Washington"
@@ -1724,13 +1724,13 @@ msgstr "Washington"
 
 #: common-data/issue-choices.ts:170
 msgid "Water Damage"
-msgstr "Water Damage"
+msgstr "Daño Por Agua"
 
 #: common-data/issue-choices.ts:183
 #: common-data/issue-choices.ts:209
 #: common-data/issue-choices.ts:224
 msgid "Water damage"
-msgstr "Water damage"
+msgstr "Daño Por Agua"
 
 #: frontend/lib/norent/homepage.tsx:170
 msgid "We make it easy to notify your landlord by email or by certified mail for free."
@@ -1765,7 +1765,7 @@ msgstr "Acabamos de enviarte un mensaje de texto que contiene un código de veri
 
 #: common-data/issue-choices.ts:268
 msgid "Weak electrical current"
-msgstr "Weak electrical current"
+msgstr "Baja Corriente Eléctrica"
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:15
 msgid "Welcome back!"
@@ -1881,18 +1881,18 @@ msgstr "¿Seguiré adeudando mi renta después de enviar esta carta?"
 #: common-data/issue-choices.ts:215
 #: common-data/issue-choices.ts:230
 msgid "Window Frame Defective"
-msgstr "Window Frame Defective"
+msgstr "Marco de Ventana Defectuoso"
 
 #: common-data/issue-choices.ts:173
 #: common-data/issue-choices.ts:188
 #: common-data/issue-choices.ts:214
 #: common-data/issue-choices.ts:229
 msgid "Window Glass Broken"
-msgstr "Window Glass Broken"
+msgstr "Cristal de Ventana Roto"
 
 #: common-data/issue-choices.ts:273
 msgid "Window guards missing"
-msgstr "Window guards missing"
+msgstr "Faltan Protectores de Ventana"
 
 #: common-data/us-state-choices.ts:115
 msgid "Wisconsin"
@@ -1943,7 +1943,7 @@ msgstr "Tu carta de NoRent.org"
 
 #: frontend/lib/rh/rental-history.tsx:178
 msgid "Your Rent History has been requested!"
-msgstr "Your Rent History has been requested!"
+msgstr "¡Tu historial de alquiler ha sido solicitado!"
 
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:8
 msgid "Your account is set up"
@@ -1951,7 +1951,7 @@ msgstr "¡Tu cuenta está lista!"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:316
 msgid "Your apartment may be rent stabilized."
-msgstr "Your apartment may be rent stabilized."
+msgstr "Tu apartamento es de renta estabilizada."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:317
 msgid "Your building had {0, plural, one {one rent stabilized unit} other {# rent stabilized units}} in 2017."

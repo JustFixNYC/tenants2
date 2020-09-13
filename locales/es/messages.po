@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-13 20:49\n"
+"PO-Revision-Date: 2020-09-13 20:59\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -668,7 +668,7 @@ msgstr "Página Principal"
 
 #: frontend/lib/rh/rental-history.tsx:163
 msgid "Housing Court Answers"
-msgstr "Housing Court Answers"
+msgstr "Respuestas de la Corte de Vivienda"
 
 #: frontend/lib/norent/about.tsx:36
 msgid "Housing Justice for All"
@@ -729,7 +729,7 @@ msgstr "Si no recibiste un código, por favor contacta con <0/>."
 
 #: frontend/lib/rh/rental-history.tsx:196
 msgid "If you have more questions, please email us at <0/>."
-msgstr "If you have more questions, please email us at <0/>."
+msgstr "Si tienes más preguntas, por favor envíanos un correo electrónico a <0/>."
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:33
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
@@ -765,15 +765,15 @@ msgstr "En {stateName}, tienes que enviar documentación al dueño de tu edifici
 
 #: common-data/issue-choices.ts:274
 msgid "Inadequate / no super service"
-msgstr "Inadequate / no super service"
+msgstr "Servicio de Súper Inadecuado"
 
 #: common-data/issue-choices.ts:205
 msgid "Inadequate Water pressure"
-msgstr "Inadequate Water pressure"
+msgstr "Presión de Agua Inadecuada"
 
 #: common-data/issue-choices.ts:265
 msgid "Inadequate water pressure"
-msgstr "Inadequate water pressure"
+msgstr "Presión de Agua Inadecuada"
 
 #: common-data/us-state-choices.ts:79
 msgid "Indiana"
@@ -801,7 +801,7 @@ msgstr "¿Es esta herramienta adecuada para mí?"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:182
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
-msgstr "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
+msgstr "Parece que esta propiedad no tiene que estar registrada con el HPD. Puedes aprender los requisitos de registro de la ciudad en la página <0>Gestión de Propiedad de HPD</0>."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:112
 msgid "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."
@@ -825,7 +825,7 @@ msgstr "JustFix.nyc es una organización registrada 501(c)(3) sin fines de lucro
 
 #: frontend/lib/rh/rental-history.tsx:169
 msgid "JustFix.nyc's Learning Center"
-msgstr "JustFix.nyc's Learning Center"
+msgstr "Centro de Aprendizaje de JustFix.nyc"
 
 #: common-data/us-state-choices.ts:81
 msgid "Kansas"
@@ -866,11 +866,11 @@ msgstr "Apellido"
 
 #: common-data/issue-choices.ts:165
 msgid "Lead-based Paint"
-msgstr "Lead-based Paint"
+msgstr "Pintura a Base de Plomo"
 
 #: common-data/issue-choices.ts:202
 msgid "Leaky Faucet"
-msgstr "Leaky Faucet"
+msgstr "Grifo Con Fugas"
 
 #: frontend/lib/norent/about.tsx:57
 msgid "Learn about why we made this tool, who we are, and who our partners are."
@@ -878,7 +878,7 @@ msgstr "Aprenda por qué hemos construido esta herramienta, quiénes somos, y qu
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:310
 msgid "Learn about your rent"
-msgstr "Learn about your rent"
+msgstr "Aprende Sobre Tu Alquiler"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:352
 #: frontend/lib/norent/about.tsx:66
@@ -962,7 +962,7 @@ msgstr "Parece que ya estuviste aquí antes. Haz clic en \"Continuar\" para segu
 #: common-data/issue-choices.ts:212
 #: common-data/issue-choices.ts:227
 msgid "Loose Floor"
-msgstr "Loose Floor"
+msgstr "Piso Suelto"
 
 #: frontend/lib/norent/letter-builder/la-address-redirect.tsx:11
 msgid "Los Angeles County"
@@ -1006,7 +1006,7 @@ msgstr "Met Council on Housing"
 
 #: common-data/issue-choices.ts:146
 msgid "Mice"
-msgstr "Mice"
+msgstr "Ratones"
 
 #: common-data/us-state-choices.ts:87
 msgid "Michigan"
@@ -1034,13 +1034,13 @@ msgstr "Residentes de Casas Prefabricadas o Móviles"
 
 #: common-data/issue-choices.ts:169
 msgid "Mold on Walls"
-msgstr "Mold on Walls"
+msgstr "Muros Con Moho"
 
 #: common-data/issue-choices.ts:182
 #: common-data/issue-choices.ts:208
 #: common-data/issue-choices.ts:223
 msgid "Mold on walls"
-msgstr "Mold on walls"
+msgstr "Muros Con Moho"
 
 #: common-data/us-state-choices.ts:91
 msgid "Montana"
@@ -1048,7 +1048,7 @@ msgstr "Montana"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:403
 msgid "More actions"
-msgstr "More actions"
+msgstr "Más acciones"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:123
 msgid "More resources"
@@ -1065,7 +1065,7 @@ msgstr "Nebraska"
 #: common-data/issue-choices.ts:145
 #: common-data/issue-choices.ts:260
 msgid "Needs cleaning due to COVID-19"
-msgstr "Needs cleaning due to COVID-19"
+msgstr "Necesita limpieza debido al COVID-19"
 
 #: common-data/us-state-choices.ts:93
 msgid "Nevada"
@@ -1105,34 +1105,34 @@ msgstr "No"
 
 #: common-data/issue-choices.ts:152
 msgid "No Cold Water"
-msgstr "No Cold Water"
+msgstr "Sin Agua Fría"
 
 #: common-data/issue-choices.ts:149
 msgid "No Gas"
-msgstr "No Gas"
+msgstr "Sin Gas"
 
 #: common-data/issue-choices.ts:150
 #: common-data/issue-choices.ts:263
 msgid "No Heat"
-msgstr "No Heat"
+msgstr "Sin Calefacción"
 
 #: common-data/issue-choices.ts:151
 #: common-data/issue-choices.ts:264
 msgid "No Hot Water"
-msgstr "No Hot Water"
+msgstr "Sin Agua Caliente"
 
 #: common-data/issue-choices.ts:153
 msgid "No Smoke Detector"
-msgstr "No Smoke Detector"
+msgstr "Sin Detector de Humo"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:161
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:180
 msgid "No registration found."
-msgstr "No registration found."
+msgstr "No hay fecha de registro."
 
 #: common-data/issue-choices.ts:275
 msgid "No rent receipts given"
-msgstr "No rent receipts given"
+msgstr "No se dan recibos de alquiler"
 
 #: frontend/lib/norent/about.tsx:126
 msgid "NoRent.org is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits across the nation."

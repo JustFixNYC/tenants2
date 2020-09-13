@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-13 21:10\n"
+"PO-Revision-Date: 2020-09-13 21:20\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1955,11 +1955,11 @@ msgstr "Tu apartamento es de renta estabilizada."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:317
 msgid "Your building had {0, plural, one {one rent stabilized unit} other {# rent stabilized units}} in 2017."
-msgstr "Your building had {0, plural, one {one rent stabilized unit} other {# rent stabilized units}} in 2017."
+msgstr "Tu edificio tenía {0, plural, one {una unidad de alquiler estabilizado} other {# unidades de renta estabilizada}} en el 2017."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:127
 msgid "Your building was built in {0} or earlier."
-msgstr "Your building was built in {0} or earlier."
+msgstr "Tu edificio fue construido en {0} o antes."
 
 #: frontend/lib/norent/letter-builder/ask-email.tsx:13
 msgid "Your email address"
@@ -1967,15 +1967,15 @@ msgstr "Tu dirección de correo electrónico"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:212
 msgid "Your landlord is associated with {buildings, plural, one {one building} other {# buildings}}."
-msgstr "Your landlord is associated with {buildings, plural, one {one building} other {# buildings}}."
+msgstr "El proprietario de tu edificio está asociado con {buildings, plural, one {un edificio} other {# edificios}}."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:163
 msgid "Your landlord may be breaking the law!"
-msgstr "Your landlord may be breaking the law!"
+msgstr "¡Puede que el proprietario de tu edificio esté violando la ley!"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:225
 msgid "Your landlord might own other buildings, too."
-msgstr "Your landlord might own other buildings, too."
+msgstr "Puede que el propietario de tu edificio también posea otros edificios."
 
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:30
 msgid "Your landlord or management company's address"
@@ -1991,7 +1991,7 @@ msgstr "Los datos del dueño o manager de tu edificio"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:148
 msgid "Your landlord owns {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit.} other {# units.}}"
-msgstr "Your landlord owns {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit.} other {# units.}}"
+msgstr "El dueño de tu edificio posee {0, plural, one {un edificio} other {# edificios}} y {1, plural, one {una unidad.} other {# unidades.}}"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:46
 msgid "Your letter has been mailed to your landlord via USPS Certified Mail. A copy of your letter has also been sent to your email."
@@ -2034,7 +2034,7 @@ msgstr "y"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:165
 msgid "justfix.DdoMayNeedHpdRegistration"
-msgstr "It looks like this building may require registration with HPD. Landlords who don't properly register their properties incur fines and also cannot bring tenants to court for nonpayment of rent. You can find more information on <0>HPD's Property Management page</0>"
+msgstr "Parece que este edificio deba estar registrado con el HPD. Los proprietarios que no registren sus propiedades correctamente incurren multas y no tienen el derecho de llevar a los inquilinos a la corte por no pagar el alquiler. Puedes encontrar más información en la página <0>Gestión de Propiedades de HPD</0>"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
 msgid "justfix.ddoEfnycCovidMessage"

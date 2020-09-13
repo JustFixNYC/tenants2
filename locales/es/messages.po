@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-13 21:59\n"
+"PO-Revision-Date: 2020-09-13 22:09\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -246,7 +246,7 @@ msgstr "Crea tu carta"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:216
 msgid "Buildings in your landlord's portfolio are located in {0, plural, one {one zip code.} other {# zip codes.}}"
-msgstr "Buildings in your landlord's portfolio are located in {0, plural, one {one zip code.} other {# zip codes.}}"
+msgstr "Los edificios en el portafolio del dueño de tu edificio se encuentran en {0, plural, one {un código postal.} other {# código postales.}}"
 
 #: common-data/issue-choices.ts:164
 msgid "Buzzer Broken"
@@ -1233,7 +1233,7 @@ msgstr "Pintura Se Descama"
 
 #: common-data/issue-choices.ts:262
 msgid "Peeling/flaking paint"
-msgstr "Peeling/flaking paint"
+msgstr "Pintura Escamada/Pelada"
 
 #: common-data/us-state-choices.ts:103
 msgid "Pennsylvania"
@@ -1246,7 +1246,7 @@ msgstr "Número de teléfono"
 
 #: common-data/issue-choices.ts:206
 msgid "Pipes Leaking"
-msgstr "Pipes Leaking"
+msgstr "Tuberías Con Fugas"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:92
 msgid "Please <0>go back and choose a state</0>."
@@ -1282,27 +1282,27 @@ msgstr "Puerto Rico"
 #: common-data/issue-choices.ts:217
 #: common-data/issue-choices.ts:232
 msgid "Radiators/Risers Defective"
-msgstr "Radiators/Risers Defective"
+msgstr "Radiadores Defectuosos"
 
 #: common-data/issue-choices.ts:147
 msgid "Rats"
-msgstr "Rats"
+msgstr "Ratas"
 
 #: common-data/issue-choices.ts:270
 msgid "Rats/Mice"
-msgstr "Rats/Mice"
+msgstr "Ratas/Ratones"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:396
 msgid "Recommended actions"
-msgstr "Recommended actions"
+msgstr "Acciones recomendadas"
 
 #: common-data/issue-choices.ts:198
 msgid "Refrigerator Broken"
-msgstr "Refrigerator Broken"
+msgstr "Frigorífico Roto"
 
 #: common-data/issue-choices.ts:197
 msgid "Refrigerator Defective"
-msgstr "Refrigerator Defective"
+msgstr "Frigorífico Defectuoso"
 
 #. before signature in formal letter
 #: frontend/lib/util/letter-content-util.tsx:53
@@ -1311,7 +1311,7 @@ msgstr "Atentamente,"
 
 #: frontend/lib/rh/rental-history.tsx:212
 msgid "Rent History"
-msgstr "Rent History"
+msgstr "Historial de Alquiler"
 
 #: frontend/lib/norent/data/faqs-content.tsx:25
 msgid "Rent Strike 2020: A Resource List"
@@ -1323,23 +1323,23 @@ msgstr "Organizar Huelgas de Renta"
 
 #: common-data/issue-choices.ts:276
 msgid "Rent receipts incomplete"
-msgstr "Rent receipts incomplete"
+msgstr "Recibos de Alquiler Incompletos"
 
 #: frontend/lib/rh/email-to-dhcr.tsx:20
 msgid "Request for Rent History"
-msgstr "Request for Rent History"
+msgstr "Solicitud de Historial de Alquiler"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:243
 msgid "Request repairs from your landlord"
-msgstr "Request repairs from your landlord"
+msgstr "Solicitar arreglos del dueño de tu edificio"
 
 #: frontend/lib/rh/rental-history.tsx:93
 msgid "Request the Rent History for your apartment"
-msgstr "Request the Rent History for your apartment"
+msgstr "Solicita el Historial de Alquiler de tu apartamento"
 
 #: frontend/lib/rh/rental-history.tsx:43
 msgid "Request your <0>Rent History</0> in two simple steps!"
-msgstr "Request your <0>Rent History</0> in two simple steps!"
+msgstr "¡Solicita tu <0>Historial de Alquiler</0> en sólo dos pasos!"
 
 #: frontend/lib/rh/rental-history.tsx:35
 msgid "Request your Rent History"

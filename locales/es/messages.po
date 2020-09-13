@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-13 22:09\n"
+"PO-Revision-Date: 2020-09-13 22:19\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1343,11 +1343,11 @@ msgstr "¡Solicita tu <0>Historial de Alquiler</0> en sólo dos pasos!"
 
 #: frontend/lib/rh/rental-history.tsx:35
 msgid "Request your Rent History"
-msgstr "Request your Rent History"
+msgstr "Solicita tu Historial de Alquiler"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:208
 msgid "Research your landlord"
-msgstr "Research your landlord"
+msgstr "Investiga al dueño de tu edificio"
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:27
 msgid "Reset your password"
@@ -1355,7 +1355,7 @@ msgstr "Cambia tu contraseña"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:392
 msgid "Results for {0}"
-msgstr "Results for {0}"
+msgstr "Resultados para \"{0}\""
 
 #: frontend/lib/rh/rental-history.tsx:123
 msgid "Review your request to the DHCR"
@@ -1375,7 +1375,7 @@ msgstr "Permito que Right to the City se ponga en contacto conmigo para proporci
 
 #: common-data/issue-choices.ts:266
 msgid "Rusty water"
-msgstr "Rusty water"
+msgstr "Agua Oxidada"
 
 #: frontend/lib/norent/letter-content.tsx:172
 msgid "Sample NoRent.org letter"
@@ -1383,7 +1383,7 @@ msgstr "Ejemplar de una carta de NoRent.org"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:454
 msgid "Search address"
-msgstr "Search address"
+msgstr "Dirección de búsqueda"
 
 #: frontend/lib/norent/faqs.tsx:63
 msgid "See more FAQs"
@@ -1391,7 +1391,7 @@ msgstr "Ver todas las preguntas más frecuentes"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:253
 msgid "Send a letter of complaint"
-msgstr "Send a letter of complaint"
+msgstr "Enviar una carta de queja"
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:41
 msgid "Send code"
@@ -1435,23 +1435,23 @@ msgstr "Compartir esta herramienta"
 
 #: common-data/issue-choices.ts:259
 msgid "Shower: Drain Stoppage"
-msgstr "Shower: Drain Stoppage"
+msgstr "Ducha: Desagüe Obstruido"
 
 #: common-data/issue-choices.ts:258
 msgid "Shower: Leaky shower head"
-msgstr "Shower: Leaky shower head"
+msgstr "Ducha: Alcachofa de Ducha Rota"
 
 #: common-data/issue-choices.ts:257
 msgid "Shower: Low Water pressure"
-msgstr "Shower: Low Water pressure"
+msgstr "Ducha: Baja Presión de Agua"
 
 #: common-data/issue-choices.ts:253
 msgid "Shower: Mold on walls"
-msgstr "Shower: Mold on walls"
+msgstr "Ducha: Moho Sobre las Paredes"
 
 #: common-data/issue-choices.ts:256
 msgid "Shower: Not Working"
-msgstr "Shower: Not Working"
+msgstr "Ducha: No Funciona"
 
 #: common-data/issue-choices.ts:254
 msgid "Shower: Wall tiles cracked"

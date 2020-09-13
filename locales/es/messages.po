@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-13 21:51\n"
+"PO-Revision-Date: 2020-09-13 21:59\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2070,7 +2070,7 @@ msgstr "<0>Querido administrador del DHCR,</0><1> Yo, {0}, vivo actualmente en {
 
 #: frontend/lib/rh/rental-history.tsx:184
 msgid "justfix.rhWhatHappensNext"
-msgstr "You should receive your Rent History in the mail in about a week. Your Rent History is an important document—it shows the registered rents in your apartment since 1984. You can learn more about it and how it can help you figure out if you’re being overcharged on rent at the <0>Met Council on Housing guide to Rent Stabilization Overcharges</0>."
+msgstr "Deberías recibir tu Historial de Alquiler por correo en una semana aproximadamente. Tu Historial de Alquiler es un documento importante que muestra los alquileres registrados en tu apartamento desde el año 1984. Puedes aprender más sobre él y cómo puede ayudarte a averiguar si te están cobrando alquiler de más en la <0>Guía de sobrecargos de apartamentos de renta estabilizada del Met Council on Housing (en inglés)</0>."
 
 #: frontend/lib/norent/data/faqs-content.tsx:202
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"
@@ -2219,7 +2219,7 @@ msgstr "{0} (en inglés)"
 
 #: frontend/lib/forms/chars-remaining.tsx:18
 msgid "{remaining, plural, one {1 character remaining} other {# characters remaining}}"
-msgstr "{remaining, plural, one {1 character remaining} other {# characters remaining}}"
+msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caracteres}}"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-13 21:40\n"
+"PO-Revision-Date: 2020-09-13 21:51\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2062,11 +2062,11 @@ msgstr "¡<0>Tu privacidad es muy importante para nosotros! Estas son algunas de
 
 #: frontend/lib/rh/rental-history.tsx:49
 msgid "justfix.rhExplanation"
-msgstr "This document helps you find out if your apartment is <0>rent stabilized</0> and if you're being <1>overcharged</1>. It shows the registered rents in your apartment since 1984."
+msgstr "Este documento te ayuda a averiguar si tu apartamento es de <0>renta estabilizada</0> y si te están <1>cobrando de más</1>. Te muestra la cantidad de renta registrada que se pagó en tu apartamento desde el año 1984."
 
 #: frontend/lib/rh/email-to-dhcr.tsx:22
 msgid "justfix.rhRequestToDhcr"
-msgstr "<0>DHCR administrator,</0><1>I, {0}, am currently living at {1} in apartment {2}, and would like to request the complete Rent History for this apartment back to the year 1984.</1><2>Thank you,<3/>{3}</2>"
+msgstr "<0>Querido administrador del DHCR,</0><1> Yo, {0}, vivo actualmente en {1} en el apartamento {2}, y quisiera solicitar el Historial de Alquiler completo de este apartamento desde el año 1984. </1><2>Gracias,<3/>{3}</2>"
 
 #: frontend/lib/rh/rental-history.tsx:184
 msgid "justfix.rhWhatHappensNext"

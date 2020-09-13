@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-13 20:29\n"
+"PO-Revision-Date: 2020-09-13 20:40\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -181,7 +181,7 @@ msgstr "Zócalo defectuoso"
 
 #: common-data/issue-choices.ts:247
 msgid "Bathtub: Cracked Tub"
-msgstr "Bañera: Grietas"
+msgstr "Bañera: Agrietada"
 
 #: common-data/issue-choices.ts:252
 msgid "Bathtub: Drain Stoppage"
@@ -201,7 +201,7 @@ msgstr "Bañera: Grifo con fugas"
 
 #: common-data/issue-choices.ts:251
 msgid "Bathtub: Pipes Leaking"
-msgstr "Bathtub: Pipes Leaking"
+msgstr "Bañera: Tuberías con fugas"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:63
 msgid "Before you send your letter, let's review what will be sent to make sure all the information is correct."
@@ -213,7 +213,7 @@ msgstr "Aprovecha las protecciones de desalojo en tu estado notificando al dueñ
 
 #: common-data/issue-choices.ts:272
 msgid "Broken/no smoke/Co2 detector"
-msgstr "Broken/no smoke/Co2 detector"
+msgstr "Sin detector de Co2 o humo"
 
 #: frontend/lib/norent/faqs.tsx:89
 msgid "Browse the FAQs"
@@ -221,7 +221,7 @@ msgstr "Explora las preguntas más frecuentes"
 
 #: common-data/issue-choices.ts:269
 msgid "Bug Infestation"
-msgstr "Bug Infestation"
+msgstr "Infestación de insectos"
 
 #: frontend/lib/norent/homepage.tsx:39
 msgid "Build a letter using our free letter builder"
@@ -250,11 +250,11 @@ msgstr "Buildings in your landlord's portfolio are located in {0, plural, one {o
 
 #: common-data/issue-choices.ts:164
 msgid "Buzzer Broken"
-msgstr "Buzzer Broken"
+msgstr "Timbre Roto"
 
 #: common-data/issue-choices.ts:163
 msgid "Buzzer Defective"
-msgstr "Buzzer Defective"
+msgstr "Timbre Defectuoso"
 
 #: frontend/lib/norent/data/faqs-content.tsx:28
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
@@ -279,7 +279,7 @@ msgstr "Campaña para la Anulación de la Renta"
 
 #: frontend/lib/rh/rental-history.tsx:118
 msgid "Cancel request"
-msgstr "Cancel request"
+msgstr "Cancelar solicitud"
 
 #: frontend/lib/norent/homepage.tsx:70
 msgid "Cancelling rent"
@@ -290,14 +290,14 @@ msgstr "Cancelar la renta"
 #: common-data/issue-choices.ts:218
 #: common-data/issue-choices.ts:233
 msgid "Ceiling Falling/Fell"
-msgstr "Ceiling Falling/Fell"
+msgstr "Techo Colapsado/Se Colapsa"
 
 #: common-data/issue-choices.ts:178
 #: common-data/issue-choices.ts:193
 #: common-data/issue-choices.ts:219
 #: common-data/issue-choices.ts:234
 msgid "Ceiling Leaking"
-msgstr "Ceiling Leaking"
+msgstr "Techo Gotea"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:29
 msgid "Check out these valuable resources for your state:"
@@ -329,7 +329,7 @@ msgstr "Haga clic aquí para obtener más información sobre nuestra política d
 
 #: common-data/issue-choices.ts:148
 msgid "Cockroaches"
-msgstr "Cockroaches"
+msgstr "Cucarachas"
 
 #: frontend/lib/norent/homepage.tsx:301
 msgid "Collective action is a powerful tool for:"
@@ -379,14 +379,14 @@ msgstr "Continuar"
 
 #: common-data/issue-choices.ts:201
 msgid "Cracked Sink"
-msgstr "Cracked Sink"
+msgstr "Lavabo Agrietado"
 
 #: common-data/issue-choices.ts:168
 #: common-data/issue-choices.ts:185
 #: common-data/issue-choices.ts:211
 #: common-data/issue-choices.ts:226
 msgid "Cracked walls"
-msgstr "Cracked walls"
+msgstr "Paredes Agrietadas"
 
 #. salutation of formal letter
 #: frontend/lib/util/letter-content-util.tsx:48

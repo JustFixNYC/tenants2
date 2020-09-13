@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-13 22:19\n"
+"PO-Revision-Date: 2020-09-13 22:29\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -450,7 +450,7 @@ msgstr "Timbre Defectuoso"
 
 #: common-data/issue-choices.ts:207
 msgid "Drain Stoppage"
-msgstr "Desagüe Sin Drenaje"
+msgstr "Desagüe Atascado"
 
 #: frontend/lib/norent/components/subscribe.tsx:55
 msgid "ENTER YOUR EMAIL"
@@ -1435,7 +1435,7 @@ msgstr "Compartir esta herramienta"
 
 #: common-data/issue-choices.ts:259
 msgid "Shower: Drain Stoppage"
-msgstr "Ducha: Desagüe Obstruido"
+msgstr "Ducha: Desagüe Atascado"
 
 #: common-data/issue-choices.ts:258
 msgid "Shower: Leaky shower head"
@@ -1455,11 +1455,11 @@ msgstr "Ducha: No Funciona"
 
 #: common-data/issue-choices.ts:254
 msgid "Shower: Wall tiles cracked"
-msgstr "Shower: Wall tiles cracked"
+msgstr "Ducha: Baldosas Agrietadas"
 
 #: common-data/issue-choices.ts:255
 msgid "Shower: Wall tiles missing"
-msgstr "Shower: Wall tiles missing"
+msgstr "Ducha: Faltan Baldosas"
 
 #: frontend/lib/justfix-navbar.tsx:25
 msgid "Sign in"
@@ -1479,35 +1479,35 @@ msgstr "Regístrate o inicia una sesión en tu cuenta para acceder a nuestra her
 
 #: common-data/issue-choices.ts:240
 msgid "Sink: Cracked Sink"
-msgstr "Sink: Cracked Sink"
+msgstr "Lavabo: Agrietado"
 
 #: common-data/issue-choices.ts:246
 msgid "Sink: Drain Stoppage"
-msgstr "Sink: Drain Stoppage"
+msgstr "Lavabo: Desagüe Atascado"
 
 #: common-data/issue-choices.ts:242
 msgid "Sink: Faucets not installed"
-msgstr "Sink: Faucets not installed"
+msgstr "Lavabo: Sin Grifo"
 
 #: common-data/issue-choices.ts:243
 msgid "Sink: Faucets not working"
-msgstr "Sink: Faucets not working"
+msgstr "Lavabo: Grifo No Funciona"
 
 #: common-data/issue-choices.ts:241
 msgid "Sink: Leaky Faucet"
-msgstr "Sink: Leaky Faucet"
+msgstr "Lavabo: Grifo con Fugas"
 
 #: common-data/issue-choices.ts:244
 msgid "Sink: Low Water pressure"
-msgstr "Sink: Low Water pressure"
+msgstr "Lavabo: Baja Presión de Agua"
 
 #: common-data/issue-choices.ts:245
 msgid "Sink: Pipes Leaking"
-msgstr "Sink: Pipes Leaking"
+msgstr "Lavabo: Tuberías con Fugas"
 
 #: common-data/issue-choices.ts:154
 msgid "Smoke Detector Defective"
-msgstr "Smoke Detector Defective"
+msgstr "Detector de Humo Defectuoso"
 
 #: frontend/lib/pages/not-found.tsx:15
 msgid "Sorry, the page you are looking for doesn't seem to exist."
@@ -1515,7 +1515,7 @@ msgstr "Lo sentimos, la página que estás buscando no existe."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:420
 msgid "Sorry, we don't recognize the address you entered."
-msgstr "Sorry, we don't recognize the address you entered."
+msgstr "Lo sentimos, no reconocemos la dirección que has introducido."
 
 #: common-data/us-state-choices.ts:106
 msgid "South Carolina"
@@ -1527,15 +1527,15 @@ msgstr "Dakota del Sur"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:281
 msgid "Start a legal case for repairs and/or harassment"
-msgstr "Start a legal case for repairs and/or harassment"
+msgstr "Empieza un caso legal por arreglos y/o acoso"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:301
 msgid "Start an emergency legal case for repairs"
-msgstr "Start an emergency legal case for repairs"
+msgstr "Empieza un caso legal de emergencia por arreglos"
 
 #: frontend/lib/rh/rental-history.tsx:59
 msgid "Start my request"
-msgstr "Start my request"
+msgstr "Iniciar mi solicitud"
 
 #: frontend/lib/forms/mailing-address-fields.tsx:7
 msgid "State"
@@ -1547,15 +1547,15 @@ msgstr "Estados con Protecciones Limitadas"
 
 #: frontend/lib/progress/progress-bar.tsx:112
 msgid "Step {currStep} of {numSteps}"
-msgstr "Step {currStep} of {numSteps}"
+msgstr "Paso {currStep} de {numSteps}"
 
 #: common-data/issue-choices.ts:200
 msgid "Stove Broken"
-msgstr "Stove Broken"
+msgstr "Estufa Rota"
 
 #: common-data/issue-choices.ts:199
 msgid "Stove Defective"
-msgstr "Stove Defective"
+msgstr "Estufa Defectuosa"
 
 #: frontend/lib/norent/about.tsx:31
 msgid "Strategic Actions for a Just Economy"
@@ -1572,7 +1572,7 @@ msgstr "Enviar email"
 
 #: frontend/lib/rh/rental-history.tsx:150
 msgid "Submit request"
-msgstr "Submit request"
+msgstr "Enviar Solicitud"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:296
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:304

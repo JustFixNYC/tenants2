@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-13 22:29\n"
+"PO-Revision-Date: 2020-09-13 22:38\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1577,7 +1577,7 @@ msgstr "Enviar Solicitud"
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:296
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:304
 msgid "Sue your landlord"
-msgstr "Sue your landlord"
+msgstr "Demanda al dueño de tu edificio"
 
 #: frontend/lib/justfix-navbar.tsx:20
 msgid "Take action"
@@ -1616,7 +1616,7 @@ msgstr "La Carta"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:220
 msgid "The majority of your landlord's properties are concentrated in {0}."
-msgstr "The majority of your landlord's properties are concentrated in {0}."
+msgstr "La mayoría de las propiedades del dueño de tu edificio se concentran en {0}."
 
 #: frontend/lib/pages/redirect-to-english-page.tsx:11
 msgid "The webpage that you want to access is only available in English."
@@ -1624,15 +1624,15 @@ msgstr "La página web a la que quieres acceder solo está disponible en inglés
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:120
 msgid "There {0, plural, one {is one unit} other {are # units}} in your building."
-msgstr "There {0, plural, one {is one unit} other {are # units}} in your building."
+msgstr "{0, plural, one {Hay una unidad} other {Hay # unidades}} en tu edificio."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:323
 msgid "Think your apartment may be rent-stabilized? Request its official records."
-msgstr "Think your apartment may be rent-stabilized? Request its official records."
+msgstr "¿Crees que tu apartamento puede ser de renta estabilizada? Solicita el registro oficial."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:140
 msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
-msgstr "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
+msgstr "Este edificio es propiedad de la <0>NYC Housing Authority (NYCHA)</0>."
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:19
 msgid "This is optional."
@@ -1640,7 +1640,7 @@ msgstr "Esto es opcional."
 
 #: frontend/lib/rh/rental-history.tsx:56
 msgid "This service is free, secure, and confidential."
-msgstr "This service is free, secure, and confidential."
+msgstr "Este servicio es gratuito, seguro y confidencial."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:164
 msgid "This tool is provided by JustFix.nyc. We’re a non-profit that creates tools for tenants and the housing rights movement. We always want feedback to improve our tools."

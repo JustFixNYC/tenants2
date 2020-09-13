@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-13 20:40\n"
+"PO-Revision-Date: 2020-09-13 20:49\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -430,27 +430,27 @@ msgstr "No te preocupes, guardaremos tus respuestas para que puedas empezar desd
 #: common-data/issue-choices.ts:216
 #: common-data/issue-choices.ts:231
 msgid "Door Broken"
-msgstr "Door Broken"
+msgstr "Puerta Rota"
 
 #: common-data/issue-choices.ts:160
 msgid "Door Lock Broken"
-msgstr "Door Lock Broken"
+msgstr "Cerrojo Roto"
 
 #: common-data/issue-choices.ts:159
 msgid "Door Lock Defective"
-msgstr "Door Lock Defective"
+msgstr "Cerrojo Defectuoso"
 
 #: common-data/issue-choices.ts:162
 msgid "Doorbell Broken"
-msgstr "Doorbell Broken"
+msgstr "Timbre Roto"
 
 #: common-data/issue-choices.ts:161
 msgid "Doorbell Defective"
-msgstr "Doorbell Defective"
+msgstr "Timbre Defectuoso"
 
 #: common-data/issue-choices.ts:207
 msgid "Drain Stoppage"
-msgstr "Drain Stoppage"
+msgstr "Desagüe Sin Drenaje"
 
 #: frontend/lib/norent/components/subscribe.tsx:55
 msgid "ENTER YOUR EMAIL"
@@ -462,14 +462,14 @@ msgstr "INTRODUCE TU CORREO ELECTRÓNICO"
 #: common-data/issue-choices.ts:236
 #: common-data/issue-choices.ts:267
 msgid "Electric wiring exposed"
-msgstr "Electric wiring exposed"
+msgstr "Alambrado Eléctrico Expuesto"
 
 #: common-data/issue-choices.ts:179
 #: common-data/issue-choices.ts:194
 #: common-data/issue-choices.ts:220
 #: common-data/issue-choices.ts:235
 msgid "Electricity defective"
-msgstr "Electricity defective"
+msgstr "Electricidad Defectuosa"
 
 #: frontend/lib/norent/components/subscribe.tsx:53
 msgid "Email"
@@ -489,7 +489,7 @@ msgstr "Versión en inglés"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:450
 msgid "Enter your address to see some recommended actions."
-msgstr "Enter your address to see some recommended actions."
+msgstr "Introduce tu dirección para ver algunas acciones recomendadas."
 
 #: frontend/lib/norent/the-letter.tsx:66
 msgid "Establish your defense"
@@ -505,7 +505,7 @@ msgstr "Ejercita tus derechos"
 
 #: frontend/lib/rh/rental-history.tsx:202
 msgid "Explore our other tools"
-msgstr "Explore our other tools"
+msgstr "Explora nuestras otras herramientas"
 
 #: frontend/lib/norent/homepage.tsx:114
 msgid "Explore the tool"
@@ -522,15 +522,15 @@ msgstr "Preguntas más frecuentes"
 
 #: common-data/issue-choices.ts:203
 msgid "Faucets not installed"
-msgstr "Faucets not installed"
+msgstr "Grifos No Instalados"
 
 #: common-data/issue-choices.ts:204
 msgid "Faucets not working"
-msgstr "Faucets not working"
+msgstr "Grifos No Funcionan"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:343
 msgid "Fight an eviction"
-msgstr "Fight an eviction"
+msgstr "Lucha contra un desalojo"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:85
 msgid "Find out more"
@@ -543,7 +543,7 @@ msgstr "Nombre"
 
 #: common-data/issue-choices.ts:155
 msgid "Floor Sags"
-msgstr "Floor Sags"
+msgstr "Piso Hundido"
 
 #: common-data/us-state-choices.ts:74
 msgid "Florida"
@@ -559,15 +559,15 @@ msgstr "Preguntas Más Frecuentes"
 
 #: common-data/issue-choices.ts:158
 msgid "Front Door Broken"
-msgstr "Front Door Broken"
+msgstr "Puerta Principal Rota"
 
 #: common-data/issue-choices.ts:157
 msgid "Front Door Defective"
-msgstr "Front Door Defective"
+msgstr "Puerta Principal Defectuosa"
 
 #: common-data/issue-choices.ts:271
 msgid "Fumes/smoke entering apartment"
-msgstr "Fumes/smoke entering apartment"
+msgstr "Vapores/Humo Entrando en Casa"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:69
 msgid "Gather documentation"
@@ -631,7 +631,7 @@ msgstr "Éstos son algunos de los beneficios de enviar una carta al dueño de tu
 
 #: frontend/lib/rh/rental-history.tsx:125
 msgid "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
-msgstr "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
+msgstr "Aquí tienes una vista previa de la solicitud de tu historial de alquiler. Incluye tu dirección y número de apartamento para que el DHCR pueda enviarte el carta con tu historial."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:12
 msgid "Here's a copy of your NoRent letter"

@@ -104,7 +104,6 @@
     "@types/loadable__server": "5.9.1",
     "@types/node": "10.17.3",
     "@types/react": "16.8.22",
-    "@types/react-aria-modal": "2.12.2",
     "@types/react-dom": "16.8.5",
     "@types/react-helmet": "5.0.9",
     "@types/react-router-dom": "5.1.5",

@@ -1910,13 +1910,6 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.1.tgz#f1a11e7babb0c3cad68100be381d1e064c68f1f6"
   integrity sha512-CFzn9idOEpHrgdw8JsoTkaDDyRWk1jrzIV8djzcgpq0y9tG4B4lFT+Nxh52DVpDXV+n4+NPNv7M1Dj5uMp6XFg==
 
-"@types/react-aria-modal@2.12.2":
-  version "2.12.2"
-  resolved "https://registry.yarnpkg.com/@types/react-aria-modal/-/react-aria-modal-2.12.2.tgz#7f0e2c1e8b128bb549008efbcb41d3e5c9917522"
-  integrity sha512-RfzM1O8+QG8SB9onPKU5Da9M0dcUQexmuWWuc8+NYrcQuXUg6tI4IV9kgjVPxOntxDkU9/1Tj8lG50/VfJvgbQ==
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-dom@*":
   version "16.9.8"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.8.tgz#fe4c1e11dfc67155733dfa6aa65108b4971cb423"

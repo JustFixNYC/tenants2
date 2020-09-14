@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-14 12:52\n"
+"PO-Revision-Date: 2020-09-14 13:43\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -631,7 +631,7 @@ msgstr "Éstos son algunos de los beneficios de enviar una carta al dueño de tu
 
 #: frontend/lib/rh/rental-history.tsx:125
 msgid "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
-msgstr "Aquí tienes una vista previa de la solicitud de tu historial de alquiler. Incluye tu dirección y número de apartamento para que el DHCR pueda enviarte el carta con tu historial."
+msgstr "Aquí tienes una vista previa de la solicitud de tu Historial de Renta. Incluye tu dirección y número de apartamento para que el DHCR pueda enviarte el carta con tu historial."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:12
 msgid "Here's a copy of your NoRent letter"
@@ -1178,7 +1178,7 @@ msgstr "¡Vaya! Ese correo electrónico no es válido."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:331
 msgid "Order rent history"
-msgstr "Pedir historial de Alquiler"
+msgstr "Pedir Historial de Renta"
 
 #: common-data/us-state-choices.ts:102
 msgid "Oregon"
@@ -1311,7 +1311,7 @@ msgstr "Atentamente,"
 
 #: frontend/lib/rh/rental-history.tsx:212
 msgid "Rent History"
-msgstr "Historial de Alquiler"
+msgstr "Historial de Renta"
 
 #: frontend/lib/norent/data/faqs-content.tsx:25
 msgid "Rent Strike 2020: A Resource List"
@@ -1327,7 +1327,7 @@ msgstr "Recibos de Alquiler Incompletos"
 
 #: frontend/lib/rh/email-to-dhcr.tsx:20
 msgid "Request for Rent History"
-msgstr "Solicitud de Historial de Alquiler"
+msgstr "Solicitud de Historial de Renta"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:243
 msgid "Request repairs from your landlord"
@@ -1335,15 +1335,15 @@ msgstr "Solicitar arreglos del dueño de tu edificio"
 
 #: frontend/lib/rh/rental-history.tsx:93
 msgid "Request the Rent History for your apartment"
-msgstr "Solicita el Historial de Alquiler de tu apartamento"
+msgstr "Solicita el Historial de Renta de tu apartamento"
 
 #: frontend/lib/rh/rental-history.tsx:43
 msgid "Request your <0>Rent History</0> in two simple steps!"
-msgstr "¡Solicita tu <0>Historial de Alquiler</0> en sólo dos pasos!"
+msgstr "¡Solicita tu <0>Historial de Renta</0> en sólo dos pasos!"
 
 #: frontend/lib/rh/rental-history.tsx:35
 msgid "Request your Rent History"
-msgstr "Solicita tu Historial de Alquiler"
+msgstr "Solicita tu Historial de Renta"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:208
 msgid "Research your landlord"
@@ -1943,7 +1943,7 @@ msgstr "Tu carta de NoRent.org"
 
 #: frontend/lib/rh/rental-history.tsx:178
 msgid "Your Rent History has been requested!"
-msgstr "¡Tu historial de alquiler ha sido solicitado!"
+msgstr "¡Tu Historial de Renta ha sido solicitado!"
 
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:8
 msgid "Your account is set up"
@@ -2066,11 +2066,11 @@ msgstr "Este documento te ayuda a averiguar si tu apartamento es de <0>renta est
 
 #: frontend/lib/rh/email-to-dhcr.tsx:22
 msgid "justfix.rhRequestToDhcr"
-msgstr "<0>Querido administrador del DHCR,</0><1> Yo, {0}, vivo actualmente en {1} en el apartamento {2}, y quisiera solicitar el Historial de Alquiler completo de este apartamento desde el año 1984. </1><2>Gracias,<3/>{3}</2>"
+msgstr "<0>Querido administrador del DHCR,</0><1> Yo, {0}, vivo actualmente en {1} en el apartamento {2}, y quisiera solicitar el Historial de Renta completo de este apartamento desde el año 1984. </1><2>Gracias,<3/>{3}</2>"
 
 #: frontend/lib/rh/rental-history.tsx:184
 msgid "justfix.rhWhatHappensNext"
-msgstr "Deberías recibir tu Historial de Alquiler por correo en una semana aproximadamente. Tu Historial de Alquiler es un documento importante que muestra los alquileres registrados en tu apartamento desde el año 1984. Puedes aprender más sobre él y cómo puede ayudarte a averiguar si te están cobrando alquiler de más en la <0>Guía de sobrecargos de apartamentos de renta estabilizada del Met Council on Housing (en inglés)</0>."
+msgstr "Deberías recibir tu Historial de Renta por correo en una semana aproximadamente. Tu Historial de Renta es un documento importante que muestra los alquileres registrados en tu apartamento desde el año 1984. Puedes aprender más sobre él y cómo puede ayudarte a averiguar si te están cobrando alquiler de más en la <0>Guía de sobrecargos de apartamentos de renta estabilizada del Met Council on Housing (en inglés)</0>."
 
 #: frontend/lib/norent/data/faqs-content.tsx:202
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"
@@ -2224,3 +2224,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

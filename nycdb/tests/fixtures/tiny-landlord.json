@@ -3,6 +3,8 @@
     "model": "nycdb.hpdregistration",
     "pk": 1,
     "fields": {
+      "registrationenddate": "2099-01-01",
+      "lastregistrationdate": "2020-01-01",
       "boroid": 3,
       "block": 9,
       "lot": 4,

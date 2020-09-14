@@ -12,12 +12,14 @@ class Command(BaseCommand):
         parser.add_argument('full_name')
         parser.add_argument('phone_number')
         parser.add_argument('campaign')
+        parser.add_argument('locale')
 
     def handle(self, *args, **options):
         client = get_rapidpro_client()
         full_name: str = options['full_name']
         phone_number: str = options['phone_number']
         campaign_name: str = options['campaign'].upper()
+        locale: str = options['locale']
         campaigns = DjangoSettingsFollowupCampaigns.get_names()
 
         validate_phone_number(phone_number)
@@ -34,7 +36,7 @@ class Command(BaseCommand):
                 f"{DjangoSettingsFollowupCampaigns.get_setting_name(campaign_name)} setting."
             )
 
-        print(f"Adding {full_name} ({phone_number}) to "
+        print(f"Adding {full_name} ({phone_number}, {locale}) to "
               f"{campaign_name} follow-up campaign...")
-        campaign.add_contact(client, full_name, phone_number)
+        campaign.add_contact(client, full_name, phone_number, locale)
         print("Done.")

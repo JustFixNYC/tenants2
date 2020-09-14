@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { BreaksBetweenLines } from "../ui/breaks-between-lines";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
 import { Trans } from "@lingui/macro";
@@ -6,7 +6,6 @@ import { friendlyUTCDate, friendlyDate } from "./date-util";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { assertNotNull } from "./util";
 import { makeStringHelperFC } from "./string-helper";
-import { AppContext } from "../app-context";
 
 export type BaseLetterContentProps = {
   firstName: string;
@@ -123,20 +122,6 @@ const Title: React.FC<{ children: React.ReactNode }> = (props) => (
     {props.children}
   </h1>
 );
-
-export function TransformSession<T>(props: {
-  transformer: (session: AllSessionInfo) => T | null;
-  children: (props: T) => JSX.Element;
-}) {
-  const { session } = useContext(AppContext);
-  const transformedProps = props.transformer(session);
-
-  if (!transformedProps) {
-    return <p>We don't have enough information to generate this content.</p>;
-  }
-
-  return props.children(transformedProps);
-}
 
 export const baseSampleLetterProps: BaseLetterContentProps = {
   firstName: "Boop",

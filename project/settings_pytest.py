@@ -13,10 +13,6 @@ LANGUAGES = locales.FULLY_SUPPORTED_ONLY.choices  # noqa
 # Disable 2FA by default.
 TWOFACTOR_VERIFY_DURATION = 0
 
-# Disable legacy auth by default, tests will need
-# to override settings if they want to enable it.
-LEGACY_MONGODB_URL = ''
-
 # Disable Twilio by default.
 TWILIO_ACCOUNT_SID = ''
 TWILIO_AUTH_TOKEN = ''
@@ -99,6 +95,8 @@ NAVBAR_LABEL = ''
 
 WOW_ORIGIN = 'https://demo-whoownswhat.herokuapp.com'
 EFNYC_ORIGIN = 'https://demo-efnyc.netlify.com'
+
+ENABLE_EMERGENCY_HP_ACTION = True
 
 
 class NotActuallyFileStorage:

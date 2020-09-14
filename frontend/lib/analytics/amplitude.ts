@@ -18,11 +18,19 @@ export type JustfixAmplitudeUserProperties = {
   state: USStateChoice;
   signupIntent: SignupIntent;
   leaseType: LeaseChoice;
-  prefersLegacyApp: boolean | null;
   isEmailVerified: boolean;
   hasSentNorentLetter: boolean;
   hasFiledEHPA: boolean;
   issueCount: number;
+
+  /**
+   * This field is no longer relevant since we decomissioned the
+   * legacy app, but we're keeping it around in the type definition
+   * for documentation purposes.  It was used to track whether the
+   * user wanted to be redirected to the legacy tenants app instead
+   * of the new one.
+   */
+  prefersLegacyApp: boolean | null;
 };
 
 type PageInfo = {
@@ -78,7 +86,7 @@ function getUserPropertiesFromSession(
       (s.onboardingInfo?.leaseType as LeaseChoice) ??
       s.onboardingStep3?.leaseType ??
       undefined,
-    prefersLegacyApp: s.prefersLegacyApp,
+    prefersLegacyApp: null,
     isEmailVerified: s.isEmailVerified ?? undefined,
     hasSentNorentLetter: !!s.norentLatestLetter,
     hasFiledEHPA: s.emergencyHpActionSigningStatus === "SIGNED",

@@ -45,7 +45,8 @@ USER_DETAILS_QUERY = '''
 query {
     userDetails(phoneNumber: "5551234567") {
         firstName,
-        adminUrl
+        adminUrl,
+        rapidproGroups,
     }
 }
 '''
@@ -179,6 +180,7 @@ def test_user_details_query_works(auth_graphql_client):
     assert result == {
         'firstName': 'Boop',
         'adminUrl': f'https://example.com/admin/users/justfixuser/{user.id}/change/',
+        'rapidproGroups': [],
     }
 
 

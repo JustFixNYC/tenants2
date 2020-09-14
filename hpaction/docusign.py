@@ -8,6 +8,7 @@ from django.http import (
     HttpResponseBadRequest,
     HttpResponseForbidden,
 )
+from django.core.mail import send_mail
 from django.conf import settings
 import PyPDF2
 
@@ -17,8 +18,13 @@ from docusign.core import docusign_client_user_id
 from docusign.views import create_callback_url, append_querystring_args
 from onboarding.models import BOROUGH_CHOICES
 import docusign_esign as dse
+from project.util.site_util import SITE_CHOICES
+from frontend.static_content import react_render_email
 from .hotdocs_xml_parsing import HPAType
-from .models import HPActionDocuments, DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES, Config
+from .models import (
+    HPActionDocuments, DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES, Config,
+    CourtContact,
+)
 
 
 # The recipient ID for the tenant in the signing flow. This appears to be a
@@ -34,6 +40,9 @@ HPA_DOCUMENT_ID = '1'
 # that aren't part of the official forms
 NUM_COVER_SHEET_PAGES = 1
 
+# The HTML email containing instructions on how to serve the landlord
+# and/or management company.
+SERVICE_INSTRUCTIONS_URL = "ehp/service-instructions-email.html"
 
 logger = logging.getLogger(__name__)
 
@@ -194,24 +203,43 @@ class FormsConfig(NamedTuple):
         )
 
 
-class HousingCourt(NamedTuple):
-    name: str
-    email: str
-
-
-def get_housing_court_for_borough(borough: str) -> Optional[HousingCourt]:
+def get_court_contacts_for_borough(borough: str) -> List[CourtContact]:
     config = Config.objects.get()
-    hc: Optional[HousingCourt] = None
-    email = getattr(config, f'{borough.lower()}_court_email')
-    if email:
-        hc = HousingCourt(f"{BOROUGH_CHOICES.get_label(borough)} Housing Court", email)
-    return hc
+    contacts: List[CourtContact] = []
+    config_email = getattr(config, f'{borough.lower()}_court_email')
+    if config_email:
+        contacts.append(CourtContact(
+            name=f"{BOROUGH_CHOICES.get_label(borough)} Housing Court",
+            email=config_email,
+            court=borough
+        ))
+    contacts.extend(CourtContact.objects.filter(court=borough))
+    return contacts
 
 
-def get_housing_court_for_user(user: JustfixUser) -> Optional[HousingCourt]:
+def get_court_contacts_for_user(user: JustfixUser) -> List[CourtContact]:
     if hasattr(user, 'onboarding_info'):
-        return get_housing_court_for_borough(user.onboarding_info.borough)
-    return None
+        return get_court_contacts_for_borough(user.onboarding_info.borough)
+    return []
+
+
+def cc_court_contacts(
+    contacts: List[CourtContact],
+    initial_recipient_id: int,
+    **kwargs
+) -> List[dse.CarbonCopy]:
+    results: List[dse.CarbonCopy] = []
+    recipient_id = initial_recipient_id
+    for contact in contacts:
+        results.append(dse.CarbonCopy(
+            email=contact.email,
+            name=contact.name,
+            recipient_id=str(recipient_id),
+            **kwargs,
+        ))
+        recipient_id += 1
+
+    return results
 
 
 def get_contact_info(user: JustfixUser) -> str:
@@ -303,19 +331,17 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
         )
     ]
 
-    housing_court = get_housing_court_for_user(user)
-    if housing_court:
-        carbon_copies.append(dse.CarbonCopy(
-            email=housing_court.email,
-            name=housing_court.name,
-            recipient_id="3",
-            routing_order="2",
-        ))
-    else:
+    court_contacts = get_court_contacts_for_user(user)
+    if not court_contacts:
         # This is bad, but we can always manually forward the signed document
         # to the proper court, so just log an error instead of raising
         # an exception.
         logger.error(f"No housing court found for user '{user.username}'!")
+    carbon_copies.extend(cc_court_contacts(
+        court_contacts,
+        initial_recipient_id=3,
+        routing_order="2",
+    ))
 
     envelope_definition = dse.EnvelopeDefinition(
         email_subject=f"HP Action forms for {user.full_name}",
@@ -381,6 +407,23 @@ def create_callback_url_for_signing_flow(request, envelope_id: str, next_url: st
     })
 
 
+def send_service_instructions_email(user: JustfixUser) -> None:
+    email = react_render_email(
+        SITE_CHOICES.JUSTFIX,
+        user.locale,
+        SERVICE_INSTRUCTIONS_URL,
+        is_html_email=True,
+        user=user,
+    )
+    send_mail(
+        subject=email.subject,
+        from_email=settings.COURT_DOCUMENTS_EMAIL,
+        recipient_list=[user.email],
+        message=email.body,
+        html_message=email.html_body,
+    )
+
+
 def update_envelope_status(de: DocusignEnvelope, event: str) -> None:
     '''
     Update the given DocuSign envelope model based on the given
@@ -417,10 +460,11 @@ def update_envelope_status(de: DocusignEnvelope, event: str) -> None:
         user = de.docs.user
         slack.sendmsg_async(
             f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
-            f"has signed their Emergency HP Action documents!",
+            f"has signed their Emergency HP Action documents! ❤️",
             is_safe=True
         )
         user.trigger_followup_campaign_async("EHP")
+        send_service_instructions_email(user)
         de.save()
     elif event == 'decline':
         de.status = HP_DOCUSIGN_STATUS_CHOICES.DECLINED

@@ -111,6 +111,25 @@ class TestRollbarSourceMaps:
         with pytest.raises(CommandError, match='currently only works with AWS integration'):
             call_command('rollbarsourcemaps')
 
+    def test_get_bundle_urls_works_with_dev_bundles(self):
+        urls = rollbarsourcemaps.get_bundle_urls({
+            'assetsByChunkName': {
+                "confetti": "confetti.bundle.js"
+            }
+        }, '/webpack/')
+        assert urls == ['/webpack/confetti.bundle.js']
+
+    def test_get_bundle_urls_works_with_prod_bundles(self):
+        urls = rollbarsourcemaps.get_bundle_urls({
+            'assetsByChunkName': {
+                "confetti": [
+                    "confetti.72e54ae11edbd5b71c4d.bundle.js",
+                    "confetti.72e54ae11edbd5b71c4d.bundle.js.map"
+                ],
+            }
+        }, '/webpack/')
+        assert urls == ['/webpack/confetti.72e54ae11edbd5b71c4d.bundle.js']
+
     def test_it_errors_when_rollbar_is_not_configured(self, settings):
         settings.AWS_STORAGE_STATICFILES_BUCKET_NAME = 'bop'
         with pytest.raises(CommandError, match='requires Rollbar integration'):

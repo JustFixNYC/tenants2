@@ -10,7 +10,7 @@ import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { FakeSessionInfo } from "../../tests/util";
 import { AppTesterPal, AppTesterPalOptions } from "../../tests/app-tester-pal";
 import { ProgressStepRoute, getBestNextStep } from "../progress-step-route";
-import { SessionBuilder } from "../../tests/session-builder";
+import { SessionBuilder, newSb } from "../../tests/session-builder";
 
 /**
  * A convenience class that makes it easier to test progress route flows.
@@ -97,11 +97,14 @@ export class ProgressRoutesTester {
    * Define a bunch of smoke tests for the routes that just visit
    * each route and make sure an exception isn't thrown.
    */
-  defineSmokeTests() {
+  defineSmokeTests(options?: { session?: Partial<AllSessionInfo> }) {
+    const session = options?.session ?? newSb().withLoggedInUser().value;
+
     describe(`${this.name} steps`, () => {
       this.allSteps.forEach((step) => {
         it(`${step.path} renders without throwing`, () => {
           new AppTesterPal(this.render(), {
+            session,
             ...this.appTesterPalOptions,
             url: step.path,
           });

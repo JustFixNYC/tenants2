@@ -4,7 +4,6 @@ import {
   letter,
   baseSampleLetterProps,
   getBaseLetterContentPropsFromSession,
-  TransformSession,
 } from "../util/letter-content-util";
 import { createLetterStaticPageWithQuery } from "../static-page/letter-static-page";
 import {
@@ -20,6 +19,7 @@ import { friendlyUTCDate } from "../util/date-util";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { issuesForArea, customIssuesForArea } from "../issues/issues";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
+import { TransformSession } from "../util/transform-session";
 
 const HEAT_ISSUE_CHOICES = new Set<IssueChoice>([
   "HOME__NO_HEAT",

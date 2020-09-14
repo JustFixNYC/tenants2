@@ -5,7 +5,13 @@ import { CSSTransition } from "react-transition-group";
 import { TransitionContextGroup } from "../ui/transition-context";
 import classnames from "classnames";
 import { getStepIndexForPathname } from "./progress-util";
-import { ProgressStepRoute, createStepRoute } from "./progress-step-route";
+import { li18n } from "../i18n-lingui";
+import { t } from "@lingui/macro";
+import {
+  ProgressStepRoute,
+  createStepRoute,
+  ProgressStepDefaults,
+} from "./progress-step-route";
 
 /**
  * This value must be mirrored in our SCSS by a similarly-named constant,
@@ -101,6 +107,9 @@ interface RouteProgressBarProps extends RouteComponentProps<any> {
 
   /** If true, hide the actual progress bar but still render the routes. */
   hideBar?: boolean;
+
+  /** Defaults to apply to every step. */
+  defaults?: ProgressStepDefaults;
 }
 
 interface RouteProgressBarState {
@@ -165,6 +174,7 @@ class RouteProgressBarWithoutRouter extends React.Component<
 
     let directionClass =
       currStep >= prevStep ? "jf-progress-forward" : "jf-progress-backward";
+    const stepLabel = li18n._(t`Step ${currStep} of ${numSteps}`);
 
     return (
       <React.Fragment>
@@ -172,7 +182,7 @@ class RouteProgressBarWithoutRouter extends React.Component<
           <ProgressBar pct={pct}>
             {this.props.label && (
               <h6 className="jf-page-steps-title title is-6 has-text-grey has-text-centered">
-                {props.label}: Step {currStep} of {numSteps}
+                {props.label}: {stepLabel}
               </h6>
             )}
           </ProgressBar>
@@ -195,6 +205,7 @@ class RouteProgressBarWithoutRouter extends React.Component<
                   key: step.path,
                   step,
                   allSteps: props.outerSteps || props.steps,
+                  defaults: props.defaults || {},
                 })
               )}
             </Switch>

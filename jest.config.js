@@ -19,6 +19,7 @@ module.exports = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   moduleNameMapper: {
     "\\.svg$": path.join(__dirname, "frontend", "mocks", "svg-mock.js"),
+    "\\.css$": path.join(__dirname, "frontend", "mocks", "css-mock.js"),
   },
   restoreMocks: true,
   setupFilesAfterEnv: ["./frontend/lib/tests/setup.ts"],

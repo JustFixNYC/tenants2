@@ -56,6 +56,11 @@ class NychaProperty(models.Model):
         help_text="The street address of the NYCHA property."
     )
 
+    development = models.CharField(
+        max_length=255,
+        help_text="The development name of the NYCHA property."
+    )
+
     office = models.ForeignKey(
         NychaOffice,
         on_delete=models.CASCADE,

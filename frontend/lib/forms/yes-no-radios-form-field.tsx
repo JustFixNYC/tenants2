@@ -1,16 +1,28 @@
 import React from "react";
 import { BaseFormFieldProps, RadiosFormField } from "./form-fields";
 import { ReactDjangoChoices } from "../common-data";
+import { li18n } from "../i18n-lingui";
+import { t } from "@lingui/macro";
+
+export type YesNoChoice = "True" | "False";
 
 /**
  * Choice when a user selects "yes" from a yes/no radio (specific to Django).
  */
-export const YES_NO_RADIOS_TRUE = "True";
+export const YES_NO_RADIOS_TRUE: YesNoChoice = "True";
 
 /**
  * Choice when a user selects "no" from a yes/no radio (specific to Django).
  */
-export const YES_NO_RADIOS_FALSE = "False";
+export const YES_NO_RADIOS_FALSE: YesNoChoice = "False";
+
+/**
+ * Returns whether the given string value corresponds to a yes/no
+ * radio choice (specific to Django).
+ */
+export function isYesNoChoice(value: string): value is YesNoChoice {
+  return value === YES_NO_RADIOS_TRUE || value === YES_NO_RADIOS_FALSE;
+}
 
 type ChoiceOptions = {
   /**
@@ -41,8 +53,8 @@ export function getYesNoChoices(options: ChoiceOptions): ReactDjangoChoices {
   }
 
   return [
-    [yesChoice, options.yesLabel || "Yes"],
-    [noChoice, options.noLabel || "No"],
+    [yesChoice, options.yesLabel || li18n._(t`Yes`)],
+    [noChoice, options.noLabel || li18n._(t`No`)],
   ];
 }
 

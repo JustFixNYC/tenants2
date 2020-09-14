@@ -1,7 +1,17 @@
 from django.contrib import admin
 
-from project.util.admin_util import make_edit_link, admin_field
+from project.util.admin_util import make_edit_link, admin_field, make_button_link
 import airtable.sync
+
+
+@admin_field(
+    short_description="SMS conversations",
+)
+def sms_conversations_field(self, obj):
+    return make_button_link(
+        f'/admin/conversations?phone=%2B1{obj.phone_number}',
+        "View SMS conversations"
+    )
 
 
 @admin_field(admin_order_field='onboarding_info__signup_intent')
@@ -29,7 +39,7 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
     fields = [
         'first_name', 'last_name', 'phone_number', 'email',
         'signup_intent', 'address',
-        'edit_user'
+        'edit_user', 'sms_conversations',
     ]
 
     readonly_fields = fields
@@ -41,6 +51,8 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
     edit_user = make_edit_link("View/edit user details")
 
     signup_intent = user_signup_intent
+
+    sms_conversations = sms_conversations_field
 
     def address(self, obj):
         if hasattr(obj, 'onboarding_info'):

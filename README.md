@@ -348,8 +348,9 @@ To push your new version, you will need to:
 3. Run `docker push justfixnyc/tenants2_base:0.1` to
    push the new image to Docker Hub.
 
-4. In `Dockerfile.web`, `docker-services.yml`, and `.circleci/config.yml`,
-   edit the references to `justfixnyc/tenants2_base` to point to the new tag.
+4. In `Dockerfile.web`, `docker-services.yml`, `.circleci/config.yml`,
+   and `.devcontainer/Dockerfile`, edit the references to
+   `justfixnyc/tenants2_base` to point to the new tag.
 
 [CircleCI]: https://circleci.com/
 [already taken]: https://hub.docker.com/r/justfixnyc/tenants2_base/tags/

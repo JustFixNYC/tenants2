@@ -5,21 +5,30 @@ import HPActionRoutes, { getHPActionProgressRoutesProps } from "../hp-action";
 import { ProgressRoutesTester } from "../../progress/tests/progress-routes-tester";
 import JustfixRoutes from "../../justfix-routes";
 import { HPUploadStatus } from "../../queries/globalTypes";
+import { newSb } from "../../tests/session-builder";
+import { preloadLingui } from "../../tests/lingui-preloader";
+import { LinguiI18n } from "../../i18n-lingui";
+
+beforeAll(preloadLingui(LinguiI18n));
+
+const sb = newSb().withLoggedInJustfixUser();
 
 const tester = new ProgressRoutesTester(
   getHPActionProgressRoutesProps(),
   "HP Action"
 );
 
-tester.defineSmokeTests();
+tester.defineSmokeTests({
+  session: sb.value,
+});
 
 describe("HP Action flow", () => {
   it("should show PDF download link on confirmation page", () => {
     const pal = new AppTesterPal(<HPActionRoutes />, {
       url: "/en/hp/confirmation",
-      session: {
+      session: sb.with({
         latestHpActionPdfUrl: "/boop.pdf",
-      },
+      }).value,
     });
     const a = pal.rr.getByText(/download/i);
     expect(a.getAttribute("href")).toBe("/boop.pdf");
@@ -30,7 +39,7 @@ describe("upload status page", () => {
   const makePal = (hpActionUploadStatus: HPUploadStatus) =>
     new AppTesterPal(<HPActionRoutes />, {
       url: "/en/hp/wait",
-      session: { hpActionUploadStatus },
+      session: sb.with({ hpActionUploadStatus }).value,
     });
 
   it('should show "please wait" when docs are being assembled', () => {
@@ -50,7 +59,7 @@ describe("upload status page", () => {
 
   it("should redirect to beginning if docs are not started", () => {
     const pal = makePal(HPUploadStatus.NOT_STARTED);
-    expect(pal.history.location.pathname).toBe("/en/hp/splash");
+    expect(pal.history.location.pathname).toBe("/en/hp/welcome");
   });
 });
 

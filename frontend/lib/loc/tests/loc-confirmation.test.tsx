@@ -3,6 +3,9 @@ import JustfixRoutes from "../../justfix-routes";
 import { LetterRequestMailChoice } from "../../queries/globalTypes";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import LetterOfComplaintRoutes from "../letter-of-complaint";
+import { newSb } from "../../tests/session-builder";
+
+const sb = newSb().withLoggedInJustfixUser();
 
 describe("letter of complaint confirmation", () => {
   const createPal = (
@@ -11,7 +14,7 @@ describe("letter of complaint confirmation", () => {
   ) =>
     new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: JustfixRoutes.locale.loc.confirmation,
-      session: {
+      session: sb.with({
         letterRequest: {
           updatedAt: "2018-09-14T01:42:12.829983+00:00",
           mailChoice,
@@ -20,7 +23,7 @@ describe("letter of complaint confirmation", () => {
             ? "2018-09-15T01:42:12.829983+00:00"
             : null,
         },
-      },
+      }).value,
     });
 
   it("mentions date of sending when we already mailed", async () => {

@@ -239,11 +239,7 @@ class LOCUserAdmin(UserProxyAdmin):
             MAILING_NEEDED: Count(
                 'letter_request',
                 distinct=True,
-                filter=(
-                    Q(letter_request__mail_choice=models.LOC_MAILING_CHOICES.WE_WILL_MAIL) &
-                    Q(letter_request__tracking_number__exact='') &
-                    Q(letter_request__rejection_reason__exact='')
-                )
+                filter=models.USER_MAILING_NEEDED_Q,
             )
         })
         return queryset

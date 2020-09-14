@@ -131,3 +131,9 @@ def make_edit_link(short_description: str, field: Optional[str] = None):
         )
 
     return edit
+
+
+def make_button_link(url: str, short_description: str):
+    return format_html(
+        '<a class="button" href="{}">{}</a>', url, short_description
+    )

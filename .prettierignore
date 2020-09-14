@@ -10,8 +10,9 @@ frontend/vendor
 .babel-cache.json
 schema.json
 
-# This is a weird JSON format, ignore it for now.
+# These use a weird JSON format, ignore for now.
 tsconfig.json
+.devcontainer/devcontainer.json
 
 # Don't go in that black hole!
 node_modules

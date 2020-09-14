@@ -1,9 +1,19 @@
 import { RouteComponentProps } from "react-router-dom";
+import History from "history";
 import { OnboardingInfoSignupIntent, Borough } from "./queries/globalTypes";
 import { inputToQuerystring } from "./networking/http-get-query-util";
 import { ROUTE_PREFIX, createRoutesForSite } from "./util/route-util";
 import { createDevRouteInfo } from "./dev/routes";
-import { createLetterStaticPageRouteInfo } from "./static-page/routes";
+import {
+  createLetterStaticPageRouteInfo,
+  createHtmlEmailStaticPageRouteInfo,
+} from "./static-page/routes";
+
+/**
+ * Querystring argument for specifying the URL to redirect the
+ * user to once they're done with the current page.
+ */
+export const NEXT = "next";
 
 /**
  * Metadata about signup intents.
@@ -178,6 +188,13 @@ function createEmergencyHPActionRouteInfo(prefix: string) {
     reviewFormsSignModal: `${prefix}/review/sign-modal`,
     verifyEmail: `${prefix}/verify-email`,
     confirmation: `${prefix}/confirmation`,
+    serviceInstructionsEmail: createHtmlEmailStaticPageRouteInfo(
+      `${prefix}/service-instructions-email`
+    ),
+    exampleServiceInstructionsEmailForm: `${prefix}/service-instructions-email/example`,
+    exampleServiceInstructionsEmail: createHtmlEmailStaticPageRouteInfo(
+      `${prefix}/service-instructions-email/example`
+    ),
   };
 }
 
@@ -239,12 +256,24 @@ function createRentalHistoryRouteInfo(prefix: string) {
 export type LocalizedRouteInfo = ReturnType<typeof createLocalizedRouteInfo>;
 
 function createLocalizedRouteInfo(prefix: string) {
+  const login = `${prefix}/login`;
+
   return {
     /** The locale prefix, e.g. `/en`. */
     [ROUTE_PREFIX]: prefix,
 
     /** The login page. */
-    login: `${prefix}/login`,
+    login,
+
+    /**
+     * Create a login link that redirects the user to the given location
+     * after they've logged in.
+     */
+    createLoginLink(next: History.Location): string {
+      return `${login}?${NEXT}=${encodeURIComponent(
+        next.pathname + next.search
+      )}`;
+    },
 
     /** The logout page. */
     logout: `${prefix}/logout`,

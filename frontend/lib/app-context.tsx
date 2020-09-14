@@ -95,12 +95,6 @@ export interface AppServerInfo {
   enableSafeModeURL: string;
 
   /**
-   * The URL that automatically logs-in the current user to the legacy tenant
-   * app and redirects them there.
-   */
-  redirectToLegacyAppURL: string;
-
-  /**
    * An optional label to show the site's navbar.
    */
   navbarLabel?: string;
@@ -266,3 +260,16 @@ export const defaultContext: AppContextType = {
 export const AppContext = React.createContext<AppContextType>(defaultContext);
 
 export const withAppContext = buildContextHocFactory(AppContext);
+
+/**
+ * Return an absolute URL to the URL of the server's static files, e.g.
+ * "http://example.com/static/".
+ */
+export function getAbsoluteStaticURL(
+  {
+    staticURL,
+    originURL,
+  }: Pick<AppServerInfo, "staticURL" | "originURL"> = getGlobalAppServerInfo()
+): string {
+  return staticURL.startsWith("/") ? `${originURL}${staticURL}` : staticURL;
+}

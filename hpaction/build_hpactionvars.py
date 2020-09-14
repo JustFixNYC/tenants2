@@ -4,7 +4,7 @@ from enum import Enum
 from users.models import JustfixUser
 from onboarding.models import BOROUGH_CHOICES, LEASE_CHOICES, OnboardingInfo
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
-from nycha.models import is_nycha_bbl
+from nycha.models import is_nycha_bbl, NychaProperty
 import nycdb.models
 from project import common_data
 from .models import (
@@ -13,6 +13,13 @@ from .models import (
 from .forms import EMERGENCY_HPA_ISSUE_LIST
 from . import hpactionvars as hp
 
+
+# How many lines the harassment details section of the HP action form has.
+MAX_HARASSMENT_DETAILS_LINES = 11
+
+# How many characters, on average, fit into a line in the harassment
+# details section. (The font use is not monospaced.)
+HARASSMENT_DETAILS_LINE_LENGTH = 60
 
 NYCHA_ADDRESS = common_data.load_json("nycha-address.json")
 
@@ -177,9 +184,18 @@ def fill_landlord_info_from_open_data(v: hp.HPActionVariables, user: JustfixUser
     return False
 
 
-def fill_landlord_info_from_nycha(v: hp.HPActionVariables) -> bool:
+def fill_landlord_info_from_nycha(v: hp.HPActionVariables, user: JustfixUser) -> bool:
     v.user_is_nycha_tf = True
-    v.landlord_entity_name_te = NYCHA_ADDRESS['name']
+
+    name = NYCHA_ADDRESS['name']
+    pad_bbl = get_user_onboarding_str_attr(user, 'pad_bbl')
+
+    if pad_bbl:
+        prop = NychaProperty.objects.filter(pad_bbl=pad_bbl).first()
+        if prop:
+            name = f"NYCHA {prop.development.title()} Houses"
+
+    v.landlord_entity_name_te = name
     v.landlord_address_street_te = NYCHA_ADDRESS['primaryLine']
     v.landlord_address_city_te = NYCHA_ADDRESS['city']
     v.landlord_address_zip_te = NYCHA_ADDRESS['zipCode']
@@ -198,14 +214,14 @@ def does_user_have_a_nycha_bbl(user: JustfixUser) -> bool:
 def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser) -> bool:
     v.user_is_nycha_tf = False
     if did_user_self_report_as_nycha(user):
-        return fill_landlord_info_from_nycha(v)
+        return fill_landlord_info_from_nycha(v, user)
     was_filled_out = fill_landlord_info_from_user_landlord_details(v, user)
     if not was_filled_out:
         # The user has not manually entered landlord details; use the latest
         # open data to fill in both the landlord and management company.
         was_filled_out = fill_landlord_info_from_open_data(v, user)
         if not was_filled_out and does_user_have_a_nycha_bbl(user):
-            was_filled_out = fill_landlord_info_from_nycha(v)
+            was_filled_out = fill_landlord_info_from_nycha(v, user)
     return was_filled_out
 
 
@@ -272,11 +288,38 @@ def flip_null_bool(value: Optional[bool]) -> Optional[bool]:
     return not value
 
 
+def reduce_number_of_lines(value: str, max_lines: int, line_length: int) -> str:
+    '''
+    If the given value, when text-wrapped across the given line length, is
+    greater than the given number of lines, reduce the number of lines by
+    replacing all newlines with ' / '.
+    '''
+
+    import textwrap
+
+    lines = value.split('\n')
+    wrapped_lines: List[str] = []
+    for line in lines:
+        if line.strip():
+            wrapped_lines.extend(textwrap.wrap(line, width=line_length))
+        else:
+            wrapped_lines.append('')
+
+    if len(wrapped_lines) > max_lines:
+        value = ' / '.join(filter(None, lines))
+
+    return value
+
+
 def fill_harassment_details(v: hp.HPActionVariables, h: HarassmentDetails) -> None:
     fill_harassment_allegations(v, h)
     v.more_than_2_apartments_in_building_tf = flip_null_bool(h.two_or_less_apartments_in_building)
     v.more_than_one_family_per_apartment_tf = h.more_than_one_family_per_apartment
-    v.harassment_details_te = h.harassment_details
+    v.harassment_details_te = reduce_number_of_lines(
+        h.harassment_details,
+        max_lines=MAX_HARASSMENT_DETAILS_LINES,
+        line_length=HARASSMENT_DETAILS_LINE_LENGTH,
+    )
 
 
 def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> None:

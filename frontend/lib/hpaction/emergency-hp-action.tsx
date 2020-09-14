@@ -24,7 +24,7 @@ import {
   ProgressStepProps,
 } from "../progress/progress-step-route";
 import { ProgressButtons, BackButton, NextButton } from "../ui/buttons";
-import { Link } from "react-router-dom";
+import { Link, Switch, Route } from "react-router-dom";
 import { EhpAccessForInspection } from "./hp-action-access-for-inspection";
 import { createHPActionPreviousAttempts } from "./hp-action-previous-attempts";
 import { HPActionYourLandlord } from "./hp-action-your-landlord";
@@ -78,6 +78,13 @@ import { HarassmentCaseHistory } from "./hp-action-case-history";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-steps";
 import { renderSuccessHeading } from "../ui/success-heading";
+import { createHtmlEmailStaticPageRoutes } from "../static-page/routes";
+import {
+  ExampleServiceInstructionsEmail,
+  ServiceInstructionsEmail,
+  ExampleServiceInstructionsEmailForm,
+} from "./service-instructions-email";
+import { NycUsersOnly } from "../pages/nyc-users-only";
 
 const HP_ICON = "frontend/img/hp-action.svg";
 
@@ -152,22 +159,37 @@ const EmergencyHPActionWelcome: React.FC<ProgressStepProps> = (props) => {
       <BigList>
         <li>
           Answer a few questions here about your housing situation and we will
-          email your answers to your Borough’s Housing Court. You will also be
-          emailed a copy of the forms.
+          email your answers to your Borough’s Housing Court Clerk. You will
+          also be emailed a copy of the paperwork.
         </li>
         <li>
-          The Housing Court clerk will review your Emergency HP Action forms and
+          The Clerk will present the paperwork to the Judge and the Judge will
           decide whether or not to approve your case.
         </li>
         <li>
-          If your case is approved, the Housing Court will assign you a lawyer
-          who will call you to coordinate at the phone number you provided.
+          If your case is approved, the clerk will email you the signed copy of
+          the paperwork by email as an attachment. If your case is rejected, the
+          Clerk will email you to let you know.
+        </li>
+        <li>
+          Once you get the signed paperwork you will need to inform your
+          landlord and/or management company that you are suing them by
+          “serving” the papers on them. This is called service and it must be
+          done exactly as the Judge says on your paperwork. It might be by USPS
+          mail, email, or in-person. We will give you detailed instructions on
+          how to serve in a confirmation email once your filing is submitted.
+        </li>
+        <li>
+          Your case might be considered an emergency. If so, the court will
+          assign you a lawyer. If not, you will need to do the rest of the
+          process on your own. This is called being “pro-se”. If you do not hear
+          from a lawyer within 3 days, you should assume that you will need to
+          be pro-se.
         </li>
         <li>
           If you are suing for Repairs, an inspector from Housing Preservation
           and Development (HPD) will come to your apartment to verify the
-          issue(s). Your lawyer will help you arrange a time that is convenient
-          for you and give you the details you will need.
+          issue(s) and make a report for the court.
         </li>
         <li>
           The court hearing will happen through a video call so that{" "}
@@ -425,18 +447,33 @@ const Confirmation: React.FC<{}> = () => {
       <h2>What happens next?</h2>
       <BigList>
         <li>
-          The Housing Court clerk will review your Emergency HP Action forms and
+          The Clerk will present the paperwork to the Judge and the Judge will
           decide whether or not to approve your case.
         </li>
         <li>
-          If your case is approved, the Housing Court will assign you a lawyer
-          who will call you to coordinate at the phone number you provided.
+          If your case is approved, the clerk will email you the signed copy of
+          the paperwork by email as an attachment. If your case is rejected, the
+          Clerk will email you to let you know.
+        </li>
+        <li>
+          Once you get the signed paperwork you will need to inform your
+          landlord and/or management company that you are suing them by
+          “serving” the papers on them. This is called service and it must be
+          done exactly as the Judge says on your paperwork. It might be by USPS
+          mail, email, or in-person. We will give you detailed instructions on
+          how to serve in a confirmation email once your filing is submitted.
+        </li>
+        <li>
+          Your case might be considered an emergency. If so, the court will
+          assign you a lawyer. If not, you will need to do the rest of the
+          process on your own. This is called being “pro-se”. If you do not hear
+          from a lawyer within 3 days, you should assume that you will need to
+          be pro-se.
         </li>
         <li>
           If you are suing for Repairs, an inspector from Housing Preservation
           and Development (HPD) will come to your apartment to verify the
-          issue(s). Your lawyer will help you arrange a time that is convenient
-          for you and give you the details you will need.
+          issue(s) and make a report for the court.
         </li>
         <li>
           The court hearing will happen through a video call so that{" "}
@@ -445,6 +482,11 @@ const Confirmation: React.FC<{}> = () => {
           step of the way.
         </li>
       </BigList>
+      <h2>Do you need to re-file your case?</h2>
+      <p>
+        If you need to change something and re-file your case, you can always{" "}
+        <Link to={JustfixRoutes.locale.ehp.sue}>start a new case</Link>.
+      </p>
       <h2>Want to read more about your rights?</h2>
       <ul>
         {/* TODO: This is currently duplicated from the HP action flow, we might want to create a reusable component out of it. */}
@@ -500,9 +542,11 @@ const PreviousAttempts = createHPActionPreviousAttempts(
 export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: JustfixRoutes.locale.ehp.latestStep,
   label: "Emergency HP Action",
+  defaultWrapContent: NycUsersOnly,
   welcomeSteps: [
     {
       path: JustfixRoutes.locale.ehp.splash,
+      wrapContent: false,
       exact: true,
       component: EmergencyHPActionSplash,
       isComplete: (s) => !!s.phoneNumber,
@@ -610,8 +654,27 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
   ],
 });
 
-const EmergencyHPActionRoutes = buildProgressRoutesComponent(
+const EmergencyHPActionProgressRoutes = buildProgressRoutesComponent(
   getEmergencyHPActionProgressRoutesProps
+);
+
+const EmergencyHPActionRoutes: React.FC<{}> = () => (
+  <Switch>
+    <Route
+      component={ExampleServiceInstructionsEmailForm}
+      path={JustfixRoutes.locale.ehp.exampleServiceInstructionsEmailForm}
+      exact
+    />
+    {createHtmlEmailStaticPageRoutes(
+      JustfixRoutes.locale.ehp.exampleServiceInstructionsEmail,
+      ExampleServiceInstructionsEmail
+    )}
+    {createHtmlEmailStaticPageRoutes(
+      JustfixRoutes.locale.ehp.serviceInstructionsEmail,
+      ServiceInstructionsEmail
+    )}
+    <Route component={EmergencyHPActionProgressRoutes} />
+  </Switch>
 );
 
 export default EmergencyHPActionRoutes;

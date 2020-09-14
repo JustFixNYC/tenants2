@@ -67,11 +67,16 @@ EMAIL_HOST_USER = email_config['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = email_config['EMAIL_HOST_PASSWORD']
 EMAIL_HOST = email_config['EMAIL_HOST']
 EMAIL_PORT = email_config['EMAIL_PORT']
-EMAIL_BACKEND = email_config['EMAIL_BACKEND']
 EMAIL_USE_TLS = email_config['EMAIL_USE_TLS']
 EMAIL_USE_SSL = email_config['EMAIL_USE_SSL']
 
+EMAIL_BACKEND = email_config['EMAIL_BACKEND']
+if EMAIL_BACKEND == 'django.core.mail.backends.console.EmailBackend':
+    EMAIL_BACKEND = 'project.util.friendly_email_console_backend.EmailBackend'
+
 DEFAULT_FROM_EMAIL = env.DEFAULT_FROM_EMAIL
+
+COURT_DOCUMENTS_EMAIL = env.COURT_DOCUMENTS_EMAIL
 
 DHCR_EMAIL_SENDER_ADDRESS = env.DHCR_EMAIL_SENDER_ADDRESS
 DHCR_EMAIL_RECIPIENT_ADDRESSES = env.DHCR_EMAIL_RECIPIENT_ADDRESSES.split(",")
@@ -99,7 +104,6 @@ INSTALLED_APPS = [
     'project.apps.DefaultConfig',
     'project.apps.JustfixAdminConfig',
     'frontend',
-    'legacy_tenants.apps.LegacyTenantsConfig',
     'users.apps.UsersConfig',
     'hpaction.apps.HPActionConfig',
     'loc.apps.LocConfig',
@@ -232,7 +236,6 @@ AUTH_USER_MODEL = 'users.JustfixUser'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'legacy_tenants.auth.LegacyTenantsAppBackend',
 ]
 
 LOGIN_URL = '/login'
@@ -385,11 +388,7 @@ GRAPHENE = {
 
 GEOCODING_SEARCH_URL = "https://geosearch.planninglabs.nyc/v1/search"
 
-GEOCODING_TIMEOUT = 3
-
-LEGACY_MONGODB_URL = env.LEGACY_MONGODB_URL
-
-LEGACY_ORIGIN = env.LEGACY_ORIGIN
+GEOCODING_TIMEOUT = 8
 
 GA_TRACKING_ID = env.GA_TRACKING_ID
 
@@ -487,6 +486,7 @@ if env.ROLLBAR_SERVER_ACCESS_TOKEN:
     LOGGING['handlers']['rollbar'].update({    # type: ignore
         'class': 'rollbar.logger.RollbarHandler'
     })
+    MIDDLEWARE.insert(0, 'project.middleware.rollbar_request_middleware')
     MIDDLEWARE.append(
         'rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404')
 

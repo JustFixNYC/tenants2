@@ -8,7 +8,7 @@ from project.common_data import Choices
 
 BOROUGH_CHOICES = Choices.from_file('borough-choices.json', name='Borough')
 
-ADDRESS_MAX_LENGTH = 200
+ADDRESS_MAX_LENGTH = 64
 
 BOROUGH_MAX_LENGTH = 20
 
@@ -73,7 +73,7 @@ def verify_address(address: str, borough: str) -> AddressVerificationResult:
         address_verified = True
         props = features[0].properties
         address = props.name
-        zipcode = props.postalcode
+        zipcode = props.postalcode or ''
         borough = BOROUGH_GID_TO_CHOICE[props.borough_gid]
     return AddressVerificationResult(address, borough, address_verified, zipcode)
 

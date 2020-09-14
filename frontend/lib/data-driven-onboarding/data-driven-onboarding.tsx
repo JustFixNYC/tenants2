@@ -17,11 +17,15 @@ import {
   useQueryFormResultFocusProps,
 } from "../forms/query-form-submitter";
 import { AppContext, getGlobalAppServerInfo } from "../app-context";
-import { properNoun, numberWithCommas } from "../util/util";
+import { properNoun } from "../util/util";
 import { OutboundLink, ga } from "../analytics/google-analytics";
 import { UpdateBrowserStorage } from "../browser-storage";
 import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issues";
 import { MORATORIUM_FAQ_URL } from "../ui/covid-banners";
+import i18n from "../i18n";
+import { Trans, t, Plural } from "@lingui/macro";
+import { EnglishOutboundLink } from "../ui/localized-outbound-link";
+import { li18n } from "../i18n-lingui";
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
@@ -64,30 +68,6 @@ function AutoSubmitter(props: { autoSubmit: boolean; ctx: FormContext<any> }) {
 function calcPerUnit(value: number | null, data: DDOData): number {
   if (data.unitCount === 0 || value === null) return 0;
   return value / data.unitCount;
-}
-
-function Indicator(props: {
-  value: number;
-  unit: string;
-  pluralUnit?: string;
-  verb?: string;
-}) {
-  const { value, unit } = props;
-  const isSingular = value === 1;
-  let pluralUnit = props.pluralUnit || `${unit}s`;
-  let verb = props.verb;
-
-  if (verb) {
-    const [singVerb, pluralVerb] = verb.split("/");
-    verb = isSingular ? `${singVerb} ` : `${pluralVerb} `;
-  }
-
-  return (
-    <>
-      {verb}
-      {numberWithCommas(value)} {isSingular ? unit : pluralUnit}
-    </>
-  );
 }
 
 type CallToActionProps = {
@@ -248,15 +228,16 @@ function getUnitsAndDateBuilt(
 ): PossibleIndicator[] {
   return [
     data.unitCount && (
-      <>
-        There <Indicator verb="is/are" value={data.unitCount} unit="unit" /> in
-        your building.
-      </>
+      <Trans>
+        There{" "}
+        <Plural value={data.unitCount} one="is one unit" other="are # units" />{" "}
+        in your building.
+      </Trans>
     ),
     // Note that we don't *actually* need some of these prerequsites, but it looks weird to have
     // just the build date as an indicator, so we'll only show it if we also show other info.
     data.unitCount && data.yearBuilt && (
-      <>Your building was built in {data.yearBuilt} or earlier.</>
+      <Trans>Your building was built in {data.yearBuilt} or earlier.</Trans>
     ),
   ];
 }
@@ -277,20 +258,29 @@ const useBuildingIntroCard: ActionCardPropsCreator = (
       ? [
           // Note that this might be a RAD conversion, but since the owner is still technically NYCHA,
           // it is indeed still best to show the following info.
-          <>
+          <Trans>
             This building is owned by the{" "}
             <strong>NYC Housing Authority (NYCHA)</strong>.
-          </>,
+          </Trans>,
           ...getUnitsAndDateBuilt(data),
         ]
       : hasHpdRegistration
       ? [
           data.associatedBuildingCount && data.portfolioUnitCount && (
-            <>
+            <Trans>
               Your landlord owns{" "}
-              <Indicator value={data.associatedBuildingCount} unit="building" />{" "}
-              and <Indicator value={data.portfolioUnitCount} unit="unit" />.
-            </>
+              <Plural
+                value={data.associatedBuildingCount}
+                one="one building"
+                other="# buildings"
+              />{" "}
+              and{" "}
+              <Plural
+                value={data.portfolioUnitCount}
+                one="one unit."
+                other="# units."
+              />
+            </Trans>
           ),
           ...getUnitsAndDateBuilt(data),
         ]
@@ -299,37 +289,36 @@ const useBuildingIntroCard: ActionCardPropsCreator = (
           <>
             <span className="jf-registration-warning">
               <span className="has-text-danger has-text-weight-semibold">
-                No registration found.
+                <Trans>No registration found.</Trans>
               </span>{" "}
-              Your landlord may be breaking the law!
+              <Trans> Your landlord may be breaking the law!</Trans>
             </span>
-            It looks like this building may require registration with HPD.
-            Landlords who don't properly register their properties incur fines
-            and also cannot bring tenants to court for nonpayment of rent. You
-            can find more information on{" "}
-            <OutboundLink
-              href="https://www1.nyc.gov/site/hpd/services-and-information/register-your-property.page"
-              target="_blank"
-            >
-              HPD's Property Management page
-            </OutboundLink>
+            <Trans id="justfix.DdoMayNeedHpdRegistration">
+              It looks like this building may require registration with HPD.
+              Landlords who don't properly register their properties incur fines
+              and also cannot bring tenants to court for nonpayment of rent. You
+              can find more information on{" "}
+              <EnglishOutboundLink href="https://www1.nyc.gov/site/hpd/services-and-information/register-your-property.page">
+                HPD's Property Management page
+              </EnglishOutboundLink>
+            </Trans>
             .
           </>,
         ]
       : [
           <>
             <span className="jf-registration-warning has-text-danger has-text-weight-semibold">
-              No registration found.
+              <Trans>No registration found.</Trans>
             </span>
-            It doesn't seem like this property is required to register with HPD.
-            You can learn about the City's registration requirements on{" "}
-            <OutboundLink
-              href="https://www1.nyc.gov/site/hpd/services-and-information/register-your-property.page"
-              target="_blank"
-            >
-              HPD's Property Management page
-            </OutboundLink>
-            .
+            <Trans>
+              {" "}
+              It doesn't seem like this property is required to register with
+              HPD. You can learn about the City's registration requirements on{" "}
+              <EnglishOutboundLink href="https://www1.nyc.gov/site/hpd/services-and-information/register-your-property.page">
+                HPD's Property Management page
+              </EnglishOutboundLink>
+              .
+            </Trans>
           </>,
         ],
     // This fallback message should never actually appear, as the indicators have been constructed
@@ -340,7 +329,9 @@ const useBuildingIntroCard: ActionCardPropsCreator = (
 
 function commaSeparatedConjunction(items: string[]): string {
   return items
-    .map((item, i) => (i === items.length - 1 ? `and ${item}` : item))
+    .map((item, i) =>
+      i === items.length - 1 ? li18n._(t`and`) + ` ${item}` : item
+    )
     .join(", ");
 }
 
@@ -350,55 +341,56 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     const hasMinBuildings = buildings > 1;
 
     return {
-      title: "Research your landlord",
+      title: li18n._(t`Research your landlord`),
       priority: WOW_PRIORITY,
       isRecommended: buildings > 25,
       indicators: [
         hasMinBuildings && (
-          <>
+          <Trans>
             Your landlord is associated with{" "}
-            <Indicator
-              value={buildings}
-              unit="property"
-              pluralUnit="properties"
-            />
-            .
-          </>
+            <Plural value={buildings} one="one building" other="# buildings" />.
+          </Trans>
         ),
         data.associatedZipCount && hasMinBuildings && (
-          <>
+          <Trans>
             Buildings in your landlord's portfolio are located in{" "}
-            <Indicator value={data.associatedZipCount} unit="zip code" />.
-          </>
+            <Plural
+              value={data.associatedZipCount}
+              one="one zip code."
+              other="# zip codes."
+            />
+          </Trans>
         ),
         data.portfolioTopBorough && hasMinBuildings && (
-          <>
+          <Trans>
             The majority of your landlord's properties are concentrated in{" "}
             {properNoun(data.portfolioTopBorough)}.
-          </>
+          </Trans>
         ),
       ],
-      fallbackMessage: <> Your landlord might own other buildings, too. </>,
+      fallbackMessage: (
+        <Trans> Your landlord might own other buildings, too. </Trans>
+      ),
       imageStaticURL: "frontend/img/ddo/network.svg",
       cta: {
         to: whoOwnsWhatURL(data.bbl),
         gaLabel: "wow",
-        text: "Visit Who Owns What",
+        text: li18n._(t`Visit Who Owns What`),
       },
     };
   },
   function letterOfComplaint(data): ActionCardProps {
     // Default content temporarily implemented during COVID-19 Outbreak
     const covidMessage = (
-      <>
+      <Trans id="justfix.ddoLocCovidMessage">
         Landlord not responding? You can take action for free to request
         repairs! Due to the Covid-19 health crisis, we recommend requesting
         repairs only in the case of an emergency so you can stay safe and
         healthy by limiting how many people enter your home.
-      </>
+      </Trans>
     );
     return {
-      title: "Request repairs from your landlord",
+      title: li18n._(t`Request repairs from your landlord`),
       priority: COMPLAINTS_PRIORITY,
       isRecommended:
         (data.hpdComplaintCount || 0) > 5 ||
@@ -409,14 +401,14 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       cta: {
         to: JustfixRoutes.locale.loc.latestStep,
         gaLabel: "loc",
-        text: "Send a letter of complaint",
+        text: li18n._(t`Send a letter of complaint`),
       },
     };
   },
   function hpAction(data): ActionCardProps {
     // Default content temporarily implemented during COVID-19 Outbreak
     const normalCovidMessage = (
-      <>
+      <Trans id="justfix.ddoHpaCovidMessage">
         <span className="subtitle">
           Due to the Covid-19 health crisis, Housing Courts in New York City are
           closed. You can still make the forms to take your landlord to court
@@ -428,22 +420,22 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
           <a href="tel:1-212-962-4795">(212) 962-4795</a> to get assistance
           Mon-Fri, 9am-5pm. Assistance is available in English and Spanish.
         </span>
-      </>
+      </Trans>
     );
     let issues = commaSeparatedConjunction(
       getEmergencyHPAIssueLabels().map((v) => v.toLowerCase())
     );
     const emergencyCovidMessage = (
-      <>
+      <Trans id="justfix.ddoEhpaCovidMessage">
         <span className="subtitle">
-          Due to the covid-19 pandemic, Housing Courts in New York City are only
-          accepting cases for conditions that threaten the health and safety of
-          your household, such as: {issues}.
+          Due to the covid-19 pandemic, Housing Courts in New York City are
+          prioritizing cases for conditions that threaten the health and safety
+          of your household, such as: {issues}.
         </span>
-      </>
+      </Trans>
     );
     const normalHpAction: ActionCardProps = {
-      title: "Start a legal case for repairs and/or harassment",
+      title: li18n._(t`Start a legal case for repairs and/or harassment`),
       priority:
         (data.hpdOpenClassCViolationCount || 0) > 2
           ? VIOLATIONS_HIGH_PRIORITY
@@ -460,7 +452,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       cta: {
         to: JustfixRoutes.locale.hp.latestStep,
         gaLabel: "hp",
-        text: "Sue your landlord",
+        text: li18n._(t`Sue your landlord`),
         isBeta: true,
       },
     };
@@ -468,13 +460,13 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     return getGlobalAppServerInfo().enableEmergencyHPAction
       ? {
           ...normalHpAction,
-          title: "Start an emergency legal case for repairs",
+          title: li18n._(t`Start an emergency legal case for repairs`),
           indicators: [emergencyCovidMessage],
           fallbackMessage: emergencyCovidMessage,
           cta: {
             to: JustfixRoutes.locale.ehp.latestStep,
             gaLabel: "ehp",
-            text: "Sue your landlord",
+            text: li18n._(t`Sue your landlord`),
             isBeta: true,
           },
         }
@@ -482,52 +474,52 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   },
   function rentHistory(data): ActionCardProps {
     return {
-      title: "Learn about your rent",
+      title: li18n._(t`Learn about your rent`),
       priority: RENT_HISTORY_PRIORITY,
       isRecommended: data.unitCount > 6 || (data.yearBuilt || Infinity) < 1974,
       indicators: [
         data.stabilizedUnitCountMaximum > 0 ||
         data.stabilizedUnitCount2007 ||
         data.stabilizedUnitCount2017 ? (
-          <>Your apartment may be rent stabilized.</>
+          <Trans>Your apartment may be rent stabilized.</Trans>
         ) : null,
         data.stabilizedUnitCount2017 && (
-          <>
+          <Trans>
             Your building had{" "}
-            <Indicator
+            <Plural
               value={data.stabilizedUnitCount2017}
-              unit="rent stabilized unit"
+              one="one rent stabilized unit"
+              other="# rent stabilized units"
             />{" "}
             in 2017.
-          </>
+          </Trans>
         ),
       ],
       fallbackMessage: (
-        <>
+        <Trans>
           Think your apartment may be rent-stabilized? Request its official
           records.
-        </>
+        </Trans>
       ),
       imageStaticURL: "frontend/img/ddo/rent.svg",
       cta: {
         to: JustfixRoutes.locale.rh.splash,
         gaLabel: "rh",
-        text: "Order rent history",
+        text: li18n._(t`Order rent history`),
       },
     };
   },
   function evictionFreeNyc(data): ActionCardProps {
     // Default content temporarily implemented during COVID-19 Outbreak
     const covidMessage = (
-      <>
+      <Trans id="justfix.ddoEfnycCovidMessage">
         An Eviction Moratorium is in place in NY State due to the Covid-19
         public health crisis. All courts that hear eviction cases are closed.
         This means you <b>cannot be evicted for any reason</b>.
-      </>
+      </Trans>
     );
-    const covidCtaText = "Learn more";
     return {
-      title: "Fight an eviction",
+      title: li18n._(t`Fight an eviction`),
       priority: EFNYC_PRIORITY,
       isRecommended:
         data.isRtcEligible && (data.numberOfEvictionsFromPortfolio || 0) > 0,
@@ -535,9 +527,9 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: covidMessage,
       imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
-        to: MORATORIUM_FAQ_URL.en,
+        to: MORATORIUM_FAQ_URL[i18n.locale],
         gaLabel: "efnyc",
-        text: covidCtaText,
+        text: li18n._(t`Learn more`),
       },
     };
   },
@@ -598,11 +590,13 @@ export function DataDrivenOnboardingResults(props: DDOData) {
 
   return (
     <>
-      <PageTitle title={`Results for ${props.fullAddress}`} />
+      <PageTitle title={li18n._(t`Results for ${props.fullAddress}`)} />
       <ActionCard {...useBuildingIntroCard(props)} />
       {actions.recommended.length > 0 && (
         <>
-          <h2>Recommended actions</h2>
+          <h2>
+            <Trans>Recommended actions</Trans>
+          </h2>
           {actions.recommended.map((props, i) => (
             <ActionCard key={i} {...props} />
           ))}
@@ -610,7 +604,11 @@ export function DataDrivenOnboardingResults(props: DDOData) {
       )}
       {actions.other.length > 0 && (
         <>
-          <h2>{actions.recommended.length > 0 ? "More actions" : "Actions"}</h2>
+          <h2>
+            {actions.recommended.length > 0
+              ? li18n._(t`More actions`)
+              : li18n._(t`Actions`)}
+          </h2>
           {actions.other.map((props, i) => (
             <ActionCard key={i} {...props} />
           ))}
@@ -628,9 +626,9 @@ function Results(props: { address: string; output: DDOData | null }) {
   } else if (props.address.trim()) {
     content = (
       <>
-        <PageTitle title="Unrecognized address" />
+        <PageTitle title={li18n._(t`Unrecognized address`)} />
         <h3 {...queryFormResultFocusProps}>
-          Sorry, we don't recognize the address you entered.
+          <Trans>Sorry, we don't recognize the address you entered.</Trans>
         </h3>
       </>
     );
@@ -666,14 +664,14 @@ export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
             <section className={showHero ? "hero" : ""}>
               <div className={showHero ? "hero-body" : ""}>
                 {showHero && (
-                  <>
+                  <Trans>
                     <h1 className="title is-size-1 is-size-3-mobile is-spaced">
                       Free tools for you to fight for a safe and healthy home
                     </h1>
                     <p className="subtitle">
                       Enter your address to learn more.
                     </p>
-                  </>
+                  </Trans>
                 )}
                 <div
                   className={classnames(
@@ -683,7 +681,9 @@ export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
                 >
                   <AddressAndBoroughField
                     key={props.location.search}
-                    addressLabel="Enter your address to see some recommended actions."
+                    addressLabel={li18n._(
+                      t`Enter your address to see some recommended actions.`
+                    )}
                     renderAddressLabel={(label, props) => (
                       <label
                         {...props}
@@ -701,7 +701,7 @@ export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
                   />
                   <AutoSubmitter ctx={ctx} autoSubmit={autoSubmit} />
                   <NextButton
-                    label="Search address"
+                    label={li18n._(t`Search address`)}
                     buttonSizeClass="is-normal"
                     isLoading={ctx.isLoading}
                   />

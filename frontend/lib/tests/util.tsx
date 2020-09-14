@@ -1,3 +1,4 @@
+import React from "react";
 import GraphQlClient from "../networking/graphql-client";
 import {
   AppServerInfo,
@@ -7,6 +8,7 @@ import {
 import { AllSessionInfo, BlankAllSessionInfo } from "../queries/AllSessionInfo";
 import { FormError, strToFormError } from "../forms/form-errors";
 import JustfixRoutes from "../justfix-routes";
+import { Route } from "react-router-dom";
 
 interface TestClient {
   mockFetch: jest.Mock;
@@ -67,7 +69,6 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   wowOrigin: "https://wow.test",
   efnycOrigin: "https://efnyc.test",
   enableSafeModeURL: "/mysafemode/enable",
-  redirectToLegacyAppURL: "/myredirect-to-legacy-app",
   mapboxAccessToken: "",
   enabledLocales: ["en"],
   enableWipLocales: false,
@@ -133,3 +134,15 @@ export function overrideGlobalAppServerInfo(
   setGlobalAppServerInfo(newInfo);
   return newInfo;
 }
+
+/**
+ * Create a fake login route; useful for testing pages that
+ * might redirect the user to login.
+ */
+export const createFakeLoginRoute = () => (
+  <Route
+    path="/en/login"
+    exact
+    render={(p) => <p>at login, search is {p.location.search}</p>}
+  />
+);

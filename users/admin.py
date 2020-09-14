@@ -1,15 +1,12 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.utils.html import format_html
 
-from project.util.admin_util import admin_field, get_admin_url_for_class
+from project.util.admin_util import admin_field, get_admin_url_for_class, make_button_link
 from .forms import JustfixUserCreationForm, JustfixUserChangeForm
 from .models import JustfixUser
 import rapidpro.models
 from onboarding.admin import OnboardingInline
-from legacy_tenants.admin import LegacyUserInline
-from legacy_tenants.models import LegacyUserInfo
-from .admin_user_proxy import user_signup_intent
+from .admin_user_proxy import user_signup_intent, sms_conversations_field
 from texting.models import get_lookup_description_for_phone_number
 from loc.admin import LOCUser, LandlordDetailsInline
 from hpaction.admin import HPUser
@@ -34,8 +31,7 @@ def make_link_to_other_user_view(model_class, short_description):
     )
     def link(self, obj):
         url = get_admin_url_for_class(model_class, obj.pk)
-        return format_html(
-            '<a class="button" href="{}">{}</a>', url, short_description)
+        return make_button_link(url, short_description)
 
     return link
 
@@ -55,7 +51,8 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
     fieldsets = (
         ('Personal info', {'fields': (
             'first_name', 'last_name', 'email', 'is_email_verified',
-            'phone_number', 'phone_number_lookup_details', 'locale',
+            'phone_number', 'phone_number_lookup_details',
+            'sms_conversations', 'locale',
         )}),
         ('Username and password', {
             'fields': ('username', 'password'),
@@ -92,7 +89,6 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
         }),
     )
     inlines = (
-        LegacyUserInline,
         OnboardingInline,
         # We'll consider this part of the core user info b/c all our
         # flows ask for it, and it can be considered part of the user's
@@ -110,6 +106,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
         'norent_info',
         'phone_number_lookup_details',
         'rapidpro_contact_groups',
+        'sms_conversations',
         *UserAdmin.readonly_fields
     ]
 
@@ -117,14 +114,6 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
         if obj is not None and not request.user.is_superuser:
             return self.non_superuser_fieldsets
         return super().get_fieldsets(request, obj)
-
-    def get_formsets_with_inlines(self, request, obj=None):
-        for inline in self.get_inline_instances(request, obj):
-            # Don't show the legacy user inline if they're not a legacy user.
-            if (isinstance(inline, LegacyUserInline) and
-                    not LegacyUserInfo.is_legacy_user(obj)):
-                continue
-            yield inline.get_formset(request, obj), inline
 
     hp_action_info = make_link_to_other_user_view(HPUser, "HP action information")
 
@@ -142,6 +131,8 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
                 return ', '.join(groups)
 
         return "None"
+
+    sms_conversations = sms_conversations_field
 
     def save_model(self, request, obj: JustfixUser, form, change):
         super().save_model(request, obj, form, change)

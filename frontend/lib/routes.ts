@@ -3,6 +3,7 @@ import { RouteInfo, ROUTE_PREFIX } from "./util/route-util";
 import { getGlobalAppServerInfo, AppServerInfo } from "./app-context";
 import { default as JustfixRoutes } from "./justfix-routes";
 import { NorentRoutes } from "./norent/routes";
+import History from "history";
 
 /** Common localized routes all our sites support. */
 type CommonLocalizedSiteRoutes = {
@@ -11,6 +12,9 @@ type CommonLocalizedSiteRoutes = {
 
   /** The site home page. */
   home: string;
+
+  /** Create a link to the login page, if the site has one. */
+  createLoginLink?: (next: History.Location) => string;
 };
 
 /** Common non-localized routes all our sites support. */

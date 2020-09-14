@@ -2,7 +2,7 @@
   display: flex;
   font-size: 12px;
   height: calc(100vh - 3.5rem - 40px);
-  margin-top: 20px;
+  margin-top: 10px;
   border: 1px solid lightgray;
 
   .jf-empty-panel {
@@ -98,6 +98,15 @@
       padding: 1em;
       overflow-y: auto;
       flex: 1;
+
+      > .jf-date:last-child {
+        padding-top: 1em;
+      }
+
+      > .jf-date {
+        font-weight: bold;
+        text-align: center;
+      }
 
       > .jf-sms {
         padding: 1em 0;

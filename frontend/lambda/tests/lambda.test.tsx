@@ -1,6 +1,7 @@
 /** @jest-environment node */
 
-import { errorCatchingHandler } from "../lambda";
+import React from "react";
+import { errorCatchingHandler, generateLambdaResponse } from "../lambda";
 import { AppProps } from "../../lib/app";
 import { FakeServerInfo, FakeSessionInfo } from "../../lib/tests/util";
 
@@ -16,6 +17,35 @@ test("lambda works", async () => {
   const response = await errorCatchingHandler(fakeAppProps);
   expect(response.status).toBe(200);
   expect(response.location).toBeNull();
+});
+
+describe("generateLambdaResponse()", () => {
+  const fakeHelmet = (h: any) => {
+    h.helmet = {
+      title: "<title>fake title</title>",
+      meta: "",
+    };
+  };
+
+  it("inlines HTML when needed", () => {
+    let shouldInlineCss = false;
+    const UNINLINED_HTML = "<style>p { color: pink; }</style><p>hi</p>";
+    const generate = () =>
+      generateLambdaResponse(
+        fakeAppProps,
+        (_, ctx, __, h) => {
+          fakeHelmet(h);
+          ctx.staticContent = <></>;
+          ctx.shouldInlineCss = shouldInlineCss;
+          return "";
+        },
+        () => UNINLINED_HTML
+      );
+
+    expect(generate().html).toBe(UNINLINED_HTML);
+    shouldInlineCss = true;
+    expect(generate().html).toBe('<p style="color: pink;">hi</p>');
+  });
 });
 
 test("lambda redirects", async () => {

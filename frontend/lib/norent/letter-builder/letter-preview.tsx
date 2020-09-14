@@ -16,7 +16,10 @@ import {
 import { NorentNotSentLetterStep } from "./step-decorators";
 import { li18n } from "../../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
-import i18n from "../../i18n";
+import {
+  ForeignLanguageOnly,
+  InYourLanguageTranslation,
+} from "../../ui/cross-language";
 
 const SendLetterModal: React.FC<{
   nextStep: string;
@@ -60,33 +63,13 @@ const SendLetterModal: React.FC<{
   );
 };
 
-/**
- * A React component that only renders its children if the user's
- * current locale is non-English.
- */
-const ForeignLanguageOnly: React.FC<{ children: React.ReactNode }> = (
-  props
-) => {
-  const isForeignLanguage = i18n.locale !== "en";
-
-  if (!isForeignLanguage) return null;
-
-  return <>{props.children}</>;
-};
-
 const Microcopy: React.FC<{ children: React.ReactNode }> = (props) => (
   <p className="is-uppercase is-size-7">{props.children}</p>
 );
 
-/**
- * Microcopy for e.g. "Spanish translation" text. This is potentially
- * confusing for localizers so we need to add some comments for them!
- */
 const InYourLanguageMicrocopy: React.FC<{}> = () => (
   <Microcopy>
-    <Trans description="This is used when showing the translation of English content in the user's language. It should be localized to use the name of the language itself, e.g. 'Spanish translation'.">
-      (Name of your language) translation
-    </Trans>
+    <InYourLanguageTranslation />
   </Microcopy>
 );
 

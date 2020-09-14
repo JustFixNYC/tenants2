@@ -38,6 +38,10 @@ import {
   LocalizedOutboundLinkProps,
   LocalizedOutboundLinkList,
 } from "../ui/localized-outbound-link";
+import {
+  ForeignLanguageOnly,
+  InYourLanguageTranslation,
+} from "../ui/cross-language";
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -201,14 +205,22 @@ function RentalHistoryForm(): JSX.Element {
 
 function RentalHistoryPreview(): JSX.Element {
   return (
-    <Page title={li18n._(t`Review your request to the DHCR`)} withHeading>
+    <Page
+      title={li18n._(t`Review your request to the DHCR`)}
+      withHeading
+      className="content"
+    >
       <p>
         <Trans>
           Here is a preview of the request for your Rent History. It includes
           your address and apartment number so that the DHCR can mail you.
         </Trans>
       </p>
-      <br />
+      <ForeignLanguageOnly>
+        <p className="is-uppercase is-size-7">
+          <InYourLanguageTranslation />
+        </p>
+      </ForeignLanguageOnly>
       <article className="message">
         <div className="message-header has-text-weight-normal">
           <Trans>
@@ -219,6 +231,11 @@ function RentalHistoryPreview(): JSX.Element {
           <RhEmailToDhcr />
         </div>
       </article>
+      <ForeignLanguageOnly>
+        <p>
+          <Trans>Please note, the request will be sent in English.</Trans>
+        </p>
+      </ForeignLanguageOnly>
       <DemoDeploymentNote>
         <p>
           This demo site <strong>will not send</strong> a real request to the

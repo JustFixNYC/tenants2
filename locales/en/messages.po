@@ -15,7 +15,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. This is used when showing the translation of English content in the user's language. It should be localized to use the name of the language itself, e.g. 'Spanish translation'.
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:51
+#: frontend/lib/ui/cross-language.tsx:8
 msgid "(Name of your language) translation"
 msgstr "(Name of your language) translation"
 
@@ -135,7 +135,7 @@ msgid "Apartment Needs Painting"
 msgstr "Apartment Needs Painting"
 
 #: frontend/lib/forms/apt-number-form-fields.tsx:13
-#: frontend/lib/rh/rental-history.tsx:110
+#: frontend/lib/rh/rental-history.tsx:111
 msgid "Apartment number"
 msgstr "Apartment number"
 
@@ -198,7 +198,7 @@ msgstr "Bathtub: Leaky Faucet"
 msgid "Bathtub: Pipes Leaking"
 msgstr "Bathtub: Pipes Leaking"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:63
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:47
 msgid "Before you send your letter, let's review what will be sent to make sure all the information is correct."
 msgstr "Before you send your letter, let's review what will be sent to make sure all the information is correct."
 
@@ -272,7 +272,7 @@ msgstr "Cancel"
 msgid "Cancel Rent Campaign"
 msgstr "Cancel Rent Campaign"
 
-#: frontend/lib/rh/rental-history.tsx:118
+#: frontend/lib/rh/rental-history.tsx:119
 msgid "Cancel request"
 msgstr "Cancel request"
 
@@ -478,7 +478,7 @@ msgstr "Email address"
 msgid "Email address <0>(recommended)</0>"
 msgstr "Email address <0>(recommended)</0>"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:79
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:63
 msgid "English version"
 msgstr "English version"
 
@@ -498,7 +498,7 @@ msgstr "Eviction Moratorium updates"
 msgid "Exercise your rights"
 msgstr "Exercise your rights"
 
-#: frontend/lib/rh/rental-history.tsx:202
+#: frontend/lib/rh/rental-history.tsx:210
 msgid "Explore our other tools"
 msgstr "Explore our other tools"
 
@@ -532,7 +532,7 @@ msgid "Find out more"
 msgstr "Find out more"
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:26
-#: frontend/lib/rh/rental-history.tsx:103
+#: frontend/lib/rh/rental-history.tsx:104
 msgid "First name"
 msgstr "First name"
 
@@ -624,7 +624,7 @@ msgstr "Help! My landlord is already trying to evict me."
 msgid "Here are a few benefits to sending a letter to your landlord:"
 msgstr "Here are a few benefits to sending a letter to your landlord:"
 
-#: frontend/lib/rh/rental-history.tsx:125
+#: frontend/lib/rh/rental-history.tsx:126
 msgid "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
 msgstr "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
 
@@ -632,15 +632,15 @@ msgstr "Here is a preview of the request for your Rent History. It includes your
 msgid "Here's a copy of your NoRent letter"
 msgstr "Here's a copy of your NoRent letter"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:70
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:54
 msgid "Here's a preview of the letter that will be attached in an email to your landlord:"
 msgstr "Here's a preview of the letter that will be attached in an email to your landlord:"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:73
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:57
 msgid "Here's a preview of the letter:"
 msgstr "Here's a preview of the letter:"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:98
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:82
 msgid "Here’s a preview of the email that will be sent on your behalf:"
 msgstr "Here’s a preview of the email that will be sent on your behalf:"
 
@@ -661,7 +661,7 @@ msgstr "Here’s what you can do with <0>NoRent</0>"
 msgid "Homepage"
 msgstr "Homepage"
 
-#: frontend/lib/rh/rental-history.tsx:163
+#: frontend/lib/rh/rental-history.tsx:171
 msgid "Housing Court Answers"
 msgstr "Housing Court Answers"
 
@@ -722,7 +722,7 @@ msgstr "Idaho"
 msgid "If you didn't receive a code, please contact <0/>."
 msgstr "If you didn't receive a code, please contact <0/>."
 
-#: frontend/lib/rh/rental-history.tsx:196
+#: frontend/lib/rh/rental-history.tsx:204
 msgid "If you have more questions, please email us at <0/>."
 msgstr "If you have more questions, please email us at <0/>."
 
@@ -818,7 +818,7 @@ msgstr "JustFix.nyc <0/>sent on behalf of <1/>"
 msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
 msgstr "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
 
-#: frontend/lib/rh/rental-history.tsx:169
+#: frontend/lib/rh/rental-history.tsx:177
 msgid "JustFix.nyc's Learning Center"
 msgstr "JustFix.nyc's Learning Center"
 
@@ -855,7 +855,7 @@ msgid "Language:"
 msgstr "Language:"
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:27
-#: frontend/lib/rh/rental-history.tsx:106
+#: frontend/lib/rh/rental-history.tsx:107
 msgid "Last name"
 msgstr "Last name"
 
@@ -979,7 +979,7 @@ msgstr "Mailing address"
 msgid "Maine"
 msgstr "Maine"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:122
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:106
 msgid "Make sure all the information above is correct."
 msgstr "Make sure all the information above is correct."
 
@@ -995,7 +995,7 @@ msgstr "Maryland"
 msgid "Massachusetts"
 msgstr "Massachusetts"
 
-#: frontend/lib/rh/rental-history.tsx:157
+#: frontend/lib/rh/rental-history.tsx:165
 msgid "Met Council on Housing"
 msgstr "Met Council on Housing"
 
@@ -1235,7 +1235,7 @@ msgid "Pennsylvania"
 msgstr "Pennsylvania"
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:36
-#: frontend/lib/rh/rental-history.tsx:111
+#: frontend/lib/rh/rental-history.tsx:112
 msgid "Phone number"
 msgstr "Phone number"
 
@@ -1255,11 +1255,15 @@ msgstr "Please agree to our terms and conditions"
 msgid "Please enter an email address!"
 msgstr "Please enter an email address!"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:117
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:101
 msgid "Please note, the email will be sent in English."
 msgstr "Please note, the email will be sent in English."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:82
+#: frontend/lib/rh/rental-history.tsx:146
+msgid "Please note, the request will be sent in English."
+msgstr "Please note, the request will be sent in English."
+
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:66
 #: frontend/lib/norent/the-letter.tsx:92
 msgid "Preview of your NoRent.org letter"
 msgstr "Preview of your NoRent.org letter"
@@ -1304,7 +1308,7 @@ msgstr "Refrigerator Defective"
 msgid "Regards,"
 msgstr "Regards,"
 
-#: frontend/lib/rh/rental-history.tsx:212
+#: frontend/lib/rh/rental-history.tsx:220
 msgid "Rent History"
 msgstr "Rent History"
 
@@ -1328,15 +1332,15 @@ msgstr "Request for Rent History"
 msgid "Request repairs from your landlord"
 msgstr "Request repairs from your landlord"
 
-#: frontend/lib/rh/rental-history.tsx:93
+#: frontend/lib/rh/rental-history.tsx:94
 msgid "Request the Rent History for your apartment"
 msgstr "Request the Rent History for your apartment"
 
-#: frontend/lib/rh/rental-history.tsx:43
+#: frontend/lib/rh/rental-history.tsx:44
 msgid "Request your <0>Rent History</0> in two simple steps!"
 msgstr "Request your <0>Rent History</0> in two simple steps!"
 
-#: frontend/lib/rh/rental-history.tsx:35
+#: frontend/lib/rh/rental-history.tsx:36
 msgid "Request your Rent History"
 msgstr "Request your Rent History"
 
@@ -1352,7 +1356,7 @@ msgstr "Reset your password"
 msgid "Results for {0}"
 msgstr "Results for {0}"
 
-#: frontend/lib/rh/rental-history.tsx:123
+#: frontend/lib/rh/rental-history.tsx:124
 msgid "Review your request to the DHCR"
 msgstr "Review your request to the DHCR"
 
@@ -1528,7 +1532,7 @@ msgstr "Start a legal case for repairs and/or harassment"
 msgid "Start an emergency legal case for repairs"
 msgstr "Start an emergency legal case for repairs"
 
-#: frontend/lib/rh/rental-history.tsx:59
+#: frontend/lib/rh/rental-history.tsx:60
 msgid "Start my request"
 msgstr "Start my request"
 
@@ -1565,7 +1569,7 @@ msgstr "Street address"
 msgid "Submit email"
 msgstr "Submit email"
 
-#: frontend/lib/rh/rental-history.tsx:150
+#: frontend/lib/rh/rental-history.tsx:158
 msgid "Submit request"
 msgstr "Submit request"
 
@@ -1633,7 +1637,7 @@ msgstr "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 msgid "This is optional."
 msgstr "This is optional."
 
-#: frontend/lib/rh/rental-history.tsx:56
+#: frontend/lib/rh/rental-history.tsx:57
 msgid "This service is free, secure, and confidential."
 msgstr "This service is free, secure, and confidential."
 
@@ -1645,11 +1649,11 @@ msgstr "This tool is provided by JustFix.nyc. We’re a non-profit that creates 
 msgid "To begin the password reset process, we'll text you a verification code."
 msgstr "To begin the password reset process, we'll text you a verification code."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:107
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:91
 msgid "To:"
 msgstr "To:"
 
-#: frontend/lib/rh/rental-history.tsx:133
+#: frontend/lib/rh/rental-history.tsx:136
 msgid "To: New York Division of Housing and Community Renewal (DHCR)"
 msgstr "To: New York Division of Housing and Community Renewal (DHCR)"
 
@@ -1697,7 +1701,7 @@ msgstr "Verify your phone number"
 msgid "Vermont"
 msgstr "Vermont"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:85
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:69
 msgid "View this letter as a PDF"
 msgstr "View this letter as a PDF"
 
@@ -1709,7 +1713,7 @@ msgstr "Virginia"
 msgid "Visit Who Owns What"
 msgstr "Visit Who Owns What"
 
-#: frontend/lib/rh/rental-history.tsx:205
+#: frontend/lib/rh/rental-history.tsx:213
 msgid "Want to read more about your rights?"
 msgstr "Want to read more about your rights?"
 
@@ -1731,7 +1735,7 @@ msgstr "Water damage"
 msgid "We make it easy to notify your landlord by email or by certified mail for free."
 msgstr "We make it easy to notify your landlord by email or by certified mail for free."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:89
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:73
 msgid "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 msgstr "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 
@@ -1807,7 +1811,7 @@ msgid "What happens after I send this letter?"
 msgstr "What happens after I send this letter?"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:66
-#: frontend/lib/rh/rental-history.tsx:181
+#: frontend/lib/rh/rental-history.tsx:189
 msgid "What happens next?"
 msgstr "What happens next?"
 
@@ -1928,7 +1932,7 @@ msgstr "You're in <0>{stateName}</0>"
 msgid "You've sent your letter"
 msgstr "You've sent your letter"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:61
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:45
 msgid "Your Letter Is Ready To Send!"
 msgstr "Your Letter Is Ready To Send!"
 
@@ -1936,7 +1940,7 @@ msgstr "Your Letter Is Ready To Send!"
 msgid "Your NoRent.org letter"
 msgstr "Your NoRent.org letter"
 
-#: frontend/lib/rh/rental-history.tsx:178
+#: frontend/lib/rh/rental-history.tsx:186
 msgid "Your Rent History has been requested!"
 msgstr "Your Rent History has been requested!"
 
@@ -2055,7 +2059,7 @@ msgstr "Disclaimer: The information in {website} does not constitute legal advic
 msgid "justfix.privacyInfoModalText"
 msgstr "<0>Your privacy is very important to us! Here are some important things to know:</0><1><2>Your personal information is secure.</2><3>We don’t use your personal information for profit or sell it to third parties.</3><4>We use your address to find information about your landlord and your building.</4></1><5>Our Privacy Policy enables sharing anonymized data with approved tenant advocacy organizations exclusively to help further our tenants rights mission. The Privacy Policy contains information regarding what data we collect, how we use it, and the choices you have regarding your personal information. If you’d like to read more, please review our full <6/> and <7/>.</5>"
 
-#: frontend/lib/rh/rental-history.tsx:49
+#: frontend/lib/rh/rental-history.tsx:50
 msgid "justfix.rhExplanation"
 msgstr "This document helps you find out if your apartment is <0>rent stabilized</0> and if you're being <1>overcharged</1>. It shows the registered rents in your apartment since 1984."
 
@@ -2063,7 +2067,7 @@ msgstr "This document helps you find out if your apartment is <0>rent stabilized
 msgid "justfix.rhRequestToDhcr"
 msgstr "<0>DHCR administrator,</0><1>I, {0}, am currently living at {1} in apartment {2}, and would like to request the complete Rent History for this apartment back to the year 1984.</1><2>Thank you,<3/>{3}</2>"
 
-#: frontend/lib/rh/rental-history.tsx:184
+#: frontend/lib/rh/rental-history.tsx:192
 msgid "justfix.rhWhatHappensNext"
 msgstr "You should receive your Rent History in the mail in about a week. Your Rent History is an important document—it shows the registered rents in your apartment since 1984. You can learn more about it and how it can help you figure out if you’re being overcharged on rent at the <0>Met Council on Housing guide to Rent Stabilization Overcharges</0>."
 

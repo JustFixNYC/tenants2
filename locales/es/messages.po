@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-13 22:38\n"
+"PO-Revision-Date: 2020-09-14 12:52\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1656,7 +1656,7 @@ msgstr "A:"
 
 #: frontend/lib/rh/rental-history.tsx:133
 msgid "To: New York Division of Housing and Community Renewal (DHCR)"
-msgstr "To: New York Division of Housing and Community Renewal (DHCR)"
+msgstr "Para: La División de Vivienda y Renovación de la Comunidad (DHCR)"
 
 #: common-data/issue-choices.ts:239
 msgid "Toilet leaking"

@@ -37,17 +37,17 @@ export const Welcome: React.FC<ProgressStepProps> = (props) => {
         </h1>
         <p>
           We're going to help you create a customized Letter of Complaint that
-          highlights the issues in your apartment that need repair.{" "}
+          highlights the issues in your home that need repair.{" "}
           <strong>This will take about 5 minutes.</strong>
         </p>
         <ol className="has-text-left">
           <li>
-            First, conduct a <strong>self-inspection of your apartment</strong>{" "}
-            to document all the issues that need repair.
+            First, conduct a <strong>self-inspection of your home</strong> to
+            document all the issues that need repair.
           </li>
           <li>
-            Review your Letter of Complaint and JustFix.nyc will send it to your
-            landlord via USPS Certified Mail<sup>&reg;</sup>.
+            Review your Letter of Complaint and we will send it to your landlord
+            via USPS Certified Mail<sup>&reg;</sup>.
           </li>
         </ol>
         <CovidRiskBanner />
@@ -61,8 +61,8 @@ export const Welcome: React.FC<ProgressStepProps> = (props) => {
         <MoratoriumWarning />
         <h2>Why mail a Letter of Complaint?</h2>
         <p>
-          Your landlord is responsible for keeping your apartment and the
-          building safe and livable at all times. This is called the{" "}
+          Your landlord is responsible for keeping your home and building safe
+          and livable at all times. This is called the{" "}
           <strong>Warranty of Habitability</strong>.
         </p>
         <p>

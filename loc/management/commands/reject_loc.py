@@ -18,8 +18,8 @@ the custom issues you reported are not related to
 apartment repairs, and those are the only kinds of issues
 that can be addressed when we mail your letter for you.
 
-If you log in and remove those issues and re-submit the
-letter for us to send, we'll be happy to send it for you.
+If you log in and remove those issues and re-send the
+letter, we'll be happy to send it for you.
 
 Regards,
 JustFix.nyc

@@ -45,7 +45,7 @@ class Command(BaseCommand):
             message=EMAIL_TEXT % {
                 'first_name': user.first_name,
             },
-            from_email=[EMAIL_SENDER],
+            from_email=EMAIL_SENDER,
             recipient_list=[user.email],
         )
         self.stdout.write("Deleting letter request...\n")

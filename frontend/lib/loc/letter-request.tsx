@@ -26,15 +26,14 @@ export const SendConfirmModal = withAppContext(
 
     return (
       <Modal
-        title="Ready to go"
+        title="Your Letter Is Ready To Send!"
         withHeading
         onCloseGoTo={BackOrUpOneDirLevel}
         render={(ctx) => (
           <>
             <p>
               JustFix.nyc will send this letter via USPS Certified Mail
-              <sup>&reg;</sup> <strong>within 1-2 business days</strong> to your
-              landlord:
+              <sup>&reg;</sup> to your landlord:
             </p>
             <address className="has-text-centered">
               {landlord.name || "UNKNOWN LANDLORD"}

@@ -26,7 +26,7 @@ function getIntroText(isLookedUp: boolean | null): JSX.Element {
         different than where you send your rent checks.
       </p>
       <p className="subtitle is-6">
-        We will use this address to ensure your landlord receives it.
+        We will use this address to ensure your landlord receives your letter.
       </p>
     </React.Fragment>
   ) : (

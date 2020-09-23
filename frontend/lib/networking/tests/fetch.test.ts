@@ -11,9 +11,9 @@ describe("awesomeFetch()", () => {
   });
 
   it("dynamically loads fetch implementation if needed", () => {
-    delete window.fetch;
+    delete (window as any).fetch;
     return expect(awesomeFetch("aweogjaowejg")).rejects.toThrow(
-      /only absolute urls are supported/
+      /only absolute urls are supported/i
     );
   });
 });

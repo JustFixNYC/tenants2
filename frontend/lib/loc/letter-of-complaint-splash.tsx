@@ -18,14 +18,14 @@ export const WhyMailALetter: React.FC<{ isBigAndCentered?: boolean }> = ({
   <>
     <h2
       className={classnames(
-        isBigAndCentered && "title is-spaced has-text-centered"
+        isBigAndCentered && "title is-spaced has-text-centered",
       )}
     >
       <Trans>Why mail a Letter of Complaint?</Trans>
     </h2>
     <Trans id="justfix.LocWhyMailALetterBlurb">
       <p className={classnames(isBigAndCentered && "subtitle")}>
-        Your landlord is responsible for keeping your apartment and the building
+        Your landlord is responsible for keeping your home and building
         safe and livable at all times. This is called the{" "}
         <strong>Warranty of Habitability</strong>.
       </p>
@@ -48,7 +48,7 @@ export function LocSplash(): JSX.Element {
   return (
     <Page
       className="jf-loc-landing-page"
-      title={li18n._(t`Technology for Housing Justice`)}
+      title={li18n._(t`Letter of Complaint`)}
     >
       <section className="hero is-light">
         <div className="hero-body">
@@ -83,7 +83,7 @@ export function LocSplash(): JSX.Element {
             <p className="jf-secondary-cta">
               <Trans>
                 Already have an account?{" "}
-                <Link to={JustfixRoutes.locale.login}>Sign in!</Link>
+                <Link to={JustfixRoutes.locale.login}>Sign in</Link>
               </Trans>
             </p>
             <br />
@@ -113,20 +113,23 @@ export function LocSplash(): JSX.Element {
           <Trans id="justfix.LocHowItWorksList">
             <BigList itemClassName="title is-5">
               <li>
-                Customize your letter with a room-by-room issue checklist. We
-                use a lawyer-approved template.
+                Customize our lawyer-approved letter template to choose the
+                repairs you need in your home.
               </li>
               <li>
-                JustFix.nyc mails your letter via USPS Certified Mail
+                We mail your letter via USPS Certified Mail
                 <sup>&reg;</sup> - for free!
               </li>
+              <li>Wait for your landlord to contact you directly.</li>
               <li>
-                Wait for your landlord to contact you directly. We'll check in
-                to make sure they follow through.
+                We'll text you to see how things are going after a few weeks.
               </li>
               <li>
-                If repairs aren't made, learn about additional tactics like
-                organizing and legal actions.
+                If repairs aren't made, learn about additional tactics like{" "}
+                <Link to={JustfixRoutes.locale.hp.splash}>
+                  suing your landlord
+                </Link>{" "}
+                in Housing Court.
               </li>
             </BigList>
           </Trans>
@@ -208,10 +211,10 @@ export function LocSplash(): JSX.Element {
         </h2>
         <p className="subtitle">
           <Trans id="justfix.LocAboutOurNonprofitBlurb">
-            JustFix.nyc is a tenants rights nonprofit that builds tools for
-            tenants and organizers fighting displacement in NYC. We encourage
-            tenants to take action and fight for safe and healthy homes. Want to
-            know more?{" "}
+            JustFix.nyc co-designs and builds tools for tenants, housing
+            organizers, and legal advocates fighting displacement in New York
+            City. We encourage tenants to take action and fight for safe and
+            healthy homes. Want to know more?{" "}
             <OutboundLink href="https://www.justfix.nyc/our-mission">
               Visit our website.
             </OutboundLink>

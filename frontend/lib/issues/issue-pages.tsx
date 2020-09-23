@@ -267,15 +267,16 @@ const CovidRiskMessage = () => (
         <Trans>Warning:</Trans>
       </strong>
       <Trans>
-        Please be aware that letting a repair-worker into your home to make
-        repairs may expose you to the Covid-19 virus.
+      Please be aware that letting a repair-worker into your home to make
+      repairs may increase exposure to the COVID-19 virus.
       </Trans>
     </p>
     <p>
       <Trans id="justfix.CovidRecForEmergencyRepairsOnly">
-        In order to follow social distancing guidelines and to limit your
-        exposure, we recommend only asking for repairs in the case of an
-        emergency such as if you have no heat, no hot water, or no gas.
+      In order to follow social distancing guidelines and to limit exposure, we
+      recommend only asking for repairs{" "}
+      <strong>in the case of an emergency</strong> such as if you have no heat,
+      no hot water, or no gas.
       </Trans>
     </p>
   </>
@@ -337,15 +338,16 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
       </>
     );
     return (
-      <Page title={li18n._(t`Apartment self-inspection`)}>
+      <Page title={li18n._(t`Home self-inspection`)}>
         <div>
           <h1 className="title is-4 is-spaced">
             <Trans>Apartment self-inspection</Trans>
           </h1>
           <p className="subtitle is-6">
             <Trans>
-              Please go room-by-room and select all of the issues that you are
-              experiencing. {introContent} <strong>Don't hold back!</strong>
+            Please go room-by-room and select all of the issues that you are
+            experiencing. {introContent}{" "}
+            <strong>Make sure to be thorough.</strong>
             </Trans>
           </p>
           <NoScriptFallback>

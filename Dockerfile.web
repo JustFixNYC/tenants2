@@ -30,6 +30,11 @@ RUN pipenv install --system --keep-outdated \
 
 WORKDIR /tenants2
 
+# This contains the fake version of a npm module that we need on the
+# filesystem so yarn can install dependencies. For more details, see
+# https://github.com/JustFixNYC/tenants2/pull/1661.
+COPY frontend/fake-opencollective /tenants2/frontend/fake-opencollective
+
 COPY package.json yarn.lock /tenants2/
 
 # Make sure we run as a non-root user.

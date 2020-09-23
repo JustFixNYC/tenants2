@@ -97,9 +97,9 @@ const AccessDates: React.FC<LocContentProps> = (props) => (
     </h2>
     <p>
       <Trans id="justfix.LocLetterContentAvailableAccessDates">
-        Below are dates that I am available to be at my apartment to let in a
-        repair worker. Please contact me (using the information provided at the
-        top of this letter) in order to make arrangements with me{" "}
+        Below are dates that I am available to be at my home to let in a repair
+        worker. Please contact me (using the information provided at the top of
+        this letter) in order to make arrangements with me{" "}
         <strong>at least 24 hours in advance</strong>.
       </Trans>
     </p>
@@ -114,8 +114,8 @@ const AccessDates: React.FC<LocContentProps> = (props) => (
 function hasHeatIssues(issues: AreaIssues[]): boolean {
   return issues.some((areaIssues) =>
     areaIssues.issues.some(
-      (issue) => issue.kind == "choice" && HEAT_ISSUE_CHOICES.has(issue.choice)
-    )
+      (issue) => issue.kind == "choice" && HEAT_ISSUE_CHOICES.has(issue.choice),
+    ),
   );
 }
 
@@ -248,14 +248,14 @@ function getIssuesFromSession(session: AllSessionInfo): AreaIssues[] {
   for (let area of IssueAreaChoices) {
     const issueChoices: Issue[] = issuesForArea(
       area,
-      session.issues as IssueChoice[]
+      session.issues as IssueChoice[],
     ).map((choice) => ({
       kind: "choice",
       choice,
     }));
     const customIssues: Issue[] = customIssuesForArea(
       area,
-      session.customIssuesV2 || []
+      session.customIssuesV2 || [],
     ).map((ci) => ({
       kind: "custom",
       value: ci.description,
@@ -270,7 +270,7 @@ function getIssuesFromSession(session: AllSessionInfo): AreaIssues[] {
 }
 
 export function getLocContentPropsFromSession(
-  session: AllSessionInfo
+  session: AllSessionInfo,
 ): LocContentProps | null {
   const baseProps = getBaseLetterContentPropsFromSession(session);
   const onb = session.onboardingInfo;

@@ -28,7 +28,7 @@ export const SendConfirmModal = withAppContext(
 
     return (
       <Modal
-        title={li18n._(t`Ready to go`)}
+        title={li18n._(t`Your Letter Is Ready To Send!`)}
         withHeading
         onCloseGoTo={BackOrUpOneDirLevel}
         render={(ctx) => (
@@ -36,8 +36,7 @@ export const SendConfirmModal = withAppContext(
             <p>
               <Trans>
                 JustFix.nyc will send this letter via USPS Certified Mail
-                <sup>&reg;</sup> <strong>within 1-2 business days</strong> to
-                your landlord:
+                <sup>&reg;</sup> to your landlord:
               </Trans>
             </p>
             <address className="has-text-centered">
@@ -46,10 +45,14 @@ export const SendConfirmModal = withAppContext(
               {landlord.address || li18n._(t`UNKNOWN ADDRESS`)}
             </address>
             <br />
+            <p>
+              After this step, you cannot go back to make changes. But don't
+              worry, we'll explain what to do next.
+            </p>
             <div className="has-text-centered">
               <FormAsButton
                 mailChoice={LetterRequestMailChoice.WE_WILL_MAIL}
-                label={li18n._(t`Mail my letter`)}
+                label={li18n._(t`Confirm`)}
                 buttonClass="is-success"
                 nextStep={props.nextStep}
               />
@@ -107,8 +110,8 @@ const LetterRequestPage = MiddleProgressStep(({ prevStep, nextStep }) => {
       </h1>
       <p className="subtitle is-6">
         <Trans>
-          Here is a preview of the letter for you to review. It includes the
-          repair issues you selected from the Issue Checklist.
+        Here is a preview of the letter for you to review. It includes the
+        repair issues you selected from the issue checklist.
         </Trans>
       </p>
       <LocPreview />
@@ -126,7 +129,7 @@ const LetterRequestPage = MiddleProgressStep(({ prevStep, nextStep }) => {
           className="button is-primary is-medium"
           render={() => <SendConfirmModal nextStep={nextStep} />}
         >
-          <Trans>Looks good to me!</Trans>
+          <Trans>Mail my letter</Trans>
         </ModalLink>
         <div className="buttons jf-two-buttons jf-two-buttons--vertical">
           <BackButton

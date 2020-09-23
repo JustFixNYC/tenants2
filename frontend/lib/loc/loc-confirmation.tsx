@@ -19,11 +19,6 @@ import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 
-const getLetterViaEmailInstructions = () =>
-  li18n._(
-    t`If you want to send your Letter of Complaint to your landlord and/or management company via email, download the PDF and include it as an attachment to your regular email.`
-  );
-
 const SanitationGuidelines = () => {
   const [isExpanded, toggleExpansion] = useState(false);
 
@@ -35,8 +30,8 @@ const SanitationGuidelines = () => {
           <div className="jf-sanitation-guidelines notification is-warning">
             <div>
               <Trans>
-                Please be aware that letting a repair-worker into your home to
-                make repairs may expose you to the Covid-19 virus.
+              Please be aware that letting a repair-worker into your home to
+              make repairs may increase exposure to the COVID-19 virus.
               </Trans>{" "}
               <Trans>
                 In order to follow social distancing guidelines and to limit
@@ -252,14 +247,7 @@ function WeMailedLetterStatus(props: {
       <h2>
         <Trans>What happens next?</Trans>
       </h2>
-      <BigList
-        children={[
-          <li>
-            <p>{getLetterViaEmailInstructions()}</p>
-          </li>,
-          ...getCommonWeMailNextSteps(),
-        ]}
-      />
+      <BigList children={[...getCommonWeMailNextSteps()]} />
     </>
   );
 }
@@ -279,7 +267,7 @@ function WeWillMailLetterStatus(props: {
           <b>
             USPS Certified Mail<sup>&reg;</sup>
           </b>{" "}
-          tracking number once we have it!
+          tracking number once we have it.
         </Trans>
       </p>
       <DownloadLetterLink {...props} />
@@ -298,7 +286,6 @@ function WeWillMailLetterStatus(props: {
                 and provide a tracking number via text message.
               </Trans>
             </p>
-            <p>{getLetterViaEmailInstructions()}</p>
           </li>,
           ...getCommonWeMailNextSteps(),
         ]}
@@ -327,7 +314,6 @@ function UserWillMailLetterStatus(props: { locPdfURL: string }): JSX.Element {
                 prove that it was sent to your landlord.
               </Trans>
             </p>
-            <p>{getLetterViaEmailInstructions()}</p>
           </li>,
           ...getCommonMailNextSteps(),
         ]}

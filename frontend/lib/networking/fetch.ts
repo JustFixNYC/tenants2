@@ -11,9 +11,9 @@ let dynamicImport: Promise<typeof fetch> | null = null;
  */
 export function dynamicallyImportFetch(): Promise<typeof fetch> {
   if (!dynamicImport) {
-    dynamicImport = import(
-      /* webpackChunkName: "fetch" */ "isomorphic-fetch"
-    ).then((res) => res.default);
+    dynamicImport = import(/* webpackChunkName: "fetch" */ "cross-fetch").then(
+      (res) => res.default
+    );
   }
   return dynamicImport;
 }

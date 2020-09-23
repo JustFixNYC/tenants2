@@ -30,7 +30,7 @@ const DEFAULT_FIRST_DATE_DAYS = MIN_DAYS;
 
 export function getInitialState(
   accessDates: string[],
-  now: Date = new Date()
+  now: Date = new Date(),
 ): AccessDatesInput {
   const result: AccessDatesInput = {
     ...BlankAccessDatesInput,
@@ -54,8 +54,9 @@ const AccessDatesPage = MiddleProgressStep((props) => {
           <Trans id="justfix.LocAccessDatesDescription">
             Access dates are times you know when you will be home for the
             landlord to schedule repairs. Please provide <strong>1 - 3</strong>{" "}
-            access dates when you can be available (allowing at least {MIN_DAYS}{" "}
-            days for the letter to be received).
+            access dates when you can be available. You can only choose access
+            dates starting {MIN_DAYS} days from today to give time for the
+            letter to be delivered.
           </Trans>
         </p>
         <SessionUpdatingFormSubmitter
@@ -67,7 +68,7 @@ const AccessDatesPage = MiddleProgressStep((props) => {
             <>
               <TextualFormField
                 label={li18n._(
-                  t`First access date (at least ${MIN_DAYS} days from today)`
+                  t`First access date (at least ${MIN_DAYS} days from today)`,
                 )}
                 type="date"
                 min={minDate}

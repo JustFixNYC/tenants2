@@ -87,15 +87,15 @@ export const CovidRiskBanner = () => (
   <div className="notification is-warning">
     <p>
       <Trans>
-        Please be aware that letting a repair-worker into your home to make
-        repairs may expose you to the Covid-19 virus.
+      Please be aware that letting a repair-worker into your home to make
+      repairs may increase exposure to the COVID-19 virus.
       </Trans>
     </p>
     <p>
       <Trans id="justfix.CovidRecForEmergencyRepairsOnly">
-        In order to follow social distancing guidelines and to limit your
-        exposure, we recommend only asking for repairs in the case of an
-        emergency such as if you have no heat, no hot water, or no gas.
+        In order to follow social distancing guidelines and to limit exposure, we
+      recommend only asking for repairs in the case of an emergency such as if
+      you have no heat, no hot water, or no gas.
       </Trans>
     </p>
   </div>
@@ -123,7 +123,7 @@ export const MoratoriumWarning = () => (
 
 /**
  * This banner is intended to show up in the Emergency HP splash and welcome pages, listing
- * out the cases that are currently eligible for Emergency HP actions during the Covid-19 crisis.
+ * out the cases that are currently eligible for Emergency HP actions during the COVID-19 crisis.
  */
 
 export const CovidEhpDisclaimer = () => {
@@ -139,7 +139,7 @@ export const CovidEhpDisclaimer = () => {
   return (
     <div className="jf-covid-ehp-disclaimer notification is-warning">
       <p>
-        Due to the covid-19 pandemic, Housing Courts in New York City are
+        Due to the COVID-19 pandemic, Housing Courts in New York City are
         prioritizing cases for the following conditions,{" "}
         <strong>
           or others that threaten the health and safety of your household

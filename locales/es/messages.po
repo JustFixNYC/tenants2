@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-07-01 15:04\n"
+"PO-Revision-Date: 2020-09-14 12:52\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -44,7 +44,7 @@ msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:441
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
-msgstr ""
+msgstr "<0>Herramientas gratuitas para luchar por un hogar seguro y saludable</0><1>Introduce tu dirección para saber más.</1>"
 
 #: frontend/lib/onboarding/onboarding-step-3.tsx:109
 msgid "<0>If your building has more than 6 units and was built before 1974, your apartment is likely rent stabilized.</0><1>Check your lease to make sure.</1>"
@@ -122,7 +122,7 @@ msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:404
 msgid "Actions"
-msgstr ""
+msgstr "Acciones"
 
 #: frontend/lib/issues/issue-pages.tsx:113
 msgid "Add issues"
@@ -183,7 +183,7 @@ msgstr "Contesta algunas preguntas sobre ti y sobre el dueño o manager de tu ed
 
 #: common-data/issue-choices.ts:156
 msgid "Apartment Needs Painting"
-msgstr ""
+msgstr "El apartamento necesita pintura"
 
 #: frontend/lib/forms/apt-number-form-fields.tsx:13
 #: frontend/lib/rh/rental-history.tsx:110
@@ -237,7 +237,7 @@ msgstr "Prohibir desalojos"
 #: common-data/issue-choices.ts:213
 #: common-data/issue-choices.ts:228
 msgid "Baseboards Defective"
-msgstr ""
+msgstr "Zócalo defectuoso"
 
 #: common-data/issue-area-choices.ts:23
 msgid "Bathrooms"
@@ -245,27 +245,27 @@ msgstr ""
 
 #: common-data/issue-choices.ts:247
 msgid "Bathtub: Cracked Tub"
-msgstr ""
+msgstr "Bañera: Agrietada"
 
 #: common-data/issue-choices.ts:252
 msgid "Bathtub: Drain Stoppage"
-msgstr ""
+msgstr "Bañera: Desagüe atascado"
 
 #: common-data/issue-choices.ts:249
 msgid "Bathtub: Faucets not installed"
-msgstr ""
+msgstr "Bañera: No hay grifo"
 
 #: common-data/issue-choices.ts:250
 msgid "Bathtub: Faucets not working"
-msgstr ""
+msgstr "Bañera: Grifo no funciona"
 
 #: common-data/issue-choices.ts:248
 msgid "Bathtub: Leaky Faucet"
-msgstr ""
+msgstr "Bañera: Grifo con fugas"
 
 #: common-data/issue-choices.ts:251
 msgid "Bathtub: Pipes Leaking"
-msgstr ""
+msgstr "Bañera: Tuberías con fugas"
 
 #: common-data/issue-area-choices.ts:20
 msgid "Bedrooms"
@@ -285,7 +285,7 @@ msgstr "Aprovecha las protecciones de desalojo en tu estado notificando al dueñ
 
 #: common-data/issue-choices.ts:272
 msgid "Broken/no smoke/Co2 detector"
-msgstr ""
+msgstr "Sin detector de Co2 o humo"
 
 #: frontend/lib/norent/faqs.tsx:89
 msgid "Browse the FAQs"
@@ -293,7 +293,7 @@ msgstr "Explora las preguntas más frecuentes"
 
 #: common-data/issue-choices.ts:269
 msgid "Bug Infestation"
-msgstr ""
+msgstr "Infestación de insectos"
 
 #: frontend/lib/norent/homepage.tsx:39
 msgid "Build a letter using our free letter builder"
@@ -318,15 +318,15 @@ msgstr "Crea tu carta"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:216
 msgid "Buildings in your landlord's portfolio are located in {0, plural, one {one zip code.} other {# zip codes.}}"
-msgstr ""
+msgstr "Los edificios en el portafolio del dueño de tu edificio se encuentran en {0, plural, one {un código postal.} other {# código postales.}}"
 
 #: common-data/issue-choices.ts:164
 msgid "Buzzer Broken"
-msgstr ""
+msgstr "Timbre Roto"
 
 #: common-data/issue-choices.ts:163
 msgid "Buzzer Defective"
-msgstr ""
+msgstr "Timbre Defectuoso"
 
 #: frontend/lib/norent/data/faqs-content.tsx:28
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
@@ -356,7 +356,7 @@ msgstr ""
 
 #: frontend/lib/rh/rental-history.tsx:118
 msgid "Cancel request"
-msgstr ""
+msgstr "Cancelar solicitud"
 
 #: frontend/lib/norent/homepage.tsx:70
 msgid "Cancelling rent"
@@ -367,14 +367,14 @@ msgstr "Cancelar la renta"
 #: common-data/issue-choices.ts:218
 #: common-data/issue-choices.ts:233
 msgid "Ceiling Falling/Fell"
-msgstr ""
+msgstr "Techo Colapsado/Se Colapsa"
 
 #: common-data/issue-choices.ts:178
 #: common-data/issue-choices.ts:193
 #: common-data/issue-choices.ts:219
 #: common-data/issue-choices.ts:234
 msgid "Ceiling Leaking"
-msgstr ""
+msgstr "Techo Gotea"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:29
 msgid "Check out these valuable resources for your state:"
@@ -411,7 +411,7 @@ msgstr "Haga clic aquí para obtener más información sobre nuestra política d
 
 #: common-data/issue-choices.ts:148
 msgid "Cockroaches"
-msgstr ""
+msgstr "Cucarachas"
 
 #: frontend/lib/norent/homepage.tsx:301
 msgid "Collective action is a powerful tool for:"
@@ -464,14 +464,14 @@ msgstr "Continuar"
 
 #: common-data/issue-choices.ts:201
 msgid "Cracked Sink"
-msgstr ""
+msgstr "Lavabo Agrietado"
 
 #: common-data/issue-choices.ts:168
 #: common-data/issue-choices.ts:185
 #: common-data/issue-choices.ts:211
 #: common-data/issue-choices.ts:226
 msgid "Cracked walls"
-msgstr ""
+msgstr "Paredes Agrietadas"
 
 #: frontend/lib/onboarding/onboarding-step-4.tsx:37
 msgid "Create a password"
@@ -539,23 +539,23 @@ msgstr "No te preocupes, guardaremos tus respuestas para que puedas empezar desd
 #: common-data/issue-choices.ts:216
 #: common-data/issue-choices.ts:231
 msgid "Door Broken"
-msgstr ""
+msgstr "Puerta Rota"
 
 #: common-data/issue-choices.ts:160
 msgid "Door Lock Broken"
-msgstr ""
+msgstr "Cerrojo Roto"
 
 #: common-data/issue-choices.ts:159
 msgid "Door Lock Defective"
-msgstr ""
+msgstr "Cerrojo Defectuoso"
 
 #: common-data/issue-choices.ts:162
 msgid "Doorbell Broken"
-msgstr ""
+msgstr "Timbre Roto"
 
 #: common-data/issue-choices.ts:161
 msgid "Doorbell Defective"
-msgstr ""
+msgstr "Timbre Defectuoso"
 
 #: frontend/lib/loc/loc-confirmation.tsx:126
 msgid "Download letter"
@@ -563,7 +563,7 @@ msgstr ""
 
 #: common-data/issue-choices.ts:207
 msgid "Drain Stoppage"
-msgstr ""
+msgstr "Desagüe Atascado"
 
 #: frontend/lib/norent/components/subscribe.tsx:55
 msgid "ENTER YOUR EMAIL"
@@ -575,14 +575,14 @@ msgstr "INTRODUCE TU CORREO ELECTRÓNICO"
 #: common-data/issue-choices.ts:236
 #: common-data/issue-choices.ts:267
 msgid "Electric wiring exposed"
-msgstr ""
+msgstr "Alambrado Eléctrico Expuesto"
 
 #: common-data/issue-choices.ts:179
 #: common-data/issue-choices.ts:194
 #: common-data/issue-choices.ts:220
 #: common-data/issue-choices.ts:235
 msgid "Electricity defective"
-msgstr ""
+msgstr "Electricidad Defectuosa"
 
 #: frontend/lib/norent/components/subscribe.tsx:53
 msgid "Email"
@@ -615,7 +615,7 @@ msgstr "Versión en inglés"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:450
 msgid "Enter your address to see some recommended actions."
-msgstr ""
+msgstr "Introduce tu dirección para ver algunas acciones recomendadas."
 
 #: common-data/issue-area-choices.ts:19
 msgid "Entire home and hallways"
@@ -635,7 +635,7 @@ msgstr "Ejercita tus derechos"
 
 #: frontend/lib/rh/rental-history.tsx:202
 msgid "Explore our other tools"
-msgstr ""
+msgstr "Explora nuestras otras herramientas"
 
 #: frontend/lib/norent/homepage.tsx:114
 msgid "Explore the tool"
@@ -652,15 +652,15 @@ msgstr "Preguntas más frecuentes"
 
 #: common-data/issue-choices.ts:203
 msgid "Faucets not installed"
-msgstr ""
+msgstr "Grifos No Instalados"
 
 #: common-data/issue-choices.ts:204
 msgid "Faucets not working"
-msgstr ""
+msgstr "Grifos No Funcionan"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:343
 msgid "Fight an eviction"
-msgstr ""
+msgstr "Lucha contra un desalojo"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:85
 msgid "Find out more"
@@ -682,7 +682,7 @@ msgstr ""
 
 #: common-data/issue-choices.ts:155
 msgid "Floor Sags"
-msgstr ""
+msgstr "Piso Hundido"
 
 #: common-data/us-state-choices.ts:74
 msgid "Florida"
@@ -698,15 +698,15 @@ msgstr "Preguntas Más Frecuentes"
 
 #: common-data/issue-choices.ts:158
 msgid "Front Door Broken"
-msgstr ""
+msgstr "Puerta Principal Rota"
 
 #: common-data/issue-choices.ts:157
 msgid "Front Door Defective"
-msgstr ""
+msgstr "Puerta Principal Defectuosa"
 
 #: common-data/issue-choices.ts:271
 msgid "Fumes/smoke entering apartment"
-msgstr ""
+msgstr "Vapores/Humo Entrando en Casa"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:69
 msgid "Gather documentation"
@@ -807,7 +807,7 @@ msgstr ""
 
 #: frontend/lib/rh/rental-history.tsx:125
 msgid "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
-msgstr ""
+msgstr "Aquí tienes una vista previa de la solicitud de tu historial de alquiler. Incluye tu dirección y número de apartamento para que el DHCR pueda enviarte el carta con tu historial."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:12
 msgid "Here's a copy of your NoRent letter"
@@ -852,7 +852,7 @@ msgstr "Página Principal"
 
 #: frontend/lib/rh/rental-history.tsx:163
 msgid "Housing Court Answers"
-msgstr ""
+msgstr "Respuestas de la Corte de Vivienda"
 
 #: frontend/lib/norent/about.tsx:36
 msgid "Housing Justice for All"
@@ -938,7 +938,7 @@ msgstr "Si no recibiste un código, por favor contacta con <0/>."
 
 #: frontend/lib/rh/rental-history.tsx:196
 msgid "If you have more questions, please email us at <0/>."
-msgstr ""
+msgstr "Si tienes más preguntas, por favor envíanos un correo electrónico a <0/>."
 
 #: frontend/lib/onboarding/onboarding-step-3.tsx:123
 msgid "If you live in a newer building and your rent is over $2700 a month, you probably have a market rate lease."
@@ -986,15 +986,15 @@ msgstr "En {stateName}, tienes que enviar documentación al dueño de tu edifici
 
 #: common-data/issue-choices.ts:274
 msgid "Inadequate / no super service"
-msgstr ""
+msgstr "Servicio de Súper Inadecuado"
 
 #: common-data/issue-choices.ts:205
 msgid "Inadequate Water pressure"
-msgstr ""
+msgstr "Presión de Agua Inadecuada"
 
 #: common-data/issue-choices.ts:265
 msgid "Inadequate water pressure"
-msgstr ""
+msgstr "Presión de Agua Inadecuada"
 
 #: common-data/us-state-choices.ts:79
 msgid "Indiana"
@@ -1038,7 +1038,7 @@ msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:182
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
-msgstr ""
+msgstr "Parece que esta propiedad no tiene que estar registrada con el HPD. Puedes aprender los requisitos de registro de la ciudad en la página <0>Gestión de Propiedad de HPD</0>."
 
 #: frontend/lib/onboarding/onboarding-step-3.tsx:135
 msgid "It's important that you have a lease. If you are a month-to-month tenant, you don't have as many rights."
@@ -1071,7 +1071,7 @@ msgstr ""
 #: frontend/lib/loc/loc-confirmation.tsx:264
 #: frontend/lib/rh/rental-history.tsx:169
 msgid "JustFix.nyc's Learning Center"
-msgstr ""
+msgstr "Centro de Aprendizaje de JustFix.nyc"
 
 #: common-data/us-state-choices.ts:81
 msgid "Kansas"
@@ -1132,11 +1132,11 @@ msgstr "Apellido"
 
 #: common-data/issue-choices.ts:165
 msgid "Lead-based Paint"
-msgstr ""
+msgstr "Pintura a Base de Plomo"
 
 #: common-data/issue-choices.ts:202
 msgid "Leaky Faucet"
-msgstr ""
+msgstr "Grifo Con Fugas"
 
 #: frontend/lib/norent/about.tsx:57
 msgid "Learn about why we made this tool, who we are, and who our partners are."
@@ -1144,7 +1144,7 @@ msgstr "Aprenda por qué hemos construido esta herramienta, quiénes somos, y qu
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:310
 msgid "Learn about your rent"
-msgstr ""
+msgstr "Aprende Sobre Tu Alquiler"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:352
 #: frontend/lib/norent/about.tsx:66
@@ -1254,7 +1254,7 @@ msgstr "Parece que ya estuviste aquí antes. Haz clic en \"Continuar\" para segu
 #: common-data/issue-choices.ts:212
 #: common-data/issue-choices.ts:227
 msgid "Loose Floor"
-msgstr ""
+msgstr "Piso Suelto"
 
 #: frontend/lib/norent/letter-builder/la-address-redirect.tsx:11
 msgid "Los Angeles County"
@@ -1306,11 +1306,11 @@ msgstr "Massachusetts"
 
 #: frontend/lib/rh/rental-history.tsx:157
 msgid "Met Council on Housing"
-msgstr ""
+msgstr "Met Council on Housing"
 
 #: common-data/issue-choices.ts:146
 msgid "Mice"
-msgstr ""
+msgstr "Ratones"
 
 #: common-data/us-state-choices.ts:87
 msgid "Michigan"
@@ -1338,13 +1338,13 @@ msgstr "Residentes de Casas Prefabricadas o Móviles"
 
 #: common-data/issue-choices.ts:169
 msgid "Mold on Walls"
-msgstr ""
+msgstr "Muros Con Moho"
 
 #: common-data/issue-choices.ts:182
 #: common-data/issue-choices.ts:208
 #: common-data/issue-choices.ts:223
 msgid "Mold on walls"
-msgstr ""
+msgstr "Muros Con Moho"
 
 #: common-data/us-state-choices.ts:91
 msgid "Montana"
@@ -1356,7 +1356,7 @@ msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:403
 msgid "More actions"
-msgstr ""
+msgstr "Más acciones"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:123
 msgid "More resources"
@@ -1377,7 +1377,7 @@ msgstr "Nebraska"
 #: common-data/issue-choices.ts:145
 #: common-data/issue-choices.ts:260
 msgid "Needs cleaning due to COVID-19"
-msgstr ""
+msgstr "Necesita limpieza debido al COVID-19"
 
 #: common-data/us-state-choices.ts:93
 msgid "Nevada"
@@ -1418,25 +1418,25 @@ msgstr "No"
 
 #: common-data/issue-choices.ts:152
 msgid "No Cold Water"
-msgstr ""
+msgstr "Sin Agua Fría"
 
 #: common-data/issue-choices.ts:149
 msgid "No Gas"
-msgstr ""
+msgstr "Sin Gas"
 
 #: common-data/issue-choices.ts:150
 #: common-data/issue-choices.ts:263
 msgid "No Heat"
-msgstr ""
+msgstr "Sin Calefacción"
 
 #: common-data/issue-choices.ts:151
 #: common-data/issue-choices.ts:264
 msgid "No Hot Water"
-msgstr ""
+msgstr "Sin Agua Caliente"
 
 #: common-data/issue-choices.ts:153
 msgid "No Smoke Detector"
-msgstr ""
+msgstr "Sin Detector de Humo"
 
 #: frontend/lib/issues/issue-pages.tsx:99
 msgid "No issues reported"
@@ -1449,7 +1449,7 @@ msgstr ""
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:161
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:180
 msgid "No registration found."
-msgstr ""
+msgstr "No hay fecha de registro."
 
 #: common-data/signup-intent-choices.ts:20
 msgid "No rent letter"
@@ -1457,7 +1457,7 @@ msgstr ""
 
 #: common-data/issue-choices.ts:275
 msgid "No rent receipts given"
-msgstr ""
+msgstr "No se dan recibos de alquiler"
 
 #: frontend/lib/ui/address-confirmation.tsx:27
 msgid "No, go back."
@@ -1515,7 +1515,7 @@ msgstr "¡Vaya! Ese correo electrónico no es válido."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:331
 msgid "Order rent history"
-msgstr ""
+msgstr "Pedir historial de Alquiler"
 
 #: common-data/us-state-choices.ts:102
 msgid "Oregon"
@@ -1552,11 +1552,11 @@ msgstr "Nuestros registros indican que no se puede enviar correo a esta direcci�
 #: common-data/issue-choices.ts:222
 #: common-data/issue-choices.ts:237
 msgid "Outlets defective"
-msgstr ""
+msgstr "Tomas de Corriente Defectuosas"
 
 #: common-data/issue-choices.ts:261
 msgid "Painting overdue (3 years)"
-msgstr ""
+msgstr "Pintura Atrasada (cada 3 años)"
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:34
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:61
@@ -1565,17 +1565,17 @@ msgstr "Contraseña"
 
 #: common-data/issue-choices.ts:184
 msgid "Peeling Paint"
-msgstr ""
+msgstr "Pintura Se Descama"
 
 #: common-data/issue-choices.ts:167
 #: common-data/issue-choices.ts:210
 #: common-data/issue-choices.ts:225
 msgid "Peeling paint"
-msgstr ""
+msgstr "Pintura Se Descama"
 
 #: common-data/issue-choices.ts:262
 msgid "Peeling/flaking paint"
-msgstr ""
+msgstr "Pintura Escamada/Pelada"
 
 #: common-data/us-state-choices.ts:103
 msgid "Pennsylvania"
@@ -1589,7 +1589,7 @@ msgstr "Número de teléfono"
 
 #: common-data/issue-choices.ts:206
 msgid "Pipes Leaking"
-msgstr ""
+msgstr "Tuberías Con Fugas"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:92
 msgid "Please <0>go back and choose a state</0>."
@@ -1676,15 +1676,15 @@ msgstr ""
 #: common-data/issue-choices.ts:217
 #: common-data/issue-choices.ts:232
 msgid "Radiators/Risers Defective"
-msgstr ""
+msgstr "Radiadores Defectuosos"
 
 #: common-data/issue-choices.ts:147
 msgid "Rats"
-msgstr ""
+msgstr "Ratas"
 
 #: common-data/issue-choices.ts:270
 msgid "Rats/Mice"
-msgstr ""
+msgstr "Ratas/Ratones"
 
 #: frontend/lib/loc/letter-request.tsx:19
 msgid "Ready to go"
@@ -1692,15 +1692,15 @@ msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:396
 msgid "Recommended actions"
-msgstr ""
+msgstr "Acciones recomendadas"
 
 #: common-data/issue-choices.ts:198
 msgid "Refrigerator Broken"
-msgstr ""
+msgstr "Frigorífico Roto"
 
 #: common-data/issue-choices.ts:197
 msgid "Refrigerator Defective"
-msgstr ""
+msgstr "Frigorífico Defectuoso"
 
 #. before signature in formal letter
 #: frontend/lib/util/letter-content-util.tsx:53
@@ -1709,7 +1709,7 @@ msgstr "Atentamente,"
 
 #: frontend/lib/rh/rental-history.tsx:212
 msgid "Rent History"
-msgstr ""
+msgstr "Historial de Alquiler"
 
 #: common-data/lease-choices.ts:18
 msgid "Rent Stabilized/Rent Controlled"
@@ -1725,7 +1725,7 @@ msgstr "Organizar Huelgas de Renta"
 
 #: common-data/issue-choices.ts:276
 msgid "Rent receipts incomplete"
-msgstr ""
+msgstr "Recibos de Alquiler Incompletos"
 
 #: frontend/lib/loc/letter-content.tsx:37
 msgid "Repairs required"
@@ -1733,7 +1733,7 @@ msgstr ""
 
 #: frontend/lib/rh/email-to-dhcr.tsx:20
 msgid "Request for Rent History"
-msgstr ""
+msgstr "Solicitud de Historial de Alquiler"
 
 #: frontend/lib/loc/letter-content.tsx:20
 msgid "Request for repairs"
@@ -1741,19 +1741,19 @@ msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:243
 msgid "Request repairs from your landlord"
-msgstr ""
+msgstr "Solicitar arreglos del dueño de tu edificio"
 
 #: frontend/lib/rh/rental-history.tsx:93
 msgid "Request the Rent History for your apartment"
-msgstr ""
+msgstr "Solicita el Historial de Alquiler de tu apartamento"
 
 #: frontend/lib/rh/rental-history.tsx:43
 msgid "Request your <0>Rent History</0> in two simple steps!"
-msgstr ""
+msgstr "¡Solicita tu <0>Historial de Alquiler</0> en sólo dos pasos!"
 
 #: frontend/lib/rh/rental-history.tsx:35
 msgid "Request your Rent History"
-msgstr ""
+msgstr "Solicita tu Historial de Alquiler"
 
 #: frontend/lib/loc/letter-content.tsx:73
 msgid "Requirements"
@@ -1761,7 +1761,7 @@ msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:208
 msgid "Research your landlord"
-msgstr ""
+msgstr "Investiga al dueño de tu edificio"
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:27
 msgid "Reset your password"
@@ -1769,7 +1769,7 @@ msgstr "Cambia tu contraseña"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:392
 msgid "Results for {0}"
-msgstr ""
+msgstr "Resultados para \"{0}\""
 
 #: frontend/lib/loc/letter-request.tsx:49
 #: frontend/lib/loc/letter-request.tsx:51
@@ -1798,7 +1798,7 @@ msgstr "Permito que Right to the City se ponga en contacto conmigo para proporci
 
 #: common-data/issue-choices.ts:266
 msgid "Rusty water"
-msgstr ""
+msgstr "Agua Oxidada"
 
 #: frontend/lib/norent/letter-content.tsx:172
 msgid "Sample NoRent.org letter"
@@ -1810,7 +1810,7 @@ msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:454
 msgid "Search address"
-msgstr ""
+msgstr "Dirección de búsqueda"
 
 #: frontend/lib/loc/access-dates.tsx:47
 msgid "Second access date (optional)"
@@ -1826,7 +1826,7 @@ msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:253
 msgid "Send a letter of complaint"
-msgstr ""
+msgstr "Enviar una carta de queja"
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:41
 msgid "Send code"
@@ -1882,31 +1882,31 @@ msgstr ""
 
 #: common-data/issue-choices.ts:259
 msgid "Shower: Drain Stoppage"
-msgstr ""
+msgstr "Ducha: Desagüe Atascado"
 
 #: common-data/issue-choices.ts:258
 msgid "Shower: Leaky shower head"
-msgstr ""
+msgstr "Ducha: Alcachofa de Ducha Rota"
 
 #: common-data/issue-choices.ts:257
 msgid "Shower: Low Water pressure"
-msgstr ""
+msgstr "Ducha: Baja Presión de Agua"
 
 #: common-data/issue-choices.ts:253
 msgid "Shower: Mold on walls"
-msgstr ""
+msgstr "Ducha: Moho Sobre las Paredes"
 
 #: common-data/issue-choices.ts:256
 msgid "Shower: Not Working"
-msgstr ""
+msgstr "Ducha: No Funciona"
 
 #: common-data/issue-choices.ts:254
 msgid "Shower: Wall tiles cracked"
-msgstr ""
+msgstr "Ducha: Baldosas Agrietadas"
 
 #: common-data/issue-choices.ts:255
 msgid "Shower: Wall tiles missing"
-msgstr ""
+msgstr "Ducha: Faltan Baldosas"
 
 #: frontend/lib/justfix-navbar.tsx:25
 msgid "Sign in"
@@ -1926,35 +1926,35 @@ msgstr "Regístrate o inicia una sesión en tu cuenta para acceder a nuestra her
 
 #: common-data/issue-choices.ts:240
 msgid "Sink: Cracked Sink"
-msgstr ""
+msgstr "Lavabo: Agrietado"
 
 #: common-data/issue-choices.ts:246
 msgid "Sink: Drain Stoppage"
-msgstr ""
+msgstr "Lavabo: Desagüe Atascado"
 
 #: common-data/issue-choices.ts:242
 msgid "Sink: Faucets not installed"
-msgstr ""
+msgstr "Lavabo: Sin Grifo"
 
 #: common-data/issue-choices.ts:243
 msgid "Sink: Faucets not working"
-msgstr ""
+msgstr "Lavabo: Grifo No Funciona"
 
 #: common-data/issue-choices.ts:241
 msgid "Sink: Leaky Faucet"
-msgstr ""
+msgstr "Lavabo: Grifo con Fugas"
 
 #: common-data/issue-choices.ts:244
 msgid "Sink: Low Water pressure"
-msgstr ""
+msgstr "Lavabo: Baja Presión de Agua"
 
 #: common-data/issue-choices.ts:245
 msgid "Sink: Pipes Leaking"
-msgstr ""
+msgstr "Lavabo: Tuberías con Fugas"
 
 #: common-data/issue-choices.ts:154
 msgid "Smoke Detector Defective"
-msgstr ""
+msgstr "Detector de Humo Defectuoso"
 
 #: frontend/lib/issues/issue-pages.tsx:187
 msgid "Social distancing and repairs"
@@ -1966,7 +1966,7 @@ msgstr "Lo sentimos, la página que estás buscando no existe."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:420
 msgid "Sorry, we don't recognize the address you entered."
-msgstr ""
+msgstr "Lo sentimos, no reconocemos la dirección que has introducido."
 
 #: common-data/us-state-choices.ts:106
 msgid "South Carolina"
@@ -1978,11 +1978,11 @@ msgstr "Dakota del Sur"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:281
 msgid "Start a legal case for repairs and/or harassment"
-msgstr ""
+msgstr "Empieza un caso legal por arreglos y/o acoso"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:301
 msgid "Start an emergency legal case for repairs"
-msgstr ""
+msgstr "Empieza un caso legal de emergencia por arreglos"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:59
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:104
@@ -1992,7 +1992,7 @@ msgstr ""
 
 #: frontend/lib/rh/rental-history.tsx:59
 msgid "Start my request"
-msgstr ""
+msgstr "Iniciar mi solicitud"
 
 #: frontend/lib/forms/mailing-address-fields.tsx:7
 msgid "State"
@@ -2004,15 +2004,15 @@ msgstr "Estados con Protecciones Limitadas"
 
 #: frontend/lib/progress/progress-bar.tsx:112
 msgid "Step {currStep} of {numSteps}"
-msgstr ""
+msgstr "Paso {currStep} de {numSteps}"
 
 #: common-data/issue-choices.ts:200
 msgid "Stove Broken"
-msgstr ""
+msgstr "Estufa Rota"
 
 #: common-data/issue-choices.ts:199
 msgid "Stove Defective"
-msgstr ""
+msgstr "Estufa Defectuosa"
 
 #: frontend/lib/norent/about.tsx:31
 msgid "Strategic Actions for a Just Economy"
@@ -2030,12 +2030,12 @@ msgstr "Enviar email"
 
 #: frontend/lib/rh/rental-history.tsx:150
 msgid "Submit request"
-msgstr ""
+msgstr "Enviar Solicitud"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:296
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:304
 msgid "Sue your landlord"
-msgstr ""
+msgstr "Demanda al dueño de tu edificio"
 
 #: frontend/lib/justfix-navbar.tsx:20
 msgid "Take action"
@@ -2091,7 +2091,7 @@ msgstr "La Carta"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:220
 msgid "The majority of your landlord's properties are concentrated in {0}."
-msgstr ""
+msgstr "La mayoría de las propiedades del dueño de tu edificio se concentran en {0}."
 
 #: frontend/lib/pages/redirect-to-english-page.tsx:11
 msgid "The webpage that you want to access is only available in English."
@@ -2099,11 +2099,11 @@ msgstr "La página web a la que quieres acceder solo está disponible en inglés
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:120
 msgid "There {0, plural, one {is one unit} other {are # units}} in your building."
-msgstr ""
+msgstr "{0, plural, one {Hay una unidad} other {Hay # unidades}} en tu edificio."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:323
 msgid "Think your apartment may be rent-stabilized? Request its official records."
-msgstr ""
+msgstr "¿Crees que tu apartamento puede ser de renta estabilizada? Solicita el registro oficial."
 
 #: frontend/lib/loc/access-dates.tsx:48
 msgid "Third access date (optional)"
@@ -2115,7 +2115,7 @@ msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:140
 msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
-msgstr ""
+msgstr "Este edificio es propiedad de la <0>NYC Housing Authority (NYCHA)</0>."
 
 #: frontend/lib/loc/letter-request.tsx:62
 msgid "This demo site <0>will not send</0> a real letter to your landlord."
@@ -2135,7 +2135,7 @@ msgstr ""
 
 #: frontend/lib/rh/rental-history.tsx:56
 msgid "This service is free, secure, and confidential."
-msgstr ""
+msgstr "Este servicio es gratuito, seguro y confidencial."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:164
 msgid "This tool is provided by JustFix.nyc. We’re a non-profit that creates tools for tenants and the housing rights movement. We always want feedback to improve our tools."
@@ -2151,15 +2151,15 @@ msgstr "A:"
 
 #: frontend/lib/rh/rental-history.tsx:133
 msgid "To: New York Division of Housing and Community Renewal (DHCR)"
-msgstr ""
+msgstr "Para: La División de Vivienda y Renovación de la Comunidad (DHCR)"
 
 #: common-data/issue-choices.ts:239
 msgid "Toilet leaking"
-msgstr ""
+msgstr "Inodoro con Fugas"
 
 #: common-data/issue-choices.ts:238
 msgid "Toilet not working"
-msgstr ""
+msgstr "Inodoro No Funciona"
 
 #: frontend/lib/loc/letter-request.tsx:30
 msgid "UNKNOWN ADDRESS"
@@ -2183,7 +2183,7 @@ msgstr "Número de apartamento/unidad/lote/suite"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:418
 msgid "Unrecognized address"
-msgstr ""
+msgstr "Dirección no reconocida"
 
 #: frontend/lib/forms/email-attachment.tsx:44
 msgid "Using this form <0>will send</0> real e-mails."
@@ -2195,7 +2195,7 @@ msgstr "Utah"
 
 #: common-data/issue-choices.ts:166
 msgid "Vacate Order Issued"
-msgstr ""
+msgstr "Orden de Vacío Emitida"
 
 #: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:22
 msgid "Verification code"
@@ -2219,12 +2219,12 @@ msgstr "Virginia"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:230
 msgid "Visit Who Owns What"
-msgstr ""
+msgstr "Visita Quién Posee Qué"
 
 #: frontend/lib/loc/loc-confirmation.tsx:297
 #: frontend/lib/rh/rental-history.tsx:205
 msgid "Want to read more about your rights?"
-msgstr ""
+msgstr "¿Quieres leer más sobre tus derechos?"
 
 #: frontend/lib/issues/issue-pages.tsx:171
 msgid "Warning:"
@@ -2236,13 +2236,13 @@ msgstr "Washington"
 
 #: common-data/issue-choices.ts:170
 msgid "Water Damage"
-msgstr ""
+msgstr "Daño Por Agua"
 
 #: common-data/issue-choices.ts:183
 #: common-data/issue-choices.ts:209
 #: common-data/issue-choices.ts:224
 msgid "Water damage"
-msgstr ""
+msgstr "Daño Por Agua"
 
 #: frontend/lib/norent/homepage.tsx:170
 msgid "We make it easy to notify your landlord by email or by certified mail for free."
@@ -2289,7 +2289,7 @@ msgstr "Acabamos de enviarte un mensaje de texto que contiene un código de veri
 
 #: common-data/issue-choices.ts:268
 msgid "Weak electrical current"
-msgstr ""
+msgstr "Baja Corriente Eléctrica"
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:15
 msgid "Welcome back!"
@@ -2432,18 +2432,18 @@ msgstr "¿Seguiré adeudando mi renta después de enviar esta carta?"
 #: common-data/issue-choices.ts:215
 #: common-data/issue-choices.ts:230
 msgid "Window Frame Defective"
-msgstr ""
+msgstr "Marco de Ventana Defectuoso"
 
 #: common-data/issue-choices.ts:173
 #: common-data/issue-choices.ts:188
 #: common-data/issue-choices.ts:214
 #: common-data/issue-choices.ts:229
 msgid "Window Glass Broken"
-msgstr ""
+msgstr "Cristal de Ventana Roto"
 
 #: common-data/issue-choices.ts:273
 msgid "Window guards missing"
-msgstr ""
+msgstr "Faltan Protectores de Ventana"
 
 #: common-data/us-state-choices.ts:115
 msgid "Wisconsin"
@@ -2523,7 +2523,7 @@ msgstr "Tu carta de NoRent.org"
 
 #: frontend/lib/rh/rental-history.tsx:178
 msgid "Your Rent History has been requested!"
-msgstr ""
+msgstr "¡Tu historial de alquiler ha sido solicitado!"
 
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:8
 msgid "Your account is set up"
@@ -2531,15 +2531,15 @@ msgstr "¡Tu cuenta está lista!"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:316
 msgid "Your apartment may be rent stabilized."
-msgstr ""
+msgstr "Tu apartamento es de renta estabilizada."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:317
 msgid "Your building had {0, plural, one {one rent stabilized unit} other {# rent stabilized units}} in 2017."
-msgstr ""
+msgstr "Tu edificio tenía {0, plural, one {una unidad de alquiler estabilizado} other {# unidades de renta estabilizada}} en el 2017."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:127
 msgid "Your building was built in {0} or earlier."
-msgstr ""
+msgstr "Tu edificio fue construido en {0} o antes."
 
 #: frontend/lib/onboarding/onboarding-step-4.tsx:52
 msgid "Your contact information"
@@ -2551,15 +2551,15 @@ msgstr "Tu dirección de correo electrónico"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:212
 msgid "Your landlord is associated with {buildings, plural, one {one building} other {# buildings}}."
-msgstr ""
+msgstr "El proprietario de tu edificio está asociado con {buildings, plural, one {un edificio} other {# edificios}}."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:163
 msgid "Your landlord may be breaking the law!"
-msgstr ""
+msgstr "¡Puede que el proprietario de tu edificio esté violando la ley!"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:225
 msgid "Your landlord might own other buildings, too."
-msgstr ""
+msgstr "Puede que el propietario de tu edificio también posea otros edificios."
 
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:30
 msgid "Your landlord or management company's address"
@@ -2575,7 +2575,7 @@ msgstr "Los datos del dueño o manager de tu edificio"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:148
 msgid "Your landlord owns {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit.} other {# units.}}"
-msgstr ""
+msgstr "El dueño de tu edificio posee {0, plural, one {un edificio} other {# edificios}} y {1, plural, one {una unidad.} other {# unidades.}}"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:46
 msgid "Your letter has been mailed to your landlord via USPS Certified Mail. A copy of your letter has also been sent to your email."
@@ -2636,7 +2636,7 @@ msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:165
 msgid "justfix.DdoMayNeedHpdRegistration"
-msgstr ""
+msgstr "Parece que este edificio deba estar registrado con el HPD. Los proprietarios que no registren sus propiedades correctamente incurren multas y no tienen el derecho de llevar a los inquilinos a la corte por no pagar el alquiler. Puedes encontrar más información en la página <0>Gestión de Propiedades de HPD</0>"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:166
 msgid "justfix.LocAboutOurNonprofitBlurb"
@@ -2716,19 +2716,19 @@ msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
 msgid "justfix.ddoEfnycCovidMessage"
-msgstr ""
+msgstr "Una moratoria de desalojo está en vigor en el estado de Nueva York debido a la crisis de salud pública del Covid-19. Todos los tribunales que escuchan los casos de desalojo están cerrados, lo que significa que <0>no te pueden desahuciar por ninguna razón</0>."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:273
 msgid "justfix.ddoEhpaCovidMessage"
-msgstr ""
+msgstr "<0>Los Tribunales de Vivienda en la ciudad de Nueva York están cerrados debido a la pandemia Covid-19, y están priorizando los casos con problemas que amenazan la salud y seguridad de tu hogar, tales como: {issues}. </0>"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:259
 msgid "justfix.ddoHpaCovidMessage"
-msgstr ""
+msgstr "<0>Los Tribunales de Vivienda en la ciudad de Nueva York están cerrados debido a la pandemia Covid-19. Todavía puedes crear los formularios para llevar al dueño de tu edificio la corte, pero no podrás presentarlos hasta que los tribunales vuelvan a abrir. </0><1>Si te estás enfrentando a una emergencia como falta de calefacción y/o agua caliente, llama a la línea telefónica de Housing Court Answers <2>(212) 962-4795</2> para obtener asistencia de lunes a viernes de 9: 00 a 17: 00. La asistencia está disponible en Inglés y Español.</1>"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:236
 msgid "justfix.ddoLocCovidMessage"
-msgstr ""
+msgstr "¿El dueño de tu edificio no contesta? ¡Puedes tomar acción gratis para pedir arreglos! Debido a la crisis de salud por el Covid-19, te recomendamos que sólo pidas arreglos en caso de emergencia, para que puedas mantener la salud limitando cuántas personas entran a tu hogar."
 
 #: frontend/lib/ui/legal-disclaimer.tsx:4
 msgid "justfix.legalDisclaimer"
@@ -2740,15 +2740,15 @@ msgstr "¡<0>Tu privacidad es muy importante para nosotros! Estas son algunas de
 
 #: frontend/lib/rh/rental-history.tsx:49
 msgid "justfix.rhExplanation"
-msgstr ""
+msgstr "Este documento te ayuda a averiguar si tu apartamento es de <0>renta estabilizada</0> y si te están <1>cobrando de más</1>. Te muestra la cantidad de renta registrada que se pagó en tu apartamento desde el año 1984."
 
 #: frontend/lib/rh/email-to-dhcr.tsx:22
 msgid "justfix.rhRequestToDhcr"
-msgstr ""
+msgstr "<0>Querido administrador del DHCR,</0><1> Yo, {0}, vivo actualmente en {1} en el apartamento {2}, y quisiera solicitar el Historial de Alquiler completo de este apartamento desde el año 1984. </1><2>Gracias,<3/>{3}</2>"
 
 #: frontend/lib/rh/rental-history.tsx:184
 msgid "justfix.rhWhatHappensNext"
-msgstr ""
+msgstr "Deberías recibir tu Historial de Alquiler por correo en una semana aproximadamente. Tu Historial de Alquiler es un documento importante que muestra los alquileres registrados en tu apartamento desde el año 1984. Puedes aprender más sobre él y cómo puede ayudarte a averiguar si te están cobrando alquiler de más en la <0>Guía de sobrecargos de apartamentos de renta estabilizada del Met Council on Housing (en inglés)</0>."
 
 #: frontend/lib/loc/loc-confirmation.tsx:295
 msgid "letter"
@@ -2905,7 +2905,7 @@ msgstr ""
 
 #: frontend/lib/forms/chars-remaining.tsx:18
 msgid "{remaining, plural, one {1 character remaining} other {# characters remaining}}"
-msgstr ""
+msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caracteres}}"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."

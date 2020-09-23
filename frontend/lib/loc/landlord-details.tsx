@@ -31,7 +31,7 @@ function getIntroText(isLookedUp: boolean | null): JSX.Element {
       </p>
       <p className="subtitle is-6">
         <Trans>
-          We will use this address to ensure your landlord receives it.
+          We will use this address to ensure your landlord receives your letter.
         </Trans>
       </p>
     </React.Fragment>
@@ -104,7 +104,7 @@ const LandlordDetailsPage = MiddleProgressStep((props) => {
             initialState={(session) =>
               exactSubsetOrDefault(
                 session.landlordDetails,
-                BlankLandlordDetailsV2Input
+                BlankLandlordDetailsV2Input,
               )
             }
             onSuccessRedirect={props.nextStep}

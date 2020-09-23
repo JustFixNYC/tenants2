@@ -190,10 +190,6 @@ msgstr "El apartamento necesita pintura"
 msgid "Apartment number"
 msgstr "Número de apartamento"
 
-#: frontend/lib/issues/issue-pages.tsx:226
-msgid "Apartment self-inspection"
-msgstr ""
-
 #: frontend/lib/norent/log-out.tsx:11
 msgid "Are you sure you want to log out?"
 msgstr "¿Estás seguro de que quieres cerrar la sesión?"
@@ -849,6 +845,7 @@ msgid "Hide sanitation guidelines"
 msgstr ""
 
 #: frontend/lib/issues/issue-pages.tsx:223
+#: frontend/lib/issues/issue-pages.tsx:226
 msgid "Home self-inspection"
 msgstr ""
 

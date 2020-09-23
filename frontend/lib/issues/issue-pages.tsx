@@ -341,7 +341,7 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
       <Page title={li18n._(t`Home self-inspection`)}>
         <div>
           <h1 className="title is-4 is-spaced">
-            <Trans>Apartment self-inspection</Trans>
+            <Trans>Home self-inspection</Trans>
           </h1>
           <p className="subtitle is-6">
             <Trans>

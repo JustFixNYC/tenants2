@@ -322,7 +322,8 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
         <div>
           <p className="subtitle is-6">
             Please go room-by-room and select all of the issues that you are
-            experiencing. {introContent} <strong>Don't hold back!</strong>
+            experiencing. {introContent}{" "}
+            <strong>Make sure to be thorough.</strong>
           </p>
           <NoScriptFallback>
             <>

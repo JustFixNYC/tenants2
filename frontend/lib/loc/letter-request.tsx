@@ -41,10 +41,14 @@ export const SendConfirmModal = withAppContext(
               {landlord.address || "UNKNOWN ADDRESS"}
             </address>
             <br />
+            <p>
+              After this step, you cannot go back to make changes. But don't
+              worry, we'll explain what to do next.
+            </p>
             <div className="has-text-centered">
               <FormAsButton
                 mailChoice={LetterRequestMailChoice.WE_WILL_MAIL}
-                label="Mail my letter"
+                label="Confirm"
                 buttonClass="is-success"
                 nextStep={props.nextStep}
               />
@@ -100,7 +104,7 @@ const LetterRequestPage = MiddleProgressStep(({ prevStep, nextStep }) => {
       <h1 className="title is-4 is-spaced">Review the Letter of Complaint</h1>
       <p className="subtitle is-6">
         Here is a preview of the letter for you to review. It includes the
-        repair issues you selected from the Issue Checklist.
+        repair issues you selected from the issue checklist.
       </p>
       <LocPreview />
       <DemoDeploymentNote>
@@ -115,7 +119,7 @@ const LetterRequestPage = MiddleProgressStep(({ prevStep, nextStep }) => {
           className="button is-primary is-medium"
           render={() => <SendConfirmModal nextStep={nextStep} />}
         >
-          Looks good to me!
+          Mail my letter
         </ModalLink>
         <div className="buttons jf-two-buttons jf-two-buttons--vertical">
           <BackButton

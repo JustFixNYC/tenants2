@@ -30,8 +30,8 @@ const SanitationGuidelines = () => {
           <div className="jf-sanitation-guidelines notification is-warning">
             <div>
               <Trans>
-              Please be aware that letting a repair-worker into your home to
-              make repairs may increase exposure to the COVID-19 virus.
+                Please be aware that letting a repair-worker into your home to
+                make repairs may increase exposure to the COVID-19 virus.
               </Trans>{" "}
               <Trans>
                 In order to follow social distancing guidelines and to limit

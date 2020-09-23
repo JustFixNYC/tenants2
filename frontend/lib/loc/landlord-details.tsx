@@ -104,7 +104,7 @@ const LandlordDetailsPage = MiddleProgressStep((props) => {
             initialState={(session) =>
               exactSubsetOrDefault(
                 session.landlordDetails,
-                BlankLandlordDetailsV2Input,
+                BlankLandlordDetailsV2Input
               )
             }
             onSuccessRedirect={props.nextStep}

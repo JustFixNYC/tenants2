@@ -41,22 +41,22 @@ export const Welcome: React.FC<ProgressStepProps> = (props) => {
         </h1>
         <p>
           <Trans>
-          We're going to help you create a customized Letter of Complaint that
-          highlights the issues in your home that need repair.{" "}
-          <strong>This will take about 5 minutes.</strong>
+            We're going to help you create a customized Letter of Complaint that
+            highlights the issues in your home that need repair.{" "}
+            <strong>This will take about 5 minutes.</strong>
           </Trans>
         </p>
         <ol className="has-text-left">
           <li>
             <Trans>
-            First, conduct a <strong>self-inspection of your home</strong> to
-            document all the issues that need repair.
+              First, conduct a <strong>self-inspection of your home</strong> to
+              document all the issues that need repair.
             </Trans>
           </li>
           <li>
             <Trans>
-            Review your Letter of Complaint and we will send it to your landlord
-            via USPS Certified Mail<sup>&reg;</sup>.
+              Review your Letter of Complaint and we will send it to your
+              landlord via USPS Certified Mail<sup>&reg;</sup>.
             </Trans>
           </li>
         </ol>

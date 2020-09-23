@@ -18,15 +18,15 @@ export const WhyMailALetter: React.FC<{ isBigAndCentered?: boolean }> = ({
   <>
     <h2
       className={classnames(
-        isBigAndCentered && "title is-spaced has-text-centered",
+        isBigAndCentered && "title is-spaced has-text-centered"
       )}
     >
       <Trans>Why mail a Letter of Complaint?</Trans>
     </h2>
     <Trans id="justfix.LocWhyMailALetterBlurb">
       <p className={classnames(isBigAndCentered && "subtitle")}>
-        Your landlord is responsible for keeping your home and building
-        safe and livable at all times. This is called the{" "}
+        Your landlord is responsible for keeping your home and building safe and
+        livable at all times. This is called the{" "}
         <strong>Warranty of Habitability</strong>.
       </p>
       <p className={classnames(isBigAndCentered && "subtitle")}>

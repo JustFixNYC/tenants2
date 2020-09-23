@@ -110,8 +110,8 @@ const LetterRequestPage = MiddleProgressStep(({ prevStep, nextStep }) => {
       </h1>
       <p className="subtitle is-6">
         <Trans>
-        Here is a preview of the letter for you to review. It includes the
-        repair issues you selected from the issue checklist.
+          Here is a preview of the letter for you to review. It includes the
+          repair issues you selected from the issue checklist.
         </Trans>
       </p>
       <LocPreview />

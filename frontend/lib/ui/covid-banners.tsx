@@ -87,15 +87,15 @@ export const CovidRiskBanner = () => (
   <div className="notification is-warning">
     <p>
       <Trans>
-      Please be aware that letting a repair-worker into your home to make
-      repairs may increase exposure to the COVID-19 virus.
+        Please be aware that letting a repair-worker into your home to make
+        repairs may increase exposure to the COVID-19 virus.
       </Trans>
     </p>
     <p>
       <Trans id="justfix.CovidRecForEmergencyRepairsOnly">
-        In order to follow social distancing guidelines and to limit exposure, we
-      recommend only asking for repairs in the case of an emergency such as if
-      you have no heat, no hot water, or no gas.
+        In order to follow social distancing guidelines and to limit exposure,
+        we recommend only asking for repairs in the case of an emergency such as
+        if you have no heat, no hot water, or no gas.
       </Trans>
     </p>
   </div>

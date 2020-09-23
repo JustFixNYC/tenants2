@@ -30,7 +30,7 @@ const DEFAULT_FIRST_DATE_DAYS = MIN_DAYS;
 
 export function getInitialState(
   accessDates: string[],
-  now: Date = new Date(),
+  now: Date = new Date()
 ): AccessDatesInput {
   const result: AccessDatesInput = {
     ...BlankAccessDatesInput,
@@ -68,7 +68,7 @@ const AccessDatesPage = MiddleProgressStep((props) => {
             <>
               <TextualFormField
                 label={li18n._(
-                  t`First access date (at least ${MIN_DAYS} days from today)`,
+                  t`First access date (at least ${MIN_DAYS} days from today)`
                 )}
                 type="date"
                 min={minDate}

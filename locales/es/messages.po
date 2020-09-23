@@ -108,7 +108,7 @@ msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines
 msgid "About"
 msgstr "Acerca de"
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:163
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:166
 msgid "About our nonprofit organization"
 msgstr ""
 
@@ -145,7 +145,7 @@ msgstr "Después de enviar tu carta"
 msgid "After sending your letter, we can connect you to <0>local groups</0> to organize for greater demands with other tenants."
 msgstr "Después de enviar tu carta, podemos conectarte con <0>grupos locales</0> para que te organizes con tus vecinos para hacer mayores demandas y ejercer tus derechos."
 
-#: frontend/lib/loc/loc-confirmation.tsx:89
+#: frontend/lib/loc/loc-confirmation.tsx:88
 msgid "After the repair-worker leaves"
 msgstr ""
 
@@ -174,7 +174,7 @@ msgid "All set! Thanks for subscribing!"
 msgstr "¡Todo listo! ¡Gracias por suscribirte!"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:62
-msgid "Already have an account? <0>Sign in!</0>"
+msgid "Already have an account? <0>Sign in</0>"
 msgstr ""
 
 #: frontend/lib/norent/homepage.tsx:188
@@ -190,8 +190,7 @@ msgstr "El apartamento necesita pintura"
 msgid "Apartment number"
 msgstr "Número de apartamento"
 
-#: frontend/lib/issues/issue-pages.tsx:222
-#: frontend/lib/issues/issue-pages.tsx:225
+#: frontend/lib/issues/issue-pages.tsx:226
 msgid "Apartment self-inspection"
 msgstr ""
 
@@ -219,7 +218,7 @@ msgstr ""
 msgid "Available access dates"
 msgstr ""
 
-#: frontend/lib/issues/issue-pages.tsx:246
+#: frontend/lib/issues/issue-pages.tsx:248
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
 msgstr "Atrás"
@@ -271,7 +270,7 @@ msgstr "Bañera: Tuberías con fugas"
 msgid "Bedrooms"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:50
+#: frontend/lib/loc/loc-confirmation.tsx:49
 msgid "Before the repair-worker arrives"
 msgstr ""
 
@@ -425,6 +424,10 @@ msgstr "Colorado"
 msgid "Community Justice Project"
 msgstr "Community Justice Project"
 
+#: frontend/lib/loc/letter-request.tsx:37
+msgid "Confirm"
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/create-account.tsx:35
 msgid "Confirm password"
 msgstr "Confirma la contraseña"
@@ -557,7 +560,7 @@ msgstr "Timbre Roto"
 msgid "Doorbell Defective"
 msgstr "Timbre Defectuoso"
 
-#: frontend/lib/loc/loc-confirmation.tsx:126
+#: frontend/lib/loc/loc-confirmation.tsx:125
 msgid "Download letter"
 msgstr ""
 
@@ -588,7 +591,7 @@ msgstr "Electricidad Defectuosa"
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: frontend/lib/loc/loc-confirmation.tsx:290
+#: frontend/lib/loc/loc-confirmation.tsx:282
 msgid "Email a copy of your letter to yourself, someone you trust, or your landlord."
 msgstr ""
 
@@ -666,7 +669,7 @@ msgstr "Lucha contra un desalojo"
 msgid "Find out more"
 msgstr "Más información"
 
-#: frontend/lib/loc/access-dates.tsx:46
+#: frontend/lib/loc/access-dates.tsx:47
 msgid "First access date (at least {MIN_DAYS} days from today)"
 msgstr ""
 
@@ -677,7 +680,7 @@ msgid "First name"
 msgstr "Nombre"
 
 #: frontend/lib/loc/letter-of-complaint.tsx:44
-msgid "First, conduct a <0>self-inspection of your apartment</0> to document all the issues that need repair."
+msgid "First, conduct a <0>self-inspection of your home</0> to document all the issues that need repair."
 msgstr ""
 
 #: common-data/issue-choices.ts:155
@@ -728,7 +731,7 @@ msgstr "Comparte tu opinión"
 msgid "Go back"
 msgstr "Atrás"
 
-#: frontend/lib/loc/letter-request.tsx:73
+#: frontend/lib/loc/letter-request.tsx:76
 msgid "Go back and edit"
 msgstr ""
 
@@ -761,7 +764,7 @@ msgstr ""
 msgid "HP Action"
 msgstr ""
 
-#: frontend/lib/ui/covid-banners.tsx:76
+#: frontend/lib/ui/covid-banners.tsx:77
 msgid "Have you been given an eviction notice? <0>This is illegal.</0> An Eviction Moratorium is currently in place across New York State."
 msgstr ""
 
@@ -773,7 +776,7 @@ msgstr ""
 msgid "Hawaii"
 msgstr "Hawaii"
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:115
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:118
 msgid "Hear from tenants who have used JustFix.nyc"
 msgstr ""
 
@@ -797,12 +800,12 @@ msgstr "¡Ayuda! El dueño de mi edificio ya intenta desalojarme."
 msgid "Here are a few benefits to sending a letter to your landlord:"
 msgstr "Éstos son algunos de los beneficios de enviar una carta al dueño de tu edificio:"
 
-#: frontend/lib/loc/loc-confirmation.tsx:227
+#: frontend/lib/loc/loc-confirmation.tsx:220
 msgid "Here is a link to a PDF of your saved letter:"
 msgstr ""
 
-#: frontend/lib/loc/letter-request.tsx:54
-msgid "Here is a preview of the letter for you to review. It includes the repair issues you selected from the Issue Checklist."
+#: frontend/lib/loc/letter-request.tsx:57
+msgid "Here is a preview of the letter for you to review. It includes the repair issues you selected from the issue checklist."
 msgstr ""
 
 #: frontend/lib/rh/rental-history.tsx:125
@@ -841,8 +844,12 @@ msgstr "Esto es lo que puedes hacer con <0>NoRent</0>"
 msgid "Hi {firstName}, welcome to JustFix.nyc! Let's start your Letter of Complaint."
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:116
+#: frontend/lib/loc/loc-confirmation.tsx:115
 msgid "Hide sanitation guidelines"
+msgstr ""
+
+#: frontend/lib/issues/issue-pages.tsx:223
+msgid "Home self-inspection"
 msgstr ""
 
 #: frontend/lib/justfix-navbar.tsx:13
@@ -915,12 +922,12 @@ msgstr "Acabo de usar la nueva herramienta gratuita de JustFix.nyc para decirle 
 msgid "I need the following repairs in my home referenced below and/or in the common areas of the building:"
 msgstr ""
 
-#: frontend/lib/issues/issue-pages.tsx:199
+#: frontend/lib/issues/issue-pages.tsx:200
 #: frontend/lib/onboarding/onboarding-step-3.tsx:29
 msgid "I understand the risk"
 msgstr ""
 
-#: frontend/lib/loc/letter-request.tsx:74
+#: frontend/lib/loc/letter-request.tsx:77
 msgid "I want to mail this myself."
 msgstr ""
 
@@ -948,10 +955,6 @@ msgstr ""
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
 msgstr "Si necesitas cambiar tu nombre o tu información de contacto, ponte en contacto con <0/>."
 
-#: frontend/lib/loc/loc-confirmation.tsx:19
-msgid "If you want to send your Letter of Complaint to your landlord and/or management company via email, download the PDF and include it as an attachment to your regular email."
-msgstr ""
-
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:59
 msgid "If you write checks or transfer money through your bank to pay your rent, use that name here."
 msgstr "Usa el nombre al que pagas la renta."
@@ -968,7 +971,7 @@ msgstr "Si aún así quieres crear una cuenta, podemos enviarte noticias en el f
 msgid "Illinois"
 msgstr "Illinois"
 
-#: frontend/lib/loc/loc-confirmation.tsx:31
+#: frontend/lib/loc/loc-confirmation.tsx:30
 msgid "In order to follow social distancing guidelines and to limit your exposure, please follow these steps to stay as safe as possible."
 msgstr ""
 
@@ -1065,10 +1068,10 @@ msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
 msgstr "JustFix.nyc es una organización registrada 501(c)(3) sin fines de lucro."
 
 #: frontend/lib/loc/letter-request.tsx:21
-msgid "JustFix.nyc will send this letter via USPS Certified Mail<0>®</0> <1>within 1-2 business days</1> to your landlord:"
+msgid "JustFix.nyc will send this letter via USPS Certified Mail<0>®</0> to your landlord:"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:264
+#: frontend/lib/loc/loc-confirmation.tsx:256
 #: frontend/lib/rh/rental-history.tsx:169
 msgid "JustFix.nyc's Learning Center"
 msgstr "Centro de Aprendizaje de JustFix.nyc"
@@ -1150,7 +1153,7 @@ msgstr "Aprende Sobre Tu Alquiler"
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:21
 #: frontend/lib/norent/the-letter.tsx:29
-#: frontend/lib/ui/covid-banners.tsx:82
+#: frontend/lib/ui/covid-banners.tsx:83
 msgid "Learn more"
 msgstr "Aprender más"
 
@@ -1199,7 +1202,8 @@ msgid "Letter Builder"
 msgstr "Generador de cartas"
 
 #: common-data/signup-intent-choices.ts:17
-#: frontend/lib/loc/letter-of-complaint.tsx:69
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:38
+#: frontend/lib/loc/letter-of-complaint.tsx:68
 msgid "Letter of Complaint"
 msgstr ""
 
@@ -1224,10 +1228,6 @@ msgstr "Iniciar sesión"
 #: frontend/lib/norent/site.tsx:77
 msgid "Log out"
 msgstr "Cerrar sesión"
-
-#: frontend/lib/loc/letter-request.tsx:70
-msgid "Looks good to me!"
-msgstr ""
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:31
 msgid "Looks like you're already logged in"
@@ -1268,7 +1268,7 @@ msgstr "Luisiana"
 msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 msgstr "Hecho en NYC con ♥ por el equipo de <0>JustFix.nyc</0>"
 
-#: frontend/lib/loc/letter-request.tsx:34
+#: frontend/lib/loc/letter-request.tsx:73
 msgid "Mail my letter"
 msgstr ""
 
@@ -1495,7 +1495,7 @@ msgstr "Ohio"
 msgid "Oklahoma"
 msgstr "Oklahoma"
 
-#: frontend/lib/loc/loc-confirmation.tsx:130
+#: frontend/lib/loc/loc-confirmation.tsx:129
 msgid "Once received, your landlord should contact you to schedule time to make repairs for the access dates you provided."
 msgstr ""
 
@@ -1600,9 +1600,9 @@ msgid "Please agree to our terms and conditions"
 msgstr "Por favor, acepta nuestros términos y condiciones"
 
 #: frontend/lib/issues/issue-pages.tsx:173
-#: frontend/lib/loc/loc-confirmation.tsx:27
+#: frontend/lib/loc/loc-confirmation.tsx:26
 #: frontend/lib/ui/covid-banners.tsx:57
-msgid "Please be aware that letting a repair-worker into your home to make repairs may expose you to the Covid-19 virus."
+msgid "Please be aware that letting a repair-worker into your home to make repairs may increase exposure to the COVID-19 virus."
 msgstr ""
 
 #: frontend/lib/onboarding/onboarding-step-4.tsx:38
@@ -1621,8 +1621,8 @@ msgstr "Por favor, ¡introduzca una dirección de correo electrónico!"
 msgid "Please enter your landlord's name and contact information below. You can find this information on your lease and/or rent receipts."
 msgstr ""
 
-#: frontend/lib/issues/issue-pages.tsx:228
-msgid "Please go room-by-room and select all of the issues that you are experiencing. {introContent} <0>Don't hold back!</0>"
+#: frontend/lib/issues/issue-pages.tsx:229
+msgid "Please go room-by-room and select all of the issues that you are experiencing. {introContent} <0>Make sure to be thorough.</0>"
 msgstr ""
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:117
@@ -1639,7 +1639,7 @@ msgstr ""
 msgid "Preview of your NoRent.org letter"
 msgstr "Vista previa de tu carta NoRent.org"
 
-#: frontend/lib/loc/letter-request.tsx:47
+#: frontend/lib/loc/letter-request.tsx:50
 msgid "Preview of your letter of complaint"
 msgstr ""
 
@@ -1651,7 +1651,7 @@ msgstr ""
 msgid "Previous attempts to get official help"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:236
+#: frontend/lib/loc/loc-confirmation.tsx:229
 msgid "Print out your letter and <0>mail it via Certified Mail</0> - this allows you to prove that it was sent to your landlord."
 msgstr ""
 
@@ -1685,10 +1685,6 @@ msgstr "Ratas"
 #: common-data/issue-choices.ts:270
 msgid "Rats/Mice"
 msgstr "Ratas/Ratones"
-
-#: frontend/lib/loc/letter-request.tsx:19
-msgid "Ready to go"
-msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:396
 msgid "Recommended actions"
@@ -1771,13 +1767,13 @@ msgstr "Cambia tu contraseña"
 msgid "Results for {0}"
 msgstr "Resultados para \"{0}\""
 
-#: frontend/lib/loc/letter-request.tsx:49
-#: frontend/lib/loc/letter-request.tsx:51
+#: frontend/lib/loc/letter-request.tsx:52
+#: frontend/lib/loc/letter-request.tsx:54
 msgid "Review the Letter of Complaint"
 msgstr ""
 
-#: frontend/lib/loc/letter-of-complaint.tsx:51
-msgid "Review your Letter of Complaint and JustFix.nyc will send it to your landlord via USPS Certified Mail<0>®</0>."
+#: frontend/lib/loc/letter-of-complaint.tsx:50
+msgid "Review your Letter of Complaint and we will send it to your landlord via USPS Certified Mail<0>®</0>."
 msgstr ""
 
 #: frontend/lib/rh/rental-history.tsx:123
@@ -1812,7 +1808,7 @@ msgstr ""
 msgid "Search address"
 msgstr "Dirección de búsqueda"
 
-#: frontend/lib/loc/access-dates.tsx:47
+#: frontend/lib/loc/access-dates.tsx:48
 msgid "Second access date (optional)"
 msgstr ""
 
@@ -1868,15 +1864,15 @@ msgstr "¿Quieres que enviemos tu carta?"
 msgid "Share this tool"
 msgstr "Compartir esta herramienta"
 
-#: frontend/lib/loc/loc-confirmation.tsx:117
+#: frontend/lib/loc/loc-confirmation.tsx:116
 msgid "Show less"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:38
+#: frontend/lib/loc/loc-confirmation.tsx:37
 msgid "Show me sanitation guidelines"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:39
+#: frontend/lib/loc/loc-confirmation.tsx:38
 msgid "Show more"
 msgstr ""
 
@@ -1956,7 +1952,7 @@ msgstr "Lavabo: Tuberías con Fugas"
 msgid "Smoke Detector Defective"
 msgstr "Detector de Humo Defectuoso"
 
-#: frontend/lib/issues/issue-pages.tsx:187
+#: frontend/lib/issues/issue-pages.tsx:188
 msgid "Social distancing and repairs"
 msgstr ""
 
@@ -1985,8 +1981,8 @@ msgid "Start an emergency legal case for repairs"
 msgstr "Empieza un caso legal de emergencia por arreglos"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:59
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:104
-#: frontend/lib/loc/letter-of-complaint.tsx:59
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:107
+#: frontend/lib/loc/letter-of-complaint.tsx:58
 msgid "Start my free letter"
 msgstr ""
 
@@ -2046,12 +2042,8 @@ msgstr "Toma acción"
 msgid "Take caution and make sure that this service is right for you."
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:53
+#: frontend/lib/loc/loc-confirmation.tsx:52
 msgid "Talk to anyone that you live with and let them know that a repair-worker is coming to perform the repairs that you requested."
-msgstr ""
-
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:38
-msgid "Technology for Housing Justice"
 msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:8
@@ -2105,11 +2097,11 @@ msgstr "{0, plural, one {Hay una unidad} other {Hay # unidades}} en tu edificio.
 msgid "Think your apartment may be rent-stabilized? Request its official records."
 msgstr "¿Crees que tu apartamento puede ser de renta estabilizada? Solicita el registro oficial."
 
-#: frontend/lib/loc/access-dates.tsx:48
+#: frontend/lib/loc/access-dates.tsx:49
 msgid "Third access date (optional)"
 msgstr ""
 
-#: frontend/lib/issues/issue-pages.tsx:218
+#: frontend/lib/issues/issue-pages.tsx:219
 msgid "This <0>issue checklist</0> will be sent to your landlord."
 msgstr ""
 
@@ -2117,7 +2109,7 @@ msgstr ""
 msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 msgstr "Este edificio es propiedad de la <0>NYC Housing Authority (NYCHA)</0>."
 
-#: frontend/lib/loc/letter-request.tsx:62
+#: frontend/lib/loc/letter-request.tsx:65
 msgid "This demo site <0>will not send</0> a real letter to your landlord."
 msgstr ""
 
@@ -2161,11 +2153,11 @@ msgstr "Inodoro con Fugas"
 msgid "Toilet not working"
 msgstr "Inodoro No Funciona"
 
-#: frontend/lib/loc/letter-request.tsx:30
+#: frontend/lib/loc/letter-request.tsx:29
 msgid "UNKNOWN ADDRESS"
 msgstr ""
 
-#: frontend/lib/loc/letter-request.tsx:28
+#: frontend/lib/loc/letter-request.tsx:27
 msgid "UNKNOWN LANDLORD"
 msgstr ""
 
@@ -2221,7 +2213,7 @@ msgstr "Virginia"
 msgid "Visit Who Owns What"
 msgstr "Visita Quién Posee Qué"
 
-#: frontend/lib/loc/loc-confirmation.tsx:297
+#: frontend/lib/loc/loc-confirmation.tsx:289
 #: frontend/lib/rh/rental-history.tsx:205
 msgid "Want to read more about your rights?"
 msgstr "¿Quieres leer más sobre tus derechos?"
@@ -2248,7 +2240,7 @@ msgstr "Daño Por Agua"
 msgid "We make it easy to notify your landlord by email or by certified mail for free."
 msgstr "Te facilitamos notificar al dueño de tu edificio por correo electrónico o por correo certificado gratis."
 
-#: frontend/lib/loc/loc-confirmation.tsx:160
+#: frontend/lib/loc/loc-confirmation.tsx:159
 msgid "We sent your letter of complaint {0} !"
 msgstr ""
 
@@ -2257,7 +2249,7 @@ msgid "We will be mailing this letter on your behalf by USPS certified mail and 
 msgstr "Enviaremos la carta en tu nombre por correo certificado de USPS y te proporcionaremos un número de seguimiento."
 
 #: frontend/lib/loc/landlord-details.tsx:25
-msgid "We will use this address to ensure your landlord receives it."
+msgid "We will use this address to ensure your landlord receives your letter."
 msgstr ""
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:87
@@ -2280,7 +2272,7 @@ msgid "We'll use this information to send your letter."
 msgstr "Utilizaremos esta información para enviar tu carta."
 
 #: frontend/lib/loc/letter-of-complaint.tsx:36
-msgid "We're going to help you create a customized Letter of Complaint that highlights the issues in your apartment that need repair. <0>This will take about 5 minutes.</0>"
+msgid "We're going to help you create a customized Letter of Complaint that highlights the issues in your home that need repair. <0>This will take about 5 minutes.</0>"
 msgstr ""
 
 #: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:14
@@ -2299,7 +2291,7 @@ msgstr "¡Hola de nuevo!"
 msgid "West Virginia"
 msgstr "Virginia Occidental"
 
-#: frontend/lib/loc/loc-confirmation.tsx:210
+#: frontend/lib/loc/loc-confirmation.tsx:204
 msgid "We’ll mail your letter via <0>USPS Certified Mail<1>®</1></0> and provide a tracking number via text message."
 msgstr ""
 
@@ -2339,9 +2331,9 @@ msgstr "¿Qué hace esta herramienta?"
 msgid "What happens after I send this letter?"
 msgstr "¿Qué ocurre después de enviar esta carta?"
 
-#: frontend/lib/loc/loc-confirmation.tsx:180
-#: frontend/lib/loc/loc-confirmation.tsx:205
-#: frontend/lib/loc/loc-confirmation.tsx:231
+#: frontend/lib/loc/loc-confirmation.tsx:179
+#: frontend/lib/loc/loc-confirmation.tsx:199
+#: frontend/lib/loc/loc-confirmation.tsx:224
 #: frontend/lib/norent/letter-builder/confirmation.tsx:66
 #: frontend/lib/rh/rental-history.tsx:181
 msgid "What happens next?"
@@ -2383,7 +2375,7 @@ msgstr "¿Dónde vives?"
 msgid "Whether it's your first time here, or you're a returning user, let's start with your number."
 msgstr "Empecemos con tu número de teléfono, ya sea tu primera vez aquí, o estés de vuelta."
 
-#: frontend/lib/loc/loc-confirmation.tsx:67
+#: frontend/lib/loc/loc-confirmation.tsx:66
 msgid "While the repair-worker is inside your home"
 msgstr ""
 
@@ -2391,7 +2383,7 @@ msgstr ""
 msgid "While you wait for your landlord to respond, gather as much documentation as you can. This can include a letter from your employer, receipts, doctor’s notes etc."
 msgstr "Mientras esperas a que el dueño de tu edificio conteste, recopila toda la documentación que puedas. Esto puede incluir una carta de tu jefe, recibos, notas de tu médico, etc."
 
-#: frontend/lib/loc/loc-confirmation.tsx:138
+#: frontend/lib/loc/loc-confirmation.tsx:137
 msgid "While you wait, you should <0>document your issues with photos</0> and <1>call 311 to request an HPD inspection.</1>"
 msgstr ""
 
@@ -2493,10 +2485,11 @@ msgstr "Estás en <0>{stateName}</0>"
 msgid "You've sent your letter"
 msgstr "Has enviado tu carta"
 
-#: frontend/lib/loc/loc-confirmation.tsx:170
+#: frontend/lib/loc/loc-confirmation.tsx:169
 msgid "Your <0>USPS Certified Mail<1>®</1></0> tracking number is <2>{trackingNumber}</2>."
 msgstr ""
 
+#: frontend/lib/loc/letter-request.tsx:19
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:61
 msgid "Your Letter Is Ready To Send!"
 msgstr "¡Tu carta está lista para enviar!"
@@ -2505,15 +2498,15 @@ msgstr "¡Tu carta está lista para enviar!"
 msgid "Your Letter of Complaint"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:282
+#: frontend/lib/loc/loc-confirmation.tsx:274
 msgid "Your Letter of Complaint has been created!"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:273
+#: frontend/lib/loc/loc-confirmation.tsx:265
 msgid "Your Letter of Complaint has been sent!"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:278
+#: frontend/lib/loc/loc-confirmation.tsx:270
 msgid "Your Letter of Complaint is being sent!"
 msgstr ""
 
@@ -2638,7 +2631,7 @@ msgstr ""
 msgid "justfix.DdoMayNeedHpdRegistration"
 msgstr "Parece que este edificio deba estar registrado con el HPD. Los proprietarios que no registren sus propiedades correctamente incurren multas y no tienen el derecho de llevar a los inquilinos a la corte por no pagar el alquiler. Puedes encontrar más información en la página <0>Gestión de Propiedades de HPD</0>"
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:166
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:169
 msgid "justfix.LocAboutOurNonprofitBlurb"
 msgstr ""
 
@@ -2650,7 +2643,7 @@ msgstr ""
 msgid "justfix.LocBreakdownOfViolationTypes"
 msgstr ""
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:178
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:181
 msgid "justfix.LocDisclaimer"
 msgstr ""
 
@@ -2658,7 +2651,7 @@ msgstr ""
 msgid "justfix.LocFalseCertificationBlurb"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:92
+#: frontend/lib/loc/loc-confirmation.tsx:91
 msgid "justfix.LocGuidelinesAfterRepairWorkerLeaves"
 msgstr ""
 
@@ -2682,7 +2675,7 @@ msgstr ""
 msgid "justfix.LocLetterContentSafetyRequirements"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:148
+#: frontend/lib/loc/loc-confirmation.tsx:147
 msgid "justfix.LocNextStepHpAction"
 msgstr ""
 
@@ -2690,23 +2683,23 @@ msgstr ""
 msgid "justfix.LocReliefAttemptsBlurb"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:69
+#: frontend/lib/loc/loc-confirmation.tsx:68
 msgid "justfix.LocRepairWorkerGuidelines"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:100
+#: frontend/lib/loc/loc-confirmation.tsx:99
 msgid "justfix.LocSanitationLinksFromCdc"
 msgstr ""
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:124
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:127
 msgid "justfix.LocUserTestimonial1"
 msgstr ""
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:144
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:147
 msgid "justfix.LocUserTestimonial2"
 msgstr ""
 
-#: frontend/lib/loc/loc-confirmation.tsx:194
+#: frontend/lib/loc/loc-confirmation.tsx:188
 msgid "justfix.LocWeWillMailLetterBlurb"
 msgstr ""
 
@@ -2750,7 +2743,7 @@ msgstr "<0>Querido administrador del DHCR,</0><1> Yo, {0}, vivo actualmente en {
 msgid "justfix.rhWhatHappensNext"
 msgstr "Deberías recibir tu Historial de Alquiler por correo en una semana aproximadamente. Tu Historial de Alquiler es un documento importante que muestra los alquileres registrados en tu apartamento desde el año 1984. Puedes aprender más sobre él y cómo puede ayudarte a averiguar si te están cobrando alquiler de más en la <0>Guía de sobrecargos de apartamentos de renta estabilizada del Met Council on Housing (en inglés)</0>."
 
-#: frontend/lib/loc/loc-confirmation.tsx:295
+#: frontend/lib/loc/loc-confirmation.tsx:287
 msgid "letter"
 msgstr ""
 

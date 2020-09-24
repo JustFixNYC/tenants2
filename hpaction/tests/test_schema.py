@@ -4,6 +4,7 @@ import pytest
 
 from project.util.testing_util import one_field_err
 from users.tests.factories import UserFactory
+from onboarding.tests.factories import OnboardingInfoFactory
 from issues.models import Issue, CustomIssue, ISSUE_CHOICES, ISSUE_AREA_CHOICES
 from .factories import (
     UploadTokenFactory, FeeWaiverDetailsFactory, TenantChildFactory,
@@ -12,6 +13,7 @@ from hpaction.models import (
     get_upload_status_for_user, HPUploadStatus, TenantChild,
     HP_ACTION_CHOICES, DocusignEnvelope)
 from hpaction.schema import sync_emergency_issues
+from .test_build_hpactionvars import onboarding_info_pad_kwarg
 import hpaction.docusign
 
 
@@ -424,3 +426,63 @@ class TestEmergencyHPActionSigningStatus:
         docs = HPActionDocumentsFactory(user=self.user, kind="EMERGENCY")
         DocusignEnvelopeFactory(docs=docs)
         assert self.execute() == "IN_PROGRESS"
+
+
+class TestRecommendedHpLandlordAndManagementCompany:
+    QUERY = '''
+    query {
+        recommendedHpLandlord {
+            name,
+            primaryLine,
+            city,
+            state,
+            zipCode
+        }
+        recommendedHpManagementCompany {
+            name,
+            primaryLine,
+            city,
+            state,
+            zipCode
+        }
+    }
+    '''
+
+    def test_they_return_none_for_logged_out_users(self, graphql_client):
+        res = graphql_client.execute(self.QUERY)
+        assert res['data'] == {
+            'recommendedHpLandlord': None,
+            'recommendedHpManagementCompany': None,
+        }
+
+    def test_they_return_none_when_user_has_no_recommendation(self, db, graphql_client):
+        graphql_client.request.user = UserFactory()
+        res = graphql_client.execute(self.QUERY)
+        assert res['data'] == {
+            'recommendedHpLandlord': None,
+            'recommendedHpManagementCompany': None,
+        }
+
+    def test_they_return_recommendations(self, db, graphql_client, nycdb):
+        med = nycdb.load_hpd_registration('medium-landlord.json')
+        oinfo = OnboardingInfoFactory(**onboarding_info_pad_kwarg(med, True))
+        graphql_client.request.user = oinfo.user
+        res = graphql_client.execute(self.QUERY)
+        import pprint
+        pprint.pprint(res['data'])
+        assert res['data'] == {
+            'recommendedHpLandlord': {
+                'city': 'FUNKYPLACE',
+                'name': 'LANDLORDO CALRISSIAN',
+                'primaryLine': '9 BEAN CENTER DRIVE #40',
+                'state': 'NJ',
+                'zipCode': '07099'
+            },
+            'recommendedHpManagementCompany': {
+                'city': 'NEW YORK',
+                'name': 'FUNKY APARTMENT MANAGEMENT',
+                'primaryLine': '900 EAST 25TH STREET #2',
+                'state': 'NY',
+                'zipCode': '10099'
+            }
+        }

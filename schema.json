@@ -215,6 +215,18 @@
               }
             },
             {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The recommended management company address for HP Action for the currently logged-in user, if any.",
+              "isDeprecated": false,
+              "name": "recommendedHpManagementCompany",
+              "type": {
+                "kind": "OBJECT",
+                "name": "GraphQLMailingAddress",
+                "ofType": null
+              }
+            },
+            {
               "args": [
                 {
                   "defaultValue": null,

@@ -191,6 +191,42 @@
               }
             },
             {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The recommended landlord address for Letter of Complaint for the currently logged-in user, if any.",
+              "isDeprecated": false,
+              "name": "recommendedLocLandlord",
+              "type": {
+                "kind": "OBJECT",
+                "name": "GraphQLMailingAddress",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The recommended landlord address for HP Action for the currently logged-in user, if any.",
+              "isDeprecated": false,
+              "name": "recommendedHpLandlord",
+              "type": {
+                "kind": "OBJECT",
+                "name": "GraphQLMailingAddress",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The recommended management company address for HP Action for the currently logged-in user, if any.",
+              "isDeprecated": false,
+              "name": "recommendedHpManagementCompany",
+              "type": {
+                "kind": "OBJECT",
+                "name": "GraphQLMailingAddress",
+                "ofType": null
+              }
+            },
+            {
               "args": [
                 {
                   "defaultValue": null,
@@ -1394,6 +1430,97 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "LetterStyles",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The name of the receipient at the address.",
+              "isDeprecated": false,
+              "name": "name",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "Usually the first line of the address, e.g. \"150 Court Street\"",
+              "isDeprecated": false,
+              "name": "primaryLine",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The city of the address, e.g. \"Brooklyn\".",
+              "isDeprecated": false,
+              "name": "city",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The two-letter state or territory for the address, e.g. \"NY\".",
+              "isDeprecated": false,
+              "name": "state",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The zip code of the address, e.g. \"11201\" or \"94107-2282\".",
+              "isDeprecated": false,
+              "name": "zipCode",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "GraphQLMailingAddress",
           "possibleTypes": null
         },
         {

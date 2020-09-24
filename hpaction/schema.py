@@ -12,6 +12,7 @@ from project.util.session_mutation import SessionFormMutation
 from project.util.email_attachment import EmailAttachmentMutation
 from project import schema_registry, slack
 from project.util.site_util import absolutify_url
+from project.util.graphql_mailing_address import GraphQLMailingAddress
 from project.util.model_form_util import (
     ManyToOneUserModelFormMutation,
     OneToOneUserModelFormMutation,
@@ -27,6 +28,7 @@ from .models import (
     DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES)
 import docusign.core
 from . import models, forms, lhiapi, email_packet, docusign as hpadocusign
+from .hpactionvars import HPActionVariables
 
 
 def sync_emergency_issues(user, submitted_issues: List[str]):
@@ -432,3 +434,61 @@ class HPActionSessionInfo:
         if de is None:
             return None
         return HP_DOCUSIGN_STATUS_CHOICES.get_enum_member(de.status)
+
+
+def _fill_user_landlord_info(info: ResolveInfo) -> Optional[HPActionVariables]:
+    request = info.context
+    user = request.user
+    if user.is_authenticated:
+        from .build_hpactionvars import fill_landlord_info
+        v = HPActionVariables()
+        if fill_landlord_info(v, user, use_user_landlord_details=False):
+            return v
+    return None
+
+
+@schema_registry.register_queries
+class HpQueries:
+    recommended_hp_landlord = graphene.Field(
+        GraphQLMailingAddress,
+        description=(
+            "The recommended landlord address for "
+            "HP Action for the currently "
+            "logged-in user, if any."
+        )
+    )
+
+    def resolve_recommended_hp_landlord(self, info: ResolveInfo):
+        v = _fill_user_landlord_info(info)
+        if v:
+            assert v.landlord_address_state_mc
+            return GraphQLMailingAddress(
+                name=v.landlord_entity_name_te,
+                primary_line=v.landlord_address_street_te,
+                city=v.landlord_address_city_te,
+                state=v.landlord_address_state_mc.value,
+                zip_code=v.landlord_address_zip_te,
+            )
+        return None
+
+    recommended_hp_management_company = graphene.Field(
+        GraphQLMailingAddress,
+        description=(
+            "The recommended management company address for "
+            "HP Action for the currently "
+            "logged-in user, if any."
+        )
+    )
+
+    def resolve_recommended_hp_management_company(self, info: ResolveInfo):
+        v = _fill_user_landlord_info(info)
+        if v and v.management_company_name_te:
+            assert v.management_company_address_state_mc
+            return GraphQLMailingAddress(
+                name=v.management_company_name_te,
+                primary_line=v.management_company_address_street_te,
+                city=v.management_company_address_city_te,
+                state=v.management_company_address_state_mc.value,
+                zip_code=v.management_company_address_zip_te,
+            )
+        return None

@@ -150,7 +150,11 @@ class LandlordDetails(MailingAddress):
         self.is_looked_up = False
 
     @classmethod
-    def create_lookup_for_user(cls, user: JustfixUser) -> Optional['LandlordDetails']:
+    def create_lookup_for_user(
+        cls,
+        user: JustfixUser,
+        save: bool = True
+    ) -> Optional['LandlordDetails']:
         '''
         Create an instance of this class by attempting to look up details on the
         given user's address.
@@ -185,7 +189,8 @@ class LandlordDetails(MailingAddress):
                 details.state = info.state
                 details.zip_code = info.zip_code
                 details.is_looked_up = True
-            details.save()
+            if save:
+                details.save()
             return details
         return None
 

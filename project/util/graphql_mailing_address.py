@@ -10,15 +10,9 @@ class GraphQLMailingAddress(graphene.ObjectType):
         required=True,
         description='Usually the first line of the address, e.g. "150 Court Street"'
     )
-    secondary_line = graphene.String(
-        description='Optional. Usually the second line of the address, e.g. "Suite 2"'
-    )
     city = graphene.String(
         required=True,
         description='The city of the address, e.g. "Brooklyn".'
-    )
-    urbanization = graphene.String(
-        description="Optional. Only used for addresses in Puerto Rico."
     )
     state = graphene.String(
         required=True,

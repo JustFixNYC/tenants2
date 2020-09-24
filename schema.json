@@ -1471,18 +1471,6 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "Optional. Usually the second line of the address, e.g. \"Suite 2\"",
-              "isDeprecated": false,
-              "name": "secondaryLine",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
               "description": "The city of the address, e.g. \"Brooklyn\".",
               "isDeprecated": false,
               "name": "city",
@@ -1494,18 +1482,6 @@
                   "name": "String",
                   "ofType": null
                 }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": "Optional. Only used for addresses in Puerto Rico.",
-              "isDeprecated": false,
-              "name": "urbanization",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
               }
             },
             {

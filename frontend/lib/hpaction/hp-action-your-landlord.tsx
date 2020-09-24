@@ -15,16 +15,25 @@ import { TextualFormField } from "../forms/form-fields";
 import { ProgressButtons, BackButton } from "../ui/buttons";
 import { Link } from "react-router-dom";
 import { USStateFormField } from "../forms/mailing-address-fields";
-import {
-  LEGACY_NYCHA_ADDRESS,
-  isUserNycha,
-  LegacyAddressDetails,
-} from "../util/nycha";
+import { isUserNycha } from "../util/nycha";
+import { QueryLoader } from "../networking/query-loader";
+import { RecommendedHpLandlord } from "../queries/RecommendedHpLandlord";
+
+const Address: React.FC<{
+  primaryLine: string;
+  city: string;
+  state: string;
+  zipCode: string;
+}> = (props) => (
+  <>
+    {props.primaryLine}
+    <br />
+    {props.city}, {props.state} {props.zipCode}
+  </>
+);
 
 const ReadOnlyLandlordDetails: React.FC<
-  MiddleProgressStepProps & {
-    details: LegacyAddressDetails;
-  }
+  MiddleProgressStepProps & { userId: number | null }
 > = (props) => (
   <>
     <p>
@@ -32,12 +41,55 @@ const ReadOnlyLandlordDetails: React.FC<
       <b>NYC Department of Housing and Preservation (HPD)</b>. This may be
       different than where you send your rent checks.
     </p>
-    <dl>
-      <dt>Name</dt>
-      <dd>{props.details.name}</dd>
-      <dt>Address</dt>
-      <dd>{props.details.address}</dd>
-    </dl>
+    <QueryLoader
+      query={RecommendedHpLandlord}
+      input={null}
+      loading={(props) => {
+        return props.error ? (
+          <p>Oops, an error occurred! Try reloading the page.</p>
+        ) : (
+          <p>Loading&hellip;</p>
+        );
+      }}
+      render={({
+        recommendedHpLandlord: landlord,
+        recommendedHpManagementCompany: mgmt,
+      }) => {
+        if (!landlord) {
+          throw new Error(
+            `Assertion failure! User ID ${props.userId} has no recommended landlord.`
+          );
+        }
+        return (
+          <>
+            <dl>
+              <dt>Landlord name</dt>
+              <dd>{landlord.name}</dd>
+              <dt>Landlord address</dt>
+              <dd>
+                <Address {...landlord} />
+              </dd>
+            </dl>
+            {mgmt && (
+              <>
+                <p>
+                  Additionally, your building's HPD registration contains
+                  details about your management company.
+                </p>
+                <dl>
+                  <dt>Management company name</dt>
+                  <dd>{mgmt.name}</dd>
+                  <dt>Management company address</dt>
+                  <dd>
+                    <Address {...mgmt} />
+                  </dd>
+                </dl>
+              </>
+            )}
+          </>
+        );
+      }}
+    />
     <p>
       We'll use these details to automatically fill out your HP Action forms!
     </p>
@@ -98,10 +150,9 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
 
   return (
     <Page title="Your landlord" withHeading className="content">
-      {isUserNycha(session) ? (
-        <ReadOnlyLandlordDetails {...props} details={LEGACY_NYCHA_ADDRESS} />
-      ) : details && details.isLookedUp && details.name && details.address ? (
-        <ReadOnlyLandlordDetails {...props} details={details} />
+      {isUserNycha(session) ||
+      (details && details.isLookedUp && details.name && details.address) ? (
+        <ReadOnlyLandlordDetails {...props} userId={session.userId} />
       ) : (
         <EditableLandlordDetails {...props} />
       )}

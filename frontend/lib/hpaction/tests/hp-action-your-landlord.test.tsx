@@ -24,7 +24,7 @@ describe("HPActionYourLandlord", () => {
     />
   );
 
-  it("shows NYCHA address when user is NYCHA", () => {
+  it("shows dynamic address when user is NYCHA", () => {
     const pal = new AppTesterPal(makeRoute(), {
       session: {
         onboardingInfo: {
@@ -33,7 +33,7 @@ describe("HPActionYourLandlord", () => {
         },
       },
     });
-    pal.rr.getByText(/nyc housing authority/i);
+    pal.rr.getByText(/loading/i);
   });
 
   it("shows manually-entered address in form fields", () => {
@@ -48,6 +48,6 @@ describe("HPActionYourLandlord", () => {
     const pal = new AppTesterPal(makeRoute(), {
       session: { landlordDetails: { ...landlordInfo, isLookedUp: true } },
     });
-    pal.rr.getByText("Landlordo Calrissian");
+    pal.rr.getByText(/loading/i);
   });
 });

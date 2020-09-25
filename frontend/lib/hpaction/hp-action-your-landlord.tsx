@@ -46,7 +46,11 @@ const ReadOnlyLandlordDetails: React.FC<MiddleProgressStepProps> = (props) => (
         return props.error ? (
           <p>Oops, an error occurred! Try reloading the page.</p>
         ) : (
-          <p>Loading&hellip;</p>
+          <section className="section" aria-hidden="true">
+            <div className="jf-loading-overlay">
+              <div className="jf-loader" />
+            </div>
+          </section>
         );
       }}
       render={({

@@ -8,6 +8,8 @@ import {
   BlankLandlordDetailsType,
   LandlordDetailsType,
 } from "../../queries/LandlordDetailsType";
+import { RecommendedHpLandlord } from "../../queries/RecommendedHpLandlord";
+import { waitFor } from "@testing-library/dom";
 
 describe("HPActionYourLandlord", () => {
   const landlordInfo: LandlordDetailsType = {
@@ -33,7 +35,7 @@ describe("HPActionYourLandlord", () => {
         },
       },
     });
-    pal.rr.getByText(/loading/i);
+    pal.getElement("div", ".jf-loader");
   });
 
   it("shows manually-entered address in form fields", () => {
@@ -44,10 +46,26 @@ describe("HPActionYourLandlord", () => {
     expect(input.value).toBe("Landlordo Calrissian");
   });
 
-  it("shows automatically looked-up address as read-only", () => {
+  it("shows automatically looked-up address as read-only", async () => {
     const pal = new AppTesterPal(makeRoute(), {
       session: { landlordDetails: { ...landlordInfo, isLookedUp: true } },
     });
-    pal.rr.getByText(/loading/i);
+    pal.withQuery(RecommendedHpLandlord).respondWith({
+      recommendedHpLandlord: {
+        name: landlordInfo.name,
+        primaryLine: landlordInfo.address,
+        city: "Bespin",
+        state: "OH",
+        zipCode: "43220",
+      },
+      recommendedHpManagementCompany: {
+        name: "Cloud City Management",
+        primaryLine: "1 Managerial Way",
+        city: "Bespin",
+        state: "OH",
+        zipCode: "43221",
+      },
+    });
+    await waitFor(() => pal.rr.getByText("Cloud City Management"));
   });
 });

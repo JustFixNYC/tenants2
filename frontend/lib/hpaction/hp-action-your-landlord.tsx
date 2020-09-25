@@ -10,7 +10,7 @@ import {
   LandlordDetailsV2Mutation,
   BlankLandlordDetailsV2Input,
 } from "../queries/LandlordDetailsV2Mutation";
-import { exactSubsetOrDefault } from "../util/util";
+import { assertNotNull, exactSubsetOrDefault } from "../util/util";
 import { TextualFormField } from "../forms/form-fields";
 import { ProgressButtons, BackButton } from "../ui/buttons";
 import { Link } from "react-router-dom";
@@ -32,9 +32,7 @@ const Address: React.FC<{
   </>
 );
 
-const ReadOnlyLandlordDetails: React.FC<
-  MiddleProgressStepProps & { userId: number | null }
-> = (props) => (
+const ReadOnlyLandlordDetails: React.FC<MiddleProgressStepProps> = (props) => (
   <>
     <p>
       This is your landlord’s information as registered with the{" "}
@@ -55,11 +53,7 @@ const ReadOnlyLandlordDetails: React.FC<
         recommendedHpLandlord: landlord,
         recommendedHpManagementCompany: mgmt,
       }) => {
-        if (!landlord) {
-          throw new Error(
-            `Assertion failure! User ID ${props.userId} has no recommended landlord.`
-          );
-        }
+        landlord = assertNotNull(landlord);
         return (
           <>
             <dl>
@@ -152,7 +146,7 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
     <Page title="Your landlord" withHeading className="content">
       {isUserNycha(session) ||
       (details && details.isLookedUp && details.name && details.address) ? (
-        <ReadOnlyLandlordDetails {...props} userId={session.userId} />
+        <ReadOnlyLandlordDetails {...props} />
       ) : (
         <EditableLandlordDetails {...props} />
       )}

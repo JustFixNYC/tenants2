@@ -7,6 +7,28 @@ declare interface RollbarInterface {
    * Report an error to Rollbar.
    */
   error(...args: (string | Error)[]): void;
+
+  /**
+   * Configure Rollbar.
+   */
+  configure(options: {
+    // https://docs.rollbar.com/docs/rollbarjs-configuration-reference
+    payload?: {
+      /**
+       * An object identifying the logged-in user.
+       */
+      person?: {
+        /**
+         * The user id of the currently logged-in user, or `null` if
+         * logged out.
+         *
+         * Note that Rollbar documentation is inconsistent about the
+         * exact type of this variable.
+         */
+        id: number | null;
+      };
+    };
+  }): void;
 }
 
 interface Window {

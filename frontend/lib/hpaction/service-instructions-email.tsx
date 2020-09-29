@@ -162,24 +162,19 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
   props
 ) => (
   <>
-    {props.isExample && (
-      <Important>
-        <strong>NOTE:</strong> This document is for example purposes only.
-      </Important>
-    )}
-    <p>Hello {props.firstName},</p>
     <p>
-      This is JustFix.nyc following up with some{" "}
-      <strong>next steps and instructions</strong> now that you’ve filed an “HP
-      Action” case in Housing Court for {CASE_TYPE_NAMES[toCaseType(props)]}.
+      Follow these instructions to serve your HP Action papers on your landlord
+      and/or management company. They will guide you through the process
+      starting from the moment you submitted your HP Action through JustFix.nyc.
     </p>
-    <p>PLEASE MAKE SURE TO READ THIS ENTIRE EMAIL.</p>
-    <h2>Next steps</h2>
+    <p>PLEASE MAKE SURE TO READ THIS ENTIRE PAGE.</p>
+    <hr />
+    <h2>Follow these steps</h2>
     <p>
-      At this point, the paperwork that you just signed and filed electronically
-      has been sent to your borough’s Housing Court Clerk for review. This is
-      what will happen next and what you need to do to make sure the process
-      goes smoothly.
+      At this point, the paperwork that you signed and filed electronically has
+      been sent to your borough’s Housing Court Clerk for review. This is what
+      will happen next and what you need to do to make sure the process goes
+      smoothly.
     </p>
     <ol>
       <li>
@@ -253,11 +248,10 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
         <strong>Possible attorney assignment</strong>
         <p>
           Your case might be considered an emergency by the Judge. If so, you
-          will be contacted by a lawyer who will help you with your case. If
-          your case is not considered an emergency, you will need to do
-          everything yourself. (This is called being “pro-se”.) If you do not
-          hear from a lawyer within a few days, you should assume that you will
-          need to be pro-se.
+          will be contacted by a lawyer. If your case is not considered an
+          emergency, you will need to do everything yourself. (This is called
+          being “pro-se”.) If you do not hear from a lawyer within a few days,
+          you should assume that you will need to do things on your own.
         </p>
         <Important>
           Regardless of whether or not you hear from a lawyer, YOU must serve
@@ -293,9 +287,11 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
             violations in your home.
           </p>
           <Important>
-            A representative from HPD will call you to arrange the time and date
-            of the inspection. On the day of your inspection, make sure to
-            follow sanitation and social distancing measures as much as you can.
+            The date and time scheduled for your inspection is written at the
+            bottom of the "Tenant's Request for Inspection" (the page with the
+            number "3" at the top right). On the day of your inspection, make
+            sure to follow sanitation and social distancing measures as much as
+            you can.
           </Important>
         </li>
       )}
@@ -348,8 +344,8 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
       <>
         <p>
           If there are 2 people or companies listed on the paperwork you will
-          need to serve them both. This could be because there is a landlord and
-          a management company.
+          need to serve them each separately. This could be because there is
+          both a landlord and a management company in charge of your building.
         </p>
         <ExampleImage
           src={WHO_TO_SERVE_EXAMPLE_IMG_SRC[toCaseType(props)]}
@@ -389,8 +385,8 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
         <p>
           Note that it is important NOT to send any other pieces of information
           that may contain sensitive details like your email address or
-          financials. If you see any papers in the paperwork with that kind of
-          info, please take them out and do not send them.
+          financials. If you see any pages with that kind of info, please take
+          them out and do not send them.
         </p>
       </>
     )}
@@ -477,7 +473,7 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
               If this is the case, you or someone other than you who is over the
               age of 18 needs to hand-deliver the <OSC /> and{" "}
               <VerifiedPetition {...props} /> directly to each person or company
-              you have sued. The person doing the service will need to fill out
+              you are suing. The person doing the service will need to fill out
               the "Affidavit of Service" at the end of the attachment and sign
               as the “Deponent”.
             </p>
@@ -485,12 +481,15 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
         </ul>
       </>
     )}
+    <hr />
     <p>
-      If you have any further questions, please feel free to respond to this
-      email and we will be in touch to help.
+      If you have any further questions, please feel free to email{" "}
+      <EmailLink to={"documents@justfix.nyc"} /> explaining your concerns and we
+      will be in touch to help.
     </p>
-    <p>Kind regards,</p>
-    <p>The JustFix.nyc Team</p>
+    <p>
+      <strong>The JustFix.nyc Team</strong>
+    </p>
   </>
 );
 
@@ -610,7 +609,7 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
 
   return (
     <Page
-      title="Example service instructions email"
+      title="How to serve your HP action papers"
       withHeading
       className="content"
     >
@@ -626,7 +625,7 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
             <>
               <SelectFormField
                 {...ctx.fieldPropsFor("borough")}
-                label="Borough of tenant"
+                label="Borough"
                 choices={toDjangoChoices(
                   BoroughChoices,
                   getBoroughChoiceLabels()
@@ -642,7 +641,7 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
               />
               <YesNoRadiosFormField
                 {...ctx.fieldPropsFor("isNycha")}
-                label="Is the tenant in NYCHA housing?"
+                label="Are you in NYCHA housing?"
               />
               <NoScriptFallback>
                 <button type="submit" className="button is-primary">
@@ -655,23 +654,6 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
       </Form>
       {!validatedInput.errors && (
         <>
-          <br />
-          <p>
-            The following content is a preview of instructions sent for serving
-            Emergency HP Actions based on the above options.
-          </p>
-          <p>
-            For a more accurate representation of how users will see it, you can
-            view it as an{" "}
-            <a href={`${emailPreview.html}?${qs.toStableQuerystring()}`}>
-              HTML email
-            </a>{" "}
-            and{" "}
-            <a href={`${emailPreview.txt}?${qs.toStableQuerystring()}`}>
-              plaintext email
-            </a>
-            .
-          </p>
           <hr />
           <ServiceInstructionsContent
             {...formInputToInstructionsProps(validatedInput.result)}

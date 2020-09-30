@@ -823,8 +823,8 @@
           "actions": [
             {
               "addresses": [
-                "rentinfo@nyshcr.org",
-                "e8x9f4k1h2i3e6p3@justfixnyc.slack.com"
+                "boop@jones.net",
+                "blarglblarg@justfixnyc.slack.com"
               ],
               "body": "I, @contact.name, am currently living at @(legacy_extra.features[\"0\"].properties.label) @(legacy_extra.features[\"0\"].properties.postalcode) in apartment @results.contact_apt.input and would like to request the complete rent history for this apartment back to the year 1984.\n\nThank you,\n\n- @contact.name",
               "subject": "Request for Rental History",

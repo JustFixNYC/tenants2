@@ -51,11 +51,19 @@ class NodeDesc(NamedTuple):
     expected: int = 1
 
 
+def get_flow_uuid(flow: Dict[str, Any]) -> str:
+    return flow['metadata']['uuid']
+
+
+def get_flow_name(flow: Dict[str, Any]) -> str:
+    return flow['metadata']['name']
+
+
 class Flow:
     def __init__(self, flow: Dict[str, Any], url: str):
         self._f = flow
-        self.uuid = flow['metadata']['uuid']
-        self.name = flow['metadata']['name']
+        self.uuid = get_flow_uuid(flow)
+        self.name = get_flow_name(flow)
         self.url = url
 
     @staticmethod
@@ -64,7 +72,7 @@ class Flow:
         flows_by_uuid: Dict[str, Flow] = {}
         defns = client.get_definitions(flows=uuids, dependencies="none").flows
         for flow_defn in defns:
-            url = [url for url in urls if uuid_from_url(url) == flow_defn['metadata']['uuid']][0]
+            url = [url for url in urls if uuid_from_url(url) == get_flow_uuid(flow_defn)][0]
             flow = Flow(flow_defn, url)
             flows_by_uuid[flow.uuid] = flow
         result: List[Flow] = []

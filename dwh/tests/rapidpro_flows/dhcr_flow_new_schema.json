@@ -1,0 +1,915 @@
+{
+  "version": "13",
+  "site": "https://textit.in",
+  "flows": [
+    {
+      "_ui": {
+        "nodes": {
+          "750f42ab-7f33-407d-a080-736975282e6b": {
+            "position": {
+              "left": 74,
+              "top": 0
+            },
+            "type": "execute_actions"
+          },
+          "0ecf8ae7-2be9-4708-a522-a7bb0edabc7c": {
+            "position": {
+              "left": 1037,
+              "top": 0
+            },
+            "type": "wait_for_response"
+          },
+          "031ae215-614d-4b59-8fb2-972fc95bc4f3": {
+            "position": {
+              "left": 653,
+              "top": 5
+            },
+            "type": "execute_actions"
+          },
+          "6b5f9a9f-221a-4051-8789-6e34c4d7bc68": {
+            "position": {
+              "left": 1362,
+              "top": 69
+            },
+            "type": "execute_actions"
+          },
+          "00a4635e-22a9-4636-8286-ca2e04dae649": {
+            "position": {
+              "left": 1148,
+              "top": 193
+            },
+            "type": "execute_actions"
+          },
+          "b78b7d70-762f-4a73-8d69-809daa86f103": {
+            "position": {
+              "left": 377,
+              "top": 261
+            },
+            "type": "execute_actions"
+          },
+          "a3af4db3-b3e1-4b84-b89a-7a57204165db": {
+            "position": {
+              "left": 638,
+              "top": 318
+            },
+            "type": "wait_for_response"
+          },
+          "68a72cac-a2b2-408a-bffe-a4c64228e1bf": {
+            "position": {
+              "left": 640,
+              "top": 440
+            },
+            "type": "split_by_webhook"
+          },
+          "dd0e6e7a-6bcf-42ee-9f57-bcc37fe8f2ef": {
+            "position": {
+              "left": 60,
+              "top": 580
+            },
+            "type": "wait_for_response"
+          },
+          "26381771-1634-486a-91e7-e6e2a8e8145a": {
+            "position": {
+              "left": 1135,
+              "top": 467
+            },
+            "type": "wait_for_response"
+          },
+          "928cf6c9-655b-428a-9264-2158ba590715": {
+            "position": {
+              "left": 1152,
+              "top": 595
+            },
+            "type": "execute_actions"
+          },
+          "bcab72db-9397-4204-81ef-87e57625d0d4": {
+            "position": {
+              "left": 640,
+              "top": 680
+            },
+            "type": "execute_actions"
+          },
+          "97317515-9232-4446-af30-d13b5bafa5b3": {
+            "position": {
+              "left": 260,
+              "top": 720
+            },
+            "type": "execute_actions"
+          },
+          "48e74020-f1eb-4017-b505-a3819a3a4090": {
+            "position": {
+              "left": 20,
+              "top": 720
+            },
+            "type": "execute_actions"
+          },
+          "bb0b6a8b-122a-4e60-a583-a4649855de2e": {
+            "position": {
+              "left": 200,
+              "top": 920
+            },
+            "type": "wait_for_response"
+          },
+          "74f01d18-b2b1-4a79-b542-178092352e5d": {
+            "position": {
+              "left": 1537,
+              "top": 1006
+            },
+            "type": "execute_actions"
+          },
+          "eb6062f9-5fe5-4bf9-8cb5-10c78e98a747": {
+            "position": {
+              "left": 1140,
+              "top": 1220
+            },
+            "type": "wait_for_response"
+          },
+          "30972b61-6f4f-4234-8d60-2dbb5f5ea22f": {
+            "position": {
+              "left": 940,
+              "top": 1360
+            },
+            "type": "execute_actions"
+          },
+          "53a5a51f-671d-44ef-8b60-a6bd6d13dcc5": {
+            "position": {
+              "left": 1360,
+              "top": 1360
+            },
+            "type": "execute_actions"
+          }
+        },
+        "stickies": {}
+      },
+      "expire_after_minutes": 10080,
+      "language": "base",
+      "localization": {
+        "spa": {
+          "03a268ea-3643-4588-85b2-7a77963ab42f": {
+            "text": [
+              "\u00a1Gracias! Siguiente, d\u00e9janos saber su nombre completo?"
+            ]
+          },
+          "191f0e15-2066-469d-b8e5-fb428b9095da": {
+            "text": [
+              "Si quieres m\u00e1s informaci\u00f3n sobre el due\u00f1o de tu apartamento, haz un clic aqu\u00ed: https://whoownswhat.justfix.nyc/address/@(legacy_extra.features[\"0\"].properties.borough)/@(legacy_extra.features[\"0\"].properties.housenumber)/@(replace(legacy_extra.features[\"0\"].properties.street, \" \", \"%20\"))"
+            ]
+          },
+          "1af3354c-8d72-4a37-9f10-ce78f8d97edc": {
+            "name": ["Toda Respuestas"]
+          },
+          "25964a7f-3e81-493b-a197-78e331d51850": {
+            "name": ["Si"]
+          },
+          "273c67d8-0f9c-4d50-a989-1b874f3f6082": {
+            "name": ["No"]
+          },
+          "29c02ed4-c72b-4a4d-a13e-9b7c1a3bff22": {
+            "text": [
+              "Por favor, responde con tu direcci\u00f3n y municipalidad. Por ejemplo: 654 Park Place, Brooklyn"
+            ]
+          },
+          "314d8170-c2e9-4269-8e24-a4ff498736c9": {
+            "text": [
+              "Yo, @contact.name, vivo en el @(legacy_extra.features[\"0\"].properties.label) en apartamento @results.contact_apt.input y quiero solicitar mi historial de renta completo desde hoy y hasta todos los a\u00f1os desde el 1984."
+            ]
+          },
+          "389d1d7b-d716-4afb-b4b3-e1dc1769c955": {
+            "text": [
+              "Listo. Vamos a hacer la solicitud en tu nombre al DHCR, y recibir\u00e1s tu historial de renta por correo dentro de una semana. El mensaje  que vamos a enviar dir\u00e1 lo siguiente:"
+            ]
+          },
+          "477afa90-9365-4212-874e-3619dd5c2c57": {
+            "text": [
+              "\u00bfEsta direcci\u00f3n es correcta? @(legacy_extra.features[\"0\"].properties.label) Si es correcta, por favor responde con \"Si\""
+            ]
+          },
+          "48be410d-8d1c-4f90-9c7a-97e671908738": {
+            "arguments": ["no"]
+          },
+          "4b55cecc-3ec4-4e3a-aac5-c3526211c87d": {
+            "text": [
+              "\u00a1Muy bien! Pronto recibir\u00e1s tu historial de renta por correo ordinario. Si tienes m\u00e1s preguntas, por favor ll\u00e1manos or m\u00e1ndanos un mensaje de texto al (646) 820-0349."
+            ]
+          },
+          "6348942f-427d-4058-b939-3a3ce8fd7603": {
+            "arguments": ["si"]
+          },
+          "64c0f5df-c331-4f51-b7aa-b4b46f614c0b": {
+            "text": ["www.justfix.nyc"]
+          },
+          "69bcd2a4-344c-4aa7-b402-53f90f067929": {
+            "name": ["Otro"]
+          },
+          "74e561ff-478c-4d20-9cf1-f6c726a721b9": {
+            "name": ["no"]
+          },
+          "77c7426d-30a0-4385-a277-01468a6f6045": {
+            "text": [
+              "Si quieres m\u00e1s informaci\u00f3n sobre el due\u00f1o de tu apartamento, haz un clic aqu\u00ed: https://whoownswhat.justfix.nyc/address/@(legacy_extra.features[\"0\"].properties.borough)/@(legacy_extra.features[\"0\"].properties.housenumber)/@(replace(legacy_extra.features[\"0\"].properties.street, \" \", \"%20\"))"
+            ]
+          },
+          "7ae55272-a791-499b-83e5-e798622260ca": {
+            "text": [
+              "No te preocupes, esta informaci\u00f3n se mantendr\u00e1 segura y confidencial."
+            ]
+          },
+          "a7c71757-f390-45af-bac5-87c7fcbeba64": {
+            "name": ["toda respuestas"]
+          },
+          "a8e7eb96-adda-40d3-815c-d4cbd1ccba90": {
+            "text": [
+              "Okay, si tienes m\u00e1s preguntas, por favor ll\u00e1manos al (646) 820-0349"
+            ]
+          },
+          "b98b6fb3-7ad9-4789-af22-7dc9bdbc76aa": {
+            "arguments": ["C, volver a empezar, volver,"]
+          },
+          "bac72d93-6d70-4081-a18e-3f1b4ddc8868": {
+            "text": [
+              "\u00bfQuieres enviarlo y pedir tu Historial de Renta?\n\nA: Si\n\nB: No\n\nC: Volver a empezar"
+            ]
+          },
+          "c3851e8f-2d4e-44c6-9e2d-d219e269feda": {
+            "name": ["Si"]
+          },
+          "cc8b728a-be70-4362-8fdf-8e8c2eb3bcca": {
+            "text": [
+              "\u00a1Gracias! Vamos a la siguiente pregunta: \u00bfcu\u00e1l es tu nombre completo?"
+            ]
+          },
+          "cd05b15d-2eb9-47a4-b924-110c60f5a76b": {
+            "text": ["\u00a1Gracias, @contact.first_name!"]
+          },
+          "cd3aa77c-2994-4c83-ac86-13d932788f5d": {
+            "text": ["!Ay lo siento, por favor int\u00e9ntalo de nuevo!"]
+          },
+          "d9f0400a-ff99-45cb-8110-f0c9a08772ed": {
+            "arguments": ["B, no"]
+          },
+          "dec0b980-f0ba-469e-86d2-b066d0b4ccd1": {
+            "arguments": ["A, si, vale, ok"]
+          },
+          "e2574424-1403-415d-a2d1-e0ae95a3c9cc": {
+            "name": ["toda respuestas"]
+          },
+          "ece12dab-f637-463b-b1b6-fd0e748a08e8": {
+            "name": ["volver"]
+          },
+          "f1308078-36d9-48ae-bba3-1c11d4f2aa5b": {
+            "text": [
+              "No pasa nada. Si alg\u00fan d\u00eda quieres continuar aqu\u00ed estaremos. Puedes volver a empezar en cualquier momento enviando \"historial de renta\" a este n\u00famero.\n\nMientras tanto, encontrar\u00e1s el resto de nuestras herramientas en este enlace. Toma nota de que algunas s\u00f3lo est\u00e1n disponibles en ingl\u00e9s:"
+            ]
+          },
+          "fe9df3b0-0e00-4062-a8a4-160912f502b3": {
+            "name": ["Otro"]
+          },
+          "ff4b0e35-0c7f-4119-81ac-f5dcd852e461": {
+            "text": [
+              "\u00bfY en qu\u00e9 apartamento vives? Necesitamos esta informaci\u00f3n para pedirle tu historial de renta al DHCR."
+            ]
+          }
+        }
+      },
+      "name": "DHCR flow",
+      "nodes": [
+        {
+          "actions": [
+            {
+              "text": "Let's help you request your Rent History from DHCR (Division of Housing and Community Renewal)! This document helps you find out if you're being overcharged and/or your apartment is rent stabilized.",
+              "type": "send_msg",
+              "uuid": "b2320e66-10c6-4ded-813b-a7d0e198fc57",
+              "quick_replies": []
+            },
+            {
+              "text": "\u00a1Vamos ayudarte a pedir tu Historial de Renta al DHCR (Divisi\u00f3n de Preservaci\u00f3n y Desarrollo de la Vivienda)! Este documento te ayudar\u00e1 a averiguar si te est\u00e1n cobrando demasiado alquiler y/o si tu apartamento es de renta estabilizada.",
+              "type": "send_msg",
+              "uuid": "08bb67be-446c-4669-a4ad-df0b15388885",
+              "quick_replies": []
+            },
+            {
+              "text": "Please type \"E\" for English or \"S\" para usarlo en Espa\u00f1ol",
+              "type": "send_msg",
+              "uuid": "3fa21c63-9811-489d-8619-171047096b47",
+              "quick_replies": []
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "dd0e6e7a-6bcf-42ee-9f57-bcc37fe8f2ef",
+              "uuid": "d7e72598-6af7-4d8f-8134-2ada36720e4e"
+            }
+          ],
+          "uuid": "750f42ab-7f33-407d-a080-736975282e6b"
+        },
+        {
+          "exits": [
+            {
+              "destination_uuid": "00a4635e-22a9-4636-8286-ca2e04dae649",
+              "uuid": "937b4cc0-1857-47f0-9f19-45c214850032"
+            },
+            {
+              "destination_uuid": "6b5f9a9f-221a-4051-8789-6e34c4d7bc68",
+              "uuid": "2a90e210-2795-427b-8348-99815ba6115f"
+            },
+            {
+              "destination_uuid": "6b5f9a9f-221a-4051-8789-6e34c4d7bc68",
+              "uuid": "d478bb72-fec3-4570-9989-49b461c494a6"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": ["yes"],
+                "category_uuid": "25964a7f-3e81-493b-a197-78e331d51850",
+                "type": "has_any_word",
+                "uuid": "6348942f-427d-4058-b939-3a3ce8fd7603"
+              },
+              {
+                "arguments": ["no"],
+                "category_uuid": "273c67d8-0f9c-4d50-a989-1b874f3f6082",
+                "type": "has_any_word",
+                "uuid": "48be410d-8d1c-4f90-9c7a-97e671908738"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "937b4cc0-1857-47f0-9f19-45c214850032",
+                "name": "Yes",
+                "uuid": "25964a7f-3e81-493b-a197-78e331d51850"
+              },
+              {
+                "exit_uuid": "2a90e210-2795-427b-8348-99815ba6115f",
+                "name": "No",
+                "uuid": "273c67d8-0f9c-4d50-a989-1b874f3f6082"
+              },
+              {
+                "exit_uuid": "d478bb72-fec3-4570-9989-49b461c494a6",
+                "name": "Other",
+                "uuid": "fe9df3b0-0e00-4062-a8a4-160912f502b3"
+              }
+            ],
+            "default_category_uuid": "fe9df3b0-0e00-4062-a8a4-160912f502b3",
+            "operand": "@input",
+            "result_name": "Confirm Address",
+            "type": "switch",
+            "wait": {
+              "type": "msg"
+            }
+          },
+          "uuid": "0ecf8ae7-2be9-4708-a522-a7bb0edabc7c",
+          "actions": []
+        },
+        {
+          "actions": [
+            {
+              "name": "@results.contact_name.input",
+              "type": "set_contact_name",
+              "uuid": "bf6d6d0f-9625-4cff-baec-0eaaeba4345a"
+            },
+            {
+              "text": "Thanks, @contact.first_name!",
+              "type": "send_msg",
+              "uuid": "cd05b15d-2eb9-47a4-b924-110c60f5a76b",
+              "quick_replies": []
+            },
+            {
+              "text": "What is your address and borough? Example: 654 Park Place, Brooklyn",
+              "type": "send_msg",
+              "uuid": "29c02ed4-c72b-4a4d-a13e-9b7c1a3bff22",
+              "quick_replies": []
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "a3af4db3-b3e1-4b84-b89a-7a57204165db",
+              "uuid": "72b562b1-8712-41e4-baca-ebd06f751b9c"
+            }
+          ],
+          "uuid": "031ae215-614d-4b59-8fb2-972fc95bc4f3"
+        },
+        {
+          "actions": [
+            {
+              "text": "Oops, lets try again!",
+              "type": "send_msg",
+              "uuid": "cd3aa77c-2994-4c83-ac86-13d932788f5d",
+              "quick_replies": []
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "031ae215-614d-4b59-8fb2-972fc95bc4f3",
+              "uuid": "e54d387f-903e-43d1-b7f1-a1ebcb619c71"
+            }
+          ],
+          "uuid": "6b5f9a9f-221a-4051-8789-6e34c4d7bc68"
+        },
+        {
+          "actions": [
+            {
+              "text": "Great! What unit are you in? We need this to make the request for your specific apartment.",
+              "type": "send_msg",
+              "uuid": "ff4b0e35-0c7f-4119-81ac-f5dcd852e461",
+              "quick_replies": []
+            },
+            {
+              "text": "Don't worry, this info is kept secure and confidential.",
+              "type": "send_msg",
+              "uuid": "7ae55272-a791-499b-83e5-e798622260ca",
+              "quick_replies": []
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "26381771-1634-486a-91e7-e6e2a8e8145a",
+              "uuid": "f4196c73-0e15-4c64-8ae9-da2a5f29184f"
+            }
+          ],
+          "uuid": "00a4635e-22a9-4636-8286-ca2e04dae649"
+        },
+        {
+          "actions": [
+            {
+              "text": "Sorry, I didn't get that. You can type \"E\" for English or \"S\" para Espa\u00f1ol.\n\nPerdona, no te he entendido. Puedes decir \"E\" para ingl\u00e9s o \"S\" para espa\u00f1ol.",
+              "type": "send_msg",
+              "uuid": "06b1d216-4ccf-4465-9835-5fae60ba304b",
+              "quick_replies": []
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "dd0e6e7a-6bcf-42ee-9f57-bcc37fe8f2ef",
+              "uuid": "8d5e7504-24fc-44c8-8b69-244c3a053803"
+            }
+          ],
+          "uuid": "b78b7d70-762f-4a73-8d69-809daa86f103"
+        },
+        {
+          "exits": [
+            {
+              "destination_uuid": "68a72cac-a2b2-408a-bffe-a4c64228e1bf",
+              "uuid": "e7ccd6ad-c720-4d82-9944-3046bf4cfe8d"
+            }
+          ],
+          "router": {
+            "cases": [],
+            "categories": [
+              {
+                "exit_uuid": "e7ccd6ad-c720-4d82-9944-3046bf4cfe8d",
+                "name": "All Responses",
+                "uuid": "e2574424-1403-415d-a2d1-e0ae95a3c9cc"
+              }
+            ],
+            "default_category_uuid": "e2574424-1403-415d-a2d1-e0ae95a3c9cc",
+            "operand": "@input",
+            "result_name": "contact_address",
+            "type": "switch",
+            "wait": {
+              "type": "msg"
+            }
+          },
+          "uuid": "a3af4db3-b3e1-4b84-b89a-7a57204165db",
+          "actions": []
+        },
+        {
+          "actions": [
+            {
+              "method": "GET",
+              "result_name": "Migrated Webhook 1",
+              "type": "call_webhook",
+              "url": "https://geosearch.planninglabs.nyc/v1/search?size=1&text=@(url_encode(results.contact_address.input))",
+              "uuid": "318ee321-9ba4-4746-8931-1f0d6a8eedd9"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "bcab72db-9397-4204-81ef-87e57625d0d4",
+              "uuid": "19f24bac-6682-492f-963d-3cd9e677f037"
+            },
+            {
+              "destination_uuid": "bcab72db-9397-4204-81ef-87e57625d0d4",
+              "uuid": "c4bc9e69-1a68-4554-bb89-813bd6e5b537"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": ["Success"],
+                "category_uuid": "4f54802d-c797-435f-bb22-55824ed82835",
+                "type": "has_only_text",
+                "uuid": "3fdb3b88-b8f1-43ea-8d2f-c48642334921"
+              },
+              {
+                "arguments": ["Failure"],
+                "category_uuid": "3f569ec6-ca03-4eee-bdaa-5ffda3be644b",
+                "type": "has_only_text",
+                "uuid": "e6228140-2aea-4f83-800d-a6f1333a089d"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "19f24bac-6682-492f-963d-3cd9e677f037",
+                "name": "Success",
+                "uuid": "4f54802d-c797-435f-bb22-55824ed82835"
+              },
+              {
+                "exit_uuid": "c4bc9e69-1a68-4554-bb89-813bd6e5b537",
+                "name": "Failure",
+                "uuid": "3f569ec6-ca03-4eee-bdaa-5ffda3be644b"
+              }
+            ],
+            "default_category_uuid": "3f569ec6-ca03-4eee-bdaa-5ffda3be644b",
+            "operand": "@results.migrated_webhook_1.category",
+            "type": "switch"
+          },
+          "uuid": "68a72cac-a2b2-408a-bffe-a4c64228e1bf"
+        },
+        {
+          "exits": [
+            {
+              "destination_uuid": "928cf6c9-655b-428a-9264-2158ba590715",
+              "uuid": "967f4cac-5b0a-427a-a423-073c2ac3226f"
+            }
+          ],
+          "router": {
+            "cases": [],
+            "categories": [
+              {
+                "exit_uuid": "967f4cac-5b0a-427a-a423-073c2ac3226f",
+                "name": "All Responses",
+                "uuid": "1af3354c-8d72-4a37-9f10-ce78f8d97edc"
+              }
+            ],
+            "default_category_uuid": "1af3354c-8d72-4a37-9f10-ce78f8d97edc",
+            "operand": "@input",
+            "result_name": "contact_apt",
+            "type": "switch",
+            "wait": {
+              "type": "msg"
+            }
+          },
+          "uuid": "26381771-1634-486a-91e7-e6e2a8e8145a",
+          "actions": []
+        },
+        {
+          "exits": [
+            {
+              "destination_uuid": "48e74020-f1eb-4017-b505-a3819a3a4090",
+              "uuid": "a927f8b9-abd5-4358-93d1-1203b0164a20"
+            },
+            {
+              "destination_uuid": "97317515-9232-4446-af30-d13b5bafa5b3",
+              "uuid": "ac62beee-a776-4c68-a3f4-bf73523b5c08"
+            },
+            {
+              "destination_uuid": "b78b7d70-762f-4a73-8d69-809daa86f103",
+              "uuid": "e886cc4b-88a3-406e-bf15-43118832ebca"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": ["English, english, E, e"],
+                "category_uuid": "032c2ea7-755c-4897-af72-68201262a198",
+                "type": "has_any_word",
+                "uuid": "40669525-446e-437c-a4a6-58b42d7c9239"
+              },
+              {
+                "arguments": [
+                  "Espanol, Espa\u00f1ol, espanol, espa\u00f1ol, S, s, Spanish, spanish"
+                ],
+                "category_uuid": "01a72ca5-1453-46f4-8d81-d90e73451623",
+                "type": "has_any_word",
+                "uuid": "3ecae853-7b00-4154-b0f0-4c73ecadef2c"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "a927f8b9-abd5-4358-93d1-1203b0164a20",
+                "name": "English",
+                "uuid": "032c2ea7-755c-4897-af72-68201262a198"
+              },
+              {
+                "exit_uuid": "ac62beee-a776-4c68-a3f4-bf73523b5c08",
+                "name": "Espa\u00f1ol",
+                "uuid": "01a72ca5-1453-46f4-8d81-d90e73451623"
+              },
+              {
+                "exit_uuid": "e886cc4b-88a3-406e-bf15-43118832ebca",
+                "name": "Other",
+                "uuid": "50f0311e-e112-4e87-a98d-04fa578c4713"
+              }
+            ],
+            "default_category_uuid": "50f0311e-e112-4e87-a98d-04fa578c4713",
+            "operand": "@input",
+            "result_name": "Language",
+            "type": "switch",
+            "wait": {
+              "type": "msg"
+            }
+          },
+          "uuid": "dd0e6e7a-6bcf-42ee-9f57-bcc37fe8f2ef",
+          "actions": []
+        },
+        {
+          "actions": [
+            {
+              "text": "Got it. We're going to file a request to DHCR on your behalf. The message will say:",
+              "type": "send_msg",
+              "uuid": "389d1d7b-d716-4afb-b4b3-e1dc1769c955",
+              "quick_replies": []
+            },
+            {
+              "text": "I, @contact.name, am currently living at @(legacy_extra.features[\"0\"].properties.label) @(legacy_extra.features[\"0\"].properties.postalcode) in apartment @results.contact_apt.input and would like to request the complete Rent History for this apartment back to the year 1984.",
+              "type": "send_msg",
+              "uuid": "314d8170-c2e9-4269-8e24-a4ff498736c9",
+              "quick_replies": []
+            },
+            {
+              "text": "Do you want to send this and request your Rent History?\n\nA: Yes\n\nB: No\n\nC: Start over",
+              "type": "send_msg",
+              "uuid": "bac72d93-6d70-4081-a18e-3f1b4ddc8868",
+              "quick_replies": []
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "eb6062f9-5fe5-4bf9-8cb5-10c78e98a747",
+              "uuid": "a98e881c-7231-496c-997b-05c60c4e0577"
+            }
+          ],
+          "uuid": "928cf6c9-655b-428a-9264-2158ba590715"
+        },
+        {
+          "actions": [
+            {
+              "text": "Is this your address? @(legacy_extra.features[\"0\"].properties.label) @(legacy_extra.features[\"0\"].properties.postalcode)\n\nIf that's correct, reply \"Yes\"",
+              "type": "send_msg",
+              "uuid": "477afa90-9365-4212-874e-3619dd5c2c57",
+              "quick_replies": []
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "0ecf8ae7-2be9-4708-a522-a7bb0edabc7c",
+              "uuid": "34124775-bd2e-424e-bace-c6b9e658b752"
+            }
+          ],
+          "uuid": "bcab72db-9397-4204-81ef-87e57625d0d4"
+        },
+        {
+          "actions": [
+            {
+              "language": "eng",
+              "type": "set_contact_language",
+              "uuid": "6a41595c-99d5-4776-910e-efd50889552e"
+            },
+            {
+              "text": "Thanks! Next, please tell us your full name.",
+              "type": "send_msg",
+              "uuid": "03a268ea-3643-4588-85b2-7a77963ab42f",
+              "quick_replies": []
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "bb0b6a8b-122a-4e60-a583-a4649855de2e",
+              "uuid": "184eb1e7-43a4-4dd2-bd07-cd66e6955271"
+            }
+          ],
+          "uuid": "48e74020-f1eb-4017-b505-a3819a3a4090"
+        },
+        {
+          "actions": [
+            {
+              "language": "spa",
+              "type": "set_contact_language",
+              "uuid": "801816ed-0738-4e76-bbf7-e9e24560aa8b"
+            },
+            {
+              "text": "Thanks! Next, please tell us your full name.",
+              "type": "send_msg",
+              "uuid": "cc8b728a-be70-4362-8fdf-8e8c2eb3bcca",
+              "quick_replies": []
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "bb0b6a8b-122a-4e60-a583-a4649855de2e",
+              "uuid": "83b950b0-179a-4bcd-8987-aeb618976caa"
+            }
+          ],
+          "uuid": "97317515-9232-4446-af30-d13b5bafa5b3"
+        },
+        {
+          "exits": [
+            {
+              "destination_uuid": "031ae215-614d-4b59-8fb2-972fc95bc4f3",
+              "uuid": "a446a546-cc25-4790-bd0c-f020f265d300"
+            }
+          ],
+          "router": {
+            "cases": [],
+            "categories": [
+              {
+                "exit_uuid": "a446a546-cc25-4790-bd0c-f020f265d300",
+                "name": "All Responses",
+                "uuid": "a7c71757-f390-45af-bac5-87c7fcbeba64"
+              }
+            ],
+            "default_category_uuid": "a7c71757-f390-45af-bac5-87c7fcbeba64",
+            "operand": "@input",
+            "result_name": "contact_name",
+            "type": "switch",
+            "wait": {
+              "type": "msg"
+            }
+          },
+          "uuid": "bb0b6a8b-122a-4e60-a583-a4649855de2e",
+          "actions": []
+        },
+        {
+          "actions": [
+            {
+              "text": "Sorry! We didn't understand that - let's try again.",
+              "type": "send_msg",
+              "uuid": "a8e7eb96-adda-40d3-815c-d4cbd1ccba90",
+              "quick_replies": []
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "928cf6c9-655b-428a-9264-2158ba590715",
+              "uuid": "d6510a75-1763-45e1-a3cc-581ac001b148"
+            }
+          ],
+          "uuid": "74f01d18-b2b1-4a79-b542-178092352e5d"
+        },
+        {
+          "exits": [
+            {
+              "destination_uuid": "30972b61-6f4f-4234-8d60-2dbb5f5ea22f",
+              "uuid": "4d10c9ba-f83b-41c9-b023-8c9d6953ffd8"
+            },
+            {
+              "destination_uuid": "53a5a51f-671d-44ef-8b60-a6bd6d13dcc5",
+              "uuid": "7d0e15e8-12ff-4577-9bd0-69907f0009de"
+            },
+            {
+              "destination_uuid": "750f42ab-7f33-407d-a080-736975282e6b",
+              "uuid": "a59cdeb4-44a0-4f5c-94f6-5175ad0a50dc"
+            },
+            {
+              "destination_uuid": "74f01d18-b2b1-4a79-b542-178092352e5d",
+              "uuid": "8756ecba-80f1-4678-8343-f5b1a2dfce5d"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": ["A, yes, Yes, YES, Y, y"],
+                "category_uuid": "c3851e8f-2d4e-44c6-9e2d-d219e269feda",
+                "type": "has_any_word",
+                "uuid": "dec0b980-f0ba-469e-86d2-b066d0b4ccd1"
+              },
+              {
+                "arguments": ["B, no, n, never mind, nevermind, nah, nope"],
+                "category_uuid": "74e561ff-478c-4d20-9cf1-f6c726a721b9",
+                "type": "has_any_word",
+                "uuid": "d9f0400a-ff99-45cb-8110-f0c9a08772ed"
+              },
+              {
+                "arguments": ["C, start over, restart, start"],
+                "category_uuid": "ece12dab-f637-463b-b1b6-fd0e748a08e8",
+                "type": "has_any_word",
+                "uuid": "b98b6fb3-7ad9-4789-af22-7dc9bdbc76aa"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "4d10c9ba-f83b-41c9-b023-8c9d6953ffd8",
+                "name": "Yes",
+                "uuid": "c3851e8f-2d4e-44c6-9e2d-d219e269feda"
+              },
+              {
+                "exit_uuid": "7d0e15e8-12ff-4577-9bd0-69907f0009de",
+                "name": "No",
+                "uuid": "74e561ff-478c-4d20-9cf1-f6c726a721b9"
+              },
+              {
+                "exit_uuid": "a59cdeb4-44a0-4f5c-94f6-5175ad0a50dc",
+                "name": "Start Over",
+                "uuid": "ece12dab-f637-463b-b1b6-fd0e748a08e8"
+              },
+              {
+                "exit_uuid": "8756ecba-80f1-4678-8343-f5b1a2dfce5d",
+                "name": "Other",
+                "uuid": "69bcd2a4-344c-4aa7-b402-53f90f067929"
+              }
+            ],
+            "default_category_uuid": "69bcd2a4-344c-4aa7-b402-53f90f067929",
+            "operand": "@input",
+            "result_name": "Confirm Mailing",
+            "type": "switch",
+            "wait": {
+              "type": "msg"
+            }
+          },
+          "uuid": "eb6062f9-5fe5-4bf9-8cb5-10c78e98a747",
+          "actions": []
+        },
+        {
+          "actions": [
+            {
+              "addresses": [
+                "rentinfo@nyshcr.org",
+                "e8x9f4k1h2i3e6p3@justfixnyc.slack.com"
+              ],
+              "body": "I, @contact.name, am currently living at @(legacy_extra.features[\"0\"].properties.label) @(legacy_extra.features[\"0\"].properties.postalcode) in apartment @results.contact_apt.input and would like to request the complete rent history for this apartment back to the year 1984.\n\nThank you,\n\n- @contact.name",
+              "subject": "Request for Rental History",
+              "type": "send_email",
+              "uuid": "112c2668-786d-4b30-adef-06acba2c0927"
+            },
+            {
+              "text": "Great! You should receive your Rent History in the mail soon. If you have more questions, please email us at support@justfix.nyc - thanks!",
+              "type": "send_msg",
+              "uuid": "4b55cecc-3ec4-4e3a-aac5-c3526211c87d",
+              "quick_replies": []
+            },
+            {
+              "text": "P.S. If you want to get more info about your landlord, check out this link: https://whoownswhat.justfix.nyc/address/@(replace(legacy_extra.features[\"0\"].properties.borough, \" \", \"%20\"))/@(replace(legacy_extra.features[\"0\"].properties.housenumber, \" \", \"%20\"))/@(replace(legacy_extra.features[\"0\"].properties.street, \" \", \"%20\"))",
+              "type": "send_msg",
+              "uuid": "77c7426d-30a0-4385-a277-01468a6f6045",
+              "quick_replies": []
+            },
+            {
+              "groups": [
+                {
+                  "name": "DHCR Requested Rental History",
+                  "uuid": "c0674b26-eaac-4795-8c8e-2758017d2b05"
+                }
+              ],
+              "type": "add_contact_groups",
+              "uuid": "da6c71c5-20d4-42e1-ba7b-dbb6b3297763"
+            },
+            {
+              "field": {
+                "key": "date_of_dhcr_req_rental_history",
+                "name": "Date of DHCR Req Rental History"
+              },
+              "type": "set_contact_field",
+              "uuid": "8b49e9f9-77e6-48b9-810d-a9ba57ea27c6",
+              "value": "@(now())"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "f3a132c3-ec69-4ed3-a073-90ce3f119a38"
+            }
+          ],
+          "uuid": "30972b61-6f4f-4234-8d60-2dbb5f5ea22f"
+        },
+        {
+          "actions": [
+            {
+              "text": "No worries. We'll always be here if you want to order your rent history in the future. In the meantime, you can check out our other tools at:",
+              "type": "send_msg",
+              "uuid": "f1308078-36d9-48ae-bba3-1c11d4f2aa5b",
+              "quick_replies": []
+            },
+            {
+              "text": "www.justfix.nyc",
+              "type": "send_msg",
+              "uuid": "64c0f5df-c331-4f51-b7aa-b4b46f614c0b",
+              "quick_replies": []
+            },
+            {
+              "text": "P.S. If you want to get more info about your landlord, check out this link: https://whoownswhat.justfix.nyc/address/@(replace(legacy_extra.features[\"0\"].properties.borough, \" \", \"%20\"))/@(replace(legacy_extra.features[\"0\"].properties.housenumber, \" \", \"%20\"))/@(replace(legacy_extra.features[\"0\"].properties.street, \" \", \"%20\"))",
+              "type": "send_msg",
+              "uuid": "191f0e15-2066-469d-b8e5-fb428b9095da",
+              "quick_replies": []
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "6edfdca0-c943-40e2-98de-cd296694ea06"
+            }
+          ],
+          "uuid": "53a5a51f-671d-44ef-8b60-a6bd6d13dcc5"
+        }
+      ],
+      "revision": 688,
+      "spec_version": "13.1.0",
+      "type": "messaging",
+      "uuid": "367fb415-29bd-4d98-8e42-40cba0dc8a97",
+      "metadata": {
+        "revision": 682
+      }
+    }
+  ],
+  "campaigns": [],
+  "triggers": [],
+  "fields": [],
+  "groups": []
+}

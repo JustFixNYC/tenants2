@@ -51,11 +51,25 @@ class NodeDesc(NamedTuple):
     expected: int = 1
 
 
+def is_v13_flow_schema(flow: Dict[str, Any]) -> bool:
+    # From Nyaruka tech support:
+    # > If you want to fix that script to work for newer definitions
+    # > (version "13" onwards), you could look to see if there's a
+    # > top-level property in the definition called nodes - each
+    # > node has actions and one type of action is a msg_created
+    # > action which has a text property.
+    return 'nodes' in flow
+
+
 def get_flow_uuid(flow: Dict[str, Any]) -> str:
+    if is_v13_flow_schema(flow):
+        return flow['uuid']
     return flow['metadata']['uuid']
 
 
 def get_flow_name(flow: Dict[str, Any]) -> str:
+    if is_v13_flow_schema(flow):
+        return flow['name']
     return flow['metadata']['name']
 
 

@@ -1,4 +1,4 @@
-from typing import List, Dict, Any, Iterator, NamedTuple, Optional
+from typing import List, Dict, Any, Iterator, NamedTuple, Optional, Pattern
 from pathlib import Path
 import re
 from django.core.management.base import BaseCommand
@@ -100,9 +100,7 @@ class Flow:
             uuids.extend(self.find_node_uuids(desc))
         return uuids
 
-    def find_node_uuids(self, desc: NodeDesc) -> List[str]:
-        pattern = re.compile(desc.regex)
-        uuids: List[str] = []
+    def __iter_node_uuids_old_schema(self, pattern: Pattern, desc: NodeDesc) -> Iterator[str]:
         for action_set in self._f['action_sets']:
             uuid = action_set['uuid']
             for action in action_set['actions']:
@@ -110,8 +108,25 @@ class Flow:
                     continue
                 msg = action['msg']
                 if pattern.match(msg['base']):
-                    uuids.append(uuid)
+                    yield uuid
                     break
+
+    def __iter_node_uuids_v13_schema(self, pattern: Pattern, desc: NodeDesc) -> Iterator[str]:
+        for action_set in self._f['nodes']:
+            uuid = action_set['uuid']
+            for action in action_set['actions']:
+                if action['type'] != 'send_msg':
+                    continue
+                if pattern.match(action['text']):
+                    yield uuid
+                    break
+
+    def find_node_uuids(self, desc: NodeDesc) -> List[str]:
+        pattern = re.compile(desc.regex)
+        if is_v13_flow_schema(self._f):
+            uuids = list(self.__iter_node_uuids_v13_schema(pattern, desc))
+        else:
+            uuids = list(self.__iter_node_uuids_old_schema(pattern, desc))
         if len(uuids) != desc.expected:
             raise ValueError(
                 f'Expected to find {desc.expected} node(s) matching pattern "{desc.regex}" '

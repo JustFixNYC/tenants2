@@ -36,7 +36,11 @@ class TestFlow:
         return Flow(flow_dict, f'file:///{filename}')
 
     def test_it_works_with_old_schema(self):
-        self.get_flow("dhcr_followup_1_old_schema.json")
+        flow = self.get_flow("dhcr_followup_1_old_schema.json")
+        assert flow.name == "DHCR Rental History Follow Up #1"
+        assert flow.uuid == "be922331-eb0b-4823-86d2-647dc5a014e3"
 
     def test_it_works_with_new_schema(self):
-        self.get_flow("dhcr_flow_new_schema.json")
+        flow = self.get_flow("dhcr_flow_new_schema.json")
+        assert flow.name == "DHCR flow"
+        assert flow.uuid == "367fb415-29bd-4d98-8e42-40cba0dc8a97"

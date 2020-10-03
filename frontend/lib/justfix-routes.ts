@@ -338,7 +338,17 @@ const JustfixRoutes = createRoutesForSite(createLocalizedRouteInfo, {
 
   adminConversations: "/admin/conversations/",
 
-  frontappPlugin: "/frontapp",
+  adminFrontappPlugin: "/admin/frontapp/",
+
+  /**
+   * Create an admin login link that redirects the user to the given location
+   * after they've logged in.
+   */
+  createAdminLoginLink(next: History.Location): string {
+    return `${this.adminLogin}?${NEXT}=${encodeURIComponent(
+      next.pathname + next.search
+    )}`;
+  },
 
   /**
    * Example pages used in integration tests, and other

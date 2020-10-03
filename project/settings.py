@@ -14,6 +14,7 @@ from typing import List, Dict, Optional, Any
 import dj_database_url
 import dj_email_url
 
+from . import monkeypatch_django  # noqa
 from . import justfix_environment, locales
 from .justfix_environment import BASE_DIR
 from .util.settings_util import (
@@ -47,6 +48,13 @@ SECURE_SSL_REDIRECT = env.SECURE_SSL_REDIRECT
 SECURE_HSTS_SECONDS = env.SECURE_HSTS_SECONDS
 
 SECURE_HSTS_PRELOAD = True
+
+# We need to set SameSite=None to allow for embedding within
+# Front.  For more information, see:
+#
+# https://medium.com/trabe/cookies-and-iframes-f7cca58b3b9e
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
 
 SESSION_COOKIE_SECURE = env.SESSION_COOKIE_SECURE
 

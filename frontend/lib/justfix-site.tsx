@@ -83,7 +83,7 @@ const LoadableAdminConversationsRoutes = loadable(
 );
 
 const LoadableFrontappPluginRoutes = loadable(
-  () => friendlyLoad(import("./frontapp/frontapp-plugin")),
+  () => friendlyLoad(import("./admin/frontapp-plugin")),
   {
     fallback: <LoadingPage />,
   }
@@ -117,7 +117,7 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
       />
       <PLRoute path={JustfixRoutes.locale.login} exact component={LoginPage} />
       <Route
-        path={JustfixRoutes.frontappPlugin}
+        path={JustfixRoutes.adminFrontappPlugin}
         exact
         component={LoadableFrontappPluginRoutes}
       />

@@ -51,6 +51,14 @@ query {
 }
 '''
 
+USER_DETAILS_VIA_EMAIL_QUERY = '''
+query {
+    userDetails(email: "boop@jones.net") {
+        firstName,
+    }
+}
+'''
+
 UPDATE_TEXTING_HISTORY_MUTATION = '''
 mutation {
     updateTextingHistory {
@@ -64,6 +72,8 @@ ALL_QUERIES = [
     (CONVERSATION_QUERY, lambda data: data['conversation'] is None),
     (CONVERSATIONS_QUERY, lambda data: data['conversations'] is None),
     (USER_DETAILS_QUERY, lambda data: data['userDetails'] is None),
+    (USER_DETAILS_VIA_EMAIL_QUERY, lambda data: data['userDetails'] is None),
+    ('query { userDetails { firstName } }', lambda data: data['userDetails'] is None),
     (UPDATE_TEXTING_HISTORY_MUTATION,
      lambda data: data['updateTextingHistory']['authError'] is True),
 ]
@@ -78,7 +88,7 @@ def mocklog(monkeypatch):
 
 @pytest.fixture
 def auth_graphql_client(db, graphql_client):
-    user = UserFactory(is_staff=True)
+    user = UserFactory(is_staff=True, email="boop@jones.net")
     perm = get_permissions_from_ns_codenames([VIEW_TEXT_MESSAGE_PERMISSION])[0]
     user.user_permissions.add(perm)
     graphql_client.request.user = user
@@ -181,6 +191,13 @@ def test_user_details_query_works(auth_graphql_client):
         'firstName': 'Boop',
         'adminUrl': f'https://example.com/admin/users/justfixuser/{user.id}/change/',
         'rapidproGroups': [],
+    }
+
+
+def test_user_details_via_email_query_works(auth_graphql_client):
+    result = auth_graphql_client.execute(USER_DETAILS_VIA_EMAIL_QUERY)['data']['userDetails']
+    assert result == {
+        'firstName': 'Boop',
     }
 
 

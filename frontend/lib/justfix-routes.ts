@@ -338,6 +338,8 @@ const JustfixRoutes = createRoutesForSite(createLocalizedRouteInfo, {
 
   adminConversations: "/admin/conversations/",
 
+  frontappPlugin: "/frontapp",
+
   /**
    * Example pages used in integration tests, and other
    * development-related pages.

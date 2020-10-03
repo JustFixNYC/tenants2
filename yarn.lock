@@ -1126,6 +1126,23 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@frontapp/plugin-sdk@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@frontapp/plugin-sdk/-/plugin-sdk-1.0.1.tgz#63f3c5d4fb0b46a06308981e5e9375ae1f4cad77"
+  integrity sha512-WXX7b2b2kWFuLISxeQx/vkOlW3e6rYwrIJhKW/Uhc1KC6mrJaiIwswYRXF+9VUrNkdLfUyX9xKJtsM5W965isQ==
+  dependencies:
+    "@frontapp/ui-bridge" "^2.0.0-beta0"
+    cuid "^2.1.8"
+    rxjs "^6.5.4"
+
+"@frontapp/ui-bridge@^2.0.0-beta0":
+  version "2.0.0-beta1"
+  resolved "https://registry.yarnpkg.com/@frontapp/ui-bridge/-/ui-bridge-2.0.0-beta1.tgz#7e4c666da7a22666b174f32fe67181a539710230"
+  integrity sha512-YBxonfbb+MMeuhiDdUjGpq+zqdZVQwwJhOA7gh1f6Mea6ST/01x8IpGhLWduXem78JpXcqmVLjK0Wno/h2Wq6Q==
+  dependencies:
+    io-ts "^2.1.0"
+    rxjs "^6.5.3"
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.0.0.tgz#10602de5570baea82f8afbfa2630b24e7a8cfe5b"
@@ -4198,6 +4215,11 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.3.tgz#2b410bbeba38ba9633353aff34b05d9755d065f8"
   integrity sha512-jPl+wbWPOWJ7SXsWyqGRk3lGecbar0Cb0OvZF/r/ZU011R4YqiRehgkQ9p4eQfo9DSDLqLL3wHwfxeJiuIsNag==
 
+cuid@^2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/cuid/-/cuid-2.1.8.tgz#cbb88f954171e0d5747606c0139fb65c5101eac0"
+  integrity sha512-xiEMER6E7TlTPnDxrM4eRiC6TRgjNX9xzEZ5U/Se2YJKr7Mq4pJn/2XEHjl3STcSh96GmkHPcBXLES8M29wyyg==
+
 currently-unhandled@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/currently-unhandled/-/currently-unhandled-0.4.1.tgz#988df33feab191ef799a61369dd76c17adf957ea"
@@ -5266,6 +5288,11 @@ forwarded@~0.1.2:
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
   integrity sha1-mMI9qxF1ZXuMBXPozszZGw/xjIQ=
 
+fp-ts@^2.8.3:
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.8.3.tgz#c09652bbf21e64d65a9f93587ad549ab0e03abe7"
+  integrity sha512-oGD3BTSzFCPs9alaI/2gh0SCNKyhPXkpeIBvkXNvnoczHfDAUd2HHtotCdLO0hOTTTTx8VKA0mhhR7LUNo+cKg==
+
 fragment-cache@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/fragment-cache/-/fragment-cache-0.2.1.tgz#4290fad27f13e89be7f33799c6bc5a0abfff0d19"
@@ -6033,6 +6060,11 @@ invariant@2.2.4, invariant@^2.2.2:
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
   dependencies:
     loose-envify "^1.0.0"
+
+io-ts@^2.1.0:
+  version "2.2.10"
+  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-2.2.10.tgz#447d02df51717464a90712b146ec8dbc21b4a74b"
+  integrity sha512-WHx5jJe7hPpc6JoSIVbD+Xn6tYqe3cRvNpX24d8Wi15/kxhRWa8apo0Gzag6Xg99sCNY9OHKylw/Vhv0JAbNPQ==
 
 ip-regex@^2.1.0:
   version "2.1.0"
@@ -9112,7 +9144,7 @@ rxjs@^6.4.0:
   dependencies:
     tslib "^1.9.0"
 
-rxjs@^6.5.2:
+rxjs@^6.5.2, rxjs@^6.5.3, rxjs@^6.5.4:
   version "6.6.3"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.3.tgz#8ca84635c4daa900c0d3967a6ee7ac60271ee552"
   integrity sha512-trsQc+xYYXZ3urjOiJOuCOa5N3jAZ3eiSpQB5hIT8zGlL2QfnHLJ2r7GMkBGuIausdJN1OneaI6gQlsqNHHmZQ==

@@ -20,6 +20,7 @@ from django.conf.urls.i18n import i18n_patterns
 from graphene_django.views import GraphQLView
 
 from .views import example_server_error, redirect_favicon, health
+from .frontapp import frontapp_embedded_react_rendered_view
 import frontend.views
 from users.views import verify_email
 import twofactor.views
@@ -40,6 +41,7 @@ urlpatterns = [
     path('docusign/', include('docusign.urls')),
     path('data-requests/', include('data_requests.urls')),
     path('mailchimp/', include('mailchimp.urls')),
+    path('frontapp', frontapp_embedded_react_rendered_view, name='frontapp-react'),
 ]
 
 if settings.DEBUG:

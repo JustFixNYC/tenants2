@@ -18,11 +18,7 @@ const UserInfo: React.FC<{ email: string }> = ({ email }) => {
     }),
     [email]
   );
-  const response = useAdminFetch(
-    FrontappUserDetails,
-    input,
-    "fake refresh token"
-  );
+  const response = useAdminFetch(FrontappUserDetails, input, true);
 
   if (response.type === "errored") {
     return <p>Alas, an error occurred.</p>;

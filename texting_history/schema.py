@@ -236,9 +236,19 @@ def resolve_conversations(
 
 
 @ensure_request_has_verified_user_with_permission
-def resolve_user_admin_details(parent, info, phone_number: str) -> Optional[JustfixUser]:
-    phone_number = normalize_phone_number(phone_number)
-    return JustfixUser.objects.filter(phone_number=phone_number).first()
+def resolve_user_admin_details(
+    parent,
+    info,
+    phone_number: Optional[str] = None,
+    email: Optional[str] = None
+) -> Optional[JustfixUser]:
+    if phone_number:
+        phone_number = normalize_phone_number(phone_number)
+        return JustfixUser.objects.filter(phone_number=phone_number).first()
+    elif email:
+        return JustfixUser.objects.filter(email=email).first()
+    # TODO: Maybe raise some kind of error?
+    return None
 
 
 def normalize_phone_number(phone_number: str) -> str:
@@ -278,7 +288,12 @@ class TextingHistory:
     user_details = graphene.Field(
         JustfixUserType,
         phone_number=graphene.String(),
+        email=graphene.String(),
         resolver=resolve_user_admin_details,
+    )
+
+    is_verified_staff_user = graphene.Boolean(
+        resolver=ensure_request_has_verified_user_with_permission(lambda parent, info: True),
     )
 
 

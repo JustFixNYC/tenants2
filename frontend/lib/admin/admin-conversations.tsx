@@ -30,6 +30,7 @@ import { useDebouncedValue } from "../util/use-debounced-value";
 import { friendlyPhoneNumber } from "../util/util";
 import { friendlyDate } from "../util/date-util";
 import { AdminUserInfo } from "./admin-user-info";
+import { AdminAuthExpired } from "./admin-auth-expired";
 
 const PHONE_QS_VAR = "phone";
 
@@ -436,26 +437,12 @@ const ConversationPanel: React.FC<{
   );
 };
 
-const AdminAuthExpiredPage: React.FC<{}> = () => (
-  <div className="content">
-    <p>
-      Your administrative authentication has expired! Please reload the page.
-    </p>
-    <button
-      className="button is-primary"
-      onClick={() => window.location.reload()}
-    >
-      Reload
-    </button>
-  </div>
-);
-
 const AdminConversationsPageWrapper: React.FC<RouteComponentProps> = staffOnlyView(
   (props) => {
     const latestMsgTimestamp = useLatestMessageTimestamp();
 
     if (latestMsgTimestamp === AUTH_ERROR) {
-      return <AdminAuthExpiredPage />;
+      return <AdminAuthExpired />;
     }
 
     return (

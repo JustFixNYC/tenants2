@@ -72,8 +72,7 @@ ALL_QUERIES = [
     (CONVERSATION_QUERY, lambda data: data['conversation'] is None),
     (CONVERSATIONS_QUERY, lambda data: data['conversations'] is None),
     (USER_DETAILS_QUERY, lambda data: data['userDetails'] is None),
-    (USER_DETAILS_VIA_EMAIL_QUERY, lambda data: data['userDetails'] is None),
-    ('query { userDetails { firstName } }', lambda data: data['userDetails'] is None),
+    ('query { isVerifiedStaffUser }', lambda data: data['isVerifiedStaffUser'] is None),
     (UPDATE_TEXTING_HISTORY_MUTATION,
      lambda data: data['updateTextingHistory']['authError'] is True),
 ]
@@ -184,6 +183,12 @@ def test_conversations_queries_produce_expected_results(auth_graphql_client, que
     assert len(messages) == num_results
 
 
+def test_is_verified_staff_user_works(auth_graphql_client):
+    assert auth_graphql_client.execute('query { isVerifiedStaffUser }')['data'] == {
+        'isVerifiedStaffUser': True,
+    }
+
+
 def test_user_details_query_works(auth_graphql_client):
     user = auth_graphql_client.request.user
     result = auth_graphql_client.execute(USER_DETAILS_QUERY)['data']['userDetails']
@@ -199,6 +204,12 @@ def test_user_details_via_email_query_works(auth_graphql_client):
     assert result == {
         'firstName': 'Boop',
     }
+
+
+def test_user_details_with_no_args_returns_none(auth_graphql_client):
+    assert auth_graphql_client.execute(
+        'query { userDetails { firstName } }'
+    )['data']['userDetails'] is None
 
 
 def test_update_texting_history_mutation_works(auth_graphql_client, mock_twilio_api):

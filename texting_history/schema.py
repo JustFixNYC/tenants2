@@ -292,6 +292,10 @@ class TextingHistory:
         resolver=resolve_user_admin_details,
     )
 
+    is_verified_staff_user = graphene.Boolean(
+        resolver=ensure_request_has_verified_user_with_permission(lambda parent, info: True),
+    )
+
 
 @schema_registry.register_mutation
 class UpdateTextingHistory(Mutation):

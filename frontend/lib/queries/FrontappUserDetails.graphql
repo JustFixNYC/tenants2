@@ -1,4 +1,5 @@
 query FrontappUserDetails($email: String!) {
+    isVerifiedStaffUser
     userDetails(email: $email) {
         ...JustfixUserType
     }

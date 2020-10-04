@@ -10,6 +10,7 @@ import { useAdminFetch } from "./admin-hooks";
 import { FrontappUserDetails } from "../queries/FrontappUserDetails";
 import { AdminUserInfo } from "./admin-user-info";
 import Page from "../ui/page";
+import { AdminAuthExpired } from "./admin-auth-expired";
 
 const UserInfo: React.FC<{ email: string }> = ({ email }) => {
   const input = useMemo(
@@ -23,6 +24,9 @@ const UserInfo: React.FC<{ email: string }> = ({ email }) => {
   if (response.type === "errored") {
     return <p>Alas, an error occurred.</p>;
   } else if (response.type === "loaded") {
+    if (!response.output.isVerifiedStaffUser) {
+      return <AdminAuthExpired />;
+    }
     const { userDetails } = response.output;
     if (!userDetails) {
       return (

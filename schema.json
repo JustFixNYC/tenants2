@@ -187,6 +187,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "isVerifiedStaffUser",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "Details about CSS styling for business letters.",
               "isDeprecated": false,
               "name": "letterStyles",

@@ -7,13 +7,34 @@ import Front, {
 } from "@frontapp/plugin-sdk";
 import { staffOnlyView } from "./staff-only-view";
 import { useAdminFetch } from "./admin-hooks";
-import { FrontappUserDetails } from "../queries/FrontappUserDetails";
+import {
+  FrontappUserDetails,
+  FrontappUserDetailsVariables,
+} from "../queries/FrontappUserDetails";
 import { AdminUserInfo } from "./admin-user-info";
 import Page from "../ui/page";
 import { AdminAuthExpired } from "./admin-auth-expired";
 
+const LoadedUserInfo: React.FC<FrontappUserDetails> = ({
+  isVerifiedStaffUser,
+  userDetails,
+}) => {
+  if (!isVerifiedStaffUser) {
+    return <AdminAuthExpired />;
+  }
+  if (!userDetails) {
+    return (
+      <p>
+        The selected conversation's recipient does not seem to have an account
+        with us.
+      </p>
+    );
+  }
+  return <AdminUserInfo user={userDetails} showPhoneNumber={true} />;
+};
+
 const UserInfo: React.FC<{ email: string }> = ({ email }) => {
-  const input = useMemo(
+  const input: FrontappUserDetailsVariables = useMemo(
     () => ({
       email,
     }),
@@ -21,23 +42,13 @@ const UserInfo: React.FC<{ email: string }> = ({ email }) => {
   );
   const response = useAdminFetch(FrontappUserDetails, input, true);
 
-  if (response.type === "errored") {
-    return <p>Alas, an error occurred.</p>;
-  } else if (response.type === "loaded") {
-    if (!response.output.isVerifiedStaffUser) {
-      return <AdminAuthExpired />;
-    }
-    const { userDetails } = response.output;
-    if (!userDetails) {
-      return (
-        <p>
-          The email address {email} does not seem to have an account with us.
-        </p>
-      );
-    }
-    return <AdminUserInfo user={userDetails} showPhoneNumber={true} />;
-  }
-  return <p>Loading...</p>;
+  return response.type === "errored" ? (
+    <p>Alas, a network error occurred.</p>
+  ) : response.type === "loaded" ? (
+    <LoadedUserInfo {...response.output} />
+  ) : (
+    <p>Loading...</p>
+  );
 };
 
 const FrontappPlugin: React.FC<RouteComponentProps<any>> = staffOnlyView(

@@ -365,6 +365,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # which case any website can use the endpoint.
     MAILCHIMP_CORS_ORIGINS: str = ''
 
+    # The auth secret used by Front's Plugin API. If empty,
+    # Front integration will be disabled.
+    FRONTAPP_PLUGIN_AUTH_SECRET: str = ''
+
 
 class JustfixBuildPipelineDefaults(JustfixEnvironment):
     '''

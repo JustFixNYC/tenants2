@@ -473,6 +473,8 @@ MAILCHIMP_LIST_ID = env.MAILCHIMP_LIST_ID
 
 MAILCHIMP_CORS_ORIGINS = parse_comma_separated_list(env.MAILCHIMP_CORS_ORIGINS)
 
+FRONTAPP_PLUGIN_AUTH_SECRET = env.FRONTAPP_PLUGIN_AUTH_SECRET
+
 IS_DEMO_DEPLOYMENT = env.IS_DEMO_DEPLOYMENT
 
 # If this is truthy, Rollbar will be enabled on the client-side.

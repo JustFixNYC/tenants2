@@ -21,7 +21,6 @@ import {
 } from "../queries/AdminConversation";
 import { getQuerystringVar } from "../util/querystring";
 import { Helmet } from "react-helmet-async";
-import { whoOwnsWhatURL } from "../ui/wow-link";
 import classnames from "classnames";
 import { UpdateTextingHistoryMutation } from "../queries/UpdateTextingHistoryMutation";
 import { niceAdminTimestamp } from "./admin-util";
@@ -30,6 +29,7 @@ import { staffOnlyView } from "./staff-only-view";
 import { useDebouncedValue } from "../util/use-debounced-value";
 import { friendlyPhoneNumber } from "../util/util";
 import { friendlyDate } from "../util/date-util";
+import { AdminUserInfo } from "./admin-user-info";
 
 const PHONE_QS_VAR = "phone";
 
@@ -312,77 +312,6 @@ const ConversationsSidebar: React.FC<{
   );
 };
 
-/**
- * RapidPro group a user is added to if they say they have been
- * assigned an attorney.
- */
-const EHPA_ATTORNEY_ASSIGNED_GROUP = "EHPA Attorney Assignment Successful";
-
-/**
- * RapidPro group a user is added to if they say they have not yet been
- * assigned an attorney.
- */
-const EHPA_ATTORNEY_NOT_ASSIGNED_GROUP = "EHPA Attorney Assignment Pending";
-
-const EhpaAttorneyAssigned: React.FC<{ rapidproGroups: string[] }> = (
-  props
-) => {
-  const g = props.rapidproGroups;
-  const title = "EHPA attorney assigned";
-  const wasAssigned = g.includes(EHPA_ATTORNEY_ASSIGNED_GROUP)
-    ? true
-    : g.includes(EHPA_ATTORNEY_NOT_ASSIGNED_GROUP)
-    ? false
-    : null;
-
-  switch (wasAssigned) {
-    case true:
-      return <p>{title}: Yes</p>;
-    case false:
-      return <p>{title}: No</p>;
-    case null:
-      return null;
-  }
-};
-
-const UserInfo: React.FC<{
-  user: AdminConversation_userDetails;
-  showPhoneNumber: boolean;
-}> = ({ user, showPhoneNumber }) => {
-  return (
-    <>
-      {showPhoneNumber && (
-        <p>
-          This user's phone number is {friendlyPhoneNumber(user.phoneNumber)}.
-        </p>
-      )}
-      <EhpaAttorneyAssigned rapidproGroups={user.rapidproGroups} />
-      {user.onboardingInfo && (
-        <p>The user's signup intent is {user.onboardingInfo.signupIntent}.</p>
-      )}
-      {user.letterRequest && (
-        <p>
-          The user completed a letter of complaint on{" "}
-          {niceAdminTimestamp(user.letterRequest.updatedAt)}.
-        </p>
-      )}
-      <a href={user.adminUrl} className="button is-small" target="_blank">
-        Edit user
-      </a>
-      {user.onboardingInfo?.padBbl && (
-        <a
-          href={whoOwnsWhatURL(user.onboardingInfo.padBbl)}
-          className="button is-small"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View user's building in WoW
-        </a>
-      )}
-    </>
-  );
-};
-
 const ConversationMessages: React.FC<{
   messages: AdminConversation_output_messages[];
 }> = ({ messages }) => {
@@ -470,7 +399,7 @@ const ConversationPanel: React.FC<{
                   {userFullName || friendlyPhoneNumber(selectedPhoneNumber)}
                 </h1>
                 {user ? (
-                  <UserInfo showPhoneNumber={!!userFullName} user={user} />
+                  <AdminUserInfo showPhoneNumber={!!userFullName} user={user} />
                 ) : (
                   <p>
                     This phone number does not seem to have an account with us.

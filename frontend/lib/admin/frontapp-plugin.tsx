@@ -8,6 +8,8 @@ import Front, {
 import { staffOnlyView } from "./staff-only-view";
 import { useAdminFetch } from "./admin-hooks";
 import { FrontappUserDetails } from "../queries/FrontappUserDetails";
+import { AdminUserInfo } from "./admin-user-info";
+import Page from "../ui/page";
 
 const UserInfo: React.FC<{ email: string }> = ({ email }) => {
   const input = useMemo(
@@ -29,15 +31,11 @@ const UserInfo: React.FC<{ email: string }> = ({ email }) => {
     if (!userDetails) {
       return (
         <p>
-          Alas, no information related to {email} is in the tenant platform.
+          The email address {email} does not seem to have an account with us.
         </p>
       );
     }
-    return (
-      <p>
-        The user's username is {userDetails.username}, their email is {email}.
-      </p>
-    );
+    return <AdminUserInfo user={userDetails} showPhoneNumber={true} />;
   }
   return <p>Loading...</p>;
 };
@@ -53,6 +51,7 @@ const FrontappPlugin: React.FC<RouteComponentProps<any>> = staffOnlyView(
       const sub = Front.contextUpdates.subscribe((context) => {
         setFrontContext(context);
         if (context.type === "singleConversation") {
+          // Not sure why we need to typecast here, but we do.
           const conv = (context as SingleConversationContext).conversation;
           setRecipient(conv.recipient?.handle);
         }
@@ -60,12 +59,17 @@ const FrontappPlugin: React.FC<RouteComponentProps<any>> = staffOnlyView(
       return () => sub.unsubscribe();
     }, []);
 
-    if (!frontContext) {
-      return <p>Waiting for Front...</p>;
-    } else if (recipient) {
-      return <UserInfo email={recipient} />;
-    }
-    return <p>No conversation selected.</p>;
+    return (
+      <Page title="Front app plugin" className="content">
+        {!frontContext ? (
+          <p>Waiting for Front...</p>
+        ) : recipient ? (
+          <UserInfo email={recipient} />
+        ) : (
+          <p>No conversation selected.</p>
+        )}
+      </Page>
+    );
   }
 );
 

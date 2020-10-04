@@ -1,0 +1,5 @@
+query FrontappUserDetails($email: String!) {
+    userDetails(email: $email) {
+        ...JustfixUserType
+    }
+}

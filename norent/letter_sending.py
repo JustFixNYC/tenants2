@@ -169,12 +169,12 @@ def create_letter(user: JustfixUser, rp: models.RentPeriod) -> models.Letter:
     letter = models.Letter(
         user=user,
         locale=user.locale,
-        rent_period=rp,
         html_content=html_content,
         localized_html_content=localized_html_content
     )
     letter.full_clean()
     letter.save()
+    letter.rent_periods.add(rp)
     return letter
 
 

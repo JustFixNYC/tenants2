@@ -101,7 +101,7 @@ class NorentLetter(DjangoObjectType):
     payment_date = graphene.Date(
         required=True,
         description="The rent payment date the letter is for.",
-        resolver=lambda self, info: self.rent_period.payment_date
+        resolver=lambda self, info: self.latest_rent_period.payment_date
     )
 
 
@@ -322,7 +322,7 @@ class NorentSendLetter(SessionFormMutation):
         rent_period = models.RentPeriod.objects.first()
         if not rent_period:
             return cls.make_and_log_error(info, "No rent periods are defined!")
-        letter = models.Letter.objects.filter(user=user, rent_period=rent_period).first()
+        letter = models.Letter.objects.filter(user=user, rent_periods=rent_period).first()
         if letter is not None:
             return cls.make_error("You have already sent a letter for this rent period!")
         if not hasattr(user, 'onboarding_info'):

@@ -1,3 +1,4 @@
+from typing import Optional
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 
@@ -24,8 +25,7 @@ class Letter(models.Model):
     '''
 
     class Meta:
-        unique_together = [['user', 'rent_period']]
-        ordering = ['-rent_period__payment_date']
+        ordering = ['-created_at']
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -47,7 +47,7 @@ class Letter(models.Model):
         ),
     )
 
-    rent_period = models.ForeignKey(RentPeriod, on_delete=models.CASCADE)
+    rent_periods = models.ManyToManyField(RentPeriod)
 
     html_content = models.TextField(
         help_text=(
@@ -93,10 +93,23 @@ class Letter(models.Model):
         help_text="When the letter was e-mailed."
     )
 
+    @property
+    def latest_rent_period(self) -> Optional['RentPeriod']:
+        rps = self.rent_periods.order_by('-payment_date')
+        if not rps:
+            return None
+        return rps[0]
+
+    def __get_rent_period_dates_str(self) -> str:
+        return ', '.join([
+            str(rp.payment_date) for rp
+            in self.rent_periods.order_by('payment_date')
+        ])
+
     def __str__(self):
         if not self.pk:
             return super().__str__()
         return (
             f"{self.user.full_name}'s no rent letter for "
-            f"{self.rent_period.payment_date}"
+            f"{self.__get_rent_period_dates_str()}"
         )

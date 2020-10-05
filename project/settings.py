@@ -49,16 +49,23 @@ SECURE_HSTS_SECONDS = env.SECURE_HSTS_SECONDS
 
 SECURE_HSTS_PRELOAD = True
 
+SESSION_COOKIE_SECURE = env.SESSION_COOKIE_SECURE
+
+CSRF_COOKIE_SECURE = env.CSRF_COOKIE_SECURE
+
 # We need to set SameSite=None to allow for embedding within
 # Front.  For more information, see:
 #
 # https://medium.com/trabe/cookies-and-iframes-f7cca58b3b9e
-CSRF_COOKIE_SAMESITE = 'None'
-SESSION_COOKIE_SAMESITE = 'None'
-
-SESSION_COOKIE_SECURE = env.SESSION_COOKIE_SECURE
-
-CSRF_COOKIE_SECURE = env.CSRF_COOKIE_SECURE
+#
+# Note that SameSite=None is only valid with secure cookies,
+# though--in fact, insecure cookies with SameSite=None will
+# be rejected entirely, thereby breaking the whole site, so
+# we need to be careful here.
+if SESSION_COOKIE_SECURE:
+    SESSION_COOKIE_SAMESITE = 'None'
+if CSRF_COOKIE_SECURE:
+    CSRF_COOKIE_SAMESITE = 'None'
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
 

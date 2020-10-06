@@ -18,7 +18,6 @@ fragment DDOSuggestionsResult on DDOSuggestionsResult {
   portfolioTopBorough,
   numberOfBldgsInPortfolioTopBorough,
   stabilizedUnitCount2007,
-  stabilizedUnitCount2017,
   stabilizedUnitCount,
   stabilizedUnitCountYear,
   stabilizedUnitCountMaximum,

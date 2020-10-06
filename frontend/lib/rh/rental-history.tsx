@@ -133,7 +133,7 @@ function RentalHistoryForm(): JSX.Element {
 
   return (
     <Page
-      title={li18n._(t`Request the Rent History for your apartment`)}
+      title={li18n._(t`Request your apartment's Rent History from the DHCR`)}
       withHeading
     >
       <SessionUpdatingFormSubmitter
@@ -277,7 +277,7 @@ function RentalHistoryConfirmation(): JSX.Element {
   const { onboardingInfo } = appContext.session;
   return (
     <Page
-      title={li18n._(t`Your Rent History has been requested!`)}
+      title={li18n._(t`Your Rent History has been requested from the New York State DHCR!`)}
       withHeading={renderSuccessHeading}
       className="content"
     >

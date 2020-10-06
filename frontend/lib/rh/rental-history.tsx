@@ -57,7 +57,7 @@ function RentalHistorySplash(): JSX.Element {
             </div>
             <h1 className="title is-spaced">
               <Trans>
-                Request your <span className="is-italic">Rent History</span> in
+                Request your <span className="is-italic">Rent History</span> from the NY State DHCR* in
                 two simple steps!
               </Trans>
             </h1>
@@ -78,6 +78,12 @@ function RentalHistorySplash(): JSX.Element {
             >
               <Trans>Start my request</Trans>
             </GetStartedButton>
+            <br />
+            <div className="jf-secondary-cta">
+              <div className="content has-text-centered is-size-7">
+                *Division of Housing and Community Renewal
+              </div>
+            </div>
           </div>
         </div>
       </section>

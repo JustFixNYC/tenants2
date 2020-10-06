@@ -1,5 +1,5 @@
 from norent.forms import CityState, RentPeriodsForm
-from .factories import RentPeriodFactory, LaterRentPeriodFactory
+from .factories import RentPeriodFactory
 
 from project.tests.test_mapbox import mock_brooklyn_results
 
@@ -18,8 +18,8 @@ class TestRentPeriods:
     ]
 
     def test_it_works(self, db):
-        LaterRentPeriodFactory()
-        RentPeriodFactory()
+        RentPeriodFactory.from_iso("2020-05-01")
+        RentPeriodFactory.from_iso("2020-10-01")
         for valid in self.VALID:
             form = RentPeriodsForm(data={"rent_periods": valid})
             assert form.is_valid(), f"Rent period(s) {valid} is valid"

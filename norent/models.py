@@ -1,4 +1,5 @@
 from typing import Optional
+import datetime
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 
@@ -6,9 +7,16 @@ from users.models import JustfixUser
 from project.locales import LOCALE_KWARGS
 
 
+class RentPeriodManager(models.Manager):
+    def find_by_iso_date(self, value: str) -> Optional['RentPeriod']:
+        return self.filter(payment_date=datetime.date.fromisoformat(value)).first()
+
+
 class RentPeriod(models.Model):
     class Meta:
         ordering = ['-payment_date']
+
+    objects = RentPeriodManager()
 
     payment_date = models.DateField(
         help_text="The date rent payment is due.",

@@ -11,9 +11,9 @@ class RentPeriodFactory(factory.django.DjangoModelFactory):
 
     payment_date = datetime.date(2020, 5, 1)
 
-
-class LaterRentPeriodFactory(RentPeriodFactory):
-    payment_date = datetime.date(2020, 10, 1)
+    @classmethod
+    def from_iso(self, value: str):
+        return RentPeriodFactory(payment_date=datetime.date.fromisoformat(value))
 
 
 class LetterFactory(factory.django.DjangoModelFactory):

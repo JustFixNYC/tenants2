@@ -208,15 +208,15 @@ select
     -- will not return null, will return 0
     coalesce(R.unitsstab2007,0) as stabilized_unit_count_2007,
 
-    -- number of stabilized units at entered bbl in 2007
-    -- drawn from rentstab_summary
+    -- number of stabilized units at entered bbl in 2019
+    -- drawn from rentstab_v2
     -- will not return null, will return 0
-    coalesce(R.unitsstab2017,0) as stabilized_unit_count_2017,
+    coalesce(R2.uc2019,0) as stabilized_unit_count_2019,
 
-    -- maximum number of stabilized units at entered bbl on any year between 2007 and 2017
+    -- maximum number of stabilized units at entered bbl on any year between 2007 and 2019
     -- false if there have been no stabilized units at any point
     -- will not return null, will return 0
-    coalesce(R.unitstotal,0) as stabilized_unit_count_maximum,
+    greatest(R.unitstotal, R2.uc2018, R2.uc2019, 0) as stabilized_unit_count_maximum,
 
     -- average wait time for repairs after a landlord has been notified of a violation. for the entered bbl
     -- may return null if unknown
@@ -242,6 +242,7 @@ from Total_Res_Units T
     left join Count_Of_Assoc_Bldgs A on T.bbl= A.Enteredbbl
     left join Major_Boro_Of_Assoc_Bldgs MB on T.bbl=MB.Enteredbbl
     left join public.rentstab_summary R on T.bbl=R.ucbbl
+    left join public.rentstab_v2 R2 on T.bbl=R2.ucbbl
     left join Avg_Wait_Time W on T.bbl= W.bbl
     left join Avg_Wait_Time_For_Portfolio P on T.bbl= P.bbl
     left join Complaint_Category_With_BBL MC on T.bbl= MC.bbl

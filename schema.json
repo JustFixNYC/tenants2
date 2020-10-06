@@ -1998,9 +1998,9 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The number of rent-stabilized residential units at the BBL in 2017.",
+              "description": "The number of rent-stabilized residential units at the BBL in 2019.",
               "isDeprecated": false,
-              "name": "stabilizedUnitCount2017",
+              "name": "stabilizedUnitCount2019",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,

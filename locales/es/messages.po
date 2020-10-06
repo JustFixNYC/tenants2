@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-06 19:56\n"
+"PO-Revision-Date: 2020-10-06 21:36\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1959,7 +1959,7 @@ msgstr "Tu apartamento es de renta estabilizada."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:317
 msgid "Your building had {0, plural, one {one rent stabilized unit} other {# rent stabilized units}} in {1}."
-msgstr "Tu edificio tenía {0, plural, one {una unidad de alquiler estabilizado} other {# unidades de renta estabilizada}} en el {1}."
+msgstr "Your building had {0, plural, one {one rent stabilized unit} other {# rent stabilized units}} in {1}."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:127
 msgid "Your building was built in {0} or earlier."

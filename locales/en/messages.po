@@ -1953,8 +1953,8 @@ msgid "Your apartment may be rent stabilized."
 msgstr "Your apartment may be rent stabilized."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:317
-msgid "Your building had {0, plural, one {one rent stabilized unit} other {# rent stabilized units}} in 2017."
-msgstr "Your building had {0, plural, one {one rent stabilized unit} other {# rent stabilized units}} in 2017."
+msgid "Your building had {0, plural, one {one rent stabilized unit} other {# rent stabilized units}} in 2019."
+msgstr "Your building had {0, plural, one {one rent stabilized unit} other {# rent stabilized units}} in 2019."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:127
 msgid "Your building was built in {0} or earlier."

@@ -164,10 +164,24 @@ class DDOSuggestionsResult(graphene.ObjectType):
         )
     )
 
-    stabilized_unit_count_2019 = graphene.Int(
+    stabilized_unit_count_2017 = graphene.Int(
         required=True,
         description=(
-            "The number of rent-stabilized residential units at the BBL in 2019."
+            "The number of rent-stabilized residential units at the BBL in 2017."
+        )
+    )
+
+    stabilized_unit_count = graphene.Int(
+        required=True,
+        description=(
+            "The number of rent-stabilized residential units at the BBL for the most recent year we have data for."
+        )
+    )
+
+    stabilized_unit_count_year = graphene.Int(
+        required=True,
+        description=(
+            "The year that our data for most-recent stabilized unit count comes from."
         )
     )
 

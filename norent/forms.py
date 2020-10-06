@@ -1,3 +1,4 @@
+from typing import List, Tuple
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -13,6 +14,7 @@ from loc.lob_api import MAX_NAME_LEN as MAX_LOB_NAME_LEN
 from onboarding.models import OnboardingInfo
 from onboarding.forms import AptNumberWithConfirmationForm
 from users.models import JustfixUser
+from .models import RentPeriod
 
 
 class FullName(forms.ModelForm):
@@ -99,4 +101,18 @@ class OptInToRttcCommsForm(forms.Form):
             "Whether the user agrees to receive communications from the "
             "Right to the City Alliance (RTTC)."
         )
+    )
+
+
+def get_rent_period_choices() -> List[Tuple[str, str]]:
+    return [
+        (str(rp.payment_date), str(rp.payment_date))
+        for rp in RentPeriod.objects.all()
+    ]
+
+
+class RentPeriodsForm(forms.Form):
+    rent_periods = forms.MultipleChoiceField(
+        required=True,
+        choices=get_rent_period_choices,
     )

@@ -1,6 +1,31 @@
-from norent.forms import CityState
+from norent.forms import CityState, RentPeriodsForm
+from .factories import RentPeriodFactory, LaterRentPeriodFactory
 
 from project.tests.test_mapbox import mock_brooklyn_results
+
+
+class TestRentPeriods:
+    VALID = [
+        ["2020-05-01"],
+        ["2020-10-01"],
+        ["2020-05-01", "2020-10-01"],
+    ]
+
+    INVALID = [
+        ["2001-01-01"],
+        ["boop"],
+        ["2020-05-01", "boop"],
+    ]
+
+    def test_it_works(self, db):
+        LaterRentPeriodFactory()
+        RentPeriodFactory()
+        for valid in self.VALID:
+            form = RentPeriodsForm(data={"rent_periods": valid})
+            assert form.is_valid(), f"Rent period(s) {valid} is valid"
+        for invalid in self.INVALID:
+            form = RentPeriodsForm(data={"rent_periods": invalid})
+            assert not form.is_valid(), f"Rent period(s) {invalid} is invalid"
 
 
 class TestCityState:

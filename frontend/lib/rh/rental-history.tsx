@@ -46,6 +46,14 @@ export const RhLinguiI18n = createLinguiCatalogLoader({
   es: loadable.lib(() => import("../../../locales/es/rh.chunk") as any),
 });
 
+const DhcrFootnote = () => (
+  <div className="jf-secondary-cta">
+    <div className="content has-text-centered is-size-7">
+      <Trans>*Division of Housing and Community Renewal</Trans>
+    </div>
+  </div>
+);
+
 function RentalHistorySplash(): JSX.Element {
   return (
     <Page title={li18n._(t`Request your Rent History`)}>
@@ -79,11 +87,7 @@ function RentalHistorySplash(): JSX.Element {
               <Trans>Start my request</Trans>
             </GetStartedButton>
             <br />
-            <div className="jf-secondary-cta">
-              <div className="content has-text-centered is-size-7">
-                *Division of Housing and Community Renewal
-              </div>
-            </div>
+            <DhcrFootnote />
           </div>
         </div>
       </section>

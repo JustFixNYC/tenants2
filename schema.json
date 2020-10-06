@@ -1997,10 +1997,38 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "This field has been deprecated as we now use `stabilized_unit_count` to store the rs unit count for the most up-to-date-year we have available.",
               "description": "The number of rent-stabilized residential units at the BBL in 2017.",
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "stabilizedUnitCount2017",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The number of rent-stabilized residential units at the BBL for the most recent year we have data for.",
+              "isDeprecated": false,
+              "name": "stabilizedUnitCount",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The year that our data for most-recent stabilized unit count comes from.",
+              "isDeprecated": false,
+              "name": "stabilizedUnitCountYear",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,

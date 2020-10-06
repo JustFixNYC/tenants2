@@ -169,15 +169,16 @@ class DDOSuggestionsResult(graphene.ObjectType):
             "The number of rent-stabilized residential units at the BBL in 2017."
         ),
         deprecation_reason=(
-            "This field has been deprecated as we now use `stabilized_unit_count` to store the rs unit count"
-            "for the most up-to-date-year we have available."
+            "This field has been deprecated as we now use `stabilized_unit_count` 
+            "to store the rs unit count for the most up-to-date-year we have available."
         )
     )
 
     stabilized_unit_count = graphene.Int(
         required=True,
         description=(
-            "The number of rent-stabilized residential units at the BBL for the most recent year we have data for."
+            "The number of rent-stabilized residential units at the BBL"
+            "for the most recent year we have data for."
         )
     )
 

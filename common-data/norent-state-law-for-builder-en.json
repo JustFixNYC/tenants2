@@ -8,12 +8,12 @@
     "textOfLegislation": "Alabama has suspended in-person civil cases throughout the state, which should apply to evictions and foreclosures, although it does allow remote proceedings."
   },
   "AR": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "Arkansas has suspended all in-person court hearings, but there is no moratorium on eviction proceedings and judges can hold hearings remotely."
   },
   "AZ": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Governor Ducey today issued an executive order delaying the enforcement of eviction action orders for renters impacted by COVID-19."
+    "textOfLegislation": "Governor Doug Ducey signed an Executive Order extending a moratorium on residential evictions until October 31, 2020."
   },
   "CA": {
     "stateWithoutProtections": false,
@@ -25,19 +25,19 @@
   },
   "CT": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Landlords in Connecticut can't give tenants a notice to quit or start an eviction in most situations until August 25, 2020 under Executive Order 7X, issued by Governor Ned Lamont on April 10, 2020."
+    "textOfLegislation": "Governor Lamont\u2019s Executive Order 7OOO dated August 21, 2020 extends eviction moratorium to October 1, 2020."
   },
   "DC": {
     "stateWithoutProtections": true,
     "textOfLegislation": "The District of Columbia Superior Court Order 03-1520 has temporarily suspend all evictions until May 1, 2020."
   },
   "DE": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "Governor John Carney issued a moratorium for evictions through the State of Emergency Declaration Sixth Modification on March 24, 2020."
   },
   "FL": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-180, issued by Governor Ron DeSantis until September 1, 2020."
+    "textOfLegislation": "Tenants in Florida are protected from eviction for non-payment by Executive Order 20-211, issued by Governor Ron DeSantis until September 31, 2020."
   },
   "GA": {
     "stateWithoutProtections": true,
@@ -56,7 +56,7 @@
   },
   "IL": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Tenants in Illinois impacted by the COVID-19 crisis are protected from eviction for nonpayment per Governor Pritzker's COVID-19 Executive Order No. 28, Issued April 23, 2020."
+    "textOfLegislation": "Tenants in Illinois impacted by the COVID-19 crisis are protected from eviction for nonpayment per Governor Pritzker's COVID-19 Executive Order No. 2020-55, Issued September 18, 2020."
   },
   "IN": {
     "stateWithoutProtections": true,
@@ -67,7 +67,7 @@
     "textOfLegislation": "Kansas Governor Laura Kelly has declared that eviction proceedings cannot be brought as a result of nonpayment due to financial hardship related to COVID-19 per Executive Order 20-10."
   },
   "KY": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "Governor Beshear\u2019s Executive Order protects tenants from eviction during the COVID-19 crisis. And, on April 1, the Kentucky Supreme Court prohibited clerks from accepting eviction filings until May 31."
   },
   "LA": {
@@ -87,11 +87,11 @@
     "textOfLegislation": "Maine's Judicial Branch ordered that effective on March 18, 2020 through May 1, 2020, all evictions and foreclosures are suspended."
   },
   "MI": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "Tenants in Michigan are protected from eviction for non-payment of rent by Executive Orders 2020-54 and 2020-53 issued by Governor Gretchen Whitmer on April 17, 2020."
   },
   "MN": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "Tenants in Minnesota are protected from eviction for non-payment of rent by Executive Order 20-14 issued by Governor Tim Walz on March 23, 2020."
   },
   "MO": {
@@ -112,7 +112,7 @@
     "stateWithoutProtections": true
   },
   "NE": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "Tenants in Nebraska are protected from eviction until July 31, 2020 from non-payment of rent due on or after March 13, 2020 by Executive Order 20-07 issued by Governor Pete Ricketts. Tenants must be able to show the landlord evidence of lost income related to COVID-19 to delay eviction."
   },
   "NH": {
@@ -136,7 +136,7 @@
     "stateWithoutProtections": true
   },
   "OK": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "All deadlines and procedures in civil matters, including eviction matters, are suspended through May 15, 2020. District and Special Judges have been ordered to reschedule hearings scheduled for before May 15, 2020."
   },
   "OR": {
@@ -160,7 +160,7 @@
     "stateWithoutProtections": true
   },
   "TN": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "The Tennessee Supreme Court has ordered that no court shall take any action to evict or displace tenants due to non-payment of rent until May 31, 2020."
   },
   "TX": {

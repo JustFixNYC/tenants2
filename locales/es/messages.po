@@ -30,7 +30,7 @@ msgstr "(opcional)"
 
 #: frontend/lib/rh/rental-history.tsx:36
 msgid "*Division of Housing and Community Renewal"
-msgstr "*Division of Housing and Community Renewal"
+msgstr ""
 
 #: frontend/lib/norent/homepage.tsx:185
 msgid "8 Minutes"
@@ -1339,7 +1339,7 @@ msgstr "Solicitar arreglos del dueño de tu edificio"
 
 #: frontend/lib/rh/rental-history.tsx:48
 msgid "Request your <0>Rent History</0> from the NY State DHCR* in two simple steps!"
-msgstr "Request your <0>Rent History</0> from the NY State DHCR* in two simple steps!"
+msgstr ""
 
 #: frontend/lib/rh/rental-history.tsx:40
 msgid "Request your Rent History"
@@ -1348,6 +1348,10 @@ msgstr "Solicita tu Historial de Renta"
 #: frontend/lib/rh/rental-history.tsx:100
 msgid "Request your apartment's Rent History from the DHCR"
 msgstr "Request your apartment's Rent History from the DHCR"
+
+#: frontend/lib/rh/rental-history.tsx:100
+msgid "Request your apartment's Rent History from the DHCR"
+msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:208
 msgid "Research your landlord"
@@ -1947,7 +1951,7 @@ msgstr "Tu carta de NoRent.org"
 
 #: frontend/lib/rh/rental-history.tsx:185
 msgid "Your Rent History has been requested from the New York State DHCR!"
-msgstr "Your Rent History has been requested from the New York State DHCR!"
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:8
 msgid "Your account is set up"

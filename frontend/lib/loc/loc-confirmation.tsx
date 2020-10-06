@@ -16,8 +16,6 @@ import { SquareImage } from "../data-driven-onboarding/data-driven-onboarding";
 import { ariaBool } from "../ui/aria";
 import { renderSuccessHeading } from "../ui/success-heading";
 
-const LetterViaEmailInstructions = `If you want to send your Letter of Complaint to your landlord and/or management company via email, download the PDF and include it as an attachment to your regular email.`;
-
 const SanitationGuidelines = () => {
   const [isExpanded, toggleExpansion] = useState(false);
 
@@ -29,8 +27,8 @@ const SanitationGuidelines = () => {
           <div className="jf-sanitation-guidelines notification is-warning">
             <div>
               Please be aware that letting a repair-worker into your home to
-              make repairs may expose you to the Covid-19 virus. In order to
-              follow social distancing guidelines and to limit your exposure,
+              make repairs may increase exposure to the COVID-19 virus. In order
+              to follow social distancing guidelines and to limit exposure,
               please follow these steps to stay as safe as possible.
               {!inSafeMode && (
                 <>
@@ -127,6 +125,7 @@ const SanitationGuidelines = () => {
                       Center for Disease Control (CDC) Guide on How to Clean and
                       Disinfect
                     </OutboundLink>
+                    .
                   </p>
                 </div>
               </div>
@@ -213,14 +212,7 @@ function WeMailedLetterStatus(props: {
       </p>
       <DownloadLetterLink {...props} />
       <h2>What happens next?</h2>
-      <BigList
-        children={[
-          <li>
-            <p>{LetterViaEmailInstructions}</p>
-          </li>,
-          ...getCommonWeMailNextSteps(),
-        ]}
-      />
+      <BigList children={[...getCommonWeMailNextSteps()]} />
     </>
   );
 }
@@ -239,7 +231,7 @@ function WeWillMailLetterStatus(props: {
         <b>
           USPS Certified Mail<sup>&reg;</sup>
         </b>{" "}
-        tracking number once we have it!
+        tracking number once we have it.
       </p>
       <DownloadLetterLink {...props} />
       <h2>What happens next?</h2>
@@ -253,7 +245,6 @@ function WeWillMailLetterStatus(props: {
               </b>{" "}
               and provide a tracking number via text message.
             </p>
-            <p>{LetterViaEmailInstructions}</p>
           </li>,
           ...getCommonWeMailNextSteps(),
         ]}
@@ -276,7 +267,6 @@ function UserWillMailLetterStatus(props: { locPdfURL: string }): JSX.Element {
               <strong>mail it via Certified Mail</strong> - this allows you to
               prove that it was sent to your landlord.
             </p>
-            <p>{LetterViaEmailInstructions}</p>
           </li>,
           ...getCommonMailNextSteps(),
         ]}

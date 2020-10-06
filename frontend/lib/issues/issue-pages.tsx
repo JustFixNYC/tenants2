@@ -253,11 +253,11 @@ const CovidRiskMessage = () => (
     <p>
       <strong className="has-text-danger">Warning: </strong>
       Please be aware that letting a repair-worker into your home to make
-      repairs may expose you to the Covid-19 virus.
+      repairs may increase exposure to the COVID-19 virus.
     </p>
     <p>
-      In order to follow social distancing guidelines and to limit your
-      exposure, we recommend only asking for repairs{" "}
+      In order to follow social distancing guidelines and to limit exposure, we
+      recommend only asking for repairs{" "}
       <strong>in the case of an emergency</strong> such as if you have no heat,
       no hot water, or no gas.
     </p>
@@ -318,12 +318,12 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
       </>
     );
     return (
-      <Page title="Apartment self-inspection">
+      <Page title="Home self-inspection" withHeading>
         <div>
-          <h1 className="title is-4 is-spaced">Apartment self-inspection</h1>
           <p className="subtitle is-6">
             Please go room-by-room and select all of the issues that you are
-            experiencing. {introContent} <strong>Don't hold back!</strong>
+            experiencing. {introContent}{" "}
+            <strong>Make sure to be thorough.</strong>
           </p>
           <NoScriptFallback>
             <>

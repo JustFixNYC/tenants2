@@ -46,6 +46,14 @@ export const RhLinguiI18n = createLinguiCatalogLoader({
   es: loadable.lib(() => import("../../../locales/es/rh.chunk") as any),
 });
 
+const DhcrFootnote = () => (
+  <div className="jf-secondary-cta">
+    <div className="content has-text-centered is-size-7">
+      <Trans>*Division of Housing and Community Renewal</Trans>
+    </div>
+  </div>
+);
+
 function RentalHistorySplash(): JSX.Element {
   return (
     <Page title={li18n._(t`Request your Rent History`)}>
@@ -57,8 +65,8 @@ function RentalHistorySplash(): JSX.Element {
             </div>
             <h1 className="title is-spaced">
               <Trans>
-                Request your <span className="is-italic">Rent History</span> in
-                two simple steps!
+                Request your <span className="is-italic">Rent History</span>{" "}
+                from the NY State DHCR* in two simple steps!
               </Trans>
             </h1>
             <p className="subtitle">
@@ -78,6 +86,8 @@ function RentalHistorySplash(): JSX.Element {
             >
               <Trans>Start my request</Trans>
             </GetStartedButton>
+            <br />
+            <DhcrFootnote />
           </div>
         </div>
       </section>
@@ -127,7 +137,7 @@ function RentalHistoryForm(): JSX.Element {
 
   return (
     <Page
-      title={li18n._(t`Request the Rent History for your apartment`)}
+      title={li18n._(t`Request your apartment's Rent History from the DHCR`)}
       withHeading
     >
       <SessionUpdatingFormSubmitter
@@ -271,7 +281,9 @@ function RentalHistoryConfirmation(): JSX.Element {
   const { onboardingInfo } = appContext.session;
   return (
     <Page
-      title={li18n._(t`Your Rent History has been requested!`)}
+      title={li18n._(
+        t`Your Rent History has been requested from the New York State DHCR!`
+      )}
       withHeading={renderSuccessHeading}
       className="content"
     >

@@ -75,7 +75,7 @@ describe("<AdminConversationsPage>", () => {
     const pal = new AppTesterPal(<AdminConversationsRoutes />, {
       url: "/admin/conversations/",
     });
-    expect(pal.history.location.pathname).toBe("/en/login");
+    expect(pal.history.location.pathname).toBe("/admin/login/");
   });
 
   it("works if user is staff", async () => {

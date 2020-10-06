@@ -340,3 +340,40 @@ def test_letter_styles_works(graphql_client):
         '/static/loc/pdf-styles.css',
         '/static/loc/loc-preview-styles.css'
     ]
+
+
+class TestRecommendedLocLandlord:
+    QUERY = '''
+    query {
+        recommendedLocLandlord {
+            name,
+            primaryLine,
+            city,
+            state,
+            zipCode
+        }
+    }
+    '''
+
+    def test_it_returns_none_for_logged_out_user(self, graphql_client):
+        res = graphql_client.execute(self.QUERY)
+        assert res['data']['recommendedLocLandlord'] is None
+
+    def test_it_returns_none_when_user_has_no_recommendation(self, db, graphql_client):
+        graphql_client.request.user = UserFactory()
+        res = graphql_client.execute(self.QUERY)
+        assert res['data']['recommendedLocLandlord'] is None
+
+    @enable_fake_landlord_lookup
+    def test_it_returns_recommendation(self, db, graphql_client, requests_mock, nycdb):
+        mock_lookup_success(requests_mock, nycdb)
+        oi = OnboardingInfoFactory()
+        graphql_client.request.user = oi.user
+        res = graphql_client.execute(self.QUERY)
+        assert res['data']['recommendedLocLandlord'] == {
+            'name': 'BOOP JONES',
+            'primaryLine': '124 99TH STREET',
+            'city': 'Brooklyn',
+            'state': 'NY',
+            'zipCode': '11999',
+        }

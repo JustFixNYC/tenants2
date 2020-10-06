@@ -1,4 +1,4 @@
-from typing import List, Dict, Any, Iterator, NamedTuple, Optional
+from typing import List, Dict, Any, Iterator, NamedTuple, Optional, Pattern
 from pathlib import Path
 import re
 from django.core.management.base import BaseCommand
@@ -51,11 +51,33 @@ class NodeDesc(NamedTuple):
     expected: int = 1
 
 
+def is_v13_flow_schema(flow: Dict[str, Any]) -> bool:
+    # From Nyaruka tech support:
+    # > If you want to fix that script to work for newer definitions
+    # > (version "13" onwards), you could look to see if there's a
+    # > top-level property in the definition called nodes - each
+    # > node has actions and one type of action is a msg_created
+    # > action which has a text property.
+    return 'nodes' in flow
+
+
+def get_flow_uuid(flow: Dict[str, Any]) -> str:
+    if is_v13_flow_schema(flow):
+        return flow['uuid']
+    return flow['metadata']['uuid']
+
+
+def get_flow_name(flow: Dict[str, Any]) -> str:
+    if is_v13_flow_schema(flow):
+        return flow['name']
+    return flow['metadata']['name']
+
+
 class Flow:
     def __init__(self, flow: Dict[str, Any], url: str):
         self._f = flow
-        self.uuid = flow['metadata']['uuid']
-        self.name = flow['metadata']['name']
+        self.uuid = get_flow_uuid(flow)
+        self.name = get_flow_name(flow)
         self.url = url
 
     @staticmethod
@@ -64,7 +86,7 @@ class Flow:
         flows_by_uuid: Dict[str, Flow] = {}
         defns = client.get_definitions(flows=uuids, dependencies="none").flows
         for flow_defn in defns:
-            url = [url for url in urls if uuid_from_url(url) == flow_defn['metadata']['uuid']][0]
+            url = [url for url in urls if uuid_from_url(url) == get_flow_uuid(flow_defn)][0]
             flow = Flow(flow_defn, url)
             flows_by_uuid[flow.uuid] = flow
         result: List[Flow] = []
@@ -78,9 +100,7 @@ class Flow:
             uuids.extend(self.find_node_uuids(desc))
         return uuids
 
-    def find_node_uuids(self, desc: NodeDesc) -> List[str]:
-        pattern = re.compile(desc.regex)
-        uuids: List[str] = []
+    def __iter_node_uuids_old_schema(self, pattern: Pattern, desc: NodeDesc) -> Iterator[str]:
         for action_set in self._f['action_sets']:
             uuid = action_set['uuid']
             for action in action_set['actions']:
@@ -88,8 +108,25 @@ class Flow:
                     continue
                 msg = action['msg']
                 if pattern.match(msg['base']):
-                    uuids.append(uuid)
+                    yield uuid
                     break
+
+    def __iter_node_uuids_v13_schema(self, pattern: Pattern, desc: NodeDesc) -> Iterator[str]:
+        for action_set in self._f['nodes']:
+            uuid = action_set['uuid']
+            for action in action_set['actions']:
+                if action['type'] != 'send_msg':
+                    continue
+                if pattern.match(action['text']):
+                    yield uuid
+                    break
+
+    def find_node_uuids(self, desc: NodeDesc) -> List[str]:
+        pattern = re.compile(desc.regex)
+        if is_v13_flow_schema(self._f):
+            uuids = list(self.__iter_node_uuids_v13_schema(pattern, desc))
+        else:
+            uuids = list(self.__iter_node_uuids_old_schema(pattern, desc))
         if len(uuids) != desc.expected:
             raise ValueError(
                 f'Expected to find {desc.expected} node(s) matching pattern "{desc.regex}" '

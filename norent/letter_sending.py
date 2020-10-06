@@ -4,6 +4,7 @@ import logging
 from django.http import FileResponse
 from django.conf import settings
 from django.utils import timezone
+from django.db import transaction
 
 from project import slack, locales
 from project.util.email_attachment import email_file_response_as_attachment
@@ -166,15 +167,17 @@ def create_letter(user: JustfixUser, rp: models.RentPeriod) -> models.Letter:
             user=user
         ).html
 
-    letter = models.Letter(
-        user=user,
-        locale=user.locale,
-        rent_period=rp,
-        html_content=html_content,
-        localized_html_content=localized_html_content
-    )
-    letter.full_clean()
-    letter.save()
+    with transaction.atomic():
+        letter = models.Letter(
+            user=user,
+            locale=user.locale,
+            html_content=html_content,
+            localized_html_content=localized_html_content
+        )
+        letter.full_clean()
+        letter.save()
+        letter.rent_periods.add(rp)
+
     return letter
 
 

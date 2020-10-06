@@ -1,0 +1,16 @@
+query RecommendedHpLandlord {
+    recommendedHpLandlord {
+        name,
+        primaryLine,
+        city,
+        state,
+        zipCode
+    }
+    recommendedHpManagementCompany {
+        name,
+        primaryLine,
+        city,
+        state,
+        zipCode
+    }
+}

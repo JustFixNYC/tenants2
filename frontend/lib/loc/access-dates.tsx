@@ -49,8 +49,9 @@ const AccessDatesPage = MiddleProgressStep((props) => {
         <p className="subtitle is-6">
           Access dates are times you know when you will be home for the landlord
           to schedule repairs. Please provide <strong>1 - 3</strong> access
-          dates when you can be available (allowing at least {MIN_DAYS} days for
-          the letter to be received).
+          dates when you can be available. You can only choose access dates
+          starting {MIN_DAYS} days from today to give time for the letter to be
+          delivered.
         </p>
         <SessionUpdatingFormSubmitter
           mutation={AccessDatesMutation}

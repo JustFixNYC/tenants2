@@ -49,7 +49,7 @@ describe("landlord details page", () => {
         letterRequest: PRE_EXISTING_LETTER_REQUEST,
       }).value,
     });
-    clickButtonAndExpectChoice(
+    await clickButtonAndExpectChoice(
       pal,
       /mail this myself/i,
       LetterRequestMailChoice.USER_WILL_MAIL
@@ -63,12 +63,14 @@ describe("landlord details page", () => {
         letterRequest: PRE_EXISTING_LETTER_REQUEST,
       }).value,
     });
-    pal.clickButtonOrLink(/looks good to me/i);
-    await pal.rt.waitFor(() => pal.getDialogWithLabel(/ready to go/i));
+    pal.clickButtonOrLink(/mail my letter/i);
+    await pal.rt.waitFor(() =>
+      pal.getDialogWithLabel(/your letter is ready to send/i)
+    );
 
-    clickButtonAndExpectChoice(
+    await clickButtonAndExpectChoice(
       pal,
-      /mail my letter/i,
+      /confirm/i,
       LetterRequestMailChoice.WE_WILL_MAIL
     );
   });

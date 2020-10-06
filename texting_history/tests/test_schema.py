@@ -53,7 +53,7 @@ query {
 
 USER_DETAILS_VIA_EMAIL_QUERY = '''
 query {
-    userDetails(email: "boop@jones.net") {
+    userDetails(email: "Boop@jones.net") {
         firstName,
     }
 }

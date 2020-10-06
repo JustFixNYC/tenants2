@@ -246,7 +246,7 @@ def resolve_user_admin_details(
         phone_number = normalize_phone_number(phone_number)
         return JustfixUser.objects.filter(phone_number=phone_number).first()
     elif email:
-        return JustfixUser.objects.filter(email=email).first()
+        return JustfixUser.objects.filter(email__iexact=email).first()
     # TODO: Maybe raise some kind of error?
     return None
 

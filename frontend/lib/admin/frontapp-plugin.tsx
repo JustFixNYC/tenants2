@@ -15,9 +15,10 @@ import { AdminUserInfo } from "./admin-user-info";
 import Page from "../ui/page";
 import { AdminAuthExpired } from "./admin-auth-expired";
 
-const LoadedUserInfo: React.FC<FrontappUserDetails> = ({
+const LoadedUserInfo: React.FC<FrontappUserDetails & { email: string }> = ({
   isVerifiedStaffUser,
   userDetails,
+  email,
 }) => {
   if (!isVerifiedStaffUser) {
     return <AdminAuthExpired />;
@@ -26,11 +27,11 @@ const LoadedUserInfo: React.FC<FrontappUserDetails> = ({
     return (
       <p>
         The selected conversation's recipient does not seem to have an account
-        with us.
+        with us under the email address <strong>{email}</strong>.
       </p>
     );
   }
-  return <AdminUserInfo user={userDetails} showPhoneNumber={true} />;
+  return <AdminUserInfo user={userDetails} showPhoneNumber showName />;
 };
 
 const UserInfo: React.FC<{ email: string }> = ({ email }) => {
@@ -45,7 +46,7 @@ const UserInfo: React.FC<{ email: string }> = ({ email }) => {
   return response.type === "errored" ? (
     <p>Alas, a network error occurred.</p>
   ) : response.type === "loaded" ? (
-    <LoadedUserInfo {...response.output} />
+    <LoadedUserInfo {...response.output} email={email} />
   ) : (
     <p>Loading...</p>
   );

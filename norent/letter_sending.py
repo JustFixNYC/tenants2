@@ -5,6 +5,7 @@ from django.http import FileResponse
 from django.conf import settings
 from django.utils import timezone
 from django.db import transaction
+import PyPDF2
 
 from project import slack, locales
 from project.util.email_attachment import email_file_response_as_attachment
@@ -181,6 +182,23 @@ def create_letter(user: JustfixUser, rp: models.RentPeriod) -> models.Letter:
     return letter
 
 
+def _merge_pdfs(pdfs: List[bytes]) -> bytes:
+    merger = PyPDF2.PdfFileMerger()
+    for pdf_bytes in pdfs:
+        merger.append(PyPDF2.PdfFileReader(BytesIO(pdf_bytes)))
+    outfile = BytesIO()
+    merger.write(outfile)
+    return outfile.getvalue()
+
+
+def render_multilingual_letter(letter: models.Letter) -> bytes:
+    pdf_bytes = render_pdf_bytes(letter.html_content)
+    if letter.localized_html_content:
+        localized_pdf_bytes = render_pdf_bytes(letter.localized_html_content)
+        pdf_bytes = _merge_pdfs([pdf_bytes, localized_pdf_bytes])
+    return pdf_bytes
+
+
 def send_letter(letter: models.Letter):
     '''
     Send the given letter using whatever information is populated
@@ -193,7 +211,7 @@ def send_letter(letter: models.Letter):
     again and it won't send multiple copies of the letter.
     '''
 
-    pdf_bytes = render_pdf_bytes(letter.html_content)
+    pdf_bytes = render_multilingual_letter(letter)
     user = letter.user
     ld = user.landlord_details
 

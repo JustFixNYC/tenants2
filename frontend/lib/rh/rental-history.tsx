@@ -57,8 +57,8 @@ function RentalHistorySplash(): JSX.Element {
             </div>
             <h1 className="title is-spaced">
               <Trans>
-                Request your <span className="is-italic">Rent History</span> from the NY State DHCR* in
-                two simple steps!
+                Request your <span className="is-italic">Rent History</span>{" "}
+                from the NY State DHCR* in two simple steps!
               </Trans>
             </h1>
             <p className="subtitle">
@@ -277,7 +277,9 @@ function RentalHistoryConfirmation(): JSX.Element {
   const { onboardingInfo } = appContext.session;
   return (
     <Page
-      title={li18n._(t`Your Rent History has been requested from the New York State DHCR!`)}
+      title={li18n._(
+        t`Your Rent History has been requested from the New York State DHCR!`
+      )}
       withHeading={renderSuccessHeading}
       className="content"
     >

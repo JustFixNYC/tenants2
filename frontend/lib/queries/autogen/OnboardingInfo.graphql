@@ -11,6 +11,7 @@ fragment OnboardingInfo on OnboardingInfoType {
   agreedToJustfixTerms,
   agreedToNorentTerms,
   canReceiveRttcComms,
+  canReceiveSajeComms,
   borough,
   leaseType,
   state,

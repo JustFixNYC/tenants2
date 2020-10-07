@@ -9,9 +9,11 @@ import {
 import { NorentRoutes } from "./routes";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
+import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc.json";
 
 export const NorentLetterEmailToUser: React.FC<{}> = () => {
   const { session, server } = useContext(AppContext);
+  const letter = session.norentLatestLetter;
   const faqURL = `${server.originURL}${NorentRoutes.locale.faqs}`;
 
   return (
@@ -22,6 +24,12 @@ export const NorentLetterEmailToUser: React.FC<{}> = () => {
         <p>
           You've sent your NoRent letter. Attached to this email is a PDF copy
           for your records.
+          {letter?.trackingNumber && (
+            <>
+              You can also track the delivery of your letter using USPS
+              Tracking: {USPS_TRACKING_URL_PREFIX + letter.trackingNumber}
+            </>
+          )}
         </p>
         <p>
           To learn more about what to do next, check out our FAQ page: {faqURL}

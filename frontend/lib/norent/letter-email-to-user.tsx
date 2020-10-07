@@ -34,17 +34,19 @@ export const NorentLetterEmailToUser: React.FC<{}> = () => {
   return (
     <>
       <EmailSubject value={li18n._(t`Here's a copy of your NoRent letter`)} />
-      <Trans id="norent.letterEmailToUserBody">
+      <Trans>
         <p>Hello {session.firstName},</p>
         <p>
           You've sent your NoRent letter. Attached to this email is a PDF copy
           for your records.
         </p>
-        <TrackingInfo trackingNumber={letter?.trackingNumber} />
-        <p>
-          To learn more about what to do next, check out our FAQ page: {faqURL}
-        </p>
       </Trans>
+      <TrackingInfo trackingNumber={letter?.trackingNumber} />
+      <p>
+        <Trans>
+          To learn more about what to do next, check out our FAQ page: {faqURL}
+        </Trans>
+      </p>
     </>
   );
 };

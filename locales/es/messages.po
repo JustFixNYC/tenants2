@@ -44,6 +44,10 @@ msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
 msgstr "<0>Herramientas gratuitas para luchar por un hogar seguro y saludable</0><1>Introduce tu dirección para saber más.</1>"
 
+#: frontend/lib/norent/letter-email-to-user.tsx:23
+msgid "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1>"
+msgstr ""
+
 #: frontend/lib/norent/data/faqs-content.tsx:376
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
 msgstr "<0>Si el dueño de tu edificio te está intentando desalojar de forma ilegal, contacta con asistencia legal en <1/> inmediatamente.</0>"
@@ -1654,6 +1658,10 @@ msgstr "Esta herramienta te la trae JustFix.nyc. Somos una organización sin fin
 msgid "To begin the password reset process, we'll text you a verification code."
 msgstr "Para restablecer tu contraseña, te enviaremos un código de verificación."
 
+#: frontend/lib/norent/letter-email-to-user.tsx:32
+msgid "To learn more about what to do next, check out our FAQ page: {faqURL}"
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:107
 msgid "To:"
 msgstr "A:"
@@ -2171,10 +2179,6 @@ msgstr "Esta carta es para notificarle que he tenido una pérdida de ingresos, g
 #: frontend/lib/norent/letter-content.tsx:104
 msgid "norent.letter.v3FewProtections"
 msgstr "Esta carta es para informarle de las protecciones para inquilinos existentes en {0}. No renuncio a mi derecho a establecer defensas adicionales."
-
-#: frontend/lib/norent/letter-email-to-user.tsx:23
-msgid "norent.letterEmailToUserBody"
-msgstr "<0>Hola {0},</0><1>Has enviado tu carta de NoRent. Tienes una copia PDF para tus archivos adjunta a este correo electrónico. </1><2>Para saber más sobre qué hacer a continuación, consulta nuestra página de preguntas más frecuentes: {faqURL}</2>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:34
 msgid "norent.listOfSuggestedNonpaymentDocumentation"

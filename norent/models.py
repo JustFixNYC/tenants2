@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 import datetime
 from django.db import models
 from django.contrib.postgres.fields import JSONField
@@ -8,8 +8,8 @@ from project.locales import LOCALE_KWARGS
 
 
 class RentPeriodManager(models.Manager):
-    def find_by_iso_date(self, value: str) -> Optional['RentPeriod']:
-        return self.filter(payment_date=datetime.date.fromisoformat(value)).first()
+    def get_by_iso_date(self, value: str) -> 'RentPeriod':
+        return self.get(payment_date=datetime.date.fromisoformat(value))
 
 
 class RentPeriod(models.Model):
@@ -25,6 +25,55 @@ class RentPeriod(models.Model):
 
     def __str__(self):
         return f"Rent period for {self.payment_date}"
+
+    @staticmethod
+    def to_iso_date_list(rent_periods) -> List[str]:
+        return [
+            str(rp.payment_date)
+            for rp in rent_periods
+        ]
+
+
+class UpcomingLetterRentPeriodManager(models.Manager):
+    def set_for_user(self, user: JustfixUser, periods: List[str]):
+        self.filter(user=user).delete()
+        self.bulk_create([
+            UpcomingLetterRentPeriod(
+                user=user,
+                rent_period=RentPeriod.objects.get_by_iso_date(period)
+            )
+            for period in set(periods)
+        ])
+
+    def get_for_user(self, user: JustfixUser) -> List[str]:
+        return RentPeriod.to_iso_date_list([
+            ulrp.rent_period
+            for ulrp in self.filter(user=user).order_by('rent_period__payment_date')
+        ])
+
+
+class UpcomingLetterRentPeriod(models.Model):
+    '''
+    A model used to remember the rent periods a user
+    wants their next, upcoming no rent letter to cover.
+    '''
+
+    class Meta:
+        unique_together = ['user', 'rent_period']
+
+    objects = UpcomingLetterRentPeriodManager()
+
+    user = models.ForeignKey(
+        JustfixUser,
+        on_delete=models.CASCADE,
+        related_name='upcoming_norent_letter_rent_periods',
+    )
+
+    rent_period = models.ForeignKey(
+        RentPeriod,
+        on_delete=models.CASCADE,
+        related_name='+',
+    )
 
 
 class Letter(models.Model):

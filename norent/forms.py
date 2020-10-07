@@ -106,8 +106,8 @@ class OptInToRttcCommsForm(forms.Form):
 
 def get_rent_period_choices() -> List[Tuple[str, str]]:
     return [
-        (str(rp.payment_date), str(rp.payment_date))
-        for rp in RentPeriod.objects.all()
+        (iso_date, iso_date)
+        for iso_date in RentPeriod.to_iso_date_list(RentPeriod.objects.all())
     ]
 
 

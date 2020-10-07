@@ -226,7 +226,8 @@ function* generateBlankTypeLiteralsForFragments(
         {
           code: generateBlankTypeLiteral(
             ensureObjectType(info.type),
-            fragmentName
+            fragmentName,
+            { shouldIgnoreField: ctx.shouldIgnoreField.bind(ctx) }
           ),
         },
       ];

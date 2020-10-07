@@ -1997,10 +1997,38 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "This field has been deprecated as we now use `stabilized_unit_count` to store the rs unit count for the most up-to-date-year we have available.",
               "description": "The number of rent-stabilized residential units at the BBL in 2017.",
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "stabilizedUnitCount2017",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The number of rent-stabilized residential units at the BBL for the most recent year we have data for.",
+              "isDeprecated": false,
+              "name": "stabilizedUnitCount",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The year that our data for most-recent stabilized unit count comes from.",
+              "isDeprecated": false,
+              "name": "stabilizedUnitCountYear",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2189,6 +2217,22 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "A list of the available rent periods the current user can create a no rent letter for.",
+              "isDeprecated": false,
+              "name": "norentAvailableRentPeriods",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "NorentRentPeriod",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The latest no rent letter sent by the user. If the user has never sent a letter or is not logged in, this will be null.",
               "isDeprecated": false,
               "name": "norentLatestLetter",
@@ -2211,6 +2255,30 @@
                   "kind": "SCALAR",
                   "name": "Int",
                   "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The rent periods that the user's upcoming no rent letter are in regards to.",
+              "isDeprecated": false,
+              "name": "norentUpcomingLetterRentPeriods",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Date",
+                      "ofType": null
+                    }
+                  }
                 }
               }
             },
@@ -5050,6 +5118,37 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "OnboardingStep1Payload",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "input",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "NorentSetUpcomingLetterRentPeriodsInput",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "norentSetUpcomingLetterRentPeriods",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "NorentSetUpcomingLetterRentPeriodsPayload",
                   "ofType": null
                 }
               }
@@ -8084,6 +8183,108 @@
           "interfaces": null,
           "kind": "INPUT_OBJECT",
           "name": "OnboardingStep1Input",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "session",
+              "type": {
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "NorentSetUpcomingLetterRentPeriodsPayload",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "rentPeriods",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "NorentSetUpcomingLetterRentPeriodsInput",
           "possibleTypes": null
         },
         {

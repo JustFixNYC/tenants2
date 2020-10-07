@@ -1,4 +1,5 @@
 from typing import Optional, Dict, Any, Tuple
+import datetime
 import graphene
 from graphql import ResolveInfo
 from graphene_django.types import DjangoObjectType
@@ -119,6 +120,14 @@ class NorentSessionInfo(object):
         NorentRentPeriod,
         description="The latest rent period one can create a no rent letter for.")
 
+    norent_available_rent_periods = graphene.Field(
+        graphene.List(NorentRentPeriod, required=True),
+        description=(
+            "A list of the available rent periods the current user can "
+            "create a no rent letter for."
+        )
+    )
+
     norent_latest_letter = graphene.Field(
         NorentLetter,
         description=(
@@ -135,8 +144,20 @@ class NorentSessionInfo(object):
         )
     )
 
+    norent_upcoming_letter_rent_periods = graphene.List(
+        graphene.NonNull(graphene.types.Date),
+        required=True,
+        description=(
+            "The rent periods that the user's upcoming no rent letter "
+            "are in regards to."
+        ),
+    )
+
     def resolve_norent_latest_rent_period(self, info: ResolveInfo):
         return models.RentPeriod.objects.first()
+
+    def resolve_norent_available_rent_periods(self, info: ResolveInfo):
+        return list(models.RentPeriod.objects.all())
 
     def resolve_norent_latest_letter(self, info: ResolveInfo):
         request = info.context
@@ -156,6 +177,16 @@ class NorentSessionInfo(object):
         # generally needs to perform a sequential scan, so we might
         # want to cache this at some point.
         return models.Letter.objects.all().count()
+
+    def resolve_norent_upcoming_letter_rent_periods(self, info: ResolveInfo):
+        user = info.context.user
+        if not user.is_authenticated:
+            return []
+        return [
+            datetime.date.fromisoformat(d)
+            for d in
+            models.UpcomingLetterRentPeriod.objects.get_for_user(user)
+        ]
 
 
 def get_scaffolding(request) -> scaffolding.NorentScaffolding:
@@ -413,6 +444,23 @@ class NorentCreateAccount(SessionFormMutation):
         OnboardingStep1Info.clear_from_request(request)
         purge_scaffolding(request)
 
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class NorentSetUpcomingLetterRentPeriods(SessionFormMutation):
+    class Meta:
+        form_class = forms.RentPeriodsForm
+
+    login_required = True
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        models.UpcomingLetterRentPeriod.objects.set_for_user(
+            request.user,
+            form.cleaned_data['rent_periods'],
+        )
         return cls.mutation_success()
 
 

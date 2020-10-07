@@ -7,6 +7,8 @@ import {
   isEnumType,
   GraphQLEnumType,
   GraphQLInputObjectType,
+  GraphQLNamedType,
+  GraphQLField,
 } from "graphql";
 
 type TypeLiteral = { [key: string]: any };
@@ -20,6 +22,11 @@ const SCALAR_DEFAULTS: { [key: string]: any } = {
 
 export type CreateBlankTypeLiteralOptions = Partial<Options>;
 
+type ShouldIgnoreFieldFunc = (
+  type: GraphQLNamedType,
+  field: GraphQLField<any, any>
+) => boolean;
+
 type Options = {
   /**
    * Number of characters to use as white space, or null for no white space.
@@ -32,6 +39,12 @@ type Options = {
    * setting it to null. Defaults to false.
    */
   excludeNullableFields: boolean;
+
+  /**
+   * An optional callback that tells us whether we should ignore a
+   * particular field on a type.
+   */
+  shouldIgnoreField?: ShouldIgnoreFieldFunc;
 };
 
 const DEFAULT_OPTIONS: Options = {
@@ -52,7 +65,11 @@ export function createBlankTypeLiteral(
 ): string {
   const o = Object.assign({}, DEFAULT_OPTIONS, options);
   return stringifyBlankTypeLiteral(
-    createBlankTypeLiteralObj(type, o.excludeNullableFields),
+    createBlankTypeLiteralObj(
+      type,
+      o.excludeNullableFields,
+      o.shouldIgnoreField
+    ),
     o.spaces
   );
 }
@@ -110,21 +127,22 @@ function maybeAssignNullValue(
 
 function createBlankTypeLiteralObj(
   type: GraphQLObjectType | GraphQLInputObjectType,
-  excludeNullableFields: boolean
+  excludeNullableFields: boolean,
+  shouldIgnoreField?: ShouldIgnoreFieldFunc
 ): TypeLiteral {
   const result: TypeLiteral = {};
   for (let field of Object.values(type.getFields())) {
-    const { type, name, isDeprecated } = field;
+    const { type: fieldType, name, isDeprecated } = field;
 
-    if (isDeprecated) {
+    if (isDeprecated || (shouldIgnoreField && shouldIgnoreField(type, field))) {
       continue;
     }
 
-    if (isNullableType(type)) {
+    if (isNullableType(fieldType)) {
       maybeAssignNullValue(result, name, !excludeNullableFields);
     } else {
       result[name] = createNonNullableBlank(
-        assertNonNullType(type).ofType,
+        assertNonNullType(fieldType).ofType,
         name
       );
     }

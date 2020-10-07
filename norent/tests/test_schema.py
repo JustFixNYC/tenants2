@@ -599,7 +599,7 @@ class TestNorentSendLetter:
             'This form can only be used from the NoRent site.')
 
     def test_it_works(self, allow_lambda_http, use_norent_site,
-                      requests_mock, mailoutbox, settings, mocklob):
+                      requests_mock, mailoutbox, smsoutbox, settings, mocklob):
         settings.IS_DEMO_DEPLOYMENT = False
         settings.LANGUAGES = project.locales.ALL.choices
         RentPeriodFactory()
@@ -633,6 +633,10 @@ class TestNorentSendLetter:
         assert "https://example.com/es/faqs" in user_mail.body
         assert "Hola Boop" in user_mail.body
         assert "Aquí tienes una copia" in user_mail.subject
+
+        assert len(smsoutbox) == 1
+        assert "Boop Jones" in smsoutbox[0].body
+        assert "USPS" in smsoutbox[0].body
 
         assert len(user_mail.attachments) == 1
 

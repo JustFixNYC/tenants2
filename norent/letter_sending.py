@@ -4,10 +4,11 @@ import logging
 from django.http import FileResponse
 from django.conf import settings
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from django.db import transaction
 import PyPDF2
 
-from project import slack, locales
+from project import slack, locales, common_data
 from project.util.email_attachment import email_file_response_as_attachment
 from project.util.site_util import SITE_CHOICES
 from frontend.static_content import react_render, react_render_email, ContentType
@@ -28,6 +29,9 @@ NORENT_EMAIL_TO_LANDLORD_URL = "letter-email.txt"
 # The URL, relative to the localized site root, that renders the NoRent
 # email to the user.
 NORENT_EMAIL_TO_USER_URL = "letter-email-to-user.txt"
+
+# The URL prefix for USPS certified letter tracking.
+USPS_TRACKING_URL_PREFIX = common_data.load_json("loc.json")["USPS_TRACKING_URL_PREFIX"]
 
 logger = logging.getLogger(__name__)
 
@@ -110,6 +114,16 @@ def send_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> bool:
     letter.tracking_number = response['tracking_number']
     letter.letter_sent_at = timezone.now()
     letter.save()
+
+    user.send_sms_async(
+        _("%(name)s you've sent your letter of non-payment of rent, "
+            "congratulations! You can track the delivery of your letter using "
+            "USPS Tracking: %(url)s.") % {
+                'name': user.full_name,
+                'url': USPS_TRACKING_URL_PREFIX + letter.tracking_number,
+        }
+    )
+
     return True
 
 

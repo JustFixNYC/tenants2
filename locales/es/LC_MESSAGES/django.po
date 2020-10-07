@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-08 10:07+0000\n"
+"POT-Creation-Date: 2020-10-07 20:47+0000\n"
 "PO-Revision-Date: 2020-06-15 15:39\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -41,6 +41,11 @@ msgstr "cerrar"
 #, python-format
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
 msgstr "¡%(city)s, %(state_name)s no existe!"
+
+#: norent/letter_sending.py:118
+#, python-format
+msgid "%(name)s you've sent your letter of non-payment of rent, congratulations! You can track the delivery of your letter using USPS Tracking: %(url)s."
+msgstr ""
 
 #: norent/schema.py:406
 #, python-format
@@ -105,4 +110,3 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 #: project/util/phone_number.py:68
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
-

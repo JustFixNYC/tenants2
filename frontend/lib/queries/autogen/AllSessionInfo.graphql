@@ -26,16 +26,12 @@ fragment AllSessionInfo on SessionInfo {
   norentLatestRentPeriod {
     paymentDate
   },
-  norentAvailableRentPeriods {
-    paymentDate
-  },
   norentLatestLetter {
     trackingNumber,
     letterSentAt,
     paymentDate
   },
   norentLettersSent,
-  norentUpcomingLetterRentPeriods,
   accessDates,
   landlordDetails { ...LandlordDetailsType },
   letterRequest {

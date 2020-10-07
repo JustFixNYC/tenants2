@@ -2216,9 +2216,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "We have yet to use this in the front-end; will un-deprecate once we start using it, to avoid needless schema migrations in case of change.",
               "description": "A list of the available rent periods the current user can create a no rent letter for.",
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "norentAvailableRentPeriods",
               "type": {
                 "kind": "LIST",
@@ -2260,9 +2260,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "We have yet to use this in the front-end; will un-deprecate once we start using it, to avoid needless schema migrations in case of change.",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "norentUpcomingLetterRentPeriods",
               "type": {
                 "kind": "NON_NULL",

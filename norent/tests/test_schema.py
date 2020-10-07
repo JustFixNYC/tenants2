@@ -607,6 +607,7 @@ class TestNorentSendLetter:
         assert "Aquí tienes una copia" in user_mail.subject
 
         assert len(smsoutbox) == 1
+        assert "Boop Jones" in smsoutbox[0].body
         assert "USPS" in smsoutbox[0].body
 
         assert len(user_mail.attachments) == 1

@@ -643,6 +643,103 @@ class TestNorentSendLetter:
         assert len(user_mail.attachments) == 1
 
 
+class TestNorentSendLetterV2:
+    QUERY = '''
+    mutation {
+        norentSendLetterV2(input: {}) {
+            errors { field, messages }
+        }
+    }
+    '''
+
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, graphql_client, db):
+        self.user = UserFactory(email="boop@jones.net")
+        graphql_client.request.user = self.user
+        self.graphql_client = graphql_client
+
+    def create_landlord_details(self):
+        LandlordDetailsFactory(user=self.user, email="landlordo@calrissian.net")
+
+    def execute(self):
+        res = self.graphql_client.execute(self.QUERY)
+        return res['data']['norentSendLetterV2']
+
+    def test_it_requires_login(self):
+        self.graphql_client.request.user = AnonymousUser()
+        assert self.execute()['errors'] == one_field_err(
+            'You do not have permission to use this form!')
+
+    def test_it_raises_err_when_no_rent_periods_are_defined(self):
+        assert self.execute()['errors'] == one_field_err(
+            'No rent periods are defined!')
+
+    def test_it_raises_err_when_letter_already_sent(self):
+        LetterFactory(user=self.user)
+        assert self.execute()['errors'] == one_field_err(
+            'You have already sent a letter for this rent period!')
+
+    def test_it_raises_err_when_no_onboarding_info_exists(self):
+        RentPeriodFactory()
+        assert self.execute()['errors'] == one_field_err(
+            'You have not onboarded!')
+
+    def test_it_raises_err_when_no_landlord_details_exist(self):
+        RentPeriodFactory()
+        OnboardingInfoFactory(user=self.user)
+        assert self.execute()['errors'] == one_field_err(
+            'You haven\'t provided any landlord details yet!')
+
+    def test_it_raises_err_when_used_on_wrong_site(self):
+        RentPeriodFactory()
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
+        assert self.execute()['errors'] == one_field_err(
+            'This form can only be used from the NoRent site.')
+
+    def test_it_works(self, allow_lambda_http, use_norent_site,
+                      requests_mock, mailoutbox, smsoutbox, settings, mocklob):
+        settings.IS_DEMO_DEPLOYMENT = False
+        settings.LANGUAGES = project.locales.ALL.choices
+        RentPeriodFactory()
+        self.user.locale = 'es'
+        self.user.save()
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
+        assert self.execute()['errors'] == []
+
+        letter = Letter.objects.get(user=self.graphql_client.request.user)
+        assert str(letter.latest_rent_period.payment_date) == '2020-05-01'
+        assert letter.locale == "es"
+        assert "unable to pay rent" in letter.html_content
+        assert "Boop Jones" in letter.html_content
+        assert 'lang="en"' in letter.html_content
+        assert 'lang="es"' in letter.localized_html_content
+        assert letter.letter_sent_at is not None
+        assert letter.tracking_number == mocklob.sample_letter['tracking_number']
+
+        assert len(mailoutbox) == 2
+        ll_mail = mailoutbox[0]
+        assert ll_mail.to == ['landlordo@calrissian.net']
+        assert 'letter attached' in ll_mail.body
+        assert "Boop Jones" in ll_mail.body
+        assert 'sent on behalf' in ll_mail.subject
+        assert len(ll_mail.attachments) == 1
+        assert letter.letter_emailed_at is not None
+
+        user_mail = mailoutbox[1]
+        assert user_mail.to == ['boop@jones.net']
+        assert "https://example.com/es/faqs" in user_mail.body
+        assert "Hola Boop" in user_mail.body
+        assert "Aquí tienes una copia" in user_mail.subject
+
+        assert len(smsoutbox) == 1
+        assert "Boop Jones" in smsoutbox[0].body
+        assert "USPS" in smsoutbox[0].body
+
+        assert len(user_mail.attachments) == 1
+
+
 class TestOptInToRttcComms(GraphQLTestingPal):
     QUERY = '''
     mutation NorentOptInToRttcCommsMutation($input: NorentOptInToRttcCommsInput!) {

@@ -374,6 +374,38 @@ class NorentSendLetter(SessionFormMutation):
 
 
 @schema_registry.register_mutation
+class NorentSendLetterV2(SessionFormMutation):
+    login_required = True
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        # TODO: Modify this so we support multiple rent periods!
+
+        request = info.context
+        user = request.user
+        assert user.is_authenticated
+        rent_period = models.RentPeriod.objects.first()
+        if not rent_period:
+            return cls.make_and_log_error(info, "No rent periods are defined!")
+        letter = models.Letter.objects.filter(user=user, rent_periods=rent_period).first()
+        if letter is not None:
+            return cls.make_error("You have already sent a letter for this rent period!")
+        if not hasattr(user, 'onboarding_info'):
+            return cls.make_and_log_error(info, "You have not onboarded!")
+        if not does_user_have_ll_mailing_addr_or_email(user):
+            return cls.make_and_log_error(info, "You haven't provided any landlord details yet!")
+
+        site_type = site_util.get_site_type(site_util.get_site_from_request_or_default(request))
+
+        if site_type != site_util.SITE_CHOICES.NORENT:
+            return cls.make_and_log_error(info, "This form can only be used from the NoRent site.")
+
+        letter_sending.create_and_send_letter(request.user, rent_period)
+
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
 class NorentCreateAccount(SessionFormMutation):
     class Meta:
         form_class = forms.CreateAccount

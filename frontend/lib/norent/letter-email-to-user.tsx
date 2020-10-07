@@ -11,6 +11,21 @@ import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc.json";
 
+const TrackingInfo: React.FC<{
+  trackingNumber: string | undefined;
+}> = (trackingNumber) => {
+  return trackingNumber ? (
+    <p>
+      <Trans>
+        You can also track the delivery of your letter using USPS Tracking:
+      </Trans>{" "}
+      {USPS_TRACKING_URL_PREFIX + trackingNumber}
+    </p>
+  ) : (
+    <></>
+  );
+};
+
 export const NorentLetterEmailToUser: React.FC<{}> = () => {
   const { session, server } = useContext(AppContext);
   const letter = session.norentLatestLetter;
@@ -24,13 +39,8 @@ export const NorentLetterEmailToUser: React.FC<{}> = () => {
         <p>
           You've sent your NoRent letter. Attached to this email is a PDF copy
           for your records.
-          {letter?.trackingNumber && (
-            <>
-              You can also track the delivery of your letter using USPS
-              Tracking: {USPS_TRACKING_URL_PREFIX + letter.trackingNumber}
-            </>
-          )}
         </p>
+        <TrackingInfo trackingNumber={letter?.trackingNumber} />
         <p>
           To learn more about what to do next, check out our FAQ page: {faqURL}
         </p>

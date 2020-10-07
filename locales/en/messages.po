@@ -632,7 +632,7 @@ msgstr "Here are a few benefits to sending a letter to your landlord:"
 msgid "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
 msgstr "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
 
-#: frontend/lib/norent/letter-email-to-user.tsx:12
+#: frontend/lib/norent/letter-email-to-user.tsx:22
 msgid "Here's a copy of your NoRent letter"
 msgstr "Here's a copy of your NoRent letter"
 
@@ -1923,6 +1923,10 @@ msgstr "You already have an account"
 msgid "You can"
 msgstr "You can"
 
+#: frontend/lib/norent/letter-email-to-user.tsx:11
+msgid "You can also track the delivery of your letter using USPS Tracking:"
+msgstr "You can also track the delivery of your letter using USPS Tracking:"
+
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:103
 msgid "You're in <0>{stateName}</0>"
 msgstr "You're in <0>{stateName}</0>"
@@ -2163,9 +2167,9 @@ msgstr "This letter is to notify you that I have experienced a loss of income, i
 msgid "norent.letter.v3FewProtections"
 msgstr "This letter is to advise you of protections in place for tenants in {0}. I am not waiving my right to assert any other defenses."
 
-#: frontend/lib/norent/letter-email-to-user.tsx:13
+#: frontend/lib/norent/letter-email-to-user.tsx:23
 msgid "norent.letterEmailToUserBody"
-msgstr "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1><2>To learn more about what to do next, check out our FAQ page: {faqURL}</2>"
+msgstr "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1><2/><3>To learn more about what to do next, check out our FAQ page: {faqURL}</3>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:34
 msgid "norent.listOfSuggestedNonpaymentDocumentation"

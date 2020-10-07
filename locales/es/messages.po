@@ -637,7 +637,7 @@ msgstr "Éstos son algunos de los beneficios de enviar una carta al dueño de tu
 msgid "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
 msgstr "Aquí tienes una vista previa de la solicitud de tu Historial de Renta. Incluye tu dirección y número de apartamento para que el DHCR pueda enviarte el carta con tu historial."
 
-#: frontend/lib/norent/letter-email-to-user.tsx:12
+#: frontend/lib/norent/letter-email-to-user.tsx:22
 msgid "Here's a copy of your NoRent letter"
 msgstr "Aquí tienes una copia de tu carta de NoRent"
 
@@ -1928,6 +1928,10 @@ msgstr "Ya tienes una cuenta"
 msgid "You can"
 msgstr "Puedes"
 
+#: frontend/lib/norent/letter-email-to-user.tsx:11
+msgid "You can also track the delivery of your letter using USPS Tracking:"
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:103
 msgid "You're in <0>{stateName}</0>"
 msgstr "Estás en <0>{stateName}</0>"
@@ -2168,7 +2172,7 @@ msgstr "Esta carta es para notificarle que he tenido una pérdida de ingresos, g
 msgid "norent.letter.v3FewProtections"
 msgstr "Esta carta es para informarle de las protecciones para inquilinos existentes en {0}. No renuncio a mi derecho a establecer defensas adicionales."
 
-#: frontend/lib/norent/letter-email-to-user.tsx:13
+#: frontend/lib/norent/letter-email-to-user.tsx:23
 msgid "norent.letterEmailToUserBody"
 msgstr "<0>Hola {0},</0><1>Has enviado tu carta de NoRent. Tienes una copia PDF para tus archivos adjunta a este correo electrónico. </1><2>Para saber más sobre qué hacer a continuación, consulta nuestra página de preguntas más frecuentes: {faqURL}</2>"
 
@@ -2228,4 +2232,3 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

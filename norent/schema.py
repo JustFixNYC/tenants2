@@ -125,8 +125,7 @@ class NorentSessionInfo(object):
         description=(
             "A list of the available rent periods the current user can "
             "create a no rent letter for."
-        ),
-        deprecation_reason="We have yet to use this in the front-end; will un-deprecate once we start using it, to avoid needless schema migrations in case of change.",  # noqa
+        )
     )
 
     norent_latest_letter = graphene.Field(
@@ -146,8 +145,12 @@ class NorentSessionInfo(object):
     )
 
     norent_upcoming_letter_rent_periods = graphene.List(
-        graphene.NonNull(graphene.types.Date), required=True,
-        deprecation_reason="We have yet to use this in the front-end; will un-deprecate once we start using it, to avoid needless schema migrations in case of change.",  # noqa
+        graphene.NonNull(graphene.types.Date),
+        required=True,
+        description=(
+            "The rent periods that the user's upcoming no rent letter "
+            "are in regards to."
+        ),
     )
 
     def resolve_norent_latest_rent_period(self, info: ResolveInfo):

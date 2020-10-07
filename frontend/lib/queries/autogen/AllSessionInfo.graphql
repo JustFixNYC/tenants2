@@ -26,6 +26,9 @@ fragment AllSessionInfo on SessionInfo {
   norentLatestRentPeriod {
     paymentDate
   },
+  norentAvailableRentPeriods {
+    paymentDate
+  },
   norentLatestLetter {
     trackingNumber,
     letterSentAt,

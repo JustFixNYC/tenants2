@@ -120,6 +120,14 @@ class NorentSessionInfo(object):
         NorentRentPeriod,
         description="The latest rent period one can create a no rent letter for.")
 
+    norent_available_rent_periods = graphene.Field(
+        graphene.List(NorentRentPeriod, required=True),
+        description=(
+            "A list of the available rent periods the current user can "
+            "create a no rent letter for."
+        ),
+    )
+
     norent_latest_letter = graphene.Field(
         NorentLetter,
         description=(
@@ -142,6 +150,9 @@ class NorentSessionInfo(object):
 
     def resolve_norent_latest_rent_period(self, info: ResolveInfo):
         return models.RentPeriod.objects.first()
+
+    def resolve_norent_available_rent_periods(self, info: ResolveInfo):
+        return list(models.RentPeriod.objects.all())
 
     def resolve_norent_latest_letter(self, info: ResolveInfo):
         request = info.context

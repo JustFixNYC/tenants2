@@ -493,6 +493,16 @@ class TestNorentLatestRentPeriod:
         assert res['data']['session']['norentLatestRentPeriod']['paymentDate'] == "2020-05-01"
 
 
+class TestNorentAvailableRentPeriods:
+    def test_it_works(self, db, graphql_client):
+        RentPeriodFactory.from_iso("2020-05-01")
+        res = graphql_client.execute(
+            'query { session { norentAvailableRentPeriods { paymentDate } } }')
+        assert res['data']['session']['norentAvailableRentPeriods'] == [
+            {'paymentDate': '2020-05-01'}
+        ]
+
+
 class TestNorentUpcomingLetterRentPeriods:
     def execute(self, graphql_client):
         res = graphql_client.execute(

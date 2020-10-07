@@ -2217,6 +2217,22 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "A list of the available rent periods the current user can create a no rent letter for.",
+              "isDeprecated": false,
+              "name": "norentAvailableRentPeriods",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "NorentRentPeriod",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The latest no rent letter sent by the user. If the user has never sent a letter or is not logged in, this will be null.",
               "isDeprecated": false,
               "name": "norentLatestLetter",

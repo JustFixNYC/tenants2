@@ -114,11 +114,14 @@ def send_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> bool:
     letter.letter_sent_at = timezone.now()
     letter.save()
 
-    user.send_sms_async(_(
-        "%(user.full_name)s you've sent your letter of non-payment of rent, "
-        "congratulations! You can track the delivery of your letter using "
-        "USPS Tracking: %(USPS_TRACKING_URL_PREFIX)s%(letter.tracking_number)s."
-    ))
+    user.send_sms_async(
+        _("%(name)s you've sent your letter of non-payment of rent, "
+            "congratulations! You can track the delivery of your letter using "
+            "USPS Tracking: %(url)s.") % {
+                'name': user.full_name,
+                'url': USPS_TRACKING_URL_PREFIX + letter.tracking_number,
+        }
+    )
 
     return True
 

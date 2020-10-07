@@ -693,10 +693,12 @@ class TestOptInToRttcComms(GraphQLTestingPal):
         assert self.oi.can_receive_rttc_comms is True
 
 
-class TestSetUpcomingRentPeriods(GraphQLTestingPal):
+class TestSetUpcomingLetterRentPeriods(GraphQLTestingPal):
     QUERY = '''
-    mutation NorentSetUpcomingRentPeriodsMutation($input: NorentSetUpcomingRentPeriodsInput!) {
-        output: norentSetUpcomingRentPeriods(input: $input) {
+    mutation NorentSetUpcomingLetterRentPeriodsMutation(
+        $input: NorentSetUpcomingLetterRentPeriodsInput!
+    ) {
+        output: norentSetUpcomingLetterRentPeriods(input: $input) {
             errors { field, messages },
             session {
                 norentUpcomingLetterRentPeriods

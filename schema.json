@@ -5133,7 +5133,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "NorentSetUpcomingRentPeriodsInput",
+                      "name": "NorentSetUpcomingLetterRentPeriodsInput",
                       "ofType": null
                     }
                   }
@@ -5142,13 +5142,13 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "norentSetUpcomingRentPeriods",
+              "name": "norentSetUpcomingLetterRentPeriods",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "NorentSetUpcomingRentPeriodsPayload",
+                  "name": "NorentSetUpcomingLetterRentPeriodsPayload",
                   "ofType": null
                 }
               }
@@ -8241,7 +8241,7 @@
           "inputFields": null,
           "interfaces": [],
           "kind": "OBJECT",
-          "name": "NorentSetUpcomingRentPeriodsPayload",
+          "name": "NorentSetUpcomingLetterRentPeriodsPayload",
           "possibleTypes": null
         },
         {
@@ -8284,7 +8284,7 @@
           ],
           "interfaces": null,
           "kind": "INPUT_OBJECT",
-          "name": "NorentSetUpcomingRentPeriodsInput",
+          "name": "NorentSetUpcomingLetterRentPeriodsInput",
           "possibleTypes": null
         },
         {

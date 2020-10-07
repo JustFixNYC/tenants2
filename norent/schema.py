@@ -443,7 +443,7 @@ class NorentCreateAccount(SessionFormMutation):
 
 
 @schema_registry.register_mutation
-class NorentSetUpcomingRentPeriods(SessionFormMutation):
+class NorentSetUpcomingLetterRentPeriods(SessionFormMutation):
     class Meta:
         form_class = forms.RentPeriodsForm
 

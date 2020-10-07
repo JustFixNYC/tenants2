@@ -724,3 +724,8 @@ class TestSetUpcomingRentPeriods(GraphQLTestingPal):
         assert res['session'] == {
             'norentUpcomingLetterRentPeriods': ['2020-05-01'],
         }
+
+    def test_it_raises_error_when_nothing_is_selected(self, logged_in):
+        self.assert_one_field_err("This field is required.", "rentPeriods", {
+            'rentPeriods': [],
+        })

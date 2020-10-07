@@ -18,7 +18,7 @@ from onboarding.tests.factories import OnboardingInfoFactory
 from .factories import RentPeriodFactory, LetterFactory
 from loc.tests.factories import LandlordDetailsFactory, LandlordDetailsV2Factory
 from norent.schema import update_scaffolding, SCAFFOLDING_SESSION_KEY
-from norent.models import Letter
+from norent.models import Letter, UpcomingLetterRentPeriod
 
 
 def test_scaffolding_is_null_when_it_does_not_exist(graphql_client):
@@ -493,6 +493,24 @@ class TestNorentLatestRentPeriod:
         assert res['data']['session']['norentLatestRentPeriod']['paymentDate'] == "2020-05-01"
 
 
+class TestNorentUpcomingLetterRentPeriods:
+    def execute(self, graphql_client):
+        res = graphql_client.execute(
+            'query { session { norentUpcomingLetterRentPeriods } }'
+        )['data']['session']['norentUpcomingLetterRentPeriods']
+        return res
+
+    def test_it_works_with_logged_out_users(self, graphql_client, db):
+        assert self.execute(graphql_client) == []
+
+    def test_it_works_with_logged_in_users(self, graphql_client, db):
+        user = UserFactory()
+        RentPeriodFactory.from_iso("2020-05-01")
+        UpcomingLetterRentPeriod.objects.set_for_user(user, ["2020-05-01"])
+        graphql_client.request.user = user
+        assert self.execute(graphql_client) == ['2020-05-01']
+
+
 class TestNorentLatestLetter:
     @pytest.fixture(autouse=True)
     def setup_fixture(self, graphql_client, db):
@@ -663,3 +681,36 @@ class TestOptInToRttcComms(GraphQLTestingPal):
 
         self.oi.refresh_from_db()
         assert self.oi.can_receive_rttc_comms is True
+
+
+class TestSetUpcomingRentPeriods(GraphQLTestingPal):
+    QUERY = '''
+    mutation NorentSetUpcomingRentPeriodsMutation($input: NorentSetUpcomingRentPeriodsInput!) {
+        output: norentSetUpcomingRentPeriods(input: $input) {
+            errors { field, messages },
+            session {
+                norentUpcomingLetterRentPeriods
+            },
+        }
+    }
+    '''
+
+    DEFAULT_INPUT = {
+        'rentPeriods': ['2020-05-01'],
+    }
+
+    @pytest.fixture
+    def logged_in(self):
+        self.rp = RentPeriodFactory.from_iso("2020-05-01")
+        self.user = UserFactory()
+        self.request.user = self.user
+
+    def test_it_errors_when_logged_out(self):
+        self.assert_one_field_err("You do not have permission to use this form!")
+
+    def test_it_works_when_logged_in(self, logged_in):
+        res = self.execute()
+        assert res['errors'] == []
+        assert res['session'] == {
+            'norentUpcomingLetterRentPeriods': ['2020-05-01'],
+        }

@@ -32,6 +32,7 @@ fragment AllSessionInfo on SessionInfo {
     paymentDate
   },
   norentLettersSent,
+  norentUpcomingLetterRentPeriods,
   accessDates,
   landlordDetails { ...LandlordDetailsType },
   letterRequest {

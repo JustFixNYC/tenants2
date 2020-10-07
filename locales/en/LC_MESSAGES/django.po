@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-07 20:11+0000\n"
+"POT-Creation-Date: 2020-10-07 20:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,7 +45,7 @@ msgstr ""
 
 #: norent/letter_sending.py:118
 #, python-format
-msgid "%(user.full_name)s you've sent your letter of non-payment of rent, congratulations! You can track the delivery of your letter using USPS Tracking: %(USPS_TRACKING_URL_PREFIX)s%(letter.tracking_number)s."
+msgid "%(name)s you've sent your letter of non-payment of rent, congratulations! You can track the delivery of your letter using USPS Tracking: %(url)s."
 msgstr ""
 
 #: norent/schema.py:406

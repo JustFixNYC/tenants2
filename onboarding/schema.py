@@ -210,7 +210,7 @@ class OnboardingInfoType(DjangoObjectType):
         only_fields = (
             'signup_intent', 'floor_number', 'address', 'apt_number', 'pad_bbl',
             'has_called_311', 'non_nyc_city', 'zipcode', 'agreed_to_justfix_terms',
-            'agreed_to_norent_terms', 'can_receive_rttc_comms',)
+            'agreed_to_norent_terms', 'can_receive_rttc_comms', 'can_receive_saje_comms')
 
     borough = graphene.Field(
         BoroughEnum,

@@ -87,6 +87,8 @@ class NorentScaffolding(graphene.ObjectType):
 
     can_receive_rttc_comms = graphene.Boolean()
 
+    can_receive_saje_comms = graphene.Boolean()
+
     def resolve_is_city_in_nyc(self, info: ResolveInfo) -> Optional[bool]:
         return self.is_city_in_nyc()
 
@@ -418,6 +420,7 @@ class NorentCreateAccount(SessionFormMutation):
             'email': scf.email,
             'signup_intent': SIGNUP_INTENT_CHOICES.NORENT,
             'can_receive_rttc_comms': scf.can_receive_rttc_comms,
+            'can_receive_saje_comms': scf.can_receive_saje_comms,
         }
         return cls.fill_city_info(request, info, scf)
 
@@ -464,22 +467,53 @@ class NorentSetUpcomingLetterRentPeriods(SessionFormMutation):
         return cls.mutation_success()
 
 
-@schema_registry.register_mutation
-class NorentOptInToRttcComms(SessionFormMutation):
+class NorentOptInToComms(SessionFormMutation):
+    '''
+    Abstract base class to make it easy to opt-in to
+    communications from a partner organization.
+    '''
+
     class Meta:
-        form_class = forms.OptInToRttcCommsForm
+        # This needs to be added to all base classes; we
+        # can't add it here, because this class' metaclass
+        # is super weird.
+        #
+        # form_class = forms.OptInToCommsForm
+
+        abstract = True
+
+    # This needs to be set to a nullable boolean field of both
+    # OnboardingInfo and NorentScaffolding.
+    comms_field_name = ''
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
+        assert cls.comms_field_name
         request = info.context
         user = request.user
         opt_in: bool = form.cleaned_data['opt_in']
         if user.is_authenticated:
             oi = request.user.onboarding_info
-            oi.can_receive_rttc_comms = opt_in
+            setattr(oi, cls.comms_field_name, opt_in)
             oi.save()
         else:
             update_scaffolding(request, {
-                'can_receive_rttc_comms': opt_in
+                cls.comms_field_name: opt_in
             })
         return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class NorentOptInToRttcComms(NorentOptInToComms):
+    class Meta:
+        form_class = forms.OptInToCommsForm
+
+    comms_field_name = 'can_receive_rttc_comms'
+
+
+@schema_registry.register_mutation
+class NorentOptInToSajeComms(NorentOptInToComms):
+    class Meta:
+        form_class = forms.OptInToCommsForm
+
+    comms_field_name = 'can_receive_saje_comms'

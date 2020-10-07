@@ -45,6 +45,7 @@ def test_scaffolding_defaults_work(graphql_client):
             norentScaffolding {
               firstName,
               canReceiveRttcComms,
+              canReceiveSajeComms,
             }
           }
         }
@@ -53,6 +54,7 @@ def test_scaffolding_defaults_work(graphql_client):
     assert result == {
         'firstName': '',
         'canReceiveRttcComms': None,
+        'canReceiveSajeComms': None,
     }
 
 
@@ -695,6 +697,62 @@ class TestOptInToRttcComms(GraphQLTestingPal):
 
         self.oi.refresh_from_db()
         assert self.oi.can_receive_rttc_comms is True
+
+
+class TestOptInToSajeComms(GraphQLTestingPal):
+    QUERY = '''
+    mutation NorentOptInToSajeCommsMutation($input: NorentOptInToSajeCommsInput!) {
+        output: norentOptInToSajeComms(input: $input) {
+            errors { field, messages },
+            session {
+                onboardingInfo { canReceiveSajeComms },
+                norentScaffolding { canReceiveSajeComms }
+            },
+        }
+    }
+    '''
+
+    DEFAULT_INPUT = {
+        'optIn': False,
+    }
+
+    @pytest.fixture
+    def logged_in(self):
+        self.oi = OnboardingInfoFactory()
+        self.request.user = self.oi.user
+
+    def test_it_works_when_logged_out(self):
+        res = self.execute()
+        assert res['errors'] == []
+        assert res['session'] == {
+            'onboardingInfo': None,
+            'norentScaffolding': {'canReceiveSajeComms': False},
+        }
+
+        res = self.execute(input={'optIn': True})
+        assert res['errors'] == []
+        assert res['session'] == {
+            'onboardingInfo': None,
+            'norentScaffolding': {'canReceiveSajeComms': True},
+        }
+
+    def test_it_works_when_logged_in(self, logged_in):
+        res = self.execute()
+        assert res['errors'] == []
+        assert res['session'] == {
+            'onboardingInfo': {'canReceiveSajeComms': False},
+            'norentScaffolding': None,
+        }
+
+        res = self.execute(input={'optIn': True})
+        assert res['errors'] == []
+        assert res['session'] == {
+            'onboardingInfo': {'canReceiveSajeComms': True},
+            'norentScaffolding': None,
+        }
+
+        self.oi.refresh_from_db()
+        assert self.oi.can_receive_saje_comms is True
 
 
 class TestSetUpcomingLetterRentPeriods(GraphQLTestingPal):

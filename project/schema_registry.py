@@ -1,4 +1,5 @@
-from typing import List, Type
+from typing import List, Type, Optional
+import textwrap
 import graphene
 from graphene.utils.str_converters import to_snake_case
 from graphene.types.mutation import Mutation
@@ -40,8 +41,18 @@ def register_mutation(klass: Type[Mutation]) -> Type:
 
     name = f"{klass.__name__}Mixin"
     attr_name = to_snake_case(klass.__name__)
+    description: Optional[str] = None
+    if klass.__doc__:
+        description = textwrap.dedent(klass.__doc__)
+    deprecation_reason: Optional[str] = None
+    if hasattr(klass, 'deprecation_reason'):
+        deprecation_reason = klass.deprecation_reason
     _mutations_classes.append(type(name, tuple(), {
-        attr_name: klass.Field(required=True)
+        attr_name: klass.Field(
+            required=True,
+            description=description,
+            deprecation_reason=deprecation_reason
+        )
     }))
 
     return klass

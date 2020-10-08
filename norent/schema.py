@@ -345,6 +345,11 @@ def does_user_have_ll_mailing_addr_or_email(user) -> bool:
 
 @schema_registry.register_mutation
 class NorentSendLetter(SessionFormMutation):
+    '''
+    Send the user's no rent letter, setting the letter's rent period
+    to the most recent one in our database.
+    '''
+
     login_required = True
 
     @classmethod
@@ -384,6 +389,11 @@ class NorentSendLetter(SessionFormMutation):
 
 @schema_registry.register_mutation
 class NorentSendLetterV2(SessionFormMutation):
+    '''
+    Send the user's no rent letter, setting the letter's rent periods
+    to the upcoming ones that the user has previously chosen.
+    '''
+
     login_required = True
 
     @classmethod

@@ -614,6 +614,7 @@ class TestNorentSendLetter:
         assert UpcomingLetterRentPeriod.objects.get_for_user(self.user) == ['2020-05-01']
 
         letter = Letter.objects.get(user=self.graphql_client.request.user)
+        assert len(letter.rent_periods.all()) == 1
         assert str(letter.latest_rent_period.payment_date) == '2020-05-01'
         assert letter.locale == "es"
         assert "unable to pay rent" in letter.html_content
@@ -712,6 +713,7 @@ class TestNorentSendLetterV2:
         assert self.execute()['errors'] == []
 
         letter = Letter.objects.get(user=self.graphql_client.request.user)
+        assert len(letter.rent_periods.all()) == 1
         assert str(letter.latest_rent_period.payment_date) == '2020-05-01'
         assert letter.locale == "es"
         assert "unable to pay rent" in letter.html_content

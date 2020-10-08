@@ -1,4 +1,4 @@
-import { dateAsISO, addDays, friendlyDate } from "../date-util";
+import { dateAsISO, addDays, friendlyDate, friendlyUTCMonthAndYear } from "../date-util";
 import i18n from "../../i18n";
 
 test("dateAsISIO() works", () => {
@@ -9,6 +9,12 @@ test("addDays() works", () => {
   expect(addDays(new Date(2018, 0, 30), 7).toDateString()).toBe(
     "Tue Feb 06 2018"
   );
+});
+
+describe("friendlyUTCMonthAndYear", () => {
+  it("works", () => {
+    expect(friendlyUTCMonthAndYear("2018-01-02")).toBe("January 2018");
+  });
 });
 
 describe("friendlyDate()", () => {

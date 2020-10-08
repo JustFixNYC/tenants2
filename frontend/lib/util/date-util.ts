@@ -26,25 +26,34 @@ export const PREFERRED_TIME_ZONE = "America/New_York";
  * locale, like "Saturday, September 15, 2018". If the browser doesn't
  * have the `Intl` object, however, we'll return a less-friendly string like
  * "Sat Sep 15 2018".
+ *
+ * If `options.yearAndMonthOnly` is true, then the given date will
+ * be formatted with only the month and year, e.g. "September 2018".
  */
 export function friendlyDate(
   date: Date,
-  timeZone: string = PREFERRED_TIME_ZONE
+  timeZone: string = PREFERRED_TIME_ZONE,
+  options: { yearAndMonthOnly?: boolean } = {}
 ) {
   const { locale } = i18n;
-  const options = {
-    weekday: "long",
+  let intlOptions: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "long",
-    day: "numeric",
   };
+  if (!options.yearAndMonthOnly) {
+    intlOptions = {
+      ...intlOptions,
+      weekday: "long",
+      day: "numeric",
+    };
+  }
   try {
-    return new Intl.DateTimeFormat(locale, { ...options, timeZone }).format(
+    return new Intl.DateTimeFormat(locale, { ...intlOptions, timeZone }).format(
       date
     );
   } catch (e) {
     try {
-      return new Intl.DateTimeFormat(locale, options).format(date);
+      return new Intl.DateTimeFormat(locale, intlOptions).format(date);
     } catch (e) {
       return date.toDateString();
     }
@@ -61,4 +70,14 @@ export function friendlyDate(
  */
 export function friendlyUTCDate(date: GraphQLDate) {
   return friendlyDate(new Date(date), "UTC");
+}
+
+/**
+ * Returns the month and year of the given ISO 8601-formatted date.
+ * For example, passing in "2020-03-13" would return "March 2020".
+ */
+export function friendlyUTCMonthAndYear(date: GraphQLDate) {
+  return friendlyDate(new Date(date), "UTC", {
+    yearAndMonthOnly: true,
+  });
 }

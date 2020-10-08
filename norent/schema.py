@@ -123,7 +123,7 @@ class NorentSessionInfo(object):
         description="The latest rent period one can create a no rent letter for.")
 
     norent_available_rent_periods = graphene.Field(
-        graphene.List(NorentRentPeriod, required=True),
+        graphene.List(graphene.NonNull(NorentRentPeriod), required=True),
         description=(
             "A list of the available rent periods the current user can "
             "create a no rent letter for."

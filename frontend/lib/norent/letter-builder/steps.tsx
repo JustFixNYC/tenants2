@@ -29,6 +29,7 @@ import { NorentLbLosAngelesRedirect } from "./la-address-redirect";
 import { PostSignupNoProtections } from "./post-signup-no-protections";
 import { hasNorentLetterBeenSentForThisRentPeriod } from "./step-decorators";
 import { createCrossSiteAgreeToTermsStep } from "../../pages/cross-site-terms-opt-in";
+import { NorentRentPeriods } from "./rent-periods";
 
 function getLetterBuilderRoutes(): NorentLetterBuilderRouteInfo {
   return NorentRoutes.locale.letter;
@@ -153,6 +154,11 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
               ? true
               : !s.norentScaffolding?.hasLandlordMailingAddress,
           component: NorentLandlordMailingAddress,
+        },
+        {
+          path: routes.rentPeriods,
+          exact: true,
+          component: NorentRentPeriods,
         },
         {
           path: routes.preview,

@@ -167,9 +167,9 @@ const LetterBody: React.FC<NorentLetterContentProps> = (props) => {
               </Trans>
             </p>
             <ul>
-              {props.paymentDates.map((date) => {
-                <li key={date}>{friendlyUTCMonthAndYear(date)}</li>;
-              })}
+              {props.paymentDates.map((date) => (
+                <li key={date}>{friendlyUTCMonthAndYear(date)}</li>
+              ))}
             </ul>
           </>
         )

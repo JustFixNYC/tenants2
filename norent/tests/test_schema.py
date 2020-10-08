@@ -496,10 +496,16 @@ class TestNorentLatestRentPeriod:
 
 
 class TestNorentAvailableRentPeriods:
+    QUERY = 'query { session { norentAvailableRentPeriods { paymentDate } } }'
+
+    def test_it_returns_empty_list_when_not_logged_in(self, graphql_client):
+        res = graphql_client.execute(self.QUERY)
+        assert res['data']['session']['norentAvailableRentPeriods'] == []
+
     def test_it_works(self, db, graphql_client):
         RentPeriodFactory.from_iso("2020-05-01")
-        res = graphql_client.execute(
-            'query { session { norentAvailableRentPeriods { paymentDate } } }')
+        graphql_client.request.user = UserFactory()
+        res = graphql_client.execute(self.QUERY)
         assert res['data']['session']['norentAvailableRentPeriods'] == [
             {'paymentDate': '2020-05-01'}
         ]

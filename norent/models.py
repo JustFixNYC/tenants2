@@ -179,3 +179,8 @@ class Letter(models.Model):
             f"{self.user.full_name}'s no rent letter for "
             f"{self.__get_rent_period_dates_str()}"
         )
+
+
+def get_available_rent_periods_for_user(user: JustfixUser) -> List[RentPeriod]:
+    # TODO: Actually figure out what periods the user hasn't sent a letter for.
+    return RentPeriod.objects.all()

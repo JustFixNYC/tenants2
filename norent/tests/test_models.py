@@ -55,3 +55,7 @@ class TestUpcomingLetterRentPeriod:
 
         set_for_user(u1, ["2020-06-01"])
         assert get_for_user(u1) == ["2020-06-01"]
+
+        # Ensure duplicates are removed.
+        set_for_user(u1, ["2020-05-01", "2020-05-01"])
+        assert get_for_user(u1) == ["2020-05-01"]

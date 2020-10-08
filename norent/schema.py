@@ -345,6 +345,11 @@ def does_user_have_ll_mailing_addr_or_email(user) -> bool:
 
 @schema_registry.register_mutation
 class NorentSendLetter(SessionFormMutation):
+    '''
+    Send the user's no rent letter, setting the letter's rent period
+    to the most recent one in our database.
+    '''
+
     login_required = True
 
     @classmethod
@@ -355,6 +360,15 @@ class NorentSendLetter(SessionFormMutation):
         rent_period = models.RentPeriod.objects.first()
         if not rent_period:
             return cls.make_and_log_error(info, "No rent periods are defined!")
+
+        # Since this is a legacy endpoint, we want to make sure the
+        # user's upcoming letter rent periods are set to the latest
+        # rent period.
+        models.UpcomingLetterRentPeriod.objects.set_rent_periods_for_user(
+            user,
+            [rent_period]
+        )
+
         letter = models.Letter.objects.filter(user=user, rent_periods=rent_period).first()
         if letter is not None:
             return cls.make_error("You have already sent a letter for this rent period!")
@@ -368,7 +382,42 @@ class NorentSendLetter(SessionFormMutation):
         if site_type != site_util.SITE_CHOICES.NORENT:
             return cls.make_and_log_error(info, "This form can only be used from the NoRent site.")
 
-        letter_sending.create_and_send_letter(request.user, rent_period)
+        letter_sending.create_and_send_letter(request.user, [rent_period])
+
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class NorentSendLetterV2(SessionFormMutation):
+    '''
+    Send the user's no rent letter, setting the letter's rent periods
+    to the upcoming ones that the user has previously chosen.
+    '''
+
+    login_required = True
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        user = request.user
+        assert user.is_authenticated
+        rent_periods = models.UpcomingLetterRentPeriod.objects.get_rent_periods_for_user(user)
+        if len(rent_periods) == 0:
+            return cls.make_and_log_error(info, "You have not chosen any rent periods!")
+        letter = models.Letter.objects.filter(user=user, rent_periods__in=rent_periods).first()
+        if letter is not None:
+            return cls.make_error("You have already sent a letter for one of the rent periods!")
+        if not hasattr(user, 'onboarding_info'):
+            return cls.make_and_log_error(info, "You have not onboarded!")
+        if not does_user_have_ll_mailing_addr_or_email(user):
+            return cls.make_and_log_error(info, "You haven't provided any landlord details yet!")
+
+        site_type = site_util.get_site_type(site_util.get_site_from_request_or_default(request))
+
+        if site_type != site_util.SITE_CHOICES.NORENT:
+            return cls.make_and_log_error(info, "This form can only be used from the NoRent site.")
+
+        letter_sending.create_and_send_letter(request.user, rent_periods)
 
         return cls.mutation_success()
 

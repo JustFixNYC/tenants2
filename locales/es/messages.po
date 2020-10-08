@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-08 13:30\n"
+"PO-Revision-Date: 2020-10-08 14:10\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -46,7 +46,7 @@ msgstr "<0>Herramientas gratuitas para luchar por un hogar seguro y saludable</0
 
 #: frontend/lib/norent/letter-email-to-user.tsx:15
 msgid "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1>"
-msgstr "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1>"
+msgstr "<0>Hola {0},</0><1>Has enviado tu carta de NoRent. Tienes una copia PDF para tus archivos adjunta a este correo electrónico.</1>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:376
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
@@ -1660,7 +1660,7 @@ msgstr "Para restablecer tu contraseña, te enviaremos un código de verificaci�
 
 #: frontend/lib/norent/letter-email-to-user.tsx:29
 msgid "To learn more about what to do next, check out our FAQ page: {faqURL}"
-msgstr "To learn more about what to do next, check out our FAQ page: {faqURL}"
+msgstr "Para saber más sobre qué hacer a continuación, consulta nuestra página de preguntas más frecuentes: {faqURL}"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:107
 msgid "To:"
@@ -1938,7 +1938,7 @@ msgstr "Puedes"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:23
 msgid "You can also track the delivery of your letter using USPS Tracking:"
-msgstr "You can also track the delivery of your letter using USPS Tracking:"
+msgstr "También puede seguir la entrega de su carta usando USPS Tracking:"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:103
 msgid "You're in <0>{stateName}</0>"

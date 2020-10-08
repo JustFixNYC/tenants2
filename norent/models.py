@@ -35,21 +35,30 @@ class RentPeriod(models.Model):
 
 
 class UpcomingLetterRentPeriodManager(models.Manager):
-    def set_for_user(self, user: JustfixUser, periods: List[str]):
+    def set_rent_periods_for_user(self, user: JustfixUser, rps: List[RentPeriod]):
         self.filter(user=user).delete()
         self.bulk_create([
             UpcomingLetterRentPeriod(
                 user=user,
-                rent_period=RentPeriod.objects.get_by_iso_date(period)
+                rent_period=rp
             )
+            for rp in rps
+        ])
+
+    def set_for_user(self, user: JustfixUser, periods: List[str]):
+        self.set_rent_periods_for_user(user, [
+            RentPeriod.objects.get_by_iso_date(period)
             for period in set(periods)
         ])
 
-    def get_for_user(self, user: JustfixUser) -> List[str]:
-        return RentPeriod.to_iso_date_list([
+    def get_rent_periods_for_user(self, user: JustfixUser) -> List[RentPeriod]:
+        return [
             ulrp.rent_period
             for ulrp in self.filter(user=user).order_by('rent_period__payment_date')
-        ])
+        ]
+
+    def get_for_user(self, user: JustfixUser) -> List[str]:
+        return RentPeriod.to_iso_date_list(self.get_rent_periods_for_user(user))
 
 
 class UpcomingLetterRentPeriod(models.Model):

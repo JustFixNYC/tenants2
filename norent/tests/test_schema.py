@@ -15,7 +15,7 @@ from project.util.testing_util import GraphQLTestingPal
 from onboarding.schema import OnboardingStep1Info
 from onboarding.tests.test_schema import _exec_onboarding_step_n
 from onboarding.tests.factories import OnboardingInfoFactory
-from .factories import RentPeriodFactory, LetterFactory
+from .factories import RentPeriodFactory, LetterFactory, UpcomingLetterRentPeriodFactory
 from loc.tests.factories import LandlordDetailsFactory, LandlordDetailsV2Factory
 from norent.schema import update_scaffolding, SCAFFOLDING_SESSION_KEY
 from norent.models import Letter, UpcomingLetterRentPeriod
@@ -670,28 +670,29 @@ class TestNorentSendLetterV2:
         assert self.execute()['errors'] == one_field_err(
             'You do not have permission to use this form!')
 
-    def test_it_raises_err_when_no_rent_periods_are_defined(self):
+    def test_it_raises_err_when_no_rent_periods_are_chosen(self):
         assert self.execute()['errors'] == one_field_err(
-            'No rent periods are defined!')
+            'You have not chosen any rent periods!')
 
     def test_it_raises_err_when_letter_already_sent(self):
-        LetterFactory(user=self.user)
+        letter = LetterFactory(user=self.user)
+        UpcomingLetterRentPeriodFactory(user=self.user, rent_period=letter.rent_periods.all()[0])
         assert self.execute()['errors'] == one_field_err(
-            'You have already sent a letter for this rent period!')
+            'You have already sent a letter for one of the rent periods!')
 
     def test_it_raises_err_when_no_onboarding_info_exists(self):
-        RentPeriodFactory()
+        UpcomingLetterRentPeriodFactory(user=self.user)
         assert self.execute()['errors'] == one_field_err(
             'You have not onboarded!')
 
     def test_it_raises_err_when_no_landlord_details_exist(self):
-        RentPeriodFactory()
+        UpcomingLetterRentPeriodFactory(user=self.user)
         OnboardingInfoFactory(user=self.user)
         assert self.execute()['errors'] == one_field_err(
             'You haven\'t provided any landlord details yet!')
 
     def test_it_raises_err_when_used_on_wrong_site(self):
-        RentPeriodFactory()
+        UpcomingLetterRentPeriodFactory(user=self.user)
         self.create_landlord_details()
         OnboardingInfoFactory(user=self.user)
         assert self.execute()['errors'] == one_field_err(
@@ -701,7 +702,7 @@ class TestNorentSendLetterV2:
                       requests_mock, mailoutbox, smsoutbox, settings, mocklob):
         settings.IS_DEMO_DEPLOYMENT = False
         settings.LANGUAGES = project.locales.ALL.choices
-        RentPeriodFactory()
+        UpcomingLetterRentPeriodFactory(user=self.user)
         self.user.locale = 'es'
         self.user.save()
         self.create_landlord_details()

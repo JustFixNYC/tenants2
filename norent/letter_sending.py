@@ -159,7 +159,7 @@ def email_letter_to_landlord(letter: models.Letter, pdf_bytes: bytes) -> bool:
     return True
 
 
-def create_letter(user: JustfixUser, rp: models.RentPeriod) -> models.Letter:
+def create_letter(user: JustfixUser, rps: List[models.RentPeriod]) -> models.Letter:
     '''
     Create a Letter model and set its PDF HTML content.
     '''
@@ -191,7 +191,7 @@ def create_letter(user: JustfixUser, rp: models.RentPeriod) -> models.Letter:
         )
         letter.full_clean()
         letter.save()
-        letter.rent_periods.add(rp)
+        letter.rent_periods.set(rps)
 
     return letter
 
@@ -254,10 +254,10 @@ def send_letter(letter: models.Letter):
     )
 
 
-def create_and_send_letter(user: JustfixUser, rp: models.RentPeriod):
+def create_and_send_letter(user: JustfixUser, rps: List[models.RentPeriod]):
     '''
     Create a Letter model and send it.
     '''
 
-    letter = create_letter(user, rp)
+    letter = create_letter(user, rps)
     send_letter(letter)

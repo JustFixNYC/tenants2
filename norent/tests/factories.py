@@ -1,7 +1,7 @@
 import factory
 import datetime
 
-from norent.models import Letter, RentPeriod
+from norent.models import Letter, RentPeriod, UpcomingLetterRentPeriod
 from users.tests.factories import UserFactory
 
 
@@ -14,6 +14,15 @@ class RentPeriodFactory(factory.django.DjangoModelFactory):
     @classmethod
     def from_iso(self, value: str):
         return RentPeriodFactory(payment_date=datetime.date.fromisoformat(value))
+
+
+class UpcomingLetterRentPeriodFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = UpcomingLetterRentPeriod
+
+    user = factory.SubFactory(UserFactory)
+
+    rent_period = factory.SubFactory(RentPeriodFactory)
 
 
 class LetterFactory(factory.django.DjangoModelFactory):

@@ -50,14 +50,14 @@ class TestCreateLetter:
         return Blob(html=f"fake {site_type} letter in {locale}")
 
     def test_it_renders_only_english_when_user_is_english(self):
-        letter = create_letter(self.user, self.rp)
+        letter = create_letter(self.user, [self.rp])
         assert letter.locale == "en"
         assert letter.html_content == "fake NORENT letter in en"
         assert letter.localized_html_content == ""
 
     def test_it_renders_in_locale_when_user_is_not_english(self):
         self.user.locale = 'es'
-        letter = create_letter(self.user, self.rp)
+        letter = create_letter(self.user, [self.rp])
         assert letter.locale == "es"
         assert letter.html_content == "fake NORENT letter in en"
         assert letter.localized_html_content == "fake NORENT letter in es"

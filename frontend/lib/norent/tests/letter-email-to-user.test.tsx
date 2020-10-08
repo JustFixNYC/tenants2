@@ -9,7 +9,13 @@ beforeAll(preloadLingui(NorentLinguiI18n));
 describe("NorentLetterEmailToUser", () => {
   it("works", () => {
     const pal = new AppTesterPal(<NorentLetterEmailToUser />, {
-      session: { firstName: "Boop" },
+      session: {
+        firstName: "Boop", norentLatestLetter: {
+          trackingNumber: "1234567890987654321",
+          letterSentAt: null,
+          paymentDate: "Boop 1st, 2099",
+        }
+      },
     });
     expect(pal.rr.container).toMatchSnapshot();
   });

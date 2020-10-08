@@ -17,7 +17,7 @@ exports[`NorentLetterEmailToUser works 1`] = `
   <p>
     You can also track the delivery of your letter using USPS Tracking:
      
-    https://tools.usps.com/go/TrackConfirmAction?tLabels=[object Object]
+    https://tools.usps.com/go/TrackConfirmAction?tLabels=1234567890987654321
   </p>
   <p>
     To learn more about what to do next, check out our FAQ page: https://myserver.com/en/faqs

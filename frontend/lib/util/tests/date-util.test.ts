@@ -1,4 +1,9 @@
-import { dateAsISO, addDays, friendlyDate, friendlyUTCMonthAndYear } from "../date-util";
+import {
+  dateAsISO,
+  addDays,
+  friendlyDate,
+  friendlyUTCMonthAndYear,
+} from "../date-util";
 import i18n from "../../i18n";
 
 test("dateAsISIO() works", () => {

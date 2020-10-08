@@ -42,13 +42,13 @@ class UpcomingLetterRentPeriodManager(models.Manager):
                 user=user,
                 rent_period=rp
             )
-            for rp in rps
+            for rp in set(rps)
         ])
 
     def set_for_user(self, user: JustfixUser, periods: List[str]):
         self.set_rent_periods_for_user(user, [
             RentPeriod.objects.get_by_iso_date(period)
-            for period in set(periods)
+            for period in periods
         ])
 
     def get_rent_periods_for_user(self, user: JustfixUser) -> List[RentPeriod]:

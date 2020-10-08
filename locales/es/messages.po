@@ -44,6 +44,10 @@ msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
 msgstr "<0>Herramientas gratuitas para luchar por un hogar seguro y saludable</0><1>Introduce tu dirección para saber más.</1>"
 
+#: frontend/lib/norent/letter-email-to-user.tsx:15
+msgid "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1>"
+msgstr "<0>Hola {0},</0><1>Has enviado tu carta de NoRent. Tienes una copia PDF para tus archivos adjunta a este correo electrónico.</1>"
+
 #: frontend/lib/norent/data/faqs-content.tsx:376
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
 msgstr "<0>Si el dueño de tu edificio te está intentando desalojar de forma ilegal, contacta con asistencia legal en <1/> inmediatamente.</0>"
@@ -637,7 +641,7 @@ msgstr "Éstos son algunos de los beneficios de enviar una carta al dueño de tu
 msgid "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
 msgstr "Aquí tienes una vista previa de la solicitud de tu Historial de Renta. Incluye tu dirección y número de apartamento para que el DHCR pueda enviarte el carta con tu historial."
 
-#: frontend/lib/norent/letter-email-to-user.tsx:12
+#: frontend/lib/norent/letter-email-to-user.tsx:14
 msgid "Here's a copy of your NoRent letter"
 msgstr "Aquí tienes una copia de tu carta de NoRent"
 
@@ -1654,6 +1658,10 @@ msgstr "Esta herramienta te la trae JustFix.nyc. Somos una organización sin fin
 msgid "To begin the password reset process, we'll text you a verification code."
 msgstr "Para restablecer tu contraseña, te enviaremos un código de verificación."
 
+#: frontend/lib/norent/letter-email-to-user.tsx:29
+msgid "To learn more about what to do next, check out our FAQ page: {faqURL}"
+msgstr "Para saber más sobre qué hacer a continuación, consulta nuestra página de preguntas más frecuentes: {faqURL}"
+
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:107
 msgid "To:"
 msgstr "A:"
@@ -1928,6 +1936,10 @@ msgstr "Ya tienes una cuenta"
 msgid "You can"
 msgstr "Puedes"
 
+#: frontend/lib/norent/letter-email-to-user.tsx:23
+msgid "You can also track the delivery of your letter using USPS Tracking:"
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:103
 msgid "You're in <0>{stateName}</0>"
 msgstr "Estás en <0>{stateName}</0>"
@@ -2168,10 +2180,6 @@ msgstr "Esta carta es para notificarle que he tenido una pérdida de ingresos, g
 msgid "norent.letter.v3FewProtections"
 msgstr "Esta carta es para informarle de las protecciones para inquilinos existentes en {0}. No renuncio a mi derecho a establecer defensas adicionales."
 
-#: frontend/lib/norent/letter-email-to-user.tsx:13
-msgid "norent.letterEmailToUserBody"
-msgstr "<0>Hola {0},</0><1>Has enviado tu carta de NoRent. Tienes una copia PDF para tus archivos adjunta a este correo electrónico. </1><2>Para saber más sobre qué hacer a continuación, consulta nuestra página de preguntas más frecuentes: {faqURL}</2>"
-
 #: frontend/lib/norent/data/faqs-content.tsx:34
 msgid "norent.listOfSuggestedNonpaymentDocumentation"
 msgstr "<0>Mientras esperas que el dueño de tu edificio te dé una respuesta, reúne toda la documentación que puedas. Algunos tipos de documentación que puedes recopilar incluyen:</0><1><2><3>Carta de tu jefe:</3>una carta de tu jefe o de un compañero de trabajo que mencione el virus COVID-19 y muestre la pérdida de trabajo o la reducción de horas como resultado del COVID-19.</2><4><5> Documentos de beneficios de desempleo</5>: son los documentos que demuestran que solicitaste o recibiste beneficios del Departamento de Desarrollo del Empleo.</4><6><7>Recibos de pago de salario</7>: pueden ser cheques de pagos anteriores a la fecha de terminación o despido. Si has tenido un cambio en el número de horas de trabajo, puedes retener tus cheques de pago anteriores y posteriores a ese cambio.</6><8><9>Gastos relacionados con el COVID-19</9>: pueden ser facturas que demuestren que tus gastos han aumentado por problemas derivados del COVID-19, incluidos los costos de cuidado de niños, gastos para cumplir con las directivas de salud pública u otros gastos relacionados.</8><10><11>Cierre de escuelas</11>: esta podría ser una notificación de la escuela de tus hijos diciendo que ha cerrado debido al COVID-19. También puedes incluir pruebas de que tus hijos están matriculados.</10><12><13> Estados financieros</13>: pueden ser presupuestos, estados de cuenta bancarios o archivos personales que demuestren que tus ingresos laborales o de negocio se han interrumpido debido a la crisis provocada por el COVID-19. Asegúrate de no enviar información financiera personal confidencial que no quieras que vea el dueño de tu edificio.</12><14><15>Registros médicos del COVID-19</15>: esto podría incluir gastos médicos extraordinarios que tengan relación con el diagnóstico, pruebas y/o tratamiento del COVID-19 que hayas efectuado con tu dinero propio para ti o algún miembro de tu familia. Debido a la confidencialidad de los archivos médicos, es posible que no desees enviarlos al dueño de tu edificio. Sin embargo, debes conservar estos recibos para tu archivo personal. Estos podrían ser utilizados como prueba en caso que debas presentarlos como evidencia en procedimientos judiciales.</14><16><17>Alguna otra prueba del impacto financiero relacionado con el COVID-19</17>: puede ser cualquier otra prueba que demuestre cómo el virus COVID-19 ha afectado tu capacidad de pagar la renta.</16></1>"
@@ -2228,4 +2236,3 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

@@ -11,6 +11,10 @@ class RentPeriodManager(models.Manager):
     def get_by_iso_date(self, value: str) -> 'RentPeriod':
         return self.get(payment_date=datetime.date.fromisoformat(value))
 
+    def get_available_for_user(self, user: JustfixUser) -> List['RentPeriod']:
+        used = self.filter(letter__user=user)
+        return list(self.all().difference(used).order_by('-payment_date'))
+
 
 class RentPeriod(models.Model):
     class Meta:

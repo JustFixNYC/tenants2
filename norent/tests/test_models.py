@@ -59,3 +59,17 @@ class TestUpcomingLetterRentPeriod:
         # Ensure duplicates are removed.
         set_for_user(u1, ["2020-05-01", "2020-05-01"])
         assert get_for_user(u1) == ["2020-05-01"]
+
+
+class TestGetAvailableRentPeriodsForUser:
+    def test_it_works_when_no_letters_exist(self, db):
+        user = UserFactory()
+        rp1 = RentPeriodFactory.from_iso("2020-06-01")
+        rp2 = RentPeriodFactory.from_iso("2020-05-01")
+        assert RentPeriod.objects.get_available_for_user(user) == [rp1, rp2]
+
+    def test_it_works_when_letters_exist(self, db):
+        rp1 = RentPeriodFactory.from_iso("2020-06-01")
+        rp2 = RentPeriodFactory.from_iso("2020-05-01")
+        letter = LetterFactory(rent_period=rp1)
+        assert RentPeriod.objects.get_available_for_user(letter.user) == [rp2]

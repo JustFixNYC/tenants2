@@ -159,7 +159,10 @@ class NorentSessionInfo(object):
         return models.RentPeriod.objects.first()
 
     def resolve_norent_available_rent_periods(self, info: ResolveInfo):
-        return list(models.RentPeriod.objects.all())
+        user = info.context.user
+        if not user.is_authenticated:
+            return []
+        return list(models.RentPeriod.objects.get_available_for_user(user))
 
     def resolve_norent_latest_letter(self, info: ResolveInfo):
         request = info.context

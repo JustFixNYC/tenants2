@@ -806,6 +806,10 @@ msgstr "Is this tool right for me?"
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 msgstr "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:23
+msgid "It's important to notify your landlord of all months when you couldn't pay rent, as well as any future months where you anticipate not being able to pay."
+msgstr "It's important to notify your landlord of all months when you couldn't pay rent, as well as any future months where you anticipate not being able to pay."
+
 #: frontend/lib/norent/letter-builder/confirmation.tsx:112
 msgid "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."
 msgstr "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."
@@ -1048,6 +1052,11 @@ msgstr "Mold on walls"
 #: common-data/us-state-choices.ts:91
 msgid "Montana"
 msgstr "Montana"
+
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:21
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:33
+msgid "Months of rent non-payment"
+msgstr "Months of rent non-payment"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:403
 msgid "More actions"
@@ -1380,7 +1389,7 @@ msgstr "Right to the City Alliance can contact me to provide additional support.
 msgid "Rusty water"
 msgstr "Rusty water"
 
-#: frontend/lib/norent/letter-content.tsx:172
+#: frontend/lib/norent/letter-content.tsx:183
 msgid "Sample NoRent.org letter"
 msgstr "Sample NoRent.org letter"
 
@@ -1948,7 +1957,7 @@ msgstr "You've sent your letter"
 msgid "Your Letter Is Ready To Send!"
 msgstr "Your Letter Is Ready To Send!"
 
-#: frontend/lib/norent/letter-content.tsx:165
+#: frontend/lib/norent/letter-content.tsx:176
 msgid "Your NoRent.org letter"
 msgstr "Your NoRent.org letter"
 
@@ -2155,11 +2164,11 @@ msgstr "<0>On a national level, Congress passed the CARES Act on March 27, 2020 
 msgid "norent.introductionToLetterBuilderSteps"
 msgstr "In order to benefit from the eviction protections that local elected officials have put in place, you should notify your landlord of your non-payment for reasons related to COVID-19. <0>In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense.</0>"
 
-#: frontend/lib/norent/letter-content.tsx:120
+#: frontend/lib/norent/letter-content.tsx:132
 msgid "norent.letter.conclusion"
 msgstr "<0>Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are also protected from eviction for non-payment or any other reason until August 23, 2020. Please let me know right away if you believe this property is not covered by the CARES Act and explain why the property is not covered.</0><1>In order to document our communication and to avoid misunderstandings, please reply to me via mail or text rather than a call or visit.</1><2>Thank you for your understanding and cooperation.</2>"
 
-#: frontend/lib/norent/letter-content.tsx:113
+#: frontend/lib/norent/letter-content.tsx:125
 msgid "norent.letter.floridaAddition"
 msgstr "I have suffered a loss of employment, diminished wages or business income, or other monetary loss realized during the Florida State of Emergency directly impacting my ability to make rent payments."
 
@@ -2167,11 +2176,15 @@ msgstr "I have suffered a loss of employment, diminished wages or business incom
 msgid "norent.letter.v1NonPayment"
 msgstr "This letter is to notify you that I will be unable to pay rent starting on <0/> and until further notice due to loss of income, increased expenses, and/or other financial circumstances related to COVID-19."
 
-#: frontend/lib/norent/letter-content.tsx:94
+#: frontend/lib/norent/letter-content.tsx:95
+msgid "norent.letter.v1NonPayment_multipleDates"
+msgstr "This letter is to notify you that I will be unable to pay rent for the following months and until further notice due to loss of income, increased expenses, and/or other financial circumstances related to COVID-19:"
+
+#: frontend/lib/norent/letter-content.tsx:106
 msgid "norent.letter.v2Hardship"
 msgstr "This letter is to notify you that I have experienced a loss of income, increased expenses and/or other financial circumstances related to the pandemic. Until further notice, the COVID-19 emergency may impact my ability to pay rent. I am not waiving my right to assert any other defenses."
 
-#: frontend/lib/norent/letter-content.tsx:104
+#: frontend/lib/norent/letter-content.tsx:116
 msgid "norent.letter.v3FewProtections"
 msgstr "This letter is to advise you of protections in place for tenants in {0}. I am not waiving my right to assert any other defenses."
 

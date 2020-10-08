@@ -609,7 +609,9 @@ class TestNorentSendLetter:
         self.user.save()
         self.create_landlord_details()
         OnboardingInfoFactory(user=self.user)
+        assert UpcomingLetterRentPeriod.objects.get_for_user(self.user) == []
         assert self.execute()['errors'] == []
+        assert UpcomingLetterRentPeriod.objects.get_for_user(self.user) == ['2020-05-01']
 
         letter = Letter.objects.get(user=self.graphql_client.request.user)
         assert str(letter.latest_rent_period.payment_date) == '2020-05-01'

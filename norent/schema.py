@@ -162,7 +162,7 @@ class NorentSessionInfo(object):
         user = info.context.user
         if not user.is_authenticated:
             return []
-        return list(models.get_available_rent_periods_for_user(user))
+        return list(models.RentPeriod.objects.get_available_for_user(user))
 
     def resolve_norent_latest_letter(self, info: ResolveInfo):
         request = info.context

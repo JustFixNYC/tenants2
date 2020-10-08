@@ -8374,7 +8374,7 @@
           "possibleTypes": null
         },
         {
-          "description": null,
+          "description": "Send the user's no rent letter, setting the letter's rent periods\nto the upcoming ones that the user has previously chosen.",
           "enumValues": null,
           "fields": [
             {
@@ -8454,7 +8454,7 @@
           "possibleTypes": null
         },
         {
-          "description": null,
+          "description": "Send the user's no rent letter, setting the letter's rent period\nto the most recent one in our database.",
           "enumValues": null,
           "fields": [
             {

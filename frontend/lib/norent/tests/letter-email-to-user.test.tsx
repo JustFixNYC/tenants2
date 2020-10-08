@@ -10,11 +10,12 @@ describe("NorentLetterEmailToUser", () => {
   it("works", () => {
     const pal = new AppTesterPal(<NorentLetterEmailToUser />, {
       session: {
-        firstName: "Boop", norentLatestLetter: {
+        firstName: "Boop",
+        norentLatestLetter: {
           trackingNumber: "1234567890987654321",
           letterSentAt: null,
           paymentDate: "Boop 1st, 2099",
-        }
+        },
       },
     });
     expect(pal.rr.container).toMatchSnapshot();

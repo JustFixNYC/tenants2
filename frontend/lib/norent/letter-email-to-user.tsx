@@ -26,12 +26,14 @@ export const NorentLetterEmailToUser: React.FC<{}> = () => {
           for your records.
         </p>
       </Trans>
-      {letter?.trackingNumber && <p>
-        <Trans>
-          You can also track the delivery of your letter using USPS Tracking:
-      </Trans>{" "}
-        {USPS_TRACKING_URL_PREFIX + letter.trackingNumber}
-      </p>}
+      {letter?.trackingNumber && (
+        <p>
+          <Trans>
+            You can also track the delivery of your letter using USPS Tracking:
+          </Trans>{" "}
+          {USPS_TRACKING_URL_PREFIX + letter.trackingNumber}
+        </p>
+      )}
       <p>
         <Trans>
           To learn more about what to do next, check out our FAQ page: {faqURL}

@@ -44,7 +44,7 @@ msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
 msgstr "<0>Herramientas gratuitas para luchar por un hogar seguro y saludable</0><1>Introduce tu dirección para saber más.</1>"
 
-#: frontend/lib/norent/letter-email-to-user.tsx:23
+#: frontend/lib/norent/letter-email-to-user.tsx:15
 msgid "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1>"
 msgstr ""
 
@@ -641,7 +641,7 @@ msgstr "Éstos son algunos de los beneficios de enviar una carta al dueño de tu
 msgid "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
 msgstr "Aquí tienes una vista previa de la solicitud de tu Historial de Renta. Incluye tu dirección y número de apartamento para que el DHCR pueda enviarte el carta con tu historial."
 
-#: frontend/lib/norent/letter-email-to-user.tsx:22
+#: frontend/lib/norent/letter-email-to-user.tsx:14
 msgid "Here's a copy of your NoRent letter"
 msgstr "Aquí tienes una copia de tu carta de NoRent"
 
@@ -1658,7 +1658,7 @@ msgstr "Esta herramienta te la trae JustFix.nyc. Somos una organización sin fin
 msgid "To begin the password reset process, we'll text you a verification code."
 msgstr "Para restablecer tu contraseña, te enviaremos un código de verificación."
 
-#: frontend/lib/norent/letter-email-to-user.tsx:32
+#: frontend/lib/norent/letter-email-to-user.tsx:29
 msgid "To learn more about what to do next, check out our FAQ page: {faqURL}"
 msgstr ""
 
@@ -1936,7 +1936,7 @@ msgstr "Ya tienes una cuenta"
 msgid "You can"
 msgstr "Puedes"
 
-#: frontend/lib/norent/letter-email-to-user.tsx:11
+#: frontend/lib/norent/letter-email-to-user.tsx:23
 msgid "You can also track the delivery of your letter using USPS Tracking:"
 msgstr ""
 

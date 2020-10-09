@@ -13,6 +13,15 @@ import { friendlyUTCMonthAndYear } from "../../util/date-util";
 import { assertNotNull } from "../../util/util";
 import { NorentNotSentLetterStep } from "./step-decorators";
 
+function getCurrentRentNonpaymentPeriods(s: AllSessionInfo): string[] {
+  const validDates = new Set(
+    s.norentAvailableRentPeriods.map((p) => p.paymentDate)
+  );
+  return s.norentUpcomingLetterRentPeriods.filter((date) =>
+    validDates.has(date)
+  );
+}
+
 function getRentNonpaymentChoices(
   periods: AllSessionInfo["norentAvailableRentPeriods"]
 ): DjangoChoices {
@@ -41,7 +50,7 @@ export const NorentRentPeriods = NorentNotSentLetterStep((props) => {
       <SessionUpdatingFormSubmitter
         mutation={NorentSetUpcomingLetterRentPeriodsMutation}
         initialState={(s) => ({
-          rentPeriods: s.norentUpcomingLetterRentPeriods,
+          rentPeriods: getCurrentRentNonpaymentPeriods(s),
         })}
         onSuccessRedirect={props.nextStep}
       >

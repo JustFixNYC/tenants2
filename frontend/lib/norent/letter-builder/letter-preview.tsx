@@ -5,7 +5,6 @@ import { NorentRoutes } from "../routes";
 import { NextButton, ProgressButtonsAsLinks } from "../../ui/buttons";
 import { OutboundLink } from "../../analytics/google-analytics";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import { NorentSendLetterMutation } from "../../queries/NorentSendLetterMutation";
 import { Route, Link } from "react-router-dom";
 import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
 import { AppContext } from "../../app-context";
@@ -17,6 +16,7 @@ import { NorentNotSentLetterStep } from "./step-decorators";
 import { li18n } from "../../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import i18n from "../../i18n";
+import { NorentSendLetterV2Mutation } from "../../queries/NorentSendLetterV2Mutation";
 
 const SendLetterModal: React.FC<{
   nextStep: string;
@@ -35,7 +35,7 @@ const SendLetterModal: React.FC<{
             </Trans>
           </p>
           <SessionUpdatingFormSubmitter
-            mutation={NorentSendLetterMutation}
+            mutation={NorentSendLetterV2Mutation}
             initialState={{}}
             onSuccessRedirect={nextStep}
           >

@@ -5,10 +5,11 @@ import { AppContext } from "../../app-context";
 import { li18n } from "../../i18n-lingui";
 import { ProgressStepProps } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
-import { friendlyDate, friendlyUTCMonthAndYear } from "../../util/date-util";
+import { friendlyDate } from "../../util/date-util";
 import { assertNotNull } from "../../util/util";
 import { NorentRoutes } from "../routes";
 import { hasNorentLetterBeenSentForAllRentPeriods } from "./step-decorators";
+import { NorentMoreLettersBlurb } from "./more-letters";
 
 export const NorentMenu: React.FC<ProgressStepProps> = (props) => {
   const { session } = useContext(AppContext);
@@ -25,7 +26,6 @@ export const NorentMenu: React.FC<ProgressStepProps> = (props) => {
     // go back!
     return <Redirect to={assertNotNull(props.prevStep)} />;
   }
-  const latestPeriod = session.norentAvailableRentPeriods[0].paymentDate;
   return (
     <Page
       title={li18n._(t`Welcome back!`)}
@@ -46,20 +46,8 @@ export const NorentMenu: React.FC<ProgressStepProps> = (props) => {
           <Trans>View details about your last letter</Trans>
         </Link>
       </p>
-      <p>
-        <Trans>
-          You can also send a new letter addressing non-payment of rent up to{" "}
-          {friendlyUTCMonthAndYear(latestPeriod)}.
-        </Trans>
-      </p>
-      <p className="has-text-centered">
-        <Link
-          to={assertNotNull(props.nextStep)}
-          className="button is-primary is-large jf-is-extra-wide"
-        >
-          <Trans>Send a new letter</Trans>
-        </Link>
-      </p>
+      <br />
+      <NorentMoreLettersBlurb />
     </Page>
   );
 };

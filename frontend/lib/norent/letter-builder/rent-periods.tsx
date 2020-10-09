@@ -43,8 +43,7 @@ export const NorentRentPeriods = NorentNotSentLetterStep((props) => {
       <p>
         <Trans>
           It's important to notify your landlord of all months when you couldn't
-          pay rent, as well as any future months where you anticipate not being
-          able to pay.
+          pay rent.
         </Trans>
       </p>
       <SessionUpdatingFormSubmitter

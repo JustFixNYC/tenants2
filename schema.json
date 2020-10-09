@@ -1190,6 +1190,18 @@
                   "ofType": null
                 }
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "Whether the user is in Los Angeles County. If we don't have enough information to tell, this will be null.",
+              "isDeprecated": false,
+              "name": "isInLosAngeles",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
             }
           ],
           "inputFields": null,
@@ -3192,7 +3204,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "Whether the onboarding user is in Los Angeles. If we don't have enough information to tell, this will be null.",
+              "description": "Whether the onboarding user is in Los Angeles County. If we don't have enough information to tell, this will be null.",
               "isDeprecated": false,
               "name": "isInLosAngeles",
               "type": {

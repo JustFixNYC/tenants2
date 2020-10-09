@@ -36,7 +36,7 @@ class NorentScaffolding(graphene.ObjectType):
 
     is_in_los_angeles = graphene.Boolean(
         description=(
-            "Whether the onboarding user is in Los Angeles. If "
+            "Whether the onboarding user is in Los Angeles County. If "
             "we don't have enough information to tell, this will be null."
         )
     )

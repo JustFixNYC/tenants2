@@ -5,7 +5,7 @@ import { AppContext } from "../../app-context";
 import { li18n } from "../../i18n-lingui";
 import { ProgressStepProps } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
-import { friendlyDate } from "../../util/date-util";
+import { friendlyDate, friendlyUTCMonthAndYear } from "../../util/date-util";
 import { assertNotNull } from "../../util/util";
 import { NorentRoutes } from "../routes";
 import { hasNorentLetterBeenSentForAllRentPeriods } from "./step-decorators";
@@ -25,6 +25,7 @@ export const NorentMenu: React.FC<ProgressStepProps> = (props) => {
     // go back!
     return <Redirect to={assertNotNull(props.prevStep)} />;
   }
+  const latestPeriod = session.norentAvailableRentPeriods[0].paymentDate;
   return (
     <Page
       title={li18n._(t`Welcome back!`)}
@@ -34,17 +35,28 @@ export const NorentMenu: React.FC<ProgressStepProps> = (props) => {
       <p>
         <Trans>
           You most recently sent a letter on{" "}
-          {friendlyDate(new Date(norentLatestLetter.createdAt))}. What would you
-          like to do?
+          {friendlyDate(new Date(norentLatestLetter.createdAt))}.
         </Trans>
       </p>
       <p className="has-text-centered">
-        <Link to={NorentRoutes.locale.letter.confirmation}>
-          <Trans>View information about your last letter</Trans>
+        <Link
+          to={NorentRoutes.locale.letter.confirmation}
+          className="button is-primary is-large jf-is-extra-wide"
+        >
+          <Trans>View details about your last letter</Trans>
         </Link>
       </p>
+      <p>
+        <Trans>
+          You can also send a new letter addressing non-payment of rent up to{" "}
+          {friendlyUTCMonthAndYear(latestPeriod)}.
+        </Trans>
+      </p>
       <p className="has-text-centered">
-        <Link to={assertNotNull(props.nextStep)}>
+        <Link
+          to={assertNotNull(props.nextStep)}
+          className="button is-primary is-large jf-is-extra-wide"
+        >
           <Trans>Send a new letter</Trans>
         </Link>
       </p>

@@ -2233,15 +2233,19 @@
               "isDeprecated": false,
               "name": "norentAvailableRentPeriods",
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
+                  "kind": "LIST",
                   "name": null,
                   "ofType": {
-                    "kind": "OBJECT",
-                    "name": "NorentRentPeriod",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "NorentRentPeriod",
+                      "ofType": null
+                    }
                   }
                 }
               }
@@ -3484,6 +3488,22 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "createdAt",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The tracking number for the letter.",
               "isDeprecated": false,
               "name": "trackingNumber",
@@ -3511,9 +3531,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "No longer used by front-end code since we started supporting multiple rent periods per letter.",
               "description": "The rent payment date the letter is for.",
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "paymentDate",
               "type": {
                 "kind": "NON_NULL",

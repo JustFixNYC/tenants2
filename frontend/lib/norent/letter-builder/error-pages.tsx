@@ -32,9 +32,9 @@ export const NorentNotLoggedInErrorPage: React.FC<{}> = () => (
 );
 
 export const NorentAlreadySentLetterErrorPage: React.FC<{}> = () => (
-  <ErrorPage title={li18n._(t`Looks like you've already sent a letter`)}>
+  <ErrorPage title={li18n._(t`You can't send any more letters`)}>
     <Trans>
-      <p>Our tool only allows you to send one letter at a time.</p>
+      <p>You can't send any more letters for the time being.</p>
       <p>Continue to the confirmation page for what to do next.</p>
     </Trans>
     <br />

@@ -18,15 +18,27 @@ type StepComponent = React.ComponentType<ProgressStepProps>;
 
 /**
  * Returns whether the current user has sent a no rent letter
- * for the current rent period.
+ * for all available rent periods.
  */
-export function hasNorentLetterBeenSentForThisRentPeriod(
+export function hasNorentLetterBeenSentForAllRentPeriods(
   s: AllSessionInfo
 ): boolean {
   const letter = s.norentLatestLetter;
-  const rentPeriod = s.norentLatestRentPeriod;
-  if (!(letter && rentPeriod)) return false;
-  return letter.paymentDate === rentPeriod.paymentDate;
+  return s.norentAvailableRentPeriods.length === 0 && !!letter;
+}
+
+/**
+ * Returns whether the usrr has sent at least one no rent letter.
+ */
+export function hasNorentLetterBeenSent(s: AllSessionInfo): boolean {
+  return !!s.norentLatestLetter;
+}
+
+/**
+ * Returns whether the usrr has never sent any no rent letters.
+ */
+export function hasNorentLetterNeverBeenSent(s: AllSessionInfo): boolean {
+  return !hasNorentLetterBeenSent(s);
 }
 
 /**
@@ -41,7 +53,7 @@ const requireLogout = (c: StepComponent) =>
 const requireNotSentLetter = (c: StepComponent) =>
   NorentRequireLoginStep(
     withSessionErrorHandling(
-      hasNorentLetterBeenSentForThisRentPeriod,
+      hasNorentLetterBeenSentForAllRentPeriods,
       NorentAlreadySentLetterErrorPage,
       c
     )

@@ -14,7 +14,7 @@ describe("NorentLetterEmailToUser", () => {
         norentLatestLetter: {
           trackingNumber: "1234567890987654321",
           letterSentAt: null,
-          paymentDate: "Boop 1st, 2099",
+          createdAt: "2020-03-13T19:41:09+00:00",
         },
       },
     });

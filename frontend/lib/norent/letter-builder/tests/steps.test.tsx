@@ -133,7 +133,7 @@ describe("NoRent letter builder steps", () => {
         norentLatestLetter: {
           trackingNumber: "1234",
           letterSentAt: "2020-03-13T19:41:09+00:00",
-          paymentDate: "2020-05-01",
+          createdAt: "2020-03-13T19:41:09+00:00",
         },
       }).value,
     });

@@ -30,9 +30,9 @@ fragment AllSessionInfo on SessionInfo {
     paymentDate
   },
   norentLatestLetter {
+    createdAt,
     trackingNumber,
-    letterSentAt,
-    paymentDate
+    letterSentAt
   },
   norentLettersSent,
   norentUpcomingLetterRentPeriods,

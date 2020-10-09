@@ -99,11 +99,12 @@ class NorentScaffolding(graphene.ObjectType):
 class NorentLetter(DjangoObjectType):
     class Meta:
         model = models.Letter
-        only_fields = ('tracking_number', 'letter_sent_at')
+        only_fields = ('tracking_number', 'letter_sent_at', 'created_at')
 
     payment_date = graphene.Date(
         required=True,
         description="The rent payment date the letter is for.",
+        deprecation_reason="No longer used by front-end code since we started supporting multiple rent periods per letter.",  # noqa
         resolver=lambda self, info: self.latest_rent_period.payment_date
     )
 
@@ -123,7 +124,7 @@ class NorentSessionInfo(object):
         description="The latest rent period one can create a no rent letter for.")
 
     norent_available_rent_periods = graphene.Field(
-        graphene.List(graphene.NonNull(NorentRentPeriod), required=True),
+        graphene.NonNull(graphene.List(graphene.NonNull(NorentRentPeriod), required=True)),
         description=(
             "A list of the available rent periods the current user can "
             "create a no rent letter for."
@@ -386,6 +387,7 @@ class NorentSendLetter(SessionFormMutation):
             return cls.make_and_log_error(info, "This form can only be used from the NoRent site.")
 
         letter_sending.create_and_send_letter(request.user, [rent_period])
+        models.UpcomingLetterRentPeriod.objects.clear_for_user(user)
 
         return cls.mutation_success()
 
@@ -421,6 +423,7 @@ class NorentSendLetterV2(SessionFormMutation):
             return cls.make_and_log_error(info, "This form can only be used from the NoRent site.")
 
         letter_sending.create_and_send_letter(request.user, rent_periods)
+        models.UpcomingLetterRentPeriod.objects.clear_for_user(user)
 
         return cls.mutation_success()
 

@@ -31,6 +31,7 @@ export function createNorentLetterBuilderRouteInfo(prefix: string) {
     createAccount: `${prefix}/create-account`,
     createAccountTermsModal: `${prefix}/create-account/terms-modal`,
     postSignupNoProtections: `${prefix}/post-signup-no-protections`,
+    menu: `${prefix}/menu`,
     landlordName: `${prefix}/landlord/name`,
     landlordEmail: `${prefix}/landlord/email`,
     landlordAddress: `${prefix}/landlord/address`,

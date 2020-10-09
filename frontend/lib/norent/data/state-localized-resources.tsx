@@ -10,6 +10,20 @@ export type StateLocalizedResources = Partial<
 >;
 
 export const STATE_LOCALIZED_RESOURCES: StateLocalizedResources = {
+  CA: [
+    {
+      children: (
+        <Trans>
+          Your rights as a tenant (yeah this says LA county but it applies to
+          THE WHOLE STATE)
+        </Trans>
+      ),
+      hrefs: {
+        en: "https://www.stayhousedla.org/tenant_rights/",
+        es: "https://www.stayhousedla.org/es/tenant_rights/",
+      },
+    },
+  ],
   NY: [
     {
       children: <Trans>Eviction Moratorium updates</Trans>,

@@ -237,6 +237,19 @@ class OnboardingInfoType(DjangoObjectType):
         resolver=lambda self, context: self.city,
     )
 
+    is_in_los_angeles = graphene.Boolean(
+        description=(
+            "Whether the user is in Los Angeles County. If "
+            "we don't have enough information to tell, this will be null."
+        )
+    )
+
+    def resolve_is_in_los_angeles(self, info) -> Optional[bool]:
+        if not self.zipcode:
+            return None
+        from norent.la_zipcodes import is_zip_code_in_la
+        return is_zip_code_in_la(self.zipcode)
+
     def resolve_borough(self, info):
         if self.borough:
             return BOROUGH_CHOICES.get_enum_member(self.borough)

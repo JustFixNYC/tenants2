@@ -15,5 +15,6 @@ fragment OnboardingInfo on OnboardingInfoType {
   borough,
   leaseType,
   state,
-  city
+  city,
+  isInLosAngeles
 }

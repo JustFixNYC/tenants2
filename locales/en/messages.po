@@ -68,10 +68,6 @@ msgstr "<0>NoRent</0> <1>letters sent by tenants across the USA</1><2>Since Apri
 msgid "<0>Notice of COVID-19 impact on rent</0><1/>at <2/>"
 msgstr "<0>Notice of COVID-19 impact on rent</0><1/>at <2/>"
 
-#: frontend/lib/norent/letter-builder/error-pages.tsx:22
-msgid "<0>Our tool only allows you to send one letter at a time.</0><1>Continue to the confirmation page for what to do next.</1>"
-msgstr "<0>Our tool only allows you to send one letter at a time.</0><1>Continue to the confirmation page for what to do next.</1>"
-
 #. heading of formal letter
 #: frontend/lib/util/letter-content-util.tsx:40
 msgid "<0>To</0><1/><2>From</2><3/>"
@@ -81,6 +77,10 @@ msgstr "<0>To</0><1/><2>From</2><3/>"
 #: frontend/lib/norent/data/faqs-content.tsx:167
 msgid "<0>Yes, this is a free website created by 501(c)3 non-profit organizations across the United States.</0>"
 msgstr "<0>Yes, this is a free website created by 501(c)3 non-profit organizations across the United States.</0>"
+
+#: frontend/lib/norent/letter-builder/error-pages.tsx:22
+msgid "<0>You can't send any more letters for the time being.</0><1>Continue to the confirmation page for what to do next.</1>"
+msgstr "<0>You can't send any more letters for the time being.</0><1>Continue to the confirmation page for what to do next.</1>"
 
 #: frontend/lib/norent/homepage.tsx:103
 msgid "A national tool by non-profit <0>JustFix.nyc</0>"
@@ -206,7 +206,7 @@ msgstr "Bathtub: Leaky Faucet"
 msgid "Bathtub: Pipes Leaking"
 msgstr "Bathtub: Pipes Leaking"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:63
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:72
 msgid "Before you send your letter, let's review what will be sent to make sure all the information is correct."
 msgstr "Before you send your letter, let's review what will be sent to make sure all the information is correct."
 
@@ -486,7 +486,7 @@ msgstr "Email address"
 msgid "Email address <0>(recommended)</0>"
 msgstr "Email address <0>(recommended)</0>"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:79
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:88
 msgid "English version"
 msgstr "English version"
 
@@ -640,15 +640,15 @@ msgstr "Here is a preview of the request for your Rent History. It includes your
 msgid "Here's a copy of your NoRent letter"
 msgstr "Here's a copy of your NoRent letter"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:70
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:79
 msgid "Here's a preview of the letter that will be attached in an email to your landlord:"
 msgstr "Here's a preview of the letter that will be attached in an email to your landlord:"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:73
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:82
 msgid "Here's a preview of the letter:"
 msgstr "Here's a preview of the letter:"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:98
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:107
 msgid "Here’s a preview of the email that will be sent on your behalf:"
 msgstr "Here’s a preview of the email that will be sent on your behalf:"
 
@@ -806,7 +806,7 @@ msgstr "Is this tool right for me?"
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 msgstr "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:23
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:27
 msgid "It's important to notify your landlord of all months when you couldn't pay rent, as well as any future months where you anticipate not being able to pay."
 msgstr "It's important to notify your landlord of all months when you couldn't pay rent, as well as any future months where you anticipate not being able to pay."
 
@@ -956,10 +956,6 @@ msgstr "Looks like you're in <0>Los Angeles County, California</0>"
 msgid "Looks like you're not logged in"
 msgstr "Looks like you're not logged in"
 
-#: frontend/lib/norent/letter-builder/error-pages.tsx:21
-msgid "Looks like you've already sent a letter"
-msgstr "Looks like you've already sent a letter"
-
 #: frontend/lib/norent/letter-builder/welcome.tsx:18
 msgid "Looks like you've been here before. Click \"Next\" to be taken to where you left off."
 msgstr "Looks like you've been here before. Click \"Next\" to be taken to where you left off."
@@ -991,7 +987,7 @@ msgstr "Mailing address"
 msgid "Maine"
 msgstr "Maine"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:122
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:131
 msgid "Make sure all the information above is correct."
 msgstr "Make sure all the information above is correct."
 
@@ -1053,8 +1049,8 @@ msgstr "Mold on walls"
 msgid "Montana"
 msgstr "Montana"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:21
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:33
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:25
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:37
 msgid "Months of rent non-payment"
 msgstr "Months of rent non-payment"
 
@@ -1272,11 +1268,11 @@ msgstr "Please agree to our terms and conditions"
 msgid "Please enter an email address!"
 msgstr "Please enter an email address!"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:117
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:126
 msgid "Please note, the email will be sent in English."
 msgstr "Please note, the email will be sent in English."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:82
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:91
 #: frontend/lib/norent/the-letter.tsx:92
 msgid "Preview of your NoRent.org letter"
 msgstr "Preview of your NoRent.org letter"
@@ -1404,6 +1400,10 @@ msgstr "See more FAQs"
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:253
 msgid "Send a letter of complaint"
 msgstr "Send a letter of complaint"
+
+#: frontend/lib/norent/letter-builder/menu.tsx:46
+msgid "Send a new letter"
+msgstr "Send a new letter"
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:41
 msgid "Send code"
@@ -1666,7 +1666,7 @@ msgstr "To begin the password reset process, we'll text you a verification code.
 msgid "To learn more about what to do next, check out our FAQ page: {faqURL}"
 msgstr "To learn more about what to do next, check out our FAQ page: {faqURL}"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:107
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:116
 msgid "To:"
 msgstr "To:"
 
@@ -1718,7 +1718,11 @@ msgstr "Verify your phone number"
 msgid "Vermont"
 msgstr "Vermont"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:85
+#: frontend/lib/norent/letter-builder/menu.tsx:35
+msgid "View details about your last letter"
+msgstr "View details about your last letter"
+
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:94
 msgid "View this letter as a PDF"
 msgstr "View this letter as a PDF"
 
@@ -1752,7 +1756,7 @@ msgstr "Water damage"
 msgid "We make it easy to notify your landlord by email or by certified mail for free."
 msgstr "We make it easy to notify your landlord by email or by certified mail for free."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:89
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:98
 msgid "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 msgstr "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 
@@ -1783,6 +1787,7 @@ msgstr "We've just sent you a text message containing a verification code. Pleas
 msgid "Weak electrical current"
 msgstr "Weak electrical current"
 
+#: frontend/lib/norent/letter-builder/menu.tsx:26
 #: frontend/lib/norent/letter-builder/welcome.tsx:15
 msgid "Welcome back!"
 msgstr "Welcome back!"
@@ -1940,9 +1945,21 @@ msgstr "You already have an account"
 msgid "You can"
 msgstr "You can"
 
+#: frontend/lib/norent/letter-builder/menu.tsx:39
+msgid "You can also send a new letter addressing non-payment of rent up to {0}."
+msgstr "You can also send a new letter addressing non-payment of rent up to {0}."
+
 #: frontend/lib/norent/letter-email-to-user.tsx:23
 msgid "You can also track the delivery of your letter using USPS Tracking:"
 msgstr "You can also track the delivery of your letter using USPS Tracking:"
+
+#: frontend/lib/norent/letter-builder/error-pages.tsx:21
+msgid "You can't send any more letters"
+msgstr "You can't send any more letters"
+
+#: frontend/lib/norent/letter-builder/menu.tsx:28
+msgid "You most recently sent a letter on {0}."
+msgstr "You most recently sent a letter on {0}."
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:103
 msgid "You're in <0>{stateName}</0>"
@@ -1953,7 +1970,7 @@ msgstr "You're in <0>{stateName}</0>"
 msgid "You've sent your letter"
 msgstr "You've sent your letter"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:61
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:70
 msgid "Your Letter Is Ready To Send!"
 msgstr "Your Letter Is Ready To Send!"
 

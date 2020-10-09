@@ -108,6 +108,12 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
         {
           path: routes.laAddress,
           exact: true,
+          // TODO: Arg, isUserOutsideLA() only looks at
+          // norent scaffolding, but we need to look at it
+          // for returning users who haven't seen the SAJE
+          // opt-in too. Also, this step shouldn't be in
+          // the enclosing `skipStepsIf(isUserLoggedIn)` or it
+          // will always be skipped regardless!
           shouldBeSkipped: isUserOutsideLA,
           component: NorentLbLosAngelesRedirect,
         },

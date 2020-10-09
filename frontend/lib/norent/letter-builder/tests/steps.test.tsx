@@ -127,9 +127,6 @@ describe("NoRent letter builder steps", () => {
       ...tester.appTesterPalOptions,
       url: "/en/letter",
       session: sb.withLoggedInNationalUser().with({
-        norentLatestRentPeriod: {
-          paymentDate: "2020-05-01",
-        },
         norentLatestLetter: {
           trackingNumber: "1234",
           letterSentAt: "2020-03-13T19:41:09+00:00",

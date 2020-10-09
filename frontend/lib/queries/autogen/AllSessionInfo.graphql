@@ -23,9 +23,6 @@ fragment AllSessionInfo on SessionInfo {
   },
   onboardingInfo { ...OnboardingInfo },
   norentScaffolding { ...NorentScaffolding },
-  norentLatestRentPeriod {
-    paymentDate
-  },
   norentAvailableRentPeriods {
     paymentDate
   },

@@ -2216,9 +2216,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "No longer used by front-end code.",
               "description": "The latest rent period one can create a no rent letter for.",
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "norentLatestRentPeriod",
               "type": {
                 "kind": "OBJECT",

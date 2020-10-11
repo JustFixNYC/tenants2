@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-06 19:56\n"
+"PO-Revision-Date: 2020-10-11 12:21\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1938,7 +1938,7 @@ msgstr "Puedes"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:23
 msgid "You can also track the delivery of your letter using USPS Tracking:"
-msgstr ""
+msgstr "También puede seguir la entrega de su carta usando USPS Tracking:"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:103
 msgid "You're in <0>{stateName}</0>"

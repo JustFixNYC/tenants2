@@ -116,8 +116,8 @@ def send_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> bool:
     letter.save()
 
     user.send_sms_async(
-        _("%(name)s you've sent your letter of non-payment of rent, "
-            "congratulations! You can track the delivery of your letter using "
+        _("%(name)s you've sent your letter of non-payment of rent. "
+            "You can track the delivery of your letter using "
             "USPS Tracking: %(url)s.") % {
                 'name': user.full_name,
                 'url': USPS_TRACKING_URL_PREFIX + letter.tracking_number,

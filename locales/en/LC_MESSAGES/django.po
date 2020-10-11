@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-07 20:47+0000\n"
+"POT-Creation-Date: 2020-10-11 12:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,17 +38,17 @@ msgstr ""
 msgid "close"
 msgstr ""
 
-#: norent/forms.py:42
+#: norent/forms.py:44
 #, python-format
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
 msgstr ""
 
-#: norent/letter_sending.py:118
+#: norent/letter_sending.py:119
 #, python-format
-msgid "%(name)s you've sent your letter of non-payment of rent, congratulations! You can track the delivery of your letter using USPS Tracking: %(url)s."
+msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
 msgstr ""
 
-#: norent/schema.py:406
+#: norent/schema.py:492
 #, python-format
 msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
 msgstr ""

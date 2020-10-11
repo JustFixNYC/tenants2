@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-11 12:24+0000\n"
+"POT-Creation-Date: 2020-10-11 22:40+0000\n"
 "PO-Revision-Date: 2020-06-15 15:39\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -76,7 +76,13 @@ msgstr "Ya existe un usuario con esa dirección de correo electrónico."
 msgid "Passwords do not match!"
 msgstr "¡Las contraseñas no coinciden!"
 
-#: project/password_reset.py:65
+#: project/password_reset.py:69
+#, fuzzy, python-format
+#| msgid "%(site_name)s here! Your verification code is %(code)s."
+msgid "Your %(site_name)s verification code"
+msgstr "Aquí %(site_name)s! Tu código de verificación es %(code)s."
+
+#: project/password_reset.py:70
 #, python-format
 msgid "%(site_name)s here! Your verification code is %(code)s."
 msgstr "Aquí %(site_name)s! Tu código de verificación es %(code)s."

@@ -370,3 +370,7 @@ LOS_ANGELES_ZIP_CODES = set([
   "90630",
   "91759",
 ])
+
+
+def is_zip_code_in_la(zip_code: str) -> bool:
+    return zip_code[:5] in LOS_ANGELES_ZIP_CODES

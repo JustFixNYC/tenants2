@@ -41,6 +41,7 @@ query {
             signupIntent
             hasCalled311
             borough
+            isInLosAngeles
             leaseType
             state
             city
@@ -202,12 +203,15 @@ def test_onboarding_session_info_works_with_blank_values(db, graphql_client):
     result = query()
     assert result['borough'] is None
     assert result['leaseType'] is None
+    assert result['isInLosAngeles'] is None
 
     onb.borough = 'BROOKLYN'
     onb.lease_type = 'NYCHA'
+    onb.zipcode = '90012'
     result = query()
     assert result['borough'] == 'BROOKLYN'
     assert result['leaseType'] == 'NYCHA'
+    assert result['isInLosAngeles'] is True
 
 
 class TestAgreeToTerms(GraphQLTestingPal):

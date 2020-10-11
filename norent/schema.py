@@ -1,4 +1,5 @@
 from typing import Optional, Dict, Any, Tuple
+import datetime
 import graphene
 from graphql import ResolveInfo
 from graphene_django.types import DjangoObjectType
@@ -35,7 +36,7 @@ class NorentScaffolding(graphene.ObjectType):
 
     is_in_los_angeles = graphene.Boolean(
         description=(
-            "Whether the onboarding user is in Los Angeles. If "
+            "Whether the onboarding user is in Los Angeles County. If "
             "we don't have enough information to tell, this will be null."
         )
     )
@@ -86,6 +87,8 @@ class NorentScaffolding(graphene.ObjectType):
 
     can_receive_rttc_comms = graphene.Boolean()
 
+    can_receive_saje_comms = graphene.Boolean()
+
     def resolve_is_city_in_nyc(self, info: ResolveInfo) -> Optional[bool]:
         return self.is_city_in_nyc()
 
@@ -119,6 +122,14 @@ class NorentSessionInfo(object):
         NorentRentPeriod,
         description="The latest rent period one can create a no rent letter for.")
 
+    norent_available_rent_periods = graphene.Field(
+        graphene.List(NorentRentPeriod, required=True),
+        description=(
+            "A list of the available rent periods the current user can "
+            "create a no rent letter for."
+        )
+    )
+
     norent_latest_letter = graphene.Field(
         NorentLetter,
         description=(
@@ -135,8 +146,23 @@ class NorentSessionInfo(object):
         )
     )
 
+    norent_upcoming_letter_rent_periods = graphene.List(
+        graphene.NonNull(graphene.types.Date),
+        required=True,
+        description=(
+            "The rent periods that the user's upcoming no rent letter "
+            "are in regards to."
+        ),
+    )
+
     def resolve_norent_latest_rent_period(self, info: ResolveInfo):
         return models.RentPeriod.objects.first()
+
+    def resolve_norent_available_rent_periods(self, info: ResolveInfo):
+        user = info.context.user
+        if not user.is_authenticated:
+            return []
+        return list(models.RentPeriod.objects.get_available_for_user(user))
 
     def resolve_norent_latest_letter(self, info: ResolveInfo):
         request = info.context
@@ -156,6 +182,16 @@ class NorentSessionInfo(object):
         # generally needs to perform a sequential scan, so we might
         # want to cache this at some point.
         return models.Letter.objects.all().count()
+
+    def resolve_norent_upcoming_letter_rent_periods(self, info: ResolveInfo):
+        user = info.context.user
+        if not user.is_authenticated:
+            return []
+        return [
+            datetime.date.fromisoformat(d)
+            for d in
+            models.UpcomingLetterRentPeriod.objects.get_for_user(user)
+        ]
 
 
 def get_scaffolding(request) -> scaffolding.NorentScaffolding:
@@ -312,6 +348,11 @@ def does_user_have_ll_mailing_addr_or_email(user) -> bool:
 
 @schema_registry.register_mutation
 class NorentSendLetter(SessionFormMutation):
+    '''
+    Send the user's no rent letter, setting the letter's rent period
+    to the most recent one in our database.
+    '''
+
     login_required = True
 
     @classmethod
@@ -322,6 +363,15 @@ class NorentSendLetter(SessionFormMutation):
         rent_period = models.RentPeriod.objects.first()
         if not rent_period:
             return cls.make_and_log_error(info, "No rent periods are defined!")
+
+        # Since this is a legacy endpoint, we want to make sure the
+        # user's upcoming letter rent periods are set to the latest
+        # rent period.
+        models.UpcomingLetterRentPeriod.objects.set_rent_periods_for_user(
+            user,
+            [rent_period]
+        )
+
         letter = models.Letter.objects.filter(user=user, rent_periods=rent_period).first()
         if letter is not None:
             return cls.make_error("You have already sent a letter for this rent period!")
@@ -335,7 +385,42 @@ class NorentSendLetter(SessionFormMutation):
         if site_type != site_util.SITE_CHOICES.NORENT:
             return cls.make_and_log_error(info, "This form can only be used from the NoRent site.")
 
-        letter_sending.create_and_send_letter(request.user, rent_period)
+        letter_sending.create_and_send_letter(request.user, [rent_period])
+
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class NorentSendLetterV2(SessionFormMutation):
+    '''
+    Send the user's no rent letter, setting the letter's rent periods
+    to the upcoming ones that the user has previously chosen.
+    '''
+
+    login_required = True
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        user = request.user
+        assert user.is_authenticated
+        rent_periods = models.UpcomingLetterRentPeriod.objects.get_rent_periods_for_user(user)
+        if len(rent_periods) == 0:
+            return cls.make_and_log_error(info, "You have not chosen any rent periods!")
+        letter = models.Letter.objects.filter(user=user, rent_periods__in=rent_periods).first()
+        if letter is not None:
+            return cls.make_error("You have already sent a letter for one of the rent periods!")
+        if not hasattr(user, 'onboarding_info'):
+            return cls.make_and_log_error(info, "You have not onboarded!")
+        if not does_user_have_ll_mailing_addr_or_email(user):
+            return cls.make_and_log_error(info, "You haven't provided any landlord details yet!")
+
+        site_type = site_util.get_site_type(site_util.get_site_from_request_or_default(request))
+
+        if site_type != site_util.SITE_CHOICES.NORENT:
+            return cls.make_and_log_error(info, "This form can only be used from the NoRent site.")
+
+        letter_sending.create_and_send_letter(request.user, rent_periods)
 
         return cls.mutation_success()
 
@@ -387,6 +472,7 @@ class NorentCreateAccount(SessionFormMutation):
             'email': scf.email,
             'signup_intent': SIGNUP_INTENT_CHOICES.NORENT,
             'can_receive_rttc_comms': scf.can_receive_rttc_comms,
+            'can_receive_saje_comms': scf.can_receive_saje_comms,
         }
         return cls.fill_city_info(request, info, scf)
 
@@ -417,21 +503,69 @@ class NorentCreateAccount(SessionFormMutation):
 
 
 @schema_registry.register_mutation
-class NorentOptInToRttcComms(SessionFormMutation):
+class NorentSetUpcomingLetterRentPeriods(SessionFormMutation):
     class Meta:
-        form_class = forms.OptInToRttcCommsForm
+        form_class = forms.RentPeriodsForm
+
+    login_required = True
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        models.UpcomingLetterRentPeriod.objects.set_for_user(
+            request.user,
+            form.cleaned_data['rent_periods'],
+        )
+        return cls.mutation_success()
+
+
+class NorentOptInToComms(SessionFormMutation):
+    '''
+    Abstract base class to make it easy to opt-in to
+    communications from a partner organization.
+    '''
+
+    class Meta:
+        # This needs to be added to all base classes; we
+        # can't add it here, because this class' metaclass
+        # is super weird.
+        #
+        # form_class = forms.OptInToCommsForm
+
+        abstract = True
+
+    # This needs to be set to a nullable boolean field of both
+    # OnboardingInfo and NorentScaffolding.
+    comms_field_name = ''
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        assert cls.comms_field_name
         request = info.context
         user = request.user
         opt_in: bool = form.cleaned_data['opt_in']
         if user.is_authenticated:
             oi = request.user.onboarding_info
-            oi.can_receive_rttc_comms = opt_in
+            setattr(oi, cls.comms_field_name, opt_in)
             oi.save()
         else:
             update_scaffolding(request, {
-                'can_receive_rttc_comms': opt_in
+                cls.comms_field_name: opt_in
             })
         return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class NorentOptInToRttcComms(NorentOptInToComms):
+    class Meta:
+        form_class = forms.OptInToCommsForm
+
+    comms_field_name = 'can_receive_rttc_comms'
+
+
+@schema_registry.register_mutation
+class NorentOptInToSajeComms(NorentOptInToComms):
+    class Meta:
+        form_class = forms.OptInToCommsForm
+
+    comms_field_name = 'can_receive_saje_comms'

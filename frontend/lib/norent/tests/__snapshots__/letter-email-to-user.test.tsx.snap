@@ -15,6 +15,11 @@ exports[`NorentLetterEmailToUser works 1`] = `
     You've sent your NoRent letter. Attached to this email is a PDF copy for your records.
   </p>
   <p>
+    You can also track the delivery of your letter using USPS Tracking:
+     
+    https://tools.usps.com/go/TrackConfirmAction?tLabels=1234567890987654321
+  </p>
+  <p>
     To learn more about what to do next, check out our FAQ page: https://myserver.com/en/faqs
   </p>
 </div>

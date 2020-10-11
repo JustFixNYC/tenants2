@@ -15,10 +15,10 @@ from project.util.testing_util import GraphQLTestingPal
 from onboarding.schema import OnboardingStep1Info
 from onboarding.tests.test_schema import _exec_onboarding_step_n
 from onboarding.tests.factories import OnboardingInfoFactory
-from .factories import RentPeriodFactory, LetterFactory
+from .factories import RentPeriodFactory, LetterFactory, UpcomingLetterRentPeriodFactory
 from loc.tests.factories import LandlordDetailsFactory, LandlordDetailsV2Factory
 from norent.schema import update_scaffolding, SCAFFOLDING_SESSION_KEY
-from norent.models import Letter
+from norent.models import Letter, UpcomingLetterRentPeriod
 
 
 def test_scaffolding_is_null_when_it_does_not_exist(graphql_client):
@@ -45,6 +45,7 @@ def test_scaffolding_defaults_work(graphql_client):
             norentScaffolding {
               firstName,
               canReceiveRttcComms,
+              canReceiveSajeComms,
             }
           }
         }
@@ -53,6 +54,7 @@ def test_scaffolding_defaults_work(graphql_client):
     assert result == {
         'firstName': '',
         'canReceiveRttcComms': None,
+        'canReceiveSajeComms': None,
     }
 
 
@@ -493,6 +495,40 @@ class TestNorentLatestRentPeriod:
         assert res['data']['session']['norentLatestRentPeriod']['paymentDate'] == "2020-05-01"
 
 
+class TestNorentAvailableRentPeriods:
+    QUERY = 'query { session { norentAvailableRentPeriods { paymentDate } } }'
+
+    def test_it_returns_empty_list_when_not_logged_in(self, graphql_client):
+        res = graphql_client.execute(self.QUERY)
+        assert res['data']['session']['norentAvailableRentPeriods'] == []
+
+    def test_it_works(self, db, graphql_client):
+        RentPeriodFactory.from_iso("2020-05-01")
+        graphql_client.request.user = UserFactory()
+        res = graphql_client.execute(self.QUERY)
+        assert res['data']['session']['norentAvailableRentPeriods'] == [
+            {'paymentDate': '2020-05-01'}
+        ]
+
+
+class TestNorentUpcomingLetterRentPeriods:
+    def execute(self, graphql_client):
+        res = graphql_client.execute(
+            'query { session { norentUpcomingLetterRentPeriods } }'
+        )['data']['session']['norentUpcomingLetterRentPeriods']
+        return res
+
+    def test_it_works_with_logged_out_users(self, graphql_client, db):
+        assert self.execute(graphql_client) == []
+
+    def test_it_works_with_logged_in_users(self, graphql_client, db):
+        user = UserFactory()
+        RentPeriodFactory.from_iso("2020-05-01")
+        UpcomingLetterRentPeriod.objects.set_for_user(user, ["2020-05-01"])
+        graphql_client.request.user = user
+        assert self.execute(graphql_client) == ['2020-05-01']
+
+
 class TestNorentLatestLetter:
     @pytest.fixture(autouse=True)
     def setup_fixture(self, graphql_client, db):
@@ -571,7 +607,7 @@ class TestNorentSendLetter:
             'This form can only be used from the NoRent site.')
 
     def test_it_works(self, allow_lambda_http, use_norent_site,
-                      requests_mock, mailoutbox, settings, mocklob):
+                      requests_mock, mailoutbox, smsoutbox, settings, mocklob):
         settings.IS_DEMO_DEPLOYMENT = False
         settings.LANGUAGES = project.locales.ALL.choices
         RentPeriodFactory()
@@ -579,9 +615,12 @@ class TestNorentSendLetter:
         self.user.save()
         self.create_landlord_details()
         OnboardingInfoFactory(user=self.user)
+        assert UpcomingLetterRentPeriod.objects.get_for_user(self.user) == []
         assert self.execute()['errors'] == []
+        assert UpcomingLetterRentPeriod.objects.get_for_user(self.user) == ['2020-05-01']
 
         letter = Letter.objects.get(user=self.graphql_client.request.user)
+        assert len(letter.rent_periods.all()) == 1
         assert str(letter.latest_rent_period.payment_date) == '2020-05-01'
         assert letter.locale == "es"
         assert "unable to pay rent" in letter.html_content
@@ -605,6 +644,109 @@ class TestNorentSendLetter:
         assert "https://example.com/es/faqs" in user_mail.body
         assert "Hola Boop" in user_mail.body
         assert "Aquí tienes una copia" in user_mail.subject
+
+        assert len(smsoutbox) == 1
+        assert "Boop Jones" in smsoutbox[0].body
+        assert "USPS" in smsoutbox[0].body
+
+        assert len(user_mail.attachments) == 1
+
+
+class TestNorentSendLetterV2:
+    QUERY = '''
+    mutation {
+        norentSendLetterV2(input: {}) {
+            errors { field, messages }
+        }
+    }
+    '''
+
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, graphql_client, db):
+        self.user = UserFactory(email="boop@jones.net")
+        graphql_client.request.user = self.user
+        self.graphql_client = graphql_client
+
+    def create_landlord_details(self):
+        LandlordDetailsFactory(user=self.user, email="landlordo@calrissian.net")
+
+    def execute(self):
+        res = self.graphql_client.execute(self.QUERY)
+        return res['data']['norentSendLetterV2']
+
+    def test_it_requires_login(self):
+        self.graphql_client.request.user = AnonymousUser()
+        assert self.execute()['errors'] == one_field_err(
+            'You do not have permission to use this form!')
+
+    def test_it_raises_err_when_no_rent_periods_are_chosen(self):
+        assert self.execute()['errors'] == one_field_err(
+            'You have not chosen any rent periods!')
+
+    def test_it_raises_err_when_letter_already_sent(self):
+        letter = LetterFactory(user=self.user)
+        UpcomingLetterRentPeriodFactory(user=self.user, rent_period=letter.rent_periods.all()[0])
+        assert self.execute()['errors'] == one_field_err(
+            'You have already sent a letter for one of the rent periods!')
+
+    def test_it_raises_err_when_no_onboarding_info_exists(self):
+        UpcomingLetterRentPeriodFactory(user=self.user)
+        assert self.execute()['errors'] == one_field_err(
+            'You have not onboarded!')
+
+    def test_it_raises_err_when_no_landlord_details_exist(self):
+        UpcomingLetterRentPeriodFactory(user=self.user)
+        OnboardingInfoFactory(user=self.user)
+        assert self.execute()['errors'] == one_field_err(
+            'You haven\'t provided any landlord details yet!')
+
+    def test_it_raises_err_when_used_on_wrong_site(self):
+        UpcomingLetterRentPeriodFactory(user=self.user)
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
+        assert self.execute()['errors'] == one_field_err(
+            'This form can only be used from the NoRent site.')
+
+    def test_it_works(self, allow_lambda_http, use_norent_site,
+                      requests_mock, mailoutbox, smsoutbox, settings, mocklob):
+        settings.IS_DEMO_DEPLOYMENT = False
+        settings.LANGUAGES = project.locales.ALL.choices
+        UpcomingLetterRentPeriodFactory(user=self.user)
+        self.user.locale = 'es'
+        self.user.save()
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
+        assert self.execute()['errors'] == []
+
+        letter = Letter.objects.get(user=self.graphql_client.request.user)
+        assert len(letter.rent_periods.all()) == 1
+        assert str(letter.latest_rent_period.payment_date) == '2020-05-01'
+        assert letter.locale == "es"
+        assert "unable to pay rent" in letter.html_content
+        assert "Boop Jones" in letter.html_content
+        assert 'lang="en"' in letter.html_content
+        assert 'lang="es"' in letter.localized_html_content
+        assert letter.letter_sent_at is not None
+        assert letter.tracking_number == mocklob.sample_letter['tracking_number']
+
+        assert len(mailoutbox) == 2
+        ll_mail = mailoutbox[0]
+        assert ll_mail.to == ['landlordo@calrissian.net']
+        assert 'letter attached' in ll_mail.body
+        assert "Boop Jones" in ll_mail.body
+        assert 'sent on behalf' in ll_mail.subject
+        assert len(ll_mail.attachments) == 1
+        assert letter.letter_emailed_at is not None
+
+        user_mail = mailoutbox[1]
+        assert user_mail.to == ['boop@jones.net']
+        assert "https://example.com/es/faqs" in user_mail.body
+        assert "Hola Boop" in user_mail.body
+        assert "Aquí tienes una copia" in user_mail.subject
+
+        assert len(smsoutbox) == 1
+        assert "Boop Jones" in smsoutbox[0].body
+        assert "USPS" in smsoutbox[0].body
 
         assert len(user_mail.attachments) == 1
 
@@ -663,3 +805,99 @@ class TestOptInToRttcComms(GraphQLTestingPal):
 
         self.oi.refresh_from_db()
         assert self.oi.can_receive_rttc_comms is True
+
+
+class TestOptInToSajeComms(GraphQLTestingPal):
+    QUERY = '''
+    mutation NorentOptInToSajeCommsMutation($input: NorentOptInToSajeCommsInput!) {
+        output: norentOptInToSajeComms(input: $input) {
+            errors { field, messages },
+            session {
+                onboardingInfo { canReceiveSajeComms },
+                norentScaffolding { canReceiveSajeComms }
+            },
+        }
+    }
+    '''
+
+    DEFAULT_INPUT = {
+        'optIn': False,
+    }
+
+    @pytest.fixture
+    def logged_in(self):
+        self.oi = OnboardingInfoFactory()
+        self.request.user = self.oi.user
+
+    def test_it_works_when_logged_out(self):
+        res = self.execute()
+        assert res['errors'] == []
+        assert res['session'] == {
+            'onboardingInfo': None,
+            'norentScaffolding': {'canReceiveSajeComms': False},
+        }
+
+        res = self.execute(input={'optIn': True})
+        assert res['errors'] == []
+        assert res['session'] == {
+            'onboardingInfo': None,
+            'norentScaffolding': {'canReceiveSajeComms': True},
+        }
+
+    def test_it_works_when_logged_in(self, logged_in):
+        res = self.execute()
+        assert res['errors'] == []
+        assert res['session'] == {
+            'onboardingInfo': {'canReceiveSajeComms': False},
+            'norentScaffolding': None,
+        }
+
+        res = self.execute(input={'optIn': True})
+        assert res['errors'] == []
+        assert res['session'] == {
+            'onboardingInfo': {'canReceiveSajeComms': True},
+            'norentScaffolding': None,
+        }
+
+        self.oi.refresh_from_db()
+        assert self.oi.can_receive_saje_comms is True
+
+
+class TestSetUpcomingLetterRentPeriods(GraphQLTestingPal):
+    QUERY = '''
+    mutation NorentSetUpcomingLetterRentPeriodsMutation(
+        $input: NorentSetUpcomingLetterRentPeriodsInput!
+    ) {
+        output: norentSetUpcomingLetterRentPeriods(input: $input) {
+            errors { field, messages },
+            session {
+                norentUpcomingLetterRentPeriods
+            },
+        }
+    }
+    '''
+
+    DEFAULT_INPUT = {
+        'rentPeriods': ['2020-05-01'],
+    }
+
+    @pytest.fixture
+    def logged_in(self):
+        self.rp = RentPeriodFactory.from_iso("2020-05-01")
+        self.user = UserFactory()
+        self.request.user = self.user
+
+    def test_it_errors_when_logged_out(self):
+        self.assert_one_field_err("You do not have permission to use this form!")
+
+    def test_it_works_when_logged_in(self, logged_in):
+        res = self.execute()
+        assert res['errors'] == []
+        assert res['session'] == {
+            'norentUpcomingLetterRentPeriods': ['2020-05-01'],
+        }
+
+    def test_it_raises_error_when_nothing_is_selected(self, logged_in):
+        self.assert_one_field_err("This field is required.", "rentPeriods", {
+            'rentPeriods': [],
+        })

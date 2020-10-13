@@ -126,6 +126,20 @@ describe("NoRent letter builder steps", () => {
     ],
   });
 
+  it("takes users who have sent letters but can send more to menu", async () => {
+    const pal = new AppTesterPal(tester.render(), {
+      ...tester.appTesterPalOptions,
+      url: "/en/letter",
+      session: sb
+        .withLoggedInNationalUser()
+        .withNorentLetter()
+        .with({
+          norentAvailableRentPeriods: [{ paymentDate: "2020-05-01" }],
+        }).value,
+    });
+    await pal.waitForLocation("/en/letter/menu");
+  });
+
   it("takes users who have sent letters for all rent periods straight to confirmation", async () => {
     const pal = new AppTesterPal(tester.render(), {
       ...tester.appTesterPalOptions,

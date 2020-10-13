@@ -139,6 +139,35 @@ export const NorentLetterEmailToLandlordForUserStaticPage = asEmailStaticPage(
   NorentLetterEmailToLandlordForUser
 );
 
+const LetterBodyV1NonPayment: React.FC<NorentLetterContentProps> = (props) => {
+  return props.paymentDates.length === 1 ? (
+    <p>
+      <Trans id="norent.letter.v1NonPayment">
+        This letter is to notify you that I will be unable to pay rent starting
+        on <SinglePaymentDate {...props} /> and until further notice due to loss
+        of income, increased expenses, and/or other financial circumstances
+        related to COVID-19.
+      </Trans>
+    </p>
+  ) : (
+    <>
+      <p>
+        <Trans id="norent.letter.v1NonPayment_multipleDates">
+          This letter is to notify you that I will be unable to pay rent for the
+          following months and until further notice due to loss of income,
+          increased expenses, and/or other financial circumstances related to
+          COVID-19:
+        </Trans>
+      </p>
+      <ul>
+        {props.paymentDates.map((date) => (
+          <li key={date}>{friendlyUTCMonthAndYear(date)}</li>
+        ))}
+      </ul>
+    </>
+  );
+};
+
 const LetterBody: React.FC<NorentLetterContentProps> = (props) => {
   const state = props.state as USStateChoice;
   const letterVersion = getNorentMetadataForUSState(state).lawForLetter
@@ -147,32 +176,7 @@ const LetterBody: React.FC<NorentLetterContentProps> = (props) => {
   return (
     <>
       {letterVersion === CovidStateLawVersion.V1_NON_PAYMENT ? (
-        props.paymentDates.length === 1 ? (
-          <p>
-            <Trans id="norent.letter.v1NonPayment">
-              This letter is to notify you that I will be unable to pay rent
-              starting on <SinglePaymentDate {...props} /> and until further
-              notice due to loss of income, increased expenses, and/or other
-              financial circumstances related to COVID-19.
-            </Trans>
-          </p>
-        ) : (
-          <>
-            <p>
-              <Trans id="norent.letter.v1NonPayment_multipleDates">
-                This letter is to notify you that I will be unable to pay rent
-                for the following months and until further notice due to loss of
-                income, increased expenses, and/or other financial circumstances
-                related to COVID-19:
-              </Trans>
-            </p>
-            <ul>
-              {props.paymentDates.map((date) => (
-                <li key={date}>{friendlyUTCMonthAndYear(date)}</li>
-              ))}
-            </ul>
-          </>
-        )
+        <LetterBodyV1NonPayment {...props} />
       ) : letterVersion === CovidStateLawVersion.V2_HARDSHIP ? (
         <p>
           <Trans id="norent.letter.v2Hardship">

@@ -132,10 +132,8 @@ describe("NoRent letter builder steps", () => {
       url: "/en/letter",
       session: sb
         .withLoggedInNationalUser()
-        .withNorentLetter()
-        .with({
-          norentAvailableRentPeriods: [{ paymentDate: "2020-05-01" }],
-        }).value,
+        .withMailedNorentLetter()
+        .withAvailableNoRentPeriods().value,
     });
     await pal.waitForLocation("/en/letter/menu");
   });
@@ -144,7 +142,7 @@ describe("NoRent letter builder steps", () => {
     const pal = new AppTesterPal(tester.render(), {
       ...tester.appTesterPalOptions,
       url: "/en/letter",
-      session: sb.withLoggedInNationalUser().withNorentLetter().value,
+      session: sb.withLoggedInNationalUser().withMailedNorentLetter().value,
     });
     await pal.waitForLocation("/en/letter/confirmation");
   });

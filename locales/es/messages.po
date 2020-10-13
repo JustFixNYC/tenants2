@@ -78,6 +78,10 @@ msgstr "<0>Aviso de impacto del COVID-19 en la renta</0><1/>en <2/>"
 msgid "<0>To</0><1/><2>From</2><3/>"
 msgstr "<0>De</0><1/><2>Hasta</2><3/>"
 
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:39
+msgid "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
+msgstr ""
+
 #: frontend/lib/norent/data/faqs-content.tsx:160
 #: frontend/lib/norent/data/faqs-content.tsx:167
 msgid "<0>Yes, this is a free website created by 501(c)3 non-profit organizations across the United States.</0>"
@@ -819,7 +823,7 @@ msgstr "¿Es esta herramienta adecuada para mí?"
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 msgstr "Parece que esta propiedad no tiene que estar registrada con el HPD. Puedes aprender los requisitos de registro de la ciudad en la página <0>Gestión de Propiedad de HPD</0>."
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:27
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:28
 msgid "It's important to notify your landlord of all months when you couldn't pay rent."
 msgstr ""
 
@@ -1062,8 +1066,8 @@ msgstr "Muros Con Moho"
 msgid "Montana"
 msgstr "Montana"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:25
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:36
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:26
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:37
 msgid "Months of rent non-payment"
 msgstr ""
 
@@ -1893,6 +1897,10 @@ msgstr "Mientras esperas a que el dueño de tu edificio conteste, recopila toda 
 #: frontend/lib/norent/about.tsx:94
 msgid "Who we are"
 msgstr "Quiénes somos"
+
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:38
+msgid "Why aren't all months listed?"
+msgstr ""
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:38
 msgid "Why do you need this information?"

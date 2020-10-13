@@ -12,6 +12,7 @@ import Page from "../../ui/page";
 import { friendlyUTCMonthAndYear } from "../../util/date-util";
 import { assertNotNull } from "../../util/util";
 import { NorentNotSentLetterStep } from "./step-decorators";
+import { LetterBuilderAccordion } from "./welcome";
 
 function getCurrentRentNonpaymentPeriods(s: AllSessionInfo): string[] {
   const validDates = new Set(
@@ -62,6 +63,19 @@ export const NorentRentPeriods = NorentNotSentLetterStep((props) => {
                 session.norentAvailableRentPeriods
               )}
             />
+            {session.norentLatestLetter && (
+              <LetterBuilderAccordion
+                question={li18n._(t`Why aren't all months listed?`)}
+              >
+                <Trans>
+                  <p>
+                    We aren't including months that you have already informed
+                    your landlord about in previous letters.
+                  </p>
+                </Trans>
+              </LetterBuilderAccordion>
+            )}
+
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>
         )}

@@ -73,6 +73,10 @@ msgstr "<0>Notice of COVID-19 impact on rent</0><1/>at <2/>"
 msgid "<0>To</0><1/><2>From</2><3/>"
 msgstr "<0>To</0><1/><2>From</2><3/>"
 
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:39
+msgid "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
+msgstr "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
+
 #: frontend/lib/norent/data/faqs-content.tsx:160
 #: frontend/lib/norent/data/faqs-content.tsx:167
 msgid "<0>Yes, this is a free website created by 501(c)3 non-profit organizations across the United States.</0>"
@@ -814,7 +818,7 @@ msgstr "Is this tool right for me?"
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 msgstr "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:27
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:28
 msgid "It's important to notify your landlord of all months when you couldn't pay rent."
 msgstr "It's important to notify your landlord of all months when you couldn't pay rent."
 
@@ -1057,8 +1061,8 @@ msgstr "Mold on walls"
 msgid "Montana"
 msgstr "Montana"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:25
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:36
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:26
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:37
 msgid "Months of rent non-payment"
 msgstr "Months of rent non-payment"
 
@@ -1888,6 +1892,10 @@ msgstr "While you wait for your landlord to respond, gather as much documentatio
 #: frontend/lib/norent/about.tsx:94
 msgid "Who we are"
 msgstr "Who we are"
+
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:38
+msgid "Why aren't all months listed?"
+msgstr "Why aren't all months listed?"
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:38
 msgid "Why do you need this information?"

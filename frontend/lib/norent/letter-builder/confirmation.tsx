@@ -93,7 +93,11 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
           <h2 className="title is-spaced has-text-info">
             <Trans>Details about your latest letter</Trans>
           </h2>
-          <p>Your letter was sent on {friendlyUTCDate(letter.letterSentAt)}.</p>
+          <p>
+            <Trans>
+              Your letter was sent on {friendlyUTCDate(letter.letterSentAt)}.
+            </Trans>
+          </p>
           <p>
             <span className="is-size-5 has-text-weight-bold">
               <Trans>USPS Tracking #:</Trans>

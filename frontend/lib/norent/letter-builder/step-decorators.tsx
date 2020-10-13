@@ -28,14 +28,14 @@ export function hasNorentLetterBeenSentForAllRentPeriods(
 }
 
 /**
- * Returns whether the usrr has sent at least one no rent letter.
+ * Returns whether the user has sent at least one no rent letter.
  */
 export function hasNorentLetterBeenSent(s: AllSessionInfo): boolean {
   return !!s.norentLatestLetter;
 }
 
 /**
- * Returns whether the usrr has never sent any no rent letters.
+ * Returns whether the user has never sent any no rent letters.
  */
 export function hasNorentLetterNeverBeenSent(s: AllSessionInfo): boolean {
   return !hasNorentLetterBeenSent(s);

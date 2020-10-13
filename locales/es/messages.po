@@ -268,6 +268,10 @@ msgstr "Timbre Defectuoso"
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
 msgstr "Mapa de huelgas de renta y protección para inquilinos ante la emergencia generada por el COVID-19"
 
+#: frontend/lib/norent/data/state-localized-resources.tsx:6
+msgid "COVID-19 Tenant Defense"
+msgstr ""
+
 #: common-data/us-state-choices.ts:69
 msgid "California"
 msgstr "California"
@@ -281,7 +285,7 @@ msgstr "¿No puedes pagar la renta?"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:13
+#: frontend/lib/norent/data/state-localized-resources.tsx:22
 msgid "Cancel Rent Campaign"
 msgstr "Campaña para la Anulación de la Renta"
 
@@ -515,7 +519,7 @@ msgstr "Introduce tu dirección para ver algunas acciones recomendadas."
 msgid "Establish your defense"
 msgstr "Establece tu defensa"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:6
+#: frontend/lib/norent/data/state-localized-resources.tsx:15
 msgid "Eviction Moratorium updates"
 msgstr "Actualizaciones de la Moratoria de Desalojo"
 
@@ -759,10 +763,6 @@ msgstr "Si necesitas cambiar tu nombre o tu información de contacto, ponte en c
 msgid "If you write checks or transfer money through your bank to pay your rent, use that name here."
 msgstr "Usa el nombre al que pagas la renta."
 
-#: frontend/lib/norent/letter-builder/la-address-redirect.tsx:29
-msgid "If you're interested, <0>check out the tool here</0>."
-msgstr "Si te interesa, <0>aquí le puedes echar un vistazo a la herramienta</0>."
-
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:59
 msgid "If you’d still like to create an account, we can send you updates in the future."
 msgstr "Si aún así quieres crear una cuenta, podemos enviarte noticias en el futuro."
@@ -859,7 +859,7 @@ msgstr "Kansas"
 msgid "Kentucky"
 msgstr "Kentucky"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:101
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:102
 msgid "Know your rights"
 msgstr "Conoce tus derechos"
 
@@ -965,7 +965,7 @@ msgstr "Cerrar sesión"
 msgid "Looks like you're already logged in"
 msgstr "Parece ser que ya has iniciado tu sesión"
 
-#: frontend/lib/norent/letter-builder/la-address-redirect.tsx:13
+#: frontend/lib/norent/letter-builder/la-address-redirect.tsx:22
 msgid "Looks like you're in <0>Los Angeles County, California</0>"
 msgstr "Parece que estás en <0>el Condado de Los Angeles, California</0>"
 
@@ -984,7 +984,7 @@ msgstr "Parece que ya estuviste aquí antes. Haz clic en \"Continuar\" para segu
 msgid "Loose Floor"
 msgstr "Piso Suelto"
 
-#: frontend/lib/norent/letter-builder/la-address-redirect.tsx:11
+#: frontend/lib/norent/letter-builder/la-address-redirect.tsx:20
 msgid "Los Angeles County"
 msgstr "El Condado de Los Angeles"
 
@@ -1277,7 +1277,7 @@ msgstr "Número de teléfono"
 msgid "Pipes Leaking"
 msgstr "Tuberías Con Fugas"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:92
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:93
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Por favor <0>vuelve y escoge un estado</0>."
 
@@ -1346,7 +1346,7 @@ msgstr "Historial de Renta"
 msgid "Rent Strike 2020: A Resource List"
 msgstr "Huelga de Renta 2020: Lista de recursos (en inglés)"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:21
+#: frontend/lib/norent/data/state-localized-resources.tsx:30
 msgid "Rent Strike Organizing"
 msgstr "Organizar Huelgas de Renta"
 
@@ -1398,7 +1398,7 @@ msgstr "Rhode Island"
 msgid "Right to the City"
 msgstr "Right to the City"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:116
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:117
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Permito que Right to the City se ponga en contacto conmigo para proporcionarme apoyo adicional."
 
@@ -1593,6 +1593,10 @@ msgstr "Estufa Defectuosa"
 #: frontend/lib/norent/about.tsx:31
 msgid "Strategic Actions for a Just Economy"
 msgstr "Strategic Actions for a Just Economy"
+
+#: frontend/lib/norent/letter-builder/la-address-redirect.tsx:54
+msgid "Strategic Actions for a Just Economy (SAJE) can contact me to provide additional support."
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:37
 msgid "Street address"
@@ -1825,7 +1829,7 @@ msgstr "Utilizaremos esta información para obtener las ordenanzas actuales que 
 msgid "We’ll use this to reference the latest policies that protect your rights as a tenant."
 msgstr "Utilizaremos esta información para citar las políticas actuales que protegen tus derechos como inquilino."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:78
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:79
 msgid "We’ve partnered with <0/> to provide additional support once you’ve sent your letter."
 msgstr "Nos hemos aliado con <0/> para proporcionar asistencia adicional una vez que hayas enviado tu carta."
 
@@ -1833,9 +1837,9 @@ msgstr "Nos hemos aliado con <0/> para proporcionar asistencia adicional una vez
 msgid "We’ve partnered with <0/> to provide additional support."
 msgstr "Nos hemos aliado con <0/> para proporcionarte apoyo adicional."
 
-#: frontend/lib/norent/letter-builder/la-address-redirect.tsx:20
-msgid "We’ve worked with the non-profit organization <0>SAJE</0> to provide you with a custom letter builder."
-msgstr "Hemos colaborado con la organización sin fines de lucro <0>SAJE</0> para proporcionarte un generador de cartas específico al contexto de Los Ángeles."
+#: frontend/lib/norent/letter-builder/la-address-redirect.tsx:29
+msgid "We’ve worked with the non-profit organization <0>SAJE</0> to provide additional support once you’ve sent your letter. You can learn more about how AB3088 affects Los Angeles residents at <1>Stay Housed LA</1>."
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:65
 msgid "What contact information do you have for your landlord or building management? <0>Choose all that apply.</0>"
@@ -1986,7 +1990,7 @@ msgstr ""
 msgid "You most recently sent a letter on {0}."
 msgstr ""
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:103
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:104
 msgid "You're in <0>{stateName}</0>"
 msgstr "Estás en <0>{stateName}</0>"
 

@@ -1837,10 +1837,6 @@ msgstr "Nos hemos aliado con <0/> para proporcionar asistencia adicional una vez
 msgid "We’ve partnered with <0/> to provide additional support."
 msgstr "Nos hemos aliado con <0/> para proporcionarte apoyo adicional."
 
-#: frontend/lib/norent/letter-builder/la-address-redirect.tsx:29
-msgid "We’ve worked with the non-profit organization <0>SAJE</0> to provide additional support once you’ve sent your letter. You can learn more about how AB3088 affects Los Angeles residents at <1>Stay Housed LA</1>."
-msgstr ""
-
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:65
 msgid "What contact information do you have for your landlord or building management? <0>Choose all that apply.</0>"
 msgstr "¿Qué información de contacto tienes del dueño o manager de tu edificio? <0>Elige todas las opciones que apliquen.</0>"
@@ -2245,6 +2241,10 @@ msgstr "Esta carta es para informarle de las protecciones para inquilinos existe
 #: frontend/lib/norent/data/faqs-content.tsx:34
 msgid "norent.listOfSuggestedNonpaymentDocumentation"
 msgstr "<0>Mientras esperas que el dueño de tu edificio te dé una respuesta, reúne toda la documentación que puedas. Algunos tipos de documentación que puedes recopilar incluyen:</0><1><2><3>Carta de tu jefe:</3>una carta de tu jefe o de un compañero de trabajo que mencione el virus COVID-19 y muestre la pérdida de trabajo o la reducción de horas como resultado del COVID-19.</2><4><5> Documentos de beneficios de desempleo</5>: son los documentos que demuestran que solicitaste o recibiste beneficios del Departamento de Desarrollo del Empleo.</4><6><7>Recibos de pago de salario</7>: pueden ser cheques de pagos anteriores a la fecha de terminación o despido. Si has tenido un cambio en el número de horas de trabajo, puedes retener tus cheques de pago anteriores y posteriores a ese cambio.</6><8><9>Gastos relacionados con el COVID-19</9>: pueden ser facturas que demuestren que tus gastos han aumentado por problemas derivados del COVID-19, incluidos los costos de cuidado de niños, gastos para cumplir con las directivas de salud pública u otros gastos relacionados.</8><10><11>Cierre de escuelas</11>: esta podría ser una notificación de la escuela de tus hijos diciendo que ha cerrado debido al COVID-19. También puedes incluir pruebas de que tus hijos están matriculados.</10><12><13> Estados financieros</13>: pueden ser presupuestos, estados de cuenta bancarios o archivos personales que demuestren que tus ingresos laborales o de negocio se han interrumpido debido a la crisis provocada por el COVID-19. Asegúrate de no enviar información financiera personal confidencial que no quieras que vea el dueño de tu edificio.</12><14><15>Registros médicos del COVID-19</15>: esto podría incluir gastos médicos extraordinarios que tengan relación con el diagnóstico, pruebas y/o tratamiento del COVID-19 que hayas efectuado con tu dinero propio para ti o algún miembro de tu familia. Debido a la confidencialidad de los archivos médicos, es posible que no desees enviarlos al dueño de tu edificio. Sin embargo, debes conservar estos recibos para tu archivo personal. Estos podrían ser utilizados como prueba en caso que debas presentarlos como evidencia en procedimientos judiciales.</14><16><17>Alguna otra prueba del impacto financiero relacionado con el COVID-19</17>: puede ser cualquier otra prueba que demuestre cómo el virus COVID-19 ha afectado tu capacidad de pagar la renta.</16></1>"
+
+#: frontend/lib/norent/letter-builder/la-address-redirect.tsx:29
+msgid "norent.losAngelesKyr"
+msgstr ""
 
 #: frontend/lib/norent/about.tsx:99
 msgid "norent.madeByBlurb"

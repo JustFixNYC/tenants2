@@ -34,7 +34,7 @@ export const NorentLbLosAngelesRedirect = NorentOnboardingStep((props) => {
       </h2>
       <div className="content">
         <p>
-          <Trans>
+          <Trans id="norent.losAngelesKyr">
             We’ve worked with the non-profit organization{" "}
             <OutboundLink
               href={SAJE_WEBSITE_URL}

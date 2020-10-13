@@ -128,6 +128,54 @@ export const NorentLetterEmailToLandlord: React.FC<NorentLetterContentProps> = (
   </>
 );
 
+const LetterBodyCalifornia: React.FC<NorentLetterContentProps> = (props) => {
+  return (
+    <>
+      <p>This letter is in regards to rent payment for the following months:</p>
+      <PaymentDateList dates={props.paymentDates} />
+      <p>
+        I am currently unable to pay my rent or other financial obligations
+        under the lease in full because of one or more of the following:
+      </p>
+      <ol>
+        <li>Loss of income caused by the COVID-19 pandemic.</li>
+        <li>
+          Increased out-of-pocket expenses directly related to performing
+          essential work during the COVID-19 pandemic.
+        </li>
+        <li>
+          Increased expenses directly related to health impacts of the COVID-19
+          pandemic.
+        </li>
+        <li>
+          Childcare responsibilities or responsibilities to care for an elderly,
+          disabled, or sick family member directly related to the COVID-19
+          pandemic that limit my ability to earn income.
+        </li>
+        <li>
+          Increased costs for childcare or attending to an elderly, disabled, or
+          sick family member directly related to the COVID-19 pandemic.
+        </li>
+        <li>
+          Other circumstances related to the COVID-19 pandemic that have reduced
+          my income or increased my expenses.
+        </li>
+        <li>
+          Any public assistance, including unemployment insurance, pandemic
+          unemployment assistance, state disability insurance (SDI), or paid
+          family leave, that I have received since the start of the COVID-19
+          pandemic does not fully make up for my loss of income and/or increased
+          expenses.
+        </li>
+      </ol>
+      <p>
+        I declare under penalty of perjury under the laws of the State of
+        California that the foregoing is true and correct.
+      </p>
+    </>
+  );
+};
+
 export const NorentLetterEmailToLandlordForUser: React.FC<{}> = () => (
   <TransformSession
     transformer={getNorentLetterContentPropsFromSession}
@@ -159,19 +207,25 @@ const LetterBodyV1NonPayment: React.FC<NorentLetterContentProps> = (props) => {
           COVID-19:
         </Trans>
       </p>
-      <ul>
-        {props.paymentDates.map((date) => (
-          <li key={date}>{friendlyUTCMonthAndYear(date)}</li>
-        ))}
-      </ul>
+      <PaymentDateList dates={props.paymentDates} />
     </>
   );
 };
+
+const PaymentDateList: React.FC<{ dates: GraphQLDate[] }> = ({ dates }) => (
+  <ul>
+    {dates.map((date) => (
+      <li key={date}>{friendlyUTCMonthAndYear(date)}</li>
+    ))}
+  </ul>
+);
 
 const LetterBody: React.FC<NorentLetterContentProps> = (props) => {
   const state = props.state as USStateChoice;
   const letterVersion = getNorentMetadataForUSState(state).lawForLetter
     .whichVersion;
+
+  if (state === "CA") return <LetterBodyCalifornia {...props} />;
 
   return (
     <>

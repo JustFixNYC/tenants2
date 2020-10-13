@@ -134,7 +134,18 @@ export class SessionBuilder {
       city: "Los Angeles",
       state: "CA",
       zipcode: "90007",
+      canReceiveRttcComms: true,
       agreedToNorentTerms: true,
+    });
+  }
+
+  withNorentLetter(): SessionBuilder {
+    return this.with({
+      norentLatestLetter: {
+        trackingNumber: "1234",
+        letterSentAt: "2020-03-13T19:41:09+00:00",
+        createdAt: "2020-03-13T19:41:09+00:00",
+      },
     });
   }
 

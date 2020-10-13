@@ -18,7 +18,7 @@ describe("NoRent confirmation page", () => {
         norentLatestLetter: trackingNumber
           ? {
               trackingNumber: trackingNumber,
-              letterSentAt: null,
+              letterSentAt: "2020-03-13T19:45:09+00:00",
               createdAt: "2020-03-13T19:41:09+00:00",
             }
           : null,

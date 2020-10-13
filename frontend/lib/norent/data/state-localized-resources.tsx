@@ -12,15 +12,12 @@ export type StateLocalizedResources = Partial<
 export const STATE_LOCALIZED_RESOURCES: StateLocalizedResources = {
   CA: [
     {
-      children: (
-        <Trans>
-          Your rights as a tenant (yeah this says LA county but it applies to
-          THE WHOLE STATE)
-        </Trans>
-      ),
+      children: <Trans>COVID-19 Tenant Defense</Trans>,
       hrefs: {
-        en: "https://www.stayhousedla.org/tenant_rights/",
-        es: "https://www.stayhousedla.org/es/tenant_rights/",
+        en:
+          "https://www.tenantstogether.org/covid-19-tenant-defense#:~:text=Know%20your%20rights",
+        es:
+          "https://www.tenantstogether.org/defensa-covid-19#:~:text=Conozca%20sus%20derechos",
       },
     },
   ],

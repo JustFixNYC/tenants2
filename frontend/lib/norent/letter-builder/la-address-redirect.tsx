@@ -9,6 +9,7 @@ import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-
 import { NorentOptInToSajeCommsMutation } from "../../queries/NorentOptInToSajeCommsMutation";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { CheckboxFormField } from "../../forms/form-fields";
+import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
 
 const SAJE_WEBSITE_URL = "https://www.saje.net/";
 
@@ -42,7 +43,17 @@ export const NorentLbLosAngelesRedirect = NorentOnboardingStep((props) => {
             >
               SAJE
             </OutboundLink>{" "}
-            to provide additional support once you’ve sent your letter.
+            to provide additional support once you’ve sent your letter. You can
+            learn more about how AB3088 affects Los Angeles residents at{" "}
+            <LocalizedOutboundLink
+              hrefs={{
+                en: "https://www.stayhousedla.org/tenant_rights/",
+                es: "https://www.stayhousedla.org/es/tenant_rights/",
+              }}
+            >
+              Stay Housed LA
+            </LocalizedOutboundLink>
+            .
           </Trans>
         </p>
         <SessionUpdatingFormSubmitter

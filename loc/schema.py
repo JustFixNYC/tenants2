@@ -10,7 +10,7 @@ from project.util.email_attachment import EmailAttachmentMutation
 from project.util.site_util import get_site_name
 from project.util.graphql_mailing_address import GraphQLMailingAddress
 from project import slack, schema_registry, common_data
-from . import forms, models, email_letter, views, lob_api
+from . import forms, models, email_letter, views, lob_api, tasks
 from airtable.sync import sync_user as sync_user_with_airtable
 
 MAX_RECIPIENTS = common_data.load_json("email-attachment-validation.json")['maxRecipients']
@@ -107,6 +107,7 @@ class LetterRequest(OneToOneUserModelFormMutation):
                 f"update you once the letter has been sent. "
                 f"Please allow for 1-2 business days to process.",
             )
+            tasks.send_admin_notification_for_letter.delay(lr.id)
         slack.sendmsg_async(
             f"{slack.hyperlink(text=lr.user.first_name, href=lr.user.admin_url)} "
             f"has completed a letter of complaint with the mail choice "

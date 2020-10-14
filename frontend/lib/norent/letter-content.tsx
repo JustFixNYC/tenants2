@@ -168,7 +168,7 @@ const LetterBodyCalifornia: React.FC<NorentLetterContentProps> = (props) => {
           expenses.
         </li>
       </ol>
-      <p>
+      <p className="jf-avoid-page-breaks-after">
         I declare under penalty of perjury under the laws of the State of
         California that the foregoing is true and correct.
       </p>

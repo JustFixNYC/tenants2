@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-14 19:21\n"
+"PO-Revision-Date: 2020-10-14 19:41\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -80,7 +80,7 @@ msgstr "<0>De</0><1/><2>Hasta</2><3/>"
 
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:39
 msgid "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
-msgstr "<0>No incluimos meses en los que ya has informado al dueño anteriormente.</0>"
+msgstr "<0>No incluimos meses en los que ya has informado al dueño de tu edificio anteriormente.</0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:160
 #: frontend/lib/norent/data/faqs-content.tsx:167
@@ -349,7 +349,7 @@ msgstr "Colorado"
 
 #: frontend/lib/norent/letter-builder/more-letters.tsx:15
 msgid "Come back next month to send another letter if you still can't pay rent."
-msgstr "Vuelve el mes que viene para enviar otra carta si todavía no puedes pagar el alquiler."
+msgstr "Vuelve el mes que viene para enviar otra carta si todavía no puedes pagar la renta."
 
 #: frontend/lib/norent/about.tsx:11
 msgid "Community Justice Project"
@@ -1992,7 +1992,7 @@ msgstr "Estás en <0>{stateName}</0>"
 
 #: frontend/lib/norent/letter-builder/more-letters.tsx:9
 msgid "You've already sent letters for all of the months since COVID-19 started."
-msgstr "You've already sent letters for all of the months since COVID-19 started."
+msgstr "Ya has enviado cartas que corresponden a todos los meses desde que comenzó el COVID-19."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:35
 #: frontend/lib/norent/letter-builder/confirmation.tsx:42
@@ -2228,7 +2228,7 @@ msgstr "Esta carta es para notificarle que no podré pagar el alquiler a partir 
 
 #: frontend/lib/norent/letter-content.tsx:91
 msgid "norent.letter.v1NonPayment_multipleDates"
-msgstr "This letter is to notify you that I will be unable to pay rent for the following months and until further notice due to loss of income, increased expenses, and/or other financial circumstances related to COVID-19:"
+msgstr "Esta carta es para notificarle que no podré pagar la renta durante los meses siguientes y hasta siguiente aviso debido a la pérdida de ingresos, gastos adicioonales, y/o otras circunstancias financieras relacionadas con el COVID-19:"
 
 #: frontend/lib/norent/letter-content.tsx:109
 msgid "norent.letter.v2Hardship"

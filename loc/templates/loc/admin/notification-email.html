@@ -3,7 +3,7 @@ complaint they would like us to mail.
 
 {% for issue in user.custom_issues.all %}{% if forloop.first %}The user has the following custom issues:
 
-{% endif %}* {{ issue.area }}: {{ issue.description }}
+{% endif %}* {{ issue.area }}: {{ issue.description|safe }}
 {% empty %}The user has no custom issues.
 {% endfor %}
 {% if user.landlord_details.is_looked_up %}Their landlord information is looked up from open data,

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-11 12:21\n"
+"PO-Revision-Date: 2020-10-14 19:41\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -80,7 +80,7 @@ msgstr "<0>De</0><1/><2>Hasta</2><3/>"
 
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:39
 msgid "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
-msgstr ""
+msgstr "<0>No incluimos meses en los que ya has informado al dueño de tu edificio anteriormente.</0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:160
 #: frontend/lib/norent/data/faqs-content.tsx:167
@@ -349,7 +349,7 @@ msgstr "Colorado"
 
 #: frontend/lib/norent/letter-builder/more-letters.tsx:15
 msgid "Come back next month to send another letter if you still can't pay rent."
-msgstr ""
+msgstr "Vuelve el mes que viene para enviar otra carta si todavía no puedes pagar la renta."
 
 #: frontend/lib/norent/about.tsx:11
 msgid "Community Justice Project"
@@ -391,7 +391,7 @@ msgstr "Continuar"
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:25
 msgid "Continue to the confirmation page for information about the last letter you sent and next steps you can take."
-msgstr ""
+msgstr "Sigue a la página de confirmación para obtener información sobre la última carta que enviaste y los siguientes pasos que puedes tomar."
 
 #: common-data/issue-choices.ts:201
 msgid "Cracked Sink"
@@ -419,7 +419,7 @@ msgstr "Delaware"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:61
 msgid "Details about your latest letter"
-msgstr ""
+msgstr "Detalles sobre tu última carta"
 
 #: frontend/lib/ui/footer.tsx:11
 msgid "Developed with <0>Law Help Interactive</0>"
@@ -825,7 +825,7 @@ msgstr "Parece que esta propiedad no tiene que estar registrada con el HPD. Pued
 
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:28
 msgid "It's important to notify your landlord of all months when you couldn't pay rent."
-msgstr ""
+msgstr "Es importante notificar al dueño de todos los meses cuando no pudiste pagar el alquiler."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:124
 msgid "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."
@@ -1069,7 +1069,7 @@ msgstr "Montana"
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:26
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:37
 msgid "Months of rent non-payment"
-msgstr ""
+msgstr "Meses de impago de renta"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:403
 msgid "More actions"
@@ -1089,7 +1089,7 @@ msgstr "Nebraska"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:135
 msgid "Need to send another letter?"
-msgstr ""
+msgstr "¿Necesitas enviar otra carta?"
 
 #: common-data/issue-choices.ts:145
 #: common-data/issue-choices.ts:260
@@ -1424,7 +1424,7 @@ msgstr "Enviar una carta de queja"
 
 #: frontend/lib/norent/letter-builder/more-letters.tsx:36
 msgid "Send another letter"
-msgstr ""
+msgstr "Enviar otra carta"
 
 #: frontend/lib/norent/start-account-or-login/verify-password.tsx:41
 msgid "Send code"
@@ -1741,7 +1741,7 @@ msgstr "Vermont"
 
 #: frontend/lib/norent/letter-builder/menu.tsx:35
 msgid "View details about your last letter"
-msgstr ""
+msgstr "Ver detalles sobre tu última carta"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:94
 msgid "View this letter as a PDF"
@@ -1900,7 +1900,7 @@ msgstr "Quiénes somos"
 
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:38
 msgid "Why aren't all months listed?"
-msgstr ""
+msgstr "¿Por qué no puedo ver todos los meses?"
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:38
 msgid "Why do you need this information?"
@@ -1976,15 +1976,15 @@ msgstr "También puede seguir la entrega de su carta usando USPS Tracking:"
 
 #: frontend/lib/norent/letter-builder/more-letters.tsx:29
 msgid "You can send an additional letter for other months when you couldn't pay rent."
-msgstr ""
+msgstr "Puedes enviar otra carta para indicar los demás meses en que no hayas podido pagar la renta."
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:22
 msgid "You can't send any more letters"
-msgstr ""
+msgstr "No puedes enviar más cartas"
 
 #: frontend/lib/norent/letter-builder/menu.tsx:28
 msgid "You most recently sent a letter on {0}."
-msgstr ""
+msgstr "Enviaste una carta en {0}."
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:103
 msgid "You're in <0>{stateName}</0>"
@@ -1992,7 +1992,7 @@ msgstr "Estás en <0>{stateName}</0>"
 
 #: frontend/lib/norent/letter-builder/more-letters.tsx:9
 msgid "You've already sent letters for all of the months since COVID-19 started."
-msgstr ""
+msgstr "Ya has enviado cartas que corresponden a todos los meses desde que comenzó el COVID-19."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:35
 #: frontend/lib/norent/letter-builder/confirmation.tsx:42
@@ -2069,7 +2069,7 @@ msgstr "Tu carta ha sido enviada al dueño o manager de tu edificio por correo c
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:64
 msgid "Your letter was sent on {0}."
-msgstr ""
+msgstr "Your letter was sent on {0}."
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:25
 msgid "Your phone number"
@@ -2228,7 +2228,7 @@ msgstr "Esta carta es para notificarle que no podré pagar el alquiler a partir 
 
 #: frontend/lib/norent/letter-content.tsx:91
 msgid "norent.letter.v1NonPayment_multipleDates"
-msgstr ""
+msgstr "Esta carta es para notificarle que no podré pagar la renta durante los meses siguientes y hasta siguiente aviso debido a la pérdida de ingresos, gastos adicioonales, y/o otras circunstancias financieras relacionadas con el COVID-19:"
 
 #: frontend/lib/norent/letter-content.tsx:109
 msgid "norent.letter.v2Hardship"
@@ -2294,3 +2294,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:92
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

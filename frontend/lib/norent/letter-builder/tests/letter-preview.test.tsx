@@ -11,6 +11,7 @@ describe("NoRent letter preview page", () => {
     return new AppTesterPal(createProgressStepJSX(NorentLetterPreviewPage), {
       session: {
         phoneNumber: "1234567890",
+        norentUpcomingLetterRentPeriods: ["2020-05-01"],
         landlordDetails: override(BlankLandlordDetailsType, {
           email,
           address,

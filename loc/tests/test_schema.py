@@ -229,13 +229,24 @@ def test_landlord_details_are_created_when_user_has_onboarding_info(
 
 
 @pytest.mark.django_db
-def test_letter_request_works(graphql_client, smsoutbox, allow_lambda_http):
-    graphql_client.request.user = create_user_with_all_info()
+def test_letter_request_works(graphql_client, smsoutbox, allow_lambda_http, mailoutbox, settings):
+    settings.LOC_EMAIL = 'letters@justfigs.nyc'
+    user = create_user_with_all_info()
+    user.email = "bobby@denver.net"
+    user.save()
+    graphql_client.request.user = user
 
     result = execute_lr_mutation(graphql_client)
     assert result['errors'] == []
     assert result['session']['letterRequest']['mailChoice'] == 'WE_WILL_MAIL'
     assert isinstance(result['session']['letterRequest']['updatedAt'], str)
+
+    assert len(mailoutbox) == 1
+    assert "Bobby Denver" in mailoutbox[0].subject
+    assert mailoutbox[0].recipients() == ['letters@justfigs.nyc']
+    assert mailoutbox[0].reply_to == ['bobby@denver.net']
+
+    mailoutbox[:] = []
 
     # Ensure we text them if they want us to mail the letter *and* they gave us
     # permission to SMS during onboarding.
@@ -250,6 +261,9 @@ def test_letter_request_works(graphql_client, smsoutbox, allow_lambda_http):
 
     # Ensure no SMS is sent if the user said they'd mail it themselves.
     assert smsoutbox == []
+
+    # Ensure we weren't notified if the user said they'd mail it themselves.
+    assert mailoutbox == []
 
 
 def test_letter_request_requires_auth(graphql_client):

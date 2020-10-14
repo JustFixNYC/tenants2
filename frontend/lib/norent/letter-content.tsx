@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { createLetterStaticPageWithQuery } from "../static-page/letter-static-page";
 import { AppContext } from "../app-context";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
-import { friendlyUTCDate } from "../util/date-util";
+import { friendlyUTCDate, friendlyUTCMonthAndYear } from "../util/date-util";
 import {
   EmailSubject,
   asEmailStaticPage,
@@ -27,7 +27,7 @@ import { makeStringHelperFC } from "../util/string-helper";
 import { TransformSession } from "../util/transform-session";
 
 export type NorentLetterContentProps = BaseLetterContentProps & {
-  paymentDate: GraphQLDate;
+  paymentDates: GraphQLDate[];
 };
 
 const componentizeHelper = makeStringHelperFC<NorentLetterContentProps>();
@@ -42,8 +42,8 @@ const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
   </letter.Title>
 );
 
-const PaymentDate = componentizeHelper((props) =>
-  friendlyUTCDate(props.paymentDate)
+const SinglePaymentDate = componentizeHelper((props) =>
+  friendlyUTCDate(props.paymentDates[0])
 );
 
 const TenantProtections: React.FC<NorentLetterContentProps> = (props) => {
@@ -139,6 +139,35 @@ export const NorentLetterEmailToLandlordForUserStaticPage = asEmailStaticPage(
   NorentLetterEmailToLandlordForUser
 );
 
+const LetterBodyV1NonPayment: React.FC<NorentLetterContentProps> = (props) => {
+  return props.paymentDates.length === 1 ? (
+    <p>
+      <Trans id="norent.letter.v1NonPayment">
+        This letter is to notify you that I will be unable to pay rent starting
+        on <SinglePaymentDate {...props} /> and until further notice due to loss
+        of income, increased expenses, and/or other financial circumstances
+        related to COVID-19.
+      </Trans>
+    </p>
+  ) : (
+    <>
+      <p>
+        <Trans id="norent.letter.v1NonPayment_multipleDates">
+          This letter is to notify you that I will be unable to pay rent for the
+          following months and until further notice due to loss of income,
+          increased expenses, and/or other financial circumstances related to
+          COVID-19:
+        </Trans>
+      </p>
+      <ul>
+        {props.paymentDates.map((date) => (
+          <li key={date}>{friendlyUTCMonthAndYear(date)}</li>
+        ))}
+      </ul>
+    </>
+  );
+};
+
 const LetterBody: React.FC<NorentLetterContentProps> = (props) => {
   const state = props.state as USStateChoice;
   const letterVersion = getNorentMetadataForUSState(state).lawForLetter
@@ -147,14 +176,7 @@ const LetterBody: React.FC<NorentLetterContentProps> = (props) => {
   return (
     <>
       {letterVersion === CovidStateLawVersion.V1_NON_PAYMENT ? (
-        <p>
-          <Trans id="norent.letter.v1NonPayment">
-            This letter is to notify you that I will be unable to pay rent
-            starting on <PaymentDate {...props} /> and until further notice due
-            to loss of income, increased expenses, and/or other financial
-            circumstances related to COVID-19.
-          </Trans>
-        </p>
+        <LetterBodyV1NonPayment {...props} />
       ) : letterVersion === CovidStateLawVersion.V2_HARDSHIP ? (
         <p>
           <Trans id="norent.letter.v2Hardship">
@@ -237,18 +259,16 @@ function getNorentLetterContentPropsFromSession(
     return null;
   }
 
-  const paymentDate = session.norentLatestRentPeriod?.paymentDate;
+  const paymentDates = session.norentUpcomingLetterRentPeriods;
 
-  if (!paymentDate) {
-    console.log(
-      "No latest rent period defined! Please create one in the admin."
-    );
+  if (paymentDates.length === 0) {
+    console.log("User has no upcoming no rent letter rent periods defined!");
     return null;
   }
 
   const props: NorentLetterContentProps = {
     ...baseProps,
-    paymentDate,
+    paymentDates,
   };
 
   return props;
@@ -271,7 +291,7 @@ export const NorentLetterForUserStaticPage: React.FC<{ isPdf: boolean }> = ({
 
 export const noRentSampleLetterProps: NorentLetterContentProps = {
   ...baseSampleLetterProps,
-  paymentDate: "2020-05-01T15:41:37.114Z",
+  paymentDates: ["2020-05-01T15:41:37.114Z"],
 };
 
 export const NorentSampleLetterSamplePage: React.FC<{ isPdf: boolean }> = ({
@@ -280,9 +300,10 @@ export const NorentSampleLetterSamplePage: React.FC<{ isPdf: boolean }> = ({
   const { session } = useContext(AppContext);
   const props: NorentLetterContentProps = {
     ...noRentSampleLetterProps,
-    paymentDate:
-      session.norentLatestRentPeriod?.paymentDate ||
-      noRentSampleLetterProps.paymentDate,
+    paymentDates:
+      session.norentUpcomingLetterRentPeriods.length > 0
+        ? session.norentUpcomingLetterRentPeriods
+        : noRentSampleLetterProps.paymentDates,
   };
   return (
     <NorentLetterStaticPage

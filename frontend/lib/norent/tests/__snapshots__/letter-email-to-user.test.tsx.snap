@@ -49,15 +49,20 @@ exports[`NorentLetterEmailToUserBody works with LA users 1`] = `
     What if I have more questions?
   </h2>
   <p>
-    You can contact Strategic Actions for a Just Economy (SAJE) - a 501c3 non-profit organization in South Los Angeles. Since 1996 SAJE has been a force for economic justice in our community focusing on tenant rights, healthy housing, and equitable development. We believe that the fate of city neighborhoods should be decided by those who dwell there, and we convene with other organizations to ensure this occurs in a manner that is fair, replicable, and sustainable. Housing is a human right. If you have questions about your rights as a tenant, please contact us.
+    You can contact Strategic Actions for a Just Economy (SAJE) - a 501c3 non-profit organization in South Los Angeles.
   </p>
+  <blockquote>
+    <em>
+      Since 1996 SAJE has been a force for economic justice in our community focusing on tenant rights, healthy housing, and equitable development. SAJE believes that the fate of city neighborhoods should be decided by those who dwell there, and convenes with other organizations to ensure this occurs in a manner that is fair, replicable, and sustainable. Housing is a human right.
+    </em>
+  </blockquote>
   <p>
     <strong>
-      Strategic Actions for a Just Economy (SAJE) is available for phone calls at 213-745-9961, Monday-Friday from 10:00am-6:00pm.
+      Strategic Actions for a Just Economy (SAJE) is available for phone calls at (213) 745-9961, Monday-Friday from 10:00am-6:00pm.
     </strong>
   </p>
   <p>
-    SAJE is hosting Tenant Rights Q&A every Wednesday on Facebook Live
+    SAJE is also hosting Tenant Rights Q&A every Wednesday on Facebook Live:
   </p>
   <ul>
     <li>
@@ -70,7 +75,7 @@ exports[`NorentLetterEmailToUserBody works with LA users 1`] = `
   <p>
     <strong>
       <em>
-        The above information does not substitute for direct legal advice for your specific situation.
+        The above information is not a substitute for direct legal advice for your specific situation.
       </em>
     </strong>
   </p>
@@ -184,7 +189,7 @@ exports[`NorentLetterEmailToUserBody works with SF users 1`] = `
   <p>
     <strong>
       <em>
-        The above information does not substitute for direct legal advice for your specific situation.
+        The above information is not a substitute for direct legal advice for your specific situation.
       </em>
     </strong>
   </p>

@@ -9,10 +9,7 @@ import { t, Trans } from "@lingui/macro";
 import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc.json";
 import { assertNotNull } from "../util/util";
 import { MessageDescriptor } from "@lingui/core";
-import {
-  EnglishOutboundLink,
-  LocalizedOutboundLink,
-} from "../ui/localized-outbound-link";
+import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 import { HtmlEmail } from "../static-page/html-email";
 
 type CaliforniaFAQProps = {

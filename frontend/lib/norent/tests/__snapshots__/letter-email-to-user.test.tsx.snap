@@ -11,7 +11,12 @@ exports[`NorentLetterEmailToUserBody works with LA users 1`] = `
   <p>
     You can also track the delivery of your letter using USPS Tracking:
      
-    https://tools.usps.com/go/TrackConfirmAction?tLabels=1234
+    <a
+      data-jf-show-href-only="true"
+      href="https://tools.usps.com/go/TrackConfirmAction?tLabels=1234"
+    >
+      1234
+    </a>
   </p>
   <p>
     Please read the rest of this email carefully as it contains important information about your next steps.
@@ -108,7 +113,12 @@ exports[`NorentLetterEmailToUserBody works with NJ users 1`] = `
   <p>
     You can also track the delivery of your letter using USPS Tracking:
      
-    https://tools.usps.com/go/TrackConfirmAction?tLabels=1234
+    <a
+      data-jf-show-href-only="true"
+      href="https://tools.usps.com/go/TrackConfirmAction?tLabels=1234"
+    >
+      1234
+    </a>
   </p>
   <p>
     To learn more about what to do next, check out our FAQ page: https://myserver.com/en/faqs
@@ -127,7 +137,12 @@ exports[`NorentLetterEmailToUserBody works with SF users 1`] = `
   <p>
     You can also track the delivery of your letter using USPS Tracking:
      
-    https://tools.usps.com/go/TrackConfirmAction?tLabels=1234
+    <a
+      data-jf-show-href-only="true"
+      href="https://tools.usps.com/go/TrackConfirmAction?tLabels=1234"
+    >
+      1234
+    </a>
   </p>
   <p>
     Please read the rest of this email carefully as it contains important information about your next steps.

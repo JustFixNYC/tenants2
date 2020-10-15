@@ -9,7 +9,10 @@ import { t, Trans } from "@lingui/macro";
 import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc.json";
 import { assertNotNull } from "../util/util";
 import { MessageDescriptor } from "@lingui/core";
-import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
+import {
+  EnglishOutboundLink,
+  LocalizedOutboundLink,
+} from "../ui/localized-outbound-link";
 import { HtmlEmail } from "../static-page/html-email";
 
 type CaliforniaFAQProps = {
@@ -255,7 +258,12 @@ export const NorentLetterEmailToUserBody: React.FC<{}> = () => {
           <Trans>
             You can also track the delivery of your letter using USPS Tracking:
           </Trans>{" "}
-          {USPS_TRACKING_URL_PREFIX + letter.trackingNumber}
+          <a
+            data-jf-show-href-only
+            href={USPS_TRACKING_URL_PREFIX + letter.trackingNumber}
+          >
+            {letter.trackingNumber}
+          </a>
         </p>
       )}
       {isInCA ? (

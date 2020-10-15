@@ -17,10 +17,71 @@ exports[`NorentLetterEmailToUser works 1`] = `
   <p>
     You can also track the delivery of your letter using USPS Tracking:
      
-    https://tools.usps.com/go/TrackConfirmAction?tLabels=1234567890987654321
+    https://tools.usps.com/go/TrackConfirmAction?tLabels=1234
   </p>
   <p>
-    To learn more about what to do next, check out our FAQ page: https://myserver.com/en/faqs
+    Please read the rest of this email carefully as it contains important information about your next steps.
+  </p>
+  <h2>
+    What is the new law AB3088?
+  </h2>
+  <p>
+    On August 31, 2020, the State of California passed tenant protections under Assembly Bill 3088. These protections prevent landlords from evicting tenants before February 1, 2021 without a valid reason or for any rent not paid between March 4 - January 31, 2021 due to loss of income or increased expenses associated with COVID-19. Although this law protects you from being evicted for not paying rent, it does not cancel rent.
+  </p>
+  <p>
+    If you owe rent for any months from March 2020 to August 2020, you must submit a declaration form to your landlord for any months you do not pay. Now that you have used the NoRent website to mail or email the declaration to your landlord, your landlord cannot legally evict you for not paying rent.
+  </p>
+  <h2>
+    How does sending this declaration help me?
+  </h2>
+  <p>
+    Using this declaration satisfies any local requirements to notify your landlord.
+  </p>
+  <ul>
+    <li>
+      It provides a defense to an eviction case based on nonpayment of rent; and
+    </li>
+    <li>
+      It converts your rent to “civil debt.” This means that the landlord can file a small claims case for the unpaid rent. If a landlord gets a judgment for the unpaid rent in small claims court, the landlord can collect that judgment by garnishing the tenant’s paycheck, levying the tenant’s bank account, etc.
+    </li>
+  </ul>
+  <h2>
+    Do I need to send this declaration every month?
+  </h2>
+  <p>
+    Yes. Follow these instructions even if you have sent a letter to your landlord each month that you have not paid. And send a new declaration for every month moving forward (through January).
+  </p>
+  <h2>
+    What if I have more questions?
+  </h2>
+  <p>
+    You can contact Tenants Together, a statewide coalition of local tenant organizations dedicated to defending and advancing the rights of California tenants to safe, decent, and affordable housing.
+  </p>
+  <p>
+    If you have questions about your rights as a tenant, please 
+    <a
+      href="https://www.tenantstogether.org/tenant-rights-hotline"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      connect with Tenants Together
+    </a>
+     or find an attorney at 
+    <a
+      href="https://www.lawhelpca.org/"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Law Help California
+    </a>
+    .
+  </p>
+  <p>
+    <strong>
+      <em>
+        The above information does not substitute for direct legal advice for your specific situation.
+      </em>
+    </strong>
   </p>
 </div>
 `;

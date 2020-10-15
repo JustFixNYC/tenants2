@@ -88,30 +88,36 @@ const CALIFORNIA_FAQS: CaliforniaFAQProps[] = [
     answer: (
       <>
         <p>
-          <Trans id="norent.sajeDescription">
+          <Trans>
             You can contact Strategic Actions for a Just Economy (SAJE) - a
-            501c3 non-profit organization in South Los Angeles. Since 1996 SAJE
-            has been a force for economic justice in our community focusing on
-            tenant rights, healthy housing, and equitable development. We
-            believe that the fate of city neighborhoods should be decided by
-            those who dwell there, and we convene with other organizations to
-            ensure this occurs in a manner that is fair, replicable, and
-            sustainable. Housing is a human right. If you have questions about
-            your rights as a tenant, please contact us.
+            501c3 non-profit organization in South Los Angeles.
           </Trans>
         </p>
+        <blockquote>
+          <em>
+            <Trans id="norent.sajeBlockQuote">
+              Since 1996 SAJE has been a force for economic justice in our
+              community focusing on tenant rights, healthy housing, and
+              equitable development. SAJE believes that the fate of city
+              neighborhoods should be decided by those who dwell there, and
+              convenes with other organizations to ensure this occurs in a
+              manner that is fair, replicable, and sustainable. Housing is a
+              human right.
+            </Trans>
+          </em>
+        </blockquote>
         <p>
           <strong>
             <Trans id="norent.sajePhoneCalls">
               Strategic Actions for a Just Economy (SAJE) is available for phone
-              calls at 213-745-9961, Monday-Friday from 10:00am-6:00pm.
+              calls at (213) 745-9961, Monday-Friday from 10:00am-6:00pm.
             </Trans>
           </strong>
         </p>
         <Trans id="norent.sajeFacebookLive">
           <p>
-            SAJE is hosting Tenant Rights Q&amp;A every Wednesday on Facebook
-            Live
+            SAJE is also hosting Tenant Rights Q&amp;A every Wednesday on
+            Facebook Live:
           </p>
           <ul>
             <li>English 11am-12pm</li>
@@ -196,7 +202,7 @@ const CaliforniaContent: React.FC<{ isInLosAngeles: boolean }> = ({
         <strong>
           <em>
             <Trans>
-              The above information does not substitute for direct legal advice
+              The above information is not a substitute for direct legal advice
               for your specific situation.
             </Trans>
           </em>
@@ -267,7 +273,7 @@ export const NorentLetterEmailToUserBody: React.FC<{}> = () => {
 };
 
 export const NorentLetterEmailToUserStaticPage = asEmailStaticPage((props) => (
-  <HtmlEmail subject={li18n._(t`Here's a copy of your NoRent letter`)}>
+  <HtmlEmail subject={li18n._(t`Your NoRent letter and important next steps`)}>
     <NorentLetterEmailToUserBody />
   </HtmlEmail>
 ));

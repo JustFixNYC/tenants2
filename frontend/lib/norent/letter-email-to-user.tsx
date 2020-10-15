@@ -2,10 +2,7 @@ import React from "react";
 
 import { useContext } from "react";
 import { AppContext } from "../app-context";
-import {
-  EmailSubject,
-  asEmailStaticPage,
-} from "../static-page/email-static-page";
+import { asEmailStaticPage } from "../static-page/email-static-page";
 import { NorentRoutes } from "./routes";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
@@ -13,6 +10,7 @@ import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc.json";
 import { assertNotNull } from "../util/util";
 import { MessageDescriptor } from "@lingui/core";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
+import { HtmlEmail } from "../static-page/html-email";
 
 type CaliforniaFAQProps = {
   question: MessageDescriptor;
@@ -230,7 +228,7 @@ const CaliforniaContent: React.FC<{ isInLosAngeles: boolean }> = ({
   </>
 );
 
-export const NorentLetterEmailToUser: React.FC<{}> = () => {
+export const NorentLetterEmailToUserBody: React.FC<{}> = () => {
   const { session, server } = useContext(AppContext);
   const letter = session.norentLatestLetter;
   const faqURL = `${server.originURL}${NorentRoutes.locale.faqs}`;
@@ -239,7 +237,6 @@ export const NorentLetterEmailToUser: React.FC<{}> = () => {
 
   return (
     <>
-      <EmailSubject value={li18n._(t`Here's a copy of your NoRent letter`)} />
       <Trans>
         <p>Hello {session.firstName},</p>
         <p>
@@ -269,6 +266,8 @@ export const NorentLetterEmailToUser: React.FC<{}> = () => {
   );
 };
 
-export const NorentLetterEmailToUserStaticPage = asEmailStaticPage(
-  NorentLetterEmailToUser
-);
+export const NorentLetterEmailToUserStaticPage = asEmailStaticPage((props) => (
+  <HtmlEmail subject={li18n._(t`Here's a copy of your NoRent letter`)}>
+    <NorentLetterEmailToUserBody />
+  </HtmlEmail>
+));

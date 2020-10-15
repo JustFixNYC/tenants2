@@ -1,9 +1,9 @@
-from typing import List
+from typing import List, Optional
 from graphql import ResolveInfo
 import graphene
 from django import forms
 from django.http import FileResponse
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 
 from users.models import JustfixUser
 from project import common_data, slack
@@ -16,12 +16,15 @@ def email_file_response_as_attachment(
     subject: str,
     body: str,
     recipients: List[str],
-    attachment: FileResponse
+    attachment: FileResponse,
+    html_body: Optional[str] = None
 ) -> None:
     attachment_bytes = attachment.getvalue()
 
     for recipient in recipients:
-        msg = EmailMessage(subject=subject, body=body, to=[recipient])
+        msg = EmailMultiAlternatives(subject=subject, body=body, to=[recipient])
+        if html_body:
+            msg.attach_alternative(html_body, 'text/html')
         msg.attach(attachment.filename, attachment_bytes)
         msg.send()
 

@@ -1,13 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NorentLetterEmailToUser works with LA users 1`] = `
+exports[`NorentLetterEmailToUserBody works with LA users 1`] = `
 <div>
-  <p
-    class="jf-email-subject"
-  >
-    Subject: 
-    Here's a copy of your NoRent letter
-  </p>
   <p>
     Hello Boop,
   </p>
@@ -98,14 +92,8 @@ exports[`NorentLetterEmailToUser works with LA users 1`] = `
 </div>
 `;
 
-exports[`NorentLetterEmailToUser works with NJ users 1`] = `
+exports[`NorentLetterEmailToUserBody works with NJ users 1`] = `
 <div>
-  <p
-    class="jf-email-subject"
-  >
-    Subject: 
-    Here's a copy of your NoRent letter
-  </p>
   <p>
     Hello Boop,
   </p>
@@ -123,14 +111,8 @@ exports[`NorentLetterEmailToUser works with NJ users 1`] = `
 </div>
 `;
 
-exports[`NorentLetterEmailToUser works with SF users 1`] = `
+exports[`NorentLetterEmailToUserBody works with SF users 1`] = `
 <div>
-  <p
-    class="jf-email-subject"
-  >
-    Subject: 
-    Here's a copy of your NoRent letter
-  </p>
   <p>
     Hello Boop,
   </p>

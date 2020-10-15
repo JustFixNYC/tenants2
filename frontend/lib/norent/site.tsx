@@ -22,7 +22,10 @@ import {
   NorentLetterEmailToLandlordForUserStaticPage,
 } from "./letter-content";
 import Navbar from "../ui/navbar";
-import { createLetterStaticPageRoutes } from "../static-page/routes";
+import {
+  createHtmlEmailStaticPageRoutes,
+  createLetterStaticPageRoutes,
+} from "../static-page/routes";
 import { NorentFaqsPage } from "./faqs";
 import { NorentAboutPage } from "./about";
 import { NorentAboutYourLetterPage } from "./the-letter";
@@ -83,11 +86,10 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
         exact
         component={NorentLetterEmailToLandlordForUserStaticPage}
       />
-      <Route
-        path={Routes.locale.letterEmailToUser}
-        exact
-        component={NorentLetterEmailToUserStaticPage}
-      />
+      {createHtmlEmailStaticPageRoutes(
+        Routes.locale.letterEmailToUser,
+        NorentLetterEmailToUserStaticPage
+      )}
       {createLetterStaticPageRoutes(
         Routes.locale.sampleLetterContent,
         NorentSampleLetterSamplePage

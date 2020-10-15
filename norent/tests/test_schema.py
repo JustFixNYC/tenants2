@@ -745,7 +745,10 @@ class TestNorentSendLetterV2:
         assert user_mail.to == ['boop@jones.net']
         assert "https://example.com/es/faqs" in user_mail.body
         assert "Hola Boop" in user_mail.body
-        assert "Aquí tienes una copia" in user_mail.subject
+
+        # TODO: Once translated this will need to change.
+        assert "Your NoRent letter and important next steps" in user_mail.subject
+        # assert "Aquí tienes una copia" in user_mail.subject
 
         assert len(smsoutbox) == 1
         assert "Boop Jones" in smsoutbox[0].body

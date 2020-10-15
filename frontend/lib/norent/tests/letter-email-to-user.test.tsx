@@ -8,9 +8,25 @@ import { newSb } from "../../tests/session-builder";
 beforeAll(preloadLingui(NorentLinguiI18n));
 
 describe("NorentLetterEmailToUser", () => {
-  it("works", () => {
+  it("works with LA users", () => {
     const pal = new AppTesterPal(<NorentLetterEmailToUser />, {
-      session: newSb().withLoggedInNationalUser().withMailedNorentLetter()
+      session: newSb().withLoggedInLosAngelesUser().withMailedNorentLetter()
+        .value,
+    });
+    expect(pal.rr.container).toMatchSnapshot();
+  });
+
+  it("works with SF users", () => {
+    const pal = new AppTesterPal(<NorentLetterEmailToUser />, {
+      session: newSb().withLoggedInSanFranciscoUser().withMailedNorentLetter()
+        .value,
+    });
+    expect(pal.rr.container).toMatchSnapshot();
+  });
+
+  it("works with NJ users", () => {
+    const pal = new AppTesterPal(<NorentLetterEmailToUser />, {
+      session: newSb().withLoggedInNewJerseyUser().withMailedNorentLetter()
         .value,
     });
     expect(pal.rr.container).toMatchSnapshot();

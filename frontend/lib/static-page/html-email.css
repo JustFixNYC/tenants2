@@ -150,7 +150,8 @@ ol {
 p li,
 ul li,
 ol li {
-  list-style-position: inside;
+  /** This was 'inside' but it looked weird. -AV */
+  list-style-position: outside;
   margin-left: 5px;
 }
 

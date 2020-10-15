@@ -34,11 +34,22 @@ const componentizeHelper = makeStringHelperFC<NorentLetterContentProps>();
 
 const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
   <letter.Title>
-    <Trans>
-      <span className="is-uppercase">Notice of COVID-19 impact on rent</span>
-      <letter.TitleNewline />
-      at <letter.AddressLine {...props} />
-    </Trans>
+    {props.state === "CA" ? (
+      <Trans>
+        <span className="is-uppercase">
+          Declaration of COVID-19 Related Financial Distress
+        </span>
+        <letter.TitleNewline />
+        Compliant with Section 20 of the COVID-19 Tenant Relief Act of 2020, AB
+        3088
+      </Trans>
+    ) : (
+      <Trans>
+        <span className="is-uppercase">Notice of COVID-19 impact on rent</span>
+        <letter.TitleNewline />
+        at <letter.AddressLine {...props} />
+      </Trans>
+    )}
   </letter.Title>
 );
 
@@ -84,7 +95,7 @@ export const NorentLetterTranslation: React.FC<{}> = () => {
             <>
               <letter.DearLandlord {...props} />
               <LetterBody {...props} />
-              <letter.Regards />
+              <letter.Signed />
               <p>
                 <letter.FullName {...props} />
               </p>
@@ -291,11 +302,11 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
       <letter.Addresses {...props} />
       <letter.DearLandlord {...props} />
       <LetterBody {...props} />
-      <letter.Regards>
+      <letter.Signed>
         <br />
         <br />
         <letter.FullName {...props} />
-      </letter.Regards>
+      </letter.Signed>
     </>
   );
 };

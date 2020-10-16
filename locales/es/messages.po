@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-16 19:00\n"
+"PO-Revision-Date: 2020-10-16 19:11\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2221,7 +2221,7 @@ msgstr "Sí. Sigue estas instrucciones incluso si has enviado una carta al dueñ
 
 #: frontend/lib/norent/letter-email-to-user.tsx:84
 msgid "norent.doIStillHaveToPayMyRentAB3088"
-msgstr "On or before 1/30/2020 you must decide whether to pay 25% of the rent for each month from September to January 2021. That’s 5 months multiplied by 25%. If after consulting with an attorney, you determine that you do not want to be in eviction court, pay the 25%. Tenants with severe bad conditions or living in illegal units should talk with an attorney before deciding whether to pay."
+msgstr "Para evitar que el/la dueñe le desaloje por la renta de septiembre de 2020 a enero de 2021, también debe pagar el 25% por cada uno de esos meses. Puede pagarlo mes a mes o puede esperar hasta el 30 de enero de 2021 para pagar el 5 x 25% a la vez. Resultado: Si, después de consultar con un abogado de StayHousedLA, determina que no quiere estar en la corte de desalojo, pague el 25%. Los inquilinos con malas condiciones severas o que viven en unidades ilegales deben hablar con un abogado de StayHousedLA antes de decidir si pagar."
 
 #: frontend/lib/norent/components/social-icons.tsx:18
 msgid "norent.emailBodyTemplateForSharingNoRent"
@@ -2253,7 +2253,7 @@ msgstr "<0>Hay una diferencia entre una \"huelga de renta\" o retener la renta, 
 
 #: frontend/lib/norent/letter-email-to-user.tsx:51
 msgid "norent.howDoesLetterHelpWithAB3088"
-msgstr "<0>Using this declaration satisfies any local requirements to notify your landlord.</0><1><2>It provides a defense to an eviction case based on nonpayment of rent; and</2><3>It converts your rent to “civil debt.” This means that the landlord can file a small claims case for the unpaid rent. If a landlord gets a judgment for the unpaid rent in small claims court, the landlord can collect that judgment by garnishing the tenant’s paycheck, levying the tenant’s bank account, etc.</3></1>"
+msgstr "<0>El uso de esta declaración satisface todos los requisitos locales para notificar al propietario. Envíe la declaración antes de la fecha de vencimiento del alquiler y no más tarde de 7 días a partir de la fecha de vencimiento. Si su ciudad local requiere que también proporcione pruebas, proporciónelas. </0><1><2>Proporciona una defensa en un caso de desalojo basado en la falta de pago del alquiler; y </2><3>Convierte su alquiler en \"deuda civil.\" Esto significa que el propietario puede presentar un caso de reclamos menores por el alquiler impago. Si un arrendador obtiene un fallo por el alquiler no pagado en un tribunal de reclamos menores, el arrendador puede cobrar ese fallo embargando su cheque de trabajo, o recaudando su cuenta bancaria.</3></1>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:334
 msgid "norent.howToConnectWithManufacturedHomeOwners"
@@ -2329,7 +2329,7 @@ msgstr "<0>En los próximos pasos, construiremos tu carta utilizando la siguient
 
 #: frontend/lib/norent/letter-email-to-user.tsx:120
 msgid "norent.sajeBlockQuote"
-msgstr "Since 1996 SAJE has been a force for economic justice in our community focusing on tenant rights, healthy housing, and equitable development. SAJE believes that the fate of city neighborhoods should be decided by those who dwell there, and convenes with other organizations to ensure this occurs in a manner that is fair, replicable, and sustainable. Housing is a human right."
+msgstr "Desde 1996, SAJE ha sido una fuerza para la justicia económica en nuestra comunidad, centrándose en los derechos de los inquilinos, la vivienda saludable y el desarrollo equitativo. Creemos que el destino de los vecindarios de la ciudad debe ser decidido por quienes viven allí, y nos reunimos con otras organizaciones para garantizar que esto ocurra de manera justa, replicable y sostenible. La vivienda es un derecho humano."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:139
 msgid "norent.sajeFacebookLive"
@@ -2353,7 +2353,7 @@ msgstr "¿No sabes cómo pagarás la renta este mes? Avisa al dueño de tu edifi
 
 #: frontend/lib/norent/letter-email-to-user.tsx:97
 msgid "norent.whatIfMyLandlordSendsMeANoticeAB3088"
-msgstr "If you have sent the declaration and the owner sends you a notice to pay rent with a declaration, read it, if it is the same as the one you have sent to them already, date, sign and send it exactly as instructed in the notice to pay rent or quit. Note that sometimes owners change the address or the way to pay when they send a notice to pay rent or quit. Follow the instructions in the notice to pay rent or quit."
+msgstr "Si el propietario le envía un aviso para pagar el alquiler con una declaración, léalo. Si es el mismo, feche, fírmelo y envíelo exactamente como se indica en el aviso. Tenga en cuenta que a veces los propietarios cambian la dirección o la forma de pago. Siga las instrucciones del aviso para pagar el alquiler o renunciar (Notice to Payor Quit) para saber dónde y cómo enviar el alquiler."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:28
 msgid "norent.whatIsAB3088partOne"
@@ -2361,7 +2361,7 @@ msgstr "On August 31, 2020, the State of California passed tenant protections un
 
 #: frontend/lib/norent/letter-email-to-user.tsx:39
 msgid "norent.whatIsAB3088partTwo"
-msgstr "If you owe rent for any months from March 2020 to August 2020, you must submit a declaration form to your landlord for any months you do not pay. Now that you have used the NoRent website to mail or email the declaration to your landlord, your landlord cannot legally evict you for not paying rent."
+msgstr "Si vives en el estado de California y no puede pagar su alquiler debido a razones de Covid-19 desde marzo de 2020 hasta enero de 2021, debe presentar una declaración al propietario cada mes indicando que no puede hacerlo y las razones. Esta herramienta satisface los requisitos para que pueda enviar una declaración por correo correctamente a su arrendador. Esté listo para tener una dirección o dirección de correo electrónico de su arrendador para poder procesar esto con éxito."
 
 #: frontend/lib/norent/data/faqs-content.tsx:107
 msgid "norent.whatToDoIfLandlordRetaliates"

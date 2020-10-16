@@ -7,10 +7,11 @@ import { NorentRoutes } from "./routes";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc.json";
-import { assertNotNull } from "../util/util";
 import { MessageDescriptor } from "@lingui/core";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 import { HtmlEmail } from "../static-page/html-email";
+import { TransformSession } from "../util/transform-session";
+import { AllSessionInfo } from "../queries/AllSessionInfo";
 
 type CaliforniaFAQProps = {
   question: MessageDescriptor;
@@ -234,46 +235,68 @@ const CaliforniaContent: React.FC<{ isInLosAngeles: boolean }> = ({
   </>
 );
 
+type EmailBodyProps = {
+  firstName: string;
+  trackingNumber?: string;
+  isInCA: boolean;
+  isInLosAngeles: boolean;
+  faqURL: string;
+};
+
+const EmailBody: React.FC<EmailBodyProps> = (props) => (
+  <>
+    <Trans>
+      <p>Hello {props.firstName},</p>
+      <p>
+        You've sent your NoRent letter. Attached to this email is a PDF copy for
+        your records.
+      </p>
+    </Trans>
+    {props.trackingNumber && (
+      <p>
+        <Trans>
+          You can also track the delivery of your letter using USPS Tracking:
+        </Trans>{" "}
+        <a
+          data-jf-show-href-only-in-plaintext
+          href={USPS_TRACKING_URL_PREFIX + props.trackingNumber}
+        >
+          {props.trackingNumber}
+        </a>
+      </p>
+    )}
+    {props.isInCA ? (
+      <CaliforniaContent isInLosAngeles={props.isInLosAngeles} />
+    ) : (
+      <p>
+        <Trans>
+          To learn more about what to do next, check out our FAQ page:{" "}
+          {props.faqURL}
+        </Trans>
+      </p>
+    )}
+  </>
+);
+
 export const NorentLetterEmailToUserBody: React.FC<{}> = () => {
-  const { session, server } = useContext(AppContext);
-  const letter = session.norentLatestLetter;
-  const faqURL = `${server.originURL}${NorentRoutes.locale.faqs}`;
-  const onb = assertNotNull(session.onboardingInfo);
-  const isInCA = onb.state === "CA";
+  const { server } = useContext(AppContext);
 
   return (
-    <>
-      <Trans>
-        <p>Hello {session.firstName},</p>
-        <p>
-          You've sent your NoRent letter. Attached to this email is a PDF copy
-          for your records.
-        </p>
-      </Trans>
-      {letter?.trackingNumber && (
-        <p>
-          <Trans>
-            You can also track the delivery of your letter using USPS Tracking:
-          </Trans>{" "}
-          <a
-            data-jf-show-href-only-in-plaintext
-            href={USPS_TRACKING_URL_PREFIX + letter.trackingNumber}
-          >
-            {letter.trackingNumber}
-          </a>
-        </p>
-      )}
-      {isInCA ? (
-        <CaliforniaContent isInLosAngeles={!!onb.isInLosAngeles} />
-      ) : (
-        <p>
-          <Trans>
-            To learn more about what to do next, check out our FAQ page:{" "}
-            {faqURL}
-          </Trans>
-        </p>
-      )}
-    </>
+    <TransformSession
+      transformer={(session: AllSessionInfo): EmailBodyProps | null => {
+        const { firstName, onboardingInfo } = session;
+        if (!(onboardingInfo && firstName)) return null;
+        return {
+          trackingNumber: session.norentLatestLetter?.trackingNumber,
+          isInLosAngeles: !!onboardingInfo.isInLosAngeles,
+          isInCA: onboardingInfo.state === "CA",
+          faqURL: `${server.originURL}${NorentRoutes.locale.faqs}`,
+          firstName,
+        };
+      }}
+    >
+      {(bodyProps) => <EmailBody {...bodyProps} />}
+    </TransformSession>
   );
 };
 

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-16 18:45\n"
+"PO-Revision-Date: 2020-10-16 18:50\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2217,7 +2217,7 @@ msgstr "<0>Esta es la información del dueño de tu edificio según los registro
 
 #: frontend/lib/norent/letter-email-to-user.tsx:74
 msgid "norent.doINeedToSendAB3088LetterEveryMonth"
-msgstr "Yes. Follow these instructions even if you have sent a letter to your landlord each month that you have not paid. And send a new declaration for every month moving forward (through January)."
+msgstr "Sí. Sigue estas instrucciones incluso si has enviado una carta al dueño o manager de tu edificio por cada mes que no hayas pagado la renta. Y envía una nueva declaración para cada mes siguiente (hasta enero)."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:84
 msgid "norent.doIStillHaveToPayMyRentAB3088"

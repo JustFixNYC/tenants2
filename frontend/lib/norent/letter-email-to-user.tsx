@@ -243,7 +243,7 @@ type EmailBodyProps = {
   faqURL: string;
 };
 
-const EmailBody: React.FC<EmailBodyProps> = (props) => (
+const EmailBody: React.FC<EmailBodyProps> = ({ faqURL, ...props }) => (
   <>
     <Trans>
       <p>Hello {props.firstName},</p>
@@ -270,8 +270,7 @@ const EmailBody: React.FC<EmailBodyProps> = (props) => (
     ) : (
       <p>
         <Trans>
-          To learn more about what to do next, check out our FAQ page:{" "}
-          {props.faqURL}
+          To learn more about what to do next, check out our FAQ page: {faqURL}
         </Trans>
       </p>
     )}

@@ -91,7 +91,7 @@ class HTMLToTextParser(HTMLParser):
         elif tag == 'ul':
             self.__counters.append(self.__make_unordered_counter())
         elif tag == "a":
-            self.__show_href_only = 'data-jf-show-href-only' in attrs
+            self.__show_href_only = 'data-jf-show-href-only-in-plaintext' in attrs
             if self.__show_href_only:
                 self.__capture = False
             self.__href = attrs.get('href', '')

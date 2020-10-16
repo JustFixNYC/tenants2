@@ -256,7 +256,7 @@ export const NorentLetterEmailToUserBody: React.FC<{}> = () => {
             You can also track the delivery of your letter using USPS Tracking:
           </Trans>{" "}
           <a
-            data-jf-show-href-only
+            data-jf-show-href-only-in-plaintext
             href={USPS_TRACKING_URL_PREFIX + letter.trackingNumber}
           >
             {letter.trackingNumber}

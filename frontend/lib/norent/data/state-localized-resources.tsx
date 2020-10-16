@@ -12,12 +12,16 @@ export type StateLocalizedResources = Partial<
 export const STATE_LOCALIZED_RESOURCES: StateLocalizedResources = {
   CA: [
     {
-      children: <Trans>COVID-19 Tenant Defense</Trans>,
+      children: (
+        <Trans>
+          Understanding California’s COVID-19 Tenant Relief Act of 2020 (PDF)
+        </Trans>
+      ),
       hrefs: {
         en:
-          "https://www.tenantstogether.org/covid-19-tenant-defense#:~:text=Know%20your%20rights",
+          "https://d3n8a8pro7vhmx.cloudfront.net/makebankspay/pages/6680/attachments/original/1600465420/CA_COVID__Tenant_Relief_Act_english_09.18.2020.pdf",
         es:
-          "https://www.tenantstogether.org/defensa-covid-19#:~:text=Conozca%20sus%20derechos",
+          "https://d3n8a8pro7vhmx.cloudfront.net/makebankspay/pages/6680/attachments/original/1600465428/CA_COVID_Tenant_Relief_Act_spanish_09.18.2020.pdf",
       },
     },
   ],

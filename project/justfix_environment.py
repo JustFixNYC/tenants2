@@ -270,6 +270,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # The email address used for court documents (e.g. HP Actions).
     COURT_DOCUMENTS_EMAIL: str = 'JustFix.nyc <documents@justfix.nyc>'
 
+    # The email address used for LOC notifications. If blank (the default),
+    # no LOC notifications will be sent.
+    LOC_EMAIL: str = ''
+
     # Sender email address used to send a user's rental history request.
     DHCR_EMAIL_SENDER_ADDRESS: str = 'support@justfix.nyc'
 

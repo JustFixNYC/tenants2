@@ -15,6 +15,8 @@ import { NorentNonpaymentDocumentation } from "../data/faqs-content";
 import { SocialIcons } from "../components/social-icons";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
+import { friendlyUTCDate } from "../../util/date-util";
+import { NorentMoreLettersBlurb } from "./more-letters";
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
@@ -77,6 +79,25 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
               Mail. A copy of your letter has also been sent to your email.
             </Trans>
           </p>
+        </>
+      ) : (
+        <p>
+          <Trans>
+            Your letter has been sent to your landlord via email. A copy of your
+            letter has also been sent to your email.
+          </Trans>
+        </p>
+      )}
+      {letter?.trackingNumber && letter?.letterSentAt && (
+        <>
+          <h2 className="title is-spaced has-text-info">
+            <Trans>Details about your latest letter</Trans>
+          </h2>
+          <p>
+            <Trans>
+              Your letter was sent on {friendlyUTCDate(letter.letterSentAt)}.
+            </Trans>
+          </p>
           <p>
             <span className="is-size-5 has-text-weight-bold">
               <Trans>USPS Tracking #:</Trans>
@@ -91,13 +112,6 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
             </OutboundLink>
           </p>
         </>
-      ) : (
-        <p>
-          <Trans>
-            Your letter has been sent to your landlord via email. A copy of your
-            letter has also been sent to your email.
-          </Trans>
-        </p>
       )}
       <h2 className="title is-spaced has-text-info">
         <Trans>What happens next?</Trans>
@@ -174,6 +188,11 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
           for assistance.
         </Trans>
       </p>
+      <br />
+      <h2 className="title is-spaced has-text-info">
+        <Trans>Need to send another letter?</Trans>
+      </h2>
+      <NorentMoreLettersBlurb />
       <br />
       <h2 className="title is-spaced has-text-info">
         <Trans>More resources</Trans>

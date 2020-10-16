@@ -134,7 +134,26 @@ export class SessionBuilder {
       city: "Los Angeles",
       state: "CA",
       zipcode: "90007",
+      canReceiveRttcComms: true,
       agreedToNorentTerms: true,
+    });
+  }
+
+  withMailedNorentLetter(): SessionBuilder {
+    return this.with({
+      norentLatestLetter: {
+        trackingNumber: "1234",
+        letterSentAt: "2020-03-13T19:41:09+00:00",
+        createdAt: "2020-03-13T19:41:09+00:00",
+      },
+    });
+  }
+
+  withAvailableNoRentPeriods(
+    dates: GraphQLDate[] = ["2020-05-01"]
+  ): SessionBuilder {
+    return this.with({
+      norentAvailableRentPeriods: dates.map((paymentDate) => ({ paymentDate })),
     });
   }
 

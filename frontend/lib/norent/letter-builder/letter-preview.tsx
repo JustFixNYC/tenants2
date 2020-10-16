@@ -1,12 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Page from "../../ui/page";
 import { LetterPreview } from "../../static-page/letter-preview";
 import { NorentRoutes } from "../routes";
 import { NextButton, ProgressButtonsAsLinks } from "../../ui/buttons";
 import { OutboundLink } from "../../analytics/google-analytics";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import { NorentSendLetterMutation } from "../../queries/NorentSendLetterMutation";
-import { Route, Link } from "react-router-dom";
+import { Route, Link, Redirect } from "react-router-dom";
 import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
 import { AppContext } from "../../app-context";
 import {
@@ -17,6 +16,7 @@ import { NorentNotSentLetterStep } from "./step-decorators";
 import { li18n } from "../../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import i18n from "../../i18n";
+import { NorentSendLetterV2Mutation } from "../../queries/NorentSendLetterV2Mutation";
 
 const SendLetterModal: React.FC<{
   nextStep: string;
@@ -35,7 +35,7 @@ const SendLetterModal: React.FC<{
             </Trans>
           </p>
           <SessionUpdatingFormSubmitter
-            mutation={NorentSendLetterMutation}
+            mutation={NorentSendLetterV2Mutation}
             initialState={{}}
             onSuccessRedirect={nextStep}
           >
@@ -95,6 +95,19 @@ export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
   const { session } = useContext(AppContext);
   const isMailingLetter = session.landlordDetails?.address;
   const isEmailingLetter = session.landlordDetails?.email;
+
+  // Urg, we need to capture the value of this at the time our component
+  // mounts, since it will change as soon as the user submits the
+  // form on this page.
+  const rentPeriodsAtMount = useState(
+    session.norentUpcomingLetterRentPeriods
+  )[0];
+
+  if (rentPeriodsAtMount.length === 0) {
+    // This will be the case if the user e.g. clicks their browser's
+    // "back" button from the confirmation page.
+    return <Redirect to={NorentRoutes.locale.letter.menu} push={false} />;
+  }
 
   return (
     <Page

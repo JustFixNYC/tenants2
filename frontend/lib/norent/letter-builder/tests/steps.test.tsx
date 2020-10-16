@@ -71,7 +71,9 @@ describe("NoRent letter builder steps", () => {
 
   tester.defineTest({
     it: "works w/ logged-in national users in states w/ protections",
-    usingSession: sb.withLoggedInNationalUser(),
+    usingSession: sb.withLoggedInNationalUser().withOnboardingInfo({
+      canReceiveRttcComms: null,
+    }),
     expectSteps: [
       {
         url: "/en/letter/kyr",
@@ -86,6 +88,7 @@ describe("NoRent letter builder steps", () => {
     it: "works w/ logged-in national users in states w/o protections",
     usingSession: sb.withLoggedInNationalUser().withOnboardingInfo({
       state: "GA",
+      canReceiveRttcComms: null,
     }),
     expectSteps: [
       {
@@ -117,25 +120,29 @@ describe("NoRent letter builder steps", () => {
       "/en/letter/landlord/name",
       "/en/letter/landlord/email",
       "/en/letter/landlord/address",
+      "/en/letter/rent-periods",
       "/en/letter/preview",
       "/en/letter/confirmation",
     ],
   });
 
-  it("takes users who already wrote a letter straight to confirmation", async () => {
+  it("takes users who have sent letters but can send more to menu", async () => {
     const pal = new AppTesterPal(tester.render(), {
       ...tester.appTesterPalOptions,
       url: "/en/letter",
-      session: sb.withLoggedInNationalUser().with({
-        norentLatestRentPeriod: {
-          paymentDate: "2020-05-01",
-        },
-        norentLatestLetter: {
-          trackingNumber: "1234",
-          letterSentAt: "2020-03-13T19:41:09+00:00",
-          paymentDate: "2020-05-01",
-        },
-      }).value,
+      session: sb
+        .withLoggedInNationalUser()
+        .withMailedNorentLetter()
+        .withAvailableNoRentPeriods().value,
+    });
+    await pal.waitForLocation("/en/letter/menu");
+  });
+
+  it("takes users who have sent letters for all rent periods straight to confirmation", async () => {
+    const pal = new AppTesterPal(tester.render(), {
+      ...tester.appTesterPalOptions,
+      url: "/en/letter",
+      session: sb.withLoggedInNationalUser().withMailedNorentLetter().value,
     });
     await pal.waitForLocation("/en/letter/confirmation");
   });

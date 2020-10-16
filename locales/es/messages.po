@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-14 19:41\n"
+"PO-Revision-Date: 2020-10-16 11:28\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -745,7 +745,7 @@ msgstr "Idaho"
 
 #: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:25
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
-msgstr ""
+msgstr "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 
 #: frontend/lib/rh/rental-history.tsx:203
 msgid "If you have more questions, please email us at <0/>."

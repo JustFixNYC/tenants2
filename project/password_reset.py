@@ -4,6 +4,8 @@ from typing import Optional
 from django.utils.crypto import get_random_string, constant_time_compare
 from django.http import HttpRequest
 from django.utils.translation import gettext as _
+from django.core.mail import send_mail
+from django.conf import settings
 
 from . import slack
 from .util.site_util import get_site_name
@@ -60,13 +62,22 @@ def create_verification_code(request: HttpRequest, phone_number: str):
     request.session[USER_ID_SESSION_KEY] = user.pk
     request.session[VCODE_SESSION_KEY] = vcode
     request.session[TIMESTAMP_SESSION_KEY] = time.time()
-    twilio.send_sms_async(
-        phone_number,
-        _("%(site_name)s here! Your verification code is %(code)s.") % {
-            "site_name": get_site_name(),
-            "code": vcode,
-        }
-    )
+    ctx = {
+        "site_name": get_site_name(),
+        "code": vcode,
+    }
+    subject = _("Your %(site_name)s verification code") % ctx
+    body = _("%(site_name)s here! Your verification code is %(code)s.") % ctx
+    twilio.send_sms_async(phone_number, body)
+    if user.email:
+        send_mail(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [user.email],
+            fail_silently=False,
+        )
+
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
         f"has started the password reset process.",

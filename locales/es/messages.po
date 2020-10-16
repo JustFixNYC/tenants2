@@ -272,10 +272,6 @@ msgstr "Timbre Defectuoso"
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
 msgstr "Mapa de huelgas de renta y protección para inquilinos ante la emergencia generada por el COVID-19"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:6
-msgid "COVID-19 Tenant Defense"
-msgstr ""
-
 #: common-data/us-state-choices.ts:69
 msgid "California"
 msgstr "California"
@@ -289,7 +285,7 @@ msgstr "¿No puedes pagar la renta?"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:22
+#: frontend/lib/norent/data/state-localized-resources.tsx:24
 msgid "Cancel Rent Campaign"
 msgstr "Campaña para la Anulación de la Renta"
 
@@ -527,7 +523,7 @@ msgstr "Introduce tu dirección para ver algunas acciones recomendadas."
 msgid "Establish your defense"
 msgstr "Establece tu defensa"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:15
+#: frontend/lib/norent/data/state-localized-resources.tsx:17
 msgid "Eviction Moratorium updates"
 msgstr "Actualizaciones de la Moratoria de Desalojo"
 
@@ -981,7 +977,7 @@ msgstr "Cerrar sesión"
 msgid "Looks like you're already logged in"
 msgstr "Parece ser que ya has iniciado tu sesión"
 
-#: frontend/lib/norent/letter-builder/la-address-redirect.tsx:22
+#: frontend/lib/norent/letter-builder/los-angeles-know-your-rights.tsx:25
 msgid "Looks like you're in <0>Los Angeles County, California</0>"
 msgstr "Parece que estás en <0>el Condado de Los Angeles, California</0>"
 
@@ -1000,7 +996,7 @@ msgstr "Parece que ya estuviste aquí antes. Haz clic en \"Continuar\" para segu
 msgid "Loose Floor"
 msgstr "Piso Suelto"
 
-#: frontend/lib/norent/letter-builder/la-address-redirect.tsx:20
+#: frontend/lib/norent/letter-builder/los-angeles-know-your-rights.tsx:23
 msgid "Los Angeles County"
 msgstr "El Condado de Los Angeles"
 
@@ -1366,7 +1362,7 @@ msgstr "Historial de Renta"
 msgid "Rent Strike 2020: A Resource List"
 msgstr "Huelga de Renta 2020: Lista de recursos (en inglés)"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:30
+#: frontend/lib/norent/data/state-localized-resources.tsx:32
 msgid "Rent Strike Organizing"
 msgstr "Organizar Huelgas de Renta"
 
@@ -1619,7 +1615,7 @@ msgstr "Estufa Defectuosa"
 msgid "Strategic Actions for a Just Economy"
 msgstr "Strategic Actions for a Just Economy"
 
-#: frontend/lib/norent/letter-builder/la-address-redirect.tsx:54
+#: frontend/lib/norent/letter-builder/los-angeles-know-your-rights.tsx:57
 msgid "Strategic Actions for a Just Economy (SAJE) can contact me to provide additional support."
 msgstr ""
 
@@ -1739,6 +1735,10 @@ msgstr "Inodoro No Funciona"
 #: frontend/lib/norent/letter-builder/confirmation.tsx:70
 msgid "USPS Tracking #:"
 msgstr "Número de Seguimiento USPS:"
+
+#: frontend/lib/norent/data/state-localized-resources.tsx:6
+msgid "Understanding California’s COVID-19 Tenant Relief Act of 2020 (PDF)"
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:36
 msgid "Unfortunately, we do not currently recommend sending a notice of non-payment to your landlord. Sending a notice could put you at risk of harassment."
@@ -2300,7 +2300,7 @@ msgstr ""
 msgid "norent.listOfSuggestedNonpaymentDocumentation"
 msgstr "<0>Mientras esperas que el dueño de tu edificio te dé una respuesta, reúne toda la documentación que puedas. Algunos tipos de documentación que puedes recopilar incluyen:</0><1><2><3>Carta de tu jefe:</3>una carta de tu jefe o de un compañero de trabajo que mencione el virus COVID-19 y muestre la pérdida de trabajo o la reducción de horas como resultado del COVID-19.</2><4><5> Documentos de beneficios de desempleo</5>: son los documentos que demuestran que solicitaste o recibiste beneficios del Departamento de Desarrollo del Empleo.</4><6><7>Recibos de pago de salario</7>: pueden ser cheques de pagos anteriores a la fecha de terminación o despido. Si has tenido un cambio en el número de horas de trabajo, puedes retener tus cheques de pago anteriores y posteriores a ese cambio.</6><8><9>Gastos relacionados con el COVID-19</9>: pueden ser facturas que demuestren que tus gastos han aumentado por problemas derivados del COVID-19, incluidos los costos de cuidado de niños, gastos para cumplir con las directivas de salud pública u otros gastos relacionados.</8><10><11>Cierre de escuelas</11>: esta podría ser una notificación de la escuela de tus hijos diciendo que ha cerrado debido al COVID-19. También puedes incluir pruebas de que tus hijos están matriculados.</10><12><13> Estados financieros</13>: pueden ser presupuestos, estados de cuenta bancarios o archivos personales que demuestren que tus ingresos laborales o de negocio se han interrumpido debido a la crisis provocada por el COVID-19. Asegúrate de no enviar información financiera personal confidencial que no quieras que vea el dueño de tu edificio.</12><14><15>Registros médicos del COVID-19</15>: esto podría incluir gastos médicos extraordinarios que tengan relación con el diagnóstico, pruebas y/o tratamiento del COVID-19 que hayas efectuado con tu dinero propio para ti o algún miembro de tu familia. Debido a la confidencialidad de los archivos médicos, es posible que no desees enviarlos al dueño de tu edificio. Sin embargo, debes conservar estos recibos para tu archivo personal. Estos podrían ser utilizados como prueba en caso que debas presentarlos como evidencia en procedimientos judiciales.</14><16><17>Alguna otra prueba del impacto financiero relacionado con el COVID-19</17>: puede ser cualquier otra prueba que demuestre cómo el virus COVID-19 ha afectado tu capacidad de pagar la renta.</16></1>"
 
-#: frontend/lib/norent/letter-builder/la-address-redirect.tsx:29
+#: frontend/lib/norent/letter-builder/los-angeles-know-your-rights.tsx:32
 msgid "norent.losAngelesKyr"
 msgstr ""
 

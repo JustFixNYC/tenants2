@@ -27,7 +27,7 @@ export function hasUserSeenSajeCheckboxYet(s: AllSessionInfo): boolean {
   return typeof getSajeValue(s) === "boolean" ? true : false;
 }
 
-export const NorentLbLosAngelesRedirect = MiddleProgressStep((props) => {
+export const NorentLbLosAngelesKyr = MiddleProgressStep((props) => {
   return (
     <Page title={li18n._(t`Los Angeles County`)}>
       <h2 className="title">

@@ -27,8 +27,8 @@ import {
 import { isLoggedInUserInStateWithProtections } from "./national-metadata";
 import {
   hasUserSeenSajeCheckboxYet,
-  NorentLbLosAngelesRedirect,
-} from "./la-address-redirect";
+  NorentLbLosAngelesKyr,
+} from "./los-angeles-know-your-rights";
 import { PostSignupNoProtections } from "./post-signup-no-protections";
 import { createCrossSiteAgreeToTermsStep } from "../../pages/cross-site-terms-opt-in";
 import { NorentRentPeriods } from "./rent-periods";
@@ -122,7 +122,7 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
             : isUserLoggedIn(s)
             ? hasUserSeenSajeCheckboxYet(s)
             : false,
-        component: NorentLbLosAngelesRedirect,
+        component: NorentLbLosAngelesKyr,
       },
       ...skipStepsIf(isUserLoggedIn, [
         {

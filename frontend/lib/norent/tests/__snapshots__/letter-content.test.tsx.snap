@@ -84,7 +84,7 @@ exports[`<NorentLetterContent> works 1`] = `
   <p
     class="jf-signature"
   >
-    Regards,
+    Signed,
     <br />
     <br />
     Boop Jones

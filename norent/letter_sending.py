@@ -28,7 +28,7 @@ NORENT_EMAIL_TO_LANDLORD_URL = "letter-email.txt"
 
 # The URL, relative to the localized site root, that renders the NoRent
 # email to the user.
-NORENT_EMAIL_TO_USER_URL = "letter-email-to-user.txt"
+NORENT_EMAIL_TO_USER_URL = "letter-email-to-user.html"
 
 # The URL prefix for USPS certified letter tracking.
 USPS_TRACKING_URL_PREFIX = common_data.load_json("loc.json")["USPS_TRACKING_URL_PREFIX"]
@@ -42,6 +42,7 @@ def email_react_rendered_content_with_attachment(
     recipients: List[str],
     attachment: FileResponse,
     locale: str,
+    is_html_email: bool = False,
 ) -> None:
     '''
     Renders an email in the front-end, using the given locale,
@@ -53,10 +54,12 @@ def email_react_rendered_content_with_attachment(
         locale,
         url,
         user=user,
+        is_html_email=is_html_email,
     )
     email_file_response_as_attachment(
         subject=email.subject,
         body=email.body,
+        html_body=email.html_body,
         recipients=recipients,
         attachment=attachment,
     )
@@ -239,6 +242,7 @@ def send_letter(letter: models.Letter):
         email_react_rendered_content_with_attachment(
             user,
             NORENT_EMAIL_TO_USER_URL,
+            is_html_email=True,
             recipients=[user.email],
             attachment=norent_pdf_response(pdf_bytes),
 

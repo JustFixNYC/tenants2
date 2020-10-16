@@ -1,13 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NorentLetterEmailToUser works 1`] = `
+exports[`NorentLetterEmailToUserBody works with LA users 1`] = `
 <div>
-  <p
-    class="jf-email-subject"
-  >
-    Subject: 
-    Here's a copy of your NoRent letter
-  </p>
   <p>
     Hello Boop,
   </p>
@@ -17,10 +11,226 @@ exports[`NorentLetterEmailToUser works 1`] = `
   <p>
     You can also track the delivery of your letter using USPS Tracking:
      
-    https://tools.usps.com/go/TrackConfirmAction?tLabels=1234567890987654321
+    <a
+      data-jf-show-href-only-in-plaintext="true"
+      href="https://tools.usps.com/go/TrackConfirmAction?tLabels=1234"
+    >
+      1234
+    </a>
+  </p>
+  <p>
+    Please read the rest of this email carefully as it contains important information about your next steps.
+  </p>
+  <h2>
+    What is the new law AB3088?
+  </h2>
+  <p>
+    On August 31, 2020, the State of California passed tenant protections under Assembly Bill 3088. These protections prevent landlords from evicting tenants before February 1, 2021 without a valid reason or for any rent not paid between March 4 - January 31, 2021 due to loss of income or increased expenses associated with COVID-19. Although this law protects you from being evicted for not paying rent, it does not cancel rent.
+  </p>
+  <p>
+    If you owe rent for any months from March 2020 to August 2020, you must submit a declaration form to your landlord for any months you do not pay. Now that you have used the NoRent website to mail or email the declaration to your landlord, your landlord cannot legally evict you for not paying rent.
+  </p>
+  <h2>
+    How does sending this declaration help me?
+  </h2>
+  <p>
+    Using this declaration satisfies any local requirements to notify your landlord.
+  </p>
+  <ul>
+    <li>
+      It provides a defense to an eviction case based on nonpayment of rent; and
+    </li>
+    <li>
+      It converts your rent to “civil debt.” This means that the landlord can file a small claims case for the unpaid rent. If a landlord gets a judgment for the unpaid rent in small claims court, the landlord can collect that judgment by garnishing the tenant’s paycheck, levying the tenant’s bank account, etc.
+    </li>
+  </ul>
+  <h2>
+    Do I need to send this declaration every month?
+  </h2>
+  <p>
+    Yes. Follow these instructions even if you have sent a letter to your landlord each month that you have not paid. And send a new declaration for every month moving forward (through January).
+  </p>
+  <h2>
+    Do I still have to pay my rent?
+  </h2>
+  <p>
+    On or before 1/30/2020 you must decide whether to pay 25% of the rent for each month from September to January 2021. That’s 5 months multiplied by 25%. If after consulting with an attorney, you determine that you do not want to be in eviction court, pay the 25%. Tenants with severe bad conditions or living in illegal units should talk with an attorney before deciding whether to pay.
+  </p>
+  <h2>
+    What if my landlord sends me a notice?
+  </h2>
+  <p>
+    If you have sent the declaration and the owner sends you a notice to pay rent with a declaration, read it, if it is the same as the one you have sent to them already, date, sign and send it exactly as instructed in the notice to pay rent or quit. Note that sometimes owners change the address or the way to pay when they send a notice to pay rent or quit. Follow the instructions in the notice to pay rent or quit.
+  </p>
+  <h2>
+    What if I have more questions?
+  </h2>
+  <p>
+    You can contact Strategic Actions for a Just Economy (SAJE) - a 501c3 non-profit organization in South Los Angeles.
+  </p>
+  <blockquote>
+    <em>
+      Since 1996 SAJE has been a force for economic justice in our community focusing on tenant rights, healthy housing, and equitable development. SAJE believes that the fate of city neighborhoods should be decided by those who dwell there, and convenes with other organizations to ensure this occurs in a manner that is fair, replicable, and sustainable. Housing is a human right.
+    </em>
+  </blockquote>
+  <p>
+    <strong>
+      Strategic Actions for a Just Economy (SAJE) is available for phone calls at (213) 745-9961, Monday-Friday from 10:00am-6:00pm.
+    </strong>
+  </p>
+  <p>
+    SAJE is also hosting Tenant Rights Q&A every Wednesday on Facebook Live:
+  </p>
+  <ul>
+    <li>
+      English 11am-12pm
+    </li>
+    <li>
+      Spanish 12:30pm-1:30pm
+    </li>
+  </ul>
+  <p>
+    <strong>
+      <em>
+        The above information is not a substitute for direct legal advice for your specific situation.
+      </em>
+    </strong>
+  </p>
+  <p>
+    <strong>
+      <em>
+        If you have received a Notice to Pay Rent or Quit or any other type of eviction notice, sign up for a workshop and/or get legal help at 
+        <a
+          href="https://www.stayhousedla.org/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          StayHousedLA.org
+        </a>
+        .
+      </em>
+    </strong>
+  </p>
+</div>
+`;
+
+exports[`NorentLetterEmailToUserBody works with NJ users 1`] = `
+<div>
+  <p>
+    Hello Boop,
+  </p>
+  <p>
+    You've sent your NoRent letter. Attached to this email is a PDF copy for your records.
+  </p>
+  <p>
+    You can also track the delivery of your letter using USPS Tracking:
+     
+    <a
+      data-jf-show-href-only-in-plaintext="true"
+      href="https://tools.usps.com/go/TrackConfirmAction?tLabels=1234"
+    >
+      1234
+    </a>
   </p>
   <p>
     To learn more about what to do next, check out our FAQ page: https://myserver.com/en/faqs
+  </p>
+</div>
+`;
+
+exports[`NorentLetterEmailToUserBody works with SF users 1`] = `
+<div>
+  <p>
+    Hello Boop,
+  </p>
+  <p>
+    You've sent your NoRent letter. Attached to this email is a PDF copy for your records.
+  </p>
+  <p>
+    You can also track the delivery of your letter using USPS Tracking:
+     
+    <a
+      data-jf-show-href-only-in-plaintext="true"
+      href="https://tools.usps.com/go/TrackConfirmAction?tLabels=1234"
+    >
+      1234
+    </a>
+  </p>
+  <p>
+    Please read the rest of this email carefully as it contains important information about your next steps.
+  </p>
+  <h2>
+    What is the new law AB3088?
+  </h2>
+  <p>
+    On August 31, 2020, the State of California passed tenant protections under Assembly Bill 3088. These protections prevent landlords from evicting tenants before February 1, 2021 without a valid reason or for any rent not paid between March 4 - January 31, 2021 due to loss of income or increased expenses associated with COVID-19. Although this law protects you from being evicted for not paying rent, it does not cancel rent.
+  </p>
+  <p>
+    If you owe rent for any months from March 2020 to August 2020, you must submit a declaration form to your landlord for any months you do not pay. Now that you have used the NoRent website to mail or email the declaration to your landlord, your landlord cannot legally evict you for not paying rent.
+  </p>
+  <h2>
+    How does sending this declaration help me?
+  </h2>
+  <p>
+    Using this declaration satisfies any local requirements to notify your landlord.
+  </p>
+  <ul>
+    <li>
+      It provides a defense to an eviction case based on nonpayment of rent; and
+    </li>
+    <li>
+      It converts your rent to “civil debt.” This means that the landlord can file a small claims case for the unpaid rent. If a landlord gets a judgment for the unpaid rent in small claims court, the landlord can collect that judgment by garnishing the tenant’s paycheck, levying the tenant’s bank account, etc.
+    </li>
+  </ul>
+  <h2>
+    Do I need to send this declaration every month?
+  </h2>
+  <p>
+    Yes. Follow these instructions even if you have sent a letter to your landlord each month that you have not paid. And send a new declaration for every month moving forward (through January).
+  </p>
+  <h2>
+    Do I still have to pay my rent?
+  </h2>
+  <p>
+    On or before 1/30/2020 you must decide whether to pay 25% of the rent for each month from September to January 2021. That’s 5 months multiplied by 25%. If after consulting with an attorney, you determine that you do not want to be in eviction court, pay the 25%. Tenants with severe bad conditions or living in illegal units should talk with an attorney before deciding whether to pay.
+  </p>
+  <h2>
+    What if my landlord sends me a notice?
+  </h2>
+  <p>
+    If you have sent the declaration and the owner sends you a notice to pay rent with a declaration, read it, if it is the same as the one you have sent to them already, date, sign and send it exactly as instructed in the notice to pay rent or quit. Note that sometimes owners change the address or the way to pay when they send a notice to pay rent or quit. Follow the instructions in the notice to pay rent or quit.
+  </p>
+  <h2>
+    What if I have more questions?
+  </h2>
+  <p>
+    You can contact Tenants Together, a statewide coalition of local tenant organizations dedicated to defending and advancing the rights of California tenants to safe, decent, and affordable housing.
+  </p>
+  <p>
+    If you have questions about your rights as a tenant, please 
+    <a
+      href="https://www.tenantstogether.org/tenant-rights-hotline"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      connect with Tenants Together
+    </a>
+     or find an attorney at 
+    <a
+      href="https://www.lawhelpca.org/"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Law Help California
+    </a>
+    .
+  </p>
+  <p>
+    <strong>
+      <em>
+        The above information is not a substitute for direct legal advice for your specific situation.
+      </em>
+    </strong>
   </p>
 </div>
 `;

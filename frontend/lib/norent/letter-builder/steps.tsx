@@ -25,7 +25,10 @@ import {
   hasUserSeenRttcCheckboxYet,
 } from "./know-your-rights";
 import { isLoggedInUserInStateWithProtections } from "./national-metadata";
-import { NorentLbLosAngelesRedirect } from "./la-address-redirect";
+import {
+  hasUserSeenSajeCheckboxYet,
+  NorentLbLosAngelesKyr,
+} from "./los-angeles-know-your-rights";
 import { PostSignupNoProtections } from "./post-signup-no-protections";
 import { createCrossSiteAgreeToTermsStep } from "../../pages/cross-site-terms-opt-in";
 import { NorentRentPeriods } from "./rent-periods";
@@ -52,7 +55,11 @@ function isUserLoggedInWithEmail(s: AllSessionInfo): boolean {
 }
 
 function isUserInLA(s: AllSessionInfo): boolean {
-  return s.norentScaffolding?.isInLosAngeles ?? false;
+  return (
+    s.onboardingInfo?.isInLosAngeles ??
+    s.norentScaffolding?.isInLosAngeles ??
+    false
+  );
 }
 
 function isUserOutsideLA(s: AllSessionInfo): boolean {
@@ -105,12 +112,19 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
           shouldBeSkipped: isUserInNYC,
           component: NorentLbAskNationalAddress,
         },
-        {
-          path: routes.laAddress,
-          exact: true,
-          shouldBeSkipped: isUserOutsideLA,
-          component: NorentLbLosAngelesRedirect,
-        },
+      ]),
+      {
+        path: routes.laAddress,
+        exact: true,
+        shouldBeSkipped: (s) =>
+          isUserOutsideLA(s)
+            ? true
+            : isUserLoggedIn(s)
+            ? hasUserSeenSajeCheckboxYet(s)
+            : false,
+        component: NorentLbLosAngelesKyr,
+      },
+      ...skipStepsIf(isUserLoggedIn, [
         {
           path: routes.nycAddress,
           exact: false,

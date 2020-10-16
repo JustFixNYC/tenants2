@@ -17,7 +17,7 @@
   },
   "CA": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Bajo la Regla de Emergencia 1 del Consejo Judicial, emitida el 6 de abril de 2020, se ha suspendido la mayor\u00eda de desalojos en California hasta 90 d\u00edas despu\u00e9s de que el Gobernador levante el estado de emergencia relativo a la pandemia de COVID-19."
+    "textOfLegislation": "Si vives en el estado de California y no puedes pagar la renta por motivos relacionados al COVID-19 entre Marzo de 2020 y Enero de 2021, es probable que tengas cobertura legal bajo el \"Acto de Alivio a los Inquilinos de 2020\" AB3380. Cada mes, debes enviar una carta de declaraci\u00f3n de aviso de impago al due\u00f1o o manager de tu edificio para que sepan que no puedes pagar y el porque. Esta herramienta satisface las necesidades legales para que puedas mandar tal carta de declaraci\u00f3n con certeza."
   },
   "CO": {
     "stateWithoutProtections": true,
@@ -25,7 +25,7 @@
   },
   "CT": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Los inquilinos de Connecticut est\u00e1n protegidos contra el desalojo por falta de pago hasta el 1 de Octubre de 2020, mediante la Orden Ejecutiva 7000, emitida por el gobernador Ned Lamont."
+    "textOfLegislation": "Los inquilinos de Connecticut est\u00e1n protegidos contra el desalojo por falta de pago hasta el 1 de Enero de 2021, mediante la Orden Ejecutiva 9E, emitida por el gobernador Ned Lamont."
   },
   "DC": {
     "stateWithoutProtections": true,
@@ -120,7 +120,7 @@
   },
   "NJ": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Los inquilinos de Nueva Jersey est\u00e1n protegidos contra el desalojo por falta de pago mediante la Orden Ejecutiva No. 106, emitida por el gobernador Philip Murphy el 19 de marzo de 2020."
+    "textOfLegislation": "Los inquilinos de Nueva Jersey est\u00e1n protegidos contra el desalojo por falta de pago mediante la Orden Ejecutiva No. 186, emitida por el gobernador Philip Murphy el 25 de septiembre de 2020."
   },
   "NM": {
     "stateWithoutProtections": true

@@ -110,6 +110,22 @@ describe("NoRent letter builder steps", () => {
   });
 
   tester.defineTest({
+    it: "Asks legacy LA users to opt-in to SAJE",
+    usingSession: sb.withLoggedInLosAngelesUser().withOnboardingInfo({
+      canReceiveSajeComms: null,
+    }),
+    expectSteps: ["/en/letter/address/los-angeles"],
+  });
+
+  tester.defineTest({
+    it: "Skips SAJE opt-in for users who have already seen it",
+    usingSession: sb.withLoggedInLosAngelesUser().withOnboardingInfo({
+      canReceiveSajeComms: false,
+    }),
+    expectSteps: ["/en/letter/landlord/name"],
+  });
+
+  tester.defineTest({
     it: "takes onboarded users through flow to confirmation",
     usingSession: sb.withLoggedInNationalUser().withNorentScaffolding({
       hasLandlordEmailAddress: true,

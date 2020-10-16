@@ -88,6 +88,11 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
           </Trans>
         </p>
       )}
+      <p>
+        <strong>
+          Check your email for additional important information on next steps.
+        </strong>
+      </p>
       {letter?.trackingNumber && letter?.letterSentAt && (
         <>
           <h2 className="title is-spaced has-text-info">

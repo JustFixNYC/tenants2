@@ -129,11 +129,40 @@ export class SessionBuilder {
   }
 
   withLoggedInNationalUser(): SessionBuilder {
+    return this.withLoggedInLosAngelesUser();
+  }
+
+  withLoggedInLosAngelesUser(): SessionBuilder {
     return this.withLoggedInUser().withOnboardingInfo({
       address: "152 W. 32nd St",
       city: "Los Angeles",
       state: "CA",
       zipcode: "90007",
+      canReceiveRttcComms: true,
+      agreedToNorentTerms: true,
+      canReceiveSajeComms: true,
+      isInLosAngeles: true,
+    });
+  }
+
+  withLoggedInSanFranciscoUser(): SessionBuilder {
+    return this.withLoggedInUser().withOnboardingInfo({
+      address: "1 Dr Carlton B Goodlett Pl",
+      city: "San Francisco",
+      state: "CA",
+      zipcode: "94102",
+      canReceiveRttcComms: true,
+      agreedToNorentTerms: true,
+      isInLosAngeles: false,
+    });
+  }
+
+  withLoggedInNewJerseyUser(): SessionBuilder {
+    return this.withLoggedInUser().withOnboardingInfo({
+      address: "319 E State St",
+      city: "Trenton",
+      state: "NJ",
+      zipcode: "08608",
       canReceiveRttcComms: true,
       agreedToNorentTerms: true,
     });

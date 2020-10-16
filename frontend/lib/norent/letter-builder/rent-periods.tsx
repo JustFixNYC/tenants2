@@ -37,7 +37,7 @@ export const NorentRentPeriods = NorentNotSentLetterStep((props) => {
 
   return (
     <Page
-      title={li18n._(t`Months of rent non-payment`)}
+      title={li18n._(t`Months you're missing rent payments`)}
       withHeading="big"
       className="content"
     >

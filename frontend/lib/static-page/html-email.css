@@ -122,7 +122,13 @@ h4 {
   font-weight: 400;
   line-height: 1.4;
   margin: 0;
-  margin-bottom: 30px;
+
+  /**
+   * Below is a deviation from the original styling, which had
+   * very odd margins. -AV
+   */
+  margin-top: 2em;
+  margin-bottom: 1em;
 }
 
 h1 {
@@ -144,7 +150,8 @@ ol {
 p li,
 ul li,
 ol li {
-  list-style-position: inside;
+  /** This was 'inside' but it looked weird. -AV */
+  list-style-position: outside;
   margin-left: 5px;
 }
 

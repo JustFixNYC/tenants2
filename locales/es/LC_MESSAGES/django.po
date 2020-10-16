@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-16 11:06+0000\n"
-"PO-Revision-Date: 2020-10-16 11:28\n"
+"PO-Revision-Date: 2020-10-16 19:30\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -79,7 +79,7 @@ msgstr "¡Las contraseñas no coinciden!"
 #: project/password_reset.py:69
 #, python-format
 msgid "Your %(site_name)s verification code"
-msgstr ""
+msgstr "Tu código de verificación de %(site_name)s"
 
 #: project/password_reset.py:70
 #, python-format

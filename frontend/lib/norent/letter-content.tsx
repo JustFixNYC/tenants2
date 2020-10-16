@@ -142,7 +142,10 @@ export const NorentLetterEmailToLandlord: React.FC<NorentLetterContentProps> = (
 const LetterBodyCalifornia: React.FC<NorentLetterContentProps> = (props) => {
   return (
     <Trans id="norent.letterBodyCaliforniaAB3088">
-      <p>This letter is in regards to rent payment for the following months:</p>
+      <p>
+        This declaration letter is in regards to rent payment for the following
+        months:
+      </p>
       <PaymentDateList dates={props.paymentDates} />
       <p>
         I am currently unable to pay my rent or other financial obligations

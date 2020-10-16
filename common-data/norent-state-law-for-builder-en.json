@@ -17,7 +17,7 @@
   },
   "CA": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "If you live in the state of California and you are not able to pay your rent due to COVID-19 reasons from March 2020 to January 2021 you are likely covered by AB3088 - Tenant Relief Act of 2020. You must submit a declaration each month to your landlord stating that you are unable to pay rent and the reasons why. This tool satisfies the requirements for you to be able to successfully mail a declaration to your landlord."
+    "textOfLegislation": "If you live in the state of California and you are not able to pay your rent due to COVID-19 reasons from March 2020 to January 2021 you are likely covered by AB3088 - Tenant Relief Act of 2020. You must submit a declaration letter each month to your landlord stating that you are unable to pay rent and the reasons why. This tool satisfies the requirements for you to be able to successfully mail a declaration letter to your landlord."
   },
   "CO": {
     "stateWithoutProtections": true,
@@ -25,7 +25,7 @@
   },
   "CT": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Governor Lamont\u2019s Executive Order 7OOO dated August 21, 2020 extends eviction moratorium to October 1, 2020."
+    "textOfLegislation": "Governor Lamont\u2019s Executive Order 9E dated September 30, 2020 extends eviction moratorium to January 1, 2021."
   },
   "DC": {
     "stateWithoutProtections": true,
@@ -120,7 +120,7 @@
   },
   "NJ": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Tenants in New Jersey are protected from eviction for non-payment by Executive Order No. 106, issued by Governor Philip Murphy on March 19, 2020."
+    "textOfLegislation": "Tenants in New Jersey are protected from eviction for non-payment by Executive Order No. 186 until October 26, issued by Governor Philip Murphy on September 25, 2020."
   },
   "NM": {
     "stateWithoutProtections": true

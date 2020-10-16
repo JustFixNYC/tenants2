@@ -84,6 +84,37 @@ const CALIFORNIA_FAQS: CaliforniaFAQProps[] = [
     ),
   },
   {
+    question: t`Do I still have to pay my rent?`,
+    answer: (
+      <p>
+        <Trans id="norent.doIStillHaveToPayMyRentAB3088">
+          On or before 1/30/2020 you must decide whether to pay 25% of the rent
+          for each month from September to January 2021. That’s 5 months
+          multiplied by 25%. If after consulting with an attorney, you determine
+          that you do not want to be in eviction court, pay the 25%. Tenants
+          with severe bad conditions or living in illegal units should talk with
+          an attorney before deciding whether to pay.
+        </Trans>
+      </p>
+    ),
+  },
+  {
+    question: t`What if my landlord sends me a notice?`,
+    answer: (
+      <p>
+        <Trans id="norent.whatIfMyLandlordSendsMeANoticeAB3088">
+          If you have sent the declaration and the owner sends you a notice to
+          pay rent with a declaration, read it, if it is the same as the one you
+          have sent to them already, date, sign and send it exactly as
+          instructed in the notice to pay rent or quit. Note that sometimes
+          owners change the address or the way to pay when they send a notice to
+          pay rent or quit. Follow the instructions in the notice to pay rent or
+          quit.
+        </Trans>
+      </p>
+    ),
+  },
+  {
     question: t`What if I have more questions?`,
     locality: "IN LA",
     answer: (

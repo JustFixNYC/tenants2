@@ -51,6 +51,18 @@ exports[`NorentLetterEmailToUserBody works with LA users 1`] = `
     Yes. Follow these instructions even if you have sent a letter to your landlord each month that you have not paid. And send a new declaration for every month moving forward (through January).
   </p>
   <h2>
+    Do I still have to pay my rent?
+  </h2>
+  <p>
+    On or before 1/30/2020 you must decide whether to pay 25% of the rent for each month from September to January 2021. That’s 5 months multiplied by 25%. If after consulting with an attorney, you determine that you do not want to be in eviction court, pay the 25%. Tenants with severe bad conditions or living in illegal units should talk with an attorney before deciding whether to pay.
+  </p>
+  <h2>
+    What if my landlord sends me a notice?
+  </h2>
+  <p>
+    If you have sent the declaration and the owner sends you a notice to pay rent with a declaration, read it, if it is the same as the one you have sent to them already, date, sign and send it exactly as instructed in the notice to pay rent or quit. Note that sometimes owners change the address or the way to pay when they send a notice to pay rent or quit. Follow the instructions in the notice to pay rent or quit.
+  </p>
+  <h2>
     What if I have more questions?
   </h2>
   <p>
@@ -175,6 +187,18 @@ exports[`NorentLetterEmailToUserBody works with SF users 1`] = `
   </h2>
   <p>
     Yes. Follow these instructions even if you have sent a letter to your landlord each month that you have not paid. And send a new declaration for every month moving forward (through January).
+  </p>
+  <h2>
+    Do I still have to pay my rent?
+  </h2>
+  <p>
+    On or before 1/30/2020 you must decide whether to pay 25% of the rent for each month from September to January 2021. That’s 5 months multiplied by 25%. If after consulting with an attorney, you determine that you do not want to be in eviction court, pay the 25%. Tenants with severe bad conditions or living in illegal units should talk with an attorney before deciding whether to pay.
+  </p>
+  <h2>
+    What if my landlord sends me a notice?
+  </h2>
+  <p>
+    If you have sent the declaration and the owner sends you a notice to pay rent with a declaration, read it, if it is the same as the one you have sent to them already, date, sign and send it exactly as instructed in the notice to pay rent or quit. Note that sometimes owners change the address or the way to pay when they send a notice to pay rent or quit. Follow the instructions in the notice to pay rent or quit.
   </p>
   <h2>
     What if I have more questions?

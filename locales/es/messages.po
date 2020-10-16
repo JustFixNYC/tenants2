@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-16 19:11\n"
+"PO-Revision-Date: 2020-10-16 19:19\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2333,11 +2333,11 @@ msgstr "Desde 1996, SAJE ha sido una fuerza para la justicia económica en nuest
 
 #: frontend/lib/norent/letter-email-to-user.tsx:139
 msgid "norent.sajeFacebookLive"
-msgstr "<0>SAJE is also hosting Tenant Rights Q&A every Wednesday on Facebook Live:</0><1><2>English 11am-12pm</2><3>Spanish 12:30pm-1:30pm</3></1>"
+msgstr "<0>SAJE también ofrece todos los miércoles sesiones de preguntas y respuestas en Facebook Live:</0><1><2>Inglés 11am-12pm</2><3>Español 12:30pm</3></1>"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:133
 msgid "norent.sajePhoneCalls"
-msgstr "Strategic Actions for a Just Economy (SAJE) is available for phone calls at (213) 745-9961, Monday-Friday from 10:00am-6:00pm."
+msgstr "Acciones Estratégicas para una Economía Justa (SAJE) está disponible para llamadas telefónicas en el (213) 745-9961, de lunes a viernes de 10:00am-6:00pm."
 
 #: frontend/lib/norent/homepage.tsx:251
 msgid "norent.sampleNoRentLetter"

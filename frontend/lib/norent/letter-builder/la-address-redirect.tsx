@@ -2,7 +2,6 @@ import React from "react";
 import Page from "../../ui/page";
 import { OutboundLink } from "../../analytics/google-analytics";
 import { ProgressButtons } from "../../ui/buttons";
-import { NorentOnboardingStep } from "./step-decorators";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
@@ -10,6 +9,7 @@ import { NorentOptInToSajeCommsMutation } from "../../queries/NorentOptInToSajeC
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { CheckboxFormField } from "../../forms/form-fields";
 import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
+import { MiddleProgressStep } from "../../progress/progress-step-route";
 
 const SAJE_WEBSITE_URL = "https://www.saje.net/";
 
@@ -23,7 +23,11 @@ const getSajeValue = (s: AllSessionInfo) =>
   s.onboardingInfo?.canReceiveSajeComms ??
   s.norentScaffolding?.canReceiveSajeComms;
 
-export const NorentLbLosAngelesRedirect = NorentOnboardingStep((props) => {
+export function hasUserSeenSajeCheckboxYet(s: AllSessionInfo): boolean {
+  return typeof getSajeValue(s) === "boolean" ? true : false;
+}
+
+export const NorentLbLosAngelesRedirect = MiddleProgressStep((props) => {
   return (
     <Page title={li18n._(t`Los Angeles County`)}>
       <h2 className="title">

@@ -25,7 +25,10 @@ import {
   hasUserSeenRttcCheckboxYet,
 } from "./know-your-rights";
 import { isLoggedInUserInStateWithProtections } from "./national-metadata";
-import { NorentLbLosAngelesRedirect } from "./la-address-redirect";
+import {
+  hasUserSeenSajeCheckboxYet,
+  NorentLbLosAngelesRedirect,
+} from "./la-address-redirect";
 import { PostSignupNoProtections } from "./post-signup-no-protections";
 import { createCrossSiteAgreeToTermsStep } from "../../pages/cross-site-terms-opt-in";
 import { NorentRentPeriods } from "./rent-periods";
@@ -52,7 +55,11 @@ function isUserLoggedInWithEmail(s: AllSessionInfo): boolean {
 }
 
 function isUserInLA(s: AllSessionInfo): boolean {
-  return s.norentScaffolding?.isInLosAngeles ?? false;
+  return (
+    s.onboardingInfo?.isInLosAngeles ??
+    s.norentScaffolding?.isInLosAngeles ??
+    false
+  );
 }
 
 function isUserOutsideLA(s: AllSessionInfo): boolean {
@@ -105,18 +112,19 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
           shouldBeSkipped: isUserInNYC,
           component: NorentLbAskNationalAddress,
         },
-        {
-          path: routes.laAddress,
-          exact: true,
-          // TODO: Arg, isUserOutsideLA() only looks at
-          // norent scaffolding, but we need to look at it
-          // for returning users who haven't seen the SAJE
-          // opt-in too. Also, this step shouldn't be in
-          // the enclosing `skipStepsIf(isUserLoggedIn)` or it
-          // will always be skipped regardless!
-          shouldBeSkipped: isUserOutsideLA,
-          component: NorentLbLosAngelesRedirect,
-        },
+      ]),
+      {
+        path: routes.laAddress,
+        exact: true,
+        shouldBeSkipped: (s) =>
+          isUserOutsideLA(s)
+            ? true
+            : isUserLoggedIn(s)
+            ? hasUserSeenSajeCheckboxYet(s)
+            : false,
+        component: NorentLbLosAngelesRedirect,
+      },
+      ...skipStepsIf(isUserLoggedIn, [
         {
           path: routes.nycAddress,
           exact: false,

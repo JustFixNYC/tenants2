@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-16 11:06+0000\n"
-"PO-Revision-Date: 2020-10-13 21:44\n"
+"PO-Revision-Date: 2020-10-16 19:30\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -79,7 +79,7 @@ msgstr "¡Las contraseñas no coinciden!"
 #: project/password_reset.py:69
 #, python-format
 msgid "Your %(site_name)s verification code"
-msgstr ""
+msgstr "Tu código de verificación de %(site_name)s"
 
 #: project/password_reset.py:70
 #, python-format
@@ -115,3 +115,4 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 #: project/util/phone_number.py:68
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
+

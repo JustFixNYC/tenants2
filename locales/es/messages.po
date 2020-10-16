@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-14 19:41\n"
+"PO-Revision-Date: 2020-10-16 19:19\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -42,7 +42,7 @@ msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
 #: frontend/lib/norent/letter-content.tsx:15
 msgid "<0>Declaration of COVID-19 Related Financial Distress</0><1/>Compliant with Section 20 of the COVID-19 Tenant Relief Act of 2020, AB 3088"
-msgstr ""
+msgstr "<0>Declaración de Complicaciones Financieras Relacionadas con el COVID-19</0><1/>Conforme con la Sección 20 de la Ley de Alivio de Inquilinos COVID-19 de 2020, AB 3088"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:441
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
@@ -439,11 +439,11 @@ msgstr "¿Tengo que ir a la oficina de correos para enviar mi carta?"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:72
 msgid "Do I need to send this declaration every month?"
-msgstr ""
+msgstr "¿Necesito enviar esta declaración cada mes?"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:82
 msgid "Do I still have to pay my rent?"
-msgstr ""
+msgstr "¿Aún tengo que pagar la renta?"
 
 #: frontend/lib/norent/letter-builder/ask-city-state.tsx:23
 msgid "Do you live in {0}, {1}?"
@@ -721,7 +721,7 @@ msgstr "¿Cómo me organizo con otros inquilinos de mi edificio, cuadra o vecind
 
 #: frontend/lib/norent/letter-email-to-user.tsx:50
 msgid "How does sending this declaration help me?"
-msgstr ""
+msgstr "¿Por qué me sirve de ayuda enviar esta declaración?"
 
 #: frontend/lib/norent/homepage.tsx:167
 msgid "How it works"
@@ -757,7 +757,7 @@ msgstr "Idaho"
 
 #: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:25
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
-msgstr ""
+msgstr "Si no recibiste un código, comprueba tu correo electrónico. Si no lo encuentras, por favor envía un correo electrónico a <0/>."
 
 #: frontend/lib/rh/rental-history.tsx:203
 msgid "If you have more questions, please email us at <0/>."
@@ -765,11 +765,11 @@ msgstr "Si tienes más preguntas, por favor envíanos un correo electrónico a <
 
 #: frontend/lib/norent/letter-email-to-user.tsx:163
 msgid "If you have questions about your rights as a tenant, please <0>connect with Tenants Together</0> or find an attorney at <1>Law Help California</1>."
-msgstr ""
+msgstr "Si tiene preguntas sobre tus derechos como inquilino/a, por favor <0>contacta a Inquilinos Together</0> o busca un abogado en <1>Law Help California</1>."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:214
 msgid "If you have received a Notice to Pay Rent or Quit or any other type of eviction notice, sign up for a workshop and/or get legal help at <0>StayHousedLA.org</0>."
-msgstr ""
+msgstr "Si has recibido un Aviso de Pago de Renta (Notice to Pay Rent en inglés) o Aviso de Desalojo (Notice to Quit en inglés) o cualquier otro tipo de aviso, inscríbete a un taller y/o consigue ayuda legal en <0>StayHousedLA.org</0>."
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:37
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
@@ -1088,7 +1088,7 @@ msgstr "Meses de impago de renta"
 
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:26
 msgid "Months you're missing rent payments"
-msgstr ""
+msgstr "Meses en the te faltan pagos de renta"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:403
 msgid "More actions"
@@ -1314,7 +1314,7 @@ msgstr "Tenga en cuenta que el correo electrónico se enviará en inglés."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:194
 msgid "Please read the rest of this email carefully as it contains important information about your next steps."
-msgstr ""
+msgstr "Por favor, lee atentamente el resto del correo electrónico ya que contiene información importante sobre tus próximos pasos."
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:91
 #: frontend/lib/norent/the-letter.tsx:92
@@ -1536,7 +1536,7 @@ msgstr "Regístrate o inicia una sesión en tu cuenta para acceder a nuestra her
 #. before signature in formal letter
 #: frontend/lib/util/letter-content-util.tsx:53
 msgid "Signed,"
-msgstr ""
+msgstr "Firmado,"
 
 #: common-data/issue-choices.ts:240
 msgid "Sink: Cracked Sink"
@@ -1624,7 +1624,7 @@ msgstr "Strategic Actions for a Just Economy"
 
 #: frontend/lib/norent/letter-builder/los-angeles-know-your-rights.tsx:57
 msgid "Strategic Actions for a Just Economy (SAJE) can contact me to provide additional support."
-msgstr ""
+msgstr "Acciones Estratégicas para una Economía Justa (SAJE) puede ponerse en contacto conmigo para proporcionarme apoyo adicional."
 
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:37
 msgid "Street address"
@@ -1681,7 +1681,7 @@ msgstr "La Carta"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:204
 msgid "The above information is not a substitute for direct legal advice for your specific situation."
-msgstr ""
+msgstr "Esta información no sustituye el asesoramiento legal directo sobre tu situación específica."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:220
 msgid "The majority of your landlord's properties are concentrated in {0}."
@@ -1745,7 +1745,7 @@ msgstr "Número de Seguimiento USPS:"
 
 #: frontend/lib/norent/data/state-localized-resources.tsx:6
 msgid "Understanding California’s COVID-19 Tenant Relief Act of 2020 (PDF)"
-msgstr ""
+msgstr "Comprender la Ley de Alivio de Inquilinos COVID-19 de California de 2020 (PDF)"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:36
 msgid "Unfortunately, we do not currently recommend sending a notice of non-payment to your landlord. Sending a notice could put you at risk of harassment."
@@ -1901,7 +1901,7 @@ msgstr "¿Qué sucede cuando termine la moratoria de desalojo?"
 #: frontend/lib/norent/letter-email-to-user.tsx:109
 #: frontend/lib/norent/letter-email-to-user.tsx:152
 msgid "What if I have more questions?"
-msgstr ""
+msgstr "¿Qué pasa si tengo más preguntas?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:332
 msgid "What if I live in a manufactured or mobile home?"
@@ -1913,11 +1913,11 @@ msgstr "¿Qué sucede si vivo en un estado en donde no existe la moratoria de de
 
 #: frontend/lib/norent/letter-email-to-user.tsx:95
 msgid "What if my landlord sends me a notice?"
-msgstr ""
+msgstr "¿Qué pasa si el dueño o manager de mi edificio me envía un aviso?"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:25
 msgid "What is the new law AB3088?"
-msgstr ""
+msgstr "¿Qué es la nueva ley AB3088?"
 
 #: frontend/lib/forms/address-and-borough-form-field.tsx:19
 msgid "What is your borough?"
@@ -2025,7 +2025,7 @@ msgstr "También puede seguir la entrega de su carta usando USPS Tracking:"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:113
 msgid "You can contact Strategic Actions for a Just Economy (SAJE) - a 501c3 non-profit organization in South Los Angeles."
-msgstr ""
+msgstr "Puedes contactar Acciones Estratégicas para una Economía Justa (SAJE) - una organización sin fines de lucro 501c3 en el sur de Los Angeles."
 
 #: frontend/lib/norent/letter-builder/more-letters.tsx:29
 msgid "You can send an additional letter for other months when you couldn't pay rent."
@@ -2058,7 +2058,7 @@ msgstr "¡Tu carta está lista para enviar!"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:274
 msgid "Your NoRent letter and important next steps"
-msgstr ""
+msgstr "Tu carta de NoRent y pasos siguientes importantes"
 
 #: frontend/lib/norent/letter-content.tsx:237
 msgid "Your NoRent.org letter"
@@ -2126,7 +2126,7 @@ msgstr "Tu carta ha sido enviada al dueño o manager de tu edificio por correo c
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:69
 msgid "Your letter was sent on {0}."
-msgstr "Your letter was sent on {0}."
+msgstr "Tu carta fue enviada el {0}."
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:25
 msgid "Your phone number"
@@ -2217,11 +2217,11 @@ msgstr "<0>Esta es la información del dueño de tu edificio según los registro
 
 #: frontend/lib/norent/letter-email-to-user.tsx:74
 msgid "norent.doINeedToSendAB3088LetterEveryMonth"
-msgstr ""
+msgstr "Sí. Sigue estas instrucciones incluso si has enviado una carta al dueño o manager de tu edificio por cada mes que no hayas pagado la renta. Y envía una nueva declaración para cada mes siguiente (hasta enero)."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:84
 msgid "norent.doIStillHaveToPayMyRentAB3088"
-msgstr ""
+msgstr "Para evitar que el/la dueñe le desaloje por la renta de septiembre de 2020 a enero de 2021, también debe pagar el 25% por cada uno de esos meses. Puede pagarlo mes a mes o puede esperar hasta el 30 de enero de 2021 para pagar el 5 x 25% a la vez. Resultado: Si, después de consultar con un abogado de StayHousedLA, determina que no quiere estar en la corte de desalojo, pague el 25%. Los inquilinos con malas condiciones severas o que viven en unidades ilegales deben hablar con un abogado de StayHousedLA antes de decidir si pagar."
 
 #: frontend/lib/norent/components/social-icons.tsx:18
 msgid "norent.emailBodyTemplateForSharingNoRent"
@@ -2253,7 +2253,7 @@ msgstr "<0>Hay una diferencia entre una \"huelga de renta\" o retener la renta, 
 
 #: frontend/lib/norent/letter-email-to-user.tsx:51
 msgid "norent.howDoesLetterHelpWithAB3088"
-msgstr ""
+msgstr "<0>El uso de esta declaración satisface todos los requisitos locales para notificar al propietario. Envíe la declaración antes de la fecha de vencimiento del alquiler y no más tarde de 7 días a partir de la fecha de vencimiento. Si su ciudad local requiere que también proporcione pruebas, proporciónelas. </0><1><2>Proporciona una defensa en un caso de desalojo basado en la falta de pago del alquiler; y </2><3>Convierte su alquiler en \"deuda civil.\" Esto significa que el propietario puede presentar un caso de reclamos menores por el alquiler impago. Si un arrendador obtiene un fallo por el alquiler no pagado en un tribunal de reclamos menores, el arrendador puede cobrar ese fallo embargando su cheque de trabajo, o recaudando su cuenta bancaria.</3></1>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:334
 msgid "norent.howToConnectWithManufacturedHomeOwners"
@@ -2309,7 +2309,7 @@ msgstr "Esta carta es para informarle de las protecciones para inquilinos existe
 
 #: frontend/lib/norent/letter-content.tsx:87
 msgid "norent.letterBodyCaliforniaAB3088"
-msgstr ""
+msgstr "<0>This declaration letter is in regards to rent payment for the following months:</0><1/><2>I am currently unable to pay my rent or other financial obligations under the lease in full because of one or more of the following:</2><3><4>Loss of income caused by the COVID-19 pandemic.</4><5>Increased out-of-pocket expenses directly related to performing essential work during the COVID-19 pandemic.</5><6>Increased expenses directly related to health impacts of the COVID-19 pandemic.</6><7>Childcare responsibilities or responsibilities to care for an elderly, disabled, or sick family member directly related to the COVID-19 pandemic that limit my ability to earn income.</7><8>Increased costs for childcare or attending to an elderly, disabled, or sick family member directly related to the COVID-19 pandemic.</8><9>Other circumstances related to the COVID-19 pandemic that have reduced my income or increased my expenses.</9><10>Any public assistance, including unemployment insurance, pandemic unemployment assistance, state disability insurance (SDI), or paid family leave, that I have received since the start of the COVID-19 pandemic does not fully make up for my loss of income and/or increased expenses.</10></3><11>I declare under penalty of perjury under the laws of the State of California that the foregoing is true and correct.</11>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:34
 msgid "norent.listOfSuggestedNonpaymentDocumentation"
@@ -2317,7 +2317,7 @@ msgstr "<0>Mientras esperas que el dueño de tu edificio te dé una respuesta, r
 
 #: frontend/lib/norent/letter-builder/los-angeles-know-your-rights.tsx:32
 msgid "norent.losAngelesKyr"
-msgstr ""
+msgstr "Hemos trabajado con la organización sin fines de lucro <0>SAJE</0> para proporcionarte apoyo adicional una vez que hayas enviado tu carta. Puedes aprender más sobre cómo la ley AB3088 afecta a los residentes de Los Angeles en <1>Stay Housed LA</1>."
 
 #: frontend/lib/norent/about.tsx:99
 msgid "norent.madeByBlurb"
@@ -2329,15 +2329,15 @@ msgstr "<0>En los próximos pasos, construiremos tu carta utilizando la siguient
 
 #: frontend/lib/norent/letter-email-to-user.tsx:120
 msgid "norent.sajeBlockQuote"
-msgstr ""
+msgstr "Desde 1996, SAJE ha sido una fuerza para la justicia económica en nuestra comunidad, centrándose en los derechos de los inquilinos, la vivienda saludable y el desarrollo equitativo. Creemos que el destino de los vecindarios de la ciudad debe ser decidido por quienes viven allí, y nos reunimos con otras organizaciones para garantizar que esto ocurra de manera justa, replicable y sostenible. La vivienda es un derecho humano."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:139
 msgid "norent.sajeFacebookLive"
-msgstr ""
+msgstr "<0>SAJE también ofrece todos los miércoles sesiones de preguntas y respuestas en Facebook Live:</0><1><2>Inglés 11am-12pm</2><3>Español 12:30pm</3></1>"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:133
 msgid "norent.sajePhoneCalls"
-msgstr ""
+msgstr "Acciones Estratégicas para una Economía Justa (SAJE) está disponible para llamadas telefónicas en el (213) 745-9961, de lunes a viernes de 10:00am-6:00pm."
 
 #: frontend/lib/norent/homepage.tsx:251
 msgid "norent.sampleNoRentLetter"
@@ -2345,7 +2345,7 @@ msgstr "<0>Le escribo para informarle de que he tenido una pérdida de ingresos,
 
 #: frontend/lib/norent/letter-email-to-user.tsx:156
 msgid "norent.tenantsTogetherDescription"
-msgstr ""
+msgstr "You can contact Tenants Together, a statewide coalition of local tenant organizations dedicated to defending and advancing the rights of California tenants to safe, decent, and affordable housing."
 
 #: frontend/lib/norent/components/social-icons.tsx:16
 msgid "norent.tweetTemplateForSharingNoRent"
@@ -2353,15 +2353,15 @@ msgstr "¿No sabes cómo pagarás la renta este mes? Avisa al dueño de tu edifi
 
 #: frontend/lib/norent/letter-email-to-user.tsx:97
 msgid "norent.whatIfMyLandlordSendsMeANoticeAB3088"
-msgstr ""
+msgstr "Si el propietario le envía un aviso para pagar el alquiler con una declaración, léalo. Si es el mismo, feche, fírmelo y envíelo exactamente como se indica en el aviso. Tenga en cuenta que a veces los propietarios cambian la dirección o la forma de pago. Siga las instrucciones del aviso para pagar el alquiler o renunciar (Notice to Payor Quit) para saber dónde y cómo enviar el alquiler."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:28
 msgid "norent.whatIsAB3088partOne"
-msgstr ""
+msgstr "On August 31, 2020, the State of California passed tenant protections under Assembly Bill 3088. These protections prevent landlords from evicting tenants before February 1, 2021 without a valid reason or for any rent not paid between March 4 - January 31, 2021 due to loss of income or increased expenses associated with COVID-19. Although this law protects you from being evicted for not paying rent, it does not cancel rent."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:39
 msgid "norent.whatIsAB3088partTwo"
-msgstr ""
+msgstr "Si vives en el estado de California y no puede pagar su alquiler debido a razones de Covid-19 desde marzo de 2020 hasta enero de 2021, debe presentar una declaración al propietario cada mes indicando que no puede hacerlo y las razones. Esta herramienta satisface los requisitos para que pueda enviar una declaración por correo correctamente a su arrendador. Esté listo para tener una dirección o dirección de correo electrónico de su arrendador para poder procesar esto con éxito."
 
 #: frontend/lib/norent/data/faqs-content.tsx:107
 msgid "norent.whatToDoIfLandlordRetaliates"
@@ -2399,3 +2399,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:97
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

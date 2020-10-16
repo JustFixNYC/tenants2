@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-16 20:20\n"
+"PO-Revision-Date: 2020-10-16 20:24\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2253,7 +2253,7 @@ msgstr "<0>Hay una diferencia entre una \"huelga de renta\" o retener la renta, 
 
 #: frontend/lib/norent/letter-email-to-user.tsx:51
 msgid "norent.howDoesLetterHelpWithAB3088"
-msgstr "<0>El uso de esta declaración satisface todos los requisitos locales para notificar al propietario. Envíe la declaración antes de la fecha de vencimiento del alquiler y no más tarde de 7 días a partir de la fecha de vencimiento. Si su ciudad local requiere que también proporcione pruebas, proporciónelas. </0><1><2>Proporciona una defensa en un caso de desalojo basado en la falta de pago del alquiler; y </2><3>Convierte su alquiler en \"deuda civil.\" Esto significa que el propietario puede presentar un caso de reclamos menores por el alquiler impago. Si un arrendador obtiene un fallo por el alquiler no pagado en un tribunal de reclamos menores, el arrendador puede cobrar ese fallo embargando su cheque de trabajo, o recaudando su cuenta bancaria.</3></1>"
+msgstr "<0>El uso de esta declaración satisface todos los requisitos locales para notificar al propietario.</0><1><2>Proporciona una defensa en un caso de desalojo basado en la falta de pago de la renta; y </2><3>Convierte su alquiler en \"deuda civil.\" Esto significa que el dueño o manager de tu edificio puede presentar un caso de reclamos menores por la renta no pagada. Si el dueño o manager de tu edificio obtiene un fallo por la renta no pagada en un tribunal de reclamos menores, el dueño o manager de tu edificio puede cobrar ese fallo embargando tu cheque de trabajo, o recaudando tu cuenta bancaria.</3></1>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:334
 msgid "norent.howToConnectWithManufacturedHomeOwners"

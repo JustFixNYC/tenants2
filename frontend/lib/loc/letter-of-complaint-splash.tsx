@@ -18,7 +18,7 @@ export const WhyMailALetter: React.FC<{ isBigAndCentered?: boolean }> = ({
   <>
     <h2
       className={classnames(
-        isBigAndCentered && "title is-spaced has-text-centered",
+        isBigAndCentered && "title is-spaced has-text-centered"
       )}
     >
       <Trans>Why mail a Letter of Complaint?</Trans>

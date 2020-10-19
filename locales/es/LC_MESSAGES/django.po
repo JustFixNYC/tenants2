@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-08 10:07+0000\n"
-"PO-Revision-Date: 2020-06-15 15:39\n"
+"POT-Creation-Date: 2020-10-16 11:06+0000\n"
+"PO-Revision-Date: 2020-10-16 19:30\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -37,12 +37,17 @@ msgstr "Activar modo de compatibilidad"
 msgid "close"
 msgstr "cerrar"
 
-#: norent/forms.py:42
+#: norent/forms.py:44
 #, python-format
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
 msgstr "¡%(city)s, %(state_name)s no existe!"
 
-#: norent/schema.py:406
+#: norent/letter_sending.py:119
+#, python-format
+msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
+msgstr "%(name)s has enviado tu carta de no pago de renta. Puedes seguir la entrega de tu carta usando USPS Tracking: %(url)s."
+
+#: norent/schema.py:497
 #, python-format
 msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
 msgstr "Bienvenido/a %(site_name)s, un producto de JustFix.nyc. Te enviaremos notificaciones desde este número de teléfono."
@@ -71,7 +76,12 @@ msgstr "Ya existe un usuario con esa dirección de correo electrónico."
 msgid "Passwords do not match!"
 msgstr "¡Las contraseñas no coinciden!"
 
-#: project/password_reset.py:65
+#: project/password_reset.py:69
+#, python-format
+msgid "Your %(site_name)s verification code"
+msgstr "Tu código de verificación de %(site_name)s"
+
+#: project/password_reset.py:70
 #, python-format
 msgid "%(site_name)s here! Your verification code is %(code)s."
 msgstr "Aquí %(site_name)s! Tu código de verificación es %(code)s."

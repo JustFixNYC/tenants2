@@ -82,6 +82,13 @@ const LoadableAdminConversationsRoutes = loadable(
   }
 );
 
+const LoadableFrontappPluginRoutes = loadable(
+  () => friendlyLoad(import("./admin/frontapp-plugin")),
+  {
+    fallback: <LoadingPage />,
+  }
+);
+
 const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
   const { location } = props;
   const { server, session } = useContext(AppContext);
@@ -109,6 +116,11 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
         component={createRedirectWithSearch(JustfixRoutes.locale.home)}
       />
       <PLRoute path={JustfixRoutes.locale.login} exact component={LoginPage} />
+      <Route
+        path={JustfixRoutes.adminFrontappPlugin}
+        exact
+        component={LoadableFrontappPluginRoutes}
+      />
       <Route path={JustfixRoutes.adminLogin} exact component={LoginPage} />
       <Route
         path={JustfixRoutes.adminConversations}

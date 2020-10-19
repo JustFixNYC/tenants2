@@ -270,6 +270,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # The email address used for court documents (e.g. HP Actions).
     COURT_DOCUMENTS_EMAIL: str = 'JustFix.nyc <documents@justfix.nyc>'
 
+    # The email address used for LOC notifications. If blank (the default),
+    # no LOC notifications will be sent.
+    LOC_EMAIL: str = ''
+
     # Sender email address used to send a user's rental history request.
     DHCR_EMAIL_SENDER_ADDRESS: str = 'support@justfix.nyc'
 
@@ -364,6 +368,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # Mailchimp subscription endpoint. It can also be '*', in
     # which case any website can use the endpoint.
     MAILCHIMP_CORS_ORIGINS: str = ''
+
+    # The auth secret used by Front's Plugin API. If empty,
+    # Front integration will be disabled.
+    FRONTAPP_PLUGIN_AUTH_SECRET: str = ''
 
 
 class JustfixBuildPipelineDefaults(JustfixEnvironment):

@@ -5,6 +5,7 @@ import { CustomerSupportLink } from "../../ui/customer-support-link";
 import { CenteredPrimaryButtonLink } from "../../ui/buttons";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
+import { NorentCannotSendMoreLettersText } from "./more-letters";
 
 type ErrorPageProps = {
   title: string;
@@ -32,11 +33,14 @@ export const NorentNotLoggedInErrorPage: React.FC<{}> = () => (
 );
 
 export const NorentAlreadySentLetterErrorPage: React.FC<{}> = () => (
-  <ErrorPage title={li18n._(t`Looks like you've already sent a letter`)}>
-    <Trans>
-      <p>Our tool only allows you to send one letter at a time.</p>
-      <p>Continue to the confirmation page for what to do next.</p>
-    </Trans>
+  <ErrorPage title={li18n._(t`You can't send any more letters`)}>
+    <NorentCannotSendMoreLettersText />
+    <p>
+      <Trans>
+        Continue to the confirmation page for information about the last letter
+        you sent and next steps you can take.
+      </Trans>
+    </p>
     <br />
     <CenteredPrimaryButtonLink to={getLbRoutes().confirmation}>
       <Trans>Continue</Trans>

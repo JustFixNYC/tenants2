@@ -60,6 +60,10 @@ const FETCH_STATE_IDLE: AdminFetchState<any> = { type: "idle" };
  * Requests are re-initiated whenever the input or refresh token changes. If
  * the input is null or the refresh token is falsy, no request is performed.
  *
+ * Note that if the input is an object, `useMemo` should be used to ensure
+ * that it's the same object that's passed in over multiple renders, or else
+ * requests will be re-initiated a lot more often than you expect!
+ *
  * This is intented to be used by admin code only; it doesn't support progressive
  * enhancement or server-side rendering in any way.
  */

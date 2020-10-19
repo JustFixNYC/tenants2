@@ -9,6 +9,8 @@ from norent.letter_sending import (
     email_letter_to_landlord,
     send_letter_via_lob,
     create_letter,
+    render_multilingual_letter,
+    _merge_pdfs
 )
 from norent.models import Letter
 
@@ -48,14 +50,48 @@ class TestCreateLetter:
         return Blob(html=f"fake {site_type} letter in {locale}")
 
     def test_it_renders_only_english_when_user_is_english(self):
-        letter = create_letter(self.user, self.rp)
+        letter = create_letter(self.user, [self.rp])
         assert letter.locale == "en"
         assert letter.html_content == "fake NORENT letter in en"
         assert letter.localized_html_content == ""
 
     def test_it_renders_in_locale_when_user_is_not_english(self):
         self.user.locale = 'es'
-        letter = create_letter(self.user, self.rp)
+        letter = create_letter(self.user, [self.rp])
         assert letter.locale == "es"
         assert letter.html_content == "fake NORENT letter in en"
         assert letter.localized_html_content == "fake NORENT letter in es"
+
+
+class TestRenderMultilingualLetter:
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, monkeypatch):
+        monkeypatch.setattr(norent.letter_sending, "render_pdf_bytes", self.fake_render_pdf_bytes)
+        monkeypatch.setattr(norent.letter_sending, "_merge_pdfs", self.fake_merge_pdfs)
+
+    def fake_render_pdf_bytes(self, html: str):
+        return bytes(f"FAKE PDF {html}", encoding="ascii")
+
+    def fake_merge_pdfs(self, pdfs):
+        return b' FOLLOWED BY '.join(pdfs)
+
+    def test_it_returns_pdf_bytes_for_english_only(self):
+        letter = Letter(html_content="english", localized_html_content="")
+        assert render_multilingual_letter(letter) == b"FAKE PDF english"
+
+    def test_it_merges_pdfs_when_localized_content_is_available(self):
+        letter = Letter(html_content="english", localized_html_content="spanish")
+        assert render_multilingual_letter(letter) == \
+            b'FAKE PDF english FOLLOWED BY FAKE PDF spanish'
+
+
+def test_merge_pdfs_works():
+    from hpaction.tests.factories import ONE_PAGE_PDF
+    from io import BytesIO
+    from PyPDF2 import PdfFileReader
+
+    pdf_bytes = ONE_PAGE_PDF.read_bytes()
+    merged_pdf_bytes = _merge_pdfs([pdf_bytes, pdf_bytes])
+
+    reader = PdfFileReader(BytesIO(merged_pdf_bytes))
+    assert reader.numPages == 2

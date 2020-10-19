@@ -13,7 +13,7 @@ from . import models
 class LetterInline(admin.StackedInline):
     model = models.Letter
     fields = [
-        'rent_period',
+        'rent_periods',
         'created_at',
         'tracking_number',
         'letter_emailed_at',
@@ -23,7 +23,7 @@ class LetterInline(admin.StackedInline):
 
     has_add_permission = never_has_permission
 
-    ordering = ['-rent_period']
+    ordering = ['-created_at']
 
 
 @admin.register(models.RentPeriod)

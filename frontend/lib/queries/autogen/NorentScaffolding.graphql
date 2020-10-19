@@ -12,5 +12,6 @@ fragment NorentScaffolding on NorentScaffolding {
   email,
   hasLandlordEmailAddress,
   hasLandlordMailingAddress,
-  canReceiveRttcComms
+  canReceiveRttcComms,
+  canReceiveSajeComms
 }

@@ -228,7 +228,8 @@ function RentalHistoryPreview(): JSX.Element {
       </p>
       <ForeignLanguageOnly>
         <p className="is-uppercase is-size-7">
-          <InYourLanguageTranslation />
+          <InYourLanguageTranslation />{" "}
+          <Trans>(the request will be sent in English)</Trans>
         </p>
       </ForeignLanguageOnly>
       <article className="message">
@@ -241,11 +242,6 @@ function RentalHistoryPreview(): JSX.Element {
           <RhEmailToDhcr />
         </div>
       </article>
-      <ForeignLanguageOnly>
-        <p>
-          <Trans>Please note, the request will be sent in English.</Trans>
-        </p>
-      </ForeignLanguageOnly>
       <DemoDeploymentNote>
         <p>
           This demo site <strong>will not send</strong> a real request to the

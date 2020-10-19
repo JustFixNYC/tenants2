@@ -67,9 +67,12 @@ const Microcopy: React.FC<{ children: React.ReactNode }> = (props) => (
   <p className="is-uppercase is-size-7">{props.children}</p>
 );
 
-const InYourLanguageMicrocopy: React.FC<{}> = () => (
+const InYourLanguageMicrocopy: React.FC<{
+  additionalContent?: JSX.Element;
+}> = (props) => (
   <Microcopy>
     <InYourLanguageTranslation />
+    {props.additionalContent && <> {props.additionalContent}</>}
   </Microcopy>
 );
 
@@ -149,7 +152,11 @@ export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
             </Trans>
           </p>
           <ForeignLanguageOnly>
-            <InYourLanguageMicrocopy />
+            <InYourLanguageMicrocopy
+              additionalContent={
+                <Trans>(the email will be sent in English)</Trans>
+              }
+            />
           </ForeignLanguageOnly>
           <article className="message">
             <div className="message-header has-text-weight-normal">
@@ -161,11 +168,6 @@ export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
               <NorentLetterEmailToLandlordForUser />
             </div>
           </article>
-          <ForeignLanguageOnly>
-            <p>
-              <Trans>Please note, the email will be sent in English.</Trans>
-            </p>
-          </ForeignLanguageOnly>
         </>
       )}
       <p>

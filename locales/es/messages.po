@@ -24,17 +24,17 @@ msgstr ""
 msgid "(Name of your language) translation"
 msgstr "Traducción en español"
 
-#: frontend/lib/norent/letter-builder/landlord-email.tsx:33
-msgid "(optional)"
-msgstr "(opcional)"
-
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:97
-msgid "(the email will be sent in English)"
+msgid "(Note: the email will be sent in English)"
 msgstr ""
 
 #: frontend/lib/rh/rental-history.tsx:141
-msgid "(the request will be sent in English)"
+msgid "(Note: the request will be sent in English)"
 msgstr ""
+
+#: frontend/lib/norent/letter-builder/landlord-email.tsx:33
+msgid "(optional)"
+msgstr "(opcional)"
 
 #: frontend/lib/rh/rental-history.tsx:37
 msgid "*Division of Housing and Community Renewal"

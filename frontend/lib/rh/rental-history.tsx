@@ -229,7 +229,7 @@ function RentalHistoryPreview(): JSX.Element {
       <ForeignLanguageOnly>
         <p className="is-uppercase is-size-7">
           <InYourLanguageTranslation />{" "}
-          <Trans>(the request will be sent in English)</Trans>
+          <Trans>(Note: the request will be sent in English)</Trans>
         </p>
       </ForeignLanguageOnly>
       <article className="message">

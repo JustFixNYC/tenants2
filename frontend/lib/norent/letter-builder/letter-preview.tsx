@@ -154,7 +154,7 @@ export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
           <ForeignLanguageOnly>
             <InYourLanguageMicrocopy
               additionalContent={
-                <Trans>(the email will be sent in English)</Trans>
+                <Trans>(Note: the email will be sent in English)</Trans>
               }
             />
           </ForeignLanguageOnly>

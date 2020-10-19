@@ -114,7 +114,10 @@ class Flow:
     def __iter_node_uuids_v13_schema(self, pattern: Pattern, desc: NodeDesc) -> Iterator[str]:
         for action_set in self._f['nodes']:
             uuid = action_set['uuid']
-            for action in action_set['actions']:
+            # As of mid-October 2020, it seems not all nodes necessarily
+            # have 'actions' properties, e.g. for nodes of type=switch,
+            # so we'll default to an empty list if it's not present.
+            for action in action_set.get('actions', []):
                 if action['type'] != 'send_msg':
                     continue
                 if pattern.match(action['text']):

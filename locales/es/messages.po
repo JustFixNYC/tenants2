@@ -2231,14 +2231,6 @@ msgstr "Inodoro con Fugas"
 msgid "Toilet not working"
 msgstr "Inodoro No Funciona"
 
-#: frontend/lib/loc/letter-request.tsx:29
-msgid "UNKNOWN ADDRESS"
-msgstr ""
-
-#: frontend/lib/loc/letter-request.tsx:27
-msgid "UNKNOWN LANDLORD"
-msgstr ""
-
 #: frontend/lib/norent/letter-builder/confirmation.tsx:77
 msgid "USPS Tracking #:"
 msgstr "Número de Seguimiento USPS:"

@@ -40,9 +40,9 @@ export const SendConfirmModal = withAppContext(
               </Trans>
             </p>
             <address className="has-text-centered">
-              {landlord.name || li18n._(t`UNKNOWN LANDLORD`)}
+              {landlord.name || "UNKNOWN LANDLORD"}
               <br />
-              {landlord.address || li18n._(t`UNKNOWN ADDRESS`)}
+              {landlord.address || "UNKNOWN ADDRESS"}
             </address>
             <br />
             <p>

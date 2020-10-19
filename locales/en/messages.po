@@ -2226,14 +2226,6 @@ msgstr "Toilet leaking"
 msgid "Toilet not working"
 msgstr "Toilet not working"
 
-#: frontend/lib/loc/letter-request.tsx:29
-msgid "UNKNOWN ADDRESS"
-msgstr "UNKNOWN ADDRESS"
-
-#: frontend/lib/loc/letter-request.tsx:27
-msgid "UNKNOWN LANDLORD"
-msgstr "UNKNOWN LANDLORD"
-
 #: frontend/lib/norent/letter-builder/confirmation.tsx:77
 msgid "USPS Tracking #:"
 msgstr "USPS Tracking #:"

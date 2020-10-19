@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-16 20:31\n"
+"PO-Revision-Date: 2020-10-19 20:01\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -26,11 +26,11 @@ msgstr "Traducción en español"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:97
 msgid "(Note: the email will be sent in English)"
-msgstr ""
+msgstr "(Nota: Tenga en cuenta que el correo electrónico se enviará en inglés)"
 
 #: frontend/lib/rh/rental-history.tsx:141
 msgid "(Note: the request will be sent in English)"
-msgstr ""
+msgstr "(Nota: Tenga en cuenta que el correo electrónico se enviará en inglés)"
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:33
 msgid "(optional)"
@@ -325,7 +325,7 @@ msgstr "Explora otros recursos específicos para tu estado:"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:61
 msgid "Check your email for additional important information on next steps."
-msgstr ""
+msgstr "Revisa tu correo electrónico para información importante adicional y siguientes pasos."
 
 #: frontend/lib/norent/homepage.tsx:42
 msgid "Cite up-to-date legal ordinances in your letter"
@@ -2407,3 +2407,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:99
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

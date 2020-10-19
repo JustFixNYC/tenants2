@@ -18,7 +18,7 @@ export const WhyMailALetter: React.FC<{ isBigAndCentered?: boolean }> = ({
   <>
     <h2
       className={classnames(
-        isBigAndCentered && "title is-spaced has-text-centered"
+        isBigAndCentered && "title is-spaced has-text-centered",
       )}
     >
       <Trans>Why mail a Letter of Complaint?</Trans>
@@ -61,7 +61,7 @@ export function LocSplash(): JSX.Element {
               />
             </div>
             <h1 className="title is-spaced">
-              <Trans>Is your landlord not responding? Take action today!</Trans>
+              <Trans>Need Repairs in Your Apartment? Take action today!</Trans>
             </h1>
             <p className="subtitle">
               <Trans>
@@ -114,7 +114,7 @@ export function LocSplash(): JSX.Element {
             <BigList itemClassName="title is-5">
               <li>
                 Customize our lawyer-approved letter template to choose the
-                repairs you need in your home.
+                repairs you need in your home and/or building.
               </li>
               <li>
                 We mail your letter via USPS Certified Mail

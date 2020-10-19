@@ -3783,12 +3783,6 @@
           "enumValues": [
             {
               "deprecationReason": null,
-              "description": "Entire home and hallways",
-              "isDeprecated": false,
-              "name": "HOME"
-            },
-            {
-              "deprecationReason": null,
               "description": "Bedrooms",
               "isDeprecated": false,
               "name": "BEDROOMS"
@@ -3813,7 +3807,13 @@
             },
             {
               "deprecationReason": null,
-              "description": "Public areas",
+              "description": "Home-wide",
+              "isDeprecated": false,
+              "name": "HOME"
+            },
+            {
+              "deprecationReason": null,
+              "description": "Building-wide",
               "isDeprecated": false,
               "name": "PUBLIC_AREAS"
             },

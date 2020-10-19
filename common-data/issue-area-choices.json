@@ -1,9 +1,9 @@
 [
-  ["HOME", "Entire home and hallways"],
   ["BEDROOMS", "Bedrooms"],
   ["KITCHEN", "Kitchen"],
   ["LIVING_ROOM", "Living room"],
   ["BATHROOMS", "Bathrooms"],
-  ["PUBLIC_AREAS", "Public areas"],
+  ["HOME", "Home-wide"],
+  ["PUBLIC_AREAS", "Building-wide"],
   ["LANDLORD", "Landlord harassment (currently hidden in app)"]
 ]

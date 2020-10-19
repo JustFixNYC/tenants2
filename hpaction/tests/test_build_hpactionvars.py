@@ -135,7 +135,7 @@ def test_user_to_hpactionvars_populates_issues(db):
     assert first.conditions_complained_of_te == "Mold on walls"
 
     assert second.area_complained_of_mc == hp.AreaComplainedOfMC.PUBLIC_AREA
-    assert second.which_room_mc.value == "Public areas"  # type: ignore
+    assert second.which_room_mc.value == "Building-wide"  # type: ignore
     assert second.conditions_complained_of_te == "lobby is consumed by darkness"
     v.to_answer_set()
 

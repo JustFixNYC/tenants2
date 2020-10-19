@@ -533,7 +533,7 @@ msgstr "Delaware"
 msgid "Details about your latest letter"
 msgstr "Details about your latest letter"
 
-#: frontend/lib/ui/footer.tsx:11
+#: frontend/lib/ui/footer.tsx:12
 msgid "Developed with <0>Law Help Interactive</0>"
 msgstr "Developed with <0>Law Help Interactive</0>"
 
@@ -827,7 +827,7 @@ msgstr "Hear from tenants who have used JustFix.nyc"
 msgid "Hello world"
 msgstr "Hello world"
 
-#: frontend/lib/justfix-navbar.tsx:28
+#: frontend/lib/justfix-navbar.tsx:29
 msgid "Help"
 msgstr "Help"
 
@@ -1114,7 +1114,7 @@ msgstr "Join our <0/>mailing list"
 msgid "JustFix.nyc <0/>sent on behalf of <1/>"
 msgstr "JustFix.nyc <0/>sent on behalf of <1/>"
 
-#: frontend/lib/ui/footer.tsx:25
+#: frontend/lib/ui/footer.tsx:26
 msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
 msgstr "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
 
@@ -1314,7 +1314,7 @@ msgstr "Los Angeles County"
 msgid "Louisiana"
 msgstr "Louisiana"
 
-#: frontend/lib/ui/footer.tsx:33
+#: frontend/lib/ui/footer.tsx:35
 msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 msgstr "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 
@@ -1975,11 +1975,11 @@ msgstr "Shower: Wall tiles cracked"
 msgid "Shower: Wall tiles missing"
 msgstr "Shower: Wall tiles missing"
 
-#: frontend/lib/justfix-navbar.tsx:25
+#: frontend/lib/justfix-navbar.tsx:26
 msgid "Sign in"
 msgstr "Sign in"
 
-#: frontend/lib/justfix-navbar.tsx:23
+#: frontend/lib/justfix-navbar.tsx:24
 msgid "Sign out"
 msgstr "Sign out"
 
@@ -2114,7 +2114,7 @@ msgstr "Submit request"
 msgid "Sue your landlord"
 msgstr "Sue your landlord"
 
-#: frontend/lib/justfix-navbar.tsx:20
+#: frontend/lib/justfix-navbar.tsx:21
 msgid "Take action"
 msgstr "Take action"
 

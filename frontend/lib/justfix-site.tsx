@@ -102,11 +102,9 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
 
   return (
     <Switch location={location}>
-      <PLRoute
+      <Route
         path={JustfixRoutes.locale.home}
         exact
-        locales={["en"]}
-        wipLocales={["es"]}
         component={LoadableDataDrivenOnboardingPage}
       />
       <PLRoute path={JustfixRoutes.locale.help} component={HelpPage} />
@@ -164,10 +162,8 @@ const JustfixRoute: React.FC<RouteComponentProps> = (props) => {
           component={LoadableEmergencyHPActionRoutes}
         />
       )}
-      <PLRoute
+      <Route
         path={JustfixRoutes.locale.rh.prefix}
-        locales={["en"]}
-        wipLocales={["es"]}
         component={LoadableRentalHistoryRoutes}
       />
       <Route path={JustfixRoutes.dev.prefix} component={LoadableDevRoutes} />

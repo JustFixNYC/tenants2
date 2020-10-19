@@ -74,6 +74,7 @@ class HTMLToTextParser(HTMLParser):
         self.__blocks: List[str] = []
         self.__curr_block: List[str] = []
         self.__href = ""
+        self.__show_href_only = False
         self.__capture = True
         self.__counters: List[Counter] = []
 
@@ -90,6 +91,9 @@ class HTMLToTextParser(HTMLParser):
         elif tag == 'ul':
             self.__counters.append(self.__make_unordered_counter())
         elif tag == "a":
+            self.__show_href_only = 'data-jf-show-href-only-in-plaintext' in attrs
+            if self.__show_href_only:
+                self.__capture = False
             self.__href = attrs.get('href', '')
         elif tag in self.IGNORE_TAGS:
             self.__capture = False
@@ -121,8 +125,13 @@ class HTMLToTextParser(HTMLParser):
         return ''
 
     def __handle_anchor_endtag(self):
+        if self.__show_href_only:
+            self.__capture = True
+            text = self.__href
+        else:
+            text = f": {self.__href}"
         if self.__href and self.__href.startswith('http'):
-            self.__curr_block.append(f": {self.__href}")
+            self.__curr_block.append(text)
             self.__href = ""
 
     def __handle_list_item_endtag(self) -> None:

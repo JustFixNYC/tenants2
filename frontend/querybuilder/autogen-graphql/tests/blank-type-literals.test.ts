@@ -32,6 +32,14 @@ describe("createBlankTypeLiteral()", () => {
     ).toEqual({});
   });
 
+  it("ignores fields if callback tells it to", () => {
+    expect(
+      createBlankForFields("foo: [Int]!, bar: [Int]!", {
+        shouldIgnoreField: (type, field) => field.name === "foo",
+      })
+    ).toEqual({ bar: [] });
+  });
+
   it("sets non-nullable list fields to an empty list", () => {
     expect(createBlankForFields("foo: [Int]!")).toEqual({ foo: [] });
   });

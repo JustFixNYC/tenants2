@@ -40,6 +40,13 @@ def test_it_adds_anchor_hrefs():
     )
 
 
+def test_it_shows_hrefs_only():
+    assert html_to_text(
+        '<p>visit <a href="https://boop.com" '
+        'data-jf-show-href-only-in-plaintext>boop.com</a>.</p>'
+    ) == 'visit https://boop.com.'
+
+
 @pytest.mark.parametrize('href,text', [
     ['mailto:a@b.com', 'a@b.com'],
     ['tel:+15551234567', '(555) 123-4567'],

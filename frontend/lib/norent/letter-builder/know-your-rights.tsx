@@ -122,6 +122,7 @@ export const StateWithProtectionsContent: ProtectionsContentComponent = (
 ) => (
   <>
     <p>{props.lawForBuilder.textOfLegislation}</p>
+    {props.links && <StateLocalResources links={props.links} />}
     <p>
       <Trans>
         We’ve partnered with{" "}

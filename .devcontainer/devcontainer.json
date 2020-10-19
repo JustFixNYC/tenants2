@@ -21,13 +21,16 @@
 		},
 		"[typescriptreact]": {
 			"editor.tabSize": 2,
+			"editor.formatOnSave": true,
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
 		},
 		"[typescript]": {
 			"editor.tabSize": 2,
+			"editor.formatOnSave": true,
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
 		},
 		"[json]": {
+			"editor.formatOnSave": true,
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
 		},
 		"[python]": {
@@ -35,6 +38,7 @@
 			"editor.tabSize": 4
 		},
 		"[javascript]": {
+			"editor.formatOnSave": true,
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
 		},
 	},

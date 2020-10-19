@@ -107,8 +107,8 @@ function Verify(props: {}) {
             />
             <br />
             <p>
-              If you didn't receive a verification code, please email{" "}
-              <CustomerSupportLink />.
+              If you didn't receive a code, try checking your email. If it's not
+              in there either, please email <CustomerSupportLink />.
             </p>
             <ProgressButtons
               back={JustfixRoutes.locale.passwordReset.start}

@@ -19,7 +19,7 @@
   },
   "AZ": {
     "textOfLegislation": [
-      "Gobernador Douglas Ducey, Orden Ejecutiva 2020-14, 24 de marzo de 2020"
+      "Gobernador Douglas Ducey, Orden Ejecutiva 2020-49, 16 de julio de 2020"
     ],
     "whichVersion": "V2 hardship"
   },
@@ -38,7 +38,7 @@
   },
   "CT": {
     "textOfLegislation": [
-      "Gobernador Ned Lamont, Orden Ejecutuva No. 7X, 10 de abril de 2020"
+      "Gobernador Ned Lamont, Orden Ejecutuva No. 9E, 30 de Septiembre de 2020"
     ],
     "whichVersion": "V1 non-payment"
   },
@@ -86,7 +86,7 @@
   },
   "IL": {
     "textOfLegislation": [
-      "Gobernador Pritzker, Orden Ejecutiva COVID-19 No. 28, 23 de abril de 2020"
+      "Gobernador Pritzker, Orden Ejecutiva COVID-19 No. 2020-55, 18 de septiembre de 2020"
     ],
     "whichVersion": "V2 hardship"
   },
@@ -187,14 +187,13 @@
   },
   "NJ": {
     "textOfLegislation": [
-      "Gobernador Philip D. Murphy, Orden Ejecutiva N. 106, 19 de marzo de 2020",
-      "Corte Suprema de Nueva Jersey, Presidente de la Corte Stuart Rabner, Segunda orden integral COVID-19 --sobre el funcionamiento de los tribunales y el ejercicio del derecho. Se deben realizar m\u00e1s operaciones a distancia; pr\u00f3rrogas limitadas para exhibici\u00f3n de pruebas y per\u00edodos de interrupci\u00f3n de la prescripci\u00f3n."
+      "Gobernador Philip D. Murphy, Orden Ejecutiva N. 186, 19 de marzo de 2020"
     ],
     "whichVersion": "V1 non-payment"
   },
   "NM": {
     "textOfLegislation": [
-      "Congreso de EE.UU., Ley CARES 116-136, 27 de marzo de 2020"
+      "Congreso de EE.UU., Ley CARES 116-136, 25 de septiembre de 2020"
     ],
     "whichVersion": "V3 few protections"
   },

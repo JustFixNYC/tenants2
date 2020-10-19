@@ -162,6 +162,16 @@
                     "name": "String",
                     "ofType": null
                   }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "email",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
                 }
               ],
               "deprecationReason": null,
@@ -171,6 +181,18 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "JustfixUserType",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "isVerifiedStaffUser",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
                 "ofType": null
               }
             },
@@ -188,6 +210,42 @@
                   "name": "LetterStyles",
                   "ofType": null
                 }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The recommended landlord address for Letter of Complaint for the currently logged-in user, if any.",
+              "isDeprecated": false,
+              "name": "recommendedLocLandlord",
+              "type": {
+                "kind": "OBJECT",
+                "name": "GraphQLMailingAddress",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The recommended landlord address for HP Action for the currently logged-in user, if any.",
+              "isDeprecated": false,
+              "name": "recommendedHpLandlord",
+              "type": {
+                "kind": "OBJECT",
+                "name": "GraphQLMailingAddress",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The recommended management company address for HP Action for the currently logged-in user, if any.",
+              "isDeprecated": false,
+              "name": "recommendedHpManagementCompany",
+              "type": {
+                "kind": "OBJECT",
+                "name": "GraphQLMailingAddress",
+                "ofType": null
               }
             },
             {
@@ -1068,6 +1126,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "Whether the user has opted-in to being contacted by Strategic Actions for a Just Economy (SAJE).",
+              "isDeprecated": false,
+              "name": "canReceiveSajeComms",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The New York City borough the user's address is in, if they live inside NYC.",
               "isDeprecated": false,
               "name": "borough",
@@ -1119,6 +1189,18 @@
                   "name": "String",
                   "ofType": null
                 }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "Whether the user is in Los Angeles County. If we don't have enough information to tell, this will be null.",
+              "isDeprecated": false,
+              "name": "isInLosAngeles",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
               }
             }
           ],
@@ -1394,6 +1476,97 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "LetterStyles",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The name of the receipient at the address.",
+              "isDeprecated": false,
+              "name": "name",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "Usually the first line of the address, e.g. \"150 Court Street\"",
+              "isDeprecated": false,
+              "name": "primaryLine",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The city of the address, e.g. \"Brooklyn\".",
+              "isDeprecated": false,
+              "name": "city",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The two-letter state or territory for the address, e.g. \"NY\".",
+              "isDeprecated": false,
+              "name": "state",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The zip code of the address, e.g. \"11201\" or \"94107-2282\".",
+              "isDeprecated": false,
+              "name": "zipCode",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "GraphQLMailingAddress",
           "possibleTypes": null
         },
         {
@@ -1848,10 +2021,38 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "This field has been deprecated as we now use `stabilized_unit_count` to store the rs unit count for the most up-to-date-year we have available.",
               "description": "The number of rent-stabilized residential units at the BBL in 2017.",
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "stabilizedUnitCount2017",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The number of rent-stabilized residential units at the BBL for the most recent year we have data for.",
+              "isDeprecated": false,
+              "name": "stabilizedUnitCount",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The year that our data for most-recent stabilized unit count comes from.",
+              "isDeprecated": false,
+              "name": "stabilizedUnitCountYear",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2027,14 +2228,38 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "No longer used by front-end code.",
               "description": "The latest rent period one can create a no rent letter for.",
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "norentLatestRentPeriod",
               "type": {
                 "kind": "OBJECT",
                 "name": "NorentRentPeriod",
                 "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "A list of the available rent periods the current user can create a no rent letter for.",
+              "isDeprecated": false,
+              "name": "norentAvailableRentPeriods",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "NorentRentPeriod",
+                      "ofType": null
+                    }
+                  }
+                }
               }
             },
             {
@@ -2062,6 +2287,30 @@
                   "kind": "SCALAR",
                   "name": "Int",
                   "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The rent periods that the user's upcoming no rent letter are in regards to.",
+              "isDeprecated": false,
+              "name": "norentUpcomingLetterRentPeriods",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Date",
+                      "ofType": null
+                    }
+                  }
                 }
               }
             },
@@ -2955,7 +3204,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "Whether the onboarding user is in Los Angeles. If we don't have enough information to tell, this will be null.",
+              "description": "Whether the onboarding user is in Los Angeles County. If we don't have enough information to tell, this will be null.",
               "isDeprecated": false,
               "name": "isInLosAngeles",
               "type": {
@@ -3187,6 +3436,18 @@
                 "name": "Boolean",
                 "ofType": null
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "canReceiveSajeComms",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
             }
           ],
           "inputFields": null,
@@ -3239,6 +3500,22 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "createdAt",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The tracking number for the letter.",
               "isDeprecated": false,
               "name": "trackingNumber",
@@ -3266,9 +3543,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "No longer used by front-end code since we started supporting multiple rent periods per letter.",
               "description": "The rent payment date the letter is for.",
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "paymentDate",
               "type": {
                 "kind": "NON_NULL",
@@ -4916,6 +5193,68 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
+                      "name": "NorentSetUpcomingLetterRentPeriodsInput",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "norentSetUpcomingLetterRentPeriods",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "NorentSetUpcomingLetterRentPeriodsPayload",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "input",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "NorentSendLetterV2Input",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "norentSendLetterV2",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "NorentSendLetterV2Payload",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "input",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
                       "name": "NorentSendLetterInput",
                       "ofType": null
                     }
@@ -4932,6 +5271,37 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "NorentSendLetterPayload",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "input",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "NorentOptInToSajeCommsInput",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "norentOptInToSajeComms",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "NorentOptInToSajeCommsPayload",
                   "ofType": null
                 }
               }
@@ -7993,6 +8363,188 @@
           "inputFields": null,
           "interfaces": [],
           "kind": "OBJECT",
+          "name": "NorentSetUpcomingLetterRentPeriodsPayload",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "rentPeriods",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "NorentSetUpcomingLetterRentPeriodsInput",
+          "possibleTypes": null
+        },
+        {
+          "description": "Send the user's no rent letter, setting the letter's rent periods\nto the upcoming ones that the user has previously chosen.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "session",
+              "type": {
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "NorentSendLetterV2Payload",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "NorentSendLetterV2Input",
+          "possibleTypes": null
+        },
+        {
+          "description": "Send the user's no rent letter, setting the letter's rent period\nto the most recent one in our database.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "session",
+              "type": {
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
           "name": "NorentSendLetterPayload",
           "possibleTypes": null
         },
@@ -8073,6 +8625,100 @@
           "inputFields": null,
           "interfaces": [],
           "kind": "OBJECT",
+          "name": "NorentOptInToSajeCommsPayload",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": "Whether the user agrees to receive communications from a partner organization.",
+              "name": "optIn",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "NorentOptInToSajeCommsInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "session",
+              "type": {
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
           "name": "NorentOptInToRttcCommsPayload",
           "possibleTypes": null
         },
@@ -8083,7 +8729,7 @@
           "inputFields": [
             {
               "defaultValue": null,
-              "description": "Whether the user agrees to receive communications from the Right to the City Alliance (RTTC).",
+              "description": "Whether the user agrees to receive communications from a partner organization.",
               "name": "optIn",
               "type": {
                 "kind": "NON_NULL",

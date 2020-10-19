@@ -248,6 +248,18 @@ export class AppWithoutRouter extends React.Component<
     }
   }
 
+  updateRollbarPersonInfo() {
+    if (window.Rollbar) {
+      window.Rollbar.configure({
+        payload: {
+          person: {
+            id: this.state.session.userId,
+          },
+        },
+      });
+    }
+  }
+
   handleLogin() {
     const { userId, firstName, isStaff } = this.state.session;
     if (isStaff && areAnalyticsEnabled()) {
@@ -266,10 +278,12 @@ export class AppWithoutRouter extends React.Component<
       });
     }
     trackLoginInAmplitude(this.state.session);
+    this.updateRollbarPersonInfo();
   }
 
   handleLogout() {
     trackLogoutInAmplitude(this.state.session);
+    this.updateRollbarPersonInfo();
 
     // We're not going to bother telling FullStory that the user logged out,
     // because we don't really want it associating the current user with a

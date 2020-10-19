@@ -480,18 +480,18 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       indicators: [
         data.stabilizedUnitCountMaximum > 0 ||
         data.stabilizedUnitCount2007 ||
-        data.stabilizedUnitCount2017 ? (
+        data.stabilizedUnitCount ? (
           <Trans>Your apartment may be rent stabilized.</Trans>
         ) : null,
-        data.stabilizedUnitCount2017 && (
+        data.stabilizedUnitCount && (
           <Trans>
             Your building had{" "}
             <Plural
-              value={data.stabilizedUnitCount2017}
+              value={data.stabilizedUnitCount}
               one="one rent stabilized unit"
               other="# rent stabilized units"
             />{" "}
-            in 2017.
+            in {data.stabilizedUnitCountYear}.
           </Trans>
         ),
       ],

@@ -1,5 +1,4 @@
 import { AllSessionInfo } from "../queries/AllSessionInfo";
-import ADDRESS from "../../../common-data/nycha-address.json";
 import { LeaseType } from "../queries/globalTypes";
 
 /**
@@ -12,18 +11,6 @@ export type LegacyAddressDetails = {
   name: string;
   address: string;
 };
-
-/** The address of the central NYCHA office, in our legacy address format. */
-export const LEGACY_NYCHA_ADDRESS: LegacyAddressDetails = {
-  name: ADDRESS.name,
-  address: [
-    `${ADDRESS.primaryLine}`,
-    `${ADDRESS.city}, ${ADDRESS.state} ${ADDRESS.zipCode}`,
-  ].join("\n"),
-};
-
-/** The address of the central NYCHA office. */
-export const NYCHA_ADDRESS = ADDRESS;
 
 /**
  * Returns whether the given session data represents a user who lives in

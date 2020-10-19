@@ -38,6 +38,10 @@ import {
   LocalizedOutboundLinkProps,
   LocalizedOutboundLinkList,
 } from "../ui/localized-outbound-link";
+import {
+  ForeignLanguageOnly,
+  InYourLanguageTranslation,
+} from "../ui/cross-language";
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -45,6 +49,14 @@ export const RhLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(() => import("../../../locales/en/rh.chunk") as any),
   es: loadable.lib(() => import("../../../locales/es/rh.chunk") as any),
 });
+
+const DhcrFootnote = () => (
+  <div className="jf-secondary-cta">
+    <div className="content has-text-centered is-size-7">
+      <Trans>*Division of Housing and Community Renewal</Trans>
+    </div>
+  </div>
+);
 
 function RentalHistorySplash(): JSX.Element {
   return (
@@ -57,8 +69,8 @@ function RentalHistorySplash(): JSX.Element {
             </div>
             <h1 className="title is-spaced">
               <Trans>
-                Request your <span className="is-italic">Rent History</span> in
-                two simple steps!
+                Request your <span className="is-italic">Rent History</span>{" "}
+                from the NY State DHCR* in two simple steps!
               </Trans>
             </h1>
             <p className="subtitle">
@@ -78,6 +90,8 @@ function RentalHistorySplash(): JSX.Element {
             >
               <Trans>Start my request</Trans>
             </GetStartedButton>
+            <br />
+            <DhcrFootnote />
           </div>
         </div>
       </section>
@@ -127,7 +141,7 @@ function RentalHistoryForm(): JSX.Element {
 
   return (
     <Page
-      title={li18n._(t`Request the Rent History for your apartment`)}
+      title={li18n._(t`Request your apartment's Rent History from the DHCR`)}
       withHeading
     >
       <SessionUpdatingFormSubmitter
@@ -201,14 +215,23 @@ function RentalHistoryForm(): JSX.Element {
 
 function RentalHistoryPreview(): JSX.Element {
   return (
-    <Page title={li18n._(t`Review your request to the DHCR`)} withHeading>
+    <Page
+      title={li18n._(t`Review your request to the DHCR`)}
+      withHeading
+      className="content"
+    >
       <p>
         <Trans>
           Here is a preview of the request for your Rent History. It includes
           your address and apartment number so that the DHCR can mail you.
         </Trans>
       </p>
-      <br />
+      <ForeignLanguageOnly>
+        <p className="is-uppercase is-size-7">
+          <InYourLanguageTranslation />{" "}
+          <Trans>(Note: the request will be sent in English)</Trans>
+        </p>
+      </ForeignLanguageOnly>
       <article className="message">
         <div className="message-header has-text-weight-normal">
           <Trans>
@@ -271,7 +294,9 @@ function RentalHistoryConfirmation(): JSX.Element {
   const { onboardingInfo } = appContext.session;
   return (
     <Page
-      title={li18n._(t`Your Rent History has been requested!`)}
+      title={li18n._(
+        t`Your Rent History has been requested from the New York State DHCR!`
+      )}
       withHeading={renderSuccessHeading}
       className="content"
     >

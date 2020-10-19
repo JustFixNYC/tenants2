@@ -23,15 +23,16 @@ fragment AllSessionInfo on SessionInfo {
   },
   onboardingInfo { ...OnboardingInfo },
   norentScaffolding { ...NorentScaffolding },
-  norentLatestRentPeriod {
+  norentAvailableRentPeriods {
     paymentDate
   },
   norentLatestLetter {
+    createdAt,
     trackingNumber,
-    letterSentAt,
-    paymentDate
+    letterSentAt
   },
   norentLettersSent,
+  norentUpcomingLetterRentPeriods,
   accessDates,
   landlordDetails { ...LandlordDetailsType },
   letterRequest {

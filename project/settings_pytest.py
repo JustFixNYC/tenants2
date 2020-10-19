@@ -51,7 +51,7 @@ DOCUSIGN_USER_ID = ''
 MAILCHIMP_API_KEY = ''
 MAILCHIMP_LIST_ID = ''
 MAILCHIMP_CORS_ORIGINS = []
-
+FRONTAPP_PLUGIN_AUTH_SECRET = ''
 
 # Because we generally *don't* do things when we're on a demo
 # deployment, we'll default this to true, which will force tests

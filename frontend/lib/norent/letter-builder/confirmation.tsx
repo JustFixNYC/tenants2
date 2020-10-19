@@ -90,7 +90,9 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
       )}
       <p>
         <strong>
-          Check your email for additional important information on next steps.
+          <Trans>
+            Check your email for additional important information on next steps.
+          </Trans>
         </strong>
       </p>
       {letter?.trackingNumber && letter?.letterSentAt && (

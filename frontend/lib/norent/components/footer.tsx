@@ -1,5 +1,5 @@
 import React from "react";
-import { FooterLanguageToggle } from "./language-toggle";
+import { FooterLanguageToggle } from "../../ui/language-toggle";
 import { NorentRoutes as Routes } from "../routes";
 import { Link } from "react-router-dom";
 import { NorentLogo } from "./logo";

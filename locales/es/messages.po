@@ -248,7 +248,7 @@ msgstr "Crear mi carta"
 msgid "Build my letter"
 msgstr "Crear mi carta"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:148
+#: frontend/lib/norent/letter-builder/confirmation.tsx:150
 msgid "Build power in numbers"
 msgstr "Construye poder común"
 
@@ -315,6 +315,10 @@ msgstr "Techo Gotea"
 msgid "Check out these valuable resources for your state:"
 msgstr "Explora otros recursos específicos para tu estado:"
 
+#: frontend/lib/norent/letter-builder/confirmation.tsx:61
+msgid "Check your email for additional important information on next steps."
+msgstr ""
+
 #: frontend/lib/norent/homepage.tsx:42
 msgid "Cite up-to-date legal ordinances in your letter"
 msgstr "Cita ordenanzas legales actuales en tu carta"
@@ -331,7 +335,7 @@ msgstr "Ciudad/pueblo/municipalidad"
 msgid "Click here to join MHAction’s movement"
 msgstr "Haz clic aquí para unirte al movimiento de MH Action"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:171
+#: frontend/lib/norent/letter-builder/confirmation.tsx:173
 msgid "Click here to join MHAction’s movement to hold corporate community owners accountable."
 msgstr "Haga clic aquí para unirte al movimiento de MH Action y hacer que los propietarios de la comunidad corporativa rindan cuentas."
 
@@ -384,7 +388,7 @@ msgstr "Connecticut"
 msgid "Connecting With Others"
 msgstr "Poniéndose en contacto con otros"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:126
+#: frontend/lib/norent/letter-builder/confirmation.tsx:128
 msgid "Contact a lawyer if your landlord retaliates"
 msgstr "Ponte en contacto con un abogado si el dueño de tu edificio toma represalias"
 
@@ -421,7 +425,7 @@ msgstr "Estimado dueño/manager del edificio."
 msgid "Delaware"
 msgstr "Delaware"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:66
+#: frontend/lib/norent/letter-builder/confirmation.tsx:68
 msgid "Details about your latest letter"
 msgstr "Detalles sobre tu última carta"
 
@@ -564,7 +568,7 @@ msgstr "Grifos No Funcionan"
 msgid "Fight an eviction"
 msgstr "Lucha contra un desalojo"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:102
+#: frontend/lib/norent/letter-builder/confirmation.tsx:104
 msgid "Find out more"
 msgstr "Más información"
 
@@ -601,7 +605,7 @@ msgstr "Puerta Principal Defectuosa"
 msgid "Fumes/smoke entering apartment"
 msgstr "Vapores/Humo Entrando en Casa"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:86
+#: frontend/lib/norent/letter-builder/confirmation.tsx:88
 msgid "Gather documentation"
 msgstr "Recopila documentación"
 
@@ -609,11 +613,11 @@ msgstr "Recopila documentación"
 msgid "Georgia"
 msgstr "Georgia"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:194
+#: frontend/lib/norent/letter-builder/confirmation.tsx:196
 msgid "Give feedback"
 msgstr "Comparte tu opinión"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:183
+#: frontend/lib/norent/letter-builder/confirmation.tsx:185
 msgid "Give us feedback"
 msgstr "Comparte tu opinión"
 
@@ -621,7 +625,7 @@ msgstr "Comparte tu opinión"
 msgid "Go back"
 msgstr "Atrás"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:178
+#: frontend/lib/norent/letter-builder/confirmation.tsx:180
 msgid "Go to website"
 msgstr "Ir al sitio web"
 
@@ -791,11 +795,11 @@ msgstr "Illinois"
 msgid "In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense."
 msgstr "Si el dueño de tu edificio intenta desalojarte, las cortes lo verán como un paso proactivo que ayudará a establecer tu defensa."
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:106
+#: frontend/lib/norent/letter-builder/confirmation.tsx:108
 msgid "In {stateName}, you have <0>{numDaysToSend} days </0>to send documentation to your landlord proving you can’t pay rent."
 msgstr "En {stateName}, tienes <0>{numDaysToSend} días </0>para enviar documentación al dueño de tu edificio para demostrar que no puedes pagar la renta."
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:113
+#: frontend/lib/norent/letter-builder/confirmation.tsx:115
 msgid "In {stateName}, you have to send documentation to your landlord proving you can’t pay rent."
 msgstr "En {stateName}, tienes que enviar documentación al dueño de tu edificio para probar que no puedes pagar la renta."
 
@@ -843,7 +847,7 @@ msgstr "Parece que esta propiedad no tiene que estar registrada con el HPD. Pued
 msgid "It's important to notify your landlord of all months when you couldn't pay rent."
 msgstr "Es importante notificar al dueño de todos los meses cuando no pudiste pagar el alquiler."
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:129
+#: frontend/lib/norent/letter-builder/confirmation.tsx:131
 msgid "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."
 msgstr "Puede ser que el dueño de tu edificio tome represalias tras recibir tu carta. Esto es ilegal. Póngase en contacto con <0>un proveedor local de asistencia legal</0> para obtener ayuda."
 
@@ -1064,7 +1068,7 @@ msgstr "Misisipi"
 msgid "Missouri"
 msgstr "Misuri"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:168
+#: frontend/lib/norent/letter-builder/confirmation.tsx:170
 msgid "Mobile/Manufactured Home Residents"
 msgstr "Residentes de Casas Prefabricadas o Móviles"
 
@@ -1094,7 +1098,7 @@ msgstr "Meses en the te faltan pagos de renta"
 msgid "More actions"
 msgstr "Más acciones"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:145
+#: frontend/lib/norent/letter-builder/confirmation.tsx:147
 msgid "More resources"
 msgstr "Más información"
 
@@ -1106,7 +1110,7 @@ msgstr "Movement Law Lab"
 msgid "Nebraska"
 msgstr "Nebraska"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:140
+#: frontend/lib/norent/letter-builder/confirmation.tsx:142
 msgid "Need to send another letter?"
 msgstr "¿Necesitas enviar otra carta?"
 
@@ -1485,7 +1489,7 @@ msgstr "Establece tu contraseña"
 msgid "Shall we send your letter?"
 msgstr "¿Quieres que enviemos tu carta?"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:200
+#: frontend/lib/norent/letter-builder/confirmation.tsx:202
 msgid "Share this tool"
 msgstr "Compartir esta herramienta"
 
@@ -1525,7 +1529,7 @@ msgstr "Iniciar sesión"
 msgid "Sign out"
 msgstr "Cerrar sesión"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:164
+#: frontend/lib/norent/letter-builder/confirmation.tsx:166
 msgid "Sign the petition"
 msgstr "Firmar la petición"
 
@@ -1711,7 +1715,7 @@ msgstr "Esto es opcional."
 msgid "This service is free, secure, and confidential."
 msgstr "Este servicio es gratuito, seguro y confidencial."
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:186
+#: frontend/lib/norent/letter-builder/confirmation.tsx:188
 msgid "This tool is provided by JustFix.nyc. We’re a non-profit that creates tools for tenants and the housing rights movement. We always want feedback to improve our tools."
 msgstr "Esta herramienta te la trae JustFix.nyc. Somos una organización sin fines de lucro que crea herramientas para inquilinos y el movimiento de derechos de la vivienda. Siempre nos interesa tu opinión para mejorar nuestras herramientas."
 
@@ -1739,7 +1743,7 @@ msgstr "Inodoro con Fugas"
 msgid "Toilet not working"
 msgstr "Inodoro No Funciona"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:75
+#: frontend/lib/norent/letter-builder/confirmation.tsx:77
 msgid "USPS Tracking #:"
 msgstr "Número de Seguimiento USPS:"
 
@@ -1889,7 +1893,7 @@ msgstr "¿Qué hace esta herramienta?"
 msgid "What happens after I send this letter?"
 msgstr "¿Qué ocurre después de enviar esta carta?"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:83
+#: frontend/lib/norent/letter-builder/confirmation.tsx:85
 #: frontend/lib/rh/rental-history.tsx:188
 msgid "What happens next?"
 msgstr "¿Y ahora qué?"
@@ -1939,7 +1943,7 @@ msgstr "¿Dónde vives?"
 msgid "Whether it's your first time here, or you're a returning user, let's start with your number."
 msgstr "Empecemos con tu número de teléfono, ya sea tu primera vez aquí, o estés de vuelta."
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:89
+#: frontend/lib/norent/letter-builder/confirmation.tsx:91
 msgid "While you wait for your landlord to respond, gather as much documentation as you can. This can include a letter from your employer, receipts, doctor’s notes etc."
 msgstr "Mientras esperas a que el dueño de tu edificio conteste, recopila toda la documentación que puedas. Esto puede incluir una carta de tu jefe, recibos, notas de tu médico, etc."
 
@@ -2124,7 +2128,7 @@ msgstr "Tu carta ha sido enviada al dueño de tu edificio por correo certificado
 msgid "Your letter has been sent to your landlord via email. A copy of your letter has also been sent to your email."
 msgstr "Tu carta ha sido enviada al dueño o manager de tu edificio por correo certificado de USPS. También hemos enviado una copia de tu carta a tu dirección de correo electrónico."
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:69
+#: frontend/lib/norent/letter-builder/confirmation.tsx:71
 msgid "Your letter was sent on {0}."
 msgstr "Tu carta fue enviada el {0}."
 
@@ -2203,7 +2207,7 @@ msgstr "Deberías recibir tu Historial de Renta por correo en una semana aproxim
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"
 msgstr "<0/><1>También puedes contactar a tus vecinos y organizar a todos en tu edificio para emprender acciones colectivas y reclamar. Lee más sobre cómo formar sindicatos de inquilinos y comenzar una huelga de renta en <2/>.</1>"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:150
+#: frontend/lib/norent/letter-builder/confirmation.tsx:152
 msgid "norent.callToActionForCancelRentCampaign"
 msgstr "<0>Están en juego nuestros hogares, salud, seguridad colectiva y futuros. Millones de nosotros no sabemos cómo vamos a pagar la renta, hipoteca, o utilidades el 1 de junio. Sin embargo, los propietarios y los bancos esperan que paguemos como de costumbre. </0><1>¡Únete a millones de nosotros para luchar por un futuro libre de deuda y ganar una suspensión nacional en los pagos de renta, hipoteca y utilidades!</1>"
 
@@ -2396,7 +2400,6 @@ msgstr "{0} (en inglés)"
 msgid "{remaining, plural, one {1 character remaining} other {# characters remaining}}"
 msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caracteres}}"
 
-#: frontend/lib/norent/letter-builder/confirmation.tsx:97
+#: frontend/lib/norent/letter-builder/confirmation.tsx:99
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

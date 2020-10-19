@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
-import { AppContext } from "../../app-context";
-import { LocaleChoice } from "../../../../common-data/locale-choices";
-import i18n from "../../i18n";
+import { AppContext } from "../app-context";
+import { LocaleChoice } from "../../../common-data/locale-choices";
+import i18n from "../i18n";
 import { useLocation } from "react-router-dom";
-import { NorentRoutes } from "../routes";
 import { Trans } from "@lingui/macro";
-import { NavbarDropdown } from "../../ui/navbar";
+import { NavbarDropdown } from "./navbar";
+import { getGlobalSiteRoutes } from "../routes";
 
 /**
  * Names of languages in the language itself.
@@ -28,7 +28,7 @@ const SwitchLanguage: React.FC<{
 
   const pathname =
     i18n.changeLocalePathPrefix(location.pathname, locale) ||
-    NorentRoutes.getLocale(locale).home;
+    getGlobalSiteRoutes().getLocale(locale).home;
 
   // Note that this is an <a> rather than a <Link>, because changing
   // the locale requires a full page refresh.

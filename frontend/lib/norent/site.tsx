@@ -37,7 +37,7 @@ import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
 import { Trans, t } from "@lingui/macro";
 import { LocalizedNationalMetadataProvider } from "./letter-builder/national-metadata";
 import { createLinguiCatalogLoader, li18n } from "../i18n-lingui";
-import { NavbarLanguageDropdown } from "./components/language-toggle";
+import { NavbarLanguageDropdown } from "../ui/language-toggle";
 
 function getRoutesForPrimaryPages() {
   return new Set(getNorentRoutesForPrimaryPages());

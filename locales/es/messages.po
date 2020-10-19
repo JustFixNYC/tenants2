@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-19 16:22\n"
+"PO-Revision-Date: 2020-10-19 19:26\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -24,17 +24,17 @@ msgstr ""
 msgid "(Name of your language) translation"
 msgstr "Traducción en español"
 
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:97
+msgid "(Note: the email will be sent in English)"
+msgstr "(Note: the email will be sent in English)"
+
+#: frontend/lib/rh/rental-history.tsx:141
+msgid "(Note: the request will be sent in English)"
+msgstr "(Note: the request will be sent in English)"
+
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:33
 msgid "(optional)"
 msgstr "(opcional)"
-
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:97
-msgid "(the email will be sent in English)"
-msgstr "(Nota: Tenga en cuenta que el correo electrónico se enviará en inglés)"
-
-#: frontend/lib/rh/rental-history.tsx:141
-msgid "(the request will be sent in English)"
-msgstr "(Nota: Tenga en cuenta que el correo electrónico se enviará en inglés)"
 
 #: frontend/lib/rh/rental-history.tsx:37
 msgid "*Division of Housing and Community Renewal"

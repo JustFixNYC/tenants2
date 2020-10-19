@@ -4,11 +4,11 @@
 export type IssueAreaChoice = "HOME"|"BEDROOMS"|"KITCHEN"|"LIVING_ROOM"|"BATHROOMS"|"PUBLIC_AREAS";
 
 export const IssueAreaChoices: IssueAreaChoice[] = [
-  "HOME",
   "BEDROOMS",
   "KITCHEN",
   "LIVING_ROOM",
   "BATHROOMS",
+  "HOME",
   "PUBLIC_AREAS"
 ];
 
@@ -24,11 +24,11 @@ export type IssueAreaChoiceLabels = {
 
 export function getIssueAreaChoiceLabels(): IssueAreaChoiceLabels {
   return {
-    HOME: "Entire home and hallways",
     BEDROOMS: "Bedrooms",
     KITCHEN: "Kitchen",
     LIVING_ROOM: "Living room",
     BATHROOMS: "Bathrooms",
-    PUBLIC_AREAS: "Public areas",
+    HOME: "Home-wide",
+    PUBLIC_AREAS: "Building-wide",
   };
 }

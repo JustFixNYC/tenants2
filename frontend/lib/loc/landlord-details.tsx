@@ -16,24 +16,32 @@ import {
 import { USStateFormField } from "../forms/mailing-address-fields";
 import { MiddleProgressStep } from "../progress/progress-step-route";
 import { BreaksBetweenLines } from "../ui/breaks-between-lines";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 function getIntroText(isLookedUp: boolean | null): JSX.Element {
   return isLookedUp ? (
     <React.Fragment>
       <p className="subtitle is-6">
-        This is your landlord’s information as registered with the{" "}
-        <b>NYC Department of Housing and Preservation (HPD)</b>. This may be
-        different than where you send your rent checks.
+        <Trans>
+          This is your landlord’s information as registered with the{" "}
+          <b>NYC Department of Housing and Preservation (HPD)</b>. This may be
+          different than where you send your rent checks.
+        </Trans>
       </p>
       <p className="subtitle is-6">
-        We will use this address to ensure your landlord receives your letter.
+        <Trans>
+          We will use this address to ensure your landlord receives your letter.
+        </Trans>
       </p>
     </React.Fragment>
   ) : (
     <React.Fragment>
       <p className="subtitle is-6">
-        Please enter your landlord's name and contact information below. You can
-        find this information on your lease and/or rent receipts.
+        <Trans>
+          Please enter your landlord's name and contact information below. You
+          can find this information on your lease and/or rent receipts.
+        </Trans>
       </p>
     </React.Fragment>
   );
@@ -49,12 +57,16 @@ function ReadOnlyLandlordDetails(props: {
     <div className="content">
       <dl>
         <dt>
-          <strong>Landlord name</strong>
+          <strong>
+            <Trans>Landlord name</Trans>
+          </strong>
         </dt>
         <dd>{details.name}</dd>
         <br />
         <dt>
-          <strong>Landlord address</strong>
+          <strong>
+            <Trans>Landlord address</Trans>
+          </strong>
         </dt>
         <dd>
           <BreaksBetweenLines lines={details.address} />
@@ -63,7 +75,7 @@ function ReadOnlyLandlordDetails(props: {
       <ProgressButtons>
         <BackButton to={prevStep} />
         <Link to={nextStep} className="button is-primary is-medium">
-          Preview letter
+          <Trans>Preview letter</Trans>
         </Link>
       </ProgressButtons>
     </div>
@@ -74,9 +86,11 @@ const LandlordDetailsPage = MiddleProgressStep((props) => {
   const { session } = useContext(AppContext);
   const { landlordDetails } = session;
   return (
-    <Page title="Landlord information">
+    <Page title={li18n._(t`Landlord information`)}>
       <div>
-        <h1 className="title is-4 is-spaced">Landlord information</h1>
+        <h1 className="title is-4 is-spaced">
+          <Trans>Landlord information</Trans>
+        </h1>
         {getIntroText(landlordDetails && landlordDetails.isLookedUp)}
         {landlordDetails && landlordDetails.isLookedUp ? (
           <ReadOnlyLandlordDetails
@@ -98,24 +112,27 @@ const LandlordDetailsPage = MiddleProgressStep((props) => {
             {(ctx) => (
               <>
                 <TextualFormField
-                  label="Landlord's name"
+                  label={li18n._(t`Landlord's name`)}
                   type="text"
                   {...ctx.fieldPropsFor("name")}
                 />
                 <TextualFormField
                   {...ctx.fieldPropsFor("primaryLine")}
-                  label="Street address"
+                  label={li18n._(t`Street address`)}
                 />
-                <TextualFormField {...ctx.fieldPropsFor("city")} label="City" />
+                <TextualFormField
+                  {...ctx.fieldPropsFor("city")}
+                  label={li18n._(t`City`)}
+                />
                 <USStateFormField {...ctx.fieldPropsFor("state")} />
                 <TextualFormField
                   {...ctx.fieldPropsFor("zipCode")}
-                  label="Zip code"
+                  label={li18n._(t`Zip code`)}
                 />
                 <ProgressButtons
                   back={props.prevStep}
                   isLoading={ctx.isLoading}
-                  nextLabel="Preview letter"
+                  nextLabel={li18n._(t`Preview letter`)}
                 />
               </>
             )}

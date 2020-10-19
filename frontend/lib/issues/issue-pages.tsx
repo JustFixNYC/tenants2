@@ -32,10 +32,7 @@ import {
   IssueAreaChoices,
 } from "../../../common-data/issue-area-choices";
 import { IssueChoice } from "../../../common-data/issue-choices";
-import {
-  CUSTOM_ISSUE_MAX_LENGTH,
-  MAX_CUSTOM_ISSUES_PER_AREA,
-} from "../../../common-data/issue-validation.json";
+import issueConsts from "../../../common-data/issue-validation.json";
 import { FormContext } from "../forms/form-context";
 import { Formset } from "../forms/formset";
 import { FormsetItem, formsetItemProps } from "../forms/formset-item";
@@ -44,8 +41,13 @@ import { Modal } from "../ui/modal";
 import { UpdateBrowserStorage, useBrowserStorage } from "../browser-storage";
 import { NoScriptFallback } from "../ui/progressive-enhancement";
 import { getQuerystringVar } from "../util/querystring";
+import { li18n } from "../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 const checkSvg = require("../svg/check-solid.svg") as JSX.Element;
+
+// https://github.com/lingui/js-lingui/issues/514
+const { CUSTOM_ISSUE_MAX_LENGTH, MAX_CUSTOM_ISSUES_PER_AREA } = issueConsts;
 
 type IssuesAreaPropsWithCtx = IssuesRouteAreaProps & {
   toHome: string;
@@ -62,13 +64,15 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
         <HiddenFormField {...ctx.fieldPropsFor("area")} />
         <MultiCheckboxFormField
           {...ctx.fieldPropsFor("issues")}
-          label="Select your issues"
+          label={li18n._(t`Select your issues`)}
           choices={issueChoicesForArea(area)}
         />
         <br />
         <p>
-          Don't see your issues listed? You can add up to{" "}
-          {MAX_CUSTOM_ISSUES_PER_AREA} additional issues below.
+          <Trans>
+            Don't see your issues listed? You can add up to{" "}
+            {MAX_CUSTOM_ISSUES_PER_AREA} additional issues below.
+          </Trans>
         </p>
         <br />
         <Formset
@@ -85,7 +89,9 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
                 fieldProps={{
                   style: { maxWidth: `${CUSTOM_ISSUE_MAX_LENGTH}em` },
                 }}
-                label={`Custom issue #${i + 1} (optional)`}
+                label={
+                  li18n._(t`Custom issue #`) + (i + 1) + li18n._(t`(optional)`)
+                }
               />
             </FormsetItem>
           )}
@@ -98,8 +104,11 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
       <ProgressButtons>
-        <BackButton to={this.props.toHome} label="Cancel and go back" />
-        <NextButton isLoading={isLoading} label="Save" />
+        <BackButton
+          to={this.props.toHome}
+          label={li18n._(t`Cancel and go back`)}
+        />
+        <NextButton isLoading={isLoading} label={li18n._(t`Save`)} />
       </ProgressButtons>
     );
   }
@@ -123,10 +132,10 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
     });
     const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
     return (
-      <Page title={`${label} - Issue checklist`}>
+      <Page title={`${label} - ` + li18n._(t`Issue checklist`)}>
         <div>
           <h1 className="title is-4 jf-issue-area">
-            {svg} {label} issues
+            {svg} {label} <Trans>issues</Trans>
           </h1>
           <SessionUpdatingFormSubmitter
             confirmNavIfChanged
@@ -144,10 +153,10 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
 
 export function getIssueLabel(count: number): string {
   return count === 0
-    ? "No issues reported"
+    ? li18n._(t`No issues reported`)
     : count === 1
-    ? "One issue reported"
-    : `${count} issues reported`;
+    ? li18n._(t`One issue reported`)
+    : li18n._(t`${count} issues reported`);
 }
 
 type IssueAreaLinkProps = {
@@ -170,8 +179,11 @@ function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
         );
         const url = props.routes.area.create(allCapsToSlug(area));
         const modalUrl = props.routes.modal;
-        const actionLabel = count === 0 ? "Add issues" : "Add or remove issues";
-        const title = `${actionLabel} for ${label}`;
+        const actionLabel =
+          count === 0
+            ? li18n._(t`Add issues`)
+            : li18n._(t`Add or remove issues`);
+        const title = `${actionLabel}: ${label}`;
         const issueLabel = getIssueLabel(count);
         const ariaLabel = `${title} (${issueLabel})`;
         const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
@@ -211,7 +223,7 @@ function LinkToNextStep(props: { toNext: string }): JSX.Element {
         if (ctx.session.issues.length || ctx.session.customIssuesV2?.length) {
           return (
             <Link to={props.toNext} className="button is-primary is-medium">
-              Next
+              <Trans>Next</Trans>
             </Link>
           );
         } else {
@@ -251,15 +263,21 @@ type IssuesHomeProps = IssuesRoutesProps;
 const CovidRiskMessage = () => (
   <>
     <p>
-      <strong className="has-text-danger">Warning: </strong>
-      Please be aware that letting a repair-worker into your home to make
-      repairs may increase exposure to the COVID-19 virus.
+      <strong className="has-text-danger">
+        <Trans>Warning:</Trans>
+      </strong>
+      <Trans>
+        Please be aware that letting a repair-worker into your home to make
+        repairs may increase exposure to the COVID-19 virus.
+      </Trans>
     </p>
     <p>
-      In order to follow social distancing guidelines and to limit exposure, we
-      recommend only asking for repairs{" "}
-      <strong>in the case of an emergency</strong> such as if you have no heat,
-      no hot water, or no gas.
+      <Trans id="justfix.CovidRecForEmergencyRepairsOnly">
+        In order to follow social distancing guidelines and to limit exposure,
+        we recommend only asking for repairs{" "}
+        <strong>in the case of an emergency</strong> such as if you have no
+        heat, no hot water, or no gas.
+      </Trans>
     </p>
   </>
 );
@@ -267,7 +285,7 @@ const CovidRiskMessage = () => (
 function CovidRiskModal(props: { routes: IssuesRouteInfo }): JSX.Element {
   return (
     <Modal
-      title="Social distancing and repairs"
+      title={li18n._(t`Social distancing and repairs`)}
       withHeading
       onCloseGoTo={(loc) => {
         const slug = getQuerystringVar(loc.search, "area") || "";
@@ -286,7 +304,7 @@ function CovidRiskModal(props: { routes: IssuesRouteInfo }): JSX.Element {
               className={`button is-primary is-medium is-danger`}
               {...ctx.getLinkCloseProps()}
             >
-              I understand the risk
+              <Trans>I understand the risk</Trans>
             </Link>
           </div>
           <UpdateBrowserStorage hasViewedCovidRiskModal={true} />
@@ -314,16 +332,23 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
     const labels = getIssueAreaChoiceLabels();
     const introContent = this.props.introContent || (
       <>
-        This <strong>issue checklist</strong> will be sent to your landlord.
+        <Trans>
+          This <strong>issue checklist</strong> will be sent to your landlord.
+        </Trans>
       </>
     );
     return (
-      <Page title="Home self-inspection" withHeading>
+      <Page title={li18n._(t`Home self-inspection`)}>
         <div>
+          <h1 className="title is-4 is-spaced">
+            <Trans>Home self-inspection</Trans>
+          </h1>
           <p className="subtitle is-6">
-            Please go room-by-room and select all of the issues that you are
-            experiencing. {introContent}{" "}
-            <strong>Make sure to be thorough.</strong>
+            <Trans>
+              Please go room-by-room and select all of the issues that you are
+              experiencing. {introContent}{" "}
+              <strong>Make sure to be thorough.</strong>
+            </Trans>
           </p>
           <NoScriptFallback>
             <>
@@ -342,7 +367,7 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
           <br />
           <ProgressButtons>
             <Link to={this.props.toBack} className="button is-light is-medium">
-              Back
+              <Trans>Back</Trans>
             </Link>
             <LinkToNextStep toNext={this.props.toNext} />
           </ProgressButtons>

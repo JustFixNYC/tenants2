@@ -6,6 +6,8 @@ import {
   getBoroughChoiceLabels,
 } from "../../../common-data/borough-choices";
 import { CenteredButtons } from "./centered-buttons";
+import { li18n } from "../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 type AddressAndBorough = {
   /** A NYC street name and number, e.g. "150 court st". */
@@ -38,7 +40,7 @@ export function ConfirmAddressModal(
 
   return (
     <Modal
-      title="Is this your address?"
+      title={li18n._(t`Is this your address?`)}
       withHeading
       onCloseGoTo={BackOrUpOneDirLevel}
       render={(ctx) => (
@@ -48,10 +50,10 @@ export function ConfirmAddressModal(
           </p>
           <CenteredButtons>
             <Link to={props.nextStep} className="button is-primary is-medium">
-              Yes!
+              <Trans>Yes!</Trans>
             </Link>
             <Link {...ctx.getLinkCloseProps()} className="button is-text">
-              No, go back.
+              <Trans>No, go back.</Trans>
             </Link>
           </CenteredButtons>
         </>

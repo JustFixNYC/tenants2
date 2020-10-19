@@ -34,6 +34,8 @@ import {
   createAptNumberFormInput,
   AptNumberFormFields,
 } from "../forms/apt-number-form-fields";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
   return (label, labelProps) => (
@@ -46,7 +48,7 @@ function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
       <div className="level-right">
         <div className="level-item is-marginless">
           <Link to={toStep1AddressModal} className="is-size-7">
-            Why do you need my address?
+            <Trans>Why do you need my address?</Trans>
           </Link>
         </div>
       </div>
@@ -98,13 +100,13 @@ class OnboardingStep1WithoutContexts extends React.Component<
         <div className="columns is-mobile">
           <div className="column">
             <TextualFormField
-              label="First name"
+              label={li18n._(t`First name`)}
               {...ctx.fieldPropsFor("firstName")}
             />
           </div>
           <div className="column">
             <TextualFormField
-              label="Last name"
+              label={li18n._(t`Last name`)}
               {...ctx.fieldPropsFor("lastName")}
             />
           </div>
@@ -127,13 +129,15 @@ class OnboardingStep1WithoutContexts extends React.Component<
           component={PrivacyInfoModal}
         />
         <p>
-          Your privacy is very important to us! Everything on JustFix.nyc is
-          secure.{" "}
-          <Link to={routes.step1AddressModal}>
-            Click here to learn more
-            <span className="jf-sr-only"> about our privacy policy</span>
-          </Link>
-          .
+          <Trans>
+            Your privacy is very important to us! Everything on JustFix.nyc is
+            secure.{" "}
+            <Link to={routes.step1AddressModal}>
+              Click here to learn more
+              <span className="jf-sr-only"> about our privacy policy</span>
+            </Link>
+            .
+          </Trans>
         </p>
         <br />
         {this.renderFormButtons(ctx.isLoading)}
@@ -147,7 +151,9 @@ class OnboardingStep1WithoutContexts extends React.Component<
 
     return (
       <Page
-        title={`Create an account to get started with your ${actionLabel}!`}
+        title={li18n._(
+          t`Create an account to get started with your ${actionLabel}!`
+        )}
         withHeading
       >
         <div>
@@ -186,7 +192,7 @@ class OnboardingStep1WithoutContexts extends React.Component<
           disableProgressiveEnhancement={
             this.props.disableProgressiveEnhancement
           }
-          label="Cancel"
+          label={li18n._(t`Cancel`)}
         />
         <Route
           path={routes.step1ConfirmAddressModal}

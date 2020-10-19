@@ -9,6 +9,8 @@ import { RedirectToLatestStep } from "../progress/progress-redirection";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
 import { ProgressStepRoute } from "../progress/progress-step-route";
 import { OnboardingThanks } from "./onboarding-thanks";
+import { li18n } from "../i18n-lingui";
+import { t } from "@lingui/macro";
 
 export type OnboardingRoutesProps = {
   toCancel: string;
@@ -73,7 +75,7 @@ export default class OnboardingRoutes extends React.Component<
           <Route
             render={() => (
               <RouteProgressBar
-                label="Create an Account"
+                label={li18n._(t`Create an Account`)}
                 steps={this.onboardingSteps}
               />
             )}

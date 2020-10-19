@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-19 19:44\n"
+"PO-Revision-Date: 2020-10-19 20:01\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -437,7 +437,7 @@ msgstr "Delaware"
 msgid "Details about your latest letter"
 msgstr "Detalles sobre tu última carta"
 
-#: frontend/lib/ui/footer.tsx:11
+#: frontend/lib/ui/footer.tsx:12
 msgid "Developed with <0>Law Help Interactive</0>"
 msgstr "Desarrollado con <0>Law Help Interactive</0>"
 
@@ -661,7 +661,7 @@ msgstr "Hawaii"
 msgid "Hello world"
 msgstr "Hola mundo"
 
-#: frontend/lib/justfix-navbar.tsx:28
+#: frontend/lib/justfix-navbar.tsx:29
 msgid "Help"
 msgstr "Ayuda"
 
@@ -701,7 +701,7 @@ msgstr "Así será la carta:"
 msgid "Here’s what you can do with <0>NoRent</0>"
 msgstr "Esto es lo que puedes hacer con <0>NoRent</0>"
 
-#: frontend/lib/justfix-navbar.tsx:13
+#: frontend/lib/justfix-navbar.tsx:14
 #: frontend/lib/norent/site.tsx:87
 msgid "Homepage"
 msgstr "Página Principal"
@@ -871,7 +871,7 @@ msgstr "¡Únete a nuestra <0/>lista de distribución!"
 msgid "JustFix.nyc <0/>sent on behalf of <1/>"
 msgstr "JustFix.nyc <0/>enviado en nombre de <1/>"
 
-#: frontend/lib/ui/footer.tsx:25
+#: frontend/lib/ui/footer.tsx:26
 msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
 msgstr "JustFix.nyc es una organización registrada 501(c)(3) sin fines de lucro."
 
@@ -907,7 +907,7 @@ msgstr "Dirección de correo electrónico del dueño o manager de tu edificio"
 msgid "Landlord/management company's name"
 msgstr "Nombre del dueño o manager de tu edificio"
 
-#: frontend/lib/norent/components/language-toggle.tsx:34
+#: frontend/lib/ui/language-toggle.tsx:34
 msgid "Language:"
 msgstr "Idioma:"
 
@@ -1020,7 +1020,7 @@ msgstr "El Condado de Los Angeles"
 msgid "Louisiana"
 msgstr "Luisiana"
 
-#: frontend/lib/ui/footer.tsx:33
+#: frontend/lib/ui/footer.tsx:35
 msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 msgstr "Hecho en NYC con ♥ por el equipo de <0>JustFix.nyc</0>"
 
@@ -1525,11 +1525,11 @@ msgstr "Ducha: Baldosas Agrietadas"
 msgid "Shower: Wall tiles missing"
 msgstr "Ducha: Faltan Baldosas"
 
-#: frontend/lib/justfix-navbar.tsx:25
+#: frontend/lib/justfix-navbar.tsx:26
 msgid "Sign in"
 msgstr "Iniciar sesión"
 
-#: frontend/lib/justfix-navbar.tsx:23
+#: frontend/lib/justfix-navbar.tsx:24
 msgid "Sign out"
 msgstr "Cerrar sesión"
 
@@ -1652,7 +1652,7 @@ msgstr "Enviar Solicitud"
 msgid "Sue your landlord"
 msgstr "Demanda al dueño de tu edificio"
 
-#: frontend/lib/justfix-navbar.tsx:20
+#: frontend/lib/justfix-navbar.tsx:21
 msgid "Take action"
 msgstr "Toma acción"
 

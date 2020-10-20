@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-19 20:01\n"
+"PO-Revision-Date: 2020-10-20 14:24\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1880,7 +1880,7 @@ msgstr "Nos hemos aliado con <0/> para proporcionarte apoyo adicional."
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:65
 msgid "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
-msgstr ""
+msgstr "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:250
 msgid "What does an eviction moratorium mean?"
@@ -2404,3 +2404,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:99
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

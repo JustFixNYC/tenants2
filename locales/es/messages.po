@@ -60,16 +60,16 @@ msgstr "<0>Herramientas gratuitas para luchar por un hogar seguro y saludable</0
 msgid "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1>"
 msgstr "<0>Hola {0},</0><1>Has enviado tu carta de NoRent. Aquí tienes una copia PDF para tus archivos adjunta a este correo electrónico.</1>"
 
-#: frontend/lib/norent/data/faqs-content.tsx:376
+#: frontend/lib/norent/data/faqs-content.tsx:389
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
 msgstr "<0>Si el dueño de tu edificio te está intentando desalojar de forma ilegal, contacta con asistencia legal en <1/> inmediatamente.</0>"
 
-#: frontend/lib/norent/data/faqs-content.tsx:101
+#: frontend/lib/norent/data/faqs-content.tsx:114
 msgid "<0>If you’re facing an emergency, you can find further legal assistance in your state at <1/>.</0>"
 msgstr "<0>Si te enfrentas a una emergencia, puede encontrar asistencia legal adicional en tu estado en <1/>.</0>"
 
-#: frontend/lib/norent/data/faqs-content.tsx:179
-#: frontend/lib/norent/data/faqs-content.tsx:187
+#: frontend/lib/norent/data/faqs-content.tsx:192
+#: frontend/lib/norent/data/faqs-content.tsx:200
 msgid "<0>No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed.</0>"
 msgstr "<0>No, puedes utilizar este sitio web para enviar una carta al dueño de tu edificio por correo electrónico o correo postal vía USPS. No tienes que pagar para que la carta sea enviada por correo postal.</0>"
 
@@ -94,10 +94,14 @@ msgstr "<0>De</0><1/><2>Hasta</2><3/>"
 msgid "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
 msgstr "<0>No incluimos meses en los que ya has informado al dueño de tu edificio anteriormente.</0>"
 
-#: frontend/lib/norent/data/faqs-content.tsx:160
-#: frontend/lib/norent/data/faqs-content.tsx:167
+#: frontend/lib/norent/data/faqs-content.tsx:173
+#: frontend/lib/norent/data/faqs-content.tsx:180
 msgid "<0>Yes, this is a free website created by 501(c)3 non-profit organizations across the United States.</0>"
 msgstr "<0>Sí, este es un sitio web gratuito creado por organizaciones sin fines de lucro, con exención tributaria 501(c)(3), en todo Estados Unidos (EEUU).</0>"
+
+#: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:8
+msgid "<0>Your account is set up.</0><1>We do not currently recommend sending this notice of non-payment to your landlord. <2/></1>"
+msgstr ""
 
 #: frontend/lib/norent/homepage.tsx:103
 msgid "A national tool by non-profit <0>JustFix.nyc</0>"
@@ -119,7 +123,7 @@ msgstr "Acciones"
 msgid "Address"
 msgstr "Dirección"
 
-#: frontend/lib/norent/data/faqs-content.tsx:10
+#: frontend/lib/norent/data/faqs-content.tsx:11
 msgid "After Sending Your Letter"
 msgstr "Después de enviar tu carta"
 
@@ -276,7 +280,7 @@ msgstr "Timbre Roto"
 msgid "Buzzer Defective"
 msgstr "Timbre Defectuoso"
 
-#: frontend/lib/norent/data/faqs-content.tsx:28
+#: frontend/lib/norent/data/faqs-content.tsx:41
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
 msgstr "Mapa de huelgas de renta y protección para inquilinos ante la emergencia generada por el COVID-19"
 
@@ -319,7 +323,7 @@ msgstr "Techo Colapsado/Se Colapsa"
 msgid "Ceiling Leaking"
 msgstr "Techo Gotea"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:29
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:30
 msgid "Check out these valuable resources for your state:"
 msgstr "Explora otros recursos específicos para tu estado:"
 
@@ -339,7 +343,7 @@ msgstr "Ciudad"
 msgid "City/township/borough"
 msgstr "Ciudad/pueblo/municipalidad"
 
-#: frontend/lib/norent/data/faqs-content.tsx:31
+#: frontend/lib/norent/data/faqs-content.tsx:44
 msgid "Click here to join MHAction’s movement"
 msgstr "Haz clic aquí para unirte al movimiento de MH Action"
 
@@ -392,7 +396,7 @@ msgstr "Confirmando la ciudad"
 msgid "Connecticut"
 msgstr "Connecticut"
 
-#: frontend/lib/norent/data/faqs-content.tsx:9
+#: frontend/lib/norent/data/faqs-content.tsx:10
 msgid "Connecting With Others"
 msgstr "Poniéndose en contacto con otros"
 
@@ -445,7 +449,7 @@ msgstr "Desarrollado con <0>Law Help Interactive</0>"
 msgid "District of Columbia"
 msgstr "Distrito de Columbia"
 
-#: frontend/lib/norent/data/faqs-content.tsx:175
+#: frontend/lib/norent/data/faqs-content.tsx:188
 msgid "Do I have to go to the post office to mail my letter?"
 msgstr "¿Tengo que ir a la oficina de correos para enviar mi carta?"
 
@@ -662,7 +666,7 @@ msgstr "Hola mundo"
 msgid "Help"
 msgstr "Ayuda"
 
-#: frontend/lib/norent/data/faqs-content.tsx:374
+#: frontend/lib/norent/data/faqs-content.tsx:387
 msgid "Help! My landlord is already trying to evict me."
 msgstr "¡Ayuda! El dueño de mi edificio ya intenta desalojarme."
 
@@ -711,20 +715,20 @@ msgstr "Respuestas de la Corte de Vivienda"
 msgid "Housing Justice for All"
 msgstr "Housing Justice for All"
 
-#: frontend/lib/norent/data/faqs-content.tsx:435
+#: frontend/lib/norent/data/faqs-content.tsx:446
 msgid "How can I build collective power with other tenants?"
 msgstr "¿Cómo puedo construir poder colectivo con otros inquilinos?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:327
-#: frontend/lib/norent/data/faqs-content.tsx:430
+#: frontend/lib/norent/data/faqs-content.tsx:340
+#: frontend/lib/norent/data/faqs-content.tsx:441
 msgid "How can I connect with a lawyer?"
 msgstr "¿Cómo puedo ponerme en contacto con un abogado?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:425
+#: frontend/lib/norent/data/faqs-content.tsx:436
 msgid "How can I document my hardships related to COVID-19?"
 msgstr "¿Cómo puedo documentar mis dificultades relacionadas con el COVID-19?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:322
+#: frontend/lib/norent/data/faqs-content.tsx:335
 msgid "How do I organize with other tenants in my building, block, or neighborhood?"
 msgstr "¿Cómo me organizo con otros inquilinos de mi edificio, cuadra o vecindario?"
 
@@ -756,7 +760,7 @@ msgstr "No tengo ningún número de apartamento"
 msgid "I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
 msgstr "Acabo de usar la nueva herramienta gratuita de JustFix.nyc para decirle a mi arrendador que no puedo pagar la renta"
 
-#: frontend/lib/norent/data/faqs-content.tsx:147
+#: frontend/lib/norent/data/faqs-content.tsx:160
 msgid "I'm scared. What happens if my landlord retaliates?"
 msgstr "Tengo miedo. ¿Qué sucede si el dueño de mi edificio toma represalias?"
 
@@ -788,7 +792,7 @@ msgstr "Si necesitas cambiar tu nombre o tu información de contacto, ponte en c
 msgid "If you write checks or transfer money through your bank to pay your rent, use that name here."
 msgstr "Usa el nombre al que pagas la renta."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:59
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:67
 msgid "If you’d still like to create an account, we can send you updates in the future."
 msgstr "Si aún así quieres crear una cuenta, podemos enviarte noticias en el futuro."
 
@@ -828,19 +832,19 @@ msgstr "Indiana"
 msgid "Iowa"
 msgstr "Iowa"
 
-#: frontend/lib/norent/data/faqs-content.tsx:296
+#: frontend/lib/norent/data/faqs-content.tsx:309
 msgid "Is not paying my rent because of COVID-19 considered a “rent strike”?"
 msgstr "¿Se considera una \"huelga de renta\" el no pagar mi renta a causa del COVID-19?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:196
+#: frontend/lib/norent/data/faqs-content.tsx:209
 msgid "Is there someone I can connect with after this to get help?"
 msgstr "¿Hay alguien a quien pueda contactar después de esto para obtener ayuda?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:156
+#: frontend/lib/norent/data/faqs-content.tsx:169
 msgid "Is this free?"
 msgstr "¿Es gratis?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:224
+#: frontend/lib/norent/data/faqs-content.tsx:237
 msgid "Is this tool right for me?"
 msgstr "¿Es esta herramienta adecuada para mí?"
 
@@ -884,7 +888,7 @@ msgstr "Kansas"
 msgid "Kentucky"
 msgstr "Kentucky"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:102
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:110
 msgid "Know your rights"
 msgstr "Conoce tus derechos"
 
@@ -931,7 +935,6 @@ msgstr "Aprende Sobre Tu Alquiler"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:352
 #: frontend/lib/norent/about.tsx:66
-#: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:21
 #: frontend/lib/norent/the-letter.tsx:29
 msgid "Learn more"
 msgstr "Aprender más"
@@ -940,7 +943,7 @@ msgstr "Aprender más"
 msgid "Learn more about our mission on our website"
 msgstr "Obtén más información a cerca de nuestra misión en nuestro sitio web (sólo en inglés)"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:42
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:44
 msgid "Learn more."
 msgstr "Aprender más."
 
@@ -964,7 +967,7 @@ msgstr "Configuremos una nueva contraseña, para que puedas volver fácilmente."
 msgid "Let's set you up with an account. This will enable you to save your information, and receive updates."
 msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información y recibir noticias."
 
-#: frontend/lib/norent/data/faqs-content.tsx:7
+#: frontend/lib/norent/data/faqs-content.tsx:8
 msgid "Letter Builder"
 msgstr "Generador de cartas"
 
@@ -1305,7 +1308,7 @@ msgstr "Número de teléfono"
 msgid "Pipes Leaking"
 msgstr "Tuberías Con Fugas"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:93
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:101
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Por favor <0>vuelve y escoge un estado</0>."
 
@@ -1370,7 +1373,7 @@ msgstr "Atentamente,"
 msgid "Rent History"
 msgstr "Historial de Renta"
 
-#: frontend/lib/norent/data/faqs-content.tsx:25
+#: frontend/lib/norent/data/faqs-content.tsx:38
 msgid "Rent Strike 2020: A Resource List"
 msgstr "Huelga de Renta 2020: Lista de recursos (en inglés)"
 
@@ -1426,7 +1429,7 @@ msgstr "Rhode Island"
 msgid "Right to the City"
 msgstr "Right to the City"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:117
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:125
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Permito que Right to the City se ponga en contacto conmigo para proporcionarme apoyo adicional."
 
@@ -1607,7 +1610,7 @@ msgstr "Iniciar mi solicitud"
 msgid "State"
 msgstr "Estado"
 
-#: frontend/lib/norent/data/faqs-content.tsx:11
+#: frontend/lib/norent/data/faqs-content.tsx:12
 msgid "States with Limited Protections"
 msgstr "Estados con Protecciones Limitadas"
 
@@ -1653,7 +1656,7 @@ msgstr "Demanda al dueño de tu edificio"
 msgid "Take action"
 msgstr "Toma acción"
 
-#: frontend/lib/norent/data/faqs-content.tsx:8
+#: frontend/lib/norent/data/faqs-content.tsx:9
 msgid "Tenant Rights"
 msgstr "Derechos del Inquilino"
 
@@ -1752,9 +1755,13 @@ msgstr "Número de Seguimiento USPS:"
 msgid "Understanding California’s COVID-19 Tenant Relief Act of 2020 (PDF)"
 msgstr "Comprender la Ley de Alivio de Inquilinos COVID-19 de California de 2020 (PDF)"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:36
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:38
 msgid "Unfortunately, we do not currently recommend sending a notice of non-payment to your landlord. Sending a notice could put you at risk of harassment."
 msgstr "Desafortunadamente, en este momento no recomendamos enviar una carta de impago al dueño de tu edificio. Enviar la carta podría ponerte en riesgo de hostigamiento."
+
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:50
+msgid "Unfortunately, we do not currently recommend sending this notice of non-payment to your landlord. <0/>"
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:100
 msgid "Unit/apt/lot/suite number"
@@ -1870,11 +1877,11 @@ msgstr "Utilizaremos esta información para obtener las ordenanzas actuales que 
 msgid "We’ll use this to reference the latest policies that protect your rights as a tenant."
 msgstr "Utilizaremos esta información para citar las políticas actuales que protegen tus derechos como inquilino."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:79
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:87
 msgid "We’ve partnered with <0/> to provide additional support once you’ve sent your letter."
 msgstr "Nos hemos aliado con <0/> para proporcionar asistencia adicional una vez que hayas enviado tu carta."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:49
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:57
 msgid "We’ve partnered with <0/> to provide additional support."
 msgstr "Nos hemos aliado con <0/> para proporcionarte apoyo adicional."
 
@@ -1882,15 +1889,15 @@ msgstr "Nos hemos aliado con <0/> para proporcionarte apoyo adicional."
 msgid "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
 msgstr ""
 
-#: frontend/lib/norent/data/faqs-content.tsx:250
+#: frontend/lib/norent/data/faqs-content.tsx:263
 msgid "What does an eviction moratorium mean?"
 msgstr "¿Qué significa una moratoria del desalojo?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:212
+#: frontend/lib/norent/data/faqs-content.tsx:225
 msgid "What does this tool do?"
 msgstr "¿Qué hace esta herramienta?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:344
+#: frontend/lib/norent/data/faqs-content.tsx:357
 msgid "What happens after I send this letter?"
 msgstr "¿Qué ocurre después de enviar esta carta?"
 
@@ -1899,7 +1906,7 @@ msgstr "¿Qué ocurre después de enviar esta carta?"
 msgid "What happens next?"
 msgstr "¿Y ahora qué?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:275
+#: frontend/lib/norent/data/faqs-content.tsx:288
 msgid "What happens when the eviction moratorium ends?"
 msgstr "¿Qué sucede cuando termine la moratoria de desalojo?"
 
@@ -1908,11 +1915,11 @@ msgstr "¿Qué sucede cuando termine la moratoria de desalojo?"
 msgid "What if I have more questions?"
 msgstr "¿Qué pasa si tengo más preguntas?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:332
+#: frontend/lib/norent/data/faqs-content.tsx:345
 msgid "What if I live in a manufactured or mobile home?"
 msgstr "¿Qué sucede si vivo en una casa prefabricada o móvil?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:389
+#: frontend/lib/norent/data/faqs-content.tsx:402
 msgid "What if I live in a state without an eviction moratorium?"
 msgstr "¿Qué sucede si vivo en un estado en donde no existe la moratoria de desalojo?"
 
@@ -1928,7 +1935,7 @@ msgstr "¿Qué es la nueva ley AB3088?"
 msgid "What is your borough?"
 msgstr "¿Cuál es tu municipalidad?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:384
+#: frontend/lib/norent/data/faqs-content.tsx:397
 msgid "What kind of documentation should I collect to prove I can’t pay rent?"
 msgstr "¿Qué tipo de documentación debo recopilar para demostrar que no puedo pagar la renta?"
 
@@ -1964,7 +1971,7 @@ msgstr "¿Por qué necesitáis esta información?"
 msgid "Why send a letter"
 msgstr "Por qué enviar una carta"
 
-#: frontend/lib/norent/data/faqs-content.tsx:237
+#: frontend/lib/norent/data/faqs-content.tsx:250
 msgid "Why should I notify my landlord if I can’t pay my rent?"
 msgstr "¿Por qué debo avisar al dueño de mi edificio de que no puedo pagar la renta?"
 
@@ -1972,7 +1979,7 @@ msgstr "¿Por qué debo avisar al dueño de mi edificio de que no puedo pagar la
 msgid "Why we made this"
 msgstr "Por qué hemos creado esta herramienta"
 
-#: frontend/lib/norent/data/faqs-content.tsx:363
+#: frontend/lib/norent/data/faqs-content.tsx:376
 msgid "Will I still owe my rent after I send this letter?"
 msgstr "¿Seguiré adeudando mi renta después de enviar esta carta?"
 
@@ -2044,7 +2051,7 @@ msgstr "No puedes enviar más cartas"
 msgid "You most recently sent a letter on {0}."
 msgstr "Enviaste una carta en {0}."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:104
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:112
 msgid "You're in <0>{stateName}</0>"
 msgstr "Estás en <0>{stateName}</0>"
 
@@ -2073,7 +2080,7 @@ msgstr "Tu carta de NoRent.org"
 msgid "Your Rent History has been requested from the New York State DHCR!"
 msgstr "¡Tu Historial de Alquiler ha sido solicitado al DHCR del estado de Nueva York!"
 
-#: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:8
+#: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:7
 msgid "Your account is set up"
 msgstr "¡Tu cuenta está lista!"
 
@@ -2160,7 +2167,7 @@ msgid "Zip code"
 msgstr "Código postal"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:200
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:71
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:79
 msgid "and"
 msgstr "y"
 
@@ -2204,7 +2211,7 @@ msgstr "<0>Querido administrador del DHCR,</0><1> Yo, {0}, vivo actualmente en {
 msgid "justfix.rhWhatHappensNext"
 msgstr "Deberías recibir tu Historial de Renta por correo en una semana aproximadamente. Tu Historial de Renta es un documento importante que muestra los alquileres registrados en tu apartamento desde el año 1984. Puedes aprender más sobre él y cómo puede ayudarte a averiguar si te están cobrando alquiler de más en la <0>Guía de sobrecargos de apartamentos de renta estabilizada del Met Council on Housing (en inglés)</0>."
 
-#: frontend/lib/norent/data/faqs-content.tsx:202
+#: frontend/lib/norent/data/faqs-content.tsx:215
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"
 msgstr "<0/><1>También puedes contactar a tus vecinos y organizar a todos en tu edificio para emprender acciones colectivas y reclamar. Lee más sobre cómo formar sindicatos de inquilinos y comenzar una huelga de renta en <2/>.</1>"
 
@@ -2212,7 +2219,7 @@ msgstr "<0/><1>También puedes contactar a tus vecinos y organizar a todos en tu
 msgid "norent.callToActionForCancelRentCampaign"
 msgstr "<0>Están en juego nuestros hogares, salud, seguridad colectiva y futuros. Millones de nosotros no sabemos cómo vamos a pagar la renta, hipoteca, o utilidades el 1 de junio. Sin embargo, los propietarios y los bancos esperan que paguemos como de costumbre. </0><1>¡Únete a millones de nosotros para luchar por un futuro libre de deuda y ganar una suspensión nacional en los pagos de renta, hipoteca y utilidades!</1>"
 
-#: frontend/lib/norent/data/faqs-content.tsx:252
+#: frontend/lib/norent/data/faqs-content.tsx:265
 msgid "norent.definitionOfEvictionMoratorium"
 msgstr "<0>Una \"moratoria de desalojo\" puede significar algo diferente en cada jurisdicción, pero en resumen, una moratoria detiene temporalmente ciertos tipos de desalojo.</0><1>El mecanismo exacto por medio del cual se aplica esta suspensión y los tipos de casos que se suspenden, varía de una ciudad a otra. Dependiendo de la jurisdicción, la corte puede simplemente estar cerrados o no tramitar las demandas de desalojo, los alguaciles pueden no hacer cumplir las órdenes de desalojo o puede haber alguna combinación de estos y otros métodos para suspender los desalojos.</1><2>NoRent.org te ayudará orientándote para entender las diferentes reglas. También puedes leer más sobre las protecciones de los inquilinos en tu jurisdicción en el Proyecto de Mapeo Contra los Desalojos COVID-19 Emergency Tenant Protections & Rent Strikes Map <3/>.</2>"
 
@@ -2244,15 +2251,15 @@ msgstr "Los inquilinos de todo el país se ven afectados por el COVID-19 de mane
 msgid "norent.explanationOfPartnerships"
 msgstr "Nuestro generador de cartas gratuitas fue construido con <0>abogados y organizaciones de derechos de inquilinos sin fines de lucro</0> en toda la nación para asegurarnos de que tu carta te ofrece las mayores protecciones disponibles según el estado en el que vives."
 
-#: frontend/lib/norent/data/faqs-content.tsx:277
+#: frontend/lib/norent/data/faqs-content.tsx:290
 msgid "norent.explanationOfWhatHappensWhenEvictionMoratoriumEnds"
 msgstr "<0>Una vez que se levante la moratoria, los procesos de desalojo en las cortes y la aplicación de la ley por parte de las autoridades locales del orden público pueden reanudarse.</0><1>Si no logramos reivindicaciones adicionales (como un congelamiento de la renta y la suspensión de los pagos de renta) antes de que estas \"moratorias de desalojo\" terminen, volverán a empezar los procesos, los desalojos continuarán y se presentarán nuevas demandas judiciales.</1><2>Estamos trabajando arduamente pidiendo la congelación y suspensión inmediatas del alquiler, entre otras solicitudes. ¡Este es el momento de organizarse! Participa en <3/>.</2>"
 
-#: frontend/lib/norent/data/faqs-content.tsx:214
+#: frontend/lib/norent/data/faqs-content.tsx:227
 msgid "norent.explanationOfWhatToolDoes"
 msgstr "<0>NoRent.org te guía en el proceso de cómo notificar al dueño de tu edificio que no puedes pagar la renta debido a un problema relacionado con el COVID-19. También te ayudaremos a obtener más información sobre los derechos que protegen a los inquilinos en tu estado y te daremos información sobre recursos para tomar medidas legales u organizativas.</0>"
 
-#: frontend/lib/norent/data/faqs-content.tsx:298
+#: frontend/lib/norent/data/faqs-content.tsx:311
 msgid "norent.explanationOfWithholdingRent"
 msgstr "<0>Hay una diferencia entre una \"huelga de renta\" o retener la renta, y no pagar la renta. Esta carta le notifica al dueño de tu edificio que no estás pagando la renta debido a los impactos financieros del COVID-19, que ahora es una forma de retrasar los pagos de renta.</0><1>Retener tu renta, o una huelga de renta, es declarar que no pagarás la renta, independientemente de si puedes hacerlo. Esto puede ponerte en riesgo de desalojo legal por no pagar la renta. Nunca debes ser el único que decide retener la renta, solo debes hacerlo cuando hayas obtenido el apoyo y la participación de todos en tu edificio.</1><2>Si bien es arriesgado, retener la renta puede ser una táctica importante para que los inquilinos impulsen un movimiento. Si tus vecinos están considerando una huelga de renta, sería conveniente que consultes los recursos a continuación sobre cómo organizarse y ponerse en contacto con las herramientas y recursos que las organizaciones han puesto a disposición.</2>"
 
@@ -2260,29 +2267,25 @@ msgstr "<0>Hay una diferencia entre una \"huelga de renta\" o retener la renta, 
 msgid "norent.howDoesLetterHelpWithAB3088"
 msgstr "<0>El uso de esta declaración satisface todos los requisitos locales para notificar al propietario.</0><1><2>Proporciona una defensa en un caso de desalojo basado en la falta de pago de la renta; y </2><3>Convierte su alquiler en \"deuda civil.\" Esto significa que el dueño o manager de tu edificio puede presentar un caso de reclamos menores por el impago de renta. Si el dueño o manager de tu edificio obtiene un fallo por la renta no pagada en un tribunal de reclamos menores, el dueño o manager de tu edificio puede cobrar ese fallo embargando tu cheque de trabajo, o recaudando tu cuenta bancaria.</3></1>"
 
-#: frontend/lib/norent/data/faqs-content.tsx:334
+#: frontend/lib/norent/data/faqs-content.tsx:347
 msgid "norent.howToConnectWithManufacturedHomeOwners"
 msgstr "<0> Únete a algún movimiento de propietarios de viviendas prefabricadas que se haya formado para hacer que sus comunidades sean lugares asequibles, saludables, seguros y hermosos para vivir. Propietarios de viviendas móviles/prefabricadas: <1/> y exigir que las empresas propietarias de comunidades asuman su responsabilidad. </0>"
 
-#: frontend/lib/norent/data/faqs-content.tsx:123
+#: frontend/lib/norent/data/faqs-content.tsx:136
 msgid "norent.infoAboutCollectiveOrganizing"
 msgstr "<0>El lugar más importante para comenzar es en donde vives. Contáctate de manera segura con otros inquilinos de tu edificio o lugar donde vives y comienza organizando un sistema de comunicación entre ustedes para averiguar qué problemas y necesidades tienen en común.</0><1> Para obtener más recursos sobre cómo formar un sindicato de inquilinos, consulta <2/>. También puedes contactar a grupos locales que se estén organizando y que estén afiliados a la alianza nacional <3/>.</1>"
 
-#: frontend/lib/norent/data/faqs-content.tsx:346
+#: frontend/lib/norent/data/faqs-content.tsx:359
 msgid "norent.instructionsForAfterSendingLetter"
 msgstr "<0>Después de enviar esta carta, tu arrendador puede contactarte para pedirte más información o discutir un plan de pago. Asegúrate de que toda tu comunicación esté documentada mediante cartas, correos electrónicos o mensajes de texto. Negocia solo acuerdos en donde aceptes pagar una porción de tu renta que sea razonable y que tengas la seguridad de que vas a poder pagar sin poner en riesgo tu salud. No aceptes mudarte. Puedes encontrar ayuda legal adicional en <1/>.</0><2>Debes continuar recopilando documentación que demuestre que has sido afectado financieramente a causa del COVID-19.</2>"
 
-#: frontend/lib/norent/data/faqs-content.tsx:115
+#: frontend/lib/norent/data/faqs-content.tsx:128
 msgid "norent.instructionsForConnectingWithOrganizers"
 msgstr "<0> Ponte en contacto con organizadores del movimiento de la vivienda a través de <1/>, una alianza nacional de organizadores que construye el movimiento de inquilinos desde 2007. Puedes unirte a su convocatoria de inquilinos en todo el país para luchar por la condonación de la renta en <2/>.</0>"
 
-#: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:9
-msgid "norent.instructionsForNewAccountsCreatedInUnprotectedStates"
-msgstr "<0>Ahora que tienes una cuenta con nosotros, podemos informarte en el caso de que se produzcan cambios importantes en tu estado. </0><1>Mientras tanto, puedes leer sobre lo que puedes hacer a continuación, desde cómo documentar tu situación hasta conectarte con otros inquilinos y el movimiento de derechos de la vivienda.</1>"
-
-#: frontend/lib/norent/data/faqs-content.tsx:391
-msgid "norent.instructionsForStatesWithLimitedProtections"
-msgstr "<0>El Congreso aprobó a nivel nacional la Ley CARES (Ley 116-136), el 27 de marzo de 2020. Los inquilinos en propiedades cubiertas están protegidos contra el desalojo por falta de pago o por cualquier otro motivo hasta el 23 de agosto de 2020.</0><1>También debes saber que no estás solo. En los estados sin moratoria de desalojo es importante protegerse legalmente y construir poder colectivo con otros inquilinos.</1><2> Primero, comienza asegurándote de que toda la comunicación con el dueño de tu edificio esté documentada por escrito. Comienza a recopilar toda la documentación de cualquier dificultad que hayas tenido relacionada con el COVID-19. Si te enfrentas a una emergencia, busca de inmediato ayuda legal en tu estado consultando en <3/>.</2><4> Luego, conéctate de manera segura con otros inquilinos en tu edificio o el lugar en donde vives. Comienza organizando un sistema de comunicación entre vosotros para averiguar qué problemas y necesidades tenéis en común. Para obtener más recursos sobre cómo formar un sindicato de inquilinos, consulta <5/>. También puedes contactar a grupos locales que se estén organizando y que estén afiliados a la alianza nacional <6/>.</4><7> Finalmente, únete a los millones de inquilinos que están trabajando arduamente y luchando por la protección nacional de los inquilinos, la congelación y suspensión inmediatas del alquiler. Súmate a <8/>.</7>"
+#: frontend/lib/norent/data/faqs-content.tsx:404
+msgid "norent.instructionsForStatesWithLimitedProtections_v2"
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:24
 msgid "norent.introductionToLetterBuilderSteps"
@@ -2316,7 +2319,7 @@ msgstr "Esta carta es para informarle de las protecciones para inquilinos existe
 msgid "norent.letterBodyCaliforniaAB3088"
 msgstr "<0>Esta carta de declaración se refiere al pago del alquiler durante los meses siguientes:</0><1/><2>Actualmente no puedo pagar mi alquiler u otras obligaciones financieras delineadas en el contrato de arrendamiento debido a uno o más de lo siguiente:</2><3><4>Pérdida de ingresos causada por la pandemia COVID-19. </4><5>Gastos adicionales directamente relacionados con la realización de trabajos esenciales durante el mandato COVID-19.</5><6>Gastos adicionales relacionados con impactos de la salud del pandemia COVID-19. </6><7>Satisfacción de responsabilidades de cuidado de niños, personas discapacitadas, o familiares enfermos directamente relacionadas con la pandemia COVID-19 que limita mi capacidad de obtener ingresos. </7><8>Aumento de los costos para el cuidado de los niños o para atender a un miembro de la familia con discapacidades o enfermo relacionado directamente con la pandemia COVID-19. </8><9>Otras circunstancias relacionadas con la pandemia COVID-19 que han reducido mis ingresos o aumentado mis gastos. </9><10>Cualquier asistencia pública, incluyendo seguro de desempleo, asistencia pandémica para el desempleo, seguro de discapacidad estatal (SDI), o permiso familiar pagado, que he recibido desde el inicio de la pandemia COVID-19 no compensa plenamente mi pérdida de ingresos y/o gastos adicionales. </10></3><11>Declaro bajo pena de perjurio en virtud de las leyes del Estado de California que lo declarado es verdadero y correcto.</11>"
 
-#: frontend/lib/norent/data/faqs-content.tsx:34
+#: frontend/lib/norent/data/faqs-content.tsx:47
 msgid "norent.listOfSuggestedNonpaymentDocumentation"
 msgstr "<0>Mientras esperas que el dueño de tu edificio te dé una respuesta, reúne toda la documentación que puedas. Algunos tipos de documentación que puedes recopilar incluyen:</0><1><2><3>Carta de tu jefe:</3>una carta de tu jefe o de un compañero de trabajo que mencione el virus COVID-19 y muestre la pérdida de trabajo o la reducción de horas como resultado del COVID-19.</2><4><5> Documentos de beneficios de desempleo</5>: son los documentos que demuestran que solicitaste o recibiste beneficios del Departamento de Desarrollo del Empleo.</4><6><7>Recibos de pago de salario</7>: pueden ser cheques de pagos anteriores a la fecha de terminación o despido. Si has tenido un cambio en el número de horas de trabajo, puedes retener tus cheques de pago anteriores y posteriores a ese cambio.</6><8><9>Gastos relacionados con el COVID-19</9>: pueden ser facturas que demuestren que tus gastos han aumentado por problemas derivados del COVID-19, incluidos los costos de cuidado de niños, gastos para cumplir con las directivas de salud pública u otros gastos relacionados.</8><10><11>Cierre de escuelas</11>: esta podría ser una notificación de la escuela de tus hijos diciendo que ha cerrado debido al COVID-19. También puedes incluir pruebas de que tus hijos están matriculados.</10><12><13> Estados financieros</13>: pueden ser presupuestos, estados de cuenta bancarios o archivos personales que demuestren que tus ingresos laborales o de negocio se han interrumpido debido a la crisis provocada por el COVID-19. Asegúrate de no enviar información financiera personal confidencial que no quieras que vea el dueño de tu edificio.</12><14><15>Registros médicos del COVID-19</15>: esto podría incluir gastos médicos extraordinarios que tengan relación con el diagnóstico, pruebas y/o tratamiento del COVID-19 que hayas efectuado con tu dinero propio para ti o algún miembro de tu familia. Debido a la confidencialidad de los archivos médicos, es posible que no desees enviarlos al dueño de tu edificio. Sin embargo, debes conservar estos recibos para tu archivo personal. Estos podrían ser utilizados como prueba en caso que debas presentarlos como evidencia en procedimientos judiciales.</14><16><17>Alguna otra prueba del impacto financiero relacionado con el COVID-19</17>: puede ser cualquier otra prueba que demuestre cómo el virus COVID-19 ha afectado tu capacidad de pagar la renta.</16></1>"
 
@@ -2348,6 +2351,10 @@ msgstr "Acciones Estratégicas para una Economía Justa (SAJE) está disponible 
 msgid "norent.sampleNoRentLetter"
 msgstr "<0>Le escribo para informarle de que he tenido una pérdida de ingresos, gastos adicionales y/o otras circunstancias financieras relacionadas con el COVID-19. Hasta nuevo aviso, la emergencia COVID-19 puede afectar mi capacidad de pagar la renta. </0><1/><2>Los inquilinos en Florida están protegidos del desalojo por falta de pago por orden ejecutiva 20-94, emitido por el gobernador Ron DeSantis el 2 de abril de 2020. </2><3/><4>Los inquilinos en propiedades cubiertas también están protegidos contra el desalojo, las tasas, las penalizaciones y otros cargos relacionados con el impago por la ley CARES (Título IV, Sec. 4024) promulgado por el Congreso el 27 de marzo de 2020. </4><5/><6>Junto con mis vecinos, estoy organizando, animando y/o participando en una organización de inquilinos para que podamos apoyar...</6>"
 
+#: frontend/lib/norent/data/faqs-content.tsx:15
+msgid "norent.sendCDCDeclarationBlurb"
+msgstr ""
+
 #: frontend/lib/norent/letter-email-to-user.tsx:156
 msgid "norent.tenantsTogetherDescription"
 msgstr "Puedes ponerte en contacto con Inquilinos Unidos, una coalición estatal de organizaciones locales de inquilinos dedicada a defender y promover el derecho de los inquilinos de California a una vivienda segura, digna y asequible."
@@ -2368,11 +2375,11 @@ msgstr "El 31 de agosto de 2020, el Estado de California aprobó protecciones pa
 msgid "norent.whatIsAB3088partTwo"
 msgstr "Si debes renta por cualquier mes desde marzo de 2020 a agosto de 2020, debes enviar un formulario de declaración a al dueño o manager de tu edificio por cualquier mes que no pudiste pagar la renta. Ahora que has usado el sitio web de NoRent para enviar la declaración al dueño o manager de tu edificio, tu propietario no te puede desalojar legalmente por no pagar la renta."
 
-#: frontend/lib/norent/data/faqs-content.tsx:107
+#: frontend/lib/norent/data/faqs-content.tsx:120
 msgid "norent.whatToDoIfLandlordRetaliates"
 msgstr "<0> Es normal sentirse ansioso o asustado si el propietario toma represalias. Si el dueño de tu edificio te acosa, se niega a hacer reparaciones o intenta desalojarte ilegalmente, solicita asistencia legal en <1/> y comunícate con los organizadores de inquilinos en <2/>.</0>"
 
-#: frontend/lib/norent/data/faqs-content.tsx:226
+#: frontend/lib/norent/data/faqs-content.tsx:239
 msgid "norent.whoThisToolIsFor"
 msgstr "<0>Si no puedes pagar la renta este mes debido a un problema relacionado con el COVID-19 (es decir, debido a cambios en el trabajo, pérdida de ingresos, gastos de salud o pérdida de cuidado de niños), esta herramienta es para ti. Aunque las reglas para ejercer tus derechos varían según el estado en el que vives, NoRent.org puede ayudarte a entender las complejidades y ponerte en contacto con los recursos necesarios.</0>"
 
@@ -2380,11 +2387,11 @@ msgstr "<0>Si no puedes pagar la renta este mes debido a un problema relacionado
 msgid "norent.whyIsPhoneNumberNeeded"
 msgstr "Utilizaremos esta información para: <0><1>Acceder a tu cuenta actual</1><2>Comprobar si coincide con una cuenta preexistente </2><3>Abrirte una cuenta nueva</3></0>"
 
-#: frontend/lib/norent/data/faqs-content.tsx:239
+#: frontend/lib/norent/data/faqs-content.tsx:252
 msgid "norent.whyYouShouldNotifyAboutNotPayingRent"
 msgstr "<0>En algunos estados, para beneficiarse de las protecciones de desalojo que los funcionarios electos han establecido, debes notificar a tu arrendador que tu falta de pago es por razones relacionadas con el COVID-19. En caso de que el dueño de tu edificio trate de desalojarte, la corte puede ver esta notificación como una medida proactiva que ayuda a establecer tu defensa.</0>"
 
-#: frontend/lib/norent/data/faqs-content.tsx:365
+#: frontend/lib/norent/data/faqs-content.tsx:378
 msgid "norent.whyYouStillOweRentAfterSendingLetter"
 msgstr "<0>Sí. Después de enviar la carta seguirás obligado a pagar la renta porque nuestros gobiernos estatales y federales no han adoptado una política de condonación de alquiler. Reclama la anulación de la renta en <1/></0>"
 

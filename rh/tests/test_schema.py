@@ -100,12 +100,12 @@ def test_email_fails_with_no_form_data(db, graphql_client, mailoutbox):
         RH_EMAIL_MUTATION)['data']['rhSendEmail']
     assert result == {'errors': [
         {
-          "field": "__all__",
-          "messages": [
-            "You haven't completed all the previous steps yet."
-          ]
+            "field": "__all__",
+            "messages": [
+                "You haven't completed all the previous steps yet."
+            ]
         }
-      ], 'session': None}
+    ], 'session': None}
     assert len(mailoutbox) == 0
 
 

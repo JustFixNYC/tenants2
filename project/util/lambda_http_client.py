@@ -111,6 +111,7 @@ class LambdaHttpClient(LambdaService):
 
     def __read_process_output(self) -> None:
         assert self.__process is not None
+        assert self.__process.stdout is not None
         self.__process_output = self.__process.stdout.readline()
 
     def __wait_for_process_output(self):

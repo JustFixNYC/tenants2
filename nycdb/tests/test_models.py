@@ -4,7 +4,7 @@ import pytest
 
 from nycdb.models import (
     HPDRegistration, HPDContact, Company, Individual, get_landlord,
-    get_management_company)
+    get_management_company, normalize_apartment)
 from . import fixtures
 
 
@@ -18,6 +18,21 @@ class TestHPDRegistration:
         assert reg.pad_bin == ''
         reg.bin = 1234567
         assert reg.pad_bin == '1234567'
+
+
+@pytest.mark.parametrize('value,expected', [
+    (" ", ""),
+    ("", ""),
+    (" 2", "#2"),
+    ("10FLOOR", "FLOOR 10"),
+    ("2FLOO", "FLOOR 2"),
+    ("BSMNT", "BSMT"),
+    ("BSMT", "BSMT"),
+    ("APT1", "APT 1"),
+    ("STE70", "STE 70"),
+])
+def test_normalize_apartment(value, expected):
+    assert normalize_apartment(value) == expected
 
 
 def test_tiny_landlord_works(nycdb):

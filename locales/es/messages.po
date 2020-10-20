@@ -524,12 +524,9 @@ msgid "Email"
 msgstr "Correo electrónico"
 
 #: frontend/lib/norent/letter-builder/ask-email.tsx:30
+#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:74
 msgid "Email address"
 msgstr "Dirección de correo electrónico"
-
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:74
-msgid "Email address <0>(recommended)</0>"
-msgstr "Dirección de correo electrónico <0>(recomendado)</0>"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:73
 msgid "English version"
@@ -1027,7 +1024,7 @@ msgstr "Luisiana"
 msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 msgstr "Hecho en NYC con ♥ por el equipo de <0>JustFix.nyc</0>"
 
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:80
+#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:77
 msgid "Mailing address"
 msgstr "Dirección postal"
 
@@ -1889,8 +1886,8 @@ msgid "We’ve partnered with <0/> to provide additional support."
 msgstr "Nos hemos aliado con <0/> para proporcionarte apoyo adicional."
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:65
-msgid "What contact information do you have for your landlord or building management? <0>Choose all that apply.</0>"
-msgstr "¿Qué información de contacto tienes del dueño o manager de tu edificio? <0>Elige todas las opciones que apliquen.</0>"
+msgid "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
+msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:263
 msgid "What does an eviction moratorium mean?"
@@ -2123,7 +2120,7 @@ msgstr "La dirección del dueño o manager de tu edificio"
 msgid "Your landlord or management company's email"
 msgstr "La dirección de correo electrónico del dueño o manager de tu edificio"
 
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:89
+#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:86
 msgid "Your landlord or management company's information"
 msgstr "Los datos del dueño o manager de tu edificio"
 

@@ -515,12 +515,9 @@ msgid "Email"
 msgstr "Email"
 
 #: frontend/lib/norent/letter-builder/ask-email.tsx:30
+#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:74
 msgid "Email address"
 msgstr "Email address"
-
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:74
-msgid "Email address <0>(recommended)</0>"
-msgstr "Email address <0>(recommended)</0>"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:73
 msgid "English version"
@@ -1019,7 +1016,7 @@ msgstr "Louisiana"
 msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 msgstr "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:80
+#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:77
 msgid "Mailing address"
 msgstr "Mailing address"
 
@@ -1877,8 +1874,8 @@ msgid "We’ve partnered with <0/> to provide additional support."
 msgstr "We’ve partnered with <0/> to provide additional support."
 
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:65
-msgid "What contact information do you have for your landlord or building management? <0>Choose all that apply.</0>"
-msgstr "What contact information do you have for your landlord or building management? <0>Choose all that apply.</0>"
+msgid "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
+msgstr "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:250
 msgid "What does an eviction moratorium mean?"
@@ -2111,7 +2108,7 @@ msgstr "Your landlord or management company's address"
 msgid "Your landlord or management company's email"
 msgstr "Your landlord or management company's email"
 
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:89
+#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:86
 msgid "Your landlord or management company's information"
 msgstr "Your landlord or management company's information"
 

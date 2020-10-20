@@ -1,5 +1,9 @@
 [flake8]
 
+ignore =
+    F541,
+    W504
+
 exclude = 
     */migrations/*.py,
     .venv,

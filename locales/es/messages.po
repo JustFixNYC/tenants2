@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-20 16:22\n"
+"PO-Revision-Date: 2020-10-20 16:47\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -101,7 +101,7 @@ msgstr "<0>Sí, este es un sitio web gratuito creado por organizaciones sin fine
 
 #: frontend/lib/norent/letter-builder/post-signup-no-protections.tsx:8
 msgid "<0>Your account is set up.</0><1>We do not currently recommend sending this notice of non-payment to your landlord. <2/></1>"
-msgstr "<0>Your account is set up.</0><1>We do not currently recommend sending this notice of non-payment to your landlord. <2/></1>"
+msgstr "<0>Tu cuenta está configurada.</0><1>Actualmente, no recomendamos enviar esta notificación de falta de pago al dueño o manager de tu edificio. <2/></1>"
 
 #: frontend/lib/norent/homepage.tsx:103
 msgid "A national tool by non-profit <0>JustFix.nyc</0>"
@@ -1761,7 +1761,7 @@ msgstr "Desafortunadamente, en este momento no recomendamos enviar una carta de 
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:50
 msgid "Unfortunately, we do not currently recommend sending this notice of non-payment to your landlord. <0/>"
-msgstr "Unfortunately, we do not currently recommend sending this notice of non-payment to your landlord. <0/>"
+msgstr "Desafortunadamente, actualmente no recomendamos enviar esta notificación de falta de pago al dueño o manager de tu edificio. <0/>"
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:100
 msgid "Unit/apt/lot/suite number"
@@ -2177,7 +2177,7 @@ msgstr "Parece que este edificio deba estar registrado con el HPD. Los proprieta
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
 msgid "justfix.ddoEfnycCovidMessage"
-msgstr "Una moratoria de desalojo está en vigor en el estado de Nueva York debido a la crisis de salud pública del Covid-19. Todos los tribunales que escuchan los casos de desalojo están cerrados, lo que significa que <0>no te pueden desahuciar por ninguna razón</0>."
+msgstr "Una moratoria de desalojo está en vigor en el estado de Nueva York debido a la crisis de salud pública del Covid-19. Todos los tribunales que escuchan los casos de desalojo están cerrados, lo que significa que <0>no te pueden desalojar por ninguna razón</0>."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:273
 msgid "justfix.ddoEhpaCovidMessage"
@@ -2353,7 +2353,7 @@ msgstr "<0>Le escribo para informarle de que he tenido una pérdida de ingresos,
 
 #: frontend/lib/norent/data/faqs-content.tsx:15
 msgid "norent.sendCDCDeclarationBlurb"
-msgstr "You may want to <0>send a declaration</0> under the Order issued by the Centers for Disease Control and Prevention (CDC) to provide renters with protection from eviction. Learn more about the CDC declaration before sending your landlord a notice."
+msgstr "Puede que quieras <0>enviar una declaración</0> bajo la Orden emitida por los Centros para el Control y la Prevención de Enfermedades (CDC) para proporcionar protección a los inquilinos contra el desalojo. Obtén más información sobre la declaración del CDC antes de enviar un aviso al dueño o manager de tu edificio."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:156
 msgid "norent.tenantsTogetherDescription"

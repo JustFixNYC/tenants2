@@ -1,7 +1,11 @@
 [flake8]
 
 ignore =
+    # Disable "f-string is missing placeholders"; seems to have been
+    # introduced in a very recent version of flake8 and we don't care.
     F541,
+    # Disable "line break after binary operator"; seems to have been
+    # introduced in a very recent version of flake8 and we don't care.
     W504
 
 exclude = 

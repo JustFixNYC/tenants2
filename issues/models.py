@@ -105,4 +105,4 @@ class CustomIssue(models.Model):
 
     description = models.TextField(
         help_text="The description of this custom issue."
-        )
+    )

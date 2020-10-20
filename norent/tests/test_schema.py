@@ -456,9 +456,9 @@ class TestNorentLandlordNameAndContactTypes:
         res = self.execute({'hasEmailAddress': True})
         assert res['errors'] == []
         assert res['session'] == {
-           'landlordDetails': {'name': 'Bleh', 'email': '', 'primaryLine': ''},
-           'norentScaffolding': {'hasLandlordEmailAddress': True,
-                                 'hasLandlordMailingAddress': False}
+            'landlordDetails': {'name': 'Bleh', 'email': '', 'primaryLine': ''},
+            'norentScaffolding': {'hasLandlordEmailAddress': True,
+                                  'hasLandlordMailingAddress': False}
         }
 
     def test_it_clears_mailing_address_if_needed_but_keeps_email(self):
@@ -466,9 +466,9 @@ class TestNorentLandlordNameAndContactTypes:
         res = self.execute({'hasEmailAddress': True})
         assert res['errors'] == []
         assert res['session'] == {
-           'landlordDetails': {'name': 'Bleh', 'email': 'a@b.com', 'primaryLine': ''},
-           'norentScaffolding': {'hasLandlordEmailAddress': True,
-                                 'hasLandlordMailingAddress': False}
+            'landlordDetails': {'name': 'Bleh', 'email': 'a@b.com', 'primaryLine': ''},
+            'norentScaffolding': {'hasLandlordEmailAddress': True,
+                                  'hasLandlordMailingAddress': False}
         }
 
     def test_it_clears_email_if_needed_but_keeps_mailing_address(self):
@@ -476,9 +476,9 @@ class TestNorentLandlordNameAndContactTypes:
         res = self.execute({'hasMailingAddress': True})
         assert res['errors'] == []
         assert res['session'] == {
-           'landlordDetails': {'name': 'Bleh', 'email': '', 'primaryLine': '123 Cloud City Drive'},
-           'norentScaffolding': {'hasLandlordEmailAddress': False,
-                                 'hasLandlordMailingAddress': True}
+            'landlordDetails': {'name': 'Bleh', 'email': '', 'primaryLine': '123 Cloud City Drive'},
+            'norentScaffolding': {'hasLandlordEmailAddress': False,
+                                  'hasLandlordMailingAddress': True}
         }
 
 

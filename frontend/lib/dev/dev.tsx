@@ -29,6 +29,7 @@ import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { HtmlEmail, EmailCta } from "../static-page/html-email";
 import { createHtmlEmailStaticPageRoutes } from "../static-page/routes";
 import { asEmailStaticPage } from "../static-page/email-static-page";
+import { isStaticPageRoute } from "../util/route-util";
 
 const LoadableExamplePage = loadable(
   () => friendlyLoad(import("./example-loadable-page")),
@@ -58,6 +59,17 @@ const LoadableClientSideErrorPage = loadable(
   }
 );
 
+const RouteLink: React.FC<{ path: string }> = ({ path }) =>
+  isStaticPageRoute(path) ? (
+    <a href={path} className="jf-dev-code">
+      {path}
+    </a>
+  ) : (
+    <Link to={path} className="jf-dev-code">
+      {path}
+    </Link>
+  );
+
 const DevHome = withAppContext(
   (props: AppContextType): JSX.Element => {
     const frontendRouteLinks: JSX.Element[] = [];
@@ -81,9 +93,7 @@ const DevHome = withAppContext(
     for (let path of props.siteRoutes.routeMap.nonParameterizedRoutes()) {
       frontendRouteLinks.push(
         <li key={path}>
-          <Link to={path} className="jf-dev-code">
-            {path}
-          </Link>
+          <RouteLink path={path} />
         </li>
       );
     }

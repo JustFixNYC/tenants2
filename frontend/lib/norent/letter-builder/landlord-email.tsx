@@ -8,6 +8,7 @@ import { AppContext } from "../../app-context";
 import { NorentNotSentLetterStep } from "./step-decorators";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
+import { DemoDeploymentNote } from "../../ui/demo-deployment-note";
 
 export const NorentLandlordEmail = NorentNotSentLetterStep((props) => {
   const { session } = useContext(AppContext);
@@ -27,6 +28,12 @@ export const NorentLandlordEmail = NorentNotSentLetterStep((props) => {
           </>
         )}
       </p>
+      <DemoDeploymentNote>
+        <p>
+          This demo site <strong>will send</strong> real emails to the address
+          provided below.
+        </p>
+      </DemoDeploymentNote>
       <SessionUpdatingFormSubmitter
         mutation={OptionalLandlordDetailsMutation}
         initialState={(s) => ({
@@ -43,9 +50,8 @@ export const NorentLandlordEmail = NorentNotSentLetterStep((props) => {
               {...ctx.fieldPropsFor("email")}
               required={required}
               label={
-                li18n._(t`Landlord/management company's email`) + required
-                  ? ""
-                  : " " + li18n._(t`(optional)`)
+                li18n._(t`Landlord/management company's email`) +
+                (required ? "" : " " + li18n._(t`(optional)`))
               }
             />
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />

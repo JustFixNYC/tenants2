@@ -231,8 +231,8 @@ class DDOSuggestionsResult(graphene.ObjectType):
         description=(
             "The total number of HPD violations since 2010 for the entered BBL."
             "This value will never be null. If no HPD violations are found, it will be 0."
-            )
         )
+    )
 
 
 @schema_registry.register_queries

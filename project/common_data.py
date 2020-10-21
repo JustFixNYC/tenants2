@@ -83,7 +83,10 @@ class Choices:
         self.name = name
         self.choices = choices
         self.choices_dict = dict(self.choices)
-        self.enum = Enum(
+
+        # New versions of mypy error here with
+        # "Enum type as attribute is not supported" so we'll just ignore.
+        self.enum = Enum(  # type: ignore
             name,
             [(choice, label) for choice, label in self.choices]
         )

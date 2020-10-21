@@ -6,16 +6,16 @@ from django.core.mail import send_mail
 from users.models import JustfixUser
 from project.util.site_util import SITE_CHOICES
 from frontend.static_content import react_render_email
-from . import spanishusers
+from . import oneoffemailusers
 
 
 SENDER_NAME = "JustFix.nyc"
 
-LOGFILE = spanishusers.OUTFILE.with_suffix('.log')
+LOGFILE = oneoffemailusers.OUTFILE.with_suffix('.log')
 
 
-def send_survey(user: JustfixUser):
-    url = f"/es/spanish-survey-email.html?{urlencode({'sender': SENDER_NAME})}"
+def send_email(user: JustfixUser):
+    url = f"/es/one-off-email.html?{urlencode({'sender': SENDER_NAME})}"
     email = react_render_email(
         SITE_CHOICES.NORENT,
         "es",
@@ -40,7 +40,7 @@ def send_survey(user: JustfixUser):
 
 
 class Command(BaseCommand):
-    help = 'Send Spanish survey emails.'
+    help = 'Send one-off emails.'
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -56,26 +56,26 @@ class Command(BaseCommand):
 
         if username:
             user = JustfixUser.objects.get(username=username)
-            send_survey(user)
+            send_email(user)
             return
 
-        if not spanishusers.OUTFILE.exists():
-            raise CommandError('Please run `manage.py spanishusers` first!')
+        if not oneoffemailusers.OUTFILE.exists():
+            raise CommandError('Please run `manage.py oneoffemailusers` first!')
 
         already_sent: Set[str] = set()
 
         if LOGFILE.exists():
             already_sent = set(LOGFILE.read_text().splitlines())
 
-        print(f"Loading {spanishusers.OUTFILE}.")
+        print(f"Loading {oneoffemailusers.OUTFILE}.")
         usernames = [
             username for username
-            in spanishusers.OUTFILE.read_text().splitlines()
+            in oneoffemailusers.OUTFILE.read_text().splitlines()
             if username not in already_sent
         ]
         for username in usernames:
             user = JustfixUser.objects.get(username=username)
-            send_survey(user)
+            send_email(user)
             with LOGFILE.open('a') as f:
                 f.write(username + '\n')
                 f.flush()

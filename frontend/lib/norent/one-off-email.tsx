@@ -51,7 +51,7 @@ const Content: React.FC<{}> = () => {
   );
 };
 
-export const SpanishSurveyEmail = asEmailStaticPage(() => (
+export const OneOffEmail = asEmailStaticPage(() => (
   <HtmlEmail subject="¿Nos Ayudas? ¿Que tal te fue con NoRent.org en Español?">
     <Content />
   </HtmlEmail>

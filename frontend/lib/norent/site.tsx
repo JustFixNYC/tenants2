@@ -38,7 +38,7 @@ import { Trans, t } from "@lingui/macro";
 import { LocalizedNationalMetadataProvider } from "./letter-builder/national-metadata";
 import { createLinguiCatalogLoader, li18n } from "../i18n-lingui";
 import { NavbarLanguageDropdown } from "../ui/language-toggle";
-import { SpanishSurveyEmail } from "./spanish-survey-email";
+import { OneOffEmail } from "./one-off-email";
 
 function getRoutesForPrimaryPages() {
   return new Set(getNorentRoutesForPrimaryPages());
@@ -82,10 +82,7 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
         Routes.locale.letterContent,
         NorentLetterForUserStaticPage
       )}
-      {createHtmlEmailStaticPageRoutes(
-        Routes.locale.spanishSurveyEmail,
-        SpanishSurveyEmail
-      )}
+      {createHtmlEmailStaticPageRoutes(Routes.locale.oneOffEmail, OneOffEmail)}
       <Route
         path={Routes.locale.letterEmail}
         exact

@@ -23,8 +23,8 @@ class SmsReminder(abc.ABC):
     def remind_users(self):
         SmsReminder.validate(self)
 
-        users = self.filter_user_queryset(JustfixUser.objects.all())\
-            .exclude(onboarding_info__can_we_sms=False)\
+        users = JustfixUser.objects.filter(onboarding_info__can_we_sms=True)
+        users = self.filter_user_queryset(users)\
             .exclude(reminders__kind=self.reminder_kind)
 
         for user in users:

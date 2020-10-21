@@ -56,7 +56,7 @@ const Content: React.FC<{}> = () => {
   return (
     <Content
       fullName={getUserFullName(session)}
-      ctaURL={`${server.originURL}${NorentRoutes.locale.home}`}
+      ctaURL={`${server.originURL}${NorentRoutes.locale.letter.latestStep}`}
     />
   );
 };

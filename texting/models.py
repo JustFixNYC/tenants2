@@ -16,6 +16,9 @@ TWILIO_SID_LENGTH = 34
 
 REMINDERS = Choices([
     ('LOC', 'Letter of complaint reminder'),
+    ('NORENT_CA_2020_11', 'NoRent California reminder - November 2020'),
+    ('NORENT_CA_2020_12', 'NoRent California reminder - December 2020'),
+    ('NORENT_CA_2021_01', 'NoRent California reminder - January 2020'),
 ])
 
 

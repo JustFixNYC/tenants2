@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.core.management import BaseCommand
 from pathlib import Path
 from typing import List
@@ -6,6 +7,8 @@ from users.models import JustfixUser
 
 # Where we'll write our list of usernames out to.
 OUTFILE = Path("oneoffemail.txt")
+
+AB3088_LAUNCH_DATE = datetime.fromisoformat("2020-10-16 00:20:00.000+00:00")
 
 
 def print_users(title: str, users: List[JustfixUser]):
@@ -19,6 +22,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         users = list(JustfixUser.objects.filter(
             onboarding_info__state="CA",
+            date_joined__lt=AB3088_LAUNCH_DATE,
         ))
 
         print_users(f"California NoRent users", users)

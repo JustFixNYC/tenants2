@@ -1,15 +1,11 @@
-import datetime
 from typing import Optional
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.db.models.functions import Coalesce
-from django.utils import timezone
 
 from users.models import JustfixUser
-from onboarding.models import SIGNUP_INTENT_CHOICES
 from project.common_data import Choices
 from project.util import phone_number as pn
-from project.util.site_util import absolutify_url, get_site_name
 
 # https://support.twilio.com/hc/en-us/articles/223134387-What-is-a-Message-SID-
 TWILIO_SID_LENGTH = 34
@@ -195,48 +191,12 @@ class Reminder(models.Model):
     )
 
 
-# After these many days have passed since the user
-# signed up, we will send them a reminder, unless they
-# have completed the LoC process.
-DAYS_UNTIL_LOC_REMINDER = 3
-
-
 def exclude_users_with_invalid_phone_numbers(user_queryset):
     lookup = PhoneNumberLookup.objects.filter(
         phone_number=models.OuterRef('phone_number'))
     return user_queryset.annotate(
         is_phone_number_valid=Coalesce(models.Subquery(lookup.values('is_valid')), True)
     ).exclude(is_phone_number_valid=False)
-
-
-def get_users_to_remind_about_loc():
-    days_ago = timezone.now() - datetime.timedelta(days=DAYS_UNTIL_LOC_REMINDER)
-    users = JustfixUser.objects.filter(
-        date_joined__lte=days_ago,
-        onboarding_info__can_we_sms=True,
-        onboarding_info__signup_intent=SIGNUP_INTENT_CHOICES.LOC,
-        letter_request__isnull=True,
-    ).exclude(
-        reminders__kind=REMINDERS.LOC
-    )
-    return exclude_users_with_invalid_phone_numbers(users)
-
-
-def remind_user_about_loc(user):
-    url = absolutify_url('/')
-    sid = user.send_sms(
-        f'Hey {user.first_name}! '
-        f'Don\'t forget that you can use {get_site_name()} to address '
-        f'repair issues in your apartment. '
-        f'Follow this link to continue: {url}'
-    )
-    if sid:
-        Reminder(
-            kind=REMINDERS.LOC,
-            sent_at=timezone.now(),
-            user=user,
-            sid=sid
-        ).save()
 
 
 def get_lookup_description_for_phone_number(phone_number: str) -> str:

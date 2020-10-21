@@ -23,8 +23,8 @@ import {
 } from "./letter-content";
 import Navbar from "../ui/navbar";
 import {
-  createLetterStaticPageRoutes,
   createHtmlEmailStaticPageRoutes,
+  createLetterStaticPageRoutes,
 } from "../static-page/routes";
 import { NorentFaqsPage } from "./faqs";
 import { NorentAboutPage } from "./about";
@@ -37,7 +37,7 @@ import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
 import { Trans, t } from "@lingui/macro";
 import { LocalizedNationalMetadataProvider } from "./letter-builder/national-metadata";
 import { createLinguiCatalogLoader, li18n } from "../i18n-lingui";
-import { NavbarLanguageDropdown } from "./components/language-toggle";
+import { NavbarLanguageDropdown } from "../ui/language-toggle";
 import { SpanishSurveyEmail } from "./spanish-survey-email";
 
 function getRoutesForPrimaryPages() {
@@ -91,11 +91,10 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
         exact
         component={NorentLetterEmailToLandlordForUserStaticPage}
       />
-      <Route
-        path={Routes.locale.letterEmailToUser}
-        exact
-        component={NorentLetterEmailToUserStaticPage}
-      />
+      {createHtmlEmailStaticPageRoutes(
+        Routes.locale.letterEmailToUser,
+        NorentLetterEmailToUserStaticPage
+      )}
       {createLetterStaticPageRoutes(
         Routes.locale.sampleLetterContent,
         NorentSampleLetterSamplePage

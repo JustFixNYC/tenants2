@@ -1,3 +1,5 @@
+from typing import Optional, List
+import datetime
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 
@@ -5,9 +7,20 @@ from users.models import JustfixUser
 from project.locales import LOCALE_KWARGS
 
 
+class RentPeriodManager(models.Manager):
+    def get_by_iso_date(self, value: str) -> 'RentPeriod':
+        return self.get(payment_date=datetime.date.fromisoformat(value))
+
+    def get_available_for_user(self, user: JustfixUser) -> List['RentPeriod']:
+        used = self.filter(letter__user=user)
+        return list(self.all().difference(used).order_by('-payment_date'))
+
+
 class RentPeriod(models.Model):
     class Meta:
         ordering = ['-payment_date']
+
+    objects = RentPeriodManager()
 
     payment_date = models.DateField(
         help_text="The date rent payment is due.",
@@ -17,6 +30,67 @@ class RentPeriod(models.Model):
     def __str__(self):
         return f"Rent period for {self.payment_date}"
 
+    @staticmethod
+    def to_iso_date_list(rent_periods) -> List[str]:
+        return [
+            str(rp.payment_date)
+            for rp in rent_periods
+        ]
+
+
+class UpcomingLetterRentPeriodManager(models.Manager):
+    def clear_for_user(self, user: JustfixUser):
+        self.filter(user=user).delete()
+
+    def set_rent_periods_for_user(self, user: JustfixUser, rps: List[RentPeriod]):
+        self.clear_for_user(user)
+        self.bulk_create([
+            UpcomingLetterRentPeriod(
+                user=user,
+                rent_period=rp
+            )
+            for rp in set(rps)
+        ])
+
+    def set_for_user(self, user: JustfixUser, periods: List[str]):
+        self.set_rent_periods_for_user(user, [
+            RentPeriod.objects.get_by_iso_date(period)
+            for period in periods
+        ])
+
+    def get_rent_periods_for_user(self, user: JustfixUser) -> List[RentPeriod]:
+        return [
+            ulrp.rent_period
+            for ulrp in self.filter(user=user).order_by('rent_period__payment_date')
+        ]
+
+    def get_for_user(self, user: JustfixUser) -> List[str]:
+        return RentPeriod.to_iso_date_list(self.get_rent_periods_for_user(user))
+
+
+class UpcomingLetterRentPeriod(models.Model):
+    '''
+    A model used to remember the rent periods a user
+    wants their next, upcoming no rent letter to cover.
+    '''
+
+    class Meta:
+        unique_together = ['user', 'rent_period']
+
+    objects = UpcomingLetterRentPeriodManager()
+
+    user = models.ForeignKey(
+        JustfixUser,
+        on_delete=models.CASCADE,
+        related_name='upcoming_norent_letter_rent_periods',
+    )
+
+    rent_period = models.ForeignKey(
+        RentPeriod,
+        on_delete=models.CASCADE,
+        related_name='+',
+    )
+
 
 class Letter(models.Model):
     '''
@@ -24,8 +98,7 @@ class Letter(models.Model):
     '''
 
     class Meta:
-        unique_together = [['user', 'rent_period']]
-        ordering = ['-rent_period__payment_date']
+        ordering = ['-created_at']
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -47,7 +120,7 @@ class Letter(models.Model):
         ),
     )
 
-    rent_period = models.ForeignKey(RentPeriod, on_delete=models.CASCADE)
+    rent_periods = models.ManyToManyField(RentPeriod)
 
     html_content = models.TextField(
         help_text=(
@@ -93,10 +166,23 @@ class Letter(models.Model):
         help_text="When the letter was e-mailed."
     )
 
+    @property
+    def latest_rent_period(self) -> Optional['RentPeriod']:
+        rps = self.rent_periods.order_by('-payment_date')
+        if not rps:
+            return None
+        return rps[0]
+
+    def __get_rent_period_dates_str(self) -> str:
+        return ', '.join([
+            str(rp.payment_date) for rp
+            in self.rent_periods.order_by('payment_date')
+        ])
+
     def __str__(self):
         if not self.pk:
             return super().__str__()
         return (
             f"{self.user.full_name}'s no rent letter for "
-            f"{self.rent_period.payment_date}"
+            f"{self.__get_rent_period_dates_str()}"
         )

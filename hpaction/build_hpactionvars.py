@@ -4,7 +4,7 @@ from enum import Enum
 from users.models import JustfixUser
 from onboarding.models import BOROUGH_CHOICES, LEASE_CHOICES, OnboardingInfo
 from issues.models import ISSUE_AREA_CHOICES, ISSUE_CHOICES
-from nycha.models import is_nycha_bbl
+from nycha.models import is_nycha_bbl, NychaProperty
 import nycdb.models
 from project import common_data
 from .models import (
@@ -184,9 +184,18 @@ def fill_landlord_info_from_open_data(v: hp.HPActionVariables, user: JustfixUser
     return False
 
 
-def fill_landlord_info_from_nycha(v: hp.HPActionVariables) -> bool:
+def fill_landlord_info_from_nycha(v: hp.HPActionVariables, user: JustfixUser) -> bool:
     v.user_is_nycha_tf = True
-    v.landlord_entity_name_te = NYCHA_ADDRESS['name']
+
+    name = NYCHA_ADDRESS['name']
+    pad_bbl = get_user_onboarding_str_attr(user, 'pad_bbl')
+
+    if pad_bbl:
+        prop = NychaProperty.objects.filter(pad_bbl=pad_bbl).first()
+        if prop:
+            name = f"NYCHA {prop.development.title()} Houses"
+
+    v.landlord_entity_name_te = name
     v.landlord_address_street_te = NYCHA_ADDRESS['primaryLine']
     v.landlord_address_city_te = NYCHA_ADDRESS['city']
     v.landlord_address_zip_te = NYCHA_ADDRESS['zipCode']
@@ -202,17 +211,24 @@ def does_user_have_a_nycha_bbl(user: JustfixUser) -> bool:
     return is_nycha_bbl(get_user_pad_bbl(user))
 
 
-def fill_landlord_info(v: hp.HPActionVariables, user: JustfixUser) -> bool:
+def fill_landlord_info(
+    v: hp.HPActionVariables,
+    user: JustfixUser,
+    use_user_landlord_details: bool = True,
+) -> bool:
     v.user_is_nycha_tf = False
     if did_user_self_report_as_nycha(user):
-        return fill_landlord_info_from_nycha(v)
-    was_filled_out = fill_landlord_info_from_user_landlord_details(v, user)
+        return fill_landlord_info_from_nycha(v, user)
+    was_filled_out = (
+        use_user_landlord_details and
+        fill_landlord_info_from_user_landlord_details(v, user)
+    )
     if not was_filled_out:
         # The user has not manually entered landlord details; use the latest
         # open data to fill in both the landlord and management company.
         was_filled_out = fill_landlord_info_from_open_data(v, user)
         if not was_filled_out and does_user_have_a_nycha_bbl(user):
-            was_filled_out = fill_landlord_info_from_nycha(v)
+            was_filled_out = fill_landlord_info_from_nycha(v, user)
     return was_filled_out
 
 

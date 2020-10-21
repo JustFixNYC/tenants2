@@ -7,9 +7,9 @@ import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issu
 import { CSSTransition } from "react-transition-group";
 import JustfixRoutes from "../justfix-routes";
 import { useDebouncedValue } from "../util/use-debounced-value";
-import { Trans } from "@lingui/macro";
-import { LocalizedOutboundLink } from "./localized-outbound-link";
 import { SupportedLocaleMap } from "../i18n";
+import { CovidMoratoriumBanner } from "@justfixnyc/react-common";
+import { li18n } from "../i18n-lingui";
 
 export const MORATORIUM_FAQ_URL: SupportedLocaleMap<string> = {
   en: "https://www.righttocounselnyc.org/ny_eviction_moratorium_faq",
@@ -66,20 +66,7 @@ const MoratoriumBanner = (props: { pathname?: string }) => {
               />
             </SimpleProgressiveEnhancement>
             <p>
-              <span className="has-text-weight-bold">
-                <Trans>COVID-19 Update:</Trans>{" "}
-              </span>
-              <Trans id="justfix.covidBanner2">
-                JustFix.nyc is operating, and has adapted our products to match
-                preliminary rules put in place during the COVID-19 crisis. We
-                recommend you take full precautions to stay safe during this
-                public health crisis. Thanks to tenant organizing during this
-                time, renters cannot be evicted for any reason. Visit{" "}
-                <LocalizedOutboundLink hrefs={MORATORIUM_FAQ_URL}>
-                  Right to Council’s Eviction Moratorium FAQs
-                </LocalizedOutboundLink>{" "}
-                to learn more.
-              </Trans>
+              <CovidMoratoriumBanner locale={li18n.language} />
             </p>
           </div>
         </div>
@@ -99,12 +86,12 @@ export const CovidRiskBanner = () => (
   <div className="notification is-warning">
     <p>
       Please be aware that letting a repair-worker into your home to make
-      repairs may expose you to the Covid-19 virus.
+      repairs may increase exposure to the COVID-19 virus.
     </p>
     <p>
-      In order to follow social distancing guidelines and to limit your
-      exposure, we recommend only asking for repairs in the case of an emergency
-      such as if you have no heat, no hot water, or no gas.
+      In order to follow social distancing guidelines and to limit exposure, we
+      recommend only asking for repairs in the case of an emergency such as if
+      you have no heat, no hot water, or no gas.
     </p>
   </div>
 );
@@ -127,7 +114,7 @@ export const MoratoriumWarning = () => (
 
 /**
  * This banner is intended to show up in the Emergency HP splash and welcome pages, listing
- * out the cases that are currently eligible for Emergency HP actions during the Covid-19 crisis.
+ * out the cases that are currently eligible for Emergency HP actions during the COVID-19 crisis.
  */
 
 export const CovidEhpDisclaimer = () => {
@@ -143,7 +130,7 @@ export const CovidEhpDisclaimer = () => {
   return (
     <div className="jf-covid-ehp-disclaimer notification is-warning">
       <p>
-        Due to the covid-19 pandemic, Housing Courts in New York City are
+        Due to the COVID-19 pandemic, Housing Courts in New York City are
         prioritizing cases for the following conditions,{" "}
         <strong>
           or others that threaten the health and safety of your household

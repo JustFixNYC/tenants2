@@ -4,6 +4,7 @@ import JustfixRoutes from "../justfix-routes";
 import { ROUTE_PREFIX } from "../util/route-util";
 import { Trans } from "@lingui/macro";
 import { LegalDisclaimer } from "./legal-disclaimer";
+import { FooterLanguageToggle } from "./language-toggle";
 
 const CreditForLHI = (props: { pathname?: string }) =>
   /* Include credit for LHI only on ehp routes */
@@ -33,6 +34,7 @@ export const Footer = (props: { pathname?: string }) => {
             </div>
           </div>
           <div className="column is-4 has-text-right content">
+            <FooterLanguageToggle />
             <p>
               <Trans>
                 Made with NYC ♥ by the team at{" "}

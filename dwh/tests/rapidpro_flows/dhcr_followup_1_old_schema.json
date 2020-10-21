@@ -1,0 +1,199 @@
+{
+  "version": "13",
+  "site": "https://textit.in",
+  "flows": [
+    {
+      "entry": "ce42a572-3853-4f2d-8314-7654bc5e1708",
+      "action_sets": [
+        {
+          "uuid": "ce42a572-3853-4f2d-8314-7654bc5e1708",
+          "x": 100,
+          "y": 1,
+          "destination": "6617f89d-7261-43ba-a439-a8db1677f5ab",
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "95ffc9dd-9b97-45c6-b4da-e87452d32bba",
+              "msg": {
+                "base": "Hi @contact.first_name! This is JustFix.nyc checking in - have you received your Rent History from DHCR yet? Please answer \"YES\" or \"NO"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "71d7d773-c3e7-441c-b666-3ca72500f943"
+        },
+        {
+          "uuid": "fa540b3a-626e-4546-82bd-bc937023ebe2",
+          "x": 214,
+          "y": 345,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "6d388c8a-2b24-463e-8358-5c07c3dc6988",
+              "msg": {
+                "base": "That\u2019s great. Your Rent History is an important document. You can learn more about it and how it can help you figure out if you\u2019re being overcharged on rent:"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            },
+            {
+              "type": "reply",
+              "uuid": "4f2646d8-bcbf-4078-91ab-fedaa983a41f",
+              "msg": {
+                "base": "https://www.metcouncilonhousing.org/help-answers/rent-stabilization-overcharges"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            },
+            {
+              "type": "reply",
+              "uuid": "8c1a9c5b-715a-4e0a-8dc1-244741f89116",
+              "msg": {
+                "base": "You can also check out other actions you can take at www.justfix.nyc"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "1443c96c-1da5-42f5-8240-1d6d3d1d1408"
+        },
+        {
+          "uuid": "b7a52eb8-0f84-478a-8933-7461578861f5",
+          "x": 528,
+          "y": 353,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "d0eb9581-736e-44fa-bf30-53e579dfc77c",
+              "msg": {
+                "base": "No worries. It\u2019s probably on its way. We will check back in a week and if it hasn\u2019t gotten to you by then, you can request it again."
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            },
+            {
+              "type": "reply",
+              "uuid": "6b3e7176-fef1-4b13-8060-d391fffc7e3f",
+              "msg": {
+                "base": "In the meantime, feel free to check out other actions you can take at www.justfix.nyc"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            },
+            {
+              "type": "add_group",
+              "uuid": "22a50824-691f-4303-af82-87f6a76b2433",
+              "groups": [
+                {
+                  "uuid": "99b6202b-e6c4-495b-aa9c-7e0d8726fe1f",
+                  "name": "DHCR Second Attempt Request"
+                }
+              ]
+            }
+          ],
+          "exit_uuid": "29284272-89ef-4415-9b85-13d1a036e34c"
+        },
+        {
+          "uuid": "c51ebf71-8988-4909-a87c-87884e3d1336",
+          "x": 756,
+          "y": 84,
+          "destination": "ce42a572-3853-4f2d-8314-7654bc5e1708",
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "018162ff-bdd1-496a-8c50-52b3de8cc61e",
+              "msg": {
+                "base": "Sorry, we didn't understand that. Try again!"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "7a30bb28-5e28-4833-ad12-51eddcd8ca7f"
+        }
+      ],
+      "rule_sets": [
+        {
+          "uuid": "6617f89d-7261-43ba-a439-a8db1677f5ab",
+          "x": 338,
+          "y": 211,
+          "label": "Response 1",
+          "rules": [
+            {
+              "uuid": "c45931d7-4f9f-4b54-83b2-a0084df1c323",
+              "category": {
+                "base": "Yes"
+              },
+              "destination": "fa540b3a-626e-4546-82bd-bc937023ebe2",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "Yes"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "317de879-ebe4-464e-8419-df250df4ef97",
+              "category": {
+                "base": "No"
+              },
+              "destination": "b7a52eb8-0f84-478a-8933-7461578861f5",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "No"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "8060b999-4b89-460d-b64b-4f3b1c72e3b3",
+              "category": {
+                "base": "Other"
+              },
+              "destination": "c51ebf71-8988-4909-a87c-87884e3d1336",
+              "destination_type": "A",
+              "test": {
+                "type": "true"
+              },
+              "label": null
+            }
+          ],
+          "finished_key": null,
+          "ruleset_type": "wait_message",
+          "response_type": "",
+          "operand": "@step.value",
+          "config": {}
+        }
+      ],
+      "base_language": "base",
+      "flow_type": "M",
+      "version": "11.12",
+      "metadata": {
+        "dependencies": [],
+        "uuid": "be922331-eb0b-4823-86d2-647dc5a014e3",
+        "name": "DHCR Rental History Follow Up #1",
+        "saved_on": "2020-02-27T18:14:12.510614Z",
+        "revision": 48,
+        "expires": 10080
+      }
+    }
+  ],
+  "campaigns": [],
+  "triggers": [],
+  "fields": [],
+  "groups": []
+}

@@ -86,15 +86,12 @@ const NameAndContactTypesForm: React.FC<MiddleProgressStepProps> = (props) => (
               What contact information do you have for your landlord or building
               management?{" "}
               <span className="has-text-weight-bold">
-                Choose all that apply.
+                We recommend choosing both if you have them.
               </span>
             </Trans>
           </p>
           <CheckboxFormField {...ctx.fieldPropsFor("hasEmailAddress")}>
-            <Trans>
-              Email address{" "}
-              <span className="has-text-weight-bold">(recommended)</span>
-            </Trans>
+            <Trans>Email address</Trans>
           </CheckboxFormField>
           <CheckboxFormField {...ctx.fieldPropsFor("hasMailingAddress")}>
             <Trans>Mailing address</Trans>

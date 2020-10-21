@@ -2,7 +2,7 @@
 
 const { execSync } = require("child_process");
 const chokidar = require("chokidar");
-const chalk = require("chalk").default;
+const chalk = require("chalk");
 
 const FILENAME = "safe-mode.js";
 

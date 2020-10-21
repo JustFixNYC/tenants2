@@ -5,6 +5,8 @@ import { CSSTransition } from "react-transition-group";
 import { TransitionContextGroup } from "../ui/transition-context";
 import classnames from "classnames";
 import { getStepIndexForPathname } from "./progress-util";
+import { li18n } from "../i18n-lingui";
+import { t } from "@lingui/macro";
 import {
   ProgressStepRoute,
   createStepRoute,
@@ -172,6 +174,7 @@ class RouteProgressBarWithoutRouter extends React.Component<
 
     let directionClass =
       currStep >= prevStep ? "jf-progress-forward" : "jf-progress-backward";
+    const stepLabel = li18n._(t`Step ${currStep} of ${numSteps}`);
 
     return (
       <React.Fragment>
@@ -179,7 +182,7 @@ class RouteProgressBarWithoutRouter extends React.Component<
           <ProgressBar pct={pct}>
             {this.props.label && (
               <h6 className="jf-page-steps-title title is-6 has-text-grey has-text-centered">
-                {props.label}: Step {currStep} of {numSteps}
+                {props.label}: {stepLabel}
               </h6>
             )}
           </ProgressBar>

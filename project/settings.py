@@ -14,6 +14,7 @@ from typing import List, Dict, Optional, Any
 import dj_database_url
 import dj_email_url
 
+from . import monkeypatch_django  # noqa
 from . import justfix_environment, locales
 from .justfix_environment import BASE_DIR
 from .util.settings_util import (
@@ -52,6 +53,20 @@ SESSION_COOKIE_SECURE = env.SESSION_COOKIE_SECURE
 
 CSRF_COOKIE_SECURE = env.CSRF_COOKIE_SECURE
 
+# We need to set SameSite=None to allow for embedding within
+# Front.  For more information, see:
+#
+# https://medium.com/trabe/cookies-and-iframes-f7cca58b3b9e
+#
+# Note that SameSite=None is only valid with secure cookies,
+# though--in fact, insecure cookies with SameSite=None will
+# be rejected entirely, thereby breaking the whole site, so
+# we need to be careful here.
+if SESSION_COOKIE_SECURE:
+    SESSION_COOKIE_SAMESITE = 'None'
+if CSRF_COOKIE_SECURE:
+    CSRF_COOKIE_SAMESITE = 'None'
+
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 SECURE_BROWSER_XSS_FILTER = True
@@ -77,6 +92,8 @@ if EMAIL_BACKEND == 'django.core.mail.backends.console.EmailBackend':
 DEFAULT_FROM_EMAIL = env.DEFAULT_FROM_EMAIL
 
 COURT_DOCUMENTS_EMAIL = env.COURT_DOCUMENTS_EMAIL
+
+LOC_EMAIL = env.LOC_EMAIL
 
 DHCR_EMAIL_SENDER_ADDRESS = env.DHCR_EMAIL_SENDER_ADDRESS
 DHCR_EMAIL_RECIPIENT_ADDRESSES = env.DHCR_EMAIL_RECIPIENT_ADDRESSES.split(",")
@@ -388,7 +405,7 @@ GRAPHENE = {
 
 GEOCODING_SEARCH_URL = "https://geosearch.planninglabs.nyc/v1/search"
 
-GEOCODING_TIMEOUT = 3
+GEOCODING_TIMEOUT = 8
 
 GA_TRACKING_ID = env.GA_TRACKING_ID
 
@@ -464,6 +481,8 @@ MAILCHIMP_API_KEY = env.MAILCHIMP_API_KEY
 MAILCHIMP_LIST_ID = env.MAILCHIMP_LIST_ID
 
 MAILCHIMP_CORS_ORIGINS = parse_comma_separated_list(env.MAILCHIMP_CORS_ORIGINS)
+
+FRONTAPP_PLUGIN_AUTH_SECRET = env.FRONTAPP_PLUGIN_AUTH_SECRET
 
 IS_DEMO_DEPLOYMENT = env.IS_DEMO_DEPLOYMENT
 

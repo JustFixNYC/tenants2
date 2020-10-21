@@ -115,4 +115,4 @@ class TestTriggerFollowupCampaign:
 
     def test_it_triggers_followup_campaign_if_user_allows_sms(self, db):
         OnboardingInfoFactory(can_we_sms=True).user.trigger_followup_campaign_async("LOC")
-        self.trigger.assert_called_once_with('Boop Jones', '5551234567', 'LOC')
+        self.trigger.assert_called_once_with('Boop Jones', '5551234567', 'LOC', locale='en')

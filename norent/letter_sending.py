@@ -4,8 +4,11 @@ import logging
 from django.http import FileResponse
 from django.conf import settings
 from django.utils import timezone
+from django.utils.translation import gettext as _
+from django.db import transaction
+import PyPDF2
 
-from project import slack, locales
+from project import slack, locales, common_data
 from project.util.email_attachment import email_file_response_as_attachment
 from project.util.site_util import SITE_CHOICES
 from frontend.static_content import react_render, react_render_email, ContentType
@@ -25,7 +28,10 @@ NORENT_EMAIL_TO_LANDLORD_URL = "letter-email.txt"
 
 # The URL, relative to the localized site root, that renders the NoRent
 # email to the user.
-NORENT_EMAIL_TO_USER_URL = "letter-email-to-user.txt"
+NORENT_EMAIL_TO_USER_URL = "letter-email-to-user.html"
+
+# The URL prefix for USPS certified letter tracking.
+USPS_TRACKING_URL_PREFIX = common_data.load_json("loc.json")["USPS_TRACKING_URL_PREFIX"]
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +42,7 @@ def email_react_rendered_content_with_attachment(
     recipients: List[str],
     attachment: FileResponse,
     locale: str,
+    is_html_email: bool = False,
 ) -> None:
     '''
     Renders an email in the front-end, using the given locale,
@@ -47,10 +54,12 @@ def email_react_rendered_content_with_attachment(
         locale,
         url,
         user=user,
+        is_html_email=is_html_email,
     )
     email_file_response_as_attachment(
         subject=email.subject,
         body=email.body,
+        html_body=email.html_body,
         recipients=recipients,
         attachment=attachment,
     )
@@ -108,6 +117,16 @@ def send_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> bool:
     letter.tracking_number = response['tracking_number']
     letter.letter_sent_at = timezone.now()
     letter.save()
+
+    user.send_sms_async(
+        _("%(name)s you've sent your letter of non-payment of rent. "
+            "You can track the delivery of your letter using "
+            "USPS Tracking: %(url)s.") % {
+                'name': user.full_name,
+                'url': USPS_TRACKING_URL_PREFIX + letter.tracking_number,
+        }
+    )
+
     return True
 
 
@@ -143,7 +162,7 @@ def email_letter_to_landlord(letter: models.Letter, pdf_bytes: bytes) -> bool:
     return True
 
 
-def create_letter(user: JustfixUser, rp: models.RentPeriod) -> models.Letter:
+def create_letter(user: JustfixUser, rps: List[models.RentPeriod]) -> models.Letter:
     '''
     Create a Letter model and set its PDF HTML content.
     '''
@@ -166,16 +185,35 @@ def create_letter(user: JustfixUser, rp: models.RentPeriod) -> models.Letter:
             user=user
         ).html
 
-    letter = models.Letter(
-        user=user,
-        locale=user.locale,
-        rent_period=rp,
-        html_content=html_content,
-        localized_html_content=localized_html_content
-    )
-    letter.full_clean()
-    letter.save()
+    with transaction.atomic():
+        letter = models.Letter(
+            user=user,
+            locale=user.locale,
+            html_content=html_content,
+            localized_html_content=localized_html_content
+        )
+        letter.full_clean()
+        letter.save()
+        letter.rent_periods.set(rps)
+
     return letter
+
+
+def _merge_pdfs(pdfs: List[bytes]) -> bytes:
+    merger = PyPDF2.PdfFileMerger()
+    for pdf_bytes in pdfs:
+        merger.append(PyPDF2.PdfFileReader(BytesIO(pdf_bytes)))
+    outfile = BytesIO()
+    merger.write(outfile)
+    return outfile.getvalue()
+
+
+def render_multilingual_letter(letter: models.Letter) -> bytes:
+    pdf_bytes = render_pdf_bytes(letter.html_content)
+    if letter.localized_html_content:
+        localized_pdf_bytes = render_pdf_bytes(letter.localized_html_content)
+        pdf_bytes = _merge_pdfs([pdf_bytes, localized_pdf_bytes])
+    return pdf_bytes
 
 
 def send_letter(letter: models.Letter):
@@ -190,7 +228,7 @@ def send_letter(letter: models.Letter):
     again and it won't send multiple copies of the letter.
     '''
 
-    pdf_bytes = render_pdf_bytes(letter.html_content)
+    pdf_bytes = render_multilingual_letter(letter)
     user = letter.user
     ld = user.landlord_details
 
@@ -204,6 +242,7 @@ def send_letter(letter: models.Letter):
         email_react_rendered_content_with_attachment(
             user,
             NORENT_EMAIL_TO_USER_URL,
+            is_html_email=True,
             recipients=[user.email],
             attachment=norent_pdf_response(pdf_bytes),
 
@@ -219,10 +258,10 @@ def send_letter(letter: models.Letter):
     )
 
 
-def create_and_send_letter(user: JustfixUser, rp: models.RentPeriod):
+def create_and_send_letter(user: JustfixUser, rps: List[models.RentPeriod]):
     '''
     Create a Letter model and send it.
     '''
 
-    letter = create_letter(user, rp)
+    letter = create_letter(user, rps)
     send_letter(letter)

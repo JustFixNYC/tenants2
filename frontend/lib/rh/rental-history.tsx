@@ -23,7 +23,6 @@ import {
   redirectToAddressConfirmationOrNextStep,
 } from "../ui/address-confirmation";
 import { ClearSessionButton } from "../forms/clear-session-button";
-import { OutboundLink } from "../analytics/google-analytics";
 import { CustomerSupportLink } from "../ui/customer-support-link";
 import { updateAddressFromBrowserStorage } from "../browser-storage";
 import { GetStartedButton } from "../ui/get-started-button";
@@ -32,8 +31,17 @@ import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { RhEmailToDhcr, RhEmailToDhcrStaticPage } from "./email-to-dhcr";
 import { renderSuccessHeading } from "../ui/success-heading";
 import { li18n, createLinguiCatalogLoader } from "../i18n-lingui";
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import loadable from "@loadable/component";
+import {
+  EnglishOutboundLink,
+  LocalizedOutboundLinkProps,
+  LocalizedOutboundLinkList,
+} from "../ui/localized-outbound-link";
+import {
+  ForeignLanguageOnly,
+  InYourLanguageTranslation,
+} from "../ui/cross-language";
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -42,9 +50,17 @@ export const RhLinguiI18n = createLinguiCatalogLoader({
   es: loadable.lib(() => import("../../../locales/es/rh.chunk") as any),
 });
 
+const DhcrFootnote = () => (
+  <div className="jf-secondary-cta">
+    <div className="content has-text-centered is-size-7">
+      <Trans>*Division of Housing and Community Renewal</Trans>
+    </div>
+  </div>
+);
+
 function RentalHistorySplash(): JSX.Element {
   return (
-    <Page title="Request your Rent History">
+    <Page title={li18n._(t`Request your Rent History`)}>
       <section className="hero is-light">
         <div className="hero-body">
           <div className="has-text-centered">
@@ -52,24 +68,30 @@ function RentalHistorySplash(): JSX.Element {
               <StaticImage ratio="is-square" src={RH_ICON} alt="" />
             </div>
             <h1 className="title is-spaced">
-              Request your <span className="is-italic">Rent History</span> in
-              two simple steps!
+              <Trans>
+                Request your <span className="is-italic">Rent History</span>{" "}
+                from the NY State DHCR* in two simple steps!
+              </Trans>
             </h1>
             <p className="subtitle">
-              This document helps you find out if your apartment is{" "}
-              <b>rent stabilized</b> and if you're being <b>overcharged</b>. It
-              shows the registered rents in your apartment since 1984.
+              <Trans id="justfix.rhExplanation">
+                This document helps you find out if your apartment is{" "}
+                <b>rent stabilized</b> and if you're being <b>overcharged</b>.
+                It shows the registered rents in your apartment since 1984.
+              </Trans>
             </p>
             <p className="subtitle is-italic">
-              This service is free, secure, and confidential.
+              <Trans>This service is free, secure, and confidential.</Trans>
             </p>
             <GetStartedButton
               to={JustfixRoutes.locale.rh.form}
               intent="RH"
               pageType="splash"
             >
-              Start my request
+              <Trans>Start my request</Trans>
             </GetStartedButton>
+            <br />
+            <DhcrFootnote />
           </div>
         </div>
       </section>
@@ -118,10 +140,10 @@ function RentalHistoryForm(): JSX.Element {
   const cancelControlRef = useRef(null);
 
   return (
-    <Page title="Request the Rent History for your apartment">
-      <h1 className="title is-4">
-        Request the Rent History for your apartment
-      </h1>
+    <Page
+      title={li18n._(t`Request your apartment's Rent History from the DHCR`)}
+      withHeading
+    >
       <SessionUpdatingFormSubmitter
         mutation={RhFormMutation}
         initialState={(s) =>
@@ -144,13 +166,13 @@ function RentalHistoryForm(): JSX.Element {
             <div className="columns is-mobile">
               <div className="column">
                 <TextualFormField
-                  label="First name"
+                  label={li18n._(t`First name`)}
                   {...ctx.fieldPropsFor("firstName")}
                 />
               </div>
               <div className="column">
                 <TextualFormField
-                  label="Last name"
+                  label={li18n._(t`Last name`)}
                   {...ctx.fieldPropsFor("lastName")}
                 />
               </div>
@@ -160,12 +182,12 @@ function RentalHistoryForm(): JSX.Element {
               boroughProps={ctx.fieldPropsFor("borough")}
             />
             <TextualFormField
-              label="Apartment number"
+              label={li18n._(t`Apartment number`)}
               autoComplete="address-line2 street-address"
               {...ctx.fieldPropsFor("apartmentNumber")}
             />
             <PhoneNumberFormField
-              label="Phone number"
+              label={li18n._(t`Phone number`)}
               {...ctx.fieldPropsFor("phoneNumber")}
             />
             <div className="field is-grouped jf-two-buttons">
@@ -178,7 +200,7 @@ function RentalHistoryForm(): JSX.Element {
       <ClearSessionButton
         to={JustfixRoutes.locale.rh.splash}
         portalRef={cancelControlRef}
-        label="Cancel request"
+        label={li18n._(t`Cancel request`)}
       />
       <Route
         path={JustfixRoutes.locale.rh.formAddressModal}
@@ -193,15 +215,28 @@ function RentalHistoryForm(): JSX.Element {
 
 function RentalHistoryPreview(): JSX.Element {
   return (
-    <Page title={li18n._(t`Review your request to the DHCR`)} withHeading>
+    <Page
+      title={li18n._(t`Review your request to the DHCR`)}
+      withHeading
+      className="content"
+    >
       <p>
-        Here is a preview of the request for your Rent History. It includes your
-        address and apartment number so that the DHCR can mail you.
+        <Trans>
+          Here is a preview of the request for your Rent History. It includes
+          your address and apartment number so that the DHCR can mail you.
+        </Trans>
       </p>
-      <br />
+      <ForeignLanguageOnly>
+        <p className="is-uppercase is-size-7">
+          <InYourLanguageTranslation />{" "}
+          <Trans>(Note: the request will be sent in English)</Trans>
+        </p>
+      </ForeignLanguageOnly>
       <article className="message">
         <div className="message-header has-text-weight-normal">
-          To: New York Division of Housing and Community Renewal (DHCR)
+          <Trans>
+            To: New York Division of Housing and Community Renewal (DHCR)
+          </Trans>
         </div>
         <div className="message-body content">
           <RhEmailToDhcr />
@@ -214,14 +249,17 @@ function RentalHistoryPreview(): JSX.Element {
         </p>
       </DemoDeploymentNote>
       <div className="field is-grouped jf-two-buttons">
-        <BackButton label="Back" to={JustfixRoutes.locale.rh.form} />
+        <BackButton to={JustfixRoutes.locale.rh.form} />
         <SessionUpdatingFormSubmitter
           mutation={RhSendEmailMutation}
           initialState={{}}
           onSuccessRedirect={JustfixRoutes.locale.rh.confirmation}
         >
           {(ctx) => (
-            <NextButton label="Submit request" isLoading={ctx.isLoading} />
+            <NextButton
+              label={li18n._(t`Submit request`)}
+              isLoading={ctx.isLoading}
+            />
           )}
         </SessionUpdatingFormSubmitter>
       </div>
@@ -229,73 +267,78 @@ function RentalHistoryPreview(): JSX.Element {
   );
 }
 
+const KYR_LINKS: LocalizedOutboundLinkProps[] = [
+  {
+    children: <Trans>Met Council on Housing</Trans>,
+    hrefs: {
+      en: "https://www.metcouncilonhousing.org/help-answers/",
+    },
+  },
+  {
+    children: <Trans>Housing Court Answers</Trans>,
+    hrefs: {
+      en: "http://housingcourtanswers.org/glossary/",
+    },
+  },
+  {
+    children: <Trans>JustFix.nyc's Learning Center</Trans>,
+    hrefs: {
+      en:
+        "https://www.justfix.nyc/learn?utm_source=tenantplatform&utm_medium=rh",
+    },
+  },
+];
+
 function RentalHistoryConfirmation(): JSX.Element {
   const appContext = useContext(AppContext);
   const { onboardingInfo } = appContext.session;
   return (
     <Page
-      title="Your Rent History has been requested!"
+      title={li18n._(
+        t`Your Rent History has been requested from the New York State DHCR!`
+      )}
       withHeading={renderSuccessHeading}
       className="content"
     >
       <ProgressiveLoadableConfetti regenerateForSecs={1} />
-      <h2>What happens next?</h2>
+      <h2>
+        <Trans>What happens next?</Trans>
+      </h2>
       <p>
-        You should receive your Rent History in the mail in about a week. Your
-        Rent History is an important document— it shows the registered rents in
-        your apartment since 1984. You can learn more about it and how it can
-        help you figure out if you’re being overcharged on rent:{" "}
-        <OutboundLink
-          href="https://www.metcouncilonhousing.org/knowledgebase/rent-stabilization-overcharges"
-          target="_blank"
-        >
-          https://www.metcouncilonhousing.org/knowledgebase/rent-stabilization-overcharges
-        </OutboundLink>
-        .
+        <Trans id="justfix.rhWhatHappensNext">
+          You should receive your Rent History in the mail in about a week. Your
+          Rent History is an important document—it shows the registered rents in
+          your apartment since 1984. You can learn more about it and how it can
+          help you figure out if you’re being overcharged on rent at the{" "}
+          <EnglishOutboundLink href="https://www.metcouncilonhousing.org/help-answers/rent-stabilization-overcharges/">
+            Met Council on Housing guide to Rent Stabilization Overcharges
+          </EnglishOutboundLink>
+          .
+        </Trans>
       </p>
       <p>
-        If you have more questions, please email us at <CustomerSupportLink />.
+        <Trans>
+          If you have more questions, please email us at <CustomerSupportLink />
+          .
+        </Trans>
       </p>
       <Link
         to={JustfixRoutes.locale.homeWithSearch(onboardingInfo)}
         className="button is-primary is-medium"
       >
-        Explore our other tools
+        <Trans>Explore our other tools</Trans>
       </Link>
-      <h2>Want to read more about your rights?</h2>
-      <ul>
-        <li>
-          <OutboundLink
-            href="https://www.metcouncilonhousing.org/help-answers/"
-            target="_blank"
-          >
-            Met Council on Housing
-          </OutboundLink>
-        </li>
-        <li>
-          <OutboundLink
-            href="http://housingcourtanswers.org/glossary/"
-            target="_blank"
-          >
-            Housing Court Answers
-          </OutboundLink>
-        </li>
-        <li>
-          <OutboundLink
-            href="https://www.justfix.nyc/learn?utm_source=tenantplatform&utm_medium=rh"
-            target="_blank"
-          >
-            JustFix.nyc's Learning Center
-          </OutboundLink>
-        </li>
-      </ul>
+      <h2>
+        <Trans>Want to read more about your rights?</Trans>
+      </h2>
+      <LocalizedOutboundLinkList links={KYR_LINKS} />
     </Page>
   );
 }
 
 export const getRentalHistoryRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: JustfixRoutes.locale.rh.latestStep,
-  label: "Rent History",
+  label: li18n._(t`Rent History`),
   welcomeSteps: [
     {
       path: JustfixRoutes.locale.rh.splash,

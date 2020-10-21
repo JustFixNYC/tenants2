@@ -16,9 +16,8 @@
     "isDocumentationALegalRequirement": true
   },
   "CA": {
-    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": true,
-    "isDocumentationALegalRequirement": true,
-    "numberOfDaysFromNonPaymentNoticeToProvideDocumentation": 7
+    "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,
+    "isDocumentationALegalRequirement": false
   },
   "CO": {
     "doesTheTenantNeedToSendTheDocumentationToTheLandlord": false,

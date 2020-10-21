@@ -86,6 +86,11 @@ class Issue(models.Model):
 
 
 class CustomIssue(models.Model):
+    class Meta:
+        # This should generally ensure that the custom issues
+        # are always in the order that users entered them.
+        ordering = ("id",)
+
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     updated_at = models.DateTimeField(auto_now=True)
@@ -100,4 +105,4 @@ class CustomIssue(models.Model):
 
     description = models.TextField(
         help_text="The description of this custom issue."
-        )
+    )

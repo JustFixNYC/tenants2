@@ -10,7 +10,6 @@ from project import common_data
 
 class AccessDatesValidation(pydantic.BaseModel):
     MIN_DAYS: int
-    MIN_DAYS_TEXT: str
 
 
 class AccessDatesForm(forms.Form):
@@ -40,7 +39,7 @@ class AccessDatesForm(forms.Form):
         for date in dates:
             if (date - today).days < cfg.MIN_DAYS:
                 raise ValidationError(
-                    f'Please ensure all dates are at least {cfg.MIN_DAYS_TEXT} from today.')
+                    f'Please ensure all dates are at least {cfg.MIN_DAYS} days from today.')
 
     def get_cleaned_dates(self, cleaned_data=None) -> List[datetime.date]:
         if cleaned_data is None:

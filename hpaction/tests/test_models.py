@@ -10,10 +10,19 @@ from .factories import HPActionDocumentsFactory, UploadTokenFactory, PriorCaseFa
 from ..models import (
     HPActionDocuments, UploadToken, UPLOAD_TOKEN_LIFETIME,
     get_upload_status_for_user, HPUploadStatus, FeeWaiverDetails,
-    HP_ACTION_CHOICES, Config, rel_short_date)
+    HP_ACTION_CHOICES, Config, rel_short_date, CourtContact)
 
 
 NORMAL = HP_ACTION_CHOICES.NORMAL
+
+
+class TestCourtContact:
+    def test_str_works(self):
+        c = CourtContact(name="Boop Jones", email="boop@jones.net", court="STATEN_ISLAND")
+        assert str(c) == "Boop Jones <boop@jones.net> at Staten Island housing court"
+
+        c = CourtContact()
+        assert str(c) == "CourtContact object (None)"
 
 
 class TestUploadToken:

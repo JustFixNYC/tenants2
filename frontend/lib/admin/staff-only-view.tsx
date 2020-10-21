@@ -16,7 +16,7 @@ export function staffOnlyView<P extends RouteComponentProps>(
     const appCtx = useContext(AppContext);
     if (!appCtx.session.isStaff) {
       return (
-        <Redirect to={JustfixRoutes.locale.createLoginLink(props.location)} />
+        <Redirect to={JustfixRoutes.createAdminLoginLink(props.location)} />
       );
     }
     return <Component {...props} />;

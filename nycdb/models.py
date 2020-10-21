@@ -1,5 +1,6 @@
 import logging
 import datetime
+import re
 from typing import Optional, NamedTuple, List, Union, TypeVar, Generic, Callable, Any
 from django.db.utils import DatabaseError
 from dataclasses import dataclass
@@ -9,6 +10,28 @@ from django.db import models
 from project.util.nyc import BBL, to_pad_bbl
 
 logger = logging.getLogger(__name__)
+
+
+def normalize_apartment(value: str) -> str:
+    '''
+    Normalize the given apartment # field. Uses valid C2
+    secondary unit designators as specified by USPS:
+
+        https://pe.usps.com/text/pub28/28apc_003.htm
+    '''
+
+    value = value.strip()
+    if not value:
+        return value
+    if match := re.match(r"^(\d+)FLOOR?$", value, re.IGNORECASE):
+        return f"FLOOR {match[1]}"
+    if re.match(r"^(BSMT|BSMNT|BASEME)$", value, re.IGNORECASE):
+        return "BSMT"
+    if match := re.match(r"^APT(.+)$", value, re.IGNORECASE):
+        return f"APT {match[1]}"
+    if match := re.match(r"^STE(.+)$", value, re.IGNORECASE):
+        return f"STE {match[1]}"
+    return f"#{value}"
 
 
 class Address(NamedTuple):
@@ -29,8 +52,9 @@ class Address(NamedTuple):
     @property
     def first_line(self) -> str:
         first_line = f"{self.house_number} {self.street_name}"
-        if self.apartment:
-            first_line += f" #{self.apartment}"
+        apartment = normalize_apartment(self.apartment)
+        if apartment:
+            first_line += f" {apartment}"
         return first_line
 
 

@@ -229,13 +229,24 @@ def test_landlord_details_are_created_when_user_has_onboarding_info(
 
 
 @pytest.mark.django_db
-def test_letter_request_works(graphql_client, smsoutbox, allow_lambda_http):
-    graphql_client.request.user = create_user_with_all_info()
+def test_letter_request_works(graphql_client, smsoutbox, allow_lambda_http, mailoutbox, settings):
+    settings.LOC_EMAIL = 'letters@justfigs.nyc'
+    user = create_user_with_all_info()
+    user.email = "bobby@denver.net"
+    user.save()
+    graphql_client.request.user = user
 
     result = execute_lr_mutation(graphql_client)
     assert result['errors'] == []
     assert result['session']['letterRequest']['mailChoice'] == 'WE_WILL_MAIL'
     assert isinstance(result['session']['letterRequest']['updatedAt'], str)
+
+    assert len(mailoutbox) == 1
+    assert "Bobby Denver" in mailoutbox[0].subject
+    assert mailoutbox[0].recipients() == ['letters@justfigs.nyc']
+    assert mailoutbox[0].reply_to == ['bobby@denver.net']
+
+    mailoutbox[:] = []
 
     # Ensure we text them if they want us to mail the letter *and* they gave us
     # permission to SMS during onboarding.
@@ -250,6 +261,9 @@ def test_letter_request_works(graphql_client, smsoutbox, allow_lambda_http):
 
     # Ensure no SMS is sent if the user said they'd mail it themselves.
     assert smsoutbox == []
+
+    # Ensure we weren't notified if the user said they'd mail it themselves.
+    assert mailoutbox == []
 
 
 def test_letter_request_requires_auth(graphql_client):
@@ -340,3 +354,40 @@ def test_letter_styles_works(graphql_client):
         '/static/loc/pdf-styles.css',
         '/static/loc/loc-preview-styles.css'
     ]
+
+
+class TestRecommendedLocLandlord:
+    QUERY = '''
+    query {
+        recommendedLocLandlord {
+            name,
+            primaryLine,
+            city,
+            state,
+            zipCode
+        }
+    }
+    '''
+
+    def test_it_returns_none_for_logged_out_user(self, graphql_client):
+        res = graphql_client.execute(self.QUERY)
+        assert res['data']['recommendedLocLandlord'] is None
+
+    def test_it_returns_none_when_user_has_no_recommendation(self, db, graphql_client):
+        graphql_client.request.user = UserFactory()
+        res = graphql_client.execute(self.QUERY)
+        assert res['data']['recommendedLocLandlord'] is None
+
+    @enable_fake_landlord_lookup
+    def test_it_returns_recommendation(self, db, graphql_client, requests_mock, nycdb):
+        mock_lookup_success(requests_mock, nycdb)
+        oi = OnboardingInfoFactory()
+        graphql_client.request.user = oi.user
+        res = graphql_client.execute(self.QUERY)
+        assert res['data']['recommendedLocLandlord'] == {
+            'name': 'BOOP JONES',
+            'primaryLine': '124 99TH STREET',
+            'city': 'Brooklyn',
+            'state': 'NY',
+            'zipCode': '11999',
+        }

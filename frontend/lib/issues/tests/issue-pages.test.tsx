@@ -6,6 +6,8 @@ import { AppTesterPal } from "../../tests/app-tester-pal";
 import ISSUE_AREA_SVGS from "../../svg/issues";
 import { IssueAreaChoices } from "../../../../common-data/issue-area-choices";
 import { IssueAreaV2Mutation } from "../../queries/IssueAreaV2Mutation";
+import { preloadLingui } from "../../tests/lingui-preloader";
+import { LinguiI18n } from "../../i18n-lingui";
 
 const routes = JustfixRoutes.locale.loc.issues;
 
@@ -16,6 +18,8 @@ const TestIssuesRoutes = () => (
     toNext="next"
   />
 );
+
+beforeAll(preloadLingui(LinguiI18n));
 
 describe("issues checklist", () => {
   it("returns 404 for invalid area routes", () => {
@@ -46,7 +50,7 @@ describe("issues checklist", () => {
         errors: [],
         session: { issues: ["HOME__MICE"], customIssuesV2: [] },
       });
-    await pal.rt.waitFor(() => pal.rr.getByText("Apartment self-inspection"));
+    await pal.rt.waitFor(() => pal.rr.getByText("Home self-inspection"));
   });
 });
 

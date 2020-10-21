@@ -21,6 +21,18 @@ export function isModalRoute(...paths: string[]): boolean {
   return false;
 }
 
+/**
+ * Returns whether the route represents a static page.
+ * For more details, see the `<StaticPage>` component.
+ */
+export function isStaticPageRoute(path: string): boolean {
+  return /\.(txt|html|pdf)$/.test(path);
+}
+
+/**
+ * Returns if the route has parameters. For example, in `/article/:id`,
+ * `id` is a parameter.
+ */
 export function isParameterizedRoute(path: string): boolean {
   return path.indexOf(":") !== -1;
 }

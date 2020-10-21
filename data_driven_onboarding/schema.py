@@ -165,9 +165,27 @@ class DDOSuggestionsResult(graphene.ObjectType):
     )
 
     stabilized_unit_count_2017 = graphene.Int(
-        required=True,
         description=(
             "The number of rent-stabilized residential units at the BBL in 2017."
+        ),
+        deprecation_reason=(
+            "This field has been deprecated as we now use `stabilized_unit_count` "
+            "to store the rs unit count for the most up-to-date-year we have available."
+        )
+    )
+
+    stabilized_unit_count = graphene.Int(
+        required=True,
+        description=(
+            "The number of rent-stabilized residential units at the BBL "
+            "for the most recent year we have data for."
+        )
+    )
+
+    stabilized_unit_count_year = graphene.Int(
+        required=True,
+        description=(
+            "The year that our data for most-recent stabilized unit count comes from."
         )
     )
 
@@ -213,8 +231,8 @@ class DDOSuggestionsResult(graphene.ObjectType):
         description=(
             "The total number of HPD violations since 2010 for the entered BBL."
             "This value will never be null. If no HPD violations are found, it will be 0."
-            )
         )
+    )
 
 
 @schema_registry.register_queries

@@ -1,58 +1,68 @@
 import React, { useContext } from "react";
 import { asEmailStaticPage } from "../static-page/email-static-page";
-import { HtmlEmail } from "../static-page/html-email";
+import { EmailCta, HtmlEmail } from "../static-page/html-email";
 import { AppContext } from "../app-context";
-import { useLocation } from "react-router-dom";
-import { getQuerystringVar } from "../util/querystring";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
+import i18n, { SupportedLocaleMap } from "../i18n";
+import { NorentRoutes } from "./routes";
 
 function getUserFullName(session: AllSessionInfo): string {
   return [session.firstName, session.lastName].join(" ").trim();
 }
 
+/**
+ * Placeholder for text that still needs to be translated to
+ * Spanish.
+ *
+ * TODO: Before sending, we should remove this!
+ */
+const TODO_TRANSLATE_TO_SPANISH = "TODO: TRANSLATE TO SPANISH";
+
+type ContentProps = {
+  fullName: string;
+  ctaURL: string;
+};
+
+const EnglishContent: React.FC<ContentProps> = (props) => (
+  <>
+    <p>Dear {props.fullName},</p>
+    <EmailCta href={props.ctaURL}>
+      Send a declaration letter to your landlord now
+    </EmailCta>
+  </>
+);
+
+const SpanishContent: React.FC<ContentProps> = (props) => (
+  <>
+    <p>Estimad@ {props.fullName},</p>
+    <EmailCta href={props.ctaURL}>{TODO_TRANSLATE_TO_SPANISH}</EmailCta>
+  </>
+);
+
+const CONTENT: SupportedLocaleMap<React.FC<ContentProps>> = {
+  en: EnglishContent,
+  es: SpanishContent,
+};
+
+const SUBJECT: SupportedLocaleMap<string> = {
+  en: "Important Updates to NoRent.org and California Eviction Protections",
+  es: TODO_TRANSLATE_TO_SPANISH,
+};
+
 const Content: React.FC<{}> = () => {
-  const { session } = useContext(AppContext);
-  const firstName = session.firstName || "";
-  const loc = useLocation();
-  const senderName = getQuerystringVar(loc.search, "sender") || "JustFix.nyc";
-  const fullName = getUserFullName(session);
-  const email = session.email || "";
-  const surveyURL = `https://docs.google.com/forms/d/e/1FAIpQLSdrLRbaclKnZr2y-VSjgcgfD2WPG3K8D8z0mjTzYU26el2WGQ/viewform?usp=pp_url&entry.1339466027=${encodeURIComponent(
-    email
-  )}&entry.875680225=${encodeURIComponent(fullName)}`;
+  const { session, server } = useContext(AppContext);
+  const Content = CONTENT[i18n.locale];
 
   return (
-    <>
-      <p>Estimad@ {firstName},</p>
-      <p>
-        Aquí {senderName}. Te escribimos porque usaste NoRent.org para enviarle
-        una carta al dueño o manager de tu edificio.
-      </p>
-      <p>
-        Nos gustaría saber cómo fue tu experiencia con la versión de la
-        herramienta en Español. Si quieres dar tu opinión,{" "}
-        <a href={surveyURL}>completa este formulario</a>. Tardarás menos de 10
-        minutos.
-      </p>
-      <p>
-        Si completas la encuesta antes del 31 de Agosto, 2020, te incluiremos en
-        el sorteo de una tarjeta de regalo digital de $50.
-      </p>
-      <p>
-        NoRent.org fue creado por el equipo de JustFix.nyc. Somos una
-        organización sin fines de lucro que fabrica herramientas digitales para
-        que los inquilinos luchen contra el desplazamiento logrando permacer en
-        hogares dignos. Si quieres obtener más información, visita{" "}
-        <a href="https://www.justfix.nyc/">nuestro sitio web</a>.
-      </p>
-      <p>¡Agradecemos tu ayuda!</p>
-      <p>-- El equipo de JustFix.nyc</p>
-    </>
+    <Content
+      fullName={getUserFullName(session)}
+      ctaURL={`${server.originURL}${NorentRoutes.locale.home}`}
+    />
   );
 };
 
 export const OneOffEmail = asEmailStaticPage(() => (
-  <HtmlEmail subject="¿Nos Ayudas? ¿Que tal te fue con NoRent.org en Español?">
+  <HtmlEmail subject={SUBJECT[i18n.locale]}>
     <Content />
   </HtmlEmail>
 ));

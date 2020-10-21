@@ -1,5 +1,4 @@
 from typing import Optional, Set
-from urllib.parse import urlencode
 from django.core.management import BaseCommand, CommandError
 from django.core.mail import send_mail
 
@@ -15,12 +14,12 @@ LOGFILE = oneoffemailusers.OUTFILE.with_suffix('.log')
 
 
 def send_email(user: JustfixUser):
-    url = f"/es/one-off-email.html?{urlencode({'sender': SENDER_NAME})}"
+    url = f"/one-off-email.html"
     email = react_render_email(
         SITE_CHOICES.NORENT,
-        "es",
+        user.locale,
         url[1:],
-        locale_prefix_url=False,
+        locale_prefix_url=True,
         is_html_email=True,
         user=user,
     )

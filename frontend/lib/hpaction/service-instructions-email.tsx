@@ -20,7 +20,7 @@ import {
   YesNoChoice,
   isYesNoChoice,
 } from "../forms/yes-no-radios-form-field";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory, Link } from "react-router-dom";
 import { QuerystringConverter } from "../networking/http-get-query-util";
 import { NoScriptFallback } from "../ui/progressive-enhancement";
 import {
@@ -98,6 +98,12 @@ type ServiceInstructionsProps = CaseTypeProps & {
    */
   isExample?: boolean;
 
+  /**
+   * Whether this is being presented as a user-facing web page,
+   * rather than as an email.
+   */
+  isWebPage?: boolean;
+
   /** The tenant's first name. */
   firstName: string;
 
@@ -158,23 +164,67 @@ const VerifiedPetition: React.FC<CaseTypeProps> = (props) => (
   <>“Verified Petition” ({VERIFIED_PETITION_PAGES[toCaseType(props)]})</>
 );
 
+const ServiceInstructionsHeader: React.FC<ServiceInstructionsProps> = (props) =>
+  props.isWebPage ? (
+    <>
+      <p>
+        Follow these instructions to serve your HP Action papers on your
+        landlord and/or management company. They will guide you through the
+        process starting from the moment you submitted your HP Action through
+        JustFix.nyc.
+      </p>
+      <p>PLEASE MAKE SURE TO READ THIS ENTIRE PAGE.</p>
+      <hr />
+      <h2>Follow these steps</h2>
+    </>
+  ) : (
+    <>
+      {props.isExample && (
+        <Important>
+          <strong>NOTE:</strong> This document is for example purposes only.
+        </Important>
+      )}
+      <p>Hello {props.firstName},</p>
+      <p>
+        This is JustFix.nyc following up with some{" "}
+        <strong>next steps and instructions</strong> now that you’ve filed an
+        “HP Action” case in Housing Court for{" "}
+        {CASE_TYPE_NAMES[toCaseType(props)]}.
+      </p>
+      <p>PLEASE MAKE SURE TO READ THIS ENTIRE EMAIL.</p>
+      <h2>Next steps</h2>
+    </>
+  );
+
+const ServiceInstructionsFooter: React.FC<ServiceInstructionsProps> = (props) =>
+  props.isWebPage ? (
+    <>
+      <hr />
+      <p>
+        If you have any further questions, please feel free to email{" "}
+        <EmailLink to={"documents@justfix.nyc"} /> explaining your concerns and
+        we will be in touch to help.
+      </p>
+      <p>
+        <strong>The JustFix.nyc Team</strong>
+      </p>
+    </>
+  ) : (
+    <>
+      <p>
+        If you have any further questions, please feel free to respond to this
+        email and we will be in touch to help.
+      </p>
+      <p>Kind regards,</p>
+      <p>The JustFix.nyc Team</p>
+    </>
+  );
+
 export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
   props
 ) => (
   <>
-    {props.isExample && (
-      <Important>
-        <strong>NOTE:</strong> This document is for example purposes only.
-      </Important>
-    )}
-    <p>Hello {props.firstName},</p>
-    <p>
-      This is JustFix.nyc following up with some{" "}
-      <strong>next steps and instructions</strong> now that you’ve filed an “HP
-      Action” case in Housing Court for {CASE_TYPE_NAMES[toCaseType(props)]}.
-    </p>
-    <p>PLEASE MAKE SURE TO READ THIS ENTIRE EMAIL.</p>
-    <h2>Next steps</h2>
+    <ServiceInstructionsHeader {...props} />
     <p>
       At this point, the paperwork that you signed and filed electronically has
       been sent to your borough’s Housing Court Clerk for review. This is what
@@ -486,12 +536,7 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
         </ul>
       </>
     )}
-    <p>
-      If you have any further questions, please feel free to respond to this
-      email and we will be in touch to help.
-    </p>
-    <p>Kind regards,</p>
-    <p>The JustFix.nyc Team</p>
+    <ServiceInstructionsFooter {...props} />
   </>
 );
 
@@ -663,6 +708,7 @@ const ServiceInstructionsForm: React.FC<{
 export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
   const location = useLocation();
   const emailPreview = JustfixRoutes.locale.ehp.exampleServiceInstructionsEmail;
+  const { serviceInstructionsWebpage } = JustfixRoutes.locale.ehp;
 
   return (
     <Page
@@ -688,8 +734,35 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
               </a>
               .
             </p>
+            <p>
+              If you'd like to see a version of this page that's more suitable
+              for end-users, try{" "}
+              <Link to={serviceInstructionsWebpage + location.search}>
+                {serviceInstructionsWebpage}
+              </Link>
+              .
+            </p>
             <hr />
             <ServiceInstructionsContent {...props} />
+          </>
+        )}
+      </ServiceInstructionsForm>
+    </Page>
+  );
+};
+
+export const ServiceInstructionsWebpage: React.FC<{}> = (props) => {
+  return (
+    <Page
+      title="How to serve your HP action papers"
+      withHeading
+      className="content"
+    >
+      <ServiceInstructionsForm>
+        {(props) => (
+          <>
+            <hr />
+            <ServiceInstructionsContent {...props} isWebPage />
           </>
         )}
       </ServiceInstructionsForm>

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-16 11:06+0000\n"
+"POT-Creation-Date: 2020-10-21 14:58+0000\n"
 "PO-Revision-Date: 2020-10-16 19:30\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -42,10 +42,15 @@ msgstr "cerrar"
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
 msgstr "¡%(city)s, %(state_name)s no existe!"
 
-#: norent/letter_sending.py:119
+#: norent/letter_sending.py:122
 #, python-format
 msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
 msgstr "%(name)s has enviado tu carta de no pago de renta. Puedes seguir la entrega de tu carta usando USPS Tracking: %(url)s."
+
+#: norent/management/commands/send_norent_reminders.py:14
+#, python-format
+msgid "%(first_name)s, you've previously created an account on NoRent.org. If you are unable to pay rent next month AND you have a COVID-19 related reason for not paying, we recommend that on or before your rent due date or within 7 days of your rent due date, you send a new AB3088 declaration to your landlord through NoRent.org: %(url)s"
+msgstr ""
 
 #: norent/schema.py:497
 #, python-format
@@ -115,4 +120,3 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 #: project/util/phone_number.py:68
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
-

@@ -83,6 +83,7 @@ import {
   ExampleServiceInstructionsEmail,
   ServiceInstructionsEmail,
   ExampleServiceInstructionsEmailForm,
+  ServiceInstructionsWebpage,
 } from "./service-instructions-email";
 import { NycUsersOnly } from "../pages/nyc-users-only";
 
@@ -660,6 +661,11 @@ const EmergencyHPActionProgressRoutes = buildProgressRoutesComponent(
 
 const EmergencyHPActionRoutes: React.FC<{}> = () => (
   <Switch>
+    <Route
+      component={ServiceInstructionsWebpage}
+      path={JustfixRoutes.locale.ehp.serviceInstructionsWebpage}
+      exact
+    />
     <Route
       component={ExampleServiceInstructionsEmailForm}
       path={JustfixRoutes.locale.ehp.exampleServiceInstructionsEmailForm}

@@ -99,8 +99,7 @@ def send_sms(
             is_invalid_number = isinstance(e, TwilioRestException) and e.code == 21211
             if is_invalid_number:
                 logger.info(f'Phone number {phone_number} is invalid.')
-                lookup = PhoneNumberLookup(phone_number=phone_number, is_valid=False)
-                lookup.save()
+                PhoneNumberLookup.objects.invalidate(phone_number=phone_number)
                 if ignore_invalid_phone_number:
                     return ''
             if fail_silently:

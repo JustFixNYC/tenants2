@@ -53,6 +53,21 @@ class PhoneNumberLookupManager(models.Manager):
         lookup.save()
         return lookup
 
+    def invalidate(self, phone_number: str) -> 'PhoneNumberLookup':
+        '''
+        Marks the given phone number as being invalid. Deals with the
+        case where a phone number that was once valid is now invalid.
+        '''
+
+        lookup, created = self.get_or_create(phone_number=phone_number, defaults={
+            'is_valid': False,
+        })
+        if not created:
+            lookup.is_valid = False
+            lookup.carrier = None
+            lookup.save()
+        return lookup
+
 
 class PhoneNumberLookup(models.Model):
     '''

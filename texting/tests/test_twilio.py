@@ -152,6 +152,19 @@ def test_send_sms_ignores_invalid_numbers(db, settings, requests_mock):
     assert lookup.is_valid is False
 
 
+def test_send_sms_ignores_invalid_numbers_we_thought_were_valid(
+    db,
+    settings,
+    requests_mock
+):
+    apply_twilio_settings(settings)
+    mock_invalid_number(settings, requests_mock)
+    PhoneNumberLookup(phone_number='5551234567', is_valid=True, carrier={}).save()
+    assert send_sms('5551234567', 'boop', ignore_invalid_phone_number=True) == ''
+    lookup = PhoneNumberLookup.objects.get(phone_number='5551234567')
+    assert lookup.is_valid is False
+
+
 def test_send_sms_remembers_invalid_numbers_even_when_not_ignoring_them(
     db,
     settings,

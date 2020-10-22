@@ -60,6 +60,22 @@ class MockTwilioDbTest:
                 yield
 
 
+class TestInvalidate:
+    def test_it_works_when_no_record_existed(self, db):
+        lookup = PhoneNumberLookup.objects.invalidate('5551234567')
+        assert lookup.pk
+        assert lookup.is_valid is False
+        assert lookup.carrier is None
+
+    def test_it_modifies_existing_records(self, db):
+        orig = PhoneNumberLookup(phone_number='5551234567', is_valid=True, carrier={'hi': 1})
+        orig.save()
+        lookup = PhoneNumberLookup.objects.invalidate('5551234567')
+        assert lookup.pk == orig.pk
+        assert lookup.is_valid is False
+        assert lookup.carrier is None
+
+
 class TestGetOrLookup(MockTwilioDbTest):
     def test_it_returns_new_saved_lookup_with_carrier_info_for_valid_numbers(self):
         with self.mock_twilio(is_valid=True, carrier={'type': 'mobile'}):

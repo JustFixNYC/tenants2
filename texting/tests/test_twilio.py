@@ -123,7 +123,7 @@ def ensure_twilio_error_is_logged():
     mock_exc.assert_called_once_with('Error while communicating with Twilio')
 
 
-def test_send_sms_does_not_send_to_invalid_numbers(db, settings,  requests_mock):
+def test_send_sms_does_not_send_to_invalid_numbers(db, settings, requests_mock):
     apply_twilio_settings(settings)
     PhoneNumberLookup(phone_number='5551234567', is_valid=False).save()
     assert send_sms('5551234567', 'boop', ignore_invalid_phone_number=True) == ''
@@ -144,9 +144,22 @@ def mock_invalid_number(settings, requests_mock):
     )
 
 
-def test_send_sms_ignores_invalid_numbers(db, settings,  requests_mock):
+def test_send_sms_ignores_invalid_numbers(db, settings, requests_mock):
     apply_twilio_settings(settings)
     mock_invalid_number(settings, requests_mock)
+    assert send_sms('5551234567', 'boop', ignore_invalid_phone_number=True) == ''
+    lookup = PhoneNumberLookup.objects.get(phone_number='5551234567')
+    assert lookup.is_valid is False
+
+
+def test_send_sms_ignores_invalid_numbers_we_thought_were_valid(
+    db,
+    settings,
+    requests_mock
+):
+    apply_twilio_settings(settings)
+    mock_invalid_number(settings, requests_mock)
+    PhoneNumberLookup(phone_number='5551234567', is_valid=True, carrier={}).save()
     assert send_sms('5551234567', 'boop', ignore_invalid_phone_number=True) == ''
     lookup = PhoneNumberLookup.objects.get(phone_number='5551234567')
     assert lookup.is_valid is False
@@ -167,14 +180,14 @@ def test_send_sms_remembers_invalid_numbers_even_when_not_ignoring_them(
     assert lookup.is_valid is False
 
 
-def test_send_sms_logs_errors_when_failing_silently(db, settings,  requests_mock):
+def test_send_sms_logs_errors_when_failing_silently(db, settings, requests_mock):
     apply_twilio_settings(settings)
     requests_mock.post(get_twilio_sms_url(settings), json={})
     with ensure_twilio_error_is_logged():
         send_sms('5551234567', 'boop', fail_silently=True)
 
 
-def test_send_sms_raises_exception_by_default(db, settings,  requests_mock):
+def test_send_sms_raises_exception_by_default(db, settings, requests_mock):
     apply_twilio_settings(settings)
     requests_mock.post(get_twilio_sms_url(settings), json={})
     with pytest.raises(KeyError):

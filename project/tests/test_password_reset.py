@@ -25,13 +25,26 @@ class TestCreateVerificationCode(BaseTest):
         assert pr.USER_ID_SESSION_KEY not in self.req.session
         assert pr.VCODE_SESSION_KEY not in self.req.session
 
-    def test_it_sets_session_info_on_valid_phone_number(self, db):
+    def test_it_sets_session_info_on_valid_phone_number(self, db, smsoutbox, mailoutbox):
         user = UserFactory(phone_number='5551234567')
         now = time.time()
         self.create()
         assert self.req.session[pr.TIMESTAMP_SESSION_KEY] >= now
         assert self.req.session[pr.USER_ID_SESSION_KEY] == user.pk
-        assert len(self.req.session[pr.VCODE_SESSION_KEY]) == 6
+        key = self.req.session[pr.VCODE_SESSION_KEY]
+        assert len(key) == 6
+
+        assert len(smsoutbox) == 1
+        assert smsoutbox[0].body == f"JustFix.nyc here! Your verification code is {key}."
+
+        assert len(mailoutbox) == 0
+
+    def test_it_sends_email_if_possible(self, db, mailoutbox):
+        UserFactory(phone_number='5551234567', email='boop@jones.net')
+        self.create()
+        assert len(mailoutbox) == 1
+        assert mailoutbox[0].recipients() == ['boop@jones.net']
+        assert 'your verification code' in mailoutbox[0].body.lower()
 
 
 class TestVerifyVerificationCode(BaseTest):

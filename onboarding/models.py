@@ -189,6 +189,13 @@ class OnboardingInfo(models.Model):
         )
     )
 
+    can_receive_saje_comms = models.NullBooleanField(
+        help_text=(
+            "Whether the user has opted-in to being contacted by "
+            "Strategic Actions for a Just Economy (SAJE)."
+        )
+    )
+
     @property
     def borough_label(self) -> str:
         if not self.borough:

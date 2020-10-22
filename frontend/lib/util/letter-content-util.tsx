@@ -102,6 +102,13 @@ const DearLandlord: React.FC<BaseLetterContentProps> = (props) => (
   </p>
 );
 
+const Signed: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
+  <p className="jf-signature">
+    <Trans description="before signature in formal letter">Signed,</Trans>
+    {children}
+  </p>
+);
+
 const Regards: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
   <p className="jf-signature">
     <Trans description="before signature in formal letter">Regards,</Trans>
@@ -172,6 +179,7 @@ export const letter = {
   Addresses,
   DearLandlord,
   Regards,
+  Signed,
   FullName,
   AddressLine,
   getFullName,

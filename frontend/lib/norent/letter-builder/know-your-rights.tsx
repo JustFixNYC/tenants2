@@ -25,6 +25,7 @@ import {
   LocalizedOutboundLinkProps,
   LocalizedOutboundLinkList,
 } from "../../ui/localized-outbound-link";
+import { SendCDCDeclarationBlurb } from "../data/faqs-content";
 
 /**
  * The default value of the RTTC checkbox; this will essentially determine if RTTC
@@ -61,18 +62,29 @@ const StateLocalResources: React.FC<{ links: LocalizedOutboundLinkProps[] }> = (
 const StateWithoutProtectionsContent: ProtectionsContentComponent = (props) => {
   return (
     <>
-      <p>
-        <Trans>
-          Unfortunately, we do not currently recommend sending a notice of
-          non-payment to your landlord. Sending a notice could put you at risk
-          of harassment.
-        </Trans>{" "}
-        <Link to={getStatesWithLimitedProtectionsFAQSectionURL()}>
-          <Trans>Learn more.</Trans>
-        </Link>
-      </p>
+      {props.links ? (
+        <>
+          <p>
+            <Trans>
+              Unfortunately, we do not currently recommend sending a notice of
+              non-payment to your landlord. Sending a notice could put you at
+              risk of harassment.
+            </Trans>{" "}
+            <Link to={getStatesWithLimitedProtectionsFAQSectionURL()}>
+              <Trans>Learn more.</Trans>
+            </Link>
+          </p>
 
-      {props.links && <StateLocalResources links={props.links} />}
+          <StateLocalResources links={props.links} />
+        </>
+      ) : (
+        <p>
+          <Trans>
+            Unfortunately, we do not currently recommend sending this notice of
+            non-payment to your landlord. <SendCDCDeclarationBlurb />
+          </Trans>
+        </p>
+      )}
 
       <p>
         <Trans>
@@ -122,6 +134,7 @@ export const StateWithProtectionsContent: ProtectionsContentComponent = (
 ) => (
   <>
     <p>{props.lawForBuilder.textOfLegislation}</p>
+    {props.links && <StateLocalResources links={props.links} />}
     <p>
       <Trans>
         We’ve partnered with{" "}

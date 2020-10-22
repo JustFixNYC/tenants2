@@ -20,6 +20,7 @@ from django.conf.urls.i18n import i18n_patterns
 from graphene_django.views import GraphQLView
 
 from .views import example_server_error, redirect_favicon, health
+from .frontapp import embeddable_in_frontapp
 import frontend.views
 from users.views import verify_email
 import twofactor.views
@@ -30,7 +31,7 @@ dev_patterns = ([
 ], 'dev')
 
 urlpatterns = [
-    path('verify', twofactor.views.verify, name='verify'),
+    path('verify', embeddable_in_frontapp(twofactor.views.verify), name='verify'),
     path('verify-email', verify_email, name='verify_email'),
     path('health', health, name='health'),
     path('admin/', admin.site.urls),

@@ -210,7 +210,7 @@ class OnboardingInfoType(DjangoObjectType):
         only_fields = (
             'signup_intent', 'floor_number', 'address', 'apt_number', 'pad_bbl',
             'has_called_311', 'non_nyc_city', 'zipcode', 'agreed_to_justfix_terms',
-            'agreed_to_norent_terms', 'can_receive_rttc_comms',)
+            'agreed_to_norent_terms', 'can_receive_rttc_comms', 'can_receive_saje_comms')
 
     borough = graphene.Field(
         BoroughEnum,
@@ -236,6 +236,19 @@ class OnboardingInfoType(DjangoObjectType):
         description=OnboardingInfo.city.__doc__.strip(),  # type: ignore
         resolver=lambda self, context: self.city,
     )
+
+    is_in_los_angeles = graphene.Boolean(
+        description=(
+            "Whether the user is in Los Angeles County. If "
+            "we don't have enough information to tell, this will be null."
+        )
+    )
+
+    def resolve_is_in_los_angeles(self, info) -> Optional[bool]:
+        if not self.zipcode:
+            return None
+        from norent.la_zipcodes import is_zip_code_in_la
+        return is_zip_code_in_la(self.zipcode)
 
     def resolve_borough(self, info):
         if self.borough:

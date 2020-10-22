@@ -593,7 +593,9 @@ const DEFAULT_INPUT: ExampleServiceInstructionsInput = {
   caseType: CaseType.Combined,
 };
 
-export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
+const ServiceInstructionsForm: React.FC<{
+  children: (input: ServiceInstructionsProps) => JSX.Element;
+}> = (props) => {
   const location = useLocation();
   const history = useHistory();
   const qs = new QuerystringConverter(
@@ -607,14 +609,9 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
     setLatestInput(input);
   };
   const validatedInput = validateInput(latestInput, exampleInputValidator);
-  const emailPreview = JustfixRoutes.locale.ehp.exampleServiceInstructionsEmail;
 
   return (
-    <Page
-      title="Example service instructions email"
-      withHeading
-      className="content"
-    >
+    <>
       <Form
         onSubmit={onChange}
         onChange={onChange}
@@ -627,7 +624,7 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
             <>
               <SelectFormField
                 {...ctx.fieldPropsFor("borough")}
-                label="Borough of tenant"
+                label="Borough"
                 choices={toDjangoChoices(
                   BoroughChoices,
                   getBoroughChoiceLabels()
@@ -643,7 +640,7 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
               />
               <YesNoRadiosFormField
                 {...ctx.fieldPropsFor("isNycha")}
-                label="Is the tenant in NYCHA housing?"
+                label="Are you in NYCHA housing?"
               />
               <NoScriptFallback>
                 <button type="submit" className="button is-primary">
@@ -656,29 +653,46 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
       </Form>
       {!validatedInput.errors && (
         <div key={location.search} className="jf-fadein-half-second">
-          <br />
-          <p>
-            The following content is a preview of instructions sent for serving
-            Emergency HP Actions based on the above options.
-          </p>
-          <p>
-            For a more accurate representation of how users will see it, you can
-            view it as an{" "}
-            <a href={`${emailPreview.html}?${qs.toStableQuerystring()}`}>
-              HTML email
-            </a>{" "}
-            and{" "}
-            <a href={`${emailPreview.txt}?${qs.toStableQuerystring()}`}>
-              plaintext email
-            </a>
-            .
-          </p>
-          <hr />
-          <ServiceInstructionsContent
-            {...formInputToInstructionsProps(validatedInput.result)}
-          />
+          {props.children(formInputToInstructionsProps(validatedInput.result))}
         </div>
       )}
+    </>
+  );
+};
+
+export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
+  const location = useLocation();
+  const emailPreview = JustfixRoutes.locale.ehp.exampleServiceInstructionsEmail;
+
+  return (
+    <Page
+      title="Example service instructions email"
+      withHeading
+      className="content"
+    >
+      <ServiceInstructionsForm>
+        {(props) => (
+          <>
+            <br />
+            <p>
+              The following content is a preview of instructions sent for
+              serving Emergency HP Actions based on the above options.
+            </p>
+            <p>
+              For a more accurate representation of how users will see it, you
+              can view it as an{" "}
+              <a href={`${emailPreview.html}?${location.search}`}>HTML email</a>{" "}
+              and{" "}
+              <a href={`${emailPreview.txt}?${location.search}`}>
+                plaintext email
+              </a>
+              .
+            </p>
+            <hr />
+            <ServiceInstructionsContent {...props} />
+          </>
+        )}
+      </ServiceInstructionsForm>
     </Page>
   );
 };

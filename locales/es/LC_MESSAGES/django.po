@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-21 14:58+0000\n"
-"PO-Revision-Date: 2020-10-22 09:56\n"
+"PO-Revision-Date: 2020-10-22 15:05\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -50,7 +50,7 @@ msgstr "%(name)s has enviado tu carta de no pago de renta. Puedes seguir la entr
 #: norent/management/commands/send_norent_reminders.py:14
 #, python-format
 msgid "%(first_name)s, you've previously created an account on NoRent.org. If you are unable to pay rent next month AND you have a COVID-19 related reason for not paying, we recommend that on or before your rent due date or within 7 days of your rent due date, you send a new AB3088 declaration to your landlord through NoRent.org: %(url)s"
-msgstr ""
+msgstr "%(first_name)s, previamente creaste una cuenta de usuario en NoRent.org. Si no puedes pagar el alquiler el mes que viene y tienes una razón relacionada con COVID-19 para no pagar, recomendamos que envíes una nueva declaración AB3088 al dueño o manager de tu edificio a través de NoRent.org: %(url)s antes de la fecha de vencimiento de la renta, en el día mismo o dentro de los 7 días siguientes."
 
 #: norent/schema.py:497
 #, python-format

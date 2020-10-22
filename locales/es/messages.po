@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-20 16:47\n"
+"PO-Revision-Date: 2020-10-22 19:51\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2289,7 +2289,7 @@ msgstr "<0><1/></0><2>También debes saber que no estás solo. En los estados si
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:24
 msgid "norent.introductionToLetterBuilderSteps"
-msgstr "Con tal de sacar provecho a las protecciones de desalojo en tu estado, deberías notificar al dueño de tu edificio de que no puedes pagar la renta por razones relacionadas con el COVID-19. <0>En el caso de que el dueño de tu edificio intente desalojarte, las cortes lo verán como un paso proactivo que ayude a establecer tu defensa.</0>"
+msgstr "Para que la ley estatal de California de AB3088 te ampare con las protecciones del COVID-19 de no poder pagar la renta, deberías notificar al dueño o manager de tu edificio. <0>En el caso de que intenten desalojarte, las cortes lo verán como un paso proactivo que ayude a establecer tu defensa.</0>"
 
 #: frontend/lib/norent/letter-content.tsx:193
 msgid "norent.letter.conclusion"

@@ -3,7 +3,7 @@ from django.utils import translation
 from django.utils import timezone
 
 from users.models import JustfixUser
-from .models import Reminder, REMINDERS
+from .models import Reminder, REMINDERS, exclude_users_with_invalid_phone_numbers
 
 
 class SmsReminder(abc.ABC):
@@ -20,12 +20,16 @@ class SmsReminder(abc.ABC):
     def get_sms_text(self, user: JustfixUser) -> str:
         pass
 
-    def remind_users(self):
-        SmsReminder.validate(self)
-
+    def get_queryset(self):
         users = JustfixUser.objects.filter(onboarding_info__can_we_sms=True)
+        users = exclude_users_with_invalid_phone_numbers(users)
         users = self.filter_user_queryset(users)\
             .exclude(reminders__kind=self.reminder_kind)
+        return users
+
+    def remind_users(self):
+        SmsReminder.validate(self)
+        users = self.get_queryset()
 
         for user in users:
             with translation.override(user.locale):

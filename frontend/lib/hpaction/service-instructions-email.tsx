@@ -655,7 +655,7 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
         }}
       </Form>
       {!validatedInput.errors && (
-        <>
+        <div key={location.search} className="jf-fadein-half-second">
           <br />
           <p>
             The following content is a preview of instructions sent for serving
@@ -677,7 +677,7 @@ export const ExampleServiceInstructionsEmailForm: React.FC<{}> = (props) => {
           <ServiceInstructionsContent
             {...formInputToInstructionsProps(validatedInput.result)}
           />
-        </>
+        </div>
       )}
     </Page>
   );

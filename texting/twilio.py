@@ -58,6 +58,14 @@ def tendigit_to_e164(phone_number: str) -> str:
     return f"+1{phone_number}"
 
 
+def is_enabled() -> bool:
+    '''
+    Returns whether Twilio support is enabled.
+    '''
+
+    return bool(settings.TWILIO_ACCOUNT_SID)
+
+
 def send_sms(
     phone_number: str,
     body: str,

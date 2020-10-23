@@ -26,3 +26,8 @@ class PartnerOrg(models.Model):
         help_text="Users whose details the partner organization has access to.",
         related_name='partner_orgs',
     )
+
+    def __str__(self):
+        if self.name and self.slug:
+            return f"{self.name} ({self.slug})"
+        return super().__str__()

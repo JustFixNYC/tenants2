@@ -30,6 +30,7 @@ export const NORENT_FEEDBACK_FORM_URL =
 export const NorentConfirmation = NorentRequireLoginStep(() => {
   const { session } = useContext(AppContext);
   const letter = session.norentLatestLetter;
+  const isInLA = session.onboardingInfo?.isInLosAngeles;
   const state =
     session.onboardingInfo?.state &&
     (session.onboardingInfo.state as USStateChoice);
@@ -50,11 +51,12 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
     getNorentMetadataForUSState(state)?.docs
       ?.numberOfDaysFromNonPaymentNoticeToProvideDocumentation;
 
-  const legalAidLink =
-    (state &&
-      getNorentMetadataForUSState(state)?.legalAid
-        ?.localLegalAidProviderLink) ||
-    NATIONAL_LEGAL_AID_URL;
+  const legalAidLink = isInLA
+    ? "https://www.stayhousedla.org/"
+    : (state &&
+        getNorentMetadataForUSState(state)?.legalAid
+          ?.localLegalAidProviderLink) ||
+      NATIONAL_LEGAL_AID_URL;
 
   return (
     <Page

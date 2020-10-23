@@ -119,20 +119,21 @@ export const NorentLetterEmailToLandlord: React.FC<NorentLetterContentProps> = (
       )}
     />
     <letter.DearLandlord {...props} />
-    <Trans id="norent.emailToLandlordBody">
+    <Trans id="norent.emailToLandlordBody_v2">
       <p>
         Please see letter attached from <letter.FullName {...props} />.{" "}
       </p>
       <p>
         In order to document communications and avoid misunderstandings, please
-        correspond with <letter.FullName {...props} /> via mail or text rather
-        than a phone call or in-person visit.
+        correspond with <letter.FullName {...props} /> via email at{" "}
+        <span style={{ textDecoration: "underline" }}>{props.email}</span> or
+        mail rather than a phone call or in-person visit.
       </p>
     </Trans>
     <letter.Regards />
     <p>
       <Trans>
-        JustFix.nyc <br />
+        NoRent.org <br />
         sent on behalf of <letter.FullName {...props} />
       </Trans>
     </p>

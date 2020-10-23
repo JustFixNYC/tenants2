@@ -141,6 +141,7 @@ INSTALLED_APPS = [
     'docusign.apps.DocusignConfig',
     'norent.apps.NorentConfig',
     'mailchimp.apps.MailchimpConfig',
+    'partnerships.apps.PartnershipsConfig',
 ]
 
 MIDDLEWARE = [

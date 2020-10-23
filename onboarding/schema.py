@@ -18,6 +18,7 @@ from project.util.site_util import get_site_name, SITE_CHOICES
 from project.locales import ALL as LOCALE_CHOICES
 from project import slack, schema_registry
 from users.models import JustfixUser
+from partnerships import referral
 from project.util.model_form_util import OneToOneUserModelFormMutation
 from users.email_verify import send_verification_email_async
 from onboarding import forms
@@ -109,11 +110,17 @@ def complete_onboarding(request, info, password: Optional[str]) -> JustfixUser:
         oi.full_clean()
         oi.save()
 
+    partner = referral.get_partner(request)
+    via = ''
+    if partner:
+        partner.users.add(user)
+        via = f", via our partner {partner.name}"
+
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
         f"from {slack.escape(oi.city)}, {slack.escape(oi.state)} has signed up for "
         f"{slack.escape(SIGNUP_INTENT_CHOICES.get_label(oi.signup_intent))} in "
-        f"{slack.escape(LOCALE_CHOICES.get_label(user.locale))}!",
+        f"{slack.escape(LOCALE_CHOICES.get_label(user.locale))}{via}!",
         is_safe=True
     )
 

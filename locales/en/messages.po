@@ -863,10 +863,6 @@ msgstr "It’s your first time here!"
 msgid "Join our <0/>mailing list"
 msgstr "Join our <0/>mailing list"
 
-#: frontend/lib/norent/letter-content.tsx:80
-msgid "JustFix.nyc <0/>sent on behalf of <1/>"
-msgstr "JustFix.nyc <0/>sent on behalf of <1/>"
-
 #: frontend/lib/ui/footer.tsx:26
 msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
 msgstr "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
@@ -1188,6 +1184,10 @@ msgstr "No registration found."
 #: common-data/issue-choices.ts:275
 msgid "No rent receipts given"
 msgstr "No rent receipts given"
+
+#: frontend/lib/norent/letter-content.tsx:80
+msgid "NoRent.org <0/>sent on behalf of <1/>"
+msgstr "NoRent.org <0/>sent on behalf of <1/>"
 
 #: frontend/lib/norent/about.tsx:126
 msgid "NoRent.org is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits across the nation."
@@ -2235,8 +2235,8 @@ msgid "norent.emailBodyTemplateForSharingNoRent"
 msgstr "I used www.norent.org to tell my landlord that I'm unable to pay this month's rent. This free tool helps you build and send a letter to your landlord, cites legal protections in your state, and connects you to other people in your community working to #cancelrent"
 
 #: frontend/lib/norent/letter-content.tsx:68
-msgid "norent.emailToLandlordBody"
-msgstr "<0>Please see letter attached from <1/>. </0><2>In order to document communications and avoid misunderstandings, please correspond with <3/> via mail or text rather than a phone call or in-person visit.</2>"
+msgid "norent.emailToLandlordBody_v2"
+msgstr "<0>Please see letter attached from <1/>. </0><2>In order to document communications and avoid misunderstandings, please correspond with <3/> via email {0} or mail rather than a phone call or in-person visit.</2>"
 
 #: frontend/lib/norent/about.tsx:79
 msgid "norent.explanationAboutWhyWeMadeThisSite"

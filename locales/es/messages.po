@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-23 20:00\n"
+"PO-Revision-Date: 2020-10-23 20:13\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -26,11 +26,11 @@ msgstr "Traducción en español"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:97
 msgid "(Note: the email will be sent in English)"
-msgstr "(Nota: Tenga en cuenta que el correo electrónico se enviará en inglés)"
+msgstr "(Nota: tenga en cuenta que el correo electrónico se enviará en inglés)"
 
 #: frontend/lib/rh/rental-history.tsx:141
 msgid "(Note: the request will be sent in English)"
-msgstr "(Nota: Tenga en cuenta que el correo electrónico se enviará en inglés)"
+msgstr "(Nota: tenga en cuenta que la solicitud se enviará en inglés)"
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:39
 msgid "(optional)"
@@ -854,7 +854,7 @@ msgstr "Parece que esta propiedad no tiene que estar registrada con el HPD. Pued
 
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:28
 msgid "It's important to notify your landlord of all months when you couldn't pay rent in full."
-msgstr "It's important to notify your landlord of all months when you couldn't pay rent in full."
+msgstr "Es importante notificar al dueño o manager de tu edificio de todos los meses cuando no pudiste pagar el alquiler completo."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:134
 msgid "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."
@@ -1192,7 +1192,7 @@ msgstr "No se dan recibos de alquiler"
 
 #: frontend/lib/norent/letter-content.tsx:81
 msgid "NoRent.org <0/>sent on behalf of <1/>"
-msgstr "NoRent.org <0/>sent on behalf of <1/>"
+msgstr "NoRent.org <0/>enviado en nombre de <1/>"
 
 #: frontend/lib/norent/about.tsx:126
 msgid "NoRent.org is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits across the nation."
@@ -1636,7 +1636,7 @@ msgstr "Acciones Estratégicas para una Economía Justa (SAJE) puede ponerse en 
 
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:44
 msgid "Street address (include unit/suite/floor/apt #)"
-msgstr "Street address (include unit/suite/floor/apt #)"
+msgstr "Dirección (incluye unidad/suite/piso/apt #)"
 
 #: frontend/lib/norent/components/subscribe.tsx:58
 #: frontend/lib/norent/components/subscribe.tsx:59
@@ -2241,7 +2241,7 @@ msgstr "Usé www.norent.org para decirle al dueño de mi edificio de que no pued
 
 #: frontend/lib/norent/letter-content.tsx:68
 msgid "norent.emailToLandlordBody_v2"
-msgstr "<0>Please see letter attached from <1/>. </0><2>In order to document communications and avoid misunderstandings, please correspond with <3/> via email at <4>{0}</4> or mail rather than a phone call or in-person visit.</2>"
+msgstr "<0>Por favor vea la carta adjunta de <1/>. </0><2>Para documentar las comunicaciones y evitar malentendidos, por favor corresponda con <3/> por correo electrónico a <4>{0}</4> o por correo ordinario en lugar de una llamada telefónica o una visita en persona. </2>"
 
 #: frontend/lib/norent/about.tsx:79
 msgid "norent.explanationAboutWhyWeMadeThisSite"

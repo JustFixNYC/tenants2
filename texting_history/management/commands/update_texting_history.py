@@ -63,6 +63,8 @@ def update_texting_history(
     max_age: Optional[int] = None,
     silent: bool = False,
 ) -> Optional[datetime.datetime]:
+    if not twilio.is_enabled():
+        return None
     max_age = max_age or 99_999
     client = twilio.get_client()
     our_number = tendigit_to_e164(settings.TWILIO_PHONE_NUMBER)

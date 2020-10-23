@@ -848,8 +848,8 @@ msgid "It doesn't seem like this property is required to register with HPD. You 
 msgstr "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:28
-msgid "It's important to notify your landlord of all months when you couldn't pay rent."
-msgstr "It's important to notify your landlord of all months when you couldn't pay rent."
+msgid "It's important to notify your landlord of all months when you couldn't pay rent in full."
+msgstr "It's important to notify your landlord of all months when you couldn't pay rent in full."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:134
 msgid "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."

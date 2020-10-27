@@ -10,6 +10,11 @@ fragment AllSessionInfo on SessionInfo {
     addressVerified,
     zipcode
   },
+  activePartnerReferral {
+    name,
+    slug,
+    website
+  },
   onboardingStep1 {
     address,
     borough,

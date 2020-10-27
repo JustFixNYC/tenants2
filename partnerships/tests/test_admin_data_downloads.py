@@ -47,3 +47,7 @@ class TestFilterUsersToPartnerOrgs:
 
 def test_partner_users(db):
     call_command('exportstats', 'partner-users')
+
+
+def test_partner_user_issues(db):
+    call_command('exportstats', 'partner-user-issues')

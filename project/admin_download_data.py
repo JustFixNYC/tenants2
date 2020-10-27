@@ -18,7 +18,10 @@ from project.util.streaming_json import generate_json_rows, streaming_json_respo
 from issues.issuestats import execute_issue_stats_query
 from project.userstats import execute_user_stats_query
 from hpaction.ehpa_filings import execute_ehpa_filings_query
-from partnerships.admin_data_downloads import execute_partner_users_query
+from partnerships.admin_data_downloads import (
+    execute_partner_users_query,
+    execute_partner_user_issues_query,
+)
 
 
 logger = logging.getLogger(__name__)
@@ -121,7 +124,17 @@ DATA_DOWNLOADS = [
             """,
         perms=['partnerships.view_users'],
         execute_query=execute_partner_users_query,
-    )
+    ),
+    DataDownload(
+        name="Partner-affiliated user issues",
+        slug="partner-user-issues",
+        html_desc="""
+            Details about the issues of users who were referred to JustFix by
+            partner organization(s) you're affiliated with. Contains PII.
+            """,
+        perms=['partnerships.view_users'],
+        execute_query=execute_partner_user_issues_query,
+    ),
 ]
 
 

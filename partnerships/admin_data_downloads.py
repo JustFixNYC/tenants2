@@ -1,6 +1,8 @@
+from typing import Dict, Any
 from django.db import DEFAULT_DB_ALIAS
 
 from users.models import JustfixUser
+from issues.models import Issue
 
 
 def exec_queryset_on_cursor(queryset, cursor):
@@ -13,7 +15,13 @@ def exec_queryset_on_cursor(queryset, cursor):
     cursor.execute(sql, params)
 
 
-def filter_users_to_partner_orgs(queryset, user: JustfixUser):
+def _dictprefix(prefix: str, **kwargs: Any) -> Dict[str, Any]:
+    return {
+        f"{prefix}{key}": value for key, value in kwargs.items()
+    }
+
+
+def filter_users_to_partner_orgs(queryset, user: JustfixUser, prefix: str = ''):
     '''
     Filter the given queryset to contain only data about non-staff users
     who have been referred to us by the one of the partner orgs
@@ -22,18 +30,19 @@ def filter_users_to_partner_orgs(queryset, user: JustfixUser):
 
     partner_orgs = list(user.partner_orgs.all()) if hasattr(user, 'partner_orgs') else []
     if partner_orgs:
-        queryset = queryset.filter(partner_orgs__in=partner_orgs)
+        queryset = queryset.filter(**_dictprefix(prefix, partner_orgs__in=partner_orgs))
     else:
         # This feels weird, but it seems to be the only easy
         # way for us to get an empty result set that still
         # includes the column names.
-        queryset = queryset.filter(id=-1)
-    return queryset.exclude(is_staff=True)
+        queryset = queryset.filter(**_dictprefix(prefix, id=-1))
+    return queryset.exclude(**_dictprefix(prefix, is_staff=True))
 
 
 def execute_partner_users_query(cursor, user):
     queryset = JustfixUser.objects.values(
         'id',
+        'date_joined',
         'phone_number',
         'email',
         'first_name',
@@ -51,6 +60,16 @@ def execute_partner_users_query(cursor, user):
         'onboarding_info__has_pests',
         'onboarding_info__has_called_311',
         'onboarding_info__receives_public_assistance',
-    )
+    ).order_by('id')
     queryset = filter_users_to_partner_orgs(queryset, user)
+    exec_queryset_on_cursor(queryset, cursor)
+
+
+def execute_partner_user_issues_query(cursor, user):
+    queryset = Issue.objects.values(
+        'user_id',
+        'area',
+        'value',
+    ).order_by('user_id', 'area', 'value')
+    queryset = filter_users_to_partner_orgs(queryset, user, 'user__')
     exec_queryset_on_cursor(queryset, cursor)

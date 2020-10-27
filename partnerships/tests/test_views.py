@@ -16,3 +16,7 @@ class TestActivateReferral:
 
         res = client.get('/p/j4ac?next=http://evil.com/')
         assert res['location'] == '/'
+
+    def test_it_404s_on_invalid_partner(self, db, client, disable_locale_middleware):
+        res = client.get('/p/j4ac')
+        assert res.status_code == 404

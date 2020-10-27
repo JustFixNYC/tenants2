@@ -1,8 +1,11 @@
+from typing import Optional
 import argparse
 import textwrap
 from django.core.management.base import BaseCommand
 from django.utils.html import strip_tags
+from django.contrib.auth.models import AnonymousUser
 
+from users.models import JustfixUser
 from project.admin_download_data import (
     DATA_DOWNLOADS,
     strict_get_data_download
@@ -26,6 +29,10 @@ class Command(BaseCommand):
             default='csv',
             help='Format in which to output statistics (default: %(default)s)'
         )
+        parser.add_argument(
+            '--user',
+            help='Username to make the export the dataset as.'
+        )
         parser.formatter_class = argparse.RawDescriptionHelpFormatter
         parser.epilog = self.get_epilog()
 
@@ -40,12 +47,14 @@ class Command(BaseCommand):
         return "\n".join(lines)
 
     def handle(self, *args, **options):
+        username: Optional[str] = options['user']
+        user = JustfixUser.objects.get(username=username) if username else AnonymousUser()
         dd = strict_get_data_download(options['dataset'])
         if options['format'] == 'csv':
-            iterator = generate_streaming_csv(dd.generate_csv_rows())
+            iterator = generate_streaming_csv(dd.generate_csv_rows(user))
         else:
             assert options['format'] == 'json'
-            iterator = generate_streaming_json(dd.generate_json_rows())
+            iterator = generate_streaming_json(dd.generate_json_rows(user))
         self.stdout.ending = ''
         for string in iterator:
             self.stdout.write(string)

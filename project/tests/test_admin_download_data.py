@@ -5,6 +5,7 @@ from project import admin_download_data
 from onboarding.tests.factories import OnboardingInfoFactory
 from rapidpro.tests.factories import UserContactGroupFactory
 from users.tests.factories import UserFactory
+from users.permission_util import get_permissions_from_ns_codenames
 
 
 def test_index_works(admin_client):
@@ -79,3 +80,9 @@ def test_strict_get_data_download_works():
 
     with pytest.raises(ValueError, match='data download does not exist: boop'):
         admin_download_data.strict_get_data_download('boop')
+
+
+def test_all_permissions_are_valid(db):
+    for dd in admin_download_data.DATA_DOWNLOADS:
+        print(f"Validating permissions: {', '.join(dd.perms)}")
+        get_permissions_from_ns_codenames(dd.perms)

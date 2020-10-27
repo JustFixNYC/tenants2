@@ -12,12 +12,13 @@ from django.conf import settings
 from django.template.response import TemplateResponse
 from django.views.decorators.gzip import gzip_page
 
-from users.models import CHANGE_USER_PERMISSION
+from users.models import CHANGE_USER_PERMISSION, JustfixUser
 from project.util.streaming_csv import generate_csv_rows, streaming_csv_response
 from project.util.streaming_json import generate_json_rows, streaming_json_response
 from issues.issuestats import execute_issue_stats_query
 from project.userstats import execute_user_stats_query
 from hpaction.ehpa_filings import execute_ehpa_filings_query
+from partnerships.admin_data_downloads import execute_partner_users_query
 
 
 logger = logging.getLogger(__name__)
@@ -38,7 +39,7 @@ class DataDownload(NamedTuple):
     slug: str
     html_desc: str
     perms: List[str]
-    execute_query: Callable[[DBCursor], None]
+    execute_query: Callable[[DBCursor, JustfixUser], None]
 
     def _get_download_url(self, fmt: str) -> DownloadUrl:
         return DownloadUrl(fmt, reverse('admin:download-data', kwargs={
@@ -55,17 +56,17 @@ class DataDownload(NamedTuple):
         ]
 
     @contextmanager
-    def _get_cursor_and_execute_query(self):
+    def _get_cursor_and_execute_query(self, user: JustfixUser):
         with connection.cursor() as cursor:
-            self.execute_query(cursor)
+            self.execute_query(cursor, user)
             yield cursor
 
-    def generate_csv_rows(self) -> Iterator[List[Any]]:
-        with self._get_cursor_and_execute_query() as cursor:
+    def generate_csv_rows(self, user: JustfixUser) -> Iterator[List[Any]]:
+        with self._get_cursor_and_execute_query(user) as cursor:
             yield from generate_csv_rows(cursor)
 
-    def generate_json_rows(self) -> Iterator[Dict[str, Any]]:
-        with self._get_cursor_and_execute_query() as cursor:
+    def generate_json_rows(self, user: JustfixUser) -> Iterator[Dict[str, Any]]:
+        with self._get_cursor_and_execute_query(user) as cursor:
             yield from generate_json_rows(cursor)
 
 
@@ -79,7 +80,7 @@ DATA_DOWNLOADS = [
             and so on.
             """,
         perms=[CHANGE_USER_PERMISSION],
-        execute_query=lambda cur: execute_user_stats_query(cur, include_pad_bbl=False)
+        execute_query=lambda cur, user: execute_user_stats_query(cur, include_pad_bbl=False)
     ),
     DataDownload(
         name='User statistics with BBLs',
@@ -89,14 +90,14 @@ DATA_DOWNLOADS = [
             <strong>which could potentially be used to personally identify them</strong>.
             """,
         perms=[CHANGE_USER_PERMISSION],
-        execute_query=lambda cur: execute_user_stats_query(cur, include_pad_bbl=True)
+        execute_query=lambda cur, user: execute_user_stats_query(cur, include_pad_bbl=True)
     ),
     DataDownload(
         name='Issue statistics',
         slug='issuestats',
         html_desc="""Various statistics about the issue checklist.""",
         perms=[CHANGE_USER_PERMISSION],
-        execute_query=execute_issue_stats_query
+        execute_query=lambda cur, user: execute_issue_stats_query(cur)
     ),
     DataDownload(
         name='EHPA filings',
@@ -109,8 +110,18 @@ DATA_DOWNLOADS = [
             data as it existed when the user filed the EHPA.
             """,
         perms=[CHANGE_USER_PERMISSION],
-        execute_query=execute_ehpa_filings_query,
+        execute_query=lambda cur, user: execute_ehpa_filings_query(cur),
     ),
+    DataDownload(
+        name="Partner-affiliated users",
+        slug="partner-users",
+        html_desc="""
+            Details about users who were referred to JustFix by
+            partner organization(s) you're affiliated with. Contains PII.
+            """,
+        perms=['partnerships.view_users'],
+        execute_query=execute_partner_users_query,
+    )
 ]
 
 
@@ -152,11 +163,11 @@ def _get_debug_data_response(dataset: str, fmt: str, filename: str):
     return None
 
 
-def _get_streaming_response(download: DataDownload, fmt: str, filename: str):
+def _get_streaming_response(download: DataDownload, fmt: str, filename: str, user: JustfixUser):
     if fmt == 'csv':
-        return streaming_csv_response(download.generate_csv_rows(), filename)
+        return streaming_csv_response(download.generate_csv_rows(user), filename)
     elif fmt == 'json':
-        return streaming_json_response(download.generate_json_rows(), filename)
+        return streaming_json_response(download.generate_json_rows(user), filename)
     else:
         return HttpResponseNotFound("Invalid format")
 
@@ -172,7 +183,7 @@ def download_streaming_data(request, dataset: str, fmt: str):
     filename = f"{dataset}-{today}.{fmt}"
     debug_response = _get_debug_data_response(dataset, fmt, filename)
 
-    return debug_response or _get_streaming_response(download, fmt, filename)
+    return debug_response or _get_streaming_response(download, fmt, filename, request.user)
 
 
 class DownloadDataViews:

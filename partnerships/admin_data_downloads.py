@@ -38,7 +38,19 @@ def execute_partner_users_query(cursor, user):
         'email',
         'first_name',
         'last_name',
+        'onboarding_info__pad_bbl',
+        'onboarding_info__pad_bin',
         'onboarding_info__lease_type',
+        'onboarding_info__borough',
+        'onboarding_info__state',
+        'onboarding_info__zipcode',
+        'onboarding_info__apt_number',
+        'onboarding_info__is_in_eviction',
+        'onboarding_info__needs_repairs',
+        'onboarding_info__has_no_services',
+        'onboarding_info__has_pests',
+        'onboarding_info__has_called_311',
+        'onboarding_info__receives_public_assistance',
     )
     queryset = filter_users_to_partner_orgs(queryset, user)
     exec_queryset_on_cursor(queryset, cursor)

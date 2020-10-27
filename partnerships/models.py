@@ -4,6 +4,12 @@ from users.models import JustfixUser
 
 
 class PartnerOrg(models.Model):
+    class Meta:
+        permissions = [
+            ("view_users",
+             "Can view/download user data for a partner organization"),
+        ]
+
     name = models.CharField(
         max_length=150,
         unique=True,

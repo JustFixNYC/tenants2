@@ -7,7 +7,6 @@ import { BigList } from "../ui/big-list";
 import { OutboundLink } from "../analytics/google-analytics";
 import { GetStartedButton } from "../ui/get-started-button";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
-import { MoratoriumWarning } from "../ui/covid-banners";
 
 export function LocSplash(): JSX.Element {
   return (
@@ -44,10 +43,6 @@ export function LocSplash(): JSX.Element {
               Already have an account?{" "}
               <Link to={JustfixRoutes.locale.login}>Sign in</Link>
             </p>
-            <br />
-            <div className="jf-secondary-cta">
-              <MoratoriumWarning />
-            </div>
           </div>
         </div>
       </section>

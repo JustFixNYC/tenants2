@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-29 15:25\n"
+"PO-Revision-Date: 2020-10-29 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2177,7 +2177,7 @@ msgstr "Parece que este edificio deba estar registrado con el HPD. Los proprieta
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
 msgid "justfix.ddoEfnycCovidMessage"
-msgstr "A limited eviction moratorium is currently in place across New York State. Tenant leaders and organizers around the city are fighting to keep people in their homes."
+msgstr "Una moratoria de desalojo limitada está en vigor en el estado de Nueva York debido a la crisis de salud pública del Covid-19. Los organizadores de inquilinos de la ciudad luchan por mantener la gente en sus casas."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:273
 msgid "justfix.ddoEhpaCovidMessage"

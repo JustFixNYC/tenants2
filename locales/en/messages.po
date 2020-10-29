@@ -2172,7 +2172,7 @@ msgstr "It looks like this building may require registration with HPD. Landlords
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
 msgid "justfix.ddoEfnycCovidMessage"
-msgstr "An Eviction Moratorium is in place in NY State due to the Covid-19 public health crisis. All courts that hear eviction cases are closed. This means you <0>cannot be evicted for any reason</0>."
+msgstr "A limited eviction moratorium is currently in place across New York State. Tenant leaders and organizers around the city are fighting to keep people in their homes."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:273
 msgid "justfix.ddoEhpaCovidMessage"

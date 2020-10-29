@@ -513,9 +513,9 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     // Default content temporarily implemented during COVID-19 Outbreak
     const covidMessage = (
       <Trans id="justfix.ddoEfnycCovidMessage">
-        An Eviction Moratorium is in place in NY State due to the Covid-19
-        public health crisis. All courts that hear eviction cases are closed.
-        This means you <b>cannot be evicted for any reason</b>.
+        A limited eviction moratorium is currently in place
+    across New York State. Tenant leaders and organizers around the city are
+    fighting to keep people in their homes. 
       </Trans>
     );
     return {

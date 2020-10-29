@@ -18,9 +18,9 @@ class Command(BaseCommand):
                   "or padded BBL (e.g. '2022150116') or BIN (e.g. '1234567') to look up.")
         )
         parser.add_argument(
-            '--no-head-officer',
+            '--no-prefer-head-officer',
             action='store_true',
-            help='Ensure the landlord is not a head officer.',
+            help='Prefer naming corporations over their head officers.',
         )
         parser.add_argument(
             '--dump-models',
@@ -96,7 +96,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options) -> None:
         address_or_bbl_or_bin: str = options['address-or-bbl-or-bin']
-        no_head_officer: bool = options['no_head_officer']
+        no_prefer_head_officer: bool = options['no_prefer_head_officer']
         dump_models: bool = options['dump_models']
 
         pad_bbl_or_bin = self.parse_address_or_bbl_or_bin(address_or_bbl_or_bin)
@@ -104,4 +104,4 @@ class Command(BaseCommand):
         if dump_models:
             self.dump_models(pad_bbl_or_bin)
         else:
-            self.show_registrations(pad_bbl_or_bin, not no_head_officer)
+            self.show_registrations(pad_bbl_or_bin, not no_prefer_head_officer)

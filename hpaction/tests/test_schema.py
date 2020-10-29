@@ -472,11 +472,11 @@ class TestRecommendedHpLandlordAndManagementCompany:
         pprint.pprint(res['data'])
         assert res['data'] == {
             'recommendedHpLandlord': {
-                'city': 'FUNKYPLACE',
-                'name': 'LANDLORDO CALRISSIAN',
-                'primaryLine': '9 BEAN CENTER DRIVE #40',
-                'state': 'NJ',
-                'zipCode': '07099'
+                'city': 'BROOKLYN',
+                'name': 'ULTRA DEVELOPERS, LLC',
+                'primaryLine': '3 ULTRA STREET',
+                'state': 'NY',
+                'zipCode': '11999'
             },
             'recommendedHpManagementCompany': {
                 'city': 'NEW YORK',

@@ -134,7 +134,7 @@ def fill_landlord_info_from_bbl_or_bin(
     pad_bin: str
 ) -> bool:
     landlord_found = False
-    contact = nycdb.models.get_landlord(pad_bbl, pad_bin)
+    contact = nycdb.models.get_non_head_officer_landlord(pad_bbl, pad_bin)
     if contact:
         landlord_found = True
         fill_landlord_info_from_contact(v, contact)

@@ -18,6 +18,11 @@ class Command(BaseCommand):
                   "or padded BBL (e.g. '2022150116') or BIN (e.g. '1234567') to look up.")
         )
         parser.add_argument(
+            '--no-head-officer',
+            action='store_true',
+            help='Ensure the landlord is not a head officer.',
+        )
+        parser.add_argument(
             '--dump-models',
             action='store_true',
             help='Dump related models to stdout as JSON.'
@@ -37,7 +42,7 @@ class Command(BaseCommand):
         ]))
         self.stdout.write(f"  {fields}\n")
 
-    def show_registration(self, reg: HPDRegistration) -> None:
+    def show_registration(self, reg: HPDRegistration, prefer_head_officer: bool) -> None:
         self.stdout.write(
             f"HPD Registration #{reg.registrationid} "
             f"({reg.lastregistrationdate} thru {reg.registrationenddate}):\n"
@@ -46,7 +51,7 @@ class Command(BaseCommand):
         for contact in reg.contacts.all():
             self.show_raw_contact_info(contact)
 
-        landlord = reg.get_landlord()
+        landlord = reg.get_landlord(prefer_head_officer)
         if landlord:
             self.stdout.write(f"\n  Landlord ({landlord.__class__.__name__}):\n")
             self.show_mailing_addr(landlord)
@@ -63,9 +68,9 @@ class Command(BaseCommand):
             qs = HPDRegistration.objects.from_pad_bbl(pad_bbl_or_bin)
         return filter_and_sort_registrations(qs)
 
-    def show_registrations(self, pad_bbl_or_bin: str) -> None:
+    def show_registrations(self, pad_bbl_or_bin: str, prefer_head_officer: bool) -> None:
         for reg in self._get_registrations(pad_bbl_or_bin):
-            self.show_registration(reg)
+            self.show_registration(reg, prefer_head_officer)
             print()
 
     def dump_models(self, pad_bbl_or_bin: str) -> None:
@@ -91,6 +96,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options) -> None:
         address_or_bbl_or_bin: str = options['address-or-bbl-or-bin']
+        no_head_officer: bool = options['no_head_officer']
         dump_models: bool = options['dump_models']
 
         pad_bbl_or_bin = self.parse_address_or_bbl_or_bin(address_or_bbl_or_bin)
@@ -98,4 +104,4 @@ class Command(BaseCommand):
         if dump_models:
             self.dump_models(pad_bbl_or_bin)
         else:
-            self.show_registrations(pad_bbl_or_bin)
+            self.show_registrations(pad_bbl_or_bin, not no_head_officer)

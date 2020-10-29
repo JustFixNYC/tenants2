@@ -513,9 +513,9 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     // Default content temporarily implemented during COVID-19 Outbreak
     const covidMessage = (
       <Trans id="justfix.ddoEfnycCovidMessage">
-        A limited eviction moratorium is currently in place
-    across New York State. Tenant leaders and organizers around the city are
-    fighting to keep people in their homes. 
+        A limited eviction moratorium is currently in place across New York
+        State. Tenant leaders and organizers around the city are fighting to
+        keep people in their homes.
       </Trans>
     );
     return {

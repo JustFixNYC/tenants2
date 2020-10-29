@@ -2177,7 +2177,7 @@ msgstr "Parece que este edificio deba estar registrado con el HPD. Los proprieta
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
 msgid "justfix.ddoEfnycCovidMessage"
-msgstr "Una moratoria de desalojo limitado está en vigor en el estado de Nueva York debido a la crisis de salud pública del Covid-19. Los organizadores de inquilinos de la ciudad luchan por mantener la gente en sus casas."
+msgstr "Una moratoria de desalojo limitada está en vigor en el estado de Nueva York debido a la crisis de salud pública del Covid-19. Los organizadores de inquilinos de la ciudad luchan por mantener la gente en sus casas."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:273
 msgid "justfix.ddoEhpaCovidMessage"

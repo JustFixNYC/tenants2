@@ -57,6 +57,10 @@ dd {
     page-break-after: avoid;
 }
 
+.jf-page-break-after {
+    page-break-after: always;
+}
+
 h1, h2, h3 {
     font-size: inherit;
 }

@@ -296,15 +296,15 @@ const LetterBody: React.FC<NorentLetterContentProps> = (props) => {
   );
 };
 
-function chunkifyPropsForBizarreCaliforniaLawyers(
-  props: NorentLetterContentProps
-): NorentLetterContentProps[] {
+export function chunkifyPropsForBizarreCaliforniaLawyers<
+  T extends { state: string; paymentDates: string[] }
+>(props: T): T[] {
   if (props.state !== "CA") {
     return [props];
   }
 
-  let beforeSeptember2020: NorentLetterContentProps | null = null;
-  const september2020AndLater: NorentLetterContentProps[] = [];
+  let beforeSeptember2020: T | null = null;
+  const september2020AndLater: T[] = [];
 
   for (let dateString of props.paymentDates) {
     const match = dateString.match(/^(\d\d\d\d)-(\d\d)/);
@@ -341,7 +341,7 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
     <>
       <LetterTitle {...props} />
       {chunkifyPropsForBizarreCaliforniaLawyers(props).map((props, i) => (
-        <div key={i} style={{ pageBreakAfter: "always" }}>
+        <div key={i} className="jf-page-break-after">
           <letter.TodaysDate {...props} />
           <letter.Addresses {...props} />
           <letter.DearLandlord {...props} />

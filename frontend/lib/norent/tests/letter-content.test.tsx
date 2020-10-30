@@ -1,6 +1,7 @@
 import React from "react";
 import ReactTestingLibraryPal from "../../tests/rtl-pal";
 import {
+  chunkifyPropsForBizarreCaliforniaLawyers,
   NorentLetterContent,
   noRentSampleLetterProps,
 } from "../letter-content";

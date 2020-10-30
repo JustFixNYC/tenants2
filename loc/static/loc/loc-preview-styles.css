@@ -19,3 +19,9 @@
         margin: 0;
     }
 }
+
+.jf-page-break-after + .jf-page-break-after {
+    border-top: 1px dotted gray;
+    padding-top: 1em;
+    clear: both;
+}

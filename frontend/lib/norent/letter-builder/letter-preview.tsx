@@ -9,6 +9,7 @@ import { Route, Link, Redirect } from "react-router-dom";
 import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
 import { AppContext } from "../../app-context";
 import {
+  chunkifyPropsForBizarreCaliforniaLawyers,
   NorentLetterEmailToLandlordForUser,
   NorentLetterTranslation,
 } from "../letter-content";
@@ -95,6 +96,12 @@ export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
     return <Redirect to={NorentRoutes.locale.letter.menu} push={false} />;
   }
 
+  const willContainMultipleLetters =
+    chunkifyPropsForBizarreCaliforniaLawyers({
+      state: session.onboardingInfo?.state || "",
+      paymentDates: rentPeriodsAtMount,
+    }).length > 1;
+
   return (
     <Page
       title={li18n._(t`Your Letter Is Ready To Send!`)}
@@ -107,6 +114,30 @@ export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
           sure all the information is correct.
         </Trans>
       </p>
+      {willContainMultipleLetters && (
+        <>
+          <p>
+            <Trans>
+              Please note that your declaration letter will be structured as
+              follows to meet the requirements of California's AB3088 law:
+            </Trans>
+          </p>
+          <ol>
+            <li>
+              <Trans>
+                One letter for the months between March and August when you
+                couldn't pay rent in full.
+              </Trans>
+            </li>
+            <li>
+              <Trans>
+                Separate letters for each month starting in September when you
+                couldn't pay rent in full.
+              </Trans>
+            </li>
+          </ol>
+        </>
+      )}
       <>
         <p>
           {isEmailingLetter && !isMailingLetter ? (

@@ -145,11 +145,11 @@ def test_user_to_hpactionvars_populates_med_ll_info_from_nycdb(db, nycdb, use_bi
     med = nycdb.load_hpd_registration('medium-landlord.json')
     oinfo = OnboardingInfoFactory(**onboarding_info_pad_kwarg(med, use_bin))
     v = user_to_hpactionvars(oinfo.user, NORMAL)
-    assert v.landlord_entity_name_te == "LANDLORDO CALRISSIAN"
+    assert v.landlord_entity_name_te == "ULTRA DEVELOPERS, LLC"
     assert v.landlord_entity_or_individual_mc == hp.LandlordEntityOrIndividualMC.COMPANY
-    assert v.landlord_address_street_te == "9 BEAN CENTER DRIVE #40"
+    assert v.landlord_address_street_te == "3 ULTRA STREET"
     llstate = v.landlord_address_state_mc
-    assert llstate and llstate.value == "NJ"
+    assert llstate and llstate.value == "NY"
     assert v.management_company_name_te == "FUNKY APARTMENT MANAGEMENT"
     assert v.management_company_address_street_te == "900 EAST 25TH STREET #2"
     v.to_answer_set()

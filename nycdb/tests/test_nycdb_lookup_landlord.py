@@ -25,6 +25,12 @@ def test_it_works_with_medium_landlord(nycdb):
     assert '    FUNKY APARTMENT MANAGEMENT' in output
 
 
+def test_it_works_with_medium_landlord_and_no_prefer_head_officer(nycdb):
+    output = get_output("medium-landlord.json", ["--no-prefer-head-officer"])
+    assert '    ULTRA DEVELOPERS, LLC' in output
+    assert '    FUNKY APARTMENT MANAGEMENT' in output
+
+
 def test_it_dumps_model_json(nycdb):
     output = get_output("tiny-landlord.json", ['--dump-models'])
     assert '"firstname": "BOOP"' in output

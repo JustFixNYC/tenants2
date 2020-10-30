@@ -44,15 +44,19 @@ def test_datasets_return_appropriate_errors(
 ):
     perms = []
 
-    monkeypatch.setattr(admin_download_data, 'DATA_DOWNLOADS', [
-        admin_download_data.DataDownload(
-            name='Blarg',
-            slug='blarg',
-            html_desc='Blarg!',
-            perms=perms,
-            execute_query=None
-        )
-    ])
+    monkeypatch.setattr(
+        admin_download_data,
+        'get_all_data_downloads',
+        lambda: [
+            admin_download_data.DataDownload(
+                name='Blarg',
+                slug='blarg',
+                html_desc='Blarg!',
+                perms=perms,
+                execute_query=None
+            )
+        ],
+    )
 
     res = outreach_client.get('/admin/download-data/nonexistent.json')
     assert res.status_code == 404, "Nonexistent datasets should 404"
@@ -83,6 +87,6 @@ def test_strict_get_data_download_works():
 
 
 def test_all_permissions_are_valid(db):
-    for dd in admin_download_data.DATA_DOWNLOADS:
+    for dd in admin_download_data.get_all_data_downloads():
         print(f"Validating permissions: {', '.join(dd.perms)}")
         get_permissions_from_ns_codenames(dd.perms)

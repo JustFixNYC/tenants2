@@ -7,7 +7,7 @@ from django.contrib.auth.models import AnonymousUser
 
 from users.models import JustfixUser
 from project.admin_download_data import (
-    DATA_DOWNLOADS,
+    get_all_data_downloads,
     strict_get_data_download
 )
 from project.util.streaming_csv import generate_streaming_csv
@@ -20,7 +20,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
             'dataset',
-            choices=[dd.slug for dd in DATA_DOWNLOADS],
+            choices=[dd.slug for dd in get_all_data_downloads()],
             help='Dataset to export (see below for more details).'
         )
         parser.add_argument(
@@ -38,7 +38,7 @@ class Command(BaseCommand):
 
     def get_epilog(self) -> str:
         lines = ["available datasets:\n"]
-        for dd in DATA_DOWNLOADS:
+        for dd in get_all_data_downloads():
             lines.append(f"  {dd.slug} - {dd.name}\n")
             desc = textwrap.dedent(strip_tags(dd.html_desc))
             desc = textwrap.fill(desc.strip(), width=66)

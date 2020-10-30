@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-30 16:33\n"
+"PO-Revision-Date: 2020-10-30 16:48\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1228,7 +1228,7 @@ msgstr "Oklahoma"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:75
 msgid "One letter for the months between March and August when you couldn't pay rent in full."
-msgstr "One letter for the months between March and August when you couldn't pay rent in full."
+msgstr "Una carta para los meses entre marzo y agosto cuando no pudiste pagar la renta en su totalidad."
 
 #: frontend/lib/app.tsx:55
 #: frontend/lib/norent/components/subscribe.tsx:41
@@ -1326,7 +1326,7 @@ msgstr "Por favor, ¡introduzca una dirección de correo electrónico!"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:68
 msgid "Please note that your declaration letter will be structured as follows to meet the requirements of California's AB3088 law:"
-msgstr "Please note that your declaration letter will be structured as follows to meet the requirements of California's AB3088 law:"
+msgstr "Tenga en cuenta que su carta de declaración tendrá la siguiente estructura para cumplir con los requisitos de la ley AB3088 de California:"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:194
 msgid "Please read the rest of this email carefully as it contains important information about your next steps."
@@ -1487,7 +1487,7 @@ msgstr "Enviar una carta al dueño de tu edificio es un paso grande. Aquí tiene
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:81
 msgid "Separate letters for each month starting in September when you couldn't pay rent in full."
-msgstr "Separate letters for each month starting in September when you couldn't pay rent in full."
+msgstr "Cartas separadas para cada mes a partir de septiembre, cuando no pudiste pagar la renta en su totalidad."
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:18
 msgid "Set up an account"

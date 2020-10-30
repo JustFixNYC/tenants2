@@ -12,7 +12,7 @@ from django.conf import settings
 from django.template.response import TemplateResponse
 from django.views.decorators.gzip import gzip_page
 
-from users.models import CHANGE_USER_PERMISSION, JustfixUser
+from users.models import JustfixUser
 from project.util.streaming_csv import generate_csv_rows, streaming_csv_response
 from project.util.streaming_json import generate_json_rows, streaming_json_response
 

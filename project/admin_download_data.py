@@ -67,87 +67,16 @@ class DataDownload(NamedTuple):
 
 
 def get_all_data_downloads() -> List[DataDownload]:
-    from issues.issuestats import execute_issue_stats_query
-    from project.userstats import execute_user_stats_query
-    from hpaction.ehpa_filings import execute_ehpa_filings_query
-    from partnerships.admin_data_downloads import (
-        execute_partner_users_query,
-        execute_partner_user_issues_query,
-        execute_partner_user_custom_issues_query,
-    )
+    from issues import issuestats
+    from project import userstats
+    from hpaction import ehpa_filings
+    from partnerships import admin_data_downloads as partnership_stats
 
     return [
-        DataDownload(
-            name='User statistics',
-            slug='userstats',
-            html_desc="""
-                Anonymized statistics about each user,
-                including when they completed onboarding, sent a letter of complaint,
-                and so on.
-                """,
-            perms=[CHANGE_USER_PERMISSION],
-            execute_query=lambda cur, user: execute_user_stats_query(cur, include_pad_bbl=False)
-        ),
-        DataDownload(
-            name='User statistics with BBLs',
-            slug='userstats-with-bbls',
-            html_desc="""
-                This is like the user statistics data but also includes the BBL of each user,
-                <strong>which could potentially be used to personally identify them</strong>.
-                """,
-            perms=[CHANGE_USER_PERMISSION],
-            execute_query=lambda cur, user: execute_user_stats_query(cur, include_pad_bbl=True)
-        ),
-        DataDownload(
-            name='Issue statistics',
-            slug='issuestats',
-            html_desc="""Various statistics about the issue checklist.""",
-            perms=[CHANGE_USER_PERMISSION],
-            execute_query=lambda cur, user: execute_issue_stats_query(cur)
-        ),
-        DataDownload(
-            name='EHPA filings',
-            slug='ehpa-filings',
-            html_desc="""
-                Details about tenants who have filed Emergency HP Actions.  Intended
-                primarily for handing off to NYC HRA/OCJ.  This contains PII, so
-                please be careful with it.  <strong>Note:</strong> most of the
-                fields here represent <em>current</em> user data rather than
-                data as it existed when the user filed the EHPA.
-                """,
-            perms=[CHANGE_USER_PERMISSION],
-            execute_query=lambda cur, user: execute_ehpa_filings_query(cur),
-        ),
-        DataDownload(
-            name="Partner-affiliated users",
-            slug="partner-users",
-            html_desc="""
-                Details about users who were referred to JustFix by
-                partner organization(s) you're affiliated with. Contains PII.
-                """,
-            perms=['partnerships.view_users'],
-            execute_query=execute_partner_users_query,
-        ),
-        DataDownload(
-            name="Partner-affiliated user issues",
-            slug="partner-user-issues",
-            html_desc="""
-                Details about the issues of users who were referred to JustFix by
-                partner organization(s) you're affiliated with.
-                """,
-            perms=['partnerships.view_users'],
-            execute_query=execute_partner_user_issues_query,
-        ),
-        DataDownload(
-            name="Partner-affiliated user custom issues",
-            slug="partner-user-custom-issues",
-            html_desc="""
-                Details about the custom issues of users who were referred to JustFix by
-                partner organization(s) you're affiliated with. May contain PII.
-                """,
-            perms=['partnerships.view_users'],
-            execute_query=execute_partner_user_custom_issues_query,
-        )
+        *userstats.DATA_DOWNLOADS,
+        *issuestats.DATA_DOWNLOADS,
+        *ehpa_filings.DATA_DOWNLOADS,
+        *partnership_stats.DATA_DOWNLOADS,
     ]
 
 

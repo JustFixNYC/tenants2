@@ -3,6 +3,7 @@ from django.db import DEFAULT_DB_ALIAS
 
 from users.models import JustfixUser
 from issues.models import Issue, CustomIssue
+from project.admin_download_data import DataDownload
 
 
 def exec_queryset_on_cursor(queryset, cursor):
@@ -84,3 +85,37 @@ def execute_partner_user_custom_issues_query(cursor, user):
     ).order_by('user_id', 'area')
     queryset = filter_users_to_partner_orgs(queryset, user, 'user__')
     exec_queryset_on_cursor(queryset, cursor)
+
+
+DATA_DOWNLOADS = [
+    DataDownload(
+        name="Partner-affiliated users",
+        slug="partner-users",
+        html_desc="""
+            Details about users who were referred to JustFix by
+            partner organization(s) you're affiliated with. Contains PII.
+            """,
+        perms=['partnerships.view_users'],
+        execute_query=execute_partner_users_query,
+    ),
+    DataDownload(
+        name="Partner-affiliated user issues",
+        slug="partner-user-issues",
+        html_desc="""
+            Details about the issues of users who were referred to JustFix by
+            partner organization(s) you're affiliated with.
+            """,
+        perms=['partnerships.view_users'],
+        execute_query=execute_partner_user_issues_query,
+    ),
+    DataDownload(
+        name="Partner-affiliated user custom issues",
+        slug="partner-user-custom-issues",
+        html_desc="""
+            Details about the custom issues of users who were referred to JustFix by
+            partner organization(s) you're affiliated with. May contain PII.
+            """,
+        perms=['partnerships.view_users'],
+        execute_query=execute_partner_user_custom_issues_query,
+    ),
+]

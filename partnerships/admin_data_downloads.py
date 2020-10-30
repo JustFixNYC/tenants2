@@ -2,7 +2,7 @@ from typing import Dict, Any
 from django.db import DEFAULT_DB_ALIAS
 
 from users.models import JustfixUser
-from issues.models import Issue
+from issues.models import Issue, CustomIssue
 
 
 def exec_queryset_on_cursor(queryset, cursor):
@@ -50,6 +50,7 @@ def execute_partner_users_query(cursor, user):
         'onboarding_info__pad_bbl',
         'onboarding_info__pad_bin',
         'onboarding_info__lease_type',
+        'onboarding_info__address',
         'onboarding_info__borough',
         'onboarding_info__state',
         'onboarding_info__zipcode',
@@ -71,5 +72,15 @@ def execute_partner_user_issues_query(cursor, user):
         'area',
         'value',
     ).order_by('user_id', 'area', 'value')
+    queryset = filter_users_to_partner_orgs(queryset, user, 'user__')
+    exec_queryset_on_cursor(queryset, cursor)
+
+
+def execute_partner_user_custom_issues_query(cursor, user):
+    queryset = CustomIssue.objects.values(
+        'user_id',
+        'area',
+        'description',
+    ).order_by('user_id', 'area')
     queryset = filter_users_to_partner_orgs(queryset, user, 'user__')
     exec_queryset_on_cursor(queryset, cursor)

@@ -21,6 +21,7 @@ from hpaction.ehpa_filings import execute_ehpa_filings_query
 from partnerships.admin_data_downloads import (
     execute_partner_users_query,
     execute_partner_user_issues_query,
+    execute_partner_user_custom_issues_query,
 )
 
 
@@ -130,11 +131,21 @@ DATA_DOWNLOADS = [
         slug="partner-user-issues",
         html_desc="""
             Details about the issues of users who were referred to JustFix by
-            partner organization(s) you're affiliated with. Contains PII.
+            partner organization(s) you're affiliated with.
             """,
         perms=['partnerships.view_users'],
         execute_query=execute_partner_user_issues_query,
     ),
+    DataDownload(
+        name="Partner-affiliated user custom issues",
+        slug="partner-user-custom-issues",
+        html_desc="""
+            Details about the custom issues of users who were referred to JustFix by
+            partner organization(s) you're affiliated with. May contain PII.
+            """,
+        perms=['partnerships.view_users'],
+        execute_query=execute_partner_user_custom_issues_query,
+    )
 ]
 
 

@@ -1,6 +1,7 @@
 import React from "react";
 import ReactTestingLibraryPal from "../../tests/rtl-pal";
 import {
+  chunkifyPropsForBizarreCaliforniaLawyers,
   NorentLetterContent,
   noRentSampleLetterProps,
 } from "../letter-content";
@@ -14,6 +15,50 @@ import { NorentLinguiI18n } from "../site";
 
 beforeAll(initNationalMetadataForTesting);
 beforeAll(preloadLingui(NorentLinguiI18n));
+
+describe("", () => {
+  it("does nothing for non-CA letters", () => {
+    const props = {
+      state: "NJ",
+      paymentDates: ["2020-08-01", "2020-09-01"],
+    };
+    expect(chunkifyPropsForBizarreCaliforniaLawyers(props)).toEqual([props]);
+  });
+
+  it("works for CA letters with months before september", () => {
+    expect(
+      chunkifyPropsForBizarreCaliforniaLawyers({
+        state: "CA",
+        paymentDates: ["2020-07-01", "2020-08-01"],
+      })
+    ).toEqual([{ state: "CA", paymentDates: ["2020-07-01", "2020-08-01"] }]);
+  });
+
+  it("works for CA letters with months >= september", () => {
+    expect(
+      chunkifyPropsForBizarreCaliforniaLawyers({
+        state: "CA",
+        paymentDates: ["2020-09-01", "2020-10-01"],
+      })
+    ).toEqual([
+      { state: "CA", paymentDates: ["2020-09-01"] },
+      { state: "CA", paymentDates: ["2020-10-01"] },
+    ]);
+  });
+
+  it("works for CA letters with months before and >= september", () => {
+    expect(
+      chunkifyPropsForBizarreCaliforniaLawyers({
+        state: "CA",
+        paymentDates: ["2020-07-01", "2020-08-01", "2020-09-01", "2020-10-01"],
+      })
+    ).toEqual([
+      { state: "CA", paymentDates: ["2020-07-01", "2020-08-01"] },
+      { state: "CA", paymentDates: ["2020-09-01"] },
+      { state: "CA", paymentDates: ["2020-10-01"] },
+    ]);
+  });
+});
 
 describe("<NorentLetterContent>", () => {
   it("works", () => {

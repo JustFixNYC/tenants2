@@ -18,6 +18,7 @@ import { USStateFormField } from "../forms/mailing-address-fields";
 import { isUserNycha } from "../util/nycha";
 import { QueryLoader } from "../networking/query-loader";
 import { RecommendedHpLandlord } from "../queries/RecommendedHpLandlord";
+import { CustomerSupportLink } from "../ui/customer-support-link";
 
 const Address: React.FC<{
   primaryLine: string;
@@ -32,13 +33,24 @@ const Address: React.FC<{
   </>
 );
 
-const ReadOnlyLandlordDetails: React.FC<MiddleProgressStepProps> = (props) => (
+const ReadOnlyLandlordDetails: React.FC<
+  MiddleProgressStepProps & {
+    isUserNycha: boolean;
+  }
+> = (props) => (
   <>
-    <p>
-      This is your landlord’s information as registered with the{" "}
-      <b>NYC Department of Housing and Preservation (HPD)</b>. This may be
-      different than where you send your rent checks.
-    </p>
+    {props.isUserNycha ? (
+      <p>
+        Since you are in NYCHA housing, we will be using the following
+        information to fill out your HP Action forms.
+      </p>
+    ) : (
+      <p>
+        This is your landlord’s information as registered with the{" "}
+        <b>NYC Department of Housing and Preservation (HPD)</b>. This may be
+        different than where you send your rent checks.
+      </p>
+    )}
     <QueryLoader
       query={RecommendedHpLandlord}
       input={null}
@@ -88,9 +100,18 @@ const ReadOnlyLandlordDetails: React.FC<MiddleProgressStepProps> = (props) => (
         );
       }}
     />
-    <p>
-      We'll use these details to automatically fill out your HP Action forms!
-    </p>
+    {props.isUserNycha ? (
+      <p>
+        If you feel strongly that this information is incorrect, please contact{" "}
+        <CustomerSupportLink />.
+      </p>
+    ) : (
+      <p>
+        We'll use these details to automatically fill out your HP Action forms.
+        If you feel strongly that this information is incorrect, however, you
+        can <Link to="#">provide your own details</Link>.
+      </p>
+    )}
     <ProgressButtons>
       <BackButton to={props.prevStep} />
       <Link to={props.nextStep} className="button is-primary is-medium">
@@ -103,11 +124,7 @@ const ReadOnlyLandlordDetails: React.FC<MiddleProgressStepProps> = (props) => (
 const EditableLandlordDetails: React.FC<MiddleProgressStepProps> = (props) => {
   return (
     <>
-      <p>
-        We were unable to retrieve information from the{" "}
-        <b>NYC Department of Housing and Preservation (HPD)</b> about your
-        landlord, so you will need to fill out the information yourself below.
-      </p>
+      <p>Please provide us with information on your landlord.</p>
       <SessionUpdatingFormSubmitter
         mutation={LandlordDetailsV2Mutation}
         initialState={(session) =>
@@ -150,7 +167,10 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
     <Page title="Your landlord" withHeading className="content">
       {isUserNycha(session) ||
       (details && details.isLookedUp && details.name && details.address) ? (
-        <ReadOnlyLandlordDetails {...props} />
+        <ReadOnlyLandlordDetails
+          {...props}
+          isUserNycha={isUserNycha(session)}
+        />
       ) : (
         <EditableLandlordDetails {...props} />
       )}

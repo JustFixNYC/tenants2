@@ -38,7 +38,16 @@ class ConfigAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
 
 
 class ManagementCompanyDetailsInline(admin.StackedInline):
-    fields = ['name', 'primary_line', 'city', 'state', 'zip_code']
+    fieldsets = (
+        (None, {
+            'fields': ['name', 'primary_line', 'city', 'state', 'zip_code'],
+            'description': (
+                "<strong>Note:</strong> This information will only "
+                "be used if the user's landlord details are also manually "
+                "provided, i.e. if their 'is looked up' checkbox is not checked."
+            )
+        }),
+    )
     model = models.ManagementCompanyDetails
     verbose_name = "Manually-provided management company details"
     verbose_name_plural = verbose_name

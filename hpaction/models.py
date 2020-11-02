@@ -267,6 +267,24 @@ def rel_short_date(value: date) -> str:
     return str_then
 
 
+class ManagementCompanyDetails(MailingAddress):
+    user = models.OneToOneField(
+        JustfixUser, on_delete=models.CASCADE, related_name='management_company_details',
+        help_text="The user whom the management company details are for."
+    )
+
+    name = models.CharField(
+        blank=True, max_length=100, help_text="The management company's name.")
+
+    overrides_open_data = models.BooleanField(
+        default=False,
+        help_text=(
+            "Whether the information in this model overrides whatever can "
+            "be looked up in open data (e.g., NYCDB)."
+        ),
+    )
+
+
 class PriorCase(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 

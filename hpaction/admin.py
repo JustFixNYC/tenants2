@@ -37,6 +37,12 @@ class ConfigAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
     pass
 
 
+class ManagementCompanyDetailsInline(admin.StackedInline):
+    model = models.ManagementCompanyDetails
+    verbose_name = "Manually-provided management company details"
+    verbose_name_plural = verbose_name
+
+
 @admin.register(models.CourtContact)
 class CourtContactAdmin(admin.ModelAdmin):
     list_display = [
@@ -160,6 +166,7 @@ class HPUserAdmin(UserProxyAdmin):
         HarassmentDetailsInline,
         FeeWaiverDetailsInline,
         LandlordDetailsInline,
+        ManagementCompanyDetailsInline,
         HPActionDocumentsInline,
         ServingPapersInline,
     )

@@ -38,6 +38,7 @@ class ConfigAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
 
 
 class ManagementCompanyDetailsInline(admin.StackedInline):
+    fields = ['name', 'primary_line', 'city', 'state', 'zip_code']
     model = models.ManagementCompanyDetails
     verbose_name = "Manually-provided management company details"
     verbose_name_plural = verbose_name

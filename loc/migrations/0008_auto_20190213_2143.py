@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='landlorddetails',
             name='name',
-            field=models.CharField(help_text="The landlord's name.", max_length=100),
+            field=models.CharField(help_text="The landlord's name.", max_length=100, blank=True),
         ),
     ]

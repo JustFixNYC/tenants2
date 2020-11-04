@@ -11,7 +11,7 @@ import {
   BlankLandlordDetailsV2Input,
 } from "../queries/LandlordDetailsV2Mutation";
 import { assertNotNull, exactSubsetOrDefault } from "../util/util";
-import { TextualFormField } from "../forms/form-fields";
+import { CheckboxFormField, TextualFormField } from "../forms/form-fields";
 import { ProgressButtons, BackButton } from "../ui/buttons";
 import { Link } from "react-router-dom";
 import { USStateFormField } from "../forms/mailing-address-fields";
@@ -19,6 +19,12 @@ import { isUserNycha } from "../util/nycha";
 import { QueryLoader } from "../networking/query-loader";
 import { RecommendedHpLandlord } from "../queries/RecommendedHpLandlord";
 import { CustomerSupportLink } from "../ui/customer-support-link";
+import {
+  BlankLandlordLandlordDetailsFormFormSetInput,
+  BlankMgmtCoManagementCompanyDetailsFormFormSetInput,
+  HpaLandlordInfoMutation,
+} from "../queries/HpaLandlordInfoMutation";
+import { Formset } from "../forms/formset";
 
 const Address: React.FC<{
   primaryLine: string;
@@ -160,6 +166,93 @@ const EditableLandlordDetails: React.FC<MiddleProgressStepProps> = (props) => {
 };
 
 export const HPActionYourLandlord = MiddleProgressStep((props) => {
+  return (
+    <Page title="Your landlord" withHeading className="content">
+      <SessionUpdatingFormSubmitter
+        mutation={HpaLandlordInfoMutation}
+        initialState={(session) => ({
+          useRecommended: session.landlordDetails?.isLookedUp || false,
+          useMgmtCo: !!session.managementCompanyDetails?.name,
+          landlord: [
+            exactSubsetOrDefault(
+              session.landlordDetails,
+              BlankLandlordLandlordDetailsFormFormSetInput
+            ),
+          ],
+          mgmtCo: [
+            exactSubsetOrDefault(
+              session.managementCompanyDetails,
+              BlankMgmtCoManagementCompanyDetailsFormFormSetInput
+            ),
+          ],
+        })}
+        onSuccessRedirect={props.nextStep}
+      >
+        {(ctx) => (
+          <>
+            <CheckboxFormField {...ctx.fieldPropsFor("useRecommended")}>
+              {" "}
+              Use recommended landlord and/or management company
+            </CheckboxFormField>
+            <Formset {...ctx.formsetPropsFor("landlord")}>
+              {(formsetCtx) => (
+                <>
+                  <TextualFormField
+                    {...formsetCtx.fieldPropsFor("name")}
+                    label="Landlord name"
+                  />
+                  <TextualFormField
+                    {...formsetCtx.fieldPropsFor("primaryLine")}
+                    label="Landlord street address"
+                  />
+                  <TextualFormField
+                    {...formsetCtx.fieldPropsFor("city")}
+                    label="Landlord city"
+                  />
+                  <USStateFormField {...formsetCtx.fieldPropsFor("state")} />
+                  <TextualFormField
+                    {...formsetCtx.fieldPropsFor("zipCode")}
+                    label="Landlord zip code"
+                  />
+                </>
+              )}
+            </Formset>
+            <CheckboxFormField {...ctx.fieldPropsFor("useMgmtCo")}>
+              {" "}
+              I have a management company
+            </CheckboxFormField>
+            <Formset {...ctx.formsetPropsFor("mgmtCo")}>
+              {(formsetCtx) => (
+                <>
+                  <TextualFormField
+                    {...formsetCtx.fieldPropsFor("name")}
+                    label="Management company name"
+                  />
+                  <TextualFormField
+                    {...formsetCtx.fieldPropsFor("primaryLine")}
+                    label="Management company street address"
+                  />
+                  <TextualFormField
+                    {...formsetCtx.fieldPropsFor("city")}
+                    label="Management company city"
+                  />
+                  <USStateFormField {...formsetCtx.fieldPropsFor("state")} />
+                  <TextualFormField
+                    {...formsetCtx.fieldPropsFor("zipCode")}
+                    label="Management company zip code"
+                  />
+                </>
+              )}
+            </Formset>
+            <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
+          </>
+        )}
+      </SessionUpdatingFormSubmitter>
+    </Page>
+  );
+});
+
+export const Old_HPActionYourLandlord = MiddleProgressStep((props) => {
   const { session } = useContext(AppContext);
   const details = session.landlordDetails;
 

@@ -196,17 +196,62 @@ class HpaLandlordInfo(ManyToOneUserModelFormMutation):
         return super().get_formset_kwargs(root, info, formset_name, input, all_input)
 
     @classmethod
+    def __update_recommended_ll_info(cls, user):
+        # TODO: A lot of this is copy/pasted from
+        # loc.models.LandlordDetails.create_lookup_for_user, make it more DRY.
+
+        from django.utils import timezone
+        from loc.landlord_lookup import lookup_landlord
+
+        assert hasattr(user, 'onboarding_info')
+        assert hasattr(user, 'landlord_details')
+
+        oi = user.onboarding_info
+        info = lookup_landlord(
+            oi.full_nyc_address,
+            oi.pad_bbl,
+            oi.pad_bin
+        )
+        assert info is not None
+
+        details = user.landlord_details
+        details.lookup_date = timezone.now()
+        details.name = info.name
+        details.address = info.address
+        details.primary_line = info.primary_line
+        details.city = info.city
+        details.state = info.state
+        details.zip_code = info.zip_code
+        details.is_looked_up = True
+        details.save()
+
+    @classmethod
     def perform_mutate(cls, form: LandlordInfoFormWithFormsets, info: ResolveInfo):
         if form.base_form.cleaned_data['use_recommended']:
-            print("TODO: Fill with recommended LL info.")
+            cls.__update_recommended_ll_info(info.context.user)
         else:
             ll_form = form.formsets['landlord'].forms[0]
             ld = ll_form.save(commit=False)
-            print(f"TODO: Save manually-provided LL info: {repr(ld)} {ld.user}.")
+
+            # TODO: This is copy/pasted from loc.schema.LandlordDetailsV2, make it DRY.
+            ld.address = '\n'.join(ld.address_lines_for_mailing)
+            ld.is_looked_up = False
+            ld.save()
+
             if form.base_form.cleaned_data['use_mgmt_co']:
                 mgmt_co_form = form.formsets['mgmt_co'].forms[0]
-                mc = mgmt_co_form.save(commit=False)
-                print(f"TODO: Save manually-provided mgmt co info: {repr(mc)} {mc.user}")
+                mgmt_co_form.save()
+            else:
+                user = info.context.user
+                if hasattr(user, 'management_company_details'):
+                    mc = user.management_company_details
+                    mc.name = ''
+                    mc.primary_line = ''
+                    mc.city = ''
+                    mc.state = ''
+                    mc.zip_code = ''
+                    mc.save()
+
         return cls.mutation_success()
 
 
@@ -455,6 +500,30 @@ def make_hpa_upload_status_field(kind: str):
     return field
 
 
+class ManagementCompanyDetailsType(DjangoObjectType):
+    class Meta:
+        model = models.ManagementCompanyDetails
+        only_fields = (
+            'name',
+            'primary_line',
+            'city',
+            'state',
+            'zip_code',
+        )
+
+    # TODO: The following 'state' field is duplicated from the
+    # `LandlordDetailsType` class in loc.schema, it'd be nice
+    # to make more DRY.
+
+    # If we specify 'state' as a model field, graphene-django will turn
+    # it into an enum where the empty string value is an invalid choice,
+    # so instead we'll just coerce it to a string.
+    state = graphene.String(required=True)
+
+    def resolve_state(self, context: ResolveInfo) -> str:
+        return self.state
+
+
 @schema_registry.register_session_info
 class HPActionSessionInfo:
     fee_waiver = graphene.Field(
@@ -471,6 +540,14 @@ class HPActionSessionInfo:
         HarassmentDetailsType,
         resolver=create_model_for_user_resolver(models.HarassmentDetails)
     )
+
+    management_company_details = graphene.Field(ManagementCompanyDetailsType)
+
+    def resolve_management_company_details(self, info: ResolveInfo):
+        user = info.context.user
+        if hasattr(user, 'management_company_details'):
+            return user.management_company_details
+        return None
 
     latest_hp_action_pdf_url = make_latest_hpa_pdf_field(HP_ACTION_CHOICES.NORMAL)
     hp_action_upload_status = make_hpa_upload_status_field(HP_ACTION_CHOICES.NORMAL)

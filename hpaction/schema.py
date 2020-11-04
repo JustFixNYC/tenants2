@@ -27,7 +27,7 @@ import loc.forms
 from loc.models import LandlordDetails
 from .models import (
     HPUploadStatus, COMMON_DATA, HP_ACTION_CHOICES, HPActionDocuments,
-    DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES)
+    DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES, ManagementCompanyDetails)
 import docusign.core
 from . import models, forms, lhiapi, email_packet, docusign as hpadocusign
 from .hpactionvars import HPActionVariables
@@ -145,6 +145,8 @@ class LandlordInfoFormWithFormsets(FormWithFormsets):
         names: List[str] = []
         if not self.base_form.cleaned_data.get('use_recommended'):
             names.append('landlord')
+            if self.base_form.cleaned_data.get('use_mgmt_co'):
+                names.append('mgmt_co')
         return names
 
 
@@ -157,6 +159,16 @@ class HpaLandlordInfo(ManyToOneUserModelFormMutation):
                 JustfixUser,
                 LandlordDetails,
                 loc.forms.LandlordDetailsFormV2,
+                can_delete=False,
+                min_num=1,
+                max_num=1,
+                validate_min=True,
+                validate_max=True,
+            ),
+            'mgmt_co': inlineformset_factory(
+                JustfixUser,
+                ManagementCompanyDetails,
+                forms.ManagementCompanyForm,
                 can_delete=False,
                 min_num=1,
                 max_num=1,
@@ -188,10 +200,13 @@ class HpaLandlordInfo(ManyToOneUserModelFormMutation):
         if form.base_form.cleaned_data['use_recommended']:
             print("TODO: Fill with recommended LL info.")
         else:
-            formset = form.formsets['landlord']
-            ll_form = formset.forms[0]
+            ll_form = form.formsets['landlord'].forms[0]
             ld = ll_form.save(commit=False)
             print(f"TODO: Save manually-provided LL info: {repr(ld)} {ld.user}.")
+            if form.base_form.cleaned_data['use_mgmt_co']:
+                mgmt_co_form = form.formsets['mgmt_co'].forms[0]
+                mc = mgmt_co_form.save(commit=False)
+                print(f"TODO: Save manually-provided mgmt co info: {repr(mc)} {mc.user}")
         return cls.mutation_success()
 
 

@@ -254,6 +254,23 @@ class BeginDocusignForm(forms.Form):
     )])
 
 
+class ManagementCompanyForm(forms.ModelForm):
+    class Meta:
+        model = models.ManagementCompanyDetails
+        fields = (
+            'name',
+            'primary_line',
+            'city',
+            'state',
+            'zip_code',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in ['name', 'primary_line', 'city', 'state', 'zip_code']:
+            self.fields[field].required = True
+
+
 class LandlordExtraInfoForm(forms.Form):
     use_recommended = forms.BooleanField(required=False)
 

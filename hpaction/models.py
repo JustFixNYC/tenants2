@@ -274,7 +274,7 @@ class ManagementCompanyDetails(MailingAddress):
     )
 
     name = models.CharField(
-        blank=True, max_length=100, help_text="The management company's name.")
+        blank=True, max_length=MAX_LOB_NAME_LEN, help_text="The management company's name.")
 
 
 class PriorCase(models.Model):

@@ -1,7 +1,6 @@
 from typing import Optional, Dict, List
 from collections import defaultdict
 from django import forms
-from django.forms.models import fields_for_model
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
@@ -9,8 +8,6 @@ from project import common_data
 from project.forms import YesNoRadiosField, ensure_at_least_one_is_true
 from issues.models import ISSUE_CHOICES, get_issue_area
 from onboarding.models import OnboardingInfo
-from loc.models import LandlordDetails
-from loc.lob_api import MAX_NAME_LEN
 from . import models
 
 

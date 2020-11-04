@@ -82,7 +82,7 @@ class LandlordDetails(MailingAddress):
         help_text="The user whose landlord details this is for.")
 
     name = models.CharField(
-        max_length=100, help_text="The landlord's name.")
+        blank=True, max_length=100, help_text="The landlord's name.")
 
     address = models.CharField(
         blank=True,

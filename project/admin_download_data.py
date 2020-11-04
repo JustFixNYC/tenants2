@@ -12,12 +12,9 @@ from django.conf import settings
 from django.template.response import TemplateResponse
 from django.views.decorators.gzip import gzip_page
 
-from users.models import CHANGE_USER_PERMISSION
+from users.models import JustfixUser
 from project.util.streaming_csv import generate_csv_rows, streaming_csv_response
 from project.util.streaming_json import generate_json_rows, streaming_json_response
-from issues.issuestats import execute_issue_stats_query
-from project.userstats import execute_user_stats_query
-from hpaction.ehpa_filings import execute_ehpa_filings_query
 
 
 logger = logging.getLogger(__name__)
@@ -38,7 +35,7 @@ class DataDownload(NamedTuple):
     slug: str
     html_desc: str
     perms: List[str]
-    execute_query: Callable[[DBCursor], None]
+    execute_query: Callable[[DBCursor, JustfixUser], None]
 
     def _get_download_url(self, fmt: str) -> DownloadUrl:
         return DownloadUrl(fmt, reverse('admin:download-data', kwargs={
@@ -55,67 +52,36 @@ class DataDownload(NamedTuple):
         ]
 
     @contextmanager
-    def _get_cursor_and_execute_query(self):
+    def _get_cursor_and_execute_query(self, user: JustfixUser):
         with connection.cursor() as cursor:
-            self.execute_query(cursor)
+            self.execute_query(cursor, user)
             yield cursor
 
-    def generate_csv_rows(self) -> Iterator[List[Any]]:
-        with self._get_cursor_and_execute_query() as cursor:
+    def generate_csv_rows(self, user: JustfixUser) -> Iterator[List[Any]]:
+        with self._get_cursor_and_execute_query(user) as cursor:
             yield from generate_csv_rows(cursor)
 
-    def generate_json_rows(self) -> Iterator[Dict[str, Any]]:
-        with self._get_cursor_and_execute_query() as cursor:
+    def generate_json_rows(self, user: JustfixUser) -> Iterator[Dict[str, Any]]:
+        with self._get_cursor_and_execute_query(user) as cursor:
             yield from generate_json_rows(cursor)
 
 
-DATA_DOWNLOADS = [
-    DataDownload(
-        name='User statistics',
-        slug='userstats',
-        html_desc="""
-            Anonymized statistics about each user,
-            including when they completed onboarding, sent a letter of complaint,
-            and so on.
-            """,
-        perms=[CHANGE_USER_PERMISSION],
-        execute_query=lambda cur: execute_user_stats_query(cur, include_pad_bbl=False)
-    ),
-    DataDownload(
-        name='User statistics with BBLs',
-        slug='userstats-with-bbls',
-        html_desc="""
-            This is like the user statistics data but also includes the BBL of each user,
-            <strong>which could potentially be used to personally identify them</strong>.
-            """,
-        perms=[CHANGE_USER_PERMISSION],
-        execute_query=lambda cur: execute_user_stats_query(cur, include_pad_bbl=True)
-    ),
-    DataDownload(
-        name='Issue statistics',
-        slug='issuestats',
-        html_desc="""Various statistics about the issue checklist.""",
-        perms=[CHANGE_USER_PERMISSION],
-        execute_query=execute_issue_stats_query
-    ),
-    DataDownload(
-        name='EHPA filings',
-        slug='ehpa-filings',
-        html_desc="""
-            Details about tenants who have filed Emergency HP Actions.  Intended
-            primarily for handing off to NYC HRA/OCJ.  This contains PII, so
-            please be careful with it.  <strong>Note:</strong> most of the
-            fields here represent <em>current</em> user data rather than
-            data as it existed when the user filed the EHPA.
-            """,
-        perms=[CHANGE_USER_PERMISSION],
-        execute_query=execute_ehpa_filings_query,
-    ),
-]
+def get_all_data_downloads() -> List[DataDownload]:
+    from issues import issuestats
+    from project import userstats
+    from hpaction import ehpa_filings
+    from partnerships import admin_data_downloads as partnership_stats
+
+    return [
+        *userstats.DATA_DOWNLOADS,
+        *issuestats.DATA_DOWNLOADS,
+        *ehpa_filings.DATA_DOWNLOADS,
+        *partnership_stats.DATA_DOWNLOADS,
+    ]
 
 
 def get_data_download(slug: str) -> Optional[DataDownload]:
-    for download in DATA_DOWNLOADS:
+    for download in get_all_data_downloads():
         if download.slug == slug:
             return download
     return None
@@ -131,7 +97,7 @@ def strict_get_data_download(slug: str) -> DataDownload:
 def get_available_datasets(user) -> List[DataDownload]:
     return [
         download
-        for download in DATA_DOWNLOADS
+        for download in get_all_data_downloads()
         if user.has_perms(download.perms)
     ]
 
@@ -152,11 +118,11 @@ def _get_debug_data_response(dataset: str, fmt: str, filename: str):
     return None
 
 
-def _get_streaming_response(download: DataDownload, fmt: str, filename: str):
+def _get_streaming_response(download: DataDownload, fmt: str, filename: str, user: JustfixUser):
     if fmt == 'csv':
-        return streaming_csv_response(download.generate_csv_rows(), filename)
+        return streaming_csv_response(download.generate_csv_rows(user), filename)
     elif fmt == 'json':
-        return streaming_json_response(download.generate_json_rows(), filename)
+        return streaming_json_response(download.generate_json_rows(user), filename)
     else:
         return HttpResponseNotFound("Invalid format")
 
@@ -172,7 +138,7 @@ def download_streaming_data(request, dataset: str, fmt: str):
     filename = f"{dataset}-{today}.{fmt}"
     debug_response = _get_debug_data_response(dataset, fmt, filename)
 
-    return debug_response or _get_streaming_response(download, fmt, filename)
+    return debug_response or _get_streaming_response(download, fmt, filename, request.user)
 
 
 class DownloadDataViews:

@@ -115,6 +115,16 @@ def test_onboarding_sets_locale(db, graphql_client, settings):
     assert user.locale == "es"
 
 
+def test_onboarding_sets_referral(db, graphql_client):
+    from partnerships.tests.factories import PartnerOrgFactory
+    from partnerships import referral
+
+    partner = PartnerOrgFactory()
+    referral.set_partner(graphql_client.request, partner)
+    execute_onboarding(graphql_client)
+    assert [u.phone_number for u in partner.users.all()] == ['5551234567']
+
+
 @pytest.mark.django_db
 def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     result = execute_onboarding(graphql_client)

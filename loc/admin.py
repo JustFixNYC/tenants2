@@ -84,6 +84,18 @@ class LandlordDetailsForm(forms.ModelForm):
 
 
 class LandlordDetailsInline(admin.StackedInline):
+    fieldsets = (
+        (None, {
+            'fields': LandlordDetailsForm._meta.fields,
+            'description': (
+                "<strong>Note:</strong> If you need to edit the name or mailing address, "
+                "you will probably also want to uncheck the 'is looked up' checkbox too. "
+                "If it is checked, the name and/or mailing address "
+                "may change at any time, depending on open data and usage context."
+            )
+        }),
+    )
+
     form = LandlordDetailsForm
     model = models.LandlordDetails
     verbose_name = "Landlord details"

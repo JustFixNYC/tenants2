@@ -77,7 +77,9 @@ const NorentLandlordMailingAddress = NorentNotSentLetterStep((props) => {
             <HiddenFormField {...ctx.fieldPropsFor("name")} />
             <TextualFormField
               {...ctx.fieldPropsFor("primaryLine")}
-              label={li18n._(t`Street address`)}
+              label={li18n._(
+                t`Street address (include unit/suite/floor/apt #)`
+              )}
             />
             <TextualFormField
               {...ctx.fieldPropsFor("city")}

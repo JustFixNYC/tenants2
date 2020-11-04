@@ -119,20 +119,21 @@ export const NorentLetterEmailToLandlord: React.FC<NorentLetterContentProps> = (
       )}
     />
     <letter.DearLandlord {...props} />
-    <Trans id="norent.emailToLandlordBody">
+    <Trans id="norent.emailToLandlordBody_v2">
       <p>
         Please see letter attached from <letter.FullName {...props} />.{" "}
       </p>
       <p>
         In order to document communications and avoid misunderstandings, please
-        correspond with <letter.FullName {...props} /> via mail or text rather
-        than a phone call or in-person visit.
+        correspond with <letter.FullName {...props} /> via email at{" "}
+        <span style={{ textDecoration: "underline" }}>{props.email}</span> or
+        mail rather than a phone call or in-person visit.
       </p>
     </Trans>
     <letter.Regards />
     <p>
       <Trans>
-        JustFix.nyc <br />
+        NoRent.org <br />
         sent on behalf of <letter.FullName {...props} />
       </Trans>
     </p>
@@ -295,21 +296,63 @@ const LetterBody: React.FC<NorentLetterContentProps> = (props) => {
   );
 };
 
+export function chunkifyPropsForBizarreCaliforniaLawyers<
+  T extends { state: string; paymentDates: string[] }
+>(props: T): T[] {
+  if (props.state !== "CA") {
+    return [props];
+  }
+
+  let beforeSeptember2020: T | null = null;
+  const september2020AndLater: T[] = [];
+
+  for (let dateString of props.paymentDates) {
+    const match = dateString.match(/^(\d\d\d\d)-(\d\d)/);
+    if (!match) {
+      throw new Error(`Could not parse date: ${dateString}`);
+    }
+    const year = parseInt(match[1]);
+    const month = parseInt(match[2]);
+    if (year <= 2020 && month < 9) {
+      if (!beforeSeptember2020) {
+        beforeSeptember2020 = {
+          ...props,
+          paymentDates: [],
+        };
+      }
+      beforeSeptember2020.paymentDates.push(dateString);
+    } else {
+      september2020AndLater.push({
+        ...props,
+        paymentDates: [dateString],
+      });
+    }
+  }
+
+  return beforeSeptember2020
+    ? [beforeSeptember2020, ...september2020AndLater]
+    : september2020AndLater;
+}
+
 export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
   props
 ) => {
   return (
     <>
       <LetterTitle {...props} />
-      <letter.TodaysDate {...props} />
-      <letter.Addresses {...props} />
-      <letter.DearLandlord {...props} />
-      <LetterBody {...props} />
-      <letter.Signed>
-        <br />
-        <br />
-        <letter.FullName {...props} />
-      </letter.Signed>
+      {chunkifyPropsForBizarreCaliforniaLawyers(props).map((props, i) => (
+        <div key={i} className="jf-page-break-after">
+          <letter.TodaysDate {...props} />
+          <letter.Addresses {...props} />
+          <letter.DearLandlord {...props} />
+          <LetterBody {...props} />
+          <letter.Signed>
+            <br />
+            <br />
+            <letter.FullName {...props} />
+          </letter.Signed>
+        </div>
+      ))}
     </>
   );
 };

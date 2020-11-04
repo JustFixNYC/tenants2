@@ -13,7 +13,8 @@ from hpaction.build_hpactionvars import (
     fill_prior_cases, fill_prior_repairs_and_harassment_mcs,
     fill_landlord_info, reduce_number_of_lines)
 from .factories import (
-    TenantChildFactory, HPActionDetailsFactory, HarassmentDetailsFactory, PriorCaseFactory)
+    TenantChildFactory, HPActionDetailsFactory, HarassmentDetailsFactory, PriorCaseFactory,
+    ManagementCompanyDetailsFactory)
 import hpaction.hpactionvars as hp
 
 
@@ -145,11 +146,11 @@ def test_user_to_hpactionvars_populates_med_ll_info_from_nycdb(db, nycdb, use_bi
     med = nycdb.load_hpd_registration('medium-landlord.json')
     oinfo = OnboardingInfoFactory(**onboarding_info_pad_kwarg(med, use_bin))
     v = user_to_hpactionvars(oinfo.user, NORMAL)
-    assert v.landlord_entity_name_te == "LANDLORDO CALRISSIAN"
+    assert v.landlord_entity_name_te == "ULTRA DEVELOPERS, LLC"
     assert v.landlord_entity_or_individual_mc == hp.LandlordEntityOrIndividualMC.COMPANY
-    assert v.landlord_address_street_te == "9 BEAN CENTER DRIVE #40"
+    assert v.landlord_address_street_te == "3 ULTRA STREET"
     llstate = v.landlord_address_state_mc
-    assert llstate and llstate.value == "NJ"
+    assert llstate and llstate.value == "NY"
     assert v.management_company_name_te == "FUNKY APARTMENT MANAGEMENT"
     assert v.management_company_address_street_te == "900 EAST 25TH STREET #2"
     v.to_answer_set()
@@ -361,6 +362,27 @@ class TestFillLandlordInfo:
             llstate = v.landlord_address_state_mc
             assert llstate and llstate.value == "NY"
 
+    def test_it_only_fills_mgmt_co_info_from_model_if_ll_details_are_not_looked_up(self, db):
+        ld = LandlordDetailsV2Factory(is_looked_up=True)
+        ManagementCompanyDetailsFactory(user=ld.user)
+        v = hp.HPActionVariables()
+        assert fill_landlord_info(v, ld.user) is False
+        assert v.management_company_name_te is None
+        assert v.management_company_to_be_sued_tf is None
+
+    def test_it_fills_mgmt_co_info_from_model(self, db):
+        ld = LandlordDetailsV2Factory(is_looked_up=False)
+        ManagementCompanyDetailsFactory(user=ld.user)
+        v = hp.HPActionVariables()
+        assert fill_landlord_info(v, ld.user) is True
+        assert v.management_company_name_te == "Parker-Holsman"
+        assert v.management_company_address_street_te == "5113 S. Harper Ave #2C"
+        assert v.management_company_address_city_te == "Chicago"
+        assert v.management_company_address_zip_te == "60615"
+        mcdstate = v.management_company_address_state_mc
+        assert mcdstate and mcdstate.value == "IL"
+        assert v.management_company_to_be_sued_tf is True
+
     def test_it_fills_from_user_landlord_details(self, db):
         ld = LandlordDetailsV2Factory(is_looked_up=False)
         v = hp.HPActionVariables()
@@ -371,3 +393,4 @@ class TestFillLandlordInfo:
         llstate = v.landlord_address_state_mc
         assert llstate and llstate.value == "NY"
         assert v.landlord_address_zip_te == "12345"
+        assert v.management_company_to_be_sued_tf is None

@@ -34,6 +34,7 @@ import {
   createAptNumberFormInput,
   AptNumberFormFields,
 } from "../forms/apt-number-form-fields";
+import { OutboundLink } from "../analytics/google-analytics";
 
 function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
   return (label, labelProps) => (
@@ -59,6 +60,28 @@ function Step1ConfirmAddressModal(props: { toStep3: string }): JSX.Element {
     useContext(AppContext).session.onboardingStep1 || BlankOnboardingStep1Input;
   return <ConfirmAddressModal nextStep={props.toStep3} {...addrInfo} />;
 }
+
+const ReferralInfo: React.FC<{}> = () => {
+  const { session } = useContext(AppContext);
+
+  if (session.activePartnerReferral) {
+    const { name, website } = session.activePartnerReferral;
+    return (
+      <>
+        <br />
+        <p className="is-size-7">
+          <strong>Note:</strong> your information will also be shared with our
+          partner organization{" "}
+          <OutboundLink href={website}>{name}</OutboundLink>. If you don't want
+          this, you can click the "Cancel" button above and start this process
+          over.
+        </p>
+      </>
+    );
+  }
+
+  return null;
+};
 
 type OnboardingStep1Props = {
   disableProgressiveEnhancement?: boolean;
@@ -137,6 +160,7 @@ class OnboardingStep1WithoutContexts extends React.Component<
         </p>
         <br />
         {this.renderFormButtons(ctx.isLoading)}
+        <ReferralInfo />
       </React.Fragment>
     );
   }

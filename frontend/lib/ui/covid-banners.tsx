@@ -12,8 +12,10 @@ import { CovidMoratoriumBanner } from "@justfixnyc/react-common";
 import { li18n } from "../i18n-lingui";
 
 export const MORATORIUM_FAQ_URL: SupportedLocaleMap<string> = {
-  en: "https://www.righttocounselnyc.org/ny_eviction_moratorium_faq",
-  es: "https://www.righttocounselnyc.org/moratoria_de_desalojo",
+  en:
+    "https://d3n8a8pro7vhmx.cloudfront.net/righttocounselnyc/pages/191/attachments/original/1602806977/Eviction_Moratorium__New_Evictions__and_Pre_Covid_Lawsuits__FAQ_Last_Updated_10_9.pdf?1602806977",
+  es:
+    "https://docs.google.com/document/d/1uzT1lduZAzNLpy_WxSOU1oSOTOPs0YrWekzLd8o6tAs/edit",
 };
 
 const getRoutesWithMoratoriumBanner = () => [

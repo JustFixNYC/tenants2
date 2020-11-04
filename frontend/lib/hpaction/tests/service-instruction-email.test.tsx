@@ -5,6 +5,7 @@ import {
   ExampleServiceInstructionsProps,
   getServiceInstructionsPropsFromSession,
   ExampleServiceInstructionsEmailForm,
+  ServiceInstructionsWebpage,
 } from "../service-instructions-email";
 import { newSb } from "../../tests/session-builder";
 import { AppTesterPal } from "../../tests/app-tester-pal";
@@ -22,8 +23,12 @@ describe("ServiceInstructionsContent", () => {
 
 test("<ExampleServiceInstructionsEmailForm> does not explode", () => {
   const pal = new AppTesterPal(<ExampleServiceInstructionsEmailForm />);
-  const a = pal.rr.getByText(/html email/i);
-  expect(a.getAttribute("href")).toMatch(/MANHATTAN/);
+  pal.rr.getByText(/html email/i);
+});
+
+test("<ServiceInstructionsWebpage> does not explode", () => {
+  const pal = new AppTesterPal(<ServiceInstructionsWebpage />);
+  pal.rr.getByText(/how to serve your hp/i);
 });
 
 describe("getServiceInstructionsPropsFromSession()", () => {

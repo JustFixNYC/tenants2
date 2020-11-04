@@ -2171,6 +2171,18 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
+              "name": "activePartnerReferral",
+              "type": {
+                "kind": "OBJECT",
+                "name": "PartnerOrgType",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
               "name": "onboardingStep1",
               "type": {
                 "kind": "OBJECT",
@@ -2862,6 +2874,65 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "RhFormInfo",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The name of the partner organization.",
+              "isDeprecated": false,
+              "name": "name",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The short identifier for the partner organization.",
+              "isDeprecated": false,
+              "name": "slug",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The primary website of the partner organization.",
+              "isDeprecated": false,
+              "name": "website",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "PartnerOrgType",
           "possibleTypes": null
         },
         {

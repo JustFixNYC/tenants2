@@ -121,6 +121,8 @@ sessionFields = ["hpActionDetails", "issues", "customIssuesV2"]
 [mutations."feeWaiver.*"]
 sessionFields = ["feeWaiver"]
 
+[mutations.hpaLandlordInfo]
+
 [mutations."hpAction.*"]
 sessionFields = ["hpActionDetails"]
 

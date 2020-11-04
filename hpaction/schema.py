@@ -19,10 +19,12 @@ from project.util.model_form_util import (
     create_model_for_user_resolver,
     create_models_for_user_resolver
 )
-from project.util.django_graphql_forms import DjangoFormMutation
+from project.util.django_graphql_forms import DjangoFormMutation, FormWithFormsets
 from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES
 from issues.schema import save_custom_issues_formset_with_area
 import issues.forms
+import loc.forms
+from loc.models import LandlordDetails
 from .models import (
     HPUploadStatus, COMMON_DATA, HP_ACTION_CHOICES, HPActionDocuments,
     DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES)
@@ -136,6 +138,61 @@ def sync_one_value(value: str, is_value_present: bool, values: List[str]) -> Lis
     if not is_value_present and value in values:
         values.remove(value)
     return values
+
+
+class LandlordInfoFormWithFormsets(FormWithFormsets):
+    def get_formset_names_to_clean(self) -> List[str]:
+        names: List[str] = []
+        if not self.base_form.cleaned_data.get('use_recommended'):
+            names.append('landlord')
+        return names
+
+
+@schema_registry.register_mutation
+class HpaLandlordInfo(ManyToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.LandlordExtraInfoForm
+        formset_classes = {
+            'landlord': inlineformset_factory(
+                JustfixUser,
+                LandlordDetails,
+                loc.forms.LandlordDetailsFormV2,
+                can_delete=False,
+                min_num=1,
+                max_num=1,
+                validate_min=True,
+                validate_max=True,
+            ),
+        }
+
+    @classmethod
+    def get_form_with_formsets(cls, form, formsets):
+        return LandlordInfoFormWithFormsets(form, formsets)
+
+    @classmethod
+    def get_formset_kwargs(cls, root, info: ResolveInfo, formset_name, input, all_input):
+        from django.db.models import OneToOneField
+
+        formset = cls._meta.formset_classes[formset_name]
+        if input and 'id' not in input[0] and isinstance(formset.fk, OneToOneField):
+            instance = formset.fk.model.objects\
+                .filter(**{formset.fk.name: info.context.user})\
+                .first()
+            if instance:
+                input[0]['id'] = instance.pk
+
+        return super().get_formset_kwargs(root, info, formset_name, input, all_input)
+
+    @classmethod
+    def perform_mutate(cls, form: LandlordInfoFormWithFormsets, info: ResolveInfo):
+        if form.base_form.cleaned_data['use_recommended']:
+            print("TODO: Fill with recommended LL info.")
+        else:
+            formset = form.formsets['landlord']
+            ll_form = formset.forms[0]
+            ld = ll_form.save(commit=False)
+            print(f"TODO: Save manually-provided LL info: {repr(ld)} {ld.user}.")
+        return cls.mutation_success()
 
 
 @schema_registry.register_mutation

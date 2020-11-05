@@ -6,18 +6,22 @@ import {
 } from "../progress/progress-step-route";
 import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
-import {
-  LandlordDetailsV2Mutation,
-  BlankLandlordDetailsV2Input,
-} from "../queries/LandlordDetailsV2Mutation";
 import { assertNotNull, exactSubsetOrDefault } from "../util/util";
-import { CheckboxFormField, TextualFormField } from "../forms/form-fields";
+import {
+  CheckboxFormField,
+  HiddenFormField,
+  TextualFormField,
+} from "../forms/form-fields";
 import { ProgressButtons, BackButton } from "../ui/buttons";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { USStateFormField } from "../forms/mailing-address-fields";
 import { isUserNycha } from "../util/nycha";
 import { QueryLoader } from "../networking/query-loader";
-import { RecommendedHpLandlord } from "../queries/RecommendedHpLandlord";
+import {
+  RecommendedHpLandlord,
+  RecommendedHpLandlord_recommendedHpLandlord,
+  RecommendedHpLandlord_recommendedHpManagementCompany,
+} from "../queries/RecommendedHpLandlord";
 import { CustomerSupportLink } from "../ui/customer-support-link";
 import {
   BlankLandlordLandlordDetailsFormFormSetInput,
@@ -25,6 +29,7 @@ import {
   HpaLandlordInfoMutation,
 } from "../queries/HpaLandlordInfoMutation";
 import { Formset } from "../forms/formset";
+import { getQuerystringVar } from "../util/querystring";
 
 const Address: React.FC<{
   primaryLine: string;
@@ -42,6 +47,8 @@ const Address: React.FC<{
 const ReadOnlyLandlordDetails: React.FC<
   MiddleProgressStepProps & {
     isUserNycha: boolean;
+    landlord: RecommendedHpLandlord_recommendedHpLandlord;
+    mgmt: RecommendedHpLandlord_recommendedHpManagementCompany | null;
   }
 > = (props) => (
   <>
@@ -115,7 +122,7 @@ const ReadOnlyLandlordDetails: React.FC<
       <p>
         We'll use these details to automatically fill out your HP Action forms.
         If you feel strongly that this information is incorrect, however, you
-        can <Link to="#">provide your own details</Link>.
+        can <Link to="?edit=on">provide your own details</Link>.
       </p>
     )}
     <ProgressButtons>
@@ -127,146 +134,152 @@ const ReadOnlyLandlordDetails: React.FC<
   </>
 );
 
-const EditableLandlordDetails: React.FC<MiddleProgressStepProps> = (props) => {
-  return (
-    <>
-      <p>Please provide us with information on your landlord.</p>
-      <SessionUpdatingFormSubmitter
-        mutation={LandlordDetailsV2Mutation}
-        initialState={(session) =>
-          exactSubsetOrDefault(
-            session.landlordDetails,
-            BlankLandlordDetailsV2Input
-          )
-        }
-        onSuccessRedirect={props.nextStep}
-      >
-        {(ctx) => (
-          <>
-            <TextualFormField
-              {...ctx.fieldPropsFor("name")}
-              label="Landlord name"
-            />
-            <TextualFormField
-              {...ctx.fieldPropsFor("primaryLine")}
-              label="Street address"
-            />
-            <TextualFormField {...ctx.fieldPropsFor("city")} label="City" />
-            <USStateFormField {...ctx.fieldPropsFor("state")} />
-            <TextualFormField
-              {...ctx.fieldPropsFor("zipCode")}
-              label="Zip code"
-            />
-            <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
-          </>
-        )}
-      </SessionUpdatingFormSubmitter>
-    </>
-  );
-};
-
 export const HPActionYourLandlord = MiddleProgressStep((props) => {
-  return (
-    <Page title="Your landlord" withHeading className="content">
-      <SessionUpdatingFormSubmitter
-        mutation={HpaLandlordInfoMutation}
-        initialState={(session) => ({
-          useRecommended: session.landlordDetails?.isLookedUp || false,
-          useMgmtCo: !!session.managementCompanyDetails?.name,
-          landlord: [
-            exactSubsetOrDefault(
-              session.landlordDetails,
-              BlankLandlordLandlordDetailsFormFormSetInput
-            ),
-          ],
-          mgmtCo: [
-            exactSubsetOrDefault(
-              session.managementCompanyDetails,
-              BlankMgmtCoManagementCompanyDetailsFormFormSetInput
-            ),
-          ],
-        })}
-        onSuccessRedirect={props.nextStep}
-      >
-        {(ctx) => (
-          <>
-            <CheckboxFormField {...ctx.fieldPropsFor("useRecommended")}>
-              {" "}
-              Use recommended landlord and/or management company
-            </CheckboxFormField>
-            <Formset {...ctx.formsetPropsFor("landlord")}>
-              {(formsetCtx) => (
-                <>
-                  <TextualFormField
-                    {...formsetCtx.fieldPropsFor("name")}
-                    label="Landlord name"
-                  />
-                  <TextualFormField
-                    {...formsetCtx.fieldPropsFor("primaryLine")}
-                    label="Landlord street address"
-                  />
-                  <TextualFormField
-                    {...formsetCtx.fieldPropsFor("city")}
-                    label="Landlord city"
-                  />
-                  <USStateFormField {...formsetCtx.fieldPropsFor("state")} />
-                  <TextualFormField
-                    {...formsetCtx.fieldPropsFor("zipCode")}
-                    label="Landlord zip code"
-                  />
-                </>
-              )}
-            </Formset>
-            <CheckboxFormField {...ctx.fieldPropsFor("useMgmtCo")}>
-              {" "}
-              I have a management company
-            </CheckboxFormField>
-            <Formset {...ctx.formsetPropsFor("mgmtCo")}>
-              {(formsetCtx) => (
-                <>
-                  <TextualFormField
-                    {...formsetCtx.fieldPropsFor("name")}
-                    label="Management company name"
-                  />
-                  <TextualFormField
-                    {...formsetCtx.fieldPropsFor("primaryLine")}
-                    label="Management company street address"
-                  />
-                  <TextualFormField
-                    {...formsetCtx.fieldPropsFor("city")}
-                    label="Management company city"
-                  />
-                  <USStateFormField {...formsetCtx.fieldPropsFor("state")} />
-                  <TextualFormField
-                    {...formsetCtx.fieldPropsFor("zipCode")}
-                    label="Management company zip code"
-                  />
-                </>
-              )}
-            </Formset>
-            <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
-          </>
-        )}
-      </SessionUpdatingFormSubmitter>
-    </Page>
-  );
-});
-
-export const Old_HPActionYourLandlord = MiddleProgressStep((props) => {
   const { session } = useContext(AppContext);
-  const details = session.landlordDetails;
+  const loc = useLocation();
+  const llDetails = session.landlordDetails;
+  const isEditable = !!getQuerystringVar(loc.search, "edit");
 
   return (
     <Page title="Your landlord" withHeading className="content">
-      {isUserNycha(session) ||
-      (details && details.isLookedUp && details.name && details.address) ? (
-        <ReadOnlyLandlordDetails
-          {...props}
-          isUserNycha={isUserNycha(session)}
-        />
-      ) : (
-        <EditableLandlordDetails {...props} />
-      )}
+      <QueryLoader
+        query={RecommendedHpLandlord}
+        input={null}
+        loading={(props) => {
+          return props.error ? (
+            <p>Oops, an error occurred! Try reloading the page.</p>
+          ) : (
+            <section className="section" aria-hidden="true">
+              <div className="jf-loading-overlay">
+                <div className="jf-loader" />
+              </div>
+            </section>
+          );
+        }}
+        render={({
+          recommendedHpLandlord: landlord,
+          recommendedHpManagementCompany: mgmt,
+        }) => {
+          const useRecommended =
+            isUserNycha(session) || (llDetails && llDetails.isLookedUp);
+          if (landlord && useRecommended && !isEditable) {
+            return (
+              <ReadOnlyLandlordDetails
+                {...props}
+                landlord={landlord}
+                mgmt={mgmt}
+                isUserNycha={isUserNycha(session)}
+              />
+            );
+          }
+
+          return (
+            <SessionUpdatingFormSubmitter
+              mutation={HpaLandlordInfoMutation}
+              initialState={(session) => ({
+                useRecommended: false,
+                useMgmtCo: !!session.managementCompanyDetails?.name,
+                landlord: [
+                  exactSubsetOrDefault(
+                    session.landlordDetails,
+                    BlankLandlordLandlordDetailsFormFormSetInput
+                  ),
+                ],
+                mgmtCo: [
+                  exactSubsetOrDefault(
+                    session.managementCompanyDetails,
+                    BlankMgmtCoManagementCompanyDetailsFormFormSetInput
+                  ),
+                ],
+              })}
+              onSuccessRedirect={props.nextStep}
+            >
+              {(ctx) => (
+                <>
+                  {landlord ? (
+                    <>
+                      <CheckboxFormField
+                        {...ctx.fieldPropsFor("useRecommended")}
+                      >
+                        {" "}
+                        Use recommended landlord
+                        <dl>
+                          <dt>Landlord name</dt>
+                          <dd>{landlord.name}</dd>
+                          <dt>Landlord address</dt>
+                          <dd>
+                            <Address {...landlord} />
+                          </dd>
+                        </dl>
+                      </CheckboxFormField>
+                    </>
+                  ) : (
+                    <HiddenFormField {...ctx.fieldPropsFor("useRecommended")} />
+                  )}
+                  <Formset {...ctx.formsetPropsFor("landlord")}>
+                    {(formsetCtx) => (
+                      <>
+                        <TextualFormField
+                          {...formsetCtx.fieldPropsFor("name")}
+                          label="Landlord name"
+                        />
+                        <TextualFormField
+                          {...formsetCtx.fieldPropsFor("primaryLine")}
+                          label="Landlord street address"
+                        />
+                        <TextualFormField
+                          {...formsetCtx.fieldPropsFor("city")}
+                          label="Landlord city"
+                        />
+                        <USStateFormField
+                          {...formsetCtx.fieldPropsFor("state")}
+                        />
+                        <TextualFormField
+                          {...formsetCtx.fieldPropsFor("zipCode")}
+                          label="Landlord zip code"
+                        />
+                      </>
+                    )}
+                  </Formset>
+                  <CheckboxFormField {...ctx.fieldPropsFor("useMgmtCo")}>
+                    {" "}
+                    I have a management company
+                  </CheckboxFormField>
+                  <Formset {...ctx.formsetPropsFor("mgmtCo")}>
+                    {(formsetCtx) => (
+                      <>
+                        <TextualFormField
+                          {...formsetCtx.fieldPropsFor("name")}
+                          label="Management company name"
+                        />
+                        <TextualFormField
+                          {...formsetCtx.fieldPropsFor("primaryLine")}
+                          label="Management company street address"
+                        />
+                        <TextualFormField
+                          {...formsetCtx.fieldPropsFor("city")}
+                          label="Management company city"
+                        />
+                        <USStateFormField
+                          {...formsetCtx.fieldPropsFor("state")}
+                        />
+                        <TextualFormField
+                          {...formsetCtx.fieldPropsFor("zipCode")}
+                          label="Management company zip code"
+                        />
+                      </>
+                    )}
+                  </Formset>
+                  <ProgressButtons
+                    back={props.prevStep}
+                    isLoading={ctx.isLoading}
+                  />
+                </>
+              )}
+            </SessionUpdatingFormSubmitter>
+          );
+        }}
+      />
     </Page>
   );
 });

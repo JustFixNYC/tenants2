@@ -30,6 +30,7 @@ import {
 } from "../queries/HpaLandlordInfoMutation";
 import { Formset } from "../forms/formset";
 import { getQuerystringVar } from "../util/querystring";
+import { useProgressiveEnhancement } from "../ui/progressive-enhancement";
 
 const Address: React.FC<{
   primaryLine: string;
@@ -139,6 +140,7 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
   const loc = useLocation();
   const llDetails = session.landlordDetails;
   const isEditable = !!getQuerystringVar(loc.search, "edit");
+  const isEnhanced = useProgressiveEnhancement();
 
   return (
     <Page title="Your landlord" withHeading className="content">
@@ -216,7 +218,7 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
                   ) : (
                     <HiddenFormField {...ctx.fieldPropsFor("useRecommended")} />
                   )}
-                  <Formset {...ctx.formsetPropsFor("landlord")}>
+                  <Formset maxNum={1} {...ctx.formsetPropsFor("landlord")}>
                     {(formsetCtx) => (
                       <>
                         <TextualFormField
@@ -245,9 +247,15 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
                     {" "}
                     I have a management company
                   </CheckboxFormField>
-                  <Formset {...ctx.formsetPropsFor("mgmtCo")}>
+                  <Formset maxNum={1} {...ctx.formsetPropsFor("mgmtCo")}>
                     {(formsetCtx) => (
-                      <>
+                      <div
+                        className={
+                          ctx.fieldPropsFor("useMgmtCo").value || !isEnhanced
+                            ? ""
+                            : "is-hidden"
+                        }
+                      >
                         <TextualFormField
                           {...formsetCtx.fieldPropsFor("name")}
                           label="Management company name"
@@ -267,7 +275,7 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
                           {...formsetCtx.fieldPropsFor("zipCode")}
                           label="Management company zip code"
                         />
-                      </>
+                      </div>
                     )}
                   </Formset>
                   <ProgressButtons

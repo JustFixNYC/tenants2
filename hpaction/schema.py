@@ -400,6 +400,22 @@ class HPActionSessionInfo:
         resolver=create_model_for_user_resolver(models.HarassmentDetails)
     )
 
+    management_company_details = graphene.Field(
+        GraphQLMailingAddress,
+        description=(
+            "Manually-specified details about the user's management company. "
+            "Will only be non-blank if the user provided these details "
+            "themselves (i.e., did not elect to use our recommended details "
+            "from open data)."
+        )
+    )
+
+    def resolve_management_company_details(self, info: ResolveInfo):
+        user = info.context.user
+        if hasattr(user, 'management_company_details'):
+            return user.management_company_details
+        return None
+
     latest_hp_action_pdf_url = make_latest_hpa_pdf_field(HP_ACTION_CHOICES.NORMAL)
     hp_action_upload_status = make_hpa_upload_status_field(HP_ACTION_CHOICES.NORMAL)
 

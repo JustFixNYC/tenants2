@@ -2457,6 +2457,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "Manually-specified details about the user's management company. Will only be non-blank if the user provided these details themselves (i.e., did not elect to use our recommended details from open data).",
+              "isDeprecated": false,
+              "name": "managementCompanyDetails",
+              "type": {
+                "kind": "OBJECT",
+                "name": "GraphQLMailingAddress",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The URL of the most recently-generated Normal HP Action PDF for the current user.",
               "isDeprecated": false,
               "name": "latestHpActionPdfUrl",

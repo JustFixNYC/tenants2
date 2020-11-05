@@ -92,8 +92,9 @@ const ReadOnlyLandlordDetails: React.FC<{
     ) : (
       <p>
         We'll use these details to automatically fill out your HP Action forms.
-        If you feel strongly that this information is incorrect, however, you
-        can <Link to={`?force=${FORCE_MANUAL}`}>provide your own details</Link>.
+        If you feel strongly that this information is incorrect or incomplete,
+        however, you can{" "}
+        <Link to={`?force=${FORCE_MANUAL}`}>provide your own details</Link>.
       </p>
     )}
   </>

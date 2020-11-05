@@ -183,6 +183,9 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
             }
           }
 
+          const backHref =
+            forceRecommended || forceManual ? loc.pathname : props.prevStep;
+
           return (
             <SessionUpdatingFormSubmitter
               key={useRecommended.toString()}
@@ -277,10 +280,7 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
                       </div>
                     )}
                   </Formset>
-                  <ProgressButtons
-                    back={props.prevStep}
-                    isLoading={ctx.isLoading}
-                  />
+                  <ProgressButtons back={backHref} isLoading={ctx.isLoading} />
                 </>
               )}
             </SessionUpdatingFormSubmitter>

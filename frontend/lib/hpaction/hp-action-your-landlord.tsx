@@ -1,9 +1,6 @@
 import React, { useContext } from "react";
 import { AppContext } from "../app-context";
-import {
-  MiddleProgressStep,
-  MiddleProgressStepProps,
-} from "../progress/progress-step-route";
+import { MiddleProgressStep } from "../progress/progress-step-route";
 import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import { assertNotNull, exactSubsetOrDefault } from "../util/util";
@@ -12,7 +9,7 @@ import {
   HiddenFormField,
   TextualFormField,
 } from "../forms/form-fields";
-import { ProgressButtons, BackButton } from "../ui/buttons";
+import { ProgressButtons } from "../ui/buttons";
 import { Link, useLocation } from "react-router-dom";
 import { USStateFormField } from "../forms/mailing-address-fields";
 import { isUserNycha } from "../util/nycha";
@@ -45,15 +42,13 @@ const Address: React.FC<{
   </>
 );
 
-const ReadOnlyLandlordDetails: React.FC<
-  MiddleProgressStepProps & {
-    isUserNycha: boolean;
-    landlord: RecommendedHpLandlord_recommendedHpLandlord;
-    mgmt: RecommendedHpLandlord_recommendedHpManagementCompany | null;
-  }
-> = (props) => (
+const ReadOnlyLandlordDetails: React.FC<{
+  isUserNycha: boolean;
+  landlord: RecommendedHpLandlord_recommendedHpLandlord;
+  mgmt: RecommendedHpLandlord_recommendedHpManagementCompany | null;
+}> = ({ isUserNycha, landlord, mgmt }) => (
   <>
-    {props.isUserNycha ? (
+    {isUserNycha ? (
       <p>
         Since you are in NYCHA housing, we will be using the following
         information to fill out your HP Action forms.
@@ -65,56 +60,31 @@ const ReadOnlyLandlordDetails: React.FC<
         different than where you send your rent checks.
       </p>
     )}
-    <QueryLoader
-      query={RecommendedHpLandlord}
-      input={null}
-      loading={(props) => {
-        return props.error ? (
-          <p>Oops, an error occurred! Try reloading the page.</p>
-        ) : (
-          <section className="section" aria-hidden="true">
-            <div className="jf-loading-overlay">
-              <div className="jf-loader" />
-            </div>
-          </section>
-        );
-      }}
-      render={({
-        recommendedHpLandlord: landlord,
-        recommendedHpManagementCompany: mgmt,
-      }) => {
-        landlord = assertNotNull(landlord);
-        return (
-          <>
-            <dl>
-              <dt>Landlord name</dt>
-              <dd>{landlord.name}</dd>
-              <dt>Landlord address</dt>
-              <dd>
-                <Address {...landlord} />
-              </dd>
-            </dl>
-            {mgmt && (
-              <>
-                <p>
-                  Additionally, your building's HPD registration contains
-                  details about your management company.
-                </p>
-                <dl>
-                  <dt>Management company name</dt>
-                  <dd>{mgmt.name}</dd>
-                  <dt>Management company address</dt>
-                  <dd>
-                    <Address {...mgmt} />
-                  </dd>
-                </dl>
-              </>
-            )}
-          </>
-        );
-      }}
-    />
-    {props.isUserNycha ? (
+    <dl>
+      <dt>Landlord name</dt>
+      <dd>{landlord.name}</dd>
+      <dt>Landlord address</dt>
+      <dd>
+        <Address {...landlord} />
+      </dd>
+    </dl>
+    {mgmt && (
+      <>
+        <p>
+          Additionally, your building's HPD registration contains details about
+          your management company.
+        </p>
+        <dl>
+          <dt>Management company name</dt>
+          <dd>{mgmt.name}</dd>
+          <dt>Management company address</dt>
+          <dd>
+            <Address {...mgmt} />
+          </dd>
+        </dl>
+      </>
+    )}
+    {isUserNycha ? (
       <p>
         If you feel strongly that this information is incorrect, please contact{" "}
         <CustomerSupportLink />.
@@ -123,23 +93,19 @@ const ReadOnlyLandlordDetails: React.FC<
       <p>
         We'll use these details to automatically fill out your HP Action forms.
         If you feel strongly that this information is incorrect, however, you
-        can <Link to="?edit=on">provide your own details</Link>.
+        can <Link to={`?force=${FORCE_MANUAL}`}>provide your own details</Link>.
       </p>
     )}
-    <ProgressButtons>
-      <BackButton to={props.prevStep} />
-      <Link to={props.nextStep} className="button is-primary is-medium">
-        Next
-      </Link>
-    </ProgressButtons>
   </>
 );
+
+const FORCE_MANUAL = "manual";
+const FORCE_RECOMMENDED = "rec";
 
 export const HPActionYourLandlord = MiddleProgressStep((props) => {
   const { session } = useContext(AppContext);
   const loc = useLocation();
   const llDetails = session.landlordDetails;
-  const isEditable = !!getQuerystringVar(loc.search, "edit");
   const isEnhanced = useProgressiveEnhancement();
 
   return (
@@ -162,24 +128,66 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
           recommendedHpLandlord: landlord,
           recommendedHpManagementCompany: mgmt,
         }) => {
-          const useRecommended =
-            isUserNycha(session) || (llDetails && llDetails.isLookedUp);
-          if (landlord && useRecommended && !isEditable) {
-            return (
-              <ReadOnlyLandlordDetails
-                {...props}
-                landlord={landlord}
-                mgmt={mgmt}
-                isUserNycha={isUserNycha(session)}
-              />
-            );
+          const isNycha = isUserNycha(session);
+          const forceQs = getQuerystringVar(loc.search, "force");
+          const forceManual = forceQs === FORCE_MANUAL && !isNycha;
+          const forceRecommended = forceQs === FORCE_RECOMMENDED;
+          const isLandlordAlreadyManuallySpecified = !!(
+            !llDetails?.isLookedUp &&
+            llDetails?.name &&
+            llDetails.address
+          );
+          let useRecommended: boolean;
+
+          if (landlord) {
+            if (isLandlordAlreadyManuallySpecified) {
+              if (forceRecommended) {
+                useRecommended = true;
+              } else {
+                useRecommended = false;
+              }
+            } else if (forceManual) {
+              useRecommended = false;
+            } else {
+              useRecommended = true;
+            }
+          } else {
+            useRecommended = false;
+          }
+
+          let intro = (
+            <p>Please provide us with information on your landlord.</p>
+          );
+
+          if (landlord) {
+            if (useRecommended) {
+              intro = (
+                <ReadOnlyLandlordDetails
+                  landlord={assertNotNull(landlord)}
+                  mgmt={mgmt}
+                  isUserNycha={isNycha}
+                />
+              );
+            } else {
+              intro = (
+                <p>
+                  You have chosen to ignore the landlord recommended by
+                  JustFix.nyc. Please provide your own details below, or{" "}
+                  <Link to={`?force=${FORCE_RECOMMENDED}`}>
+                    use the recommended landlord "{landlord.name}"
+                  </Link>
+                  .
+                </p>
+              );
+            }
           }
 
           return (
             <SessionUpdatingFormSubmitter
+              key={useRecommended.toString()}
               mutation={HpaLandlordInfoMutation}
               initialState={(session) => ({
-                useRecommended: false,
+                useRecommended,
                 useMgmtCo: !!session.managementCompanyDetails?.name,
                 landlord: [
                   exactSubsetOrDefault(
@@ -198,29 +206,11 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
             >
               {(ctx) => (
                 <>
-                  {landlord ? (
-                    <>
-                      <CheckboxFormField
-                        {...ctx.fieldPropsFor("useRecommended")}
-                      >
-                        {" "}
-                        Use recommended landlord
-                        <dl>
-                          <dt>Landlord name</dt>
-                          <dd>{landlord.name}</dd>
-                          <dt>Landlord address</dt>
-                          <dd>
-                            <Address {...landlord} />
-                          </dd>
-                        </dl>
-                      </CheckboxFormField>
-                    </>
-                  ) : (
-                    <HiddenFormField {...ctx.fieldPropsFor("useRecommended")} />
-                  )}
+                  {intro}
+                  <HiddenFormField {...ctx.fieldPropsFor("useRecommended")} />
                   <Formset maxNum={1} {...ctx.formsetPropsFor("landlord")}>
                     {(formsetCtx) => (
-                      <>
+                      <div className={useRecommended ? "is-hidden" : ""}>
                         <TextualFormField
                           {...formsetCtx.fieldPropsFor("name")}
                           label="Landlord name"
@@ -240,18 +230,26 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
                           {...formsetCtx.fieldPropsFor("zipCode")}
                           label="Landlord zip code"
                         />
-                      </>
+                      </div>
                     )}
                   </Formset>
-                  <CheckboxFormField {...ctx.fieldPropsFor("useMgmtCo")}>
-                    {" "}
-                    I have a management company
-                  </CheckboxFormField>
+                  {useRecommended ? (
+                    <HiddenFormField {...ctx.fieldPropsFor("useMgmtCo")} />
+                  ) : (
+                    <>
+                      <br />
+                      <CheckboxFormField {...ctx.fieldPropsFor("useMgmtCo")}>
+                        {" "}
+                        I have a management company
+                      </CheckboxFormField>
+                    </>
+                  )}
                   <Formset maxNum={1} {...ctx.formsetPropsFor("mgmtCo")}>
                     {(formsetCtx) => (
                       <div
                         className={
-                          ctx.fieldPropsFor("useMgmtCo").value || !isEnhanced
+                          !useRecommended &&
+                          (ctx.fieldPropsFor("useMgmtCo").value || !isEnhanced)
                             ? ""
                             : "is-hidden"
                         }

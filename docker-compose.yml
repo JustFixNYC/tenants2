@@ -6,7 +6,7 @@ services:
       service: base_app
     volumes:
       - .:/tenants2:delegated
-    command: python manage.py runserver 0.0.0.0:8000
+    command: yarn server:start 0.0.0.0:8000
     links:
       - db
     ports:

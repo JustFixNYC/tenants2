@@ -14,9 +14,6 @@ ignoreFields = [
 fragmentName = "AllSessionInfo"
 createBlankLiteral = true
 
-# TODO: Remove this once we start using managementCompanyDetails.
-ignoreFields = ["managementCompanyDetails"]
-
 [types.OnboardingInfoType]
 fragmentName = "OnboardingInfo"
 createBlankLiteral = true

@@ -56,11 +56,11 @@ fragment AllSessionInfo on SessionInfo {
   hpActionDetails { ...HPActionDetails },
   harassmentDetails { ...HarassmentDetails },
   managementCompanyDetails {
+    name,
     primaryLine,
     city,
     state,
-    zipCode,
-    name
+    zipCode
   },
   latestHpActionPdfUrl,
   hpActionUploadStatus,

@@ -500,30 +500,6 @@ def make_hpa_upload_status_field(kind: str):
     return field
 
 
-class ManagementCompanyDetailsType(DjangoObjectType):
-    class Meta:
-        model = models.ManagementCompanyDetails
-        only_fields = (
-            'name',
-            'primary_line',
-            'city',
-            'state',
-            'zip_code',
-        )
-
-    # TODO: The following 'state' field is duplicated from the
-    # `LandlordDetailsType` class in loc.schema, it'd be nice
-    # to make more DRY.
-
-    # If we specify 'state' as a model field, graphene-django will turn
-    # it into an enum where the empty string value is an invalid choice,
-    # so instead we'll just coerce it to a string.
-    state = graphene.String(required=True)
-
-    def resolve_state(self, context: ResolveInfo) -> str:
-        return self.state
-
-
 @schema_registry.register_session_info
 class HPActionSessionInfo:
     fee_waiver = graphene.Field(
@@ -541,7 +517,15 @@ class HPActionSessionInfo:
         resolver=create_model_for_user_resolver(models.HarassmentDetails)
     )
 
-    management_company_details = graphene.Field(ManagementCompanyDetailsType)
+    management_company_details = graphene.Field(
+        GraphQLMailingAddress,
+        description=(
+            "Manually-specified details about the user's management company. "
+            "Will only be non-blank if the user provided these details "
+            "themselves (i.e., did not elect to use our recommended details "
+            "from open data)."
+        )
+    )
 
     def resolve_management_company_details(self, info: ResolveInfo):
         user = info.context.user

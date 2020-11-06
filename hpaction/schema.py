@@ -194,7 +194,7 @@ class HpaLandlordInfo(ManyToOneUserModelFormMutation):
         from django.db.models import OneToOneField
 
         formset = cls._meta.formset_classes[formset_name]
-        if input and 'id' not in input[0] and isinstance(formset.fk, OneToOneField):
+        if input and not input[0].get('id') and isinstance(formset.fk, OneToOneField):
             instance = formset.fk.model.objects\
                 .filter(**{formset.fk.name: info.context.user})\
                 .first()

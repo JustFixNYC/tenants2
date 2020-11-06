@@ -19,13 +19,15 @@ from project.util.model_form_util import (
     create_model_for_user_resolver,
     create_models_for_user_resolver
 )
-from project.util.django_graphql_forms import DjangoFormMutation
+from project.util.django_graphql_forms import DjangoFormMutation, FormWithFormsets
 from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES
 from issues.schema import save_custom_issues_formset_with_area
 import issues.forms
+import loc.forms
+from loc.models import LandlordDetails
 from .models import (
     HPUploadStatus, COMMON_DATA, HP_ACTION_CHOICES, HPActionDocuments,
-    DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES)
+    DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES, ManagementCompanyDetails)
 import docusign.core
 from . import models, forms, lhiapi, email_packet, docusign as hpadocusign
 from .hpactionvars import HPActionVariables
@@ -136,6 +138,123 @@ def sync_one_value(value: str, is_value_present: bool, values: List[str]) -> Lis
     if not is_value_present and value in values:
         values.remove(value)
     return values
+
+
+class LandlordInfoFormWithFormsets(FormWithFormsets):
+    def get_formset_names_to_clean(self) -> List[str]:
+        names: List[str] = []
+        if not self.base_form.cleaned_data.get('use_recommended'):
+            names.append('landlord')
+            if self.base_form.cleaned_data.get('use_mgmt_co'):
+                names.append('mgmt_co')
+        return names
+
+
+@schema_registry.register_mutation
+class HpaLandlordInfo(ManyToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.LandlordExtraInfoForm
+        formset_classes = {
+            'landlord': inlineformset_factory(
+                JustfixUser,
+                LandlordDetails,
+                loc.forms.LandlordDetailsFormV2,
+                can_delete=False,
+                min_num=1,
+                max_num=1,
+                validate_min=True,
+                validate_max=True,
+            ),
+            'mgmt_co': inlineformset_factory(
+                JustfixUser,
+                ManagementCompanyDetails,
+                forms.ManagementCompanyForm,
+                can_delete=False,
+                min_num=1,
+                max_num=1,
+                validate_min=True,
+                validate_max=True,
+            ),
+        }
+
+    @classmethod
+    def get_form_with_formsets(cls, form, formsets):
+        return LandlordInfoFormWithFormsets(form, formsets)
+
+    @classmethod
+    def get_formset_kwargs(cls, root, info: ResolveInfo, formset_name, input, all_input):
+        from django.db.models import OneToOneField
+
+        formset = cls._meta.formset_classes[formset_name]
+        if input and 'id' not in input[0] and isinstance(formset.fk, OneToOneField):
+            instance = formset.fk.model.objects\
+                .filter(**{formset.fk.name: info.context.user})\
+                .first()
+            if instance:
+                input[0]['id'] = instance.pk
+
+        return super().get_formset_kwargs(root, info, formset_name, input, all_input)
+
+    @classmethod
+    def __update_recommended_ll_info(cls, user):
+        # TODO: A lot of this is copy/pasted from
+        # loc.models.LandlordDetails.create_lookup_for_user, make it more DRY.
+
+        from django.utils import timezone
+        from loc.landlord_lookup import lookup_landlord
+
+        assert hasattr(user, 'onboarding_info')
+
+        oi = user.onboarding_info
+        info = lookup_landlord(
+            oi.full_nyc_address,
+            oi.pad_bbl,
+            oi.pad_bin
+        )
+        assert info is not None
+
+        if hasattr(user, 'landlord_details'):
+            details = user.landlord_details
+        else:
+            details = LandlordDetails(user=user)
+        details.lookup_date = timezone.now()
+        details.name = info.name
+        details.address = info.address
+        details.primary_line = info.primary_line
+        details.city = info.city
+        details.state = info.state
+        details.zip_code = info.zip_code
+        details.is_looked_up = True
+        details.save()
+
+    @classmethod
+    def perform_mutate(cls, form: LandlordInfoFormWithFormsets, info: ResolveInfo):
+        if form.base_form.cleaned_data['use_recommended']:
+            cls.__update_recommended_ll_info(info.context.user)
+        else:
+            ll_form = form.formsets['landlord'].forms[0]
+            ld = ll_form.save(commit=False)
+
+            # TODO: This is copy/pasted from loc.schema.LandlordDetailsV2, make it DRY.
+            ld.address = '\n'.join(ld.address_lines_for_mailing)
+            ld.is_looked_up = False
+            ld.save()
+
+            if form.base_form.cleaned_data['use_mgmt_co']:
+                mgmt_co_form = form.formsets['mgmt_co'].forms[0]
+                mgmt_co_form.save()
+            else:
+                user = info.context.user
+                if hasattr(user, 'management_company_details'):
+                    mc = user.management_company_details
+                    mc.name = ''
+                    mc.primary_line = ''
+                    mc.city = ''
+                    mc.state = ''
+                    mc.zip_code = ''
+                    mc.save()
+
+        return cls.mutation_success()
 
 
 @schema_registry.register_mutation

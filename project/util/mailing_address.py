@@ -77,8 +77,18 @@ class MailingAddress(models.Model):
         help_text='The zip code of the address, e.g. "11201" or "94107-2282".'
     )
 
+    # Attributes that correspond to parts of the mailing address.
+    MAILING_ADDRESS_ATTRS = [
+        'primary_line',
+        'secondary_line',
+        'urbanization',
+        'city',
+        'state',
+        'zip_code'
+    ]
+
     # Attributes that map to keys used by Lob's verifications API:
-    LOB_ATTRS = ['primary_line', 'secondary_line', 'urbanization', 'city', 'state', 'zip_code']
+    LOB_ATTRS = MAILING_ADDRESS_ATTRS
 
     def as_lob_params(self) -> Dict[str, str]:
         '''

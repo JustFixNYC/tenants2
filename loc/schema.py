@@ -64,16 +64,12 @@ class LandlordDetailsV2(OneToOneUserModelFormMutation):
         if result is None:
             user = info.context.user
             if user.is_authenticated:
-                return models.LandlordDetails.create_lookup_for_user(user)
+                return models.LandlordDetails.create_or_update_lookup_for_user(user)
         return result
 
     @classmethod
     def perform_mutate(cls, form: forms.AccessDatesForm, info: ResolveInfo):
         ld = form.save(commit=False)
-
-        # Update the legacy address field from all the parts the user just
-        # filled out.
-        ld.address = '\n'.join(ld.address_lines_for_mailing)
         # Because this has been changed via GraphQL, assume it has been
         # edited by a user; mark it as being no longer automatically
         # looked-up via open data.
@@ -218,7 +214,7 @@ class LocQueries:
         request = info.context
         user = request.user
         if user.is_authenticated:
-            ld = models.LandlordDetails.create_lookup_for_user(user, save=False)
+            ld = models.LandlordDetails.create_or_update_lookup_for_user(user, save=False)
             if ld and ld.primary_line:
                 return GraphQLMailingAddress(
                     name=ld.name,

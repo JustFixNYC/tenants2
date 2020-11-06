@@ -55,6 +55,15 @@ def test_landlord_details_address_lines_for_mailing_works():
     ]
 
 
+def test_landlord_details_legacy_address_is_updated_on_save(db):
+    ld = LandlordDetailsV2Factory()
+    assert ld.address == '123 Cloud City Drive\nBespin, NY 12345'
+    ld.zip_code = '12000'
+    ld.save()
+    ld.refresh_from_db()
+    assert ld.address == '123 Cloud City Drive\nBespin, NY 12000'
+
+
 def test_landlord_details_clear_address_works():
     ld = LandlordDetailsV2Factory.build()
     assert ld.address != ''
@@ -70,17 +79,17 @@ def test_landlord_details_formatted_phone_number_works():
         phone_number='5551234567').formatted_phone_number() == '(555) 123-4567'
 
 
-class TestCreateLookupForUser:
+class TestCreateOrUpdateLookupForUser:
     def test_returns_none_if_address_info_is_not_available(self):
         user = UserFactory.build()
-        assert LandlordDetails.create_lookup_for_user(user) is None
+        assert LandlordDetails.create_or_update_lookup_for_user(user) is None
 
     @pytest.mark.django_db
     @enable_fake_landlord_lookup
     def test_returns_empty_instance_if_lookup_fails(self, requests_mock):
         mock_lookup_failure(requests_mock)
         oi = OnboardingInfoFactory()
-        info = LandlordDetails.create_lookup_for_user(oi.user)
+        info = LandlordDetails.create_or_update_lookup_for_user(oi.user)
         assert info.name == ''
         assert info.address == ''
         assert info.lookup_date is not None
@@ -88,10 +97,22 @@ class TestCreateLookupForUser:
 
     @pytest.mark.django_db
     @enable_fake_landlord_lookup
+    def test_it_updates_existing_ll_details(self, requests_mock, nycdb):
+        ld = LandlordDetailsV2Factory()
+        assert ld.name == 'Landlordo Calrissian'
+        mock_lookup_success(requests_mock, nycdb)
+        OnboardingInfoFactory(user=ld.user)
+        info = LandlordDetails.create_or_update_lookup_for_user(ld.user)
+        assert info.pk == ld.pk
+        ld.refresh_from_db()
+        assert ld.name == 'BOOP JONES'
+
+    @pytest.mark.django_db
+    @enable_fake_landlord_lookup
     def test_returns_filled_instance_if_lookup_succeeds(self, requests_mock, nycdb):
         mock_lookup_success(requests_mock, nycdb)
         oi = OnboardingInfoFactory()
-        info = LandlordDetails.create_lookup_for_user(oi.user)
+        info = LandlordDetails.create_or_update_lookup_for_user(oi.user)
         assert info.name == 'BOOP JONES'
         assert info.address == "124 99TH STREET\nBrooklyn, NY 11999"
         assert info.primary_line == "124 99TH STREET"

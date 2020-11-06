@@ -25,6 +25,10 @@ class TestWithGraphQL:
         self.request = graphql_client.request
         self.user = graphql_client.request.user
 
+    def set_user(self, user):
+        self.request.user = user
+        self.user = user
+
 
 class GraphQLTestingPal(TestWithGraphQL):
     '''

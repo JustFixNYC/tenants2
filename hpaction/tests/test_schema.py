@@ -1,11 +1,14 @@
 from decimal import Decimal
+from typing import Dict, Any
 from django.test import override_settings
 import pytest
 
-from project.util.testing_util import one_field_err, TestWithGraphQL
+from project.util.testing_util import one_field_err, TestWithGraphQL, GraphQLTestingPal
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from issues.models import Issue, CustomIssue, ISSUE_CHOICES, ISSUE_AREA_CHOICES
+from loc.tests import test_landlord_lookup
+from loc.tests.factories import LandlordDetailsV2Factory
 from .factories import (
     UploadTokenFactory, FeeWaiverDetailsFactory, TenantChildFactory,
     HPActionDocumentsFactory, DocusignEnvelopeFactory,
@@ -521,3 +524,167 @@ class TestManagementCompanyDetails(TestWithGraphQL):
             'state': 'IL',
             'zipCode': '60615',
         }
+
+
+class TestHpaLandlordInfo(GraphQLTestingPal):
+    QUERY = '''
+    mutation HpaLandlordInfoMutation($input: HpaLandlordInfoInput!) {
+        output: hpaLandlordInfo(input: $input) {
+            errors { field, messages },
+            session {
+                landlordDetails {
+                    name,
+                    primaryLine,
+                    city,
+                    state,
+                    zipCode,
+                    isLookedUp
+                }
+                managementCompanyDetails {
+                    name,
+                    primaryLine,
+                    city,
+                    state,
+                    zipCode
+                }
+            }
+        }
+    }
+    '''
+
+    DEFAULT_INPUT = {
+        'useRecommended': True,
+        'useMgmtCo': False,
+        'landlord': [],
+        'mgmtCo': [],
+    }
+
+    LANDLORD_ADDRESS = '124 99TH STREET\nBrooklyn, NY 11999'
+
+    LANDLORD_DETAILS: Dict[str, Any] = {
+        'name': 'BOOP JONES',
+        'primaryLine': '124 99TH STREET',
+        'city': 'Brooklyn',
+        'state': 'NY',
+        'zipCode': '11999',
+    }
+
+    MGMT_CO_DETAILS = {
+        'name': 'Nice Management',
+        'primaryLine': '123 Main Street',
+        'city': 'Boopville',
+        'state': 'NY',
+        'zipCode': '12345',
+    }
+
+    EMPTY_MAILING_ADDRESS = {
+        'name': '',
+        'primaryLine': '',
+        'city': '',
+        'state': '',
+        'zipCode': '',
+    }
+
+    MISSING_ZIP_CODE_MAILING_ADDRESS = {
+        **MGMT_CO_DETAILS,
+        'zipCode': '',
+    }
+
+    def test_it_requires_login(self):
+        self.assert_one_field_err('You do not have permission to use this form!')
+
+    @pytest.mark.parametrize('ll_details_exist', [True, False])
+    @test_landlord_lookup.enable_fake_landlord_lookup
+    def test_it_sets_recommended_landlord(self, requests_mock, nycdb, ll_details_exist):
+        test_landlord_lookup.mock_lookup_success(requests_mock, nycdb)
+        onb = OnboardingInfoFactory()
+        if ll_details_exist:
+            LandlordDetailsV2Factory(user=onb.user)
+        self.set_user(onb.user)
+        result = self.execute(input={'useRecommended': True})
+        assert result['session'] == {
+            'landlordDetails': {
+                'isLookedUp': True,
+                **self.LANDLORD_DETAILS,
+            },
+            'managementCompanyDetails': None,
+        }
+        assert onb.user.landlord_details.address == self.LANDLORD_ADDRESS
+
+    @test_landlord_lookup.enable_fake_landlord_lookup
+    def test_it_ignores_ll_and_mc_when_use_recommended_is_set(self, requests_mock, nycdb):
+        test_landlord_lookup.mock_lookup_success(requests_mock, nycdb)
+        self.set_user(OnboardingInfoFactory().user)
+        result = self.execute(input={
+            'useRecommended': True,
+            'landlord': [self.MISSING_ZIP_CODE_MAILING_ADDRESS],
+            'mgmtCo': [self.MISSING_ZIP_CODE_MAILING_ADDRESS],
+        })
+        assert result['errors'] == []
+
+    def test_it_ignores_mgmt_co_when_setting_manual_landlord_only(self):
+        self.set_user(ManagementCompanyDetailsFactory().user)
+        result = self.execute(input={
+            'useRecommended': False,
+            'landlord': [self.LANDLORD_DETAILS],
+            'mgmtCo': [self.MISSING_ZIP_CODE_MAILING_ADDRESS],
+        })
+        assert result['errors'] == []
+
+    def test_it_sets_manual_landlord_only(self):
+        mc = ManagementCompanyDetailsFactory()
+        self.set_user(mc.user)
+        result = self.execute(input={
+            'useRecommended': False,
+            'landlord': [self.LANDLORD_DETAILS],
+        })
+        assert result['session'] == {
+            'landlordDetails': {
+                'isLookedUp': False,
+                **self.LANDLORD_DETAILS,
+            },
+            'managementCompanyDetails': self.EMPTY_MAILING_ADDRESS,
+        }
+        assert mc.user.landlord_details.address == self.LANDLORD_ADDRESS
+
+    def test_it_reports_manual_landlord_errors(self):
+        mc = ManagementCompanyDetailsFactory()
+        self.set_user(mc.user)
+        self.assert_one_field_err(
+            'This field is required.',
+            field='landlord.0.zipCode',
+            input={
+                'useRecommended': False,
+                'landlord': [self.MISSING_ZIP_CODE_MAILING_ADDRESS],
+            }
+        )
+
+    def test_it_sets_manual_landlord_and_mgmt_co(self):
+        self.set_user(UserFactory())
+        result = self.execute(input={
+            'useRecommended': False,
+            'landlord': [self.LANDLORD_DETAILS],
+            'useMgmtCo': True,
+            'mgmtCo': [self.MGMT_CO_DETAILS]
+        })
+        assert result['session'] == {
+            'landlordDetails': {
+                'isLookedUp': False,
+                **self.LANDLORD_DETAILS,
+            },
+            'managementCompanyDetails': self.MGMT_CO_DETAILS,
+        }
+
+    def test_it_reports_mgmt_co_errors(self):
+        mc = ManagementCompanyDetailsFactory()
+        self.set_user(mc.user)
+        self.assert_one_field_err(
+            'This field is required.',
+            field='mgmtCo.0.zipCode',
+            input={
+                'useRecommended': False,
+                'landlord': [self.LANDLORD_DETAILS],
+                'useMgmtCo': True,
+                'mgmtCo': [self.MISSING_ZIP_CODE_MAILING_ADDRESS]
+            }
+        )

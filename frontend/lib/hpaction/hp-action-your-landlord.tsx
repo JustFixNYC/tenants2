@@ -25,9 +25,10 @@ import {
   BlankMgmtCoManagementCompanyDetailsFormFormSetInput,
   HpaLandlordInfoMutation,
 } from "../queries/HpaLandlordInfoMutation";
-import { Formset } from "../forms/formset";
+import { Formset, FormsetProps } from "../forms/formset";
 import { getQuerystringVar } from "../util/querystring";
 import { useProgressiveEnhancement } from "../ui/progressive-enhancement";
+import { FormsetItem, formsetItemProps } from "../forms/formset-item";
 
 const Address: React.FC<{
   primaryLine: string;
@@ -102,6 +103,20 @@ const ReadOnlyLandlordDetails: React.FC<{
 
 const FORCE_MANUAL = "manual";
 const FORCE_RECOMMENDED = "rec";
+
+function SingletonFormset<FormsetInput>(props: FormsetProps<FormsetInput>) {
+  return (
+    <Formset {...props} maxNum={1}>
+      {(formsetCtx, i) => {
+        // No idea where the hell this is coming from but we get an
+        // error on POST requests with form errors if we don't call it.
+        formsetCtx.fieldPropsFor("id" as any);
+
+        return <>{props.children(formsetCtx, i)}</>;
+      }}
+    </Formset>
+  );
+}
 
 export const HPActionYourLandlord = MiddleProgressStep((props) => {
   const { session } = useContext(AppContext);
@@ -212,7 +227,7 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
                 <>
                   {intro}
                   <HiddenFormField {...ctx.fieldPropsFor("useRecommended")} />
-                  <Formset maxNum={1} {...ctx.formsetPropsFor("landlord")}>
+                  <SingletonFormset {...ctx.formsetPropsFor("landlord")}>
                     {(formsetCtx) => (
                       <div className={useRecommended ? "is-hidden" : ""}>
                         <TextualFormField
@@ -236,7 +251,7 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
                         />
                       </div>
                     )}
-                  </Formset>
+                  </SingletonFormset>
                   {useRecommended ? (
                     <HiddenFormField {...ctx.fieldPropsFor("useMgmtCo")} />
                   ) : (
@@ -248,7 +263,7 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
                       </CheckboxFormField>
                     </>
                   )}
-                  <Formset maxNum={1} {...ctx.formsetPropsFor("mgmtCo")}>
+                  <SingletonFormset {...ctx.formsetPropsFor("mgmtCo")}>
                     {(formsetCtx) => (
                       <div
                         className={
@@ -279,7 +294,7 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
                         />
                       </div>
                     )}
-                  </Formset>
+                  </SingletonFormset>
                   <ProgressButtons back={backHref} isLoading={ctx.isLoading} />
                 </>
               )}

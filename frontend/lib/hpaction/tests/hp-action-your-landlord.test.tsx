@@ -20,6 +20,12 @@ const landlordInfo: LandlordDetailsType = {
   address: "1 Cloud City",
 };
 
+const manualLandlordInfo: LandlordDetailsType = {
+  ...BlankLandlordDetailsType,
+  name: "My Manual Landlord",
+  address: "My Manual Address",
+};
+
 async function mockRecommendation(
   pal: AppTesterPal,
   options: { landlord?: boolean; mgmtCo?: boolean } = {}
@@ -128,18 +134,46 @@ describe("HPActionYourLandlord", () => {
 
   it("shows manually-entered address in form fields", async () => {
     const pal = new AppTesterPal(makeRoute(), {
-      session: { landlordDetails: { ...landlordInfo, isLookedUp: false } },
+      session: {
+        landlordDetails: { ...manualLandlordInfo, isLookedUp: false },
+        managementCompanyDetails: {
+          name: "My manual management company",
+          primaryLine: "blarg",
+          city: "Beanville",
+          state: "CA",
+          zipCode: "91234",
+        },
+      },
     });
-    await mockRecommendation(pal);
-    const input = pal.rr.getByLabelText("Landlord name") as HTMLInputElement;
-    expect(input.value).toBe("Landlordo Calrissian");
+    await mockRecommendation(pal, { landlord: true });
+    const llInput = pal.rr.getByLabelText("Landlord name") as HTMLInputElement;
+    expect(llInput.value).toBe("My Manual Landlord");
+    const mcInput = pal.rr.getByLabelText(
+      "Management company name"
+    ) as HTMLInputElement;
+    expect(mcInput.value).toBe("My manual management company");
   });
 
-  it("shows automatically looked-up address as read-only", async () => {
+  it("allows user to override recommendation w/ manually-entered address", async () => {
+    const pal = new AppTesterPal(makeRoute(), { url: "/?force=manual" });
+    await mockRecommendation(pal, { landlord: true });
+    pal.rr.getByText(/You have chosen to ignore the landlord recommended/i);
+    const input = pal.rr.getByLabelText("Landlord name") as HTMLInputElement;
+    expect(input.value).toBe("");
+  });
+
+  it("shows newest recommended landlord instead of stale one", async () => {
     const pal = new AppTesterPal(makeRoute(), {
-      session: { landlordDetails: { ...landlordInfo, isLookedUp: true } },
+      session: {
+        landlordDetails: {
+          ...landlordInfo,
+          name: "STALE LANDLORD BEFORE LANDLORDO",
+          isLookedUp: true,
+        },
+      },
     });
     await mockRecommendation(pal, { landlord: true, mgmtCo: true });
+    pal.rr.getByText("Landlordo Calrissian");
     pal.rr.getByText("Cloud City Management");
   });
 });

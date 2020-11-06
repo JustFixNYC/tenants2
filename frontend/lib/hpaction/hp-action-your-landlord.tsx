@@ -126,6 +126,33 @@ function SingletonFormset<FormsetInput extends { id?: string | null }>(
   );
 }
 
+export function shouldUseRecommendedLandlordInfo(options: {
+  hasRecommendedLandlord: boolean;
+  isLandlordAlreadyManuallySpecified: boolean;
+  forceManual: boolean;
+  forceRecommended: boolean;
+}): boolean {
+  let useRecommended: boolean;
+
+  if (options.hasRecommendedLandlord) {
+    if (options.isLandlordAlreadyManuallySpecified) {
+      if (options.forceRecommended) {
+        useRecommended = true;
+      } else {
+        useRecommended = false;
+      }
+    } else if (options.forceManual) {
+      useRecommended = false;
+    } else {
+      useRecommended = true;
+    }
+  } else {
+    useRecommended = false;
+  }
+
+  return useRecommended;
+}
+
 export const HPActionYourLandlord = MiddleProgressStep((props) => {
   const { session } = useContext(AppContext);
   const loc = useLocation();
@@ -161,23 +188,12 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
             llDetails?.name &&
             llDetails.address
           );
-          let useRecommended: boolean;
-
-          if (landlord) {
-            if (isLandlordAlreadyManuallySpecified) {
-              if (forceRecommended) {
-                useRecommended = true;
-              } else {
-                useRecommended = false;
-              }
-            } else if (forceManual) {
-              useRecommended = false;
-            } else {
-              useRecommended = true;
-            }
-          } else {
-            useRecommended = false;
-          }
+          let useRecommended = shouldUseRecommendedLandlordInfo({
+            hasRecommendedLandlord: !!landlord,
+            isLandlordAlreadyManuallySpecified,
+            forceManual,
+            forceRecommended,
+          });
 
           let intro = (
             <p>Please provide us with information on your landlord.</p>

@@ -227,26 +227,32 @@ class HpaLandlordInfo(ManyToOneUserModelFormMutation):
         details.save()
 
     @classmethod
+    def clear_mgmt_co_details(cls, user: JustfixUser):
+        if hasattr(user, 'management_company_details'):
+            mc = user.management_company_details
+            mc.name = ''
+            mc.clear_address()
+            mc.save()
+
+    @classmethod
+    def update_manual_details(cls, form: LandlordInfoFormWithFormsets, user: JustfixUser):
+        ll_form = form.formsets['landlord'].forms[0]
+        ld = ll_form.save(commit=False)
+        ld.is_looked_up = False
+        ld.save()
+
+        if form.base_form.cleaned_data['use_mgmt_co']:
+            mgmt_co_form = form.formsets['mgmt_co'].forms[0]
+            mgmt_co_form.save()
+        else:
+            cls.clear_mgmt_co_details(user)
+
+    @classmethod
     def perform_mutate(cls, form: LandlordInfoFormWithFormsets, info: ResolveInfo):
         if form.base_form.cleaned_data['use_recommended']:
             cls.__update_recommended_ll_info(info.context.user)
         else:
-            ll_form = form.formsets['landlord'].forms[0]
-            ld = ll_form.save(commit=False)
-            ld.is_looked_up = False
-            ld.save()
-
-            if form.base_form.cleaned_data['use_mgmt_co']:
-                mgmt_co_form = form.formsets['mgmt_co'].forms[0]
-                mgmt_co_form.save()
-            else:
-                user = info.context.user
-                if hasattr(user, 'management_company_details'):
-                    mc = user.management_company_details
-                    mc.name = ''
-                    mc.clear_address()
-                    mc.save()
-
+            cls.update_manual_details(form, info.context.user)
         return cls.mutation_success()
 
 

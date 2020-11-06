@@ -204,7 +204,6 @@ class HpaLandlordInfo(ManyToOneUserModelFormMutation):
         from loc.landlord_lookup import lookup_landlord
 
         assert hasattr(user, 'onboarding_info')
-        assert hasattr(user, 'landlord_details')
 
         oi = user.onboarding_info
         info = lookup_landlord(
@@ -214,7 +213,10 @@ class HpaLandlordInfo(ManyToOneUserModelFormMutation):
         )
         assert info is not None
 
-        details = user.landlord_details
+        if hasattr(user, 'landlord_details'):
+            details = user.landlord_details
+        else:
+            details = LandlordDetails(user=user)
         details.lookup_date = timezone.now()
         details.name = info.name
         details.address = info.address

@@ -223,6 +223,7 @@ export class FormSubmitterWithoutRouter<
           if (this.props.formKind) {
             logAmplitudeFormSubmission({
               pathname: this.props.location.pathname,
+              search: this.props.location.search,
               formKind: this.props.formKind,
               formId: this.props.formId,
               errors: output.errors,
@@ -275,6 +276,7 @@ export class FormSubmitterWithoutRouter<
           if (this.props.formKind) {
             logAmplitudeFormSubmission({
               pathname: this.props.location.pathname,
+              search: this.props.location.search,
               formKind: this.props.formKind,
               formId: this.props.formId,
               redirect: redirect,

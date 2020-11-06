@@ -55,6 +55,13 @@ fragment AllSessionInfo on SessionInfo {
   feeWaiver { ...FeeWaiverDetails },
   hpActionDetails { ...HPActionDetails },
   harassmentDetails { ...HarassmentDetails },
+  managementCompanyDetails {
+    name,
+    primaryLine,
+    city,
+    state,
+    zipCode
+  },
   latestHpActionPdfUrl,
   hpActionUploadStatus,
   latestEmergencyHpActionPdfUrl,

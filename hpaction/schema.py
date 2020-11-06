@@ -244,10 +244,7 @@ class HpaLandlordInfo(ManyToOneUserModelFormMutation):
                 if hasattr(user, 'management_company_details'):
                     mc = user.management_company_details
                     mc.name = ''
-                    mc.primary_line = ''
-                    mc.city = ''
-                    mc.state = ''
-                    mc.zip_code = ''
+                    mc.clear_address()
                     mc.save()
 
         return cls.mutation_success()

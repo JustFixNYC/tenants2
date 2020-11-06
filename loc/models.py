@@ -154,21 +154,23 @@ class LandlordDetails(MailingAddress):
         self.is_looked_up = False
 
     @classmethod
-    def create_lookup_for_user(
+    def _get_or_create_for_user(cls, user: JustfixUser) -> 'LandlordDetails':
+        if hasattr(user, 'landlord_details'):
+            return user.landlord_details
+        return LandlordDetails(user=user)
+
+    @classmethod
+    def create_or_update_lookup_for_user(
         cls,
         user: JustfixUser,
         save: bool = True
     ) -> Optional['LandlordDetails']:
         '''
-        Create an instance of this class by attempting to look up details on the
-        given user's address.
+        Create or update an instance of this class associated with the user by
+        attempting to look up details on the given user's address.
 
-        Assumes that the user does not yet have an instance of this class associated
-        with them.
-
-        If the lookup fails, this method will still create an instance of this class,
-        but it will set the lookup date, so that another lookup can be attempted
-        later.
+        If the lookup fails, this method will still set the lookup date, so that
+        another lookup can be attempted later.
 
         However, if the user doesn't have any address information, this will return
         None, as it has no address to lookup the landlord for.
@@ -181,10 +183,8 @@ class LandlordDetails(MailingAddress):
                 oi.pad_bbl,
                 oi.pad_bin
             )
-            details = LandlordDetails(
-                user=user,
-                lookup_date=timezone.now()
-            )
+            details = cls._get_or_create_for_user(user)
+            details.lookup_date = timezone.now()
             if info:
                 details.name = info.name
                 details.address = info.address

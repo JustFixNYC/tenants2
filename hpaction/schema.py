@@ -197,34 +197,9 @@ class HpaLandlordInfo(ManyToOneUserModelFormMutation):
 
     @classmethod
     def __update_recommended_ll_info(cls, user):
-        # TODO: A lot of this is copy/pasted from
-        # loc.models.LandlordDetails.create_lookup_for_user, make it more DRY.
-
-        from django.utils import timezone
-        from loc.landlord_lookup import lookup_landlord
-
         assert hasattr(user, 'onboarding_info')
-
-        oi = user.onboarding_info
-        info = lookup_landlord(
-            oi.full_nyc_address,
-            oi.pad_bbl,
-            oi.pad_bin
-        )
+        info = LandlordDetails.create_or_update_lookup_for_user(user)
         assert info is not None
-
-        if hasattr(user, 'landlord_details'):
-            details = user.landlord_details
-        else:
-            details = LandlordDetails(user=user)
-        details.lookup_date = timezone.now()
-        details.name = info.name
-        details.primary_line = info.primary_line
-        details.city = info.city
-        details.state = info.state
-        details.zip_code = info.zip_code
-        details.is_looked_up = True
-        details.save()
 
     @classmethod
     def clear_mgmt_co_details(cls, user: JustfixUser):

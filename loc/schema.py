@@ -64,7 +64,7 @@ class LandlordDetailsV2(OneToOneUserModelFormMutation):
         if result is None:
             user = info.context.user
             if user.is_authenticated:
-                return models.LandlordDetails.create_lookup_for_user(user)
+                return models.LandlordDetails.create_or_update_lookup_for_user(user)
         return result
 
     @classmethod
@@ -214,7 +214,7 @@ class LocQueries:
         request = info.context
         user = request.user
         if user.is_authenticated:
-            ld = models.LandlordDetails.create_lookup_for_user(user, save=False)
+            ld = models.LandlordDetails.create_or_update_lookup_for_user(user, save=False)
             if ld and ld.primary_line:
                 return GraphQLMailingAddress(
                     name=ld.name,

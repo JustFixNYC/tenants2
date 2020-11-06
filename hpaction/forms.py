@@ -272,6 +272,21 @@ class ManagementCompanyForm(forms.ModelForm):
 
 
 class LandlordExtraInfoForm(forms.Form):
-    use_recommended = forms.BooleanField(required=False)
+    use_recommended = forms.BooleanField(
+        required=False,
+        help_text=(
+            "Whether to use the recommended default landlord and/or management "
+            "company as determined by the server. If false, we expect "
+            "manual landlord and/or management company details to be "
+            "provided."
+        )
+    )
 
-    use_mgmt_co = forms.BooleanField(required=False)
+    use_mgmt_co = forms.BooleanField(
+        required=False,
+        help_text=(
+            "If not using recommended defaults, this indicates whether "
+            "a management company will be manually provided. If false, any "
+            "existing management company details will be cleared."
+        )
+    )

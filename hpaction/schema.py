@@ -154,6 +154,11 @@ class LandlordInfoFormWithFormsets(FormWithFormsets):
 class HpaLandlordInfo(ManyToOneUserModelFormMutation):
     class Meta:
         form_class = forms.LandlordExtraInfoForm
+
+        # This is a bit weird since we're associating formset
+        # factories with one-to-one fields; however, for now it's the
+        # easiest way to shoehorn "sub-forms" into our form
+        # infrastructure without having to overhaul it.
         formset_classes = {
             'landlord': inlineformset_factory(
                 JustfixUser,
@@ -183,6 +188,9 @@ class HpaLandlordInfo(ManyToOneUserModelFormMutation):
 
     @classmethod
     def get_formset_kwargs(cls, root, info: ResolveInfo, formset_name, input, all_input):
+        # This automatically associates any existing OneToOneField instances with
+        # formset forms, relieving clients of needing to know what their ID is.
+
         from django.db.models import OneToOneField
 
         formset = cls._meta.formset_classes[formset_name]

@@ -10288,7 +10288,7 @@
           "inputFields": [
             {
               "defaultValue": null,
-              "description": "",
+              "description": "Whether to use the recommended default landlord and/or management company as determined by the server. If false, we expect manual landlord and/or management company details to be provided.",
               "name": "useRecommended",
               "type": {
                 "kind": "NON_NULL",
@@ -10302,7 +10302,7 @@
             },
             {
               "defaultValue": null,
-              "description": "",
+              "description": "If not using recommended defaults, this indicates whether a management company will be manually provided. If false, any existing management company details will be cleared.",
               "name": "useMgmtCo",
               "type": {
                 "kind": "NON_NULL",

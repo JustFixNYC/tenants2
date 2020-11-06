@@ -70,10 +70,6 @@ class LandlordDetailsV2(OneToOneUserModelFormMutation):
     @classmethod
     def perform_mutate(cls, form: forms.AccessDatesForm, info: ResolveInfo):
         ld = form.save(commit=False)
-
-        # Update the legacy address field from all the parts the user just
-        # filled out.
-        ld.address = '\n'.join(ld.address_lines_for_mailing)
         # Because this has been changed via GraphQL, assume it has been
         # edited by a user; mark it as being no longer automatically
         # looked-up via open data.

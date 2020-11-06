@@ -219,7 +219,6 @@ class HpaLandlordInfo(ManyToOneUserModelFormMutation):
             details = LandlordDetails(user=user)
         details.lookup_date = timezone.now()
         details.name = info.name
-        details.address = info.address
         details.primary_line = info.primary_line
         details.city = info.city
         details.state = info.state
@@ -234,9 +233,6 @@ class HpaLandlordInfo(ManyToOneUserModelFormMutation):
         else:
             ll_form = form.formsets['landlord'].forms[0]
             ld = ll_form.save(commit=False)
-
-            # TODO: This is copy/pasted from loc.schema.LandlordDetailsV2, make it DRY.
-            ld.address = '\n'.join(ld.address_lines_for_mailing)
             ld.is_looked_up = False
             ld.save()
 

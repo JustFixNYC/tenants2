@@ -1,4 +1,5 @@
 from decimal import Decimal
+from typing import Dict, Any
 from django.test import override_settings
 import pytest
 
@@ -533,7 +534,6 @@ class TestHpaLandlordInfo(GraphQLTestingPal):
             session {
                 landlordDetails {
                     name,
-                    address,
                     primaryLine,
                     city,
                     state,
@@ -561,7 +561,7 @@ class TestHpaLandlordInfo(GraphQLTestingPal):
 
     LANDLORD_ADDRESS = '124 99TH STREET\nBrooklyn, NY 11999'
 
-    LANDLORD_DETAILS = {
+    LANDLORD_DETAILS: Dict[str, Any] = {
         'name': 'BOOP JONES',
         'primaryLine': '124 99TH STREET',
         'city': 'Brooklyn',
@@ -604,12 +604,12 @@ class TestHpaLandlordInfo(GraphQLTestingPal):
         result = self.execute(input={'useRecommended': True})
         assert result['session'] == {
             'landlordDetails': {
-                'address': self.LANDLORD_ADDRESS,
                 'isLookedUp': True,
                 **self.LANDLORD_DETAILS,
             },
             'managementCompanyDetails': None,
         }
+        assert onb.user.landlord_details.address == self.LANDLORD_ADDRESS
 
     @test_landlord_lookup.enable_fake_landlord_lookup
     def test_it_ignores_ll_and_mc_when_use_recommended_is_set(self, requests_mock, nycdb):
@@ -640,12 +640,12 @@ class TestHpaLandlordInfo(GraphQLTestingPal):
         })
         assert result['session'] == {
             'landlordDetails': {
-                'address': self.LANDLORD_ADDRESS,
                 'isLookedUp': False,
                 **self.LANDLORD_DETAILS,
             },
             'managementCompanyDetails': self.EMPTY_MAILING_ADDRESS,
         }
+        assert mc.user.landlord_details.address == self.LANDLORD_ADDRESS
 
     def test_it_reports_manual_landlord_errors(self):
         mc = ManagementCompanyDetailsFactory()
@@ -669,7 +669,6 @@ class TestHpaLandlordInfo(GraphQLTestingPal):
         })
         assert result['session'] == {
             'landlordDetails': {
-                'address': self.LANDLORD_ADDRESS,
                 'isLookedUp': False,
                 **self.LANDLORD_DETAILS,
             },

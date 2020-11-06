@@ -77,6 +77,10 @@ class LandlordDetails(MailingAddress):
     looked up).
     '''
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__address_tracker = InstanceChangeTracker(self, self.MAILING_ADDRESS_ATTRS)
+
     user = models.OneToOneField(
         JustfixUser, on_delete=models.CASCADE, related_name='landlord_details',
         help_text="The user whose landlord details this is for.")
@@ -193,6 +197,13 @@ class LandlordDetails(MailingAddress):
                 details.save()
             return details
         return None
+
+    def save(self, *args, **kwargs):
+        if self.__address_tracker.has_changed():
+            # Update the legacy address field.
+            self.address = '\n'.join(self.address_lines_for_mailing)
+            self.__address_tracker.set_to_unchanged()
+        return super().save(*args, **kwargs)
 
 
 class AddressDetails(MailingAddress):

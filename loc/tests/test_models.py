@@ -55,6 +55,15 @@ def test_landlord_details_address_lines_for_mailing_works():
     ]
 
 
+def test_landlord_details_legacy_address_is_updated_on_save(db):
+    ld = LandlordDetailsV2Factory()
+    assert ld.address == '123 Cloud City Drive\nBespin, NY 12345'
+    ld.zip_code = '12000'
+    ld.save()
+    ld.refresh_from_db()
+    assert ld.address == '123 Cloud City Drive\nBespin, NY 12000'
+
+
 def test_landlord_details_clear_address_works():
     ld = LandlordDetailsV2Factory.build()
     assert ld.address != ''

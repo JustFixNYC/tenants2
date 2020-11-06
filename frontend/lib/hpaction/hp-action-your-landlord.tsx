@@ -28,7 +28,6 @@ import {
 import { Formset, FormsetProps } from "../forms/formset";
 import { getQuerystringVar } from "../util/querystring";
 import { useProgressiveEnhancement } from "../ui/progressive-enhancement";
-import { FormsetItem, formsetItemProps } from "../forms/formset-item";
 
 const Address: React.FC<{
   primaryLine: string;

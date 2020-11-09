@@ -1,19 +1,8 @@
 from typing import Dict, Any
-from django.db import DEFAULT_DB_ALIAS
 
 from users.models import JustfixUser
 from issues.models import Issue, CustomIssue
-from project.admin_download_data import DataDownload
-
-
-def exec_queryset_on_cursor(queryset, cursor):
-    '''
-    Executes the given Django queryset on the given database cursor.
-    '''
-
-    compiler = queryset.query.get_compiler(using=DEFAULT_DB_ALIAS)
-    sql, params = compiler.as_sql()
-    cursor.execute(sql, params)
+from project.admin_download_data import DataDownload, exec_queryset_on_cursor
 
 
 def _dictprefix(prefix: str, **kwargs: Any) -> Dict[str, Any]:

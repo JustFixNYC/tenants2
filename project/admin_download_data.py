@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import NamedTuple, Callable, Any, Optional, List, Iterator, Dict
 from contextlib import contextmanager
 from django.http import HttpResponseNotFound, HttpResponse
-from django.db import connection
+from django.db import connection, DEFAULT_DB_ALIAS
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import reverse
 from django.urls import path
@@ -71,12 +71,14 @@ def get_all_data_downloads() -> List[DataDownload]:
     from project import userstats
     from hpaction import ehpa_filings
     from partnerships import admin_data_downloads as partnership_stats
+    from norent import admin_data_downloads as norent_stats
 
     return [
         *userstats.DATA_DOWNLOADS,
         *issuestats.DATA_DOWNLOADS,
         *ehpa_filings.DATA_DOWNLOADS,
         *partnership_stats.DATA_DOWNLOADS,
+        *norent_stats.DATA_DOWNLOADS,
     ]
 
 
@@ -161,3 +163,13 @@ class DownloadDataViews:
             'datasets': get_available_datasets(request.user),
             'title': "Download data"
         })
+
+
+def exec_queryset_on_cursor(queryset, cursor):
+    '''
+    Executes the given Django queryset on the given database cursor.
+    '''
+
+    compiler = queryset.query.get_compiler(using=DEFAULT_DB_ALIAS)
+    sql, params = compiler.as_sql()
+    cursor.execute(sql, params)

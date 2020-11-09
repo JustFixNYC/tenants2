@@ -39,6 +39,13 @@ class NorentUser(JustfixUser):
 
         verbose_name_plural = "Users with NoRent letters"
 
+        permissions = [
+            ("view_saje_users",
+             "Can view/download user data on behalf of SAJE"),
+            ("view_rttc_users",
+             "Can view/download user data on behalf of RTTC"),
+        ]
+
 
 LETTERS_MAILED = "_letters_mailed"
 

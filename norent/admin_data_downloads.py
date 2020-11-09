@@ -27,20 +27,29 @@ def execute_saje_users_query(cursor, user):
         norent_letters_sent=Count("norent_letters"),
     ).filter(
         onboarding_info__zipcode__in=LOS_ANGELES_ZIP_CODES,
-    )
+    ).order_by('id')
     return exec_queryset_on_cursor(queryset, cursor)
 
 
 def execute_saje_norent_letters_query(cursor, user):
+    from django.db.models import Count, Q
+
+    rent_periods = RentPeriod.objects.all().order_by('payment_date')
+    rent_periods_kwargs = {
+        f"rent_period_{rp.payment_date}": Count(
+            'rent_periods', filter=Q(rent_periods__id=rp.id))
+        for rp in rent_periods
+    }
     queryset = Letter.objects.values(
         'user_id',
         'locale',
         'tracking_number',
         'letter_sent_at',
         'letter_emailed_at',
+        **rent_periods_kwargs,
     ).filter(
         user__onboarding_info__zipcode__in=LOS_ANGELES_ZIP_CODES,
-    )
+    ).order_by('id')
     return exec_queryset_on_cursor(queryset, cursor)
 
 

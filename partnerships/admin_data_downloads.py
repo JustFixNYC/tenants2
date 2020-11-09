@@ -2,7 +2,7 @@ from typing import Dict, Any
 
 from users.models import JustfixUser
 from issues.models import Issue, CustomIssue
-from project.admin_download_data import DataDownload, exec_queryset_on_cursor
+from project.admin_download_data import DataDownload, queryset_data_download
 
 
 def _dictprefix(prefix: str, **kwargs: Any) -> Dict[str, Any]:
@@ -29,7 +29,8 @@ def filter_users_to_partner_orgs(queryset, user: JustfixUser, prefix: str = ''):
     return queryset.exclude(**_dictprefix(prefix, is_staff=True))
 
 
-def execute_partner_users_query(cursor, user):
+@queryset_data_download
+def execute_partner_users_query(user):
     queryset = JustfixUser.objects.values(
         'id',
         'date_joined',
@@ -52,28 +53,27 @@ def execute_partner_users_query(cursor, user):
         'onboarding_info__has_called_311',
         'onboarding_info__receives_public_assistance',
     ).order_by('id')
-    queryset = filter_users_to_partner_orgs(queryset, user)
-    exec_queryset_on_cursor(queryset, cursor)
+    return filter_users_to_partner_orgs(queryset, user)
 
 
-def execute_partner_user_issues_query(cursor, user):
+@queryset_data_download
+def execute_partner_user_issues_query(user):
     queryset = Issue.objects.values(
         'user_id',
         'area',
         'value',
     ).order_by('user_id', 'area', 'value')
-    queryset = filter_users_to_partner_orgs(queryset, user, 'user__')
-    exec_queryset_on_cursor(queryset, cursor)
+    return filter_users_to_partner_orgs(queryset, user, 'user__')
 
 
-def execute_partner_user_custom_issues_query(cursor, user):
+@queryset_data_download
+def execute_partner_user_custom_issues_query(user):
     queryset = CustomIssue.objects.values(
         'user_id',
         'area',
         'description',
     ).order_by('user_id', 'area')
-    queryset = filter_users_to_partner_orgs(queryset, user, 'user__')
-    exec_queryset_on_cursor(queryset, cursor)
+    return filter_users_to_partner_orgs(queryset, user, 'user__')
 
 
 DATA_DOWNLOADS = [

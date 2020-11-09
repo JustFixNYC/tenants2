@@ -1,13 +1,14 @@
 from django.db.models import F, Count
 
-from project.admin_download_data import DataDownload, exec_queryset_on_cursor
+from project.admin_download_data import DataDownload, queryset_data_download
 from users.models import JustfixUser
 from .models import Letter, RentPeriod
 from .la_zipcodes import LOS_ANGELES_ZIP_CODES
 
 
-def execute_saje_users_query(cursor, user):
-    queryset = JustfixUser.objects.values(
+@queryset_data_download
+def execute_saje_users_query(user):
+    return JustfixUser.objects.values(
         "id",
         "date_joined",
         "first_name",
@@ -28,10 +29,10 @@ def execute_saje_users_query(cursor, user):
     ).filter(
         onboarding_info__zipcode__in=LOS_ANGELES_ZIP_CODES,
     ).order_by('id')
-    return exec_queryset_on_cursor(queryset, cursor)
 
 
-def execute_saje_norent_letters_query(cursor, user):
+@queryset_data_download
+def execute_saje_norent_letters_query(user):
     from django.db.models import Count, Q
 
     rent_periods = RentPeriod.objects.all().order_by('payment_date')
@@ -40,7 +41,7 @@ def execute_saje_norent_letters_query(cursor, user):
             'rent_periods', filter=Q(rent_periods__id=rp.id))
         for rp in rent_periods
     }
-    queryset = Letter.objects.values(
+    return Letter.objects.values(
         'user_id',
         'locale',
         'tracking_number',
@@ -50,7 +51,6 @@ def execute_saje_norent_letters_query(cursor, user):
     ).filter(
         user__onboarding_info__zipcode__in=LOS_ANGELES_ZIP_CODES,
     ).order_by('id')
-    return exec_queryset_on_cursor(queryset, cursor)
 
 
 DATA_DOWNLOADS = [

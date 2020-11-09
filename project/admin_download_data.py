@@ -1,10 +1,12 @@
 import datetime
 import logging
+import functools
 from pathlib import Path
 from typing import NamedTuple, Callable, Any, Optional, List, Iterator, Dict
 from contextlib import contextmanager
 from django.http import HttpResponseNotFound, HttpResponse
 from django.db import connection, DEFAULT_DB_ALIAS
+from django.db.models import QuerySet
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import reverse
 from django.urls import path
@@ -163,6 +165,22 @@ class DownloadDataViews:
             'datasets': get_available_datasets(request.user),
             'title': "Download data"
         })
+
+
+def queryset_data_download(
+    func: Callable[[JustfixUser], QuerySet]
+) -> Callable[[DBCursor, JustfixUser], None]:
+    '''
+    This decorator makes it easier to define data downloads in
+    terms of QuerySet objects, rather than operations on raw
+    database cursors.
+    '''
+
+    @functools.wraps(func)
+    def wrapper(cursor, user):
+        queryset = func(user)
+        exec_queryset_on_cursor(queryset, cursor)
+    return wrapper
 
 
 def exec_queryset_on_cursor(queryset, cursor):

@@ -53,6 +53,25 @@ def execute_saje_norent_letters_query(user):
     ).order_by('id')
 
 
+@queryset_data_download
+def execute_rttc_users_query(user):
+    return JustfixUser.objects.values(
+        "id",
+        "date_joined",
+        "first_name",
+        "last_name",
+        "email",
+        "phone_number",
+        "locale",
+        "onboarding_info__address",
+        "onboarding_info__state",
+        "onboarding_info__zipcode",
+        "onboarding_info__apt_number",
+    ).filter(
+        onboarding_info__can_receive_rttc_comms=True,
+    ).order_by('id')
+
+
 DATA_DOWNLOADS = [
     DataDownload(
         name="SAJE-affiliated users",
@@ -67,5 +86,12 @@ DATA_DOWNLOADS = [
         html_desc="Details about NoRent letters sent in the LA County area.",
         perms=['norent.view_saje_users'],
         execute_query=execute_saje_norent_letters_query,
+    ),
+    DataDownload(
+        name="RTTC-affiliated users",
+        slug="rttc-users",
+        html_desc="Details about users who opted-in to RTTC comms. Contains PII.",
+        perms=['norent.view_rttc_users'],
+        execute_query=execute_rttc_users_query,
     ),
 ]

@@ -11,6 +11,10 @@ from project.util.site_util import get_site_name
 from project.util.graphql_mailing_address import GraphQLMailingAddress
 from project import slack, schema_registry, common_data
 from . import forms, models, email_letter, views, lob_api, tasks
+from .landlord_info_mutation import (
+    BaseLandlordInfoMutation,
+    BaseLandlordInfoMutationMeta,
+)
 from airtable.sync import sync_user as sync_user_with_airtable
 
 MAX_RECIPIENTS = common_data.load_json("email-attachment-validation.json")['maxRecipients']
@@ -224,3 +228,9 @@ class LocQueries:
                     zip_code=ld.zip_code,
                 )
         return None
+
+
+@schema_registry.register_mutation
+class LocLandlordInfo(BaseLandlordInfoMutation):
+    class Meta(BaseLandlordInfoMutationMeta):
+        pass

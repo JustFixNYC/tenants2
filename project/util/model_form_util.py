@@ -1,5 +1,6 @@
 from graphql import ResolveInfo
-from django.forms import ModelForm
+from django.db.models import OneToOneField
+from django.forms import ModelForm, inlineformset_factory
 
 from project.util.session_mutation import SessionFormMutation
 
@@ -92,6 +93,56 @@ class ManyToOneUserModelFormMutation(SessionFormMutation):
             "prefix": "form"
         }
         return kwargs
+
+
+def singletonformset_factory(parent_model, model, form):
+    '''
+    Returns an inline form set where exactly one form must
+    be in the formset.
+
+    This is a bit weird since formsets are traditionally intended
+    to contain any number of forms; however, for now it's the
+    easiest way to shoehorn "sub-forms" into our form
+    infrastructure without having to overhaul it.
+    '''
+
+    return inlineformset_factory(
+        parent_model,
+        model,
+        form,
+        can_delete=False,
+        min_num=1,
+        max_num=1,
+        validate_min=True,
+        validate_max=True,
+    )
+
+
+class SingletonFormsetFormMutation(ManyToOneUserModelFormMutation):
+    '''
+    A base class that can contain formsets which map to
+    one-to-one models on the user.  They automatically associate
+    such forms with their instances as needed, to ensure that the
+    client doesn't need to know what the `id` of their models are.
+    '''
+
+    class Meta:
+        abstract = True
+
+    @classmethod
+    def get_formset_kwargs(cls, root, info: ResolveInfo, formset_name, input, all_input):
+        # This automatically associates any existing OneToOneField instances with
+        # formset forms, relieving clients of needing to know what their ID is.
+
+        formset = cls._meta.formset_classes[formset_name]
+        if input and not input[0].get('id') and isinstance(formset.fk, OneToOneField):
+            instance = formset.fk.model.objects\
+                .filter(**{formset.fk.name: info.context.user})\
+                .first()
+            if instance:
+                input[0]['id'] = instance.pk
+
+        return super().get_formset_kwargs(root, info, formset_name, input, all_input)
 
 
 class OneToOneUserModelFormMutation(SessionFormMutation):

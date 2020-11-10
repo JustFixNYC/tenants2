@@ -1,4 +1,5 @@
 from typing import Dict, Any
+from django.db.models import F
 
 from users.models import JustfixUser
 from issues.models import Issue, CustomIssue
@@ -52,6 +53,11 @@ def execute_partner_users_query(user):
         'onboarding_info__has_pests',
         'onboarding_info__has_called_311',
         'onboarding_info__receives_public_assistance',
+        landlord_name=F("landlord_details__name"),
+        landlord_street_adress=F("landlord_details__primary_line"),
+        landlord_city=F("landlord_details__city"),
+        landlord_state=F("landlord_details__state"),
+        landlord_zip_code=F("landlord_details__zip_code"),
     ).order_by('id')
     return filter_users_to_partner_orgs(queryset, user)
 

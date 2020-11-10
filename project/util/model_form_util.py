@@ -99,6 +99,11 @@ def singletonformset_factory(parent_model, model, form):
     '''
     Returns an inline form set where exactly one form must
     be in the formset.
+
+    This is a bit weird since formsets are traditionally intended
+    to contain any number of forms; however, for now it's the
+    easiest way to shoehorn "sub-forms" into our form
+    infrastructure without having to overhaul it.
     '''
 
     return inlineformset_factory(

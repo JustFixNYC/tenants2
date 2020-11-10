@@ -157,10 +157,6 @@ class HpaLandlordInfo(SingletonFormsetFormMutation):
     class Meta:
         form_class = forms.LandlordExtraInfoForm
 
-        # This is a bit weird since we're associating formset
-        # factories with one-to-one fields; however, for now it's the
-        # easiest way to shoehorn "sub-forms" into our form
-        # infrastructure without having to overhaul it.
         formset_classes = {
             'landlord': singletonformset_factory(
                 JustfixUser,

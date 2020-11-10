@@ -1,7 +1,8 @@
 import pytest
+from typing import Dict, Any
 from freezegun import freeze_time
 
-from project.util.testing_util import one_field_err
+from project.util.testing_util import one_field_err, GraphQLTestingPal
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from .test_landlord_lookup import mock_lookup_success, enable_fake_landlord_lookup
@@ -391,3 +392,101 @@ class TestRecommendedLocLandlord:
             'state': 'NY',
             'zipCode': '11999',
         }
+
+
+class TestLocLandlordInfo(GraphQLTestingPal):
+    QUERY = '''
+    mutation LocLandlordInfoMutation($input: LocLandlordInfoInput!) {
+        output: locLandlordInfo(input: $input) {
+            errors { field, messages },
+            session {
+                landlordDetails {
+                    name,
+                    primaryLine,
+                    city,
+                    state,
+                    zipCode,
+                    isLookedUp
+                }
+            }
+        }
+    }
+    '''
+
+    DEFAULT_INPUT = {
+        'useRecommended': True,
+        'landlord': [],
+    }
+
+    LANDLORD_ADDRESS = '124 99TH STREET\nBrooklyn, NY 11999'
+
+    LANDLORD_DETAILS: Dict[str, Any] = {
+        'name': 'BOOP JONES',
+        'primaryLine': '124 99TH STREET',
+        'city': 'Brooklyn',
+        'state': 'NY',
+        'zipCode': '11999',
+    }
+
+    MISSING_ZIP_CODE_MAILING_ADDRESS = {
+        **LANDLORD_DETAILS,
+        'zipCode': '',
+    }
+
+    def test_it_requires_login(self):
+        self.assert_one_field_err('You do not have permission to use this form!')
+
+    @pytest.mark.parametrize('ll_details_exist', [True, False])
+    @enable_fake_landlord_lookup
+    def test_it_sets_recommended_landlord(self, requests_mock, nycdb, ll_details_exist):
+        mock_lookup_success(requests_mock, nycdb)
+        onb = OnboardingInfoFactory()
+        if ll_details_exist:
+            LandlordDetailsV2Factory(user=onb.user)
+        self.set_user(onb.user)
+        result = self.execute(input={'useRecommended': True})
+        assert result['session'] == {
+            'landlordDetails': {
+                'isLookedUp': True,
+                **self.LANDLORD_DETAILS,
+            },
+        }
+        assert onb.user.landlord_details.address == self.LANDLORD_ADDRESS
+
+    @enable_fake_landlord_lookup
+    def test_it_ignores_ll_when_use_recommended_is_set(self, requests_mock, nycdb):
+        mock_lookup_success(requests_mock, nycdb)
+        self.set_user(OnboardingInfoFactory().user)
+        result = self.execute(input={
+            'useRecommended': True,
+            'landlord': [self.MISSING_ZIP_CODE_MAILING_ADDRESS],
+        })
+        assert result['errors'] == []
+
+    def test_it_sets_manual_landlord(self):
+        ld = LandlordDetailsV2Factory()
+        self.set_user(ld.user)
+        result = self.execute(input={
+            'useRecommended': False,
+            'landlord': [self.LANDLORD_DETAILS],
+        })
+        assert result['session'] == {
+            'landlordDetails': {
+                'isLookedUp': False,
+                **self.LANDLORD_DETAILS,
+            },
+        }
+        ld.refresh_from_db()
+        assert ld.address == self.LANDLORD_ADDRESS
+
+    def test_it_reports_manual_landlord_errors(self):
+        ld = LandlordDetailsV2Factory()
+        self.set_user(ld.user)
+        self.assert_one_field_err(
+            'This field is required.',
+            field='landlord.0.zipCode',
+            input={
+                'useRecommended': False,
+                'landlord': [self.MISSING_ZIP_CODE_MAILING_ADDRESS],
+            }
+        )

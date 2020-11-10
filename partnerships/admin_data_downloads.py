@@ -1,19 +1,9 @@
 from typing import Dict, Any
-from django.db import DEFAULT_DB_ALIAS
+from django.db.models import F
 
 from users.models import JustfixUser
 from issues.models import Issue, CustomIssue
-from project.admin_download_data import DataDownload
-
-
-def exec_queryset_on_cursor(queryset, cursor):
-    '''
-    Executes the given Django queryset on the given database cursor.
-    '''
-
-    compiler = queryset.query.get_compiler(using=DEFAULT_DB_ALIAS)
-    sql, params = compiler.as_sql()
-    cursor.execute(sql, params)
+from project.admin_download_data import DataDownload, queryset_data_download
 
 
 def _dictprefix(prefix: str, **kwargs: Any) -> Dict[str, Any]:
@@ -40,7 +30,8 @@ def filter_users_to_partner_orgs(queryset, user: JustfixUser, prefix: str = ''):
     return queryset.exclude(**_dictprefix(prefix, is_staff=True))
 
 
-def execute_partner_users_query(cursor, user):
+@queryset_data_download
+def execute_partner_users_query(user):
     queryset = JustfixUser.objects.values(
         'id',
         'date_joined',
@@ -62,29 +53,33 @@ def execute_partner_users_query(cursor, user):
         'onboarding_info__has_pests',
         'onboarding_info__has_called_311',
         'onboarding_info__receives_public_assistance',
+        landlord_name=F("landlord_details__name"),
+        landlord_street_adress=F("landlord_details__primary_line"),
+        landlord_city=F("landlord_details__city"),
+        landlord_state=F("landlord_details__state"),
+        landlord_zip_code=F("landlord_details__zip_code"),
     ).order_by('id')
-    queryset = filter_users_to_partner_orgs(queryset, user)
-    exec_queryset_on_cursor(queryset, cursor)
+    return filter_users_to_partner_orgs(queryset, user)
 
 
-def execute_partner_user_issues_query(cursor, user):
+@queryset_data_download
+def execute_partner_user_issues_query(user):
     queryset = Issue.objects.values(
         'user_id',
         'area',
         'value',
     ).order_by('user_id', 'area', 'value')
-    queryset = filter_users_to_partner_orgs(queryset, user, 'user__')
-    exec_queryset_on_cursor(queryset, cursor)
+    return filter_users_to_partner_orgs(queryset, user, 'user__')
 
 
-def execute_partner_user_custom_issues_query(cursor, user):
+@queryset_data_download
+def execute_partner_user_custom_issues_query(user):
     queryset = CustomIssue.objects.values(
         'user_id',
         'area',
         'description',
     ).order_by('user_id', 'area')
-    queryset = filter_users_to_partner_orgs(queryset, user, 'user__')
-    exec_queryset_on_cursor(queryset, cursor)
+    return filter_users_to_partner_orgs(queryset, user, 'user__')
 
 
 DATA_DOWNLOADS = [

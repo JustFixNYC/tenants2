@@ -8,6 +8,7 @@ from project import common_data
 from project.forms import YesNoRadiosField, ensure_at_least_one_is_true
 from issues.models import ISSUE_CHOICES, get_issue_area
 from onboarding.models import OnboardingInfo
+from loc.landlord_info_mutation import BaseLandlordExtraInfoForm
 from . import models
 
 
@@ -271,17 +272,7 @@ class ManagementCompanyForm(forms.ModelForm):
             self.fields[field].required = True
 
 
-class LandlordExtraInfoForm(forms.Form):
-    use_recommended = forms.BooleanField(
-        required=False,
-        help_text=(
-            "Whether to use the recommended default landlord and/or management "
-            "company as determined by the server. If false, we expect "
-            "manual landlord and/or management company details to be "
-            "provided."
-        )
-    )
-
+class HpLandlordExtraInfoForm(BaseLandlordExtraInfoForm):
     use_mgmt_co = forms.BooleanField(
         required=False,
         help_text=(

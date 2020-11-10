@@ -16,17 +16,19 @@ from project.util.graphql_mailing_address import GraphQLMailingAddress
 from project.util.model_form_util import (
     ManyToOneUserModelFormMutation,
     OneToOneUserModelFormMutation,
-    SingletonFormsetFormMutation,
     singletonformset_factory,
     create_model_for_user_resolver,
     create_models_for_user_resolver
 )
-from project.util.django_graphql_forms import DjangoFormMutation, FormWithFormsets
+from project.util.django_graphql_forms import DjangoFormMutation
 from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES
 from issues.schema import save_custom_issues_formset_with_area
+from loc.landlord_info_mutation import (
+    BaseLandlordFormWithFormsets,
+    BaseLandlordInfoMutation,
+    LandlordSingletonFormset,
+)
 import issues.forms
-import loc.forms
-from loc.models import LandlordDetails
 from .models import (
     HPUploadStatus, COMMON_DATA, HP_ACTION_CHOICES, HPActionDocuments,
     DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES, ManagementCompanyDetails)
@@ -142,27 +144,21 @@ def sync_one_value(value: str, is_value_present: bool, values: List[str]) -> Lis
     return values
 
 
-class LandlordInfoFormWithFormsets(FormWithFormsets):
+class HpLandlordInfoFormWithFormsets(BaseLandlordFormWithFormsets):
     def get_formset_names_to_clean(self) -> List[str]:
-        names: List[str] = []
-        if not self.base_form.cleaned_data.get('use_recommended'):
-            names.append('landlord')
-            if self.base_form.cleaned_data.get('use_mgmt_co'):
-                names.append('mgmt_co')
+        names = super().get_formset_names_to_clean()
+        if 'landlord' in names and self.base_form.cleaned_data.get('use_mgmt_co'):
+            names.append('mgmt_co')
         return names
 
 
 @schema_registry.register_mutation
-class HpaLandlordInfo(SingletonFormsetFormMutation):
+class HpaLandlordInfo(BaseLandlordInfoMutation):
     class Meta:
-        form_class = forms.LandlordExtraInfoForm
+        form_class = forms.HpLandlordExtraInfoForm
 
         formset_classes = {
-            'landlord': singletonformset_factory(
-                JustfixUser,
-                LandlordDetails,
-                loc.forms.LandlordDetailsFormV2,
-            ),
+            'landlord': LandlordSingletonFormset,
             'mgmt_co': singletonformset_factory(
                 JustfixUser,
                 ManagementCompanyDetails,
@@ -172,13 +168,7 @@ class HpaLandlordInfo(SingletonFormsetFormMutation):
 
     @classmethod
     def get_form_with_formsets(cls, form, formsets):
-        return LandlordInfoFormWithFormsets(form, formsets)
-
-    @classmethod
-    def __update_recommended_ll_info(cls, user):
-        assert hasattr(user, 'onboarding_info')
-        info = LandlordDetails.create_or_update_lookup_for_user(user)
-        assert info is not None
+        return HpLandlordInfoFormWithFormsets(form, formsets)
 
     @classmethod
     def clear_mgmt_co_details(cls, user: JustfixUser):
@@ -189,25 +179,13 @@ class HpaLandlordInfo(SingletonFormsetFormMutation):
             mc.save()
 
     @classmethod
-    def update_manual_details(cls, form: LandlordInfoFormWithFormsets, user: JustfixUser):
-        ll_form = form.formsets['landlord'].forms[0]
-        ld = ll_form.save(commit=False)
-        ld.is_looked_up = False
-        ld.save()
-
+    def update_manual_details(cls, form, user: JustfixUser):
+        super().update_manual_details(form, user)
         if form.base_form.cleaned_data['use_mgmt_co']:
             mgmt_co_form = form.formsets['mgmt_co'].forms[0]
             mgmt_co_form.save()
         else:
             cls.clear_mgmt_co_details(user)
-
-    @classmethod
-    def perform_mutate(cls, form: LandlordInfoFormWithFormsets, info: ResolveInfo):
-        if form.base_form.cleaned_data['use_recommended']:
-            cls.__update_recommended_ll_info(info.context.user)
-        else:
-            cls.update_manual_details(form, info.context.user)
-        return cls.mutation_success()
 
 
 @schema_registry.register_mutation

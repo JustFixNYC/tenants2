@@ -126,6 +126,9 @@ class SingletonFormsetFormMutation(ManyToOneUserModelFormMutation):
     client doesn't need to know what the `id` of their models are.
     '''
 
+    class Meta:
+        abstract = True
+
     @classmethod
     def get_formset_kwargs(cls, root, info: ResolveInfo, formset_name, input, all_input):
         # This automatically associates any existing OneToOneField instances with

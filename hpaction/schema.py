@@ -16,6 +16,8 @@ from project.util.graphql_mailing_address import GraphQLMailingAddress
 from project.util.model_form_util import (
     ManyToOneUserModelFormMutation,
     OneToOneUserModelFormMutation,
+    SingletonFormsetFormMutation,
+    singletonformset_factory,
     create_model_for_user_resolver,
     create_models_for_user_resolver
 )
@@ -151,7 +153,7 @@ class LandlordInfoFormWithFormsets(FormWithFormsets):
 
 
 @schema_registry.register_mutation
-class HpaLandlordInfo(ManyToOneUserModelFormMutation):
+class HpaLandlordInfo(SingletonFormsetFormMutation):
     class Meta:
         form_class = forms.LandlordExtraInfoForm
 
@@ -160,48 +162,21 @@ class HpaLandlordInfo(ManyToOneUserModelFormMutation):
         # easiest way to shoehorn "sub-forms" into our form
         # infrastructure without having to overhaul it.
         formset_classes = {
-            'landlord': inlineformset_factory(
+            'landlord': singletonformset_factory(
                 JustfixUser,
                 LandlordDetails,
                 loc.forms.LandlordDetailsFormV2,
-                can_delete=False,
-                min_num=1,
-                max_num=1,
-                validate_min=True,
-                validate_max=True,
             ),
-            'mgmt_co': inlineformset_factory(
+            'mgmt_co': singletonformset_factory(
                 JustfixUser,
                 ManagementCompanyDetails,
                 forms.ManagementCompanyForm,
-                can_delete=False,
-                min_num=1,
-                max_num=1,
-                validate_min=True,
-                validate_max=True,
             ),
         }
 
     @classmethod
     def get_form_with_formsets(cls, form, formsets):
         return LandlordInfoFormWithFormsets(form, formsets)
-
-    @classmethod
-    def get_formset_kwargs(cls, root, info: ResolveInfo, formset_name, input, all_input):
-        # This automatically associates any existing OneToOneField instances with
-        # formset forms, relieving clients of needing to know what their ID is.
-
-        from django.db.models import OneToOneField
-
-        formset = cls._meta.formset_classes[formset_name]
-        if input and not input[0].get('id') and isinstance(formset.fk, OneToOneField):
-            instance = formset.fk.model.objects\
-                .filter(**{formset.fk.name: info.context.user})\
-                .first()
-            if instance:
-                input[0]['id'] = instance.pk
-
-        return super().get_formset_kwargs(root, info, formset_name, input, all_input)
 
     @classmethod
     def __update_recommended_ll_info(cls, user):

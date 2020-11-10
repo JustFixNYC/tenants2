@@ -31,11 +31,16 @@ class BaseLandlordFormWithFormsets(FormWithFormsets):
         return []
 
 
-LandlordSingletonFormset = singletonformset_factory(
-    JustfixUser,
-    LandlordDetails,
-    LandlordDetailsFormV2,
-)
+class BaseLandlordInfoMutationMeta:
+    form_class = BaseLandlordExtraInfoForm
+
+    formset_classes = {
+        'landlord': singletonformset_factory(
+            JustfixUser,
+            LandlordDetails,
+            LandlordDetailsFormV2,
+        )
+    }
 
 
 class BaseLandlordInfoMutation(SingletonFormsetFormMutation):

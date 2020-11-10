@@ -26,7 +26,7 @@ from issues.schema import save_custom_issues_formset_with_area
 from loc.landlord_info_mutation import (
     BaseLandlordFormWithFormsets,
     BaseLandlordInfoMutation,
-    LandlordSingletonFormset,
+    BaseLandlordInfoMutationMeta,
 )
 import issues.forms
 from .models import (
@@ -154,11 +154,11 @@ class HpLandlordInfoFormWithFormsets(BaseLandlordFormWithFormsets):
 
 @schema_registry.register_mutation
 class HpaLandlordInfo(BaseLandlordInfoMutation):
-    class Meta:
+    class Meta(BaseLandlordInfoMutationMeta):
         form_class = forms.HpLandlordExtraInfoForm
 
         formset_classes = {
-            'landlord': LandlordSingletonFormset,
+            **BaseLandlordInfoMutationMeta.formset_classes,
             'mgmt_co': singletonformset_factory(
                 JustfixUser,
                 ManagementCompanyDetails,

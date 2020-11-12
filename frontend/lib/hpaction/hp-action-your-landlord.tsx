@@ -28,19 +28,10 @@ import {
 import { Formset, FormsetProps } from "../forms/formset";
 import { getQuerystringVar } from "../util/querystring";
 import { useProgressiveEnhancement } from "../ui/progressive-enhancement";
-
-const Address: React.FC<{
-  primaryLine: string;
-  city: string;
-  state: string;
-  zipCode: string;
-}> = (props) => (
-  <>
-    {props.primaryLine}
-    <br />
-    {props.city}, {props.state} {props.zipCode}
-  </>
-);
+import {
+  MailingAddressWithName,
+  RecommendedLandlordInfo,
+} from "../ui/landlord";
 
 const ReadOnlyLandlordDetails: React.FC<{
   isUserNycha: boolean;
@@ -48,40 +39,28 @@ const ReadOnlyLandlordDetails: React.FC<{
   mgmt: RecommendedHpLandlord_recommendedHpManagementCompany | null;
 }> = ({ isUserNycha, landlord, mgmt }) => (
   <>
-    {isUserNycha ? (
-      <p>
-        Since you are in NYCHA housing, we will be using the following
-        information to fill out your HP Action forms.
-      </p>
-    ) : (
-      <p>
-        This is your landlord’s information as registered with the{" "}
-        <b>NYC Department of Housing and Preservation (HPD)</b>. This may be
-        different than where you send your rent checks.
-      </p>
-    )}
-    <dl>
-      <dt>Landlord name</dt>
-      <dd>{landlord.name}</dd>
-      <dt>Landlord address</dt>
-      <dd>
-        <Address {...landlord} />
-      </dd>
-    </dl>
+    <RecommendedLandlordInfo
+      intro={
+        isUserNycha ? (
+          <p>
+            Since you are in NYCHA housing, we will be using the following
+            information to fill out your HP Action forms.
+          </p>
+        ) : undefined
+      }
+      landlord={landlord}
+    />
     {mgmt && (
       <>
         <p>
           Additionally, your building's HPD registration contains details about
           your management company.
         </p>
-        <dl>
-          <dt>Management company name</dt>
-          <dd>{mgmt.name}</dd>
-          <dt>Management company address</dt>
-          <dd>
-            <Address {...mgmt} />
-          </dd>
-        </dl>
+        <MailingAddressWithName
+          {...mgmt}
+          nameLabel="Management company name"
+          addressLabel="Management company address"
+        />
       </>
     )}
     {isUserNycha ? (

@@ -26,9 +26,11 @@ import {
   HpaLandlordInfoMutation,
 } from "../queries/HpaLandlordInfoMutation";
 import { Formset, FormsetProps } from "../forms/formset";
-import { getQuerystringVar } from "../util/querystring";
 import { useProgressiveEnhancement } from "../ui/progressive-enhancement";
 import {
+  FORCE_MANUAL_SEARCH,
+  FORCE_RECOMMENDED_SEARCH,
+  determineLandlordPageOptions,
   MailingAddressWithName,
   RecommendedLandlordInfo,
 } from "../ui/landlord";
@@ -73,14 +75,11 @@ const ReadOnlyLandlordDetails: React.FC<{
         We'll use these details to automatically fill out your HP Action forms.
         If you feel strongly that this information is incorrect or incomplete,
         however, you can{" "}
-        <Link to={`?force=${FORCE_MANUAL}`}>provide your own details</Link>.
+        <Link to={FORCE_MANUAL_SEARCH}>provide your own details</Link>.
       </p>
     )}
   </>
 );
-
-const FORCE_MANUAL = "manual";
-const FORCE_RECOMMENDED = "rec";
 
 /**
  * A formset to use when we know there's only one possible entry
@@ -105,33 +104,6 @@ function SingletonFormset<FormsetInput extends { id?: string | null }>(
   );
 }
 
-export function shouldUseRecommendedLandlordInfo(options: {
-  hasRecommendedLandlord: boolean;
-  isLandlordAlreadyManuallySpecified: boolean;
-  forceManual: boolean;
-  forceRecommended: boolean;
-}): boolean {
-  let useRecommended: boolean;
-
-  if (options.hasRecommendedLandlord) {
-    if (options.isLandlordAlreadyManuallySpecified) {
-      if (options.forceRecommended) {
-        useRecommended = true;
-      } else {
-        useRecommended = false;
-      }
-    } else if (options.forceManual) {
-      useRecommended = false;
-    } else {
-      useRecommended = true;
-    }
-  } else {
-    useRecommended = false;
-  }
-
-  return useRecommended;
-}
-
 export const HPActionYourLandlord = MiddleProgressStep((props) => {
   const { session } = useContext(AppContext);
   const loc = useLocation();
@@ -148,19 +120,11 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
           recommendedHpManagementCompany: mgmt,
         }) => {
           const isNycha = isUserNycha(session);
-          const forceQs = getQuerystringVar(loc.search, "force");
-          const forceManual = forceQs === FORCE_MANUAL && !isNycha;
-          const forceRecommended = forceQs === FORCE_RECOMMENDED;
-          const isLandlordAlreadyManuallySpecified = !!(
-            !llDetails?.isLookedUp &&
-            llDetails?.name &&
-            llDetails.address
-          );
-          let useRecommended = shouldUseRecommendedLandlordInfo({
+          const { useRecommended, isForced } = determineLandlordPageOptions({
             hasRecommendedLandlord: !!landlord,
-            isLandlordAlreadyManuallySpecified,
-            forceManual,
-            forceRecommended,
+            landlordDetails: llDetails,
+            search: loc.search,
+            disallowManualOverride: isNycha,
           });
 
           let intro = (
@@ -181,7 +145,7 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
                 <p>
                   You have chosen to ignore the landlord recommended by
                   JustFix.nyc. Please provide your own details below, or{" "}
-                  <Link to={`?force=${FORCE_RECOMMENDED}`}>
+                  <Link to={FORCE_RECOMMENDED_SEARCH}>
                     use the recommended landlord "{landlord.name}"
                   </Link>
                   .
@@ -190,8 +154,7 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
             }
           }
 
-          const backHref =
-            forceRecommended || forceManual ? loc.pathname : props.prevStep;
+          const backHref = isForced ? loc.pathname : props.prevStep;
 
           return (
             <SessionUpdatingFormSubmitter

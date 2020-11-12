@@ -1,4 +1,6 @@
 import React from "react";
+import { AllSessionInfo_landlordDetails } from "../queries/AllSessionInfo";
+import { getQuerystringVar } from "../util/querystring";
 
 /** A US mailing address. */
 export type MailingAddress = {
@@ -64,4 +66,67 @@ export const RecommendedLandlordInfo: React.FC<{
       />
     </>
   );
+};
+
+const FORCE_QS_VAR = "force";
+const FORCE_MANUAL = "manual";
+const FORCE_RECOMMENDED = "rec";
+export const FORCE_MANUAL_SEARCH = `?${FORCE_QS_VAR}=${FORCE_MANUAL}`;
+export const FORCE_RECOMMENDED_SEARCH = `?${FORCE_QS_VAR}=${FORCE_RECOMMENDED}`;
+
+export function determineLandlordPageOptions(options: {
+  hasRecommendedLandlord: boolean;
+  landlordDetails: AllSessionInfo_landlordDetails | null;
+  search: string;
+  disallowManualOverride?: boolean;
+}) {
+  const llDetails = options.landlordDetails;
+  const forceQs = getQuerystringVar(options.search, FORCE_QS_VAR);
+  const forceManual =
+    forceQs === FORCE_MANUAL && !options.disallowManualOverride;
+  const forceRecommended = forceQs === FORCE_RECOMMENDED;
+  const isLandlordAlreadyManuallySpecified = !!(
+    !llDetails?.isLookedUp &&
+    llDetails?.name &&
+    llDetails.address
+  );
+  let useRecommended = shouldUseRecommendedLandlordInfo({
+    hasRecommendedLandlord: options.hasRecommendedLandlord,
+    isLandlordAlreadyManuallySpecified,
+    forceManual,
+    forceRecommended,
+  });
+
+  return { useRecommended, isForced: forceManual || forceRecommended };
+}
+
+function shouldUseRecommendedLandlordInfo(options: {
+  hasRecommendedLandlord: boolean;
+  isLandlordAlreadyManuallySpecified: boolean;
+  forceManual: boolean;
+  forceRecommended: boolean;
+}): boolean {
+  let useRecommended: boolean;
+
+  if (options.hasRecommendedLandlord) {
+    if (options.isLandlordAlreadyManuallySpecified) {
+      if (options.forceRecommended) {
+        useRecommended = true;
+      } else {
+        useRecommended = false;
+      }
+    } else if (options.forceManual) {
+      useRecommended = false;
+    } else {
+      useRecommended = true;
+    }
+  } else {
+    useRecommended = false;
+  }
+
+  return useRecommended;
+}
+
+export const privateLandlordHelpersForTesting = {
+  shouldUseRecommendedLandlordInfo,
 };

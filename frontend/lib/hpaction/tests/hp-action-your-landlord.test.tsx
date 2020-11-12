@@ -1,9 +1,6 @@
 import React from "react";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import {
-  HPActionYourLandlord,
-  shouldUseRecommendedLandlordInfo,
-} from "../hp-action-your-landlord";
+import { HPActionYourLandlord } from "../hp-action-your-landlord";
 import { Route } from "react-router-dom";
 import { BlankOnboardingInfo } from "../../queries/OnboardingInfo";
 import { LeaseType } from "../../queries/globalTypes";
@@ -52,63 +49,6 @@ async function mockRecommendation(
   });
   await waitFor(() => pal.rr.getByText("Next"));
 }
-
-describe("shouldUseRecommendedLandlordInfo()", () => {
-  it("Returns true when LL is currently manually specified but user wants to force recommended", () => {
-    expect(
-      shouldUseRecommendedLandlordInfo({
-        hasRecommendedLandlord: true,
-        isLandlordAlreadyManuallySpecified: true,
-        forceManual: false,
-        forceRecommended: true,
-      })
-    ).toBe(true);
-  });
-
-  it("Returns false when LL is currently manually specified and user has no opinion", () => {
-    expect(
-      shouldUseRecommendedLandlordInfo({
-        hasRecommendedLandlord: true,
-        isLandlordAlreadyManuallySpecified: true,
-        forceManual: false,
-        forceRecommended: false,
-      })
-    ).toBe(false);
-  });
-
-  it("Returns true when recommendation exists and user has no opinion", () => {
-    expect(
-      shouldUseRecommendedLandlordInfo({
-        hasRecommendedLandlord: true,
-        isLandlordAlreadyManuallySpecified: false,
-        forceManual: false,
-        forceRecommended: false,
-      })
-    ).toBe(true);
-  });
-
-  it("Returns false when recommendation exists and user wants to force manual", () => {
-    expect(
-      shouldUseRecommendedLandlordInfo({
-        hasRecommendedLandlord: true,
-        isLandlordAlreadyManuallySpecified: false,
-        forceManual: true,
-        forceRecommended: false,
-      })
-    ).toBe(false);
-  });
-
-  it("Returns false when no recommendation exists", () => {
-    expect(
-      shouldUseRecommendedLandlordInfo({
-        hasRecommendedLandlord: false,
-        isLandlordAlreadyManuallySpecified: false,
-        forceManual: false,
-        forceRecommended: false,
-      })
-    ).toBe(false);
-  });
-});
 
 describe("HPActionYourLandlord", () => {
   const makeRoute = () => (

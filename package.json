@@ -88,7 +88,7 @@
     "@frontapp/plugin-sdk": "^1.0.1",
     "@justfixnyc/geosearch-requester": "0.1.0",
     "@justfixnyc/react-aria-modal": "5.1.0",
-    "@justfixnyc/react-common": "^0.0.3",
+    "@justfixnyc/react-common": "^0.0.5",
     "@justfixnyc/util": "^0.0.1",
     "@lingui/cli": "2.9.1",
     "@lingui/macro": "2.9.1",

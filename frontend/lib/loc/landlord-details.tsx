@@ -81,6 +81,7 @@ export const LandlordDetailsPage = MiddleProgressStep((props) => {
                       )}
                     </SingletonFormset>
                     <ProgressButtons
+                      nextLabel="Preview letter"
                       back={toUnforcedHref || props.prevStep}
                       isLoading={ctx.isLoading}
                     />

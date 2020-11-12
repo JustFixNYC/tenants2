@@ -4,8 +4,10 @@ import JustfixRoutes from "../../justfix-routes";
 import LetterOfComplaintRoutes from "../letter-of-complaint";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { BlankLandlordDetailsType } from "../../queries/LandlordDetailsType";
-import { LandlordDetailsV2Mutation } from "../../queries/LandlordDetailsV2Mutation";
 import { newSb } from "../../tests/session-builder";
+import { RecommendedLocLandlord } from "../../queries/RecommendedLocLandlord";
+import { waitFor } from "@testing-library/dom";
+import { LocLandlordInfoMutation } from "../../queries/LocLandlordInfoMutation";
 
 const sb = newSb().withLoggedInJustfixUser();
 
@@ -16,26 +18,46 @@ const LOOKED_UP_LANDLORD_DETAILS = {
   isLookedUp: true,
 };
 
+async function mockRecommendation(
+  pal: AppTesterPal,
+  options: { landlord?: boolean } = {}
+) {
+  pal.withQuery(RecommendedLocLandlord).respondWith({
+    recommendedLocLandlord: options.landlord
+      ? {
+          name: LOOKED_UP_LANDLORD_DETAILS.name,
+          primaryLine: LOOKED_UP_LANDLORD_DETAILS.address,
+          city: "New York",
+          state: "NY",
+          zipCode: "11299",
+        }
+      : null,
+  });
+  await waitFor(() => pal.rr.getByText("Preview letter"));
+}
+
 describe("landlord details page", () => {
-  it("works when details are not looked up", () => {
+  it("works when details are not looked up", async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: JustfixRoutes.locale.loc.yourLandlord,
       session: sb.with({
         landlordDetails: BlankLandlordDetailsType,
       }).value,
     });
+    await mockRecommendation(pal);
     pal.rr.getByText(/Please enter your landlord's name/i);
     pal.rr.getByText(/Back/);
     pal.rr.getByText(/Preview letter/);
   });
 
-  it("works when details are looked up", () => {
+  it("works when details are looked up", async () => {
     const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
       url: JustfixRoutes.locale.loc.yourLandlord,
       session: sb.with({
         landlordDetails: LOOKED_UP_LANDLORD_DETAILS,
       }).value,
     });
+    await mockRecommendation(pal, { landlord: true });
     pal.rr.getByText(/This may be different .+ rent checks/i);
     pal.rr.getByText(/Back/);
     pal.rr.getByText(/Preview letter/);
@@ -48,6 +70,7 @@ describe("landlord details page", () => {
         landlordDetails: BlankLandlordDetailsType,
       }).value,
     });
+    await mockRecommendation(pal);
     const name = "Boop Jones";
     const primaryLine = "123 Boop Way";
     const city = "Boopville";
@@ -64,17 +87,21 @@ describe("landlord details page", () => {
     ]);
     pal.clickButtonOrLink("Preview letter");
     pal
-      .withFormMutation(LandlordDetailsV2Mutation)
+      .withFormMutation(LocLandlordInfoMutation)
       .expect({
-        name,
-        primaryLine,
-        city,
-        state,
-        zipCode,
+        useRecommended: false,
+        landlord: [
+          {
+            name,
+            primaryLine,
+            city,
+            state,
+            zipCode,
+          },
+        ],
       })
       .respondWith({
         errors: [],
-        isUndeliverable: null,
         session: {
           landlordDetails: { ...BlankLandlordDetailsType, name, address },
         },

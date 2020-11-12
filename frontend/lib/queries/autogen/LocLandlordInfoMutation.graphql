@@ -2,6 +2,8 @@
 mutation LocLandlordInfoMutation($input: LocLandlordInfoInput!) {
   output: locLandlordInfo(input: $input) {
     errors { ...ExtendedFormFieldErrors },
-    session { ...AllSessionInfo }
+    session {
+      landlordDetails { ...LandlordDetailsType }
+    }
   }
 }

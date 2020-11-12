@@ -164,17 +164,6 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
       <QueryLoader
         query={RecommendedHpLandlord}
         input={null}
-        loading={(props) => {
-          return props.error ? (
-            <p>Oops, an error occurred! Try reloading the page.</p>
-          ) : (
-            <section className="section" aria-hidden="true">
-              <div className="jf-loading-overlay">
-                <div className="jf-loader" />
-              </div>
-            </section>
-          );
-        }}
         render={({
           recommendedHpLandlord: landlord,
           recommendedHpManagementCompany: mgmt,

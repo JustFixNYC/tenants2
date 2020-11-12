@@ -23,9 +23,10 @@ export interface QueryLoaderProps<Input, Output> {
 
   /**
    * The component that will be shown while the query is loading,
-   * or if an error occurs.
+   * or if an error occurs. If not specified, a default
+   * component will be shown.
    */
-  loading: React.ComponentType<RetryableLoadingComponentProps>;
+  loading?: React.ComponentType<RetryableLoadingComponentProps>;
 }
 
 type Props<Input, Output> = QueryLoaderProps<Input, Output> &
@@ -94,11 +95,25 @@ class QueryLoaderWithoutCtx<Input, Output> extends React.Component<
     if (typeof output !== "undefined") {
       return this.props.render(output);
     } else {
-      const Loading = this.props.loading;
+      const Loading = this.props.loading || DefaultLoadingComponent;
       return <Loading error={error} retry={this.retry} />;
     }
   }
 }
+
+const DefaultLoadingComponent: React.FC<RetryableLoadingComponentProps> = (
+  props
+) => {
+  return props.error ? (
+    <p>Oops, an error occurred! Try reloading the page.</p>
+  ) : (
+    <section className="section" aria-hidden="true">
+      <div className="jf-loading-overlay">
+        <div className="jf-loader" />
+      </div>
+    </section>
+  );
+};
 
 /**
  * This component fetches a GraphQL query and displays a loading component

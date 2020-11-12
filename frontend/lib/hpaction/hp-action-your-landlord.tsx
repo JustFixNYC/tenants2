@@ -3,7 +3,7 @@ import { AppContext } from "../app-context";
 import { MiddleProgressStep } from "../progress/progress-step-route";
 import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
-import { assertNotNull, exactSubsetOrDefault } from "../util/util";
+import { exactSubsetOrDefault } from "../util/util";
 import {
   CheckboxFormField,
   HiddenFormField,
@@ -135,7 +135,7 @@ export const HPActionYourLandlord = MiddleProgressStep((props) => {
             if (useRecommended) {
               intro = (
                 <ReadOnlyLandlordDetails
-                  landlord={assertNotNull(landlord)}
+                  landlord={landlord}
                   mgmt={mgmt}
                   isUserNycha={isNycha}
                 />

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { AppContext } from "../app-context";
 import { AllSessionInfo_landlordDetails } from "../queries/AllSessionInfo";
 import { getQuerystringVar } from "../util/querystring";
 
@@ -71,10 +73,124 @@ export const RecommendedLandlordInfo: React.FC<{
 const FORCE_QS_VAR = "force";
 const FORCE_MANUAL = "manual";
 const FORCE_RECOMMENDED = "rec";
-export const FORCE_MANUAL_SEARCH = `?${FORCE_QS_VAR}=${FORCE_MANUAL}`;
-export const FORCE_RECOMMENDED_SEARCH = `?${FORCE_QS_VAR}=${FORCE_RECOMMENDED}`;
+const FORCE_MANUAL_SEARCH = `?${FORCE_QS_VAR}=${FORCE_MANUAL}`;
+const FORCE_RECOMMENDED_SEARCH = `?${FORCE_QS_VAR}=${FORCE_RECOMMENDED}`;
 
-export function determineLandlordPageOptions(options: {
+type LandlordPageContentProps = {
+  /** The landlord we recommend the user proceed with. */
+  recommendedLandlord: MailingAddressWithName | null;
+
+  /**
+   * Whether to forcibly disallow the user from overriding our
+   * recommended landlord.
+   */
+  disallowManualOverride?: boolean;
+
+  /**
+   * A function that renders the recommended landlord.
+   */
+  renderReadOnlyLandlordDetails: (
+    options: RenderReadOnlyLandlordDetailsOptions
+  ) => JSX.Element;
+
+  /**
+   * A function that renders everything after the introductory
+   * text.
+   */
+  children: (ctx: LandlordPageContext) => JSX.Element;
+};
+
+type LandlordPageContext = {
+  /**
+   * If the current page represents the user choosing to
+   * override a recommended landlord with manually-specified
+   * details or vice-versa, this is the link to go back to
+   * just using whatever the current settings are.
+   */
+  toUnforcedHref: string | null;
+
+  /**
+   * Whether or not we're currently using the recommended
+   * landlord or not.
+   */
+  useRecommended: boolean;
+};
+
+type RenderReadOnlyLandlordDetailsOptions = {
+  /**
+   * The landlord we recommend.
+   */
+  landlord: MailingAddressWithName;
+
+  /**
+   * A link allowing the user to override our landlord recommendation
+   * with details they manually provide.
+   */
+  forceManualHref: string;
+};
+
+/**
+ * A component for viewing and/or editing the user's landlord details,
+ * optionally allowing the user to forcibly override a recommended
+ * landlord with manually-provided details and vice-versa. It only
+ * contains enough view logic to display introductory text; a
+ * form element must be rendered by the children, which is a function
+ * that is passed contextual information about how the page
+ * should be displayed.
+ *
+ * Note that forcibly overriding the default uses the current location's
+ * querystring.
+ */
+export const LandlordPageContent: React.FC<LandlordPageContentProps> = ({
+  recommendedLandlord,
+  disallowManualOverride,
+  renderReadOnlyLandlordDetails,
+  children,
+}) => {
+  const { session } = useContext(AppContext);
+  const loc = useLocation();
+  const llDetails = session.landlordDetails;
+  const { useRecommended, isForced } = determineLandlordPageOptions({
+    hasRecommendedLandlord: !!recommendedLandlord,
+    landlordDetails: llDetails,
+    search: loc.search,
+    disallowManualOverride,
+  });
+
+  let intro = <p>Please provide us with information on your landlord.</p>;
+
+  if (recommendedLandlord) {
+    if (useRecommended) {
+      intro = renderReadOnlyLandlordDetails({
+        landlord: recommendedLandlord,
+        forceManualHref: FORCE_MANUAL_SEARCH,
+      });
+    } else {
+      intro = (
+        <p>
+          You have chosen to ignore the landlord recommended by JustFix.nyc.
+          Please provide your own details below, or{" "}
+          <Link to={FORCE_RECOMMENDED_SEARCH}>
+            use the recommended landlord "{recommendedLandlord.name}"
+          </Link>
+          .
+        </p>
+      );
+    }
+  }
+
+  return (
+    <React.Fragment key={useRecommended.toString()}>
+      {intro}
+      {children({
+        useRecommended,
+        toUnforcedHref: isForced ? loc.pathname : null,
+      })}
+    </React.Fragment>
+  );
+};
+
+function determineLandlordPageOptions(options: {
   hasRecommendedLandlord: boolean;
   landlordDetails: AllSessionInfo_landlordDetails | null;
   search: string;

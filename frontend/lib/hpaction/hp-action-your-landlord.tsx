@@ -10,7 +10,7 @@ import {
   TextualFormField,
 } from "../forms/form-fields";
 import { ProgressButtons } from "../ui/buttons";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { USStateFormField } from "../forms/mailing-address-fields";
 import { isUserNycha } from "../util/nycha";
 import { QueryLoader } from "../networking/query-loader";
@@ -28,9 +28,7 @@ import {
 import { Formset, FormsetProps } from "../forms/formset";
 import { useProgressiveEnhancement } from "../ui/progressive-enhancement";
 import {
-  FORCE_MANUAL_SEARCH,
-  FORCE_RECOMMENDED_SEARCH,
-  determineLandlordPageOptions,
+  LandlordPageContent,
   MailingAddressWithName,
   RecommendedLandlordInfo,
 } from "../ui/landlord";
@@ -39,7 +37,8 @@ const ReadOnlyLandlordDetails: React.FC<{
   isUserNycha: boolean;
   landlord: RecommendedHpLandlord_recommendedHpLandlord;
   mgmt: RecommendedHpLandlord_recommendedHpManagementCompany | null;
-}> = ({ isUserNycha, landlord, mgmt }) => (
+  forceManualHref: string;
+}> = ({ isUserNycha, landlord, mgmt, forceManualHref }) => (
   <>
     <RecommendedLandlordInfo
       intro={
@@ -75,7 +74,7 @@ const ReadOnlyLandlordDetails: React.FC<{
         We'll use these details to automatically fill out your HP Action forms.
         If you feel strongly that this information is incorrect or incomplete,
         however, you can{" "}
-        <Link to={FORCE_MANUAL_SEARCH}>provide your own details</Link>.
+        <Link to={forceManualHref}>provide your own details</Link>.
       </p>
     )}
   </>
@@ -106,156 +105,129 @@ function SingletonFormset<FormsetInput extends { id?: string | null }>(
 
 export const HPActionYourLandlord = MiddleProgressStep((props) => {
   const { session } = useContext(AppContext);
-  const loc = useLocation();
-  const llDetails = session.landlordDetails;
   const isEnhanced = useProgressiveEnhancement();
+  const isNycha = isUserNycha(session);
 
   return (
     <Page title="Your landlord" withHeading className="content">
       <QueryLoader
         query={RecommendedHpLandlord}
         input={null}
-        render={({
-          recommendedHpLandlord: landlord,
-          recommendedHpManagementCompany: mgmt,
-        }) => {
-          const isNycha = isUserNycha(session);
-          const { useRecommended, isForced } = determineLandlordPageOptions({
-            hasRecommendedLandlord: !!landlord,
-            landlordDetails: llDetails,
-            search: loc.search,
-            disallowManualOverride: isNycha,
-          });
-
-          let intro = (
-            <p>Please provide us with information on your landlord.</p>
-          );
-
-          if (landlord) {
-            if (useRecommended) {
-              intro = (
-                <ReadOnlyLandlordDetails
-                  landlord={landlord}
-                  mgmt={mgmt}
-                  isUserNycha={isNycha}
-                />
-              );
-            } else {
-              intro = (
-                <p>
-                  You have chosen to ignore the landlord recommended by
-                  JustFix.nyc. Please provide your own details below, or{" "}
-                  <Link to={FORCE_RECOMMENDED_SEARCH}>
-                    use the recommended landlord "{landlord.name}"
-                  </Link>
-                  .
-                </p>
-              );
-            }
-          }
-
-          const backHref = isForced ? loc.pathname : props.prevStep;
-
-          return (
-            <SessionUpdatingFormSubmitter
-              key={useRecommended.toString()}
-              mutation={HpaLandlordInfoMutation}
-              initialState={(session) => ({
-                useRecommended,
-                useMgmtCo: !!session.managementCompanyDetails?.name,
-                landlord: [
-                  exactSubsetOrDefault(
-                    session.landlordDetails,
-                    BlankLandlordLandlordDetailsFormFormSetInput
-                  ),
-                ],
-                mgmtCo: [
-                  exactSubsetOrDefault(
-                    session.managementCompanyDetails,
-                    BlankMgmtCoManagementCompanyDetailsFormFormSetInput
-                  ),
-                ],
-              })}
-              onSuccessRedirect={props.nextStep}
-            >
-              {(ctx) => (
-                <>
-                  {intro}
-                  <HiddenFormField {...ctx.fieldPropsFor("useRecommended")} />
-                  <SingletonFormset {...ctx.formsetPropsFor("landlord")}>
-                    {(formsetCtx) => (
-                      <div className={useRecommended ? "is-hidden" : ""}>
-                        <TextualFormField
-                          {...formsetCtx.fieldPropsFor("name")}
-                          label="Landlord name"
-                        />
-                        <TextualFormField
-                          {...formsetCtx.fieldPropsFor("primaryLine")}
-                          label="Landlord street address"
-                        />
-                        <TextualFormField
-                          {...formsetCtx.fieldPropsFor("city")}
-                          label="Landlord city"
-                        />
-                        <USStateFormField
-                          {...formsetCtx.fieldPropsFor("state")}
-                        />
-                        <TextualFormField
-                          {...formsetCtx.fieldPropsFor("zipCode")}
-                          label="Landlord zip code"
-                        />
-                      </div>
+        render={({ recommendedHpLandlord, recommendedHpManagementCompany }) => (
+          <LandlordPageContent
+            recommendedLandlord={recommendedHpLandlord}
+            disallowManualOverride={isNycha}
+            renderReadOnlyLandlordDetails={(props) => (
+              <ReadOnlyLandlordDetails
+                {...props}
+                mgmt={recommendedHpManagementCompany}
+                isUserNycha={isNycha}
+              />
+            )}
+          >
+            {({ useRecommended, toUnforcedHref }) => (
+              <SessionUpdatingFormSubmitter
+                mutation={HpaLandlordInfoMutation}
+                initialState={(session) => ({
+                  useRecommended,
+                  useMgmtCo: !!session.managementCompanyDetails?.name,
+                  landlord: [
+                    exactSubsetOrDefault(
+                      session.landlordDetails,
+                      BlankLandlordLandlordDetailsFormFormSetInput
+                    ),
+                  ],
+                  mgmtCo: [
+                    exactSubsetOrDefault(
+                      session.managementCompanyDetails,
+                      BlankMgmtCoManagementCompanyDetailsFormFormSetInput
+                    ),
+                  ],
+                })}
+                onSuccessRedirect={props.nextStep}
+              >
+                {(ctx) => (
+                  <>
+                    <HiddenFormField {...ctx.fieldPropsFor("useRecommended")} />
+                    <SingletonFormset {...ctx.formsetPropsFor("landlord")}>
+                      {(formsetCtx) => (
+                        <div className={useRecommended ? "is-hidden" : ""}>
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("name")}
+                            label="Landlord name"
+                          />
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("primaryLine")}
+                            label="Landlord street address"
+                          />
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("city")}
+                            label="Landlord city"
+                          />
+                          <USStateFormField
+                            {...formsetCtx.fieldPropsFor("state")}
+                          />
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("zipCode")}
+                            label="Landlord zip code"
+                          />
+                        </div>
+                      )}
+                    </SingletonFormset>
+                    {useRecommended ? (
+                      <HiddenFormField {...ctx.fieldPropsFor("useMgmtCo")} />
+                    ) : (
+                      <>
+                        <br />
+                        <CheckboxFormField {...ctx.fieldPropsFor("useMgmtCo")}>
+                          {" "}
+                          I have a management company
+                        </CheckboxFormField>
+                      </>
                     )}
-                  </SingletonFormset>
-                  {useRecommended ? (
-                    <HiddenFormField {...ctx.fieldPropsFor("useMgmtCo")} />
-                  ) : (
-                    <>
-                      <br />
-                      <CheckboxFormField {...ctx.fieldPropsFor("useMgmtCo")}>
-                        {" "}
-                        I have a management company
-                      </CheckboxFormField>
-                    </>
-                  )}
-                  <SingletonFormset {...ctx.formsetPropsFor("mgmtCo")}>
-                    {(formsetCtx) => (
-                      <div
-                        className={
-                          !useRecommended &&
-                          (ctx.fieldPropsFor("useMgmtCo").value || !isEnhanced)
-                            ? ""
-                            : "is-hidden"
-                        }
-                      >
-                        <TextualFormField
-                          {...formsetCtx.fieldPropsFor("name")}
-                          label="Management company name"
-                        />
-                        <TextualFormField
-                          {...formsetCtx.fieldPropsFor("primaryLine")}
-                          label="Management company street address"
-                        />
-                        <TextualFormField
-                          {...formsetCtx.fieldPropsFor("city")}
-                          label="Management company city"
-                        />
-                        <USStateFormField
-                          {...formsetCtx.fieldPropsFor("state")}
-                        />
-                        <TextualFormField
-                          {...formsetCtx.fieldPropsFor("zipCode")}
-                          label="Management company zip code"
-                        />
-                      </div>
-                    )}
-                  </SingletonFormset>
-                  <ProgressButtons back={backHref} isLoading={ctx.isLoading} />
-                </>
-              )}
-            </SessionUpdatingFormSubmitter>
-          );
-        }}
+                    <SingletonFormset {...ctx.formsetPropsFor("mgmtCo")}>
+                      {(formsetCtx) => (
+                        <div
+                          className={
+                            !useRecommended &&
+                            (ctx.fieldPropsFor("useMgmtCo").value ||
+                              !isEnhanced)
+                              ? ""
+                              : "is-hidden"
+                          }
+                        >
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("name")}
+                            label="Management company name"
+                          />
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("primaryLine")}
+                            label="Management company street address"
+                          />
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("city")}
+                            label="Management company city"
+                          />
+                          <USStateFormField
+                            {...formsetCtx.fieldPropsFor("state")}
+                          />
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("zipCode")}
+                            label="Management company zip code"
+                          />
+                        </div>
+                      )}
+                    </SingletonFormset>
+                    <ProgressButtons
+                      back={toUnforcedHref || props.prevStep}
+                      isLoading={ctx.isLoading}
+                    />
+                  </>
+                )}
+              </SessionUpdatingFormSubmitter>
+            )}
+          </LandlordPageContent>
+        )}
       />
     </Page>
   );

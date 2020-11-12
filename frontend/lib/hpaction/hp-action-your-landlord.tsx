@@ -25,7 +25,7 @@ import {
   BlankMgmtCoManagementCompanyDetailsFormFormSetInput,
   HpaLandlordInfoMutation,
 } from "../queries/HpaLandlordInfoMutation";
-import { Formset, FormsetProps } from "../forms/formset";
+import { SingletonFormset } from "../forms/formset";
 import { useProgressiveEnhancement } from "../ui/progressive-enhancement";
 import {
   LandlordPageContent,
@@ -79,29 +79,6 @@ const ReadOnlyLandlordDetails: React.FC<{
     )}
   </>
 );
-
-/**
- * A formset to use when we know there's only one possible entry
- * for the formset.
- */
-function SingletonFormset<FormsetInput extends { id?: string | null }>(
-  props: Omit<FormsetProps<FormsetInput>, "maxNum" | "extra">
-) {
-  return (
-    <Formset {...props} maxNum={1} extra={0}>
-      {(formsetCtx, i) => {
-        // Singleton formset inputs don't care about 'id' properties because
-        // the server automatically takes care of them. However, if a legacy
-        // POST submission has form errors, we'll get an assertion failure
-        // if we don't at least get information about this field, since
-        // the rest of the form system will assume it needs to be rendered.
-        formsetCtx.fieldPropsFor("id");
-
-        return <>{props.children(formsetCtx, i)}</>;
-      }}
-    </Formset>
-  );
-}
 
 export const HPActionYourLandlord = MiddleProgressStep((props) => {
   const { session } = useContext(AppContext);

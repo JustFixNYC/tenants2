@@ -105,6 +105,8 @@ sessionFields = ["accessDates"]
 [mutations.landlordDetailsV2]
 sessionFields = ["landlordDetails"]
 
+[mutations.locLandlordInfo]
+
 [mutations.optionalLandlordDetails]
 sessionFields = ["landlordDetails"]
 

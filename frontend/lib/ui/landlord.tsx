@@ -157,7 +157,12 @@ export const LandlordPageContent: React.FC<LandlordPageContentProps> = ({
     disallowManualOverride,
   });
 
-  let intro = <p>Please provide us with information on your landlord.</p>;
+  let intro = (
+    <p>
+      Please enter your landlord's name and contact information below. You can
+      find this information on your lease and/or rent receipts.
+    </p>
+  );
 
   if (recommendedLandlord) {
     if (useRecommended) {

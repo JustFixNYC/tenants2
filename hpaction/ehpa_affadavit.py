@@ -9,6 +9,8 @@ from loc.views import (
     render_pdf_html,
     render_pdf_bytes,
 )
+from .build_hpactionvars import fill_landlord_info
+from .hpactionvars import HPActionVariables
 
 
 MY_DIR = Path(__file__).parent.resolve()
@@ -32,6 +34,18 @@ def get_landlord_details(user) -> LandlordDetails:
     return LandlordDetails()
 
 
+def get_landlord_address(v: HPActionVariables) -> str:
+    street, city, state, zipcode = (
+        v.landlord_address_street_te,
+        v.landlord_address_city_te,
+        v.landlord_address_state_mc,
+        v.landlord_address_zip_te
+    )
+    if street and city and state and zipcode:
+        return f"{street}, {city}, {state.value} {zipcode}"
+    return NA
+
+
 class EHPAAffadavitVars(pydantic.BaseModel):
     tenant_name: str
     tenant_email: str
@@ -45,16 +59,18 @@ class EHPAAffadavitVars(pydantic.BaseModel):
     @classmethod
     def from_user(cls, user: JustfixUser) -> 'EHPAAffadavitVars':
         oi = get_onboarding_info(user)
+        v = HPActionVariables()
+        fill_landlord_info(v, user)
         ld = get_landlord_details(user)
         return EHPAAffadavitVars(
             tenant_name=user.full_name or NA,
             tenant_email=user.email or NA,
             tenant_phone=user.formatted_phone_number() or NA,
             tenant_address=', '.join(oi.address_lines_for_mailing) or NA,
-            landlord_name=ld.name or NA,
+            landlord_name=v.landlord_entity_name_te or NA,
             landlord_email=ld.email or NA,
             landlord_phone=ld.formatted_phone_number() or NA,
-            landlord_address=', '.join(ld.address_lines_for_mailing) or NA,
+            landlord_address=get_landlord_address(v),
         )
 
 

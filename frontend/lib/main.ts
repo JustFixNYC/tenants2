@@ -1,5 +1,7 @@
 /// <reference path="main-globals.d.ts" />
 
+import "../vendor/raf";
+
 import { startApp, AppProps } from "./app";
 import { getHTMLElement } from "@justfixnyc/util";
 import { ga } from "./analytics/google-analytics";

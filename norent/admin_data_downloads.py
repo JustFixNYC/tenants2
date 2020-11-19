@@ -29,6 +29,7 @@ def execute_saje_users_query(user):
         landlord_email=F("landlord_details__email"),
         landlord_phone_number=F("landlord_details__phone_number"),
         norent_letters_sent=Count("norent_letters"),
+        city=F("onboarding_info__non_nyc_city"),
     ).filter(
         onboarding_info__zipcode__in=LOS_ANGELES_ZIP_CODES,
     ).order_by('id')
@@ -70,6 +71,7 @@ def execute_rttc_users_query(user):
         "onboarding_info__state",
         "onboarding_info__zipcode",
         "onboarding_info__apt_number",
+        city=F("onboarding_info__non_nyc_city"),
     ).filter(
         onboarding_info__can_receive_rttc_comms=True,
     ).order_by('id')

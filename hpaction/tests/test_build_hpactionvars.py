@@ -93,7 +93,7 @@ def test_emergency_hpa_filters_out_non_emergency_issues(db):
     Issue.objects.set_area_issues_for_user(
         user,
         ISSUE_AREA_CHOICES.HOME,
-        [ISSUE_CHOICES.HOME__NO_HEAT, ISSUE_CHOICES.HOME__MICE]
+        [ISSUE_CHOICES.HOME__NO_HEAT, ISSUE_CHOICES.HOME__BUZZER_BROKEN]
     )
     user.custom_issues.add(CustomIssue(
         area=ISSUE_AREA_CHOICES.HOME,

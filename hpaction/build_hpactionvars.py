@@ -11,8 +11,23 @@ from .models import (
     FeeWaiverDetails, TenantChild, HPActionDetails, HarassmentDetails,
     attr_name_for_harassment_allegation, PriorCase, HP_ACTION_CHOICES)
 from .forms import EMERGENCY_HPA_ISSUE_LIST
+from .merge_issues import IssueMerger, merge_issue_models
 from . import hpactionvars as hp
 
+
+ISSUES_TO_MERGE = [
+    # We want to merge these multiple issues into one, to reduce/prevent
+    # the likelihood of addendumification.
+    IssueMerger((
+        ISSUE_CHOICES.HOME__NO_HEAT,
+        ISSUE_CHOICES.HOME__NO_HOT_WATER
+    )),
+    IssueMerger((
+        ISSUE_CHOICES.HOME__MICE,
+        ISSUE_CHOICES.HOME__RATS,
+        ISSUE_CHOICES.HOME__COCKROACHES
+    )),
+]
 
 # How many lines the harassment details section of the HP action form has.
 MAX_HARASSMENT_DETAILS_LINES = 11
@@ -447,9 +462,8 @@ def fill_issues(v: hp.HPActionVariables, user: JustfixUser, kind: str):
         issues = issues.filter(value__in=EMERGENCY_HPA_ISSUE_LIST)
         custom_issues = custom_issues.filter(area=ISSUE_AREA_CHOICES.HOME)
 
-    for issue in issues:
-        desc = ISSUE_CHOICES.get_label(issue.value)
-        v.tenant_complaints_list.append(create_complaint(issue.area, desc))
+    for issue in merge_issue_models(issues, ISSUES_TO_MERGE):
+        v.tenant_complaints_list.append(create_complaint(issue.area, issue.description))
 
     for cissue in custom_issues:
         # We're lowercasing the description because we *really* don't want

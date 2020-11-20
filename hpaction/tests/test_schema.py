@@ -47,20 +47,20 @@ def test_tenant_children_mutation_requires_login(db, graphql_client):
 class TestSyncEmergencyIssues:
     def test_it_works(self, db):
         HOME = ISSUE_AREA_CHOICES.HOME
-        MICE = ISSUE_CHOICES.HOME__MICE
+        DOORBELL = ISSUE_CHOICES.HOME__DOORBELL_BROKEN
         NO_HEAT = ISSUE_CHOICES.HOME__NO_HEAT
-        NO_GAS = ISSUE_CHOICES.HOME__NO_GAS
+        NO_HOT_WATER = ISSUE_CHOICES.HOME__NO_HOT_WATER
 
         user = UserFactory()
-        Issue.objects.set_area_issues_for_user(user, HOME, [MICE])
+        Issue.objects.set_area_issues_for_user(user, HOME, [DOORBELL])
 
         def gethomeissues():
             return set(Issue.objects.get_area_issues_for_user(user, HOME))
 
         sync_emergency_issues(user, [NO_HEAT])
-        assert gethomeissues() == {NO_HEAT, MICE}
-        sync_emergency_issues(user, [NO_GAS])
-        assert gethomeissues() == {NO_GAS, MICE}
+        assert gethomeissues() == {NO_HEAT, DOORBELL}
+        sync_emergency_issues(user, [NO_HOT_WATER])
+        assert gethomeissues() == {NO_HOT_WATER, DOORBELL}
 
 
 class TestEmergencyHPAIssuesMutation:

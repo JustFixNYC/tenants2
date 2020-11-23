@@ -5,17 +5,20 @@ from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from loc.tests.factories import LandlordDetailsV2Factory
 from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES, ISSUE_CHOICES
+from issues.forms import CUSTOM_ISSUE_MAX_LENGTH
 from hpaction.models import FeeWaiverDetails, HP_ACTION_CHOICES
 from hpaction.build_hpactionvars import (
     user_to_hpactionvars, justfix_issue_area_to_hp_room, fill_fee_waiver_details,
     fill_tenant_children, get_tenant_repairs_allegations_mc,
     fill_hp_action_details, fill_harassment_details, get_hpactionvars_attr_for_harassment_alleg,
     fill_prior_cases, fill_prior_repairs_and_harassment_mcs,
-    fill_landlord_info, reduce_number_of_lines)
+    fill_landlord_info, reduce_number_of_lines, ISSUES_TO_MERGE)
 from .factories import (
     TenantChildFactory, HPActionDetailsFactory, HarassmentDetailsFactory, PriorCaseFactory,
     ManagementCompanyDetailsFactory)
 import hpaction.hpactionvars as hp
+from hpaction.merge_issues import merge_issue_models
+from .test_merge_issues import mkissue
 
 
 NORMAL = HP_ACTION_CHOICES.NORMAL
@@ -93,7 +96,7 @@ def test_emergency_hpa_filters_out_non_emergency_issues(db):
     Issue.objects.set_area_issues_for_user(
         user,
         ISSUE_AREA_CHOICES.HOME,
-        [ISSUE_CHOICES.HOME__NO_HEAT, ISSUE_CHOICES.HOME__MICE]
+        [ISSUE_CHOICES.HOME__NO_HEAT, ISSUE_CHOICES.HOME__BUZZER_BROKEN]
     )
     user.custom_issues.add(CustomIssue(
         area=ISSUE_AREA_CHOICES.HOME,
@@ -394,3 +397,14 @@ class TestFillLandlordInfo:
         assert llstate and llstate.value == "NY"
         assert v.landlord_address_zip_te == "12345"
         assert v.management_company_to_be_sued_tf is None
+
+
+def test_merged_issues_are_not_too_long():
+    for merger in ISSUES_TO_MERGE:
+        issues = merge_issue_models([
+            mkissue(value)
+            for value in merger.values
+        ], [merger])
+        for issue in issues:
+            assert len(issue.description) < CUSTOM_ISSUE_MAX_LENGTH, \
+                f"'{issue.description}' should not be too long"

@@ -249,6 +249,7 @@ const Issues = MiddleProgressStep((props) => (
             {...ctx.formsetPropsFor("customHomeIssues")}
             maxNum={MAX_CUSTOM_ISSUES_PER_AREA}
             extra={MAX_CUSTOM_ISSUES_PER_AREA}
+            progressivelyEnhancedExtra={MAX_CUSTOM_ISSUES_PER_AREA}
             emptyForm={BlankCustomHomeIssuesCustomIssueFormFormSetInput}
           >
             {(ciCtx, i) => (

@@ -66,9 +66,17 @@ export interface FormsetProps<FormsetInput>
 
   /**
    * The number of extra blank forms to show at the end of
-   * the existing forms in the formset.
+   * the existing forms in the formset when *not*
+   * progressively-enhanced. Defaults to 1.
    */
   extra?: number;
+
+  /**
+   * The number of extra blank forms to show at the end
+   * of the existing forms in the formset when
+   * progressively-enhanced. Defaults to 1.
+   */
+  progressivelyEnhancedExtra?: number;
 }
 
 /**
@@ -143,15 +151,17 @@ export function removeEmptyFormsAtEnd<T>(items: T[], empty?: T): T[] {
  */
 function getExtra({
   extra,
+  progressivelyEnhancedExtra,
   isMounted,
 }: {
   extra?: number;
+  progressivelyEnhancedExtra?: number;
   isMounted?: boolean;
 }) {
   const base = getValueOrDefault(extra, 1);
   if (isMounted) {
     // If we're progressively-enhanced, show at most one extra form.
-    return Math.min(base, 1);
+    return Math.min(base, getValueOrDefault(progressivelyEnhancedExtra, 1));
   }
   return base;
 }
@@ -165,6 +175,7 @@ export function addEmptyForms<FormsetInput>(options: {
   emptyForm?: FormsetInput;
   maxNum?: number;
   extra?: number;
+  progressivelyEnhancedExtra?: number;
   isMounted?: boolean;
 }): { initialForms: number; items: FormsetInput[] } {
   if (options.emptyForm) {

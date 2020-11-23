@@ -21,11 +21,10 @@ import { properNoun } from "../util/util";
 import { OutboundLink, ga } from "../analytics/google-analytics";
 import { UpdateBrowserStorage } from "../browser-storage";
 import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issues";
-import { MORATORIUM_FAQ_URL } from "../ui/covid-banners";
-import i18n from "../i18n";
 import { Trans, t, Plural } from "@lingui/macro";
 import { EnglishOutboundLink } from "../ui/localized-outbound-link";
 import { li18n } from "../i18n-lingui";
+import { efnycURL } from "../ui/efnyc-link";
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
@@ -527,7 +526,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: covidMessage,
       imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
-        to: MORATORIUM_FAQ_URL[i18n.locale],
+        to: efnycURL(),
         gaLabel: "efnyc",
         text: li18n._(t`Learn more`),
       },

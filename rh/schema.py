@@ -55,10 +55,15 @@ def get_rent_stab_info_from_bbl(bbl: str) -> Dict[str, int]:
     rent_stab_raw_data = run_rent_stab_sql_query(bbl)
     if not rent_stab_raw_data:
         return None
-    return {
-        "latest_year": 2017,
-        "latest_unit_count": 4
-    }
+
+    for item in sorted(rent_stab_raw_data.items(), reverse=True):
+        if item[1] and item[1] > 0:
+            return {
+                "latest_year": item[0].replace("uc", ""),
+                "latest_unit_count": item[1]
+            }
+
+    return None
 
 
 class RhFormInfo(DjangoSessionFormObjectType):
@@ -81,9 +86,7 @@ class RhForm(DjangoSessionFormMutation):
 
         full_address = form_data["address"] + ", " + form_data["borough"]
         bbl, _, _ = lookup_bbl_and_bin_and_full_address(full_address)
-        print(bbl)
         rent_stab_info = get_rent_stab_info_from_bbl(bbl)
-        print(rent_stab_info)
 
         request.session[RENT_STAB_INFO_SESSION_KEY] = rent_stab_info
         return result

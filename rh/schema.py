@@ -43,6 +43,9 @@ def run_rent_stab_sql_query(bbl: str) -> Dict[str, Any]:
         full join rentstab_v2 using(ucbbl)
         where ucbbl = %(bbl)s
     """
+    if not settings.NYCDB_DATABASE:
+        return None
+
     with connections[settings.NYCDB_DATABASE].cursor() as cursor:
         cursor.execute(sql_query, {'bbl': bbl})
         json_result = list(generate_json_rows(cursor))

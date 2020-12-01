@@ -1,6 +1,11 @@
 import React from "react";
 import classnames from "classnames";
-import { allCapsToSlug, slugToAllCaps, toDjangoChoices } from "../common-data";
+import {
+  allCapsToSlug,
+  DjangoChoices,
+  slugToAllCaps,
+  toDjangoChoices,
+} from "../common-data";
 import Page from "../ui/page";
 import { IssuesRouteInfo, IssuesRouteAreaProps } from "../justfix-routes";
 import { Switch, Route } from "react-router";
@@ -14,7 +19,11 @@ import {
 } from "../queries/IssueAreaV2Mutation";
 import autobind from "autobind-decorator";
 import { AppContext } from "../app-context";
-import { MultiCheckboxFormField, HiddenFormField } from "../forms/form-fields";
+import {
+  MultiCheckboxFormField,
+  HiddenFormField,
+  MultiChoiceFormFieldItem,
+} from "../forms/form-fields";
 import { NextButton, BackButton, ProgressButtons } from "../ui/buttons";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import {
@@ -51,6 +60,31 @@ type IssuesAreaPropsWithCtx = IssuesRouteAreaProps & {
   toHome: string;
 };
 
+const CATEGORY_HEADINGS: Map<IssueChoice, string> = new Map([
+  ["BATHROOMS__SINK", "Sink"],
+  ["BATHROOMS__TUB", "Bathtub"],
+  ["BATHROOMS__SHOWER", "Shower"],
+]);
+
+function categorizeChoices(choices: DjangoChoices): MultiChoiceFormFieldItem[] {
+  const result: MultiChoiceFormFieldItem[] = [];
+
+  for (let [choice, label] of choices) {
+    const heading = CATEGORY_HEADINGS.get(choice as any);
+    if (heading) {
+      result.push(
+        <div className="title is-6" key={`before_${choice}_heading`}>
+          <br />
+          {heading}
+        </div>
+      );
+    }
+    result.push([choice, label]);
+  }
+
+  return result;
+}
+
 export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
   @autobind
   renderForm(
@@ -63,7 +97,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
         <MultiCheckboxFormField
           {...ctx.fieldPropsFor("issues")}
           label="Select your issues"
-          choices={issueChoicesForArea(area)}
+          choices={categorizeChoices(issueChoicesForArea(area))}
         />
         <br />
         <p>

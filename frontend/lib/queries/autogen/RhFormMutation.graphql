@@ -12,6 +12,10 @@ mutation RhFormMutation($input: RhFormInput!) {
         phoneNumber,
         addressVerified,
         zipcode
+      },
+      rentStabInfo {
+        latestYear,
+        latestUnitCount
       }
     }
   }

@@ -214,12 +214,16 @@ function RentalHistoryForm(): JSX.Element {
 }
 
 function RentalHistoryPreview(): JSX.Element {
+  const session = useContext(AppContext).session;
   return (
     <Page
       title={li18n._(t`Review your request to the DHCR`)}
       withHeading
       className="content"
     >
+      <p>
+        Year: {session.rentStabInfo?.latestYear}, count: {session.rentStabInfo?.latestUnitCount}
+      </p>
       <p>
         <Trans>
           Here is a preview of the request for your Rent History. It includes

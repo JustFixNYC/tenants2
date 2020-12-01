@@ -29,7 +29,7 @@ class LandlordInfo:
     zip_code: str
 
 
-def _lookup_bbl_and_bin_and_full_address(address: str) -> Tuple[str, str, str]:
+def lookup_bbl_and_bin_and_full_address(address: str) -> Tuple[str, str, str]:
     features = geocoding.search(address)
     if not features:
         return ('', '', '')
@@ -74,7 +74,7 @@ def lookup_landlord(address: str, pad_bbl: str = '', pad_bin: str = '') -> Optio
     if pad_bbl:
         full_addr = address
     else:
-        pad_bbl, pad_bin, full_addr = _lookup_bbl_and_bin_and_full_address(address)
+        pad_bbl, pad_bin, full_addr = lookup_bbl_and_bin_and_full_address(address)
         if not pad_bbl:
             return None
 

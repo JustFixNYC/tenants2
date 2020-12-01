@@ -39,7 +39,7 @@ def mock_lookup_failure(requests_mock):
 
 
 def test_lookup_landlord_command_uses_nycha(db, loaded_nycha_csv_data):
-    with patch('loc.landlord_lookup._lookup_bbl_and_bin_and_full_address',
+    with patch('loc.landlord_lookup.lookup_bbl_and_bin_and_full_address',
                return_value=('3005380001', '', '453 COLUMBIA STREET, Brooklyn blahblahblah')):
         results = lookup_landlord('453 columbia st, Brooklyn')
         assert results.name == "RED HOOK EAST MANAGEMENT"

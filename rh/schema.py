@@ -1,5 +1,8 @@
 from . import models, forms, email_dhcr
+from typing import Dict, Any
 from django.utils import translation
+from django.db import connections
+from django.conf import settings
 
 import graphene
 from graphql import ResolveInfo
@@ -9,11 +12,15 @@ from project.util.django_graphql_session_forms import (
     DjangoSessionFormMutation
 )
 from project.util.session_mutation import SessionFormMutation
+from project.util.streaming_json import generate_json_rows
 from project.util.site_util import absolute_reverse, SITE_CHOICES
 from project import schema_registry
 import project.locales
 from frontend.static_content import react_render_email
 from rapidpro.followup_campaigns import trigger_followup_campaign_async
+from loc.landlord_lookup import lookup_bbl_and_bin_and_full_address
+
+RENT_STAB_INFO_SESSION_KEY = 'rh_rent_stab_v1'
 
 
 def get_slack_notify_text(rhr: models.RentalHistoryRequest) -> str:
@@ -26,6 +33,19 @@ def get_slack_notify_text(rhr: models.RentalHistoryRequest) -> str:
     else:
         user_text = slack.escape(rhr.first_name)
     return f"{user_text} has requested {rh_link}!"
+
+
+def run_rent_stab_sql_query(bbl: str) -> Dict[str, Any]:
+    sql_query = """
+        select ucbbl, uc2007, uc2008, uc2009, uc2010, uc2011, uc2012,
+             uc2013, uc2014, uc2015, uc2016, uc2017, uc2018, uc2019
+        from rentstab
+        full join rentstab_v2 using(ucbbl)
+        where ucbbl = %(bbl)s
+    """
+    with connections[settings.NYCDB_DATABASE].cursor() as cursor:
+        cursor.execute(sql_query, {'bbl': bbl})
+        return list(generate_json_rows(cursor))[0]
 
 
 class RhFormInfo(DjangoSessionFormObjectType):
@@ -45,7 +65,17 @@ class RhForm(DjangoSessionFormMutation):
         result = super().perform_mutate(form, info)
         form_data = RhFormInfo.get_dict_from_request(request)
         assert form_data is not None
-        print(form_data)
+
+        full_address = form_data["address"] + ", " + form_data["borough"]
+        bbl, _, _ = lookup_bbl_and_bin_and_full_address(full_address)
+        print(bbl)
+        rent_stab_results = run_rent_stab_sql_query(bbl)
+        print(rent_stab_results)
+
+        request.session[RENT_STAB_INFO_SESSION_KEY] = {
+            "latest_year": 2017,
+            "latest_unit_count": 4
+        }
         return result
 
 
@@ -111,7 +141,7 @@ class RhSessionInfo(object):
 
     def resolve_rent_stab_info(self, info: ResolveInfo):
         request = info.context
-        kwargs = request.session.get('rh_rent_stab_v1', {})
+        kwargs = request.session.get(RENT_STAB_INFO_SESSION_KEY, {})
         if kwargs:
             return RhRentStabData(**kwargs)
         return None

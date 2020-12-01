@@ -222,7 +222,8 @@ function RentalHistoryPreview(): JSX.Element {
       className="content"
     >
       <p>
-        Year: {session.rentStabInfo?.latestYear}, count: {session.rentStabInfo?.latestUnitCount}
+        Year: {session.rentStabInfo?.latestYear}, count:{" "}
+        {session.rentStabInfo?.latestUnitCount}
       </p>
       <p>
         <Trans>

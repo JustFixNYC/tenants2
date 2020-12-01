@@ -39,6 +39,15 @@ class RhForm(DjangoSessionFormMutation):
     class Meta:
         source = RhFormInfo
 
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        result = super().perform_mutate(form, info)
+        form_data = RhFormInfo.get_dict_from_request(request)
+        assert form_data is not None
+        print(form_data)
+        return result
+
 
 @schema_registry.register_mutation
 class RhSendEmail(SessionFormMutation):
@@ -104,6 +113,5 @@ class RhSessionInfo(object):
         request = info.context
         kwargs = request.session.get('rh_rent_stab_v1', {})
         if kwargs:
-            return scaffolding.NorentScaffolding(**kwargs)
+            return RhRentStabData(**kwargs)
         return None
-    

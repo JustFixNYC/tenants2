@@ -37,15 +37,28 @@ def get_slack_notify_text(rhr: models.RentalHistoryRequest) -> str:
 
 def run_rent_stab_sql_query(bbl: str) -> Dict[str, Any]:
     sql_query = """
-        select ucbbl, uc2007, uc2008, uc2009, uc2010, uc2011, uc2012,
-             uc2013, uc2014, uc2015, uc2016, uc2017, uc2018, uc2019
+        select uc2007, uc2008, uc2009, uc2010, uc2011, uc2012, uc2013,
+             uc2014, uc2015, uc2016, uc2017, uc2018, uc2019
         from rentstab
         full join rentstab_v2 using(ucbbl)
         where ucbbl = %(bbl)s
     """
     with connections[settings.NYCDB_DATABASE].cursor() as cursor:
         cursor.execute(sql_query, {'bbl': bbl})
-        return list(generate_json_rows(cursor))[0]
+        json_result = list(generate_json_rows(cursor))
+        if not json_result:
+            return None
+        return json_result[0]
+
+
+def get_rent_stab_info_from_bbl(bbl: str) -> Dict[str, int]:
+    rent_stab_raw_data = run_rent_stab_sql_query(bbl)
+    if not rent_stab_raw_data:
+        return None
+    return {
+        "latest_year": 2017,
+        "latest_unit_count": 4
+    }
 
 
 class RhFormInfo(DjangoSessionFormObjectType):
@@ -69,13 +82,10 @@ class RhForm(DjangoSessionFormMutation):
         full_address = form_data["address"] + ", " + form_data["borough"]
         bbl, _, _ = lookup_bbl_and_bin_and_full_address(full_address)
         print(bbl)
-        rent_stab_results = run_rent_stab_sql_query(bbl)
-        print(rent_stab_results)
+        rent_stab_info = get_rent_stab_info_from_bbl(bbl)
+        print(rent_stab_info)
 
-        request.session[RENT_STAB_INFO_SESSION_KEY] = {
-            "latest_year": 2017,
-            "latest_unit_count": 4
-        }
+        request.session[RENT_STAB_INFO_SESSION_KEY] = rent_stab_info
         return result
 
 

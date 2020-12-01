@@ -158,9 +158,16 @@ export function SelectFormField(props: ChoiceFormFieldProps): JSX.Element {
   );
 }
 
+/**
+ * An item for a multi-choice form field that can either be an actual
+ * choice, or a JSX Element used to e.g. distinguish groups of choices
+ * from one another.
+ */
+export type MultiChoiceFormFieldItem = ReactDjangoChoice | JSX.Element;
+
 export interface MultiChoiceFormFieldProps
   extends BaseFormFieldProps<string[]> {
-  choices: ReactDjangoChoices;
+  choices: MultiChoiceFormFieldItem[];
   label: string;
 }
 
@@ -216,9 +223,17 @@ export function MultiCheckboxFormField(
         {props.label}
       </label>
       <div className="control">
-        {props.choices.map((choice) => (
-          <MultiCheckboxFormFieldCheckbox {...props} choice={choice} />
-        ))}
+        {props.choices.map((choice) =>
+          Array.isArray(choice) ? (
+            <MultiCheckboxFormFieldCheckbox
+              {...props}
+              choice={choice}
+              key={choice[0]}
+            />
+          ) : (
+            choice
+          )
+        )}
       </div>
       {errorHelp}
     </div>

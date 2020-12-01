@@ -1,7 +1,11 @@
 import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 
 import { WithFormFieldErrors, formatErrors } from "./form-errors";
-import { ReactDjangoChoices } from "../common-data";
+import {
+  DjangoChoice,
+  ReactDjangoChoice,
+  ReactDjangoChoices,
+} from "../common-data";
 import { bulmaClasses } from "../ui/bulma";
 import { ariaBool } from "../ui/aria";
 import { SimpleProgressiveEnhancement } from "../ui/progressive-enhancement";
@@ -176,12 +180,39 @@ export function toggleChoice(
   }
 }
 
+const MultiCheckboxFormFieldCheckbox: React.FC<
+  Omit<MultiChoiceFormFieldProps, "choices"> & {
+    choice: ReactDjangoChoice;
+  }
+> = (props) => {
+  const [choice, label] = props.choice;
+  const id = `${props.id}_${choice}`;
+
+  return (
+    <label htmlFor={id} className="checkbox jf-checkbox" key={choice}>
+      <input
+        type="checkbox"
+        name={props.name}
+        id={id}
+        value={choice}
+        checked={props.value.indexOf(choice) !== -1}
+        aria-invalid={ariaBool(!!props.errors)}
+        disabled={props.isDisabled}
+        onChange={(e) =>
+          props.onChange(toggleChoice(choice, e.target.checked, props.value))
+        }
+      />{" "}
+      <span className="jf-checkbox-symbol" />{" "}
+      <span className="jf-label-text">{label}</span>
+    </label>
+  );
+};
+
 /** A JSX component that encapsulates a set of checkboxes. */
 export function MultiCheckboxFormField(
   props: MultiChoiceFormFieldProps
 ): JSX.Element {
   let { ariaLabel, errorHelp } = formatErrors(props);
-  const idFor = (choice: string) => `${props.id}_${choice}`;
 
   return (
     <div className="field" role="group" aria-label={ariaLabel}>
@@ -189,29 +220,8 @@ export function MultiCheckboxFormField(
         {props.label}
       </label>
       <div className="control">
-        {props.choices.map(([choice, label]) => (
-          <label
-            htmlFor={idFor(choice)}
-            className="checkbox jf-checkbox"
-            key={choice}
-          >
-            <input
-              type="checkbox"
-              name={props.name}
-              id={idFor(choice)}
-              value={choice}
-              checked={props.value.indexOf(choice) !== -1}
-              aria-invalid={ariaBool(!!props.errors)}
-              disabled={props.isDisabled}
-              onChange={(e) =>
-                props.onChange(
-                  toggleChoice(choice, e.target.checked, props.value)
-                )
-              }
-            />{" "}
-            <span className="jf-checkbox-symbol" />{" "}
-            <span className="jf-label-text">{label}</span>
-          </label>
+        {props.choices.map((choice) => (
+          <MultiCheckboxFormFieldCheckbox {...props} choice={choice} />
         ))}
       </div>
       {errorHelp}

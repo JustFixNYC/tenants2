@@ -1,6 +1,8 @@
 from . import models, forms, email_dhcr
 from django.utils import translation
 
+import graphene
+from graphql import ResolveInfo
 from project import slack
 from project.util.django_graphql_session_forms import (
     DjangoSessionFormObjectType,
@@ -78,6 +80,30 @@ class RhSendEmail(SessionFormMutation):
         return cls.mutation_success()
 
 
+class RhRentStabData(graphene.ObjectType):
+    latest_year = graphene.Int(
+        description=(
+            "The last year that the user's building had rent stabilized units. "
+            "If null, no units were found since 2007."
+        )
+    )
+    latest_unit_count = graphene.Int(
+        description=(
+            "The most recent count of rent stabilized units in user's building. "
+            "If null, no units were found since 2007."
+        )
+    )
+
+
 @schema_registry.register_session_info
 class RhSessionInfo(object):
     rental_history_info = RhFormInfo.field()
+    rent_stab_info = graphene.Field(RhRentStabData)
+
+    def resolve_rent_stab_info(self, info: ResolveInfo):
+        request = info.context
+        kwargs = request.session.get('rh_rent_stab_v1', {})
+        if kwargs:
+            return scaffolding.NorentScaffolding(**kwargs)
+        return None
+    

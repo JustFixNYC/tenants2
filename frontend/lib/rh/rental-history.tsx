@@ -461,7 +461,6 @@ export const getRentalHistoryRoutesProps = (): ProgressRoutesProps => ({
   stepsToFillOut: [
     {
       path: JustfixRoutes.locale.rh.form,
-      exact: true,
       component: RentalHistoryForm,
     },
     {

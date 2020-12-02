@@ -13,7 +13,7 @@ from .admin_download_data import strict_get_data_download
 
 MY_DIR = Path(__file__).parent.resolve()
 
-SPECS_DIR = MY_DIR / 'admin_dashboard'
+SPECS_DIR = MY_DIR / "admin_dashboard"
 
 
 class DashboardViews:
@@ -32,23 +32,23 @@ class DashboardViews:
                     # entered by untrusted users, this *should* be ok.
                     csp_update(SCRIPT_SRC="'unsafe-eval'")(self.dashboard_view)
                 ),
-                name="dashboard"
+                name="dashboard",
             ),
         ]
 
     def dashboard_view(self, request):
-        vizs = [
-            Visualization(spec) for spec in get_vega_lite_specs()
-        ]
-        return TemplateResponse(request, "admin/justfix/dashboard.html", {
-            **self.site.each_context(request),
-            "GA_TRACKING_ID": settings.GA_TRACKING_ID,
-            "vizs": vizs,
-            "viz_data": {
-                viz.id: viz.spec for viz in vizs
+        vizs = [Visualization(spec) for spec in get_vega_lite_specs()]
+        return TemplateResponse(
+            request,
+            "admin/justfix/dashboard.html",
+            {
+                **self.site.each_context(request),
+                "GA_TRACKING_ID": settings.GA_TRACKING_ID,
+                "vizs": vizs,
+                "viz_data": {viz.id: viz.spec for viz in vizs},
+                "title": "Dashboard",
             },
-            "title": "Dashboard"
-        })
+        )
 
 
 class Visualization:
@@ -58,13 +58,13 @@ class Visualization:
 
     def __init__(self, spec: Dict[str, Any]):
         self.spec = spec
-        self.title = spec['title']
+        self.title = spec["title"]
         self.anchor_id = slugify(self.title)
         self.id = f"_{self.anchor_id}"
 
         # We're going to show the title in the HTML, so remove it from the spec
         # so it doesn't show twice.
-        del spec['title']
+        del spec["title"]
 
 
 def get_dataset_url(dataset: str) -> str:
@@ -72,25 +72,22 @@ def get_dataset_url(dataset: str) -> str:
 
 
 def convert_spec(raw_spec: Dict[str, Any]) -> Dict[str, Any]:
-    url = raw_spec['data']['url']
+    url = raw_spec["data"]["url"]
     parsed = urlparse(url)
-    assert parsed.scheme == 'dataset'
-    raw_spec['data']['url'] = get_dataset_url(parsed.path)
+    assert parsed.scheme == "dataset"
+    raw_spec["data"]["url"] = get_dataset_url(parsed.path)
     return raw_spec
 
 
 def get_vega_lite_specs() -> List[Dict[str, Any]]:
-    '''
+    """
     Return a list of all Vega-Lite specifications to show on the dashboard.
 
     Documentation on Vega-Lite can be found here:
 
         https://vega.github.io/vega-lite/docs/
-    '''
+    """
 
-    specfiles = sorted(list(SPECS_DIR.glob('*.json')), key=lambda path: path.name)
-    specs = [
-        convert_spec(json.loads(specfile.read_text()))
-        for specfile in specfiles
-    ]
+    specfiles = sorted(list(SPECS_DIR.glob("*.json")), key=lambda path: path.name)
+    specs = [convert_spec(json.loads(specfile.read_text())) for specfile in specfiles]
     return specs

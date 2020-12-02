@@ -6,11 +6,11 @@ from project.util.site_util import absolutify_url, get_default_site
 
 
 def get_site_hyperlink() -> str:
-    return hyperlink(text=get_default_site().name, href=absolutify_url('/'))
+    return hyperlink(text=get_default_site().name, href=absolutify_url("/"))
 
 
 class Command(BaseCommand):
-    help = 'Send a test Slack message.'
+    help = "Send a test Slack message."
 
     def handle(self, *args, **options):
         if not settings.SLACK_WEBHOOK_URL:

@@ -5,18 +5,18 @@ import re
 
 MY_DIR = Path(__file__).parent.resolve()
 
-FRONTEND_QUERY_DIR = MY_DIR / 'lib' / 'queries' / 'autogen'
+FRONTEND_QUERY_DIR = MY_DIR / "lib" / "queries" / "autogen"
 
 
 def find_all_graphql_fragments(query: str) -> List[str]:
-    '''
+    """
     >>> find_all_graphql_fragments('blah')
     []
     >>> find_all_graphql_fragments('query { ...Thing,\\n ...OtherThing }')
     ['Thing', 'OtherThing']
-    '''
+    """
 
-    results = re.findall(r'\.\.\.([A-Za-z0-9_]+)', query)
+    results = re.findall(r"\.\.\.([A-Za-z0-9_]+)", query)
     return [thing for thing in results]
 
 
@@ -31,7 +31,7 @@ def add_graphql_fragments(query: str) -> str:
         to_find.extend(find_all_graphql_fragments(fragtext))
         all_graphql.append(fragtext)
 
-    return '\n'.join(all_graphql)
+    return "\n".join(all_graphql)
 
 
 def execute_query(request, query: str, variables=None) -> Dict[str, Any]:
@@ -48,12 +48,14 @@ def execute_query(request, query: str, variables=None) -> Dict[str, Any]:
 def get_initial_session(request) -> Dict[str, Any]:
     data = execute_query(
         request,
-        add_graphql_fragments('''
+        add_graphql_fragments(
+            """
         query GetInitialSession {
             session {
                 ...AllSessionInfo
             }
         }
-        ''')
+        """
+        ),
     )
-    return data['session']
+    return data["session"]

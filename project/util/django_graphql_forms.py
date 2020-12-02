@@ -1,10 +1,9 @@
-'''
+"""
     This builds upon/replaces Graphene-Django's default form integration
     to resolve some of its limitations.
-'''
+"""
 
-from typing import (
-    Optional, Type, Dict, Any, TypeVar, MutableMapping, List, Iterable)
+from typing import Optional, Type, Dict, Any, TypeVar, MutableMapping, List, Iterable
 from collections import OrderedDict
 from weakref import WeakValueDictionary
 from django import forms
@@ -79,7 +78,7 @@ def convert_form_field_to_required_boolean(field):
 
 
 def get_input_type_from_query(query: str) -> Optional[str]:
-    '''
+    """
     Given a GraphQL query for a DjangoFormMutation, return the input type, e.g.:
 
         >>> get_input_type_from_query(
@@ -87,7 +86,7 @@ def get_input_type_from_query(query: str) -> Optional[str]:
         'BarInput'
 
     If the input type cannot be found, return None.
-    '''
+    """
 
     try:
         ast = parse(query)
@@ -99,13 +98,13 @@ def get_input_type_from_query(query: str) -> Optional[str]:
         input_type: Optional[str] = None
 
         def enter(self, node, *args):
-            if isinstance(node, VariableDefinition) and node.variable.name.value == 'input':
+            if isinstance(node, VariableDefinition) and node.variable.name.value == "input":
                 self.in_input_definition = True
             elif isinstance(node, NamedType) and self.in_input_definition:
                 self.input_type = node.name.value
 
         def leave(self, node, *args):
-            if isinstance(node, VariableDefinition) and node.variable.name.value == 'input':
+            if isinstance(node, VariableDefinition) and node.variable.name.value == "input":
                 self.in_input_definition = False
 
     visitor = InputTypeVisitor()
@@ -115,12 +114,12 @@ def get_input_type_from_query(query: str) -> Optional[str]:
 
 
 def to_capitalized_camel_case(s: str) -> str:
-    '''
+    """
     Like `to_camel_case()`, but also capitalizes the first letter:
 
         >>> to_capitalized_camel_case('hello_there')
         'HelloThere'
-    '''
+    """
 
     camel = to_camel_case(s)
     return camel[:1].upper() + camel[1:]
@@ -135,14 +134,14 @@ def convert_post_data_to_form_data(
     form: forms.Form,
     data: QueryDict,
 ) -> QueryDict:
-    '''
+    """
     Convert CamelCased POST data for the given form into snake_cased POST data.
 
     Ideally we could do this via pure string manipulation, but there are
     issues with that, such as e.g. the fact that `foo_1` and `foo1` both map
     to `foo1` when converted to CamelCase, which means they can't reliably be
     converted back to snake_case.
-    '''
+    """
 
     snake_cased_data = QueryDict(mutable=True)
     for snake_key in form.fields:
@@ -152,29 +151,28 @@ def convert_post_data_to_form_data(
 
 
 def convert_post_data_to_formset_data(
-    snake_formset_name: str,
-    formset: forms.BaseFormSet,
-    data: QueryDict
+    snake_formset_name: str, formset: forms.BaseFormSet, data: QueryDict
 ) -> QueryDict:
-    '''
+    """
     Convert CamelCased POST data for the given formsets into snake_cased POST data.
-    '''
+    """
 
     snake_cased_data = QueryDict(mutable=True)
     camel_formset_name = to_camel_case(snake_formset_name)
-    total_forms_key = f'{camel_formset_name}-{formsets.TOTAL_FORM_COUNT}'
+    total_forms_key = f"{camel_formset_name}-{formsets.TOTAL_FORM_COUNT}"
     total_forms = _get_safe_int(
-        data.get(total_forms_key, ''), default=0, max_value=formsets.DEFAULT_MAX_NUM)
+        data.get(total_forms_key, ""), default=0, max_value=formsets.DEFAULT_MAX_NUM
+    )
     for special_key in SPECIAL_FORMSET_FIELD_NAMES:
-        snake_key = f'{snake_formset_name}-{special_key}'
-        camel_key = f'{camel_formset_name}-{special_key}'
+        snake_key = f"{snake_formset_name}-{special_key}"
+        camel_key = f"{camel_formset_name}-{special_key}"
         value = data.getlist(camel_key)
         _set_list_if_nonempty(snake_cased_data, snake_key, value)
     form = get_formset_form(formset)
     for i in range(total_forms):
         for snake_field_name in form.fields:
-            snake_key = f'{snake_formset_name}-{i}-{snake_field_name}'
-            camel_key = f'{camel_formset_name}-{i}-{to_camel_case(snake_field_name)}'
+            snake_key = f"{snake_formset_name}-{i}-{snake_field_name}"
+            camel_key = f"{camel_formset_name}-{i}-{to_camel_case(snake_field_name)}"
             value = data.getlist(camel_key)
             _set_list_if_nonempty(snake_cased_data, snake_key, value)
     return snake_cased_data
@@ -184,20 +182,19 @@ def convert_post_data_to_input(
     form_class: Type[forms.Form],
     data: QueryDict,
     formset_classes: Optional[FormsetClasses] = None,
-    exclude_fields: Iterable[str] = tuple()
+    exclude_fields: Iterable[str] = tuple(),
 ) -> Dict[str, Any]:
-    '''
+    """
     Given a QueryDict that represents POST data, return a dictionary
     suitable for passing to a GraphQL mutation that is derived from
     the given form and formset classes.
-    '''
+    """
 
     snake_cased_data = convert_post_data_to_form_data(form_class(), data)
     form = form_class(data=snake_cased_data)
     result = _get_camel_cased_field_data(form, exclude_fields)
     if formset_classes:
-        result.update(_convert_formset_post_data_to_input(
-            data, formset_classes, exclude_fields))
+        result.update(_convert_formset_post_data_to_input(data, formset_classes, exclude_fields))
     return result
 
 
@@ -207,7 +204,7 @@ def _fielddata(form: forms.Form, field: str) -> Any:
     if isinstance(field_obj, forms.ChoiceField) and data is None:
         # If the field is a required radio field, the GraphQL schema will be expecting
         # a string, not null, so let's convert the field's value to an empty string.
-        data = ''
+        data = ""
     return data
 
 
@@ -229,16 +226,12 @@ def get_formset_form(formset: forms.BaseFormSet) -> forms.Form:
 
 
 def _convert_formset_post_data_to_input(
-    data: QueryDict,
-    formset_classes: FormsetClasses,
-    exclude_fields: Iterable[str]
+    data: QueryDict, formset_classes: FormsetClasses, exclude_fields: Iterable[str]
 ) -> Dict[str, Any]:
     result: Dict[str, Any] = {}
     for (snake_formset_name, formset_class) in (formset_classes or {}).items():
         snake_cased_data = convert_post_data_to_formset_data(
-            snake_formset_name,
-            formset_class(),
-            data
+            snake_formset_name, formset_class(), data
         )
         formset = formset_class(data=snake_cased_data, prefix=snake_formset_name)
         result[to_camel_case(snake_formset_name)] = _get_formset_items(formset, exclude_fields)
@@ -247,8 +240,9 @@ def _convert_formset_post_data_to_input(
 
 def _get_camel_cased_field_data(form, exclude_fields: Iterable[str]):
     return {
-        to_camel_case(field):
-            _fielddata(form, field) for field in form.fields if field not in exclude_fields
+        to_camel_case(field): _fielddata(form, field)
+        for field in form.fields
+        if field not in exclude_fields
     }
 
 
@@ -270,56 +264,50 @@ def _get_formset_items(formset, exclude_fields: Iterable[str]) -> List[Any]:
 
 
 class ExtendedFormFieldError(graphene.ObjectType):
-    '''
+    """
     Contains extended information about a form field error, including
     not only its human-readable message, but also additional details,
     such as its error code.
-    '''
+    """
 
-    message = graphene.String(
-        required=True,
-        description="A human-readable validation error."
-    )
+    message = graphene.String(required=True, description="A human-readable validation error.")
 
-    code = graphene.String(
-        description="A machine-readable representation of the error."
-    )
+    code = graphene.String(description="A machine-readable representation of the error.")
 
     @classmethod
     def list_from_error_list(cls, errors: forms.utils.ErrorList):
         results = []
         for error in errors.get_json_data():
-            message = error['message']
-            code = None if not error['code'] else str(error['code'])
+            message = error["message"]
+            code = None if not error["code"] else str(error["code"])
             results.append(cls(message=message, code=code))
         return results
 
 
 class StrictFormFieldErrorType(graphene.ObjectType):
-    '''
+    """
     This is similar to Graphene-Django's default form field
     error type, but with all fields required, to simplify
     the type system.
-    '''
+    """
 
     field = graphene.String(
         required=True,
         description=(
-            "The camel-cased name of the input field, or "
-            "'__all__' for non-field errors."
-        )
+            "The camel-cased name of the input field, or " "'__all__' for non-field errors."
+        ),
     )
 
     messages = graphene.List(
         graphene.NonNull(graphene.String),
         required=True,
-        description="A list of human-readable validation errors."
+        description="A list of human-readable validation errors.",
     )
 
     extended_messages = graphene.List(
         graphene.NonNull(ExtendedFormFieldError),
         required=True,
-        description="A list of validation errors with extended metadata."
+        description="A list of validation errors with extended metadata.",
     )
 
     @classmethod
@@ -327,7 +315,7 @@ class StrictFormFieldErrorType(graphene.ObjectType):
         errors = []
         for key, value in form_errors.items():
             extended = ExtendedFormFieldError.list_from_error_list(value)
-            if not key.endswith('__all__'):
+            if not key.endswith("__all__"):
                 # Graphene-Django's default implementation for form field validation
                 # errors doesn't convert field names to camel case, but we want to,
                 # because the input was provided using camel case field names, so the
@@ -337,13 +325,13 @@ class StrictFormFieldErrorType(graphene.ObjectType):
         return errors
 
 
-T = TypeVar('T', bound='DjangoFormMutation')
+T = TypeVar("T", bound="DjangoFormMutation")
 
 
 class FormWithFormsets:
-    '''
+    """
     Represents a base form with additional formsets, all of which are bound.
-    '''
+    """
 
     def __init__(self, base_form: forms.Form, formsets: Formsets) -> None:
         self.base_form = base_form
@@ -384,23 +372,23 @@ class FormWithFormsets:
         # on it later.
         non_form_errors = formset.non_form_errors()
         if non_form_errors:
-            all_errors = self._errors.get('__all__', forms.utils.ErrorList())
+            all_errors = self._errors.get("__all__", forms.utils.ErrorList())
             all_errors.extend(non_form_errors)
-            self.errors['__all__'] = all_errors
+            self.errors["__all__"] = all_errors
 
         for i in range(len(formset.errors)):
             for key, value in formset.errors[i].items():
-                self._errors[f'{name}.{i}.{key}'] = value
+                self._errors[f"{name}.{i}.{key}"] = value
 
     def is_valid(self) -> bool:
         return not self.errors
 
 
 class DjangoFormOptionsMixin:
-    '''
+    """
     Attributes common to any Meta class in a GraphQL query
     that uses Django forms for validation.
-    '''
+    """
 
     form_class: Optional[Type[forms.Form]] = None  # noqa (flake8 bug)
 
@@ -410,7 +398,7 @@ class DjangoFormOptionsMixin:
 
 
 class GrapheneDjangoFormMixin:
-    '''
+    """
     This mixin class for Graphene's ObjectType can be used to add
     plumbing common to a GraphQL query that uses at least one
     Django form for validation.
@@ -419,12 +407,13 @@ class GrapheneDjangoFormMixin:
     for GraphQL queries and mutations, and we want to use Django
     forms for validating both (this is analogous to using Django
     forms for both GET and POST requests).
-    '''
+    """
 
     query_type: str = "[Subclasses should define this!]"
 
-    _input_type_to_mut_mapping: MutableMapping[str, Type['DjangoFormMutation']] = \
-        WeakValueDictionary()
+    _input_type_to_mut_mapping: MutableMapping[
+        str, Type["DjangoFormMutation"]
+    ] = WeakValueDictionary()
 
     _input_type_registry: MutableMapping[Any, Type[InputObjectType]] = WeakValueDictionary()
 
@@ -445,7 +434,7 @@ class GrapheneDjangoFormMixin:
         description=(
             "A list of validation errors in the form, if any. "
             "If the form was valid, this list will be empty."
-        )
+        ),
     )
 
     @classmethod
@@ -454,7 +443,8 @@ class GrapheneDjangoFormMixin:
         _meta: DjangoFormOptionsMixin,
         form_class: Type[forms.Form],
         formset_classes: Optional[FormsetClasses] = None,
-        only_fields=(), exclude_fields=()
+        only_fields=(),
+        exclude_fields=(),
     ):
         form = form_class()
         input_fields = fields_for_form(form, only_fields, exclude_fields)
@@ -465,19 +455,19 @@ class GrapheneDjangoFormMixin:
             formset_form = get_formset_form(formset_class())
             formset_input_fields = fields_for_form(formset_form, only_fields, exclude_fields)
             type_key = (formset_form.__class__, tuple(only_fields), tuple(exclude_fields))
-            formset_form_type = cls._register_input_type(type_key, type(
-                f"{to_capitalized_camel_case(formset_name)}{formset_class.__name__}Input",
-                (graphene.InputObjectType,),
-                yank_fields_from_attrs(formset_input_fields, _as=graphene.InputField)
-            ))
+            formset_form_type = cls._register_input_type(
+                type_key,
+                type(
+                    f"{to_capitalized_camel_case(formset_name)}{formset_class.__name__}Input",
+                    (graphene.InputObjectType,),
+                    yank_fields_from_attrs(formset_input_fields, _as=graphene.InputField),
+                ),
+            )
             if formset_name in input_fields:
                 raise AssertionError(f'multiple definitions for "{formset_name}" exist')
-            input_field_for_form = yank_fields_from_attrs({
-                formset_name: graphene.List(
-                    graphene.NonNull(formset_form_type),
-                    required=True
-                )
-            })
+            input_field_for_form = yank_fields_from_attrs(
+                {formset_name: graphene.List(graphene.NonNull(formset_form_type), required=True)}
+            )
             input_fields.update(input_field_for_form)
 
         _meta.form_class = form_class
@@ -490,9 +480,7 @@ class GrapheneDjangoFormMixin:
 
     @classmethod
     def _register_input_type(
-        cls,
-        key: Any,
-        input_type: Type[InputObjectType]
+        cls, key: Any, input_type: Type[InputObjectType]
     ) -> Type[InputObjectType]:
         if key not in cls._input_type_registry:
             cls._input_type_registry[key] = input_type
@@ -500,10 +488,10 @@ class GrapheneDjangoFormMixin:
 
     @classmethod
     def get_form_class_for_input_type(cls, input_type: str) -> Optional[Type[forms.Form]]:
-        '''
+        """
         Given the name of a GraphQL input type that has been defined by us,
         return the form class it corresponds to.
-        '''
+        """
 
         mut_class = cls._input_type_to_mut_mapping.get(input_type)
         if not mut_class:
@@ -541,18 +529,19 @@ class GrapheneDjangoFormMixin:
         formsets: Formsets = {}  # noqa (flake8 bug)
         for (formset_name, formset_class) in cls._meta.formset_classes.items():
             formset_kwargs = cls.get_formset_kwargs(
-                root, info, formset_name, input[formset_name], input)
+                root, info, formset_name, input[formset_name], input
+            )
             formsets[formset_name] = formset_class(**formset_kwargs)
         return formsets
 
     @classmethod
     def get_data_for_formset(cls, fsinput, initial_forms=None) -> Dict[str, Any]:
         data: Dict[str, Any] = {}
-        data['form-TOTAL_FORMS'] = len(fsinput)
-        data['form-INITIAL_FORMS'] = len(fsinput) if initial_forms is None else initial_forms
+        data["form-TOTAL_FORMS"] = len(fsinput)
+        data["form-INITIAL_FORMS"] = len(fsinput) if initial_forms is None else initial_forms
         for i in range(len(fsinput)):
             for key, value in fsinput[i].items():
-                data[f'form-{i}-{key}'] = value
+                data[f"form-{i}-{key}"] = value
         return data
 
     @classmethod
@@ -577,7 +566,7 @@ class GrapheneDjangoFormMixin:
 
         if cls.login_required and not request.user.is_authenticated:
             cls.log(info, f"User must be logged in to access {cls.query_type}.")
-            return cls.make_error('You do not have permission to use this form!')
+            return cls.make_error("You do not have permission to use this form!")
 
         form = cls.get_form(root, info, **input)
 
@@ -591,11 +580,11 @@ class GrapheneDjangoFormMixin:
 
     @classmethod
     def log(cls, info: ResolveInfo, msg: str, lvl: int = logging.INFO) -> None:
-        parts = [f'{info.field_name} {cls.query_type}']
+        parts = [f"{info.field_name} {cls.query_type}"]
         user = info.context.user
         if user.is_authenticated:
-            parts.append(f'user={user.username}')
-        preamble = ' '.join(parts)
+            parts.append(f"user={user.username}")
+        preamble = " ".join(parts)
         logger.log(lvl, f"[{preamble}] {msg}")
 
     @classmethod
@@ -606,30 +595,28 @@ class GrapheneDjangoFormMixin:
     @classmethod
     def make_error(cls, message: str, code: Optional[str] = None):
         errors = StrictFormFieldErrorType.list_from_form_errors(
-            forms.utils.ErrorDict({
-                '__all__': forms.utils.ErrorList([
-                    ValidationError(message, code=code)
-                ])
-            })
+            forms.utils.ErrorDict(
+                {"__all__": forms.utils.ErrorList([ValidationError(message, code=code)])}
+            )
         )
         return cls(errors=errors)  # type: ignore
 
 
 class DjangoFormQueryOptions(DjangoFormOptionsMixin, ObjectTypeOptions):
-    '''
+    """
     Attributes in the Meta class for DjangoFormQuery.
-    '''
+    """
 
     arguments: Optional[Dict[str, Argument]] = None
 
 
 class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
-    '''
+    """
     This can be used for making any GraphQL query (not a
     mutation) use at least one Django form for validation. It
     is the GraphQL analog to using Django forms for a
     GET request.
-    '''
+    """
 
     class Meta:
         abstract = True
@@ -641,7 +628,9 @@ class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
         cls,
         form_class: Type[forms.Form] = forms.Form,
         formset_classes: Optional[FormsetClasses] = None,
-        only_fields=(), exclude_fields=(), **options
+        only_fields=(),
+        exclude_fields=(),
+        **options,
     ):
         _meta = DjangoFormQueryOptions(cls)
         input_fields = cls.populate_meta_options_and_get_input_fields(
@@ -653,9 +642,7 @@ class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
         )
 
         cls.Input = type(
-            "{}Input".format(cls.__name__),
-            (InputObjectType,),
-            OrderedDict(input_fields)
+            "{}Input".format(cls.__name__), (InputObjectType,), OrderedDict(input_fields)
         )
         _meta.arguments = OrderedDict(input=cls.Input(required=True))
 
@@ -673,9 +660,7 @@ class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
         return cls.perform_resolve(root, info, cls.perform_query, **input)
 
     @classmethod
-    def Field(
-        cls, name=None, description=None, deprecation_reason=None, required=False
-    ):
+    def Field(cls, name=None, description=None, deprecation_reason=None, required=False):
         return Field(
             cls,
             args=cls._meta.arguments,
@@ -688,15 +673,15 @@ class DjangoFormQuery(GrapheneDjangoFormMixin, ObjectType):
 
 
 class DjangoFormMutationOptions(DjangoFormOptionsMixin, MutationOptions):
-    '''
+    """
     Attributes in the Meta class for DjangoFormMutation.
-    '''
+    """
 
     pass
 
 
 class DjangoFormMutation(GrapheneDjangoFormMixin, ClientIDMutation):
-    '''
+    """
     This can be used for making any GraphQL mutation use at least
     one Django form for validation. It is the GraphQL analog to
     using Django forms for a POST request.
@@ -705,7 +690,7 @@ class DjangoFormMutation(GrapheneDjangoFormMixin, ClientIDMutation):
     changes to its behavior that it's easier to just derive the class
     from Graphene's ClientIDMutation rather than subclass Graphene-Django's
     class and make pervasive modifications.
-    '''
+    """
 
     class Meta:
         abstract = True
@@ -718,7 +703,9 @@ class DjangoFormMutation(GrapheneDjangoFormMixin, ClientIDMutation):
         _meta=None,
         form_class: Type[forms.Form] = forms.Form,
         formset_classes: Optional[FormsetClasses] = None,
-        only_fields=(), exclude_fields=(), **options
+        only_fields=(),
+        exclude_fields=(),
+        **options,
     ):
         if not _meta:
             _meta = DjangoFormMutationOptions(cls)
@@ -731,9 +718,7 @@ class DjangoFormMutation(GrapheneDjangoFormMixin, ClientIDMutation):
             exclude_fields=exclude_fields,
         )
 
-        super().__init_subclass_with_meta__(
-            _meta=_meta, input_fields=input_fields, **options
-        )
+        super().__init_subclass_with_meta__(_meta=_meta, input_fields=input_fields, **options)
 
         cls._input_type_to_mut_mapping[cls.Input.__name__] = cls
 

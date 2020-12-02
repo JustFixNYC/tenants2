@@ -7,7 +7,6 @@ ignore =
     # Disable "line break before binary operator"; seems to have been
     # introduced in a very recent version of flake8 and we don't care.
     W503
-    W504
     # Black says we should ignore this one:
     # https://black.readthedocs.io/en/stable/compatible_configs.html#flake8
     E203

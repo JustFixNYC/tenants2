@@ -8,12 +8,12 @@ from texting.sms_reminder import SmsReminder
 
 
 class RemindBoops(SmsReminder):
-    '''Remind users named Boop.'''
+    """Remind users named Boop."""
 
-    reminder_kind = 'LOC'
+    reminder_kind = "LOC"
 
     def filter_user_queryset(self, queryset):
-        return queryset.filter(first_name='Boop')
+        return queryset.filter(first_name="Boop")
 
     def get_sms_text(self, user):
         return _("Hello world") + " " + user.full_name

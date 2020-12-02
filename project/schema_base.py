@@ -14,9 +14,9 @@ from frontend import safe_mode
 from . import forms, password_reset, schema_registry
 
 
-LAST_QUERIED_PHONE_NUMBER_SESSION_KEY = '_last_queried_phone_number'
+LAST_QUERIED_PHONE_NUMBER_SESSION_KEY = "_last_queried_phone_number"
 
-LAST_QUERIED_PHONE_NUMBER_STATUS_SESSION_KEY = '_last_queried_phone_number_status'
+LAST_QUERIED_PHONE_NUMBER_STATUS_SESSION_KEY = "_last_queried_phone_number_status"
 
 
 class PhoneNumberAccountStatus(Enum):
@@ -32,11 +32,7 @@ def get_last_queried_phone_number(request) -> Optional[str]:
     return request.session.get(LAST_QUERIED_PHONE_NUMBER_SESSION_KEY)
 
 
-def update_last_queried_phone_number(
-    request,
-    phone_number: str,
-    status: PhoneNumberAccountStatus
-):
+def update_last_queried_phone_number(request, phone_number: str, status: PhoneNumberAccountStatus):
     request.session[LAST_QUERIED_PHONE_NUMBER_STATUS_SESSION_KEY] = status.name
     request.session[LAST_QUERIED_PHONE_NUMBER_SESSION_KEY] = phone_number
 
@@ -51,44 +47,32 @@ def purge_last_queried_phone_number(request):
 @schema_registry.register_session_info
 class BaseSessionInfo:
     user_id = graphene.Int(
-        description=(
-            "The ID of the currently logged-in user, or null if not logged-in."
-        )
+        description=("The ID of the currently logged-in user, or null if not logged-in.")
     )
 
     first_name = graphene.String(
-        description=(
-            "The first name of the currently logged-in user, or "
-            "null if not logged-in."
-        )
+        description=("The first name of the currently logged-in user, or " "null if not logged-in.")
     )
 
     last_name = graphene.String(
-        description=(
-            "The last name of the currently logged-in user, or "
-            "null if not logged-in."
-        )
+        description=("The last name of the currently logged-in user, or " "null if not logged-in.")
     )
 
     phone_number = graphene.String(
         description=(
-            "The phone number of the currently logged-in user, or "
-            "null if not logged-in."
+            "The phone number of the currently logged-in user, or " "null if not logged-in."
         )
     )
 
     last_queried_phone_number = graphene.String(
-        description=(
-            "The phone number most recently queried, or null if none."
-        )
+        description=("The phone number most recently queried, or null if none.")
     )
 
     last_queried_phone_number_account_status = graphene.Field(
         GraphQlPhoneNumberAccountStatus,
         description=(
-            "The account status of the phone number most recently queried, "
-            "or null if none."
-        )
+            "The account status of the phone number most recently queried, " "or null if none."
+        ),
     )
 
     email = graphene.String(
@@ -101,19 +85,16 @@ class BaseSessionInfo:
 
     is_email_verified = graphene.Boolean(
         description=(
-            "Whether the user's email address has been verified, or "
-            "null if not logged-in."
+            "Whether the user's email address has been verified, or " "null if not logged-in."
         )
     )
 
     csrf_token = graphene.String(
-        description="The cross-site request forgery (CSRF) token.",
-        required=True
+        description="The cross-site request forgery (CSRF) token.", required=True
     )
 
     is_staff = graphene.Boolean(
-        description="Whether or not the currently logged-in user is a staff member.",
-        required=True
+        description="Whether or not the currently logged-in user is a staff member.", required=True
     )
 
     is_safe_mode_enabled = graphene.Boolean(
@@ -121,7 +102,7 @@ class BaseSessionInfo:
             "Whether or not the current session has safe/compatibility mode "
             "compatibility mode) enabled."
         ),
-        required=True
+        required=True,
     )
 
     prefers_legacy_app = graphene.Boolean(
@@ -133,7 +114,7 @@ class BaseSessionInfo:
         deprecation_reason=(
             "Legacy app integration is no longer relevant since the "
             "legacy app was decommissioned on August 3, 2020."
-        )
+        ),
     )
 
     def resolve_prefers_legacy_app(self, info: ResolveInfo) -> Optional[bool]:
@@ -147,7 +128,7 @@ class BaseSessionInfo:
             "because it is deprecated, but it can still be queried, "
             "which will allow legacy clients asking for it to not "
             "crash."
-        )
+        ),
     )
 
     def resolve_user_id(self, info: ResolveInfo) -> Optional[int]:
@@ -204,7 +185,7 @@ class BaseSessionInfo:
             # The request is coming from front-end code that's trying
             # to generate static content; it won't even need a CSRF
             # token, so we'll just return an empty string.
-            return ''
+            return ""
         return csrf.get_token(request)
 
     def resolve_is_staff(self, info: ResolveInfo) -> bool:
@@ -217,14 +198,14 @@ class BaseSessionInfo:
 @schema_registry.register_mutation
 class Example(DjangoFormMutation):
     class Meta:
-        exclude_fields = ['field_to_ignore']
+        exclude_fields = ["field_to_ignore"]
         form_class = forms.ExampleForm
         formset_classes = {
-            'subforms': formset_factory(
+            "subforms": formset_factory(
                 forms.ExampleSubform,
                 max_num=5,
                 validate_max=True,
-                formset=forms.ExampleSubformFormset
+                formset=forms.ExampleSubformFormset,
             )
         }
 
@@ -245,7 +226,7 @@ class ExampleRadio(DjangoFormMutation):
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
-        return cls(response='whatever')
+        return cls(response="whatever")
 
 
 class ExampleQuery(graphene.ObjectType):
@@ -257,14 +238,14 @@ class ExampleQuery(graphene.ObjectType):
 
 @schema_registry.register_mutation
 class Login(SessionFormMutation):
-    '''
+    """
     A mutation to log in the user. Returns whether or not the login was successful
     (if it wasn't, it's because the credentials were invalid). It also returns
     a new CSRF token, because as the Django docs state, "For security reasons,
     CSRF tokens are rotated each time a user logs in":
 
         https://docs.djangoproject.com/en/2.1/ref/csrf/
-    '''
+    """
 
     class Meta:
         form_class = forms.LoginForm
@@ -278,15 +259,15 @@ class Login(SessionFormMutation):
 
 @schema_registry.register_mutation
 class Logout(SessionFormMutation):
-    '''
+    """
     Logs out the user. Clients should pay attention to the
     CSRF token, because apparently this changes on logout too.
-    '''
+    """
 
     class Meta:
         form_class = forms.LogoutForm
 
-    session = graphene.NonNull('project.schema.SessionInfo')
+    session = graphene.NonNull("project.schema.SessionInfo")
 
     @classmethod
     def perform_mutate(cls, form: forms.LogoutForm, info: ResolveInfo):
@@ -297,9 +278,9 @@ class Logout(SessionFormMutation):
 
 @schema_registry.register_mutation
 class PasswordReset(DjangoFormMutation):
-    '''
+    """
     Used when the user requests their password be reset.
-    '''
+    """
 
     class Meta:
         form_class = forms.PasswordResetForm
@@ -307,15 +288,15 @@ class PasswordReset(DjangoFormMutation):
     @classmethod
     def perform_mutate(cls, form: forms.PasswordResetForm, info: ResolveInfo):
         request = info.context
-        password_reset.create_verification_code(request, form.cleaned_data['phone_number'])
+        password_reset.create_verification_code(request, form.cleaned_data["phone_number"])
         return cls(errors=[])
 
 
 @schema_registry.register_mutation
 class PasswordResetVerificationCode(DjangoFormMutation):
-    '''
+    """
     Used when the user verifies the verification code sent to them over SMS.
-    '''
+    """
 
     class Meta:
         form_class = forms.PasswordResetVerificationCodeForm
@@ -323,8 +304,7 @@ class PasswordResetVerificationCode(DjangoFormMutation):
     @classmethod
     def perform_mutate(cls, form: forms.PasswordResetVerificationCodeForm, info: ResolveInfo):
         request = info.context
-        err_str = password_reset.verify_verification_code(
-            request, form.cleaned_data['code'])
+        err_str = password_reset.verify_verification_code(request, form.cleaned_data["code"])
         if err_str is not None:
             return cls.make_error(err_str)
         return cls(errors=[])
@@ -332,10 +312,10 @@ class PasswordResetVerificationCode(DjangoFormMutation):
 
 @schema_registry.register_mutation
 class PasswordResetConfirm(DjangoFormMutation):
-    '''
+    """
     Used when the user completes the password reset process
     by providing a new password.
-    '''
+    """
 
     class Meta:
         form_class = forms.SetPasswordForm
@@ -343,7 +323,7 @@ class PasswordResetConfirm(DjangoFormMutation):
     @classmethod
     def perform_mutate(cls, form: forms.SetPasswordForm, info: ResolveInfo):
         request = info.context
-        err_str = password_reset.set_password(request, form.cleaned_data['password'])
+        err_str = password_reset.set_password(request, form.cleaned_data["password"])
         if err_str is not None:
             return cls.make_error(err_str)
         return cls(errors=[])
@@ -351,9 +331,9 @@ class PasswordResetConfirm(DjangoFormMutation):
 
 @schema_registry.register_mutation
 class PasswordResetConfirmAndLogin(SessionFormMutation):
-    '''
+    """
     Like PasswordResetConfirm, but also logs the user in.
-    '''
+    """
 
     class Meta:
         form_class = forms.SetPasswordForm
@@ -361,7 +341,7 @@ class PasswordResetConfirmAndLogin(SessionFormMutation):
     @classmethod
     def perform_mutate(cls, form: forms.SetPasswordForm, info: ResolveInfo):
         request = info.context
-        password = form.cleaned_data['password']
+        password = form.cleaned_data["password"]
         user_id = password_reset.get_user_id_of_password_reset_user(request)
         err_str = password_reset.set_password(request, password)
         if err_str is not None:
@@ -378,7 +358,7 @@ class PasswordResetConfirmAndLogin(SessionFormMutation):
 
 @schema_registry.register_mutation
 class QueryOrVerifyPhoneNumber(SessionFormMutation):
-    '''
+    """
     Return information about whether a phone number is associated with
     an account. If the account has no password set, this mutation will
     automatically send it a verification code, allowing its user to
@@ -389,7 +369,7 @@ class QueryOrVerifyPhoneNumber(SessionFormMutation):
     This means that any subsequent pages that use this mutation will
     need to provide the user with the ability to clear their session
     data (usually provided via a "cancel" button).
-    '''
+    """
 
     class Meta:
         form_class = forms.PhoneNumberForm
@@ -414,7 +394,7 @@ class QueryOrVerifyPhoneNumber(SessionFormMutation):
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
-        phone_number = form.cleaned_data['phone_number']
+        phone_number = form.cleaned_data["phone_number"]
         user = JustfixUser.objects.filter(phone_number=phone_number).first()
         if user:
             account_status = cls.get_account_status_for_user(request, user)
@@ -430,11 +410,11 @@ class QueryOrVerifyPhoneNumber(SessionFormMutation):
 
 @schema_registry.register_queries
 class BaseQuery:
-    '''
+    """
     These are all our GraphQL query endpoints.
-    '''
+    """
 
-    session = graphene.NonNull('project.schema.SessionInfo')
+    session = graphene.NonNull("project.schema.SessionInfo")
 
     example_query = graphene.NonNull(ExampleQuery)
 

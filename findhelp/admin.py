@@ -16,57 +16,57 @@ def register(model):
 
 @register(Zipcode)
 class ZipcodeAdmin(MapModelAdmin):
-    list_display = ['zipcode']
-    search_fields = ['zipcode']
-    exclude = ['geom']
-    readonly_fields = ['geometry']
+    list_display = ["zipcode"]
+    search_fields = ["zipcode"]
+    exclude = ["geom"]
+    readonly_fields = ["geometry"]
 
-    geometry = admin_map_field('geom', 'Geometry')
+    geometry = admin_map_field("geom", "Geometry")
 
 
 @register(Borough)
 class BoroughAdmin(MapModelAdmin):
-    list_display = ['code', 'name']
-    exclude = ['geom']
-    readonly_fields = ['geometry']
+    list_display = ["code", "name"]
+    exclude = ["geom"]
+    readonly_fields = ["geometry"]
 
-    geometry = admin_map_field('geom', 'Geometry')
+    geometry = admin_map_field("geom", "Geometry")
 
 
 @register(Neighborhood)
 class NeighborhoodAdmin(MapModelAdmin):
-    list_display = ['name', 'county']
-    search_fields = ['name']
-    exclude = ['geom']
-    readonly_fields = ['geometry']
+    list_display = ["name", "county"]
+    search_fields = ["name"]
+    exclude = ["geom"]
+    readonly_fields = ["geometry"]
 
-    geometry = admin_map_field('geom', 'Geometry')
+    geometry = admin_map_field("geom", "Geometry")
 
 
 @register(CommunityDistrict)
 class CommunityDistrictAdmin(MapModelAdmin):
-    list_display = ['boro_cd', 'name']
-    search_fields = ['name']
-    exclude = ['geom']
-    readonly_fields = ['geometry']
+    list_display = ["boro_cd", "name"]
+    search_fields = ["name"]
+    exclude = ["geom"]
+    readonly_fields = ["geometry"]
 
-    geometry = admin_map_field('geom', 'Geometry')
+    geometry = admin_map_field("geom", "Geometry")
 
 
 @register(TenantResource)
 class TenantResourceAdmin(MapModelAdmin):
-    list_display = ['name', 'org_type']
-    exclude = ['geocoded_point', 'catchment_area']
-    autocomplete_fields = ['zipcodes', 'neighborhoods', 'community_districts']
-    readonly_fields = ['geocoded_address', 'location_and_catchment_area']
-    ordering = ('name',)
+    list_display = ["name", "org_type"]
+    exclude = ["geocoded_point", "catchment_area"]
+    autocomplete_fields = ["zipcodes", "neighborhoods", "community_districts"]
+    readonly_fields = ["geocoded_address", "location_and_catchment_area"]
+    ordering = ("name",)
     search_fields = [
-        'name',
-        'org_type',
-        'description',
-        'zipcodes__zipcode',
-        'boroughs__name',
-        'neighborhoods__name',
+        "name",
+        "org_type",
+        "description",
+        "zipcodes__zipcode",
+        "boroughs__name",
+        "neighborhoods__name",
     ]
 
     def save_related(self, request, form, formsets, change):
@@ -75,14 +75,11 @@ class TenantResourceAdmin(MapModelAdmin):
         obj.update_catchment_area()
         obj.save()
 
-    @admin_field(
-        short_description="Location and catchment area",
-        allow_tags=True
-    )
+    @admin_field(short_description="Location and catchment area", allow_tags=True)
     def location_and_catchment_area(self, obj) -> str:
         return render_admin_map(
-            id='location_and_catchment_area',
+            id="location_and_catchment_area",
             area=obj.catchment_area,
             point=obj.geocoded_point,
-            point_label=obj.geocoded_address
+            point_label=obj.geocoded_address,
         )

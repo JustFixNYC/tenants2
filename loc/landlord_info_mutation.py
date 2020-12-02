@@ -20,14 +20,14 @@ class BaseLandlordExtraInfoForm(forms.Form):
             "company as determined by the server. If false, we expect "
             "manual landlord and/or management company details to be "
             "provided."
-        )
+        ),
     )
 
 
 class BaseLandlordFormWithFormsets(FormWithFormsets):
     def get_formset_names_to_clean(self) -> List[str]:
-        if not self.base_form.cleaned_data.get('use_recommended'):
-            return ['landlord']
+        if not self.base_form.cleaned_data.get("use_recommended"):
+            return ["landlord"]
         return []
 
 
@@ -35,7 +35,7 @@ class BaseLandlordInfoMutationMeta:
     form_class = BaseLandlordExtraInfoForm
 
     formset_classes = {
-        'landlord': singletonformset_factory(
+        "landlord": singletonformset_factory(
             JustfixUser,
             LandlordDetails,
             LandlordDetailsFormV2,
@@ -53,20 +53,20 @@ class BaseLandlordInfoMutation(SingletonFormsetFormMutation):
 
     @classmethod
     def __update_recommended_ll_info(cls, user):
-        assert hasattr(user, 'onboarding_info')
+        assert hasattr(user, "onboarding_info")
         info = LandlordDetails.create_or_update_lookup_for_user(user)
         assert info is not None
 
     @classmethod
     def update_manual_details(cls, form: BaseLandlordFormWithFormsets, user: JustfixUser):
-        ll_form = form.formsets['landlord'].forms[0]
+        ll_form = form.formsets["landlord"].forms[0]
         ld = ll_form.save(commit=False)
         ld.is_looked_up = False
         ld.save()
 
     @classmethod
     def perform_mutate(cls, form: BaseLandlordFormWithFormsets, info: ResolveInfo):
-        if form.base_form.cleaned_data['use_recommended']:
+        if form.base_form.cleaned_data["use_recommended"]:
             cls.__update_recommended_ll_info(info.context.user)
         else:
             cls.update_manual_details(form, info.context.user)

@@ -5,7 +5,7 @@ from .la_zipcodes import is_zip_code_in_la
 
 
 # This should change whenever our scaffolding model's fields change.
-VERSION = '1'
+VERSION = "1"
 
 
 NYC_CITIES = [
@@ -18,52 +18,52 @@ NYC_CITIES = [
     "brooklyn",
     "staten island",
     "bronx",
-    "the bronx"
+    "the bronx",
 ]
 
 
 class NorentScaffolding(pydantic.BaseModel):
-    '''
+    """
     This is just some scaffolding we have in place of an actual
     Django Model (or collection of models).  It allows us to get
     off the ground running without having to dedicate ourselves
     to a particular database schema.
-    '''
+    """
 
-    first_name: str = ''
+    first_name: str = ""
 
-    last_name: str = ''
+    last_name: str = ""
 
     # e.g. "666 FIFTH AVENUE"
-    street: str = ''
+    street: str = ""
 
-    city: str = ''
+    city: str = ""
 
     # e.g. "NY"
-    state: str = ''
+    state: str = ""
 
-    zip_code: str = ''
+    zip_code: str = ""
 
     apt_number: Optional[str] = None
 
-    email: str = ''
+    email: str = ""
 
-    phone_number: str = ''
+    phone_number: str = ""
 
-    landlord_name: str = ''
+    landlord_name: str = ""
 
     # e.g. "666 FIFTH AVENUE, APT 2"
-    landlord_primary_line: str = ''
+    landlord_primary_line: str = ""
 
-    landlord_city: str = ''
+    landlord_city: str = ""
 
-    landlord_state: str = ''
+    landlord_state: str = ""
 
-    landlord_zip_code: str = ''
+    landlord_zip_code: str = ""
 
-    landlord_email: str = ''
+    landlord_email: str = ""
 
-    landlord_phone_number: str = ''
+    landlord_phone_number: str = ""
 
     has_landlord_email_address: Optional[bool] = None
 

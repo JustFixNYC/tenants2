@@ -10,11 +10,11 @@ class TestPostAdminReminders:
         output = StringIO()
         with freezegun.freeze_time("2001-01-01"):
             LetterRequestFactory()
-        call_command('postadminreminders', stdout=output)
-        assert 'Posting reminder to admins about sending letters of complaint' in output.getvalue()
+        call_command("postadminreminders", stdout=output)
+        assert "Posting reminder to admins about sending letters of complaint" in output.getvalue()
 
     def test_it_ignores_new_loc_requests(self, db):
         output = StringIO()
         LetterRequestFactory()
-        call_command('postadminreminders', stdout=output)
-        assert 'No reminders need to be posted' in output.getvalue()
+        call_command("postadminreminders", stdout=output)
+        assert "No reminders need to be posted" in output.getvalue()

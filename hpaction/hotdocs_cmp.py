@@ -8,22 +8,19 @@ from django.utils.text import slugify
 from .hotdocs import AnswerType
 
 
-HD_URL = 'http://www.hotdocs.com/schemas/component_library/2009'
+HD_URL = "http://www.hotdocs.com/schemas/component_library/2009"
 
-HD = '{' + HD_URL + '}'
+HD = "{" + HD_URL + "}"
 
-NS = {'hd': HD_URL}
+NS = {"hd": HD_URL}
 
 
 def to_camel_case(string: str) -> str:
-    return ''.join([
-        word[0].upper() + word[1:]
-        for word in string.split(' ')
-    ])
+    return "".join([word[0].upper() + word[1:] for word in string.split(" ")])
 
 
 def to_snake_case(string: str) -> str:
-    name = slugify(string.lower()).replace('-', '_')
+    name = slugify(string.lower()).replace("-", "_")
     if name[0].isdigit():
         return apnumber(name[0]) + name[1:]
     return name
@@ -31,9 +28,9 @@ def to_snake_case(string: str) -> str:
 
 @dataclass
 class HDVariable:
-    '''
+    """
     Represents the definition of a variable in a HotDocs component library.
-    '''
+    """
 
     name: str
     help_text: str
@@ -58,7 +55,7 @@ class HDVariable:
 class HDDate(HDVariable):
     @property
     def py_annotation(self) -> str:
-        return 'datetime.date'
+        return "datetime.date"
 
     @property
     def answer_type(self) -> AnswerType:
@@ -68,7 +65,7 @@ class HDDate(HDVariable):
 class HDText(HDVariable):
     @property
     def py_annotation(self) -> str:
-        return 'str'
+        return "str"
 
     @property
     def answer_type(self) -> AnswerType:
@@ -78,7 +75,7 @@ class HDText(HDVariable):
 class HDTrueFalse(HDVariable):
     @property
     def py_annotation(self) -> str:
-        return 'bool'
+        return "bool"
 
     @property
     def answer_type(self) -> AnswerType:
@@ -88,7 +85,7 @@ class HDTrueFalse(HDVariable):
 class HDNumber(HDVariable):
     @property
     def py_annotation(self) -> str:
-        return 'Union[int, float, Decimal]'
+        return "Union[int, float, Decimal]"
 
     @property
     def answer_type(self) -> AnswerType:
@@ -108,7 +105,7 @@ class HDMultipleChoice(HDVariable):
     @property
     def py_annotation(self) -> str:
         anno = self.camel_case_name
-        return f'List[{anno}]' if self.select_multiple else anno
+        return f"List[{anno}]" if self.select_multiple else anno
 
     @property
     def answer_type(self) -> AnswerType:
@@ -116,7 +113,7 @@ class HDMultipleChoice(HDVariable):
 
 
 class HDRepeatedVariables(NamedTuple):
-    '''
+    """
     Represents the definition of a structure in a HotDocs
     component library that is ultimately delivered as
     a set of variables with repeated answers in a
@@ -124,7 +121,7 @@ class HDRepeatedVariables(NamedTuple):
 
     The Pythonic/OO representation of this is essentially
     a collection of sub-objects off a parent object.
-    '''
+    """
 
     label: str
     variables: List[HDVariable]
@@ -139,7 +136,7 @@ class HDRepeatedVariables(NamedTuple):
 
 
 class HDComponentLibrary:
-    '''
+    """
     Represents the parts of a HotDocs component library that
     we care about for generating valid HotDocs Answer Sets,
     and contains logic for parsing the information out of
@@ -155,7 +152,7 @@ class HDComponentLibrary:
     library is, see:
 
     http://help.hotdocs.com/developer/webhelp/Automating_Text_Templates_1/att1_overview_template_and_component_files.htm
-    '''
+    """
 
     # All the "top-level" variables defined by the component library.
     vars: Dict[str, HDVariable]
@@ -165,83 +162,71 @@ class HDComponentLibrary:
     repeated_vars: List[HDRepeatedVariables]
 
     def __init__(self, path: Path) -> None:
-        '''
+        """
         Parse the given HotDocs Component File (it seems to have a .cmp
         extension).
-        '''
+        """
 
         self.vars = {}
         self.repeated_vars = []
 
         tree = ET.parse(str(path))
         root = tree.getroot()
-        components = root.find('hd:components', NS)
+        components = root.find("hd:components", NS)
         if components is None:
-            raise Exception('Could not find <hd:components> element')
+            raise Exception("Could not find <hd:components> element")
         self.populate_vars(components)
         self.populate_repeats(components)
 
     def get_help_text(self, el: ET.Element) -> str:
         # Absolutely no idea why el.find() doesn't work here.
-        for prompt in el.findall('hd:prompt', NS):
+        for prompt in el.findall("hd:prompt", NS):
             if prompt.text:
                 return prompt.text
-        return ''
+        return ""
 
     def get_mc_options(self, el: ET.Element) -> List[HDMultipleChoiceOption]:
         results: List[HDMultipleChoiceOption] = []
-        for option in el.findall('hd:options/hd:option', NS):
-            results.append(HDMultipleChoiceOption(
-                name=option.attrib['name'],
-                label=self.get_help_text(option)
-            ))
+        for option in el.findall("hd:options/hd:option", NS):
+            results.append(
+                HDMultipleChoiceOption(name=option.attrib["name"], label=self.get_help_text(option))
+            )
         return results
 
     def populate_repeats(self, components: ET.Element) -> None:
-        for dialog in components.iter(f'{HD}dialog'):
-            is_sheet = len(dialog.findall('hd:style/hd:spreadsheetOnParent', NS)) > 0
+        for dialog in components.iter(f"{HD}dialog"):
+            is_sheet = len(dialog.findall("hd:style/hd:spreadsheetOnParent", NS)) > 0
             if not is_sheet:
                 continue
             repeat_vars: List[HDVariable] = []
-            for item in dialog.findall('hd:contents/hd:item', NS):
-                name = item.attrib['name']
+            for item in dialog.findall("hd:contents/hd:item", NS):
+                name = item.attrib["name"]
                 value = self.vars[name]
                 del self.vars[name]
                 repeat_vars.append(value)
-            self.repeated_vars.append(HDRepeatedVariables(
-                label=dialog.attrib['name'],
-                variables=repeat_vars
-            ))
+            self.repeated_vars.append(
+                HDRepeatedVariables(label=dialog.attrib["name"], variables=repeat_vars)
+            )
 
     def add_var(self, var: HDVariable) -> None:
         self.vars[var.name] = var
 
     def populate_vars(self, components: ET.Element) -> None:
-        for el in components.findall('hd:text', NS):
-            self.add_var(HDText(
-                name=el.attrib['name'],
-                help_text=self.get_help_text(el)
-            ))
-        for el in components.findall('hd:date', NS):
-            self.add_var(HDDate(
-                name=el.attrib['name'],
-                help_text=self.get_help_text(el)
-            ))
-        for el in components.findall('hd:number', NS):
-            self.add_var(HDNumber(
-                name=el.attrib['name'],
-                help_text=self.get_help_text(el)
-            ))
-        for el in components.findall('hd:trueFalse', NS):
-            self.add_var(HDTrueFalse(
-                name=el.attrib['name'],
-                help_text=self.get_help_text(el)
-            ))
-        for el in components.findall('hd:multipleChoice', NS):
-            sm = len(el.findall('hd:multipleSelection', NS)) > 0
-            self.add_var(HDMultipleChoice(
-                name=el.attrib['name'],
-                help_text=self.get_help_text(el),
-                options=self.get_mc_options(el),
-                select_multiple=sm
-            ))
+        for el in components.findall("hd:text", NS):
+            self.add_var(HDText(name=el.attrib["name"], help_text=self.get_help_text(el)))
+        for el in components.findall("hd:date", NS):
+            self.add_var(HDDate(name=el.attrib["name"], help_text=self.get_help_text(el)))
+        for el in components.findall("hd:number", NS):
+            self.add_var(HDNumber(name=el.attrib["name"], help_text=self.get_help_text(el)))
+        for el in components.findall("hd:trueFalse", NS):
+            self.add_var(HDTrueFalse(name=el.attrib["name"], help_text=self.get_help_text(el)))
+        for el in components.findall("hd:multipleChoice", NS):
+            sm = len(el.findall("hd:multipleSelection", NS)) > 0
+            self.add_var(
+                HDMultipleChoice(
+                    name=el.attrib["name"],
+                    help_text=self.get_help_text(el),
+                    options=self.get_mc_options(el),
+                    select_multiple=sm,
+                )
+            )

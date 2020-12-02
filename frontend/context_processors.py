@@ -8,7 +8,7 @@ class SafeModeJsSnippet(JsSnippetContextProcessor):
     def template(self) -> str:
         return frontend.safe_mode.SAFE_MODE_JS.read_text()
 
-    var_name = 'SAFE_MODE_SNIPPET'
+    var_name = "SAFE_MODE_SNIPPET"
 
 
 class SafeModeHistoryFixJsSnippet(JsSnippetContextProcessor):
@@ -16,12 +16,12 @@ class SafeModeHistoryFixJsSnippet(JsSnippetContextProcessor):
     def template(self) -> str:
         return frontend.safe_mode.SAFE_MODE_HISTORY_FIX_JS.read_text()
 
-    var_name = 'SAFE_MODE_SNIPPET'
+    var_name = "SAFE_MODE_SNIPPET"
 
 
 def safe_mode(request):
     is_enabled = frontend.safe_mode.is_enabled(request)
-    ctx: Dict[str, Any] = {'is_safe_mode_enabled': is_enabled}
+    ctx: Dict[str, Any] = {"is_safe_mode_enabled": is_enabled}
     if is_enabled:
         ctx.update(SafeModeHistoryFixJsSnippet()(request))
     else:

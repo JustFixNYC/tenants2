@@ -14,37 +14,51 @@ from project.util.address_form_fields import get_geocoding_search_text
 
 MY_DIR = Path(__file__).parent.resolve()
 
-DDO_SQL_CACHE = 'default'
+DDO_SQL_CACHE = "default"
 
-DDO_SQL_FILE = MY_DIR / 'data-driven-onboarding.sql'
+DDO_SQL_FILE = MY_DIR / "data-driven-onboarding.sql"
 
-RTC_ZIPCODES = set([
-    # Brooklyn
-    '11216', '11221', '11225', '11226',
-    # Bronx
-    '10457', '10467', '10468' '10462',
-    # Manhattan
-    '10026', '10027', '10025', '10031',
-    # Queens
-    '11433', '11434', '11373' '11385',
-    # Staten Island
-    '10302', '10303', '10314' '10310',
-])
+RTC_ZIPCODES = set(
+    [
+        # Brooklyn
+        "11216",
+        "11221",
+        "11225",
+        "11226",
+        # Bronx
+        "10457",
+        "10467",
+        "10468" "10462",
+        # Manhattan
+        "10026",
+        "10027",
+        "10025",
+        "10031",
+        # Queens
+        "11433",
+        "11434",
+        "11373" "11385",
+        # Staten Island
+        "10302",
+        "10303",
+        "10314" "10310",
+    ]
+)
 
 COMPLAINT_CATEGORY_ALIASES = {
-    'DOOR/WINDOW': 'DOORS/WINDOWS',
-    'WATER LEAK': 'WATER LEAKS',
-    'ELECTRIC': 'ELECTRICAL',
-    'GENERAL': 'GENERAL DISREPAIR',
-    'APPLIANCE': 'BROKEN APPLIANCES',
-    'OUTSIDE BUILDING': 'PUBLIC SPACES',
-    'ELEVATOR': 'THE ELEVATOR',
-    'NONCONST': 'NON-CONSTRUCTION',
-    'CABINET': 'CABINETS',
-    'VENTILATION SYSTEM': 'THE VENTILATION SYSTEM',
-    'MAILBOX': 'MAILBOXES',
-    'JANITOR/SUPER': 'JANITOR/SUPER SERVICES',
-    'SIGNAGE MISSING': 'MISSING SIGNAGE',
+    "DOOR/WINDOW": "DOORS/WINDOWS",
+    "WATER LEAK": "WATER LEAKS",
+    "ELECTRIC": "ELECTRICAL",
+    "GENERAL": "GENERAL DISREPAIR",
+    "APPLIANCE": "BROKEN APPLIANCES",
+    "OUTSIDE BUILDING": "PUBLIC SPACES",
+    "ELEVATOR": "THE ELEVATOR",
+    "NONCONST": "NON-CONSTRUCTION",
+    "CABINET": "CABINETS",
+    "VENTILATION SYSTEM": "THE VENTILATION SYSTEM",
+    "MAILBOX": "MAILBOXES",
+    "JANITOR/SUPER": "JANITOR/SUPER SERVICES",
+    "SIGNAGE MISSING": "MISSING SIGNAGE",
 }
 
 logger = logging.getLogger(__name__)
@@ -52,14 +66,10 @@ logger = logging.getLogger(__name__)
 
 class DDOSuggestionsResult(graphene.ObjectType):
     # This information is obtained from geocoding.
-    full_address = graphene.String(
-        required=True,
-        description='The full address of the location.'
-    )
+    full_address = graphene.String(required=True, description="The full address of the location.")
 
     bbl = graphene.String(
-        required=True,
-        description="The 10-digit Borough-Block-Lot (BBL) of the location."
+        required=True, description="The 10-digit Borough-Block-Lot (BBL) of the location."
     )
 
     is_nycha_bbl = graphene.Boolean(
@@ -69,13 +79,12 @@ class DDOSuggestionsResult(graphene.ObjectType):
 
     is_rtc_eligible = graphene.Boolean(
         required=True,
-        description="Whether the location is eligible for NYC's Right to Counsel program."
+        description="Whether the location is eligible for NYC's Right to Counsel program.",
     )
 
     # This information is obtained from our SQL query.
     zipcode = graphene.String(
-        required=True,
-        description="The zip code of the location. It may be blank."
+        required=True, description="The zip code of the location. It may be blank."
     )
 
     year_built = graphene.Int(
@@ -84,12 +93,11 @@ class DDOSuggestionsResult(graphene.ObjectType):
 
     building_class = graphene.String(
         description="The 2-character building class of the BBL, as defined by the "
-                    "Dept. of City Planning."
+        "Dept. of City Planning."
     )
 
     unit_count = graphene.Int(
-        required=True,
-        description="Number of residential units for the BBL, if available."
+        required=True, description="Number of residential units for the BBL, if available."
     )
 
     hpd_complaint_count = graphene.Int(
@@ -100,10 +108,7 @@ class DDOSuggestionsResult(graphene.ObjectType):
     )
 
     hpd_open_violation_count = graphene.Int(
-        required=True,
-        description=(
-            "Number of open HPD violations for the BBL."
-        )
+        required=True, description=("Number of open HPD violations for the BBL.")
     )
 
     hpd_open_class_c_violation_count = graphene.Int(
@@ -138,9 +143,7 @@ class DDOSuggestionsResult(graphene.ObjectType):
     )
 
     number_of_evictions_from_portfolio = graphene.Int(
-        description=(
-            "The number of evictions from all associated buildings in portfolio."
-        )
+        description=("The number of evictions from all associated buildings in portfolio.")
     )
 
     portfolio_top_borough = graphene.String(
@@ -159,19 +162,15 @@ class DDOSuggestionsResult(graphene.ObjectType):
 
     stabilized_unit_count_2007 = graphene.Int(
         required=True,
-        description=(
-            "The number of rent-stabilized residential units at the BBL in 2007."
-        )
+        description=("The number of rent-stabilized residential units at the BBL in 2007."),
     )
 
     stabilized_unit_count_2017 = graphene.Int(
-        description=(
-            "The number of rent-stabilized residential units at the BBL in 2017."
-        ),
+        description=("The number of rent-stabilized residential units at the BBL in 2017."),
         deprecation_reason=(
             "This field has been deprecated as we now use `stabilized_unit_count` "
             "to store the rs unit count for the most up-to-date-year we have available."
-        )
+        ),
     )
 
     stabilized_unit_count = graphene.Int(
@@ -179,14 +178,12 @@ class DDOSuggestionsResult(graphene.ObjectType):
         description=(
             "The number of rent-stabilized residential units at the BBL "
             "for the most recent year we have data for."
-        )
+        ),
     )
 
     stabilized_unit_count_year = graphene.Int(
         required=True,
-        description=(
-            "The year that our data for most-recent stabilized unit count comes from."
-        )
+        description=("The year that our data for most-recent stabilized unit count comes from."),
     )
 
     stabilized_unit_count_maximum = graphene.Int(
@@ -194,7 +191,7 @@ class DDOSuggestionsResult(graphene.ObjectType):
         description=(
             "The maximum number of stabilized units at the BBL on any year between 2007 "
             "and 2017."
-        )
+        ),
     )
 
     average_wait_time_for_repairs_at_bbl = graphene.Int(
@@ -231,7 +228,7 @@ class DDOSuggestionsResult(graphene.ObjectType):
         description=(
             "The total number of HPD violations since 2010 for the entered BBL."
             "This value will never be null. If no HPD violations are found, it will be 0."
-        )
+        ),
     )
 
 
@@ -258,14 +255,14 @@ class DDOQuery:
         return DDOSuggestionsResult(
             full_address=props.label,
             bbl=props.pad_bbl,
-            is_rtc_eligible=row['zipcode'] in RTC_ZIPCODES,
+            is_rtc_eligible=row["zipcode"] in RTC_ZIPCODES,
             is_nycha_bbl=is_nycha_bbl(props.pad_bbl),
-            **row
+            **row,
         )
 
 
 def normalize_complaint_category(ddo_query: Dict[str, Any]):
-    key = 'most_common_category_of_hpd_complaint'
+    key = "most_common_category_of_hpd_complaint"
     cat = ddo_query[key]
     if cat and cat in COMPLAINT_CATEGORY_ALIASES:
         return {**ddo_query, key: COMPLAINT_CATEGORY_ALIASES[cat]}
@@ -282,5 +279,5 @@ def cached_run_ddo_sql_query(bbl: str) -> Dict[str, Any]:
 def run_ddo_sql_query(bbl: str) -> Dict[str, Any]:
     sql_query = DDO_SQL_FILE.read_text()
     with connections[settings.WOW_DATABASE].cursor() as cursor:
-        cursor.execute(sql_query, {'bbl': bbl})
+        cursor.execute(sql_query, {"bbl": bbl})
         return list(generate_json_rows(cursor))[0]

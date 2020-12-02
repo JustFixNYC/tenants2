@@ -2,6 +2,6 @@ from django.apps import AppConfig
 
 
 class DwhConfig(AppConfig):
-    name = 'dwh'
+    name = "dwh"
 
-    verbose_name = 'Data Warehouse'
+    verbose_name = "Data Warehouse"

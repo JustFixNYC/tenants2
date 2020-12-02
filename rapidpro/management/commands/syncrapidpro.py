@@ -11,17 +11,17 @@ from rapidpro.models import Metadata, ContactGroup, UserContactGroup, Contact
 from rapidpro import rapidpro_util
 from users.models import JustfixUser
 
-URN_TEL_REGEX = re.compile(r'^tel:\+1(\d+)$')
+URN_TEL_REGEX = re.compile(r"^tel:\+1(\d+)$")
 
 CLOCK_SKEW = timedelta(minutes=5)
 
 
 def find_phone_number_from_urns(urns: List[str]) -> Optional[str]:
-    '''
+    """
     >>> find_phone_number_from_urns(['blarg'])
     >>> find_phone_number_from_urns(['blarg', 'tel:+15551234567'])
     '5551234567'
-    '''
+    """
 
     for urn in urns:
         match = URN_TEL_REGEX.match(urn)
@@ -40,9 +40,7 @@ def find_user_from_urns(urns: List[str]) -> Optional[JustfixUser]:
 
 def get_contact_batches(after: Optional[datetime]):
     client = get_rapidpro_client()
-    return client.get_contacts(
-        after=after
-    ).iterfetches(retry_on_rate_exceed=True)
+    return client.get_contacts(after=after).iterfetches(retry_on_rate_exceed=True)
 
 
 def ensure_rapidpro_is_configured():
@@ -58,19 +56,15 @@ def get_rapidpro_client() -> TembaClient:
 
 
 class Command(BaseCommand):
-    help = 'Sync with RapidPro.'
+    help = "Sync with RapidPro."
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--full-resync', action='store_true',
-            help='Completely re-sync all users.'
+            "--full-resync", action="store_true", help="Completely re-sync all users."
         )
 
     def sync_contact_group(self, group) -> ContactGroup:
-        cg, _ = ContactGroup.objects.get_or_create(
-            uuid=group.uuid,
-            defaults={'name': group.name}
-        )
+        cg, _ = ContactGroup.objects.get_or_create(uuid=group.uuid, defaults={"name": group.name})
         if cg.name != group.name:
             cg.name = group.name
             cg.save()
@@ -101,16 +95,14 @@ class Command(BaseCommand):
             # Associate the user with any groups they're in that we don't
             # already know of.
             UserContactGroup.objects.get_or_create(
-                user=user,
-                group=cg,
-                defaults={'earliest_known_date': contact.modified_on}
+                user=user, group=cg, defaults={"earliest_known_date": contact.modified_on}
             )
 
         # Now find any existing groups the user is no longer in, and
         # delete the user's association with them.
-        UserContactGroup.objects.filter(user=user).exclude(group__uuid__in=[
-            group.uuid for group in contact.groups
-        ]).delete()
+        UserContactGroup.objects.filter(user=user).exclude(
+            group__uuid__in=[group.uuid for group in contact.groups]
+        ).delete()
 
     @transaction.atomic
     def sync(self, full_resync: bool):
@@ -130,4 +122,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         ensure_rapidpro_is_configured()
-        self.sync(full_resync=options['full_resync'])
+        self.sync(full_resync=options["full_resync"])

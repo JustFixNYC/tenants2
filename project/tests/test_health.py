@@ -26,9 +26,7 @@ class TrivialExtendedCheck(TrivialCheck):
 def test_check_works(db):
     info = health.check(True)
     assert info.status == 200
-    assert info.check_results == {
-        'CheckDatabase': True
-    }
+    assert info.check_results == {"CheckDatabase": True}
 
 
 def test_extended_checks_work():
@@ -36,17 +34,13 @@ def test_extended_checks_work():
     assert info.check_results == {}
 
     info = health.HealthInfo([TrivialExtendedCheck()], is_extended=True)
-    assert info.check_results == {
-        'TrivialExtendedCheck': True
-    }
+    assert info.check_results == {"TrivialExtendedCheck": True}
 
 
 def test_failing_checks_result_in_503_status():
     info = health.HealthInfo([TrivialCheck(result=False)])
     assert info.status == 503
-    assert info.check_results == {
-        'TrivialCheck': False
-    }
+    assert info.check_results == {"TrivialCheck": False}
 
 
 def test_disabled_checks_are_ignored():
@@ -58,7 +52,7 @@ def test_disabled_checks_are_ignored():
 def test_is_healthy_returns_false_on_exception():
     class ExplodingCheck(health.HealthCheck):
         def run_check(self):
-            raise Exception('lol')
+            raise Exception("lol")
 
     assert ExplodingCheck().is_healthy() is False
 
@@ -88,7 +82,7 @@ class TestCheckNycdb:
         assert CheckNycdb().is_enabled is False
 
     def test_it_works(self, nycdb):
-        nycdb_fixtures.load_hpd_registration('tiny-landlord.json')
+        nycdb_fixtures.load_hpd_registration("tiny-landlord.json")
         check = CheckNycdb()
         assert check.is_enabled is True
         assert check.is_healthy() is True
@@ -99,7 +93,7 @@ class TestCheckCelery:
         assert CheckCelery().is_enabled is False
 
     def test_it_works(self, settings):
-        settings.CELERY_BROKER_URL = 'blargh'
+        settings.CELERY_BROKER_URL = "blargh"
         check = CheckCelery()
         assert check.is_enabled is True
         assert check.is_healthy() is True

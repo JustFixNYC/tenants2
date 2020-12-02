@@ -3,8 +3,8 @@ from django.urls import path
 from . import views
 
 
-app_name = 'mailchimp'
+app_name = "mailchimp"
 
 urlpatterns = [
-    path(r'subscribe', views.subscribe, name='subscribe'),
+    path(r"subscribe", views.subscribe, name="subscribe"),
 ]

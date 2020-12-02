@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class LambdaHttpClient(LambdaService):
-    '''
+    """
     This class runs a subprocess that is expected to immediately start
     an HTTP server that listens on localhost.  The server should adhere
     to the following protocol:
@@ -32,7 +32,7 @@ class LambdaHttpClient(LambdaService):
 
     This class is also responsible for shutting down the server when
     the host process terminates.
-    '''
+    """
 
     # A descriptive name for the server, used in logging messages.
     name: str
@@ -44,7 +44,7 @@ class LambdaHttpClient(LambdaService):
     cwd: Path
 
     # The path to the interpreter for the server's script.
-    interpreter_path: Path = Path('node')
+    interpreter_path: Path = Path("node")
 
     # The number of seconds we'll give a server to start up, and to
     # handle its event and return a response before we consider it a
@@ -69,9 +69,9 @@ class LambdaHttpClient(LambdaService):
         self.__script_path_mtime = 0.0
 
     def shutdown(self):
-        '''
+        """
         Shutdown the server, if it's running.
-        '''
+        """
 
         with self.__lock:
             if self.__port:
@@ -96,16 +96,21 @@ class LambdaHttpClient(LambdaService):
                     self.shutdown()
 
     def __create_process(self) -> subprocess.Popen:
-        '''
+        """
         Create a lambda process and return it if needed.
-        '''
+        """
 
-        child = subprocess.Popen([
-            str(self.interpreter_path),
-            *self.interpreter_args,
-            str(self.script_path),
-            *self.script_args
-        ], stdin=subprocess.PIPE, stdout=subprocess.PIPE, cwd=self.cwd)
+        child = subprocess.Popen(
+            [
+                str(self.interpreter_path),
+                *self.interpreter_args,
+                str(self.script_path),
+                *self.script_args,
+            ],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            cwd=self.cwd,
+        )
         logger.debug(f"Created {self.name} lambda process with pid {child.pid}.")
         return child
 
@@ -138,7 +143,7 @@ class LambdaHttpClient(LambdaService):
         atexit.register(self.shutdown)
         self.__wait_for_process_output()
 
-        match = re.match(r'LISTENING ON PORT ([0-9]+)', self.__process_output.decode('utf-8'))
+        match = re.match(r"LISTENING ON PORT ([0-9]+)", self.__process_output.decode("utf-8"))
         if not match:
             raise Exception(f"Could not parse port from line: {repr(self.__process_output)}")
 
@@ -154,32 +159,31 @@ class LambdaHttpClient(LambdaService):
 
     @property
     def is_running(self) -> bool:
-        '''
+        """
         Return whether the server is running.
-        '''
+        """
 
         with self.__lock:
             return self.__port is not None and self.__process is not None
 
     def get_url(self) -> str:
-        '''
+        """
         Returns the URL to the server's root, starting up the server if it's
         not already running.
-        '''
+        """
 
         return f"http://127.0.0.1:{self.__get_port()}/"
 
     def run_handler(self, event: Any, timeout: Optional[float] = None) -> Any:
-        '''
+        """
         Make a request to the server, passing it the given JSON-serializable
         event as input, and returning the server's response as deserialized JSON.
 
         If the server misbehaves in any way, it is shut down.
-        '''
+        """
 
         try:
-            res = requests.post(
-                self.get_url(), json=event, timeout=timeout or self.timeout_secs)
+            res = requests.post(self.get_url(), json=event, timeout=timeout or self.timeout_secs)
             res.raise_for_status()
             return res.json()
         except Exception:

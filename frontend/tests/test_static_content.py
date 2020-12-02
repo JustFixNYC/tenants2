@@ -7,23 +7,26 @@ from frontend.static_content import (
 )
 
 
-@pytest.mark.parametrize("url,locale", [
-    ("/dev/stuff", "en"),
-    ("/en/stuff", "en"),
-    ("/es/stuff", "es"),
-    ("/fr/stuff", "en"),
-])
+@pytest.mark.parametrize(
+    "url,locale",
+    [
+        ("/dev/stuff", "en"),
+        ("/en/stuff", "en"),
+        ("/es/stuff", "es"),
+        ("/fr/stuff", "en"),
+    ],
+)
 def test_get_language_from_url_or_default(url, locale, settings):
     settings.LANGUAGES = [
-        ('en', 'English'),
-        ('es', 'Spanish'),
+        ("en", "English"),
+        ("es", "Spanish"),
     ]
     assert get_language_from_url_or_default(url) == locale
 
 
 def test_render_raw_lambda_static_content_works(db, allow_lambda_http):
     lr = render_raw_lambda_static_content(
-        '/dev/examples/static-page.pdf',
+        "/dev/examples/static-page.pdf",
         site=get_default_site(),
     )
     assert lr is not None
@@ -32,5 +35,5 @@ def test_render_raw_lambda_static_content_works(db, allow_lambda_http):
 
 
 def test_render_raw_lambda_static_content_returns_none_on_error(db, allow_lambda_http):
-    lr = render_raw_lambda_static_content('/blarfle', site=get_default_site())
+    lr = render_raw_lambda_static_content("/blarfle", site=get_default_site())
     assert lr is None

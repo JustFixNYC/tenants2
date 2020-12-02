@@ -7,9 +7,9 @@ import project.urls
 
 def autoverify(request):
     util.verify_request_user(request)
-    return HttpResponse('you are now verified')
+    return HttpResponse("you are now verified")
 
 
 urlpatterns = [
-    path('autoverify', autoverify),
+    path("autoverify", autoverify),
 ] + project.urls.urlpatterns

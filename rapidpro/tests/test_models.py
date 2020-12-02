@@ -10,5 +10,5 @@ class TestGetGroupNamesForUser:
         assert get_group_names_for_user(user) == []
 
     def test_it_works(self, db):
-        ucg = UserContactGroupFactory(group__name='foo')
-        assert get_group_names_for_user(ucg.user) == ['foo']
+        ucg = UserContactGroupFactory(group__name="foo")
+        assert get_group_names_for_user(ucg.user) == ["foo"]

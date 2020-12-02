@@ -5,7 +5,7 @@ from issues.models import ISSUE_CHOICES
 class IssueMerger(NamedTuple):
     values: Tuple[str, ...]
 
-    def merge_issues(self, issues: List['Issue']) -> List['Issue']:
+    def merge_issues(self, issues: List["Issue"]) -> List["Issue"]:
         to_merge: List[Issue] = []
         result: List[Issue] = []
 
@@ -16,10 +16,12 @@ class IssueMerger(NamedTuple):
                 result.append(issue)
 
         if to_merge:
-            result.append(Issue(
-                area=to_merge[0].area,
-                description=" & ".join(iss.description for iss in to_merge)
-            ))
+            result.append(
+                Issue(
+                    area=to_merge[0].area,
+                    description=" & ".join(iss.description for iss in to_merge),
+                )
+            )
 
         return result
 

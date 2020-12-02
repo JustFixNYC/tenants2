@@ -16,13 +16,13 @@ from loc.models import LandlordDetails
 from . import scaffolding, forms, models, letter_sending
 
 
-SCAFFOLDING_SESSION_KEY = f'norent_scaffolding_v{scaffolding.VERSION}'
+SCAFFOLDING_SESSION_KEY = f"norent_scaffolding_v{scaffolding.VERSION}"
 
 
 class NorentScaffolding(graphene.ObjectType):
-    '''
+    """
     Represents all fields of our scaffolding model.
-    '''
+    """
 
     first_name = graphene.String(required=True)
 
@@ -50,36 +50,26 @@ class NorentScaffolding(graphene.ObjectType):
     email = graphene.String(required=True)
 
     phone_number = graphene.String(
-        required=True,
-        deprecation_reason="In lastQueriedPhoneNumber now")
+        required=True, deprecation_reason="In lastQueriedPhoneNumber now"
+    )
 
-    landlord_name = graphene.String(
-        required=True,
-        deprecation_reason="In landlordDetails now")
+    landlord_name = graphene.String(required=True, deprecation_reason="In landlordDetails now")
 
     landlord_primary_line = graphene.String(
-        required=True,
-        deprecation_reason="In landlordDetails now")
+        required=True, deprecation_reason="In landlordDetails now"
+    )
 
-    landlord_city = graphene.String(
-        required=True,
-        deprecation_reason="In landlordDetails now")
+    landlord_city = graphene.String(required=True, deprecation_reason="In landlordDetails now")
 
-    landlord_state = graphene.String(
-        required=True,
-        deprecation_reason="In landlordDetails now")
+    landlord_state = graphene.String(required=True, deprecation_reason="In landlordDetails now")
 
-    landlord_zip_code = graphene.String(
-        required=True,
-        deprecation_reason="In landlordDetails now")
+    landlord_zip_code = graphene.String(required=True, deprecation_reason="In landlordDetails now")
 
-    landlord_email = graphene.String(
-        required=True,
-        deprecation_reason="In landlordDetails now")
+    landlord_email = graphene.String(required=True, deprecation_reason="In landlordDetails now")
 
     landlord_phone_number = graphene.String(
-        required=True,
-        deprecation_reason="In landlordDetails now")
+        required=True, deprecation_reason="In landlordDetails now"
+    )
 
     has_landlord_email_address = graphene.Boolean()
 
@@ -99,20 +89,20 @@ class NorentScaffolding(graphene.ObjectType):
 class NorentLetter(DjangoObjectType):
     class Meta:
         model = models.Letter
-        only_fields = ('tracking_number', 'letter_sent_at', 'created_at')
+        only_fields = ("tracking_number", "letter_sent_at", "created_at")
 
     payment_date = graphene.Date(
         required=True,
         description="The rent payment date the letter is for.",
         deprecation_reason="No longer used by front-end code since we started supporting multiple rent periods per letter.",  # noqa
-        resolver=lambda self, info: self.latest_rent_period.payment_date
+        resolver=lambda self, info: self.latest_rent_period.payment_date,
     )
 
 
 class NorentRentPeriod(DjangoObjectType):
     class Meta:
         model = models.RentPeriod
-        only_fields = ('payment_date',)
+        only_fields = ("payment_date",)
 
 
 @schema_registry.register_session_info
@@ -122,7 +112,7 @@ class NorentSessionInfo(object):
     norent_latest_rent_period = graphene.Field(
         NorentRentPeriod,
         deprecation_reason="No longer used by front-end code.",
-        description="The latest rent period one can create a no rent letter for."
+        description="The latest rent period one can create a no rent letter for.",
     )
 
     norent_available_rent_periods = graphene.Field(
@@ -130,7 +120,7 @@ class NorentSessionInfo(object):
         description=(
             "A list of the available rent periods the current user can "
             "create a no rent letter for."
-        )
+        ),
     )
 
     norent_latest_letter = graphene.Field(
@@ -144,17 +134,16 @@ class NorentSessionInfo(object):
     norent_letters_sent = graphene.Int(
         required=True,
         description=(
-            "The number of no rent letters sent by the whole platform (not just " +
-            "the current user)."
-        )
+            "The number of no rent letters sent by the whole platform (not just "
+            + "the current user)."
+        ),
     )
 
     norent_upcoming_letter_rent_periods = graphene.List(
         graphene.NonNull(graphene.types.Date),
         required=True,
         description=(
-            "The rent periods that the user's upcoming no rent letter "
-            "are in regards to."
+            "The rent periods that the user's upcoming no rent letter " "are in regards to."
         ),
     )
 
@@ -192,8 +181,7 @@ class NorentSessionInfo(object):
             return []
         return [
             datetime.date.fromisoformat(d)
-            for d in
-            models.UpcomingLetterRentPeriod.objects.get_for_user(user)
+            for d in models.UpcomingLetterRentPeriod.objects.get_for_user(user)
         ]
 
 
@@ -251,27 +239,27 @@ class NorentNationalAddress(SessionFormMutation):
 
     @classmethod
     def validate_address(
-        cls,
-        cleaned_data: Dict[str, str],
-        city: str,
-        state: str
+        cls, cleaned_data: Dict[str, str], city: str, state: str
     ) -> Tuple[Dict[str, str], Optional[bool]]:
         addresses = mapbox.find_address(
-            address=cleaned_data['street'],
+            address=cleaned_data["street"],
             city=city,
             state=state,
-            zip_code=cleaned_data['zip_code']
+            zip_code=cleaned_data["zip_code"],
         )
         if addresses is None:
             return (cleaned_data, None)
         if len(addresses) == 0:
             return (cleaned_data, False)
         address = addresses[0]
-        return ({
-            **cleaned_data,
-            'street': address.address,
-            'zip_code': address.zip_code,
-        }, True)
+        return (
+            {
+                **cleaned_data,
+                "street": address.address,
+                "zip_code": address.zip_code,
+            },
+            True,
+        )
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
@@ -281,8 +269,7 @@ class NorentNationalAddress(SessionFormMutation):
         state = scf.state
         if not (city and state):
             return cls.make_error("You haven't provided your city and state yet!")
-        cleaned_data, is_valid = cls.validate_address(
-            form.cleaned_data, city=city, state=state)
+        cleaned_data, is_valid = cls.validate_address(form.cleaned_data, city=city, state=state)
         update_scaffolding(request, cleaned_data)
         return cls.mutation_success(is_valid=is_valid)
 
@@ -297,7 +284,7 @@ class NorentEmail(SessionFormMutation):
         request = info.context
         user = request.user
         if user.is_authenticated:
-            user.email = form.cleaned_data['email']
+            user.email = form.cleaned_data["email"]
             user.is_email_verified = False
             user.save()
         else:
@@ -318,19 +305,22 @@ class NorentLandlordNameAndContactTypes(SessionFormMutation):
         request = info.context
         user = request.user
         ld = LandlordDetails.objects.get_or_create(user=user)[0]
-        ld.name = form.cleaned_data['name']
+        ld.name = form.cleaned_data["name"]
         ld.is_looked_up = False
-        has_email_address = form.cleaned_data['has_email_address']
-        has_mailing_address = form.cleaned_data['has_mailing_address']
+        has_email_address = form.cleaned_data["has_email_address"]
+        has_mailing_address = form.cleaned_data["has_mailing_address"]
         if not has_email_address:
-            ld.email = ''
+            ld.email = ""
         if not has_mailing_address:
             ld.clear_address()
         ld.save()
-        update_scaffolding(request, {
-            'has_landlord_email_address': has_email_address,
-            'has_landlord_mailing_address': has_mailing_address,
-        })
+        update_scaffolding(
+            request,
+            {
+                "has_landlord_email_address": has_email_address,
+                "has_landlord_mailing_address": has_mailing_address,
+            },
+        )
         return cls.mutation_success()
 
 
@@ -342,19 +332,17 @@ def are_all_truthy(*args) -> bool:
 
 
 def does_user_have_ll_mailing_addr_or_email(user) -> bool:
-    return (
-        hasattr(user, 'landlord_details') and
-        (user.landlord_details.address_lines_for_mailing or
-         user.landlord_details.email)
+    return hasattr(user, "landlord_details") and (
+        user.landlord_details.address_lines_for_mailing or user.landlord_details.email
     )
 
 
 @schema_registry.register_mutation
 class NorentSendLetter(SessionFormMutation):
-    '''
+    """
     Send the user's no rent letter, setting the letter's rent period
     to the most recent one in our database.
-    '''
+    """
 
     login_required = True
 
@@ -370,15 +358,12 @@ class NorentSendLetter(SessionFormMutation):
         # Since this is a legacy endpoint, we want to make sure the
         # user's upcoming letter rent periods are set to the latest
         # rent period.
-        models.UpcomingLetterRentPeriod.objects.set_rent_periods_for_user(
-            user,
-            [rent_period]
-        )
+        models.UpcomingLetterRentPeriod.objects.set_rent_periods_for_user(user, [rent_period])
 
         letter = models.Letter.objects.filter(user=user, rent_periods=rent_period).first()
         if letter is not None:
             return cls.make_error("You have already sent a letter for this rent period!")
-        if not hasattr(user, 'onboarding_info'):
+        if not hasattr(user, "onboarding_info"):
             return cls.make_and_log_error(info, "You have not onboarded!")
         if not does_user_have_ll_mailing_addr_or_email(user):
             return cls.make_and_log_error(info, "You haven't provided any landlord details yet!")
@@ -396,10 +381,10 @@ class NorentSendLetter(SessionFormMutation):
 
 @schema_registry.register_mutation
 class NorentSendLetterV2(SessionFormMutation):
-    '''
+    """
     Send the user's no rent letter, setting the letter's rent periods
     to the upcoming ones that the user has previously chosen.
-    '''
+    """
 
     login_required = True
 
@@ -414,7 +399,7 @@ class NorentSendLetterV2(SessionFormMutation):
         letter = models.Letter.objects.filter(user=user, rent_periods__in=rent_periods).first()
         if letter is not None:
             return cls.make_error("You have already sent a letter for one of the rent periods!")
-        if not hasattr(user, 'onboarding_info'):
+        if not hasattr(user, "onboarding_info"):
             return cls.make_and_log_error(info, "You have not onboarded!")
         if not does_user_have_ll_mailing_addr_or_email(user):
             return cls.make_and_log_error(info, "You haven't provided any landlord details yet!")
@@ -440,10 +425,10 @@ class NorentCreateAccount(SessionFormMutation):
         step1 = OnboardingStep1Info.get_dict_from_request(request)
         if step1 is None:
             return None
-        info['borough'] = step1['borough']
-        info['address'] = step1['address']
-        info['apt_number'] = step1['apt_number']
-        info['address_verified'] = step1['address_verified']
+        info["borough"] = step1["borough"]
+        info["address"] = step1["address"]
+        info["apt_number"] = step1["apt_number"]
+        info["address_verified"] = step1["address_verified"]
         return info
 
     @classmethod
@@ -453,11 +438,11 @@ class NorentCreateAccount(SessionFormMutation):
 
         if not are_all_truthy(scf.street, scf.zip_code):
             return None
-        info['non_nyc_city'] = scf.city
-        info['address'] = scf.street
-        info['apt_number'] = scf.apt_number
-        info['zipcode'] = scf.zip_code
-        info['address_verified'] = False
+        info["non_nyc_city"] = scf.city
+        info["address"] = scf.street
+        info["apt_number"] = scf.apt_number
+        info["zipcode"] = scf.zip_code
+        info["address_verified"] = False
         return info
 
     @classmethod
@@ -465,39 +450,39 @@ class NorentCreateAccount(SessionFormMutation):
         scf = get_scaffolding(request)
         phone_number = get_last_queried_phone_number(request)
         if not are_all_truthy(
-            phone_number, scf.first_name, scf.last_name, scf.city,
-            scf.state, scf.email
+            phone_number, scf.first_name, scf.last_name, scf.city, scf.state, scf.email
         ):
             return None
         info: Dict[str, Any] = {
-            'phone_number': phone_number,
-            'first_name': scf.first_name,
-            'last_name': scf.last_name,
-            'state': scf.state,
-            'email': scf.email,
-            'signup_intent': SIGNUP_INTENT_CHOICES.NORENT,
-            'can_receive_rttc_comms': scf.can_receive_rttc_comms,
-            'can_receive_saje_comms': scf.can_receive_saje_comms,
+            "phone_number": phone_number,
+            "first_name": scf.first_name,
+            "last_name": scf.last_name,
+            "state": scf.state,
+            "email": scf.email,
+            "signup_intent": SIGNUP_INTENT_CHOICES.NORENT,
+            "can_receive_rttc_comms": scf.can_receive_rttc_comms,
+            "can_receive_saje_comms": scf.can_receive_saje_comms,
         }
         return cls.fill_city_info(request, info, scf)
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
-        password = form.cleaned_data['password']
+        password = form.cleaned_data["password"]
         allinfo = cls.get_previous_step_info(request)
         if allinfo is None:
             cls.log(info, "User has not completed previous steps, aborting mutation.")
             return cls.make_error("You haven't completed all the previous steps yet.")
         allinfo.update(form.cleaned_data)
-        allinfo['agreed_to_norent_terms'] = True
+        allinfo["agreed_to_norent_terms"] = True
         user = complete_onboarding(request, info=allinfo, password=password)
 
         user.send_sms_async(
-            _("Welcome to %(site_name)s, a product by JustFix.nyc. "
-              "We'll be sending you notifications from this phone number.") % {
-                  'site_name': site_util.get_site_name("NORENT")
-            }
+            _(
+                "Welcome to %(site_name)s, a product by JustFix.nyc. "
+                "We'll be sending you notifications from this phone number."
+            )
+            % {"site_name": site_util.get_site_name("NORENT")}
         )
 
         purge_last_queried_phone_number(request)
@@ -519,16 +504,16 @@ class NorentSetUpcomingLetterRentPeriods(SessionFormMutation):
         request = info.context
         models.UpcomingLetterRentPeriod.objects.set_for_user(
             request.user,
-            form.cleaned_data['rent_periods'],
+            form.cleaned_data["rent_periods"],
         )
         return cls.mutation_success()
 
 
 class NorentOptInToComms(SessionFormMutation):
-    '''
+    """
     Abstract base class to make it easy to opt-in to
     communications from a partner organization.
-    '''
+    """
 
     class Meta:
         # This needs to be added to all base classes; we
@@ -541,22 +526,20 @@ class NorentOptInToComms(SessionFormMutation):
 
     # This needs to be set to a nullable boolean field of both
     # OnboardingInfo and NorentScaffolding.
-    comms_field_name = ''
+    comms_field_name = ""
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         assert cls.comms_field_name
         request = info.context
         user = request.user
-        opt_in: bool = form.cleaned_data['opt_in']
+        opt_in: bool = form.cleaned_data["opt_in"]
         if user.is_authenticated:
             oi = request.user.onboarding_info
             setattr(oi, cls.comms_field_name, opt_in)
             oi.save()
         else:
-            update_scaffolding(request, {
-                cls.comms_field_name: opt_in
-            })
+            update_scaffolding(request, {cls.comms_field_name: opt_in})
         return cls.mutation_success()
 
 
@@ -565,7 +548,7 @@ class NorentOptInToRttcComms(NorentOptInToComms):
     class Meta:
         form_class = forms.OptInToCommsForm
 
-    comms_field_name = 'can_receive_rttc_comms'
+    comms_field_name = "can_receive_rttc_comms"
 
 
 @schema_registry.register_mutation
@@ -573,4 +556,4 @@ class NorentOptInToSajeComms(NorentOptInToComms):
     class Meta:
         form_class = forms.OptInToCommsForm
 
-    comms_field_name = 'can_receive_saje_comms'
+    comms_field_name = "can_receive_saje_comms"

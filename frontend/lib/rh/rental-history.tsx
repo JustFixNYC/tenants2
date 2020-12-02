@@ -214,36 +214,28 @@ const RentalHistoryForm = MiddleProgressStep((props) => {
 });
 
 const RentalHistoryRsUnitsFound = MiddleProgressStep((props) => {
-  const session = useContext(AppContext).session;
-  if (
-    !(
-      session.rentStabInfo &&
-      session.rentStabInfo.latestUnitCount &&
-      session.rentStabInfo.latestYear
-    )
-  ) {
-    throw new Error(
-      "Oops! User was sent to a Rent Stab Units found page without RS data found!"
-    );
-  }
+  const rsInfo = useContext(AppContext).session.rentStabInfo;
   return (
     <Page
       title={li18n._(t`It looks like your apartment may be rent stabilized!`)}
       withHeading
       className="content"
     >
-      <p>
-        <Trans>
-          Your building had{" "}
-          <Plural
-            value={session.rentStabInfo.latestUnitCount}
-            one="1 rent stabilized unit"
-            other="# rent stabilized units"
-          />{" "}
-          in {session.rentStabInfo?.latestYear}, according to property tax
-          documents.
-        </Trans>
-      </p>
+      {/* Technically, given our "shouldBeSkipped" locig in our routes impementation,
+      these values should never be null/undefined if a user has reached this page. */}
+      {rsInfo && rsInfo.latestYear && rsInfo.latestUnitCount && (
+        <p>
+          <Trans>
+            Your building had{" "}
+            <Plural
+              value={rsInfo.latestUnitCount}
+              one="1 rent stabilized unit"
+              other="# rent stabilized units"
+            />{" "}
+            in {rsInfo.latestYear}, according to property tax documents.
+          </Trans>
+        </p>
+      )}
       <p>
         <Trans id="justfix.rhRsUnitsAreGoodSign">
           While this data doesn’t guarantee that your apartment is rent

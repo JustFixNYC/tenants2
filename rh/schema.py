@@ -1,5 +1,5 @@
 from . import models, forms, email_dhcr
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from django.utils import translation
 from django.db import connections
 from django.conf import settings
@@ -35,7 +35,7 @@ def get_slack_notify_text(rhr: models.RentalHistoryRequest) -> str:
     return f"{user_text} has requested {rh_link}!"
 
 
-def run_rent_stab_sql_query(bbl: str) -> Dict[str, Any]:
+def run_rent_stab_sql_query(bbl: str) -> Optional[Dict[str, Any]]:
     sql_query = """
         select uc2007, uc2008, uc2009, uc2010, uc2011, uc2012, uc2013,
              uc2014, uc2015, uc2016, uc2017, uc2018, uc2019
@@ -54,7 +54,7 @@ def run_rent_stab_sql_query(bbl: str) -> Dict[str, Any]:
         return json_result[0]
 
 
-def process_rent_stab_data(raw_data: Dict[str, Any]) -> Dict[str, Any]:
+def process_rent_stab_data(raw_data: Optional[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
     print(raw_data)
     if not raw_data:
         return None

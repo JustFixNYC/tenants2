@@ -22,6 +22,11 @@ from loc.landlord_lookup import lookup_bbl_and_bin_and_full_address
 
 RENT_STAB_INFO_SESSION_KEY = "rh_rent_stab_v1"
 
+BLANK_RENT_STAB_INFO = {
+    "latest_year": None,
+    "latest_unit_count": None
+}
+
 
 def get_slack_notify_text(rhr: models.RentalHistoryRequest) -> str:
     rh_link = slack.hyperlink(
@@ -50,17 +55,25 @@ def run_rent_stab_sql_query(bbl: str) -> Optional[Dict[str, Any]]:
         cursor.execute(sql_query, {"bbl": bbl})
         json_result = list(generate_json_rows(cursor))
         if not json_result:
-            return None
+            return BLANK_RENT_STAB_INFO
         return json_result[0]
 
 
 def process_rent_stab_data(raw_data: Optional[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
     if not raw_data:
-        return None
+        return BLANK_RENT_STAB_INFO
     for item in sorted(raw_data.items(), reverse=True):
         if item[1] and item[1] > 0:
+<<<<<<< Updated upstream
             return {"latest_year": item[0].replace("uc", ""), "latest_unit_count": item[1]}
     return None
+=======
+            return {
+                "latest_year": item[0].replace("uc", ""),
+                "latest_unit_count": item[1]
+            }
+    return BLANK_RENT_STAB_INFO
+>>>>>>> Stashed changes
 
 
 class RhFormInfo(DjangoSessionFormObjectType):
@@ -83,9 +96,9 @@ class RhForm(DjangoSessionFormMutation):
 
         full_address = form_data["address"] + ", " + form_data["borough"]
         bbl, _, _ = lookup_bbl_and_bin_and_full_address(full_address)
-        rent_stab_info = process_rent_stab_data(run_rent_stab_sql_query(bbl))
-
-        request.session[RENT_STAB_INFO_SESSION_KEY] = rent_stab_info
+        if bbl:
+            rent_stab_info = process_rent_stab_data(run_rent_stab_sql_query(bbl))
+            request.session[RENT_STAB_INFO_SESSION_KEY] = rent_stab_info
         return result
 
 

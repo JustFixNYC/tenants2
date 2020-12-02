@@ -1,4 +1,4 @@
-from rh.schema import process_rent_stab_data
+from rh.schema import process_rent_stab_data, BLANK_RENT_STAB_INFO
 
 # Data for 654 Park Place, had rent stab units in 2019
 EXAMPLE_RENT_STAB_DATA = {
@@ -61,8 +61,8 @@ def test_process_rent_stab_data_works_when_data_is_given():
         "latest_year": "2008",
         "latest_unit_count": 6,
     }
-    assert process_rent_stab_data(EXAMPLE_ZERO_RENT_STAB_DATA) is None
+    assert process_rent_stab_data(EXAMPLE_ZERO_RENT_STAB_DATA) == BLANK_RENT_STAB_INFO
 
 
 def test_process_rent_stab_data_works_when_no_data_is_given():
-    assert process_rent_stab_data(None) is None
+    assert process_rent_stab_data(None) == BLANK_RENT_STAB_INFO

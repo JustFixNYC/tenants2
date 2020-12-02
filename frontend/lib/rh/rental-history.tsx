@@ -215,9 +215,12 @@ const RentalHistoryForm = MiddleProgressStep((props) => {
 
 const RentalHistoryRsUnitsFound = MiddleProgressStep((props) => {
   const session = useContext(AppContext).session;
+  if (!(session.rentStabInfo && session.rentStabInfo.latestUnitCount && session.rentStabInfo.latestYear)) {
+    throw new Error("Oops! User was sent to a Rent Stab Units found page without RS data found!")
+  }
   return (
     <Page
-      title={li18n._(t`It looks like your apartment may be rent stabilized`)}
+      title={li18n._(t`It looks like your apartment may be rent stabilized!`)}
       withHeading
       className="content"
     >
@@ -225,7 +228,7 @@ const RentalHistoryRsUnitsFound = MiddleProgressStep((props) => {
         <Trans>
           Your building had{" "}
           <Plural
-            value={session.rentStabInfo?.latestUnitCount || 0}
+            value={session.rentStabInfo.latestUnitCount}
             one="1 rent stabilized unit"
             other="# rent stabilized units"
           />{" "}
@@ -242,18 +245,12 @@ const RentalHistoryRsUnitsFound = MiddleProgressStep((props) => {
       </p>
       <div className="field is-grouped jf-two-buttons">
         <BackButton to={props.prevStep} />
-        <SessionUpdatingFormSubmitter
-          mutation={RhSendEmailMutation}
-          initialState={{}}
-          onSuccessRedirect={props.nextStep}
+        <Link
+          to={props.nextStep}
+          className="button jf-is-next-button is-primary is-medium"
         >
-          {(ctx) => (
-            <NextButton
-              isLoading={ctx.isLoading}
-              label={li18n._(t`Continue`)}
-            />
-          )}
-        </SessionUpdatingFormSubmitter>
+          <Trans>Continue</Trans>
+        </Link>
       </div>
     </Page>
   );
@@ -282,81 +279,68 @@ const RentalHistoryRsUnitsNotFound = MiddleProgressStep((props) => {
       </p>
       <div className="field is-grouped jf-two-buttons">
         <BackButton to={props.prevStep} />
-        <SessionUpdatingFormSubmitter
-          mutation={RhSendEmailMutation}
-          initialState={{}}
-          onSuccessRedirect={props.nextStep}
+        <Link
+          to={props.nextStep}
+          className="button jf-is-next-button is-primary is-medium"
         >
-          {(ctx) => (
-            <NextButton
-              isLoading={ctx.isLoading}
-              label={li18n._(t`Continue`)}
-            />
-          )}
-        </SessionUpdatingFormSubmitter>
+          <Trans>Continue anyway</Trans>
+        </Link>
       </div>
     </Page>
   );
 });
 
-const RentalHistoryPreview = MiddleProgressStep((props) => {
-  const session = useContext(AppContext).session;
-  return (
-    <Page
-      title={li18n._(t`Review your request to the DHCR`)}
-      withHeading
-      className="content"
-    >
-      <p>
-        Year: {session.rentStabInfo?.latestYear}, count:{" "}
-        {session.rentStabInfo?.latestUnitCount}
-      </p>
-      <p>
-        <Trans>
-          Here is a preview of the request for your Rent History. It includes
-          your address and apartment number so that the DHCR can mail you.
+const RentalHistoryPreview = MiddleProgressStep((props) => (
+  <Page
+    title={li18n._(t`Review your request to the DHCR`)}
+    withHeading
+    className="content"
+  >
+    <p>
+      <Trans>
+        Here is a preview of the request for your Rent History. It includes
+        your address and apartment number so that the DHCR can mail you.
         </Trans>
+    </p>
+    <ForeignLanguageOnly>
+      <p className="is-uppercase is-size-7">
+        <InYourLanguageTranslation />{" "}
+        <Trans>(Note: the request will be sent in English)</Trans>
       </p>
-      <ForeignLanguageOnly>
-        <p className="is-uppercase is-size-7">
-          <InYourLanguageTranslation />{" "}
-          <Trans>(Note: the request will be sent in English)</Trans>
-        </p>
-      </ForeignLanguageOnly>
-      <article className="message">
-        <div className="message-header has-text-weight-normal">
-          <Trans>
-            To: New York Division of Housing and Community Renewal (DHCR)
+    </ForeignLanguageOnly>
+    <article className="message">
+      <div className="message-header has-text-weight-normal">
+        <Trans>
+          To: New York Division of Housing and Community Renewal (DHCR)
           </Trans>
-        </div>
-        <div className="message-body content">
-          <RhEmailToDhcr />
-        </div>
-      </article>
-      <DemoDeploymentNote>
-        <p>
-          This demo site <strong>will not send</strong> a real request to the
+      </div>
+      <div className="message-body content">
+        <RhEmailToDhcr />
+      </div>
+    </article>
+    <DemoDeploymentNote>
+      <p>
+        This demo site <strong>will not send</strong> a real request to the
           DHCR.
         </p>
-      </DemoDeploymentNote>
-      <div className="field is-grouped jf-two-buttons">
-        <BackButton to={props.prevStep} />
-        <SessionUpdatingFormSubmitter
-          mutation={RhSendEmailMutation}
-          initialState={{}}
-          onSuccessRedirect={JustfixRoutes.locale.rh.confirmation}
-        >
-          {(ctx) => (
-            <NextButton
-              label={li18n._(t`Submit request`)}
-              isLoading={ctx.isLoading}
-            />
-          )}
-        </SessionUpdatingFormSubmitter>
-      </div>
-    </Page>
-  );
-});
+    </DemoDeploymentNote>
+    <div className="field is-grouped jf-two-buttons">
+      <BackButton to={props.prevStep} />
+      <SessionUpdatingFormSubmitter
+        mutation={RhSendEmailMutation}
+        initialState={{}}
+        onSuccessRedirect={JustfixRoutes.locale.rh.confirmation}
+      >
+        {(ctx) => (
+          <NextButton
+            label={li18n._(t`Submit request`)}
+            isLoading={ctx.isLoading}
+          />
+        )}
+      </SessionUpdatingFormSubmitter>
+    </div>
+  </Page>
+));
 
 const KYR_LINKS: LocalizedOutboundLinkProps[] = [
   {
@@ -424,7 +408,7 @@ function RentalHistoryConfirmation(): JSX.Element {
         <Trans id="justfix.rhWarningAboutNotReceiving">
           Note: the DHCR only has rent histories for apartments that were rent
           stabilized at some point in time. If your apartment has never been
-          rent stabilized, you will not receive a rent history in the mail.
+          rent stabilized, <strong>you will not receive a rent history in the mail.</strong>
         </Trans>
       </p>
       <p>
@@ -448,10 +432,13 @@ function RentalHistoryConfirmation(): JSX.Element {
 }
 
 export function userBuildingHasRentStab(session: AllSessionInfo): boolean {
-  return session.rentStabInfo
-    ? !!session.rentStabInfo.latestYear &&
-        !!session.rentStabInfo.latestUnitCount
-    : false;
+  return !!session.rentStabInfo && !!session.rentStabInfo.latestYear &&
+    !!session.rentStabInfo.latestUnitCount;
+}
+
+export function userBuildingHasNoRentStab(session: AllSessionInfo): boolean {
+  return !session.rentStabInfo || !session.rentStabInfo.latestYear ||
+    !session.rentStabInfo.latestUnitCount;
 }
 
 export const getRentalHistoryRoutesProps = (): ProgressRoutesProps => ({
@@ -474,11 +461,13 @@ export const getRentalHistoryRoutesProps = (): ProgressRoutesProps => ({
       path: JustfixRoutes.locale.rh.rsUnitsFound,
       exact: true,
       component: RentalHistoryRsUnitsFound,
+      shouldBeSkipped: userBuildingHasNoRentStab
     },
     {
       path: JustfixRoutes.locale.rh.rsUnitsNotFound,
       exact: true,
       component: RentalHistoryRsUnitsNotFound,
+      shouldBeSkipped: userBuildingHasRentStab
     },
     {
       path: JustfixRoutes.locale.rh.preview,

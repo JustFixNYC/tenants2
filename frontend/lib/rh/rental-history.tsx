@@ -215,8 +215,16 @@ const RentalHistoryForm = MiddleProgressStep((props) => {
 
 const RentalHistoryRsUnitsFound = MiddleProgressStep((props) => {
   const session = useContext(AppContext).session;
-  if (!(session.rentStabInfo && session.rentStabInfo.latestUnitCount && session.rentStabInfo.latestYear)) {
-    throw new Error("Oops! User was sent to a Rent Stab Units found page without RS data found!")
+  if (
+    !(
+      session.rentStabInfo &&
+      session.rentStabInfo.latestUnitCount &&
+      session.rentStabInfo.latestYear
+    )
+  ) {
+    throw new Error(
+      "Oops! User was sent to a Rent Stab Units found page without RS data found!"
+    );
   }
   return (
     <Page
@@ -298,9 +306,9 @@ const RentalHistoryPreview = MiddleProgressStep((props) => (
   >
     <p>
       <Trans>
-        Here is a preview of the request for your Rent History. It includes
-        your address and apartment number so that the DHCR can mail you.
-        </Trans>
+        Here is a preview of the request for your Rent History. It includes your
+        address and apartment number so that the DHCR can mail you.
+      </Trans>
     </p>
     <ForeignLanguageOnly>
       <p className="is-uppercase is-size-7">
@@ -312,7 +320,7 @@ const RentalHistoryPreview = MiddleProgressStep((props) => (
       <div className="message-header has-text-weight-normal">
         <Trans>
           To: New York Division of Housing and Community Renewal (DHCR)
-          </Trans>
+        </Trans>
       </div>
       <div className="message-body content">
         <RhEmailToDhcr />
@@ -321,8 +329,8 @@ const RentalHistoryPreview = MiddleProgressStep((props) => (
     <DemoDeploymentNote>
       <p>
         This demo site <strong>will not send</strong> a real request to the
-          DHCR.
-        </p>
+        DHCR.
+      </p>
     </DemoDeploymentNote>
     <div className="field is-grouped jf-two-buttons">
       <BackButton to={props.prevStep} />
@@ -408,7 +416,8 @@ function RentalHistoryConfirmation(): JSX.Element {
         <Trans id="justfix.rhWarningAboutNotReceiving">
           Note: the DHCR only has rent histories for apartments that were rent
           stabilized at some point in time. If your apartment has never been
-          rent stabilized, <strong>you will not receive a rent history in the mail.</strong>
+          rent stabilized,{" "}
+          <strong>you will not receive a rent history in the mail.</strong>
         </Trans>
       </p>
       <p>
@@ -432,13 +441,19 @@ function RentalHistoryConfirmation(): JSX.Element {
 }
 
 export function userBuildingHasRentStab(session: AllSessionInfo): boolean {
-  return !!session.rentStabInfo && !!session.rentStabInfo.latestYear &&
-    !!session.rentStabInfo.latestUnitCount;
+  return (
+    !!session.rentStabInfo &&
+    !!session.rentStabInfo.latestYear &&
+    !!session.rentStabInfo.latestUnitCount
+  );
 }
 
 export function userBuildingHasNoRentStab(session: AllSessionInfo): boolean {
-  return !session.rentStabInfo || !session.rentStabInfo.latestYear ||
-    !session.rentStabInfo.latestUnitCount;
+  return (
+    !session.rentStabInfo ||
+    !session.rentStabInfo.latestYear ||
+    !session.rentStabInfo.latestUnitCount
+  );
 }
 
 export const getRentalHistoryRoutesProps = (): ProgressRoutesProps => ({
@@ -461,13 +476,13 @@ export const getRentalHistoryRoutesProps = (): ProgressRoutesProps => ({
       path: JustfixRoutes.locale.rh.rsUnitsFound,
       exact: true,
       component: RentalHistoryRsUnitsFound,
-      shouldBeSkipped: userBuildingHasNoRentStab
+      shouldBeSkipped: userBuildingHasNoRentStab,
     },
     {
       path: JustfixRoutes.locale.rh.rsUnitsNotFound,
       exact: true,
       component: RentalHistoryRsUnitsNotFound,
-      shouldBeSkipped: userBuildingHasRentStab
+      shouldBeSkipped: userBuildingHasRentStab,
     },
     {
       path: JustfixRoutes.locale.rh.preview,

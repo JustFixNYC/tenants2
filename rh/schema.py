@@ -64,16 +64,8 @@ def process_rent_stab_data(raw_data: Optional[Dict[str, Any]]) -> Optional[Dict[
         return BLANK_RENT_STAB_INFO
     for item in sorted(raw_data.items(), reverse=True):
         if item[1] and item[1] > 0:
-<<<<<<< Updated upstream
             return {"latest_year": item[0].replace("uc", ""), "latest_unit_count": item[1]}
-    return None
-=======
-            return {
-                "latest_year": item[0].replace("uc", ""),
-                "latest_unit_count": item[1]
-            }
     return BLANK_RENT_STAB_INFO
->>>>>>> Stashed changes
 
 
 class RhFormInfo(DjangoSessionFormObjectType):

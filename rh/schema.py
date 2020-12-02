@@ -22,10 +22,7 @@ from loc.landlord_lookup import lookup_bbl_and_bin_and_full_address
 
 RENT_STAB_INFO_SESSION_KEY = "rh_rent_stab_v1"
 
-BLANK_RENT_STAB_INFO = {
-    "latest_year": None,
-    "latest_unit_count": None
-}
+BLANK_RENT_STAB_INFO = {"latest_year": None, "latest_unit_count": None}
 
 
 def get_slack_notify_text(rhr: models.RentalHistoryRequest) -> str:

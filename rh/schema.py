@@ -55,7 +55,6 @@ def run_rent_stab_sql_query(bbl: str) -> Optional[Dict[str, Any]]:
 
 
 def process_rent_stab_data(raw_data: Optional[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
-    print(raw_data)
     if not raw_data:
         return None
     for item in sorted(raw_data.items(), reverse=True):

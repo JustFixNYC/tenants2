@@ -7,7 +7,7 @@ from hpaction.hotdocs_cmp import HDComponentLibrary
 from hpaction.codegen import PythonCodeGenerator
 
 
-MASTER_CMP_PATH = BASE_DIR / 'hpaction' / 'hotdocs-data' / 'Master.cmp'
+MASTER_CMP_PATH = BASE_DIR / "hpaction" / "hotdocs-data" / "Master.cmp"
 
 
 class GeneratedFile(abc.ABC):
@@ -45,7 +45,7 @@ class GeneratedFile(abc.ABC):
 
     def generate_and_write(self) -> None:
         print(f"Outputting Python code to {self.path.name}.")
-        with self.path.open('w', newline='\n', encoding='utf-8') as f:
+        with self.path.open("w", newline="\n", encoding="utf-8") as f:
             f.write(self.generate())
 
 
@@ -57,7 +57,7 @@ class HPActionVarsFile(GeneratedFile):
     def generate(self) -> str:
         lib = HDComponentLibrary(MASTER_CMP_PATH)
         code = PythonCodeGenerator(lib, "HPActionVariables")
-        return f'# {self.disclaimer}\n\n' + code.getvalue()
+        return f"# {self.disclaimer}\n\n" + code.getvalue()
 
 
 class Command(BaseCommand):

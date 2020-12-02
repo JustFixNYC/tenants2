@@ -2,7 +2,7 @@ from django.apps import AppConfig
 
 
 class TextingConfig(AppConfig):
-    name = 'texting'
+    name = "texting"
 
     def ready(self):
         from . import twilio

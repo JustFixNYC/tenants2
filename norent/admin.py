@@ -13,22 +13,22 @@ from . import models
 class LetterInline(admin.StackedInline):
     model = models.Letter
     fields = [
-        'rent_periods',
-        'created_at',
-        'tracking_number',
-        'letter_emailed_at',
-        'letter_sent_at'
+        "rent_periods",
+        "created_at",
+        "tracking_number",
+        "letter_emailed_at",
+        "letter_sent_at",
     ]
     readonly_fields = fields
 
     has_add_permission = never_has_permission
 
-    ordering = ['-created_at']
+    ordering = ["-created_at"]
 
 
 @admin.register(models.RentPeriod)
 class RentPeriodAdmin(admin.ModelAdmin):
-    list_display = ['payment_date']
+    list_display = ["payment_date"]
 
 
 class NorentUser(JustfixUser):
@@ -40,10 +40,8 @@ class NorentUser(JustfixUser):
         verbose_name_plural = "Users with NoRent letters"
 
         permissions = [
-            ("view_saje_users",
-             "Can view/download user data on behalf of SAJE"),
-            ("view_rttc_users",
-             "Can view/download user data on behalf of RTTC"),
+            ("view_saje_users", "Can view/download user data on behalf of SAJE"),
+            ("view_rttc_users", "Can view/download user data on behalf of RTTC"),
         ]
 
 
@@ -62,15 +60,18 @@ class NorentUserAdmin(UserProxyAdmin):
     )
 
     list_display = UserProxyAdmin.list_display + [
-        'city', 'state', 'letters_mailed', 'letters_emailed',
+        "city",
+        "state",
+        "letters_mailed",
+        "letters_emailed",
     ]
 
     @admin_field(
         short_description="State",
-        admin_order_field='onboarding_info__state',
+        admin_order_field="onboarding_info__state",
     )
     def state(self, obj):
-        if hasattr(obj, 'onboarding_info'):
+        if hasattr(obj, "onboarding_info"):
             return obj.onboarding_info.state
 
     @admin_field(
@@ -96,27 +97,29 @@ class NorentUserAdmin(UserProxyAdmin):
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
-        queryset = queryset.annotate(**{
-            CITY: Concat('onboarding_info__borough', 'onboarding_info__non_nyc_city'),
-            LETTERS_MAILED: (
-                Count('norent_letters', distinct=True, filter=(
-                    Q(norent_letters__letter_sent_at__isnull=False)
-                ))
-            ),
-            LETTERS_EMAILED: (
-                Count('norent_letters', distinct=True, filter=(
-                    Q(norent_letters__letter_emailed_at__isnull=False)
-                ))
-            ),
-        })
+        queryset = queryset.annotate(
+            **{
+                CITY: Concat("onboarding_info__borough", "onboarding_info__non_nyc_city"),
+                LETTERS_MAILED: (
+                    Count(
+                        "norent_letters",
+                        distinct=True,
+                        filter=(Q(norent_letters__letter_sent_at__isnull=False)),
+                    )
+                ),
+                LETTERS_EMAILED: (
+                    Count(
+                        "norent_letters",
+                        distinct=True,
+                        filter=(Q(norent_letters__letter_emailed_at__isnull=False)),
+                    )
+                ),
+            }
+        )
         return queryset
 
     def filter_queryset_for_changelist_view(self, queryset):
-        return queryset.annotate(
-            letter_count=Count('norent_letters', distinct=True),
-        ).filter(
-            Q(letter_count__gt=0) |
-            Q(onboarding_info__signup_intent__in=[
-                SIGNUP_INTENT_CHOICES.NORENT
-            ])
+        return queryset.annotate(letter_count=Count("norent_letters", distinct=True),).filter(
+            Q(letter_count__gt=0)
+            | Q(onboarding_info__signup_intent__in=[SIGNUP_INTENT_CHOICES.NORENT])
         )

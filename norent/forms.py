@@ -4,10 +4,8 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from project.forms import SetPasswordForm, UniqueEmailForm, ensure_at_least_one_is_true
-from project.util.mailing_address import (
-    US_STATE_CHOICES, ZipCodeValidator, CITY_KWARGS)
-from project.util.address_form_fields import (
-    ADDRESS_FIELD_KWARGS)
+from project.util.mailing_address import US_STATE_CHOICES, ZipCodeValidator, CITY_KWARGS
+from project.util.address_form_fields import ADDRESS_FIELD_KWARGS
 from project import mapbox
 from loc.models import LandlordDetails
 from loc.lob_api import MAX_NAME_LEN as MAX_LOB_NAME_LEN
@@ -20,12 +18,12 @@ from .models import RentPeriod
 class FullName(forms.ModelForm):
     class Meta:
         model = JustfixUser
-        fields = ('first_name', 'last_name')
+        fields = ("first_name", "last_name")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['first_name'].required = True
-        self.fields['last_name'].required = True
+        self.fields["first_name"].required = True
+        self.fields["last_name"].required = True
 
 
 class CityState(forms.Form):
@@ -41,20 +39,21 @@ class CityState(forms.Form):
         if len(cities) == 0:
             state_name = US_STATE_CHOICES.get_label(state)
             raise ValidationError(
-                _("%(city)s, %(state_name)s doesn't seem to exist!") % {
-                    'city': city,
-                    'state_name': state_name,
+                _("%(city)s, %(state_name)s doesn't seem to exist!")
+                % {
+                    "city": city,
+                    "state_name": state_name,
                 }
             )
         return cities[0]
 
     def clean(self):
         cleaned_data = super().clean()
-        city = cleaned_data.get('city')
-        state = cleaned_data.get('state')
+        city = cleaned_data.get("city")
+        state = cleaned_data.get("state")
 
         if city and state:
-            cleaned_data['city'] = self.validate_city_and_state(city, state)
+            cleaned_data["city"] = self.validate_city_and_state(city, state)
 
         return cleaned_data
 
@@ -72,7 +71,7 @@ class Email(UniqueEmailForm):
 class CreateAccount(SetPasswordForm, forms.ModelForm):
     class Meta:
         model = OnboardingInfo
-        fields = ('can_we_sms',)
+        fields = ("can_we_sms",)
 
     agree_to_terms = forms.BooleanField(required=True)
 
@@ -83,7 +82,7 @@ class LandlordNameAndContactTypes(forms.Form):
         # hew to Lob's limits.
         max_length=MAX_LOB_NAME_LEN,
         required=True,
-        help_text=LandlordDetails._meta.get_field('name').help_text
+        help_text=LandlordDetails._meta.get_field("name").help_text,
     )
 
     has_email_address = forms.BooleanField(required=False)
@@ -98,16 +97,14 @@ class OptInToCommsForm(forms.Form):
     opt_in = forms.BooleanField(
         required=False,
         help_text=(
-            "Whether the user agrees to receive communications from a "
-            "partner organization."
-        )
+            "Whether the user agrees to receive communications from a " "partner organization."
+        ),
     )
 
 
 def get_rent_period_choices() -> List[Tuple[str, str]]:
     return [
-        (iso_date, iso_date)
-        for iso_date in RentPeriod.to_iso_date_list(RentPeriod.objects.all())
+        (iso_date, iso_date) for iso_date in RentPeriod.to_iso_date_list(RentPeriod.objects.all())
     ]
 
 

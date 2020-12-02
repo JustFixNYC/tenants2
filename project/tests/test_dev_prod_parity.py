@@ -5,32 +5,31 @@ import pytest
 from project.health import get_python_version
 from project.justfix_environment import BASE_DIR
 
-README = BASE_DIR / 'README.md'
-BASE_DOCKERFILE = BASE_DIR / 'Dockerfile'
-PIPFILE = BASE_DIR / 'Pipfile'
+README = BASE_DIR / "README.md"
+BASE_DOCKERFILE = BASE_DIR / "Dockerfile"
+PIPFILE = BASE_DIR / "Pipfile"
 
-GITIGNORE = BASE_DIR / '.gitignore'
-DOCKERIGNORE = BASE_DIR / '.dockerignore'
+GITIGNORE = BASE_DIR / ".gitignore"
+DOCKERIGNORE = BASE_DIR / ".dockerignore"
 
 
 def strip_leading_comments(text):
     lines = []
     found_end_of_leading_comments = False
     for line in text.splitlines():
-        if line.startswith('#') and not found_end_of_leading_comments:
+        if line.startswith("#") and not found_end_of_leading_comments:
             pass
         else:
             found_end_of_leading_comments = True
             lines.append(line)
-    return '\n'.join(lines)
+    return "\n".join(lines)
 
 
 def get_match(pattern, path):
     text = path.read_text()
     match = re.search(pattern, text)
     if match is None:
-        raise AssertionError(
-            f'Could not find "{pattern}" in the contents of {path.name}!')
+        raise AssertionError(f'Could not find "{pattern}" in the contents of {path.name}!')
     return match.group(1)
 
 
@@ -44,15 +43,14 @@ def ensure_starts_with(path_1, path_2):
         )
         diff = unified_diff(p2_text.splitlines(), p1_text.splitlines())
         print(errmsg)
-        print('\nThe following diff may help you diagnose this problem:\n')
-        print('\n'.join(diff))
+        print("\nThe following diff may help you diagnose this problem:\n")
+        print("\n".join(diff))
         raise AssertionError(errmsg)
 
 
 def ensure_file_contains(path, text):
     if text not in path.read_text():
-        raise AssertionError(
-            f'Expected to find "{text}" in the contents of {path.name}!')
+        raise AssertionError(f'Expected to find "{text}" in the contents of {path.name}!')
 
 
 def test_helper_function_failure_conditions():
@@ -63,19 +61,19 @@ def test_helper_function_failure_conditions():
         ensure_starts_with(README, GITIGNORE)
 
     with pytest.raises(AssertionError):
-        get_match('lololol', BASE_DOCKERFILE)
+        get_match("lololol", BASE_DOCKERFILE)
 
 
 def test_everything_uses_the_same_version_of_python():
-    version = get_match(r'FROM python:(.+)', BASE_DOCKERFILE)
-    ensure_file_contains(README, f'Python {version}')
+    version = get_match(r"FROM python:(.+)", BASE_DOCKERFILE)
+    ensure_file_contains(README, f"Python {version}")
     ensure_file_contains(PIPFILE, f'python_version = "{version}"')
     assert get_python_version() == version
 
 
 def test_everything_uses_the_same_version_of_node():
-    version = get_match(r'ENV NODE_VERSION=(.+)', BASE_DOCKERFILE)
-    ensure_file_contains(README, f'Node {version}')
+    version = get_match(r"ENV NODE_VERSION=(.+)", BASE_DOCKERFILE)
+    ensure_file_contains(README, f"Node {version}")
 
 
 def test_dockerignore_starts_with_gitignore():
@@ -83,13 +81,13 @@ def test_dockerignore_starts_with_gitignore():
 
 
 def test_everything_uses_same_base_docker_image():
-    version_re = '(justfixnyc/tenants2_base:[0-9.]+)'
+    version_re = "(justfixnyc/tenants2_base:[0-9.]+)"
 
-    prod_version = get_match(f'FROM {version_re}', BASE_DIR / 'Dockerfile.web')
-    dev_version = get_match(f'image: {version_re}', BASE_DIR / 'docker-services.yml')
+    prod_version = get_match(f"FROM {version_re}", BASE_DIR / "Dockerfile.web")
+    dev_version = get_match(f"image: {version_re}", BASE_DIR / "docker-services.yml")
 
     assert prod_version == dev_version
 
-    ci_version = get_match(f'image: {version_re}', BASE_DIR / '.circleci' / 'config.yml')
+    ci_version = get_match(f"image: {version_re}", BASE_DIR / ".circleci" / "config.yml")
 
     assert prod_version == ci_version

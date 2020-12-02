@@ -11,11 +11,11 @@ from project.util.streaming_json import generate_json_rows
 
 
 def test_it_works(db, django_file_storage):
-    with freeze_time('2020-01-02'):
+    with freeze_time("2020-01-02"):
         de = DocusignEnvelopeFactory(
             status=HP_DOCUSIGN_STATUS_CHOICES.SIGNED,
             docs__kind=HP_ACTION_CHOICES.EMERGENCY,
-            docs__user__email='boop@jones.com',
+            docs__user__email="boop@jones.com",
         )
         OnboardingInfoFactory(user=de.docs.user)
         HPActionDetailsFactory(
@@ -26,13 +26,15 @@ def test_it_works(db, django_file_storage):
     with connection.cursor() as cursor:
         execute_ehpa_filings_query(cursor)
         rows = list(generate_json_rows(cursor))
-        assert rows == [{
-            'created_at': datetime(2020, 1, 2, tzinfo=utc),
-            'first_name': 'Boop',
-            'last_name': 'Jones',
-            'borough': 'BROOKLYN',
-            'phone_number': '5551234567',
-            'email': 'boop@jones.com',
-            'sue_for_harassment': True,
-            'sue_for_repairs': False,
-        }]
+        assert rows == [
+            {
+                "created_at": datetime(2020, 1, 2, tzinfo=utc),
+                "first_name": "Boop",
+                "last_name": "Jones",
+                "borough": "BROOKLYN",
+                "phone_number": "5551234567",
+                "email": "boop@jones.com",
+                "sue_for_harassment": True,
+                "sue_for_repairs": False,
+            }
+        ]

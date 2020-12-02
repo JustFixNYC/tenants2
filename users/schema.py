@@ -8,7 +8,7 @@ from .email_verify import send_verification_email_async
 
 @schema_registry.register_mutation
 class SendVerificationEmail(SessionFormMutation):
-    '''
+    """
     Sends the currently logged-in user an email with a link
     to follow; when they follow the link, their account will be marked
     as having a verified email address.
@@ -18,7 +18,7 @@ class SendVerificationEmail(SessionFormMutation):
     set, it will be changed, and their account will be marked as
     having an unverified email address (until they click on the
     link that has been sent to them, of course).
-    '''
+    """
 
     class Meta:
         form_class = SendVerificationEmailForm
@@ -28,7 +28,7 @@ class SendVerificationEmail(SessionFormMutation):
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         user = info.context.user
-        email = form.cleaned_data['email']
+        email = form.cleaned_data["email"]
         if user.email != email:
             user.email = email
             user.is_email_verified = False

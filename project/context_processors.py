@@ -11,7 +11,7 @@ MY_DIR = Path(__file__).parent.resolve()
 
 
 class FullstorySnippet(JsSnippetContextProcessor):
-    template = '''
+    template = """
     window['_fs_debug'] = false;
     window['_fs_host'] = 'fullstory.com';
     window['_fs_script'] = 'edge.fullstory.com/s/fs.js';
@@ -33,29 +33,27 @@ class FullstorySnippet(JsSnippetContextProcessor):
         if(m[y])m[y]=function(){return g._w[y].apply(this,arguments)};
         g._v="1.2.0";
     })(window,document,window['_fs_namespace'],'script','user');
-    ''' # noqa
+    """  # noqa
 
-    var_name = 'FULLSTORY_SNIPPET'
+    var_name = "FULLSTORY_SNIPPET"
 
     csp_updates = {
-        'SCRIPT_SRC': 'https://edge.fullstory.com',
-        'CONNECT_SRC': 'https://rs.fullstory.com',
+        "SCRIPT_SRC": "https://edge.fullstory.com",
+        "CONNECT_SRC": "https://rs.fullstory.com",
     }
 
     def is_enabled(self):
         return settings.FULLSTORY_ORG_ID
 
     def get_context(self):
-        return {
-            'FULLSTORY_ORG_ID': settings.FULLSTORY_ORG_ID
-        }
+        return {"FULLSTORY_ORG_ID": settings.FULLSTORY_ORG_ID}
 
 
 fullstory_snippet = FullstorySnippet()
 
 
 class FacebookPixelSnippet(JsSnippetContextProcessor):
-    template = '''
+    template = """
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
     n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
@@ -64,22 +62,20 @@ class FacebookPixelSnippet(JsSnippetContextProcessor):
     fbq('init', '%(FACEBOOK_PIXEL_ID)s');
     fbq('set','agent','tmgoogletagmanager', '%(FACEBOOK_PIXEL_ID)s');
     fbq('track', "PageView");
-    '''
+    """
 
-    var_name = 'FACEBOOK_PIXEL_SNIPPET'
+    var_name = "FACEBOOK_PIXEL_SNIPPET"
 
     csp_updates = {
-        'SCRIPT_SRC': 'https://connect.facebook.net',
-        'IMG_SRC': 'https://www.facebook.com',
+        "SCRIPT_SRC": "https://connect.facebook.net",
+        "IMG_SRC": "https://www.facebook.com",
     }
 
     def is_enabled(self):
         return settings.FACEBOOK_PIXEL_ID
 
     def get_context(self):
-        return {
-            'FACEBOOK_PIXEL_ID': settings.FACEBOOK_PIXEL_ID
-        }
+        return {"FACEBOOK_PIXEL_ID": settings.FACEBOOK_PIXEL_ID}
 
 
 facebook_pixel_snippet = FacebookPixelSnippet()
@@ -88,19 +84,19 @@ facebook_pixel_snippet = FacebookPixelSnippet()
 def facebook_pixel_noscript_snippet(request) -> Dict[str, str]:
     if not settings.FACEBOOK_PIXEL_ID:
         return {}
-    url = f'https://www.facebook.com/tr?id={settings.FACEBOOK_PIXEL_ID}&ev=PageView&noscript=1'
+    url = f"https://www.facebook.com/tr?id={settings.FACEBOOK_PIXEL_ID}&ev=PageView&noscript=1"
     snippet = dedent(
-        f'''
+        f"""
         <noscript>
         <img height="1" width="1" style="display:none" src="{url}" />
         </noscript>
-        '''
+        """
     )
-    return {'FACEBOOK_PIXEL_NOSCRIPT_SNIPPET': SafeString(snippet)}
+    return {"FACEBOOK_PIXEL_NOSCRIPT_SNIPPET": SafeString(snippet)}
 
 
 class GoogleAnalyticsSnippet(JsSnippetContextProcessor):
-    template = '''
+    template = """
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -108,57 +104,51 @@ class GoogleAnalyticsSnippet(JsSnippetContextProcessor):
 
     ga('create', '%(GA_TRACKING_ID)s', 'auto');
     ga('send', 'pageview');
-    '''
+    """
 
-    var_name = 'GA_SNIPPET'
+    var_name = "GA_SNIPPET"
 
-    GA_ORIGIN = 'https://www.google-analytics.com'
+    GA_ORIGIN = "https://www.google-analytics.com"
 
-    csp_updates = {
-        'IMG_SRC': GA_ORIGIN,
-        'SCRIPT_SRC': GA_ORIGIN,
-        'CONNECT_SRC': GA_ORIGIN
-    }
+    csp_updates = {"IMG_SRC": GA_ORIGIN, "SCRIPT_SRC": GA_ORIGIN, "CONNECT_SRC": GA_ORIGIN}
 
     def is_enabled(self):
         return settings.GA_TRACKING_ID
 
     def get_context(self):
-        return {
-            'GA_TRACKING_ID': settings.GA_TRACKING_ID
-        }
+        return {"GA_TRACKING_ID": settings.GA_TRACKING_ID}
 
 
 ga_snippet = GoogleAnalyticsSnippet()
 
 
 class GoogleTagManagerSnippet(JsSnippetContextProcessor):
-    template = '''
+    template = """
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','%(GTM_CONTAINER_ID)s');
-    '''
+    """
 
-    var_name = 'GTM_SNIPPET'
+    var_name = "GTM_SNIPPET"
 
-    GTM_ORIGIN = 'https://www.googletagmanager.com'
+    GTM_ORIGIN = "https://www.googletagmanager.com"
 
     csp_updates = {
-        'IMG_SRC': [
+        "IMG_SRC": [
             GTM_ORIGIN,
             # https://www.quora.com/What-is-stats-g-doubleclick-net
-            'https://stats.g.doubleclick.net',
+            "https://stats.g.doubleclick.net",
             # It looks like this is likely for Google Remarketing:
             # https://support.google.com/analytics/answer/2611268?hl=en
-            'https://www.google.com',
+            "https://www.google.com",
         ],
-        'SCRIPT_SRC': [
+        "SCRIPT_SRC": [
             GTM_ORIGIN,
             # Our GTM injects YouTube's iframe API: https://stackoverflow.com/q/37384775
-            'https://www.youtube.com',
-            'https://s.ytimg.com',
+            "https://www.youtube.com",
+            "https://s.ytimg.com",
         ],
     }
 
@@ -166,9 +156,7 @@ class GoogleTagManagerSnippet(JsSnippetContextProcessor):
         return settings.GTM_CONTAINER_ID
 
     def get_context(self):
-        return {
-            'GTM_CONTAINER_ID': settings.GTM_CONTAINER_ID
-        }
+        return {"GTM_CONTAINER_ID": settings.GTM_CONTAINER_ID}
 
 
 gtm_snippet = GoogleTagManagerSnippet()
@@ -178,20 +166,21 @@ def gtm_noscript_snippet(request) -> Dict[str, str]:
     if not settings.GTM_CONTAINER_ID:
         return {}
     snippet = dedent(
-        f'''
+        f"""
         <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id={settings.GTM_CONTAINER_ID}"
         height="0" width="0" style="display:none;visibility:hidden"></iframe>
         </noscript>
-        '''
+        """
     )
-    return {'GTM_NOSCRIPT_SNIPPET': SafeString(snippet)}
+    return {"GTM_NOSCRIPT_SNIPPET": SafeString(snippet)}
 
 
 class RollbarSnippet(JsSnippetContextProcessor):
-    SNIPPET_JS = MY_DIR / 'static' / 'vendor' / 'rollbar-snippet.min.js'
+    SNIPPET_JS = MY_DIR / "static" / "vendor" / "rollbar-snippet.min.js"
 
-    template = """\
+    template = (
+        """\
     var _rollbarConfig = {
         accessToken: "%(ROLLBAR_ACCESS_TOKEN)s",
         rollbarJsUrl: "%(rollbar_js_url)s",
@@ -208,25 +197,26 @@ class RollbarSnippet(JsSnippetContextProcessor):
         }
     };
     // Rollbar Snippet
-    """ + SNIPPET_JS.read_text() + """
+    """
+        + SNIPPET_JS.read_text()
+        + """
     // End Rollbar Snippet
     """
+    )
 
-    csp_updates = {
-        'CONNECT_SRC': 'https://api.rollbar.com'
-    }
+    csp_updates = {"CONNECT_SRC": "https://api.rollbar.com"}
 
-    var_name = 'ROLLBAR_SNIPPET'
+    var_name = "ROLLBAR_SNIPPET"
 
     def is_enabled(self):
         return settings.ROLLBAR_ACCESS_TOKEN
 
     def get_context(self):
         return {
-            'ROLLBAR_ACCESS_TOKEN': settings.ROLLBAR_ACCESS_TOKEN,
-            'environment': 'development' if settings.DEBUG else 'production',
-            'rollbar_js_url': f'{settings.STATIC_URL}vendor/rollbar-2.16.2.min.js',
-            'code_version': settings.GIT_INFO.get_version_str(),
+            "ROLLBAR_ACCESS_TOKEN": settings.ROLLBAR_ACCESS_TOKEN,
+            "environment": "development" if settings.DEBUG else "production",
+            "rollbar_js_url": f"{settings.STATIC_URL}vendor/rollbar-2.16.2.min.js",
+            "code_version": settings.GIT_INFO.get_version_str(),
         }
 
 
@@ -234,24 +224,24 @@ rollbar_snippet = RollbarSnippet()
 
 
 class AmplitudeSnippet(JsSnippetContextProcessor):
-    SNIPPET_JS = MY_DIR / 'static' / 'vendor' / 'amplitude-snippet.min.js'
+    SNIPPET_JS = MY_DIR / "static" / "vendor" / "amplitude-snippet.min.js"
 
     template = SNIPPET_JS.read_text()
 
     csp_updates = {
-        'CONNECT_SRC': 'https://api.amplitude.com',
+        "CONNECT_SRC": "https://api.amplitude.com",
     }
 
-    var_name = 'AMPLITUDE_SNIPPET'
+    var_name = "AMPLITUDE_SNIPPET"
 
     def is_enabled(self):
         return settings.AMPLITUDE_API_KEY
 
     def get_context(self):
         return {
-            'AMPLITUDE_API_KEY': settings.AMPLITUDE_API_KEY,
-            'amplitude_js_url': f'{settings.STATIC_URL}vendor/amplitude-6.2.0.min.js',
-            'code_version': settings.GIT_INFO.get_version_str(),
+            "AMPLITUDE_API_KEY": settings.AMPLITUDE_API_KEY,
+            "amplitude_js_url": f"{settings.STATIC_URL}vendor/amplitude-6.2.0.min.js",
+            "code_version": settings.GIT_INFO.get_version_str(),
         }
 
 

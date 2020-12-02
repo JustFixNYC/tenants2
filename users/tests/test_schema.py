@@ -19,28 +19,29 @@ class TestSendVerificationEmail:
                     session { email, isEmailVerified }
                 }
             }
-            """ % email
-        )['data']['sendVerificationEmail']
+            """
+            % email
+        )["data"]["sendVerificationEmail"]
 
     def test_it_requires_login(self):
-        assert self.execute(None, "boop@jones.com")['errors'] == [
-            {'field': '__all__', 'messages': ['You do not have permission to use this form!']}
+        assert self.execute(None, "boop@jones.com")["errors"] == [
+            {"field": "__all__", "messages": ["You do not have permission to use this form!"]}
         ]
 
     def test_does_not_reset_verified_when_email_is_unchanged(self, db, mailoutbox):
         user = UserFactory(email="boop@jones.com", is_email_verified=True)
         assert self.execute(user, "boop@jones.com") == {
-            'errors': [],
-            'session': {'email': 'boop@jones.com', 'isEmailVerified': True},
+            "errors": [],
+            "session": {"email": "boop@jones.com", "isEmailVerified": True},
         }
         assert len(mailoutbox) == 1
-        assert mailoutbox[0].recipients() == ['boop@jones.com']
+        assert mailoutbox[0].recipients() == ["boop@jones.com"]
 
     def test_it_resets_verified_when_email_changes(self, db, mailoutbox):
         user = UserFactory(email="old@email.com", is_email_verified=True)
         assert self.execute(user, "blap@jones.com") == {
-            'errors': [],
-            'session': {'email': 'blap@jones.com', 'isEmailVerified': False},
+            "errors": [],
+            "session": {"email": "blap@jones.com", "isEmailVerified": False},
         }
         assert len(mailoutbox) == 1
-        assert mailoutbox[0].recipients() == ['blap@jones.com']
+        assert mailoutbox[0].recipients() == ["blap@jones.com"]

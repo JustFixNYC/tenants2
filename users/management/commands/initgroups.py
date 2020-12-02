@@ -7,14 +7,14 @@ from users.models import ROLES
 
 
 class Command(BaseCommand):
-    help = '''\
+    help = """\
     Initializes some helpful initial permission groups.
-    '''
+    """
 
     def set_perms(self, groupname, perms):
         self.stdout.write("Setting permissions for group '%s'." % groupname)
         if self.verbosity >= 2:
-            self.stdout.write("  Permissions: %s" % ', '.join(perms))
+            self.stdout.write("  Permissions: %s" % ", ".join(perms))
         try:
             group = Group.objects.get(name=groupname)
         except Group.DoesNotExist:
@@ -26,9 +26,10 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **kwargs):
-        self.verbosity = int(kwargs['verbosity'])
+        self.verbosity = int(kwargs["verbosity"])
         for groupname, perms in ROLES.items():
             self.set_perms(groupname, perms)
         self.stdout.write("Done.")
-        self.stdout.write("Please do not manually change these "
-                          "groups; they may be updated in the future.")
+        self.stdout.write(
+            "Please do not manually change these " "groups; they may be updated in the future."
+        )

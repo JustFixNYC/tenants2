@@ -5,13 +5,13 @@ from docusign import core
 
 
 class Command(BaseCommand):
-    help = 'Set the DocuSign private key from stdin.'
+    help = "Set the DocuSign private key from stdin."
 
     # 'stdin' can be passed in from the test suite.
-    stealth_options = ('stdin',)
+    stealth_options = ("stdin",)
 
     def handle(self, *args, **options) -> None:
-        stdin = options.get('stdin', sys.stdin)
+        stdin = options.get("stdin", sys.stdin)
         private_key = stdin.read()
         cfg = core.get_config()
         cfg.private_key = private_key

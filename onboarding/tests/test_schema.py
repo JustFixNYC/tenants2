@@ -12,29 +12,26 @@ from .factories import OnboardingInfoFactory
 
 VALID_STEP_DATA = {
     1: {
-        'firstName': 'boop',
-        'lastName': 'jones',
-        'address': '123 boop way',
-        'borough': 'MANHATTAN',
-        'aptNumber': '3B',
-        'noAptNumber': False,
+        "firstName": "boop",
+        "lastName": "jones",
+        "address": "123 boop way",
+        "borough": "MANHATTAN",
+        "aptNumber": "3B",
+        "noAptNumber": False,
     },
-    3: {
-        'leaseType': 'MARKET_RATE',
-        'receivesPublicAssistance': 'False'
+    3: {"leaseType": "MARKET_RATE", "receivesPublicAssistance": "False"},
+    "4Version2": {
+        "phoneNumber": "5551234567",
+        "canWeSms": True,
+        "email": "boop@jones.com",
+        "signupIntent": "LOC",
+        "password": "blarg1234",
+        "confirmPassword": "blarg1234",
+        "agreeToTerms": True,
     },
-    '4Version2': {
-        'phoneNumber': '5551234567',
-        'canWeSms': True,
-        'email': 'boop@jones.com',
-        'signupIntent': 'LOC',
-        'password': 'blarg1234',
-        'confirmPassword': 'blarg1234',
-        'agreeToTerms': True
-    }
 }
 
-ONBOARDING_INFO_QUERY = '''
+ONBOARDING_INFO_QUERY = """
 query {
     session {
         onboardingInfo {
@@ -48,28 +45,25 @@ query {
         }
     }
 }
-'''
+"""
 
 
 def _get_step_1_info(graphql_client):
     return graphql_client.execute(
-        'query { session { onboardingStep1 { aptNumber, addressVerified } } }'
-    )['data']['session']['onboardingStep1']
+        "query { session { onboardingStep1 { aptNumber, addressVerified } } }"
+    )["data"]["session"]["onboardingStep1"]
 
 
 def _exec_onboarding_step_n(n, graphql_client, **input_kwargs):
     return graphql_client.execute(
-        get_frontend_query(f'OnboardingStep{n}Mutation.graphql'),
-        variables={'input': {
-            **VALID_STEP_DATA[n],
-            **input_kwargs
-        }}
-    )['data'][f'output']
+        get_frontend_query(f"OnboardingStep{n}Mutation.graphql"),
+        variables={"input": {**VALID_STEP_DATA[n], **input_kwargs}},
+    )["data"][f"output"]
 
 
 def test_onboarding_step_1_validates_data(graphql_client):
-    ob = _exec_onboarding_step_n(1, graphql_client, firstName='')
-    assert len(ob['errors']) > 0
+    ob = _exec_onboarding_step_n(1, graphql_client, firstName="")
+    assert len(ob["errors"]) > 0
     assert session_key_for_step(1) not in graphql_client.request.session
     assert _get_step_1_info(graphql_client) is None
 
@@ -77,41 +71,43 @@ def test_onboarding_step_1_validates_data(graphql_client):
 def test_onboarding_step_1_works(graphql_client):
     ob = _exec_onboarding_step_n(1, graphql_client)
     expected_data = {**VALID_STEP_DATA[1]}
-    del expected_data['noAptNumber']
-    assert ob['errors'] == []
-    assert ob['session']['onboardingStep1'] == expected_data
-    assert graphql_client.request.session[session_key_for_step(1)]['apt_number'] == '3B'
-    assert _get_step_1_info(graphql_client)['aptNumber'] == '3B'
-    assert _get_step_1_info(graphql_client)['addressVerified'] is False
+    del expected_data["noAptNumber"]
+    assert ob["errors"] == []
+    assert ob["session"]["onboardingStep1"] == expected_data
+    assert graphql_client.request.session[session_key_for_step(1)]["apt_number"] == "3B"
+    assert _get_step_1_info(graphql_client)["aptNumber"] == "3B"
+    assert _get_step_1_info(graphql_client)["addressVerified"] is False
 
     session_data = graphql_client.request.session[session_key_for_step(1)]
-    assert session_data['apt_number'] == '3B'
-    assert 'no_apt_number' not in session_data
+    assert session_data["apt_number"] == "3B"
+    assert "no_apt_number" not in session_data
 
 
 @pytest.mark.django_db
 def test_onboarding_step_4_returns_err_if_prev_steps_not_completed(graphql_client):
-    result = _exec_onboarding_step_n('4Version2', graphql_client)
-    assert result['errors'] == [{
-        'field': '__all__',
-        'extendedMessages': [
-            {"message": "You haven't completed all the previous steps yet.", "code": None}
-        ]
-    }]
+    result = _exec_onboarding_step_n("4Version2", graphql_client)
+    assert result["errors"] == [
+        {
+            "field": "__all__",
+            "extendedMessages": [
+                {"message": "You haven't completed all the previous steps yet.", "code": None}
+            ],
+        }
+    ]
 
 
 def execute_onboarding(graphql_client, step_data=VALID_STEP_DATA):
     for i in step_data.keys():
         result = _exec_onboarding_step_n(i, graphql_client, **step_data[i])
-        assert result['errors'] == []
+        assert result["errors"] == []
     return result
 
 
 def test_onboarding_sets_locale(db, graphql_client, settings):
     settings.LANGUAGES = project.locales.ALL.choices
-    graphql_client.request.path_info = '/es/graphql'
+    graphql_client.request.path_info = "/es/graphql"
     execute_onboarding(graphql_client)
-    user = JustfixUser.objects.get(phone_number='5551234567')
+    user = JustfixUser.objects.get(phone_number="5551234567")
     assert user.locale == "es"
 
 
@@ -122,7 +118,7 @@ def test_onboarding_sets_referral(db, graphql_client):
     partner = PartnerOrgFactory()
     referral.set_partner(graphql_client.request, partner)
     execute_onboarding(graphql_client)
-    assert [u.phone_number for u in partner.users.all()] == ['5551234567']
+    assert [u.phone_number for u in partner.users.all()] == ["5551234567"]
 
 
 @pytest.mark.django_db
@@ -130,22 +126,22 @@ def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     result = execute_onboarding(graphql_client)
 
     for i in [1, 3]:
-        assert result['session'][f'onboardingStep{i}'] is None
-    assert result['session']['phoneNumber'] == '5551234567'
+        assert result["session"][f"onboardingStep{i}"] is None
+    assert result["session"]["phoneNumber"] == "5551234567"
 
     request = graphql_client.request
-    user = JustfixUser.objects.get(phone_number='5551234567')
+    user = JustfixUser.objects.get(phone_number="5551234567")
     oi = user.onboarding_info
-    assert user.full_name == 'boop jones'
-    assert user.email == 'boop@jones.com'
+    assert user.full_name == "boop jones"
+    assert user.email == "boop@jones.com"
     assert user.pk == request.user.pk
     assert user.locale == "en"
     assert is_password_usable(user.password) is True
-    assert oi.address == '123 boop way'
+    assert oi.address == "123 boop way"
     assert oi.borough == "MANHATTAN"
     assert oi.state == "NY"
     assert oi.needs_repairs is None
-    assert oi.lease_type == 'MARKET_RATE'
+    assert oi.lease_type == "MARKET_RATE"
     assert oi.receives_public_assistance is False
     assert oi.agreed_to_justfix_terms is True
     assert oi.agreed_to_norent_terms is False
@@ -158,22 +154,22 @@ def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
 
 @pytest.mark.django_db
 def test_onboarding_info_is_none_when_it_does_not_exist(graphql_client):
-    result = graphql_client.execute(ONBOARDING_INFO_QUERY)['data']['session']
-    assert result['onboardingInfo'] is None
+    result = graphql_client.execute(ONBOARDING_INFO_QUERY)["data"]["session"]
+    assert result["onboardingInfo"] is None
 
 
 @pytest.mark.django_db
 def test_onboarding_info_is_present_when_it_exists(graphql_client):
     execute_onboarding(graphql_client)
-    result = graphql_client.execute(ONBOARDING_INFO_QUERY)['data']['session']
-    assert result['onboardingInfo']['signupIntent'] == 'LOC'
+    result = graphql_client.execute(ONBOARDING_INFO_QUERY)["data"]["session"]
+    assert result["onboardingInfo"]["signupIntent"] == "LOC"
 
 
 @pytest.mark.django_db
 def test_has_called_311_works(graphql_client):
     def query():
-        result = graphql_client.execute(ONBOARDING_INFO_QUERY)['data']['session']
-        return result['onboardingInfo']['hasCalled311']
+        result = graphql_client.execute(ONBOARDING_INFO_QUERY)["data"]["session"]
+        return result["onboardingInfo"]["hasCalled311"]
 
     onb = OnboardingInfoFactory(has_called_311=None)
     graphql_client.request.user = onb.user
@@ -186,11 +182,11 @@ def test_has_called_311_works(graphql_client):
 
 def test_onboarding_session_info_is_fault_tolerant(graphql_client):
     key = session_key_for_step(1)
-    graphql_client.request.session[key] = {'lol': 1}
+    graphql_client.request.session[key] = {"lol": 1}
 
-    with patch('project.util.django_graphql_session_forms.logger') as m:
+    with patch("project.util.django_graphql_session_forms.logger") as m:
         assert _get_step_1_info(graphql_client) is None
-        m.exception.assert_called_once_with(f'Error deserializing {key} from session')
+        m.exception.assert_called_once_with(f"Error deserializing {key} from session")
         assert key not in graphql_client.request.session
 
 
@@ -198,46 +194,43 @@ def test_onboarding_session_info_returns_city_and_state(db, graphql_client):
     onb = OnboardingInfoFactory()
     graphql_client.request.user = onb.user
     result = graphql_client.execute(ONBOARDING_INFO_QUERY)
-    info = result['data']['session']['onboardingInfo']
-    assert info['city'] == 'Brooklyn'
-    assert info['state'] == 'NY'
+    info = result["data"]["session"]["onboardingInfo"]
+    assert info["city"] == "Brooklyn"
+    assert info["state"] == "NY"
 
 
 def test_onboarding_session_info_works_with_blank_values(db, graphql_client):
     def query():
         result = graphql_client.execute(ONBOARDING_INFO_QUERY)
-        return result['data']['session']['onboardingInfo']
+        return result["data"]["session"]["onboardingInfo"]
 
-    onb = OnboardingInfoFactory(borough='', lease_type='')
+    onb = OnboardingInfoFactory(borough="", lease_type="")
     graphql_client.request.user = onb.user
     result = query()
-    assert result['borough'] is None
-    assert result['leaseType'] is None
-    assert result['isInLosAngeles'] is None
+    assert result["borough"] is None
+    assert result["leaseType"] is None
+    assert result["isInLosAngeles"] is None
 
-    onb.borough = 'BROOKLYN'
-    onb.lease_type = 'NYCHA'
-    onb.zipcode = '90012'
+    onb.borough = "BROOKLYN"
+    onb.lease_type = "NYCHA"
+    onb.zipcode = "90012"
     result = query()
-    assert result['borough'] == 'BROOKLYN'
-    assert result['leaseType'] == 'NYCHA'
-    assert result['isInLosAngeles'] is True
+    assert result["borough"] == "BROOKLYN"
+    assert result["leaseType"] == "NYCHA"
+    assert result["isInLosAngeles"] is True
 
 
 class TestAgreeToTerms(GraphQLTestingPal):
-    QUERY = '''
+    QUERY = """
     mutation AgreeToTermsMutation($input: AgreeToTermsInput!) {
         output: agreeToTerms(input: $input) {
             errors { field, messages },
             session { onboardingInfo { agreedToJustfixTerms, agreedToNorentTerms } }
         }
     }
-    '''
+    """
 
-    DEFAULT_INPUT = {
-        'site': 'JUSTFIX',
-        'agreeToTerms': True
-    }
+    DEFAULT_INPUT = {"site": "JUSTFIX", "agreeToTerms": True}
 
     @pytest.fixture
     def logged_in(self):
@@ -245,27 +238,31 @@ class TestAgreeToTerms(GraphQLTestingPal):
         self.request.user = self.oi.user
 
     def test_it_raises_err_when_not_logged_in(self):
-        self.assert_one_field_err('You do not have permission to use this form!')
+        self.assert_one_field_err("You do not have permission to use this form!")
 
     def test_it_raises_err_when_checkbox_not_checked(self, logged_in):
-        self.assert_one_field_err('This field is required.', 'agreeToTerms', input={
-            'agreeToTerms': False,
-        })
+        self.assert_one_field_err(
+            "This field is required.",
+            "agreeToTerms",
+            input={
+                "agreeToTerms": False,
+            },
+        )
 
     def test_it_works_with_justfix_site(self, logged_in):
         res = self.execute()
-        assert res['errors'] == []
-        assert res['session']['onboardingInfo'] == {
-            'agreedToJustfixTerms': True,
-            'agreedToNorentTerms': False,
+        assert res["errors"] == []
+        assert res["session"]["onboardingInfo"] == {
+            "agreedToJustfixTerms": True,
+            "agreedToNorentTerms": False,
         }
 
     def test_it_works_with_norent_site(self, logged_in):
-        res = self.execute(input={'site': 'NORENT'})
-        assert res['errors'] == []
-        assert res['session']['onboardingInfo'] == {
-            'agreedToJustfixTerms': False,
-            'agreedToNorentTerms': True,
+        res = self.execute(input={"site": "NORENT"})
+        assert res["errors"] == []
+        assert res["session"]["onboardingInfo"] == {
+            "agreedToJustfixTerms": False,
+            "agreedToNorentTerms": True,
         }
         self.oi.refresh_from_db()
         assert self.oi.agreed_to_norent_terms is True

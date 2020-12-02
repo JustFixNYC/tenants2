@@ -20,15 +20,15 @@ def test_post_is_processed_before_getting_initial_props(client, monkeypatch):
     # the function that generates it.
     monkeypatch.delattr("frontend.views.create_initial_props_for_lambda_from_request")
 
-    response = client.post(react_url('/'))
+    response = client.post(react_url("/"))
     assert response.status_code == 400
-    assert response.content == b'No GraphQL query found'
+    assert response.content == b"No GraphQL query found"
 
 
 def test_invalid_post_returns_400(client):
-    response = client.post(react_url('/'))
+    response = client.post(react_url("/"))
     assert response.status_code == 400
-    assert response.content == b'No GraphQL query found'
+    assert response.content == b"No GraphQL query found"
 
 
 # HTML we know will appear in pages only when safe mode is enabled/disabled.
@@ -47,9 +47,9 @@ class TestIndexPage(ClassCachedValue):
 
     @classmethod
     def cache_value(cls, client):
-        response = client.get(react_url('/'))
+        response = client.get(react_url("/"))
         assert response.status_code == 200
-        return response.content.decode('utf-8')
+        return response.content.decode("utf-8")
 
     def test_html_lang_attr_is_set(self):
         assert '<html lang="en"' in self.html
@@ -63,39 +63,39 @@ class TestIndexPage(ClassCachedValue):
 
 
 def test_ecmascript_intl_api_works_on_server(client):
-    response = client.get('/dev/examples/intl')
+    response = client.get("/dev/examples/intl")
     assert response.status_code == 200
-    html = response.content.decode('utf-8')
-    assert 'Wednesday, May 27, 2020' in html
-    assert 'miércoles, 27 de mayo de 2020' in html
+    html = response.content.decode("utf-8")
+    assert "Wednesday, May 27, 2020" in html
+    assert "miércoles, 27 de mayo de 2020" in html
 
 
 def test_localized_pages_work(client, settings, use_norent_site):
     settings.LANGUAGES = project.locales.ALL.choices
-    response = client.get('/es/faqs')
+    response = client.get("/es/faqs")
     assert response.status_code == 200
-    html = response.content.decode('utf-8')
+    html = response.content.decode("utf-8")
     assert '<html lang="es"' in html
     assert 'src="/static/frontend/locales-es-base-chunk.' in html
     assert 'src="/static/frontend/locales-es-norent-chunk.' in html
-    assert 'crear mi carta' in html.lower()
-    assert 'preguntas frecuentes' in html.lower()
+    assert "crear mi carta" in html.lower()
+    assert "preguntas frecuentes" in html.lower()
 
 
 def test_analytics_are_disabled_for_staff(admin_client):
-    response = admin_client.get(react_url('/'))
-    html = response.content.decode('utf-8')
+    response = admin_client.get(react_url("/"))
+    html = response.content.decode("utf-8")
     assert ENABLE_ANALYTICS_SENTINEL not in html
     assert DISABLE_ANALYTICS_SENTINEL in html
 
 
 def test_index_works_when_not_in_safe_mode(client):
-    response = client.get(react_url('/'))
+    response = client.get(react_url("/"))
     assert response.status_code == 200
-    assert 'JustFix.nyc' in response.context['title_tag']
-    assert '<nav' in response.context['initial_render']
+    assert "JustFix.nyc" in response.context["title_tag"]
+    assert "<nav" in response.context["initial_render"]
 
-    html = response.content.decode('utf-8')
+    html = response.content.decode("utf-8")
     assert SAFE_MODE_ENABLED_SENTINEL not in html
     assert SAFE_MODE_DISABLED_SENTINEL in html
     test_safe_mode.assert_html_is_not_in_safe_mode(html)
@@ -104,77 +104,76 @@ def test_index_works_when_not_in_safe_mode(client):
 @pytest.mark.django_db
 def test_index_works_when_in_safe_mode(client):
     test_safe_mode.enable_safe_mode(client)
-    response = client.get(react_url('/'))
+    response = client.get(react_url("/"))
     assert response.status_code == 200
 
-    html = response.content.decode('utf-8')
+    html = response.content.decode("utf-8")
     assert SAFE_MODE_ENABLED_SENTINEL in html
     assert SAFE_MODE_DISABLED_SENTINEL not in html
     test_safe_mode.assert_html_is_in_safe_mode(html)
 
 
 def test_redirects_to_locale_work(client, settings):
-    response = client.get('/')
+    response = client.get("/")
     assert response.status_code == 302
-    assert response['location'] == '/en/'
+    assert response["location"] == "/en/"
 
 
 def test_pages_with_redirects_work(client):
-    response = client.get('/dev/examples/redirect')
+    response = client.get("/dev/examples/redirect")
     assert response.status_code == 302
-    assert response['location'] == react_url('/')
+    assert response["location"] == react_url("/")
 
 
 def test_static_html_pages_work(client):
-    response = client.get('/dev/examples/static-page')
+    response = client.get("/dev/examples/static-page")
     assert response.status_code == 200
-    assert response['content-type'] == 'text/html; charset=utf-8'
+    assert response["content-type"] == "text/html; charset=utf-8"
     assert response.content.decode("utf-8") == (
-        '<!DOCTYPE html>'
+        "<!DOCTYPE html>"
         '<html><meta charSet="utf-8"/>'
-        '<title>This is an example static HTML page.</title>'
-        '<p>Hello, this is an example static HTML page\u2026</p>'
-        '<p>This is another paragraph.</p>'
-        '</html>'
+        "<title>This is an example static HTML page.</title>"
+        "<p>Hello, this is an example static HTML page\u2026</p>"
+        "<p>This is another paragraph.</p>"
+        "</html>"
     )
 
 
 def test_static_plaintext_pages_work(client):
-    response = client.get('/dev/examples/static-page.txt')
+    response = client.get("/dev/examples/static-page.txt")
     assert response.status_code == 200
-    assert response['content-type'] == 'text/plain; charset=utf-8'
+    assert response["content-type"] == "text/plain; charset=utf-8"
     assert response.content.decode("utf-8") == (
-        'Hello, this is an example static plaintext page\u2026\n\n'
-        'This is another paragraph.'
+        "Hello, this is an example static plaintext page\u2026\n\n" "This is another paragraph."
     )
 
 
 def test_static_pdf_pages_work(client):
-    response = client.get('/dev/examples/static-page.pdf')
+    response = client.get("/dev/examples/static-page.pdf")
     assert response.status_code == 200
-    assert response['content-type'] == 'application/pdf'
+    assert response["content-type"] == "application/pdf"
 
 
 def test_pages_with_extra_bundles_work(client):
-    response = client.get('/dev/examples/loadable-page')
+    response = client.get("/dev/examples/loadable-page")
     assert response.status_code == 200
-    script_tags = response.context['script_tags']
+    script_tags = response.context["script_tags"]
     assert 'src="/static/frontend/dev-dev.' in script_tags
     assert 'src="/static/frontend/example-loadable-page.' in script_tags
     assert 'src="/static/frontend/main.' in script_tags
 
 
 def test_pages_with_meta_tags_work(client):
-    response = client.get('/dev/examples/meta-tag')
+    response = client.get("/dev/examples/meta-tag")
     assert response.status_code == 200
-    assert 'property="boop"' in response.context['meta_tags']
+    assert 'property="boop"' in response.context["meta_tags"]
     assert b'property="boop"' in response.content
 
 
 def test_pages_with_prerendered_modals_work(client):
-    response = client.get('/dev/examples/modal')
+    response = client.get("/dev/examples/modal")
     assert response.status_code == 200
-    assert 'jf-modal-dialog' in response.context['modal_html']
+    assert "jf-modal-dialog" in response.context["modal_html"]
 
     # We need to make the main content hidden when pre-rendering,
     # or else the content behind the modal will be keyboard-navigable.
@@ -184,19 +183,19 @@ def test_pages_with_prerendered_modals_work(client):
 
 
 def test_pages_with_prefetched_graphql_queries_work(client):
-    response = client.get('/dev/examples/query')
+    response = client.get("/dev/examples/query")
     assert response.status_code == 200
     s = "Output of example query is <code>Hello blah</code>!"
-    assert s in response.context['initial_render']
+    assert s in response.context["initial_render"]
 
 
 def test_404_works(client):
-    response = client.get(react_url('/nonexistent'))
+    response = client.get(react_url("/nonexistent"))
     assert response.status_code == 404
 
 
-@patch('frontend.initial_props.TEST_INTERNAL_SERVER_ERROR', True)
+@patch("frontend.initial_props.TEST_INTERNAL_SERVER_ERROR", True)
 def test_500_works(client):
-    response = client.get(react_url('/'))
+    response = client.get(react_url("/"))
     assert response.status_code == 500
-    assert response.context['script_tags'] == ''
+    assert response.context["script_tags"] == ""

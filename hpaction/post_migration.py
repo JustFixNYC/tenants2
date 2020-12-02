@@ -11,11 +11,10 @@ from django.db import DEFAULT_DB_ALIAS, router
 
 
 def create_default_hpaction_config(
-    app_config, verbosity=2, interactive=True, using=DEFAULT_DB_ALIAS, apps=global_apps,
-    **kwargs
+    app_config, verbosity=2, interactive=True, using=DEFAULT_DB_ALIAS, apps=global_apps, **kwargs
 ):
     try:
-        Config = apps.get_model('hpaction', 'Config')
+        Config = apps.get_model("hpaction", "Config")
     except LookupError:
         return
 

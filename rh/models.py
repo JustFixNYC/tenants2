@@ -25,7 +25,7 @@ class RentalHistoryRequest(models.Model):
             "This may or may not be different from the actual name/address of the "
             "request, e.g. if the user is making a request on someone else's "
             "behalf."
-        )
+        ),
     )
 
     def set_user(self, user: JustfixUser):

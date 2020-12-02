@@ -5,7 +5,7 @@ from users.models import CHANGE_USER_PERMISSION
 
 
 MY_DIR = Path(__file__).parent.resolve()
-ISSUE_STATS_SQLFILE = MY_DIR / 'issuestats.sql'
+ISSUE_STATS_SQLFILE = MY_DIR / "issuestats.sql"
 
 
 def execute_issue_stats_query(cursor):
@@ -14,10 +14,10 @@ def execute_issue_stats_query(cursor):
 
 DATA_DOWNLOADS = [
     DataDownload(
-        name='Issue statistics',
-        slug='issuestats',
+        name="Issue statistics",
+        slug="issuestats",
         html_desc="""Various statistics about the issue checklist.""",
         perms=[CHANGE_USER_PERMISSION],
-        execute_query=lambda cur, user: execute_issue_stats_query(cur)
+        execute_query=lambda cur, user: execute_issue_stats_query(cur),
     ),
 ]

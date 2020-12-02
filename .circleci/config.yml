@@ -79,6 +79,7 @@ jobs:
             yarn build
             yarn lint
             yarn lingui:extract-and-check
+            pipenv run "black" --check .
             pipenv run "flake8"
             pipenv run "mypy" .
   test:

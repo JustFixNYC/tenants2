@@ -4,9 +4,13 @@ ignore =
     # Disable "f-string is missing placeholders"; seems to have been
     # introduced in a very recent version of flake8 and we don't care.
     F541,
-    # Disable "line break after binary operator"; seems to have been
+    # Disable "line break before binary operator"; seems to have been
     # introduced in a very recent version of flake8 and we don't care.
-    W504
+    W503
+    # Black says we should ignore this one:
+    # https://github.com/psf/black/blob/master/docs/compatible_configs.md#flake8
+    E203
+
 
 exclude = 
     */migrations/*.py,

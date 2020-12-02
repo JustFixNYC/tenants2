@@ -214,67 +214,67 @@ const RentalHistoryForm = MiddleProgressStep((props) => {
 
 const RentalHistoryRsUnitCheck = MiddleProgressStep((props) => {
   const rsInfo = useContext(AppContext).session.rentStabInfo;
-  return rsInfo && rsInfo.latestYear && rsInfo.latestUnitCount ? (
+  return (
     <Page
-      title={li18n._(t`It looks like your apartment may be rent stabilized!`)}
+      title={
+        rsInfo && rsInfo.latestYear && rsInfo.latestUnitCount
+          ? li18n._(t`It looks like your apartment may be rent stabilized!`)
+          : li18n._(t`It’s unlikely that your apartment is rent stabilized`)
+      }
       withHeading
       className="content"
     >
-      <p>
-        <Trans>
-          Your building had{" "}
-          <Plural
-            value={rsInfo.latestUnitCount}
-            one="1 rent stabilized unit"
-            other="# rent stabilized units"
-          />{" "}
-          in {rsInfo.latestYear}, according to property tax documents.
-        </Trans>
-      </p>
-      <p>
-        <Trans id="justfix.rhRsUnitsAreGoodSign">
-          While this data doesn’t guarantee that your apartment is rent
-          stabilized, it’s a good sign that the DHCR has a rent history on file
-          to send you.
-        </Trans>
-      </p>
+      {rsInfo && rsInfo.latestYear && rsInfo.latestUnitCount ? (
+        <>
+          <p>
+            <Trans>
+              Your building had{" "}
+              <Plural
+                value={rsInfo.latestUnitCount}
+                one="1 rent stabilized unit"
+                other="# rent stabilized units"
+              />{" "}
+              in {rsInfo.latestYear}, according to property tax documents.
+            </Trans>
+          </p>
+          <p>
+            <Trans id="justfix.rhRsUnitsAreGoodSign">
+              While this data doesn’t guarantee that your apartment is rent
+              stabilized, it’s a good sign that the DHCR has a rent history on
+              file to send you.
+            </Trans>
+          </p>
+        </>
+      ) : (
+        <>
+          <p>
+            <Trans id="justfix.rhNoRsUnits">
+              According to property tax documents, your building hasn’t reported
+              any rent stabilized units over the past several years. While there
+              is a chance that your apartment is rent stabilized, it looks
+              unlikely.
+            </Trans>
+          </p>
+          <p>
+            <Trans id="justfix.rhNoRsUnitsMeansNoRentHistory">
+              You may still submit a request to the DHCR to make sure, but they
+              may not have a rent history on file to send you. In this case,{" "}
+              <strong>you would not receive a rent history</strong> in the mail.
+            </Trans>
+          </p>
+        </>
+      )}
       <div className="field is-grouped jf-two-buttons">
         <BackButton to={props.prevStep} />
         <Link
           to={props.nextStep}
           className="button jf-is-next-button is-primary is-medium"
         >
-          <Trans>Continue</Trans>
-        </Link>
-      </div>
-    </Page>
-  ) : (
-    <Page
-      title={li18n._(t`It’s unlikely that your apartment is rent stabilized`)}
-      withHeading
-      className="content"
-    >
-      <p>
-        <Trans id="justfix.rhNoRsUnits">
-          According to property tax documents, your building hasn’t reported any
-          rent stabilized units over the past several years. While there is a
-          chance that your apartment is rent stabilized, it looks unlikely.
-        </Trans>
-      </p>
-      <p>
-        <Trans id="justfix.rhNoRsUnitsMeansNoRentHistory">
-          You may still submit a request to the DHCR to make sure, but they may
-          not have a rent history on file to send you. In this case,{" "}
-          <strong>you would not receive a rent history</strong> in the mail.
-        </Trans>
-      </p>
-      <div className="field is-grouped jf-two-buttons">
-        <BackButton to={props.prevStep} />
-        <Link
-          to={props.nextStep}
-          className="button jf-is-next-button is-primary is-medium"
-        >
-          <Trans>Continue anyway</Trans>
+          {rsInfo && rsInfo.latestYear && rsInfo.latestUnitCount ? (
+            <Trans>Continue</Trans>
+          ) : (
+            <Trans>Continue anyway</Trans>
+          )}
         </Link>
       </div>
     </Page>

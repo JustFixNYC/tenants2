@@ -79,7 +79,10 @@ jobs:
             yarn build
             yarn lint
             yarn lingui:extract-and-check
-            pipenv run "black" --check .
+
+            # TODO: Once we've formatted all our code with Black, uncomment this line.
+            # pipenv run "black" --check .
+
             pipenv run "flake8"
             pipenv run "mypy" .
   test:

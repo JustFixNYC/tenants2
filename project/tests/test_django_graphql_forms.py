@@ -540,7 +540,7 @@ class TestConvertPostDataToFormsetData:
         }
 
     def test_it_works_with_optional_fields(self):
-        assert self.convert(qdict({"foo1-TOTAL_FORMS": ["1"], "foo1-0-boolField": ["on"],})) == {
+        assert self.convert(qdict({"foo1-TOTAL_FORMS": ["1"], "foo1-0-boolField": ["on"]})) == {
             "foo_1-TOTAL_FORMS": ["1"],
             "foo_1-0-bool_field": ["on"],
         }

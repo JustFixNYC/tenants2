@@ -6,10 +6,10 @@ def init():
     if settings.ROLLBAR is not None:
         print("Configuring Rollbar for Celery.")
 
-        rollbar.init(**settings.ROLLBAR, handler='blocking')
+        rollbar.init(**settings.ROLLBAR, handler="blocking")
 
         def celery_base_data_hook(request, data):
-            data['framework'] = 'celery'
+            data["framework"] = "celery"
 
         rollbar.BASE_DATA_HOOK = celery_base_data_hook
 

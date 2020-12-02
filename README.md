@@ -126,8 +126,8 @@ re-run them as needed.
 
 ## Prettier
 
-We use [Prettier][] to automatically format some of our code. Before
-committing or pushing to GitHub, you may want to run the following
+We use [Prettier][] to automatically format some of our non-Python code.
+Before committing or pushing to GitHub, you may want to run the following
 to ensure that any files you've changed are properly formatted:
 
 ```
@@ -138,6 +138,22 @@ Note that if you don't either use this or some kind of editor plug-in
 before pushing to GitHub, continuous integration will fail.
 
 [Prettier]: https://prettier.io
+
+## Black
+
+[Black][] is a formatting tool similar to Prettier, but for Python code.
+
+Before committing or pushing to GitHub, you may want to run the following
+to ensure that any files you've changed are properly formatted:
+
+```
+black .
+```
+
+Note that if you don't either use this or some kind of editor plug-in
+before pushing to GitHub, continuous integration will fail.
+
+[Black]: https://black.readthedocs.io/
 
 ## Environment variables
 

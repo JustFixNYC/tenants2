@@ -25,8 +25,8 @@ StateDict = Dict[str, Any]
 LOCALIZED_FIELD_NAME_RE = re.compile(r"^(.+) \((English|Spanish)\)$")
 
 LOCALIZED_FIELD_NAME_LOCALES = {
-    'English': 'en',
-    'Spanish': 'es',
+    "English": "en",
+    "Spanish": "es",
 }
 
 LOCALES = LOCALIZED_FIELD_NAME_LOCALES.values()
@@ -37,7 +37,7 @@ BOOLEAN_YES_NO_FIELDS = [
     "State without protections?",
 ]
 
-TO_BE_USED_FIELD = 'toBeUsed'
+TO_BE_USED_FIELD = "toBeUsed"
 
 IGNORE_FIELDS = [
     # Only some of our tables have an 'ID' column, for some reason, which we
@@ -59,7 +59,7 @@ class Table(Enum):
 
 
 class FieldName(NamedTuple):
-    '''
+    """
     We parse the Airtable field name in various ways.
 
     Sometimes a field is "not exposed", which means that it shouldn't be
@@ -98,13 +98,13 @@ class FieldName(NamedTuple):
         'This field is not localized.'
         >>> print(field.locale)
         None
-    '''
+    """
 
     name: str
     locale: Optional[str]
 
     @classmethod
-    def parse(cls, name: str) -> 'FieldName':
+    def parse(cls, name: str) -> "FieldName":
         locale = None
         match = LOCALIZED_FIELD_NAME_RE.match(name)
         if match:
@@ -114,7 +114,7 @@ class FieldName(NamedTuple):
 
     @property
     def is_not_exposed(self) -> bool:
-        return self.name.lower().endswith('(not exposed)')
+        return self.name.lower().endswith("(not exposed)")
 
     @property
     def should_ignore(self) -> bool:
@@ -127,15 +127,12 @@ class FieldName(NamedTuple):
 
     @property
     def camel_cased_name(self) -> str:
-        return to_camel_case(self.name).replace('?', '')
+        return to_camel_case(self.name).replace("?", "")
 
 
 def to_camel_case(string: str) -> str:
-    string = string.replace('-', ' ')
-    cc = ''.join([
-        word[0].upper() + word[1:]
-        for word in string.split(' ')
-    ])
+    string = string.replace("-", " ")
+    cc = "".join([word[0].upper() + word[1:] for word in string.split(" ")])
     return cc[0].lower() + cc[1:]
 
 
@@ -193,11 +190,7 @@ def convert_all_numbered_fields_to_arrays(fields: Dict[str, Any]):
         convert_numbered_fields_to_array(fields, prefix, max)
 
 
-def convert_numbered_fields_to_array(
-    fields: Dict[str, Any],
-    prefix: str,
-    max: int
-):
+def convert_numbered_fields_to_array(fields: Dict[str, Any], prefix: str, max: int):
     array: List[Any] = []
     for i in range(1, max + 1):
         key = f"{prefix}{i}"
@@ -207,15 +200,11 @@ def convert_numbered_fields_to_array(
         fields[prefix] = array
 
 
-def convert_rows_to_state_dict(
-    table: Table,
-    rows: Iterable[RawRow],
-    locale: str
-) -> StateDict:
-    '''
+def convert_rows_to_state_dict(table: Table, rows: Iterable[RawRow], locale: str) -> StateDict:
+    """
     Convert raw Airtable rows into a table that maps state codes
     to metadata about the states.
-    '''
+    """
 
     # We're going to be destructively changing the rows, so make
     # a copy of them.
@@ -223,8 +212,8 @@ def convert_rows_to_state_dict(
 
     states: StateDict = {}
     for row in rows:
-        fields: Dict[str, Any] = row['fields']
-        state = pop_if_present(fields, 'State')
+        fields: Dict[str, Any] = row["fields"]
+        state = pop_if_present(fields, "State")
         fields = transform_fields(fields, locale)
 
         if state and fields:
@@ -235,20 +224,20 @@ def convert_rows_to_state_dict(
 
 class Command(BaseCommand):
     def process_table(self, table: Table):
-        print(f"Processing table \"{table.value}\".")
+        print(f'Processing table "{table.value}".')
         url = f"{BASE_URL}/{NORENT_VARIABLES_BASE_ID}/{urllib.parse.quote(table.value)}"
         api = Airtable(
             url=url,
             api_key=settings.AIRTABLE_API_KEY,
         )
-        basename = table.name.lower().replace('_', '-')
+        basename = table.name.lower().replace("_", "-")
         raw_rows = list(api.list_raw())
         for locale in LOCALES:
             rows = convert_rows_to_state_dict(table, raw_rows, locale)
             output_path = COMMON_DATA_DIR / f"norent-{basename}-{locale}.json"
             print(f"Writing {output_path}.")
 
-            json_blob = json.dumps(rows, indent='  ', sort_keys=True)
+            json_blob = json.dumps(rows, indent="  ", sort_keys=True)
 
             # Prettier wants newlines at the end of JSON files, so we'll add it.
             json_blob = f"{json_blob}\n"

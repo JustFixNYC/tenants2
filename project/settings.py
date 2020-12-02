@@ -21,7 +21,7 @@ from .util.settings_util import (
     parse_secure_proxy_ssl_header,
     parse_hostname_redirects,
     parse_comma_separated_list,
-    LazilyImportedFunction
+    LazilyImportedFunction,
 )
 from .util import git
 
@@ -33,15 +33,13 @@ SECRET_KEY = env.SECRET_KEY
 DEBUG = env.DEBUG
 
 # TODO: Figure out if this can securely stay at '*'.
-ALLOWED_HOSTS: List[str] = ['*']
+ALLOWED_HOSTS: List[str] = ["*"]
 
 
 HOSTNAME_REDIRECTS = parse_hostname_redirects(env.HOSTNAME_REDIRECTS)
 
 if env.SECURE_PROXY_SSL_HEADER:
-    SECURE_PROXY_SSL_HEADER = parse_secure_proxy_ssl_header(
-        env.SECURE_PROXY_SSL_HEADER
-    )
+    SECURE_PROXY_SSL_HEADER = parse_secure_proxy_ssl_header(env.SECURE_PROXY_SSL_HEADER)
 
 SECURE_SSL_REDIRECT = env.SECURE_SSL_REDIRECT
 
@@ -63,31 +61,31 @@ CSRF_COOKIE_SECURE = env.CSRF_COOKIE_SECURE
 # be rejected entirely, thereby breaking the whole site, so
 # we need to be careful here.
 if SESSION_COOKIE_SECURE:
-    SESSION_COOKIE_SAMESITE = 'None'
+    SESSION_COOKIE_SAMESITE = "None"
 if CSRF_COOKIE_SECURE:
-    CSRF_COOKIE_SAMESITE = 'None'
+    CSRF_COOKIE_SAMESITE = "None"
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 SECURE_BROWSER_XSS_FILTER = True
 
-X_FRAME_OPTIONS = 'DENY'
+X_FRAME_OPTIONS = "DENY"
 
 EXTENDED_HEALTHCHECK_KEY = env.EXTENDED_HEALTHCHECK_KEY
 
 email_config = dj_email_url.parse(env.EMAIL_URL)
 
-EMAIL_FILE_PATH = email_config['EMAIL_FILE_PATH']
-EMAIL_HOST_USER = email_config['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = email_config['EMAIL_HOST_PASSWORD']
-EMAIL_HOST = email_config['EMAIL_HOST']
-EMAIL_PORT = email_config['EMAIL_PORT']
-EMAIL_USE_TLS = email_config['EMAIL_USE_TLS']
-EMAIL_USE_SSL = email_config['EMAIL_USE_SSL']
+EMAIL_FILE_PATH = email_config["EMAIL_FILE_PATH"]
+EMAIL_HOST_USER = email_config["EMAIL_HOST_USER"]
+EMAIL_HOST_PASSWORD = email_config["EMAIL_HOST_PASSWORD"]
+EMAIL_HOST = email_config["EMAIL_HOST"]
+EMAIL_PORT = email_config["EMAIL_PORT"]
+EMAIL_USE_TLS = email_config["EMAIL_USE_TLS"]
+EMAIL_USE_SSL = email_config["EMAIL_USE_SSL"]
 
-EMAIL_BACKEND = email_config['EMAIL_BACKEND']
-if EMAIL_BACKEND == 'django.core.mail.backends.console.EmailBackend':
-    EMAIL_BACKEND = 'project.util.friendly_email_console_backend.EmailBackend'
+EMAIL_BACKEND = email_config["EMAIL_BACKEND"]
+if EMAIL_BACKEND == "django.core.mail.backends.console.EmailBackend":
+    EMAIL_BACKEND = "project.util.friendly_email_console_backend.EmailBackend"
 
 DEFAULT_FROM_EMAIL = env.DEFAULT_FROM_EMAIL
 
@@ -109,78 +107,78 @@ FACEBOOK_APP_ID = env.FACEBOOK_APP_ID
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.sites',
-    'whitenoise.runserver_nostatic',
-    'django.contrib.staticfiles',
-    'graphene_django',
-    'django_celery_results',
-    'project.apps.DefaultConfig',
-    'project.apps.JustfixAdminConfig',
-    'frontend',
-    'users.apps.UsersConfig',
-    'hpaction.apps.HPActionConfig',
-    'loc.apps.LocConfig',
-    'onboarding.apps.OnboardingConfig',
-    'issues.apps.IssuesConfig',
-    'airtable.apps.AirtableConfig',
-    'texting.apps.TextingConfig',
-    'nycha.apps.NychaConfig',
-    'twofactor.apps.TwofactorConfig',
-    'nycdb',
-    'rapidpro.apps.RapidproConfig',
-    'findhelp.apps.FindhelpConfig',
-    'data_requests.apps.DataRequestsConfig',
-    'data_driven_onboarding.apps.DataDrivenOnboardingConfig',
-    'rh.apps.RhConfig',
-    'dwh.apps.DwhConfig',
-    'texting_history.apps.TextingHistoryConfig',
-    'docusign.apps.DocusignConfig',
-    'norent.apps.NorentConfig',
-    'mailchimp.apps.MailchimpConfig',
-    'partnerships.apps.PartnershipsConfig',
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.sites",
+    "whitenoise.runserver_nostatic",
+    "django.contrib.staticfiles",
+    "graphene_django",
+    "django_celery_results",
+    "project.apps.DefaultConfig",
+    "project.apps.JustfixAdminConfig",
+    "frontend",
+    "users.apps.UsersConfig",
+    "hpaction.apps.HPActionConfig",
+    "loc.apps.LocConfig",
+    "onboarding.apps.OnboardingConfig",
+    "issues.apps.IssuesConfig",
+    "airtable.apps.AirtableConfig",
+    "texting.apps.TextingConfig",
+    "nycha.apps.NychaConfig",
+    "twofactor.apps.TwofactorConfig",
+    "nycdb",
+    "rapidpro.apps.RapidproConfig",
+    "findhelp.apps.FindhelpConfig",
+    "data_requests.apps.DataRequestsConfig",
+    "data_driven_onboarding.apps.DataDrivenOnboardingConfig",
+    "rh.apps.RhConfig",
+    "dwh.apps.DwhConfig",
+    "texting_history.apps.TextingHistoryConfig",
+    "docusign.apps.DocusignConfig",
+    "norent.apps.NorentConfig",
+    "mailchimp.apps.MailchimpConfig",
+    "partnerships.apps.PartnershipsConfig",
 ]
 
 MIDDLEWARE = [
-    'project.middleware.CSPHashingMiddleware',
-    'project.middleware.hostname_redirect_middleware',
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'twofactor.middleware.admin_requires_2fa_middleware',
+    "project.middleware.CSPHashingMiddleware",
+    "project.middleware.hostname_redirect_middleware",
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "twofactor.middleware.admin_requires_2fa_middleware",
 ]
 
-ROOT_URLCONF = 'project.urls'
+ROOT_URLCONF = "project.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'frontend.context_processors.safe_mode',
-                'project.context_processors.ga_snippet',
-                'project.context_processors.gtm_snippet',
-                'project.context_processors.gtm_noscript_snippet',
-                'project.context_processors.facebook_pixel_snippet',
-                'project.context_processors.facebook_pixel_noscript_snippet',
-                'project.context_processors.amplitude_snippet',
-                'project.context_processors.fullstory_snippet',
-                'project.context_processors.rollbar_snippet',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "frontend.context_processors.safe_mode",
+                "project.context_processors.ga_snippet",
+                "project.context_processors.gtm_snippet",
+                "project.context_processors.gtm_noscript_snippet",
+                "project.context_processors.facebook_pixel_snippet",
+                "project.context_processors.facebook_pixel_noscript_snippet",
+                "project.context_processors.amplitude_snippet",
+                "project.context_processors.fullstory_snippet",
+                "project.context_processors.rollbar_snippet",
             ],
         },
     },
@@ -192,7 +190,7 @@ TEMPLATES = [
 # otherwise we'll prefer the site that a request's domain maps to.
 DEFAULT_SITE_ID = 1
 
-WSGI_APPLICATION = 'project.wsgi.application'
+WSGI_APPLICATION = "project.wsgi.application"
 
 
 # Database
@@ -201,35 +199,35 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASE_ROUTERS: List[str] = []
 
 if not env.ENABLE_FINDHELP:
-    DATABASE_ROUTERS.append('findhelp.models.IgnoreFindhelpMigrationsRouter')
+    DATABASE_ROUTERS.append("findhelp.models.IgnoreFindhelpMigrationsRouter")
 
 DATABASES = {
-    'default': dj_database_url.parse(env.DATABASE_URL),
+    "default": dj_database_url.parse(env.DATABASE_URL),
 }
 
 NYCDB_DATABASE = None
 
 if env.NYCDB_DATABASE_URL:
-    DATABASES['nycdb'] = dj_database_url.parse(env.NYCDB_DATABASE_URL)
-    NYCDB_DATABASE = 'nycdb'
+    DATABASES["nycdb"] = dj_database_url.parse(env.NYCDB_DATABASE_URL)
+    NYCDB_DATABASE = "nycdb"
 
 WOW_DATABASE = None
 
 if env.WOW_DATABASE_URL:
-    DATABASES['wow'] = dj_database_url.parse(env.WOW_DATABASE_URL)
-    WOW_DATABASE = 'wow'
+    DATABASES["wow"] = dj_database_url.parse(env.WOW_DATABASE_URL)
+    WOW_DATABASE = "wow"
 
-DWH_DATABASE = 'default'
+DWH_DATABASE = "default"
 
 if env.DWH_DATABASE_URL:
-    DATABASES['dwh'] = dj_database_url.parse(env.DWH_DATABASE_URL)
-    DWH_DATABASE = 'dwh'
-    DATABASE_ROUTERS.append('dwh.dbrouter.ReadAndWriteToDataWarehouseDb')
+    DATABASES["dwh"] = dj_database_url.parse(env.DWH_DATABASE_URL)
+    DWH_DATABASE = "dwh"
+    DATABASE_ROUTERS.append("dwh.dbrouter.ReadAndWriteToDataWarehouseDb")
 
 MIGRATION_MODULES = {
     # The NYCDB is an external database that we read from, so we don't
     # want to modify its schema in any way.
-    'nycdb': None
+    "nycdb": None
 }
 
 # Password validation
@@ -237,26 +235,26 @@ MIGRATION_MODULES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
-AUTH_USER_MODEL = 'users.JustfixUser'
+AUTH_USER_MODEL = "users.JustfixUser"
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
-LOGIN_URL = '/login'
+LOGIN_URL = "/login"
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -270,11 +268,9 @@ if ENABLE_WIP_LOCALES:
 else:
     LANGUAGES = locales.FULLY_SUPPORTED_ONLY.choices
 
-LOCALE_PATHS = [
-    str(BASE_DIR / "locales")
-]
+LOCALE_PATHS = [str(BASE_DIR / "locales")]
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -286,64 +282,63 @@ USE_TZ = True
 # This is based off the default Django logging configuration:
 # https://github.com/django/django/blob/master/django/utils/log.py
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'rollbar': {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "rollbar": {
             # This will be replaced by a real handler if Rollbar is enabled.
-            'level': 'ERROR',
-            'class': 'logging.NullHandler'
+            "level": "ERROR",
+            "class": "logging.NullHandler",
         },
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'debug' if env.LOG_LEVEL == 'DEBUG' else None,
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "debug" if env.LOG_LEVEL == "DEBUG" else None,
         },
-        'django.server': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'filters': ['skip_static_requests'],
-            'formatter': 'django.server',
+        "django.server": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "filters": ["skip_static_requests"],
+            "formatter": "django.server",
         },
     },
-    'filters': {
-        'skip_static_requests': {
-            '()': 'django.utils.log.CallbackFilter',
-            'callback': LazilyImportedFunction(
-                'project.logging.skip_static_requests')
+    "filters": {
+        "skip_static_requests": {
+            "()": "django.utils.log.CallbackFilter",
+            "callback": LazilyImportedFunction("project.logging.skip_static_requests"),
         }
     },
-    'formatters': {
-        'debug': {
-            'format': '{levelname}:{name} {message}',
-            'style': '{',
+    "formatters": {
+        "debug": {
+            "format": "{levelname}:{name} {message}",
+            "style": "{",
         },
-        'django.server': {
-            '()': 'django.utils.log.ServerFormatter',
-            'format': '[{server_time}] {message}',
-            'style': '{',
-        }
+        "django.server": {
+            "()": "django.utils.log.ServerFormatter",
+            "format": "[{server_time}] {message}",
+            "style": "{",
+        },
     },
-    'loggers': {
-        '': {
-            'handlers': ['console', 'rollbar'],
-            'level': env.LOG_LEVEL,
+    "loggers": {
+        "": {
+            "handlers": ["console", "rollbar"],
+            "level": env.LOG_LEVEL,
         },
-        'twilio': {
+        "twilio": {
             # At the INFO level, Twilio logs the recipient and
             # body of SMS messages, which we'd like to keep out
             # of production logs, as it's PII, so we'll only
             # log warnings.
-            'level': 'WARNING'
+            "level": "WARNING"
         },
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
         },
-        'django.server': {
-            'handlers': ['django.server'],
-            'level': 'INFO',
-            'propagate': False,
+        "django.server": {
+            "handlers": ["django.server"],
+            "level": "INFO",
+            "propagate": False,
         },
     },
 }
@@ -352,9 +347,9 @@ LOGGING = {
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
-_STATIC_ROOT_PATH = BASE_DIR / 'staticfiles'
+_STATIC_ROOT_PATH = BASE_DIR / "staticfiles"
 
 STATIC_ROOT = str(_STATIC_ROOT_PATH)
 
@@ -362,18 +357,18 @@ STATIC_ROOT = str(_STATIC_ROOT_PATH)
 # shows up even in development mode.
 _STATIC_ROOT_PATH.mkdir(exist_ok=True)
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
-_MEDIA_ROOT_PATH = BASE_DIR / 'mediafiles'
+_MEDIA_ROOT_PATH = BASE_DIR / "mediafiles"
 
 _MEDIA_ROOT_PATH.mkdir(exist_ok=True)
 
 MEDIA_ROOT = str(_MEDIA_ROOT_PATH)
 
-DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
 
 if env.AWS_ACCESS_KEY_ID:
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 AWS_ACCESS_KEY_ID = env.AWS_ACCESS_KEY_ID
 
@@ -381,27 +376,26 @@ AWS_SECRET_ACCESS_KEY = env.AWS_SECRET_ACCESS_KEY
 
 AWS_STORAGE_BUCKET_NAME = env.AWS_STORAGE_BUCKET_NAME
 
-AWS_DEFAULT_ACL = 'private'
+AWS_DEFAULT_ACL = "private"
 
-AWS_BUCKET_ACL = 'private'
+AWS_BUCKET_ACL = "private"
 
 AWS_AUTO_CREATE_BUCKET = True
 
 AWS_STORAGE_STATICFILES_BUCKET_NAME = env.AWS_STORAGE_STATICFILES_BUCKET_NAME
 
-AWS_STORAGE_STATICFILES_ORIGIN = (
-    f'https://{AWS_STORAGE_STATICFILES_BUCKET_NAME}.s3.amazonaws.com')
+AWS_STORAGE_STATICFILES_ORIGIN = f"https://{AWS_STORAGE_STATICFILES_BUCKET_NAME}.s3.amazonaws.com"
 
 GRAPHENE = {
-    'SCHEMA': 'project.schema.schema',
-    'SCHEMA_INDENT': 2,
+    "SCHEMA": "project.schema.schema",
+    "SCHEMA_INDENT": 2,
     # Setting this to None is very important for error logging, as
     # its default value of
     # graphene_django.debug.middleware.DjangoDebugMiddleware somehow
     # silently eats all errors:
     #
     #   https://github.com/graphql-python/graphene-django/issues/504
-    'MIDDLEWARE': None
+    "MIDDLEWARE": None,
 }
 
 GEOCODING_SEARCH_URL = "https://geosearch.planninglabs.nyc/v1/search"
@@ -450,7 +444,7 @@ TWOFACTOR_VERIFY_DURATION = env.TWOFACTOR_VERIFY_DURATION
 
 MAPBOX_ACCESS_TOKEN = env.MAPBOX_ACCESS_TOKEN
 
-MAPBOX_TILES_ORIGIN = 'https://api.tiles.mapbox.com'
+MAPBOX_TILES_ORIGIN = "https://api.tiles.mapbox.com"
 
 MAPBOX_TIMEOUT = 10
 
@@ -472,7 +466,7 @@ DOCUSIGN_INTEGRATION_KEY = env.DOCUSIGN_INTEGRATION_KEY
 DOCUSIGN_USER_ID = env.DOCUSIGN_USER_ID
 DOCUSIGN_AUTH_SERVER_DOMAIN = env.DOCUSIGN_AUTH_SERVER_DOMAIN
 DOCUSIGN_CALLBACK_HANDLERS = [
-    'hpaction.docusign.callback_handler',
+    "hpaction.docusign.callback_handler",
 ]
 
 ENABLE_EMERGENCY_HP_ACTION = env.ENABLE_EMERGENCY_HP_ACTION
@@ -497,18 +491,17 @@ DEBUG_DATA_DIR = env.DEBUG_DATA_DIR
 if env.ROLLBAR_SERVER_ACCESS_TOKEN:
     # The following will enable Rollbar on the server-side.
     ROLLBAR = {
-        'access_token': env.ROLLBAR_SERVER_ACCESS_TOKEN,
-        'environment': 'development' if DEBUG else 'production',
-        'code_version': GIT_INFO.get_version_str(),
-        'root': str(BASE_DIR),
-        'capture_username': True,
+        "access_token": env.ROLLBAR_SERVER_ACCESS_TOKEN,
+        "environment": "development" if DEBUG else "production",
+        "code_version": GIT_INFO.get_version_str(),
+        "root": str(BASE_DIR),
+        "capture_username": True,
     }
-    LOGGING['handlers']['rollbar'].update({    # type: ignore
-        'class': 'rollbar.logger.RollbarHandler'
-    })
-    MIDDLEWARE.insert(0, 'project.middleware.rollbar_request_middleware')
-    MIDDLEWARE.append(
-        'rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404')
+    LOGGING["handlers"]["rollbar"].update(  # type: ignore
+        {"class": "rollbar.logger.RollbarHandler"}
+    )
+    MIDDLEWARE.insert(0, "project.middleware.rollbar_request_middleware")
+    MIDDLEWARE.append("rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404")
 
 CSP_STYLE_SRC = [
     "'self'",
@@ -516,7 +509,7 @@ CSP_STYLE_SRC = [
     # a hassle, as third-party libraries injected inline styles and
     # even SVGs used in <img> tags were unable to contain <style> elements
     # too.
-    "'unsafe-inline'"
+    "'unsafe-inline'",
 ]
 
 CSP_FONT_SRC = [
@@ -531,16 +524,9 @@ CSP_SCRIPT_SRC = [
     "'self'",
 ]
 
-CSP_CONNECT_SRC = [
-    "'self'",
-    "https://geosearch.planninglabs.nyc",
-    "https://api.mapbox.com"
-]
+CSP_CONNECT_SRC = ["'self'", "https://geosearch.planninglabs.nyc", "https://api.mapbox.com"]
 
-CSP_FRAME_SRC = [
-    "'self'",
-    "https://www.youtube.com"
-]
+CSP_FRAME_SRC = ["'self'", "https://www.youtube.com"]
 
 # All settings starting with "CELERY_" are Celery
 # settings. See the following documentation for more information,
@@ -550,9 +536,9 @@ CSP_FRAME_SRC = [
 #   https://docs.celeryproject.org/en/latest/userguide/configuration.html
 
 CELERY_BROKER_URL = env.JUSTFIX_CELERY_BROKER_URL
-CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_BACKEND = "django-db"
 
-if CELERY_BROKER_URL.startswith('amqp://'):
+if CELERY_BROKER_URL.startswith("amqp://"):
     # By default, using Celery with AMQP consumes *tons* of messages,
     # which quickly becomes expensive with services like CloudAMQP
     # that charge based on message usage. The following settings are
@@ -589,8 +575,8 @@ if not CELERY_BROKER_URL:
     CELERY_TASK_ALWAYS_EAGER = True
 
 if AWS_STORAGE_STATICFILES_BUCKET_NAME:
-    STATICFILES_STORAGE = 'project.storage.S3StaticFilesStorage'
-    STATIC_URL = f'{AWS_STORAGE_STATICFILES_ORIGIN}/'
+    STATICFILES_STORAGE = "project.storage.S3StaticFilesStorage"
+    STATIC_URL = f"{AWS_STORAGE_STATICFILES_ORIGIN}/"
     CSP_CONNECT_SRC.append(AWS_STORAGE_STATICFILES_ORIGIN)
     CSP_STYLE_SRC.append(AWS_STORAGE_STATICFILES_ORIGIN)
     CSP_FONT_SRC.append(AWS_STORAGE_STATICFILES_ORIGIN)
@@ -610,11 +596,11 @@ if DEBUG:
         # The webpack-bundle-analyzer report contains inline JS
         # that we need to permit if we want to use it, so
         # allow it during development.
-        f'{STATIC_URL}frontend/report.html',
+        f"{STATIC_URL}frontend/report.html",
         # While the GraphIQL UI no longer has a bunch of inline
         # script code, it does retrieve many dependencies
         # from cdn.jsdelivr.net, and since we only use it
         # for development it's easiest to just disable CSP
         # on it entirely.
-        '/graphiql',
+        "/graphiql",
     )

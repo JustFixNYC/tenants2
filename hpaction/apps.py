@@ -5,9 +5,9 @@ from .post_migration import create_default_hpaction_config
 
 
 class HPActionConfig(AppConfig):
-    name = 'hpaction'
+    name = "hpaction"
 
-    verbose_name = 'HP Action'
+    verbose_name = "HP Action"
 
     def ready(self):
         post_migrate.connect(create_default_hpaction_config, sender=self)

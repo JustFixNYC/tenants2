@@ -1,7 +1,6 @@
 import factory
 
-from onboarding.models import (
-    OnboardingInfo, LEASE_CHOICES, BOROUGH_CHOICES, SIGNUP_INTENT_CHOICES)
+from onboarding.models import OnboardingInfo, LEASE_CHOICES, BOROUGH_CHOICES, SIGNUP_INTENT_CHOICES
 from users.tests.factories import UserFactory
 
 
@@ -11,7 +10,7 @@ class OnboardingInfoFactory(factory.django.DjangoModelFactory):
 
     user = factory.SubFactory(UserFactory)
 
-    address = '150 court street'
+    address = "150 court street"
 
     address_verified = True
 
@@ -19,7 +18,7 @@ class OnboardingInfoFactory(factory.django.DjangoModelFactory):
 
     state = "NY"
 
-    apt_number = '2'
+    apt_number = "2"
 
     is_in_eviction = False
 

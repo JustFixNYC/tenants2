@@ -44,10 +44,10 @@ def email_react_rendered_content_with_attachment(
     locale: str,
     is_html_email: bool = False,
 ) -> None:
-    '''
+    """
     Renders an email in the front-end, using the given locale,
     and sends it to the given recipients with the given attachment.
-    '''
+    """
 
     email = react_render_email(
         SITE_CHOICES.NORENT,
@@ -66,21 +66,21 @@ def email_react_rendered_content_with_attachment(
 
 
 def norent_pdf_response(pdf_bytes: bytes) -> FileResponse:
-    '''
+    """
     Creates a FileResponse for the given PDF bytes and an
     appropriate filename for the NoRent letter.
-    '''
+    """
 
     return FileResponse(BytesIO(pdf_bytes), filename="letter.pdf")
 
 
 def send_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> bool:
-    '''
+    """
     Mails the NoRent letter to the user's landlord via Lob. Does
     nothing if the letter has already been sent.
 
     Returns True if the letter was just sent.
-    '''
+    """
 
     if letter.letter_sent_at is not None:
         logger.info(f"{letter} has already been mailed to the landlord.")
@@ -94,18 +94,17 @@ def send_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> bool:
     user_verification = lob_api.verify_address(**user.onboarding_info.as_lob_params())
 
     logger.info(
-        f"Sending {letter} with {landlord_verification['deliverability']} "
-        f"landlord address."
+        f"Sending {letter} with {landlord_verification['deliverability']} " f"landlord address."
     )
 
     response = lob_api.mail_certified_letter(
         description="No rent letter",
         to_address={
-            'name': ld.name,
+            "name": ld.name,
             **lob_api.verification_to_inline_address(landlord_verification),
         },
         from_address={
-            'name': user.full_name,
+            "name": user.full_name,
             **lob_api.verification_to_inline_address(user_verification),
         },
         file=BytesIO(pdf_bytes),
@@ -114,16 +113,19 @@ def send_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> bool:
     )
 
     letter.lob_letter_object = response
-    letter.tracking_number = response['tracking_number']
+    letter.tracking_number = response["tracking_number"]
     letter.letter_sent_at = timezone.now()
     letter.save()
 
     user.send_sms_async(
-        _("%(name)s you've sent your letter of non-payment of rent. "
+        _(
+            "%(name)s you've sent your letter of non-payment of rent. "
             "You can track the delivery of your letter using "
-            "USPS Tracking: %(url)s.") % {
-                'name': user.full_name,
-                'url': USPS_TRACKING_URL_PREFIX + letter.tracking_number,
+            "USPS Tracking: %(url)s."
+        )
+        % {
+            "name": user.full_name,
+            "url": USPS_TRACKING_URL_PREFIX + letter.tracking_number,
         }
     )
 
@@ -131,12 +133,12 @@ def send_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> bool:
 
 
 def email_letter_to_landlord(letter: models.Letter, pdf_bytes: bytes) -> bool:
-    '''
+    """
     Email the given letter to the user's landlord. Does nothing if the
     letter has already been emailed.
 
     Returns True if the email was just sent.
-    '''
+    """
 
     if settings.IS_DEMO_DEPLOYMENT:
         logger.info(f"Not emailing {letter} because this is a demo deployment.")
@@ -152,7 +154,6 @@ def email_letter_to_landlord(letter: models.Letter, pdf_bytes: bytes) -> bool:
         NORENT_EMAIL_TO_LANDLORD_URL,
         recipients=[ld.email],
         attachment=norent_pdf_response(pdf_bytes),
-
         # Force the locale of this email to English, since that's what the
         # landlord will read the email as.
         locale=locales.DEFAULT,
@@ -163,9 +164,9 @@ def email_letter_to_landlord(letter: models.Letter, pdf_bytes: bytes) -> bool:
 
 
 def create_letter(user: JustfixUser, rps: List[models.RentPeriod]) -> models.Letter:
-    '''
+    """
     Create a Letter model and set its PDF HTML content.
-    '''
+    """
 
     html_content = react_render(
         SITE_CHOICES.NORENT,
@@ -175,14 +176,10 @@ def create_letter(user: JustfixUser, rps: List[models.RentPeriod]) -> models.Let
         user=user,
     ).html
 
-    localized_html_content = ''
+    localized_html_content = ""
     if user.locale != locales.DEFAULT:
         localized_html_content = react_render(
-            SITE_CHOICES.NORENT,
-            user.locale,
-            NORENT_LETTER_PDF_URL,
-            ContentType.PDF,
-            user=user
+            SITE_CHOICES.NORENT, user.locale, NORENT_LETTER_PDF_URL, ContentType.PDF, user=user
         ).html
 
     with transaction.atomic():
@@ -190,7 +187,7 @@ def create_letter(user: JustfixUser, rps: List[models.RentPeriod]) -> models.Let
             user=user,
             locale=user.locale,
             html_content=html_content,
-            localized_html_content=localized_html_content
+            localized_html_content=localized_html_content,
         )
         letter.full_clean()
         letter.save()
@@ -217,7 +214,7 @@ def render_multilingual_letter(letter: models.Letter) -> bytes:
 
 
 def send_letter(letter: models.Letter):
-    '''
+    """
     Send the given letter using whatever information is populated
     in their landlord details: that is, if we have the landlord's
     email, then send an email of the letter, and if we have
@@ -226,7 +223,7 @@ def send_letter(letter: models.Letter):
 
     If any part of the sending fails, this function can be called
     again and it won't send multiple copies of the letter.
-    '''
+    """
 
     pdf_bytes = render_multilingual_letter(letter)
     user = letter.user
@@ -245,7 +242,6 @@ def send_letter(letter: models.Letter):
             is_html_email=True,
             recipients=[user.email],
             attachment=norent_pdf_response(pdf_bytes),
-
             # Use the user's preferred locale, since they will be the one
             # reading it.
             locale=user.locale,
@@ -254,14 +250,14 @@ def send_letter(letter: models.Letter):
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
         f"has sent a no rent letter!",
-        is_safe=True
+        is_safe=True,
     )
 
 
 def create_and_send_letter(user: JustfixUser, rps: List[models.RentPeriod]):
-    '''
+    """
     Create a Letter model and send it.
-    '''
+    """
 
     letter = create_letter(user, rps)
     send_letter(letter)

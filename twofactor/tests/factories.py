@@ -10,6 +10,6 @@ class TwofactorInfoFactory(factory.django.DjangoModelFactory):
 
     user = factory.SubFactory(UserFactory)
 
-    secret = 'A' * 16
+    secret = "A" * 16
 
     has_user_seen_secret_yet = False

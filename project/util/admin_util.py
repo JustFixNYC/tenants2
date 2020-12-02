@@ -8,7 +8,7 @@ def admin_field(
     allow_tags: Optional[bool] = None,
     admin_order_field: Optional[str] = None,
 ):
-    '''
+    """
     This decorator can be used to easily assign Django
     admin metadata attributes to fields. For more
     details on what fields are supported, see:
@@ -38,7 +38,7 @@ def admin_field(
     This attribute tells Django's admin to show the field
     as a colored checkmark rather than the word "True" or
     "False".
-    '''
+    """
 
     def decorator(fn):
         if short_description is not None:
@@ -47,16 +47,17 @@ def admin_field(
             fn.allow_tags = allow_tags
         if admin_order_field is not None:
             fn.admin_order_field = admin_order_field
-        if get_type_hints(fn).get('return') == bool:
+        if get_type_hints(fn).get("return") == bool:
             fn.boolean = True
         return fn
+
     return decorator
 
 
 def admin_action(short_description: str):
-    '''
+    """
     Simple helper to add metadata to custom admin actions.
-    '''
+    """
 
     def decorator(fn):
         fn.short_description = short_description
@@ -66,56 +67,56 @@ def admin_action(short_description: str):
 
 
 def never_has_permission(request=None, obj=None, *args, **kwargs) -> bool:
-    '''
+    """
     A function that a ModelAdmin instance's `has_add_permission`,
     `has_delete_permission`, etc. can be assigned to in order to
     always return False.
 
     >>> never_has_permission(1, 2, boop=3)
     False
-    '''
+    """
 
     return False
 
 
 def get_admin_url_for_instance_or_class(obj, pk) -> str:
-    '''
+    """
     Returns the admin URL for the given Django model instance or class with
     the given primary key.
-    '''
+    """
 
     # https://stackoverflow.com/a/10420949
     info = (obj._meta.app_label, obj._meta.model_name)
-    return reverse('admin:%s_%s_change' % info, args=(pk,))
+    return reverse("admin:%s_%s_change" % info, args=(pk,))
 
 
 def get_admin_url_for_class(class_obj, pk) -> str:
-    '''
+    """
     Returns the admin URL for the given Django class with the given primary
     key.
-    '''
+    """
 
     return get_admin_url_for_instance_or_class(class_obj, pk)
 
 
 def get_admin_url_for_instance(model_instance) -> str:
-    '''
+    """
     Returns the admin URL for the given Django instance. If the instance has
     an 'admin_url' property, that is given priority.
-    '''
+    """
 
-    admin_url = getattr(model_instance, 'admin_url', None)
+    admin_url = getattr(model_instance, "admin_url", None)
     if isinstance(admin_url, str):
         return admin_url
     return get_admin_url_for_instance_or_class(model_instance, model_instance.pk)
 
 
 def make_edit_link(short_description: str, field: Optional[str] = None):
-    '''
+    """
     Created a Django admin field function that returns HTML for a link
     to edit either the object itself (useful for StackedInlines/TabularInlines),
     or a related object with the given field name.
-    '''
+    """
 
     @admin_field(short_description=short_description, allow_tags=True)
     def edit(self, obj):
@@ -134,6 +135,4 @@ def make_edit_link(short_description: str, field: Optional[str] = None):
 
 
 def make_button_link(url: str, short_description: str):
-    return format_html(
-        '<a class="button" href="{}">{}</a>', url, short_description
-    )
+    return format_html('<a class="button" href="{}">{}</a>', url, short_description)

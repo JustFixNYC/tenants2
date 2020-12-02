@@ -56,8 +56,8 @@ class Message(models.Model):
 
     class Meta:
         indexes = [
-            models.Index(fields=['user_phone_number']),
-            models.Index(fields=['user_phone_number', 'ordering']),
-            models.Index(fields=['date_sent']),
-            models.Index(fields=['our_phone_number']),
+            models.Index(fields=["user_phone_number"]),
+            models.Index(fields=["user_phone_number", "ordering"]),
+            models.Index(fields=["date_sent"]),
+            models.Index(fields=["our_phone_number"]),
         ]

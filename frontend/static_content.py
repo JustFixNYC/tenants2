@@ -25,11 +25,11 @@ class ContentType(Enum):
 
 
 def get_language_from_url_or_default(url: str) -> str:
-    '''
+    """
     Attempt to retrieve the language code from the given URL.
     If the given URL has no locale prefix, return the
     default language.
-    '''
+    """
 
     return translation.get_language_from_path(url) or settings.LANGUAGE_CODE
 
@@ -43,15 +43,15 @@ def react_render(
     session: Optional[Dict[str, Any]] = None,
     locale_prefix_url: bool = True,
 ) -> LambdaResponse:
-    '''
+    """
     Renders the given front-end URL in a React lambda process,
     automatically prefixing it with the given locale if needed, and
     verifies that it was successful and of the expected
     content type.
-    '''
+    """
 
     with translation.override(locale):
-        prefix = reverse('react') if locale_prefix_url else "/"
+        prefix = reverse("react") if locale_prefix_url else "/"
         full_url = f"{prefix}{url}"
         lr = render_raw_lambda_static_content(
             url=full_url,
@@ -60,7 +60,7 @@ def react_render(
             session=session,
         )
     assert lr is not None, f"Rendering of {full_url} must succeed"
-    content_type = lr.http_headers.get('Content-Type')
+    content_type = lr.http_headers.get("Content-Type")
     assert content_type == expected_content_type.value, (
         f"Expected Content-Type of {full_url} to be "
         f"{expected_content_type}, but it is {content_type}"
@@ -69,9 +69,9 @@ def react_render(
 
 
 class Email(NamedTuple):
-    '''
+    """
     Data structure that encapsulates email content.
-    '''
+    """
 
     subject: str
     body: str
@@ -87,10 +87,10 @@ def react_render_email(
     locale_prefix_url: bool = True,
     is_html_email: bool = False,
 ) -> Email:
-    '''
+    """
     Renders an email in the front-end, using the given locale,
     and returns it.
-    '''
+    """
 
     lr = react_render(
         site_type,
@@ -102,9 +102,9 @@ def react_render_email(
         locale_prefix_url=locale_prefix_url,
     )
     return Email(
-        subject=lr.http_headers['X-JustFix-Email-Subject'],
+        subject=lr.http_headers["X-JustFix-Email-Subject"],
         body=html_to_text(lr.html),
-        html_body=lr.html if is_html_email else None
+        html_body=lr.html if is_html_email else None,
     )
 
 
@@ -114,13 +114,13 @@ def render_raw_lambda_static_content(
     user: Optional[JustfixUser] = None,
     session: Optional[Dict[str, Any]] = None,
 ) -> Optional[LambdaResponse]:
-    '''
+    """
     This function can be used by the server to render static content in the
     lambda service. Normally such content is delivered directly to a user's
     browser, but sometimes we want to access it in the server so we can
     do other things with it, e.g. generate a PDF to send to an API, or
     render an HTML email.
-    '''
+    """
 
     request = GraphQLStaticRequest(user=user, session=session)
     initial_props = create_initial_props_for_lambda(

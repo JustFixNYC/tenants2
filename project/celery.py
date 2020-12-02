@@ -3,11 +3,11 @@ from celery import Celery
 from celery.signals import worker_init, task_failure
 
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
 
-app = Celery('project')
+app = Celery("project")
 
-app.config_from_object('django.conf:settings', namespace='CELERY')
+app.config_from_object("django.conf:settings", namespace="CELERY")
 app.autodiscover_tasks()
 
 
@@ -27,4 +27,4 @@ def handle_task_failure(**kwargs):
 
 @app.task(bind=True)
 def debug_task(self):
-    print('Request: {0!r}'.format(self.request))
+    print("Request: {0!r}".format(self.request))

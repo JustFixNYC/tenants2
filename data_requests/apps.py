@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class DataRequestsConfig(AppConfig):
-    name = 'data_requests'
+    name = "data_requests"

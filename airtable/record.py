@@ -5,7 +5,7 @@ import pydantic
 from users.models import JustfixUser
 
 
-T = TypeVar('T', bound='Fields')
+T = TypeVar("T", bound="Fields")
 
 
 # Example values for the Fields class (defined below). Note that the
@@ -15,86 +15,61 @@ T = TypeVar('T', bound='Fields')
 # consider using the "exampleairtablecsv" management command.
 EXAMPLE_FIELDS = {
     # In Airtable, this should be a "Number" field with an "Integer" format.
-    'pk': 1,
-
+    "pk": 1,
     # In Airtable, this should be a "Single line text" field.
-    'first_name': 'Boop',
-
+    "first_name": "Boop",
     # In Airtable, this should be a "Single line text" field.
-    'last_name': 'Jones',
-
+    "last_name": "Jones",
     # In Airtable, this should be a "URL" field.
-    'admin_url': 'https://example.com/admin/users/justfixuser/1/change/',
-
+    "admin_url": "https://example.com/admin/users/justfixuser/1/change/",
     # In Airtable, this should be a "Phone number" field.
-    'phone_number': '5551234560',
-
+    "phone_number": "5551234560",
     # In Airtable, this should be a "Checkbox" field.
-    'can_we_sms': False,
-
+    "can_we_sms": False,
     # In Airtable, this should be a "Single line text" field.
-    'lease_type': 'RENT_STABILIZED',
-
+    "lease_type": "RENT_STABILIZED",
     # In Airtable, this should be a "Single line text" field.
-    'borough': 'BROOKLYN',
-
+    "borough": "BROOKLYN",
     # In Airtable, this should be a "Date" field.
-    'letter_request_date': '2018-01-02',
-
+    "letter_request_date": "2018-01-02",
     # In Airtable, this should be a "Date" field.
-    'letter_sent_date': '2018-01-03',
-
+    "letter_sent_date": "2018-01-03",
     # In Airtable, this should be a "Single line text" field.
-    'letter_rejection_reason': 'INCRIMINATION',
-
+    "letter_rejection_reason": "INCRIMINATION",
     # In Airtable, this should be a "Single line text" field.
-    'letter_tracking_number': 'EA999999999US',
-
+    "letter_tracking_number": "EA999999999US",
     # In Airtable, this should be a "Long text" field.
-    'address': '123 Boop Way\nApartment 2\nNew York, NY 11201',
-
+    "address": "123 Boop Way\nApartment 2\nNew York, NY 11201",
     # In Airtable, this should be a "Single line text" field.
-    'pad_bbl': '3002920026',
-
+    "pad_bbl": "3002920026",
     # In Airtable, this should be a "URL" field.
-    'letter_pdf_url': 'https://example.com/loc/admin/1/letter.pdf',
-
+    "letter_pdf_url": "https://example.com/loc/admin/1/letter.pdf",
     # In Airtable, this should be a "Single line text" field.
-    'landlord_name': 'Landlordo Calrissian',
-
+    "landlord_name": "Landlordo Calrissian",
     # In Airtable, this should be a "Long text" field.
-    'landlord_address': '1 Cloud City',
-
+    "landlord_address": "1 Cloud City",
     # In Airtable, this should be a "Checkbox" field.
-    'will_we_mail_letter': True,
-
+    "will_we_mail_letter": True,
     # In Airtable, this should be a "Date" field.
-    'hp_latest_documents_date': '2018-02-03',
-
+    "hp_latest_documents_date": "2018-02-03",
     # In Airtable, this should be a "Checkbox" field.
-    'hp_sue_for_repairs': True,
-
+    "hp_sue_for_repairs": True,
     # In Airtable, this should be a "Checkbox" field.
-    'hp_sue_for_harassment': True,
-
+    "hp_sue_for_harassment": True,
     # In Airtable, this should be a "Date" field.
-    'ehp_latest_filing_date': '2018-02-04',
-
+    "ehp_latest_filing_date": "2018-02-04",
     # In Airtable, this should be a "Number" field with an "Integer" format.
-    'ehp_num_filings': 0,
+    "ehp_num_filings": 0,
 }
 
 
 def apply_annotations_to_user(user: JustfixUser, annotations: Dict[str, Any]):
-    '''
+    """
     If the given user wasn't fetched from the database with the given annotations,
     make it appear as though it was. Otherwise, do nothing.
-    '''
+    """
 
-    missing_attrs = [
-        key for key in annotations.keys()
-        if not hasattr(user, key)
-    ]
+    missing_attrs = [key for key in annotations.keys() if not hasattr(user, key)]
     if missing_attrs:
         u = JustfixUser.objects.filter(pk=user.pk).annotate(**annotations).first()
         for key in missing_attrs:
@@ -102,13 +77,13 @@ def apply_annotations_to_user(user: JustfixUser, annotations: Dict[str, Any]):
 
 
 def get_user_field_for_airtable(user: JustfixUser, field: pydantic.fields.Field) -> Any:
-    '''
+    """
     Given a field name that may have double underscores in it to indicate
     that it spans relationships, find the given user field and
     return it, potentially changing its type for use with Airtable.
-    '''
+    """
 
-    attrs = field.name.split('__')
+    attrs = field.name.split("__")
     obj = user
 
     final_attr = attrs[-1]
@@ -132,15 +107,15 @@ def get_user_field_for_airtable(user: JustfixUser, field: pydantic.fields.Field)
 # These are all the related models we want to fetch when we retrieve
 # users from the database, which massively speeds up synchronization.
 FIELDS_RELATED_MODELS = [
-    'onboarding_info',
-    'letter_request',
-    'landlord_details',
-    'hp_action_details',
+    "onboarding_info",
+    "letter_request",
+    "landlord_details",
+    "hp_action_details",
 ]
 
 
 class Fields(pydantic.BaseModel):
-    '''
+    """
     The fields in a row of our Airtable table. Note that these are
     only the fields we care about and control: the Airtable will
     likely contain extra fields that matter to users, but that
@@ -165,80 +140,86 @@ class Fields(pydantic.BaseModel):
     class' documentation for more details.
 
     [1] https://docs.djangoproject.com/en/2.1/topics/db/queries/
-    '''
+    """
 
     # The primary key of the JustfixUser that the row represents.
     pk: int = -1
 
     # The user's first name.
-    first_name: str = ''
+    first_name: str = ""
 
     # The user's last name.
-    last_name: str = ''
+    last_name: str = ""
 
     # The admin URL where the user info can be viewed/changed.
-    admin_url: str = ''
+    admin_url: str = ""
 
     # The user's phone number.
-    phone_number: str = ''
+    phone_number: str = ""
 
     # Whether we can SMS the user.
-    onboarding_info__can_we_sms: bool = pydantic.Schema(default=False, alias='can_we_sms')
+    onboarding_info__can_we_sms: bool = pydantic.Schema(default=False, alias="can_we_sms")
 
     # The user's lease type.
-    onboarding_info__lease_type: str = pydantic.Schema(default='', alias='lease_type')
+    onboarding_info__lease_type: str = pydantic.Schema(default="", alias="lease_type")
 
     # The user's borough.
-    onboarding_info__borough: str = pydantic.Schema(default='', alias='borough')
+    onboarding_info__borough: str = pydantic.Schema(default="", alias="borough")
 
     # When the user's letter of complaint was requested.
     letter_request__created_at: Optional[str] = pydantic.Schema(
         # Note that it's important to set dates to None/null in Airtable if they don't
         # exist, as Airtable will complain that it can't parse the value if we give it
         # an empty string.
-        default=None, alias='letter_request_date')
+        default=None,
+        alias="letter_request_date",
+    )
 
     # When we sent the user's letter of complaint.
     letter_request__letter_sent_at: Optional[str] = pydantic.Schema(
-        default=None, alias='letter_sent_date')
+        default=None, alias="letter_sent_date"
+    )
 
     # The reason we didn't mail the letter, if applicable.
     letter_request__rejection_reason: str = pydantic.Schema(
-        default='', alias='letter_rejection_reason')
+        default="", alias="letter_rejection_reason"
+    )
 
     # The tracking number for the letter, if we sent it.
     letter_request__tracking_number: str = pydantic.Schema(
-        default='', alias='letter_tracking_number')
+        default="", alias="letter_tracking_number"
+    )
 
     # The tenant's full mailing address.
-    onboarding_info__address_for_mailing: str = pydantic.Schema(default='', alias='address')
+    onboarding_info__address_for_mailing: str = pydantic.Schema(default="", alias="address")
 
     # The tenant's boro-block-lot (BBL) number.
-    onboarding_info__pad_bbl: str = pydantic.Schema(default='', alias='pad_bbl')
+    onboarding_info__pad_bbl: str = pydantic.Schema(default="", alias="pad_bbl")
 
     # A link to the letter of complaint PDF.
-    letter_request__admin_pdf_url: str = pydantic.Schema(default='', alias='letter_pdf_url')
+    letter_request__admin_pdf_url: str = pydantic.Schema(default="", alias="letter_pdf_url")
 
     # The tenant's landlord's name.
-    landlord_details__name: str = pydantic.Schema(default='', alias='landlord_name')
+    landlord_details__name: str = pydantic.Schema(default="", alias="landlord_name")
 
     # The tenant's landlord's address.
-    landlord_details__address: str = pydantic.Schema(default='', alias='landlord_address')
+    landlord_details__address: str = pydantic.Schema(default="", alias="landlord_address")
 
     # Whether or not the user wants us to mail the letter for them.
-    letter_request__will_we_mail: bool = pydantic.Schema(
-        default=False, alias='will_we_mail_letter')
+    letter_request__will_we_mail: bool = pydantic.Schema(default=False, alias="will_we_mail_letter")
 
     # The most recent date the user's HP action documents were generated.
     hp_latest_documents_date: Optional[str] = None
 
     # Whether the user wants to sue for repairs.
     hp_action_details__sue_for_repairs: bool = pydantic.Schema(
-        default=False, alias='hp_sue_for_repairs')
+        default=False, alias="hp_sue_for_repairs"
+    )
 
     # Whether the user wants to sue for harassment.
     hp_action_details__sue_for_harassment: bool = pydantic.Schema(
-        default=False, alias='hp_sue_for_harassment')
+        default=False, alias="hp_sue_for_harassment"
+    )
 
     # The date of the most recent Emergency HP action the user signed.
     ehp_latest_filing_date: Optional[str] = None
@@ -248,7 +229,7 @@ class Fields(pydantic.BaseModel):
 
     @classmethod
     def get_annotations(cls) -> Dict[str, Any]:
-        '''
+        """
         Returns a mapping from field names to the query expressions they
         represent.  An entry must exist for every field on our class
         that isn't a built-in model field.  For more documentation on
@@ -256,45 +237,43 @@ class Fields(pydantic.BaseModel):
         `annotate()` [1].
 
         [1] https://docs.djangoproject.com/en/3.0/ref/models/querysets/#annotate
-        '''
+        """
 
         from django.db.models import Max, Count, Q
         from hpaction.models import HP_DOCUSIGN_STATUS_CHOICES
 
-        signed = Q(
-            hpactiondocuments__docusignenvelope__status=HP_DOCUSIGN_STATUS_CHOICES.SIGNED)
+        signed = Q(hpactiondocuments__docusignenvelope__status=HP_DOCUSIGN_STATUS_CHOICES.SIGNED)
 
         return {
-            'hp_latest_documents_date': Max('hpactiondocuments__created_at'),
-            'ehp_latest_filing_date': Max(
-                'hpactiondocuments__docusignenvelope__created_at', filter=signed),
-            'ehp_num_filings': Count('hpactiondocuments__docusignenvelope', filter=signed),
+            "hp_latest_documents_date": Max("hpactiondocuments__created_at"),
+            "ehp_latest_filing_date": Max(
+                "hpactiondocuments__docusignenvelope__created_at", filter=signed
+            ),
+            "ehp_num_filings": Count("hpactiondocuments__docusignenvelope", filter=signed),
         }
 
     @classmethod
     def select_related_and_annotate(cls, queryset):
-        '''
+        """
         Given a Queryset of users, select all related models and apply all
         necessary annotations to create a Fields object without requiring
         any additional database queries. Return the new Queryset.
-        '''
+        """
 
-        return queryset.select_related(*FIELDS_RELATED_MODELS)\
-            .annotate(**cls.get_annotations())
+        return queryset.select_related(*FIELDS_RELATED_MODELS).annotate(**cls.get_annotations())
 
     @classmethod
     def from_user(cls: Type[T], user: JustfixUser, refresh: bool = False) -> T:
-        '''
+        """
         Given a user, return the Fields that represent their data.
 
         If `refresh` is True, the user's data will be refreshed from the database.
-        '''
+        """
 
         kwargs: Dict[str, Any] = {}
 
         if refresh:
-            user = cls.select_related_and_annotate(
-                JustfixUser.objects.filter(pk=user.pk)).first()
+            user = cls.select_related_and_annotate(JustfixUser.objects.filter(pk=user.pk)).first()
 
         apply_annotations_to_user(user, cls.get_annotations())
 
@@ -305,16 +284,16 @@ class Fields(pydantic.BaseModel):
 
 
 class Record(pydantic.BaseModel):
-    '''
+    """
     A Record essentially represents a row in our Airtable table.
-    '''
+    """
 
     # Airtable's unique id for this row, e.g. "recFLEuThPbUkwmsq".
     id: str
 
     # The fields of this row. We need to call it "fields_" because
     # the attribute "fields" is already used by pydantic.
-    fields_: Fields = pydantic.Schema(default=..., alias='fields')
+    fields_: Fields = pydantic.Schema(default=..., alias="fields")
 
     # The date the row was created, e.g. '2018-10-15T20:27:20.000Z'.
     createdTime: str

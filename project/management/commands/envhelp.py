@@ -3,8 +3,8 @@ from project import justfix_environment
 
 
 class Command(BaseCommand):
-    help = 'Display a list of supported environment variables.'
+    help = "Display a list of supported environment variables."
 
     def handle(self, *args, **options):
-        self.stdout.write('Supported environment variables:\n\n')
+        self.stdout.write("Supported environment variables:\n\n")
         justfix_environment.get().print_help(self.stdout)

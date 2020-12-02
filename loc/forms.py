@@ -30,30 +30,31 @@ class AccessDatesForm(forms.Form):
     def clean(self):
         dates = self.get_cleaned_dates(super().clean())
         if len(dates) != len(set(dates)):
-            raise ValidationError('Please ensure all the dates are different.')
+            raise ValidationError("Please ensure all the dates are different.")
         self._validate_minimum_dates(dates)
 
     def _validate_minimum_dates(self, dates: List[datetime.date]):
-        cfg = AccessDatesValidation(**common_data.load_json('access-dates-validation.json'))
+        cfg = AccessDatesValidation(**common_data.load_json("access-dates-validation.json"))
         today = datetime.date.today() - self.MIN_DAYS_LEEWAY
         for date in dates:
             if (date - today).days < cfg.MIN_DAYS:
                 raise ValidationError(
-                    f'Please ensure all dates are at least {cfg.MIN_DAYS} days from today.')
+                    f"Please ensure all dates are at least {cfg.MIN_DAYS} days from today."
+                )
 
     def get_cleaned_dates(self, cleaned_data=None) -> List[datetime.date]:
         if cleaned_data is None:
             cleaned_data = self.cleaned_data
         result = []
         for i in range(self.NUM_DATE_FIELDS):
-            date = cleaned_data.get(f'date{i + 1}')
+            date = cleaned_data.get(f"date{i + 1}")
             if date is not None:
                 result.append(date)
         return result
 
 
 def validate_non_stupid_name(name: str):
-    if name.lower().startswith('united states'):
+    if name.lower().startswith("united states"):
         # This is super weird; we've had at least two users somehow
         # submit this as their LL name without intending to. We suspect
         # buggy Chrome form autofill is to blame, but until we figure
@@ -65,11 +66,11 @@ class LandlordDetailsFormV2(forms.ModelForm):
     class Meta:
         model = models.LandlordDetails
         fields = (
-            'name',
-            'primary_line',
-            'city',
-            'state',
-            'zip_code',
+            "name",
+            "primary_line",
+            "city",
+            "state",
+            "zip_code",
         )
 
     name = forms.CharField(
@@ -78,26 +79,26 @@ class LandlordDetailsFormV2(forms.ModelForm):
         max_length=lob_api.MAX_NAME_LEN,
         required=True,
         validators=[validate_non_stupid_name],
-        help_text=models.LandlordDetails._meta.get_field('name').help_text
+        help_text=models.LandlordDetails._meta.get_field("name").help_text,
     )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field in ['primary_line', 'city', 'state', 'zip_code']:
+        for field in ["primary_line", "city", "state", "zip_code"]:
             self.fields[field].required = True
 
 
 class OptionalLandlordDetailsForm(forms.ModelForm):
     class Meta:
         model = models.LandlordDetails
-        fields = ('email', 'phone_number')
+        fields = ("email", "phone_number")
 
 
 class LetterRequestForm(forms.ModelForm):
     class Meta:
         model = models.LetterRequest
-        fields = ('mail_choice',)
+        fields = ("mail_choice",)
 
     def clean(self):
         super().clean()
-        self.instance.regenerate_html_content(author='the user')
+        self.instance.regenerate_html_content(author="the user")

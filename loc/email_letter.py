@@ -20,7 +20,7 @@ def email_letter(user_id: int, recipients: List[str]) -> None:
             f"complaint, which {user.first_name} requested we send you."
         ),
         recipients=recipients,
-        attachment=render_finished_loc_pdf_for_user(request, user)
+        attachment=render_finished_loc_pdf_for_user(request, user),
     )
 
 

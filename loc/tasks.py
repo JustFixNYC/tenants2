@@ -19,12 +19,17 @@ def send_admin_notification_for_letter(letter_id: int):
 
     assert letter.mail_choice == LOC_MAILING_CHOICES.WE_WILL_MAIL
 
-    body = render_to_string('loc/admin/notification-email.txt', {
-        'user': user,
-        'letter': letter,
-        'send_letter_url': absolute_reverse('admin:mail-via-lob', kwargs={'letterid': letter.id}),
-        'edit_letter_url': absolute_reverse('admin:loc_locuser_change', args=(user.pk,)),
-    })
+    body = render_to_string(
+        "loc/admin/notification-email.txt",
+        {
+            "user": user,
+            "letter": letter,
+            "send_letter_url": absolute_reverse(
+                "admin:mail-via-lob", kwargs={"letterid": letter.id}
+            ),
+            "edit_letter_url": absolute_reverse("admin:loc_locuser_change", args=(user.pk,)),
+        },
+    )
     subject = f"Letter of Complaint request for {user.full_name}"
 
     msg = EmailMessage(

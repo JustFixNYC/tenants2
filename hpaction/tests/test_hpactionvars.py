@@ -14,11 +14,11 @@ def ensure_answer_set(v, expected_xml):
 
 def test_it_works_with_complaints():
     v = hp.HPActionVariables()
-    complaint = hp.TenantComplaints(
-        area_complained_of_mc=hp.AreaComplainedOfMC.PUBLIC_AREA
-    )
+    complaint = hp.TenantComplaints(area_complained_of_mc=hp.AreaComplainedOfMC.PUBLIC_AREA)
     v.tenant_complaints_list.append(complaint)
-    ensure_answer_set(v, """\
+    ensure_answer_set(
+        v,
+        """\
     <?xml version="1.0" ?>
     <AnswerSet title="New Answer File" version="1.1">
         <Answer name="Area complained of MC">
@@ -39,17 +39,20 @@ def test_it_works_with_complaints():
             </RptValue>
         </Answer>
     </AnswerSet>
-    """)
+    """,
+    )
 
 
 def test_it_works_with_children_and_other_stuff():
     v = hp.HPActionVariables()
     v.access_person_te = "Boop Jones"
     v.action_type_ms = [hp.ActionTypeMS.REPAIRS]
-    child = hp.TenantChild(tenant_child_name_te='Bap Jones')
+    child = hp.TenantChild(tenant_child_name_te="Bap Jones")
     v.tenant_child_list.append(child)
 
-    ensure_answer_set(v, """\
+    ensure_answer_set(
+        v,
+        """\
     <?xml version="1.0" ?>
     <AnswerSet title="New Answer File" version="1.1">
         <Answer name="Access person TE">
@@ -71,4 +74,5 @@ def test_it_works_with_children_and_other_stuff():
             </RptValue>
         </Answer>
     </AnswerSet>
-    """)
+    """,
+    )

@@ -5,7 +5,7 @@ import datetime
 from ..models import Message
 
 
-some_date = datetime.datetime(2020, 3, 2, 18, 8, 48, 890982, tzinfo=pytz.timezone('utc'))
+some_date = datetime.datetime(2020, 3, 2, 18, 8, 48, 890982, tzinfo=pytz.timezone("utc"))
 
 
 class MessageFactory(factory.django.DjangoModelFactory):

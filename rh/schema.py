@@ -9,7 +9,7 @@ from graphql import ResolveInfo
 from project import slack
 from project.util.django_graphql_session_forms import (
     DjangoSessionFormObjectType,
-    DjangoSessionFormMutation
+    DjangoSessionFormMutation,
 )
 from project.util.session_mutation import SessionFormMutation
 from project.util.streaming_json import generate_json_rows
@@ -26,7 +26,7 @@ RENT_STAB_INFO_SESSION_KEY = 'rh_rent_stab_v1'
 def get_slack_notify_text(rhr: models.RentalHistoryRequest) -> str:
     rh_link = slack.hyperlink(
         text="rent history",
-        href=absolute_reverse('admin:rh_rentalhistoryrequest_change', args=[rhr.pk])
+        href=absolute_reverse("admin:rh_rentalhistoryrequest_change", args=[rhr.pk]),
     )
     if rhr.user:
         user_text = slack.hyperlink(text=rhr.user.first_name, href=rhr.user.admin_url)
@@ -69,7 +69,7 @@ def process_rent_stab_data(raw_data: Optional[Dict[str, Any]]) -> Optional[Dict[
 class RhFormInfo(DjangoSessionFormObjectType):
     class Meta:
         form_class = forms.RhForm
-        session_key = f'rh_v{forms.FIELD_SCHEMA_VERSION}'
+        session_key = f"rh_v{forms.FIELD_SCHEMA_VERSION}"
 
 
 @schema_registry.register_mutation
@@ -117,9 +117,7 @@ class RhSendEmail(SessionFormMutation):
             SITE_CHOICES.JUSTFIX,
             project.locales.DEFAULT,
             "rh/email-to-dhcr.txt",
-            session={
-                RhFormInfo._meta.session_key: form_data
-            }
+            session={RhFormInfo._meta.session_key: form_data},
         )
         email_dhcr.send_email_to_dhcr(email.subject, email.body)
         trigger_followup_campaign_async(

@@ -20,7 +20,7 @@ from frontend.static_content import react_render_email
 from rapidpro.followup_campaigns import trigger_followup_campaign_async
 from loc.landlord_lookup import lookup_bbl_and_bin_and_full_address
 
-RENT_STAB_INFO_SESSION_KEY = 'rh_rent_stab_v1'
+RENT_STAB_INFO_SESSION_KEY = "rh_rent_stab_v1"
 
 
 def get_slack_notify_text(rhr: models.RentalHistoryRequest) -> str:
@@ -47,7 +47,7 @@ def run_rent_stab_sql_query(bbl: str) -> Optional[Dict[str, Any]]:
         return None
 
     with connections[settings.NYCDB_DATABASE].cursor() as cursor:
-        cursor.execute(sql_query, {'bbl': bbl})
+        cursor.execute(sql_query, {"bbl": bbl})
         json_result = list(generate_json_rows(cursor))
         if not json_result:
             return None
@@ -59,10 +59,7 @@ def process_rent_stab_data(raw_data: Optional[Dict[str, Any]]) -> Optional[Dict[
         return None
     for item in sorted(raw_data.items(), reverse=True):
         if item[1] and item[1] > 0:
-            return {
-                "latest_year": item[0].replace("uc", ""),
-                "latest_unit_count": item[1]
-            }
+            return {"latest_year": item[0].replace("uc", ""), "latest_unit_count": item[1]}
     return None
 
 

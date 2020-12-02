@@ -5,8 +5,8 @@ from users.admin_user_proxy import UserProxyAdmin
 
 def test_filter_queryset_for_changelist_view_returns_queryset():
     assert (
-        UserProxyAdmin.filter_queryset_for_changelist_view(None, "BLAH") == "BLAH"
-    )  # type: ignore
+        UserProxyAdmin.filter_queryset_for_changelist_view(None, "BLAH") == "BLAH"  # type: ignore
+    )
 
 
 class UserProxyAdminTester:

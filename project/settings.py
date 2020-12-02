@@ -497,8 +497,8 @@ if env.ROLLBAR_SERVER_ACCESS_TOKEN:
         "root": str(BASE_DIR),
         "capture_username": True,
     }
-    LOGGING["handlers"]["rollbar"].update(
-        {"class": "rollbar.logger.RollbarHandler"}  # type: ignore
+    LOGGING["handlers"]["rollbar"].update(  # type: ignore
+        {"class": "rollbar.logger.RollbarHandler"}
     )
     MIDDLEWARE.insert(0, "project.middleware.rollbar_request_middleware")
     MIDDLEWARE.append("rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404")

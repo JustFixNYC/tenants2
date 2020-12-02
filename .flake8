@@ -8,7 +8,7 @@ ignore =
     # introduced in a very recent version of flake8 and we don't care.
     W503
     # Black says we should ignore this one:
-    # https://github.com/psf/black/blob/master/docs/compatible_configs.md#flake8
+    # https://black.readthedocs.io/en/stable/compatible_configs.html#flake8
     E203
 
 

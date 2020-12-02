@@ -249,8 +249,7 @@ function createRentalHistoryRouteInfo(prefix: string) {
     splash: `${prefix}/splash`,
     form: `${prefix}/form`,
     formAddressModal: `${prefix}/form/address-modal`,
-    rsUnitsFound: `${prefix}/rs-units-found`,
-    rsUnitsNotFound: `${prefix}/rs-units-not-found`,
+    rsUnitsCheck: `${prefix}/rs-units-check`,
     preview: `${prefix}/preview`,
     confirmation: `${prefix}/confirmation`,
   };

@@ -43,7 +43,6 @@ import {
   ForeignLanguageOnly,
   InYourLanguageTranslation,
 } from "../ui/cross-language";
-import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { MiddleProgressStep } from "../progress/progress-step-route";
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
@@ -213,29 +212,25 @@ const RentalHistoryForm = MiddleProgressStep((props) => {
   );
 });
 
-const RentalHistoryRsUnitsFound = MiddleProgressStep((props) => {
+const RentalHistoryRsUnitCheck = MiddleProgressStep((props) => {
   const rsInfo = useContext(AppContext).session.rentStabInfo;
-  return (
+  return rsInfo && rsInfo.latestYear && rsInfo.latestUnitCount ? (
     <Page
       title={li18n._(t`It looks like your apartment may be rent stabilized!`)}
       withHeading
       className="content"
     >
-      {/* Technically, given our "shouldBeSkipped" locig in our routes impementation,
-      these values should never be null/undefined if a user has reached this page. */}
-      {rsInfo && rsInfo.latestYear && rsInfo.latestUnitCount && (
-        <p>
-          <Trans>
-            Your building had{" "}
-            <Plural
-              value={rsInfo.latestUnitCount}
-              one="1 rent stabilized unit"
-              other="# rent stabilized units"
-            />{" "}
-            in {rsInfo.latestYear}, according to property tax documents.
-          </Trans>
-        </p>
-      )}
+      <p>
+        <Trans>
+          Your building had{" "}
+          <Plural
+            value={rsInfo.latestUnitCount}
+            one="1 rent stabilized unit"
+            other="# rent stabilized units"
+          />{" "}
+          in {rsInfo.latestYear}, according to property tax documents.
+        </Trans>
+      </p>
       <p>
         <Trans id="justfix.rhRsUnitsAreGoodSign">
           While this data doesn’t guarantee that your apartment is rent
@@ -253,11 +248,7 @@ const RentalHistoryRsUnitsFound = MiddleProgressStep((props) => {
         </Link>
       </div>
     </Page>
-  );
-});
-
-const RentalHistoryRsUnitsNotFound = MiddleProgressStep((props) => {
-  return (
+  ) : (
     <Page
       title={li18n._(t`It’s unlikely that your apartment is rent stabilized`)}
       withHeading
@@ -432,22 +423,6 @@ function RentalHistoryConfirmation(): JSX.Element {
   );
 }
 
-export function userBuildingHasRentStab(session: AllSessionInfo): boolean {
-  return (
-    !!session.rentStabInfo &&
-    !!session.rentStabInfo.latestYear &&
-    !!session.rentStabInfo.latestUnitCount
-  );
-}
-
-export function userBuildingHasNoRentStab(session: AllSessionInfo): boolean {
-  return (
-    !session.rentStabInfo ||
-    !session.rentStabInfo.latestYear ||
-    !session.rentStabInfo.latestUnitCount
-  );
-}
-
 export const getRentalHistoryRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: JustfixRoutes.locale.rh.latestStep,
   label: li18n._(t`Rent History`),
@@ -464,16 +439,10 @@ export const getRentalHistoryRoutesProps = (): ProgressRoutesProps => ({
       component: RentalHistoryForm,
     },
     {
-      path: JustfixRoutes.locale.rh.rsUnitsFound,
+      path: JustfixRoutes.locale.rh.rsUnitsCheck,
       exact: true,
-      component: RentalHistoryRsUnitsFound,
-      shouldBeSkipped: userBuildingHasNoRentStab,
-    },
-    {
-      path: JustfixRoutes.locale.rh.rsUnitsNotFound,
-      exact: true,
-      component: RentalHistoryRsUnitsNotFound,
-      shouldBeSkipped: userBuildingHasRentStab,
+      component: RentalHistoryRsUnitCheck,
+      shouldBeSkipped: (session) => !session.rentStabInfo,
     },
     {
       path: JustfixRoutes.locale.rh.preview,

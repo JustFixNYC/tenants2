@@ -10,6 +10,7 @@
 		"terminal.integrated.shell.linux": null,
 		// This is where the virtual environment set up by our Docker Compose config is located.
 		"python.pythonPath": "/venv/bin/python",
+		"python.formatting.provider": "black",
 		"python.linting.pylintEnabled": false,
 		"python.linting.flake8Enabled": true,
 		"python.linting.enabled": true,
@@ -34,6 +35,7 @@
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
 		},
 		"[python]": {
+			"editor.formatOnSave": true,
 			"editor.detectIndentation": false,
 			"editor.tabSize": 4
 		},

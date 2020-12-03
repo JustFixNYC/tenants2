@@ -548,7 +548,7 @@ msgstr "Eviction Moratorium updates"
 msgid "Exercise your rights"
 msgstr "Exercise your rights"
 
-#: frontend/lib/rh/rental-history.tsx:288
+#: frontend/lib/rh/rental-history.tsx:287
 msgid "Explore our other tools"
 msgstr "Explore our other tools"
 
@@ -776,7 +776,7 @@ msgstr "Idaho"
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 msgstr "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 
-#: frontend/lib/rh/rental-history.tsx:282
+#: frontend/lib/rh/rental-history.tsx:281
 msgid "If you have more questions, please email us at <0/>."
 msgstr "If you have more questions, please email us at <0/>."
 
@@ -1395,7 +1395,7 @@ msgstr "Refrigerator Defective"
 msgid "Regards,"
 msgstr "Regards,"
 
-#: frontend/lib/rh/rental-history.tsx:298
+#: frontend/lib/rh/rental-history.tsx:297
 msgid "Rent History"
 msgstr "Rent History"
 
@@ -1837,7 +1837,7 @@ msgstr "Virginia"
 msgid "Visit Who Owns What"
 msgstr "Visit Who Owns What"
 
-#: frontend/lib/rh/rental-history.tsx:291
+#: frontend/lib/rh/rental-history.tsx:290
 msgid "Want to read more about your rights?"
 msgstr "Want to read more about your rights?"
 
@@ -2255,7 +2255,7 @@ msgstr "While this data doesn’t guarantee that your apartment is rent stabiliz
 
 #: frontend/lib/rh/rental-history.tsx:273
 msgid "justfix.rhWarningAboutNotReceiving"
-msgstr "Note: If your apartment has never been rent stabilized, <0>you will not receive a rent history in the mail.</0> The DHCR only has rent histories for apartments that were rent stabilized at some point in time."
+msgstr "Note: If your apartment has never been rent stabilized, you will not receive a rent history in the mail. The DHCR only has rent histories for apartments that were rent stabilized at some point in time."
 
 #: frontend/lib/rh/rental-history.tsx:251
 msgid "justfix.rhWhatHappensNext"

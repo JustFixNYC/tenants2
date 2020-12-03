@@ -407,10 +407,9 @@ function RentalHistoryConfirmation(): JSX.Element {
       <div className="notification is-warning">
         <p>
           <Trans id="justfix.rhWarningAboutNotReceiving">
-            Note: If your apartment has never been rent stabilized,{" "}
-            <strong>you will not receive a rent history in the mail.</strong>{" "}
-            The DHCR only has rent histories for apartments that were rent
-            stabilized at some point in time.
+            Note: If your apartment has never been rent stabilized, you will not
+            receive a rent history in the mail. The DHCR only has rent histories
+            for apartments that were rent stabilized at some point in time.
           </Trans>
         </p>
       </div>

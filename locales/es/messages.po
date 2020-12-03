@@ -553,7 +553,7 @@ msgstr "Actualizaciones de la Moratoria de Desalojo"
 msgid "Exercise your rights"
 msgstr "Ejercita tus derechos"
 
-#: frontend/lib/rh/rental-history.tsx:288
+#: frontend/lib/rh/rental-history.tsx:287
 msgid "Explore our other tools"
 msgstr "Explora nuestras otras herramientas"
 
@@ -781,7 +781,7 @@ msgstr "Idaho"
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 msgstr "Si no recibiste un código, comprueba tu correo electrónico. Si no lo encuentras, por favor envía un correo electrónico a <0/>."
 
-#: frontend/lib/rh/rental-history.tsx:282
+#: frontend/lib/rh/rental-history.tsx:281
 msgid "If you have more questions, please email us at <0/>."
 msgstr "Si tienes más preguntas, por favor envíanos un correo electrónico a <0/>."
 
@@ -1400,7 +1400,7 @@ msgstr "Frigorífico Defectuoso"
 msgid "Regards,"
 msgstr "Atentamente,"
 
-#: frontend/lib/rh/rental-history.tsx:298
+#: frontend/lib/rh/rental-history.tsx:297
 msgid "Rent History"
 msgstr "Historial de Renta"
 
@@ -1842,7 +1842,7 @@ msgstr "Virginia"
 msgid "Visit Who Owns What"
 msgstr "Visita Quién Posee Qué"
 
-#: frontend/lib/rh/rental-history.tsx:291
+#: frontend/lib/rh/rental-history.tsx:290
 msgid "Want to read more about your rights?"
 msgstr "¿Quieres leer más sobre tus derechos?"
 

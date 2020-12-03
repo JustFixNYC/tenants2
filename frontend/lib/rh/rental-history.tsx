@@ -71,8 +71,9 @@ function RentalHistorySplash(): JSX.Element {
             </div>
             <h1 className="title is-spaced">
               <Trans>
-                Request your <span className="is-italic">Rent History</span>{" "}
-                from the NY State DHCR* in two simple steps!
+                Rent Stabilized? Request your{" "}
+                <span className="is-italic">Rent History</span> from the NY
+                State DHCR*!
               </Trans>
             </h1>
             <p className="subtitle">
@@ -395,14 +396,16 @@ function RentalHistoryConfirmation(): JSX.Element {
           .
         </Trans>
       </p>
-      <p>
-        <Trans id="justfix.rhWarningAboutNotReceiving">
-          Note: If your apartment has never been rent stabilized,{" "}
-          <strong>you will not receive a rent history in the mail.</strong> The
-          DHCR only has rent histories for apartments that were rent stabilized
-          at some point in time.
-        </Trans>
-      </p>
+      <div className="notification is-warning">
+        <p>
+          <Trans id="justfix.rhWarningAboutNotReceiving">
+            Note: If your apartment has never been rent stabilized,{" "}
+            <strong>you will not receive a rent history in the mail.</strong>{" "}
+            The DHCR only has rent histories for apartments that were rent
+            stabilized at some point in time.
+          </Trans>
+        </p>
+      </div>
       <p>
         <Trans>
           If you have more questions, please email us at <CustomerSupportLink />

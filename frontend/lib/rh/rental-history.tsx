@@ -31,7 +31,7 @@ import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { RhEmailToDhcr, RhEmailToDhcrStaticPage } from "./email-to-dhcr";
 import { renderSuccessHeading } from "../ui/success-heading";
 import { li18n, createLinguiCatalogLoader } from "../i18n-lingui";
-import { Plural, t, Trans } from "@lingui/macro";
+import { t, Trans, Plural } from "@lingui/macro";
 import loadable from "@loadable/component";
 import {
   EnglishOutboundLink,
@@ -381,7 +381,7 @@ function RentalHistoryConfirmation(): JSX.Element {
           <EnglishOutboundLink href="https://www.metcouncilonhousing.org/help-answers/rent-stabilization-overcharges/">
             Met Council on Housing guide to Rent Stabilization Overcharges
           </EnglishOutboundLink>{" "}
-          or by checking out our
+          or by checking out our{" "}
           <LocalizedOutboundLink
             hrefs={{
               en:
@@ -397,10 +397,10 @@ function RentalHistoryConfirmation(): JSX.Element {
       </p>
       <p>
         <Trans id="justfix.rhWarningAboutNotReceiving">
-          Note: the DHCR only has rent histories for apartments that were rent
-          stabilized at some point in time. If your apartment has never been
-          rent stabilized,{" "}
-          <strong>you will not receive a rent history in the mail.</strong>
+          Note: If your apartment has never been rent stabilized,{" "}
+          <strong>you will not receive a rent history in the mail.</strong> The
+          DHCR only has rent histories for apartments that were rent stabilized
+          at some point in time.
         </Trans>
       </p>
       <p>

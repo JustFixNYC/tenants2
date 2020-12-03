@@ -2118,7 +2118,7 @@ msgid "Your apartment may be rent stabilized."
 msgstr "Tu apartamento es de renta estabilizada."
 
 #: frontend/lib/rh/rental-history.tsx:138
-msgid "Your building had in {0}, according to property tax documents."
+msgid "Your building had {0, plural, one {1 rent stabilized unit} other {# rent stabilized units}} in {1}, according to property tax documents."
 msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:316

@@ -219,14 +219,19 @@ const RentalHistoryRsUnitCheck = MiddleProgressStep((props) => {
     <Page
       title={
         rsInfo && rsInfo.latestYear && rsInfo.latestUnitCount
-          ? li18n._(t`It looks like your apartment may be rent stabilized!`)
+          ? li18n._(t`It looks like your apartment may be rent stabilized`)
           : li18n._(t`It’s unlikely that your apartment is rent stabilized`)
       }
-      withHeading
       className="content"
     >
       {rsInfo && rsInfo.latestYear && rsInfo.latestUnitCount ? (
         <>
+          <h1 className="title is-4">
+            <span className="has-text-primary">
+              <Trans>Good news!</Trans>
+            </span>{" "}
+            <Trans>It looks like your apartment may be rent stabilized</Trans>
+          </h1>
           <p>
             <Trans>
               Your building had{" "}
@@ -248,6 +253,9 @@ const RentalHistoryRsUnitCheck = MiddleProgressStep((props) => {
         </>
       ) : (
         <>
+          <h1 className="title is-4">
+            <Trans>It’s unlikely that your apartment is rent stabilized</Trans>
+          </h1>
           <p>
             <Trans id="justfix.rhNoRsUnits">
               According to property tax documents, your building hasn’t reported

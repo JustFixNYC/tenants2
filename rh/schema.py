@@ -45,24 +45,36 @@ def run_rent_stab_sql_query(bbl: str) -> Optional[Dict[str, Any]]:
         full join rentstab_v2 using(ucbbl)
         where ucbbl = %(bbl)s
     """
-    if not settings.NYCDB_DATABASE:
-        return None
 
     with connections[settings.NYCDB_DATABASE].cursor() as cursor:
         cursor.execute(sql_query, {"bbl": bbl})
         json_result = list(generate_json_rows(cursor))
         if not json_result:
-            return BLANK_RENT_STAB_INFO
+            return None
         return json_result[0]
 
 
-def process_rent_stab_data(raw_data: Optional[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
-    if not raw_data:
-        return BLANK_RENT_STAB_INFO
+def process_rent_stab_data(raw_data: Dict[str, Any]) -> Dict[str, Any]:
     for item in sorted(raw_data.items(), reverse=True):
         if item[1] and item[1] > 0:
             return {"latest_year": item[0].replace("uc", ""), "latest_unit_count": item[1]}
     return BLANK_RENT_STAB_INFO
+
+
+def get_rent_stab_info_for_bbl(bbl: str) -> Optional[Dict[str, Any]]:
+    # Case 1: No connection to the database
+    if not settings.NYCDB_DATABASE:
+        return None
+
+    raw_data = run_rent_stab_sql_query(bbl)
+
+    # Case 2: We connected to the database, but no RS data was found
+    if not raw_data:
+        return BLANK_RENT_STAB_INFO
+
+    # Case 3: We connected to the database, and RS data was found
+    else:
+        return process_rent_stab_data(raw_data)
 
 
 class RhFormInfo(DjangoSessionFormObjectType):
@@ -85,9 +97,7 @@ class RhForm(DjangoSessionFormMutation):
 
         full_address = form_data["address"] + ", " + form_data["borough"]
         bbl, _, _ = lookup_bbl_and_bin_and_full_address(full_address)
-        if bbl:
-            rent_stab_info = process_rent_stab_data(run_rent_stab_sql_query(bbl))
-            request.session[RENT_STAB_INFO_SESSION_KEY] = rent_stab_info
+        request.session[RENT_STAB_INFO_SESSION_KEY] = get_rent_stab_info_for_bbl(bbl)
         return result
 
 

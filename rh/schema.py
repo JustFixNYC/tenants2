@@ -62,8 +62,8 @@ def process_rent_stab_data(raw_data: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def get_rent_stab_info_for_bbl(bbl: str) -> Optional[Dict[str, Any]]:
-    # Case 1: No connection to the database
-    if not settings.NYCDB_DATABASE:
+    # Case 1: No connection to GeoSearch or the nycdb database
+    if not (bbl and settings.NYCDB_DATABASE):
         return None
 
     raw_data = run_rent_stab_sql_query(bbl)

@@ -72,7 +72,7 @@ function RentalHistorySplash(): JSX.Element {
             </div>
             <h1 className="title is-spaced">
               <Trans>
-                Rent Stabilized? Request your{" "}
+                Want to know if your apartment's rent stabilized? Request your{" "}
                 <span className="is-italic">Rent History</span> from the NY
                 State DHCR*!
               </Trans>
@@ -415,12 +415,14 @@ function RentalHistoryConfirmation(): JSX.Element {
       </h2>
       <p>
         <Trans id="justfix.rhWhatHappensNext">
-          If your apartment is currently rent stabilized—or has been at any
-          point in the past—you should receive your Rent History in the mail in
-          about a week. Your Rent History is an important document—it shows the
-          registered rents in your apartment since 1984. You can learn more
-          about it and how it can help you figure out if you’re being
-          overcharged on rent at the{" "}
+          <span className="is-italic">
+            If your apartment is currently rent stabilized, or has been at any
+            point in the past:
+          </span>
+          you should receive your Rent History in the mail in about a week. Your
+          Rent History is an important document—it shows the registered rents in
+          your apartment since 1984. You can learn more about it and how it can
+          help you figure out if you’re being overcharged on rent at the{" "}
           <EnglishOutboundLink href="https://www.metcouncilonhousing.org/help-answers/rent-stabilization-overcharges/">
             Met Council on Housing guide to Rent Stabilization Overcharges
           </EnglishOutboundLink>{" "}
@@ -438,15 +440,16 @@ function RentalHistoryConfirmation(): JSX.Element {
           .
         </Trans>
       </p>
-      <div className="notification is-warning">
-        <p>
-          <Trans id="justfix.rhWarningAboutNotReceiving">
-            Note: If your apartment has never been rent stabilized, you will not
-            receive a rent history in the mail. The DHCR only has rent histories
-            for apartments that were rent stabilized at some point in time.
-          </Trans>
-        </p>
-      </div>
+      <p>
+        <Trans id="justfix.rhWarningAboutNotReceiving">
+          <span className="is-italic">
+            If your apartment has never been rent stabilized:
+          </span>{" "}
+          you will not receive a rent history in the mail. The DHCR only has
+          rent histories for apartments that were rent stabilized at some point
+          in time.
+        </Trans>
+      </p>
       <p>
         <Trans>
           If you have more questions, please email us at <CustomerSupportLink />

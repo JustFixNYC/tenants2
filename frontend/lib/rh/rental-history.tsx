@@ -222,7 +222,7 @@ type RentStab =
     }
   | {
       kind: "RentStabilized";
-      latestYear: number;
+      latestYear: string;
       latestUnitCount: number;
     };
 

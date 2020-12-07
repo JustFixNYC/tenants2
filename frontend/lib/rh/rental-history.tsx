@@ -14,7 +14,7 @@ import { exactSubsetOrDefault, assertNotNull } from "../util/util";
 import { NextButton, BackButton } from "../ui/buttons";
 import { PhoneNumberFormField } from "../forms/phone-number-form-field";
 import { AppContext, AppContextType } from "../app-context";
-import { Link, Route, Switch } from "react-router-dom";
+import { Link, Redirect, Route, Switch } from "react-router-dom";
 import { RhFormInput } from "../queries/globalTypes";
 import { RhSendEmailMutation } from "../queries/RhSendEmailMutation";
 import { AddressAndBoroughField } from "../forms/address-and-borough-form-field";
@@ -44,6 +44,7 @@ import {
   InYourLanguageTranslation,
 } from "../ui/cross-language";
 import { MiddleProgressStep } from "../progress/progress-step-route";
+import { AllSessionInfo_rentStabInfo } from "../queries/AllSessionInfo";
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -213,18 +214,51 @@ const RentalHistoryForm = MiddleProgressStep((props) => {
   );
 });
 
+type RentStab =
+  | {
+      kind: "NotRentStabilized";
+    }
+  | {
+      kind: "Unknown";
+    }
+  | {
+      kind: "RentStabilized";
+      latestYear: string;
+      latestUnitCount: number;
+    };
+
+/**
+ * Turn our session info into an algebraic type that's easier to
+ * reason about.
+ */
+function toRentStab(rs: AllSessionInfo_rentStabInfo | null): RentStab {
+  if (!rs) return { kind: "Unknown" };
+  const { latestYear, latestUnitCount } = rs;
+  if (latestYear && latestUnitCount) {
+    return {
+      kind: "RentStabilized",
+      latestYear,
+      latestUnitCount,
+    };
+  }
+  return { kind: "NotRentStabilized" };
+}
+
 const RentalHistoryRsUnitCheck = MiddleProgressStep((props) => {
-  const rsInfo = useContext(AppContext).session.rentStabInfo;
+  const rsInfo = toRentStab(useContext(AppContext).session.rentStabInfo);
+  if (rsInfo.kind === "Unknown") {
+    return <Redirect to={props.nextStep} />;
+  }
   return (
     <Page
       title={
-        rsInfo && rsInfo.latestYear && rsInfo.latestUnitCount
+        rsInfo.kind === "RentStabilized"
           ? li18n._(t`It looks like your apartment may be rent stabilized`)
           : li18n._(t`It’s unlikely that your apartment is rent stabilized`)
       }
       className="content"
     >
-      {rsInfo && rsInfo.latestYear && rsInfo.latestUnitCount ? (
+      {rsInfo.kind === "RentStabilized" ? (
         <>
           <h1 className="title is-4">
             <span className="has-text-primary">
@@ -279,7 +313,7 @@ const RentalHistoryRsUnitCheck = MiddleProgressStep((props) => {
           to={props.nextStep}
           className="button jf-is-next-button is-primary is-medium"
         >
-          {rsInfo && rsInfo.latestYear && rsInfo.latestUnitCount ? (
+          {rsInfo.kind === "RentStabilized" ? (
             <Trans>Continue</Trans>
           ) : (
             <Trans>Continue anyway</Trans>

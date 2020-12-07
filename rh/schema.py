@@ -140,7 +140,7 @@ class RhSendEmail(SessionFormMutation):
 
 
 class RhRentStabData(graphene.ObjectType):
-    latest_year = graphene.Int(
+    latest_year = graphene.String(
         description=(
             "The last year that the user's building had rent stabilized units. "
             "If null, no units were found since 2007."

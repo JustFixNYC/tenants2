@@ -57,7 +57,9 @@ def run_rent_stab_sql_query(bbl: str) -> Optional[Dict[str, Any]]:
 def process_rent_stab_data(raw_data: Dict[str, Any]) -> Dict[str, Any]:
     for item in sorted(raw_data.items(), reverse=True):
         if item[1] and item[1] > 0:
-            return {"latest_year": item[0].replace("uc", ""), "latest_unit_count": item[1]}
+            year = item[0].replace("uc", "")
+            assert year
+            return {"latest_year": year, "latest_unit_count": item[1]}
     return BLANK_RENT_STAB_INFO
 
 
@@ -143,7 +145,8 @@ class RhRentStabData(graphene.ObjectType):
     latest_year = graphene.String(
         description=(
             "The last year that the user's building had rent stabilized units. "
-            "If null, no units were found since 2007."
+            "If null, no units were found since 2007. "
+            "Note: this will never be the empty string. "
         )
     )
     latest_unit_count = graphene.Int(

@@ -1,4 +1,5 @@
 from frontend.tests.util import get_frontend_query
+from project.tests.test_geocoding import EXAMPLE_SEARCH
 from rh import schema
 from rh.tests.factories import RentalHistoryRequestFactory
 from rh.schema import get_slack_notify_text
@@ -70,8 +71,10 @@ def test_rh_form_saves_data_to_session(db, graphql_client):
     }
 
 
-def test_rh_form_grabs_rent_stab_info(db, graphql_client, settings, monkeypatch):
+def test_rh_form_grabs_rent_stab_info(db, graphql_client, settings, monkeypatch, requests_mock):
     settings.NYCDB_DATABASE = "blah"
+    settings.GEOCODING_SEARCH_URL = "http://bawlabr"
+    requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
     monkeypatch.setattr(
         schema,
         "run_rent_stab_sql_query",

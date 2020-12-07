@@ -2912,7 +2912,7 @@
               "name": "latestYear",
               "type": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "String",
                 "ofType": null
               }
             },

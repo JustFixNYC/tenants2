@@ -62,7 +62,3 @@ def test_process_rent_stab_data_works_when_data_is_given():
         "latest_unit_count": 6,
     }
     assert process_rent_stab_data(EXAMPLE_ZERO_RENT_STAB_DATA) == BLANK_RENT_STAB_INFO
-
-
-def test_process_rent_stab_data_works_when_no_data_is_given():
-    assert process_rent_stab_data(None) == BLANK_RENT_STAB_INFO

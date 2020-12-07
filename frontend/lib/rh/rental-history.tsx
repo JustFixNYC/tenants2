@@ -418,7 +418,7 @@ function RentalHistoryConfirmation(): JSX.Element {
           <span className="is-italic">
             If your apartment is currently rent stabilized, or has been at any
             point in the past:
-          </span>
+          </span>{" "}
           you should receive your Rent History in the mail in about a week. Your
           Rent History is an important document—it shows the registered rents in
           your apartment since 1984. You can learn more about it and how it can

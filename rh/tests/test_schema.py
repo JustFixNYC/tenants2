@@ -88,6 +88,12 @@ def test_rh_form_grabs_rent_stab_info(db, graphql_client, settings, monkeypatch,
     }
 
 
+def test_rent_stab_info_is_none_when_geocoding_unavailable(db, graphql_client):
+    ob = _exec_rh_form(graphql_client)
+    assert ob["errors"] == []
+    assert ob["session"]["rentStabInfo"] is None
+
+
 def test_rh_form_saves_info_to_db(db, graphql_client, allow_lambda_http):
     _exec_rh_form(graphql_client)
     graphql_client.execute(RH_EMAIL_MUTATION)

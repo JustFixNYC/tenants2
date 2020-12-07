@@ -83,8 +83,8 @@ def test_rh_form_grabs_rent_stab_info(db, graphql_client, settings, monkeypatch,
     ob = _exec_rh_form(graphql_client)
     assert ob["errors"] == []
     assert ob["session"]["rentStabInfo"] == {
-        "latest_year": "2019",
-        "latest_unit_count": 12,
+        "latestYear": "2019",
+        "latestUnitCount": 12,
     }
 
 

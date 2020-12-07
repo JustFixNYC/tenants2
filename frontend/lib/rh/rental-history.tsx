@@ -31,7 +31,7 @@ import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { RhEmailToDhcr, RhEmailToDhcrStaticPage } from "./email-to-dhcr";
 import { renderSuccessHeading } from "../ui/success-heading";
 import { li18n, createLinguiCatalogLoader } from "../i18n-lingui";
-import { Plural, t, Trans } from "@lingui/macro";
+import { t, Trans, Plural } from "@lingui/macro";
 import loadable from "@loadable/component";
 import {
   EnglishOutboundLink,
@@ -72,8 +72,9 @@ function RentalHistorySplash(): JSX.Element {
             </div>
             <h1 className="title is-spaced">
               <Trans>
-                Request your <span className="is-italic">Rent History</span>{" "}
-                from the NY State DHCR* in two simple steps!
+                Rent Stabilized? Request your{" "}
+                <span className="is-italic">Rent History</span> from the NY
+                State DHCR*!
               </Trans>
             </h1>
             <p className="subtitle">
@@ -252,14 +253,19 @@ const RentalHistoryRsUnitCheck = MiddleProgressStep((props) => {
     <Page
       title={
         rsInfo.kind === "RentStabilized"
-          ? li18n._(t`It looks like your apartment may be rent stabilized!`)
+          ? li18n._(t`It looks like your apartment may be rent stabilized`)
           : li18n._(t`It’s unlikely that your apartment is rent stabilized`)
       }
-      withHeading
       className="content"
     >
       {rsInfo.kind === "RentStabilized" ? (
         <>
+          <h1 className="title is-4">
+            <span className="has-text-primary">
+              <Trans>Good news!</Trans>
+            </span>{" "}
+            <Trans>It looks like your apartment may be rent stabilized</Trans>
+          </h1>
           <p>
             <Trans>
               Your building had{" "}
@@ -281,6 +287,9 @@ const RentalHistoryRsUnitCheck = MiddleProgressStep((props) => {
         </>
       ) : (
         <>
+          <h1 className="title is-4">
+            <Trans>It’s unlikely that your apartment is rent stabilized</Trans>
+          </h1>
           <p>
             <Trans id="justfix.rhNoRsUnits">
               According to property tax documents, your building hasn’t reported
@@ -406,8 +415,8 @@ function RentalHistoryConfirmation(): JSX.Element {
       </h2>
       <p>
         <Trans id="justfix.rhWhatHappensNext">
-          If your apartment is currently rent stabilized— or has been at any
-          point in the past— you should receive your Rent History in the mail in
+          If your apartment is currently rent stabilized—or has been at any
+          point in the past—you should receive your Rent History in the mail in
           about a week. Your Rent History is an important document—it shows the
           registered rents in your apartment since 1984. You can learn more
           about it and how it can help you figure out if you’re being
@@ -415,7 +424,7 @@ function RentalHistoryConfirmation(): JSX.Element {
           <EnglishOutboundLink href="https://www.metcouncilonhousing.org/help-answers/rent-stabilization-overcharges/">
             Met Council on Housing guide to Rent Stabilization Overcharges
           </EnglishOutboundLink>{" "}
-          or by checking out our
+          or by checking out our{" "}
           <LocalizedOutboundLink
             hrefs={{
               en:
@@ -429,14 +438,15 @@ function RentalHistoryConfirmation(): JSX.Element {
           .
         </Trans>
       </p>
-      <p>
-        <Trans id="justfix.rhWarningAboutNotReceiving">
-          Note: the DHCR only has rent histories for apartments that were rent
-          stabilized at some point in time. If your apartment has never been
-          rent stabilized,{" "}
-          <strong>you will not receive a rent history in the mail.</strong>
-        </Trans>
-      </p>
+      <div className="notification is-warning">
+        <p>
+          <Trans id="justfix.rhWarningAboutNotReceiving">
+            Note: If your apartment has never been rent stabilized, you will not
+            receive a rent history in the mail. The DHCR only has rent histories
+            for apartments that were rent stabilized at some point in time.
+          </Trans>
+        </p>
+      </div>
       <p>
         <Trans>
           If you have more questions, please email us at <CustomerSupportLink />

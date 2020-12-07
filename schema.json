@@ -2907,12 +2907,12 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The last year that the user's building had rent stabilized units. If null, no units were found since 2007.",
+              "description": "The last year that the user's building had rent stabilized units. If null, no units were found since 2007. Note: this will never be the empty string. ",
               "isDeprecated": false,
               "name": "latestYear",
               "type": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "String",
                 "ofType": null
               }
             },

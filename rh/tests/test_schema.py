@@ -1,8 +1,9 @@
 from frontend.tests.util import get_frontend_query
+from rh import schema
 from rh.tests.factories import RentalHistoryRequestFactory
 from rh.schema import get_slack_notify_text
 from rh.models import RentalHistoryRequest
-
+from rh.tests.test_utils import EXAMPLE_RENT_STAB_DATA
 
 VALID_RH_DATA = {
     "firstName": "Boop",
@@ -66,6 +67,21 @@ def test_rh_form_saves_data_to_session(db, graphql_client):
         **VALID_RH_DATA,
         "zipcode": "",
         "addressVerified": False,
+    }
+
+
+def test_rh_form_grabs_rent_stab_info(db, graphql_client, settings, monkeypatch):
+    settings.NYCDB_DATABASE = "blah"
+    monkeypatch.setattr(
+        schema,
+        "run_rent_stab_sql_query",
+        lambda rentStabInfo: EXAMPLE_RENT_STAB_DATA,
+    )
+    ob = _exec_rh_form(graphql_client)
+    assert ob["errors"] == []
+    assert ob["session"]["rentStabInfo"] == {
+        "latest_year": "2019",
+        "latest_unit_count": 12,
     }
 
 

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-30 16:48\n"
+"PO-Revision-Date: 2020-12-08 19:35\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -412,7 +412,7 @@ msgstr "Continuar"
 
 #: frontend/lib/rh/rental-history.tsx:201
 msgid "Continue anyway"
-msgstr ""
+msgstr "Aún así continuar"
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:25
 msgid "Continue to the confirmation page for information about the last letter you sent and next steps you can take."
@@ -649,7 +649,7 @@ msgstr "Hacer huelga de renta"
 
 #: frontend/lib/rh/rental-history.tsx:160
 msgid "Good news!"
-msgstr ""
+msgstr "¡Buenas noticias!"
 
 #: frontend/lib/ui/privacy-info-modal.tsx:59
 msgid "Got it!"
@@ -864,7 +864,7 @@ msgstr "Parece que esta propiedad no tiene que estar registrada con el HPD. Pued
 #: frontend/lib/rh/rental-history.tsx:155
 #: frontend/lib/rh/rental-history.tsx:162
 msgid "It looks like your apartment may be rent stabilized"
-msgstr ""
+msgstr "Parece que tu apartamento es de renta estabilizada"
 
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:28
 msgid "It's important to notify your landlord of all months when you couldn't pay rent in full."
@@ -877,7 +877,7 @@ msgstr "Puede ser que el dueño de tu edificio tome represalias tras recibir tu 
 #: frontend/lib/rh/rental-history.tsx:156
 #: frontend/lib/rh/rental-history.tsx:180
 msgid "It’s unlikely that your apartment is rent stabilized"
-msgstr ""
+msgstr "Es poco probable que tu apartamento sea de renta estabilizada"
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:11
 msgid "It’s your first time here!"
@@ -1097,7 +1097,7 @@ msgstr "Residentes de Casas Prefabricadas o Móviles"
 
 #: common-data/issue-choices.ts:168
 msgid "Mold"
-msgstr ""
+msgstr "Moho"
 
 #: common-data/issue-choices.ts:171
 msgid "Mold on Walls"
@@ -1840,7 +1840,7 @@ msgstr "Visita Quién Posee Qué"
 
 #: frontend/lib/rh/rental-history.tsx:50
 msgid "Want to know if your apartment's rent stabilized? Request your <0>Rent History</0> from the NY State DHCR*!"
-msgstr ""
+msgstr "¿Quieres saber si tu apartamento es de renta estabilizada? ¡Solicita tu <0>Historial de alquiler</0> en el DHCR* del estado de NY!"
 
 #: frontend/lib/rh/rental-history.tsx:313
 msgid "Want to read more about your rights?"
@@ -2125,7 +2125,7 @@ msgstr "Tu apartamento es de renta estabilizada."
 
 #: frontend/lib/rh/rental-history.tsx:165
 msgid "Your building had {0, plural, one {1 rent stabilized unit} other {# rent stabilized units}} in {1}, according to property tax documents."
-msgstr ""
+msgstr "Tu edificio tenía {0, plural, one {una unidad de renta estabilizada} other {# unidades de renta estabilizada}} en {1}."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:316
 msgid "Your building had {0, plural, one {one rent stabilized unit} other {# rent stabilized units}} in {1}."
@@ -2244,11 +2244,11 @@ msgstr "Este documento te ayuda a averiguar si tu apartamento es de <0>renta est
 
 #: frontend/lib/rh/rental-history.tsx:183
 msgid "justfix.rhNoRsUnits"
-msgstr ""
+msgstr "De acuerdo con los registros de documentación fiscal, tu edificio no ha reportado ninguna unidad de renta estabilizada en los últimos años. Aunque sea posible que tu apartamento sea de renta estabilizada, parece improbable."
 
 #: frontend/lib/rh/rental-history.tsx:191
 msgid "justfix.rhNoRsUnitsMeansNoRentHistory"
-msgstr ""
+msgstr "Aún así puedes enviar una solicitud al DHCR para asegurarte, pero es posible que no tengan ningún historial de alquiler en sus registros que enviarte. En este caso, <0>no recibirías un historial de alquiler</0> por correo."
 
 #: frontend/lib/rh/email-to-dhcr.tsx:22
 msgid "justfix.rhRequestToDhcr"
@@ -2256,15 +2256,15 @@ msgstr "<0>Querido administrador del DHCR,</0><1> Yo, {0}, vivo actualmente en {
 
 #: frontend/lib/rh/rental-history.tsx:172
 msgid "justfix.rhRsUnitsAreGoodSign"
-msgstr ""
+msgstr "Aunque estos datos no garantizan que tu apartamento sea de renta estabilizada, es un buen indicio de si el DHCR tiene un historial de alquiler en sus archivo que enviarte."
 
 #: frontend/lib/rh/rental-history.tsx:294
 msgid "justfix.rhWarningAboutNotReceiving"
-msgstr ""
+msgstr "<0>Si tu apartamento nunca ha sido de renta estabilizada:</0> no recibirás un historial de alquiler por correo. El DHCR sólo tiene historiales de alquiler para aquellos apartamentos que hayan sido en algún momento de renta estabilizada."
 
 #: frontend/lib/rh/rental-history.tsx:271
 msgid "justfix.rhWhatHappensNext"
-msgstr "Deberías recibir tu Historial de Renta por correo en una semana aproximadamente. Tu Historial de Renta es un documento importante que muestra los alquileres registrados en tu apartamento desde el año 1984. Puedes aprender más sobre él y cómo puede ayudarte a averiguar si te están cobrando alquiler de más en la <0>Guía de sobrecargos de apartamentos de renta estabilizada del Met Council on Housing (en inglés)</0>."
+msgstr "<0>Si tu apartamento es actualmente de renta estabilizada, o lo ha sido en cualquier momento en el pasado:</0> deberías recibir tu historial de alquiler por correo en aproximadamente una semana. Tu historial de alquiler es un documento importante que muestra los alquileres registrados en tu apartamento desde 1984. Puedes aprender más sobre ello y cómo puede ayudarte a averiguar si estás pagando de más en el <1>la guía de alquiler de recargos de estabilidad de Met Council on Housing</1> o consultando nuestro artículo del <2>Centro de Aprendizaje a cerca de Sobrecargos</2>."
 
 #: frontend/lib/norent/data/faqs-content.tsx:215
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"
@@ -2466,3 +2466,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:102
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-12-08 19:30\n"
+"PO-Revision-Date: 2020-12-08 19:35\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -412,7 +412,7 @@ msgstr "Continuar"
 
 #: frontend/lib/rh/rental-history.tsx:201
 msgid "Continue anyway"
-msgstr "Continuar de todos modos"
+msgstr "Aún así continuar"
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:25
 msgid "Continue to the confirmation page for information about the last letter you sent and next steps you can take."

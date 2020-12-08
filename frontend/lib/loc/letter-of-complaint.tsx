@@ -14,7 +14,7 @@ import {
 import { LocSplash } from "./letter-of-complaint-splash";
 import { GetStartedButton } from "../ui/get-started-button";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
-import { CovidRiskBanner, MoratoriumWarning } from "../ui/covid-banners";
+import { CovidRiskBanner } from "../ui/covid-banners";
 import ReliefAttemptsPage from "../onboarding/relief-attempts";
 import { isUserNycha } from "../util/nycha";
 import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-steps";
@@ -58,7 +58,6 @@ export const Welcome: React.FC<ProgressStepProps> = (props) => {
         >
           Start my free letter
         </GetStartedButton>
-        <MoratoriumWarning />
         <h2>Why mail a Letter of Complaint?</h2>
         <p>
           Your landlord is responsible for keeping your home and building safe

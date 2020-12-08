@@ -19,6 +19,7 @@ import { BreaksBetweenLines } from "../../ui/breaks-between-lines";
 import { NorentNotSentLetterStep } from "./step-decorators";
 import { li18n } from "../../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
+import { DemoDeploymentNote } from "../../ui/demo-deployment-note";
 
 const getConfirmModalRoute = () =>
   NorentRoutes.locale.letter.landlordAddressConfirmModal;
@@ -53,6 +54,12 @@ const NorentLandlordMailingAddress = NorentNotSentLetterStep((props) => {
       <p>
         <Trans>We'll use this information to send your letter.</Trans>
       </p>
+      <DemoDeploymentNote>
+        <p>
+          This demo site <strong>will not send</strong> a real letter to your
+          landlord at the address provided below.
+        </p>
+      </DemoDeploymentNote>
       <SessionUpdatingFormSubmitter
         mutation={LandlordDetailsV2Mutation}
         initialState={(session) =>
@@ -70,7 +77,9 @@ const NorentLandlordMailingAddress = NorentNotSentLetterStep((props) => {
             <HiddenFormField {...ctx.fieldPropsFor("name")} />
             <TextualFormField
               {...ctx.fieldPropsFor("primaryLine")}
-              label={li18n._(t`Street address`)}
+              label={li18n._(
+                t`Street address (include unit/suite/floor/apt #)`
+              )}
             />
             <TextualFormField
               {...ctx.fieldPropsFor("city")}

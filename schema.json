@@ -2171,6 +2171,18 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
+              "name": "activePartnerReferral",
+              "type": {
+                "kind": "OBJECT",
+                "name": "PartnerOrgType",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
               "name": "onboardingStep1",
               "type": {
                 "kind": "OBJECT",
@@ -2228,9 +2240,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "No longer used by front-end code.",
               "description": "The latest rent period one can create a no rent letter for.",
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "norentLatestRentPeriod",
               "type": {
                 "kind": "OBJECT",
@@ -2245,12 +2257,20 @@
               "isDeprecated": false,
               "name": "norentAvailableRentPeriods",
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "NorentRentPeriod",
-                  "ofType": null
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "NorentRentPeriod",
+                      "ofType": null
+                    }
+                  }
                 }
               }
             },
@@ -2431,6 +2451,18 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "HarassmentDetailsType",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "Manually-specified details about the user's management company. Will only be non-blank if the user provided these details themselves (i.e., did not elect to use our recommended details from open data).",
+              "isDeprecated": false,
+              "name": "managementCompanyDetails",
+              "type": {
+                "kind": "OBJECT",
+                "name": "GraphQLMailingAddress",
                 "ofType": null
               }
             },
@@ -2854,6 +2886,65 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "RhFormInfo",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The name of the partner organization.",
+              "isDeprecated": false,
+              "name": "name",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The short identifier for the partner organization.",
+              "isDeprecated": false,
+              "name": "slug",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The primary website of the partner organization.",
+              "isDeprecated": false,
+              "name": "website",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "PartnerOrgType",
           "possibleTypes": null
         },
         {
@@ -3492,6 +3583,22 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "createdAt",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The tracking number for the letter.",
               "isDeprecated": false,
               "name": "trackingNumber",
@@ -3519,9 +3626,9 @@
             },
             {
               "args": [],
-              "deprecationReason": null,
+              "deprecationReason": "No longer used by front-end code since we started supporting multiple rent periods per letter.",
               "description": "The rent payment date the letter is for.",
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "paymentDate",
               "type": {
                 "kind": "NON_NULL",
@@ -3759,12 +3866,6 @@
           "enumValues": [
             {
               "deprecationReason": null,
-              "description": "Entire home and hallways",
-              "isDeprecated": false,
-              "name": "HOME"
-            },
-            {
-              "deprecationReason": null,
               "description": "Bedrooms",
               "isDeprecated": false,
               "name": "BEDROOMS"
@@ -3789,7 +3890,13 @@
             },
             {
               "deprecationReason": null,
-              "description": "Public areas",
+              "description": "Home-wide",
+              "isDeprecated": false,
+              "name": "HOME"
+            },
+            {
+              "deprecationReason": null,
+              "description": "Building-wide",
               "isDeprecated": false,
               "name": "PUBLIC_AREAS"
             },

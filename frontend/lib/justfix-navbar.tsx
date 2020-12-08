@@ -6,6 +6,7 @@ import JustfixRoutes from "./justfix-routes";
 import { StaticImage } from "./ui/static-image";
 import { li18n } from "./i18n-lingui";
 import { t, Trans } from "@lingui/macro";
+import { NavbarLanguageDropdown } from "./ui/language-toggle";
 
 const JustfixBrand: React.FC<{}> = () => {
   const { onboardingInfo } = useContext(AppContext).session;
@@ -47,6 +48,7 @@ const JustfixMenuItems: React.FC<{}> = () => {
       <Link className="navbar-item" to={JustfixRoutes.locale.help}>
         <Trans>Help</Trans>
       </Link>
+      <NavbarLanguageDropdown />
     </>
   );
 };

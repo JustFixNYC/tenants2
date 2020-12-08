@@ -134,7 +134,7 @@ def fill_landlord_info_from_bbl_or_bin(
     pad_bin: str
 ) -> bool:
     landlord_found = False
-    contact = nycdb.models.get_landlord(pad_bbl, pad_bin)
+    contact = nycdb.models.get_non_head_officer_landlord(pad_bbl, pad_bin)
     if contact:
         landlord_found = True
         fill_landlord_info_from_contact(v, contact)
@@ -158,6 +158,23 @@ def get_user_pad_bin(user: JustfixUser) -> str:
     return get_user_onboarding_str_attr(user, 'pad_bin')
 
 
+def fill_landlord_management_info_from_user_mgmt_co_details(
+    v: hp.HPActionVariables,
+    user: JustfixUser
+):
+    if not hasattr(user, 'management_company_details'):
+        return
+    mcd = user.management_company_details
+    if mcd.name and mcd.is_address_populated():
+        v.management_company_address_city_te = mcd.city
+        v.management_company_address_street_te = mcd.primary_line
+        v.management_company_address_zip_te = mcd.zip_code
+        v.management_company_address_state_mc = twoletter_to_hp_state(mcd.state)
+        v.management_company_name_te = mcd.name
+
+        v.management_company_to_be_sued_tf = True
+
+
 def fill_landlord_info_from_user_landlord_details(
     v: hp.HPActionVariables,
     user: JustfixUser
@@ -171,6 +188,7 @@ def fill_landlord_info_from_user_landlord_details(
             v.landlord_address_city_te = ld.city
             v.landlord_address_zip_te = ld.zip_code
             v.landlord_address_state_mc = twoletter_to_hp_state(ld.state)
+            fill_landlord_management_info_from_user_mgmt_co_details(v, user)
             # TODO: Consider populating the 'individual' vs. 'company' field somehow?
             return True
     return False

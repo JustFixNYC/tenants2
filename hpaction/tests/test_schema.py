@@ -2,13 +2,14 @@ from decimal import Decimal
 from django.test import override_settings
 import pytest
 
-from project.util.testing_util import one_field_err
+from project.util.testing_util import one_field_err, TestWithGraphQL
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from issues.models import Issue, CustomIssue, ISSUE_CHOICES, ISSUE_AREA_CHOICES
 from .factories import (
     UploadTokenFactory, FeeWaiverDetailsFactory, TenantChildFactory,
-    HPActionDocumentsFactory, DocusignEnvelopeFactory)
+    HPActionDocumentsFactory, DocusignEnvelopeFactory,
+    ManagementCompanyDetailsFactory)
 from hpaction.models import (
     get_upload_status_for_user, HPUploadStatus, TenantChild,
     HP_ACTION_CHOICES, DocusignEnvelope)
@@ -472,11 +473,11 @@ class TestRecommendedHpLandlordAndManagementCompany:
         pprint.pprint(res['data'])
         assert res['data'] == {
             'recommendedHpLandlord': {
-                'city': 'FUNKYPLACE',
-                'name': 'LANDLORDO CALRISSIAN',
-                'primaryLine': '9 BEAN CENTER DRIVE #40',
-                'state': 'NJ',
-                'zipCode': '07099'
+                'city': 'BROOKLYN',
+                'name': 'ULTRA DEVELOPERS, LLC',
+                'primaryLine': '3 ULTRA STREET',
+                'state': 'NY',
+                'zipCode': '11999'
             },
             'recommendedHpManagementCompany': {
                 'city': 'NEW YORK',
@@ -485,4 +486,38 @@ class TestRecommendedHpLandlordAndManagementCompany:
                 'state': 'NY',
                 'zipCode': '10099'
             }
+        }
+
+
+class TestManagementCompanyDetails(TestWithGraphQL):
+    QUERY = """
+    query {
+        session {
+            managementCompanyDetails {
+                name,
+                city,
+                primaryLine,
+                state,
+                zipCode
+            }
+        }
+    }
+    """
+
+    def execute(self):
+        result = self.graphql_client.execute(self.QUERY)
+        return result["data"]["session"]["managementCompanyDetails"]
+
+    def test_it_returns_none_when_logged_out(self):
+        assert self.execute() is None
+
+    def test_it_returns_info_when_logged_in(self):
+        mc = ManagementCompanyDetailsFactory()
+        self.graphql_client.request.user = mc.user
+        assert self.execute() == {
+            'city': 'Chicago',
+            'name': 'Parker-Holsman',
+            'primaryLine': '5113 S. Harper Ave #2C',
+            'state': 'IL',
+            'zipCode': '60615',
         }

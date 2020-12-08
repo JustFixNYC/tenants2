@@ -22,7 +22,10 @@ import {
   NorentLetterEmailToLandlordForUserStaticPage,
 } from "./letter-content";
 import Navbar from "../ui/navbar";
-import { createLetterStaticPageRoutes } from "../static-page/routes";
+import {
+  createHtmlEmailStaticPageRoutes,
+  createLetterStaticPageRoutes,
+} from "../static-page/routes";
 import { NorentFaqsPage } from "./faqs";
 import { NorentAboutPage } from "./about";
 import { NorentAboutYourLetterPage } from "./the-letter";
@@ -34,7 +37,7 @@ import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
 import { Trans, t } from "@lingui/macro";
 import { LocalizedNationalMetadataProvider } from "./letter-builder/national-metadata";
 import { createLinguiCatalogLoader, li18n } from "../i18n-lingui";
-import { NavbarLanguageDropdown } from "./components/language-toggle";
+import { NavbarLanguageDropdown } from "../ui/language-toggle";
 
 function getRoutesForPrimaryPages() {
   return new Set(getNorentRoutesForPrimaryPages());
@@ -83,11 +86,10 @@ const NorentRoute: React.FC<RouteComponentProps> = (props) => {
         exact
         component={NorentLetterEmailToLandlordForUserStaticPage}
       />
-      <Route
-        path={Routes.locale.letterEmailToUser}
-        exact
-        component={NorentLetterEmailToUserStaticPage}
-      />
+      {createHtmlEmailStaticPageRoutes(
+        Routes.locale.letterEmailToUser,
+        NorentLetterEmailToUserStaticPage
+      )}
       {createLetterStaticPageRoutes(
         Routes.locale.sampleLetterContent,
         NorentSampleLetterSamplePage

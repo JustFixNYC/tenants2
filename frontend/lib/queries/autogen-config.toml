@@ -14,13 +14,8 @@ ignoreFields = [
 fragmentName = "AllSessionInfo"
 createBlankLiteral = true
 
-# We have yet to use these fields in the front-end; we should remove them
-# from this list once we start using them. This is done to avoid needless
-# schema migrations in case of change.
-ignoreFields = [
-    "norentUpcomingLetterRentPeriods",
-    "norentAvailableRentPeriods"
-]
+# TODO: Remove this once we start using managementCompanyDetails.
+ignoreFields = ["managementCompanyDetails"]
 
 [types.OnboardingInfoType]
 fragmentName = "OnboardingInfo"

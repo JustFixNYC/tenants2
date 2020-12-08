@@ -13,7 +13,20 @@ def one_field_err(message: str, field: str = '__all__'):
     return [{'field': field, 'messages': [message]}]
 
 
-class GraphQLTestingPal:
+class TestWithGraphQL:
+    '''
+    A class that provides a common fixture to make it easier
+    to test GraphQL endpoints.
+    '''
+
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, graphql_client, db):
+        self.graphql_client = graphql_client
+        self.request = graphql_client.request
+        self.user = graphql_client.request.user
+
+
+class GraphQLTestingPal(TestWithGraphQL):
     '''
     A class that makes it easier to test GraphQL endpoints.
 
@@ -29,12 +42,6 @@ class GraphQLTestingPal:
     # This should be set to a dictionary containing the default value
     # of the 'input' variable.
     DEFAULT_INPUT: Dict[str, Any] = {}
-
-    @pytest.fixture(autouse=True)
-    def setup_fixture(self, graphql_client, db):
-        self.graphql_client = graphql_client
-        self.request = graphql_client.request
-        self.user = graphql_client.request.user
 
     def execute(self, input: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         '''

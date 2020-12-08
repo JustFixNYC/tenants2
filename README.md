@@ -401,7 +401,7 @@ yarn django:makemessages
 One `.po` files have been updated, the catalogs can be compiled with:
 
 ```
-python manage.py compilemessages
+yarn django:compilemessages
 ```
 
 [Django translation framework]: https://docs.djangoproject.com/en/3.0/topics/i18n/translation/

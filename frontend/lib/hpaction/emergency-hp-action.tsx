@@ -46,7 +46,7 @@ import {
 import { LegacyFormSubmitter } from "../forms/legacy-form-submitter";
 import { BeginDocusignMutation } from "../queries/BeginDocusignMutation";
 import { performHardOrSoftRedirect } from "../browser-redirect";
-import { MoratoriumWarning, CovidEhpDisclaimer } from "../ui/covid-banners";
+import { CovidEhpDisclaimer } from "../ui/covid-banners";
 import { StaticImage } from "../ui/static-image";
 import { VerifyEmailMiddleProgressStep } from "../pages/verify-email";
 import { customIssuesForArea } from "../issues/issues";
@@ -83,6 +83,7 @@ import {
   ExampleServiceInstructionsEmail,
   ServiceInstructionsEmail,
   ExampleServiceInstructionsEmailForm,
+  ServiceInstructionsWebpage,
 } from "./service-instructions-email";
 import { NycUsersOnly } from "../pages/nyc-users-only";
 
@@ -135,8 +136,6 @@ function EmergencyHPActionSplash(): JSX.Element {
               </div>
             </div>
           </div>
-          <br />
-          <MoratoriumWarning />
         </div>
       </section>
     </Page>
@@ -206,7 +205,6 @@ const EmergencyHPActionWelcome: React.FC<ProgressStepProps> = (props) => {
       >
         Get started
       </GetStartedButton>
-      <MoratoriumWarning />
     </Page>
   );
 };
@@ -660,6 +658,11 @@ const EmergencyHPActionProgressRoutes = buildProgressRoutesComponent(
 
 const EmergencyHPActionRoutes: React.FC<{}> = () => (
   <Switch>
+    <Route
+      component={ServiceInstructionsWebpage}
+      path={JustfixRoutes.locale.ehp.serviceInstructionsWebpage}
+      exact
+    />
     <Route
       component={ExampleServiceInstructionsEmailForm}
       path={JustfixRoutes.locale.ehp.exampleServiceInstructionsEmailForm}

@@ -456,9 +456,9 @@ class TestNorentLandlordNameAndContactTypes:
         res = self.execute({'hasEmailAddress': True})
         assert res['errors'] == []
         assert res['session'] == {
-           'landlordDetails': {'name': 'Bleh', 'email': '', 'primaryLine': ''},
-           'norentScaffolding': {'hasLandlordEmailAddress': True,
-                                 'hasLandlordMailingAddress': False}
+            'landlordDetails': {'name': 'Bleh', 'email': '', 'primaryLine': ''},
+            'norentScaffolding': {'hasLandlordEmailAddress': True,
+                                  'hasLandlordMailingAddress': False}
         }
 
     def test_it_clears_mailing_address_if_needed_but_keeps_email(self):
@@ -466,9 +466,9 @@ class TestNorentLandlordNameAndContactTypes:
         res = self.execute({'hasEmailAddress': True})
         assert res['errors'] == []
         assert res['session'] == {
-           'landlordDetails': {'name': 'Bleh', 'email': 'a@b.com', 'primaryLine': ''},
-           'norentScaffolding': {'hasLandlordEmailAddress': True,
-                                 'hasLandlordMailingAddress': False}
+            'landlordDetails': {'name': 'Bleh', 'email': 'a@b.com', 'primaryLine': ''},
+            'norentScaffolding': {'hasLandlordEmailAddress': True,
+                                  'hasLandlordMailingAddress': False}
         }
 
     def test_it_clears_email_if_needed_but_keeps_mailing_address(self):
@@ -476,9 +476,9 @@ class TestNorentLandlordNameAndContactTypes:
         res = self.execute({'hasMailingAddress': True})
         assert res['errors'] == []
         assert res['session'] == {
-           'landlordDetails': {'name': 'Bleh', 'email': '', 'primaryLine': '123 Cloud City Drive'},
-           'norentScaffolding': {'hasLandlordEmailAddress': False,
-                                 'hasLandlordMailingAddress': True}
+            'landlordDetails': {'name': 'Bleh', 'email': '', 'primaryLine': '123 Cloud City Drive'},
+            'norentScaffolding': {'hasLandlordEmailAddress': False,
+                                  'hasLandlordMailingAddress': True}
         }
 
 
@@ -615,10 +615,9 @@ class TestNorentSendLetter:
         self.user.save()
         self.create_landlord_details()
         OnboardingInfoFactory(user=self.user)
-        assert UpcomingLetterRentPeriod.objects.get_for_user(self.user) == []
         assert self.execute()['errors'] == []
-        assert UpcomingLetterRentPeriod.objects.get_for_user(self.user) == ['2020-05-01']
 
+        assert UpcomingLetterRentPeriod.objects.get_for_user(self.user) == []
         letter = Letter.objects.get(user=self.graphql_client.request.user)
         assert len(letter.rent_periods.all()) == 1
         assert str(letter.latest_rent_period.payment_date) == '2020-05-01'
@@ -643,7 +642,7 @@ class TestNorentSendLetter:
         assert user_mail.to == ['boop@jones.net']
         assert "https://example.com/es/faqs" in user_mail.body
         assert "Hola Boop" in user_mail.body
-        assert "Aquí tienes una copia" in user_mail.subject
+        assert "Tu carta de NoRent y pasos siguientes importantes" in user_mail.subject
 
         assert len(smsoutbox) == 1
         assert "Boop Jones" in smsoutbox[0].body
@@ -718,6 +717,7 @@ class TestNorentSendLetterV2:
         OnboardingInfoFactory(user=self.user)
         assert self.execute()['errors'] == []
 
+        assert UpcomingLetterRentPeriod.objects.get_for_user(self.user) == []
         letter = Letter.objects.get(user=self.graphql_client.request.user)
         assert len(letter.rent_periods.all()) == 1
         assert str(letter.latest_rent_period.payment_date) == '2020-05-01'
@@ -742,7 +742,7 @@ class TestNorentSendLetterV2:
         assert user_mail.to == ['boop@jones.net']
         assert "https://example.com/es/faqs" in user_mail.body
         assert "Hola Boop" in user_mail.body
-        assert "Aquí tienes una copia" in user_mail.subject
+        assert "Tu carta de NoRent y pasos siguientes importantes" in user_mail.subject
 
         assert len(smsoutbox) == 1
         assert "Boop Jones" in smsoutbox[0].body

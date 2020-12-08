@@ -1,5 +1,6 @@
 import logging
 import datetime
+import re
 from typing import Optional, NamedTuple, List, Union, TypeVar, Generic, Callable, Any
 from django.db.utils import DatabaseError
 from dataclasses import dataclass
@@ -9,6 +10,28 @@ from django.db import models
 from project.util.nyc import BBL, to_pad_bbl
 
 logger = logging.getLogger(__name__)
+
+
+def normalize_apartment(value: str) -> str:
+    '''
+    Normalize the given apartment # field. Uses valid C2
+    secondary unit designators as specified by USPS:
+
+        https://pe.usps.com/text/pub28/28apc_003.htm
+    '''
+
+    value = value.strip()
+    if not value:
+        return value
+    if match := re.match(r"^(\d+)FLOOR?$", value, re.IGNORECASE):
+        return f"FLOOR {match[1]}"
+    if re.match(r"^(BSMT|BSMNT|BASEME)$", value, re.IGNORECASE):
+        return "BSMT"
+    if match := re.match(r"^APT(.+)$", value, re.IGNORECASE):
+        return f"APT {match[1]}"
+    if match := re.match(r"^STE(.+)$", value, re.IGNORECASE):
+        return f"STE {match[1]}"
+    return f"#{value}"
 
 
 class Address(NamedTuple):
@@ -29,8 +52,9 @@ class Address(NamedTuple):
     @property
     def first_line(self) -> str:
         first_line = f"{self.house_number} {self.street_name}"
-        if self.apartment:
-            first_line += f" #{self.apartment}"
+        apartment = normalize_apartment(self.apartment)
+        if apartment:
+            first_line += f" {apartment}"
         return first_line
 
 
@@ -111,12 +135,19 @@ class HPDRegistration(models.Model):
             logger.warn(
                 f"Found {len(items)} {items_plural} but expected one for {str(self)}.")
 
-    def _get_company_landlord(self) -> Optional[Company]:
+    def _get_company_landlord(self, prefer_head_officer: bool) -> Optional[Company]:
         owners = [
-            c.corporationname for c in self.contact_list
+            (c.corporationname, c.address) for c in self.contact_list
             if c.type == HPDContact.CORPORATE_OWNER and c.corporationname
         ]
         if owners:
+            company_name, company_address = owners[0]
+            if not prefer_head_officer and company_address:
+                self._warn_if_multiple(owners, "corporate owners")
+                return Company(
+                    name=company_name,
+                    address=company_address,
+                )
             head_officer_addresses = [
                 (c.firstname, c.lastname, c.address) for c in self.contact_list
                 if c.type == HPDContact.HEAD_OFFICER and c.address
@@ -145,8 +176,8 @@ class HPDRegistration(models.Model):
             )
         return None
 
-    def get_landlord(self) -> Optional[Contact]:
-        return self._get_company_landlord() or self._get_indiv_landlord()
+    def get_landlord(self, prefer_head_officer: bool = True) -> Optional[Contact]:
+        return self._get_company_landlord(prefer_head_officer) or self._get_indiv_landlord()
 
     def get_management_company(self) -> Optional[Company]:
         agents = [
@@ -268,6 +299,10 @@ class NycdbGetter(Generic[T]):
             logger.exception(f'Error while retrieving data from NYCDB')
             return None
 
+
+get_non_head_officer_landlord = NycdbGetter[Contact](lambda reg: reg.get_landlord(
+    prefer_head_officer=False
+))
 
 get_landlord = NycdbGetter[Contact](lambda reg: reg.get_landlord())
 

@@ -85,6 +85,19 @@ class HPActionDocumentsForBothFactory(HPActionDocumentsFactory):
     pdf_data = construct_fake_pdf(NUM_BOTH_PAGES)
 
 
+class ManagementCompanyDetailsFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.ManagementCompanyDetails
+
+    user = factory.SubFactory(UserFactory)
+
+    name = "Parker-Holsman"
+    primary_line = "5113 S. Harper Ave #2C"
+    city = "Chicago"
+    state = "IL"
+    zip_code = "60615"
+
+
 class UploadTokenFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.UploadToken

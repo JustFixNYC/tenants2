@@ -1,6 +1,9 @@
 import { createRoutesForSite, ROUTE_PREFIX } from "../util/route-util";
 import { createDevRouteInfo } from "../dev/routes";
-import { createLetterStaticPageRouteInfo } from "../static-page/routes";
+import {
+  createHtmlEmailStaticPageRouteInfo,
+  createLetterStaticPageRouteInfo,
+} from "../static-page/routes";
 import { createNorentLetterBuilderRouteInfo } from "./letter-builder/routes";
 
 /**
@@ -35,7 +38,9 @@ function createLocalizedRouteInfo(prefix: string) {
     letterEmail: `${prefix}/letter-email.txt`,
 
     /** The email to the user w/ a copy of the letter. */
-    letterEmailToUser: `${prefix}/letter-email-to-user.txt`,
+    letterEmailToUser: createHtmlEmailStaticPageRouteInfo(
+      `${prefix}/letter-email-to-user`
+    ),
 
     /** The sample letter content (HTML and PDF versions). */
     sampleLetterContent: createLetterStaticPageRouteInfo(

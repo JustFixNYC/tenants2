@@ -10,6 +10,11 @@ fragment AllSessionInfo on SessionInfo {
     addressVerified,
     zipcode
   },
+  activePartnerReferral {
+    name,
+    slug,
+    website
+  },
   onboardingStep1 {
     address,
     borough,
@@ -23,15 +28,16 @@ fragment AllSessionInfo on SessionInfo {
   },
   onboardingInfo { ...OnboardingInfo },
   norentScaffolding { ...NorentScaffolding },
-  norentLatestRentPeriod {
+  norentAvailableRentPeriods {
     paymentDate
   },
   norentLatestLetter {
+    createdAt,
     trackingNumber,
-    letterSentAt,
-    paymentDate
+    letterSentAt
   },
   norentLettersSent,
+  norentUpcomingLetterRentPeriods,
   accessDates,
   landlordDetails { ...LandlordDetailsType },
   letterRequest {

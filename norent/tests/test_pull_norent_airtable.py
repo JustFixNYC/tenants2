@@ -42,7 +42,7 @@ class TestConvertRowsToStateDict:
                 'textOfLegislation1': 'blah',
                 'textOfLegislation2': '\nmeh',
                 'To be used': True
-             }}],
+            }}],
             {'WV': {'textOfLegislation': ['blah', 'meh']}}
         ),
         (

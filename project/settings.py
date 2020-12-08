@@ -93,6 +93,8 @@ DEFAULT_FROM_EMAIL = env.DEFAULT_FROM_EMAIL
 
 COURT_DOCUMENTS_EMAIL = env.COURT_DOCUMENTS_EMAIL
 
+LOC_EMAIL = env.LOC_EMAIL
+
 DHCR_EMAIL_SENDER_ADDRESS = env.DHCR_EMAIL_SENDER_ADDRESS
 DHCR_EMAIL_RECIPIENT_ADDRESSES = env.DHCR_EMAIL_RECIPIENT_ADDRESSES.split(",")
 
@@ -139,6 +141,7 @@ INSTALLED_APPS = [
     'docusign.apps.DocusignConfig',
     'norent.apps.NorentConfig',
     'mailchimp.apps.MailchimpConfig',
+    'partnerships.apps.PartnershipsConfig',
 ]
 
 MIDDLEWARE = [

@@ -39,8 +39,11 @@ class RentPeriod(models.Model):
 
 
 class UpcomingLetterRentPeriodManager(models.Manager):
-    def set_rent_periods_for_user(self, user: JustfixUser, rps: List[RentPeriod]):
+    def clear_for_user(self, user: JustfixUser):
         self.filter(user=user).delete()
+
+    def set_rent_periods_for_user(self, user: JustfixUser, rps: List[RentPeriod]):
+        self.clear_for_user(user)
         self.bulk_create([
             UpcomingLetterRentPeriod(
                 user=user,

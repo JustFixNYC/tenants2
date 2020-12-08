@@ -129,12 +129,60 @@ export class SessionBuilder {
   }
 
   withLoggedInNationalUser(): SessionBuilder {
+    return this.withLoggedInLosAngelesUser();
+  }
+
+  withLoggedInLosAngelesUser(): SessionBuilder {
     return this.withLoggedInUser().withOnboardingInfo({
       address: "152 W. 32nd St",
       city: "Los Angeles",
       state: "CA",
       zipcode: "90007",
+      canReceiveRttcComms: true,
       agreedToNorentTerms: true,
+      canReceiveSajeComms: true,
+      isInLosAngeles: true,
+    });
+  }
+
+  withLoggedInSanFranciscoUser(): SessionBuilder {
+    return this.withLoggedInUser().withOnboardingInfo({
+      address: "1 Dr Carlton B Goodlett Pl",
+      city: "San Francisco",
+      state: "CA",
+      zipcode: "94102",
+      canReceiveRttcComms: true,
+      agreedToNorentTerms: true,
+      isInLosAngeles: false,
+    });
+  }
+
+  withLoggedInNewJerseyUser(): SessionBuilder {
+    return this.withLoggedInUser().withOnboardingInfo({
+      address: "319 E State St",
+      city: "Trenton",
+      state: "NJ",
+      zipcode: "08608",
+      canReceiveRttcComms: true,
+      agreedToNorentTerms: true,
+    });
+  }
+
+  withMailedNorentLetter(): SessionBuilder {
+    return this.with({
+      norentLatestLetter: {
+        trackingNumber: "1234",
+        letterSentAt: "2020-03-13T19:41:09+00:00",
+        createdAt: "2020-03-13T19:41:09+00:00",
+      },
+    });
+  }
+
+  withAvailableNoRentPeriods(
+    dates: GraphQLDate[] = ["2020-05-01"]
+  ): SessionBuilder {
+    return this.with({
+      norentAvailableRentPeriods: dates.map((paymentDate) => ({ paymentDate })),
     });
   }
 

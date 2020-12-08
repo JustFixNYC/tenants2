@@ -1,5 +1,6 @@
 {% extends "admin/base_site.html" %}
 {% block content %}
+{% if datasets %}
 <ul>
     {% for dataset in datasets %}
     <li>
@@ -14,8 +15,9 @@
     Please be careful when downloading data that contains personally-identifiable
     information (PII).  We don't want that information falling into the wrong hands!
 </p>
+{% else %}
 <p>
-    You can view visualizations that explore these datasets at the
-    <a href="{% url 'admin:dashboard' %}">dashboard</a>.
+    You don't seem to have permission to download any datasets. Sorry!
 </p>
+{% endif %}
 {% endblock %}

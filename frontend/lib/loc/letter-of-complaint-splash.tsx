@@ -7,7 +7,6 @@ import { BigList } from "../ui/big-list";
 import { OutboundLink } from "../analytics/google-analytics";
 import { GetStartedButton } from "../ui/get-started-button";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
-import { MoratoriumWarning } from "../ui/covid-banners";
 
 export function LocSplash(): JSX.Element {
   return (
@@ -23,7 +22,7 @@ export function LocSplash(): JSX.Element {
               />
             </div>
             <h1 className="title is-spaced">
-              Is your landlord not responding? Take action today!
+              Need Repairs in Your Apartment? Take action today!
             </h1>
             <p className="subtitle">
               This is a free tool that notifies your landlord of repair issues
@@ -44,10 +43,6 @@ export function LocSplash(): JSX.Element {
               Already have an account?{" "}
               <Link to={JustfixRoutes.locale.login}>Sign in</Link>
             </p>
-            <br />
-            <div className="jf-secondary-cta">
-              <MoratoriumWarning />
-            </div>
           </div>
         </div>
       </section>
@@ -69,7 +64,7 @@ export function LocSplash(): JSX.Element {
           <BigList itemClassName="title is-5">
             <li>
               Customize our lawyer-approved letter template to choose the
-              repairs you need in your home.
+              repairs you need in your home and/or building.
             </li>
             <li>
               We mail your letter via USPS Certified Mail

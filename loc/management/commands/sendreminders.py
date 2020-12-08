@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from texting import models
+from loc.sms_reminders import LocReminder
 
 
 class Command(BaseCommand):
@@ -11,9 +11,7 @@ class Command(BaseCommand):
                             action='store_true')
 
     def handle(self, *args, **options) -> None:
+        dry_run: bool = options['dry_run']
         print("Sending reminders to users who haven't yet finished their letter of complaint.")
-        for user in models.get_users_to_remind_about_loc():
-            print(f'Sending a reminder to {user.username}.')
-            if not options['dry_run']:
-                models.remind_user_about_loc(user)
+        LocReminder(dry_run=dry_run).remind_users()
         print("Done.")

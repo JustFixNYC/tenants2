@@ -94,8 +94,9 @@ def test_rh_form_grabs_rent_stab_info(db, graphql_client, monkeypatch, mock_geoc
     }
 
 
-def test_rent_stab_info_is_blank_when_no_rs_data_found(db, graphql_client, monkeypatch,
-                                                       mock_geocoding_and_nycdb):
+def test_rent_stab_info_is_blank_when_no_rs_data_found(
+    db, graphql_client, monkeypatch, mock_geocoding_and_nycdb
+):
     monkeypatch.setattr(
         schema,
         "run_rent_stab_sql_query",

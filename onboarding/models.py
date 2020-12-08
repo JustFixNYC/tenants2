@@ -9,26 +9,27 @@ from project.util.instance_change_tracker import InstanceChangeTracker
 from project.util.hyperlink import Hyperlink
 from project.util.admin_util import admin_field
 from project.util.address_form_fields import (
-    ADDRESS_FIELD_KWARGS, BOROUGH_FIELD_KWARGS, BOROUGH_CHOICES)
-from project.util.mailing_address import (
-    CITY_KWARGS, STATE_KWARGS, ZipCodeValidator)
+    ADDRESS_FIELD_KWARGS,
+    BOROUGH_FIELD_KWARGS,
+    BOROUGH_CHOICES,
+)
+from project.util.mailing_address import CITY_KWARGS, STATE_KWARGS, ZipCodeValidator
 from users.models import JustfixUser
 
 
-LEASE_CHOICES = Choices.from_file('lease-choices.json', name="LeaseType")
+LEASE_CHOICES = Choices.from_file("lease-choices.json", name="LeaseType")
 
-SIGNUP_INTENT_CHOICES = Choices.from_file('signup-intent-choices.json')
+SIGNUP_INTENT_CHOICES = Choices.from_file("signup-intent-choices.json")
 
 APT_NUMBER_KWARGS = dict(max_length=10)
 
 NYCADDR_META_HELP = (
-    "This field is automatically updated for NYC users when you change the "
-    "address or borough."
+    "This field is automatically updated for NYC users when you change the " "address or borough."
 )
 
 
 class AddressWithoutBoroughDiagnostic(models.Model):
-    '''
+    """
     Information about submitted onboarding forms that contained
     address information without borough information. For more
     details on the rationale behind this, see:
@@ -39,7 +40,7 @@ class AddressWithoutBoroughDiagnostic(models.Model):
     or Rollbar because those services make it very hard
     or impossible to delete sensitive data, and a user's
     address can be PII.
-    '''
+    """
 
     address = models.CharField(**ADDRESS_FIELD_KWARGS)
 
@@ -47,46 +48,46 @@ class AddressWithoutBoroughDiagnostic(models.Model):
 
 
 class OnboardingInfo(models.Model):
-    '''
+    """
     The details a user filled out when they joined the site.
 
     Note that this model was originally NYC-specific, but was
     subsequently changed to support non-NYC users. As such, it
     has a few wrinkles.
-    '''
+    """
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # This keeps track of the fields that comprise our address.
-        self.__nycaddr = InstanceChangeTracker(self, ['address', 'borough'])
+        self.__nycaddr = InstanceChangeTracker(self, ["address", "borough"])
 
         # This keeps track of fields that comprise metadata about our address,
         # which can be determined from the fields comprising our address.
-        self.__nycaddr_meta = InstanceChangeTracker(self, ['zipcode', 'pad_bbl', 'pad_bin'])
+        self.__nycaddr_meta = InstanceChangeTracker(self, ["zipcode", "pad_bbl", "pad_bin"])
 
     created_at = models.DateTimeField(auto_now_add=True)
 
     updated_at = models.DateTimeField(auto_now=True)
 
     user = models.OneToOneField(
-        JustfixUser, on_delete=models.CASCADE, related_name='onboarding_info')
+        JustfixUser, on_delete=models.CASCADE, related_name="onboarding_info"
+    )
 
     signup_intent = models.CharField(
         max_length=30,
         choices=SIGNUP_INTENT_CHOICES.choices,
-        help_text="The reason the user originally signed up with us."
+        help_text="The reason the user originally signed up with us.",
     )
 
     address = models.CharField(
         **ADDRESS_FIELD_KWARGS,
-        help_text="The user's address. Only street name and number are required."
+        help_text="The user's address. Only street name and number are required.",
     )
 
     address_verified = models.BooleanField(
         help_text=(
-            "Whether we've verified, on the server-side, that the user's "
-            "address is valid."
+            "Whether we've verified, on the server-side, that the user's " "address is valid."
         )
     )
 
@@ -94,23 +95,18 @@ class OnboardingInfo(models.Model):
         **BOROUGH_FIELD_KWARGS,
         blank=True,
         help_text=(
-            "The New York City borough the user's address is in, if they "
-            "live inside NYC."
-        )
+            "The New York City borough the user's address is in, if they " "live inside NYC."
+        ),
     )
 
     non_nyc_city = models.CharField(
         **CITY_KWARGS,
         blank=True,
-        help_text=(
-            "The non-NYC city the user's address is in, if they live outside "
-            "of NYC."
-        )
+        help_text=("The non-NYC city the user's address is in, if they live outside " "of NYC."),
     )
 
     state = models.CharField(
-        **STATE_KWARGS,
-        help_text='The two-letter state or territory of the user, e.g. "NY".'
+        **STATE_KWARGS, help_text='The two-letter state or territory of the user, e.g. "NY".'
     )
 
     zipcode = models.CharField(
@@ -118,68 +114,70 @@ class OnboardingInfo(models.Model):
         max_length=12,
         blank=True,
         validators=[ZipCodeValidator()],
-        help_text=f"The user's ZIP code. {NYCADDR_META_HELP}"
+        help_text=f"The user's ZIP code. {NYCADDR_META_HELP}",
     )
 
     pad_bbl: str = models.CharField(
         max_length=PAD_BBL_DIGITS,
         blank=True,
-        help_text=f"The user's Boro, Block, and Lot number. {NYCADDR_META_HELP}"
+        help_text=f"The user's Boro, Block, and Lot number. {NYCADDR_META_HELP}",
     )
 
     pad_bin: str = models.CharField(
         max_length=PAD_BIN_DIGITS,
         blank=True,
-        help_text=f"The user's building identification number (BIN). {NYCADDR_META_HELP}"
+        help_text=f"The user's building identification number (BIN). {NYCADDR_META_HELP}",
     )
 
     apt_number = models.CharField(**APT_NUMBER_KWARGS, blank=True)
 
     floor_number = models.PositiveSmallIntegerField(
-        null=True,
-        blank=True,
-        help_text="The floor number the user's apartment is on."
+        null=True, blank=True, help_text="The floor number the user's apartment is on."
     )
 
-    is_in_eviction = models.NullBooleanField(
-        help_text="Has the user received an eviction notice?")
+    is_in_eviction = models.NullBooleanField(help_text="Has the user received an eviction notice?")
 
     needs_repairs = models.NullBooleanField(
-        help_text="Does the user need repairs in their apartment?")
+        help_text="Does the user need repairs in their apartment?"
+    )
 
     has_no_services = models.NullBooleanField(
-        help_text="Is the user missing essential services like water?")
+        help_text="Is the user missing essential services like water?"
+    )
 
     has_pests = models.NullBooleanField(
-        help_text="Does the user have pests like rodents or bed bugs?")
+        help_text="Does the user have pests like rodents or bed bugs?"
+    )
 
-    has_called_311 = models.NullBooleanField(
-        help_text="Has the user called 311 before?")
+    has_called_311 = models.NullBooleanField(help_text="Has the user called 311 before?")
 
     lease_type = models.CharField(
-        max_length=30, choices=LEASE_CHOICES.choices, blank=True,
-        help_text="The type of lease the user has on their dwelling (NYC only).")
+        max_length=30,
+        choices=LEASE_CHOICES.choices,
+        blank=True,
+        help_text="The type of lease the user has on their dwelling (NYC only).",
+    )
 
     receives_public_assistance = models.NullBooleanField(
-        help_text="Does the user receive public assistance, e.g. Section 8?")
+        help_text="Does the user receive public assistance, e.g. Section 8?"
+    )
 
     can_we_sms = models.BooleanField(
-        help_text="Whether we can contact the user via SMS to follow up.")
+        help_text="Whether we can contact the user via SMS to follow up."
+    )
 
     agreed_to_justfix_terms = models.BooleanField(
         default=False,
         help_text=(
-            "Whether the user has agreed to the JustFix.nyc terms "
-            "of service and privacy policy."
-        )
+            "Whether the user has agreed to the JustFix.nyc terms " "of service and privacy policy."
+        ),
     )
 
     agreed_to_norent_terms = models.BooleanField(
         default=False,
         help_text=(
-            "Whether the user has agreed to the NoRent.org terms "
-            "of service and privacy policy."
-        )
+            "Whether the user has agreed to the NoRent.org terms " "of service and privacy policy."
+        ),
     )
 
     can_receive_rttc_comms = models.NullBooleanField(
@@ -199,41 +197,41 @@ class OnboardingInfo(models.Model):
     @property
     def borough_label(self) -> str:
         if not self.borough:
-            return ''
+            return ""
         return BOROUGH_CHOICES.get_label(self.borough)
 
     @property
     def city(self) -> str:
-        '''
+        """
         The city of the user. For NYC-based users, this will be the same as
         the borough name, except we use "New York" instead of "Manhattan".
-        '''
+        """
 
         if not self.borough:
             return self.non_nyc_city
         if self.borough == BOROUGH_CHOICES.MANHATTAN:
-            return 'New York'
+            return "New York"
         return self.borough_label
 
     @property
     def full_nyc_address(self) -> str:
-        '''Return the full address for purposes of geolocation, etc.'''
+        """Return the full address for purposes of geolocation, etc."""
 
         if not (self.borough and self.address):
-            return ''
+            return ""
         return f"{self.address}, {self.borough_label}"
 
     @property
     def apartment_address_line(self) -> str:
-        '''The address line that specifies the user's apartment number.'''
+        """The address line that specifies the user's apartment number."""
 
         if self.apt_number:
             return f"Apartment {self.apt_number}"
-        return ''
+        return ""
 
     @property
     def address_lines_for_mailing(self) -> List[str]:
-        '''Return the full mailing address as a list of lines.'''
+        """Return the full mailing address as a list of lines."""
 
         result: List[str] = []
         if self.address:
@@ -247,24 +245,22 @@ class OnboardingInfo(models.Model):
 
     @property
     def address_for_mailing(self) -> str:
-        '''Return the full mailing address as a string.'''
+        """Return the full mailing address as a string."""
 
-        return '\n'.join(self.address_lines_for_mailing)
+        return "\n".join(self.address_lines_for_mailing)
 
     def as_lob_params(self) -> Dict[str, str]:
-        '''
+        """
         Returns a dictionary representing the address that can be passed directly
         to Lob's verifications API: https://lob.com/docs#us_verifications_create
-        '''
+        """
 
         return dict(
             primary_line=self.address,
-
             # TODO: Technically this is the wrong way to use the secondary
             # line, according to the USPS. We should instead be putting the
             # apartment number in the primary line.
             secondary_line=self.apartment_address_line,
-
             state=self.state,
             city=self.city,
             zip_code=self.zipcode,
@@ -307,9 +303,9 @@ class OnboardingInfo(models.Model):
             # If the address has changed, we really don't want the existing
             # metadata to be there, because it will represent information
             # about their old address.
-            self.zipcode = ''
-            self.pad_bbl = ''
-            self.pad_bin = ''
+            self.zipcode = ""
+            self.pad_bbl = ""
+            self.pad_bin = ""
         self.__nycaddr.set_to_unchanged()
         self.__nycaddr_meta.set_to_unchanged()
 
@@ -321,9 +317,7 @@ class OnboardingInfo(models.Model):
 
     def clean(self):
         if self.borough and self.non_nyc_city:
-            raise ValidationError(
-                'One cannot be in an NYC borough and outside NYC simultaneously.'
-            )
+            raise ValidationError("One cannot be in an NYC borough and outside NYC simultaneously.")
 
     def save(self, *args, **kwargs):
         self.maybe_lookup_new_addr_metadata()
@@ -333,16 +327,21 @@ class OnboardingInfo(models.Model):
     def building_links(self) -> List[Hyperlink]:
         links: List[Hyperlink] = []
         if self.pad_bbl:
-            links.append(Hyperlink(
-                name="Who Owns What",
-                url=f"https://whoownswhat.justfix.nyc/bbl/{self.pad_bbl}"
-            ))
+            links.append(
+                Hyperlink(
+                    name="Who Owns What", url=f"https://whoownswhat.justfix.nyc/bbl/{self.pad_bbl}"
+                )
+            )
         if self.pad_bin:
-            links.append(Hyperlink(
-                name="NYC DOB BIS",
-                url=(f"http://a810-bisweb.nyc.gov/bisweb/PropertyProfileOverviewServlet?"
-                     f"bin={self.pad_bin}&go4=+GO+&requestid=0")
-            ))
+            links.append(
+                Hyperlink(
+                    name="NYC DOB BIS",
+                    url=(
+                        f"http://a810-bisweb.nyc.gov/bisweb/PropertyProfileOverviewServlet?"
+                        f"bin={self.pad_bin}&go4=+GO+&requestid=0"
+                    ),
+                )
+            )
         return links
 
     @admin_field(short_description="Building links", allow_tags=True)

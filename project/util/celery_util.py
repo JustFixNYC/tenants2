@@ -7,7 +7,7 @@ from django.utils.module_loading import autodiscover_modules
 from .. import justfix_environment
 
 
-T = TypeVar('T', bound=Callable)
+T = TypeVar("T", bound=Callable)
 
 
 def get_task_for_function(fun: Callable) -> Any:
@@ -23,12 +23,12 @@ def get_task_for_function(fun: Callable) -> Any:
         # You'd think Celery would have already autodiscovered these,
         # but apparently it only does that when running workers or
         # something. Whatever.
-        autodiscover_modules('tasks')
+        autodiscover_modules("tasks")
     return app.tasks[task_name]
 
 
 def fire_and_forget_task(fun: T) -> T:
-    '''
+    """
     Returns a function whose signature matches the
     arguments of the given function, but always returns
     None. (Ideally we would modify the type signature to
@@ -43,7 +43,7 @@ def fire_and_forget_task(fun: T) -> T:
 
     Note that if Celery has been configured with
     `TASK_ALWAYS_EAGER`, the task will run synchronously.
-    '''
+    """
 
     @wraps(fun)
     def wrapper(*args, **kwargs):
@@ -56,14 +56,14 @@ def fire_and_forget_task(fun: T) -> T:
 
 
 def threaded_fire_and_forget_task(fun: T) -> T:
-    '''
+    """
     Like fire_and_forget_task(), but if Celery support is disabled, the
     function is run asynchronously in a separate thread.
 
     Note that ideally, in production, Celery support should actually
     be enabled, as spawning a worker thread in a process that serves
     web requests isn't recommended.
-    '''
+    """
 
     celery_wrapper = fire_and_forget_task(fun)
 

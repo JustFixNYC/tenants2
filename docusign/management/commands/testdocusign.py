@@ -4,7 +4,7 @@ from docusign import core
 
 
 class Command(BaseCommand):
-    help = 'Test that DocuSign integration works.'
+    help = "Test that DocuSign integration works."
 
     def handle(self, *args, **options) -> None:
         self.stdout.write("Ensuring DocuSign configuration is valid...\n")

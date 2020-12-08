@@ -7,23 +7,23 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = JustfixUser
 
-    username = 'boop'
+    username = "boop"
 
-    phone_number = '5551234567'
+    phone_number = "5551234567"
 
-    password = 'test123'
+    password = "test123"
 
-    first_name = 'Boop'
+    first_name = "Boop"
 
-    last_name = 'Jones'
+    last_name = "Jones"
 
     @classmethod
     def _convert_full_name(cls, kwargs):
-        if 'full_name' in kwargs:
-            first, last = kwargs['full_name'].split(' ')
-            kwargs['first_name'] = first
-            kwargs['last_name'] = last
-            del kwargs['full_name']
+        if "full_name" in kwargs:
+            first, last = kwargs["full_name"].split(" ")
+            kwargs["first_name"] = first
+            kwargs["last_name"] = last
+            del kwargs["full_name"]
         return kwargs
 
     @classmethod
@@ -38,16 +38,16 @@ class UserFactory(factory.django.DjangoModelFactory):
 
 
 class SecondUserFactory(UserFactory):
-    '''
+    """
     Convenience factory for creating a second user in addition
     to the defaults provided by UserFactory, without having
     to worry about uniqueness constraints being violated.
-    '''
+    """
 
-    username = 'bobby'
+    username = "bobby"
 
-    phone_number = '5551239000'
+    phone_number = "5551239000"
 
-    first_name = 'Bobby'
+    first_name = "Bobby"
 
-    last_name = 'Denver'
+    last_name = "Denver"

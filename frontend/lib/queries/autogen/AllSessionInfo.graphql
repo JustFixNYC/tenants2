@@ -10,6 +10,10 @@ fragment AllSessionInfo on SessionInfo {
     addressVerified,
     zipcode
   },
+  rentStabInfo {
+    latestYear,
+    latestUnitCount
+  },
   activePartnerReferral {
     name,
     slug,
@@ -55,6 +59,13 @@ fragment AllSessionInfo on SessionInfo {
   feeWaiver { ...FeeWaiverDetails },
   hpActionDetails { ...HPActionDetails },
   harassmentDetails { ...HarassmentDetails },
+  managementCompanyDetails {
+    name,
+    primaryLine,
+    city,
+    state,
+    zipCode
+  },
   latestHpActionPdfUrl,
   hpActionUploadStatus,
   latestEmergencyHpActionPdfUrl,

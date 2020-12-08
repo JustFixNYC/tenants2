@@ -25,12 +25,12 @@ class LocReminder(SmsReminder):
         )
 
     def get_sms_text(self, user):
-        url = absolutify_url('/')
+        url = absolutify_url("/")
         return (
-            f'Hey {user.first_name}! '
-            f'Don\'t forget that you can use {get_site_name()} to address '
-            f'repair issues in your apartment. '
-            f'Follow this link to continue: {url}'
+            f"Hey {user.first_name}! "
+            f"Don't forget that you can use {get_site_name()} to address "
+            f"repair issues in your apartment. "
+            f"Follow this link to continue: {url}"
         )
 
 

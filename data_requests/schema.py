@@ -21,27 +21,26 @@ class DataRequestResult(graphene.ObjectType):
 
 
 def get_csv_snippet(rows: Iterator[List[Any]]) -> str:
-    return ''.join(list(generate_streaming_csv(itertools.islice(rows, 0, SNIPPET_MAX_ROWS + 1))))
+    return "".join(list(generate_streaming_csv(itertools.islice(rows, 0, SNIPPET_MAX_ROWS + 1))))
 
 
 def resolve_multi_landlord(root, info, landlords: str) -> Optional[DataRequestResult]:
     snippet = get_csv_snippet(db_queries.get_csv_rows_for_multi_landlord_query(landlords))
-    snippet_rows = list(filter(None, list(csv.reader(snippet.split('\n')))))
+    snippet_rows = list(filter(None, list(csv.reader(snippet.split("\n")))))
     if len(snippet_rows) <= 1:
         # It's either completely empty or just a header row.
         return None
     return DataRequestResult(
-        csv_url=(reverse('data_requests:multi-landlord-csv') +
-                 f'?q={urllib.parse.quote(landlords)}'),
+        csv_url=(
+            reverse("data_requests:multi-landlord-csv") + f"?q={urllib.parse.quote(landlords)}"
+        ),
         snippet_rows=json.dumps(snippet_rows),
-        snippet_max_rows=SNIPPET_MAX_ROWS
+        snippet_max_rows=SNIPPET_MAX_ROWS,
     )
 
 
 @schema_registry.register_queries
 class DataRequestQuery:
     data_request_multi_landlord = graphene.Field(
-        DataRequestResult,
-        landlords=graphene.String(),
-        resolver=resolve_multi_landlord
+        DataRequestResult, landlords=graphene.String(), resolver=resolve_multi_landlord
     )

@@ -25,35 +25,37 @@ import frontend.views
 from users.views import verify_email
 import twofactor.views
 
-dev_patterns = ([
-    path('examples/server-error/<slug:id>', example_server_error),
-    re_path(r'^.*$', frontend.views.react_rendered_view),
-], 'dev')
+dev_patterns = (
+    [
+        path("examples/server-error/<slug:id>", example_server_error),
+        re_path(r"^.*$", frontend.views.react_rendered_view),
+    ],
+    "dev",
+)
 
 urlpatterns = [
-    path('verify', embeddable_in_frontapp(twofactor.views.verify), name='verify'),
-    path('verify-email', verify_email, name='verify_email'),
-    path('health', health, name='health'),
-    path('admin/', admin.site.urls),
-    path('safe-mode/', include('frontend.safe_mode')),
-    path('favicon.ico', redirect_favicon),
-    path('dev/', include(dev_patterns, namespace='dev')),
-    path('docusign/', include('docusign.urls')),
-    path('data-requests/', include('data_requests.urls')),
-    path('mailchimp/', include('mailchimp.urls')),
-    path('p/', include('partnerships.urls')),
+    path("verify", embeddable_in_frontapp(twofactor.views.verify), name="verify"),
+    path("verify-email", verify_email, name="verify_email"),
+    path("health", health, name="health"),
+    path("admin/", admin.site.urls),
+    path("safe-mode/", include("frontend.safe_mode")),
+    path("favicon.ico", redirect_favicon),
+    path("dev/", include(dev_patterns, namespace="dev")),
+    path("docusign/", include("docusign.urls")),
+    path("data-requests/", include("data_requests.urls")),
+    path("mailchimp/", include("mailchimp.urls")),
+    path("p/", include("partnerships.urls")),
 ]
 
 if settings.DEBUG:
     # Graphene throws an assertion error if we attempt to enable *both* graphiql
     # *and* batch mode on the same endpoint, so we'll use a separate one for
     # graphiql.
-    urlpatterns.append(
-        path('graphiql', GraphQLView.as_view(graphiql=True)))
+    urlpatterns.append(path("graphiql", GraphQLView.as_view(graphiql=True)))
 
 urlpatterns += i18n_patterns(
-    path('loc/', include('loc.urls')),
-    path('hp/', include('hpaction.urls')),
-    path('graphql', GraphQLView.as_view(batch=True), name='batch-graphql'),
-    re_path(r'.*$', frontend.views.react_rendered_view, name='react'),
+    path("loc/", include("loc.urls")),
+    path("hp/", include("hpaction.urls")),
+    path("graphql", GraphQLView.as_view(batch=True), name="batch-graphql"),
+    re_path(r".*$", frontend.views.react_rendered_view, name="react"),
 )

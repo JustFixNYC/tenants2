@@ -2,11 +2,11 @@ from django.db import models
 
 
 class Config(models.Model):
-    '''
+    """
     Contains configuration data for DocuSign integration.
 
     This model is a singleton.
-    '''
+    """
 
     # The private key for the DocuSign Service Integration.
     private_key = models.TextField(blank=True)

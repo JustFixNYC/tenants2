@@ -20,7 +20,7 @@ class FakeSOAPCall:
 
 @pytest.fixture
 def fake_soap_call():
-    with patch('zeep.Client') as constructor_mock:
+    with patch("zeep.Client") as constructor_mock:
         call = FakeSOAPCall()
         constructor_mock.return_value = call.mock_client
         yield call

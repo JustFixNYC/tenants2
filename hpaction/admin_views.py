@@ -19,14 +19,14 @@ class ServingPapersForm(forms.ModelForm):
     class Meta:
         model = models.ServingPapers
         fields = [
-            'name',
-            'primary_line',
-            'secondary_line',
-            'urbanization',
-            'city',
-            'state',
-            'zip_code',
-            'pdf_file',
+            "name",
+            "primary_line",
+            "secondary_line",
+            "urbanization",
+            "city",
+            "state",
+            "zip_code",
+            "pdf_file",
         ]
 
     is_definitely_deliverable = forms.BooleanField(
@@ -40,15 +40,17 @@ class ServingPapersForm(forms.ModelForm):
     @staticmethod
     def validate_address(cleaned_data):
         sp_data = {**cleaned_data}
-        is_definitely_deliverable = sp_data.pop('is_definitely_deliverable')
+        is_definitely_deliverable = sp_data.pop("is_definitely_deliverable")
         sp = models.ServingPapers(**sp_data)
-        if (sp.is_address_populated() and
-                (not is_definitely_deliverable) and
-                lob_api.is_address_undeliverable(**sp.as_lob_params())):
+        if (
+            sp.is_address_populated()
+            and (not is_definitely_deliverable)
+            and lob_api.is_address_undeliverable(**sp.as_lob_params())
+        ):
             raise ValidationError(
-                'Lob thinks the recipient\'s address is undeliverable. '
+                "Lob thinks the recipient's address is undeliverable. "
                 'If you disagree, please check the "Is definitely deliverable" '
-                'checkbox to continue.'
+                "checkbox to continue."
             )
 
     def clean(self):
@@ -64,10 +66,9 @@ class HPActionAdminViews:
     def get_urls(self):
         return [
             path(
-                'serving-papers/create/<int:userid>/',
-                self.view_with_perm(self.create_serving_papers,
-                                    ADD_SERVING_PAPERS_PERMISSION),
-                name='create-serving-papers'
+                "serving-papers/create/<int:userid>/",
+                self.view_with_perm(self.create_serving_papers, ADD_SERVING_PAPERS_PERMISSION),
+                name="create-serving-papers",
             ),
         ]
 
@@ -88,16 +89,16 @@ class HPActionAdminViews:
         response = lob_api.mail_certified_letter(
             description="Serving papers",
             to_address={
-                'name': papers.name,
+                "name": papers.name,
                 **lob_api.verification_to_inline_address(
                     lob_api.verify_address(**papers.as_lob_params())
-                )
+                ),
             },
             from_address={
-                'name': papers.sender.full_name,
+                "name": papers.sender.full_name,
                 **lob_api.verification_to_inline_address(
                     lob_api.verify_address(**papers.sender.onboarding_info.as_lob_params())
-                )
+                ),
             },
             file=convert_to_letter_pages(papers.pdf_file.open()),
             color=False,
@@ -105,14 +106,14 @@ class HPActionAdminViews:
             request_return_receipt=True,
         )
         papers.lob_letter_object = response
-        papers.tracking_number = response['tracking_number']
+        papers.tracking_number = response["tracking_number"]
         papers.letter_sent_at = timezone.now()
         papers.save()
 
     def create_serving_papers(self, request, userid):
         self._ensure_lob_integration()
         sender = self._get_serving_papers_sender(userid)
-        go_back_href = reverse('admin:hpaction_hpuser_change', args=(sender.pk,))
+        go_back_href = reverse("admin:hpaction_hpuser_change", args=(sender.pk,))
         ld = sender.landlord_details
 
         if request.method == "POST":
@@ -123,8 +124,7 @@ class HPActionAdminViews:
                 papers.sender = sender
                 self._send_papers(papers)
                 messages.success(
-                    request,
-                    'The recipient has been served! See below for more details.'
+                    request, "The recipient has been served! See below for more details."
                 )
                 slack.sendmsg_async(
                     f"{slack.escape(request.user.first_name)} has served "
@@ -134,28 +134,26 @@ class HPActionAdminViews:
                 )
                 return HttpResponseRedirect(go_back_href)
         else:
-            form = ServingPapersForm(initial={
-                'name': ld.name,
-                **ld.get_address_as_dict(),
-            })
+            form = ServingPapersForm(
+                initial={
+                    "name": ld.name,
+                    **ld.get_address_as_dict(),
+                }
+            )
 
         # This makes it easier to manually test the form.
         form.use_required_attribute = False
 
         # http://www.dmertl.com/blog/?p=116
-        fieldsets = [(None, {'fields': form.base_fields})]
+        fieldsets = [(None, {"fields": form.base_fields})]
         adminform = AdminForm(form, fieldsets, {})
 
         ctx = {
             **self.site.each_context(request),
-            'sender': sender,
-            'form': form,
-            'adminform': adminform,
-            'go_back_href': go_back_href,
+            "sender": sender,
+            "form": form,
+            "adminform": adminform,
+            "go_back_href": go_back_href,
         }
 
-        return TemplateResponse(
-            request,
-            "hpaction/admin/create-serving-papers.html",
-            ctx
-        )
+        return TemplateResponse(request, "hpaction/admin/create-serving-papers.html", ctx)

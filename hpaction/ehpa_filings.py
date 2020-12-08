@@ -5,7 +5,7 @@ from users.models import CHANGE_USER_PERMISSION
 
 
 MY_DIR = Path(__file__).parent.resolve()
-EHPA_FILINGS_SQLFILE = MY_DIR / 'ehpa_filings.sql'
+EHPA_FILINGS_SQLFILE = MY_DIR / "ehpa_filings.sql"
 
 
 def execute_ehpa_filings_query(cursor):
@@ -14,8 +14,8 @@ def execute_ehpa_filings_query(cursor):
 
 DATA_DOWNLOADS = [
     DataDownload(
-        name='EHPA filings',
-        slug='ehpa-filings',
+        name="EHPA filings",
+        slug="ehpa-filings",
         html_desc="""
             Details about tenants who have filed Emergency HP Actions.  Intended
             primarily for handing off to NYC HRA/OCJ.  This contains PII, so

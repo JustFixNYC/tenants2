@@ -40,9 +40,7 @@ def register_mutation(klass: Type[Mutation]) -> Type:
 
     name = f"{klass.__name__}Mixin"
     attr_name = to_snake_case(klass.__name__)
-    _mutations_classes.append(type(name, tuple(), {
-        attr_name: klass.Field(required=True)
-    }))
+    _mutations_classes.append(type(name, tuple(), {attr_name: klass.Field(required=True)}))
 
     return klass
 
@@ -53,35 +51,25 @@ def _build_graphene_object_type(name: str, classes: List[Type], __doc__: str) ->
     # which the modules that registered them were imported.
     classes = sorted(classes, key=lambda klass: klass.__name__)
 
-    return type(name, tuple([*classes, graphene.ObjectType]), {
-        '__doc__': __doc__
-    })
+    return type(name, tuple([*classes, graphene.ObjectType]), {"__doc__": __doc__})
 
 
 def build_session_info() -> Type:
     _init()
     return _build_graphene_object_type(
-        "SessionInfo",
-        _session_info_classes,
-        'Information about the current user.'
+        "SessionInfo", _session_info_classes, "Information about the current user."
     )
 
 
 def build_query() -> Type:
     _init()
-    return _build_graphene_object_type(
-        "Query",
-        _queries_classes,
-        'Query the site.'
-    )
+    return _build_graphene_object_type("Query", _queries_classes, "Query the site.")
 
 
 def build_mutations() -> Type:
     _init()
     return _build_graphene_object_type(
-        "Mutations",
-        _mutations_classes,
-        'Mutate (i.e., change the state of) the site.'
+        "Mutations", _mutations_classes, "Mutate (i.e., change the state of) the site."
     )
 
 
@@ -90,4 +78,4 @@ def _init():
 
     if not _is_initialized:
         _is_initialized = True
-        autodiscover_modules('schema')
+        autodiscover_modules("schema")

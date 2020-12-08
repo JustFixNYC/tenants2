@@ -33,7 +33,7 @@ def generate_csv_rows(cursor) -> Iterator[List[Any]]:
 #
 # It is very odd that this is so complicated.
 class Echo:
-    value: str = ''
+    value: str = ""
 
     def write(self, value: str):
         assert isinstance(value, str)
@@ -46,10 +46,10 @@ def generate_streaming_csv(rows: Iterator[List[Any]]) -> Iterator[str]:
     for row in rows:
         writer.writerow(row)
         yield pseudo_buffer.value
-        pseudo_buffer.value = ''
+        pseudo_buffer.value = ""
 
 
 def streaming_csv_response(rows: Iterator[List[Any]], filename: str) -> StreamingHttpResponse:
     response = StreamingHttpResponse(generate_streaming_csv(rows), content_type="text/csv")
-    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    response["Content-Disposition"] = f'attachment; filename="{filename}"'
     return response

@@ -30,16 +30,16 @@ class TestEmailFileResponseAsAttachment:
             subject="here is subject",
             body="here is body",
             recipients=["boop@jones.com", "landlordo@calrissian.net"],
-            attachment=FileResponse(BytesIO(b'hi'), filename='hello.txt'),
+            attachment=FileResponse(BytesIO(b"hi"), filename="hello.txt"),
         )
         assert len(mailoutbox) == 2
         msg = mailoutbox[0]
         assert msg.subject == "here is subject"
         assert msg.body == "here is body"
         assert len(msg.attachments) == 1
-        assert msg.attachments[0] == ('hello.txt', 'hi', 'text/plain')
-        assert msg.recipients() == ['boop@jones.com']
-        assert mailoutbox[1].recipients() == ['landlordo@calrissian.net']
+        assert msg.attachments[0] == ("hello.txt", "hi", "text/plain")
+        assert msg.recipients() == ["boop@jones.com"]
+        assert mailoutbox[1].recipients() == ["landlordo@calrissian.net"]
         assert msg.alternatives == []
 
     def test_it_works_with_html_body(self, mailoutbox):
@@ -48,9 +48,9 @@ class TestEmailFileResponseAsAttachment:
             body="here is body",
             html_body="<p>here is html body</p>",
             recipients=["boop@jones.com", "landlordo@calrissian.net"],
-            attachment=FileResponse(BytesIO(b'hi'), filename='hello.txt'),
+            attachment=FileResponse(BytesIO(b"hi"), filename="hello.txt"),
         )
         assert len(mailoutbox) == 2
         msg = mailoutbox[0]
         assert msg.body == "here is body"
-        assert msg.alternatives == [('<p>here is html body</p>', 'text/html')]
+        assert msg.alternatives == [("<p>here is html body</p>", "text/html")]

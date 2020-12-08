@@ -21,6 +21,7 @@
   ["HOME__BUZZER_BROKEN", "Buzzer Broken"],
   ["HOME__LEAD_BASED_PAINT", "Lead-based Paint"],
   ["HOME__VACATE_ORDER_ISSUED", "Vacate Order Issued"],
+  ["HOME__MOLD", "Mold"],
   ["BEDROOMS__PAINT", "Peeling paint"],
   ["BEDROOMS__WALLS", "Cracked walls"],
   ["BEDROOMS__MOLD_ON_WALLS", "Mold on Walls"],

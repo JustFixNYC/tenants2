@@ -7,7 +7,7 @@ from onboarding.models import OnboardingInfo
 
 
 class Command(BaseCommand):
-    help = 'Manually verify user addresses that are currently unverified.'
+    help = "Manually verify user addresses that are currently unverified."
 
     def get_verified_address(self, address: str, borough: str) -> Optional[Tuple[str, str]]:
         try:
@@ -21,8 +21,8 @@ class Command(BaseCommand):
         return (vinfo.address, vinfo.borough)
 
     def confirm(self) -> bool:
-        result = input('Is the geocoded address correct [y/N]? ')
-        if result in ['y', 'Y']:
+        result = input("Is the geocoded address correct [y/N]? ")
+        if result in ["y", "Y"]:
             return True
         return False
 

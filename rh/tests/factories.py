@@ -9,8 +9,8 @@ class RentalHistoryRequestFactory(factory.django.DjangoModelFactory):
         model = RentalHistoryRequest
 
     user = factory.SubFactory(UserFactory)
-    first_name = 'Boop'
-    last_name = 'Jones'
-    address = '123 Funky Way'
-    borough = 'MANHATTAN'
+    first_name = "Boop"
+    last_name = "Jones"
+    address = "123 Funky Way"
+    borough = "MANHATTAN"
     address_verified = False

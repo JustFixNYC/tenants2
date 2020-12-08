@@ -24,11 +24,11 @@ RH_FOLLOWUP_2_URL = "https://textit.in/flow/editor/52c3d0fc-d198-45d1-86be-c6fed
 
 # URLs for individual groups that users are put in based on their responses to LOC follow-up flows.
 LOC_GROUP_URLS = {
-    'll_responding': 'https://textit.in/contact/filter/0bec29ac-14e2-4a9f-a928-fe1a9392924d/',
-    'll_not_responding': 'https://textit.in/contact/filter/0f362cdc-53f6-41d0-b534-252f099c3695/', # noqa
-    'll_retaliation': 'https://textit.in/contact/filter/6c53aaad-24d6-4c35-98ab-fe8db55e93aa/',
-    'got_results': "https://textit.in/contact/filter/80302300-7dd8-49bd-9f72-e4d481ed83b5/",
-    'interested_in_hp': "https://textit.in/contact/filter/846c2eb8-45e8-48c5-b130-02c53be1aece/",
+    "ll_responding": "https://textit.in/contact/filter/0bec29ac-14e2-4a9f-a928-fe1a9392924d/",
+    "ll_not_responding": "https://textit.in/contact/filter/0f362cdc-53f6-41d0-b534-252f099c3695/",  # noqa
+    "ll_retaliation": "https://textit.in/contact/filter/6c53aaad-24d6-4c35-98ab-fe8db55e93aa/",
+    "got_results": "https://textit.in/contact/filter/80302300-7dd8-49bd-9f72-e4d481ed83b5/",
+    "interested_in_hp": "https://textit.in/contact/filter/846c2eb8-45e8-48c5-b130-02c53be1aece/",
 }
 
 # The maximum amount of days that can pass between when a user requests their
@@ -58,19 +58,19 @@ def is_v13_flow_schema(flow: Dict[str, Any]) -> bool:
     # > top-level property in the definition called nodes - each
     # > node has actions and one type of action is a msg_created
     # > action which has a text property.
-    return 'nodes' in flow
+    return "nodes" in flow
 
 
 def get_flow_uuid(flow: Dict[str, Any]) -> str:
     if is_v13_flow_schema(flow):
-        return flow['uuid']
-    return flow['metadata']['uuid']
+        return flow["uuid"]
+    return flow["metadata"]["uuid"]
 
 
 def get_flow_name(flow: Dict[str, Any]) -> str:
     if is_v13_flow_schema(flow):
-        return flow['name']
-    return flow['metadata']['name']
+        return flow["name"]
+    return flow["metadata"]["name"]
 
 
 class Flow:
@@ -81,7 +81,7 @@ class Flow:
         self.url = url
 
     @staticmethod
-    def from_urls(client: TembaClient, urls: List[str]) -> List['Flow']:
+    def from_urls(client: TembaClient, urls: List[str]) -> List["Flow"]:
         uuids = [uuid_from_url(url) for url in urls]
         flows_by_uuid: Dict[str, Flow] = {}
         defns = client.get_definitions(flows=uuids, dependencies="none").flows
@@ -101,26 +101,26 @@ class Flow:
         return uuids
 
     def __iter_node_uuids_old_schema(self, pattern: Pattern, desc: NodeDesc) -> Iterator[str]:
-        for action_set in self._f['action_sets']:
-            uuid = action_set['uuid']
-            for action in action_set['actions']:
-                if action['type'] != 'reply':
+        for action_set in self._f["action_sets"]:
+            uuid = action_set["uuid"]
+            for action in action_set["actions"]:
+                if action["type"] != "reply":
                     continue
-                msg = action['msg']
-                if pattern.match(msg['base']):
+                msg = action["msg"]
+                if pattern.match(msg["base"]):
                     yield uuid
                     break
 
     def __iter_node_uuids_v13_schema(self, pattern: Pattern, desc: NodeDesc) -> Iterator[str]:
-        for action_set in self._f['nodes']:
-            uuid = action_set['uuid']
+        for action_set in self._f["nodes"]:
+            uuid = action_set["uuid"]
             # As of mid-October 2020, it seems not all nodes necessarily
             # have 'actions' properties, e.g. for nodes of type=switch,
             # so we'll default to an empty list if it's not present.
-            for action in action_set.get('actions', []):
-                if action['type'] != 'send_msg':
+            for action in action_set.get("actions", []):
+                if action["type"] != "send_msg":
                     continue
-                if pattern.match(action['text']):
+                if pattern.match(action["text"]):
                     yield uuid
                     break
 
@@ -133,7 +133,7 @@ class Flow:
         if len(uuids) != desc.expected:
             raise ValueError(
                 f'Expected to find {desc.expected} node(s) matching pattern "{desc.regex}" '
-                f'in flow {self.url}, but found {len(uuids)}!'
+                f"in flow {self.url}, but found {len(uuids)}!"
             )
         return uuids
 
@@ -202,37 +202,38 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--skip-rapidpro-runs',
-            help="Don't process RapidPro runs.",
-            action='store_true'
+            "--skip-rapidpro-runs", help="Don't process RapidPro runs.", action="store_true"
         )
         parser.add_argument(
-            '--skip-online-rent-history',
+            "--skip-online-rent-history",
             help="Don't process online rent history requests.",
-            action='store_true'
+            action="store_true",
         )
         parser.add_argument(
-            '--skip-loc',
+            "--skip-loc",
             help="Don't process Letter of Complaint requests.",
             action="store_true",
         )
         parser.add_argument(
-            '--skip-ehpa',
+            "--skip-ehpa",
             help="Don't process Emergency HP Action signings.",
             action="store_true",
         )
 
     def create_views(self):
         base_args: Dict[str, Any] = {
-            'rh_followup_1_uuid': uuid_from_url(RH_FOLLOWUP_1_URL),
-            'rh_followup_2_uuid': uuid_from_url(RH_FOLLOWUP_2_URL),
-            'rh_max_followup_days': RH_MAX_FOLLOWUP_DAYS,
+            "rh_followup_1_uuid": uuid_from_url(RH_FOLLOWUP_1_URL),
+            "rh_followup_2_uuid": uuid_from_url(RH_FOLLOWUP_2_URL),
+            "rh_max_followup_days": RH_MAX_FOLLOWUP_DAYS,
         }
         with connections[settings.DWH_DATABASE].cursor() as cursor:
-            cursor.execute(RHBOT_SQLFILE.read_text(), {
-                'rh_uuid': uuid_from_url(RH_URL),
-                **base_args,
-            })
+            cursor.execute(
+                RHBOT_SQLFILE.read_text(),
+                {
+                    "rh_uuid": uuid_from_url(RH_URL),
+                    **base_args,
+                },
+            )
             cursor.execute(RHONLINE_SQLFILE.read_text(), base_args)
 
     def load_rapidpro_runs(self):
@@ -243,11 +244,14 @@ class Command(BaseCommand):
             return
 
         analytics = AnalyticsLogger(client)
-        rh, rhf1, rhf2 = Flow.from_urls(client, [
-            RH_URL,
-            RH_FOLLOWUP_1_URL,
-            RH_FOLLOWUP_2_URL,
-        ])
+        rh, rhf1, rhf2 = Flow.from_urls(
+            client,
+            [
+                RH_URL,
+                RH_FOLLOWUP_1_URL,
+                RH_FOLLOWUP_2_URL,
+            ],
+        )
 
         with analytics.writer.atomic_transaction(using=settings.DWH_DATABASE, wipe=True):
             analytics.process_rh_requests(
@@ -255,7 +259,7 @@ class Command(BaseCommand):
                 error_nodes=[
                     NodeDesc(r"^Sorry", expected=2),
                     NodeDesc(r"^Oops"),
-                ]
+                ],
             )
 
             analytics.process_rh_followups(
@@ -289,9 +293,7 @@ class Command(BaseCommand):
     def load_loc_requests(self):
         print("Processing letter of complaint requests.")
         writer = BatchWriter(models.LetterOfComplaintRequest)
-        kwargs = {
-            f"{name}_uuid": uuid_from_url(url) for (name, url) in LOC_GROUP_URLS.items()
-        }
+        kwargs = {f"{name}_uuid": uuid_from_url(url) for (name, url) in LOC_GROUP_URLS.items()}
         with connection.cursor() as cursor:
             cursor.execute(LOC_SQLFILE.read_text(), kwargs)
             with writer.atomic_transaction(using=settings.DWH_DATABASE, wipe=True):
@@ -307,17 +309,15 @@ class Command(BaseCommand):
         )
         with writer.atomic_transaction(using=settings.DWH_DATABASE, wipe=True):
             for signing in signings:
-                writer.write(models.EmergencyHPASigning(
-                    created_at=signing.created_at
-                ))
+                writer.write(models.EmergencyHPASigning(created_at=signing.created_at))
 
     def handle(self, *args, **options):
-        skip_online_rent_history: bool = options['skip_online_rent_history']
-        skip_rapidpro_runs: bool = options['skip_rapidpro_runs']
-        skip_loc: bool = options['skip_loc']
-        skip_ehpa: bool = options['skip_ehpa']
+        skip_online_rent_history: bool = options["skip_online_rent_history"]
+        skip_rapidpro_runs: bool = options["skip_rapidpro_runs"]
+        skip_loc: bool = options["skip_loc"]
+        skip_ehpa: bool = options["skip_ehpa"]
 
-        if settings.DWH_DATABASE != 'default':
+        if settings.DWH_DATABASE != "default":
             call_command("migrate", "dwh", f"--database={settings.DWH_DATABASE}")
 
         self.create_views()

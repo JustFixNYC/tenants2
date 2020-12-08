@@ -5,6 +5,4 @@ from .models import Reminder
 
 @admin.register(Reminder)
 class ReminderAdmin(admin.ModelAdmin):
-    list_display = [
-        'kind', 'user', 'sent_at'
-    ]
+    list_display = ["kind", "user", "sent_at"]

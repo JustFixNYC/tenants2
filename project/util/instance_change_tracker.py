@@ -2,7 +2,7 @@ from typing import List, Dict, Union, Any
 
 
 class InstanceChangeTracker:
-    '''
+    """
     A utility class that can be used to help keep track of whether a model's
     fields have changed during its lifetime as a Python object.
 
@@ -35,7 +35,7 @@ class InstanceChangeTracker:
         >>> tracker.set_to_unchanged()
         >>> tracker.has_changed()
         False
-    '''
+    """
 
     # The types of fields we support.
     field_type = Union[str]
@@ -51,10 +51,10 @@ class InstanceChangeTracker:
         self.set_to_unchanged()
 
     def are_any_fields_blank(self) -> bool:
-        '''
+        """
         Returns whether or not the current value of any of our tracked fields
         are blank/empty.
-        '''
+        """
 
         for name in self.field_names:
             if not getattr(self.instance, name):
@@ -62,20 +62,20 @@ class InstanceChangeTracker:
         return False
 
     def set_to_unchanged(self) -> None:
-        '''
+        """
         Remember the current values of the tracked fields as being the "original"
         values.
-        '''
+        """
 
         for name in self.field_names:
             value = getattr(self.instance, name)
             self.original_values[name] = value
 
     def has_changed(self) -> bool:
-        '''
+        """
         Return whether our tracked fields have changed since we were initialized,
         or since set_to_unchanged() was last called.
-        '''
+        """
 
         for name in self.field_names:
             value = getattr(self.instance, name)

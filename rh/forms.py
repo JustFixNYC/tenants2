@@ -17,7 +17,11 @@ FIELD_SCHEMA_VERSION = 5
 class RhForm(AddressAndBoroughFormMixin, forms.ModelForm):
     class Meta:
         model = RentalHistoryRequest
-        fields = ('first_name', 'last_name', 'apartment_number',)
+        fields = (
+            "first_name",
+            "last_name",
+            "apartment_number",
+        )
 
     phone_number = USPhoneNumberField()
 

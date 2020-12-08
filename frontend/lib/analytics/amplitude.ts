@@ -45,6 +45,7 @@ type FormSubmissionEventData = PageInfo & {
   redirect?: string;
   errorMessages?: string[];
   errorCodes?: string[];
+  search?: string;
 };
 
 export type JustfixAmplitudeClient = Omit<
@@ -155,6 +156,7 @@ export function logAmplitudePageView(pathname: string) {
 export function logAmplitudeFormSubmission(options: {
   pathname: string;
   formKind: string;
+  search?: string;
   formId?: string;
   redirect?: string | null;
   errors?: ServerFormFieldError[];
@@ -179,6 +181,7 @@ export function logAmplitudeFormSubmission(options: {
     ...getPageInfo(options.pathname),
     formKind: options.formKind,
     formId: options.formId,
+    search: options.search,
     redirect: options.redirect ?? undefined,
     errorMessages,
     errorCodes,

@@ -32,8 +32,7 @@ class ResolveInfo(object):
     # a Django request.
     context: HttpRequest
 
-    path: Optional[Union[List[Union[int, str]], List[str]]]=None
-
+    path: Optional[Union[List[Union[int, str]], List[str]]] = None
 
 # This indicates that this typing is incomplete.
 def __getattr__(attr: str) -> Any: ...

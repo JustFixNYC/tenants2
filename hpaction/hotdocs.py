@@ -5,11 +5,11 @@ from datetime import date
 from xml.dom.minidom import getDOMImplementation, Element
 
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 class MCValue:
-    '''Represents a multiple-choice answer in a HotDocs Answer Set.'''
+    """Represents a multiple-choice answer in a HotDocs Answer Set."""
 
     items: List[str]
 
@@ -23,11 +23,11 @@ class AnswerType(Enum):
     to the tag names used in the HotDocs Answer Set XML.
     """
 
-    TEXT = 'TextValue'
-    TF = 'TFValue'
-    NUM = 'NumValue'
-    DATE = 'DateValue'
-    MC = 'MCValue'
+    TEXT = "TextValue"
+    TF = "TFValue"
+    NUM = "NumValue"
+    DATE = "DateValue"
+    MC = "MCValue"
 
 
 class Unanswered(NamedTuple):
@@ -71,10 +71,10 @@ def enum2mc_opt(
 
 
 def none2unans(value: Optional[T], answer_type: AnswerType) -> Union[Unanswered, T]:
-    '''
+    """
     If the given value is None, return an Unanswered of the given type.
     Otherwise, return the value.
-    '''
+    """
 
     if value is None:
         return Unanswered(answer_type)
@@ -82,22 +82,22 @@ def none2unans(value: Optional[T], answer_type: AnswerType) -> Union[Unanswered,
 
 
 class AnswerSet:
-    '''
+    """
     Represents a HotDocs Answer Collection/Set, documented here:
 
     http://help.hotdocs.com/server/webhelp/index.htm#Concepts/Answer_Files_Overview.htm
-    '''
+    """
 
     def __init__(self) -> None:
         self.impl = getDOMImplementation()
-        self.doc = self.impl.createDocument(None, 'AnswerSet', None)
+        self.doc = self.impl.createDocument(None, "AnswerSet", None)
         self.answer_set = self.doc.documentElement
-        self.answer_set.setAttribute('title', 'New Answer File')
-        self.answer_set.setAttribute('version', '1.1')
+        self.answer_set.setAttribute("title", "New Answer File")
+        self.answer_set.setAttribute("version", "1.1")
 
     def create_unanswered(self, value: Unanswered) -> Element:
         node = self.doc.createElement(value.type.value)
-        node.setAttribute('unans', "true")
+        node.setAttribute("unans", "true")
         return node
 
     def create_text(self, value: str) -> Element:
@@ -107,7 +107,7 @@ class AnswerSet:
 
     def create_true_false(self, value: bool) -> Element:
         node = self.doc.createElement(AnswerType.TF.value)
-        text = 'true' if value else 'false'
+        text = "true" if value else "false"
         node.appendChild(self.doc.createTextNode(text))
         return node
 
@@ -118,20 +118,20 @@ class AnswerSet:
 
     def create_date(self, value: date) -> Element:
         node = self.doc.createElement(AnswerType.DATE.value)
-        date_str = f'{value.day}/{value.month}/{value.year}'
+        date_str = f"{value.day}/{value.month}/{value.year}"
         node.appendChild(self.doc.createTextNode(date_str))
         return node
 
     def create_mc(self, value: MCValue) -> Element:
         node = self.doc.createElement(AnswerType.MC.value)
         for item in value.items:
-            child_node = self.doc.createElement('SelValue')
+            child_node = self.doc.createElement("SelValue")
             child_node.appendChild(self.doc.createTextNode(item))
             node.appendChild(child_node)
         return node
 
     def create_repeat(self, value: List[BaseAnswerValue]) -> Element:
-        node = self.doc.createElement('RptValue')
+        node = self.doc.createElement("RptValue")
         for child in value:
             node.appendChild(self.create_answer_value(child))
         return node
@@ -151,11 +151,11 @@ class AnswerSet:
             return self.create_mc(value)
         elif isinstance(value, list):
             return self.create_repeat(value)
-        raise ValueError(f'cannot convert {type(value).__name__} to a valid answer type')
+        raise ValueError(f"cannot convert {type(value).__name__} to a valid answer type")
 
     def add(self, name: str, value: AnswerValue) -> None:
-        answer = self.doc.createElement('Answer')
-        answer.setAttribute('name', name)
+        answer = self.doc.createElement("Answer")
+        answer.setAttribute("name", name)
         answer.appendChild(self.create_answer_value(value))
         self.answer_set.appendChild(answer)
 
@@ -165,4 +165,4 @@ class AnswerSet:
         self.add(name, value)
 
     def __str__(self) -> str:
-        return self.doc.toprettyxml(indent='    ', newl='\n')
+        return self.doc.toprettyxml(indent="    ", newl="\n")

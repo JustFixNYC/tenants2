@@ -412,7 +412,7 @@ msgstr "Continuar"
 
 #: frontend/lib/rh/rental-history.tsx:201
 msgid "Continue anyway"
-msgstr "Continue anyway"
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:25
 msgid "Continue to the confirmation page for information about the last letter you sent and next steps you can take."
@@ -649,7 +649,7 @@ msgstr "Hacer huelga de renta"
 
 #: frontend/lib/rh/rental-history.tsx:160
 msgid "Good news!"
-msgstr "Good news!"
+msgstr ""
 
 #: frontend/lib/ui/privacy-info-modal.tsx:59
 msgid "Got it!"
@@ -864,7 +864,7 @@ msgstr "Parece que esta propiedad no tiene que estar registrada con el HPD. Pued
 #: frontend/lib/rh/rental-history.tsx:155
 #: frontend/lib/rh/rental-history.tsx:162
 msgid "It looks like your apartment may be rent stabilized"
-msgstr "It looks like your apartment may be rent stabilized"
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:28
 msgid "It's important to notify your landlord of all months when you couldn't pay rent in full."
@@ -877,7 +877,7 @@ msgstr "Puede ser que el dueño de tu edificio tome represalias tras recibir tu 
 #: frontend/lib/rh/rental-history.tsx:156
 #: frontend/lib/rh/rental-history.tsx:180
 msgid "It’s unlikely that your apartment is rent stabilized"
-msgstr "It’s unlikely that your apartment is rent stabilized"
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:11
 msgid "It’s your first time here!"
@@ -1097,7 +1097,7 @@ msgstr "Residentes de Casas Prefabricadas o Móviles"
 
 #: common-data/issue-choices.ts:168
 msgid "Mold"
-msgstr "Moho"
+msgstr ""
 
 #: common-data/issue-choices.ts:171
 msgid "Mold on Walls"
@@ -1840,7 +1840,7 @@ msgstr "Visita Quién Posee Qué"
 
 #: frontend/lib/rh/rental-history.tsx:50
 msgid "Want to know if your apartment's rent stabilized? Request your <0>Rent History</0> from the NY State DHCR*!"
-msgstr "Want to know if your apartment's rent stabilized? Request your <0>Rent History</0> from the NY State DHCR*!"
+msgstr ""
 
 #: frontend/lib/rh/rental-history.tsx:313
 msgid "Want to read more about your rights?"
@@ -2125,7 +2125,7 @@ msgstr "Tu apartamento es de renta estabilizada."
 
 #: frontend/lib/rh/rental-history.tsx:165
 msgid "Your building had {0, plural, one {1 rent stabilized unit} other {# rent stabilized units}} in {1}, according to property tax documents."
-msgstr "Your building had {0, plural, one {1 rent stabilized unit} other {# rent stabilized units}} in {1}, according to property tax documents."
+msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:316
 msgid "Your building had {0, plural, one {one rent stabilized unit} other {# rent stabilized units}} in {1}."
@@ -2244,11 +2244,11 @@ msgstr "Este documento te ayuda a averiguar si tu apartamento es de <0>renta est
 
 #: frontend/lib/rh/rental-history.tsx:183
 msgid "justfix.rhNoRsUnits"
-msgstr "According to property tax documents, your building hasn’t reported any rent stabilized units over the past several years. While there is a chance that your apartment is rent stabilized, it looks unlikely."
+msgstr ""
 
 #: frontend/lib/rh/rental-history.tsx:191
 msgid "justfix.rhNoRsUnitsMeansNoRentHistory"
-msgstr "You may still submit a request to the DHCR to make sure, but they may not have a rent history on file to send you. In this case, <0>you would not receive a rent history</0> in the mail."
+msgstr ""
 
 #: frontend/lib/rh/email-to-dhcr.tsx:22
 msgid "justfix.rhRequestToDhcr"
@@ -2256,11 +2256,11 @@ msgstr "<0>Querido administrador del DHCR,</0><1> Yo, {0}, vivo actualmente en {
 
 #: frontend/lib/rh/rental-history.tsx:172
 msgid "justfix.rhRsUnitsAreGoodSign"
-msgstr "While this data doesn’t guarantee that your apartment is rent stabilized, it’s a good sign that the DHCR has a rent history on file to send you."
+msgstr ""
 
 #: frontend/lib/rh/rental-history.tsx:294
 msgid "justfix.rhWarningAboutNotReceiving"
-msgstr "<0>If your apartment has never been rent stabilized:</0> you will not receive a rent history in the mail. The DHCR only has rent histories for apartments that were rent stabilized at some point in time."
+msgstr ""
 
 #: frontend/lib/rh/rental-history.tsx:271
 msgid "justfix.rhWhatHappensNext"

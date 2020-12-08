@@ -13,7 +13,7 @@ from . import models, views, lob_api
 
 def get_ll_addr_details_url(landlord_details: models.LandlordDetails) -> str:
     ad = landlord_details.get_or_create_address_details_model()
-    return reverse('admin:loc_addressdetails_change', args=(ad.pk,))
+    return reverse("admin:loc_addressdetails_change", args=(ad.pk,))
 
 
 class LocAdminViews:
@@ -22,9 +22,11 @@ class LocAdminViews:
 
     def get_urls(self):
         return [
-            path('lob/<int:letterid>/',
-                 self.view_with_perm(self.mail_via_lob, CHANGE_LETTER_REQUEST_PERMISSION),
-                 name='mail-via-lob'),
+            path(
+                "lob/<int:letterid>/",
+                self.view_with_perm(self.mail_via_lob, CHANGE_LETTER_REQUEST_PERMISSION),
+                name="mail-via-lob",
+            ),
         ]
 
     def view_with_perm(self, view_func, perm: str):
@@ -41,60 +43,54 @@ class LocAdminViews:
         return self._create_mail_confirmation_context(
             landlord_verification=landlord_verification,
             user_verification=user_verification,
-            is_manually_overridden=ll_addr_details.is_definitely_deliverable
+            is_manually_overridden=ll_addr_details.is_definitely_deliverable,
         )
 
     def _create_mail_confirmation_context(
-        self,
-        landlord_verification,
-        user_verification,
-        is_manually_overridden: bool
+        self, landlord_verification, user_verification, is_manually_overridden: bool
     ):
         is_deliverable = (
-            landlord_verification['deliverability'] != lob_api.UNDELIVERABLE or
-            is_manually_overridden
+            landlord_verification["deliverability"] != lob_api.UNDELIVERABLE
+            or is_manually_overridden
         )
 
         is_definitely_deliverable = (
-            landlord_verification['deliverability'] == lob_api.DELIVERABLE and
-            user_verification['deliverability'] == lob_api.DELIVERABLE
+            landlord_verification["deliverability"] == lob_api.DELIVERABLE
+            and user_verification["deliverability"] == lob_api.DELIVERABLE
         )
 
         verifications = {
-            'landlord_verification': landlord_verification,
-            'landlord_verified_address': lob_api.get_address_from_verification(
-                landlord_verification),
-            'landlord_deliverability_docs': lob_api.get_deliverability_docs(
-                landlord_verification),
-            'user_verification': user_verification,
-            'user_verified_address': lob_api.get_address_from_verification(user_verification),
-            'user_deliverability_docs': lob_api.get_deliverability_docs(user_verification),
-            'is_deliverable': is_deliverable,
-            'is_definitely_deliverable': is_definitely_deliverable,
-            'is_manually_overridden': is_manually_overridden
+            "landlord_verification": landlord_verification,
+            "landlord_verified_address": lob_api.get_address_from_verification(
+                landlord_verification
+            ),
+            "landlord_deliverability_docs": lob_api.get_deliverability_docs(landlord_verification),
+            "user_verification": user_verification,
+            "user_verified_address": lob_api.get_address_from_verification(user_verification),
+            "user_deliverability_docs": lob_api.get_deliverability_docs(user_verification),
+            "is_deliverable": is_deliverable,
+            "is_definitely_deliverable": is_definitely_deliverable,
+            "is_manually_overridden": is_manually_overridden,
         }
 
-        return {
-            'signed_verifications': signing.dumps(verifications),
-            **verifications
-        }
+        return {"signed_verifications": signing.dumps(verifications), **verifications}
 
     def _create_letter(self, request, letter, verifications):
         user = letter.user
         pdf_file = views.render_finished_loc_pdf_for_user(request, user).file_to_stream
         response = lob_api.mail_certified_letter(
-            description='Letter of complaint',
+            description="Letter of complaint",
             to_address={
-                'name': user.landlord_details.name,
-                **lob_api.verification_to_inline_address(verifications['landlord_verification'])
+                "name": user.landlord_details.name,
+                **lob_api.verification_to_inline_address(verifications["landlord_verification"]),
             },
             from_address={
-                'name': letter.user.full_name,
-                **lob_api.verification_to_inline_address(verifications['user_verification'])
+                "name": letter.user.full_name,
+                **lob_api.verification_to_inline_address(verifications["user_verification"]),
             },
             file=pdf_file,
             color=False,
-            double_sided=False
+            double_sided=False,
         )
         return response
 
@@ -107,21 +103,21 @@ class LocAdminViews:
         is_post = request.method == "POST"
         ctx = {
             **self.site.each_context(request),
-            'title': "Mail letter of complaint via Lob",
-            'user': user,
-            'letter': letter,
-            'lob_nomail_reason': lob_nomail_reason,
-            'is_post': is_post,
-            'pdf_url': user.letter_request.admin_pdf_url,
-            'go_back_href': reverse('admin:loc_locuser_change', args=(user.pk,)),
+            "title": "Mail letter of complaint via Lob",
+            "user": user,
+            "letter": letter,
+            "lob_nomail_reason": lob_nomail_reason,
+            "is_post": is_post,
+            "pdf_url": user.letter_request.admin_pdf_url,
+            "go_back_href": reverse("admin:loc_locuser_change", args=(user.pk,)),
         }
 
         if not lob_nomail_reason:
             if is_post:
-                verifications = signing.loads(request.POST['signed_verifications'])
+                verifications = signing.loads(request.POST["signed_verifications"])
                 response = self._create_letter(request, letter, verifications)
                 letter.lob_letter_object = response
-                letter.tracking_number = response['tracking_number']
+                letter.tracking_number = response["tracking_number"]
                 letter.letter_sent_at = timezone.now()
                 letter.save()
                 airtable.sync.sync_user(user)
@@ -132,9 +128,13 @@ class LocAdminViews:
                     is_safe=True,
                 )
             else:
-                ctx.update({
-                    **self._get_mail_confirmation_context(user),
-                    'landlord_address_details_url': get_ll_addr_details_url(user.landlord_details)
-                })
+                ctx.update(
+                    {
+                        **self._get_mail_confirmation_context(user),
+                        "landlord_address_details_url": get_ll_addr_details_url(
+                            user.landlord_details
+                        ),
+                    }
+                )
 
         return TemplateResponse(request, "loc/admin/lob.html", ctx)

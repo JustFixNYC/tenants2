@@ -14,9 +14,6 @@ ignoreFields = [
 fragmentName = "AllSessionInfo"
 createBlankLiteral = true
 
-# TODO: Remove this once we start using managementCompanyDetails.
-ignoreFields = ["managementCompanyDetails"]
-
 [types.OnboardingInfoType]
 fragmentName = "OnboardingInfo"
 createBlankLiteral = true
@@ -108,6 +105,9 @@ sessionFields = ["accessDates"]
 [mutations.landlordDetailsV2]
 sessionFields = ["landlordDetails"]
 
+[mutations.locLandlordInfo]
+sessionFields = ["landlordDetails"]
+
 [mutations.optionalLandlordDetails]
 sessionFields = ["landlordDetails"]
 
@@ -124,6 +124,8 @@ sessionFields = ["hpActionDetails", "issues", "customIssuesV2"]
 [mutations."feeWaiver.*"]
 sessionFields = ["feeWaiver"]
 
+[mutations.hpaLandlordInfo]
+
 [mutations."hpAction.*"]
 sessionFields = ["hpActionDetails"]
 
@@ -131,7 +133,7 @@ sessionFields = ["hpActionDetails"]
 sessionFields = ["harassmentDetails"]
 
 [mutations."rh.*"]
-sessionFields = ["rentalHistoryInfo"]
+sessionFields = ["rentalHistoryInfo", "rentStabInfo"]
 
 [mutations.tenantChildren]
 sessionFields = ["tenantChildren"]

@@ -7,7 +7,7 @@ class ReadAndWriteToDataWarehouseDb:
     Data Warehouse application.
     """
 
-    route_app_labels = {'dwh'}
+    route_app_labels = {"dwh"}
 
     def db_for_read(self, model, **hints):
         if model._meta.app_label in self.route_app_labels:

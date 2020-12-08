@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class AirtableSynchronizer:
-    '''
+    """
     A class that encapsulates the synchronization of Airtable
     with our database.
 
@@ -19,7 +19,7 @@ class AirtableSynchronizer:
     from the server to Airtable. Any changes made to fields we synchronize
     on the Airtable side will be overwritten by us during the
     synchronization process!
-    '''
+    """
 
     # A reference to our Airtable API.
     airtable: Airtable
@@ -34,10 +34,10 @@ class AirtableSynchronizer:
         self.dry_run = dry_run
 
     def _get_record_dict(self) -> Dict[int, Record]:
-        '''
+        """
         Retrieve *all* Airtable rows and return a mapping from JustfixUser
         primary keys to Airtable rows.
-        '''
+        """
 
         records: Dict[int, Record] = {}
 
@@ -57,12 +57,13 @@ class AirtableSynchronizer:
         if not self.dry_run:
             self.airtable.update(record, our_fields)
 
-    def _sync_user(self, user: JustfixUser, records: Dict[int, Record], stdout: TextIO,
-                   verbose: bool = True):
-        '''
+    def _sync_user(
+        self, user: JustfixUser, records: Dict[int, Record], stdout: TextIO, verbose: bool = True
+    ):
+        """
         Synchronize a single user with Airtable.  If the user is already synchronized
         with Airtable, nothing is done.
-        '''
+        """
 
         our_fields = Fields.from_user(user)
         record = records.get(user.pk)
@@ -77,10 +78,10 @@ class AirtableSynchronizer:
             self._update_in_airtable(record, our_fields)
 
     def sync_users(self, queryset=None, stdout: TextIO = sys.stdout, verbose: bool = True):
-        '''
+        """
         Synchronize the users in the given queryset with Airtable. If no
         queryset is provided, all users are synchronized.
-        '''
+        """
 
         if queryset is None:
             queryset = JustfixUser.objects.all()
@@ -92,7 +93,7 @@ class AirtableSynchronizer:
 
 
 def sync_user(user: JustfixUser):
-    '''
+    """
     Attempt to synchronize the given user with Airtable, but catch and log any
     exceptions due to network errors.
 
@@ -102,7 +103,7 @@ def sync_user(user: JustfixUser):
     Airtable; it should be supplemented with a more reliable synchronization
     mechanism that isn't as eager, but ensures eventual consistency, such
     as the "syncairtable" management command.
-    '''
+    """
 
     if not settings.AIRTABLE_URL:
         return
@@ -113,14 +114,14 @@ def sync_user(user: JustfixUser):
     try:
         airtable.create_or_update(fields)
     except Exception:
-        logger.exception('Error while communicating with Airtable')
+        logger.exception("Error while communicating with Airtable")
 
 
 class SyncUserOnSaveMixin:
-    '''
+    """
     Mixin class for ModelAdmin subclasses, whose related model is JustfixUser
     (or a proxy model based off it), that syncs the user with Airtable on save.
-    '''
+    """
 
     def save_model(self, request, obj: JustfixUser, form, change):
         super().save_model(request, obj, form, change)  # type: ignore

@@ -3,7 +3,7 @@ from .factories import LetterFactory
 
 
 class TestNorentUserAdmin(UserProxyAdminTester):
-    list_view_url = '/admin/norent/norentuser/'
+    list_view_url = "/admin/norent/norentuser/"
 
     def create_user(self):
         return LetterFactory().user

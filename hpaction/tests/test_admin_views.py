@@ -7,22 +7,20 @@ from onboarding.tests.factories import OnboardingInfoFactory
 from loc.tests.factories import LandlordDetailsV2Factory
 from .factories import ONE_PAGE_PDF
 from hpaction.models import ServingPapers
-from hpaction.admin_views import (
-    ServingPapersForm
-)
+from hpaction.admin_views import ServingPapersForm
 
 
 class TestServingPapersForm:
     # Ok, the PDF file field isn't filled, so this isn't technically
     # correct, but mocking file fields is hard so whatever.
     FILLED_FORM_DATA = {
-        'name': 'Landlordo Calrissian',
+        "name": "Landlordo Calrissian",
         **ADDRESS_KWARGS,
-        'is_definitely_deliverable': False,
+        "is_definitely_deliverable": False,
     }
 
     def test_no_validation_is_done_if_address_is_not_populated(self, mocklob):
-        ServingPapersForm.validate_address({'is_definitely_deliverable': False})
+        ServingPapersForm.validate_address({"is_definitely_deliverable": False})
         assert mocklob.verifications_mock.called is False
 
     def test_validation_works_when_addr_is_valid(self, mocklob):
@@ -31,7 +29,7 @@ class TestServingPapersForm:
 
     def simulate_undeliverable_addr(self, mocklob):
         mocklob.mock_verifications_api(
-            json=mocklob.get_sample_verification(deliverability='undeliverable')
+            json=mocklob.get_sample_verification(deliverability="undeliverable")
         )
 
     def test_validation_fails_when_addr_is_invalid(self, mocklob):
@@ -41,28 +39,30 @@ class TestServingPapersForm:
 
     def test_validation_succeeds_when_is_definitely_deliverable_is_checked(self, mocklob):
         self.simulate_undeliverable_addr(mocklob)
-        ServingPapersForm.validate_address({
-            **self.FILLED_FORM_DATA,
-            'is_definitely_deliverable': True,
-        })
+        ServingPapersForm.validate_address(
+            {
+                **self.FILLED_FORM_DATA,
+                "is_definitely_deliverable": True,
+            }
+        )
         assert mocklob.verifications_mock.called is False
 
     def test_clean_works(self, mocklob):
         form = ServingPapersForm(data=self.FILLED_FORM_DATA)
         form.is_valid()
-        assert list(form.errors.keys()) == ['pdf_file']
+        assert list(form.errors.keys()) == ["pdf_file"]
         assert mocklob.verifications_mock.called is True
 
 
 def get_create_url(userid):
-    return reverse('admin:create-serving-papers', kwargs={'userid': userid})
+    return reverse("admin:create-serving-papers", kwargs={"userid": userid})
 
 
 class TestCreateServingPapersViewPermissions:
     def ensure_access_is_denied(self, client):
         res = client.get(get_create_url(1))
         assert res.status_code == 302
-        assert res['Location'].startswith('/admin/login/')
+        assert res["Location"].startswith("/admin/login/")
 
     def test_it_denies_anonymous_users(self, client):
         self.ensure_access_is_denied(client)
@@ -102,22 +102,21 @@ class TestCreateServingPapersView:
     def test_get_works(self, mocklob, sender):
         res = self.client.get(get_create_url(sender.pk))
         assert res.status_code == 200
-        assert res.context['go_back_href'].startswith('/admin/hpaction/hpuser/')
-        assert res.context['form'].initial['name'] == 'Landlordo Calrissian'
+        assert res.context["go_back_href"].startswith("/admin/hpaction/hpuser/")
+        assert res.context["form"].initial["name"] == "Landlordo Calrissian"
 
     def test_post_with_form_errors_works(self, mocklob, sender):
         res = self.client.post(get_create_url(sender.pk))
         assert res.status_code == 200
-        assert res.context['form'].errors['pdf_file'] == ['This field is required.']
+        assert res.context["form"].errors["pdf_file"] == ["This field is required."]
 
     def test_post_redirects_when_successful(self, mocklob, sender, django_file_storage):
-        res = self.client.post(get_create_url(sender.pk), {
-            'name': 'Landlordo',
-            **ADDRESS_KWARGS,
-            'pdf_file': ONE_PAGE_PDF.open('rb')
-        })
+        res = self.client.post(
+            get_create_url(sender.pk),
+            {"name": "Landlordo", **ADDRESS_KWARGS, "pdf_file": ONE_PAGE_PDF.open("rb")},
+        )
         assert res.status_code == 302
-        assert res['Location'].startswith('/admin/hpaction/hpuser/')
+        assert res["Location"].startswith("/admin/hpaction/hpuser/")
         sp = ServingPapers.objects.get(sender=sender)
         assert sp.name == "Landlordo"
         assert sp.pdf_file.open().read()

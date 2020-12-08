@@ -78,13 +78,30 @@ def test_rh_form_grabs_rent_stab_info(db, graphql_client, settings, monkeypatch,
     monkeypatch.setattr(
         schema,
         "run_rent_stab_sql_query",
-        lambda rentStabInfo: EXAMPLE_RENT_STAB_DATA,
+        lambda result: EXAMPLE_RENT_STAB_DATA,
     )
     ob = _exec_rh_form(graphql_client)
     assert ob["errors"] == []
     assert ob["session"]["rentStabInfo"] == {
         "latestYear": "2019",
         "latestUnitCount": 12,
+    }
+
+
+def test_rent_stab_info_blank_for_no_data(db, graphql_client, settings, monkeypatch, requests_mock):
+    settings.NYCDB_DATABASE = "blah"
+    settings.GEOCODING_SEARCH_URL = "http://bawlabr"
+    requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
+    monkeypatch.setattr(
+        schema,
+        "run_rent_stab_sql_query",
+        lambda result: None,
+    )
+    ob = _exec_rh_form(graphql_client)
+    assert ob["errors"] == []
+    assert ob["session"]["rentStabInfo"] == {
+        "latestYear": None,
+        "latestUnitCount": None,
     }
 
 

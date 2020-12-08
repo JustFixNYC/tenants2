@@ -458,7 +458,7 @@ function RentalHistoryConfirmation(): JSX.Element {
       </p>
       <Link
         to={JustfixRoutes.locale.homeWithSearch(onboardingInfo)}
-        className="button is-primary is-medium"
+        className="button is-primary is-medium jf-is-extra-wide"
       >
         <Trans>Explore our other tools</Trans>
       </Link>

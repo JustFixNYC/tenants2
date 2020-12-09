@@ -91,13 +91,28 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
     ctx: FormContext<IssueAreaV2Input>,
     area: IssueAreaChoice
   ): JSX.Element {
+    const choices = categorizeChoices(issueChoicesForArea(area));
+    const hasSubsections = choices.some((c) => !Array.isArray(c));
+    let label = "Select your issues";
+
+    if (hasSubsections) {
+      label = "";
+    }
+
     return (
       <React.Fragment>
         <HiddenFormField {...ctx.fieldPropsFor("area")} />
+        {hasSubsections && (
+          <>
+            <p>Select your issues.</p>
+            <br />
+            <div className="title is-6">General</div>
+          </>
+        )}
         <MultiCheckboxFormField
           {...ctx.fieldPropsFor("issues")}
-          label="Select your issues"
-          choices={categorizeChoices(issueChoicesForArea(area))}
+          label={label}
+          choices={choices}
         />
         <br />
         <p>

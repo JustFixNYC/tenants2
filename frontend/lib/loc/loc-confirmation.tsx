@@ -291,11 +291,16 @@ const knowYourRightsList = (
       <OutboundLink href="http://housingcourtanswers.org/glossary/">
         Housing Court Answers
       </OutboundLink>
-    </li>
+    </li>{" "}
     <li>
-      <OutboundLink href="https://www.justfix.nyc/learn?utm_source=tenantplatform&utm_medium=loc">
+      <OutboundLink href="https://www.justfix.nyc/en/learn?utm_source=tenantplatform&utm_medium=loc">
         JustFix.nyc's Learning Center
       </OutboundLink>
+      (
+      <OutboundLink href="https://www.justfix.nyc/es/learn?utm_source=tenantplatform&utm_medium=loc">
+        en español
+      </OutboundLink>
+      )
     </li>
   </ul>
 );

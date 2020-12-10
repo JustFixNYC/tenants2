@@ -8,7 +8,11 @@ const config: DjangoChoicesTypescriptConfig = {
       typeName: "IssueChoice",
       exportLabels: true,
       internationalizeLabels: true,
-      filterOut: /^(LANDLORD__|PUBLIC_AREAS__ILLEGAL_APARTMENTS)/,
+      filterOut: [
+        "/^(LANDLORD__|PUBLIC_AREAS__ILLEGAL_APARTMENTS|HOME__COVID_SANITATION_REQUIRED",
+        "|HOME__FRONT_DOOR_DEFECTIVE|HOME__DOOR_LOCK_DEFECTIVE|HOME__DOORBELL_DEFECTIVE",
+        "|HOME__BUZZER_DEFECTIVE|KITCHEN__REFRIGERATOR_BROKEN|KITCHEN__STOVE_BROKEN)/",
+      ],
     },
     {
       jsonFilename: "issue-area-choices.json",

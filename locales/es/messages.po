@@ -545,7 +545,7 @@ msgstr "Actualizaciones de la Moratoria de Desalojo"
 msgid "Exercise your rights"
 msgstr "Ejercita tus derechos"
 
-#: frontend/lib/rh/rental-history.tsx:310
+#: frontend/lib/rh/rental-history.tsx:311
 msgid "Explore our other tools"
 msgstr "Explora nuestras otras herramientas"
 
@@ -769,7 +769,7 @@ msgstr "Idaho"
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 msgstr "Si no recibiste un código, comprueba tu correo electrónico. Si no lo encuentras, por favor envía un correo electrónico a <0/>."
 
-#: frontend/lib/rh/rental-history.tsx:304
+#: frontend/lib/rh/rental-history.tsx:305
 msgid "If you have more questions, please email us at <0/>."
 msgstr "Si tienes más preguntas, por favor envíanos un correo electrónico a <0/>."
 
@@ -1374,7 +1374,7 @@ msgstr ""
 msgid "Regards,"
 msgstr "Atentamente,"
 
-#: frontend/lib/rh/rental-history.tsx:320
+#: frontend/lib/rh/rental-history.tsx:321
 msgid "Rent History"
 msgstr "Historial de Renta"
 
@@ -1812,7 +1812,7 @@ msgstr "Visita Quién Posee Qué"
 msgid "Want to know if your apartment's rent stabilized? Request your <0>Rent History</0> from the NY State DHCR*!"
 msgstr "¿Quieres saber si tu apartamento es de renta estabilizada? ¡Solicita tu <0>Historial de alquiler</0> en el DHCR* del estado de NY!"
 
-#: frontend/lib/rh/rental-history.tsx:313
+#: frontend/lib/rh/rental-history.tsx:314
 msgid "Want to read more about your rights?"
 msgstr "¿Quieres leer más sobre tus derechos?"
 
@@ -1908,7 +1908,7 @@ msgid "What happens after I send this letter?"
 msgstr "¿Qué ocurre después de enviar esta carta?"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:88
-#: frontend/lib/rh/rental-history.tsx:268
+#: frontend/lib/rh/rental-history.tsx:269
 msgid "What happens next?"
 msgstr "¿Y ahora qué?"
 
@@ -2082,7 +2082,7 @@ msgstr "Tu carta de NoRent y pasos siguientes importantes"
 msgid "Your NoRent.org letter"
 msgstr "Tu carta de NoRent.org"
 
-#: frontend/lib/rh/rental-history.tsx:265
+#: frontend/lib/rh/rental-history.tsx:266
 msgid "Your Rent History has been requested from the New York State DHCR!"
 msgstr "¡Tu Historial de Alquiler ha sido solicitado al DHCR del estado de Nueva York!"
 
@@ -2229,11 +2229,11 @@ msgstr "<0>Querido administrador del DHCR,</0><1> Yo, {0}, vivo actualmente en {
 msgid "justfix.rhRsUnitsAreGoodSign"
 msgstr "Aunque estos datos no garantizan que tu apartamento sea de renta estabilizada, es un buen indicio de si el DHCR tiene un historial de alquiler en sus archivo que enviarte."
 
-#: frontend/lib/rh/rental-history.tsx:294
+#: frontend/lib/rh/rental-history.tsx:295
 msgid "justfix.rhWarningAboutNotReceiving"
 msgstr "<0>Si tu apartamento nunca ha sido de renta estabilizada:</0> no recibirás un historial de alquiler por correo. El DHCR sólo tiene historiales de alquiler para aquellos apartamentos que hayan sido en algún momento de renta estabilizada."
 
-#: frontend/lib/rh/rental-history.tsx:271
+#: frontend/lib/rh/rental-history.tsx:272
 msgid "justfix.rhWhatHappensNext"
 msgstr "<0>Si tu apartamento es actualmente de renta estabilizada, o lo ha sido en cualquier momento en el pasado:</0> deberías recibir tu historial de alquiler por correo en aproximadamente una semana. Tu historial de alquiler es un documento importante que muestra los alquileres registrados en tu apartamento desde 1984. Puedes aprender más sobre ello y cómo puede ayudarte a averiguar si estás pagando de más en el <1>la guía de alquiler de recargos de estabilidad de Met Council on Housing</1> o consultando nuestro artículo del <2>Centro de Aprendizaje a cerca de Sobrecargos</2>."
 
@@ -2437,4 +2437,3 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:102
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

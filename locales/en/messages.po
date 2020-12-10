@@ -540,7 +540,7 @@ msgstr "Eviction Moratorium updates"
 msgid "Exercise your rights"
 msgstr "Exercise your rights"
 
-#: frontend/lib/rh/rental-history.tsx:310
+#: frontend/lib/rh/rental-history.tsx:311
 msgid "Explore our other tools"
 msgstr "Explore our other tools"
 
@@ -764,7 +764,7 @@ msgstr "Idaho"
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 msgstr "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 
-#: frontend/lib/rh/rental-history.tsx:304
+#: frontend/lib/rh/rental-history.tsx:305
 msgid "If you have more questions, please email us at <0/>."
 msgstr "If you have more questions, please email us at <0/>."
 
@@ -1369,7 +1369,7 @@ msgstr "Refrigerator not working"
 msgid "Regards,"
 msgstr "Regards,"
 
-#: frontend/lib/rh/rental-history.tsx:320
+#: frontend/lib/rh/rental-history.tsx:321
 msgid "Rent History"
 msgstr "Rent History"
 
@@ -1807,7 +1807,7 @@ msgstr "Visit Who Owns What"
 msgid "Want to know if your apartment's rent stabilized? Request your <0>Rent History</0> from the NY State DHCR*!"
 msgstr "Want to know if your apartment's rent stabilized? Request your <0>Rent History</0> from the NY State DHCR*!"
 
-#: frontend/lib/rh/rental-history.tsx:313
+#: frontend/lib/rh/rental-history.tsx:314
 msgid "Want to read more about your rights?"
 msgstr "Want to read more about your rights?"
 
@@ -1903,7 +1903,7 @@ msgid "What happens after I send this letter?"
 msgstr "What happens after I send this letter?"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:88
-#: frontend/lib/rh/rental-history.tsx:268
+#: frontend/lib/rh/rental-history.tsx:269
 msgid "What happens next?"
 msgstr "What happens next?"
 
@@ -2077,7 +2077,7 @@ msgstr "Your NoRent letter and important next steps"
 msgid "Your NoRent.org letter"
 msgstr "Your NoRent.org letter"
 
-#: frontend/lib/rh/rental-history.tsx:265
+#: frontend/lib/rh/rental-history.tsx:266
 msgid "Your Rent History has been requested from the New York State DHCR!"
 msgstr "Your Rent History has been requested from the New York State DHCR!"
 
@@ -2224,11 +2224,11 @@ msgstr "<0>DHCR administrator,</0><1>I, {0}, am currently living at {1} in apart
 msgid "justfix.rhRsUnitsAreGoodSign"
 msgstr "While this data doesn’t guarantee that your apartment is rent stabilized, it’s a good sign that the DHCR has a rent history on file to send you."
 
-#: frontend/lib/rh/rental-history.tsx:294
+#: frontend/lib/rh/rental-history.tsx:295
 msgid "justfix.rhWarningAboutNotReceiving"
 msgstr "<0>If your apartment has never been rent stabilized:</0> you will not receive a rent history in the mail. The DHCR only has rent histories for apartments that were rent stabilized at some point in time."
 
-#: frontend/lib/rh/rental-history.tsx:271
+#: frontend/lib/rh/rental-history.tsx:272
 msgid "justfix.rhWhatHappensNext"
 msgstr "<0>If your apartment is currently rent stabilized, or has been at any point in the past:</0> you should receive your Rent History in the mail in about a week. Your Rent History is an important document—it shows the registered rents in your apartment since 1984. You can learn more about it and how it can help you figure out if you’re being overcharged on rent at the <1>Met Council on Housing guide to Rent Stabilization Overcharges</1> or by checking out our <2>Learning Center article on Rent Overcharge</2>."
 

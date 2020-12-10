@@ -21,7 +21,7 @@ def test_it_merges_issues():
         [HEAT_AND_GAS_MERGER],
     ) == [
         Issue(area="HOME", description="Apartment needs painting", value="HOME__PAINTING"),
-        Issue(area="HOME", description="No Heat & No Gas"),
+        Issue(area="HOME", description="No heat & No gas"),
     ]
 
 

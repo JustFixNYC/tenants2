@@ -523,11 +523,19 @@ const Confirmation: React.FC<{}> = () => {
         </li>
         <li>
           <OutboundLink
-            href="https://www.justfix.nyc/learn?utm_source=tenantplatform&utm_medium=hp"
+            href="https://www.justfix.nyc/en/learn?utm_source=tenantplatform&utm_medium=hp"
             target="_blank"
           >
             JustFix.nyc's Learning Center
+          </OutboundLink>{" "}
+          (
+          <OutboundLink
+            href="https://www.justfix.nyc/es/learn?utm_source=tenantplatform&utm_medium=hp"
+            target="_blank"
+          >
+            también en español
           </OutboundLink>
+          )
         </li>
       </ul>
     </Page>

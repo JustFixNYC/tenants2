@@ -1,8 +1,12 @@
+import pytest
+
 from frontend.tests.util import get_frontend_query
+from project.tests.test_geocoding import EXAMPLE_SEARCH
+from rh import schema
 from rh.tests.factories import RentalHistoryRequestFactory
 from rh.schema import get_slack_notify_text
 from rh.models import RentalHistoryRequest
-
+from rh.tests.test_utils import EXAMPLE_RENT_STAB_DATA
 
 VALID_RH_DATA = {
     "firstName": "Boop",
@@ -53,6 +57,13 @@ def _exec_rh_form(graphql_client, **input_kwargs):
     )["data"][f"output"]
 
 
+@pytest.fixture
+def mock_geocoding_and_nycdb(settings, requests_mock):
+    settings.NYCDB_DATABASE = "blah"
+    settings.GEOCODING_SEARCH_URL = "http://bawlabr"
+    requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
+
+
 def test_rh_form_validates_data(db, graphql_client):
     ob = _exec_rh_form(graphql_client, firstName="")
     assert len(ob["errors"]) > 0
@@ -67,6 +78,42 @@ def test_rh_form_saves_data_to_session(db, graphql_client):
         "zipcode": "",
         "addressVerified": False,
     }
+
+
+def test_rh_form_grabs_rent_stab_info(db, graphql_client, monkeypatch, mock_geocoding_and_nycdb):
+    monkeypatch.setattr(
+        schema,
+        "run_rent_stab_sql_query",
+        lambda result: EXAMPLE_RENT_STAB_DATA,
+    )
+    ob = _exec_rh_form(graphql_client)
+    assert ob["errors"] == []
+    assert ob["session"]["rentStabInfo"] == {
+        "latestYear": "2019",
+        "latestUnitCount": 12,
+    }
+
+
+def test_rent_stab_info_is_blank_when_no_rs_data_found(
+    db, graphql_client, monkeypatch, mock_geocoding_and_nycdb
+):
+    monkeypatch.setattr(
+        schema,
+        "run_rent_stab_sql_query",
+        lambda result: None,
+    )
+    ob = _exec_rh_form(graphql_client)
+    assert ob["errors"] == []
+    assert ob["session"]["rentStabInfo"] == {
+        "latestYear": None,
+        "latestUnitCount": None,
+    }
+
+
+def test_rent_stab_info_is_none_when_geocoding_unavailable(db, graphql_client):
+    ob = _exec_rh_form(graphql_client)
+    assert ob["errors"] == []
+    assert ob["session"]["rentStabInfo"] is None
 
 
 def test_rh_form_saves_info_to_db(db, graphql_client, allow_lambda_http):

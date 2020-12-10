@@ -14,7 +14,7 @@ import { exactSubsetOrDefault, assertNotNull } from "../util/util";
 import { NextButton, BackButton } from "../ui/buttons";
 import { PhoneNumberFormField } from "../forms/phone-number-form-field";
 import { AppContext, AppContextType } from "../app-context";
-import { Link, Route, Switch } from "react-router-dom";
+import { Link, Redirect, Route, Switch } from "react-router-dom";
 import { RhFormInput } from "../queries/globalTypes";
 import { RhSendEmailMutation } from "../queries/RhSendEmailMutation";
 import { AddressAndBoroughField } from "../forms/address-and-borough-form-field";
@@ -31,17 +31,20 @@ import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { RhEmailToDhcr, RhEmailToDhcrStaticPage } from "./email-to-dhcr";
 import { renderSuccessHeading } from "../ui/success-heading";
 import { li18n, createLinguiCatalogLoader } from "../i18n-lingui";
-import { t, Trans } from "@lingui/macro";
+import { t, Trans, Plural } from "@lingui/macro";
 import loadable from "@loadable/component";
 import {
   EnglishOutboundLink,
   LocalizedOutboundLinkProps,
   LocalizedOutboundLinkList,
+  LocalizedOutboundLink,
 } from "../ui/localized-outbound-link";
 import {
   ForeignLanguageOnly,
   InYourLanguageTranslation,
 } from "../ui/cross-language";
+import { MiddleProgressStep } from "../progress/progress-step-route";
+import { AllSessionInfo_rentStabInfo } from "../queries/AllSessionInfo";
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -69,8 +72,9 @@ function RentalHistorySplash(): JSX.Element {
             </div>
             <h1 className="title is-spaced">
               <Trans>
-                Request your <span className="is-italic">Rent History</span>{" "}
-                from the NY State DHCR* in two simple steps!
+                Want to know if your apartment's rent stabilized? Request your{" "}
+                <span className="is-italic">Rent History</span> from the NY
+                State DHCR*!
               </Trans>
             </h1>
             <p className="subtitle">
@@ -134,9 +138,8 @@ export function GenerateUserRhFormInput(
   return UserRhFormInput;
 }
 
-function RentalHistoryForm(): JSX.Element {
+const RentalHistoryForm = MiddleProgressStep((props) => {
   const UserRhFormInput = GenerateUserRhFormInput(useContext(AppContext));
-
   const cancelControlRef = useRef(null);
 
   return (
@@ -156,7 +159,7 @@ function RentalHistoryForm(): JSX.Element {
             resolved: assertNotNull(
               assertNotNull(output.session).rentalHistoryInfo
             ),
-            nextStep: JustfixRoutes.locale.rh.preview,
+            nextStep: props.nextStep,
             confirmation: JustfixRoutes.locale.rh.formAddressModal,
           })
         }
@@ -198,74 +201,180 @@ function RentalHistoryForm(): JSX.Element {
         )}
       </SessionUpdatingFormSubmitter>
       <ClearSessionButton
-        to={JustfixRoutes.locale.rh.splash}
+        to={props.prevStep}
         portalRef={cancelControlRef}
         label={li18n._(t`Cancel request`)}
       />
       <Route
         path={JustfixRoutes.locale.rh.formAddressModal}
         exact
-        render={() => (
-          <FormConfirmAddressModal toStep2={JustfixRoutes.locale.rh.preview} />
-        )}
+        render={() => <FormConfirmAddressModal toStep2={props.nextStep} />}
       />
     </Page>
   );
+});
+
+type RentStab =
+  | {
+      kind: "NotRentStabilized";
+    }
+  | {
+      kind: "Unknown";
+    }
+  | {
+      kind: "RentStabilized";
+      latestYear: string;
+      latestUnitCount: number;
+    };
+
+/**
+ * Turn our session info into an algebraic type that's easier to
+ * reason about.
+ */
+function toRentStab(rs: AllSessionInfo_rentStabInfo | null): RentStab {
+  if (!rs) return { kind: "Unknown" };
+  const { latestYear, latestUnitCount } = rs;
+  if (latestYear && latestUnitCount) {
+    return {
+      kind: "RentStabilized",
+      latestYear,
+      latestUnitCount,
+    };
+  }
+  return { kind: "NotRentStabilized" };
 }
 
-function RentalHistoryPreview(): JSX.Element {
+const RentalHistoryRsUnitCheck = MiddleProgressStep((props) => {
+  const rsInfo = toRentStab(useContext(AppContext).session.rentStabInfo);
+  if (rsInfo.kind === "Unknown") {
+    return <Redirect to={props.nextStep} />;
+  }
   return (
     <Page
-      title={li18n._(t`Review your request to the DHCR`)}
-      withHeading
+      title={
+        rsInfo.kind === "RentStabilized"
+          ? li18n._(t`It looks like your apartment may be rent stabilized`)
+          : li18n._(t`It’s unlikely that your apartment is rent stabilized`)
+      }
       className="content"
     >
-      <p>
-        <Trans>
-          Here is a preview of the request for your Rent History. It includes
-          your address and apartment number so that the DHCR can mail you.
-        </Trans>
-      </p>
-      <ForeignLanguageOnly>
-        <p className="is-uppercase is-size-7">
-          <InYourLanguageTranslation />{" "}
-          <Trans>(Note: the request will be sent in English)</Trans>
-        </p>
-      </ForeignLanguageOnly>
-      <article className="message">
-        <div className="message-header has-text-weight-normal">
-          <Trans>
-            To: New York Division of Housing and Community Renewal (DHCR)
-          </Trans>
-        </div>
-        <div className="message-body content">
-          <RhEmailToDhcr />
-        </div>
-      </article>
-      <DemoDeploymentNote>
-        <p>
-          This demo site <strong>will not send</strong> a real request to the
-          DHCR.
-        </p>
-      </DemoDeploymentNote>
+      {rsInfo.kind === "RentStabilized" ? (
+        <>
+          <h1 className="title is-4">
+            <span className="has-text-primary">
+              <Trans>Good news!</Trans>
+            </span>{" "}
+            <Trans>It looks like your apartment may be rent stabilized</Trans>
+          </h1>
+          <p>
+            <Trans>
+              Your building had{" "}
+              <Plural
+                value={rsInfo.latestUnitCount}
+                one="1 rent stabilized unit"
+                other="# rent stabilized units"
+              />{" "}
+              in {rsInfo.latestYear}, according to property tax documents.
+            </Trans>
+          </p>
+          <p>
+            <Trans id="justfix.rhRsUnitsAreGoodSign">
+              While this data doesn’t guarantee that your apartment is rent
+              stabilized, it’s a good sign that the DHCR has a rent history on
+              file to send you.
+            </Trans>
+          </p>
+        </>
+      ) : (
+        <>
+          <h1 className="title is-4">
+            <Trans>It’s unlikely that your apartment is rent stabilized</Trans>
+          </h1>
+          <p>
+            <Trans id="justfix.rhNoRsUnits">
+              According to property tax documents, your building hasn’t reported
+              any rent stabilized units over the past several years. While there
+              is a chance that your apartment is rent stabilized, it looks
+              unlikely.
+            </Trans>
+          </p>
+          <p>
+            <Trans id="justfix.rhNoRsUnitsMeansNoRentHistory">
+              You may still submit a request to the DHCR to make sure, but they
+              may not have a rent history on file to send you. In this case,{" "}
+              <strong>you would not receive a rent history</strong> in the mail.
+            </Trans>
+          </p>
+        </>
+      )}
       <div className="field is-grouped jf-two-buttons">
-        <BackButton to={JustfixRoutes.locale.rh.form} />
-        <SessionUpdatingFormSubmitter
-          mutation={RhSendEmailMutation}
-          initialState={{}}
-          onSuccessRedirect={JustfixRoutes.locale.rh.confirmation}
+        <BackButton to={props.prevStep} />
+        <Link
+          to={props.nextStep}
+          className="button jf-is-next-button is-primary is-medium"
         >
-          {(ctx) => (
-            <NextButton
-              label={li18n._(t`Submit request`)}
-              isLoading={ctx.isLoading}
-            />
+          {rsInfo.kind === "RentStabilized" ? (
+            <Trans>Continue</Trans>
+          ) : (
+            <Trans>Continue anyway</Trans>
           )}
-        </SessionUpdatingFormSubmitter>
+        </Link>
       </div>
     </Page>
   );
-}
+});
+
+const RentalHistoryPreview = MiddleProgressStep((props) => (
+  <Page
+    title={li18n._(t`Review your request to the DHCR`)}
+    withHeading
+    className="content"
+  >
+    <p>
+      <Trans>
+        Here is a preview of the request for your Rent History. It includes your
+        address and apartment number so that the DHCR can mail you.
+      </Trans>
+    </p>
+    <ForeignLanguageOnly>
+      <p className="is-uppercase is-size-7">
+        <InYourLanguageTranslation />{" "}
+        <Trans>(Note: the request will be sent in English)</Trans>
+      </p>
+    </ForeignLanguageOnly>
+    <article className="message">
+      <div className="message-header has-text-weight-normal">
+        <Trans>
+          To: New York Division of Housing and Community Renewal (DHCR)
+        </Trans>
+      </div>
+      <div className="message-body content">
+        <RhEmailToDhcr />
+      </div>
+    </article>
+    <DemoDeploymentNote>
+      <p>
+        This demo site <strong>will not send</strong> a real request to the
+        DHCR.
+      </p>
+    </DemoDeploymentNote>
+    <div className="field is-grouped jf-two-buttons">
+      <BackButton to={props.prevStep} />
+      <SessionUpdatingFormSubmitter
+        mutation={RhSendEmailMutation}
+        initialState={{}}
+        onSuccessRedirect={JustfixRoutes.locale.rh.confirmation}
+      >
+        {(ctx) => (
+          <NextButton
+            label={li18n._(t`Submit request`)}
+            isLoading={ctx.isLoading}
+          />
+        )}
+      </SessionUpdatingFormSubmitter>
+    </div>
+  </Page>
+));
 
 const KYR_LINKS: LocalizedOutboundLinkProps[] = [
   {
@@ -284,7 +393,9 @@ const KYR_LINKS: LocalizedOutboundLinkProps[] = [
     children: <Trans>JustFix.nyc's Learning Center</Trans>,
     hrefs: {
       en:
-        "https://www.justfix.nyc/learn?utm_source=tenantplatform&utm_medium=rh",
+        "https://www.justfix.nyc/en/learn?utm_source=tenantplatform&utm_medium=rh",
+      es:
+        "https://www.justfix.nyc/es/learn?utm_source=tenantplatform&utm_medium=rh",
     },
   },
 ];
@@ -306,14 +417,39 @@ function RentalHistoryConfirmation(): JSX.Element {
       </h2>
       <p>
         <Trans id="justfix.rhWhatHappensNext">
-          You should receive your Rent History in the mail in about a week. Your
+          <span className="is-italic">
+            If your apartment is currently rent stabilized, or has been at any
+            point in the past:
+          </span>{" "}
+          you should receive your Rent History in the mail in about a week. Your
           Rent History is an important document—it shows the registered rents in
           your apartment since 1984. You can learn more about it and how it can
           help you figure out if you’re being overcharged on rent at the{" "}
           <EnglishOutboundLink href="https://www.metcouncilonhousing.org/help-answers/rent-stabilization-overcharges/">
             Met Council on Housing guide to Rent Stabilization Overcharges
-          </EnglishOutboundLink>
+          </EnglishOutboundLink>{" "}
+          or by checking out our{" "}
+          <LocalizedOutboundLink
+            hrefs={{
+              en:
+                "https://www.justfix.nyc/en/learn/my-landlord-is-overcharging-me",
+              es:
+                "https://www.justfix.nyc/es/learn/my-landlord-is-overcharging-me",
+            }}
+          >
+            Learning Center article on Rent Overcharge
+          </LocalizedOutboundLink>
           .
+        </Trans>
+      </p>
+      <p>
+        <Trans id="justfix.rhWarningAboutNotReceiving">
+          <span className="is-italic">
+            If your apartment has never been rent stabilized:
+          </span>{" "}
+          you will not receive a rent history in the mail. The DHCR only has
+          rent histories for apartments that were rent stabilized at some point
+          in time.
         </Trans>
       </p>
       <p>
@@ -324,7 +460,7 @@ function RentalHistoryConfirmation(): JSX.Element {
       </p>
       <Link
         to={JustfixRoutes.locale.homeWithSearch(onboardingInfo)}
-        className="button is-primary is-medium"
+        className="button is-primary is-medium jf-is-extra-wide"
       >
         <Trans>Explore our other tools</Trans>
       </Link>
@@ -349,8 +485,13 @@ export const getRentalHistoryRoutesProps = (): ProgressRoutesProps => ({
   stepsToFillOut: [
     {
       path: JustfixRoutes.locale.rh.form,
-      exact: true,
       component: RentalHistoryForm,
+    },
+    {
+      path: JustfixRoutes.locale.rh.rsUnitsCheck,
+      exact: true,
+      component: RentalHistoryRsUnitCheck,
+      shouldBeSkipped: (session) => !session.rentStabInfo,
     },
     {
       path: JustfixRoutes.locale.rh.preview,

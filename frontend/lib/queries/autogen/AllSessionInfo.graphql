@@ -10,6 +10,10 @@ fragment AllSessionInfo on SessionInfo {
     addressVerified,
     zipcode
   },
+  rentStabInfo {
+    latestYear,
+    latestUnitCount
+  },
   activePartnerReferral {
     name,
     slug,

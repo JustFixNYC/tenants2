@@ -2,7 +2,9 @@ import React from "react";
 import classnames from "classnames";
 import {
   allCapsToSlug,
+  DjangoChoice,
   DjangoChoices,
+  ReactDjangoChoice,
   slugToAllCaps,
   toDjangoChoices,
 } from "../common-data";
@@ -69,6 +71,23 @@ const CATEGORY_HEADINGS: Map<IssueChoice, string> = new Map([
 
 const CATEGORY_HEADING_CLASS = "title is-6 is-marginless";
 
+function decategorize(choice: DjangoChoice): ReactDjangoChoice {
+  const [value, label] = choice;
+  const match = label.match(/^(.+):(.+)$/);
+  if (!match) {
+    return choice;
+  }
+  const category = match[1];
+  const partLabel = match[2];
+  return [
+    value,
+    <>
+      <span className="jf-sr-only">{category}: </span>
+      {partLabel}
+    </>,
+  ];
+}
+
 function categorizeChoices(choices: DjangoChoices): MultiChoiceFormFieldItem[] {
   const result: MultiChoiceFormFieldItem[] = [];
 
@@ -85,7 +104,7 @@ function categorizeChoices(choices: DjangoChoices): MultiChoiceFormFieldItem[] {
         </div>
       );
     }
-    result.push([choice, label]);
+    result.push(decategorize([choice, label]));
   }
 
   return result;

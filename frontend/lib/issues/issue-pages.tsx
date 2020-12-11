@@ -62,6 +62,10 @@ type IssuesAreaPropsWithCtx = IssuesRouteAreaProps & {
   toHome: string;
 };
 
+/**
+ * Category headings that will appear immediately above
+ * certain issues.
+ */
 const CATEGORY_HEADINGS: Map<IssueChoice, string> = new Map([
   ["BATHROOMS__MOLD", "General"],
   ["BATHROOMS__SINK", "Sink"],
@@ -71,6 +75,12 @@ const CATEGORY_HEADINGS: Map<IssueChoice, string> = new Map([
 
 const CATEGORY_HEADING_CLASS = "title is-6 is-marginless";
 
+/**
+ * If a choice's label is of the form `<Category>: <Problem>`, e.g.
+ * `Sink: Leaky faucet`, this removes the category for non-screen-reader
+ * users, with the assumption that a category heading will be above
+ * the issue to indicate such context visually.
+ */
 function decategorize(choice: DjangoChoice): ReactDjangoChoice {
   const [value, label] = choice;
   const match = label.match(/^(.+):(.+)$/);
@@ -78,16 +88,20 @@ function decategorize(choice: DjangoChoice): ReactDjangoChoice {
     return choice;
   }
   const category = match[1];
-  const partLabel = match[2];
+  const problem = match[2];
   return [
     value,
     <>
       <span className="jf-sr-only">{category}: </span>
-      {partLabel}
+      {problem}
     </>,
   ];
 }
 
+/**
+ * Interleave the given choices with category headings, if we
+ * have any.
+ */
 function categorizeChoices(choices: DjangoChoices): MultiChoiceFormFieldItem[] {
   const result: MultiChoiceFormFieldItem[] = [];
 

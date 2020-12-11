@@ -37,6 +37,9 @@ MAX_HARASSMENT_DETAILS_LINES = 11
 # details section. (The font use is not monospaced.)
 HARASSMENT_DETAILS_LINE_LENGTH = 60
 
+# The most prior cases to list in EHPAs (so as not to generate an addendum).
+MAX_EMERGENCY_PRIOR_CASES = 3
+
 NYCHA_ADDRESS = common_data.load_json("nycha-address.json")
 
 
@@ -433,9 +436,16 @@ def fill_prior_repairs_and_harassment_mcs(v: hp.HPActionVariables, cases: List[P
         v.prior_repairs_case_mc = hp.PriorRepairsCaseMC.NO
 
 
-def fill_prior_cases(v: hp.HPActionVariables, user: JustfixUser):
+def fill_prior_cases(v: hp.HPActionVariables, user: JustfixUser, kind: str):
     cases = list(user.prior_hp_action_cases.all())
-    v.prior_relief_sought_case_numbers_and_dates_te = ", ".join([str(case) for case in cases])
+    cases_strs = [str(case) for case in cases]
+    prior_cases_str = ", ".join(cases_strs)
+    if kind == HP_ACTION_CHOICES.EMERGENCY and len(cases_strs) > MAX_EMERGENCY_PRIOR_CASES:
+        extra_cases = len(cases_strs) - MAX_EMERGENCY_PRIOR_CASES
+        prior_cases_str = (
+            ", ".join(cases_strs[:MAX_EMERGENCY_PRIOR_CASES]) + f" and {extra_cases} more"
+        )
+    v.prior_relief_sought_case_numbers_and_dates_te = prior_cases_str
     fill_prior_repairs_and_harassment_mcs(v, cases)
 
 
@@ -544,7 +554,7 @@ def user_to_hpactionvars(user: JustfixUser, kind: str) -> hp.HPActionVariables:
 
     if v.sue_for_harassment_tf:
         fill_if_user_has(fill_harassment_details, v, user, "harassment_details")
-        fill_prior_cases(v, user)
+        fill_prior_cases(v, user, kind)
 
     if kind != HP_ACTION_CHOICES.EMERGENCY:
         fill_if_user_has(fill_fee_waiver_details, v, user, "fee_waiver_details")

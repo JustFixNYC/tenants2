@@ -61,10 +61,13 @@ type IssuesAreaPropsWithCtx = IssuesRouteAreaProps & {
 };
 
 const CATEGORY_HEADINGS: Map<IssueChoice, string> = new Map([
+  ["BATHROOMS__MOLD", "General"],
   ["BATHROOMS__SINK", "Sink"],
   ["BATHROOMS__TUB", "Bathtub"],
-  ["BATHROOMS__SHOWER", "Shower"],
+  ["BATHROOMS__SHOWER_MOLD", "Shower"],
 ]);
+
+const CATEGORY_HEADING_CLASS = "title is-6 is-marginless";
 
 function categorizeChoices(choices: DjangoChoices): MultiChoiceFormFieldItem[] {
   const result: MultiChoiceFormFieldItem[] = [];
@@ -73,7 +76,10 @@ function categorizeChoices(choices: DjangoChoices): MultiChoiceFormFieldItem[] {
     const heading = CATEGORY_HEADINGS.get(choice as any);
     if (heading) {
       result.push(
-        <div className="title is-6" key={`before_${choice}_heading`}>
+        <div
+          className={CATEGORY_HEADING_CLASS}
+          key={`before_${choice}_heading`}
+        >
           <br />
           {heading}
         </div>
@@ -102,13 +108,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
     return (
       <React.Fragment>
         <HiddenFormField {...ctx.fieldPropsFor("area")} />
-        {hasSubsections && (
-          <>
-            <p>Select your issues.</p>
-            <br />
-            <div className="title is-6">General</div>
-          </>
-        )}
+        {hasSubsections && <p>Select your issues.</p>}
         <MultiCheckboxFormField
           {...ctx.fieldPropsFor("issues")}
           label={label}

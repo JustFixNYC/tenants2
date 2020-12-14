@@ -73,7 +73,7 @@ const CATEGORY_HEADINGS: Map<IssueChoice, string> = new Map([
   ["BATHROOMS__SHOWER_MOLD", "Shower"],
 ]);
 
-const CATEGORY_HEADING_CLASS = "title is-6 is-marginless";
+const CATEGORY_HEADING_CLASS = "title is-6 jf-issue-category-heading";
 
 /**
  * If a choice's label is of the form `<Category>: <Problem>`, e.g.
@@ -113,7 +113,6 @@ function categorizeChoices(choices: DjangoChoices): MultiChoiceFormFieldItem[] {
           className={CATEGORY_HEADING_CLASS}
           key={`before_${choice}_heading`}
         >
-          <br />
           {heading}
         </div>
       );

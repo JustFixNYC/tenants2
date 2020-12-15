@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-12-08 19:35\n"
+"PO-Revision-Date: 2020-12-15 14:07\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -161,7 +161,7 @@ msgstr "Contesta algunas preguntas sobre ti y sobre el dueño o manager de tu ed
 
 #: common-data/issue-choices.ts:151
 msgid "Apartment needs painting"
-msgstr ""
+msgstr "Apartment needs painting"
 
 #: frontend/lib/forms/apt-number-form-fields.tsx:13
 #: frontend/lib/rh/rental-history.tsx:120
@@ -201,31 +201,31 @@ msgstr "Prohibir desalojos"
 #: common-data/issue-choices.ts:203
 #: common-data/issue-choices.ts:218
 msgid "Baseboards defective"
-msgstr ""
+msgstr "Baseboards defective"
 
 #: common-data/issue-choices.ts:237
 msgid "Bathtub: cracked tub"
-msgstr ""
+msgstr "Bathtub: cracked tub"
 
 #: common-data/issue-choices.ts:242
 msgid "Bathtub: drain stoppage"
-msgstr ""
+msgstr "Bathtub: drain stoppage"
 
 #: common-data/issue-choices.ts:239
 msgid "Bathtub: faucets not installed"
-msgstr ""
+msgstr "Bathtub: faucets not installed"
 
 #: common-data/issue-choices.ts:240
 msgid "Bathtub: faucets not working"
-msgstr ""
+msgstr "Bathtub: faucets not working"
 
 #: common-data/issue-choices.ts:238
 msgid "Bathtub: leaky faucet"
-msgstr ""
+msgstr "Bathtub: leaky faucet"
 
 #: common-data/issue-choices.ts:241
 msgid "Bathtub: pipes leaking"
-msgstr ""
+msgstr "Bathtub: pipes leaking"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:61
 msgid "Before you send your letter, let's review what will be sent to make sure all the information is correct."
@@ -245,7 +245,7 @@ msgstr "Explora las preguntas más frecuentes"
 
 #: common-data/issue-choices.ts:259
 msgid "Bug infestation"
-msgstr ""
+msgstr "Bug infestation"
 
 #: frontend/lib/norent/homepage.tsx:39
 msgid "Build a letter using our free letter builder"
@@ -274,7 +274,7 @@ msgstr "Los edificios en el portafolio del dueño de tu edificio se encuentran e
 
 #: common-data/issue-choices.ts:155
 msgid "Buzzer not working"
-msgstr ""
+msgstr "Buzzer not working"
 
 #: frontend/lib/norent/data/faqs-content.tsx:41
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
@@ -310,14 +310,14 @@ msgstr "Cancelar la renta"
 #: common-data/issue-choices.ts:208
 #: common-data/issue-choices.ts:223
 msgid "Ceiling falling/fell"
-msgstr ""
+msgstr "Ceiling falling/fell"
 
 #: common-data/issue-choices.ts:170
 #: common-data/issue-choices.ts:185
 #: common-data/issue-choices.ts:209
 #: common-data/issue-choices.ts:224
 msgid "Ceiling leaking"
-msgstr ""
+msgstr "Ceiling leaking"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:30
 msgid "Check out these valuable resources for your state:"
@@ -416,7 +416,7 @@ msgstr "Sigue a la página de confirmación para obtener información sobre la �
 
 #: common-data/issue-choices.ts:191
 msgid "Cracked sink"
-msgstr ""
+msgstr "Cracked sink"
 
 #: common-data/issue-choices.ts:160
 #: common-data/issue-choices.ts:177
@@ -476,26 +476,26 @@ msgstr "No te preocupes, guardaremos tus respuestas para que puedas empezar desd
 
 #: common-data/issue-choices.ts:153
 msgid "Door lock not working"
-msgstr ""
+msgstr "Door lock not working"
 
 #: common-data/issue-choices.ts:167
 #: common-data/issue-choices.ts:182
 #: common-data/issue-choices.ts:206
 #: common-data/issue-choices.ts:221
 msgid "Door not working"
-msgstr ""
+msgstr "Door not working"
 
 #: common-data/issue-choices.ts:154
 msgid "Doorbell not working"
-msgstr ""
+msgstr "Doorbell not working"
 
 #: common-data/issue-choices.ts:197
 msgid "Drain stoppage"
-msgstr ""
+msgstr "Drain stoppage"
 
 #: common-data/issue-choices.ts:265
 msgid "Dryer not working"
-msgstr ""
+msgstr "Dryer not working"
 
 #: frontend/lib/norent/components/subscribe.tsx:55
 msgid "ENTER YOUR EMAIL"
@@ -514,7 +514,7 @@ msgstr "Alambrado Eléctrico Expuesto"
 #: common-data/issue-choices.ts:210
 #: common-data/issue-choices.ts:225
 msgid "Electricity not working"
-msgstr ""
+msgstr "Electricity not working"
 
 #: frontend/lib/norent/components/subscribe.tsx:53
 msgid "Email"
@@ -585,7 +585,7 @@ msgstr "Nombre"
 
 #: common-data/issue-choices.ts:150
 msgid "Floor sags"
-msgstr ""
+msgstr "Floor sags"
 
 #: common-data/us-state-choices.ts:74
 msgid "Florida"
@@ -601,7 +601,7 @@ msgstr "Preguntas Más Frecuentes"
 
 #: common-data/issue-choices.ts:152
 msgid "Front door not working"
-msgstr ""
+msgstr "Front door not working"
 
 #: common-data/issue-choices.ts:261
 msgid "Fumes/smoke entering apartment"
@@ -816,7 +816,7 @@ msgstr "Presión de Agua Inadecuada"
 
 #: common-data/issue-choices.ts:266
 msgid "Inadequate/no super service"
-msgstr ""
+msgstr "Inadequate/no super service"
 
 #: common-data/us-state-choices.ts:79
 msgid "Indiana"
@@ -919,11 +919,11 @@ msgstr "Apellido"
 
 #: common-data/issue-choices.ts:156
 msgid "Lead-based paint"
-msgstr ""
+msgstr "Lead-based paint"
 
 #: common-data/issue-choices.ts:192
 msgid "Leaky faucet"
-msgstr ""
+msgstr "Leaky faucet"
 
 #: frontend/lib/norent/about.tsx:57
 msgid "Learn about why we made this tool, who we are, and who our partners are."
@@ -1010,7 +1010,7 @@ msgstr "Parece que ya estuviste aquí antes. Haz clic en \"Continuar\" para segu
 #: common-data/issue-choices.ts:202
 #: common-data/issue-choices.ts:217
 msgid "Loose floor"
-msgstr ""
+msgstr "Loose floor"
 
 #: frontend/lib/norent/letter-builder/los-angeles-know-your-rights.tsx:23
 msgid "Los Angeles County"
@@ -1165,21 +1165,21 @@ msgstr "No"
 
 #: common-data/issue-choices.ts:147
 msgid "No cold water"
-msgstr ""
+msgstr "No cold water"
 
 #: common-data/issue-choices.ts:144
 msgid "No gas"
-msgstr ""
+msgstr "No gas"
 
 #: common-data/issue-choices.ts:145
 #: common-data/issue-choices.ts:253
 msgid "No heat"
-msgstr ""
+msgstr "No heat"
 
 #: common-data/issue-choices.ts:146
 #: common-data/issue-choices.ts:254
 msgid "No hot water"
-msgstr ""
+msgstr "No hot water"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:160
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:179
@@ -1192,7 +1192,7 @@ msgstr "No se dan recibos de alquiler"
 
 #: common-data/issue-choices.ts:148
 msgid "No smoke detector"
-msgstr ""
+msgstr "No smoke detector"
 
 #: frontend/lib/norent/letter-content.tsx:81
 msgid "NoRent.org <0/>sent on behalf of <1/>"
@@ -1278,7 +1278,7 @@ msgstr "Nuestros registros indican que no se puede enviar correo a esta direcci�
 #: common-data/issue-choices.ts:212
 #: common-data/issue-choices.ts:227
 msgid "Outlets not working"
-msgstr ""
+msgstr "Outlets not working"
 
 #: common-data/issue-choices.ts:251
 msgid "Painting overdue (3 years)"
@@ -1311,7 +1311,7 @@ msgstr "Número de teléfono"
 
 #: common-data/issue-choices.ts:196
 msgid "Pipes leaking"
-msgstr ""
+msgstr "Pipes leaking"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:101
 msgid "Please <0>go back and choose a state</0>."
@@ -1351,7 +1351,7 @@ msgstr "Puerto Rico"
 #: common-data/issue-choices.ts:207
 #: common-data/issue-choices.ts:222
 msgid "Radiators/risers not working"
-msgstr ""
+msgstr "Radiators/risers not working"
 
 #: common-data/issue-choices.ts:142
 msgid "Rats"
@@ -1359,7 +1359,7 @@ msgstr "Ratas"
 
 #: common-data/issue-choices.ts:260
 msgid "Rats/mice"
-msgstr ""
+msgstr "Rats/mice"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:395
 msgid "Recommended actions"
@@ -1367,7 +1367,7 @@ msgstr "Acciones recomendadas"
 
 #: common-data/issue-choices.ts:189
 msgid "Refrigerator not working"
-msgstr ""
+msgstr "Refrigerator not working"
 
 #. before signature in formal letter
 #: frontend/lib/util/letter-content-util.tsx:57
@@ -1504,31 +1504,31 @@ msgstr "Compartir esta herramienta"
 
 #: common-data/issue-choices.ts:249
 msgid "Shower: drain stoppage"
-msgstr ""
+msgstr "Shower: drain stoppage"
 
 #: common-data/issue-choices.ts:248
 msgid "Shower: leaky shower head"
-msgstr ""
+msgstr "Shower: leaky shower head"
 
 #: common-data/issue-choices.ts:247
 msgid "Shower: low water pressure"
-msgstr ""
+msgstr "Shower: low water pressure"
 
 #: common-data/issue-choices.ts:243
 msgid "Shower: mold on walls"
-msgstr ""
+msgstr "Shower: mold on walls"
 
 #: common-data/issue-choices.ts:246
 msgid "Shower: not working"
-msgstr ""
+msgstr "Shower: not working"
 
 #: common-data/issue-choices.ts:244
 msgid "Shower: wall tiles cracked"
-msgstr ""
+msgstr "Shower: wall tiles cracked"
 
 #: common-data/issue-choices.ts:245
 msgid "Shower: wall tiles missing"
-msgstr ""
+msgstr "Shower: wall tiles missing"
 
 #: frontend/lib/justfix-navbar.tsx:26
 msgid "Sign in"
@@ -1553,35 +1553,35 @@ msgstr "Firmado,"
 
 #: common-data/issue-choices.ts:230
 msgid "Sink: cracked sink"
-msgstr ""
+msgstr "Sink: cracked sink"
 
 #: common-data/issue-choices.ts:236
 msgid "Sink: drain stoppage"
-msgstr ""
+msgstr "Sink: drain stoppage"
 
 #: common-data/issue-choices.ts:232
 msgid "Sink: faucets not installed"
-msgstr ""
+msgstr "Sink: faucets not installed"
 
 #: common-data/issue-choices.ts:233
 msgid "Sink: faucets not working"
-msgstr ""
+msgstr "Sink: faucets not working"
 
 #: common-data/issue-choices.ts:231
 msgid "Sink: leaky faucet"
-msgstr ""
+msgstr "Sink: leaky faucet"
 
 #: common-data/issue-choices.ts:234
 msgid "Sink: low water pressure"
-msgstr ""
+msgstr "Sink: low water pressure"
 
 #: common-data/issue-choices.ts:235
 msgid "Sink: pipes leaking"
-msgstr ""
+msgstr "Sink: pipes leaking"
 
 #: common-data/issue-choices.ts:149
 msgid "Smoke detector not working"
-msgstr ""
+msgstr "Smoke detector not working"
 
 #: frontend/lib/pages/not-found.tsx:15
 msgid "Sorry, the page you are looking for doesn't seem to exist."
@@ -1625,7 +1625,7 @@ msgstr "Paso {currStep} de {numSteps}"
 
 #: common-data/issue-choices.ts:190
 msgid "Stove not working"
-msgstr ""
+msgstr "Stove not working"
 
 #: frontend/lib/norent/about.tsx:31
 msgid "Strategic Actions for a Just Economy"
@@ -1778,7 +1778,7 @@ msgstr "Utah"
 
 #: common-data/issue-choices.ts:157
 msgid "Vacate order issued"
-msgstr ""
+msgstr "Vacate order issued"
 
 #: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:22
 msgid "Verification code"
@@ -1818,7 +1818,7 @@ msgstr "¿Quieres leer más sobre tus derechos?"
 
 #: common-data/issue-choices.ts:264
 msgid "Washing machine not working"
-msgstr ""
+msgstr "Washing machine not working"
 
 #: common-data/us-state-choices.ts:113
 msgid "Washington"
@@ -1994,14 +1994,14 @@ msgstr "¿Seguiré adeudando mi renta después de enviar esta carta?"
 #: common-data/issue-choices.ts:205
 #: common-data/issue-choices.ts:220
 msgid "Window frame defective"
-msgstr ""
+msgstr "Window frame defective"
 
 #: common-data/issue-choices.ts:165
 #: common-data/issue-choices.ts:180
 #: common-data/issue-choices.ts:204
 #: common-data/issue-choices.ts:219
 msgid "Window glass broken"
-msgstr ""
+msgstr "Window glass broken"
 
 #: common-data/issue-choices.ts:263
 msgid "Window guards missing"
@@ -2437,3 +2437,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:102
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

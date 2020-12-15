@@ -29,6 +29,13 @@ describe("issues checklist", () => {
     pal.rr.getByText("Alas.");
   });
 
+  it("renders issue category headings", () => {
+    const pal = new AppTesterPal(<TestIssuesRoutes />, {
+      url: routes.area.create("BATHROOMS"),
+    });
+    pal.rr.getByText("Sink");
+  });
+
   it("works on valid area routes", async () => {
     const pal = new AppTesterPal(<TestIssuesRoutes />, {
       url: routes.area.create("HOME"),

@@ -1,6 +1,13 @@
 import React from "react";
 import classnames from "classnames";
-import { allCapsToSlug, slugToAllCaps, toDjangoChoices } from "../common-data";
+import {
+  allCapsToSlug,
+  DjangoChoice,
+  DjangoChoices,
+  ReactDjangoChoice,
+  slugToAllCaps,
+  toDjangoChoices,
+} from "../common-data";
 import Page from "../ui/page";
 import { IssuesRouteInfo, IssuesRouteAreaProps } from "../justfix-routes";
 import { Switch, Route } from "react-router";
@@ -14,7 +21,11 @@ import {
 } from "../queries/IssueAreaV2Mutation";
 import autobind from "autobind-decorator";
 import { AppContext } from "../app-context";
-import { MultiCheckboxFormField, HiddenFormField } from "../forms/form-fields";
+import {
+  MultiCheckboxFormField,
+  HiddenFormField,
+  MultiChoiceFormFieldItem,
+} from "../forms/form-fields";
 import { NextButton, BackButton, ProgressButtons } from "../ui/buttons";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import {
@@ -51,19 +62,89 @@ type IssuesAreaPropsWithCtx = IssuesRouteAreaProps & {
   toHome: string;
 };
 
+/**
+ * Category headings that will appear immediately above
+ * certain issues.
+ */
+const CATEGORY_HEADINGS: Map<IssueChoice, string> = new Map([
+  ["BATHROOMS__MOLD", "General"],
+  ["BATHROOMS__SINK", "Sink"],
+  ["BATHROOMS__TUB", "Bathtub"],
+  ["BATHROOMS__SHOWER_MOLD", "Shower"],
+]);
+
+const CATEGORY_HEADING_CLASS = "title is-6 jf-issue-category-heading";
+
+/**
+ * If a choice's label is of the form `<Category>: <Problem>`, e.g.
+ * `Sink: Leaky faucet`, this removes the category for non-screen-reader
+ * users, with the assumption that a category heading will be above
+ * the issue to indicate such context visually.
+ */
+function decategorize(choice: DjangoChoice): ReactDjangoChoice {
+  const [value, label] = choice;
+  const match = label.match(/^(.+): (.+)$/);
+  if (!match) {
+    return choice;
+  }
+  const category = match[1];
+  const problem = match[2][0].toUpperCase() + match[2].slice(1);
+  return [
+    value,
+    <>
+      <span className="jf-sr-only">{category}: </span>
+      {problem}
+    </>,
+  ];
+}
+
+/**
+ * Interleave the given choices with category headings, if we
+ * have any.
+ */
+function categorizeChoices(choices: DjangoChoices): MultiChoiceFormFieldItem[] {
+  const result: MultiChoiceFormFieldItem[] = [];
+
+  for (let [choice, label] of choices) {
+    const heading = CATEGORY_HEADINGS.get(choice as any);
+    if (heading) {
+      result.push(
+        <div
+          className={CATEGORY_HEADING_CLASS}
+          key={`before_${choice}_heading`}
+        >
+          {heading}
+        </div>
+      );
+    }
+    result.push(decategorize([choice, label]));
+  }
+
+  return result;
+}
+
 export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
   @autobind
   renderForm(
     ctx: FormContext<IssueAreaV2Input>,
     area: IssueAreaChoice
   ): JSX.Element {
+    const choices = categorizeChoices(issueChoicesForArea(area));
+    const hasSubsections = choices.some((c) => !Array.isArray(c));
+    let label = "Select your issues";
+
+    if (hasSubsections) {
+      label = "";
+    }
+
     return (
       <React.Fragment>
         <HiddenFormField {...ctx.fieldPropsFor("area")} />
+        {hasSubsections && <p>Select your issues.</p>}
         <MultiCheckboxFormField
           {...ctx.fieldPropsFor("issues")}
-          label="Select your issues"
-          choices={issueChoicesForArea(area)}
+          label={label}
+          choices={choices}
         />
         <br />
         <p>

@@ -83,12 +83,12 @@ const CATEGORY_HEADING_CLASS = "title is-6 jf-issue-category-heading";
  */
 function decategorize(choice: DjangoChoice): ReactDjangoChoice {
   const [value, label] = choice;
-  const match = label.match(/^(.+):(.+)$/);
+  const match = label.match(/^(.+): (.+)$/);
   if (!match) {
     return choice;
   }
   const category = match[1];
-  const problem = match[2];
+  const problem = match[2][0].toUpperCase() + match[2].slice(1);
   return [
     value,
     <>

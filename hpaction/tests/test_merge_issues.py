@@ -14,33 +14,31 @@ def mkissue(value: str):
 def test_it_merges_issues():
     assert merge_issue_models(
         [
-            mkissue(ISSUE_CHOICES.HOME__DOORBELL_BROKEN),
+            mkissue(ISSUE_CHOICES.HOME__PAINTING),
             mkissue(ISSUE_CHOICES.HOME__NO_HEAT),
             mkissue(ISSUE_CHOICES.HOME__NO_GAS),
         ],
         [HEAT_AND_GAS_MERGER],
     ) == [
-        Issue(area="HOME", description="Doorbell Broken", value="HOME__DOORBELL_BROKEN"),
-        Issue(area="HOME", description="No Heat & No Gas"),
+        Issue(area="HOME", description="Apartment needs painting", value="HOME__PAINTING"),
+        Issue(area="HOME", description="No heat & No gas"),
     ]
 
 
 def test_it_trivially_merges_issues():
     assert merge_issue_models(
         [
-            mkissue(ISSUE_CHOICES.HOME__DOORBELL_BROKEN),
+            mkissue(ISSUE_CHOICES.HOME__PAINTING),
             mkissue(ISSUE_CHOICES.HOME__NO_HEAT),
         ],
         [HEAT_AND_GAS_MERGER],
     ) == [
-        Issue(area="HOME", description="Doorbell Broken", value="HOME__DOORBELL_BROKEN"),
-        Issue(area="HOME", description="No Heat"),
+        Issue(area="HOME", description="Apartment needs painting", value="HOME__PAINTING"),
+        Issue(area="HOME", description="No heat"),
     ]
 
 
 def test_it_works_when_not_merging():
-    assert merge_issue_models(
-        [mkissue(ISSUE_CHOICES.HOME__DOORBELL_BROKEN)], [HEAT_AND_GAS_MERGER]
-    ) == [
-        Issue(area="HOME", description="Doorbell Broken", value="HOME__DOORBELL_BROKEN"),
+    assert merge_issue_models([mkissue(ISSUE_CHOICES.HOME__PAINTING)], [HEAT_AND_GAS_MERGER]) == [
+        Issue(area="HOME", description="Apartment needs painting", value="HOME__PAINTING"),
     ]

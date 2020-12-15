@@ -123,7 +123,7 @@ def test_emergency_hpa_filters_out_non_emergency_issues(db):
 
     assert first.area_complained_of_mc == hp.AreaComplainedOfMC.MY_APARTMENT
     assert first.which_room_mc.value == "All Rooms"  # type: ignore
-    assert first.conditions_complained_of_te == "No Heat"
+    assert first.conditions_complained_of_te == "No heat"
 
     assert second.area_complained_of_mc == hp.AreaComplainedOfMC.MY_APARTMENT
     assert second.which_room_mc.value == "All Rooms"  # type: ignore
@@ -353,10 +353,23 @@ def test_hp_action_variables_has_harassment_allegation_attr(enum_name, attr_name
 def test_fill_prior_cases_works(db):
     pc = PriorCaseFactory()
     v = hp.HPActionVariables()
-    fill_prior_cases(v, pc.user)
+    fill_prior_cases(v, pc.user, NORMAL)
     assert v.prior_repairs_case_mc == hp.PriorRepairsCaseMC.YES
     assert v.prior_harassment_case_mc == hp.PriorHarassmentCaseMC.NO
     assert v.prior_relief_sought_case_numbers_and_dates_te == "R #123456789 on 2018-01-03"
+
+
+def test_fill_prior_cases_are_abbreviated_for_ehpa(db):
+    pc = PriorCaseFactory()
+    PriorCaseFactory(user=pc.user, case_number="15")
+    PriorCaseFactory(user=pc.user, case_number="16")
+    PriorCaseFactory(user=pc.user, case_number="17")
+    v = hp.HPActionVariables()
+    fill_prior_cases(v, pc.user, EMERGENCY)
+    assert (
+        v.prior_relief_sought_case_numbers_and_dates_te
+        == "R #123456789 on 2018-01-03, R #15 on 2018-01-03, R #16 on 2018-01-03 and 1 more"
+    )
 
 
 @pytest.mark.parametrize(

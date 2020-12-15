@@ -393,7 +393,9 @@ const KYR_LINKS: LocalizedOutboundLinkProps[] = [
     children: <Trans>JustFix.nyc's Learning Center</Trans>,
     hrefs: {
       en:
-        "https://www.justfix.nyc/learn?utm_source=tenantplatform&utm_medium=rh",
+        "https://www.justfix.nyc/en/learn?utm_source=tenantplatform&utm_medium=rh",
+      es:
+        "https://www.justfix.nyc/es/learn?utm_source=tenantplatform&utm_medium=rh",
     },
   },
 ];
@@ -458,7 +460,7 @@ function RentalHistoryConfirmation(): JSX.Element {
       </p>
       <Link
         to={JustfixRoutes.locale.homeWithSearch(onboardingInfo)}
-        className="button is-primary is-medium"
+        className="button is-primary is-medium jf-is-extra-wide"
       >
         <Trans>Explore our other tools</Trans>
       </Link>

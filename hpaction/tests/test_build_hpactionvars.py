@@ -123,7 +123,7 @@ def test_emergency_hpa_filters_out_non_emergency_issues(db):
 
     assert first.area_complained_of_mc == hp.AreaComplainedOfMC.MY_APARTMENT
     assert first.which_room_mc.value == "All Rooms"  # type: ignore
-    assert first.conditions_complained_of_te == "No Heat"
+    assert first.conditions_complained_of_te == "No heat"
 
     assert second.area_complained_of_mc == hp.AreaComplainedOfMC.MY_APARTMENT
     assert second.which_room_mc.value == "All Rooms"  # type: ignore

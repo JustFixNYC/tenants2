@@ -25,7 +25,7 @@ def hdinfo_to_str(hdinfo: HDInfo) -> str:
 
 
 def get_answers_and_documents(token: UploadToken, hdinfo: HDInfo) -> Optional[HPActionDocuments]:
-    '''
+    """
     Given an upload token and HotDocs answers, call Law Help Interactive's
     GetAnswersAndDocuments SOAP endpoint, which should POST the generated
     HP Action PDF and answer file back to us. We'll then return these
@@ -33,7 +33,7 @@ def get_answers_and_documents(token: UploadToken, hdinfo: HDInfo) -> Optional[HP
 
     If HP Action integration is disabled, or if a network or SOAP error occurs,
     we log an error and return None instead.
-    '''
+    """
 
     token_id = token.id
 
@@ -45,8 +45,7 @@ def get_answers_and_documents(token: UploadToken, hdinfo: HDInfo) -> Optional[HP
     hdinfo_str = hdinfo_to_str(hdinfo)
     postback_url = token.get_upload_url()
     transport = zeep.transports.Transport(
-        timeout=settings.HP_ACTION_TIMEOUT,
-        operation_timeout=settings.HP_ACTION_TIMEOUT
+        timeout=settings.HP_ACTION_TIMEOUT, operation_timeout=settings.HP_ACTION_TIMEOUT
     )
     client = zeep.Client(f"{settings.HP_ACTION_API_ENDPOINT}?wsdl", transport=transport)
 
@@ -56,7 +55,7 @@ def get_answers_and_documents(token: UploadToken, hdinfo: HDInfo) -> Optional[HP
             TemplateId=settings.HP_ACTION_TEMPLATE_ID,
             HDInfo=hdinfo_str,
             DocID=token_id,
-            PostBackUrl=postback_url
+            PostBackUrl=postback_url,
         )
     except Exception:
         logger.exception("Error occurred while calling GetAnswersAndDocuments().")
@@ -72,10 +71,10 @@ def get_answers_and_documents(token: UploadToken, hdinfo: HDInfo) -> Optional[HP
 
 
 def get_answers_and_documents_and_notify(token_id: str) -> None:
-    '''
+    """
     Attempt to generate a user's HP Action packet, and send related notifications
     to interested parties.
-    '''
+    """
 
     token = UploadToken.objects.find_unexpired(token_id)
     assert token is not None
@@ -97,9 +96,10 @@ def get_answers_and_documents_and_notify(token_id: str) -> None:
         slack.sendmsg_async(
             f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
             f"has generated {label} legal forms!",
-            is_safe=True
+            is_safe=True,
         )
 
 
 async_get_answers_and_documents_and_notify = threaded_fire_and_forget_task(
-    get_answers_and_documents_and_notify)
+    get_answers_and_documents_and_notify
+)

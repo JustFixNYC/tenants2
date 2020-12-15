@@ -21,7 +21,7 @@ def to_str_list(value: Union[str, List[str]]) -> List[str]:
 
 
 class CSPHashingMiddleware(CSPMiddleware):
-    '''
+    """
     This adds supprt for CSP 2.0 inline script hashes, while
     also maintaining compatibility with CSP 1.0.
 
@@ -64,20 +64,20 @@ class CSPHashingMiddleware(CSPMiddleware):
     seems like a decent tradeoff since those browsers are
     (hopefully) in a vanishingly small percentage and inline scripts
     are important for performance.
-    '''
+    """
 
     def _allow_inline_script(self, request, content):
         m = sha256()
-        m.update(content.encode('utf-8'))
-        b64hash = base64.b64encode(m.digest()).decode('ascii')
+        m.update(content.encode("utf-8"))
+        b64hash = base64.b64encode(m.digest()).decode("ascii")
         hashval = f"'sha256-{b64hash}'"
-        prev = getattr(request, '_csp_script_hashes', [])
-        setattr(request, '_csp_script_hashes', prev + [hashval])
+        prev = getattr(request, "_csp_script_hashes", [])
+        setattr(request, "_csp_script_hashes", prev + [hashval])
 
     def _csp_update(self, request, **kwargs):
-        update = dict((k.lower().replace('_', '-'), v) for k, v in kwargs.items())
-        prev = getattr(request, '_csp_updates', [])
-        setattr(request, '_csp_updates', prev + [update])
+        update = dict((k.lower().replace("_", "-"), v) for k, v in kwargs.items())
+        prev = getattr(request, "_csp_updates", [])
+        setattr(request, "_csp_updates", prev + [update])
 
     def process_request(self, request):
         super().process_request(request)
@@ -95,24 +95,22 @@ class CSPHashingMiddleware(CSPMiddleware):
         return result
 
     def process_response(self, request, response):
-        script_hashes: List[str] = getattr(request, '_csp_script_hashes', [])
-        csp_updates: List[CspUpdateDict] = getattr(
-            request, '_csp_updates', [])
-        response_csp_update: CspUpdateDict = getattr(
-            response, '_csp_update', {})
+        script_hashes: List[str] = getattr(request, "_csp_script_hashes", [])
+        csp_updates: List[CspUpdateDict] = getattr(request, "_csp_updates", [])
+        response_csp_update: CspUpdateDict = getattr(response, "_csp_update", {})
 
         csp_updates.append(response_csp_update)
 
         if script_hashes:
-            csp_updates.append({'script-src': ["'unsafe-inline'"] + script_hashes})
+            csp_updates.append({"script-src": ["'unsafe-inline'"] + script_hashes})
 
-        setattr(response, '_csp_update', self._merge_csp_updates(csp_updates))
+        setattr(response, "_csp_update", self._merge_csp_updates(csp_updates))
 
         return super().process_response(request, response)
 
 
 def hostname_redirect_middleware(get_response):
-    '''
+    """
     Middleware to redirect access to any of the domains specified
     by the keys in settings.HOSTNAME_REDIRECTS to their corresponding
     values. Preserves the full path of the URL.
@@ -120,25 +118,25 @@ def hostname_redirect_middleware(get_response):
     For example, if settings.HOSTNAME_REDIRECTS is {'foo.com': 'bar.com'},
     then any accesses to http://foo.com/blah will be redirected to
     http://bar.com/blah.
-    '''
+    """
 
     def middleware(request):
         host = request.get_host()
         if host in settings.HOSTNAME_REDIRECTS:
             new_host = settings.HOSTNAME_REDIRECTS[host]
             path = request.get_full_path()
-            return HttpResponseRedirect(f'{get_protocol()}://{new_host}{path}')
+            return HttpResponseRedirect(f"{get_protocol()}://{new_host}{path}")
         return get_response(request)
 
     return middleware
 
 
 def rollbar_request_middleware(get_response):
-    '''
+    """
     For the duration of the current request, hold it in
     thread-local storage so Rollbar can access it when
     reporting.
-    '''
+    """
 
     def middleware(request):
         with monkeypatch_rollbar.set_current_rollbar_request(request):

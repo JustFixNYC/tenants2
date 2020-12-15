@@ -12,7 +12,7 @@ class IssueInline(admin.TabularInline):
     # This needs to be here, or else there will be an extremely bizarre
     # "Please correct the errors below" error with no actual errors
     # highlighted.
-    readonly_fields = ('area', 'value')
+    readonly_fields = ("area", "value")
 
     # We're not allowing this to be edited right now because it'd be really confusing,
     # given the coupling between the 'area' and 'value' fields.

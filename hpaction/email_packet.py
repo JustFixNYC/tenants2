@@ -17,7 +17,7 @@ def email_packet(user_id: int, recipients: List[str]) -> None:
             f"which {user.first_name} requested we send you."
         ),
         recipients=recipients,
-        attachment=get_latest_pdf_for_user(user, HP_ACTION_CHOICES.NORMAL)
+        attachment=get_latest_pdf_for_user(user, HP_ACTION_CHOICES.NORMAL),
     )
 
 

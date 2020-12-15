@@ -4,4 +4,4 @@ from frontend.initial_props import (
 
 
 def test_get_enabled_locales_works():
-    assert 'en' in get_enabled_locales()
+    assert "en" in get_enabled_locales()

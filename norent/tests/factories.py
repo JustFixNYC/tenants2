@@ -37,7 +37,7 @@ class LetterFactory(factory.django.DjangoModelFactory):
 
     @classmethod
     def _create(self, model_class, *args, **kwargs):
-        rp = kwargs.pop('rent_period')
+        rp = kwargs.pop("rent_period")
         letter = Letter(*args, **kwargs)
         letter.save()
         letter.rent_periods.add(rp)

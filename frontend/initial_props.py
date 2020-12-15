@@ -17,13 +17,11 @@ TEST_INTERNAL_SERVER_ERROR = False
 
 
 def get_webpack_public_path_url() -> str:
-    return f'{settings.STATIC_URL}frontend/'
+    return f"{settings.STATIC_URL}frontend/"
 
 
 def get_enabled_locales() -> List[str]:
-    return [
-        locale for locale, name in settings.LANGUAGES
-    ]
+    return [locale for locale, name in settings.LANGUAGES]
 
 
 def create_initial_props_for_lambda(
@@ -32,7 +30,7 @@ def create_initial_props_for_lambda(
     locale: str,
     initial_session: Dict[str, Any],
     origin_url: str,
-    legacy_form_submission: Optional[Dict[str, Any]] = None
+    legacy_form_submission: Optional[Dict[str, Any]] = None,
 ):
     webpack_public_path_url = get_webpack_public_path_url()
     site_type = get_site_type(site)
@@ -41,35 +39,35 @@ def create_initial_props_for_lambda(
     # in the AppProps interface in frontend/lib/app.tsx. So if you
     # add or remove anything here, make sure to do the same over there!
     initial_props: Dict[str, Any] = {
-        'initialURL': url,
-        'initialSession': initial_session,
-        'locale': locale,
-        'server': {
-            'originURL': origin_url,
-            'siteName': site.name,
-            'siteType': site_type,
-            'staticURL': settings.STATIC_URL,
-            'webpackPublicPathURL': webpack_public_path_url,
-            'adminIndexURL': reverse('admin:index'),
-            'batchGraphQLURL': reverse('batch-graphql'),
-            'finishedLocPdfURL': reverse('finished_loc_pdf'),
-            'enableSafeModeURL': reverse('safe_mode:enable'),
-            'navbarLabel': settings.NAVBAR_LABEL,
-            'wowOrigin': settings.WOW_ORIGIN,
-            'efnycOrigin': settings.EFNYC_ORIGIN,
-            'enableEmergencyHPAction': settings.ENABLE_EMERGENCY_HP_ACTION,
-            'mapboxAccessToken': settings.MAPBOX_ACCESS_TOKEN,
-            'isDemoDeployment': settings.IS_DEMO_DEPLOYMENT,
-            'enabledLocales': get_enabled_locales(),
-            'enableWipLocales': settings.ENABLE_WIP_LOCALES,
-            'debug': settings.DEBUG,
-            'facebookAppId': settings.FACEBOOK_APP_ID
+        "initialURL": url,
+        "initialSession": initial_session,
+        "locale": locale,
+        "server": {
+            "originURL": origin_url,
+            "siteName": site.name,
+            "siteType": site_type,
+            "staticURL": settings.STATIC_URL,
+            "webpackPublicPathURL": webpack_public_path_url,
+            "adminIndexURL": reverse("admin:index"),
+            "batchGraphQLURL": reverse("batch-graphql"),
+            "finishedLocPdfURL": reverse("finished_loc_pdf"),
+            "enableSafeModeURL": reverse("safe_mode:enable"),
+            "navbarLabel": settings.NAVBAR_LABEL,
+            "wowOrigin": settings.WOW_ORIGIN,
+            "efnycOrigin": settings.EFNYC_ORIGIN,
+            "enableEmergencyHPAction": settings.ENABLE_EMERGENCY_HP_ACTION,
+            "mapboxAccessToken": settings.MAPBOX_ACCESS_TOKEN,
+            "isDemoDeployment": settings.IS_DEMO_DEPLOYMENT,
+            "enabledLocales": get_enabled_locales(),
+            "enableWipLocales": settings.ENABLE_WIP_LOCALES,
+            "debug": settings.DEBUG,
+            "facebookAppId": settings.FACEBOOK_APP_ID,
         },
-        'testInternalServerError': TEST_INTERNAL_SERVER_ERROR,
+        "testInternalServerError": TEST_INTERNAL_SERVER_ERROR,
     }
 
     if legacy_form_submission is not None:
-        initial_props['legacyFormSubmission'] = legacy_form_submission
+        initial_props["legacyFormSubmission"] = legacy_form_submission
 
     return initial_props
 
@@ -86,6 +84,6 @@ def create_initial_props_for_lambda_from_request(
         url=url,
         locale=locale,
         initial_session=get_initial_session(request),
-        origin_url=request.build_absolute_uri('/')[:-1],
+        origin_url=request.build_absolute_uri("/")[:-1],
         legacy_form_submission=legacy_form_submission,
     )

@@ -8,14 +8,27 @@ from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES, ISSUE_CHOICES
 from issues.forms import CUSTOM_ISSUE_MAX_LENGTH
 from hpaction.models import FeeWaiverDetails, HP_ACTION_CHOICES
 from hpaction.build_hpactionvars import (
-    user_to_hpactionvars, justfix_issue_area_to_hp_room, fill_fee_waiver_details,
-    fill_tenant_children, get_tenant_repairs_allegations_mc,
-    fill_hp_action_details, fill_harassment_details, get_hpactionvars_attr_for_harassment_alleg,
-    fill_prior_cases, fill_prior_repairs_and_harassment_mcs,
-    fill_landlord_info, reduce_number_of_lines, ISSUES_TO_MERGE)
+    user_to_hpactionvars,
+    justfix_issue_area_to_hp_room,
+    fill_fee_waiver_details,
+    fill_tenant_children,
+    get_tenant_repairs_allegations_mc,
+    fill_hp_action_details,
+    fill_harassment_details,
+    get_hpactionvars_attr_for_harassment_alleg,
+    fill_prior_cases,
+    fill_prior_repairs_and_harassment_mcs,
+    fill_landlord_info,
+    reduce_number_of_lines,
+    ISSUES_TO_MERGE,
+)
 from .factories import (
-    TenantChildFactory, HPActionDetailsFactory, HarassmentDetailsFactory, PriorCaseFactory,
-    ManagementCompanyDetailsFactory)
+    TenantChildFactory,
+    HPActionDetailsFactory,
+    HarassmentDetailsFactory,
+    PriorCaseFactory,
+    ManagementCompanyDetailsFactory,
+)
 import hpaction.hpactionvars as hp
 from hpaction.merge_issues import merge_issue_models
 from .test_merge_issues import mkissue
@@ -27,18 +40,18 @@ EMERGENCY = HP_ACTION_CHOICES.EMERGENCY
 
 class TestReduceNumberOfLines:
     def test_it_does_nothing_if_lines_are_not_greater_than_limit(self):
-        assert reduce_number_of_lines('a\nb\nc', 3, 10) == 'a\nb\nc'
+        assert reduce_number_of_lines("a\nb\nc", 3, 10) == "a\nb\nc"
 
     def test_it_removes_lines_if_lines_are_greater_than_limit(self):
-        assert reduce_number_of_lines('a\n\nb\n\nc', 3, 10) == 'a / b / c'
+        assert reduce_number_of_lines("a\n\nb\n\nc", 3, 10) == "a / b / c"
 
     def test_it_removes_lines_if_wrapped_lines_are_greater_than_limit(self):
-        assert reduce_number_of_lines('a beep bop boop\nb\nc', 3, 10) == 'a beep bop boop / b / c'
+        assert reduce_number_of_lines("a beep bop boop\nb\nc", 3, 10) == "a beep bop boop / b / c"
 
 
 def test_justfix_issue_to_hp_room_works():
-    assert justfix_issue_area_to_hp_room('HOME') is hp.WhichRoomMC.ALL_ROOMS
-    assert justfix_issue_area_to_hp_room('BEDROOMS').value == "Bedrooms"
+    assert justfix_issue_area_to_hp_room("HOME") is hp.WhichRoomMC.ALL_ROOMS
+    assert justfix_issue_area_to_hp_room("BEDROOMS").value == "Bedrooms"
 
 
 def test_user_to_hpactionvars_requests_fee_waiver_only_if_model_exists(db):
@@ -61,8 +74,7 @@ def test_user_to_hpactionvars_sues_only_if_user_wants_to(db):
     assert v.sue_for_harassment_tf is None
     assert v.sue_for_repairs_tf is None
 
-    hpd = HPActionDetailsFactory(
-        user=user, sue_for_harassment=True, sue_for_repairs=False)
+    hpd = HPActionDetailsFactory(user=user, sue_for_harassment=True, sue_for_repairs=False)
     v = user_to_hpactionvars(user, NORMAL)
     assert v.sue_for_harassment_tf is True
     assert v.sue_for_repairs_tf is False
@@ -82,9 +94,9 @@ def test_user_to_hpactionvars_populates_basic_info(db):
 
 
 def test_user_to_hpactionvars_populates_onboarding_info(db):
-    oi = OnboardingInfoFactory.create(apt_number='2B', borough='BROOKLYN', floor_number=5)
+    oi = OnboardingInfoFactory.create(apt_number="2B", borough="BROOKLYN", floor_number=5)
     v = user_to_hpactionvars(oi.user, NORMAL)
-    assert v.tenant_address_apt_no_te == '2B'
+    assert v.tenant_address_apt_no_te == "2B"
     assert v.court_county_mc == hp.CourtCountyMC.KINGS
     assert v.court_location_mc == hp.CourtLocationMC.KINGS_COUNTY
     assert v.tenant_address_floor_nu == 5
@@ -96,15 +108,15 @@ def test_emergency_hpa_filters_out_non_emergency_issues(db):
     Issue.objects.set_area_issues_for_user(
         user,
         ISSUE_AREA_CHOICES.HOME,
-        [ISSUE_CHOICES.HOME__NO_HEAT, ISSUE_CHOICES.HOME__BUZZER_BROKEN]
+        [ISSUE_CHOICES.HOME__NO_HEAT, ISSUE_CHOICES.HOME__BUZZER_BROKEN],
     )
-    user.custom_issues.add(CustomIssue(
-        area=ISSUE_AREA_CHOICES.HOME,
-        description='SUPERMOLD'
-    ), CustomIssue(
-        area=ISSUE_AREA_CHOICES.PUBLIC_AREAS,
-        description='Lobby is consumed by darkness'
-    ), bulk=False)
+    user.custom_issues.add(
+        CustomIssue(area=ISSUE_AREA_CHOICES.HOME, description="SUPERMOLD"),
+        CustomIssue(
+            area=ISSUE_AREA_CHOICES.PUBLIC_AREAS, description="Lobby is consumed by darkness"
+        ),
+        bulk=False,
+    )
     v = user_to_hpactionvars(user, EMERGENCY)
     assert len(v.tenant_complaints_list) == 2
     first, second = v.tenant_complaints_list
@@ -122,14 +134,14 @@ def test_emergency_hpa_filters_out_non_emergency_issues(db):
 def test_user_to_hpactionvars_populates_issues(db):
     user = UserFactory()
     Issue.objects.set_area_issues_for_user(
-        user,
-        ISSUE_AREA_CHOICES.KITCHEN,
-        [ISSUE_CHOICES.KITCHEN__MOLD]
+        user, ISSUE_AREA_CHOICES.KITCHEN, [ISSUE_CHOICES.KITCHEN__MOLD]
     )
-    user.custom_issues.add(CustomIssue(
-        area=ISSUE_AREA_CHOICES.PUBLIC_AREAS,
-        description='Lobby is consumed by darkness'
-    ), bulk=False)
+    user.custom_issues.add(
+        CustomIssue(
+            area=ISSUE_AREA_CHOICES.PUBLIC_AREAS, description="Lobby is consumed by darkness"
+        ),
+        bulk=False,
+    )
     v = user_to_hpactionvars(user, NORMAL)
     assert len(v.tenant_complaints_list) == 2
     first, second = v.tenant_complaints_list
@@ -144,9 +156,9 @@ def test_user_to_hpactionvars_populates_issues(db):
     v.to_answer_set()
 
 
-@pytest.mark.parametrize('use_bin', [True, False])
+@pytest.mark.parametrize("use_bin", [True, False])
 def test_user_to_hpactionvars_populates_med_ll_info_from_nycdb(db, nycdb, use_bin):
-    med = nycdb.load_hpd_registration('medium-landlord.json')
+    med = nycdb.load_hpd_registration("medium-landlord.json")
     oinfo = OnboardingInfoFactory(**onboarding_info_pad_kwarg(med, use_bin))
     v = user_to_hpactionvars(oinfo.user, NORMAL)
     assert v.landlord_entity_name_te == "ULTRA DEVELOPERS, LLC"
@@ -162,14 +174,14 @@ def test_user_to_hpactionvars_populates_med_ll_info_from_nycdb(db, nycdb, use_bi
 def onboarding_info_pad_kwarg(hpd_reg, use_bin):
     if use_bin:
         assert hpd_reg.bin
-        return {'pad_bin': hpd_reg.bin}
+        return {"pad_bin": hpd_reg.bin}
     assert hpd_reg.pad_bbl
-    return {'pad_bbl': hpd_reg.pad_bbl}
+    return {"pad_bbl": hpd_reg.pad_bbl}
 
 
-@pytest.mark.parametrize('use_bin', [True, False])
+@pytest.mark.parametrize("use_bin", [True, False])
 def test_user_to_hpactionvars_populates_tiny_ll_info_from_nycdb(db, nycdb, use_bin):
-    tiny = nycdb.load_hpd_registration('tiny-landlord.json')
+    tiny = nycdb.load_hpd_registration("tiny-landlord.json")
     oinfo = OnboardingInfoFactory(**onboarding_info_pad_kwarg(tiny, use_bin))
     v = user_to_hpactionvars(oinfo.user, NORMAL)
     assert v.landlord_entity_name_te == "BOOP JONES"
@@ -181,13 +193,13 @@ def test_fill_fee_waiver_details_works():
     v = hp.HPActionVariables(sue_for_repairs_tf=True)
     fwd = FeeWaiverDetails(
         receives_public_assistance=True,
-        rent_amount=Decimal('5.00'),
-        income_amount_monthly=Decimal('11.50'),
+        rent_amount=Decimal("5.00"),
+        income_amount_monthly=Decimal("11.50"),
         income_src_employment=True,
         income_src_hra=True,
-        expense_utilities=Decimal('1.50'),
-        expense_cable=Decimal('2.50'),
-        expense_phone=Decimal('0.25'),
+        expense_utilities=Decimal("1.50"),
+        expense_cable=Decimal("2.50"),
+        expense_phone=Decimal("0.25"),
         asked_before=False,
     )
     fill_fee_waiver_details(v, fwd)
@@ -196,7 +208,7 @@ def test_fill_fee_waiver_details_works():
     assert v.request_fee_waiver_tf is True
     assert v.tenant_receives_public_assistance_tf is True
     assert v.tenant_income_nu == 11.50
-    assert v.tenant_income_source_te == 'Employment, HRA'
+    assert v.tenant_income_source_te == "Employment, HRA"
     assert v.tenant_monthly_rent_nu == 5
     assert v.tenant_monthly_exp_utilities_nu == 1.50
     assert v.tenant_monthly_exp_other_nu == 2.75
@@ -209,8 +221,10 @@ def test_fill_fee_waiver_details_works():
 
     assert v.previous_application_tf is True
     assert v.reason_for_further_application_te == "economic hardship"
-    assert v.cause_of_action_description_te == \
-        "Landlord has failed to do repairs and engaged in harassing behaviors"
+    assert (
+        v.cause_of_action_description_te
+        == "Landlord has failed to do repairs and engaged in harassing behaviors"
+    )
 
 
 def test_fill_tenant_children_works_when_there_are_no_children():
@@ -237,18 +251,30 @@ def test_fill_tenant_children_works_when_there_are_children():
 COMPLAINED_30_DAYS_AGO = dict(filed_with_311=True, thirty_days_since_311=True)
 
 
-@pytest.mark.parametrize('hp_action_details_kwargs,expected', [
-    (dict(), None),
-    (dict(filed_with_311=True), None),
-    (dict(filed_with_311=True, thirty_days_since_311=True, hpd_issued_violations=False),
-     hp.TenantRepairsAllegationsMC.NO_NOTICE_ISSUED),
-    (dict(filed_with_311=True, thirty_days_since_311=False, hpd_issued_violations=False),
-     None),
-    (dict(filed_with_311=True, hpd_issued_violations=True, thirty_days_since_violations=True),
-     hp.TenantRepairsAllegationsMC.NOTICE_ISSUED),
-    (dict(filed_with_311=True, hpd_issued_violations=True, thirty_days_since_violations=False),
-     None),
-])
+@pytest.mark.parametrize(
+    "hp_action_details_kwargs,expected",
+    [
+        (dict(), None),
+        (dict(filed_with_311=True), None),
+        (
+            dict(filed_with_311=True, thirty_days_since_311=True, hpd_issued_violations=False),
+            hp.TenantRepairsAllegationsMC.NO_NOTICE_ISSUED,
+        ),
+        (dict(filed_with_311=True, thirty_days_since_311=False, hpd_issued_violations=False), None),
+        (
+            dict(
+                filed_with_311=True, hpd_issued_violations=True, thirty_days_since_violations=True
+            ),
+            hp.TenantRepairsAllegationsMC.NOTICE_ISSUED,
+        ),
+        (
+            dict(
+                filed_with_311=True, hpd_issued_violations=True, thirty_days_since_violations=False
+            ),
+            None,
+        ),
+    ],
+)
 def test_get_tenant_repairs_allegations_mc_works(hp_action_details_kwargs, expected):
     h = HPActionDetailsFactory.build(**hp_action_details_kwargs)
     assert get_tenant_repairs_allegations_mc(h) == expected
@@ -285,7 +311,7 @@ def test_fill_harassment_details_works():
         two_or_less_apartments_in_building=False,
         more_than_one_family_per_apartment=False,
         alleg_sued=True,
-        harassment_details="Blarg"
+        harassment_details="Blarg",
     )
     v = hp.HPActionVariables()
     fill_harassment_details(v, h)
@@ -293,7 +319,7 @@ def test_fill_harassment_details_works():
     assert v.more_than_one_family_per_apartment_tf is False
     assert v.harassment_sued_tf is True
     assert v.harassment_stopped_service_tf is False
-    assert v.harassment_details_te == 'Blarg'
+    assert v.harassment_details_te == "Blarg"
     assert v.prior_relief_sought_case_numbers_and_dates_te is None
 
 
@@ -312,10 +338,13 @@ def test_user_to_hpactionvars_populates_harassment_only_if_user_wants_it(db):
     assert v.prior_repairs_case_mc == hp.PriorRepairsCaseMC.YES
 
 
-@pytest.mark.parametrize("enum_name,attr_name", [
-    (entry.name, get_hpactionvars_attr_for_harassment_alleg(entry.name))
-    for entry in hp.HarassmentAllegationsMS
-])
+@pytest.mark.parametrize(
+    "enum_name,attr_name",
+    [
+        (entry.name, get_hpactionvars_attr_for_harassment_alleg(entry.name))
+        for entry in hp.HarassmentAllegationsMS
+    ],
+)
 def test_hp_action_variables_has_harassment_allegation_attr(enum_name, attr_name):
     v = hp.HPActionVariables()
     assert hasattr(v, attr_name)
@@ -324,18 +353,33 @@ def test_hp_action_variables_has_harassment_allegation_attr(enum_name, attr_name
 def test_fill_prior_cases_works(db):
     pc = PriorCaseFactory()
     v = hp.HPActionVariables()
-    fill_prior_cases(v, pc.user)
+    fill_prior_cases(v, pc.user, NORMAL)
     assert v.prior_repairs_case_mc == hp.PriorRepairsCaseMC.YES
     assert v.prior_harassment_case_mc == hp.PriorHarassmentCaseMC.NO
-    assert v.prior_relief_sought_case_numbers_and_dates_te == \
-        "R #123456789 on 2018-01-03"
+    assert v.prior_relief_sought_case_numbers_and_dates_te == "R #123456789 on 2018-01-03"
 
 
-@pytest.mark.parametrize('kwargs,repairs,harassment', [
-    [dict(is_repairs=True, is_harassment=False), 'YES', 'NO'],
-    [dict(is_repairs=False, is_harassment=True), 'NO', 'YES'],
-    [dict(is_repairs=True, is_harassment=True), 'YES', 'YES'],
-])
+def test_fill_prior_cases_are_abbreviated_for_ehpa(db):
+    pc = PriorCaseFactory()
+    PriorCaseFactory(user=pc.user, case_number="15")
+    PriorCaseFactory(user=pc.user, case_number="16")
+    PriorCaseFactory(user=pc.user, case_number="17")
+    v = hp.HPActionVariables()
+    fill_prior_cases(v, pc.user, EMERGENCY)
+    assert (
+        v.prior_relief_sought_case_numbers_and_dates_te
+        == "R #123456789 on 2018-01-03, R #15 on 2018-01-03, R #16 on 2018-01-03 and 1 more"
+    )
+
+
+@pytest.mark.parametrize(
+    "kwargs,repairs,harassment",
+    [
+        [dict(is_repairs=True, is_harassment=False), "YES", "NO"],
+        [dict(is_repairs=False, is_harassment=True), "NO", "YES"],
+        [dict(is_repairs=True, is_harassment=True), "YES", "YES"],
+    ],
+)
 def test_fill_prior_repairs_and_harassment_mcs_works(kwargs, repairs, harassment):
     pc = PriorCaseFactory.build(**kwargs)
     v = hp.HPActionVariables()
@@ -347,13 +391,16 @@ def test_fill_prior_repairs_and_harassment_mcs_works(kwargs, repairs, harassment
 class TestFillLandlordInfo:
     DEFAULT_NYCHA = "NYC Housing Authority Law Dept"
 
-    @pytest.mark.parametrize('onb_kwargs,is_nycha,name', [
-        ({}, False, None),
-        ({'pad_bbl': ''}, False, None),
-        ({'lease_type': 'NYCHA'}, True, DEFAULT_NYCHA),
-        ({'pad_bbl': '1234567890'}, False, None),
-        ({'borough': 'BRONX', 'pad_bbl': '2022150116'}, True, "NYCHA Marble Hill Houses"),
-    ])
+    @pytest.mark.parametrize(
+        "onb_kwargs,is_nycha,name",
+        [
+            ({}, False, None),
+            ({"pad_bbl": ""}, False, None),
+            ({"lease_type": "NYCHA"}, True, DEFAULT_NYCHA),
+            ({"pad_bbl": "1234567890"}, False, None),
+            ({"borough": "BRONX", "pad_bbl": "2022150116"}, True, "NYCHA Marble Hill Houses"),
+        ],
+    )
     def test_it_sets_nycha_info(self, db, loaded_nycha_csv_data, onb_kwargs, is_nycha, name):
         oinfo = OnboardingInfoFactory(**onb_kwargs)
         v = hp.HPActionVariables()
@@ -401,10 +448,8 @@ class TestFillLandlordInfo:
 
 def test_merged_issues_are_not_too_long():
     for merger in ISSUES_TO_MERGE:
-        issues = merge_issue_models([
-            mkissue(value)
-            for value in merger.values
-        ], [merger])
+        issues = merge_issue_models([mkissue(value) for value in merger.values], [merger])
         for issue in issues:
-            assert len(issue.description) < CUSTOM_ISSUE_MAX_LENGTH, \
-                f"'{issue.description}' should not be too long"
+            assert (
+                len(issue.description) < CUSTOM_ISSUE_MAX_LENGTH
+            ), f"'{issue.description}' should not be too long"

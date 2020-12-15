@@ -11,10 +11,10 @@ LETTER_HEIGHT = 11.0 * POINTS_PER_INCH
 
 
 def convert_to_letter_pages(pdf: BinaryIO) -> BinaryIO:
-    '''
+    """
     Return a PDF that embeds all pages of the given PDF in
     letter-sized pages, ensuring that Lob will not reject them.
-    '''
+    """
 
     reader = PyPDF2.PdfFileReader(pdf)
     writer = PyPDF2.PdfFileWriter()

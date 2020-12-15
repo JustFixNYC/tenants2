@@ -4,7 +4,7 @@ from django.db import transaction
 
 
 def uuid_from_url(url: str) -> str:
-    '''
+    """
     Given a RapidPro URL for editing a flow or filtering for a group, return the UUID of
     the flow or group.
 
@@ -13,15 +13,15 @@ def uuid_from_url(url: str) -> str:
 
     >>> uuid_from_url('https://textit.in/contact/filter/846c2eb8-45e8-48c5-b130-02c53be1aece/')
     '846c2eb8-45e8-48c5-b130-02c53be1aece'
-    '''
+    """
 
-    return url.split('/')[-2]
+    return url.split("/")[-2]
 
 
 def iter_cursor_dicts(cursor):
-    '''
+    """
     Return an iterator over the dict representations of the given cursor's rows.
-    '''
+    """
 
     columns = [column.name for column in cursor.description]
 
@@ -30,10 +30,10 @@ def iter_cursor_dicts(cursor):
 
 
 class BatchWriter:
-    '''
+    """
     A context manager for writing out Django models in bulk batches, to
     speed up database writes.
-    '''
+    """
 
     def __init__(self, model_class, batch_size=1000, ignore_conflicts=False, silent=False):
         self.model_class = model_class

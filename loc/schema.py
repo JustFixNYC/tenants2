@@ -17,7 +17,7 @@ from .landlord_info_mutation import (
 )
 from airtable.sync import sync_user as sync_user_with_airtable
 
-MAX_RECIPIENTS = common_data.load_json("email-attachment-validation.json")['maxRecipients']
+MAX_RECIPIENTS = common_data.load_json("email-attachment-validation.json")["maxRecipients"]
 
 
 @schema_registry.register_mutation
@@ -100,7 +100,7 @@ class LetterRequest(OneToOneUserModelFormMutation):
     def perform_mutate(cls, form: forms.LetterRequestForm, info: ResolveInfo):
         request = info.context
         lr = form.save()
-        if lr.mail_choice == 'WE_WILL_MAIL':
+        if lr.mail_choice == "WE_WILL_MAIL":
             sync_user_with_airtable(request.user)
             lr.user.send_sms_async(
                 f"{get_site_name()} here - we've received your request and will "
@@ -112,7 +112,7 @@ class LetterRequest(OneToOneUserModelFormMutation):
             f"{slack.hyperlink(text=lr.user.first_name, href=lr.user.admin_url)} "
             f"has completed a letter of complaint with the mail choice "
             f"*{slack.escape(models.LOC_MAILING_CHOICES.get_label(lr.mail_choice))}*!",
-            is_safe=True
+            is_safe=True,
         )
         return cls.mutation_success()
 
@@ -121,13 +121,13 @@ class LandlordDetailsType(DjangoObjectType):
     class Meta:
         model = models.LandlordDetails
         only_fields = (
-            'name',
-            'primary_line',
-            'city',
-            'zip_code',
-            'is_looked_up',
-            'email',
-            'phone_number'
+            "name",
+            "primary_line",
+            "city",
+            "zip_code",
+            "is_looked_up",
+            "email",
+            "phone_number",
         )
 
     address = graphene.String(
@@ -137,11 +137,11 @@ class LandlordDetailsType(DjangoObjectType):
             "that this may actually be populated even if individual address "
             "fields are empty; this represents legacy data created before we "
             "split up addresses into individual fields."
-        )
+        ),
     )
 
     def resolve_address(self, context: ResolveInfo) -> str:
-        return '\n'.join(self.address_lines_for_mailing)
+        return "\n".join(self.address_lines_for_mailing)
 
     # If we specify 'state' as a model field, graphene-django will turn
     # it into an enum where the empty string value is an invalid choice,
@@ -155,7 +155,7 @@ class LandlordDetailsType(DjangoObjectType):
 class LetterRequestType(DjangoObjectType):
     class Meta:
         model = models.LetterRequest
-        only_fields = ('mail_choice', 'updated_at', 'tracking_number', 'letter_sent_at')
+        only_fields = ("mail_choice", "updated_at", "tracking_number", "letter_sent_at")
 
 
 @schema_registry.register_session_info
@@ -173,36 +173,30 @@ class LocSessionInfo:
 
 class LetterStyles(graphene.ObjectType):
     inline_pdf_css = graphene.String(
-        required=True,
-        description="Inline CSS to embed when generating PDFs from HTML."
+        required=True, description="Inline CSS to embed when generating PDFs from HTML."
     )
 
     html_css_urls = graphene.List(
         graphene.NonNull(graphene.String),
         required=True,
-        description=(
-            "A list of stylesheet URLs to include in the HTML version "
-            "of a letter."
-        )
+        description=("A list of stylesheet URLs to include in the HTML version " "of a letter."),
     )
 
 
 @schema_registry.register_queries
 class LocQueries:
     letter_styles = graphene.Field(
-        LetterStyles,
-        required=True,
-        description="Details about CSS styling for business letters."
+        LetterStyles, required=True, description="Details about CSS styling for business letters."
     )
 
     def resolve_letter_styles(self, info: ResolveInfo):
         return LetterStyles(
             inline_pdf_css=views.PDF_STYLES_CSS.read_text(),
             html_css_urls=[
-                staticfiles_storage.url('/'.join(views.LOC_FONTS_PATH_PARTS)),
-                staticfiles_storage.url('/'.join(views.PDF_STYLES_PATH_PARTS)),
-                staticfiles_storage.url('/'.join(views.LOC_PREVIEW_STYLES_PATH_PARTS)),
-            ]
+                staticfiles_storage.url("/".join(views.LOC_FONTS_PATH_PARTS)),
+                staticfiles_storage.url("/".join(views.PDF_STYLES_PATH_PARTS)),
+                staticfiles_storage.url("/".join(views.LOC_PREVIEW_STYLES_PATH_PARTS)),
+            ],
         )
 
     recommended_loc_landlord = graphene.Field(
@@ -211,7 +205,7 @@ class LocQueries:
             "The recommended landlord address for "
             "Letter of Complaint for the currently "
             "logged-in user, if any."
-        )
+        ),
     )
 
     def resolve_recommended_loc_landlord(self, info: ResolveInfo):

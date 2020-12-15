@@ -5,8 +5,7 @@ import pytest
 from project import settings
 
 
-assert settings.env.ENABLE_FINDHELP, \
-       "findhelp tests should only run if ENABLE_FINDHELP is set!"
+assert settings.env.ENABLE_FINDHELP, "findhelp tests should only run if ENABLE_FINDHELP is set!"
 
 
 class FakeGeocoder:
@@ -21,8 +20,7 @@ class FakeGeocoder:
         if coords is None:
             return []
         result = SimpleNamespace(
-            properties=SimpleNamespace(label=address),
-            geometry=SimpleNamespace(coordinates=coords)
+            properties=SimpleNamespace(label=address), geometry=SimpleNamespace(coordinates=coords)
         )
         return [result]
 
@@ -32,7 +30,7 @@ def fake_geocoder(monkeypatch):
     from findhelp.models import geocoding
 
     fg = FakeGeocoder()
-    monkeypatch.setattr(geocoding, 'search', fg.search)
+    monkeypatch.setattr(geocoding, "search", fg.search)
     return fg
 
 
@@ -40,4 +38,4 @@ def fake_geocoder(monkeypatch):
 def simulate_findhelp_disabled(monkeypatch):
     from project.settings import env
 
-    monkeypatch.setattr(env, 'ENABLE_FINDHELP', False)
+    monkeypatch.setattr(env, "ENABLE_FINDHELP", False)

@@ -18,7 +18,7 @@ from project.util.model_form_util import (
     OneToOneUserModelFormMutation,
     singletonformset_factory,
     create_model_for_user_resolver,
-    create_models_for_user_resolver
+    create_models_for_user_resolver,
 )
 from project.util.django_graphql_forms import DjangoFormMutation
 from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES
@@ -30,8 +30,14 @@ from loc.landlord_info_mutation import (
 )
 import issues.forms
 from .models import (
-    HPUploadStatus, COMMON_DATA, HP_ACTION_CHOICES, HPActionDocuments,
-    DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES, ManagementCompanyDetails)
+    HPUploadStatus,
+    COMMON_DATA,
+    HP_ACTION_CHOICES,
+    HPActionDocuments,
+    DocusignEnvelope,
+    HP_DOCUSIGN_STATUS_CHOICES,
+    ManagementCompanyDetails,
+)
 import docusign.core
 from . import models, forms, lhiapi, email_packet, docusign as hpadocusign
 from .hpactionvars import HPActionVariables
@@ -75,13 +81,12 @@ class BeginDocusign(DjangoFormMutation):
         if de is None:
             envelope_definition = hpadocusign.create_envelope_definition_for_hpa(docs)
             envelope_id = hpadocusign.create_envelope_for_hpa(
-                envelope_definition=envelope_definition,
-                api_client=api_client
+                envelope_definition=envelope_definition, api_client=api_client
             )
             slack.sendmsg_async(
                 f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
                 f"has started the Emergency HP Action signing ceremony! 🔥",
-                is_safe=True
+                is_safe=True,
             )
             de = DocusignEnvelope(id=envelope_id, docs=docs)
             de.save()
@@ -89,7 +94,7 @@ class BeginDocusign(DjangoFormMutation):
         return_url = hpadocusign.create_callback_url_for_signing_flow(
             request,
             envelope_id=de.id,
-            next_url=absolutify_url(form.cleaned_data['next_url']),
+            next_url=absolutify_url(form.cleaned_data["next_url"]),
         )
 
         url = hpadocusign.create_recipient_view_for_hpa(
@@ -113,14 +118,15 @@ class EmailHpActionPdf(EmailAttachmentMutation):
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         latest = HPActionDocuments.objects.get_latest_for_user(
-            info.context.user, HP_ACTION_CHOICES.NORMAL)
+            info.context.user, HP_ACTION_CHOICES.NORMAL
+        )
         if latest is None:
             return cls.make_error("You do not have an HP Action packet to send!")
         return super().perform_mutate(form, info)
 
 
 def sync_one_value(value: str, is_value_present: bool, values: List[str]) -> List[str]:
-    '''
+    """
     Makes sure that the given value either is or isn't in the given list.
 
     Destructively modifies the list in-place and returns it.
@@ -135,7 +141,7 @@ def sync_one_value(value: str, is_value_present: bool, values: List[str]) -> Lis
         ['jones', 'boop']
         >>> sync_one_value('boop', False, ['jones'])
         ['jones']
-    '''
+    """
 
     if is_value_present and value not in values:
         values.append(value)
@@ -147,8 +153,8 @@ def sync_one_value(value: str, is_value_present: bool, values: List[str]) -> Lis
 class HpLandlordInfoFormWithFormsets(BaseLandlordFormWithFormsets):
     def get_formset_names_to_clean(self) -> List[str]:
         names = super().get_formset_names_to_clean()
-        if 'landlord' in names and self.base_form.cleaned_data.get('use_mgmt_co'):
-            names.append('mgmt_co')
+        if "landlord" in names and self.base_form.cleaned_data.get("use_mgmt_co"):
+            names.append("mgmt_co")
         return names
 
 
@@ -159,7 +165,7 @@ class HpaLandlordInfo(BaseLandlordInfoMutation):
 
         formset_classes = {
             **BaseLandlordInfoMutationMeta.formset_classes,
-            'mgmt_co': singletonformset_factory(
+            "mgmt_co": singletonformset_factory(
                 JustfixUser,
                 ManagementCompanyDetails,
                 forms.ManagementCompanyForm,
@@ -172,17 +178,17 @@ class HpaLandlordInfo(BaseLandlordInfoMutation):
 
     @classmethod
     def clear_mgmt_co_details(cls, user: JustfixUser):
-        if hasattr(user, 'management_company_details'):
+        if hasattr(user, "management_company_details"):
             mc = user.management_company_details
-            mc.name = ''
+            mc.name = ""
             mc.clear_address()
             mc.save()
 
     @classmethod
     def update_manual_details(cls, form, user: JustfixUser):
         super().update_manual_details(form, user)
-        if form.base_form.cleaned_data['use_mgmt_co']:
-            mgmt_co_form = form.formsets['mgmt_co'].forms[0]
+        if form.base_form.cleaned_data["use_mgmt_co"]:
+            mgmt_co_form = form.formsets["mgmt_co"].forms[0]
             mgmt_co_form.save()
         else:
             cls.clear_mgmt_co_details(user)
@@ -193,7 +199,7 @@ class EmergencyHPAIssues(ManyToOneUserModelFormMutation):
     class Meta:
         form_class = forms.EmergencyHPAIssuesForm
         formset_classes = {
-            'custom_home_issues': inlineformset_factory(
+            "custom_home_issues": inlineformset_factory(
                 JustfixUser,
                 CustomIssue,
                 issues.forms.CustomIssueForm,
@@ -210,7 +216,7 @@ class EmergencyHPAIssues(ManyToOneUserModelFormMutation):
     @classmethod
     def get_formset_kwargs(cls, root, info: ResolveInfo, formset_name, input, all_input):
         kwargs = super().get_formset_kwargs(root, info, formset_name, input, all_input)
-        kwargs['queryset'] = CustomIssue.objects.filter(area=cls.CUSTOM_ISSUE_AREA)
+        kwargs["queryset"] = CustomIssue.objects.filter(area=cls.CUSTOM_ISSUE_AREA)
         return kwargs
 
     @classmethod
@@ -220,8 +226,8 @@ class EmergencyHPAIssues(ManyToOneUserModelFormMutation):
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         user = info.context.user
-        issues: List[str] = form.base_form.cleaned_data['issues']
-        formset = form.formsets['custom_home_issues']
+        issues: List[str] = form.base_form.cleaned_data["issues"]
+        formset = form.formsets["custom_home_issues"]
         num_custom_issues = cls.get_number_of_custom_issues(formset)
         if len(issues) + num_custom_issues == 0:
             return cls.make_error(CHOOSE_ONE_MSG)
@@ -241,7 +247,7 @@ class GenerateHpActionPdf(SessionFormMutation):
     @classmethod
     def perform_mutate(cls, form: forms.GeneratePDFForm, info: ResolveInfo):
         user = info.context.user
-        kind: str = form.cleaned_data['kind']
+        kind: str = form.cleaned_data["kind"]
         token = models.UploadToken.objects.create_for_user(user, kind)
         lhiapi.async_get_answers_and_documents_and_notify(token.id)
         return cls.mutation_success()
@@ -250,31 +256,31 @@ class GenerateHpActionPdf(SessionFormMutation):
 class FeeWaiverType(DjangoObjectType):
     class Meta:
         model = models.FeeWaiverDetails
-        exclude_fields = ('user', 'id')
+        exclude_fields = ("user", "id")
 
 
 class HPActionDetailsType(DjangoObjectType):
     class Meta:
         model = models.HPActionDetails
-        exclude_fields = ('user', 'id')
+        exclude_fields = ("user", "id")
 
 
 class HarassmentDetailsType(DjangoObjectType):
     class Meta:
         model = models.HarassmentDetails
-        exclude_fields = ('user', 'id')
+        exclude_fields = ("user", "id")
 
 
 class TenantChildType(DjangoObjectType):
     class Meta:
         model = models.TenantChild
-        exclude_fields = ('user', 'created_at', 'updated_at')
+        exclude_fields = ("user", "created_at", "updated_at")
 
 
 class PriorHPActionCaseType(DjangoObjectType):
     class Meta:
         model = models.PriorCase
-        exclude_fields = ('user', 'created_at', 'updated_at')
+        exclude_fields = ("user", "created_at", "updated_at")
 
 
 @schema_registry.register_mutation
@@ -362,12 +368,12 @@ class AccessForInspection(OneToOneUserModelFormMutation):
 class TenantChildren(ManyToOneUserModelFormMutation):
     class Meta:
         formset_classes = {
-            'children': inlineformset_factory(
+            "children": inlineformset_factory(
                 JustfixUser,
                 models.TenantChild,
                 forms.TenantChildForm,
                 can_delete=True,
-                max_num=COMMON_DATA['TENANT_CHILDREN_MAX_COUNT'],
+                max_num=COMMON_DATA["TENANT_CHILDREN_MAX_COUNT"],
                 validate_max=True,
             )
         }
@@ -377,7 +383,7 @@ class TenantChildren(ManyToOneUserModelFormMutation):
 class PriorHPActionCases(ManyToOneUserModelFormMutation):
     class Meta:
         formset_classes = {
-            'cases': inlineformset_factory(
+            "cases": inlineformset_factory(
                 JustfixUser,
                 models.PriorCase,
                 forms.PriorCaseForm,
@@ -403,8 +409,7 @@ def make_latest_hpa_pdf_field(kind: str):
     label = HP_ACTION_CHOICES.get_label(kind)
     field = graphene.String(
         description=(
-            f"The URL of the most recently-generated {label} PDF "
-            f"for the current user."
+            f"The URL of the most recently-generated {label} PDF " f"for the current user."
         ),
         resolver=resolver,
     )
@@ -436,18 +441,15 @@ def make_hpa_upload_status_field(kind: str):
 @schema_registry.register_session_info
 class HPActionSessionInfo:
     fee_waiver = graphene.Field(
-        FeeWaiverType,
-        resolver=create_model_for_user_resolver(models.FeeWaiverDetails)
+        FeeWaiverType, resolver=create_model_for_user_resolver(models.FeeWaiverDetails)
     )
 
     hp_action_details = graphene.Field(
-        HPActionDetailsType,
-        resolver=create_model_for_user_resolver(models.HPActionDetails)
+        HPActionDetailsType, resolver=create_model_for_user_resolver(models.HPActionDetails)
     )
 
     harassment_details = graphene.Field(
-        HarassmentDetailsType,
-        resolver=create_model_for_user_resolver(models.HarassmentDetails)
+        HarassmentDetailsType, resolver=create_model_for_user_resolver(models.HarassmentDetails)
     )
 
     management_company_details = graphene.Field(
@@ -457,12 +459,12 @@ class HPActionSessionInfo:
             "Will only be non-blank if the user provided these details "
             "themselves (i.e., did not elect to use our recommended details "
             "from open data)."
-        )
+        ),
     )
 
     def resolve_management_company_details(self, info: ResolveInfo):
         user = info.context.user
-        if hasattr(user, 'management_company_details'):
+        if hasattr(user, "management_company_details"):
             return user.management_company_details
         return None
 
@@ -481,12 +483,12 @@ class HPActionSessionInfo:
 
     tenant_children = graphene.List(
         graphene.NonNull(TenantChildType),
-        resolver=create_models_for_user_resolver(models.TenantChild)
+        resolver=create_models_for_user_resolver(models.TenantChild),
     )
 
     prior_hp_action_cases = graphene.List(
         graphene.NonNull(PriorHPActionCaseType),
-        resolver=create_models_for_user_resolver(models.PriorCase)
+        resolver=create_models_for_user_resolver(models.PriorCase),
     )
 
     def resolve_emergency_hp_action_signing_status(self, info: ResolveInfo):
@@ -507,6 +509,7 @@ def _fill_user_landlord_info(info: ResolveInfo) -> Optional[HPActionVariables]:
     user = request.user
     if user.is_authenticated:
         from .build_hpactionvars import fill_landlord_info
+
         v = HPActionVariables()
         if fill_landlord_info(v, user, use_user_landlord_details=False):
             return v
@@ -521,7 +524,7 @@ class HpQueries:
             "The recommended landlord address for "
             "HP Action for the currently "
             "logged-in user, if any."
-        )
+        ),
     )
 
     def resolve_recommended_hp_landlord(self, info: ResolveInfo):
@@ -543,7 +546,7 @@ class HpQueries:
             "The recommended management company address for "
             "HP Action for the currently "
             "logged-in user, if any."
-        )
+        ),
     )
 
     def resolve_recommended_hp_management_company(self, info: ResolveInfo):

@@ -24,7 +24,7 @@ def test_it_does_not_explode(db, django_file_storage):
         docs__user=rhr.user,
         status="SIGNED",
     )
-    call_command('etl', '--skip-rapidpro-runs')
+    call_command("etl", "--skip-rapidpro-runs")
     assert OnlineRentHistoryRequest.objects.all().count() == 1
     assert LetterOfComplaintRequest.objects.all().count() == 1
     assert EmergencyHPASigning.objects.all().count() == 1
@@ -32,8 +32,8 @@ def test_it_does_not_explode(db, django_file_storage):
 
 class TestFlow:
     def get_flow(self, filename):
-        flow_dict = json.loads((FLOWS_DIR / filename).read_text())['flows'][0]
-        return Flow(flow_dict, f'file:///{filename}')
+        flow_dict = json.loads((FLOWS_DIR / filename).read_text())["flows"][0]
+        return Flow(flow_dict, f"file:///{filename}")
 
     def test_it_works_with_old_schema(self):
         flow = self.get_flow("dhcr_followup_1_old_schema.json")
@@ -52,8 +52,6 @@ class TestFlow:
         assert flow.uuid == "367fb415-29bd-4d98-8e42-40cba0dc8a97"
         assert flow.find_node_uuids(NodeDesc(r"^Sorry", expected=2)) == [
             "b78b7d70-762f-4a73-8d69-809daa86f103",
-            "74f01d18-b2b1-4a79-b542-178092352e5d"
+            "74f01d18-b2b1-4a79-b542-178092352e5d",
         ]
-        assert flow.find_node_uuids(NodeDesc(r"^Oops")) == [
-            "6b5f9a9f-221a-4051-8789-6e34c4d7bc68"
-        ]
+        assert flow.find_node_uuids(NodeDesc(r"^Oops")) == ["6b5f9a9f-221a-4051-8789-6e34c4d7bc68"]

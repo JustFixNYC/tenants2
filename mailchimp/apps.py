@@ -2,7 +2,7 @@ from django.apps import AppConfig
 
 
 class MailchimpConfig(AppConfig):
-    name = 'mailchimp'
+    name = "mailchimp"
 
     def ready(self):
         from .mailchimp import validate_settings

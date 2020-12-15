@@ -9,7 +9,7 @@ from project import schema_registry
 class PartnerOrgType(DjangoObjectType):
     class Meta:
         model = models.PartnerOrg
-        only_fields = ('slug', 'name', 'website')
+        only_fields = ("slug", "name", "website")
 
 
 @schema_registry.register_session_info

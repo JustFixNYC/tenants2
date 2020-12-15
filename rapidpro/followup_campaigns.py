@@ -9,7 +9,7 @@ from .rapidpro_util import get_field, get_group, get_or_create_contact, get_clie
 
 
 class DjangoSettingsFollowupCampaigns:
-    '''
+    """
     RapidPro follow-up campaigns are defined by Django settings that start
     with the prefix "RAPIDPRO_FOLLOWUP_CAMPAIGN_".  This class provides
     tools for querying them.
@@ -17,7 +17,7 @@ class DjangoSettingsFollowupCampaigns:
     The name of a follow-up campaign is everything after the prefix, so
     e.g. the "BOOP" campaign is configured via the Django setting
     "RAPIDPRO_FOLLOWUP_CAMPAIGN_BOOP".
-    '''
+    """
 
     CAMPAIGN_SETTING_PREFIX = "RAPIDPRO_FOLLOWUP_CAMPAIGN_"
 
@@ -33,7 +33,8 @@ class DjangoSettingsFollowupCampaigns:
         settings_attrs = set(dir(settings))
 
         return [
-            name[len(cls.CAMPAIGN_SETTING_PREFIX):] for name in settings_attrs
+            name[len(cls.CAMPAIGN_SETTING_PREFIX) :]
+            for name in settings_attrs
             if name.startswith(cls.CAMPAIGN_SETTING_PREFIX)
         ]
 
@@ -49,7 +50,7 @@ class DjangoSettingsFollowupCampaigns:
         return cls.CAMPAIGN_SETTING_PREFIX + name
 
     @classmethod
-    def get_campaign(cls, name: str) -> Optional['FollowupCampaign']:
+    def get_campaign(cls, name: str) -> Optional["FollowupCampaign"]:
         """
         Return the campaign with the given name, or None if it hasn't
         been configured.
@@ -88,10 +89,7 @@ class FollowupCampaign(NamedTuple):
         client.update_contact(
             contact,
             groups=[*contact.groups, get_group(client, self.group_name)],
-            fields={
-                **contact.fields,
-                self.field_key: format_iso8601(datetime.datetime.now())
-            }
+            fields={**contact.fields, self.field_key: format_iso8601(datetime.datetime.now())},
         )
 
     def add_contact(self, client: TembaClient, full_name: str, phone_number: str, locale: str):
@@ -106,7 +104,7 @@ class FollowupCampaign(NamedTuple):
         self.add_to_group_and_update_date_field(client, contact)
 
     @classmethod
-    def from_string(cls, value: str) -> Optional['FollowupCampaign']:
+    def from_string(cls, value: str) -> Optional["FollowupCampaign"]:
         """
         Get a follow-up campaign from a single string value, e.g.:
 
@@ -120,32 +118,30 @@ class FollowupCampaign(NamedTuple):
 
         if not value:
             return None
-        return FollowupCampaign(*value.split(',', 1))
+        return FollowupCampaign(*value.split(",", 1))
 
 
 def trigger_followup_campaign_async(
-    full_name: str,
-    phone_number: str,
-    campaign_name: str,
-    locale: str
+    full_name: str, phone_number: str, campaign_name: str, locale: str
 ):
-    '''
+    """
     Add the given contact to the given follow-up campaign from Django settings, e.g.:
 
         >>> trigger_followup_campaign_async("Boop Jones", "5551234567", "RH", "en")
 
     If RapidPro or the follow-up campaign isn't configured, nothing is done.
-    '''
+    """
 
     client = get_client_from_settings()
     campaign = DjangoSettingsFollowupCampaigns.get_campaign(campaign_name)
     if client and campaign:
         from . import tasks
+
         tasks.trigger_followup_campaign.delay(full_name, phone_number, campaign_name, locale)
 
 
 def ensure_followup_campaign_exists(campaign_name: str) -> None:
-    '''
+    """
     Raises an exception if the given follow-up campaign name doesn't exist, e.g.:
 
         >>> ensure_followup_campaign_exists('BOOP')
@@ -155,6 +151,6 @@ def ensure_followup_campaign_exists(campaign_name: str) -> None:
 
     Note that this will *not* raise anything if the campaign exists but
     has not been configured.
-    '''
+    """
 
     DjangoSettingsFollowupCampaigns.get_campaign(campaign_name)

@@ -8,7 +8,7 @@ from django.forms import inlineformset_factory
 from users.models import JustfixUser
 from project.util.model_form_util import (
     ManyToOneUserModelFormMutation,
-    create_models_for_user_resolver
+    create_models_for_user_resolver,
 )
 from project import schema_registry
 from . import forms, models
@@ -28,7 +28,7 @@ class IssueAreaV2(ManyToOneUserModelFormMutation):
     class Meta:
         form_class = forms.IssueAreaFormV2
         formset_classes = {
-            'custom_issues': inlineformset_factory(
+            "custom_issues": inlineformset_factory(
                 JustfixUser,
                 models.CustomIssue,
                 forms.CustomIssueForm,
@@ -41,24 +41,25 @@ class IssueAreaV2(ManyToOneUserModelFormMutation):
     @classmethod
     def get_formset_kwargs(cls, root, info: ResolveInfo, formset_name, input, all_input):
         kwargs = super().get_formset_kwargs(root, info, formset_name, input, all_input)
-        kwargs['queryset'] = models.CustomIssue.objects.filter(area=all_input['area'])
+        kwargs["queryset"] = models.CustomIssue.objects.filter(area=all_input["area"])
         return kwargs
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         user = info.context.user
-        area = form.base_form.cleaned_data['area']
+        area = form.base_form.cleaned_data["area"]
         with transaction.atomic():
-            save_custom_issues_formset_with_area(form.formsets['custom_issues'], area)
+            save_custom_issues_formset_with_area(form.formsets["custom_issues"], area)
             models.Issue.objects.set_area_issues_for_user(
-                user, area, form.base_form.cleaned_data['issues'])
+                user, area, form.base_form.cleaned_data["issues"]
+            )
         return cls.mutation_success()
 
 
 class CustomIssueV2(DjangoObjectType):
     class Meta:
         model = models.CustomIssue
-        exclude_fields = ('user', 'created_at', 'updated_at')
+        exclude_fields = ("user", "created_at", "updated_at")
 
 
 @schema_registry.register_session_info
@@ -67,7 +68,7 @@ class IssueSessionInfo:
 
     custom_issues_v2 = graphene.List(
         graphene.NonNull(CustomIssueV2),
-        resolver=create_models_for_user_resolver(models.CustomIssue)
+        resolver=create_models_for_user_resolver(models.CustomIssue),
     )
 
     def resolve_issues(self, info: ResolveInfo) -> List[str]:

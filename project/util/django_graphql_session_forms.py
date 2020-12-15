@@ -17,11 +17,11 @@ logger = logging.getLogger(__name__)
 
 class SessionObjectTypeOptions(ObjectTypeOptions):
     form_class = None
-    session_key: str = ''
+    session_key: str = ""
 
 
 class DjangoSessionFormObjectType(graphene.ObjectType):
-    '''
+    """
     An abstract class for defining a GraphQL object type based on the
     fields of a Django Form, along with a GraphQL resolver for retrieving them
     from a request session.
@@ -33,32 +33,27 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
     If a Django form's cleaned data includes keys that don't correspond to form
     fields, the form can describe these keys via an 'extra_graphql_output_fields'
     dict attribute that maps the keys to GraphQL scalars.
-    '''
+    """
 
     class Meta:
         abstract = True
 
     @classmethod
     def __init_subclass_with_meta__(
-        cls,
-        form_class=None,
-        session_key='',
-        exclude=(),
-        _meta=None,
-        **options
+        cls, form_class=None, session_key="", exclude=(), _meta=None, **options
     ):
         if not _meta:
             _meta = SessionObjectTypeOptions(cls)
 
-        assert session_key, f'{cls.__name__} must define Meta.session_key.'
+        assert session_key, f"{cls.__name__} must define Meta.session_key."
         _meta.session_key = session_key
 
-        assert form_class is not None, f'{cls.__name__} must define Meta.form_class.'
+        assert form_class is not None, f"{cls.__name__} must define Meta.form_class."
         _meta.form_class = form_class
         form = form_class()
 
         fields = yank_fields_from_attrs(fields_for_form(form, [], exclude), _as=Field)
-        if hasattr(form, 'extra_graphql_output_fields'):
+        if hasattr(form, "extra_graphql_output_fields"):
             fields.update(yank_fields_from_attrs(form.extra_graphql_output_fields, _as=Field))
 
         if _meta.fields:
@@ -70,17 +65,17 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
 
     @classmethod
     def get_dict_from_request(cls, request: HttpRequest) -> Optional[Dict[str, Any]]:
-        '''
+        """
         If the object data exists in the given request's session, return it.
-        '''
+        """
 
         return request.session.get(cls._meta.session_key)
 
     @classmethod
     def clear_from_request(cls, request: HttpRequest):
-        '''
+        """
         If the object data exists in the given request's session, remove it.
-        '''
+        """
 
         if cls._meta.session_key in request.session:
             request.session.pop(cls._meta.session_key)
@@ -100,52 +95,48 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
                 # This should technically never happen if we remember to tie
                 # the session key name to a version, e.g. "user_v1", but it's possible we
                 # might forget to do that.
-                logger.exception(f'Error deserializing {key} from session')
+                logger.exception(f"Error deserializing {key} from session")
                 request.session.pop(key)
         return None
 
     @classmethod
     def field(cls, **kwargs):
-        '''
+        """
         Return a GraphQL Field associated with this type, with a resolver
         that retrieves the object of this type from the request session, if
         it exists.
-        '''
+        """
 
         return graphene.Field(cls, resolver=cls._resolve_from_session, **kwargs)
 
 
 class StoreToSessionFormOptions(DjangoFormMutationOptions):
-    session_key: str = ''
+    session_key: str = ""
 
 
 class DjangoSessionFormMutation(SessionFormMutation):
-    '''
+    """
     Abstract base class that just stores the form's cleaned data to
     the current request's session.
 
     Concrete subclasses must define a Meta.source property that
     points to a concrete DjangoSessionFormObjectType subclass.
-    '''
+    """
 
     class Meta:
         abstract = True
 
     @classmethod
-    def __init_subclass_with_meta__(
-        cls,
-        source=None,
-        _meta=None,
-        **options
-    ):
+    def __init_subclass_with_meta__(cls, source=None, _meta=None, **options):
         if not _meta:
             _meta = StoreToSessionFormOptions(cls)
 
-        assert issubclass(source, DjangoSessionFormObjectType), (
-            f'{cls.__name__} must define Meta.source.')
+        assert issubclass(
+            source, DjangoSessionFormObjectType
+        ), f"{cls.__name__} must define Meta.source."
 
         _meta.session_key = source._meta.session_key
-        options['form_class'] = source._meta.form_class
+        options["form_class"] = source._meta.form_class
 
         super().__init_subclass_with_meta__(_meta=_meta, **options)
 

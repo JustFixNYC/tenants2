@@ -9,19 +9,18 @@ import airtable.sync
 )
 def sms_conversations_field(self, obj):
     return make_button_link(
-        f'/admin/conversations?phone=%2B1{obj.phone_number}',
-        "View SMS conversations"
+        f"/admin/conversations?phone=%2B1{obj.phone_number}", "View SMS conversations"
     )
 
 
-@admin_field(admin_order_field='onboarding_info__signup_intent')
+@admin_field(admin_order_field="onboarding_info__signup_intent")
 def user_signup_intent(self, obj):
-    if hasattr(obj, 'onboarding_info'):
+    if hasattr(obj, "onboarding_info"):
         return obj.onboarding_info.signup_intent
 
 
 class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
-    '''
+    """
     This class can be used to build specialized proxy views of the User model
     for different kinds of products (e.g. Letter of Complaint, HP Action, etc).
     This allows the basic user data to be viewed (with a link to view more on
@@ -30,23 +29,26 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
 
     The list view can also be optimized to display only users that have used
     (or signaled intent to use) a particular product.
-    '''
+    """
 
-    list_display = [
-        'phone_number', 'first_name', 'last_name', 'last_login', 'signup_intent'
-    ]
+    list_display = ["phone_number", "first_name", "last_name", "last_login", "signup_intent"]
 
     fields = [
-        'first_name', 'last_name', 'phone_number', 'email',
-        'signup_intent', 'address',
-        'edit_user', 'sms_conversations',
+        "first_name",
+        "last_name",
+        "phone_number",
+        "email",
+        "signup_intent",
+        "address",
+        "edit_user",
+        "sms_conversations",
     ]
 
     readonly_fields = fields
 
-    ordering = ('-last_login',)
+    ordering = ("-last_login",)
 
-    search_fields = ['phone_number', 'username', 'first_name', 'last_name', 'email']
+    search_fields = ["phone_number", "username", "first_name", "last_name", "email"]
 
     edit_user = make_edit_link("View/edit user details")
 
@@ -55,21 +57,21 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
     sms_conversations = sms_conversations_field
 
     def address(self, obj):
-        if hasattr(obj, 'onboarding_info'):
-            return ', '.join(obj.onboarding_info.address_lines_for_mailing)
+        if hasattr(obj, "onboarding_info"):
+            return ", ".join(obj.onboarding_info.address_lines_for_mailing)
 
     def filter_queryset_for_changelist_view(self, queryset):
-        '''
+        """
         This method can be used to filter the list of users that are shown
         in the list view, if e.g. one wants to show only users who have
         actually used (or signaled intent to use) a particular product.
-        '''
+        """
 
         return queryset
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
-        queryset = queryset.prefetch_related('onboarding_info')
+        queryset = queryset.prefetch_related("onboarding_info")
         if request.resolver_match.func.__name__ == "changelist_view":
             # We only want to constrain the queryset if we're on the
             # list view: we don't want to do it universally because then

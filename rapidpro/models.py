@@ -20,8 +20,7 @@ class Metadata(models.Model):
     """
 
     last_sync = models.DateTimeField(
-        help_text="The date and time RapidPro was last synced with, if ever.",
-        null=True
+        help_text="The date and time RapidPro was last synced with, if ever.", null=True
     )
 
 
@@ -48,7 +47,7 @@ class ContactGroup(models.Model):
 
     name = models.CharField(max_length=255)
 
-    users = models.ManyToManyField(JustfixUser, through='UserContactGroup')
+    users = models.ManyToManyField(JustfixUser, through="UserContactGroup")
 
     def __str__(self):
         return self.name
@@ -67,7 +66,8 @@ class UserContactGroup(models.Model):
     group = models.ForeignKey(ContactGroup, on_delete=models.CASCADE)
 
     earliest_known_date = models.DateTimeField(
-        help_text="The earliest known date/time the user was seen in this contact group.")
+        help_text="The earliest known date/time the user was seen in this contact group."
+    )
 
     def __str__(self):
         return f"User {self.user}'s association with RapidPro contact group '{self.group}'"
@@ -77,7 +77,6 @@ def get_group_names_for_user(user: JustfixUser) -> List[str]:
     if user.pk is None:
         return []
 
-    groups = list(
-        UserContactGroup.objects.filter(user=user).values_list('group__name'))
+    groups = list(UserContactGroup.objects.filter(user=user).values_list("group__name"))
 
     return [group[0] for group in groups]

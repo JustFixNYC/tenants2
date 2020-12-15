@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class DefaultConfig(AppConfig):
-    name = 'project'
+    name = "project"
 
     def ready(self):
         from project.util import schema_json
@@ -19,9 +19,7 @@ class DefaultConfig(AppConfig):
         schema_json.monkeypatch_graphql_schema_command()
 
         ensure_dependent_settings_are_nonempty(
-            'AWS_ACCESS_KEY_ID',
-            'AWS_SECRET_ACCESS_KEY',
-            'AWS_STORAGE_BUCKET_NAME'
+            "AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY", "AWS_STORAGE_BUCKET_NAME"
         )
 
         if settings.DEBUG and is_running_dev_server():
@@ -33,4 +31,4 @@ class DefaultConfig(AppConfig):
 
 
 class JustfixAdminConfig(AdminConfig):
-    default_site = 'project.admin.JustfixAdminSite'
+    default_site = "project.admin.JustfixAdminSite"

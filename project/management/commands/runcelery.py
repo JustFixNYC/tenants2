@@ -9,13 +9,13 @@ import project
 
 
 def restart_celery():
-    cmd = 'pkill -9 celery'
+    cmd = "pkill -9 celery"
     subprocess.call(shlex.split(cmd))
-    cmd = f'celery worker -l info --quiet -A {project.__name__} --without-heartbeat'
+    cmd = f"celery worker -l info --quiet -A {project.__name__} --without-heartbeat"
     subprocess.call(shlex.split(cmd))
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        print('Starting celery worker with autoreload...')
+        print("Starting celery worker with autoreload...")
         autoreload.run_with_reloader(restart_celery)

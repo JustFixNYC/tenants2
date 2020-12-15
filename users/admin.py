@@ -14,21 +14,18 @@ from norent.admin import NorentUser
 import airtable.sync
 
 
-PERMISSIONS_LABEL = 'Permissions'
+PERMISSIONS_LABEL = "Permissions"
 NON_SUPERUSER_FIELDSET_LABELS = (PERMISSIONS_LABEL,)
 
 
 def make_link_to_other_user_view(model_class, short_description):
-    '''
+    """
     We have specialized proxy views of the User model for different kinds
     of products (e.g. Letter of Complaint, HP Action, etc). This generates
     links to them.
-    '''
+    """
 
-    @admin_field(
-        short_description=short_description,
-        allow_tags=True
-    )
+    @admin_field(short_description=short_description, allow_tags=True)
     def link(self, obj):
         url = get_admin_url_for_class(model_class, obj.pk)
         return make_button_link(url, short_description)
@@ -40,53 +37,82 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
     add_form = JustfixUserCreationForm
     form = JustfixUserChangeForm
     model = JustfixUser
-    ordering = ('-last_login',)
+    ordering = ("-last_login",)
     list_filter = [
-        'onboarding_info__signup_intent',
+        "onboarding_info__signup_intent",
     ] + list(UserAdmin.list_filter)
     list_display = [
-        'phone_number', 'username', 'first_name', 'last_name', 'last_login',
-        'signup_intent',
+        "phone_number",
+        "username",
+        "first_name",
+        "last_name",
+        "last_login",
+        "signup_intent",
     ]
     fieldsets = (
-        ('Personal info', {'fields': (
-            'first_name', 'last_name', 'email', 'is_email_verified',
-            'phone_number', 'phone_number_lookup_details',
-            'sms_conversations', 'locale',
-        )}),
-        ('Username and password', {
-            'fields': ('username', 'password'),
-            'description': (
-                "Note that the username is never visible to users, but it is used to "
-                "identify users in server logs. Therefore, it doesn't need to be "
-                "very human-friendly, and ideally it should be devoid of any "
-                "personally identifiable information such as a user's real name "
-                "or phone number."
-            )
-        }),
-        ('Additional read-only details', {
-            'fields': ('rapidpro_contact_groups',),
-            'description': (
-                "Note that these details may be slightly out-of-date "
-                "due to technical limitations."
-            )
-        }),
-        (PERMISSIONS_LABEL, {'fields': ('is_active', 'is_staff', 'is_superuser',
-                                        'groups', 'user_permissions')}),
-        ('Important dates', {'fields': ('last_login', 'date_joined')}),
-        ('Product action information', {
-            'fields': ('hp_action_info', 'loc_info', 'norent_info'),
-        }),
+        (
+            "Personal info",
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "is_email_verified",
+                    "phone_number",
+                    "phone_number_lookup_details",
+                    "sms_conversations",
+                    "locale",
+                )
+            },
+        ),
+        (
+            "Username and password",
+            {
+                "fields": ("username", "password"),
+                "description": (
+                    "Note that the username is never visible to users, but it is used to "
+                    "identify users in server logs. Therefore, it doesn't need to be "
+                    "very human-friendly, and ideally it should be devoid of any "
+                    "personally identifiable information such as a user's real name "
+                    "or phone number."
+                ),
+            },
+        ),
+        (
+            "Additional read-only details",
+            {
+                "fields": ("rapidpro_contact_groups",),
+                "description": (
+                    "Note that these details may be slightly out-of-date "
+                    "due to technical limitations."
+                ),
+            },
+        ),
+        (
+            PERMISSIONS_LABEL,
+            {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")},
+        ),
+        ("Important dates", {"fields": ("last_login", "date_joined")}),
+        (
+            "Product action information",
+            {
+                "fields": ("hp_action_info", "loc_info", "norent_info"),
+            },
+        ),
     )
     non_superuser_fieldsets = tuple(
-        (label, details) for label, details in fieldsets
+        (label, details)
+        for label, details in fieldsets
         if label not in NON_SUPERUSER_FIELDSET_LABELS
     )
     add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('phone_number', 'username', 'password1', 'password2'),
-        }),
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": ("phone_number", "username", "password1", "password2"),
+            },
+        ),
     )
     inlines = (
         OnboardingInline,
@@ -98,16 +124,16 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
 
     signup_intent = user_signup_intent
 
-    search_fields = ['phone_number', *UserAdmin.search_fields]
+    search_fields = ["phone_number", *UserAdmin.search_fields]
 
     readonly_fields = [
-        'hp_action_info',
-        'loc_info',
-        'norent_info',
-        'phone_number_lookup_details',
-        'rapidpro_contact_groups',
-        'sms_conversations',
-        *UserAdmin.readonly_fields
+        "hp_action_info",
+        "loc_info",
+        "norent_info",
+        "phone_number_lookup_details",
+        "rapidpro_contact_groups",
+        "sms_conversations",
+        *UserAdmin.readonly_fields,
     ]
 
     def get_fieldsets(self, request, obj=None):
@@ -128,7 +154,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
         if obj is not None:
             groups = rapidpro.models.get_group_names_for_user(obj)
             if groups:
-                return ', '.join(groups)
+                return ", ".join(groups)
 
         return "None"
 
@@ -143,7 +169,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
-        return queryset.prefetch_related('onboarding_info')
+        return queryset.prefetch_related("onboarding_info")
 
 
 admin.site.register(JustfixUser, JustfixUserAdmin)

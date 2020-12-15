@@ -22,10 +22,13 @@ class MyBackend(EmailBackend):
 
     def write_message(self, message):
         super().write_message(message)
-        MyBackend.latest_output = '\n'.join([
-            line for line in self.stream.getvalue().splitlines()
-            if not line.startswith('Message-ID: ')
-        ])
+        MyBackend.latest_output = "\n".join(
+            [
+                line
+                for line in self.stream.getvalue().splitlines()
+                if not line.startswith("Message-ID: ")
+            ]
+        )
 
     @classmethod
     def snapshot(cls, filename):
@@ -61,7 +64,7 @@ def test_no_extra_info(backend):
 
 
 def test_html_alternative(backend):
-    send_mail(**BASE_SEND_MAIL_KWARGS, html_message='<p>hi</p>')
+    send_mail(**BASE_SEND_MAIL_KWARGS, html_message="<p>hi</p>")
     snapshot = backend.snapshot("html_alternative.txt")
     assert snapshot.expected == snapshot.actual
 

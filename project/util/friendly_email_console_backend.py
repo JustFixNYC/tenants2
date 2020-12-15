@@ -13,7 +13,7 @@ def log_extra_email_content(message: EmailMessage, extra_content: List[str]):
     for attachment in message.attachments:
         extra = ""
         if isinstance(attachment, MIMEBase):
-            mimetype = attachment['Content-Type']
+            mimetype = attachment["Content-Type"]
             content = attachment.as_bytes()
         else:
             filename, content, mimetype = attachment
@@ -29,10 +29,10 @@ def log_extra_alternatives(message: EmailMultiAlternatives, extra_content: List[
 
 
 class EmailBackend(ConsoleEmailBackend):
-    '''
+    """
     A friendly console backend that doesn't spam the console with
     unnecessary information such as encoded attachment data or verbose HTML.
-    '''
+    """
 
     def __log_extra_content(self, extra_content: List[str]):
         if extra_content:

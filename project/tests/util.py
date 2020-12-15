@@ -5,10 +5,10 @@ from django.conf import settings
 
 
 def qdict(d=None):
-    '''
+    """
     Convert the given dictionary of lists into a QueryDict, or
     return an empty QueryDict if nothing is provided.
-    '''
+    """
 
     qd = QueryDict(mutable=True)
     if d is None:
@@ -20,10 +20,10 @@ def qdict(d=None):
 
 
 def simplepatch(*args, **kwargs):
-    '''
+    """
     Like unittest.mock.patch, but doesn't pass the mock in
     as an extra argument to the function it decorates.
-    '''
+    """
 
     def decorator(fn):
         @wraps(fn)
@@ -37,7 +37,7 @@ def simplepatch(*args, **kwargs):
 
 
 def strip_locale(url: str) -> str:
-    '''
+    """
     If the given URL has a locale prefix in its
     pathname, remove it. For example:
 
@@ -53,7 +53,7 @@ def strip_locale(url: str) -> str:
     of whether it was enabled. Now that I18N is
     always enabled, tests can just assume it's
     active.
-    '''
+    """
 
     # This isn't particularly precise, but it gets
     # the job done for testing, which is all we're

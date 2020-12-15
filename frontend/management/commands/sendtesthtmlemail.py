@@ -8,38 +8,31 @@ from project.util.site_util import SITE_CHOICES
 from frontend.static_content import react_render_email
 
 
-DEFAULT_URL = '/dev/examples/static-html-email.html'
+DEFAULT_URL = "/dev/examples/static-html-email.html"
 
 
 class Command(BaseCommand):
-    help = 'Send a test HTML email.'
+    help = "Send a test HTML email."
 
     def add_arguments(self, parser):
-        parser.add_argument('email')
+        parser.add_argument("email")
         parser.add_argument(
-            '--url',
+            "--url",
             default=DEFAULT_URL,
-            help=(
-                f"The URL (pathname) to the HTML email content. "
-                f"Defaults to {DEFAULT_URL}."
-            )
+            help=(f"The URL (pathname) to the HTML email content. " f"Defaults to {DEFAULT_URL}."),
         )
         parser.add_argument(
-            '--user',
-            help=f"The username of the user to render the HTML email content as."
+            "--user", help=f"The username of the user to render the HTML email content as."
         )
         parser.add_argument(
-            '--from',
+            "--from",
             default=settings.DEFAULT_FROM_EMAIL,
-            help=(
-                f"The sender of the email. "
-                f"Defaults to {settings.DEFAULT_FROM_EMAIL}."
-            )
+            help=(f"The sender of the email. " f"Defaults to {settings.DEFAULT_FROM_EMAIL}."),
         )
 
     def handle(self, *args, **options):
-        url: str = options['url']
-        username: Optional[str] = options['user']
+        url: str = options["url"]
+        username: Optional[str] = options["user"]
         user = None
 
         if username:
@@ -54,8 +47,8 @@ class Command(BaseCommand):
             user=user,
         )
 
-        sender: str = options['from']
-        recipient: str = options['email']
+        sender: str = options["from"]
+        recipient: str = options["email"]
 
         send_mail(
             subject=email.subject,

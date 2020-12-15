@@ -5,7 +5,7 @@ from users.tests.factories import UserFactory
 import project.password_reset as pr
 
 
-VCODE = '123456'
+VCODE = "123456"
 
 
 class BaseTest:
@@ -15,18 +15,18 @@ class BaseTest:
 
 
 class TestCreateVerificationCode(BaseTest):
-    def create(self, phone_number='5551234567'):
+    def create(self, phone_number="5551234567"):
         return pr.create_verification_code(self.req, phone_number)
 
     def test_it_does_nothing_on_invalid_phone_number(self, db):
-        UserFactory(phone_number='5559991111')
+        UserFactory(phone_number="5559991111")
         self.create()
         assert pr.TIMESTAMP_SESSION_KEY not in self.req.session
         assert pr.USER_ID_SESSION_KEY not in self.req.session
         assert pr.VCODE_SESSION_KEY not in self.req.session
 
     def test_it_sets_session_info_on_valid_phone_number(self, db, smsoutbox, mailoutbox):
-        user = UserFactory(phone_number='5551234567')
+        user = UserFactory(phone_number="5551234567")
         now = time.time()
         self.create()
         assert self.req.session[pr.TIMESTAMP_SESSION_KEY] >= now
@@ -40,11 +40,11 @@ class TestCreateVerificationCode(BaseTest):
         assert len(mailoutbox) == 0
 
     def test_it_sends_email_if_possible(self, db, mailoutbox):
-        UserFactory(phone_number='5551234567', email='boop@jones.net')
+        UserFactory(phone_number="5551234567", email="boop@jones.net")
         self.create()
         assert len(mailoutbox) == 1
-        assert mailoutbox[0].recipients() == ['boop@jones.net']
-        assert 'your verification code' in mailoutbox[0].body.lower()
+        assert mailoutbox[0].recipients() == ["boop@jones.net"]
+        assert "your verification code" in mailoutbox[0].body.lower()
 
 
 class TestVerifyVerificationCode(BaseTest):
@@ -56,12 +56,12 @@ class TestVerifyVerificationCode(BaseTest):
         return pr.verify_verification_code(self.req, code)
 
     def test_it_errors_on_empty_session(self):
-        assert 'Incorrect verification code' in self.verify()
+        assert "Incorrect verification code" in self.verify()
         assert pr.VERIFIED_TIMESTAMP_SESSION_KEY not in self.req.session
 
     def test_it_errors_on_invalid_code(self):
         self.configure_session(time.time())
-        assert 'Incorrect verification code' in self.verify('111111')
+        assert "Incorrect verification code" in self.verify("111111")
         assert pr.VERIFIED_TIMESTAMP_SESSION_KEY not in self.req.session
 
     def test_it_errors_when_code_expired(self):
@@ -81,20 +81,20 @@ class TestSetPassword(BaseTest):
         self.req.session[pr.USER_ID_SESSION_KEY] = user_id
         self.req.session[pr.VERIFIED_TIMESTAMP_SESSION_KEY] = timestamp
 
-    def set_pw(self, pw='my_new_pw'):
+    def set_pw(self, pw="my_new_pw"):
         return pr.set_password(self.req, pw)
 
     def test_it_errors_on_empty_session(self):
-        assert 'Please go back' in self.set_pw()
+        assert "Please go back" in self.set_pw()
 
     def test_it_errors_when_time_expired(self):
         self.configure_session(timestamp=0)
-        assert 'Please go back' in self.set_pw()
+        assert "Please go back" in self.set_pw()
 
     def test_it_works(self, db):
         user = UserFactory()
         now = time.time()
         self.configure_session(timestamp=now, user_id=user.pk)
-        assert self.set_pw('my_awesome_new_pw') is None
+        assert self.set_pw("my_awesome_new_pw") is None
         user.refresh_from_db()
-        assert user.check_password('my_awesome_new_pw') is True
+        assert user.check_password("my_awesome_new_pw") is True

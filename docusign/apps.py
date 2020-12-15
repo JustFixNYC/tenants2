@@ -5,7 +5,7 @@ from .post_migration import create_default_docusign_config
 
 
 class DocusignConfig(AppConfig):
-    name = 'docusign'
+    name = "docusign"
 
     def ready(self):
         post_migrate.connect(create_default_docusign_config, sender=self)

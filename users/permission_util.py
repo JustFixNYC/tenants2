@@ -3,7 +3,7 @@ from django.contrib.auth.models import Permission
 
 
 class ModelPermissions(NamedTuple):
-    '''
+    """
     A class that makes it a bit easier to do things with Django permissions, e.g.:
 
         >>> mp = ModelPermissions('myapp', 'mymodel')
@@ -16,7 +16,7 @@ class ModelPermissions(NamedTuple):
 
         >>> mp.all
         ['myapp.add_mymodel', 'myapp.change_mymodel', 'myapp.delete_mymodel']
-    '''
+    """
 
     app: str
     model: str
@@ -26,19 +26,19 @@ class ModelPermissions(NamedTuple):
 
     @property
     def add(self) -> str:
-        return self._prefix('add')
+        return self._prefix("add")
 
     @property
     def change(self) -> str:
-        return self._prefix('change')
+        return self._prefix("change")
 
     @property
     def delete(self) -> str:
-        return self._prefix('delete')
+        return self._prefix("delete")
 
     @property
     def view(self) -> str:
-        return self._prefix('view')
+        return self._prefix("view")
 
     @property
     def all(self) -> List[str]:
@@ -56,13 +56,12 @@ class ModelPermissions(NamedTuple):
 
 
 def get_permissions_from_ns_codenames(ns_codenames):
-    '''
+    """
     Returns a list of Permission objects for the specified namespaced codenames
-    '''
+    """
 
-    splitnames = [ns_codename.split('.') for ns_codename in ns_codenames]
+    splitnames = [ns_codename.split(".") for ns_codename in ns_codenames]
     return [
-        Permission.objects.get(codename=codename,
-                               content_type__app_label=app_label)
+        Permission.objects.get(codename=codename, content_type__app_label=app_label)
         for app_label, codename in splitnames
     ]

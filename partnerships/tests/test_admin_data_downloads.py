@@ -46,12 +46,12 @@ class TestFilterUsersToPartnerOrgs:
 
 
 def test_partner_users(db):
-    call_command('exportstats', 'partner-users')
+    call_command("exportstats", "partner-users")
 
 
 def test_partner_user_issues(db):
-    call_command('exportstats', 'partner-user-issues')
+    call_command("exportstats", "partner-user-issues")
 
 
 def test_partner_user_custom_issues(db):
-    call_command('exportstats', 'partner-user-custom-issues')
+    call_command("exportstats", "partner-user-custom-issues")

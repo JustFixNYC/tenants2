@@ -7,11 +7,18 @@ import pytest
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from loc.models import (
-    AddressDetails, AccessDate, LetterRequest, LandlordDetails, LOC_MAILING_CHOICES)
+    AddressDetails,
+    AccessDate,
+    LetterRequest,
+    LandlordDetails,
+    LOC_MAILING_CHOICES,
+)
 from .test_landlord_lookup import (
-    mock_lookup_success, mock_lookup_failure, enable_fake_landlord_lookup)
-from .factories import (
-    create_user_with_all_info, LetterRequestFactory, LandlordDetailsV2Factory)
+    mock_lookup_success,
+    mock_lookup_failure,
+    enable_fake_landlord_lookup,
+)
+from .factories import create_user_with_all_info, LetterRequestFactory, LandlordDetailsV2Factory
 
 WE_WILL_MAIL = LOC_MAILING_CHOICES.WE_WILL_MAIL
 USER_WILL_MAIL = LOC_MAILING_CHOICES.USER_WILL_MAIL
@@ -29,7 +36,7 @@ def test_set_for_user_works():
 
 def test_letter_request_str_works_when_fields_are_not_set():
     info = LetterRequest()
-    assert str(info) == 'LetterRequest object (None)'
+    assert str(info) == "LetterRequest object (None)"
 
 
 def test_letter_request_str_works_when_fields_are_set():
@@ -41,42 +48,41 @@ def test_landlord_details_address_lines_for_mailing_works():
     ld = LandlordDetails()
     assert ld.address_lines_for_mailing == []
 
-    ld.address = '1 Cloud City\nBespin'
-    assert ld.address_lines_for_mailing == ['1 Cloud City', 'Bespin']
+    ld.address = "1 Cloud City\nBespin"
+    assert ld.address_lines_for_mailing == ["1 Cloud City", "Bespin"]
 
     # Ensure it prefers granular details.
-    ld.primary_line = '1 Cloud City'
-    ld.city = 'Bespin'
-    ld.state = 'OH'
-    ld.zip_code = '43220'
+    ld.primary_line = "1 Cloud City"
+    ld.city = "Bespin"
+    ld.state = "OH"
+    ld.zip_code = "43220"
     assert ld.address_lines_for_mailing == [
-        '1 Cloud City',
-        'Bespin, OH 43220',
+        "1 Cloud City",
+        "Bespin, OH 43220",
     ]
 
 
 def test_landlord_details_legacy_address_is_updated_on_save(db):
     ld = LandlordDetailsV2Factory()
-    assert ld.address == '123 Cloud City Drive\nBespin, NY 12345'
-    ld.zip_code = '12000'
+    assert ld.address == "123 Cloud City Drive\nBespin, NY 12345"
+    ld.zip_code = "12000"
     ld.save()
     ld.refresh_from_db()
-    assert ld.address == '123 Cloud City Drive\nBespin, NY 12000'
+    assert ld.address == "123 Cloud City Drive\nBespin, NY 12000"
 
 
 def test_landlord_details_clear_address_works():
     ld = LandlordDetailsV2Factory.build()
-    assert ld.address != ''
-    assert ld.primary_line != ''
+    assert ld.address != ""
+    assert ld.primary_line != ""
     ld.clear_address()
-    assert ld.address == ''
-    assert ld.primary_line == ''
+    assert ld.address == ""
+    assert ld.primary_line == ""
 
 
 def test_landlord_details_formatted_phone_number_works():
-    assert LandlordDetails().formatted_phone_number() == ''
-    assert LandlordDetails(
-        phone_number='5551234567').formatted_phone_number() == '(555) 123-4567'
+    assert LandlordDetails().formatted_phone_number() == ""
+    assert LandlordDetails(phone_number="5551234567").formatted_phone_number() == "(555) 123-4567"
 
 
 class TestCreateOrUpdateLookupForUser:
@@ -90,8 +96,8 @@ class TestCreateOrUpdateLookupForUser:
         mock_lookup_failure(requests_mock)
         oi = OnboardingInfoFactory()
         info = LandlordDetails.create_or_update_lookup_for_user(oi.user)
-        assert info.name == ''
-        assert info.address == ''
+        assert info.name == ""
+        assert info.address == ""
         assert info.lookup_date is not None
         assert info.is_looked_up is False
 
@@ -99,13 +105,13 @@ class TestCreateOrUpdateLookupForUser:
     @enable_fake_landlord_lookup
     def test_it_updates_existing_ll_details(self, requests_mock, nycdb):
         ld = LandlordDetailsV2Factory()
-        assert ld.name == 'Landlordo Calrissian'
+        assert ld.name == "Landlordo Calrissian"
         mock_lookup_success(requests_mock, nycdb)
         OnboardingInfoFactory(user=ld.user)
         info = LandlordDetails.create_or_update_lookup_for_user(ld.user)
         assert info.pk == ld.pk
         ld.refresh_from_db()
-        assert ld.name == 'BOOP JONES'
+        assert ld.name == "BOOP JONES"
 
     @pytest.mark.django_db
     @enable_fake_landlord_lookup
@@ -113,7 +119,7 @@ class TestCreateOrUpdateLookupForUser:
         mock_lookup_success(requests_mock, nycdb)
         oi = OnboardingInfoFactory()
         info = LandlordDetails.create_or_update_lookup_for_user(oi.user)
-        assert info.name == 'BOOP JONES'
+        assert info.name == "BOOP JONES"
         assert info.address == "124 99TH STREET\nBrooklyn, NY 11999"
         assert info.primary_line == "124 99TH STREET"
         assert info.city == "Brooklyn"
@@ -125,31 +131,35 @@ class TestCreateOrUpdateLookupForUser:
 
 class TestCanChangeContent:
     def test_it_is_true_for_instances_without_created_at(self):
-        assert LetterRequest(html_content='boop').can_change_content() is True
+        assert LetterRequest(html_content="boop").can_change_content() is True
 
     def test_it_is_false_when_it_has_been_mailed_via_lob(self):
-        assert LetterRequest(
-            html_content='boop',
-            lob_letter_object={'blah': 1},
-        ).can_change_content() is False
+        assert (
+            LetterRequest(
+                html_content="boop",
+                lob_letter_object={"blah": 1},
+            ).can_change_content()
+            is False
+        )
 
     def test_it_is_false_when_it_has_been_mailed_manually(self):
-        assert LetterRequest(
-            html_content='boop',
-            tracking_number='1234'
-        ).can_change_content() is False
+        assert (
+            LetterRequest(html_content="boop", tracking_number="1234").can_change_content() is False
+        )
 
     def test_it_is_true_when_within_leeway_window(self):
-        assert LetterRequest(
-            created_at=timezone.now(),
-            html_content='boop'
-        ).can_change_content() is True
+        assert (
+            LetterRequest(created_at=timezone.now(), html_content="boop").can_change_content()
+            is True
+        )
 
     def test_it_is_false_when_outside_leeway_window(self):
-        assert LetterRequest(
-            created_at=timezone.make_aware(datetime(2001, 1, 1)),
-            html_content='boop'
-        ).can_change_content() is False
+        assert (
+            LetterRequest(
+                created_at=timezone.make_aware(datetime(2001, 1, 1)), html_content="boop"
+            ).can_change_content()
+            is False
+        )
 
 
 class TestLetterRequestClean:
@@ -164,8 +174,8 @@ class TestLetterRequestClean:
 
     def make_ancient(self, mail_choice=WE_WILL_MAIL, **kwargs):
         lr = self.make(
-            create_user_with_all_info(), mail_choice=mail_choice,
-            html_content='blorp', **kwargs)
+            create_user_with_all_info(), mail_choice=mail_choice, html_content="blorp", **kwargs
+        )
         lr.save()
         lr.created_at = self.Y2K
         lr.save()
@@ -175,19 +185,19 @@ class TestLetterRequestClean:
         self.make(create_user_with_all_info()).clean()
 
     def test_it_raises_error_when_no_landlord_info_exists(self):
-        with pytest.raises(ValidationError, match='contact information for your landlord'):
+        with pytest.raises(ValidationError, match="contact information for your landlord"):
             self.make(create_user_with_all_info(landlord=False)).clean()
 
     def test_it_raises_error_when_no_issues_exist(self):
-        with pytest.raises(ValidationError, match='at least one issue'):
+        with pytest.raises(ValidationError, match="at least one issue"):
             self.make(create_user_with_all_info(issues=False)).clean()
 
     def test_it_raises_error_when_no_access_dates_exist(self):
-        with pytest.raises(ValidationError, match='at least one access date'):
+        with pytest.raises(ValidationError, match="at least one access date"):
             self.make(create_user_with_all_info(access_dates=False)).clean()
 
     def test_it_raises_error_when_letter_is_rejected_and_mailed(self):
-        with pytest.raises(ValidationError, match='both rejected and mailed'):
+        with pytest.raises(ValidationError, match="both rejected and mailed"):
             self.make(UserFactory(), rejection_reason="blah", tracking_number="123").clean()
 
     def test_it_works_when_nothing_has_changed(self):
@@ -196,8 +206,8 @@ class TestLetterRequestClean:
 
     def test_it_raises_error_when_content_cannot_be_changed(self):
         lr = self.make_ancient()
-        lr.html_content = 'blap'
-        with pytest.raises(ValidationError, match='already being mailed'):
+        lr.html_content = "blap"
+        with pytest.raises(ValidationError, match="already being mailed"):
             lr.clean()
 
     def test_user_can_switch_to_we_will_mail(self):
@@ -208,7 +218,7 @@ class TestLetterRequestClean:
     def test_user_cannot_switch_from_we_will_mail(self):
         lr = self.make_ancient()
         lr.mail_choice = USER_WILL_MAIL
-        with pytest.raises(ValidationError, match='already being mailed'):
+        with pytest.raises(ValidationError, match="already being mailed"):
             lr.clean()
 
     def test_tracker_resets_on_save(self):
@@ -221,31 +231,26 @@ class TestLetterRequestClean:
 class TestAddressDetails:
     def test_as_lob_params_returns_address_string_when_not_populated(self):
         ad = AddressDetails(address="150 Court St. #2\nBrooklyn, NY 11201")
-        assert ad.as_lob_params() == {
-            'address': "150 Court St. #2\nBrooklyn, NY 11201"
-        }
+        assert ad.as_lob_params() == {"address": "150 Court St. #2\nBrooklyn, NY 11201"}
 
     def test_as_lob_params_returns_fields_when_populated(self):
         kwargs = dict(
-            primary_line="150 Court St. #2",
-            city="Brooklyn",
-            state="NY",
-            zip_code="11201"
+            primary_line="150 Court St. #2", city="Brooklyn", state="NY", zip_code="11201"
         )
         ad = AddressDetails(**kwargs)
         assert ad.as_lob_params() == kwargs
 
     def test_str_works(self):
-        assert str(AddressDetails(address='hi\nthere')) == 'hi / there'
+        assert str(AddressDetails(address="hi\nthere")) == "hi / there"
 
 
 class TestUspsTrackingUrl:
     def test_it_is_empty_if_tracking_number_not_set(self):
-        assert LetterRequest().usps_tracking_url == ''
+        assert LetterRequest().usps_tracking_url == ""
 
     def test_it_is_nonempty_if_tracking_number_set(self):
         url = "https://tools.usps.com/go/TrackConfirmAction?tLabels=1234"
-        assert LetterRequest(tracking_number='1234').usps_tracking_url == url
+        assert LetterRequest(tracking_number="1234").usps_tracking_url == url
 
 
 class TestTrackingNumberChanged:
@@ -254,14 +259,14 @@ class TestTrackingNumberChanged:
         return LetterRequestFactory(user=onb.user, **kwargs)
 
     def test_nothing_is_done_when_cleared(self, db, smsoutbox):
-        lr = self.make(tracking_number='1234')
-        lr.tracking_number = ''
+        lr = self.make(tracking_number="1234")
+        lr.tracking_number = ""
         lr.save()
         assert len(smsoutbox) == 0
 
     def test_message_sent_when_set(self, db, smsoutbox):
         lr = self.make()
-        lr.tracking_number = '1234'
+        lr.tracking_number = "1234"
         lr.save()
         messages_sent = len(smsoutbox)
         assert messages_sent > 0

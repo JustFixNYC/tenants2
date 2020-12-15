@@ -5,9 +5,9 @@ UUID_LEN = 36
 
 
 class RapidproRun(models.Model):
-    '''
+    """
     Represents a run of a RapidPro flow that was exited (i.e., is no longer in-progress).
-    '''
+    """
 
     # The RapidPro UUID of the run's flow.
     flow_uuid = models.CharField(max_length=UUID_LEN)
@@ -41,9 +41,9 @@ class RapidproRun(models.Model):
 
 
 class OnlineRentHistoryRequest(models.Model):
-    '''
+    """
     Represents an *online* (not SMS-based) rental history request.
-    '''
+    """
 
     created_at = models.DateTimeField()
 
@@ -52,9 +52,9 @@ class OnlineRentHistoryRequest(models.Model):
 
 
 class LetterOfComplaintRequest(models.Model):
-    '''
+    """
     Represents a letter of complaint request.
-    '''
+    """
 
     created_at = models.DateTimeField()
 
@@ -74,8 +74,8 @@ class LetterOfComplaintRequest(models.Model):
 
 
 class EmergencyHPASigning(models.Model):
-    '''
+    """
     Represents an Emergency HP Action signing.
-    '''
+    """
 
     created_at = models.DateTimeField()

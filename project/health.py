@@ -31,7 +31,7 @@ class HealthCheck(abc.ABC):
         try:
             return self.run_check()
         except Exception:
-            logger.exception(f'Error while performing {self.name} health check')
+            logger.exception(f"Error while performing {self.name} health check")
             return False
 
     @abc.abstractmethod
@@ -51,10 +51,10 @@ class CheckGeocoding(HealthCheck):
         return bool(settings.GEOCODING_SEARCH_URL)
 
     def run_check(self) -> bool:
-        features = geocoding.search('150 court street, brooklyn')
+        features = geocoding.search("150 court street, brooklyn")
         if features is None:
             return False
-        return features[0].properties.pad_bbl == '3002920026'
+        return features[0].properties.pad_bbl == "3002920026"
 
 
 class CheckCelery(HealthCheck):
@@ -91,20 +91,16 @@ class HealthInfo:
             for hc in healthchecks
             if hc.is_enabled and (True if is_extended else not hc.is_extended)
         }
-        unhealthy = [
-            name
-            for (name, is_healthy) in self.check_results.items()
-            if not is_healthy
-        ]
+        unhealthy = [name for (name, is_healthy) in self.check_results.items() if not is_healthy]
         self.status = 503 if unhealthy else 200
 
     def to_json(self) -> Dict[str, Any]:
         return {
-            'status': self.status,
-            'is_extended': self.is_extended,
-            'python_version': get_python_version(),
-            'version': settings.GIT_INFO.get_version_str(),
-            'check_results': self.check_results
+            "status": self.status,
+            "is_extended": self.is_extended,
+            "python_version": get_python_version(),
+            "version": settings.GIT_INFO.get_version_str(),
+            "check_results": self.check_results,
         }
 
     def to_json_response(self) -> JsonResponse:
@@ -117,12 +113,7 @@ def get_python_version() -> str:
 
 
 def get_healthchecks() -> List[HealthCheck]:
-    return [
-        CheckDatabase(),
-        CheckGeocoding(),
-        CheckCelery(),
-        CheckNycdb()
-    ]
+    return [CheckDatabase(), CheckGeocoding(), CheckCelery(), CheckNycdb()]
 
 
 def check(is_extended: bool) -> HealthInfo:

@@ -204,6 +204,13 @@ schema and the queries the client is generating.
 
 [GraphQL]: https://graphql.org/
 
+#### Interactive environment (GraphiQL)
+
+To manually experiment with GraphQL queries, use the interactive in-browser
+environment called **GraphiQL**, which is built-in to the development
+server.  It can be accessed via the "Developer" menu at the top-right of
+almost any page on the site, or directly at `http://localhost:8000/graphiql`.
+
 ### Server-side GraphQL schema
 
 The server uses [Graphene-Django][] for its GraphQL needs. It also

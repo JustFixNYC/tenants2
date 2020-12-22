@@ -273,6 +273,38 @@ At this point the developer can import the final TS file and use the query.
 
 [Apollo Code Generation]: https://github.com/apollographql/apollo-cli#code-generation
 
+### The `session` field
+
+Of special consideration is the server's `session` GraphQL field: *all* of
+this object's fields are automatically resolved and passed to the front-end
+on every React-driven server-side render, which can be convenient because it
+relieves the front-end of having to request the information asynchronously.
+
+Fields can be added to the `session` object via the schema registry's
+`register_session_info` decorator.
+
+Note, however, that the `session` field is only automatically retrieved as
+part of the initial page load.  If you create a mutation that modifies any
+of the fields on `session`, you may want to have your mutation subclass
+[`SessionFormMutation`][], and have your front-end code use
+[`SessionUpdatingFormSubmitter`][].
+
+For additional optimization, you can also configure `autogen-config.toml` to
+only retrieve the particular parts of the session that have been changed by
+the mutation--but beware that if you accidentally leave out any fields, the
+client-side session will be out-of-sync with the server!
+
+Finally note that the GraphQL `session` field should not be confused with
+[Django's session framework][django-session], which is used to store data
+on the server-side and abstract the sending and receiving of cookies.  That
+said, the GraphQL `session` field is generally intended to contain data that is
+ultimately *derived* from the Django session, such as information about
+the currently logged-in user, hence the reuse of the name.
+
+[`SessionFormMutation`]: project/util/session_mutation.py
+[`SessionUpdatingFormSubmitter`]: frontend/lib/forms/session-updating-form-submitter.tsx
+[django-session]: https://docs.djangoproject.com/en/2.2/topics/http/sessions/
+
 ## Developing with Docker
 
 You can alternatively develop the app via [Docker][], which

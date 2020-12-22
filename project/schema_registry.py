@@ -1,3 +1,66 @@
+"""
+The schema registry keeps track of what Graphene-Django GraphQL
+queries and mutations are exposed on our server, making it easier
+for us to define new ones in a Django-like way.
+
+With the schema registry, every Django app can have its own
+`schema.py` file in its root directory, which is automatically
+imported by the schema registry.  This file can then use
+decorators like `@register_queries` and `@register_mutation`
+to automatically add to the site's GraphQL schema.
+
+Registering queries
+-------------------
+
+For example, consider a `schema.py` with the following contents:
+
+    from project import schema_registry
+
+    @schema_registry.register_queries
+    class MyQueries:
+        my_int = graphene.Int()
+
+        def resolve_my_int(self, info):
+            return 5
+
+This will automatically create a GraphQL field called `myInt`
+on the server, which always resolves to `5`.
+
+Of special consideration is the server's `session` GraphQL
+field: *all* of this object's fields are automatically
+resolved and passed to the front-end on every render. To add
+a field to `session`, simply use `register_session_info`
+instead of `register_queries`.
+
+Registering mutations
+---------------------
+
+Consider a `schema.py` with the following contents:
+
+    import graphene
+    from graphene_django import DjangoObjectType
+
+    from project import schema_registry
+
+    @schema_registry.register_mutation
+    class MyMutation(graphene.Mutation):
+        class Arguments:
+            text = graphene.String(required=True)
+
+        # The class attributes define the response of the mutation
+        funky_result = graphene.Int()
+
+        @classmethod
+        def mutate(cls, root, info, text):
+            print("TEXT IS " + text)
+            return MyMutation(funky_result=5)
+
+This will automatically create a GraphQL mutation called `myMutation`
+on the server, which takes a string argument called `text`, and, after
+printing the text to the console, returns a field called `funkyResult`,
+which always resolves to 5.
+"""
+
 from typing import List, Type
 import graphene
 from graphene.utils.str_converters import to_snake_case
@@ -17,7 +80,7 @@ _mutations_classes: List[Type] = []
 def register_session_info(klass: Type) -> Type:
     """
     Register a class containing a GraphQL schema to be exposed under the
-    site's "session" GraphQL query.
+    site's "session" GraphQL field.
     """
 
     _session_info_classes.append(klass)

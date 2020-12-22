@@ -45,7 +45,6 @@ Consider a `schema.py` with the following contents:
     @schema_registry.register_mutation
     class MyMutation(graphene.Mutation):
         class Arguments:
-            # The input arguments for this mutation
             text = graphene.String(required=True)
 
         # The class attributes define the response of the mutation
@@ -54,7 +53,6 @@ Consider a `schema.py` with the following contents:
         @classmethod
         def mutate(cls, root, info, text):
             print("TEXT IS " + text)
-            # Notice we return an instance of this mutation
             return MyMutation(funky_result=5)
 
 This will automatically create a GraphQL mutation called `myMutation`

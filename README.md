@@ -204,7 +204,7 @@ schema and the queries the client is generating.
 
 [GraphQL]: https://graphql.org/
 
-#### Interactive environment (GraphiQL)
+### Interactive environment (GraphiQL)
 
 To manually experiment with GraphQL queries, use the interactive in-browser
 environment called **GraphiQL**, which is built-in to the development

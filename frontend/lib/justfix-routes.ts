@@ -1,4 +1,3 @@
-import { RouteComponentProps } from "react-router-dom";
 import History from "history";
 import { OnboardingInfoSignupIntent, Borough } from "./queries/globalTypes";
 import { inputToQuerystring } from "./networking/http-get-query-util";
@@ -8,6 +7,7 @@ import {
   createLetterStaticPageRouteInfo,
   createHtmlEmailStaticPageRouteInfo,
 } from "./static-page/routes";
+import { createIssuesRouteInfo } from "./issues/routes";
 
 /**
  * Querystring argument for specifying the URL to redirect the
@@ -66,16 +66,6 @@ export function getSignupIntentOnboardingInfo(
   }
 }
 
-export type IssuesRouteInfo = {
-  [ROUTE_PREFIX]: string;
-  home: string;
-  modal: string;
-  area: {
-    parameterizedRoute: string;
-    create: (area: string) => string;
-  };
-};
-
 export type PasswordResetRouteInfo = ReturnType<
   typeof createPasswordResetRouteInfo
 >;
@@ -88,20 +78,6 @@ function createPasswordResetRouteInfo(prefix: string) {
     verify: `${prefix}/verify`,
     confirm: `${prefix}/confirm`,
     done: `${prefix}/done`,
-  };
-}
-
-export type IssuesRouteAreaProps = RouteComponentProps<{ area: string }>;
-
-function createIssuesRouteInfo(prefix: string): IssuesRouteInfo {
-  return {
-    [ROUTE_PREFIX]: prefix,
-    home: prefix,
-    modal: `${prefix}/covid-risk-modal`,
-    area: {
-      parameterizedRoute: `${prefix}/:area`,
-      create: (area: string) => `${prefix}/${area}`,
-    },
   };
 }
 

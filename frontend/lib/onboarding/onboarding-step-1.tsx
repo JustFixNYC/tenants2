@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Page from "../ui/page";
-import { OnboardingRouteInfo } from "../justfix-routes";
+import { OnboardingRouteInfo } from "./routes";
 import { Link, Route, RouteComponentProps, withRouter } from "react-router-dom";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import {

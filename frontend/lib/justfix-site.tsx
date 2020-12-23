@@ -30,7 +30,7 @@ const LoadableDataDrivenOnboardingPage = loadable(
 );
 
 const LoadablePasswordResetRoutes = loadable(
-  () => friendlyLoad(import("./pages/password-reset")),
+  () => friendlyLoad(import("./password-reset/password-reset")),
   {
     fallback: <LoadingPage />,
   }

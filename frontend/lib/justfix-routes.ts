@@ -14,6 +14,7 @@ import {
   createHPActionRouteInfo,
 } from "./hpaction/routes";
 import { createRentalHistoryRouteInfo } from "./rh/routes";
+import { createPasswordResetRouteInfo } from "./password-reset/routes";
 
 /**
  * Querystring argument for specifying the URL to redirect the
@@ -60,21 +61,6 @@ export function getSignupIntentOnboardingInfo(
     case OnboardingInfoSignupIntent.EHP:
       return JustfixRoutes.locale.ehp;
   }
-}
-
-export type PasswordResetRouteInfo = ReturnType<
-  typeof createPasswordResetRouteInfo
->;
-
-function createPasswordResetRouteInfo(prefix: string) {
-  return {
-    [ROUTE_PREFIX]: prefix,
-    latestStep: prefix,
-    start: `${prefix}/start`,
-    verify: `${prefix}/verify`,
-    confirm: `${prefix}/confirm`,
-    done: `${prefix}/done`,
-  };
 }
 
 export type LocalizedRouteInfo = ReturnType<typeof createLocalizedRouteInfo>;

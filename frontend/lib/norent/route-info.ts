@@ -1,10 +1,10 @@
 import { createRoutesForSite, ROUTE_PREFIX } from "../util/route-util";
-import { createDevRouteInfo } from "../dev/routes";
+import { createDevRouteInfo } from "../dev/route-info";
 import {
   createHtmlEmailStaticPageRouteInfo,
   createLetterStaticPageRouteInfo,
 } from "../static-page/routes";
-import { createNorentLetterBuilderRouteInfo } from "./letter-builder/routes";
+import { createNorentLetterBuilderRouteInfo } from "./letter-builder/route-info";
 
 /**
  * This function maps URL paths to our main routes on the NoRent site.

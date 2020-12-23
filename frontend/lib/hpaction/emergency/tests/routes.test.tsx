@@ -1,6 +1,6 @@
 import React from "react";
 import { ProgressRoutesTester } from "../../../progress/tests/progress-routes-tester";
-import { getEmergencyHPActionProgressRoutesProps } from "../steps";
+import { getEmergencyHPActionProgressRoutesProps } from "../routes";
 import { AppTesterPal } from "../../../tests/app-tester-pal";
 import { ProgressRoutes } from "../../../progress/progress-routes";
 import JustfixRoutes from "../../../justfix-routes";

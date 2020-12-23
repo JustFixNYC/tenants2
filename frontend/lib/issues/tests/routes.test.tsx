@@ -1,6 +1,6 @@
 import React from "react";
 
-import { IssuesRoutes, getIssueLabel, groupByTwo } from "../issue-pages";
+import { IssuesRoutes, getIssueLabel, groupByTwo } from "../routes";
 import JustfixRoutes from "../../justfix-routes";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import ISSUE_AREA_SVGS from "../../svg/issues";

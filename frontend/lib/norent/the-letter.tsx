@@ -10,7 +10,7 @@ import {
 import { NorentFaqsPreview } from "./faqs";
 import { StaticImage } from "../ui/static-image";
 import { LetterPreview } from "../static-page/letter-preview";
-import { NorentRoutes } from "./routes";
+import { NorentRoutes } from "./route-info";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
 

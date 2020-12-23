@@ -30,46 +30,46 @@ const LoadableDataDrivenOnboardingPage = loadable(
 );
 
 const LoadablePasswordResetRoutes = loadable(
-  () => friendlyLoad(import("./password-reset/password-reset")),
+  () => friendlyLoad(import("./password-reset/routes")),
   {
     fallback: <LoadingPage />,
   }
 );
 
 const LoadableLetterOfComplaintRoutes = loadable(
-  () => friendlyLoad(import("./loc/steps")),
+  () => friendlyLoad(import("./loc/routes")),
   {
     fallback: <LoadingPage />,
   }
 );
 
 const LoadableHPActionRoutes = loadable(
-  () => friendlyLoad(import("./hpaction/steps")),
+  () => friendlyLoad(import("./hpaction/routes")),
   {
     fallback: <LoadingPage />,
   }
 );
 
 const LoadableEmergencyHPActionRoutes = loadable(
-  () => friendlyLoad(import("./hpaction/emergency/steps")),
+  () => friendlyLoad(import("./hpaction/emergency/routes")),
   {
     fallback: <LoadingPage />,
   }
 );
 
 const LoadableRentalHistoryRoutes = loadable(
-  () => friendlyLoad(import("./rh/steps")),
+  () => friendlyLoad(import("./rh/routes")),
   {
     fallback: <LoadingPage />,
   }
 );
 
-const LoadableDevRoutes = loadable(() => friendlyLoad(import("./dev/dev")), {
+const LoadableDevRoutes = loadable(() => friendlyLoad(import("./dev/routes")), {
   fallback: <LoadingPage />,
 });
 
 const LoadableDataRequestsRoutes = loadable(
-  () => friendlyLoad(import("./data-requests/data-requests")),
+  () => friendlyLoad(import("./data-requests/routes")),
   {
     fallback: <LoadingPage />,
   }

@@ -6,7 +6,7 @@ import {
 } from "../../queries/OnboardingStep1Mutation";
 import { assertNotNull } from "../../util/util";
 import { redirectToAddressConfirmationOrNextStep } from "../../ui/address-confirmation";
-import { NorentRoutes } from "../routes";
+import { NorentRoutes } from "../route-info";
 import { HiddenFormField } from "../../forms/form-fields";
 import { AddressAndBoroughField } from "../../forms/address-and-borough-form-field";
 import { ProgressButtons } from "../../ui/buttons";

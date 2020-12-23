@@ -7,7 +7,7 @@ import { ProgressButtons } from "../../ui/buttons";
 import { NorentConfirmationModal } from "./confirmation-modal";
 import { AppContext } from "../../app-context";
 import { hardFail } from "../../util/util";
-import { NorentRoutes } from "../routes";
+import { NorentRoutes } from "../route-info";
 import { Route } from "react-router-dom";
 import { areAddressesTheSame } from "../../ui/address-confirmation";
 import { isUserLoggedIn } from "../../util/session-predicates";

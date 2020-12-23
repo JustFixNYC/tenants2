@@ -1,4 +1,4 @@
-import { getNoRentLetterBuilderProgressRoutesProps } from "../steps";
+import { getNoRentLetterBuilderProgressRoutesProps } from "../routes";
 import { newSb } from "../../../tests/session-builder";
 import { PhoneNumberAccountStatus } from "../../../queries/globalTypes";
 import { initNationalMetadataForTesting } from "./national-metadata-test-util";

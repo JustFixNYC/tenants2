@@ -11,7 +11,7 @@ import {
   BlankLandlordDetailsV2Input,
 } from "../../queries/LandlordDetailsV2Mutation";
 import { USStateFormField } from "../../forms/mailing-address-fields";
-import { NorentRoutes } from "../routes";
+import { NorentRoutes } from "../route-info";
 import { Route } from "react-router-dom";
 import { AppContext } from "../../app-context";
 import { NorentConfirmationModal } from "./confirmation-modal";

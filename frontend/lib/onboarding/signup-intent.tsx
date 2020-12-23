@@ -16,7 +16,7 @@ export type WithSignupIntent = Pick<
 >;
 
 const LoadableOnboardingRoutes = loadable(
-  () => friendlyLoad(import("./steps")),
+  () => friendlyLoad(import("./routes")),
   {
     fallback: <LoadingPage />,
   }

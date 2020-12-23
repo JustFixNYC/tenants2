@@ -3,7 +3,7 @@ import { AppSiteProps } from "../app";
 import {
   NorentRoutes as Routes,
   getNorentRoutesForPrimaryPages,
-} from "./routes";
+} from "./route-info";
 import { RouteComponentProps, Switch, Route, Link } from "react-router-dom";
 import { NotFound } from "../pages/not-found";
 import { NorentHomePage } from "./homepage";
@@ -30,7 +30,7 @@ import { NorentFaqsPage } from "./faqs";
 import { NorentAboutPage } from "./about";
 import { NorentAboutYourLetterPage } from "./the-letter";
 import { NorentLogo } from "./components/logo";
-import { NorentLetterBuilderRoutes } from "./letter-builder/steps";
+import { NorentLetterBuilderRoutes } from "./letter-builder/routes";
 import { NorentLogoutPage } from "./log-out";
 import { NorentHelmet } from "./components/helmet";
 import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
@@ -48,14 +48,17 @@ export const NorentLinguiI18n = createLinguiCatalogLoader({
   es: loadable.lib(() => import("../../../locales/es/norent.chunk") as any),
 });
 
-const LoadableDevRoutes = loadable(() => friendlyLoad(import("../dev/dev")), {
-  fallback: <LoadingPage />,
-});
+const LoadableDevRoutes = loadable(
+  () => friendlyLoad(import("../dev/routes")),
+  {
+    fallback: <LoadingPage />,
+  }
+);
 
 /**
  * This function defines Route components for each main page of the NoRent site.
  * To find the map of each route to its corresponding URL path, check out
- * the `routes.ts` file in the same directory as this file.
+ * the `route-info.ts` file in the same directory as this file.
  */
 const NorentRoute: React.FC<RouteComponentProps> = (props) => {
   const { location } = props;

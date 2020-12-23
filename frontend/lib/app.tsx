@@ -35,9 +35,9 @@ import { HelmetProvider } from "react-helmet-async";
 import { browserStorage } from "./browser-storage";
 import { areAnalyticsEnabled } from "./analytics/analytics";
 import { LinguiI18n, li18n } from "./i18n-lingui";
-import { getNorentJumpToTopOfPageRoutes } from "./norent/routes";
+import { getNorentJumpToTopOfPageRoutes } from "./norent/route-info";
 import { SupportedLocale } from "./i18n";
-import { getGlobalSiteRoutes } from "./routes";
+import { getGlobalSiteRoutes } from "./global-site-routes";
 import { ensureNextRedirectIsHard } from "./browser-redirect";
 import {
   updateAmplitudeUserPropertiesOnSessionChange,

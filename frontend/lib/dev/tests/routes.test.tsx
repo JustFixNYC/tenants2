@@ -1,7 +1,7 @@
 import React from "react";
 
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import DevRoutes from "../dev";
+import DevRoutes from "../routes";
 import JustfixRoutes from "../../justfix-routes";
 
 describe("development pages", () => {

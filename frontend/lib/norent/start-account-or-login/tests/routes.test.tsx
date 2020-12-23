@@ -3,8 +3,8 @@ import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
 } from "../../../progress/progress-routes";
-import { createStartAccountOrLoginSteps } from "../steps";
-import { createStartAccountOrLoginRouteInfo } from "../routes";
+import { createStartAccountOrLoginSteps } from "../routes";
+import { createStartAccountOrLoginRouteInfo } from "../route-info";
 import { AppTesterPal } from "../../../tests/app-tester-pal";
 import { QueryOrVerifyPhoneNumberMutation } from "../../../queries/QueryOrVerifyPhoneNumberMutation";
 import { PhoneNumberAccountStatus } from "../../../queries/globalTypes";

@@ -9,7 +9,7 @@ import { ProgressButtons, NextButton } from "../../ui/buttons";
 import { TextualFormField, HiddenFormField } from "../../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import Page from "../../ui/page";
-import { StartAccountOrLoginProps } from "./steps";
+import { StartAccountOrLoginProps } from "./routes";
 import { li18n } from "../../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 

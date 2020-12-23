@@ -2,17 +2,17 @@ import History from "history";
 import { OnboardingInfoSignupIntent, Borough } from "./queries/globalTypes";
 import { inputToQuerystring } from "./networking/http-get-query-util";
 import { ROUTE_PREFIX, createRoutesForSite } from "./util/route-util";
-import { createDevRouteInfo } from "./dev/routes";
+import { createDevRouteInfo } from "./dev/route-info";
 import {
   createOnboardingRouteInfo,
   OnboardingRouteInfo,
-} from "./onboarding/routes";
-import { createLetterOfComplaintRouteInfo } from "./loc/routes";
-import { createDataRequestsRouteInfo } from "./data-requests/routes";
-import { createHPActionRouteInfo } from "./hpaction/routes";
-import { createRentalHistoryRouteInfo } from "./rh/routes";
-import { createPasswordResetRouteInfo } from "./password-reset/routes";
-import { createEmergencyHPActionRouteInfo } from "./hpaction/emergency/routes";
+} from "./onboarding/route-info";
+import { createLetterOfComplaintRouteInfo } from "./loc/route-info";
+import { createDataRequestsRouteInfo } from "./data-requests/route-info";
+import { createHPActionRouteInfo } from "./hpaction/route-info";
+import { createRentalHistoryRouteInfo } from "./rh/route-info";
+import { createPasswordResetRouteInfo } from "./password-reset/route-info";
+import { createEmergencyHPActionRouteInfo } from "./hpaction/emergency/route-info";
 
 /**
  * Querystring argument for specifying the URL to redirect the

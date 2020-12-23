@@ -1,7 +1,7 @@
 import React from "react";
 import JustfixRoutes from "../../justfix-routes";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import LetterOfComplaintRoutes from "../steps";
+import LetterOfComplaintRoutes from "../routes";
 import { LetterRequestMutation } from "../../queries/LetterRequestMutation";
 import { LetterRequestMailChoice } from "../../queries/globalTypes";
 import { newSb } from "../../tests/session-builder";

@@ -6,12 +6,12 @@ import { LeaseChoice } from "../../../common-data/lease-choices";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { isDeepEqual } from "../util/util";
 import { ServerFormFieldError } from "../forms/form-errors";
-import { getGlobalSiteRoutes } from "../routes";
+import { getGlobalSiteRoutes } from "../global-site-routes";
 import { getGlobalAppServerInfo, AppServerInfo } from "../app-context";
 import { LocaleChoice } from "../../../common-data/locale-choices";
 import i18n from "../i18n";
 import JustfixRoutes from "../justfix-routes";
-import { NorentRoutes } from "../norent/routes";
+import { NorentRoutes } from "../norent/route-info";
 
 export type JustfixAmplitudeUserProperties = {
   city: string;

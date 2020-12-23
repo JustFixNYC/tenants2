@@ -5,7 +5,7 @@ import JustfixRoutes, {
 } from "../justfix-routes";
 import Page from "../ui/page";
 import { ProgressButtons } from "../ui/buttons";
-import { IssuesRoutes } from "../issues/issue-pages";
+import { IssuesRoutes } from "../issues/routes";
 import { withAppContext, AppContextType, AppContext } from "../app-context";
 import { PdfLink } from "../ui/pdf-link";
 import {
@@ -55,7 +55,7 @@ import {
 import { CustomerSupportLink } from "../ui/customer-support-link";
 import { isUserNycha } from "../util/nycha";
 import { HpActionSue } from "./sue";
-import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-steps";
+import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-routes";
 import { assertNotNull } from "../util/util";
 import { renderSuccessHeading } from "../ui/success-heading";
 import { NycUsersOnly } from "../pages/nyc-users-only";

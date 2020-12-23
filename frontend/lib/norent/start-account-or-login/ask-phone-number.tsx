@@ -5,7 +5,7 @@ import { ProgressButtons } from "../../ui/buttons";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { assertNotNull } from "../../util/util";
 import Page from "../../ui/page";
-import { StartAccountOrLoginProps } from "./steps";
+import { StartAccountOrLoginProps } from "./routes";
 import { PhoneNumberAccountStatus } from "../../queries/globalTypes";
 import { LetterBuilderAccordion } from "../letter-builder/welcome";
 import { ModalLink } from "../../ui/modal";

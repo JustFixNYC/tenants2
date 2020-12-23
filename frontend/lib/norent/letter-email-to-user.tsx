@@ -3,7 +3,7 @@ import React from "react";
 import { useContext } from "react";
 import { AppContext } from "../app-context";
 import { asEmailStaticPage } from "../static-page/email-static-page";
-import { NorentRoutes } from "./routes";
+import { NorentRoutes } from "./route-info";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc.json";

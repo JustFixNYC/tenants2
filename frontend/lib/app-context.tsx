@@ -4,7 +4,7 @@ import { AllSessionInfo } from "./queries/AllSessionInfo";
 import { GraphQLFetch } from "./networking/graphql-client";
 import { buildContextHocFactory } from "./util/context-util";
 import { SiteChoice } from "../../common-data/site-choices";
-import { SiteRoutes } from "./routes";
+import { SiteRoutes } from "./global-site-routes";
 import { LocaleChoice } from "../../common-data/locale-choices";
 
 /** Metadata about forms submitted via legacy POST. */

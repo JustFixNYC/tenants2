@@ -8,7 +8,7 @@ import {
 import { ProgressButtons } from "../../ui/buttons";
 import { TextualFormField } from "../../forms/form-fields";
 import Page from "../../ui/page";
-import { StartAccountOrLoginProps } from "./steps";
+import { StartAccountOrLoginProps } from "./routes";
 import { li18n } from "../../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 

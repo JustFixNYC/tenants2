@@ -3,7 +3,7 @@ import { ProgressStepProps } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
 import { Link, Redirect } from "react-router-dom";
 import { assertNotNull } from "../../util/util";
-import { NorentRoutes } from "../routes";
+import { NorentRoutes } from "../route-info";
 import { ChevronIcon } from "../faqs";
 import { SimpleClearSessionButton } from "../../forms/clear-session-button";
 import { AppContext } from "../../app-context";

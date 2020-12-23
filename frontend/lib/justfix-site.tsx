@@ -37,28 +37,28 @@ const LoadablePasswordResetRoutes = loadable(
 );
 
 const LoadableLetterOfComplaintRoutes = loadable(
-  () => friendlyLoad(import("./loc/letter-of-complaint")),
+  () => friendlyLoad(import("./loc/steps")),
   {
     fallback: <LoadingPage />,
   }
 );
 
 const LoadableHPActionRoutes = loadable(
-  () => friendlyLoad(import("./hpaction/hp-action")),
+  () => friendlyLoad(import("./hpaction/steps")),
   {
     fallback: <LoadingPage />,
   }
 );
 
 const LoadableEmergencyHPActionRoutes = loadable(
-  () => friendlyLoad(import("./hpaction/emergency-hp-action")),
+  () => friendlyLoad(import("./hpaction/emergency/steps")),
   {
     fallback: <LoadingPage />,
   }
 );
 
 const LoadableRentalHistoryRoutes = loadable(
-  () => friendlyLoad(import("./rh/rental-history")),
+  () => friendlyLoad(import("./rh/steps")),
   {
     fallback: <LoadingPage />,
   }

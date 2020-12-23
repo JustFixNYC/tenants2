@@ -1,9 +1,9 @@
 import {
   getIssueChoiceLabels,
   IssueChoice,
-} from "../../../common-data/issue-choices";
-import { DjangoChoices } from "../common-data";
-import EMERGENCY_HPA_ISSUE_LIST from "../../../common-data/emergency-hpa-issue-list.json";
+} from "../../../../common-data/issue-choices";
+import { DjangoChoices } from "../../common-data";
+import EMERGENCY_HPA_ISSUE_LIST from "../../../../common-data/emergency-hpa-issue-list.json";
 
 export const EMERGENCY_HPA_ISSUE_SET = new Set(EMERGENCY_HPA_ISSUE_LIST);
 

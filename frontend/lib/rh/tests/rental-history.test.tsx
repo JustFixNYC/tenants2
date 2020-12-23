@@ -5,7 +5,7 @@ import RentalHistoryRoutes, {
   getRentalHistoryRoutesProps,
   GenerateUserRhFormInput,
   RhLinguiI18n,
-} from "../rental-history";
+} from "../steps";
 import JustfixRoutes from "../../justfix-routes";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { browserStorage } from "../../browser-storage";

@@ -20,7 +20,7 @@ import { AppContext, getGlobalAppServerInfo } from "../app-context";
 import { properNoun } from "../util/util";
 import { OutboundLink, ga } from "../analytics/google-analytics";
 import { UpdateBrowserStorage } from "../browser-storage";
-import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issues";
+import { getEmergencyHPAIssueLabels } from "../hpaction/emergency/emergency-hp-action-issues";
 import { Trans, t, Plural } from "@lingui/macro";
 import { EnglishOutboundLink } from "../ui/localized-outbound-link";
 import { li18n } from "../i18n-lingui";

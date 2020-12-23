@@ -9,12 +9,10 @@ import {
 } from "./onboarding/routes";
 import { createLetterOfComplaintRouteInfo } from "./loc/routes";
 import { createDataRequestsRouteInfo } from "./data-requests/routes";
-import {
-  createEmergencyHPActionRouteInfo,
-  createHPActionRouteInfo,
-} from "./hpaction/routes";
+import { createHPActionRouteInfo } from "./hpaction/routes";
 import { createRentalHistoryRouteInfo } from "./rh/routes";
 import { createPasswordResetRouteInfo } from "./password-reset/routes";
+import { createEmergencyHPActionRouteInfo } from "./hpaction/emergency/routes";
 
 /**
  * Querystring argument for specifying the URL to redirect the

@@ -1,4 +1,4 @@
-import { getLOCProgressRoutesProps } from "../letter-of-complaint";
+import { getLOCProgressRoutesProps } from "../steps";
 import JustfixRoutes from "../../justfix-routes";
 import { ProgressRoutesTester } from "../../progress/tests/progress-routes-tester";
 

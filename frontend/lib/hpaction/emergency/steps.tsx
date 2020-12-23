@@ -1,91 +1,91 @@
 import React, { useContext } from "react";
 import JustfixRoutes, {
   getSignupIntentOnboardingInfo,
-} from "../justfix-routes";
+} from "../../justfix-routes";
 import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
-} from "../progress/progress-routes";
+} from "../../progress/progress-routes";
 import {
   HPUploadStatus,
   OnboardingInfoSignupIntent,
   HPDocusignStatus,
-} from "../queries/globalTypes";
-import Page from "../ui/page";
-import { GetStartedButton } from "../ui/get-started-button";
-import { AppContext } from "../app-context";
-import { TenantChildren } from "./hp-action-tenant-children";
+} from "../../queries/globalTypes";
+import Page from "../../ui/page";
+import { GetStartedButton } from "../../ui/get-started-button";
+import { AppContext } from "../../app-context";
+import { TenantChildren } from "../hp-action-tenant-children";
 import {
   isNotSuingForRepairs,
   isNotSuingForHarassment,
-} from "./hp-action-util";
+} from "../hp-action-util";
 import {
   MiddleProgressStep,
   ProgressStepProps,
-} from "../progress/progress-step-route";
-import { ProgressButtons, BackButton, NextButton } from "../ui/buttons";
+} from "../../progress/progress-step-route";
+import { ProgressButtons, BackButton, NextButton } from "../../ui/buttons";
 import { Link, Switch, Route } from "react-router-dom";
-import { EhpAccessForInspection } from "./hp-action-access-for-inspection";
-import { createHPActionPreviousAttempts } from "./hp-action-previous-attempts";
-import { HPActionYourLandlord } from "./hp-action-your-landlord";
-import { GeneratePDFForm, ShowHPUploadStatus } from "./hp-action-generate-pdf";
-import { assertNotNull } from "../util/util";
-import { PdfLink } from "../ui/pdf-link";
-import { BigList } from "../ui/big-list";
-import { OutboundLink } from "../analytics/google-analytics";
-import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
+import { EhpAccessForInspection } from "../hp-action-access-for-inspection";
+import { createHPActionPreviousAttempts } from "../hp-action-previous-attempts";
+import { HPActionYourLandlord } from "../hp-action-your-landlord";
+import { GeneratePDFForm, ShowHPUploadStatus } from "../hp-action-generate-pdf";
+import { assertNotNull } from "../../util/util";
+import { PdfLink } from "../../ui/pdf-link";
+import { BigList } from "../../ui/big-list";
+import { OutboundLink } from "../../analytics/google-analytics";
+import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import {
   EmergencyHpaIssuesMutation,
   BlankCustomHomeIssuesCustomIssueFormFormSetInput,
-} from "../queries/EmergencyHpaIssuesMutation";
+} from "../../queries/EmergencyHpaIssuesMutation";
 import {
   HiddenFormField,
   MultiCheckboxFormField,
   TextualFormField,
-} from "../forms/form-fields";
-import { LegacyFormSubmitter } from "../forms/legacy-form-submitter";
-import { BeginDocusignMutation } from "../queries/BeginDocusignMutation";
-import { performHardOrSoftRedirect } from "../browser-redirect";
-import { CovidEhpDisclaimer } from "../ui/covid-banners";
-import { StaticImage } from "../ui/static-image";
-import { VerifyEmailMiddleProgressStep } from "../pages/verify-email";
-import { customIssuesForArea } from "../issues/issues";
-import { Formset } from "../forms/formset";
+} from "../../forms/form-fields";
+import { LegacyFormSubmitter } from "../../forms/legacy-form-submitter";
+import { BeginDocusignMutation } from "../../queries/BeginDocusignMutation";
+import { performHardOrSoftRedirect } from "../../browser-redirect";
+import { CovidEhpDisclaimer } from "../../ui/covid-banners";
+import { StaticImage } from "../../ui/static-image";
+import { VerifyEmailMiddleProgressStep } from "../../pages/verify-email";
+import { customIssuesForArea } from "../../issues/issues";
+import { Formset } from "../../forms/formset";
 import {
   CUSTOM_ISSUE_MAX_LENGTH,
   MAX_CUSTOM_ISSUES_PER_AREA,
-} from "../../../common-data/issue-validation.json";
-import { FormsetItem, formsetItemProps } from "../forms/formset-item";
-import { TextualFieldWithCharsRemaining } from "../forms/chars-remaining";
-import { SessionStepBuilder } from "../progress/session-step-builder";
-import { OptionalLandlordDetailsMutation } from "../queries/OptionalLandlordDetailsMutation";
-import { PhoneNumberFormField } from "../forms/phone-number-form-field";
-import { isUserNycha } from "../util/nycha";
-import { ModalLink, Modal, BackOrUpOneDirLevel } from "../ui/modal";
-import { CenteredButtons } from "../ui/centered-buttons";
+} from "../../../../common-data/issue-validation.json";
+import { FormsetItem, formsetItemProps } from "../../forms/formset-item";
+import { TextualFieldWithCharsRemaining } from "../../forms/chars-remaining";
+import { SessionStepBuilder } from "../../progress/session-step-builder";
+import { OptionalLandlordDetailsMutation } from "../../queries/OptionalLandlordDetailsMutation";
+import { PhoneNumberFormField } from "../../forms/phone-number-form-field";
+import { isUserNycha } from "../../util/nycha";
+import { ModalLink, Modal, BackOrUpOneDirLevel } from "../../ui/modal";
+import { CenteredButtons } from "../../ui/centered-buttons";
 import {
   EMERGENCY_HPA_ISSUE_SET,
   getEmergencyHPAIssueChoices,
 } from "./emergency-hp-action-issues";
-import { HpActionSue } from "./sue";
+import { HpActionSue } from "../sue";
 import {
   HarassmentApartment,
   HarassmentAllegations1,
   HarassmentAllegations2,
   HarassmentExplain,
-} from "./hp-action-harassment";
-import { HarassmentCaseHistory } from "./hp-action-case-history";
-import { DemoDeploymentNote } from "../ui/demo-deployment-note";
-import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-steps";
-import { renderSuccessHeading } from "../ui/success-heading";
-import { createHtmlEmailStaticPageRoutes } from "../static-page/routes";
+} from "../hp-action-harassment";
+import { HarassmentCaseHistory } from "../hp-action-case-history";
+import { DemoDeploymentNote } from "../../ui/demo-deployment-note";
+import { createJustfixCrossSiteVisitorSteps } from "../../justfix-cross-site-visitor-steps";
+import { renderSuccessHeading } from "../../ui/success-heading";
+import { createHtmlEmailStaticPageRoutes } from "../../static-page/routes";
 import {
   ExampleServiceInstructionsEmail,
   ServiceInstructionsEmail,
   ExampleServiceInstructionsEmailForm,
   ServiceInstructionsWebpage,
-} from "./service-instructions-email";
-import { NycUsersOnly } from "../pages/nyc-users-only";
+} from "../service-instructions-email";
+import { NycUsersOnly } from "../../pages/nyc-users-only";
 
 const HP_ICON = "frontend/img/hp-action.svg";
 

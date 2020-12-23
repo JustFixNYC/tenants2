@@ -1,12 +1,12 @@
 import React from "react";
-import { ProgressRoutesTester } from "../../progress/tests/progress-routes-tester";
-import { getEmergencyHPActionProgressRoutesProps } from "../emergency-hp-action";
-import { AppTesterPal } from "../../tests/app-tester-pal";
-import { ProgressRoutes } from "../../progress/progress-routes";
-import JustfixRoutes from "../../justfix-routes";
-import { newSb } from "../../tests/session-builder";
-import { preloadLingui } from "../../tests/lingui-preloader";
-import { LinguiI18n } from "../../i18n-lingui";
+import { ProgressRoutesTester } from "../../../progress/tests/progress-routes-tester";
+import { getEmergencyHPActionProgressRoutesProps } from "../steps";
+import { AppTesterPal } from "../../../tests/app-tester-pal";
+import { ProgressRoutes } from "../../../progress/progress-routes";
+import JustfixRoutes from "../../../justfix-routes";
+import { newSb } from "../../../tests/session-builder";
+import { preloadLingui } from "../../../tests/lingui-preloader";
+import { LinguiI18n } from "../../../i18n-lingui";
 
 beforeAll(preloadLingui(LinguiI18n));
 

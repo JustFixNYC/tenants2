@@ -3,7 +3,7 @@ import { SimpleProgressiveEnhancement } from "./progressive-enhancement";
 import classnames from "classnames";
 import { Icon } from "./icon";
 import { OutboundLink } from "../analytics/google-analytics";
-import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issues";
+import { getEmergencyHPAIssueLabels } from "../hpaction/emergency/emergency-hp-action-issues";
 import { CSSTransition } from "react-transition-group";
 import JustfixRoutes from "../justfix-routes";
 import { useDebouncedValue } from "../util/use-debounced-value";

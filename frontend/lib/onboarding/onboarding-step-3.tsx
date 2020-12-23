@@ -16,7 +16,7 @@ import {
 import { Modal, BackOrUpOneDirLevel } from "../ui/modal";
 import { twoTuple } from "../util/util";
 import { glueToLastWord } from "../ui/word-glue";
-import { OnboardingRouteInfo } from "../justfix-routes";
+import { OnboardingRouteInfo } from "./routes";
 import {
   getLeaseChoiceLabels,
   LeaseChoices,

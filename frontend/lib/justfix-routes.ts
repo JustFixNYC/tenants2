@@ -4,14 +4,16 @@ import { inputToQuerystring } from "./networking/http-get-query-util";
 import { ROUTE_PREFIX, createRoutesForSite } from "./util/route-util";
 import { createDevRouteInfo } from "./dev/routes";
 import {
-  createLetterStaticPageRouteInfo,
-  createHtmlEmailStaticPageRouteInfo,
-} from "./static-page/routes";
-import { createIssuesRouteInfo } from "./issues/routes";
-import {
   createOnboardingRouteInfo,
   OnboardingRouteInfo,
 } from "./onboarding/routes";
+import { createLetterOfComplaintRouteInfo } from "./loc/routes";
+import { createDataRequestsRouteInfo } from "./data-requests/routes";
+import {
+  createEmergencyHPActionRouteInfo,
+  createHPActionRouteInfo,
+} from "./hpaction/routes";
+import { createRentalHistoryRouteInfo } from "./rh/routes";
 
 /**
  * Querystring argument for specifying the URL to redirect the
@@ -32,16 +34,6 @@ type SignupIntentOnboardingInfo = {
   /** The actual onboarding routes. */
   onboarding: OnboardingRouteInfo;
 };
-
-export type JustfixCrossSiteVisitorRouteInfo = ReturnType<
-  typeof createJustfixCrossSiteVisitorRoutes
->;
-
-function createJustfixCrossSiteVisitorRoutes(prefix: string) {
-  return {
-    crossSiteAgreeToTerms: `${prefix}/terms`,
-  };
-}
 
 /**
  * Ideally this would be a map, but TypeScript doesn't let us
@@ -82,131 +74,6 @@ function createPasswordResetRouteInfo(prefix: string) {
     verify: `${prefix}/verify`,
     confirm: `${prefix}/confirm`,
     done: `${prefix}/done`,
-  };
-}
-
-export type LetterOfComplaintInfo = ReturnType<
-  typeof createLetterOfComplaintRouteInfo
->;
-
-function createLetterOfComplaintRouteInfo(prefix: string) {
-  return {
-    [ROUTE_PREFIX]: prefix,
-    latestStep: prefix,
-    /** The sample letter content (HTML and PDF versions). */
-    sampleLetterContent: createLetterStaticPageRouteInfo(
-      `${prefix}/sample-letter`
-    ),
-    /** Letter content for the user (HTML and PDF versions). */
-    letterContent: createLetterStaticPageRouteInfo(`${prefix}/letter`),
-    splash: `${prefix}/splash`,
-    welcome: `${prefix}/welcome`,
-    ...createJustfixCrossSiteVisitorRoutes(prefix),
-    issues: createIssuesRouteInfo(`${prefix}/issues`),
-    accessDates: `${prefix}/access-dates`,
-    reliefAttempts: `${prefix}/relief-attempts`,
-    yourLandlord: `${prefix}/your-landlord`,
-    preview: `${prefix}/preview`,
-    previewSendConfirmModal: `${prefix}/preview/send-confirm-modal`,
-    confirmation: `${prefix}/confirmation`,
-  };
-}
-
-export type HPActionInfo = ReturnType<typeof createHPActionRouteInfo>;
-
-function createEmergencyHPActionRouteInfo(prefix: string) {
-  return {
-    [ROUTE_PREFIX]: prefix,
-    latestStep: prefix,
-    preOnboarding: `${prefix}/splash`,
-    splash: `${prefix}/splash`,
-    onboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),
-    postOnboarding: prefix,
-    welcome: `${prefix}/welcome`,
-    ...createJustfixCrossSiteVisitorRoutes(prefix),
-    sue: `${prefix}/sue`,
-    issues: `${prefix}/issues`,
-    tenantChildren: `${prefix}/children`,
-    accessForInspection: `${prefix}/access`,
-    prevAttempts: `${prefix}/previous-attempts`,
-    prevAttempts311Modal: `${prefix}/previous-attempts/311-modal`,
-    harassmentApartment: `${prefix}/harassment/apartment`,
-    harassmentAllegations1: `${prefix}/harassment/allegations/1`,
-    harassmentAllegations2: `${prefix}/harassment/allegations/2`,
-    harassmentExplain: `${prefix}/harassment/explain`,
-    harassmentCaseHistory: `${prefix}/harassment/case-history`,
-    yourLandlord: `${prefix}/your-landlord`,
-    yourLandlordOptionalDetails: `${prefix}/your-landlord/optional`,
-    prepare: `${prefix}/prepare`,
-    waitForUpload: `${prefix}/wait`,
-    reviewForms: `${prefix}/review`,
-    reviewFormsSignModal: `${prefix}/review/sign-modal`,
-    verifyEmail: `${prefix}/verify-email`,
-    confirmation: `${prefix}/confirmation`,
-    serviceInstructionsEmail: createHtmlEmailStaticPageRouteInfo(
-      `${prefix}/service-instructions-email`
-    ),
-    exampleServiceInstructionsEmailForm: `${prefix}/service-instructions-email/example`,
-    exampleServiceInstructionsEmail: createHtmlEmailStaticPageRouteInfo(
-      `${prefix}/service-instructions-email/example`
-    ),
-    serviceInstructionsWebpage: `${prefix}/service-instructions`,
-  };
-}
-
-function createHPActionRouteInfo(prefix: string) {
-  return {
-    [ROUTE_PREFIX]: prefix,
-    latestStep: prefix,
-    preOnboarding: `${prefix}/splash`,
-    splash: `${prefix}/splash`,
-    onboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),
-    postOnboarding: prefix,
-    welcome: `${prefix}/welcome`,
-    ...createJustfixCrossSiteVisitorRoutes(prefix),
-    sue: `${prefix}/sue`,
-    issues: createIssuesRouteInfo(`${prefix}/issues`),
-    tenantChildren: `${prefix}/children`,
-    accessForInspection: `${prefix}/access`,
-    prevAttempts: `${prefix}/previous-attempts`,
-    prevAttempts311Modal: `${prefix}/previous-attempts/311-modal`,
-    urgentAndDangerous: `${prefix}/urgency`,
-    harassmentApartment: `${prefix}/harassment/apartment`,
-    harassmentAllegations1: `${prefix}/harassment/allegations/1`,
-    harassmentAllegations2: `${prefix}/harassment/allegations/2`,
-    harassmentExplain: `${prefix}/harassment/explain`,
-    harassmentCaseHistory: `${prefix}/harassment/case-history`,
-    feeWaiverStart: `${prefix}/fee-waiver`,
-    feeWaiverMisc: `${prefix}/fee-waiver/misc`,
-    feeWaiverIncome: `${prefix}/fee-waiver/income`,
-    feeWaiverExpenses: `${prefix}/fee-waiver/expenses`,
-    feeWaiverPublicAssistance: `${prefix}/fee-waiver/public-assistance`,
-    yourLandlord: `${prefix}/your-landlord`,
-    ready: `${prefix}/ready`,
-    waitForUpload: `${prefix}/wait`,
-    confirmation: `${prefix}/confirmation`,
-  };
-}
-
-function createDataRequestsRouteInfo(prefix: string) {
-  return {
-    [ROUTE_PREFIX]: prefix,
-    home: prefix,
-    multiLandlord: `${prefix}/multi-landlord`,
-  };
-}
-
-function createRentalHistoryRouteInfo(prefix: string) {
-  return {
-    [ROUTE_PREFIX]: prefix,
-    latestStep: prefix,
-    emailToDhcr: `${prefix}/email-to-dhcr.txt`,
-    splash: `${prefix}/splash`,
-    form: `${prefix}/form`,
-    formAddressModal: `${prefix}/form/address-modal`,
-    rsUnitsCheck: `${prefix}/rs-units-check`,
-    preview: `${prefix}/preview`,
-    confirmation: `${prefix}/confirmation`,
   };
 }
 

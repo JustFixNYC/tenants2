@@ -1,5 +1,5 @@
 import React from "react";
-import { OnboardingRouteInfo } from "../justfix-routes";
+import { OnboardingRouteInfo } from "./routes";
 import { Route, Switch } from "react-router";
 import OnboardingStep1 from "./onboarding-step-1";
 import OnboardingStep3 from "./onboarding-step-3";

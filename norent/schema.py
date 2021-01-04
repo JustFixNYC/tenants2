@@ -395,7 +395,7 @@ class NorentSendLetterV2(SessionFormMutation):
         assert user.is_authenticated
         rent_periods = models.UpcomingLetterRentPeriod.objects.get_rent_periods_for_user(user)
         if len(rent_periods) == 0:
-            return cls.make_and_log_error(info, "You have not chosen any rent periods!")
+            return cls.make_error("You have not chosen any rent periods!")
         letter = models.Letter.objects.filter(user=user, rent_periods__in=rent_periods).first()
         if letter is not None:
             return cls.make_error("You have already sent a letter for one of the rent periods!")

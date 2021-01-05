@@ -25,6 +25,7 @@ import { Trans, t, Plural } from "@lingui/macro";
 import { EnglishOutboundLink } from "../ui/localized-outbound-link";
 import { li18n } from "../i18n-lingui";
 import { efnycURL } from "../ui/efnyc-link";
+import { fbq } from "../analytics/facebook-pixel";
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
@@ -643,6 +644,10 @@ export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
   const emptyInput = { address: "", borough: "" };
   const [autoSubmit, setAutoSubmit] = useState(false);
+  const handleSubmit = () => {
+    setAutoSubmit(false);
+    fbq("trackCustom", "DDOSearch");
+  };
 
   return (
     <Page title="">
@@ -651,7 +656,7 @@ export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
         emptyInput={emptyInput}
         emptyOutput={null}
         query={DataDrivenOnboardingSuggestions}
-        onSubmit={() => setAutoSubmit(false)}
+        onSubmit={handleSubmit}
       >
         {(ctx, latestInput, latestOutput) => {
           const showHero = !latestInput.address;

@@ -640,14 +640,17 @@ function Results(props: { address: string; output: DDOData | null }) {
   );
 }
 
+const TrackDDOSearch: React.FC<{}> = () => {
+  useEffect(() => {
+    fbq("trackCustom", "DDOSearch");
+  }, []);
+  return null;
+};
+
 export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
   const emptyInput = { address: "", borough: "" };
   const [autoSubmit, setAutoSubmit] = useState(false);
-  const handleSubmit = () => {
-    setAutoSubmit(false);
-    fbq("trackCustom", "DDOSearch");
-  };
 
   return (
     <Page title="">
@@ -656,7 +659,7 @@ export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
         emptyInput={emptyInput}
         emptyOutput={null}
         query={DataDrivenOnboardingSuggestions}
-        onSubmit={handleSubmit}
+        onSubmit={() => setAutoSubmit(false)}
       >
         {(ctx, latestInput, latestOutput) => {
           const showHero = !latestInput.address;
@@ -666,6 +669,7 @@ export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
 
           return (
             <section className={showHero ? "hero" : ""}>
+              {address && <TrackDDOSearch key={address + borough} />}
               <div className={showHero ? "hero-body" : ""}>
                 {showHero && (
                   <Trans>

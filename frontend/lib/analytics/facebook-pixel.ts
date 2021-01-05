@@ -11,6 +11,12 @@ export interface FacebookPixelAPI {
    * onboarding process and signed up for an account.
    */
   (cmd: "trackCustom", event: "NewUserSignup"): void;
+
+  /**
+   * Track a custom event indicating that the user has performed
+   * a Data-Driven Onboarding (DDO) search.
+   */
+  (cmd: "trackCustom", event: "DDOSearch"): void;
 }
 
 declare global {

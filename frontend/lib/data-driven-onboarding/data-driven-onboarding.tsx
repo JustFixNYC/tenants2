@@ -25,6 +25,7 @@ import { Trans, t, Plural } from "@lingui/macro";
 import { EnglishOutboundLink } from "../ui/localized-outbound-link";
 import { li18n } from "../i18n-lingui";
 import { efnycURL } from "../ui/efnyc-link";
+import { fbq } from "../analytics/facebook-pixel";
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
@@ -639,6 +640,13 @@ function Results(props: { address: string; output: DDOData | null }) {
   );
 }
 
+const TrackDDOSearch: React.FC<{}> = () => {
+  useEffect(() => {
+    fbq("trackCustom", "DDOSearch");
+  }, []);
+  return null;
+};
+
 export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
   const emptyInput = { address: "", borough: "" };
@@ -661,6 +669,7 @@ export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
 
           return (
             <section className={showHero ? "hero" : ""}>
+              {address && <TrackDDOSearch key={address + borough} />}
               <div className={showHero ? "hero-body" : ""}>
                 {showHero && (
                   <Trans>

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { RouteComponentProps, Redirect } from "react-router-dom";
 import { AppContext } from "../app-context";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes from "../justfix-route-info";
 
 /**
  * Require that anyone visiting the wrapped component have staff (i.e., admin) permission.

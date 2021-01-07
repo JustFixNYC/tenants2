@@ -5,7 +5,7 @@ import { Icon } from "./icon";
 import { OutboundLink } from "../analytics/google-analytics";
 import { getEmergencyHPAIssueLabels } from "../hpaction/emergency/emergency-hp-action-issues";
 import { CSSTransition } from "react-transition-group";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes from "../justfix-route-info";
 import { useDebouncedValue } from "../util/use-debounced-value";
 import { SupportedLocaleMap } from "../i18n";
 import { CovidMoratoriumBanner } from "@justfixnyc/react-common";

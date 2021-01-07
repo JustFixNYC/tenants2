@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import JustfixRoutes, {
   getSignupIntentOnboardingInfo,
-} from "../justfix-routes";
+} from "../justfix-route-info";
 import Page from "../ui/page";
 import { ProgressButtons } from "../ui/buttons";
 import { IssuesRoutes } from "../issues/routes";

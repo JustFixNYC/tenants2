@@ -1,6 +1,6 @@
 import React from "react";
 
-import JustfixRoutes from "../../justfix-routes";
+import JustfixRoutes from "../../justfix-route-info";
 import LetterOfComplaintRoutes from "../routes";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { BlankLandlordDetailsType } from "../../queries/LandlordDetailsType";

@@ -3,7 +3,7 @@ import React from "react";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import HPActionRoutes, { getHPActionProgressRoutesProps } from "../routes";
 import { ProgressRoutesTester } from "../../progress/tests/progress-routes-tester";
-import JustfixRoutes from "../../justfix-routes";
+import JustfixRoutes from "../../justfix-route-info";
 import { HPUploadStatus } from "../../queries/globalTypes";
 import { newSb } from "../../tests/session-builder";
 import { preloadLingui } from "../../tests/lingui-preloader";

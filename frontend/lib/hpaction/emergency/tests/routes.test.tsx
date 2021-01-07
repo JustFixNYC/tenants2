@@ -3,7 +3,7 @@ import { ProgressRoutesTester } from "../../../progress/tests/progress-routes-te
 import { getEmergencyHPActionProgressRoutesProps } from "../routes";
 import { AppTesterPal } from "../../../tests/app-tester-pal";
 import { ProgressRoutes } from "../../../progress/progress-routes";
-import JustfixRoutes from "../../../justfix-routes";
+import JustfixRoutes from "../../../justfix-route-info";
 import { newSb } from "../../../tests/session-builder";
 import { preloadLingui } from "../../../tests/lingui-preloader";
 import { LinguiI18n } from "../../../i18n-lingui";

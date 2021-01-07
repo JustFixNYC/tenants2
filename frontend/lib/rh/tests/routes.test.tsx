@@ -6,7 +6,7 @@ import RentalHistoryRoutes, {
   GenerateUserRhFormInput,
   RhLinguiI18n,
 } from "../routes";
-import JustfixRoutes from "../../justfix-routes";
+import JustfixRoutes from "../../justfix-route-info";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { browserStorage } from "../../browser-storage";
 import { FakeAppContext } from "../../tests/util";

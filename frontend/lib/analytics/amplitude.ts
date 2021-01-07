@@ -10,7 +10,7 @@ import { getGlobalSiteRoutes } from "../global-site-routes";
 import { getGlobalAppServerInfo, AppServerInfo } from "../app-context";
 import { LocaleChoice } from "../../../common-data/locale-choices";
 import i18n from "../i18n";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes from "../justfix-route-info";
 import { NorentRoutes } from "../norent/route-info";
 
 export type JustfixAmplitudeUserProperties = {

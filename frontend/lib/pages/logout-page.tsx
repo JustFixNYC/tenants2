@@ -2,7 +2,7 @@ import React from "react";
 
 import Page from "../ui/page";
 import { Link } from "react-router-dom";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes from "../justfix-route-info";
 import { NextButton } from "../ui/buttons";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import { LogoutMutation } from "../queries/LogoutMutation";

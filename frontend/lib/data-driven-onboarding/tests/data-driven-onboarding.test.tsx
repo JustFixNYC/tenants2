@@ -1,6 +1,6 @@
 import React from "react";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import JustfixRoutes from "../../justfix-routes";
+import JustfixRoutes from "../../justfix-route-info";
 import { BlankDDOSuggestionsResult } from "../../queries/DDOSuggestionsResult";
 import {
   DataDrivenOnboardingSuggestions_output,

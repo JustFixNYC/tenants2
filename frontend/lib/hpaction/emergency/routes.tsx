@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import JustfixRoutes, {
   getSignupIntentOnboardingInfo,
-} from "../../justfix-routes";
+} from "../../justfix-route-info";
 import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,

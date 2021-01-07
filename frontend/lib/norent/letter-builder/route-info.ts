@@ -1,5 +1,5 @@
 import { ROUTE_PREFIX } from "../../util/route-util";
-import { createStartAccountOrLoginRouteInfo } from "../start-account-or-login/routes";
+import { createStartAccountOrLoginRouteInfo } from "../start-account-or-login/route-info";
 
 export type NorentLetterBuilderRouteInfo = ReturnType<
   typeof createNorentLetterBuilderRouteInfo
@@ -8,7 +8,7 @@ export type NorentLetterBuilderRouteInfo = ReturnType<
 /**
  * This function maps URL paths to our routes within the NoRent Letter Builder flow.
  * To find the actual definition of these routes, check out
- * the `steps.tsx` file in the same directory as this file.
+ * the `routes.tsx` file in the same directory as this file.
  */
 export function createNorentLetterBuilderRouteInfo(prefix: string) {
   return {

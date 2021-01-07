@@ -1,6 +1,6 @@
 import React from "react";
 import Page from "../../ui/page";
-import { NorentRoutes } from "../routes";
+import { NorentRoutes } from "../route-info";
 import { CustomerSupportLink } from "../../ui/customer-support-link";
 import { CenteredPrimaryButtonLink } from "../../ui/buttons";
 import { Trans, t } from "@lingui/macro";

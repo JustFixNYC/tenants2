@@ -3,7 +3,7 @@ import { Route } from "react-router";
 
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
 import { AllSessionInfo_onboardingInfo } from "../queries/AllSessionInfo";
-import { getSignupIntentOnboardingInfo } from "../justfix-routes";
+import { getSignupIntentOnboardingInfo } from "../justfix-route-info";
 import { friendlyLoad, LoadingPage } from "../networking/loading-page";
 import loadable from "@loadable/component";
 
@@ -16,7 +16,7 @@ export type WithSignupIntent = Pick<
 >;
 
 const LoadableOnboardingRoutes = loadable(
-  () => friendlyLoad(import("./steps")),
+  () => friendlyLoad(import("./routes")),
   {
     fallback: <LoadingPage />,
   }

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Navbar from "./ui/navbar";
 import { Link } from "react-router-dom";
 import { AppContext } from "./app-context";
-import JustfixRoutes from "./justfix-routes";
+import JustfixRoutes from "./justfix-route-info";
 import { StaticImage } from "./ui/static-image";
 import { li18n } from "./i18n-lingui";
 import { t, Trans } from "@lingui/macro";

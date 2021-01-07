@@ -1,8 +1,8 @@
 import React from "react";
 
 import { FakeSessionInfo } from "../../tests/util";
-import OnboardingRoutes, { OnboardingRoutesProps } from "../steps";
-import JustfixRoutes from "../../justfix-routes";
+import OnboardingRoutes, { OnboardingRoutesProps } from "../routes";
+import JustfixRoutes from "../../justfix-route-info";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { getLatestStep } from "../../progress/progress-redirection";
 import { AppTesterPal } from "../../tests/app-tester-pal";

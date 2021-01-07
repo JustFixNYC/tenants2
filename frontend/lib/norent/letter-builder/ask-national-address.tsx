@@ -18,7 +18,7 @@ import {
 } from "../../forms/apt-number-form-fields";
 import { NorentConfirmationModal } from "./confirmation-modal";
 import { AppContext } from "../../app-context";
-import { NorentRoutes } from "../routes";
+import { NorentRoutes } from "../route-info";
 import { Route } from "react-router-dom";
 import { areAddressesTheSame } from "../../ui/address-confirmation";
 import { hardFail } from "../../util/util";

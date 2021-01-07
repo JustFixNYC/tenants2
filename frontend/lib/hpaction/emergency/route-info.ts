@@ -1,5 +1,5 @@
-import { createJustfixCrossSiteVisitorRoutes } from "../../justfix-cross-site-visitor-routes";
-import { createOnboardingRouteInfo } from "../../onboarding/routes";
+import { createJustfixCrossSiteVisitorRoutes } from "../../justfix-cross-site-visitor-route-info";
+import { createOnboardingRouteInfo } from "../../onboarding/route-info";
 import { createHtmlEmailStaticPageRouteInfo } from "../../static-page/routes";
 import { ROUTE_PREFIX } from "../../util/route-util";
 

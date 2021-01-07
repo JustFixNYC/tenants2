@@ -5,7 +5,7 @@ import i18n from "../i18n";
 import { useLocation } from "react-router-dom";
 import { Trans } from "@lingui/macro";
 import { NavbarDropdown } from "./navbar";
-import { getGlobalSiteRoutes } from "../routes";
+import { getGlobalSiteRoutes } from "../global-site-routes";
 
 /**
  * Names of languages in the language itself.

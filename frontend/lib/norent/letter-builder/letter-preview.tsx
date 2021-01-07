@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Page from "../../ui/page";
 import { LetterPreview } from "../../static-page/letter-preview";
-import { NorentRoutes } from "../routes";
+import { NorentRoutes } from "../route-info";
 import { NextButton, ProgressButtonsAsLinks } from "../../ui/buttons";
 import { OutboundLink } from "../../analytics/google-analytics";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";

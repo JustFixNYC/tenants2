@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import JustfixRoutes, {
   getSignupIntentOnboardingInfo,
-} from "../../justfix-routes";
+} from "../../justfix-route-info";
 import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
@@ -76,7 +76,7 @@ import {
 } from "../hp-action-harassment";
 import { HarassmentCaseHistory } from "../hp-action-case-history";
 import { DemoDeploymentNote } from "../../ui/demo-deployment-note";
-import { createJustfixCrossSiteVisitorSteps } from "../../justfix-cross-site-visitor-steps";
+import { createJustfixCrossSiteVisitorSteps } from "../../justfix-cross-site-visitor-routes";
 import { renderSuccessHeading } from "../../ui/success-heading";
 import { createHtmlEmailStaticPageRoutes } from "../../static-page/routes";
 import {

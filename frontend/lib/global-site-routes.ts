@@ -1,8 +1,8 @@
-import { DevRouteInfo } from "./dev/routes";
+import { DevRouteInfo } from "./dev/route-info";
 import { RouteInfo, ROUTE_PREFIX } from "./util/route-util";
 import { getGlobalAppServerInfo, AppServerInfo } from "./app-context";
-import { default as JustfixRoutes } from "./justfix-routes";
-import { NorentRoutes } from "./norent/routes";
+import { default as JustfixRoutes } from "./justfix-route-info";
+import { NorentRoutes } from "./norent/route-info";
 import History from "history";
 
 /** Common localized routes all our sites support. */

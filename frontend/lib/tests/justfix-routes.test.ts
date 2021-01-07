@@ -1,6 +1,6 @@
 import JustfixRoutes, {
   getSignupIntentOnboardingInfo,
-} from "../justfix-routes";
+} from "../justfix-route-info";
 import { OnboardingInfoSignupIntent, Borough } from "../queries/globalTypes";
 import i18n from "../i18n";
 

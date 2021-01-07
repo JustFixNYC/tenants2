@@ -1,7 +1,7 @@
-import { createJustfixCrossSiteVisitorRoutes } from "../justfix-cross-site-visitor-routes";
+import { createJustfixCrossSiteVisitorRoutes } from "../justfix-cross-site-visitor-route-info";
 import { createLetterStaticPageRouteInfo } from "../static-page/routes";
 import { ROUTE_PREFIX } from "../util/route-util";
-import { createIssuesRouteInfo } from "../issues/routes";
+import { createIssuesRouteInfo } from "../issues/route-info";
 
 export type LetterOfComplaintInfo = ReturnType<
   typeof createLetterOfComplaintRouteInfo

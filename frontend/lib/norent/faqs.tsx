@@ -2,7 +2,7 @@ import React from "react";
 import { StaticImage } from "../ui/static-image";
 import { getImageSrc, JumpArrow } from "./homepage";
 import { Link } from "react-router-dom";
-import { NorentRoutes } from "./routes";
+import { NorentRoutes } from "./route-info";
 import {
   getFaqsContent,
   Faq,

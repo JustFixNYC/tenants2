@@ -1,6 +1,6 @@
 import React from "react";
 import { PhoneNumberAccountStatus } from "../../queries/globalTypes";
-import { StartAccountOrLoginRouteInfo } from "./routes";
+import { StartAccountOrLoginRouteInfo } from "./route-info";
 import {
   ProgressStepRoute,
   ProgressStepProps,
@@ -21,7 +21,7 @@ export type StartAccountOrLoginProps = MiddleProgressStepProps & {
 /**
  * This function defines all routes within the NoRent Account Creation/Login flow.
  * To find the map of each route to its corresponding URL path, check out
- * the `routes.ts` file in the same directory as this file.
+ * the `route-info.ts` file in the same directory as this file.
  */
 export function createStartAccountOrLoginSteps(
   routes: StartAccountOrLoginRouteInfo

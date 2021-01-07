@@ -2,12 +2,12 @@ import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
 } from "../../progress/progress-routes";
-import { NorentRoutes } from "../routes";
+import { NorentRoutes } from "../route-info";
 import { NorentLandlordNameAndContactTypes } from "./landlord-name-and-contact-types";
 import { NorentLetterPreviewPage } from "./letter-preview";
-import { createStartAccountOrLoginSteps } from "../start-account-or-login/steps";
+import { createStartAccountOrLoginSteps } from "../start-account-or-login/routes";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
-import { NorentLetterBuilderRouteInfo } from "./routes";
+import { NorentLetterBuilderRouteInfo } from "./route-info";
 import { NorentLbWelcome } from "./welcome";
 import { NorentLbAskName } from "./ask-name";
 import { NorentLbAskCityState } from "./ask-city-state";
@@ -69,7 +69,7 @@ function isUserOutsideLA(s: AllSessionInfo): boolean {
 /**
  * This function defines all routes within the NoRent Letter Builder flow.
  * To find the map of each route to its corresponding URL path, check out
- * the `routes.ts` file in the same directory as this file.
+ * the `routes-info.ts` file in the same directory as this file.
  */
 export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = getLetterBuilderRoutes();

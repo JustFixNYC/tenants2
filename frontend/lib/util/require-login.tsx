@@ -3,7 +3,7 @@ import React from "react";
 import { useContext } from "react";
 import { AppContext } from "../app-context";
 import { useLocation, Redirect } from "react-router-dom";
-import { getGlobalSiteRoutes } from "../routes";
+import { getGlobalSiteRoutes } from "../global-site-routes";
 
 /**
  * This ensures that the page it's embedded in requires login

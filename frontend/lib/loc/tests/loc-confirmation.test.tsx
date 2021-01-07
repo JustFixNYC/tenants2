@@ -1,8 +1,8 @@
 import React from "react";
-import JustfixRoutes from "../../justfix-routes";
+import JustfixRoutes from "../../justfix-route-info";
 import { LetterRequestMailChoice } from "../../queries/globalTypes";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import LetterOfComplaintRoutes from "../steps";
+import LetterOfComplaintRoutes from "../routes";
 import { newSb } from "../../tests/session-builder";
 
 const sb = newSb().withLoggedInJustfixUser();

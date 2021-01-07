@@ -3,7 +3,7 @@ import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
 } from "../progress/progress-routes";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes from "../justfix-route-info";
 import Page from "../ui/page";
 import { LegacyFormSubmitter } from "../forms/legacy-form-submitter";
 import {

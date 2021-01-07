@@ -1,6 +1,6 @@
-import { createIssuesRouteInfo } from "../issues/routes";
-import { createJustfixCrossSiteVisitorRoutes } from "../justfix-cross-site-visitor-routes";
-import { createOnboardingRouteInfo } from "../onboarding/routes";
+import { createIssuesRouteInfo } from "../issues/route-info";
+import { createJustfixCrossSiteVisitorRoutes } from "../justfix-cross-site-visitor-route-info";
+import { createOnboardingRouteInfo } from "../onboarding/route-info";
 import { ROUTE_PREFIX } from "../util/route-util";
 
 export type HPActionInfo = ReturnType<typeof createHPActionRouteInfo>;

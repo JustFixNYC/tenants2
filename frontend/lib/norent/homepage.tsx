@@ -1,6 +1,6 @@
 import React from "react";
 import Page from "../ui/page";
-import { NorentRoutes } from "./routes";
+import { NorentRoutes } from "./route-info";
 import { CenteredPrimaryButtonLink } from "../ui/buttons";
 import { StaticImage } from "../ui/static-image";
 import { OutboundLink } from "../analytics/google-analytics";

@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteComponentProps, Switch, Route, Redirect } from "react-router";
 import Page, { PageTitle } from "../ui/page";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes from "../justfix-route-info";
 import {
   DataRequestMultiLandlordQuery,
   DataRequestMultiLandlordQuery_output,

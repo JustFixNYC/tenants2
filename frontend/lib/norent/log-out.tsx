@@ -2,7 +2,7 @@ import React from "react";
 import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import { LogoutMutation } from "../queries/LogoutMutation";
-import { NorentRoutes } from "./routes";
+import { NorentRoutes } from "./route-info";
 import { NextButton } from "../ui/buttons";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";

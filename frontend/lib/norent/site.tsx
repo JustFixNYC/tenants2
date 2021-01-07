@@ -4,40 +4,20 @@ import {
   NorentRoutes as Routes,
   getNorentRoutesForPrimaryPages,
 } from "./route-info";
-import { RouteComponentProps, Switch, Route, Link } from "react-router-dom";
-import { NotFound } from "../pages/not-found";
-import { NorentHomePage } from "./homepage";
-import {
-  LoadingPage,
-  friendlyLoad,
-  LoadingOverlayManager,
-} from "../networking/loading-page";
+import { Route, Link } from "react-router-dom";
+import { LoadingOverlayManager } from "../networking/loading-page";
 import loadable from "@loadable/component";
 import classnames from "classnames";
 import { AppContext } from "../app-context";
 import { NorentFooter } from "./components/footer";
-import {
-  NorentLetterForUserStaticPage,
-  NorentSampleLetterSamplePage,
-  NorentLetterEmailToLandlordForUserStaticPage,
-} from "./letter-content";
 import Navbar from "../ui/navbar";
-import {
-  createHtmlEmailStaticPageRoutes,
-  createLetterStaticPageRoutes,
-} from "../static-page/routes";
-import { NorentFaqsPage } from "./faqs";
-import { NorentAboutPage } from "./about";
-import { NorentAboutYourLetterPage } from "./the-letter";
 import { NorentLogo } from "./components/logo";
-import { NorentLetterBuilderRoutes } from "./letter-builder/routes";
-import { NorentLogoutPage } from "./log-out";
 import { NorentHelmet } from "./components/helmet";
-import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
 import { Trans, t } from "@lingui/macro";
 import { LocalizedNationalMetadataProvider } from "./letter-builder/national-metadata";
 import { createLinguiCatalogLoader, li18n } from "../i18n-lingui";
 import { NavbarLanguageDropdown } from "../ui/language-toggle";
+import { NorentRouteComponent } from "./routes";
 
 function getRoutesForPrimaryPages() {
   return new Set(getNorentRoutesForPrimaryPages());
@@ -47,61 +27,6 @@ export const NorentLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(() => import("../../../locales/en/norent.chunk") as any),
   es: loadable.lib(() => import("../../../locales/es/norent.chunk") as any),
 });
-
-const LoadableDevRoutes = loadable(
-  () => friendlyLoad(import("../dev/routes")),
-  {
-    fallback: <LoadingPage />,
-  }
-);
-
-/**
- * This function defines Route components for each main page of the NoRent site.
- * To find the map of each route to its corresponding URL path, check out
- * the `route-info.ts` file in the same directory as this file.
- */
-const NorentRoute: React.FC<RouteComponentProps> = (props) => {
-  const { location } = props;
-  if (!Routes.routeMap.exists(location.pathname)) {
-    return NotFound(props);
-  }
-  return (
-    <Switch location={location}>
-      <Route path={Routes.locale.home} exact component={NorentHomePage} />
-      <Route path={Routes.locale.faqs} exact component={NorentFaqsPage} />
-      <Route path={Routes.locale.about} exact component={NorentAboutPage} />
-      <Route
-        path={Routes.locale.aboutLetter}
-        exact
-        component={NorentAboutYourLetterPage}
-      />
-      <Route path={Routes.locale.logout} exact component={NorentLogoutPage} />
-      <Route
-        path={Routes.locale.letter.prefix}
-        component={NorentLetterBuilderRoutes}
-      />
-      {createLetterStaticPageRoutes(
-        Routes.locale.letterContent,
-        NorentLetterForUserStaticPage
-      )}
-      <Route
-        path={Routes.locale.letterEmail}
-        exact
-        component={NorentLetterEmailToLandlordForUserStaticPage}
-      />
-      {createHtmlEmailStaticPageRoutes(
-        Routes.locale.letterEmailToUser,
-        NorentLetterEmailToUserStaticPage
-      )}
-      {createLetterStaticPageRoutes(
-        Routes.locale.sampleLetterContent,
-        NorentSampleLetterSamplePage
-      )}
-      <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
-      <Route component={NotFound} />
-    </Switch>
-  );
-};
 
 const NorentMenuItems: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
@@ -177,7 +102,7 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
           >
             <LoadingOverlayManager>
               <LocalizedNationalMetadataProvider>
-                <Route component={NorentRoute} />
+                <Route component={NorentRouteComponent} />
               </LocalizedNationalMetadataProvider>
             </LoadingOverlayManager>
           </div>

@@ -9,7 +9,7 @@ import { createNorentLetterBuilderRouteInfo } from "./letter-builder/route-info"
 /**
  * This function maps URL paths to our main routes on the NoRent site.
  * To find the actual definition of these routes, check out
- * the `site.tsx` file in the same directory as this file.
+ * the `routes.tsx` file in the same directory as this file.
  */
 function createLocalizedRouteInfo(prefix: string) {
   return {

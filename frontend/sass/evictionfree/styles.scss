@@ -1,0 +1,8 @@
+@charset "utf-8";
+
+@import "../../../node_modules/bulma/bulma.sass";
+@import "../_safe-mode.scss";
+
+html, body {
+  background-color: pink;
+}

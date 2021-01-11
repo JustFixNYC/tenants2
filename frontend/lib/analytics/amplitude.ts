@@ -233,5 +233,8 @@ export function getAmplitudePageType(pathname: string): string {
       return "JustFix " + getJustfixPageType(pathname);
     case "NORENT":
       return "NoRent " + getNorentPageType(pathname);
+    case "EVICTIONFREE":
+      // TODO: Return the type of page it is for EvictionFree.
+      return "EvictionFree";
   }
 }

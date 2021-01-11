@@ -3,6 +3,7 @@ import { RouteInfo, ROUTE_PREFIX } from "./util/route-util";
 import { getGlobalAppServerInfo, AppServerInfo } from "./app-context";
 import { default as JustfixRoutes } from "./justfix-route-info";
 import { NorentRoutes } from "./norent/route-info";
+import { EvictionFreeRoutes } from "./evictionfree/route-info";
 import History from "history";
 
 /** Common localized routes all our sites support. */
@@ -45,5 +46,7 @@ export function getGlobalSiteRoutes(
       return JustfixRoutes;
     case "NORENT":
       return NorentRoutes;
+    case "EVICTIONFREE":
+      return EvictionFreeRoutes;
   }
 }

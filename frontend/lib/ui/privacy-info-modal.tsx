@@ -18,6 +18,10 @@ function getURLforSite(baseURL: string, site: SiteChoice): string {
 
     case "NORENT":
       return `${baseURL}-norent`;
+
+    case "EVICTIONFREE":
+      // TODO: Figure out if we need a separate privacy policy / terms for EvictionFree!
+      return baseURL;
   }
 }
 

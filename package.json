@@ -24,6 +24,8 @@
     "test:watch": "jest --watch",
     "sass_norent": "node-sass-chokidar frontend/sass/norent/styles.scss frontend/static/frontend/styles-norent.css --source-map frontend/static/frontend/styles-norent.css.map --source-map-contents --output-style compressed",
     "sass_norent:watch": "yarn sass_norent --watch",
+    "sass_evictionfree": "node-sass-chokidar frontend/sass/evictionfree/styles.scss frontend/static/frontend/styles-evictionfree.css --source-map frontend/static/frontend/styles-evictionfree.css.map --source-map-contents --output-style compressed",
+    "sass_evictionfree:watch": "yarn sass_evictionfree --watch",
     "sass": "node-sass-chokidar frontend/sass/styles.scss frontend/static/frontend/styles.css --source-map frontend/static/frontend/styles.css.map --source-map-contents --output-style compressed",
     "sass:watch": "yarn sass --watch",
     "querybuilder": "node querybuilder.js",
@@ -32,8 +34,8 @@
     "webpack:watch": "webpack --watch",
     "safe_mode_snippet": "uglifyjs frontend/safe_mode/safe-mode.js -o frontend/safe_mode/safe-mode.min.js",
     "safe_mode_snippet:watch": "node frontend/safe_mode/watcher.js",
-    "build": "yarn lingui:compile && yarn querybuilder && yarn sass && yarn sass_norent && yarn webpack && yarn safe_mode_snippet",
-    "start": "yarn lingui:compile && yarn querybuilder && yarn sass && yarn sass_norent && concurrently --kill-others \"yarn webpack:watch\" \"yarn sass:watch\" \"yarn sass_norent:watch\" \"yarn querybuilder:watch\" \"yarn safe_mode_snippet:watch\"",
+    "build": "yarn lingui:compile && yarn querybuilder && yarn sass && yarn sass_norent && yarn sass_evictionfree && yarn webpack && yarn safe_mode_snippet",
+    "start": "yarn lingui:compile && yarn querybuilder && yarn sass && yarn sass_norent && yarn sass_evictionfree && concurrently --kill-others \"yarn webpack:watch\" \"yarn sass:watch\" \"yarn sass_norent:watch\" \"yarn sass_evictionfree:watch\" \"yarn querybuilder:watch\" \"yarn safe_mode_snippet:watch\"",
     "server:start": "yarn django:compilemessages && python manage.py runserver"
   },
   "repository": {

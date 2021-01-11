@@ -53,6 +53,7 @@ import { t } from "@lingui/macro";
 // We're just using our infrastructure for code splitting here.
 const LoadableJustfixSite = loadable(() => import("./justfix-site"));
 const LoadableNorentSite = loadable(() => import("./norent/site"));
+const LoadableEvictionFreeSite = loadable(() => import("./evictionfree/site"));
 
 export type AppSiteProps = RouteComponentProps & {
   ref?: React.Ref<HTMLDivElement>;
@@ -346,6 +347,8 @@ export class AppWithoutRouter extends React.Component<
         return LoadableJustfixSite;
       case "NORENT":
         return LoadableNorentSite;
+      case "EVICTIONFREE":
+        return LoadableEvictionFreeSite;
     }
   }
 

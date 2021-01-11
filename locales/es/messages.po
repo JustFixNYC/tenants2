@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-11 14:12\n"
+"PO-Revision-Date: 2021-01-11 22:14\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -44,7 +44,7 @@ msgstr "*División de Vivienda y Renovación de la Comunidad"
 msgid "8 Minutes"
 msgstr "8 minutos"
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:31
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:34
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
@@ -639,7 +639,7 @@ msgstr "Hacer huelga de renta"
 msgid "Good news!"
 msgstr "¡Buenas noticias!"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:59
+#: frontend/lib/ui/privacy-info-modal.tsx:62
 msgid "Got it!"
 msgstr "¡Entendido!"
 
@@ -737,7 +737,7 @@ msgstr "¿Por qué me sirve de ayuda enviar esta declaración?"
 msgid "How it works"
 msgstr "Cómo funciona"
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:43
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:46
 msgid "I agree to the <0/> terms and conditions."
 msgstr "Acepto los términos y condiciones de <0/>."
 
@@ -1234,7 +1234,7 @@ msgstr "Oklahoma"
 msgid "One letter for the months between March and August when you couldn't pay rent in full."
 msgstr "Una carta para los meses entre marzo y agosto cuando no pudiste pagar la renta en su totalidad."
 
-#: frontend/lib/app.tsx:55
+#: frontend/lib/app.tsx:56
 #: frontend/lib/norent/components/subscribe.tsx:41
 #: frontend/lib/norent/components/subscribe.tsx:45
 msgid "Oops! A network error occurred. Try again later."
@@ -1317,7 +1317,7 @@ msgstr "Pipes leaking"
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Por favor <0>vuelve y escoge un estado</0>."
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:29
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:32
 msgid "Please agree to our terms and conditions"
 msgstr "Por favor, acepta nuestros términos y condiciones"
 
@@ -1338,7 +1338,7 @@ msgstr "Por favor, lee atentamente el resto del correo electrónico ya que conti
 msgid "Preview of your NoRent.org letter"
 msgstr "Vista previa de tu carta NoRent.org"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:25
+#: frontend/lib/ui/privacy-info-modal.tsx:28
 msgid "Privacy Policy"
 msgstr "Política de Privacidad"
 
@@ -1673,7 +1673,7 @@ msgstr "Los inquilinos afectados por la crisis del COVID-19 están protegidos de
 msgid "Tennessee"
 msgstr "Tennessee"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:26
+#: frontend/lib/ui/privacy-info-modal.tsx:29
 msgid "Terms of Use"
 msgstr "Términos de Uso"
 
@@ -1711,6 +1711,10 @@ msgstr "¿Crees que tu apartamento puede ser de renta estabilizada? Solicita el 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:140
 msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 msgstr "Este edificio es propiedad de la <0>NYC Housing Authority (NYCHA)</0>."
+
+#: frontend/lib/evictionfree/homepage.tsx:7
+msgid "This is a test localization message for EvictionFree."
+msgstr "This is a test localization message for EvictionFree."
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:20
 msgid "This is optional."
@@ -2154,7 +2158,7 @@ msgstr "Tu carta fue enviada el {0}."
 msgid "Your phone number"
 msgstr "Tu número de teléfono"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:28
+#: frontend/lib/ui/privacy-info-modal.tsx:31
 msgid "Your privacy is very important to us!"
 msgstr "¡Su privacidad es muy importante para nosotros!"
 
@@ -2205,7 +2209,7 @@ msgstr "¿El dueño de tu edificio no contesta? ¡Puedes tomar acción gratis pa
 msgid "justfix.legalDisclaimer"
 msgstr "Aviso: La información en {website} no constituye asesoramiento jurídico y no debe ser utilizado como sustituto del asesoramiento de un abogado cualificado para asesorar sobre cuestiones jurídicas relativas a la vivienda. Si lo necesitas, podemos ayudar a dirigirte a servicios legales gratuitos."
 
-#: frontend/lib/ui/privacy-info-modal.tsx:30
+#: frontend/lib/ui/privacy-info-modal.tsx:33
 msgid "justfix.privacyInfoModalText"
 msgstr "¡<0>Tu privacidad es muy importante para nosotros! Estas son algunas de las cosas más importantes a saber:</0><1><2>Tu información personal está segura. </2><3>No usaremos tu información personal para beneficiarnos ni la venderemos a terceros. </3><4>Utilizaremos tu dirección postal para encontrar datos sobre tu edificio y su dueño. </4></1><5>Nuestra Política de Privacidad permite compartir datos anónimos sólo con organizaciones de defensa de inquilinos autorizadas exclusivamente para ayudar a promover la misión de proteger los derechos de inquilinos. La Política de Privacidad contiene información sobre qué datos recopilamos, cómo la utilizamos y las opciones que tiene respecto a su información personal. Si quieres leer más, por favor revisa nuestra <6/> completa y nuestros <7/>.</5>"
 

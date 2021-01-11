@@ -1707,7 +1707,7 @@ msgstr "Think your apartment may be rent-stabilized? Request its official record
 msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 msgstr "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 
-#: frontend/lib/evictionfree/site.tsx:11
+#: frontend/lib/evictionfree/homepage.tsx:7
 msgid "This is a test localization message for EvictionFree."
 msgstr "This is a test localization message for EvictionFree."
 

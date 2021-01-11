@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-12-15 14:07\n"
+"PO-Revision-Date: 2021-01-11 14:12\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -28,7 +28,7 @@ msgstr "Traducción en español"
 msgid "(Note: the email will be sent in English)"
 msgstr "(Nota: tenga en cuenta que el correo electrónico se enviará en inglés)"
 
-#: frontend/lib/rh/rental-history.tsx:216
+#: frontend/lib/rh/routes.tsx:216
 msgid "(Note: the request will be sent in English)"
 msgstr "(Nota: tenga en cuenta que la solicitud se enviará en inglés)"
 
@@ -36,7 +36,7 @@ msgstr "(Nota: tenga en cuenta que la solicitud se enviará en inglés)"
 msgid "(optional)"
 msgstr "(opcional)"
 
-#: frontend/lib/rh/rental-history.tsx:38
+#: frontend/lib/rh/routes.tsx:38
 msgid "*Division of Housing and Community Renewal"
 msgstr "*División de Vivienda y Renovación de la Comunidad"
 
@@ -52,7 +52,7 @@ msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 msgid "<0>Declaration of COVID-19 Related Financial Distress</0><1/>Compliant with Section 20 of the COVID-19 Tenant Relief Act of 2020, AB 3088"
 msgstr "<0>Declaración de Complicaciones Financieras Relacionadas con el COVID-19</0><1/>Conforme con la Sección 20 de la Ley de Alivio de Inquilinos COVID-19 de 2020, AB 3088"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:440
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:448
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
 msgstr "<0>Herramientas gratuitas para luchar por un hogar seguro y saludable</0><1>Introduce tu dirección para saber más.</1>"
 
@@ -110,11 +110,11 @@ msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
 #: frontend/lib/norent/components/footer.tsx:40
-#: frontend/lib/norent/site.tsx:74
+#: frontend/lib/norent/site.tsx:37
 msgid "About"
 msgstr "Acerca de"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:403
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:404
 msgid "Actions"
 msgstr "Acciones"
 
@@ -164,7 +164,7 @@ msgid "Apartment needs painting"
 msgstr "Apartment needs painting"
 
 #: frontend/lib/forms/apt-number-form-fields.tsx:13
-#: frontend/lib/rh/rental-history.tsx:120
+#: frontend/lib/rh/routes.tsx:120
 msgid "Apartment number"
 msgstr "Número de apartamento"
 
@@ -252,7 +252,7 @@ msgid "Build a letter using our free letter builder"
 msgstr "Crea una carta con nuestro generador de cartas gratis"
 
 #: frontend/lib/norent/components/footer.tsx:31
-#: frontend/lib/norent/site.tsx:65
+#: frontend/lib/norent/site.tsx:28
 msgid "Build my Letter"
 msgstr "Crear mi carta"
 
@@ -268,7 +268,7 @@ msgstr "Construye poder común"
 msgid "Build your letter"
 msgstr "Crea tu carta"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:215
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:216
 msgid "Buildings in your landlord's portfolio are located in {0, plural, one {one zip code.} other {# zip codes.}}"
 msgstr "Los edificios en el portafolio del dueño de tu edificio se encuentran en {0, plural, one {un código postal.} other {# código postales.}}"
 
@@ -297,7 +297,7 @@ msgstr "Cancelar"
 msgid "Cancel Rent Campaign"
 msgstr "Campaña para la Anulación de la Renta"
 
-#: frontend/lib/rh/rental-history.tsx:128
+#: frontend/lib/rh/routes.tsx:128
 msgid "Cancel request"
 msgstr "Cancelar solicitud"
 
@@ -402,11 +402,11 @@ msgstr "Ponte en contacto con un abogado si el dueño de tu edificio toma repres
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:32
 #: frontend/lib/norent/letter-builder/error-pages.tsx:44
-#: frontend/lib/rh/rental-history.tsx:201
+#: frontend/lib/rh/routes.tsx:201
 msgid "Continue"
 msgstr "Continuar"
 
-#: frontend/lib/rh/rental-history.tsx:201
+#: frontend/lib/rh/routes.tsx:201
 msgid "Continue anyway"
 msgstr "Aún así continuar"
 
@@ -529,7 +529,7 @@ msgstr "Dirección de correo electrónico"
 msgid "English version"
 msgstr "Versión en inglés"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:449
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:457
 msgid "Enter your address to see some recommended actions."
 msgstr "Introduce tu dirección para ver algunas acciones recomendadas."
 
@@ -545,7 +545,7 @@ msgstr "Actualizaciones de la Moratoria de Desalojo"
 msgid "Exercise your rights"
 msgstr "Ejercita tus derechos"
 
-#: frontend/lib/rh/rental-history.tsx:311
+#: frontend/lib/rh/routes.tsx:311
 msgid "Explore our other tools"
 msgstr "Explora nuestras otras herramientas"
 
@@ -558,7 +558,7 @@ msgid "FAQs"
 msgstr "Preguntas Frecuentes"
 
 #: frontend/lib/norent/components/footer.tsx:37
-#: frontend/lib/norent/site.tsx:71
+#: frontend/lib/norent/site.tsx:34
 msgid "Faqs"
 msgstr "Preguntas más frecuentes"
 
@@ -570,7 +570,7 @@ msgstr "Grifos No Instalados"
 msgid "Faucets not working"
 msgstr "Grifos No Funcionan"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:342
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:343
 msgid "Fight an eviction"
 msgstr "Lucha contra un desalojo"
 
@@ -579,7 +579,7 @@ msgid "Find out more"
 msgstr "Más información"
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:26
-#: frontend/lib/rh/rental-history.tsx:113
+#: frontend/lib/rh/routes.tsx:113
 msgid "First name"
 msgstr "Nombre"
 
@@ -635,7 +635,7 @@ msgstr "Ir al sitio web"
 msgid "Going on rent strike"
 msgstr "Hacer huelga de renta"
 
-#: frontend/lib/rh/rental-history.tsx:160
+#: frontend/lib/rh/routes.tsx:160
 msgid "Good news!"
 msgstr "¡Buenas noticias!"
 
@@ -671,7 +671,7 @@ msgstr "¡Ayuda! El dueño de mi edificio ya intenta desalojarme."
 msgid "Here are a few benefits to sending a letter to your landlord:"
 msgstr "Éstos son algunos de los beneficios de enviar una carta al dueño de tu edificio:"
 
-#: frontend/lib/rh/rental-history.tsx:208
+#: frontend/lib/rh/routes.tsx:208
 msgid "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
 msgstr "Aquí tienes una vista previa de la solicitud de tu Historial de Renta. Incluye tu dirección y número de apartamento para que el DHCR pueda enviarte el carta con tu historial."
 
@@ -700,11 +700,11 @@ msgid "Here’s what you can do with <0>NoRent</0>"
 msgstr "Esto es lo que puedes hacer con <0>NoRent</0>"
 
 #: frontend/lib/justfix-navbar.tsx:14
-#: frontend/lib/norent/site.tsx:87
+#: frontend/lib/norent/site.tsx:50
 msgid "Homepage"
 msgstr "Página Principal"
 
-#: frontend/lib/rh/rental-history.tsx:250
+#: frontend/lib/rh/routes.tsx:250
 msgid "Housing Court Answers"
 msgstr "Respuestas de la Corte de Vivienda"
 
@@ -769,7 +769,7 @@ msgstr "Idaho"
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 msgstr "Si no recibiste un código, comprueba tu correo electrónico. Si no lo encuentras, por favor envía un correo electrónico a <0/>."
 
-#: frontend/lib/rh/rental-history.tsx:305
+#: frontend/lib/rh/routes.tsx:305
 msgid "If you have more questions, please email us at <0/>."
 msgstr "Si tienes más preguntas, por favor envíanos un correo electrónico a <0/>."
 
@@ -842,12 +842,12 @@ msgstr "¿Es gratis?"
 msgid "Is this tool right for me?"
 msgstr "¿Es esta herramienta adecuada para mí?"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:181
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:182
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 msgstr "Parece que esta propiedad no tiene que estar registrada con el HPD. Puedes aprender los requisitos de registro de la ciudad en la página <0>Gestión de Propiedad de HPD</0>."
 
-#: frontend/lib/rh/rental-history.tsx:155
-#: frontend/lib/rh/rental-history.tsx:162
+#: frontend/lib/rh/routes.tsx:155
+#: frontend/lib/rh/routes.tsx:162
 msgid "It looks like your apartment may be rent stabilized"
 msgstr "Parece que tu apartamento es de renta estabilizada"
 
@@ -859,8 +859,8 @@ msgstr "Es importante notificar al dueño o manager de tu edificio de todos los 
 msgid "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."
 msgstr "Puede ser que el dueño de tu edificio tome represalias tras recibir tu carta. Esto es ilegal. Póngase en contacto con <0>un proveedor local de asistencia legal</0> para obtener ayuda."
 
-#: frontend/lib/rh/rental-history.tsx:156
-#: frontend/lib/rh/rental-history.tsx:180
+#: frontend/lib/rh/routes.tsx:156
+#: frontend/lib/rh/routes.tsx:180
 msgid "It’s unlikely that your apartment is rent stabilized"
 msgstr "Es poco probable que tu apartamento sea de renta estabilizada"
 
@@ -876,7 +876,7 @@ msgstr "¡Únete a nuestra <0/>lista de distribución!"
 msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
 msgstr "JustFix.nyc es una organización registrada 501(c)(3) sin fines de lucro."
 
-#: frontend/lib/rh/rental-history.tsx:256
+#: frontend/lib/rh/routes.tsx:256
 msgid "JustFix.nyc's Learning Center"
 msgstr "Centro de Aprendizaje de JustFix.nyc"
 
@@ -913,7 +913,7 @@ msgid "Language:"
 msgstr "Idioma:"
 
 #: frontend/lib/norent/letter-builder/ask-name.tsx:27
-#: frontend/lib/rh/rental-history.tsx:116
+#: frontend/lib/rh/routes.tsx:116
 msgid "Last name"
 msgstr "Apellido"
 
@@ -929,11 +929,11 @@ msgstr "Leaky faucet"
 msgid "Learn about why we made this tool, who we are, and who our partners are."
 msgstr "Aprenda por qué hemos construido esta herramienta, quiénes somos, y quiénes son nuestros aliados."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:309
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:310
 msgid "Learn about your rent"
 msgstr "Aprende Sobre Tu Alquiler"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:351
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:352
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/the-letter.tsx:29
 msgid "Learn more"
@@ -980,12 +980,12 @@ msgid "Locally supported"
 msgstr "Con apoyo local"
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:19
-#: frontend/lib/norent/site.tsx:79
+#: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Iniciar sesión"
 
 #: frontend/lib/norent/log-out.tsx:9
-#: frontend/lib/norent/site.tsx:77
+#: frontend/lib/norent/site.tsx:40
 msgid "Log out"
 msgstr "Cerrar sesión"
 
@@ -1048,7 +1048,7 @@ msgstr "Maryland"
 msgid "Massachusetts"
 msgstr "Massachusetts"
 
-#: frontend/lib/rh/rental-history.tsx:244
+#: frontend/lib/rh/routes.tsx:244
 msgid "Met Council on Housing"
 msgstr "Met Council on Housing"
 
@@ -1103,7 +1103,7 @@ msgstr "Meses de impago de renta"
 msgid "Months you're missing rent payments"
 msgstr "Meses en the te faltan pagos de renta"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:402
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:403
 msgid "More actions"
 msgstr "Más acciones"
 
@@ -1181,8 +1181,8 @@ msgstr "No heat"
 msgid "No hot water"
 msgstr "No hot water"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:160
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:179
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:161
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:180
 msgid "No registration found."
 msgstr "No hay fecha de registro."
 
@@ -1244,7 +1244,7 @@ msgstr "¡Vaya! Hubo un error en la red. Inténtalo más tarde."
 msgid "Oops! That email is invalid."
 msgstr "¡Vaya! Ese correo electrónico no es válido."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:330
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:331
 msgid "Order rent history"
 msgstr "Pedir Historial de Renta"
 
@@ -1305,7 +1305,7 @@ msgid "Pennsylvania"
 msgstr "Pensilvania"
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:36
-#: frontend/lib/rh/rental-history.tsx:121
+#: frontend/lib/rh/routes.tsx:121
 msgid "Phone number"
 msgstr "Número de teléfono"
 
@@ -1361,7 +1361,7 @@ msgstr "Ratas"
 msgid "Rats/mice"
 msgstr "Rats/mice"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:395
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:396
 msgid "Recommended actions"
 msgstr "Acciones recomendadas"
 
@@ -1374,7 +1374,7 @@ msgstr "Refrigerator not working"
 msgid "Regards,"
 msgstr "Atentamente,"
 
-#: frontend/lib/rh/rental-history.tsx:321
+#: frontend/lib/rh/routes.tsx:321
 msgid "Rent History"
 msgstr "Historial de Renta"
 
@@ -1394,19 +1394,19 @@ msgstr "Recibos de Alquiler Incompletos"
 msgid "Request for Rent History"
 msgstr "Solicitud de Historial de Renta"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:242
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:243
 msgid "Request repairs from your landlord"
 msgstr "Solicitar arreglos del dueño de tu edificio"
 
-#: frontend/lib/rh/rental-history.tsx:42
+#: frontend/lib/rh/routes.tsx:42
 msgid "Request your Rent History"
 msgstr "Solicita tu Historial de Renta"
 
-#: frontend/lib/rh/rental-history.tsx:103
+#: frontend/lib/rh/routes.tsx:103
 msgid "Request your apartment's Rent History from the DHCR"
 msgstr "Solicita el Historial de Renta de tu apartamento al DHCR"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:207
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:208
 msgid "Research your landlord"
 msgstr "Investiga al dueño de tu edificio"
 
@@ -1414,11 +1414,11 @@ msgstr "Investiga al dueño de tu edificio"
 msgid "Reset your password"
 msgstr "Cambia tu contraseña"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:391
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:392
 msgid "Results for {0}"
 msgstr "Resultados para \"{0}\""
 
-#: frontend/lib/rh/rental-history.tsx:206
+#: frontend/lib/rh/routes.tsx:206
 msgid "Review your request to the DHCR"
 msgstr "Revisa tu solicitud al DHCR"
 
@@ -1442,7 +1442,7 @@ msgstr "Agua Oxidada"
 msgid "Sample NoRent.org letter"
 msgstr "Ejemplar de una carta de NoRent.org"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:453
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:461
 msgid "Search address"
 msgstr "Dirección de búsqueda"
 
@@ -1450,7 +1450,7 @@ msgstr "Dirección de búsqueda"
 msgid "See more FAQs"
 msgstr "Ver todas las preguntas más frecuentes"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:252
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:253
 msgid "Send a letter of complaint"
 msgstr "Enviar una carta de queja"
 
@@ -1587,7 +1587,7 @@ msgstr "Smoke detector not working"
 msgid "Sorry, the page you are looking for doesn't seem to exist."
 msgstr "Lo sentimos, la página que estás buscando no existe."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:419
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:420
 msgid "Sorry, we don't recognize the address you entered."
 msgstr "Lo sentimos, no reconocemos la dirección que has introducido."
 
@@ -1599,15 +1599,15 @@ msgstr "Carolina del Sur"
 msgid "South Dakota"
 msgstr "Dakota del Sur"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:280
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:281
 msgid "Start a legal case for repairs and/or harassment"
 msgstr "Empieza un caso legal por arreglos y/o acoso"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:300
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:301
 msgid "Start an emergency legal case for repairs"
 msgstr "Empieza un caso legal de emergencia por arreglos"
 
-#: frontend/lib/rh/rental-history.tsx:67
+#: frontend/lib/rh/routes.tsx:67
 msgid "Start my request"
 msgstr "Iniciar mi solicitud"
 
@@ -1644,12 +1644,12 @@ msgstr "Dirección (incluye unidad/suite/piso/apt #)"
 msgid "Submit email"
 msgstr "Enviar email"
 
-#: frontend/lib/rh/rental-history.tsx:238
+#: frontend/lib/rh/routes.tsx:238
 msgid "Submit request"
 msgstr "Enviar Solicitud"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:295
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:303
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:296
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:304
 msgid "Sue your landlord"
 msgstr "Demanda al dueño de tu edificio"
 
@@ -1682,7 +1682,7 @@ msgid "Texas"
 msgstr "Tejas"
 
 #: frontend/lib/norent/components/footer.tsx:34
-#: frontend/lib/norent/site.tsx:68
+#: frontend/lib/norent/site.tsx:31
 #: frontend/lib/norent/the-letter.tsx:10
 #: frontend/lib/norent/the-letter.tsx:15
 msgid "The Letter"
@@ -1692,7 +1692,7 @@ msgstr "La Carta"
 msgid "The above information is not a substitute for direct legal advice for your specific situation."
 msgstr "Esta información no sustituye el asesoramiento legal directo sobre tu situación específica."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:219
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:220
 msgid "The majority of your landlord's properties are concentrated in {0}."
 msgstr "La mayoría de las propiedades del dueño de tu edificio se concentran en {0}."
 
@@ -1700,15 +1700,15 @@ msgstr "La mayoría de las propiedades del dueño de tu edificio se concentran e
 msgid "The webpage that you want to access is only available in English."
 msgstr "La página web a la que quieres acceder solo está disponible en inglés."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:119
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:120
 msgid "There {0, plural, one {is one unit} other {are # units}} in your building."
 msgstr "{0, plural, one {Hay una unidad} other {Hay # unidades}} en tu edificio."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:322
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:323
 msgid "Think your apartment may be rent-stabilized? Request its official records."
 msgstr "¿Crees que tu apartamento puede ser de renta estabilizada? Solicita el registro oficial."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:139
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:140
 msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 msgstr "Este edificio es propiedad de la <0>NYC Housing Authority (NYCHA)</0>."
 
@@ -1716,7 +1716,7 @@ msgstr "Este edificio es propiedad de la <0>NYC Housing Authority (NYCHA)</0>."
 msgid "This is optional."
 msgstr "Esto es opcional."
 
-#: frontend/lib/rh/rental-history.tsx:64
+#: frontend/lib/rh/routes.tsx:64
 msgid "This service is free, secure, and confidential."
 msgstr "Este servicio es gratuito, seguro y confidencial."
 
@@ -1736,7 +1736,7 @@ msgstr "Para saber más sobre qué hacer a continuación, consulta nuestra pági
 msgid "To:"
 msgstr "A:"
 
-#: frontend/lib/rh/rental-history.tsx:221
+#: frontend/lib/rh/routes.tsx:221
 msgid "To: New York Division of Housing and Community Renewal (DHCR)"
 msgstr "Para: La División de Vivienda y Renovación de la Comunidad (DHCR)"
 
@@ -1768,7 +1768,7 @@ msgstr "Desafortunadamente, actualmente no recomendamos enviar esta notificació
 msgid "Unit/apt/lot/suite number"
 msgstr "Número de apartamento/unidad/lote/suite"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:417
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:418
 msgid "Unrecognized address"
 msgstr "Dirección no reconocida"
 
@@ -1804,15 +1804,15 @@ msgstr "Ver la carta como PDF"
 msgid "Virginia"
 msgstr "Virginia"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:229
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:230
 msgid "Visit Who Owns What"
 msgstr "Visita Quién Posee Qué"
 
-#: frontend/lib/rh/rental-history.tsx:50
+#: frontend/lib/rh/routes.tsx:50
 msgid "Want to know if your apartment's rent stabilized? Request your <0>Rent History</0> from the NY State DHCR*!"
 msgstr "¿Quieres saber si tu apartamento es de renta estabilizada? ¡Solicita tu <0>Historial de alquiler</0> en el DHCR* del estado de NY!"
 
-#: frontend/lib/rh/rental-history.tsx:314
+#: frontend/lib/rh/routes.tsx:314
 msgid "Want to read more about your rights?"
 msgstr "¿Quieres leer más sobre tus derechos?"
 
@@ -1908,7 +1908,7 @@ msgid "What happens after I send this letter?"
 msgstr "¿Qué ocurre después de enviar esta carta?"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:88
-#: frontend/lib/rh/rental-history.tsx:269
+#: frontend/lib/rh/routes.tsx:269
 msgid "What happens next?"
 msgstr "¿Y ahora qué?"
 
@@ -2082,7 +2082,7 @@ msgstr "Tu carta de NoRent y pasos siguientes importantes"
 msgid "Your NoRent.org letter"
 msgstr "Tu carta de NoRent.org"
 
-#: frontend/lib/rh/rental-history.tsx:266
+#: frontend/lib/rh/routes.tsx:266
 msgid "Your Rent History has been requested from the New York State DHCR!"
 msgstr "¡Tu Historial de Alquiler ha sido solicitado al DHCR del estado de Nueva York!"
 
@@ -2090,19 +2090,19 @@ msgstr "¡Tu Historial de Alquiler ha sido solicitado al DHCR del estado de Nuev
 msgid "Your account is set up"
 msgstr "¡Tu cuenta está lista!"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:315
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:316
 msgid "Your apartment may be rent stabilized."
 msgstr "Tu apartamento es de renta estabilizada."
 
-#: frontend/lib/rh/rental-history.tsx:165
+#: frontend/lib/rh/routes.tsx:165
 msgid "Your building had {0, plural, one {1 rent stabilized unit} other {# rent stabilized units}} in {1}, according to property tax documents."
 msgstr "Tu edificio tenía {0, plural, one {una unidad de renta estabilizada} other {# unidades de renta estabilizada}} en {1}."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:316
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:317
 msgid "Your building had {0, plural, one {one rent stabilized unit} other {# rent stabilized units}} in {1}."
 msgstr "Tu edificio tenía {0, plural, one {una unidad de alquiler estabilizado} other {# unidades de renta estabilizada}} en el {1}."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:126
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:127
 msgid "Your building was built in {0} or earlier."
 msgstr "Tu edificio fue construido en {0} o antes."
 
@@ -2110,15 +2110,15 @@ msgstr "Tu edificio fue construido en {0} o antes."
 msgid "Your email address"
 msgstr "Tu dirección de correo electrónico"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:211
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:212
 msgid "Your landlord is associated with {buildings, plural, one {one building} other {# buildings}}."
 msgstr "El proprietario de tu edificio está asociado con {buildings, plural, one {un edificio} other {# edificios}}."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:162
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:163
 msgid "Your landlord may be breaking the law!"
 msgstr "¡Puede que el proprietario de tu edificio esté violando la ley!"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:224
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:225
 msgid "Your landlord might own other buildings, too."
 msgstr "Puede que el propietario de tu edificio también posea otros edificios."
 
@@ -2134,7 +2134,7 @@ msgstr "La dirección de correo electrónico del dueño o manager de tu edificio
 msgid "Your landlord or management company's information"
 msgstr "Los datos del dueño o manager de tu edificio"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:147
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:148
 msgid "Your landlord owns {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit.} other {# units.}}"
 msgstr "El dueño de tu edificio posee {0, plural, one {un edificio} other {# edificios}} y {1, plural, one {una unidad.} other {# unidades.}}"
 
@@ -2176,28 +2176,28 @@ msgstr "No estás solo. Millones de estadounidenses no podrán pagar la renta po
 msgid "Zip code"
 msgstr "Código postal"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:199
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:200
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:79
 msgid "and"
 msgstr "y"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:164
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:165
 msgid "justfix.DdoMayNeedHpdRegistration"
 msgstr "Parece que este edificio deba estar registrado con el HPD. Los proprietarios que no registren sus propiedades correctamente incurren multas y no tienen el derecho de llevar a los inquilinos a la corte por no pagar el alquiler. Puedes encontrar más información en la página <0>Gestión de Propiedades de HPD</0>"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:336
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
 msgid "justfix.ddoEfnycCovidMessage"
 msgstr "Una moratoria de desalojo limitada está en vigor en el estado de Nueva York debido a la crisis de salud pública del Covid-19. Los organizadores de inquilinos de la ciudad luchan por mantener la gente en sus casas."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:272
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:273
 msgid "justfix.ddoEhpaCovidMessage"
 msgstr "<0>Los Tribunales de Vivienda en la ciudad de Nueva York están cerrados debido a la pandemia Covid-19, y están priorizando los casos con problemas que amenazan la salud y seguridad de tu hogar, tales como: {issues}. </0>"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:258
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:259
 msgid "justfix.ddoHpaCovidMessage"
 msgstr "<0>Los Tribunales de Vivienda en la ciudad de Nueva York están cerrados debido a la pandemia Covid-19. Todavía puedes crear los formularios para llevar al dueño de tu edificio la corte, pero no podrás presentarlos hasta que los tribunales vuelvan a abrir. </0><1>Si te estás enfrentando a una emergencia como falta de calefacción y/o agua caliente, llama a la línea telefónica de Housing Court Answers <2>(212) 962-4795</2> para obtener asistencia de lunes a viernes de 9: 00 a 17: 00. La asistencia está disponible en Inglés y Español.</1>"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:235
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:236
 msgid "justfix.ddoLocCovidMessage"
 msgstr "¿El dueño de tu edificio no contesta? ¡Puedes tomar acción gratis para pedir arreglos! Debido a la crisis de salud por el Covid-19, te recomendamos que sólo pidas arreglos en caso de emergencia, para que puedas mantener la salud limitando cuántas personas entran a tu hogar."
 
@@ -2209,15 +2209,15 @@ msgstr "Aviso: La información en {website} no constituye asesoramiento jurídic
 msgid "justfix.privacyInfoModalText"
 msgstr "¡<0>Tu privacidad es muy importante para nosotros! Estas son algunas de las cosas más importantes a saber:</0><1><2>Tu información personal está segura. </2><3>No usaremos tu información personal para beneficiarnos ni la venderemos a terceros. </3><4>Utilizaremos tu dirección postal para encontrar datos sobre tu edificio y su dueño. </4></1><5>Nuestra Política de Privacidad permite compartir datos anónimos sólo con organizaciones de defensa de inquilinos autorizadas exclusivamente para ayudar a promover la misión de proteger los derechos de inquilinos. La Política de Privacidad contiene información sobre qué datos recopilamos, cómo la utilizamos y las opciones que tiene respecto a su información personal. Si quieres leer más, por favor revisa nuestra <6/> completa y nuestros <7/>.</5>"
 
-#: frontend/lib/rh/rental-history.tsx:57
+#: frontend/lib/rh/routes.tsx:57
 msgid "justfix.rhExplanation"
 msgstr "Este documento te ayuda a averiguar si tu apartamento es de <0>renta estabilizada</0> y si te están <1>cobrando de más</1>. Te muestra la cantidad de renta registrada que se pagó en tu apartamento desde el año 1984."
 
-#: frontend/lib/rh/rental-history.tsx:183
+#: frontend/lib/rh/routes.tsx:183
 msgid "justfix.rhNoRsUnits"
 msgstr "De acuerdo con los registros de documentación fiscal, tu edificio no ha reportado ninguna unidad de renta estabilizada en los últimos años. Aunque sea posible que tu apartamento sea de renta estabilizada, parece improbable."
 
-#: frontend/lib/rh/rental-history.tsx:191
+#: frontend/lib/rh/routes.tsx:191
 msgid "justfix.rhNoRsUnitsMeansNoRentHistory"
 msgstr "Aún así puedes enviar una solicitud al DHCR para asegurarte, pero es posible que no tengan ningún historial de alquiler en sus registros que enviarte. En este caso, <0>no recibirías un historial de alquiler</0> por correo."
 
@@ -2225,15 +2225,15 @@ msgstr "Aún así puedes enviar una solicitud al DHCR para asegurarte, pero es p
 msgid "justfix.rhRequestToDhcr"
 msgstr "<0>Querido administrador del DHCR,</0><1> Yo, {0}, vivo actualmente en {1} en el apartamento {2}, y quisiera solicitar el Historial de Renta completo de este apartamento desde el año 1984. </1><2>Gracias,<3/>{3}</2>"
 
-#: frontend/lib/rh/rental-history.tsx:172
+#: frontend/lib/rh/routes.tsx:172
 msgid "justfix.rhRsUnitsAreGoodSign"
 msgstr "Aunque estos datos no garantizan que tu apartamento sea de renta estabilizada, es un buen indicio de si el DHCR tiene un historial de alquiler en sus archivo que enviarte."
 
-#: frontend/lib/rh/rental-history.tsx:295
+#: frontend/lib/rh/routes.tsx:295
 msgid "justfix.rhWarningAboutNotReceiving"
 msgstr "<0>Si tu apartamento nunca ha sido de renta estabilizada:</0> no recibirás un historial de alquiler por correo. El DHCR sólo tiene historiales de alquiler para aquellos apartamentos que hayan sido en algún momento de renta estabilizada."
 
-#: frontend/lib/rh/rental-history.tsx:272
+#: frontend/lib/rh/routes.tsx:272
 msgid "justfix.rhWhatHappensNext"
 msgstr "<0>Si tu apartamento es actualmente de renta estabilizada, o lo ha sido en cualquier momento en el pasado:</0> deberías recibir tu historial de alquiler por correo en aproximadamente una semana. Tu historial de alquiler es un documento importante que muestra los alquileres registrados en tu apartamento desde 1984. Puedes aprender más sobre ello y cómo puede ayudarte a averiguar si estás pagando de más en el <1>la guía de alquiler de recargos de estabilidad de Met Council on Housing</1> o consultando nuestro artículo del <2>Centro de Aprendizaje a cerca de Sobrecargos</2>."
 

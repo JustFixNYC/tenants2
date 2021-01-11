@@ -1,4 +1,3 @@
-import { Trans } from "@lingui/macro";
 import loadable from "@loadable/component";
 import React from "react";
 import { Route } from "react-router-dom";

@@ -1,5 +1,5 @@
 import { ROUTE_PREFIX } from "../../util/route-util";
-import { createStartAccountOrLoginRouteInfo } from "../start-account-or-login/route-info";
+import { createStartAccountOrLoginRouteInfo } from "../../start-account-or-login/route-info";
 
 export type NorentLetterBuilderRouteInfo = ReturnType<
   typeof createNorentLetterBuilderRouteInfo

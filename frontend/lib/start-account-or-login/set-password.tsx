@@ -2,13 +2,13 @@ import React from "react";
 import {
   PasswordResetConfirmAndLoginMutation,
   BlankPasswordResetConfirmAndLoginInput,
-} from "../../queries/PasswordResetConfirmAndLoginMutation";
-import { ProgressButtons } from "../../ui/buttons";
-import { TextualFormField } from "../../forms/form-fields";
-import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import Page from "../../ui/page";
+} from "../queries/PasswordResetConfirmAndLoginMutation";
+import { ProgressButtons } from "../ui/buttons";
+import { TextualFormField } from "../forms/form-fields";
+import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
+import Page from "../ui/page";
 import { StartAccountOrLoginProps } from "./routes";
-import { li18n } from "../../i18n-lingui";
+import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 
 export const SetPassword: React.FC<StartAccountOrLoginProps> = ({

@@ -2,16 +2,16 @@ import React from "react";
 import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
-} from "../../../progress/progress-routes";
+} from "../../progress/progress-routes";
 import { createStartAccountOrLoginSteps } from "../routes";
 import { createStartAccountOrLoginRouteInfo } from "../route-info";
-import { AppTesterPal } from "../../../tests/app-tester-pal";
-import { QueryOrVerifyPhoneNumberMutation } from "../../../queries/QueryOrVerifyPhoneNumberMutation";
-import { PhoneNumberAccountStatus } from "../../../queries/globalTypes";
-import { PasswordResetVerificationCodeMutation } from "../../../queries/PasswordResetVerificationCodeMutation";
-import { PasswordResetConfirmAndLoginMutation } from "../../../queries/PasswordResetConfirmAndLoginMutation";
-import { LoginMutation } from "../../../queries/LoginMutation";
-import { PasswordResetMutation } from "../../../queries/PasswordResetMutation";
+import { AppTesterPal } from "../../tests/app-tester-pal";
+import { QueryOrVerifyPhoneNumberMutation } from "../../queries/QueryOrVerifyPhoneNumberMutation";
+import { PhoneNumberAccountStatus } from "../../queries/globalTypes";
+import { PasswordResetVerificationCodeMutation } from "../../queries/PasswordResetVerificationCodeMutation";
+import { PasswordResetConfirmAndLoginMutation } from "../../queries/PasswordResetConfirmAndLoginMutation";
+import { LoginMutation } from "../../queries/LoginMutation";
+import { PasswordResetMutation } from "../../queries/PasswordResetMutation";
 
 const routes = createStartAccountOrLoginRouteInfo("");
 

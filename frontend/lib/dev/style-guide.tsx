@@ -8,7 +8,6 @@ import {
   CenteredPrimaryButtonLink,
 } from "../ui/buttons";
 import { BigList } from "../ui/big-list";
-import { StaticImage } from "../ui/static-image";
 import { Accordion } from "../ui/accordion";
 
 const PathLink: React.FC<{ to: string }> = ({ to }) => (

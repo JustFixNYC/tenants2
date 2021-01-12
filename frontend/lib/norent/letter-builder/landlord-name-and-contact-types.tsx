@@ -7,7 +7,7 @@ import { MiddleProgressStepProps } from "../../progress/progress-step-route";
 import { NorentLandlordNameAndContactTypesMutation } from "../../queries/NorentLandlordNameAndContactTypesMutation";
 import { AllSessionInfo_landlordDetails } from "../../queries/AllSessionInfo";
 import { AppContext } from "../../app-context";
-import { LetterBuilderAccordion } from "./welcome";
+import { Accordion } from "../../ui/accordion";
 import { BreaksBetweenLines } from "../../ui/breaks-between-lines";
 import { NorentNotSentLetterStep } from "./step-decorators";
 import { Trans, t } from "@lingui/macro";
@@ -73,14 +73,12 @@ const NameAndContactTypesForm: React.FC<MiddleProgressStepProps> = (props) => (
             {...ctx.fieldPropsFor("name")}
             label={li18n._(t`Landlord/management company's name`)}
           />
-          <LetterBuilderAccordion
-            question={li18n._(t`Where do I find this information?`)}
-          >
+          <Accordion question={li18n._(t`Where do I find this information?`)}>
             <Trans>
               If you write checks or transfer money through your bank to pay
               your rent, use that name here.
             </Trans>
-          </LetterBuilderAccordion>
+          </Accordion>
           <p>
             <Trans>
               What contact information do you have for your landlord or building

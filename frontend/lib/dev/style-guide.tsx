@@ -8,6 +8,7 @@ import {
   CenteredPrimaryButtonLink,
 } from "../ui/buttons";
 import { BigList } from "../ui/big-list";
+import { Accordion } from "../ui/accordion";
 
 const PathLink: React.FC<{ to: string }> = ({ to }) => (
   <Link to={to}>{to}</Link>
@@ -45,6 +46,10 @@ export const StyleGuide: React.FC<{}> = () => {
         For examples of how forms look, see <PathLink to={dev.examples.form} />{" "}
         and <PathLink to={dev.examples.radio} />.
       </p>
+      <h2>Accordions</h2>
+      <Accordion question="This is an accordion question">
+        This is an accordion answer.
+      </Accordion>
       <h2>Modals</h2>
       <p>
         See <PathLink to={dev.examples.modal} />.

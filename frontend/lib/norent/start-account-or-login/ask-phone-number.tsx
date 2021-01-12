@@ -7,7 +7,7 @@ import { assertNotNull } from "../../util/util";
 import Page from "../../ui/page";
 import { StartAccountOrLoginProps } from "./routes";
 import { PhoneNumberAccountStatus } from "../../queries/globalTypes";
-import { LetterBuilderAccordion } from "../letter-builder/welcome";
+import { Accordion } from "../../ui/accordion";
 import { ModalLink } from "../../ui/modal";
 import { PrivacyInfoModal } from "../../ui/privacy-info-modal";
 import { li18n } from "../../i18n-lingui";
@@ -52,7 +52,7 @@ export const AskPhoneNumber: React.FC<StartAccountOrLoginProps> = (props) => {
               label={li18n._(t`Phone number`)}
             />
             <div className="content">
-              <LetterBuilderAccordion
+              <Accordion
                 question={li18n._(t`Why do you need this information?`)}
               >
                 <Trans id="norent.whyIsPhoneNumberNeeded">
@@ -63,7 +63,7 @@ export const AskPhoneNumber: React.FC<StartAccountOrLoginProps> = (props) => {
                     <li>Sign you up for a new account.</li>
                   </ol>
                 </Trans>
-              </LetterBuilderAccordion>
+              </Accordion>
               <p className="is-size-6">
                 <Trans>
                   Your privacy is very important to us! Everything on

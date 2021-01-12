@@ -4,7 +4,6 @@ import Page from "../../ui/page";
 import { Link, Redirect } from "react-router-dom";
 import { assertNotNull } from "../../util/util";
 import { NorentRoutes } from "../route-info";
-import { ChevronIcon } from "../faqs";
 import { SimpleClearSessionButton } from "../../forms/clear-session-button";
 import { AppContext } from "../../app-context";
 import { hasNorentLetterBeenSent } from "./step-decorators";
@@ -89,26 +88,3 @@ export const NorentLbWelcome: React.FC<ProgressStepProps> = (props) => {
   }
   return <WelcomePage {...props} />;
 };
-
-export const LetterBuilderAccordion = (props: {
-  question: string;
-  children: React.ReactNode;
-}) => (
-  <div className="jf-accordion-item jf-space-below-2rem">
-    <details className="has-text-left jf-space-below-2rem">
-      <summary>
-        <div className="media">
-          <div className="media-content">
-            <span className="is-size-6 has-text-primary jf-has-text-underline">
-              {props.question}
-            </span>
-          </div>
-          <div className="media-right">
-            <ChevronIcon />
-          </div>
-        </div>
-      </summary>
-      {props.children}
-    </details>
-  </div>
-);

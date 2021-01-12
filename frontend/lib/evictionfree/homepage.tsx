@@ -9,6 +9,15 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
       <Trans>This is a test localization message for EvictionFree.</Trans>
     </p>
     <p>
+      <Link to={EvictionFreeRoutes.locale.declaration.latestStep}>
+        Build your declaration
+      </Link>
+    </p>
+    <p>
+      {/** This will eventually be replaced by a navbar link. */}
+      <Link to={EvictionFreeRoutes.locale.logout}>Log out</Link>
+    </p>
+    <p>
       {/** This will eventually be replaced by a navbar link. */}
       <Link to={EvictionFreeRoutes.dev.home}>Development tools</Link>
     </p>

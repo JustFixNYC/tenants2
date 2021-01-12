@@ -1,25 +1,25 @@
 import React from "react";
-import { PhoneNumberAccountStatus } from "../../queries/globalTypes";
+import { PhoneNumberAccountStatus } from "../queries/globalTypes";
 import { StartAccountOrLoginRouteInfo } from "./route-info";
 import {
   ProgressStepRoute,
   ProgressStepProps,
   MiddleProgressStepProps,
-} from "../../progress/progress-step-route";
-import { AllSessionInfo } from "../../queries/AllSessionInfo";
+} from "../progress/progress-step-route";
+import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { AskPhoneNumber } from "./ask-phone-number";
 import { VerifyPassword } from "./verify-password";
 import { SetPassword } from "./set-password";
 import { VerifyPhoneNumber } from "./verify-phone-number";
-import { isUserLoggedIn } from "../../util/session-predicates";
-import { assertNotNull } from "../../util/util";
+import { isUserLoggedIn } from "../util/session-predicates";
+import { assertNotNull } from "../util/util";
 
 export type StartAccountOrLoginProps = MiddleProgressStepProps & {
   routes: StartAccountOrLoginRouteInfo;
 };
 
 /**
- * This function defines all routes within the NoRent Account Creation/Login flow.
+ * This function defines all routes within Account Creation/Login flow.
  * To find the map of each route to its corresponding URL path, check out
  * the `route-info.ts` file in the same directory as this file.
  */

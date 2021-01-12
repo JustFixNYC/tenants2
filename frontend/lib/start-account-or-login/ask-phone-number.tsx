@@ -1,16 +1,16 @@
 import React from "react";
-import { QueryOrVerifyPhoneNumberMutation } from "../../queries/QueryOrVerifyPhoneNumberMutation";
-import { PhoneNumberFormField } from "../../forms/phone-number-form-field";
-import { ProgressButtons } from "../../ui/buttons";
-import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import { assertNotNull } from "../../util/util";
-import Page from "../../ui/page";
+import { QueryOrVerifyPhoneNumberMutation } from "../queries/QueryOrVerifyPhoneNumberMutation";
+import { PhoneNumberFormField } from "../forms/phone-number-form-field";
+import { ProgressButtons } from "../ui/buttons";
+import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
+import { assertNotNull } from "../util/util";
+import Page from "../ui/page";
 import { StartAccountOrLoginProps } from "./routes";
-import { PhoneNumberAccountStatus } from "../../queries/globalTypes";
-import { Accordion } from "../../ui/accordion";
-import { ModalLink } from "../../ui/modal";
-import { PrivacyInfoModal } from "../../ui/privacy-info-modal";
-import { li18n } from "../../i18n-lingui";
+import { PhoneNumberAccountStatus } from "../queries/globalTypes";
+import { Accordion } from "../ui/accordion";
+import { ModalLink } from "../ui/modal";
+import { PrivacyInfoModal } from "../ui/privacy-info-modal";
+import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 
 export function getRouteForAccountStatus(

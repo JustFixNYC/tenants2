@@ -1,5 +1,6 @@
 import { createRoutesForSite, ROUTE_PREFIX } from "../util/route-util";
 import { createDevRouteInfo } from "../dev/route-info";
+import { createEvictionFreeDeclarationBuilderRouteInfo } from "./declaration-builder/route-info";
 
 function createLocalizedRouteInfo(prefix: string) {
   return {
@@ -8,6 +9,14 @@ function createLocalizedRouteInfo(prefix: string) {
 
     /** The home page. */
     home: `${prefix}/`,
+
+    /** The declaration builder. */
+    declaration: createEvictionFreeDeclarationBuilderRouteInfo(
+      `${prefix}/declaration`
+    ),
+
+    /** The logout page. */
+    logout: `${prefix}/logout`,
   };
 }
 

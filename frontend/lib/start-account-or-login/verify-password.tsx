@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
-import { LegacyFormSubmitter } from "../../forms/legacy-form-submitter";
-import { LoginMutation, BlankLoginInput } from "../../queries/LoginMutation";
-import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
+import { LegacyFormSubmitter } from "../forms/legacy-form-submitter";
+import { LoginMutation, BlankLoginInput } from "../queries/LoginMutation";
+import { Modal, BackOrUpOneDirLevel } from "../ui/modal";
 import { Link, Route } from "react-router-dom";
-import { PasswordResetMutation } from "../../queries/PasswordResetMutation";
-import { AppContext } from "../../app-context";
-import { ProgressButtons, NextButton } from "../../ui/buttons";
-import { TextualFormField, HiddenFormField } from "../../forms/form-fields";
-import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import Page from "../../ui/page";
+import { PasswordResetMutation } from "../queries/PasswordResetMutation";
+import { AppContext } from "../app-context";
+import { ProgressButtons, NextButton } from "../ui/buttons";
+import { TextualFormField, HiddenFormField } from "../forms/form-fields";
+import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
+import Page from "../ui/page";
 import { StartAccountOrLoginProps } from "./routes";
-import { li18n } from "../../i18n-lingui";
+import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 
 const ForgotPasswordModal: React.FC<StartAccountOrLoginProps> = ({

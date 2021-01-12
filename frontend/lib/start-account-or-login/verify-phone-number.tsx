@@ -1,15 +1,15 @@
 import React from "react";
-import { CustomerSupportLink } from "../../ui/customer-support-link";
-import { LegacyFormSubmitter } from "../../forms/legacy-form-submitter";
+import { CustomerSupportLink } from "../ui/customer-support-link";
+import { LegacyFormSubmitter } from "../forms/legacy-form-submitter";
 import {
   PasswordResetVerificationCodeMutation,
   BlankPasswordResetVerificationCodeInput,
-} from "../../queries/PasswordResetVerificationCodeMutation";
-import { ProgressButtons } from "../../ui/buttons";
-import { TextualFormField } from "../../forms/form-fields";
-import Page from "../../ui/page";
+} from "../queries/PasswordResetVerificationCodeMutation";
+import { ProgressButtons } from "../ui/buttons";
+import { TextualFormField } from "../forms/form-fields";
+import Page from "../ui/page";
 import { StartAccountOrLoginProps } from "./routes";
-import { li18n } from "../../i18n-lingui";
+import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 
 export const VerifyPhoneNumber: React.FC<StartAccountOrLoginProps> = ({

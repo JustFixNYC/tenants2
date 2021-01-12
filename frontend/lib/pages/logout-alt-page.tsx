@@ -5,10 +5,13 @@ import { LogoutMutation } from "../queries/LogoutMutation";
 import { NextButton } from "../ui/buttons";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
-import { EvictionFreeRoutes } from "./route-info";
+import { getGlobalSiteRoutes } from "../global-site-routes";
 
-// TODO: This is almost identical to the norent logout page, refactor into a single component.
-export const EvictionFreeLogoutPage: React.FC<{}> = () => (
+/**
+ * An alternative logout page that redirects the user to the homepage, and
+ * lets them know their progress will be saved.
+ */
+export const AlernativeLogoutPage: React.FC<{}> = () => (
   <Page title={li18n._(t`Log out`)}>
     <h2 className="title">
       <Trans>Are you sure you want to log out?</Trans>
@@ -22,7 +25,7 @@ export const EvictionFreeLogoutPage: React.FC<{}> = () => (
     <SessionUpdatingFormSubmitter
       mutation={LogoutMutation}
       initialState={{}}
-      onSuccessRedirect={EvictionFreeRoutes.locale.home}
+      onSuccessRedirect={getGlobalSiteRoutes().locale.home}
     >
       {(ctx) => (
         <div className="buttons jf-two-buttons jf-log-out-button-container">

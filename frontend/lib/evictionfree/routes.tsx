@@ -6,7 +6,7 @@ import { Route, RouteComponentProps, Switch } from "react-router-dom";
 import { EvictionFreeRoutes as Routes } from "./route-info";
 import { EvictionFreeHomePage } from "./homepage";
 import { EvictionFreeDeclarationBuilderRoutes } from "./declaration-builder/routes";
-import { EvictionFreeLogoutPage } from "./log-out";
+import { AlernativeLogoutPage } from "../pages/logout-alt-page";
 
 const LoadableDevRoutes = loadable(
   () => friendlyLoad(import("../dev/routes")),
@@ -33,7 +33,7 @@ export const EvictionFreeRouteComponent: React.FC<RouteComponentProps> = (
       <Route
         path={Routes.locale.logout}
         exact
-        component={EvictionFreeLogoutPage}
+        component={AlernativeLogoutPage}
       />
       <Route component={NotFound} />
     </Switch>

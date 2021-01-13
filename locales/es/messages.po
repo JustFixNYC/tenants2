@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-13 15:35\n"
+"PO-Revision-Date: 2021-01-13 15:52\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1717,7 +1717,7 @@ msgstr "Este edificio es propiedad de la <0>NYC Housing Authority (NYCHA)</0>."
 
 #: frontend/lib/evictionfree/homepage.tsx:11
 msgid "This is a test localization message for EvictionFree."
-msgstr "This is a test localization message for EvictionFree."
+msgstr "Este es un mensaje de localización de prueba para EvictionFree."
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:20
 msgid "This is optional."
@@ -2246,7 +2246,7 @@ msgstr "<0>Si tu apartamento es actualmente de renta estabilizada, o lo ha sido 
 
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:39
 msgid "justfix.whyIsPhoneNumberNeeded"
-msgstr "We’ll use this information to either:<0><1>Log you into your existing account</1><2>Match with a pre-existing account </2><3>Sign you up for a new account.</3></0>"
+msgstr "Utilizaremos esta información para: <0><1>Acceder a tu cuenta actual</1><2>Comprobar si coincide con una cuenta preexistente </2><3>Abrirte una cuenta nueva</3></0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:215
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"

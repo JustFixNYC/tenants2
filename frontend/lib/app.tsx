@@ -46,6 +46,7 @@ import {
   logAmplitudePageView,
 } from "./analytics/amplitude";
 import { t } from "@lingui/macro";
+import { getEvictionFreeJumpToTopOfPageRoutes } from "./evictionfree/route-info";
 
 // Note that these don't need any special fallback loading screens
 // because they will never need to be dynamically loaded on the
@@ -118,7 +119,10 @@ export class AppWithoutRouter extends React.Component<
       session: props.initialSession,
     };
     this.pageBodyRef = React.createRef();
-    this.jumpToTopOfPageRoutes = new Set(getNorentJumpToTopOfPageRoutes());
+    this.jumpToTopOfPageRoutes = new Set(
+      ...getNorentJumpToTopOfPageRoutes(),
+      ...getEvictionFreeJumpToTopOfPageRoutes()
+    );
   }
 
   @autobind

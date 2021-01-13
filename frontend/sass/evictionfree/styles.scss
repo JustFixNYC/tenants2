@@ -1,7 +1,9 @@
 @charset "utf-8";
 
-// This is where the NoRent.org static assets will be, relative to
-// where this CSS file will be when the site is deployed.
+// This is where the NoRent-related static assets will be, relative to
+// where this CSS file will be when the site is deployed. (Yes, this is the
+// CSS for the evictionfree site, but it inherits most of its styling from
+// NoRent at the time of this writing.)
 $norent-root: "../norent";
 
 $jf-body-family: "Open Sans", "Segoe UI", Tahoma, sans-serif;
@@ -51,3 +53,9 @@ $jf-navbar-content: $black;
 
 @import "../norent/_primary_pages.scss";
 @import "../norent/_letter-builder.scss";
+
+.jf-evictionfree-logo {
+  font-weight: 600;
+  font-family: $jf-title-family;
+  letter-spacing: 0;
+}

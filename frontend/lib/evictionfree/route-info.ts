@@ -30,3 +30,12 @@ export const EvictionFreeRoutes = createRoutesForSite(
     dev: createDevRouteInfo("/dev"),
   }
 );
+
+export const getEvictionFreeJumpToTopOfPageRoutes = () => [
+  EvictionFreeRoutes.locale.declaration.confirmation,
+  ...getEvictionFreeRoutesForPrimaryPages(),
+];
+
+export const getEvictionFreeRoutesForPrimaryPages = () => [
+  EvictionFreeRoutes.locale.home,
+];

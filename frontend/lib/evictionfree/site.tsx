@@ -14,6 +14,7 @@ import { AppContext } from "../app-context";
 import { Trans } from "@lingui/macro";
 import { NavbarLanguageDropdown } from "../ui/language-toggle";
 import classnames from "classnames";
+import { EvictionFreeFooter } from "./components/footer";
 
 export const EvictionFreeLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(
@@ -96,6 +97,7 @@ const EvictionFreeSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
             </LoadingOverlayManager>
           </div>
         </section>
+        <EvictionFreeFooter />
       </EvictionFreeLinguiI18n>
     );
   }

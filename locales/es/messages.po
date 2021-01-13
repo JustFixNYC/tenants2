@@ -2414,7 +2414,7 @@ msgid "norent.whoThisToolIsFor"
 msgstr "<0>Si no puedes pagar la renta este mes debido a un problema relacionado con el COVID-19 (es decir, debido a cambios en el trabajo, pérdida de ingresos, gastos de salud o pérdida de cuidado de niños), esta herramienta es para ti. Aunque las reglas para ejercer tus derechos varían según el estado en el que vives, NoRent.org puede ayudarte a entender las complejidades y ponerte en contacto con los recursos necesarios.</0>"
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:39
-msgid "norent.whyIsPhoneNumberNeeded"
+msgid "justfix.whyIsPhoneNumberNeeded"
 msgstr "Utilizaremos esta información para: <0><1>Acceder a tu cuenta actual</1><2>Comprobar si coincide con una cuenta preexistente </2><3>Abrirte una cuenta nueva</3></0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:252

@@ -2409,7 +2409,7 @@ msgid "norent.whoThisToolIsFor"
 msgstr "<0>If you’re not able to pay the rent this month because of a COVID-19 related issue (i.e. employment changes, loss of income, medical expenses, or loss of childcare) this tool is for you. Although the rules for exercising your rights will vary by state, NoRent.org can help walk you through the complexities and connect you to resources.</0>"
 
 #: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:39
-msgid "norent.whyIsPhoneNumberNeeded"
+msgid "justfix.whyIsPhoneNumberNeeded"
 msgstr "We’ll use this information to either:<0><1>Log you into your existing account</1><2>Match with a pre-existing account </2><3>Sign you up for a new account.</3></0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:252

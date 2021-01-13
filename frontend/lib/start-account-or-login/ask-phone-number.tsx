@@ -55,7 +55,7 @@ export const AskPhoneNumber: React.FC<StartAccountOrLoginProps> = (props) => {
               <Accordion
                 question={li18n._(t`Why do you need this information?`)}
               >
-                <Trans id="norent.whyIsPhoneNumberNeeded">
+                <Trans id="justfix.whyIsPhoneNumberNeeded">
                   We’ll use this information to either:
                   <ol className="is-marginless">
                     <li>Log you into your existing account</li>

@@ -1,0 +1,158 @@
+// PRESETS TO PRE-EXISTING CLASSES:
+
+.title {
+  font-family: $jf-title-family;
+
+  &.jf-alt-title-font {
+    font-family: $jf-alt-title-family;
+  }
+}
+
+.content {
+  h1.title {
+    font-size: 4.5rem;
+    line-height: 1;
+  }
+
+  h2.title {
+    font-size: 2.25rem;
+    line-height: 1.15;
+  }
+
+  h3 {
+    line-height: 1.35;
+  }
+
+  // Size for small modal headings, like in the "privacy info modal"
+  h5 {
+    font-size: 1.5rem;
+  }
+
+  // Default style for inline hyperlinks:
+  a:not(.button) {
+    text-decoration: underline;
+    font-weight: 600;
+    &:hover {
+      // Keep color consistent on hover
+      color: $link;
+    }
+  }
+
+  // Default spacing between paragraphs
+  p:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+
+  // Set all Bulma container classes to have max width:
+  .container {
+    max-width: 800px;
+    &.jf-tight-container {
+      max-width: 600px;
+    }
+    &.jf-wide-container {
+      max-width: 1000px;
+    }
+  }
+
+  // Default hero padding
+  .hero-body {
+    padding: 4rem 2rem;
+  }
+
+  // Make all media icons have vertical centering
+  // as well as smaller margins on mobile
+  .media .media-left,
+  .media .media-right {
+    margin-top: auto;
+    margin-bottom: auto;
+    @media screen and (max-width: $tablet) {
+      figure {
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  // Override styling from Justfix site to include shadow above
+  .jf-letter-preview {
+    box-shadow: 0px 1.5px 4px 1px rgba(0, 0, 0, 0.25);
+  }
+}
+
+// NEW CUSTOM CLASSES
+
+@mixin is-horizontal-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.jf-space-below-2rem {
+  margin-bottom: 2rem;
+}
+
+.jf-has-text-centered-tablet {
+  text-align: left;
+  @include tablet {
+    text-align: center;
+  }
+}
+
+.jf-has-centered-images {
+  figure {
+    @include is-horizontal-center;
+  }
+}
+
+// SITE-WIDE REUSABLE ELEMENTS
+
+.jf-norent-logo {
+  display: inline-block;
+  figure.image {
+    // Add a little top margin to nudge it inline with text
+    margin: 0.1rem 0 0 0;
+    // Remove default image height (fixes bug on Firefox)
+    height: unset;
+  }
+}
+
+$jf-logo-height-mobile: 70px;
+$jf-logo-height-desktop: 90px;
+
+.jf-justfix-logo {
+  height: $jf-logo-height-mobile;
+  figure.image {
+    margin: 0;
+    padding: 0;
+    img {
+      height: $jf-logo-height-mobile;
+      width: calc(3 * #{$jf-logo-height-mobile});
+    }
+  }
+  @include tablet {
+    height: $jf-logo-height-desktop;
+    figure.image img {
+      @include is-horizontal-center;
+      height: $jf-logo-height-desktop;
+      width: calc(3 * #{$jf-logo-height-desktop});
+    }
+  }
+}
+
+.jf-jump-arrow {
+  figure {
+    @extend .jf-up-and-down;
+  }
+}
+
+.jf-social-icons.buttons {
+  margin: 1.5rem 0 1rem 0;
+  figure {
+    margin: 0;
+  }
+  a:not(:last-child) {
+    margin-right: 1rem;
+  }
+  img:hover {
+    filter: brightness(90%);
+  }
+}

@@ -168,7 +168,7 @@ msgstr ""
 msgid "Apartment number"
 msgstr "Número de apartamento"
 
-#: frontend/lib/norent/log-out.tsx:11
+#: frontend/lib/pages/logout-alt-page.tsx:15
 msgid "Are you sure you want to log out?"
 msgstr "¿Estás seguro de que quieres cerrar la sesión?"
 
@@ -188,7 +188,7 @@ msgstr "Arkansas"
 msgid "Back"
 msgstr "Atrás"
 
-#: frontend/lib/norent/faqs.tsx:111
+#: frontend/lib/norent/faqs.tsx:96
 msgid "Back to top"
 msgstr "Volver al inicio de esta sección"
 
@@ -239,7 +239,7 @@ msgstr "Aprovecha las protecciones de desalojo en tu estado notificando al dueñ
 msgid "Broken/no smoke/Co2 detector"
 msgstr "Sin detector de Co2 o humo"
 
-#: frontend/lib/norent/faqs.tsx:89
+#: frontend/lib/norent/faqs.tsx:74
 msgid "Browse the FAQs"
 msgstr "Explora las preguntas más frecuentes"
 
@@ -264,7 +264,7 @@ msgstr "Crear mi carta"
 msgid "Build power in numbers"
 msgstr "Construye poder común"
 
-#: frontend/lib/norent/letter-builder/welcome.tsx:16
+#: frontend/lib/norent/letter-builder/welcome.tsx:15
 msgid "Build your letter"
 msgstr "Crea tu carta"
 
@@ -347,7 +347,7 @@ msgstr "Haz clic aquí para unirte al movimiento de MH Action"
 msgid "Click here to join MHAction’s movement to hold corporate community owners accountable."
 msgstr "Haga clic aquí para unirte al movimiento de MH Action y hacer que los propietarios de la comunidad corporativa rindan cuentas."
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:54
+#: frontend/lib/start-account-or-login/ask-phone-number.tsx:54
 msgid "Click here to learn more about our privacy policy."
 msgstr "Haga clic aquí para obtener más información sobre nuestra política de privacidad."
 
@@ -375,7 +375,7 @@ msgstr "Community Justice Project"
 msgid "Confirm password"
 msgstr "Confirma la contraseña"
 
-#: frontend/lib/norent/start-account-or-login/set-password.tsx:22
+#: frontend/lib/start-account-or-login/set-password.tsx:22
 msgid "Confirm your new password"
 msgstr "Confirma tu nueva contraseña"
 
@@ -470,7 +470,7 @@ msgstr "¿Vives en {0}, {1}?"
 msgid "Do you still want to mail to:"
 msgstr "¿Aún deseas continuar?"
 
-#: frontend/lib/norent/log-out.tsx:14
+#: frontend/lib/pages/logout-alt-page.tsx:18
 msgid "Don’t worry, we’ll save your progress so you’ll be able to come back to your last step when you log back in."
 msgstr "No te preocupes, guardaremos tus respuestas para que puedas empezar desde donde te quedaste cuando vuelvas a conectarte."
 
@@ -553,7 +553,7 @@ msgstr "Explora nuestras otras herramientas"
 msgid "Explore the tool"
 msgstr "Explora la herramienta"
 
-#: frontend/lib/norent/faqs.tsx:71
+#: frontend/lib/norent/faqs.tsx:56
 msgid "FAQs"
 msgstr "Preguntas Frecuentes"
 
@@ -595,7 +595,7 @@ msgstr "Florida"
 msgid "Free Certified Mail"
 msgstr "Correo certificado gratuito"
 
-#: frontend/lib/norent/faqs.tsx:76
+#: frontend/lib/norent/faqs.tsx:61
 msgid "Frequently Asked Questions"
 msgstr "Preguntas Más Frecuentes"
 
@@ -623,7 +623,7 @@ msgstr "Comparte tu opinión"
 msgid "Give us feedback"
 msgstr "Comparte tu opinión"
 
-#: frontend/lib/norent/start-account-or-login/verify-password.tsx:39
+#: frontend/lib/start-account-or-login/verify-password.tsx:39
 msgid "Go back"
 msgstr "Atrás"
 
@@ -745,7 +745,7 @@ msgstr "Acepto los términos y condiciones de <0/>."
 msgid "I agree to the <0>NoRent.org terms and conditions</0>."
 msgstr "Acepto los <0>términos y condiciones de NoRent.org</0>."
 
-#: frontend/lib/norent/start-account-or-login/verify-password.tsx:64
+#: frontend/lib/start-account-or-login/verify-password.tsx:64
 msgid "I forgot my password"
 msgstr "He perdido mi contraseña"
 
@@ -765,7 +765,7 @@ msgstr "Tengo miedo. ¿Qué sucede si el dueño de mi edificio toma represalias?
 msgid "Idaho"
 msgstr "Idaho"
 
-#: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:25
+#: frontend/lib/start-account-or-login/verify-phone-number.tsx:25
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 msgstr "Si no recibiste un código, comprueba tu correo electrónico. Si no lo encuentras, por favor envía un correo electrónico a <0/>."
 
@@ -959,7 +959,7 @@ msgstr "Verificado legalmente"
 msgid "Let's get to know you."
 msgstr "Conozcámonos."
 
-#: frontend/lib/norent/start-account-or-login/set-password.tsx:15
+#: frontend/lib/start-account-or-login/set-password.tsx:15
 msgid "Let's set you up with a new password, so you can easily login again."
 msgstr "Configuremos una nueva contraseña, para que puedas volver fácilmente."
 
@@ -979,13 +979,15 @@ msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información, baja
 msgid "Locally supported"
 msgstr "Con apoyo local"
 
+#: frontend/lib/evictionfree/site.tsx:36
 #: frontend/lib/norent/letter-builder/error-pages.tsx:19
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Iniciar sesión"
 
-#: frontend/lib/norent/log-out.tsx:9
+#: frontend/lib/evictionfree/site.tsx:34
 #: frontend/lib/norent/site.tsx:40
+#: frontend/lib/pages/logout-alt-page.tsx:13
 msgid "Log out"
 msgstr "Cerrar sesión"
 
@@ -1001,7 +1003,7 @@ msgstr "Parece que estás en <0>el Condado de Los Angeles, California</0>"
 msgid "Looks like you're not logged in"
 msgstr "Parece que no has iniciado ninguna sesión"
 
-#: frontend/lib/norent/letter-builder/welcome.tsx:18
+#: frontend/lib/norent/letter-builder/welcome.tsx:17
 msgid "Looks like you've been here before. Click \"Next\" to be taken to where you left off."
 msgstr "Parece que ya estuviste aquí antes. Haz clic en \"Continuar\" para seguir desde donde te quedaste."
 
@@ -1147,11 +1149,12 @@ msgstr "Nuevo México"
 msgid "New York"
 msgstr "Nueva York"
 
-#: frontend/lib/norent/start-account-or-login/set-password.tsx:21
+#: frontend/lib/start-account-or-login/set-password.tsx:21
 msgid "New password"
 msgstr "Contraseña nueva"
 
-#: frontend/lib/norent/letter-builder/welcome.tsx:56
+#: frontend/lib/evictionfree/declaration-builder/welcome.tsx:14
+#: frontend/lib/norent/letter-builder/welcome.tsx:55
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
 msgid "Next"
@@ -1218,7 +1221,7 @@ msgstr "No poder pagar la renta debido al COVID-19 no es nada de lo que avergonz
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 msgstr "Aviso de impacto del COVID-19 en la renta enviado en nombre de {0}"
 
-#: frontend/lib/norent/start-account-or-login/verify-password.tsx:52
+#: frontend/lib/start-account-or-login/verify-password.tsx:52
 msgid "Now we just need your password. This is the same one you’ve used on JustFix.nyc."
 msgstr "Ahora sólo necesitamos tu contraseña. Esta es la misma que usas en JustFix.nyc."
 
@@ -1234,7 +1237,7 @@ msgstr "Oklahoma"
 msgid "One letter for the months between March and August when you couldn't pay rent in full."
 msgstr "Una carta para los meses entre marzo y agosto cuando no pudiste pagar la renta en su totalidad."
 
-#: frontend/lib/app.tsx:56
+#: frontend/lib/app.tsx:57
 #: frontend/lib/norent/components/subscribe.tsx:41
 #: frontend/lib/norent/components/subscribe.tsx:45
 msgid "Oops! A network error occurred. Try again later."
@@ -1285,7 +1288,7 @@ msgid "Painting overdue (3 years)"
 msgstr "Pintura Atrasada (cada 3 años)"
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:34
-#: frontend/lib/norent/start-account-or-login/verify-password.tsx:61
+#: frontend/lib/start-account-or-login/verify-password.tsx:61
 msgid "Password"
 msgstr "Contraseña"
 
@@ -1304,8 +1307,8 @@ msgstr "Pintura Escamada/Pelada"
 msgid "Pennsylvania"
 msgstr "Pensilvania"
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:36
 #: frontend/lib/rh/routes.tsx:121
+#: frontend/lib/start-account-or-login/ask-phone-number.tsx:36
 msgid "Phone number"
 msgstr "Número de teléfono"
 
@@ -1410,7 +1413,7 @@ msgstr "Solicita el Historial de Renta de tu apartamento al DHCR"
 msgid "Research your landlord"
 msgstr "Investiga al dueño de tu edificio"
 
-#: frontend/lib/norent/start-account-or-login/verify-password.tsx:27
+#: frontend/lib/start-account-or-login/verify-password.tsx:27
 msgid "Reset your password"
 msgstr "Cambia tu contraseña"
 
@@ -1446,7 +1449,7 @@ msgstr "Ejemplar de una carta de NoRent.org"
 msgid "Search address"
 msgstr "Dirección de búsqueda"
 
-#: frontend/lib/norent/faqs.tsx:63
+#: frontend/lib/norent/faqs.tsx:48
 msgid "See more FAQs"
 msgstr "Ver todas las preguntas más frecuentes"
 
@@ -1458,7 +1461,7 @@ msgstr "Enviar una carta de queja"
 msgid "Send another letter"
 msgstr "Enviar otra carta"
 
-#: frontend/lib/norent/start-account-or-login/verify-password.tsx:41
+#: frontend/lib/start-account-or-login/verify-password.tsx:41
 msgid "Send code"
 msgstr "Enviar código"
 
@@ -1470,11 +1473,11 @@ msgstr "Envía tu carta por correo certificado gratis"
 msgid "Send your letter by email"
 msgstr "Envía tu carta por correo electrónico"
 
-#: frontend/lib/norent/faqs.tsx:80
+#: frontend/lib/norent/faqs.tsx:65
 msgid "Sending a letter to your landlord is a big step. Check out our frequently asked questions from people who have used our tool:"
 msgstr "Enviar una carta al dueño de tu edificio es un paso grande. Consulta las preguntas más frecuentes de las personas que han utilizado nuestra herramienta:"
 
-#: frontend/lib/norent/faqs.tsx:50
+#: frontend/lib/norent/faqs.tsx:35
 msgid "Sending a letter to your landlord is a big step. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
 msgstr "Enviar una carta al dueño de tu edificio es un paso grande. Aquí tienes algunas <0>preguntas más frecuentes</0> de las personas que han utilizado nuestra herramienta:"
 
@@ -1486,11 +1489,11 @@ msgstr "Cartas separadas para cada mes a partir de septiembre, cuando no pudiste
 msgid "Set up an account"
 msgstr "Configura tu cuenta"
 
-#: frontend/lib/norent/start-account-or-login/set-password.tsx:10
+#: frontend/lib/start-account-or-login/set-password.tsx:10
 msgid "Set your new password"
 msgstr "Establece tu nueva contraseña"
 
-#: frontend/lib/norent/start-account-or-login/set-password.tsx:12
+#: frontend/lib/start-account-or-login/set-password.tsx:12
 msgid "Set your password"
 msgstr "Establece tu contraseña"
 
@@ -1712,7 +1715,7 @@ msgstr "¿Crees que tu apartamento puede ser de renta estabilizada? Solicita el 
 msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 msgstr "Este edificio es propiedad de la <0>NYC Housing Authority (NYCHA)</0>."
 
-#: frontend/lib/evictionfree/homepage.tsx:7
+#: frontend/lib/evictionfree/homepage.tsx:11
 msgid "This is a test localization message for EvictionFree."
 msgstr ""
 
@@ -1728,7 +1731,7 @@ msgstr "Este servicio es gratuito, seguro y confidencial."
 msgid "This tool is provided by JustFix.nyc. We’re a non-profit that creates tools for tenants and the housing rights movement. We always want feedback to improve our tools."
 msgstr "Esta herramienta te la trae JustFix.nyc. Somos una organización sin fines de lucro que crea herramientas para inquilinos y el movimiento de derechos de la vivienda. Siempre nos interesa tu opinión para mejorar nuestras herramientas."
 
-#: frontend/lib/norent/start-account-or-login/verify-password.tsx:29
+#: frontend/lib/start-account-or-login/verify-password.tsx:29
 msgid "To begin the password reset process, we'll text you a verification code."
 msgstr "Para restablecer tu contraseña, te enviaremos un código de verificación."
 
@@ -1784,11 +1787,11 @@ msgstr "Utah"
 msgid "Vacate order issued"
 msgstr ""
 
-#: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:22
+#: frontend/lib/start-account-or-login/verify-phone-number.tsx:22
 msgid "Verification code"
 msgstr "Código de verificación"
 
-#: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:11
+#: frontend/lib/start-account-or-login/verify-phone-number.tsx:11
 msgid "Verify your phone number"
 msgstr "Verifica tu número de teléfono"
 
@@ -1862,7 +1865,7 @@ msgstr "Utilizaremos esta información para enviarte noticias."
 msgid "We'll use this information to send your letter."
 msgstr "Utilizaremos esta información para enviar tu carta."
 
-#: frontend/lib/norent/start-account-or-login/verify-phone-number.tsx:14
+#: frontend/lib/start-account-or-login/verify-phone-number.tsx:14
 msgid "We've just sent you a text message containing a verification code. Please enter it below."
 msgstr "Acabamos de enviarte un mensaje de texto que contiene un código de verificación. Por favor, introdúcelo abajo."
 
@@ -1871,7 +1874,7 @@ msgid "Weak electrical current"
 msgstr "Baja Corriente Eléctrica"
 
 #: frontend/lib/norent/letter-builder/menu.tsx:26
-#: frontend/lib/norent/letter-builder/welcome.tsx:15
+#: frontend/lib/norent/letter-builder/welcome.tsx:14
 msgid "Welcome back!"
 msgstr "¡Hola de nuevo!"
 
@@ -1957,7 +1960,7 @@ msgstr "¿Dónde encuentro esta información?"
 msgid "Where do you live?"
 msgstr "¿Dónde vives?"
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:28
+#: frontend/lib/start-account-or-login/ask-phone-number.tsx:28
 msgid "Whether it's your first time here, or you're a returning user, let's start with your number."
 msgstr "Empecemos con tu número de teléfono, ya sea tu primera vez aquí, o estés de vuelta."
 
@@ -1973,7 +1976,7 @@ msgstr "Quiénes somos"
 msgid "Why aren't all months listed?"
 msgstr "¿Por qué no puedo ver todos los meses?"
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:38
+#: frontend/lib/start-account-or-login/ask-phone-number.tsx:38
 msgid "Why do you need this information?"
 msgstr "¿Por qué necesitáis esta información?"
 
@@ -2029,11 +2032,11 @@ msgstr "Si"
 msgid "Yes, JustFix.nyc can text me to follow up about my housing issues."
 msgstr "Sí, JustFix.nyc puede enviarme mensajes de texto para hacer un seguimiento de mis problemas de vivienda."
 
-#: frontend/lib/norent/log-out.tsx:21
+#: frontend/lib/pages/logout-alt-page.tsx:25
 msgid "Yes, Sign Out"
 msgstr "Sí, cerrar sesión"
 
-#: frontend/lib/norent/start-account-or-login/verify-password.tsx:49
+#: frontend/lib/start-account-or-login/verify-password.tsx:49
 msgid "You already have an account"
 msgstr "Ya tienes una cuenta"
 
@@ -2154,7 +2157,7 @@ msgstr "Tu carta ha sido enviada al dueño o manager de tu edificio por correo c
 msgid "Your letter was sent on {0}."
 msgstr "Tu carta fue enviada el {0}."
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:25
+#: frontend/lib/start-account-or-login/ask-phone-number.tsx:25
 msgid "Your phone number"
 msgstr "Tu número de teléfono"
 
@@ -2162,7 +2165,7 @@ msgstr "Tu número de teléfono"
 msgid "Your privacy is very important to us!"
 msgstr "¡Su privacidad es muy importante para nosotros!"
 
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:49
+#: frontend/lib/start-account-or-login/ask-phone-number.tsx:49
 msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 msgstr "¡Tu privacidad es muy importante para nosotros! Todo en JustFix.nyc es seguro."
 
@@ -2241,6 +2244,10 @@ msgstr "<0>Si tu apartamento nunca ha sido de renta estabilizada:</0> no recibir
 msgid "justfix.rhWhatHappensNext"
 msgstr "<0>Si tu apartamento es actualmente de renta estabilizada, o lo ha sido en cualquier momento en el pasado:</0> deberías recibir tu historial de alquiler por correo en aproximadamente una semana. Tu historial de alquiler es un documento importante que muestra los alquileres registrados en tu apartamento desde 1984. Puedes aprender más sobre ello y cómo puede ayudarte a averiguar si estás pagando de más en el <1>la guía de alquiler de recargos de estabilidad de Met Council on Housing</1> o consultando nuestro artículo del <2>Centro de Aprendizaje a cerca de Sobrecargos</2>."
 
+#: frontend/lib/start-account-or-login/ask-phone-number.tsx:39
+msgid "justfix.whyIsPhoneNumberNeeded"
+msgstr "Utilizaremos esta información para: <0><1>Acceder a tu cuenta actual</1><2>Comprobar si coincide con una cuenta preexistente </2><3>Abrirte una cuenta nueva</3></0>"
+
 #: frontend/lib/norent/data/faqs-content.tsx:215
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"
 msgstr "<0/><1>También puedes contactar a tus vecinos y organizar a todos en tu edificio para emprender acciones colectivas y reclamar. Lee más sobre cómo formar sindicatos de inquilinos y comenzar una huelga de renta en <2/>.</1>"
@@ -2317,7 +2324,7 @@ msgstr "<0> Ponte en contacto con organizadores del movimiento de la vivienda a 
 msgid "norent.instructionsForStatesWithLimitedProtections_v2"
 msgstr "<0><1/></0><2>También debes saber que no estás solo. En los estados sin moratoria de desalojo es importante protegerse legalmente y construir poder colectivo con otros inquilinos.</2><3> Primero, comienza asegurándote de que toda la comunicación con el dueño de tu edificio esté documentada por escrito. Comienza a recopilar toda la documentación de cualquier dificultad que hayas tenido relacionada con el COVID-19. Si te enfrentas a una emergencia, busca de inmediato ayuda legal en tu estado consultando en <4/>.</3><5> Luego, conéctate de manera segura con otros inquilinos en tu edificio o el lugar en donde vives. Comienza organizando un sistema de comunicación entre vosotros para averiguar qué problemas y necesidades tenéis en común. Para obtener más recursos sobre cómo formar un sindicato de inquilinos, consulta <6/>. También puedes contactar a grupos locales que se estén organizando y que estén afiliados a la alianza nacional <7/>.</5><8> Finalmente, únete a los millones de inquilinos que están trabajando arduamente y luchando por la protección nacional de los inquilinos, la congelación y suspensión inmediatas del alquiler. Súmate a <9/>.</8>"
 
-#: frontend/lib/norent/letter-builder/welcome.tsx:24
+#: frontend/lib/norent/letter-builder/welcome.tsx:23
 msgid "norent.introductionToLetterBuilderSteps"
 msgstr "Para que la ley estatal de California de AB3088 te ampare con las protecciones del COVID-19 de no poder pagar la renta, deberías notificar al dueño o manager de tu edificio. <0>En el caso de que intenten desalojarte, las cortes lo verán como un paso proactivo que ayude a establecer tu defensa.</0>"
 
@@ -2361,7 +2368,7 @@ msgstr "Hemos trabajado con la organización sin fines de lucro <0>SAJE</0> para
 msgid "norent.madeByBlurb"
 msgstr "NoRent.org fue creado por <0>JustFix.nyc</0>, una organización sin fines de lucro que co-diseña y construye herramientas para inquilinos, organizadores de viviendas y abogados que luchan contra el desplazamiento en la ciudad de Nueva York."
 
-#: frontend/lib/norent/letter-builder/welcome.tsx:35
+#: frontend/lib/norent/letter-builder/welcome.tsx:34
 msgid "norent.outlineOfLetterBuilderSteps"
 msgstr "<0>En los próximos pasos, construiremos tu carta utilizando la siguiente información. Si puedes, ten esta información a mano:</0><1><2><3>tu número de teléfono, dirección de correo electrónico y dirección postal</3></2><4><5>la dirección postal del dueño o manager de tu edificio y/o su dirección de correo electrónico</5></4></1>"
 
@@ -2412,10 +2419,6 @@ msgstr "<0> Es normal sentirse ansioso o asustado si el propietario toma represa
 #: frontend/lib/norent/data/faqs-content.tsx:239
 msgid "norent.whoThisToolIsFor"
 msgstr "<0>Si no puedes pagar la renta este mes debido a un problema relacionado con el COVID-19 (es decir, debido a cambios en el trabajo, pérdida de ingresos, gastos de salud o pérdida de cuidado de niños), esta herramienta es para ti. Aunque las reglas para ejercer tus derechos varían según el estado en el que vives, NoRent.org puede ayudarte a entender las complejidades y ponerte en contacto con los recursos necesarios.</0>"
-
-#: frontend/lib/norent/start-account-or-login/ask-phone-number.tsx:39
-msgid "justfix.whyIsPhoneNumberNeeded"
-msgstr "Utilizaremos esta información para: <0><1>Acceder a tu cuenta actual</1><2>Comprobar si coincide con una cuenta preexistente </2><3>Abrirte una cuenta nueva</3></0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:252
 msgid "norent.whyYouShouldNotifyAboutNotPayingRent"

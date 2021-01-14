@@ -14,7 +14,7 @@ def render_example_declaration_pdf(request):
         has_financial_hardship=True,
         has_health_risk=True,
         name="Boop Jones",
-        date="January 1, 2021",
+        date="1/1/2021",
     )
     b = fill_hardship_pdf(vars, locale)
     return FileResponse(BytesIO(b), filename="example-declaration.pdf")

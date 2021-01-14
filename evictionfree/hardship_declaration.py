@@ -21,7 +21,27 @@ class HardshipDeclarationVariables(BaseModel):
 def fill_hardship_pdf(v: HardshipDeclarationVariables, locale: str) -> bytes:
     path = PDF_DIR / f"hardship-declaration-{locale}.pdf"
     assert path.exists()
-    overlay = Document(pages=[Page(items=[]), Page(items=[Text(v.name, 75, 320)])])
+    overlay = Document(
+        pages=[
+            # First page has nothing to be filled out.
+            Page(items=[]),
+            Page(
+                items=[
+                    # TODO: Add index number.
+                    # TODO: Add county and court.
+                    Text(v.address, 75, 324),
+                    Text("X" if v.has_financial_hardship else "", 91, 410),
+                ]
+            ),
+            Page(
+                items=[
+                    Text("X" if v.has_health_risk else "", 91, 255),
+                    Text(v.name, 290, 579),
+                    Text(v.date, 290, 620),
+                ]
+            ),
+        ]
+    )
     return overlay.overlay_atop(path).getvalue()
 
 
@@ -30,7 +50,7 @@ if __name__ == "__main__":
         HardshipDeclarationVariables(
             address="654 Park Place, Brooklyn NY 11216",
             has_financial_hardship=True,
-            has_health_risk=False,
+            has_health_risk=True,
             name="Boop Jones",
             date="January 1, 2021",
         ),

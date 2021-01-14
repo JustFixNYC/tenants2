@@ -10,7 +10,7 @@ class Text(NamedTuple):
     value: str
     x: int
     y: int
-    size: int = 10
+    size: int = 12
 
     def __str__(self) -> str:
         style = "; ".join(

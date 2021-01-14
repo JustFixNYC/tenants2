@@ -41,7 +41,7 @@ class Checkbox(NamedTuple):
     size: int = DEFAULT_SIZE
 
     def __str__(self) -> str:
-        return _text("X" if self.value else None, self.x, self.y, self.size)
+        return _text("\u2714" if self.value else None, self.x, self.y, self.size)
 
 
 PageItem = Union[Text, Checkbox]

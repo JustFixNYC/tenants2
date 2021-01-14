@@ -1,7 +1,9 @@
 from typing import List, NamedTuple
+from pathlib import Path
 from io import BytesIO
 from django.utils.html import escape
 import weasyprint
+import PyPDF2
 
 
 class Text(NamedTuple):
@@ -44,3 +46,19 @@ class Document(NamedTuple):
         css = weasyprint.CSS(string="@page { margin: 0; size: letter; }")
         html = weasyprint.HTML(string=str(self))
         return BytesIO(html.write_pdf(stylesheets=[css]))
+
+    def overlay_atop(self, pdf: Path) -> BytesIO:
+        overlay_pdf = PyPDF2.PdfFileReader(self.render_pdf_bytes())
+        pdf_writer = PyPDF2.PdfFileWriter()
+        with pdf.open("rb") as blank_file:
+            blank_pdf = PyPDF2.PdfFileReader(blank_file)
+            for i in range(blank_pdf.numPages):
+                page = blank_pdf.getPage(i)
+                if i < overlay_pdf.numPages:
+                    overlay_page = overlay_pdf.getPage(i)
+                    page.mergePage(overlay_page)
+                pdf_writer.addPage(page)
+
+            outfile = BytesIO()
+            pdf_writer.write(outfile)
+            return outfile

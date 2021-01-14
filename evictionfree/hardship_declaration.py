@@ -27,8 +27,8 @@ def fill_hardship_pdf(v: HardshipDeclarationVariables, locale: str) -> bytes:
             Page(items=[]),
             Page(
                 items=[
-                    # TODO: Add index number.
-                    # TODO: Add county and court.
+                    Text(v.index_number or "", 288, 128),
+                    Text(v.county_and_court or "", 310, 160),
                     Text(v.address, 75, 324),
                     Text("X" if v.has_financial_hardship else "", 91, 410),
                 ]
@@ -36,6 +36,9 @@ def fill_hardship_pdf(v: HardshipDeclarationVariables, locale: str) -> bytes:
             Page(
                 items=[
                     Text("X" if v.has_health_risk else "", 91, 255),
+                    # Signature
+                    Text(v.name, 290, 540),
+                    # Printed name
                     Text(v.name, 290, 579),
                     Text(v.date, 290, 620),
                 ]
@@ -49,6 +52,8 @@ if __name__ == "__main__":
     b = fill_hardship_pdf(
         HardshipDeclarationVariables(
             address="654 Park Place, Brooklyn NY 11216",
+            index_number="123456",
+            county_and_court="Kings County",
             has_financial_hardship=True,
             has_health_risk=True,
             name="Boop Jones",

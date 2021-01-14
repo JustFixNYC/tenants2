@@ -79,19 +79,3 @@ def fill_hardship_pdf(v: HardshipDeclarationVariables, locale: str) -> bytes:
         raise NotImplementedError(f"Unimplemented locale: {locale}")
     overlay = Document(pages=pages)
     return overlay.overlay_atop(path).getvalue()
-
-
-if __name__ == "__main__":
-    b = fill_hardship_pdf(
-        HardshipDeclarationVariables(
-            address="654 Park Place, Brooklyn NY 11216",
-            index_number="123456",
-            county_and_court="Kings County",
-            has_financial_hardship=True,
-            has_health_risk=True,
-            name="Boop Jones",
-            date="January 1, 2021",
-        ),
-        "en",
-    )
-    Path("filled-declaration.pdf").write_bytes(b)

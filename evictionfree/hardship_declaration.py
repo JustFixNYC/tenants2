@@ -18,6 +18,17 @@ class HardshipDeclarationVariables(BaseModel):
     date: str
 
 
+EXAMPLE_VARIABLES = HardshipDeclarationVariables(
+    address="654 Park Place, Brooklyn NY 11216",
+    index_number="123456",
+    county_and_court="Kings County",
+    has_financial_hardship=True,
+    has_health_risk=True,
+    name="Boop Jones",
+    date="1/1/2021",
+)
+
+
 def _pages_en(v: HardshipDeclarationVariables) -> List[Page]:
     return [
         # First page has nothing to be filled out.
@@ -68,14 +79,16 @@ def _pages_es(v: HardshipDeclarationVariables) -> List[Page]:
     ]
 
 
+def get_pages(v: HardshipDeclarationVariables, locale: str) -> List[Page]:
+    if locale == "en":
+        return _pages_en(v)
+    elif locale == "es":
+        return _pages_es(v)
+    raise NotImplementedError(f"Unimplemented locale: {locale}")
+
+
 def fill_hardship_pdf(v: HardshipDeclarationVariables, locale: str) -> bytes:
     path = PDF_DIR / f"hardship-declaration-{locale}.pdf"
     assert path.exists()
-    if locale == "en":
-        pages = _pages_en(v)
-    elif locale == "es":
-        pages = _pages_es(v)
-    else:
-        raise NotImplementedError(f"Unimplemented locale: {locale}")
-    overlay = Document(pages=pages)
+    overlay = Document(pages=get_pages(v, locale))
     return overlay.overlay_atop(path).getvalue()

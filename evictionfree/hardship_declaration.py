@@ -27,8 +27,8 @@ def fill_hardship_pdf(v: HardshipDeclarationVariables, locale: str) -> bytes:
             Page(items=[]),
             Page(
                 items=[
-                    Text(v.index_number or "", 288, 128),
-                    Text(v.county_and_court or "", 310, 160),
+                    Text(v.index_number, 288, 128),
+                    Text(v.county_and_court, 310, 160),
                     Text(v.address, 75, 324),
                     Checkbox(v.has_financial_hardship, 91, 410),
                 ]

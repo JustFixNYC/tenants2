@@ -1,4 +1,4 @@
-from typing import List, NamedTuple, Union
+from typing import List, NamedTuple, Optional, Union
 from pathlib import Path
 from io import BytesIO
 from django.utils.html import escape
@@ -9,7 +9,9 @@ import PyPDF2
 DEFAULT_SIZE = 12
 
 
-def _text(value: str, x: int, y: int, size: int) -> str:
+def _text(value: Optional[str], x: int, y: int, size: int) -> str:
+    if not value:
+        return ""
     style = "; ".join(
         [
             "position: absolute",
@@ -23,7 +25,7 @@ def _text(value: str, x: int, y: int, size: int) -> str:
 
 
 class Text(NamedTuple):
-    value: str
+    value: Optional[str]
     x: int
     y: int
     size: int = DEFAULT_SIZE
@@ -39,7 +41,7 @@ class Checkbox(NamedTuple):
     size: int = DEFAULT_SIZE
 
     def __str__(self) -> str:
-        return _text("X" if self.value else "", self.x, self.y, self.size)
+        return _text("X" if self.value else None, self.x, self.y, self.size)
 
 
 PageItem = Union[Text, Checkbox]

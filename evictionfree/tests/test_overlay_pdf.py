@@ -25,3 +25,7 @@ def test_it_renders_pdf():
     b = result.getvalue()
     assert isinstance(b, bytes)
     assert len(b) > 0
+
+
+def test_empty_html_is_empty_str():
+    assert str(Text("", 5, 10)) == ""

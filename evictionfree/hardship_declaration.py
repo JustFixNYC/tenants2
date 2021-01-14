@@ -2,7 +2,7 @@ from typing import Optional
 from pathlib import Path
 from pydantic import BaseModel
 
-from .overlay_pdf import Text, Page, Document
+from .overlay_pdf import Text, Checkbox, Page, Document
 
 
 PDF_DIR = Path(__file__).parent.resolve() / "pdf"
@@ -30,12 +30,12 @@ def fill_hardship_pdf(v: HardshipDeclarationVariables, locale: str) -> bytes:
                     Text(v.index_number or "", 288, 128),
                     Text(v.county_and_court or "", 310, 160),
                     Text(v.address, 75, 324),
-                    Text("X" if v.has_financial_hardship else "", 91, 410),
+                    Checkbox(v.has_financial_hardship, 91, 410),
                 ]
             ),
             Page(
                 items=[
-                    Text("X" if v.has_health_risk else "", 91, 255),
+                    Checkbox(v.has_health_risk, 91, 255),
                     # Signature
                     Text(v.name, 290, 540),
                     # Printed name

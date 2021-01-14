@@ -1,4 +1,4 @@
-from typing import List, NamedTuple
+from typing import List, NamedTuple, Union
 from pathlib import Path
 from io import BytesIO
 from django.utils.html import escape
@@ -6,27 +6,47 @@ import weasyprint
 import PyPDF2
 
 
+DEFAULT_SIZE = 12
+
+
+def _text(value: str, x: int, y: int, size: int) -> str:
+    style = "; ".join(
+        [
+            "position: absolute",
+            f"top: {y}pt",
+            f"left: {x}pt",
+            f"white-space: pre-wrap",
+            f"font-size: {size}pt",
+        ]
+    )
+    return f'<div style="{style}">{escape(value)}</div>'
+
+
 class Text(NamedTuple):
     value: str
     x: int
     y: int
-    size: int = 12
+    size: int = DEFAULT_SIZE
 
     def __str__(self) -> str:
-        style = "; ".join(
-            [
-                "position: absolute",
-                f"top: {self.y}pt",
-                f"left: {self.x}pt",
-                f"white-space: pre-wrap",
-                f"font-size: {self.size}pt",
-            ]
-        )
-        return f'<div style="{style}">{escape(self.value)}</div>'
+        return _text(self.value, self.x, self.y, self.size)
+
+
+class Checkbox(NamedTuple):
+    value: bool
+    x: int
+    y: int
+    size: int = DEFAULT_SIZE
+
+    def __str__(self) -> str:
+        return _text("X" if self.value else "", self.x, self.y, self.size)
+
+
+PageItem = Union[Text, Checkbox]
 
 
 class Page(NamedTuple):
-    items: List[Text]
+    items: List[PageItem]
 
     def __str__(self) -> str:
         lines = "\n".join(str(item) for item in self.items)

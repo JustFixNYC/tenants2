@@ -56,6 +56,7 @@ if settings.DEBUG:
 urlpatterns += i18n_patterns(
     path("loc/", include("loc.urls")),
     path("hp/", include("hpaction.urls")),
+    path("evictionfree/", include("evictionfree.urls")),
     path("graphql", GraphQLView.as_view(batch=True), name="batch-graphql"),
     re_path(r".*$", frontend.views.react_rendered_view, name="react"),
 )

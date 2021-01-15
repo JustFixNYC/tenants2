@@ -9,12 +9,11 @@ import { createStartAccountOrLoginSteps } from "../../start-account-or-login/rou
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { NorentLetterBuilderRouteInfo } from "./route-info";
 import { NorentLbWelcome } from "./welcome";
-import { NorentLbAskName } from "./ask-name";
+import { AskNameStep } from "../../common-steps/ask-name";
 import { NorentLbAskCityState } from "./ask-city-state";
 import { NorentLbAskEmail } from "./ask-email";
 import { NorentLbAskNationalAddress } from "./ask-national-address";
 import { NorentLbAskNycAddress } from "./ask-nyc-address";
-import { ProgressStepRoute } from "../../progress/progress-step-route";
 import { isUserLoggedIn } from "../../util/session-predicates";
 import { NorentCreateAccount } from "./create-account";
 import { NorentConfirmation } from "./confirmation";
@@ -35,8 +34,10 @@ import { NorentRentPeriods } from "./rent-periods";
 import {
   hasNorentLetterBeenSentForAllRentPeriods,
   hasNorentLetterNeverBeenSent,
+  NorentOnboardingStep,
 } from "./step-decorators";
 import { NorentMenu } from "./menu";
+import { skipStepsIf } from "../../progress/skip-steps-if";
 
 function getLetterBuilderRoutes(): NorentLetterBuilderRouteInfo {
   return NorentRoutes.locale.letter;
@@ -65,6 +66,8 @@ function isUserInLA(s: AllSessionInfo): boolean {
 function isUserOutsideLA(s: AllSessionInfo): boolean {
   return !isUserInLA(s);
 }
+
+const NorentLbAskName = NorentOnboardingStep(AskNameStep);
 
 /**
  * This function defines all routes within the NoRent Letter Builder flow.
@@ -204,19 +207,3 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
 export const NorentLetterBuilderRoutes = buildProgressRoutesComponent(
   getNoRentLetterBuilderProgressRoutesProps
 );
-
-function skipStepsIf(
-  predicate: (s: AllSessionInfo) => boolean,
-  steps: ProgressStepRoute[]
-): ProgressStepRoute[] {
-  return steps.map((step) => {
-    return {
-      ...step,
-      shouldBeSkipped(s) {
-        if (predicate(s)) return true;
-        if (step.shouldBeSkipped) return step.shouldBeSkipped(s);
-        return false;
-      },
-    };
-  });
-}

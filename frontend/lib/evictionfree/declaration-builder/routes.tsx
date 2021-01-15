@@ -7,12 +7,19 @@ import {
   ProgressRoutesProps,
 } from "../../progress/progress-routes";
 import { skipStepsIf } from "../../progress/skip-steps-if";
+import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { createStartAccountOrLoginSteps } from "../../start-account-or-login/routes";
 import { isUserLoggedIn } from "../../util/session-predicates";
 import { EvictionFreeRoutes } from "../route-info";
 import { EvictionFreeDbConfirmation } from "./confirmation";
 import { EvictionFreeOnboardingStep } from "./step-decorators";
 import { EvictionFreeDbWelcome } from "./welcome";
+
+// TODO: An identical function exists in NoRent's codebase, ideally we should
+// consolidate.
+function isUserInNYC(s: AllSessionInfo): boolean {
+  return s.norentScaffolding?.isCityInNyc || false;
+}
 
 const EfAskName = EvictionFreeOnboardingStep(AskNameStep);
 
@@ -60,8 +67,7 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
         {
           path: routes.nationalAddress,
           exact: false,
-          // TODO: Uncomment the next line eventually.
-          // shouldBeSkipped: isUserInNYC,
+          shouldBeSkipped: isUserInNYC,
           component: EfAskNationalAddress,
         },
       ]),

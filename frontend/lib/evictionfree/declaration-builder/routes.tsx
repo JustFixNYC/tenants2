@@ -1,3 +1,5 @@
+import React from "react";
+import { AskCityState } from "../../common-steps/ask-city-state";
 import { AskNameStep } from "../../common-steps/ask-name";
 import {
   buildProgressRoutesComponent,
@@ -12,6 +14,15 @@ import { EvictionFreeOnboardingStep } from "./step-decorators";
 import { EvictionFreeDbWelcome } from "./welcome";
 
 const EfAskName = EvictionFreeOnboardingStep(AskNameStep);
+
+const EfAskCityState = EvictionFreeOnboardingStep((props) => (
+  <AskCityState
+    {...props}
+    confirmModalRoute={EvictionFreeRoutes.locale.declaration.cityConfirmModal}
+  >
+    <p>It's gotta be in New York.</p>
+  </AskCityState>
+));
 
 export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = EvictionFreeRoutes.locale.declaration;
@@ -33,6 +44,11 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
           path: routes.name,
           exact: true,
           component: EfAskName,
+        },
+        {
+          path: routes.city,
+          exact: false,
+          component: EfAskCityState,
         },
       ]),
     ],

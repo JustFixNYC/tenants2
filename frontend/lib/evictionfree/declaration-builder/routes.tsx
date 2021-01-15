@@ -2,6 +2,7 @@ import React from "react";
 import { AskCityState } from "../../common-steps/ask-city-state";
 import { AskNameStep } from "../../common-steps/ask-name";
 import { AskNationalAddress } from "../../common-steps/ask-national-address";
+import { AskNycAddress } from "../../common-steps/ask-nyc-address";
 import {
   buildProgressRoutesComponent,
   ProgressRoutesProps,
@@ -21,6 +22,12 @@ function isUserInNYC(s: AllSessionInfo): boolean {
   return s.norentScaffolding?.isCityInNyc || false;
 }
 
+// TODO: An identical function exists in NoRent's codebase, ideally we should
+// consolidate.
+function isUserOutsideNYC(s: AllSessionInfo): boolean {
+  return !isUserInNYC(s);
+}
+
 const EfAskName = EvictionFreeOnboardingStep(AskNameStep);
 
 const EfAskCityState = EvictionFreeOnboardingStep((props) => (
@@ -36,6 +43,17 @@ const EfAskNationalAddress = EvictionFreeOnboardingStep((props) => (
   <AskNationalAddress {...props} routes={EvictionFreeRoutes.locale.declaration}>
     <p>TODO: Add content here.</p>
   </AskNationalAddress>
+));
+
+const EfAskNycAddress = EvictionFreeOnboardingStep((props) => (
+  <AskNycAddress
+    {...props}
+    confirmModalRoute={
+      EvictionFreeRoutes.locale.declaration.nycAddressConfirmModal
+    }
+  >
+    <p>TODO: Add content here.</p>
+  </AskNycAddress>
 ));
 
 export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): ProgressRoutesProps => {
@@ -69,6 +87,12 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
           exact: false,
           shouldBeSkipped: isUserInNYC,
           component: EfAskNationalAddress,
+        },
+        {
+          path: routes.nycAddress,
+          exact: false,
+          shouldBeSkipped: isUserOutsideNYC,
+          component: EfAskNycAddress,
         },
       ]),
     ],

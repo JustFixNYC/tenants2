@@ -1,10 +1,10 @@
 import React from "react";
-import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
-import { ProgressButtonsAsLinks } from "../../ui/buttons";
-import { li18n } from "../../i18n-lingui";
+import { Modal, BackOrUpOneDirLevel } from "./modal";
+import { ProgressButtonsAsLinks } from "./buttons";
+import { li18n } from "../i18n-lingui";
 import { t } from "@lingui/macro";
 
-type NorentConfirmationModalProps = {
+type YesNoConfirmationModalProps = {
   nextStep: string;
   children: React.ReactNode;
   title: string;
@@ -21,7 +21,7 @@ type NorentConfirmationModalProps = {
  * it's on is at `/foo/bar`, then the modal itself can be at
  * `/foo/bar/confirmation-modal`.
  */
-export const NorentConfirmationModal: React.FC<NorentConfirmationModalProps> = (
+export const YesNoConfirmationModal: React.FC<YesNoConfirmationModalProps> = (
   props
 ) => {
   return (

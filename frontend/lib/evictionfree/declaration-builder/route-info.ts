@@ -12,6 +12,8 @@ export function createEvictionFreeDeclarationBuilderRouteInfo(prefix: string) {
     welcome: `${prefix}/welcome`,
     ...createStartAccountOrLoginRouteInfo(prefix),
     name: `${prefix}/name`,
+    city: `${prefix}/city`,
+    cityConfirmModal: `${prefix}/city/confirm-modal`,
     confirmation: `${prefix}/confirmation`,
   };
 }

@@ -1,14 +1,14 @@
 import React from "react";
-import { AppTesterPal } from "../../../tests/app-tester-pal";
-import { NorentConfirmationModal } from "../confirmation-modal";
+import { AppTesterPal } from "../../tests/app-tester-pal";
+import { YesNoConfirmationModal } from "../confirmation-modal";
 
 describe("ConfirmationModal", () => {
   it("should work", () => {
     const pal = new AppTesterPal(
       (
-        <NorentConfirmationModal title="Confirm this!" nextStep="/blah">
+        <YesNoConfirmationModal title="Confirm this!" nextStep="/blah">
           <p>Are you sure you want to bust forth?</p>
-        </NorentConfirmationModal>
+        </YesNoConfirmationModal>
       ),
       { url: "/foo/confirm-modal" }
     );

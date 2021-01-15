@@ -16,7 +16,7 @@ import {
   createAptNumberFormInput,
   AptNumberFormFields,
 } from "../../forms/apt-number-form-fields";
-import { NorentConfirmationModal } from "./confirmation-modal";
+import { YesNoConfirmationModal } from "../../ui/confirmation-modal";
 import { AppContext } from "../../app-context";
 import { NorentRoutes } from "../route-info";
 import { Route } from "react-router-dom";
@@ -57,7 +57,7 @@ const ScaffoldingAddress: React.FC<{}> = (props) => {
 
 const ConfirmValidAddressModal: React.FC<{ nextStep: string }> = (props) => {
   return (
-    <NorentConfirmationModal
+    <YesNoConfirmationModal
       title={li18n._(t`Confirming the address`)}
       nextStep={props.nextStep}
     >
@@ -68,13 +68,13 @@ const ConfirmValidAddressModal: React.FC<{ nextStep: string }> = (props) => {
         </Trans>
       </p>
       <ScaffoldingAddress />
-    </NorentConfirmationModal>
+    </YesNoConfirmationModal>
   );
 };
 
 const ConfirmInvalidAddressModal: React.FC<{ nextStep: string }> = (props) => {
   return (
-    <NorentConfirmationModal
+    <YesNoConfirmationModal
       title={li18n._(t`Our records tell us that this address is invalid.`)}
       nextStep={props.nextStep}
     >
@@ -84,7 +84,7 @@ const ConfirmInvalidAddressModal: React.FC<{ nextStep: string }> = (props) => {
         </Trans>
       </p>
       <ScaffoldingAddress />
-    </NorentConfirmationModal>
+    </YesNoConfirmationModal>
   );
 };
 

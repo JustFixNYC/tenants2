@@ -23,7 +23,7 @@ import {
   AptNumberFormFields,
   createAptNumberFormInput,
 } from "../../forms/apt-number-form-fields";
-import { NorentConfirmationModal } from "./confirmation-modal";
+import { YesNoConfirmationModal } from "../../ui/confirmation-modal";
 import { NorentOnboardingStep } from "./step-decorators";
 import { li18n } from "../../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
@@ -39,7 +39,7 @@ const ConfirmNycAddressModal: React.FC<{
   }
 
   return (
-    <NorentConfirmationModal
+    <YesNoConfirmationModal
       title={li18n._(t`Confirming the address`)}
       nextStep={nextStep}
     >
@@ -52,7 +52,7 @@ const ConfirmNycAddressModal: React.FC<{
       <p className="content is-italic">
         {addrInfo.address}, {borough}
       </p>
-    </NorentConfirmationModal>
+    </YesNoConfirmationModal>
   );
 };
 

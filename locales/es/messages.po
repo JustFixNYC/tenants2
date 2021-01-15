@@ -384,7 +384,7 @@ msgstr "Confirma tu nueva contraseña"
 msgid "Confirming the address"
 msgstr "Confirmando la dirección"
 
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:21
+#: frontend/lib/common-steps/ask-city-state.tsx:16
 msgid "Confirming the city"
 msgstr "Confirmando la ciudad"
 
@@ -462,7 +462,7 @@ msgstr "¿Necesito enviar esta declaración cada mes?"
 msgid "Do I still have to pay my rent?"
 msgstr "¿Aún tengo que pagar la renta?"
 
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:23
+#: frontend/lib/common-steps/ask-city-state.tsx:18
 msgid "Do you live in {0}, {1}?"
 msgstr "¿Vives en {0}, {1}?"
 
@@ -1161,8 +1161,8 @@ msgid "Next"
 msgstr "Continuar"
 
 #: frontend/lib/forms/yes-no-radios-form-field.tsx:27
-#: frontend/lib/norent/letter-builder/confirmation-modal.tsx:20
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:28
+#: frontend/lib/ui/confirmation-modal.tsx:20
 msgid "No"
 msgstr "No"
 
@@ -1882,7 +1882,7 @@ msgstr "¡Hola de nuevo!"
 msgid "West Virginia"
 msgstr "Virginia Occidental"
 
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:36
+#: frontend/lib/norent/letter-builder/ask-city-state.tsx:8
 msgid "We’ll use this information to pull the most up-to-date ordinances that protect your rights as a tenant in your letter."
 msgstr "Utilizaremos esta información para obtener las ordenanzas actuales que protegen tus derechos como inquilino y así citarlas en tu carta."
 
@@ -1956,7 +1956,7 @@ msgstr "¿Qué tipo de documentación debo recopilar para demostrar que no puedo
 msgid "Where do I find this information?"
 msgstr "¿Dónde encuentro esta información?"
 
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:33
+#: frontend/lib/common-steps/ask-city-state.tsx:25
 msgid "Where do you live?"
 msgstr "¿Dónde vives?"
 
@@ -2023,8 +2023,8 @@ msgid "Wyoming"
 msgstr "Wyoming"
 
 #: frontend/lib/forms/yes-no-radios-form-field.tsx:26
-#: frontend/lib/norent/letter-builder/confirmation-modal.tsx:20
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:30
+#: frontend/lib/ui/confirmation-modal.tsx:20
 msgid "Yes"
 msgstr "Si"
 

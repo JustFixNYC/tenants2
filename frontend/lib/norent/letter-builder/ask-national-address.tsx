@@ -27,8 +27,7 @@ import { useIsOnboardingUserInStateWithProtections } from "./national-metadata";
 import { NorentOnboardingStep } from "./step-decorators";
 import { li18n } from "../../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
-
-const getRoutes = () => NorentRoutes.locale.letter;
+import { MiddleProgressStepProps } from "../../progress/progress-step-route";
 
 function getNationalAddressLines(
   scf: AllSessionInfo_norentScaffolding
@@ -99,12 +98,13 @@ function getInitialState(s: AllSessionInfo): NorentNationalAddressInput {
 }
 
 function getSuccessRedirect(
+  routes: NationalAddressModalRoutes,
   nextStep: string,
   output: NorentNationalAddressMutation_output,
   input: NorentNationalAddressInput
 ): string {
   if (output.isValid === false) {
-    return getRoutes().nationalAddressConfirmInvalidModal;
+    return routes.nationalAddressConfirmInvalidModal;
   }
   if (output.isValid) {
     const scf = output.session?.norentScaffolding ?? hardFail();
@@ -112,7 +112,7 @@ function getSuccessRedirect(
       !areAddressesTheSame(input.zipCode, scf.zipCode) ||
       !areAddressesTheSame(input.street, scf.street)
     ) {
-      return getRoutes().nationalAddressConfirmModal;
+      return routes.nationalAddressConfirmModal;
     }
   }
   return nextStep;
@@ -125,60 +125,77 @@ export const NorentLbAskNationalAddress_forUnitTests = {
   getNationalAddressLines,
 };
 
+export type NationalAddressModalRoutes = {
+  nationalAddressConfirmModal: string;
+  nationalAddressConfirmInvalidModal: string;
+};
+
+const AskNationalAddress: React.FC<
+  MiddleProgressStepProps & {
+    children: JSX.Element;
+    routes: NationalAddressModalRoutes;
+  }
+> = (props) => (
+  <Page title={li18n._(t`Your residence`)} withHeading="big">
+    <div className="content">{props.children}</div>
+    <SessionUpdatingFormSubmitter
+      mutation={NorentNationalAddressMutation}
+      initialState={getInitialState}
+      onSuccessRedirect={getSuccessRedirect.bind(
+        null,
+        props.routes,
+        props.nextStep
+      )}
+    >
+      {(ctx) => (
+        <>
+          <TextualFormField
+            {...ctx.fieldPropsFor("street")}
+            label={li18n._(t`Address`)}
+          />
+          <AptNumberFormFields
+            aptNumberProps={ctx.fieldPropsFor("aptNumber")}
+            noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
+            aptNumberLabel={li18n._(t`Unit/apt/lot/suite number`)}
+          />
+          <TextualFormField
+            {...ctx.fieldPropsFor("zipCode")}
+            label={li18n._(t`Zip code`)}
+          />
+          <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
+        </>
+      )}
+    </SessionUpdatingFormSubmitter>
+    <Route
+      path={props.routes.nationalAddressConfirmModal}
+      render={() => <ConfirmValidAddressModal {...props} />}
+    />
+    <Route
+      path={props.routes.nationalAddressConfirmInvalidModal}
+      render={() => <ConfirmInvalidAddressModal {...props} />}
+    />
+  </Page>
+);
+
 export const NorentLbAskNationalAddress = NorentOnboardingStep((props) => {
-  const onSuccessRedirect = getSuccessRedirect.bind(null, props.nextStep);
   const isWritingLetter = useIsOnboardingUserInStateWithProtections();
 
   return (
-    <Page title={li18n._(t`Your residence`)} withHeading="big">
-      <div className="content">
-        {isWritingLetter ? (
-          <p>
-            <Trans>
-              We'll include this information in the letter to your landlord.
-            </Trans>
-          </p>
-        ) : (
-          <p>
-            <Trans>
-              We’ll use this to reference the latest policies that protect your
-              rights as a tenant.
-            </Trans>
-          </p>
-        )}
-      </div>
-      <SessionUpdatingFormSubmitter
-        mutation={NorentNationalAddressMutation}
-        initialState={getInitialState}
-        onSuccessRedirect={onSuccessRedirect}
-      >
-        {(ctx) => (
-          <>
-            <TextualFormField
-              {...ctx.fieldPropsFor("street")}
-              label={li18n._(t`Address`)}
-            />
-            <AptNumberFormFields
-              aptNumberProps={ctx.fieldPropsFor("aptNumber")}
-              noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
-              aptNumberLabel={li18n._(t`Unit/apt/lot/suite number`)}
-            />
-            <TextualFormField
-              {...ctx.fieldPropsFor("zipCode")}
-              label={li18n._(t`Zip code`)}
-            />
-            <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
-          </>
-        )}
-      </SessionUpdatingFormSubmitter>
-      <Route
-        path={getRoutes().nationalAddressConfirmModal}
-        render={() => <ConfirmValidAddressModal {...props} />}
-      />
-      <Route
-        path={getRoutes().nationalAddressConfirmInvalidModal}
-        render={() => <ConfirmInvalidAddressModal {...props} />}
-      />
-    </Page>
+    <AskNationalAddress {...props} routes={NorentRoutes.locale.letter}>
+      {isWritingLetter ? (
+        <p>
+          <Trans>
+            We'll include this information in the letter to your landlord.
+          </Trans>
+        </p>
+      ) : (
+        <p>
+          <Trans>
+            We’ll use this to reference the latest policies that protect your
+            rights as a tenant.
+          </Trans>
+        </p>
+      )}
+    </AskNationalAddress>
   );
 });

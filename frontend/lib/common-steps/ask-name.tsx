@@ -1,14 +1,14 @@
 import React from "react";
-import Page from "../../ui/page";
-import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import { NorentFullNameMutation } from "../../queries/NorentFullNameMutation";
-import { TextualFormField } from "../../forms/form-fields";
-import { ProgressButtons } from "../../ui/buttons";
-import { NorentOnboardingStep } from "./step-decorators";
-import { li18n } from "../../i18n-lingui";
+import Page from "../ui/page";
+import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
+import { NorentFullNameMutation } from "../queries/NorentFullNameMutation";
+import { TextualFormField } from "../forms/form-fields";
+import { ProgressButtons } from "../ui/buttons";
+import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
+import { MiddleProgressStepProps } from "../progress/progress-step-route";
 
-export const NorentLbAskName = NorentOnboardingStep((props) => {
+export const AskNameStep: React.FC<MiddleProgressStepProps> = (props) => {
   return (
     <Page title={li18n._(t`It’s your first time here!`)} withHeading="big">
       <div className="content">
@@ -41,4 +41,4 @@ export const NorentLbAskName = NorentOnboardingStep((props) => {
       </SessionUpdatingFormSubmitter>
     </Page>
   );
-});
+};

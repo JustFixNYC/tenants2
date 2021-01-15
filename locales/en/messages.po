@@ -375,7 +375,7 @@ msgid "Confirm your new password"
 msgstr "Confirm your new password"
 
 #: frontend/lib/common-steps/ask-national-address.tsx:33
-#: frontend/lib/norent/letter-builder/ask-nyc-address.tsx:25
+#: frontend/lib/common-steps/ask-nyc-address.tsx:23
 msgid "Confirming the address"
 msgstr "Confirming the address"
 
@@ -1259,7 +1259,7 @@ msgid "Our letter cites the most up-to-date legal ordinances that protect tenant
 msgstr "Our letter cites the most up-to-date legal ordinances that protect tenant rights in your state."
 
 #: frontend/lib/common-steps/ask-national-address.tsx:35
-#: frontend/lib/norent/letter-builder/ask-nyc-address.tsx:27
+#: frontend/lib/common-steps/ask-nyc-address.tsx:25
 msgid "Our records have shown us a similar address. Would you like to proceed with this address:"
 msgstr "Our records have shown us a similar address. Would you like to proceed with this address:"
 
@@ -1842,7 +1842,7 @@ msgid "We will be mailing this letter on your behalf by USPS certified mail and 
 msgstr "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:11
-#: frontend/lib/norent/letter-builder/ask-nyc-address.tsx:45
+#: frontend/lib/norent/letter-builder/ask-nyc-address.tsx:9
 msgid "We'll include this information in the letter to your landlord."
 msgstr "We'll include this information in the letter to your landlord."
 
@@ -2165,7 +2165,7 @@ msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure
 msgstr "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 
 #: frontend/lib/common-steps/ask-national-address.tsx:77
-#: frontend/lib/norent/letter-builder/ask-nyc-address.tsx:42
+#: frontend/lib/common-steps/ask-nyc-address.tsx:39
 msgid "Your residence"
 msgstr "Your residence"
 

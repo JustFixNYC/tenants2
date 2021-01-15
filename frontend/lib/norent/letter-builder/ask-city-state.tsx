@@ -4,7 +4,7 @@ import Page from "../../ui/page";
 import { NorentCityStateMutation } from "../../queries/NorentCityStateMutation";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { ProgressButtons } from "../../ui/buttons";
-import { NorentConfirmationModal } from "./confirmation-modal";
+import { YesNoConfirmationModal } from "../../ui/confirmation-modal";
 import { AppContext } from "../../app-context";
 import { hardFail } from "../../util/util";
 import { NorentRoutes } from "../route-info";
@@ -22,7 +22,7 @@ const ConfirmCityModal: React.FC<{ nextStep: string }> = (props) => {
   const scf = useContext(AppContext).session.norentScaffolding;
 
   return (
-    <NorentConfirmationModal
+    <YesNoConfirmationModal
       nextStep={props.nextStep}
       title={li18n._(t`Confirming the city`)}
     >
@@ -31,7 +31,7 @@ const ConfirmCityModal: React.FC<{ nextStep: string }> = (props) => {
           Do you live in {scf?.city}, {scf?.state}?
         </Trans>
       </p>
-    </NorentConfirmationModal>
+    </YesNoConfirmationModal>
   );
 };
 

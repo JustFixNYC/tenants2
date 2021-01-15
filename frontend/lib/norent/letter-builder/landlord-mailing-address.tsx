@@ -14,7 +14,7 @@ import { USStateFormField } from "../../forms/mailing-address-fields";
 import { NorentRoutes } from "../route-info";
 import { Route } from "react-router-dom";
 import { AppContext } from "../../app-context";
-import { NorentConfirmationModal } from "./confirmation-modal";
+import { YesNoConfirmationModal } from "../../ui/confirmation-modal";
 import { BreaksBetweenLines } from "../../ui/breaks-between-lines";
 import { NorentNotSentLetterStep } from "./step-decorators";
 import { li18n } from "../../i18n-lingui";
@@ -28,7 +28,7 @@ const ConfirmAddressModal: React.FC<{ nextStep: string }> = ({ nextStep }) => {
   const { landlordDetails } = useContext(AppContext).session;
 
   return (
-    <NorentConfirmationModal
+    <YesNoConfirmationModal
       title={li18n._(
         t`Our records tell us that this address is undeliverable.`
       )}
@@ -40,7 +40,7 @@ const ConfirmAddressModal: React.FC<{ nextStep: string }> = ({ nextStep }) => {
       <p className="content is-italic">
         <BreaksBetweenLines lines={landlordDetails?.address || ""} />
       </p>
-    </NorentConfirmationModal>
+    </YesNoConfirmationModal>
   );
 };
 

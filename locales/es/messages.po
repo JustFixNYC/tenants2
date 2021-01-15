@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-13 15:52\n"
+"PO-Revision-Date: 2021-01-15 14:33\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -400,8 +400,8 @@ msgstr "Poniéndose en contacto con otros"
 msgid "Contact a lawyer if your landlord retaliates"
 msgstr "Ponte en contacto con un abogado si el dueño de tu edificio toma represalias"
 
-#: frontend/lib/norent/letter-builder/error-pages.tsx:32
-#: frontend/lib/norent/letter-builder/error-pages.tsx:44
+#: frontend/lib/common-steps/error-pages.tsx:19
+#: frontend/lib/norent/letter-builder/error-pages.tsx:20
 #: frontend/lib/rh/routes.tsx:201
 msgid "Continue"
 msgstr "Continuar"
@@ -410,7 +410,7 @@ msgstr "Continuar"
 msgid "Continue anyway"
 msgstr "Aún así continuar"
 
-#: frontend/lib/norent/letter-builder/error-pages.tsx:25
+#: frontend/lib/norent/letter-builder/error-pages.tsx:13
 msgid "Continue to the confirmation page for information about the last letter you sent and next steps you can take."
 msgstr "Sigue a la página de confirmación para obtener información sobre la última carta que enviaste y los siguientes pasos que puedes tomar."
 
@@ -578,7 +578,7 @@ msgstr "Lucha contra un desalojo"
 msgid "Find out more"
 msgstr "Más información"
 
-#: frontend/lib/norent/letter-builder/ask-name.tsx:26
+#: frontend/lib/common-steps/ask-name.tsx:25
 #: frontend/lib/rh/routes.tsx:113
 msgid "First name"
 msgstr "Nombre"
@@ -781,7 +781,7 @@ msgstr "Si tiene preguntas sobre tus derechos como inquilino/a, por favor <0>con
 msgid "If you have received a Notice to Pay Rent or Quit or any other type of eviction notice, sign up for a workshop and/or get legal help at <0>StayHousedLA.org</0>."
 msgstr "Si has recibido un Aviso de Pago de Renta (Notice to Pay Rent en inglés) o un Aviso de Desalojo (Notice to Quit en inglés) o cualquier otro tipo de aviso, inscríbete a un taller y/o consigue ayuda legal en <0>StayHousedLA.org</0>."
 
-#: frontend/lib/norent/letter-builder/error-pages.tsx:37
+#: frontend/lib/common-steps/error-pages.tsx:12
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
 msgstr "Si necesitas cambiar tu nombre o tu información de contacto, ponte en contacto con <0/>."
 
@@ -864,7 +864,7 @@ msgstr "Puede ser que el dueño de tu edificio tome represalias tras recibir tu 
 msgid "It’s unlikely that your apartment is rent stabilized"
 msgstr "Es poco probable que tu apartamento sea de renta estabilizada"
 
-#: frontend/lib/norent/letter-builder/ask-name.tsx:11
+#: frontend/lib/common-steps/ask-name.tsx:10
 msgid "It’s your first time here!"
 msgstr "¡Es la primera vez que estás aquí!"
 
@@ -912,7 +912,7 @@ msgstr "Nombre del dueño o manager de tu edificio"
 msgid "Language:"
 msgstr "Idioma:"
 
-#: frontend/lib/norent/letter-builder/ask-name.tsx:27
+#: frontend/lib/common-steps/ask-name.tsx:26
 #: frontend/lib/rh/routes.tsx:116
 msgid "Last name"
 msgstr "Apellido"
@@ -955,7 +955,7 @@ msgstr "Protecciones jurídicas"
 msgid "Legally vetted"
 msgstr "Verificado legalmente"
 
-#: frontend/lib/norent/letter-builder/ask-name.tsx:14
+#: frontend/lib/common-steps/ask-name.tsx:13
 msgid "Let's get to know you."
 msgstr "Conozcámonos."
 
@@ -979,8 +979,8 @@ msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información, baja
 msgid "Locally supported"
 msgstr "Con apoyo local"
 
+#: frontend/lib/common-steps/error-pages.tsx:28
 #: frontend/lib/evictionfree/site.tsx:36
-#: frontend/lib/norent/letter-builder/error-pages.tsx:19
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Iniciar sesión"
@@ -991,7 +991,7 @@ msgstr "Iniciar sesión"
 msgid "Log out"
 msgstr "Cerrar sesión"
 
-#: frontend/lib/norent/letter-builder/error-pages.tsx:35
+#: frontend/lib/common-steps/error-pages.tsx:10
 msgid "Looks like you're already logged in"
 msgstr "Parece ser que ya has iniciado tu sesión"
 
@@ -999,7 +999,7 @@ msgstr "Parece ser que ya has iniciado tu sesión"
 msgid "Looks like you're in <0>Los Angeles County, California</0>"
 msgstr "Parece que estás en <0>el Condado de Los Angeles, California</0>"
 
-#: frontend/lib/norent/letter-builder/error-pages.tsx:13
+#: frontend/lib/common-steps/error-pages.tsx:22
 msgid "Looks like you're not logged in"
 msgstr "Parece que no has iniciado ninguna sesión"
 
@@ -1545,7 +1545,7 @@ msgstr "Cerrar sesión"
 msgid "Sign the petition"
 msgstr "Firmar la petición"
 
-#: frontend/lib/norent/letter-builder/error-pages.tsx:15
+#: frontend/lib/common-steps/error-pages.tsx:24
 msgid "Sign up or log in to your account to access our tool."
 msgstr "Regístrate o inicia una sesión en tu cuenta para acceder a nuestra herramienta."
 
@@ -2056,7 +2056,7 @@ msgstr "Puedes contactar Acciones Estratégicas para una Economía Justa (SAJE) 
 msgid "You can send an additional letter for other months when you couldn't pay rent."
 msgstr "Puedes enviar otra carta para indicar los demás meses en que no hayas podido pagar la renta."
 
-#: frontend/lib/norent/letter-builder/error-pages.tsx:22
+#: frontend/lib/norent/letter-builder/error-pages.tsx:10
 msgid "You can't send any more letters"
 msgstr "No puedes enviar más cartas"
 

@@ -14,6 +14,9 @@ export function createEvictionFreeDeclarationBuilderRouteInfo(prefix: string) {
     name: `${prefix}/name`,
     city: `${prefix}/city`,
     cityConfirmModal: `${prefix}/city/confirm-modal`,
+    nationalAddress: `${prefix}/address/national`,
+    nationalAddressConfirmModal: `${prefix}/address/national/confirm-modal`,
+    nationalAddressConfirmInvalidModal: `${prefix}/address/national/confirm-invalid-modal`,
     confirmation: `${prefix}/confirmation`,
   };
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { AskCityState } from "../../common-steps/ask-city-state";
 import { AskNameStep } from "../../common-steps/ask-name";
+import { AskNationalAddress } from "../../common-steps/ask-national-address";
 import {
   buildProgressRoutesComponent,
   ProgressRoutesProps,
@@ -22,6 +23,12 @@ const EfAskCityState = EvictionFreeOnboardingStep((props) => (
   >
     <p>It's gotta be in New York.</p>
   </AskCityState>
+));
+
+const EfAskNationalAddress = EvictionFreeOnboardingStep((props) => (
+  <AskNationalAddress {...props} routes={EvictionFreeRoutes.locale.declaration}>
+    <p>TODO: Add content here.</p>
+  </AskNationalAddress>
 ));
 
 export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): ProgressRoutesProps => {
@@ -49,6 +56,13 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
           path: routes.city,
           exact: false,
           component: EfAskCityState,
+        },
+        {
+          path: routes.nationalAddress,
+          exact: false,
+          // TODO: Uncomment the next line eventually.
+          // shouldBeSkipped: isUserInNYC,
+          component: EfAskNationalAddress,
         },
       ]),
     ],

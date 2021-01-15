@@ -379,7 +379,7 @@ msgstr "Confirm your new password"
 msgid "Confirming the address"
 msgstr "Confirming the address"
 
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:21
+#: frontend/lib/common-steps/ask-city-state.tsx:16
 msgid "Confirming the city"
 msgstr "Confirming the city"
 
@@ -457,7 +457,7 @@ msgstr "Do I need to send this declaration every month?"
 msgid "Do I still have to pay my rent?"
 msgstr "Do I still have to pay my rent?"
 
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:23
+#: frontend/lib/common-steps/ask-city-state.tsx:18
 msgid "Do you live in {0}, {1}?"
 msgstr "Do you live in {0}, {1}?"
 
@@ -1156,8 +1156,8 @@ msgid "Next"
 msgstr "Next"
 
 #: frontend/lib/forms/yes-no-radios-form-field.tsx:27
-#: frontend/lib/norent/letter-builder/confirmation-modal.tsx:20
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:28
+#: frontend/lib/ui/confirmation-modal.tsx:20
 msgid "No"
 msgstr "No"
 
@@ -1877,7 +1877,7 @@ msgstr "Welcome back!"
 msgid "West Virginia"
 msgstr "West Virginia"
 
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:36
+#: frontend/lib/norent/letter-builder/ask-city-state.tsx:8
 msgid "We’ll use this information to pull the most up-to-date ordinances that protect your rights as a tenant in your letter."
 msgstr "We’ll use this information to pull the most up-to-date ordinances that protect your rights as a tenant in your letter."
 
@@ -1951,7 +1951,7 @@ msgstr "What kind of documentation should I collect to prove I can’t pay rent?
 msgid "Where do I find this information?"
 msgstr "Where do I find this information?"
 
-#: frontend/lib/norent/letter-builder/ask-city-state.tsx:33
+#: frontend/lib/common-steps/ask-city-state.tsx:25
 msgid "Where do you live?"
 msgstr "Where do you live?"
 
@@ -2018,8 +2018,8 @@ msgid "Wyoming"
 msgstr "Wyoming"
 
 #: frontend/lib/forms/yes-no-radios-form-field.tsx:26
-#: frontend/lib/norent/letter-builder/confirmation-modal.tsx:20
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:30
+#: frontend/lib/ui/confirmation-modal.tsx:20
 msgid "Yes"
 msgstr "Yes"
 

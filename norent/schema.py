@@ -422,6 +422,8 @@ class BaseCreateAccount(SessionFormMutation):
     class Meta:
         abstract = True
 
+    require_email = True
+
     signup_intent: str = ""
 
     @classmethod
@@ -453,9 +455,9 @@ class BaseCreateAccount(SessionFormMutation):
     def get_previous_step_info(cls, request) -> Optional[Dict[str, Any]]:
         scf = get_scaffolding(request)
         phone_number = get_last_queried_phone_number(request)
-        if not are_all_truthy(
-            phone_number, scf.first_name, scf.last_name, scf.city, scf.state, scf.email
-        ):
+        if cls.require_email and not scf.email:
+            return None
+        if not are_all_truthy(phone_number, scf.first_name, scf.last_name, scf.city, scf.state):
             return None
         assert cls.signup_intent, "signup_intent must be set on class!"
         info: Dict[str, Any] = {

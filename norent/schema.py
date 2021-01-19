@@ -473,11 +473,11 @@ class BaseCreateAccount(SessionFormMutation):
         return cls.fill_city_info(request, info, scf)
 
     @classmethod
-    def update_onboarding_info(cls, info: Dict[str, Any]):
+    def update_onboarding_info(cls, form, info: Dict[str, Any]):
         pass
 
     @classmethod
-    def perform_post_onboarding(cls, request: HttpRequest, user: JustfixUser):
+    def perform_post_onboarding(cls, form, request: HttpRequest, user: JustfixUser):
         pass
 
     @classmethod
@@ -489,9 +489,9 @@ class BaseCreateAccount(SessionFormMutation):
             cls.log(info, "User has not completed previous steps, aborting mutation.")
             return cls.make_error("You haven't completed all the previous steps yet.")
         allinfo.update(form.cleaned_data)
-        cls.update_onboarding_info(allinfo)
+        cls.update_onboarding_info(form, allinfo)
         user = complete_onboarding(request, info=allinfo, password=password)
-        cls.perform_post_onboarding(request, user)
+        cls.perform_post_onboarding(form, request, user)
 
         purge_last_queried_phone_number(request)
         OnboardingStep1Info.clear_from_request(request)
@@ -508,11 +508,11 @@ class NorentCreateAccount(BaseCreateAccount):
     signup_intent = SIGNUP_INTENT_CHOICES.NORENT
 
     @classmethod
-    def update_onboarding_info(cls, info: Dict[str, Any]):
+    def update_onboarding_info(cls, form, info: Dict[str, Any]):
         info["agreed_to_norent_terms"] = True
 
     @classmethod
-    def perform_post_onboarding(cls, request: HttpRequest, user: JustfixUser):
+    def perform_post_onboarding(cls, form, request: HttpRequest, user: JustfixUser):
         user.send_sms_async(
             _(
                 "Welcome to %(site_name)s, a product by JustFix.nyc. "

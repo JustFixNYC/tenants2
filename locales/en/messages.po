@@ -366,6 +366,7 @@ msgstr "Come back next month to send another letter if you still can't pay rent.
 msgid "Community Justice Project"
 msgstr "Community Justice Project"
 
+#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:26
 #: frontend/lib/norent/letter-builder/create-account.tsx:35
 msgid "Confirm password"
 msgstr "Confirm password"
@@ -1282,6 +1283,7 @@ msgstr "Outlets not working"
 msgid "Painting overdue (3 years)"
 msgstr "Painting overdue (3 years)"
 
+#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:25
 #: frontend/lib/norent/letter-builder/create-account.tsx:34
 #: frontend/lib/start-account-or-login/verify-password.tsx:61
 msgid "Password"
@@ -1480,6 +1482,7 @@ msgstr "Sending a letter to your landlord is a big step. Here are a few <0>frequ
 msgid "Separate letters for each month starting in September when you couldn't pay rent in full."
 msgstr "Separate letters for each month starting in September when you couldn't pay rent in full."
 
+#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:16
 #: frontend/lib/norent/letter-builder/create-account.tsx:18
 msgid "Set up an account"
 msgstr "Set up an account"
@@ -2023,6 +2026,7 @@ msgstr "Wyoming"
 msgid "Yes"
 msgstr "Yes"
 
+#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:28
 #: frontend/lib/norent/letter-builder/create-account.tsx:37
 msgid "Yes, JustFix.nyc can text me to follow up about my housing issues."
 msgstr "Yes, JustFix.nyc can text me to follow up about my housing issues."

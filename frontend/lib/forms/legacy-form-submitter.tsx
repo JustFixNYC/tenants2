@@ -101,7 +101,6 @@ function LegacyFormSubmissionWrapper<
     isSubmissionOurs: (submission: AppLegacyFormSubmission) => boolean;
   }
 ) {
-  console.log("HMM", props.location.search);
   return (
     <AppContext.Consumer>
       {(appCtx) => {

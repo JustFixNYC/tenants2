@@ -1,21 +1,33 @@
-import React, { useContext } from "react";
+import React from "react";
 import Page from "../../ui/page";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import { TextualFormField, CheckboxFormField } from "../../forms/form-fields";
-import { ProgressButtons, ProgressButtonsAsLinks } from "../../ui/buttons";
+import {
+  TextualFormField,
+  CheckboxFormField,
+  HiddenFormField,
+} from "../../forms/form-fields";
+import { ProgressButtons } from "../../ui/buttons";
 import { MiddleProgressStepProps } from "../../progress/progress-step-route";
 import { NorentLandlordNameAndContactTypesMutation } from "../../queries/NorentLandlordNameAndContactTypesMutation";
-import { AllSessionInfo_landlordDetails } from "../../queries/AllSessionInfo";
-import { AppContext } from "../../app-context";
 import { Accordion } from "../../ui/accordion";
 import { NorentNotSentLetterStep } from "./step-decorators";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
-import { RecommendedLandlordInfo } from "../../ui/landlord";
+import {
+  LandlordPageContent,
+  RecommendedLandlordInfo,
+  RenderReadOnlyLandlordDetailsOptions,
+} from "../../ui/landlord";
+import { QueryLoader } from "../../networking/query-loader";
+import { RecommendedLocLandlord } from "../../queries/RecommendedLocLandlord";
+import { Link } from "react-router-dom";
+import { LocLandlordInfoMutation } from "../../queries/LocLandlordInfoMutation";
+import { SingletonFormset } from "../../forms/formset";
 
-const ReadOnlyLandlordDetails: React.FC<
-  MiddleProgressStepProps & { details: AllSessionInfo_landlordDetails }
-> = ({ details, nextStep, prevStep }) => {
+const ReadOnlyLandlordDetails: React.FC<RenderReadOnlyLandlordDetailsOptions> = ({
+  landlord,
+  forceManualHref,
+}) => {
   return (
     <div className="content">
       <RecommendedLandlordInfo
@@ -29,9 +41,13 @@ const ReadOnlyLandlordDetails: React.FC<
             <p>We will use this address to ensure your landlord receives it.</p>
           </Trans>
         }
-        landlord={details}
+        landlord={landlord}
       />
-      <ProgressButtonsAsLinks back={prevStep} next={nextStep} />
+      <p>
+        If you feel strongly that this information is incorrect or incomplete,
+        however, you can{" "}
+        <Link to={forceManualHref}>provide your own details</Link>.
+      </p>
     </div>
   );
 };
@@ -89,23 +105,69 @@ const NameAndContactTypesForm: React.FC<MiddleProgressStepProps> = (props) => (
   </>
 );
 
+const UseRecommendedLandlord: React.FC<
+  MiddleProgressStepProps & {
+    toUnforcedHref: string | null;
+  }
+> = (props) => (
+  <SessionUpdatingFormSubmitter
+    mutation={LocLandlordInfoMutation}
+    initialState={(session) => ({
+      useRecommended: true,
+      landlord: [],
+    })}
+    onSuccessRedirect={props.nextStep}
+  >
+    {(ctx) => (
+      <>
+        <HiddenFormField {...ctx.fieldPropsFor("useRecommended")} />
+        <div className="is-hidden">
+          <SingletonFormset {...ctx.formsetPropsFor("landlord")}>
+            {(formsetCtx) => {
+              throw new Error("This should never render!");
+            }}
+          </SingletonFormset>
+        </div>
+        <ProgressButtons
+          back={props.toUnforcedHref || props.prevStep}
+          isLoading={ctx.isLoading}
+        />
+      </>
+    )}
+  </SessionUpdatingFormSubmitter>
+);
+
 export const NorentLandlordNameAndContactTypes = NorentNotSentLetterStep(
   (props) => {
-    const { session } = useContext(AppContext);
     return (
       <Page
         title={li18n._(t`Your landlord or management company's information`)}
         withHeading="big"
         className="content"
       >
-        {session.landlordDetails?.isLookedUp ? (
-          <ReadOnlyLandlordDetails
-            {...props}
-            details={session.landlordDetails}
-          />
-        ) : (
-          <NameAndContactTypesForm {...props} />
-        )}
+        <QueryLoader
+          query={RecommendedLocLandlord}
+          input={null}
+          render={({ recommendedLocLandlord }) => (
+            <LandlordPageContent
+              recommendedLandlord={recommendedLocLandlord}
+              renderReadOnlyLandlordDetails={(options) => (
+                <ReadOnlyLandlordDetails {...options} />
+              )}
+            >
+              {({ useRecommended, toUnforcedHref }) =>
+                useRecommended ? (
+                  <UseRecommendedLandlord
+                    {...props}
+                    toUnforcedHref={toUnforcedHref}
+                  />
+                ) : (
+                  <NameAndContactTypesForm {...props} />
+                )
+              }
+            </LandlordPageContent>
+          )}
+        />
       </Page>
     );
   }

@@ -116,7 +116,7 @@ type LandlordPageContext = {
   useRecommended: boolean;
 };
 
-type RenderReadOnlyLandlordDetailsOptions = {
+export type RenderReadOnlyLandlordDetailsOptions = {
   /**
    * The landlord we recommend.
    */
@@ -207,9 +207,7 @@ function determineLandlordPageOptions(options: {
     forceQs === FORCE_MANUAL && !options.disallowManualOverride;
   const forceRecommended = forceQs === FORCE_RECOMMENDED;
   const isLandlordAlreadyManuallySpecified = !!(
-    !llDetails?.isLookedUp &&
-    llDetails?.name &&
-    llDetails.address
+    !llDetails?.isLookedUp && llDetails?.name
   );
   let useRecommended = shouldUseRecommendedLandlordInfo({
     hasRecommendedLandlord: options.hasRecommendedLandlord,

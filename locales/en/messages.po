@@ -517,7 +517,7 @@ msgid "Email"
 msgstr "Email"
 
 #: frontend/lib/norent/letter-builder/ask-email.tsx:30
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:74
+#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:65
 msgid "Email address"
 msgstr "Email address"
 
@@ -781,7 +781,7 @@ msgstr "If you have received a Notice to Pay Rent or Quit or any other type of e
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
 msgstr "If you need to make changes to your name or contact information, please contact <0/>."
 
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:59
+#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:50
 msgid "If you write checks or transfer money through your bank to pay your rent, use that name here."
 msgstr "If you write checks or transfer money through your bank to pay your rent, use that name here."
 
@@ -888,19 +888,11 @@ msgstr "Kentucky"
 msgid "Know your rights"
 msgstr "Know your rights"
 
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:33
-msgid "Landlord address"
-msgstr "Landlord address"
-
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:26
-msgid "Landlord name"
-msgstr "Landlord name"
-
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:38
 msgid "Landlord/management company's email"
 msgstr "Landlord/management company's email"
 
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:57
+#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:48
 msgid "Landlord/management company's name"
 msgstr "Landlord/management company's name"
 
@@ -1022,7 +1014,7 @@ msgstr "Louisiana"
 msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 msgstr "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:77
+#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:68
 msgid "Mailing address"
 msgstr "Mailing address"
 
@@ -1859,7 +1851,7 @@ msgstr "We'll use this information to send you updates."
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:18
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:33
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:45
+#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:36
 msgid "We'll use this information to send your letter."
 msgstr "We'll use this information to send your letter."
 
@@ -1896,7 +1888,7 @@ msgstr "We’ve partnered with <0/> to provide additional support once you’ve 
 msgid "We’ve partnered with <0/> to provide additional support."
 msgstr "We’ve partnered with <0/> to provide additional support."
 
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:65
+#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:56
 msgid "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
 msgstr "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
 
@@ -1950,7 +1942,7 @@ msgstr "What is your borough?"
 msgid "What kind of documentation should I collect to prove I can’t pay rent?"
 msgstr "What kind of documentation should I collect to prove I can’t pay rent?"
 
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:58
+#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:49
 msgid "Where do I find this information?"
 msgstr "Where do I find this information?"
 
@@ -2136,7 +2128,7 @@ msgstr "Your landlord or management company's address"
 msgid "Your landlord or management company's email"
 msgstr "Your landlord or management company's email"
 
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:86
+#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:91
 msgid "Your landlord or management company's information"
 msgstr "Your landlord or management company's information"
 
@@ -2259,7 +2251,7 @@ msgstr "<0>Our homes, health, and collective safety and futures are on the line.
 msgid "norent.definitionOfEvictionMoratorium"
 msgstr "<0>An “eviction moratorium” can mean something different in every jurisdiction, but in short, a moratorium temporarily pauses certain types of evictions.</0><1>The exact means by which this pause is enforced and the types of cases that are paused, varies across cities and states. Depending on the jurisdiction, courts may simply be closed or not processing eviction filings, sheriffs may not be enforcing eviction orders, or there may be some combination of these and other methods of suspending evictions.</1><2>NoRent.org will support you with the process of navigating these different rules. You can also read more about the tenant protections in your jurisdiction at the Anti-Eviction Mapping Project’s <3/>.</2>"
 
-#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:15
+#: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:19
 msgid "norent.detailsAboutNYCLandlordInfo"
 msgstr "<0>This is your landlord’s information as registered with the <1>NYC Department of Housing and Preservation (HPD)</1>. This may be different than where you send your rent checks.</0><2>We will use this address to ensure your landlord receives it.</2>"
 

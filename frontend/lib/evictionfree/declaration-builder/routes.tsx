@@ -13,6 +13,7 @@ import { createStartAccountOrLoginSteps } from "../../start-account-or-login/rou
 import { isUserLoggedIn } from "../../util/session-predicates";
 import { EvictionFreeRoutes } from "../route-info";
 import { EvictionFreeDbConfirmation } from "./confirmation";
+import { EvictionFreeCreateAccount } from "./create-account";
 import { EvictionFreeOnboardingStep } from "./step-decorators";
 import { EvictionFreeDbWelcome } from "./welcome";
 
@@ -95,6 +96,11 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
           component: EfAskNycAddress,
         },
       ]),
+      {
+        path: routes.createAccount,
+        component: EvictionFreeCreateAccount,
+        shouldBeSkipped: isUserLoggedIn,
+      },
     ],
     confirmationSteps: [
       {

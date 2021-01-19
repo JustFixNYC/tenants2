@@ -33,7 +33,7 @@ function useIsPrimaryPage() {
 const EvictionFreeBrand: React.FC<{}> = () => {
   return (
     <Link className="navbar-item" to={Routes.locale.home}>
-      <span className="jf-evictionfree-logo">Eviction Free</span>
+      <span className="jf-evictionfree-logo">Eviction Free NY</span>
     </Link>
   );
 };
@@ -44,6 +44,12 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
     <>
       <Link className="navbar-item" to={Routes.locale.declaration.latestStep}>
         Build my declaration
+      </Link>
+      <Link className="navbar-item" to={Routes.locale.faqs}>
+        Faqs
+      </Link>
+      <Link className="navbar-item" to={Routes.locale.about}>
+        About
       </Link>
       {session.phoneNumber ? (
         <Link className="navbar-item" to={Routes.locale.logout}>

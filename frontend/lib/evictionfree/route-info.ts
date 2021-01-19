@@ -10,6 +10,12 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The home page. */
     home: `${prefix}/`,
 
+    /** The home page. */
+    about: `${prefix}/about`,
+
+    /** The home page. */
+    faqs: `${prefix}/faqs`,
+
     /** The declaration builder. */
     declaration: createEvictionFreeDeclarationBuilderRouteInfo(
       `${prefix}/declaration`
@@ -38,4 +44,6 @@ export const getEvictionFreeJumpToTopOfPageRoutes = () => [
 
 export const getEvictionFreeRoutesForPrimaryPages = () => [
   EvictionFreeRoutes.locale.home,
+  EvictionFreeRoutes.locale.about,
+  EvictionFreeRoutes.locale.faqs,
 ];

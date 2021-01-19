@@ -7,6 +7,8 @@ import { EvictionFreeRoutes as Routes } from "./route-info";
 import { EvictionFreeHomePage } from "./homepage";
 import { EvictionFreeDeclarationBuilderRoutes } from "./declaration-builder/routes";
 import { AlernativeLogoutPage } from "../pages/logout-alt-page";
+import { EvictionFreeAboutPage } from "./about";
+import { EvictionFreeFaqsPage } from "./faqs";
 
 const LoadableDevRoutes = loadable(
   () => friendlyLoad(import("../dev/routes")),
@@ -25,6 +27,12 @@ export const EvictionFreeRouteComponent: React.FC<RouteComponentProps> = (
   return (
     <Switch location={location}>
       <Route path={Routes.locale.home} exact component={EvictionFreeHomePage} />
+      <Route
+        path={Routes.locale.about}
+        exact
+        component={EvictionFreeAboutPage}
+      />
+      <Route path={Routes.locale.faqs} exact component={EvictionFreeFaqsPage} />
       <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
       <Route
         path={Routes.locale.declaration.prefix}

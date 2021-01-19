@@ -44,6 +44,7 @@ export function getSignupIntentOnboardingInfo(
 ): SignupIntentOnboardingInfo {
   switch (intent) {
     case OnboardingInfoSignupIntent.NORENT:
+    case OnboardingInfoSignupIntent.EVICTIONFREE:
     // TODO: Actually figure out something to do here, instead of just
     // falling through to LOC.
 

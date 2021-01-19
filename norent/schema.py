@@ -1,5 +1,8 @@
 from typing import Optional, Dict, Any, Tuple
 import datetime
+
+from django.http.request import HttpRequest
+from users.models import JustfixUser
 import graphene
 from graphql import ResolveInfo
 from graphene_django.types import DjangoObjectType
@@ -415,10 +418,13 @@ class NorentSendLetterV2(SessionFormMutation):
         return cls.mutation_success()
 
 
-@schema_registry.register_mutation
-class NorentCreateAccount(SessionFormMutation):
+class BaseCreateAccount(SessionFormMutation):
     class Meta:
-        form_class = forms.CreateAccount
+        abstract = True
+
+    require_email = True
+
+    signup_intent: str = ""
 
     @classmethod
     def fill_nyc_info(cls, request, info: Dict[str, Any]):
@@ -449,21 +455,30 @@ class NorentCreateAccount(SessionFormMutation):
     def get_previous_step_info(cls, request) -> Optional[Dict[str, Any]]:
         scf = get_scaffolding(request)
         phone_number = get_last_queried_phone_number(request)
-        if not are_all_truthy(
-            phone_number, scf.first_name, scf.last_name, scf.city, scf.state, scf.email
-        ):
+        if cls.require_email and not scf.email:
             return None
+        if not are_all_truthy(phone_number, scf.first_name, scf.last_name, scf.city, scf.state):
+            return None
+        assert cls.signup_intent, "signup_intent must be set on class!"
         info: Dict[str, Any] = {
             "phone_number": phone_number,
             "first_name": scf.first_name,
             "last_name": scf.last_name,
             "state": scf.state,
             "email": scf.email,
-            "signup_intent": SIGNUP_INTENT_CHOICES.NORENT,
+            "signup_intent": cls.signup_intent,
             "can_receive_rttc_comms": scf.can_receive_rttc_comms,
             "can_receive_saje_comms": scf.can_receive_saje_comms,
         }
         return cls.fill_city_info(request, info, scf)
+
+    @classmethod
+    def update_onboarding_info(cls, form, info: Dict[str, Any]):
+        pass
+
+    @classmethod
+    def perform_post_onboarding(cls, form, request: HttpRequest, user: JustfixUser):
+        pass
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
@@ -474,9 +489,30 @@ class NorentCreateAccount(SessionFormMutation):
             cls.log(info, "User has not completed previous steps, aborting mutation.")
             return cls.make_error("You haven't completed all the previous steps yet.")
         allinfo.update(form.cleaned_data)
-        allinfo["agreed_to_norent_terms"] = True
+        cls.update_onboarding_info(form, allinfo)
         user = complete_onboarding(request, info=allinfo, password=password)
+        cls.perform_post_onboarding(form, request, user)
 
+        purge_last_queried_phone_number(request)
+        OnboardingStep1Info.clear_from_request(request)
+        purge_scaffolding(request)
+
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class NorentCreateAccount(BaseCreateAccount):
+    class Meta:
+        form_class = forms.CreateAccount
+
+    signup_intent = SIGNUP_INTENT_CHOICES.NORENT
+
+    @classmethod
+    def update_onboarding_info(cls, form, info: Dict[str, Any]):
+        info["agreed_to_norent_terms"] = True
+
+    @classmethod
+    def perform_post_onboarding(cls, form, request: HttpRequest, user: JustfixUser):
         user.send_sms_async(
             _(
                 "Welcome to %(site_name)s, a product by JustFix.nyc. "
@@ -484,12 +520,6 @@ class NorentCreateAccount(SessionFormMutation):
             )
             % {"site_name": site_util.get_site_name("NORENT")}
         )
-
-        purge_last_queried_phone_number(request)
-        OnboardingStep1Info.clear_from_request(request)
-        purge_scaffolding(request)
-
-        return cls.mutation_success()
 
 
 @schema_registry.register_mutation

@@ -8,41 +8,29 @@ import { NorentLandlordNameAndContactTypesMutation } from "../../queries/NorentL
 import { AllSessionInfo_landlordDetails } from "../../queries/AllSessionInfo";
 import { AppContext } from "../../app-context";
 import { Accordion } from "../../ui/accordion";
-import { BreaksBetweenLines } from "../../ui/breaks-between-lines";
 import { NorentNotSentLetterStep } from "./step-decorators";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
+import { RecommendedLandlordInfo } from "../../ui/landlord";
 
 const ReadOnlyLandlordDetails: React.FC<
   MiddleProgressStepProps & { details: AllSessionInfo_landlordDetails }
 > = ({ details, nextStep, prevStep }) => {
   return (
     <div className="content">
-      <Trans id="norent.detailsAboutNYCLandlordInfo">
-        <p>
-          This is your landlord’s information as registered with the{" "}
-          <b>NYC Department of Housing and Preservation (HPD)</b>. This may be
-          different than where you send your rent checks.
-        </p>
-        <p>We will use this address to ensure your landlord receives it.</p>
-      </Trans>
-      <dl>
-        <dt>
-          <strong>
-            <Trans>Landlord name</Trans>
-          </strong>
-        </dt>
-        <dd>{details.name}</dd>
-        <br />
-        <dt>
-          <strong>
-            <Trans>Landlord address</Trans>
-          </strong>
-        </dt>
-        <dd>
-          <BreaksBetweenLines lines={details.address} />
-        </dd>
-      </dl>
+      <RecommendedLandlordInfo
+        intro={
+          <Trans id="norent.detailsAboutNYCLandlordInfo">
+            <p>
+              This is your landlord’s information as registered with the{" "}
+              <b>NYC Department of Housing and Preservation (HPD)</b>. This may
+              be different than where you send your rent checks.
+            </p>
+            <p>We will use this address to ensure your landlord receives it.</p>
+          </Trans>
+        }
+        landlord={details}
+      />
       <ProgressButtonsAsLinks back={prevStep} next={nextStep} />
     </div>
   );

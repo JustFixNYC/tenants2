@@ -1,7 +1,6 @@
 import { Trans } from "@lingui/macro";
 import React from "react";
 import { Link } from "react-router-dom";
-import { JumpArrow } from "../norent/homepage";
 import { Accordion } from "../ui/accordion";
 import Page from "../ui/page";
 import {
@@ -74,11 +73,6 @@ export const EvictionFreeFaqsPage: React.FC<{}> = () => {
               questions from people who have used our tool:
             </p>
           </div>
-        </div>
-        <br />
-        <div className="container jf-has-centered-images jf-space-below-2rem">
-          <JumpArrow to="#more-info" altText="Browse the FAQs" />
-          <br />
         </div>
       </section>
 

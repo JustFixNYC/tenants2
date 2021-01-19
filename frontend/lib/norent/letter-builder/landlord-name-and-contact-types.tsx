@@ -151,6 +151,7 @@ export const NorentLandlordNameAndContactTypes = NorentNotSentLetterStep(
           render={({ recommendedLocLandlord }) => (
             <LandlordPageContent
               recommendedLandlord={recommendedLocLandlord}
+              defaultIntro={<></>}
               renderReadOnlyLandlordDetails={(options) => (
                 <ReadOnlyLandlordDetails {...options} />
               )}

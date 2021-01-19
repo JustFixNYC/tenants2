@@ -81,6 +81,12 @@ type LandlordPageContentProps = {
   recommendedLandlord: MailingAddressWithName | null;
 
   /**
+   * The instructions to ask of the user if we don't have a
+   * recommended landlord.
+   */
+  defaultIntro?: JSX.Element;
+
+  /**
    * Whether to forcibly disallow the user from overriding our
    * recommended landlord.
    */
@@ -142,6 +148,7 @@ export type RenderReadOnlyLandlordDetailsOptions = {
  * querystring.
  */
 export const LandlordPageContent: React.FC<LandlordPageContentProps> = ({
+  defaultIntro,
   recommendedLandlord,
   disallowManualOverride,
   renderReadOnlyLandlordDetails,
@@ -157,7 +164,7 @@ export const LandlordPageContent: React.FC<LandlordPageContentProps> = ({
     disallowManualOverride,
   });
 
-  let intro = (
+  let intro = defaultIntro ?? (
     <p>
       Please enter your landlord's name and contact information below. You can
       find this information on your lease and/or rent receipts.

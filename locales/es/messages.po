@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-20 13:55\n"
+"PO-Revision-Date: 2021-01-20 15:36\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1720,7 +1720,7 @@ msgstr "Esto es opcional."
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:20
 msgid "This is your landlord’s information as registered with the <0>NYC Department of Housing and Preservation (HPD)</0>. This may be different than where you send your rent checks."
-msgstr "This is your landlord’s information as registered with the <0>NYC Department of Housing and Preservation (HPD)</0>. This may be different than where you send your rent checks."
+msgstr "Esta es la información del dueño de tu edificio según los registros del <0>Departamento de Preservación de la Vivienda (HPD por sus siglas en inglés)</0>. Puede que sea distinta de donde envías tu cheque de renta."
 
 #: frontend/lib/rh/routes.tsx:64
 msgid "This service is free, secure, and confidential."

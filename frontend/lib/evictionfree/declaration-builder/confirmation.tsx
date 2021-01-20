@@ -133,7 +133,8 @@ export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
         </OutboundLink>
       </p>
 
-      {/* TO DO: Only show the following two sections if user is in NYC */}
+      {/* TO DO: Only show the following two sections if user is in NYC
+          by checking if session.onboardingInfo.borough is falsy */}
       <>
         <RetaliationBlurb />
         <HcaHotlineBlurb />

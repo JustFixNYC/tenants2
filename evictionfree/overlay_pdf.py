@@ -54,6 +54,9 @@ class Page(NamedTuple):
         lines = "\n".join(str(item) for item in self.items)
         return f'<div style="page-break-after: always">{lines}</div>'
 
+    def is_blank(self) -> bool:
+        return len(self.items) == 0
+
 
 class Document(NamedTuple):
     pages: List[Page]
@@ -76,7 +79,7 @@ class Document(NamedTuple):
             blank_pdf = PyPDF2.PdfFileReader(blank_file)
             for i in range(blank_pdf.numPages):
                 page = blank_pdf.getPage(i)
-                if i < overlay_pdf.numPages:
+                if i < overlay_pdf.numPages and not self.pages[i].is_blank():
                     overlay_page = overlay_pdf.getPage(i)
                     page.mergePage(overlay_page)
                 pdf_writer.addPage(page)

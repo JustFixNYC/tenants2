@@ -63,10 +63,11 @@ html[data-safe-mode-no-js] .jf-norent-internal-above-footer-content {
 
   h1.title {
     font-size: 36px;
+    @extend .has-text-primary;
   }
 
   .progress {
-    @extend .is-info;
+    @extend .is-primary;
   }
 
   p {

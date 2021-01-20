@@ -11,4 +11,9 @@ urlpatterns = [
         views.render_example_declaration_pdf,
         name="example_declaration_pdf",
     ),
+    path(
+        "preview-declaration.pdf",
+        views.render_preview_declaration_pdf_for_user,
+        name="preview_declaration_pdf",
+    ),
 ]

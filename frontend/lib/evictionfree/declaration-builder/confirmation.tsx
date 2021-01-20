@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { OutboundLink } from "../../analytics/google-analytics";
 import { ProgressStepProps } from "../../progress/progress-step-route";
 import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
 import Page from "../../ui/page";
-import { AppContext } from "../../app-context";
 
 // TO DO: Replace this tracking number with the user's actual one
 const SAMPLE_USPS_TRACKING_NUMBER = "129837127326123";
@@ -105,8 +104,6 @@ const OrganizingGroupsBlurb = () => (
 export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
   props
 ) => {
-  const { session } = useContext(AppContext);
-  const isInNyc = session.norentScaffolding?.isCityInNyc;
   return (
     <Page title="You've sent your hardship declaration" className="content">
       <TitleWithSymbol />
@@ -138,12 +135,11 @@ export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
         </OutboundLink>
       </p>
 
-      {isInNyc && (
-        <>
-          <RetaliationBlurb />
-          <HcaHotlineBlurb />
-        </>
-      )}
+      {/* TO DO: Only show the following two sections if user is in NYC */}
+      <>
+        <RetaliationBlurb />
+        <HcaHotlineBlurb />
+      </>
 
       <OrganizingGroupsBlurb />
     </Page>

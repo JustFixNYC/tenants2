@@ -31,3 +31,18 @@ describe("Eviction free declaration builder steps", () => {
     ],
   });
 });
+
+tester.defineTest({
+  it: "takes onboarded users through flow to confirmation",
+  usingSession: sb.withLoggedInNationalUser().withNorentScaffolding({
+    hasLandlordEmailAddress: true,
+    hasLandlordMailingAddress: true,
+  }),
+  startingAtStep: "/en/declaration/create-account",
+  expectSteps: [
+    "/en/declaration/landlord/name",
+    "/en/declaration/landlord/email",
+    "/en/declaration/landlord/address",
+    "/en/declaration/confirmation",
+  ],
+});

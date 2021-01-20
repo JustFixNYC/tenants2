@@ -4,9 +4,18 @@ import { AskNameStep } from "../../common-steps/ask-name";
 import { AskNationalAddress } from "../../common-steps/ask-national-address";
 import { AskNycAddress } from "../../common-steps/ask-nyc-address";
 import {
+  LandlordEmail,
+  shouldSkipLandlordEmailStep,
+} from "../../common-steps/landlord-email";
+import LandlordMailingAddress, {
+  shouldSkipLandlordMailingAddressStep,
+} from "../../common-steps/landlord-mailing-address";
+import { LandlordNameAndContactTypes } from "../../common-steps/landlord-name-and-contact-types";
+import {
   buildProgressRoutesComponent,
   ProgressRoutesProps,
 } from "../../progress/progress-routes";
+import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { skipStepsIf } from "../../progress/skip-steps-if";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { createStartAccountOrLoginSteps } from "../../start-account-or-login/routes";
@@ -57,6 +66,27 @@ const EfAskNycAddress = EvictionFreeOnboardingStep((props) => (
   </AskNycAddress>
 ));
 
+const EfLandlordNameAndContactTypes = MiddleProgressStep((props) => (
+  <LandlordNameAndContactTypes {...props}>
+    <p>TODO: Add content here.</p>
+  </LandlordNameAndContactTypes>
+));
+
+const EfLandlordEmail = MiddleProgressStep((props) => (
+  <LandlordEmail {...props} introText="TODO: Add content here." />
+));
+
+const EfLandlordMailingAddress = MiddleProgressStep((props) => (
+  <LandlordMailingAddress
+    {...props}
+    confirmModalRoute={
+      EvictionFreeRoutes.locale.declaration.landlordAddressConfirmModal
+    }
+  >
+    <p>TODO: Add content here.</p>
+  </LandlordMailingAddress>
+));
+
 export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = EvictionFreeRoutes.locale.declaration;
 
@@ -100,6 +130,23 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
         path: routes.createAccount,
         component: EvictionFreeCreateAccount,
         shouldBeSkipped: isUserLoggedIn,
+      },
+      {
+        path: routes.landlordName,
+        exact: true,
+        component: EfLandlordNameAndContactTypes,
+      },
+      {
+        path: routes.landlordEmail,
+        exact: true,
+        shouldBeSkipped: shouldSkipLandlordEmailStep,
+        component: EfLandlordEmail,
+      },
+      {
+        path: routes.landlordAddress,
+        exact: false,
+        shouldBeSkipped: shouldSkipLandlordMailingAddressStep,
+        component: EfLandlordMailingAddress,
       },
     ],
     confirmationSteps: [

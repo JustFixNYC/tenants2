@@ -21,6 +21,10 @@ export function createEvictionFreeDeclarationBuilderRouteInfo(prefix: string) {
     nycAddressConfirmModal: `${prefix}/address/nyc/confirm-address-modal`,
     createAccount: `${prefix}/create-account`,
     createAccountTermsModal: `${prefix}/create-account/terms-modal`,
+    landlordName: `${prefix}/landlord/name`,
+    landlordEmail: `${prefix}/landlord/email`,
+    landlordAddress: `${prefix}/landlord/address`,
+    landlordAddressConfirmModal: `${prefix}/landlord/address/confirm-modal`,
     confirmation: `${prefix}/confirmation`,
   };
 }

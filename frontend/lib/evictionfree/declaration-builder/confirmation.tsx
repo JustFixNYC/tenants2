@@ -39,10 +39,10 @@ const RetaliationBlurb = () => (
       letter. This is illegal. Contact the City's Tenant Helpline (which can
       provide free advice and legal counsel to tenants) by{" "}
       <OutboundLink
-        href={`${NYC_311_CONTACT_LINK}`}
+        href={NYC_311_CONTACT_LINK}
         target="_blank"
         rel="noopener noreferrer"
-        className="jf-nowrap"
+        className="jf-word-glue"
       >
         calling 311
       </OutboundLink>
@@ -58,10 +58,10 @@ const HcaHotlineBlurb = () => (
     <p>
       Call the Housing Court Answers hotline at{" "}
       <OutboundLink
-        href={`${HCA_HOTLINE_PHONE_LINK}`}
+        href={HCA_HOTLINE_PHONE_LINK}
         target="_blank"
         rel="noopener noreferrer"
-        className="jf-nowrap"
+        className="jf-word-glue"
       >
         212-962-4795
       </OutboundLink>

@@ -63,9 +63,7 @@ export const EvictionFreeFaqsPage: React.FC<{}> = () => {
       <section className="hero is-medium">
         <div className="hero-body">
           <div className="container jf-has-text-centered-tablet">
-            <h2 className="title is-spaced has-text-info">
-              Frequently Asked Questions
-            </h2>
+            <h2 className="title is-spaced">Frequently Asked Questions</h2>
             <br />
             <p className="subtitle">
               Navigating these laws is confusing. Check out our frequently asked

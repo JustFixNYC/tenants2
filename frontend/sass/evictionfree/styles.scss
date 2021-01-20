@@ -63,3 +63,10 @@ $jf-navbar-content: $black;
 .jf-nowrap {
   white-space: nowrap;
 }
+
+// OVERRIDES OF NORENT STYLING
+
+// Change accordion question color to link color
+.jf-accordion-item details summary span.has-text-primary {
+  @extend .has-text-link;
+}

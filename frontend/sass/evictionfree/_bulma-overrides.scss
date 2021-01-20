@@ -5,15 +5,16 @@
 $family-sans-serif: $jf-body-family;
 
 // COLORS:
-$rtc-blue: #041e41;
-$rtc-maroon: #970048;
+$rtc-denim: #041e41;
+$rtc-cobalt: #034da6;
+$rtc-mulberry: #970048;
 $justfix-off-black: #3b403d;
 $justfix-light-grey: #c4c4c4;
 $justfix-grey: #bdbdbd;
 
-$primary: $rtc-maroon;
-$info: $rtc-blue; // Secondary color for text highlights and accents
-$link: $rtc-maroon; // Inline hyperlink color
+$primary: $rtc-mulberry;
+$info: $rtc-denim; // Secondary color for logo and non-text elements
+$link: $rtc-cobalt; // Inline hyperlink color
 $dark: $justfix-off-black; // Primary text color for light backgrounds
 $grey-light: $justfix-light-grey; // Secondary text color for dark backgrounds
 $light: $justfix-grey; // Secondary background color for buttons (i.e. Cancel buttons)

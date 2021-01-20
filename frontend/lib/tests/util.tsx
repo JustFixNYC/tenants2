@@ -69,6 +69,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   wowOrigin: "https://wow.test",
   efnycOrigin: "https://efnyc.test",
   enableSafeModeURL: "/mysafemode/enable",
+  previewHardshipDeclarationURL: "/preview-declaration.pdf",
   mapboxAccessToken: "",
   enabledLocales: ["en"],
   enableWipLocales: false,

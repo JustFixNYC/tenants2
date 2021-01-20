@@ -31,7 +31,7 @@ const TitleWithSymbol = () => (
 
 const RetaliationBlurb = () => (
   <>
-    <h2 className="title is-spaced has-text-info">
+    <h2 className="title is-spaced">
       Contact a lawyer if your landlord retaliates
     </h2>
     <p>
@@ -54,7 +54,7 @@ const RetaliationBlurb = () => (
 const HcaHotlineBlurb = () => (
   <>
     {" "}
-    <h2 className="title is-spaced has-text-info">Need additional support?</h2>
+    <h2 className="title is-spaced">Need additional support?</h2>
     <p>
       Call the Housing Court Answers hotline at{" "}
       <OutboundLink
@@ -77,7 +77,7 @@ const HcaHotlineBlurb = () => (
 const OrganizingGroupsBlurb = () => (
   <>
     {" "}
-    <h2 className="title is-spaced has-text-info">
+    <h2 className="title is-spaced">
       Get involved in your local community organization and join the fight to
       cancel rent.
     </h2>
@@ -118,9 +118,7 @@ export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
         Check your email for a message containing a copy of your declaration and
         additional important information on next steps.
       </p>
-      <h2 className="title is-spaced has-text-info">
-        Details about your latest declaration
-      </h2>
+      <h2 className="title is-spaced">Details about your latest declaration</h2>
 
       <p>Your letter was sent on Tuesday, January 19, 2021. </p>
       <p>

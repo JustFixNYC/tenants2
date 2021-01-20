@@ -59,3 +59,10 @@ $jf-navbar-content: $black;
   font-family: $jf-title-family;
   letter-spacing: 0;
 }
+
+// OVERRIDES OF NORENT STYLING
+
+// Change accordion question color to link color
+.jf-accordion-item details summary span.has-text-primary {
+  @extend .has-text-link;
+}

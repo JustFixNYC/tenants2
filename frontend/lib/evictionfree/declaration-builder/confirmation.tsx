@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
 import { OutboundLink } from "../../analytics/google-analytics";
-import { AppContext } from "../../app-context";
 import { ProgressStepProps } from "../../progress/progress-step-route";
 import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
 import Page from "../../ui/page";
@@ -17,11 +16,81 @@ const LIST_OF_ORGANIZING_GROUPS_URL =
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
+const RetaliationBlurb = () => (
+  <>
+    <h2 className="title is-spaced has-text-info">
+      Contact a lawyer if your landlord retaliates
+    </h2>
+    <p>
+      It’s possible that your landlord will retaliate once they’ve received your
+      letter. This is illegal. Contact the City's Tenant Helpline (which can
+      provide free advice and legal counsel to tenants) by{" "}
+      <OutboundLink
+        href={`${NYC_311_CONTACT_LINK}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="jf-nowrap"
+      >
+        calling 311
+      </OutboundLink>
+      .
+    </p>
+  </>
+);
+
+const HcaHotlineBlurb = () => (
+  <>
+    {" "}
+    <h2 className="title is-spaced has-text-info">Need additional support?</h2>
+    <p>
+      Call the Housing Court Answers hotline at{" "}
+      <OutboundLink
+        href={`${HCA_HOTLINE_PHONE_LINK}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="jf-nowrap"
+      >
+        212-962-4795
+      </OutboundLink>
+      .
+    </p>
+    <p>
+      Hours of operation: Monday to Friday, 9am - 5pm. Available in English and
+      Spanish.
+    </p>
+  </>
+);
+
+const OrganizingGroupsBlurb = () => (
+  <>
+    {" "}
+    <h2 className="title is-spaced has-text-info">
+      Get involved in your local community organization and join the fight to
+      cancel rent.
+    </h2>
+    <p>
+      Join millions in the fight for a future free from debt and to win a
+      cancelation of rent, mortgage and utility payments.
+    </p>
+    <OutboundLink
+      className="button is-primary is-large jf-is-extra-wide"
+      href={LIST_OF_ORGANIZING_GROUPS_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Find Organizations Near You →
+    </OutboundLink>
+    <p className="is-size-6">
+      <br />
+      *Due to the COVID-19 pandemic, some offices are closed and may not answer
+      phones.
+    </p>
+  </>
+);
+
 export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
   props
 ) => {
-  const { session } = useContext(AppContext);
-  console.log(session);
   return (
     <Page title="You've sent your hardship declaration" className="content">
       <div className="media">
@@ -62,68 +131,11 @@ export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
 
       {/* TO DO: Only show the following two sections if user is in NYC */}
       <>
-        <h2 className="title is-spaced has-text-info">
-          Contact a lawyer if your landlord retaliates
-        </h2>
-        <p>
-          It’s possible that your landlord will retaliate once they’ve received
-          your letter. This is illegal. Contact the City's Tenant Helpline
-          (which can provide free advice and legal counsel to tenants) by{" "}
-          <OutboundLink
-            href={`${NYC_311_CONTACT_LINK}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="jf-nowrap"
-          >
-            calling 311
-          </OutboundLink>
-          .
-        </p>
-
-        <h2 className="title is-spaced has-text-info">
-          Need additional support?
-        </h2>
-        <p>
-          Call the Housing Court Answers hotline at{" "}
-          <OutboundLink
-            href={`${HCA_HOTLINE_PHONE_LINK}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="jf-nowrap"
-          >
-            212-962-4795
-          </OutboundLink>
-          .
-        </p>
-        <p>
-          Hours of operation: Monday to Friday, 9am - 5pm. Available in English
-          and Spanish.
-        </p>
+        <RetaliationBlurb />
+        <HcaHotlineBlurb />
       </>
 
-      <h2 className="title is-spaced has-text-info">
-        Get involved in your local community organization and join the fight to
-        cancel rent.
-      </h2>
-      <p>
-        Join millions in the fight for a future free from debt and to win a
-        cancelation of rent, mortgage and utility payments.
-      </p>
-
-      <OutboundLink
-        className="button is-primary is-large jf-is-extra-wide"
-        href={LIST_OF_ORGANIZING_GROUPS_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Find Organizations Near You →
-      </OutboundLink>
-
-      <p className="is-size-6">
-        <br />
-        *Due to the COVID-19 pandemic, some offices are closed and may not
-        answer phones.
-      </p>
+      <OrganizingGroupsBlurb />
     </Page>
   );
 };

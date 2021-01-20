@@ -26,6 +26,10 @@ import { EvictionFreeCreateAccount } from "./create-account";
 import { EvictionFreeOnboardingStep } from "./step-decorators";
 import { EvictionFreeDbWelcome } from "./welcome";
 
+const DEFAULT_STEP_CONTENT = (
+  <p>We'll include this information in your declaration.</p>
+);
+
 // TODO: An identical function exists in NoRent's codebase, ideally we should
 // consolidate.
 function isUserInNYC(s: AllSessionInfo): boolean {
@@ -45,13 +49,13 @@ const EfAskCityState = EvictionFreeOnboardingStep((props) => (
     {...props}
     confirmModalRoute={EvictionFreeRoutes.locale.declaration.cityConfirmModal}
   >
-    <p>It's gotta be in New York.</p>
+    {DEFAULT_STEP_CONTENT}
   </AskCityState>
 ));
 
 const EfAskNationalAddress = EvictionFreeOnboardingStep((props) => (
   <AskNationalAddress {...props} routes={EvictionFreeRoutes.locale.declaration}>
-    <p>TODO: Add content here.</p>
+    {DEFAULT_STEP_CONTENT}
   </AskNationalAddress>
 ));
 
@@ -62,18 +66,21 @@ const EfAskNycAddress = EvictionFreeOnboardingStep((props) => (
       EvictionFreeRoutes.locale.declaration.nycAddressConfirmModal
     }
   >
-    <p>TODO: Add content here.</p>
+    {DEFAULT_STEP_CONTENT}
   </AskNycAddress>
 ));
 
 const EfLandlordNameAndContactTypes = MiddleProgressStep((props) => (
   <LandlordNameAndContactTypes {...props}>
-    <p>TODO: Add content here.</p>
+    <p>We'll use this information to send your declaration.</p>
   </LandlordNameAndContactTypes>
 ));
 
 const EfLandlordEmail = MiddleProgressStep((props) => (
-  <LandlordEmail {...props} introText="TODO: Add content here." />
+  <LandlordEmail
+    {...props}
+    introText={<p>We'll use this information to send your declaration.</p>}
+  />
 ));
 
 const EfLandlordMailingAddress = MiddleProgressStep((props) => (
@@ -83,7 +90,10 @@ const EfLandlordMailingAddress = MiddleProgressStep((props) => (
       EvictionFreeRoutes.locale.declaration.landlordAddressConfirmModal
     }
   >
-    <p>TODO: Add content here.</p>
+    <p>
+      We'll use this information to send your declaration via certified mail for
+      free.
+    </p>
   </LandlordMailingAddress>
 ));
 

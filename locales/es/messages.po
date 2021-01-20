@@ -996,6 +996,7 @@ msgstr "Parece que estás en <0>el Condado de Los Angeles, California</0>"
 msgid "Looks like you're not logged in"
 msgstr "Parece que no has iniciado ninguna sesión"
 
+#: frontend/lib/evictionfree/declaration-builder/welcome.tsx:13
 #: frontend/lib/norent/letter-builder/welcome.tsx:17
 msgid "Looks like you've been here before. Click \"Next\" to be taken to where you left off."
 msgstr "Parece que ya estuviste aquí antes. Haz clic en \"Continuar\" para seguir desde donde te quedaste."
@@ -1146,7 +1147,7 @@ msgstr "Nueva York"
 msgid "New password"
 msgstr "Contraseña nueva"
 
-#: frontend/lib/evictionfree/declaration-builder/welcome.tsx:14
+#: frontend/lib/evictionfree/declaration-builder/welcome.tsx:47
 #: frontend/lib/norent/letter-builder/welcome.tsx:55
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48

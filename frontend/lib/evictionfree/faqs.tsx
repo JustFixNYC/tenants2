@@ -1,4 +1,3 @@
-import { Trans } from "@lingui/macro";
 import React from "react";
 import { Link } from "react-router-dom";
 import { Accordion } from "../ui/accordion";
@@ -48,7 +47,7 @@ export const EvictionFreeFaqsPreview = () => {
             to={EvictionFreeRoutes.locale.faqs}
             className="is-size-5 has-text-weight-normal"
           >
-            <Trans>See more FAQs</Trans>
+            See more FAQs
           </Link>
         </div>
       </div>

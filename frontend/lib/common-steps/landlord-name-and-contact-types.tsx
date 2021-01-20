@@ -23,22 +23,23 @@ import { Link } from "react-router-dom";
 import { LocLandlordInfoMutation } from "../queries/LocLandlordInfoMutation";
 import { SingletonFormset } from "../forms/formset";
 
-const ReadOnlyLandlordDetails: React.FC<RenderReadOnlyLandlordDetailsOptions> = ({
-  landlord,
-  forceManualHref,
-}) => {
+const ReadOnlyLandlordDetails: React.FC<
+  RenderReadOnlyLandlordDetailsOptions & { children: JSX.Element }
+> = ({ landlord, forceManualHref, children }) => {
   return (
     <div className="content">
       <RecommendedLandlordInfo
         intro={
-          <Trans id="norent.detailsAboutNYCLandlordInfo">
+          <>
             <p>
-              This is your landlord’s information as registered with the{" "}
-              <b>NYC Department of Housing and Preservation (HPD)</b>. This may
-              be different than where you send your rent checks.
+              <Trans>
+                This is your landlord’s information as registered with the{" "}
+                <b>NYC Department of Housing and Preservation (HPD)</b>. This
+                may be different than where you send your rent checks.
+              </Trans>
             </p>
-            <p>We will use this address to ensure your landlord receives it.</p>
-          </Trans>
+            {children}
+          </>
         }
         landlord={landlord}
       />
@@ -155,7 +156,7 @@ export const LandlordNameAndContactTypes: React.FC<
           recommendedLandlord={recommendedLocLandlord}
           defaultIntro={<></>}
           renderReadOnlyLandlordDetails={(options) => (
-            <ReadOnlyLandlordDetails {...options} />
+            <ReadOnlyLandlordDetails {...options} children={props.children} />
           )}
         >
           {({ useRecommended, toUnforcedHref }) =>

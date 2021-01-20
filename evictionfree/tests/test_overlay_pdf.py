@@ -1,4 +1,4 @@
-from evictionfree.overlay_pdf import Text, Page, Document
+from evictionfree.overlay_pdf import Checkbox, Text, Page, Document
 
 
 DOC = Document(
@@ -10,6 +10,11 @@ DOC = Document(
         )
     ]
 )
+
+
+def test_is_blank_works():
+    assert Page(items=[]).is_blank() is True
+    assert Page(items=[Checkbox(True, 1, 2)]).is_blank() is False
 
 
 def test_it_renders_html():

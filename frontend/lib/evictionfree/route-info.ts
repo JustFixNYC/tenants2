@@ -10,10 +10,10 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The home page. */
     home: `${prefix}/`,
 
-    /** The home page. */
+    /** The about page. */
     about: `${prefix}/about`,
 
-    /** The home page. */
+    /** The frequently asked questions (faqs) page. */
     faqs: `${prefix}/faqs`,
 
     /** The declaration builder. */

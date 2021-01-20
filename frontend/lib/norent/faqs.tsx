@@ -80,7 +80,7 @@ export const NorentFaqsPage: React.FC<{}> = () => {
       <section className="hero is-medium">
         <div className="hero-body">
           <div className="container jf-has-text-centered-tablet">
-            <h2 className="title is-spaced has-text-info">
+            <h2 className="title is-spaced">
               <Trans>Frequently Asked Questions</Trans>
             </h2>
             <br />

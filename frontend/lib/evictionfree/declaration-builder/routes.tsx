@@ -24,6 +24,7 @@ import { EvictionFreeRoutes } from "../route-info";
 import { EvictionFreeDbConfirmation } from "./confirmation";
 import { EvictionFreeCovidImpact } from "./covid-impact";
 import { EvictionFreeCreateAccount } from "./create-account";
+import { EvictionFreePreviewPage } from "./preview";
 import { EvictionFreeOnboardingStep } from "./step-decorators";
 import { EvictionFreeDbWelcome } from "./welcome";
 
@@ -80,7 +81,7 @@ const EfLandlordNameAndContactTypes = MiddleProgressStep((props) => (
 const EfLandlordEmail = MiddleProgressStep((props) => (
   <LandlordEmail
     {...props}
-    introText={<p>We'll use this information to send your declaration.</p>}
+    introText={<>We'll use this information to send your declaration.</>}
   />
 ));
 
@@ -163,6 +164,11 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
         exact: false,
         shouldBeSkipped: shouldSkipLandlordMailingAddressStep,
         component: EfLandlordMailingAddress,
+      },
+      {
+        path: routes.preview,
+        exact: false,
+        component: EvictionFreePreviewPage,
       },
     ],
     confirmationSteps: [

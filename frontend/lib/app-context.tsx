@@ -95,6 +95,12 @@ export interface AppServerInfo {
   enableSafeModeURL: string;
 
   /**
+   * The URL for the preview of the eviction free COVID-19 hardship
+   * declaration for the current user.
+   */
+  previewHardshipDeclarationURL: string;
+
+  /**
    * An optional label to show the site's navbar.
    */
   navbarLabel?: string;

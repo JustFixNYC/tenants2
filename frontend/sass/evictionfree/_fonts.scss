@@ -1,0 +1,51 @@
+@font-face {
+  font-family: "Montserrat Black";
+  font-weight: 900;
+  font-style: normal;
+  src: url("#{$evictionfree-root}/font/montserrat-black-webfont.woff2")
+      format("woff2"),
+    url("#{$evictionfree-root}/font/montserrat-black-webfont.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Montserrat Bold";
+  font-weight: normal;
+  font-style: normal;
+  src: url("#{$evictionfree-root}/font/montserrat-bold-webfont.woff2")
+      format("woff2"),
+    url("#{$evictionfree-root}/font/montserrat-bold-webfont.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-weight: 200;
+  font-style: normal;
+  src: url("#{$evictionfree-root}/font/opensans-light-webfont.woff")
+    format("woff");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-weight: normal;
+  font-style: normal;
+  src: url("#{$evictionfree-root}/font/opensans-regular-webfont.woff")
+    format("woff");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-weight: 600;
+  font-style: normal;
+  src: url("#{$evictionfree-root}/font/opensans-semibold-webfont.woff")
+    format("woff");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-weight: 900;
+  font-style: normal;
+  src: url("#{$evictionfree-root}/font/opensans-extrabold-webfont.woff")
+    format("woff");
+}

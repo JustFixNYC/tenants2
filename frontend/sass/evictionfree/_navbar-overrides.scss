@@ -1,0 +1,85 @@
+nav.navbar {
+  @extend .is-info;
+  background-color: $info;
+  &.is-fixed-top {
+    // override navbar position to not be sticky:
+    position: absolute;
+  }
+  // Increase container width to accomodate admin/developer links on desktop
+  .container {
+    max-width: 1200px;
+    @include tablet {
+      padding: 0 1rem;
+    }
+    @include mobile {
+      .navbar-brand {
+        padding: 0 1rem;
+      }
+    }
+  }
+
+  .navbar-link,
+  .navbar-item,
+  .navbar-burger {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 200;
+
+    &:focus {
+      outline-color: $white;
+    }
+
+    &:hover::after {
+      border-color: $white;
+    }
+  }
+
+  // Styling for dropdown burger menu on mobile/tablet:
+  .navbar-menu.is-active {
+    background-color: $white;
+    .navbar-link,
+    .navbar-item {
+      color: $dark;
+      &:focus {
+        outline-color: $dark;
+      }
+    }
+  }
+
+  // Styling for regular dropdown menu (i.e. "Developer" menu)
+  .navbar-dropdown {
+    .navbar-item,
+    .navbar-item:hover {
+      color: $dark;
+      &:focus {
+        outline-color: $dark;
+      }
+    }
+  }
+
+  // Styling for burger menu icon
+  .navbar-burger {
+    color: $white;
+    span {
+      height: 2px;
+    }
+  }
+}
+
+.jf-white-navbar nav.navbar {
+  @extend .is-white;
+  .navbar-menu {
+    background-color: $white;
+    .navbar-link:hover::after {
+      border-color: $dark;
+    }
+  }
+  .navbar-link,
+  .navbar-item,
+  .navbar-burger {
+    color: $info;
+    &:focus {
+      outline-color: $dark;
+    }
+  }
+}

@@ -19,6 +19,7 @@ import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { MiddleProgressStepProps } from "../progress/progress-step-route";
+import { AllSessionInfo } from "../queries/AllSessionInfo";
 
 const ConfirmAddressModal: React.FC<{ nextStep: string }> = ({ nextStep }) => {
   const { landlordDetails } = useContext(AppContext).session;
@@ -98,3 +99,11 @@ const LandlordMailingAddress: React.FC<
 );
 
 export default LandlordMailingAddress;
+
+export function shouldSkipLandlordMailingAddressStep(
+  s: AllSessionInfo
+): boolean {
+  return s.landlordDetails?.isLookedUp
+    ? true
+    : !s.norentScaffolding?.hasLandlordMailingAddress;
+}

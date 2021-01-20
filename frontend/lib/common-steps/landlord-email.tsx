@@ -9,6 +9,7 @@ import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { MiddleProgressStepProps } from "../progress/progress-step-route";
+import { AllSessionInfo } from "../queries/AllSessionInfo";
 
 export const LandlordEmail: React.FC<
   MiddleProgressStepProps & {
@@ -65,3 +66,9 @@ export const LandlordEmail: React.FC<
     </Page>
   );
 };
+
+export function shouldSkipLandlordEmailStep(s: AllSessionInfo): boolean {
+  return s.landlordDetails?.isLookedUp
+    ? false
+    : !s.norentScaffolding?.hasLandlordEmailAddress;
+}

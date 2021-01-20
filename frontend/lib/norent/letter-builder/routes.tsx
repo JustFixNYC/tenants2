@@ -38,6 +38,8 @@ import {
 } from "./step-decorators";
 import { NorentMenu } from "./menu";
 import { skipStepsIf } from "../../progress/skip-steps-if";
+import { shouldSkipLandlordEmailStep } from "../../common-steps/landlord-email";
+import { shouldSkipLandlordMailingAddressStep } from "../../common-steps/landlord-mailing-address";
 
 function getLetterBuilderRoutes(): NorentLetterBuilderRouteInfo {
   return NorentRoutes.locale.letter;
@@ -167,19 +169,13 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
         {
           path: routes.landlordEmail,
           exact: true,
-          shouldBeSkipped: (s) =>
-            s.landlordDetails?.isLookedUp
-              ? false
-              : !s.norentScaffolding?.hasLandlordEmailAddress,
+          shouldBeSkipped: shouldSkipLandlordEmailStep,
           component: NorentLandlordEmail,
         },
         {
           path: routes.landlordAddress,
           exact: false,
-          shouldBeSkipped: (s) =>
-            s.landlordDetails?.isLookedUp
-              ? true
-              : !s.norentScaffolding?.hasLandlordMailingAddress,
+          shouldBeSkipped: shouldSkipLandlordMailingAddressStep,
           component: NorentLandlordMailingAddress,
         },
         {

@@ -17,13 +17,12 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
           </p>
           <br />
           <p className="subtitle is-size-5">
-            Our tool
-            helps tenants submit this declaration with peace of mind— sending it
-            out via free USPS Certified Mail and email to all of the appropriate
-            parties (your landlord and the courts) to ensure protection. And
-            since the law doesn’t go far enough to protect folks beyond May 1st,
-            our tool connects tenants to the larger tenant movement so we can
-            #cancelrent.
+            Our tool helps tenants submit this declaration with peace of mind—
+            sending it out via free USPS Certified Mail and email to all of the
+            appropriate parties (your landlord and the courts) to ensure
+            protection. And since the law doesn’t go far enough to protect folks
+            beyond May 1st, our tool connects tenants to the larger tenant
+            movement so we can #cancelrent.
           </p>
           <br />
         </div>
@@ -33,7 +32,9 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
     <section className="hero has-background-white-ter">
       <div className="hero-body">
         <div className="container">
-          <h2 className="title is-spaced jf-has-text-centered-tablet">Who we are</h2>
+          <h2 className="title is-spaced jf-has-text-centered-tablet">
+            Who we are
+          </h2>
           <br />
           <p className="subtitle is-size-5">
             The Right to Counsel NYC Coalition is a tenant-led, broad-based

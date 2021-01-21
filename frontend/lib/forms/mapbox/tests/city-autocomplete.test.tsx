@@ -1,8 +1,10 @@
 import {
-  mapboxCityAutocompleteHelpers as helpers,
+  createMapboxCityAutocompleteHelpers,
   MapboxCityItem,
 } from "../city-autocomplete";
 import { BROOKLYN_MAPBOX_RESULTS, BROOKLYN_MAPBOX_FEATURE } from "./data";
+
+const helpers = createMapboxCityAutocompleteHelpers();
 
 const BROOKLYN_CITY: MapboxCityItem = {
   city: "Brooklyn",
@@ -16,7 +18,7 @@ const INCOMPLETE_CITY: MapboxCityItem = {
   stateChoice: null,
 };
 
-describe("mapboxCityAutocompleteHelpers", () => {
+describe("default mapboxCityAutocompleteHelpers", () => {
   it("converts item to key", () => {
     expect(helpers.itemToKey(BROOKLYN_CITY)).toBe("Brooklyn_NY");
   });

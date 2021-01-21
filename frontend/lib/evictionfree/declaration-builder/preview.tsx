@@ -1,10 +1,50 @@
+import { Trans } from "@lingui/macro";
 import React from "react";
+import { Link, Route } from "react-router-dom";
 import { getGlobalAppServerInfo } from "../../app-context";
 import { CheckboxView } from "../../forms/form-fields";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { ProgressButtonsAsLinks } from "../../ui/buttons";
+import { BackOrUpOneDirLevel, Modal } from "../../ui/modal";
 import Page from "../../ui/page";
 import { PdfLink } from "../../ui/pdf-link";
+import { EvictionFreeRoutes } from "../route-info";
+
+const SendDeclarationModal: React.FC<{
+  nextStep: string;
+}> = ({ nextStep }) => {
+  return (
+    <Modal
+      title="Shall we send your declaration?"
+      onCloseGoTo={BackOrUpOneDirLevel}
+      withHeading
+      render={(ctx) => (
+        <>
+          <p>
+            <Trans>
+              After this step, you cannot go back to make changes. But don’t
+              worry, we’ll explain what to do next.
+            </Trans>
+          </p>
+          <div className="buttons jf-two-buttons">
+            <Link
+              {...ctx.getLinkCloseProps()}
+              className="jf-is-back-button button is-medium"
+            >
+              <Trans>No</Trans>
+            </Link>
+            <Link
+              to={nextStep}
+              className="button is-primary is-medium jf-is-next-button"
+            >
+              Next
+            </Link>
+          </div>
+        </>
+      )}
+    />
+  );
+};
 
 export const EvictionFreePreviewPage = MiddleProgressStep((props) => {
   return (
@@ -46,7 +86,15 @@ export const EvictionFreePreviewPage = MiddleProgressStep((props) => {
         I know it is against the law to make a statement on this form that I
         know is false.
       </CheckboxView>
-      <ProgressButtonsAsLinks back={props.prevStep} next={props.nextStep} />
+      <ProgressButtonsAsLinks
+        back={props.prevStep}
+        next={EvictionFreeRoutes.locale.declaration.previewSendConfirmModal}
+      />
+      <Route
+        path={EvictionFreeRoutes.locale.declaration.previewSendConfirmModal}
+        exact
+        render={() => <SendDeclarationModal nextStep={props.nextStep} />}
+      />
     </Page>
   );
 });

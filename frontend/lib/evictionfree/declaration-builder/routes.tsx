@@ -50,6 +50,9 @@ const EfAskCityState = EvictionFreeOnboardingStep((props) => (
   <AskCityState
     {...props}
     confirmModalRoute={EvictionFreeRoutes.locale.declaration.cityConfirmModal}
+    forState="NY"
+    /* https://anthonylouisdagostino.com/bounding-boxes-for-all-us-states/ */
+    bbox={[-79.762152, 40.496103, -71.856214, 45.01585]}
   >
     {DEFAULT_STEP_CONTENT}
   </AskCityState>

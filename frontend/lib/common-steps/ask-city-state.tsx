@@ -12,6 +12,7 @@ import { CityAndStateField } from "../forms/city-and-state-form-field";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import { MiddleProgressStepProps } from "../progress/progress-step-route";
+import { MapboxCityOptions } from "../forms/mapbox/city-autocomplete";
 
 const ConfirmCityModal: React.FC<{ nextStep: string }> = (props) => {
   const scf = useContext(AppContext).session.norentScaffolding;
@@ -34,7 +35,7 @@ export const AskCityState: React.FC<
   MiddleProgressStepProps & {
     confirmModalRoute: string;
     children: JSX.Element;
-  }
+  } & MapboxCityOptions
 > = (props) => {
   return (
     <Page title={li18n._(t`Where do you live?`)} withHeading="big">
@@ -60,6 +61,8 @@ export const AskCityState: React.FC<
             <CityAndStateField
               cityProps={ctx.fieldPropsFor("city")}
               stateProps={ctx.fieldPropsFor("state")}
+              forState={props.forState}
+              bbox={props.bbox}
             />
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>

@@ -1,5 +1,6 @@
 import React from "react";
 import { getGlobalAppServerInfo } from "../../app-context";
+import { CheckboxView } from "../../forms/form-fields";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { ProgressButtonsAsLinks } from "../../ui/buttons";
 import Page from "../../ui/page";
@@ -20,7 +21,31 @@ export const EvictionFreePreviewPage = MiddleProgressStep((props) => {
         href={getGlobalAppServerInfo().previewHardshipDeclarationURL}
         label="Preview my declaration"
       />
-      <p>TODO: Add email preview and checkboxes for understanding here.</p>
+      <p>
+        These last questions make sure that you understand the limits of the
+        protection granted by this form, and that you answered the previous
+        questions truthfully:
+      </p>
+      <CheckboxView id="1">
+        I understand that I must comply with all other lawful terms under my
+        tenancy, lease agreement or similar contract.
+      </CheckboxView>
+      <CheckboxView id="2">
+        I further understand that lawful fees, penalties or interest for not
+        having paid rent in full or met other financial obligations as required
+        by my tenancy, lease agreement or similar contract may still be charged
+        or collected and may result in a monetary judgment against me.
+      </CheckboxView>
+      <CheckboxView id="3">
+        I further understand that my landlord may be able to seek eviction after
+        May 1, 2021, and that the law may provide certain protections at that
+        time that are separate from those available through this declaration.
+      </CheckboxView>
+      <CheckboxView id="4">
+        I understand I am signing and submitting this form under penalty of law.
+        I know it is against the law to make a statement on this form that I
+        know is false.
+      </CheckboxView>
       <ProgressButtonsAsLinks back={props.prevStep} next={props.nextStep} />
     </Page>
   );

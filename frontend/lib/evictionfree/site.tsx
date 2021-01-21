@@ -40,9 +40,38 @@ const EvictionFreeBrand: React.FC<{}> = () => {
           isPrimaryPage ? "has-text-info" : "has-text-white"
         )}
       >
-        Eviction Free NY
+        Eviction
+        <br />
+        Free NY
       </span>
     </Link>
+  );
+};
+
+const EvictionFreeBuildMyDeclarationLink: React.FC<{}> = () => {
+  const isPrimaryPage = useIsPrimaryPage();
+  return (
+    <>
+      {isPrimaryPage && (
+        <div className="navbar-item is-hidden-touch">
+          <Link
+            className="button is-primary"
+            to={Routes.locale.declaration.latestStep}
+          >
+            Build my declaration
+          </Link>
+        </div>
+      )}
+      <Link
+        className={classnames(
+          "navbar-item",
+          isPrimaryPage && "is-hidden-desktop"
+        )}
+        to={Routes.locale.declaration.latestStep}
+      >
+        Build my declaration
+      </Link>
+    </>
   );
 };
 
@@ -50,9 +79,6 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   return (
     <>
-      <Link className="navbar-item" to={Routes.locale.declaration.latestStep}>
-        Build my declaration
-      </Link>
       <Link className="navbar-item" to={Routes.locale.faqs}>
         Faqs
       </Link>
@@ -72,6 +98,7 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
         </Link>
       )}
       <NavbarLanguageDropdown />
+      <EvictionFreeBuildMyDeclarationLink />
     </>
   );
 };

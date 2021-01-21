@@ -72,4 +72,12 @@ $jf-navbar-content: $black;
 // Navbar items more spaced out
 nav.navbar .navbar-item {
   padding: 0.5rem 1.5rem;
+
+  // Make buttions in navbar slightly smaller
+  .button {
+    padding-bottom: 1.5rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-top: 1.5rem;
+  }
 }

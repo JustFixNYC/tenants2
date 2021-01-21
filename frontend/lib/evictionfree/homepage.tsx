@@ -62,7 +62,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
             </p>
             <br />
             <Link
-              className="button is-primary jf-build-my-declaration-btn"
+              className="button is-primary jf-build-my-declaration-btn jf-is-extra-wide"
               to={Routes.locale.declaration.latestStep}
             >
               Build my declaration

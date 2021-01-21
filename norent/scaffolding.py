@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Tuple
 import pydantic
 
 from .la_zipcodes import is_zip_code_in_la
@@ -42,6 +42,9 @@ class NorentScaffolding(pydantic.BaseModel):
     # e.g. "NY"
     state: str = ""
 
+    # e.g. (-73.9496, 40.6501)
+    lnglat: Optional[Tuple[float, float]] = None
+
     zip_code: str = ""
 
     apt_number: Optional[str] = None
@@ -76,6 +79,7 @@ class NorentScaffolding(pydantic.BaseModel):
     def is_city_in_nyc(self) -> Optional[bool]:
         if not (self.state and self.city):
             return None
+        print("BOOP", self.lnglat)
         return self.state == "NY" and self.city.lower() in NYC_CITIES
 
     def is_zip_code_in_la(self) -> Optional[bool]:

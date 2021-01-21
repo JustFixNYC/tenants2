@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List, NamedTuple
+from typing import Optional, Dict, List, NamedTuple, Tuple
 import re
 import urllib.parse
 import pydantic
@@ -26,6 +26,7 @@ class MapboxFeature(pydantic.BaseModel):
     context: List[MapboxFeatureContext]
     text: str
     address: Optional[str]
+    center: Tuple[float, float]
     place_type: List[str]
 
 
@@ -78,11 +79,11 @@ def mapbox_places_request(query: str, args: Dict[str, str]) -> Optional[MapboxRe
         return None
 
 
-def find_city(city: str, state: str) -> Optional[List[str]]:
+def find_city(city: str, state: str) -> Optional[List[Tuple[str, Tuple[float, float]]]]:
     """
     Attempts to find matches for the closest city name in the given
     state using the Mapbox Places API.  The return value is a list of
-    cities in the given state that match the query.
+    (name, (lng, lat)) tuples in the given state that match the query.
 
     If Mapbox isn't configured or a network error occurs, returns None.
     """
@@ -97,11 +98,11 @@ def find_city(city: str, state: str) -> Optional[List[str]]:
     )
     if not results:
         return None
-    cities: List[str] = []
+    cities: List[Tuple[str, Tuple[float, float]]] = []
     for result in results.features:
         result_state = get_mapbox_state(result)
         if result_state == state:
-            cities.append(result.text)
+            cities.append((result.text, result.center))
     return cities
 
 

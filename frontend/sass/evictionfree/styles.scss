@@ -62,6 +62,12 @@ $jf-navbar-content: $black;
   line-height: 1.25;
 }
 
+.jf-build-my-declaration-btn {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 200;
+}
+
 // OVERRIDES OF NORENT STYLING
 
 // Change accordion question color to link color
@@ -69,15 +75,40 @@ $jf-navbar-content: $black;
   @extend .has-text-link;
 }
 
-// Navbar items more spaced out
-nav.navbar .navbar-item {
-  padding: 0.5rem 1.5rem;
-
-  // Make buttions in navbar slightly smaller
-  .button {
-    padding-bottom: 1.5rem;
-    padding-left: 3rem;
-    padding-right: 3rem;
-    padding-top: 1.5rem;
+// Navbar Overrides
+nav.navbar {
+  .container {
+    margin-left: 2rem;
+    .navbar-brand {
+      padding-left: 0;
+    }
+    .navbar-burger {
+      margin-right: 2rem;
+    }
   }
+
+  .navbar-item {
+    padding: 0.5rem 1.5rem;
+
+    .button {
+      padding-bottom: 1.5rem;
+      padding-left: 3rem;
+      padding-right: 3rem;
+      padding-top: 1.5rem;
+    }
+  }
+}
+
+// Header overrides
+.content h1.title {
+  line-height: 1.15;
+  @include touch {
+    font-size: 2.25rem;
+  }
+}
+
+// Landing page overrides
+.hero.is-fullheight-with-navbar .hero-body {
+  margin-left: 2rem;
+  margin-right: 2rem;
 }

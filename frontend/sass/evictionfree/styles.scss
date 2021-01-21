@@ -78,12 +78,17 @@ $jf-navbar-content: $black;
 // Navbar Overrides
 nav.navbar {
   .container {
-    margin-left: 2rem;
+    margin: 0;
+    padding: 0;
+    max-width: unset;
     .navbar-brand {
-      padding-left: 0;
-    }
-    .navbar-burger {
-      margin-right: 2rem;
+      padding: 0;
+      .navbar-item:first-child {
+        padding-left: 4rem;
+        @include mobile {
+          padding-left: 2rem;
+        }
+      }
     }
   }
 
@@ -109,6 +114,21 @@ nav.navbar {
 
 // Landing page overrides
 .hero.is-fullheight-with-navbar .hero-body {
-  margin-left: 2rem;
-  margin-right: 2rem;
+  @include tablet {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+
+  .columns .column:first-child {
+    @include desktop {
+      padding-left: 0;
+    }
+  }
+}
+
+// Columns overrides
+
+// Fix issue where full-width columns extend beyond viewport on mobile
+.columns {
+  max-width: 100%;
 }

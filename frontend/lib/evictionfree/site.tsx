@@ -31,9 +31,15 @@ function useIsPrimaryPage() {
 }
 
 const EvictionFreeBrand: React.FC<{}> = () => {
+  const isPrimaryPage = useIsPrimaryPage();
   return (
     <Link className="navbar-item" to={Routes.locale.home}>
-      <span className="jf-evictionfree-logo has-text-info">
+      <span
+        className={classnames(
+          "jf-evictionfree-logo",
+          isPrimaryPage ? "has-text-info" : "has-text-white"
+        )}
+      >
         Eviction Free NY
       </span>
     </Link>

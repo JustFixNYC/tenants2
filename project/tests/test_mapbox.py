@@ -132,7 +132,7 @@ class TestFindCity:
 
     def test_it_returns_nonempty_list_when_states_match(self, requests_mock):
         mock_brooklyn_results("brook, NY", requests_mock)
-        assert find_city("brook", "NY") == ["Brooklyn"]
+        assert find_city("brook", "NY") == [("Brooklyn", (-73.9496, 40.6501))]
 
 
 class TestFindAddress:

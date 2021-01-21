@@ -38,7 +38,7 @@ class TestCityState:
         form = CityState(data={"city": "broklyn", "state": "NY"})
         form.full_clean()
         assert form.is_valid()
-        assert form.cleaned_data == {"city": "broklyn", "state": "NY"}
+        assert form.cleaned_data == {"city": "broklyn", "state": "NY", "lnglat": None}
 
     def test_it_modifies_city_if_mapbox_is_enabled(self, requests_mock, settings):
         settings.MAPBOX_ACCESS_TOKEN = "blah"
@@ -46,7 +46,11 @@ class TestCityState:
         form = CityState(data={"city": "broklyn", "state": "NY"})
         form.full_clean()
         assert form.is_valid()
-        assert form.cleaned_data == {"city": "Brooklyn", "state": "NY"}
+        assert form.cleaned_data == {
+            "city": "Brooklyn",
+            "state": "NY",
+            "lnglat": (-73.9496, 40.6501),
+        }
 
     def test_it_raises_err_if_mapbox_is_enabled(self, requests_mock, settings):
         settings.MAPBOX_ACCESS_TOKEN = "blah"

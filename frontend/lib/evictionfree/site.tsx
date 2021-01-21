@@ -52,21 +52,19 @@ const EvictionFreeBuildMyDeclarationLink: React.FC<{}> = () => {
   const isPrimaryPage = useIsPrimaryPage();
   return (
     <>
-      {isPrimaryPage && (
-        <div className="navbar-item is-hidden-touch">
-          <Link
-            className="button is-primary"
-            to={Routes.locale.declaration.latestStep}
-          >
-            Build my declaration
-          </Link>
-        </div>
-      )}
+      <div className="navbar-item is-hidden-touch">
+        <Link
+          className={classnames(
+            "button",
+            isPrimaryPage ? "is-primary" : "is-info is-inverted is-outlined"
+          )}
+          to={Routes.locale.declaration.latestStep}
+        >
+          Build my declaration
+        </Link>
+      </div>
       <Link
-        className={classnames(
-          "navbar-item",
-          isPrimaryPage && "is-hidden-desktop"
-        )}
+        className="navbar-item is-hidden-desktop"
         to={Routes.locale.declaration.latestStep}
       >
         Build my declaration

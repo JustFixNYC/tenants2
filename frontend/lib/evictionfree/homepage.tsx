@@ -39,7 +39,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
           <div className="column">
             <StaticImage
               ratio="is-square"
-              src={getEFImageSrc("forms")}
+              src={getEFImageSrc("forms", "png")}
               alt=""
             />
           </div>

@@ -30,7 +30,7 @@ export const EvictionFreeFaqsPreview = () => {
       <div className="hero-body">
         <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
           <h3 className="is-spaced has-text-weight-normal is-size-5">
-            Sending a letter to your landlord is a big step. Here are a few{" "}
+            Navigating these laws is confusing. Here are a few{" "}
             <Link to={EvictionFreeRoutes.locale.faqs}>
               frequently asked questions
             </Link>{" "}

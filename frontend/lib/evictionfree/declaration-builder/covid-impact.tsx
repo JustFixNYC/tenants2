@@ -91,13 +91,11 @@ export const EvictionFreeCovidImpact = MiddleProgressStep((props) => {
             </Accordion>
             <Accordion question="What does “significant health risk” mean?">
               <p>
-                This means vacating the premises and moving into new permanent
-                housing would pose a significant health risk because you or one
-                or more members of your household have an increased risk for
-                severe illness or death from COVID-19 due to being over the age
-                of sixty-five, having a disability or having an underlying
-                medical condition, which may include but is not limited to being
-                immunocompromised.
+                This means you or one or more members of your household have an
+                increased risk for severe illness or death from COVID-19 due to
+                being over the age of sixty-five, having a disability or having
+                an underlying medical condition, which may include but is not
+                limited to being immunocompromised.
               </p>
             </Accordion>
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />

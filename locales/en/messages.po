@@ -126,6 +126,7 @@ msgstr "After Sending Your Letter"
 msgid "After sending your letter, we can connect you to <0>local groups</0> to organize for greater demands with other tenants."
 msgstr "After sending your letter, we can connect you to <0>local groups</0> to organize for greater demands with other tenants."
 
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:15
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:20
 msgid "After this step, you cannot go back to make changes. But don’t worry, we’ll explain what to do next."
 msgstr "After this step, you cannot go back to make changes. But don’t worry, we’ll explain what to do next."
@@ -968,12 +969,12 @@ msgid "Locally supported"
 msgstr "Locally supported"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
-#: frontend/lib/evictionfree/site.tsx:36
+#: frontend/lib/evictionfree/site.tsx:57
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Log in"
 
-#: frontend/lib/evictionfree/site.tsx:34
+#: frontend/lib/evictionfree/site.tsx:55
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:13
 msgid "Log out"
@@ -1149,6 +1150,7 @@ msgstr "New password"
 msgid "Next"
 msgstr "Next"
 
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:22
 #: frontend/lib/forms/yes-no-radios-form-field.tsx:27
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:28
 #: frontend/lib/ui/confirmation-modal.tsx:20
@@ -1705,10 +1707,6 @@ msgstr "Think your apartment may be rent-stabilized? Request its official record
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:140
 msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 msgstr "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
-
-#: frontend/lib/evictionfree/homepage.tsx:11
-msgid "This is a test localization message for EvictionFree."
-msgstr "This is a test localization message for EvictionFree."
 
 #: frontend/lib/common-steps/landlord-email.tsx:19
 msgid "This is optional."

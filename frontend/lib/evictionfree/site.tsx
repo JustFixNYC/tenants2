@@ -48,8 +48,34 @@ const EvictionFreeBrand: React.FC<{}> = () => {
   );
 };
 
-const EvictionFreeMenuItems: React.FC<{}> = () => {
+const EvictionFreeBuildMyDeclarationLink: React.FC<{}> = () => {
   const isPrimaryPage = useIsPrimaryPage();
+  return (
+    <>
+      {isPrimaryPage && (
+        <div className="navbar-item is-hidden-touch">
+          <Link
+            className="button is-primary"
+            to={Routes.locale.declaration.latestStep}
+          >
+            Build my declaration
+          </Link>
+        </div>
+      )}
+      <Link
+        className={classnames(
+          "navbar-item",
+          isPrimaryPage && "is-hidden-desktop"
+        )}
+        to={Routes.locale.declaration.latestStep}
+      >
+        Build my declaration
+      </Link>
+    </>
+  );
+};
+
+const EvictionFreeMenuItems: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   return (
     <>
@@ -72,25 +98,7 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
         </Link>
       )}
       <NavbarLanguageDropdown />
-      {isPrimaryPage && (
-        <div className="navbar-item is-hidden-touch">
-          <Link
-            className="button is-primary"
-            to={Routes.locale.declaration.latestStep}
-          >
-            Build my declaration
-          </Link>
-        </div>
-      )}
-      <Link
-        className={classnames(
-          "navbar-item",
-          isPrimaryPage && "is-hidden-desktop"
-        )}
-        to={Routes.locale.declaration.latestStep}
-      >
-        Build my declaration
-      </Link>
+      <EvictionFreeBuildMyDeclarationLink />
     </>
   );
 };

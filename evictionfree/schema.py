@@ -20,7 +20,7 @@ class EvictionFreeCreateAccount(BaseCreateAccount):
     class Meta:
         form_class = CreateAccount
 
-    require_email = False
+    require_email = True
 
     signup_intent = SIGNUP_INTENT_CHOICES.EVICTIONFREE
 

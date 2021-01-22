@@ -267,8 +267,18 @@ export function CheckboxView(props: CheckboxViewProps) {
   );
 }
 
-export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
+export function CheckboxFormField(
+  props: BooleanFormFieldProps & { extraContentAfterLabel?: JSX.Element }
+): JSX.Element {
   const { errorHelp } = formatErrors(props);
+  const contentAfterLabel = props.extraContentAfterLabel ? (
+    <>
+      {errorHelp}
+      {props.extraContentAfterLabel}
+    </>
+  ) : (
+    errorHelp
+  );
 
   return (
     <CheckboxView
@@ -278,7 +288,7 @@ export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
       aria-invalid={ariaBool(!!props.errors)}
       disabled={props.isDisabled}
       onChange={(e) => props.onChange(e.target.checked)}
-      contentAfterLabel={errorHelp}
+      contentAfterLabel={contentAfterLabel}
     >
       {props.children}
     </CheckboxView>

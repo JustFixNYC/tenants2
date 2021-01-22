@@ -132,3 +132,30 @@ nav.navbar {
 .columns {
   max-width: 100%;
 }
+
+// Accordion overrides
+
+.field label.checkbox ~ .jf-accordion-item {
+  details {
+    p {
+      // Undo funky norent default big paragraph styling.
+      font-size: inherit;
+      line-height: inherit;
+    }
+
+    ul li {
+      // Undo funky norent default bold list item styling.
+      font-weight: inherit;
+    }
+
+    ul {
+      padding-left: 2rem;
+    }
+
+    p,
+    summary {
+      // Make the accordion be flush with the text of the checkbox label.
+      padding-left: 3.1rem;
+    }
+  }
+}

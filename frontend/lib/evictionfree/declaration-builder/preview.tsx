@@ -37,7 +37,7 @@ const SendDeclarationModal: React.FC<{
               to={nextStep}
               className="button is-primary is-medium jf-is-next-button"
             >
-              Next
+              Confirm
             </Link>
           </div>
         </>
@@ -88,6 +88,7 @@ export const EvictionFreePreviewPage = MiddleProgressStep((props) => {
       </CheckboxView>
       <ProgressButtonsAsLinks
         back={props.prevStep}
+        nextLabel="Send"
         next={EvictionFreeRoutes.locale.declaration.previewSendConfirmModal}
       />
       <Route

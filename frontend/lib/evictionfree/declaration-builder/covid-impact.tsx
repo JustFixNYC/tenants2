@@ -35,14 +35,7 @@ export const EvictionFreeCovidImpact = MiddleProgressStep((props) => {
             <CheckboxFormField {...ctx.fieldPropsFor("hasFinancialHardship")}>
               I am experiencing financial hardship due to COVID-19.
             </CheckboxFormField>
-            <CheckboxFormField {...ctx.fieldPropsFor("hasHealthRisk")}>
-              Vacating the premises and moving into new permanent housing would
-              pose a significant health risk due to COVID-19.
-            </CheckboxFormField>
-            <Accordion
-              question="What does “financial hardship” mean?"
-              extraClassName=""
-            >
+            <Accordion question="What does “financial hardship” mean?">
               <p>
                 This means you are unable to pay your rent or other financial
                 obligations under the lease in full or obtain alternative
@@ -89,6 +82,10 @@ export const EvictionFreeCovidImpact = MiddleProgressStep((props) => {
                 </li>
               </ul>
             </Accordion>
+            <CheckboxFormField {...ctx.fieldPropsFor("hasHealthRisk")}>
+              Vacating the premises and moving into new permanent housing would
+              pose a significant health risk due to COVID-19.
+            </CheckboxFormField>
             <Accordion question="What does “significant health risk” mean?">
               <p>
                 This means you or one or more members of your household have an

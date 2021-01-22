@@ -14,7 +14,6 @@ import { ProgressButtonsAsLinks } from "../../ui/buttons";
 import Page from "../../ui/page";
 
 export const EvictionFreeIndexNumber = MiddleProgressStep((props) => {
-  const titleQuestion = "Do you have a current eviction court case?";
   const yesNoProps = usePrototypingFormFieldProps("yesNo", "");
   const indexNumberProps = hideByDefault(
     usePrototypingFormFieldProps("indexNumber", "")
@@ -25,9 +24,13 @@ export const EvictionFreeIndexNumber = MiddleProgressStep((props) => {
   }
 
   return (
-    <Page title={titleQuestion} withHeading="big" className="content">
+    <Page
+      title="Do you have a current eviction court case?"
+      withHeading="big"
+      className="content"
+    >
       <form>
-        <YesNoRadiosFormField {...yesNoProps} label={titleQuestion} />
+        <YesNoRadiosFormField {...yesNoProps} label="" />
         <ConditionalFormField {...indexNumberProps}>
           <>
             <p>

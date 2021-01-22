@@ -1,5 +1,6 @@
 import React from "react";
 import { AskCityState } from "../../common-steps/ask-city-state";
+import { AskEmail } from "../../common-steps/ask-email";
 import { AskNameStep } from "../../common-steps/ask-name";
 import { AskNationalAddress } from "../../common-steps/ask-national-address";
 import { AskNycAddress } from "../../common-steps/ask-nyc-address";
@@ -19,7 +20,10 @@ import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { skipStepsIf } from "../../progress/skip-steps-if";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { createStartAccountOrLoginSteps } from "../../start-account-or-login/routes";
-import { isUserLoggedIn } from "../../util/session-predicates";
+import {
+  isUserLoggedIn,
+  isUserLoggedInWithEmail,
+} from "../../util/session-predicates";
 import { EvictionFreeRoutes } from "../route-info";
 import { EvictionFreeDbConfirmation } from "./confirmation";
 import { EvictionFreeCovidImpact } from "./covid-impact";
@@ -56,6 +60,12 @@ const EfAskCityState = EvictionFreeOnboardingStep((props) => (
   >
     {DEFAULT_STEP_CONTENT}
   </AskCityState>
+));
+
+const EfAskEmail = MiddleProgressStep((props) => (
+  <AskEmail {...props}>
+    <p>We'll use this information to email you a copy of your declaration.</p>
+  </AskEmail>
 ));
 
 const EfAskNationalAddress = EvictionFreeOnboardingStep((props) => (
@@ -141,6 +151,12 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
           component: EfAskNycAddress,
         },
       ]),
+      {
+        path: routes.email,
+        exact: true,
+        component: EfAskEmail,
+        shouldBeSkipped: isUserLoggedInWithEmail,
+      },
       {
         path: routes.createAccount,
         component: EvictionFreeCreateAccount,

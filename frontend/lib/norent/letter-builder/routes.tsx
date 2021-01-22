@@ -14,7 +14,10 @@ import { NorentLbAskCityState } from "./ask-city-state";
 import { NorentLbAskEmail } from "./ask-email";
 import { NorentLbAskNationalAddress } from "./ask-national-address";
 import { NorentLbAskNycAddress } from "./ask-nyc-address";
-import { isUserLoggedIn } from "../../util/session-predicates";
+import {
+  isUserLoggedIn,
+  isUserLoggedInWithEmail,
+} from "../../util/session-predicates";
 import { NorentCreateAccount } from "./create-account";
 import { NorentConfirmation } from "./confirmation";
 import { NorentLandlordEmail } from "./landlord-email";
@@ -51,10 +54,6 @@ function isUserInNYC(s: AllSessionInfo): boolean {
 
 function isUserOutsideNYC(s: AllSessionInfo): boolean {
   return !isUserInNYC(s);
-}
-
-function isUserLoggedInWithEmail(s: AllSessionInfo): boolean {
-  return isUserLoggedIn(s) && !!s.email;
 }
 
 function isUserInLA(s: AllSessionInfo): boolean {

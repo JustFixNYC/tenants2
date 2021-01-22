@@ -42,6 +42,7 @@ tester.defineTest({
   startingAtStep: "/en/declaration/create-account",
   expectSteps: [
     "/en/declaration/hardship-situation",
+    "/en/declaration/index-number",
     "/en/declaration/landlord/name",
     "/en/declaration/landlord/email",
     "/en/declaration/landlord/address",

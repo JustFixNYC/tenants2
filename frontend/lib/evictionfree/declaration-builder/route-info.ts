@@ -24,6 +24,7 @@ export function createEvictionFreeDeclarationBuilderRouteInfo(prefix: string) {
     createAccount: `${prefix}/create-account`,
     createAccountTermsModal: `${prefix}/create-account/terms-modal`,
     hardshipSituation: `${prefix}/hardship-situation`,
+    indexNumber: `${prefix}/index-number`,
     landlordName: `${prefix}/landlord/name`,
     landlordEmail: `${prefix}/landlord/email`,
     landlordAddress: `${prefix}/landlord/address`,

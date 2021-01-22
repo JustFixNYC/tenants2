@@ -17,6 +17,8 @@ const NYC_311_CONTACT_LINK =
 const LIST_OF_ORGANIZING_GROUPS_URL =
   "https://d3n8a8pro7vhmx.cloudfront.net/righttocounselnyc/pages/1232/attachments/original/1590279936/List_of_Tenant_Organizing_Groups_Across_NY_State.pdf?1590279936";
 
+const H2_CLASSNAME = "title is-size-4 is-size-5-mobile is-spaced";
+
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
 const renderTitleWithCheckCircle = (title: string) => (
@@ -25,14 +27,14 @@ const renderTitleWithCheckCircle = (title: string) => (
       <i className="has-text-info">{checkCircleSvg}</i>
     </div>
     <div className="media-content">
-      <h2 className="title is-size-4-mobile">{title}</h2>
+      <h1 className="title is-size-4-mobile">{title}</h1>
     </div>
   </div>
 );
 
 const RetaliationBlurb = () => (
   <>
-    <h2 className="title is-spaced">
+    <h2 className={H2_CLASSNAME}>
       Contact a lawyer if your landlord retaliates
     </h2>
     <p>
@@ -55,7 +57,7 @@ const RetaliationBlurb = () => (
 const HcaHotlineBlurb = () => (
   <>
     {" "}
-    <h2 className="title is-spaced">Need additional support?</h2>
+    <h2 className={H2_CLASSNAME}>Need additional support?</h2>
     <p>
       Call the Housing Court Answers hotline at{" "}
       <OutboundLink
@@ -78,7 +80,7 @@ const HcaHotlineBlurb = () => (
 const OrganizingGroupsBlurb = () => (
   <>
     {" "}
-    <h2 className="title is-spaced">Join the fight to cancel rent</h2>
+    <h2 className={H2_CLASSNAME}>Join the fight to cancel rent</h2>
     <p>
       Get involved in your local community organization! Join millions in the
       fight for a future free from debt and to win a cancelation of rent,
@@ -128,7 +130,7 @@ export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
         Check your email for a message containing a copy of your declaration and
         additional important information on next steps.
       </p>
-      <h2 className="title is-spaced">Details about your declaration</h2>
+      <h2 className={H2_CLASSNAME}>Details about your declaration</h2>
       <p>Your letter was sent on {friendlyUTCDate(sendDate)}. </p>
       <p>
         <span className="is-size-5 has-text-weight-bold">USPS Tracking #:</span>{" "}

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-22 12:14\n"
+"PO-Revision-Date: 2021-01-22 12:53\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1600,7 +1600,7 @@ msgstr "Dakota del Sur"
 
 #: frontend/lib/common-steps/welcome.tsx:45
 msgid "Start"
-msgstr "Start"
+msgstr "Comienzo"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:281
 msgid "Start a legal case for repairs and/or harassment"

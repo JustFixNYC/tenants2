@@ -3,6 +3,9 @@ import { OutboundLink } from "../../analytics/google-analytics";
 import { ProgressStepProps } from "../../progress/progress-step-route";
 import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
 import Page from "../../ui/page";
+import { getGlobalAppServerInfo } from "../../app-context";
+import { friendlyUTCDate } from "../../util/date-util";
+import { PdfLink } from "../../ui/pdf-link";
 
 // TO DO: Replace this tracking number with the user's actual one
 const SAMPLE_USPS_TRACKING_NUMBER = "129837127326123";
@@ -14,24 +17,24 @@ const NYC_311_CONTACT_LINK =
 const LIST_OF_ORGANIZING_GROUPS_URL =
   "https://d3n8a8pro7vhmx.cloudfront.net/righttocounselnyc/pages/1232/attachments/original/1590279936/List_of_Tenant_Organizing_Groups_Across_NY_State.pdf?1590279936";
 
+const H2_CLASSNAME = "title is-size-4 is-size-5-mobile is-spaced";
+
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
-const TitleWithSymbol = () => (
+const renderTitleWithCheckCircle = (title: string) => (
   <div className="media">
     <div className="media-left">
       <i className="has-text-info">{checkCircleSvg}</i>
     </div>
     <div className="media-content">
-      <h2 className="title is-size-4-mobile">
-        You've sent your hardship declaration
-      </h2>
+      <h1 className="title is-size-4-mobile">{title}</h1>
     </div>
   </div>
 );
 
 const RetaliationBlurb = () => (
   <>
-    <h2 className="title is-spaced">
+    <h2 className={H2_CLASSNAME}>
       Contact a lawyer if your landlord retaliates
     </h2>
     <p>
@@ -54,7 +57,7 @@ const RetaliationBlurb = () => (
 const HcaHotlineBlurb = () => (
   <>
     {" "}
-    <h2 className="title is-spaced">Need additional support?</h2>
+    <h2 className={H2_CLASSNAME}>Need additional support?</h2>
     <p>
       Call the Housing Court Answers hotline at{" "}
       <OutboundLink
@@ -77,22 +80,22 @@ const HcaHotlineBlurb = () => (
 const OrganizingGroupsBlurb = () => (
   <>
     {" "}
-    <h2 className="title is-spaced">
-      Get involved in your local community organization and join the fight to
-      cancel rent.
-    </h2>
+    <h2 className={H2_CLASSNAME}>Join the fight to cancel rent</h2>
     <p>
-      Join millions in the fight for a future free from debt and to win a
-      cancelation of rent, mortgage and utility payments.
+      Get involved in your local community organization! Join millions in the
+      fight for a future free from debt and to win a cancelation of rent,
+      mortgage and utility payments.
     </p>
-    <OutboundLink
-      className="button is-primary is-large jf-is-extra-wide"
-      href={LIST_OF_ORGANIZING_GROUPS_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Find Organizations Near You →
-    </OutboundLink>
+    <p className="has-text-centered">
+      <OutboundLink
+        className="button is-primary is-large jf-is-extra-wide"
+        href={LIST_OF_ORGANIZING_GROUPS_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View list of organizations →
+      </OutboundLink>
+    </p>
     <p className="is-size-6">
       <br />
       *Due to the COVID-19 pandemic, some offices are closed and may not answer
@@ -104,9 +107,18 @@ const OrganizingGroupsBlurb = () => (
 export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
   props
 ) => {
+  // TODO: This should be the URL to the finished declaration, *not* the preview.
+  const pdfLink = getGlobalAppServerInfo().previewHardshipDeclarationURL;
+
+  // TODO: This should be the actual send date of the letter.
+  const sendDate = new Date().toISOString();
+
   return (
-    <Page title="You've sent your hardship declaration" className="content">
-      <TitleWithSymbol />
+    <Page
+      title="You've sent your hardship declaration"
+      className="content"
+      withHeading={renderTitleWithCheckCircle}
+    >
       <p>
         {/* TO DO: Dynamically show "email" and "USPS Certified Mail" based on user actions */}
         Your declaration has been sent to your landlord via email and USPS
@@ -118,9 +130,8 @@ export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
         Check your email for a message containing a copy of your declaration and
         additional important information on next steps.
       </p>
-      <h2 className="title is-spaced">Details about your latest declaration</h2>
-
-      <p>Your letter was sent on Tuesday, January 19, 2021. </p>
+      <h2 className={H2_CLASSNAME}>Details about your declaration</h2>
+      <p>Your letter was sent on {friendlyUTCDate(sendDate)}. </p>
       <p>
         <span className="is-size-5 has-text-weight-bold">USPS Tracking #:</span>{" "}
         <OutboundLink
@@ -132,7 +143,8 @@ export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
           {SAMPLE_USPS_TRACKING_NUMBER}
         </OutboundLink>
       </p>
-
+      <br />
+      <PdfLink href={pdfLink} label="Download completed declaration" />
       {/* TO DO: Only show the following two sections if user is in NYC
           by checking if session.onboardingInfo.borough is falsy */}
       <>

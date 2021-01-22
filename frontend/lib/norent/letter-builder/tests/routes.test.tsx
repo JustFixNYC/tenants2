@@ -110,6 +110,17 @@ describe("NoRent letter builder steps", () => {
   });
 
   tester.defineTest({
+    it: "works w/ logged-in JustFix.nyc user who doesn't have email set",
+    usingSession: sb.withLoggedInJustfixUser().with({ email: "" }),
+    expectSteps: [
+      "/en/letter/terms",
+      "/en/letter/kyr",
+      "/en/letter/email",
+      "/en/letter/post-signup-no-protections",
+    ],
+  });
+
+  tester.defineTest({
     it: "Asks legacy LA users to opt-in to SAJE",
     usingSession: sb.withLoggedInLosAngelesUser().withOnboardingInfo({
       canReceiveSajeComms: null,

@@ -19,15 +19,13 @@ const LIST_OF_ORGANIZING_GROUPS_URL =
 
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
-const TitleWithSymbol = () => (
+const renderTitleWithCheckCircle = (title: string) => (
   <div className="media">
     <div className="media-left">
       <i className="has-text-info">{checkCircleSvg}</i>
     </div>
     <div className="media-content">
-      <h2 className="title is-size-4-mobile">
-        You've sent your hardship declaration
-      </h2>
+      <h2 className="title is-size-4-mobile">{title}</h2>
     </div>
   </div>
 );
@@ -114,8 +112,11 @@ export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
   const sendDate = new Date().toISOString();
 
   return (
-    <Page title="You've sent your hardship declaration" className="content">
-      <TitleWithSymbol />
+    <Page
+      title="You've sent your hardship declaration"
+      className="content"
+      withHeading={renderTitleWithCheckCircle}
+    >
       <p>
         {/* TO DO: Dynamically show "email" and "USPS Certified Mail" based on user actions */}
         Your declaration has been sent to your landlord via email and USPS

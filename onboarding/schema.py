@@ -188,6 +188,8 @@ class AgreeToTerms(SessionFormMutation):
             oi.agreed_to_justfix_terms = True
         elif site_type == SITE_CHOICES.NORENT:
             oi.agreed_to_norent_terms = True
+        elif site_type == SITE_CHOICES.EVICTIONFREE:
+            oi.agreed_to_evictionfree_terms = True
         else:
             raise AssertionError(f"Unknown site type: {site_type}")
         oi.save()
@@ -219,6 +221,7 @@ class OnboardingInfoType(DjangoObjectType):
             "zipcode",
             "agreed_to_justfix_terms",
             "agreed_to_norent_terms",
+            "agreed_to_evictionfree_terms",
             "can_receive_rttc_comms",
             "can_receive_saje_comms",
         )

@@ -4,7 +4,11 @@ import {
   YesNoRadiosFormFieldProps,
   YesNoRadiosFormField,
 } from "./yes-no-radios-form-field";
-import { BaseFormFieldProps, HiddenFormField } from "./form-fields";
+import {
+  BaseFormFieldProps,
+  HiddenFormField,
+  HiddenFormFieldProps,
+} from "./form-fields";
 
 type WithHidden = { hidden: boolean };
 
@@ -22,11 +26,28 @@ export function hideByDefault<T>(
  * renders at least an <input type="hidden"> to ensure that progressive
  * enhancement will still work.
  */
-export function ConditionalYesNoRadiosFormField(
-  props: ConditionalYesNoRadiosFieldProps
-) {
+export const ConditionalYesNoRadiosFormField: React.FC<ConditionalYesNoRadiosFieldProps> = (
+  props
+) => (
+  <ConditionalFormField {...props}>
+    <YesNoRadiosFormField {...props} />
+  </ConditionalFormField>
+);
+
+/**
+ * Wrapper element for form fields that are intended to be conditionally
+ * rendered. The children are only rendered if the `hidden` prop is
+ * false; otherwise, a hidden form field is rendered with the given
+ * props to ensure that progressive enhancement will still work.
+ */
+export const ConditionalFormField: React.FC<
+  HiddenFormFieldProps &
+    WithHidden & {
+      children: JSX.Element;
+    }
+> = (props) => {
   if (!props.hidden || props.errors) {
-    return <YesNoRadiosFormField {...props} />;
+    return props.children;
   }
   return <HiddenFormField {...props} />;
-}
+};

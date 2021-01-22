@@ -12,6 +12,7 @@ import { LocaleChoice } from "../../../common-data/locale-choices";
 import i18n from "../i18n";
 import JustfixRoutes from "../justfix-route-info";
 import { NorentRoutes } from "../norent/route-info";
+import { EvictionFreeRoutes } from "../evictionfree/route-info";
 
 export type JustfixAmplitudeUserProperties = {
   city: string;
@@ -225,6 +226,13 @@ function getNorentPageType(pathname: string): string {
   });
 }
 
+function getEvictionFreePageType(pathname: string): string {
+  const r = EvictionFreeRoutes.locale;
+  return findBestPage(pathname, {
+    [r.declaration.prefix]: "declaration builder",
+  });
+}
+
 export function getAmplitudePageType(pathname: string): string {
   const { siteType } = getGlobalAppServerInfo();
 
@@ -234,7 +242,6 @@ export function getAmplitudePageType(pathname: string): string {
     case "NORENT":
       return "NoRent " + getNorentPageType(pathname);
     case "EVICTIONFREE":
-      // TODO: Return the type of page it is for EvictionFree.
-      return "EvictionFree";
+      return "EvictionFree " + getEvictionFreePageType(pathname);
   }
 }

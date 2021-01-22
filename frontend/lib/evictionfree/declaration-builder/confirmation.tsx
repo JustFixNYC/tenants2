@@ -3,6 +3,10 @@ import { OutboundLink } from "../../analytics/google-analytics";
 import { ProgressStepProps } from "../../progress/progress-step-route";
 import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
 import Page from "../../ui/page";
+import { getGlobalAppServerInfo } from "../../app-context";
+import { friendlyUTCDate } from "../../util/date-util";
+import { PdfLink } from "../../ui/pdf-link";
+import { CenteredPrimaryButtonLink } from "../../ui/buttons";
 
 // TO DO: Replace this tracking number with the user's actual one
 const SAMPLE_USPS_TRACKING_NUMBER = "129837127326123";
@@ -77,22 +81,22 @@ const HcaHotlineBlurb = () => (
 const OrganizingGroupsBlurb = () => (
   <>
     {" "}
-    <h2 className="title is-spaced">
-      Get involved in your local community organization and join the fight to
-      cancel rent.
-    </h2>
+    <h2 className="title is-spaced">Join the fight to cancel rent</h2>
     <p>
-      Join millions in the fight for a future free from debt and to win a
-      cancelation of rent, mortgage and utility payments.
+      Get involved in your local community organization! Join millions in the
+      fight for a future free from debt and to win a cancelation of rent,
+      mortgage and utility payments.
     </p>
-    <OutboundLink
-      className="button is-primary is-large jf-is-extra-wide"
-      href={LIST_OF_ORGANIZING_GROUPS_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Find Organizations Near You →
-    </OutboundLink>
+    <p className="has-text-centered">
+      <OutboundLink
+        className="button is-primary is-large jf-is-extra-wide"
+        href={LIST_OF_ORGANIZING_GROUPS_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View list of organizations →
+      </OutboundLink>
+    </p>
     <p className="is-size-6">
       <br />
       *Due to the COVID-19 pandemic, some offices are closed and may not answer
@@ -104,6 +108,12 @@ const OrganizingGroupsBlurb = () => (
 export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
   props
 ) => {
+  // TODO: This should be the URL to the finished declaration, *not* the preview.
+  const pdfLink = getGlobalAppServerInfo().previewHardshipDeclarationURL;
+
+  // TODO: This should be the actual send date of the letter.
+  const sendDate = new Date().toISOString();
+
   return (
     <Page title="You've sent your hardship declaration" className="content">
       <TitleWithSymbol />
@@ -118,9 +128,8 @@ export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
         Check your email for a message containing a copy of your declaration and
         additional important information on next steps.
       </p>
-      <h2 className="title is-spaced">Details about your latest declaration</h2>
-
-      <p>Your letter was sent on Tuesday, January 19, 2021. </p>
+      <h2 className="title is-spaced">Details about your declaration</h2>
+      <p>Your letter was sent on {friendlyUTCDate(sendDate)}. </p>
       <p>
         <span className="is-size-5 has-text-weight-bold">USPS Tracking #:</span>{" "}
         <OutboundLink
@@ -132,7 +141,8 @@ export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
           {SAMPLE_USPS_TRACKING_NUMBER}
         </OutboundLink>
       </p>
-
+      <br />
+      <PdfLink href={pdfLink} label="Download completed declaration" />
       {/* TO DO: Only show the following two sections if user is in NYC
           by checking if session.onboardingInfo.borough is falsy */}
       <>

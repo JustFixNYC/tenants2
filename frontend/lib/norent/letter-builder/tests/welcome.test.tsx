@@ -17,7 +17,7 @@ describe("NoRent welcome page", () => {
   it("should work", async () => {
     const pal = createPal();
     pal.rr.getByText("Build your letter");
-    pal.clickButtonOrLink("Next");
+    pal.clickButtonOrLink("Start");
     await pal.waitForLocation(NorentRoutes.locale.letter.phoneNumber);
   });
 

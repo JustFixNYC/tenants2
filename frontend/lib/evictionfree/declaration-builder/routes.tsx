@@ -12,6 +12,7 @@ import LandlordMailingAddress, {
   shouldSkipLandlordMailingAddressStep,
 } from "../../common-steps/landlord-mailing-address";
 import { LandlordNameAndContactTypes } from "../../common-steps/landlord-name-and-contact-types";
+import { createCrossSiteAgreeToTermsStep } from "../../pages/cross-site-terms-opt-in";
 import {
   buildProgressRoutesComponent,
   ProgressRoutesProps,
@@ -126,7 +127,7 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
       ...createStartAccountOrLoginSteps(routes),
     ],
     stepsToFillOut: [
-      // TODO: Add cross-site "agree to terms" step.
+      createCrossSiteAgreeToTermsStep(routes.crossSiteAgreeToTerms),
       ...skipStepsIf(isUserLoggedIn, [
         {
           path: routes.name,

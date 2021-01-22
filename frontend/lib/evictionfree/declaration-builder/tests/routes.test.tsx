@@ -51,7 +51,17 @@ tester.defineTest({
 });
 
 tester.defineTest({
+  it: "works w/ logged-in JustFix.nyc user who hasn't yet agreed to terms",
+  usingSession: sb.withLoggedInJustfixUser(),
+  expectSteps: ["/en/declaration/terms", "/en/declaration/hardship-situation"],
+});
+
+tester.defineTest({
   it: "works w/ logged-in JustFix.nyc user who doesn't have email set",
   usingSession: sb.withLoggedInJustfixUser().with({ email: "" }),
-  expectSteps: ["/en/declaration/email", "/en/declaration/hardship-situation"],
+  expectSteps: [
+    "/en/declaration/terms",
+    "/en/declaration/email",
+    "/en/declaration/hardship-situation",
+  ],
 });

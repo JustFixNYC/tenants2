@@ -522,8 +522,8 @@ msgstr "Electricity not working"
 msgid "Email"
 msgstr "Correo electrónico"
 
+#: frontend/lib/common-steps/ask-email.tsx:19
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:63
-#: frontend/lib/norent/letter-builder/ask-email.tsx:30
 msgid "Email address"
 msgstr "Dirección de correo electrónico"
 
@@ -1851,11 +1851,11 @@ msgstr "Enviaremos la carta en tu nombre por correo certificado de USPS y te pro
 msgid "We'll include this information in the letter to your landlord."
 msgstr "Incluiremos esta información en la carta al dueño de tu edificio."
 
-#: frontend/lib/norent/letter-builder/ask-email.tsx:16
+#: frontend/lib/norent/letter-builder/ask-email.tsx:10
 msgid "We'll use this information to email you a copy of your letter."
 msgstr "Utilizaremos esta información para enviarte una copia de tu carta."
 
-#: frontend/lib/norent/letter-builder/ask-email.tsx:20
+#: frontend/lib/norent/letter-builder/ask-email.tsx:14
 msgid "We'll use this information to send you updates."
 msgstr "Utilizaremos esta información para enviarte noticias."
 
@@ -2114,7 +2114,7 @@ msgstr "Tu edificio tenía {0, plural, one {una unidad de alquiler estabilizado}
 msgid "Your building was built in {0} or earlier."
 msgstr "Tu edificio fue construido en {0} o antes."
 
-#: frontend/lib/norent/letter-builder/ask-email.tsx:13
+#: frontend/lib/common-steps/ask-email.tsx:10
 msgid "Your email address"
 msgstr "Tu dirección de correo electrónico"
 
@@ -2441,4 +2441,3 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:102
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

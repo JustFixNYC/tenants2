@@ -517,8 +517,8 @@ msgstr "Electricity not working"
 msgid "Email"
 msgstr "Email"
 
+#: frontend/lib/common-steps/ask-email.tsx:19
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:63
-#: frontend/lib/norent/letter-builder/ask-email.tsx:30
 msgid "Email address"
 msgstr "Email address"
 
@@ -1846,11 +1846,11 @@ msgstr "We will be mailing this letter on your behalf by USPS certified mail and
 msgid "We'll include this information in the letter to your landlord."
 msgstr "We'll include this information in the letter to your landlord."
 
-#: frontend/lib/norent/letter-builder/ask-email.tsx:16
+#: frontend/lib/norent/letter-builder/ask-email.tsx:10
 msgid "We'll use this information to email you a copy of your letter."
 msgstr "We'll use this information to email you a copy of your letter."
 
-#: frontend/lib/norent/letter-builder/ask-email.tsx:20
+#: frontend/lib/norent/letter-builder/ask-email.tsx:14
 msgid "We'll use this information to send you updates."
 msgstr "We'll use this information to send you updates."
 
@@ -2109,7 +2109,7 @@ msgstr "Your building had {0, plural, one {one rent stabilized unit} other {# re
 msgid "Your building was built in {0} or earlier."
 msgstr "Your building was built in {0} or earlier."
 
-#: frontend/lib/norent/letter-builder/ask-email.tsx:13
+#: frontend/lib/common-steps/ask-email.tsx:10
 msgid "Your email address"
 msgstr "Your email address"
 

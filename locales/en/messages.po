@@ -260,7 +260,7 @@ msgstr "Build my letter"
 msgid "Build power in numbers"
 msgstr "Build power in numbers"
 
-#: frontend/lib/norent/letter-builder/welcome.tsx:15
+#: frontend/lib/norent/letter-builder/welcome.tsx:9
 msgid "Build your letter"
 msgstr "Build your letter"
 
@@ -992,8 +992,7 @@ msgstr "Looks like you're in <0>Los Angeles County, California</0>"
 msgid "Looks like you're not logged in"
 msgstr "Looks like you're not logged in"
 
-#: frontend/lib/evictionfree/declaration-builder/welcome.tsx:13
-#: frontend/lib/norent/letter-builder/welcome.tsx:17
+#: frontend/lib/common-steps/welcome.tsx:37
 msgid "Looks like you've been here before. Click \"Next\" to be taken to where you left off."
 msgstr "Looks like you've been here before. Click \"Next\" to be taken to where you left off."
 
@@ -1143,8 +1142,7 @@ msgstr "New York"
 msgid "New password"
 msgstr "New password"
 
-#: frontend/lib/evictionfree/declaration-builder/welcome.tsx:47
-#: frontend/lib/norent/letter-builder/welcome.tsx:55
+#: frontend/lib/common-steps/welcome.tsx:45
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
 msgid "Next"
@@ -1595,6 +1593,10 @@ msgstr "South Carolina"
 msgid "South Dakota"
 msgstr "South Dakota"
 
+#: frontend/lib/common-steps/welcome.tsx:45
+msgid "Start"
+msgstr "Start"
+
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:281
 msgid "Start a legal case for repairs and/or harassment"
 msgstr "Start a legal case for repairs and/or harassment"
@@ -1866,8 +1868,8 @@ msgstr "We've just sent you a text message containing a verification code. Pleas
 msgid "Weak electrical current"
 msgstr "Weak electrical current"
 
+#: frontend/lib/common-steps/welcome.tsx:24
 #: frontend/lib/norent/letter-builder/menu.tsx:26
-#: frontend/lib/norent/letter-builder/welcome.tsx:14
 msgid "Welcome back!"
 msgstr "Welcome back!"
 
@@ -2314,7 +2316,7 @@ msgstr "<0>Connect to organizers through the <1/>, a national alliance of organi
 msgid "norent.instructionsForStatesWithLimitedProtections_v2"
 msgstr "<0><1/></0><2>Also know that you’re not alone. In states without eviction moratoriums, it’s important to both protect yourself legally and build collective power with other tenants.</2><3>First, start by making sure that all communication between you and your landlord is documented in writing. Begin collecting all documentation of any hardships related to COVID-19. If you’re facing an emergency, immediately find legal assistance in your state at <4/>.</3><5>Next, connect safely with other tenants in your building or home. Start by organizing a means of communicating with one another to find out what issues and needs you share in common. For more resources on forming a tenant union check out <6/>. You may also connect with local organizing groups affiliated with the national <7/>.</5><8>Finally, join millions of tenants who are working hard to fight for national tenant protections, an immediate rent freeze, and rent suspension. Sign on at <9/>.</8>"
 
-#: frontend/lib/norent/letter-builder/welcome.tsx:23
+#: frontend/lib/norent/letter-builder/welcome.tsx:12
 msgid "norent.introductionToLetterBuilderSteps"
 msgstr "In order to benefit from the eviction protections that local elected officials have put in place, you should notify your landlord of your non-payment for reasons related to COVID-19. <0>In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense.</0>"
 
@@ -2358,7 +2360,7 @@ msgstr "We’ve worked with the non-profit organization <0>SAJE</0> to provide a
 msgid "norent.madeByBlurb"
 msgstr "NoRent.org is made by <0>JustFix.nyc</0>, a non-profit organization that co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City."
 
-#: frontend/lib/norent/letter-builder/welcome.tsx:34
+#: frontend/lib/norent/letter-builder/welcome.tsx:23
 msgid "norent.outlineOfLetterBuilderSteps"
 msgstr "<0>In the next few steps, we’ll build your letter using the following information. Have this information on hand if possible:</0><1><2><3>your phone number, email address, and residence</3></2><4><5>your landlord or management company’s mailing and/or email address</5></4></1>"
 

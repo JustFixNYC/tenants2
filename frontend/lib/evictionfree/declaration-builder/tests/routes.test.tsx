@@ -27,6 +27,7 @@ describe("Eviction free declaration builder steps", () => {
       "/en/declaration/name",
       "/en/declaration/city",
       "/en/declaration/address/national",
+      "/en/declaration/email",
       "/en/declaration/create-account",
     ],
   });
@@ -47,4 +48,10 @@ tester.defineTest({
     "/en/declaration/preview",
     "/en/declaration/confirmation",
   ],
+});
+
+tester.defineTest({
+  it: "works w/ logged-in JustFix.nyc user who doesn't have email set",
+  usingSession: sb.withLoggedInJustfixUser().with({ email: "" }),
+  expectSteps: ["/en/declaration/email", "/en/declaration/hardship-situation"],
 });

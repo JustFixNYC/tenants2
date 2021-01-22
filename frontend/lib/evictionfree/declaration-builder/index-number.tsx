@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   ConditionalFormField,
   hideByDefault,
 } from "../../forms/conditional-form-fields";
-import { BaseFormFieldProps, TextualFormField } from "../../forms/form-fields";
+import { TextualFormField } from "../../forms/form-fields";
+import { usePrototypingFormFieldProps } from "../../forms/prototyping";
 import {
   YesNoRadiosFormField,
   YES_NO_RADIOS_TRUE,
@@ -12,27 +13,11 @@ import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { ProgressButtonsAsLinks } from "../../ui/buttons";
 import Page from "../../ui/page";
 
-function useTemporaryFormFieldProps<T>(
-  name: string,
-  initialValue: T
-): BaseFormFieldProps<T> {
-  const [value, onChange] = useState(initialValue);
-  const result: BaseFormFieldProps<T> = {
-    onChange,
-    value,
-    name,
-    isDisabled: false,
-    id: name,
-  };
-
-  return result;
-}
-
 export const EvictionFreeIndexNumber = MiddleProgressStep((props) => {
   const titleQuestion = "Do you have a current eviction court case?";
-  const yesNoProps = useTemporaryFormFieldProps("yesNo", "");
+  const yesNoProps = usePrototypingFormFieldProps("yesNo", "");
   const indexNumberProps = hideByDefault(
-    useTemporaryFormFieldProps("indexNumber", "")
+    usePrototypingFormFieldProps("indexNumber", "")
   );
 
   if (yesNoProps.value === YES_NO_RADIOS_TRUE) {

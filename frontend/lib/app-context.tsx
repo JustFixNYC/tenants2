@@ -4,7 +4,7 @@ import { AllSessionInfo } from "./queries/AllSessionInfo";
 import { GraphQLFetch } from "./networking/graphql-client";
 import { buildContextHocFactory } from "./util/context-util";
 import { SiteChoice } from "../../common-data/site-choices";
-import { SiteRoutes } from "./routes";
+import { SiteRoutes } from "./global-site-routes";
 import { LocaleChoice } from "../../common-data/locale-choices";
 
 /** Metadata about forms submitted via legacy POST. */
@@ -93,6 +93,12 @@ export interface AppServerInfo {
 
   /** The POST endpoint to enable compatibility mode (aka "safe mode"). */
   enableSafeModeURL: string;
+
+  /**
+   * The URL for the preview of the eviction free COVID-19 hardship
+   * declaration for the current user.
+   */
+  previewHardshipDeclarationURL: string;
 
   /**
    * An optional label to show the site's navbar.

@@ -1,6 +1,6 @@
 import { Route, RouteComponentProps, Switch } from "react-router-dom";
 import React, { useEffect, useMemo, useState } from "react";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes from "../justfix-route-info";
 import Front, {
   ApplicationContext,
   SingleConversationContext,

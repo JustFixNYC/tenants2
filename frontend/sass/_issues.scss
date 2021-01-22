@@ -27,6 +27,11 @@
   }
 }
 
+div.title.jf-issue-category-heading {
+  margin-top: 2.75rem;
+  margin-bottom: 1rem;
+}
+
 .jf-issue-area-link:focus {
   @include outline-focus();
 }

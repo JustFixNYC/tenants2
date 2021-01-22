@@ -4,7 +4,7 @@ import {
   NorentAlreadyLoggedInErrorPage,
   NorentAlreadySentLetterErrorPage,
 } from "./error-pages";
-import { isUserLoggedOut, isUserLoggedIn } from "../../util/session-predicates";
+import { isUserLoggedOut } from "../../util/session-predicates";
 import {
   ProgressStepProps,
   MiddleProgressStepProps,
@@ -12,6 +12,7 @@ import {
 } from "../../progress/progress-step-route";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { withSessionErrorHandling } from "../../ui/session-error-handling";
+import { OnboardingStep } from "../../common-steps/step-decorators";
 
 type MiddleStepComponent = React.ComponentType<MiddleProgressStepProps>;
 type StepComponent = React.ComponentType<ProgressStepProps>;
@@ -47,9 +48,6 @@ export function hasNorentLetterNeverBeenSent(s: AllSessionInfo): boolean {
 export const NorentRequireLoginStep = (c: StepComponent) =>
   withSessionErrorHandling(isUserLoggedOut, NorentNotLoggedInErrorPage, c);
 
-const requireLogout = (c: StepComponent) =>
-  withSessionErrorHandling(isUserLoggedIn, NorentAlreadyLoggedInErrorPage, c);
-
 const requireNotSentLetter = (c: StepComponent) =>
   NorentRequireLoginStep(
     withSessionErrorHandling(
@@ -62,8 +60,10 @@ const requireNotSentLetter = (c: StepComponent) =>
 /**
  * A middle step before the user has created an account.
  */
-export const NorentOnboardingStep = (c: MiddleStepComponent) =>
-  requireLogout(MiddleProgressStep(c));
+export const NorentOnboardingStep = OnboardingStep.bind(
+  this,
+  NorentAlreadyLoggedInErrorPage
+);
 
 /**
  * A middle step after the user has created an account, but

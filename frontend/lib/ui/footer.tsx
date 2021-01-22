@@ -1,6 +1,6 @@
 import React from "react";
 import { PrivacyPolicyLink, TermsOfUseLink } from "./privacy-info-modal";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes from "../justfix-route-info";
 import { ROUTE_PREFIX } from "../util/route-util";
 import { Trans } from "@lingui/macro";
 import { LegalDisclaimer } from "./legal-disclaimer";

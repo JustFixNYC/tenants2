@@ -7,7 +7,7 @@ import {
 } from "../app-context";
 import { AllSessionInfo, BlankAllSessionInfo } from "../queries/AllSessionInfo";
 import { FormError, strToFormError } from "../forms/form-errors";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes from "../justfix-route-info";
 import { Route } from "react-router-dom";
 
 interface TestClient {
@@ -69,6 +69,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   wowOrigin: "https://wow.test",
   efnycOrigin: "https://efnyc.test",
   enableSafeModeURL: "/mysafemode/enable",
+  previewHardshipDeclarationURL: "/preview-declaration.pdf",
   mapboxAccessToken: "",
   enabledLocales: ["en"],
   enableWipLocales: false,

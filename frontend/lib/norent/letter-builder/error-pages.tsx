@@ -1,35 +1,19 @@
 import React from "react";
-import Page from "../../ui/page";
-import { NorentRoutes } from "../routes";
-import { CustomerSupportLink } from "../../ui/customer-support-link";
+import { NorentRoutes } from "../route-info";
 import { CenteredPrimaryButtonLink } from "../../ui/buttons";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
 import { NorentCannotSendMoreLettersText } from "./more-letters";
-
-type ErrorPageProps = {
-  title: string;
-  children: React.ReactNode;
-};
+import {
+  AlreadyLoggedInErrorPage,
+  ErrorPage,
+  NotLoggedInErrorPage,
+} from "../../common-steps/error-pages";
 
 const getLbRoutes = () => NorentRoutes.locale.letter;
 
-const ErrorPage: React.FC<ErrorPageProps> = (props) => (
-  <Page title={props.title} withHeading="big" className="content">
-    {props.children}
-  </Page>
-);
-
 export const NorentNotLoggedInErrorPage: React.FC<{}> = () => (
-  <ErrorPage title={li18n._(t`Looks like you're not logged in`)}>
-    <p>
-      <Trans>Sign up or log in to your account to access our tool.</Trans>
-    </p>
-    <br />
-    <CenteredPrimaryButtonLink to={getLbRoutes().phoneNumber}>
-      <Trans>Log in</Trans>
-    </CenteredPrimaryButtonLink>
-  </ErrorPage>
+  <NotLoggedInErrorPage loginUrl={getLbRoutes().phoneNumber} />
 );
 
 export const NorentAlreadySentLetterErrorPage: React.FC<{}> = () => (
@@ -49,16 +33,5 @@ export const NorentAlreadySentLetterErrorPage: React.FC<{}> = () => (
 );
 
 export const NorentAlreadyLoggedInErrorPage: React.FC<{}> = () => (
-  <ErrorPage title={li18n._(t`Looks like you're already logged in`)}>
-    <p>
-      <Trans>
-        If you need to make changes to your name or contact information, please
-        contact <CustomerSupportLink />.
-      </Trans>
-    </p>
-    <br />
-    <CenteredPrimaryButtonLink to={getLbRoutes().latestStep}>
-      <Trans>Continue</Trans>
-    </CenteredPrimaryButtonLink>
-  </ErrorPage>
+  <AlreadyLoggedInErrorPage continueUrl={getLbRoutes().latestStep} />
 );

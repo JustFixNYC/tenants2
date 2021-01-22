@@ -1,11 +1,11 @@
 import React from "react";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import { NorentLogoutPage } from "../log-out";
+import { AlernativeLogoutPage } from "../../pages/logout-alt-page";
 import { LogoutMutation } from "../../queries/LogoutMutation";
 
 describe("Norent logout page", () => {
   const pageWithPhoneNumber = (phoneNumber: string | null) =>
-    new AppTesterPal(<NorentLogoutPage />, { session: { phoneNumber } });
+    new AppTesterPal(<AlernativeLogoutPage />, { session: { phoneNumber } });
 
   it("renders when logged in", () => {
     pageWithPhoneNumber("5551234567").rr.getByText(/log out/);

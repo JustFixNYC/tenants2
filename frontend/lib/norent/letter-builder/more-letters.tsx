@@ -2,7 +2,7 @@ import { Trans } from "@lingui/macro";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../app-context";
-import { NorentRoutes } from "../routes";
+import { NorentRoutes } from "../route-info";
 
 export const NorentCannotSendMoreLettersText: React.FC<{}> = () => {
   return (

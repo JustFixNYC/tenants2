@@ -1,8 +1,7 @@
 import React from "react";
-import { StaticImage } from "../ui/static-image";
-import { getImageSrc, JumpArrow } from "./homepage";
+import { JumpArrow } from "./homepage";
 import { Link } from "react-router-dom";
-import { NorentRoutes } from "./routes";
+import { NorentRoutes } from "./route-info";
 import {
   getFaqsContent,
   Faq,
@@ -14,6 +13,7 @@ import Page from "../ui/page";
 import { ScrollyLink } from "../ui/scrolly-link";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
+import { Accordion } from "../ui/accordion";
 
 const FAQS_PAGE_CATEGORIES_IN_ORDER: FaqCategory[] = [
   "Letter Builder",
@@ -32,29 +32,15 @@ export function getStatesWithLimitedProtectionsFAQSectionURL() {
 
 function generateFaqsListFromData(data: Faq[], isPreview?: boolean) {
   return data.map((faq, i) => (
-    <div className="jf-accordion-item jf-space-below-2rem" key={i}>
-      <details className="has-text-left jf-space-below-2rem">
-        <summary>
-          <div className="media">
-            <div className="media-content">
-              <span className="title jf-alt-title-font is-size-5">
-                {faq.question}
-              </span>
-            </div>
-            <div className="media-right">
-              <ChevronIcon />
-            </div>
-          </div>
-        </summary>
-        {isPreview ? faq.previewOptions?.answerPreview : faq.answerFull}
-      </details>
-    </div>
+    <Accordion
+      key={i}
+      question={faq.question}
+      questionClassName="title jf-alt-title-font is-size-5"
+    >
+      {isPreview ? faq.previewOptions?.answerPreview : faq.answerFull}
+    </Accordion>
   ));
 }
-
-export const ChevronIcon = () => (
-  <StaticImage ratio="is-16x16" src={getImageSrc("chevron")} alt="" />
-);
 
 export const NorentFaqsPreview = () => {
   return (

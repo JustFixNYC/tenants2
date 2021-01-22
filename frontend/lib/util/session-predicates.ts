@@ -9,3 +9,10 @@ export function isUserLoggedIn(s: AllSessionInfo): boolean {
 export function isUserLoggedOut(s: AllSessionInfo): boolean {
   return !s.phoneNumber;
 }
+
+/**
+ * Returns whether a user is logged in, but doesn't an email address set.
+ */
+export function isUserLoggedInWithEmail(s: AllSessionInfo): boolean {
+  return isUserLoggedIn(s) && !!s.email;
+}

@@ -1,4 +1,8 @@
-from typing import Optional
+import json
+from findhelp.models import union_geometries
+from pathlib import Path
+from typing import Optional, Tuple
+from django.contrib.gis.geos import GEOSGeometry, Point
 import pydantic
 
 from .la_zipcodes import is_zip_code_in_la
@@ -21,6 +25,10 @@ NYC_CITIES = [
     "the bronx",
 ]
 
+BBOUNDS_PATH = Path("findhelp") / "data" / "Borough-Boundaries.geojson"
+
+_nyc_bounds: Optional[GEOSGeometry] = None
+
 
 class NorentScaffolding(pydantic.BaseModel):
     """
@@ -41,6 +49,9 @@ class NorentScaffolding(pydantic.BaseModel):
 
     # e.g. "NY"
     state: str = ""
+
+    # e.g. (-73.9496, 40.6501)
+    lnglat: Optional[Tuple[float, float]] = None
 
     zip_code: str = ""
 
@@ -76,9 +87,26 @@ class NorentScaffolding(pydantic.BaseModel):
     def is_city_in_nyc(self) -> Optional[bool]:
         if not (self.state and self.city):
             return None
-        return self.state == "NY" and self.city.lower() in NYC_CITIES
+        if self.state == "NY":
+            if self.city.lower() in NYC_CITIES:
+                return True
+            if self.lnglat and is_lnglat_in_nyc(self.lnglat):
+                return True
+        return False
 
     def is_zip_code_in_la(self) -> Optional[bool]:
         if not self.zip_code:
             return None
         return is_zip_code_in_la(self.zip_code)
+
+
+def is_lnglat_in_nyc(lnglat: Tuple[float, float]) -> bool:
+    global _nyc_bounds
+
+    if _nyc_bounds is None:
+        bbounds = json.loads(BBOUNDS_PATH.read_text())
+        _nyc_bounds = union_geometries(
+            GEOSGeometry(json.dumps(feature["geometry"])) for feature in bbounds["features"]
+        )
+        assert _nyc_bounds is not None
+    return _nyc_bounds.contains(Point(*lnglat))

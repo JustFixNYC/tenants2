@@ -180,6 +180,14 @@ class OnboardingInfo(models.Model):
         ),
     )
 
+    agreed_to_evictionfree_terms = models.BooleanField(
+        default=False,
+        help_text=(
+            "Whether the user has agreed to the Eviction Free terms "
+            "of service and privacy policy."
+        ),
+    )
+
     can_receive_rttc_comms = models.NullBooleanField(
         help_text=(
             "Whether the user has opted-in to being contacted by "

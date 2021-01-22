@@ -24,6 +24,6 @@ test("createMapboxPlacesURL() works", () => {
       types: ["locality", "address"],
     })
   ).toBe(
-    "https://api.mapbox.com/geocoding/v5/mapbox.places/blar%2C%2Cg.json?access_token=access&country=US&language=en&types=locality%2Caddress"
+    "https://api.mapbox.com/geocoding/v5/mapbox.places/blar%2C%2Cg.json?access_token=access&country=US&language=en&types=locality%2Caddress&bbox="
   );
 });

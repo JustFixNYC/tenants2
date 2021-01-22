@@ -15,6 +15,7 @@ const fakeAppProps: AppProps = {
 test("lambda works", async () => {
   jest.setTimeout(10000);
   const response = await errorCatchingHandler(fakeAppProps);
+  expect(response.traceback).toBeNull();
   expect(response.status).toBe(200);
   expect(response.location).toBeNull();
 });

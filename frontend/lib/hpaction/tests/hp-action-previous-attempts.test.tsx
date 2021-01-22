@@ -1,7 +1,7 @@
 import React from "react";
 
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import HPActionRoutes from "../hp-action";
+import HPActionRoutes from "../routes";
 import { newSb } from "../../tests/session-builder";
 
 describe("HP Action flow", () => {

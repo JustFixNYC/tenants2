@@ -30,8 +30,7 @@ export function hasLoggedInUserAgreedToTerms(s: AllSessionInfo): boolean {
       return s.onboardingInfo.agreedToNorentTerms;
 
     case "EVICTIONFREE":
-      // TODO: Need to figure out if we need separate terms for EvictionFree!
-      return s.onboardingInfo.agreedToJustfixTerms;
+      return s.onboardingInfo.agreedToEvictionfreeTerms;
   }
 }
 

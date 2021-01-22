@@ -6,7 +6,6 @@ import Page from "../../ui/page";
 import { getGlobalAppServerInfo } from "../../app-context";
 import { friendlyUTCDate } from "../../util/date-util";
 import { PdfLink } from "../../ui/pdf-link";
-import { CenteredPrimaryButtonLink } from "../../ui/buttons";
 
 // TO DO: Replace this tracking number with the user's actual one
 const SAMPLE_USPS_TRACKING_NUMBER = "129837127326123";

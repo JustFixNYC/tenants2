@@ -34,6 +34,12 @@ export const ConditionalYesNoRadiosFormField: React.FC<ConditionalYesNoRadiosFie
   </ConditionalFormField>
 );
 
+/**
+ * Wrapper element for form fields that are intended to be conditionally
+ * rendered. The children are only rendered if the `hidden` prop is
+ * false; otherwise, a hidden form field is rendered with the given
+ * props to ensure that progressive enhancement will still work.
+ */
 export const ConditionalFormField: React.FC<
   HiddenFormFieldProps &
     WithHidden & {

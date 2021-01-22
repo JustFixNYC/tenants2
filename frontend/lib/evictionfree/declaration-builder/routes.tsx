@@ -29,6 +29,7 @@ import { EvictionFreeRoutes } from "../route-info";
 import { EvictionFreeDbConfirmation } from "./confirmation";
 import { EvictionFreeCovidImpact } from "./covid-impact";
 import { EvictionFreeCreateAccount } from "./create-account";
+import { EvictionFreeIndexNumber } from "./index-number";
 import { EvictionFreePreviewPage } from "./preview";
 import { EvictionFreeOnboardingStep } from "./step-decorators";
 import { EvictionFreeDbWelcome } from "./welcome";
@@ -167,6 +168,11 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
         path: routes.hardshipSituation,
         exact: true,
         component: EvictionFreeCovidImpact,
+      },
+      {
+        path: routes.indexNumber,
+        exact: true,
+        component: EvictionFreeIndexNumber,
       },
       {
         path: routes.landlordName,

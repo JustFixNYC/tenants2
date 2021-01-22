@@ -285,7 +285,7 @@ export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
   );
 }
 
-type HiddenFormFieldProps = Omit<
+export type HiddenFormFieldProps = Omit<
   BaseFormFieldProps<string | boolean | null | undefined>,
   "onChange"
 >;

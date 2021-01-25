@@ -46,6 +46,12 @@ class EvictionFreeCovidImpact(OneToOneUserModelFormMutation):
         form_class = forms.CovidImpactForm
 
 
+@schema_registry.register_mutation
+class EvictionFreeIndexNumber(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.IndexNumberForm
+
+
 @schema_registry.register_session_info
 class EvictionFreeSessionInfo:
     hardship_declaration_details = graphene.Field(

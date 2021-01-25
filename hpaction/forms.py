@@ -1,11 +1,14 @@
-from typing import Optional, Dict, List
+from typing import Dict, List
 from collections import defaultdict
 from django import forms
-from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
 from project import common_data
-from project.forms import YesNoRadiosField, ensure_at_least_one_is_true
+from project.forms import (
+    YesNoRadiosField,
+    ensure_at_least_one_is_true,
+    DynamicallyRequiredFieldsMixin,
+)
 from issues.models import ISSUE_CHOICES, get_issue_area
 from onboarding.models import OnboardingInfo
 from loc.landlord_info_mutation import BaseLandlordExtraInfoForm
@@ -119,21 +122,7 @@ class SueForm(forms.ModelForm):
         return ensure_at_least_one_is_true(super().clean())
 
 
-class DynamicallyRequiredBoolMixin:
-    def add_dynamically_required_error(self, field: str):
-        msg = forms.Field.default_error_messages["required"]
-        self.add_error(field, ValidationError(msg, code="required"))  # type: ignore
-
-    def require_bool_field(self, field: str, cleaned_data) -> Optional[bool]:
-        value = YesNoRadiosField.coerce(cleaned_data.get(field))
-        if value is None:
-            self.add_dynamically_required_error(field)
-        else:
-            assert isinstance(value, bool)
-        return value
-
-
-class PreviousAttemptsForm(DynamicallyRequiredBoolMixin, forms.ModelForm):
+class PreviousAttemptsForm(DynamicallyRequiredFieldsMixin, forms.ModelForm):
     class Meta:
         model = models.HPActionDetails
         fields = [
@@ -172,7 +161,7 @@ TWO_OR_LESS_APARTMENTS_IN_BUILDING = "two_or_less_apartments_in_building"
 MORE_THAN_ONE_FAMILY_PER_APARTMENT = "more_than_one_family_per_apartment"
 
 
-class HarassmentApartmentForm(DynamicallyRequiredBoolMixin, forms.ModelForm):
+class HarassmentApartmentForm(DynamicallyRequiredFieldsMixin, forms.ModelForm):
     class Meta:
         model = models.HarassmentDetails
         fields = [

@@ -39,7 +39,7 @@ msgstr "*Division of Housing and Community Renewal"
 msgid "8 Minutes"
 msgstr "8 Minutes"
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:34
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:33
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> makes use of a <1/> and <2/>, which you can review."
 
@@ -636,7 +636,7 @@ msgstr "Going on rent strike"
 msgid "Good news!"
 msgstr "Good news!"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:62
+#: frontend/lib/ui/privacy-info-modal.tsx:61
 msgid "Got it!"
 msgstr "Got it!"
 
@@ -734,7 +734,7 @@ msgstr "How does sending this declaration help me?"
 msgid "How it works"
 msgstr "How it works"
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:46
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:45
 msgid "I agree to the <0/> terms and conditions."
 msgstr "I agree to the <0/> terms and conditions."
 
@@ -1310,7 +1310,7 @@ msgstr "Pipes leaking"
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Please <0>go back and choose a state</0>."
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:32
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:31
 msgid "Please agree to our terms and conditions"
 msgstr "Please agree to our terms and conditions"
 
@@ -1331,7 +1331,7 @@ msgstr "Please read the rest of this email carefully as it contains important in
 msgid "Preview of your NoRent.org letter"
 msgstr "Preview of your NoRent.org letter"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:28
+#: frontend/lib/ui/privacy-info-modal.tsx:27
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
 
@@ -1671,7 +1671,7 @@ msgstr "Tenants impacted by the COVID-19 crisis are protected from eviction for 
 msgid "Tennessee"
 msgstr "Tennessee"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:29
+#: frontend/lib/ui/privacy-info-modal.tsx:28
 msgid "Terms of Use"
 msgstr "Terms of Use"
 
@@ -2157,7 +2157,7 @@ msgstr "Your letter was sent on {0}."
 msgid "Your phone number"
 msgstr "Your phone number"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:31
+#: frontend/lib/ui/privacy-info-modal.tsx:30
 msgid "Your privacy is very important to us!"
 msgstr "Your privacy is very important to us!"
 
@@ -2208,7 +2208,7 @@ msgstr "Landlord not responding? You can take action for free to request repairs
 msgid "justfix.legalDisclaimer"
 msgstr "Disclaimer: The information in {website} does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free legal services if necessary."
 
-#: frontend/lib/ui/privacy-info-modal.tsx:33
+#: frontend/lib/ui/privacy-info-modal.tsx:32
 msgid "justfix.privacyInfoModalText"
 msgstr "<0>Your privacy is very important to us! Here are some important things to know:</0><1><2>Your personal information is secure.</2><3>We don’t use your personal information for profit or sell it to third parties.</3><4>We use your address to find information about your landlord and your building.</4></1><5>Our Privacy Policy enables sharing anonymized data with approved tenant advocacy organizations exclusively to help further our tenants rights mission. The Privacy Policy contains information regarding what data we collect, how we use it, and the choices you have regarding your personal information. If you’d like to read more, please review our full <6/> and <7/>.</5>"
 

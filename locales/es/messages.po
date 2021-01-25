@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-22 14:37\n"
+"PO-Revision-Date: 2021-01-25 15:09\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -44,7 +44,7 @@ msgstr "*División de Vivienda y Renovación de la Comunidad"
 msgid "8 Minutes"
 msgstr "8 minutos"
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:34
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:33
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
@@ -162,7 +162,7 @@ msgstr "Contesta algunas preguntas sobre ti y sobre el dueño o manager de tu ed
 
 #: common-data/issue-choices.ts:151
 msgid "Apartment needs painting"
-msgstr "Apartment needs painting"
+msgstr "El apartamento necesita pintura"
 
 #: frontend/lib/forms/apt-number-form-fields.tsx:13
 #: frontend/lib/rh/routes.tsx:120
@@ -202,31 +202,31 @@ msgstr "Prohibir desalojos"
 #: common-data/issue-choices.ts:203
 #: common-data/issue-choices.ts:218
 msgid "Baseboards defective"
-msgstr "Baseboards defective"
+msgstr "Zócalo defectuoso"
 
 #: common-data/issue-choices.ts:237
 msgid "Bathtub: cracked tub"
-msgstr "Bathtub: cracked tub"
+msgstr "Bañera: agrietada"
 
 #: common-data/issue-choices.ts:242
 msgid "Bathtub: drain stoppage"
-msgstr "Bathtub: drain stoppage"
+msgstr "Bañera: desagüe atascado"
 
 #: common-data/issue-choices.ts:239
 msgid "Bathtub: faucets not installed"
-msgstr "Bathtub: faucets not installed"
+msgstr "Bañera: no hay grifo"
 
 #: common-data/issue-choices.ts:240
 msgid "Bathtub: faucets not working"
-msgstr "Bathtub: faucets not working"
+msgstr "Bañera: grifo no funciona"
 
 #: common-data/issue-choices.ts:238
 msgid "Bathtub: leaky faucet"
-msgstr "Bathtub: leaky faucet"
+msgstr "Bañera: grifo con fugas"
 
 #: common-data/issue-choices.ts:241
 msgid "Bathtub: pipes leaking"
-msgstr "Bathtub: pipes leaking"
+msgstr "Bañera: tuberías con fugas"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:61
 msgid "Before you send your letter, let's review what will be sent to make sure all the information is correct."
@@ -246,7 +246,7 @@ msgstr "Explora las preguntas más frecuentes"
 
 #: common-data/issue-choices.ts:259
 msgid "Bug infestation"
-msgstr "Bug infestation"
+msgstr "Infestación de insectos"
 
 #: frontend/lib/norent/homepage.tsx:39
 msgid "Build a letter using our free letter builder"
@@ -275,7 +275,7 @@ msgstr "Los edificios en el portafolio del dueño de tu edificio se encuentran e
 
 #: common-data/issue-choices.ts:155
 msgid "Buzzer not working"
-msgstr "Buzzer not working"
+msgstr "El timbre del edificio no funciona"
 
 #: frontend/lib/norent/data/faqs-content.tsx:41
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
@@ -311,14 +311,14 @@ msgstr "Cancelar la renta"
 #: common-data/issue-choices.ts:208
 #: common-data/issue-choices.ts:223
 msgid "Ceiling falling/fell"
-msgstr "Ceiling falling/fell"
+msgstr "Techo colapsado/se colapsa"
 
 #: common-data/issue-choices.ts:170
 #: common-data/issue-choices.ts:185
 #: common-data/issue-choices.ts:209
 #: common-data/issue-choices.ts:224
 msgid "Ceiling leaking"
-msgstr "Ceiling leaking"
+msgstr "Techo gotea"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:30
 msgid "Check out these valuable resources for your state:"
@@ -418,7 +418,7 @@ msgstr "Sigue a la página de confirmación para obtener información sobre la �
 
 #: common-data/issue-choices.ts:191
 msgid "Cracked sink"
-msgstr "Cracked sink"
+msgstr "Lavabo agrietado"
 
 #: common-data/issue-choices.ts:160
 #: common-data/issue-choices.ts:177
@@ -478,26 +478,26 @@ msgstr "No te preocupes, guardaremos tus respuestas para que puedas empezar desd
 
 #: common-data/issue-choices.ts:153
 msgid "Door lock not working"
-msgstr "Door lock not working"
+msgstr "Cerradura de la puerta no funciona"
 
 #: common-data/issue-choices.ts:167
 #: common-data/issue-choices.ts:182
 #: common-data/issue-choices.ts:206
 #: common-data/issue-choices.ts:221
 msgid "Door not working"
-msgstr "Door not working"
+msgstr "Puerta no funciona"
 
 #: common-data/issue-choices.ts:154
 msgid "Doorbell not working"
-msgstr "Doorbell not working"
+msgstr "El timbre de la casa no funciona"
 
 #: common-data/issue-choices.ts:197
 msgid "Drain stoppage"
-msgstr "Drain stoppage"
+msgstr "Desagüe atascado"
 
 #: common-data/issue-choices.ts:265
 msgid "Dryer not working"
-msgstr "Dryer not working"
+msgstr "Secadora no funciona"
 
 #: frontend/lib/norent/components/subscribe.tsx:55
 msgid "ENTER YOUR EMAIL"
@@ -516,7 +516,7 @@ msgstr "Alambrado Eléctrico Expuesto"
 #: common-data/issue-choices.ts:210
 #: common-data/issue-choices.ts:225
 msgid "Electricity not working"
-msgstr "Electricity not working"
+msgstr "La electricidad no funciona"
 
 #: frontend/lib/norent/components/subscribe.tsx:53
 msgid "Email"
@@ -587,7 +587,7 @@ msgstr "Nombre"
 
 #: common-data/issue-choices.ts:150
 msgid "Floor sags"
-msgstr "Floor sags"
+msgstr "Piso hundido"
 
 #: common-data/us-state-choices.ts:74
 msgid "Florida"
@@ -603,7 +603,7 @@ msgstr "Preguntas Más Frecuentes"
 
 #: common-data/issue-choices.ts:152
 msgid "Front door not working"
-msgstr "Front door not working"
+msgstr "Puerta principal no funciona"
 
 #: common-data/issue-choices.ts:261
 msgid "Fumes/smoke entering apartment"
@@ -641,7 +641,7 @@ msgstr "Hacer huelga de renta"
 msgid "Good news!"
 msgstr "¡Buenas noticias!"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:62
+#: frontend/lib/ui/privacy-info-modal.tsx:61
 msgid "Got it!"
 msgstr "¡Entendido!"
 
@@ -739,7 +739,7 @@ msgstr "¿Por qué me sirve de ayuda enviar esta declaración?"
 msgid "How it works"
 msgstr "Cómo funciona"
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:46
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:45
 msgid "I agree to the <0/> terms and conditions."
 msgstr "Acepto los términos y condiciones de <0/>."
 
@@ -818,7 +818,7 @@ msgstr "Presión de Agua Inadecuada"
 
 #: common-data/issue-choices.ts:266
 msgid "Inadequate/no super service"
-msgstr "Inadequate/no super service"
+msgstr "Servicio de súper inadecuado"
 
 #: common-data/us-state-choices.ts:79
 msgid "Indiana"
@@ -913,11 +913,11 @@ msgstr "Apellido"
 
 #: common-data/issue-choices.ts:156
 msgid "Lead-based paint"
-msgstr "Lead-based paint"
+msgstr "Pintura a base de plomo"
 
 #: common-data/issue-choices.ts:192
 msgid "Leaky faucet"
-msgstr "Leaky faucet"
+msgstr "Grifo con fugas"
 
 #: frontend/lib/norent/about.tsx:57
 msgid "Learn about why we made this tool, who we are, and who our partners are."
@@ -1006,7 +1006,7 @@ msgstr "Parece que ya estuviste aquí antes. Haz clic en \"Continuar\" para segu
 #: common-data/issue-choices.ts:202
 #: common-data/issue-choices.ts:217
 msgid "Loose floor"
-msgstr "Loose floor"
+msgstr "Piso suelto"
 
 #: frontend/lib/norent/letter-builder/los-angeles-know-your-rights.tsx:23
 msgid "Los Angeles County"
@@ -1162,21 +1162,21 @@ msgstr "No"
 
 #: common-data/issue-choices.ts:147
 msgid "No cold water"
-msgstr "No cold water"
+msgstr "Sin agua fría"
 
 #: common-data/issue-choices.ts:144
 msgid "No gas"
-msgstr "No gas"
+msgstr "Sin gas"
 
 #: common-data/issue-choices.ts:145
 #: common-data/issue-choices.ts:253
 msgid "No heat"
-msgstr "No heat"
+msgstr "Sin calefacción"
 
 #: common-data/issue-choices.ts:146
 #: common-data/issue-choices.ts:254
 msgid "No hot water"
-msgstr "No hot water"
+msgstr "Sin agua caliente"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:161
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:180
@@ -1189,7 +1189,7 @@ msgstr "No se dan recibos de alquiler"
 
 #: common-data/issue-choices.ts:148
 msgid "No smoke detector"
-msgstr "No smoke detector"
+msgstr "Sin detector de humo"
 
 #: frontend/lib/norent/letter-content.tsx:81
 msgid "NoRent.org <0/>sent on behalf of <1/>"
@@ -1275,7 +1275,7 @@ msgstr "Nuestros registros indican que no se puede enviar correo a esta direcci�
 #: common-data/issue-choices.ts:212
 #: common-data/issue-choices.ts:227
 msgid "Outlets not working"
-msgstr "Outlets not working"
+msgstr "Tomas de corriente no funcionan"
 
 #: common-data/issue-choices.ts:251
 msgid "Painting overdue (3 years)"
@@ -1309,13 +1309,13 @@ msgstr "Número de teléfono"
 
 #: common-data/issue-choices.ts:196
 msgid "Pipes leaking"
-msgstr "Pipes leaking"
+msgstr "Tuberías con fugas"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:101
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Por favor <0>vuelve y escoge un estado</0>."
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:32
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:31
 msgid "Please agree to our terms and conditions"
 msgstr "Por favor, acepta nuestros términos y condiciones"
 
@@ -1336,7 +1336,7 @@ msgstr "Por favor, lee atentamente el resto del correo electrónico ya que conti
 msgid "Preview of your NoRent.org letter"
 msgstr "Vista previa de tu carta NoRent.org"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:28
+#: frontend/lib/ui/privacy-info-modal.tsx:27
 msgid "Privacy Policy"
 msgstr "Política de Privacidad"
 
@@ -1349,7 +1349,7 @@ msgstr "Puerto Rico"
 #: common-data/issue-choices.ts:207
 #: common-data/issue-choices.ts:222
 msgid "Radiators/risers not working"
-msgstr "Radiators/risers not working"
+msgstr "Radiadores/tubos de subida no funcionan"
 
 #: common-data/issue-choices.ts:142
 msgid "Rats"
@@ -1357,7 +1357,7 @@ msgstr "Ratas"
 
 #: common-data/issue-choices.ts:260
 msgid "Rats/mice"
-msgstr "Rats/mice"
+msgstr "Ratas/ratones"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:396
 msgid "Recommended actions"
@@ -1365,7 +1365,7 @@ msgstr "Acciones recomendadas"
 
 #: common-data/issue-choices.ts:189
 msgid "Refrigerator not working"
-msgstr "Refrigerator not working"
+msgstr "Refrigerador no funciona"
 
 #. before signature in formal letter
 #: frontend/lib/util/letter-content-util.tsx:57
@@ -1503,31 +1503,31 @@ msgstr "Compartir esta herramienta"
 
 #: common-data/issue-choices.ts:249
 msgid "Shower: drain stoppage"
-msgstr "Shower: drain stoppage"
+msgstr "Ducha: desagüe atascado"
 
 #: common-data/issue-choices.ts:248
 msgid "Shower: leaky shower head"
-msgstr "Shower: leaky shower head"
+msgstr "Ducha: alcachofa de ducha rota"
 
 #: common-data/issue-choices.ts:247
 msgid "Shower: low water pressure"
-msgstr "Shower: low water pressure"
+msgstr "Ducha: baja presión de agua"
 
 #: common-data/issue-choices.ts:243
 msgid "Shower: mold on walls"
-msgstr "Shower: mold on walls"
+msgstr "Ducha: moho sobre las paredes"
 
 #: common-data/issue-choices.ts:246
 msgid "Shower: not working"
-msgstr "Shower: not working"
+msgstr "Ducha: no funciona"
 
 #: common-data/issue-choices.ts:244
 msgid "Shower: wall tiles cracked"
-msgstr "Shower: wall tiles cracked"
+msgstr "Ducha: baldosas agrietadas"
 
 #: common-data/issue-choices.ts:245
 msgid "Shower: wall tiles missing"
-msgstr "Shower: wall tiles missing"
+msgstr "Ducha: faltan baldosas"
 
 #: frontend/lib/justfix-navbar.tsx:26
 msgid "Sign in"
@@ -1552,35 +1552,35 @@ msgstr "Firmado,"
 
 #: common-data/issue-choices.ts:230
 msgid "Sink: cracked sink"
-msgstr "Sink: cracked sink"
+msgstr "Lavabo: agrietado"
 
 #: common-data/issue-choices.ts:236
 msgid "Sink: drain stoppage"
-msgstr "Sink: drain stoppage"
+msgstr "Lavabo: desagüe atascado"
 
 #: common-data/issue-choices.ts:232
 msgid "Sink: faucets not installed"
-msgstr "Sink: faucets not installed"
+msgstr "Lavabo: sin grifo"
 
 #: common-data/issue-choices.ts:233
 msgid "Sink: faucets not working"
-msgstr "Sink: faucets not working"
+msgstr "Lavabo: grifo no funciona"
 
 #: common-data/issue-choices.ts:231
 msgid "Sink: leaky faucet"
-msgstr "Sink: leaky faucet"
+msgstr "Lavabo: grifo con fugas"
 
 #: common-data/issue-choices.ts:234
 msgid "Sink: low water pressure"
-msgstr "Sink: low water pressure"
+msgstr "Lavabo: baja presión de agua"
 
 #: common-data/issue-choices.ts:235
 msgid "Sink: pipes leaking"
-msgstr "Sink: pipes leaking"
+msgstr "Lavabo: tuberías con fugas"
 
 #: common-data/issue-choices.ts:149
 msgid "Smoke detector not working"
-msgstr "Smoke detector not working"
+msgstr "Detector de humo no funciona"
 
 #: frontend/lib/pages/not-found.tsx:15
 msgid "Sorry, the page you are looking for doesn't seem to exist."
@@ -1628,7 +1628,7 @@ msgstr "Paso {currStep} de {numSteps}"
 
 #: common-data/issue-choices.ts:190
 msgid "Stove not working"
-msgstr "Stove not working"
+msgstr "Estufa no funciona"
 
 #: frontend/lib/norent/about.tsx:31
 msgid "Strategic Actions for a Just Economy"
@@ -1676,7 +1676,7 @@ msgstr "Los inquilinos afectados por la crisis del COVID-19 están protegidos de
 msgid "Tennessee"
 msgstr "Tennessee"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:29
+#: frontend/lib/ui/privacy-info-modal.tsx:28
 msgid "Terms of Use"
 msgstr "Términos de Uso"
 
@@ -1785,7 +1785,7 @@ msgstr "Utah"
 
 #: common-data/issue-choices.ts:157
 msgid "Vacate order issued"
-msgstr "Vacate order issued"
+msgstr "Orden de vacío emitida"
 
 #: frontend/lib/start-account-or-login/verify-phone-number.tsx:22
 msgid "Verification code"
@@ -1825,7 +1825,7 @@ msgstr "¿Quieres leer más sobre tus derechos?"
 
 #: common-data/issue-choices.ts:264
 msgid "Washing machine not working"
-msgstr "Washing machine not working"
+msgstr "Lavadora no funciona"
 
 #: common-data/us-state-choices.ts:113
 msgid "Washington"
@@ -2001,14 +2001,14 @@ msgstr "¿Seguiré adeudando mi renta después de enviar esta carta?"
 #: common-data/issue-choices.ts:205
 #: common-data/issue-choices.ts:220
 msgid "Window frame defective"
-msgstr "Window frame defective"
+msgstr "Marco de ventana defectuoso"
 
 #: common-data/issue-choices.ts:165
 #: common-data/issue-choices.ts:180
 #: common-data/issue-choices.ts:204
 #: common-data/issue-choices.ts:219
 msgid "Window glass broken"
-msgstr "Window glass broken"
+msgstr "Cristal de ventana roto"
 
 #: common-data/issue-choices.ts:263
 msgid "Window guards missing"
@@ -2162,7 +2162,7 @@ msgstr "Tu carta fue enviada el {0}."
 msgid "Your phone number"
 msgstr "Tu número de teléfono"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:31
+#: frontend/lib/ui/privacy-info-modal.tsx:30
 msgid "Your privacy is very important to us!"
 msgstr "¡Su privacidad es muy importante para nosotros!"
 
@@ -2213,7 +2213,7 @@ msgstr "¿El dueño de tu edificio no contesta? ¡Puedes tomar acción gratis pa
 msgid "justfix.legalDisclaimer"
 msgstr "Aviso: La información en {website} no constituye asesoramiento jurídico y no debe ser utilizado como sustituto del asesoramiento de un abogado cualificado para asesorar sobre cuestiones jurídicas relativas a la vivienda. Si lo necesitas, podemos ayudar a dirigirte a servicios legales gratuitos."
 
-#: frontend/lib/ui/privacy-info-modal.tsx:33
+#: frontend/lib/ui/privacy-info-modal.tsx:32
 msgid "justfix.privacyInfoModalText"
 msgstr "¡<0>Tu privacidad es muy importante para nosotros! Estas son algunas de las cosas más importantes a saber:</0><1><2>Tu información personal está segura. </2><3>No usaremos tu información personal para beneficiarnos ni la venderemos a terceros. </3><4>Utilizaremos tu dirección postal para encontrar datos sobre tu edificio y su dueño. </4></1><5>Nuestra Política de Privacidad permite compartir datos anónimos sólo con organizaciones de defensa de inquilinos autorizadas exclusivamente para ayudar a promover la misión de proteger los derechos de inquilinos. La Política de Privacidad contiene información sobre qué datos recopilamos, cómo la utilizamos y las opciones que tiene respecto a su información personal. Si quieres leer más, por favor revisa nuestra <6/> completa y nuestros <7/>.</5>"
 

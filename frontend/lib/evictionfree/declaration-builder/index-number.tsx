@@ -12,7 +12,7 @@ import {
 } from "../../forms/yes-no-radios-form-field";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { EvictionFreeIndexNumberMutation } from "../../queries/EvictionFreeIndexNumberMutation";
-import { ProgressButtons, ProgressButtonsAsLinks } from "../../ui/buttons";
+import { ProgressButtons } from "../../ui/buttons";
 import Page from "../../ui/page";
 
 export const EvictionFreeIndexNumber = MiddleProgressStep((props) => {

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-25 17:07\n"
+"PO-Revision-Date: 2021-01-25 17:25\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -806,11 +806,13 @@ msgstr "Acabo de usar la nueva herramienta gratuita de JustFix.nyc para decirle 
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:71
 msgid "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
-msgstr "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
+msgstr "Entiendo que estoy firmando y enviando este formulario bajo pena de ley. Sé que\n"
+"es ilegal hacer a sabiendas una declaración falsa en este formulario."
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:48
 msgid "I understand that I must comply with all other lawful terms under my tenancy, lease agreement or similar contract."
-msgstr "I understand that I must comply with all other lawful terms under my tenancy, lease agreement or similar contract."
+msgstr "Entiendo que debo cumplir con todos los demás términos legales de mi contrato\n"
+"de alquiler y tenencia o contrato semejante."
 
 #: frontend/lib/norent/data/faqs-content.tsx:160
 msgid "I'm scared. What happens if my landlord retaliates?"
@@ -2387,11 +2389,11 @@ msgstr "It’s possible that your landlord will retaliate once they’ve receive
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:54
 msgid "evictionfree.legalAgreementCheckboxOnFees"
-msgstr "I further understand that lawful fees, penalties or interest for not having paid rent in full or met other financial obligations as required by my tenancy, lease agreement or similar contract may still be charged or collected and may result in a monetary judgment against me."
+msgstr "Además, entiendo que los honorarios, multas o intereses legales por impago total de alquiler o por no haber cumplido con otras obligaciones financieras según requerido por mi tenencia, contrato de alquiler o contrato semejante aún podrán cobrarse y resultar en un fallo monetario en mi contra."
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:63
 msgid "evictionfree.legalAgreementCheckboxOnNewProtections"
-msgstr "I further understand that my landlord may be able to seek eviction after May 1, 2021, and that the law may provide certain protections at that time that are separate from those available through this declaration."
+msgstr "Además, entiendo que mi casero puede solicitar el desalojo después del 1 de mayo del 2021 y que la ley puede proporcionarle, en ese momento, ciertas protecciones independientes disponibles a través de esta declaración."
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23
 msgid "evictionfree.outlineOfDeclarationFormSteps"

@@ -54,8 +54,8 @@ export const EvictionFreePreviewPage = MiddleProgressStep((props) => {
       className="content"
     >
       <p>
-        Before you send your declaration, let's review what will be sent to make
-        sure all the information is correct.
+        Before you send your hardship declaration form, let's review what will
+        be sent to make sure all the information is correct.
       </p>
       <PdfLink
         href={getGlobalAppServerInfo().previewHardshipDeclarationURL}

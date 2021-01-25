@@ -10,22 +10,22 @@ export const EvictionFreeDbWelcome: React.FC<ProgressStepProps> = (props) => {
   return (
     <WelcomePage
       {...props}
-      title="Build your declaration"
+      title="Protect yourself from eviction"
       hasFlowBeenCompleted={hasEvictionFreeDeclarationBeenSent(session)}
     >
       <>
         <p>
           In order to benefit from the eviction protections that local elected
-          officials have put in place, you should notify your landlord by
-          filling out a hardship declaration form.{" "}
+          officials have put in place, you can notify your landlord by filling
+          out a hardship declaration form.{" "}
           <span className="has-text-weight-semibold">
             In the event that your landlord tries to evict you, the courts will
             see this as a proactive step that helps establish your defense.
           </span>
         </p>
         <p>
-          In the next few steps, we’ll help you build your declaration. Have
-          this information on hand if possible:
+          In the next few steps, we’ll help you fill out your hardship
+          declaration form. Have this information on hand if possible:
         </p>
         <ul>
           <li>

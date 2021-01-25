@@ -121,10 +121,10 @@ export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
     >
       <p>
         {/* TO DO: Dynamically show "email" and "USPS Certified Mail" based on user actions */}
-        Your declaration has been sent to your landlord via email and USPS
-        Certified Mail. A copy of the declaration has also been sent to your
-        local court via email in order to ensure they have it on record if your
-        landlord attempts to initiate an eviction case.
+        Your hardship declaration form has been sent to your landlord via email
+        and USPS Certified Mail. A copy of the declaration has also been sent to
+        your local court via email in order to ensure they have it on record if
+        your landlord attempts to initiate an eviction case.
       </p>
       <p>
         Check your email for a message containing a copy of your declaration and

@@ -39,7 +39,7 @@ import { EvictionFreeOnboardingStep } from "./step-decorators";
 import { EvictionFreeDbWelcome } from "./welcome";
 
 const DEFAULT_STEP_CONTENT = (
-  <p>We'll include this information in your declaration.</p>
+  <p>We'll include this information in your hardship declaration form.</p>
 );
 
 // TODO: An identical function exists in NoRent's codebase, ideally we should
@@ -70,7 +70,10 @@ const EfAskCityState = EvictionFreeOnboardingStep((props) => (
 
 const EfAskEmail = MiddleProgressStep((props) => (
   <AskEmail {...props}>
-    <p>We'll use this information to email you a copy of your declaration.</p>
+    <p>
+      We'll use this information to email you a copy of your hardship
+      declaration form.
+    </p>
   </AskEmail>
 ));
 
@@ -93,14 +96,16 @@ const EfAskNycAddress = EvictionFreeOnboardingStep((props) => (
 
 const EfLandlordNameAndContactTypes = MiddleProgressStep((props) => (
   <LandlordNameAndContactTypes {...props}>
-    <p>We'll use this information to send your declaration.</p>
+    <p>We'll use this information to send your hardship declaration form.</p>
   </LandlordNameAndContactTypes>
 ));
 
 const EfLandlordEmail = MiddleProgressStep((props) => (
   <LandlordEmail
     {...props}
-    introText={<>We'll use this information to send your declaration.</>}
+    introText={
+      <>We'll use this information to send your hardship declaration form.</>
+    }
   />
 ));
 
@@ -112,8 +117,8 @@ const EfLandlordMailingAddress = MiddleProgressStep((props) => (
     }
   >
     <p>
-      We'll use this information to send your declaration via certified mail for
-      free.
+      We'll use this information to send your hardship declaration form via
+      certified mail for free.
     </p>
   </LandlordMailingAddress>
 ));

@@ -15,6 +15,7 @@ import { Trans } from "@lingui/macro";
 import { NavbarLanguageDropdown } from "../ui/language-toggle";
 import classnames from "classnames";
 import { EvictionFreeFooter } from "./components/footer";
+import { EvictionFreeHelmet } from "./components/helmet";
 
 export const EvictionFreeLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(
@@ -119,6 +120,7 @@ const EvictionFreeSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
               menuItemsComponent={EvictionFreeMenuItems}
               brandComponent={EvictionFreeBrand}
             />
+            <EvictionFreeHelmet />
           </span>
           {!isPrimaryPage && (
             <div className="jf-block-of-color-in-background" />

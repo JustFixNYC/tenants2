@@ -23,6 +23,7 @@ export function createEvictionFreeDeclarationBuilderRouteInfo(prefix: string) {
     email: `${prefix}/email`,
     createAccount: `${prefix}/create-account`,
     createAccountTermsModal: `${prefix}/create-account/terms-modal`,
+    outsideNewYork: `${prefix}/outside-ny`,
     hardshipSituation: `${prefix}/hardship-situation`,
     indexNumber: `${prefix}/index-number`,
     landlordName: `${prefix}/landlord/name`,

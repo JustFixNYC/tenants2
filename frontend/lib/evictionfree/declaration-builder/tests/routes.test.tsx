@@ -35,10 +35,15 @@ describe("Eviction free declaration builder steps", () => {
 
 tester.defineTest({
   it: "takes onboarded users through flow to confirmation",
-  usingSession: sb.withLoggedInNationalUser().withNorentScaffolding({
-    hasLandlordEmailAddress: true,
-    hasLandlordMailingAddress: true,
-  }),
+  usingSession: sb
+    .withLoggedInNationalUser()
+    .withOnboardingInfo({
+      state: "NY",
+    })
+    .withNorentScaffolding({
+      hasLandlordEmailAddress: true,
+      hasLandlordMailingAddress: true,
+    }),
   startingAtStep: "/en/declaration/create-account",
   expectSteps: [
     "/en/declaration/hardship-situation",
@@ -55,6 +60,14 @@ tester.defineTest({
   it: "works w/ logged-in JustFix.nyc user who hasn't yet agreed to terms",
   usingSession: sb.withLoggedInJustfixUser(),
   expectSteps: ["/en/declaration/terms", "/en/declaration/hardship-situation"],
+});
+
+tester.defineTest({
+  it: "works w/ logged-in JustFix.nyc user who are outside NY",
+  usingSession: sb.withLoggedInNationalUser().withOnboardingInfo({
+    agreedToEvictionfreeTerms: true,
+  }),
+  expectSteps: ["/en/declaration/outside-ny"],
 });
 
 tester.defineTest({

@@ -17,10 +17,14 @@ import {
   buildProgressRoutesComponent,
   ProgressRoutesProps,
 } from "../../progress/progress-routes";
-import { MiddleProgressStep } from "../../progress/progress-step-route";
+import {
+  MiddleProgressStep,
+  ProgressStepProps,
+} from "../../progress/progress-step-route";
 import { skipStepsIf } from "../../progress/skip-steps-if";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { createStartAccountOrLoginSteps } from "../../start-account-or-login/routes";
+import Page from "../../ui/page";
 import {
   isUserLoggedIn,
   isUserLoggedInWithEmail,
@@ -114,6 +118,15 @@ const EfLandlordMailingAddress = MiddleProgressStep((props) => (
   </LandlordMailingAddress>
 ));
 
+const EfOutsideNewYork: React.FC<ProgressStepProps> = (props) => (
+  <Page title="You don't live in New York">
+    <p>
+      Unfortunately, this tool is currently only available to individuals who
+      live in the state of New York.
+    </p>
+  </Page>
+);
+
 export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = EvictionFreeRoutes.locale.declaration;
 
@@ -163,6 +176,12 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
         path: routes.createAccount,
         component: EvictionFreeCreateAccount,
         shouldBeSkipped: isUserLoggedIn,
+      },
+      {
+        path: routes.outsideNewYork,
+        exact: true,
+        component: EfOutsideNewYork,
+        shouldBeSkipped: (s) => s.onboardingInfo?.state === "NY",
       },
       {
         path: routes.hardshipSituation,

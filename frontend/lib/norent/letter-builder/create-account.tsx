@@ -8,7 +8,7 @@ import {
 } from "../../queries/NorentCreateAccountMutation";
 import { CheckboxFormField, TextualFormField } from "../../forms/form-fields";
 import { ModalLink } from "../../ui/modal";
-import { NorentRoutes } from "../routes";
+import { NorentRoutes } from "../route-info";
 import { PrivacyInfoModal } from "../../ui/privacy-info-modal";
 import { trackSignup } from "../../analytics/track-signup";
 import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";

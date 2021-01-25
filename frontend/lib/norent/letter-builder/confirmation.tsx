@@ -6,7 +6,7 @@ import {
   getUSStateChoiceLabels,
   USStateChoice,
 } from "../../../../common-data/us-state-choices";
-import { LetterBuilderAccordion } from "./welcome";
+import { Accordion } from "../../ui/accordion";
 import { getNorentMetadataForUSState } from "./national-metadata";
 import classnames from "classnames";
 import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
@@ -149,7 +149,7 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
           </p>
         )}
         {stateName && (
-          <LetterBuilderAccordion question={li18n._(t`Find out more`)}>
+          <Accordion question={li18n._(t`Find out more`)}>
             <article className="message">
               <div className="message-body has-background-grey-lighter has-text-left">
                 {needsToSendLandlord && (
@@ -176,7 +176,7 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
                 </div>
               </div>
             </article>
-          </LetterBuilderAccordion>
+          </Accordion>
         )}
       </>
       <h3 className="title jf-alt-title-font">

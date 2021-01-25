@@ -97,7 +97,7 @@ describe("HPActionYourLandlord", () => {
   it("allows user to override recommendation w/ manually-entered address", async () => {
     const pal = new AppTesterPal(makeRoute(), { url: "/?force=manual" });
     await mockRecommendation(pal, { landlord: true });
-    pal.rr.getByText(/You have chosen to ignore the landlord recommended/i);
+    pal.rr.getByText(/You have chosen to overwrite the landlord recommended/i);
     const input = pal.rr.getByLabelText("Landlord name") as HTMLInputElement;
     expect(input.value).toBe("");
   });

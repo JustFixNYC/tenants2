@@ -1,6 +1,6 @@
 import React from "react";
 import { FooterLanguageToggle } from "../../ui/language-toggle";
-import { NorentRoutes as Routes } from "../routes";
+import { NorentRoutes as Routes } from "../route-info";
 import { Link } from "react-router-dom";
 import { NorentLogo } from "./logo";
 import { PrivacyPolicyLink, TermsOfUseLink } from "../../ui/privacy-info-modal";

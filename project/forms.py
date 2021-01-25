@@ -40,6 +40,28 @@ class YesNoRadiosField(forms.ChoiceField):
         raise ValueError(f"Invalid YesNoRadiosField value: {value}")
 
 
+class DynamicallyRequiredFieldsMixin:
+    def add_dynamically_required_error(self, field: str):
+        msg = forms.Field.default_error_messages["required"]
+        self.add_error(field, ValidationError(msg, code="required"))  # type: ignore
+
+    def require_bool_field(self, field: str, cleaned_data) -> Optional[bool]:
+        value = YesNoRadiosField.coerce(cleaned_data.get(field))
+        if value is None:
+            self.add_dynamically_required_error(field)
+        else:
+            assert isinstance(value, bool)
+        return value
+
+    def require_text_field(self, field: str, cleaned_data) -> Optional[str]:
+        value = cleaned_data.get(field, "")
+        if not value:
+            self.add_dynamically_required_error(field)
+        else:
+            assert isinstance(value, str)
+        return value
+
+
 class LoginForm(forms.Form):
     phone_number = USPhoneNumberField()
 

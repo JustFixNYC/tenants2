@@ -35,9 +35,9 @@ import { HelmetProvider } from "react-helmet-async";
 import { browserStorage } from "./browser-storage";
 import { areAnalyticsEnabled } from "./analytics/analytics";
 import { LinguiI18n, li18n } from "./i18n-lingui";
-import { getNorentJumpToTopOfPageRoutes } from "./norent/routes";
+import { getNorentJumpToTopOfPageRoutes } from "./norent/route-info";
 import { SupportedLocale } from "./i18n";
-import { getGlobalSiteRoutes } from "./routes";
+import { getGlobalSiteRoutes } from "./global-site-routes";
 import { ensureNextRedirectIsHard } from "./browser-redirect";
 import {
   updateAmplitudeUserPropertiesOnSessionChange,
@@ -46,6 +46,7 @@ import {
   logAmplitudePageView,
 } from "./analytics/amplitude";
 import { t } from "@lingui/macro";
+import { getEvictionFreeJumpToTopOfPageRoutes } from "./evictionfree/route-info";
 
 // Note that these don't need any special fallback loading screens
 // because they will never need to be dynamically loaded on the
@@ -53,6 +54,7 @@ import { t } from "@lingui/macro";
 // We're just using our infrastructure for code splitting here.
 const LoadableJustfixSite = loadable(() => import("./justfix-site"));
 const LoadableNorentSite = loadable(() => import("./norent/site"));
+const LoadableEvictionFreeSite = loadable(() => import("./evictionfree/site"));
 
 export type AppSiteProps = RouteComponentProps & {
   ref?: React.Ref<HTMLDivElement>;
@@ -117,7 +119,10 @@ export class AppWithoutRouter extends React.Component<
       session: props.initialSession,
     };
     this.pageBodyRef = React.createRef();
-    this.jumpToTopOfPageRoutes = new Set(getNorentJumpToTopOfPageRoutes());
+    this.jumpToTopOfPageRoutes = new Set(
+      ...getNorentJumpToTopOfPageRoutes(),
+      ...getEvictionFreeJumpToTopOfPageRoutes()
+    );
   }
 
   @autobind
@@ -346,6 +351,8 @@ export class AppWithoutRouter extends React.Component<
         return LoadableJustfixSite;
       case "NORENT":
         return LoadableNorentSite;
+      case "EVICTIONFREE":
+        return LoadableEvictionFreeSite;
     }
   }
 

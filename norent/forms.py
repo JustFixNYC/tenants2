@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -31,11 +31,13 @@ class CityState(forms.Form):
 
     state = forms.ChoiceField(choices=US_STATE_CHOICES.choices)
 
-    def validate_city_and_state(self, city: str, state: str) -> str:
+    def validate_city_and_state(
+        self, city: str, state: str
+    ) -> Tuple[str, Optional[Tuple[float, float]]]:
         cities = mapbox.find_city(city, state)
         if cities is None:
             # Mapbox is disabled or a network error occurred.
-            return city
+            return (city, None)
         if len(cities) == 0:
             state_name = US_STATE_CHOICES.get_label(state)
             raise ValidationError(
@@ -53,7 +55,9 @@ class CityState(forms.Form):
         state = cleaned_data.get("state")
 
         if city and state:
-            cleaned_data["city"] = self.validate_city_and_state(city, state)
+            city, point = self.validate_city_and_state(city, state)
+            cleaned_data["city"] = city
+            cleaned_data["lnglat"] = point
 
         return cleaned_data
 

@@ -41,6 +41,9 @@ function getSiteBaseName(siteType: SiteChoice): string {
 
     case "NORENT":
       return "NoRent.org";
+
+    case "EVICTIONFREE":
+      return "EvictionFree.org";
   }
 }
 

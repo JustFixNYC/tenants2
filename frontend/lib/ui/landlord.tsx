@@ -81,6 +81,12 @@ type LandlordPageContentProps = {
   recommendedLandlord: MailingAddressWithName | null;
 
   /**
+   * The instructions to ask of the user if we don't have a
+   * recommended landlord.
+   */
+  defaultIntro?: JSX.Element;
+
+  /**
    * Whether to forcibly disallow the user from overriding our
    * recommended landlord.
    */
@@ -116,7 +122,7 @@ type LandlordPageContext = {
   useRecommended: boolean;
 };
 
-type RenderReadOnlyLandlordDetailsOptions = {
+export type RenderReadOnlyLandlordDetailsOptions = {
   /**
    * The landlord we recommend.
    */
@@ -142,6 +148,7 @@ type RenderReadOnlyLandlordDetailsOptions = {
  * querystring.
  */
 export const LandlordPageContent: React.FC<LandlordPageContentProps> = ({
+  defaultIntro,
   recommendedLandlord,
   disallowManualOverride,
   renderReadOnlyLandlordDetails,
@@ -157,7 +164,7 @@ export const LandlordPageContent: React.FC<LandlordPageContentProps> = ({
     disallowManualOverride,
   });
 
-  let intro = (
+  let intro = defaultIntro ?? (
     <p>
       Please enter your landlord's name and contact information below. You can
       find this information on your lease and/or rent receipts.
@@ -173,7 +180,7 @@ export const LandlordPageContent: React.FC<LandlordPageContentProps> = ({
     } else {
       intro = (
         <p>
-          You have chosen to ignore the landlord recommended by JustFix.nyc.
+          You have chosen to overwrite the landlord recommended by JustFix.nyc.
           Please provide your own details below, or{" "}
           <Link to={FORCE_RECOMMENDED_SEARCH}>
             use the recommended landlord "{recommendedLandlord.name}"
@@ -207,9 +214,7 @@ function determineLandlordPageOptions(options: {
     forceQs === FORCE_MANUAL && !options.disallowManualOverride;
   const forceRecommended = forceQs === FORCE_RECOMMENDED;
   const isLandlordAlreadyManuallySpecified = !!(
-    !llDetails?.isLookedUp &&
-    llDetails?.name &&
-    llDetails.address
+    !llDetails?.isLookedUp && llDetails?.name
   );
   let useRecommended = shouldUseRecommendedLandlordInfo({
     hasRecommendedLandlord: options.hasRecommendedLandlord,

@@ -7,7 +7,7 @@ import { ProgressStepProps } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
 import { friendlyDate } from "../../util/date-util";
 import { assertNotNull } from "../../util/util";
-import { NorentRoutes } from "../routes";
+import { NorentRoutes } from "../route-info";
 import { hasNorentLetterBeenSentForAllRentPeriods } from "./step-decorators";
 import { NorentMoreLettersBlurb } from "./more-letters";
 

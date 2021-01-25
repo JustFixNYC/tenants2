@@ -5,7 +5,7 @@ import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-sub
 
 import { withAppContext, AppContextType } from "../app-context";
 import { NextButton, BackButton } from "../ui/buttons";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes from "../justfix-route-info";
 import {
   LetterRequestInput,
   LetterRequestMailChoice,

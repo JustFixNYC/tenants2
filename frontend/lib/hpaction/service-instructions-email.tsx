@@ -28,7 +28,7 @@ import {
   validateInput,
   asUnvalidatedInput,
 } from "../forms/client-side-validation";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes from "../justfix-route-info";
 
 const EXTRA_CSS = require("./service-instructions-email.css");
 

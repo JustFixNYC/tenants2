@@ -7,6 +7,8 @@
         {{ meta_tags }}
         {% if site_type == "NORENT" %}
             <link rel="stylesheet" href="{% static "frontend/styles-norent.css" %}" />
+        {% elif site_type == "EVICTIONFREE" %}
+            <link rel="stylesheet" href="{% static "frontend/styles-evictionfree.css" %}" />
         {% else %}
             <link rel="stylesheet" href="{% static "frontend/styles.css" %}" />
         {% endif %}

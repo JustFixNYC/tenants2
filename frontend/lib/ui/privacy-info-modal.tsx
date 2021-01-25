@@ -18,6 +18,9 @@ function getURLforSite(baseURL: string, site: SiteChoice): string {
 
     case "NORENT":
       return `${baseURL}-norent`;
+
+    case "EVICTIONFREE":
+      return `${baseURL}-eviction-free`;
   }
 }
 

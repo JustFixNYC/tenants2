@@ -225,7 +225,11 @@ class TestAgreeToTerms(GraphQLTestingPal):
     mutation AgreeToTermsMutation($input: AgreeToTermsInput!) {
         output: agreeToTerms(input: $input) {
             errors { field, messages },
-            session { onboardingInfo { agreedToJustfixTerms, agreedToNorentTerms } }
+            session { onboardingInfo {
+                agreedToJustfixTerms,
+                agreedToNorentTerms,
+                agreedToEvictionfreeTerms
+            } }
         }
     }
     """
@@ -255,6 +259,7 @@ class TestAgreeToTerms(GraphQLTestingPal):
         assert res["session"]["onboardingInfo"] == {
             "agreedToJustfixTerms": True,
             "agreedToNorentTerms": False,
+            "agreedToEvictionfreeTerms": False,
         }
 
     def test_it_works_with_norent_site(self, logged_in):
@@ -263,6 +268,18 @@ class TestAgreeToTerms(GraphQLTestingPal):
         assert res["session"]["onboardingInfo"] == {
             "agreedToJustfixTerms": False,
             "agreedToNorentTerms": True,
+            "agreedToEvictionfreeTerms": False,
         }
         self.oi.refresh_from_db()
         assert self.oi.agreed_to_norent_terms is True
+
+    def test_it_works_with_evictionfree_site(self, logged_in):
+        res = self.execute(input={"site": "EVICTIONFREE"})
+        assert res["errors"] == []
+        assert res["session"]["onboardingInfo"] == {
+            "agreedToJustfixTerms": False,
+            "agreedToNorentTerms": False,
+            "agreedToEvictionfreeTerms": True,
+        }
+        self.oi.refresh_from_db()
+        assert self.oi.agreed_to_evictionfree_terms is True

@@ -140,6 +140,7 @@ INSTALLED_APPS = [
     "norent.apps.NorentConfig",
     "mailchimp.apps.MailchimpConfig",
     "partnerships.apps.PartnershipsConfig",
+    "evictionfree.apps.EvictionfreeConfig",
 ]
 
 MIDDLEWARE = [

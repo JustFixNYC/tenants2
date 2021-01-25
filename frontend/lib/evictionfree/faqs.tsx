@@ -56,6 +56,17 @@ export const EvictionFreeFaqsPreview = () => {
   );
 };
 
+const RightToCounselFaqsLink = () => (
+  <LocalizedOutboundLink
+    hrefs={{
+      en: "https://www.righttocounselnyc.org/eviction_protections_during_covid",
+      es: "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
+    }}
+  >
+    Right to Counsel's FAQ page
+  </LocalizedOutboundLink>
+);
+
 export const EvictionFreeFaqsPage: React.FC<{}> = () => {
   const allFaqs = getEvictionFreeFaqsContent();
 
@@ -71,16 +82,13 @@ export const EvictionFreeFaqsPage: React.FC<{}> = () => {
               questions from people who have used our tool below. If you have
               questions about the state of housing court and the current status
               of eviction cases, check out{" "}
-              <LocalizedOutboundLink
-                hrefs={{
-                  en:
-                    "https://www.righttocounselnyc.org/eviction_protections_during_covid",
-                  es:
-                    "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
-                }}
-              >
-                Right to Counsel's FAQ page
-              </LocalizedOutboundLink>
+              {/* This structure makes sure the link text doesn't wrap, except on mobile when it has to */}
+              <span className="jf-word-glue is-hidden-mobile">
+                <RightToCounselFaqsLink />
+              </span>
+              <span className="is-hidden-tablet">
+                <RightToCounselFaqsLink />
+              </span>
               .
             </p>
           </div>

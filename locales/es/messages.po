@@ -556,7 +556,7 @@ msgid "Email"
 msgstr "Correo electrónico"
 
 #: frontend/lib/common-steps/ask-email.tsx:19
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:63
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:65
 msgid "Email address"
 msgstr "Dirección de correo electrónico"
 
@@ -816,6 +816,10 @@ msgstr "Idaho"
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 msgstr "Si no recibiste un código, comprueba tu correo electrónico. Si no lo encuentras, por favor envía un correo electrónico a <0/>."
 
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:29
+msgid "If you feel strongly that this information is incorrect or incomplete, however, you can <0>provide your own details</0>."
+msgstr ""
+
 #: frontend/lib/rh/routes.tsx:305
 msgid "If you have more questions, please email us at <0/>."
 msgstr "Si tienes más preguntas, por favor envíanos un correo electrónico a <0/>."
@@ -832,7 +836,7 @@ msgstr "Si has recibido un Aviso de Pago de Renta (Notice to Pay Rent en inglés
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
 msgstr "Si necesitas cambiar tu nombre o tu información de contacto, ponte en contacto con <0/>."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:48
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:50
 msgid "If you write checks or transfer money through your bank to pay your rent, use that name here."
 msgstr "Usa el nombre al que pagas la renta."
 
@@ -943,11 +947,19 @@ msgstr "Kentucky"
 msgid "Know your rights"
 msgstr "Conoce tus derechos"
 
+#: frontend/lib/ui/landlord.tsx:36
+msgid "Landlord address"
+msgstr ""
+
+#: frontend/lib/ui/landlord.tsx:36
+msgid "Landlord name"
+msgstr ""
+
 #: frontend/lib/common-steps/landlord-email.tsx:37
 msgid "Landlord/management company's email"
 msgstr "Dirección de correo electrónico del dueño o manager de tu edificio"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:46
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:48
 msgid "Landlord/management company's name"
 msgstr "Nombre del dueño o manager de tu edificio"
 
@@ -1073,7 +1085,7 @@ msgstr "Luisiana"
 msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 msgstr "Hecho en NYC con ♥ por el equipo de <0>JustFix.nyc</0>"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:66
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:68
 msgid "Mailing address"
 msgstr "Dirección postal"
 
@@ -1379,6 +1391,10 @@ msgstr "Por favor, acepta nuestros términos y condiciones"
 #: frontend/lib/norent/components/subscribe.tsx:19
 msgid "Please enter an email address!"
 msgstr "Por favor, ¡introduzca una dirección de correo electrónico!"
+
+#: frontend/lib/ui/landlord.tsx:67
+msgid "Please enter your landlord's name and contact information below. You can find this information on your lease and/or rent receipts."
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:68
 msgid "Please note that your declaration letter will be structured as follows to meet the requirements of California's AB3088 law:"
@@ -1797,6 +1813,7 @@ msgid "This is optional."
 msgstr "Esto es opcional."
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:20
+#: frontend/lib/ui/landlord.tsx:30
 msgid "This is your landlord’s information as registered with the <0>NYC Department of Housing and Preservation (HPD)</0>. This may be different than where you send your rent checks."
 msgstr "Esta es la información del dueño de tu edificio según los registros del <0>Departamento de Preservación de la Vivienda (HPD por sus siglas en inglés)</0>. Puede que sea distinta de donde envías tu cheque de renta."
 
@@ -2009,7 +2026,7 @@ msgstr "Nos hemos aliado con <0/> para proporcionar asistencia adicional una vez
 msgid "We’ve partnered with <0/> to provide additional support."
 msgstr "Nos hemos aliado con <0/> para proporcionarte apoyo adicional."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:54
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:56
 msgid "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
 msgstr "¿Qué información de contacto tienes del dueño o manager de tu edificio? <0>Sugerimos que elijas las dos opciones si las tienes.</0>"
 
@@ -2071,7 +2088,7 @@ msgstr "¿Cuál es tu municipalidad?"
 msgid "What kind of documentation should I collect to prove I can’t pay rent?"
 msgstr "¿Qué tipo de documentación debo recopilar para demostrar que no puedo pagar la renta?"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:47
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:49
 msgid "Where do I find this information?"
 msgstr "¿Dónde encuentro esta información?"
 
@@ -2191,6 +2208,10 @@ msgstr "No puedes enviar más cartas"
 msgid "You don't live in New York"
 msgstr ""
 
+#: frontend/lib/ui/landlord.tsx:81
+msgid "You have chosen to overwrite the landlord recommended by JustFix.nyc. Please provide your own details below, or <0>use the recommended landlord \"{0}\"</0>."
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/menu.tsx:28
 msgid "You most recently sent a letter on {0}."
 msgstr "Enviaste una carta en {0}."
@@ -2280,7 +2301,7 @@ msgstr "La dirección del dueño o manager de tu edificio"
 msgid "Your landlord or management company's email"
 msgstr "La dirección de correo electrónico del dueño o manager de tu edificio"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:88
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:90
 msgid "Your landlord or management company's information"
 msgstr "Los datos del dueño o manager de tu edificio"
 

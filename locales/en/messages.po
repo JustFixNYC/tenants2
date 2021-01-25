@@ -551,7 +551,7 @@ msgid "Email"
 msgstr "Email"
 
 #: frontend/lib/common-steps/ask-email.tsx:19
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:63
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:65
 msgid "Email address"
 msgstr "Email address"
 
@@ -811,6 +811,10 @@ msgstr "Idaho"
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 msgstr "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:29
+msgid "If you feel strongly that this information is incorrect or incomplete, however, you can <0>provide your own details</0>."
+msgstr "If you feel strongly that this information is incorrect or incomplete, however, you can <0>provide your own details</0>."
+
 #: frontend/lib/rh/routes.tsx:305
 msgid "If you have more questions, please email us at <0/>."
 msgstr "If you have more questions, please email us at <0/>."
@@ -827,7 +831,7 @@ msgstr "If you have received a Notice to Pay Rent or Quit or any other type of e
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
 msgstr "If you need to make changes to your name or contact information, please contact <0/>."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:48
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:50
 msgid "If you write checks or transfer money through your bank to pay your rent, use that name here."
 msgstr "If you write checks or transfer money through your bank to pay your rent, use that name here."
 
@@ -938,11 +942,19 @@ msgstr "Kentucky"
 msgid "Know your rights"
 msgstr "Know your rights"
 
+#: frontend/lib/ui/landlord.tsx:36
+msgid "Landlord address"
+msgstr "Landlord address"
+
+#: frontend/lib/ui/landlord.tsx:36
+msgid "Landlord name"
+msgstr "Landlord name"
+
 #: frontend/lib/common-steps/landlord-email.tsx:37
 msgid "Landlord/management company's email"
 msgstr "Landlord/management company's email"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:46
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:48
 msgid "Landlord/management company's name"
 msgstr "Landlord/management company's name"
 
@@ -1068,7 +1080,7 @@ msgstr "Louisiana"
 msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 msgstr "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:66
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:68
 msgid "Mailing address"
 msgstr "Mailing address"
 
@@ -1374,6 +1386,10 @@ msgstr "Please agree to our terms and conditions"
 #: frontend/lib/norent/components/subscribe.tsx:19
 msgid "Please enter an email address!"
 msgstr "Please enter an email address!"
+
+#: frontend/lib/ui/landlord.tsx:67
+msgid "Please enter your landlord's name and contact information below. You can find this information on your lease and/or rent receipts."
+msgstr "Please enter your landlord's name and contact information below. You can find this information on your lease and/or rent receipts."
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:68
 msgid "Please note that your declaration letter will be structured as follows to meet the requirements of California's AB3088 law:"
@@ -1792,6 +1808,7 @@ msgid "This is optional."
 msgstr "This is optional."
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:20
+#: frontend/lib/ui/landlord.tsx:30
 msgid "This is your landlord’s information as registered with the <0>NYC Department of Housing and Preservation (HPD)</0>. This may be different than where you send your rent checks."
 msgstr "This is your landlord’s information as registered with the <0>NYC Department of Housing and Preservation (HPD)</0>. This may be different than where you send your rent checks."
 
@@ -2004,7 +2021,7 @@ msgstr "We’ve partnered with <0/> to provide additional support once you’ve 
 msgid "We’ve partnered with <0/> to provide additional support."
 msgstr "We’ve partnered with <0/> to provide additional support."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:54
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:56
 msgid "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
 msgstr "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
 
@@ -2066,7 +2083,7 @@ msgstr "What is your borough?"
 msgid "What kind of documentation should I collect to prove I can’t pay rent?"
 msgstr "What kind of documentation should I collect to prove I can’t pay rent?"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:47
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:49
 msgid "Where do I find this information?"
 msgstr "Where do I find this information?"
 
@@ -2186,6 +2203,10 @@ msgstr "You can't send any more letters"
 msgid "You don't live in New York"
 msgstr "You don't live in New York"
 
+#: frontend/lib/ui/landlord.tsx:81
+msgid "You have chosen to overwrite the landlord recommended by JustFix.nyc. Please provide your own details below, or <0>use the recommended landlord \"{0}\"</0>."
+msgstr "You have chosen to overwrite the landlord recommended by JustFix.nyc. Please provide your own details below, or <0>use the recommended landlord \"{0}\"</0>."
+
 #: frontend/lib/norent/letter-builder/menu.tsx:28
 msgid "You most recently sent a letter on {0}."
 msgstr "You most recently sent a letter on {0}."
@@ -2275,7 +2296,7 @@ msgstr "Your landlord or management company's address"
 msgid "Your landlord or management company's email"
 msgstr "Your landlord or management company's email"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:88
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:90
 msgid "Your landlord or management company's information"
 msgstr "Your landlord or management company's information"
 

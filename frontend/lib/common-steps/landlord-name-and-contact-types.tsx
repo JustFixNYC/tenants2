@@ -44,9 +44,11 @@ const ReadOnlyLandlordDetails: React.FC<
         landlord={landlord}
       />
       <p>
-        If you feel strongly that this information is incorrect or incomplete,
-        however, you can{" "}
-        <Link to={forceManualHref}>provide your own details</Link>.
+        <Trans>
+          If you feel strongly that this information is incorrect or incomplete,
+          however, you can{" "}
+          <Link to={forceManualHref}>provide your own details</Link>.
+        </Trans>
       </p>
     </div>
   );

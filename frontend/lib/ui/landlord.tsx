@@ -1,6 +1,8 @@
+import { Trans, t } from "@lingui/macro";
 import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AppContext } from "../app-context";
+import { li18n } from "../i18n-lingui";
 import { AllSessionInfo_landlordDetails } from "../queries/AllSessionInfo";
 import { getQuerystringVar } from "../util/querystring";
 
@@ -56,15 +58,17 @@ export const RecommendedLandlordInfo: React.FC<{
     <>
       {intro || (
         <p>
-          This is your landlord’s information as registered with the{" "}
-          <b>NYC Department of Housing and Preservation (HPD)</b>. This may be
-          different than where you send your rent checks.
+          <Trans>
+            This is your landlord’s information as registered with the{" "}
+            <b>NYC Department of Housing and Preservation (HPD)</b>. This may be
+            different than where you send your rent checks.
+          </Trans>
         </p>
       )}
       <MailingAddressWithName
         {...landlord}
-        nameLabel="Landlord name"
-        addressLabel="Landlord address"
+        nameLabel={li18n._(t`Landlord name`)}
+        addressLabel={li18n._(t`Landlord address`)}
       />
     </>
   );
@@ -166,8 +170,10 @@ export const LandlordPageContent: React.FC<LandlordPageContentProps> = ({
 
   let intro = defaultIntro ?? (
     <p>
-      Please enter your landlord's name and contact information below. You can
-      find this information on your lease and/or rent receipts.
+      <Trans>
+        Please enter your landlord's name and contact information below. You can
+        find this information on your lease and/or rent receipts.
+      </Trans>
     </p>
   );
 
@@ -180,12 +186,14 @@ export const LandlordPageContent: React.FC<LandlordPageContentProps> = ({
     } else {
       intro = (
         <p>
-          You have chosen to overwrite the landlord recommended by JustFix.nyc.
-          Please provide your own details below, or{" "}
-          <Link to={FORCE_RECOMMENDED_SEARCH}>
-            use the recommended landlord "{recommendedLandlord.name}"
-          </Link>
-          .
+          <Trans>
+            You have chosen to overwrite the landlord recommended by
+            JustFix.nyc. Please provide your own details below, or{" "}
+            <Link to={FORCE_RECOMMENDED_SEARCH}>
+              use the recommended landlord "{recommendedLandlord.name}"
+            </Link>
+            .
+          </Trans>
         </p>
       );
     }

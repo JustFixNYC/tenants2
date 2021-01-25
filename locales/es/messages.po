@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-25 15:04\n"
+"PO-Revision-Date: 2021-01-25 15:09\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1572,15 +1572,15 @@ msgstr "Lavabo: grifo con fugas"
 
 #: common-data/issue-choices.ts:234
 msgid "Sink: low water pressure"
-msgstr "Sink: low water pressure"
+msgstr "Lavabo: baja presión de agua"
 
 #: common-data/issue-choices.ts:235
 msgid "Sink: pipes leaking"
-msgstr "Sink: pipes leaking"
+msgstr "Lavabo: tuberías con fugas"
 
 #: common-data/issue-choices.ts:149
 msgid "Smoke detector not working"
-msgstr "Smoke detector not working"
+msgstr "Detector de humo no funciona"
 
 #: frontend/lib/pages/not-found.tsx:15
 msgid "Sorry, the page you are looking for doesn't seem to exist."
@@ -1628,7 +1628,7 @@ msgstr "Paso {currStep} de {numSteps}"
 
 #: common-data/issue-choices.ts:190
 msgid "Stove not working"
-msgstr "Stove not working"
+msgstr "Estufa no funciona"
 
 #: frontend/lib/norent/about.tsx:31
 msgid "Strategic Actions for a Just Economy"
@@ -1785,7 +1785,7 @@ msgstr "Utah"
 
 #: common-data/issue-choices.ts:157
 msgid "Vacate order issued"
-msgstr "Vacate order issued"
+msgstr "Orden de vacío emitida"
 
 #: frontend/lib/start-account-or-login/verify-phone-number.tsx:22
 msgid "Verification code"
@@ -1825,7 +1825,7 @@ msgstr "¿Quieres leer más sobre tus derechos?"
 
 #: common-data/issue-choices.ts:264
 msgid "Washing machine not working"
-msgstr "Washing machine not working"
+msgstr "Lavadora no funciona"
 
 #: common-data/us-state-choices.ts:113
 msgid "Washington"
@@ -2001,14 +2001,14 @@ msgstr "¿Seguiré adeudando mi renta después de enviar esta carta?"
 #: common-data/issue-choices.ts:205
 #: common-data/issue-choices.ts:220
 msgid "Window frame defective"
-msgstr "Window frame defective"
+msgstr "Marco de ventana defectuoso"
 
 #: common-data/issue-choices.ts:165
 #: common-data/issue-choices.ts:180
 #: common-data/issue-choices.ts:204
 #: common-data/issue-choices.ts:219
 msgid "Window glass broken"
-msgstr "Window glass broken"
+msgstr "Cristal de ventana roto"
 
 #: common-data/issue-choices.ts:263
 msgid "Window guards missing"

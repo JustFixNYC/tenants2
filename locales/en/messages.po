@@ -799,6 +799,14 @@ msgstr "I have no apartment number"
 msgid "I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
 msgstr "I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
 
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:71
+msgid "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
+msgstr "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
+
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:48
+msgid "I understand that I must comply with all other lawful terms under my tenancy, lease agreement or similar contract."
+msgstr "I understand that I must comply with all other lawful terms under my tenancy, lease agreement or similar contract."
+
 #: frontend/lib/norent/data/faqs-content.tsx:160
 msgid "I'm scared. What happens if my landlord retaliates?"
 msgstr "I'm scared. What happens if my landlord retaliates?"
@@ -1524,7 +1532,7 @@ msgstr "Search address"
 msgid "See more FAQs"
 msgstr "See more FAQs"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:71
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:77
 msgid "Send"
 msgstr "Send"
 
@@ -2372,9 +2380,13 @@ msgstr "In order to benefit from the eviction protections that local elected off
 msgid "evictionfree.landlordRetaliationWarning"
 msgstr "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact the City's Tenant Helpline (which can provide free advice and legal counsel to tenants) by <0>calling 311</0>"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:47
-msgid "evictionfree.listOfLegalAgreements"
-msgstr "<0>I understand that I must comply with all other lawful terms under my tenancy, lease agreement or similar contract.</0><1>I further understand that lawful fees, penalties or interest for not having paid rent in full or met other financial obligations as required by my tenancy, lease agreement or similar contract may still be charged or collected and may result in a monetary judgment against me.</1><2>I further understand that my landlord may be able to seek eviction after May 1, 2021, and that the law may provide certain protections at that time that are separate from those available through this declaration.</2><3>I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false.</3>"
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:54
+msgid "evictionfree.legalAgreementCheckboxOnFees"
+msgstr "I further understand that lawful fees, penalties or interest for not having paid rent in full or met other financial obligations as required by my tenancy, lease agreement or similar contract may still be charged or collected and may result in a monetary judgment against me."
+
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:63
+msgid "evictionfree.legalAgreementCheckboxOnNewProtections"
+msgstr "I further understand that my landlord may be able to seek eviction after May 1, 2021, and that the law may provide certain protections at that time that are separate from those available through this declaration."
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23
 msgid "evictionfree.outlineOfDeclarationFormSteps"

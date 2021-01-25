@@ -71,30 +71,36 @@ export const EvictionFreePreviewPage = MiddleProgressStep((props) => {
           questions truthfully:
         </Trans>
       </p>
-      <Trans id="evictionfree.listOfLegalAgreements">
-        <CheckboxView id="1">
+      <CheckboxView id="1">
+        <Trans>
           I understand that I must comply with all other lawful terms under my
           tenancy, lease agreement or similar contract.
-        </CheckboxView>
-        <CheckboxView id="2">
+        </Trans>
+      </CheckboxView>
+      <CheckboxView id="2">
+        <Trans id="evictionfree.legalAgreementCheckboxOnFees">
           I further understand that lawful fees, penalties or interest for not
           having paid rent in full or met other financial obligations as
           required by my tenancy, lease agreement or similar contract may still
           be charged or collected and may result in a monetary judgment against
           me.
-        </CheckboxView>
-        <CheckboxView id="3">
+        </Trans>
+      </CheckboxView>
+      <CheckboxView id="3">
+        <Trans id="evictionfree.legalAgreementCheckboxOnNewProtections">
           I further understand that my landlord may be able to seek eviction
           after May 1, 2021, and that the law may provide certain protections at
           that time that are separate from those available through this
           declaration.
-        </CheckboxView>
-        <CheckboxView id="4">
+        </Trans>
+      </CheckboxView>
+      <CheckboxView id="4">
+        <Trans>
           I understand I am signing and submitting this form under penalty of
           law. I know it is against the law to make a statement on this form
           that I know is false.
-        </CheckboxView>
-      </Trans>
+        </Trans>
+      </CheckboxView>
       <ProgressButtonsAsLinks
         back={props.prevStep}
         nextLabel={li18n._(t`Send`)}

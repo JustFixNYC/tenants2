@@ -804,6 +804,14 @@ msgstr "No tengo ningún número de apartamento"
 msgid "I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
 msgstr "Acabo de usar la nueva herramienta gratuita de JustFix.nyc para decirle a mi arrendador que no puedo pagar la renta"
 
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:71
+msgid "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
+msgstr ""
+
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:48
+msgid "I understand that I must comply with all other lawful terms under my tenancy, lease agreement or similar contract."
+msgstr ""
+
 #: frontend/lib/norent/data/faqs-content.tsx:160
 msgid "I'm scared. What happens if my landlord retaliates?"
 msgstr "Tengo miedo. ¿Qué sucede si el dueño de mi edificio toma represalias?"
@@ -1529,7 +1537,7 @@ msgstr "Dirección de búsqueda"
 msgid "See more FAQs"
 msgstr "Ver todas las preguntas más frecuentes"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:71
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:77
 msgid "Send"
 msgstr ""
 
@@ -2377,8 +2385,12 @@ msgstr ""
 msgid "evictionfree.landlordRetaliationWarning"
 msgstr ""
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:47
-msgid "evictionfree.listOfLegalAgreements"
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:54
+msgid "evictionfree.legalAgreementCheckboxOnFees"
+msgstr ""
+
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:63
+msgid "evictionfree.legalAgreementCheckboxOnNewProtections"
 msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23

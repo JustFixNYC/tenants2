@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-22 15:14\n"
+"PO-Revision-Date: 2021-01-25 14:57\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -162,7 +162,7 @@ msgstr "Contesta algunas preguntas sobre ti y sobre el dueño o manager de tu ed
 
 #: common-data/issue-choices.ts:151
 msgid "Apartment needs painting"
-msgstr "Apartment needs painting"
+msgstr "El apartamento necesita pintura"
 
 #: frontend/lib/forms/apt-number-form-fields.tsx:13
 #: frontend/lib/rh/routes.tsx:120
@@ -202,31 +202,31 @@ msgstr "Prohibir desalojos"
 #: common-data/issue-choices.ts:203
 #: common-data/issue-choices.ts:218
 msgid "Baseboards defective"
-msgstr "Baseboards defective"
+msgstr "Zócalo defectuoso"
 
 #: common-data/issue-choices.ts:237
 msgid "Bathtub: cracked tub"
-msgstr "Bathtub: cracked tub"
+msgstr "Bañera: agrietada"
 
 #: common-data/issue-choices.ts:242
 msgid "Bathtub: drain stoppage"
-msgstr "Bathtub: drain stoppage"
+msgstr "Bañera: desagüe atascado"
 
 #: common-data/issue-choices.ts:239
 msgid "Bathtub: faucets not installed"
-msgstr "Bathtub: faucets not installed"
+msgstr "Bañera: no hay grifo"
 
 #: common-data/issue-choices.ts:240
 msgid "Bathtub: faucets not working"
-msgstr "Bathtub: faucets not working"
+msgstr "Bañera: grifo no funciona"
 
 #: common-data/issue-choices.ts:238
 msgid "Bathtub: leaky faucet"
-msgstr "Bathtub: leaky faucet"
+msgstr "Bañera: grifo con fugas"
 
 #: common-data/issue-choices.ts:241
 msgid "Bathtub: pipes leaking"
-msgstr "Bathtub: pipes leaking"
+msgstr "Bañera: tuberías con fugas"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:61
 msgid "Before you send your letter, let's review what will be sent to make sure all the information is correct."
@@ -246,7 +246,7 @@ msgstr "Explora las preguntas más frecuentes"
 
 #: common-data/issue-choices.ts:259
 msgid "Bug infestation"
-msgstr "Bug infestation"
+msgstr "Infestación de insectos"
 
 #: frontend/lib/norent/homepage.tsx:39
 msgid "Build a letter using our free letter builder"
@@ -275,7 +275,7 @@ msgstr "Los edificios en el portafolio del dueño de tu edificio se encuentran e
 
 #: common-data/issue-choices.ts:155
 msgid "Buzzer not working"
-msgstr "Buzzer not working"
+msgstr "El timbre no funciona"
 
 #: frontend/lib/norent/data/faqs-content.tsx:41
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
@@ -311,14 +311,14 @@ msgstr "Cancelar la renta"
 #: common-data/issue-choices.ts:208
 #: common-data/issue-choices.ts:223
 msgid "Ceiling falling/fell"
-msgstr "Ceiling falling/fell"
+msgstr "Techo colapsado/se colapsa"
 
 #: common-data/issue-choices.ts:170
 #: common-data/issue-choices.ts:185
 #: common-data/issue-choices.ts:209
 #: common-data/issue-choices.ts:224
 msgid "Ceiling leaking"
-msgstr "Ceiling leaking"
+msgstr "Techo gotea"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:30
 msgid "Check out these valuable resources for your state:"
@@ -418,7 +418,7 @@ msgstr "Sigue a la página de confirmación para obtener información sobre la �
 
 #: common-data/issue-choices.ts:191
 msgid "Cracked sink"
-msgstr "Cracked sink"
+msgstr "Lavabo agrietado"
 
 #: common-data/issue-choices.ts:160
 #: common-data/issue-choices.ts:177
@@ -478,22 +478,22 @@ msgstr "No te preocupes, guardaremos tus respuestas para que puedas empezar desd
 
 #: common-data/issue-choices.ts:153
 msgid "Door lock not working"
-msgstr "Door lock not working"
+msgstr "Cerradura de la puerta no funciona"
 
 #: common-data/issue-choices.ts:167
 #: common-data/issue-choices.ts:182
 #: common-data/issue-choices.ts:206
 #: common-data/issue-choices.ts:221
 msgid "Door not working"
-msgstr "Door not working"
+msgstr "Puerta no funciona"
 
 #: common-data/issue-choices.ts:154
 msgid "Doorbell not working"
-msgstr "Doorbell not working"
+msgstr "El timbre no funciona"
 
 #: common-data/issue-choices.ts:197
 msgid "Drain stoppage"
-msgstr "Drain stoppage"
+msgstr "Desagüe atascado"
 
 #: common-data/issue-choices.ts:265
 msgid "Dryer not working"

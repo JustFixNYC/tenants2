@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-25 17:25\n"
+"PO-Revision-Date: 2021-01-25 21:08\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -806,13 +806,11 @@ msgstr "Acabo de usar la nueva herramienta gratuita de JustFix.nyc para decirle 
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:71
 msgid "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
-msgstr "Entiendo que estoy firmando y enviando este formulario bajo pena de ley. Sé que\n"
-"es ilegal hacer a sabiendas una declaración falsa en este formulario."
+msgstr "Entiendo que estoy firmando y enviando este formulario bajo pena de ley. Sé que es ilegal hacer a sabiendas una declaración falsa en este formulario."
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:48
 msgid "I understand that I must comply with all other lawful terms under my tenancy, lease agreement or similar contract."
-msgstr "Entiendo que debo cumplir con todos los demás términos legales de mi contrato\n"
-"de alquiler y tenencia o contrato semejante."
+msgstr "Entiendo que debo cumplir con todos los demás términos legales de mi contrato de alquiler y tenencia o contrato semejante."
 
 #: frontend/lib/norent/data/faqs-content.tsx:160
 msgid "I'm scared. What happens if my landlord retaliates?"

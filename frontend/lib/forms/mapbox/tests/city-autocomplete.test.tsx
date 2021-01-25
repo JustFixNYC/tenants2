@@ -2,7 +2,12 @@ import {
   createMapboxCityAutocompleteHelpers,
   MapboxCityItem,
 } from "../city-autocomplete";
-import { BROOKLYN_MAPBOX_RESULTS, BROOKLYN_MAPBOX_FEATURE } from "./data";
+import { MapboxResults } from "../common";
+import {
+  BROOKLYN_MAPBOX_RESULTS,
+  BROOKLYN_MAPBOX_FEATURE,
+  SAN_JUAN_MAPBOX_FEATURE,
+} from "./data";
 
 const helpers = createMapboxCityAutocompleteHelpers();
 
@@ -18,7 +23,7 @@ const INCOMPLETE_CITY: MapboxCityItem = {
   stateChoice: null,
 };
 
-describe("default mapboxCityAutocompleteHelpers", () => {
+describe("mapboxCityAutocompleteHelpers", () => {
   it("converts item to key", () => {
     expect(helpers.itemToKey(BROOKLYN_CITY)).toBe("Brooklyn_NY");
   });
@@ -41,5 +46,21 @@ describe("default mapboxCityAutocompleteHelpers", () => {
       mapboxFeature: null,
       stateChoice: null,
     });
+  });
+
+  it("filters results by state if needed", () => {
+    const nyHelpers = createMapboxCityAutocompleteHelpers({ forState: "NY" });
+
+    const results: MapboxResults = {
+      ...BROOKLYN_MAPBOX_RESULTS,
+      features: [SAN_JUAN_MAPBOX_FEATURE, BROOKLYN_MAPBOX_FEATURE],
+    };
+
+    // Make sure the default helpers don't filter.
+    expect(helpers.searchResultsToItems(results)).toHaveLength(2);
+
+    // Make sure our NY-filtering helpers do filter.
+    expect(nyHelpers.searchResultsToItems(results)).toHaveLength(1);
+    expect(nyHelpers.searchResultsToItems(results)).toEqual([BROOKLYN_CITY]);
   });
 });

@@ -1,8 +1,9 @@
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import React from "react";
 import { Link, Route } from "react-router-dom";
 import { getGlobalAppServerInfo } from "../../app-context";
 import { CheckboxView } from "../../forms/form-fields";
+import { li18n } from "../../i18n-lingui";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { ProgressButtonsAsLinks } from "../../ui/buttons";
 import { BackOrUpOneDirLevel, Modal } from "../../ui/modal";
@@ -15,7 +16,7 @@ const SendDeclarationModal: React.FC<{
 }> = ({ nextStep }) => {
   return (
     <Modal
-      title="Shall we send your declaration?"
+      title={li18n._(t`Shall we send your declaration?`)}
       onCloseGoTo={BackOrUpOneDirLevel}
       withHeading
       render={(ctx) => (
@@ -37,7 +38,7 @@ const SendDeclarationModal: React.FC<{
               to={nextStep}
               className="button is-primary is-medium jf-is-next-button"
             >
-              Confirm
+              <Trans>Confirm</Trans>
             </Link>
           </div>
         </>
@@ -49,46 +50,54 @@ const SendDeclarationModal: React.FC<{
 export const EvictionFreePreviewPage = MiddleProgressStep((props) => {
   return (
     <Page
-      title="Your declaration is ready to send!"
+      title={li18n._(t`Your declaration is ready to send!`)}
       withHeading="big"
       className="content"
     >
       <p>
-        Before you send your hardship declaration form, let's review what will
-        be sent to make sure all the information is correct.
+        <Trans>
+          Before you send your hardship declaration form, let's review what will
+          be sent to make sure all the information is correct.
+        </Trans>
       </p>
       <PdfLink
         href={getGlobalAppServerInfo().previewHardshipDeclarationURL}
-        label="Preview my declaration"
+        label={li18n._(t`Preview my declaration`)}
       />
       <p>
-        These last questions make sure that you understand the limits of the
-        protection granted by this form, and that you answered the previous
-        questions truthfully:
+        <Trans>
+          These last questions make sure that you understand the limits of the
+          protection granted by this form, and that you answered the previous
+          questions truthfully:
+        </Trans>
       </p>
-      <CheckboxView id="1">
-        I understand that I must comply with all other lawful terms under my
-        tenancy, lease agreement or similar contract.
-      </CheckboxView>
-      <CheckboxView id="2">
-        I further understand that lawful fees, penalties or interest for not
-        having paid rent in full or met other financial obligations as required
-        by my tenancy, lease agreement or similar contract may still be charged
-        or collected and may result in a monetary judgment against me.
-      </CheckboxView>
-      <CheckboxView id="3">
-        I further understand that my landlord may be able to seek eviction after
-        May 1, 2021, and that the law may provide certain protections at that
-        time that are separate from those available through this declaration.
-      </CheckboxView>
-      <CheckboxView id="4">
-        I understand I am signing and submitting this form under penalty of law.
-        I know it is against the law to make a statement on this form that I
-        know is false.
-      </CheckboxView>
+      <Trans id="evictionfree.listOfLegalAgreements">
+        <CheckboxView id="1">
+          I understand that I must comply with all other lawful terms under my
+          tenancy, lease agreement or similar contract.
+        </CheckboxView>
+        <CheckboxView id="2">
+          I further understand that lawful fees, penalties or interest for not
+          having paid rent in full or met other financial obligations as
+          required by my tenancy, lease agreement or similar contract may still
+          be charged or collected and may result in a monetary judgment against
+          me.
+        </CheckboxView>
+        <CheckboxView id="3">
+          I further understand that my landlord may be able to seek eviction
+          after May 1, 2021, and that the law may provide certain protections at
+          that time that are separate from those available through this
+          declaration.
+        </CheckboxView>
+        <CheckboxView id="4">
+          I understand I am signing and submitting this form under penalty of
+          law. I know it is against the law to make a statement on this form
+          that I know is false.
+        </CheckboxView>
+      </Trans>
       <ProgressButtonsAsLinks
         back={props.prevStep}
-        nextLabel="Send"
+        nextLabel={li18n._(t`Send`)}
         next={EvictionFreeRoutes.locale.declaration.previewSendConfirmModal}
       />
       <Route

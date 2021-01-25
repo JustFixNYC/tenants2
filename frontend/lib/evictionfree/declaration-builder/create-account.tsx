@@ -21,8 +21,10 @@ export const EvictionFreeCreateAccount = EvictionFreeOnboardingStep((props) => {
     <Page title={li18n._(t`Set up an account`)} withHeading="big">
       <div className="content">
         <p>
-          Let’s set you up with an account. An account will enable you to save
-          your information, download your declaration, and more.
+          <Trans>
+            Let’s set you up with an account. An account will enable you to save
+            your information, download your declaration, and more.
+          </Trans>
         </p>
       </div>
       <SessionUpdatingFormSubmitter
@@ -54,16 +56,19 @@ export const EvictionFreeCreateAccount = EvictionFreeOnboardingStep((props) => {
               </Trans>
             </CheckboxFormField>
             <CheckboxFormField {...ctx.fieldPropsFor("agreeToTerms")}>
-              I agree to the{" "}
-              <ModalLink
-                to={
-                  EvictionFreeRoutes.locale.declaration.createAccountTermsModal
-                }
-                render={() => <PrivacyInfoModal />}
-              >
-                Eviction Free NY terms and conditions
-              </ModalLink>
-              .
+              <Trans>
+                I agree to the{" "}
+                <ModalLink
+                  to={
+                    EvictionFreeRoutes.locale.declaration
+                      .createAccountTermsModal
+                  }
+                  render={() => <PrivacyInfoModal />}
+                >
+                  Eviction Free NY terms and conditions
+                </ModalLink>
+                .
+              </Trans>
             </CheckboxFormField>
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>

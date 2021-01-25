@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Accordion } from "../ui/accordion";
+import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 import Page from "../ui/page";
 import {
   EvictionFreeFaq,
@@ -67,7 +68,20 @@ export const EvictionFreeFaqsPage: React.FC<{}> = () => {
             <br />
             <p className="subtitle">
               Navigating these laws is confusing. Check out our frequently asked
-              questions from people who have used our tool:
+              questions from people who have used our tool below. If you have
+              questions about the state of housing court and the current status
+              of eviction cases, check out{" "}
+              <LocalizedOutboundLink
+                hrefs={{
+                  en:
+                    "https://www.righttocounselnyc.org/eviction_protections_during_covid",
+                  es:
+                    "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
+                }}
+              >
+                Right to Counsel's FAQ page
+              </LocalizedOutboundLink>
+              .
             </p>
           </div>
         </div>

@@ -6,6 +6,8 @@ import Page from "../../ui/page";
 import { getGlobalAppServerInfo } from "../../app-context";
 import { friendlyUTCDate } from "../../util/date-util";
 import { PdfLink } from "../../ui/pdf-link";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../../i18n-lingui";
 
 // TO DO: Replace this tracking number with the user's actual one
 const SAMPLE_USPS_TRACKING_NUMBER = "129837127326123";
@@ -35,20 +37,22 @@ const renderTitleWithCheckCircle = (title: string) => (
 const RetaliationBlurb = () => (
   <>
     <h2 className={H2_CLASSNAME}>
-      Contact a lawyer if your landlord retaliates
+      <Trans>Contact a lawyer if your landlord retaliates</Trans>
     </h2>
     <p>
-      It’s possible that your landlord will retaliate once they’ve received your
-      letter. This is illegal. Contact the City's Tenant Helpline (which can
-      provide free advice and legal counsel to tenants) by{" "}
-      <OutboundLink
-        href={NYC_311_CONTACT_LINK}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="jf-word-glue"
-      >
-        calling 311
-      </OutboundLink>
+      <Trans id="evictionfree.landlordRetaliationWarning">
+        It’s possible that your landlord will retaliate once they’ve received
+        your letter. This is illegal. Contact the City's Tenant Helpline (which
+        can provide free advice and legal counsel to tenants) by{" "}
+        <OutboundLink
+          href={NYC_311_CONTACT_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="jf-word-glue"
+        >
+          calling 311
+        </OutboundLink>
+      </Trans>
       .
     </p>
   </>
@@ -57,22 +61,28 @@ const RetaliationBlurb = () => (
 const HcaHotlineBlurb = () => (
   <>
     {" "}
-    <h2 className={H2_CLASSNAME}>Need additional support?</h2>
+    <h2 className={H2_CLASSNAME}>
+      <Trans>Need additional support?</Trans>
+    </h2>
     <p>
-      Call the Housing Court Answers hotline at{" "}
-      <OutboundLink
-        href={HCA_HOTLINE_PHONE_LINK}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="jf-word-glue"
-      >
-        212-962-4795
-      </OutboundLink>
-      .
+      <Trans>
+        Call the Housing Court Answers hotline at{" "}
+        <OutboundLink
+          href={HCA_HOTLINE_PHONE_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="jf-word-glue"
+        >
+          212-962-4795
+        </OutboundLink>
+        .
+      </Trans>
     </p>
     <p>
-      Hours of operation: Monday to Friday, 9am - 5pm. Available in English and
-      Spanish.
+      <Trans>
+        Hours of operation: Monday to Friday, 9am - 5pm. Available in English
+        and Spanish.
+      </Trans>
     </p>
   </>
 );
@@ -80,11 +90,15 @@ const HcaHotlineBlurb = () => (
 const OrganizingGroupsBlurb = () => (
   <>
     {" "}
-    <h2 className={H2_CLASSNAME}>Join the fight to cancel rent</h2>
+    <h2 className={H2_CLASSNAME}>
+      <Trans>Join the fight to cancel rent</Trans>
+    </h2>
     <p>
-      Get involved in your local community organization! Join millions in the
-      fight for a future free from debt and to win a cancelation of rent,
-      mortgage and utility payments.
+      <Trans id="evictionfree.getInvolvedWithCBO">
+        Get involved in your local community organization! Join millions in the
+        fight for a future free from debt and to win a cancelation of rent,
+        mortgage and utility payments.
+      </Trans>
     </p>
     <p className="has-text-centered">
       <OutboundLink
@@ -93,13 +107,15 @@ const OrganizingGroupsBlurb = () => (
         target="_blank"
         rel="noopener noreferrer"
       >
-        View list of organizations →
+        <Trans>View list of organizations</Trans> →
       </OutboundLink>
     </p>
     <p className="is-size-6">
-      <br />
-      *Due to the COVID-19 pandemic, some offices are closed and may not answer
-      phones.
+      <br />*
+      <Trans>
+        Due to the COVID-19 pandemic, some offices are closed and may not answer
+        phones.
+      </Trans>
     </p>
   </>
 );
@@ -113,27 +129,37 @@ export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
   // TODO: This should be the actual send date of the letter.
   const sendDate = new Date().toISOString();
 
+  // TODO: Dynamically show "email" and "USPS Certified Mail" based on user actions and internationalize
+  const deliveryMethodToLandlord = "email and USPS Certified Mail";
+
   return (
     <Page
-      title="You've sent your hardship declaration"
+      title={li18n._(t`You've sent your hardship declaration`)}
       className="content"
       withHeading={renderTitleWithCheckCircle}
     >
+      <Trans id="evictionfree.declarationHasBeenSent">
+        <p>
+          Your hardship declaration form has been sent to your landlord via{" "}
+          {deliveryMethodToLandlord}. A copy of the declaration has also been
+          sent to your local court via email in order to ensure they have it on
+          record if your landlord attempts to initiate an eviction case.
+        </p>
+        <p>
+          Check your email for a message containing a copy of your declaration
+          and additional important information on next steps.
+        </p>
+      </Trans>
+      <h2 className={H2_CLASSNAME}>
+        <Trans>Details about your declaration</Trans>
+      </h2>
       <p>
-        {/* TO DO: Dynamically show "email" and "USPS Certified Mail" based on user actions */}
-        Your declaration has been sent to your landlord via email and USPS
-        Certified Mail. A copy of the declaration has also been sent to your
-        local court via email in order to ensure they have it on record if your
-        landlord attempts to initiate an eviction case.
+        <Trans>Your letter was sent on {friendlyUTCDate(sendDate)}.</Trans>
       </p>
       <p>
-        Check your email for a message containing a copy of your declaration and
-        additional important information on next steps.
-      </p>
-      <h2 className={H2_CLASSNAME}>Details about your declaration</h2>
-      <p>Your letter was sent on {friendlyUTCDate(sendDate)}. </p>
-      <p>
-        <span className="is-size-5 has-text-weight-bold">USPS Tracking #:</span>{" "}
+        <span className="is-size-5 has-text-weight-bold">
+          <Trans>USPS Tracking #:</Trans>
+        </span>{" "}
         <OutboundLink
           href={`${USPS_TRACKING_URL_PREFIX}${SAMPLE_USPS_TRACKING_NUMBER}`}
           target="_blank"
@@ -144,7 +170,10 @@ export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
         </OutboundLink>
       </p>
       <br />
-      <PdfLink href={pdfLink} label="Download completed declaration" />
+      <PdfLink
+        href={pdfLink}
+        label={li18n._(t`Download completed declaration`)}
+      />
       {/* TO DO: Only show the following two sections if user is in NYC
           by checking if session.onboardingInfo.borough is falsy */}
       <>

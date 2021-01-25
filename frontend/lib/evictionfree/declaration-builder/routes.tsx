@@ -119,7 +119,11 @@ const EfLandlordMailingAddress = MiddleProgressStep((props) => (
 ));
 
 const EfOutsideNewYork: React.FC<ProgressStepProps> = (props) => (
-  <Page title="You don't live in New York">
+  <Page
+    title="You don't live in New York"
+    withHeading="big"
+    className="content"
+  >
     <p>
       Unfortunately, this tool is currently only available to individuals who
       live in the state of New York.

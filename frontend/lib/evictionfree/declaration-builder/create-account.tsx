@@ -21,8 +21,10 @@ export const EvictionFreeCreateAccount = EvictionFreeOnboardingStep((props) => {
     <Page title={li18n._(t`Set up an account`)} withHeading="big">
       <div className="content">
         <p>
-          Let’s set you up with an account. An account will enable you to save
-          your information, download your declaration, and more.
+          <Trans>
+            Let’s set you up with an account. An account will enable you to save
+            your information, download your declaration, and more.
+          </Trans>
         </p>
       </div>
       <SessionUpdatingFormSubmitter
@@ -48,21 +50,25 @@ export const EvictionFreeCreateAccount = EvictionFreeOnboardingStep((props) => {
             />
             <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
               <Trans>
-                Yes, JustFix.nyc can text me to follow up about my housing
+                Yes, JustFix.nyc, Right to Counsel NYC Coalition, and Housing
+                Justice for All can text me to follow up about my housing
                 issues.
               </Trans>
             </CheckboxFormField>
             <CheckboxFormField {...ctx.fieldPropsFor("agreeToTerms")}>
-              I agree to the{" "}
-              <ModalLink
-                to={
-                  EvictionFreeRoutes.locale.declaration.createAccountTermsModal
-                }
-                render={() => <PrivacyInfoModal />}
-              >
-                EvictionFree.org terms and conditions
-              </ModalLink>
-              .
+              <Trans>
+                I agree to the{" "}
+                <ModalLink
+                  to={
+                    EvictionFreeRoutes.locale.declaration
+                      .createAccountTermsModal
+                  }
+                  render={() => <PrivacyInfoModal />}
+                >
+                  Eviction Free NY terms and conditions
+                </ModalLink>
+                .
+              </Trans>
             </CheckboxFormField>
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>

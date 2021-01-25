@@ -1,3 +1,4 @@
+import { t, Trans } from "@lingui/macro";
 import React from "react";
 import {
   ConditionalFormField,
@@ -10,6 +11,7 @@ import {
   YES_NO_RADIOS_FALSE,
   YES_NO_RADIOS_TRUE,
 } from "../../forms/yes-no-radios-form-field";
+import { li18n } from "../../i18n-lingui";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { EvictionFreeIndexNumberMutation } from "../../queries/EvictionFreeIndexNumberMutation";
 import { ProgressButtons } from "../../ui/buttons";
@@ -18,7 +20,7 @@ import Page from "../../ui/page";
 export const EvictionFreeIndexNumber = MiddleProgressStep((props) => {
   return (
     <Page
-      title="Do you have a current eviction court case?"
+      title={li18n._(t`Do you have a current eviction court case?`)}
       withHeading="big"
       className="content"
     >
@@ -48,12 +50,14 @@ export const EvictionFreeIndexNumber = MiddleProgressStep((props) => {
               <ConditionalFormField {...indexNumberProps}>
                 <>
                   <p>
-                    We'll need to add your case's index number to your
-                    declaration.
+                    <Trans>
+                      We'll need to add your case's index number to your
+                      declaration.
+                    </Trans>
                   </p>
                   <TextualFormField
                     {...indexNumberProps}
-                    label="Your case's index number"
+                    label={li18n._(t`Your case's index number`)}
                   />
                 </>
               </ConditionalFormField>

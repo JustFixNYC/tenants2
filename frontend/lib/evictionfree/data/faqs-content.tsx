@@ -1,15 +1,96 @@
+import { Trans, t } from "@lingui/macro";
 import React from "react";
-
-type EvictionFreeFaqPreviewOptions = {
-  priorityInPreview: number; // Not Localized
-  answerPreview: React.ReactNode; // Localized
-};
+import { li18n } from "../../i18n-lingui";
+import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
 
 export type EvictionFreeFaq = {
   question: string; // Localized
   answerFull: React.ReactNode; // Localized
-  previewOptions?: EvictionFreeFaqPreviewOptions;
+  priorityInPreview?: number; // Not Localized
 };
+
+export const RightToCounselFaqsLink = () => (
+  <LocalizedOutboundLink
+    hrefs={{
+      en: "https://www.righttocounselnyc.org/eviction_protections_during_covid",
+      es: "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
+    }}
+  >
+    <Trans>Right to Counsel's FAQ page</Trans>
+  </LocalizedOutboundLink>
+);
+
+const NycHousingCourtContactInfo = () => (
+  <ul>
+    <li>
+      <p>
+        <Trans>Manhattan Housing Court:</Trans>
+      </p>
+      <ul>
+        <li>
+          <Trans>Address:</Trans> 111 Centre Street, New York, NY 10013
+        </li>
+        <li>
+          <Trans>Email:</Trans> NewYorkHardshipDeclaration@nycourts.gov
+        </li>
+      </ul>
+    </li>
+    <li>
+      <p>
+        <Trans>Bronx Housing Court:</Trans>
+      </p>
+      <ul>
+        <li>
+          <Trans>Address:</Trans> 1118 Grand Concourse, Bronx, NY 10456
+        </li>
+        <li>
+          <Trans>Email:</Trans> BronxHardshipDeclaration@nycourts.gov{" "}
+        </li>
+      </ul>
+    </li>
+    <li>
+      <p>
+        <Trans>Brooklyn Housing Court:</Trans>
+      </p>
+      <ul>
+        <li>
+          <Trans>Address:</Trans> 141 Livingston St, Brooklyn, NY 11201
+        </li>
+        <li>
+          <Trans>Email:</Trans> KingsHardshipDeclaration@nycourts.gov
+        </li>
+      </ul>
+    </li>
+    <li>
+      <p>
+        <Trans>Queens Housing Court:</Trans>
+      </p>
+      <ul>
+        <li>
+          <Trans>Address:</Trans> 89-17 Sutphin Boulevard, Jamaica, New York
+          11435
+        </li>
+        <li>
+          <Trans>Email:</Trans> QueensHardshipDeclaration@nycourts.gov
+        </li>
+      </ul>
+    </li>
+    <li>
+      <p>
+        <Trans>Staten Island Housing Court:</Trans>
+      </p>
+      <ul>
+        <li>
+          <Trans>Address:</Trans> 927 Castleton Avenue, Staten Island, New York
+          10310
+        </li>
+        <li>
+          <Trans>Email:</Trans> RichmondHardshipDeclaration@nycourts.gov{" "}
+        </li>
+      </ul>
+    </li>
+  </ul>
+);
 
 /**
  * Get all content for FAQ entries throughout the site.
@@ -21,163 +102,167 @@ export type EvictionFreeFaq = {
  */
 export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
   {
-    question: `Is this free?`,
-    previewOptions: {
-      priorityInPreview: 1,
-      answerPreview: (
-        <p>
-          Yes, this is a free website created by 501(c)3 non-profit
-          organizations.
-        </p>
-      ),
-    },
+    question: li18n._(t`Is this free?`),
+    priorityInPreview: 1,
     answerFull: (
       <p>
-        Yes, this is a free website created by 501(c)3 non-profit organizations.
+        <Trans>
+          Yes, this is a free website created by 501(c)3 non-profit
+          organizations.
+        </Trans>
       </p>
     ),
   },
   {
-    question: `Do I have to go to the post office to mail my declaration?`,
-    previewOptions: {
-      priorityInPreview: 2,
-      answerPreview: (
-        <p>
+    question: li18n._(
+      t`Do I have to go to the post office to mail my declaration?`
+    ),
+    priorityInPreview: 2,
+    answerFull: (
+      <p>
+        <Trans>
           No, you can use this website to send a letter to your landlord via
           email or USPS mail. You do not have to pay for the letter to be
           mailed. If you choose not to use this tool, you will be responsible
           for mailing your declaration.
-        </p>
-      ),
-    },
-    answerFull: (
-      <p>
-        No, you can use this website to send a letter to your landlord via email
-        or USPS mail. You do not have to pay for the letter to be mailed. If you
-        choose not to use this tool, you will be responsible for mailing your
-        declaration.
+        </Trans>
       </p>
     ),
   },
   {
-    question: `I’m undocumented. Can I use this tool?`,
-    previewOptions: {
-      priorityInPreview: 3,
-      answerPreview: (
-        <p>
+    question: li18n._(t`I’m undocumented. Can I use this tool?`),
+    priorityInPreview: 3,
+    answerFull: (
+      <p>
+        <Trans>
           Yes, the protections outlined by New York State law apply to you
           regardless of immigration status.
-        </p>
-      ),
-    },
-    answerFull: (
-      <p>
-        Yes, the protections outlined by New York State law apply to you
-        regardless of immigration status.
+        </Trans>
       </p>
     ),
   },
   {
-    question: `I live in another state that isn’t New York. Is this tool for me?`,
-    previewOptions: {
-      priorityInPreview: 4,
-      answerPreview: (
-        <p>
+    question: li18n._(
+      t`I live in another state that isn’t New York. Is this tool for me?`
+    ),
+    priorityInPreview: 4,
+    answerFull: (
+      <p>
+        <Trans>
           No. Unfortunately, these protections only apply to residents of New
           York State.
-        </p>
-      ),
-    },
-    answerFull: (
-      <p>
-        No. Unfortunately, these protections only apply to residents of New York
-        State.
+        </Trans>
       </p>
     ),
   },
   {
-    question: `Can I see what forms I’m sending before I fill them out?`,
+    question: li18n._(
+      t`Can I see what forms I’m sending before I fill them out?`
+    ),
     answerFull: (
       <p>
-        When you use our tool, you will be able to preview your filled out form
-        before sending it. You can also view a blank copy of the Hardship
-        Declaration form.
+        <Trans>
+          When you use our tool, you will be able to preview your filled out
+          form before sending it. You can also view a blank copy of the Hardship
+          Declaration form.
+        </Trans>
       </p>
     ),
   },
   {
-    question: `Is the online tool the only way to submit this form?`,
+    question: li18n._(t`Is the online tool the only way to submit this form?`),
     answerFull: (
       <>
-        <p>
-          No! You can print out the Hardship Declaration form yourself, fill it
-          out by hand, and mail/email it to your landlord and local housing
-          court.
-        </p>
-
-        <p>
-          New York City residents can send their declarations to the court in
-          their borough:
-        </p>
-        <ul>
-          <li>
-            <p>Manhattan Housing Court: </p>
-            <ul>
-              <li>Address: 111 Centre Street, New York, NY 10013</li>
-              <li>Email: NewYorkHardshipDeclaration@nycourts.gov</li>
-            </ul>
-            <p>Bronx Housing Court </p>
-            <ul>
-              <li>Address: 1118 Grand Concourse, Bronx, NY 10456</li>
-              <li>Email: BronxHardshipDeclaration@nycourts.gov </li>
-            </ul>
-            <p>Brooklyn Housing Court </p>
-            <ul>
-              <li>Address: 141 Livingston St, Brooklyn, NY 11201</li>
-              <li>Email: KingsHardshipDeclaration@nycourts.gov</li>
-            </ul>
-            <p>Queens Housing Court </p>
-            <ul>
-              <li>Address: 89-17 Sutphin Boulevard, Jamaica, New York 11435</li>
-              <li>Email: QueensHardshipDeclaration@nycourts.gov</li>
-            </ul>
-            <p>Staten Island Housing Court </p>
-            <ul>
-              <li>
-                Address: 927 Castleton Avenue, Staten Island, New York 10310
-              </li>
-              <li>Email: RichmondHardshipDeclaration@nycourts.gov </li>
-            </ul>
-          </li>
-        </ul>
+        <Trans>
+          <p>
+            No! You can print out the Hardship Declaration form yourself, fill
+            it out by hand, and mail/email it to your landlord and local housing
+            court.
+          </p>
+          <p>
+            New York City residents can send their declarations to the court in
+            their borough:
+          </p>
+        </Trans>
+        <NycHousingCourtContactInfo />
       </>
     ),
   },
+  {
+    question: li18n._(
+      t`What is the time lag between me filling this out and when it gets sent?`
+    ),
+    answerFull: (
+      <p>
+        <Trans>
+          Once you build your declaration form via this tool, it gets mailed
+          and/or emailed immediately to your landlord and the courts. After it's
+          sent, physical mail usually delivers in about a week.
+        </Trans>
+      </p>
+    ),
+  },
+  {
+    question: li18n._(t`What is the deadline for filling out the declaration?`),
+    answerFull: (
+      <p>
+        <Trans>
+          You currently can submit your declaration form at any time between now
+          and May 1, 2021. Once you submit your declaration form via this tool,
+          we will mail and/or email it immediately to your landlord and the
+          courts. If you’re ONLY sending your form via physical mail, send it as
+          soon as possible and keep any proof of mailing and/or return receipts
+          for your records.
+        </Trans>
+      </p>
+    ),
+  },
+  {
+    question: li18n._(
+      t`Is there a way to resend the declaration if the landlord claims they never received it?`
+    ),
+    answerFull: (
+      <p>
+        <Trans>
+          You currently cannot use this tool to send more than one declaration
+          form. However, once you use this tool, you will be able to download a
+          PDF copy of your declaration on the “Confirmation Page,” and you can
+          choose to resend that declaration on your own. You should keep it for
+          your records, in case your landlord tries to bring you to court.
+        </Trans>
+      </p>
+    ),
+  },
+  {
+    question: li18n._(
+      t`I have a current eviction case in NYC. How do I connect with a lawyer?`
+    ),
+    answerFull: (
+      <p>
+        <Trans>
+          Visit <RightToCounselFaqsLink /> for information on how to connect
+          with a lawyer.
+        </Trans>
+      </p>
+    ),
+  },
 ];
-
-export type EvictionFreeFaqWithPreviewOptions = EvictionFreeFaq & {
-  previewOptions: EvictionFreeFaqPreviewOptions;
-};
 
 /**
  * Return a list of all FAQs with preview options, pre-sorted to reflect
  * their priority.
  */
-export const getEvictionFreeFaqsWithPreviewContent: () => EvictionFreeFaqWithPreviewOptions[] = () => {
+export const getEvictionFreeFaqsWithPreviewContent: () => EvictionFreeFaq[] = () => {
   const results = [];
 
   for (let faq of getEvictionFreeFaqsContent()) {
-    const { previewOptions } = faq;
-    if (previewOptions) {
-      results.push({ ...faq, previewOptions });
+    const { priorityInPreview } = faq;
+    if (priorityInPreview) {
+      results.push({ ...faq, priorityInPreview });
     }
   }
 
-  results.sort(
-    (faq1, faq2) =>
-      faq1.previewOptions.priorityInPreview -
-      faq2.previewOptions.priorityInPreview
-  );
+  results.sort((faq1, faq2) => faq1.priorityInPreview - faq2.priorityInPreview);
 
   return results;
 };

@@ -35,3 +35,15 @@ class CovidImpactForm(forms.ModelForm):
 
     def clean(self):
         return ensure_at_least_one_is_true(super().clean())
+
+
+class AgreeToLegalTermsForm(forms.Form):
+    complies_with_other_lawful_terms = forms.BooleanField(required=True)
+
+    understands_financial_obligations = forms.BooleanField(required=True)
+
+    understands_protection_is_temporary = forms.BooleanField(required=True)
+
+
+class SigningTruthfullyForm(forms.Form):
+    is_signing_truthfully = forms.BooleanField(required=True)

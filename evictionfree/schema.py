@@ -1,3 +1,4 @@
+from project.util.django_graphql_forms import DjangoFormMutation
 from typing import Any, Dict
 from django.http import HttpRequest
 import graphene
@@ -51,6 +52,18 @@ class EvictionFreeCovidImpact(OneToOneUserModelFormMutation):
 class EvictionFreeIndexNumber(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.IndexNumberForm
+
+
+@schema_registry.register_mutation
+class EvictionFreeAgreeToLegalTerms(DjangoFormMutation):
+    class Meta:
+        form_class = forms.AgreeToLegalTermsForm
+
+
+@schema_registry.register_mutation
+class EvictionFreeSigningTruthfully(DjangoFormMutation):
+    class Meta:
+        form_class = forms.SigningTruthfullyForm
 
 
 @schema_registry.register_session_info

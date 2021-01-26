@@ -63,10 +63,6 @@ msgstr "<0>If your landlord is trying to illegally evict you, reach out to legal
 msgid "<0>If you’re facing an emergency, you can find further legal assistance in your state at <1/>.</0>"
 msgstr "<0>If you’re facing an emergency, you can find further legal assistance in your state at <1/>.</0>"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:144
-msgid "<0>No! You can print out the Hardship Declaration form yourself, fill it out by hand, and mail/email it to your landlord and local housing court.</0><1>New York City residents can send their declarations to the court in their borough:</1>"
-msgstr "<0>No! You can print out the Hardship Declaration form yourself, fill it out by hand, and mail/email it to your landlord and local housing court.</0><1>New York City residents can send their declarations to the court in their borough:</1>"
-
 #: frontend/lib/norent/data/faqs-content.tsx:192
 #: frontend/lib/norent/data/faqs-content.tsx:200
 msgid "<0>No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed.</0>"
@@ -1328,10 +1324,6 @@ msgstr "No rent receipts given"
 msgid "No smoke detector"
 msgstr "No smoke detector"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:103
-msgid "No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed. If you choose not to use this tool, you will be responsible for mailing your declaration."
-msgstr "No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed. If you choose not to use this tool, you will be responsible for mailing your declaration."
-
 #: frontend/lib/evictionfree/data/faqs-content.tsx:125
 msgid "No. Unfortunately, these protections only apply to residents of New York State."
 msgstr "No. Unfortunately, these protections only apply to residents of New York State."
@@ -1371,10 +1363,6 @@ msgstr "Ohio"
 #: common-data/us-state-choices.ts:101
 msgid "Oklahoma"
 msgstr "Oklahoma"
-
-#: frontend/lib/evictionfree/data/faqs-content.tsx:161
-msgid "Once you build your declaration form via this tool, it gets mailed and/or emailed immediately to your landlord and the courts. After it's sent, physical mail usually delivers in about a week."
-msgstr "Once you build your declaration form via this tool, it gets mailed and/or emailed immediately to your landlord and the courts. After it's sent, physical mail usually delivers in about a week."
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:75
 msgid "One letter for the months between March and August when you couldn't pay rent in full."
@@ -2320,14 +2308,6 @@ msgstr "You can send an additional letter for other months when you couldn't pay
 msgid "You can't send any more letters"
 msgstr "You can't send any more letters"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:171
-msgid "You currently can submit your declaration form at any time between now and May 1, 2021. Once you submit your declaration form via this tool, we will mail and/or email it immediately to your landlord and the courts. If you’re ONLY sending your form via physical mail, send it as soon as possible and keep any proof of mailing and/or return receipts for your records."
-msgstr "You currently can submit your declaration form at any time between now and May 1, 2021. Once you submit your declaration form via this tool, we will mail and/or email it immediately to your landlord and the courts. If you’re ONLY sending your form via physical mail, send it as soon as possible and keep any proof of mailing and/or return receipts for your records."
-
-#: frontend/lib/evictionfree/data/faqs-content.tsx:184
-msgid "You currently cannot use this tool to send more than one declaration form. However, once you use this tool, you will be able to download a PDF copy of your declaration on the “Confirmation Page,” and you can choose to resend that declaration on your own. You should keep it for your records, in case your landlord tries to bring you to court."
-msgstr "You currently cannot use this tool to send more than one declaration form. However, once you use this tool, you will be able to download a PDF copy of your declaration on the “Confirmation Page,” and you can choose to resend that declaration on your own. You should keep it for your records, in case your landlord tries to bring you to court."
-
 #: frontend/lib/evictionfree/declaration-builder/routes.tsx:82
 msgid "You don't live in New York"
 msgstr "You don't live in New York"
@@ -2477,6 +2457,10 @@ msgstr "Zip code"
 msgid "and"
 msgstr "and"
 
+#: frontend/lib/evictionfree/data/faqs-content.tsx:171
+msgid "evictionfree.deadlineFaq"
+msgstr "You currently can submit your declaration form at any time between now and May 1, 2021. Once you submit your declaration form via this tool, we will mail and/or email it immediately to your landlord and the courts. If you’re ONLY sending your form via physical mail, send it as soon as possible and keep any proof of mailing and/or return receipts for your records."
+
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:95
 msgid "evictionfree.declarationHasBeenSent"
 msgstr "<0>Your hardship declaration form has been sent to your landlord via {deliveryMethodToLandlord}. A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case.</0><1>Check your email for a message containing a copy of your declaration and additional important information on next steps.</1>"
@@ -2513,9 +2497,25 @@ msgstr "I further understand that my landlord may be able to seek eviction after
 msgid "evictionfree.outlineOfDeclarationFormSteps"
 msgstr "<0>In the next few steps, we’ll help you fill out your hardship declaration form. Have this information on hand if possible:</0><1><2><3>your phone number, email address, and residence</3></2><4><5>your landlord or management company’s mailing and/or email address</5></4></1>"
 
+#: frontend/lib/evictionfree/data/faqs-content.tsx:103
+msgid "evictionfree.postOfficeFaq"
+msgstr "No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed. If you choose not to use this tool, you will be responsible for mailing your declaration."
+
+#: frontend/lib/evictionfree/data/faqs-content.tsx:144
+msgid "evictionfree.printOutFaq"
+msgstr "<0>No! You can print out the Hardship Declaration form yourself, fill it out by hand, and mail/email it to your landlord and local housing court.</0><1>New York City residents can send their declarations to the court in their borough:</1>"
+
+#: frontend/lib/evictionfree/data/faqs-content.tsx:184
+msgid "evictionfree.resendFaq"
+msgstr "You currently cannot use this tool to send more than one declaration form. However, once you use this tool, you will be able to download a PDF copy of your declaration on the “Confirmation Page,” and you can choose to resend that declaration on your own. You should keep it for your records, in case your landlord tries to bring you to court."
+
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:60
 msgid "evictionfree.significantHealthRiskExplainer"
 msgstr "This means you or one or more members of your household have an increased risk for severe illness or death from COVID-19 due to being over the age of sixty-five, having a disability or having an underlying medical condition, which may include but is not limited to being immunocompromised."
+
+#: frontend/lib/evictionfree/data/faqs-content.tsx:161
+msgid "evictionfree.timeLagFaq"
+msgstr "Once you build your declaration form via this tool, it gets mailed and/or emailed immediately to your landlord and the courts. After it's sent, physical mail usually delivers in about a week."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:165
 msgid "justfix.DdoMayNeedHpdRegistration"

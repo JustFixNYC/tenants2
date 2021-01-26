@@ -120,7 +120,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     priorityInPreview: 2,
     answerFull: (
       <p>
-        <Trans>
+        <Trans id="evictionfree.postOfficeFaq">
           No, you can use this website to send a letter to your landlord via
           email or USPS mail. You do not have to pay for the letter to be
           mailed. If you choose not to use this tool, you will be responsible
@@ -173,7 +173,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     question: li18n._(t`Is the online tool the only way to submit this form?`),
     answerFull: (
       <>
-        <Trans>
+        <Trans id="evictionfree.printOutFaq">
           <p>
             No! You can print out the Hardship Declaration form yourself, fill
             it out by hand, and mail/email it to your landlord and local housing
@@ -194,7 +194,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     ),
     answerFull: (
       <p>
-        <Trans>
+        <Trans id="evictionfree.timeLagFaq">
           Once you build your declaration form via this tool, it gets mailed
           and/or emailed immediately to your landlord and the courts. After it's
           sent, physical mail usually delivers in about a week.
@@ -206,7 +206,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     question: li18n._(t`What is the deadline for filling out the declaration?`),
     answerFull: (
       <p>
-        <Trans>
+        <Trans id="evictionfree.deadlineFaq">
           You currently can submit your declaration form at any time between now
           and May 1, 2021. Once you submit your declaration form via this tool,
           we will mail and/or email it immediately to your landlord and the
@@ -223,7 +223,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     ),
     answerFull: (
       <p>
-        <Trans>
+        <Trans id="evictionfree.resendFaq">
           You currently cannot use this tool to send more than one declaration
           form. However, once you use this tool, you will be able to download a
           PDF copy of your declaration on the “Confirmation Page,” and you can

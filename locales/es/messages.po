@@ -2535,7 +2535,7 @@ msgid "and"
 msgstr "y"
 
 #: frontend/lib/evictionfree/components/helmet.tsx:13
-msgid "eviction free nyc, eviction free ny, hardship, declaration, declare hardship, new york, new york city, nyc, lawyer, legal aid, housing, tenants, tenants rights, help, assistance, legal services, eviction, evicted"
+msgid "eviction free nyc, eviction free ny, hardship, declaration, declare hardship, eviction, evicted"
 msgstr ""
 
 #: frontend/lib/evictionfree/about.tsx:14

@@ -18,7 +18,7 @@ const description = () =>
   );
 const keywords = () =>
   li18n._(
-    t`eviction free nyc, eviction free ny, hardship, declaration, declare hardship, new york, new york city, nyc, lawyer, legal aid, housing, tenants, tenants rights, help, assistance, legal services, eviction, evicted`
+    t`eviction free nyc, eviction free ny, hardship, declaration, declare hardship, eviction, evicted`
   );
 
 export const EvictionFreeHelmet = () => {

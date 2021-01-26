@@ -2,7 +2,7 @@ from typing import List, Optional
 from pathlib import Path
 from pydantic import BaseModel
 
-from .overlay_pdf import Text, Checkbox, Page, Document
+from .overlay_pdf import Text, Page, Document
 
 
 PDF_DIR = Path(__file__).parent.resolve() / "pdf"
@@ -32,24 +32,25 @@ EXAMPLE_VARIABLES = HardshipDeclarationVariables(
 def _pages_en(v: HardshipDeclarationVariables) -> List[Page]:
     return [
         # First page has nothing to be filled out.
-        Page(items=[]),
+        Page(),
         Page(
-            items=[
-                Text(v.index_number, 288, 128),
-                Text(v.county_and_court, 310, 160),
-                Text(v.address, 75, 324),
-                Checkbox(v.has_financial_hardship, 91, 410),
-            ]
+            form_fields={
+                "Index Number 2": v.index_number,
+                "County and Court 2": v.county_and_court,
+                "Text Field 4": v.address,
+                "Check Box 1": v.has_financial_hardship,
+            },
         ),
         Page(
+            form_fields={
+                "Check Box 2": v.has_health_risk,
+                "Text Field 3": v.name,
+                "Text Field 2": v.date,
+            },
             items=[
-                Checkbox(v.has_health_risk, 91, 255),
                 # Signature
                 Text(v.name, 290, 540),
-                # Printed name
-                Text(v.name, 290, 579),
-                Text(v.date, 290, 620),
-            ]
+            ],
         ),
     ]
 
@@ -57,24 +58,25 @@ def _pages_en(v: HardshipDeclarationVariables) -> List[Page]:
 def _pages_es(v: HardshipDeclarationVariables) -> List[Page]:
     return [
         # First page has nothing to be filled out.
-        Page(items=[]),
+        Page(),
         Page(
-            items=[
-                Text(v.index_number, 344, 128),
-                Text(v.county_and_court, 353, 160),
-                Text(v.address, 65, 324),
-                Checkbox(v.has_financial_hardship, 79, 413),
-            ]
+            form_fields={
+                "Index Number 3": v.index_number,
+                "County and Court 3": v.county_and_court,
+                "Text Field 4": v.address,
+                "Check Box 1": v.has_financial_hardship,
+            },
         ),
         Page(
+            form_fields={
+                "Check Box 2": v.has_health_risk,
+                "Text Field 3": v.name,
+                "Text Field 2": v.date,
+            },
             items=[
-                Checkbox(v.has_health_risk, 80, 256),
                 # Signature
                 Text(v.name, 300, 524),
-                # Printed name
-                Text(v.name, 300, 564),
-                Text(v.date, 300, 604),
-            ]
+            ],
         ),
     ]
 

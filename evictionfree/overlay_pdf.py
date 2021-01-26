@@ -1,4 +1,9 @@
-from typing import List, NamedTuple, Optional, Union
+from evictionfree.pdf_form_fill_util import (
+    PdfFields,
+    set_need_appearances_writer,
+    update_page_form_fields,
+)
+from typing import List, NamedTuple, Optional
 from pathlib import Path
 from io import BytesIO
 from django.utils.html import escape
@@ -34,21 +39,13 @@ class Text(NamedTuple):
         return _text(self.value, self.x, self.y, self.size)
 
 
-class Checkbox(NamedTuple):
-    value: bool
-    x: int
-    y: int
-    size: int = DEFAULT_SIZE
-
-    def __str__(self) -> str:
-        return _text("\u2714" if self.value else None, self.x, self.y, self.size)
-
-
-PageItem = Union[Text, Checkbox]
+PageItem = Text
 
 
 class Page(NamedTuple):
-    items: List[PageItem]
+    items: List[PageItem] = []
+
+    form_fields: PdfFields = {}
 
     def __str__(self) -> str:
         lines = "\n".join(str(item) for item in self.items)
@@ -75,10 +72,12 @@ class Document(NamedTuple):
     def overlay_atop(self, pdf: Path) -> BytesIO:
         overlay_pdf = PyPDF2.PdfFileReader(self.render_pdf_bytes())
         pdf_writer = PyPDF2.PdfFileWriter()
+        set_need_appearances_writer(pdf_writer)
         with pdf.open("rb") as blank_file:
             blank_pdf = PyPDF2.PdfFileReader(blank_file)
             for i in range(blank_pdf.numPages):
                 page = blank_pdf.getPage(i)
+                update_page_form_fields(page, self.pages[i].form_fields)
                 if i < overlay_pdf.numPages and not self.pages[i].is_blank():
                     overlay_page = overlay_pdf.getPage(i)
                     page.mergePage(overlay_page)

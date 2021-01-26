@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-25 21:08\n"
+"PO-Revision-Date: 2021-01-26 11:09\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -139,6 +139,10 @@ msgstr "Después de este paso, no puedes volver a hacer cambios. Pero no te preo
 #: frontend/lib/norent/homepage.tsx:221
 msgid "After you’ve reviewed your letter, we send it to your landlord on your behalf by email and by certified mail, depending on the contact information that you provide us."
 msgstr "Después de que hayas revisado tu carta, la enviaremos a tu arrendador por correo electrónico y por correo certificado, según la información de contacto que nos hayas proporcionado."
+
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:8
+msgid "Agree to the state’s legal terms"
+msgstr "Agree to the state’s legal terms"
 
 #: common-data/us-state-choices.ts:66
 msgid "Alabama"
@@ -804,11 +808,11 @@ msgstr "No tengo ningún número de apartamento"
 msgid "I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
 msgstr "Acabo de usar la nueva herramienta gratuita de JustFix.nyc para decirle a mi arrendador que no puedo pagar la renta"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:71
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:41
 msgid "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
 msgstr "Entiendo que estoy firmando y enviando este formulario bajo pena de ley. Sé que es ilegal hacer a sabiendas una declaración falsa en este formulario."
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:48
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:17
 msgid "I understand that I must comply with all other lawful terms under my tenancy, lease agreement or similar contract."
 msgstr "Entiendo que debo cumplir con todos los demás términos legales de mi contrato de alquiler y tenencia o contrato semejante."
 
@@ -1537,7 +1541,7 @@ msgstr "Dirección de búsqueda"
 msgid "See more FAQs"
 msgstr "Ver todas las preguntas más frecuentes"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:77
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:47
 msgid "Send"
 msgstr "Send"
 
@@ -1804,7 +1808,7 @@ msgstr "La página web a la que quieres acceder solo está disponible en inglés
 msgid "There {0, plural, one {is one unit} other {are # units}} in your building."
 msgstr "{0, plural, one {Hay una unidad} other {Hay # unidades}} en tu edificio."
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:41
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:10
 msgid "These last questions make sure that you understand the limits of the protection granted by this form, and that you answered the previous questions truthfully:"
 msgstr "These last questions make sure that you understand the limits of the protection granted by this form, and that you answered the previous questions truthfully:"
 
@@ -2181,8 +2185,8 @@ msgid "Yes, JustFix.nyc can text me to follow up about my housing issues."
 msgstr "Sí, JustFix.nyc puede enviarme mensajes de texto para hacer un seguimiento de mis problemas de vivienda."
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:30
-msgid "Yes, JustFix.nyc, Right to Counsel NYC Coalition, and Housing Justice for All can text me to follow up about my housing issues."
-msgstr "Yes, JustFix.nyc, Right to Counsel NYC Coalition, and Housing Justice for All can text me to follow up about my housing issues."
+msgid "Yes, Right to Counsel NYC Coalition, Housing Justice for All, and JustFix.nyc can text me to follow up about my housing issues."
+msgstr "Yes, Right to Counsel NYC Coalition, Housing Justice for All, and JustFix.nyc can text me to follow up about my housing issues."
 
 #: frontend/lib/pages/logout-alt-page.tsx:25
 msgid "Yes, Sign Out"
@@ -2385,11 +2389,11 @@ msgstr "In order to benefit from the eviction protections that local elected off
 msgid "evictionfree.landlordRetaliationWarning"
 msgstr "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact the City's Tenant Helpline (which can provide free advice and legal counsel to tenants) by <0>calling 311</0>"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:54
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:23
 msgid "evictionfree.legalAgreementCheckboxOnFees"
 msgstr "Además, entiendo que los honorarios, multas o intereses legales por impago total de alquiler o por no haber cumplido con otras obligaciones financieras según requerido por mi tenencia, contrato de alquiler o contrato semejante aún podrán cobrarse y resultar en un fallo monetario en mi contra."
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:63
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:31
 msgid "evictionfree.legalAgreementCheckboxOnNewProtections"
 msgstr "Además, entiendo que mi casero puede solicitar el desalojo después del 1 de mayo del 2021 y que la ley puede proporcionarle, en ese momento, ciertas protecciones independientes disponibles a través de esta declaración."
 

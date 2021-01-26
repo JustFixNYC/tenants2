@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-26 19:18\n"
+"PO-Revision-Date: 2021-01-26 19:44\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -129,7 +129,7 @@ msgstr "Dirección"
 #: frontend/lib/evictionfree/data/faqs-content.tsx:57
 #: frontend/lib/evictionfree/data/faqs-content.tsx:71
 msgid "Address:"
-msgstr "Address:"
+msgstr "Dirección:"
 
 #: frontend/lib/norent/data/faqs-content.tsx:11
 msgid "After Sending Your Letter"
@@ -258,11 +258,11 @@ msgstr "Sin detector de Co2 o humo"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:27
 msgid "Bronx Housing Court:"
-msgstr "Bronx Housing Court:"
+msgstr "Corte de vivienda de Bronx:"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:40
 msgid "Brooklyn Housing Court:"
-msgstr "Brooklyn Housing Court:"
+msgstr "Corte de vivienda de Brooklyn:"
 
 #: frontend/lib/norent/faqs.tsx:74
 msgid "Browse the FAQs"
@@ -315,7 +315,7 @@ msgstr "Call the Housing Court Answers hotline at <0>212-962-4795</0>."
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:132
 msgid "Can I see what forms I’m sending before I fill them out?"
-msgstr "Can I see what forms I’m sending before I fill them out?"
+msgstr "¿Puedo ver qué formularios voy a enviar antes de llenarlos?"
 
 #: frontend/lib/norent/components/helmet.tsx:55
 #: frontend/lib/norent/homepage.tsx:89
@@ -499,7 +499,7 @@ msgstr "Distrito de Columbia"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:100
 msgid "Do I have to go to the post office to mail my declaration?"
-msgstr "Do I have to go to the post office to mail my declaration?"
+msgstr "¿Tengo que ir a la oficina de correos para enviar mi declaración?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:188
 msgid "Do I have to go to the post office to mail my letter?"
@@ -594,7 +594,7 @@ msgstr "Dirección de correo electrónico"
 #: frontend/lib/evictionfree/data/faqs-content.tsx:61
 #: frontend/lib/evictionfree/data/faqs-content.tsx:75
 msgid "Email:"
-msgstr "Email:"
+msgstr "Correo electrónico:"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:99
 msgid "English version"
@@ -846,7 +846,7 @@ msgstr "Acabo de usar la nueva herramienta gratuita de JustFix.nyc para decirle 
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:122
 msgid "I live in another state that isn’t New York. Is this tool for me?"
-msgstr "I live in another state that isn’t New York. Is this tool for me?"
+msgstr "No vivo en el estado de Nueva York. ¿Puedo igual usar esta herramienta?"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:41
 msgid "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
@@ -935,11 +935,11 @@ msgstr "¿Se considera una \"huelga de renta\" el no pagar mi renta a causa del 
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:142
 msgid "Is the online tool the only way to submit this form?"
-msgstr "Is the online tool the only way to submit this form?"
+msgstr "¿Es la herramienta en línea la única forma de enviar este formulario?"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:182
 msgid "Is there a way to resend the declaration if the landlord claims they never received it?"
-msgstr "Is there a way to resend the declaration if the landlord claims they never received it?"
+msgstr "¿Hay alguna manera de volver a enviar la declaración si el dueño del edificio afirma que nunca la recibió?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:209
 msgid "Is there someone I can connect with after this to get help?"
@@ -982,7 +982,7 @@ msgstr "¡Es la primera vez que estás aquí!"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:112
 msgid "I’m undocumented. Can I use this tool?"
-msgstr "I’m undocumented. Can I use this tool?"
+msgstr "Soy indocumentado. ¿Puedo usar esta herramienta?"
 
 #: frontend/lib/norent/components/footer.tsx:19
 msgid "Join our <0/>mailing list"
@@ -1164,7 +1164,7 @@ msgstr "Asegúrate de que la información sea la correcta."
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:14
 msgid "Manhattan Housing Court:"
-msgstr "Manhattan Housing Court:"
+msgstr "Corte de vivienda de Manhattan:"
 
 #: frontend/lib/norent/about.tsx:26
 msgid "Manufactured Housing Action"
@@ -1331,7 +1331,7 @@ msgstr "Sin detector de humo"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:125
 msgid "No. Unfortunately, these protections only apply to residents of New York State."
-msgstr "No. Unfortunately, these protections only apply to residents of New York State."
+msgstr "No. Desafortunadamente, estas protecciones solo se aplican a los residentes del estado de Nueva York."
 
 #: frontend/lib/norent/letter-content.tsx:81
 msgid "NoRent.org <0/>sent on behalf of <1/>"
@@ -1500,7 +1500,7 @@ msgstr "Puerto Rico"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:53
 msgid "Queens Housing Court:"
-msgstr "Queens Housing Court:"
+msgstr "Corte de vivienda de Queens:"
 
 #: common-data/issue-choices.ts:168
 #: common-data/issue-choices.ts:183
@@ -1790,7 +1790,7 @@ msgstr "Estado"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:67
 msgid "Staten Island Housing Court:"
-msgstr "Staten Island Housing Court:"
+msgstr "Corte de vivienda de Staten Island:"
 
 #: frontend/lib/norent/data/faqs-content.tsx:12
 msgid "States with Limited Protections"
@@ -2167,7 +2167,7 @@ msgstr "¿Qué pasa si el dueño o manager de mi edificio me envía un aviso?"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:169
 msgid "What is the deadline for filling out the declaration?"
-msgstr "What is the deadline for filling out the declaration?"
+msgstr "¿Cuál es el plazo para completar el formulario de declaración?"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:25
 msgid "What is the new law AB3088?"
@@ -2175,7 +2175,7 @@ msgstr "¿Qué es la nueva ley AB3088?"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:159
 msgid "What is the time lag between me filling this out and when it gets sent?"
-msgstr "What is the time lag between me filling this out and when it gets sent?"
+msgstr "¿Cuánto tiempo tarda en ser enviado el formulario luego de haberlo llenado?"
 
 #: frontend/lib/forms/address-and-borough-form-field.tsx:19
 msgid "What is your borough?"
@@ -2187,7 +2187,7 @@ msgstr "¿Qué tipo de documentación debo recopilar para demostrar que no puedo
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:134
 msgid "When you use our tool, you will be able to preview your filled out form before sending it. You can also view a blank copy of the Hardship Declaration form."
-msgstr "When you use our tool, you will be able to preview your filled out form before sending it. You can also view a blank copy of the Hardship Declaration form."
+msgstr "Cuando utilices nuestra herramienta, podrás obtener una vista previa de tu formulario completo antes de enviarlo. También puedes ver una copia en blanco del formulario de Declaración de Dificultades."
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:49
 msgid "Where do I find this information?"
@@ -2283,11 +2283,11 @@ msgstr "Sí, cerrar sesión"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:115
 msgid "Yes, the protections outlined by New York State law apply to you regardless of immigration status."
-msgstr "Yes, the protections outlined by New York State law apply to you regardless of immigration status."
+msgstr "Sí, las protecciones descritas por la ley del estado de Nueva York te protegen independientemente de tu estado migratorio."
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:93
 msgid "Yes, this is a free website created by 501(c)3 non-profit organizations."
-msgstr "Yes, this is a free website created by 501(c)3 non-profit organizations."
+msgstr "Sí, este es un sitio web gratuito creado por organizaciones sin fines de lucro reconocidas con la categoría de exención tributaria 501(c)3."
 
 #: frontend/lib/start-account-or-login/verify-password.tsx:49
 msgid "You already have an account"
@@ -2464,7 +2464,7 @@ msgstr "y"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:171
 msgid "evictionfree.deadlineFaq"
-msgstr "You currently can submit your declaration form at any time between now and May 1, 2021. Once you submit your declaration form via this tool, we will mail and/or email it immediately to your landlord and the courts. If you’re ONLY sending your form via physical mail, send it as soon as possible and keep any proof of mailing and/or return receipts for your records."
+msgstr "Puedes enviar tu formulario de declaración en cualquier momento, hasta el 1 de mayo de 2021. Luego de enviar tu formulario de declaración a través de esta herramienta, se lo enviaremos inmediatamente por correo postal y/o correo electrónico al dueño de tu edificio y a las cortes. Si estás enviando tu formulario SOLAMENTE por correo postal, envíalo lo antes posible y conserva cualquier prueba de envío y/o acuse de recibo para tus archivos."
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:95
 msgid "evictionfree.declarationHasBeenSent"
@@ -2504,15 +2504,15 @@ msgstr "<0>In the next few steps, we’ll help you fill out your hardship declar
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:103
 msgid "evictionfree.postOfficeFaq"
-msgstr "No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed. If you choose not to use this tool, you will be responsible for mailing your declaration."
+msgstr "No, puedes utilizar este sitio web para enviar una carta al dueño de tu edificio por correo electrónico o correo postal de USPS. No tienes que pagar por el envío de la carta. Si optas por no utilizar esta herramienta, deberás enviar tu declaración por correo por tu propia cuenta."
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:144
 msgid "evictionfree.printOutFaq"
-msgstr "<0>No! You can print out the Hardship Declaration form yourself, fill it out by hand, and mail/email it to your landlord and local housing court.</0><1>New York City residents can send their declarations to the court in their borough:</1>"
+msgstr "<0>¡No! Puedes imprimir el formulario de Declaración de Dificultades, llenarlo a mano y enviarlo por correo postal o correo electrónico al dueño de tu edificio y la corte de vivienda local.</0><1>Los residentes de la ciudad de Nueva York pueden enviar sus declaraciones a la corte de su condado:</1>"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:184
 msgid "evictionfree.resendFaq"
-msgstr "You currently cannot use this tool to send more than one declaration form. However, once you use this tool, you will be able to download a PDF copy of your declaration on the “Confirmation Page,” and you can choose to resend that declaration on your own. You should keep it for your records, in case your landlord tries to bring you to court."
+msgstr "Actualmente no puedes utilizar esta herramienta para enviar más de un formulario de declaración. Sin embargo, una vez que utilices esta herramienta, podrás descargar una copia de tu formulario en PDF en la “Página de confirmación” y podrás optar por reenviar esta declaración por tu propia cuenta. Debes conservarla para tus archivos, en caso de que el dueño de tu edificio intente llevarte a juicio."
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:60
 msgid "evictionfree.significantHealthRiskExplainer"
@@ -2520,7 +2520,7 @@ msgstr "This means you or one or more members of your household have an increase
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:161
 msgid "evictionfree.timeLagFaq"
-msgstr "Once you build your declaration form via this tool, it gets mailed and/or emailed immediately to your landlord and the courts. After it's sent, physical mail usually delivers in about a week."
+msgstr "Una vez que completes tu formulario de declaración a través de esta herramienta, este será enviado inmediatamente por correo postal y/o correo electrónico al dueño de tu edificio y a las cortes. Una vez enviado, el correo postal suele entregar la correspondencia en aproximadamente una semana."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:165
 msgid "justfix.DdoMayNeedHpdRegistration"

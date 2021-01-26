@@ -658,8 +658,8 @@ msgid "Fight to #CancelRent"
 msgstr "Fight to #CancelRent"
 
 #: frontend/lib/evictionfree/homepage.tsx:62
-#: frontend/lib/evictionfree/site.tsx:37
-#: frontend/lib/evictionfree/site.tsx:41
+#: frontend/lib/evictionfree/site.tsx:38
+#: frontend/lib/evictionfree/site.tsx:42
 msgid "Fill out my form"
 msgstr "Fill out my form"
 

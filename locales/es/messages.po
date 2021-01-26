@@ -663,8 +663,8 @@ msgid "Fight to #CancelRent"
 msgstr ""
 
 #: frontend/lib/evictionfree/homepage.tsx:62
-#: frontend/lib/evictionfree/site.tsx:37
-#: frontend/lib/evictionfree/site.tsx:41
+#: frontend/lib/evictionfree/site.tsx:38
+#: frontend/lib/evictionfree/site.tsx:42
 msgid "Fill out my form"
 msgstr ""
 
@@ -2377,7 +2377,7 @@ msgid "You can send an additional letter for other months when you couldn't pay 
 msgstr "Puedes enviar otra carta para indicar los demás meses en que no hayas podido pagar la renta."
 
 #: frontend/lib/evictionfree/components/helmet.tsx:12
-#: frontend/lib/evictionfree/homepage.tsx:56
+#: frontend/lib/evictionfree/homepage.tsx:54
 msgid "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021."
 msgstr ""
 

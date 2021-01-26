@@ -60,10 +60,6 @@ msgstr "<0>Herramientas gratuitas para luchar por un hogar seguro y saludable</0
 msgid "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1>"
 msgstr "<0>Hola {0},</0><1>Has enviado tu carta de NoRent. Aquí tienes una copia PDF para tus archivos adjunta a este correo electrónico.</1>"
 
-#: frontend/lib/evictionfree/homepage.tsx:29
-msgid "<0>If you live in New York City,</0> the tool will automatically fill in your landlord's information based on your address"
-msgstr ""
-
 #: frontend/lib/norent/data/faqs-content.tsx:389
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
 msgstr "<0>Si el dueño de tu edificio te está intentando desalojar de forma ilegal, contacta con asistencia legal en <1/> inmediatamente.</0>"
@@ -142,7 +138,7 @@ msgstr ""
 msgid "After Sending Your Letter"
 msgstr "Después de enviar tu carta"
 
-#: frontend/lib/evictionfree/homepage.tsx:152
+#: frontend/lib/evictionfree/homepage.tsx:150
 msgid "After sending your hardship declaration form, connect with local organizing groups to get involved in the fight to make New York eviction free, cancel rent, and more!"
 msgstr ""
 
@@ -207,6 +203,10 @@ msgstr "Arizona"
 #: common-data/us-state-choices.ts:68
 msgid "Arkansas"
 msgstr "Arkansas"
+
+#: frontend/lib/evictionfree/homepage.tsx:29
+msgid "Automatically fill in your landlord's information based on your address if you live in New York City"
+msgstr ""
 
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
@@ -658,17 +658,17 @@ msgstr "Grifos No Funcionan"
 msgid "Fight an eviction"
 msgstr "Lucha contra un desalojo"
 
-#: frontend/lib/evictionfree/homepage.tsx:149
+#: frontend/lib/evictionfree/homepage.tsx:147
 msgid "Fight to #CancelRent"
 msgstr ""
 
-#: frontend/lib/evictionfree/homepage.tsx:64
+#: frontend/lib/evictionfree/homepage.tsx:62
 #: frontend/lib/evictionfree/site.tsx:37
 #: frontend/lib/evictionfree/site.tsx:41
 msgid "Fill out my form"
 msgstr ""
 
-#: frontend/lib/evictionfree/homepage.tsx:27
+#: frontend/lib/evictionfree/homepage.tsx:26
 msgid "Fill out your hardship declaration form online."
 msgstr ""
 
@@ -689,11 +689,11 @@ msgstr "Piso hundido"
 msgid "Florida"
 msgstr "Florida"
 
-#: frontend/lib/evictionfree/homepage.tsx:103
+#: frontend/lib/evictionfree/homepage.tsx:101
 msgid "For New York State tenants"
 msgstr ""
 
-#: frontend/lib/evictionfree/homepage.tsx:129
+#: frontend/lib/evictionfree/homepage.tsx:127
 msgid "For tenants by tenants"
 msgstr ""
 
@@ -1435,7 +1435,7 @@ msgstr "Oregón"
 msgid "Our Partners"
 msgstr "Nuestros aliados"
 
-#: frontend/lib/evictionfree/homepage.tsx:132
+#: frontend/lib/evictionfree/homepage.tsx:130
 msgid "Our free tool was built by the Right to Counsel NYC Coalition, Housing Justice for All, and JustFix.nyc as part of the larger tenant movement across the state."
 msgstr ""
 
@@ -1538,8 +1538,8 @@ msgstr "Política de Privacidad"
 msgid "Protect yourself from eviction"
 msgstr ""
 
-#: frontend/lib/evictionfree/homepage.tsx:47
-#: frontend/lib/evictionfree/homepage.tsx:53
+#: frontend/lib/evictionfree/homepage.tsx:45
+#: frontend/lib/evictionfree/homepage.tsx:51
 msgid "Protect yourself from eviction in New York State"
 msgstr ""
 
@@ -1676,11 +1676,11 @@ msgstr "Enviar otra carta"
 msgid "Send code"
 msgstr "Enviar código"
 
-#: frontend/lib/evictionfree/homepage.tsx:40
+#: frontend/lib/evictionfree/homepage.tsx:38
 msgid "Send your form by USPS Certified Mail for free to your landlord"
 msgstr ""
 
-#: frontend/lib/evictionfree/homepage.tsx:37
+#: frontend/lib/evictionfree/homepage.tsx:35
 msgid "Send your form by email to your landlord and the courts"
 msgstr ""
 
@@ -1931,7 +1931,7 @@ msgstr "Esta información no sustituye el asesoramiento legal directo sobre tu s
 msgid "The majority of your landlord's properties are concentrated in {0}."
 msgstr "La mayoría de las propiedades del dueño de tu edificio se concentran en {0}."
 
-#: frontend/lib/evictionfree/homepage.tsx:114
+#: frontend/lib/evictionfree/homepage.tsx:112
 msgid "The protections outlined by NY state law apply to you regardless of immigration status."
 msgstr ""
 
@@ -2376,7 +2376,7 @@ msgstr "Puedes contactar Acciones Estratégicas para una Economía Justa (SAJE) 
 msgid "You can send an additional letter for other months when you couldn't pay rent."
 msgstr "Puedes enviar otra carta para indicar los demás meses en que no hayas podido pagar la renta."
 
-#: frontend/lib/evictionfree/homepage.tsx:56
+#: frontend/lib/evictionfree/homepage.tsx:54
 msgid "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021."
 msgstr ""
 
@@ -2569,7 +2569,7 @@ msgstr ""
 msgid "evictionfree.hj4aBlurb"
 msgstr ""
 
-#: frontend/lib/evictionfree/homepage.tsx:78
+#: frontend/lib/evictionfree/homepage.tsx:76
 msgid "evictionfree.introToLaw"
 msgstr ""
 
@@ -2621,7 +2621,7 @@ msgstr ""
 msgid "evictionfree.timeLagFaq"
 msgstr ""
 
-#: frontend/lib/evictionfree/homepage.tsx:106
+#: frontend/lib/evictionfree/homepage.tsx:104
 msgid "evictionfree.whoHasRightToSubmitForm"
 msgstr ""
 

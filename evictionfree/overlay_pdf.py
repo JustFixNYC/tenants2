@@ -1,6 +1,7 @@
 from typing import List, NamedTuple, Optional, Union
 from pathlib import Path
 from io import BytesIO
+from PyPDF2.generic import NameObject, NumberObject
 from django.utils.html import escape
 import weasyprint
 import PyPDF2
@@ -82,8 +83,17 @@ class Document(NamedTuple):
                 if i < overlay_pdf.numPages and not self.pages[i].is_blank():
                     overlay_page = overlay_pdf.getPage(i)
                     page.mergePage(overlay_page)
+                make_page_fields_readonly(page)
                 pdf_writer.addPage(page)
 
             outfile = BytesIO()
             pdf_writer.write(outfile)
             return outfile
+
+
+def make_page_fields_readonly(page):
+    for j in range(0, len(page["/Annots"])):
+        writer_annot = page["/Annots"][j].getObject()
+        existing_flags = writer_annot.get("/Ff")
+        if isinstance(existing_flags, NumberObject):
+            writer_annot.update({NameObject("/Ff"): NumberObject(existing_flags | 1)})

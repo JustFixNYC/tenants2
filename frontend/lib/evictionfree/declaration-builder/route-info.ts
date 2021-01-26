@@ -30,6 +30,7 @@ export function createEvictionFreeDeclarationBuilderRouteInfo(prefix: string) {
     landlordEmail: `${prefix}/landlord/email`,
     landlordAddress: `${prefix}/landlord/address`,
     landlordAddressConfirmModal: `${prefix}/landlord/address/confirm-modal`,
+    agreeToLegalTerms: `${prefix}/agree`,
     preview: `${prefix}/preview`,
     previewSendConfirmModal: `${prefix}/preview/send-confirm-modal`,
     confirmation: `${prefix}/confirmation`,

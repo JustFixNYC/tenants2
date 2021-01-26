@@ -60,14 +60,14 @@ const EvictionFreeBuildMyDeclarationLink: React.FC<{}> = () => {
           )}
           to={Routes.locale.declaration.latestStep}
         >
-          Build my declaration
+          Fill out my form
         </Link>
       </div>
       <Link
         className="navbar-item is-hidden-desktop"
         to={Routes.locale.declaration.latestStep}
       >
-        Build my declaration
+        Fill out my form
       </Link>
     </>
   );

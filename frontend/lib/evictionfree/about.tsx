@@ -9,20 +9,20 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
           <h2 className="title is-spaced jf-has-text-centered-tablet">About</h2>
           <br />
           <p className="subtitle is-size-5">
-            A new State law, passed in late 2020, allows tenants impacted by
-            COVID-19 to stop any eviction cases against them until May 1st,
-            2021, if they fill out a “Hardship Declaration” form. However, this
-            law puts the responsibility on tenants to figure out how to do that
-            and doesn’t provide easy access to exercise their rights.
+            A new State law, passed in late 2020, allows most tenants to stop
+            their eviction case until May 1st, 2021, if they fill out a
+            “Hardship Declaration” form. However, this law puts the
+            responsibility on tenants to figure out how to do that and doesn’t
+            provide easy access to exercise their rights.
           </p>
           <br />
           <p className="subtitle is-size-5">
-            Our tool helps tenants submit this declaration with peace of mind—
-            sending it out via free USPS Certified Mail and email to all of the
-            appropriate parties (your landlord and the courts) to ensure
-            protection. And since the law doesn’t go far enough to protect folks
-            beyond May 1st, our tool connects tenants to the larger tenant
-            movement so we can #cancelrent.
+            Our website helps tenants submit this hardship declaration form with
+            peace of mind— sending it out via free USPS Certified Mail and email
+            to all of the appropriate parties (your landlord and the courts) to
+            ensure protection. And since the law doesn’t go far enough to
+            protect folks beyond May 1st, our tool connects tenants to the
+            larger tenant movement so we can #CancelRent.
           </p>
           <br />
         </div>
@@ -43,15 +43,15 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
             families, our neighborhoods and our homes for too long. Made up of
             tenants, organizers, advocates, legal services organizations and
             more, we are building campaigns for an eviction-free NYC and
-            ultimately for a right to housing
+            ultimately for a right to housing.
           </p>
           <br />
           <p className="subtitle is-size-5">
-            Housing Justice For All is a coalition of over 70 organizations that
-            represents tenants, homeless New Yorkers, and public housing
-            residents from Brooklyn to Buffalo. We are united in our belief that
-            housing is a human right; that no person should live in fear of an
-            eviction; and that we can end the homelessness crisis in our State.
+            Housing Justice For All is a coalition of over 100 organizations,
+            from Brooklyn to Buffalo, that represent tenants and homeless New
+            Yorkers. We are united in our belief that housing is a human right;
+            that no person should live in fear of an eviction; and that we can
+            end the homelessness crisis in our State.
           </p>
           <br />
           <p className="subtitle is-size-5">

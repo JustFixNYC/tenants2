@@ -50,8 +50,8 @@ export const EvictionFreeCreateAccount = EvictionFreeOnboardingStep((props) => {
             />
             <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
               <Trans>
-                Yes, JustFix.nyc, Right to Counsel NYC Coalition, and Housing
-                Justice for All can text me to follow up about my housing
+                Yes, Right to Counsel NYC Coalition, Housing Justice for All,
+                and JustFix.nyc can text me to follow up about my housing
                 issues.
               </Trans>
             </CheckboxFormField>

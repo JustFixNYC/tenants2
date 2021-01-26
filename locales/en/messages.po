@@ -2180,8 +2180,8 @@ msgid "Yes, JustFix.nyc can text me to follow up about my housing issues."
 msgstr "Yes, JustFix.nyc can text me to follow up about my housing issues."
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:30
-msgid "Yes, JustFix.nyc, Right to Counsel NYC Coalition, and Housing Justice for All can text me to follow up about my housing issues."
-msgstr "Yes, JustFix.nyc, Right to Counsel NYC Coalition, and Housing Justice for All can text me to follow up about my housing issues."
+msgid "Yes, Right to Counsel NYC Coalition, Housing Justice for All, and JustFix.nyc can text me to follow up about my housing issues."
+msgstr "Yes, Right to Counsel NYC Coalition, Housing Justice for All, and JustFix.nyc can text me to follow up about my housing issues."
 
 #: frontend/lib/pages/logout-alt-page.tsx:25
 msgid "Yes, Sign Out"

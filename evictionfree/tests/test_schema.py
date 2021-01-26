@@ -11,7 +11,7 @@ from onboarding.tests.test_schema import _exec_onboarding_step_n
 from norent.schema import update_scaffolding, SCAFFOLDING_SESSION_KEY
 
 
-class TestNorentCreateAccount:
+class TestEvictionFreeCreateAccount:
     INCOMPLETE_ERR = [
         {"field": "__all__", "messages": ["You haven't completed all the previous steps yet."]}
     ]
@@ -108,6 +108,10 @@ class TestNorentCreateAccount:
         assert oi.agreed_to_norent_terms is False
         assert oi.agreed_to_justfix_terms is False
         assert oi.agreed_to_evictionfree_terms is True
+
+        assert oi.can_we_sms is True
+        assert oi.can_rtc_sms is True
+        assert oi.can_hj4a_sms is True
 
         assert get_last_queried_phone_number(request) is None
         assert SCAFFOLDING_SESSION_KEY not in request.session

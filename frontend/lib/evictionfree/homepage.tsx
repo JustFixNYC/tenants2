@@ -35,15 +35,13 @@ const LandingPageChecklist = () => (
       <br />
       <div className="jf-space-below-2rem">
         <ChecklistItem>
-          <>
-            <Trans>Fill out your hardship declaration form online.</Trans>
-            <br />
-            <Trans>
-              <span className="is-italic">If you live in New York City,</span>{" "}
-              the tool will automatically fill in your landlord's information
-              based on your address
-            </Trans>
-          </>
+          <Trans>Fill out your hardship declaration form online.</Trans>
+        </ChecklistItem>
+        <ChecklistItem>
+          <Trans>
+            Automatically fill in your landlord's information based on your
+            address if you live in New York City
+          </Trans>
         </ChecklistItem>
         <ChecklistItem>
           <Trans>Send your form by email to your landlord and the courts</Trans>

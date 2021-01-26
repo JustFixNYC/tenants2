@@ -9,7 +9,7 @@ export const EvictionFreeFooter: React.FC<{}> = () => (
         <div className="column is-8">
           <div className="content is-size-7">
             <FooterLanguageToggle />
-            <LegalDisclaimer website="EvictionFree.org" />
+            <LegalDisclaimer website="EvictionFreeNY.org" />
           </div>
         </div>
       </div>

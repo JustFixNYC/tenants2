@@ -20,7 +20,7 @@ function generateFaqsListFromData(
       question={faq.question}
       questionClassName="title jf-alt-title-font is-size-5"
     >
-      {faq.answerFull}
+      {faq.answer}
     </Accordion>
   ));
 }

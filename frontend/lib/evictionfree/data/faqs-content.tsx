@@ -5,7 +5,7 @@ import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
 
 export type EvictionFreeFaq = {
   question: string; // Localized
-  answerFull: React.ReactNode; // Localized
+  answer: React.ReactNode; // Localized
   priorityInPreview?: number; // Not Localized
 };
 
@@ -104,7 +104,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
   {
     question: li18n._(t`Is this free?`),
     priorityInPreview: 1,
-    answerFull: (
+    answer: (
       <p>
         <Trans>
           Yes, this is a free website created by 501(c)3 non-profit
@@ -118,7 +118,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
       t`Do I have to go to the post office to mail my declaration?`
     ),
     priorityInPreview: 2,
-    answerFull: (
+    answer: (
       <p>
         <Trans id="evictionfree.postOfficeFaq">
           No, you can use this website to send a letter to your landlord via
@@ -132,7 +132,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
   {
     question: li18n._(t`I’m undocumented. Can I use this tool?`),
     priorityInPreview: 3,
-    answerFull: (
+    answer: (
       <p>
         <Trans>
           Yes, the protections outlined by New York State law apply to you
@@ -146,7 +146,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
       t`I live in another state that isn’t New York. Is this tool for me?`
     ),
     priorityInPreview: 4,
-    answerFull: (
+    answer: (
       <p>
         <Trans>
           No. Unfortunately, these protections only apply to residents of New
@@ -159,7 +159,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     question: li18n._(
       t`Can I see what forms I’m sending before I fill them out?`
     ),
-    answerFull: (
+    answer: (
       <p>
         <Trans>
           When you use our tool, you will be able to preview your filled out
@@ -171,7 +171,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
   },
   {
     question: li18n._(t`Is the online tool the only way to submit this form?`),
-    answerFull: (
+    answer: (
       <>
         <Trans id="evictionfree.printOutFaq">
           <p>
@@ -192,7 +192,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     question: li18n._(
       t`What is the time lag between me filling this out and when it gets sent?`
     ),
-    answerFull: (
+    answer: (
       <p>
         <Trans id="evictionfree.timeLagFaq">
           Once you build your declaration form via this tool, it gets mailed
@@ -204,7 +204,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
   },
   {
     question: li18n._(t`What is the deadline for filling out the declaration?`),
-    answerFull: (
+    answer: (
       <p>
         <Trans id="evictionfree.deadlineFaq">
           You currently can submit your declaration form at any time between now
@@ -221,7 +221,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     question: li18n._(
       t`Is there a way to resend the declaration if the landlord claims they never received it?`
     ),
-    answerFull: (
+    answer: (
       <p>
         <Trans id="evictionfree.resendFaq">
           You currently cannot use this tool to send more than one declaration
@@ -237,7 +237,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     question: li18n._(
       t`I have a current eviction case in NYC. How do I connect with a lawyer?`
     ),
-    answerFull: (
+    answer: (
       <p>
         <Trans>
           Visit <RightToCounselFaqsLink /> for information on how to connect

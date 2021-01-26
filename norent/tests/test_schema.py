@@ -364,10 +364,6 @@ class TestNorentCreateAccount:
         assert oi.agreed_to_justfix_terms is False
         assert oi.can_receive_rttc_comms is False
 
-        assert oi.can_we_sms is True
-        assert oi.can_rtc_sms is True
-        assert oi.can_hj4a_sms is True
-
         assert get_last_queried_phone_number(request) is None
         assert SCAFFOLDING_SESSION_KEY not in request.session
 

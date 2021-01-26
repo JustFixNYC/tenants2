@@ -60,14 +60,14 @@ const EvictionFreeBuildMyDeclarationLink: React.FC<{}> = () => {
           )}
           to={Routes.locale.declaration.latestStep}
         >
-          Build my declaration
+          <Trans>Fill out my form</Trans>
         </Link>
       </div>
       <Link
         className="navbar-item is-hidden-desktop"
         to={Routes.locale.declaration.latestStep}
       >
-        Build my declaration
+        <Trans>Fill out my form</Trans>
       </Link>
     </>
   );
@@ -78,10 +78,10 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
   return (
     <>
       <Link className="navbar-item" to={Routes.locale.faqs}>
-        Faqs
+        <Trans>Faqs</Trans>
       </Link>
       <Link className="navbar-item" to={Routes.locale.about}>
-        About
+        <Trans>About</Trans>
       </Link>
       {session.phoneNumber ? (
         <Link className="navbar-item" to={Routes.locale.logout}>

@@ -4,6 +4,8 @@ import Page from "../ui/page";
 import { StaticImage } from "../ui/static-image";
 import { EvictionFreeRoutes as Routes } from "./route-info";
 import { EvictionFreeFaqsPreview } from "./faqs";
+import { li18n } from "../i18n-lingui";
+import { t, Trans } from "@lingui/macro";
 
 type EvictionFreeImageType = "png" | "svg";
 
@@ -11,33 +13,46 @@ export function getEFImageSrc(name: string, type?: EvictionFreeImageType) {
   return `frontend/img/evictionfree/${name}.${type || "svg"}`;
 }
 
-const checklistItems = () => [
-  `Build a letter using our free letter builder`,
-  `Send your letter by email`,
-  `Send your letter by certified mail for free`,
-  `Cite up-to-date legal ordinances in your letter`,
-];
+const ChecklistItem: React.FC<React.PropsWithChildren<{}>> = ({ children }) => (
+  <article className="media">
+    <div className="media-left">
+      <StaticImage
+        ratio="is-32x32"
+        src={getEFImageSrc("checkmark")}
+        alt="You can"
+      />
+    </div>
+    <div className="media-content">{children}</div>
+  </article>
+);
 
 const LandingPageChecklist = () => (
   <div className="hero">
     <div className="hero-body">
       <h2 className="is-size-3 is-spaced has-text-weight-bold">
-        With our free tool, you can
+        <Trans>With this free tool, you can</Trans>
       </h2>
       <br />
       <div className="jf-space-below-2rem">
-        {checklistItems().map((checklistItem, i) => (
-          <article className="media" key={i}>
-            <div className="media-left">
-              <StaticImage
-                ratio="is-32x32"
-                src={getEFImageSrc("checkmark")}
-                alt="You can"
-              />
-            </div>
-            <div className="media-content">{checklistItem}</div>
-          </article>
-        ))}
+        <ChecklistItem>
+          <>
+            <Trans>Fill out your hardship declaration form online.</Trans>
+            <br />
+            <Trans>
+              <span className="is-italic">If you live in New York City,</span>{" "}
+              the tool will automatically fill in your landlord's information
+              based on your address
+            </Trans>
+          </>
+        </ChecklistItem>
+        <ChecklistItem>
+          <Trans>Send your form by email to your landlord and the courts</Trans>
+        </ChecklistItem>
+        <ChecklistItem>
+          <Trans>
+            Send your form by USPS Certified Mail for free to your landlord
+          </Trans>
+        </ChecklistItem>
       </div>
     </div>
   </div>
@@ -45,7 +60,7 @@ const LandingPageChecklist = () => (
 
 export const EvictionFreeHomePage: React.FC<{}> = () => (
   <Page
-    title="Protect yourself from eviction in New York State"
+    title={li18n._(t`Protect yourself from eviction in New York State`)}
     className="content"
   >
     <section className="hero is-fullheight-with-navbar">
@@ -53,19 +68,21 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
         <div className="columns">
           <div className="column is-three-fifths">
             <h1 className="title is-spaced">
-              Protect yourself from eviction in New York State
+              <Trans>Protect yourself from eviction in New York State</Trans>
             </h1>
             <p className="subtitle">
-              Use our free tool to send a hardship declaration form to your
-              landlord and your local courts to put your eviction case on hold
-              until May 1st, 2021.
+              <Trans>
+                You can use this website to send a hardship declaration form to
+                your landlord and local courts— putting your eviction case on
+                hold until May 1st, 2021.
+              </Trans>
             </p>
             <br />
             <Link
               className="button is-primary jf-build-my-declaration-btn jf-is-extra-wide"
               to={Routes.locale.declaration.latestStep}
             >
-              Build my declaration
+              <Trans>Fill out my form</Trans>
             </Link>
           </div>
           <div className="column">
@@ -83,10 +100,13 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
       <div className="hero-body">
         <div className="columns is-centered">
           <div className="column is-three-quarters is-size-4 has-text-centered">
-            On December 28, 2020, New York State signed into law an eviction
-            moratorium that protects tenants from eviction provided that they
-            fill out a hardship declaration form and send it to their landlord
-            and/or the courts.
+            <Trans id="evictionfree.introToLaw">
+              On December 28, 2020, New York State passed legislation that
+              protects tenants from eviction due to lost income or COVID-19
+              health risks. In order to get protected, you must fill out a
+              hardship declaration form and send it to your landlord and/or the
+              courts.
+            </Trans>
           </div>
         </div>
       </div>
@@ -105,26 +125,21 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
         <div className="hero">
           <div className="hero-body">
             <h2 className="is-size-3 is-spaced has-text-weight-bold">
-              For New York state tenants
+              <Trans>For New York State tenants</Trans>
             </h2>
-            <p>This tool is for you if:</p>
-            <ul>
-              <li>
-                you are a New York State tenant who has been impacted by
-                COVID-19
-              </li>
-            </ul>
-            <p>And:</p>
-            <ul>
-              <li>
-                you have been served an eviction notice by your landlord in the
-                last X months and/or
-              </li>
-              <li>believe you are at risk of being evicted </li>
-            </ul>
+            <p>
+              <Trans id="evictionfree.whoHasRightToSubmitForm">
+                All tenants in New York State have a right to fill out this
+                hardship declaration form. However, if you've been served an
+                eviction notice or believe you are at risk of being evicted,
+                please consider using this form to protect yourself.
+              </Trans>
+            </p>
             <p className="has-text-weight-bold">
-              The protections outlined by NY state law apply to you regardless
-              of immigration status.
+              <Trans>
+                The protections outlined by NY state law apply to you regardless
+                of immigration status.
+              </Trans>
             </p>
           </div>
         </div>
@@ -136,12 +151,14 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
         <div className="hero">
           <div className="hero-body">
             <h2 className="is-size-3 is-spaced has-text-weight-bold">
-              For tenants by tenants
+              <Trans>For tenants by tenants</Trans>
             </h2>
             <p>
-              Our free tool was built by Right to Counsel, Housing Justice for
-              All, and JustFix.nyc as part of the larger tenant movement across
-              the state.
+              <Trans>
+                Our free tool was built by the Right to Counsel NYC Coalition,
+                Housing Justice for All, and JustFix.nyc as part of the larger
+                tenant movement across the state.
+              </Trans>
             </p>
           </div>
         </div>
@@ -154,12 +171,14 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
         <div className="columns is-centered">
           <div className="column is-three-quarters is-size-4 has-text-centered">
             <h2 className="is-size-3 has-text-white	is-spaced has-text-weight-bold">
-              Fight to #CancelRent
+              <Trans>Fight to #CancelRent</Trans>
             </h2>
             <p>
-              After sending your declaration, connect with local groups to
-              organize for greater demands with other tenants including
-              cancelling rent.
+              <Trans>
+                After sending your hardship declaration form, connect with local
+                organizing groups to get involved in the fight to make New York
+                eviction free, cancel rent, and more!
+              </Trans>
             </p>
           </div>
         </div>

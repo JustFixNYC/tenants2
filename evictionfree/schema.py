@@ -27,6 +27,7 @@ class EvictionFreeCreateAccount(BaseCreateAccount):
     @classmethod
     def update_onboarding_info(cls, form, info: Dict[str, Any]):
         info["agreed_to_evictionfree_terms"] = True
+        info["can_rtc_sms"] = info["can_hj4a_sms"] = form.cleaned_data["can_we_sms"]
 
     @classmethod
     def perform_post_onboarding(cls, form, request: HttpRequest, user: JustfixUser):

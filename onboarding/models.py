@@ -166,6 +166,16 @@ class OnboardingInfo(models.Model):
         help_text="Whether we can contact the user via SMS to follow up."
     )
 
+    can_rtc_sms = models.BooleanField(
+        help_text="Whether the Right to Counsel NYC Coalition can contact the user via SMS.",
+        default=False,
+    )
+
+    can_hj4a_sms = models.BooleanField(
+        help_text="Whether Housing Justice for All can contact the user via SMS.",
+        default=False,
+    )
+
     agreed_to_justfix_terms = models.BooleanField(
         default=False,
         help_text=(

@@ -6,6 +6,7 @@ import {
   EvictionFreeFaq,
   getEvictionFreeFaqsContent,
   getEvictionFreeFaqsWithPreviewContent,
+  RightToCounselFaqsLink,
 } from "./data/faqs-content";
 import { EvictionFreeRoutes } from "./route-info";
 
@@ -19,7 +20,7 @@ function generateFaqsListFromData(
       question={faq.question}
       questionClassName="title jf-alt-title-font is-size-5"
     >
-      {isPreview ? faq.previewOptions?.answerPreview : faq.answerFull}
+      {faq.answer}
     </Accordion>
   ));
 }
@@ -34,7 +35,7 @@ export const EvictionFreeFaqsPreview = () => {
             <Link to={EvictionFreeRoutes.locale.faqs}>
               frequently asked questions
             </Link>{" "}
-            from people who have used our tool:
+            from people who have used our pootool:
           </h3>
           <br />
           <div className="jf-space-below-2rem">
@@ -67,7 +68,17 @@ export const EvictionFreeFaqsPage: React.FC<{}> = () => {
             <br />
             <p className="subtitle">
               Navigating these laws is confusing. Check out our frequently asked
-              questions from people who have used our tool:
+              questions from people who have used our tool below. If you have
+              questions about the state of housing court and the current status
+              of eviction cases, check out{" "}
+              {/* This structure makes sure the link text doesn't wrap, except on mobile when it has to */}
+              <span className="jf-word-glue is-hidden-mobile">
+                <RightToCounselFaqsLink />
+              </span>
+              <span className="is-hidden-tablet">
+                <RightToCounselFaqsLink />
+              </span>
+              .
             </p>
           </div>
         </div>

@@ -317,6 +317,10 @@ msgstr "Call the Housing Court Answers hotline at <0>212-962-4795</0>."
 msgid "Can I see what forms I’m sending before I fill them out?"
 msgstr "¿Puedo ver qué formularios voy a enviar antes de llenarlos?"
 
+#: frontend/lib/evictionfree/data/faqs-content.tsx:132
+msgid "Can I see what forms I’m sending before I fill them out?"
+msgstr ""
+
 #: frontend/lib/norent/components/helmet.tsx:55
 #: frontend/lib/norent/homepage.tsx:89
 msgid "Can't pay rent?"
@@ -2514,6 +2518,18 @@ msgstr "<0>¡No! Puedes imprimir el formulario de Declaración de Dificultades, 
 msgid "evictionfree.resendFaq"
 msgstr "Actualmente no puedes utilizar esta herramienta para enviar más de un formulario de declaración. Sin embargo, una vez que utilices esta herramienta, podrás descargar una copia de tu formulario en PDF en la “Página de confirmación” y podrás optar por reenviar esta declaración por tu propia cuenta. Debes conservarla para tus archivos, en caso de que el dueño de tu edificio intente llevarte a juicio."
 
+#: frontend/lib/evictionfree/data/faqs-content.tsx:103
+msgid "evictionfree.postOfficeFaq"
+msgstr ""
+
+#: frontend/lib/evictionfree/data/faqs-content.tsx:144
+msgid "evictionfree.printOutFaq"
+msgstr ""
+
+#: frontend/lib/evictionfree/data/faqs-content.tsx:184
+msgid "evictionfree.resendFaq"
+msgstr ""
+
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:60
 msgid "evictionfree.significantHealthRiskExplainer"
 msgstr "This means you or one or more members of your household have an increased risk for severe illness or death from COVID-19 due to being over the age of sixty-five, having a disability or having an underlying medical condition, which may include but is not limited to being immunocompromised."
@@ -2521,6 +2537,10 @@ msgstr "This means you or one or more members of your household have an increase
 #: frontend/lib/evictionfree/data/faqs-content.tsx:161
 msgid "evictionfree.timeLagFaq"
 msgstr "Una vez que completes tu formulario de declaración a través de esta herramienta, este será enviado inmediatamente por correo postal y/o correo electrónico al dueño de tu edificio y a las cortes. Una vez enviado, el correo postal suele entregar la correspondencia en aproximadamente una semana."
+
+#: frontend/lib/evictionfree/data/faqs-content.tsx:161
+msgid "evictionfree.timeLagFaq"
+msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:165
 msgid "justfix.DdoMayNeedHpdRegistration"

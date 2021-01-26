@@ -32,6 +32,7 @@ import {
   isUserLoggedInWithEmail,
 } from "../../util/session-predicates";
 import { EvictionFreeRoutes } from "../route-info";
+import { EvictionFreeAgreeToLegalTerms } from "./agree-to-legal-terms";
 import { EvictionFreeDbConfirmation } from "./confirmation";
 import { EvictionFreeCovidImpact } from "./covid-impact";
 import { EvictionFreeCreateAccount } from "./create-account";
@@ -236,6 +237,11 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
         exact: false,
         shouldBeSkipped: shouldSkipLandlordMailingAddressStep,
         component: EfLandlordMailingAddress,
+      },
+      {
+        path: routes.agreeToLegalTerms,
+        exact: true,
+        component: EvictionFreeAgreeToLegalTerms,
       },
       {
         path: routes.preview,

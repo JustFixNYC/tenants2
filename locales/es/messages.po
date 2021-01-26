@@ -635,6 +635,7 @@ msgstr "Explora nuestras otras herramientas"
 msgid "Explore the tool"
 msgstr "Explora la herramienta"
 
+#: frontend/lib/evictionfree/faqs.tsx:40
 #: frontend/lib/norent/faqs.tsx:56
 msgid "FAQs"
 msgstr "Preguntas Frecuentes"
@@ -700,6 +701,7 @@ msgstr ""
 msgid "Free Certified Mail"
 msgstr "Correo certificado gratuito"
 
+#: frontend/lib/evictionfree/faqs.tsx:45
 #: frontend/lib/norent/faqs.tsx:61
 msgid "Frequently Asked Questions"
 msgstr "Preguntas Más Frecuentes"
@@ -1279,6 +1281,10 @@ msgstr "Más información"
 msgid "Movement Law Lab"
 msgstr "Movement Law Lab"
 
+#: frontend/lib/evictionfree/faqs.tsx:19
+msgid "Navigating these laws is confusing. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
+msgstr ""
+
 #: common-data/us-state-choices.ts:92
 msgid "Nebraska"
 msgstr "Nebraska"
@@ -1649,6 +1655,7 @@ msgstr "Ejemplar de una carta de NoRent.org"
 msgid "Search address"
 msgstr "Dirección de búsqueda"
 
+#: frontend/lib/evictionfree/faqs.tsx:32
 #: frontend/lib/norent/faqs.tsx:48
 msgid "See more FAQs"
 msgstr "Ver todas las preguntas más frecuentes"
@@ -2540,6 +2547,10 @@ msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:95
 msgid "evictionfree.declarationHasBeenSent"
+msgstr ""
+
+#: frontend/lib/evictionfree/faqs.tsx:49
+msgid "evictionfree.faqsPageIntro"
 msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:13

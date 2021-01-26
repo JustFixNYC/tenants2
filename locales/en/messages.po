@@ -630,6 +630,7 @@ msgstr "Explore our other tools"
 msgid "Explore the tool"
 msgstr "Explore the tool"
 
+#: frontend/lib/evictionfree/faqs.tsx:40
 #: frontend/lib/norent/faqs.tsx:56
 msgid "FAQs"
 msgstr "FAQs"
@@ -695,6 +696,7 @@ msgstr "For tenants by tenants"
 msgid "Free Certified Mail"
 msgstr "Free Certified Mail"
 
+#: frontend/lib/evictionfree/faqs.tsx:45
 #: frontend/lib/norent/faqs.tsx:61
 msgid "Frequently Asked Questions"
 msgstr "Frequently Asked Questions"
@@ -1274,6 +1276,10 @@ msgstr "More resources"
 msgid "Movement Law Lab"
 msgstr "Movement Law Lab"
 
+#: frontend/lib/evictionfree/faqs.tsx:19
+msgid "Navigating these laws is confusing. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
+msgstr "Navigating these laws is confusing. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
+
 #: common-data/us-state-choices.ts:92
 msgid "Nebraska"
 msgstr "Nebraska"
@@ -1644,6 +1650,7 @@ msgstr "Sample NoRent.org letter"
 msgid "Search address"
 msgstr "Search address"
 
+#: frontend/lib/evictionfree/faqs.tsx:32
 #: frontend/lib/norent/faqs.tsx:48
 msgid "See more FAQs"
 msgstr "See more FAQs"
@@ -2536,6 +2543,10 @@ msgstr "You currently can submit your declaration form at any time between now a
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:95
 msgid "evictionfree.declarationHasBeenSent"
 msgstr "<0>Your hardship declaration form has been sent to your landlord via {deliveryMethodToLandlord}. A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case.</0><1>Check your email for a message containing a copy of your declaration and additional important information on next steps.</1>"
+
+#: frontend/lib/evictionfree/faqs.tsx:49
+msgid "evictionfree.faqsPageIntro"
+msgstr "Navigating these laws is confusing. Check out our frequently asked questions from people who have used our tool below. If you have questions about the state of housing court and the current status of eviction cases, check out"
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:13
 msgid "evictionfree.financialHardshipExplainer1"

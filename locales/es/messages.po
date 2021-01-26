@@ -140,6 +140,10 @@ msgstr "Después de este paso, no puedes volver a hacer cambios. Pero no te preo
 msgid "After you’ve reviewed your letter, we send it to your landlord on your behalf by email and by certified mail, depending on the contact information that you provide us."
 msgstr "Después de que hayas revisado tu carta, la enviaremos a tu arrendador por correo electrónico y por correo certificado, según la información de contacto que nos hayas proporcionado."
 
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:8
+msgid "Agree to the state’s legal terms"
+msgstr ""
+
 #: common-data/us-state-choices.ts:66
 msgid "Alabama"
 msgstr "Alabama"
@@ -804,11 +808,11 @@ msgstr "No tengo ningún número de apartamento"
 msgid "I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
 msgstr "Acabo de usar la nueva herramienta gratuita de JustFix.nyc para decirle a mi arrendador que no puedo pagar la renta"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:71
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:41
 msgid "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
 msgstr ""
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:48
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:17
 msgid "I understand that I must comply with all other lawful terms under my tenancy, lease agreement or similar contract."
 msgstr ""
 
@@ -1537,7 +1541,7 @@ msgstr "Dirección de búsqueda"
 msgid "See more FAQs"
 msgstr "Ver todas las preguntas más frecuentes"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:77
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:47
 msgid "Send"
 msgstr ""
 
@@ -1804,7 +1808,7 @@ msgstr "La página web a la que quieres acceder solo está disponible en inglés
 msgid "There {0, plural, one {is one unit} other {are # units}} in your building."
 msgstr "{0, plural, one {Hay una unidad} other {Hay # unidades}} en tu edificio."
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:41
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:10
 msgid "These last questions make sure that you understand the limits of the protection granted by this form, and that you answered the previous questions truthfully:"
 msgstr ""
 
@@ -2385,11 +2389,11 @@ msgstr ""
 msgid "evictionfree.landlordRetaliationWarning"
 msgstr ""
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:54
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:23
 msgid "evictionfree.legalAgreementCheckboxOnFees"
 msgstr ""
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:63
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:31
 msgid "evictionfree.legalAgreementCheckboxOnNewProtections"
 msgstr ""
 

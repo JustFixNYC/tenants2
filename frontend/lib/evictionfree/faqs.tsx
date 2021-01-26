@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Accordion } from "../ui/accordion";
-import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 import Page from "../ui/page";
 import {
   EvictionFreeFaq,
   getEvictionFreeFaqsContent,
   getEvictionFreeFaqsWithPreviewContent,
+  RightToCounselFaqsLink,
 } from "./data/faqs-content";
 import { EvictionFreeRoutes } from "./route-info";
 
@@ -20,7 +20,7 @@ function generateFaqsListFromData(
       question={faq.question}
       questionClassName="title jf-alt-title-font is-size-5"
     >
-      {isPreview ? faq.previewOptions?.answerPreview : faq.answerFull}
+      {faq.answer}
     </Accordion>
   ));
 }
@@ -35,7 +35,7 @@ export const EvictionFreeFaqsPreview = () => {
             <Link to={EvictionFreeRoutes.locale.faqs}>
               frequently asked questions
             </Link>{" "}
-            from people who have used our tool:
+            from people who have used our pootool:
           </h3>
           <br />
           <div className="jf-space-below-2rem">
@@ -55,17 +55,6 @@ export const EvictionFreeFaqsPreview = () => {
     </section>
   );
 };
-
-const RightToCounselFaqsLink = () => (
-  <LocalizedOutboundLink
-    hrefs={{
-      en: "https://www.righttocounselnyc.org/eviction_protections_during_covid",
-      es: "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
-    }}
-  >
-    Right to Counsel's FAQ page
-  </LocalizedOutboundLink>
-);
 
 export const EvictionFreeFaqsPage: React.FC<{}> = () => {
   const allFaqs = getEvictionFreeFaqsContent();

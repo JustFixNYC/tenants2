@@ -72,16 +72,16 @@ class Document(NamedTuple):
     def overlay_atop(self, pdf: Path) -> BytesIO:
         overlay_pdf = PyPDF2.PdfFileReader(self.render_pdf_bytes())
         pdf_writer = PyPDF2.PdfFileWriter()
-        set_need_appearances_writer(pdf_writer)
         with pdf.open("rb") as blank_file:
             blank_pdf = PyPDF2.PdfFileReader(blank_file)
+            set_need_appearances_writer(blank_pdf, pdf_writer)
             for i in range(blank_pdf.numPages):
                 page = blank_pdf.getPage(i)
-                update_page_form_fields(page, self.pages[i].form_fields)
                 if i < overlay_pdf.numPages and not self.pages[i].is_blank():
                     overlay_page = overlay_pdf.getPage(i)
                     page.mergePage(overlay_page)
                 pdf_writer.addPage(page)
+                update_page_form_fields(pdf_writer.getPage(i), self.pages[i].form_fields)
 
             outfile = BytesIO()
             pdf_writer.write(outfile)

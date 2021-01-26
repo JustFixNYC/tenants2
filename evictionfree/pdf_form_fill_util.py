@@ -1,21 +1,15 @@
 from typing import Dict, List, Set, Union
 import PyPDF2
-from PyPDF2.generic import BooleanObject, NameObject, IndirectObject, TextStringObject
+from PyPDF2.generic import BooleanObject, NameObject, TextStringObject
 
 
 PdfFields = Dict[str, Union[str, bool, None]]
 
 
 # https://stackoverflow.com/a/58898710/2422398
-def set_need_appearances_writer(writer: PyPDF2.PdfFileWriter):
-    # See 12.7.2 and 7.7.2 for more information:
-    # http://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf
-    catalog = writer._root_object
-
-    if "/AcroForm" not in catalog:
-        writer._root_object.update(
-            {NameObject("/AcroForm"): IndirectObject(len(writer._objects), 0, writer)}
-        )
+def set_need_appearances_writer(reader: PyPDF2.PdfFileReader, writer: PyPDF2.PdfFileWriter):
+    trailer = reader.trailer["/Root"]["/AcroForm"]
+    writer._root_object.update({NameObject("/AcroForm"): trailer})
 
     need_appearances = NameObject("/NeedAppearances")
     writer._root_object["/AcroForm"][need_appearances] = BooleanObject(True)

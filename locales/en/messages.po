@@ -108,7 +108,7 @@ msgstr "A national tool by non-profit <0>JustFix.nyc</0>"
 
 #: frontend/lib/evictionfree/about.tsx:5
 #: frontend/lib/evictionfree/about.tsx:10
-#: frontend/lib/evictionfree/site.tsx:52
+#: frontend/lib/evictionfree/site.tsx:53
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
 #: frontend/lib/norent/components/footer.tsx:40
@@ -635,7 +635,7 @@ msgstr "Explore the tool"
 msgid "FAQs"
 msgstr "FAQs"
 
-#: frontend/lib/evictionfree/site.tsx:49
+#: frontend/lib/evictionfree/site.tsx:50
 #: frontend/lib/norent/components/footer.tsx:37
 #: frontend/lib/norent/site.tsx:34
 msgid "Faqs"
@@ -658,8 +658,8 @@ msgid "Fight to #CancelRent"
 msgstr "Fight to #CancelRent"
 
 #: frontend/lib/evictionfree/homepage.tsx:64
-#: frontend/lib/evictionfree/site.tsx:37
-#: frontend/lib/evictionfree/site.tsx:41
+#: frontend/lib/evictionfree/site.tsx:38
+#: frontend/lib/evictionfree/site.tsx:42
 msgid "Fill out my form"
 msgstr "Fill out my form"
 
@@ -1135,12 +1135,12 @@ msgid "Locally supported"
 msgstr "Locally supported"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
-#: frontend/lib/evictionfree/site.tsx:57
+#: frontend/lib/evictionfree/site.tsx:58
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Log in"
 
-#: frontend/lib/evictionfree/site.tsx:55
+#: frontend/lib/evictionfree/site.tsx:56
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:13
 msgid "Log out"
@@ -2371,6 +2371,7 @@ msgstr "You can contact Strategic Actions for a Just Economy (SAJE) - a 501c3 no
 msgid "You can send an additional letter for other months when you couldn't pay rent."
 msgstr "You can send an additional letter for other months when you couldn't pay rent."
 
+#: frontend/lib/evictionfree/components/helmet.tsx:12
 #: frontend/lib/evictionfree/homepage.tsx:56
 msgid "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021."
 msgstr "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021."
@@ -2527,6 +2528,10 @@ msgstr "Zip code"
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:79
 msgid "and"
 msgstr "and"
+
+#: frontend/lib/evictionfree/components/helmet.tsx:13
+msgid "eviction free nyc, eviction free ny, hardship, declaration, declare hardship, new york, new york city, nyc, lawyer, legal aid, housing, tenants, tenants rights, help, assistance, legal services, eviction, evicted"
+msgstr "eviction free nyc, eviction free ny, hardship, declaration, declare hardship, new york, new york city, nyc, lawyer, legal aid, housing, tenants, tenants rights, help, assistance, legal services, eviction, evicted"
 
 #: frontend/lib/evictionfree/about.tsx:14
 msgid "evictionfree.aboutPage1"

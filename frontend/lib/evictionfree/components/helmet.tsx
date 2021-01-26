@@ -3,6 +3,8 @@ import { Helmet } from "react-helmet-async";
 import { getEFImageSrc } from "../homepage";
 import { useSiteName } from "../../ui/page";
 import { AppContext } from "../../app-context";
+import { li18n } from "../../i18n-lingui";
+import { t } from "@lingui/macro";
 
 const favicon16 = getEFImageSrc("favicon-16x16", "png");
 const favicon32 = getEFImageSrc("favicon-32x32", "png");
@@ -11,9 +13,13 @@ const favicon96 = getEFImageSrc("favicon-96x96", "png");
 const TWITTER_HANDLE = "@JustFixNYC";
 
 const description = () =>
-  `Use this website to send a hardship declaration form to your landlord and your local courts to put your eviction case on hold until May 1st, 2021.`;
+  li18n._(
+    t`You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021.`
+  );
 const keywords = () =>
-  `eviction free nyc, eviction free, hardship, declaration, declare hardship, new york, new york city, nyc, lawyer, legal aid, housing, tenants, tenants rights, help, assistance, legal services, eviction, evicted`;
+  li18n._(
+    t`eviction free nyc, eviction free ny, hardship, declaration, declare hardship, new york, new york city, nyc, lawyer, legal aid, housing, tenants, tenants rights, help, assistance, legal services, eviction, evicted`
+  );
 
 export const EvictionFreeHelmet = () => {
   const { server } = useContext(AppContext);

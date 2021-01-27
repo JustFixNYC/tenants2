@@ -98,7 +98,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
     <section className="hero is-info">
       <div className="hero-body">
         <div className="columns is-centered">
-          <div className="column is-four-fifths is-size-3 has-text-centered">
+          <div className="column is-four-fifths is-size-3 is-size-4-mobile has-text-centered-tablet">
             <Trans id="evictionfree.introToLaw">
               On December 28, 2020, New York State passed legislation that
               protects tenants from eviction due to lost income or COVID-19
@@ -175,27 +175,34 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
       </div>
     </div>
 
-    <section className="hero">
+    <section className="hero has-background-white-ter">
       <div className="jf-block-of-color-in-background" />
       <div className="hero-body">
         <div className="columns is-centered">
-          <div className="column is-three-quarters has-text-centered">
-            <h2 className="has-text-white	is-spaced  has-text-weight-bold">
+          <div className="column is-three-quarters has-text-centered-tablet">
+            <h2 className="has-text-white	is-spaced has-text-weight-bold">
               <Trans>Fight to #CancelRent</Trans>
             </h2>
-            <p className="is-size-3 has-text-white">
+            <p className="is-size-3 is-size-4-mobile has-text-white">
               <Trans>
                 After sending your hardship declaration form, connect with local
                 organizing groups to get involved in the fight to make New York
                 eviction free, cancel rent, and more!
               </Trans>
             </p>
-            <StaticImage
-              ratio="is-3by2"
-              src={getEFImageSrc("protest", "jpg")}
-              alt=""
-            />
+            <br />
+            <span className="is-hidden-mobile">
+              <br />
+              <StaticImage
+                ratio="is-3by2"
+                src={getEFImageSrc("protest", "jpg")}
+                alt=""
+              />
+            </span>
           </div>
+          <span className="is-hidden-tablet">
+            <BackgroundImage src={getEFImageSrc("protest", "jpg")} alt="" />
+          </span>
         </div>
       </div>
     </section>

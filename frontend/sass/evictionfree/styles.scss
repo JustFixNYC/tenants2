@@ -83,6 +83,9 @@ $max-content-width: 1440px;
   line-height: 1.25;
   .subtitle {
     font-size: 1.5rem;
+    @include touch {
+      font-size: 1.25rem;
+    }
   }
   p,
   .media-content {
@@ -90,11 +93,18 @@ $max-content-width: 1440px;
   }
   .column .hero .hero-body {
     padding: 3rem 4rem;
+    @include touch {
+      padding: 3rem 1.25rem;
+    }
   }
   .jf-block-of-color-in-background {
     top: unset;
+    z-index: 0;
     height: 700px;
     max-width: $max-content-width;
+  }
+  .jf-block-of-color-in-background + .hero-body {
+    z-index: 1;
   }
 }
 
@@ -145,7 +155,8 @@ nav.navbar {
   h1.title {
     line-height: 1.15;
     @include touch {
-      font-size: 2.25rem;
+      font-size: 3rem;
+      line-height: 1;
     }
   }
 

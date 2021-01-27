@@ -7,7 +7,7 @@ import { EvictionFreeFaqsPreview } from "./faqs";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 
-type EvictionFreeImageType = "png" | "svg";
+type EvictionFreeImageType = "png" | "svg" | "jpg";
 
 export function getEFImageSrc(name: string, type?: EvictionFreeImageType) {
   return `frontend/img/evictionfree/${name}.${type || "svg"}`;

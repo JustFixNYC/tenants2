@@ -102,8 +102,8 @@ msgstr "<0>Your account is set up.</0><1>We do not currently recommend sending t
 msgid "A national tool by non-profit <0>JustFix.nyc</0>"
 msgstr "A national tool by non-profit <0>JustFix.nyc</0>"
 
-#: frontend/lib/evictionfree/about.tsx:5
-#: frontend/lib/evictionfree/about.tsx:10
+#: frontend/lib/evictionfree/about.tsx:7
+#: frontend/lib/evictionfree/about.tsx:12
 #: frontend/lib/evictionfree/site.tsx:52
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
@@ -133,7 +133,7 @@ msgstr "Address:"
 msgid "After Sending Your Letter"
 msgstr "After Sending Your Letter"
 
-#: frontend/lib/evictionfree/homepage.tsx:165
+#: frontend/lib/evictionfree/homepage.tsx:173
 msgid "After sending your hardship declaration form, connect with local organizing groups to get involved in the fight to make New York eviction free, cancel rent, and more!"
 msgstr "After sending your hardship declaration form, connect with local organizing groups to get involved in the fight to make New York eviction free, cancel rent, and more!"
 
@@ -653,7 +653,7 @@ msgstr "Faucets not working"
 msgid "Fight an eviction"
 msgstr "Fight an eviction"
 
-#: frontend/lib/evictionfree/homepage.tsx:162
+#: frontend/lib/evictionfree/homepage.tsx:170
 msgid "Fight to #CancelRent"
 msgstr "Fight to #CancelRent"
 
@@ -684,11 +684,11 @@ msgstr "Floor sags"
 msgid "Florida"
 msgstr "Florida"
 
-#: frontend/lib/evictionfree/homepage.tsx:103
+#: frontend/lib/evictionfree/homepage.tsx:111
 msgid "For New York State tenants"
 msgstr "For New York State tenants"
 
-#: frontend/lib/evictionfree/homepage.tsx:129
+#: frontend/lib/evictionfree/homepage.tsx:137
 msgid "For tenants by tenants"
 msgstr "For tenants by tenants"
 
@@ -1922,7 +1922,7 @@ msgstr "The above information is not a substitute for direct legal advice for yo
 msgid "The majority of your landlord's properties are concentrated in {0}."
 msgstr "The majority of your landlord's properties are concentrated in {0}."
 
-#: frontend/lib/evictionfree/homepage.tsx:114
+#: frontend/lib/evictionfree/homepage.tsx:122
 msgid "The protections outlined by NY state law apply to you regardless of immigration status."
 msgstr "The protections outlined by NY state law apply to you regardless of immigration status."
 
@@ -2262,7 +2262,7 @@ msgstr "Which hardship situation applies to you?"
 msgid "While you wait for your landlord to respond, gather as much documentation as you can. This can include a letter from your employer, receipts, doctor’s notes etc."
 msgstr "While you wait for your landlord to respond, gather as much documentation as you can. This can include a letter from your employer, receipts, doctor’s notes etc."
 
-#: frontend/lib/evictionfree/about.tsx:42
+#: frontend/lib/evictionfree/about.tsx:44
 #: frontend/lib/norent/about.tsx:94
 msgid "Who we are"
 msgstr "Who we are"
@@ -2524,11 +2524,11 @@ msgstr "Zip code"
 msgid "and"
 msgstr "and"
 
-#: frontend/lib/evictionfree/about.tsx:14
+#: frontend/lib/evictionfree/about.tsx:16
 msgid "evictionfree.aboutPage1"
 msgstr "A new State law, passed in late 2020, allows most tenants to stop their eviction case until May 1st, 2021, if they fill out a “Hardship Declaration” form. However, this law puts the responsibility on tenants to figure out how to do that and doesn’t provide easy access to exercise their rights."
 
-#: frontend/lib/evictionfree/about.tsx:24
+#: frontend/lib/evictionfree/about.tsx:26
 msgid "evictionfree.aboutPage2"
 msgstr "Our website helps tenants submit this hardship declaration form with peace of mind— sending it out via free USPS Certified Mail and email to all of the appropriate parties (your landlord and the courts) to ensure protection. And since the law doesn’t go far enough to protect folks beyond May 1st, our tool connects tenants to the larger tenant movement so we can #CancelRent."
 
@@ -2556,21 +2556,21 @@ msgstr "<0>Significant loss of household income during the COVID-19 pandemic.</0
 msgid "evictionfree.getInvolvedWithCBO"
 msgstr "Get involved in your local community organization! Join millions in the fight for a future free from debt and to win a cancelation of rent, mortgage and utility payments."
 
-#: frontend/lib/evictionfree/about.tsx:58
+#: frontend/lib/evictionfree/about.tsx:64
 msgid "evictionfree.hj4aBlurb"
-msgstr "Housing Justice For All is a coalition of over 100 organizations, from Brooklyn to Buffalo, that represent tenants and homeless New Yorkers. We are united in our belief that housing is a human right; that no person should live in fear of an eviction; and that we can end the homelessness crisis in our State."
+msgstr "<0>Housing Justice for All</0> is a coalition of over 100 organizations, from Brooklyn to Buffalo, that represent tenants and homeless New Yorkers. We are united in our belief that housing is a human right; that no person should live in fear of an eviction; and that we can end the homelessness crisis in our State."
 
 #: frontend/lib/evictionfree/homepage.tsx:78
 msgid "evictionfree.introToLaw"
-msgstr "On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts."
+msgstr "On December 28, 2020, New York State <0>passed legislation</0> that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a <1>hardship declaration form</1> and send it to your landlord and/or the courts."
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:12
 msgid "evictionfree.introductionToDeclarationFormSteps"
 msgstr "In order to benefit from the eviction protections that local elected officials have put in place, you can notify your landlord by filling out a hardship declaration form. <0>In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense.</0>"
 
-#: frontend/lib/evictionfree/about.tsx:68
+#: frontend/lib/evictionfree/about.tsx:77
 msgid "evictionfree.justfixBlurb"
-msgstr "JustFix.nyc co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City. Our mission is to galvanize a 21st century tenant movement working towards housing for all — and we think the power of data and technology should be accessible to those fighting this fight."
+msgstr "<0>JustFix.nyc</0> co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City. Our mission is to galvanize a 21st century tenant movement working towards housing for all — and we think the power of data and technology should be accessible to those fighting this fight."
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:30
 msgid "evictionfree.landlordRetaliationWarning"
@@ -2600,9 +2600,9 @@ msgstr "<0>No! You can print out the Hardship Declaration form yourself, fill it
 msgid "evictionfree.resendFaq"
 msgstr "You currently cannot use this tool to send more than one declaration form. However, once you use this tool, you will be able to download a PDF copy of your declaration on the “Confirmation Page,” and you can choose to resend that declaration on your own. You should keep it for your records, in case your landlord tries to bring you to court."
 
-#: frontend/lib/evictionfree/about.tsx:46
+#: frontend/lib/evictionfree/about.tsx:48
 msgid "evictionfree.rtcBlurb"
-msgstr "The Right to Counsel NYC Coalition is a tenant-led, broad-based coalition that formed in 2014 to disrupt Housing Court as a center of displacement and stop the eviction crisis that has threatened our families, our neighborhoods and our homes for too long. Made up of tenants, organizers, advocates, legal services organizations and more, we are building campaigns for an eviction-free NYC and ultimately for a right to housing."
+msgstr "The <0>Right to Counsel NYC Coalition</0> is a tenant-led, broad-based coalition that formed in 2014 to disrupt Housing Court as a center of displacement and stop the eviction crisis that has threatened our families, our neighborhoods and our homes for too long. Made up of tenants, organizers, advocates, legal services organizations and more, we are building campaigns for an eviction-free NYC and ultimately for a right to housing."
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:60
 msgid "evictionfree.significantHealthRiskExplainer"
@@ -2612,11 +2612,11 @@ msgstr "This means you or one or more members of your household have an increase
 msgid "evictionfree.timeLagFaq"
 msgstr "Once you build your declaration form via this tool, it gets mailed and/or emailed immediately to your landlord and the courts. After it's sent, physical mail usually delivers in about a week."
 
-#: frontend/lib/evictionfree/homepage.tsx:132
+#: frontend/lib/evictionfree/homepage.tsx:140
 msgid "evictionfree.whoBuildThisTool"
 msgstr "Our free tool was built by the <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, and <2>JustFix.nyc</2> as part of the larger tenant movement across the state."
 
-#: frontend/lib/evictionfree/homepage.tsx:106
+#: frontend/lib/evictionfree/homepage.tsx:114
 msgid "evictionfree.whoHasRightToSubmitForm"
 msgstr "All tenants in New York State have a right to fill out this hardship declaration form. However, if you've been served an eviction notice or believe you are at risk of being evicted, please consider using this form to protect yourself."
 

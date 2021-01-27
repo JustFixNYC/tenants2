@@ -107,8 +107,8 @@ msgstr "<0>Tu cuenta está configurada.</0><1>Actualmente, no recomendamos envia
 msgid "A national tool by non-profit <0>JustFix.nyc</0>"
 msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines de lucro"
 
-#: frontend/lib/evictionfree/about.tsx:5
-#: frontend/lib/evictionfree/about.tsx:10
+#: frontend/lib/evictionfree/about.tsx:7
+#: frontend/lib/evictionfree/about.tsx:12
 #: frontend/lib/evictionfree/site.tsx:52
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
@@ -138,7 +138,7 @@ msgstr ""
 msgid "After Sending Your Letter"
 msgstr "Después de enviar tu carta"
 
-#: frontend/lib/evictionfree/homepage.tsx:165
+#: frontend/lib/evictionfree/homepage.tsx:173
 msgid "After sending your hardship declaration form, connect with local organizing groups to get involved in the fight to make New York eviction free, cancel rent, and more!"
 msgstr ""
 
@@ -658,7 +658,7 @@ msgstr "Grifos No Funcionan"
 msgid "Fight an eviction"
 msgstr "Lucha contra un desalojo"
 
-#: frontend/lib/evictionfree/homepage.tsx:162
+#: frontend/lib/evictionfree/homepage.tsx:170
 msgid "Fight to #CancelRent"
 msgstr ""
 
@@ -689,11 +689,11 @@ msgstr "Piso hundido"
 msgid "Florida"
 msgstr "Florida"
 
-#: frontend/lib/evictionfree/homepage.tsx:103
+#: frontend/lib/evictionfree/homepage.tsx:111
 msgid "For New York State tenants"
 msgstr ""
 
-#: frontend/lib/evictionfree/homepage.tsx:129
+#: frontend/lib/evictionfree/homepage.tsx:137
 msgid "For tenants by tenants"
 msgstr ""
 
@@ -1927,7 +1927,7 @@ msgstr "Esta información no sustituye el asesoramiento legal directo sobre tu s
 msgid "The majority of your landlord's properties are concentrated in {0}."
 msgstr "La mayoría de las propiedades del dueño de tu edificio se concentran en {0}."
 
-#: frontend/lib/evictionfree/homepage.tsx:114
+#: frontend/lib/evictionfree/homepage.tsx:122
 msgid "The protections outlined by NY state law apply to you regardless of immigration status."
 msgstr ""
 
@@ -2267,7 +2267,7 @@ msgstr ""
 msgid "While you wait for your landlord to respond, gather as much documentation as you can. This can include a letter from your employer, receipts, doctor’s notes etc."
 msgstr "Mientras esperas a que el dueño de tu edificio conteste, recopila toda la documentación que puedas. Esto puede incluir una carta de tu jefe, recibos, notas de tu médico, etc."
 
-#: frontend/lib/evictionfree/about.tsx:42
+#: frontend/lib/evictionfree/about.tsx:44
 #: frontend/lib/norent/about.tsx:94
 msgid "Who we are"
 msgstr "Quiénes somos"
@@ -2529,11 +2529,11 @@ msgstr "Código postal"
 msgid "and"
 msgstr "y"
 
-#: frontend/lib/evictionfree/about.tsx:14
+#: frontend/lib/evictionfree/about.tsx:16
 msgid "evictionfree.aboutPage1"
 msgstr ""
 
-#: frontend/lib/evictionfree/about.tsx:24
+#: frontend/lib/evictionfree/about.tsx:26
 msgid "evictionfree.aboutPage2"
 msgstr ""
 
@@ -2561,7 +2561,7 @@ msgstr ""
 msgid "evictionfree.getInvolvedWithCBO"
 msgstr ""
 
-#: frontend/lib/evictionfree/about.tsx:58
+#: frontend/lib/evictionfree/about.tsx:64
 msgid "evictionfree.hj4aBlurb"
 msgstr ""
 
@@ -2573,7 +2573,7 @@ msgstr ""
 msgid "evictionfree.introductionToDeclarationFormSteps"
 msgstr ""
 
-#: frontend/lib/evictionfree/about.tsx:68
+#: frontend/lib/evictionfree/about.tsx:77
 msgid "evictionfree.justfixBlurb"
 msgstr ""
 
@@ -2605,7 +2605,7 @@ msgstr ""
 msgid "evictionfree.resendFaq"
 msgstr ""
 
-#: frontend/lib/evictionfree/about.tsx:46
+#: frontend/lib/evictionfree/about.tsx:48
 msgid "evictionfree.rtcBlurb"
 msgstr ""
 
@@ -2617,11 +2617,11 @@ msgstr ""
 msgid "evictionfree.timeLagFaq"
 msgstr ""
 
-#: frontend/lib/evictionfree/homepage.tsx:132
+#: frontend/lib/evictionfree/homepage.tsx:140
 msgid "evictionfree.whoBuildThisTool"
 msgstr ""
 
-#: frontend/lib/evictionfree/homepage.tsx:106
+#: frontend/lib/evictionfree/homepage.tsx:114
 msgid "evictionfree.whoHasRightToSubmitForm"
 msgstr ""
 

@@ -102,11 +102,23 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
         <div className="columns is-centered">
           <div className="column is-four-fifths is-size-3 is-size-4-mobile has-text-centered-tablet">
             <Trans id="evictionfree.introToLaw">
-              On December 28, 2020, New York State passed legislation that
-              protects tenants from eviction due to lost income or COVID-19
-              health risks. In order to get protected, you must fill out a
-              hardship declaration form and send it to your landlord and/or the
-              courts.
+              On December 28, 2020, New York State{" "}
+              <OutboundLink href="https://legislation.nysenate.gov/pdf/bills/2019/s9114">
+                passed legislation
+              </OutboundLink>{" "}
+              that protects tenants from eviction due to lost income or COVID-19
+              health risks. In order to get protected, you must fill out a{" "}
+              <LocalizedOutboundLink
+                hrefs={{
+                  en:
+                    "https://www.nycourts.gov/courts/nyc/SSI/images/corona/HardshipDeclaration.pdf",
+                  es:
+                    "https://www.nycourts.gov/courts/nyc/SSI/images/corona/HardshipDeclaration_span.pdf",
+                }}
+              >
+                hardship declaration form
+              </LocalizedOutboundLink>{" "}
+              and send it to your landlord and/or the courts.
             </Trans>
           </div>
         </div>

@@ -2,7 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import React from "react";
 import { OutboundLink } from "../analytics/google-analytics";
 import { li18n } from "../i18n-lingui";
-import { getImageSrc } from "../norent/homepage";
+import { getNorentImageSrc } from "../norent/homepage";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 import Page from "../ui/page";
 import { StaticImage } from "../ui/static-image";
@@ -80,7 +80,7 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
           <OutboundLink href={HJ4A_SOCIAL_URL}>
             <StaticImage
               ratio="is-square"
-              src={getImageSrc("hj4a", "png")}
+              src={getNorentImageSrc("hj4a", "png")}
               alt="JustFix.nyc"
             />
           </OutboundLink>
@@ -100,7 +100,7 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
           <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
             <StaticImage
               ratio="is-3by1"
-              src={getImageSrc("justfix")}
+              src={getNorentImageSrc("justfix")}
               alt="JustFix.nyc"
             />
           </LocalizedOutboundLink>

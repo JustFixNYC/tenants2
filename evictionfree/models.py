@@ -75,9 +75,15 @@ class SubmittedHardshipDeclaration(models.Model):
     )
 
     mailed_at = models.DateTimeField(
-        null=True, blank=True, help_text="When the declaration was mailed."
+        null=True, blank=True, help_text="When the declaration was mailed to the user's landlord."
     )
 
     emailed_at = models.DateTimeField(
-        null=True, blank=True, help_text="When the declaration was e-mailed."
+        null=True, blank=True, help_text="When the declaration was e-mailed to the user's landlord."
+    )
+
+    emailed_to_housing_court_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When the declaration was e-mailed to the user's housing court.",
     )

@@ -1,4 +1,4 @@
-import React, { DetailedHTMLProps, ImgHTMLAttributes } from "react";
+import React, { DetailedHTMLProps, ImgHTMLAttributes, useContext } from "react";
 import { AppContext } from "../../app-context";
 
 type ImgProps = DetailedHTMLProps<
@@ -13,13 +13,10 @@ export type StaticImageProps = ImgProps & {
 
 export function BackgroundImage(props: StaticImageProps): JSX.Element {
   const { ...imgProps } = props;
+  const appCtx = useContext(AppContext);
   return (
-    <AppContext.Consumer>
-      {(appCtx) => (
-        <figure className="image jf-background-image">
-          <img {...imgProps} src={`${appCtx.server.staticURL}${props.src}`} />
-        </figure>
-      )}
-    </AppContext.Consumer>
+    <figure className="image jf-background-image">
+      <img {...imgProps} src={`${appCtx.server.staticURL}${props.src}`} />
+    </figure>
   );
 }

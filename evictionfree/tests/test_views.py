@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AnonymousUser
 from freezegun.api import freeze_time
+
 from evictionfree.views import _get_vars_for_user
 from evictionfree.tests.factories import HardshipDeclarationDetailsFactory
 from onboarding.tests.factories import OnboardingInfoFactory

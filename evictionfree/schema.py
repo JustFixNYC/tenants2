@@ -93,19 +93,19 @@ class EvictionFreeSubmitDeclaration(SessionFormMutation):
                 info, "You must be in the state of New York to use this tool!"
             )
 
-        site_type = site_util.get_site_type(site_util.get_site_from_request_or_default(request))
-
-        if site_type != site_util.SITE_CHOICES.EVICTIONFREE:
-            return cls.make_and_log_error(
-                info, "This form can only be used from the EvictionFreeNY site."
-            )
-
         if not (
             hasattr(user, "hardship_declaration_details")
             and user.hardship_declaration_details.are_ready_for_submission()
         ):
             return cls.make_and_log_error(
                 info, "You have not provided details for your hardship declaration yet!"
+            )
+
+        site_type = site_util.get_site_type(site_util.get_site_from_request_or_default(request))
+
+        if site_type != site_util.SITE_CHOICES.EVICTIONFREE:
+            return cls.make_and_log_error(
+                info, "This form can only be used from the EvictionFreeNY site."
             )
 
         declaration_sending.create_and_send_declaration(user)

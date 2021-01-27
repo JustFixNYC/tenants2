@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AnonymousUser
 import pytest
 
 from users.models import JustfixUser
@@ -6,9 +7,17 @@ from project.schema_base import (
     update_last_queried_phone_number,
     PhoneNumberAccountStatus,
 )
+from loc.tests.factories import LandlordDetailsV2Factory
 from onboarding.schema import OnboardingStep1Info
 from onboarding.tests.test_schema import _exec_onboarding_step_n
 from norent.schema import update_scaffolding, SCAFFOLDING_SESSION_KEY
+from users.tests.factories import UserFactory
+from onboarding.tests.factories import OnboardingInfoFactory
+from evictionfree.tests.factories import (
+    HardshipDeclarationDetailsFactory,
+    SubmittedHardshipDeclarationFactory,
+)
+from project.util.testing_util import one_field_err
 
 
 class TestEvictionFreeCreateAccount:
@@ -145,3 +154,75 @@ class TestEvictionFreeCreateAccount:
         assert get_last_queried_phone_number(request) is None
         assert OnboardingStep1Info.get_dict_from_request(request) is None
         assert SCAFFOLDING_SESSION_KEY not in request.session
+
+
+class TestEvictionFreeSubmitDeclaration:
+    QUERY = """
+    mutation {
+        evictionFreeSubmitDeclaration(input: {}) {
+            errors { field, messages }
+        }
+    }
+    """
+
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, graphql_client, db):
+        self.user = UserFactory(email="boop@jones.net")
+        graphql_client.request.user = self.user
+        self.graphql_client = graphql_client
+
+    def create_landlord_details(self):
+        LandlordDetailsV2Factory(user=self.user, email="landlordo@calrissian.net")
+
+    def execute(self):
+        res = self.graphql_client.execute(self.QUERY)
+        return res["data"]["evictionFreeSubmitDeclaration"]
+
+    def test_it_requires_login(self):
+        self.graphql_client.request.user = AnonymousUser()
+        assert self.execute()["errors"] == one_field_err(
+            "You do not have permission to use this form!"
+        )
+
+    def test_it_raises_err_when_declaration_already_sent(self):
+        SubmittedHardshipDeclarationFactory(user=self.user)
+        assert self.execute()["errors"] == one_field_err(
+            "You have already sent a hardship declaration!"
+        )
+
+    def test_it_raises_err_when_no_onboarding_info_exists(self):
+        assert self.execute()["errors"] == one_field_err("You have not onboarded!")
+
+    def test_it_raises_err_when_no_landlord_details_exist(self):
+        OnboardingInfoFactory(user=self.user)
+        assert self.execute()["errors"] == one_field_err(
+            "You haven't provided any landlord details yet!"
+        )
+
+    def test_it_raises_err_when_no_hardship_declaration_details_exist(self):
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
+        assert self.execute()["errors"] == one_field_err(
+            "You have not provided details for your hardship declaration yet!"
+        )
+
+    def test_it_raises_err_when_user_is_outside_ny(self):
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user, state="CA")
+        assert self.execute()["errors"] == one_field_err(
+            "You must be in the state of New York to use this tool!"
+        )
+
+    def test_it_raises_err_when_used_on_wrong_site(self):
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
+        HardshipDeclarationDetailsFactory(user=self.user)
+        assert self.execute()["errors"] == one_field_err(
+            "This form can only be used from the EvictionFreeNY site."
+        )
+
+    def test_it_works(self, use_evictionfree_site):
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
+        HardshipDeclarationDetailsFactory(user=self.user)
+        assert self.execute()["errors"] == []

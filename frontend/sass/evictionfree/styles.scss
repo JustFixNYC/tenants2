@@ -54,6 +54,8 @@ $jf-navbar-content: $black;
 @import "../norent/_primary_pages.scss";
 @import "../norent/_letter-builder.scss";
 
+$max-content-width: 1440px;
+
 .jf-evictionfree-logo {
   font-size: 20px;
   font-weight: 600;
@@ -92,6 +94,7 @@ $jf-navbar-content: $black;
   .jf-block-of-color-in-background {
     top: unset;
     height: 700px;
+    max-width: $max-content-width;
   }
 }
 
@@ -102,12 +105,18 @@ $jf-navbar-content: $black;
   @extend .has-text-link;
 }
 
+.jf-above-footer-content {
+  max-width: $max-content-width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 // Navbar Overrides
 nav.navbar {
   .container {
-    margin: 0;
+    margin: auto;
     padding: 0;
-    max-width: unset;
+    max-width: $max-content-width;
     .navbar-brand {
       padding: 0;
       .navbar-item:first-child {

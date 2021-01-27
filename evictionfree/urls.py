@@ -16,4 +16,9 @@ urlpatterns = [
         views.render_preview_declaration_pdf_for_user,
         name="preview_declaration_pdf",
     ),
+    path(
+        "preview-cover-letter.pdf",
+        views.render_preview_cover_letter_for_user,
+        name="preview_cover_letter_pdf",
+    ),
 ]

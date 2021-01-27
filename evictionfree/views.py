@@ -4,8 +4,10 @@ from typing import Optional
 from django.http.response import FileResponse, Http404
 from django.utils.translation import get_language
 
+from loc.views import pdf_response
 from users.models import JustfixUser
 from .hardship_declaration import fill_hardship_pdf, EXAMPLE_VARIABLES, HardshipDeclarationVariables
+from . import cover_letter
 
 
 def _render_pdf(v: HardshipDeclarationVariables, filename: str):
@@ -36,6 +38,14 @@ def _get_vars_for_user(user: JustfixUser) -> Optional[HardshipDeclarationVariabl
         name=user.full_name,
         date=date.today().strftime("%m/%d/%Y"),
     )
+
+
+def render_preview_cover_letter_for_user(request):
+    v = cover_letter.get_vars_for_user(request.user)
+    if v is None:
+        raise Http404()
+    html = cover_letter.render_cover_letter_html(v)
+    return pdf_response(html, "preview-cover-letter.pdf")
 
 
 def render_preview_declaration_pdf_for_user(request):

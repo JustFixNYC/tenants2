@@ -68,6 +68,15 @@ $jf-navbar-content: $black;
   font-weight: 200;
 }
 
+.jf-background-image.image {
+  display: flex;
+  img {
+    object-fit: cover;
+    min-width: 100%;
+    min-height: 550px;
+  }
+}
+
 // OVERRIDES OF NORENT STYLING
 
 // Change accordion question color to link color
@@ -131,6 +140,11 @@ nav.navbar {
 // Fix issue where full-width columns extend beyond viewport on mobile
 .columns {
   max-width: 100%;
+  margin: 0;
+
+  &:not(:last-child) {
+    margin-bottom: 0;
+  }
 }
 
 // Accordion overrides
@@ -158,4 +172,11 @@ nav.navbar {
       padding-left: 3.1rem;
     }
   }
+}
+
+// Content overrides
+
+.content figure {
+  margin-left: 0;
+  margin-right: 0;
 }

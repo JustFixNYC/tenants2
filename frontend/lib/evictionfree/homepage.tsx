@@ -6,6 +6,7 @@ import { EvictionFreeRoutes as Routes } from "./route-info";
 import { EvictionFreeFaqsPreview } from "./faqs";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
+import { BackgroundImage } from "./components/background-image";
 
 type EvictionFreeImageType = "png" | "svg" | "jpg";
 
@@ -114,11 +115,15 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
       <div className="column is-half">
         <LandingPageChecklist />
       </div>
-      <div className="column is-half"></div>
+      <div>
+        <BackgroundImage src={getEFImageSrc("phone", "png")} alt="" />
+      </div>
     </div>
 
     <div className="columns">
-      <div className="column is-half"></div>
+      <div className="is-hidden-mobile">
+        <BackgroundImage src={getEFImageSrc("buildings", "jpg")} alt="" />
+      </div>
       <div className="column is-half">
         <div className="hero">
           <div className="hero-body">
@@ -142,6 +147,9 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
           </div>
         </div>
       </div>
+      <div className="is-hidden-tablet">
+        <BackgroundImage src={getEFImageSrc("buildings", "jpg")} alt="" />
+      </div>
     </div>
 
     <div className="columns">
@@ -161,7 +169,9 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
           </div>
         </div>
       </div>
-      <div className="column is-half"></div>
+      <div>
+        <BackgroundImage src={getEFImageSrc("speaker", "jpg")} alt="" />
+      </div>
     </div>
 
     <section className="hero is-info">
@@ -178,6 +188,11 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
                 eviction free, cancel rent, and more!
               </Trans>
             </p>
+            <StaticImage
+              ratio="is-3by2"
+              src={getEFImageSrc("protest", "jpg")}
+              alt=""
+            />
           </div>
         </div>
       </div>

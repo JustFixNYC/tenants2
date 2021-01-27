@@ -595,7 +595,7 @@ msgid "Email"
 msgstr "Correo electrónico"
 
 #: frontend/lib/common-steps/ask-email.tsx:19
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:65
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
 msgid "Email address"
 msgstr "Dirección de correo electrónico"
 
@@ -860,7 +860,7 @@ msgstr ""
 msgid "I agree to the <0>NoRent.org terms and conditions</0>."
 msgstr "Acepto los <0>términos y condiciones de NoRent.org</0>."
 
-#: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:87
+#: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:93
 msgid "I am experiencing financial hardship due to COVID-19."
 msgstr ""
 
@@ -904,10 +904,6 @@ msgstr "Idaho"
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 msgstr "Si no recibiste un código, comprueba tu correo electrónico. Si no lo encuentras, por favor envía un correo electrónico a <0/>."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:29
-msgid "If you feel strongly that this information is incorrect or incomplete, however, you can <0>provide your own details</0>."
-msgstr ""
-
 #: frontend/lib/rh/routes.tsx:305
 msgid "If you have more questions, please email us at <0/>."
 msgstr "Si tienes más preguntas, por favor envíanos un correo electrónico a <0/>."
@@ -924,7 +920,7 @@ msgstr "Si has recibido un Aviso de Pago de Renta (Notice to Pay Rent en inglés
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
 msgstr "Si necesitas cambiar tu nombre o tu información de contacto, ponte en contacto con <0/>."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:50
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:54
 msgid "If you write checks or transfer money through your bank to pay your rent, use that name here."
 msgstr "Usa el nombre al que pagas la renta."
 
@@ -1060,7 +1056,7 @@ msgstr ""
 msgid "Landlord/management company's email"
 msgstr "Dirección de correo electrónico del dueño o manager de tu edificio"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:48
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:52
 msgid "Landlord/management company's name"
 msgstr "Nombre del dueño o manager de tu edificio"
 
@@ -1190,7 +1186,7 @@ msgstr ""
 msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 msgstr "Hecho en NYC con ♥ por el equipo de <0>JustFix.nyc</0>"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:68
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:72
 msgid "Mailing address"
 msgstr "Dirección postal"
 
@@ -2033,7 +2029,7 @@ msgstr "Utah"
 msgid "Vacate order issued"
 msgstr "Orden de vacío emitida"
 
-#: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:92
+#: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:87
 msgid "Vacating the premises and moving into new permanent housing would pose a significant health risk due to COVID-19."
 msgstr ""
 
@@ -2177,7 +2173,7 @@ msgstr "Nos hemos aliado con <0/> para proporcionar asistencia adicional una vez
 msgid "We’ve partnered with <0/> to provide additional support."
 msgstr "Nos hemos aliado con <0/> para proporcionarte apoyo adicional."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:56
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:60
 msgid "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
 msgstr "¿Qué información de contacto tienes del dueño o manager de tu edificio? <0>Sugerimos que elijas las dos opciones si las tienes.</0>"
 
@@ -2251,7 +2247,7 @@ msgstr "¿Qué tipo de documentación debo recopilar para demostrar que no puedo
 msgid "When you use our tool, you will be able to preview your filled out form before sending it. You can also view a blank copy of the Hardship Declaration form."
 msgstr ""
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:49
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:53
 msgid "Where do I find this information?"
 msgstr "¿Dónde encuentro esta información?"
 
@@ -2481,7 +2477,7 @@ msgstr "La dirección del dueño o manager de tu edificio"
 msgid "Your landlord or management company's email"
 msgstr "La dirección de correo electrónico del dueño o manager de tu edificio"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:90
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:94
 msgid "Your landlord or management company's information"
 msgstr "Los datos del dueño o manager de tu edificio"
 
@@ -2632,6 +2628,10 @@ msgstr ""
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:165
 msgid "justfix.DdoMayNeedHpdRegistration"
 msgstr "Parece que este edificio deba estar registrado con el HPD. Los proprietarios que no registren sus propiedades correctamente incurren multas y no tienen el derecho de llevar a los inquilinos a la corte por no pagar el alquiler. Puedes encontrar más información en la página <0>Gestión de Propiedades de HPD</0>"
+
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:29
+msgid "justfix.commonWarningAboutChangingLandlordDetails"
+msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
 msgid "justfix.ddoEfnycCovidMessage"

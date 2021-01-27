@@ -590,7 +590,7 @@ msgid "Email"
 msgstr "Email"
 
 #: frontend/lib/common-steps/ask-email.tsx:19
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:65
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
 msgid "Email address"
 msgstr "Email address"
 
@@ -855,7 +855,7 @@ msgstr "I agree to the <0>Eviction Free NY terms and conditions</0>."
 msgid "I agree to the <0>NoRent.org terms and conditions</0>."
 msgstr "I agree to the <0>NoRent.org terms and conditions</0>."
 
-#: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:87
+#: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:93
 msgid "I am experiencing financial hardship due to COVID-19."
 msgstr "I am experiencing financial hardship due to COVID-19."
 
@@ -899,10 +899,6 @@ msgstr "Idaho"
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 msgstr "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:29
-msgid "If you feel strongly that this information is incorrect or incomplete, however, you can <0>provide your own details</0>."
-msgstr "If you feel strongly that this information is incorrect or incomplete, however, you can <0>provide your own details</0>."
-
 #: frontend/lib/rh/routes.tsx:305
 msgid "If you have more questions, please email us at <0/>."
 msgstr "If you have more questions, please email us at <0/>."
@@ -919,7 +915,7 @@ msgstr "If you have received a Notice to Pay Rent or Quit or any other type of e
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
 msgstr "If you need to make changes to your name or contact information, please contact <0/>."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:50
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:54
 msgid "If you write checks or transfer money through your bank to pay your rent, use that name here."
 msgstr "If you write checks or transfer money through your bank to pay your rent, use that name here."
 
@@ -1055,7 +1051,7 @@ msgstr "Landlord name"
 msgid "Landlord/management company's email"
 msgstr "Landlord/management company's email"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:48
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:52
 msgid "Landlord/management company's name"
 msgstr "Landlord/management company's name"
 
@@ -1185,7 +1181,7 @@ msgstr "Made by non-profits <0>Right to Counsel NYC Coalition</0>, <1>Housing Ju
 msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 msgstr "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:68
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:72
 msgid "Mailing address"
 msgstr "Mailing address"
 
@@ -2028,7 +2024,7 @@ msgstr "Utah"
 msgid "Vacate order issued"
 msgstr "Vacate order issued"
 
-#: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:92
+#: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:87
 msgid "Vacating the premises and moving into new permanent housing would pose a significant health risk due to COVID-19."
 msgstr "Vacating the premises and moving into new permanent housing would pose a significant health risk due to COVID-19."
 
@@ -2172,7 +2168,7 @@ msgstr "We’ve partnered with <0/> to provide additional support once you’ve 
 msgid "We’ve partnered with <0/> to provide additional support."
 msgstr "We’ve partnered with <0/> to provide additional support."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:56
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:60
 msgid "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
 msgstr "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
 
@@ -2246,7 +2242,7 @@ msgstr "What kind of documentation should I collect to prove I can’t pay rent?
 msgid "When you use our tool, you will be able to preview your filled out form before sending it. You can also view a blank copy of the Hardship Declaration form."
 msgstr "When you use our tool, you will be able to preview your filled out form before sending it. You can also view a blank copy of the Hardship Declaration form."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:49
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:53
 msgid "Where do I find this information?"
 msgstr "Where do I find this information?"
 
@@ -2476,7 +2472,7 @@ msgstr "Your landlord or management company's address"
 msgid "Your landlord or management company's email"
 msgstr "Your landlord or management company's email"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:90
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:94
 msgid "Your landlord or management company's information"
 msgstr "Your landlord or management company's information"
 
@@ -2627,6 +2623,10 @@ msgstr "All tenants in New York State have a right to fill out this hardship dec
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:165
 msgid "justfix.DdoMayNeedHpdRegistration"
 msgstr "It looks like this building may require registration with HPD. Landlords who don't properly register their properties incur fines and also cannot bring tenants to court for nonpayment of rent. You can find more information on <0>HPD's Property Management page</0>"
+
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:29
+msgid "justfix.commonWarningAboutChangingLandlordDetails"
+msgstr "Note: If you receive rent-related documents from a different address, or if your landlord has instructed you to use a different address for correspondence, you can <0>provide your own details.</0> But, only use a different address if you are absolutely sure it is correct— <1>it is safer to use the official address</1> your landlord provided to the city."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
 msgid "justfix.ddoEfnycCovidMessage"

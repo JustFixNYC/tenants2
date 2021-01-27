@@ -31,6 +31,9 @@ class HardshipDeclarationDetails(models.Model):
         default=False,
     )
 
+    def are_ready_for_submission(self) -> bool:
+        return self.has_financial_hardship or self.has_health_risk
+
 
 class SubmittedHardshipDeclaration(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)

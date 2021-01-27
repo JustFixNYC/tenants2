@@ -133,7 +133,7 @@ msgstr "Address:"
 msgid "After Sending Your Letter"
 msgstr "After Sending Your Letter"
 
-#: frontend/lib/evictionfree/homepage.tsx:173
+#: frontend/lib/evictionfree/homepage.tsx:185
 msgid "After sending your hardship declaration form, connect with local organizing groups to get involved in the fight to make New York eviction free, cancel rent, and more!"
 msgstr "After sending your hardship declaration form, connect with local organizing groups to get involved in the fight to make New York eviction free, cancel rent, and more!"
 
@@ -199,7 +199,7 @@ msgstr "Arizona"
 msgid "Arkansas"
 msgstr "Arkansas"
 
-#: frontend/lib/evictionfree/homepage.tsx:31
+#: frontend/lib/evictionfree/homepage.tsx:32
 msgid "Automatically fill in your landlord's information based on your address if you live in New York City"
 msgstr "Automatically fill in your landlord's information based on your address if you live in New York City"
 
@@ -653,17 +653,17 @@ msgstr "Faucets not working"
 msgid "Fight an eviction"
 msgstr "Fight an eviction"
 
-#: frontend/lib/evictionfree/homepage.tsx:170
+#: frontend/lib/evictionfree/homepage.tsx:182
 msgid "Fight to #CancelRent"
 msgstr "Fight to #CancelRent"
 
-#: frontend/lib/evictionfree/homepage.tsx:64
+#: frontend/lib/evictionfree/homepage.tsx:65
 #: frontend/lib/evictionfree/site.tsx:37
 #: frontend/lib/evictionfree/site.tsx:41
 msgid "Fill out my form"
 msgstr "Fill out my form"
 
-#: frontend/lib/evictionfree/homepage.tsx:28
+#: frontend/lib/evictionfree/homepage.tsx:29
 msgid "Fill out your hardship declaration form online."
 msgstr "Fill out your hardship declaration form online."
 
@@ -684,11 +684,11 @@ msgstr "Floor sags"
 msgid "Florida"
 msgstr "Florida"
 
-#: frontend/lib/evictionfree/homepage.tsx:111
+#: frontend/lib/evictionfree/homepage.tsx:116
 msgid "For New York State tenants"
 msgstr "For New York State tenants"
 
-#: frontend/lib/evictionfree/homepage.tsx:137
+#: frontend/lib/evictionfree/homepage.tsx:146
 msgid "For tenants by tenants"
 msgstr "For tenants by tenants"
 
@@ -1529,8 +1529,8 @@ msgstr "Privacy Policy"
 msgid "Protect yourself from eviction"
 msgstr "Protect yourself from eviction"
 
-#: frontend/lib/evictionfree/homepage.tsx:47
-#: frontend/lib/evictionfree/homepage.tsx:53
+#: frontend/lib/evictionfree/homepage.tsx:48
+#: frontend/lib/evictionfree/homepage.tsx:54
 msgid "Protect yourself from eviction in New York State"
 msgstr "Protect yourself from eviction in New York State"
 
@@ -1667,11 +1667,11 @@ msgstr "Send another letter"
 msgid "Send code"
 msgstr "Send code"
 
-#: frontend/lib/evictionfree/homepage.tsx:40
+#: frontend/lib/evictionfree/homepage.tsx:41
 msgid "Send your form by USPS Certified Mail for free to your landlord"
 msgstr "Send your form by USPS Certified Mail for free to your landlord"
 
-#: frontend/lib/evictionfree/homepage.tsx:37
+#: frontend/lib/evictionfree/homepage.tsx:38
 msgid "Send your form by email to your landlord and the courts"
 msgstr "Send your form by email to your landlord and the courts"
 
@@ -1922,7 +1922,7 @@ msgstr "The above information is not a substitute for direct legal advice for yo
 msgid "The majority of your landlord's properties are concentrated in {0}."
 msgstr "The majority of your landlord's properties are concentrated in {0}."
 
-#: frontend/lib/evictionfree/homepage.tsx:122
+#: frontend/lib/evictionfree/homepage.tsx:128
 msgid "The protections outlined by NY state law apply to you regardless of immigration status."
 msgstr "The protections outlined by NY state law apply to you regardless of immigration status."
 
@@ -2313,7 +2313,7 @@ msgstr "Window guards missing"
 msgid "Wisconsin"
 msgstr "Wisconsin"
 
-#: frontend/lib/evictionfree/homepage.tsx:23
+#: frontend/lib/evictionfree/homepage.tsx:24
 msgid "With this free tool, you can"
 msgstr "With this free tool, you can"
 
@@ -2367,7 +2367,7 @@ msgstr "You can contact Strategic Actions for a Just Economy (SAJE) - a 501c3 no
 msgid "You can send an additional letter for other months when you couldn't pay rent."
 msgstr "You can send an additional letter for other months when you couldn't pay rent."
 
-#: frontend/lib/evictionfree/homepage.tsx:56
+#: frontend/lib/evictionfree/homepage.tsx:57
 msgid "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021."
 msgstr "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021."
 
@@ -2560,7 +2560,7 @@ msgstr "Get involved in your local community organization! Join millions in the 
 msgid "evictionfree.hj4aBlurb"
 msgstr "<0>Housing Justice for All</0> is a coalition of over 100 organizations, from Brooklyn to Buffalo, that represent tenants and homeless New Yorkers. We are united in our belief that housing is a human right; that no person should live in fear of an eviction; and that we can end the homelessness crisis in our State."
 
-#: frontend/lib/evictionfree/homepage.tsx:78
+#: frontend/lib/evictionfree/homepage.tsx:79
 msgid "evictionfree.introToLaw"
 msgstr "On December 28, 2020, New York State <0>passed legislation</0> that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a <1>hardship declaration form</1> and send it to your landlord and/or the courts."
 
@@ -2612,11 +2612,11 @@ msgstr "This means you or one or more members of your household have an increase
 msgid "evictionfree.timeLagFaq"
 msgstr "Once you build your declaration form via this tool, it gets mailed and/or emailed immediately to your landlord and the courts. After it's sent, physical mail usually delivers in about a week."
 
-#: frontend/lib/evictionfree/homepage.tsx:140
+#: frontend/lib/evictionfree/homepage.tsx:149
 msgid "evictionfree.whoBuildThisTool"
 msgstr "Our free tool was built by the <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, and <2>JustFix.nyc</2> as part of the larger tenant movement across the state."
 
-#: frontend/lib/evictionfree/homepage.tsx:114
+#: frontend/lib/evictionfree/homepage.tsx:119
 msgid "evictionfree.whoHasRightToSubmitForm"
 msgstr "All tenants in New York State have a right to fill out this hardship declaration form. However, if you've been served an eviction notice or believe you are at risk of being evicted, please consider using this form to protect yourself."
 

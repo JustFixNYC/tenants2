@@ -89,12 +89,23 @@ $max-content-width: 1440px;
   }
   p,
   .media-content {
-    font-size: 1.25rem;
+    font-size: 1rem;
+    @include widescreen {
+      font-size: 1.25rem;
+    }
   }
-  .column .hero .hero-body {
-    padding: 3rem 4rem;
-    @include touch {
-      padding: 3rem 1.25rem;
+  .column {
+    &.is-half .hero {
+      height: 100%;
+      .hero-body:not(:first-child) {
+        flex-grow: 0;
+      }
+    }
+    .hero .hero-body {
+      padding: 3rem 4rem;
+      @include touch {
+        padding: 3rem 1.25rem;
+      }
     }
   }
   .jf-block-of-color-in-background {

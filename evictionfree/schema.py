@@ -1,4 +1,3 @@
-from project.util.django_graphql_forms import DjangoFormMutation
 from typing import Any, Dict
 from django.http import HttpRequest
 import graphene
@@ -13,6 +12,8 @@ from project import schema_registry
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from norent.schema import BaseCreateAccount
 from norent.forms import CreateAccount
+from project.util.session_mutation import SessionFormMutation
+from project.util.django_graphql_forms import DjangoFormMutation
 from . import forms, models
 
 
@@ -64,6 +65,21 @@ class EvictionFreeAgreeToLegalTerms(DjangoFormMutation):
 class EvictionFreeSigningTruthfully(DjangoFormMutation):
     class Meta:
         form_class = forms.SigningTruthfullyForm
+
+
+@schema_registry.register_mutation
+class EvictionFreeSubmitDeclaration(SessionFormMutation):
+    login_required = True
+
+    @classmethod
+    def perform_mutate(cls, form, info):
+        # TODO: If a declaration already exists, raise an error.
+        # TODO: Ensure the user is in NY.
+        # TODO: Ensure the user has onboarded.
+        # TODO: Ensure the user has provided LL details.
+        # TODO: Ensure the user has provided hardship declaration details.
+        # TODO: Send the actual declaration.
+        return cls.mutation_success()
 
 
 @schema_registry.register_session_info

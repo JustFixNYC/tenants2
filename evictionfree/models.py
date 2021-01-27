@@ -1,6 +1,8 @@
 from django.db import models
+from django.contrib.postgres.fields import JSONField
 
 from users.models import JustfixUser
+from project.locales import LOCALE_KWARGS
 
 
 class HardshipDeclarationDetails(models.Model):
@@ -27,4 +29,55 @@ class HardshipDeclarationDetails(models.Model):
     has_health_risk: bool = models.BooleanField(
         help_text="Whether the user has COVID-19 related heath risk.",
         default=False,
+    )
+
+
+class SubmittedHardshipDeclaration(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    user = models.OneToOneField(
+        JustfixUser, on_delete=models.CASCADE, related_name="submitted_hardship_declaration"
+    )
+
+    locale = models.CharField(
+        **LOCALE_KWARGS,
+        help_text=(
+            "The locale of the user who sent the letter, at the time that "
+            "they sent it. Note that this may be different from the user's "
+            "current locale, e.g. if they changed it after sending the "
+            "letter."
+        ),
+    )
+
+    cover_letter_html = models.TextField(
+        help_text="The HTML content of the declaration's cover letter."
+    )
+
+    declaration_variables = JSONField(
+        help_text="The variables used to fill out the declaration form PDF."
+    )
+
+    lob_letter_object = JSONField(
+        blank=True,
+        null=True,
+        help_text=(
+            "If the declaration was sent via Lob, this is the JSON response of the API call that "
+            "was made to send the letter, documented at https://lob.com/docs/python#letters."
+        ),
+    )
+
+    tracking_number = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="The USPS tracking number for the declaration.",
+    )
+
+    mailed_at = models.DateTimeField(
+        null=True, blank=True, help_text="When the declaration was mailed."
+    )
+
+    emailed_at = models.DateTimeField(
+        null=True, blank=True, help_text="When the declaration was e-mailed."
     )

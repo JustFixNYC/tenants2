@@ -4,13 +4,18 @@ import { Link, Route } from "react-router-dom";
 import { getGlobalAppServerInfo } from "../../app-context";
 import { CheckboxFormField } from "../../forms/form-fields";
 import { LegacyFormSubmitter } from "../../forms/legacy-form-submitter";
+import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { li18n } from "../../i18n-lingui";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import {
   BlankEvictionFreeSigningTruthfullyInput,
   EvictionFreeSigningTruthfullyMutation,
 } from "../../queries/EvictionFreeSigningTruthfullyMutation";
-import { ProgressButtons } from "../../ui/buttons";
+import {
+  BlankEvictionFreeSubmitDeclarationInput,
+  EvictionFreeSubmitDeclarationMutation,
+} from "../../queries/EvictionFreeSubmitDeclarationMutation";
+import { NextButton, ProgressButtons } from "../../ui/buttons";
 import { BackOrUpOneDirLevel, Modal } from "../../ui/modal";
 import Page from "../../ui/page";
 import { PdfLink } from "../../ui/pdf-link";
@@ -32,20 +37,27 @@ const SendDeclarationModal: React.FC<{
               worry, we’ll explain what to do next.
             </Trans>
           </p>
-          <div className="buttons jf-two-buttons">
-            <Link
-              {...ctx.getLinkCloseProps()}
-              className="jf-is-back-button button is-medium"
-            >
-              <Trans>No</Trans>
-            </Link>
-            <Link
-              to={nextStep}
-              className="button is-primary is-medium jf-is-next-button"
-            >
-              <Trans>Confirm</Trans>
-            </Link>
-          </div>
+          <SessionUpdatingFormSubmitter
+            idPrefix="submit_declaration"
+            mutation={EvictionFreeSubmitDeclarationMutation}
+            initialState={BlankEvictionFreeSubmitDeclarationInput}
+            onSuccessRedirect={nextStep}
+          >
+            {(formCtx) => (
+              <div className="buttons jf-two-buttons">
+                <Link
+                  {...ctx.getLinkCloseProps()}
+                  className="jf-is-back-button button is-medium"
+                >
+                  <Trans>No</Trans>
+                </Link>
+                <NextButton
+                  isLoading={formCtx.isLoading}
+                  label={li18n._(t`Confirm`)}
+                />
+              </div>
+            )}
+          </SessionUpdatingFormSubmitter>
         </>
       )}
     />

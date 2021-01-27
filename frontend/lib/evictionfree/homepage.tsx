@@ -154,7 +154,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
               <Trans>For tenants by tenants</Trans>
             </h2>
             <p>
-              <Trans>
+              <Trans id="evictionfree.whoBuildThisTool">
                 Our free tool was built by the{" "}
                 <OutboundLink href="https://www.righttocounselnyc.org/">
                   Right to Counsel NYC Coalition

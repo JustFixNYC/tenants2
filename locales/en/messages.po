@@ -1430,10 +1430,6 @@ msgstr "Oregon"
 msgid "Our Partners"
 msgstr "Our Partners"
 
-#: frontend/lib/evictionfree/homepage.tsx:132
-msgid "Our free tool was built by the <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, and <2>JustFix.nyc</2> as part of the larger tenant movement across the state."
-msgstr "Our free tool was built by the <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, and <2>JustFix.nyc</2> as part of the larger tenant movement across the state."
-
 #: frontend/lib/norent/homepage.tsx:205
 msgid "Our letter cites the most up-to-date legal ordinances that protect tenant rights in your state."
 msgstr "Our letter cites the most up-to-date legal ordinances that protect tenant rights in your state."
@@ -2615,6 +2611,10 @@ msgstr "This means you or one or more members of your household have an increase
 #: frontend/lib/evictionfree/data/faqs-content.tsx:161
 msgid "evictionfree.timeLagFaq"
 msgstr "Once you build your declaration form via this tool, it gets mailed and/or emailed immediately to your landlord and the courts. After it's sent, physical mail usually delivers in about a week."
+
+#: frontend/lib/evictionfree/homepage.tsx:132
+msgid "evictionfree.whoBuildThisTool"
+msgstr "Our free tool was built by the <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, and <2>JustFix.nyc</2> as part of the larger tenant movement across the state."
 
 #: frontend/lib/evictionfree/homepage.tsx:106
 msgid "evictionfree.whoHasRightToSubmitForm"

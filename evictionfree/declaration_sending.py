@@ -1,7 +1,14 @@
+import logging
+from django.conf import settings
+from django.utils import timezone
+
 from evictionfree.models import SubmittedHardshipDeclaration
 from users.models import JustfixUser
 from project import slack
 from . import hardship_declaration, cover_letter
+
+
+logger = logging.getLogger(__name__)
 
 
 def create_declaration(user: JustfixUser) -> SubmittedHardshipDeclaration:
@@ -27,13 +34,46 @@ def render_declaration(decl: SubmittedHardshipDeclaration) -> bytes:
 
 
 def email_declaration_to_landlord(decl: SubmittedHardshipDeclaration, pdf_bytes: bytes):
+    if settings.IS_DEMO_DEPLOYMENT:
+        logger.info(f"Not emailing {decl} because this is a demo deployment.")
+        return False
+
+    if decl.emailed_at is not None:
+        logger.info(f"{decl} has already been emailed to the landlord.")
+        return False
+
+    ld = decl.user.landlord_details
+    assert ld.email
+
     # TODO: Implement this.
-    pass
+
+    decl.emailed_at = timezone.now()
+    decl.save()
 
 
 def send_declaration_via_lob(decl: SubmittedHardshipDeclaration, pdf_bytes: bytes):
-    # TODO: Implement this.
-    pass
+    """
+    Mails the declaration to the user's landlord via Lob. Does
+    nothing if it has already been sent.
+
+    Returns True if the declaration was just sent.
+    """
+
+    if decl.mailed_at is not None:
+        logger.info(f"{decl} has already been mailed to the landlord.")
+        return False
+
+    # TODO: Implement this, set response to result of lob_api.mail_certified_letter().
+
+    # TODO: Set letter.lob_letter_object to response.
+
+    # TODO: Set tracking number to response["tracking_number"].
+    decl.tracking_number = "123456789"
+
+    decl.mailed_at = timezone.now()
+    decl.save()
+
+    # TODO: Send SMS informing user of sending and tracking number.
 
 
 def send_declaration(decl: SubmittedHardshipDeclaration):

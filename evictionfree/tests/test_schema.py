@@ -222,7 +222,8 @@ class TestEvictionFreeSubmitDeclaration:
             "This form can only be used from the EvictionFreeNY site."
         )
 
-    def test_it_works(self, use_evictionfree_site):
+    def test_it_works(self, use_evictionfree_site, settings):
+        settings.IS_DEMO_DEPLOYMENT = False
         self.create_landlord_details()
         OnboardingInfoFactory(user=self.user)
         HardshipDeclarationDetailsFactory(user=self.user)
@@ -233,3 +234,5 @@ class TestEvictionFreeSubmitDeclaration:
         assert hd_vars.name == "Boop Jones"
         assert decl.locale == "en"
         assert "Landlordo" in decl.cover_letter_html
+        assert decl.mailed_at is not None
+        assert decl.emailed_at is not None

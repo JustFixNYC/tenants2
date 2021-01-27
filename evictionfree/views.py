@@ -1,45 +1,42 @@
 from io import BytesIO
-from datetime import date
-from typing import Optional
 from django.http.response import FileResponse, Http404
 from django.utils.translation import get_language
 
-from users.models import JustfixUser
-from .hardship_declaration import fill_hardship_pdf, EXAMPLE_VARIABLES, HardshipDeclarationVariables
+from loc.views import pdf_response
+from . import hardship_declaration, cover_letter
+from .hardship_declaration import HardshipDeclarationVariables
 
 
-def _render_pdf(v: HardshipDeclarationVariables, filename: str):
+def _render_decl_pdf(v: HardshipDeclarationVariables, filename: str):
     locale = get_language()
-    b = fill_hardship_pdf(v, locale)
+    b = hardship_declaration.fill_hardship_pdf(v, locale)
     return FileResponse(BytesIO(b), filename=filename)
 
 
 def render_example_declaration_pdf(request):
-    return _render_pdf(EXAMPLE_VARIABLES, "example-declaration.pdf")
+    return _render_decl_pdf(hardship_declaration.EXAMPLE_VARIABLES, "example-declaration.pdf")
 
 
-def _get_vars_for_user(user: JustfixUser) -> Optional[HardshipDeclarationVariables]:
-    if not (
-        user.is_authenticated
-        and hasattr(user, "hardship_declaration_details")
-        and hasattr(user, "onboarding_info")
-    ):
-        return None
-    hdd = user.hardship_declaration_details
-    onb = user.onboarding_info
-    return HardshipDeclarationVariables(
-        index_number=hdd.index_number or None,
-        county_and_court=None,
-        address=", ".join(onb.address_lines_for_mailing),
-        has_financial_hardship=hdd.has_financial_hardship,
-        has_health_risk=hdd.has_health_risk,
-        name=user.full_name,
-        date=date.today().strftime("%m/%d/%Y"),
-    )
+def render_preview_cover_letter_for_user(request):
+    v = cover_letter.get_vars_for_user(request.user)
+    if v is None:
+        raise Http404()
+    html = cover_letter.render_cover_letter_html(v)
+    return pdf_response(html, "preview-cover-letter.pdf")
 
 
 def render_preview_declaration_pdf_for_user(request):
-    v = _get_vars_for_user(request.user)
+    v = hardship_declaration.get_vars_for_user(request.user)
     if v is None:
         raise Http404()
-    return _render_pdf(v, "preview-declaration.pdf")
+    return _render_decl_pdf(v, "preview-declaration.pdf")
+
+
+def render_submitted_declaration_pdf_for_user(request):
+    from evictionfree.declaration_sending import render_declaration
+
+    user = request.user
+    if not hasattr(user, "submitted_hardship_declaration"):
+        raise Http404()
+    b = render_declaration(user.submitted_hardship_declaration)
+    return FileResponse(BytesIO(b), filename="submitted-declaration.pdf")

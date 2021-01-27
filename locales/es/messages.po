@@ -524,7 +524,7 @@ msgstr "¿Necesito enviar esta declaración cada mes?"
 msgid "Do I still have to pay my rent?"
 msgstr "¿Aún tengo que pagar la renta?"
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:13
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:16
 msgid "Do you have a current eviction court case?"
 msgstr ""
 
@@ -1951,6 +1951,10 @@ msgstr "¿Crees que tu apartamento puede ser de renta estabilizada? Solicita el 
 msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 msgstr "Este edificio es propiedad de la <0>NYC Housing Authority (NYCHA)</0>."
 
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:28
+msgid "This information seems wrong. Can I change it?"
+msgstr ""
+
 #: frontend/lib/common-steps/landlord-email.tsx:19
 msgid "This is optional."
 msgstr "Esto es opcional."
@@ -2109,7 +2113,7 @@ msgstr "Incluiremos esta información en la carta al dueño de tu edificio."
 msgid "We'll include this information in your hardship declaration form."
 msgstr ""
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:33
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:36
 msgid "We'll need to add your case's index number to your declaration."
 msgstr ""
 
@@ -2245,6 +2249,10 @@ msgstr "¿Qué tipo de documentación debo recopilar para demostrar que no puedo
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:134
 msgid "When you use our tool, you will be able to preview your filled out form before sending it. You can also view a blank copy of the Hardship Declaration form."
+msgstr ""
+
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:42
+msgid "Where do I find my case's index number?"
 msgstr ""
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:53
@@ -2445,7 +2453,7 @@ msgstr "Tu edificio tenía {0, plural, one {una unidad de alquiler estabilizado}
 msgid "Your building was built in {0} or earlier."
 msgstr "Tu edificio fue construido en {0} o antes."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:38
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:41
 msgid "Your case's index number"
 msgstr ""
 
@@ -2456,6 +2464,10 @@ msgstr ""
 #: frontend/lib/common-steps/ask-email.tsx:10
 msgid "Your email address"
 msgstr "Tu dirección de correo electrónico"
+
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:43
+msgid "Your index number can be found at the top of Postcard or Notice of Petition from housing court. <0>They look like this:</0>"
+msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:212
 msgid "Your landlord is associated with {buildings, plural, one {one building} other {# buildings}}."

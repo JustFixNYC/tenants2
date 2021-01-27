@@ -43,7 +43,9 @@ const ReadOnlyLandlordDetails: React.FC<
         }
         landlord={landlord}
       />
-      <Accordion question="This information seems wrong">
+      <Accordion
+        question={li18n._(t`This information seems wrong. Can I change it?`)}
+      >
         <Trans id="justfix.commonWarningAboutChangingLandlordDetails">
           If you receive rent-related documents from a different address, or if
           your landlord has instructed you to use a different address for

@@ -519,7 +519,7 @@ msgstr "Do I need to send this declaration every month?"
 msgid "Do I still have to pay my rent?"
 msgstr "Do I still have to pay my rent?"
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:13
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:16
 msgid "Do you have a current eviction court case?"
 msgstr "Do you have a current eviction court case?"
 
@@ -1946,6 +1946,10 @@ msgstr "Think your apartment may be rent-stabilized? Request its official record
 msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 msgstr "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:28
+msgid "This information seems wrong. Can I change it?"
+msgstr "This information seems wrong. Can I change it?"
+
 #: frontend/lib/common-steps/landlord-email.tsx:19
 msgid "This is optional."
 msgstr "This is optional."
@@ -2104,7 +2108,7 @@ msgstr "We'll include this information in the letter to your landlord."
 msgid "We'll include this information in your hardship declaration form."
 msgstr "We'll include this information in your hardship declaration form."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:33
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:36
 msgid "We'll need to add your case's index number to your declaration."
 msgstr "We'll need to add your case's index number to your declaration."
 
@@ -2241,6 +2245,10 @@ msgstr "What kind of documentation should I collect to prove I can’t pay rent?
 #: frontend/lib/evictionfree/data/faqs-content.tsx:134
 msgid "When you use our tool, you will be able to preview your filled out form before sending it. You can also view a blank copy of the Hardship Declaration form."
 msgstr "When you use our tool, you will be able to preview your filled out form before sending it. You can also view a blank copy of the Hardship Declaration form."
+
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:42
+msgid "Where do I find my case's index number?"
+msgstr "Where do I find my case's index number?"
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:53
 msgid "Where do I find this information?"
@@ -2440,7 +2448,7 @@ msgstr "Your building had {0, plural, one {one rent stabilized unit} other {# re
 msgid "Your building was built in {0} or earlier."
 msgstr "Your building was built in {0} or earlier."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:38
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:41
 msgid "Your case's index number"
 msgstr "Your case's index number"
 
@@ -2451,6 +2459,10 @@ msgstr "Your declaration is ready to send!"
 #: frontend/lib/common-steps/ask-email.tsx:10
 msgid "Your email address"
 msgstr "Your email address"
+
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:43
+msgid "Your index number can be found at the top of Postcard or Notice of Petition from housing court. <0>They look like this:</0>"
+msgstr "Your index number can be found at the top of Postcard or Notice of Petition from housing court. <0>They look like this:</0>"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:212
 msgid "Your landlord is associated with {buildings, plural, one {one building} other {# buildings}}."
@@ -2626,7 +2638,7 @@ msgstr "It looks like this building may require registration with HPD. Landlords
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:29
 msgid "justfix.commonWarningAboutChangingLandlordDetails"
-msgstr "Note: If you receive rent-related documents from a different address, or if your landlord has instructed you to use a different address for correspondence, you can <0>provide your own details.</0> But, only use a different address if you are absolutely sure it is correct— <1>it is safer to use the official address</1> your landlord provided to the city."
+msgstr "If you receive rent-related documents from a different address, or if your landlord has instructed you to use a different address for correspondence, you can <0>provide your own details.</0> But, only use a different address if you are absolutely sure it is correct— it is safer to use the official address your landlord provided to the city."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
 msgid "justfix.ddoEfnycCovidMessage"

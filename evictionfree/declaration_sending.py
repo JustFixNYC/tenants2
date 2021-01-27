@@ -1,5 +1,6 @@
 from evictionfree.models import SubmittedHardshipDeclaration
 from users.models import JustfixUser
+from project import slack
 from . import hardship_declaration, cover_letter
 
 
@@ -19,9 +20,58 @@ def create_declaration(user: JustfixUser) -> SubmittedHardshipDeclaration:
     return shd
 
 
-def send_declaration(decl: SubmittedHardshipDeclaration):
+def render_declaration(decl: SubmittedHardshipDeclaration) -> bytes:
+    # TODO: Implement this by rendering the cover letter and form and
+    # concatenating them.
+    return b"TODO"
+
+
+def email_declaration_to_landlord(decl: SubmittedHardshipDeclaration, pdf_bytes: bytes):
     # TODO: Implement this.
     pass
+
+
+def send_declaration_via_lob(decl: SubmittedHardshipDeclaration, pdf_bytes: bytes):
+    # TODO: Implement this.
+    pass
+
+
+def send_declaration(decl: SubmittedHardshipDeclaration):
+    """
+    Send the given declaration using whatever information is populated
+    in the user's landlord details: that is, if we have the landlord's
+    email, then send an email of the declaration, and if we have
+    the landlord's mailing address, then send a physical copy
+    of the declaration.
+
+    This will also send a copy of the declaration to the user's
+    housing court, and to the user themselves.
+
+    If any part of the sending fails, this function can be called
+    again and it won't send multiple copies of the declaration.
+    """
+
+    pdf_bytes = render_declaration(decl)
+    user = decl.user
+    ld = user.landlord_details
+
+    if ld.email:
+        email_declaration_to_landlord(decl, pdf_bytes)
+
+    if ld.address_lines_for_mailing:
+        send_declaration_via_lob(decl, pdf_bytes)
+
+    # TODO: Send a copy to the housing court.
+
+    if user.email:
+        # TODO: Implement this!
+        pass
+
+    slack.sendmsg_async(
+        f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+        f"has sent a hardship declaration!",
+        is_safe=True,
+    )
 
 
 def create_and_send_declaration(user: JustfixUser):

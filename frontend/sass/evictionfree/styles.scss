@@ -64,6 +64,23 @@ $max-content-width: 1440px;
   line-height: 1.25;
 }
 
+.jf-evictionfree-homepage-navbar nav.navbar {
+  @include tablet {
+    position: sticky;
+    margin-top: -3.25rem;
+  }
+}
+.jf-evictionfree-byline {
+  max-width: 235px;
+  margin: 0.5rem 3.25rem;
+  text-align: center;
+  @include mobile {
+    margin: 0.5rem 0;
+    max-width: 300px;
+    text-align: left;
+  }
+}
+
 .jf-build-my-declaration-btn {
   text-transform: uppercase;
   letter-spacing: 2px;

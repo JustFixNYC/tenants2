@@ -4,6 +4,11 @@ import { OutboundLink } from "../analytics/google-analytics";
 import { li18n } from "../i18n-lingui";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 import Page from "../ui/page";
+import {
+  HJ4A_SOCIAL_URL,
+  JUSTFIX_WEBSITE_URLS,
+  RTC_WEBSITE_URL,
+} from "./homepage";
 
 export const EvictionFreeAboutPage: React.FC<{}> = () => (
   <Page title={li18n._(t`About`)} className="content">
@@ -49,7 +54,7 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
           <p className="subtitle is-size-5">
             <Trans id="evictionfree.rtcBlurb">
               The{" "}
-              <OutboundLink href="https://www.righttocounselnyc.org/">
+              <OutboundLink href={RTC_WEBSITE_URL}>
                 Right to Counsel NYC Coalition
               </OutboundLink>{" "}
               is a tenant-led, broad-based coalition that formed in 2014 to
@@ -64,7 +69,7 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
           <br />
           <p className="subtitle is-size-5">
             <Trans id="evictionfree.hj4aBlurb">
-              <OutboundLink href="https://twitter.com/housing4allNY">
+              <OutboundLink href={HJ4A_SOCIAL_URL}>
                 Housing Justice for All
               </OutboundLink>{" "}
               is a coalition of over 100 organizations, from Brooklyn to
@@ -77,12 +82,7 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
           <br />
           <p className="subtitle is-size-5">
             <Trans id="evictionfree.justfixBlurb">
-              <LocalizedOutboundLink
-                hrefs={{
-                  en: "https://www.justfix.nyc/en/",
-                  es: "https://www.justfix.nyc/es/",
-                }}
-              >
+              <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
                 JustFix.nyc
               </LocalizedOutboundLink>{" "}
               co-designs and builds tools for tenants, housing organizers, and

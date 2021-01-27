@@ -6,6 +6,8 @@ import { EvictionFreeRoutes as Routes } from "./route-info";
 import { EvictionFreeFaqsPreview } from "./faqs";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
+import { OutboundLink } from "../analytics/google-analytics";
+import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 
 type EvictionFreeImageType = "png" | "svg";
 
@@ -153,9 +155,24 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
             </h2>
             <p>
               <Trans>
-                Our free tool was built by the Right to Counsel NYC Coalition,
-                Housing Justice for All, and JustFix.nyc as part of the larger
-                tenant movement across the state.
+                Our free tool was built by the{" "}
+                <OutboundLink href="https://www.righttocounselnyc.org/">
+                  Right to Counsel NYC Coalition
+                </OutboundLink>
+                ,{" "}
+                <OutboundLink href="https://twitter.com/housing4allNY">
+                  Housing Justice for All
+                </OutboundLink>
+                , and{" "}
+                <LocalizedOutboundLink
+                  hrefs={{
+                    en: "https://www.justfix.nyc/en/",
+                    es: "https://www.justfix.nyc/es/",
+                  }}
+                >
+                  JustFix.nyc
+                </LocalizedOutboundLink>{" "}
+                as part of the larger tenant movement across the state.
               </Trans>
             </p>
           </div>

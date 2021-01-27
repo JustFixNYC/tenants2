@@ -14,8 +14,11 @@ import {
 import { li18n } from "../../i18n-lingui";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { EvictionFreeIndexNumberMutation } from "../../queries/EvictionFreeIndexNumberMutation";
+import { Accordion } from "../../ui/accordion";
 import { ProgressButtons } from "../../ui/buttons";
 import Page from "../../ui/page";
+import { StaticImage } from "../../ui/static-image";
+import { getEFImageSrc } from "../homepage";
 
 export const EvictionFreeIndexNumber = MiddleProgressStep((props) => {
   return (
@@ -59,6 +62,27 @@ export const EvictionFreeIndexNumber = MiddleProgressStep((props) => {
                     {...indexNumberProps}
                     label={li18n._(t`Your case's index number`)}
                   />
+                  <Accordion
+                    question={li18n._(
+                      t`Where do I find my case's index number?`
+                    )}
+                  >
+                    <Trans>
+                      Your index number can be found at the top of Postcard or
+                      Notice of Petition from housing court.{" "}
+                      <span aria-hidden="true">They look like this:</span>
+                    </Trans>
+                    <StaticImage
+                      ratio="is-3by1"
+                      src={getEFImageSrc("postcard", "png")}
+                      alt=""
+                    />
+                    <StaticImage
+                      ratio="is-3by1"
+                      src={getEFImageSrc("petition", "png")}
+                      alt=""
+                    />
+                  </Accordion>
                 </>
               </ConditionalFormField>
               <ProgressButtons

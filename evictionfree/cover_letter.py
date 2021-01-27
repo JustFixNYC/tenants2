@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from django.template.loader import render_to_string
 
 from users.models import JustfixUser
-from evictionfree.housing_court_email import get_housing_court_email_for_user
+from evictionfree.housing_court import get_housing_court_info_for_user
 
 
 class CoverLetterVariables(BaseModel):
@@ -24,12 +24,14 @@ def get_vars_for_user(user: JustfixUser) -> Optional[CoverLetterVariables]:
     if not ld.name:
         return None
 
+    hcinfo = get_housing_court_info_for_user(user)
+
     return CoverLetterVariables(
         date=date.today().strftime("%m/%d/%Y"),
         landlord_name=ld.name,
         landlord_address=", ".join(ld.address_lines_for_mailing) or None,
         landlord_email=ld.email or None,
-        housing_court_email=get_housing_court_email_for_user(user),
+        housing_court_email=hcinfo and hcinfo.email,
     )
 
 

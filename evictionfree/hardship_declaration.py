@@ -4,6 +4,7 @@ from pathlib import Path
 from users.models import JustfixUser
 from pydantic import BaseModel
 
+from .housing_court import get_housing_court_info_for_user
 from .overlay_pdf import Text, Checkbox, Page, Document
 
 
@@ -105,9 +106,10 @@ def get_vars_for_user(user: JustfixUser) -> Optional[HardshipDeclarationVariable
         return None
     hdd = user.hardship_declaration_details
     onb = user.onboarding_info
+    hci = get_housing_court_info_for_user(user)
     return HardshipDeclarationVariables(
         index_number=hdd.index_number or None,
-        county_and_court=None,  # TODO: Fill this out!
+        county_and_court=hci and hci.name,
         address=", ".join(onb.address_lines_for_mailing),
         has_financial_hardship=hdd.has_financial_hardship,
         has_health_risk=hdd.has_health_risk,

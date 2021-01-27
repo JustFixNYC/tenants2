@@ -90,7 +90,7 @@ const LandingPageChecklist = () => (
 export const EvictionFreeHomePage: React.FC<{}> = () => (
   <Page
     title={li18n._(t`Protect yourself from eviction in New York State`)}
-    className="content jf-eviction-free-homepage"
+    className="content jf-evictionfree-homepage"
   >
     <section className="hero is-fullheight-with-navbar">
       <div className="hero-body">

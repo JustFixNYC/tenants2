@@ -107,8 +107,8 @@ msgstr "<0>Tu cuenta está configurada.</0><1>Actualmente, no recomendamos envia
 msgid "A national tool by non-profit <0>JustFix.nyc</0>"
 msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines de lucro"
 
-#: frontend/lib/evictionfree/about.tsx:8
-#: frontend/lib/evictionfree/about.tsx:13
+#: frontend/lib/evictionfree/about.tsx:10
+#: frontend/lib/evictionfree/about.tsx:15
 #: frontend/lib/evictionfree/site.tsx:52
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
@@ -2271,7 +2271,7 @@ msgstr ""
 msgid "While you wait for your landlord to respond, gather as much documentation as you can. This can include a letter from your employer, receipts, doctor’s notes etc."
 msgstr "Mientras esperas a que el dueño de tu edificio conteste, recopila toda la documentación que puedas. Esto puede incluir una carta de tu jefe, recibos, notas de tu médico, etc."
 
-#: frontend/lib/evictionfree/about.tsx:45
+#: frontend/lib/evictionfree/about.tsx:47
 #: frontend/lib/norent/about.tsx:94
 msgid "Who we are"
 msgstr "Quiénes somos"
@@ -2533,11 +2533,11 @@ msgstr "Código postal"
 msgid "and"
 msgstr "y"
 
-#: frontend/lib/evictionfree/about.tsx:17
+#: frontend/lib/evictionfree/about.tsx:19
 msgid "evictionfree.aboutPage1"
 msgstr ""
 
-#: frontend/lib/evictionfree/about.tsx:27
+#: frontend/lib/evictionfree/about.tsx:29
 msgid "evictionfree.aboutPage2"
 msgstr ""
 
@@ -2565,7 +2565,7 @@ msgstr ""
 msgid "evictionfree.getInvolvedWithCBO"
 msgstr ""
 
-#: frontend/lib/evictionfree/about.tsx:65
+#: frontend/lib/evictionfree/about.tsx:73
 msgid "evictionfree.hj4aBlurb"
 msgstr ""
 
@@ -2577,7 +2577,7 @@ msgstr ""
 msgid "evictionfree.introductionToDeclarationFormSteps"
 msgstr ""
 
-#: frontend/lib/evictionfree/about.tsx:78
+#: frontend/lib/evictionfree/about.tsx:89
 msgid "evictionfree.justfixBlurb"
 msgstr ""
 
@@ -2609,7 +2609,7 @@ msgstr ""
 msgid "evictionfree.resendFaq"
 msgstr ""
 
-#: frontend/lib/evictionfree/about.tsx:49
+#: frontend/lib/evictionfree/about.tsx:54
 msgid "evictionfree.rtcBlurb"
 msgstr ""
 

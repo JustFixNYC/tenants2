@@ -96,7 +96,7 @@ $max-content-width: 1440px;
   }
 }
 
-.jf-eviction-free-homepage {
+.jf-evictionfree-homepage {
   line-height: 1.25;
   .subtitle {
     font-size: 1.5rem;
@@ -133,6 +133,26 @@ $max-content-width: 1440px;
   }
   .jf-block-of-color-in-background + .hero-body {
     z-index: 1;
+  }
+}
+
+.jf-evictionfree-about {
+  figure.image {
+    padding: 0;
+    margin: 0.5rem auto;
+
+    &.is-square {
+      height: 150px;
+      width: 150px;
+    }
+
+    &.is-3by1 {
+      height: 70px;
+      width: 210px;
+    }
+    img {
+      max-height: 150px;
+    }
   }
 }
 

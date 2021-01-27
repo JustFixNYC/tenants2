@@ -6,9 +6,9 @@ import { AppContext } from "../../app-context";
 import { li18n } from "../../i18n-lingui";
 import { t } from "@lingui/macro";
 
-const favicon16 = getEFImageSrc("favicon-16x16", "png");
-const favicon32 = getEFImageSrc("favicon-32x32", "png");
-const favicon96 = getEFImageSrc("favicon-96x96", "png");
+const favicon16 = getEFImageSrc("favicons/favicon-16x16", "png");
+const favicon32 = getEFImageSrc("favicons/favicon-32x32", "png");
+const favicon96 = getEFImageSrc("favicons/favicon-96x96", "png");
 
 const TWITTER_HANDLE = "@JustFixNYC";
 

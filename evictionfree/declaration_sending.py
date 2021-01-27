@@ -1,3 +1,4 @@
+from evictionfree.housing_court import get_housing_court_info_for_user
 import logging
 from django.conf import settings
 from django.utils import timezone
@@ -33,7 +34,7 @@ def render_declaration(decl: SubmittedHardshipDeclaration) -> bytes:
     return b"TODO"
 
 
-def email_declaration_to_landlord(decl: SubmittedHardshipDeclaration, pdf_bytes: bytes):
+def email_declaration_to_landlord(decl: SubmittedHardshipDeclaration, pdf_bytes: bytes) -> bool:
     if settings.IS_DEMO_DEPLOYMENT:
         logger.info(f"Not emailing {decl} because this is a demo deployment.")
         return False
@@ -50,8 +51,10 @@ def email_declaration_to_landlord(decl: SubmittedHardshipDeclaration, pdf_bytes:
     decl.emailed_at = timezone.now()
     decl.save()
 
+    return True
 
-def send_declaration_via_lob(decl: SubmittedHardshipDeclaration, pdf_bytes: bytes):
+
+def send_declaration_via_lob(decl: SubmittedHardshipDeclaration, pdf_bytes: bytes) -> bool:
     """
     Mails the declaration to the user's landlord via Lob. Does
     nothing if it has already been sent.
@@ -74,6 +77,28 @@ def send_declaration_via_lob(decl: SubmittedHardshipDeclaration, pdf_bytes: byte
     decl.save()
 
     # TODO: Send SMS informing user of sending and tracking number.
+    return True
+
+
+def send_declaration_to_housing_court(decl: SubmittedHardshipDeclaration, pdf_bytes: bytes) -> bool:
+    if decl.emailed_to_housing_court_at is not None:
+        logger.info(f"{decl} has already been sent to the housing court.")
+        return False
+
+    user = decl.user
+
+    hci = get_housing_court_info_for_user(user)
+
+    if not hci:
+        logger.info(f"{decl} has no housing court info, so we can't send it to one.")
+        return False
+
+    # TODO: Send the declaration to housing court.
+
+    decl.emailed_to_housing_court_at = timezone.now()
+    decl.save()
+
+    return True
 
 
 def send_declaration(decl: SubmittedHardshipDeclaration):
@@ -101,7 +126,7 @@ def send_declaration(decl: SubmittedHardshipDeclaration):
     if ld.address_lines_for_mailing:
         send_declaration_via_lob(decl, pdf_bytes)
 
-    # TODO: Send a copy to the housing court.
+    send_declaration_to_housing_court(decl, pdf_bytes)
 
     if user.email:
         # TODO: Implement this!

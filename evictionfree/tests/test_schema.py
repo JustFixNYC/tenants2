@@ -236,3 +236,4 @@ class TestEvictionFreeSubmitDeclaration:
         assert "Landlordo" in decl.cover_letter_html
         assert decl.mailed_at is not None
         assert decl.emailed_at is not None
+        assert decl.emailed_to_housing_court_at is not None

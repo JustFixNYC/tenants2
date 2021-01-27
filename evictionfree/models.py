@@ -54,6 +54,10 @@ class SubmittedHardshipDeclaration(models.Model):
         ),
     )
 
+    cover_letter_variables = JSONField(
+        help_text="The variables used to fill out the cover letter page."
+    )
+
     cover_letter_html = models.TextField(
         help_text="The HTML content of the declaration's cover letter."
     )

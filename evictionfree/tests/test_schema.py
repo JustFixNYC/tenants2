@@ -1,3 +1,4 @@
+from evictionfree.cover_letter import CoverLetterVariables
 from evictionfree.hardship_declaration import HardshipDeclarationVariables
 from django.contrib.auth.models import AnonymousUser
 import pytest
@@ -231,6 +232,9 @@ class TestEvictionFreeSubmitDeclaration:
 
         decl = self.user.submitted_hardship_declaration
         hd_vars = HardshipDeclarationVariables(**decl.declaration_variables)
+        cl_vars = CoverLetterVariables(**decl.cover_letter_variables)
+
+        assert cl_vars.date == "01/27/2021"
         assert hd_vars.name == "Boop Jones"
         assert decl.locale == "en"
         assert "Landlordo" in decl.cover_letter_html

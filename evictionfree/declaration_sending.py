@@ -20,6 +20,7 @@ def create_declaration(user: JustfixUser) -> SubmittedHardshipDeclaration:
     shd = SubmittedHardshipDeclaration(
         user=user,
         locale=user.locale,
+        cover_letter_variables=cl_vars.dict(),
         cover_letter_html=cover_letter.render_cover_letter_html(cl_vars),
         declaration_variables=hd_vars.dict(),
     )

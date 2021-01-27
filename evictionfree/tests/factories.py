@@ -3,6 +3,7 @@ import factory
 from users.tests.factories import UserFactory
 from evictionfree import models
 from evictionfree.hardship_declaration import HardshipDeclarationVariables
+from evictionfree.cover_letter import CoverLetterVariables
 
 
 class HardshipDeclarationDetailsFactory(factory.django.DjangoModelFactory):
@@ -21,6 +22,10 @@ class SubmittedHardshipDeclarationFactory(factory.django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
 
     locale = "en"
+
+    cover_letter_variables = CoverLetterVariables(
+        date="01/27/2021", landlord_name="Landlordo Calrissian"
+    ).dict()
 
     cover_letter_html = "<p>this is a fake cover letter</p>"
 

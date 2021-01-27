@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-27 23:22\n"
+"PO-Revision-Date: 2021-01-27 23:43\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -140,7 +140,7 @@ msgstr "Después de enviar tu carta"
 
 #: frontend/lib/evictionfree/homepage.tsx:224
 msgid "After sending your hardship declaration form, connect with local organizing groups to get involved in the fight to make New York eviction free, cancel rent, and more!"
-msgstr "After sending your hardship declaration form, connect with local organizing groups to get involved in the fight to make New York eviction free, cancel rent, and more!"
+msgstr "Después de enviar tu formulario de declaración de penuria, ¡conecta con grupos de organizadores locales para involucrarte en la lucha para que el estado de Nueva York sea libre de desalojos, cancelar alquiler, y mucho más!"
 
 #: frontend/lib/norent/homepage.tsx:293
 msgid "After sending your letter, we can connect you to <0>local groups</0> to organize for greater demands with other tenants."
@@ -157,7 +157,7 @@ msgstr "Después de que hayas revisado tu carta, la enviaremos a tu arrendador p
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:10
 msgid "Agree to the state’s legal terms"
-msgstr "Agree to the state’s legal terms"
+msgstr "Aceptar los términos legales del estado"
 
 #: common-data/us-state-choices.ts:66
 msgid "Alabama"
@@ -206,7 +206,7 @@ msgstr "Arkansas"
 
 #: frontend/lib/evictionfree/homepage.tsx:50
 msgid "Automatically fill in your landlord's information based on your address if you live in New York City"
-msgstr "Automatically fill in your landlord's information based on your address if you live in New York City"
+msgstr "Rellena automáticamente la información del dueño de tu edificio en base a tu dirección si vives en la ciudad de Nueva York"
 
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
@@ -253,7 +253,7 @@ msgstr "Bañera: tuberías con fugas"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:36
 msgid "Before you send your hardship declaration form, let's review what will be sent to make sure all the information is correct."
-msgstr "Before you send your hardship declaration form, let's review what will be sent to make sure all the information is correct."
+msgstr "Antes de enviar tu formulario de declaración de penuria, revisemos lo que se enviará para asegurarnos de que toda la información es correcta."
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:61
 msgid "Before you send your letter, let's review what will be sent to make sure all the information is correct."
@@ -322,7 +322,7 @@ msgstr "California"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:47
 msgid "Call the Housing Court Answers hotline at <0>212-962-4795</0>."
-msgstr "Call the Housing Court Answers hotline at <0>212-962-4795</0>."
+msgstr "Llame a la línea directa de Housing Court Answers en el <0>212-962-4795</0>."
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:132
 msgid "Can I see what forms I’m sending before I fill them out?"
@@ -365,7 +365,7 @@ msgstr "Techo gotea"
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:72
 msgid "Check any or all that apply. Note: You <0>must select at least one box</0> in order to qualify for the State's eviction protections."
-msgstr "Check any or all that apply. Note: You <0>must select at least one box</0> in order to qualify for the State's eviction protections."
+msgstr "Marque cualquiera o todas las casillas que apliquen. Nota: Para calificar para las protecciones de desalojo del Estado <0>debes seleccionar al menos una casilla</0>."
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:30
 msgid "Check out these valuable resources for your state:"
@@ -421,7 +421,7 @@ msgstr "Community Justice Project"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:28
 msgid "Confirm"
-msgstr "Confirm"
+msgstr "Confirmar"
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:28
 #: frontend/lib/norent/letter-builder/create-account.tsx:35
@@ -494,7 +494,7 @@ msgstr "Delaware"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:108
 msgid "Details about your declaration"
-msgstr "Details about your declaration"
+msgstr "Detalles sobre tu declaración"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:71
 msgid "Details about your latest letter"
@@ -526,7 +526,7 @@ msgstr "¿Aún tengo que pagar la renta?"
 
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:16
 msgid "Do you have a current eviction court case?"
-msgstr "Do you have a current eviction court case?"
+msgstr "¿Tiene usted un caso de desalojo en curso?"
 
 #: frontend/lib/common-steps/ask-city-state.tsx:18
 msgid "Do you live in {0}, {1}?"
@@ -557,7 +557,7 @@ msgstr "El timbre de la casa no funciona"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:122
 msgid "Download completed declaration"
-msgstr "Download completed declaration"
+msgstr "Descargar declaración completada"
 
 #: common-data/issue-choices.ts:197
 msgid "Drain stoppage"
@@ -569,7 +569,7 @@ msgstr "Secadora no funciona"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:81
 msgid "Due to the COVID-19 pandemic, some offices are closed and may not answer phones."
-msgstr "Due to the COVID-19 pandemic, some offices are closed and may not answer phones."
+msgstr "Debido a la pandemia del COVID-19, algunas oficinas están cerradas y pueden no contestar a los teléfonos."
 
 #: frontend/lib/norent/components/subscribe.tsx:55
 msgid "ENTER YOUR EMAIL"
@@ -666,7 +666,7 @@ msgstr "Fight to #CancelRent"
 #: frontend/lib/evictionfree/site.tsx:37
 #: frontend/lib/evictionfree/site.tsx:41
 msgid "Fill out my form"
-msgstr "Fill out my form"
+msgstr "Rellena mi formulario"
 
 #: frontend/lib/evictionfree/homepage.tsx:47
 msgid "Fill out your hardship declaration form online."

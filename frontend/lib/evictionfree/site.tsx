@@ -104,6 +104,7 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
 const EvictionFreeSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
     const isPrimaryPage = useIsPrimaryPage();
+    const isHomepage = useLocation().pathname === Routes.locale.home;
 
     return (
       <EvictionFreeLinguiI18n>
@@ -114,7 +115,12 @@ const EvictionFreeSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
               : "jf-norent-internal-above-footer-content"
           )}
         >
-          <span className={classnames(isPrimaryPage && "jf-white-navbar")}>
+          <span
+            className={classnames(
+              isPrimaryPage && "jf-white-navbar",
+              isHomepage && "jf-evictionfree-homepage-navbar"
+            )}
+          >
             <Navbar
               menuItemsComponent={EvictionFreeMenuItems}
               brandComponent={EvictionFreeBrand}

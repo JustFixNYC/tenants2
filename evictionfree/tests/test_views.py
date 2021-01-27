@@ -3,11 +3,13 @@ from freezegun.api import freeze_time
 from evictionfree.views import _get_vars_for_user
 from evictionfree.tests.factories import HardshipDeclarationDetailsFactory
 from onboarding.tests.factories import OnboardingInfoFactory
+from loc.tests.factories import LandlordDetailsV2Factory
 
 
 def create_user_with_all_info(hdd=None, oinfo=None):
     hdd = HardshipDeclarationDetailsFactory(**(hdd or {}))
     OnboardingInfoFactory(user=hdd.user, **(oinfo or {}))
+    LandlordDetailsV2Factory(user=hdd.user)
     return hdd.user
 
 
@@ -28,6 +30,19 @@ def test_preview_declaration_renders_for_users_with_declaration_info(
     user = create_user_with_all_info()
     client.force_login(user)
     res = client.get("/en/evictionfree/preview-declaration.pdf")
+    assert res.status_code == 200
+    assert res["Content-Type"] == "application/pdf"
+
+
+def test_preview_cover_letter_raises_404_for_logged_out_users(client):
+    res = client.get("/en/evictionfree/preview-cover-letter.pdf")
+    assert res.status_code == 404
+
+
+def test_preview_cover_letter_renders_for_users_with_declaration_info(client, db):
+    user = create_user_with_all_info()
+    client.force_login(user)
+    res = client.get("/en/evictionfree/preview-cover-letter.pdf")
     assert res.status_code == 200
     assert res["Content-Type"] == "application/pdf"
 

@@ -77,6 +77,24 @@ $jf-navbar-content: $black;
   }
 }
 
+.jf-eviction-free-homepage {
+  line-height: 1.25;
+  .subtitle {
+    font-size: 1.5rem;
+  }
+  p,
+  .media-content {
+    font-size: 1.25rem;
+  }
+  .column .hero .hero-body {
+    padding: 3rem 4rem;
+  }
+  .jf-block-of-color-in-background {
+    top: unset;
+    height: 700px;
+  }
+}
+
 // OVERRIDES OF NORENT STYLING
 
 // Change accordion question color to link color
@@ -114,10 +132,21 @@ nav.navbar {
 }
 
 // Header overrides
-.content h1.title {
-  line-height: 1.15;
-  @include touch {
+.content {
+  h1.title {
+    line-height: 1.15;
+    @include touch {
+      font-size: 2.25rem;
+    }
+  }
+
+  h2 {
     font-size: 2.25rem;
+    &.title {
+      @include tablet {
+        font-size: 3rem;
+      }
+    }
   }
 }
 
@@ -179,4 +208,11 @@ nav.navbar {
 .content figure {
   margin-left: 0;
   margin-right: 0;
+}
+
+// Media Object overrides
+
+// This fixes a bug where our accordion components show scrollbars on mobile
+.media-content {
+  overflow-x: unset;
 }

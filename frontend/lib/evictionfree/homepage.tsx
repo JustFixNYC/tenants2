@@ -30,7 +30,7 @@ const ChecklistItem: React.FC<React.PropsWithChildren<{}>> = ({ children }) => (
 const LandingPageChecklist = () => (
   <div className="hero">
     <div className="hero-body">
-      <h2 className="is-size-3 is-spaced has-text-weight-bold">
+      <h2 className="title is-spaced has-text-weight-bold">
         <Trans>With this free tool, you can</Trans>
       </h2>
       <br />
@@ -60,7 +60,7 @@ const LandingPageChecklist = () => (
 export const EvictionFreeHomePage: React.FC<{}> = () => (
   <Page
     title={li18n._(t`Protect yourself from eviction in New York State`)}
-    className="content"
+    className="content jf-eviction-free-homepage"
   >
     <section className="hero is-fullheight-with-navbar">
       <div className="hero-body">
@@ -98,7 +98,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
     <section className="hero is-info">
       <div className="hero-body">
         <div className="columns is-centered">
-          <div className="column is-three-quarters is-size-4 has-text-centered">
+          <div className="column is-four-fifths is-size-3 has-text-centered">
             <Trans id="evictionfree.introToLaw">
               On December 28, 2020, New York State passed legislation that
               protects tenants from eviction due to lost income or COVID-19
@@ -127,7 +127,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
       <div className="column is-half">
         <div className="hero">
           <div className="hero-body">
-            <h2 className="is-size-3 is-spaced has-text-weight-bold">
+            <h2 className="title is-spaced has-text-weight-bold">
               <Trans>For New York State tenants</Trans>
             </h2>
             <p>
@@ -138,6 +138,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
                 please consider using this form to protect yourself.
               </Trans>
             </p>
+            <br />
             <p className="has-text-weight-bold">
               <Trans>
                 The protections outlined by NY state law apply to you regardless
@@ -156,7 +157,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
       <div className="column is-half">
         <div className="hero">
           <div className="hero-body">
-            <h2 className="is-size-3 is-spaced has-text-weight-bold">
+            <h2 className="title is-spaced has-text-weight-bold">
               <Trans>For tenants by tenants</Trans>
             </h2>
             <p>
@@ -174,14 +175,15 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
       </div>
     </div>
 
-    <section className="hero is-info">
+    <section className="hero">
+      <div className="jf-block-of-color-in-background" />
       <div className="hero-body">
         <div className="columns is-centered">
-          <div className="column is-three-quarters is-size-4 has-text-centered">
-            <h2 className="is-size-3 has-text-white	is-spaced has-text-weight-bold">
+          <div className="column is-three-quarters has-text-centered">
+            <h2 className="has-text-white	is-spaced  has-text-weight-bold">
               <Trans>Fight to #CancelRent</Trans>
             </h2>
-            <p>
+            <p className="is-size-3 has-text-white">
               <Trans>
                 After sending your hardship declaration form, connect with local
                 organizing groups to get involved in the fight to make New York

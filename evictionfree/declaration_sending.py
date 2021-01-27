@@ -29,9 +29,15 @@ def create_declaration(user: JustfixUser) -> SubmittedHardshipDeclaration:
 
 
 def render_declaration(decl: SubmittedHardshipDeclaration) -> bytes:
-    # TODO: Implement this by rendering the cover letter and form and
-    # concatenating them.
-    return b"TODO"
+    from loc.views import render_pdf_bytes
+    from norent.letter_sending import _merge_pdfs
+
+    v = hardship_declaration.HardshipDeclarationVariables(**decl.declaration_variables)
+    form_pdf_bytes = hardship_declaration.fill_hardship_pdf(v, decl.locale)
+    cover_letter_pdf_bytes = render_pdf_bytes(decl.cover_letter_html)
+    pdf_bytes = _merge_pdfs([cover_letter_pdf_bytes, form_pdf_bytes])
+
+    return pdf_bytes
 
 
 def email_declaration_to_landlord(decl: SubmittedHardshipDeclaration, pdf_bytes: bytes) -> bool:

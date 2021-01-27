@@ -30,3 +30,13 @@ def render_preview_declaration_pdf_for_user(request):
     if v is None:
         raise Http404()
     return _render_decl_pdf(v, "preview-declaration.pdf")
+
+
+def render_submitted_declaration_pdf_for_user(request):
+    from evictionfree.declaration_sending import render_declaration
+
+    user = request.user
+    if not hasattr(user, "submitted_hardship_declaration"):
+        raise Http404()
+    b = render_declaration(user.submitted_hardship_declaration)
+    return FileResponse(BytesIO(b), filename="submitted-declaration.pdf")

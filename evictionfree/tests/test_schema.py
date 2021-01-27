@@ -222,7 +222,7 @@ class TestEvictionFreeSubmitDeclaration:
             "This form can only be used from the EvictionFreeNY site."
         )
 
-    def test_it_works(self, use_evictionfree_site, settings):
+    def test_it_works(self, use_evictionfree_site, fake_fill_hardship_pdf, settings):
         settings.IS_DEMO_DEPLOYMENT = False
         self.create_landlord_details()
         OnboardingInfoFactory(user=self.user)

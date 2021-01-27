@@ -12,6 +12,11 @@ urlpatterns = [
         name="example_declaration_pdf",
     ),
     path(
+        "submitted-declaration.pdf",
+        views.render_submitted_declaration_pdf_for_user,
+        name="submitted_declaration_pdf",
+    ),
+    path(
         "preview-declaration.pdf",
         views.render_preview_declaration_pdf_for_user,
         name="preview_declaration_pdf",

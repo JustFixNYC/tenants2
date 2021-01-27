@@ -53,6 +53,7 @@ def create_initial_props_for_lambda(
             "finishedLocPdfURL": reverse("finished_loc_pdf"),
             "enableSafeModeURL": reverse("safe_mode:enable"),
             "previewHardshipDeclarationURL": reverse("evictionfree:preview_declaration_pdf"),
+            "submittedHardshipDeclarationURL": reverse("evictionfree:submitted_declaration_pdf"),
             "navbarLabel": settings.NAVBAR_LABEL,
             "wowOrigin": settings.WOW_ORIGIN,
             "efnycOrigin": settings.EFNYC_ORIGIN,

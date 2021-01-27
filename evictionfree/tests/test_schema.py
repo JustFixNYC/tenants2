@@ -1,3 +1,4 @@
+from evictionfree.hardship_declaration import HardshipDeclarationVariables
 from django.contrib.auth.models import AnonymousUser
 import pytest
 
@@ -226,3 +227,9 @@ class TestEvictionFreeSubmitDeclaration:
         OnboardingInfoFactory(user=self.user)
         HardshipDeclarationDetailsFactory(user=self.user)
         assert self.execute()["errors"] == []
+
+        decl = self.user.submitted_hardship_declaration
+        hd_vars = HardshipDeclarationVariables(**decl.declaration_variables)
+        assert hd_vars.name == "Boop Jones"
+        assert decl.locale == "en"
+        assert "Landlordo" in decl.cover_letter_html

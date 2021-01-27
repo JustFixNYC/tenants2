@@ -90,3 +90,8 @@ class SubmittedHardshipDeclaration(models.Model):
         blank=True,
         help_text="When the declaration was e-mailed to the user's housing court.",
     )
+
+    def __str__(self):
+        if not self.pk:
+            return super().__str__()
+        return f"{self.user.full_name}'s hardship declaration"

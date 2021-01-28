@@ -107,6 +107,10 @@ msgstr "<0>Tu cuenta está configurada.</0><1>Actualmente, no recomendamos envia
 msgid "A PDF of your form is attached to this email. Please save a copy for your records."
 msgstr "Adjunto a este correo electrónico encontrarás un PDF de tu formulario. Conserva una copia para tus archivos."
 
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:122
+msgid "A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case."
+msgstr ""
+
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:33
 msgid "A hard copy of your form has also been mailed to your landlord via USPS mail. You can also track the delivery of your hard copy form using USPS Tracking:"
 msgstr "También se le envió una copia impresa de tu formulario al dueño de tu edificio por correo de USPS. También puedes dar seguimiento a la entrega de tu formulario impreso utilizando el seguimiento de correspondencia de USPS:"
@@ -379,6 +383,10 @@ msgstr "Marque cualquiera o todas las casillas que apliquen. Nota: Para califica
 msgid "Check out these valuable resources for your state:"
 msgstr "Explora otros recursos específicos para tu estado:"
 
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:129
+msgid "Check your email for a message containing a copy of your declaration and additional important information on next steps."
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/confirmation.tsx:64
 msgid "Check your email for additional important information on next steps."
 msgstr "Revisa tu correo electrónico para información importante adicional y siguientes pasos."
@@ -509,7 +517,7 @@ msgstr "Estimado dueño/manager del edificio."
 msgid "Delaware"
 msgstr "Delaware"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:108
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:136
 msgid "Details about your declaration"
 msgstr "Detalles sobre tu declaración"
 
@@ -572,7 +580,7 @@ msgstr "Puerta no funciona"
 msgid "Doorbell not working"
 msgstr "El timbre de la casa no funciona"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:122
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:151
 msgid "Download completed declaration"
 msgstr "Descargar declaración completada"
 
@@ -2021,7 +2029,11 @@ msgstr "Inodoro con Fugas"
 msgid "Toilet not working"
 msgstr "Inodoro No Funciona"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:115
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:90
+msgid "USPS Certified Mail"
+msgstr ""
+
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:143
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "USPS Tracking #:"
 msgstr "Número de Seguimiento USPS:"
@@ -2437,7 +2449,7 @@ msgstr "Ya has enviado cartas que corresponden a todos los meses desde que comen
 msgid "You've already sent your hardship declaration"
 msgstr "Ya has enviado tu declaración de penuria"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:94
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:116
 msgid "You've sent your hardship declaration"
 msgstr "Has enviado tu declaración de penuria"
 
@@ -2502,6 +2514,10 @@ msgstr "¡Tu declaración está lista para enviar!"
 msgid "Your email address"
 msgstr "Tu dirección de correo electrónico"
 
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:118
+msgid "Your hardship declaration form has been sent to your landlord via {0}."
+msgstr ""
+
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:43
 msgid "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
 msgstr "Tu número de índice se encuentra en la parte superior de la Postal o Aviso de Petición (\"Postcard or Notice of Petition\" en inglés) que recibiste de la corte de vivienda. <0>Son así:</0>"
@@ -2546,7 +2562,7 @@ msgstr "Tu carta ha sido enviada al dueño de tu edificio por correo certificado
 msgid "Your letter has been sent to your landlord via email. A copy of your letter has also been sent to your email."
 msgstr "Tu carta ha sido enviada al dueño o manager de tu edificio por correo certificado de USPS. También hemos enviado una copia de tu carta a tu dirección de correo electrónico."
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:111
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:139
 #: frontend/lib/norent/letter-builder/confirmation.tsx:74
 msgid "Your letter was sent on {0}."
 msgstr "Tu carta fue enviada el {0}."
@@ -2586,6 +2602,14 @@ msgstr "Código postal"
 msgid "and"
 msgstr "y"
 
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:89
+msgid "email"
+msgstr ""
+
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:91
+msgid "email and USPS Certified Mail"
+msgstr ""
+
 #: frontend/lib/evictionfree/about.tsx:19
 msgid "evictionfree.aboutPage1"
 msgstr "Una nueva ley estatal, aprobada a finales de 2020, permite a la mayoría de los inquilinos detener su caso de desalojo hasta el 1 de mayo, 2021, si cumplimentan un formulario de “Declaración de Penuria”. Sin embargo, esta ley carga la responsabilidad de averiguar cómo hacerlo a los inquilinos y no facilita el acceso al ejercicio de sus derechos."
@@ -2605,10 +2629,6 @@ msgstr "Si has recibido una ‘Notificación de desalojo por incumplimiento de p
 #: frontend/lib/evictionfree/data/faqs-content.tsx:171
 msgid "evictionfree.deadlineFaq"
 msgstr "Puedes enviar tu formulario de declaración en cualquier momento, hasta el 1 de mayo de 2021. Luego de enviar tu formulario de declaración a través de esta herramienta, se lo enviaremos inmediatamente por correo postal y/o correo electrónico al dueño de tu edificio y a las cortes. Si estás enviando tu formulario SOLAMENTE por correo postal, envíalo lo antes posible y conserva cualquier prueba de envío y/o acuse de recibo para tus archivos."
-
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:95
-msgid "evictionfree.declarationHasBeenSent"
-msgstr "<0>Tu declaración de penuria ha sido enviada al dueño de tu edificio a través de {deliveryMethodToLandlord}. También se ha enviado una copia de la declaración a tu tribunal local por correo electrónico con el fin de asegurarse de que conste en acta si el dueño de tu edificio intenta iniciar un caso de desalojo. </0><1>Revisa tu correo electrónico para encontrar un email que contiene una copia de tu declaración e información adicional importante sobre siguientes pasos a seguir.</1>"
 
 #: frontend/lib/evictionfree/faqs.tsx:49
 msgid "evictionfree.faqsPageIntro"
@@ -2946,4 +2966,3 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:102
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

@@ -2,7 +2,6 @@ from typing import List
 from io import BytesIO
 import logging
 from django.http import FileResponse
-from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.db import transaction
@@ -10,6 +9,7 @@ import PyPDF2
 
 from project import slack, locales, common_data
 from project.util.site_util import SITE_CHOICES
+from project.util.demo_deployment import is_not_demo_deployment
 from frontend.static_content import (
     react_render,
     email_react_rendered_content_with_attachment,
@@ -114,25 +114,24 @@ def email_letter_to_landlord(letter: models.Letter, pdf_bytes: bytes) -> bool:
     Returns True if the email was just sent.
     """
 
-    if settings.IS_DEMO_DEPLOYMENT:
-        logger.info(f"Not emailing {letter} because this is a demo deployment.")
-        return False
     if letter.letter_emailed_at is not None:
         logger.info(f"{letter} has already been emailed to the landlord.")
         return False
     ld = letter.user.landlord_details
     assert ld.email
 
-    email_react_rendered_content_with_attachment(
-        SITE_CHOICES.NORENT,
-        letter.user,
-        NORENT_EMAIL_TO_LANDLORD_URL,
-        recipients=[ld.email],
-        attachment=norent_pdf_response(pdf_bytes),
-        # Force the locale of this email to English, since that's what the
-        # landlord will read the email as.
-        locale=locales.DEFAULT,
-    )
+    if is_not_demo_deployment(f"emailing {letter} to landlord"):
+        email_react_rendered_content_with_attachment(
+            SITE_CHOICES.NORENT,
+            letter.user,
+            NORENT_EMAIL_TO_LANDLORD_URL,
+            recipients=[ld.email],
+            attachment=norent_pdf_response(pdf_bytes),
+            # Force the locale of this email to English, since that's what the
+            # landlord will read the email as.
+            locale=locales.DEFAULT,
+        )
+
     letter.letter_emailed_at = timezone.now()
     letter.save()
     return True

@@ -1,6 +1,5 @@
 from io import BytesIO
 import logging
-from django.conf import settings
 from django.utils import timezone
 from django.http import FileResponse
 

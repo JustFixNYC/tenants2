@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-28 16:57+0000\n"
-"PO-Revision-Date: 2020-11-05 23:42\n"
+"PO-Revision-Date: 2021-01-28 17:18\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -23,10 +23,9 @@ msgid "%(name)s, your eviction protection form has been emailed to your landlord
 msgstr ""
 
 #: evictionfree/declaration_sending.py:132
-#, fuzzy, python-format
-#| msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
+#, python-format
 msgid "%(name)s A hard copy of your eviction protection form has been mailed to your landlord via USPS mail. You can track the delivery of your hard copy form using USPS Tracking: %(url)s."
-msgstr "%(name)s has enviado tu carta de no pago de renta. Puedes seguir la entrega de tu carta usando USPS Tracking: %(url)s."
+msgstr ""
 
 #: evictionfree/declaration_sending.py:174
 #, python-format
@@ -142,3 +141,4 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 #: project/util/phone_number.py:70
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
+

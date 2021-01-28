@@ -89,6 +89,7 @@ fragment AllSessionInfo on SessionInfo {
     hasHealthRisk
   },
   submittedHardshipDeclaration {
+    createdAt,
     trackingNumber,
     mailedAt,
     emailedAt

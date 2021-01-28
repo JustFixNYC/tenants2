@@ -1,31 +1,14 @@
 import React from "react";
 
-import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { asEmailStaticPage } from "../static-page/email-static-page";
 import { HtmlEmail } from "../static-page/html-email";
 import { TransformSession } from "../util/transform-session";
+import {
+  EvictionFreeDeclarationEmailProps,
+  sessionToEvictionFreeDeclarationEmailProps,
+} from "./declaration-email-utils";
 
-type EmailBodyProps = {
-  firstName: string;
-  trackingNumber?: string;
-  wasEmailedToLandlord: boolean;
-  wasMailedToLandlord: boolean;
-};
-
-function transformSession(s: AllSessionInfo): EmailBodyProps | null {
-  const shd = s.submittedHardshipDeclaration;
-
-  if (!(shd && s.firstName)) return null;
-
-  return {
-    firstName: s.firstName,
-    trackingNumber: shd.trackingNumber,
-    wasEmailedToLandlord: !!shd.emailedAt,
-    wasMailedToLandlord: !!shd.mailedAt,
-  };
-}
-
-const EmailBody: React.FC<EmailBodyProps> = (props) => (
+const EmailBody: React.FC<EvictionFreeDeclarationEmailProps> = (props) => (
   <>
     <p>Hello {props.firstName},</p>
     <p>Congratulations!</p>
@@ -58,7 +41,7 @@ const EmailBody: React.FC<EmailBodyProps> = (props) => (
 );
 
 export const EvictionFreeDeclarationEmailToUserBody: React.FC<{}> = () => (
-  <TransformSession transformer={transformSession}>
+  <TransformSession transformer={sessionToEvictionFreeDeclarationEmailProps}>
     {(bodyProps) => <EmailBody {...bodyProps} />}
   </TransformSession>
 );

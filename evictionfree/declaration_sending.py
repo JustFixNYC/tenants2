@@ -1,12 +1,12 @@
 from io import BytesIO
 import logging
-from django.conf import settings
 from django.utils import timezone
 from django.http import FileResponse
 
 from evictionfree.models import SubmittedHardshipDeclaration
 from users.models import JustfixUser
 from project import slack, locales
+from project.util.demo_deployment import is_not_demo_deployment
 from frontend.static_content import (
     email_react_rendered_content_with_attachment,
 )
@@ -70,10 +70,6 @@ def render_declaration(decl: SubmittedHardshipDeclaration) -> bytes:
 
 
 def email_declaration_to_landlord(decl: SubmittedHardshipDeclaration, pdf_bytes: bytes) -> bool:
-    if settings.IS_DEMO_DEPLOYMENT:
-        logger.info(f"Not emailing {decl} to landlord because this is a demo deployment.")
-        return False
-
     if decl.emailed_at is not None:
         logger.info(f"{decl} has already been emailed to the landlord.")
         return False
@@ -81,17 +77,18 @@ def email_declaration_to_landlord(decl: SubmittedHardshipDeclaration, pdf_bytes:
     ld = decl.user.landlord_details
     assert ld.email
 
-    email_react_rendered_content_with_attachment(
-        SITE_CHOICES.EVICTIONFREE,
-        decl.user,
-        EVICTIONFREE_EMAIL_TO_LANDLORD_URL,
-        is_html_email=True,
-        recipients=[ld.email],
-        attachment=declaration_pdf_response(pdf_bytes),
-        # Force the locale of this email to English, since that's what the
-        # landlord will read the email as.
-        locale=locales.DEFAULT,
-    )
+    if is_not_demo_deployment(f"emailing {decl} to landlord"):
+        email_react_rendered_content_with_attachment(
+            SITE_CHOICES.EVICTIONFREE,
+            decl.user,
+            EVICTIONFREE_EMAIL_TO_LANDLORD_URL,
+            is_html_email=True,
+            recipients=[ld.email],
+            attachment=declaration_pdf_response(pdf_bytes),
+            # Force the locale of this email to English, since that's what the
+            # landlord will read the email as.
+            locale=locales.DEFAULT,
+        )
 
     decl.emailed_at = timezone.now()
     decl.save()
@@ -126,10 +123,6 @@ def send_declaration_via_lob(decl: SubmittedHardshipDeclaration, pdf_bytes: byte
 
 
 def send_declaration_to_housing_court(decl: SubmittedHardshipDeclaration, pdf_bytes: bytes) -> bool:
-    if settings.IS_DEMO_DEPLOYMENT:
-        logger.info(f"Not emailing {decl} to housing court because this is a demo deployment.")
-        return False
-
     if decl.emailed_to_housing_court_at is not None:
         logger.info(f"{decl} has already been sent to the housing court.")
         return False
@@ -142,19 +135,20 @@ def send_declaration_to_housing_court(decl: SubmittedHardshipDeclaration, pdf_by
         logger.info(f"{decl} has no housing court info, so we can't send it to one.")
         return False
 
-    # TODO: We should set the sender to something other than noreply, so we
-    # can see/process replies from housing court.
-    email_react_rendered_content_with_attachment(
-        SITE_CHOICES.EVICTIONFREE,
-        decl.user,
-        EVICTIONFREE_EMAIL_TO_HOUSING_COURT_URL,
-        is_html_email=True,
-        recipients=[hci.email],
-        attachment=declaration_pdf_response(pdf_bytes),
-        # Force the locale of this email to English, since that's what the
-        # housing court person will read the email as.
-        locale=locales.DEFAULT,
-    )
+    if is_not_demo_deployment(f"emailing {decl} to housing court"):
+        # TODO: We should set the sender to something other than noreply, so we
+        # can see/process replies from housing court.
+        email_react_rendered_content_with_attachment(
+            SITE_CHOICES.EVICTIONFREE,
+            decl.user,
+            EVICTIONFREE_EMAIL_TO_HOUSING_COURT_URL,
+            is_html_email=True,
+            recipients=[hci.email],
+            attachment=declaration_pdf_response(pdf_bytes),
+            # Force the locale of this email to English, since that's what the
+            # housing court person will read the email as.
+            locale=locales.DEFAULT,
+        )
 
     decl.emailed_to_housing_court_at = timezone.now()
     decl.save()

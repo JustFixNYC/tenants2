@@ -3,7 +3,8 @@ import pytest
 
 from users.tests.factories import UserFactory
 from project.util.testing_util import Blob
-from .factories import RentPeriodFactory
+from loc.tests.factories import LandlordDetailsV2Factory
+from .factories import RentPeriodFactory, LetterFactory
 import norent.letter_sending
 from norent.letter_sending import (
     email_letter_to_landlord,
@@ -15,11 +16,12 @@ from norent.letter_sending import (
 from norent.models import Letter
 
 
-def test_nothing_is_emailed_on_demo_deployment(settings, mailoutbox):
+def test_nothing_is_emailed_on_demo_deployment(settings, mailoutbox, db):
     settings.IS_DEMO_DEPLOYMENT = True
-    letter = Letter()
-    assert email_letter_to_landlord(letter, b"blah") is False
-    assert letter.letter_emailed_at is None
+    letter = LetterFactory()
+    LandlordDetailsV2Factory(user=letter.user, email="landlordo@calrissian.net")
+    assert email_letter_to_landlord(letter, b"blah") is True
+    assert letter.letter_emailed_at is not None
     assert len(mailoutbox) == 0
 
 

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-28 19:00\n"
+"PO-Revision-Date: 2021-01-28 19:12\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -479,7 +479,7 @@ msgstr "Aún así continuar"
 
 #: frontend/lib/evictionfree/declaration-builder/error-pages.tsx:11
 msgid "Continue to the confirmation page for information about the declaration you sent and next steps you can take."
-msgstr "Continue to the confirmation page for information about the declaration you sent and next steps you can take."
+msgstr "Continúa a la página de confirmación para obtener información sobre la declaración que has enviado y los siguientes pasos que puedes tomar."
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:13
 msgid "Continue to the confirmation page for information about the last letter you sent and next steps you can take."
@@ -2435,7 +2435,7 @@ msgstr "Ya has enviado cartas que corresponden a todos los meses desde que comen
 
 #: frontend/lib/evictionfree/declaration-builder/error-pages.tsx:9
 msgid "You've already sent your hardship declaration"
-msgstr "You've already sent your hardship declaration"
+msgstr "Ya has enviado tu declaración de penuria"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:94
 msgid "You've sent your hardship declaration"
@@ -2492,7 +2492,7 @@ msgstr "Número de índice de tu caso"
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:79
 msgid "Your declaration form and important next steps"
-msgstr "Your declaration form and important next steps"
+msgstr "Tu formulario de declaración y los pasos importantes a seguir"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:36
 msgid "Your declaration is ready to send!"
@@ -2504,7 +2504,7 @@ msgstr "Tu dirección de correo electrónico"
 
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:43
 msgid "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
-msgstr "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
+msgstr "Tu número de índice se encuentra en la parte superior de la Postal o Aviso de Petición (\"Postcard or Notice of Petition\" en inglés) que recibiste de la corte de vivienda. <0>Son así:</0>"
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:15
 msgid "Your landlord"
@@ -2596,7 +2596,7 @@ msgstr "Nuestro sitio web ayuda a los inquilinos a presentar este formulario de 
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:12
 msgid "evictionfree.agreeToStateTermsIntro"
-msgstr "These last questions make sure that you understand the limits of the protection granted by this hardship declaration form, and that you answered the previous questions truthfully:"
+msgstr "Estas últimas preguntas son para asegurarse de que entiendes los límites de la protección concedida por este formulario de declaración de penuria, y de que contestaste a las preguntas anteriores con veracidad:"
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:49
 msgid "evictionfree.contactHcaBlurb"
@@ -2636,7 +2636,7 @@ msgstr "El 28 de diciembre de 2020, el estado de Nueva York <0>aprobó la legisl
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:12
 msgid "evictionfree.introductionToDeclarationFormSteps"
-msgstr "In order to benefit from the eviction protections that local government representatives have put in place, you can notify your landlord by filling out a hardship declaration form. <0>In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense.</0>"
+msgstr "Para beneficiarte de las protecciones de desalojo que han puesto en marcha los representantes gubernamentales locales, puedes notificar al dueño de tu edificio rellenando un formulario de declaración de penuria. <0>En el caso de que el dueño de tu edificio intente desalojarte, los tribunales lo verán como un paso proactivo que ayuda a establecer tu defensa.</0>"
 
 #: frontend/lib/evictionfree/about.tsx:89
 msgid "evictionfree.justfixBlurb"
@@ -2644,7 +2644,7 @@ msgstr "<0>JustFix.nyc</0> codiseña y construye herramientas para inquilinos, o
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:31
 msgid "evictionfree.landlordRetaliationWarning"
-msgstr "It’s possible that your landlord will retaliate once they’ve received your declaration. This is illegal. Contact the City's Tenant Helpline (which can provide free advice and legal counsel to tenants) by <0>calling 311</0>"
+msgstr "Puede que el dueño de tu edificio tome represalias una vez que haya recibido tu declaración. Esto es ilegal. Ponte en contacto con la Línea de Ayuda del Inquilino de la Ciudad (que puede proporcionar consejo gratuito y asesoramiento legal a los inquilinos) llamando al <0>311</0>"
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:27
 msgid "evictionfree.legalAgreementCheckboxOnFees"
@@ -2672,7 +2672,7 @@ msgstr "Actualmente no puedes utilizar esta herramienta para enviar más de un f
 
 #: frontend/lib/evictionfree/about.tsx:54
 msgid "evictionfree.rtcBlurb"
-msgstr "La <0>Coalición de Derecho al Abogado NYC</0> es una extensa coalición de inquilinos que se formó en el 2014 para quebrantar la Corte de Vivienda como centro de desplazamiento y detener la crisis de desalojo que ha amenazado a nuestras familias, nuestros vecinos y nuestras casas por demasiado tiempo. Consta de inquilinos, organizadores, abogados, organizaciones de servicios legales y más. Estamos construyendo campañas para un NYC sin desalojos y, en última instancia, para un derecho a la vivienda."
+msgstr "La <0>Right to Counsel NYC Coalition</0> es una extensa coalición de inquilinos que se formó en el 2014 para quebrantar la Corte de Vivienda como centro de desplazamiento y detener la crisis de desalojo que ha amenazado a nuestras familias, nuestros vecinos y nuestras casas por demasiado tiempo. Consta de inquilinos, organizadores, abogados, organizaciones de servicios legales y más. Estamos construyendo campañas para un NYC sin desalojos y, en última instancia, para un derecho a la vivienda."
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:60
 msgid "evictionfree.significantHealthRiskExplainer"
@@ -2684,11 +2684,11 @@ msgstr "Una vez que completes tu formulario de declaración a través de esta he
 
 #: frontend/lib/evictionfree/homepage.tsx:190
 msgid "evictionfree.whoBuildThisTool"
-msgstr "Nuestra herramienta gratuita fue construida por la <0>Coalición de Derecho al Abogado NYC</0>, <1>Housing Justice for All</1>, y <2>JustFix.nyc</2> como parte del movimiento de inquilinos en todo el estado."
+msgstr "Nuestra herramienta gratuita fue construida por la <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, y <2>JustFix.nyc</2> como parte del movimiento de inquilinos en todo el estado."
 
 #: frontend/lib/evictionfree/homepage.tsx:158
 msgid "evictionfree.whoHasRightToSubmitForm"
-msgstr "All tenants in New York State have a right to fill out this hardship declaration form. Especially if you've been served an eviction notice or believe you are at risk of being evicted, please consider using this form to protect yourself."
+msgstr "Todos los inquilinos del estado de Nueva York tienen derecho a rellenar este formulario de declaración de penuria. Especialmente si has recibido una notificación de desalojo o crees que corres el riesgo de ser desalojado, por favor considera utilizar este formulario para protegerte."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:165
 msgid "justfix.DdoMayNeedHpdRegistration"

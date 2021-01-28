@@ -265,6 +265,7 @@ class TestEvictionFreeSubmitDeclaration:
         hc_mail = mailoutbox[1]
         assert hc_mail.to == ["KingsHardshipDeclaration@nycourts.gov"]
         assert "Hello Court Clerk" in hc_mail.body
+        assert f"efnyreplies+{self.user.pk}@justfix" in hc_mail.extra_headers["Reply-To"]
 
         user_mail = mailoutbox[2]
         assert user_mail.to == ["boop@jones.net"]

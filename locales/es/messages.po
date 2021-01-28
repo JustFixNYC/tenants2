@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-28 17:54\n"
+"PO-Revision-Date: 2021-01-28 19:00\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1964,10 +1964,6 @@ msgstr "La página web a la que quieres acceder solo está disponible en inglés
 msgid "There {0, plural, one {is one unit} other {are # units}} in your building."
 msgstr "{0, plural, one {Hay una unidad} other {Hay # unidades}} en tu edificio."
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:12
-msgid "These last questions make sure that you understand the limits of the protection granted by this form, and that you answered the previous questions truthfully:"
-msgstr "Estas últimas preguntas están para asegurarnos de que entiendes los límites de la protección concedida por este formulario, y de que respondiste a las preguntas anteriores con veracidad:"
-
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:323
 msgid "Think your apartment may be rent-stabilized? Request its official records."
 msgstr "¿Crees que tu apartamento puede ser de renta estabilizada? Solicita el registro oficial."
@@ -2507,8 +2503,8 @@ msgid "Your email address"
 msgstr "Tu dirección de correo electrónico"
 
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:43
-msgid "Your index number can be found at the top of Postcard or Notice of Petition from housing court. <0>They look like this:</0>"
-msgstr "El número de índice de tu caso lo encuentras en la parte superior de la tarjeta de Postal o Aviso de Petition de la corte de viviendas. <0>Se ven así:</0>"
+msgid "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
+msgstr "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:15
 msgid "Your landlord"
@@ -2598,6 +2594,10 @@ msgstr "Una nueva ley estatal, aprobada a finales de 2020, permite a la mayoría
 msgid "evictionfree.aboutPage2"
 msgstr "Nuestro sitio web ayuda a los inquilinos a presentar este formulario de declaración de dificultades con total tranquilidad: enviándolo por correo certificado de USPS y por correo electrónico gratuito a todas las entidades necesarias (el dueño de tu edificio y los tribunales) para garantizar la protección. Y dado que la ley no va lo suficientemente lejos para proteger a la gente más allá del 1 de mayo, nuestra herramienta conecta a los inquilinos con el movimiento de inquilinos más grande para que podamos #CancelRent."
 
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:12
+msgid "evictionfree.agreeToStateTermsIntro"
+msgstr "These last questions make sure that you understand the limits of the protection granted by this hardship declaration form, and that you answered the previous questions truthfully:"
+
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:49
 msgid "evictionfree.contactHcaBlurb"
 msgstr "Si has recibido una ‘Notificación de desalojo por incumplimiento de pago de alquiler’ (\"Notice to Pay Rent or Quit\" en inglés) o cualquier otro tipo de aviso de desalojo, comunícate con Housing Court Answers (NYC) al 212-962-4795, de lunes a viernes, de 9:00 AM a 5:00 PM, o llama a la línea directa estatal al 833-503-0447, que funciona 24 horas al día, los siete días de la semana."
@@ -2636,7 +2636,7 @@ msgstr "El 28 de diciembre de 2020, el estado de Nueva York <0>aprobó la legisl
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:12
 msgid "evictionfree.introductionToDeclarationFormSteps"
-msgstr "Para beneficiarte de las protecciones de desalojo que han puesto en marcha electos locales, puedes notificar al dueño de tu edificio rellenando un formulario de declaración de penuria. <0>En el caso de que el dueño de tu edificio intente desalojarte, los tribunales lo verán como un paso proactivo que ayuda a establecer tu defensa.</0>"
+msgstr "In order to benefit from the eviction protections that local government representatives have put in place, you can notify your landlord by filling out a hardship declaration form. <0>In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense.</0>"
 
 #: frontend/lib/evictionfree/about.tsx:89
 msgid "evictionfree.justfixBlurb"
@@ -2644,7 +2644,7 @@ msgstr "<0>JustFix.nyc</0> codiseña y construye herramientas para inquilinos, o
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:31
 msgid "evictionfree.landlordRetaliationWarning"
-msgstr "Puede que el dueño de tu edificio tome represalias una vez que haya recibido tu declaración. Esto es ilegal. Ponte en contacto con la Línea de Ayuda del Inquilino de la Ciudad (que puede proporcionar consejo gratuito y asesoramiento legal a los inquilinos) llamando al <0>311</0>"
+msgstr "It’s possible that your landlord will retaliate once they’ve received your declaration. This is illegal. Contact the City's Tenant Helpline (which can provide free advice and legal counsel to tenants) by <0>calling 311</0>"
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:27
 msgid "evictionfree.legalAgreementCheckboxOnFees"
@@ -2688,7 +2688,7 @@ msgstr "Nuestra herramienta gratuita fue construida por la <0>Coalición de Dere
 
 #: frontend/lib/evictionfree/homepage.tsx:158
 msgid "evictionfree.whoHasRightToSubmitForm"
-msgstr "Todos los inquilinos del estado de Nueva York tienen derecho a rellenar este formulario de declaración de penuria. Sin embargo, si has recibido una notificación de desalojo o crees que corres el riesgo de ser desalojado, por favor considere utilizar este formulario para protegerse a sí mismo."
+msgstr "All tenants in New York State have a right to fill out this hardship declaration form. Especially if you've been served an eviction notice or believe you are at risk of being evicted, please consider using this form to protect yourself."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:165
 msgid "justfix.DdoMayNeedHpdRegistration"
@@ -2946,3 +2946,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:102
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

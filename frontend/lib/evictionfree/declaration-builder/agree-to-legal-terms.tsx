@@ -20,10 +20,10 @@ export const EvictionFreeAgreeToLegalTerms = EvictionFreeNotSentDeclarationStep(
       className="content"
     >
       <p>
-        <Trans>
+        <Trans id="evictionfree.agreeToStateTermsIntro">
           These last questions make sure that you understand the limits of the
-          protection granted by this form, and that you answered the previous
-          questions truthfully:
+          protection granted by this hardship declaration form, and that you
+          answered the previous questions truthfully:
         </Trans>
       </p>
       <LegacyFormSubmitter

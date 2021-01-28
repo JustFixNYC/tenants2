@@ -70,7 +70,7 @@ export const EvictionFreeIndexNumber = EvictionFreeNotSentDeclarationStep(
                     >
                       <Trans>
                         Your index number can be found at the top of Postcard or
-                        Notice of Petition from housing court.{" "}
+                        Notice of Petition that you received from housing court.{" "}
                         <span aria-hidden="true">They look like this:</span>
                       </Trans>
                       <StaticImage

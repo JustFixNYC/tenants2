@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-28 20:49\n"
+"PO-Revision-Date: 2021-01-28 21:19\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -665,7 +665,7 @@ msgstr "Explora la herramienta"
 msgid "FAQs"
 msgstr "Preguntas Frecuentes"
 
-#: frontend/lib/evictionfree/site.tsx:49
+#: frontend/lib/evictionfree/site.tsx:50
 #: frontend/lib/norent/components/footer.tsx:37
 #: frontend/lib/norent/site.tsx:34
 msgid "Faqs"
@@ -1169,12 +1169,12 @@ msgid "Locally supported"
 msgstr "Con apoyo local"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
-#: frontend/lib/evictionfree/site.tsx:57
+#: frontend/lib/evictionfree/site.tsx:58
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Iniciar sesión"
 
-#: frontend/lib/evictionfree/site.tsx:55
+#: frontend/lib/evictionfree/site.tsx:56
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:13
 msgid "Log out"
@@ -2417,7 +2417,8 @@ msgstr "Puedes contactar Acciones Estratégicas para una Economía Justa (SAJE) 
 msgid "You can send an additional letter for other months when you couldn't pay rent."
 msgstr "Puedes enviar otra carta para indicar los demás meses en que no hayas podido pagar la renta."
 
-#: frontend/lib/evictionfree/homepage.tsx:75
+#: frontend/lib/evictionfree/components/helmet.tsx:12
+#: frontend/lib/evictionfree/homepage.tsx:54
 msgid "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021."
 msgstr "Puedes utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales — deteniendo tu caso de desalojo hasta el 1 de mayo, 2021."
 
@@ -2602,6 +2603,11 @@ msgstr "Código postal"
 msgid "and"
 msgstr "y"
 
+#: frontend/lib/evictionfree/components/helmet.tsx:13
+msgid "eviction free nyc, eviction free ny, hardship, declaration, declare hardship, eviction, evicted"
+msgstr "eviction free nyc, eviction free ny, hardship, declaration, declare hardship, eviction, evicted"
+
+#: frontend/lib/evictionfree/about.tsx:14
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:89
 msgid "email"
 msgstr "email"

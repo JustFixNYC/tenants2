@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-28 21:19\n"
+"PO-Revision-Date: 2021-01-28 21:37\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2605,7 +2605,7 @@ msgstr "y"
 
 #: frontend/lib/evictionfree/components/helmet.tsx:13
 msgid "eviction free nyc, eviction free ny, hardship, declaration, declare hardship, eviction, evicted"
-msgstr "eviction free nyc, eviction free ny, hardship, declaration, declare hardship, eviction, evicted"
+msgstr "eviction free nyc, eviction free ny, penuria, declaración, desalojo, desalojado"
 
 #: frontend/lib/evictionfree/about.tsx:14
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:89

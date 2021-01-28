@@ -188,6 +188,7 @@ export class SessionBuilder {
   withSubmittedHardshipDeclaration(): SessionBuilder {
     return this.with({
       submittedHardshipDeclaration: {
+        createdAt: "2021-01-27",
         mailedAt: "2021-01-27",
         emailedAt: "2021-01-27",
         trackingNumber: "12345",

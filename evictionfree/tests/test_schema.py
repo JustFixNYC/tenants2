@@ -260,11 +260,11 @@ class TestEvictionFreeSubmitDeclaration:
 
         ll_mail = mailoutbox[0]
         assert ll_mail.to == ["landlordo@calrissian.net"]
-        assert "TODO: set email to landlord body" in ll_mail.body
+        assert "Hello Landlordo Calrissian" in ll_mail.body
 
         hc_mail = mailoutbox[1]
         assert hc_mail.to == ["KingsHardshipDeclaration@nycourts.gov"]
-        assert "TODO: set email to housing court body" in hc_mail.body
+        assert "Hello Court Clerk" in hc_mail.body
 
         user_mail = mailoutbox[2]
         assert user_mail.to == ["boop@jones.net"]

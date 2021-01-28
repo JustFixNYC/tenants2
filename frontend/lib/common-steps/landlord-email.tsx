@@ -35,8 +35,8 @@ export const LandlordEmail: React.FC<
       </p>
       <DemoDeploymentNote>
         <p>
-          This demo site <strong>will send</strong> real emails to the address
-          provided below.
+          This demo site <strong>will not send</strong> real emails to the
+          address provided below.
         </p>
       </DemoDeploymentNote>
       <SessionUpdatingFormSubmitter

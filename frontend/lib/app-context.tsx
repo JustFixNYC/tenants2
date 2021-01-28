@@ -101,6 +101,12 @@ export interface AppServerInfo {
   previewHardshipDeclarationURL: string;
 
   /**
+   * The URL for the final, submitted eviction free COVID-19 hardship
+   * declaration for the current user.
+   */
+  submittedHardshipDeclarationURL: string;
+
+  /**
    * An optional label to show the site's navbar.
    */
   navbarLabel?: string;

@@ -43,13 +43,19 @@ const ReadOnlyLandlordDetails: React.FC<
         }
         landlord={landlord}
       />
-      <p>
-        <Trans>
-          If you feel strongly that this information is incorrect or incomplete,
-          however, you can{" "}
-          <Link to={forceManualHref}>provide your own details</Link>.
+      <Accordion
+        question={li18n._(t`This information seems wrong. Can I change it?`)}
+      >
+        <Trans id="justfix.commonWarningAboutChangingLandlordDetails">
+          If you receive rent-related documents from a different address, or if
+          your landlord has instructed you to use a different address for
+          correspondence, you can{" "}
+          <Link to={forceManualHref}>provide your own details.</Link> But, only
+          use a different address if you are absolutely sure it is correct— it
+          is safer to use the official address your landlord provided to the
+          city.
         </Trans>
-      </p>
+      </Accordion>
     </div>
   );
 };

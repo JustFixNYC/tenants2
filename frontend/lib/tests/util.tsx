@@ -70,6 +70,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   efnycOrigin: "https://efnyc.test",
   enableSafeModeURL: "/mysafemode/enable",
   previewHardshipDeclarationURL: "/preview-declaration.pdf",
+  submittedHardshipDeclarationURL: "/submitted-declaration.pdf",
   mapboxAccessToken: "",
   enabledLocales: ["en"],
   enableWipLocales: false,

@@ -1,6 +1,6 @@
 import React from "react";
 import { StaticImage } from "../../ui/static-image";
-import { getImageSrc } from "../homepage";
+import { getNorentImageSrc } from "../homepage";
 import { OutboundLink } from "../../analytics/google-analytics";
 import { getGlobalAppServerInfo } from "../../app-context";
 import { li18n } from "../../i18n-lingui";
@@ -84,7 +84,7 @@ export const SocialIcons = (props: {
         >
           <StaticImage
             ratio="is-48x48"
-            src={getImageSrc(
+            src={getNorentImageSrc(
               props.color === "white" ? link.name + "-white" : link.name
             )}
             alt={link.name}

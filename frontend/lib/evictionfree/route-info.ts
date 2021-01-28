@@ -1,6 +1,7 @@
 import { createRoutesForSite, ROUTE_PREFIX } from "../util/route-util";
 import { createDevRouteInfo } from "../dev/route-info";
 import { createEvictionFreeDeclarationBuilderRouteInfo } from "./declaration-builder/route-info";
+import { createHtmlEmailStaticPageRouteInfo } from "../static-page/routes";
 
 function createLocalizedRouteInfo(prefix: string) {
   return {
@@ -23,6 +24,21 @@ function createLocalizedRouteInfo(prefix: string) {
 
     /** The logout page. */
     logout: `${prefix}/logout`,
+
+    /** The email to the user w/ a copy of the declaration. */
+    declarationEmailToUser: createHtmlEmailStaticPageRouteInfo(
+      `${prefix}/declaration-email-to-user`
+    ),
+
+    /** The email to the landlord w/ a copy of the declaration. */
+    declarationEmailToLandlord: createHtmlEmailStaticPageRouteInfo(
+      `${prefix}/declaration-email-to-landlord`
+    ),
+
+    /** The email to housing court w/ a copy of the declaration. */
+    declarationEmailToHousingCourt: createHtmlEmailStaticPageRouteInfo(
+      `${prefix}/declaration-email-to-housing-court`
+    ),
   };
 }
 

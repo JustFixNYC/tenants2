@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
 import { StaticImage } from "../../ui/static-image";
-import { getImageSrc } from "../homepage";
+import { getNorentImageSrc } from "../homepage";
 import { AriaAnnouncement } from "../../ui/aria";
 import { awesomeFetch } from "../../networking/fetch";
 
@@ -81,7 +81,7 @@ const Subscribe = () => {
             >
               <StaticImage
                 ratio="is-16x16"
-                src={getImageSrc("submitarrow")}
+                src={getNorentImageSrc("submitarrow")}
                 alt={li18n._(t`Submit email`)}
               />
             </button>

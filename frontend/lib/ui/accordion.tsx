@@ -10,12 +10,17 @@ export const Accordion = (props: {
   children: React.ReactNode;
   questionClassName?: string;
   extraClassName?: string;
+  /** When set to true, the accordion is open on initial view. */
+  isExpanded?: boolean;
 }) => {
   const extraClassName = props.extraClassName ?? "jf-space-below-2rem";
 
   return (
     <div className={`jf-accordion-item ${extraClassName}`}>
-      <details className={`has-text-left ${extraClassName}`}>
+      <details
+        className={`has-text-left ${extraClassName}`}
+        open={props.isExpanded}
+      >
         <summary>
           <div className="media">
             <div className="media-content">

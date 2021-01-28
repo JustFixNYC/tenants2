@@ -88,6 +88,14 @@ fragment AllSessionInfo on SessionInfo {
     hasFinancialHardship,
     hasHealthRisk
   },
+  submittedHardshipDeclaration {
+    createdAt,
+    trackingNumber,
+    mailedAt,
+    emailedAt,
+    emailedToHousingCourtAt,
+    emailedToUserAt
+  },
   userId,
   firstName,
   lastName,

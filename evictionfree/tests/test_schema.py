@@ -1,3 +1,7 @@
+from evictionfree.cover_letter import CoverLetterVariables
+from evictionfree.hardship_declaration import HardshipDeclarationVariables
+from django.contrib.auth.models import AnonymousUser
+import freezegun
 import pytest
 
 from users.models import JustfixUser
@@ -6,9 +10,17 @@ from project.schema_base import (
     update_last_queried_phone_number,
     PhoneNumberAccountStatus,
 )
+from loc.tests.factories import LandlordDetailsV2Factory
 from onboarding.schema import OnboardingStep1Info
 from onboarding.tests.test_schema import _exec_onboarding_step_n
 from norent.schema import update_scaffolding, SCAFFOLDING_SESSION_KEY
+from users.tests.factories import UserFactory
+from onboarding.tests.factories import OnboardingInfoFactory
+from evictionfree.tests.factories import (
+    HardshipDeclarationDetailsFactory,
+    SubmittedHardshipDeclarationFactory,
+)
+from project.util.testing_util import one_field_err
 
 
 class TestEvictionFreeCreateAccount:
@@ -145,3 +157,115 @@ class TestEvictionFreeCreateAccount:
         assert get_last_queried_phone_number(request) is None
         assert OnboardingStep1Info.get_dict_from_request(request) is None
         assert SCAFFOLDING_SESSION_KEY not in request.session
+
+
+class TestEvictionFreeSubmitDeclaration:
+    QUERY = """
+    mutation {
+        evictionFreeSubmitDeclaration(input: {}) {
+            errors { field, messages }
+        }
+    }
+    """
+
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, graphql_client, db):
+        self.user = UserFactory(email="boop@jones.net")
+        graphql_client.request.user = self.user
+        self.graphql_client = graphql_client
+
+    def create_landlord_details(self):
+        LandlordDetailsV2Factory(user=self.user, email="landlordo@calrissian.net")
+
+    def execute(self):
+        res = self.graphql_client.execute(self.QUERY)
+        return res["data"]["evictionFreeSubmitDeclaration"]
+
+    def test_it_requires_login(self):
+        self.graphql_client.request.user = AnonymousUser()
+        assert self.execute()["errors"] == one_field_err(
+            "You do not have permission to use this form!"
+        )
+
+    def test_it_raises_err_when_declaration_already_sent(self):
+        SubmittedHardshipDeclarationFactory(user=self.user)
+        assert self.execute()["errors"] == one_field_err(
+            "You have already sent a hardship declaration!"
+        )
+
+    def test_it_raises_err_when_no_onboarding_info_exists(self):
+        assert self.execute()["errors"] == one_field_err("You have not onboarded!")
+
+    def test_it_raises_err_when_no_landlord_details_exist(self):
+        OnboardingInfoFactory(user=self.user)
+        assert self.execute()["errors"] == one_field_err(
+            "You haven't provided any landlord details yet!"
+        )
+
+    def test_it_raises_err_when_no_hardship_declaration_details_exist(self):
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
+        assert self.execute()["errors"] == one_field_err(
+            "You have not provided details for your hardship declaration yet!"
+        )
+
+    def test_it_raises_err_when_user_is_outside_ny(self):
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user, state="CA")
+        assert self.execute()["errors"] == one_field_err(
+            "You must be in the state of New York to use this tool!"
+        )
+
+    def test_it_raises_err_when_used_on_wrong_site(self):
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
+        HardshipDeclarationDetailsFactory(user=self.user)
+        assert self.execute()["errors"] == one_field_err(
+            "This form can only be used from the EvictionFreeNY site."
+        )
+
+    def test_it_works(
+        self,
+        use_evictionfree_site,
+        fake_fill_hardship_pdf,
+        settings,
+        allow_lambda_http,
+        mailoutbox,
+        mocklob,
+    ):
+        settings.IS_DEMO_DEPLOYMENT = False
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
+        HardshipDeclarationDetailsFactory(user=self.user)
+
+        with freezegun.freeze_time("2021-01-26"):
+            assert self.execute()["errors"] == []
+
+        decl = self.user.submitted_hardship_declaration
+        hd_vars = HardshipDeclarationVariables(**decl.declaration_variables)
+        cl_vars = CoverLetterVariables(**decl.cover_letter_variables)
+
+        assert cl_vars.date == "01/26/2021"
+        assert hd_vars.name == "Boop Jones"
+        assert decl.locale == "en"
+        assert "Landlordo" in decl.cover_letter_html
+        assert decl.mailed_at is not None
+        assert decl.emailed_at is not None
+        assert decl.emailed_to_housing_court_at is not None
+        assert decl.emailed_to_user_at is not None
+        assert decl.tracking_number == mocklob.sample_letter["tracking_number"]
+        assert decl.lob_letter_object is not None
+
+        assert len(mailoutbox) == 3
+
+        ll_mail = mailoutbox[0]
+        assert ll_mail.to == ["landlordo@calrissian.net"]
+        assert "Hello Landlordo Calrissian" in ll_mail.body
+
+        hc_mail = mailoutbox[1]
+        assert hc_mail.to == ["KingsHardshipDeclaration@nycourts.gov"]
+        assert "Hello Court Clerk" in hc_mail.body
+
+        user_mail = mailoutbox[2]
+        assert user_mail.to == ["boop@jones.net"]
+        assert "Congratulations" in user_mail.body

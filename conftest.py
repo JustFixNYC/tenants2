@@ -317,6 +317,17 @@ def use_norent_site(db):
 
 
 @pytest.fixture
+def use_evictionfree_site(db):
+    """
+    Set the default site as being the EvictionFreeNY.org site.
+    """
+
+    site = Site.objects.get(pk=1)
+    site.name = "EvictionFreeNY.org"
+    site.save()
+
+
+@pytest.fixture
 def mocklob(settings, requests_mock):
     """
     Enable Lob integration and provide mocks to simulate Lob functionality.

@@ -1,17 +1,20 @@
-from typing import List
+from typing import Any, Dict, List
 from io import BytesIO
 import logging
 from django.http import FileResponse
-from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.db import transaction
 import PyPDF2
 
 from project import slack, locales, common_data
-from project.util.email_attachment import email_file_response_as_attachment
 from project.util.site_util import SITE_CHOICES
-from frontend.static_content import react_render, react_render_email, ContentType
+from project.util.demo_deployment import is_not_demo_deployment
+from frontend.static_content import (
+    react_render,
+    email_react_rendered_content_with_attachment,
+    ContentType,
+)
 from users.models import JustfixUser
 from loc.views import render_pdf_bytes
 from loc import lob_api
@@ -36,35 +39,6 @@ USPS_TRACKING_URL_PREFIX = common_data.load_json("loc.json")["USPS_TRACKING_URL_
 logger = logging.getLogger(__name__)
 
 
-def email_react_rendered_content_with_attachment(
-    user: JustfixUser,
-    url: str,
-    recipients: List[str],
-    attachment: FileResponse,
-    locale: str,
-    is_html_email: bool = False,
-) -> None:
-    """
-    Renders an email in the front-end, using the given locale,
-    and sends it to the given recipients with the given attachment.
-    """
-
-    email = react_render_email(
-        SITE_CHOICES.NORENT,
-        locale,
-        url,
-        user=user,
-        is_html_email=is_html_email,
-    )
-    email_file_response_as_attachment(
-        subject=email.subject,
-        body=email.body,
-        html_body=email.html_body,
-        recipients=recipients,
-        attachment=attachment,
-    )
-
-
 def norent_pdf_response(pdf_bytes: bytes) -> FileResponse:
     """
     Creates a FileResponse for the given PDF bytes and an
@@ -72,6 +46,44 @@ def norent_pdf_response(pdf_bytes: bytes) -> FileResponse:
     """
 
     return FileResponse(BytesIO(pdf_bytes), filename="letter.pdf")
+
+
+def send_pdf_to_landlord_via_lob(
+    user: JustfixUser, pdf_bytes: bytes, description: str
+) -> Dict[str, Any]:
+    """
+    Mail the given PDF to the given user's landlord using USPS certified
+    mail, via Lob.  Assumes that the user has a landlord with a mailing
+    address.
+
+    Returns the response from the Lob API.
+    """
+
+    ld = user.landlord_details
+    assert ld.address_lines_for_mailing
+    ll_addr_details = ld.get_or_create_address_details_model()
+    landlord_verification = lob_api.verify_address(**ll_addr_details.as_lob_params())
+    user_verification = lob_api.verify_address(**user.onboarding_info.as_lob_params())
+
+    logger.info(
+        f"Sending {description} to landlord with {landlord_verification['deliverability']} "
+        f"landlord address."
+    )
+
+    return lob_api.mail_certified_letter(
+        description=description,
+        to_address={
+            "name": ld.name,
+            **lob_api.verification_to_inline_address(landlord_verification),
+        },
+        from_address={
+            "name": user.full_name,
+            **lob_api.verification_to_inline_address(user_verification),
+        },
+        file=BytesIO(pdf_bytes),
+        color=False,
+        double_sided=False,
+    )
 
 
 def send_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> bool:
@@ -87,30 +99,8 @@ def send_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> bool:
         return False
 
     user = letter.user
-    ld = user.landlord_details
-    assert ld.address_lines_for_mailing
-    ll_addr_details = ld.get_or_create_address_details_model()
-    landlord_verification = lob_api.verify_address(**ll_addr_details.as_lob_params())
-    user_verification = lob_api.verify_address(**user.onboarding_info.as_lob_params())
 
-    logger.info(
-        f"Sending {letter} with {landlord_verification['deliverability']} " f"landlord address."
-    )
-
-    response = lob_api.mail_certified_letter(
-        description="No rent letter",
-        to_address={
-            "name": ld.name,
-            **lob_api.verification_to_inline_address(landlord_verification),
-        },
-        from_address={
-            "name": user.full_name,
-            **lob_api.verification_to_inline_address(user_verification),
-        },
-        file=BytesIO(pdf_bytes),
-        color=False,
-        double_sided=False,
-    )
+    response = send_pdf_to_landlord_via_lob(user, pdf_bytes, "No rent letter")
 
     letter.lob_letter_object = response
     letter.tracking_number = response["tracking_number"]
@@ -140,24 +130,24 @@ def email_letter_to_landlord(letter: models.Letter, pdf_bytes: bytes) -> bool:
     Returns True if the email was just sent.
     """
 
-    if settings.IS_DEMO_DEPLOYMENT:
-        logger.info(f"Not emailing {letter} because this is a demo deployment.")
-        return False
     if letter.letter_emailed_at is not None:
         logger.info(f"{letter} has already been emailed to the landlord.")
         return False
     ld = letter.user.landlord_details
     assert ld.email
 
-    email_react_rendered_content_with_attachment(
-        letter.user,
-        NORENT_EMAIL_TO_LANDLORD_URL,
-        recipients=[ld.email],
-        attachment=norent_pdf_response(pdf_bytes),
-        # Force the locale of this email to English, since that's what the
-        # landlord will read the email as.
-        locale=locales.DEFAULT,
-    )
+    if is_not_demo_deployment(f"emailing {letter} to landlord"):
+        email_react_rendered_content_with_attachment(
+            SITE_CHOICES.NORENT,
+            letter.user,
+            NORENT_EMAIL_TO_LANDLORD_URL,
+            recipients=[ld.email],
+            attachment=norent_pdf_response(pdf_bytes),
+            # Force the locale of this email to English, since that's what the
+            # landlord will read the email as.
+            locale=locales.DEFAULT,
+        )
+
     letter.letter_emailed_at = timezone.now()
     letter.save()
     return True
@@ -237,6 +227,7 @@ def send_letter(letter: models.Letter):
 
     if user.email:
         email_react_rendered_content_with_attachment(
+            SITE_CHOICES.NORENT,
             user,
             NORENT_EMAIL_TO_USER_URL,
             is_html_email=True,

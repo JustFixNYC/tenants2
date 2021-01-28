@@ -4928,6 +4928,18 @@
                 "name": "DateTime",
                 "ofType": null
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "When the declaration was e-mailed to the user's housing court.",
+              "isDeprecated": false,
+              "name": "emailedToHousingCourtAt",
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
             }
           ],
           "inputFields": null,

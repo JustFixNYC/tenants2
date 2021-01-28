@@ -120,6 +120,7 @@ class SubmittedHardshipDeclarationType(DjangoObjectType):
             "created_at",
             "mailed_at",
             "emailed_at",
+            "emailed_to_housing_court_at",
             "tracking_number",
         )
 

@@ -16,6 +16,7 @@ import {
 } from "../../queries/EvictionFreeSubmitDeclarationMutation";
 import { NextButton, ProgressButtons } from "../../ui/buttons";
 import { BackOrUpOneDirLevel, Modal } from "../../ui/modal";
+import { HardshipDeclarationEnglish } from "../declaration-templates/en";
 import Page from "../../ui/page";
 import { PdfLink } from "../../ui/pdf-link";
 import { EvictionFreeRoutes } from "../route-info";
@@ -82,6 +83,11 @@ export const EvictionFreePreviewPage = EvictionFreeNotSentDeclarationStep(
           href={getGlobalAppServerInfo().previewHardshipDeclarationURL}
           label={li18n._(t`Preview my declaration`)}
         />
+        <article className="message">
+          <div className="message-body has-background-grey-lighter has-text-left">
+            <HardshipDeclarationEnglish />
+          </div>
+        </article>
         <LegacyFormSubmitter
           mutation={EvictionFreeSigningTruthfullyMutation}
           initialState={BlankEvictionFreeSigningTruthfullyInput}

@@ -2,6 +2,7 @@ from io import BytesIO
 import logging
 from django.utils import timezone
 from django.http import FileResponse
+from django.conf import settings
 from django.utils.translation import gettext as _
 
 from evictionfree.models import SubmittedHardshipDeclaration
@@ -155,6 +156,8 @@ def send_declaration_to_housing_court(decl: SubmittedHardshipDeclaration, pdf_by
         logger.info(f"{decl} has no housing court info, so we can't send it to one.")
         return False
 
+    reply_to = settings.EVICTIONFREE_REPLY_TO_EMAIL % {"id": str(user.pk)}
+
     if is_not_demo_deployment(f"emailing {decl} to housing court"):
         # TODO: We should set the sender to something other than noreply, so we
         # can see/process replies from housing court.
@@ -168,6 +171,7 @@ def send_declaration_to_housing_court(decl: SubmittedHardshipDeclaration, pdf_by
             # Force the locale of this email to English, since that's what the
             # housing court person will read the email as.
             locale=locales.DEFAULT,
+            headers={"Reply-To": reply_to},
         )
 
     user.send_sms_async(

@@ -118,6 +118,7 @@ def email_react_rendered_content_with_attachment(
     attachment: FileResponse,
     locale: str,
     is_html_email: bool = False,
+    headers: Optional[Dict[str, str]] = None,
 ) -> None:
     """
     Renders an email in the front-end, using the given site and locale,
@@ -137,6 +138,7 @@ def email_react_rendered_content_with_attachment(
         html_body=email.html_body,
         recipients=recipients,
         attachment=attachment,
+        headers=headers,
     )
 
 

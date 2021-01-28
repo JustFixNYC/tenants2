@@ -2,6 +2,7 @@ import React from "react";
 import { asEmailStaticPage } from "../static-page/email-static-page";
 import { HtmlEmail } from "../static-page/html-email";
 import { TransformSession } from "../util/transform-session";
+import { EvictionFreeEmailDisclaimer } from "./declaration-email-to-housing-court";
 import {
   evictionFreeDeclarationEmailFormalSubject,
   sessionToEvictionFreeDeclarationEmailProps,
@@ -28,6 +29,7 @@ export const EvictionFreeDeclarationEmailToLandlordStaticPage = asEmailStaticPag
           </p>
           <p>Thank you,</p>
           <p>{props.fullName}</p>
+          <EvictionFreeEmailDisclaimer {...props} />
         </HtmlEmail>
       )}
     </TransformSession>

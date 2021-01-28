@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-28 17:43\n"
+"PO-Revision-Date: 2021-01-28 17:54\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -105,11 +105,11 @@ msgstr "<0>Tu cuenta está configurada.</0><1>Actualmente, no recomendamos envia
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:43
 msgid "A PDF of your form is attached to this email. Please save a copy for your records."
-msgstr "A PDF of your form is attached to this email. Please save a copy for your records."
+msgstr "Adjunto a este correo electrónico encontrarás un PDF de tu formulario. Conserva una copia para tus archivos."
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:33
 msgid "A hard copy of your form has also been mailed to your landlord via USPS mail. You can also track the delivery of your hard copy form using USPS Tracking:"
-msgstr "A hard copy of your form has also been mailed to your landlord via USPS mail. You can also track the delivery of your hard copy form using USPS Tracking:"
+msgstr "También se le envió una copia impresa de tu formulario al dueño de tu edificio por correo de USPS. También puedes dar seguimiento a la entrega de tu formulario impreso utilizando el seguimiento de correspondencia de USPS:"
 
 #: frontend/lib/norent/homepage.tsx:103
 msgid "A national tool by non-profit <0>JustFix.nyc</0>"
@@ -451,7 +451,7 @@ msgstr "Confirmando la ciudad"
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:22
 msgid "Congratulations!"
-msgstr "Congratulations!"
+msgstr "¡Felicitaciones!"
 
 #: common-data/us-state-choices.ts:71
 msgid "Connecticut"
@@ -712,7 +712,7 @@ msgstr "Para los inquilinos del estado de Nueva York"
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:57
 msgid "For more information about New York’s eviction protections and your rights as a tenant, check out our FAQ on the <0>Right to Counsel website</0>."
-msgstr "For more information about New York’s eviction protections and your rights as a tenant, check out our FAQ on the <0>Right to Counsel website</0>."
+msgstr "Para obtener más información sobre las protecciones de desalojo de Nueva York y tus derechos como inquilino, consulta nuestras preguntas frecuentes en <0>el sitio web de Right to Counsel</0>."
 
 #: frontend/lib/evictionfree/homepage.tsx:185
 msgid "For tenants by tenants"
@@ -789,7 +789,7 @@ msgstr "Hola mundo"
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:19
 msgid "Hello {0},"
-msgstr "Hello {0},"
+msgstr "Hola {0},"
 
 #: frontend/lib/justfix-navbar.tsx:29
 msgid "Help"
@@ -2003,7 +2003,7 @@ msgstr "Para restablecer tu contraseña, te enviaremos un código de verificaci�
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:67
 msgid "To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at <0>@RTCNYC</0> and <1>@housing4allNY</1>."
-msgstr "To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at <0>@RTCNYC</0> and <1>@housing4allNY</1>."
+msgstr "Para participar en la organización y en la lucha para #StopEvictions (parar los desalojos) y #CancelRent (cancelar la renta), síguenos en Twitter: <0>@RTCNYC</0> y @ <1>housing4allNY</1>."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:250
 msgid "To learn more about what to do next, check out our FAQ page: {faqURL}"
@@ -2452,7 +2452,7 @@ msgstr "Has enviado tu carta"
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:26
 msgid "Your Hardship Declaration form has been emailed to:"
-msgstr "Your Hardship Declaration form has been emailed to:"
+msgstr "Tu formulario de Declaración de Dificultades ha sido enviado por correo electrónico a:"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:59
 msgid "Your Letter Is Ready To Send!"
@@ -2512,7 +2512,7 @@ msgstr "El número de índice de tu caso lo encuentras en la parte superior de l
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:15
 msgid "Your landlord"
-msgstr "Your landlord"
+msgstr "el dueño de tu edificio"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:212
 msgid "Your landlord is associated with {buildings, plural, one {one building} other {# buildings}}."
@@ -2557,7 +2557,7 @@ msgstr "Tu carta fue enviada el {0}."
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:12
 msgid "Your local housing court"
-msgstr "Your local housing court"
+msgstr "la corte de vivienda local"
 
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:25
 msgid "Your phone number"
@@ -2600,7 +2600,7 @@ msgstr "Nuestro sitio web ayuda a los inquilinos a presentar este formulario de 
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:49
 msgid "evictionfree.contactHcaBlurb"
-msgstr "If you have received a Notice to Pay Rent or Quit or any other kind of eviction notice, contact Housing Court Answers (NYC) at 212-962-4795, Monday - Friday, 9am-5pm or the Statewide Hotline at 833-503-0447, open 24/7."
+msgstr "Si has recibido una ‘Notificación de desalojo por incumplimiento de pago de alquiler’ (\"Notice to Pay Rent or Quit\" en inglés) o cualquier otro tipo de aviso de desalojo, comunícate con Housing Court Answers (NYC) al 212-962-4795, de lunes a viernes, de 9:00 AM a 5:00 PM, o llama a la línea directa estatal al 833-503-0447, que funciona 24 horas al día, los siete días de la semana."
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:171
 msgid "evictionfree.deadlineFaq"

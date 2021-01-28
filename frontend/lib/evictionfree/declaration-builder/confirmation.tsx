@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { OutboundLink } from "../../analytics/google-analytics";
 import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
 import Page from "../../ui/page";
-import { getGlobalAppServerInfo } from "../../app-context";
+import { AppContext, getGlobalAppServerInfo } from "../../app-context";
 import { friendlyUTCDate } from "../../util/date-util";
 import { PdfLink } from "../../ui/pdf-link";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
 import { EvictionFreeRequireLoginStep } from "./step-decorators";
-
-// TO DO: Replace this tracking number with the user's actual one
-const SAMPLE_USPS_TRACKING_NUMBER = "129837127326123";
+import { Redirect } from "react-router-dom";
+import { assertNotNull } from "../../util/util";
+import { AllSessionInfo } from "../../queries/AllSessionInfo";
+import { MessageDescriptor } from "@lingui/core";
 
 const HCA_HOTLINE_PHONE_LINK = "tel:+12129624795";
 const NYC_311_CONTACT_LINK =
@@ -120,15 +121,44 @@ const OrganizingGroupsBlurb = () => (
   </>
 );
 
+type LandlordMailType = "usps" | "email" | "both";
+
+const deliveryMethodToLandlord: {
+  [k in LandlordMailType]: MessageDescriptor;
+} = {
+  email: t`email`,
+  usps: t`USPS Certified Mail`,
+  both: t`email and USPS Certified Mail`,
+};
+
+function getDeclInfo(session: AllSessionInfo) {
+  const shd = session.submittedHardshipDeclaration;
+
+  if (!shd) return null;
+
+  const landlordMailType: LandlordMailType =
+    shd.mailedAt && shd.emailedAt ? "both" : shd.mailedAt ? "usps" : "email";
+
+  return {
+    pdfLink: getGlobalAppServerInfo().submittedHardshipDeclarationURL,
+    mailedAt: shd.mailedAt ? friendlyUTCDate(shd.mailedAt) : "",
+    landlordMailLabel: li18n._(deliveryMethodToLandlord[landlordMailType]),
+    wasEmailedToHousingCourt: !!shd.emailedToHousingCourtAt,
+    wasEmailedToUser: !!shd.emailedToUserAt,
+    trackingNumber: shd.trackingNumber,
+    trackingURL: `${USPS_TRACKING_URL_PREFIX}${shd.trackingNumber}`,
+    isUserInNyc: !!session.onboardingInfo?.borough,
+  };
+}
+
 export const EvictionFreeDbConfirmation = EvictionFreeRequireLoginStep(
   (props) => {
-    const pdfLink = getGlobalAppServerInfo().submittedHardshipDeclarationURL;
+    const { session } = useContext(AppContext);
+    const info = getDeclInfo(session);
 
-    // TODO: This should be the actual send date of the letter.
-    const sendDate = new Date().toISOString();
-
-    // TODO: Dynamically show "email" and "USPS Certified Mail" based on user actions and internationalize
-    const deliveryMethodToLandlord = "email and USPS Certified Mail";
+    if (!info) {
+      return <Redirect to={assertNotNull(props.prevStep)} />;
+    }
 
     return (
       <Page
@@ -136,48 +166,61 @@ export const EvictionFreeDbConfirmation = EvictionFreeRequireLoginStep(
         className="content"
         withHeading={renderTitleWithCheckCircle}
       >
-        <Trans id="evictionfree.declarationHasBeenSent">
-          <p>
+        <p>
+          <Trans>
             Your hardship declaration form has been sent to your landlord via{" "}
-            {deliveryMethodToLandlord}. A copy of the declaration has also been
-            sent to your local court via email in order to ensure they have it
-            on record if your landlord attempts to initiate an eviction case.
-          </p>
+            {info.landlordMailLabel}.
+          </Trans>{" "}
+          {info.wasEmailedToHousingCourt && (
+            <Trans>
+              A copy of the declaration has also been sent to your local court
+              via email in order to ensure they have it on record if your
+              landlord attempts to initiate an eviction case.
+            </Trans>
+          )}
+        </p>
+        {info.wasEmailedToUser && (
           <p>
-            Check your email for a message containing a copy of your declaration
-            and additional important information on next steps.
+            <Trans>
+              Check your email for a message containing a copy of your
+              declaration and additional important information on next steps.
+            </Trans>
           </p>
-        </Trans>
-        <h2 className={H2_CLASSNAME}>
-          <Trans>Details about your declaration</Trans>
-        </h2>
-        <p>
-          <Trans>Your letter was sent on {friendlyUTCDate(sendDate)}.</Trans>
-        </p>
-        <p>
-          <span className="is-size-5 has-text-weight-bold">
-            <Trans>USPS Tracking #:</Trans>
-          </span>{" "}
-          <OutboundLink
-            href={`${USPS_TRACKING_URL_PREFIX}${SAMPLE_USPS_TRACKING_NUMBER}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="is-size-5 is-size-6-mobile"
-          >
-            {SAMPLE_USPS_TRACKING_NUMBER}
-          </OutboundLink>
-        </p>
+        )}
+        {info.mailedAt && (
+          <>
+            <h2 className={H2_CLASSNAME}>
+              <Trans>Details about your declaration</Trans>
+            </h2>
+            <p>
+              <Trans>Your letter was sent on {info.mailedAt}.</Trans>
+            </p>
+            <p>
+              <span className="is-size-5 has-text-weight-bold">
+                <Trans>USPS Tracking #:</Trans>
+              </span>{" "}
+              <OutboundLink
+                href={info.trackingURL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="is-size-5 is-size-6-mobile"
+              >
+                {info.trackingNumber}
+              </OutboundLink>
+            </p>
+          </>
+        )}
         <br />
         <PdfLink
-          href={pdfLink}
+          href={info.pdfLink}
           label={li18n._(t`Download completed declaration`)}
         />
-        {/* TO DO: Only show the following two sections if user is in NYC
-          by checking if session.onboardingInfo.borough is falsy */}
-        <>
-          <RetaliationBlurb />
-          <HcaHotlineBlurb />
-        </>
+        {info.isUserInNyc && (
+          <>
+            <RetaliationBlurb />
+            <HcaHotlineBlurb />
+          </>
+        )}
 
         <OrganizingGroupsBlurb />
       </Page>

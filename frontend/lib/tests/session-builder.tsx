@@ -192,6 +192,7 @@ export class SessionBuilder {
         mailedAt: "2021-01-27",
         emailedAt: "2021-01-27",
         emailedToHousingCourtAt: "2021-01-27",
+        emailedToUserAt: "2021-01-27",
         trackingNumber: "12345",
       },
     });

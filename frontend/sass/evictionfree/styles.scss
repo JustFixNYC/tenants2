@@ -54,6 +54,8 @@ $jf-navbar-content: $black;
 @import "../norent/_primary_pages.scss";
 @import "../norent/_letter-builder.scss";
 
+$max-content-width: 1440px;
+
 .jf-evictionfree-logo {
   font-size: 20px;
   font-weight: 600;
@@ -62,10 +64,96 @@ $jf-navbar-content: $black;
   line-height: 1.25;
 }
 
+.jf-evictionfree-homepage-navbar nav.navbar {
+  @include tablet {
+    position: sticky;
+    margin-top: -3.25rem;
+  }
+}
+.jf-evictionfree-byline {
+  max-width: 235px;
+  margin: 0.5rem 3.25rem;
+  text-align: center;
+  @include mobile {
+    margin: 0.5rem 0;
+    max-width: 300px;
+    text-align: left;
+  }
+}
+
 .jf-build-my-declaration-btn {
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 200;
+}
+
+.jf-background-image.image {
+  display: flex;
+  img {
+    object-fit: cover;
+    min-width: 100%;
+    min-height: 550px;
+  }
+}
+
+.jf-evictionfree-homepage {
+  line-height: 1.25;
+  .subtitle {
+    font-size: 1.5rem;
+    @include touch {
+      font-size: 1.25rem;
+    }
+  }
+  p,
+  .media-content {
+    font-size: 1rem;
+    @include widescreen {
+      font-size: 1.25rem;
+    }
+  }
+  .column {
+    &.is-half .hero {
+      height: 100%;
+      .hero-body:not(:first-child) {
+        flex-grow: 0;
+      }
+    }
+    .hero .hero-body {
+      padding: 3rem 4rem;
+      @include touch {
+        padding: 3rem 1.25rem;
+      }
+    }
+  }
+  .jf-block-of-color-in-background {
+    top: unset;
+    z-index: 0;
+    height: 700px;
+    max-width: $max-content-width;
+  }
+  .jf-block-of-color-in-background + .hero-body {
+    z-index: 1;
+  }
+}
+
+.jf-evictionfree-about {
+  figure.image {
+    padding: 0;
+    margin: 0.5rem auto;
+
+    &.is-square {
+      height: 150px;
+      width: 150px;
+    }
+
+    &.is-3by1 {
+      height: 70px;
+      width: 210px;
+    }
+    img {
+      max-height: 150px;
+    }
+  }
 }
 
 // OVERRIDES OF NORENT STYLING
@@ -75,12 +163,18 @@ $jf-navbar-content: $black;
   @extend .has-text-link;
 }
 
+.jf-above-footer-content {
+  max-width: $max-content-width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 // Navbar Overrides
 nav.navbar {
   .container {
-    margin: 0;
+    margin: auto;
     padding: 0;
-    max-width: unset;
+    max-width: $max-content-width;
     .navbar-brand {
       padding: 0;
       .navbar-item:first-child {
@@ -105,10 +199,22 @@ nav.navbar {
 }
 
 // Header overrides
-.content h1.title {
-  line-height: 1.15;
-  @include touch {
+.content {
+  h1.title {
+    line-height: 1.15;
+    @include touch {
+      font-size: 3rem;
+      line-height: 1;
+    }
+  }
+
+  h2 {
     font-size: 2.25rem;
+    &.title {
+      @include tablet {
+        font-size: 3rem;
+      }
+    }
   }
 }
 
@@ -131,6 +237,11 @@ nav.navbar {
 // Fix issue where full-width columns extend beyond viewport on mobile
 .columns {
   max-width: 100%;
+  margin: 0;
+
+  &:not(:last-child) {
+    margin-bottom: 0;
+  }
 }
 
 // Accordion overrides
@@ -158,4 +269,18 @@ nav.navbar {
       padding-left: 3.1rem;
     }
   }
+}
+
+// Content overrides
+
+.content figure {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+// Media Object overrides
+
+// This fixes a bug where our accordion components show scrollbars on mobile
+.media-content {
+  overflow-x: unset;
 }

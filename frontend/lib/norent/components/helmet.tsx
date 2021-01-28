@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import { Helmet } from "react-helmet-async";
-import { getImageSrc } from "../homepage";
+import { getNorentImageSrc } from "../homepage";
 import { useSiteName } from "../../ui/page";
 import { AppContext } from "../../app-context";
 import { li18n } from "../../i18n-lingui";
 import { t } from "@lingui/macro";
 
-const favicon16 = getImageSrc("favicon-16x16", "png");
-const favicon32 = getImageSrc("favicon-32x32", "png");
-const favicon96 = getImageSrc("favicon-96x96", "png");
+const favicon16 = getNorentImageSrc("favicon-16x16", "png");
+const favicon32 = getNorentImageSrc("favicon-32x32", "png");
+const favicon96 = getNorentImageSrc("favicon-96x96", "png");
 
 const TWITTER_HANDLE = "@JustFixNYC";
 
@@ -22,7 +22,7 @@ const keywords = () =>
 export const NorentHelmet = () => {
   const { server } = useContext(AppContext);
   const siteName = useSiteName();
-  const shareImageSrc = `${server.staticURL}${getImageSrc(
+  const shareImageSrc = `${server.staticURL}${getNorentImageSrc(
     "social-share",
     "png"
   )}`;

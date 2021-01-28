@@ -123,8 +123,7 @@ const OrganizingGroupsBlurb = () => (
 export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
   props
 ) => {
-  // TODO: This should be the URL to the finished declaration, *not* the preview.
-  const pdfLink = getGlobalAppServerInfo().previewHardshipDeclarationURL;
+  const pdfLink = getGlobalAppServerInfo().submittedHardshipDeclarationURL;
 
   // TODO: This should be the actual send date of the letter.
   const sendDate = new Date().toISOString();

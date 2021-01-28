@@ -12,7 +12,10 @@ from project import schema_registry
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from norent.schema import BaseCreateAccount
 from norent.forms import CreateAccount
-from . import forms, models
+from project.util.session_mutation import SessionFormMutation
+from project.util.django_graphql_forms import DjangoFormMutation
+from project.util import site_util
+from . import forms, models, declaration_sending
 
 
 @schema_registry.register_mutation
@@ -51,6 +54,63 @@ class EvictionFreeCovidImpact(OneToOneUserModelFormMutation):
 class EvictionFreeIndexNumber(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.IndexNumberForm
+
+
+@schema_registry.register_mutation
+class EvictionFreeAgreeToLegalTerms(DjangoFormMutation):
+    class Meta:
+        form_class = forms.AgreeToLegalTermsForm
+
+
+@schema_registry.register_mutation
+class EvictionFreeSigningTruthfully(DjangoFormMutation):
+    class Meta:
+        form_class = forms.SigningTruthfullyForm
+
+
+@schema_registry.register_mutation
+class EvictionFreeSubmitDeclaration(SessionFormMutation):
+    login_required = True
+
+    @classmethod
+    def perform_mutate(cls, form, info):
+        from norent.schema import does_user_have_ll_mailing_addr_or_email
+
+        request = info.context
+        user = request.user
+        assert user.is_authenticated
+
+        if hasattr(user, "submitted_hardship_declaration"):
+            return cls.make_error("You have already sent a hardship declaration!")
+        if not hasattr(user, "onboarding_info"):
+            return cls.make_and_log_error(info, "You have not onboarded!")
+        if not does_user_have_ll_mailing_addr_or_email(user):
+            return cls.make_and_log_error(info, "You haven't provided any landlord details yet!")
+
+        oi = user.onboarding_info
+        if oi.state != "NY":
+            return cls.make_and_log_error(
+                info, "You must be in the state of New York to use this tool!"
+            )
+
+        if not (
+            hasattr(user, "hardship_declaration_details")
+            and user.hardship_declaration_details.are_ready_for_submission()
+        ):
+            return cls.make_and_log_error(
+                info, "You have not provided details for your hardship declaration yet!"
+            )
+
+        site_type = site_util.get_site_type(site_util.get_site_from_request_or_default(request))
+
+        if site_type != site_util.SITE_CHOICES.EVICTIONFREE:
+            return cls.make_and_log_error(
+                info, "This form can only be used from the EvictionFreeNY site."
+            )
+
+        declaration_sending.create_and_send_declaration(user)
+
+        return cls.mutation_success()
 
 
 @schema_registry.register_session_info

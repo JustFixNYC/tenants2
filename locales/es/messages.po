@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-28 22:27\n"
+"PO-Revision-Date: 2021-01-28 23:07\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -685,7 +685,7 @@ msgstr "Lucha contra un desalojo"
 
 #: frontend/lib/evictionfree/homepage.tsx:221
 msgid "Fight to #CancelRent"
-msgstr "Lucha para #CancelarLaRenta"
+msgstr "Lucha para #CancelRent"
 
 #: frontend/lib/evictionfree/homepage.tsx:24
 #: frontend/lib/evictionfree/site.tsx:37

@@ -104,17 +104,16 @@ def send_declaration_via_lob(decl: SubmittedHardshipDeclaration, pdf_bytes: byte
     Returns True if the declaration was just sent.
     """
 
+    from norent.letter_sending import send_pdf_to_landlord_via_lob
+
     if decl.mailed_at is not None:
         logger.info(f"{decl} has already been mailed to the landlord.")
         return False
 
-    # TODO: Implement this, set response to result of lob_api.mail_certified_letter().
+    response = send_pdf_to_landlord_via_lob(decl.user, pdf_bytes, "NY hardship declaration")
 
-    # TODO: Set letter.lob_letter_object to response.
-
-    # TODO: Set tracking number to response["tracking_number"].
-    decl.tracking_number = "123456789"
-
+    decl.lob_letter_object = response
+    decl.tracking_number = response["tracking_number"]
     decl.mailed_at = timezone.now()
     decl.save()
 

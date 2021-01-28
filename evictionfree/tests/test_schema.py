@@ -224,7 +224,9 @@ class TestEvictionFreeSubmitDeclaration:
             "This form can only be used from the EvictionFreeNY site."
         )
 
-    def test_it_works(self, use_evictionfree_site, fake_fill_hardship_pdf, settings):
+    def test_it_works(
+        self, use_evictionfree_site, fake_fill_hardship_pdf, settings, allow_lambda_http, mailoutbox
+    ):
         settings.IS_DEMO_DEPLOYMENT = False
         self.create_landlord_details()
         OnboardingInfoFactory(user=self.user)
@@ -244,3 +246,17 @@ class TestEvictionFreeSubmitDeclaration:
         assert decl.mailed_at is not None
         assert decl.emailed_at is not None
         assert decl.emailed_to_housing_court_at is not None
+
+        assert len(mailoutbox) == 3
+
+        ll_mail = mailoutbox[0]
+        assert ll_mail.to == ["landlordo@calrissian.net"]
+        assert "TODO: set email to landlord body" in ll_mail.body
+
+        hc_mail = mailoutbox[1]
+        assert hc_mail.to == ["KingsHardshipDeclaration@nycourts.gov"]
+        assert "TODO: set email to housing court body" in hc_mail.body
+
+        user_mail = mailoutbox[2]
+        assert user_mail.to == ["boop@jones.net"]
+        assert "Congratulations" in user_mail.body

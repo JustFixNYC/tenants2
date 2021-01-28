@@ -12,6 +12,7 @@ import { EvictionFreeFaqsPage } from "./faqs";
 import { createHtmlEmailStaticPageRoutes } from "../static-page/routes";
 import { EvictionFreeDeclarationEmailToUserStaticPage } from "./declaration-email-to-user";
 import { EvictionFreeDeclarationEmailToHousingCourtStaticPage } from "./declaration-email-to-housing-court";
+import { EvictionFreeDeclarationEmailToLandlordStaticPage } from "./declaration-email-to-landlord";
 
 const LoadableDevRoutes = loadable(
   () => friendlyLoad(import("../dev/routes")),
@@ -49,6 +50,10 @@ export const EvictionFreeRouteComponent: React.FC<RouteComponentProps> = (
       {createHtmlEmailStaticPageRoutes(
         Routes.locale.declarationEmailToUser,
         EvictionFreeDeclarationEmailToUserStaticPage
+      )}
+      {createHtmlEmailStaticPageRoutes(
+        Routes.locale.declarationEmailToLandlord,
+        EvictionFreeDeclarationEmailToLandlordStaticPage
       )}
       {createHtmlEmailStaticPageRoutes(
         Routes.locale.declarationEmailToHousingCourt,

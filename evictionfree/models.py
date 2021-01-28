@@ -95,6 +95,12 @@ class SubmittedHardshipDeclaration(models.Model):
         help_text="When the declaration was e-mailed to the user's housing court.",
     )
 
+    emailed_to_user_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When the declaration was e-mailed to the user.",
+    )
+
     def __str__(self):
         if not self.pk:
             return super().__str__()

@@ -108,6 +108,19 @@ def send_declaration_to_housing_court(decl: SubmittedHardshipDeclaration, pdf_by
     return True
 
 
+def send_declaration_to_user(decl: SubmittedHardshipDeclaration, pdf_bytes: bytes) -> bool:
+    if decl.emailed_to_user_at is not None:
+        logger.info(f"{decl} has already been sent to the user.")
+        return False
+
+    # TODO: Send the declaration to the user.
+
+    decl.emailed_to_user_at = timezone.now()
+    decl.save()
+
+    return True
+
+
 def send_declaration(decl: SubmittedHardshipDeclaration):
     """
     Send the given declaration using whatever information is populated
@@ -136,8 +149,7 @@ def send_declaration(decl: SubmittedHardshipDeclaration):
     send_declaration_to_housing_court(decl, pdf_bytes)
 
     if user.email:
-        # TODO: Implement this!
-        pass
+        send_declaration_to_user(decl, pdf_bytes)
 
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "

@@ -1,7 +1,6 @@
 from datetime import date
 from typing import List, Optional
 from pydantic import BaseModel
-from django.template.loader import render_to_string
 
 from users.models import JustfixUser
 from evictionfree.housing_court import get_housing_court_info_for_user
@@ -36,6 +35,8 @@ def get_vars_for_user(user: JustfixUser) -> Optional[CoverLetterVariables]:
 
 
 def render_cover_letter_html(v: CoverLetterVariables) -> str:
+    from loc.views import render_pdf_html
+
     recipients: List[str] = []
     recipients_es: List[str] = []
 
@@ -56,7 +57,8 @@ def render_cover_letter_html(v: CoverLetterVariables) -> str:
         recipients.append(f"Housing Court, via email to {v.housing_court_email}")
         recipients_es.append(f"Tribunal de Vivienda, mediante email a {v.housing_court_email}")
 
-    return render_to_string(
+    return render_pdf_html(
+        None,
         "evictionfree/cover-letter.html",
         {"date": v.date, "recipients": recipients, "recipients_es": recipients_es},
     )

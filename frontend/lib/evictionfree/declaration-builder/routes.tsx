@@ -38,7 +38,11 @@ import { EvictionFreeCovidImpact } from "./covid-impact";
 import { EvictionFreeCreateAccount } from "./create-account";
 import { EvictionFreeIndexNumber } from "./index-number";
 import { EvictionFreePreviewPage } from "./preview";
-import { EvictionFreeOnboardingStep } from "./step-decorators";
+import {
+  EvictionFreeNotSentDeclarationStep,
+  EvictionFreeOnboardingStep,
+  hasEvictionFreeDeclarationBeenSent,
+} from "./step-decorators";
 import { EvictionFreeDbWelcome } from "./welcome";
 
 const DEFAULT_STEP_CONTENT = (
@@ -103,17 +107,19 @@ const EfAskNycAddress = EvictionFreeOnboardingStep((props) => (
   </AskNycAddress>
 ));
 
-const EfLandlordNameAndContactTypes = MiddleProgressStep((props) => (
-  <LandlordNameAndContactTypes {...props}>
-    <p>
-      <Trans>
-        We'll use this information to send your hardship declaration form.
-      </Trans>
-    </p>
-  </LandlordNameAndContactTypes>
-));
+const EfLandlordNameAndContactTypes = EvictionFreeNotSentDeclarationStep(
+  (props) => (
+    <LandlordNameAndContactTypes {...props}>
+      <p>
+        <Trans>
+          We'll use this information to send your hardship declaration form.
+        </Trans>
+      </p>
+    </LandlordNameAndContactTypes>
+  )
+);
 
-const EfLandlordEmail = MiddleProgressStep((props) => (
+const EfLandlordEmail = EvictionFreeNotSentDeclarationStep((props) => (
   <LandlordEmail
     {...props}
     introText={
@@ -124,7 +130,7 @@ const EfLandlordEmail = MiddleProgressStep((props) => (
   />
 ));
 
-const EfLandlordMailingAddress = MiddleProgressStep((props) => (
+const EfLandlordMailingAddress = EvictionFreeNotSentDeclarationStep((props) => (
   <LandlordMailingAddress
     {...props}
     confirmModalRoute={
@@ -211,43 +217,45 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
         component: EfOutsideNewYork,
         shouldBeSkipped: (s) => s.onboardingInfo?.state === "NY",
       },
-      {
-        path: routes.hardshipSituation,
-        exact: true,
-        component: EvictionFreeCovidImpact,
-      },
-      {
-        path: routes.indexNumber,
-        exact: true,
-        component: EvictionFreeIndexNumber,
-      },
-      {
-        path: routes.landlordName,
-        exact: true,
-        component: EfLandlordNameAndContactTypes,
-      },
-      {
-        path: routes.landlordEmail,
-        exact: true,
-        shouldBeSkipped: shouldSkipLandlordEmailStep,
-        component: EfLandlordEmail,
-      },
-      {
-        path: routes.landlordAddress,
-        exact: false,
-        shouldBeSkipped: shouldSkipLandlordMailingAddressStep,
-        component: EfLandlordMailingAddress,
-      },
-      {
-        path: routes.agreeToLegalTerms,
-        exact: true,
-        component: EvictionFreeAgreeToLegalTerms,
-      },
-      {
-        path: routes.preview,
-        exact: false,
-        component: EvictionFreePreviewPage,
-      },
+      ...skipStepsIf(hasEvictionFreeDeclarationBeenSent, [
+        {
+          path: routes.hardshipSituation,
+          exact: true,
+          component: EvictionFreeCovidImpact,
+        },
+        {
+          path: routes.indexNumber,
+          exact: true,
+          component: EvictionFreeIndexNumber,
+        },
+        {
+          path: routes.landlordName,
+          exact: true,
+          component: EfLandlordNameAndContactTypes,
+        },
+        {
+          path: routes.landlordEmail,
+          exact: true,
+          shouldBeSkipped: shouldSkipLandlordEmailStep,
+          component: EfLandlordEmail,
+        },
+        {
+          path: routes.landlordAddress,
+          exact: false,
+          shouldBeSkipped: shouldSkipLandlordMailingAddressStep,
+          component: EfLandlordMailingAddress,
+        },
+        {
+          path: routes.agreeToLegalTerms,
+          exact: true,
+          component: EvictionFreeAgreeToLegalTerms,
+        },
+        {
+          path: routes.preview,
+          exact: false,
+          component: EvictionFreePreviewPage,
+        },
+      ]),
     ],
     confirmationSteps: [
       {

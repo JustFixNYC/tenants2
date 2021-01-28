@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-28 01:25\n"
+"PO-Revision-Date: 2021-01-28 01:51\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1539,11 +1539,6 @@ msgstr "Protéjete del desalojo"
 msgid "Protect yourself from eviction in New York State"
 msgstr "Protéjete del desalojo en el estado de Nueva York"
 
-#: frontend/lib/evictionfree/homepage.tsx:66
-#: frontend/lib/evictionfree/homepage.tsx:72
-msgid "Protect yourself from eviction in New York State"
-msgstr ""
-
 #: common-data/us-state-choices.ts:104
 msgid "Puerto Rico"
 msgstr "Puerto Rico"
@@ -2566,10 +2561,6 @@ msgstr "<0>Tu declaración de penuria ha sido enviada al dueño de tu edificio a
 msgid "evictionfree.faqsPageIntro"
 msgstr "Comprender estas leyes es difícil. A continuación, echa un vistazo a nuestras preguntas más frecuentes de personas que han usado nuestra herramienta. Si tienes preguntas sobre el estado de la corte de vivienda y el estatus actual de los casos de desalojo, consulte"
 
-#: frontend/lib/evictionfree/faqs.tsx:49
-msgid "evictionfree.faqsPageIntro"
-msgstr ""
-
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:13
 msgid "evictionfree.financialHardshipExplainer1"
 msgstr "Esto significa que no puedes pagar tu alquiler u otras obligaciones financieras bajo el contrato de arrendamiento al completo u obtener una vivienda permanente, alterna, y adecuada debido a uno o más de las siguientes razones:"
@@ -2590,14 +2581,6 @@ msgstr "<0>Housing Justice for All</0> es una coalición de más de 100 organiza
 msgid "evictionfree.introToLaw"
 msgstr "El 28 de diciembre de 2020, el estado de Nueva York <0>aprobó la legislación</0> que protege a los inquilinos del desalojo debido a la pérdida de ingresos o a los riesgos de salud del COVID-19. Para protegerte, debes rellenar una declaración de <1>penuria</1> y enviarla al dueño de tu edificio y/o a los tribunales."
 
-#: frontend/lib/evictionfree/about.tsx:73
-msgid "evictionfree.hj4aBlurb"
-msgstr ""
-
-#: frontend/lib/evictionfree/homepage.tsx:115
-msgid "evictionfree.introToLaw"
-msgstr ""
-
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:12
 msgid "evictionfree.introductionToDeclarationFormSteps"
 msgstr "Para beneficiarte de las protecciones de desalojo que han puesto en marcha electos locales, puedes notificar al dueño de tu edificio rellenando un formulario de declaración de penuria. <0>En el caso de que el dueño de tu edificio intente desalojarte, los tribunales lo verán como un paso proactivo que ayuda a establecer tu defensa.</0>"
@@ -2605,10 +2588,6 @@ msgstr "Para beneficiarte de las protecciones de desalojo que han puesto en marc
 #: frontend/lib/evictionfree/about.tsx:89
 msgid "evictionfree.justfixBlurb"
 msgstr "<0>JustFix.nyc</0> codiseña y construye herramientas para inquilinos, organizadores del vivienda y abogados que luchan contra el desplazamiento en la ciudad de Nueva York. Nuestra misión es galvanizar un movimiento de inquilinos del siglo XXI que trabaje en favor de la vivienda para todos, y creemos que el poder de los datos y la tecnología debe ser accesible para quienes luchan en esta lucha."
-
-#: frontend/lib/evictionfree/about.tsx:89
-msgid "evictionfree.justfixBlurb"
-msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:30
 msgid "evictionfree.landlordRetaliationWarning"
@@ -2642,10 +2621,6 @@ msgstr "Actualmente no puedes utilizar esta herramienta para enviar más de un f
 msgid "evictionfree.rtcBlurb"
 msgstr "La <0>Coalición de Derecho al Abogado NYC</0> es una extensa coalición de inquilinos que se formó en el 2014 para quebrantar la Corte de Vivienda como centro de desplazamiento y detener la crisis de desalojo que ha amenazado a nuestras familias, nuestros vecinos y nuestras casas por demasiado tiempo. Consta de inquilinos, organizadores, abogados, organizaciones de servicios legales y más. Estamos construyendo campañas para un NYC sin desalojos y, en última instancia, para un derecho a la vivienda."
 
-#: frontend/lib/evictionfree/about.tsx:54
-msgid "evictionfree.rtcBlurb"
-msgstr ""
-
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:60
 msgid "evictionfree.significantHealthRiskExplainer"
 msgstr "Esto significa que usted o uno o más miembros de su familia tienen un mayor riesgo de enfermedad grave o muerte por el COVID-19 debido a ser mayor de sesenta y cinco años, tener una discapacidad o tener una afección médica subyacente, que puede incluir pero no se limita a ser inmunodeprimido/a."
@@ -2660,15 +2635,7 @@ msgstr "Nuestra herramienta gratuita fue construida por la <0>Coalición de Dere
 
 #: frontend/lib/evictionfree/homepage.tsx:158
 msgid "evictionfree.whoHasRightToSubmitForm"
-msgstr "All tenants in New York State have a right to fill out this hardship declaration form. However, if you've been served an eviction notice or believe you are at risk of being evicted, please consider using this form to protect yourself."
-
-#: frontend/lib/evictionfree/homepage.tsx:190
-msgid "evictionfree.whoBuildThisTool"
-msgstr ""
-
-#: frontend/lib/evictionfree/homepage.tsx:158
-msgid "evictionfree.whoHasRightToSubmitForm"
-msgstr ""
+msgstr "Todos los inquilinos del estado de Nueva York tienen derecho a rellenar este formulario de declaración de penuria. Sin embargo, si has recibido una notificación de desalojo o crees que corres el riesgo de ser desalojado, por favor considere utilizar este formulario para protegerse a sí mismo."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:165
 msgid "justfix.DdoMayNeedHpdRegistration"

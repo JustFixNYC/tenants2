@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-27 23:56\n"
+"PO-Revision-Date: 2021-01-28 00:03\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2055,7 +2055,7 @@ msgstr "Ver detalles sobre tu última carta"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:76
 msgid "View list of organizations"
-msgstr "View list of organizations"
+msgstr "Ver lista de organizaciones"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:105
 msgid "View this letter as a PDF"
@@ -2067,7 +2067,7 @@ msgstr "Virginia"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:196
 msgid "Visit <0/> for information on how to connect with a lawyer."
-msgstr "Visit <0/> for information on how to connect with a lawyer."
+msgstr "Visita <0/> para obtener información sobre cómo conectar con un abogado."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:230
 msgid "Visit Who Owns What"
@@ -2111,15 +2111,15 @@ msgstr "Incluiremos esta información en la carta al dueño de tu edificio."
 
 #: frontend/lib/evictionfree/declaration-builder/routes.tsx:29
 msgid "We'll include this information in your hardship declaration form."
-msgstr "We'll include this information in your hardship declaration form."
+msgstr "Incluiremos esta información en tu formulario de declaración de penuria."
 
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:36
 msgid "We'll need to add your case's index number to your declaration."
-msgstr "We'll need to add your case's index number to your declaration."
+msgstr "Tendremos que añadir el número de índice de tu caso a tu declaración."
 
 #: frontend/lib/evictionfree/declaration-builder/routes.tsx:52
 msgid "We'll use this information to email you a copy of your hardship declaration form."
-msgstr "We'll use this information to email you a copy of your hardship declaration form."
+msgstr "Utilizaremos esta información para enviarte una copia de tu declaración."
 
 #: frontend/lib/norent/letter-builder/ask-email.tsx:10
 msgid "We'll use this information to email you a copy of your letter."
@@ -2131,12 +2131,12 @@ msgstr "Utilizaremos esta información para enviarte noticias."
 
 #: frontend/lib/evictionfree/declaration-builder/routes.tsx:76
 msgid "We'll use this information to send your hardship declaration form via certified mail for free."
-msgstr "We'll use this information to send your hardship declaration form via certified mail for free."
+msgstr "Utilizaremos esta información para enviar su formulario de declaración de penuria por correo certificado de forma gratuita."
 
 #: frontend/lib/evictionfree/declaration-builder/routes.tsx:66
 #: frontend/lib/evictionfree/declaration-builder/routes.tsx:71
 msgid "We'll use this information to send your hardship declaration form."
-msgstr "We'll use this information to send your hardship declaration form."
+msgstr "Utilizaremos esta información para enviar tu declaración de penuria."
 
 #: frontend/lib/norent/letter-builder/landlord-email.tsx:5
 #: frontend/lib/norent/letter-builder/landlord-mailing-address.tsx:8
@@ -2191,11 +2191,11 @@ msgstr "¿Qué hace esta herramienta?"
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:11
 msgid "What does “financial hardship” mean?"
-msgstr "What does “financial hardship” mean?"
+msgstr "¿Qué significa “penuria financiera”?"
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:58
 msgid "What does “significant health risk” mean?"
-msgstr "What does “significant health risk” mean?"
+msgstr "¿Qué significa “riesgo sanitario significativo”?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:357
 msgid "What happens after I send this letter?"
@@ -2253,7 +2253,7 @@ msgstr "Cuando utilices nuestra herramienta, podrás obtener una vista previa de
 
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:42
 msgid "Where do I find my case's index number?"
-msgstr "Where do I find my case's index number?"
+msgstr "¿Dónde encuentro el número de índice de mi caso?"
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:53
 msgid "Where do I find this information?"
@@ -2269,7 +2269,7 @@ msgstr "Empecemos con tu número de teléfono, ya sea tu primera vez aquí, o es
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:70
 msgid "Which hardship situation applies to you?"
-msgstr "Which hardship situation applies to you?"
+msgstr "¿Qué situación de penuria te aplica?"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:94
 msgid "While you wait for your landlord to respond, gather as much documentation as you can. This can include a letter from your employer, receipts, doctor’s notes etc."
@@ -2328,7 +2328,7 @@ msgstr "Wisconsin"
 
 #: frontend/lib/evictionfree/homepage.tsx:42
 msgid "With this free tool, you can"
-msgstr "With this free tool, you can"
+msgstr "Con esta herramienta gratuita, puedes"
 
 #: common-data/us-state-choices.ts:116
 msgid "Wyoming"
@@ -2346,7 +2346,7 @@ msgstr "Sí, JustFix.nyc puede enviarme mensajes de texto para hacer un seguimie
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:30
 msgid "Yes, Right to Counsel NYC Coalition, Housing Justice for All, and JustFix.nyc can text me to follow up about my housing issues."
-msgstr "Yes, Right to Counsel NYC Coalition, Housing Justice for All, and JustFix.nyc can text me to follow up about my housing issues."
+msgstr "Sí, Right to Counsel NYC Coalition, Housing Justice for All, y JustFix.nyc pueden enviarme un mensaje de texto para hacer un seguimiento de mis asuntos de vivienda."
 
 #: frontend/lib/pages/logout-alt-page.tsx:25
 msgid "Yes, Sign Out"
@@ -2382,7 +2382,7 @@ msgstr "Puedes enviar otra carta para indicar los demás meses en que no hayas p
 
 #: frontend/lib/evictionfree/homepage.tsx:75
 msgid "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021."
-msgstr "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021."
+msgstr "Puedes utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales — deteniendo tu caso de desalojo hasta el 1 de mayo, 2021."
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:10
 msgid "You can't send any more letters"
@@ -2390,7 +2390,7 @@ msgstr "No puedes enviar más cartas"
 
 #: frontend/lib/evictionfree/declaration-builder/routes.tsx:82
 msgid "You don't live in New York"
-msgstr "You don't live in New York"
+msgstr "No vives en Nueva York"
 
 #: frontend/lib/ui/landlord.tsx:81
 msgid "You have chosen to overwrite the landlord recommended by JustFix.nyc. Please provide your own details below, or <0>use the recommended landlord \"{0}\"</0>."

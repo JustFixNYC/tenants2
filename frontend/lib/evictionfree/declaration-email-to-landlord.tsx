@@ -29,6 +29,7 @@ export const EvictionFreeDeclarationEmailToLandlordStaticPage = asEmailStaticPag
           </p>
           <p>Thank you,</p>
           <p>{props.fullName}</p>
+          <br />
           <EvictionFreeEmailDisclaimer {...props} />
         </HtmlEmail>
       )}

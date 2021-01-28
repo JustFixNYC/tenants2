@@ -7,10 +7,10 @@ import {
   sessionToEvictionFreeDeclarationEmailProps,
 } from "./declaration-email-utils";
 
-export const EvictionFreeEmailDisclaimer: React.FC<{ fullName: string }> = (
-  fullName
-) => (
-  <p>
+export const EvictionFreeEmailDisclaimer: React.FC<{ fullName: string }> = ({
+  fullName,
+}) => (
+  <small>
     Note: {fullName} is submitting the attached Hardship Declaration to the
     Court using this JustFix.nyc email address. This email address is used
     solely for the purpose of submitting the Hardship Declaration and receiving
@@ -18,7 +18,7 @@ export const EvictionFreeEmailDisclaimer: React.FC<{ fullName: string }> = (
     email address and should not be used to communicate with the Declarant for
     any purpose apart from supplying confirmation of receipt of the attached
     Hardship Declaration.
-  </p>
+  </small>
 );
 
 export const EvictionFreeDeclarationEmailToHousingCourtStaticPage = asEmailStaticPage(
@@ -47,6 +47,7 @@ export const EvictionFreeDeclarationEmailToHousingCourtStaticPage = asEmailStati
           <p>Please kindly confirm receipt by replying all to this email.</p>
           <p>Thank you,</p>
           <p>{props.fullName}</p>
+          <br />
           <EvictionFreeEmailDisclaimer {...props} />
         </HtmlEmail>
       )}

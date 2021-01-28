@@ -25,8 +25,7 @@ export const EvictionFreeHelmet = () => {
   const { server } = useContext(AppContext);
   const siteName = useSiteName();
   const shareImageSrc = `${server.staticURL}${getEFImageSrc(
-    // TODO: Update this link with actual social share image
-    "forms",
+    "speaker",
     "png"
   )}`;
   return (
@@ -71,7 +70,6 @@ export const EvictionFreeHelmet = () => {
       <meta name="twitter:description" content={description()} />
       <meta name="twitter:url" content={server.originURL} />
       <meta name="twitter:image" content={shareImageSrc} />
-      {/* TODO: Update this with actual alt text*/}
       <meta name="twitter:image:alt" content="" />
     </Helmet>
   );

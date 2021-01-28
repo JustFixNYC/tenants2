@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-28 00:03\n"
+"PO-Revision-Date: 2021-01-28 00:18\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2394,7 +2394,7 @@ msgstr "No vives en Nueva York"
 
 #: frontend/lib/ui/landlord.tsx:81
 msgid "You have chosen to overwrite the landlord recommended by JustFix.nyc. Please provide your own details below, or <0>use the recommended landlord \"{0}\"</0>."
-msgstr "You have chosen to overwrite the landlord recommended by JustFix.nyc. Please provide your own details below, or <0>use the recommended landlord \"{0}\"</0>."
+msgstr "Has elegido sustituir la información recomendada por JustFix.nyc sobre el dueño de tu edificio. Por favor proporciona tu propia información a continuación, o <0>usa el dueño recomendado\"{0}\"</0>."
 
 #: frontend/lib/norent/letter-builder/menu.tsx:28
 msgid "You most recently sent a letter on {0}."
@@ -2410,7 +2410,7 @@ msgstr "Ya has enviado cartas que corresponden a todos los meses desde que comen
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:94
 msgid "You've sent your hardship declaration"
-msgstr "You've sent your hardship declaration"
+msgstr "Has enviado tu declaración de penuria"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:38
 #: frontend/lib/norent/letter-builder/confirmation.tsx:45
@@ -2455,11 +2455,11 @@ msgstr "Tu edificio fue construido en {0} o antes."
 
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:41
 msgid "Your case's index number"
-msgstr "Your case's index number"
+msgstr "Número de índice de tu caso"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:34
 msgid "Your declaration is ready to send!"
-msgstr "Your declaration is ready to send!"
+msgstr "¡Tu declaración está lista para enviar!"
 
 #: frontend/lib/common-steps/ask-email.tsx:10
 msgid "Your email address"
@@ -2543,11 +2543,11 @@ msgstr "y"
 
 #: frontend/lib/evictionfree/about.tsx:19
 msgid "evictionfree.aboutPage1"
-msgstr "A new State law, passed in late 2020, allows most tenants to stop their eviction case until May 1st, 2021, if they fill out a “Hardship Declaration” form. However, this law puts the responsibility on tenants to figure out how to do that and doesn’t provide easy access to exercise their rights."
+msgstr "Una nueva ley estatal, aprobada a finales de 2020, permite a la mayoría de los inquilinos detener su caso de desalojo hasta el 1 de mayo, 2021, si cumplimentan un formulario de “Declaración de Penuria”. Sin embargo, esta ley carga la responsabilidad de averiguar cómo hacerlo a los inquilinos y no facilita el acceso al ejercicio de sus derechos."
 
 #: frontend/lib/evictionfree/about.tsx:29
 msgid "evictionfree.aboutPage2"
-msgstr "Our website helps tenants submit this hardship declaration form with peace of mind— sending it out via free USPS Certified Mail and email to all of the appropriate parties (your landlord and the courts) to ensure protection. And since the law doesn’t go far enough to protect folks beyond May 1st, our tool connects tenants to the larger tenant movement so we can #CancelRent."
+msgstr "Nuestro sitio web ayuda a los inquilinos a presentar este formulario de declaración de dificultades con total tranquilidad: enviándolo por correo certificado de USPS y por correo electrónico gratuito a todas las entidades necesarias (el dueño de tu edificio y los tribunales) para garantizar la protección. Y dado que la ley no va lo suficientemente lejos para proteger a la gente más allá del 1 de mayo, nuestra herramienta conecta a los inquilinos con el movimiento de inquilinos más grande para que podamos #CancelRent."
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:171
 msgid "evictionfree.deadlineFaq"
@@ -2555,15 +2555,15 @@ msgstr "Puedes enviar tu formulario de declaración en cualquier momento, hasta 
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:95
 msgid "evictionfree.declarationHasBeenSent"
-msgstr "<0>Your hardship declaration form has been sent to your landlord via {deliveryMethodToLandlord}. A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case.</0><1>Check your email for a message containing a copy of your declaration and additional important information on next steps.</1>"
+msgstr "<0>Tu declaración de penuria ha sido enviada al dueño de tu edificio a través de {deliveryMethodToLandlord}. También se ha enviado una copia de la declaración a tu tribunal local por correo electrónico con el fin de asegurarse de que conste en acta si el dueño de tu edificio intenta iniciar un caso de desalojo. </0><1>Revisa tu correo electrónico para encontrar un email que contiene una copia de tu declaración e información adicional importante sobre siguientes pasos a seguir.</1>"
 
 #: frontend/lib/evictionfree/faqs.tsx:49
 msgid "evictionfree.faqsPageIntro"
-msgstr "Navigating these laws is confusing. Check out our frequently asked questions from people who have used our tool below. If you have questions about the state of housing court and the current status of eviction cases, check out"
+msgstr "Comprender estas leyes es difícil. A continuación, echa un vistazo a nuestras preguntas más frecuentes de personas que han usado nuestra herramienta. Si tienes preguntas sobre el estado de la corte de vivienda y el estatus actual de los casos de desalojo, consulte"
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:13
 msgid "evictionfree.financialHardshipExplainer1"
-msgstr "This means you are unable to pay your rent or other financial obligations under the lease in full or obtain alternative suitable permanent housing because of one or more of the following:"
+msgstr "Esto significa que no puedes pagar tu alquiler u otras obligaciones financieras bajo el contrato de arrendamiento al completo u obtener una vivienda permanente alternativa adecuada debido a uno o más de lo siguiente:"
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:20
 msgid "evictionfree.financialHardshipExplainer2"
@@ -2571,7 +2571,7 @@ msgstr "<0>Significant loss of household income during the COVID-19 pandemic.</0
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:68
 msgid "evictionfree.getInvolvedWithCBO"
-msgstr "Get involved in your local community organization! Join millions in the fight for a future free from debt and to win a cancelation of rent, mortgage and utility payments."
+msgstr "¡Involúcrate con la organización local de tu comunidad! Únete a millones en la lucha por un futuro libre de deuda y para ganar una cancelación de renta, hipotecas y utilidades."
 
 #: frontend/lib/evictionfree/about.tsx:73
 msgid "evictionfree.hj4aBlurb"

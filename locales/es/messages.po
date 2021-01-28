@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-28 00:35\n"
+"PO-Revision-Date: 2021-01-28 00:43\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2623,7 +2623,7 @@ msgstr "La <0>Coalición de Derecho al Abogado NYC</0> es una extensa coalición
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:60
 msgid "evictionfree.significantHealthRiskExplainer"
-msgstr "This means you or one or more members of your household have an increased risk for severe illness or death from COVID-19 due to being over the age of sixty-five, having a disability or having an underlying medical condition, which may include but is not limited to being immunocompromised."
+msgstr "Esto significa que usted o uno o más miembros de su familia tienen un mayor riesgo de enfermedad grave o muerte por el COVID-19 debido a ser mayor de sesenta y cinco años, tener una discapacidad o tener una afección médica subyacente, que puede incluir pero no se limita a ser inmunodeprimido/a."
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:161
 msgid "evictionfree.timeLagFaq"
@@ -2631,7 +2631,7 @@ msgstr "Una vez que completes tu formulario de declaración a través de esta he
 
 #: frontend/lib/evictionfree/homepage.tsx:190
 msgid "evictionfree.whoBuildThisTool"
-msgstr "Our free tool was built by the <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, and <2>JustFix.nyc</2> as part of the larger tenant movement across the state."
+msgstr "Nuestra herramienta gratuita fue construida por la <0>Coalición de Derecho al Abogado NYC</0>, <1>Housing Justice for All</1>, y <2>JustFix.nyc</2> como parte del movimiento de inquilinos en todo el estado."
 
 #: frontend/lib/evictionfree/homepage.tsx:158
 msgid "evictionfree.whoHasRightToSubmitForm"

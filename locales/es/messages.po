@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-28 00:43\n"
+"PO-Revision-Date: 2021-01-28 00:59\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -660,7 +660,7 @@ msgstr "Lucha contra un desalojo"
 
 #: frontend/lib/evictionfree/homepage.tsx:221
 msgid "Fight to #CancelRent"
-msgstr "Fight to #CancelRent"
+msgstr "Lucha para #CancelarLaRenta"
 
 #: frontend/lib/evictionfree/homepage.tsx:24
 #: frontend/lib/evictionfree/site.tsx:37
@@ -854,7 +854,7 @@ msgstr "Acepto los términos y condiciones de <0/>."
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:37
 msgid "I agree to the <0>Eviction Free NY terms and conditions</0>."
-msgstr "I agree to the <0>Eviction Free NY terms and conditions</0>."
+msgstr "Acepto los <0>términos y condiciones de Eviction Free NY</0>."
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:43
 msgid "I agree to the <0>NoRent.org terms and conditions</0>."
@@ -2467,7 +2467,7 @@ msgstr "Tu dirección de correo electrónico"
 
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:43
 msgid "Your index number can be found at the top of Postcard or Notice of Petition from housing court. <0>They look like this:</0>"
-msgstr "Your index number can be found at the top of Postcard or Notice of Petition from housing court. <0>They look like this:</0>"
+msgstr "El número de índice de tu caso lo encuentras en la parte superior de la tarjeta de Postal o Aviso de Petition de la corte de viviendas. <0>Se ven así:</0>"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:212
 msgid "Your landlord is associated with {buildings, plural, one {one building} other {# buildings}}."
@@ -2563,11 +2563,11 @@ msgstr "Comprender estas leyes es difícil. A continuación, echa un vistazo a n
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:13
 msgid "evictionfree.financialHardshipExplainer1"
-msgstr "Esto significa que no puedes pagar tu alquiler u otras obligaciones financieras bajo el contrato de arrendamiento al completo u obtener una vivienda permanente alternativa adecuada debido a uno o más de lo siguiente:"
+msgstr "Esto significa que no puedes pagar tu alquiler u otras obligaciones financieras bajo el contrato de arrendamiento al completo u obtener una vivienda permanente, alterna, y adecuada debido a uno o más de las siguientes razones:"
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:20
 msgid "evictionfree.financialHardshipExplainer2"
-msgstr "<0>Significant loss of household income during the COVID-19 pandemic.</0><1>Increase in necessary out-of-pocket expenses related to performing essential work or related to health impacts during the COVID-19 pandemic.</1><2>Childcare responsibilities or responsibilities to care for an elderly, disabled, or sick family member during the COVID-19 pandemic have negatively affected your ability or the ability of someone in your household to obtain meaningful employment or earn income or increased your necessary out-of-pocket expenses.</2><3>Moving expenses and difficulty you have securing alternative housing make it a hardship for you to relocate to another residence during the COVID-19 pandemic.</3><4>Other circumstances related to the COVID-19 pandemic have negatively affected your ability to obtain meaningful employment or earn income or have significantly reduced your household income or significantly increased your expenses.</4><5>To the extent that you have lost household income or had increased expenses, any public assistance, including unemployment insurance, pandemic unemployment assistance, disability insurance, or paid family leave, that you have received since the start of the COVID-19 pandemic does not fully make up for your loss of household income or increased expenses.</5>"
+msgstr "<0>Perdida significativa de ingresos del hogar durante la pandemia COVID-19.</0><1>Aumento en gastos corrientes necesarios relacionados con la realización de trabajo esencial o relacionados con el impacto sobre la salud durante la pandemia COVID-19.</1><2>Las responsabilidades de cuidado diurno para menores o el cuidado de familiares ancianos, discapacitados o enfermos durante la pandemia COVID-19 han impactado negativamente sobre mi capacidad o la capacidad de otros integrantes del hogar de obtener empleo significativo, ganar ingresos, o han aumentado los gastos.</2><3>Es difícil mudarme debido a los gastos de mudanza y la dificultad en conseguir una vivienda alterna u otra residencia durante la pandemia COVID-19.</3><4>Otras circunstancias relacionadas con la pandemia COVID-19 han impactado negativamente mi capacidad de obtener empleo significativo o ganar ingresos o los ingresos del hogar han reducido significativamente o han aumentado significativamente mis gastos.</4><5>En la medida en que he perdido ingresos en el hogar o han aumentado los gastos, el ingreso recibido, sea por asistencia pública, incluso el seguro de desempleo, asistencia por desempleo por causa de la pandemia, el seguro por discapacidad o la licencia familiar pagada, que haya recibido desde el comienzo de la pandemia COVID-19 no compensa en su totalidad la pérdida de ingresos del hogar o el aumento de los gastos.</5>"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:68
 msgid "evictionfree.getInvolvedWithCBO"
@@ -2643,7 +2643,7 @@ msgstr "Parece que este edificio deba estar registrado con el HPD. Los proprieta
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:29
 msgid "justfix.commonWarningAboutChangingLandlordDetails"
-msgstr "If you receive rent-related documents from a different address, or if your landlord has instructed you to use a different address for correspondence, you can <0>provide your own details.</0> But, only use a different address if you are absolutely sure it is correct— it is safer to use the official address your landlord provided to the city."
+msgstr "Si recibes documentos relacionados con el alquiler desde una dirección diferente, o si el dueño de tu edificio te ha dado instrucciones de usar una dirección diferente para vuestra correspondencia, puedes <0>proporcionar tus propios datos.</0> Sin embargo, sólo debes usar una dirección distinta a la que te sugerimos si tienes la certeza absoluta de que es correcta — es más seguro usar la dirección oficial que el dueño de tu edificio ha registrado con la ciudad."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
 msgid "justfix.ddoEfnycCovidMessage"

@@ -246,6 +246,7 @@ class TestEvictionFreeSubmitDeclaration:
         assert decl.mailed_at is not None
         assert decl.emailed_at is not None
         assert decl.emailed_to_housing_court_at is not None
+        assert decl.emailed_to_user_at is not None
 
         assert len(mailoutbox) == 3
 

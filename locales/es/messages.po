@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-28 19:12\n"
+"PO-Revision-Date: 2021-01-28 20:49\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -109,7 +109,7 @@ msgstr "Adjunto a este correo electrónico encontrarás un PDF de tu formulario.
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:122
 msgid "A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case."
-msgstr ""
+msgstr "A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case."
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:33
 msgid "A hard copy of your form has also been mailed to your landlord via USPS mail. You can also track the delivery of your hard copy form using USPS Tracking:"
@@ -385,7 +385,7 @@ msgstr "Explora otros recursos específicos para tu estado:"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:129
 msgid "Check your email for a message containing a copy of your declaration and additional important information on next steps."
-msgstr ""
+msgstr "Check your email for a message containing a copy of your declaration and additional important information on next steps."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:64
 msgid "Check your email for additional important information on next steps."
@@ -2031,7 +2031,7 @@ msgstr "Inodoro No Funciona"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:90
 msgid "USPS Certified Mail"
-msgstr ""
+msgstr "USPS Certified Mail"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:143
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
@@ -2516,7 +2516,7 @@ msgstr "Tu dirección de correo electrónico"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:118
 msgid "Your hardship declaration form has been sent to your landlord via {0}."
-msgstr ""
+msgstr "Your hardship declaration form has been sent to your landlord via {0}."
 
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:43
 msgid "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
@@ -2604,11 +2604,11 @@ msgstr "y"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:89
 msgid "email"
-msgstr ""
+msgstr "email"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:91
 msgid "email and USPS Certified Mail"
-msgstr ""
+msgstr "email and USPS Certified Mail"
 
 #: frontend/lib/evictionfree/about.tsx:19
 msgid "evictionfree.aboutPage1"
@@ -2966,3 +2966,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:102
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

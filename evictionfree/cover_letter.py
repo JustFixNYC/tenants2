@@ -37,17 +37,26 @@ def get_vars_for_user(user: JustfixUser) -> Optional[CoverLetterVariables]:
 
 def render_cover_letter_html(v: CoverLetterVariables) -> str:
     recipients: List[str] = []
+    recipients_es: List[str] = []
 
     if v.landlord_address:
         recipients.append(
             f"Landlord: {v.landlord_name}, via USPS Certified Mail to {v.landlord_address}"
         )
+        recipients_es.append(
+            f"Dueño o manager del edificio: {v.landlord_name}, mediante correo "
+            f'certificado "USPS Certified Mail" a {v.landlord_address}'
+        )
     if v.landlord_email:
         recipients.append(f"Landlord: {v.landlord_name}, via email to {v.landlord_email}")
+        recipients_es.append(
+            f"Dueño o manager del edificio: {v.landlord_name}, mediante {v.landlord_email}"
+        )
     if v.housing_court_email:
         recipients.append(f"Housing Court, via email to {v.housing_court_email}")
+        recipients_es.append(f"Tribunal de Vivienda, mediante email a {v.housing_court_email}")
 
     return render_to_string(
         "evictionfree/cover-letter.html",
-        {"date": v.date, "recipients": recipients},
+        {"date": v.date, "recipients": recipients, "recipients_es": recipients_es},
     )

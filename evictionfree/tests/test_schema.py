@@ -225,7 +225,13 @@ class TestEvictionFreeSubmitDeclaration:
         )
 
     def test_it_works(
-        self, use_evictionfree_site, fake_fill_hardship_pdf, settings, allow_lambda_http, mailoutbox
+        self,
+        use_evictionfree_site,
+        fake_fill_hardship_pdf,
+        settings,
+        allow_lambda_http,
+        mailoutbox,
+        mocklob,
     ):
         settings.IS_DEMO_DEPLOYMENT = False
         self.create_landlord_details()
@@ -247,6 +253,8 @@ class TestEvictionFreeSubmitDeclaration:
         assert decl.emailed_at is not None
         assert decl.emailed_to_housing_court_at is not None
         assert decl.emailed_to_user_at is not None
+        assert decl.tracking_number == mocklob.sample_letter["tracking_number"]
+        assert decl.lob_letter_object is not None
 
         assert len(mailoutbox) == 3
 

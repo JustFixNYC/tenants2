@@ -6,7 +6,6 @@ import { CheckboxFormField } from "../../forms/form-fields";
 import { LegacyFormSubmitter } from "../../forms/legacy-form-submitter";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { li18n } from "../../i18n-lingui";
-import { MiddleProgressStep } from "../../progress/progress-step-route";
 import {
   BlankEvictionFreeSigningTruthfullyInput,
   EvictionFreeSigningTruthfullyMutation,
@@ -20,6 +19,7 @@ import { BackOrUpOneDirLevel, Modal } from "../../ui/modal";
 import Page from "../../ui/page";
 import { PdfLink } from "../../ui/pdf-link";
 import { EvictionFreeRoutes } from "../route-info";
+import { EvictionFreeNotSentDeclarationStep } from "./step-decorators";
 
 const SendDeclarationModal: React.FC<{
   nextStep: string;
@@ -64,52 +64,54 @@ const SendDeclarationModal: React.FC<{
   );
 };
 
-export const EvictionFreePreviewPage = MiddleProgressStep((props) => {
-  return (
-    <Page
-      title={li18n._(t`Your declaration is ready to send!`)}
-      withHeading="big"
-      className="content"
-    >
-      <p>
-        <Trans>
-          Before you send your hardship declaration form, let's review what will
-          be sent to make sure all the information is correct.
-        </Trans>
-      </p>
-      <PdfLink
-        href={getGlobalAppServerInfo().previewHardshipDeclarationURL}
-        label={li18n._(t`Preview my declaration`)}
-      />
-      <LegacyFormSubmitter
-        mutation={EvictionFreeSigningTruthfullyMutation}
-        initialState={BlankEvictionFreeSigningTruthfullyInput}
-        onSuccessRedirect={
-          EvictionFreeRoutes.locale.declaration.previewSendConfirmModal
-        }
+export const EvictionFreePreviewPage = EvictionFreeNotSentDeclarationStep(
+  (props) => {
+    return (
+      <Page
+        title={li18n._(t`Your declaration is ready to send!`)}
+        withHeading="big"
+        className="content"
       >
-        {(ctx) => (
-          <>
-            <CheckboxFormField {...ctx.fieldPropsFor("isSigningTruthfully")}>
-              <Trans>
-                I understand I am signing and submitting this form under penalty
-                of law. I know it is against the law to make a statement on this
-                form that I know is false.
-              </Trans>
-            </CheckboxFormField>
-            <ProgressButtons
-              back={props.prevStep}
-              nextLabel={li18n._(t`Send`)}
-              isLoading={ctx.isLoading}
-            />
-          </>
-        )}
-      </LegacyFormSubmitter>
-      <Route
-        path={EvictionFreeRoutes.locale.declaration.previewSendConfirmModal}
-        exact
-        render={() => <SendDeclarationModal nextStep={props.nextStep} />}
-      />
-    </Page>
-  );
-});
+        <p>
+          <Trans>
+            Before you send your hardship declaration form, let's review what
+            will be sent to make sure all the information is correct.
+          </Trans>
+        </p>
+        <PdfLink
+          href={getGlobalAppServerInfo().previewHardshipDeclarationURL}
+          label={li18n._(t`Preview my declaration`)}
+        />
+        <LegacyFormSubmitter
+          mutation={EvictionFreeSigningTruthfullyMutation}
+          initialState={BlankEvictionFreeSigningTruthfullyInput}
+          onSuccessRedirect={
+            EvictionFreeRoutes.locale.declaration.previewSendConfirmModal
+          }
+        >
+          {(ctx) => (
+            <>
+              <CheckboxFormField {...ctx.fieldPropsFor("isSigningTruthfully")}>
+                <Trans>
+                  I understand I am signing and submitting this form under
+                  penalty of law. I know it is against the law to make a
+                  statement on this form that I know is false.
+                </Trans>
+              </CheckboxFormField>
+              <ProgressButtons
+                back={props.prevStep}
+                nextLabel={li18n._(t`Send`)}
+                isLoading={ctx.isLoading}
+              />
+            </>
+          )}
+        </LegacyFormSubmitter>
+        <Route
+          path={EvictionFreeRoutes.locale.declaration.previewSendConfirmModal}
+          exact
+          render={() => <SendDeclarationModal nextStep={props.nextStep} />}
+        />
+      </Page>
+    );
+  }
+);

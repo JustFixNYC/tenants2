@@ -3,11 +3,11 @@ import React from "react";
 import { CheckboxFormField } from "../../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { li18n } from "../../i18n-lingui";
-import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { EvictionFreeCovidImpactMutation } from "../../queries/EvictionFreeCovidImpactMutation";
 import { Accordion } from "../../ui/accordion";
 import { ProgressButtons } from "../../ui/buttons";
 import Page from "../../ui/page";
+import { EvictionFreeNotSentDeclarationStep } from "./step-decorators";
 
 const FinancialHardshipAccordion: React.FC<{}> = () => (
   <Accordion
@@ -79,52 +79,57 @@ const HealthRiskAccordion: React.FC<{}> = () => (
   </Accordion>
 );
 
-export const EvictionFreeCovidImpact = MiddleProgressStep((props) => {
-  return (
-    <Page
-      title={li18n._(t`Which hardship situation applies to you?`)}
-      withHeading="big"
-      className="content"
-    >
-      <p>
-        <Trans>
-          Check any or all that apply. Note: You{" "}
-          <strong>must select at least one box</strong> in order to qualify for
-          the State's eviction protections.
-        </Trans>
-      </p>
-      <SessionUpdatingFormSubmitter
-        mutation={EvictionFreeCovidImpactMutation}
-        initialState={(s) => ({
-          hasFinancialHardship:
-            s.hardshipDeclarationDetails?.hasFinancialHardship ?? false,
-          hasHealthRisk: s.hardshipDeclarationDetails?.hasHealthRisk ?? false,
-        })}
-        onSuccessRedirect={props.nextStep}
+export const EvictionFreeCovidImpact = EvictionFreeNotSentDeclarationStep(
+  (props) => {
+    return (
+      <Page
+        title={li18n._(t`Which hardship situation applies to you?`)}
+        withHeading="big"
+        className="content"
       >
-        {(ctx) => (
-          <>
-            <CheckboxFormField
-              {...ctx.fieldPropsFor("hasHealthRisk")}
-              extraContentAfterLabel={<HealthRiskAccordion />}
-            >
-              <Trans>
-                Vacating the premises and moving into new permanent housing
-                would pose a significant health risk due to COVID-19.
-              </Trans>
-            </CheckboxFormField>
-            <CheckboxFormField
-              {...ctx.fieldPropsFor("hasFinancialHardship")}
-              extraContentAfterLabel={<FinancialHardshipAccordion />}
-            >
-              <Trans>
-                I am experiencing financial hardship due to COVID-19.
-              </Trans>
-            </CheckboxFormField>
-            <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
-          </>
-        )}
-      </SessionUpdatingFormSubmitter>
-    </Page>
-  );
-});
+        <p>
+          <Trans>
+            Check any or all that apply. Note: You{" "}
+            <strong>must select at least one box</strong> in order to qualify
+            for the State's eviction protections.
+          </Trans>
+        </p>
+        <SessionUpdatingFormSubmitter
+          mutation={EvictionFreeCovidImpactMutation}
+          initialState={(s) => ({
+            hasFinancialHardship:
+              s.hardshipDeclarationDetails?.hasFinancialHardship ?? false,
+            hasHealthRisk: s.hardshipDeclarationDetails?.hasHealthRisk ?? false,
+          })}
+          onSuccessRedirect={props.nextStep}
+        >
+          {(ctx) => (
+            <>
+              <CheckboxFormField
+                {...ctx.fieldPropsFor("hasHealthRisk")}
+                extraContentAfterLabel={<HealthRiskAccordion />}
+              >
+                <Trans>
+                  Vacating the premises and moving into new permanent housing
+                  would pose a significant health risk due to COVID-19.
+                </Trans>
+              </CheckboxFormField>
+              <CheckboxFormField
+                {...ctx.fieldPropsFor("hasFinancialHardship")}
+                extraContentAfterLabel={<FinancialHardshipAccordion />}
+              >
+                <Trans>
+                  I am experiencing financial hardship due to COVID-19.
+                </Trans>
+              </CheckboxFormField>
+              <ProgressButtons
+                isLoading={ctx.isLoading}
+                back={props.prevStep}
+              />
+            </>
+          )}
+        </SessionUpdatingFormSubmitter>
+      </Page>
+    );
+  }
+);

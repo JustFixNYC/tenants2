@@ -113,9 +113,24 @@ class EvictionFreeSubmitDeclaration(SessionFormMutation):
         return cls.mutation_success()
 
 
+class SubmittedHardshipDeclarationType(DjangoObjectType):
+    class Meta:
+        model = models.SubmittedHardshipDeclaration
+        only_fields = (
+            "mailed_at",
+            "emailed_at",
+            "tracking_number",
+        )
+
+
 @schema_registry.register_session_info
 class EvictionFreeSessionInfo:
     hardship_declaration_details = graphene.Field(
         HardshipDeclarationDetailsType,
         resolver=create_model_for_user_resolver(models.HardshipDeclarationDetails),
+    )
+
+    submitted_hardship_declaration = graphene.Field(
+        SubmittedHardshipDeclarationType,
+        resolver=create_model_for_user_resolver(models.SubmittedHardshipDeclaration),
     )

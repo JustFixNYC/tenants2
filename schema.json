@@ -2623,6 +2623,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "submittedHardshipDeclaration",
+              "type": {
+                "kind": "OBJECT",
+                "name": "SubmittedHardshipDeclarationType",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The ID of the currently logged-in user, or null if not logged-in.",
               "isDeprecated": false,
               "name": "userId",
@@ -4855,6 +4867,57 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "HardshipDeclarationDetailsType",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The USPS tracking number for the declaration.",
+              "isDeprecated": false,
+              "name": "trackingNumber",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "When the declaration was mailed to the user's landlord.",
+              "isDeprecated": false,
+              "name": "mailedAt",
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "When the declaration was e-mailed to the user's landlord.",
+              "isDeprecated": false,
+              "name": "emailedAt",
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "SubmittedHardshipDeclarationType",
           "possibleTypes": null
         },
         {

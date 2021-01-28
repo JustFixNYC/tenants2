@@ -24,10 +24,7 @@ const keywords = () =>
 export const EvictionFreeHelmet = () => {
   const { server } = useContext(AppContext);
   const siteName = useSiteName();
-  const shareImageSrc = `${server.staticURL}${getEFImageSrc(
-    "speaker",
-    "png"
-  )}`;
+  const shareImageSrc = `${server.staticURL}${getEFImageSrc("speaker", "png")}`;
   return (
     <Helmet
       link={[

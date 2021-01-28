@@ -213,7 +213,7 @@ def send_declaration_to_user(decl: SubmittedHardshipDeclaration, pdf_bytes: byte
             "to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
             % {
                 "name": user.first_name,
-                "url": "https://www.righttocounselnyc.org/eviction_protections_during_covid",
+                "url": "http://bit.ly/EvictionProtectionsNY",
             }
         )
     )

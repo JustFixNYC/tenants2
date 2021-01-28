@@ -3,6 +3,7 @@
 {% block title %}{% endblock %}
 
 {% block body %}
+<!-- ENGLISH VERSION -->
 <p>This Hardship Declaration form was generated on {{ date }} to be provided to:</p>
 <ul>
     {% for recipient in recipients %}
@@ -10,4 +11,17 @@
     {% endfor %}
 </ul>
 <p>A copy was also provided to the tenant for their records.</p>
+
+<br>
+<hr>
+<br>
+
+<!-- SPANISH VERSION -->
+<p>Esta declaración de penuria ha sido generada el {{ date }} para ser entregada a:</p>
+<ul>
+    {% for recipient in recipients_es %}
+    <li>{{ recipient }}</li>
+    {% endfor %}
+</ul>
+<p>Una copia adicional fue proporcionada al inquilino/a para sus archivos.</p>
 {% endblock %}

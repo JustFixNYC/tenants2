@@ -4876,6 +4876,22 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "createdAt",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The USPS tracking number for the declaration.",
               "isDeprecated": false,
               "name": "trackingNumber",
@@ -4907,6 +4923,18 @@
               "description": "When the declaration was e-mailed to the user's landlord.",
               "isDeprecated": false,
               "name": "emailedAt",
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "When the declaration was e-mailed to the user's housing court.",
+              "isDeprecated": false,
+              "name": "emailedToHousingCourtAt",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",

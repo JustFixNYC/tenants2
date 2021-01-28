@@ -1,7 +1,8 @@
 import logging
 from enum import Enum
-from typing import Optional, NamedTuple, Dict, Any
+from typing import List, Optional, NamedTuple, Dict, Any
 from django.contrib.sites.models import Site
+from django.http import FileResponse
 from django.utils import translation
 from django.conf import settings
 from django.urls import reverse
@@ -9,6 +10,7 @@ from django.urls import reverse
 from users.models import JustfixUser
 from project.util.site_util import get_site_origin, get_site_of_type
 from project.util.html_to_text import html_to_text
+from project.util.email_attachment import email_file_response_as_attachment
 from project.graphql_static_request import GraphQLStaticRequest
 from .lambda_response import LambdaResponse
 from .graphql import get_initial_session
@@ -105,6 +107,36 @@ def react_render_email(
         subject=lr.http_headers["X-JustFix-Email-Subject"],
         body=html_to_text(lr.html),
         html_body=lr.html if is_html_email else None,
+    )
+
+
+def email_react_rendered_content_with_attachment(
+    site_type: str,
+    user: JustfixUser,
+    url: str,
+    recipients: List[str],
+    attachment: FileResponse,
+    locale: str,
+    is_html_email: bool = False,
+) -> None:
+    """
+    Renders an email in the front-end, using the given site and locale,
+    and sends it to the given recipients with the given attachment.
+    """
+
+    email = react_render_email(
+        site_type,
+        locale,
+        url,
+        user=user,
+        is_html_email=is_html_email,
+    )
+    email_file_response_as_attachment(
+        subject=email.subject,
+        body=email.body,
+        html_body=email.html_body,
+        recipients=recipients,
+        attachment=attachment,
     )
 
 

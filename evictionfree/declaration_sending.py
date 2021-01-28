@@ -2,6 +2,7 @@ from io import BytesIO
 import logging
 from django.utils import timezone
 from django.http import FileResponse
+from django.utils.translation import gettext as _
 
 from evictionfree.models import SubmittedHardshipDeclaration
 from users.models import JustfixUser
@@ -74,7 +75,8 @@ def email_declaration_to_landlord(decl: SubmittedHardshipDeclaration, pdf_bytes:
         logger.info(f"{decl} has already been emailed to the landlord.")
         return False
 
-    ld = decl.user.landlord_details
+    user = decl.user
+    ld = user.landlord_details
     assert ld.email
 
     if is_not_demo_deployment(f"emailing {decl} to landlord"):
@@ -93,6 +95,13 @@ def email_declaration_to_landlord(decl: SubmittedHardshipDeclaration, pdf_bytes:
     decl.emailed_at = timezone.now()
     decl.save()
 
+    user.send_sms_async(
+        _("%(name)s, your eviction protection form has been emailed to your landlord.")
+        % {
+            "name": user.first_name,
+        }
+    )
+
     return True
 
 
@@ -104,12 +113,13 @@ def send_declaration_via_lob(decl: SubmittedHardshipDeclaration, pdf_bytes: byte
     Returns True if the declaration was just sent.
     """
 
-    from norent.letter_sending import send_pdf_to_landlord_via_lob
+    from norent.letter_sending import send_pdf_to_landlord_via_lob, USPS_TRACKING_URL_PREFIX
 
     if decl.mailed_at is not None:
         logger.info(f"{decl} has already been mailed to the landlord.")
         return False
 
+    user = decl.user
     response = send_pdf_to_landlord_via_lob(decl.user, pdf_bytes, "NY hardship declaration")
 
     decl.lob_letter_object = response
@@ -117,7 +127,18 @@ def send_declaration_via_lob(decl: SubmittedHardshipDeclaration, pdf_bytes: byte
     decl.mailed_at = timezone.now()
     decl.save()
 
-    # TODO: Send SMS informing user of sending and tracking number.
+    user.send_sms_async(
+        _(
+            "%(name)s A hard copy of your eviction protection form has been mailed to your "
+            "landlord via USPS mail. "
+            "You can track the delivery of your hard copy form using USPS Tracking: %(url)s."
+        )
+        % {
+            "name": user.first_name,
+            "url": USPS_TRACKING_URL_PREFIX + decl.tracking_number,
+        }
+    )
+
     return True
 
 
@@ -149,6 +170,13 @@ def send_declaration_to_housing_court(decl: SubmittedHardshipDeclaration, pdf_by
             locale=locales.DEFAULT,
         )
 
+    user.send_sms_async(
+        _("%(name)s, your eviction protection form has been emailed to your local housing court.")
+        % {
+            "name": user.first_name,
+        }
+    )
+
     decl.emailed_to_housing_court_at = timezone.now()
     decl.save()
 
@@ -177,6 +205,18 @@ def send_declaration_to_user(decl: SubmittedHardshipDeclaration, pdf_bytes: byte
 
     decl.emailed_to_user_at = timezone.now()
     decl.save()
+
+    user.send_sms_async(
+        _(
+            "%(name)s, For more information about New York’s eviction protections and your "
+            "rights as a tenant, visit %(url)s. To get involved in organizing and the fight "
+            "to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
+            % {
+                "name": user.first_name,
+                "url": "https://www.righttocounselnyc.org/eviction_protections_during_covid",
+            }
+        )
+    )
 
     return True
 

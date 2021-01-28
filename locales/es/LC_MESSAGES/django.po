@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-05 23:25+0000\n"
+"POT-Creation-Date: 2021-01-28 16:57+0000\n"
 "PO-Revision-Date: 2020-11-05 23:42\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -16,6 +16,27 @@ msgstr ""
 "X-Crowdin-Language: es-ES\n"
 "X-Crowdin-File: /master/locales/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 42\n"
+
+#: evictionfree/declaration_sending.py:99
+#, python-format
+msgid "%(name)s, your eviction protection form has been emailed to your landlord."
+msgstr ""
+
+#: evictionfree/declaration_sending.py:132
+#, fuzzy, python-format
+#| msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
+msgid "%(name)s A hard copy of your eviction protection form has been mailed to your landlord via USPS mail. You can track the delivery of your hard copy form using USPS Tracking: %(url)s."
+msgstr "%(name)s has enviado tu carta de no pago de renta. Puedes seguir la entrega de tu carta usando USPS Tracking: %(url)s."
+
+#: evictionfree/declaration_sending.py:174
+#, python-format
+msgid "%(name)s, your eviction protection form has been emailed to your local housing court."
+msgstr ""
+
+#: evictionfree/declaration_sending.py:211
+#, python-format
+msgid "%(name)s, For more information about New York’s eviction protections and your rights as a tenant, visit %(url)s. To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
+msgstr ""
 
 #: frontend/templates/frontend/safe_mode_ui.html:9
 msgid "This site is currently in <strong>compatibility mode</strong>. For an enhanced experience, you can disable it, but this may cause compatibility issues with your current browser."
@@ -42,26 +63,26 @@ msgstr "cerrar"
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
 msgstr "¡%(city)s, %(state_name)s no existe!"
 
-#: norent/letter_sending.py:122
+#: norent/letter_sending.py:112
 #, python-format
 msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
 msgstr "%(name)s has enviado tu carta de no pago de renta. Puedes seguir la entrega de tu carta usando USPS Tracking: %(url)s."
 
-#: norent/schema.py:497
+#: norent/schema.py:518
 #, python-format
 msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
 msgstr "Bienvenido/a %(site_name)s, un producto de JustFix.nyc. Te enviaremos notificaciones desde este número de teléfono."
 
-#: norent/sms_reminders.py:26
+#: norent/sms_reminders.py:24
 #, python-format
 msgid "%(first_name)s, you've previously created an account on NoRent.org. If you are unable to pay rent next month AND you have a COVID-19 related reason for not paying, we recommend that on or before your rent due date or within 7 days of your rent due date, you send a new AB3088 declaration to your landlord through NoRent.org: %(url)s"
 msgstr "%(first_name)s, previamente creaste una cuenta de usuario en NoRent.org. Si no puedes pagar el alquiler el mes que viene y tienes una razón relacionada con COVID-19 para no pagar, recomendamos que envíes una nueva declaración AB3088 al dueño o manager de tu edificio a través de NoRent.org: %(url)s antes de la fecha de vencimiento de la renta, en el día mismo o dentro de los 7 días siguientes."
 
-#: onboarding/forms.py:52
+#: onboarding/forms.py:57
 msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox (but not both)."
 msgstr "Por favor proporcione un número de apartamento o marque la casilla \"No tengo número de apartamento\" (pero no ambos)."
 
-#: onboarding/forms.py:58
+#: onboarding/forms.py:65
 msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox."
 msgstr "Por favor proporcione un número de apartamento o marque la casilla \"No tengo ningún número de apartamento\"."
 
@@ -69,15 +90,15 @@ msgstr "Por favor proporcione un número de apartamento o marque la casilla \"No
 msgid "Please choose at least one option."
 msgstr "Por favor, escoja al menos una opción."
 
-#: project/forms.py:62
+#: project/forms.py:82
 msgid "Invalid phone number or password."
 msgstr "Número de teléfono o contraseña no válidos."
 
-#: project/forms.py:109
+#: project/forms.py:128
 msgid "A user with that email address already exists."
 msgstr "Ya existe un usuario con esa dirección de correo electrónico."
 
-#: project/forms.py:136
+#: project/forms.py:155
 msgid "Passwords do not match!"
 msgstr "¡Las contraseñas no coinciden!"
 
@@ -100,7 +121,7 @@ msgstr "Hola mundo"
 msgid "The address provided is invalid."
 msgstr "La dirección proporcionada no es válida."
 
-#: project/util/mailing_address.py:19
+#: project/util/mailing_address.py:18
 msgid "Enter a valid U.S. zip code."
 msgstr "Introduzca un código postal válido en los Estados Unidos de América."
 
@@ -109,16 +130,15 @@ msgstr "Introduzca un código postal válido en los Estados Unidos de América."
 msgid "U.S. phone numbers must be %(phone_number_len)s digits."
 msgstr "Los números de teléfono de Estados Unidos de América deben tener %(phone_number_len)s dígitos."
 
-#: project/util/phone_number.py:30
+#: project/util/phone_number.py:31
 msgid "Phone numbers can only contain digits."
 msgstr "Los números de teléfono sólo pueden contener números."
 
-#: project/util/phone_number.py:34
+#: project/util/phone_number.py:36
 #, python-format
 msgid "%(areacode)s is an invalid area code."
 msgstr "%(areacode)s no es un prefijo telefónico válido."
 
-#: project/util/phone_number.py:68
+#: project/util/phone_number.py:70
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
-

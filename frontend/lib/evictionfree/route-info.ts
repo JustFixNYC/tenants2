@@ -29,6 +29,16 @@ function createLocalizedRouteInfo(prefix: string) {
     declarationEmailToUser: createHtmlEmailStaticPageRouteInfo(
       `${prefix}/declaration-email-to-user`
     ),
+
+    /** The email to the landlord w/ a copy of the declaration. */
+    declarationEmailToLandlord: createHtmlEmailStaticPageRouteInfo(
+      `${prefix}/declaration-email-to-landlord`
+    ),
+
+    /** The email to housing court w/ a copy of the declaration. */
+    declarationEmailToHousingCourt: createHtmlEmailStaticPageRouteInfo(
+      `${prefix}/declaration-email-to-housing-court`
+    ),
   };
 }
 

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-28 00:59\n"
+"PO-Revision-Date: 2021-01-28 01:25\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2035,7 +2035,7 @@ msgstr "Orden de vacío emitida"
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:87
 msgid "Vacating the premises and moving into new permanent housing would pose a significant health risk due to COVID-19."
-msgstr "Vacating the premises and moving into new permanent housing would pose a significant health risk due to COVID-19."
+msgstr "Desocupar la instalación y mudarme a una nueva vivienda permanente presentaría un grave riesgo a mi salud o a la salud de un integrante del hogar a enfermedad grave o muerte por COVID-19 debido a ser mayor de 65 años, una discapacidad o afecciones subyacentes, que puede incluir, entre otros, estar inmunodeprimido."
 
 #: frontend/lib/start-account-or-login/verify-phone-number.tsx:22
 msgid "Verification code"

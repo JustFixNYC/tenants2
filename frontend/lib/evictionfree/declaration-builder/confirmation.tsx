@@ -25,14 +25,19 @@ const H2_CLASSNAME = "title is-size-4 is-size-5-mobile is-spaced";
 const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
 
 const renderTitleWithCheckCircle = (title: string) => (
-  <div className="media">
-    <div className="media-left">
+  <>
+    <div className="has-text-centered is-hidden-tablet">
       <i className="has-text-info">{checkCircleSvg}</i>
     </div>
-    <div className="media-content">
-      <h1 className="title is-size-4-mobile">{title}</h1>
+    <div className="media">
+      <div className="media-left is-hidden-mobile">
+        <i className="has-text-info">{checkCircleSvg}</i>
+      </div>
+      <div className="media-content">
+        <h1 className="title">{title}</h1>
+      </div>
     </div>
-  </div>
+  </>
 );
 
 const RetaliationBlurb = () => (

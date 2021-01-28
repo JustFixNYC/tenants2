@@ -1,6 +1,5 @@
 import React from "react";
 import { OutboundLink } from "../../analytics/google-analytics";
-import { ProgressStepProps } from "../../progress/progress-step-route";
 import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
 import Page from "../../ui/page";
 import { getGlobalAppServerInfo } from "../../app-context";
@@ -8,6 +7,7 @@ import { friendlyUTCDate } from "../../util/date-util";
 import { PdfLink } from "../../ui/pdf-link";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
+import { EvictionFreeRequireLoginStep } from "./step-decorators";
 
 // TO DO: Replace this tracking number with the user's actual one
 const SAMPLE_USPS_TRACKING_NUMBER = "129837127326123";
@@ -120,67 +120,67 @@ const OrganizingGroupsBlurb = () => (
   </>
 );
 
-export const EvictionFreeDbConfirmation: React.FC<ProgressStepProps> = (
-  props
-) => {
-  const pdfLink = getGlobalAppServerInfo().submittedHardshipDeclarationURL;
+export const EvictionFreeDbConfirmation = EvictionFreeRequireLoginStep(
+  (props) => {
+    const pdfLink = getGlobalAppServerInfo().submittedHardshipDeclarationURL;
 
-  // TODO: This should be the actual send date of the letter.
-  const sendDate = new Date().toISOString();
+    // TODO: This should be the actual send date of the letter.
+    const sendDate = new Date().toISOString();
 
-  // TODO: Dynamically show "email" and "USPS Certified Mail" based on user actions and internationalize
-  const deliveryMethodToLandlord = "email and USPS Certified Mail";
+    // TODO: Dynamically show "email" and "USPS Certified Mail" based on user actions and internationalize
+    const deliveryMethodToLandlord = "email and USPS Certified Mail";
 
-  return (
-    <Page
-      title={li18n._(t`You've sent your hardship declaration`)}
-      className="content"
-      withHeading={renderTitleWithCheckCircle}
-    >
-      <Trans id="evictionfree.declarationHasBeenSent">
+    return (
+      <Page
+        title={li18n._(t`You've sent your hardship declaration`)}
+        className="content"
+        withHeading={renderTitleWithCheckCircle}
+      >
+        <Trans id="evictionfree.declarationHasBeenSent">
+          <p>
+            Your hardship declaration form has been sent to your landlord via{" "}
+            {deliveryMethodToLandlord}. A copy of the declaration has also been
+            sent to your local court via email in order to ensure they have it
+            on record if your landlord attempts to initiate an eviction case.
+          </p>
+          <p>
+            Check your email for a message containing a copy of your declaration
+            and additional important information on next steps.
+          </p>
+        </Trans>
+        <h2 className={H2_CLASSNAME}>
+          <Trans>Details about your declaration</Trans>
+        </h2>
         <p>
-          Your hardship declaration form has been sent to your landlord via{" "}
-          {deliveryMethodToLandlord}. A copy of the declaration has also been
-          sent to your local court via email in order to ensure they have it on
-          record if your landlord attempts to initiate an eviction case.
+          <Trans>Your letter was sent on {friendlyUTCDate(sendDate)}.</Trans>
         </p>
         <p>
-          Check your email for a message containing a copy of your declaration
-          and additional important information on next steps.
+          <span className="is-size-5 has-text-weight-bold">
+            <Trans>USPS Tracking #:</Trans>
+          </span>{" "}
+          <OutboundLink
+            href={`${USPS_TRACKING_URL_PREFIX}${SAMPLE_USPS_TRACKING_NUMBER}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="is-size-5 is-size-6-mobile"
+          >
+            {SAMPLE_USPS_TRACKING_NUMBER}
+          </OutboundLink>
         </p>
-      </Trans>
-      <h2 className={H2_CLASSNAME}>
-        <Trans>Details about your declaration</Trans>
-      </h2>
-      <p>
-        <Trans>Your letter was sent on {friendlyUTCDate(sendDate)}.</Trans>
-      </p>
-      <p>
-        <span className="is-size-5 has-text-weight-bold">
-          <Trans>USPS Tracking #:</Trans>
-        </span>{" "}
-        <OutboundLink
-          href={`${USPS_TRACKING_URL_PREFIX}${SAMPLE_USPS_TRACKING_NUMBER}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="is-size-5 is-size-6-mobile"
-        >
-          {SAMPLE_USPS_TRACKING_NUMBER}
-        </OutboundLink>
-      </p>
-      <br />
-      <PdfLink
-        href={pdfLink}
-        label={li18n._(t`Download completed declaration`)}
-      />
-      {/* TO DO: Only show the following two sections if user is in NYC
+        <br />
+        <PdfLink
+          href={pdfLink}
+          label={li18n._(t`Download completed declaration`)}
+        />
+        {/* TO DO: Only show the following two sections if user is in NYC
           by checking if session.onboardingInfo.borough is falsy */}
-      <>
-        <RetaliationBlurb />
-        <HcaHotlineBlurb />
-      </>
+        <>
+          <RetaliationBlurb />
+          <HcaHotlineBlurb />
+        </>
 
-      <OrganizingGroupsBlurb />
-    </Page>
-  );
-};
+        <OrganizingGroupsBlurb />
+      </Page>
+    );
+  }
+);

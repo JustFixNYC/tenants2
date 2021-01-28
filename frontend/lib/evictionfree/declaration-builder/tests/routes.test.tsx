@@ -1,5 +1,6 @@
 import { ProgressRoutesTester } from "../../../progress/tests/progress-routes-tester";
 import { PhoneNumberAccountStatus } from "../../../queries/globalTypes";
+import { AppTesterPal } from "../../../tests/app-tester-pal";
 import { newSb } from "../../../tests/session-builder";
 import { getEvictionFreeDeclarationBuilderProgressRoutesProps } from "../routes";
 
@@ -64,19 +65,26 @@ tester.defineTest({
 });
 
 tester.defineTest({
-  it: "works w/ logged-in JustFix.nyc user who are outside NY",
-  usingSession: sb.withLoggedInNationalUser().withOnboardingInfo({
+  it: "works w/ logged-in users who are outside NY",
+  usingSession: sb.withLoggedInLosAngelesUser().withOnboardingInfo({
     agreedToEvictionfreeTerms: true,
   }),
   expectSteps: ["/en/declaration/outside-ny"],
 });
 
 tester.defineTest({
-  it: "works w/ logged-in JustFix.nyc user who doesn't have email set",
-  usingSession: sb.withLoggedInJustfixUser().with({ email: "" }),
-  expectSteps: [
-    "/en/declaration/terms",
-    "/en/declaration/email",
-    "/en/declaration/hardship-situation",
-  ],
+  it: "works w/ logged-in user who doesn't have email set",
+  usingSession: sb.withLoggedInEvictionFreeUser().with({ email: "" }),
+  expectSteps: ["/en/declaration/email", "/en/declaration/hardship-situation"],
+});
+
+test("it takes users who have already sent a declaration straight to confirmation", async () => {
+  const pal = new AppTesterPal(tester.render(), {
+    ...tester.appTesterPalOptions,
+    url: "/en/declaration",
+    session: sb
+      .withLoggedInEvictionFreeUser()
+      .withSubmittedHardshipDeclaration().value,
+  });
+  await pal.waitForLocation("/en/declaration/confirmation");
 });

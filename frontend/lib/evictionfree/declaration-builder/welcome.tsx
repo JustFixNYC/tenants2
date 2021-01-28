@@ -18,9 +18,9 @@ export const EvictionFreeDbWelcome: React.FC<ProgressStepProps> = (props) => {
       <>
         <p>
           <Trans id="evictionfree.introductionToDeclarationFormSteps">
-            In order to benefit from the eviction protections that local elected
-            officials have put in place, you can notify your landlord by filling
-            out a hardship declaration form.{" "}
+            In order to benefit from the eviction protections that local
+            government representatives have put in place, you can notify your
+            landlord by filling out a hardship declaration form.{" "}
             <span className="has-text-weight-semibold">
               In the event that your landlord tries to evict you, the courts
               will see this as a proactive step that helps establish your

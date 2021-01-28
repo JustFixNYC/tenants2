@@ -1959,10 +1959,6 @@ msgstr "The webpage that you want to access is only available in English."
 msgid "There {0, plural, one {is one unit} other {are # units}} in your building."
 msgstr "There {0, plural, one {is one unit} other {are # units}} in your building."
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:12
-msgid "These last questions make sure that you understand the limits of the protection granted by this form, and that you answered the previous questions truthfully:"
-msgstr "These last questions make sure that you understand the limits of the protection granted by this form, and that you answered the previous questions truthfully:"
-
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:323
 msgid "Think your apartment may be rent-stabilized? Request its official records."
 msgstr "Think your apartment may be rent-stabilized? Request its official records."
@@ -2502,8 +2498,8 @@ msgid "Your email address"
 msgstr "Your email address"
 
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:43
-msgid "Your index number can be found at the top of Postcard or Notice of Petition from housing court. <0>They look like this:</0>"
-msgstr "Your index number can be found at the top of Postcard or Notice of Petition from housing court. <0>They look like this:</0>"
+msgid "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
+msgstr "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:15
 msgid "Your landlord"
@@ -2593,6 +2589,10 @@ msgstr "A new State law, passed in late 2020, allows most tenants to stop their 
 msgid "evictionfree.aboutPage2"
 msgstr "Our website helps tenants submit this hardship declaration form with peace of mind— sending it out via free USPS Certified Mail and email to all of the appropriate parties (your landlord and the courts) to ensure protection. And since the law doesn’t go far enough to protect folks beyond May 1st, our tool connects tenants to the larger tenant movement so we can #CancelRent."
 
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:12
+msgid "evictionfree.agreeToStateTermsIntro"
+msgstr "These last questions make sure that you understand the limits of the protection granted by this hardship declaration form, and that you answered the previous questions truthfully:"
+
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:49
 msgid "evictionfree.contactHcaBlurb"
 msgstr "If you have received a Notice to Pay Rent or Quit or any other kind of eviction notice, contact Housing Court Answers (NYC) at 212-962-4795, Monday - Friday, 9am-5pm or the Statewide Hotline at 833-503-0447, open 24/7."
@@ -2631,7 +2631,7 @@ msgstr "On December 28, 2020, New York State <0>passed legislation</0> that prot
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:12
 msgid "evictionfree.introductionToDeclarationFormSteps"
-msgstr "In order to benefit from the eviction protections that local elected officials have put in place, you can notify your landlord by filling out a hardship declaration form. <0>In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense.</0>"
+msgstr "In order to benefit from the eviction protections that local government representatives have put in place, you can notify your landlord by filling out a hardship declaration form. <0>In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense.</0>"
 
 #: frontend/lib/evictionfree/about.tsx:89
 msgid "evictionfree.justfixBlurb"
@@ -2639,7 +2639,7 @@ msgstr "<0>JustFix.nyc</0> co-designs and builds tools for tenants, housing orga
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:31
 msgid "evictionfree.landlordRetaliationWarning"
-msgstr "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact the City's Tenant Helpline (which can provide free advice and legal counsel to tenants) by <0>calling 311</0>"
+msgstr "It’s possible that your landlord will retaliate once they’ve received your declaration. This is illegal. Contact the City's Tenant Helpline (which can provide free advice and legal counsel to tenants) by <0>calling 311</0>"
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:27
 msgid "evictionfree.legalAgreementCheckboxOnFees"
@@ -2683,7 +2683,7 @@ msgstr "Our free tool was built by the <0>Right to Counsel NYC Coalition</0>, <1
 
 #: frontend/lib/evictionfree/homepage.tsx:158
 msgid "evictionfree.whoHasRightToSubmitForm"
-msgstr "All tenants in New York State have a right to fill out this hardship declaration form. However, if you've been served an eviction notice or believe you are at risk of being evicted, please consider using this form to protect yourself."
+msgstr "All tenants in New York State have a right to fill out this hardship declaration form. Especially if you've been served an eviction notice or believe you are at risk of being evicted, please consider using this form to protect yourself."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:165
 msgid "justfix.DdoMayNeedHpdRegistration"

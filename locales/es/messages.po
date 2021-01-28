@@ -1964,10 +1964,6 @@ msgstr "La página web a la que quieres acceder solo está disponible en inglés
 msgid "There {0, plural, one {is one unit} other {are # units}} in your building."
 msgstr "{0, plural, one {Hay una unidad} other {Hay # unidades}} en tu edificio."
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:12
-msgid "These last questions make sure that you understand the limits of the protection granted by this form, and that you answered the previous questions truthfully:"
-msgstr "Estas últimas preguntas están para asegurarnos de que entiendes los límites de la protección concedida por este formulario, y de que respondiste a las preguntas anteriores con veracidad:"
-
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:323
 msgid "Think your apartment may be rent-stabilized? Request its official records."
 msgstr "¿Crees que tu apartamento puede ser de renta estabilizada? Solicita el registro oficial."
@@ -2507,8 +2503,8 @@ msgid "Your email address"
 msgstr "Tu dirección de correo electrónico"
 
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:43
-msgid "Your index number can be found at the top of Postcard or Notice of Petition from housing court. <0>They look like this:</0>"
-msgstr "El número de índice de tu caso lo encuentras en la parte superior de la tarjeta de Postal o Aviso de Petition de la corte de viviendas. <0>Se ven así:</0>"
+msgid "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
+msgstr ""
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:15
 msgid "Your landlord"
@@ -2597,6 +2593,10 @@ msgstr "Una nueva ley estatal, aprobada a finales de 2020, permite a la mayoría
 #: frontend/lib/evictionfree/about.tsx:29
 msgid "evictionfree.aboutPage2"
 msgstr "Nuestro sitio web ayuda a los inquilinos a presentar este formulario de declaración de dificultades con total tranquilidad: enviándolo por correo certificado de USPS y por correo electrónico gratuito a todas las entidades necesarias (el dueño de tu edificio y los tribunales) para garantizar la protección. Y dado que la ley no va lo suficientemente lejos para proteger a la gente más allá del 1 de mayo, nuestra herramienta conecta a los inquilinos con el movimiento de inquilinos más grande para que podamos #CancelRent."
+
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:12
+msgid "evictionfree.agreeToStateTermsIntro"
+msgstr ""
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:49
 msgid "evictionfree.contactHcaBlurb"

@@ -169,6 +169,10 @@ $max-content-width: 1440px;
   margin-right: auto;
 }
 
+.subtitle a {
+  text-decoration: underline;
+}
+
 // Navbar Overrides
 nav.navbar {
   .container {
@@ -271,7 +275,7 @@ nav.navbar {
   }
 }
 
-// Content overrides
+// Image overrides
 
 .content figure {
   margin-left: 0;

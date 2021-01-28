@@ -9,9 +9,12 @@ from django.db import transaction
 import PyPDF2
 
 from project import slack, locales, common_data
-from project.util.email_attachment import email_file_response_as_attachment
 from project.util.site_util import SITE_CHOICES
-from frontend.static_content import react_render, react_render_email, ContentType
+from frontend.static_content import (
+    react_render,
+    email_react_rendered_content_with_attachment,
+    ContentType,
+)
 from users.models import JustfixUser
 from loc.views import render_pdf_bytes
 from loc import lob_api
@@ -34,35 +37,6 @@ NORENT_EMAIL_TO_USER_URL = "letter-email-to-user.html"
 USPS_TRACKING_URL_PREFIX = common_data.load_json("loc.json")["USPS_TRACKING_URL_PREFIX"]
 
 logger = logging.getLogger(__name__)
-
-
-def email_react_rendered_content_with_attachment(
-    user: JustfixUser,
-    url: str,
-    recipients: List[str],
-    attachment: FileResponse,
-    locale: str,
-    is_html_email: bool = False,
-) -> None:
-    """
-    Renders an email in the front-end, using the given locale,
-    and sends it to the given recipients with the given attachment.
-    """
-
-    email = react_render_email(
-        SITE_CHOICES.NORENT,
-        locale,
-        url,
-        user=user,
-        is_html_email=is_html_email,
-    )
-    email_file_response_as_attachment(
-        subject=email.subject,
-        body=email.body,
-        html_body=email.html_body,
-        recipients=recipients,
-        attachment=attachment,
-    )
 
 
 def norent_pdf_response(pdf_bytes: bytes) -> FileResponse:
@@ -150,6 +124,7 @@ def email_letter_to_landlord(letter: models.Letter, pdf_bytes: bytes) -> bool:
     assert ld.email
 
     email_react_rendered_content_with_attachment(
+        SITE_CHOICES.NORENT,
         letter.user,
         NORENT_EMAIL_TO_LANDLORD_URL,
         recipients=[ld.email],
@@ -237,6 +212,7 @@ def send_letter(letter: models.Letter):
 
     if user.email:
         email_react_rendered_content_with_attachment(
+            SITE_CHOICES.NORENT,
             user,
             NORENT_EMAIL_TO_USER_URL,
             is_html_email=True,

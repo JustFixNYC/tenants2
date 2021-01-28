@@ -95,6 +95,13 @@ export class SessionBuilder {
     });
   }
 
+  withLoggedInEvictionFreeUser(): SessionBuilder {
+    return this.withLoggedInJustfixUser().withOnboardingInfo({
+      agreedToJustfixTerms: false,
+      agreedToEvictionfreeTerms: true,
+    });
+  }
+
   withIssues(issues: IssueChoice[] = ["HOME__RATS"]): SessionBuilder {
     return this.with({ issues });
   }
@@ -174,6 +181,16 @@ export class SessionBuilder {
         trackingNumber: "1234",
         letterSentAt: "2020-03-13T19:41:09+00:00",
         createdAt: "2020-03-13T19:41:09+00:00",
+      },
+    });
+  }
+
+  withSubmittedHardshipDeclaration(): SessionBuilder {
+    return this.with({
+      submittedHardshipDeclaration: {
+        mailedAt: "2021-01-27",
+        emailedAt: "2021-01-27",
+        trackingNumber: "12345",
       },
     });
   }

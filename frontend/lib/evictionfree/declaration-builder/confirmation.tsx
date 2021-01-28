@@ -42,8 +42,8 @@ const RetaliationBlurb = () => (
     <p>
       <Trans id="evictionfree.landlordRetaliationWarning">
         It’s possible that your landlord will retaliate once they’ve received
-        your letter. This is illegal. Contact the City's Tenant Helpline (which
-        can provide free advice and legal counsel to tenants) by{" "}
+        your declaration. This is illegal. Contact the City's Tenant Helpline
+        (which can provide free advice and legal counsel to tenants) by{" "}
         <OutboundLink
           href={NYC_311_CONTACT_LINK}
           target="_blank"

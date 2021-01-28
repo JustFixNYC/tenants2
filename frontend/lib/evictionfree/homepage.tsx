@@ -193,7 +193,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
               <p>
                 <Trans id="evictionfree.whoHasRightToSubmitForm">
                   All tenants in New York State have a right to fill out this
-                  hardship declaration form. However, if you've been served an
+                  hardship declaration form. Especially if you've been served an
                   eviction notice or believe you are at risk of being evicted,
                   please consider using this form to protect yourself.
                 </Trans>

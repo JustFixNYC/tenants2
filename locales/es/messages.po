@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-29 01:08\n"
+"PO-Revision-Date: 2021-01-29 01:15\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -193,7 +193,7 @@ msgstr "Contesta algunas preguntas sobre ti y sobre el dueño o manager de tu ed
 
 #: frontend/lib/evictionfree/faqs.tsx:19
 msgid "Any questions?"
-msgstr "Any questions?"
+msgstr "Tienes preguntas?"
 
 #: common-data/issue-choices.ts:151
 msgid "Apartment needs painting"
@@ -699,7 +699,7 @@ msgstr "Rellena mi formulario"
 
 #: frontend/lib/evictionfree/homepage.tsx:47
 msgid "Fill out your hardship declaration form online"
-msgstr "Fill out your hardship declaration form online"
+msgstr "Rellena en línea tu formulario de declaración de penuria"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:107
 msgid "Find out more"
@@ -1528,7 +1528,7 @@ msgstr "Número de teléfono"
 
 #: frontend/lib/evictionfree/components/footer.tsx:13
 msgid "Photo credits:"
-msgstr "Photo credits:"
+msgstr "Acreditación de imágenes:"
 
 #: common-data/issue-choices.ts:196
 msgid "Pipes leaking"
@@ -2623,10 +2623,6 @@ msgstr "email y correo certificado por USPS"
 msgid "eviction free nyc, eviction free ny, hardship, declaration, declare hardship, eviction, evicted"
 msgstr "eviction free nyc, eviction free ny, penuria, declaración, desalojo, desalojado"
 
-#: frontend/lib/evictionfree/components/helmet.tsx:13
-msgid "eviction free nyc, eviction free ny, hardship, declaration, declare hardship, eviction, evicted"
-msgstr ""
-
 #: frontend/lib/evictionfree/about.tsx:19
 msgid "evictionfree.aboutPage1"
 msgstr "Una nueva ley estatal, aprobada a finales de 2020, permite a la mayoría de los inquilinos detener su caso de desalojo hasta el 1 de mayo, 2021, si cumplimentan un formulario de “Declaración de Penuria”. Sin embargo, esta ley carga la responsabilidad de averiguar cómo hacerlo a los inquilinos y no facilita el acceso al ejercicio de sus derechos."
@@ -2641,7 +2637,7 @@ msgstr "Estas últimas preguntas son para asegurarse de que entiendes los límit
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:131
 msgid "evictionfree.confirmationNoEmailToCourtYet"
-msgstr "A copy of the declaration will also be sent to your local court via email— we are determining the appropriate court to receive your declaration. We will notify you via text and on this page when it is sent."
+msgstr "Una copia de tu declaración también se mandará a tu corte local por correo electrónico— estamos determinando cual es la corte indicada para recibir su declaración. Te avisaremos cuando se haya mandado por mensaje de texto y en esta página."
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:49
 msgid "evictionfree.contactHcaBlurb"

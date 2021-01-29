@@ -10,7 +10,6 @@ import { BackgroundImage } from "./components/background-image";
 import { OutboundLink } from "../analytics/google-analytics";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 import classnames from "classnames";
-import { LocaleChoice } from "../../../common-data/locale-choices";
 
 export const RTC_WEBSITE_URL = "https://www.righttocounselnyc.org/";
 export const HJ4A_SOCIAL_URL = "https://twitter.com/housing4allNY";
@@ -24,7 +23,7 @@ type EvictionFreeImageType = "png" | "svg" | "jpg";
 export function getEFImageSrc(
   name: string,
   type?: EvictionFreeImageType,
-  islocalized?: boolean
+  islocalized?: boolean,
 ) {
   const fileName = islocalized ? `${name}_${li18n.language}` : name;
   return `frontend/img/evictionfree/${fileName}.${type || "svg"}`;

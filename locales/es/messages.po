@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-29 13:47\n"
+"PO-Revision-Date: 2021-01-29 17:19\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1565,7 +1565,7 @@ msgstr "Vista previa de tu carta NoRent.org"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:56
 msgid "Preview this declaration as a PDF"
-msgstr ""
+msgstr "Vista previa de esta declaración como PDF"
 
 #: frontend/lib/ui/privacy-info-modal.tsx:27
 msgid "Privacy Policy"
@@ -2444,7 +2444,7 @@ msgstr "Has elegido sustituir la información recomendada por JustFix.nyc sobre 
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:48
 msgid "You haven't completed previous steps. Please <0>go back</0>."
-msgstr ""
+msgstr "No has completado los pasos anteriores. Por favor <0>vuelve atrás</0>."
 
 #: frontend/lib/norent/letter-builder/menu.tsx:28
 msgid "You most recently sent a letter on {0}."
@@ -2987,3 +2987,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:102
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

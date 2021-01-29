@@ -44,7 +44,6 @@ export const EvictionFreeDeclarationEmailToHousingCourtStaticPage = asEmailStati
               Certified Mail with tracking number: {props.trackingNumber}.
             </p>
           )}
-          <p>Please kindly confirm receipt by replying all to this email.</p>
           <p>Thank you,</p>
           <p>{props.fullName}</p>
           <br />

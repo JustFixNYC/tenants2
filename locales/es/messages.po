@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-28 19:12\n"
+"PO-Revision-Date: 2021-01-29 01:15\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -109,7 +109,7 @@ msgstr "Adjunto a este correo electrónico encontrarás un PDF de tu formulario.
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:127
 msgid "A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case."
-msgstr ""
+msgstr "También se ha enviado una copia de la declaración al tribunal de tu localidad por correo electrónico con el fin de asegurarse de que conste en acta si tu propietario intenta iniciar un caso de desalojo."
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:33
 msgid "A hard copy of your form has also been mailed to your landlord via USPS mail. You can also track the delivery of your hard copy form using USPS Tracking:"
@@ -193,7 +193,7 @@ msgstr "Contesta algunas preguntas sobre ti y sobre el dueño o manager de tu ed
 
 #: frontend/lib/evictionfree/faqs.tsx:19
 msgid "Any questions?"
-msgstr ""
+msgstr "Tienes preguntas?"
 
 #: common-data/issue-choices.ts:151
 msgid "Apartment needs painting"
@@ -389,7 +389,7 @@ msgstr "Explora otros recursos específicos para tu estado:"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:139
 msgid "Check your email for a message containing a copy of your declaration and additional important information on next steps."
-msgstr ""
+msgstr "Revisa tu correo electrónico para encontrar un mensaje que contiene una copia de tu declaración e información adicional importante sobre los siguientes pasos."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:64
 msgid "Check your email for additional important information on next steps."
@@ -689,7 +689,7 @@ msgstr "Lucha contra un desalojo"
 
 #: frontend/lib/evictionfree/homepage.tsx:217
 msgid "Fight to #CancelRent"
-msgstr "Lucha para #CancelarLaRenta"
+msgstr "Lucha para #CancelRent"
 
 #: frontend/lib/evictionfree/homepage.tsx:24
 #: frontend/lib/evictionfree/site.tsx:38
@@ -699,7 +699,7 @@ msgstr "Rellena mi formulario"
 
 #: frontend/lib/evictionfree/homepage.tsx:47
 msgid "Fill out your hardship declaration form online"
-msgstr ""
+msgstr "Rellena en línea tu formulario de declaración de penuria"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:107
 msgid "Find out more"
@@ -1528,7 +1528,7 @@ msgstr "Número de teléfono"
 
 #: frontend/lib/evictionfree/components/footer.tsx:13
 msgid "Photo credits:"
-msgstr ""
+msgstr "Acreditación de imágenes:"
 
 #: common-data/issue-choices.ts:196
 msgid "Pipes leaking"
@@ -2039,7 +2039,7 @@ msgstr "Inodoro No Funciona"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:95
 msgid "USPS Certified Mail"
-msgstr ""
+msgstr "Correo Certificado de USPS"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:153
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
@@ -2525,7 +2525,7 @@ msgstr "Tu dirección de correo electrónico"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:123
 msgid "Your hardship declaration form has been sent to your landlord via {0}."
-msgstr ""
+msgstr "Tu formulario de declaración de penuria ha sido enviado a tu propietario a través de {0}."
 
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:43
 msgid "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
@@ -2613,15 +2613,15 @@ msgstr "y"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:94
 msgid "email"
-msgstr ""
+msgstr "correo electrónico"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:96
 msgid "email and USPS Certified Mail"
-msgstr ""
+msgstr "email y correo certificado por USPS"
 
 #: frontend/lib/evictionfree/components/helmet.tsx:13
 msgid "eviction free nyc, eviction free ny, hardship, declaration, declare hardship, eviction, evicted"
-msgstr ""
+msgstr "eviction free nyc, eviction free ny, penuria, declaración, desalojo, desalojado"
 
 #: frontend/lib/evictionfree/about.tsx:19
 msgid "evictionfree.aboutPage1"
@@ -2637,7 +2637,7 @@ msgstr "Estas últimas preguntas son para asegurarse de que entiendes los límit
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:131
 msgid "evictionfree.confirmationNoEmailToCourtYet"
-msgstr ""
+msgstr "Una copia de tu declaración también se mandará a tu corte local por correo electrónico— estamos determinando cual es la corte indicada para recibir su declaración. Te avisaremos cuando se haya mandado por mensaje de texto y en esta página."
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:49
 msgid "evictionfree.contactHcaBlurb"
@@ -2983,3 +2983,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:102
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

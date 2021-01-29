@@ -2701,7 +2701,7 @@ msgstr "No, puedes utilizar este sitio web para enviar una carta al dueño de tu
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:151
 msgid "evictionfree.printOutFaq"
-msgstr "<0>¡No! Puedes imprimir el <1>formulario de declaración de dificultades</1>, llenarlo a mano y enviarlo por correo postal o correo electrónico al dueño de tu edificio y la corte de vivienda local.</0><2>Los residentes de la ciudad de Nueva York pueden enviar sus declaraciones a la corte de su condado:</2>"
+msgstr "<0>¡No, puedes imprimir el <1>formulario de declaración de dificultades</1>, llenarlo a mano y enviarlo por correo postal o correo electrónico al dueño de tu edificio y la corte de vivienda local.</0><2>Los residentes de la ciudad de Nueva York pueden enviar sus declaraciones a la corte de su condado:</2>"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:197
 msgid "evictionfree.resendFaq"

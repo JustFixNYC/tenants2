@@ -159,8 +159,6 @@ def send_declaration_to_housing_court(decl: SubmittedHardshipDeclaration, pdf_by
     reply_to = settings.EVICTIONFREE_REPLY_TO_EMAIL % {"id": str(user.pk)}
 
     if is_not_demo_deployment(f"emailing {decl} to housing court"):
-        # TODO: We should set the sender to something other than noreply, so we
-        # can see/process replies from housing court.
         email_react_rendered_content_with_attachment(
             SITE_CHOICES.EVICTIONFREE,
             decl.user,

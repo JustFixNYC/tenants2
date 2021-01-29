@@ -6,6 +6,7 @@ import { CheckboxFormField } from "../../forms/form-fields";
 import { LegacyFormSubmitter } from "../../forms/legacy-form-submitter";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { li18n } from "../../i18n-lingui";
+import { QueryLoader } from "../../networking/query-loader";
 import {
   BlankEvictionFreeSigningTruthfullyInput,
   EvictionFreeSigningTruthfullyMutation,
@@ -14,11 +15,12 @@ import {
   BlankEvictionFreeSubmitDeclarationInput,
   EvictionFreeSubmitDeclarationMutation,
 } from "../../queries/EvictionFreeSubmitDeclarationMutation";
+import { HardshipDeclarationVariablesQuery } from "../../queries/HardshipDeclarationVariablesQuery";
 import { NextButton, ProgressButtons } from "../../ui/buttons";
 import { BackOrUpOneDirLevel, Modal } from "../../ui/modal";
-import { HardshipDeclarationEnglish } from "../declaration-templates/en";
 import Page from "../../ui/page";
 import { PdfLink } from "../../ui/pdf-link";
+import { LocalizedHardshipDeclaration } from "../declaration-templates/locales";
 import { EvictionFreeRoutes } from "../route-info";
 import { EvictionFreeNotSentDeclarationStep } from "./step-decorators";
 
@@ -85,7 +87,17 @@ export const EvictionFreePreviewPage = EvictionFreeNotSentDeclarationStep(
         />
         <article className="message">
           <div className="message-body has-background-grey-lighter has-text-left">
-            <HardshipDeclarationEnglish />
+            <QueryLoader
+              query={HardshipDeclarationVariablesQuery}
+              input={null}
+              render={({ output }) =>
+                output ? (
+                  <LocalizedHardshipDeclaration {...output} />
+                ) : (
+                  <>TODO: Uhoh, the user needs to go back to a previous step!</>
+                )
+              }
+            />
           </div>
         </article>
         <LegacyFormSubmitter

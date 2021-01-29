@@ -1,16 +1,21 @@
 import React from "react";
+import { HardshipDeclarationCheckbox, HardshipDeclarationFC } from ".";
 
-export const HardshipDeclarationEnglish = () => (
+const HardshipDeclarationEnglish: HardshipDeclarationFC = (props) => (
   <>
-    <p>Index Number (if known/applicable): [INDEX NUMBER]</p>
-    <p>County and Court (if known/applicable): [COUNTY AND COURT]</p>
-    <h1>TENANT’S DECLARATION OF HARDSHIP DURING THE COVID-19 PANDEMIC</h1>
+    <p>Index Number (if known/applicable): {props.indexNumber}</p>
+    <p>County and Court (if known/applicable): {props.countyAndCourt}</p>
+    <p>
+      <strong>
+        TENANT’S DECLARATION OF HARDSHIP DURING THE COVID-19 PANDEMIC
+      </strong>
+    </p>
     <p>
       I am a tenant, lawful occupant, or other person responsible for paying
       rent, use and occupancy, or any other financial obligation under a lease
       or tenancy agreement at (address of dwelling unit):
     </p>
-    <p>[ADDRESS]</p>
+    <p>{props.address}</p>
     <p>
       <strong>
         YOU MUST INDICATE BELOW YOUR QUALIFICATION FOR EVICTION PROTECTION BY
@@ -19,10 +24,10 @@ export const HardshipDeclarationEnglish = () => (
     </p>
 
     <p>
-      <big className="has-text-weight-bold">☑☐</big> A. I am experiencing
-      financial hardship, and I am unable to pay my rent or other financial
-      obligations under the lease in full or obtain alternative suitable
-      permanent housing because of one or more of the following:
+      <HardshipDeclarationCheckbox checked={props.hasFinancialHardship} />
+      A. I am experiencing financial hardship, and I am unable to pay my rent or
+      other financial obligations under the lease in full or obtain alternative
+      suitable permanent housing because of one or more of the following:
     </p>
     <ol>
       <li>
@@ -61,12 +66,13 @@ export const HardshipDeclarationEnglish = () => (
       make up for my loss of household income or increased expenses.
     </p>
     <p>
-      <big className="has-text-weight-bold">☑☐</big> B. Vacating the premises
-      and moving into new permanent housing would pose a significant health risk
-      because I or one or more members of my household have an increased risk
-      for severe illness or death from COVID-19 due to being over the age of
-      sixty-five, having a disability or having an underlying medical condition,
-      which may include but is not limited to being immunocompromised.
+      <HardshipDeclarationCheckbox checked={props.hasHealthRisk} />
+      B. Vacating the premises and moving into new permanent housing would pose
+      a significant health risk because I or one or more members of my household
+      have an increased risk for severe illness or death from COVID-19 due to
+      being over the age of sixty-five, having a disability or having an
+      underlying medical condition, which may include but is not limited to
+      being immunocompromised.
     </p>
     <p>
       I understand that I must comply with all other lawful terms under my
@@ -79,9 +85,9 @@ export const HardshipDeclarationEnglish = () => (
       certain protections at that time that are separate from those available
       through this declaration.
     </p>
-    <p>Signed: [NAME]</p>
-    <p>Printed name: [NAME] </p>
-    <p>Date signed: [NAME]</p>
+    <p>Signed: {props.name}</p>
+    <p>Printed name: {props.name} </p>
+    <p>Date signed: {props.date}</p>
     <p>
       NOTICE: You are signing and submitting this form under penalty of law.
       That means it is against the law to make a statement on this form that you
@@ -89,3 +95,5 @@ export const HardshipDeclarationEnglish = () => (
     </p>
   </>
 );
+
+export default HardshipDeclarationEnglish;

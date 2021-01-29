@@ -23,8 +23,7 @@ const localizations: SupportedLocaleMap<React.ComponentType<
   en: loadable(() => import("./en"), {
     fallback,
   }),
-  // TODO: Replace this with actual Spanish component.
-  es: loadable(() => import("./en"), {
+  es: loadable(() => import("./es"), {
     fallback,
   }),
 };

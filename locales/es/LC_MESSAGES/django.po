@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-29 14:22+0000\n"
-"PO-Revision-Date: 2021-01-29 14:36\n"
+"PO-Revision-Date: 2021-01-29 19:16\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -39,27 +39,27 @@ msgstr "%(name)s, Para obtener más información sobre las protecciones de desal
 
 #: evictionfree/schema.py:85
 msgid "You have already sent a hardship declaration form!"
-msgstr ""
+msgstr "¡Ya has enviado un formulario de declaración de penuria!"
 
 #: evictionfree/schema.py:87
 msgid "You haven't provided any account details yet!"
-msgstr ""
+msgstr "¡Aún no has proporcionado detalles de cuenta!"
 
 #: evictionfree/schema.py:89
 msgid "You haven't provided any landlord details yet!"
-msgstr ""
+msgstr "¡Aún no has proporcionado detalles sobre el dueño de tu edificio!"
 
 #: evictionfree/schema.py:94
 msgid "You must be in the state of New York to use this tool!"
-msgstr ""
+msgstr "¡Debes estar en el estado de Nueva York para usar esta herramienta!"
 
 #: evictionfree/schema.py:102
 msgid "You haven't provided details for your hardship declaration form yet!"
-msgstr ""
+msgstr "¡Aún no has proporcionado detalles para tu formulario de declaración de penuria!"
 
 #: evictionfree/schema.py:109
 msgid "This form can only be used from the Eviction Free NY site."
-msgstr ""
+msgstr "Este formulario sólo se puede utilizar desde el sitio web Eviction Free NY."
 
 #: frontend/templates/frontend/safe_mode_ui.html:9
 msgid "This site is currently in <strong>compatibility mode</strong>. For an enhanced experience, you can disable it, but this may cause compatibility issues with your current browser."

@@ -1,5 +1,6 @@
 import { Trans, t } from "@lingui/macro";
 import React from "react";
+import { OutboundLink } from "../../analytics/google-analytics";
 import { li18n } from "../../i18n-lingui";
 import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
 
@@ -20,6 +21,10 @@ export const RightToCounselFaqsLink = () => (
   </LocalizedOutboundLink>
 );
 
+const OutboundEmailLink: React.FC<{ email: string }> = ({ email }) => (
+  <OutboundLink href={`mailto:${email}`}>{email}</OutboundLink>
+);
+
 const NycHousingCourtContactInfo = () => (
   <ul>
     <li>
@@ -31,7 +36,8 @@ const NycHousingCourtContactInfo = () => (
           <Trans>Address:</Trans> 111 Centre Street, New York, NY 10013
         </li>
         <li>
-          <Trans>Email:</Trans> NewYorkHardshipDeclaration@nycourts.gov
+          <Trans>Email:</Trans>{" "}
+          <OutboundEmailLink email="NewYorkHardshipDeclaration@nycourts.gov" />
         </li>
       </ul>
     </li>
@@ -44,7 +50,8 @@ const NycHousingCourtContactInfo = () => (
           <Trans>Address:</Trans> 1118 Grand Concourse, Bronx, NY 10456
         </li>
         <li>
-          <Trans>Email:</Trans> BronxHardshipDeclaration@nycourts.gov{" "}
+          <Trans>Email:</Trans>{" "}
+          <OutboundEmailLink email="BronxHardshipDeclaration@nycourts.gov" />
         </li>
       </ul>
     </li>
@@ -57,7 +64,8 @@ const NycHousingCourtContactInfo = () => (
           <Trans>Address:</Trans> 141 Livingston St, Brooklyn, NY 11201
         </li>
         <li>
-          <Trans>Email:</Trans> KingsHardshipDeclaration@nycourts.gov
+          <Trans>Email:</Trans>{" "}
+          <OutboundEmailLink email="KingsHardshipDeclaration@nycourts.gov" />
         </li>
       </ul>
     </li>
@@ -71,7 +79,8 @@ const NycHousingCourtContactInfo = () => (
           11435
         </li>
         <li>
-          <Trans>Email:</Trans> QueensHardshipDeclaration@nycourts.gov
+          <Trans>Email:</Trans>{" "}
+          <OutboundEmailLink email="QueensHardshipDeclaration@nycourts.gov" />
         </li>
       </ul>
     </li>
@@ -85,7 +94,8 @@ const NycHousingCourtContactInfo = () => (
           10310
         </li>
         <li>
-          <Trans>Email:</Trans> RichmondHardshipDeclaration@nycourts.gov{" "}
+          <Trans>Email:</Trans>{" "}
+          <OutboundEmailLink email="RichmondHardshipDeclaration@nycourts.gov" />
         </li>
       </ul>
     </li>
@@ -175,9 +185,19 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
       <>
         <Trans id="evictionfree.printOutFaq">
           <p>
-            No! You can print out the Hardship Declaration form yourself, fill
-            it out by hand, and mail/email it to your landlord and local housing
-            court.
+            No, you can print out the{" "}
+            <LocalizedOutboundLink
+              hrefs={{
+                en:
+                  "https://www.nycourts.gov/courts/nyc/SSI/images/corona/HardshipDeclaration.pdf",
+                es:
+                  "https://www.nycourts.gov/courts/nyc/SSI/images/corona/HardshipDeclaration_span.pdf",
+              }}
+            >
+              hardship declaration form
+            </LocalizedOutboundLink>{" "}
+            yourself, fill it out by hand, and mail/email it to your landlord
+            and local housing court.
           </p>
           <p>
             New York City residents can send their declarations to the court in

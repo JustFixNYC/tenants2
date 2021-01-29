@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-28 16:57+0000\n"
+"POT-Creation-Date: 2021-01-29 14:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,24 +18,48 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: evictionfree/declaration_sending.py:99
+#: evictionfree/declaration_sending.py:100
 #, python-format
 msgid "%(name)s, your eviction protection form has been emailed to your landlord."
 msgstr ""
 
-#: evictionfree/declaration_sending.py:132
+#: evictionfree/declaration_sending.py:133
 #, python-format
 msgid "%(name)s A hard copy of your eviction protection form has been mailed to your landlord via USPS mail. You can track the delivery of your hard copy form using USPS Tracking: %(url)s."
 msgstr ""
 
-#: evictionfree/declaration_sending.py:174
+#: evictionfree/declaration_sending.py:176
 #, python-format
 msgid "%(name)s, your eviction protection form has been emailed to your local housing court."
 msgstr ""
 
-#: evictionfree/declaration_sending.py:211
+#: evictionfree/declaration_sending.py:213
 #, python-format
 msgid "%(name)s, For more information about New York’s eviction protections and your rights as a tenant, visit %(url)s. To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
+msgstr ""
+
+#: evictionfree/schema.py:85
+msgid "You have already sent a hardship declaration form!"
+msgstr ""
+
+#: evictionfree/schema.py:87
+msgid "You haven't provided any account details yet!"
+msgstr ""
+
+#: evictionfree/schema.py:89
+msgid "You haven't provided any landlord details yet!"
+msgstr ""
+
+#: evictionfree/schema.py:94
+msgid "You must be in the state of New York to use this tool!"
+msgstr ""
+
+#: evictionfree/schema.py:102
+msgid "You haven't provided details for your hardship declaration form yet!"
+msgstr ""
+
+#: evictionfree/schema.py:109
+msgid "This form can only be used from the Eviction Free NY site."
 msgstr ""
 
 #: frontend/templates/frontend/safe_mode_ui.html:9

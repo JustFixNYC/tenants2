@@ -170,7 +170,7 @@ def render_pdf_html(
     request: Optional[HttpRequest],
     template_name: str,
     context: Dict[str, Any],
-    pdf_styles_path: Path,
+    pdf_styles_path: Path = PDF_STYLES_CSS,
 ) -> str:
     return render_english_to_string(
         request,

@@ -29,6 +29,9 @@ export const EvictionFreeFaqsPreview = () => {
     <section className="hero jf-faqs-preview">
       <div className="hero-body">
         <div className="container jf-tight-container jf-has-text-centered-tablet jf-space-below-2rem">
+          <h2 className="is-spaced has-text-weight-bold">
+            <Trans>Any questions?</Trans>
+          </h2>
           <h3 className="is-spaced has-text-weight-normal is-size-5">
             <Trans>
               Navigating these laws is confusing. Here are a few{" "}

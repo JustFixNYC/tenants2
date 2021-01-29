@@ -20,8 +20,13 @@ export const JUSTFIX_WEBSITE_URLS = {
 
 type EvictionFreeImageType = "png" | "svg" | "jpg";
 
-export function getEFImageSrc(name: string, type?: EvictionFreeImageType) {
-  return `frontend/img/evictionfree/${name}.${type || "svg"}`;
+export function getEFImageSrc(
+  name: string,
+  type?: EvictionFreeImageType,
+  islocalized?: boolean
+) {
+  const fileName = islocalized ? `${name}_${li18n.language}` : name;
+  return `frontend/img/evictionfree/${fileName}.${type || "svg"}`;
 }
 
 const FillOutMyFormButton = (props: { isHiddenMobile?: boolean }) => (
@@ -66,7 +71,7 @@ const LandingPageChecklist = () => (
       <br />
       <div className="jf-space-below-2rem">
         <ChecklistItem>
-          <Trans>Fill out your hardship declaration form online.</Trans>
+          <Trans>Fill out your hardship declaration form online</Trans>
         </ChecklistItem>
         <ChecklistItem>
           <Trans>
@@ -132,7 +137,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
           <div className="column">
             <StaticImage
               ratio="is-square"
-              src={getEFImageSrc("forms", "png")}
+              src={getEFImageSrc("forms", "png", true)}
               alt=""
             />
           </div>
@@ -174,7 +179,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
           <LandingPageChecklist />
         </div>
         <div>
-          <BackgroundImage src={getEFImageSrc("phone", "png")} alt="" />
+          <BackgroundImage src={getEFImageSrc("phone", "png", true)} alt="" />
         </div>
       </div>
 
@@ -188,8 +193,6 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
               <h2 className="title is-spaced has-text-weight-bold">
                 <Trans>For New York State tenants</Trans>
               </h2>
-            </div>
-            <div className="hero-body">
               <p>
                 <Trans id="evictionfree.whoHasRightToSubmitForm">
                   All tenants in New York State have a right to fill out this
@@ -220,8 +223,6 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
               <h2 className="title is-spaced has-text-weight-bold">
                 <Trans>For tenants by tenants</Trans>
               </h2>
-            </div>
-            <div className="hero-body">
               <p>
                 <Trans id="evictionfree.whoBuildThisTool">
                   Our free tool was built by the{" "}

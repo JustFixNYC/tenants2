@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/macro";
 import React from "react";
 import { FooterLanguageToggle } from "../../ui/language-toggle";
 import { LegalDisclaimer } from "../../ui/legal-disclaimer";
@@ -10,6 +11,10 @@ export const EvictionFreeFooter: React.FC<{}> = () => (
           <div className="content is-size-7">
             <FooterLanguageToggle />
             <LegalDisclaimer website="EvictionFreeNY.org" />
+            <p>
+              <Trans>Photo credits:</Trans> Scott Heins, Right to Counsel
+              Coalition, Brian Giacchetto
+            </p>
           </div>
         </div>
       </div>

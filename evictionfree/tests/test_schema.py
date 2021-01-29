@@ -190,11 +190,13 @@ class TestEvictionFreeSubmitDeclaration:
     def test_it_raises_err_when_declaration_already_sent(self):
         SubmittedHardshipDeclarationFactory(user=self.user)
         assert self.execute()["errors"] == one_field_err(
-            "You have already sent a hardship declaration!"
+            "You have already sent a hardship declaration form!"
         )
 
     def test_it_raises_err_when_no_onboarding_info_exists(self):
-        assert self.execute()["errors"] == one_field_err("You have not onboarded!")
+        assert self.execute()["errors"] == one_field_err(
+            "You haven't provided any account details yet!"
+        )
 
     def test_it_raises_err_when_no_landlord_details_exist(self):
         OnboardingInfoFactory(user=self.user)
@@ -206,7 +208,7 @@ class TestEvictionFreeSubmitDeclaration:
         self.create_landlord_details()
         OnboardingInfoFactory(user=self.user)
         assert self.execute()["errors"] == one_field_err(
-            "You have not provided details for your hardship declaration yet!"
+            "You haven't provided details for your hardship declaration form yet!"
         )
 
     def test_it_raises_err_when_user_is_outside_ny(self):
@@ -221,7 +223,7 @@ class TestEvictionFreeSubmitDeclaration:
         OnboardingInfoFactory(user=self.user)
         HardshipDeclarationDetailsFactory(user=self.user)
         assert self.execute()["errors"] == one_field_err(
-            "This form can only be used from the EvictionFreeNY site."
+            "This form can only be used from the Eviction Free NY site."
         )
 
     def test_it_works(
@@ -265,6 +267,7 @@ class TestEvictionFreeSubmitDeclaration:
         hc_mail = mailoutbox[1]
         assert hc_mail.to == ["KingsHardshipDeclaration@nycourts.gov"]
         assert "Hello Court Clerk" in hc_mail.body
+        assert f"efnyreplies+{self.user.pk}@justfix" in hc_mail.extra_headers["Reply-To"]
 
         user_mail = mailoutbox[2]
         assert user_mail.to == ["boop@jones.net"]

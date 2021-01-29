@@ -13,7 +13,7 @@ export const EvictionFreeFooter: React.FC<{}> = () => (
             <LegalDisclaimer website="EvictionFreeNY.org" />
             <p>
               <Trans>Photo credits:</Trans> Scott Heins, Right to Counsel
-              Coalition, Housing Justice For All
+              Coalition, Brian Giacchetto
             </p>
           </div>
         </div>

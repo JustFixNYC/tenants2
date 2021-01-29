@@ -150,7 +150,7 @@ msgstr "Dirección:"
 msgid "After Sending Your Letter"
 msgstr "Después de enviar tu carta"
 
-#: frontend/lib/evictionfree/homepage.tsx:220
+#: frontend/lib/evictionfree/homepage.tsx:221
 msgid "After sending your hardship declaration form, connect with local organizing groups to get involved in the fight to make New York eviction free, cancel rent, and more!"
 msgstr "Después de enviar tu formulario de declaración de penuria, ¡conecta con grupos de organizadores locales para involucrarte en la lucha para que el estado de Nueva York sea libre de desalojos, cancelar alquiler, y mucho más!"
 
@@ -158,7 +158,7 @@ msgstr "Después de enviar tu formulario de declaración de penuria, ¡conecta c
 msgid "After sending your letter, we can connect you to <0>local groups</0> to organize for greater demands with other tenants."
 msgstr "Después de enviar tu carta, podemos conectarte con <0>grupos locales</0> para que te organizes con tus vecinos para hacer mayores demandas y ejercer tus derechos."
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:20
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:23
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:20
 msgid "After this step, you cannot go back to make changes. But don’t worry, we’ll explain what to do next."
 msgstr "Después de este paso, no puedes volver a hacer cambios. Pero no te preocupes, te explicaremos qué hacer después de enviar la carta."
@@ -220,7 +220,7 @@ msgstr "Arizona"
 msgid "Arkansas"
 msgstr "Arkansas"
 
-#: frontend/lib/evictionfree/homepage.tsx:50
+#: frontend/lib/evictionfree/homepage.tsx:51
 msgid "Automatically fill in your landlord's information based on your address if you live in New York City"
 msgstr "Rellena automáticamente la información del dueño de tu edificio en base a tu dirección si vives en la ciudad de Nueva York"
 
@@ -267,7 +267,7 @@ msgstr "Bañera: grifo con fugas"
 msgid "Bathtub: pipes leaking"
 msgstr "Bañera: tuberías con fugas"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:38
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:41
 msgid "Before you send your hardship declaration form, let's review what will be sent to make sure all the information is correct."
 msgstr "Antes de enviar tu formulario de declaración de penuria, revisemos lo que se enviará para asegurarnos de que toda la información es correcta."
 
@@ -439,7 +439,7 @@ msgstr "Vuelve el mes que viene para enviar otra carta si todavía no puedes pag
 msgid "Community Justice Project"
 msgstr "Community Justice Project"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:30
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:33
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -687,17 +687,17 @@ msgstr "Grifos No Funcionan"
 msgid "Fight an eviction"
 msgstr "Lucha contra un desalojo"
 
-#: frontend/lib/evictionfree/homepage.tsx:217
+#: frontend/lib/evictionfree/homepage.tsx:218
 msgid "Fight to #CancelRent"
 msgstr "Lucha para #CancelRent"
 
-#: frontend/lib/evictionfree/homepage.tsx:24
+#: frontend/lib/evictionfree/homepage.tsx:25
 #: frontend/lib/evictionfree/site.tsx:38
 #: frontend/lib/evictionfree/site.tsx:42
 msgid "Fill out my form"
 msgstr "Rellena mi formulario"
 
-#: frontend/lib/evictionfree/homepage.tsx:47
+#: frontend/lib/evictionfree/homepage.tsx:48
 msgid "Fill out your hardship declaration form online"
 msgstr "Rellena en línea tu formulario de declaración de penuria"
 
@@ -718,7 +718,7 @@ msgstr "Piso hundido"
 msgid "Florida"
 msgstr "Florida"
 
-#: frontend/lib/evictionfree/homepage.tsx:153
+#: frontend/lib/evictionfree/homepage.tsx:154
 msgid "For New York State tenants"
 msgstr "Para los inquilinos del estado de Nueva York"
 
@@ -726,7 +726,7 @@ msgstr "Para los inquilinos del estado de Nueva York"
 msgid "For more information about New York’s eviction protections and your rights as a tenant, check out our FAQ on the <0>Right to Counsel website</0>."
 msgstr "Para obtener más información sobre las protecciones de desalojo de Nueva York y tus derechos como inquilino, consulta nuestras preguntas frecuentes en <0>el sitio web de Right to Counsel</0>."
 
-#: frontend/lib/evictionfree/homepage.tsx:183
+#: frontend/lib/evictionfree/homepage.tsx:184
 msgid "For tenants by tenants"
 msgstr "Para inquilinos por inquilinos"
 
@@ -921,7 +921,7 @@ msgstr "Acabo de usar la nueva herramienta gratuita de JustFix.nyc para decirle 
 msgid "I live in another state that isn’t New York. Is this tool for me?"
 msgstr "No vivo en el estado de Nueva York. ¿Puedo igual usar esta herramienta?"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:47
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:63
 msgid "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
 msgstr "Entiendo que estoy firmando y enviando este formulario bajo pena de ley. Sé que es ilegal hacer a sabiendas una declaración falsa en este formulario."
 
@@ -1215,7 +1215,7 @@ msgstr "El Condado de Los Angeles"
 msgid "Louisiana"
 msgstr "Luisiana"
 
-#: frontend/lib/evictionfree/homepage.tsx:86
+#: frontend/lib/evictionfree/homepage.tsx:87
 msgid "Made by non-profits <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, and <2>JustFix.nyc</2>"
 msgstr "Fabricado por las organizaciones sin fines de lucro <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, y <2>JustFix.nyc</2>"
 
@@ -1368,7 +1368,7 @@ msgstr "Contraseña nueva"
 msgid "Next"
 msgstr "Continuar"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:28
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:31
 #: frontend/lib/forms/yes-no-radios-form-field.tsx:27
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:28
 #: frontend/lib/ui/confirmation-modal.tsx:20
@@ -1558,14 +1558,14 @@ msgstr "Tenga en cuenta que su carta de declaración tendrá la siguiente estruc
 msgid "Please read the rest of this email carefully as it contains important information about your next steps."
 msgstr "Por favor, lee atentamente el resto del correo electrónico ya que contiene información importante sobre tus próximos pasos."
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:43
-msgid "Preview my declaration"
-msgstr "Vista previa de mi declaración"
-
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:102
 #: frontend/lib/norent/the-letter.tsx:92
 msgid "Preview of your NoRent.org letter"
 msgstr "Vista previa de tu carta NoRent.org"
+
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:56
+msgid "Preview this declaration as a PDF"
+msgstr ""
 
 #: frontend/lib/ui/privacy-info-modal.tsx:27
 msgid "Privacy Policy"
@@ -1575,8 +1575,8 @@ msgstr "Política de Privacidad"
 msgid "Protect yourself from eviction"
 msgstr "Protéjete del desalojo"
 
-#: frontend/lib/evictionfree/homepage.tsx:66
-#: frontend/lib/evictionfree/homepage.tsx:72
+#: frontend/lib/evictionfree/homepage.tsx:67
+#: frontend/lib/evictionfree/homepage.tsx:73
 msgid "Protect yourself from eviction in New York State"
 msgstr "Protéjete del desalojo en el estado de Nueva York"
 
@@ -1697,7 +1697,7 @@ msgstr "Dirección de búsqueda"
 msgid "See more FAQs"
 msgstr "Ver todas las preguntas más frecuentes"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:53
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:69
 msgid "Send"
 msgstr "Enviar"
 
@@ -1713,11 +1713,11 @@ msgstr "Enviar otra carta"
 msgid "Send code"
 msgstr "Enviar código"
 
-#: frontend/lib/evictionfree/homepage.tsx:59
+#: frontend/lib/evictionfree/homepage.tsx:60
 msgid "Send your form by USPS Certified Mail for free to your landlord"
 msgstr "Envía tu declaración por correo certificado \"USPS Certified Mail\" de forma gratuita al dueño de tu edificio"
 
-#: frontend/lib/evictionfree/homepage.tsx:56
+#: frontend/lib/evictionfree/homepage.tsx:57
 msgid "Send your form by email to your landlord and the courts"
 msgstr "Envía tu declaración por correo electrónico al dueño de tu edificio y a los tribunales"
 
@@ -1754,7 +1754,7 @@ msgstr "Establece tu nueva contraseña"
 msgid "Set your password"
 msgstr "Establece tu contraseña"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:18
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:21
 msgid "Shall we send your declaration?"
 msgstr "¿Enviamos tu declaración?"
 
@@ -1968,7 +1968,7 @@ msgstr "Esta información no sustituye el asesoramiento legal directo sobre tu s
 msgid "The majority of your landlord's properties are concentrated in {0}."
 msgstr "La mayoría de las propiedades del dueño de tu edificio se concentran en {0}."
 
-#: frontend/lib/evictionfree/homepage.tsx:165
+#: frontend/lib/evictionfree/homepage.tsx:166
 msgid "The protections outlined by NY state law apply to you regardless of immigration status."
 msgstr "Las protecciones que la ley del estado de Nueva York te proporcionan te aplican independientemente de tu estado migratorio."
 
@@ -2371,7 +2371,7 @@ msgstr "Faltan Protectores de Ventana"
 msgid "Wisconsin"
 msgstr "Wisconsin"
 
-#: frontend/lib/evictionfree/homepage.tsx:42
+#: frontend/lib/evictionfree/homepage.tsx:43
 msgid "With this free tool, you can"
 msgstr "Con esta herramienta gratuita, puedes"
 
@@ -2426,7 +2426,7 @@ msgid "You can send an additional letter for other months when you couldn't pay 
 msgstr "Puedes enviar otra carta para indicar los demás meses en que no hayas podido pagar la renta."
 
 #: frontend/lib/evictionfree/components/helmet.tsx:12
-#: frontend/lib/evictionfree/homepage.tsx:75
+#: frontend/lib/evictionfree/homepage.tsx:76
 msgid "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021."
 msgstr "Puedes utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales — deteniendo tu caso de desalojo hasta el 1 de mayo, 2021."
 
@@ -2441,6 +2441,10 @@ msgstr "No vives en Nueva York"
 #: frontend/lib/ui/landlord.tsx:81
 msgid "You have chosen to overwrite the landlord recommended by JustFix.nyc. Please provide your own details below, or <0>use the recommended landlord \"{0}\"</0>."
 msgstr "Has elegido sustituir la información recomendada por JustFix.nyc sobre el dueño de tu edificio. Por favor proporciona tu propia información a continuación, o <0>usa el dueño recomendado\"{0}\"</0>."
+
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:48
+msgid "You haven't completed previous steps. Please <0>go back</0>."
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/menu.tsx:28
 msgid "You most recently sent a letter on {0}."
@@ -2515,7 +2519,7 @@ msgstr "Número de índice de tu caso"
 msgid "Your declaration form and important next steps"
 msgstr "Tu formulario de declaración y los pasos importantes a seguir"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:36
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:39
 msgid "Your declaration is ready to send!"
 msgstr "¡Tu declaración está lista para enviar!"
 
@@ -2667,7 +2671,7 @@ msgstr "¡Involúcrate con la organización local de tu comunidad! Únete a mill
 msgid "evictionfree.hj4aBlurb"
 msgstr "<0>Housing Justice for All</0> es una coalición de más de 100 organizaciones, desde Brooklyn a Buffalo, que representan a los inquilinos y aquellos que no tienen hogar en el estado de Nueva York. Estamos unidos en nuestra convicción de que la vivienda es un derecho humano; que ninguna persona debe vivir con miedo a un desalojo; y que podemos poner fin a la crisis de las personas sin hogar en nuestro Estado."
 
-#: frontend/lib/evictionfree/homepage.tsx:115
+#: frontend/lib/evictionfree/homepage.tsx:116
 msgid "evictionfree.introToLaw"
 msgstr "El 28 de diciembre de 2020, el estado de Nueva York <0>aprobó la legislación</0> que protege a los inquilinos del desalojo debido a la pérdida de ingresos o a los riesgos de salud del COVID-19. Para protegerte, debes rellenar una declaración de <1>penuria</1> y enviarla al dueño de tu edificio y/o a los tribunales."
 
@@ -2719,11 +2723,11 @@ msgstr "Esto significa que usted o uno o más miembros de su familia tienen un m
 msgid "evictionfree.timeLagFaq"
 msgstr "Una vez que completes tu formulario de declaración a través de esta herramienta, este será enviado inmediatamente por correo postal y/o correo electrónico al dueño de tu edificio y a las cortes. Una vez enviado, el correo postal suele entregar la correspondencia en aproximadamente una semana."
 
-#: frontend/lib/evictionfree/homepage.tsx:186
+#: frontend/lib/evictionfree/homepage.tsx:187
 msgid "evictionfree.whoBuildThisTool"
 msgstr "Nuestra herramienta gratuita fue construida por la <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, y <2>JustFix.nyc</2> como parte del movimiento de inquilinos en todo el estado."
 
-#: frontend/lib/evictionfree/homepage.tsx:156
+#: frontend/lib/evictionfree/homepage.tsx:157
 msgid "evictionfree.whoHasRightToSubmitForm"
 msgstr "Todos los inquilinos del estado de Nueva York tienen derecho a rellenar este formulario de declaración de penuria. Especialmente si has recibido una notificación de desalojo o crees que corres el riesgo de ser desalojado, por favor considera utilizar este formulario para protegerte."
 
@@ -2983,4 +2987,3 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:102
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

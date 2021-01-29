@@ -273,3 +273,38 @@ class TestEvictionFreeSubmitDeclaration:
         user_mail = mailoutbox[2]
         assert user_mail.to == ["boop@jones.net"]
         assert "Congratulations" in user_mail.body
+
+
+class TestHardshipDeclarationVariables:
+    QUERY = """
+    query {
+        output: evictionFreeHardshipDeclarationVariables {
+            name,
+            countyAndCourt,
+            hasFinancialHardship,
+            hasHealthRisk,
+            address,
+            date,
+        }
+    }
+    """
+
+    def test_it_returns_null_for_logged_out_users(self, graphql_client):
+        res = graphql_client.execute(self.QUERY)["data"]["output"]
+        assert res is None
+
+    def test_it_returns_info_for_valid_users(self, graphql_client, db):
+        from .test_hardship_declaration import create_user_with_filled_out_hardship_details
+
+        user = create_user_with_filled_out_hardship_details()
+        graphql_client.request.user = user
+        with freezegun.freeze_time("2021-01-25"):
+            res = graphql_client.execute(self.QUERY)["data"]["output"]
+        assert res == {
+            "address": "150 court street, Apartment 2, Brooklyn, NY",
+            "countyAndCourt": "Kings County Housing Court",
+            "date": "01/25/2021",
+            "hasFinancialHardship": True,
+            "hasHealthRisk": False,
+            "name": "Boop Jones",
+        }

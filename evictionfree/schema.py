@@ -1,6 +1,7 @@
 from typing import Any, Dict
 from django.http import HttpRequest
 import graphene
+from graphql import ResolveInfo
 from graphene_django.types import DjangoObjectType
 from django.utils.translation import gettext as _
 
@@ -16,7 +17,7 @@ from norent.forms import CreateAccount
 from project.util.session_mutation import SessionFormMutation
 from project.util.django_graphql_forms import DjangoFormMutation
 from project.util import site_util
-from . import forms, models, declaration_sending
+from . import forms, models, declaration_sending, hardship_declaration
 
 
 @schema_registry.register_mutation
@@ -138,3 +139,18 @@ class EvictionFreeSessionInfo:
         SubmittedHardshipDeclarationType,
         resolver=create_model_for_user_resolver(models.SubmittedHardshipDeclaration),
     )
+
+
+@schema_registry.register_queries
+class EvictionFreeQueries:
+    eviction_free_hardship_declaration_variables = graphene.Field(
+        hardship_declaration.GraphQLHardshipDeclarationVariables,
+        description=(
+            "Values for filling out the fields of the COVID-19 hardship declaration for the "
+            "currently logged-in user, or null if not enough information is available to fill "
+            "out the form."
+        ),
+    )
+
+    def resolve_eviction_free_hardship_declaration_variables(self, info: ResolveInfo):
+        return hardship_declaration.get_vars_for_user(info.context.user)

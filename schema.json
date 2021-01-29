@@ -4940,6 +4940,18 @@
                 "name": "DateTime",
                 "ofType": null
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "When the declaration was e-mailed to the user.",
+              "isDeprecated": false,
+              "name": "emailedToUserAt",
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
             }
           ],
           "inputFields": null,

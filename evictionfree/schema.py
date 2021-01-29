@@ -121,6 +121,7 @@ class SubmittedHardshipDeclarationType(DjangoObjectType):
             "mailed_at",
             "emailed_at",
             "emailed_to_housing_court_at",
+            "emailed_to_user_at",
             "tracking_number",
         )
 

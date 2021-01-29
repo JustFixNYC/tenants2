@@ -93,7 +93,8 @@ fragment AllSessionInfo on SessionInfo {
     trackingNumber,
     mailedAt,
     emailedAt,
-    emailedToHousingCourtAt
+    emailedToHousingCourtAt,
+    emailedToUserAt
   },
   userId,
   firstName,

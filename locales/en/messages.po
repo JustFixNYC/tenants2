@@ -102,6 +102,10 @@ msgstr "<0>Your account is set up.</0><1>We do not currently recommend sending t
 msgid "A PDF of your form is attached to this email. Please save a copy for your records."
 msgstr "A PDF of your form is attached to this email. Please save a copy for your records."
 
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:122
+msgid "A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case."
+msgstr "A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case."
+
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:33
 msgid "A hard copy of your form has also been mailed to your landlord via USPS mail. You can also track the delivery of your hard copy form using USPS Tracking:"
 msgstr "A hard copy of your form has also been mailed to your landlord via USPS mail. You can also track the delivery of your hard copy form using USPS Tracking:"
@@ -374,6 +378,10 @@ msgstr "Check any or all that apply. Note: You <0>must select at least one box</
 msgid "Check out these valuable resources for your state:"
 msgstr "Check out these valuable resources for your state:"
 
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:129
+msgid "Check your email for a message containing a copy of your declaration and additional important information on next steps."
+msgstr "Check your email for a message containing a copy of your declaration and additional important information on next steps."
+
 #: frontend/lib/norent/letter-builder/confirmation.tsx:64
 msgid "Check your email for additional important information on next steps."
 msgstr "Check your email for additional important information on next steps."
@@ -504,7 +512,7 @@ msgstr "Dear Landlord/Management."
 msgid "Delaware"
 msgstr "Delaware"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:108
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:136
 msgid "Details about your declaration"
 msgstr "Details about your declaration"
 
@@ -567,7 +575,7 @@ msgstr "Door not working"
 msgid "Doorbell not working"
 msgstr "Doorbell not working"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:122
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:151
 msgid "Download completed declaration"
 msgstr "Download completed declaration"
 
@@ -2016,7 +2024,11 @@ msgstr "Toilet leaking"
 msgid "Toilet not working"
 msgstr "Toilet not working"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:115
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:90
+msgid "USPS Certified Mail"
+msgstr "USPS Certified Mail"
+
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:143
 #: frontend/lib/norent/letter-builder/confirmation.tsx:80
 msgid "USPS Tracking #:"
 msgstr "USPS Tracking #:"
@@ -2432,7 +2444,7 @@ msgstr "You've already sent letters for all of the months since COVID-19 started
 msgid "You've already sent your hardship declaration"
 msgstr "You've already sent your hardship declaration"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:94
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:116
 msgid "You've sent your hardship declaration"
 msgstr "You've sent your hardship declaration"
 
@@ -2497,6 +2509,10 @@ msgstr "Your declaration is ready to send!"
 msgid "Your email address"
 msgstr "Your email address"
 
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:118
+msgid "Your hardship declaration form has been sent to your landlord via {0}."
+msgstr "Your hardship declaration form has been sent to your landlord via {0}."
+
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:43
 msgid "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
 msgstr "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
@@ -2541,7 +2557,7 @@ msgstr "Your letter has been mailed to your landlord via USPS Certified Mail. A 
 msgid "Your letter has been sent to your landlord via email. A copy of your letter has also been sent to your email."
 msgstr "Your letter has been sent to your landlord via email. A copy of your letter has also been sent to your email."
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:111
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:139
 #: frontend/lib/norent/letter-builder/confirmation.tsx:74
 msgid "Your letter was sent on {0}."
 msgstr "Your letter was sent on {0}."
@@ -2581,6 +2597,14 @@ msgstr "Zip code"
 msgid "and"
 msgstr "and"
 
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:89
+msgid "email"
+msgstr "email"
+
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:91
+msgid "email and USPS Certified Mail"
+msgstr "email and USPS Certified Mail"
+
 #: frontend/lib/evictionfree/about.tsx:19
 msgid "evictionfree.aboutPage1"
 msgstr "A new State law, passed in late 2020, allows most tenants to stop their eviction case until May 1st, 2021, if they fill out a “Hardship Declaration” form. However, this law puts the responsibility on tenants to figure out how to do that and doesn’t provide easy access to exercise their rights."
@@ -2600,10 +2624,6 @@ msgstr "If you have received a Notice to Pay Rent or Quit or any other kind of e
 #: frontend/lib/evictionfree/data/faqs-content.tsx:171
 msgid "evictionfree.deadlineFaq"
 msgstr "You currently can submit your declaration form at any time between now and May 1, 2021. Once you submit your declaration form via this tool, we will mail and/or email it immediately to your landlord and the courts. If you’re ONLY sending your form via physical mail, send it as soon as possible and keep any proof of mailing and/or return receipts for your records."
-
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:95
-msgid "evictionfree.declarationHasBeenSent"
-msgstr "<0>Your hardship declaration form has been sent to your landlord via {deliveryMethodToLandlord}. A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case.</0><1>Check your email for a message containing a copy of your declaration and additional important information on next steps.</1>"
 
 #: frontend/lib/evictionfree/faqs.tsx:49
 msgid "evictionfree.faqsPageIntro"

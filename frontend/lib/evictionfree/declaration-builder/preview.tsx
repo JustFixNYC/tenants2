@@ -94,7 +94,10 @@ export const EvictionFreePreviewPage = EvictionFreeNotSentDeclarationStep(
                 output ? (
                   <LocalizedHardshipDeclaration {...output} />
                 ) : (
-                  <>TODO: Uhoh, the user needs to go back to a previous step!</>
+                  <Trans>
+                    You haven't completed previous steps. Please{" "}
+                    <Link to={props.prevStep}>go back</Link>.
+                  </Trans>
                 )
               }
             />

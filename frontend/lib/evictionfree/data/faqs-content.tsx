@@ -125,7 +125,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
   },
   {
     question: li18n._(
-      t`Do I have to go to the post office to mail my declaration?`
+      t`Do I have to go to the post office to mail my declaration?`,
     ),
     priorityInPreview: 2,
     answer: (
@@ -140,8 +140,22 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     ),
   },
   {
-    question: li18n._(t`I’m undocumented. Can I use this tool?`),
+    question: li18n._(
+      t`I have a current eviction case in NYC. How do I connect with a lawyer?`,
+    ),
     priorityInPreview: 3,
+    answer: (
+      <p>
+        <Trans>
+          Visit <RightToCounselFaqsLink /> for information on how to connect
+          with a lawyer.
+        </Trans>
+      </p>
+    ),
+  },
+  {
+    question: li18n._(t`I’m undocumented. Can I use this tool?`),
+    priorityInPreview: 4,
     answer: (
       <p>
         <Trans>
@@ -153,21 +167,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
   },
   {
     question: li18n._(
-      t`I live in another state that isn’t New York. Is this tool for me?`
-    ),
-    priorityInPreview: 4,
-    answer: (
-      <p>
-        <Trans>
-          No. Unfortunately, these protections only apply to residents of New
-          York State.
-        </Trans>
-      </p>
-    ),
-  },
-  {
-    question: li18n._(
-      t`Can I see what forms I’m sending before I fill them out?`
+      t`Can I see what forms I’m sending before I fill them out?`,
     ),
     answer: (
       <p>
@@ -210,7 +210,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
   },
   {
     question: li18n._(
-      t`What is the time lag between me filling this out and when it gets sent?`
+      t`What is the time lag between me filling this out and when it gets sent?`,
     ),
     answer: (
       <p>
@@ -239,7 +239,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
   },
   {
     question: li18n._(
-      t`Is there a way to resend the declaration if the landlord claims they never received it?`
+      t`Is there a way to resend the declaration if the landlord claims they never received it?`,
     ),
     answer: (
       <p>
@@ -255,13 +255,13 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
   },
   {
     question: li18n._(
-      t`I have a current eviction case in NYC. How do I connect with a lawyer?`
+      t`I live in another state that isn’t New York. Is this tool for me?`,
     ),
     answer: (
       <p>
         <Trans>
-          Visit <RightToCounselFaqsLink /> for information on how to connect
-          with a lawyer.
+          No. Unfortunately, these protections only apply to residents of New
+          York State.
         </Trans>
       </p>
     ),

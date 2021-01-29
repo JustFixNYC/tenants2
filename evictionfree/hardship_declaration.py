@@ -3,12 +3,23 @@ from typing import List, Optional
 from pathlib import Path
 from users.models import JustfixUser
 from pydantic import BaseModel
+import graphene
 
 from .housing_court import get_housing_court_info_for_user
 from .overlay_pdf import Text, Checkbox, Page, Document
 
 
 PDF_DIR = Path(__file__).parent.resolve() / "pdf"
+
+
+class GraphQLHardshipDeclarationVariables(graphene.ObjectType):
+    index_number = graphene.String()
+    county_and_court = graphene.String()
+    address = graphene.String(required=True)
+    has_financial_hardship = graphene.Boolean(required=True)
+    has_health_risk = graphene.Boolean(required=True)
+    name = graphene.String(required=True)
+    date = graphene.String(required=True)
 
 
 class HardshipDeclarationVariables(BaseModel):

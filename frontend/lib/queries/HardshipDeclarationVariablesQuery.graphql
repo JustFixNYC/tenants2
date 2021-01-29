@@ -1,0 +1,11 @@
+query HardshipDeclarationVariablesQuery {
+    output: evictionFreeHardshipDeclarationVariables {
+        name,
+        countyAndCourt,
+        indexNumber,
+        hasFinancialHardship,
+        hasHealthRisk,
+        address,
+        date,
+    }
+}

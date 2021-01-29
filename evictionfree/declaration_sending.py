@@ -259,6 +259,9 @@ def send_declaration(decl: SubmittedHardshipDeclaration):
         is_safe=True,
     )
 
+    decl.fully_processed_at = timezone.now()
+    decl.save()
+
 
 def create_and_send_declaration(user: JustfixUser):
     """

@@ -101,17 +101,21 @@ class QueryLoaderWithoutCtx<Input, Output> extends React.Component<
   }
 }
 
-const DefaultLoadingComponent: React.FC<RetryableLoadingComponentProps> = (
+export const DefaultLoadingSpinner: React.FC<{}> = () => (
+  <section className="section" aria-hidden="true">
+    <div className="jf-loading-overlay">
+      <div className="jf-loader" />
+    </div>
+  </section>
+);
+
+export const DefaultLoadingComponent: React.FC<RetryableLoadingComponentProps> = (
   props
 ) => {
   return props.error ? (
     <p>Oops, an error occurred! Try reloading the page.</p>
   ) : (
-    <section className="section" aria-hidden="true">
-      <div className="jf-loading-overlay">
-        <div className="jf-loader" />
-      </div>
-    </section>
+    <DefaultLoadingSpinner />
   );
 };
 

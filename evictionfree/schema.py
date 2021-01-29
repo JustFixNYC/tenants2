@@ -2,6 +2,7 @@ from typing import Any, Dict
 from django.http import HttpRequest
 import graphene
 from graphene_django.types import DjangoObjectType
+from django.utils.translation import gettext as _
 
 from project.util.model_form_util import (
     OneToOneUserModelFormMutation,
@@ -81,16 +82,16 @@ class EvictionFreeSubmitDeclaration(SessionFormMutation):
         assert user.is_authenticated
 
         if hasattr(user, "submitted_hardship_declaration"):
-            return cls.make_error("You have already sent a hardship declaration!")
+            return cls.make_error(_("You have already sent a hardship declaration form!"))
         if not hasattr(user, "onboarding_info"):
-            return cls.make_and_log_error(info, "You have not onboarded!")
+            return cls.make_and_log_error(info, _("You haven't provided any account details yet!"))
         if not does_user_have_ll_mailing_addr_or_email(user):
-            return cls.make_and_log_error(info, "You haven't provided any landlord details yet!")
+            return cls.make_and_log_error(info, _("You haven't provided any landlord details yet!"))
 
         oi = user.onboarding_info
         if oi.state != "NY":
             return cls.make_and_log_error(
-                info, "You must be in the state of New York to use this tool!"
+                info, _("You must be in the state of New York to use this tool!")
             )
 
         if not (
@@ -98,14 +99,14 @@ class EvictionFreeSubmitDeclaration(SessionFormMutation):
             and user.hardship_declaration_details.are_ready_for_submission()
         ):
             return cls.make_and_log_error(
-                info, "You have not provided details for your hardship declaration yet!"
+                info, _("You haven't provided details for your hardship declaration form yet!")
             )
 
         site_type = site_util.get_site_type(site_util.get_site_from_request_or_default(request))
 
         if site_type != site_util.SITE_CHOICES.EVICTIONFREE:
             return cls.make_and_log_error(
-                info, "This form can only be used from the EvictionFreeNY site."
+                info, _("This form can only be used from the Eviction Free NY site.")
             )
 
         declaration_sending.create_and_send_declaration(user)

@@ -20,8 +20,13 @@ export const JUSTFIX_WEBSITE_URLS = {
 
 type EvictionFreeImageType = "png" | "svg" | "jpg";
 
-export function getEFImageSrc(name: string, type?: EvictionFreeImageType) {
-  return `frontend/img/evictionfree/${name}.${type || "svg"}`;
+export function getEFImageSrc(
+  name: string,
+  type?: EvictionFreeImageType,
+  islocalized?: boolean
+) {
+  const fileName = islocalized ? `${name}_${li18n.language}` : name;
+  return `frontend/img/evictionfree/${fileName}.${type || "svg"}`;
 }
 
 const FillOutMyFormButton = (props: { isHiddenMobile?: boolean }) => (
@@ -132,7 +137,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
           <div className="column">
             <StaticImage
               ratio="is-square"
-              src={getEFImageSrc("forms", "png")}
+              src={getEFImageSrc("forms", "png", true)}
               alt=""
             />
           </div>
@@ -174,7 +179,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
           <LandingPageChecklist />
         </div>
         <div>
-          <BackgroundImage src={getEFImageSrc("phone", "png")} alt="" />
+          <BackgroundImage src={getEFImageSrc("phone", "png", true)} alt="" />
         </div>
       </div>
 

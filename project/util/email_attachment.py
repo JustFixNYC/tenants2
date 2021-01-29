@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Dict, List, Optional
 from graphql import ResolveInfo
 import graphene
 from django import forms
@@ -18,11 +18,13 @@ def email_file_response_as_attachment(
     recipients: List[str],
     attachment: FileResponse,
     html_body: Optional[str] = None,
+    headers: Optional[Dict[str, str]] = None,
 ) -> None:
     attachment_bytes = attachment.getvalue()
 
     for recipient in recipients:
-        msg = EmailMultiAlternatives(subject=subject, body=body, to=[recipient])
+        msg = EmailMultiAlternatives(subject=subject, body=body, to=[recipient], headers=headers)
+        headers = headers or {}
         if html_body:
             msg.attach_alternative(html_body, "text/html")
         msg.attach(attachment.filename, attachment_bytes)

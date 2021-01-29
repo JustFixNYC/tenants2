@@ -15,6 +15,15 @@ def create_user_with_all_decl_info(hdd=None, oinfo=None):
     return hdd.user
 
 
+def create_user_with_filled_out_hardship_details():
+    return create_user_with_all_decl_info(
+        hdd=dict(
+            index_number="myindex",
+            has_financial_hardship=True,
+        )
+    )
+
+
 @pytest.mark.parametrize("locale", ["en", "es"])
 def test_get_pages_does_not_explode(locale):
     assert get_pages(EXAMPLE_VARIABLES, locale)
@@ -25,12 +34,7 @@ class TestGetVarsForUser:
         assert get_vars_for_user(AnonymousUser()) is None
 
     def test_it_works_for_users_with_all_info(self, db):
-        user = create_user_with_all_decl_info(
-            hdd=dict(
-                index_number="myindex",
-                has_financial_hardship=True,
-            )
-        )
+        user = create_user_with_filled_out_hardship_details()
         with freeze_time("2021-01-25"):
             v = get_vars_for_user(user)
         assert v is not None

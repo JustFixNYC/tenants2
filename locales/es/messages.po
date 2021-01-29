@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-29 01:15\n"
+"PO-Revision-Date: 2021-01-29 13:47\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2701,7 +2701,7 @@ msgstr "No, puedes utilizar este sitio web para enviar una carta al dueño de tu
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:151
 msgid "evictionfree.printOutFaq"
-msgstr "<0>¡No! Puedes imprimir el formulario de Declaración de Dificultades, llenarlo a mano y enviarlo por correo postal o correo electrónico al dueño de tu edificio y la corte de vivienda local.</0><1>Los residentes de la ciudad de Nueva York pueden enviar sus declaraciones a la corte de su condado:</1>"
+msgstr "<0>¡No, puedes imprimir el <1>formulario de declaración de dificultades</1>, llenarlo a mano y enviarlo por correo postal o correo electrónico al dueño de tu edificio y la corte de vivienda local.</0><2>Los residentes de la ciudad de Nueva York pueden enviar sus declaraciones a la corte de su condado:</2>"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:197
 msgid "evictionfree.resendFaq"
@@ -2983,3 +2983,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:102
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

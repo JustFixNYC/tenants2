@@ -101,6 +101,14 @@ class SubmittedHardshipDeclaration(models.Model):
         help_text="When the declaration was e-mailed to the user.",
     )
 
+    fully_processed_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text=(
+            "When the declaration was fully processed, i.e. sent to all relevant " "parties."
+        ),
+    )
+
     def __str__(self):
         if not self.pk:
             return super().__str__()

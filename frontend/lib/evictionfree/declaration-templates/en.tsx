@@ -1,9 +1,16 @@
 import React from "react";
-import { HardshipDeclarationCheckbox, HardshipDeclarationFC } from ".";
+import {
+  HardshipDeclarationCheckbox,
+  HardshipDeclarationFC,
+  HardshipDeclarationFilledField as FilledField,
+} from ".";
 
 const HardshipDeclarationEnglish: HardshipDeclarationFC = (props) => (
   <>
-    <p>Index Number (if known/applicable): {props.indexNumber}</p>
+    <p>
+      Index Number (if known/applicable):{" "}
+      <FilledField>{props.indexNumber || ""}</FilledField>
+    </p>
     <p>County and Court (if known/applicable): {props.countyAndCourt}</p>
     <h2>Tenant’s Declaration Of Hardship During The Covid-19 Pandemic</h2>
     <p>
@@ -11,7 +18,9 @@ const HardshipDeclarationEnglish: HardshipDeclarationFC = (props) => (
       rent, use and occupancy, or any other financial obligation under a lease
       or tenancy agreement at (address of dwelling unit):
     </p>
-    <p>{props.address}</p>
+    <p>
+      <FilledField>{props.address}</FilledField>
+    </p>
     <p>
       <strong>
         You must indicate below your qualification for eviction protection by
@@ -81,8 +90,12 @@ const HardshipDeclarationEnglish: HardshipDeclarationFC = (props) => (
       certain protections at that time that are separate from those available
       through this declaration.
     </p>
-    <p>Signed: {props.name}</p>
-    <p>Printed name: {props.name} </p>
+    <p>
+      Signed: <FilledField>{props.name}</FilledField>
+    </p>
+    <p>
+      Printed name: <FilledField>{props.name}</FilledField>
+    </p>
     <p>Date signed: {props.date}</p>
     <p>
       NOTICE: You are signing and submitting this form under penalty of law.

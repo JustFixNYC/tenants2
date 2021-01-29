@@ -23,7 +23,7 @@ type EvictionFreeImageType = "png" | "svg" | "jpg";
 export function getEFImageSrc(
   name: string,
   type?: EvictionFreeImageType,
-  islocalized?: boolean,
+  islocalized?: boolean
 ) {
   const fileName = islocalized ? `${name}_${li18n.language}` : name;
   return `frontend/img/evictionfree/${fileName}.${type || "svg"}`;

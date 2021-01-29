@@ -39,8 +39,16 @@ class TestGetVarsForUser:
             v = get_vars_for_user(user)
         assert v is not None
         assert v.index_number == "myindex"
+        assert v.county_and_court == "Kings County Housing Court"
         assert v.address == "150 court street, Apartment 2, Brooklyn, NY"
         assert v.has_financial_hardship is True
         assert v.has_health_risk is False
         assert v.name == "Boop Jones"
         assert v.date == "01/25/2021"
+
+    def test_it_leaves_county_and_court_blank_when_index_number_is_blank(self, db):
+        user = create_user_with_all_decl_info()
+        v = get_vars_for_user(user)
+        assert v is not None
+        assert v.index_number is None
+        assert v.county_and_court is None

@@ -118,9 +118,10 @@ def get_vars_for_user(user: JustfixUser) -> Optional[HardshipDeclarationVariable
     hdd = user.hardship_declaration_details
     onb = user.onboarding_info
     hci = get_housing_court_info_for_user(user)
+    index_number = hdd.index_number or None
     return HardshipDeclarationVariables(
-        index_number=hdd.index_number or None,
-        county_and_court=hci and hci.name,
+        index_number=index_number,
+        county_and_court=index_number and hci and hci.name,
         address=", ".join(onb.address_lines_for_mailing),
         has_financial_hardship=hdd.has_financial_hardship,
         has_health_risk=hdd.has_health_risk,

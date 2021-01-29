@@ -38,6 +38,9 @@ export class QueryLoaderPrefetcher<Input, Output> {
     ) {
       // Our response has been pre-fetched.
       this.prefetchedResponse = qr.output;
+      // Remove the pre-fetched response, so that if the user
+      // repeats the query, we ask the server again.
+      delete this.appCtx.server.prefetchedGraphQLQueryResponse;
     }
   }
 

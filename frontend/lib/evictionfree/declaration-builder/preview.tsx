@@ -1,6 +1,7 @@
 import { t, Trans } from "@lingui/macro";
 import React from "react";
 import { Link, Route } from "react-router-dom";
+import { OutboundLink } from "../../analytics/google-analytics";
 import { getGlobalAppServerInfo } from "../../app-context";
 import { CheckboxFormField } from "../../forms/form-fields";
 import { LegacyFormSubmitter } from "../../forms/legacy-form-submitter";
@@ -19,7 +20,6 @@ import { HardshipDeclarationVariablesQuery } from "../../queries/HardshipDeclara
 import { NextButton, ProgressButtons } from "../../ui/buttons";
 import { BackOrUpOneDirLevel, Modal } from "../../ui/modal";
 import Page from "../../ui/page";
-import { PdfLink } from "../../ui/pdf-link";
 import { LocalizedHardshipDeclaration } from "../declaration-templates/locales";
 import { EvictionFreeRoutes } from "../route-info";
 import { EvictionFreeNotSentDeclarationStep } from "./step-decorators";
@@ -81,11 +81,7 @@ export const EvictionFreePreviewPage = EvictionFreeNotSentDeclarationStep(
             will be sent to make sure all the information is correct.
           </Trans>
         </p>
-        <PdfLink
-          href={getGlobalAppServerInfo().previewHardshipDeclarationURL}
-          label={li18n._(t`Preview my declaration`)}
-        />
-        <article className="message">
+        <article className="message jf-efny-hardship-declaration">
           <div className="message-body has-background-grey-lighter has-text-left">
             <QueryLoader
               query={HardshipDeclarationVariablesQuery}
@@ -103,6 +99,15 @@ export const EvictionFreePreviewPage = EvictionFreeNotSentDeclarationStep(
             />
           </div>
         </article>
+        <p className="has-text-centered">
+          <OutboundLink
+            href={getGlobalAppServerInfo().previewHardshipDeclarationURL}
+            target="_blank"
+          >
+            <Trans>Preview this declaration as a PDF</Trans>
+          </OutboundLink>
+        </p>
+        <br />
         <LegacyFormSubmitter
           mutation={EvictionFreeSigningTruthfullyMutation}
           initialState={BlankEvictionFreeSigningTruthfullyInput}

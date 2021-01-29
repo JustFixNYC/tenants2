@@ -921,7 +921,7 @@ msgstr "Acabo de usar la nueva herramienta gratuita de JustFix.nyc para decirle 
 msgid "I live in another state that isn’t New York. Is this tool for me?"
 msgstr "No vivo en el estado de Nueva York. ¿Puedo igual usar esta herramienta?"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:58
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:63
 msgid "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
 msgstr "Entiendo que estoy firmando y enviando este formulario bajo pena de ley. Sé que es ilegal hacer a sabiendas una declaración falsa en este formulario."
 
@@ -1558,14 +1558,14 @@ msgstr "Tenga en cuenta que su carta de declaración tendrá la siguiente estruc
 msgid "Please read the rest of this email carefully as it contains important information about your next steps."
 msgstr "Por favor, lee atentamente el resto del correo electrónico ya que contiene información importante sobre tus próximos pasos."
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:46
-msgid "Preview my declaration"
-msgstr "Vista previa de mi declaración"
-
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:102
 #: frontend/lib/norent/the-letter.tsx:92
 msgid "Preview of your NoRent.org letter"
 msgstr "Vista previa de tu carta NoRent.org"
+
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:56
+msgid "Preview this declaration as a PDF"
+msgstr ""
 
 #: frontend/lib/ui/privacy-info-modal.tsx:27
 msgid "Privacy Policy"
@@ -1697,7 +1697,7 @@ msgstr "Dirección de búsqueda"
 msgid "See more FAQs"
 msgstr "Ver todas las preguntas más frecuentes"
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:64
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:69
 msgid "Send"
 msgstr "Enviar"
 
@@ -2442,7 +2442,7 @@ msgstr "No vives en Nueva York"
 msgid "You have chosen to overwrite the landlord recommended by JustFix.nyc. Please provide your own details below, or <0>use the recommended landlord \"{0}\"</0>."
 msgstr "Has elegido sustituir la información recomendada por JustFix.nyc sobre el dueño de tu edificio. Por favor proporciona tu propia información a continuación, o <0>usa el dueño recomendado\"{0}\"</0>."
 
-#: frontend/lib/evictionfree/declaration-builder/preview.tsx:49
+#: frontend/lib/evictionfree/declaration-builder/preview.tsx:48
 msgid "You haven't completed previous steps. Please <0>go back</0>."
 msgstr ""
 

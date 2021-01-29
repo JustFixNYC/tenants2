@@ -5,11 +5,7 @@ const HardshipDeclarationEnglish: HardshipDeclarationFC = (props) => (
   <>
     <p>Index Number (if known/applicable): {props.indexNumber}</p>
     <p>County and Court (if known/applicable): {props.countyAndCourt}</p>
-    <p>
-      <strong>
-        TENANT’S DECLARATION OF HARDSHIP DURING THE COVID-19 PANDEMIC
-      </strong>
-    </p>
+    <h2>Tenant’s Declaration Of Hardship During The Covid-19 Pandemic</h2>
     <p>
       I am a tenant, lawful occupant, or other person responsible for paying
       rent, use and occupancy, or any other financial obligation under a lease
@@ -18,8 +14,8 @@ const HardshipDeclarationEnglish: HardshipDeclarationFC = (props) => (
     <p>{props.address}</p>
     <p>
       <strong>
-        YOU MUST INDICATE BELOW YOUR QUALIFICATION FOR EVICTION PROTECTION BY
-        SELECTING OPTION “A” OR “B”, OR BOTH.
+        You must indicate below your qualification for eviction protection by
+        selecting option “A” or “B”, or both.
       </strong>
     </p>
 

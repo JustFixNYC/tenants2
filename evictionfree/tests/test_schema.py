@@ -255,6 +255,7 @@ class TestEvictionFreeSubmitDeclaration:
         assert decl.emailed_at is not None
         assert decl.emailed_to_housing_court_at is not None
         assert decl.emailed_to_user_at is not None
+        assert decl.fully_processed_at is not None
         assert decl.tracking_number == mocklob.sample_letter["tracking_number"]
         assert decl.lob_letter_object is not None
 

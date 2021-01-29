@@ -176,11 +176,18 @@ export const EvictionFreeDbConfirmation = EvictionFreeRequireLoginStep(
             Your hardship declaration form has been sent to your landlord via{" "}
             {info.landlordMailLabel}.
           </Trans>{" "}
-          {info.wasEmailedToHousingCourt && (
+          {info.wasEmailedToHousingCourt ? (
             <Trans>
               A copy of the declaration has also been sent to your local court
               via email in order to ensure they have it on record if your
               landlord attempts to initiate an eviction case.
+            </Trans>
+          ) : (
+            <Trans id="evictionfree.confirmationNoEmailToCourtYet">
+              A copy of the declaration will also be sent to your local court
+              via email— we are determining the appropriate court to receive
+              your declaration. We will notify you via text and on this page
+              when it is sent.
             </Trans>
           )}
         </p>

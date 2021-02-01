@@ -17,7 +17,7 @@ freezegun = "==0.3.12"
 black = "==20.8b1"
 
 [packages]
-django = "==2.2.13"
+django = "==2.2.18"
 whitenoise = "==4.1.2"
 dj-database-url = "==0.5.0"
 django-csp = "==3.4"

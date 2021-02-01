@@ -2,7 +2,7 @@ import loadable from "@loadable/component";
 import { friendlyLoad, LoadingPage } from "../networking/loading-page";
 import React from "react";
 import { NotFound } from "../pages/not-found";
-import { Route, RouteComponentProps, Switch } from "react-router-dom";
+import { Redirect, Route, RouteComponentProps, Switch } from "react-router-dom";
 import { EvictionFreeRoutes as Routes } from "./route-info";
 import { EvictionFreeHomePage } from "./homepage";
 import { EvictionFreeDeclarationBuilderRoutes } from "./declaration-builder/routes";
@@ -19,6 +19,10 @@ const LoadableDevRoutes = loadable(
   {
     fallback: <LoadingPage />,
   }
+);
+
+const LoginPageRedirect = () => (
+  <Redirect to={Routes.locale.declaration.phoneNumber} />
 );
 
 export const EvictionFreeRouteComponent: React.FC<RouteComponentProps> = (
@@ -42,6 +46,7 @@ export const EvictionFreeRouteComponent: React.FC<RouteComponentProps> = (
         path={Routes.locale.declaration.prefix}
         component={EvictionFreeDeclarationBuilderRoutes}
       />
+      <Route path={Routes.locale.login} component={LoginPageRedirect} />
       <Route
         path={Routes.locale.logout}
         exact

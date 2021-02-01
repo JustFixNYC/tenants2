@@ -89,10 +89,7 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
           <Trans>Log out</Trans>
         </Link>
       ) : (
-        <Link
-          className="navbar-item"
-          to={Routes.locale.declaration.phoneNumber}
-        >
+        <Link className="navbar-item" to={Routes.locale.login}>
           <Trans>Log in</Trans>
         </Link>
       )}

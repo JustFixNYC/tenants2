@@ -39,4 +39,4 @@ def render_submitted_declaration_pdf_for_user(request):
     if not hasattr(user, "submitted_hardship_declaration"):
         raise Http404()
     b = render_declaration(user.submitted_hardship_declaration)
-    return FileResponse(BytesIO(b), filename="submitted-declaration.pdf")
+    return FileResponse(BytesIO(b), filename=hardship_declaration.PDF_NAME)

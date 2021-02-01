@@ -39,7 +39,7 @@ def declaration_pdf_response(pdf_bytes: bytes) -> FileResponse:
     appropriate filename for the declaration.
     """
 
-    return FileResponse(BytesIO(pdf_bytes), filename="letter.pdf")
+    return FileResponse(BytesIO(pdf_bytes), filename=hardship_declaration.PDF_NAME)
 
 
 def create_declaration(user: JustfixUser) -> SubmittedHardshipDeclaration:

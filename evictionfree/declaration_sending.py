@@ -208,18 +208,6 @@ def send_declaration_to_user(decl: SubmittedHardshipDeclaration, pdf_bytes: byte
     decl.emailed_to_user_at = timezone.now()
     decl.save()
 
-    user.send_sms_async(
-        _(
-            "%(name)s, For more information about New York’s eviction protections and your "
-            "rights as a tenant, visit %(url)s. To get involved in organizing and the fight "
-            "to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
-            % {
-                "name": user.first_name,
-                "url": "http://bit.ly/EvictionProtectionsNY",
-            }
-        )
-    )
-
     return True
 
 
@@ -252,6 +240,28 @@ def send_declaration(decl: SubmittedHardshipDeclaration):
 
     if user.email:
         send_declaration_to_user(decl, pdf_bytes)
+
+    if decl.fully_processed_at is None:
+        user.chain_sms_async(
+            [
+                _(
+                    "%(name)s, you can download a PDF of your completed declaration form by "
+                    "logging back into your account: %(url)s."
+                    % {
+                        "name": user.first_name,
+                        "url": f"https://www.evictionfreeny.org/{user.locale}/login",
+                    }
+                ),
+                _(
+                    "For more information about New York’s eviction protections and your "
+                    "rights as a tenant, visit %(url)s. To get involved in organizing and the fight "
+                    "to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
+                    % {
+                        "url": "http://bit.ly/EvictionProtectionsNY",
+                    }
+                ),
+            ]
+        )
 
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "

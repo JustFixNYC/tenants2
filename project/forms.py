@@ -123,7 +123,9 @@ class UniqueEmailForm(forms.Form):
 
     def clean_email(self):
         email = self.cleaned_data["email"]
-        if JustfixUser.objects.filter(email=email).exists():
+        # We also want to make sure email is filled out, in case a subclass of ours made
+        # it optional.
+        if email and JustfixUser.objects.filter(email=email).exists():
             # TODO: Are we leaking valuable PII here?
             raise ValidationError(_("A user with that email address already exists."))
         return email

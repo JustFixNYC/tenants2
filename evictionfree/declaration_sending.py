@@ -12,7 +12,7 @@ from project.util.demo_deployment import is_not_demo_deployment
 from frontend.static_content import (
     email_react_rendered_content_with_attachment,
 )
-from project.util.site_util import SITE_CHOICES
+from project.util.site_util import get_site_origin, get_site_of_type, SITE_CHOICES
 from .housing_court import get_housing_court_info_for_user
 from . import hardship_declaration, cover_letter
 
@@ -242,6 +242,7 @@ def send_declaration(decl: SubmittedHardshipDeclaration):
         send_declaration_to_user(decl, pdf_bytes)
 
     if decl.fully_processed_at is None:
+        ef_site_origin = get_site_origin(get_site_of_type(SITE_CHOICES.EVICTIONFREE))
         user.chain_sms_async(
             [
                 _(
@@ -249,7 +250,7 @@ def send_declaration(decl: SubmittedHardshipDeclaration):
                     "logging back into your account: %(url)s."
                     % {
                         "name": user.first_name,
-                        "url": f"https://www.evictionfreeny.org/{user.locale}/login",
+                        "url": f"{ef_site_origin}/{user.locale}/login",
                     }
                 ),
                 _(

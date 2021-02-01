@@ -27,6 +27,7 @@ msgstr "(Note: the email will be sent in English)"
 msgid "(Note: the request will be sent in English)"
 msgstr "(Note: the request will be sent in English)"
 
+#: frontend/lib/common-steps/ask-email.tsx:15
 #: frontend/lib/common-steps/landlord-email.tsx:38
 msgid "(optional)"
 msgstr "(optional)"
@@ -618,7 +619,7 @@ msgstr "Electricity not working"
 msgid "Email"
 msgstr "Email"
 
-#: frontend/lib/common-steps/ask-email.tsx:19
+#: frontend/lib/common-steps/ask-email.tsx:12
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
 msgid "Email address"
 msgstr "Email address"
@@ -838,6 +839,10 @@ msgstr "Here’s what the letter will look like:"
 msgid "Here’s what you can do with <0>NoRent</0>"
 msgstr "Here’s what you can do with <0>NoRent</0>"
 
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:53
+msgid "Highly recommended."
+msgstr "Highly recommended."
+
 #: frontend/lib/justfix-navbar.tsx:14
 #: frontend/lib/norent/site.tsx:50
 msgid "Homepage"
@@ -900,7 +905,7 @@ msgstr "I am experiencing financial hardship due to COVID-19."
 msgid "I forgot my password"
 msgstr "I forgot my password"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:207
+#: frontend/lib/evictionfree/data/faqs-content.tsx:119
 msgid "I have a current eviction case in NYC. How do I connect with a lawyer?"
 msgstr "I have a current eviction case in NYC. How do I connect with a lawyer?"
 
@@ -912,7 +917,7 @@ msgstr "I have no apartment number"
 msgid "I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
 msgstr "I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:129
+#: frontend/lib/evictionfree/data/faqs-content.tsx:207
 msgid "I live in another state that isn’t New York. Is this tool for me?"
 msgstr "I live in another state that isn’t New York. Is this tool for me?"
 
@@ -1044,7 +1049,7 @@ msgstr "It’s unlikely that your apartment is rent stabilized"
 msgid "It’s your first time here!"
 msgstr "It’s your first time here!"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:119
+#: frontend/lib/evictionfree/data/faqs-content.tsx:129
 msgid "I’m undocumented. Can I use this tool?"
 msgstr "I’m undocumented. Can I use this tool?"
 
@@ -1401,7 +1406,7 @@ msgstr "No rent receipts given"
 msgid "No smoke detector"
 msgstr "No smoke detector"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:132
+#: frontend/lib/evictionfree/data/faqs-content.tsx:209
 msgid "No. Unfortunately, these protections only apply to residents of New York State."
 msgstr "No. Unfortunately, these protections only apply to residents of New York State."
 
@@ -2045,7 +2050,7 @@ msgstr "USPS Tracking #:"
 msgid "Understanding California’s COVID-19 Tenant Relief Act of 2020 (PDF)"
 msgstr "Understanding California’s COVID-19 Tenant Relief Act of 2020 (PDF)"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:84
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:88
 msgid "Unfortunately, this tool is currently only available to individuals who live in the state of New York."
 msgstr "Unfortunately, this tool is currently only available to individuals who live in the state of New York."
 
@@ -2105,7 +2110,7 @@ msgstr "View this letter as a PDF"
 msgid "Virginia"
 msgstr "Virginia"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:209
+#: frontend/lib/evictionfree/data/faqs-content.tsx:122
 msgid "Visit <0/> for information on how to connect with a lawyer."
 msgstr "Visit <0/> for information on how to connect with a lawyer."
 
@@ -2157,10 +2162,6 @@ msgstr "We'll include this information in your hardship declaration form."
 msgid "We'll need to add your case's index number to your declaration."
 msgstr "We'll need to add your case's index number to your declaration."
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:52
-msgid "We'll use this information to email you a copy of your hardship declaration form."
-msgstr "We'll use this information to email you a copy of your hardship declaration form."
-
 #: frontend/lib/norent/letter-builder/ask-email.tsx:10
 msgid "We'll use this information to email you a copy of your letter."
 msgstr "We'll use this information to email you a copy of your letter."
@@ -2169,12 +2170,12 @@ msgstr "We'll use this information to email you a copy of your letter."
 msgid "We'll use this information to send you updates."
 msgstr "We'll use this information to send you updates."
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:76
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:80
 msgid "We'll use this information to send your hardship declaration form via certified mail for free."
 msgstr "We'll use this information to send your hardship declaration form via certified mail for free."
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:66
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:71
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:70
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:75
 msgid "We'll use this information to send your hardship declaration form."
 msgstr "We'll use this information to send your hardship declaration form."
 
@@ -2392,7 +2393,7 @@ msgstr "Yes, Right to Counsel NYC Coalition, Housing Justice for All, and JustFi
 msgid "Yes, Sign Out"
 msgstr "Yes, Sign Out"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:122
+#: frontend/lib/evictionfree/data/faqs-content.tsx:132
 msgid "Yes, the protections outlined by New York State law apply to you regardless of immigration status."
 msgstr "Yes, the protections outlined by New York State law apply to you regardless of immigration status."
 
@@ -2429,7 +2430,7 @@ msgstr "You can use this website to send a hardship declaration form to your lan
 msgid "You can't send any more letters"
 msgstr "You can't send any more letters"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:82
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:86
 msgid "You don't live in New York"
 msgstr "You don't live in New York"
 
@@ -2518,7 +2519,7 @@ msgstr "Your declaration form and important next steps"
 msgid "Your declaration is ready to send!"
 msgstr "Your declaration is ready to send!"
 
-#: frontend/lib/common-steps/ask-email.tsx:10
+#: frontend/lib/common-steps/ask-email.tsx:17
 msgid "Your email address"
 msgstr "Your email address"
 
@@ -2634,6 +2635,10 @@ msgstr "Our website helps tenants submit this hardship declaration form with pea
 msgid "evictionfree.agreeToStateTermsIntro"
 msgstr "These last questions make sure that you understand the limits of the protection granted by this hardship declaration form, and that you answered the previous questions truthfully:"
 
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:55
+msgid "evictionfree.askForEmail"
+msgstr "We'll use this information to email you a copy of your hardship declaration form. If possible, we’ll also forward you any confirmation emails from the courts once they receive your declaration form."
+
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:131
 msgid "evictionfree.confirmationNoEmailToCourtYet"
 msgstr "A copy of the declaration will also be sent to your local court via email— we are determining the appropriate court to receive your declaration. We will notify you via text and on this page when it is sent."
@@ -2692,7 +2697,7 @@ msgstr "I further understand that my landlord may be able to seek eviction after
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23
 msgid "evictionfree.outlineOfDeclarationFormSteps"
-msgstr "<0>In the next few steps, we’ll help you fill out your hardship declaration form. Have this information on hand if possible:</0><1><2><3>your phone number, email address, and residence</3></2><4><5>your landlord or management company’s mailing and/or email address</5></4></1>"
+msgstr "<0>In the next few steps, we’ll help you fill out your hardship declaration form. Have this information on hand if possible:</0><1><2><3>your phone number and residence</3></2><4><5>your landlord or management company’s mailing and/or email address</5></4></1>"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:110
 msgid "evictionfree.postOfficeFaq"

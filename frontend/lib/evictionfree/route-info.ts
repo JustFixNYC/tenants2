@@ -22,6 +22,9 @@ function createLocalizedRouteInfo(prefix: string) {
       `${prefix}/declaration`
     ),
 
+    /** The login page. */
+    login: `${prefix}/login`,
+
     /** The logout page. */
     logout: `${prefix}/logout`,
 

@@ -277,10 +277,9 @@ class NorentNationalAddress(SessionFormMutation):
         return cls.mutation_success(is_valid=is_valid)
 
 
-@schema_registry.register_mutation
-class NorentEmail(SessionFormMutation):
+class BaseNorentEmail(SessionFormMutation):
     class Meta:
-        form_class = forms.Email
+        abstract = True
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
@@ -294,6 +293,18 @@ class NorentEmail(SessionFormMutation):
             update_scaffolding(request, form.cleaned_data)
 
         return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class NorentEmail(BaseNorentEmail):
+    class Meta:
+        form_class = forms.Email
+
+
+@schema_registry.register_mutation
+class NorentOptionalEmail(BaseNorentEmail):
+    class Meta:
+        form_class = forms.OptionalEmail
 
 
 @schema_registry.register_mutation

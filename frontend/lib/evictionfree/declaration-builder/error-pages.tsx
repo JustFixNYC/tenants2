@@ -16,9 +16,7 @@ export const EvictionFreeAlreadyLoggedInErrorPage: React.FC<{}> = () => (
 );
 
 export const EvictionFreeNotLoggedInErrorPage: React.FC<{}> = () => (
-  <NotLoggedInErrorPage
-    loginUrl={EvictionFreeRoutes.locale.declaration.phoneNumber}
-  />
+  <NotLoggedInErrorPage loginUrl={EvictionFreeRoutes.locale.login} />
 );
 
 export const EvictionFreeAlreadySentDeclarationErrorPage: React.FC<{}> = () => (

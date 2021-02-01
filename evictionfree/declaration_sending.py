@@ -254,8 +254,9 @@ def send_declaration(decl: SubmittedHardshipDeclaration):
                 ),
                 _(
                     "For more information about New York’s eviction protections and your "
-                    "rights as a tenant, visit %(url)s. To get involved in organizing and the fight "
-                    "to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
+                    "rights as a tenant, visit %(url)s. To get involved in organizing and the "
+                    "fight to #StopEvictions and #CancelRent, follow us on Twitter at "
+                    "@RTCNYC and @housing4allNY."
                     % {
                         "url": "http://bit.ly/EvictionProtectionsNY",
                     }

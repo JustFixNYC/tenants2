@@ -82,9 +82,13 @@ const EfAskCityState = EvictionFreeOnboardingStep((props) => (
 const EfAskEmail = MiddleProgressStep((props) => (
   <AskEmail {...props} isOptional>
     <p>
-      <Trans>
+      <strong>
+        <Trans>Highly recommended.</Trans>
+      </strong>{" "}
+      <Trans id="evictionfree.askForEmail">
         We'll use this information to email you a copy of your hardship
-        declaration form.
+        declaration form. If possible, we’ll also forward you any confirmation
+        emails from the courts once they receive your declaration form.
       </Trans>
     </p>
   </AskEmail>

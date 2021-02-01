@@ -130,7 +130,7 @@ def send_declaration_via_lob(decl: SubmittedHardshipDeclaration, pdf_bytes: byte
 
     user.send_sms_async(
         _(
-            "%(name)s A hard copy of your eviction protection form has been mailed to your "
+            "%(name)s, a hard copy of your eviction protection form has been mailed to your "
             "landlord via USPS mail. "
             "You can track the delivery of your hard copy form using USPS Tracking: %(url)s."
         )

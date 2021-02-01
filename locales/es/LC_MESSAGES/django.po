@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-29 14:22+0000\n"
-"PO-Revision-Date: 2021-01-29 19:16\n"
+"POT-Creation-Date: 2021-02-01 17:11+0000\n"
+"PO-Revision-Date: 2021-02-01 17:16\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -24,40 +24,45 @@ msgstr "%(name)s, tu formulario de protección contra el desalojo ha sido enviad
 
 #: evictionfree/declaration_sending.py:133
 #, python-format
-msgid "%(name)s A hard copy of your eviction protection form has been mailed to your landlord via USPS mail. You can track the delivery of your hard copy form using USPS Tracking: %(url)s."
-msgstr "%(name)s También se le envió una copia impresa de tu formulario al dueño de tu edificio por correo postal de USPS. Puedes dar seguimiento a la entrega de tu formulario impreso utilizando la herramienta de seguimiento de correspondencia de USPS: %(url)s."
+msgid "%(name)s, a hard copy of your eviction protection form has been mailed to your landlord via USPS mail. You can track the delivery of your hard copy form using USPS Tracking: %(url)s."
+msgstr ""
 
 #: evictionfree/declaration_sending.py:176
 #, python-format
 msgid "%(name)s, your eviction protection form has been emailed to your local housing court."
 msgstr "%(name)s, tu formulario de protección contra el desalojo ha sido enviado por correo electrónico a la corte de vivienda local."
 
-#: evictionfree/declaration_sending.py:213
+#: evictionfree/declaration_sending.py:249
 #, python-format
-msgid "%(name)s, For more information about New York’s eviction protections and your rights as a tenant, visit %(url)s. To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
-msgstr "%(name)s, Para obtener más información sobre las protecciones de desalojo de Nueva York y tus derechos como inquilino, visita %(url)s. Para participar en la organización y en la lucha para #StopEvictions (parar los desalojos) y #CancelRent (cancelar la renta), síguenos en Twitter: @RTCNYC y @ housing4allNY."
+msgid "%(name)s, you can download a PDF of your completed declaration form by logging back into your account: %(url)s."
+msgstr ""
 
-#: evictionfree/schema.py:85
+#: evictionfree/declaration_sending.py:257
+#, python-format
+msgid "For more information about New York’s eviction protections and your rights as a tenant, visit %(url)s. To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
+msgstr ""
+
+#: evictionfree/schema.py:86
 msgid "You have already sent a hardship declaration form!"
 msgstr "¡Ya has enviado un formulario de declaración de penuria!"
 
-#: evictionfree/schema.py:87
+#: evictionfree/schema.py:88
 msgid "You haven't provided any account details yet!"
 msgstr "¡Aún no has proporcionado detalles de cuenta!"
 
-#: evictionfree/schema.py:89
+#: evictionfree/schema.py:90
 msgid "You haven't provided any landlord details yet!"
 msgstr "¡Aún no has proporcionado detalles sobre el dueño de tu edificio!"
 
-#: evictionfree/schema.py:94
+#: evictionfree/schema.py:95
 msgid "You must be in the state of New York to use this tool!"
 msgstr "¡Debes estar en el estado de Nueva York para usar esta herramienta!"
 
-#: evictionfree/schema.py:102
+#: evictionfree/schema.py:103
 msgid "You haven't provided details for your hardship declaration form yet!"
 msgstr "¡Aún no has proporcionado detalles para tu formulario de declaración de penuria!"
 
-#: evictionfree/schema.py:109
+#: evictionfree/schema.py:110
 msgid "This form can only be used from the Eviction Free NY site."
 msgstr "Este formulario sólo se puede utilizar desde el sitio web Eviction Free NY."
 
@@ -81,7 +86,7 @@ msgstr "Activar modo de compatibilidad"
 msgid "close"
 msgstr "cerrar"
 
-#: norent/forms.py:44
+#: norent/forms.py:49
 #, python-format
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
 msgstr "¡%(city)s, %(state_name)s no existe!"
@@ -91,7 +96,7 @@ msgstr "¡%(city)s, %(state_name)s no existe!"
 msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
 msgstr "%(name)s has enviado tu carta de no pago de renta. Puedes seguir la entrega de tu carta usando USPS Tracking: %(url)s."
 
-#: norent/schema.py:518
+#: norent/schema.py:529
 #, python-format
 msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
 msgstr "Bienvenido/a %(site_name)s, un producto de JustFix.nyc. Te enviaremos notificaciones desde este número de teléfono."
@@ -121,7 +126,7 @@ msgstr "Número de teléfono o contraseña no válidos."
 msgid "A user with that email address already exists."
 msgstr "Ya existe un usuario con esa dirección de correo electrónico."
 
-#: project/forms.py:155
+#: project/forms.py:161
 msgid "Passwords do not match!"
 msgstr "¡Las contraseñas no coinciden!"
 

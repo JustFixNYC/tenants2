@@ -1,9 +1,11 @@
 import pytest
 from unittest.mock import patch
 
+from users.tests.factories import UserFactory
 from project.forms import (
     LoginForm,
     YesNoRadiosField,
+    OptionalUniqueEmailForm,
 )
 
 
@@ -46,3 +48,10 @@ class TestYesNoRadiosField:
     def test_raises_value_error_on_unexpected_value(self):
         with pytest.raises(ValueError, match="Invalid YesNoRadiosField value: blah"):
             YesNoRadiosField.coerce("blah")
+
+
+class TestOptionalUniqueEmailForm:
+    def test_it_does_not_complain_about_existing_users_when_left_blank(self, db):
+        UserFactory(email="")
+        form = OptionalUniqueEmailForm(data={"email": ""})
+        assert form.is_valid()

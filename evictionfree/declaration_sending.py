@@ -12,7 +12,7 @@ from project.util.demo_deployment import is_not_demo_deployment
 from frontend.static_content import (
     email_react_rendered_content_with_attachment,
 )
-from project.util.site_util import SITE_CHOICES
+from project.util.site_util import get_site_origin, get_site_of_type, SITE_CHOICES
 from .housing_court import get_housing_court_info_for_user
 from . import hardship_declaration, cover_letter
 
@@ -39,7 +39,7 @@ def declaration_pdf_response(pdf_bytes: bytes) -> FileResponse:
     appropriate filename for the declaration.
     """
 
-    return FileResponse(BytesIO(pdf_bytes), filename="letter.pdf")
+    return FileResponse(BytesIO(pdf_bytes), filename=hardship_declaration.PDF_NAME)
 
 
 def create_declaration(user: JustfixUser) -> SubmittedHardshipDeclaration:
@@ -130,7 +130,7 @@ def send_declaration_via_lob(decl: SubmittedHardshipDeclaration, pdf_bytes: byte
 
     user.send_sms_async(
         _(
-            "%(name)s A hard copy of your eviction protection form has been mailed to your "
+            "%(name)s, a hard copy of your eviction protection form has been mailed to your "
             "landlord via USPS mail. "
             "You can track the delivery of your hard copy form using USPS Tracking: %(url)s."
         )
@@ -208,18 +208,6 @@ def send_declaration_to_user(decl: SubmittedHardshipDeclaration, pdf_bytes: byte
     decl.emailed_to_user_at = timezone.now()
     decl.save()
 
-    user.send_sms_async(
-        _(
-            "%(name)s, For more information about New York’s eviction protections and your "
-            "rights as a tenant, visit %(url)s. To get involved in organizing and the fight "
-            "to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
-            % {
-                "name": user.first_name,
-                "url": "http://bit.ly/EvictionProtectionsNY",
-            }
-        )
-    )
-
     return True
 
 
@@ -252,6 +240,30 @@ def send_declaration(decl: SubmittedHardshipDeclaration):
 
     if user.email:
         send_declaration_to_user(decl, pdf_bytes)
+
+    if decl.fully_processed_at is None:
+        ef_site_origin = get_site_origin(get_site_of_type(SITE_CHOICES.EVICTIONFREE))
+        user.chain_sms_async(
+            [
+                _(
+                    "%(name)s, you can download a PDF of your completed declaration form by "
+                    "logging back into your account: %(url)s."
+                    % {
+                        "name": user.first_name,
+                        "url": f"{ef_site_origin}/{user.locale}/login",
+                    }
+                ),
+                _(
+                    "For more information about New York’s eviction protections and your "
+                    "rights as a tenant, visit %(url)s. To get involved in organizing and the "
+                    "fight to #StopEvictions and #CancelRent, follow us on Twitter at "
+                    "@RTCNYC and @housing4allNY."
+                    % {
+                        "url": "http://bit.ly/EvictionProtectionsNY",
+                    }
+                ),
+            ]
+        )
 
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "

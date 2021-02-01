@@ -35,7 +35,7 @@ export const EvictionFreeDbWelcome: React.FC<ProgressStepProps> = (props) => {
           </p>
           <ul>
             <li>
-              <p>your phone number, email address, and residence</p>
+              <p>your phone number and residence</p>
             </li>
             <li>
               <p>

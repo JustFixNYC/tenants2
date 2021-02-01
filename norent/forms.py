@@ -3,7 +3,12 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
-from project.forms import SetPasswordForm, UniqueEmailForm, ensure_at_least_one_is_true
+from project.forms import (
+    OptionalUniqueEmailForm,
+    SetPasswordForm,
+    UniqueEmailForm,
+    ensure_at_least_one_is_true,
+)
 from project.util.mailing_address import US_STATE_CHOICES, ZipCodeValidator, CITY_KWARGS
 from project.util.address_form_fields import ADDRESS_FIELD_KWARGS
 from project import mapbox
@@ -69,6 +74,10 @@ class NationalAddress(AptNumberWithConfirmationForm):
 
 
 class Email(UniqueEmailForm):
+    pass
+
+
+class OptionalEmail(OptionalUniqueEmailForm):
     pass
 
 

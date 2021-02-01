@@ -11,6 +11,9 @@ from .overlay_pdf import Text, Checkbox, Page, Document
 
 PDF_DIR = Path(__file__).parent.resolve() / "pdf"
 
+# What we call the declaration when we give it to users.
+PDF_NAME = "hardship-declaration.pdf"
+
 
 class GraphQLHardshipDeclarationVariables(graphene.ObjectType):
     index_number = graphene.String()

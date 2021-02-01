@@ -140,27 +140,27 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     ),
   },
   {
-    question: li18n._(t`I’m undocumented. Can I use this tool?`),
+    question: li18n._(
+      t`I have a current eviction case in NYC. How do I connect with a lawyer?`
+    ),
     priorityInPreview: 3,
     answer: (
       <p>
         <Trans>
-          Yes, the protections outlined by New York State law apply to you
-          regardless of immigration status.
+          Visit <RightToCounselFaqsLink /> for information on how to connect
+          with a lawyer.
         </Trans>
       </p>
     ),
   },
   {
-    question: li18n._(
-      t`I live in another state that isn’t New York. Is this tool for me?`
-    ),
+    question: li18n._(t`I’m undocumented. Can I use this tool?`),
     priorityInPreview: 4,
     answer: (
       <p>
         <Trans>
-          No. Unfortunately, these protections only apply to residents of New
-          York State.
+          Yes, the protections outlined by New York State law apply to you
+          regardless of immigration status.
         </Trans>
       </p>
     ),
@@ -255,13 +255,13 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
   },
   {
     question: li18n._(
-      t`I have a current eviction case in NYC. How do I connect with a lawyer?`
+      t`I live in another state that isn’t New York. Is this tool for me?`
     ),
     answer: (
       <p>
         <Trans>
-          Visit <RightToCounselFaqsLink /> for information on how to connect
-          with a lawyer.
+          No. Unfortunately, these protections only apply to residents of New
+          York State.
         </Trans>
       </p>
     ),

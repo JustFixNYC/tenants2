@@ -129,6 +129,12 @@ class UniqueEmailForm(forms.Form):
         return email
 
 
+class OptionalUniqueEmailForm(UniqueEmailForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["email"].required = False
+
+
 class SetPasswordForm(forms.Form):
     """
     A form that can be used to set a password. It can also

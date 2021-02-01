@@ -80,7 +80,7 @@ const EfAskCityState = EvictionFreeOnboardingStep((props) => (
 ));
 
 const EfAskEmail = MiddleProgressStep((props) => (
-  <AskEmail {...props}>
+  <AskEmail {...props} isOptional>
     <p>
       <Trans>
         We'll use this information to email you a copy of your hardship

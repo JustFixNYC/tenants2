@@ -71,6 +71,7 @@ def get_all_data_downloads() -> List[DataDownload]:
     from hpaction import ehpa_filings
     from partnerships import admin_data_downloads as partnership_stats
     from norent import admin_data_downloads as norent_stats
+    from evictionfree import admin_data_downloads as evictionfree_stats
 
     return [
         *userstats.DATA_DOWNLOADS,
@@ -78,6 +79,7 @@ def get_all_data_downloads() -> List[DataDownload]:
         *ehpa_filings.DATA_DOWNLOADS,
         *partnership_stats.DATA_DOWNLOADS,
         *norent_stats.DATA_DOWNLOADS,
+        *evictionfree_stats.DATA_DOWNLOADS,
     ]
 
 

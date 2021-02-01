@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "da5c0cc38882349c684ae76014007b6974fb2174118543d684c2d02d48f0ddfe"
+            "sha256": "5965591d1a2a32d20d5f602a7cb22d5a1387a6a12bbc2c84f3e538540239a174"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -212,11 +212,11 @@
         },
         "docusign-esign": {
             "hashes": [
-                "sha256:67f4b9acf54a27951f50855d7d797dff82248bea877a5ca9f4fa24b60780c305",
-                "sha256:7091077c17212150860fd386630aeb889612b1ee935ae7b653eb2c14d4918f0c"
+                "sha256:1bbe6436e14d1dd9e85fc2b1ef14fa0e10183160aefe7cd49dc3d79393b42514",
+                "sha256:9ec491a0dbdb9a3eb2c8dfb08b522c9a4901156e874dcf39f7c56da5f8f27344"
             ],
             "index": "pypi",
-            "version": "==3.1.0"
+            "version": "==3.7.1"
         },
         "docutils": {
             "hashes": [
@@ -427,10 +427,11 @@
         },
         "pyjwt": {
             "hashes": [
-                "sha256:a5c70a06e1f33d81ef25eecd50d50bd30e34de1ca8b2b9fa3fe0daaabcf69bf7",
-                "sha256:b70b15f89dc69b993d8a8d32c299032d5355c82f9b5b7e851d1a6d706dffe847"
+                "sha256:5c6eca3c2940464d106b99ba83b00c6add741c9becaec087fb7ccdefea71350e",
+                "sha256:8d59a976fb773f3e6a39c85636357c4f0e242707394cadadd9814f5cbaa20e96"
             ],
-            "version": "==2.0.1"
+            "index": "pypi",
+            "version": "==1.7.1"
         },
         "pyotp": {
             "hashes": [

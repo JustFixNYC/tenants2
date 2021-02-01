@@ -68,6 +68,28 @@ def truncate_name_in_address(address: Dict[str, Any]) -> Dict[str, Any]:
     return address
 
 
+def _munge_tracking_number_when_fake(response: Dict[str, Any], api_key: str) -> Dict[str, Any]:
+    """
+    If we're using a development Lob API key (one that starts with 'test_'),
+    letters aren't actually mailed, but their tracking numbers returned by
+    Lob still look real (at least to most people), which could confuse
+    people using our demo site and such.  So we'll munge it so it definitely
+    looks fake, e.g.:
+
+        >>> _munge_tracking_number_when_fake({'tracking_number': '123'}, 'test_abc')
+        {'tracking_number': 'FAKE_123'}
+
+    However, if the API key is real, we won't munge it:
+
+        >>> _munge_tracking_number_when_fake({'tracking_number': '123'}, 'live_abc')
+        {'tracking_number': '123'}
+    """
+
+    if response.get("tracking_number") and api_key.startswith("test_"):
+        response["tracking_number"] = "FAKE_" + response["tracking_number"]
+    return response
+
+
 def mail_certified_letter(
     description: str,
     to_address: Dict[str, Any],
@@ -93,16 +115,19 @@ def mail_certified_letter(
             extra_service = "certified_return_receipt"
         else:
             extra_service = "certified"
-        return _to_plain_object(
-            lob.Letter.create(
-                description=description,
-                to_address=truncate_name_in_address(to_address),
-                from_address=truncate_name_in_address(from_address),
-                file=file,
-                color=color,
-                double_sided=double_sided,
-                extra_service=extra_service,
-            )
+        return _munge_tracking_number_when_fake(
+            _to_plain_object(
+                lob.Letter.create(
+                    description=description,
+                    to_address=truncate_name_in_address(to_address),
+                    from_address=truncate_name_in_address(from_address),
+                    file=file,
+                    color=color,
+                    double_sided=double_sided,
+                    extra_service=extra_service,
+                )
+            ),
+            api_key=lob.api_key,
         )
 
 

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-01 17:11+0000\n"
-"PO-Revision-Date: 2021-02-01 17:16\n"
+"PO-Revision-Date: 2021-02-01 17:18\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -25,7 +25,7 @@ msgstr "%(name)s, tu formulario de protección contra el desalojo ha sido enviad
 #: evictionfree/declaration_sending.py:133
 #, python-format
 msgid "%(name)s, a hard copy of your eviction protection form has been mailed to your landlord via USPS mail. You can track the delivery of your hard copy form using USPS Tracking: %(url)s."
-msgstr ""
+msgstr "%(name)s, también se le envió una copia impresa de tu formulario al dueño de tu edificio por correo postal de USPS. Puedes dar seguimiento a la entrega de tu formulario impreso utilizando la herramienta de seguimiento de correspondencia de USPS: %(url)s."
 
 #: evictionfree/declaration_sending.py:176
 #, python-format
@@ -35,12 +35,12 @@ msgstr "%(name)s, tu formulario de protección contra el desalojo ha sido enviad
 #: evictionfree/declaration_sending.py:249
 #, python-format
 msgid "%(name)s, you can download a PDF of your completed declaration form by logging back into your account: %(url)s."
-msgstr ""
+msgstr "%(name)s, también puedes bajarte un PDF de tu formulario de declaración regresando a tu cuenta: %(url)s."
 
 #: evictionfree/declaration_sending.py:257
 #, python-format
 msgid "For more information about New York’s eviction protections and your rights as a tenant, visit %(url)s. To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
-msgstr ""
+msgstr "Para obtener más información sobre las protecciones de desalojo de Nueva York y tus derechos como inquilino, visita %(url)s. Para participar en la organización y en la lucha para #StopEvictions (parar los desalojos) y #CancelRent (cancelar la renta), síguenos en Twitter: @RTCNYC y @ housing4allNY."
 
 #: evictionfree/schema.py:86
 msgid "You have already sent a hardship declaration form!"

@@ -45,7 +45,7 @@ def norent_pdf_response(pdf_bytes: bytes) -> FileResponse:
     appropriate filename for the NoRent letter.
     """
 
-    return FileResponse(BytesIO(pdf_bytes), filename="letter.pdf")
+    return FileResponse(BytesIO(pdf_bytes), filename="norent-letter.pdf")
 
 
 def send_pdf_to_landlord_via_lob(

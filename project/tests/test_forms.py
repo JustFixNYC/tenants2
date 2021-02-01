@@ -54,4 +54,9 @@ class TestOptionalUniqueEmailForm:
     def test_it_does_not_complain_about_existing_users_when_left_blank(self, db):
         UserFactory(email="")
         form = OptionalUniqueEmailForm(data={"email": ""})
-        assert form.is_valid()
+        assert form.errors == {}
+
+    def test_it_complains_about_existing_users_when_filled(self, db):
+        UserFactory(email="boop@jones.com")
+        form = OptionalUniqueEmailForm(data={"email": "boop@jones.com"})
+        assert form.errors == {"email": ["A user with that email address already exists."]}

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-29 17:19\n"
+"PO-Revision-Date: 2021-02-01 17:16\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -846,7 +846,7 @@ msgstr "Esto es lo que puedes hacer con <0>NoRent</0>"
 
 #: frontend/lib/evictionfree/declaration-builder/routes.tsx:53
 msgid "Highly recommended."
-msgstr ""
+msgstr "Altamente recomendable."
 
 #: frontend/lib/justfix-navbar.tsx:14
 #: frontend/lib/norent/site.tsx:50
@@ -2642,7 +2642,7 @@ msgstr "Estas últimas preguntas son para asegurarse de que entiendes los límit
 
 #: frontend/lib/evictionfree/declaration-builder/routes.tsx:55
 msgid "evictionfree.askForEmail"
-msgstr ""
+msgstr "Utilizaremos esta información para enviarte una copia de tu declaración. Si es posible, también te reenviaremos el correo electrónico de parte de la corte cuando hayan recibido tu formulario de declaración."
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:131
 msgid "evictionfree.confirmationNoEmailToCourtYet"
@@ -2702,7 +2702,7 @@ msgstr "Además, entiendo que mi casero puede solicitar el desalojo después del
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23
 msgid "evictionfree.outlineOfDeclarationFormSteps"
-msgstr "<0>En los próximos pasos, construiremos tu declaración. Si puedes, ten esta información a mano:</0><1><2><3>tu número de teléfono, dirección de correo electrónico y dirección postal</3></2><4><5>la dirección postal del dueño de tu edificio y/o su dirección de correo electrónico</5></4></1>"
+msgstr "<0>En los próximos pasos, construiremos tu declaración. Si puedes, ten esta información a mano:</0><1><2><3>tu número de teléfono y dirección postal</3></2><4><5>la dirección postal del dueño de tu edificio y/o su dirección de correo electrónico</5></4></1>"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:110
 msgid "evictionfree.postOfficeFaq"
@@ -2992,3 +2992,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:102
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

@@ -25,7 +25,7 @@ class NorentReminder(SmsReminder):
             "If you are unable to pay rent next month AND you have a COVID-19 "
             "related reason for not paying, we recommend that on or before your "
             "rent due date or within 7 days of your rent due date, you send a "
-            "new AB3088 declaration to your landlord through NoRent.org: %(url)s"
+            "new SB91 declaration to your landlord through NoRent.org: %(url)s"
         ) % {
             "first_name": user.first_name,
             "url": url,

@@ -48,7 +48,7 @@ export const NorentLbLosAngelesKyr = MiddleProgressStep((props) => {
               SAJE
             </OutboundLink>{" "}
             to provide additional support once you’ve sent your letter. You can
-            learn more about how AB3088 affects Los Angeles residents at{" "}
+            learn more about how SB91 affects Los Angeles residents at{" "}
             <LocalizedOutboundLink
               hrefs={{
                 en: "https://www.stayhousedla.org/tenant_rights/",

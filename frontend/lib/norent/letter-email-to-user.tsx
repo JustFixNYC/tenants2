@@ -26,6 +26,7 @@ const CALIFORNIA_FAQS: CaliforniaFAQProps[] = [
       <>
         <p>
           <Trans id="norent.whatIsAB3088partOne">
+            <strong>TODO THIS NEEDS TO CHANGE TO REFLECT SB91</strong>
             On August 31, 2020, the State of California passed tenant
             protections under Assembly Bill 3088. These protections prevent
             landlords from evicting tenants before February 1, 2021 without a
@@ -78,7 +79,7 @@ const CALIFORNIA_FAQS: CaliforniaFAQProps[] = [
         <Trans id="norent.doINeedToSendAB3088LetterEveryMonth">
           Yes. Follow these instructions even if you have sent a letter to your
           landlord each month that you have not paid. And send a new declaration
-          for every month moving forward (through January).
+          for every month moving forward (through June 2021).
         </Trans>
       </p>
     ),
@@ -88,6 +89,7 @@ const CALIFORNIA_FAQS: CaliforniaFAQProps[] = [
     answer: (
       <p>
         <Trans id="norent.doIStillHaveToPayMyRentAB3088">
+          <strong>TODO THIS NEEDS TO CHANGE TO REFLECT SB91</strong>
           On or before 1/30/2020 you must decide whether to pay 25% of the rent
           for each month from September to January 2021. That’s 5 months
           multiplied by 25%. If after consulting with an attorney, you determine

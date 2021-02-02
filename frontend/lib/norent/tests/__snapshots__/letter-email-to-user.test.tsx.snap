@@ -25,6 +25,9 @@ exports[`NorentLetterEmailToUserBody works with LA users 1`] = `
     What is the new law AB3088?
   </h2>
   <p>
+    <strong>
+      TODO THIS NEEDS TO CHANGE TO REFLECT SB91
+    </strong>
     On August 31, 2020, the State of California passed tenant protections under Assembly Bill 3088. These protections prevent landlords from evicting tenants before February 1, 2021 without a valid reason or for any rent not paid between March 4 - January 31, 2021 due to loss of income or increased expenses associated with COVID-19. Although this law protects you from being evicted for not paying rent, it does not cancel rent.
   </p>
   <p>
@@ -48,12 +51,15 @@ exports[`NorentLetterEmailToUserBody works with LA users 1`] = `
     Do I need to send this declaration every month?
   </h2>
   <p>
-    Yes. Follow these instructions even if you have sent a letter to your landlord each month that you have not paid. And send a new declaration for every month moving forward (through January).
+    Yes. Follow these instructions even if you have sent a letter to your landlord each month that you have not paid. And send a new declaration for every month moving forward (through June 2021).
   </p>
   <h2>
     Do I still have to pay my rent?
   </h2>
   <p>
+    <strong>
+      TODO THIS NEEDS TO CHANGE TO REFLECT SB91
+    </strong>
     On or before 1/30/2020 you must decide whether to pay 25% of the rent for each month from September to January 2021. That’s 5 months multiplied by 25%. If after consulting with an attorney, you determine that you do not want to be in eviction court, pay the 25%. Tenants with severe bad conditions or living in illegal units should talk with an attorney before deciding whether to pay.
   </p>
   <h2>
@@ -163,6 +169,9 @@ exports[`NorentLetterEmailToUserBody works with SF users 1`] = `
     What is the new law AB3088?
   </h2>
   <p>
+    <strong>
+      TODO THIS NEEDS TO CHANGE TO REFLECT SB91
+    </strong>
     On August 31, 2020, the State of California passed tenant protections under Assembly Bill 3088. These protections prevent landlords from evicting tenants before February 1, 2021 without a valid reason or for any rent not paid between March 4 - January 31, 2021 due to loss of income or increased expenses associated with COVID-19. Although this law protects you from being evicted for not paying rent, it does not cancel rent.
   </p>
   <p>
@@ -186,12 +195,15 @@ exports[`NorentLetterEmailToUserBody works with SF users 1`] = `
     Do I need to send this declaration every month?
   </h2>
   <p>
-    Yes. Follow these instructions even if you have sent a letter to your landlord each month that you have not paid. And send a new declaration for every month moving forward (through January).
+    Yes. Follow these instructions even if you have sent a letter to your landlord each month that you have not paid. And send a new declaration for every month moving forward (through June 2021).
   </p>
   <h2>
     Do I still have to pay my rent?
   </h2>
   <p>
+    <strong>
+      TODO THIS NEEDS TO CHANGE TO REFLECT SB91
+    </strong>
     On or before 1/30/2020 you must decide whether to pay 25% of the rent for each month from September to January 2021. That’s 5 months multiplied by 25%. If after consulting with an attorney, you determine that you do not want to be in eviction court, pay the 25%. Tenants with severe bad conditions or living in illegal units should talk with an attorney before deciding whether to pay.
   </p>
   <h2>

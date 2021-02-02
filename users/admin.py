@@ -97,7 +97,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
         (
             "Product action information",
             {
-                "fields": ("hp_action_info", "loc_info", "norent_info"),
+                "fields": ("hp_action_info", "loc_info", "norent_info", "evictionfree_info"),
             },
         ),
     )
@@ -131,6 +131,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
         "hp_action_info",
         "loc_info",
         "norent_info",
+        "evictionfree_info",
         "phone_number_lookup_details",
         "rapidpro_contact_groups",
         "sms_conversations",

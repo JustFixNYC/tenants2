@@ -25,9 +25,7 @@ def execute_evictionfree_users_query(user):
             "hardship_declaration_details__index_number",
             "hardship_declaration_details__has_financial_hardship",
             "hardship_declaration_details__has_health_risk",
-            city_or_borough=F(
-                Coalesce("onboarding_info__non_nyc_city", "onboarding_info__borough")
-            ),
+            city_or_borough=Coalesce("onboarding_info__non_nyc_city", "onboarding_info__borough"),
             hardship_declaration_mailed_at=F("submitted_hardship_declaration__mailed_at"),
             hardship_declaration_emailed_at=F("submitted_hardship_declaration__emailed_at"),
         )

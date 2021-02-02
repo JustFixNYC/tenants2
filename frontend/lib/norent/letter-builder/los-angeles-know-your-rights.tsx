@@ -38,7 +38,7 @@ export const NorentLbLosAngelesKyr = MiddleProgressStep((props) => {
       </h2>
       <div className="content">
         <p>
-          <Trans id="norent.losAngelesKyr">
+          <Trans id="norent.losAngelesKyrSB91">
             We’ve worked with the non-profit organization{" "}
             <OutboundLink
               href={SAJE_WEBSITE_URL}

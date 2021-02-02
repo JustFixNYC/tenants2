@@ -95,7 +95,7 @@ const CALIFORNIA_FAQS: CaliforniaFAQProps[] = [
     question: t`Do I need to send this declaration every month?`,
     answer: (
       <p>
-        <Trans id="norent.doINeedToSendAB3088LetterEveryMonth">
+        <Trans id="norent.doINeedToSendSB91LetterEveryMonth">
           Yes. Follow these instructions even if you have sent a letter to your
           landlord each month that you have not paid. And send a new declaration
           for every month moving forward (through June 2021).

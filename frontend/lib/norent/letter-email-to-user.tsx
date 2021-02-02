@@ -112,8 +112,8 @@ const CALIFORNIA_FAQS: CaliforniaFAQProps[] = [
           for each month from September 2020 to June 2021. That’s 10 months
           multiplied by 25%. If after consulting with an attorney, you determine
           that you do not want to be in eviction court, pay the 25%. Tenants
-          with severe bad conditions or living in illegal units should talk with
-          an attorney before deciding whether to pay.
+          with severely bad conditions or living in illegal units should talk
+          with an attorney before deciding whether to pay.
         </Trans>
       </p>
     ),

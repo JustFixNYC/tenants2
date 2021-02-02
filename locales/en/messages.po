@@ -2810,7 +2810,7 @@ msgstr "Yes. Follow these instructions even if you have sent a letter to your la
 
 #: frontend/lib/norent/letter-email-to-user.tsx:104
 msgid "norent.doIStillHaveToPayMyRentSB91"
-msgstr "On or before 6/30/2021 you must decide whether to pay 25% of the rent for each month from September 2020 to June 2021. That’s 10 months multiplied by 25%. If after consulting with an attorney, you determine that you do not want to be in eviction court, pay the 25%. Tenants with severe bad conditions or living in illegal units should talk with an attorney before deciding whether to pay."
+msgstr "On or before 6/30/2021 you must decide whether to pay 25% of the rent for each month from September 2020 to June 2021. That’s 10 months multiplied by 25%. If after consulting with an attorney, you determine that you do not want to be in eviction court, pay the 25%. Tenants with severely bad conditions or living in illegal units should talk with an attorney before deciding whether to pay."
 
 #: frontend/lib/norent/components/social-icons.tsx:18
 msgid "norent.emailBodyTemplateForSharingNoRent"

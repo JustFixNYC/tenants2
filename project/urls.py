@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from graphene_django.views import GraphQLView
 
-from .views import example_server_error, redirect_favicon, health
+from .views import example_server_error, redirect_favicon, health, redirect_en_us
 from .frontapp import embeddable_in_frontapp
 import frontend.views
 from users.views import verify_email
@@ -45,6 +45,7 @@ urlpatterns = [
     path("data-requests/", include("data_requests.urls")),
     path("mailchimp/", include("mailchimp.urls")),
     path("p/", include("partnerships.urls")),
+    re_path(r"^en-(?:US|us)\/.*$", redirect_en_us),
 ]
 
 if settings.DEBUG:

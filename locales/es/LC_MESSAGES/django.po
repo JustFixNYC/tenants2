@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-01 17:11+0000\n"
+"POT-Creation-Date: 2021-02-02 16:30+0000\n"
 "PO-Revision-Date: 2021-02-02 16:06\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -122,11 +122,11 @@ msgstr "Por favor, escoja al menos una opción."
 msgid "Invalid phone number or password."
 msgstr "Número de teléfono o contraseña no válidos."
 
-#: project/forms.py:128
+#: project/forms.py:130
 msgid "A user with that email address already exists."
 msgstr "Ya existe un usuario con esa dirección de correo electrónico."
 
-#: project/forms.py:161
+#: project/forms.py:163
 msgid "Passwords do not match!"
 msgstr "¡Las contraseñas no coinciden!"
 
@@ -170,4 +170,3 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 #: project/util/phone_number.py:70
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
-

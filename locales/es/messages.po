@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-02-01 17:16\n"
+"PO-Revision-Date: 2021-02-02 16:08\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -53,7 +53,7 @@ msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 msgid "<0>Declaration of COVID-19 Related Financial Distress</0><1/>Compliant with Code of Civil Procedure Section 1179.02, SB91, COVID-19 Tenant Relief Act"
 msgstr ""
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:448
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:446
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
 msgstr "<0>Herramientas gratuitas para luchar por un hogar seguro y saludable</0><1>Introduce tu dirección para saber más.</1>"
 
@@ -130,7 +130,7 @@ msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines
 msgid "About"
 msgstr "Acerca de"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:404
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:402
 msgid "Actions"
 msgstr "Acciones"
 
@@ -645,7 +645,7 @@ msgstr "Correo electrónico:"
 msgid "English version"
 msgstr "Versión en inglés"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:457
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:455
 msgid "Enter your address to see some recommended actions."
 msgstr "Introduce tu dirección para ver algunas acciones recomendadas."
 
@@ -687,10 +687,6 @@ msgstr "Grifos No Instalados"
 #: common-data/issue-choices.ts:194
 msgid "Faucets not working"
 msgstr "Grifos No Funcionan"
-
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:343
-msgid "Fight an eviction"
-msgstr "Lucha contra un desalojo"
 
 #: frontend/lib/evictionfree/homepage.tsx:218
 msgid "Fight to #CancelRent"
@@ -1131,7 +1127,7 @@ msgstr "Aprenda por qué hemos construido esta herramienta, quiénes somos, y qu
 msgid "Learn about your rent"
 msgstr "Aprende Sobre Tu Alquiler"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:352
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:350
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/the-letter.tsx:29
 msgid "Learn more"
@@ -1315,7 +1311,7 @@ msgstr "Meses de impago de renta"
 msgid "Months you're missing rent payments"
 msgstr "Meses en the te faltan pagos de renta"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:403
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:401
 msgid "More actions"
 msgstr "Más acciones"
 
@@ -1580,6 +1576,7 @@ msgstr "Vista previa de esta declaración como PDF"
 msgid "Privacy Policy"
 msgstr "Política de Privacidad"
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:341
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:9
 msgid "Protect yourself from eviction"
 msgstr "Protéjete del desalojo"
@@ -1612,7 +1609,7 @@ msgstr "Ratas"
 msgid "Rats/mice"
 msgstr "Ratas/ratones"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:396
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:394
 msgid "Recommended actions"
 msgstr "Acciones recomendadas"
 
@@ -1665,7 +1662,7 @@ msgstr "Investiga al dueño de tu edificio"
 msgid "Reset your password"
 msgstr "Cambia tu contraseña"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:392
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:390
 msgid "Results for {0}"
 msgstr "Resultados para \"{0}\""
 
@@ -1697,7 +1694,7 @@ msgstr "Agua Oxidada"
 msgid "Sample NoRent.org letter"
 msgstr "Ejemplar de una carta de NoRent.org"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:461
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:459
 msgid "Search address"
 msgstr "Dirección de búsqueda"
 
@@ -1860,7 +1857,7 @@ msgstr "Detector de humo no funciona"
 msgid "Sorry, the page you are looking for doesn't seem to exist."
 msgstr "Lo sentimos, la página que estás buscando no existe."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:420
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:418
 msgid "Sorry, we don't recognize the address you entered."
 msgstr "Lo sentimos, no reconocemos la dirección que has introducido."
 
@@ -2071,7 +2068,7 @@ msgstr "Desafortunadamente, actualmente no recomendamos enviar esta notificació
 msgid "Unit/apt/lot/suite number"
 msgstr "Número de apartamento/unidad/lote/suite"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:418
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:416
 msgid "Unrecognized address"
 msgstr "Dirección no reconocida"
 
@@ -2744,9 +2741,9 @@ msgstr "Parece que este edificio deba estar registrado con el HPD. Los proprieta
 msgid "justfix.commonWarningAboutChangingLandlordDetails"
 msgstr "Si recibes documentos relacionados con el alquiler desde una dirección diferente, o si el dueño de tu edificio te ha dado instrucciones de usar una dirección diferente para vuestra correspondencia, puedes <0>proporcionar tus propios datos.</0> Sin embargo, sólo debes usar una dirección distinta a la que te sugerimos si tienes la certeza absoluta de que es correcta — es más seguro usar la dirección oficial que el dueño de tu edificio ha registrado con la ciudad."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:336
 msgid "justfix.ddoEfnycCovidMessage"
-msgstr "Una moratoria de desalojo limitada está en vigor en el estado de Nueva York debido a la crisis de salud pública del Covid-19. Los organizadores de inquilinos de la ciudad luchan por mantener la gente en sus casas."
+msgstr "Puedes enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales — deteniendo tu caso de desalojo hasta el 1 de mayo, 2021."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:273
 msgid "justfix.ddoEhpaCovidMessage"

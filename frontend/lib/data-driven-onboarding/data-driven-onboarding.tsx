@@ -35,10 +35,10 @@ const PLACEHOLDER_IMG = "frontend/img/96x96.png";
 
 const MAX_RECOMMENDED_ACTIONS = 3;
 
+const EFNYC_PRIORITY = 100;
 const VIOLATIONS_PRIORITY = 50;
 const VIOLATIONS_HIGH_PRIORITY = 50;
 const COMPLAINTS_PRIORITY = 40;
-const EFNYC_PRIORITY = 30;
 const WOW_PRIORITY = 20;
 const RENT_HISTORY_PRIORITY = 10;
 
@@ -509,17 +509,15 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       },
     };
   },
-  function evictionFreeNyc(data): ActionCardProps {
-    // Default content temporarily implemented during COVID-19 Outbreak
+  function evictionFreeNy(data): ActionCardProps {
     const covidMessage = (
       <Trans id="justfix.ddoEfnycCovidMessage">
-        A limited eviction moratorium is currently in place across New York
-        State. Tenant leaders and organizers around the city are fighting to
-        keep people in their homes.
+        You can send a hardship declaration form to your landlord and local
+        courts— putting your eviction case on hold until May 1st, 2021.
       </Trans>
     );
     return {
-      title: li18n._(t`Fight an eviction`),
+      title: li18n._(t`Protect yourself from eviction`),
       priority: EFNYC_PRIORITY,
       isRecommended:
         data.isRtcEligible && (data.numberOfEvictionsFromPortfolio || 0) > 0,

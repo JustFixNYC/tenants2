@@ -27,3 +27,10 @@ def test_extended_health_works(db, client, settings):
     health = res.json()
     assert health["status"] == 200
     assert health["is_extended"] is True
+
+
+@pytest.mark.parametrize("url", ["/en-US/", "/en-us/", "/en-US/blarg"])
+def test_it_redirects_en_us(client, url):
+    res = client.get(url)
+    assert res.status_code == 302
+    assert res["Location"] == "/en/"

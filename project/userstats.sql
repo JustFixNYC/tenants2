@@ -52,7 +52,7 @@ SELECT
         SELECT MAX(de.created_at)
         FROM hpaction_docusignenvelope AS de
         LEFT JOIN hpaction_hpactiondocuments AS hp ON de.docs_id = hp.id
-        WHERE de.status = %(docusign_signed_status)s
+        WHERE de.status = %(docusign_signed_status)s AND hp.user_id = onb.user_id
     ) AS latest_signed_ehpa_date,
     rapidpro.contact_groups AS rapidpro_contact_groups,
     phone_number_lookup.is_valid AS is_phone_number_valid,

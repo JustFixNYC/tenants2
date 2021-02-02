@@ -34,7 +34,8 @@ class SmsReminder(abc.ABC):
             with translation.override(user.locale):
                 text = self.get_sms_text(user)
                 assert text
-                print(f"Sending a {self.reminder_kind} reminder to {user.username}.")
+                extra = f" with the text {repr(text)}" if self.dry_run else ""
+                print(f"Sending a {self.reminder_kind} reminder to {user.username}{extra}.")
                 sid = "" if self.dry_run else user.send_sms(text)
                 if sid:
                     Reminder(

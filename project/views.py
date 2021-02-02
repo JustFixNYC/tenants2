@@ -37,3 +37,12 @@ def redirect_favicon(request):
 def health(request):
     is_extended = request.GET.get("extended") == settings.EXTENDED_HEALTHCHECK_KEY
     return project.health.check(is_extended).to_json_response()
+
+
+def redirect_en_us(request):
+    # We redirect old links from evictionfreenyc.org to evictionfreeny.org, and
+    # that site used to use "en-US" as its main English locale, whereas we use
+    # "en", so we'll redirect to the English homepage.  We won't both including
+    # what was after the "/en-US/" because whatever it was will likely 404 on
+    # our site.
+    return redirect("/en/")

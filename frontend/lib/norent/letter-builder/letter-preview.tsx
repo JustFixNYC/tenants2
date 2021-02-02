@@ -119,7 +119,7 @@ export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
           <p>
             <Trans>
               Please note that your declaration letter will be structured as
-              follows to meet the requirements of California's AB3088 law:
+              follows to meet the requirements of California's SB91 law:
             </Trans>
           </p>
           <ol>

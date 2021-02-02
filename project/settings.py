@@ -106,6 +106,8 @@ USE_LAMBDA_HTTP_SERVER = env.USE_LAMBDA_HTTP_SERVER
 
 FACEBOOK_APP_ID = env.FACEBOOK_APP_ID
 
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
+
 # Application definition
 
 INSTALLED_APPS = [

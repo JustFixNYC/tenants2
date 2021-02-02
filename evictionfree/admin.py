@@ -47,6 +47,17 @@ class EvictionFreeUser(JustfixUser):
 
         verbose_name_plural = "Users with EvictionFreeNY declarations"
 
+        permissions = [
+            (
+                "view_evictionfree_rtc_users",
+                "Can view/download EvictionFreeNY.org user data on behalf of RTC",
+            ),
+            (
+                "view_evictionfree_hj4a_users",
+                "Can view/download EvictionFreeNY.org user data on behalf of HJ4A",
+            ),
+        ]
+
 
 LETTERS_MAILED = "_letters_mailed"
 

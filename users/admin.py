@@ -11,6 +11,7 @@ from texting.models import get_lookup_description_for_phone_number
 from loc.admin import LOCUser, LandlordDetailsInline
 from hpaction.admin import HPUser
 from norent.admin import NorentUser
+from evictionfree.admin import EvictionFreeUser
 import airtable.sync
 
 
@@ -96,7 +97,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
         (
             "Product action information",
             {
-                "fields": ("hp_action_info", "loc_info", "norent_info"),
+                "fields": ("hp_action_info", "loc_info", "norent_info", "evictionfree_info"),
             },
         ),
     )
@@ -130,6 +131,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
         "hp_action_info",
         "loc_info",
         "norent_info",
+        "evictionfree_info",
         "phone_number_lookup_details",
         "rapidpro_contact_groups",
         "sms_conversations",
@@ -146,6 +148,10 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
     loc_info = make_link_to_other_user_view(LOCUser, "Letter of complaint information")
 
     norent_info = make_link_to_other_user_view(NorentUser, "NoRent letter information")
+
+    evictionfree_info = make_link_to_other_user_view(
+        EvictionFreeUser, "EvictionFreeNY.org information"
+    )
 
     @admin_field(
         short_description="Rapidpro contact groups",

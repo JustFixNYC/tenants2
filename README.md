@@ -532,13 +532,3 @@ site at, or else the code won't be able to map your request to
 the new Site you added.
 
 [Django Site model]: https://docs.djangoproject.com/en/3.0/ref/contrib/sites/#django.contrib.sites.models.Site
-
-
-first page:
-  you're in california page needs new text (airtable can be used to change this)
-    any new links on this page need to be committed to the repo
-
-law is now called sb91 (no longer ab3088)
-
-it goes until june 30, 2021
-  so last rent period now will be june 1

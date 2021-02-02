@@ -20,16 +20,28 @@ class NorentReminder(SmsReminder):
     def get_sms_text(self, user):
         site = site_util.get_site_of_type(site_util.SITE_CHOICES.NORENT)
         url = site_util.absolutify_url("/", site=site)
-        return _(
-            "%(first_name)s, you've previously created an account on NoRent.org. "
-            "If you are unable to pay rent next month AND you have a COVID-19 "
-            "related reason for not paying, we recommend that on or before your "
-            "rent due date or within 7 days of your rent due date, you send a "
-            "new SB91 declaration to your landlord through NoRent.org: %(url)s"
-        ) % {
+        if self.year_and_month == "2021-02":
+            msg = _(
+                "%(first_name)s, you've previously created an account on NoRent.org. "
+                "The California Tenant Relief Act of 2020 was extended by the new law SB91. "
+                "In order to be protected from eviction, you must send a new declaration "
+                "letter to your landlord through NoRent.org: %(url)s"
+            )
+        else:
+            msg = _(
+                "%(first_name)s, you've previously created an account on NoRent.org. "
+                "If you are unable to pay rent next month AND you have a COVID-19 "
+                "related reason for not paying, we recommend that on or before your "
+                "rent due date or within 7 days of your rent due date, you send a "
+                "new SB91 declaration to your landlord through NoRent.org: %(url)s"
+            )
+
+        params = {
             "first_name": user.first_name,
             "url": url,
         }
+
+        return msg % params
 
 
 SmsReminder.validate(NorentReminder("2020-11"))

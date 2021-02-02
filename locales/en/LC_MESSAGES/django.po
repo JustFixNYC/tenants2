@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-01 17:11+0000\n"
+"POT-Creation-Date: 2021-02-02 16:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -123,11 +123,11 @@ msgstr ""
 msgid "Invalid phone number or password."
 msgstr ""
 
-#: project/forms.py:128
+#: project/forms.py:130
 msgid "A user with that email address already exists."
 msgstr ""
 
-#: project/forms.py:161
+#: project/forms.py:163
 msgid "Passwords do not match!"
 msgstr ""
 

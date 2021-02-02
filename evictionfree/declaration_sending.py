@@ -248,20 +248,20 @@ def send_declaration(decl: SubmittedHardshipDeclaration):
                 _(
                     "%(name)s, you can download a PDF of your completed declaration form by "
                     "logging back into your account: %(url)s."
-                    % {
-                        "name": user.first_name,
-                        "url": f"{ef_site_origin}/{user.locale}/login",
-                    }
-                ),
+                )
+                % {
+                    "name": user.first_name,
+                    "url": f"{ef_site_origin}/{user.locale}/login",
+                },
                 _(
                     "For more information about New York’s eviction protections and your "
                     "rights as a tenant, visit %(url)s. To get involved in organizing and the "
                     "fight to #StopEvictions and #CancelRent, follow us on Twitter at "
                     "@RTCNYC and @housing4allNY."
-                    % {
-                        "url": "http://bit.ly/EvictionProtectionsNY",
-                    }
-                ),
+                )
+                % {
+                    "url": "http://bit.ly/EvictionProtectionsNY",
+                },
             ]
         )
 

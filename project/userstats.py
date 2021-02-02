@@ -11,6 +11,8 @@ USER_STATS_SQLFILE = MY_DIR / "userstats.sql"
 
 
 def execute_user_stats_query(cursor, include_pad_bbl: bool = False):
+    from hpaction.models import HP_DOCUSIGN_STATUS_CHOICES
+
     admin_url_begin, admin_url_end = absolute_reverse(
         "admin:users_justfixuser_change", args=(999,)
     ).split("999")
@@ -21,6 +23,7 @@ def execute_user_stats_query(cursor, include_pad_bbl: bool = False):
             "unusable_password_pattern": UNUSABLE_PASSWORD_PREFIX + "%",
             "admin_url_begin": admin_url_begin,
             "admin_url_end": admin_url_end,
+            "docusign_signed_status": HP_DOCUSIGN_STATUS_CHOICES.SIGNED,
         },
     )
 

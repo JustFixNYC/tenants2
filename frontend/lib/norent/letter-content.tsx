@@ -40,8 +40,8 @@ const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
           Declaration of COVID-19 Related Financial Distress
         </span>
         <letter.TitleNewline />
-        Compliant with Section 20 of the COVID-19 Tenant Relief Act of 2020, AB
-        3088
+        Compliant with Code of Civil Procedure Section 1179.02, SB91, COVID-19
+        Tenant Relief Act
       </Trans>
     ) : (
       <Trans>

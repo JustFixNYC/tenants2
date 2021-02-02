@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-02-02 16:08\n"
+"PO-Revision-Date: 2021-02-02 17:44\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -51,7 +51,7 @@ msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
 #: frontend/lib/norent/letter-content.tsx:15
 msgid "<0>Declaration of COVID-19 Related Financial Distress</0><1/>Compliant with Code of Civil Procedure Section 1179.02, SB91, COVID-19 Tenant Relief Act"
-msgstr ""
+msgstr "<0>Declaración de Complicaciones Financieras Relacionadas con el COVID-19</0><1/>Conforme con la Sección 1179.02, SB91, de la Ley de Alivio de Inquilinos COVID-19"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:446
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
@@ -335,7 +335,7 @@ msgstr "Mapa de huelgas de renta y protección para inquilinos ante la emergenci
 
 #: frontend/lib/norent/data/state-localized-resources.tsx:6
 msgid "COVID-19 Tenant Relief Act Extension"
-msgstr ""
+msgstr "Extensión de la Ley de Alivio de Inquilinos COVID-19"
 
 #: common-data/us-state-choices.ts:69
 msgid "California"
@@ -1557,7 +1557,7 @@ msgstr "Por favor, proporciona el nombre del dueño de tu edificio así como su 
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:68
 msgid "Please note that your declaration letter will be structured as follows to meet the requirements of California's SB91 law:"
-msgstr ""
+msgstr "Ten en cuenta que tu carta de declaración tendrá la siguiente estructura para cumplir con los requisitos de la ley SB91 de California:"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:214
 msgid "Please read the rest of this email carefully as it contains important information about your next steps."
@@ -2276,7 +2276,7 @@ msgstr "¿Cuál es el plazo para completar el formulario de declaración?"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:25
 msgid "What is the new law SB91?"
-msgstr ""
+msgstr "¿Qué es la nueva ley SB91?"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:172
 msgid "What is the time lag between me filling this out and when it gets sent?"
@@ -2811,11 +2811,11 @@ msgstr "<0>Una \"moratoria de desalojo\" puede significar algo diferente en cada
 
 #: frontend/lib/norent/letter-email-to-user.tsx:94
 msgid "norent.doINeedToSendSB91LetterEveryMonth"
-msgstr ""
+msgstr "Sí. Sigue estas instrucciones incluso si has enviado una carta al dueño o manager de tu edificio por cada mes que no hayas pagado la renta. Y envía una nueva declaración para cada mes siguiente (hasta junio de 2021)."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:104
 msgid "norent.doIStillHaveToPayMyRentSB91"
-msgstr ""
+msgstr "En o antes del 6/30/202 debes decidir si pagar el 25% de la renta por cada mes desde septiembre de 2020 a junio de 2021. Eso son 10 meses multiplicados por 25%. Si después de consultar con un abogado, determinas que no quieres estar en el tribunal de desalojo, pague el 25%. Los inquilinos con condiciones graves o que viven en unidades ilegales deben hablar con un abogado antes de decidir si pagar."
 
 #: frontend/lib/norent/components/social-icons.tsx:18
 msgid "norent.emailBodyTemplateForSharingNoRent"
@@ -2907,7 +2907,7 @@ msgstr "<0>Mientras esperas que el dueño de tu edificio te dé una respuesta, r
 
 #: frontend/lib/norent/letter-builder/los-angeles-know-your-rights.tsx:32
 msgid "norent.losAngelesKyrSB91"
-msgstr ""
+msgstr "Hemos trabajado con la organización sin fines de lucro <0>SAJE</0> para proporcionar apoyo adicional una vez que hayas enviado tu carta. Puedes aprender más sobre cómo SB91 afecta a los residentes de Los Angeles en <1>Stay Housed LA</1>."
 
 #: frontend/lib/norent/about.tsx:99
 msgid "norent.madeByBlurb"
@@ -2951,11 +2951,11 @@ msgstr "Si el propietario le envía un aviso para pagar el alquiler con una decl
 
 #: frontend/lib/norent/letter-email-to-user.tsx:28
 msgid "norent.whatIsSB91partOne"
-msgstr ""
+msgstr "La Ley extiende las protecciones de los inquilinos incluidas en la Ley de Alivio de Inquilinos, Dueños y Pequeños Arrendadores de 2020 (AB3088) hasta el 30 de junio de 2021. Estas protecciones fueron establecidas originalmente para caducar el 1 de febrero de 2021. La Ley incluye las mismas reglas de elegibilidad y programa que antes incluyendo:"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:36
 msgid "norent.whatIsSB91partTwo"
-msgstr ""
+msgstr "<0><1>Limitar la divulgación pública de casos de desalojo relacionados con el impago de alquiler entre el 4 de marzo de 2020 y el 30 de junio de 2021. </1><2>Protege a los inquilinos de bajos ingresos de que el propietario asigne o venda su deuda de renta a un cobrador de deuda de terceros. </2><3>Periodo de “Paga o Salida” para el impago de renta prolongado de 3 a 15 días. </3><4>Protege a los inquilinos de ser desalojados por “una causa justa” si se demuestra que el propietario realmente está desalojando al inquilino por el impago de renta relacionado por COVID-19. </4><5>El propietario no puede cobrar cargos por impago de renta entre el 1 de marzo de 2020 y el 30 de junio 2021 a inquilinos que han atestiguado que están experimentando una penuria relacionada con el COVID-19. </5><6>Requiere que todos los propietarios notifiquen a todos los inquilinos que deben renta atrasada sobre la disponibilidad de sus derechos y el programa de asistencia de renta a través de un aviso informativo antes del 28 de febrero, 2021. </6></0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:120
 msgid "norent.whatToDoIfLandlordRetaliates"
@@ -2989,3 +2989,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:102
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

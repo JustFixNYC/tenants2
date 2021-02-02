@@ -1,4 +1,5 @@
-from django.db.models.functions import Coalesce, F
+from django.db.models import F
+from django.db.models.functions import Coalesce
 
 from users.models import JustfixUser
 from project.admin_download_data import DataDownload, queryset_data_download

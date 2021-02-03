@@ -1,7 +1,8 @@
-from django.db.models import F
+from django.db.models import F, OuterRef, Exists
 
 from users.models import JustfixUser
 from project.admin_download_data import DataDownload, queryset_data_download
+from nycha.models import NychaProperty
 
 
 @queryset_data_download
@@ -28,6 +29,10 @@ def execute_evictionfree_users_query(user):
             city_if_outside_nyc=F("onboarding_info__non_nyc_city"),
             hardship_declaration_mailed_at=F("submitted_hardship_declaration__mailed_at"),
             hardship_declaration_emailed_at=F("submitted_hardship_declaration__emailed_at"),
+            bbl=F("onboarding_info__pad_bbl"),
+            is_nycha_bbl=Exists(
+                NychaProperty.objects.filter(pad_bbl=OuterRef("onboarding_info__pad_bbl"))
+            ),
         )
         .filter(
             onboarding_info__agreed_to_evictionfree_terms=True,

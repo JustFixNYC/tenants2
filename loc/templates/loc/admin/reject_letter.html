@@ -6,6 +6,9 @@
 {% endblock %}
 
 {% block content %}
+{% if noreject_reason %}
+<p>The letter of complaint cannot be rejected because {{ noreject_reason }}.</p>
+{% else %}
 <p>
   Below is the user's letter of complaint for your perusal.
 </p>
@@ -25,4 +28,5 @@
     <input type="submit" class="default" value="Reject letter">
   </div>
 </form>
+{% endif %}
 {% endblock %}

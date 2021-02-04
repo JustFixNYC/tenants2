@@ -26,9 +26,6 @@ const EmailBody: React.FC<EvictionFreeDeclarationEmailProps> = (props) => {
       <p>
         <Trans>Hello {props.firstName},</Trans>
       </p>
-      <p>
-        <Trans>Congratulations!</Trans>
-      </p>
       {emailRecipients.length > 0 && (
         <>
           <p>

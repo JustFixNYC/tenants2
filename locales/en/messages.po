@@ -99,7 +99,7 @@ msgstr "<0>Yes, this is a free website created by 501(c)3 non-profit organizatio
 msgid "<0>Your account is set up.</0><1>We do not currently recommend sending this notice of non-payment to your landlord. <2/></1>"
 msgstr "<0>Your account is set up.</0><1>We do not currently recommend sending this notice of non-payment to your landlord. <2/></1>"
 
-#: frontend/lib/evictionfree/declaration-email-to-user.tsx:43
+#: frontend/lib/evictionfree/declaration-email-to-user.tsx:40
 msgid "A PDF of your form is attached to this email. Please save a copy for your records."
 msgstr "A PDF of your form is attached to this email. Please save a copy for your records."
 
@@ -107,7 +107,7 @@ msgstr "A PDF of your form is attached to this email. Please save a copy for you
 msgid "A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case."
 msgstr "A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case."
 
-#: frontend/lib/evictionfree/declaration-email-to-user.tsx:33
+#: frontend/lib/evictionfree/declaration-email-to-user.tsx:30
 msgid "A hard copy of your form has also been mailed to your landlord via USPS mail. You can also track the delivery of your hard copy form using USPS Tracking:"
 msgstr "A hard copy of your form has also been mailed to your landlord via USPS mail. You can also track the delivery of your hard copy form using USPS Tracking:"
 
@@ -461,10 +461,6 @@ msgstr "Confirming the address"
 msgid "Confirming the city"
 msgstr "Confirming the city"
 
-#: frontend/lib/evictionfree/declaration-email-to-user.tsx:22
-msgid "Congratulations!"
-msgstr "Congratulations!"
-
 #: common-data/us-state-choices.ts:71
 msgid "Connecticut"
 msgstr "Connecticut"
@@ -718,7 +714,7 @@ msgstr "Florida"
 msgid "For New York State tenants"
 msgstr "For New York State tenants"
 
-#: frontend/lib/evictionfree/declaration-email-to-user.tsx:57
+#: frontend/lib/evictionfree/declaration-email-to-user.tsx:54
 msgid "For more information about New York’s eviction protections and your rights as a tenant, check out our FAQ on the <0>Right to Counsel website</0>."
 msgstr "For more information about New York’s eviction protections and your rights as a tenant, check out our FAQ on the <0>Right to Counsel website</0>."
 
@@ -2014,7 +2010,7 @@ msgstr "This tool is provided by JustFix.nyc. We’re a non-profit that creates 
 msgid "To begin the password reset process, we'll text you a verification code."
 msgstr "To begin the password reset process, we'll text you a verification code."
 
-#: frontend/lib/evictionfree/declaration-email-to-user.tsx:67
+#: frontend/lib/evictionfree/declaration-email-to-user.tsx:64
 msgid "To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at <0>@RTCNYC</0> and <1>@housing4allNY</1>."
 msgstr "To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at <0>@RTCNYC</0> and <1>@housing4allNY</1>."
 
@@ -2464,7 +2460,7 @@ msgstr "You've sent your hardship declaration"
 msgid "You've sent your letter"
 msgstr "You've sent your letter"
 
-#: frontend/lib/evictionfree/declaration-email-to-user.tsx:26
+#: frontend/lib/evictionfree/declaration-email-to-user.tsx:23
 msgid "Your Hardship Declaration form has been emailed to:"
 msgstr "Your Hardship Declaration form has been emailed to:"
 
@@ -2508,7 +2504,7 @@ msgstr "Your building was built in {0} or earlier."
 msgid "Your case's index number"
 msgstr "Your case's index number"
 
-#: frontend/lib/evictionfree/declaration-email-to-user.tsx:79
+#: frontend/lib/evictionfree/declaration-email-to-user.tsx:76
 msgid "Your declaration form and important next steps"
 msgstr "Your declaration form and important next steps"
 
@@ -2640,7 +2636,7 @@ msgstr "We'll use this information to email you a copy of your hardship declarat
 msgid "evictionfree.confirmationNoEmailToCourtYet"
 msgstr "A copy of the declaration will also be sent to your local court via email— we are determining the appropriate court to receive your declaration. We will notify you via text and on this page when it is sent."
 
-#: frontend/lib/evictionfree/declaration-email-to-user.tsx:49
+#: frontend/lib/evictionfree/declaration-email-to-user.tsx:46
 msgid "evictionfree.contactHcaBlurb"
 msgstr "If you have received a Notice to Pay Rent or Quit or any other kind of eviction notice, contact Housing Court Answers (NYC) at 212-962-4795, Monday - Friday, 9am-5pm or the Statewide Hotline at 833-503-0447, open 24/7."
 

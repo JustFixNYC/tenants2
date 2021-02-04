@@ -173,12 +173,20 @@ class TestRejectLetter:
         assert res.status_code == 200
         assert b"Reject letter" in res.content
 
-    def test_post_works(self, admin_client, mocklob):
+    def test_post_raises_errors(self, admin_client):
+        res = admin_client.post(self.url, data={"rejection_reason": "BOOP"})
+        assert res.status_code == 200
+        assert b"There was an error in your form submission" in res.content
+
+    def test_post_works(self, admin_client):
+        user = self.lr.user
         res = admin_client.post(self.url, data={"rejection_reason": "INCRIMINATION"})
         assert res.status_code == 302
         with pytest.raises(LetterRequest.DoesNotExist):
             self.lr.refresh_from_db()
-        # TODO: Make sure the letter request is archived.
+        alr = user.archived_letter_requests.all()
+        assert len(alr) == 1
+        assert alr[0].rejection_reason == "INCRIMINATION"
 
 
 class TestGetLobNomailReason:

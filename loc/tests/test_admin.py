@@ -162,6 +162,25 @@ class TestMailViaLob:
         assert self.lr.lob_letter_object["carrier"] == "USPS"
 
 
+class TestRejectLetter:
+    @pytest.fixture(autouse=True)
+    def setup_fixtures(self, db, mocklob):
+        self.lr = create_valid_letter_request()
+        self.url = f"/admin/reject/{self.lr.pk}/"
+
+    def test_get_works(self, admin_client, mocklob):
+        res = admin_client.get(self.url)
+        assert res.status_code == 200
+        assert b"Reject letter" in res.content
+
+    def test_post_works(self, admin_client, mocklob):
+        res = admin_client.post(self.url, data={"rejection_reason": "INCRIMINATION"})
+        assert res.status_code == 302
+        with pytest.raises(LetterRequest.DoesNotExist):
+            self.lr.refresh_from_db()
+        # TODO: Make sure the letter request is archived.
+
+
 class TestGetLobNomailReason:
     def test_it_works_when_lob_integration_is_disabled(self):
         assert get_lob_nomail_reason(LetterRequest()) == "Lob integration is disabled"

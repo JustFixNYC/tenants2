@@ -163,11 +163,17 @@ class LetterRequestInline(admin.StackedInline):
         return format_html("Unable to reject letter because {}.", noreject_reason)
 
 
-def get_reason_for_not_rejecting_or_mailing(letter: models.LetterRequest) -> Optional[str]:
-    result: Optional[str] = None
-
+def get_reason_for_not_archiving(letter: models.LetterRequest) -> Optional[str]:
     if not letter.id:
-        result = "the letter has not yet been created"
+        return "the letter has not yet been created"
+    return None
+
+
+def get_reason_for_not_rejecting_or_mailing(letter: models.LetterRequest) -> Optional[str]:
+    result = get_reason_for_not_archiving(letter)
+
+    if result:
+        pass
     elif letter.lob_letter_object:
         result = "the letter has already been sent via Lob"
     elif letter.tracking_number:

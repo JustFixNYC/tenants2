@@ -116,14 +116,10 @@ class LocAdminViews:
         lob_nomail_reason = get_lob_nomail_reason(letter)
         is_post = request.method == "POST"
         ctx = {
-            **self.site.each_context(request),
+            **self.base_letter_context(request, letter),
             "title": "Mail letter of complaint via Lob",
-            "user": user,
-            "letter": letter,
             "lob_nomail_reason": lob_nomail_reason,
             "is_post": is_post,
-            "pdf_url": user.letter_request.admin_pdf_url,
-            "go_back_href": reverse("admin:loc_locuser_change", args=(user.pk,)),
         }
 
         if not lob_nomail_reason:
@@ -153,19 +149,26 @@ class LocAdminViews:
 
         return TemplateResponse(request, "loc/admin/lob.html", ctx)
 
+    def base_letter_context(self, request, letter):
+        user = letter.user
+        return {
+            **self.site.each_context(request),
+            "user": user,
+            "letter": letter,
+            "go_back_href": reverse("admin:loc_locuser_change", args=(user.pk,)),
+            "pdf_url": user.letter_request.admin_pdf_url,
+        }
+
     def reject_letter(self, request, letterid):
         from .admin import get_reason_for_not_rejecting_or_mailing
 
         letter = get_object_or_404(models.LetterRequest, pk=letterid)
-        user = letter.user
-
         noreject_reason = get_reason_for_not_rejecting_or_mailing(letter)
-        go_back_href = reverse("admin:loc_locuser_change", args=(user.pk,))
 
         ctx = {
+            **self.base_letter_context(request, letter),
             "noreject_reason": noreject_reason,
-            "go_back_href": go_back_href,
-            "pdf_url": user.letter_request.admin_pdf_url,
+            "title": "Reject letter",
         }
 
         if not noreject_reason:
@@ -177,7 +180,7 @@ class LocAdminViews:
                     messages.success(
                         request, "The user's letter request was rejected successfully."
                     )
-                    return HttpResponseRedirect(go_back_href)
+                    return HttpResponseRedirect(ctx["go_back_href"])
                 else:
                     messages.error(
                         request, "There was an error in your form submission!  See below."

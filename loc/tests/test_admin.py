@@ -171,7 +171,7 @@ class TestRejectLetter:
     def test_get_works(self, admin_client, mocklob):
         res = admin_client.get(self.url)
         assert res.status_code == 200
-        assert b"Reject letter" in res.content
+        assert b"Rejection reason" in res.content
 
     def test_post_raises_errors(self, admin_client):
         res = admin_client.post(self.url, data={"rejection_reason": "BOOP"})

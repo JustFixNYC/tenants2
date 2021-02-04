@@ -104,7 +104,7 @@ class LandlordDetailsInline(admin.StackedInline):
 class LetterRequestForm(forms.ModelForm):
     class Meta:
         model = models.LetterRequest
-        exclude = ["html_content", "lob_letter_object", "user"]
+        exclude = ["html_content", "lob_letter_object", "user", "rejection_reason"]
 
     def clean(self):
         super().clean()
@@ -121,7 +121,7 @@ class LetterRequestInline(admin.StackedInline):
     verbose_name = "Letter of complaint request"
     verbose_name_plural = verbose_name
 
-    readonly_fields = ["letter_snippet", "loc_actions", "lob_integration"]
+    readonly_fields = ["letter_snippet", "loc_actions", "lob_integration", "reject_letter"]
 
     @admin_field(short_description="Letter HTML snippet", allow_tags=True)
     def letter_snippet(self, obj: models.LetterRequest) -> str:
@@ -152,18 +152,21 @@ class LetterRequestInline(admin.StackedInline):
             )
         return format_html("Unable to send mail via Lob because {}.", nomail_reason)
 
+    @admin_field(short_description="Reject letter", allow_tags=True)
+    def reject_letter(self, obj: models.LetterRequest):
+        noreject_reason = get_reason_for_not_rejecting_or_mailing(obj)
+        if not noreject_reason:
+            return format_html(
+                '<a class="button" href="{}">Reject letter&hellip;</a>',
+                reverse("admin:reject-letter", kwargs={"letterid": obj.id}),
+            )
+        return format_html("Unable to reject letter because {}.", noreject_reason)
 
-def get_lob_nomail_reason(letter: models.LetterRequest) -> Optional[str]:
-    """
-    If the given letter can't be mailed via Lob, return a human-readable
-    English string explaining why. Otherwise, return None.
-    """
 
+def get_reason_for_not_rejecting_or_mailing(letter: models.LetterRequest) -> Optional[str]:
     result: Optional[str] = None
 
-    if not is_lob_fully_enabled():
-        result = "Lob integration is disabled"
-    elif not letter.id:
+    if not letter.id:
         result = "the letter has not yet been created"
     elif letter.lob_letter_object:
         result = "the letter has already been sent via Lob"
@@ -178,6 +181,18 @@ def get_lob_nomail_reason(letter: models.LetterRequest) -> Optional[str]:
     elif not hasattr(letter.user, "onboarding_info"):
         result = "the user does not have onboarding info"
     return result
+
+
+def get_lob_nomail_reason(letter: models.LetterRequest) -> Optional[str]:
+    """
+    If the given letter can't be mailed via Lob, return a human-readable
+    English string explaining why. Otherwise, return None.
+    """
+
+    if not is_lob_fully_enabled():
+        return "Lob integration is disabled"
+
+    return get_reason_for_not_rejecting_or_mailing(letter)
 
 
 class LOCUser(JustfixUser):

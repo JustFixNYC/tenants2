@@ -27,6 +27,11 @@ class LocAdminViews:
                 self.view_with_perm(self.mail_via_lob, CHANGE_LETTER_REQUEST_PERMISSION),
                 name="mail-via-lob",
             ),
+            path(
+                "reject/<int:letterid>/",
+                self.view_with_perm(self.reject_letter, CHANGE_LETTER_REQUEST_PERMISSION),
+                name="reject-letter",
+            ),
         ]
 
     def view_with_perm(self, view_func, perm: str):
@@ -138,3 +143,6 @@ class LocAdminViews:
                 )
 
         return TemplateResponse(request, "loc/admin/lob.html", ctx)
+
+    def reject_letter(self, request, letterid):
+        return TemplateResponse(request, "loc/admin/reject_letter.html", {})

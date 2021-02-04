@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from django.utils import timezone
 from django.core.exceptions import ValidationError
-
+from freezegun import freeze_time
 import pytest
 
 from users.tests.factories import UserFactory
@@ -10,6 +10,7 @@ from loc.models import (
     AddressDetails,
     AccessDate,
     LetterRequest,
+    ArchivedLetterRequest,
     LandlordDetails,
     LOC_MAILING_CHOICES,
 )
@@ -274,3 +275,19 @@ class TestTrackingNumberChanged:
         # Make sure we don't send *again* when saving again.
         lr.save()
         assert len(smsoutbox) == messages_sent
+
+
+class TestArchivedLetterRequest:
+    def test_archiving_letter_request_works(self, db):
+        with freeze_time("2018-01-05"):
+            lr = LetterRequestFactory(lob_letter_object={"boop": 1})
+        alr = lr.archive()
+        assert isinstance(alr, ArchivedLetterRequest)
+
+        # Ensure the original letter request has been destroyed.
+        with pytest.raises(LetterRequest.DoesNotExist):
+            lr.refresh_from_db()
+
+        # Ensure the properties were carried over
+        assert alr.lob_letter_object == {"boop": 1}
+        assert alr.created_at.date().isoformat() == "2018-01-05"

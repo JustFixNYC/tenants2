@@ -473,6 +473,86 @@ class LetterRequest(models.Model):
 
         self.__tracking_number_tracker.set_to_unchanged()
 
+    def archive(self):
+        from django.core.serializers import serialize, deserialize
+        import json
+
+        with transaction.atomic():
+            serialized = json.loads(serialize("json", [self]))[0]
+            serialized["model"] = "loc.ArchivedLetterRequest"
+            del serialized["pk"]
+            archived = list(deserialize("json", json.dumps([serialized])))[0]
+            archived.save()
+            self.delete()
+            return archived.object
+
 
 def does_user_have_finished_loc(user: JustfixUser) -> bool:
     return hasattr(user, "letter_request") and bool(user.letter_request.html_content)
+
+
+class ArchivedLetterRequest(models.Model):
+    """
+    A completed letter of complaint request submitted by a user that is
+    no longer used by the system.  Intended primarily for record-keeping
+    purposes.
+
+    Once a model of this type has been created, it's assumed that it
+    is immutable, since it represents historical data.
+
+    Note that ideally we would've simply had the `LetterRequest` model be
+    a model with a `ForeignKey` relationship to `JustfixUser` rather than
+    a `OneToOneField`, to accomodate the notion of archived letters,
+    but by the time we really needed to remember archived letters, so
+    much existing code assumed the `OneToOneField` that it became
+    quite a hassle to make the migration. So instead, we're storing
+    identical fields in a different model.
+    """
+
+    created_at = models.DateTimeField()
+
+    updated_at = models.DateTimeField()
+
+    user = models.ForeignKey(
+        JustfixUser, on_delete=models.CASCADE, related_name="archived_letter_requests"
+    )
+
+    mail_choice = models.TextField(
+        max_length=30,
+        choices=LOC_MAILING_CHOICES.choices,
+        help_text="How the letter of complaint will be mailed.",
+    )
+
+    html_content = models.TextField(
+        blank=True, help_text="The HTML content of the letter at the time it was requested."
+    )
+
+    lob_letter_object = JSONField(
+        blank=True,
+        null=True,
+        help_text=(
+            "If the letter was sent via Lob, this is the JSON response of the API call that "
+            "was made to send the letter, documented at https://lob.com/docs/python#letters."
+        ),
+    )
+
+    tracking_number = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text=(
+            "The tracking number for the letter. Note that when this is changed, "
+            "the user will be notified via SMS and added to a LOC follow-up campaign, "
+            "if one has been configured."
+        ),
+    )
+
+    letter_sent_at = models.DateTimeField(
+        null=True, blank=True, help_text="When the letter was mailed through the postal service."
+    )
+
+    rejection_reason = models.CharField(
+        max_length=100,
+        blank=True,
+        choices=LOC_REJECTION_CHOICES.choices,
+        help_text="The reason we didn't mail the letter, if applicable.",
+    )

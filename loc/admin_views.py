@@ -3,12 +3,21 @@ from django.template.response import TemplateResponse
 from django.utils import timezone
 from django.urls import path, reverse
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django import forms
+from django.contrib import messages
 from django.core import signing
 
 from users.models import CHANGE_LETTER_REQUEST_PERMISSION
 import airtable.sync
 from project import slack
 from . import models, views, lob_api
+
+
+class RejectLetterForm(forms.Form):
+    rejection_reason = forms.ChoiceField(
+        choices=[("", "(Please choose a reason)")] + models.LOC_REJECTION_CHOICES.choices
+    )
 
 
 def get_ll_addr_details_url(landlord_details: models.LandlordDetails) -> str:
@@ -145,4 +154,36 @@ class LocAdminViews:
         return TemplateResponse(request, "loc/admin/lob.html", ctx)
 
     def reject_letter(self, request, letterid):
-        return TemplateResponse(request, "loc/admin/reject_letter.html", {})
+        from .admin import get_reason_for_not_rejecting_or_mailing
+
+        letter = get_object_or_404(models.LetterRequest, pk=letterid)
+        user = letter.user
+
+        noreject_reason = get_reason_for_not_rejecting_or_mailing(letter)
+        go_back_href = reverse("admin:loc_locuser_change", args=(user.pk,))
+
+        ctx = {
+            "noreject_reason": noreject_reason,
+            "go_back_href": go_back_href,
+            "pdf_url": user.letter_request.admin_pdf_url,
+        }
+
+        if not noreject_reason:
+            if request.method == "POST":
+                form = RejectLetterForm(data=request.POST)
+                if form.is_valid():
+                    letter.rejection_reason = form.cleaned_data["rejection_reason"]
+                    letter.archive()
+                    messages.success(
+                        request, "The user's letter request was rejected successfully."
+                    )
+                    return HttpResponseRedirect(go_back_href)
+                else:
+                    messages.error(
+                        request, "There was an error in your form submission!  See below."
+                    )
+            else:
+                form = RejectLetterForm()
+            ctx["form"] = form
+
+        return TemplateResponse(request, "loc/admin/reject_letter.html", ctx)

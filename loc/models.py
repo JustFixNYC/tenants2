@@ -520,11 +520,15 @@ class ArchivedLetterRequest(BaseLetterRequest):
     identical fields in a different model.
     """
 
-    # Fields identical to LetterRequest fields.
+    # Fields with the same name as LetterRequest fields (but with different parameters).
 
     created_at = models.DateTimeField()
 
     updated_at = models.DateTimeField()
+
+    user = models.ForeignKey(
+        JustfixUser, on_delete=models.CASCADE, related_name="archived_letter_requests"
+    )
 
     # Fields specific to archived letter requests.
 
@@ -534,10 +538,6 @@ class ArchivedLetterRequest(BaseLetterRequest):
 
     original_letter_request_id = models.IntegerField(
         help_text="The original primary key of the deleted LetterRequest this is based on."
-    )
-
-    user = models.ForeignKey(
-        JustfixUser, on_delete=models.CASCADE, related_name="archived_letter_requests"
     )
 
     notes = models.TextField(

@@ -7,6 +7,8 @@ from django.http import HttpResponseRedirect
 from django import forms
 from django.contrib import messages
 from django.core import signing
+from django.contrib.admin.models import LogEntry, CHANGE, DELETION
+from django.contrib.contenttypes.models import ContentType
 
 from users.models import CHANGE_LETTER_REQUEST_PERMISSION
 import airtable.sync
@@ -89,6 +91,16 @@ class LocAdminViews:
 
         return {"signed_verifications": signing.dumps(verifications), **verifications}
 
+    def _log_letter_action(self, request, letter, message: str, action: int):
+        LogEntry.objects.log_action(
+            user_id=request.user.id,
+            content_type_id=ContentType.objects.get_for_model(models.LetterRequest).pk,
+            object_id=letter.pk,
+            object_repr=str(letter),
+            action_flag=action,
+            change_message=message,
+        )
+
     def _create_letter(self, request, letter, verifications):
         user = letter.user
         pdf_file = views.render_finished_loc_pdf_for_user(request, user).file_to_stream
@@ -130,6 +142,7 @@ class LocAdminViews:
                 letter.tracking_number = response["tracking_number"]
                 letter.letter_sent_at = timezone.now()
                 letter.save()
+                self._log_letter_action(request, letter, "Mailed the letter via Lob.", CHANGE)
                 airtable.sync.sync_user(user)
                 slack.sendmsg_async(
                     f"{slack.escape(request.user.first_name)} has sent "
@@ -177,6 +190,7 @@ class LocAdminViews:
                 if form.is_valid():
                     letter.rejection_reason = form.cleaned_data["rejection_reason"]
                     letter.archive()
+                    self._log_letter_action(request, letter, "Rejected the letter.", DELETION)
                     messages.success(
                         request, "The user's letter request was rejected successfully."
                     )

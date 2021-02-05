@@ -15,6 +15,12 @@ import { AdminUserInfo } from "./admin-user-info";
 import Page from "../ui/page";
 import { AdminAuthExpired } from "./admin-auth-expired";
 
+// Ideally this should be a hard reference passed to us
+// by the server, but this URL is probably never going
+// to change and I'm feeling kind of lazy. Also,
+// this breaking won't be the end of the world. -AV
+const ADMIN_SEARCH_URL = "/admin/users/justfixuser/";
+
 type RecipientProps =
   | {
       kind: "email";
@@ -49,6 +55,24 @@ const Recipient: React.FC<RecipientProps> = (props) =>
     </>
   );
 
+const ManualSearchForm: React.FC<{}> = () => (
+  <form action={ADMIN_SEARCH_URL} method="GET" target="_blank">
+    <div className="field has-addons">
+      <label className="jf-sr-only" htmlFor="q">
+        User search query:
+      </label>
+      <div className="control jf-flexed">
+        <input className="input is-medium" name="q" id="q" required />
+      </div>
+      <div className="control">
+        <button className="button is-medium is-primary" type="submit">
+          Search
+        </button>
+      </div>
+    </div>
+  </form>
+);
+
 const LoadedUserInfo: React.FC<
   FrontappUserDetails & { recipient: RecipientProps }
 > = ({ isVerifiedStaffUser, userDetails, recipient }) => {
@@ -57,10 +81,17 @@ const LoadedUserInfo: React.FC<
   }
   if (!userDetails) {
     return (
-      <p>
-        The selected conversation's recipient does not seem to have an account
-        with us under the <Recipient {...recipient} />.
-      </p>
+      <>
+        <p>
+          The selected conversation's recipient does not seem to have an account
+          with us under the <Recipient {...recipient} />.
+        </p>
+        <p>
+          If you have other details about the user available, such as their
+          name, you may want to manually search for them using the form below.
+        </p>
+        <ManualSearchForm />
+      </>
     );
   }
   return <AdminUserInfo user={userDetails} showPhoneNumber showName />;

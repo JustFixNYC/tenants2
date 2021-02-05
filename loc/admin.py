@@ -104,7 +104,7 @@ class LandlordDetailsInline(admin.StackedInline):
 class LetterRequestForm(forms.ModelForm):
     class Meta:
         model = models.LetterRequest
-        exclude = ["html_content", "lob_letter_object", "user"]
+        exclude = ["html_content", "lob_letter_object", "user", "rejection_reason"]
 
     def clean(self):
         super().clean()
@@ -121,7 +121,13 @@ class LetterRequestInline(admin.StackedInline):
     verbose_name = "Letter of complaint request"
     verbose_name_plural = verbose_name
 
-    readonly_fields = ["letter_snippet", "loc_actions", "lob_integration"]
+    readonly_fields = [
+        "letter_snippet",
+        "loc_actions",
+        "lob_integration",
+        "reject_letter",
+        "archive_letter",
+    ]
 
     @admin_field(short_description="Letter HTML snippet", allow_tags=True)
     def letter_snippet(self, obj: models.LetterRequest) -> str:
@@ -152,19 +158,38 @@ class LetterRequestInline(admin.StackedInline):
             )
         return format_html("Unable to send mail via Lob because {}.", nomail_reason)
 
+    @admin_field(short_description="Reject letter", allow_tags=True)
+    def reject_letter(self, obj: models.LetterRequest):
+        noreject_reason = get_reason_for_not_rejecting_or_mailing(obj)
+        if not noreject_reason:
+            return format_html(
+                '<a class="button" href="{}">Reject letter&hellip;</a>',
+                reverse("admin:reject-letter", kwargs={"letterid": obj.id}),
+            )
+        return format_html("Unable to reject letter because {}.", noreject_reason)
 
-def get_lob_nomail_reason(letter: models.LetterRequest) -> Optional[str]:
-    """
-    If the given letter can't be mailed via Lob, return a human-readable
-    English string explaining why. Otherwise, return None.
-    """
+    @admin_field(short_description="Archive letter", allow_tags=True)
+    def archive_letter(self, obj: models.LetterRequest):
+        noarchive_reason = get_reason_for_not_archiving(obj)
+        if not noarchive_reason:
+            return format_html(
+                '<a class="button" href="{}">Archive letter&hellip;</a>',
+                reverse("admin:archive-letter", kwargs={"letterid": obj.id}),
+            )
+        return format_html("Unable to archive letter because {}.", noarchive_reason)
 
-    result: Optional[str] = None
 
-    if not is_lob_fully_enabled():
-        result = "Lob integration is disabled"
-    elif not letter.id:
-        result = "the letter has not yet been created"
+def get_reason_for_not_archiving(letter: models.LetterRequest) -> Optional[str]:
+    if not letter.id:
+        return "the letter has not yet been created"
+    return None
+
+
+def get_reason_for_not_rejecting_or_mailing(letter: models.LetterRequest) -> Optional[str]:
+    result = get_reason_for_not_archiving(letter)
+
+    if result:
+        pass
     elif letter.lob_letter_object:
         result = "the letter has already been sent via Lob"
     elif letter.tracking_number:
@@ -178,6 +203,33 @@ def get_lob_nomail_reason(letter: models.LetterRequest) -> Optional[str]:
     elif not hasattr(letter.user, "onboarding_info"):
         result = "the user does not have onboarding info"
     return result
+
+
+def get_lob_nomail_reason(letter: models.LetterRequest) -> Optional[str]:
+    """
+    If the given letter can't be mailed via Lob, return a human-readable
+    English string explaining why. Otherwise, return None.
+    """
+
+    if not is_lob_fully_enabled():
+        return "Lob integration is disabled"
+
+    return get_reason_for_not_rejecting_or_mailing(letter)
+
+
+class ArchivedLetterRequestInline(admin.TabularInline):
+    model = models.ArchivedLetterRequest
+    fields = [
+        "created_at",
+        "mail_choice",
+        "tracking_number",
+        "archived_at",
+        "rejection_reason",
+        "notes",
+    ]
+    readonly_fields = fields
+    has_add_permission = never_has_permission
+    has_delete_permission = never_has_permission
 
 
 class LOCUser(JustfixUser):
@@ -201,6 +253,7 @@ class LOCUserAdmin(UserProxyAdmin):
         AccessDateInline,
         LandlordDetailsInline,
         LetterRequestInline,
+        ArchivedLetterRequestInline,
     )
 
     list_display = UserProxyAdmin.list_display + ["issue_count", "mailing_needed"]

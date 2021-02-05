@@ -192,6 +192,33 @@ class TestRejectLetter:
         assert alr[0].notes == "blah"
 
 
+class TestArchiveLetter:
+    @pytest.fixture(autouse=True)
+    def setup_fixtures(self, db, mocklob):
+        self.lr = create_valid_letter_request()
+        self.url = f"/admin/archive/{self.lr.pk}/"
+
+    def test_get_works(self, admin_client, mocklob):
+        res = admin_client.get(self.url)
+        assert res.status_code == 200
+        assert b"Additional notes (optional)" in res.content
+
+    def test_post_raises_errors(self, admin_client):
+        res = admin_client.post(self.url, data={"notes": "BOOP" * 4000})
+        assert res.status_code == 200
+        assert b"There was an error in your form submission" in res.content
+
+    def test_post_works(self, admin_client):
+        user = self.lr.user
+        res = admin_client.post(self.url, data={"notes": "blah"})
+        assert res.status_code == 302
+        with pytest.raises(LetterRequest.DoesNotExist):
+            self.lr.refresh_from_db()
+        alr = user.archived_letter_requests.all()
+        assert len(alr) == 1
+        assert alr[0].notes == "blah"
+
+
 class TestGetLobNomailReason:
     def test_it_works_when_lob_integration_is_disabled(self):
         assert get_lob_nomail_reason(LetterRequest()) == "Lob integration is disabled"

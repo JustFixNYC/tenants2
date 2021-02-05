@@ -121,7 +121,13 @@ class LetterRequestInline(admin.StackedInline):
     verbose_name = "Letter of complaint request"
     verbose_name_plural = verbose_name
 
-    readonly_fields = ["letter_snippet", "loc_actions", "lob_integration", "reject_letter"]
+    readonly_fields = [
+        "letter_snippet",
+        "loc_actions",
+        "lob_integration",
+        "reject_letter",
+        "archive_letter",
+    ]
 
     @admin_field(short_description="Letter HTML snippet", allow_tags=True)
     def letter_snippet(self, obj: models.LetterRequest) -> str:
@@ -161,6 +167,16 @@ class LetterRequestInline(admin.StackedInline):
                 reverse("admin:reject-letter", kwargs={"letterid": obj.id}),
             )
         return format_html("Unable to reject letter because {}.", noreject_reason)
+
+    @admin_field(short_description="Archive letter", allow_tags=True)
+    def archive_letter(self, obj: models.LetterRequest):
+        noarchive_reason = get_reason_for_not_archiving(obj)
+        if not noarchive_reason:
+            return format_html(
+                '<a class="button" href="{}">Archive letter&hellip;</a>',
+                reverse("admin:archive-letter", kwargs={"letterid": obj.id}),
+            )
+        return format_html("Unable to archive letter because {}.", noarchive_reason)
 
 
 def get_reason_for_not_archiving(letter: models.LetterRequest) -> Optional[str]:

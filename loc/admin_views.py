@@ -16,13 +16,28 @@ from project import slack
 from . import models, views, lob_api
 
 
+MAX_NOTES_LEN = 1000
+
+
+class ArchiveLetterForm(forms.Form):
+    notes = forms.CharField(
+        label="Additional notes (optional)",
+        required=False,
+        widget=forms.Textarea,
+        max_length=MAX_NOTES_LEN,
+    )
+
+
 class RejectLetterForm(forms.Form):
     rejection_reason = forms.ChoiceField(
         choices=[("", "(Please choose a reason)")] + models.LOC_REJECTION_CHOICES.choices
     )
 
     notes = forms.CharField(
-        label="Additional notes (optional)", required=False, widget=forms.Textarea
+        label="Additional notes (optional)",
+        required=False,
+        widget=forms.Textarea,
+        max_length=MAX_NOTES_LEN,
     )
 
 
@@ -46,6 +61,11 @@ class LocAdminViews:
                 "reject/<int:letterid>/",
                 self.view_with_perm(self.reject_letter, CHANGE_LETTER_REQUEST_PERMISSION),
                 name="reject-letter",
+            ),
+            path(
+                "archive/<int:letterid>/",
+                self.view_with_perm(self.archive_letter, CHANGE_LETTER_REQUEST_PERMISSION),
+                name="archive-letter",
             ),
         ]
 
@@ -208,3 +228,29 @@ class LocAdminViews:
             ctx["form"] = form
 
         return TemplateResponse(request, "loc/admin/reject_letter.html", ctx)
+
+    def archive_letter(self, request, letterid):
+        letter = get_object_or_404(models.LetterRequest, pk=letterid)
+
+        ctx = {
+            **self.base_letter_context(request, letter),
+            "title": "Archive letter",
+        }
+
+        # Note that if the letter request exists, it's able to be archived;
+        # we don't need to perform any additional checks.
+
+        if request.method == "POST":
+            form = ArchiveLetterForm(data=request.POST)
+            if form.is_valid():
+                letter.archive(notes=form.cleaned_data["notes"])
+                self._log_letter_action(request, letter, "Archived the letter.", DELETION)
+                messages.success(request, "The user's letter request was archived successfully.")
+                return HttpResponseRedirect(ctx["go_back_href"])
+            else:
+                messages.error(request, "There was an error in your form submission!  See below.")
+        else:
+            form = ArchiveLetterForm()
+        ctx["form"] = form
+
+        return TemplateResponse(request, "loc/admin/archive_letter.html", ctx)

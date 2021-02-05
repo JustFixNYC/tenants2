@@ -281,7 +281,9 @@ class TestArchivedLetterRequest:
     def test_archiving_letter_request_works(self, db):
         with freeze_time("2018-01-05"):
             lr = LetterRequestFactory(lob_letter_object={"boop": 1})
-        alr = lr.archive()
+        lr_pk = lr.pk
+        with freeze_time("2020-02-10"):
+            alr = lr.archive(notes="User wants to send another letter.")
         assert isinstance(alr, ArchivedLetterRequest)
 
         # Ensure the original letter request has been destroyed.
@@ -291,3 +293,6 @@ class TestArchivedLetterRequest:
         # Ensure the properties were carried over
         assert alr.lob_letter_object == {"boop": 1}
         assert alr.created_at.date().isoformat() == "2018-01-05"
+        assert alr.original_letter_request_id == lr_pk
+        assert alr.archived_at.date().isoformat() == "2020-02-10"
+        assert alr.notes == "User wants to send another letter."

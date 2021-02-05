@@ -473,15 +473,21 @@ class LetterRequest(models.Model):
 
         self.__tracking_number_tracker.set_to_unchanged()
 
-    def archive(self):
+    def archive(self, notes: str = ""):
         from django.core.serializers import serialize, deserialize
         import json
+
+        pk = self.pk
 
         with transaction.atomic():
             serialized = json.loads(serialize("json", [self]))[0]
             serialized["model"] = "loc.ArchivedLetterRequest"
             del serialized["pk"]
             archived = list(deserialize("json", json.dumps([serialized])))[0]
+            archived.object.archived_at = timezone.now()
+            archived.object.original_letter_request_id = pk
+            archived.object.notes = notes
+            archived.object.full_clean()
             archived.save()
             self.delete()
             return archived.object
@@ -509,13 +515,11 @@ class ArchivedLetterRequest(models.Model):
     identical fields in a different model.
     """
 
+    # Fields identical to LetterRequest fields.
+
     created_at = models.DateTimeField()
 
     updated_at = models.DateTimeField()
-
-    user = models.ForeignKey(
-        JustfixUser, on_delete=models.CASCADE, related_name="archived_letter_requests"
-    )
 
     mail_choice = models.TextField(
         max_length=30,
@@ -555,4 +559,26 @@ class ArchivedLetterRequest(models.Model):
         blank=True,
         choices=LOC_REJECTION_CHOICES.choices,
         help_text="The reason we didn't mail the letter, if applicable.",
+    )
+
+    # Fields specific to archived letter requests.
+
+    archived_at = models.DateTimeField(
+        help_text="When the LetterRequest this is based on was archived."
+    )
+
+    original_letter_request_id = models.IntegerField(
+        help_text="The original primary key of the deleted LetterRequest this is based on."
+    )
+
+    user = models.ForeignKey(
+        JustfixUser, on_delete=models.CASCADE, related_name="archived_letter_requests"
+    )
+
+    notes = models.TextField(
+        help_text=(
+            "Any additional notes about the archiving of this letter request, e.g. "
+            "the reason for its archiving."
+        ),
+        blank=True,
     )

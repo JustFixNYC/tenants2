@@ -21,6 +21,10 @@ class RejectLetterForm(forms.Form):
         choices=[("", "(Please choose a reason)")] + models.LOC_REJECTION_CHOICES.choices
     )
 
+    notes = forms.CharField(
+        label="Additional notes (optional)", required=False, widget=forms.Textarea
+    )
+
 
 def get_ll_addr_details_url(landlord_details: models.LandlordDetails) -> str:
     ad = landlord_details.get_or_create_address_details_model()
@@ -189,7 +193,7 @@ class LocAdminViews:
                 form = RejectLetterForm(data=request.POST)
                 if form.is_valid():
                     letter.rejection_reason = form.cleaned_data["rejection_reason"]
-                    letter.archive()
+                    letter.archive(notes=form.cleaned_data["notes"])
                     self._log_letter_action(request, letter, "Rejected the letter.", DELETION)
                     messages.success(
                         request, "The user's letter request was rejected successfully."

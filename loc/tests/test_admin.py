@@ -180,13 +180,16 @@ class TestRejectLetter:
 
     def test_post_works(self, admin_client):
         user = self.lr.user
-        res = admin_client.post(self.url, data={"rejection_reason": "INCRIMINATION"})
+        res = admin_client.post(
+            self.url, data={"rejection_reason": "INCRIMINATION", "notes": "blah"}
+        )
         assert res.status_code == 302
         with pytest.raises(LetterRequest.DoesNotExist):
             self.lr.refresh_from_db()
         alr = user.archived_letter_requests.all()
         assert len(alr) == 1
         assert alr[0].rejection_reason == "INCRIMINATION"
+        assert alr[0].notes == "blah"
 
 
 class TestGetLobNomailReason:

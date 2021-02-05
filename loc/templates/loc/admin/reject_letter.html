@@ -23,7 +23,7 @@
 </p>
 <form action="." method="POST">
   {% csrf_token %}
-  {{ form }}
+  {{ form.as_p }}
   <div class="submit-row">
     <input type="submit" class="default" value="Reject letter">
   </div>

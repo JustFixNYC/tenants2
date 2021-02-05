@@ -45,10 +45,10 @@ fragment AllSessionInfo on SessionInfo {
   accessDates,
   landlordDetails { ...LandlordDetailsType },
   letterRequest {
-    updatedAt,
     mailChoice,
     trackingNumber,
-    letterSentAt
+    letterSentAt,
+    updatedAt
   },
   issues,
   customIssuesV2 {

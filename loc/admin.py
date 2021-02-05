@@ -217,6 +217,21 @@ def get_lob_nomail_reason(letter: models.LetterRequest) -> Optional[str]:
     return get_reason_for_not_rejecting_or_mailing(letter)
 
 
+class ArchivedLetterRequestInline(admin.TabularInline):
+    model = models.ArchivedLetterRequest
+    fields = [
+        "created_at",
+        "mail_choice",
+        "tracking_number",
+        "archived_at",
+        "rejection_reason",
+        "notes",
+    ]
+    readonly_fields = fields
+    has_add_permission = never_has_permission
+    has_delete_permission = never_has_permission
+
+
 class LOCUser(JustfixUser):
     class Meta:
         proxy = True
@@ -238,6 +253,7 @@ class LOCUserAdmin(UserProxyAdmin):
         AccessDateInline,
         LandlordDetailsInline,
         LetterRequestInline,
+        ArchivedLetterRequestInline,
     )
 
     list_display = UserProxyAdmin.list_display + ["issue_count", "mailing_needed"]

@@ -150,6 +150,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "project.middleware.CSPHashingMiddleware",
     "project.middleware.hostname_redirect_middleware",
+    "evictionfree.middleware.unsupported_locale_middleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",

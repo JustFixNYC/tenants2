@@ -21,35 +21,35 @@ To send the letter, visit:
 REQUESTING CHANGES
 ------------------
 
-Currently, the only easy way to request changes to
-the letter is by first deleting the LetterRequest model for the
-user in the admin:
+To request changes to the letter, you will first want to
+reject it:
 
-  {{ edit_letter_url }}
+  {{ reject_letter_url }}
 
-Then, reply to this email--making sure not to quote
-anything from this message--and ask the user to make the required
-changes and re-send the letter.  You will then receive another
-email when the user re-submits.
+Then, {% if user.email %}reply to this email--making sure not to quote anything
+from this message{% else %}text or call the user at {{ user.formatted_phone_number }}{% endif %}.
+
+Ask the user to visit {{ user_loc_url }},
+make the required changes and re-send the letter.  You will
+then receive another email when the user re-submits.
 
 MAKING CHANGES YOURSELF
 -----------------------
 
-You can also make changes to the user's letter yourself via the
-admin:
+You can also make changes to the user's letter yourself by first
+archiving it:
+
+  {{ archive_letter_url }}
+
+Then, make any necessary edits to the user via the admin UI:
 
   {{ edit_letter_url }}
 
-However, once you change anything, be sure to delete and re-create
-the LetterRequest model for the user; otherwise the actual letter
-content won't be regenerated!
+Once you're done editing, do the following:
 
-PERMANENTLY REJECTING THE LETTER
---------------------------------
+  1. Select a "Mail choice" of "Yes, have JustFix.nyc mail this letter for me"
+     in the aforementioned admin UI (it should be near the bottom of the page).
 
-To permanently reject the letter, visit:
+  2. Select "Save and continue editing" at the bottom of the page.
 
-  {{ edit_letter_url }}
-
-In the LetterRequest model, select a rejection reason and save
-the model.
+  3. Once the page reloads, click the "Mail letter of complaint via Lob…" button.

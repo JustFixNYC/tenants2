@@ -268,18 +268,9 @@ class AddressDetails(MailingAddress):
         return self.address.replace("\n", " / ")
 
 
-class LetterRequest(models.Model):
-    """
-    A completed letter of complaint request submitted by a user.
-    """
-
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    updated_at = models.DateTimeField(auto_now=True)
-
-    user = models.OneToOneField(
-        JustfixUser, on_delete=models.CASCADE, related_name="letter_request"
-    )
+class BaseLetterRequest(models.Model):
+    class Meta:
+        abstract = True
 
     mail_choice = models.TextField(
         max_length=30,
@@ -319,6 +310,20 @@ class LetterRequest(models.Model):
         blank=True,
         choices=LOC_REJECTION_CHOICES.choices,
         help_text="The reason we didn't mail the letter, if applicable.",
+    )
+
+
+class LetterRequest(BaseLetterRequest):
+    """
+    A completed letter of complaint request submitted by a user.
+    """
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    user = models.OneToOneField(
+        JustfixUser, on_delete=models.CASCADE, related_name="letter_request"
     )
 
     def __init__(self, *args, **kwargs) -> None:
@@ -473,6 +478,72 @@ class LetterRequest(models.Model):
 
         self.__tracking_number_tracker.set_to_unchanged()
 
+    def archive(self, notes: str = ""):
+        from django.core.serializers import serialize, deserialize
+        import json
+
+        pk = self.pk
+
+        with transaction.atomic():
+            serialized = json.loads(serialize("json", [self]))[0]
+            serialized["model"] = "loc.ArchivedLetterRequest"
+            del serialized["pk"]
+            archived = list(deserialize("json", json.dumps([serialized])))[0]
+            archived.object.archived_at = timezone.now()
+            archived.object.original_letter_request_id = pk
+            archived.object.notes = notes
+            archived.object.full_clean()
+            archived.save()
+            self.delete()
+            return archived.object
+
 
 def does_user_have_finished_loc(user: JustfixUser) -> bool:
     return hasattr(user, "letter_request") and bool(user.letter_request.html_content)
+
+
+class ArchivedLetterRequest(BaseLetterRequest):
+    """
+    A completed letter of complaint request submitted by a user that is
+    no longer used by the system.  Intended primarily for record-keeping
+    purposes.
+
+    Once a model of this type has been created, it's assumed that it
+    is immutable, since it represents historical data.
+
+    Note that ideally we would've simply had the `LetterRequest` model be
+    a model with a `ForeignKey` relationship to `JustfixUser` rather than
+    a `OneToOneField`, to accomodate the notion of archived letters,
+    but by the time we really needed to remember archived letters, so
+    much existing code assumed the `OneToOneField` that it became
+    quite a hassle to make the migration. So instead, we're storing
+    identical fields in a different model.
+    """
+
+    # Fields with the same name as LetterRequest fields (but with different parameters).
+
+    created_at = models.DateTimeField()
+
+    updated_at = models.DateTimeField()
+
+    user = models.ForeignKey(
+        JustfixUser, on_delete=models.CASCADE, related_name="archived_letter_requests"
+    )
+
+    # Fields specific to archived letter requests.
+
+    archived_at = models.DateTimeField(
+        help_text="When the LetterRequest this is based on was archived."
+    )
+
+    original_letter_request_id = models.IntegerField(
+        help_text="The original primary key of the deleted LetterRequest this is based on."
+    )
+
+    notes = models.TextField(
+        help_text=(
+            "Any additional notes about the archiving of this letter request, e.g. "
+            "the reason for its archiving."
+        ),
+        blank=True,
+    )

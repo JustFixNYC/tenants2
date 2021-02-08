@@ -1,3 +1,4 @@
+from project.util.site_util import absolutify_url
 from celery import shared_task
 
 from . import email_letter
@@ -27,6 +28,13 @@ def send_admin_notification_for_letter(letter_id: int):
             "send_letter_url": absolute_reverse(
                 "admin:mail-via-lob", kwargs={"letterid": letter.id}
             ),
+            "reject_letter_url": absolute_reverse(
+                "admin:reject-letter", kwargs={"letterid": letter.id}
+            ),
+            "archive_letter_url": absolute_reverse(
+                "admin:archive-letter", kwargs={"letterid": letter.id}
+            ),
+            "user_loc_url": absolutify_url("/loc/issues"),
             "edit_letter_url": absolute_reverse("admin:loc_locuser_change", args=(user.pk,)),
         },
     )

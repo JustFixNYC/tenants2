@@ -7,6 +7,10 @@ from .settings import *  # noqa
 
 HOSTNAME_REDIRECTS = {}
 
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+
 # Only support our fully-supported languages by default.
 LANGUAGES = locales.FULLY_SUPPORTED_ONLY.choices  # noqa
 

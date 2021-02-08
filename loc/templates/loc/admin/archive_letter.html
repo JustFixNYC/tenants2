@@ -1,0 +1,30 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">
+{% endblock %}
+
+{% block content %}
+<p>
+  Below is the user's letter of complaint for your perusal.
+</p>
+<embed src="{{ pdf_url }}" style="width: 100%" height="600" type="application/pdf">
+<p>
+  Archiving the letter of complaint will allow the user to submit a new
+  letter of complaint request. The information about their current letter
+  request will be preserved for historical purposes, in case it's needed later.
+</p>
+<p>
+  Note that <strong>submitting this form will not contact the user</strong>. You are
+  responsible for emailing/texting them and letting them know that they can
+  submit a new letter request (if the situation calls for it).
+</p>
+<form action="." method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <div class="submit-row">
+    <input type="submit" class="default" value="Archive letter">
+  </div>
+</form>
+{% endblock %}

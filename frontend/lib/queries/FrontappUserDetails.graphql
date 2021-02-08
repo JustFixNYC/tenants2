@@ -1,6 +1,6 @@
-query FrontappUserDetails($email: String!) {
+query FrontappUserDetails($email: String, $phoneNumber: String) {
     isVerifiedStaffUser
-    userDetails(email: $email) {
+    userDetails(email: $email, phoneNumber: $phoneNumber) {
         ...JustfixUserType
     }
 }

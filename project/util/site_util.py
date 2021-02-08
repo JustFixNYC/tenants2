@@ -70,7 +70,11 @@ def get_site_origin(site: Site) -> str:
 
 
 def get_protocol() -> str:
-    return "http" if settings.DEBUG else "https"
+    # The only way we're using http is if DEBUG is on and we're
+    # not using secure session cookies (since it's impossible to
+    # have secure cookies over http).  Otherwise, we're using https.
+    is_http = settings.DEBUG and not settings.SESSION_COOKIE_SECURE
+    return "http" if is_http else "https"
 
 
 def absolutify_url(

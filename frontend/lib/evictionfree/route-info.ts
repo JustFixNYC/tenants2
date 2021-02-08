@@ -2,6 +2,26 @@ import { createRoutesForSite, ROUTE_PREFIX } from "../util/route-util";
 import { createDevRouteInfo } from "../dev/route-info";
 import { createEvictionFreeDeclarationBuilderRouteInfo } from "./declaration-builder/route-info";
 import { createHtmlEmailStaticPageRouteInfo } from "../static-page/routes";
+import {
+  EvictionFreeUnsupportedLocaleChoices,
+  EvictionFreeUnsupportedLocaleChoice,
+} from "../../../common-data/evictionfree-unsupported-locale-choices";
+
+type UnsupportedLocaleRoutes = {
+  [key in EvictionFreeUnsupportedLocaleChoice | "prefix"]: string;
+};
+
+function createUnsupportedLocaleRoutes(prefix: string) {
+  const paths = {
+    [ROUTE_PREFIX]: prefix,
+  } as UnsupportedLocaleRoutes;
+
+  EvictionFreeUnsupportedLocaleChoices.forEach((locale) => {
+    paths[locale] = `${prefix}/${locale}`;
+  });
+
+  return paths;
+}
 
 function createLocalizedRouteInfo(prefix: string) {
   return {
@@ -53,6 +73,8 @@ export const EvictionFreeRoutes = createRoutesForSite(
      * development-related pages.
      */
     dev: createDevRouteInfo("/dev"),
+
+    unsupportedLocale: createUnsupportedLocaleRoutes("/unsupported-locale"),
   }
 );
 

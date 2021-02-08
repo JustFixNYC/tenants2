@@ -203,6 +203,9 @@ nav.navbar {
 // we need to reduce the padding between links so they all fit
 html:lang(es) nav.navbar .navbar-item {
   padding: 0.5rem 0.75rem;
+  .button {
+    padding: 1.5rem;
+  }
 }
 
 // Header overrides

@@ -66,13 +66,15 @@ export const NavbarLanguageDropdown: React.FC<{}> = () => {
   if (locales.length === 1) return null;
 
   return (
-    <NavbarDropdown id="locale" label={activeLocale.toUpperCase()}>
+    <NavbarDropdown id="locale" label={LANGUAGE_NAMES[activeLocale]}>
       {locales
         .filter((locale) => locale !== activeLocale)
         .map((locale) => (
-          <SwitchLanguage key={locale} locale={locale} className="navbar-item">
-            {locale.toUpperCase()}
-          </SwitchLanguage>
+          <SwitchLanguage
+            key={locale}
+            locale={locale}
+            className="navbar-item"
+          />
         ))}
     </NavbarDropdown>
   );

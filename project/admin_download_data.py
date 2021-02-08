@@ -67,7 +67,7 @@ class DataDownload(NamedTuple):
 
 def get_all_data_downloads() -> List[DataDownload]:
     from issues import issuestats
-    from project import userstats
+    from project import userstats, sandefur_data
     from hpaction import ehpa_filings
     from partnerships import admin_data_downloads as partnership_stats
     from norent import admin_data_downloads as norent_stats
@@ -80,6 +80,7 @@ def get_all_data_downloads() -> List[DataDownload]:
         *partnership_stats.DATA_DOWNLOADS,
         *norent_stats.DATA_DOWNLOADS,
         *evictionfree_stats.DATA_DOWNLOADS,
+        *sandefur_data.DATA_DOWNLOADS,
     ]
 
 

@@ -267,7 +267,7 @@ def send_declaration(decl: SubmittedHardshipDeclaration):
 
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
-        f"has sent a hardship declaration!",
+        f"has sent a hardship declaration :meowparty:!",
         is_safe=True,
     )
 

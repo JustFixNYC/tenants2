@@ -10,6 +10,7 @@ SELECT
     onb.borough AS borough,
     onb.non_nyc_city AS city_if_outside_nyc,
     onb.state AS state,
+    onb.zipcode AS zipcode,
     onb.created_at AS onboarding_date,
     onb.signup_intent AS signup_intent,
     onb.is_in_eviction AS is_in_eviction,

@@ -12,3 +12,13 @@ const EvictionFreeUnsupportedLocaleChoiceSet: Set<String> = new Set(EvictionFree
 export function isEvictionFreeUnsupportedLocaleChoice(choice: string): choice is EvictionFreeUnsupportedLocaleChoice {
   return EvictionFreeUnsupportedLocaleChoiceSet.has(choice);
 }
+
+export type EvictionFreeUnsupportedLocaleChoiceLabels = {
+  [k in EvictionFreeUnsupportedLocaleChoice]: string;
+};
+
+export function getEvictionFreeUnsupportedLocaleChoiceLabels(): EvictionFreeUnsupportedLocaleChoiceLabels {
+  return {
+    ht: "Kreyòl ayisyen",
+  };
+}

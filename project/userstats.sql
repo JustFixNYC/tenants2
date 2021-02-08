@@ -8,6 +8,8 @@ SELECT
         WHERE pad_bbl = onb.pad_bbl
     ) AS is_nycha_bbl,
     onb.borough AS borough,
+    onb.non_nyc_city AS city_if_outside_nyc,
+    onb.state AS state,
     onb.created_at AS onboarding_date,
     onb.signup_intent AS signup_intent,
     onb.is_in_eviction AS is_in_eviction,

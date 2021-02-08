@@ -48,7 +48,7 @@ def get_redirect_for_unsupported_locale(request) -> Optional[HttpResponseRedirec
 
                 twochar_lang = accept_lang.lower()[:2]
                 if twochar_lang in UNSUPPORTED_LOCALE_CHOICE_SET:
-                    return HttpResponseRedirect(f"/unsupported-locale?locale={twochar_lang}")
+                    return HttpResponseRedirect(f"/unsupported-locale/{twochar_lang}")
     return None
 
 

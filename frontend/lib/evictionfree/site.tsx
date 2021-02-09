@@ -38,9 +38,8 @@ function useIsPrimaryPage() {
   return getEvictionFreeRoutesForPrimaryPages().includes(location.pathname);
 }
 
-export function getLanguageNameFromPath() {
+export function getLanguageNameFromPath(pathname: string) {
   const activeLocale = i18n.locale;
-  const { pathname } = useLocation();
   const pathParams = pathname.split("/").filter((e) => !!e);
 
   if (
@@ -75,9 +74,10 @@ export const EvictionFreeLanguageDropdown: React.FC<{}> = () => {
   const { server } = useContext(AppContext);
   const locales = server.enabledLocales;
   const activeLocale = i18n.locale;
+  const { pathname } = useLocation();
 
   return (
-    <NavbarDropdown id="locale" label={getLanguageNameFromPath()}>
+    <NavbarDropdown id="locale" label={getLanguageNameFromPath(pathname)}>
       {locales
         .filter((locale) => locale !== activeLocale)
         .map((locale) => (

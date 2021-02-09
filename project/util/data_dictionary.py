@@ -2,6 +2,7 @@ from typing import Dict, Optional, OrderedDict
 from django.db.models.expressions import Col
 
 from users.models import JustfixUser
+from onboarding.models import NYCADDR_META_HELP
 
 
 DATA_DICTIONARY_DOCS = {
@@ -32,4 +33,8 @@ def get_data_dictionary(queryset, extra_docs: Optional[Dict[str, str]] = None) -
 
 
 def get_field_docs(field) -> str:
-    return DATA_DICTIONARY_DOCS.get(field) or field.help_text
+    return remove_confusing_language_from_docs(DATA_DICTIONARY_DOCS.get(field) or field.help_text)
+
+
+def remove_confusing_language_from_docs(value: str) -> str:
+    return value.replace(NYCADDR_META_HELP, "")

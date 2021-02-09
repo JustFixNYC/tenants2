@@ -3,6 +3,8 @@ from django.db.models import F, Subquery, OuterRef, Count, Q
 from .admin_download_data import DataDownload, queryset_data_download
 from users.models import CHANGE_USER_PERMISSION, JustfixUser
 from rh.models import RentalHistoryRequest
+from issues.models import Issue, CustomIssue
+from rapidpro.models import UserContactGroup
 from hpaction.models import (
     HP_ACTION_CHOICES,
     HPActionDocuments,
@@ -50,6 +52,36 @@ def execute_users_query(user):
     ).exclude(onboarding_info__borough__exact="")
 
 
+@queryset_data_download
+def execute_issues_query(user):
+    return Issue.objects.values(
+        "user_id",
+        "created_at",
+        "area",
+        "value",
+    )
+
+
+@queryset_data_download
+def execute_custom_issues_query(user):
+    return CustomIssue.objects.values(
+        "user_id",
+        "created_at",
+        "updated_at",
+        "area",
+        "description",
+    )
+
+
+@queryset_data_download
+def execute_rapidpro_groups_query(user):
+    return UserContactGroup.objects.values(
+        "user_id",
+        "earliest_known_date",
+        "group__name",
+    )
+
+
 DATA_DOWNLOADS = [
     DataDownload(
         name="Sandefur user data",
@@ -57,5 +89,26 @@ DATA_DOWNLOADS = [
         html_desc="Details about NYC users for Rebecca Sandefur. Contains PII.",
         perms=[CHANGE_USER_PERMISSION],
         execute_query=execute_users_query,
+    ),
+    DataDownload(
+        name="Sandefur issue data",
+        slug="sandefur-issue-data",
+        html_desc="Details about non-custom issue data for Rebecca Sandefur.",
+        perms=[CHANGE_USER_PERMISSION],
+        execute_query=execute_issues_query,
+    ),
+    DataDownload(
+        name="Sandefur custom issue data",
+        slug="sandefur-custom-issue-data",
+        html_desc="Details about custom issue data for Rebecca Sandefur. Contains PII.",
+        perms=[CHANGE_USER_PERMISSION],
+        execute_query=execute_custom_issues_query,
+    ),
+    DataDownload(
+        name="Sandefur rapidpro contact group data",
+        slug="sandefur-rapidpro-contact-group-data",
+        html_desc="Details about rapidpro contact groups for Rebecca Sandefur.",
+        perms=[CHANGE_USER_PERMISSION],
+        execute_query=execute_rapidpro_groups_query,
     ),
 ]

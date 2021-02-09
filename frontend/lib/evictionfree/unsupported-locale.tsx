@@ -30,7 +30,7 @@ const LocalePage: React.FC<{
         >
           <h2
             className={classnames(
-              "title is-spaced jf-has-text-centered-tablet",
+              "title is-size-3 is-spaced jf-has-text-centered-tablet",
               isRightToLeft && "has-text-right-mobile"
             )}
           >

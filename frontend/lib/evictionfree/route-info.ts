@@ -65,6 +65,8 @@ function createLocalizedRouteInfo(prefix: string) {
   };
 }
 
+export const UNSUPPORTED_LOCALE_PATH_PREFIX = "unsupported-locale";
+
 export const EvictionFreeRoutes = createRoutesForSite(
   createLocalizedRouteInfo,
   {
@@ -74,7 +76,9 @@ export const EvictionFreeRoutes = createRoutesForSite(
      */
     dev: createDevRouteInfo("/dev"),
 
-    unsupportedLocale: createUnsupportedLocaleRoutes("/unsupported-locale"),
+    unsupportedLocale: createUnsupportedLocaleRoutes(
+      `/${UNSUPPORTED_LOCALE_PATH_PREFIX}`
+    ),
   }
 );
 

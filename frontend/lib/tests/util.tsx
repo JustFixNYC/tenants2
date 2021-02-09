@@ -72,7 +72,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   previewHardshipDeclarationURL: "/preview-declaration.pdf",
   submittedHardshipDeclarationURL: "/submitted-declaration.pdf",
   mapboxAccessToken: "",
-  enabledLocales: ["en"],
+  enabledLocales: ["en", "es"],
   enableWipLocales: false,
   facebookAppId: "",
 };

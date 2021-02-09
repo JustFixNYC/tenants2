@@ -86,13 +86,12 @@ const LOCALE_PAGES: {
       no="Nie"
     />
   ),
-  // TODO: Replace with Russian Translation
   ru: (
     <LocalePage
-      title="To narzędzie nie jest obecnie dostępne w języku polskim."
-      message="Aby wypełnić formularz oświadczenia o trudnej sytuacji w języku polskim, możesz skorzystać z innego narzędzia stworzonego przez Housing Justice for All. Czy chciałbyś zostać tam przekierowany?"
-      yes="Tak"
-      no="Nie"
+      title="Этот инструмент в настоящее время недоступен на русском языке."
+      message="Чтобы заполнить форму декларации о нуждах на русском языке, вы можете использовать другой инструмент, созданный Housing Justice for All. Хотите, чтобы вас перенаправили туда?"
+      yes="да"
+      no="Нет"
     />
   ),
   ar: (
@@ -115,13 +114,12 @@ const LOCALE_PAGES: {
       no="لا"
     />
   ),
-  // TODO: Replace with Nepali Translation
   ne: (
     <LocalePage
-      title="To narzędzie nie jest obecnie dostępne w języku polskim."
-      message="Aby wypełnić formularz oświadczenia o trudnej sytuacji w języku polskim, możesz skorzystać z innego narzędzia stworzonego przez Housing Justice for All. Czy chciałbyś zostać tam przekierowany?"
-      yes="Tak"
-      no="Nie"
+      title="यो उपकरण हाल नेपालीमा उपलब्ध छैन।"
+      message="नेपालीमा कठिनाइ घोषणा फारम भर्न, तपाई हाउजिंग जस्टिस फर अलका लागि बनेको फरक उपकरण प्रयोग गर्न सक्नुहुनेछ। के तपाइँ त्यहाँ पुनःनिर्देशित हुन चाहानुहुन्छ?"
+      yes="हो"
+      no="होईन"
     />
   ),
   bn: (

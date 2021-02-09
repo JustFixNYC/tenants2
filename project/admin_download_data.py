@@ -1,6 +1,5 @@
 import datetime
 import logging
-import functools
 from pathlib import Path
 from typing import NamedTuple, Callable, Any, Optional, List, Iterator, Dict
 from contextlib import contextmanager
@@ -164,21 +163,23 @@ class DownloadDataViews:
         )
 
 
-def queryset_data_download(
-    func: Callable[[JustfixUser], QuerySet]
-) -> Callable[[DBCursor, JustfixUser], None]:
+class QuerysetDataDownload:
+    def __init__(self, get_queryset: Callable[[JustfixUser], QuerySet]):
+        self.get_queryset = get_queryset
+
+    def __call__(self, cursor: DBCursor, user: JustfixUser) -> None:
+        queryset = self.get_queryset(user)
+        exec_queryset_on_cursor(queryset, cursor)
+
+
+def queryset_data_download(func: Callable[[JustfixUser], QuerySet]) -> QuerysetDataDownload:
     """
     This decorator makes it easier to define data downloads in
     terms of QuerySet objects, rather than operations on raw
     database cursors.
     """
 
-    @functools.wraps(func)
-    def wrapper(cursor, user):
-        queryset = func(user)
-        exec_queryset_on_cursor(queryset, cursor)
-
-    return wrapper
+    return QuerysetDataDownload(func)
 
 
 def exec_queryset_on_cursor(queryset, cursor):

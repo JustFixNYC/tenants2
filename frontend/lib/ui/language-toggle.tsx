@@ -10,12 +10,12 @@ import { getGlobalSiteRoutes } from "../global-site-routes";
 /**
  * Names of languages in the language itself.
  */
-const LANGUAGE_NAMES: { [k in LocaleChoice]: string } = {
+export const LANGUAGE_NAMES: { [k in LocaleChoice]: string } = {
   en: "English",
   es: "Español",
 };
 
-const SwitchLanguage: React.FC<{
+export const SwitchLanguage: React.FC<{
   locale: LocaleChoice;
   className?: string;
   children?: React.ReactNode;

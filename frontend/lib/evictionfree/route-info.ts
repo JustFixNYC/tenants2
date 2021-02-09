@@ -83,8 +83,15 @@ export const getEvictionFreeJumpToTopOfPageRoutes = () => [
   ...getEvictionFreeRoutesForPrimaryPages(),
 ];
 
+export const getEvictionFreeUnsuportedLocaleRoutes = () => {
+  return EvictionFreeUnsupportedLocaleChoices.map(
+    (localeChoice) => EvictionFreeRoutes.unsupportedLocale[localeChoice]
+  );
+};
+
 export const getEvictionFreeRoutesForPrimaryPages = () => [
   EvictionFreeRoutes.locale.home,
   EvictionFreeRoutes.locale.about,
   EvictionFreeRoutes.locale.faqs,
+  ...getEvictionFreeUnsuportedLocaleRoutes(),
 ];

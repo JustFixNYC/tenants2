@@ -5,7 +5,8 @@
     {% for dataset in datasets %}
     <li>
       <strong>{{ dataset.name }}</strong>
-      ({% for fmt, url in dataset.urls %}<a href="{{ url }}">{{ fmt }}</a>{% if not forloop.last %} | {% endif %}{% endfor %})
+      ({% for fmt, url in dataset.urls %}<a href="{{ url }}">{{ fmt }}</a> | {% endfor %}
+      <a href="{{ dataset.data_dictionary_url }}">data dictionary</a>)
       -
       {{ dataset.html_desc|safe }}
     </li>

@@ -16,6 +16,7 @@ from django.views.decorators.gzip import gzip_page
 from users.models import JustfixUser
 from project.util.streaming_csv import generate_csv_rows, streaming_csv_response
 from project.util.streaming_json import generate_json_rows, streaming_json_response
+from project.util.data_dictionary import get_data_dictionary
 
 
 logger = logging.getLogger(__name__)
@@ -48,6 +49,9 @@ class DataDownload(NamedTuple):
 
     def urls(self) -> List[DownloadUrl]:
         return [self._get_download_url(fmt) for fmt in ["csv", "json"]]
+
+    def data_dictionary_url(self) -> str:
+        return reverse("admin:download-data-dictionary", kwargs={"dataset": self.slug})
 
     @contextmanager
     def _get_cursor_and_execute_query(self, user: JustfixUser):
@@ -149,6 +153,11 @@ class DownloadDataViews:
                 self.site.admin_view(download_streaming_data),
                 name="download-data",
             ),
+            path(
+                "download-data/dictionary/<slug:dataset>",
+                self.site.admin_view(self.data_dictionary),
+                name="download-data-dictionary",
+            ),
         ]
 
     def index_page(self, request):
@@ -162,14 +171,42 @@ class DownloadDataViews:
             },
         )
 
+    def data_dictionary(self, request, dataset: str):
+        download = get_data_download(dataset)
+        if download is None:
+            return HttpResponseNotFound("Unknown dataset")
+        if not request.user.has_perms(download.perms):
+            raise PermissionDenied()
+        data_dictionary = None
+        execute_query = download.execute_query
+        if isinstance(execute_query, QuerysetDataDownload):
+            data_dictionary = execute_query.get_data_dictionary(request.user)
+        return TemplateResponse(
+            request,
+            "admin/justfix/data_dictionary.html",
+            {
+                "download": download,
+                "data_dictionary": data_dictionary,
+                "title": f"Data dictionary for {download.name}",
+            },
+        )
+
 
 class QuerysetDataDownload:
-    def __init__(self, get_queryset: Callable[[JustfixUser], QuerySet]):
+    def __init__(
+        self,
+        get_queryset: Callable[[JustfixUser], QuerySet],
+        extra_docs: Optional[Dict[str, str]] = None,
+    ):
         self.get_queryset = get_queryset
+        self.extra_docs = extra_docs
 
     def __call__(self, cursor: DBCursor, user: JustfixUser) -> None:
         queryset = self.get_queryset(user)
         exec_queryset_on_cursor(queryset, cursor)
+
+    def get_data_dictionary(self, user: JustfixUser) -> Dict[str, str]:
+        return get_data_dictionary(self.get_queryset(user), self.extra_docs)
 
 
 def queryset_data_download(func: Callable[[JustfixUser], QuerySet]) -> QuerysetDataDownload:

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+  html, body {
+    font-family: "Calibri", "Helvetica Neue", sans-serif;
+  }
+
+  body {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  dt {
+    font-family: monospace;
+  }
+</style>
+<title>{{ title }}</title>
+<h1>{{ title }}</title>
+<h2>Description</h2>
+<p>
+  {{ download.html_desc|safe }}
+</p>
+<h2>Fields</h2>
+{% if data_dictionary %}
+<dl>
+  {% for field_name, html_desc in data_dictionary.items %}
+  <dt>{{ field_name }}</dt>
+  <dd><p>{{ html_desc|safe }}</p></dd>
+  {% endfor %}
+</dl>
+{% else %}
+<p>Unfortunately, we have no documentation on the fields in this dataset.</p>
+{% endif %}

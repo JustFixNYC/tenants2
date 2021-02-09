@@ -187,6 +187,12 @@ nav.navbar {
     }
   }
 
+  .navbar-link,
+  .navbar-item,
+  .navbar-burger {
+    font-weight: 400;
+  }
+
   .navbar-item {
     padding: 0.5rem 1.5rem;
 

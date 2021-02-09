@@ -3,13 +3,24 @@ from django.db.models import F, Subquery, OuterRef, Count, Q
 from .admin_download_data import DataDownload, queryset_data_download
 from users.models import CHANGE_USER_PERMISSION, JustfixUser
 from rh.models import RentalHistoryRequest
-from hpaction.models import HP_ACTION_CHOICES
+from hpaction.models import (
+    HP_ACTION_CHOICES,
+    HPActionDocuments,
+    HP_DOCUSIGN_STATUS_CHOICES,
+    DocusignEnvelope,
+)
 
 
 @queryset_data_download
 def execute_users_query(user):
     rh_requests = RentalHistoryRequest.objects.filter(
         user=OuterRef("pk"),
+    )
+    hpa_documents = HPActionDocuments.objects.filter(
+        user=OuterRef("pk"), kind=HP_ACTION_CHOICES.NORMAL
+    )
+    ehpas = DocusignEnvelope.objects.filter(
+        docs__user=OuterRef("pk"), status=HP_DOCUSIGN_STATUS_CHOICES.SIGNED
     )
     return JustfixUser.objects.values(
         "id",
@@ -25,8 +36,16 @@ def execute_users_query(user):
         loc_mailed_at=F("letter_request__letter_sent_at"),
         rh_last_requested_at=Subquery(rh_requests.order_by("-created_at").values("created_at")[:1]),
         rh_count=Count("rentalhistoryrequest"),
-        hpa_documents_generated=Count(
+        hpa_documents_last_generated_at=Subquery(
+            hpa_documents.order_by("-created_at").values("created_at")[:1]
+        ),
+        hpa_documents_count=Count(
             "hpactiondocuments", filter=Q(hpactiondocuments__kind=HP_ACTION_CHOICES.NORMAL)
+        ),
+        ehpa_last_signed_at=Subquery(ehpas.order_by("-created_at").values("created_at")[:1]),
+        ehpa_count=Count(
+            "hpactiondocuments__docusignenvelope",
+            filter=Q(hpactiondocuments__docusignenvelope__status=HP_DOCUSIGN_STATUS_CHOICES.SIGNED),
         ),
     ).exclude(onboarding_info__borough__exact="")
 

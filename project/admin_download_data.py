@@ -67,6 +67,12 @@ class DataDownload(NamedTuple):
         with self._get_cursor_and_execute_query(user) as cursor:
             yield from generate_json_rows(cursor)
 
+    def get_data_dictionary(self, user: JustfixUser) -> Optional[Dict[str, str]]:
+        execute_query = self.execute_query
+        if isinstance(execute_query, QuerysetDataDownload):
+            return execute_query.get_data_dictionary(user)
+        return None
+
 
 def get_all_data_downloads() -> List[DataDownload]:
     from issues import issuestats
@@ -177,10 +183,7 @@ class DownloadDataViews:
             return HttpResponseNotFound("Unknown dataset")
         if not request.user.has_perms(download.perms):
             raise PermissionDenied()
-        data_dictionary = None
-        execute_query = download.execute_query
-        if isinstance(execute_query, QuerysetDataDownload):
-            data_dictionary = execute_query.get_data_dictionary(request.user)
+        data_dictionary = download.get_data_dictionary(request.user)
         return TemplateResponse(
             request,
             "admin/justfix/data_dictionary.html",

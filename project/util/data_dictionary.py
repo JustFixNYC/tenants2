@@ -1,11 +1,18 @@
-from typing import Dict, Optional, OrderedDict
+from typing import Dict, Optional, OrderedDict, Union
+from django.db.models import Field
 from django.db.models.expressions import Col
 
 from users.models import JustfixUser
 from onboarding.models import NYCADDR_META_HELP
 
 
-DATA_DICTIONARY_DOCS = {
+DataDictDocs = Dict[Union[str, Field], str]
+
+
+# "Hard-coded" documentation for fields that we've inherited from third-party
+# code, or just want to override to make more sense in the context of a
+# data dictionary.
+DATA_DICTIONARY_DOCS: DataDictDocs = {
     JustfixUser._meta.get_field(
         "id"
     ): "The user's unique id. Can be useful in joining with other data sets.",
@@ -16,25 +23,46 @@ DATA_DICTIONARY_DOCS = {
 }
 
 
-def get_data_dictionary(queryset, extra_docs: Optional[Dict[str, str]] = None) -> Dict[str, str]:
+def get_data_dictionary(queryset, extra_docs: Optional[DataDictDocs] = None) -> Dict[str, str]:
+    """
+    Return a data dictionary dict for the given Django queryset, where each
+    key is a field name and the value is the field's documentation as a HTML string.
+    """
+
     extra_docs = extra_docs or {}
     result = OrderedDict[str, str]()
 
     for col in queryset.query.select:
-        result[col.target.name] = get_field_docs(col.target)
+        result[col.target.name] = get_field_docs(col.target, extra_docs)
 
     for anno, col in queryset.query.annotations.items():
         if isinstance(col, Col):
-            result[anno] = get_field_docs(col.target)
+            result[anno] = get_field_docs(col.target, extra_docs)
         else:
             result[anno] = extra_docs.get(anno, "")
 
     return result
 
 
-def get_field_docs(field) -> str:
-    return remove_confusing_language_from_docs(DATA_DICTIONARY_DOCS.get(field) or field.help_text)
+def get_field_docs(field: Field, extra_docs: DataDictDocs) -> str:
+    """
+    Attempt to get HTML documentation for the given field, prioritizing
+    the passed-in documentation over the field's built-in documentation.
+    """
+
+    return remove_confusing_language_from_docs(
+        extra_docs.get(field)
+        or extra_docs.get(field.name)
+        or DATA_DICTIONARY_DOCS.get(field)
+        or field.help_text
+    )
 
 
 def remove_confusing_language_from_docs(value: str) -> str:
+    """
+    Some help text was intended only to be read in the context of the
+    Django admin UI, and would be confusing in a data dictionary.
+    This function removes such text.
+    """
+
     return value.replace(NYCADDR_META_HELP, "")

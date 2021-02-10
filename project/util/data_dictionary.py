@@ -55,7 +55,7 @@ def get_data_dictionary(queryset, extra_docs: Optional[DataDictDocs] = None) -> 
     for anno, col in queryset.query.annotations.items():
         if isinstance(col, Col):
             result[anno] = DataDictionaryEntry(
-                help_text=get_field_docs(col.target, extra_docs), field=col.target
+                help_text=get_field_docs(col.target, extra_docs, field_name=anno), field=col.target
             )
         else:
             result[anno] = DataDictionaryEntry(help_text=extra_docs.get(anno, ""))
@@ -63,15 +63,17 @@ def get_data_dictionary(queryset, extra_docs: Optional[DataDictDocs] = None) -> 
     return result
 
 
-def get_field_docs(field: Field, extra_docs: DataDictDocs) -> str:
+def get_field_docs(field: Field, extra_docs: DataDictDocs, field_name: str = "") -> str:
     """
     Attempt to get HTML documentation for the given field, prioritizing
     the passed-in documentation over the field's built-in documentation.
     """
 
+    field_name = field_name or field.name
+
     return remove_confusing_language_from_docs(
         extra_docs.get(field)
-        or extra_docs.get(field.name)
+        or extra_docs.get(field_name)
         or DATA_DICTIONARY_DOCS.get(field)
         or field.help_text
     )

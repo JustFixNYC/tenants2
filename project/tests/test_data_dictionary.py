@@ -42,3 +42,9 @@ def test_it_uses_help_text_from_model_for_annotations_if_possible():
     qs = JustfixUser.objects.values(bloop=F("phone_number"))
     d = dd.get_data_dictionary(qs)
     assert "phone number" in d["bloop"].help_text
+
+
+def test_it_prioritizes_passed_in_docs_for_annotations_if_possible():
+    qs = JustfixUser.objects.values(bloop=F("phone_number"))
+    d = dd.get_data_dictionary(qs, {"bloop": "hallo"})
+    assert d["bloop"].help_text == "hallo"

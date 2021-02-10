@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+  html, body {
+    font-family: "Calibri", "Helvetica Neue", sans-serif;
+  }
+
+  body {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  dt {
+    font-family: monospace;
+    font-weight: bold;
+  }
+
+  table {
+    border-collapse: collapse;
+    margin-bottom: 1em;
+  }
+
+  th, td {
+    border: 1px solid gray;
+    padding: 4px;
+  }
+</style>
+<title>{{ title }}</title>
+<h1>{{ title }}</title>
+<h2>Description</h2>
+<p>
+  {{ download.html_desc|safe }}
+</p>
+<h2>Fields</h2>
+{% if data_dictionary %}
+<dl>
+  {% for field_name, entry in data_dictionary.items %}
+  <dt>{{ field_name }}</dt>
+  <dd>
+    <p>{{ entry.help_text|safe }}</p>
+    {% if entry.field.choices %}
+    <p>This field can have the following values:</p>
+    <table>
+      <tr><th>Value</th><th>Description</th></tr>
+      {% for value, label in entry.field.choices %}
+      <tr>
+      <td><code>{{ value }}</code></td>
+      <td>{{ label }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+  </dd>
+  {% endfor %}
+</dl>
+{% else %}
+<p>Unfortunately, we have no documentation on the fields in this dataset.</p>
+{% endif %}

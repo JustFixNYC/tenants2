@@ -22,9 +22,10 @@ const LocalePage: React.FC<{
   yes: string;
   no: string;
   isRightToLeft?: boolean;
-}> = ({ title, message, yes, no, isRightToLeft }) => (
+  locale: EvictionFreeUnsupportedLocaleChoice;
+}> = ({ title, message, yes, no, isRightToLeft, locale }) => (
   <Page title={title} className="content">
-    <section className="hero">
+    <section className="hero" lang={locale}>
       <div className="hero-body">
         <div
           className={classnames(
@@ -72,6 +73,7 @@ const LOCALE_PAGES: {
       message="Pour remplir le formulaire de déclaration de difficultés en français, vous pouvez utiliser un autre site Web créé par Housing Justice for All. Souhaitez-vous y être redirigé?"
       yes="Oui"
       no="Non"
+      locale="fr"
     />
   ),
   ht: (
@@ -80,6 +82,7 @@ const LOCALE_PAGES: {
       message="Pou ranpli fòm deklarasyon difikilte a an kreyòl ayisyen, ou ka itilize yon zouti diferan ki fèt pa Lojman Jistis pou tout moun. Èske ou ta renmen reyorante resous la?"
       yes="Wi"
       no="Non"
+      locale="ht"
     />
   ),
   pl: (
@@ -88,6 +91,7 @@ const LOCALE_PAGES: {
       message="Aby wypełnić formularz oświadczenia o trudnej sytuacji w języku polskim, możesz skorzystać z innego narzędzia stworzonego przez Housing Justice for All. Czy chciałbyś zostać tam przekierowany?"
       yes="Tak"
       no="Nie"
+      locale="pl"
     />
   ),
   ru: (
@@ -96,6 +100,7 @@ const LOCALE_PAGES: {
       message="Чтобы заполнить форму декларации о нуждах на русском языке, вы можете использовать другой инструмент, созданный Housing Justice for All. Хотите, чтобы вас перенаправили туда?"
       yes="да"
       no="Нет"
+      locale="ru"
     />
   ),
   ar: (
@@ -116,6 +121,7 @@ const LOCALE_PAGES: {
       }
       yes="نعم"
       no="لا"
+      locale="ar"
     />
   ),
   ne: (
@@ -124,6 +130,7 @@ const LOCALE_PAGES: {
       message="नेपालीमा कठिनाइ घोषणा फारम भर्न, तपाई हाउजिंग जस्टिस फर अलका लागि बनेको फरक उपकरण प्रयोग गर्न सक्नुहुनेछ। के तपाइँ त्यहाँ पुनःनिर्देशित हुन चाहानुहुन्छ?"
       yes="हो"
       no="होईन"
+      locale="ne"
     />
   ),
   bn: (
@@ -132,6 +139,7 @@ const LOCALE_PAGES: {
       message="বেংলায় কষ্টের ঘোষণার ফর্মটি পূরণ করতে, আপনি সবার জন্য আবাসন জাস্টিসের তৈরি একটি আলাদা সরঞ্জাম ব্যবহার করতে পারেন। আপনি কি সেখানে পুনঃনির্দেশিত হতে চান?"
       yes="হ্যাঁ"
       no="না"
+      locale="bn"
     />
   ),
   zh: (
@@ -140,6 +148,7 @@ const LOCALE_PAGES: {
       message="要用中文填寫艱苦生活宣言表，您可以使用“Housing Justice for All”提供的其他工具。您要重定向到那裡嗎？"
       yes="是"
       no="不要"
+      locale="zh"
     />
   ),
   ko: (
@@ -148,6 +157,7 @@ const LOCALE_PAGES: {
       message="이 온라인 Hardship Declaration Form을 (Covid로 인한 경제적 어려움을 겪는 입주민들위한 법원에 보내는 진정서) 작성하시려면 Housing Justice for All 에서 제공하는 다른 웹사이트를 사용해주시길 바랍니다. 해당 사이트로 바로 이동하시겠습니까?"
       yes="예"
       no="아니요"
+      locale="ko"
     />
   ),
 };

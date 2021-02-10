@@ -1,4 +1,4 @@
-from django.db.models import Exists, OuterRef
+from django.db.models import Exists, OuterRef, F
 
 from users.models import JustfixUser
 from onboarding.models import OnboardingInfo
@@ -36,3 +36,9 @@ def test_it_defaults_annotation_docs_to_empty_strings():
     qs = JustfixUser.objects.values(has_onboarding_info=example_subquery)
     d = dd.get_data_dictionary(qs)
     assert d == {"has_onboarding_info": ""}
+
+
+def test_it_uses_help_text_from_model_for_annotations_if_possible():
+    qs = JustfixUser.objects.values(bloop=F("phone_number"))
+    d = dd.get_data_dictionary(qs)
+    assert "phone number" in d["bloop"]

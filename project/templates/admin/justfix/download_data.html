@@ -1,20 +1,15 @@
 {% extends "admin/base_site.html" %}
 {% block content %}
 {% if datasets %}
-<ul>
-    {% for dataset in datasets %}
-    <li>
-      <strong>{{ dataset.name }}</strong>
-      ({% for fmt, url in dataset.urls %}<a href="{{ url }}">{{ fmt }}</a>{% if not forloop.last %} | {% endif %}{% endfor %})
-      -
-      {{ dataset.html_desc|safe }}
-    </li>
-    {% endfor %}
-</ul>
 <p>
     Please be careful when downloading data that contains personally-identifiable
     information (PII).  We don't want that information falling into the wrong hands!
 </p>
+    {% for dataset in datasets %}
+    <h2>{{ dataset.name }}</h2>
+    <p>({% for fmt, url in dataset.urls %}<a href="{{ url }}">{{ fmt }}</a>{% if not forloop.last %} | {% endif %}{% endfor %}{% if dataset.has_data_dictionary %} | <a href="{{ dataset.data_dictionary_url }}">data dictionary</a>{% endif %})</p>
+    <p>{{ dataset.html_desc|safe }}</p>
+    {% endfor %}
 {% else %}
 <p>
     You don't seem to have permission to download any datasets. Sorry!

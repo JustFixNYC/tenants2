@@ -8,14 +8,21 @@ import { EvictionFreeRouteComponent } from "./routes";
 import {
   EvictionFreeRoutes as Routes,
   getEvictionFreeRoutesForPrimaryPages,
+  useEvictionFreeUnsupportedLocale,
 } from "./route-info";
-import Navbar from "../ui/navbar";
+import Navbar, { NavbarDropdown } from "../ui/navbar";
 import { AppContext } from "../app-context";
 import { Trans } from "@lingui/macro";
-import { NavbarLanguageDropdown } from "../ui/language-toggle";
+import { LANGUAGE_NAMES, SwitchLanguage } from "../ui/language-toggle";
 import classnames from "classnames";
 import { EvictionFreeFooter } from "./components/footer";
 import { EvictionFreeHelmet } from "./components/helmet";
+import i18n from "../i18n";
+import {
+  EvictionFreeUnsupportedLocaleChoices,
+  getEvictionFreeUnsupportedLocaleChoiceLabels,
+} from "../../../common-data/evictionfree-unsupported-locale-choices";
+import { SwitchToUnsupportedLanguage } from "./unsupported-locale";
 
 export const EvictionFreeLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(
@@ -46,6 +53,42 @@ const EvictionFreeBrand: React.FC<{}> = () => {
         Free NY
       </span>
     </Link>
+  );
+};
+
+export const EvictionFreeLanguageDropdown: React.FC<{}> = () => {
+  const { server } = useContext(AppContext);
+  const locales = server.enabledLocales;
+  const activeLocale = i18n.locale;
+  const unsupportedLocale = useEvictionFreeUnsupportedLocale();
+  const languageName = unsupportedLocale
+    ? getEvictionFreeUnsupportedLocaleChoiceLabels()[unsupportedLocale]
+    : LANGUAGE_NAMES[activeLocale];
+
+  return (
+    <NavbarDropdown id="locale" label={languageName}>
+      {locales
+        .filter((locale) =>
+          !unsupportedLocale ? locale !== activeLocale : true
+        )
+        .map((locale) => (
+          <SwitchLanguage
+            key={locale}
+            locale={locale}
+            linkToCurrentLocale={!!unsupportedLocale}
+            className="navbar-item"
+          />
+        ))}
+      {EvictionFreeUnsupportedLocaleChoices.filter(
+        (locale) => locale !== unsupportedLocale
+      ).map((locale) => (
+        <SwitchToUnsupportedLanguage
+          locale={locale}
+          className="navbar-item"
+          key={locale}
+        />
+      ))}
+    </NavbarDropdown>
   );
 };
 
@@ -93,7 +136,7 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
           <Trans>Log in</Trans>
         </Link>
       )}
-      <NavbarLanguageDropdown />
+      <EvictionFreeLanguageDropdown />
       <EvictionFreeBuildMyDeclarationLink />
     </>
   );

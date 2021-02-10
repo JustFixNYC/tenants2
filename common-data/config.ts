@@ -54,6 +54,11 @@ const config: DjangoChoicesTypescriptConfig = {
       typeName: "LocaleChoice",
       exportLabels: false,
     },
+    {
+      jsonFilename: "evictionfree-unsupported-locale-choices.json",
+      typeName: "EvictionFreeUnsupportedLocaleChoice",
+      exportLabels: true,
+    },
   ],
 };
 

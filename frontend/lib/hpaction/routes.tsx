@@ -12,7 +12,7 @@ import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
 } from "../progress/progress-routes";
-import { OutboundLink } from "../analytics/google-analytics";
+import { OutboundLink } from "../ui/outbound-link";
 import {
   HPUploadStatus,
   OnboardingInfoSignupIntent,

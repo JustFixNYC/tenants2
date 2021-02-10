@@ -1,5 +1,5 @@
 import React from "react";
-import { OutboundLink } from "../../analytics/google-analytics";
+import { OutboundLink } from "../../ui/outbound-link";
 import { li18n } from "../../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";

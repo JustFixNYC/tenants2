@@ -2,7 +2,7 @@ import React from "react";
 import { BulmaImageClass } from "../../ui/bulma";
 import { StaticImage } from "../../ui/static-image";
 import { getNorentImageSrc } from "../homepage";
-import { OutboundLink } from "../../analytics/google-analytics";
+import { OutboundLink } from "../../ui/outbound-link";
 
 /* I know there is a way to dynamically set the color of an svg,
 but I suspected it would require some refactoring of the svg files themselves... 

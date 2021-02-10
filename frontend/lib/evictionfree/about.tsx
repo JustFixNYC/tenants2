@@ -1,6 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import React from "react";
-import { OutboundLink } from "../analytics/google-analytics";
+import { OutboundLink } from "../ui/outbound-link";
 import { li18n } from "../i18n-lingui";
 import { getNorentImageSrc } from "../norent/homepage";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";

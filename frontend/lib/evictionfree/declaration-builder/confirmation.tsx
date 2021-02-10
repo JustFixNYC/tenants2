@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { OutboundLink } from "../../analytics/google-analytics";
+import { OutboundLink } from "../../ui/outbound-link";
 import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
 import Page from "../../ui/page";
 import { AppContext, getGlobalAppServerInfo } from "../../app-context";

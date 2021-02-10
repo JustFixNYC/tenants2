@@ -7,7 +7,7 @@ import { EvictionFreeFaqsPreview } from "./faqs";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import { BackgroundImage } from "./components/background-image";
-import { OutboundLink } from "../analytics/google-analytics";
+import { OutboundLink } from "../ui/outbound-link";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 import classnames from "classnames";
 

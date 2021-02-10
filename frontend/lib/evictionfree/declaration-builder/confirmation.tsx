@@ -13,7 +13,8 @@ import { assertNotNull } from "../../util/util";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { MessageDescriptor } from "@lingui/core";
 
-const HCA_HOTLINE_PHONE_LINK = "tel:+12129624795";
+export const HCA_HOTLINE_PHONE_LINK = "tel:+12129624795";
+
 const NYC_311_CONTACT_LINK =
   "https://portal.311.nyc.gov/article/?kanumber=KA-02498";
 

@@ -120,9 +120,9 @@ msgstr "También se le envió una copia impresa de tu formulario al dueño de tu
 msgid "A national tool by non-profit <0>JustFix.nyc</0>"
 msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines de lucro"
 
-#: frontend/lib/evictionfree/about.tsx:10
-#: frontend/lib/evictionfree/about.tsx:15
-#: frontend/lib/evictionfree/site.tsx:53
+#: frontend/lib/evictionfree/about.tsx:36
+#: frontend/lib/evictionfree/about.tsx:41
+#: frontend/lib/evictionfree/site.tsx:71
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
 #: frontend/lib/norent/components/footer.tsx:40
@@ -192,7 +192,7 @@ msgstr "¡Todo listo! ¡Gracias por suscribirte!"
 msgid "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
 msgstr "Contesta algunas preguntas sobre ti y sobre el dueño o manager de tu edificio. Tardarás menos de 8 minutos."
 
-#: frontend/lib/evictionfree/faqs.tsx:19
+#: frontend/lib/evictionfree/faqs.tsx:20
 msgid "Any questions?"
 msgstr "Tienes preguntas?"
 
@@ -341,6 +341,7 @@ msgstr "Extensión de la Ley de Alivio de Inquilinos COVID-19"
 msgid "California"
 msgstr "California"
 
+#: frontend/lib/evictionfree/about.tsx:19
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:53
 msgid "Call the Housing Court Answers hotline at <0>212-962-4795</0>."
 msgstr "Llame a la línea directa de Housing Court Answers en el <0>212-962-4795</0>."
@@ -665,12 +666,12 @@ msgstr "Explora nuestras otras herramientas"
 msgid "Explore the tool"
 msgstr "Explora la herramienta"
 
-#: frontend/lib/evictionfree/faqs.tsx:43
+#: frontend/lib/evictionfree/faqs.tsx:44
 #: frontend/lib/norent/faqs.tsx:56
 msgid "FAQs"
 msgstr "Preguntas Frecuentes"
 
-#: frontend/lib/evictionfree/site.tsx:50
+#: frontend/lib/evictionfree/site.tsx:68
 #: frontend/lib/norent/components/footer.tsx:37
 #: frontend/lib/norent/site.tsx:34
 msgid "Faqs"
@@ -689,8 +690,8 @@ msgid "Fight to #CancelRent"
 msgstr "Lucha para #CancelRent"
 
 #: frontend/lib/evictionfree/homepage.tsx:25
-#: frontend/lib/evictionfree/site.tsx:38
-#: frontend/lib/evictionfree/site.tsx:42
+#: frontend/lib/evictionfree/site.tsx:56
+#: frontend/lib/evictionfree/site.tsx:60
 msgid "Fill out my form"
 msgstr "Rellena mi formulario"
 
@@ -731,7 +732,7 @@ msgstr "Para inquilinos por inquilinos"
 msgid "Free Certified Mail"
 msgstr "Correo certificado gratuito"
 
-#: frontend/lib/evictionfree/faqs.tsx:48
+#: frontend/lib/evictionfree/faqs.tsx:49
 #: frontend/lib/norent/faqs.tsx:61
 msgid "Frequently Asked Questions"
 msgstr "Preguntas Más Frecuentes"
@@ -849,6 +850,7 @@ msgstr "Altamente recomendable."
 msgid "Homepage"
 msgstr "Página Principal"
 
+#: frontend/lib/evictionfree/about.tsx:28
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:62
 msgid "Hours of operation: Monday to Friday, 9am - 5pm. Available in English and Spanish."
 msgstr "Horario: Lunes a Viernes, 9am - 17pm. Disponible en Inglés y Español."
@@ -1098,6 +1100,7 @@ msgstr "Dirección de correo electrónico del dueño o manager de tu edificio"
 msgid "Landlord/management company's name"
 msgstr "Nombre del dueño o manager de tu edificio"
 
+#: frontend/lib/evictionfree/components/footer.tsx:13
 #: frontend/lib/ui/language-toggle.tsx:34
 msgid "Language:"
 msgstr "Idioma:"
@@ -1174,12 +1177,12 @@ msgid "Locally supported"
 msgstr "Con apoyo local"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
-#: frontend/lib/evictionfree/site.tsx:58
+#: frontend/lib/evictionfree/site.tsx:76
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Iniciar sesión"
 
-#: frontend/lib/evictionfree/site.tsx:56
+#: frontend/lib/evictionfree/site.tsx:74
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:13
 msgid "Log out"
@@ -1319,7 +1322,7 @@ msgstr "Más información"
 msgid "Movement Law Lab"
 msgstr "Movement Law Lab"
 
-#: frontend/lib/evictionfree/faqs.tsx:22
+#: frontend/lib/evictionfree/faqs.tsx:23
 msgid "Navigating these laws is confusing. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
 msgstr "Comprender estas leyes es difícil. Aquí hay algunas <0>preguntas más frecuentes</0> de personas que han utilizado nuestra herramienta:"
 
@@ -1327,6 +1330,7 @@ msgstr "Comprender estas leyes es difícil. Aquí hay algunas <0>preguntas más 
 msgid "Nebraska"
 msgstr "Nebraska"
 
+#: frontend/lib/evictionfree/about.tsx:15
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:50
 msgid "Need additional support?"
 msgstr "¿Necesitas apoyo adicional?"
@@ -1527,7 +1531,7 @@ msgstr "Pensilvania"
 msgid "Phone number"
 msgstr "Número de teléfono"
 
-#: frontend/lib/evictionfree/components/footer.tsx:13
+#: frontend/lib/evictionfree/components/footer.tsx:32
 msgid "Photo credits:"
 msgstr "Acreditación de imágenes:"
 
@@ -1694,7 +1698,7 @@ msgstr "Ejemplar de una carta de NoRent.org"
 msgid "Search address"
 msgstr "Dirección de búsqueda"
 
-#: frontend/lib/evictionfree/faqs.tsx:35
+#: frontend/lib/evictionfree/faqs.tsx:36
 #: frontend/lib/norent/faqs.tsx:48
 msgid "See more FAQs"
 msgstr "Ver todas las preguntas más frecuentes"
@@ -2314,7 +2318,7 @@ msgstr "¿Qué situación de penuria te aplica?"
 msgid "While you wait for your landlord to respond, gather as much documentation as you can. This can include a letter from your employer, receipts, doctor’s notes etc."
 msgstr "Mientras esperas a que el dueño de tu edificio conteste, recopila toda la documentación que puedas. Esto puede incluir una carta de tu jefe, recibos, notas de tu médico, etc."
 
-#: frontend/lib/evictionfree/about.tsx:47
+#: frontend/lib/evictionfree/about.tsx:73
 #: frontend/lib/norent/about.tsx:94
 msgid "Who we are"
 msgstr "Quiénes somos"
@@ -2621,11 +2625,11 @@ msgstr "email y correo certificado por USPS"
 msgid "eviction free nyc, eviction free ny, hardship, declaration, declare hardship, eviction, evicted"
 msgstr "eviction free nyc, eviction free ny, penuria, declaración, desalojo, desalojado"
 
-#: frontend/lib/evictionfree/about.tsx:19
+#: frontend/lib/evictionfree/about.tsx:45
 msgid "evictionfree.aboutPage1"
 msgstr "Una nueva ley estatal, aprobada a finales de 2020, permite a la mayoría de los inquilinos detener su caso de desalojo hasta el 1 de mayo, 2021, si cumplimentan un formulario de “Declaración de Penuria”. Sin embargo, esta ley carga la responsabilidad de averiguar cómo hacerlo a los inquilinos y no facilita el acceso al ejercicio de sus derechos."
 
-#: frontend/lib/evictionfree/about.tsx:29
+#: frontend/lib/evictionfree/about.tsx:55
 msgid "evictionfree.aboutPage2"
 msgstr "Nuestro sitio web ayuda a los inquilinos a presentar este formulario de declaración de dificultades con total tranquilidad: enviándolo por correo certificado de USPS y por correo electrónico gratuito a todas las entidades necesarias (el dueño de tu edificio y los tribunales) para garantizar la protección. Y dado que la ley no va lo suficientemente lejos para proteger a la gente más allá del 1 de mayo, nuestra herramienta conecta a los inquilinos con el movimiento de inquilinos más grande para que podamos #CancelRent."
 
@@ -2649,7 +2653,7 @@ msgstr "Si has recibido una ‘Notificación de desalojo por incumplimiento de p
 msgid "evictionfree.deadlineFaq"
 msgstr "Puedes enviar tu formulario de declaración en cualquier momento, hasta el 1 de mayo de 2021. Luego de enviar tu formulario de declaración a través de esta herramienta, se lo enviaremos inmediatamente por correo postal y/o correo electrónico al dueño de tu edificio y a las cortes. Si estás enviando tu formulario SOLAMENTE por correo postal, envíalo lo antes posible y conserva cualquier prueba de envío y/o acuse de recibo para tus archivos."
 
-#: frontend/lib/evictionfree/faqs.tsx:52
+#: frontend/lib/evictionfree/faqs.tsx:53
 msgid "evictionfree.faqsPageIntro"
 msgstr "Comprender estas leyes es difícil. A continuación, echa un vistazo a nuestras preguntas más frecuentes de personas que han usado nuestra herramienta. Si tienes preguntas sobre el estado de la corte de vivienda y el estatus actual de los casos de desalojo, consulte"
 
@@ -2665,7 +2669,7 @@ msgstr "<0>Perdida significativa de ingresos del hogar durante la pandemia COVID
 msgid "evictionfree.getInvolvedWithCBO"
 msgstr "¡Involúcrate con la organización local de tu comunidad! Únete a millones en la lucha por un futuro libre de deuda y para ganar una cancelación de renta, hipotecas y utilidades."
 
-#: frontend/lib/evictionfree/about.tsx:73
+#: frontend/lib/evictionfree/about.tsx:99
 msgid "evictionfree.hj4aBlurb"
 msgstr "<0>Housing Justice for All</0> es una coalición de más de 100 organizaciones, desde Brooklyn a Buffalo, que representan a los inquilinos y aquellos que no tienen hogar en el estado de Nueva York. Estamos unidos en nuestra convicción de que la vivienda es un derecho humano; que ninguna persona debe vivir con miedo a un desalojo; y que podemos poner fin a la crisis de las personas sin hogar en nuestro Estado."
 
@@ -2677,7 +2681,7 @@ msgstr "El 28 de diciembre de 2020, el estado de Nueva York <0>aprobó la legisl
 msgid "evictionfree.introductionToDeclarationFormSteps"
 msgstr "Para beneficiarte de las protecciones de desalojo que han puesto en marcha los representantes gubernamentales locales, puedes notificar al dueño de tu edificio rellenando un formulario de declaración de penuria. <0>En el caso de que el dueño de tu edificio intente desalojarte, los tribunales lo verán como un paso proactivo que ayuda a establecer tu defensa.</0>"
 
-#: frontend/lib/evictionfree/about.tsx:89
+#: frontend/lib/evictionfree/about.tsx:115
 msgid "evictionfree.justfixBlurb"
 msgstr "<0>JustFix.nyc</0> codiseña y construye herramientas para inquilinos, organizadores del vivienda y abogados que luchan contra el desplazamiento en la ciudad de Nueva York. Nuestra misión es galvanizar un movimiento de inquilinos del siglo XXI que trabaje en favor de la vivienda para todos, y creemos que el poder de los datos y la tecnología debe ser accesible para quienes luchan en esta lucha."
 
@@ -2709,7 +2713,7 @@ msgstr "<0>¡No, puedes imprimir el <1>formulario de declaración de dificultade
 msgid "evictionfree.resendFaq"
 msgstr "Actualmente no puedes utilizar esta herramienta para enviar más de un formulario de declaración. Sin embargo, una vez que utilices esta herramienta, podrás descargar una copia de tu formulario en PDF en la “Página de confirmación” y podrás optar por reenviar esta declaración por tu propia cuenta. Debes conservarla para tus archivos, en caso de que el dueño de tu edificio intente llevarte a juicio."
 
-#: frontend/lib/evictionfree/about.tsx:54
+#: frontend/lib/evictionfree/about.tsx:80
 msgid "evictionfree.rtcBlurb"
 msgstr "La <0>Right to Counsel NYC Coalition</0> es una extensa coalición de inquilinos que se formó en el 2014 para quebrantar la Corte de Vivienda como centro de desplazamiento y detener la crisis de desalojo que ha amenazado a nuestras familias, nuestros vecinos y nuestras casas por demasiado tiempo. Consta de inquilinos, organizadores, abogados, organizaciones de servicios legales y más. Estamos construyendo campañas para un NYC sin desalojos y, en última instancia, para un derecho a la vivienda."
 

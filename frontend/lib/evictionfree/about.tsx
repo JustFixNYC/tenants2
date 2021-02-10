@@ -6,12 +6,46 @@ import { getNorentImageSrc } from "../norent/homepage";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 import Page from "../ui/page";
 import { StaticImage } from "../ui/static-image";
+import { HCA_HOTLINE_PHONE_LINK } from "./declaration-builder/confirmation";
 import {
   getEFImageSrc,
   HJ4A_SOCIAL_URL,
   JUSTFIX_WEBSITE_URLS,
   RTC_WEBSITE_URL,
 } from "./homepage";
+
+export const AdditionalSupportBanner = () => (
+  <section className="hero is-info">
+    <div className="hero-body">
+      <div className="container jf-has-text-centered-tablet">
+        <h2 className="is-spaced has-text-white has-text-weight-bold">
+          <Trans>Need additional support?</Trans>
+        </h2>
+        <br />
+        <p className="subtitle is-size-5">
+          <Trans>
+            Call the Housing Court Answers hotline at{" "}
+            <OutboundLink
+              href={HCA_HOTLINE_PHONE_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="jf-word-glue"
+            >
+              212-962-4795
+            </OutboundLink>
+            .
+          </Trans>
+        </p>
+        <p className="subtitle is-size-5">
+          <Trans>
+            Hours of operation: Monday to Friday, 9am - 5pm. Available in
+            English and Spanish.
+          </Trans>
+        </p>
+      </div>
+    </div>
+  </section>
+);
 
 export const EvictionFreeAboutPage: React.FC<{}> = () => (
   <Page title={li18n._(t`About`)} className="content jf-evictionfree-about">
@@ -119,5 +153,6 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
         </div>
       </div>
     </section>
+    <AdditionalSupportBanner />
   </Page>
 );

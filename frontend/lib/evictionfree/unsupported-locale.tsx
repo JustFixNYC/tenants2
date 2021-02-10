@@ -115,7 +115,7 @@ const LOCALE_PAGES: {
             <span dir="ltr" className="jf-word-glue">
               Housing Justice for All
             </span>
-            . تريد توجيهك إلى هذه الموقع؟
+            . تريد توجيهك إلى هذا الموقع؟
           </span>
         </>
       }

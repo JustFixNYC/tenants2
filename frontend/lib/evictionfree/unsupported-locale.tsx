@@ -179,12 +179,15 @@ export const SwitchToUnsupportedLanguage: React.FC<{
     return <>{language}</>;
   }
 
+  // Note that we want to use an <a> rather than a <Link> here
+  // because we want the rest of the page (navbar etc) to reset to
+  // the default of English if we're currently in a different locale.
   return (
-    <Link
-      to={EvictionFreeRoutes.unsupportedLocale[locale]}
+    <a
+      href={EvictionFreeRoutes.unsupportedLocale[locale]}
       className={className}
     >
       {language}
-    </Link>
+    </a>
   );
 };

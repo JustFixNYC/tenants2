@@ -5,7 +5,9 @@ import { createHtmlEmailStaticPageRouteInfo } from "../static-page/routes";
 import {
   EvictionFreeUnsupportedLocaleChoices,
   EvictionFreeUnsupportedLocaleChoice,
+  isEvictionFreeUnsupportedLocaleChoice,
 } from "../../../common-data/evictionfree-unsupported-locale-choices";
+import { useLocation } from "react-router-dom";
 
 type UnsupportedLocaleRoutes = {
   [key in EvictionFreeUnsupportedLocaleChoice | "prefix"]: string;
@@ -21,6 +23,20 @@ function createUnsupportedLocaleRoutes(prefix: string) {
   });
 
   return paths;
+}
+
+export function useEvictionFreeUnsupportedLocale(): EvictionFreeUnsupportedLocaleChoice | null {
+  const loc = useLocation().pathname;
+
+  if (loc.startsWith(EvictionFreeRoutes.unsupportedLocale.prefix)) {
+    const parts = loc.split("/");
+    const lastPart = parts[parts.length - 1];
+    if (isEvictionFreeUnsupportedLocaleChoice(lastPart)) {
+      return lastPart;
+    }
+  }
+
+  return null;
 }
 
 function createLocalizedRouteInfo(prefix: string) {
@@ -65,8 +81,6 @@ function createLocalizedRouteInfo(prefix: string) {
   };
 }
 
-export const UNSUPPORTED_LOCALE_PATH_PREFIX = "unsupported-locale";
-
 export const EvictionFreeRoutes = createRoutesForSite(
   createLocalizedRouteInfo,
   {
@@ -76,9 +90,7 @@ export const EvictionFreeRoutes = createRoutesForSite(
      */
     dev: createDevRouteInfo("/dev"),
 
-    unsupportedLocale: createUnsupportedLocaleRoutes(
-      `/${UNSUPPORTED_LOCALE_PATH_PREFIX}`
-    ),
+    unsupportedLocale: createUnsupportedLocaleRoutes(`/unsupported-locale`),
   }
 );
 

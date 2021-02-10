@@ -3,8 +3,12 @@ import React from "react";
 import {
   EvictionFreeUnsupportedLocaleChoice,
   EvictionFreeUnsupportedLocaleChoices,
+  getEvictionFreeUnsupportedLocaleChoiceLabels,
 } from "../../../common-data/evictionfree-unsupported-locale-choices";
-import { EvictionFreeRoutes } from "./route-info";
+import {
+  EvictionFreeRoutes,
+  useEvictionFreeUnsupportedLocale,
+} from "./route-info";
 import Page from "../ui/page";
 import { OutboundLink } from "../analytics/google-analytics";
 import classnames from "classnames";
@@ -163,3 +167,24 @@ export function createEvictionFreeUnsupportedLocaleRoutes(): JSX.Element[] {
     );
   });
 }
+
+export const SwitchToUnsupportedLanguage: React.FC<{
+  locale: EvictionFreeUnsupportedLocaleChoice;
+  className?: string;
+}> = ({ locale, className }) => {
+  const unsupportedLocale = useEvictionFreeUnsupportedLocale();
+  const language = getEvictionFreeUnsupportedLocaleChoiceLabels()[locale];
+
+  if (unsupportedLocale === locale) {
+    return <>{language}</>;
+  }
+
+  return (
+    <Link
+      to={EvictionFreeRoutes.unsupportedLocale[locale]}
+      className={className}
+    >
+      {language}
+    </Link>
+  );
+};

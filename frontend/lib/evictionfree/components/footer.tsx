@@ -1,19 +1,15 @@
 import { Trans } from "@lingui/macro";
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import {
-  EvictionFreeUnsupportedLocaleChoices,
-  getEvictionFreeUnsupportedLocaleChoiceLabels,
-} from "../../../../common-data/evictionfree-unsupported-locale-choices";
+import { EvictionFreeUnsupportedLocaleChoices } from "../../../../common-data/evictionfree-unsupported-locale-choices";
 import { AppContext } from "../../app-context";
 import { SwitchLanguage } from "../../ui/language-toggle";
 import { LegalDisclaimer } from "../../ui/legal-disclaimer";
-import { EvictionFreeRoutes } from "../route-info";
+import { useEvictionFreeUnsupportedLocale } from "../route-info";
+import { SwitchToUnsupportedLanguage } from "../unsupported-locale";
 
 export const EvictionFreeFooterLanguageToggle: React.FC<{}> = () => {
   const { server } = useContext(AppContext);
-
-  if (server.enabledLocales.length === 1) return null;
+  const unsupportedLocale = useEvictionFreeUnsupportedLocale();
 
   return (
     <div className="jf-language-toggle">
@@ -21,14 +17,15 @@ export const EvictionFreeFooterLanguageToggle: React.FC<{}> = () => {
       <ul>
         {server.enabledLocales.map((locale) => (
           <li key={locale}>
-            <SwitchLanguage locale={locale} />
+            <SwitchLanguage
+              locale={locale}
+              linkToCurrentLocale={!!unsupportedLocale}
+            />
           </li>
         ))}
         {EvictionFreeUnsupportedLocaleChoices.map((locale) => (
           <li key={locale}>
-            <Link to={EvictionFreeRoutes.unsupportedLocale[locale]}>
-              {getEvictionFreeUnsupportedLocaleChoiceLabels()[locale]}
-            </Link>
+            <SwitchToUnsupportedLanguage locale={locale} />
           </li>
         ))}
       </ul>

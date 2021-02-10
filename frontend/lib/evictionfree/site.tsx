@@ -8,12 +8,12 @@ import { EvictionFreeRouteComponent } from "./routes";
 import {
   EvictionFreeRoutes as Routes,
   getEvictionFreeRoutesForPrimaryPages,
-  UNSUPPORTED_LOCALE_PATH_PREFIX,
+  useEvictionFreeUnsupportedLocale,
 } from "./route-info";
 import Navbar, { NavbarDropdown } from "../ui/navbar";
 import { AppContext } from "../app-context";
 import { Trans } from "@lingui/macro";
-import { SwitchLanguage, LANGUAGE_NAMES } from "../ui/language-toggle";
+import { LANGUAGE_NAMES, SwitchLanguage } from "../ui/language-toggle";
 import classnames from "classnames";
 import { EvictionFreeFooter } from "./components/footer";
 import { EvictionFreeHelmet } from "./components/helmet";
@@ -21,8 +21,8 @@ import i18n from "../i18n";
 import {
   EvictionFreeUnsupportedLocaleChoices,
   getEvictionFreeUnsupportedLocaleChoiceLabels,
-  isEvictionFreeUnsupportedLocaleChoice,
 } from "../../../common-data/evictionfree-unsupported-locale-choices";
+import { SwitchToUnsupportedLanguage } from "./unsupported-locale";
 
 export const EvictionFreeLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(
@@ -36,20 +36,6 @@ export const EvictionFreeLinguiI18n = createLinguiCatalogLoader({
 function useIsPrimaryPage() {
   const location = useLocation();
   return getEvictionFreeRoutesForPrimaryPages().includes(location.pathname);
-}
-
-export function getLanguageNameFromPath(pathname: string) {
-  const activeLocale = i18n.locale;
-  const pathParams = pathname.split("/").filter((e) => !!e);
-
-  if (
-    pathParams.length === 2 &&
-    pathParams[0] === UNSUPPORTED_LOCALE_PATH_PREFIX &&
-    isEvictionFreeUnsupportedLocaleChoice(pathParams[1])
-  ) {
-    const locale = pathParams[1];
-    return getEvictionFreeUnsupportedLocaleChoiceLabels()[locale];
-  } else return LANGUAGE_NAMES[activeLocale];
 }
 
 const EvictionFreeBrand: React.FC<{}> = () => {
@@ -74,27 +60,33 @@ export const EvictionFreeLanguageDropdown: React.FC<{}> = () => {
   const { server } = useContext(AppContext);
   const locales = server.enabledLocales;
   const activeLocale = i18n.locale;
-  const { pathname } = useLocation();
+  const unsupportedLocale = useEvictionFreeUnsupportedLocale();
+  const languageName = unsupportedLocale
+    ? getEvictionFreeUnsupportedLocaleChoiceLabels()[unsupportedLocale]
+    : LANGUAGE_NAMES[activeLocale];
 
   return (
-    <NavbarDropdown id="locale" label={getLanguageNameFromPath(pathname)}>
+    <NavbarDropdown id="locale" label={languageName}>
       {locales
-        .filter((locale) => locale !== activeLocale)
+        .filter((locale) =>
+          !unsupportedLocale ? locale !== activeLocale : true
+        )
         .map((locale) => (
           <SwitchLanguage
             key={locale}
             locale={locale}
+            linkToCurrentLocale={!!unsupportedLocale}
             className="navbar-item"
           />
         ))}
-      {EvictionFreeUnsupportedLocaleChoices.map((locale) => (
-        <Link
-          to={Routes.unsupportedLocale[locale]}
+      {EvictionFreeUnsupportedLocaleChoices.filter(
+        (locale) => locale !== unsupportedLocale
+      ).map((locale) => (
+        <SwitchToUnsupportedLanguage
+          locale={locale}
           className="navbar-item"
           key={locale}
-        >
-          {getEvictionFreeUnsupportedLocaleChoiceLabels()[locale]}
-        </Link>
+        />
       ))}
     </NavbarDropdown>
   );

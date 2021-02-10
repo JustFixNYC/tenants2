@@ -19,12 +19,14 @@ export const SwitchLanguage: React.FC<{
   locale: LocaleChoice;
   className?: string;
   children?: React.ReactNode;
+  linkToCurrentLocale?: boolean;
 }> = (props) => {
   const { locale } = props;
   const langName = props.children || LANGUAGE_NAMES[locale];
   const location = useLocation();
 
-  if (locale === i18n.locale) return <>{langName}</>;
+  if (locale === i18n.locale && !props.linkToCurrentLocale)
+    return <>{langName}</>;
 
   const pathname =
     i18n.changeLocalePathPrefix(location.pathname, locale) ||

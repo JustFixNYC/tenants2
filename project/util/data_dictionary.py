@@ -1,4 +1,5 @@
 from typing import Dict, Optional, OrderedDict, Union
+from dataclasses import dataclass
 from django.db.models import Field
 from django.db.models.expressions import Col
 
@@ -23,23 +24,35 @@ DATA_DICTIONARY_DOCS: DataDictDocs = {
 }
 
 
-def get_data_dictionary(queryset, extra_docs: Optional[DataDictDocs] = None) -> Dict[str, str]:
+@dataclass
+class DataDictionaryEntry:
+    help_text: str
+    field: Optional[Field] = None
+
+
+def get_data_dictionary(
+    queryset, extra_docs: Optional[DataDictDocs] = None
+) -> Dict[str, DataDictionaryEntry]:
     """
     Return a data dictionary dict for the given Django queryset, where each
-    key is a field name and the value is the field's documentation as a HTML string.
+    key is a field name and the value is the field's documentation.
     """
 
     extra_docs = extra_docs or {}
-    result = OrderedDict[str, str]()
+    result = OrderedDict[str, DataDictionaryEntry]()
 
     for col in queryset.query.select:
-        result[col.target.name] = get_field_docs(col.target, extra_docs)
+        result[col.target.name] = DataDictionaryEntry(
+            help_text=get_field_docs(col.target, extra_docs), field=col.target
+        )
 
     for anno, col in queryset.query.annotations.items():
         if isinstance(col, Col):
-            result[anno] = get_field_docs(col.target, extra_docs)
+            result[anno] = DataDictionaryEntry(
+                help_text=get_field_docs(col.target, extra_docs), field=col.target
+            )
         else:
-            result[anno] = extra_docs.get(anno, "")
+            result[anno] = DataDictionaryEntry(help_text=extra_docs.get(anno, ""))
 
     return result
 

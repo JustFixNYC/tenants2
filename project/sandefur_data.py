@@ -52,6 +52,30 @@ def execute_users_query(user):
     ).exclude(onboarding_info__borough__exact="")
 
 
+execute_users_query.extra_docs = {
+    "rh_last_requested_at": (
+        "When the user last requested rent history. Note that the actual address they requested "
+        "rent history for may not have been their own."
+    ),
+    "rh_count": "How many times the user requested rent history (regardless of the address).",
+    "hpa_documents_last_generated_at": (
+        "When the user last generated a regular (non-emergency) HP Action packet. Note that "
+        "the regular HP Action product was superseded by the Emergency HP Action packet "
+        "in spring 2020."
+    ),
+    "hpa_documents_count": "How many regular HP Action packets the user generated.",
+    "loc_submitted_at": (
+        "When the user submitted their letter of compaint, i.e. requested that we "
+        "mail their letter for them or opted to mail it themselves."
+    ),
+    "ehpa_last_signed_at": (
+        "When the user last e-signed an Emergency HP Action. Note that "
+        "this product was not live until spring 2020."
+    ),
+    "ehpa_count": "How many Emergency HP Actions the user has e-signed.",
+}
+
+
 @queryset_data_download
 def execute_issues_query(user):
     return Issue.objects.values(
@@ -82,6 +106,12 @@ def execute_rapidpro_groups_query(user):
     )
 
 
+execute_rapidpro_groups_query.extra_docs = {
+    "name": "The name of the RapidPro contact group to which the user belongs",
+    "earliest_known_date": "The earliest date the user was observed to be in this contact group.",
+    "user": "The ID of a user. Can be joined with other datasets.",
+}
+
 DATA_DOWNLOADS = [
     DataDownload(
         name="Sandefur user data",
@@ -107,7 +137,7 @@ DATA_DOWNLOADS = [
     DataDownload(
         name="Sandefur rapidpro contact group data",
         slug="sandefur-rapidpro-contact-group-data",
-        html_desc="Details about rapidpro contact groups for Rebecca Sandefur.",
+        html_desc="Details about RapidPro (TextIt) contact groups for Rebecca Sandefur.",
         perms=[CHANGE_USER_PERMISSION],
         execute_query=execute_rapidpro_groups_query,
     ),

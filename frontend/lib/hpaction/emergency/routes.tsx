@@ -32,7 +32,7 @@ import { GeneratePDFForm, ShowHPUploadStatus } from "../hp-action-generate-pdf";
 import { assertNotNull } from "../../util/util";
 import { PdfLink } from "../../ui/pdf-link";
 import { BigList } from "../../ui/big-list";
-import { OutboundLink } from "../../analytics/google-analytics";
+import { OutboundLink } from "../../ui/outbound-link";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import {
   EmergencyHpaIssuesMutation,

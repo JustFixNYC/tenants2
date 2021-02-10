@@ -1,6 +1,6 @@
 import React from "react";
 import Page from "../ui/page";
-import { OutboundLink } from "../analytics/google-analytics";
+import { OutboundLink } from "../ui/outbound-link";
 import { getNorentImageSrc, JumpArrow } from "./homepage";
 import { StaticImage } from "../ui/static-image";
 import { JustfixLogo } from "./components/logo";

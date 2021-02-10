@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Page from "../../ui/page";
 import { AppContext } from "../../app-context";
-import { OutboundLink } from "../../analytics/google-analytics";
+import { OutboundLink } from "../../ui/outbound-link";
 import {
   getUSStateChoiceLabels,
   USStateChoice,

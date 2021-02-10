@@ -1,6 +1,6 @@
 import React from "react";
 import Page from "../../ui/page";
-import { OutboundLink } from "../../analytics/google-analytics";
+import { OutboundLink } from "../../ui/outbound-link";
 import { ProgressButtons } from "../../ui/buttons";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";

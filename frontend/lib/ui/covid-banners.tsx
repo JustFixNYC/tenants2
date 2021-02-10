@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { SimpleProgressiveEnhancement } from "./progressive-enhancement";
 import classnames from "classnames";
 import { Icon } from "./icon";
-import { OutboundLink } from "../analytics/google-analytics";
+import { OutboundLink } from "./outbound-link";
 import { getEmergencyHPAIssueLabels } from "../hpaction/emergency/emergency-hp-action-issues";
 import { CSSTransition } from "react-transition-group";
 import JustfixRoutes from "../justfix-route-info";

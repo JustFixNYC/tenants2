@@ -6,7 +6,7 @@ import { AllSessionInfo_letterRequest } from "../queries/AllSessionInfo";
 import Page from "../ui/page";
 import classnames from "classnames";
 import { friendlyDate } from "../util/date-util";
-import { OutboundLink } from "../analytics/google-analytics";
+import { OutboundLink } from "../ui/outbound-link";
 import { PdfLink } from "../ui/pdf-link";
 import { EmailAttachmentForm } from "../forms/email-attachment";
 import { EmailLetterMutation } from "../queries/EmailLetterMutation";

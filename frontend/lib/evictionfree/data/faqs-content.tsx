@@ -1,6 +1,6 @@
 import { Trans, t } from "@lingui/macro";
 import React from "react";
-import { OutboundLink } from "../../analytics/google-analytics";
+import { OutboundLink } from "../../ui/outbound-link";
 import { li18n } from "../../i18n-lingui";
 import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
 

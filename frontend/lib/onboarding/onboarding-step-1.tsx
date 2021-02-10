@@ -34,7 +34,7 @@ import {
   createAptNumberFormInput,
   AptNumberFormFields,
 } from "../forms/apt-number-form-fields";
-import { OutboundLink } from "../analytics/google-analytics";
+import { OutboundLink } from "../ui/outbound-link";
 
 function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
   return (label, labelProps) => (

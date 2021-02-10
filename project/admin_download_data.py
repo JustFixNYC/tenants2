@@ -12,11 +12,12 @@ from django.urls import path
 from django.conf import settings
 from django.template.response import TemplateResponse
 from django.views.decorators.gzip import gzip_page
+from django.contrib.auth.models import AnonymousUser
 
 from users.models import JustfixUser
 from project.util.streaming_csv import generate_csv_rows, streaming_csv_response
 from project.util.streaming_json import generate_json_rows, streaming_json_response
-from project.util.data_dictionary import get_data_dictionary
+from project.util.data_dictionary import DataDictionary, get_data_dictionary
 
 
 logger = logging.getLogger(__name__)
@@ -67,7 +68,10 @@ class DataDownload(NamedTuple):
         with self._get_cursor_and_execute_query(user) as cursor:
             yield from generate_json_rows(cursor)
 
-    def get_data_dictionary(self, user: JustfixUser) -> Optional[Dict[str, str]]:
+    def has_data_dictionary(self) -> bool:
+        return bool(self.get_data_dictionary(AnonymousUser()))
+
+    def get_data_dictionary(self, user: JustfixUser) -> Optional[DataDictionary]:
         execute_query = self.execute_query
         if isinstance(execute_query, QuerysetDataDownload):
             return execute_query.get_data_dictionary(user)
@@ -208,7 +212,7 @@ class QuerysetDataDownload:
         queryset = self.get_queryset(user)
         exec_queryset_on_cursor(queryset, cursor)
 
-    def get_data_dictionary(self, user: JustfixUser) -> Dict[str, str]:
+    def get_data_dictionary(self, user: JustfixUser) -> DataDictionary:
         return get_data_dictionary(self.get_queryset(user), self.extra_docs)
 
 

@@ -1,4 +1,4 @@
-from typing import Dict, Optional, OrderedDict, Union
+from typing import Dict, Optional, Union
 from dataclasses import dataclass
 from django.db.models import Field
 from django.db.models.expressions import Col
@@ -30,16 +30,22 @@ class DataDictionaryEntry:
     field: Optional[Field] = None
 
 
-def get_data_dictionary(
-    queryset, extra_docs: Optional[DataDictDocs] = None
-) -> Dict[str, DataDictionaryEntry]:
+class DataDictionary(Dict[str, DataDictionaryEntry]):
     """
-    Return a data dictionary dict for the given Django queryset, where each
-    key is a field name and the value is the field's documentation.
+    Represents a data dictionary; each key is a field, and each value is
+    the field's documentation.
+    """
+
+    pass
+
+
+def get_data_dictionary(queryset, extra_docs: Optional[DataDictDocs] = None) -> DataDictionary:
+    """
+    Return a data dictionary dict for the given Django queryset.
     """
 
     extra_docs = extra_docs or {}
-    result = OrderedDict[str, DataDictionaryEntry]()
+    result = DataDictionary()
 
     for col in queryset.query.select:
         result[col.target.name] = DataDictionaryEntry(

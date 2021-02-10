@@ -254,13 +254,16 @@ COMPLAINED_30_DAYS_AGO = dict(filed_with_311=True, thirty_days_since_311=True)
 @pytest.mark.parametrize(
     "hp_action_details_kwargs,expected",
     [
-        (dict(), None),
-        (dict(filed_with_311=True), None),
+        (dict(), hp.TenantRepairsAllegationsMC.WAIVE),
+        (dict(filed_with_311=True), hp.TenantRepairsAllegationsMC.WAIVE),
         (
             dict(filed_with_311=True, thirty_days_since_311=True, hpd_issued_violations=False),
             hp.TenantRepairsAllegationsMC.NO_NOTICE_ISSUED,
         ),
-        (dict(filed_with_311=True, thirty_days_since_311=False, hpd_issued_violations=False), None),
+        (
+            dict(filed_with_311=True, thirty_days_since_311=False, hpd_issued_violations=False),
+            hp.TenantRepairsAllegationsMC.WAIVE,
+        ),
         (
             dict(
                 filed_with_311=True, hpd_issued_violations=True, thirty_days_since_violations=True
@@ -271,7 +274,7 @@ COMPLAINED_30_DAYS_AGO = dict(filed_with_311=True, thirty_days_since_311=True)
             dict(
                 filed_with_311=True, hpd_issued_violations=True, thirty_days_since_violations=False
             ),
-            None,
+            hp.TenantRepairsAllegationsMC.WAIVE,
         ),
     ],
 )

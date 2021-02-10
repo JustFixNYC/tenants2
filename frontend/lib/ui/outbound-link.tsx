@@ -3,6 +3,7 @@ import { DetailedHTMLProps, AnchorHTMLAttributes, MouseEvent } from "react";
 import hardRedirect from "../browser-redirect";
 import { callOnceWithinMs } from "../util/util";
 import { ga } from "../analytics/google-analytics";
+import { logAmplitudeOutboundLinkClick } from "../analytics/amplitude";
 
 /**
  * When we call ga(), it's actually possible that GA never loaded,
@@ -30,9 +31,13 @@ export function handleOutboundLinkClick(e: MouseEvent<HTMLAnchorElement>) {
         OUTBOUND_LINK_TIMEOUT_MS
       ),
     });
+    // Note that we're not currently logging Amplitude events in this branch,
+    // but that should be OK because we almost always follow the other branch
+    // in pratice (virtually all our external links open in a new window).
     e.preventDefault();
   } else {
     ga("send", "event", "outbound", "click", href);
+    logAmplitudeOutboundLinkClick(href);
   }
 }
 

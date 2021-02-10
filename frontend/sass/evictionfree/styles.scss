@@ -316,3 +316,8 @@ html:lang(es) nav.navbar .navbar-item {
     text-decoration: underline;
   }
 }
+
+// Footer overrides
+footer .content a:not(.button):hover {
+  color: unset;
+}

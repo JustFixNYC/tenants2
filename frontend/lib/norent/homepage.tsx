@@ -3,7 +3,7 @@ import Page from "../ui/page";
 import { NorentRoutes } from "./route-info";
 import { CenteredPrimaryButtonLink } from "../ui/buttons";
 import { StaticImage } from "../ui/static-image";
-import { OutboundLink } from "../analytics/google-analytics";
+import { OutboundLink } from "../ui/outbound-link";
 import { NorentLogo } from "./components/logo";
 import { NorentFaqsPreview } from "./faqs";
 import { PartnerLogos } from "./about";

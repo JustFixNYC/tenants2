@@ -38,11 +38,11 @@
   <dt>{{ field_name }}</dt>
   <dd>
     <p>{{ entry.help_text|safe }}</p>
-    {% if entry.field.choices %}
+    {% if entry.choices %}
     <p>This field can have the following values:</p>
     <table>
       <tr><th>Value</th><th>Description</th></tr>
-      {% for value, label in entry.field.choices %}
+      {% for value, label in entry.choices %}
       <tr>
       <td><code>{{ value }}</code></td>
       <td>{{ label }}</td>

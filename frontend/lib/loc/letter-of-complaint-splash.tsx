@@ -4,7 +4,7 @@ import { StaticImage } from "../ui/static-image";
 import { Link } from "react-router-dom";
 import JustfixRoutes from "../justfix-route-info";
 import { BigList } from "../ui/big-list";
-import { OutboundLink } from "../analytics/google-analytics";
+import { OutboundLink } from "../ui/outbound-link";
 import { GetStartedButton } from "../ui/get-started-button";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
 

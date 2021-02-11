@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { li18n } from "../i18n-lingui";
 import { Accordion } from "../ui/accordion";
 import Page from "../ui/page";
+import { AdditionalSupportBanner } from "./about";
 import {
   EvictionFreeFaq,
   getEvictionFreeFaqsContent,
@@ -97,6 +98,7 @@ export const EvictionFreeFaqsPage: React.FC<{}> = () => {
           </div>
         </div>
       </section>
+      <AdditionalSupportBanner />
     </Page>
   );
 };

@@ -18,7 +18,8 @@ import {
 } from "../forms/query-form-submitter";
 import { AppContext, getGlobalAppServerInfo } from "../app-context";
 import { properNoun } from "../util/util";
-import { OutboundLink, ga } from "../analytics/google-analytics";
+import { ga } from "../analytics/google-analytics";
+import { OutboundLink } from "../ui/outbound-link";
 import { UpdateBrowserStorage } from "../browser-storage";
 import { getEmergencyHPAIssueLabels } from "../hpaction/emergency/emergency-hp-action-issues";
 import { Trans, t, Plural } from "@lingui/macro";

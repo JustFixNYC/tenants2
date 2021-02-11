@@ -40,6 +40,10 @@ type PageInfo = {
   siteType: SiteChoice;
 };
 
+type OutboundLinkEventData = PageInfo & {
+  href: string;
+};
+
 type FormSubmissionEventData = PageInfo & {
   formKind: string;
   formId?: string;
@@ -152,6 +156,14 @@ export function logAmplitudePageView(pathname: string) {
   const data: PageInfo = getPageInfo(pathname);
   const eventName = `Viewed ${getAmplitudePageType(pathname)}`;
   getAmplitude()?.logEvent(eventName, data);
+}
+
+export function logAmplitudeOutboundLinkClick(href: string) {
+  const data: OutboundLinkEventData = {
+    ...getPageInfo(window.location.pathname),
+    href,
+  };
+  getAmplitude()?.logEvent("Clicked outbound link", data);
 }
 
 export function logAmplitudeFormSubmission(options: {

@@ -11,7 +11,7 @@ import {
   NorentMetadataForUSState,
   DefaultStatePartnerForBuilder,
 } from "./national-metadata";
-import { OutboundLink } from "../../analytics/google-analytics";
+import { OutboundLink } from "../../ui/outbound-link";
 import { getStatesWithLimitedProtectionsFAQSectionURL } from "../faqs";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { NorentOptInToRttcCommsMutation } from "../../queries/NorentOptInToRttcCommsMutation";

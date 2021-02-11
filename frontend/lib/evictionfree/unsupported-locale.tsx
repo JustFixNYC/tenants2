@@ -10,7 +10,7 @@ import {
   useEvictionFreeUnsupportedLocale,
 } from "./route-info";
 import Page from "../ui/page";
-import { OutboundLink } from "../analytics/google-analytics";
+import { OutboundLink } from "../ui/outbound-link";
 import classnames from "classnames";
 
 const LocalePage: React.FC<{

@@ -17,7 +17,7 @@ from django.contrib.auth.models import AnonymousUser
 from users.models import JustfixUser
 from project.util.streaming_csv import generate_csv_rows, streaming_csv_response
 from project.util.streaming_json import generate_json_rows, streaming_json_response
-from project.util.data_dictionary import DataDictionary, get_data_dictionary
+from project.util.data_dictionary import DataDictDocs, DataDictionary, get_data_dictionary
 
 
 logger = logging.getLogger(__name__)
@@ -80,7 +80,7 @@ class DataDownload(NamedTuple):
 
 def get_all_data_downloads() -> List[DataDownload]:
     from issues import issuestats
-    from project import userstats
+    from project import userstats, sandefur_data
     from hpaction import ehpa_filings
     from partnerships import admin_data_downloads as partnership_stats
     from norent import admin_data_downloads as norent_stats
@@ -93,6 +93,7 @@ def get_all_data_downloads() -> List[DataDownload]:
         *partnership_stats.DATA_DOWNLOADS,
         *norent_stats.DATA_DOWNLOADS,
         *evictionfree_stats.DATA_DOWNLOADS,
+        *sandefur_data.DATA_DOWNLOADS,
     ]
 
 
@@ -203,7 +204,7 @@ class QuerysetDataDownload:
     def __init__(
         self,
         get_queryset: Callable[[JustfixUser], QuerySet],
-        extra_docs: Optional[Dict[str, str]] = None,
+        extra_docs: Optional[DataDictDocs] = None,
     ):
         self.get_queryset = get_queryset
         self.extra_docs = extra_docs

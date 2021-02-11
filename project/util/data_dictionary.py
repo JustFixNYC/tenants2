@@ -1,4 +1,4 @@
-from typing import Dict, Optional, Union
+from typing import Dict, List, Optional, Tuple, Union
 from dataclasses import dataclass
 from django.db.models import Field
 from django.db.models.expressions import Col
@@ -7,13 +7,13 @@ from users.models import JustfixUser
 from onboarding.models import NYCADDR_META_HELP
 
 
-DataDictDocs = Dict[Union[str, Field], str]
+DataDictDocs = Dict[Union[str, Field], Union[str, "DataDictionaryEntry"]]
 
 
 # "Hard-coded" documentation for fields that we've inherited from third-party
 # code, or just want to override to make more sense in the context of a
 # data dictionary.
-DATA_DICTIONARY_DOCS: DataDictDocs = {
+DATA_DICTIONARY_DOCS: Dict[Field, str] = {
     JustfixUser._meta.get_field(
         "id"
     ): "The user's unique id. Can be useful in joining with other data sets.",
@@ -28,6 +28,11 @@ DATA_DICTIONARY_DOCS: DataDictDocs = {
 class DataDictionaryEntry:
     help_text: str
     field: Optional[Field] = None
+    choices: Optional[List[Tuple[str, str]]] = None
+
+    def __post_init__(self):
+        if self.choices is None and self.field and hasattr(self.field, "choices"):
+            self.choices = self.field.choices
 
 
 class DataDictionary(Dict[str, DataDictionaryEntry]):
@@ -48,32 +53,47 @@ def get_data_dictionary(queryset, extra_docs: Optional[DataDictDocs] = None) -> 
     result = DataDictionary()
 
     for col in queryset.query.select:
-        result[col.target.name] = DataDictionaryEntry(
-            help_text=get_field_docs(col.target, extra_docs), field=col.target
-        )
+        result[col.target.name] = get_col_docs(col, extra_docs)
 
-    for anno, col in queryset.query.annotations.items():
-        if isinstance(col, Col):
-            result[anno] = DataDictionaryEntry(
-                help_text=get_field_docs(col.target, extra_docs), field=col.target
-            )
-        else:
-            result[anno] = DataDictionaryEntry(help_text=extra_docs.get(anno, ""))
+    for name, value in queryset.query.annotations.items():
+        result[name] = get_anno_docs(name, value, extra_docs)
 
     return result
 
 
-def get_field_docs(field: Field, extra_docs: DataDictDocs) -> str:
+def get_anno_docs(name: str, value, extra_docs: DataDictDocs) -> DataDictionaryEntry:
     """
-    Attempt to get HTML documentation for the given field, prioritizing
-    the passed-in documentation over the field's built-in documentation.
+    Get the documentation for a Django queryset annotation.
     """
 
-    return remove_confusing_language_from_docs(
-        extra_docs.get(field)
-        or extra_docs.get(field.name)
+    if isinstance(value, Col):
+        return get_col_docs(value, extra_docs, field_name=name)
+    docs = extra_docs.get(name, "")
+    if isinstance(docs, DataDictionaryEntry):
+        return docs
+    return DataDictionaryEntry(help_text=docs)
+
+
+def get_col_docs(col: Col, extra_docs: DataDictDocs, field_name: str = "") -> DataDictionaryEntry:
+    """
+    Get the documentation for a Django model field column.
+    """
+
+    field = col.target
+    field_name = field_name or col.target.name
+    docs = extra_docs.get(field, extra_docs.get(field_name, ""))
+
+    if isinstance(docs, DataDictionaryEntry):
+        return docs
+
+    help_text: str = (
+        docs
         or DATA_DICTIONARY_DOCS.get(field)
-        or field.help_text
+        or remove_confusing_language_from_docs(field.help_text)
+    )
+    return DataDictionaryEntry(
+        help_text=help_text,
+        field=field,
     )
 
 

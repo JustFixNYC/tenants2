@@ -22,7 +22,7 @@ export const AdditionalSupportBanner = () => (
           <Trans>Need additional support?</Trans>
         </h2>
         <br />
-        <p className="subtitle is-size-5">
+        <p className="subtitle is-size-4">
           <Trans>
             Call the Housing Court Answers hotline at{" "}
             <OutboundLink
@@ -36,11 +36,11 @@ export const AdditionalSupportBanner = () => (
             .
           </Trans>
         </p>
-        <p className="subtitle is-size-5">
-          <Trans>
-            Hours of operation: Monday to Friday, 9am - 5pm. Available in
-            English and Spanish.
-          </Trans>
+        <p className="subtitle is-size-4">
+          <Trans>Hours of operation: Monday to Friday, 9am - 5pm.</Trans>
+        </p>
+        <p className="subtitle is-size-4">
+          <Trans>Available in English and Spanish.</Trans>
         </p>
       </div>
     </div>

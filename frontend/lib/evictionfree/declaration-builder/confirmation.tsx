@@ -86,10 +86,8 @@ const HcaHotlineBlurb = () => (
       </Trans>
     </p>
     <p>
-      <Trans>
-        Hours of operation: Monday to Friday, 9am - 5pm. Available in English
-        and Spanish.
-      </Trans>
+      <Trans>Hours of operation: Monday to Friday, 9am - 5pm.</Trans>{" "}
+      <Trans>Available in English and Spanish.</Trans>
     </p>
   </>
 );

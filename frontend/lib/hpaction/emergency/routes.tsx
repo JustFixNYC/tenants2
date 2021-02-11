@@ -575,7 +575,15 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
     {
       path: JustfixRoutes.locale.ehp.tenantChildren,
       component: TenantChildren,
-      shouldBeSkipped: isNotSuingForRepairs,
+      /**
+       * We're always skipping this step in the short-term because the
+       * HPD inspection forms changed in such a way that we're not
+       * even using the tenant's response in the forms. Given the
+       * invasiveness of the question, we'll just skip it altogether
+       * for now.
+       */
+      // shouldBeSkipped: isNotSuingForRepairs,
+      shouldBeSkipped: (s) => true,
     },
     {
       path: JustfixRoutes.locale.ehp.accessForInspection,

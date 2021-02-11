@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-02-02 17:44\n"
+"PO-Revision-Date: 2021-02-11 14:17\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2820,7 +2820,7 @@ msgstr "Sí. Sigue estas instrucciones incluso si has enviado una carta al dueñ
 
 #: frontend/lib/norent/letter-email-to-user.tsx:104
 msgid "norent.doIStillHaveToPayMyRentSB91"
-msgstr "En o antes del 6/30/202 debes decidir si pagar el 25% de la renta por cada mes desde septiembre de 2020 a junio de 2021. Eso son 10 meses multiplicados por 25%. Si después de consultar con un abogado, determinas que no quieres estar en el tribunal de desalojo, pague el 25%. Los inquilinos con condiciones graves o que viven en unidades ilegales deben hablar con un abogado antes de decidir si pagar."
+msgstr "En o antes del 6/30/202 debes decidir si pagar el 25% de la renta por cada mes desde septiembre de 2020 a junio de 2021. Eso son 10 meses multiplicados por 25%. Si después de consultar con un abogado, determinas que no quieres estar en el tribunal de desalojo, paga el 25%. Los inquilinos con condiciones graves o que viven en unidades ilegales deben hablar con un abogado antes de decidir si pagar."
 
 #: frontend/lib/norent/components/social-icons.tsx:18
 msgid "norent.emailBodyTemplateForSharingNoRent"

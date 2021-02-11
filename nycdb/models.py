@@ -281,7 +281,11 @@ class NycdbGetter(Generic[T]):
         try:
             result: Optional[T] = None
             if pad_bin:
-                result = self.get_registration(HPDRegistration.objects.filter(bin=int(pad_bin)))
+                result = self.get_registration(
+                    HPDRegistration.objects.filter(
+                        bin=int(pad_bin), registrationenddate__gte=datetime.date.today()
+                    )
+                )
             if result is None:
                 result = self.get_registration(HPDRegistration.objects.from_pad_bbl(pad_bbl))
             return result

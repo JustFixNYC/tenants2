@@ -14,7 +14,6 @@ import {
 import Page from "../../ui/page";
 import { GetStartedButton } from "../../ui/get-started-button";
 import { AppContext } from "../../app-context";
-import { TenantChildren } from "../hp-action-tenant-children";
 import {
   isNotSuingForRepairs,
   isNotSuingForHarassment,
@@ -572,11 +571,18 @@ export const getEmergencyHPActionProgressRoutesProps = (): ProgressRoutesProps =
       component: Issues,
       shouldBeSkipped: isNotSuingForRepairs,
     },
+    /**
+     * We're skipping this step in the short-term because the
+     * HPD inspection forms changed in such a way that we're not
+     * even using the tenant's response in the forms. Given the
+     * invasiveness of the question, we'll just skip it altogether
+     * for now.
     {
       path: JustfixRoutes.locale.ehp.tenantChildren,
       component: TenantChildren,
       shouldBeSkipped: isNotSuingForRepairs,
     },
+    */
     {
       path: JustfixRoutes.locale.ehp.accessForInspection,
       component: EhpAccessForInspection,

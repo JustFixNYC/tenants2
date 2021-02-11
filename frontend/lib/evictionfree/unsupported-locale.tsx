@@ -13,17 +13,17 @@ import Page from "../ui/page";
 import { OutboundLink } from "../ui/outbound-link";
 import classnames from "classnames";
 
-const HJ4A_DECLARATION_FORM_URL =
-  "https://www.housingjusticeforall.org/tenants-declaration-form";
-
 const LocalePage: React.FC<{
   title: string;
   message: string | JSX.Element;
   yes: string;
   no: string;
+  /** URL for external Housing Justice for All tool that the "yes" button links to */
+  url: string;
+  /** Whether the language of the page is right-to-left oriented (i.e. Arabic) */
   isRightToLeft?: boolean;
   locale: EvictionFreeUnsupportedLocaleChoice;
-}> = ({ title, message, yes, no, isRightToLeft, locale }) => (
+}> = ({ title, message, yes, no, url, isRightToLeft, locale }) => (
   <Page title={title} className="content">
     <section className="hero" lang={locale}>
       <div className="hero-body">
@@ -52,7 +52,7 @@ const LocalePage: React.FC<{
               {no}
             </Link>
             <OutboundLink
-              href={HJ4A_DECLARATION_FORM_URL}
+              href={url}
               className="button jf-is-next-button is-primary is-medium"
             >
               {yes}
@@ -73,6 +73,7 @@ const LOCALE_PAGES: {
       message="Pour remplir le formulaire de déclaration de difficultés en français, vous pouvez utiliser un autre site Web créé par Housing Justice for All. Souhaitez-vous y être redirigé?"
       yes="Oui"
       no="Non"
+      url="https://form.123formbuilder.com/5812941"
       locale="fr"
     />
   ),
@@ -82,6 +83,7 @@ const LOCALE_PAGES: {
       message="Pou ranpli fòm deklarasyon difikilte a an kreyòl ayisyen, ou ka itilize yon zouti diferan ki fèt pa Lojman Jistis pou tout moun. Èske ou ta renmen reyorante resous la?"
       yes="Wi"
       no="Non"
+      url="https://form.123formbuilder.com/5812798"
       locale="ht"
     />
   ),
@@ -91,6 +93,7 @@ const LOCALE_PAGES: {
       message="Aby wypełnić formularz oświadczenia o trudnej sytuacji w języku polskim, możesz skorzystać z innego narzędzia stworzonego przez Housing Justice for All. Czy chciałbyś zostać tam przekierowany?"
       yes="Tak"
       no="Nie"
+      url="https://form.123formbuilder.com/5812814"
       locale="pl"
     />
   ),
@@ -100,6 +103,7 @@ const LOCALE_PAGES: {
       message="Чтобы заполнить форму декларации о нуждах на русском языке, вы можете использовать другой инструмент, созданный Housing Justice for All. Хотите, чтобы вас перенаправили туда?"
       yes="да"
       no="Нет"
+      url="https://form.123formbuilder.com/5812849"
       locale="ru"
     />
   ),
@@ -121,6 +125,7 @@ const LOCALE_PAGES: {
       }
       yes="نعم"
       no="لا"
+      url="https://form.123formbuilder.com/5812916"
       locale="ar"
     />
   ),
@@ -130,6 +135,7 @@ const LOCALE_PAGES: {
       message="नेपालीमा कठिनाइ घोषणा फारम भर्न, तपाई हाउजिंग जस्टिस फर अलका लागि बनेको फरक उपकरण प्रयोग गर्न सक्नुहुनेछ। के तपाइँ त्यहाँ पुनःनिर्देशित हुन चाहानुहुन्छ?"
       yes="हो"
       no="होईन"
+      url="https://form.123formbuilder.com/5812826"
       locale="ne"
     />
   ),
@@ -139,6 +145,7 @@ const LOCALE_PAGES: {
       message="বেংলায় কষ্টের ঘোষণার ফর্মটি পূরণ করতে, আপনি সবার জন্য আবাসন জাস্টিসের তৈরি একটি আলাদা সরঞ্জাম ব্যবহার করতে পারেন। আপনি কি সেখানে পুনঃনির্দেশিত হতে চান?"
       yes="হ্যাঁ"
       no="না"
+      url="https://form.123formbuilder.com/5812935"
       locale="bn"
     />
   ),
@@ -148,6 +155,7 @@ const LOCALE_PAGES: {
       message="要用中文填寫艱苦生活宣言表，您可以使用“Housing Justice for All”提供的其他工具。您要重定向到那裡嗎？"
       yes="是"
       no="不要"
+      url="https://form.123formbuilder.com/5812843"
       locale="zh"
     />
   ),
@@ -157,6 +165,7 @@ const LOCALE_PAGES: {
       message="이 온라인 Hardship Declaration Form을 (Covid로 인한 경제적 어려움을 겪는 입주민들위한 법원에 보내는 진정서) 작성하시려면 Housing Justice for All 에서 제공하는 다른 웹사이트를 사용해주시길 바랍니다. 해당 사이트로 바로 이동하시겠습니까?"
       yes="예"
       no="아니요"
+      url="https://form.123formbuilder.com/5812857"
       locale="ko"
     />
   ),

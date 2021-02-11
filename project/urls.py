@@ -46,6 +46,7 @@ urlpatterns = [
     path("mailchimp/", include("mailchimp.urls")),
     path("p/", include("partnerships.urls")),
     re_path(r"^en-(?:US|us)\/.*$", redirect_en_us),
+    re_path(r"^unsupported-locale\/.*$", frontend.views.react_rendered_view),
 ]
 
 if settings.DEBUG:

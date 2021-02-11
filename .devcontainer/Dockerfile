@@ -19,6 +19,11 @@ ARG USERNAME=justfix
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
+# Urg, it looks like Yarn has changed its public key since the last
+# time we updated tenants2_base, so let's re-fetch its public key
+# to make sure the next apt-get update works.
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+
 # Create the user
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \

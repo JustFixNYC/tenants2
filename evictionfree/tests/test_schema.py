@@ -272,7 +272,7 @@ class TestEvictionFreeSubmitDeclaration:
 
         user_mail = mailoutbox[2]
         assert user_mail.to == ["boop@jones.net"]
-        assert "Congratulations" in user_mail.body
+        assert "PDF of your form" in user_mail.body
 
 
 class TestHardshipDeclarationVariables:

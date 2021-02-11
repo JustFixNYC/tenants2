@@ -13,6 +13,7 @@ import { createHtmlEmailStaticPageRoutes } from "../static-page/routes";
 import { EvictionFreeDeclarationEmailToUserStaticPage } from "./declaration-email-to-user";
 import { EvictionFreeDeclarationEmailToHousingCourtStaticPage } from "./declaration-email-to-housing-court";
 import { EvictionFreeDeclarationEmailToLandlordStaticPage } from "./declaration-email-to-landlord";
+import { createEvictionFreeUnsupportedLocaleRoutes } from "./unsupported-locale";
 
 const LoadableDevRoutes = loadable(
   () => friendlyLoad(import("../dev/routes")),
@@ -64,6 +65,7 @@ export const EvictionFreeRouteComponent: React.FC<RouteComponentProps> = (
         Routes.locale.declarationEmailToHousingCourt,
         EvictionFreeDeclarationEmailToHousingCourtStaticPage
       )}
+      {createEvictionFreeUnsupportedLocaleRoutes()}
       <Route component={NotFound} />
     </Switch>
   );

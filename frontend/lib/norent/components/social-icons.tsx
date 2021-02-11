@@ -1,7 +1,7 @@
 import React from "react";
 import { StaticImage } from "../../ui/static-image";
 import { getNorentImageSrc } from "../homepage";
-import { OutboundLink } from "../../analytics/google-analytics";
+import { OutboundLink } from "../../ui/outbound-link";
 import { getGlobalAppServerInfo } from "../../app-context";
 import { li18n } from "../../i18n-lingui";
 import { t } from "@lingui/macro";

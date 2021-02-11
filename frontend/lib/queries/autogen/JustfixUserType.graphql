@@ -7,10 +7,10 @@ fragment JustfixUserType on JustfixUserType {
   phoneNumber,
   onboardingInfo { ...OnboardingInfo },
   letterRequest {
-    updatedAt,
     mailChoice,
     trackingNumber,
-    letterSentAt
+    letterSentAt,
+    updatedAt
   },
   adminUrl,
   rapidproGroups

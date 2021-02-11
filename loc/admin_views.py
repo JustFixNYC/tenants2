@@ -3,12 +3,42 @@ from django.template.response import TemplateResponse
 from django.utils import timezone
 from django.urls import path, reverse
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django import forms
+from django.contrib import messages
 from django.core import signing
+from django.contrib.admin.models import LogEntry, CHANGE, DELETION
+from django.contrib.contenttypes.models import ContentType
 
 from users.models import CHANGE_LETTER_REQUEST_PERMISSION
 import airtable.sync
 from project import slack
 from . import models, views, lob_api
+
+
+MAX_NOTES_LEN = 1000
+
+
+class ArchiveLetterForm(forms.Form):
+    notes = forms.CharField(
+        label="Additional notes (optional)",
+        required=False,
+        widget=forms.Textarea,
+        max_length=MAX_NOTES_LEN,
+    )
+
+
+class RejectLetterForm(forms.Form):
+    rejection_reason = forms.ChoiceField(
+        choices=[("", "(Please choose a reason)")] + models.LOC_REJECTION_CHOICES.choices
+    )
+
+    notes = forms.CharField(
+        label="Additional notes (optional)",
+        required=False,
+        widget=forms.Textarea,
+        max_length=MAX_NOTES_LEN,
+    )
 
 
 def get_ll_addr_details_url(landlord_details: models.LandlordDetails) -> str:
@@ -26,6 +56,16 @@ class LocAdminViews:
                 "lob/<int:letterid>/",
                 self.view_with_perm(self.mail_via_lob, CHANGE_LETTER_REQUEST_PERMISSION),
                 name="mail-via-lob",
+            ),
+            path(
+                "reject/<int:letterid>/",
+                self.view_with_perm(self.reject_letter, CHANGE_LETTER_REQUEST_PERMISSION),
+                name="reject-letter",
+            ),
+            path(
+                "archive/<int:letterid>/",
+                self.view_with_perm(self.archive_letter, CHANGE_LETTER_REQUEST_PERMISSION),
+                name="archive-letter",
             ),
         ]
 
@@ -75,6 +115,16 @@ class LocAdminViews:
 
         return {"signed_verifications": signing.dumps(verifications), **verifications}
 
+    def _log_letter_action(self, request, letter, message: str, action: int):
+        LogEntry.objects.log_action(
+            user_id=request.user.id,
+            content_type_id=ContentType.objects.get_for_model(models.LetterRequest).pk,
+            object_id=letter.pk,
+            object_repr=str(letter),
+            action_flag=action,
+            change_message=message,
+        )
+
     def _create_letter(self, request, letter, verifications):
         user = letter.user
         pdf_file = views.render_finished_loc_pdf_for_user(request, user).file_to_stream
@@ -102,14 +152,10 @@ class LocAdminViews:
         lob_nomail_reason = get_lob_nomail_reason(letter)
         is_post = request.method == "POST"
         ctx = {
-            **self.site.each_context(request),
+            **self.base_letter_context(request, letter),
             "title": "Mail letter of complaint via Lob",
-            "user": user,
-            "letter": letter,
             "lob_nomail_reason": lob_nomail_reason,
             "is_post": is_post,
-            "pdf_url": user.letter_request.admin_pdf_url,
-            "go_back_href": reverse("admin:loc_locuser_change", args=(user.pk,)),
         }
 
         if not lob_nomail_reason:
@@ -120,6 +166,7 @@ class LocAdminViews:
                 letter.tracking_number = response["tracking_number"]
                 letter.letter_sent_at = timezone.now()
                 letter.save()
+                self._log_letter_action(request, letter, "Mailed the letter via Lob.", CHANGE)
                 airtable.sync.sync_user(user)
                 slack.sendmsg_async(
                     f"{slack.escape(request.user.first_name)} has sent "
@@ -138,3 +185,72 @@ class LocAdminViews:
                 )
 
         return TemplateResponse(request, "loc/admin/lob.html", ctx)
+
+    def base_letter_context(self, request, letter):
+        user = letter.user
+        return {
+            **self.site.each_context(request),
+            "user": user,
+            "letter": letter,
+            "go_back_href": reverse("admin:loc_locuser_change", args=(user.pk,)),
+            "pdf_url": user.letter_request.admin_pdf_url,
+        }
+
+    def reject_letter(self, request, letterid):
+        from .admin import get_reason_for_not_rejecting_or_mailing
+
+        letter = get_object_or_404(models.LetterRequest, pk=letterid)
+        noreject_reason = get_reason_for_not_rejecting_or_mailing(letter)
+
+        ctx = {
+            **self.base_letter_context(request, letter),
+            "noreject_reason": noreject_reason,
+            "title": "Reject letter",
+        }
+
+        if not noreject_reason:
+            if request.method == "POST":
+                form = RejectLetterForm(data=request.POST)
+                if form.is_valid():
+                    letter.rejection_reason = form.cleaned_data["rejection_reason"]
+                    letter.archive(notes=form.cleaned_data["notes"])
+                    self._log_letter_action(request, letter, "Rejected the letter.", DELETION)
+                    messages.success(
+                        request, "The user's letter request was rejected successfully."
+                    )
+                    return HttpResponseRedirect(ctx["go_back_href"])
+                else:
+                    messages.error(
+                        request, "There was an error in your form submission!  See below."
+                    )
+            else:
+                form = RejectLetterForm()
+            ctx["form"] = form
+
+        return TemplateResponse(request, "loc/admin/reject_letter.html", ctx)
+
+    def archive_letter(self, request, letterid):
+        letter = get_object_or_404(models.LetterRequest, pk=letterid)
+
+        ctx = {
+            **self.base_letter_context(request, letter),
+            "title": "Archive letter",
+        }
+
+        # Note that if the letter request exists, it's able to be archived;
+        # we don't need to perform any additional checks.
+
+        if request.method == "POST":
+            form = ArchiveLetterForm(data=request.POST)
+            if form.is_valid():
+                letter.archive(notes=form.cleaned_data["notes"])
+                self._log_letter_action(request, letter, "Archived the letter.", DELETION)
+                messages.success(request, "The user's letter request was archived successfully.")
+                return HttpResponseRedirect(ctx["go_back_href"])
+            else:
+                messages.error(request, "There was an error in your form submission!  See below.")
+        else:
+            form = ArchiveLetterForm()
+        ctx["form"] = form
+
+        return TemplateResponse(request, "loc/admin/archive_letter.html", ctx)

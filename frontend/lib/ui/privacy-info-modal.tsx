@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Modal, BackOrUpOneDirLevel } from "./modal";
-import { OutboundLink } from "../analytics/google-analytics";
+import { OutboundLink } from "./outbound-link";
 import { Link } from "react-router-dom";
 import { SiteChoice } from "../../../common-data/site-choices";
 import { AppContext } from "../app-context";

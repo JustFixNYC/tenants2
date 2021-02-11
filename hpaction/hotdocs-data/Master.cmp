@@ -131,6 +131,10 @@ First, you have to complete this sentence: «.b»“My case is good and worthwhi
 			<hd:prompt>Zip</hd:prompt>
 			<hd:fieldWidth widthType="calculated"/>
 		</hd:text>
+		<hd:text name="Tenant child age TE">
+			<hd:prompt>If you don&apos;t know the child&apos;s birth date, you can enter an age here instead: (for example, &quot;3 weeks&quot;, &quot;5 months&quot;, &quot;2&quot;)</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
+		</hd:text>
 		<hd:text name="Tenant child name TE">
 			<hd:title>Child&apos;s full name</hd:title>
 			<hd:prompt>Child&apos;s full name</hd:prompt>
@@ -157,6 +161,10 @@ First, you have to complete this sentence: «.b»“My case is good and worthwhi
 		</hd:text>
 		<hd:text name="Tenant property owned TE">
 			<hd:prompt>List any major property that you own, like a car or a valuable item, and the value of that property. (You can list several items in the same answer.)</hd:prompt>
+		</hd:text>
+		<hd:text name="Tenant youngest child under 6 name TE">
+			<hd:prompt>What is the name of the youngest child under 6 who lives in the apartment or routinely spends more than 10 hours here?</hd:prompt>
+			<hd:fieldWidth widthType="calculated"/>
 		</hd:text>
 		<hd:number name="Inspection request copy number NU">
 			<hd:prompt>not asked</hd:prompt>
@@ -219,7 +227,7 @@ First, you have to complete this sentence: «.b»“My case is good and worthwhi
 			<hd:prompt>Rent</hd:prompt>
 		</hd:number>
 		<hd:date name="Tenant child DOB">
-			<hd:title>Birth date (month/date/year)</hd:title>
+			<hd:defFormat>6/3/1990</hd:defFormat>
 			<hd:prompt>Birth date (month/date/year)</hd:prompt>
 			<hd:fieldWidth widthType="calculated"/>
 		</hd:date>
@@ -648,10 +656,21 @@ The landlord, or someone acting on the landlord’s behalf, has:</hd:prompt>
 			</hd:options>
 			<hd:singleSelection style="dropDownList"/>
 		</hd:multipleChoice>
+		<hd:multipleChoice name="Tenant children under six status MC">
+			<hd:prompt>Does a child under six live here or routinely spend more than 10 hours a week in the apartment where the problem is?</hd:prompt>
+			<hd:options>
+				<hd:option name="lives here">
+					<hd:prompt>Yes. At least one child under six lives in the apartment.</hd:prompt>
+				</hd:option>
+				<hd:option name="spends time">
+					<hd:prompt>Yes. At least one child under six (who does not live in the apartment) spends more than 10 hours a week in the apartment.</hd:prompt>
+				</hd:option>
+				<hd:option name="no">
+					<hd:prompt>No.</hd:prompt>
+				</hd:option>
+			</hd:options>
+		</hd:multipleChoice>
 		<hd:multipleChoice name="Tenant repairs allegations MC" warnIfUnanswered="false">
-			<hd:annotation>In accordance with the Directive of the Department of Housing Preservation and Development of February 11, 1977, and because the above listed conditions constitute an emergency or a danger to the life, health and safety of the tenant(s), I request that prior notification to the Department of Housing Preservation and Development be waived.
-
-(deleted option)</hd:annotation>
 			<hd:prompt>Have you made a complaint to the City’s Department of Housing Preservation and Development (HPD)? «.i» It is not required, but check the box if you have.)«.ie»  To find out whether HPD issued a Notice of Violation, go to HPD&apos;s website: «.w &quot;http://www1.nyc.gov/site/hpd/about/hpdonline.page&quot;»HPDONLINE«.we».  If you do not know how to answer this question, you can skip it.</hd:prompt>
 			<hd:options>
 				<hd:option name="Notice issued">
@@ -659,6 +678,9 @@ The landlord, or someone acting on the landlord’s behalf, has:</hd:prompt>
 				</hd:option>
 				<hd:option name="No notice issued">
 					<hd:prompt>I filed a complaint with HPD. More than 30 days have passed since then. HPD has not issued a Notice of Violation.</hd:prompt>
+				</hd:option>
+				<hd:option name="Waive">
+					<hd:prompt>In accordance with the Directive of the Department of Housing Preservation and Development of February 11, 1977, and because the above listed conditions constitute an emergency or a danger to the life, health and safety of the tenant(s), I request that prior notification to the Department of Housing Preservation and Development be waived.</hd:prompt>
 				</hd:option>
 			</hd:options>
 		</hd:multipleChoice>
@@ -934,6 +956,9 @@ END IF
 //ASK Service Information for HPD
 </hd:script>
 		</hd:computation>
+		<hd:computation name="Insert inspection request addendum CO" resultType="trueFalse">
+			<hd:script>VALUE(Sue for repairs TF) AND COUNT(Tenant Complaints) &gt; 10 AND NOT VALUE(Problem is urgent TF)</hd:script>
+		</hd:computation>
 		<hd:computation name="Insert inspection requestion additional page CO" resultType="text">
 			<hd:script>IF COUNT(Tenant Complaints) &gt; (20 * Inspection request copy number NU)
 	INCREMENT Inspection request copy number NU
@@ -1027,7 +1052,7 @@ ELSE
 &quot;     1.	  Go back to the «HP clerk location 2 CO» and give the Clerk what you have.
      2.	  The Clerk will keep some of the copies of the Forms.
      3.	  You will get a copy to keep for your records. Make sure to keep it safe.
-     4.	  The Clerk will give you instructions on how to serve the papers to your landlord«IF Management company to be sued TF» and management company«END IF».
+     4.	  The Clerk will give you instructions on how to serve the papers to your landlord«IF VALUE(Management company to be sued TF)» and management company«END IF».
      5.	  If you got the Fee Waiver, the Clerk will give you instructions on where to send a copy.&quot;
 END IF</hd:script>
 		</hd:computation>
@@ -1042,7 +1067,7 @@ ELSE
 &quot;     1.	  Go back to the «HP clerk location 2 CO» and give the Clerk what you have.
      2.	  The Clerk will keep some of the copies of the Forms.
      3.	  You will get a copy to keep for your records. Make sure to keep it safe.
-     4.	  The Clerk will give you instructions on how to serve the papers to your landlord«IF Management company to be sued TF» and management company«END IF».
+     4.	  The Clerk will give you instructions on how to serve the papers to your landlord«IF VALUE(Management company to be sued TF)» and management company«END IF».
      5.	  If you got the Fee Waiver, the Clerk will give you instructions on where to send a copy.&quot;
 END IF 
 </hd:script>
@@ -1338,6 +1363,13 @@ FIRST(REPLACE(REPLACE(Tenant phone work TE, &quot;(&quot;, &quot;&quot;), &quot;
 LAST(REPLACE(REPLACE(REPLACE(Tenant phone work TE, &quot;(&quot;, &quot;&quot;), &quot; &quot;, &quot;&quot;), &quot;-&quot;, &quot;&quot;), 7)
 FIRST(RESULT, 3) + &quot;-&quot; + LAST(RESULT, 4)</hd:script>
 		</hd:computation>
+		<hd:computation name="Tenant youngest child under six age or DOB CO" resultType="text">
+			<hd:script>IF ANSWERED(Tenant child DOB)
+	&quot;«AGE(Tenant child DOB)», «Tenant child DOB»&quot;
+ELSE
+	VALUE(Tenant child age TE)
+END IF</hd:script>
+		</hd:computation>
 		<hd:dialogElement name="Alert about NYCHA properties DE">
 			<hd:caption>
 «.z +30»«.b»Important«.be»: «.i» If the apartment you are complaining about is in a NYCHA building (NYC public housing), this system will not be helpful.  The process for NYCHA apartments is a little different than for private apartments.  If you are in a NYCHA building, call 718-707-7771.«.ie»«.ze»</hd:caption>
@@ -1381,7 +1413,7 @@ FIRST(RESULT, 3) + &quot;-&quot; + LAST(RESULT, 4)</hd:script>
 			<hd:caption></hd:caption>
 		</hd:dialogElement>
 		<hd:dialogElement name="DE Version">
-			<hd:horizontalDivider caption="07/27/19 Version" justification="center"/>
+			<hd:horizontalDivider caption="02/09/21 Version" justification="center"/>
 		</hd:dialogElement>
 		<hd:dialogElement name="DE Vertical space 100">
 			<hd:verticalSpacing/>
@@ -1672,7 +1704,7 @@ END IF
 			<hd:script>//LIMIT 161
 </hd:script>
 		</hd:dialog>
-		<hd:dialog name="Tenant Information">
+		<hd:dialog name="Tenant Information" linkVariables="false">
 			<hd:title>Tenant Information</hd:title>
 			<hd:contents>
 				<hd:item name="Tenant name first TE"/>
@@ -1687,24 +1719,41 @@ END IF
 				<hd:item name="Tenant borough MC"/>
 				<hd:item name="Tenant phone home TE" onPreviousLine="true"/>
 				<hd:item name="Tenant phone work TE" onPreviousLine="true"/>
-				<hd:item name="Tenant children under 6 NU"/>
-				<hd:item name="DE Children"/>
-				<hd:item name="Tenant Child"/>
-				<hd:item name="TEST"/>
+				<hd:item name="DE Vertical space 100"/>
+				<hd:item name="Tenant children under six status MC"/>
+				<hd:item name="Tenant youngest child under 6 name TE"/>
+				<hd:item name="Tenant child DOB" onPreviousLine="true"/>
+				<hd:item name="Tenant child age TE"/>
 			</hd:contents>
-			<hd:script>//SET user_is_NYCHA_tf TO TRUE
-HIDE TEST
-GRAY DE Children
-GRAY Tenant Child
-DEFAULT Tenant address state MC TO &quot;New York&quot;
+			<hd:script>HIDE Tenant youngest child under 6 name TE
+HIDE Tenant child DOB
+HIDE Tenant child age TE
+IF ANSWERED(Tenant children under six status MC) AND Tenant children under six status MC != &quot;no&quot;
+	SHOW Tenant youngest child under 6 name TE
+	SHOW Tenant child DOB
+	IF NOT ANSWERED(Tenant child DOB)
+		SHOW Tenant child age TE
+	END IF
+END IF
 
-IF VALUE( Tenant children under 6 NU) &gt; 0
-	UNGRAY DE Children
-	UNGRAY Tenant Child
-ELSE IF  NOT ANSWERED(Tenant children under 6 NU) AND NOT VALUE(Flag TF)
-	UNGRAY Tenant Child
-	SET Flag TF TO TRUE
-END IF</hd:script>
+
+
+
+
+
+////SET user_is_NYCHA_tf TO TRUE
+//HIDE TEST
+//GRAY DE Children
+//GRAY Tenant Child
+//DEFAULT Tenant address state MC TO &quot;New York&quot;
+//
+//IF VALUE( Tenant children under 6 NU) &gt; 0
+//	UNGRAY DE Children
+//	UNGRAY Tenant Child
+//ELSE IF  NOT ANSWERED(Tenant children under 6 NU) AND NOT VALUE(Flag TF)
+//	UNGRAY Tenant Child
+//	SET Flag TF TO TRUE
+//END IF</hd:script>
 		</hd:dialog>
 		<hd:dialog name="Welcome">
 			<hd:title>Welcome</hd:title>
@@ -1761,6 +1810,7 @@ HIDE Alert about NYCHA properties DE //no longer true -- system can now be used 
 		<hd:dateFormat name="06/03/90" value="06/03/90"/>
 		<hd:dateFormat name="3 June 1990" value="3 June 1990"/>
 		<hd:dateFormat name="3rd day of June, 1990" value="3rd day of June, 1990"/>
+		<hd:dateFormat name="6/3/1990" value="6/3/1990"/>
 		<hd:dateFormat name="6/3/90" value="6/3/90"/>
 		<hd:dateFormat name="June 3, 1990" value="June 3, 1990"/>
 		<hd:dateFormat name="June 3rd" value="June 3rd"/>
@@ -1772,6 +1822,16 @@ HIDE Alert about NYCHA properties DE //no longer true -- system can now be used 
 		<hd:trueFalseFormat name="true/false" value="true/false"/>
 		<hd:trueFalseFormat name="x/" value="x/"/>
 		<hd:trueFalseFormat name="yes/no" value="yes/no"/>
+		<hd:multipleChoiceFormat name="/ /x">
+			<hd:choice> </hd:choice>
+			<hd:choice> </hd:choice>
+			<hd:choice>x</hd:choice>
+		</hd:multipleChoiceFormat>
+		<hd:multipleChoiceFormat name="/x/">
+			<hd:choice> </hd:choice>
+			<hd:choice>x</hd:choice>
+			<hd:choice> </hd:choice>
+		</hd:multipleChoiceFormat>
 		<hd:multipleChoiceFormat name="1118 Grand Concourse, Bronx, NY 10456/170 East 121">
 			<hd:choice>1118 Grand Concourse, Bronx, NY 10456</hd:choice>
 			<hd:choice>170 East 121st Street, New York, NY 10035</hd:choice>
@@ -1837,6 +1897,16 @@ HIDE Alert about NYCHA properties DE //no longer true -- system can now be used 
 			<hd:choice>WV</hd:choice>
 			<hd:choice>WI</hd:choice>
 			<hd:choice>WY</hd:choice>
+		</hd:multipleChoiceFormat>
+		<hd:multipleChoiceFormat name="x/ /">
+			<hd:choice>x</hd:choice>
+			<hd:choice> </hd:choice>
+			<hd:choice> </hd:choice>
+		</hd:multipleChoiceFormat>
+		<hd:multipleChoiceFormat name="x/x">
+			<hd:choice>x</hd:choice>
+			<hd:choice>x</hd:choice>
+			<hd:choice> </hd:choice>
 		</hd:multipleChoiceFormat>
 		<hd:listFormat name="A, B AND C" value="A, B AND C"/>
 		<hd:listFormat name="A, B and C" value="A, B and C"/>

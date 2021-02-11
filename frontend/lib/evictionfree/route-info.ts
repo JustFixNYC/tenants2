@@ -2,6 +2,42 @@ import { createRoutesForSite, ROUTE_PREFIX } from "../util/route-util";
 import { createDevRouteInfo } from "../dev/route-info";
 import { createEvictionFreeDeclarationBuilderRouteInfo } from "./declaration-builder/route-info";
 import { createHtmlEmailStaticPageRouteInfo } from "../static-page/routes";
+import {
+  EvictionFreeUnsupportedLocaleChoices,
+  EvictionFreeUnsupportedLocaleChoice,
+  isEvictionFreeUnsupportedLocaleChoice,
+} from "../../../common-data/evictionfree-unsupported-locale-choices";
+import { useLocation } from "react-router-dom";
+
+type UnsupportedLocaleRoutes = {
+  [key in EvictionFreeUnsupportedLocaleChoice | "prefix"]: string;
+};
+
+function createUnsupportedLocaleRoutes(prefix: string) {
+  const paths = {
+    [ROUTE_PREFIX]: prefix,
+  } as UnsupportedLocaleRoutes;
+
+  EvictionFreeUnsupportedLocaleChoices.forEach((locale) => {
+    paths[locale] = `${prefix}/${locale}`;
+  });
+
+  return paths;
+}
+
+export function useEvictionFreeUnsupportedLocale(): EvictionFreeUnsupportedLocaleChoice | null {
+  const loc = useLocation().pathname;
+
+  if (loc.startsWith(EvictionFreeRoutes.unsupportedLocale.prefix)) {
+    const parts = loc.split("/");
+    const lastPart = parts[parts.length - 1];
+    if (isEvictionFreeUnsupportedLocaleChoice(lastPart)) {
+      return lastPart;
+    }
+  }
+
+  return null;
+}
 
 function createLocalizedRouteInfo(prefix: string) {
   return {
@@ -53,6 +89,8 @@ export const EvictionFreeRoutes = createRoutesForSite(
      * development-related pages.
      */
     dev: createDevRouteInfo("/dev"),
+
+    unsupportedLocale: createUnsupportedLocaleRoutes(`/unsupported-locale`),
   }
 );
 
@@ -61,8 +99,15 @@ export const getEvictionFreeJumpToTopOfPageRoutes = () => [
   ...getEvictionFreeRoutesForPrimaryPages(),
 ];
 
+export const getEvictionFreeUnsuportedLocaleRoutes = () => {
+  return EvictionFreeUnsupportedLocaleChoices.map(
+    (localeChoice) => EvictionFreeRoutes.unsupportedLocale[localeChoice]
+  );
+};
+
 export const getEvictionFreeRoutesForPrimaryPages = () => [
   EvictionFreeRoutes.locale.home,
   EvictionFreeRoutes.locale.about,
   EvictionFreeRoutes.locale.faqs,
+  ...getEvictionFreeUnsuportedLocaleRoutes(),
 ];

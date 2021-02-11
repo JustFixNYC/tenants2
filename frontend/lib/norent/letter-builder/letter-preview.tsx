@@ -3,7 +3,7 @@ import Page from "../../ui/page";
 import { LetterPreview } from "../../static-page/letter-preview";
 import { NorentRoutes } from "../route-info";
 import { NextButton, ProgressButtonsAsLinks } from "../../ui/buttons";
-import { OutboundLink } from "../../analytics/google-analytics";
+import { OutboundLink } from "../../ui/outbound-link";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { Route, Link, Redirect } from "react-router-dom";
 import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";

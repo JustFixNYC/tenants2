@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro";
 import React from "react";
 import { Link, Route } from "react-router-dom";
-import { OutboundLink } from "../../analytics/google-analytics";
+import { OutboundLink } from "../../ui/outbound-link";
 import { getGlobalAppServerInfo } from "../../app-context";
 import { CheckboxFormField } from "../../forms/form-fields";
 import { LegacyFormSubmitter } from "../../forms/legacy-form-submitter";

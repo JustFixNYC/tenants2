@@ -106,6 +106,8 @@ USE_LAMBDA_HTTP_SERVER = env.USE_LAMBDA_HTTP_SERVER
 
 FACEBOOK_APP_ID = env.FACEBOOK_APP_ID
 
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -148,6 +150,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "project.middleware.CSPHashingMiddleware",
     "project.middleware.hostname_redirect_middleware",
+    "evictionfree.middleware.unsupported_locale_middleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",

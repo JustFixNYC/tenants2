@@ -1,4 +1,5 @@
 from unittest.mock import patch
+import datetime
 from django.db.utils import DatabaseError
 import pytest
 
@@ -128,6 +129,14 @@ class TestGetLandlord:
     def test_it_falls_back_to_pad_bbl_if_pad_bin_fails(self, nycdb):
         tiny = fixtures.load_hpd_registration("tiny-landlord.json")
         boop = get_landlord(tiny.pad_bbl, "999")
+        assert isinstance(boop, Individual)
+
+    def test_it_ignores_expired_pad_bins(self, nycdb):
+        tiny = fixtures.load_hpd_registration("tiny-landlord.json")
+        medium = fixtures.load_hpd_registration("medium-landlord.json")
+        medium.registrationenddate = datetime.date(2000, 1, 1)
+        medium.save()
+        boop = get_landlord(tiny.pad_bbl, medium.pad_bin)
         assert isinstance(boop, Individual)
 
 

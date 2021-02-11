@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-02-11 14:15\n"
+"PO-Revision-Date: 2021-02-11 14:17\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -228,7 +228,7 @@ msgstr "Rellena automáticamente la información del dueño de tu edificio en ba
 #: frontend/lib/evictionfree/about.tsx:31
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:63
 msgid "Available in English and Spanish."
-msgstr "Available in English and Spanish."
+msgstr "Disponible en Inglés y Español."
 
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
@@ -858,7 +858,7 @@ msgstr "Página Principal"
 #: frontend/lib/evictionfree/about.tsx:28
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:62
 msgid "Hours of operation: Monday to Friday, 9am - 5pm."
-msgstr "Hours of operation: Monday to Friday, 9am - 5pm."
+msgstr "Horario: Lunes a Viernes, 9am - 17pm."
 
 #: frontend/lib/rh/routes.tsx:250
 msgid "Housing Court Answers"

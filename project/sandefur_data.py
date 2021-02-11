@@ -1,3 +1,5 @@
+from project.util.data_dictionary import DataDictionaryEntry
+from typing import List, Tuple
 from django.db.models import F, Subquery, OuterRef, Count, Q
 
 from .admin_download_data import DataDownload, queryset_data_download
@@ -11,6 +13,53 @@ from hpaction.models import (
     HP_DOCUSIGN_STATUS_CHOICES,
     DocusignEnvelope,
 )
+
+
+RAPIDPRO_GROUPS_CHOICES: List[Tuple[str, str]] = [
+    (
+        "LOC Got Results",
+        """
+        User's landlord responded to their letter of complaint, and has given action which
+        has resulted in conditions getting better.
+        """,
+    ),
+    (
+        "LOC Has Feedback for JFNYC",
+        """
+        User indicated they want to provide feedback about JustFix.nyc.
+        Note that only users who are in 'LOC Got Results' are asked if they want to provide
+        feedback.
+        """,
+    ),
+    (
+        "LOC Interested in HP Action",
+        """
+        User indicated they are interested in an HP Action.
+        Note that only users who are not in 'LOC Got Results' are asked if they
+        want to pursue an HP action.
+        """,
+    ),
+    (
+        "LOC Retaliation Confirmation",
+        """
+        User indicated that their landlord is retaliating against them for sending
+        the letter of complaint.
+        """,
+    ),
+    (
+        "EHPA Attorney Assignment Pending",
+        """
+        User indicated that an attorney did not yet contact them after they
+        signed their Emergency HP Action.
+        """,
+    ),
+    (
+        "EHPA Attorney Assignment Successful",
+        """
+        User indicated that an attorney contacted them after they signed their Emergency HP Action.
+        """,
+    ),
+]
 
 
 @queryset_data_download
@@ -103,11 +152,14 @@ def execute_rapidpro_groups_query(user):
         "user_id",
         "earliest_known_date",
         "group__name",
-    )
+    ).filter(group__name__in=[value for value, _ in RAPIDPRO_GROUPS_CHOICES])
 
 
 execute_rapidpro_groups_query.extra_docs = {
-    "name": "The name of the RapidPro contact group to which the user belongs",
+    "name": DataDictionaryEntry(
+        help_text="The name of the RapidPro contact group to which the user belongs.",
+        choices=RAPIDPRO_GROUPS_CHOICES,
+    ),
     "earliest_known_date": "The earliest date the user was observed to be in this contact group.",
     "user": "The ID of a user. Can be joined with other datasets.",
 }

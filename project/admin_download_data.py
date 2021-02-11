@@ -17,7 +17,7 @@ from django.contrib.auth.models import AnonymousUser
 from users.models import JustfixUser
 from project.util.streaming_csv import generate_csv_rows, streaming_csv_response
 from project.util.streaming_json import generate_json_rows, streaming_json_response
-from project.util.data_dictionary import DataDictionary, get_data_dictionary
+from project.util.data_dictionary import DataDictDocs, DataDictionary, get_data_dictionary
 
 
 logger = logging.getLogger(__name__)
@@ -204,7 +204,7 @@ class QuerysetDataDownload:
     def __init__(
         self,
         get_queryset: Callable[[JustfixUser], QuerySet],
-        extra_docs: Optional[Dict[str, str]] = None,
+        extra_docs: Optional[DataDictDocs] = None,
     ):
         self.get_queryset = get_queryset
         self.extra_docs = extra_docs

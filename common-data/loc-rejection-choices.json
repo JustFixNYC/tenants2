@@ -1,5 +1,6 @@
 [
   ["INCRIMINATION", "Letter is potentially incriminating"],
+  ["NOT_REPAIR_RELATED", "Issues are not repair-related"],
   ["CHANGED_MIND", "Tenant changed their mind"],
   ["BAD_ADDRESS", "Unintelligible address"],
   ["OTHER", "Other"]

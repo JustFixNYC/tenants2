@@ -290,8 +290,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # The base url for outbound links to Eviction Free NYC.
     EFNYC_ORIGIN: str = "https://www.evictionfreenyc.org"
 
-    # Whether to use the experimental lambda HTTP server.
-    USE_LAMBDA_HTTP_SERVER: bool = False
+    # Whether to use the lambda HTTP server. If false, we'll use a separate
+    # subprocess for each server-side rendering request, otherwise we'll
+    # use a long-lived HTTP server.
+    USE_LAMBDA_HTTP_SERVER: bool = True
 
     # The RapidPro group name and date field key, separated by a comma, that
     # trigger the follow-up campaign for rent history. If empty, this follow-up
@@ -333,7 +335,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # Whether or not the Emergency HP Action (COVID-19) is enabled and
     # prioritized over normal HP Actions. Note that this also requires
     # DocuSign integration to be working properly!
-    ENABLE_EMERGENCY_HP_ACTION: bool = False
+    ENABLE_EMERGENCY_HP_ACTION: bool = True
 
     # Whether or not this deployment represents a "demo site" that is
     # intended for training or review purposes. This controls whether
@@ -404,6 +406,8 @@ class JustfixDevelopmentDefaults(JustfixEnvironment):
     SESSION_COOKIE_SECURE = False
 
     CSRF_COOKIE_SECURE = False
+
+    TWOFACTOR_VERIFY_DURATION = 0
 
 
 class JustfixDebugEnvironment(JustfixDevelopmentDefaults):

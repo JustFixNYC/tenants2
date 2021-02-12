@@ -2,7 +2,6 @@ from typing import Dict, List, NamedTuple, Optional, Union
 from pathlib import Path
 from io import BytesIO
 from PyPDF2.generic import NameObject, NumberObject
-from PyPDF2.pdf import PdfFileReader
 from django.utils.html import escape
 import weasyprint
 import PyPDF2

@@ -32,6 +32,17 @@ def append_to_content_stream(original: ContentStream, added) -> ContentStream:
 
 
 def merge_page(pdf, page_number: int, page2, page2transformation=None, ctm=None, expand=False):
+    """
+    Merge the given page number of the given PDF with another page.
+
+    Note that the first PDF is assumed to be immutable, and its parsed content stream will
+    be cached *indefinitely* to ensure that future renders are extremely fast (at least,
+    as long as the other page, which we never cache, is relatively simple).
+
+    Note that most of this code was taken from `PyPDF2.pdf.PageObject`'s
+    `mergePage()` implementation.
+    """
+
     # First we work on merging the resource dictionaries.  This allows us
     # to find out what symbols in the content streams we might need to
     # rename.

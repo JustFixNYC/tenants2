@@ -1,8 +1,10 @@
 from typing import Any, Dict, Tuple
+from threading import Lock
 from PyPDF2.pdf import PageObject, ContentStream
 from PyPDF2.generic import DictionaryObject, NameObject, ArrayObject
 
 
+_lock = Lock()
 parsed_content_stream_data: Dict[Tuple[str, int], Any] = {}
 
 
@@ -59,10 +61,11 @@ def merge_page(pdf, page_number, page2, page2transformation=None, ctm=None, expa
     )
 
     key = (pdf.stream.name, page_number)
-    if key not in parsed_content_stream_data:
-        originalContent = page1.getContents()
-        assert originalContent is not None
-        parsed_content_stream_data[key] = PageObject._pushPopGS(originalContent, page1.pdf)
+    with _lock:
+        if key not in parsed_content_stream_data:
+            originalContent = page1.getContents()
+            assert originalContent is not None
+            parsed_content_stream_data[key] = PageObject._pushPopGS(originalContent, page1.pdf)
 
     content_stream = parsed_content_stream_data[key]
 

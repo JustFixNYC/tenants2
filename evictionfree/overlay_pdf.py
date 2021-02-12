@@ -6,6 +6,8 @@ from django.utils.html import escape
 import weasyprint
 import PyPDF2
 
+from . import merge_pdf
+
 
 DEFAULT_SIZE = 12
 
@@ -82,7 +84,7 @@ class Document(NamedTuple):
                 page = blank_pdf.getPage(i)
                 if i < overlay_pdf.numPages and not self.pages[i].is_blank():
                     overlay_page = overlay_pdf.getPage(i)
-                    page.mergePage(overlay_page)
+                    page = merge_pdf.merge_page(page, overlay_page)
                 make_page_fields_readonly(page)
                 pdf_writer.addPage(page)
 

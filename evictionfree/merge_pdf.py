@@ -5,7 +5,18 @@ from PyPDF2.generic import DictionaryObject, NameObject, ArrayObject
 
 
 _lock = Lock()
-parsed_content_stream_data: Dict[Tuple[str, int], Any] = {}
+parsed_content_stream_data: Dict[Tuple[str, int], ContentStream] = {}
+
+
+def get_cached_content_stream(pdf, page_number: int) -> ContentStream:
+    key = (pdf.stream.name, page_number)
+    with _lock:
+        if key not in parsed_content_stream_data:
+            page = pdf.getPage(page_number)
+            originalContent = page.getContents()
+            assert originalContent is not None
+            parsed_content_stream_data[key] = PageObject._pushPopGS(originalContent, pdf)
+        return parsed_content_stream_data[key]
 
 
 def make_content_stream(pdf, content) -> ContentStream:
@@ -20,7 +31,7 @@ def append_to_content_stream(original: ContentStream, added) -> ContentStream:
     return result
 
 
-def merge_page(pdf, page_number, page2, page2transformation=None, ctm=None, expand=False):
+def merge_page(pdf, page_number: int, page2, page2transformation=None, ctm=None, expand=False):
     # First we work on merging the resource dictionaries.  This allows us
     # to find out what symbols in the content streams we might need to
     # rename.
@@ -60,14 +71,7 @@ def merge_page(pdf, page_number, page2, page2transformation=None, ctm=None, expa
         )
     )
 
-    key = (pdf.stream.name, page_number)
-    with _lock:
-        if key not in parsed_content_stream_data:
-            originalContent = page1.getContents()
-            assert originalContent is not None
-            parsed_content_stream_data[key] = PageObject._pushPopGS(originalContent, page1.pdf)
-
-    content_stream = parsed_content_stream_data[key]
+    content_stream = get_cached_content_stream(pdf, page_number)
 
     page2Content = page2.getContents()
     if page2Content is not None:

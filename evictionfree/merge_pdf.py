@@ -1,4 +1,4 @@
-from typing import Any, Dict, Tuple
+from typing import Dict, Tuple
 from threading import Lock
 from PyPDF2.pdf import PageObject, ContentStream
 from PyPDF2.generic import DictionaryObject, NameObject, ArrayObject

@@ -1,12 +1,29 @@
+from typing import Any, Dict, Tuple
 from PyPDF2.pdf import PageObject, ContentStream
 from PyPDF2.generic import DictionaryObject, NameObject, ArrayObject
 
 
-def merge_page(page1, page2, page2transformation=None, ctm=None, expand=False):
+parsed_content_stream_data: Dict[Tuple[str, int], Any] = {}
+
+
+def make_content_stream(pdf, content) -> ContentStream:
+    arr = ArrayObject()
+    arr.append(content)
+    return ContentStream(arr, pdf)
+
+
+def append_to_content_stream(original: ContentStream, added) -> ContentStream:
+    result = make_content_stream(original.pdf, added)
+    result.operations = original.operations + result.operations
+    return result
+
+
+def merge_page(pdf, page_number, page2, page2transformation=None, ctm=None, expand=False):
     # First we work on merging the resource dictionaries.  This allows us
     # to find out what symbols in the content streams we might need to
     # rename.
 
+    page1 = pdf.getPage(page_number)
     newResources = DictionaryObject()
     rename = {}
     originalResources = page1["/Resources"].getObject()
@@ -41,11 +58,13 @@ def merge_page(page1, page2, page2transformation=None, ctm=None, expand=False):
         )
     )
 
-    newContentArray = ArrayObject()
+    key = (pdf.stream.name, page_number)
+    if key not in parsed_content_stream_data:
+        originalContent = page1.getContents()
+        assert originalContent is not None
+        parsed_content_stream_data[key] = PageObject._pushPopGS(originalContent, page1.pdf)
 
-    originalContent = page1.getContents()
-    if originalContent is not None:
-        newContentArray.append(PageObject._pushPopGS(originalContent, page1.pdf))
+    content_stream = parsed_content_stream_data[key]
 
     page2Content = page2.getContents()
     if page2Content is not None:
@@ -53,7 +72,7 @@ def merge_page(page1, page2, page2transformation=None, ctm=None, expand=False):
             page2Content = page2transformation(page2Content)
         page2Content = PageObject._contentStreamRename(page2Content, rename, page1.pdf)
         page2Content = PageObject._pushPopGS(page2Content, page1.pdf)
-        newContentArray.append(page2Content)
+        content_stream = append_to_content_stream(content_stream, page2Content)
 
     # if expanding the page to fit a new page, calculate the new media box size
     if expand:
@@ -94,7 +113,7 @@ def merge_page(page1, page2, page2transformation=None, ctm=None, expand=False):
 
     new_page = PageObject.createBlankPage(page1.pdf)
 
-    new_page[NameObject("/Contents")] = ContentStream(newContentArray, page1.pdf)
+    new_page[NameObject("/Contents")] = content_stream
     new_page[NameObject("/Resources")] = newResources
     new_page[NameObject("/Annots")] = newAnnots
 

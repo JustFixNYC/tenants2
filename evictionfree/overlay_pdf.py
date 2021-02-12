@@ -1,7 +1,8 @@
-from typing import List, NamedTuple, Optional, Union
+from typing import Dict, List, NamedTuple, Optional, Union
 from pathlib import Path
 from io import BytesIO
 from PyPDF2.generic import NameObject, NumberObject
+from PyPDF2.pdf import PdfFileReader
 from django.utils.html import escape
 import weasyprint
 import PyPDF2
@@ -61,6 +62,17 @@ class Page(NamedTuple):
         return len(self.items) == 0
 
 
+blank_pdfs: Dict[str, PyPDF2.PdfFileReader] = {}
+
+
+def get_blank_pdf(path: Path) -> PyPDF2.PdfFileReader:
+    p = str(path)
+    if p not in blank_pdfs:
+        f = path.open("rb")
+        blank_pdfs[p] = PyPDF2.PdfFileReader(f)
+    return blank_pdfs[p]
+
+
 class Document(NamedTuple):
     pages: List[Page]
 
@@ -78,19 +90,19 @@ class Document(NamedTuple):
     def overlay_atop(self, pdf: Path) -> BytesIO:
         overlay_pdf = PyPDF2.PdfFileReader(self.render_pdf_bytes())
         pdf_writer = PyPDF2.PdfFileWriter()
-        with pdf.open("rb") as blank_file:
-            blank_pdf = PyPDF2.PdfFileReader(blank_file)
-            for i in range(blank_pdf.numPages):
+        blank_pdf = get_blank_pdf(pdf)
+        for i in range(blank_pdf.numPages):
+            if i < overlay_pdf.numPages and not self.pages[i].is_blank():
+                overlay_page = overlay_pdf.getPage(i)
+                page = merge_pdf.merge_page(blank_pdf, i, overlay_page)
+            else:
                 page = blank_pdf.getPage(i)
-                if i < overlay_pdf.numPages and not self.pages[i].is_blank():
-                    overlay_page = overlay_pdf.getPage(i)
-                    page = merge_pdf.merge_page(page, overlay_page)
-                make_page_fields_readonly(page)
-                pdf_writer.addPage(page)
+            make_page_fields_readonly(page)
+            pdf_writer.addPage(page)
 
-            outfile = BytesIO()
-            pdf_writer.write(outfile)
-            return outfile
+        outfile = BytesIO()
+        pdf_writer.write(outfile)
+        return outfile
 
 
 def make_page_fields_readonly(page):

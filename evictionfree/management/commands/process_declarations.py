@@ -32,7 +32,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         dry_run: bool = options["dry_run"]
 
+        self.stdout.write("Processing hardship declarations that haven't been fully processed.\n")
         for decl in get_decls_to_process():
-            print(f"Processing {decl}.")
+            print(f"Processing {decl} submitted on {decl.created_at}.")
             if not dry_run:
                 send_declaration(decl)
+        self.stdout.write("Done.\n")

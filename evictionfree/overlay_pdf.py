@@ -1,10 +1,13 @@
-from typing import List, NamedTuple, Optional, Union
+from typing import Dict, List, NamedTuple, Optional, Union
+from threading import Lock
 from pathlib import Path
 from io import BytesIO
 from PyPDF2.generic import NameObject, NumberObject
 from django.utils.html import escape
 import weasyprint
 import PyPDF2
+
+from . import merge_pdf
 
 
 DEFAULT_SIZE = 12
@@ -59,6 +62,18 @@ class Page(NamedTuple):
         return len(self.items) == 0
 
 
+_lock = Lock()
+blank_pdfs: Dict[str, PyPDF2.PdfFileReader] = {}
+
+
+def get_blank_pdf(path: Path) -> PyPDF2.PdfFileReader:
+    p = str(path)
+    if p not in blank_pdfs:
+        f = path.open("rb")
+        blank_pdfs[p] = PyPDF2.PdfFileReader(f)
+    return blank_pdfs[p]
+
+
 class Document(NamedTuple):
     pages: List[Page]
 
@@ -74,15 +89,18 @@ class Document(NamedTuple):
         return BytesIO(html.write_pdf(stylesheets=[css]))
 
     def overlay_atop(self, pdf: Path) -> BytesIO:
-        overlay_pdf = PyPDF2.PdfFileReader(self.render_pdf_bytes())
-        pdf_writer = PyPDF2.PdfFileWriter()
-        with pdf.open("rb") as blank_file:
-            blank_pdf = PyPDF2.PdfFileReader(blank_file)
+        # No idea how threadsafe using the same PdfFileReader is, so let's play it
+        # safe...
+        with _lock:
+            overlay_pdf = PyPDF2.PdfFileReader(self.render_pdf_bytes())
+            pdf_writer = PyPDF2.PdfFileWriter()
+            blank_pdf = get_blank_pdf(pdf)
             for i in range(blank_pdf.numPages):
-                page = blank_pdf.getPage(i)
                 if i < overlay_pdf.numPages and not self.pages[i].is_blank():
                     overlay_page = overlay_pdf.getPage(i)
-                    page.mergePage(overlay_page)
+                    page = merge_pdf.merge_page(blank_pdf, i, overlay_page)
+                else:
+                    page = blank_pdf.getPage(i)
                 make_page_fields_readonly(page)
                 pdf_writer.addPage(page)
 

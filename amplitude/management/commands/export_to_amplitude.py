@@ -1,12 +1,15 @@
 import datetime
 from time import sleep
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Optional, Union
 from dataclasses import dataclass, field
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
-from django.utils.timezone import make_aware, utc
+from django.utils.timezone import now, make_aware, utc
 import requests
 
+from project.util.site_util import absolute_reverse
+from onboarding.models import OnboardingInfo
+from amplitude import models
 from project import common_data
 
 
@@ -20,6 +23,8 @@ USER_ID_PREFIX: str = _CONSTS["USER_ID_PREFIX"]
 #
 #     https://developers.amplitude.com/docs/batch-event-upload-api
 IDENTIFY_EVENT = "$identify"
+
+AMP_BATCH_URL = "https://api.amplitude.com/batch"
 
 AMP_RATE_LIMIT_WAIT_SECS = 15
 
@@ -39,7 +44,7 @@ class AmpEvent:
 
     event_type: str
 
-    time: datetime.datetime
+    time: Optional[datetime.datetime] = None
 
     event_properties: Dict[str, Any] = field(default_factory=dict)
 
@@ -88,21 +93,28 @@ class AmpEventUploader:
             self.upload()
 
     def __to_api_event(self, event: AmpEvent) -> Dict[str, Any]:
-        return {
+        result: Dict[str, Any] = {
             "user_id": f"{USER_ID_PREFIX}{event.user_id}",
             "event_type": event.event_type,
-            "insert_id": event.insert_id,
-            "time": unix_time_millis(event.time),
-            "event_properties": to_amp_props(event.event_properties),
             "user_properties": to_amp_props(event.user_properties),
         }
+        if event.time is not None:
+            result["time"] = unix_time_millis(event.time)
+        if event.event_type != IDENTIFY_EVENT:
+            result.update(
+                {
+                    "event_properties": to_amp_props(event.event_properties),
+                    "insert_id": event.insert_id,
+                }
+            )
+        return result
 
     def __send_payload(self, payload: Dict[str, Any]):
         if self.dry_run:
             dry_print(self.dry_run, f"Payload: {payload}")
             return
         while True:
-            res = requests.post("https://api.amplitude.com/batch", json=payload)
+            res = requests.post(AMP_BATCH_URL, json=payload)
             if res.status_code == 429:
                 print(f"Rate limit exceeded, waiting {AMP_RATE_LIMIT_WAIT_SECS}s...")
                 sleep(AMP_RATE_LIMIT_WAIT_SECS)
@@ -143,7 +155,35 @@ class Command(BaseCommand):
         # We need to be very careful here that we don't conflict with any of
         # the user properties sent by the front-end code!  See amplitude.ts for
         # more details.
-        pass
+        sync, _ = models.Sync.objects.get_or_create(
+            kind=models.SYNC_CHOICES.USERS, defaults={"last_synced_at": EPOCH}
+        )
+        update_time = now()
+        qs = OnboardingInfo.objects.filter(updated_at__gte=sync.last_synced_at).values(
+            "can_we_sms",
+            "can_rtc_sms",
+            "can_hj4a_sms",
+            "user__email",
+            "user__id",
+        )
+        for item in qs:
+            uid: int = item["user__id"]
+            uploader.queue(
+                AmpEvent(
+                    user_id=uid,
+                    event_type=IDENTIFY_EVENT,
+                    user_properties={
+                        "canWeSms": item["can_we_sms"],
+                        "canRtcSms": item["can_rtc_sms"],
+                        "canHj4aSms": item["can_hj4a_sms"],
+                        "hasEmail": bool(item["user__email"]),
+                        "adminUrl": absolute_reverse("admin:users_justfixuser_change", args=(uid,)),
+                    },
+                )
+            )
+
+        sync.last_synced_at = update_time
+        sync.save()
 
     def update_efny_events(self, uploader: AmpEventUploader):
         # TODO: Finish this.

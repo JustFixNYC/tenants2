@@ -13,7 +13,13 @@ import i18n from "../i18n";
 import JustfixRoutes from "../justfix-route-info";
 import { NorentRoutes } from "../norent/route-info";
 import { EvictionFreeRoutes } from "../evictionfree/route-info";
+import { USER_ID_PREFIX } from "../../../common-data/amplitude.json";
 
+/**
+ * We need to be very careful here that we don't conflict with any of
+ * the user properties sent by the back-end code!  See the
+ * `amplitude` Django app for more details.
+ */
 export type JustfixAmplitudeUserProperties = {
   city: string;
   state: USStateChoice;
@@ -118,7 +124,7 @@ export function updateAmplitudeUserPropertiesOnSessionChange(
 export function trackLoginInAmplitude(s: AllSessionInfo) {
   // This will make it easier to distinguish our user IDs from
   // Amplitude ones, which are just really large numbers.
-  const userId = `justfix:${s.userId}`;
+  const userId = `${USER_ID_PREFIX}${s.userId}`;
   getAmplitude()?.setUserId(userId);
   getAmplitude()?.setUserProperties(getUserPropertiesFromSession(s));
 }

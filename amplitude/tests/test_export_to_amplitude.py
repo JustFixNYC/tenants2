@@ -18,8 +18,6 @@ def test_it_works(db, settings, requests_mock):
     payload = mock.last_request.json()
     assert payload["api_key"] == "blop"
     assert len(payload["events"]) == 1
-
-    # TODO: This is stupidly verbose
     assert payload["events"][0] == {
         "event_type": "$identify",
         "user_id": f"justfix:{uid}",

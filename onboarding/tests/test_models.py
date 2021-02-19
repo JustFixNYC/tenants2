@@ -133,7 +133,12 @@ class TestAddrMetadataLookup:
         return self.mkinfo()
 
     def mkinfo_with_metadata(self):
-        return self.mkinfo(zipcode="11231", pad_bbl="2002920026", pad_bin="1000000")
+        return self.mkinfo(
+            zipcode="11231",
+            pad_bbl="2002920026",
+            pad_bin="1000000",
+            geometry={"type": "Point", "coordinates": [-73.993, 40.6889]},
+        )
 
     def test_no_lookup_when_full_address_is_empty(self):
         assert OnboardingInfo().maybe_lookup_new_addr_metadata() is False
@@ -171,6 +176,7 @@ class TestAddrMetadataLookup:
         assert info.zipcode == ""
         assert info.pad_bbl == ""
         assert info.pad_bin == ""
+        assert info.geometry is None
 
         # Because geocoding failed, we should always try looking up
         # new metadata, in case geocoding works next time.
@@ -200,3 +206,4 @@ class TestAddrMetadataLookup:
         assert info.zipcode == "11201"
         assert info.pad_bbl == "3002920026"
         assert info.pad_bin == "3003069"
+        assert info.geometry == {"type": "Point", "coordinates": [-73.993, 40.6889]}

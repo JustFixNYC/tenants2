@@ -1,6 +1,7 @@
 from typing import List, Dict
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.postgres.fields import JSONField
 
 from project.common_data import Choices
 from project import geocoding
@@ -64,7 +65,9 @@ class OnboardingInfo(models.Model):
 
         # This keeps track of fields that comprise metadata about our address,
         # which can be determined from the fields comprising our address.
-        self.__nycaddr_meta = InstanceChangeTracker(self, ["zipcode", "pad_bbl", "pad_bin"])
+        self.__nycaddr_meta = InstanceChangeTracker(
+            self, ["zipcode", "geometry", "pad_bbl", "pad_bin"]
+        )
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -115,6 +118,12 @@ class OnboardingInfo(models.Model):
         blank=True,
         validators=[ZipCodeValidator()],
         help_text=f"The user's ZIP code. {NYCADDR_META_HELP}",
+    )
+
+    geometry = JSONField(
+        blank=True,
+        null=True,
+        help_text="The GeoJSON point representing the user's address, if available.",
     )
 
     pad_bbl: str = models.CharField(
@@ -313,10 +322,12 @@ class OnboardingInfo(models.Model):
     def lookup_nycaddr_metadata(self):
         features = geocoding.search(self.full_nyc_address)
         if features:
-            props = features[0].properties
+            feature = features[0]
+            props = feature.properties
             self.zipcode = props.postalcode
             self.pad_bbl = props.pad_bbl
             self.pad_bin = props.pad_bin
+            self.geometry = feature.geometry.dict()
         elif self.__nycaddr.has_changed():
             # If the address has changed, we really don't want the existing
             # metadata to be there, because it will represent information
@@ -324,6 +335,7 @@ class OnboardingInfo(models.Model):
             self.zipcode = ""
             self.pad_bbl = ""
             self.pad_bin = ""
+            self.geometry = None
         self.__nycaddr.set_to_unchanged()
         self.__nycaddr_meta.set_to_unchanged()
 

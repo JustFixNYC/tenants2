@@ -28,28 +28,20 @@ class UserSynchronizer(Synchronizer):
         # more details.
         qs = OnboardingInfo.objects.filter(
             Q(updated_at__gte=last_synced_at) | Q(user__last_login__gte=last_synced_at)
-        ).values(
-            "can_we_sms",
-            "can_rtc_sms",
-            "can_hj4a_sms",
-            "user__email",
-            "user__id",
-            "user__last_login",
-            "user__date_joined",
-        )
-        for item in qs:
-            uid: int = item["user__id"]
+        ).prefetch_related("user")
+        for oi in qs:
+            user = oi.user
             yield AmpEvent(
-                user_id=uid,
+                user_id=user.pk,
                 event_type=IDENTIFY_EVENT,
                 user_properties={
-                    "canWeSms": item["can_we_sms"],
-                    "canRtcSms": item["can_rtc_sms"],
-                    "canHj4aSms": item["can_hj4a_sms"],
-                    "hasEmail": bool(item["user__email"]),
-                    "lastLogin": item["user__last_login"],
-                    "dateJoined": item["user__date_joined"],
-                    "adminUrl": absolute_reverse("admin:users_justfixuser_change", args=(uid,)),
+                    "canWeSms": oi.can_we_sms,
+                    "canRtcSms": oi.can_rtc_sms,
+                    "canHj4aSms": oi.can_hj4a_sms,
+                    "hasEmail": bool(user.email),
+                    "lastLogin": user.last_login,
+                    "dateJoined": user.date_joined,
+                    "adminUrl": absolute_reverse("admin:users_justfixuser_change", args=(user.pk,)),
                 },
             )
 

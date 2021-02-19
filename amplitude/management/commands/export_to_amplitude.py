@@ -17,7 +17,7 @@ class Synchronizer(ABC):
     @classmethod
     @abstractmethod
     def iter_events(cls, last_synced_at: datetime.datetime) -> Iterator[AmpEvent]:
-        pass
+        ...
 
 
 class UserSynchronizer(Synchronizer):

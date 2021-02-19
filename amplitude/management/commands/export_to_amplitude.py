@@ -59,8 +59,8 @@ class EfnySynchronizer(Synchronizer):
                 time=shd.created_at,
                 event_properties={
                     "locale": shd.locale,
-                    "mailedAt": shd.mailed_at,
-                    "emailedAt": shd.emailed_at,
+                    "wasMailed": bool(shd.mailed_at),
+                    "wasEmailed": bool(shd.emailed_at),
                 },
             )
 

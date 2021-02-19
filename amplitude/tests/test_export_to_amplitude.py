@@ -66,9 +66,9 @@ class TestEfnySynchronizer:
         event = events[0]
         assert event.event_type == "Submitted EvictionFree declaration"
         assert event.event_properties == {
-            "emailedAt": None,
+            "wasEmailed": False,
             "locale": "en",
-            "mailedAt": EPOCH,
+            "wasMailed": True,
         }
         assert event.time == shd.created_at
 

@@ -4,7 +4,8 @@ import pytest
 
 from onboarding.tests.factories import OnboardingInfoFactory
 from evictionfree.tests.factories import SubmittedHardshipDeclarationFactory
-from amplitude.management.commands.export_to_amplitude import AMP_BATCH_URL, EPOCH, EfnySynchronizer
+from amplitude.management.commands.export_to_amplitude import EfnySynchronizer
+from amplitude.api import AMP_BATCH_URL, EPOCH
 from amplitude import models
 
 

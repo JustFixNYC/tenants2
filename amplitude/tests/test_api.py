@@ -1,6 +1,8 @@
 from datetime import timedelta
+from unittest.mock import MagicMock
 import pytest
 
+from amplitude import api
 from amplitude.api import (
     AMP_BATCH_URL,
     AmpEvent,
@@ -43,6 +45,33 @@ class TestAmpEventUploader:
             uploader.queue(event)
 
         assert mock.call_count == 0
+
+    def test_it_batches_events(self, requests_mock):
+        mock = requests_mock.post(AMP_BATCH_URL)
+
+        with AmpEventUploader("myapikey", dry_run=False) as uploader:
+            for i in range(AmpEventUploader.BATCH_SIZE):
+                event = AmpEvent(i, "myevent")
+                uploader.queue(event)
+            uploader.queue(event)
+            uploader.queue(event)
+            uploader.queue(event)
+
+        assert mock.call_count == 2
+        assert len(mock.request_history[0].json()["events"]) == AmpEventUploader.BATCH_SIZE
+        assert len(mock.request_history[1].json()["events"]) == 3
+
+    def test_it_retries_on_timeout(self, requests_mock, monkeypatch):
+        sleep = MagicMock()
+        monkeypatch.setattr(api, "sleep", sleep)
+        mock = requests_mock.post(AMP_BATCH_URL, [{"status_code": 429}, {"status_code": 200}])
+
+        with AmpEventUploader("myapikey", dry_run=False) as uploader:
+            uploader.queue(AmpEvent(2, "myevent"))
+
+        sleep.assert_called_once_with(api.AMP_RATE_LIMIT_WAIT_SECS)
+        assert mock.call_count == 2
+        assert mock.request_history[0].json() == mock.request_history[1].json()
 
     def test_it_works_with_identify_events(self, requests_mock):
         mock = requests_mock.post(AMP_BATCH_URL)

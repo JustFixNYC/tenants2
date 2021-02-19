@@ -9,6 +9,18 @@ from amplitude.api import AMP_BATCH_URL, EPOCH
 from amplitude import models
 
 
+def test_it_does_nothing_in_dry_run(db, settings, requests_mock):
+    settings.AMPLITUDE_API_KEY = "blop"
+    OnboardingInfoFactory()
+    mock = requests_mock.post(AMP_BATCH_URL)
+
+    call_command("export_to_amplitude", "--dry-run")
+
+    assert mock.call_count == 0
+    for sync in models.Sync.objects.all():
+        assert sync.last_synced_at == EPOCH
+
+
 def test_it_syncs_user_properties(db, settings, requests_mock):
     settings.AMPLITUDE_API_KEY = "blop"
     onb = OnboardingInfoFactory(can_we_sms=False)

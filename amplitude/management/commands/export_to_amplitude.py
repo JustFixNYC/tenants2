@@ -91,8 +91,9 @@ class Command(BaseCommand):
             for event in synchronizer.iter_events(sync.last_synced_at):
                 uploader.queue(event)
 
-        sync.last_synced_at = update_time
-        sync.save()
+        if not self.dry_run:
+            sync.last_synced_at = update_time
+            sync.save()
 
     def handle(self, *args, **options):
         self.dry_run = options["dry_run"]

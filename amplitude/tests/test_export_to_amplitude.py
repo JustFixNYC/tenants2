@@ -64,7 +64,7 @@ class TestEfnySynchronizer:
         events = list(EfnySynchronizer().iter_events(EPOCH))
         assert len(events) == 1
         event = events[0]
-        assert event.event_type == "Submitted EvictionFree Hardship Declaration"
+        assert event.event_type == "Submitted EvictionFree declaration"
         assert event.event_properties == {
             "emailedAt": None,
             "locale": "en",

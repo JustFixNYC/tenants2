@@ -55,7 +55,7 @@ class EfnySynchronizer(Synchronizer):
         for shd in qs:
             yield AmpEvent(
                 user_id=shd.user.id,
-                event_type="Submitted EvictionFree Hardship Declaration",
+                event_type="Submitted EvictionFree declaration",
                 time=shd.created_at,
                 event_properties={
                     "locale": shd.locale,

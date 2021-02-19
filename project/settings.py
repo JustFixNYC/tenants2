@@ -145,6 +145,7 @@ INSTALLED_APPS = [
     "mailchimp.apps.MailchimpConfig",
     "partnerships.apps.PartnershipsConfig",
     "evictionfree.apps.EvictionfreeConfig",
+    "amplitude.apps.AmplitudeConfig",
 ]
 
 MIDDLEWARE = [

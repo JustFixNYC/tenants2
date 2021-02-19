@@ -100,5 +100,5 @@ class Command(BaseCommand):
         if not settings.AMPLITUDE_API_KEY:
             raise CommandError("AMPLITUDE_API_KEY must be configured.")
         for kind, label in SYNC_CHOICES.choices:
-            print(self.dry_run, f"Synchronizing {label} with Amplitude.")
+            print(f"Synchronizing {label} with Amplitude.")
             self.sync(kind)

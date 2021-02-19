@@ -369,7 +369,7 @@ class OnboardingInfo(models.Model):
         )
         if addrs:
             addr = addrs[0]
-            self.geometry = addr.geometry
+            self.geometry = addr.geometry.dict()
         elif self.__nationaladdr.has_changed():
             self.geometry = None
         self.__nationaladdr.set_to_unchanged()

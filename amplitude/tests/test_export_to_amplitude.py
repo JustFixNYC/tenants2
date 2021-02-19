@@ -69,6 +69,8 @@ class TestEfnySynchronizer:
             "wasEmailed": False,
             "locale": "en",
             "wasMailed": True,
+            "hasFinancialHardship": True,
+            "hasHealthRisk": False,
         }
         assert event.time == shd.created_at
 

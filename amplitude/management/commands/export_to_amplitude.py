@@ -53,6 +53,7 @@ class EfnySynchronizer(Synchronizer):
             updated_at__gte=last_synced_at, fully_processed_at__isnull=False
         ).select_related("user")
         for shd in qs:
+            dv = shd.declaration_variables
             yield AmpEvent(
                 user_id=shd.user.id,
                 event_type="Submitted EvictionFree declaration",
@@ -61,6 +62,8 @@ class EfnySynchronizer(Synchronizer):
                     "locale": shd.locale,
                     "wasMailed": bool(shd.mailed_at),
                     "wasEmailed": bool(shd.emailed_at),
+                    "hasFinancialHardship": dv["has_financial_hardship"],
+                    "hasHealthRisk": dv["has_health_risk"],
                 },
             )
 

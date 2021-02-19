@@ -4,16 +4,10 @@ import pydantic
 import requests
 from django.conf import settings
 
+from project.util.geojson import FeatureGeometry
+
 
 logger = logging.getLogger(__name__)
-
-
-class FeatureGeometry(pydantic.BaseModel):
-    # This is generally "Point".
-    type: str
-
-    # The latitude and longitude.
-    coordinates: List[float]
 
 
 class FeatureProperties(pydantic.BaseModel):

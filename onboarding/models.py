@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import JSONField
 
 from project.common_data import Choices
-from project import geocoding
+from project import geocoding, mapbox
 from project.util.nyc import PAD_BBL_DIGITS, PAD_BIN_DIGITS
 from project.util.instance_change_tracker import InstanceChangeTracker
 from project.util.hyperlink import Hyperlink
@@ -60,14 +60,29 @@ class OnboardingInfo(models.Model):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # This keeps track of the fields that comprise our address.
+        # This keeps track of the fields that comprise our NYC address.
         self.__nycaddr = InstanceChangeTracker(self, ["address", "borough"])
+
+        # This keeps track of fields that comprise metadata about our NYC address,
+        # which can be determined from the fields comprising our address.
+        self.__nycaddr_meta = InstanceChangeTracker(
+            self, ["zipcode", "geometry", "pad_bbl", "pad_bin"]
+        )
 
         # This keeps track of fields that comprise metadata about our address,
         # which can be determined from the fields comprising our address.
         self.__nycaddr_meta = InstanceChangeTracker(
             self, ["zipcode", "geometry", "pad_bbl", "pad_bin"]
         )
+
+        # This keeps track of the fields that comprise our non-NYC address.
+        self.__nationaladdr = InstanceChangeTracker(
+            self, ["address", "non_nyc_city", "state", "zipcode"]
+        )
+
+        # This keeps track of fields that comprise metadata about our non-NYC address,
+        # which can be determined from the fields comprising our address.
+        self.__nationaladdr_meta = InstanceChangeTracker(self, ["geometry"])
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -301,18 +316,20 @@ class OnboardingInfo(models.Model):
             f"{self.created_at.strftime('%A, %B %d %Y')}"
         )
 
-    def __should_lookup_new_addr_metadata(self) -> bool:
-        if self.__nycaddr.are_any_fields_blank():
+    def __should_lookup_new_addr_metadata(
+        self, addr: InstanceChangeTracker, addr_meta: InstanceChangeTracker
+    ) -> bool:
+        if addr.are_any_fields_blank():
             # We can't even look up address metadata without a
             # full address.
             return False
 
-        if self.__nycaddr_meta.are_any_fields_blank():
+        if addr_meta.are_any_fields_blank():
             # We have full address information but no
             # address metadata, so let's look it up!
             return True
 
-        if self.__nycaddr.has_changed() and not self.__nycaddr_meta.has_changed():
+        if addr.has_changed() and not addr_meta.has_changed():
             # The address information has changed but our address
             # metadata has not, so let's look it up again.
             return True
@@ -339,9 +356,31 @@ class OnboardingInfo(models.Model):
         self.__nycaddr.set_to_unchanged()
         self.__nycaddr_meta.set_to_unchanged()
 
+    def lookup_nationaladdr_metadata(self):
+        # Clear out any NYC-specific metadata.
+        self.pad_bbl = ""
+        self.pad_bin = ""
+
+        addrs = mapbox.find_address(
+            address=self.address,
+            city=self.non_nyc_city,
+            state=self.state,
+            zip_code=self.zipcode,
+        )
+        if addrs:
+            addr = addrs[0]
+            self.geometry = addr.geometry
+        elif self.__nationaladdr.has_changed():
+            self.geometry = None
+        self.__nationaladdr.set_to_unchanged()
+        self.__nationaladdr_meta.set_to_unchanged()
+
     def maybe_lookup_new_addr_metadata(self) -> bool:
-        if self.__should_lookup_new_addr_metadata():
+        if self.__should_lookup_new_addr_metadata(self.__nycaddr, self.__nycaddr_meta):
             self.lookup_nycaddr_metadata()
+            return True
+        if self.__should_lookup_new_addr_metadata(self.__nationaladdr, self.__nationaladdr_meta):
+            self.lookup_nationaladdr_metadata()
             return True
         return False
 

@@ -6,6 +6,8 @@ import logging
 from django.conf import settings
 import requests
 
+from project.util.geojson import FeatureGeometry
+
 
 logger = logging.getLogger(__name__)
 
@@ -28,6 +30,7 @@ class MapboxFeature(pydantic.BaseModel):
     address: Optional[str]
     center: Tuple[float, float]
     place_type: List[str]
+    geometry: FeatureGeometry
 
 
 class MapboxResults(pydantic.BaseModel):
@@ -37,6 +40,7 @@ class MapboxResults(pydantic.BaseModel):
 class StreetAddress(NamedTuple):
     address: str
     zip_code: str
+    geometry: FeatureGeometry
 
 
 def mapbox_places_request(query: str, args: Dict[str, str]) -> Optional[MapboxResults]:
@@ -131,7 +135,11 @@ def find_address(
         result_zip_code = get_mapbox_zip_code(result)
         if state_matches and result_zip_code and does_city_match(city, result):
             addrs.append(
-                StreetAddress(address=get_mapbox_street_addr(result), zip_code=result_zip_code)
+                StreetAddress(
+                    address=get_mapbox_street_addr(result),
+                    zip_code=result_zip_code,
+                    geometry=result.geometry,
+                )
             )
     return addrs
 

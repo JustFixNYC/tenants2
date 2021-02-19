@@ -1,4 +1,5 @@
 import json
+from project.util.geojson import FeatureGeometry
 import pytest
 from django.core.management import call_command
 import urllib.parse
@@ -147,7 +148,11 @@ class TestFindAddress:
     def test_it_returns_nonempty_list_when_addresses_match(self, requests_mock):
         mock_brl_results("150 court st, brooklyn, NY 12345", requests_mock)
         assert find_address("150 court st", "brooklyn", "NY", "12345") == [
-            StreetAddress("150 Court Street", "11201"),
+            StreetAddress(
+                "150 Court Street",
+                "11201",
+                FeatureGeometry(type="Point", coordinates=[-73.992972, 40.688772]),
+            ),
         ]
 
 

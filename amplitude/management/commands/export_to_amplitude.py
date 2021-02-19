@@ -51,22 +51,16 @@ class EfnySynchronizer(Synchronizer):
     def iter_events(cls, last_synced_at: datetime.datetime) -> Iterator[AmpEvent]:
         qs = SubmittedHardshipDeclaration.objects.filter(
             updated_at__gte=last_synced_at, fully_processed_at__isnull=False
-        ).values(
-            "user__id",
-            "locale",
-            "mailed_at",
-            "emailed_at",
-            "created_at",
-        )
-        for item in qs:
+        ).select_related("user")
+        for shd in qs:
             yield AmpEvent(
-                user_id=item["user__id"],
+                user_id=shd.user.id,
                 event_type="Submitted EvictionFree Hardship Declaration",
-                time=item["created_at"],
+                time=shd.created_at,
                 event_properties={
-                    "locale": item["locale"],
-                    "mailedAt": item["mailed_at"],
-                    "emailedAt": item["emailed_at"],
+                    "locale": shd.locale,
+                    "mailedAt": shd.mailed_at,
+                    "emailedAt": shd.emailed_at,
                 },
             )
 

@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from django.utils.timezone import now, make_aware, utc
+from django.db.models import Q
 import requests
 
 from project.util.site_util import absolute_reverse
@@ -159,12 +160,16 @@ class Command(BaseCommand):
             kind=models.SYNC_CHOICES.USERS, defaults={"last_synced_at": EPOCH}
         )
         update_time = now()
-        qs = OnboardingInfo.objects.filter(updated_at__gte=sync.last_synced_at).values(
+        qs = OnboardingInfo.objects.filter(
+            Q(updated_at__gte=sync.last_synced_at) | Q(user__last_login__gte=sync.last_synced_at)
+        ).values(
             "can_we_sms",
             "can_rtc_sms",
             "can_hj4a_sms",
             "user__email",
             "user__id",
+            "user__last_login",
+            "user__date_joined",
         )
         for item in qs:
             uid: int = item["user__id"]
@@ -177,6 +182,8 @@ class Command(BaseCommand):
                         "canRtcSms": item["can_rtc_sms"],
                         "canHj4aSms": item["can_hj4a_sms"],
                         "hasEmail": bool(item["user__email"]),
+                        "lastLogin": item["user__last_login"],
+                        "dateJoined": item["user__date_joined"],
                         "adminUrl": absolute_reverse("admin:users_justfixuser_change", args=(uid,)),
                     },
                 )

@@ -3,13 +3,15 @@ from django.utils.timezone import now
 import pytest
 
 from onboarding.tests.factories import OnboardingInfoFactory
-from amplitude.management.commands.export_to_amplitude import AMP_BATCH_URL
+from amplitude.management.commands.export_to_amplitude import AMP_BATCH_URL, EPOCH
 from amplitude import models
 
 
 def test_it_works(db, settings, requests_mock):
     settings.AMPLITUDE_API_KEY = "blop"
     onb = OnboardingInfoFactory(can_we_sms=False)
+    onb.user.date_joined = EPOCH
+    onb.user.save()
     uid = onb.user.pk
     mock = requests_mock.post(AMP_BATCH_URL)
     when = now()
@@ -27,6 +29,8 @@ def test_it_works(db, settings, requests_mock):
             "canRtcSms": False,
             "canWeSms": False,
             "hasEmail": False,
+            "lastLogin": None,
+            "dateJoined": "1970-01-01T00:00:00+00:00",
         },
     }
     s = models.Sync.objects.get(kind=models.SYNC_CHOICES.USERS)

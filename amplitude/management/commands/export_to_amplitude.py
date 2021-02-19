@@ -28,7 +28,7 @@ class UserSynchronizer(Synchronizer):
         # more details.
         qs = OnboardingInfo.objects.filter(
             Q(updated_at__gte=last_synced_at) | Q(user__last_login__gte=last_synced_at)
-        ).prefetch_related("user")
+        ).select_related("user")
         for oi in qs:
             user = oi.user
             yield AmpEvent(

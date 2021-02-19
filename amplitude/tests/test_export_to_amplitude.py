@@ -3,11 +3,12 @@ from django.utils.timezone import now
 import pytest
 
 from onboarding.tests.factories import OnboardingInfoFactory
-from amplitude.management.commands.export_to_amplitude import AMP_BATCH_URL, EPOCH
+from evictionfree.tests.factories import SubmittedHardshipDeclarationFactory
+from amplitude.management.commands.export_to_amplitude import AMP_BATCH_URL, EPOCH, EfnySynchronizer
 from amplitude import models
 
 
-def test_it_works(db, settings, requests_mock):
+def test_it_syncs_user_properties(db, settings, requests_mock):
     settings.AMPLITUDE_API_KEY = "blop"
     onb = OnboardingInfoFactory(can_we_sms=False)
     onb.user.date_joined = EPOCH
@@ -35,6 +36,28 @@ def test_it_works(db, settings, requests_mock):
     }
     s = models.Sync.objects.get(kind=models.SYNC_CHOICES.USERS)
     assert s.last_synced_at >= when
+
+
+class TestEfnySynchronizer:
+    def test_it_only_processes_fully_processed_decls(self, db):
+        SubmittedHardshipDeclarationFactory(fully_processed_at=None)
+        assert len(list(EfnySynchronizer().iter_events(EPOCH))) == 0
+
+    def test_it_works(self, db):
+        shd = SubmittedHardshipDeclarationFactory(
+            fully_processed_at=EPOCH,
+            mailed_at=EPOCH,
+        )
+        events = list(EfnySynchronizer().iter_events(EPOCH))
+        assert len(events) == 1
+        event = events[0]
+        assert event.event_type == "Submitted EvictionFree Hardship Declaration"
+        assert event.event_properties == {
+            "emailedAt": None,
+            "locale": "en",
+            "mailedAt": EPOCH,
+        }
+        assert event.time == shd.created_at
 
 
 def test_it_raises_error_when_amplitude_is_disabled():

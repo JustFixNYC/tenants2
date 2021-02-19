@@ -32,6 +32,11 @@ BRL_RESULTS_JSON = {
 BROOKLYN_RESULTS_JSON = {
     "features": [BROOKLYN_FEATURE_JSON],
 }
+LA_FEATURE_JSON = json.loads((JSON_DIR / "la-city-hall.json").read_text())
+LA_FEATURE = MapboxFeature(**LA_FEATURE_JSON)
+LA_RESULTS_JSON = {
+    "features": [LA_FEATURE_JSON],
+}
 
 
 def mkfeature(base=BROOKLYN_FEATURE_JSON, **kwargs):
@@ -58,6 +63,10 @@ def mock_brooklyn_results(query: str, requests_mock):
 
 def mock_brl_results(query: str, requests_mock):
     mock_places_request(query, BRL_RESULTS_JSON, requests_mock)
+
+
+def mock_la_results(query: str, requests_mock):
+    mock_places_request(query, LA_RESULTS_JSON, requests_mock)
 
 
 def mock_no_results(query: str, requests_mock):

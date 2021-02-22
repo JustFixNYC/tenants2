@@ -7,7 +7,13 @@ class OnboardingInline(admin.StackedInline):
     model = OnboardingInfo
     verbose_name = "Onboarding info"
     verbose_name_plural = verbose_name
-    readonly_fields = ["get_building_links_html"]
+    readonly_fields = [
+        "geocoded_address",
+        "geometry",
+        "pad_bbl",
+        "pad_bin",
+        "get_building_links_html",
+    ]
 
 
 @admin.register(AddressWithoutBoroughDiagnostic)

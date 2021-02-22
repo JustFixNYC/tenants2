@@ -1,4 +1,5 @@
 import json
+from project.util.geojson import FeatureGeometry
 import pytest
 from django.core.management import call_command
 import urllib.parse
@@ -31,6 +32,11 @@ BRL_RESULTS_JSON = {
 BROOKLYN_RESULTS_JSON = {
     "features": [BROOKLYN_FEATURE_JSON],
 }
+LA_FEATURE_JSON = json.loads((JSON_DIR / "la-city-hall.json").read_text())
+LA_FEATURE = MapboxFeature(**LA_FEATURE_JSON)
+LA_RESULTS_JSON = {
+    "features": [LA_FEATURE_JSON],
+}
 
 
 def mkfeature(base=BROOKLYN_FEATURE_JSON, **kwargs):
@@ -57,6 +63,10 @@ def mock_brooklyn_results(query: str, requests_mock):
 
 def mock_brl_results(query: str, requests_mock):
     mock_places_request(query, BRL_RESULTS_JSON, requests_mock)
+
+
+def mock_la_results(query: str, requests_mock):
+    mock_places_request(query, LA_RESULTS_JSON, requests_mock)
 
 
 def mock_no_results(query: str, requests_mock):
@@ -147,7 +157,11 @@ class TestFindAddress:
     def test_it_returns_nonempty_list_when_addresses_match(self, requests_mock):
         mock_brl_results("150 court st, brooklyn, NY 12345", requests_mock)
         assert find_address("150 court st", "brooklyn", "NY", "12345") == [
-            StreetAddress("150 Court Street", "11201"),
+            StreetAddress(
+                "150 Court Street",
+                "11201",
+                FeatureGeometry(type="Point", coordinates=[-73.992972, 40.688772]),
+            ),
         ]
 
 

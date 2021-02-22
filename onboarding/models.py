@@ -1,9 +1,10 @@
 from typing import List, Dict
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.postgres.fields import JSONField
 
 from project.common_data import Choices
-from project import geocoding
+from project import geocoding, mapbox
 from project.util.nyc import PAD_BBL_DIGITS, PAD_BIN_DIGITS
 from project.util.instance_change_tracker import InstanceChangeTracker
 from project.util.hyperlink import Hyperlink
@@ -59,12 +60,23 @@ class OnboardingInfo(models.Model):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # This keeps track of the fields that comprise our address.
+        # This keeps track of the fields that comprise our NYC address.
         self.__nycaddr = InstanceChangeTracker(self, ["address", "borough"])
 
-        # This keeps track of fields that comprise metadata about our address,
+        # This keeps track of fields that comprise metadata about our NYC address,
         # which can be determined from the fields comprising our address.
-        self.__nycaddr_meta = InstanceChangeTracker(self, ["zipcode", "pad_bbl", "pad_bin"])
+        self.__nycaddr_meta = InstanceChangeTracker(
+            self, ["geocoded_address", "zipcode", "geometry", "pad_bbl", "pad_bin"]
+        )
+
+        # This keeps track of the fields that comprise our non-NYC address.
+        self.__nationaladdr = InstanceChangeTracker(
+            self, ["address", "non_nyc_city", "state", "zipcode"]
+        )
+
+        # This keeps track of fields that comprise metadata about our non-NYC address,
+        # which can be determined from the fields comprising our address.
+        self.__nationaladdr_meta = InstanceChangeTracker(self, ["geocoded_address", "geometry"])
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -91,6 +103,18 @@ class OnboardingInfo(models.Model):
         )
     )
 
+    geocoded_address = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text=(
+            "This is the user's definitive street address returned by the geocoder, and "
+            "what the user's latitude, longitude, and other attributes are based from. This "
+            "should not be very different from the address field (if it is, you "
+            "may need to change the address so the geocoder matches to the "
+            "proper location)."
+        ),
+    )
+
     borough = models.CharField(
         **BOROUGH_FIELD_KWARGS,
         blank=True,
@@ -115,6 +139,12 @@ class OnboardingInfo(models.Model):
         blank=True,
         validators=[ZipCodeValidator()],
         help_text=f"The user's ZIP code. {NYCADDR_META_HELP}",
+    )
+
+    geometry = JSONField(
+        blank=True,
+        null=True,
+        help_text="The GeoJSON point representing the user's address, if available.",
     )
 
     pad_bbl: str = models.CharField(
@@ -292,18 +322,20 @@ class OnboardingInfo(models.Model):
             f"{self.created_at.strftime('%A, %B %d %Y')}"
         )
 
-    def __should_lookup_new_addr_metadata(self) -> bool:
-        if self.__nycaddr.are_any_fields_blank():
+    def __should_lookup_new_addr_metadata(
+        self, addr: InstanceChangeTracker, addr_meta: InstanceChangeTracker
+    ) -> bool:
+        if addr.are_any_fields_blank():
             # We can't even look up address metadata without a
             # full address.
             return False
 
-        if self.__nycaddr_meta.are_any_fields_blank():
+        if addr_meta.are_any_fields_blank():
             # We have full address information but no
             # address metadata, so let's look it up!
             return True
 
-        if self.__nycaddr.has_changed() and not self.__nycaddr_meta.has_changed():
+        if addr.has_changed() and not addr_meta.has_changed():
             # The address information has changed but our address
             # metadata has not, so let's look it up again.
             return True
@@ -313,23 +345,55 @@ class OnboardingInfo(models.Model):
     def lookup_nycaddr_metadata(self):
         features = geocoding.search(self.full_nyc_address)
         if features:
-            props = features[0].properties
+            feature = features[0]
+            props = feature.properties
+            self.geocoded_address = f"{props.label} (via NYC GeoSearch)"
             self.zipcode = props.postalcode
             self.pad_bbl = props.pad_bbl
             self.pad_bin = props.pad_bin
+            self.geometry = feature.geometry.dict()
         elif self.__nycaddr.has_changed():
             # If the address has changed, we really don't want the existing
             # metadata to be there, because it will represent information
             # about their old address.
+            self.geocoded_address = ""
             self.zipcode = ""
             self.pad_bbl = ""
             self.pad_bin = ""
+            self.geometry = None
         self.__nycaddr.set_to_unchanged()
         self.__nycaddr_meta.set_to_unchanged()
 
+    def lookup_nationaladdr_metadata(self):
+        # Clear out any NYC-specific metadata.
+        self.pad_bbl = ""
+        self.pad_bin = ""
+
+        city = self.non_nyc_city
+        addrs = mapbox.find_address(
+            address=self.address,
+            city=city,
+            state=self.state,
+            zip_code=self.zipcode,
+        )
+        if addrs:
+            addr = addrs[0]
+            self.geometry = addr.geometry.dict()
+            self.geocoded_address = (
+                f"{addr.address}, {city} {self.state} {self.zipcode} (via Mapbox)"
+            )
+        elif self.__nationaladdr.has_changed():
+            self.geocoded_address = ""
+            self.geometry = None
+        self.__nationaladdr.set_to_unchanged()
+        self.__nationaladdr_meta.set_to_unchanged()
+
     def maybe_lookup_new_addr_metadata(self) -> bool:
-        if self.__should_lookup_new_addr_metadata():
+        if self.__should_lookup_new_addr_metadata(self.__nycaddr, self.__nycaddr_meta):
             self.lookup_nycaddr_metadata()
+            return True
+        if self.__should_lookup_new_addr_metadata(self.__nationaladdr, self.__nationaladdr_meta):
+            self.lookup_nationaladdr_metadata()
             return True
         return False
 

@@ -5,6 +5,7 @@ import pytest
 from users.tests.factories import UserFactory
 from .factories import OnboardingInfoFactory
 from onboarding.models import OnboardingInfo
+from project.tests.test_mapbox import mock_la_results
 from project.tests.test_geocoding import enable_fake_geocoding, EXAMPLE_SEARCH
 
 
@@ -125,7 +126,78 @@ def test_address_lines_for_mailing():
     assert info.address_lines_for_mailing == ["150 Boop Way", "Apartment 2", "Beetville, OH 43210"]
 
 
-class TestAddrMetadataLookup:
+class TestNationalAddrMetadataLookup:
+    def mkinfo(self, **kwargs):
+        return OnboardingInfo(
+            address="200 N Spring St",
+            non_nyc_city="Los Angeles",
+            state="CA",
+            zipcode="90012",
+            **kwargs,
+        )
+
+    def mkinfo_without_metadata(self):
+        return self.mkinfo()
+
+    def mkinfo_with_metadata(self):
+        return self.mkinfo(
+            geocoded_address="123 cool place (via Mapbox)",
+            geometry={"type": "Point", "coordinates": [-118.24317, 34.05405]},
+        )
+
+    def test_no_lookup_when_addr_and_metadata_have_changed(self):
+        info = self.mkinfo_with_metadata()
+        info.address = "120 zzz street"
+        info.geometry = {"type": "Point", "coordinates": [2, 3]}
+        assert info.maybe_lookup_new_addr_metadata() is False
+
+    def test_no_lookup_when_metadata_exists_and_nothing_changed(self):
+        info = self.mkinfo_with_metadata()
+        assert info.maybe_lookup_new_addr_metadata() is False
+
+    def test_lookup_when_addr_is_same_but_metadata_is_empty(self):
+        info = self.mkinfo_without_metadata()
+        assert info.maybe_lookup_new_addr_metadata() is True
+
+    def test_lookup_when_addr_changes_and_geocoding_fails(self):
+        info = self.mkinfo_with_metadata()
+        info.address = "123 blarg place"
+        assert info.maybe_lookup_new_addr_metadata() is True
+        assert info.geocoded_address == ""
+        assert info.geometry is None
+
+        # Because geocoding failed, we should always try looking up
+        # new metadata, in case geocoding works next time.
+        assert info.maybe_lookup_new_addr_metadata() is True
+
+    def test_lookup_when_addr_changes_and_geocoding_works(self, requests_mock, settings):
+        settings.MAPBOX_ACCESS_TOKEN = "blarf"
+        info = self.mkinfo_with_metadata()
+        info.address = "123 main st"
+        mock_la_results("123 main st, Los Angeles, CA 90012", requests_mock)
+
+        assert info.maybe_lookup_new_addr_metadata() is True
+
+        # Make sure we "remember" that our metadata is associated with
+        # our new address, i.e. we don't think we need to look it up again.
+        assert info.maybe_lookup_new_addr_metadata() is False
+
+    def test_lookup_when_non_nyc_city_changes(self):
+        info = self.mkinfo_with_metadata()
+        info.non_nyc_city = "Columbus"
+        assert info.maybe_lookup_new_addr_metadata() is True
+
+    def test_successful_lookup_is_applied_to_model(self, requests_mock, settings):
+        settings.MAPBOX_ACCESS_TOKEN = "blarf"
+        mock_la_results("200 N Spring St, Los Angeles, CA 90012", requests_mock)
+
+        info = self.mkinfo_without_metadata()
+        assert info.maybe_lookup_new_addr_metadata() is True
+        assert info.geocoded_address == "200 North Spring Street, Los Angeles CA 90012 (via Mapbox)"
+        assert info.geometry == {"type": "Point", "coordinates": [-118.24317, 34.05405]}
+
+
+class TestNycAddrMetadataLookup:
     def mkinfo(self, **kwargs):
         return OnboardingInfo(address="150 court street", borough="BROOKLYN", **kwargs)
 
@@ -133,20 +205,16 @@ class TestAddrMetadataLookup:
         return self.mkinfo()
 
     def mkinfo_with_metadata(self):
-        return self.mkinfo(zipcode="11231", pad_bbl="2002920026", pad_bin="1000000")
+        return self.mkinfo(
+            geocoded_address="123 cool place (via NYC GeoSearch)",
+            zipcode="11231",
+            pad_bbl="2002920026",
+            pad_bin="1000000",
+            geometry={"type": "Point", "coordinates": [-73.993, 40.6889]},
+        )
 
     def test_no_lookup_when_full_address_is_empty(self):
         assert OnboardingInfo().maybe_lookup_new_addr_metadata() is False
-
-    def test_no_lookup_when_address_is_non_nyc(self):
-        onb = OnboardingInfo(
-            address="1 Boop Way",
-            non_nyc_city="Beetville",
-            state="OH",
-            zipcode="43215",
-        )
-        assert onb.maybe_lookup_new_addr_metadata() is False
-        assert onb.zipcode == "43215"
 
     def test_no_lookup_when_addr_and_metadata_have_changed(self):
         info = self.mkinfo_with_metadata()
@@ -168,9 +236,11 @@ class TestAddrMetadataLookup:
         info = self.mkinfo_with_metadata()
         info.address = "times square"
         assert info.maybe_lookup_new_addr_metadata() is True
+        assert info.geocoded_address == ""
         assert info.zipcode == ""
         assert info.pad_bbl == ""
         assert info.pad_bin == ""
+        assert info.geometry is None
 
         # Because geocoding failed, we should always try looking up
         # new metadata, in case geocoding works next time.
@@ -197,6 +267,11 @@ class TestAddrMetadataLookup:
         requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
         info = self.mkinfo_without_metadata()
         assert info.maybe_lookup_new_addr_metadata() is True
+        assert (
+            info.geocoded_address
+            == "150 COURT STREET, Brooklyn, New York, NY, USA (via NYC GeoSearch)"
+        )
         assert info.zipcode == "11201"
         assert info.pad_bbl == "3002920026"
         assert info.pad_bin == "3003069"
+        assert info.geometry == {"type": "Point", "coordinates": [-73.993, 40.6889]}

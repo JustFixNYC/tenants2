@@ -66,13 +66,7 @@ class OnboardingInfo(models.Model):
         # This keeps track of fields that comprise metadata about our NYC address,
         # which can be determined from the fields comprising our address.
         self.__nycaddr_meta = InstanceChangeTracker(
-            self, ["zipcode", "geometry", "pad_bbl", "pad_bin"]
-        )
-
-        # This keeps track of fields that comprise metadata about our address,
-        # which can be determined from the fields comprising our address.
-        self.__nycaddr_meta = InstanceChangeTracker(
-            self, ["zipcode", "geometry", "pad_bbl", "pad_bin"]
+            self, ["geocoded_address", "zipcode", "geometry", "pad_bbl", "pad_bin"]
         )
 
         # This keeps track of the fields that comprise our non-NYC address.
@@ -82,7 +76,7 @@ class OnboardingInfo(models.Model):
 
         # This keeps track of fields that comprise metadata about our non-NYC address,
         # which can be determined from the fields comprising our address.
-        self.__nationaladdr_meta = InstanceChangeTracker(self, ["geometry"])
+        self.__nationaladdr_meta = InstanceChangeTracker(self, ["geocoded_address", "geometry"])
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -107,6 +101,18 @@ class OnboardingInfo(models.Model):
         help_text=(
             "Whether we've verified, on the server-side, that the user's " "address is valid."
         )
+    )
+
+    geocoded_address = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text=(
+            "This is the user's definitive street address returned by the geocoder, and "
+            "what the user's latitude, longitude, and other attributes are based from. This "
+            "should not be very different from the address field (if it is, you "
+            "may need to change the address so the geocoder matches to the "
+            "proper location)."
+        ),
     )
 
     borough = models.CharField(
@@ -341,6 +347,7 @@ class OnboardingInfo(models.Model):
         if features:
             feature = features[0]
             props = feature.properties
+            self.geocoded_address = f"{props.label} (via NYC GeoSearch)"
             self.zipcode = props.postalcode
             self.pad_bbl = props.pad_bbl
             self.pad_bin = props.pad_bin
@@ -349,6 +356,7 @@ class OnboardingInfo(models.Model):
             # If the address has changed, we really don't want the existing
             # metadata to be there, because it will represent information
             # about their old address.
+            self.geocoded_address = ""
             self.zipcode = ""
             self.pad_bbl = ""
             self.pad_bin = ""
@@ -361,16 +369,21 @@ class OnboardingInfo(models.Model):
         self.pad_bbl = ""
         self.pad_bin = ""
 
+        city = self.non_nyc_city
         addrs = mapbox.find_address(
             address=self.address,
-            city=self.non_nyc_city,
+            city=city,
             state=self.state,
             zip_code=self.zipcode,
         )
         if addrs:
             addr = addrs[0]
             self.geometry = addr.geometry.dict()
+            self.geocoded_address = (
+                f"{addr.address}, {city} {self.state} {self.zipcode} (via Mapbox)"
+            )
         elif self.__nationaladdr.has_changed():
+            self.geocoded_address = ""
             self.geometry = None
         self.__nationaladdr.set_to_unchanged()
         self.__nationaladdr_meta.set_to_unchanged()

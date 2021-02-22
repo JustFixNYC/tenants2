@@ -140,7 +140,10 @@ class TestNationalAddrMetadataLookup:
         return self.mkinfo()
 
     def mkinfo_with_metadata(self):
-        return self.mkinfo(geometry={"type": "Point", "coordinates": [-118.24317, 34.05405]})
+        return self.mkinfo(
+            geocoded_address="123 cool place (via Mapbox)",
+            geometry={"type": "Point", "coordinates": [-118.24317, 34.05405]},
+        )
 
     def test_no_lookup_when_addr_and_metadata_have_changed(self):
         info = self.mkinfo_with_metadata()
@@ -160,6 +163,7 @@ class TestNationalAddrMetadataLookup:
         info = self.mkinfo_with_metadata()
         info.address = "123 blarg place"
         assert info.maybe_lookup_new_addr_metadata() is True
+        assert info.geocoded_address == ""
         assert info.geometry is None
 
         # Because geocoding failed, we should always try looking up
@@ -189,6 +193,7 @@ class TestNationalAddrMetadataLookup:
 
         info = self.mkinfo_without_metadata()
         assert info.maybe_lookup_new_addr_metadata() is True
+        assert info.geocoded_address == "200 North Spring Street, Los Angeles CA 90012 (via Mapbox)"
         assert info.geometry == {"type": "Point", "coordinates": [-118.24317, 34.05405]}
 
 
@@ -201,6 +206,7 @@ class TestNycAddrMetadataLookup:
 
     def mkinfo_with_metadata(self):
         return self.mkinfo(
+            geocoded_address="123 cool place (via NYC GeoSearch)",
             zipcode="11231",
             pad_bbl="2002920026",
             pad_bin="1000000",
@@ -230,6 +236,7 @@ class TestNycAddrMetadataLookup:
         info = self.mkinfo_with_metadata()
         info.address = "times square"
         assert info.maybe_lookup_new_addr_metadata() is True
+        assert info.geocoded_address == ""
         assert info.zipcode == ""
         assert info.pad_bbl == ""
         assert info.pad_bin == ""
@@ -260,6 +267,10 @@ class TestNycAddrMetadataLookup:
         requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
         info = self.mkinfo_without_metadata()
         assert info.maybe_lookup_new_addr_metadata() is True
+        assert (
+            info.geocoded_address
+            == "150 COURT STREET, Brooklyn, New York, NY, USA (via NYC GeoSearch)"
+        )
         assert info.zipcode == "11201"
         assert info.pad_bbl == "3002920026"
         assert info.pad_bin == "3003069"

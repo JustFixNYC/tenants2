@@ -47,6 +47,15 @@ class UserSynchronizer(Synchronizer):
                     "lastLogin": user.last_login,
                     "dateJoined": user.date_joined,
                     "adminUrl": absolute_reverse("admin:users_justfixuser_change", args=(user.pk,)),
+                    "agreedToJustfixTerms": oi.agreed_to_justfix_terms,
+                    "agreedToNorentTerms": oi.agreed_to_norent_terms,
+                    "agreedToEvictionfreeTerms": oi.agreed_to_evictionfree_terms,
+                    "canReceiveRttcComms": oi.can_receive_rttc_comms,
+                    "canReceiveSajeComms": oi.can_receive_saje_comms,
+                    "receivesPublicAssistance": oi.receives_public_assistance,
+                    "hasCalled311": oi.has_called_311,
+                    "hasAptNumber": bool(oi.apt_number),
+                    "zipcode": oi.zipcode,
                     # These are also synced via the front-end, so we need to
                     # be extra certain they're calculated the same way. See amplitude.ts
                     # for more details.

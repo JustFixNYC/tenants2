@@ -46,7 +46,7 @@ def test_it_syncs_user_properties(db, settings, requests_mock):
         "lastLogin": None,
         "dateJoined": "1970-01-01T00:00:00+00:00",
     }
-    s = models.Sync.objects.get(kind=models.SYNC_CHOICES.USERS)
+    s = models.Sync.objects.get(kind=models.SYNC_CHOICES.USERS_V2)
     assert s.last_synced_at >= when
 
 

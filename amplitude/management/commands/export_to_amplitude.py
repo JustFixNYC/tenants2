@@ -38,6 +38,7 @@ class UserSynchronizer(Synchronizer):
                 # they make, which may not be for a long time (or ever, if they don't
                 # visit us again). So we'll use a 'fake' event instead.
                 event_type="User data updated from server",
+                time=max(filter(None, [oi.updated_at, user.last_login])),
                 user_properties={
                     "canWeSms": oi.can_we_sms,
                     "canRtcSms": oi.can_rtc_sms,
@@ -73,7 +74,7 @@ class EfnySynchronizer(Synchronizer):
 
 
 SYNCHRONIZERS: Dict[str, Synchronizer] = {
-    SYNC_CHOICES.USERS: UserSynchronizer(),
+    SYNC_CHOICES.USERS_V2: UserSynchronizer(),
     SYNC_CHOICES.EVICTIONFREE: EfnySynchronizer(),
 }
 
@@ -107,5 +108,6 @@ class Command(BaseCommand):
         if not settings.AMPLITUDE_API_KEY:
             raise CommandError("AMPLITUDE_API_KEY must be configured.")
         for kind, label in SYNC_CHOICES.choices:
-            print(f"Synchronizing {label} with Amplitude.")
-            self.sync(kind)
+            if "deprecated" not in label:
+                print(f"Synchronizing {label} with Amplitude.")
+                self.sync(kind)

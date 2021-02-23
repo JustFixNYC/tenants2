@@ -23,7 +23,7 @@ class TestHPDRegistration:
     def test_pad_bin_works(self):
         reg = HPDRegistration()
         assert reg.pad_bin == ""
-        reg.bin = 1234567
+        reg.bin = "1234567"
         assert reg.pad_bin == "1234567"
 
 

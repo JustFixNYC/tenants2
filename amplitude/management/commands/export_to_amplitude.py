@@ -9,7 +9,7 @@ from django.db.models import Q
 from project.util.site_util import absolute_reverse
 from onboarding.models import OnboardingInfo
 from amplitude.models import Sync, SYNC_CHOICES
-from amplitude.api import AmpEvent, AmpEventUploader, IDENTIFY_EVENT, EPOCH
+from amplitude.api import AmpEvent, AmpEventUploader, EPOCH
 from evictionfree.models import SubmittedHardshipDeclaration
 
 
@@ -31,9 +31,15 @@ class UserSynchronizer(Synchronizer):
         ).select_related("user")
         for oi in qs:
             user = oi.user
+            update_time: datetime.datetime = max(filter(None, [oi.updated_at, user.last_login]))
             yield AmpEvent(
                 user_id=user.pk,
-                event_type=IDENTIFY_EVENT,
+                # This was originally an "$identify" event, except the problem
+                # with that is that it only changes the user's data on the *next event*
+                # they make, which may not be for a long time (or ever, if they don't
+                # visit us again). So we'll use a 'fake' event instead.
+                event_type="User data updated from server",
+                time=update_time,
                 user_properties={
                     "canWeSms": oi.can_we_sms,
                     "canRtcSms": oi.can_rtc_sms,
@@ -42,7 +48,25 @@ class UserSynchronizer(Synchronizer):
                     "lastLogin": user.last_login,
                     "dateJoined": user.date_joined,
                     "adminUrl": absolute_reverse("admin:users_justfixuser_change", args=(user.pk,)),
+                    "agreedToJustfixTerms": oi.agreed_to_justfix_terms,
+                    "agreedToNorentTerms": oi.agreed_to_norent_terms,
+                    "agreedToEvictionfreeTerms": oi.agreed_to_evictionfree_terms,
+                    "canReceiveRttcComms": oi.can_receive_rttc_comms,
+                    "canReceiveSajeComms": oi.can_receive_saje_comms,
+                    "receivesPublicAssistance": oi.receives_public_assistance,
+                    "hasCalled311": oi.has_called_311,
+                    "hasAptNumber": bool(oi.apt_number),
+                    "zipcode": oi.zipcode,
+                    # These are also synced via the front-end, so we need to
+                    # be extra certain they're calculated the same way. See amplitude.ts
+                    # for more details.
+                    "city": oi.city,
+                    "state": oi.state,
+                    "signupIntent": oi.signup_intent,
+                    "leaseType": oi.lease_type,
+                    "isEmailVerified": user.is_email_verified,
                 },
+                insert_id_suffix=str(update_time),
             )
 
 
@@ -69,7 +93,7 @@ class EfnySynchronizer(Synchronizer):
 
 
 SYNCHRONIZERS: Dict[str, Synchronizer] = {
-    SYNC_CHOICES.USERS: UserSynchronizer(),
+    SYNC_CHOICES.USERS_V2: UserSynchronizer(),
     SYNC_CHOICES.EVICTIONFREE: EfnySynchronizer(),
 }
 
@@ -103,5 +127,6 @@ class Command(BaseCommand):
         if not settings.AMPLITUDE_API_KEY:
             raise CommandError("AMPLITUDE_API_KEY must be configured.")
         for kind, label in SYNC_CHOICES.choices:
-            print(f"Synchronizing {label} with Amplitude.")
-            self.sync(kind)
+            if "deprecated" not in label:
+                print(f"Synchronizing {label} with Amplitude.")
+                self.sync(kind)

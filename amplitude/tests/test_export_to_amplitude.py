@@ -34,18 +34,17 @@ def test_it_syncs_user_properties(db, settings, requests_mock):
     payload = mock.last_request.json()
     assert payload["api_key"] == "blop"
     assert len(payload["events"]) == 1
-    assert payload["events"][0] == {
-        "event_type": "$identify",
-        "user_id": f"justfix:{uid}",
-        "user_properties": {
-            "adminUrl": f"https://example.com/admin/users/justfixuser/{uid}/change/",
-            "canHj4aSms": False,
-            "canRtcSms": False,
-            "canWeSms": False,
-            "hasEmail": False,
-            "lastLogin": None,
-            "dateJoined": "1970-01-01T00:00:00+00:00",
-        },
+    event = payload["events"][0]
+    assert event["event_type"] == "User data updated from server"
+    assert event["user_id"] == f"justfix:{uid}"
+    assert event["user_properties"] == {
+        "adminUrl": f"https://example.com/admin/users/justfixuser/{uid}/change/",
+        "canHj4aSms": False,
+        "canRtcSms": False,
+        "canWeSms": False,
+        "hasEmail": False,
+        "lastLogin": None,
+        "dateJoined": "1970-01-01T00:00:00+00:00",
     }
     s = models.Sync.objects.get(kind=models.SYNC_CHOICES.USERS)
     assert s.last_synced_at >= when

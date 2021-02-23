@@ -9,7 +9,7 @@ from django.db.models import Q
 from project.util.site_util import absolute_reverse
 from onboarding.models import OnboardingInfo
 from amplitude.models import Sync, SYNC_CHOICES
-from amplitude.api import AmpEvent, AmpEventUploader, IDENTIFY_EVENT, EPOCH
+from amplitude.api import AmpEvent, AmpEventUploader, EPOCH
 from evictionfree.models import SubmittedHardshipDeclaration
 
 
@@ -33,7 +33,11 @@ class UserSynchronizer(Synchronizer):
             user = oi.user
             yield AmpEvent(
                 user_id=user.pk,
-                event_type=IDENTIFY_EVENT,
+                # This was originally an "$identify" event, except the problem
+                # with that is that it only changes the user's data on the *next event*
+                # they make, which may not be for a long time (or ever, if they don't
+                # visit us again). So we'll use a 'fake' event instead.
+                event_type="User data updated from server",
                 user_properties={
                     "canWeSms": oi.can_we_sms,
                     "canRtcSms": oi.can_rtc_sms,

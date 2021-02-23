@@ -31,6 +31,7 @@ class UserSynchronizer(Synchronizer):
         ).select_related("user")
         for oi in qs:
             user = oi.user
+            update_time: datetime.datetime = max(filter(None, [oi.updated_at, user.last_login]))
             yield AmpEvent(
                 user_id=user.pk,
                 # This was originally an "$identify" event, except the problem
@@ -38,7 +39,7 @@ class UserSynchronizer(Synchronizer):
                 # they make, which may not be for a long time (or ever, if they don't
                 # visit us again). So we'll use a 'fake' event instead.
                 event_type="User data updated from server",
-                time=max(filter(None, [oi.updated_at, user.last_login])),
+                time=update_time,
                 user_properties={
                     "canWeSms": oi.can_we_sms,
                     "canRtcSms": oi.can_rtc_sms,
@@ -65,6 +66,7 @@ class UserSynchronizer(Synchronizer):
                     "leaseType": oi.lease_type,
                     "isEmailVerified": user.is_email_verified,
                 },
+                insert_id_suffix=str(update_time),
             )
 
 

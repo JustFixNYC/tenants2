@@ -45,6 +45,11 @@ def test_it_syncs_user_properties(db, settings, requests_mock):
         "hasEmail": False,
         "lastLogin": None,
         "dateJoined": "1970-01-01T00:00:00+00:00",
+        "city": "Brooklyn",
+        "isEmailVerified": False,
+        "leaseType": "RENT_STABILIZED",
+        "signupIntent": "LOC",
+        "state": "NY",
     }
     s = models.Sync.objects.get(kind=models.SYNC_CHOICES.USERS_V2)
     assert s.last_synced_at >= when

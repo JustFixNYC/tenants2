@@ -47,6 +47,14 @@ class UserSynchronizer(Synchronizer):
                     "lastLogin": user.last_login,
                     "dateJoined": user.date_joined,
                     "adminUrl": absolute_reverse("admin:users_justfixuser_change", args=(user.pk,)),
+                    # These are also synced via the front-end, so we need to
+                    # be extra certain they're calculated the same way. See amplitude.ts
+                    # for more details.
+                    "city": oi.city,
+                    "state": oi.state,
+                    "signupIntent": oi.signup_intent,
+                    "leaseType": oi.lease_type,
+                    "isEmailVerified": user.is_email_verified,
                 },
             )
 

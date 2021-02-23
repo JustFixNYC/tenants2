@@ -106,7 +106,7 @@ class HPDRegistration(models.Model):
     boroid: int = models.SmallIntegerField()
     block: int = models.SmallIntegerField()
     lot: int = models.SmallIntegerField()
-    bin: int = models.CharField(max_length=7)
+    bin: str = models.CharField(max_length=7)
 
     @property
     def contact_list(self) -> List["HPDContact"]:
@@ -118,7 +118,7 @@ class HPDRegistration(models.Model):
 
     @property
     def pad_bin(self) -> str:
-        return str(self.bin) if self.bin else ""
+        return self.bin
 
     def __str__(self) -> str:
         if self.pad_bin:
@@ -283,7 +283,7 @@ class NycdbGetter(Generic[T]):
             if pad_bin:
                 result = self.get_registration(
                     HPDRegistration.objects.filter(
-                        bin=int(pad_bin), registrationenddate__gte=datetime.date.today()
+                        bin=pad_bin, registrationenddate__gte=datetime.date.today()
                     )
                 )
             if result is None:

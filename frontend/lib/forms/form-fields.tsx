@@ -1,15 +1,11 @@
-import React, {
-  DetailedHTMLProps,
-  HTMLAttributes,
-  useEffect,
-  useRef,
-} from "react";
+import React, { DetailedHTMLProps, HTMLAttributes, useRef } from "react";
 
 import { WithFormFieldErrors, formatErrors } from "./form-errors";
 import { ReactDjangoChoice, ReactDjangoChoices } from "../common-data";
 import { bulmaClasses } from "../ui/bulma";
 import { ariaBool } from "../ui/aria";
 import { SimpleProgressiveEnhancement } from "../ui/progressive-enhancement";
+import { useAutoFocus } from "../ui/use-auto-focus";
 
 /**
  * Base properties that form fields need to have.
@@ -384,21 +380,6 @@ function DateClear(props: TextualFormFieldProps): JSX.Element | null {
   }
 
   return null;
-}
-
-function useAutoFocus(
-  ref: React.RefObject<HTMLElement | null>,
-  shouldAutoFocus?: boolean
-) {
-  useEffect(() => {
-    if (
-      shouldAutoFocus &&
-      ref.current &&
-      document.activeElement !== ref.current
-    ) {
-      ref.current.focus();
-    }
-  }, [shouldAutoFocus, ref]);
 }
 
 /** A JSX component for textual form input. */

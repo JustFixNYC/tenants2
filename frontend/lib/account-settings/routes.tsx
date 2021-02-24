@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { Link, Route, useLocation } from "react-router-dom";
 import { AppContext } from "../app-context";
 import { TextualFormField } from "../forms/form-fields";
@@ -8,6 +8,7 @@ import { li18n } from "../i18n-lingui";
 import { NorentFullNameMutation } from "../queries/NorentFullNameMutation";
 import { bulmaClasses } from "../ui/bulma";
 import Page from "../ui/page";
+import { useAutoFocus } from "../ui/use-auto-focus";
 import { usePrevious } from "../util/use-previous";
 import { AccountSettingsRouteInfo } from "./route-info";
 
@@ -48,11 +49,7 @@ const EditLink: React.FC<{
 }> = ({ to, ariaLabel, autoFocus }) => {
   const ref = useRef<HTMLAnchorElement | null>(null);
 
-  useEffect(() => {
-    if (autoFocus && ref.current) {
-      ref.current.focus();
-    }
-  }, [autoFocus]);
+  useAutoFocus(ref, autoFocus);
 
   return (
     <Link

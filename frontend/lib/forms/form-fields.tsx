@@ -340,6 +340,7 @@ export type TextualInputType =
  */
 export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
   type?: TextualInputType;
+  autoFocus?: boolean;
   label: string;
   renderLabel?: LabelRenderer;
   required?: boolean;
@@ -402,6 +403,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
           type={type}
           value={props.value}
           required={props.required}
+          autoFocus={props.autoFocus}
           onChange={(e) => props.onChange(e.target.value)}
         />
         {type === "date" && <DateClear {...props} />}
@@ -430,6 +432,7 @@ export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
           id={props.id}
           value={props.value}
           maxLength={props.maxLength}
+          autoFocus={props.autoFocus}
           onChange={(e) => props.onChange(e.target.value)}
         />
       </div>

@@ -84,6 +84,7 @@ const NameField: React.FC<{}> = () => {
         {(ctx) => (
           <>
             <TextualFormField
+              autoFocus
               {...ctx.fieldPropsFor("firstName")}
               label={li18n._(t`First name`)}
             />

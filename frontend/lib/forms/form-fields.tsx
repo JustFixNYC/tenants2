@@ -1,4 +1,9 @@
-import React, { DetailedHTMLProps, HTMLAttributes } from "react";
+import React, {
+  DetailedHTMLProps,
+  HTMLAttributes,
+  useEffect,
+  useRef,
+} from "react";
 
 import { WithFormFieldErrors, formatErrors } from "./form-errors";
 import { ReactDjangoChoice, ReactDjangoChoices } from "../common-data";
@@ -381,16 +386,35 @@ function DateClear(props: TextualFormFieldProps): JSX.Element | null {
   return null;
 }
 
+function useAutoFocus(
+  ref: React.RefObject<HTMLElement | null>,
+  shouldAutoFocus?: boolean
+) {
+  useEffect(() => {
+    if (
+      shouldAutoFocus &&
+      ref.current &&
+      document.activeElement !== ref.current
+    ) {
+      ref.current.focus();
+    }
+  }, [shouldAutoFocus, ref]);
+}
+
 /** A JSX component for textual form input. */
 export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
   const type: TextualInputType = props.type || "text";
   let { ariaLabel, errorHelp } = formatErrors(props);
+  const ref = useRef<HTMLInputElement | null>(null);
+
+  useAutoFocus(ref, props.autoFocus);
 
   return (
     <div className="field" {...props.fieldProps}>
       {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
       <div className="control">
         <input
+          ref={ref}
           className={bulmaClasses("input", { "is-danger": !!props.errors })}
           disabled={props.isDisabled}
           aria-invalid={ariaBool(!!props.errors)}
@@ -417,12 +441,16 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
 /** A JSX component that encapsulates a <textarea>. */
 export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
   let { ariaLabel, errorHelp } = formatErrors(props);
+  const ref = useRef<HTMLTextAreaElement | null>(null);
+
+  useAutoFocus(ref, props.autoFocus);
 
   return (
     <div className="field" {...props.fieldProps}>
       {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
       <div className="control">
         <textarea
+          ref={ref}
           className={bulmaClasses("textarea", { "is-danger": !!props.errors })}
           disabled={props.isDisabled}
           aria-invalid={ariaBool(!!props.errors)}

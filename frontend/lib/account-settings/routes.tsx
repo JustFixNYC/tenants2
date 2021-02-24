@@ -57,14 +57,7 @@ export const AccountSettingsRoutes: React.FC<{
             </SessionUpdatingFormSubmitter>
           </Route>
           <Route>
-            <div
-              style={{
-                paddingBottom: "5px",
-                color: "#A9A9A9",
-                borderBottom: "1px solid #EAEAEA",
-                marginBottom: "1rem",
-              }}
-            >
+            <div className="jf-editable-setting">
               {session.firstName} {session.lastName}
             </div>
             <Link to={routes.name} className="button is-primary">

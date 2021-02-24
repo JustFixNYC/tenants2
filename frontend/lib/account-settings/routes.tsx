@@ -10,61 +10,96 @@ import { bulmaClasses } from "../ui/bulma";
 import Page from "../ui/page";
 import { AccountSettingsRouteInfo } from "./route-info";
 
-export const AccountSettingsRoutes: React.FC<{
-  routeInfo: AccountSettingsRouteInfo;
-}> = ({ routeInfo: routes }) => {
+type AccountSettingsContextType = {
+  routes: AccountSettingsRouteInfo;
+};
+
+const AccountSettingsContext = React.createContext<AccountSettingsContextType>({
+  get routes(): AccountSettingsRouteInfo {
+    throw new Error("AccountSettingsContext not set!");
+  },
+});
+
+const SaveCancelButtons: React.FC<{ isLoading: boolean }> = ({ isLoading }) => {
+  const { routes } = useContext(AccountSettingsContext);
+
+  return (
+    <>
+      <button
+        type="submit"
+        className={bulmaClasses("button", "is-primary", {
+          "is-loading": isLoading,
+        })}
+      >
+        Save
+      </button>{" "}
+      <Link to={routes.home} className="button is-light">
+        Cancel
+      </Link>
+    </>
+  );
+};
+
+const EditLink: React.FC<{ to: string }> = ({ to }) => (
+  <Link to={to} className="button is-primary">
+    Edit
+  </Link>
+);
+
+const NameField: React.FC<{}> = () => {
+  const { routes } = useContext(AccountSettingsContext);
   const { session } = useContext(AppContext);
 
   return (
+    <Switch>
+      <Route path={routes.name} exact>
+        <SessionUpdatingFormSubmitter
+          mutation={NorentFullNameMutation}
+          initialState={(s) => ({
+            firstName: s.firstName || "",
+            lastName: s.lastName || "",
+          })}
+          onSuccessRedirect={routes.home}
+        >
+          {(ctx) => (
+            <>
+              <TextualFormField
+                {...ctx.fieldPropsFor("firstName")}
+                label={li18n._(t`First name`)}
+              />
+              <TextualFormField
+                {...ctx.fieldPropsFor("lastName")}
+                label={li18n._(t`Last name`)}
+              />
+              <SaveCancelButtons isLoading={ctx.isLoading} />
+            </>
+          )}
+        </SessionUpdatingFormSubmitter>
+      </Route>
+      <Route>
+        <div className="jf-editable-setting">
+          {session.firstName} {session.lastName}
+        </div>
+        <EditLink to={routes.name} />
+      </Route>
+    </Switch>
+  );
+};
+
+export const AccountSettingsRoutes: React.FC<{
+  routeInfo: AccountSettingsRouteInfo;
+}> = ({ routeInfo: routes }) => {
+  return (
     <Route path={routes.prefix}>
       <Page title="Account settings" withHeading="big" className="content">
-        <h2>About you</h2>
-        <h3>Name</h3>
-        <p>This will be used in letters to your landlord or court documents.</p>
-        <Switch>
-          <Route path={routes.name} exact>
-            <SessionUpdatingFormSubmitter
-              mutation={NorentFullNameMutation}
-              initialState={(s) => ({
-                firstName: s.firstName || "",
-                lastName: s.lastName || "",
-              })}
-              onSuccessRedirect={routes.home}
-            >
-              {(ctx) => (
-                <>
-                  <TextualFormField
-                    {...ctx.fieldPropsFor("firstName")}
-                    label={li18n._(t`First name`)}
-                  />
-                  <TextualFormField
-                    {...ctx.fieldPropsFor("lastName")}
-                    label={li18n._(t`Last name`)}
-                  />
-                  <button
-                    type="submit"
-                    className={bulmaClasses("button", "is-primary", {
-                      "is-loading": ctx.isLoading,
-                    })}
-                  >
-                    Save
-                  </button>{" "}
-                  <Link to={routes.home} className="button is-light">
-                    Cancel
-                  </Link>
-                </>
-              )}
-            </SessionUpdatingFormSubmitter>
-          </Route>
-          <Route>
-            <div className="jf-editable-setting">
-              {session.firstName} {session.lastName}
-            </div>
-            <Link to={routes.name} className="button is-primary">
-              Edit
-            </Link>
-          </Route>
-        </Switch>
+        <AccountSettingsContext.Provider value={{ routes }}>
+          <h2>About you</h2>
+          <h3>Name</h3>
+          <p>
+            This will be used in letters to your landlord or court documents.
+          </p>
+          <NameField />
+        </AccountSettingsContext.Provider>
       </Page>
     </Route>
   );

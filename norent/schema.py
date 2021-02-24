@@ -215,10 +215,40 @@ class NorentScaffoldingMutation(SessionFormMutation):
         return cls.mutation_success()
 
 
+class NorentScaffoldingOrUserDataMutation(SessionFormMutation):
+    class Meta:
+        abstract = True
+
+    @classmethod
+    def perform_mutate_for_authenticated_user(cls, form, info: ResolveInfo):
+        raise NotImplementedError()
+
+    @classmethod
+    def perform_mutate_for_anonymous_user(cls, form, info: ResolveInfo):
+        update_scaffolding(info.context, form.cleaned_data)
+        return cls.mutation_success()
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        user = request.user
+        if user.is_authenticated:
+            return cls.perform_mutate_for_authenticated_user(form, info)
+        return cls.perform_mutate_for_anonymous_user(form, info)
+
+
 @schema_registry.register_mutation
-class NorentFullName(NorentScaffoldingMutation):
+class NorentFullName(NorentScaffoldingOrUserDataMutation):
     class Meta:
         form_class = forms.FullName
+
+    @classmethod
+    def perform_mutate_for_authenticated_user(cls, form, info: ResolveInfo):
+        user = info.context.user
+        user.first_name = form.cleaned_data["first_name"]
+        user.last_name = form.cleaned_data["last_name"]
+        user.save()
+        return cls.mutation_success()
 
 
 @schema_registry.register_mutation
@@ -277,21 +307,16 @@ class NorentNationalAddress(SessionFormMutation):
         return cls.mutation_success(is_valid=is_valid)
 
 
-class BaseNorentEmail(SessionFormMutation):
+class BaseNorentEmail(NorentScaffoldingOrUserDataMutation):
     class Meta:
         abstract = True
 
     @classmethod
-    def perform_mutate(cls, form, info: ResolveInfo):
-        request = info.context
-        user = request.user
-        if user.is_authenticated:
-            user.email = form.cleaned_data["email"]
-            user.is_email_verified = False
-            user.save()
-        else:
-            update_scaffolding(request, form.cleaned_data)
-
+    def perform_mutate_for_authenticated_user(cls, form, info: ResolveInfo):
+        user = info.context.user
+        user.email = form.cleaned_data["email"]
+        user.is_email_verified = False
+        user.save()
         return cls.mutation_success()
 
 
@@ -550,7 +575,7 @@ class NorentSetUpcomingLetterRentPeriods(SessionFormMutation):
         return cls.mutation_success()
 
 
-class NorentOptInToComms(SessionFormMutation):
+class NorentOptInToComms(NorentScaffoldingOrUserDataMutation):
     """
     Abstract base class to make it easy to opt-in to
     communications from a partner organization.
@@ -570,17 +595,22 @@ class NorentOptInToComms(SessionFormMutation):
     comms_field_name = ""
 
     @classmethod
-    def perform_mutate(cls, form, info: ResolveInfo):
+    def get_opt_in(cls, form) -> bool:
         assert cls.comms_field_name
+        return form.cleaned_data["opt_in"]
+
+    @classmethod
+    def perform_mutate_for_authenticated_user(cls, form, info: ResolveInfo):
         request = info.context
         user = request.user
-        opt_in: bool = form.cleaned_data["opt_in"]
-        if user.is_authenticated:
-            oi = request.user.onboarding_info
-            setattr(oi, cls.comms_field_name, opt_in)
-            oi.save()
-        else:
-            update_scaffolding(request, {cls.comms_field_name: opt_in})
+        oi = user.onboarding_info
+        setattr(oi, cls.comms_field_name, cls.get_opt_in(form))
+        oi.save()
+        return cls.mutation_success()
+
+    @classmethod
+    def perform_mutate_for_anonymous_user(cls, form, info: ResolveInfo):
+        update_scaffolding(info.context, {cls.comms_field_name: cls.get_opt_in(form)})
         return cls.mutation_success()
 
 

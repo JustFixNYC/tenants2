@@ -13,6 +13,7 @@ import { getOnboardingRouteForIntent } from "./onboarding/signup-intent";
 import HelpPage from "./pages/help-page";
 import { createRedirectWithSearch } from "./util/redirect-util";
 import { PLRoute, toPLRoute } from "./pages/redirect-to-english-page";
+import { AccountSettingsRoutes } from "./account-settings/routes";
 
 const LoadableDataDrivenOnboardingPage = loadable(
   () => friendlyLoad(import("./data-driven-onboarding/data-driven-onboarding")),
@@ -154,6 +155,14 @@ export const JustfixRouteComponent: React.FC<RouteComponentProps> = (props) => {
           component={LoadableEmergencyHPActionRoutes}
         />
       )}
+      <Route
+        path={JustfixRoutes.locale.accountSettings.prefix}
+        render={() => (
+          <AccountSettingsRoutes
+            routeInfo={JustfixRoutes.locale.accountSettings}
+          />
+        )}
+      />
       <Route
         path={JustfixRoutes.locale.rh.prefix}
         component={LoadableRentalHistoryRoutes}

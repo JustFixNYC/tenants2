@@ -13,6 +13,7 @@ import { createHPActionRouteInfo } from "./hpaction/route-info";
 import { createRentalHistoryRouteInfo } from "./rh/route-info";
 import { createPasswordResetRouteInfo } from "./password-reset/route-info";
 import { createEmergencyHPActionRouteInfo } from "./hpaction/emergency/route-info";
+import { createAccountSettingsRouteInfo } from "./account-settings/route-info";
 
 /**
  * Querystring argument for specifying the URL to redirect the
@@ -86,6 +87,9 @@ function createLocalizedRouteInfo(prefix: string) {
 
     /** The logout page. */
     logout: `${prefix}/logout`,
+
+    /** The account settings page. */
+    accountSettings: createAccountSettingsRouteInfo(`${prefix}/account`),
 
     /** The home page. */
     home: `${prefix}/`,

@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
-import React, { useContext } from "react";
-import { Link, Route, Switch } from "react-router-dom";
+import React, { useContext, useEffect, useRef } from "react";
+import { Link, Route, useLocation } from "react-router-dom";
 import { AppContext } from "../app-context";
 import { TextualFormField } from "../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
@@ -8,6 +8,7 @@ import { li18n } from "../i18n-lingui";
 import { NorentFullNameMutation } from "../queries/NorentFullNameMutation";
 import { bulmaClasses } from "../ui/bulma";
 import Page from "../ui/page";
+import { usePrevious } from "../util/use-previous";
 import { AccountSettingsRouteInfo } from "./route-info";
 
 type AccountSettingsContextType = {
@@ -40,27 +41,44 @@ const SaveCancelButtons: React.FC<{ isLoading: boolean }> = ({ isLoading }) => {
   );
 };
 
-const EditLink: React.FC<{ to: string }> = ({ to }) => (
-  <Link to={to} className="button is-primary">
-    Edit
-  </Link>
-);
+const EditLink: React.FC<{ to: string; autoFocus?: boolean }> = ({
+  to,
+  autoFocus,
+}) => {
+  const ref = useRef<HTMLAnchorElement | null>(null);
+
+  useEffect(() => {
+    if (autoFocus && ref.current) {
+      ref.current.focus();
+    }
+  }, [autoFocus]);
+
+  return (
+    <Link to={to} className="button is-primary" ref={ref}>
+      Edit
+    </Link>
+  );
+};
 
 const EditableInfo: React.FC<{
   path: string;
   readonlyContent: string | JSX.Element;
   children: any;
 }> = (props) => {
-  return (
-    <Switch>
-      <Route path={props.path} exact>
-        {props.children}
-      </Route>
-      <Route>
-        <div className="jf-editable-setting">{props.readonlyContent}</div>
-        <EditLink to={props.path} />
-      </Route>
-    </Switch>
+  const { pathname } = useLocation();
+  const prevPathname = usePrevious(pathname);
+  let autoFocusEditLink =
+    pathname !== prevPathname &&
+    prevPathname === props.path &&
+    props.path.startsWith(pathname);
+
+  return pathname === props.path ? (
+    props.children
+  ) : (
+    <>
+      <div className="jf-editable-setting">{props.readonlyContent}</div>
+      <EditLink to={props.path} autoFocus={autoFocusEditLink} />
+    </>
   );
 };
 

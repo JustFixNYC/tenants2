@@ -46,43 +46,56 @@ const EditLink: React.FC<{ to: string }> = ({ to }) => (
   </Link>
 );
 
+const EditableInfo: React.FC<{
+  path: string;
+  readonlyContent: string | JSX.Element;
+  children: any;
+}> = (props) => {
+  return (
+    <Switch>
+      <Route path={props.path} exact>
+        {props.children}
+      </Route>
+      <Route>
+        <div className="jf-editable-setting">{props.readonlyContent}</div>
+        <EditLink to={props.path} />
+      </Route>
+    </Switch>
+  );
+};
+
 const NameField: React.FC<{}> = () => {
   const { routes } = useContext(AccountSettingsContext);
   const { session } = useContext(AppContext);
 
   return (
-    <Switch>
-      <Route path={routes.name} exact>
-        <SessionUpdatingFormSubmitter
-          mutation={NorentFullNameMutation}
-          initialState={(s) => ({
-            firstName: s.firstName || "",
-            lastName: s.lastName || "",
-          })}
-          onSuccessRedirect={routes.home}
-        >
-          {(ctx) => (
-            <>
-              <TextualFormField
-                {...ctx.fieldPropsFor("firstName")}
-                label={li18n._(t`First name`)}
-              />
-              <TextualFormField
-                {...ctx.fieldPropsFor("lastName")}
-                label={li18n._(t`Last name`)}
-              />
-              <SaveCancelButtons isLoading={ctx.isLoading} />
-            </>
-          )}
-        </SessionUpdatingFormSubmitter>
-      </Route>
-      <Route>
-        <div className="jf-editable-setting">
-          {session.firstName} {session.lastName}
-        </div>
-        <EditLink to={routes.name} />
-      </Route>
-    </Switch>
+    <EditableInfo
+      readonlyContent={`${session.firstName} ${session.lastName}`}
+      path={routes.name}
+    >
+      <SessionUpdatingFormSubmitter
+        mutation={NorentFullNameMutation}
+        initialState={(s) => ({
+          firstName: s.firstName || "",
+          lastName: s.lastName || "",
+        })}
+        onSuccessRedirect={routes.home}
+      >
+        {(ctx) => (
+          <>
+            <TextualFormField
+              {...ctx.fieldPropsFor("firstName")}
+              label={li18n._(t`First name`)}
+            />
+            <TextualFormField
+              {...ctx.fieldPropsFor("lastName")}
+              label={li18n._(t`Last name`)}
+            />
+            <SaveCancelButtons isLoading={ctx.isLoading} />
+          </>
+        )}
+      </SessionUpdatingFormSubmitter>
+    </EditableInfo>
   );
 };
 

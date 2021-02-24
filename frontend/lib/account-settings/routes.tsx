@@ -41,10 +41,11 @@ const SaveCancelButtons: React.FC<{ isLoading: boolean }> = ({ isLoading }) => {
   );
 };
 
-const EditLink: React.FC<{ to: string; autoFocus?: boolean }> = ({
-  to,
-  autoFocus,
-}) => {
+const EditLink: React.FC<{
+  to: string;
+  ariaLabel: string;
+  autoFocus?: boolean;
+}> = ({ to, ariaLabel, autoFocus }) => {
   const ref = useRef<HTMLAnchorElement | null>(null);
 
   useEffect(() => {
@@ -54,7 +55,12 @@ const EditLink: React.FC<{ to: string; autoFocus?: boolean }> = ({
   }, [autoFocus]);
 
   return (
-    <Link to={to} className="button is-primary" ref={ref}>
+    <Link
+      to={to}
+      className="button is-primary"
+      aria-label={ariaLabel}
+      ref={ref}
+    >
       Edit
     </Link>
   );
@@ -62,6 +68,7 @@ const EditLink: React.FC<{ to: string; autoFocus?: boolean }> = ({
 
 const EditableInfo: React.FC<{
   path: string;
+  name: string;
   readonlyContent: string | JSX.Element;
   children: any;
 }> = (props) => {
@@ -77,7 +84,11 @@ const EditableInfo: React.FC<{
   ) : (
     <>
       <div className="jf-editable-setting">{props.readonlyContent}</div>
-      <EditLink to={props.path} autoFocus={autoFocusEditLink} />
+      <EditLink
+        to={props.path}
+        autoFocus={autoFocusEditLink}
+        ariaLabel={`Edit ${props.name}`}
+      />
     </>
   );
 };
@@ -85,36 +96,42 @@ const EditableInfo: React.FC<{
 const NameField: React.FC<{}> = () => {
   const { routes } = useContext(AccountSettingsContext);
   const { session } = useContext(AppContext);
+  const sectionName = "Name";
 
   return (
-    <EditableInfo
-      readonlyContent={`${session.firstName} ${session.lastName}`}
-      path={routes.name}
-    >
-      <SessionUpdatingFormSubmitter
-        mutation={NorentFullNameMutation}
-        initialState={(s) => ({
-          firstName: s.firstName || "",
-          lastName: s.lastName || "",
-        })}
-        onSuccessRedirect={routes.home}
+    <>
+      <h3>{sectionName}</h3>
+      <p>This will be used in letters to your landlord or court documents.</p>
+      <EditableInfo
+        name={sectionName}
+        readonlyContent={`${session.firstName} ${session.lastName}`}
+        path={routes.name}
       >
-        {(ctx) => (
-          <>
-            <TextualFormField
-              autoFocus
-              {...ctx.fieldPropsFor("firstName")}
-              label={li18n._(t`First name`)}
-            />
-            <TextualFormField
-              {...ctx.fieldPropsFor("lastName")}
-              label={li18n._(t`Last name`)}
-            />
-            <SaveCancelButtons isLoading={ctx.isLoading} />
-          </>
-        )}
-      </SessionUpdatingFormSubmitter>
-    </EditableInfo>
+        <SessionUpdatingFormSubmitter
+          mutation={NorentFullNameMutation}
+          initialState={(s) => ({
+            firstName: s.firstName || "",
+            lastName: s.lastName || "",
+          })}
+          onSuccessRedirect={routes.home}
+        >
+          {(ctx) => (
+            <>
+              <TextualFormField
+                autoFocus
+                {...ctx.fieldPropsFor("firstName")}
+                label={li18n._(t`First name`)}
+              />
+              <TextualFormField
+                {...ctx.fieldPropsFor("lastName")}
+                label={li18n._(t`Last name`)}
+              />
+              <SaveCancelButtons isLoading={ctx.isLoading} />
+            </>
+          )}
+        </SessionUpdatingFormSubmitter>
+      </EditableInfo>
+    </>
   );
 };
 
@@ -126,10 +143,6 @@ export const AccountSettingsRoutes: React.FC<{
       <Page title="Account settings" withHeading="big" className="content">
         <AccountSettingsContext.Provider value={{ routes }}>
           <h2>About you</h2>
-          <h3>Name</h3>
-          <p>
-            This will be used in letters to your landlord or court documents.
-          </p>
           <NameField />
         </AccountSettingsContext.Provider>
       </Page>

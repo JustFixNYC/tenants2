@@ -107,7 +107,7 @@ export const NorentLetterTranslation: React.FC<{}> = () => {
   );
 };
 
-export const NorentLetterEmailToLandlord: React.FC<NorentLetterContentProps> = (
+export const NorentLetterEmailToLandlord: React.FC<BaseLetterContentProps> = (
   props
 ) => (
   <>
@@ -193,7 +193,7 @@ const LetterBodyCalifornia: React.FC<NorentLetterContentProps> = (props) => {
 
 export const NorentLetterEmailToLandlordForUser: React.FC<{}> = () => (
   <TransformSession
-    transformer={getNorentLetterContentPropsFromSession}
+    transformer={getBaseLetterContentPropsFromSession}
     children={(lcProps) => <NorentLetterEmailToLandlord {...lcProps} />}
   />
 );

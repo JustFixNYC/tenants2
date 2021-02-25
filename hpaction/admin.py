@@ -92,6 +92,8 @@ class HPActionDocumentsAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
 
     readonly_fields = ["edit_user"]
 
+    autocomplete_fields = ["user"]
+
     def user_full_name(self, obj):
         if obj.user:
             return obj.user.full_name

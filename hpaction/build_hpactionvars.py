@@ -327,6 +327,7 @@ def reduce_number_of_lines(value: str, max_lines: int, line_length: int) -> str:
 
     import textwrap
 
+    value = value.replace("\r", "")
     lines = value.split("\n")
     wrapped_lines: List[str] = []
     for line in lines:

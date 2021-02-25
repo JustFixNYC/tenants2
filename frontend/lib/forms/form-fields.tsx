@@ -1,10 +1,11 @@
-import React, { DetailedHTMLProps, HTMLAttributes } from "react";
+import React, { DetailedHTMLProps, HTMLAttributes, useRef } from "react";
 
 import { WithFormFieldErrors, formatErrors } from "./form-errors";
 import { ReactDjangoChoice, ReactDjangoChoices } from "../common-data";
 import { bulmaClasses } from "../ui/bulma";
 import { ariaBool } from "../ui/aria";
 import { SimpleProgressiveEnhancement } from "../ui/progressive-enhancement";
+import { useAutoFocus } from "../ui/use-auto-focus";
 
 /**
  * Base properties that form fields need to have.
@@ -340,6 +341,7 @@ export type TextualInputType =
  */
 export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
   type?: TextualInputType;
+  autoFocus?: boolean;
   label: string;
   renderLabel?: LabelRenderer;
   required?: boolean;
@@ -384,12 +386,16 @@ function DateClear(props: TextualFormFieldProps): JSX.Element | null {
 export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
   const type: TextualInputType = props.type || "text";
   let { ariaLabel, errorHelp } = formatErrors(props);
+  const ref = useRef<HTMLInputElement | null>(null);
+
+  useAutoFocus(ref, props.autoFocus);
 
   return (
     <div className="field" {...props.fieldProps}>
       {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
       <div className="control">
         <input
+          ref={ref}
           className={bulmaClasses("input", { "is-danger": !!props.errors })}
           disabled={props.isDisabled}
           aria-invalid={ariaBool(!!props.errors)}
@@ -402,6 +408,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
           type={type}
           value={props.value}
           required={props.required}
+          autoFocus={props.autoFocus}
           onChange={(e) => props.onChange(e.target.value)}
         />
         {type === "date" && <DateClear {...props} />}
@@ -415,12 +422,16 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
 /** A JSX component that encapsulates a <textarea>. */
 export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
   let { ariaLabel, errorHelp } = formatErrors(props);
+  const ref = useRef<HTMLTextAreaElement | null>(null);
+
+  useAutoFocus(ref, props.autoFocus);
 
   return (
     <div className="field" {...props.fieldProps}>
       {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
       <div className="control">
         <textarea
+          ref={ref}
           className={bulmaClasses("textarea", { "is-danger": !!props.errors })}
           disabled={props.isDisabled}
           aria-invalid={ariaBool(!!props.errors)}
@@ -430,6 +441,7 @@ export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
           id={props.id}
           value={props.value}
           maxLength={props.maxLength}
+          autoFocus={props.autoFocus}
           onChange={(e) => props.onChange(e.target.value)}
         />
       </div>

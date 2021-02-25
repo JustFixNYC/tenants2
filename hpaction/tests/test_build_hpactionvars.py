@@ -48,6 +48,9 @@ class TestReduceNumberOfLines:
     def test_it_removes_lines_if_wrapped_lines_are_greater_than_limit(self):
         assert reduce_number_of_lines("a beep bop boop\nb\nc", 3, 10) == "a beep bop boop / b / c"
 
+    def test_it_removes_carriage_returns(self):
+        assert reduce_number_of_lines("a\r\nb\r\nc", 3, 10) == "a\nb\nc"
+
 
 def test_justfix_issue_to_hp_room_works():
     assert justfix_issue_area_to_hp_room("HOME") is hp.WhichRoomMC.ALL_ROOMS

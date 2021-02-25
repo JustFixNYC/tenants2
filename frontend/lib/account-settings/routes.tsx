@@ -9,6 +9,7 @@ import { NorentFullNameMutation } from "../queries/NorentFullNameMutation";
 import { bulmaClasses } from "../ui/bulma";
 import { EditableInfo } from "../ui/editable-info";
 import Page from "../ui/page";
+import { RequireLogin } from "../util/require-login";
 import { AccountSettingsRouteInfo } from "./route-info";
 
 type AccountSettingsContextType = {
@@ -88,12 +89,14 @@ export const AccountSettingsRoutes: React.FC<{
 }> = ({ routeInfo: routes }) => {
   return (
     <Route path={routes.prefix}>
-      <Page title="Account settings" withHeading="big" className="content">
-        <AccountSettingsContext.Provider value={{ routes }}>
-          <h2>About you</h2>
-          <NameField />
-        </AccountSettingsContext.Provider>
-      </Page>
+      <RequireLogin>
+        <Page title="Account settings" withHeading="big" className="content">
+          <AccountSettingsContext.Provider value={{ routes }}>
+            <h2>About you</h2>
+            <NameField />
+          </AccountSettingsContext.Provider>
+        </Page>
+      </RequireLogin>
     </Route>
   );
 };

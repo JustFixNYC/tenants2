@@ -244,6 +244,9 @@ def send_letter(letter: models.Letter):
         is_safe=True,
     )
 
+    letter.fully_processed_at = timezone.now()
+    letter.save()
+
 
 def create_and_send_letter(user: JustfixUser, rps: List[models.RentPeriod]):
     """

@@ -145,6 +145,12 @@ class Letter(models.Model):
         null=True, blank=True, help_text="When the letter was e-mailed."
     )
 
+    fully_processed_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When the letter was fully processed, i.e. sent to all relevant parties.",
+    )
+
     @property
     def latest_rent_period(self) -> Optional["RentPeriod"]:
         rps = self.rent_periods.order_by("-payment_date")

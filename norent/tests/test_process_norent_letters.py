@@ -31,5 +31,5 @@ def test_it_processes_slightly_old_unprocessed_letters(db, fake_send_letter):
 def test_it_ignores_fully_processed_letters(db, fake_send_letter):
     with freeze_time("2021-02-01"):
         LetterFactory(fully_processed_at=timezone.now())
-    call_command("process_declarations")
+    call_command("process_norent_letters")
     fake_send_letter.assert_not_called()

@@ -782,7 +782,7 @@ class TestNorentSendLetterV2:
         assert 'lang="es"' in letter.localized_html_content
         assert letter.letter_sent_at is not None
         assert letter.tracking_number == mocklob.sample_letter["tracking_number"]
-        assert letter.letter_sent_at is not None
+        assert letter.fully_processed_at is not None
 
         assert len(mailoutbox) == 2
         ll_mail = mailoutbox[0]

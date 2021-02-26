@@ -3,7 +3,7 @@ from typing import List, Tuple
 from django.db.models import F, Subquery, OuterRef, Count, Q
 
 from .admin_download_data import DataDownload, queryset_data_download
-from users.models import CHANGE_USER_PERMISSION, JustfixUser
+from users.models import JustfixUser
 from rh.models import RentalHistoryRequest
 from issues.models import Issue, CustomIssue
 from rapidpro.models import UserContactGroup
@@ -169,28 +169,28 @@ DATA_DOWNLOADS = [
         name="Sandefur user data",
         slug="sandefur-user-data",
         html_desc="Details about NYC users for Rebecca Sandefur. Contains PII.",
-        perms=[CHANGE_USER_PERMISSION],
+        perms=["users.download_sandefur_data"],
         execute_query=execute_users_query,
     ),
     DataDownload(
         name="Sandefur issue data",
         slug="sandefur-issue-data",
         html_desc="Details about non-custom issue data for Rebecca Sandefur.",
-        perms=[CHANGE_USER_PERMISSION],
+        perms=["users.download_sandefur_data"],
         execute_query=execute_issues_query,
     ),
     DataDownload(
         name="Sandefur custom issue data",
         slug="sandefur-custom-issue-data",
         html_desc="Details about custom issue data for Rebecca Sandefur. Contains PII.",
-        perms=[CHANGE_USER_PERMISSION],
+        perms=["users.download_sandefur_data"],
         execute_query=execute_custom_issues_query,
     ),
     DataDownload(
         name="Sandefur rapidpro contact group data",
         slug="sandefur-rapidpro-contact-group-data",
         html_desc="Details about RapidPro (TextIt) contact groups for Rebecca Sandefur.",
-        perms=[CHANGE_USER_PERMISSION],
+        perms=["users.download_sandefur_data"],
         execute_query=execute_rapidpro_groups_query,
     ),
 ]

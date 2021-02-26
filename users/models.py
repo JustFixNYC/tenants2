@@ -107,6 +107,16 @@ class JustfixUserManager(UserManager):
 
 
 class JustfixUser(AbstractUser):
+    class Meta:
+        verbose_name = "user"
+        verbose_name_plural = "users"
+        permissions = [
+            (
+                "download_sandefur_data",
+                "Can download data needed for Rebecca Sandefur's research",
+            ),
+        ]
+
     phone_number = models.CharField("Phone number", unique=True, **pn.get_model_field_kwargs())
 
     is_email_verified = models.BooleanField(

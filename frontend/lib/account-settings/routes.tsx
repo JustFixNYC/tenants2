@@ -3,13 +3,19 @@ import React, { useContext } from "react";
 import { Link, Route } from "react-router-dom";
 import { AppContext } from "../app-context";
 import { TextualFormField } from "../forms/form-fields";
+import {
+  formatPhoneNumber,
+  PhoneNumberFormField,
+} from "../forms/phone-number-form-field";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import { li18n } from "../i18n-lingui";
 import { NorentFullNameMutation } from "../queries/NorentFullNameMutation";
+import { PhoneNumberMutation } from "../queries/PhoneNumberMutation";
 import { bulmaClasses } from "../ui/bulma";
 import { EditableInfo } from "../ui/editable-info";
 import Page from "../ui/page";
 import { RequireLogin } from "../util/require-login";
+import { assertNotNull } from "../util/util";
 import { AccountSettingsRouteInfo } from "./route-info";
 
 type AccountSettingsContextType = {
@@ -84,6 +90,42 @@ const NameField: React.FC<{}> = () => {
   );
 };
 
+const PhoneNumberField: React.FC<{}> = () => {
+  const sectionName = "Phone number";
+  const { routes } = useContext(AccountSettingsContext);
+  const { session } = useContext(AppContext);
+  const phoneNumber = assertNotNull(session.phoneNumber);
+
+  return (
+    <>
+      <h3>{sectionName}</h3>
+      <p>This will be used to associate your information with you.</p>
+      <EditableInfo
+        name={sectionName}
+        readonlyContent={formatPhoneNumber(phoneNumber)}
+        path={routes.phoneNumber}
+      >
+        <SessionUpdatingFormSubmitter
+          mutation={PhoneNumberMutation}
+          initialState={{ phoneNumber }}
+          onSuccessRedirect={routes.home}
+        >
+          {(ctx) => (
+            <>
+              <PhoneNumberFormField
+                autoFocus
+                {...ctx.fieldPropsFor("phoneNumber")}
+                label={li18n._(t`Phone number`)}
+              />
+              <SaveCancelButtons isLoading={ctx.isLoading} />
+            </>
+          )}
+        </SessionUpdatingFormSubmitter>
+      </EditableInfo>
+    </>
+  );
+};
+
 export const AccountSettingsRoutes: React.FC<{
   routeInfo: AccountSettingsRouteInfo;
 }> = ({ routeInfo: routes }) => {
@@ -94,6 +136,8 @@ export const AccountSettingsRoutes: React.FC<{
           <AccountSettingsContext.Provider value={{ routes }}>
             <h2>About you</h2>
             <NameField />
+            <h2>Contact</h2>
+            <PhoneNumberField />
           </AccountSettingsContext.Provider>
         </Page>
       </RequireLogin>

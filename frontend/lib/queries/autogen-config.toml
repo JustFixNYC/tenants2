@@ -150,3 +150,5 @@ sessionFields = ["onboardingInfo"]
 [mutations."norent.*"]
 
 [mutations."evictionFree.*"]
+
+[mutations.phoneNumber]

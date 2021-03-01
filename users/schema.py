@@ -1,8 +1,9 @@
+from project.util.model_form_util import OneToOneUserModelFormMutation
 from graphql import ResolveInfo
 
 from project import schema_registry
 from project.util.session_mutation import SessionFormMutation
-from .forms import SendVerificationEmailForm
+from . import forms
 from .email_verify import send_verification_email_async
 
 
@@ -21,7 +22,7 @@ class SendVerificationEmail(SessionFormMutation):
     """
 
     class Meta:
-        form_class = SendVerificationEmailForm
+        form_class = forms.SendVerificationEmailForm
 
     login_required = True
 
@@ -35,3 +36,9 @@ class SendVerificationEmail(SessionFormMutation):
             user.save()
         send_verification_email_async(user.pk)
         return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class PhoneNumber(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.PhoneNumberForm

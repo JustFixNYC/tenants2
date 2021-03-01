@@ -1,7 +1,9 @@
+from typing import List
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from .models import JustfixUser
+from project.util.phone_number import USPhoneNumberField
 
 
 class JustfixUserCreationForm(UserCreationForm):
@@ -24,3 +26,11 @@ class SendVerificationEmailForm(forms.Form):
             "marked as unverified."
         )
     )
+
+
+class PhoneNumberForm(forms.ModelForm):
+    class Meta:
+        model = JustfixUser
+        fields = ["phone_number"]
+
+    phone_number = USPhoneNumberField()

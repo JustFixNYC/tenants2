@@ -226,14 +226,13 @@ export const EvictionFreeDbConfirmation = EvictionFreeRequireLoginStep(
           href={info.pdfLink}
           label={li18n._(t`Download completed declaration`)}
         />
+        <OrganizingGroupsBlurb />
         {info.isUserInNyc && (
           <>
             <RetaliationBlurb />
             <HcaHotlineBlurb />
           </>
         )}
-
-        <OrganizingGroupsBlurb />
       </Page>
     );
   }

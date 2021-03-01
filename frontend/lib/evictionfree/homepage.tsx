@@ -40,7 +40,9 @@ const FillOutMyFormButton = (props: { isHiddenMobile?: boolean }) => (
   </span>
 );
 
-const StickyLetterButtonContainer = (props: { children: React.ReactNode }) => (
+export const StickyLetterButtonContainer = (props: {
+  children: React.ReactNode;
+}) => (
   <div className="jf-sticky-button-container">
     <div className="jf-sticky-button-menu has-background-white is-hidden-tablet">
       <FillOutMyFormButton />

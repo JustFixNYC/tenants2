@@ -166,10 +166,13 @@ class OneToOneUserModelFormMutation(SessionFormMutation):
 
         user = info.context.user
         model = cls._meta.form_class._meta.model
-        try:
-            instance = model.objects.get(user=user)
-        except model.DoesNotExist:
-            instance = model(user=user)
+        if isinstance(user, model):
+            instance = user
+        else:
+            try:
+                instance = model.objects.get(user=user)
+            except model.DoesNotExist:
+                instance = model(user=user)
         return {"data": input, "instance": instance}
 
     @classmethod

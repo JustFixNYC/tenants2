@@ -1,6 +1,7 @@
 import pytest
 
 from .factories import UserFactory
+from project.util.testing_util import GraphQLTestingPal
 
 
 class TestSendVerificationEmail:
@@ -45,3 +46,29 @@ class TestSendVerificationEmail:
         }
         assert len(mailoutbox) == 1
         assert mailoutbox[0].recipients() == ["blap@jones.com"]
+
+
+class TestPhoneNumber(GraphQLTestingPal):
+    QUERY = """
+    mutation PhoneNumber($input: PhoneNumberInput!) {
+        output: phoneNumber(input: $input) {
+            errors { field, messages },
+            session { phoneNumber }
+        }
+    }
+    """
+
+    DEFAULT_INPUT = {
+        "phoneNumber": "",
+    }
+
+    def test_it_requires_login(self):
+        self.assert_one_field_err("You do not have permission to use this form!")
+
+    def test_it_works(self):
+        user = UserFactory(phone_number="5551234567")
+        self.set_user(user)
+        res = self.execute({"phoneNumber": "6149951231"})
+        assert res == {"errors": [], "session": {"phoneNumber": "6149951231"}}
+        user.refresh_from_db()
+        assert user.phone_number == "6149951231"

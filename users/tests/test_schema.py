@@ -1,4 +1,3 @@
-from project.util import phone_number
 import pytest
 
 from .factories import UserFactory

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-03-01 18:09\n"
+"PO-Revision-Date: 2021-03-01 21:42\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -680,7 +680,7 @@ msgstr "Preguntas Frecuentes"
 #: frontend/lib/norent/components/footer.tsx:37
 #: frontend/lib/norent/site.tsx:34
 msgid "Faqs"
-msgstr "Preguntas más frecuentes"
+msgstr "Preguntas frecuentes"
 
 #: common-data/issue-choices.ts:193
 msgid "Faucets not installed"

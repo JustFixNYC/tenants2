@@ -22,6 +22,7 @@ from partnerships import referral
 from project.util.model_form_util import OneToOneUserModelFormMutation
 from users.email_verify import send_verification_email_async
 from onboarding import forms
+from onboarding.schema_util import mutation_requires_onboarding
 from onboarding.models import OnboardingInfo, BOROUGH_CHOICES, LEASE_CHOICES, SIGNUP_INTENT_CHOICES
 
 
@@ -196,14 +197,24 @@ class AgreeToTerms(SessionFormMutation):
         return cls.mutation_success()
 
 
+class OnboardingInfoMutation(OneToOneUserModelFormMutation):
+    class Meta:
+        abstract = True
+
+    @classmethod
+    @mutation_requires_onboarding
+    def perform_mutate(cls, form, info: ResolveInfo):
+        return super().perform_mutate(form, info)
+
+
 @schema_registry.register_mutation
-class LeaseType(OneToOneUserModelFormMutation):
+class LeaseType(OnboardingInfoMutation):
     class Meta:
         form_class = forms.LeaseTypeForm
 
 
 @schema_registry.register_mutation
-class ReliefAttempts(OneToOneUserModelFormMutation):
+class ReliefAttempts(OnboardingInfoMutation):
     class Meta:
         form_class = forms.ReliefAttemptsForm
 

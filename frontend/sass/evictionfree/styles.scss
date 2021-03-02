@@ -64,7 +64,7 @@ $max-content-width: 1440px;
   line-height: 1.25;
 }
 
-.jf-evictionfree-homepage-navbar nav.navbar {
+html:not([data-safe-mode-no-js]) .jf-evictionfree-homepage-navbar nav.navbar {
   @include tablet {
     position: sticky;
     margin-top: -3.25rem;

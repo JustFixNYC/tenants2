@@ -55,7 +55,7 @@ class TestVerify:
 
     def test_it_does_nothing_on_verification_failure(self):
         self.verify(get_verified_address=None)
-        assert self.cmd.stdout.getvalue() == "Verifying address for boop.\n"
+        assert self.cmd.stdout.getvalue() == "Verifying address for boop (last login @ None).\n"
 
     def test_it_does_nothing_when_user_does_not_confirm(self, db):
         self.verify(get_verified_address=("foo", "MANHATTAN"), confirm=False)
@@ -99,6 +99,6 @@ def test_handle_works(db):
     out = StringIO()
     call_command("verify_addresses", stdout=out)
     assert out.getvalue().splitlines() == [
-        "Verifying address for boop.",
+        "Verifying address for boop (last login @ None).",
         "Unable to verify address, the geocoding service may be down.",
     ]

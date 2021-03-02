@@ -7,7 +7,7 @@ from onboarding.models import OnboardingInfo
 
 
 class Command(BaseCommand):
-    help = "Manually verify user addresses that are currently unverified."
+    help = "Manually verify NYC user addresses that are currently unverified."
 
     def get_verified_address(self, address: str, borough: str) -> Optional[Tuple[str, str]]:
         try:
@@ -27,7 +27,9 @@ class Command(BaseCommand):
         return False
 
     def verify(self, info):
-        self.stdout.write(f"Verifying address for {info.user}.")
+        self.stdout.write(
+            f"Verifying address for {info.user} (last login @ {info.user.last_login})."
+        )
         verified = self.get_verified_address(info.address, info.borough)
         if verified is None:
             return
@@ -40,9 +42,15 @@ class Command(BaseCommand):
             info.address = address
             info.borough = borough
             info.address_verified = True
+            info.lookup_nycaddr_metadata()
             info.save()
             self.stdout.write("Updating database.")
 
     def handle(self, *args, **options):
-        for info in OnboardingInfo.objects.filter(address_verified=False):
+        qs = (
+            OnboardingInfo.objects.filter(address_verified=False)
+            .exclude(borough="")
+            .order_by("-user__last_login")
+        )
+        for info in qs:
             self.verify(info)

@@ -204,7 +204,15 @@ class OnboardingInfoMutation(OneToOneUserModelFormMutation):
     @classmethod
     @mutation_requires_onboarding
     def perform_mutate(cls, form, info: ResolveInfo):
-        return super().perform_mutate(form, info)
+        result = super().perform_mutate(form, info)
+        # The OneToOneUserModelFormMutation's OnboardingInfo
+        # instance is different from the one attached to our
+        # user object, so we need to refresh the one one our
+        # user object from the DB in order for the values
+        # returned in the associated `session` property of
+        # the mutation to be up-to-date.
+        info.context.user.onboarding_info.refresh_from_db()
+        return result
 
 
 @schema_registry.register_mutation

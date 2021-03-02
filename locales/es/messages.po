@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-03-01 21:42\n"
+"PO-Revision-Date: 2021-03-02 12:45\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -299,7 +299,7 @@ msgstr "Corte de vivienda de Brooklyn:"
 
 #: frontend/lib/norent/faqs.tsx:74
 msgid "Browse the FAQs"
-msgstr "Explora las preguntas más frecuentes"
+msgstr "Explora las preguntas frecuentes"
 
 #: common-data/issue-choices.ts:259
 msgid "Bug infestation"
@@ -740,7 +740,7 @@ msgstr "Correo certificado gratuito"
 #: frontend/lib/evictionfree/faqs.tsx:49
 #: frontend/lib/norent/faqs.tsx:61
 msgid "Frequently Asked Questions"
-msgstr "Preguntas Más Frecuentes"
+msgstr "Preguntas Frecuentes"
 
 #: common-data/issue-choices.ts:152
 msgid "Front door not working"
@@ -1329,7 +1329,7 @@ msgstr "Movement Law Lab"
 
 #: frontend/lib/evictionfree/faqs.tsx:23
 msgid "Navigating these laws is confusing. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
-msgstr "Comprender estas leyes es difícil. Aquí hay algunas <0>preguntas más frecuentes</0> de personas que han utilizado nuestra herramienta:"
+msgstr "Comprender estas leyes es difícil. Aquí hay algunas <0>preguntas frecuentes</0> de personas que han utilizado nuestra herramienta:"
 
 #: common-data/us-state-choices.ts:92
 msgid "Nebraska"
@@ -1681,7 +1681,7 @@ msgstr "Rhode Island"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:10
 msgid "Right to Counsel's FAQ page"
-msgstr "Página de Preguntas Más Frecuentes del Right to Counsel"
+msgstr "Página de Preguntas Frecuentes del Right to Counsel"
 
 #: frontend/lib/norent/about.tsx:16
 msgid "Right to the City"
@@ -1706,7 +1706,7 @@ msgstr "Dirección de búsqueda"
 #: frontend/lib/evictionfree/faqs.tsx:36
 #: frontend/lib/norent/faqs.tsx:48
 msgid "See more FAQs"
-msgstr "Ver todas las preguntas más frecuentes"
+msgstr "Ver todas las preguntas frecuentes"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:69
 msgid "Send"
@@ -1742,11 +1742,11 @@ msgstr "Envía tu carta por correo electrónico"
 
 #: frontend/lib/norent/faqs.tsx:65
 msgid "Sending a letter to your landlord is a big step. Check out our frequently asked questions from people who have used our tool:"
-msgstr "Enviar una carta al dueño de tu edificio es un paso grande. Consulta las preguntas más frecuentes de las personas que han utilizado nuestra herramienta:"
+msgstr "Enviar una carta al dueño de tu edificio es un paso grande. Consulta las preguntas frecuentes de las personas que han utilizado nuestra herramienta:"
 
 #: frontend/lib/norent/faqs.tsx:35
 msgid "Sending a letter to your landlord is a big step. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
-msgstr "Enviar una carta al dueño de tu edificio es un paso grande. Aquí tienes algunas <0>preguntas más frecuentes</0> de las personas que han utilizado nuestra herramienta:"
+msgstr "Enviar una carta al dueño de tu edificio es un paso grande. Aquí tienes algunas <0>preguntas frecuentes</0> de las personas que han utilizado nuestra herramienta:"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:81
 msgid "Separate letters for each month starting in September when you couldn't pay rent in full."
@@ -2030,7 +2030,7 @@ msgstr "Para participar en la organización y en la lucha para #StopEvictions (p
 
 #: frontend/lib/norent/letter-email-to-user.tsx:270
 msgid "To learn more about what to do next, check out our FAQ page: {faqURL}"
-msgstr "Para saber más sobre qué hacer a continuación, consulta nuestra página de preguntas más frecuentes: {faqURL}"
+msgstr "Para saber más sobre qué hacer a continuación, consulta nuestra página de preguntas frecuentes: {faqURL}"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:127
 msgid "To:"
@@ -2660,7 +2660,7 @@ msgstr "Puedes enviar tu formulario de declaración en cualquier momento, hasta 
 
 #: frontend/lib/evictionfree/faqs.tsx:53
 msgid "evictionfree.faqsPageIntro"
-msgstr "Comprender estas leyes es difícil. A continuación, echa un vistazo a nuestras preguntas más frecuentes de personas que han usado nuestra herramienta. Si tienes preguntas sobre el estado de la corte de vivienda y el estatus actual de los casos de desalojo, consulte"
+msgstr "Comprender estas leyes es difícil. A continuación, echa un vistazo a nuestras preguntas frecuentes de personas que han usado nuestra herramienta. Si tienes preguntas sobre el estado de la corte de vivienda y el estatus actual de los casos de desalojo, consulte"
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:13
 msgid "evictionfree.financialHardshipExplainer1"

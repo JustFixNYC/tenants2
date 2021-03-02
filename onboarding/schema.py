@@ -197,6 +197,12 @@ class AgreeToTerms(SessionFormMutation):
 
 
 @schema_registry.register_mutation
+class LeaseType(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.LeaseTypeForm
+
+
+@schema_registry.register_mutation
 class ReliefAttempts(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.ReliefAttemptsForm

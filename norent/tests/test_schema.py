@@ -640,7 +640,9 @@ class TestNorentSendLetterV2:
 
     def test_it_raises_err_when_no_onboarding_info_exists(self):
         UpcomingLetterRentPeriodFactory(user=self.user)
-        assert self.execute()["errors"] == one_field_err("You have not onboarded!")
+        assert self.execute()["errors"] == one_field_err(
+            "You haven't provided any account details yet!"
+        )
 
     def test_it_raises_err_when_no_landlord_details_exist(self):
         UpcomingLetterRentPeriodFactory(user=self.user)

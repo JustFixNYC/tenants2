@@ -64,6 +64,7 @@ def create_initial_props_for_lambda(
             "enableWipLocales": settings.ENABLE_WIP_LOCALES,
             "debug": settings.DEBUG,
             "facebookAppId": settings.FACEBOOK_APP_ID,
+            "nycGeoSearchOrigin": settings.NYC_GEOSEARCH_ORIGIN,
         },
         "testInternalServerError": TEST_INTERNAL_SERVER_ERROR,
     }

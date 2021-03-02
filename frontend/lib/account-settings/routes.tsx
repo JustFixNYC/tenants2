@@ -9,6 +9,7 @@ import {
 } from "../forms/phone-number-form-field";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import { li18n } from "../i18n-lingui";
+import { NorentEmailMutation } from "../queries/NorentEmailMutation";
 import { NorentFullNameMutation } from "../queries/NorentFullNameMutation";
 import { PhoneNumberMutation } from "../queries/PhoneNumberMutation";
 import { bulmaClasses } from "../ui/bulma";
@@ -126,6 +127,43 @@ const PhoneNumberField: React.FC<{}> = () => {
   );
 };
 
+const EmailAddressField: React.FC<{}> = () => {
+  const sectionName = "Email address";
+  const { routes } = useContext(AccountSettingsContext);
+  const { session } = useContext(AppContext);
+  const email = assertNotNull(session.email);
+
+  return (
+    <>
+      <h3>{sectionName}</h3>
+      <p>Where we will send you your documents.</p>
+      <EditableInfo
+        name={sectionName}
+        readonlyContent={email}
+        path={routes.email}
+      >
+        <SessionUpdatingFormSubmitter
+          mutation={NorentEmailMutation}
+          initialState={{ email }}
+          onSuccessRedirect={routes.home}
+        >
+          {(ctx) => (
+            <>
+              <TextualFormField
+                autoFocus
+                type="email"
+                {...ctx.fieldPropsFor("email")}
+                label={li18n._(t`Email address`)}
+              />
+              <SaveCancelButtons isLoading={ctx.isLoading} />
+            </>
+          )}
+        </SessionUpdatingFormSubmitter>
+      </EditableInfo>
+    </>
+  );
+};
+
 export const AccountSettingsRoutes: React.FC<{
   routeInfo: AccountSettingsRouteInfo;
 }> = ({ routeInfo: routes }) => {
@@ -138,6 +176,7 @@ export const AccountSettingsRoutes: React.FC<{
             <NameField />
             <h2>Contact</h2>
             <PhoneNumberField />
+            <EmailAddressField />
           </AccountSettingsContext.Provider>
         </Page>
       </RequireLogin>

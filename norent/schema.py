@@ -314,9 +314,11 @@ class BaseNorentEmail(NorentScaffoldingOrUserDataMutation):
     @classmethod
     def perform_mutate_for_authenticated_user(cls, form, info: ResolveInfo):
         user = info.context.user
-        user.email = form.cleaned_data["email"]
-        user.is_email_verified = False
-        user.save()
+        new_email = form.cleaned_data["email"]
+        if new_email != user.email:
+            user.email = new_email
+            user.is_email_verified = False
+            user.save()
         return cls.mutation_success()
 
 

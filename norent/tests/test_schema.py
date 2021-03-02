@@ -127,11 +127,7 @@ def test_email_mutation_updates_session_if_not_logged_in(db, graphql_client):
     }
 
 
-def test_email_mutation_updates_user_email_if_logged_in(db, graphql_client):
-    user = UserFactory(is_email_verified=True, email="burp@burp.com")
-    graphql_client.request.user = user
-    output = graphql_client.execute(
-        """
+EMAIL_MUTATION_GRAPHQL = """
         mutation {
           output: norentEmail(input: {
             email: "blarf@blarg.com",
@@ -144,12 +140,29 @@ def test_email_mutation_updates_user_email_if_logged_in(db, graphql_client):
             }
           }
         }
-        """
-    )["data"]["output"]
+"""
+
+
+def test_email_mutation_updates_user_email_if_logged_in(db, graphql_client):
+    user = UserFactory(is_email_verified=True, email="burp@burp.com")
+    graphql_client.request.user = user
+    output = graphql_client.execute(EMAIL_MUTATION_GRAPHQL)["data"]["output"]
     assert output["errors"] == []
     assert output["session"] == {
         "email": "blarf@blarg.com",
         "isEmailVerified": False,
+        "norentScaffolding": None,
+    }
+
+
+def test_email_mutation_does_nothing_if_user_submits_their_current_email(db, graphql_client):
+    user = UserFactory(is_email_verified=True, email="blarf@blarg.com")
+    graphql_client.request.user = user
+    output = graphql_client.execute(EMAIL_MUTATION_GRAPHQL)["data"]["output"]
+    assert output["errors"] == []
+    assert output["session"] == {
+        "email": "blarf@blarg.com",
+        "isEmailVerified": True,
         "norentScaffolding": None,
     }
 

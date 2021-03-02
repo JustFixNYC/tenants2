@@ -170,6 +170,16 @@ body.has-navbar-fixed-top {
   padding-top: 0;
 }
 
+// Make sure header appears at the top of the page on declaration builder pages:
+@include tablet {
+  .jf-norent-internal-above-footer-content {
+    margin-top: 0;
+  }
+  .headroom-wrapper {
+    margin-bottom: 4rem;
+  }
+}
+
 nav.navbar {
   &.is-fixed-top {
     // override navbar position to allow it to show/hide itself on scroll:

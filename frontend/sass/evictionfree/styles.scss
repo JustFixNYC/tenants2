@@ -64,13 +64,6 @@ $max-content-width: 1440px;
   line-height: 1.25;
 }
 
-// Note: Our sticky menu does not work when site is in safe mode (no js)
-html:not([data-safe-mode-no-js]) .jf-evictionfree-homepage-navbar nav.navbar {
-  @include tablet {
-    position: sticky;
-    margin-top: -3.25rem;
-  }
-}
 .jf-evictionfree-byline {
   max-width: 235px;
   margin: 0.5rem 3.25rem;
@@ -174,17 +167,13 @@ html:not([data-safe-mode-no-js]) .jf-evictionfree-homepage-navbar nav.navbar {
 // Navbar Overrides
 body.has-navbar-fixed-top {
   // remove top padding on body element to allow navbar to show/hide itself on scroll:
-  @include mobile {
-    padding-top: 0;
-  }
+  padding-top: 0;
 }
 
 nav.navbar {
   &.is-fixed-top {
-    @include mobile {
-      // override navbar position to allow it to show/hide itself on scroll:
-      position: unset;
-    }
+    // override navbar position to allow it to show/hide itself on scroll:
+    position: unset;
   }
   .container {
     margin: auto;

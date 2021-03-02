@@ -142,12 +142,6 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
     </>
   );
 };
-const EvictionFreeNavbar = () => (
-  <Navbar
-    menuItemsComponent={EvictionFreeMenuItems}
-    brandComponent={EvictionFreeBrand}
-  />
-);
 
 const EvictionFreeSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
@@ -169,12 +163,12 @@ const EvictionFreeSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
               isHomepage && "jf-evictionfree-homepage-navbar"
             )}
           >
-            <Headroom className="is-hidden-tablet">
-              <EvictionFreeNavbar />
+            <Headroom>
+              <Navbar
+                menuItemsComponent={EvictionFreeMenuItems}
+                brandComponent={EvictionFreeBrand}
+              />
             </Headroom>
-            <span className="is-hidden-mobile">
-              <EvictionFreeNavbar />
-            </span>
             <EvictionFreeHelmet />
           </span>
           {!isPrimaryPage && (

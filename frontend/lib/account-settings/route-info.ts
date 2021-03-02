@@ -6,6 +6,7 @@ export function createAccountSettingsRouteInfo(prefix: string) {
     home: prefix,
     name: `${prefix}/name`,
     phoneNumber: `${prefix}/phone`,
+    email: `${prefix}/email`,
   };
 }
 

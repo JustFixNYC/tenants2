@@ -189,6 +189,7 @@ class TestEvictionFreeSubmitDeclaration:
 
     def test_it_raises_err_when_declaration_already_sent(self):
         SubmittedHardshipDeclarationFactory(user=self.user)
+        OnboardingInfoFactory(user=self.user)
         assert self.execute()["errors"] == one_field_err(
             "You have already sent a hardship declaration form!"
         )

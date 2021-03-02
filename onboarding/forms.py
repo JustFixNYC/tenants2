@@ -93,6 +93,16 @@ def get_boolean_field(name: str):
     return forms.BooleanField(help_text=field.help_text, required=False)
 
 
+class LeaseTypeForm(forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ("lease_type",)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["lease_type"].required = True
+
+
 class OnboardingStep2Form(forms.Form):
     is_in_eviction = get_boolean_field("is_in_eviction")
     needs_repairs = get_boolean_field("needs_repairs")

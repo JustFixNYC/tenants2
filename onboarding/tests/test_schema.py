@@ -7,7 +7,7 @@ from project.util.testing_util import GraphQLTestingPal
 from frontend.tests.util import get_frontend_query
 from users.models import JustfixUser
 from onboarding.schema import session_key_for_step
-from .factories import OnboardingInfoFactory
+from .factories import OnboardingInfoFactory, UserFactory
 
 
 VALID_STEP_DATA = {
@@ -283,3 +283,34 @@ class TestAgreeToTerms(GraphQLTestingPal):
         }
         self.oi.refresh_from_db()
         assert self.oi.agreed_to_evictionfree_terms is True
+
+
+class TestLeaseType(GraphQLTestingPal):
+    QUERY = """
+    mutation LeaseTypeMutation($input: LeaseTypeInput!) {
+        output: leaseType(input: $input) {
+            errors { field, messages },
+            session { onboardingInfo {
+                leaseType
+            } }
+        }
+    }
+    """
+
+    DEFAULT_INPUT = {"leaseType": "NYCHA"}
+
+    def test_it_raises_err_when_not_logged_in(self):
+        self.assert_one_field_err("You do not have permission to use this form!")
+
+    def test_it_raises_err_when_not_onboarded(self):
+        self.set_user(UserFactory())
+        self.assert_one_field_err("You haven't provided any account details yet!")
+
+    def test_it_works(self):
+        oi = OnboardingInfoFactory(lease_type="RENT_STABILIZED")
+        self.set_user(oi.user)
+        assert self.execute() == {
+            "errors": [],
+            "session": {"onboardingInfo": {"leaseType": "NYCHA"}},
+        }
+        assert oi.lease_type == "NYCHA"

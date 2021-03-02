@@ -171,7 +171,20 @@ $max-content-width: 1440px;
 }
 
 // Navbar Overrides
+body.has-navbar-fixed-top {
+  // remove top padding on body element to allow navbar to show/hide itself on scroll:
+  @include mobile {
+    padding-top: 0;
+  }
+}
+
 nav.navbar {
+  &.is-fixed-top {
+    @include mobile {
+      // override navbar position to allow it to show/hide itself on scroll:
+      position: unset;
+    }
+  }
   .container {
     margin: auto;
     padding: 0;

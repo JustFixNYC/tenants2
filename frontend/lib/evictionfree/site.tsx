@@ -1,5 +1,6 @@
 import loadable from "@loadable/component";
 import React, { useContext } from "react";
+import Headroom from "react-headroom";
 import { Link, Route, useLocation } from "react-router-dom";
 import type { AppSiteProps } from "../app";
 import { createLinguiCatalogLoader } from "../i18n-lingui";
@@ -141,6 +142,12 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
     </>
   );
 };
+const EvictionFreeNavbar = () => (
+  <Navbar
+    menuItemsComponent={EvictionFreeMenuItems}
+    brandComponent={EvictionFreeBrand}
+  />
+);
 
 const EvictionFreeSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
@@ -162,10 +169,12 @@ const EvictionFreeSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
               isHomepage && "jf-evictionfree-homepage-navbar"
             )}
           >
-            <Navbar
-              menuItemsComponent={EvictionFreeMenuItems}
-              brandComponent={EvictionFreeBrand}
-            />
+            <Headroom className="is-hidden-tablet">
+              <EvictionFreeNavbar />
+            </Headroom>
+            <span className="is-hidden-mobile">
+              <EvictionFreeNavbar />
+            </span>
             <EvictionFreeHelmet />
           </span>
           {!isPrimaryPage && (

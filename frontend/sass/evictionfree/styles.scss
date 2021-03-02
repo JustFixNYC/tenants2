@@ -64,6 +64,7 @@ $max-content-width: 1440px;
   line-height: 1.25;
 }
 
+// Note: Our sticky menu does not work when site is in safe mode (no js)
 html:not([data-safe-mode-no-js]) .jf-evictionfree-homepage-navbar nav.navbar {
   @include tablet {
     position: sticky;

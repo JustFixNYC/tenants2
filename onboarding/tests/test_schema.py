@@ -7,7 +7,7 @@ from project.util.testing_util import GraphQLTestingPal
 from frontend.tests.util import get_frontend_query
 from users.models import JustfixUser
 from onboarding.schema import session_key_for_step
-from .factories import OnboardingInfoFactory, UserFactory
+from .factories import OnboardingInfoFactory, NationalOnboardingInfoFactory, UserFactory
 
 
 VALID_STEP_DATA = {
@@ -314,3 +314,55 @@ class TestLeaseType(GraphQLTestingPal):
             "session": {"onboardingInfo": {"leaseType": "NYCHA"}},
         }
         assert oi.lease_type == "NYCHA"
+
+
+class TestNycAddress(GraphQLTestingPal):
+    QUERY = """
+    mutation NycAddressMutation($input: NycAddressInput!) {
+        output: nycAddress(input: $input) {
+            errors { field, messages },
+            session { onboardingInfo {
+                address,
+                borough,
+                aptNumber
+            } }
+        }
+    }
+    """
+
+    DEFAULT_INPUT = {
+        "address": "654 park place",
+        "borough": "BROOKLYN",
+        "aptNumber": "2",
+        "noAptNumber": False,
+    }
+
+    _expected_default_output = {
+        "errors": [],
+        "session": {
+            "onboardingInfo": {
+                "address": "654 park place",
+                "borough": "BROOKLYN",
+                "aptNumber": "2",
+            }
+        },
+    }
+
+    def test_it_raises_err_when_not_logged_in(self):
+        self.assert_one_field_err("You do not have permission to use this form!")
+
+    def test_it_works_when_geocoding_fails(self):
+        oi = OnboardingInfoFactory(
+            address="123 boop street", borough="QUEENS", apt_number="", address_verified=True
+        )
+        self.set_user(oi.user)
+        assert self.execute() == self._expected_default_output
+        assert oi.address == "654 park place"
+        assert oi.address_verified is False
+
+    def test_it_works_when_switching_from_non_nyc_address(self):
+        oi = NationalOnboardingInfoFactory()
+        self.set_user(oi.user)
+        assert self.execute() == self._expected_default_output
+        assert oi.non_nyc_city == ""
+        assert oi.state == "NY"

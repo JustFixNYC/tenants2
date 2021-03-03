@@ -152,3 +152,5 @@ sessionFields = ["onboardingInfo"]
 [mutations."evictionFree.*"]
 
 [mutations.phoneNumber]
+
+[mutations.leaseType]

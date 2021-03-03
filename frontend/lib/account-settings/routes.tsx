@@ -1,14 +1,21 @@
 import { t } from "@lingui/macro";
 import React, { useContext } from "react";
 import { Link, Route } from "react-router-dom";
+import {
+  getLeaseChoiceLabels,
+  isLeaseChoice,
+  LeaseChoices,
+} from "../../../common-data/lease-choices";
 import { AppContext } from "../app-context";
-import { TextualFormField } from "../forms/form-fields";
+import { toDjangoChoices } from "../common-data";
+import { RadiosFormField, TextualFormField } from "../forms/form-fields";
 import {
   formatPhoneNumber,
   PhoneNumberFormField,
 } from "../forms/phone-number-form-field";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import { li18n } from "../i18n-lingui";
+import { LeaseTypeMutation } from "../queries/LeaseTypeMutation";
 import { NorentEmailMutation } from "../queries/NorentEmailMutation";
 import { NorentFullNameMutation } from "../queries/NorentFullNameMutation";
 import { PhoneNumberMutation } from "../queries/PhoneNumberMutation";
@@ -164,9 +171,59 @@ const EmailAddressField: React.FC<{}> = () => {
   );
 };
 
+const LeaseTypeField: React.FC<{}> = () => {
+  const sectionName = "Lease type";
+  const { routes } = useContext(AccountSettingsContext);
+  const { session } = useContext(AppContext);
+  const leaseType = session.onboardingInfo?.leaseType || "";
+  let leaseTypeLabel = "";
+  if (isLeaseChoice(leaseType)) {
+    leaseTypeLabel = getLeaseChoiceLabels()[leaseType];
+  }
+
+  return (
+    <>
+      <h3>{sectionName}</h3>
+      <EditableInfo
+        name={sectionName}
+        readonlyContent={leaseTypeLabel}
+        path={routes.leaseType}
+      >
+        <SessionUpdatingFormSubmitter
+          mutation={LeaseTypeMutation}
+          onSuccessRedirect={routes.home}
+          initialState={{ leaseType }}
+        >
+          {(ctx) => (
+            <>
+              <RadiosFormField
+                {...ctx.fieldPropsFor("leaseType")}
+                choices={toDjangoChoices(LeaseChoices, getLeaseChoiceLabels())}
+                label="Lease type"
+              />
+              <SaveCancelButtons isLoading={ctx.isLoading} />
+            </>
+          )}
+        </SessionUpdatingFormSubmitter>
+      </EditableInfo>
+    </>
+  );
+};
+
+const NycAddressSettings: React.FC<{}> = () => {
+  return (
+    <>
+      <h2>Address</h2>
+      <LeaseTypeField />
+    </>
+  );
+};
+
 export const AccountSettingsRoutes: React.FC<{
   routeInfo: AccountSettingsRouteInfo;
 }> = ({ routeInfo: routes }) => {
+  const { session } = useContext(AppContext);
+
   return (
     <Route path={routes.prefix}>
       <RequireLogin>
@@ -177,6 +234,7 @@ export const AccountSettingsRoutes: React.FC<{
             <h2>Contact</h2>
             <PhoneNumberField />
             <EmailAddressField />
+            {session.onboardingInfo?.borough && <NycAddressSettings />}
           </AccountSettingsContext.Provider>
         </Page>
       </RequireLogin>

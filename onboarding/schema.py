@@ -15,6 +15,7 @@ from project.util.django_graphql_session_forms import (
 )
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import get_site_name, SITE_CHOICES
+from project.util.mailing_address import US_STATE_CHOICES
 from project.locales import ALL as LOCALE_CHOICES
 from project import slack, schema_registry
 from users.models import JustfixUser
@@ -213,6 +214,29 @@ class OnboardingInfoMutation(OneToOneUserModelFormMutation):
         # the mutation to be up-to-date.
         info.context.user.onboarding_info.refresh_from_db()
         return result
+
+
+@schema_registry.register_mutation
+class NycAddress(SessionFormMutation):
+    class Meta:
+        form_class = forms.NycAddressForm
+
+    login_required = True
+
+    @classmethod
+    @mutation_requires_onboarding
+    def perform_mutate(cls, form, info: ResolveInfo):
+        oi = info.context.user.onboarding_info
+        oi.non_nyc_city = ""
+        oi.state = US_STATE_CHOICES.NY
+        oi.address = form.cleaned_data["address"]
+        oi.borough = form.cleaned_data["borough"]
+        oi.apt_number = form.cleaned_data["apt_number"]
+        oi.address_verified = form.cleaned_data["address_verified"]
+        oi.full_clean()
+        oi.save()
+
+        return cls.mutation_success()
 
 
 @schema_registry.register_mutation

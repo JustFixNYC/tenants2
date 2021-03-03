@@ -73,6 +73,10 @@ class AptNumberWithConfirmationForm(forms.Form):
         return cleaned_data
 
 
+class NycAddressForm(AptNumberWithConfirmationForm, AddressAndBoroughFormMixin):
+    pass
+
+
 class OnboardingStep1Form(AptNumberWithConfirmationForm, AddressAndBoroughFormMixin):
     first_name = forms.CharField(max_length=30)
 

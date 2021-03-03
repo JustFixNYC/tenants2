@@ -198,6 +198,7 @@ const LeaseTypeField: React.FC<{}> = () => {
             <>
               <RadiosFormField
                 {...ctx.fieldPropsFor("leaseType")}
+                autoFocus
                 choices={toDjangoChoices(LeaseChoices, getLeaseChoiceLabels())}
                 label="Lease type"
               />

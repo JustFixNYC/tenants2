@@ -80,7 +80,16 @@ export function renderLabel(
 export interface ChoiceFormFieldProps extends BaseFormFieldProps<string> {
   choices: ReactDjangoChoices;
   label: string;
+  autoFocus?: boolean;
 }
+
+const AutofocusedInput: React.FC<InputProps> = (props) => {
+  const ref = useRef<HTMLInputElement | null>(null);
+
+  useAutoFocus(ref, props.autoFocus);
+
+  return <input ref={ref} {...props} />;
+};
 
 /** A JSX component that encapsulates a set of radio buttons. */
 export function RadiosFormField(props: ChoiceFormFieldProps): JSX.Element {
@@ -93,18 +102,24 @@ export function RadiosFormField(props: ChoiceFormFieldProps): JSX.Element {
         {props.label}
       </label>
       <div className="control">
-        {props.choices.map(([choice, label]) => (
+        {props.choices.map(([choice, label], i) => (
           <label
             htmlFor={idFor(choice)}
             className="radio jf-radio"
             key={choice}
           >
-            <input
+            <AutofocusedInput
               type="radio"
               name={props.name}
               id={idFor(choice)}
               value={choice}
               checked={props.value === choice}
+              autoFocus={
+                props.autoFocus &&
+                // Autofocus if we're the currently-selected choice *or*
+                // nothing is selected and we're the very first choice.
+                (props.value === choice || (!props.value && i === 0))
+              }
               aria-invalid={ariaBool(!!props.errors)}
               disabled={props.isDisabled}
               onChange={(e) => props.onChange(choice)}
@@ -386,16 +401,12 @@ function DateClear(props: TextualFormFieldProps): JSX.Element | null {
 export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
   const type: TextualInputType = props.type || "text";
   let { ariaLabel, errorHelp } = formatErrors(props);
-  const ref = useRef<HTMLInputElement | null>(null);
-
-  useAutoFocus(ref, props.autoFocus);
 
   return (
     <div className="field" {...props.fieldProps}>
       {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
       <div className="control">
-        <input
-          ref={ref}
+        <AutofocusedInput
           className={bulmaClasses("input", { "is-danger": !!props.errors })}
           disabled={props.isDisabled}
           aria-invalid={ariaBool(!!props.errors)}

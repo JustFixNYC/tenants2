@@ -216,6 +216,12 @@ class OnboardingInfoMutation(OneToOneUserModelFormMutation):
 
 
 @schema_registry.register_mutation
+class NycAddress(OnboardingInfoMutation):
+    class Meta:
+        form_class = forms.NycAddressForm
+
+
+@schema_registry.register_mutation
 class LeaseType(OnboardingInfoMutation):
     class Meta:
         form_class = forms.LeaseTypeForm

@@ -11,6 +11,7 @@ from project.forms import (
 from project.util.phone_number import USPhoneNumberField
 from project.util.address_form_fields import AddressAndBoroughFormMixin
 from project.util.site_util import SITE_CHOICES
+from project.util.mailing_address import US_STATE_CHOICES
 from users.models import JustfixUser
 from .models import OnboardingInfo, APT_NUMBER_KWARGS
 
@@ -71,6 +72,19 @@ class AptNumberWithConfirmationForm(forms.Form):
             cleaned_data.pop("no_apt_number")
 
         return cleaned_data
+
+
+class NycAddressForm(AptNumberWithConfirmationForm, AddressAndBoroughFormMixin, forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ("apt_number", "address", "borough")
+
+    def save(self, commit=True):
+        self.instance.non_nyc_city = ""
+        self.instance.state = US_STATE_CHOICES.NY
+        self.instance.address_verified = self.cleaned_data["address_verified"]
+        self.instance.full_clean()
+        return super().save(commit=commit)
 
 
 class OnboardingStep1Form(AptNumberWithConfirmationForm, AddressAndBoroughFormMixin):

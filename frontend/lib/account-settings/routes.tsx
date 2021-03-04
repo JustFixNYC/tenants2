@@ -40,12 +40,20 @@ const AccountSettingsContext = React.createContext<AccountSettingsContextType>({
   },
 });
 
-const SaveCancelButtons: React.FC<{ isLoading: boolean; hashId?: string }> = ({
-  isLoading,
-  hashId,
-}) => {
+function useSectionInfo(name: string, hashId: string) {
   const { routes } = useContext(AccountSettingsContext);
+  return {
+    name,
+    hashId,
+    homeLink: pathWithHash(routes.home, hashId),
+    heading: <h3 id={hashId}>{name}</h3>,
+  };
+}
 
+const SaveCancelButtons: React.FC<{ isLoading: boolean; homeLink: string }> = ({
+  isLoading,
+  homeLink,
+}) => {
   return (
     <>
       <button
@@ -56,7 +64,7 @@ const SaveCancelButtons: React.FC<{ isLoading: boolean; hashId?: string }> = ({
       >
         Save
       </button>{" "}
-      <Link to={pathWithHash(routes.home, hashId)} className="button is-light">
+      <Link to={homeLink} className="button is-light">
         Cancel
       </Link>
     </>
@@ -66,14 +74,14 @@ const SaveCancelButtons: React.FC<{ isLoading: boolean; hashId?: string }> = ({
 const NameField: React.FC<{}> = () => {
   const { routes } = useContext(AccountSettingsContext);
   const { session } = useContext(AppContext);
-  const sectionName = "Name";
+  const sec = useSectionInfo("Name", "name");
 
   return (
     <>
-      <h3>{sectionName}</h3>
+      {sec.heading}
       <p>This will be used in letters to your landlord or court documents.</p>
       <EditableInfo
-        name={sectionName}
+        {...sec}
         readonlyContent={`${session.firstName} ${session.lastName}`}
         path={routes.name}
       >
@@ -83,7 +91,7 @@ const NameField: React.FC<{}> = () => {
             firstName: s.firstName || "",
             lastName: s.lastName || "",
           })}
-          onSuccessRedirect={routes.home}
+          onSuccessRedirect={sec.homeLink}
         >
           {(ctx) => (
             <>
@@ -96,7 +104,7 @@ const NameField: React.FC<{}> = () => {
                 {...ctx.fieldPropsFor("lastName")}
                 label={li18n._(t`Last name`)}
               />
-              <SaveCancelButtons isLoading={ctx.isLoading} />
+              <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>
           )}
         </SessionUpdatingFormSubmitter>
@@ -106,24 +114,24 @@ const NameField: React.FC<{}> = () => {
 };
 
 const PhoneNumberField: React.FC<{}> = () => {
-  const sectionName = "Phone number";
+  const sec = useSectionInfo("Phone number", "phone");
   const { routes } = useContext(AccountSettingsContext);
   const { session } = useContext(AppContext);
   const phoneNumber = assertNotNull(session.phoneNumber);
 
   return (
     <>
-      <h3>{sectionName}</h3>
+      {sec.heading}
       <p>This will be used to associate your information with you.</p>
       <EditableInfo
-        name={sectionName}
+        {...sec}
         readonlyContent={formatPhoneNumber(phoneNumber)}
         path={routes.phoneNumber}
       >
         <SessionUpdatingFormSubmitter
           mutation={PhoneNumberMutation}
           initialState={{ phoneNumber }}
-          onSuccessRedirect={routes.home}
+          onSuccessRedirect={sec.homeLink}
         >
           {(ctx) => (
             <>
@@ -132,7 +140,7 @@ const PhoneNumberField: React.FC<{}> = () => {
                 {...ctx.fieldPropsFor("phoneNumber")}
                 label={li18n._(t`Phone number`)}
               />
-              <SaveCancelButtons isLoading={ctx.isLoading} />
+              <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>
           )}
         </SessionUpdatingFormSubmitter>
@@ -142,24 +150,20 @@ const PhoneNumberField: React.FC<{}> = () => {
 };
 
 const EmailAddressField: React.FC<{}> = () => {
-  const sectionName = "Email address";
+  const sec = useSectionInfo("Email address", "email");
   const { routes } = useContext(AccountSettingsContext);
   const { session } = useContext(AppContext);
   const email = assertNotNull(session.email);
 
   return (
     <>
-      <h3>{sectionName}</h3>
+      {sec.heading}
       <p>Where we will send you your documents.</p>
-      <EditableInfo
-        name={sectionName}
-        readonlyContent={email}
-        path={routes.email}
-      >
+      <EditableInfo {...sec} readonlyContent={email} path={routes.email}>
         <SessionUpdatingFormSubmitter
           mutation={NorentEmailMutation}
           initialState={{ email }}
-          onSuccessRedirect={routes.home}
+          onSuccessRedirect={sec.homeLink}
         >
           {(ctx) => (
             <>
@@ -169,7 +173,7 @@ const EmailAddressField: React.FC<{}> = () => {
                 {...ctx.fieldPropsFor("email")}
                 label={li18n._(t`Email address`)}
               />
-              <SaveCancelButtons isLoading={ctx.isLoading} />
+              <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>
           )}
         </SessionUpdatingFormSubmitter>
@@ -179,7 +183,7 @@ const EmailAddressField: React.FC<{}> = () => {
 };
 
 const LeaseTypeField: React.FC<{}> = () => {
-  const sectionName = "Lease type";
+  const sec = useSectionInfo("Lease type", "lease");
   const { routes } = useContext(AccountSettingsContext);
   const { session } = useContext(AppContext);
   const leaseType = session.onboardingInfo?.leaseType || "";
@@ -190,15 +194,15 @@ const LeaseTypeField: React.FC<{}> = () => {
 
   return (
     <>
-      <h3>{sectionName}</h3>
+      {sec.heading}
       <EditableInfo
-        name={sectionName}
+        {...sec}
         readonlyContent={leaseTypeLabel}
         path={routes.leaseType}
       >
         <SessionUpdatingFormSubmitter
           mutation={LeaseTypeMutation}
-          onSuccessRedirect={routes.home}
+          onSuccessRedirect={sec.homeLink}
           initialState={{ leaseType }}
         >
           {(ctx) => (
@@ -209,7 +213,7 @@ const LeaseTypeField: React.FC<{}> = () => {
                 choices={toDjangoChoices(LeaseChoices, getLeaseChoiceLabels())}
                 label="Lease type"
               />
-              <SaveCancelButtons isLoading={ctx.isLoading} />
+              <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>
           )}
         </SessionUpdatingFormSubmitter>
@@ -217,16 +221,6 @@ const LeaseTypeField: React.FC<{}> = () => {
     </>
   );
 };
-
-function useSectionInfo(name: string, id: string) {
-  const { routes } = useContext(AccountSettingsContext);
-  return {
-    name,
-    id,
-    homeLink: pathWithHash(routes.home, id),
-    heading: <h3 id={id}>{name}</h3>,
-  };
-}
 
 const NycAddressField: React.FC<{}> = () => {
   const sec = useSectionInfo("Your address", "address");
@@ -237,10 +231,9 @@ const NycAddressField: React.FC<{}> = () => {
     <>
       {sec.heading}
       <EditableInfo
-        name={sec.name}
+        {...sec}
         readonlyContent={oi.fullMailingAddress}
         path={routes.address}
-        hashId={sec.id}
       >
         <SessionUpdatingFormSubmitter
           mutation={NycAddressMutation}
@@ -263,7 +256,7 @@ const NycAddressField: React.FC<{}> = () => {
                 aptNumberProps={ctx.fieldPropsFor("aptNumber")}
                 noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
               />
-              <SaveCancelButtons isLoading={ctx.isLoading} hashId={sec.id} />
+              <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>
           )}
         </SessionUpdatingFormSubmitter>

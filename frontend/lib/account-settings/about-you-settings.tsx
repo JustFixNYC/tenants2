@@ -7,12 +7,11 @@ import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-sub
 import { li18n } from "../i18n-lingui";
 import { NorentFullNameMutation } from "../queries/NorentFullNameMutation";
 import { EditableInfo, SaveCancelButtons } from "../ui/editable-info";
-import { AccountSettingsContext, useAccountSettingsSectionInfo } from "./util";
+import { makeAccountSettingsSection, WithAccountSettingsProps } from "./util";
 
-const NameField: React.FC<{}> = () => {
-  const { routes } = useContext(AccountSettingsContext);
+const NameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   const { session } = useContext(AppContext);
-  const sec = useAccountSettingsSectionInfo("Name", "name");
+  const sec = makeAccountSettingsSection(routes, "Name", "name");
 
   return (
     <>
@@ -51,11 +50,13 @@ const NameField: React.FC<{}> = () => {
   );
 };
 
-export const AboutYouAccountSettings: React.FC<{}> = () => {
+export const AboutYouAccountSettings: React.FC<WithAccountSettingsProps> = (
+  props
+) => {
   return (
     <>
       <h2>About you</h2>
-      <NameField />
+      <NameField {...props} />
     </>
   );
 };

@@ -15,11 +15,10 @@ import { LeaseTypeMutation } from "../queries/LeaseTypeMutation";
 import { NycAddressMutation } from "../queries/NycAddressMutation";
 import { EditableInfo, SaveCancelButtons } from "../ui/editable-info";
 import { assertNotNull } from "../util/util";
-import { AccountSettingsContext, useAccountSettingsSectionInfo } from "./util";
+import { makeAccountSettingsSection, WithAccountSettingsProps } from "./util";
 
-const LeaseTypeField: React.FC<{}> = () => {
-  const sec = useAccountSettingsSectionInfo("Lease type", "lease");
-  const { routes } = useContext(AccountSettingsContext);
+const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
+  const sec = makeAccountSettingsSection(routes, "Lease type", "lease");
   const { session } = useContext(AppContext);
   const leaseType = session.onboardingInfo?.leaseType || "";
   let leaseTypeLabel = "";
@@ -57,9 +56,8 @@ const LeaseTypeField: React.FC<{}> = () => {
   );
 };
 
-const NycAddressField: React.FC<{}> = () => {
-  const sec = useAccountSettingsSectionInfo("Your address", "address");
-  const { routes } = useContext(AccountSettingsContext);
+const NycAddressField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
+  const sec = makeAccountSettingsSection(routes, "Your address", "address");
   const oi = assertNotNull(useContext(AppContext).session.onboardingInfo);
 
   return (
@@ -100,12 +98,14 @@ const NycAddressField: React.FC<{}> = () => {
   );
 };
 
-export const NycAddressAccountSettings: React.FC<{}> = () => {
+export const NycAddressAccountSettings: React.FC<WithAccountSettingsProps> = (
+  props
+) => {
   return (
     <>
       <h2>Address</h2>
-      <NycAddressField />
-      <LeaseTypeField />
+      <NycAddressField {...props} />
+      <LeaseTypeField {...props} />
     </>
   );
 };

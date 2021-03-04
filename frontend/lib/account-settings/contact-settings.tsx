@@ -13,11 +13,10 @@ import { NorentEmailMutation } from "../queries/NorentEmailMutation";
 import { PhoneNumberMutation } from "../queries/PhoneNumberMutation";
 import { EditableInfo, SaveCancelButtons } from "../ui/editable-info";
 import { assertNotNull } from "../util/util";
-import { AccountSettingsContext, useAccountSettingsSectionInfo } from "./util";
+import { makeAccountSettingsSection, WithAccountSettingsProps } from "./util";
 
-const PhoneNumberField: React.FC<{}> = () => {
-  const sec = useAccountSettingsSectionInfo("Phone number", "phone");
-  const { routes } = useContext(AccountSettingsContext);
+const PhoneNumberField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
+  const sec = makeAccountSettingsSection(routes, "Phone number", "phone");
   const { session } = useContext(AppContext);
   const phoneNumber = assertNotNull(session.phoneNumber);
 
@@ -51,9 +50,8 @@ const PhoneNumberField: React.FC<{}> = () => {
   );
 };
 
-const EmailAddressField: React.FC<{}> = () => {
-  const sec = useAccountSettingsSectionInfo("Email address", "email");
-  const { routes } = useContext(AccountSettingsContext);
+const EmailAddressField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
+  const sec = makeAccountSettingsSection(routes, "Email address", "email");
   const { session } = useContext(AppContext);
   const email = assertNotNull(session.email);
 
@@ -84,12 +82,14 @@ const EmailAddressField: React.FC<{}> = () => {
   );
 };
 
-export const ContactAccountSettings: React.FC<{}> = () => {
+export const ContactAccountSettings: React.FC<WithAccountSettingsProps> = (
+  props
+) => {
   return (
     <>
       <h2>Contact</h2>
-      <PhoneNumberField />
-      <EmailAddressField />
+      <PhoneNumberField {...props} />
+      <EmailAddressField {...props} />
     </>
   );
 };

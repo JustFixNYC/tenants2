@@ -1,21 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
 import { pathWithHash } from "../util/route-util";
 import { AccountSettingsRouteInfo } from "./route-info";
 
-export type AccountSettingsContextType = {
+export type WithAccountSettingsProps = {
   routes: AccountSettingsRouteInfo;
 };
 
-export const AccountSettingsContext = React.createContext<
-  AccountSettingsContextType
->({
-  get routes(): AccountSettingsRouteInfo {
-    throw new Error("AccountSettingsContext not set!");
-  },
-});
-
-export function useAccountSettingsSectionInfo(name: string, hashId: string) {
-  const { routes } = useContext(AccountSettingsContext);
+export function makeAccountSettingsSection(
+  routes: AccountSettingsRouteInfo,
+  name: string,
+  hashId: string
+) {
   return {
     name,
     hashId,

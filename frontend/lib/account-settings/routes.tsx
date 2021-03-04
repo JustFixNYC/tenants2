@@ -6,23 +6,22 @@ import { RequireLogin } from "../util/require-login";
 import { AboutYouAccountSettings } from "./about-you-settings";
 import { ContactAccountSettings } from "./contact-settings";
 import { NycAddressAccountSettings } from "./nyc-address-settings";
-import { AccountSettingsRouteInfo } from "./route-info";
-import { AccountSettingsContext } from "./util";
+import { WithAccountSettingsProps } from "./util";
 
-export const AccountSettingsRoutes: React.FC<{
-  routeInfo: AccountSettingsRouteInfo;
-}> = ({ routeInfo: routes }) => {
+export const AccountSettingsRoutes: React.FC<WithAccountSettingsProps> = (
+  props
+) => {
   const { session } = useContext(AppContext);
 
   return (
-    <Route path={routes.prefix}>
+    <Route path={props.routes.prefix}>
       <RequireLogin>
         <Page title="Account settings" withHeading="big" className="content">
-          <AccountSettingsContext.Provider value={{ routes }}>
-            <AboutYouAccountSettings />
-            <ContactAccountSettings />
-            {session.onboardingInfo?.borough && <NycAddressAccountSettings />}
-          </AccountSettingsContext.Provider>
+          <AboutYouAccountSettings {...props} />
+          <ContactAccountSettings {...props} />
+          {session.onboardingInfo?.borough && (
+            <NycAddressAccountSettings {...props} />
+          )}
         </Page>
       </RequireLogin>
     </Route>

@@ -39,3 +39,13 @@ class OnboardingInfoFactory(factory.django.DjangoModelFactory):
     signup_intent = SIGNUP_INTENT_CHOICES.LOC
 
     agreed_to_justfix_terms = True
+
+
+class NationalOnboardingInfoFactory(OnboardingInfoFactory):
+    address = "200 N Spring St"
+
+    state = "CA"
+
+    borough = ""
+
+    non_nyc_city = "Los Angeles"

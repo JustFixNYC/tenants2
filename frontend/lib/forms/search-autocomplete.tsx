@@ -8,7 +8,7 @@ import autobind from "autobind-decorator";
 import { WithFormFieldErrors, formatErrors } from "./form-errors";
 import { bulmaClasses } from "../ui/bulma";
 import { awesomeFetch, createAbortController } from "../networking/fetch";
-import { renderLabel, LabelRenderer } from "./form-fields";
+import { renderLabel, LabelRenderer, AutofocusedInput } from "./form-fields";
 import { KEY_ENTER, KEY_TAB } from "../util/key-codes";
 import {
   SearchRequester,
@@ -95,6 +95,7 @@ export interface SearchAutocompleteProps<Item, SearchResults>
   onChange: (item: Item) => void;
   onNetworkError: (err: Error) => void;
   helpers: SearchAutocompleteHelpers<Item, SearchResults>;
+  autoFocus?: boolean;
 }
 
 interface SearchAutocompleteState<Item> {
@@ -240,9 +241,10 @@ export class SearchAutocomplete<Item, SearchResults> extends React.Component<
             "is-loading": this.state.isLoading,
           })}
         >
-          <input
+          <AutofocusedInput
             name={this.state.inputName}
             className="input"
+            autoFocus={this.props.autoFocus}
             {...this.getInputProps(ds)}
           />
           <ul

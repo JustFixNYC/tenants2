@@ -47,6 +47,7 @@ import {
 } from "./analytics/amplitude";
 import { t } from "@lingui/macro";
 import { getEvictionFreeJumpToTopOfPageRoutes } from "./evictionfree/route-info";
+import { AppLocationState } from "./app-location";
 
 // Note that these don't need any special fallback loading screens
 // because they will never need to be dynamically loaded on the
@@ -235,21 +236,30 @@ export class AppWithoutRouter extends React.Component<
     prevHash: string,
     pathname: string,
     hash: string,
-    action: Action
+    action: Action,
+    state: AppLocationState
   ) {
     if (prevPathname !== pathname) {
       trackPageView(pathname);
       logAmplitudePageView(pathname);
-      this.handleFocusDuringPathnameChange(prevPathname, pathname, hash);
-      this.handleScrollPositionDuringPathnameChange(
-        prevPathname,
-        pathname,
-        hash,
-        action
-      );
+      if (!state.noFocus) {
+        this.handleFocusDuringPathnameChange(prevPathname, pathname, hash);
+      }
+      if (!state.noScroll) {
+        this.handleScrollPositionDuringPathnameChange(
+          prevPathname,
+          pathname,
+          hash,
+          action
+        );
+      }
     } else if (prevHash !== hash) {
-      this.handleFocusOnHash(hash);
-      this.handleScrollToHash(hash);
+      if (!state.noFocus) {
+        this.handleFocusOnHash(hash);
+      }
+      if (!state.noScroll) {
+        this.handleScrollToHash(hash);
+      }
     }
   }
 
@@ -325,7 +335,8 @@ export class AppWithoutRouter extends React.Component<
       prevProps.location.hash,
       this.props.location.pathname,
       this.props.location.hash,
-      this.props.history.action
+      this.props.history.action,
+      this.props.location.state || {}
     );
   }
 

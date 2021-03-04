@@ -405,7 +405,9 @@ GRAPHENE = {
     "MIDDLEWARE": None,
 }
 
-GEOCODING_SEARCH_URL = "https://geosearch.planninglabs.nyc/v1/search"
+NYC_GEOSEARCH_ORIGIN = env.NYC_GEOSEARCH_ORIGIN
+
+GEOCODING_SEARCH_URL = f"{NYC_GEOSEARCH_ORIGIN}/v1/search"
 
 GEOCODING_TIMEOUT = 8
 
@@ -531,7 +533,7 @@ CSP_SCRIPT_SRC = [
     "'self'",
 ]
 
-CSP_CONNECT_SRC = ["'self'", "https://geosearch.planninglabs.nyc", "https://api.mapbox.com"]
+CSP_CONNECT_SRC = ["'self'", NYC_GEOSEARCH_ORIGIN, "https://api.mapbox.com"]
 
 CSP_FRAME_SRC = ["'self'", "https://www.youtube.com"]
 

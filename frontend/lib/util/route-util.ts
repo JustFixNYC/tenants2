@@ -178,3 +178,12 @@ export function createRoutesForSite<LocalizedRoutes, NonLocalizedRoutes>(
 
   return baseRoutes;
 }
+
+/**
+ * Appends the given hash ID, if any, to the given pathname. Note that
+ * the hash ID should not start with `#`.
+ */
+export function pathWithHash(pathname: string, hashId?: string): string {
+  if (!hashId) return pathname;
+  return `${pathname}#${hashId}`;
+}

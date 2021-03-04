@@ -3,6 +3,7 @@ import {
   RouteMap,
   createRoutesForSite,
   isStaticPageRoute,
+  pathWithHash,
 } from "../route-util";
 import i18n from "../../i18n";
 
@@ -83,4 +84,9 @@ describe("createRoutesForSite", () => {
   it("has expected non-localized routes", () => {
     expect(Routes.blarg).toBe("/blarg");
   });
+});
+
+test("pathWithHash() works", () => {
+  expect(pathWithHash("/boop")).toBe("/boop");
+  expect(pathWithHash("/boop", "jones")).toBe("/boop#jones");
 });

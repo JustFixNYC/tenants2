@@ -218,20 +218,29 @@ const LeaseTypeField: React.FC<{}> = () => {
   );
 };
 
+function useSectionInfo(name: string, id: string) {
+  const { routes } = useContext(AccountSettingsContext);
+  return {
+    name,
+    id,
+    homeLink: pathWithHash(routes.home, id),
+    heading: <h3 id={id}>{name}</h3>,
+  };
+}
+
 const NycAddressField: React.FC<{}> = () => {
-  const sectionName = "Your address";
-  const sectionId = "address";
+  const sec = useSectionInfo("Your address", "address");
   const { routes } = useContext(AccountSettingsContext);
   const oi = assertNotNull(useContext(AppContext).session.onboardingInfo);
 
   return (
     <>
-      <h3 id={sectionId}>{sectionName}</h3>
+      {sec.heading}
       <EditableInfo
-        name={sectionName}
+        name={sec.name}
         readonlyContent={oi.fullMailingAddress}
         path={routes.address}
-        hashId={sectionId}
+        hashId={sec.id}
       >
         <SessionUpdatingFormSubmitter
           mutation={NycAddressMutation}
@@ -241,7 +250,7 @@ const NycAddressField: React.FC<{}> = () => {
             noAptNumber: !oi.aptNumber,
             address: oi.address,
           }}
-          onSuccessRedirect={pathWithHash(routes.home, sectionId)}
+          onSuccessRedirect={sec.homeLink}
         >
           {(ctx) => (
             <>
@@ -254,7 +263,7 @@ const NycAddressField: React.FC<{}> = () => {
                 aptNumberProps={ctx.fieldPropsFor("aptNumber")}
                 noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
               />
-              <SaveCancelButtons isLoading={ctx.isLoading} hashId={sectionId} />
+              <SaveCancelButtons isLoading={ctx.isLoading} hashId={sec.id} />
             </>
           )}
         </SessionUpdatingFormSubmitter>

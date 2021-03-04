@@ -1,22 +1,27 @@
 import React, { useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { pathWithHash } from "../util/route-util";
+import { AppLocationDescriptor, makeAppLocation } from "../app-location";
 import { usePrevious } from "../util/use-previous";
 import { bulmaClasses } from "./bulma";
 import { useAutoFocus } from "./use-auto-focus";
 
 const EditLink: React.FC<{
-  to: string;
+  path: string;
+  hashId?: string;
   ariaLabel: string;
   autoFocus?: boolean;
-}> = ({ to, ariaLabel, autoFocus }) => {
+}> = ({ path, hashId, ariaLabel, autoFocus }) => {
   const ref = useRef<HTMLAnchorElement | null>(null);
 
   useAutoFocus(ref, autoFocus);
 
   return (
     <Link
-      to={to}
+      to={makeAppLocation({
+        pathname: path,
+        hash: hashId,
+        state: { noFocus: true, noScroll: true },
+      })}
       className="button is-primary"
       aria-label={ariaLabel}
       ref={ref}
@@ -99,7 +104,7 @@ export const EditableInfo: React.FC<EditableInfoProps> = (props) => {
     <>
       <div className="jf-editable-info">{props.readonlyContent}</div>
       <EditLink
-        to={pathWithHash(props.path, props.hashId)}
+        {...props}
         autoFocus={autoFocusEditLink}
         ariaLabel={`Edit ${props.name}`}
       />
@@ -112,8 +117,8 @@ export const EditableInfo: React.FC<EditableInfoProps> = (props) => {
  */
 export const SaveCancelButtons: React.FC<{
   isLoading: boolean;
-  homeLink: string;
-}> = ({ isLoading, homeLink }) => {
+  homeLocation: AppLocationDescriptor;
+}> = ({ isLoading, homeLocation }) => {
   return (
     <>
       <button
@@ -124,7 +129,7 @@ export const SaveCancelButtons: React.FC<{
       >
         Save
       </button>{" "}
-      <Link to={homeLink} className="button is-light">
+      <Link to={homeLocation} className="button is-light">
         Cancel
       </Link>
     </>

@@ -12,7 +12,7 @@ import classnames from "classnames";
 import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
 import { NorentRequireLoginStep } from "./step-decorators";
 import { NorentNonpaymentDocumentation } from "../data/faqs-content";
-import { SocialIcons } from "../components/social-icons";
+import { SocialIcons, SocialShareContent } from "../components/social-icons";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
 import { friendlyUTCDate } from "../../util/date-util";
@@ -26,6 +26,16 @@ export const MH_ACTION_URL =
   "https://actionnetwork.org/forms/join-mhactions-fight-to-ensure-all-families-have-a-place-to-call-home/";
 export const NORENT_FEEDBACK_FORM_URL =
   "https://airtable.com/shrrnQD3kXUQv1xm3";
+
+const NorentSocialShareContent: SocialShareContent = {
+  tweet: t(
+    "norent.tweetTemplateForSharingNoRent"
+  )`No idea how you'll pay rent this month? Tell your landlord with norent.org from @JustFixNYC. This free tool sends a certified letter informing them of your protections. Join the #cancelrent movement at norent.org.`,
+  emailSubject: t`I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent`,
+  emailBody: t(
+    "norent.emailBodyTemplateForSharingNoRent"
+  )`I used www.norent.org to tell my landlord that I'm unable to pay this month's rent. This free tool helps you build and send a letter to your landlord, cites legal protections in your state, and connects you to other people in your community working to #cancelrent`,
+};
 
 export const NorentConfirmation = NorentRequireLoginStep(() => {
   const { session } = useContext(AppContext);
@@ -276,7 +286,7 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
       <h5 className="has-text-centered is-uppercase has-text-weight-normal">
         <Trans>Share this tool</Trans>
       </h5>
-      <SocialIcons linksAreForSharing />
+      <SocialIcons socialShareContent={NorentSocialShareContent} />
     </Page>
   );
 });

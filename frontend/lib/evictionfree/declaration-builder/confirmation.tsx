@@ -98,7 +98,7 @@ const ShareThisTool = () => (
     <h2 className={H2_CLASSNAME}>
       <Trans>Share this tool</Trans>
     </h2>
-    <SocialIcons customStyleClasses="is-marginless" />
+    <SocialIcons color="mulberry" customStyleClasses="is-marginless" />
   </>
 );
 

@@ -54,7 +54,7 @@ const socialMediaShareOutLinks = (content: SocialShareContent) => [
   },
 ];
 
-type SocialIconColor = "white" | "default" | null;
+type SocialIconColor = "white" | "mulberry" | "default" | null;
 
 export const SocialIcons = (props: {
   color?: SocialIconColor;
@@ -82,7 +82,9 @@ export const SocialIcons = (props: {
           <StaticImage
             ratio="is-48x48"
             src={getNorentImageSrc(
-              props.color === "white" ? link.name + "-white" : link.name
+              props.color && props.color !== "default"
+                ? `${link.name}-${props.color}`
+                : link.name
             )}
             alt={link.name}
           />

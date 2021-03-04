@@ -12,6 +12,7 @@ import { Redirect } from "react-router-dom";
 import { assertNotNull } from "../../util/util";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { MessageDescriptor } from "@lingui/core";
+import { SocialIcons } from "../../norent/components/social-icons";
 
 export const HCA_HOTLINE_PHONE_LINK = "tel:+12129624795";
 
@@ -89,6 +90,15 @@ const HcaHotlineBlurb = () => (
       <Trans>Hours of operation: Monday to Friday, 9am - 5pm.</Trans>{" "}
       <Trans>Available in English and Spanish.</Trans>
     </p>
+  </>
+);
+
+const ShareThisTool = () => (
+  <>
+    <h2 className={H2_CLASSNAME}>
+      <Trans>Share this tool</Trans>
+    </h2>
+    <SocialIcons customStyleClasses="is-marginless" />
   </>
 );
 
@@ -233,6 +243,7 @@ export const EvictionFreeDbConfirmation = EvictionFreeRequireLoginStep(
             <HcaHotlineBlurb />
           </>
         )}
+        <ShareThisTool />
       </Page>
     );
   }

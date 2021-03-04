@@ -10,6 +10,7 @@ import { BackgroundImage } from "./components/background-image";
 import { OutboundLink } from "../ui/outbound-link";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 import classnames from "classnames";
+import { SocialIcons } from "../norent/components/social-icons";
 
 export const RTC_WEBSITE_URL = "https://www.righttocounselnyc.org/";
 export const HJ4A_SOCIAL_URL = "https://twitter.com/housing4allNY";
@@ -284,6 +285,19 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
       </section>
 
       <EvictionFreeFaqsPreview />
+      <section className="hero is-info">
+        <div className="hero-body">
+          <div className="container jf-has-text-centered-tablet">
+            <h2 className="is-spaced has-text-white has-text-weight-bold">
+              <Trans>Share this tool</Trans>
+            </h2>
+            <SocialIcons
+              color="white"
+              customStyleClasses="is-marginless is-inline-flex"
+            />
+          </div>
+        </div>
+      </section>
     </StickyLetterButtonContainer>
   </Page>
 );

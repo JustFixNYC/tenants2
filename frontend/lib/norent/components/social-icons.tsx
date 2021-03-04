@@ -5,6 +5,7 @@ import { OutboundLink } from "../../ui/outbound-link";
 import { getGlobalAppServerInfo } from "../../app-context";
 import { li18n } from "../../i18n-lingui";
 import { MessageDescriptor } from "@lingui/core";
+import classnames from "classnames";
 
 /**
  * Links to JustFix.nyc's main social media pages.
@@ -58,12 +59,19 @@ type SocialIconColor = "white" | "default" | null;
 export const SocialIcons = (props: {
   color?: SocialIconColor;
   socialShareContent?: SocialShareContent;
+  customStyleClasses?: string;
 }) => {
   const links = props.socialShareContent
     ? socialMediaShareOutLinks(props.socialShareContent)
     : socialMediaPageLinks;
   return (
-    <div className="buttons jf-social-icons">
+    <div
+      className={classnames(
+        "buttons",
+        "jf-social-icons",
+        props.customStyleClasses
+      )}
+    >
       {links.map((link, i) => (
         <OutboundLink
           href={link.url}

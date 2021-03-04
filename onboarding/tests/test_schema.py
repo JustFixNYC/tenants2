@@ -42,6 +42,7 @@ query {
             leaseType
             state
             city
+            fullMailingAddress
         }
     }
 }
@@ -178,6 +179,14 @@ def test_has_called_311_works(graphql_client):
     onb.has_called_311 = True
     onb.save()
     assert query() is True
+
+
+def test_full_mailing_address_works(db, graphql_client):
+    onb = OnboardingInfoFactory()
+    graphql_client.request.user = onb.user
+    result = graphql_client.execute(ONBOARDING_INFO_QUERY)["data"]["session"]
+    result = result["onboardingInfo"]["fullMailingAddress"]
+    assert result == "150 court street\nApartment 2\nBrooklyn, NY"
 
 
 def test_onboarding_session_info_is_fault_tolerant(graphql_client):

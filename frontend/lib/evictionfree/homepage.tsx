@@ -20,7 +20,7 @@ export const JUSTFIX_WEBSITE_URLS = {
   es: "https://www.justfix.nyc/es/",
 };
 
-type EvictionFreeImageType = "png" | "svg" | "jpg";
+type EvictionFreeImageType = "png" | "svg" | "jpg" | "gif";
 
 export function getEFImageSrc(
   name: string,
@@ -197,7 +197,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
           <LandingPageChecklist />
         </div>
         <div>
-          <BackgroundImage src={getEFImageSrc("phone", "png", true)} alt="" />
+          <BackgroundImage src={getEFImageSrc("phone", "gif")} alt="" />
         </div>
       </div>
 

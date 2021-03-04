@@ -7,7 +7,7 @@ import {
 } from "../../../common-data/borough-choices";
 import { CenteredButtons } from "./centered-buttons";
 
-type AddressAndBorough = {
+export type AddressAndBorough = {
   /** A NYC street name and number, e.g. "150 court st". */
   address: string;
   /** A NYC borough choice, e.g. "STATEN_ISLAND". */

@@ -89,7 +89,7 @@ export const EditableInfo: React.FC<EditableInfoProps> = (props) => {
   const prevPathname = usePrevious(pathname);
   let autoFocusEditLink =
     pathname !== prevPathname &&
-    prevPathname === props.path &&
+    prevPathname?.startsWith(props.path) &&
     // We additionally want to make sure that we only auto-focus
     // the edit link in situations where we are sure nothing else
     // wants focus, which by convention will be if our pathname
@@ -98,7 +98,7 @@ export const EditableInfo: React.FC<EditableInfoProps> = (props) => {
     // `/foo/edit-name` to `/foo/edit-phone-number`).
     props.path.startsWith(pathname);
 
-  return pathname === props.path ? (
+  return pathname.startsWith(props.path) ? (
     props.children
   ) : (
     <>

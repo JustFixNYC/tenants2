@@ -26,6 +26,7 @@ import { bulmaClasses } from "../ui/bulma";
 import { EditableInfo } from "../ui/editable-info";
 import Page from "../ui/page";
 import { RequireLogin } from "../util/require-login";
+import { pathWithHash } from "../util/route-util";
 import { assertNotNull } from "../util/util";
 import { AccountSettingsRouteInfo } from "./route-info";
 
@@ -39,7 +40,10 @@ const AccountSettingsContext = React.createContext<AccountSettingsContextType>({
   },
 });
 
-const SaveCancelButtons: React.FC<{ isLoading: boolean }> = ({ isLoading }) => {
+const SaveCancelButtons: React.FC<{ isLoading: boolean; hashId?: string }> = ({
+  isLoading,
+  hashId,
+}) => {
   const { routes } = useContext(AccountSettingsContext);
 
   return (
@@ -52,7 +56,7 @@ const SaveCancelButtons: React.FC<{ isLoading: boolean }> = ({ isLoading }) => {
       >
         Save
       </button>{" "}
-      <Link to={routes.home} className="button is-light">
+      <Link to={pathWithHash(routes.home, hashId)} className="button is-light">
         Cancel
       </Link>
     </>
@@ -216,16 +220,18 @@ const LeaseTypeField: React.FC<{}> = () => {
 
 const NycAddressField: React.FC<{}> = () => {
   const sectionName = "Your address";
+  const sectionId = "address";
   const { routes } = useContext(AccountSettingsContext);
   const oi = assertNotNull(useContext(AppContext).session.onboardingInfo);
 
   return (
     <>
-      <h3>{sectionName}</h3>
+      <h3 id={sectionId}>{sectionName}</h3>
       <EditableInfo
         name={sectionName}
         readonlyContent={oi.fullMailingAddress}
         path={routes.address}
+        hashId={sectionId}
       >
         <SessionUpdatingFormSubmitter
           mutation={NycAddressMutation}
@@ -235,7 +241,7 @@ const NycAddressField: React.FC<{}> = () => {
             noAptNumber: !oi.aptNumber,
             address: oi.address,
           }}
-          onSuccessRedirect={routes.home}
+          onSuccessRedirect={pathWithHash(routes.home, sectionId)}
         >
           {(ctx) => (
             <>
@@ -248,7 +254,7 @@ const NycAddressField: React.FC<{}> = () => {
                 aptNumberProps={ctx.fieldPropsFor("aptNumber")}
                 noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
               />
-              <SaveCancelButtons isLoading={ctx.isLoading} />
+              <SaveCancelButtons isLoading={ctx.isLoading} hashId={sectionId} />
             </>
           )}
         </SessionUpdatingFormSubmitter>

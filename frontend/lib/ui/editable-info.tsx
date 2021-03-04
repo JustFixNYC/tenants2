@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { pathWithHash } from "../util/route-util";
 import { usePrevious } from "../util/use-previous";
 import { useAutoFocus } from "./use-auto-focus";
 
@@ -31,6 +32,17 @@ export type EditableInfoProps = {
    * still be rendered without needing to be re-mounted.
    */
   path: string;
+
+  /**
+   * The hash ID that clicking the "edit" button
+   * should take the user to, if any. This can ensure that
+   * the browser automatically scrolls to the part of the
+   * page where the editable information is.
+   *
+   * Note that this should be the hash *without* the leading
+   * `#` character, e.g. `mysection` rather than `#mysection`.
+   */
+  hashId?: string;
 
   /**
    * The name of the information in this area, used for
@@ -86,7 +98,7 @@ export const EditableInfo: React.FC<EditableInfoProps> = (props) => {
     <>
       <div className="jf-editable-info">{props.readonlyContent}</div>
       <EditLink
-        to={props.path}
+        to={pathWithHash(props.path, props.hashId)}
         autoFocus={autoFocusEditLink}
         ariaLabel={`Edit ${props.name}`}
       />

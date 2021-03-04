@@ -8,11 +8,11 @@ import { AccountSettingsRoutes } from "../routes";
 const sb = newSb();
 
 describe("AccountSettingsRoutes", () => {
-  const makePal = () =>
+  const makePal = (url?: string) =>
     new AppTesterPal(
       <AccountSettingsRoutes routes={JustfixRoutes.locale.accountSettings} />,
       {
-        url: JustfixRoutes.locale.accountSettings.home,
+        url: url || JustfixRoutes.locale.accountSettings.home,
         session: sb.withLoggedInJustfixUser().withOnboardingInfo({
           leaseType: LeaseType.RENT_STABILIZED,
         }).value,
@@ -50,6 +50,24 @@ describe("AccountSettingsRoutes", () => {
     const pal = makePal();
     pal.rr.findByText(/150 court st/i);
     pal.rr.getByLabelText(/edit your address/i).click();
+    pal.fillFormFields([["Address", "654 park place"]]);
+    pal.clickButtonOrLink("Cancel");
+  });
+
+  it("can confirm mailing address", () => {
+    const pal = makePal(
+      JustfixRoutes.locale.accountSettings.confirmAddressModal
+    );
+    pal.rr.findByText("Is this your address?");
+    pal.clickButtonOrLink("Yes!");
+  });
+
+  it("can un-confirm mailing address", () => {
+    const pal = makePal(
+      JustfixRoutes.locale.accountSettings.confirmAddressModal
+    );
+    pal.rr.findByText("Is this your address?");
+    pal.clickButtonOrLink("No, go back.");
     pal.fillFormFields([["Address", "654 park place"]]);
     pal.clickButtonOrLink("Cancel");
   });

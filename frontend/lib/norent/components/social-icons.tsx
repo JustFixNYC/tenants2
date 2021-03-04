@@ -80,7 +80,7 @@ export const SocialIcons = (props: {
           key={i}
         >
           <StaticImage
-            ratio="is-32x32"
+            ratio="is-48x48"
             src={getNorentImageSrc(
               props.color && props.color !== "default"
                 ? `${link.name}-${props.color}`

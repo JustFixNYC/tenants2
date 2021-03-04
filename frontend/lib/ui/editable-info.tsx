@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { pathWithHash } from "../util/route-util";
 import { usePrevious } from "../util/use-previous";
+import { bulmaClasses } from "./bulma";
 import { useAutoFocus } from "./use-auto-focus";
 
 const EditLink: React.FC<{
@@ -102,6 +103,30 @@ export const EditableInfo: React.FC<EditableInfoProps> = (props) => {
         autoFocus={autoFocusEditLink}
         ariaLabel={`Edit ${props.name}`}
       />
+    </>
+  );
+};
+
+/**
+ * Save/cancel buttons, originally intended for use within an `<EditableInfo>`.
+ */
+export const SaveCancelButtons: React.FC<{
+  isLoading: boolean;
+  homeLink: string;
+}> = ({ isLoading, homeLink }) => {
+  return (
+    <>
+      <button
+        type="submit"
+        className={bulmaClasses("button", "is-primary", {
+          "is-loading": isLoading,
+        })}
+      >
+        Save
+      </button>{" "}
+      <Link to={homeLink} className="button is-light">
+        Cancel
+      </Link>
     </>
   );
 };

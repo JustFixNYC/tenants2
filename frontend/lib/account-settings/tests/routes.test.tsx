@@ -1,5 +1,6 @@
 import React from "react";
 import JustfixRoutes from "../../justfix-route-info";
+import { LeaseType } from "../../queries/globalTypes";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { newSb } from "../../tests/session-builder";
 import { AccountSettingsRoutes } from "../routes";
@@ -12,7 +13,9 @@ describe("AccountSettingsRoutes", () => {
       <AccountSettingsRoutes routes={JustfixRoutes.locale.accountSettings} />,
       {
         url: JustfixRoutes.locale.accountSettings.home,
-        session: sb.withLoggedInJustfixUser().value,
+        session: sb.withLoggedInJustfixUser().withOnboardingInfo({
+          leaseType: LeaseType.RENT_STABILIZED,
+        }).value,
       }
     );
 
@@ -48,6 +51,14 @@ describe("AccountSettingsRoutes", () => {
     pal.rr.findByText(/150 court st/i);
     pal.rr.getByLabelText(/edit your address/i).click();
     pal.fillFormFields([["Address", "654 park place"]]);
+    pal.clickButtonOrLink("Cancel");
+  });
+
+  it("Can edit lease type", () => {
+    const pal = makePal();
+    pal.rr.findByText(/rent stabilized/i);
+    pal.rr.getByLabelText(/edit lease type/i).click();
+    pal.clickRadioOrCheckbox("Market Rate");
     pal.clickButtonOrLink("Cancel");
   });
 });

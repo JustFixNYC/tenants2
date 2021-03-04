@@ -11,6 +11,7 @@ import { OutboundLink } from "../ui/outbound-link";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 import classnames from "classnames";
 import { SocialIcons } from "../norent/components/social-icons";
+import { getGlobalAppServerInfo } from "../app-context";
 
 export const RTC_WEBSITE_URL = "https://www.righttocounselnyc.org/";
 export const HJ4A_SOCIAL_URL = "https://twitter.com/housing4allNY";
@@ -29,6 +30,20 @@ export function getEFImageSrc(
   const fileName = islocalized ? `${name}_${li18n.language}` : name;
   return `frontend/img/evictionfree/${fileName}.${type || "svg"}`;
 }
+
+const SocialShareContent = {
+  tweet: t(
+    "evictionfree.tweetTemplateForSharingFromHomepage"
+  )`You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021. Check it out here: ${
+    getGlobalAppServerInfo().originURL
+  } #EvictionFreeNY via @JustFixNYC @RTCNYC @housing4allNY`,
+  emailSubject: t`Protect yourself from eviction in New York State`,
+  emailBody: t(
+    "evictionfree.emailBodyTemplateForSharingFromHomepage"
+  )`On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021. Check it out here: ${
+    getGlobalAppServerInfo().originURL
+  }`,
+};
 
 const FillOutMyFormButton = (props: { isHiddenMobile?: boolean }) => (
   <span className={classnames(props.isHiddenMobile && "is-hidden-mobile")}>
@@ -294,6 +309,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
             <SocialIcons
               color="white"
               customStyleClasses="is-marginless is-inline-flex"
+              socialShareContent={SocialShareContent}
             />
           </div>
         </div>

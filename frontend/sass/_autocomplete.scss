@@ -27,6 +27,13 @@
   display: block;
 }
 
+.jf-autocomplete-field ul {
+  /** If we're in Bulma's 'content' class we'll have a margin, so undo it. */
+  margin: 0;
+}
+
 .jf-autocomplete-field ul li {
   padding: 0.5rem;
+  /** If we're in Bulma's 'content' class we'll have a bullet, so undo it. */
+  list-style-type: none;
 }

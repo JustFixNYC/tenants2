@@ -1230,6 +1230,22 @@
                 "name": "Boolean",
                 "ofType": null
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The user's full mailing address, as it will appear on mailings and other official documents.",
+              "isDeprecated": false,
+              "name": "fullMailingAddress",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
             }
           ],
           "inputFields": null,

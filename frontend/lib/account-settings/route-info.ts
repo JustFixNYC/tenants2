@@ -7,6 +7,8 @@ export function createAccountSettingsRouteInfo(prefix: string) {
     name: `${prefix}/name`,
     phoneNumber: `${prefix}/phone`,
     email: `${prefix}/email`,
+    address: `${prefix}/address`,
+    confirmAddressModal: `${prefix}/address/confirm-modal`,
     leaseType: `${prefix}/lease`,
   };
 }

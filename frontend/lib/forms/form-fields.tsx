@@ -83,7 +83,7 @@ export interface ChoiceFormFieldProps extends BaseFormFieldProps<string> {
   autoFocus?: boolean;
 }
 
-const AutofocusedInput: React.FC<InputProps> = (props) => {
+export const AutofocusedInput: React.FC<InputProps> = (props) => {
   const ref = useRef<HTMLInputElement | null>(null);
 
   useAutoFocus(ref, props.autoFocus);

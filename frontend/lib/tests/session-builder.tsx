@@ -91,6 +91,7 @@ export class SessionBuilder {
       city: "Brooklyn",
       state: "NY",
       zipcode: "11201",
+      fullMailingAddress: "150 Court St\nBrooklyn, NY 11201",
       agreedToJustfixTerms: true,
     });
   }

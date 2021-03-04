@@ -181,7 +181,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
           <LandingPageChecklist />
         </div>
         <div>
-          <BackgroundImage src={getEFImageSrc("phone", "gif", true)} alt="" />
+          <BackgroundImage src={getEFImageSrc("phone", "gif")} alt="" />
         </div>
       </div>
 

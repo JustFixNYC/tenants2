@@ -4,7 +4,7 @@ import { getNorentImageSrc } from "../homepage";
 import { OutboundLink } from "../../ui/outbound-link";
 import { getGlobalAppServerInfo } from "../../app-context";
 import { li18n } from "../../i18n-lingui";
-import { t } from "@lingui/macro";
+import { MessageDescriptor } from "@lingui/core";
 
 /**
  * Links to JustFix.nyc's main social media pages.
@@ -15,33 +15,22 @@ const socialMediaPageLinks = [
   { name: "instagram", url: "https://www.instagram.com/justfixnyc/" },
 ];
 
-const prefilledTwitterCopy = () =>
-  li18n._(
-    t(
-      "norent.tweetTemplateForSharingNoRent"
-    )`No idea how you'll pay rent this month? Tell your landlord with norent.org from @JustFixNYC. This free tool sends a certified letter informing them of your protections. Join the #cancelrent movement at norent.org.`
-  );
-const prefilledEmailSubject = () =>
-  li18n._(
-    t`I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent`
-  );
-const prefilledEmailBody = () =>
-  li18n._(
-    t(
-      "norent.emailBodyTemplateForSharingNoRent"
-    )`I used www.norent.org to tell my landlord that I'm unable to pay this month's rent. This free tool helps you build and send a letter to your landlord, cites legal protections in your state, and connects you to other people in your community working to #cancelrent`
-  );
+export type SocialShareContent = {
+  tweet: MessageDescriptor;
+  emailSubject: MessageDescriptor;
+  emailBody: MessageDescriptor;
+};
 
 /**
  * Links for users to share out the product on social media
  * with a pre-filled message (if applicable)
  */
-const socialMediaShareOutLinks = () => [
+const socialMediaShareOutLinks = (content: SocialShareContent) => [
   {
     name: "twitter",
     url:
       `https://twitter.com/intent/tweet` +
-      `?text=${encodeURIComponent(prefilledTwitterCopy())}`,
+      `?text=${encodeURIComponent(li18n._(content.tweet))}`,
   },
   {
     name: "facebook",
@@ -59,8 +48,8 @@ const socialMediaShareOutLinks = () => [
     name: "email",
     url:
       `mailto:` +
-      `?subject=${encodeURIComponent(prefilledEmailSubject())}` +
-      `&body=${encodeURIComponent(prefilledEmailBody())}`,
+      `?subject=${encodeURIComponent(li18n._(content.emailSubject))}` +
+      `&body=${encodeURIComponent(li18n._(content.emailBody))}`,
   },
 ];
 
@@ -68,10 +57,10 @@ type SocialIconColor = "white" | "default" | null;
 
 export const SocialIcons = (props: {
   color?: SocialIconColor;
-  linksAreForSharing?: boolean;
+  socialShareContent?: SocialShareContent;
 }) => {
-  const links = props.linksAreForSharing
-    ? socialMediaShareOutLinks()
+  const links = props.socialShareContent
+    ? socialMediaShareOutLinks(props.socialShareContent)
     : socialMediaPageLinks;
   return (
     <div className="buttons jf-social-icons">

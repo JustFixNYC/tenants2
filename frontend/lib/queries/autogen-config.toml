@@ -154,3 +154,5 @@ sessionFields = ["onboardingInfo"]
 [mutations.phoneNumber]
 
 [mutations.leaseType]
+
+[mutations.nycAddress]

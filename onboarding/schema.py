@@ -307,6 +307,15 @@ class OnboardingInfoType(DjangoObjectType):
         )
     )
 
+    full_mailing_address = graphene.String(
+        required=True,
+        description=(
+            "The user's full mailing address, as it will appear on mailings and "
+            "other official documents."
+        ),
+        resolver=lambda self, context: "\n".join(self.address_lines_for_mailing),
+    )
+
     def resolve_is_in_los_angeles(self, info) -> Optional[bool]:
         if not self.zipcode:
             return None

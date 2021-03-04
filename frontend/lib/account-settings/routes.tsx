@@ -8,6 +8,8 @@ import {
 } from "../../../common-data/lease-choices";
 import { AppContext } from "../app-context";
 import { toDjangoChoices } from "../common-data";
+import { AddressAndBoroughField } from "../forms/address-and-borough-form-field";
+import { AptNumberFormFields } from "../forms/apt-number-form-fields";
 import { RadiosFormField, TextualFormField } from "../forms/form-fields";
 import {
   formatPhoneNumber,
@@ -18,6 +20,7 @@ import { li18n } from "../i18n-lingui";
 import { LeaseTypeMutation } from "../queries/LeaseTypeMutation";
 import { NorentEmailMutation } from "../queries/NorentEmailMutation";
 import { NorentFullNameMutation } from "../queries/NorentFullNameMutation";
+import { NycAddressMutation } from "../queries/NycAddressMutation";
 import { PhoneNumberMutation } from "../queries/PhoneNumberMutation";
 import { bulmaClasses } from "../ui/bulma";
 import { EditableInfo } from "../ui/editable-info";
@@ -211,10 +214,54 @@ const LeaseTypeField: React.FC<{}> = () => {
   );
 };
 
+const NycAddressField: React.FC<{}> = () => {
+  const sectionName = "Your address";
+  const { routes } = useContext(AccountSettingsContext);
+  const oi = assertNotNull(useContext(AppContext).session.onboardingInfo);
+
+  return (
+    <>
+      <h3>{sectionName}</h3>
+      <EditableInfo
+        name={sectionName}
+        readonlyContent={oi.fullMailingAddress}
+        path={routes.address}
+      >
+        <SessionUpdatingFormSubmitter
+          mutation={NycAddressMutation}
+          initialState={{
+            borough: assertNotNull(oi.borough),
+            aptNumber: oi.aptNumber,
+            noAptNumber: !oi.aptNumber,
+            address: oi.address,
+          }}
+          onSuccessRedirect={routes.home}
+        >
+          {(ctx) => (
+            <>
+              <AddressAndBoroughField
+                autoFocus
+                addressProps={ctx.fieldPropsFor("address")}
+                boroughProps={ctx.fieldPropsFor("borough")}
+              />
+              <AptNumberFormFields
+                aptNumberProps={ctx.fieldPropsFor("aptNumber")}
+                noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
+              />
+              <SaveCancelButtons isLoading={ctx.isLoading} />
+            </>
+          )}
+        </SessionUpdatingFormSubmitter>
+      </EditableInfo>
+    </>
+  );
+};
+
 const NycAddressSettings: React.FC<{}> = () => {
   return (
     <>
       <h2>Address</h2>
+      <NycAddressField />
       <LeaseTypeField />
     </>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import { useContext } from "react";
+import { Route } from "react-router-dom";
 import {
   getLeaseChoiceLabels,
   isLeaseChoice,
@@ -13,6 +14,11 @@ import { RadiosFormField } from "../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import { LeaseTypeMutation } from "../queries/LeaseTypeMutation";
 import { NycAddressMutation } from "../queries/NycAddressMutation";
+import {
+  redirectToAddressConfirmationOrNextStep,
+  ConfirmAddressModal,
+  safeGetAddressAndBorough,
+} from "../ui/address-confirmation";
 import { EditableInfo, SaveCancelButtons } from "../ui/editable-info";
 import { assertNotNull } from "../util/util";
 import { makeAccountSettingsSection, WithAccountSettingsProps } from "./util";
@@ -56,6 +62,14 @@ const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   );
 };
 
+const OurConfirmAddressModal: React.FC<{ homeLink: string }> = ({
+  homeLink,
+}) => {
+  const { session } = useContext(AppContext);
+  const addrInfo = safeGetAddressAndBorough(session.onboardingInfo);
+  return <ConfirmAddressModal nextStep={homeLink} {...addrInfo} />;
+};
+
 const NycAddressField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   const sec = makeAccountSettingsSection(routes, "Your address", "address");
   const oi = assertNotNull(useContext(AppContext).session.onboardingInfo);
@@ -76,7 +90,16 @@ const NycAddressField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
             noAptNumber: !oi.aptNumber,
             address: oi.address,
           }}
-          onSuccessRedirect={sec.homeLink}
+          onSuccessRedirect={(output, input) =>
+            redirectToAddressConfirmationOrNextStep({
+              input,
+              resolved: safeGetAddressAndBorough(
+                output.session?.onboardingInfo
+              ),
+              confirmation: routes.confirmAddressModal,
+              nextStep: sec.homeLink,
+            })
+          }
         >
           {(ctx) => (
             <>
@@ -94,6 +117,11 @@ const NycAddressField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
           )}
         </SessionUpdatingFormSubmitter>
       </EditableInfo>
+      <Route
+        path={routes.confirmAddressModal}
+        exact
+        render={() => <OurConfirmAddressModal {...sec} />}
+      />
     </>
   );
 };

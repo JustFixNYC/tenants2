@@ -12,13 +12,12 @@ import { AddressAndBoroughField } from "../forms/address-and-borough-form-field"
 import { AptNumberFormFields } from "../forms/apt-number-form-fields";
 import { RadiosFormField } from "../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
-import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { LeaseTypeMutation } from "../queries/LeaseTypeMutation";
 import { NycAddressMutation } from "../queries/NycAddressMutation";
 import {
   redirectToAddressConfirmationOrNextStep,
-  AddressAndBorough,
   ConfirmAddressModal,
+  safeGetAddressAndBorough,
 } from "../ui/address-confirmation";
 import { EditableInfo, SaveCancelButtons } from "../ui/editable-info";
 import { assertNotNull } from "../util/util";
@@ -63,21 +62,11 @@ const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   );
 };
 
-function getOnboardingAddressAndBorough(
-  s: AllSessionInfo | null
-): AddressAndBorough {
-  const oi = assertNotNull(s?.onboardingInfo ?? null);
-  return {
-    address: oi.address,
-    borough: assertNotNull(oi.borough),
-  };
-}
-
 const OurConfirmAddressModal: React.FC<{ homeLink: string }> = ({
   homeLink,
 }) => {
   const { session } = useContext(AppContext);
-  const addrInfo = getOnboardingAddressAndBorough(session);
+  const addrInfo = safeGetAddressAndBorough(session.onboardingInfo);
   return <ConfirmAddressModal nextStep={homeLink} {...addrInfo} />;
 };
 
@@ -104,7 +93,9 @@ const NycAddressField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
           onSuccessRedirect={(output, input) =>
             redirectToAddressConfirmationOrNextStep({
               input,
-              resolved: getOnboardingAddressAndBorough(output.session),
+              resolved: safeGetAddressAndBorough(
+                output.session?.onboardingInfo
+              ),
               confirmation: routes.confirmAddressModal,
               nextStep: sec.homeLink,
             })

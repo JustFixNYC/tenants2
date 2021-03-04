@@ -6,13 +6,39 @@ import {
   getBoroughChoiceLabels,
 } from "../../../common-data/borough-choices";
 import { CenteredButtons } from "./centered-buttons";
+import { BreaksBetweenLines } from "./breaks-between-lines";
 
-export type AddressAndBorough = {
+type AddressAndBorough = {
   /** A NYC street name and number, e.g. "150 court st". */
   address: string;
   /** A NYC borough choice, e.g. "STATEN_ISLAND". */
   borough: string;
+  /**
+   * Optionally, the full mailing address, which includes the
+   * human-readable address and borough.
+   */
+  fullMailingAddress?: string;
 };
+
+/**
+ * Attempt to safely retrive address and borough details
+ * from the given object. If the object itself, or any of
+ * its address/borough properties, are falsy, then we will
+ * return an empty address and/or borough, respectively.
+ */
+export function safeGetAddressAndBorough(
+  obj?: {
+    address?: string;
+    borough?: string | null;
+    fullMailingAddress?: string;
+  } | null
+): AddressAndBorough {
+  return {
+    address: obj?.address || "",
+    borough: obj?.borough || "",
+    fullMailingAddress: obj?.fullMailingAddress,
+  };
+}
 
 export type ConfirmAddressModalProps = AddressAndBorough & {
   /**
@@ -36,6 +62,8 @@ export function ConfirmAddressModal(
     borough = getBoroughChoiceLabels()[props.borough];
   }
 
+  const addr = props.fullMailingAddress || `${props.address}, ${borough}`;
+
   return (
     <Modal
       title="Is this your address?"
@@ -44,7 +72,7 @@ export function ConfirmAddressModal(
       render={(ctx) => (
         <>
           <p>
-            {props.address}, {borough}
+            <BreaksBetweenLines lines={addr} />
           </p>
           <CenteredButtons>
             <Link to={props.nextStep} className="button is-primary is-medium">

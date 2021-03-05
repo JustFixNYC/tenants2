@@ -1,0 +1,23 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">
+{% endblock %}
+
+{% block content %}
+{% if noimpersonate_reason %}
+<p>{{ noimpersonate_reason }}</p>
+{% else %}
+<p>
+  You are about to start impersonating
+  <a href="{% url 'admin:users_justfixuser_change' other_user.pk %}">{{ other_user.full_name }}</a>.
+</p>
+<form action="." method="POST">
+  {% csrf_token %}
+  <div class="submit-row">
+    <input type="submit" class="default" value="Impersonate {{ other_user.full_name }}">
+  </div>
+</form>
+{% endif %}
+{% endblock %}

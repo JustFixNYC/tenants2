@@ -5,7 +5,6 @@ from django.urls import reverse
 from project.util.admin_util import admin_field, get_admin_url_for_class, make_button_link
 from .forms import JustfixUserCreationForm, JustfixUserChangeForm
 from .models import JustfixUser
-from . import impersonation
 import rapidpro.models
 from onboarding.admin import OnboardingInline
 from .admin_user_proxy import user_signup_intent, sms_conversations_field

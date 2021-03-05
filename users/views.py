@@ -2,11 +2,9 @@ from django.http import HttpResponse, HttpRequest, HttpResponseForbidden
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.shortcuts import get_object_or_404, redirect
 import logging
 
 from project import slack
-from .models import JustfixUser
 from .email_verify import verify_code
 from . import email_verify as ev, impersonation
 

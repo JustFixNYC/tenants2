@@ -33,7 +33,6 @@ class UserAdminViews:
                 logger.error(f"Denied {user} from impersonating {other_user}: {reason}")
                 return HttpResponseForbidden(reason)
             impersonation.impersonate_user(request, other_user)
-            logger.info(f"{user} started impersonating {other_user}.")
             return redirect("/")
 
         return TemplateResponse(

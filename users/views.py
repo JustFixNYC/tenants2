@@ -1,12 +1,9 @@
-from django.http import HttpResponse, HttpRequest, HttpResponseForbidden
-from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse
+from django.http import HttpResponse, HttpRequest
 import logging
 
 from project import slack
 from .email_verify import verify_code
-from . import email_verify as ev, impersonation
+from . import email_verify as ev
 
 logger = logging.getLogger(__name__)
 
@@ -34,15 +31,3 @@ def verify_email(request: HttpRequest) -> HttpResponse:
     return HttpResponse(
         f"Thank you for verifying your email address! You may now " f"close this web page."
     )
-
-
-@require_POST
-@login_required
-def unimpersonate_user(request: HttpRequest) -> HttpResponse:
-    user = request.user
-    other_user = impersonation.get_impersonating_user(request)
-    if other_user is None:
-        return HttpResponseForbidden("Not currently impersonating a user.")
-    impersonation.unimpersonate_user(request)
-    logger.info(f"{other_user} stopped impersonating {user}.")
-    return reverse("admin:index")

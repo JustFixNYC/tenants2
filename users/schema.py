@@ -1,9 +1,11 @@
+from typing import Optional
 from project.util.model_form_util import OneToOneUserModelFormMutation
 from graphql import ResolveInfo
+import graphene
 
 from project import schema_registry
 from project.util.session_mutation import SessionFormMutation
-from . import forms
+from . import forms, impersonation
 from .email_verify import send_verification_email_async
 
 
@@ -42,3 +44,33 @@ class SendVerificationEmail(SessionFormMutation):
 class PhoneNumber(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.PhoneNumberForm
+
+
+@schema_registry.register_mutation
+class Unimpersonate(SessionFormMutation):
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        other_user = impersonation.get_impersonating_user(request)
+        if other_user is None:
+            return cls.make_error("You are not currently impersonating another user.")
+        impersonation.unimpersonate_user(request)
+        return cls.mutation_success()
+
+
+@schema_registry.register_session_info
+class UserSessionInfo:
+    impersonated_by = graphene.String(
+        description=(
+            "The name of the staff member who is impersonating the current user. "
+            "If the current user isn't being impersonated by anyone, this will "
+            "be null."
+        )
+    )
+
+    def resolve_impersonated_by(self, info: ResolveInfo) -> Optional[str]:
+        request = info.context
+        other_user = impersonation.get_impersonating_user(request)
+        if other_user is None:
+            return None
+        return other_user.first_name or other_user.username

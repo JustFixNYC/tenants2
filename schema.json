@@ -2322,6 +2322,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "The name of the staff member who is impersonating the current user. If the current user isn't being impersonated by anyone, this will be null.",
+              "isDeprecated": false,
+              "name": "impersonatedBy",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
               "name": "rentalHistoryInfo",
@@ -5197,6 +5209,37 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
+                      "name": "UnimpersonateInput",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "unimpersonate",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "UnimpersonatePayload",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "input",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
                       "name": "TenantChildrenInput",
                       "ofType": null
                     }
@@ -7237,7 +7280,7 @@
           "inputFields": null,
           "interfaces": [],
           "kind": "OBJECT",
-          "name": "TenantChildrenPayload",
+          "name": "UnimpersonatePayload",
           "possibleTypes": null
         },
         {
@@ -7352,6 +7395,86 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "ExtendedFormFieldError",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "UnimpersonateInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "session",
+              "type": {
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "TenantChildrenPayload",
           "possibleTypes": null
         },
         {

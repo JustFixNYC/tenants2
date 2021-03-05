@@ -1,4 +1,5 @@
 from typing import Optional
+import logging
 from django.http import HttpRequest
 from django.contrib import auth
 
@@ -6,6 +7,8 @@ from .models import JustfixUser, IMPERSONATE_USERS_PERMISSION
 
 
 SESSION_KEY = "user_impersonated_by"
+
+logger = logging.getLogger(__name__)
 
 
 def get_reason_for_denying_impersonation(
@@ -43,8 +46,9 @@ def impersonate_user(request: HttpRequest, other_user: JustfixUser):
 
     user = request.user
     assert can_user_impersonate(user, other_user), "Impersonator must have permission"
-    request.session[SESSION_KEY] = user.pk
     _switch_to(request, other_user)
+    request.session[SESSION_KEY] = user.pk
+    logger.info(f"{user} started impersonating {other_user}.")
 
 
 def get_impersonating_user(request: HttpRequest) -> Optional[JustfixUser]:
@@ -62,10 +66,11 @@ def unimpersonate_user(request: HttpRequest):
     Make the current user stop impersonating.
     """
 
+    user = request.user
     other_user = get_impersonating_user(request)
     assert other_user is not None, "User must be impersonating"
     _switch_to(request, other_user)
-    del request.session[SESSION_KEY]
+    logger.info(f"{other_user} stopped impersonating {user}.")
 
 
 def _switch_to(request, user):

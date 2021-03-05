@@ -13,6 +13,12 @@
   You are about to start impersonating
   <a href="{% url 'admin:users_justfixuser_change' other_user.pk %}">{{ other_user.full_name }}</a>.
 </p>
+<p>
+  When you click the button below, you will be taken to the site's homepage
+  logged in as {{ other_user.full_name }}.  If you want to return to
+  being logged in as {{ user.full_name }}, visit the "log out" page
+  of the site.
+</p>
 <form action="." method="POST">
   {% csrf_token %}
   <div class="submit-row">

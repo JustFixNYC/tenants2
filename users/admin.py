@@ -1,13 +1,12 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.urls import reverse
 
 from project.util.admin_util import admin_field, get_admin_url_for_class, make_button_link
 from .forms import JustfixUserCreationForm, JustfixUserChangeForm
 from .models import JustfixUser
 import rapidpro.models
 from onboarding.admin import OnboardingInline
-from .admin_user_proxy import user_signup_intent, sms_conversations_field
+from .admin_user_proxy import impersonate_field, user_signup_intent, sms_conversations_field
 from texting.models import get_lookup_description_for_phone_number
 from loc.admin import LOCUser, LandlordDetailsInline
 from hpaction.admin import HPUser
@@ -180,14 +179,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
         queryset = super().get_queryset(request)
         return queryset.prefetch_related("onboarding_info")
 
-    @admin_field(short_description="Impersonation", allow_tags=True)
-    def impersonate(self, obj):
-        if obj.pk:
-            return make_button_link(
-                reverse("admin:impersonate-user", kwargs={"user_id": obj.pk}),
-                f"Impersonate {obj.full_name}\u2026",
-            )
-        return ""
+    impersonate = impersonate_field
 
 
 admin.site.register(JustfixUser, JustfixUserAdmin)

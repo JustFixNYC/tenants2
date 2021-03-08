@@ -7,7 +7,7 @@
 
 {% block content %}
 {% if noimpersonate_reason %}
-<p>{{ noimpersonate_reason }}</p>
+<p>{{ noimpersonate_reason.value }}</p>
 {% else %}
 <p>
   You are about to start impersonating

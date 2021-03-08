@@ -1,6 +1,7 @@
 import factory
 
 from ..models import JustfixUser
+from ..permission_util import get_permissions_from_ns_codenames
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -27,6 +28,13 @@ class UserFactory(factory.django.DjangoModelFactory):
         return kwargs
 
     @classmethod
+    def _convert_to_perms(cls, kwargs):
+        if "user_permissions" in kwargs:
+            perms = kwargs.pop("user_permissions")
+            return get_permissions_from_ns_codenames(perms)
+        return []
+
+    @classmethod
     def _build(cls, model_class, *args, **kwargs):
         kwargs = cls._convert_full_name(kwargs)
         return super()._build(model_class, *args, **kwargs)
@@ -34,7 +42,11 @@ class UserFactory(factory.django.DjangoModelFactory):
     @classmethod
     def _create(cls, model_class, *args, **kwargs):
         kwargs = cls._convert_full_name(kwargs)
-        return JustfixUser.objects.create_user(*args, **kwargs)
+        perms = cls._convert_to_perms(kwargs)
+        user = JustfixUser.objects.create_user(*args, **kwargs)
+        if perms:
+            user.user_permissions.set(perms)
+        return user
 
 
 class SecondUserFactory(UserFactory):

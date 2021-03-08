@@ -1,4 +1,5 @@
 from typing import Optional
+from enum import Enum
 import logging
 from django.http import HttpRequest
 from django.contrib import auth
@@ -11,9 +12,19 @@ SESSION_KEY = "user_impersonated_by"
 logger = logging.getLogger(__name__)
 
 
+class ImpersonationDenialReason(Enum):
+    NOT_AUTHENTICATED = "You must be authenticated."
+
+    NOT_ACTIVE_STAFF_MEMBER = "You must be an active staff member to impersonate a user."
+
+    NEEDS_IMPERSONATE_USERS_PERMISSION = "You do not have permission to impersonate users."
+
+    NOT_SUPERUSER = "You must be a superuser to impersonate staff members."
+
+
 def get_reason_for_denying_impersonation(
     user: JustfixUser, other_user: JustfixUser
-) -> Optional[str]:
+) -> Optional[ImpersonationDenialReason]:
     """
     Return the reason for why `user` cannot impersonate `other_user`. If
     no reason exists, the user *can* impersonate the other user, and
@@ -21,13 +32,13 @@ def get_reason_for_denying_impersonation(
     """
 
     if not user.is_authenticated:
-        return "You must be authenticated."
+        return ImpersonationDenialReason.NOT_AUTHENTICATED
     if not (user.is_active and user.is_staff):
-        return "You must be an active staff member to impersonate a user."
+        return ImpersonationDenialReason.NOT_ACTIVE_STAFF_MEMBER
     if not user.has_perm(IMPERSONATE_USERS_PERMISSION):
-        return "You do not have permission to impersonate users."
+        return ImpersonationDenialReason.NEEDS_IMPERSONATE_USERS_PERMISSION
     if (other_user.is_staff or other_user.is_superuser) and not user.is_superuser:
-        return "You must be a superuser to impersonate staff members."
+        return ImpersonationDenialReason.NOT_SUPERUSER
     return None
 
 
@@ -36,7 +47,7 @@ def can_user_impersonate(user: JustfixUser, other_user: JustfixUser) -> bool:
     Return whether `user` can impersonate `other_user`.
     """
 
-    return not bool(get_reason_for_denying_impersonation(user, other_user))
+    return get_reason_for_denying_impersonation(user, other_user) is None
 
 
 def impersonate_user(request: HttpRequest, other_user: JustfixUser):

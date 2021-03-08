@@ -1,4 +1,5 @@
 import itertools
+from project.util.mailing_address import STATE_KWARGS
 from typing import Union, Iterator, Optional
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry, Point, Polygon, MultiPolygon
@@ -46,6 +47,19 @@ class IgnoreFindhelpMigrationsRouter:
         # Note that we are supposed to return None if we have
         # no opinion on the matter, which is the case here.
         return None
+
+
+class County(models.Model):
+    class Meta:
+        ordering = ["state", "name"]
+        unique_together = ("state", "name")
+
+    state = models.CharField(**STATE_KWARGS)
+    name = models.CharField(max_length=25)
+    geom = models.MultiPolygonField(srid=4326)
+
+    def __str__(self):
+        return f"{self.name}, {self.state}"
 
 
 class Zipcode(models.Model):

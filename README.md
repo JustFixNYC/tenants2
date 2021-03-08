@@ -491,6 +491,7 @@ and has the following provenance:
 * `findhelp/data/Borough-Boundaries.geojson` - https://data.cityofnewyork.us/City-Government/Borough-Boundaries/tqmj-j8zm
 * `findhelp/data/Community-Districts.geojson` - https://data.cityofnewyork.us/City-Government/Community-Districts/yfnk-k7r4
 * `findhelp/data/ZillowNeighborhoods-NY` - https://www.zillow.com/howto/api/neighborhood-boundaries.htm
+* `findhelp/data/nys_counties.geojson` - http://gis.ny.gov/gisdata/inventories/details.cfm?DSID=927 (reprojected into the WGS 84 CRS and converted to GeoJson via QGIS)
 
 [pipenv]: https://docs.pipenv.org/
 [git-lfs]: https://git-lfs.github.com/

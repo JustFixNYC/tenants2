@@ -7,6 +7,7 @@ from findhelp.models import (
     Neighborhood,
     CommunityDistrict,
     TenantResource,
+    County,
 )
 from django.contrib.gis.geos import Polygon, MultiPolygon
 
@@ -103,6 +104,11 @@ def test_borough_str_works():
 def test_neighborhood_str_works():
     n = Neighborhood(name="Dumbo", county="Kings")
     assert str(n) == "Dumbo (Kings)"
+
+
+def test_county_str_works():
+    c = County(name="Franklin", state="OH")
+    assert str(c) == "Franklin, OH"
 
 
 class TestCommunityDistrict:

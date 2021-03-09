@@ -21,7 +21,9 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     #   https://github.com/kennethreitz/dj-database-url#url-schema
     #
     # Note that only Postgres/PostGIS are officially supported
-    # by this project.
+    # by this project. Note also that even if this URL uses the
+    # 'postgres:' protocol, the server will still expect the PostGIS
+    # extension to be installed on it at runtime.
     DATABASE_URL: str
 
     # The NYC-DB database URL. If empty, NYCDB integration will be

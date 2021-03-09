@@ -5,6 +5,7 @@ from project.util.settings_util import (
     ensure_dependent_settings_are_nonempty,
     parse_comma_separated_list,
     LazilyImportedFunction,
+    change_db_url_to_postgis,
 )
 
 
@@ -48,3 +49,15 @@ def test_lazily_imported_function_works():
 )
 def test_parse_comma_separated_list_works(input, output):
     assert parse_comma_separated_list(input) == output
+
+
+class TestChangeDbUrlToPostgis:
+    def test_it_raises_error_on_unsupported_url_protocol(self):
+        with pytest.raises(ValueError, match="Expected URL to start with"):
+            change_db_url_to_postgis("sqlite://boop")
+
+    def test_it_does_nothing_to_postgis_urls(self):
+        assert change_db_url_to_postgis("postgis://boop") == "postgis://boop"
+
+    def test_it_changes_postgres_urls(self):
+        assert change_db_url_to_postgis("postgres://boop") == "postgis://boop"

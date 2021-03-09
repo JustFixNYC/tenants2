@@ -52,6 +52,25 @@ def ensure_dependent_settings_are_nonempty(setting: str, *dependent_settings: st
             raise ImproperlyConfigured(f"{setting} is non-empty, but {dependent_setting} is empty!")
 
 
+def change_db_url_to_postgis(url: str) -> str:
+    """
+    If the given URL is uses a `postgres:` protocol instead of a `postgis:` protocol,
+    modify it to use one, e.g.:
+
+        >>> change_db_url_to_postgis('postgres://blah')
+        'postgis://blah'
+    """
+
+    POSTGRES = "postgres://"
+    POSTGIS = "postgis://"
+
+    if url.startswith(POSTGRES):
+        url = POSTGIS + url[len(POSTGRES) :]
+    if not url.startswith(POSTGIS):
+        raise ValueError(f"Expected URL to start with '{POSTGRES}' or '{POSTGIS}': {repr(url)}")
+    return url
+
+
 class LazilyImportedFunction:
     """
     A class that can be used to import a function lazily,

@@ -261,6 +261,9 @@ class HerokuDeployer:
             self.run_in_container(["python", "manage.py", "migrate"])
             self.run_in_container(["python", "manage.py", "initgroups"])
 
+            print("Loading geographic data...")
+            self.run_in_container(["python", "manage.py", "loadfindhelpdata"])
+
             print("Initiating Heroku release phase...")
             self.heroku.run("container:release", self.process_type, self.worker_process_type)
 

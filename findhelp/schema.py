@@ -51,17 +51,12 @@ class FindhelpInfo:
         longitude=graphene.Float(required=True),
         description=(
             "Find tenant resources that service the given location, ordered by their "
-            "proximity to the location. Note that if the tenant resource directory is "
-            "disabled on this endpoint, this will resolve to null."
+            "proximity to the location."
         ),
+        required=True,
     )
 
     def resolve_tenant_resources(self, info: ResolveInfo, latitude: float, longitude: float):
-        from project.settings import env
-
-        if not env.ENABLE_FINDHELP:
-            return None
-
         return TenantResource.objects.find_best_for(
             latitude=latitude,
             longitude=longitude,

@@ -19,7 +19,8 @@ everything up without Docker, read on!
 
 You'll need Python 3.8.2 and [pipenv][], as well as Node 12, yarn, and
 [Git Large File Storage (LFS)][git-lfs]. You will also need to
-set up Postgres version 10 or later.
+set up Postgres version 10 or later, and it will need the PostGIS
+extension installed.
 
 If you didn't have Git LFS installed before cloning the repository,
 you can obtain the repository's large files by running `git lfs pull`.

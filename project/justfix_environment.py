@@ -21,7 +21,9 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     #   https://github.com/kennethreitz/dj-database-url#url-schema
     #
     # Note that only Postgres/PostGIS are officially supported
-    # by this project.
+    # by this project. Note also that even if this URL uses the
+    # 'postgres:' protocol, the server will still expect the PostGIS
+    # extension to be installed on it at runtime.
     DATABASE_URL: str
 
     # The NYC-DB database URL. If empty, NYCDB integration will be
@@ -188,12 +190,6 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # password, though). If this is zero or a negative number,
     # 2FA will be disabled.
     TWOFACTOR_VERIFY_DURATION: int = 60 * 60 * 24
-
-    # Whether or not to enable the findhelp app, also known as
-    # the Tenant Assistance Directory. This requires that the
-    # default database be PostGIS, and that GeoDjango's requisite
-    # geospatial libraries are installed.
-    ENABLE_FINDHELP: bool = False
 
     # A Mapbox public access token for embedded maps and/or geocoding. If
     # not provided, mapbox integration will be disabled.

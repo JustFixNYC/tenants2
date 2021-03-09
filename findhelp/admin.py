@@ -5,16 +5,7 @@ from .models import Zipcode, Borough, Neighborhood, CommunityDistrict, TenantRes
 from .admin_map import render_admin_map, admin_map_field, MapModelAdmin
 
 
-def register(model):
-    from project.settings import env
-
-    if env.ENABLE_FINDHELP:
-        return admin.register(model)
-
-    return lambda klass: klass
-
-
-@register(Zipcode)
+@admin.register(Zipcode)
 class ZipcodeAdmin(MapModelAdmin):
     list_display = ["zipcode"]
     search_fields = ["zipcode"]
@@ -24,7 +15,7 @@ class ZipcodeAdmin(MapModelAdmin):
     geometry = admin_map_field("geom", "Geometry")
 
 
-@register(Borough)
+@admin.register(Borough)
 class BoroughAdmin(MapModelAdmin):
     list_display = ["code", "name"]
     exclude = ["geom"]
@@ -33,7 +24,7 @@ class BoroughAdmin(MapModelAdmin):
     geometry = admin_map_field("geom", "Geometry")
 
 
-@register(Neighborhood)
+@admin.register(Neighborhood)
 class NeighborhoodAdmin(MapModelAdmin):
     list_display = ["name", "county"]
     search_fields = ["name"]
@@ -43,7 +34,7 @@ class NeighborhoodAdmin(MapModelAdmin):
     geometry = admin_map_field("geom", "Geometry")
 
 
-@register(CommunityDistrict)
+@admin.register(CommunityDistrict)
 class CommunityDistrictAdmin(MapModelAdmin):
     list_display = ["boro_cd", "name"]
     search_fields = ["name"]
@@ -53,7 +44,7 @@ class CommunityDistrictAdmin(MapModelAdmin):
     geometry = admin_map_field("geom", "Geometry")
 
 
-@register(TenantResource)
+@admin.register(TenantResource)
 class TenantResourceAdmin(MapModelAdmin):
     list_display = ["name", "org_type"]
     exclude = ["geocoded_point", "catchment_area"]

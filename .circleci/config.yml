@@ -13,7 +13,6 @@ jobs:
           PIPENV_VENV_IN_PROJECT: true
           DEBUG: yup
           ENABLE_WEBPACK_CONTENT_HASH: yup
-          ENABLE_FINDHELP: yup
           GIT_LFS_SKIP_SMUDGE: 1
     steps:
       - checkout

@@ -21,6 +21,7 @@ from .util.settings_util import (
     parse_secure_proxy_ssl_header,
     parse_hostname_redirects,
     parse_comma_separated_list,
+    change_db_url_to_postgis,
     LazilyImportedFunction,
 )
 from .util import git
@@ -205,11 +206,8 @@ WSGI_APPLICATION = "project.wsgi.application"
 
 DATABASE_ROUTERS: List[str] = []
 
-if not env.ENABLE_FINDHELP:
-    DATABASE_ROUTERS.append("findhelp.models.IgnoreFindhelpMigrationsRouter")
-
 DATABASES = {
-    "default": dj_database_url.parse(env.DATABASE_URL),
+    "default": dj_database_url.parse(change_db_url_to_postgis(env.DATABASE_URL)),
 }
 
 NYCDB_DATABASE = None

@@ -1,10 +1,5 @@
-from findhelp.admin import register, TenantResourceAdmin
+from findhelp.admin import TenantResourceAdmin
 from findhelp.models import TenantResource
-
-
-def test_register_is_noop_if_findhelp_is_disabled(simulate_findhelp_disabled):
-    boop = "boop"
-    assert register("i am a fake model class")(boop) is boop
 
 
 class TestTenantResourceAdmin:

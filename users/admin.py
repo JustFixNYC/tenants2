@@ -1,3 +1,4 @@
+from findhelp.admin_map import MapModelAdmin
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
@@ -34,7 +35,7 @@ def make_link_to_other_user_view(model_class, short_description):
     return link
 
 
-class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin):
+class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin, MapModelAdmin):
     add_form = JustfixUserCreationForm
     form = JustfixUserChangeForm
     model = JustfixUser

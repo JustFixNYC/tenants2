@@ -1,7 +1,10 @@
+import json
 from typing import List, Dict
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import JSONField
+from django.contrib.gis.db.models import PointField
+from django.contrib.gis.geos import GEOSGeometry
 
 from project.common_data import Choices
 from project import geocoding, mapbox
@@ -145,6 +148,13 @@ class OnboardingInfo(models.Model):
         blank=True,
         null=True,
         help_text="The GeoJSON point representing the user's address, if available.",
+    )
+
+    geocoded_point = PointField(
+        null=True,
+        blank=True,
+        srid=4326,
+        help_text="The point representing the user's address, if available.",
     )
 
     pad_bbl: str = models.CharField(
@@ -397,12 +407,24 @@ class OnboardingInfo(models.Model):
             return True
         return False
 
+    def update_geocoded_point_from_geometry(self):
+        """
+        Set the `geocoded_point` property based on the value of `geometry`. Done automatically
+        on model save.
+        """
+
+        if self.geometry is None:
+            self.geocoded_point = None
+        else:
+            self.geocoded_point = GEOSGeometry(json.dumps(self.geometry), srid=4326)
+
     def clean(self):
         if self.borough and self.non_nyc_city:
             raise ValidationError("One cannot be in an NYC borough and outside NYC simultaneously.")
 
     def save(self, *args, **kwargs):
         self.maybe_lookup_new_addr_metadata()
+        self.update_geocoded_point_from_geometry()
         return super().save(*args, **kwargs)
 
     @property

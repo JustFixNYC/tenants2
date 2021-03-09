@@ -126,6 +126,26 @@ def test_address_lines_for_mailing():
     assert info.address_lines_for_mailing == ["150 Boop Way", "Apartment 2", "Beetville, OH 43210"]
 
 
+class TestUpdateGeocodedPointFromGeometry:
+    def build(self):
+        return OnboardingInfo(geometry={"type": "Point", "coordinates": [-118.24317, 34.05405]})
+
+    def test_it_sets_value_to_point(self):
+        onb = self.build()
+        onb.update_geocoded_point_from_geometry()
+        pt = onb.geocoded_point
+        assert pt.x == -118.24317
+        assert pt.y == 34.05405
+        assert pt.srid == 4326
+
+    def test_it_sets_value_to_none(self):
+        onb = self.build()
+        onb.update_geocoded_point_from_geometry()
+        onb.geometry = None
+        onb.update_geocoded_point_from_geometry()
+        assert onb.geocoded_point is None
+
+
 class TestNationalAddrMetadataLookup:
     def mkinfo(self, **kwargs):
         return OnboardingInfo(
@@ -275,3 +295,22 @@ class TestNycAddrMetadataLookup:
         assert info.pad_bbl == "3002920026"
         assert info.pad_bin == "3003069"
         assert info.geometry == {"type": "Point", "coordinates": [-73.993, 40.6889]}
+
+
+@enable_fake_geocoding
+def test_save_sets_geographic_metadata(db, requests_mock, settings):
+    requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
+    user = UserFactory()
+    oi = OnboardingInfo(
+        user=user,
+        signup_intent="LOC",
+        address="150 court st",
+        address_verified=True,
+        borough="BROOKLYN",
+        state="NY",
+        can_we_sms=True,
+    )
+    oi.full_clean()
+    oi.save()
+    assert oi.geocoded_point is not None
+    assert oi.zipcode == "11201"

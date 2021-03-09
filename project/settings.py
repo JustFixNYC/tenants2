@@ -119,6 +119,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
+    "django.contrib.gis",
     "graphene_django",
     "django_celery_results",
     "project.apps.DefaultConfig",
@@ -451,7 +452,9 @@ TWOFACTOR_VERIFY_DURATION = env.TWOFACTOR_VERIFY_DURATION
 
 MAPBOX_ACCESS_TOKEN = env.MAPBOX_ACCESS_TOKEN
 
-MAPBOX_TILES_ORIGIN = "https://api.tiles.mapbox.com"
+MAPBOX_API_ORIGIN = "https://api.mapbox.com"
+
+MAPBOX_TILES_ORIGIN = MAPBOX_API_ORIGIN
 
 MAPBOX_TIMEOUT = 10
 
@@ -531,7 +534,7 @@ CSP_SCRIPT_SRC = [
     "'self'",
 ]
 
-CSP_CONNECT_SRC = ["'self'", NYC_GEOSEARCH_ORIGIN, "https://api.mapbox.com"]
+CSP_CONNECT_SRC = ["'self'", NYC_GEOSEARCH_ORIGIN, MAPBOX_API_ORIGIN]
 
 CSP_FRAME_SRC = ["'self'", "https://www.youtube.com"]
 

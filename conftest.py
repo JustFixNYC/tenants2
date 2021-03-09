@@ -17,7 +17,6 @@ import requests_mock as requests_mock_module
 
 from users.tests.factories import UserFactory
 from project.schema import schema
-from project.settings import env
 from nycha.tests.fixtures import load_nycha_csv_data
 
 

@@ -1,8 +1,22 @@
 from django.contrib import admin
 
-from project.util.admin_util import admin_field
-from .models import Zipcode, Borough, Neighborhood, CommunityDistrict, TenantResource
+from project.util.admin_util import admin_field, never_has_permission
+from .models import Zipcode, Borough, Neighborhood, CommunityDistrict, TenantResource, County
 from .admin_map import render_admin_map, admin_map_field, MapModelAdmin
+
+
+@admin.register(County)
+class CountyAdmin(MapModelAdmin):
+    list_display = ["name", "state"]
+    search_fields = ["name"]
+    exclude = ["geom"]
+    readonly_fields = ["geometry"]
+
+    geometry = admin_map_field("geom", "Geometry")
+
+    has_add_permission = never_has_permission
+    has_change_permission = never_has_permission
+    has_delete_permission = never_has_permission
 
 
 @admin.register(Zipcode)
@@ -14,6 +28,10 @@ class ZipcodeAdmin(MapModelAdmin):
 
     geometry = admin_map_field("geom", "Geometry")
 
+    has_add_permission = never_has_permission
+    has_change_permission = never_has_permission
+    has_delete_permission = never_has_permission
+
 
 @admin.register(Borough)
 class BoroughAdmin(MapModelAdmin):
@@ -22,6 +40,10 @@ class BoroughAdmin(MapModelAdmin):
     readonly_fields = ["geometry"]
 
     geometry = admin_map_field("geom", "Geometry")
+
+    has_add_permission = never_has_permission
+    has_change_permission = never_has_permission
+    has_delete_permission = never_has_permission
 
 
 @admin.register(Neighborhood)
@@ -33,6 +55,10 @@ class NeighborhoodAdmin(MapModelAdmin):
 
     geometry = admin_map_field("geom", "Geometry")
 
+    has_add_permission = never_has_permission
+    has_change_permission = never_has_permission
+    has_delete_permission = never_has_permission
+
 
 @admin.register(CommunityDistrict)
 class CommunityDistrictAdmin(MapModelAdmin):
@@ -42,6 +68,10 @@ class CommunityDistrictAdmin(MapModelAdmin):
     readonly_fields = ["geometry"]
 
     geometry = admin_map_field("geom", "Geometry")
+
+    has_add_permission = never_has_permission
+    has_change_permission = never_has_permission
+    has_delete_permission = never_has_permission
 
 
 @admin.register(TenantResource)

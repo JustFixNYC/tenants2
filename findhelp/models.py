@@ -33,6 +33,7 @@ class County(models.Model):
     class Meta:
         ordering = ["state", "name"]
         unique_together = ("state", "name")
+        verbose_name_plural = "counties"
 
     state = models.CharField(**STATE_KWARGS)
     name = models.CharField(max_length=25)

@@ -280,19 +280,23 @@
                 }
               ],
               "deprecationReason": null,
-              "description": "Find tenant resources that service the given location, ordered by their proximity to the location. Note that if the tenant resource directory is disabled on this endpoint, this will resolve to null.",
+              "description": "Find tenant resources that service the given location, ordered by their proximity to the location.",
               "isDeprecated": false,
               "name": "tenantResources",
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
+                  "kind": "LIST",
                   "name": null,
                   "ofType": {
-                    "kind": "OBJECT",
-                    "name": "TenantResourceType",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "TenantResourceType",
+                      "ofType": null
+                    }
                   }
                 }
               }

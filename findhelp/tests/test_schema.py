@@ -36,5 +36,5 @@ class TestTenantResources:
         assert results[1]["name"] == "Funky Help"
         assert int(results[1]["milesAway"]) == 40
 
-    def test_it_returns_none_if_findhelp_is_disabled(self, simulate_findhelp_disabled):
-        assert self.query(0.6, 0.5) is None
+    def test_it_returns_empty_list_if_nothing_is_found(self, db):
+        assert self.query(0.6, 0.5) == []

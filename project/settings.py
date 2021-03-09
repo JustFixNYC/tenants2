@@ -206,9 +206,6 @@ WSGI_APPLICATION = "project.wsgi.application"
 
 DATABASE_ROUTERS: List[str] = []
 
-if not env.ENABLE_FINDHELP:
-    DATABASE_ROUTERS.append("findhelp.models.IgnoreFindhelpMigrationsRouter")
-
 DATABASES = {
     "default": dj_database_url.parse(change_db_url_to_postgis(env.DATABASE_URL)),
 }

@@ -1,10 +1,12 @@
 import datetime
+from django.contrib.gis.geos.point import Point
 from django.core.exceptions import ValidationError
 import pytest
 
 from users.tests.factories import UserFactory
 from .factories import OnboardingInfoFactory
 from onboarding.models import OnboardingInfo
+from findhelp.tests.factories import CountyFactory
 from project.tests.test_mapbox import mock_la_results
 from project.tests.test_geocoding import enable_fake_geocoding, EXAMPLE_SEARCH
 
@@ -22,6 +24,21 @@ class TestBuildingLinks:
     def test_it_shows_bis_link_when_bin_is_present(self):
         info = OnboardingInfo(pad_bin="1234")
         assert "DOB BIS" in info.get_building_links_html()
+
+
+class TestLookupCounty:
+    def test_it_returns_none_when_no_geocoding_info_is_available(self):
+        assert OnboardingInfo().lookup_county() is None
+
+    def test_it_returns_none_when_no_county_matches(self, db):
+        CountyFactory()
+        oi = OnboardingInfo(state="NY", geocoded_point=Point(50, 50))
+        assert oi.lookup_county() is None
+
+    def test_it_returns_county_when_county_matches(self, db):
+        CountyFactory()
+        oi = OnboardingInfo(state="NY", geocoded_point=Point(0.1, 0.1))
+        assert oi.lookup_county() == "Funkypants"
 
 
 def test_str_works_when_fields_are_not_set():

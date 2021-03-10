@@ -117,7 +117,7 @@ msgstr "A national tool by non-profit <0>JustFix.nyc</0>"
 
 #: frontend/lib/evictionfree/about.tsx:36
 #: frontend/lib/evictionfree/about.tsx:41
-#: frontend/lib/evictionfree/site.tsx:71
+#: frontend/lib/evictionfree/site.tsx:72
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
 #: frontend/lib/norent/components/footer.tsx:40
@@ -421,7 +421,7 @@ msgstr "Click here to join MHAction’s movement"
 msgid "Click here to join MHAction’s movement to hold corporate community owners accountable."
 msgstr "Click here to join MHAction’s movement to hold corporate community owners accountable."
 
-#: frontend/lib/start-account-or-login/ask-phone-number.tsx:54
+#: frontend/lib/start-account-or-login/ask-phone-number.tsx:59
 msgid "Click here to learn more about our privacy policy."
 msgstr "Click here to learn more about our privacy policy."
 
@@ -625,7 +625,7 @@ msgstr "Electricity not working"
 msgid "Email"
 msgstr "Email"
 
-#: frontend/lib/account-settings/routes.tsx:88
+#: frontend/lib/account-settings/contact-settings.tsx:41
 #: frontend/lib/common-steps/ask-email.tsx:12
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
 msgid "Email address"
@@ -672,7 +672,7 @@ msgstr "Explore the tool"
 msgid "FAQs"
 msgstr "FAQs"
 
-#: frontend/lib/evictionfree/site.tsx:68
+#: frontend/lib/evictionfree/site.tsx:69
 #: frontend/lib/norent/components/footer.tsx:37
 #: frontend/lib/norent/site.tsx:34
 msgid "Faqs"
@@ -691,8 +691,8 @@ msgid "Fight to #CancelRent"
 msgstr "Fight to #CancelRent"
 
 #: frontend/lib/evictionfree/homepage.tsx:32
-#: frontend/lib/evictionfree/site.tsx:56
-#: frontend/lib/evictionfree/site.tsx:60
+#: frontend/lib/evictionfree/site.tsx:57
+#: frontend/lib/evictionfree/site.tsx:61
 msgid "Fill out my form"
 msgstr "Fill out my form"
 
@@ -704,7 +704,7 @@ msgstr "Fill out your hardship declaration form online"
 msgid "Find out more"
 msgstr "Find out more"
 
-#: frontend/lib/account-settings/routes.tsx:51
+#: frontend/lib/account-settings/about-you-settings.tsx:23
 #: frontend/lib/common-steps/ask-name.tsx:25
 #: frontend/lib/rh/routes.tsx:113
 msgid "First name"
@@ -1107,7 +1107,7 @@ msgstr "Landlord/management company's name"
 msgid "Language:"
 msgstr "Language:"
 
-#: frontend/lib/account-settings/routes.tsx:52
+#: frontend/lib/account-settings/about-you-settings.tsx:24
 #: frontend/lib/common-steps/ask-name.tsx:26
 #: frontend/lib/rh/routes.tsx:116
 msgid "Last name"
@@ -1180,12 +1180,12 @@ msgid "Locally supported"
 msgstr "Locally supported"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
-#: frontend/lib/evictionfree/site.tsx:76
+#: frontend/lib/evictionfree/site.tsx:77
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Log in"
 
-#: frontend/lib/evictionfree/site.tsx:74
+#: frontend/lib/evictionfree/site.tsx:75
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:13
 msgid "Log out"
@@ -1529,7 +1529,7 @@ msgstr "Peeling/flaking paint"
 msgid "Pennsylvania"
 msgstr "Pennsylvania"
 
-#: frontend/lib/account-settings/routes.tsx:70
+#: frontend/lib/account-settings/contact-settings.tsx:24
 #: frontend/lib/rh/routes.tsx:121
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:36
 msgid "Phone number"
@@ -2598,7 +2598,7 @@ msgstr "Your phone number"
 msgid "Your privacy is very important to us!"
 msgstr "Your privacy is very important to us!"
 
-#: frontend/lib/start-account-or-login/ask-phone-number.tsx:49
+#: frontend/lib/start-account-or-login/ask-phone-number.tsx:54
 msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 msgstr "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 
@@ -2819,7 +2819,7 @@ msgstr "<0>If your apartment is currently rent stabilized, or has been at any po
 
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:39
 msgid "justfix.whyIsPhoneNumberNeeded"
-msgstr "We’ll use this information to either:<0><1>Log you into your existing account</1><2>Match with a pre-existing account </2><3>Sign you up for a new account.</3></0>"
+msgstr "We’ll use this information to either:<0><1>Log you into your existing account</1><2>Match with a pre-existing account </2><3>Sign you up for a new account.</3></0><4/>An account will allow you to return to our tools at any point in the process without having to start from the beginning, download any documents you complete, and be notified of relevant changes to policies that affect you."
 
 #: frontend/lib/norent/data/faqs-content.tsx:215
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"

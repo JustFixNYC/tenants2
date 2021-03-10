@@ -62,6 +62,11 @@ export const AskPhoneNumber: React.FC<StartAccountOrLoginProps> = (props) => {
                     <li>Match with a pre-existing account </li>
                     <li>Sign you up for a new account.</li>
                   </ol>
+                  <br />
+                  An account will allow you to return to our tools at any point
+                  in the process without having to start from the beginning,
+                  download any documents you complete, and be notified of
+                  relevant changes to policies that affect you.
                 </Trans>
               </Accordion>
               <p className="is-size-6">

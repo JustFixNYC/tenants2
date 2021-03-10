@@ -163,12 +163,19 @@ const EvictionFreeSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
               isHomepage && "jf-evictionfree-homepage-navbar"
             )}
           >
-            <Headroom>
+            {isPrimaryPage ? (
+              <Headroom>
+                <Navbar
+                  menuItemsComponent={EvictionFreeMenuItems}
+                  brandComponent={EvictionFreeBrand}
+                />
+              </Headroom>
+            ) : (
               <Navbar
                 menuItemsComponent={EvictionFreeMenuItems}
                 brandComponent={EvictionFreeBrand}
               />
-            </Headroom>
+            )}
             <EvictionFreeHelmet />
           </span>
           {!isPrimaryPage && (

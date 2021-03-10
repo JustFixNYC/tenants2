@@ -117,10 +117,19 @@ def find_address(
 ) -> Optional[List[StreetAddress]]:
     """
     Attempts to find matches for the closest street address in the given
-    city and state using the given zip code. Prioritizes matches that
-    Mapbox claims are definitely in the provided city name.
+    city and state using the given zip code.
 
     If Mapbox isn't configured or a network error occurs, returns None.
+
+    This function prioritizes matches that Mapbox claims are definitely
+    in the provided city, but it will also return other matches. This
+    is because sometimes the city someone thinks they live in might
+    not be the one that Mapbox thinks their address is in.
+
+    For example, Wappingers Falls is a small town near Poughkeepsie,
+    and while a person might believe they live in one of them, Mapbox
+    might believe their address is in the other (while yet another
+    map vendor might disagree with Mapbox!).
     """
 
     city = city.strip()

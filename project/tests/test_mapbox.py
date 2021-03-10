@@ -146,6 +146,13 @@ class TestFindCity:
 
 
 class TestFindAddress:
+    BRL = StreetAddress(
+        "150 Court Street",
+        "11201",
+        "150 Court Street, Brooklyn, New York 11201, United States",
+        FeatureGeometry(type="Point", coordinates=[-73.992972, 40.688772]),
+    )
+
     def test_it_returns_none_on_mapbox_failure(self, settings):
         settings.MAPBOX_ACCESS_TOKEN = ""
         assert find_address("zzz", "blarg", "OH", "12345") is None
@@ -156,14 +163,11 @@ class TestFindAddress:
 
     def test_it_returns_nonempty_list_when_addresses_match(self, requests_mock):
         mock_brl_results("150 court st, brooklyn, NY 12345", requests_mock)
-        assert find_address("150 court st", "brooklyn", "NY", "12345") == [
-            StreetAddress(
-                "150 Court Street",
-                "11201",
-                "150 Court Street, Brooklyn, New York 11201, United States",
-                FeatureGeometry(type="Point", coordinates=[-73.992972, 40.688772]),
-            ),
-        ]
+        assert find_address("150 court st", "brooklyn", "NY", "12345") == [self.BRL]
+
+    def test_it_can_include_results_in_same_state_outside_of_city(self, requests_mock):
+        mock_brl_results("1 boop st, bespin, NY 12345", requests_mock)
+        assert find_address("1 boop st", "bespin", "NY", "12345") == [self.BRL]
 
 
 def test_findmapboxcity_command_does_not_explode(settings):

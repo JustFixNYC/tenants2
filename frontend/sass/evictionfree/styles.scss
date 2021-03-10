@@ -165,25 +165,22 @@ $max-content-width: 1440px;
 }
 
 // Navbar Overrides
-body.has-navbar-fixed-top {
-  // remove top padding on body element to allow navbar to show/hide itself on scroll:
-  padding-top: 0;
+.jf-white-navbar nav.navbar.is-fixed-top {
+  // override navbar position to allow it to show/hide itself on scroll:
+  position: unset;
 }
 
-// Make sure header appears at the top of the page on declaration builder pages:
-@include tablet {
-  .jf-norent-internal-above-footer-content {
-    margin-top: 0;
-  }
-  .headroom-wrapper {
-    margin-bottom: 4rem;
-  }
+html:not([data-safe-mode-no-js]) .jf-above-footer-content {
+  // Since we are not using a fixed navbar on the EvictionFreeNY primary pages,
+  // we need to undo the default 3.25rem of top space given to accomondate a regular navbar
+  // via the ".has-navbar-fixed-top" class on the html body element
+  margin-top: -3.25rem;
 }
 
 nav.navbar {
+  // bring back the fixed-top nav bar for internal declaration builder pages:
   &.is-fixed-top {
-    // override navbar position to allow it to show/hide itself on scroll:
-    position: unset;
+    position: fixed;
   }
   .container {
     margin: auto;

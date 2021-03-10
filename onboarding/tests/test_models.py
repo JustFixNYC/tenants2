@@ -30,15 +30,15 @@ class TestLookupCounty:
     def test_it_returns_none_when_no_geocoding_info_is_available(self):
         assert OnboardingInfo().lookup_county() is None
 
-    def make_info_with_point(self):
-        return OnboardingInfo(state="NY", geocoded_point=Point(0.1, 0.1))
-
     def test_it_returns_none_when_no_county_matches(self, db):
-        assert self.make_info_with_point().lookup_county() is None
+        CountyFactory()
+        oi = OnboardingInfo(state="NY", geocoded_point=Point(50, 50))
+        assert oi.lookup_county() is None
 
     def test_it_returns_county_when_county_matches(self, db):
         CountyFactory()
-        assert self.make_info_with_point().lookup_county() == "Funkypants"
+        oi = OnboardingInfo(state="NY", geocoded_point=Point(0.1, 0.1))
+        assert oi.lookup_county() == "Funkypants"
 
 
 def test_str_works_when_fields_are_not_set():

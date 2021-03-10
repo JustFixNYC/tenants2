@@ -230,7 +230,10 @@ class TestNationalAddrMetadataLookup:
 
         info = self.mkinfo_without_metadata()
         assert info.maybe_lookup_new_addr_metadata() is True
-        assert info.geocoded_address == "200 North Spring Street, Los Angeles CA 90012 (via Mapbox)"
+        assert (
+            info.geocoded_address
+            == "200 North Spring Street, Los Angeles, California 90012, United States (via Mapbox)"
+        )
         assert info.geometry == {"type": "Point", "coordinates": [-118.24317, 34.05405]}
 
 

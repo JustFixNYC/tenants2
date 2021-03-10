@@ -163,6 +163,10 @@ const EvictionFreeSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
               isHomepage && "jf-evictionfree-homepage-navbar"
             )}
           >
+            {/* NOTE: We wanted to originally wrap ALL page navbars in this <Headroom> component,
+            but unfortunately we noticed that this library interacts strangely with our page transitions
+            between declaration builder steps and messes up the animation, so we are only including it 
+            on the primary pages for now. */}
             {isPrimaryPage ? (
               <Headroom>
                 <Navbar

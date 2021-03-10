@@ -1,5 +1,5 @@
 import json
-from typing import List, Dict
+from typing import List, Dict, Optional
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import JSONField
@@ -306,6 +306,17 @@ class OnboardingInfo(models.Model):
         """Return the full mailing address as a string."""
 
         return "\n".join(self.address_lines_for_mailing)
+
+    def lookup_county(self) -> Optional[str]:
+        from findhelp.models import County
+
+        if self.geocoded_point is not None:
+            county = County.objects.filter(
+                state=self.state, geom__contains=self.geocoded_point
+            ).first()
+            if county:
+                return county.name
+        return None
 
     def as_lob_params(self) -> Dict[str, str]:
         """

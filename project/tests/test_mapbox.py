@@ -160,6 +160,7 @@ class TestFindAddress:
             StreetAddress(
                 "150 Court Street",
                 "11201",
+                "150 Court Street, Brooklyn, New York 11201, United States",
                 FeatureGeometry(type="Point", coordinates=[-73.992972, 40.688772]),
             ),
         ]

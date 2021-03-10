@@ -400,9 +400,7 @@ class OnboardingInfo(models.Model):
         if addrs:
             addr = addrs[0]
             self.geometry = addr.geometry.dict()
-            self.geocoded_address = (
-                f"{addr.address}, {city} {self.state} {self.zipcode} (via Mapbox)"
-            )
+            self.geocoded_address = f"{addr.place_name} (via Mapbox)"
         elif self.__nationaladdr.has_changed():
             self.geocoded_address = ""
             self.geometry = None

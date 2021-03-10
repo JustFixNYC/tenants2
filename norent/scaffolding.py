@@ -30,6 +30,14 @@ BBOUNDS_PATH = Path("findhelp") / "data" / "Borough-Boundaries.geojson"
 _nyc_bounds: Optional[GEOSGeometry] = None
 
 
+def is_city_name_in_nyc(city: str) -> bool:
+    parts = city.split("/")
+    for part in parts:
+        if part.strip().lower() in NYC_CITIES:
+            return True
+    return False
+
+
 class NorentScaffolding(pydantic.BaseModel):
     """
     This is just some scaffolding we have in place of an actual
@@ -88,7 +96,7 @@ class NorentScaffolding(pydantic.BaseModel):
         if not (self.state and self.city):
             return None
         if self.state == "NY":
-            if self.city.lower() in NYC_CITIES:
+            if is_city_name_in_nyc(self.city):
                 return True
             if self.lnglat and is_lnglat_in_nyc(self.lnglat):
                 return True

@@ -1,11 +1,10 @@
 from io import StringIO
 from unittest.mock import patch
-from django.forms import ValidationError
 from django.core.management import call_command
 import pytest
 
-from project.util.address_form_fields import AddressVerificationResult
 from onboarding.management.commands import verify_addresses
+from project.tests.test_geocoding import EXAMPLE_SEARCH, enable_fake_geocoding
 from .factories import OnboardingInfoFactory
 
 
@@ -13,68 +12,58 @@ def make_cmd():
     return verify_addresses.Command(stdout=StringIO())
 
 
-class TestGetVerifiedAddress:
-    @patch.object(verify_addresses, "verify_address")
-    def test_it_returns_tuple_on_success(self, m):
-        m.return_value = AddressVerificationResult("some address", "some borough", True)
-        cmd = make_cmd()
-        result = cmd.get_verified_address("foo", "bar")
-        m.assert_called_once_with("foo", "bar")
-        assert result == ("some address", "some borough")
-        assert cmd.stdout.getvalue() == ""
-
-    @patch.object(verify_addresses, "verify_address")
-    def test_it_returns_none_when_geocoding_is_down(self, m):
-        m.return_value = AddressVerificationResult("", "", False)
-        cmd = make_cmd()
-        result = cmd.get_verified_address("foo", "bar")
-        assert result is None
-        assert "geocoding service may be down" in cmd.stdout.getvalue()
-
-    @patch.object(verify_addresses, "verify_address")
-    def test_it_returns_none_on_invalid_addresses(self, m):
-        m.side_effect = ValidationError("blah")
-        cmd = make_cmd()
-        result = cmd.get_verified_address("foo", "bar")
-        assert result is None
-        assert "the address appears to be invalid" in cmd.stdout.getvalue()
-
-
 class TestVerify:
     @pytest.fixture(autouse=True)
     def init_cmd(self, monkeypatch, db):
-        self.oi = OnboardingInfoFactory(address_verified=False)
         self.cmd = make_cmd()
-        self.confirm_response = False
-        monkeypatch.setattr(self.cmd, "confirm", lambda: self.confirm_response)
+        self.confirm_response = None
+        monkeypatch.setattr(self.cmd, "confirm", self.fake_confirm)
 
-    def verify(self, get_verified_address, confirm=False):
-        self.confirm_response = confirm
-        with patch.object(self.cmd, "get_verified_address", return_value=get_verified_address):
-            self.cmd.verify(self.oi)
+    def fake_confirm(self):
+        assert isinstance(self.confirm_response, bool)
+        return self.confirm_response
 
     def test_it_does_nothing_on_verification_failure(self):
-        self.verify(get_verified_address=None)
-        assert self.cmd.stdout.getvalue() == "Verifying address for boop (last login @ None).\n"
+        self.cmd.verify(OnboardingInfoFactory())
+        assert (
+            "Unable to geocode address for '150 court street, Brooklyn, New York'"
+            in self.cmd.stdout.getvalue()
+        )
 
-    def test_it_does_nothing_when_user_does_not_confirm(self, db):
-        self.verify(get_verified_address=("foo", "MANHATTAN"), confirm=False)
-        self.oi.refresh_from_db()
-        assert self.oi.address == "150 court street"
-        assert self.oi.borough == "BROOKLYN"
-        assert self.oi.address_verified is False
+    def test_it_automatically_saves_exact_nyc_matches(self, db, requests_mock, settings):
+        oi = OnboardingInfoFactory()
+        with enable_fake_geocoding:
+            requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
+            self.cmd.verify(oi)
+        assert "exactly matches user address" in self.cmd.stdout.getvalue()
+        oi.refresh_from_db()
+        assert (
+            oi.geocoded_address
+            == "150 COURT STREET, Brooklyn, New York, NY, USA (via NYC GeoSearch)"
+        )
 
-    def test_it_updates_info_when_user_confirms(self, db):
-        self.verify(get_verified_address=("foo", "MANHATTAN"), confirm=True)
+    def test_it_does_nothing_when_user_does_not_confirm_nycaddr(self, db, requests_mock, settings):
+        self.confirm_response = False
+        oi = OnboardingInfoFactory(address="123 funky street")
+        with enable_fake_geocoding:
+            requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
+            self.cmd.verify(oi)
+        assert "Geocoded address:" in self.cmd.stdout.getvalue()
+        oi.refresh_from_db()
+        assert oi.geocoded_address == ""
 
-        out = self.cmd.stdout.getvalue()
-        assert "User entered the address: 150 court street, BROOKLYN" in out
-        assert "Geocoded address is: foo, MANHATTAN" in out
-
-        self.oi.refresh_from_db()
-        assert self.oi.address == "foo"
-        assert self.oi.borough == "MANHATTAN"
-        assert self.oi.address_verified is True
+    def test_it_updates_info_when_user_confirms_nycaddr(self, db, requests_mock, settings):
+        self.confirm_response = True
+        oi = OnboardingInfoFactory(address="123 funky street")
+        with enable_fake_geocoding:
+            requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
+            self.cmd.verify(oi)
+        assert "Geocoded address:" in self.cmd.stdout.getvalue()
+        oi.refresh_from_db()
+        assert (
+            oi.geocoded_address
+            == "150 COURT STREET, Brooklyn, New York, NY, USA (via NYC GeoSearch)"
+        )
 
 
 @pytest.mark.parametrize(
@@ -95,10 +84,12 @@ def test_confirm_works(user_input, expected):
 
 
 def test_handle_works(db):
-    OnboardingInfoFactory(address_verified=False)
+    oi = OnboardingInfoFactory(address_verified=False)
     out = StringIO()
     call_command("verify_addresses", stdout=out)
     assert out.getvalue().splitlines() == [
-        "Verifying address for boop (last login @ None).",
-        "Unable to verify address, the geocoding service may be down.",
+        "Verifying nyc address for boop (last login @ None).",
+        f"User admin link: https://example.com/admin/users/justfixuser/{oi.user.pk}/change/",
+        "Unable to geocode address for '150 court street, Brooklyn, New York'. The "
+        "geocoding service may be down or no addresses matched.",
     ]

@@ -27,6 +27,9 @@ class Command(BaseCommand):
         parser.add_argument(
             "--since", help="only process users who logged in since YYYY-MM-DD (UTC)."
         )
+        parser.add_argument(
+            "--state", help="filter users by 2-letter state abbreviation (e.g. 'NY')."
+        )
 
     def confirm(self) -> bool:
         result = input("Is the geocoded address correct [y/N]? ")
@@ -91,11 +94,15 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         since: Optional[str] = options["since"]
+        state: Optional[str] = options["state"]
         filter_opts = dict(geocoded_address="")
         if since is not None:
             filter_opts["user__last_login__gte"] = make_aware(
                 datetime.datetime.strptime(since, "%Y-%m-%d"), timezone=utc
             )
+        if state is not None:
+            US_STATE_CHOICES.validate_choices(state)
+            filter_opts["state"] = state
         qs = (
             OnboardingInfo.objects.select_related("user")
             .filter(**filter_opts)

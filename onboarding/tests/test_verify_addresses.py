@@ -1,6 +1,9 @@
 from io import StringIO
 from unittest.mock import patch
 from django.core.management import call_command
+from django.utils import timezone
+import freezegun
+
 import pytest
 
 from onboarding.management.commands import verify_addresses
@@ -84,11 +87,15 @@ def test_confirm_works(user_input, expected):
 
 
 def test_handle_works(db):
-    oi = OnboardingInfoFactory(address_verified=False)
+    with freezegun.freeze_time("2021-01-10"):
+        oi = OnboardingInfoFactory(address_verified=False)
+        oi.user.last_login = timezone.now()
+        oi.user.save()
+
     out = StringIO()
-    call_command("verify_addresses", stdout=out)
+    call_command("verify_addresses", "--state", "NY", "--since", "2021-01-02", stdout=out)
     assert out.getvalue().splitlines() == [
-        "Verifying nyc address for boop (last login @ None).",
+        "Verifying nyc address for boop (last login @ 2021-01-10 00:00:00+00:00).",
         f"User admin link: https://example.com/admin/users/justfixuser/{oi.user.pk}/change/",
         "Unable to geocode address for '150 court street, Brooklyn, New York'. The "
         "geocoding service may be down or no addresses matched.",

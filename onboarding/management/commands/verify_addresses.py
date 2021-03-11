@@ -112,6 +112,7 @@ class Command(BaseCommand):
             .filter(**filter_opts)
             .order_by("-user__last_login")
         )
+        self.stdout.write(f"{qs.count()} user(s) found.")
         for info in qs:
             try:
                 self.verify(info)

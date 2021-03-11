@@ -140,6 +140,7 @@ def test_handle_works(db):
     out = StringIO()
     call_command("verify_addresses", "--state", "NY", "--since", "2021-01-02", stdout=out)
     assert out.getvalue().splitlines() == [
+        "1 user(s) found.",
         "Verifying nyc address for boop (last login @ 2021-01-10 00:00:00+00:00).",
         f"User admin link: https://example.com/admin/users/justfixuser/{oi.user.pk}/change/",
         "Unable to geocode address for '150 court street, Brooklyn, New York'. The "

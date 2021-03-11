@@ -1,5 +1,4 @@
 from unittest.mock import patch
-from django.contrib.gis.geos.point import Point
 import pytest
 from django.contrib.auth.hashers import is_password_usable
 

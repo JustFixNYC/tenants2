@@ -11,6 +11,9 @@ export type EvictionFreeDeclarationEmailProps = {
   wasEmailedToHousingCourt: boolean;
   wasEmailedToLandlord: boolean;
   wasMailedToLandlord: boolean;
+  isInNyc: boolean;
+  county: string | null;
+  address: string;
 };
 
 export function sessionToEvictionFreeDeclarationEmailProps(
@@ -18,8 +21,9 @@ export function sessionToEvictionFreeDeclarationEmailProps(
 ): EvictionFreeDeclarationEmailProps | null {
   const shd = s.submittedHardshipDeclaration;
   const ld = s.landlordDetails;
+  const onb = s.onboardingInfo;
 
-  if (!(shd && s.firstName && ld && ld.name)) return null;
+  if (!(shd && s.firstName && ld && ld.name && onb)) return null;
 
   const hdd = s.hardshipDeclarationDetails;
 
@@ -33,19 +37,38 @@ export function sessionToEvictionFreeDeclarationEmailProps(
     wasEmailedToHousingCourt: !!shd.emailedToHousingCourtAt,
     wasEmailedToLandlord: !!shd.emailedAt,
     wasMailedToLandlord: !!shd.mailedAt,
+    isInNyc: !!onb.borough,
+    county: onb.county,
+    address: `${onb.address}, ${onb.city}, ${onb.state} ${onb.zipcode}`,
   };
 }
 
 export function evictionFreeDeclarationEmailFormalSubject(
   options: EvictionFreeDeclarationEmailProps
 ): string {
-  const parts = ["Hardship Declaration", options.fullName];
+  if (options.isInNyc) {
+    const parts = ["Hardship Declaration", options.fullName];
 
-  if (options.indexNumber) {
-    parts.push(`Index #: ${options.indexNumber}`);
+    if (options.indexNumber) {
+      parts.push(`Index #: ${options.indexNumber}`);
+    }
+
+    parts.push(`submitted ${options.dateSubmitted}`);
+
+    return parts.join(" - ");
+  } else {
+    const parts = [options.fullName, options.address];
+
+    if (options.indexNumber) {
+      parts.push(`No. ${options.indexNumber}`);
+    }
+
+    // TODO: Insert court, if available, e.g. "Newtown Town Court"
+
+    if (options.county) {
+      parts.push(`${options.county} County`);
+    }
+
+    return parts.join(" - ");
   }
-
-  parts.push(`submitted ${options.dateSubmitted}`);
-
-  return parts.join(" - ");
 }

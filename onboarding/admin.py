@@ -10,7 +10,7 @@ class OnboardingInline(admin.StackedInline):
     model = OnboardingInfo
     verbose_name = "Onboarding info"
     verbose_name_plural = verbose_name
-    exclude = ["geocoded_point", "geometry"]
+    exclude = ["address_verified", "geocoded_point", "geometry"]
     readonly_fields = [
         "geocoded_address",
         "geocoded_map",

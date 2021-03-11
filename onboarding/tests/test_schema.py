@@ -1,8 +1,10 @@
 from unittest.mock import patch
+from django.contrib.gis.geos.point import Point
 import pytest
 from django.contrib.auth.hashers import is_password_usable
 
 import project.locales
+from findhelp.tests.factories import CountyFactory
 from project.util.testing_util import GraphQLTestingPal
 from frontend.tests.util import get_frontend_query
 from users.models import JustfixUser
@@ -43,6 +45,7 @@ query {
             state
             city
             fullMailingAddress
+            county
         }
     }
 }
@@ -187,6 +190,21 @@ def test_full_mailing_address_works(db, graphql_client):
     result = graphql_client.execute(ONBOARDING_INFO_QUERY)["data"]["session"]
     result = result["onboardingInfo"]["fullMailingAddress"]
     assert result == "150 court street\nApartment 2\nBrooklyn, NY"
+
+
+def test_county_works(db, graphql_client):
+    def query():
+        result = graphql_client.execute(ONBOARDING_INFO_QUERY)["data"]["session"]
+        return result["onboardingInfo"]["county"]
+
+    onb = OnboardingInfoFactory()
+    graphql_client.request.user = onb.user
+    assert query() is None
+
+    CountyFactory()
+    onb.geocoded_point = Point(0.1, 0.1)
+    onb.save(save_raw=True)
+    assert query() == "Funkypants"
 
 
 def test_onboarding_session_info_is_fault_tolerant(graphql_client):

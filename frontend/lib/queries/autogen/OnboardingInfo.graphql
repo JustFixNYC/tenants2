@@ -18,5 +18,6 @@ fragment OnboardingInfo on OnboardingInfoType {
   state,
   city,
   isInLosAngeles,
-  fullMailingAddress
+  fullMailingAddress,
+  county
 }

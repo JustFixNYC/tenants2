@@ -316,6 +316,11 @@ class OnboardingInfoType(DjangoObjectType):
         resolver=lambda self, context: "\n".join(self.address_lines_for_mailing),
     )
 
+    county = graphene.String(
+        description="The county of the user's address, or null if we don't know.",
+        resolver=lambda self, context: self.lookup_county(),
+    )
+
     def resolve_is_in_los_angeles(self, info) -> Optional[bool]:
         if not self.zipcode:
             return None

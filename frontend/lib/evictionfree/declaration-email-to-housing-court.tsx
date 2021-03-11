@@ -4,6 +4,7 @@ import { HtmlEmail } from "../static-page/html-email";
 import { TransformSession } from "../util/transform-session";
 import {
   evictionFreeDeclarationEmailFormalSubject,
+  EvictionFreeDeclarationEmailProps,
   sessionToEvictionFreeDeclarationEmailProps,
 } from "./declaration-email-utils";
 
@@ -21,11 +22,37 @@ export const EvictionFreeEmailDisclaimer: React.FC<{ fullName: string }> = ({
   </small>
 );
 
+function emailSubject(options: EvictionFreeDeclarationEmailProps): string {
+  if (options.isInNyc) {
+    return evictionFreeDeclarationEmailFormalSubject(options);
+  }
+
+  // This is a very specific subject line format, outlined here:
+  // http://www.nycourts.gov/eefpa/PDF/HardshipDeclarationCopy-1.8.pdf
+  const parts = [options.fullName, options.address];
+
+  if (options.indexNumber) {
+    parts.push(`No. ${options.indexNumber}`);
+  }
+
+  // TODO: Insert court, if available, e.g. "Newtown Town Court"
+
+  if (options.county) {
+    parts.push(`${options.county} County`);
+  }
+
+  return parts.join(" - ");
+}
+
+export const efnyDeclarationEmailToHousingCourtForTesting = {
+  emailSubject,
+};
+
 export const EvictionFreeDeclarationEmailToHousingCourtStaticPage = asEmailStaticPage(
   (props) => (
     <TransformSession transformer={sessionToEvictionFreeDeclarationEmailProps}>
       {(props) => (
-        <HtmlEmail subject={evictionFreeDeclarationEmailFormalSubject(props)}>
+        <HtmlEmail subject={emailSubject(props)}>
           <p>Hello Court Clerk,</p>
           <p>
             Attached you will find the Hardship Declaration of {props.fullName}{" "}

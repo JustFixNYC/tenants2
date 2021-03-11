@@ -1250,6 +1250,18 @@
                   "ofType": null
                 }
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The county of the user's address, or null if we don't know.",
+              "isDeprecated": false,
+              "name": "county",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             }
           ],
           "inputFields": null,

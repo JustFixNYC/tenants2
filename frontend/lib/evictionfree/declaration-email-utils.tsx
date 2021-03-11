@@ -11,6 +11,9 @@ export type EvictionFreeDeclarationEmailProps = {
   wasEmailedToHousingCourt: boolean;
   wasEmailedToLandlord: boolean;
   wasMailedToLandlord: boolean;
+  isInNyc: boolean;
+  county: string | null;
+  address: string;
 };
 
 export function sessionToEvictionFreeDeclarationEmailProps(
@@ -18,8 +21,9 @@ export function sessionToEvictionFreeDeclarationEmailProps(
 ): EvictionFreeDeclarationEmailProps | null {
   const shd = s.submittedHardshipDeclaration;
   const ld = s.landlordDetails;
+  const onb = s.onboardingInfo;
 
-  if (!(shd && s.firstName && ld && ld.name)) return null;
+  if (!(shd && s.firstName && ld && ld.name && onb)) return null;
 
   const hdd = s.hardshipDeclarationDetails;
 
@@ -33,6 +37,9 @@ export function sessionToEvictionFreeDeclarationEmailProps(
     wasEmailedToHousingCourt: !!shd.emailedToHousingCourtAt,
     wasEmailedToLandlord: !!shd.emailedAt,
     wasMailedToLandlord: !!shd.mailedAt,
+    isInNyc: !!onb.borough,
+    county: onb.county,
+    address: `${onb.address}, ${onb.city}, ${onb.state} ${onb.zipcode}`,
   };
 }
 

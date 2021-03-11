@@ -57,6 +57,8 @@ export function evictionFreeDeclarationEmailFormalSubject(
 
     return parts.join(" - ");
   } else {
+    // This is a very specific subject line format, outlined here:
+    // http://www.nycourts.gov/eefpa/PDF/HardshipDeclarationCopy-1.8.pdf
     const parts = [options.fullName, options.address];
 
     if (options.indexNumber) {

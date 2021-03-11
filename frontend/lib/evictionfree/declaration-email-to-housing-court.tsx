@@ -44,6 +44,10 @@ function emailSubject(options: EvictionFreeDeclarationEmailProps): string {
   return parts.join(" - ");
 }
 
+export const efnyDeclarationEmailToHousingCourtForTesting = {
+  emailSubject,
+};
+
 export const EvictionFreeDeclarationEmailToHousingCourtStaticPage = asEmailStaticPage(
   (props) => (
     <TransformSession transformer={sessionToEvictionFreeDeclarationEmailProps}>

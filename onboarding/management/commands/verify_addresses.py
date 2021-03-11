@@ -20,6 +20,26 @@ def strip_suffix(addr: str) -> str:
     return addr
 
 
+def get_addr(info: OnboardingInfo) -> str:
+    state_label = US_STATE_CHOICES.get_label(info.state)
+    return f"{info.address}, {info.city}, {state_label} {info.zipcode}".strip()
+
+
+def get_expected_geocoded_addr(info: OnboardingInfo) -> str:
+    if info.non_nyc_city:
+        return get_expected_geocoded_nationaladdr(info)
+    return get_expected_geocoded_nycaddr(info)
+
+
+def get_expected_geocoded_nationaladdr(info: OnboardingInfo) -> str:
+    return get_addr(info)
+
+
+def get_expected_geocoded_nycaddr(info: OnboardingInfo) -> str:
+    borough_label = BOROUGH_CHOICES.get_label(info.borough)
+    return f"{info.address}, {borough_label}"
+
+
 class Command(BaseCommand):
     help = "Manually verify user addresses that have no geocoding metadata."
 
@@ -37,17 +57,6 @@ class Command(BaseCommand):
             return True
         return False
 
-    def get_addr(self, info) -> str:
-        state_label = US_STATE_CHOICES.get_label(info.state)
-        return f"{info.address}, {info.city}, {state_label} {info.zipcode}".strip()
-
-    def get_expected_geocoded_nationaladdr(self, info) -> str:
-        return self.get_addr(info)
-
-    def get_expected_geocoded_nycaddr(self, info):
-        borough_label = BOROUGH_CHOICES.get_label(info.borough)
-        return f"{info.address}, {borough_label}"
-
     def verify(self, info):
         assert not info.geocoded_address
 
@@ -56,7 +65,7 @@ class Command(BaseCommand):
             f"Verifying {kind} address for {info.user} (last login @ {info.user.last_login})."
         )
         self.stdout.write(f"User admin link: {info.user.admin_url}")
-        addr = self.get_addr(info)
+        addr = get_addr(info)
 
         assert (
             info.maybe_lookup_new_addr_metadata()
@@ -69,12 +78,7 @@ class Command(BaseCommand):
             )
             return
 
-        if info.non_nyc_city:
-            expected = self.get_expected_geocoded_nationaladdr(info)
-        else:
-            expected = self.get_expected_geocoded_nycaddr(info)
-
-        expected = strip_suffix(expected)
+        expected = get_expected_geocoded_addr(info)
         actual = strip_suffix(info.geocoded_address)
         save = False
 
@@ -82,8 +86,8 @@ class Command(BaseCommand):
             self.stdout.write(f"Geocoded address '{actual}' exactly matches user address.")
             save = True
         else:
-            self.stdout.write(f"User entered address: {expected}")
-            self.stdout.write(f"    Geocoded address: {actual}")
+            self.stdout.write(f"User entered {kind} address: {expected}")
+            self.stdout.write(f"    Geocoded {kind} address: {actual}")
 
             if self.confirm():
                 save = True

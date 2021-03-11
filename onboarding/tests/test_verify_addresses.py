@@ -8,7 +8,7 @@ import pytest
 
 from onboarding.management.commands import verify_addresses
 from project.tests.test_geocoding import EXAMPLE_SEARCH, enable_fake_geocoding
-from .factories import OnboardingInfoFactory
+from .factories import OnboardingInfoFactory, NationalOnboardingInfoFactory
 
 
 def make_cmd():
@@ -51,7 +51,7 @@ class TestVerify:
         with enable_fake_geocoding:
             requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
             self.cmd.verify(oi)
-        assert "Geocoded address:" in self.cmd.stdout.getvalue()
+        assert "Geocoded nyc address:" in self.cmd.stdout.getvalue()
         oi.refresh_from_db()
         assert oi.geocoded_address == ""
 
@@ -61,12 +61,57 @@ class TestVerify:
         with enable_fake_geocoding:
             requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
             self.cmd.verify(oi)
-        assert "Geocoded address:" in self.cmd.stdout.getvalue()
+        assert "Geocoded nyc address:" in self.cmd.stdout.getvalue()
         oi.refresh_from_db()
         assert (
             oi.geocoded_address
             == "150 COURT STREET, Brooklyn, New York, NY, USA (via NYC GeoSearch)"
         )
+
+
+@pytest.mark.parametrize(
+    "addr,expected",
+    [
+        ("blarg", "blarg"),
+        ("Oof, United States (via Mapbox)", "Oof"),
+        ("Meh, New York, NY, USA (via NYC GeoSearch)", "Meh"),
+    ],
+)
+def test_strip_suffix_works(addr, expected):
+    assert verify_addresses.strip_suffix(addr) == expected
+
+
+@pytest.mark.parametrize(
+    "onboarding_info,expected",
+    [
+        (OnboardingInfoFactory.build(), "150 court street, Brooklyn, New York"),
+        (
+            OnboardingInfoFactory.build(zipcode="12345"),
+            "150 court street, Brooklyn, New York 12345",
+        ),
+    ],
+)
+def test_get_addr_works(onboarding_info, expected):
+    assert verify_addresses.get_addr(onboarding_info) == expected
+
+
+@pytest.mark.parametrize(
+    "onboarding_info,expected",
+    [
+        (OnboardingInfoFactory.build(), "150 court street, Brooklyn"),
+        (
+            OnboardingInfoFactory.build(zipcode="12345"),
+            "150 court street, Brooklyn",
+        ),
+        (NationalOnboardingInfoFactory.build(), "200 N Spring St, Los Angeles, California"),
+        (
+            NationalOnboardingInfoFactory.build(zipcode="90012"),
+            "200 N Spring St, Los Angeles, California 90012",
+        ),
+    ],
+)
+def test_get_expected_geocoded_addr(onboarding_info, expected):
+    assert verify_addresses.get_expected_geocoded_addr(onboarding_info) == expected
 
 
 @pytest.mark.parametrize(

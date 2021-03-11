@@ -100,6 +100,8 @@ class OnboardingInfo(models.Model):
         help_text="The user's address. Only street name and number are required.",
     )
 
+    # TODO: This is currently only used for NYC-based users, and we might want to
+    # deprecate it entirely: https://github.com/JustFixNYC/tenants2/issues/1991
     address_verified = models.BooleanField(
         help_text=(
             "Whether we've verified, on the server-side, that the user's " "address is valid."

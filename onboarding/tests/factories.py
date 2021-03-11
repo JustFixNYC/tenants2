@@ -40,6 +40,11 @@ class OnboardingInfoFactory(factory.django.DjangoModelFactory):
 
     agreed_to_justfix_terms = True
 
+    @classmethod
+    def set_geocoded_point(cls, model: OnboardingInfo, x: float, y: float):
+        model.geometry = {"type": "Point", "coordinates": [x, y]}
+        model.update_geocoded_point_from_geometry()
+
 
 class NationalOnboardingInfoFactory(OnboardingInfoFactory):
     address = "200 N Spring St"

@@ -202,8 +202,8 @@ def test_county_works(db, graphql_client):
     assert query() is None
 
     CountyFactory()
-    onb.geocoded_point = Point(0.1, 0.1)
-    onb.save(save_raw=True)
+    OnboardingInfoFactory.set_geocoded_point(onb, 0.1, 0.1)
+    onb.save()
     assert query() == "Funkypants"
 
 

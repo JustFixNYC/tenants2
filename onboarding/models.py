@@ -434,13 +434,8 @@ class OnboardingInfo(models.Model):
             raise ValidationError("One cannot be in an NYC borough and outside NYC simultaneously.")
 
     def save(self, *args, **kwargs):
-        # This optional 'save_raw' kwarg is only intended for tests, one-off scripts, and
-        # other situations where we *really* know what we're doing.  Note that it's a
-        # reasonable option to have since there are plenty of other ways to bypass a model's
-        # special save() logic, e.g. Django's bulk update functionality etc.
-        if not kwargs.pop("save_raw", False):
-            self.maybe_lookup_new_addr_metadata()
-            self.update_geocoded_point_from_geometry()
+        self.maybe_lookup_new_addr_metadata()
+        self.update_geocoded_point_from_geometry()
         return super().save(*args, **kwargs)
 
     @property

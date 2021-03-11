@@ -36,6 +36,14 @@ def get_housing_court_info_for_user(user: JustfixUser) -> Optional[HousingCourtI
             name=BOROUGH_COURT_NAMES[oi.borough], email=BOROUGH_EMAILS[oi.borough]
         )
 
-    # TODO: Need to figure out what email to send this to!
+    # NY state really wants the county name in the subject line, so we only want
+    # to send them an email if we've geocoded the user's address and know what
+    # county they're in.
+    if oi.lookup_county():
+        return HousingCourtInfo(
+            name="Outside NYC Housing Court",
+            # http://www.nycourts.gov/eefpa/PDF/HardshipDeclarationCopy-1.8.pdf
+            email="OutsideNYCResEvictionHardshipDeclaration@nycourts.gov",
+        )
 
     return None

@@ -46,31 +46,13 @@ export function sessionToEvictionFreeDeclarationEmailProps(
 export function evictionFreeDeclarationEmailFormalSubject(
   options: EvictionFreeDeclarationEmailProps
 ): string {
-  if (options.isInNyc) {
-    const parts = ["Hardship Declaration", options.fullName];
+  const parts = ["Hardship Declaration", options.fullName];
 
-    if (options.indexNumber) {
-      parts.push(`Index #: ${options.indexNumber}`);
-    }
-
-    parts.push(`submitted ${options.dateSubmitted}`);
-
-    return parts.join(" - ");
-  } else {
-    // This is a very specific subject line format, outlined here:
-    // http://www.nycourts.gov/eefpa/PDF/HardshipDeclarationCopy-1.8.pdf
-    const parts = [options.fullName, options.address];
-
-    if (options.indexNumber) {
-      parts.push(`No. ${options.indexNumber}`);
-    }
-
-    // TODO: Insert court, if available, e.g. "Newtown Town Court"
-
-    if (options.county) {
-      parts.push(`${options.county} County`);
-    }
-
-    return parts.join(" - ");
+  if (options.indexNumber) {
+    parts.push(`Index #: ${options.indexNumber}`);
   }
+
+  parts.push(`submitted ${options.dateSubmitted}`);
+
+  return parts.join(" - ");
 }

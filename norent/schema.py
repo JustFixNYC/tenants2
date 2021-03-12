@@ -1,3 +1,4 @@
+from project.util.mailing_address import US_STATE_CHOICES, is_zip_code_valid_for_state
 from typing import Optional, Dict, Any, Tuple
 import datetime
 
@@ -304,6 +305,12 @@ class NorentNationalAddress(SessionFormMutation):
         if not (city and state):
             return cls.make_error("You haven't provided your city and state yet!")
         cleaned_data, is_valid = cls.validate_address(form.cleaned_data, city=city, state=state)
+        if not is_zip_code_valid_for_state(cleaned_data["zip_code"], state):
+            return cls.make_error(
+                _("Please enter a valid ZIP code for %(state_name)s.")
+                % {"state_name": US_STATE_CHOICES.get_label(state)},
+                field="zip_code",
+            )
         update_scaffolding(request, cleaned_data)
         return cls.mutation_success(is_valid=is_valid)
 

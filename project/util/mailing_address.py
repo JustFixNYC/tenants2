@@ -144,3 +144,26 @@ class MailingAddress(models.Model):
         self.city = ""
         self.state = ""
         self.zip_code = ""
+
+
+def is_zip_code_valid_for_state(zip_code: str, state: str) -> bool:
+    """
+    Attempts to determine if the given zip code is valid for
+    the given state.
+
+    Note that this function isn't particularly rigorous: it
+    errs on the side of leniency, and only returns `False`
+    if it's absolutely sure that the given zip code is
+    invalid.
+    """
+
+    if state == US_STATE_CHOICES.NY:
+        # https://www.zipcodestogo.com/New%20York/
+        return zip_code.startswith("1") or zip_code[:5] in [
+            # Holtsville
+            "00501",
+            "00544",
+            # Fishers island
+            "06390",
+        ]
+    return True

@@ -1,7 +1,11 @@
 from django.core.exceptions import ValidationError
 import pytest
 
-from project.util.mailing_address import MailingAddress, ZipCodeValidator
+from project.util.mailing_address import (
+    MailingAddress,
+    ZipCodeValidator,
+    is_zip_code_valid_for_state,
+)
 
 
 EXAMPLE_KWARGS = dict(
@@ -100,3 +104,17 @@ def test_zip_code_validator_accepts_valid_zip_codes(zip_code):
 def test_zip_code_validator_rejects_invalid_zip_codes(zip_code):
     with pytest.raises(ValidationError, match="Enter a valid U.S. zip code"):
         ZipCodeValidator()(zip_code)
+
+
+@pytest.mark.parametrize(
+    "zip_code,state,expected",
+    [
+        ("11201", "NY", True),
+        ("00501", "NY", True),
+        ("00123", "NY", False),
+        ("43220", "NY", False),
+        ("90210", "CA", True),
+    ],
+)
+def test_is_zip_code_valid_for_state(zip_code, state, expected):
+    assert is_zip_code_valid_for_state(zip_code, state) is expected

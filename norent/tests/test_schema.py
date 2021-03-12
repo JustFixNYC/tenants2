@@ -204,6 +204,14 @@ class TestNationalAddressMutation(GraphQLTestingPal):
             "aptNumber": "2",
         }
 
+    def test_it_reports_invalid_zipcodes(self):
+        self.set_prior_info()
+        self.assert_one_field_err(
+            input={"zipCode": "43220"},
+            field="zipCode",
+            message="Please enter a valid ZIP code for New York.",
+        )
+
     def test_it_validates_addresses(self, settings, requests_mock):
         settings.MAPBOX_ACCESS_TOKEN = "blah"
         self.set_prior_info()

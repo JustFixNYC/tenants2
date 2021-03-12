@@ -265,14 +265,14 @@ def send_declaration(decl: SubmittedHardshipDeclaration):
             ]
         )
 
-    slack.sendmsg_async(
-        f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
-        f"has sent a hardship declaration! :meowparty:",
-        is_safe=True,
-    )
+        slack.sendmsg_async(
+            f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+            f"has sent a hardship declaration! :meowparty:",
+            is_safe=True,
+        )
 
-    decl.fully_processed_at = timezone.now()
-    decl.save()
+        decl.fully_processed_at = timezone.now()
+        decl.save()
 
 
 def create_and_send_declaration(user: JustfixUser):

@@ -148,7 +148,9 @@ class BaseOnboardingStep4Form(forms.Form):
         phone_number = self.cleaned_data["phone_number"]
         if JustfixUser.objects.filter(phone_number=phone_number).exists():
             # TODO: Are we leaking valuable PII here?
-            raise ValidationError("A user with that phone number already exists.")
+            raise ValidationError(
+                "A user with that phone number already exists.", code="PHONE_NUMBER_TAKEN"
+            )
         return phone_number
 
 

@@ -12,7 +12,6 @@ import {
   YES_NO_RADIOS_TRUE,
 } from "../../forms/yes-no-radios-form-field";
 import { li18n } from "../../i18n-lingui";
-import { EvictionFreeIndexNumberMutation } from "../../queries/EvictionFreeIndexNumberMutation";
 import { EvictionFreeIndexNumberV2Mutation } from "../../queries/EvictionFreeIndexNumberV2Mutation";
 import { Accordion } from "../../ui/accordion";
 import { ProgressButtons } from "../../ui/buttons";

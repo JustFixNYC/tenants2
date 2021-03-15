@@ -12,7 +12,7 @@
     "textOfLegislation": "Arkansas ha suspendido todas las audiencias judiciales en persona, pero no hay moratoria en los procesos de desalojo y los jueces pueden celebrar audiencias a distancia."
   },
   "AZ": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "El gobernador Doug Ducey firm\u00f3 una Orden Ejecutiva que extiende una moratoria sobre los desalojos residenciales hasta el 31 de Octubre de 2020."
   },
   "CA": {
@@ -25,7 +25,7 @@
   },
   "CT": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Los inquilinos de Connecticut est\u00e1n protegidos contra el desalojo por falta de pago hasta el 1 de Enero de 2021, mediante la Orden Ejecutiva 9E, emitida por el gobernador Ned Lamont."
+    "textOfLegislation": "Los inquilinos de Connecticut est\u00e1n protegidos contra el desalojo por falta de pago hasta el 20 de Abril de 2021, mediante la Orden Ejecutiva 10A, emitida por el gobernador Ned Lamont."
   },
   "DC": {
     "stateWithoutProtections": true,
@@ -56,7 +56,7 @@
   },
   "IL": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "En Illinois, los inquilinos afectados por la crisis de COVID-19 est\u00e1n protegidos contra el desalojo por falta de pago, de conformidad con la Orden Ejecutiva COVID-19 No. 2020-55 del Gobernador Pritzker, emitida el 18 de septiembre de 2020."
+    "textOfLegislation": "En Illinois, los inquilinos afectados por la crisis de COVID-19 est\u00e1n protegidos contra el desalojo por falta de pago, de conformidad con la Orden Ejecutiva COVID-19 No. 2021-05 del Gobernador Pritzker, emitida el 5 de marzo de 2021."
   },
   "IN": {
     "stateWithoutProtections": true,
@@ -120,7 +120,7 @@
   },
   "NJ": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Los inquilinos de Nueva Jersey est\u00e1n protegidos contra el desalojo por falta de pago mediante la Orden Ejecutiva No. 186, emitida por el gobernador Philip Murphy el 25 de septiembre de 2020."
+    "textOfLegislation": "Los inquilinos de Nueva Jersey est\u00e1n protegidos contra el desalojo por falta de pago mediante la Orden Ejecutiva No. 106, hasta dos meses despu\u00e9s de que el gobernador Murphy declarara el fin de la crisis de salud del COVID-19."
   },
   "NM": {
     "stateWithoutProtections": true

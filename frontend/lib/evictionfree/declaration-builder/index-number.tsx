@@ -95,13 +95,17 @@ export const EvictionFreeIndexNumber = EvictionFreeNotSentDeclarationStep(
                   <>
                     <p>
                       <Trans>
-                        If you know the court name your case is in, please
-                        provide it below.
+                        If you know the court name your case is associated with,
+                        please provide it below. Otherwise, leave this blank.
                       </Trans>
                     </p>
                     <TextualFormField
                       {...courtNameProps}
-                      label={li18n._(t`Your case's court name`)}
+                      label={
+                        li18n._(t`Your case's court name`) +
+                        " " +
+                        li18n._(t`(optional)`)
+                      }
                     />
                   </>
                 </ConditionalFormField>

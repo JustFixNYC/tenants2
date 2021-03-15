@@ -29,6 +29,7 @@ msgstr "(Note: the request will be sent in English)"
 
 #: frontend/lib/common-steps/ask-email.tsx:15
 #: frontend/lib/common-steps/landlord-email.tsx:38
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:66
 msgid "(optional)"
 msgstr "(optional)"
 
@@ -959,8 +960,8 @@ msgid "If you have received a Notice to Pay Rent or Quit or any other type of ev
 msgstr "If you have received a Notice to Pay Rent or Quit or any other type of eviction notice, sign up for a workshop and/or get legal help at <0>StayHousedLA.org</0>."
 
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:59
-msgid "If you know the court name your case is in, please provide it below."
-msgstr "If you know the court name your case is in, please provide it below."
+msgid "If you know the court name your case is associated with, please provide it below. Otherwise, leave this blank."
+msgstr "If you know the court name your case is associated with, please provide it below. Otherwise, leave this blank."
 
 #: frontend/lib/common-steps/error-pages.tsx:12
 msgid "If you need to make changes to your name or contact information, please contact <0/>."

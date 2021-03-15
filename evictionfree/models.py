@@ -21,6 +21,12 @@ class HardshipDeclarationDetails(models.Model):
         blank=True,
     )
 
+    court_name: str = models.CharField(
+        help_text="The court the user's existing eviction case is at, if any.",
+        max_length=80,
+        blank=True,
+    )
+
     has_financial_hardship: bool = models.BooleanField(
         help_text="Whether the user has COVID-19 related financial hardship.",
         default=False,

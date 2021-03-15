@@ -13,6 +13,7 @@ import {
 } from "../../forms/yes-no-radios-form-field";
 import { li18n } from "../../i18n-lingui";
 import { EvictionFreeIndexNumberMutation } from "../../queries/EvictionFreeIndexNumberMutation";
+import { EvictionFreeIndexNumberV2Mutation } from "../../queries/EvictionFreeIndexNumberV2Mutation";
 import { Accordion } from "../../ui/accordion";
 import { ProgressButtons } from "../../ui/buttons";
 import Page from "../../ui/page";
@@ -29,12 +30,13 @@ export const EvictionFreeIndexNumber = EvictionFreeNotSentDeclarationStep(
         className="content"
       >
         <SessionUpdatingFormSubmitter
-          mutation={EvictionFreeIndexNumberMutation}
+          mutation={EvictionFreeIndexNumberV2Mutation}
           initialState={(s) => ({
             hasCurrentCase: s.hardshipDeclarationDetails?.indexNumber
               ? YES_NO_RADIOS_TRUE
               : YES_NO_RADIOS_FALSE,
             indexNumber: s.hardshipDeclarationDetails?.indexNumber || "",
+            courtName: s.hardshipDeclarationDetails?.courtName || "",
           })}
           onSuccessRedirect={props.nextStep}
         >
@@ -43,9 +45,13 @@ export const EvictionFreeIndexNumber = EvictionFreeNotSentDeclarationStep(
             const indexNumberProps = hideByDefault(
               ctx.fieldPropsFor("indexNumber")
             );
+            const courtNameProps = hideByDefault(
+              ctx.fieldPropsFor("courtName")
+            );
 
             if (yesNoProps.value === YES_NO_RADIOS_TRUE) {
               indexNumberProps.hidden = false;
+              courtNameProps.hidden = false;
             }
 
             return (
@@ -84,6 +90,20 @@ export const EvictionFreeIndexNumber = EvictionFreeNotSentDeclarationStep(
                         alt=""
                       />
                     </Accordion>
+                  </>
+                </ConditionalFormField>
+                <ConditionalFormField {...courtNameProps}>
+                  <>
+                    <p>
+                      <Trans>
+                        If you know the court name your case is in, please
+                        provide it below.
+                      </Trans>
+                    </p>
+                    <TextualFormField
+                      {...courtNameProps}
+                      label={li18n._(t`Your case's court name`)}
+                    />
                   </>
                 </ConditionalFormField>
                 <ProgressButtons

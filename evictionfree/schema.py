@@ -60,6 +60,12 @@ class EvictionFreeIndexNumber(OneToOneUserModelFormMutation):
 
 
 @schema_registry.register_mutation
+class EvictionFreeIndexNumberV2(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.IndexNumberFormV2
+
+
+@schema_registry.register_mutation
 class EvictionFreeAgreeToLegalTerms(DjangoFormMutation):
     class Meta:
         form_class = forms.AgreeToLegalTermsForm

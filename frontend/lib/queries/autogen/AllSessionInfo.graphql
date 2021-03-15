@@ -85,6 +85,7 @@ fragment AllSessionInfo on SessionInfo {
   },
   hardshipDeclarationDetails {
     indexNumber,
+    courtName,
     hasFinancialHardship,
     hasHealthRisk
   },

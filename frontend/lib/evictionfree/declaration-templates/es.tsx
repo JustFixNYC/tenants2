@@ -12,7 +12,8 @@ const HardshipDeclarationEnglish: HardshipDeclarationFC = (props) => (
       <FilledField>{props.indexNumber || ""}</FilledField>
     </p>
     <p>
-      Condado y Tribunal (si se conoce/si es aplicable): {props.countyAndCourt}
+      Condado y Tribunal (si se conoce/si es aplicable):{" "}
+      <FilledField>{props.countyAndCourt || ""}</FilledField>
     </p>
     <h2>
       Declaración De Penuria Del Inquilino Durante La Panedmia Del Covid-19

@@ -131,7 +131,9 @@ class UniqueEmailForm(forms.Form, FormWithRequestMixin):
         # it optional.
         if email and JustfixUser.objects.filter(email=email).exists():
             # TODO: Are we leaking valuable PII here?
-            raise ValidationError(_("A user with that email address already exists."))
+            raise ValidationError(
+                _("A user with that email address already exists."), code="EMAIL_ADDRESS_TAKEN"
+            )
         return email
 
 

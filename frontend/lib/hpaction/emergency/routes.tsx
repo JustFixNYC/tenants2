@@ -123,6 +123,10 @@ function EmergencyHPActionSplash(): JSX.Element {
                 >
                   Start my case
                 </GetStartedButton>
+                <p className="jf-secondary-cta has-text-centered">
+                  Already have an account?{" "}
+                  <Link to={JustfixRoutes.locale.login}>Sign in</Link>
+                </p>
                 <div className="content has-text-centered">
                   <p className="jf-secondary-cta">
                     Would you prefer to have personal assistance to start your

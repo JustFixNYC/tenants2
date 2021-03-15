@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   OnboardingInfoSignupIntent,
   OnboardingStep4Version2Input,
@@ -22,11 +22,39 @@ import {
   OnboardingStep4Version2Mutation,
 } from "../queries/OnboardingStep4Version2Mutation";
 import { trackSignup } from "../analytics/track-signup";
+import { Link } from "react-router-dom";
+import JustfixRoutes from "../justfix-route-info";
+import { useAutoFocus } from "../ui/use-auto-focus";
 
 type OnboardingStep4Props = {
   routes: OnboardingRouteInfo;
   toSuccess: string;
   signupIntent: OnboardingInfoSignupIntent;
+};
+
+const ExistingAccountNotification: React.FC<{}> = () => {
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useAutoFocus(ref, true);
+
+  return (
+    <div className="notification is-info" ref={ref} tabIndex={-1}>
+      <h2 className="subtitle">You may already have a JustFix.nyc account.</h2>
+      <p>
+        If you remember your password, you can{" "}
+        <Link to={JustfixRoutes.locale.login}>sign into your account</Link>.
+      </p>
+      <br />
+      <p>
+        If you're not sure if you have an account, or if you've forgotten your
+        password, you can{" "}
+        <Link to={JustfixRoutes.locale.passwordReset.start}>
+          try resetting your password
+        </Link>
+        .
+      </p>
+    </div>
+  );
 };
 
 export default class OnboardingStep4 extends React.Component<
@@ -42,8 +70,18 @@ export default class OnboardingStep4 extends React.Component<
   renderForm(ctx: FormContext<OnboardingStep4Version2Input>): JSX.Element {
     const { routes } = this.props;
 
+    const isPhoneNumberTaken = ctx
+      .fieldPropsFor("phoneNumber")
+      .errors?.some((err) => err.code === "PHONE_NUMBER_TAKEN");
+    const isEmailTaken = ctx
+      .fieldPropsFor("email")
+      .errors?.some((err) => err.code === "EMAIL_ADDRESS_TAKEN");
+
     return (
       <React.Fragment>
+        {(isPhoneNumberTaken || isEmailTaken) && (
+          <ExistingAccountNotification />
+        )}
         <PhoneNumberFormField
           label="Phone number"
           {...ctx.fieldPropsFor("phoneNumber")}

@@ -303,7 +303,7 @@ class TestHardshipDeclarationVariables:
             res = graphql_client.execute(self.QUERY)["data"]["output"]
         assert res == {
             "address": "150 court street, Apartment 2, Brooklyn, NY",
-            "countyAndCourt": "Kings County Housing Court",
+            "countyAndCourt": "Bipbop Court, Funkypants County",
             "date": "01/25/2021",
             "hasFinancialHardship": True,
             "hasHealthRisk": False,

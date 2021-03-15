@@ -596,10 +596,10 @@ class GrapheneDjangoFormMixin:
         return cls.make_error(message, code)
 
     @classmethod
-    def make_error(cls, message: str, code: Optional[str] = None):
+    def make_error(cls, message: str, code: Optional[str] = None, field: str = "__all__"):
         errors = StrictFormFieldErrorType.list_from_form_errors(
             forms.utils.ErrorDict(
-                {"__all__": forms.utils.ErrorList([ValidationError(message, code=code)])}
+                {field: forms.utils.ErrorList([ValidationError(message, code=code)])}
             )
         )
         return cls(errors=errors)  # type: ignore

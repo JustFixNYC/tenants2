@@ -19,7 +19,8 @@ everything up without Docker, read on!
 
 You'll need Python 3.8.2 and [pipenv][], as well as Node 12, yarn, and
 [Git Large File Storage (LFS)][git-lfs]. You will also need to
-set up Postgres version 10 or later.
+set up Postgres version 10 or later, and it will need the PostGIS
+extension installed.
 
 If you didn't have Git LFS installed before cloning the repository,
 you can obtain the repository's large files by running `git lfs pull`.
@@ -491,6 +492,7 @@ and has the following provenance:
 * `findhelp/data/Borough-Boundaries.geojson` - https://data.cityofnewyork.us/City-Government/Borough-Boundaries/tqmj-j8zm
 * `findhelp/data/Community-Districts.geojson` - https://data.cityofnewyork.us/City-Government/Community-Districts/yfnk-k7r4
 * `findhelp/data/ZillowNeighborhoods-NY` - https://www.zillow.com/howto/api/neighborhood-boundaries.htm
+* `findhelp/data/nys_counties.geojson` - http://gis.ny.gov/gisdata/inventories/details.cfm?DSID=927 (reprojected into the WGS 84 CRS and converted to GeoJson via QGIS)
 
 [pipenv]: https://docs.pipenv.org/
 [git-lfs]: https://git-lfs.github.com/

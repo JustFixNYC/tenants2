@@ -1,10 +1,12 @@
 import datetime
+from django.contrib.gis.geos.point import Point
 from django.core.exceptions import ValidationError
 import pytest
 
 from users.tests.factories import UserFactory
 from .factories import OnboardingInfoFactory
 from onboarding.models import OnboardingInfo
+from findhelp.tests.factories import CountyFactory
 from project.tests.test_mapbox import mock_la_results
 from project.tests.test_geocoding import enable_fake_geocoding, EXAMPLE_SEARCH
 
@@ -22,6 +24,21 @@ class TestBuildingLinks:
     def test_it_shows_bis_link_when_bin_is_present(self):
         info = OnboardingInfo(pad_bin="1234")
         assert "DOB BIS" in info.get_building_links_html()
+
+
+class TestLookupCounty:
+    def test_it_returns_none_when_no_geocoding_info_is_available(self):
+        assert OnboardingInfo().lookup_county() is None
+
+    def test_it_returns_none_when_no_county_matches(self, db):
+        CountyFactory()
+        oi = OnboardingInfo(state="NY", geocoded_point=Point(50, 50))
+        assert oi.lookup_county() is None
+
+    def test_it_returns_county_when_county_matches(self, db):
+        CountyFactory()
+        oi = OnboardingInfo(state="NY", geocoded_point=Point(0.1, 0.1))
+        assert oi.lookup_county() == "Funkypants"
 
 
 def test_str_works_when_fields_are_not_set():
@@ -126,6 +143,26 @@ def test_address_lines_for_mailing():
     assert info.address_lines_for_mailing == ["150 Boop Way", "Apartment 2", "Beetville, OH 43210"]
 
 
+class TestUpdateGeocodedPointFromGeometry:
+    def build(self):
+        return OnboardingInfo(geometry={"type": "Point", "coordinates": [-118.24317, 34.05405]})
+
+    def test_it_sets_value_to_point(self):
+        onb = self.build()
+        onb.update_geocoded_point_from_geometry()
+        pt = onb.geocoded_point
+        assert pt.x == -118.24317
+        assert pt.y == 34.05405
+        assert pt.srid == 4326
+
+    def test_it_sets_value_to_none(self):
+        onb = self.build()
+        onb.update_geocoded_point_from_geometry()
+        onb.geometry = None
+        onb.update_geocoded_point_from_geometry()
+        assert onb.geocoded_point is None
+
+
 class TestNationalAddrMetadataLookup:
     def mkinfo(self, **kwargs):
         return OnboardingInfo(
@@ -193,7 +230,10 @@ class TestNationalAddrMetadataLookup:
 
         info = self.mkinfo_without_metadata()
         assert info.maybe_lookup_new_addr_metadata() is True
-        assert info.geocoded_address == "200 North Spring Street, Los Angeles CA 90012 (via Mapbox)"
+        assert (
+            info.geocoded_address
+            == "200 North Spring Street, Los Angeles, California 90012, United States (via Mapbox)"
+        )
         assert info.geometry == {"type": "Point", "coordinates": [-118.24317, 34.05405]}
 
 
@@ -275,3 +315,22 @@ class TestNycAddrMetadataLookup:
         assert info.pad_bbl == "3002920026"
         assert info.pad_bin == "3003069"
         assert info.geometry == {"type": "Point", "coordinates": [-73.993, 40.6889]}
+
+
+@enable_fake_geocoding
+def test_save_sets_geographic_metadata(db, requests_mock, settings):
+    requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
+    user = UserFactory()
+    oi = OnboardingInfo(
+        user=user,
+        signup_intent="LOC",
+        address="150 court st",
+        address_verified=True,
+        borough="BROOKLYN",
+        state="NY",
+        can_we_sms=True,
+    )
+    oi.full_clean()
+    oi.save()
+    assert oi.geocoded_point is not None
+    assert oi.zipcode == "11201"

@@ -21,6 +21,7 @@ from .util.settings_util import (
     parse_secure_proxy_ssl_header,
     parse_hostname_redirects,
     parse_comma_separated_list,
+    change_db_url_to_postgis,
     LazilyImportedFunction,
 )
 from .util import git
@@ -118,6 +119,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
+    "django.contrib.gis",
     "graphene_django",
     "django_celery_results",
     "project.apps.DefaultConfig",
@@ -205,11 +207,8 @@ WSGI_APPLICATION = "project.wsgi.application"
 
 DATABASE_ROUTERS: List[str] = []
 
-if not env.ENABLE_FINDHELP:
-    DATABASE_ROUTERS.append("findhelp.models.IgnoreFindhelpMigrationsRouter")
-
 DATABASES = {
-    "default": dj_database_url.parse(env.DATABASE_URL),
+    "default": dj_database_url.parse(change_db_url_to_postgis(env.DATABASE_URL)),
 }
 
 NYCDB_DATABASE = None
@@ -405,7 +404,9 @@ GRAPHENE = {
     "MIDDLEWARE": None,
 }
 
-GEOCODING_SEARCH_URL = "https://geosearch.planninglabs.nyc/v1/search"
+NYC_GEOSEARCH_ORIGIN = env.NYC_GEOSEARCH_ORIGIN
+
+GEOCODING_SEARCH_URL = f"{NYC_GEOSEARCH_ORIGIN}/v1/search"
 
 GEOCODING_TIMEOUT = 8
 
@@ -451,7 +452,9 @@ TWOFACTOR_VERIFY_DURATION = env.TWOFACTOR_VERIFY_DURATION
 
 MAPBOX_ACCESS_TOKEN = env.MAPBOX_ACCESS_TOKEN
 
-MAPBOX_TILES_ORIGIN = "https://api.tiles.mapbox.com"
+MAPBOX_API_ORIGIN = "https://api.mapbox.com"
+
+MAPBOX_TILES_ORIGIN = MAPBOX_API_ORIGIN
 
 MAPBOX_TIMEOUT = 10
 
@@ -531,7 +534,7 @@ CSP_SCRIPT_SRC = [
     "'self'",
 ]
 
-CSP_CONNECT_SRC = ["'self'", "https://geosearch.planninglabs.nyc", "https://api.mapbox.com"]
+CSP_CONNECT_SRC = ["'self'", NYC_GEOSEARCH_ORIGIN, MAPBOX_API_ORIGIN]
 
 CSP_FRAME_SRC = ["'self'", "https://www.youtube.com"]
 

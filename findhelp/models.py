@@ -1,4 +1,5 @@
 import itertools
+from project.util.mailing_address import STATE_KWARGS
 from typing import Union, Iterator, Optional
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry, Point, Polygon, MultiPolygon
@@ -28,24 +29,18 @@ def union_geometries(geometries: Iterator[MultiPolygon]) -> Optional[MultiPolygo
     return to_multipolygon(total_area)
 
 
-class IgnoreFindhelpMigrationsRouter:
-    """
-    This is a database router that disables migrations related
-    to models in this app.  It can be used if a Django project
-    needs to optionally disable this app without necessarily
-    making its models un-introspectable.
+class County(models.Model):
+    class Meta:
+        ordering = ["state", "name"]
+        unique_together = ("state", "name")
+        verbose_name_plural = "counties"
 
-    We ultimately need this in order to define a consistent GraphQL
-    schema for the project without having to worry about whether
-    this particular app is disabled or not.
-    """
+    state = models.CharField(**STATE_KWARGS)
+    name = models.CharField(max_length=25)
+    geom = models.MultiPolygonField(srid=4326)
 
-    def allow_migrate(self, db, app_label, model_name=None, **hints):
-        if app_label == "findhelp":
-            return False
-        # Note that we are supposed to return None if we have
-        # no opinion on the matter, which is the case here.
-        return None
+    def __str__(self):
+        return f"{self.name}, {self.state}"
 
 
 class Zipcode(models.Model):

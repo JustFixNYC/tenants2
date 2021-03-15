@@ -34,10 +34,12 @@ function showAdminMap(el) {
   const map = L.map(div);
   const urlTemplate =
     params.mapboxTilesOrigin +
-    "/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}";
+    "/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}";
   const tileLayerOptions = {
+    tileSize: 512,
     maxZoom: 18,
-    id: "mapbox.streets",
+    zoomOffset: -1,
+    id: "mapbox/streets-v11",
     accessToken: params.mapboxAccessToken,
   };
   const features = new L.FeatureGroup();

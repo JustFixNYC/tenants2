@@ -12,7 +12,7 @@
     "textOfLegislation": "Arkansas has suspended all in-person court hearings, but there is no moratorium on eviction proceedings and judges can hold hearings remotely."
   },
   "AZ": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "Governor Doug Ducey signed an Executive Order extending a moratorium on residential evictions until October 31, 2020."
   },
   "CA": {
@@ -25,7 +25,7 @@
   },
   "CT": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Governor Lamont\u2019s Executive Order 9E dated September 30, 2020 extends eviction moratorium to January 1, 2021."
+    "textOfLegislation": "Governor Lamont\u2019s Executive Order 10A renewed January 26, 2021 extends eviction moratorium to April 20, 2021."
   },
   "DC": {
     "stateWithoutProtections": true,
@@ -56,7 +56,7 @@
   },
   "IL": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Tenants in Illinois impacted by the COVID-19 crisis are protected from eviction for nonpayment per Governor Pritzker's COVID-19 Executive Order No. 2020-55, Issued September 18, 2020."
+    "textOfLegislation": "Tenants in Illinois impacted by the COVID-19 crisis are protected from eviction for nonpayment per Governor Pritzker's COVID-19 Executive Order No. 2021-05, Issued March 5, 2020."
   },
   "IN": {
     "stateWithoutProtections": true,
@@ -120,7 +120,7 @@
   },
   "NJ": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Tenants in New Jersey are protected from eviction for non-payment by Executive Order No. 186 until October 26, issued by Governor Philip Murphy on September 25, 2020."
+    "textOfLegislation": "Tenants in New Jersey are protected from eviction for non-payment by Executive Order No. 106 until two months after Governor Murphy declares an end to the COVID-19 health crisis."
   },
   "NM": {
     "stateWithoutProtections": true

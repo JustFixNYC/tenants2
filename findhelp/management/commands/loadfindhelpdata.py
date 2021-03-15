@@ -5,8 +5,16 @@ from django.db import transaction
 from django.core.management.base import BaseCommand
 from django.contrib.gis.gdal import DataSource
 
+from project.util.mailing_address import US_STATE_CHOICES
 from findhelp import models
-from findhelp.models import Zipcode, Borough, Neighborhood, CommunityDistrict, to_multipolygon
+from findhelp.models import (
+    Zipcode,
+    Borough,
+    Neighborhood,
+    CommunityDistrict,
+    County,
+    to_multipolygon,
+)
 
 
 DATA_DIR = Path(models.__file__).parent.resolve() / "data"
@@ -14,6 +22,7 @@ ZIPCODE_SHAPEFILE = DATA_DIR / "ZIP_CODE_040114" / "ZIP_CODE_040114.shp"
 BOROUGH_SHAPEFILE = DATA_DIR / "Borough-Boundaries.geojson"
 NEIGHBORHOOD_SHAPEFILE = DATA_DIR / "ZillowNeighborhoods-NY" / "ZillowNeighborhoods-NY.shp"
 COMMUNITY_DISTRICT_SHAPEFILE = DATA_DIR / "Community-Districts.geojson"
+NYS_COUNTIES_SHAPEFILE = DATA_DIR / "nys_counties.geojson"
 
 
 def get_or_construct(model, **kwargs):
@@ -24,7 +33,7 @@ def get_or_construct(model, **kwargs):
 
 
 class Command(BaseCommand):
-    help = "Loads NYC geographic data into the database."
+    help = "Loads findhelp-related geographic data into the database."
 
     @transaction.atomic
     def handle(self, *args, **options):
@@ -32,6 +41,7 @@ class Command(BaseCommand):
         self.load_neighborhoods()
         self.load_community_districts()
         self.load_boroughs()
+        self.load_counties()
 
     def load_community_districts(self):
         ds = DataSource(str(COMMUNITY_DISTRICT_SHAPEFILE))
@@ -113,3 +123,14 @@ class Command(BaseCommand):
             instance.save()
 
         print(f"Loaded {len(zipcodes)} zipcodes across {len(layer)} features.")
+
+    def load_counties(self):
+        ds = DataSource(str(NYS_COUNTIES_SHAPEFILE))
+        layer = ds[0]
+        for feature in layer:
+            name = str(feature["NAME"])
+            state = US_STATE_CHOICES.NY
+            instance = get_or_construct(County, state=state, name=name)
+            instance.geom = to_multipolygon(feature.geom.geos)
+            print(f"Saving county {instance}.")
+            instance.save()

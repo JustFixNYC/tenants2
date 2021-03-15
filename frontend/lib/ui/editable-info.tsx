@@ -1,20 +1,27 @@
 import React, { useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { AppLocationDescriptor, makeAppLocation } from "../app-location";
 import { usePrevious } from "../util/use-previous";
+import { bulmaClasses } from "./bulma";
 import { useAutoFocus } from "./use-auto-focus";
 
 const EditLink: React.FC<{
-  to: string;
+  path: string;
+  hashId?: string;
   ariaLabel: string;
   autoFocus?: boolean;
-}> = ({ to, ariaLabel, autoFocus }) => {
+}> = ({ path, hashId, ariaLabel, autoFocus }) => {
   const ref = useRef<HTMLAnchorElement | null>(null);
 
   useAutoFocus(ref, autoFocus);
 
   return (
     <Link
-      to={to}
+      to={makeAppLocation({
+        pathname: path,
+        hash: hashId,
+        state: { noFocus: true, noScroll: true },
+      })}
       className="button is-primary"
       aria-label={ariaLabel}
       ref={ref}
@@ -31,6 +38,17 @@ export type EditableInfoProps = {
    * still be rendered without needing to be re-mounted.
    */
   path: string;
+
+  /**
+   * The hash ID that clicking the "edit" button
+   * should take the user to, if any. This can ensure that
+   * the browser automatically scrolls to the part of the
+   * page where the editable information is.
+   *
+   * Note that this should be the hash *without* the leading
+   * `#` character, e.g. `mysection` rather than `#mysection`.
+   */
+  hashId?: string;
 
   /**
    * The name of the information in this area, used for
@@ -71,7 +89,7 @@ export const EditableInfo: React.FC<EditableInfoProps> = (props) => {
   const prevPathname = usePrevious(pathname);
   let autoFocusEditLink =
     pathname !== prevPathname &&
-    prevPathname === props.path &&
+    prevPathname?.startsWith(props.path) &&
     // We additionally want to make sure that we only auto-focus
     // the edit link in situations where we are sure nothing else
     // wants focus, which by convention will be if our pathname
@@ -80,16 +98,40 @@ export const EditableInfo: React.FC<EditableInfoProps> = (props) => {
     // `/foo/edit-name` to `/foo/edit-phone-number`).
     props.path.startsWith(pathname);
 
-  return pathname === props.path ? (
+  return pathname.startsWith(props.path) ? (
     props.children
   ) : (
     <>
       <div className="jf-editable-info">{props.readonlyContent}</div>
       <EditLink
-        to={props.path}
+        {...props}
         autoFocus={autoFocusEditLink}
         ariaLabel={`Edit ${props.name}`}
       />
+    </>
+  );
+};
+
+/**
+ * Save/cancel buttons, originally intended for use within an `<EditableInfo>`.
+ */
+export const SaveCancelButtons: React.FC<{
+  isLoading: boolean;
+  homeLocation: AppLocationDescriptor;
+}> = ({ isLoading, homeLocation }) => {
+  return (
+    <>
+      <button
+        type="submit"
+        className={bulmaClasses("button", "is-primary", {
+          "is-loading": isLoading,
+        })}
+      >
+        Save
+      </button>{" "}
+      <Link to={homeLocation} className="button is-light">
+        Cancel
+      </Link>
     </>
   );
 };

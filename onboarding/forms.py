@@ -73,6 +73,10 @@ class AptNumberWithConfirmationForm(forms.Form):
         return cleaned_data
 
 
+class NycAddressForm(AptNumberWithConfirmationForm, AddressAndBoroughFormMixin):
+    pass
+
+
 class OnboardingStep1Form(AptNumberWithConfirmationForm, AddressAndBoroughFormMixin):
     first_name = forms.CharField(max_length=30)
 
@@ -91,6 +95,16 @@ def get_boolean_field(name: str):
 
     field = OnboardingInfo._meta.get_field(name)
     return forms.BooleanField(help_text=field.help_text, required=False)
+
+
+class LeaseTypeForm(forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ("lease_type",)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["lease_type"].required = True
 
 
 class OnboardingStep2Form(forms.Form):
@@ -134,7 +148,9 @@ class BaseOnboardingStep4Form(forms.Form):
         phone_number = self.cleaned_data["phone_number"]
         if JustfixUser.objects.filter(phone_number=phone_number).exists():
             # TODO: Are we leaking valuable PII here?
-            raise ValidationError("A user with that phone number already exists.")
+            raise ValidationError(
+                "A user with that phone number already exists.", code="PHONE_NUMBER_TAKEN"
+            )
         return phone_number
 
 

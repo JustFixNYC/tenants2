@@ -168,6 +168,11 @@ export interface AppServerInfo {
    * in the header metatags for the site.
    */
   facebookAppId: string;
+
+  /**
+   * The URL that is the origin of the NYC GeoSearch API endpoint to use.
+   */
+  nycGeoSearchOrigin: string;
 }
 
 /**

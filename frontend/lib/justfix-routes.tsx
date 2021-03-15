@@ -159,7 +159,7 @@ export const JustfixRouteComponent: React.FC<RouteComponentProps> = (props) => {
         path={JustfixRoutes.locale.accountSettings.prefix}
         render={() => (
           <AccountSettingsRoutes
-            routeInfo={JustfixRoutes.locale.accountSettings}
+            routes={JustfixRoutes.locale.accountSettings}
           />
         )}
       />

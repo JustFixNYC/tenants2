@@ -189,6 +189,7 @@ class TestEvictionFreeSubmitDeclaration:
 
     def test_it_raises_err_when_declaration_already_sent(self):
         SubmittedHardshipDeclarationFactory(user=self.user)
+        OnboardingInfoFactory(user=self.user)
         assert self.execute()["errors"] == one_field_err(
             "You have already sent a hardship declaration form!"
         )
@@ -302,7 +303,7 @@ class TestHardshipDeclarationVariables:
             res = graphql_client.execute(self.QUERY)["data"]["output"]
         assert res == {
             "address": "150 court street, Apartment 2, Brooklyn, NY",
-            "countyAndCourt": "Kings County Housing Court",
+            "countyAndCourt": "Bipbop Court, Funkypants County",
             "date": "01/25/2021",
             "hasFinancialHardship": True,
             "hasHealthRisk": False,

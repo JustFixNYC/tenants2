@@ -1,7 +1,10 @@
-from typing import List, Dict
+import json
+from typing import List, Dict, Optional
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import JSONField
+from django.contrib.gis.db.models import PointField
+from django.contrib.gis.geos import GEOSGeometry
 
 from project.common_data import Choices
 from project import geocoding, mapbox
@@ -97,6 +100,8 @@ class OnboardingInfo(models.Model):
         help_text="The user's address. Only street name and number are required.",
     )
 
+    # TODO: This is currently only used for NYC-based users, and we might want to
+    # deprecate it entirely: https://github.com/JustFixNYC/tenants2/issues/1991
     address_verified = models.BooleanField(
         help_text=(
             "Whether we've verified, on the server-side, that the user's " "address is valid."
@@ -145,6 +150,13 @@ class OnboardingInfo(models.Model):
         blank=True,
         null=True,
         help_text="The GeoJSON point representing the user's address, if available.",
+    )
+
+    geocoded_point = PointField(
+        null=True,
+        blank=True,
+        srid=4326,
+        help_text="The point representing the user's address, if available.",
     )
 
     pad_bbl: str = models.CharField(
@@ -297,6 +309,17 @@ class OnboardingInfo(models.Model):
 
         return "\n".join(self.address_lines_for_mailing)
 
+    def lookup_county(self) -> Optional[str]:
+        from findhelp.models import County
+
+        if self.geocoded_point is not None:
+            county = County.objects.filter(
+                state=self.state, geom__contains=self.geocoded_point
+            ).first()
+            if county:
+                return county.name
+        return None
+
     def as_lob_params(self) -> Dict[str, str]:
         """
         Returns a dictionary representing the address that can be passed directly
@@ -379,9 +402,7 @@ class OnboardingInfo(models.Model):
         if addrs:
             addr = addrs[0]
             self.geometry = addr.geometry.dict()
-            self.geocoded_address = (
-                f"{addr.address}, {city} {self.state} {self.zipcode} (via Mapbox)"
-            )
+            self.geocoded_address = f"{addr.place_name} (via Mapbox)"
         elif self.__nationaladdr.has_changed():
             self.geocoded_address = ""
             self.geometry = None
@@ -397,12 +418,24 @@ class OnboardingInfo(models.Model):
             return True
         return False
 
+    def update_geocoded_point_from_geometry(self):
+        """
+        Set the `geocoded_point` property based on the value of `geometry`. Done automatically
+        on model save.
+        """
+
+        if self.geometry is None:
+            self.geocoded_point = None
+        else:
+            self.geocoded_point = GEOSGeometry(json.dumps(self.geometry), srid=4326)
+
     def clean(self):
         if self.borough and self.non_nyc_city:
             raise ValidationError("One cannot be in an NYC borough and outside NYC simultaneously.")
 
     def save(self, *args, **kwargs):
         self.maybe_lookup_new_addr_metadata()
+        self.update_geocoded_point_from_geometry()
         return super().save(*args, **kwargs)
 
     @property

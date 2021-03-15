@@ -49,6 +49,7 @@ class Command(BaseCommand):
         ".pdf",
         ".png",
         ".jpg",
+        ".gif",
         ".ttf",
         ".woff",
         ".woff2",

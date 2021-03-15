@@ -60,3 +60,11 @@ class TestOptionalUniqueEmailForm:
         UserFactory(email="boop@jones.com")
         form = OptionalUniqueEmailForm(data={"email": "boop@jones.com"})
         assert form.errors == {"email": ["A user with that email address already exists."]}
+
+    def test_it_does_not_complain_when_existing_user_submits_their_own_email(self, db, rf):
+        user = UserFactory(email="boop@jones.com")
+        form = OptionalUniqueEmailForm(data={"email": "boop@jones.com"})
+        req = rf.post("/")
+        req.user = user
+        form.set_request(req)
+        assert form.errors == {}

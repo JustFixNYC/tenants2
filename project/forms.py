@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 from users.models import JustfixUser
 from project.util.phone_number import USPhoneNumberField
+from project.util.form_with_request import FormWithRequestMixin
 from . import password_reset
 
 
@@ -113,7 +114,7 @@ class PasswordResetVerificationCodeForm(forms.Form):
     )
 
 
-class UniqueEmailForm(forms.Form):
+class UniqueEmailForm(forms.Form, FormWithRequestMixin):
     """
     A form with an email field that makes sure the provided email address
     isn't already taken by another user.
@@ -123,11 +124,16 @@ class UniqueEmailForm(forms.Form):
 
     def clean_email(self):
         email = self.cleaned_data["email"]
+        if self.request and self.request.user.is_authenticated and self.request.user.email == email:
+            # The passed-in email is already the current user's email, don't worry about it.
+            return email
         # We also want to make sure email is filled out, in case a subclass of ours made
         # it optional.
         if email and JustfixUser.objects.filter(email=email).exists():
             # TODO: Are we leaking valuable PII here?
-            raise ValidationError(_("A user with that email address already exists."))
+            raise ValidationError(
+                _("A user with that email address already exists."), code="EMAIL_ADDRESS_TAKEN"
+            )
         return email
 
 

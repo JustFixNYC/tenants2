@@ -1,5 +1,6 @@
 import json
 import logging
+from project.util.form_with_request import FormWithRequestMixin
 import graphene
 from unittest.mock import patch
 from dataclasses import dataclass
@@ -94,10 +95,30 @@ class FormWithAuth(DjangoFormMutation):
         return cls()
 
 
+class MyFormWithRequest(forms.Form, FormWithRequestMixin):
+    def clean(self):
+        cleaned_data = super().clean()
+        assert self.request is not None, "Expected self.request to be set!"
+        cleaned_data["user_email"] = self.request.user.email
+        return cleaned_data
+
+
+class MutationOfMyFormWithRequest(DjangoFormMutation):
+    class Meta:
+        form_class = MyFormWithRequest
+
+    email = graphene.String()
+
+    @classmethod
+    def perform_mutate(cls, form, info):
+        return cls(email=form.cleaned_data["user_email"])
+
+
 class Mutations(graphene.ObjectType):
     foo = Foo.Field()
     form_with_auth = FormWithAuth.Field()
     mutation_with_formsets = MutationWithFormsets.Field()
+    form_with_current_request = MutationOfMyFormWithRequest.Field()
 
 
 schema = graphene.Schema(mutation=Mutations)
@@ -648,3 +669,19 @@ def test_get_input_type_from_query_works():
 
     # Ensure the variable definition must be for "input".
     assert get_input_type_from_query("mutation Foo($boop: BarInput!) { foo(input: $boop) }") is None
+
+
+def test_form_with_request_is_supported(db):
+    user = UserFactory(email="boop@jones.net")
+    client = Client(schema)
+    result = jsonify(
+        client.execute(
+            r"""
+            mutation {
+                output: formWithCurrentRequest(input: {}) { email }
+            }
+            """,
+            context=create_fake_request(user=user),
+        )
+    )
+    assert result["data"]["output"] == {"email": "boop@jones.net"}

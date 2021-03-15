@@ -29,6 +29,7 @@ class MapboxFeature(pydantic.BaseModel):
     text: str
     address: Optional[str]
     center: Tuple[float, float]
+    place_name: str
     place_type: List[str]
     geometry: FeatureGeometry
 
@@ -40,6 +41,7 @@ class MapboxResults(pydantic.BaseModel):
 class StreetAddress(NamedTuple):
     address: str
     zip_code: str
+    place_name: str
     geometry: FeatureGeometry
 
 
@@ -118,6 +120,16 @@ def find_address(
     city and state using the given zip code.
 
     If Mapbox isn't configured or a network error occurs, returns None.
+
+    This function prioritizes matches that Mapbox claims are definitely
+    in the provided city, but it will also return other matches. This
+    is because sometimes the city someone thinks they live in might
+    not be the one that Mapbox thinks their address is in.
+
+    For example, Wappingers Falls is a small town near Poughkeepsie,
+    and while a person might believe they live in one of them, Mapbox
+    might believe their address is in the other (while yet another
+    map vendor might disagree with Mapbox!).
     """
 
     city = city.strip()
@@ -129,19 +141,23 @@ def find_address(
     )
     if not results:
         return None
-    addrs: List[StreetAddress] = []
+    in_city_addrs: List[StreetAddress] = []
+    out_of_city_addrs: List[StreetAddress] = []
     for result in results.features:
         state_matches = get_mapbox_state(result) == state
         result_zip_code = get_mapbox_zip_code(result)
-        if state_matches and result_zip_code and does_city_match(city, result):
-            addrs.append(
-                StreetAddress(
-                    address=get_mapbox_street_addr(result),
-                    zip_code=result_zip_code,
-                    geometry=result.geometry,
-                )
+        if state_matches and result_zip_code:
+            addr = StreetAddress(
+                address=get_mapbox_street_addr(result),
+                zip_code=result_zip_code,
+                place_name=result.place_name,
+                geometry=result.geometry,
             )
-    return addrs
+            if does_city_match(city, result):
+                in_city_addrs.append(addr)
+            else:
+                out_of_city_addrs.append(addr)
+    return in_city_addrs + out_of_city_addrs
 
 
 def get_mapbox_street_addr(feature: MapboxFeature) -> str:

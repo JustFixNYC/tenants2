@@ -26,6 +26,8 @@ from graphene_django.forms.mutation import fields_for_form
 from graphene.utils.str_converters import to_camel_case
 import logging
 
+from .form_with_request import FormWithRequestMixin
+
 
 SPECIAL_FORMSET_FIELD_NAMES = [
     formsets.TOTAL_FORM_COUNT,
@@ -516,6 +518,7 @@ class GrapheneDjangoFormMixin:
     def get_form(cls, root, info, **input):
         form_kwargs = cls.get_form_kwargs(root, info, **input)
         form = cls._meta.form_class(**form_kwargs)  # type: ignore
+        FormWithRequestMixin.try_to_set_request_on_form(form, info.context)
         if not cls._meta.formset_classes:  # type: ignore
             return form
         return cls.get_form_with_formsets(form, cls._get_formsets(root, info, **input))
@@ -593,10 +596,10 @@ class GrapheneDjangoFormMixin:
         return cls.make_error(message, code)
 
     @classmethod
-    def make_error(cls, message: str, code: Optional[str] = None):
+    def make_error(cls, message: str, code: Optional[str] = None, field: str = "__all__"):
         errors = StrictFormFieldErrorType.list_from_form_errors(
             forms.utils.ErrorDict(
-                {"__all__": forms.utils.ErrorList([ValidationError(message, code=code)])}
+                {field: forms.utils.ErrorList([ValidationError(message, code=code)])}
             )
         )
         return cls(errors=errors)  # type: ignore

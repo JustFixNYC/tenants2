@@ -2,11 +2,6 @@ from typing import Tuple, Dict, Any, List
 from types import SimpleNamespace
 import pytest
 
-from project import settings
-
-
-assert settings.env.ENABLE_FINDHELP, "findhelp tests should only run if ENABLE_FINDHELP is set!"
-
 
 class FakeGeocoder:
     def __init__(self):
@@ -32,10 +27,3 @@ def fake_geocoder(monkeypatch):
     fg = FakeGeocoder()
     monkeypatch.setattr(geocoding, "search", fg.search)
     return fg
-
-
-@pytest.fixture
-def simulate_findhelp_disabled(monkeypatch):
-    from project.settings import env
-
-    monkeypatch.setattr(env, "ENABLE_FINDHELP", False)

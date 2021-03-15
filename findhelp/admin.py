@@ -1,20 +1,25 @@
 from django.contrib import admin
 
-from project.util.admin_util import admin_field
-from .models import Zipcode, Borough, Neighborhood, CommunityDistrict, TenantResource
+from project.util.admin_util import admin_field, never_has_permission
+from .models import Zipcode, Borough, Neighborhood, CommunityDistrict, TenantResource, County
 from .admin_map import render_admin_map, admin_map_field, MapModelAdmin
 
 
-def register(model):
-    from project.settings import env
+@admin.register(County)
+class CountyAdmin(MapModelAdmin):
+    list_display = ["name", "state"]
+    search_fields = ["name"]
+    exclude = ["geom"]
+    readonly_fields = ["geometry"]
 
-    if env.ENABLE_FINDHELP:
-        return admin.register(model)
+    geometry = admin_map_field("geom", "Geometry")
 
-    return lambda klass: klass
+    has_add_permission = never_has_permission
+    has_change_permission = never_has_permission
+    has_delete_permission = never_has_permission
 
 
-@register(Zipcode)
+@admin.register(Zipcode)
 class ZipcodeAdmin(MapModelAdmin):
     list_display = ["zipcode"]
     search_fields = ["zipcode"]
@@ -23,8 +28,12 @@ class ZipcodeAdmin(MapModelAdmin):
 
     geometry = admin_map_field("geom", "Geometry")
 
+    has_add_permission = never_has_permission
+    has_change_permission = never_has_permission
+    has_delete_permission = never_has_permission
 
-@register(Borough)
+
+@admin.register(Borough)
 class BoroughAdmin(MapModelAdmin):
     list_display = ["code", "name"]
     exclude = ["geom"]
@@ -32,8 +41,12 @@ class BoroughAdmin(MapModelAdmin):
 
     geometry = admin_map_field("geom", "Geometry")
 
+    has_add_permission = never_has_permission
+    has_change_permission = never_has_permission
+    has_delete_permission = never_has_permission
 
-@register(Neighborhood)
+
+@admin.register(Neighborhood)
 class NeighborhoodAdmin(MapModelAdmin):
     list_display = ["name", "county"]
     search_fields = ["name"]
@@ -42,8 +55,12 @@ class NeighborhoodAdmin(MapModelAdmin):
 
     geometry = admin_map_field("geom", "Geometry")
 
+    has_add_permission = never_has_permission
+    has_change_permission = never_has_permission
+    has_delete_permission = never_has_permission
 
-@register(CommunityDistrict)
+
+@admin.register(CommunityDistrict)
 class CommunityDistrictAdmin(MapModelAdmin):
     list_display = ["boro_cd", "name"]
     search_fields = ["name"]
@@ -52,8 +69,12 @@ class CommunityDistrictAdmin(MapModelAdmin):
 
     geometry = admin_map_field("geom", "Geometry")
 
+    has_add_permission = never_has_permission
+    has_change_permission = never_has_permission
+    has_delete_permission = never_has_permission
 
-@register(TenantResource)
+
+@admin.register(TenantResource)
 class TenantResourceAdmin(MapModelAdmin):
     list_display = ["name", "org_type"]
     exclude = ["geocoded_point", "catchment_area"]

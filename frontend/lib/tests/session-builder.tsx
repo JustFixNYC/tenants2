@@ -20,6 +20,10 @@ import {
   HPActionDetails,
   BlankHPActionDetails,
 } from "../queries/HPActionDetails";
+import {
+  BlankHardshipDeclarationDetails,
+  HardshipDeclarationDetails,
+} from "../queries/HardshipDeclarationDetails";
 
 /**
  * An attempt to encapsulate the creation of a GraphQL session object
@@ -91,6 +95,7 @@ export class SessionBuilder {
       city: "Brooklyn",
       state: "NY",
       zipcode: "11201",
+      fullMailingAddress: "150 Court St\nBrooklyn, NY 11201",
       agreedToJustfixTerms: true,
     });
   }
@@ -181,6 +186,18 @@ export class SessionBuilder {
         trackingNumber: "1234",
         letterSentAt: "2020-03-13T19:41:09+00:00",
         createdAt: "2020-03-13T19:41:09+00:00",
+      },
+    });
+  }
+
+  withHardshipDeclarationDetails(
+    hdd: Partial<HardshipDeclarationDetails> = {}
+  ): SessionBuilder {
+    return this.with({
+      hardshipDeclarationDetails: {
+        ...(this.value.hardshipDeclarationDetails ??
+          BlankHardshipDeclarationDetails),
+        ...hdd,
       },
     });
   }

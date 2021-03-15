@@ -1,3 +1,4 @@
+from onboarding.schema_util import mutation_requires_onboarding
 from typing import Any, Dict
 from django.http import HttpRequest
 import graphene
@@ -59,6 +60,12 @@ class EvictionFreeIndexNumber(OneToOneUserModelFormMutation):
 
 
 @schema_registry.register_mutation
+class EvictionFreeIndexNumberV2(OneToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.IndexNumberFormV2
+
+
+@schema_registry.register_mutation
 class EvictionFreeAgreeToLegalTerms(DjangoFormMutation):
     class Meta:
         form_class = forms.AgreeToLegalTermsForm
@@ -75,6 +82,7 @@ class EvictionFreeSubmitDeclaration(SessionFormMutation):
     login_required = True
 
     @classmethod
+    @mutation_requires_onboarding
     def perform_mutate(cls, form, info):
         from norent.schema import does_user_have_ll_mailing_addr_or_email
 
@@ -84,8 +92,6 @@ class EvictionFreeSubmitDeclaration(SessionFormMutation):
 
         if hasattr(user, "submitted_hardship_declaration"):
             return cls.make_error(_("You have already sent a hardship declaration form!"))
-        if not hasattr(user, "onboarding_info"):
-            return cls.make_and_log_error(info, _("You haven't provided any account details yet!"))
         if not does_user_have_ll_mailing_addr_or_email(user):
             return cls.make_and_log_error(info, _("You haven't provided any landlord details yet!"))
 

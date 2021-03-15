@@ -28,6 +28,30 @@ class IndexNumberForm(DynamicallyRequiredFieldsMixin, forms.ModelForm):
         return cleaned_data
 
 
+class IndexNumberFormV2(DynamicallyRequiredFieldsMixin, forms.ModelForm):
+    class Meta:
+        model = HardshipDeclarationDetails
+        fields = (
+            "index_number",
+            "court_name",
+        )
+
+    has_current_case = YesNoRadiosField()
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        has_current_case = YesNoRadiosField.coerce(cleaned_data.get("has_current_case"))
+
+        if has_current_case is True:
+            self.require_text_field("index_number", cleaned_data)
+        elif has_current_case is False:
+            cleaned_data["index_number"] = ""
+            cleaned_data["court_name"] = ""
+
+        return cleaned_data
+
+
 class CovidImpactForm(forms.ModelForm):
     class Meta:
         model = HardshipDeclarationDetails

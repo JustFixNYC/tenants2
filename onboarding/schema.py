@@ -15,6 +15,7 @@ from project.util.django_graphql_session_forms import (
 )
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import get_site_name, SITE_CHOICES
+from project.util.mailing_address import US_STATE_CHOICES
 from project.locales import ALL as LOCALE_CHOICES
 from project import slack, schema_registry
 from users.models import JustfixUser
@@ -22,6 +23,7 @@ from partnerships import referral
 from project.util.model_form_util import OneToOneUserModelFormMutation
 from users.email_verify import send_verification_email_async
 from onboarding import forms
+from onboarding.schema_util import mutation_requires_onboarding
 from onboarding.models import OnboardingInfo, BOROUGH_CHOICES, LEASE_CHOICES, SIGNUP_INTENT_CHOICES
 
 
@@ -196,8 +198,55 @@ class AgreeToTerms(SessionFormMutation):
         return cls.mutation_success()
 
 
+class OnboardingInfoMutation(OneToOneUserModelFormMutation):
+    class Meta:
+        abstract = True
+
+    @classmethod
+    @mutation_requires_onboarding
+    def perform_mutate(cls, form, info: ResolveInfo):
+        result = super().perform_mutate(form, info)
+        # The OneToOneUserModelFormMutation's OnboardingInfo
+        # instance is different from the one attached to our
+        # user object, so we need to refresh the one one our
+        # user object from the DB in order for the values
+        # returned in the associated `session` property of
+        # the mutation to be up-to-date.
+        info.context.user.onboarding_info.refresh_from_db()
+        return result
+
+
 @schema_registry.register_mutation
-class ReliefAttempts(OneToOneUserModelFormMutation):
+class NycAddress(SessionFormMutation):
+    class Meta:
+        form_class = forms.NycAddressForm
+
+    login_required = True
+
+    @classmethod
+    @mutation_requires_onboarding
+    def perform_mutate(cls, form, info: ResolveInfo):
+        oi = info.context.user.onboarding_info
+        oi.non_nyc_city = ""
+        oi.state = US_STATE_CHOICES.NY
+        oi.address = form.cleaned_data["address"]
+        oi.borough = form.cleaned_data["borough"]
+        oi.apt_number = form.cleaned_data["apt_number"]
+        oi.address_verified = form.cleaned_data["address_verified"]
+        oi.full_clean()
+        oi.save()
+
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class LeaseType(OnboardingInfoMutation):
+    class Meta:
+        form_class = forms.LeaseTypeForm
+
+
+@schema_registry.register_mutation
+class ReliefAttempts(OnboardingInfoMutation):
     class Meta:
         form_class = forms.ReliefAttemptsForm
 
@@ -256,6 +305,20 @@ class OnboardingInfoType(DjangoObjectType):
             "Whether the user is in Los Angeles County. If "
             "we don't have enough information to tell, this will be null."
         )
+    )
+
+    full_mailing_address = graphene.String(
+        required=True,
+        description=(
+            "The user's full mailing address, as it will appear on mailings and "
+            "other official documents."
+        ),
+        resolver=lambda self, context: "\n".join(self.address_lines_for_mailing),
+    )
+
+    county = graphene.String(
+        description="The county of the user's address, or null if we don't know.",
+        resolver=lambda self, context: self.lookup_county(),
     )
 
     def resolve_is_in_los_angeles(self, info) -> Optional[bool]:

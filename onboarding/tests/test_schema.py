@@ -3,11 +3,12 @@ import pytest
 from django.contrib.auth.hashers import is_password_usable
 
 import project.locales
+from findhelp.tests.factories import CountyFactory
 from project.util.testing_util import GraphQLTestingPal
 from frontend.tests.util import get_frontend_query
 from users.models import JustfixUser
 from onboarding.schema import session_key_for_step
-from .factories import OnboardingInfoFactory
+from .factories import OnboardingInfoFactory, NationalOnboardingInfoFactory, UserFactory
 
 
 VALID_STEP_DATA = {
@@ -42,6 +43,8 @@ query {
             leaseType
             state
             city
+            fullMailingAddress
+            county
         }
     }
 }
@@ -180,6 +183,29 @@ def test_has_called_311_works(graphql_client):
     assert query() is True
 
 
+def test_full_mailing_address_works(db, graphql_client):
+    onb = OnboardingInfoFactory()
+    graphql_client.request.user = onb.user
+    result = graphql_client.execute(ONBOARDING_INFO_QUERY)["data"]["session"]
+    result = result["onboardingInfo"]["fullMailingAddress"]
+    assert result == "150 court street\nApartment 2\nBrooklyn, NY"
+
+
+def test_county_works(db, graphql_client):
+    def query():
+        result = graphql_client.execute(ONBOARDING_INFO_QUERY)["data"]["session"]
+        return result["onboardingInfo"]["county"]
+
+    onb = OnboardingInfoFactory()
+    graphql_client.request.user = onb.user
+    assert query() is None
+
+    CountyFactory()
+    OnboardingInfoFactory.set_geocoded_point(onb, 0.1, 0.1)
+    onb.save()
+    assert query() == "Funkypants"
+
+
 def test_onboarding_session_info_is_fault_tolerant(graphql_client):
     key = session_key_for_step(1)
     graphql_client.request.session[key] = {"lol": 1}
@@ -283,3 +309,86 @@ class TestAgreeToTerms(GraphQLTestingPal):
         }
         self.oi.refresh_from_db()
         assert self.oi.agreed_to_evictionfree_terms is True
+
+
+class TestLeaseType(GraphQLTestingPal):
+    QUERY = """
+    mutation LeaseTypeMutation($input: LeaseTypeInput!) {
+        output: leaseType(input: $input) {
+            errors { field, messages },
+            session { onboardingInfo {
+                leaseType
+            } }
+        }
+    }
+    """
+
+    DEFAULT_INPUT = {"leaseType": "NYCHA"}
+
+    def test_it_raises_err_when_not_logged_in(self):
+        self.assert_one_field_err("You do not have permission to use this form!")
+
+    def test_it_raises_err_when_not_onboarded(self):
+        self.set_user(UserFactory())
+        self.assert_one_field_err("You haven't provided any account details yet!")
+
+    def test_it_works(self):
+        oi = OnboardingInfoFactory(lease_type="RENT_STABILIZED")
+        self.set_user(oi.user)
+        assert self.execute() == {
+            "errors": [],
+            "session": {"onboardingInfo": {"leaseType": "NYCHA"}},
+        }
+        assert oi.lease_type == "NYCHA"
+
+
+class TestNycAddress(GraphQLTestingPal):
+    QUERY = """
+    mutation NycAddressMutation($input: NycAddressInput!) {
+        output: nycAddress(input: $input) {
+            errors { field, messages },
+            session { onboardingInfo {
+                address,
+                borough,
+                aptNumber
+            } }
+        }
+    }
+    """
+
+    DEFAULT_INPUT = {
+        "address": "654 park place",
+        "borough": "BROOKLYN",
+        "aptNumber": "2",
+        "noAptNumber": False,
+    }
+
+    _expected_default_output = {
+        "errors": [],
+        "session": {
+            "onboardingInfo": {
+                "address": "654 park place",
+                "borough": "BROOKLYN",
+                "aptNumber": "2",
+            }
+        },
+    }
+
+    def test_it_raises_err_when_not_logged_in(self):
+        self.assert_one_field_err("You do not have permission to use this form!")
+
+    def test_it_works_when_geocoding_fails(self):
+        oi = OnboardingInfoFactory(
+            address="123 boop street", borough="QUEENS", apt_number="", address_verified=True
+        )
+        self.set_user(oi.user)
+        assert self.execute() == self._expected_default_output
+        assert oi.address == "654 park place"
+        assert oi.address_verified is False
+
+    def test_it_works_when_switching_from_non_nyc_address(self):
+        oi = NationalOnboardingInfoFactory()
+        self.set_user(oi.user)
+        assert self.execute() == self._expected_default_output
+        assert oi.non_nyc_city == ""
+        assert oi.state == "NY"

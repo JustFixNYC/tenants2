@@ -34,6 +34,7 @@ msgstr "(Nota: tenga en cuenta que la solicitud se enviará en inglés)"
 
 #: frontend/lib/common-steps/ask-email.tsx:15
 #: frontend/lib/common-steps/landlord-email.tsx:38
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:66
 msgid "(optional)"
 msgstr "(opcional)"
 
@@ -122,7 +123,7 @@ msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines
 
 #: frontend/lib/evictionfree/about.tsx:36
 #: frontend/lib/evictionfree/about.tsx:41
-#: frontend/lib/evictionfree/site.tsx:71
+#: frontend/lib/evictionfree/site.tsx:72
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
 #: frontend/lib/norent/components/footer.tsx:40
@@ -630,7 +631,7 @@ msgstr "La electricidad no funciona"
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: frontend/lib/account-settings/routes.tsx:88
+#: frontend/lib/account-settings/contact-settings.tsx:41
 #: frontend/lib/common-steps/ask-email.tsx:12
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
 msgid "Email address"
@@ -677,7 +678,7 @@ msgstr "Explora la herramienta"
 msgid "FAQs"
 msgstr "Preguntas Frecuentes"
 
-#: frontend/lib/evictionfree/site.tsx:68
+#: frontend/lib/evictionfree/site.tsx:69
 #: frontend/lib/norent/components/footer.tsx:37
 #: frontend/lib/norent/site.tsx:34
 msgid "Faqs"
@@ -696,8 +697,8 @@ msgid "Fight to #CancelRent"
 msgstr "Lucha para #CancelRent"
 
 #: frontend/lib/evictionfree/homepage.tsx:32
-#: frontend/lib/evictionfree/site.tsx:56
-#: frontend/lib/evictionfree/site.tsx:60
+#: frontend/lib/evictionfree/site.tsx:57
+#: frontend/lib/evictionfree/site.tsx:61
 msgid "Fill out my form"
 msgstr "Rellena mi formulario"
 
@@ -709,7 +710,7 @@ msgstr "Rellena en línea tu formulario de declaración de penuria"
 msgid "Find out more"
 msgstr "Más información"
 
-#: frontend/lib/account-settings/routes.tsx:51
+#: frontend/lib/account-settings/about-you-settings.tsx:23
 #: frontend/lib/common-steps/ask-name.tsx:25
 #: frontend/lib/rh/routes.tsx:113
 msgid "First name"
@@ -963,6 +964,10 @@ msgstr "Si tiene preguntas sobre tus derechos como inquilino/a, por favor <0>con
 msgid "If you have received a Notice to Pay Rent or Quit or any other type of eviction notice, sign up for a workshop and/or get legal help at <0>StayHousedLA.org</0>."
 msgstr "Si has recibido un Aviso de Pago de Renta (Notice to Pay Rent en inglés) o un Aviso de Desalojo (Notice to Quit en inglés) o cualquier otro tipo de aviso, inscríbete a un taller y/o consigue ayuda legal en <0>StayHousedLA.org</0>."
 
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:59
+msgid "If you know the court name your case is associated with, please provide it below. Otherwise, leave this blank."
+msgstr ""
+
 #: frontend/lib/common-steps/error-pages.tsx:12
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
 msgstr "Si necesitas cambiar tu nombre o tu información de contacto, ponte en contacto con <0/>."
@@ -1112,7 +1117,7 @@ msgstr "Nombre del dueño o manager de tu edificio"
 msgid "Language:"
 msgstr "Idioma:"
 
-#: frontend/lib/account-settings/routes.tsx:52
+#: frontend/lib/account-settings/about-you-settings.tsx:24
 #: frontend/lib/common-steps/ask-name.tsx:26
 #: frontend/lib/rh/routes.tsx:116
 msgid "Last name"
@@ -1185,12 +1190,12 @@ msgid "Locally supported"
 msgstr "Con apoyo local"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
-#: frontend/lib/evictionfree/site.tsx:76
+#: frontend/lib/evictionfree/site.tsx:77
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Iniciar sesión"
 
-#: frontend/lib/evictionfree/site.tsx:74
+#: frontend/lib/evictionfree/site.tsx:75
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:13
 msgid "Log out"
@@ -1534,7 +1539,7 @@ msgstr "Pintura Escamada/Pelada"
 msgid "Pennsylvania"
 msgstr "Pensilvania"
 
-#: frontend/lib/account-settings/routes.tsx:70
+#: frontend/lib/account-settings/contact-settings.tsx:24
 #: frontend/lib/rh/routes.tsx:121
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:36
 msgid "Phone number"
@@ -2173,7 +2178,7 @@ msgstr "Incluiremos esta información en la carta al dueño de tu edificio."
 msgid "We'll include this information in your hardship declaration form."
 msgstr "Incluiremos esta información en tu formulario de declaración de penuria."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:36
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:39
 msgid "We'll need to add your case's index number to your declaration."
 msgstr "Tendremos que añadir el número de índice de tu caso a tu declaración."
 
@@ -2307,7 +2312,7 @@ msgstr "¿Qué tipo de documentación debo recopilar para demostrar que no puedo
 msgid "When you use our tool, you will be able to preview your filled out form before sending it. You can also view a blank copy of the Hardship Declaration form."
 msgstr "Cuando utilices nuestra herramienta, podrás obtener una vista previa de tu formulario completo antes de enviarlo. También puedes ver una copia en blanco del formulario de Declaración de Dificultades."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:42
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:45
 msgid "Where do I find my case's index number?"
 msgstr "¿Dónde encuentro el número de índice de mi caso?"
 
@@ -2522,7 +2527,11 @@ msgstr "Tu edificio tenía {0, plural, one {una unidad de alquiler estabilizado}
 msgid "Your building was built in {0} or earlier."
 msgstr "Tu edificio fue construido en {0} o antes."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:41
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:64
+msgid "Your case's court name"
+msgstr ""
+
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:44
 msgid "Your case's index number"
 msgstr "Número de índice de tu caso"
 
@@ -2542,7 +2551,7 @@ msgstr "Tu dirección de correo electrónico"
 msgid "Your hardship declaration form has been sent to your landlord via {0}."
 msgstr "Tu formulario de declaración de penuria ha sido enviado a tu propietario a través de {0}."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:43
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:46
 msgid "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
 msgstr "Tu número de índice se encuentra en la parte superior de la Postal o Aviso de Petición (\"Postcard or Notice of Petition\" en inglés) que recibiste de la corte de vivienda. <0>Son así:</0>"
 

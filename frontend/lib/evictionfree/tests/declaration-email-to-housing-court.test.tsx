@@ -10,6 +10,12 @@ const sb = newSb()
   .withLandlordDetails()
   .withSubmittedHardshipDeclaration();
 
+const outsideNycSb = sb.withOnboardingInfo({
+  city: "Buffalo",
+  borough: null,
+  county: "Erie",
+});
+
 function getSubject(builder: typeof sb) {
   return emailSubject(
     assertNotNull(sessionToEvictionFreeDeclarationEmailProps(builder.value))
@@ -24,13 +30,21 @@ describe("emailSubject()", () => {
   });
 
   it("works for outside-NYC users", () => {
-    const sess = sb.withOnboardingInfo({
-      city: "Buffalo",
-      borough: null,
-      county: "Erie",
-    });
-    expect(getSubject(sess)).toBe(
+    expect(getSubject(outsideNycSb)).toBe(
       "Boop Jones - 150 Court St, Buffalo, NY 11201 - Erie County"
+    );
+  });
+
+  it("works for outside-NYC users w/ index # and housing court", () => {
+    expect(
+      getSubject(
+        outsideNycSb.withHardshipDeclarationDetails({
+          indexNumber: "94568-2019",
+          courtName: "Funky Town Court",
+        })
+      )
+    ).toBe(
+      "Boop Jones - 150 Court St, Buffalo, NY 11201 - No. 94568-2019 - Funky Town Court - Erie County"
     );
   });
 });

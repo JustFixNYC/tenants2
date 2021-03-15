@@ -111,6 +111,24 @@ def fill_hardship_pdf(v: HardshipDeclarationVariables, locale: str) -> bytes:
     return overlay.overlay_atop(path).getvalue()
 
 
+def _get_county_and_court_for_user(user: JustfixUser) -> Optional[str]:
+    parts: List[str] = []
+    hdd = user.hardship_declaration_details
+    county = user.onboarding_info.lookup_county()
+
+    if hdd.court_name:
+        parts.append(hdd.court_name)
+
+    if county:
+        parts.append(f"{county} County")
+
+    if parts:
+        return ", ".join(parts)
+
+    hci = get_housing_court_info_for_user(user)
+    return hci and hci.name
+
+
 def get_vars_for_user(user: JustfixUser) -> Optional[HardshipDeclarationVariables]:
     if not (
         user.is_authenticated
@@ -120,10 +138,9 @@ def get_vars_for_user(user: JustfixUser) -> Optional[HardshipDeclarationVariable
         return None
     hdd = user.hardship_declaration_details
     onb = user.onboarding_info
-    hci = get_housing_court_info_for_user(user)
     return HardshipDeclarationVariables(
         index_number=hdd.index_number or None,
-        county_and_court=hci and hci.name,
+        county_and_court=_get_county_and_court_for_user(user),
         address=", ".join(onb.address_lines_for_mailing),
         has_financial_hardship=hdd.has_financial_hardship,
         has_health_risk=hdd.has_health_risk,

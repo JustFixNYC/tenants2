@@ -83,11 +83,7 @@ fragment AllSessionInfo on SessionInfo {
     isHarassment,
     isRepairs
   },
-  hardshipDeclarationDetails {
-    indexNumber,
-    hasFinancialHardship,
-    hasHealthRisk
-  },
+  hardshipDeclarationDetails { ...HardshipDeclarationDetails },
   submittedHardshipDeclaration {
     createdAt,
     trackingNumber,

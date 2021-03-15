@@ -35,7 +35,9 @@ function emailSubject(options: EvictionFreeDeclarationEmailProps): string {
     parts.push(`No. ${options.indexNumber}`);
   }
 
-  // TODO: Insert court, if available, e.g. "Newtown Town Court"
+  if (options.courtName) {
+    parts.push(options.courtName);
+  }
 
   if (options.county) {
     parts.push(`${options.county} County`);

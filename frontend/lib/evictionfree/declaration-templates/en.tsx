@@ -11,7 +11,10 @@ const HardshipDeclarationEnglish: HardshipDeclarationFC = (props) => (
       Index Number (if known/applicable):{" "}
       <FilledField>{props.indexNumber || ""}</FilledField>
     </p>
-    <p>County and Court (if known/applicable): {props.countyAndCourt}</p>
+    <p>
+      County and Court (if known/applicable):{" "}
+      <FilledField>{props.countyAndCourt || ""}</FilledField>
+    </p>
     <h2>Tenant’s Declaration Of Hardship During The Covid-19 Pandemic</h2>
     <p>
       I am a tenant, lawful occupant, or other person responsible for paying

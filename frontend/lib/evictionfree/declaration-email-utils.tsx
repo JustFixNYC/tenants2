@@ -8,6 +8,7 @@ export type EvictionFreeDeclarationEmailProps = {
   dateSubmitted: string;
   trackingNumber: string;
   indexNumber: string;
+  courtName: string;
   wasEmailedToHousingCourt: boolean;
   wasEmailedToLandlord: boolean;
   wasMailedToLandlord: boolean;
@@ -33,6 +34,7 @@ export function sessionToEvictionFreeDeclarationEmailProps(
     landlordName: ld.name,
     dateSubmitted: friendlyUTCDate(shd.createdAt),
     indexNumber: hdd?.indexNumber ?? "",
+    courtName: hdd?.courtName ?? "",
     trackingNumber: shd.trackingNumber,
     wasEmailedToHousingCourt: !!shd.emailedToHousingCourtAt,
     wasEmailedToLandlord: !!shd.emailedAt,

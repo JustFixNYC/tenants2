@@ -117,7 +117,7 @@ msgstr "A national tool by non-profit <0>JustFix.nyc</0>"
 
 #: frontend/lib/evictionfree/about.tsx:36
 #: frontend/lib/evictionfree/about.tsx:41
-#: frontend/lib/evictionfree/site.tsx:71
+#: frontend/lib/evictionfree/site.tsx:72
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
 #: frontend/lib/norent/components/footer.tsx:40
@@ -625,7 +625,7 @@ msgstr "Electricity not working"
 msgid "Email"
 msgstr "Email"
 
-#: frontend/lib/account-settings/routes.tsx:88
+#: frontend/lib/account-settings/contact-settings.tsx:41
 #: frontend/lib/common-steps/ask-email.tsx:12
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
 msgid "Email address"
@@ -672,7 +672,7 @@ msgstr "Explore the tool"
 msgid "FAQs"
 msgstr "FAQs"
 
-#: frontend/lib/evictionfree/site.tsx:68
+#: frontend/lib/evictionfree/site.tsx:69
 #: frontend/lib/norent/components/footer.tsx:37
 #: frontend/lib/norent/site.tsx:34
 msgid "Faqs"
@@ -691,8 +691,8 @@ msgid "Fight to #CancelRent"
 msgstr "Fight to #CancelRent"
 
 #: frontend/lib/evictionfree/homepage.tsx:32
-#: frontend/lib/evictionfree/site.tsx:56
-#: frontend/lib/evictionfree/site.tsx:60
+#: frontend/lib/evictionfree/site.tsx:57
+#: frontend/lib/evictionfree/site.tsx:61
 msgid "Fill out my form"
 msgstr "Fill out my form"
 
@@ -704,7 +704,7 @@ msgstr "Fill out your hardship declaration form online"
 msgid "Find out more"
 msgstr "Find out more"
 
-#: frontend/lib/account-settings/routes.tsx:51
+#: frontend/lib/account-settings/about-you-settings.tsx:23
 #: frontend/lib/common-steps/ask-name.tsx:25
 #: frontend/lib/rh/routes.tsx:113
 msgid "First name"
@@ -958,6 +958,10 @@ msgstr "If you have questions about your rights as a tenant, please <0>connect w
 msgid "If you have received a Notice to Pay Rent or Quit or any other type of eviction notice, sign up for a workshop and/or get legal help at <0>StayHousedLA.org</0>."
 msgstr "If you have received a Notice to Pay Rent or Quit or any other type of eviction notice, sign up for a workshop and/or get legal help at <0>StayHousedLA.org</0>."
 
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:59
+msgid "If you know the court name your case is in, please provide it below."
+msgstr "If you know the court name your case is in, please provide it below."
+
 #: frontend/lib/common-steps/error-pages.tsx:12
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
 msgstr "If you need to make changes to your name or contact information, please contact <0/>."
@@ -1107,7 +1111,7 @@ msgstr "Landlord/management company's name"
 msgid "Language:"
 msgstr "Language:"
 
-#: frontend/lib/account-settings/routes.tsx:52
+#: frontend/lib/account-settings/about-you-settings.tsx:24
 #: frontend/lib/common-steps/ask-name.tsx:26
 #: frontend/lib/rh/routes.tsx:116
 msgid "Last name"
@@ -1180,12 +1184,12 @@ msgid "Locally supported"
 msgstr "Locally supported"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
-#: frontend/lib/evictionfree/site.tsx:76
+#: frontend/lib/evictionfree/site.tsx:77
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Log in"
 
-#: frontend/lib/evictionfree/site.tsx:74
+#: frontend/lib/evictionfree/site.tsx:75
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:13
 msgid "Log out"
@@ -1529,7 +1533,7 @@ msgstr "Peeling/flaking paint"
 msgid "Pennsylvania"
 msgstr "Pennsylvania"
 
-#: frontend/lib/account-settings/routes.tsx:70
+#: frontend/lib/account-settings/contact-settings.tsx:24
 #: frontend/lib/rh/routes.tsx:121
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:36
 msgid "Phone number"
@@ -2168,7 +2172,7 @@ msgstr "We'll include this information in the letter to your landlord."
 msgid "We'll include this information in your hardship declaration form."
 msgstr "We'll include this information in your hardship declaration form."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:36
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:39
 msgid "We'll need to add your case's index number to your declaration."
 msgstr "We'll need to add your case's index number to your declaration."
 
@@ -2302,7 +2306,7 @@ msgstr "What kind of documentation should I collect to prove I can’t pay rent?
 msgid "When you use our tool, you will be able to preview your filled out form before sending it. You can also view a blank copy of the Hardship Declaration form."
 msgstr "When you use our tool, you will be able to preview your filled out form before sending it. You can also view a blank copy of the Hardship Declaration form."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:42
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:45
 msgid "Where do I find my case's index number?"
 msgstr "Where do I find my case's index number?"
 
@@ -2517,7 +2521,11 @@ msgstr "Your building had {0, plural, one {one rent stabilized unit} other {# re
 msgid "Your building was built in {0} or earlier."
 msgstr "Your building was built in {0} or earlier."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:41
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:64
+msgid "Your case's court name"
+msgstr "Your case's court name"
+
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:44
 msgid "Your case's index number"
 msgstr "Your case's index number"
 
@@ -2537,7 +2545,7 @@ msgstr "Your email address"
 msgid "Your hardship declaration form has been sent to your landlord via {0}."
 msgstr "Your hardship declaration form has been sent to your landlord via {0}."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:43
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:46
 msgid "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
 msgstr "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
 

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-03-15 21:38\n"
+"PO-Revision-Date: 2021-03-15 21:41\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -966,7 +966,7 @@ msgstr "Si has recibido un Aviso de Pago de Renta (Notice to Pay Rent en inglés
 
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:59
 msgid "If you know the court name your case is associated with, please provide it below. Otherwise, leave this blank."
-msgstr "Si conoce el nombre de la corte con el que su caso está asociado, por favor indícalo a continuación. Si no, déjelo en blanco."
+msgstr "Si conoces el nombre de la corte con el que tu caso está asociado, por favor indícalo a continuación. Si no, déjalo en blanco."
 
 #: frontend/lib/common-steps/error-pages.tsx:12
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
@@ -2529,7 +2529,7 @@ msgstr "Tu edificio fue construido en {0} o antes."
 
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:64
 msgid "Your case's court name"
-msgstr "Nombre de la corte de su caso"
+msgstr "Nombre de la corte de tu caso"
 
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:44
 msgid "Your case's index number"

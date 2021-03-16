@@ -72,6 +72,7 @@ class TestImpersonateUser:
         oi = OnboardingInfoFactory()
         res = self.client.get(get_impersonate_url(oi.user.pk))
         assert res.status_code == 200
+        assert b"You are about to start impersonating" in res.content
         assert self.get_imp_user() is None
 
     def test_impersonated_by_is_none_if_not_impersonating(self):

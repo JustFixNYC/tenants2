@@ -67,7 +67,7 @@ def get_impersonating_user(request: HttpRequest) -> Optional[JustfixUser]:
     Get the user impersonating the current user, if any.
     """
 
-    if SESSION_KEY in request.session:
+    if hasattr(request, "session") and SESSION_KEY in request.session:
         return JustfixUser.objects.get(pk=request.session[SESSION_KEY])
     return None
 

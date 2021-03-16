@@ -5,6 +5,7 @@
 
 from typing import Optional, Type, Dict, Any, TypeVar, MutableMapping, List, Iterable
 from collections import OrderedDict
+from users.impersonation import get_impersonating_user
 from weakref import WeakValueDictionary
 from django import forms
 from django.forms import formsets
@@ -584,9 +585,12 @@ class GrapheneDjangoFormMixin:
     @classmethod
     def log(cls, info: ResolveInfo, msg: str, lvl: int = logging.INFO) -> None:
         parts = [f"{info.field_name} {cls.query_type}"]
-        user = info.context.user
+        request = info.context
+        user = request.user
         if user.is_authenticated:
             parts.append(f"user={user.username}")
+            if imp_user := get_impersonating_user(request):
+                parts.append(f"impersonated_by={imp_user.username}")
         preamble = " ".join(parts)
         logger.log(lvl, f"[{preamble}] {msg}")
 

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-03-15 21:41\n"
+"PO-Revision-Date: 2021-03-16 19:27\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2833,7 +2833,7 @@ msgstr "<0>Si tu apartamento es actualmente de renta estabilizada, o lo ha sido 
 
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:39
 msgid "justfix.whyIsPhoneNumberNeeded"
-msgstr "Utilizaremos esta información para: <0><1>Acceder a tu cuenta actual</1><2>Comprobar si coincide con una cuenta preexistente </2><3>Abrirte una cuenta nueva</3></0>"
+msgstr "Utilizaremos esta información para:<0><1>Acceder a tu cuenta actual</1><2>Comprobar si coincide con una cuenta preexistente </2><3>Abrirte una cuenta nueva.</3></0><4/>Una cuenta te permitirá volver a nuestras herramientas en cualquier punto del proceso sin tener que empezar desde el principio, descargar cualquier documentos que hayas completado, y recibir notificaciones sobre cambios relevantes a políticas que te afecten."
 
 #: frontend/lib/norent/data/faqs-content.tsx:215
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"

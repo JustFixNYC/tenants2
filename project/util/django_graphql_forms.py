@@ -5,7 +5,6 @@
 
 from typing import Optional, Type, Dict, Any, TypeVar, MutableMapping, List, Iterable
 from collections import OrderedDict
-from users.impersonation import get_impersonating_user
 from weakref import WeakValueDictionary
 from django import forms
 from django.forms import formsets
@@ -27,6 +26,7 @@ from graphene_django.forms.mutation import fields_for_form
 from graphene.utils.str_converters import to_camel_case
 import logging
 
+from users.impersonation import get_impersonating_user
 from .form_with_request import FormWithRequestMixin
 
 

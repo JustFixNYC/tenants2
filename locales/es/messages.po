@@ -427,7 +427,7 @@ msgstr "Haz clic aquí para unirte al movimiento de MH Action"
 msgid "Click here to join MHAction’s movement to hold corporate community owners accountable."
 msgstr "Haga clic aquí para unirte al movimiento de MH Action y hacer que los propietarios de la comunidad corporativa rindan cuentas."
 
-#: frontend/lib/start-account-or-login/ask-phone-number.tsx:54
+#: frontend/lib/start-account-or-login/ask-phone-number.tsx:59
 msgid "Click here to learn more about our privacy policy."
 msgstr "Haga clic aquí para obtener más información sobre nuestra política de privacidad."
 
@@ -2612,7 +2612,7 @@ msgstr "Tu número de teléfono"
 msgid "Your privacy is very important to us!"
 msgstr "¡Su privacidad es muy importante para nosotros!"
 
-#: frontend/lib/start-account-or-login/ask-phone-number.tsx:49
+#: frontend/lib/start-account-or-login/ask-phone-number.tsx:54
 msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 msgstr "¡Tu privacidad es muy importante para nosotros! Todo en JustFix.nyc es seguro."
 

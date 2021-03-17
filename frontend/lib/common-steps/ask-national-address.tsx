@@ -18,7 +18,7 @@ import {
 } from "../forms/apt-number-form-fields";
 import { YesNoConfirmationModal } from "../ui/confirmation-modal";
 import { AppContext } from "../app-context";
-import { Route } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 import { areAddressesTheSame } from "../ui/address-confirmation";
 import { hardFail } from "../util/util";
 import { BreaksBetweenLines } from "../ui/breaks-between-lines";
@@ -132,44 +132,78 @@ export const AskNationalAddress: React.FC<
     children: JSX.Element;
     routes: NationalAddressModalRoutes;
   }
-> = (props) => (
-  <Page title={li18n._(t`Your residence`)} withHeading="big">
-    <div className="content">{props.children}</div>
-    <SessionUpdatingFormSubmitter
-      mutation={NorentNationalAddressMutation}
-      initialState={getInitialState}
-      onSuccessRedirect={getSuccessRedirect.bind(
-        null,
-        props.routes,
-        props.nextStep
-      )}
-    >
-      {(ctx) => (
-        <>
-          <TextualFormField
-            {...ctx.fieldPropsFor("street")}
-            label={li18n._(t`Address`)}
-          />
-          <AptNumberFormFields
-            aptNumberProps={ctx.fieldPropsFor("aptNumber")}
-            noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
-            aptNumberLabel={li18n._(t`Unit/apt/lot/suite number`)}
-          />
-          <TextualFormField
-            {...ctx.fieldPropsFor("zipCode")}
-            label={li18n._(t`Zip code`)}
-          />
-          <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
-        </>
-      )}
-    </SessionUpdatingFormSubmitter>
-    <Route
-      path={props.routes.nationalAddressConfirmModal}
-      render={() => <ConfirmValidAddressModal {...props} />}
-    />
-    <Route
-      path={props.routes.nationalAddressConfirmInvalidModal}
-      render={() => <ConfirmInvalidAddressModal {...props} />}
-    />
-  </Page>
-);
+> = (props) => {
+  const { session } = useContext(AppContext);
+  const scf = session.norentScaffolding;
+  const cityAndState =
+    scf?.city && scf?.state ? `${scf.city}, ${scf.state}` : "";
+
+  return (
+    <Page title={li18n._(t`Your residence`)} withHeading="big">
+      <div className="content">{props.children}</div>
+      <SessionUpdatingFormSubmitter
+        mutation={NorentNationalAddressMutation}
+        initialState={getInitialState}
+        onSuccessRedirect={getSuccessRedirect.bind(
+          null,
+          props.routes,
+          props.nextStep
+        )}
+      >
+        {(ctx) => (
+          <>
+            <TextualFormField
+              {...ctx.fieldPropsFor("street")}
+              label={li18n._(t`House number and street name`)}
+            />
+            <AptNumberFormFields
+              aptNumberProps={ctx.fieldPropsFor("aptNumber")}
+              noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
+              aptNumberLabel={li18n._(t`Unit/apt/lot/suite number`)}
+            />
+            <div className="field">
+              <label className="label" htmlFor="cityAndState">
+                <Trans>City and state</Trans>
+              </label>{" "}
+              <div className="control">
+                {cityAndState}{" "}
+                <Link
+                  to={props.prevStep}
+                  style={{
+                    textDecoration: "underline",
+                    fontSize: "smaller",
+                  }}
+                >
+                  Change
+                </Link>
+              </div>
+              {/*
+              <div className="control">
+                <input
+                  type="text"
+                  className="input"
+                  disabled
+                  id="cityAndState"
+                  value={cityAndState}
+                ></input>
+              </div>*/}
+            </div>
+            <TextualFormField
+              {...ctx.fieldPropsFor("zipCode")}
+              label={li18n._(t`Zip code`)}
+            />
+            <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
+          </>
+        )}
+      </SessionUpdatingFormSubmitter>
+      <Route
+        path={props.routes.nationalAddressConfirmModal}
+        render={() => <ConfirmValidAddressModal {...props} />}
+      />
+      <Route
+        path={props.routes.nationalAddressConfirmInvalidModal}
+        render={() => <ConfirmInvalidAddressModal {...props} />}
+      />
+    </Page>
+  );
+};

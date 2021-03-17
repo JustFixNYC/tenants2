@@ -162,9 +162,10 @@ export const AskNationalAddress: React.FC<
               aptNumberLabel={li18n._(t`Unit/apt/lot/suite number`)}
             />
             <div className="field">
-              <label className="label" htmlFor="cityAndState">
+              <span className="label">
                 <Trans>City and state</Trans>
-              </label>{" "}
+              </span>
+
               <div className="control">
                 {cityAndState}{" "}
                 <Link
@@ -175,6 +176,10 @@ export const AskNationalAddress: React.FC<
                   }}
                 >
                   Change
+                  <span className="jf-sr-only">
+                    {" "}
+                    city and state from ${cityAndState}
+                  </span>
                 </Link>
               </div>
               {/*

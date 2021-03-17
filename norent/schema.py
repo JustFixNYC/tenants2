@@ -275,7 +275,7 @@ class NorentNationalAddress(SessionFormMutation):
     @classmethod
     def validate_address(
         cls, cleaned_data: Dict[str, str], city: str, state: str
-    ) -> Tuple[Dict[str, str], Optional[bool]]:
+    ) -> Tuple[Dict[str, Any], Optional[bool]]:
         addresses = mapbox.find_address(
             address=cleaned_data["street"],
             city=city,
@@ -292,6 +292,7 @@ class NorentNationalAddress(SessionFormMutation):
                 **cleaned_data,
                 "street": address.address,
                 "zip_code": address.zip_code,
+                "lnglat": tuple(address.geometry.coordinates),
             },
             True,
         )
@@ -310,6 +311,14 @@ class NorentNationalAddress(SessionFormMutation):
                 _("Please enter a valid ZIP code for %(state_name)s.")
                 % {"state_name": US_STATE_CHOICES.get_label(state)},
                 field="zip_code",
+            )
+        if is_valid and scaffolding.is_lnglat_in_nyc(cleaned_data["lnglat"]):
+            return cls.make_error(
+                _(
+                    "Your address appears to be within New York City. Please "
+                    'go back and enter "New York City" as your city.'
+                ),
+                code="ADDRESS_IS_IN_NYC",
             )
         update_scaffolding(request, cleaned_data)
         return cls.mutation_success(is_valid=is_valid)

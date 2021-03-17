@@ -130,7 +130,6 @@ msgstr "About"
 msgid "Actions"
 msgstr "Actions"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:81
 #: frontend/lib/forms/address-and-borough-form-field.tsx:9
 msgid "Address"
 msgstr "Address"
@@ -386,6 +385,14 @@ msgstr "Ceiling falling/fell"
 msgid "Ceiling leaking"
 msgstr "Ceiling leaking"
 
+#: frontend/lib/common-steps/ask-national-address.tsx:99
+msgid "Change"
+msgstr "Change"
+
+#: frontend/lib/common-steps/ask-national-address.tsx:98
+msgid "Change city and state from {cityAndState}"
+msgstr "Change city and state from {cityAndState}"
+
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:72
 msgid "Check any or all that apply. Note: You <0>must select at least one box</0> in order to qualify for the State's eviction protections."
 msgstr "Check any or all that apply. Note: You <0>must select at least one box</0> in order to qualify for the State's eviction protections."
@@ -409,6 +416,10 @@ msgstr "Cite up-to-date legal ordinances in your letter"
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:39
 msgid "City"
 msgstr "City"
+
+#: frontend/lib/common-steps/ask-national-address.tsx:89
+msgid "City and state"
+msgstr "City and state"
 
 #: frontend/lib/forms/city-and-state-form-field.tsx:15
 msgid "City/township/borough"
@@ -857,6 +868,10 @@ msgstr "Homepage"
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:63
 msgid "Hours of operation: Monday to Friday, 9am - 5pm."
 msgstr "Hours of operation: Monday to Friday, 9am - 5pm."
+
+#: frontend/lib/common-steps/ask-national-address.tsx:85
+msgid "House number and street name"
+msgstr "House number and street name"
 
 #: frontend/lib/rh/routes.tsx:250
 msgid "Housing Court Answers"
@@ -2077,7 +2092,7 @@ msgstr "Unfortunately, we do not currently recommend sending a notice of non-pay
 msgid "Unfortunately, we do not currently recommend sending this notice of non-payment to your landlord. <0/>"
 msgstr "Unfortunately, we do not currently recommend sending this notice of non-payment to your landlord. <0/>"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:82
+#: frontend/lib/common-steps/ask-national-address.tsx:86
 msgid "Unit/apt/lot/suite number"
 msgstr "Unit/apt/lot/suite number"
 
@@ -2611,7 +2626,7 @@ msgstr "Your privacy is very important to us!"
 msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 msgstr "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 
-#: frontend/lib/common-steps/ask-national-address.tsx:77
+#: frontend/lib/common-steps/ask-national-address.tsx:81
 #: frontend/lib/common-steps/ask-nyc-address.tsx:39
 msgid "Your residence"
 msgstr "Your residence"
@@ -2620,7 +2635,7 @@ msgstr "Your residence"
 msgid "You’re not alone. Millions of Americans won’t be able to pay rent because of COVID‑19. Use our FREE tool to take action by writing a letter to your landlord."
 msgstr "You’re not alone. Millions of Americans won’t be able to pay rent because of COVID‑19. Use our FREE tool to take action by writing a letter to your landlord."
 
-#: frontend/lib/common-steps/ask-national-address.tsx:83
+#: frontend/lib/common-steps/ask-national-address.tsx:105
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:41
 msgid "Zip code"
 msgstr "Zip code"

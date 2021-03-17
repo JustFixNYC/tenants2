@@ -175,10 +175,12 @@ export const AskNationalAddress: React.FC<
                     fontSize: "smaller",
                   }}
                 >
-                  Change
-                  <span className="jf-sr-only">
-                    {" "}
-                    city and state from ${cityAndState}
+                  <span
+                    aria-label={li18n._(
+                      t`Change city and state from ${cityAndState}`
+                    )}
+                  >
+                    <Trans>Change</Trans>
                   </span>
                 </Link>
               </div>

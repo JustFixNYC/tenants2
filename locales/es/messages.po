@@ -135,7 +135,6 @@ msgstr "Acerca de"
 msgid "Actions"
 msgstr "Acciones"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:81
 #: frontend/lib/forms/address-and-borough-form-field.tsx:9
 msgid "Address"
 msgstr "Dirección"
@@ -391,6 +390,14 @@ msgstr "Techo colapsado/se colapsa"
 msgid "Ceiling leaking"
 msgstr "Techo gotea"
 
+#: frontend/lib/common-steps/ask-national-address.tsx:99
+msgid "Change"
+msgstr ""
+
+#: frontend/lib/common-steps/ask-national-address.tsx:98
+msgid "Change city and state from {cityAndState}"
+msgstr ""
+
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:72
 msgid "Check any or all that apply. Note: You <0>must select at least one box</0> in order to qualify for the State's eviction protections."
 msgstr "Marque cualquiera o todas las casillas que apliquen. Nota: Para calificar para las protecciones de desalojo del Estado <0>debes seleccionar al menos una casilla</0>."
@@ -414,6 +421,10 @@ msgstr "Cita ordenanzas legales actuales en tu carta"
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:39
 msgid "City"
 msgstr "Ciudad"
+
+#: frontend/lib/common-steps/ask-national-address.tsx:89
+msgid "City and state"
+msgstr ""
 
 #: frontend/lib/forms/city-and-state-form-field.tsx:15
 msgid "City/township/borough"
@@ -862,6 +873,10 @@ msgstr "Página Principal"
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:63
 msgid "Hours of operation: Monday to Friday, 9am - 5pm."
 msgstr "Horario: Lunes a Viernes, 9am - 17pm."
+
+#: frontend/lib/common-steps/ask-national-address.tsx:85
+msgid "House number and street name"
+msgstr ""
 
 #: frontend/lib/rh/routes.tsx:250
 msgid "Housing Court Answers"
@@ -2082,7 +2097,7 @@ msgstr "Desafortunadamente, en este momento no recomendamos enviar una carta de 
 msgid "Unfortunately, we do not currently recommend sending this notice of non-payment to your landlord. <0/>"
 msgstr "Desafortunadamente, actualmente no recomendamos enviar esta notificación de falta de pago al dueño o manager de tu edificio. <0/>"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:82
+#: frontend/lib/common-steps/ask-national-address.tsx:86
 msgid "Unit/apt/lot/suite number"
 msgstr "Número de apartamento/unidad/lote/suite"
 
@@ -2616,7 +2631,7 @@ msgstr "¡Su privacidad es muy importante para nosotros!"
 msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 msgstr "¡Tu privacidad es muy importante para nosotros! Todo en JustFix.nyc es seguro."
 
-#: frontend/lib/common-steps/ask-national-address.tsx:77
+#: frontend/lib/common-steps/ask-national-address.tsx:81
 #: frontend/lib/common-steps/ask-nyc-address.tsx:39
 msgid "Your residence"
 msgstr "Tu hogar"
@@ -2625,7 +2640,7 @@ msgstr "Tu hogar"
 msgid "You’re not alone. Millions of Americans won’t be able to pay rent because of COVID‑19. Use our FREE tool to take action by writing a letter to your landlord."
 msgstr "No estás solo. Millones de estadounidenses no podrán pagar la renta por culpa del COVID 19. Utiliza nuestra herramienta GRATIS para tomar acción mandando una carta al dueño de tu edificio."
 
-#: frontend/lib/common-steps/ask-national-address.tsx:83
+#: frontend/lib/common-steps/ask-national-address.tsx:105
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:41
 msgid "Zip code"
 msgstr "Código postal"
@@ -3027,4 +3042,3 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:107
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

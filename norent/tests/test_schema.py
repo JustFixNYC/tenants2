@@ -236,7 +236,8 @@ class TestNationalAddressMutation(GraphQLTestingPal):
         mock_brl_results("150 court st, Brooklyn, NY 12345", requests_mock)
         output = self.execute()
         assert output["errors"] == one_field_err(
-            'Your address appears to be within New York City. Please go back and enter "New York City" as your city.'
+            "Your address appears to be within New York City. Please go back and enter "
+            '"New York City" as your city.'
         )
 
     def test_it_reports_invaild_addresses_as_invalid(self, settings, requests_mock):

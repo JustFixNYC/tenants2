@@ -108,6 +108,7 @@ class Command(BaseCommand):
         if not (info.geocoded_address and info.non_nyc_city and info.state == US_STATE_CHOICES.NY):
             return False
 
+        info.update_geocoded_point_from_geometry()
         county = info.lookup_county()
         assert county, f"geocoded NYC address '{info.geocoded_address}' should have a county!"
 

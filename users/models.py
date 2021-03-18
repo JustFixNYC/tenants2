@@ -14,6 +14,8 @@ from .permission_util import ModelPermissions
 
 FULL_NAME_MAXLEN = 150
 
+IMPERSONATE_USERS_PERMISSION = "users.impersonate_users"
+
 ADD_SERVING_PAPERS_PERMISSION = "hpaction.add_servingpapers"
 
 VIEW_LETTER_REQUEST_PERMISSION = "loc.view_letterrequest"
@@ -61,6 +63,7 @@ ROLES["Outreach Coordinators"] = set(
         *ModelPermissions("evictionfree", "submittedhardshipdeclaration").all,
         *ModelPermissions("evictionfree", "hardshipdeclarationdetails").all,
         "evictionfree.change_evictionfreeuser",
+        IMPERSONATE_USERS_PERMISSION,
     ]
 )
 
@@ -111,6 +114,7 @@ class JustfixUser(AbstractUser):
         verbose_name = "user"
         verbose_name_plural = "users"
         permissions = [
+            ("impersonate_users", "Can impersonate other users"),
             (
                 "download_sandefur_data",
                 "Can download data needed for Rebecca Sandefur's research",

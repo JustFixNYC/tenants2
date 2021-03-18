@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 import logging
 
 from project import slack
@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 # streamlined user experience in the very near future.
 
 
-def verify_email(request):
+def verify_email(request: HttpRequest) -> HttpResponse:
     code = request.GET.get("code", "")
     result, user = verify_code(code)
     if not user:

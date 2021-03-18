@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.urls import reverse
 
 from project.util.admin_util import make_edit_link, admin_field, make_button_link
 import airtable.sync
@@ -11,6 +12,16 @@ def sms_conversations_field(self, obj):
     return make_button_link(
         f"/admin/conversations?phone=%2B1{obj.phone_number}", "View SMS conversations"
     )
+
+
+@admin_field(short_description="Impersonation", allow_tags=True)
+def impersonate_field(self, obj):
+    if obj.pk:
+        return make_button_link(
+            reverse("admin:impersonate-user", kwargs={"user_id": obj.pk}),
+            f"Impersonate {obj.full_name}\u2026",
+        )
+    return ""
 
 
 @admin_field(admin_order_field="onboarding_info__signup_intent")
@@ -42,6 +53,8 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
         "address",
         "edit_user",
         "sms_conversations",
+        "locale",
+        "impersonate",
     ]
 
     readonly_fields = fields
@@ -55,6 +68,8 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
     signup_intent = user_signup_intent
 
     sms_conversations = sms_conversations_field
+
+    impersonate = impersonate_field
 
     def address(self, obj):
         if hasattr(obj, "onboarding_info"):

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-03-16 19:27\n"
+"PO-Revision-Date: 2021-03-18 15:47\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -700,7 +700,7 @@ msgstr "Lucha para #CancelRent"
 #: frontend/lib/evictionfree/site.tsx:57
 #: frontend/lib/evictionfree/site.tsx:61
 msgid "Fill out my form"
-msgstr "Rellena mi formulario"
+msgstr "Rellenar mi formulario"
 
 #: frontend/lib/evictionfree/homepage.tsx:55
 msgid "Fill out your hardship declaration form online"

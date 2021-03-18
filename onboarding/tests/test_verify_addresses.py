@@ -1,3 +1,4 @@
+from datetime import date
 from io import StringIO
 from unittest.mock import patch
 from django.core.management import call_command
@@ -146,6 +147,7 @@ def test_handle_works(db):
         f"User admin link: https://example.com/admin/users/justfixuser/{oi.user.pk}/change/",
         "Unable to geocode address for '150 court street, Brooklyn, New York'. The "
         "geocoding service may be down or no addresses matched.",
+        "0 user(s) updated.",
     ]
 
 
@@ -182,3 +184,9 @@ class TestConvertNationalToNycAddrIfNeeded:
         assert oi.non_nyc_city == ""
         oi.full_clean()
         oi.save()
+
+
+def test_parse_since_works():
+    assert verify_addresses.parse_since("2020-01-02").date() == date(2020, 1, 2)
+    with freezegun.freeze_time("2020-01-03"):
+        assert verify_addresses.parse_since("2d").date() == date(2020, 1, 1)

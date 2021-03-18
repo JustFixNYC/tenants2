@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-17 12:04+0000\n"
-"PO-Revision-Date: 2021-03-18 12:50\n"
+"PO-Revision-Date: 2021-03-18 20:00\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -95,11 +95,11 @@ msgstr "%(name)s has enviado tu carta de no pago de renta. Puedes seguir la entr
 #: norent/schema.py:311
 #, python-format
 msgid "Please enter a valid ZIP code for %(state_name)s."
-msgstr ""
+msgstr "Por favor, introduzca un código postal válido para %(state_name)s."
 
 #: norent/schema.py:318
 msgid "Your address appears to be within New York City. Please go back and enter \"New York City\" as your city."
-msgstr ""
+msgstr "Tu dirección parece estar dentro de la ciudad de Nueva York. Por favor, vuelve atrás para introducir \"New York City\" como tu ciudad."
 
 #: norent/schema.py:530
 #, python-format

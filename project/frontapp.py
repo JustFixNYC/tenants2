@@ -79,6 +79,7 @@ def sync_user_with_frontapp(user: JustfixUser) -> bool:
 
     base_contact_info = {
         "name": user.full_name,
+        "links": [user.admin_url],
     }
 
     patch_response = requests.request(

@@ -370,6 +370,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # Front integration will be disabled.
     FRONTAPP_PLUGIN_AUTH_SECRET: str = ""
 
+    # The API token to use for synchronizing information with Front. If empty,
+    # synchronization will be disabled.
+    FRONTAPP_API_TOKEN: str = ""
+
     # The email address used for court documents (e.g. HP Actions). The
     # `%(id)s` string can be used to substitute in a unique identifier
     # that will allow us to relate any replies to the declaration/user

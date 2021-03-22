@@ -4,6 +4,7 @@ import glob from "glob";
 
 import {
   getGraphQlFragments,
+  isNonEmptyFileSync,
   strContains,
   ToolError,
   writeFileIfChangedSync,
@@ -207,7 +208,10 @@ export class GraphQlFile {
 
   /** Scan the directory containing our GraphQL queries. */
   static fromDir() {
-    return glob.sync(QUERIES_GLOB).map((fullPath) => new GraphQlFile(fullPath));
+    return glob
+      .sync(QUERIES_GLOB)
+      .filter(isNonEmptyFileSync)
+      .map((fullPath) => new GraphQlFile(fullPath));
   }
 }
 

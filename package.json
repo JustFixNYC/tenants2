@@ -28,6 +28,7 @@
     "sass_evictionfree:watch": "yarn sass_evictionfree --watch",
     "sass": "node-sass-chokidar frontend/sass/styles.scss frontend/static/frontend/styles.css --source-map frontend/static/frontend/styles.css.map --source-map-contents --output-style compressed",
     "sass:watch": "yarn sass --watch",
+    "graphql": "python manage.py graphql_schema && yarn querybuilder",
     "querybuilder": "node querybuilder.js",
     "querybuilder:watch": "node querybuilder.js --watch",
     "webpack": "webpack",

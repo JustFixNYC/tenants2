@@ -14,14 +14,6 @@ ignoreFields = [
 fragmentName = "AllSessionInfo"
 createBlankLiteral = true
 
-# We have yet to use these fields in the front-end; we should remove them
-# from this list once we start using them. This is done to avoid needless
-# schema migrations in case of change.
-ignoreFields = [
-    "norentUpcomingLetterRentPeriods",
-    "norentAvailableRentPeriods"
-]
-
 [types.OnboardingInfoType]
 fragmentName = "OnboardingInfo"
 createBlankLiteral = true
@@ -39,6 +31,10 @@ fragmentName = "FeeWaiverDetails"
 
 [types.HarassmentDetailsType]
 fragmentName = "HarassmentDetails"
+createBlankLiteral = true
+
+[types.HardshipDeclarationDetailsType]
+fragmentName = "HardshipDeclarationDetails"
 createBlankLiteral = true
 
 [types.StrictFormFieldErrorType]
@@ -113,6 +109,9 @@ sessionFields = ["accessDates"]
 [mutations.landlordDetailsV2]
 sessionFields = ["landlordDetails"]
 
+[mutations.locLandlordInfo]
+sessionFields = ["landlordDetails"]
+
 [mutations.optionalLandlordDetails]
 sessionFields = ["landlordDetails"]
 
@@ -129,6 +128,8 @@ sessionFields = ["hpActionDetails", "issues", "customIssuesV2"]
 [mutations."feeWaiver.*"]
 sessionFields = ["feeWaiver"]
 
+[mutations.hpaLandlordInfo]
+
 [mutations."hpAction.*"]
 sessionFields = ["hpActionDetails"]
 
@@ -136,7 +137,7 @@ sessionFields = ["hpActionDetails"]
 sessionFields = ["harassmentDetails"]
 
 [mutations."rh.*"]
-sessionFields = ["rentalHistoryInfo"]
+sessionFields = ["rentalHistoryInfo", "rentStabInfo"]
 
 [mutations.tenantChildren]
 sessionFields = ["tenantChildren"]
@@ -151,3 +152,13 @@ sessionFields = ["onboardingInfo"]
 sessionFields = ["onboardingInfo"]
 
 [mutations."norent.*"]
+
+[mutations."evictionFree.*"]
+
+[mutations.phoneNumber]
+
+[mutations.leaseType]
+
+[mutations.nycAddress]
+
+[mutations.unimpersonate]

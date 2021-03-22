@@ -3,7 +3,11 @@ from django.forms import ValidationError
 from django.utils.translation import gettext as _
 
 from project.forms import (
-    SetPasswordForm, OptionalSetPasswordForm, YesNoRadiosField, UniqueEmailForm)
+    SetPasswordForm,
+    OptionalSetPasswordForm,
+    YesNoRadiosField,
+    UniqueEmailForm,
+)
 from project.util.phone_number import USPhoneNumberField
 from project.util.address_form_fields import AddressAndBoroughFormMixin
 from project.util.site_util import SITE_CHOICES
@@ -21,7 +25,7 @@ FIELD_SCHEMA_VERSION = 4
 
 
 class AptNumberWithConfirmationForm(forms.Form):
-    '''
+    """
     This mixin can be used to gather the user's apartment number, but
     accounts for the use case where the user may *forget* to
     enter one, while also accomodating users who don't have an
@@ -34,7 +38,7 @@ class AptNumberWithConfirmationForm(forms.Form):
     Notably, the `cleaned_data` dict of this form contains *only* the
     apartment number: it will be either an empty string, if the user marked
     the checkbox, or have a filled-in value.
-    '''
+    """
 
     apt_number = forms.CharField(**APT_NUMBER_KWARGS, required=False)
 
@@ -43,26 +47,34 @@ class AptNumberWithConfirmationForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
 
-        apt_number = cleaned_data.get('apt_number')
+        apt_number = cleaned_data.get("apt_number")
 
-        no_apt_number = cleaned_data.get('no_apt_number')
+        no_apt_number = cleaned_data.get("no_apt_number")
 
         if apt_number and no_apt_number:
-            raise ValidationError(_(
-                'Please either provide an apartment number or check the '
-                '"I have no apartment number" checkbox (but not both).'
-            ))
+            raise ValidationError(
+                _(
+                    "Please either provide an apartment number or check the "
+                    '"I have no apartment number" checkbox (but not both).'
+                )
+            )
 
         if not apt_number and not no_apt_number:
-            raise ValidationError(_(
-                'Please either provide an apartment number or check the '
-                '"I have no apartment number" checkbox.'
-            ))
+            raise ValidationError(
+                _(
+                    "Please either provide an apartment number or check the "
+                    '"I have no apartment number" checkbox.'
+                )
+            )
 
-        if 'no_apt_number' in cleaned_data:
-            cleaned_data.pop('no_apt_number')
+        if "no_apt_number" in cleaned_data:
+            cleaned_data.pop("no_apt_number")
 
         return cleaned_data
+
+
+class NycAddressForm(AptNumberWithConfirmationForm, AddressAndBoroughFormMixin):
+    pass
 
 
 class OnboardingStep1Form(AptNumberWithConfirmationForm, AddressAndBoroughFormMixin):
@@ -72,48 +84,58 @@ class OnboardingStep1Form(AptNumberWithConfirmationForm, AddressAndBoroughFormMi
 
 
 def get_boolean_field(name: str):
-    '''
+    """
     Django's ModelForm represents boolean fields w/ nulls as a
     forms.NullBooleanField, but because some of our fields were
     originally non-nullable, they were represented as forms.BooleanField.
 
     This is a helper to allow some of our currently nullable model fields
     to still be represented in a form as being non-nullable.
-    '''
+    """
 
     field = OnboardingInfo._meta.get_field(name)
     return forms.BooleanField(help_text=field.help_text, required=False)
 
 
+class LeaseTypeForm(forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ("lease_type",)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["lease_type"].required = True
+
+
 class OnboardingStep2Form(forms.Form):
-    is_in_eviction = get_boolean_field('is_in_eviction')
-    needs_repairs = get_boolean_field('needs_repairs')
-    has_no_services = get_boolean_field('has_no_services')
-    has_pests = get_boolean_field('has_pests')
-    has_called_311 = get_boolean_field('has_called_311')
+    is_in_eviction = get_boolean_field("is_in_eviction")
+    needs_repairs = get_boolean_field("needs_repairs")
+    has_no_services = get_boolean_field("has_no_services")
+    has_pests = get_boolean_field("has_pests")
+    has_called_311 = get_boolean_field("has_called_311")
 
 
 class OnboardingStep3Form(forms.ModelForm):
     class Meta:
         model = OnboardingInfo
-        fields = ('lease_type', 'receives_public_assistance')
+        fields = ("lease_type", "receives_public_assistance")
 
     receives_public_assistance = YesNoRadiosField(
-        help_text=OnboardingInfo._meta.get_field('receives_public_assistance').help_text
+        help_text=OnboardingInfo._meta.get_field("receives_public_assistance").help_text
     )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['lease_type'].required = True
+        self.fields["lease_type"].required = True
 
 
 class ReliefAttemptsForm(forms.ModelForm):
     class Meta:
         model = OnboardingInfo
-        fields = ('has_called_311',)
+        fields = ("has_called_311",)
 
     has_called_311 = YesNoRadiosField(
-        help_text=OnboardingInfo._meta.get_field('has_called_311').help_text
+        help_text=OnboardingInfo._meta.get_field("has_called_311").help_text
     )
 
 
@@ -123,44 +145,41 @@ class BaseOnboardingStep4Form(forms.Form):
     agree_to_terms = forms.BooleanField(required=True)
 
     def clean_phone_number(self):
-        phone_number = self.cleaned_data['phone_number']
+        phone_number = self.cleaned_data["phone_number"]
         if JustfixUser.objects.filter(phone_number=phone_number).exists():
             # TODO: Are we leaking valuable PII here?
-            raise ValidationError('A user with that phone number already exists.')
+            raise ValidationError(
+                "A user with that phone number already exists.", code="PHONE_NUMBER_TAKEN"
+            )
         return phone_number
 
 
 class OnboardingStep4Form(BaseOnboardingStep4Form, OptionalSetPasswordForm, forms.ModelForm):
     class Meta:
         model = OnboardingInfo
-        fields = ('can_we_sms', 'signup_intent')
+        fields = ("can_we_sms", "signup_intent")
 
 
 class OnboardingStep4FormVersion2(
-    BaseOnboardingStep4Form,
-    UniqueEmailForm,
-    SetPasswordForm,
-    forms.ModelForm
+    BaseOnboardingStep4Form, UniqueEmailForm, SetPasswordForm, forms.ModelForm
 ):
     class Meta:
         model = OnboardingInfo
-        fields = ('can_we_sms', 'signup_intent')
+        fields = ("can_we_sms", "signup_intent")
 
 
 class AgreeToTermsForm(forms.Form):
     agree_to_terms = forms.BooleanField(
         required=True,
         help_text=(
-            "Whether the user agrees to the terms of the site's terms of "
-            "use and privacy policy."
-        )
+            "Whether the user agrees to the terms of the site's terms of " "use and privacy policy."
+        ),
     )
 
     site = forms.ChoiceField(
         choices=SITE_CHOICES.choices,
         required=True,
         help_text=(
-            "The site for which the user is agreeing to the terms of use and "
-            "privacy policy."
-        )
+            "The site for which the user is agreeing to the terms of use and " "privacy policy."
+        ),
     )

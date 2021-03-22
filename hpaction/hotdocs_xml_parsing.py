@@ -8,7 +8,7 @@ from .hpactionvars import CourtLocationMC
 def get_answers_xml_tf(root: ET.Element, name: str) -> Optional[bool]:
     nodes = root.findall(f".//Answer[@name='{name}']/TFValue")
     if nodes:
-        return nodes[0].text == 'true'
+        return nodes[0].text == "true"
     return None
 
 
@@ -18,13 +18,13 @@ class HPAType(Enum):
     BOTH = 3
 
     @staticmethod
-    def get_from_answers_xml(xml_value: Union[str, bytes]) -> 'HPAType':
+    def get_from_answers_xml(xml_value: Union[str, bytes]) -> "HPAType":
         # Interestingly, ET is in charge of decoding this if it's bytes:
         # https://stackoverflow.com/a/21698118
         root = ET.fromstring(xml_value)
 
-        harassment = get_answers_xml_tf(root, 'Sue for harassment TF')
-        repairs = get_answers_xml_tf(root, 'Sue for repairs TF')
+        harassment = get_answers_xml_tf(root, "Sue for harassment TF")
+        repairs = get_answers_xml_tf(root, "Sue for repairs TF")
 
         if harassment and repairs:
             return HPAType.BOTH
@@ -33,7 +33,7 @@ class HPAType(Enum):
         elif repairs:
             return HPAType.REPAIRS
 
-        raise ValueError('XML is suing for neither harassment nor repairs!')
+        raise ValueError("XML is suing for neither harassment nor repairs!")
 
 
 def get_answers_xml_court_location_mc(xml_value: Union[str, bytes]) -> Optional[CourtLocationMC]:

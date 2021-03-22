@@ -120,7 +120,7 @@ function LegacyFormSubmissionWrapper<
           extraFormAttributes: {
             ...props.extraFormAttributes,
             method: "POST",
-            action: props.location.pathname,
+            action: props.location.pathname + props.location.search,
           },
         };
         /* istanbul ignore next: this is tested by integration tests. */

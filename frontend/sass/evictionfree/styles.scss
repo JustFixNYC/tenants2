@@ -1,0 +1,333 @@
+@charset "utf-8";
+
+// This is where the NoRent-related static assets will be, relative to
+// where this CSS file will be when the site is deployed. (Yes, this is the
+// CSS for the evictionfree site, but it inherits most of its styling from
+// NoRent at the time of this writing.)
+$norent-root: "../norent";
+
+$jf-body-family: "Open Sans", "Segoe UI", Tahoma, sans-serif;
+$jf-title-family: "Montserrat Black", sans-serif;
+$jf-alt-title-family: "Montserrat Bold", sans-serif;
+
+@import "../_util.scss";
+@import "./_bulma-overrides.scss";
+@import "../../../node_modules/bulma/bulma.sass";
+@import "../../../node_modules/bulma-divider/dist/css/bulma-divider.sass";
+@import "../_supertiny.scss";
+@import "../_a11y.scss";
+@import "../_safe-mode.scss";
+@import "../_modal.scss";
+@import "../norent/_modal-overrides.scss";
+@import "../_loading-overlay.scss";
+@import "../_progress.scss";
+@import "../_dev.scss";
+@import "../_forms.scss";
+@import "../norent/forms-overrides.scss";
+@import "../_buttons.scss";
+@import "../norent/_button-overrides.scss";
+@import "../_big-list.scss";
+@import "../_animations.scss";
+@import "../_footer.scss";
+@import "../norent/_footer-overrides.scss";
+@import "../_letter-preview.scss";
+@import "../_autocomplete.scss";
+@import "../_helpers.scss";
+@import "../_language-toggle.scss";
+@import "../_email.scss";
+@import "../norent/_email-overrides.scss";
+@import "../_accordion.scss";
+
+@import "../norent/_fonts.scss";
+
+// These variables define the background and content colors for the nav-bar
+$jf-navbar-background: $white;
+$jf-navbar-content: $black;
+
+@import "../_navbar.scss";
+@import "../norent/_navbar-overrides.scss";
+
+@import "../_demo-deployment-note.scss";
+
+@import "../norent/_misc.scss";
+
+@import "../norent/_primary_pages.scss";
+@import "../norent/_letter-builder.scss";
+
+$max-content-width: 1440px;
+
+.jf-evictionfree-logo {
+  font-size: 20px;
+  font-weight: 600;
+  font-family: $jf-title-family;
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+
+.jf-evictionfree-byline {
+  max-width: 235px;
+  margin: 0.5rem 3.25rem;
+  text-align: center;
+  @include mobile {
+    margin: 0.5rem 0;
+    max-width: 300px;
+    text-align: left;
+  }
+}
+
+.jf-build-my-declaration-btn {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 200;
+}
+
+.jf-background-image.image {
+  display: flex;
+  img {
+    object-fit: cover;
+    min-width: 100%;
+    min-height: 550px;
+  }
+}
+
+.jf-evictionfree-homepage {
+  line-height: 1.25;
+  .subtitle {
+    font-size: 1.5rem;
+    @include touch {
+      font-size: 1.25rem;
+    }
+  }
+  p,
+  .media-content {
+    font-size: 1rem;
+    @include widescreen {
+      font-size: 1.25rem;
+    }
+  }
+  .column {
+    &.is-half .hero {
+      height: 100%;
+    }
+    .hero .hero-body {
+      padding: 3rem 4rem;
+      @include touch {
+        padding: 3rem 1.25rem;
+      }
+    }
+  }
+  .jf-block-of-color-in-background {
+    top: unset;
+    z-index: 0;
+    height: 700px;
+    max-width: $max-content-width;
+  }
+  .jf-block-of-color-in-background + .hero-body {
+    z-index: 0;
+  }
+}
+
+.jf-evictionfree-about {
+  figure.image {
+    padding: 0;
+    margin: 0.5rem auto;
+
+    &.is-square {
+      height: 150px;
+      width: 150px;
+    }
+
+    &.is-3by1 {
+      height: 70px;
+      width: 210px;
+    }
+    img {
+      max-height: 150px;
+    }
+  }
+}
+
+// OVERRIDES OF NORENT STYLING
+
+// Change accordion question color to link color
+.jf-accordion-item details summary span.has-text-primary {
+  @extend .has-text-link;
+}
+
+.jf-above-footer-content {
+  max-width: $max-content-width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.subtitle a {
+  text-decoration: underline;
+}
+
+// Navbar Overrides
+.jf-white-navbar nav.navbar.is-fixed-top {
+  // override navbar position to allow it to show/hide itself on scroll:
+  position: unset;
+}
+
+html:not([data-safe-mode-no-js]) .jf-above-footer-content {
+  // Since we are not using a fixed navbar on the EvictionFreeNY primary pages,
+  // we need to undo the default 3.25rem of top space given to accomondate a regular navbar
+  // via the ".has-navbar-fixed-top" class on the html body element
+  margin-top: -3.25rem;
+}
+
+nav.navbar {
+  // bring back the fixed-top nav bar for internal declaration builder pages:
+  &.is-fixed-top {
+    position: fixed;
+  }
+  .container {
+    margin: auto;
+    padding: 0;
+    max-width: $max-content-width;
+    .navbar-brand {
+      padding: 0;
+      .navbar-item:first-child {
+        padding-left: 4rem;
+        @include mobile {
+          padding-left: 2rem;
+        }
+      }
+    }
+  }
+
+  .navbar-link,
+  .navbar-item,
+  .navbar-burger {
+    font-weight: 400;
+  }
+
+  .navbar-item {
+    padding: 0.5rem 1.5rem;
+
+    .button {
+      padding-bottom: 1.5rem;
+      padding-left: 3rem;
+      padding-right: 3rem;
+      padding-top: 1.5rem;
+    }
+  }
+}
+
+// Since our Spanish translations for the navbar are so long,
+// we need to reduce the padding between links so they all fit
+html:lang(es) nav.navbar .navbar-item {
+  padding: 0.5rem 1.5rem 0.5rem 0.75rem;
+  .button {
+    padding: 1.5rem;
+  }
+}
+
+// Header overrides
+.content {
+  h1.title {
+    line-height: 1.15;
+    @include touch {
+      font-size: 3rem;
+      line-height: 1;
+    }
+  }
+
+  h2 {
+    font-size: 2.25rem;
+    &.title {
+      @include tablet {
+        font-size: 3rem;
+      }
+    }
+  }
+}
+
+// Landing page overrides
+.hero.is-fullheight-with-navbar .hero-body {
+  @include tablet {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+
+  .columns .column:first-child {
+    @include desktop {
+      padding-left: 0;
+    }
+  }
+}
+
+// Columns overrides
+
+// Fix issue where full-width columns extend beyond viewport on mobile
+.columns {
+  max-width: 100%;
+  margin: 0;
+
+  &:not(:last-child) {
+    margin-bottom: 0;
+  }
+}
+
+// Accordion overrides
+
+.field label.checkbox ~ .jf-accordion-item {
+  details {
+    p {
+      // Undo funky norent default big paragraph styling.
+      font-size: inherit;
+      line-height: inherit;
+    }
+
+    ul li {
+      // Undo funky norent default bold list item styling.
+      font-weight: inherit;
+    }
+
+    ul {
+      padding-left: 2rem;
+    }
+
+    p,
+    summary {
+      // Make the accordion be flush with the text of the checkbox label.
+      padding-left: 3.1rem;
+    }
+  }
+}
+
+// Image overrides
+
+.content figure {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+// Media Object overrides
+
+// This fixes a bug where our accordion components show scrollbars on mobile
+.media-content {
+  overflow-x: unset;
+}
+
+.jf-efny-hardship-declaration {
+  h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  ol li {
+    line-height: 1.25rem;
+    list-style-position: outside;
+  }
+
+  .jf-efny-filled-field {
+    text-decoration: underline;
+  }
+}
+
+// Footer overrides
+footer .content a:not(.button):hover {
+  color: unset;
+}

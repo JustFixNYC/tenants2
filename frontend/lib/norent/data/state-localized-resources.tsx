@@ -10,6 +10,14 @@ export type StateLocalizedResources = Partial<
 >;
 
 export const STATE_LOCALIZED_RESOURCES: StateLocalizedResources = {
+  CA: [
+    {
+      children: <Trans>COVID-19 Tenant Relief Act Extension</Trans>,
+      hrefs: {
+        en: "https://www.bcsh.ca.gov/covidrelief/",
+      },
+    },
+  ],
   NY: [
     {
       children: <Trans>Eviction Moratorium updates</Trans>,

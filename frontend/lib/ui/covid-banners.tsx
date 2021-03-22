@@ -2,18 +2,20 @@ import React, { useState } from "react";
 import { SimpleProgressiveEnhancement } from "./progressive-enhancement";
 import classnames from "classnames";
 import { Icon } from "./icon";
-import { OutboundLink } from "../analytics/google-analytics";
-import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issues";
+import { OutboundLink } from "./outbound-link";
+import { getEmergencyHPAIssueLabels } from "../hpaction/emergency/emergency-hp-action-issues";
 import { CSSTransition } from "react-transition-group";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes from "../justfix-route-info";
 import { useDebouncedValue } from "../util/use-debounced-value";
 import { SupportedLocaleMap } from "../i18n";
 import { CovidMoratoriumBanner } from "@justfixnyc/react-common";
 import { li18n } from "../i18n-lingui";
 
 export const MORATORIUM_FAQ_URL: SupportedLocaleMap<string> = {
-  en: "https://www.righttocounselnyc.org/ny_eviction_moratorium_faq",
-  es: "https://www.righttocounselnyc.org/moratoria_de_desalojo",
+  en:
+    "https://d3n8a8pro7vhmx.cloudfront.net/righttocounselnyc/pages/191/attachments/original/1602806977/Eviction_Moratorium__New_Evictions__and_Pre_Covid_Lawsuits__FAQ_Last_Updated_10_9.pdf?1602806977",
+  es:
+    "https://docs.google.com/document/d/1uzT1lduZAzNLpy_WxSOU1oSOTOPs0YrWekzLd8o6tAs/edit",
 };
 
 const getRoutesWithMoratoriumBanner = () => [

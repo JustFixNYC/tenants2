@@ -15,18 +15,17 @@ def generate_json_rows(cursor) -> Iterator[Dict[str, Any]]:
 
 
 def generate_streaming_json(rows: Iterator[Dict[str, Any]]) -> Iterator[str]:
-    yield '['
+    yield "["
     yielded_first = False
     for row in rows:
         if yielded_first:
             yield ","
         yielded_first = True
         yield json.dumps(row, cls=DjangoJSONEncoder)
-    yield ']'
+    yield "]"
 
 
 def streaming_json_response(rows: Iterator[Dict[str, Any]], filename: str) -> StreamingHttpResponse:
-    response = StreamingHttpResponse(
-        generate_streaming_json(rows), content_type="application/json")
-    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    response = StreamingHttpResponse(generate_streaming_json(rows), content_type="application/json")
+    response["Content-Disposition"] = f'attachment; filename="{filename}"'
     return response

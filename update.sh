@@ -19,3 +19,6 @@ yarn querybuilder
 echo "----- Migrating Database -----"
 python manage.py migrate --noinput
 python manage.py initgroups
+
+echo "----- Loading geographic data -----"
+python manage.py loadfindhelpdata

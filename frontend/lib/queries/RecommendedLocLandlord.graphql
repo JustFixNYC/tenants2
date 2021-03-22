@@ -1,0 +1,9 @@
+query RecommendedLocLandlord {
+    recommendedLocLandlord {
+        name,
+        primaryLine,
+        city,
+        state,
+        zipCode
+    }
+}

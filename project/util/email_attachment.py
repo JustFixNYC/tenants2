@@ -1,27 +1,32 @@
-from typing import List
+from typing import Dict, List, Optional
 from graphql import ResolveInfo
 import graphene
 from django import forms
 from django.http import FileResponse
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 
 from users.models import JustfixUser
 from project import common_data, slack
 from project.util.django_graphql_forms import DjangoFormMutation
 
-MAX_RECIPIENTS = common_data.load_json("email-attachment-validation.json")['maxRecipients']
+MAX_RECIPIENTS = common_data.load_json("email-attachment-validation.json")["maxRecipients"]
 
 
 def email_file_response_as_attachment(
     subject: str,
     body: str,
     recipients: List[str],
-    attachment: FileResponse
+    attachment: FileResponse,
+    html_body: Optional[str] = None,
+    headers: Optional[Dict[str, str]] = None,
 ) -> None:
     attachment_bytes = attachment.getvalue()
 
     for recipient in recipients:
-        msg = EmailMessage(subject=subject, body=body, to=[recipient])
+        msg = EmailMultiAlternatives(subject=subject, body=body, to=[recipient], headers=headers)
+        headers = headers or {}
+        if html_body:
+            msg.attach_alternative(html_body, "text/html")
         msg.attach(attachment.filename, attachment_bytes)
         msg.send()
 
@@ -50,15 +55,11 @@ class EmailAttachmentMutation(DjangoFormMutation):
 
     @classmethod
     def __init_subclass_with_meta__(cls, *args, **kwargs):
-        kwargs['formset_classes'] = {
-            'recipients': forms.formset_factory(
-                EmailForm,
-                max_num=MAX_RECIPIENTS,
-                validate_max=True,
-                min_num=1,
-                validate_min=True
+        kwargs["formset_classes"] = {
+            "recipients": forms.formset_factory(
+                EmailForm, max_num=MAX_RECIPIENTS, validate_max=True, min_num=1, validate_min=True
             ),
-            **kwargs.get('formset_classes', {})
+            **kwargs.get("formset_classes", {}),
         }
         super().__init_subclass_with_meta__(*args, **kwargs)
 
@@ -70,8 +71,9 @@ class EmailAttachmentMutation(DjangoFormMutation):
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
         user = request.user
-        recipients = [f.cleaned_data['email'] for f in form.formsets['recipients']]
+        recipients = [f.cleaned_data["email"] for f in form.formsets["recipients"]]
         cls.send_email(user.pk, recipients)
-        slack.sendmsg_async(get_slack_notify_text(user, cls.attachment_name, len(recipients)),
-                            is_safe=True)
+        slack.sendmsg_async(
+            get_slack_notify_text(user, cls.attachment_name, len(recipients)), is_safe=True
+        )
         return cls(errors=[], recipients=recipients)

@@ -4,7 +4,7 @@ import OnboardingStep3 from "../onboarding-step-3";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { OnboardingStep3Mutation } from "../../queries/OnboardingStep3Mutation";
 import { escapeRegExp } from "../../tests/util";
-import JustfixRoutes from "../../justfix-routes";
+import JustfixRoutes from "../../justfix-route-info";
 import { getLeaseChoiceLabels } from "../../../../common-data/lease-choices";
 
 const PROPS = {

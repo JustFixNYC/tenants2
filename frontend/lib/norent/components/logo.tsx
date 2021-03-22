@@ -1,8 +1,8 @@
 import React from "react";
 import { BulmaImageClass } from "../../ui/bulma";
 import { StaticImage } from "../../ui/static-image";
-import { getImageSrc } from "../homepage";
-import { OutboundLink } from "../../analytics/google-analytics";
+import { getNorentImageSrc } from "../homepage";
+import { OutboundLink } from "../../ui/outbound-link";
 
 /* I know there is a way to dynamically set the color of an svg,
 but I suspected it would require some refactoring of the svg files themselves... 
@@ -18,7 +18,7 @@ export const NorentLogo = (props: {
   <div className="jf-norent-logo">
     <StaticImage
       ratio={props.size}
-      src={getImageSrc(
+      src={getNorentImageSrc(
         props.color === "white"
           ? "logo-white"
           : props.color === "dark"
@@ -34,7 +34,7 @@ export const JustfixLogo = (props: { isHyperlinked?: boolean }) => {
   const logoImage = (
     <StaticImage
       ratio="is-3by1"
-      src={getImageSrc("justfix")}
+      src={getNorentImageSrc("justfix")}
       alt="JustFix.nyc"
     />
   );

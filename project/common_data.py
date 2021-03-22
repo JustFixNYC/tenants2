@@ -7,23 +7,23 @@ import pydantic
 
 MY_DIR = Path(__file__).parent.resolve()
 
-COMMON_DATA_DIR = MY_DIR.parent / 'common-data'
+COMMON_DATA_DIR = MY_DIR.parent / "common-data"
 
 DjangoChoices = List[Tuple[str, str]]
 
 
 class _ValidatedChoices(pydantic.BaseModel):
-    '''
+    """
     This is an internal class for validating that
     JSON files representing Django choices contain
     the expected structure.
-    '''
+    """
 
     choices: DjangoChoices
 
 
 class Choices:
-    '''
+    """
     This is a convenience wrapper around Django choices.
 
     You can load choices from a file:
@@ -69,7 +69,7 @@ class Choices:
         >>> limited = c.only("BROOKLYN", "QUEENS")
         >>> limited.choices
         [('BROOKLYN', 'Brooklyn'), ('QUEENS', 'Queens')]
-    '''
+    """
 
     choices: DjangoChoices
 
@@ -79,20 +79,19 @@ class Choices:
 
     name: str
 
-    def __init__(self, choices: DjangoChoices, name: str = 'DjangoChoices') -> None:
+    def __init__(self, choices: DjangoChoices, name: str = "DjangoChoices") -> None:
         self.name = name
         self.choices = choices
         self.choices_dict = dict(self.choices)
-        self.enum = Enum(
-            name,
-            [(choice, label) for choice, label in self.choices]
-        )
+
+        # New versions of mypy error here with
+        # "Enum type as attribute is not supported" so we'll just ignore.
+        self.enum = Enum(name, [(choice, label) for choice, label in self.choices])  # type: ignore
 
     def __getattr__(self, value: str) -> str:
         if value in self.choices_dict:
             return value
-        raise AttributeError(
-            f'{value} is not a property, method, or valid choice')
+        raise AttributeError(f"{value} is not a property, method, or valid choice")
 
     def get_label(self, value: str) -> str:
         return self.choices_dict[value]
@@ -105,12 +104,11 @@ class Choices:
             if value not in self.choices_dict:
                 raise ValueError(f"'{value}' is not a valid choice")
 
-    def only(self, *values: str, name: Optional[str] = None) -> 'Choices':
+    def only(self, *values: str, name: Optional[str] = None) -> "Choices":
         name = name or self.name
         self.validate_choices(*values)
         choices: DjangoChoices = [
-            (choice, label) for choice, label in self.choices
-            if choice in values
+            (choice, label) for choice, label in self.choices if choice in values
         ]
         return Choices(choices, name)
 
@@ -119,7 +117,7 @@ class Choices:
         return set(self.choices_dict.keys())
 
     @classmethod
-    def from_file(cls, *path: str, name: str = 'DjangoChoices'):
+    def from_file(cls, *path: str, name: str = "DjangoChoices"):
         obj = load_json(*path)
         return cls(_ValidatedChoices(choices=obj).choices, name=name)
 

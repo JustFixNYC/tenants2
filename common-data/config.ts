@@ -8,7 +8,7 @@ const config: DjangoChoicesTypescriptConfig = {
       typeName: "IssueChoice",
       exportLabels: true,
       internationalizeLabels: true,
-      filterOut: /^(LANDLORD__|PUBLIC_AREAS__ILLEGAL_APARTMENTS)/,
+      filterOut: /^(LANDLORD__|PUBLIC_AREAS__ILLEGAL_APARTMENTS|HOME__COVID_SANITATION_REQUIRED|HOME__(FRONT_DOOR|DOOR_LOCK|DOORBELL|BUZZER)_BROKEN|KITCHEN__(REFRIGERATOR|STOVE)_BROKEN)/,
     },
     {
       jsonFilename: "issue-area-choices.json",
@@ -53,6 +53,11 @@ const config: DjangoChoicesTypescriptConfig = {
       jsonFilename: "locale-choices.json",
       typeName: "LocaleChoice",
       exportLabels: false,
+    },
+    {
+      jsonFilename: "evictionfree-unsupported-locale-choices.json",
+      typeName: "EvictionFreeUnsupportedLocaleChoice",
+      exportLabels: true,
     },
   ],
 };

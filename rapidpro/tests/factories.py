@@ -9,9 +9,9 @@ class ContactGroupFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = ContactGroup
 
-    uuid = 'uuid1'
+    uuid = "uuid1"
 
-    name = 'Funky Group'
+    name = "Funky Group"
 
 
 class UserContactGroupFactory(factory.django.DjangoModelFactory):

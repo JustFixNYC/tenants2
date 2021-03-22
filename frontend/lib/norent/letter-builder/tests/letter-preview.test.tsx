@@ -3,7 +3,7 @@ import { createProgressStepJSX } from "../../../progress/tests/progress-step-tes
 import { override } from "../../../tests/util";
 import { BlankLandlordDetailsType } from "../../../queries/LandlordDetailsType";
 import { NorentLetterPreviewPage } from "../letter-preview";
-import { NorentRoutes } from "../../routes";
+import { NorentRoutes } from "../../route-info";
 import i18n from "../../../i18n";
 
 describe("NoRent letter preview page", () => {
@@ -11,6 +11,7 @@ describe("NoRent letter preview page", () => {
     return new AppTesterPal(createProgressStepJSX(NorentLetterPreviewPage), {
       session: {
         phoneNumber: "1234567890",
+        norentUpcomingLetterRentPeriods: ["2020-05-01"],
         landlordDetails: override(BlankLandlordDetailsType, {
           email,
           address,

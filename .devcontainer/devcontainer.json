@@ -10,31 +10,43 @@
 		"terminal.integrated.shell.linux": null,
 		// This is where the virtual environment set up by our Docker Compose config is located.
 		"python.pythonPath": "/venv/bin/python",
+		"python.formatting.provider": "black",
 		"python.linting.pylintEnabled": false,
 		"python.linting.flake8Enabled": true,
 		"python.linting.enabled": true,
 		"python.linting.mypyEnabled": true,
+		"python.languageServer": "Pylance",
 		"eslint.options": {
 			// VSCode will put our tenants2 repository at /workspaces/tenants2,
 			// so that's where we need to find our custom ESLint rules.
 			"rulePaths": ["/workspaces/tenants2/frontend/eslint/rules"]
 		},
+		"[scss]": {
+			"editor.tabSize": 2,
+			"editor.formatOnSave": true,
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		},
 		"[typescriptreact]": {
 			"editor.tabSize": 2,
+			"editor.formatOnSave": true,
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
 		},
 		"[typescript]": {
 			"editor.tabSize": 2,
+			"editor.formatOnSave": true,
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
 		},
 		"[json]": {
+			"editor.formatOnSave": true,
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
 		},
 		"[python]": {
+			"editor.formatOnSave": true,
 			"editor.detectIndentation": false,
 			"editor.tabSize": 4
 		},
 		"[javascript]": {
+			"editor.formatOnSave": true,
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
 		},
 	},
@@ -44,6 +56,7 @@
 		"ms-python.python",
 		"esbenp.prettier-vscode",
 		"dbaeumer.vscode-eslint",
+		"ms-python.vscode-pylance"
 	],
 
 	"mounts": [

@@ -18,17 +18,17 @@ from typing import (
     TypeVar,
     Generic,
     NoReturn,
-    IO
+    IO,
 )
 
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 Converter = Callable[[str], T]
 
 
 def envhelp(text: str):
-    '''
+    """
     Set the environment variable help for the given converter,
     which documents how an environment variable string is
     converted to its Python representation:
@@ -40,37 +40,38 @@ def envhelp(text: str):
 
         >>> get_envhelp(boop)
         'i am some help'
-    '''
+    """
 
     def decorator(func: Callable):
-        setattr(func, '__envhelp__', text)
+        setattr(func, "__envhelp__", text)
         return func
+
     return decorator
 
 
 def get_envhelp(obj: Any) -> str:
-    '''
+    """
     Return the environment variable help for the given
     converter, or an empty string if none is available.
-    '''
+    """
 
-    return getattr(obj, '__envhelp__', '')
+    return getattr(obj, "__envhelp__", "")
 
 
 def quotestrings(*strings: str) -> str:
-    '''
+    """
     Enclose the given strings in quotes
     and comma-separate them, e.g.:
 
         >>> quotestrings('foo', 'bar')
         "'foo', 'bar'"
-    '''
+    """
 
-    return ', '.join([f"'{s}'" for s in strings])
+    return ", ".join([f"'{s}'" for s in strings])
 
 
 def destructure_optional(klass: Any) -> Tuple[bool, Any]:
-    '''
+    """
     Attempts to determine whether the given argument represents
     an Optional type. If so, "unwraps" the Optional, revealing
     the underlying type:
@@ -83,10 +84,10 @@ def destructure_optional(klass: Any) -> Tuple[bool, Any]:
 
         >>> destructure_optional(Union[bool, int])
         (False, typing.Union[bool, int])
-    '''
+    """
 
-    origin = getattr(klass, '__origin__', None)
-    args = getattr(klass, '__args__', [])
+    origin = getattr(klass, "__origin__", None)
+    args = getattr(klass, "__args__", [])
     args_has_none = None.__class__ in args
 
     if origin is Union and len(args) == 2 and args_has_none:
@@ -96,13 +97,13 @@ def destructure_optional(klass: Any) -> Tuple[bool, Any]:
 
 
 class Converters:
-    TRUTHY = ['yes', 'yup', 'true']
+    TRUTHY = ["yes", "yup", "true"]
 
-    FALSY = ['no', 'nope', 'false']
+    FALSY = ["no", "nope", "false"]
 
     @classmethod
     def convert_bool_safe(cls, value: str) -> Optional[bool]:
-        '''
+        """
         Convert the given string value to a boolean, returning
         None if it couldn't be converted, e.g.:
 
@@ -114,7 +115,7 @@ class Converters:
             False
             >>> print(Converters.convert_bool_safe('blah'))
             None
-        '''
+        """
 
         value = value.lower()
         if value in cls.TRUTHY:
@@ -129,7 +130,7 @@ class Converters:
         f"{quotestrings(*FALSY)} for False."
     )
     def convert_bool(cls, value: str) -> bool:
-        '''
+        """
         Convert the given string value to a boolean, raising
         an exception if it couldn't be converted, e.g.:
 
@@ -137,19 +138,19 @@ class Converters:
             Traceback (most recent call last):
             ...
             ValueError: 'blah' must be one of the following: yes, yup, true, no, nope, false
-        '''
+        """
 
         result = cls.convert_bool_safe(value)
         if result is not None:
             return result
-        choices = ', '.join(cls.TRUTHY + cls.FALSY)
+        choices = ", ".join(cls.TRUTHY + cls.FALSY)
         raise ValueError(f"'{value}' must be one of the following: {choices}")
 
     @classmethod
     def convert_str(cls, value: str) -> str:
-        '''
+        """
         If it's a string type, we just pass it through unchanged.
-        '''
+        """
 
         return value
 
@@ -159,27 +160,27 @@ class Converters:
 
     @classmethod
     def get_converter(cls, klass: Type[T]) -> Converter:
-        '''
+        """
         Iterate through all our attributes until we find a class
         method that takes a string argument called "value" and
         returns exactly the kind of value we're looking for.
 
         If none is found, a ValueError is raised.
-        '''
+        """
 
         for name in vars(cls):
-            if name.startswith('convert_'):
+            if name.startswith("convert_"):
                 thing = getattr(cls, name)
                 hints = get_type_hints(thing)
-                if hints.get('value') == str and hints.get('return') == klass:
+                if hints.get("value") == str and hints.get("return") == klass:
                     return thing
         raise ValueError(f'Unable to find converter from string to "{klass}"')
 
     @classmethod
     def convert(cls, value: str, klass: Type[T]) -> T:
-        '''
+        """
         Convert the given string value to the given annotation class.
-        '''
+        """
 
         converter = cls.get_converter(klass)
         return converter(value)
@@ -187,9 +188,9 @@ class Converters:
 
 @dataclass(frozen=True)
 class EnvVarInfo(Generic[T]):
-    '''
+    """
     Encapsulates metadata about an environment variable.
-    '''
+    """
 
     # The name of the variable.
     name: str
@@ -204,14 +205,14 @@ class EnvVarInfo(Generic[T]):
     helptext: str
 
     # The environment the variable belongs to.
-    environment: 'BaseEnvironment'
+    environment: "BaseEnvironment"
 
     @staticmethod
-    def from_env(env: 'BaseEnvironment') -> Dict[str, 'EnvVarInfo']:
-        '''
+    def from_env(env: "BaseEnvironment") -> Dict[str, "EnvVarInfo"]:
+        """
         Return a mapping from environment variable names to their
         metadata for a given environment.
-        '''
+        """
 
         hints = get_type_hints(env.__class__)
         varinfo: Dict[str, EnvVarInfo] = {}
@@ -223,29 +224,34 @@ class EnvVarInfo(Generic[T]):
                 continue
             is_optional, klass = destructure_optional(hintclass)
             convert = env.converters.get_converter(hintclass)
-            helptext = '\n\n'.join(filter(None, [
-                alldocs.get(var, ''),
-                '\n'.join(textwrap.wrap(get_envhelp(convert))),
-            ]))
+            helptext = "\n\n".join(
+                filter(
+                    None,
+                    [
+                        alldocs.get(var, ""),
+                        "\n".join(textwrap.wrap(get_envhelp(convert))),
+                    ],
+                )
+            )
             varinfo[var] = EnvVarInfo(
                 name=var,
                 is_optional=is_optional,
                 klass=hintclass,
                 environment=env,
-                helptext=helptext
+                helptext=helptext,
             )
         return varinfo
 
     def convert(self, value: str) -> T:
-        '''
+        """
         Convert a string to the variable's type.
-        '''
+        """
 
         return self.environment.converters.convert(value, self.klass)
 
 
 class BaseEnvironment:
-    '''
+    """
     This class lets you define the environment variables you're
     looking for using Python 3's type annotations, e.g.:
 
@@ -269,7 +275,7 @@ class BaseEnvironment:
         True
         >>> env.BAR
         'here is a default value'
-    '''
+    """
 
     # The raw environment (e.g., the operating system environment).
     env: MutableMapping[str, str]
@@ -288,12 +294,14 @@ class BaseEnvironment:
     # A mapping from our environment variables to metadata about them.
     varinfo: Dict[str, EnvVarInfo]
 
-    def __init__(self,
-                 env: MutableMapping[str, str] = os.environ,
-                 converters: Type[Converters] = Converters,
-                 err_output: IO = sys.stderr,
-                 exit_when_invalid=False,
-                 throw_when_invalid=True) -> None:
+    def __init__(
+        self,
+        env: MutableMapping[str, str] = os.environ,
+        converters: Type[Converters] = Converters,
+        err_output: IO = sys.stderr,
+        exit_when_invalid=False,
+        throw_when_invalid=True,
+    ) -> None:
         self.env = env
         self.converters = converters
         self.err_output = err_output
@@ -312,16 +320,16 @@ class BaseEnvironment:
         self.__dict__.update(typed_env)
 
     def _resolve_value(self, var: EnvVarInfo[T]) -> Optional[T]:
-        '''
+        """
         Attempt to resolve the typed value of the given environment
         variable. Return None if the environment variable is optional
         and it's not defined (or is empty) in the raw environment.
 
         If a value for the variable can't be found and it's
         non-optional, a ValueError is raised.
-        '''
+        """
 
-        if self.env.get(var.name, '').strip():
+        if self.env.get(var.name, "").strip():
             # The environment variable is non-empty, so let's
             # convert it to the expected type.
             return var.convert(self.env[var.name])
@@ -335,73 +343,63 @@ class BaseEnvironment:
             return None
         else:
             # The type is not Optional, so raise an error.
-            raise ValueError('this variable must be defined!')
+            raise ValueError("this variable must be defined!")
 
     def _fail(self, errors: Dict[EnvVarInfo, str]) -> NoReturn:
-        '''
+        """
         Given a mapping from variables to error strings, output detailed
         help.
 
         Depending on the value of `exit_when_invalid`, either abort the
         process or raise a ValueError.
-        '''
+        """
 
         if len(errors) == 1:
             var, msg = list(errors.items())[0]
             excmsg = f"Error evaluating environment variable {var.name}: {msg}"
             firstline = "An environment variable is not defined properly."
         else:
-            names = ', '.join([var.name for var in errors])
+            names = ", ".join([var.name for var in errors])
             excmsg = f"Error evaluating environment variables {names}"
             firstline = f"{len(errors)} environment variables are not defined properly."
 
-        self.err_output.write(f'{firstline}\n\n')
+        self.err_output.write(f"{firstline}\n\n")
         self._output_help_with_optional_info(self.err_output, errors)
         if self.exit_when_invalid:
             raise SystemExit(1)
         raise ValueError(excmsg)
 
     def _output_help_with_optional_info(self, output: IO, info: Dict[EnvVarInfo, str]) -> None:
-        '''
+        """
         Output help about the given environment variables, along with optional
         extra information about each one.
-        '''
+        """
 
-        indent = '    '
+        indent = "    "
 
         def wrap(text: str) -> str:
-            return '\n'.join(
-                textwrap.wrap(text, initial_indent=indent, subsequent_indent=indent))
+            return "\n".join(textwrap.wrap(text, initial_indent=indent, subsequent_indent=indent))
 
         for var, desc in info.items():
-            details = '\n\n'.join(filter(None, [
-                wrap(desc),
-                textwrap.indent(var.helptext, indent)
-            ]))
-            output.writelines([
-                f'  {var.name}:\n',
-                details,
-                f'\n\n'
-            ])
+            details = "\n\n".join(filter(None, [wrap(desc), textwrap.indent(var.helptext, indent)]))
+            output.writelines([f"  {var.name}:\n", details, f"\n\n"])
 
     def print_help(self, output: IO = sys.stdout) -> None:
-        '''
+        """
         Print help about all environment variables.
-        '''
+        """
 
-        self._output_help_with_optional_info(output, {
-            var: '' for var in self.varinfo.values()
-        })
+        self._output_help_with_optional_info(output, {var: "" for var in self.varinfo.values()})
 
     @classmethod
     def get_docs(cls) -> Dict[str, str]:
-        '''
+        """
         Return a dictionary mapping the names of
         this environment's variables to their
         documentation.
 
         Traverses all base classes that derive from BaseEnvironment.
-        '''
+        """
 
         classes = [cls]
         result: Dict[str, str] = {}
@@ -416,13 +414,13 @@ class BaseEnvironment:
 
     @classmethod
     def _get_docs_non_recursively(cls) -> Dict[str, str]:
-        '''
+        """
         Return a dictionary mapping the names of
         this environment's variables to their
         documentation.
 
         This method does *not* traverse base classes.
-        '''
+        """
 
         result: Dict[str, str] = {}
 
@@ -435,15 +433,15 @@ class BaseEnvironment:
         for line in source_lines:
             # Assume PEP-8, i.e. indentations are four spaces. So we'll
             # only pay attention to top-level comments in the class.
-            if line.startswith('    #'):
+            if line.startswith("    #"):
                 comments.append(line[6:])
             else:
-                parts = line.strip().split(' ')
+                parts = line.strip().split(" ")
                 varname = parts[0]
-                if varname.endswith(':'):
+                if varname.endswith(":"):
                     varname = varname[:-1]
                 if varname and varname == varname.upper() and comments:
-                    result[varname] = '\n'.join(comments)
+                    result[varname] = "\n".join(comments)
                     comments = []
                 else:
                     comments = []

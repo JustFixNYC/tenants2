@@ -41,6 +41,11 @@ export type MapboxFeature = {
   context: Array<Partial<MapboxFeature> & { short_code?: string }>;
 };
 
+/**
+ * A Mapbox bounding box of the form `minLon,minLat,maxLon,maxLat`.
+ */
+export type MapboxBbox = [number, number, number, number];
+
 const MAPBOX_PLACES_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places";
 
 const MAPBOX_STATE_SHORT_CODE_RE = /^US-([A-Z][A-Z])$/;
@@ -49,6 +54,7 @@ type MapboxSearchOptions = {
   access_token: string;
   country: "US";
   language: "en";
+  bbox?: MapboxBbox;
   types: MapboxPlaceType[];
 };
 
@@ -71,6 +77,7 @@ function mapboxSearchOptionsToURLSearchParams(
 ): URLSearchParams {
   return new URLSearchParams({
     ...options,
+    bbox: options.bbox ? options.bbox.join(",") : "",
     types: options.types.join(","),
   });
 }

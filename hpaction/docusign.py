@@ -22,19 +22,22 @@ from project.util.site_util import SITE_CHOICES
 from frontend.static_content import react_render_email
 from .hotdocs_xml_parsing import HPAType
 from .models import (
-    HPActionDocuments, DocusignEnvelope, HP_DOCUSIGN_STATUS_CHOICES, Config,
+    HPActionDocuments,
+    DocusignEnvelope,
+    HP_DOCUSIGN_STATUS_CHOICES,
+    Config,
     CourtContact,
 )
 
 
 # The recipient ID for the tenant in the signing flow. This appears to be a
 # number local to a specific signing, rather than a globally unique identifier.
-TENANT_RECIPIENT_ID = '1'
+TENANT_RECIPIENT_ID = "1"
 
 # The document ID for the HP Action packet in the signing flow. This appears
 # to be a number local to a specific signing, rather than a globally unique
 # identifier.
-HPA_DOCUMENT_ID = '1'
+HPA_DOCUMENT_ID = "1"
 
 # Number of pages at beginning of EHPA PDFs that represent cover sheet pages
 # that aren't part of the official forms
@@ -88,33 +91,41 @@ class FormsConfig(NamedTuple):
         sign_kwargs = dict(
             document_id=HPA_DOCUMENT_ID,
             recipient_id=TENANT_RECIPIENT_ID,
-            tab_label='SignHereTab',
+            tab_label="SignHereTab",
         )
 
-        sign_here_tabs.extend([
-            dse.SignHere(**sign_kwargs, **self.sign_here_petition_coords.to_docusign()),
-            dse.SignHere(**sign_kwargs, **self.sign_here_verification_coords.to_docusign()),
-        ])
+        sign_here_tabs.extend(
+            [
+                dse.SignHere(**sign_kwargs, **self.sign_here_petition_coords.to_docusign()),
+                dse.SignHere(**sign_kwargs, **self.sign_here_verification_coords.to_docusign()),
+            ]
+        )
 
         if self.hpd_inspection_page:
-            sign_here_tabs.append(dse.SignHere(
-                document_id=HPA_DOCUMENT_ID,
-                page_number=str(self.hpd_inspection_page),
-                recipient_id=TENANT_RECIPIENT_ID,
-                tab_label='SignHereTab',
-                x_position='446',
-                y_position='625',
-            ))
-            text_tabs.extend(create_stacked_lines(
-                lines=["These conditions are immediately hazardous to the",
-                       "health and safety of my household."],
-                start_y=103,
-                document_id=HPA_DOCUMENT_ID,
-                page_number=str(self.hpd_inspection_page),
-                tab_label="ReadOnlyDataField",
-                locked="true",
-                x_position="16",
-            ))
+            sign_here_tabs.append(
+                dse.SignHere(
+                    document_id=HPA_DOCUMENT_ID,
+                    page_number=str(self.hpd_inspection_page),
+                    recipient_id=TENANT_RECIPIENT_ID,
+                    tab_label="SignHereTab",
+                    x_position="446",
+                    y_position="625",
+                )
+            )
+            text_tabs.extend(
+                create_stacked_lines(
+                    lines=[
+                        "These conditions are immediately hazardous to the",
+                        "health and safety of my household.",
+                    ],
+                    start_y=103,
+                    document_id=HPA_DOCUMENT_ID,
+                    page_number=str(self.hpd_inspection_page),
+                    tab_label="ReadOnlyDataField",
+                    locked="true",
+                    x_position="16",
+                )
+            )
 
         contact_info_lines = create_stacked_lines(
             lines=contact_info.splitlines(),
@@ -126,10 +137,12 @@ class FormsConfig(NamedTuple):
             x_position=str(self.contact_info_coords.x),
         )
 
-        sign_here_tabs.append(dse.SignHere(
-            **sign_kwargs,
-            **PageCoords(page=self.affadavit_page, x=356, y=240).to_docusign(),
-        ))
+        sign_here_tabs.append(
+            dse.SignHere(
+                **sign_kwargs,
+                **PageCoords(page=self.affadavit_page, x=356, y=240).to_docusign(),
+            )
+        )
         affadavit_date_coords = PageCoords(page=self.affadavit_page, x=64, y=256)
 
         return dse.Tabs(
@@ -152,7 +165,7 @@ class FormsConfig(NamedTuple):
         )
 
     @staticmethod
-    def from_case_type(case_type: HPAType) -> 'FormsConfig':
+    def from_case_type(case_type: HPAType) -> "FormsConfig":
         # The "start page" where the official forms start.
         s = NUM_COVER_SHEET_PAGES
 
@@ -206,37 +219,39 @@ class FormsConfig(NamedTuple):
 def get_court_contacts_for_borough(borough: str) -> List[CourtContact]:
     config = Config.objects.get()
     contacts: List[CourtContact] = []
-    config_email = getattr(config, f'{borough.lower()}_court_email')
+    config_email = getattr(config, f"{borough.lower()}_court_email")
     if config_email:
-        contacts.append(CourtContact(
-            name=f"{BOROUGH_CHOICES.get_label(borough)} Housing Court",
-            email=config_email,
-            court=borough
-        ))
+        contacts.append(
+            CourtContact(
+                name=f"{BOROUGH_CHOICES.get_label(borough)} Housing Court",
+                email=config_email,
+                court=borough,
+            )
+        )
     contacts.extend(CourtContact.objects.filter(court=borough))
     return contacts
 
 
 def get_court_contacts_for_user(user: JustfixUser) -> List[CourtContact]:
-    if hasattr(user, 'onboarding_info'):
+    if hasattr(user, "onboarding_info"):
         return get_court_contacts_for_borough(user.onboarding_info.borough)
     return []
 
 
 def cc_court_contacts(
-    contacts: List[CourtContact],
-    initial_recipient_id: int,
-    **kwargs
+    contacts: List[CourtContact], initial_recipient_id: int, **kwargs
 ) -> List[dse.CarbonCopy]:
     results: List[dse.CarbonCopy] = []
     recipient_id = initial_recipient_id
     for contact in contacts:
-        results.append(dse.CarbonCopy(
-            email=contact.email,
-            name=contact.name,
-            recipient_id=str(recipient_id),
-            **kwargs,
-        ))
+        results.append(
+            dse.CarbonCopy(
+                email=contact.email,
+                name=contact.name,
+                recipient_id=str(recipient_id),
+                **kwargs,
+            )
+        )
         recipient_id += 1
 
     return results
@@ -246,7 +261,7 @@ def get_contact_info(user: JustfixUser) -> str:
     ll_email = "unknown"
     ll_phone_number = "unknown"
 
-    if hasattr(user, 'landlord_details'):
+    if hasattr(user, "landlord_details"):
         ld = user.landlord_details
         ll_email = ld.email or ll_email
         ll_phone_number = ld.formatted_phone_number() or ll_phone_number
@@ -254,18 +269,17 @@ def get_contact_info(user: JustfixUser) -> str:
     # Note that we used to include the tenant email here, but removed it
     # because the LL could use the email address in e-filing in the other direction
     # and we could see landlords serving now to tee up cases for court reopening.
-    return '\n'.join([
-        f"landlord phone: {ll_phone_number}",
-        f"landlord email: {ll_email}",
-        f"tenant phone: {user.formatted_phone_number()}",
-    ])
+    return "\n".join(
+        [
+            f"landlord phone: {ll_phone_number}",
+            f"landlord email: {ll_email}",
+            f"tenant phone: {user.formatted_phone_number()}",
+        ]
+    )
 
 
 def create_stacked_lines(
-    lines: List[str],
-    start_y: int,
-    line_spacing: int = 10,
-    **kwargs
+    lines: List[str], start_y: int, line_spacing: int = 10, **kwargs
 ) -> List[dse.Text]:
     y = start_y
     result: List[dse.Text] = []
@@ -274,20 +288,22 @@ def create_stacked_lines(
     # newlines, but then it didn't at some point, so we'll play it
     # safe and manually break up the lines for it.
     for line in lines:
-        result.append(dse.Text(
-            **kwargs,
-            value=line,
-            y_position=str(y),
-        ))
+        result.append(
+            dse.Text(
+                **kwargs,
+                value=line,
+                y_position=str(y),
+            )
+        )
         y += line_spacing
 
     return result
 
 
 def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeDefinition:
-    '''
+    """
     Create a DocuSign envelope definition for the given HP Action documents.
-    '''
+    """
 
     user = docs.user
 
@@ -297,11 +313,10 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
     pdf_file = docs.open_emergency_pdf_file()
     if not pdf_file:
         raise Exception(
-            'Unable to open emergency HP Action packet (it may only consist '
-            'of instructions)'
+            "Unable to open emergency HP Action packet (it may only consist " "of instructions)"
         )
     pdf_bytes = pdf_file.read()
-    base64_pdf = base64.b64encode(pdf_bytes).decode('ascii')
+    base64_pdf = base64.b64encode(pdf_bytes).decode("ascii")
 
     document = dse.Document(
         document_base64=base64_pdf,
@@ -337,11 +352,13 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
         # to the proper court, so just log an error instead of raising
         # an exception.
         logger.error(f"No housing court found for user '{user.username}'!")
-    carbon_copies.extend(cc_court_contacts(
-        court_contacts,
-        initial_recipient_id=3,
-        routing_order="2",
-    ))
+    carbon_copies.extend(
+        cc_court_contacts(
+            court_contacts,
+            initial_recipient_id=3,
+            routing_order="2",
+        )
+    )
 
     envelope_definition = dse.EnvelopeDefinition(
         email_subject=f"HP Action forms for {user.full_name}",
@@ -361,8 +378,7 @@ def create_envelope_for_hpa(
 ) -> str:
     envelope_api = dse.EnvelopesApi(api_client)
     envelope = envelope_api.create_envelope(
-        settings.DOCUSIGN_ACCOUNT_ID,
-        envelope_definition=envelope_definition
+        settings.DOCUSIGN_ACCOUNT_ID, envelope_definition=envelope_definition
     )
 
     assert isinstance(envelope, dse.EnvelopeSummary)
@@ -382,7 +398,7 @@ def create_recipient_view_for_hpa(
 ) -> str:
     envelope_api = dse.EnvelopesApi(api_client)
     recipient_view_request = dse.RecipientViewRequest(
-        authentication_method='None',
+        authentication_method="None",
         client_user_id=docusign_client_user_id(user),
         recipient_id=TENANT_RECIPIENT_ID,
         return_url=return_url,
@@ -400,11 +416,7 @@ def create_recipient_view_for_hpa(
 
 
 def create_callback_url_for_signing_flow(request, envelope_id: str, next_url: str) -> str:
-    return create_callback_url(request, {
-        'type': 'ehpa',
-        'envelope': envelope_id,
-        'next': next_url
-    })
+    return create_callback_url(request, {"type": "ehpa", "envelope": envelope_id, "next": next_url})
 
 
 def send_service_instructions_email(user: JustfixUser) -> None:
@@ -425,10 +437,10 @@ def send_service_instructions_email(user: JustfixUser) -> None:
 
 
 def update_envelope_status(de: DocusignEnvelope, event: str) -> None:
-    '''
+    """
     Update the given DocuSign envelope model based on the given
     event that just occured.
-    '''
+    """
 
     # The actual value of 'event' doesn't seem to be documented anywhere on
     # DocuSign's developer docs, except for the SOAP API documentation, which
@@ -455,18 +467,18 @@ def update_envelope_status(de: DocusignEnvelope, event: str) -> None:
     #     immediately redirects from the super-long recipient view URL to
     #     a shorter, reloadable URL immediately.
 
-    if event == 'signing_complete':
+    if event == "signing_complete":
         de.status = HP_DOCUSIGN_STATUS_CHOICES.SIGNED
         user = de.docs.user
         slack.sendmsg_async(
             f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
             f"has signed their Emergency HP Action documents! ❤️",
-            is_safe=True
+            is_safe=True,
         )
         user.trigger_followup_campaign_async("EHP")
         send_service_instructions_email(user)
         de.save()
-    elif event == 'decline':
+    elif event == "decline":
         de.status = HP_DOCUSIGN_STATUS_CHOICES.DECLINED
         de.save()
 
@@ -496,15 +508,16 @@ def handle_callback_event(request, event: str, next_url: str, envelope_id: str) 
     # to change that.
     update_envelope_status(de, event)
 
-    next_url = append_querystring_args(next_url, {'event': event})
+    next_url = append_querystring_args(next_url, {"event": event})
     return HttpResponseRedirect(next_url)
 
 
 def callback_handler(request):
-    event = request.GET.get('event')
-    envelope_id = request.GET.get('envelope')
-    next_url = request.GET.get('next')
-    if event and next_url and envelope_id and request.GET.get('type') == 'ehpa':
+    event = request.GET.get("event")
+    envelope_id = request.GET.get("envelope")
+    next_url = request.GET.get("next")
+    if event and next_url and envelope_id and request.GET.get("type") == "ehpa":
         return handle_callback_event(
-            request, event=event, next_url=next_url, envelope_id=envelope_id)
+            request, event=event, next_url=next_url, envelope_id=envelope_id
+        )
     return None

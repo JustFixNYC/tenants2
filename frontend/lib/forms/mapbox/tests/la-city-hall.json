@@ -1,0 +1,38 @@
+{
+  "id": "address.5392782652805896",
+  "type": "Feature",
+  "place_type": ["address"],
+  "relevance": 1,
+  "properties": { "accuracy": "point" },
+  "text": "North Spring Street",
+  "place_name": "200 North Spring Street, Los Angeles, California 90012, United States",
+  "center": [-118.24317, 34.05405],
+  "geometry": { "type": "Point", "coordinates": [-118.24317, 34.05405] },
+  "address": "200",
+  "context": [
+    { "id": "neighborhood.292779", "text": "Downtown" },
+    { "id": "postcode.6794918556707500", "text": "90012" },
+    {
+      "id": "place.7397503093427640",
+      "wikidata": "Q65",
+      "text": "Los Angeles"
+    },
+    {
+      "id": "district.9101022958465270",
+      "wikidata": "Q104994",
+      "text": "Los Angeles County"
+    },
+    {
+      "id": "region.9803118085738010",
+      "wikidata": "Q99",
+      "short_code": "US-CA",
+      "text": "California"
+    },
+    {
+      "id": "country.19678805456372290",
+      "wikidata": "Q30",
+      "short_code": "us",
+      "text": "United States"
+    }
+  ]
+}

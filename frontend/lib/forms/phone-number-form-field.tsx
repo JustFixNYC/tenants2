@@ -88,6 +88,7 @@ export function formatPhoneNumber(value: string, prevValue?: string): string {
 }
 
 export interface PhoneNumberFormFieldProps extends BaseFormFieldProps<string> {
+  autoFocus?: boolean;
   label: string;
 }
 

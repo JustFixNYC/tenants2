@@ -1,7 +1,8 @@
 import React from "react";
-import { OutboundLink } from "../../analytics/google-analytics";
+import { OutboundLink } from "../../ui/outbound-link";
 import { li18n } from "../../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
+import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
 
 export type FaqCategory =
   | "Letter Builder"
@@ -25,6 +26,23 @@ export function getFaqCategoryLabels(): FaqCategoryLabels {
     ),
   };
 }
+
+export const SendCDCDeclarationBlurb: React.FC<{}> = () => (
+  <Trans id="norent.sendCDCDeclarationBlurb">
+    You may want to{" "}
+    <LocalizedOutboundLink
+      hrefs={{
+        en: "https://www.covid19evictionforms.com/",
+        es: "https://www.es.covid19evictionforms.com/",
+      }}
+    >
+      send a declaration
+    </LocalizedOutboundLink>{" "}
+    under the Order issued by the Centers for Disease Control and Prevention
+    (CDC) to provide renters with protection from eviction. Learn more about the
+    CDC declaration before sending your landlord a notice.
+  </Trans>
+);
 
 type FaqPreviewOptions = {
   priorityInPreview: number; // Not Localized
@@ -524,11 +542,9 @@ export const getFaqsContent: () => Faq[] = () => [
     ),
     category: "States with Limited Protections",
     answerFull: (
-      <Trans id="norent.instructionsForStatesWithLimitedProtections">
+      <Trans id="norent.instructionsForStatesWithLimitedProtections_v2">
         <p>
-          On a national level, Congress passed the CARES Act on March 27, 2020
-          (Public Law 116-136). Tenants in covered properties are protected from
-          eviction for non-payment or any other reason until August 23, 2020.
+          <SendCDCDeclarationBlurb />
         </p>
         <p>
           Also know that you’re not alone. In states without eviction

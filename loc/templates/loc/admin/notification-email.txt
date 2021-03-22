@@ -1,0 +1,55 @@
+Hello, {{ user.full_name }} has submitted a letter of
+complaint they would like us to mail.
+
+{% for issue in user.custom_issues.all %}{% if forloop.first %}The user has the following custom issues:
+
+{% endif %}* {{ issue.area }}: {{ issue.description|safe }}
+{% empty %}The user has no custom issues.
+{% endfor %}
+{% if user.landlord_details.is_looked_up %}Their landlord information is looked up from open data,
+so the destination address should be deliverable.
+{% else %}Their landlord information was manually entered.
+{% endif %}
+
+SENDING THE LETTER
+------------------
+
+To send the letter, visit:
+
+  {{ send_letter_url }}
+
+REQUESTING CHANGES
+------------------
+
+To request changes to the letter, you will first want to
+reject it:
+
+  {{ reject_letter_url }}
+
+Then, {% if user.email %}reply to this email--making sure not to quote anything
+from this message{% else %}text or call the user at {{ user.formatted_phone_number }}{% endif %}.
+
+Ask the user to visit {{ user_loc_url }},
+make the required changes and re-send the letter.  You will
+then receive another email when the user re-submits.
+
+MAKING CHANGES YOURSELF
+-----------------------
+
+You can also make changes to the user's letter yourself by first
+archiving it:
+
+  {{ archive_letter_url }}
+
+Then, make any necessary edits to the user via the admin UI:
+
+  {{ edit_letter_url }}
+
+Once you're done editing, do the following:
+
+  1. Select a "Mail choice" of "Yes, have JustFix.nyc mail this letter for me"
+     in the aforementioned admin UI (it should be near the bottom of the page).
+
+  2. Select "Save and continue editing" at the bottom of the page.
+
+  3. Once the page reloads, click the "Mail letter of complaint via Lob…" button.

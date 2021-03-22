@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import classnames from "classnames";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes from "../justfix-route-info";
 import { RouteComponentProps } from "react-router";
 import Page, { PageTitle } from "../ui/page";
 import {
@@ -18,14 +18,15 @@ import {
 } from "../forms/query-form-submitter";
 import { AppContext, getGlobalAppServerInfo } from "../app-context";
 import { properNoun } from "../util/util";
-import { OutboundLink, ga } from "../analytics/google-analytics";
+import { ga } from "../analytics/google-analytics";
+import { OutboundLink } from "../ui/outbound-link";
 import { UpdateBrowserStorage } from "../browser-storage";
-import { getEmergencyHPAIssueLabels } from "../hpaction/emergency-hp-action-issues";
-import { MORATORIUM_FAQ_URL } from "../ui/covid-banners";
-import i18n from "../i18n";
+import { getEmergencyHPAIssueLabels } from "../hpaction/emergency/emergency-hp-action-issues";
 import { Trans, t, Plural } from "@lingui/macro";
 import { EnglishOutboundLink } from "../ui/localized-outbound-link";
 import { li18n } from "../i18n-lingui";
+import { efnycURL } from "../ui/efnyc-link";
+import { fbq } from "../analytics/facebook-pixel";
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
@@ -35,10 +36,10 @@ const PLACEHOLDER_IMG = "frontend/img/96x96.png";
 
 const MAX_RECOMMENDED_ACTIONS = 3;
 
+const EFNYC_PRIORITY = 100;
 const VIOLATIONS_PRIORITY = 50;
 const VIOLATIONS_HIGH_PRIORITY = 50;
 const COMPLAINTS_PRIORITY = 40;
-const EFNYC_PRIORITY = 30;
 const WOW_PRIORITY = 20;
 const RENT_HISTORY_PRIORITY = 10;
 
@@ -509,17 +510,15 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       },
     };
   },
-  function evictionFreeNyc(data): ActionCardProps {
-    // Default content temporarily implemented during COVID-19 Outbreak
+  function evictionFreeNy(data): ActionCardProps {
     const covidMessage = (
       <Trans id="justfix.ddoEfnycCovidMessage">
-        An Eviction Moratorium is in place in NY State due to the Covid-19
-        public health crisis. All courts that hear eviction cases are closed.
-        This means you <b>cannot be evicted for any reason</b>.
+        You can send a hardship declaration form to your landlord and local
+        courts— putting your eviction case on hold until May 1st, 2021.
       </Trans>
     );
     return {
-      title: li18n._(t`Fight an eviction`),
+      title: li18n._(t`Protect yourself from eviction`),
       priority: EFNYC_PRIORITY,
       isRecommended:
         data.isRtcEligible && (data.numberOfEvictionsFromPortfolio || 0) > 0,
@@ -527,7 +526,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       fallbackMessage: covidMessage,
       imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
-        to: MORATORIUM_FAQ_URL[i18n.locale],
+        to: efnycURL(),
         gaLabel: "efnyc",
         text: li18n._(t`Learn more`),
       },
@@ -640,6 +639,13 @@ function Results(props: { address: string; output: DDOData | null }) {
   );
 }
 
+const TrackDDOSearch: React.FC<{}> = () => {
+  useEffect(() => {
+    fbq("trackCustom", "DDOSearch");
+  }, []);
+  return null;
+};
+
 export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
   const appCtx = useContext(AppContext);
   const emptyInput = { address: "", borough: "" };
@@ -662,6 +668,7 @@ export default function DataDrivenOnboardingPage(props: RouteComponentProps) {
 
           return (
             <section className={showHero ? "hero" : ""}>
+              {address && <TrackDDOSearch key={address + borough} />}
               <div className={showHero ? "hero-body" : ""}>
                 {showHero && (
                   <Trans>

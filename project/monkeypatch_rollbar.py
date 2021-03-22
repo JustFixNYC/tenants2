@@ -18,10 +18,10 @@ _orig_rollbar_get_request = rollbar.get_request
 
 @contextmanager
 def set_current_rollbar_request(request: HttpRequest):
-    '''
+    """
     For the duration of the context, set the current
     thread's request so Rollbar can access it when reporting.
-    '''
+    """
 
     _curr_rollbar_request.value = request
     try:
@@ -31,10 +31,10 @@ def set_current_rollbar_request(request: HttpRequest):
 
 
 def _new_rollbar_get_request() -> Optional[HttpRequest]:
-    '''
+    """
     Monkeypatch `rollbar.get_request()` to return the Django
     request for the current thread.
-    '''
+    """
 
     req = _curr_rollbar_request.value
     if req is not None:

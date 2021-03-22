@@ -1,127 +1,97 @@
-import React, { useContext } from "react";
-
+import React from "react";
 import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
-import { TextualFormField } from "../forms/form-fields";
-
-import { BackButton, ProgressButtons } from "../ui/buttons";
-import { AppContext } from "../app-context";
+import { HiddenFormField, TextualFormField } from "../forms/form-fields";
+import { ProgressButtons } from "../ui/buttons";
 import { exactSubsetOrDefault } from "../util/util";
 import { Link } from "react-router-dom";
-import { AllSessionInfo_landlordDetails } from "../queries/AllSessionInfo";
-import {
-  LandlordDetailsV2Mutation,
-  BlankLandlordDetailsV2Input,
-} from "../queries/LandlordDetailsV2Mutation";
 import { USStateFormField } from "../forms/mailing-address-fields";
 import { MiddleProgressStep } from "../progress/progress-step-route";
-import { BreaksBetweenLines } from "../ui/breaks-between-lines";
+import { QueryLoader } from "../networking/query-loader";
+import { RecommendedLocLandlord } from "../queries/RecommendedLocLandlord";
+import { LandlordPageContent, RecommendedLandlordInfo } from "../ui/landlord";
+import { LocLandlordInfoMutation } from "../queries/LocLandlordInfoMutation";
+import { BlankLandlordLandlordDetailsFormFormSetInput } from "../queries/HpaLandlordInfoMutation";
+import { SingletonFormset } from "../forms/formset";
 
-function getIntroText(isLookedUp: boolean | null): JSX.Element {
-  return isLookedUp ? (
-    <React.Fragment>
-      <p className="subtitle is-6">
-        This is your landlord’s information as registered with the{" "}
-        <b>NYC Department of Housing and Preservation (HPD)</b>. This may be
-        different than where you send your rent checks.
-      </p>
-      <p className="subtitle is-6">
-        We will use this address to ensure your landlord receives your letter.
-      </p>
-    </React.Fragment>
-  ) : (
-    <React.Fragment>
-      <p className="subtitle is-6">
-        Please enter your landlord's name and contact information below. You can
-        find this information on your lease and/or rent receipts.
-      </p>
-    </React.Fragment>
-  );
-}
-
-function ReadOnlyLandlordDetails(props: {
-  details: AllSessionInfo_landlordDetails;
-  nextStep: string;
-  prevStep: string;
-}): JSX.Element {
-  const { details, nextStep, prevStep } = props;
+export const LandlordDetailsPage = MiddleProgressStep((props) => {
   return (
-    <div className="content">
-      <dl>
-        <dt>
-          <strong>Landlord name</strong>
-        </dt>
-        <dd>{details.name}</dd>
-        <br />
-        <dt>
-          <strong>Landlord address</strong>
-        </dt>
-        <dd>
-          <BreaksBetweenLines lines={details.address} />
-        </dd>
-      </dl>
-      <ProgressButtons>
-        <BackButton to={prevStep} />
-        <Link to={nextStep} className="button is-primary is-medium">
-          Preview letter
-        </Link>
-      </ProgressButtons>
-    </div>
-  );
-}
-
-const LandlordDetailsPage = MiddleProgressStep((props) => {
-  const { session } = useContext(AppContext);
-  const { landlordDetails } = session;
-  return (
-    <Page title="Landlord information">
-      <div>
-        <h1 className="title is-4 is-spaced">Landlord information</h1>
-        {getIntroText(landlordDetails && landlordDetails.isLookedUp)}
-        {landlordDetails && landlordDetails.isLookedUp ? (
-          <ReadOnlyLandlordDetails
-            details={landlordDetails}
-            nextStep={props.nextStep}
-            prevStep={props.prevStep}
-          />
-        ) : (
-          <SessionUpdatingFormSubmitter
-            mutation={LandlordDetailsV2Mutation}
-            initialState={(session) =>
-              exactSubsetOrDefault(
-                session.landlordDetails,
-                BlankLandlordDetailsV2Input
-              )
-            }
-            onSuccessRedirect={props.nextStep}
-          >
-            {(ctx) => (
+    <Page title="Landlord information" withHeading className="content">
+      <QueryLoader
+        query={RecommendedLocLandlord}
+        input={null}
+        render={({ recommendedLocLandlord }) => (
+          <LandlordPageContent
+            recommendedLandlord={recommendedLocLandlord}
+            renderReadOnlyLandlordDetails={(props) => (
               <>
-                <TextualFormField
-                  label="Landlord's name"
-                  type="text"
-                  {...ctx.fieldPropsFor("name")}
-                />
-                <TextualFormField
-                  {...ctx.fieldPropsFor("primaryLine")}
-                  label="Street address"
-                />
-                <TextualFormField {...ctx.fieldPropsFor("city")} label="City" />
-                <USStateFormField {...ctx.fieldPropsFor("state")} />
-                <TextualFormField
-                  {...ctx.fieldPropsFor("zipCode")}
-                  label="Zip code"
-                />
-                <ProgressButtons
-                  back={props.prevStep}
-                  isLoading={ctx.isLoading}
-                  nextLabel="Preview letter"
-                />
+                <RecommendedLandlordInfo {...props} />
+                <p>
+                  We will use this address to ensure your landlord receives your
+                  letter. If you feel strongly that this information is
+                  incorrect or incomplete, however, you can{" "}
+                  <Link to={props.forceManualHref}>
+                    provide your own details
+                  </Link>
+                  .
+                </p>
               </>
             )}
-          </SessionUpdatingFormSubmitter>
+          >
+            {({ useRecommended, toUnforcedHref }) => (
+              <SessionUpdatingFormSubmitter
+                mutation={LocLandlordInfoMutation}
+                initialState={(session) => ({
+                  useRecommended,
+                  landlord: [
+                    exactSubsetOrDefault(
+                      session.landlordDetails,
+                      BlankLandlordLandlordDetailsFormFormSetInput
+                    ),
+                  ],
+                })}
+                onSuccessRedirect={props.nextStep}
+              >
+                {(ctx) => (
+                  <>
+                    <HiddenFormField {...ctx.fieldPropsFor("useRecommended")} />
+                    <SingletonFormset {...ctx.formsetPropsFor("landlord")}>
+                      {(formsetCtx) => (
+                        <div className={useRecommended ? "is-hidden" : ""}>
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("name")}
+                            label="Landlord name"
+                          />
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("primaryLine")}
+                            label="Street address"
+                          />
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("city")}
+                            label="City"
+                          />
+                          <USStateFormField
+                            {...formsetCtx.fieldPropsFor("state")}
+                          />
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("zipCode")}
+                            label="Zip code"
+                          />
+                        </div>
+                      )}
+                    </SingletonFormset>
+                    <ProgressButtons
+                      nextLabel="Preview letter"
+                      back={toUnforcedHref || props.prevStep}
+                      isLoading={ctx.isLoading}
+                    />
+                  </>
+                )}
+              </SessionUpdatingFormSubmitter>
+            )}
+          </LandlordPageContent>
         )}
-      </div>
+      />
     </Page>
   );
 });

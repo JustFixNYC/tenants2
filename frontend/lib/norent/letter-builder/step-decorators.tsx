@@ -4,7 +4,7 @@ import {
   NorentAlreadyLoggedInErrorPage,
   NorentAlreadySentLetterErrorPage,
 } from "./error-pages";
-import { isUserLoggedOut, isUserLoggedIn } from "../../util/session-predicates";
+import { isUserLoggedOut } from "../../util/session-predicates";
 import {
   ProgressStepProps,
   MiddleProgressStepProps,
@@ -12,21 +12,34 @@ import {
 } from "../../progress/progress-step-route";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { withSessionErrorHandling } from "../../ui/session-error-handling";
+import { OnboardingStep } from "../../common-steps/step-decorators";
 
 type MiddleStepComponent = React.ComponentType<MiddleProgressStepProps>;
 type StepComponent = React.ComponentType<ProgressStepProps>;
 
 /**
  * Returns whether the current user has sent a no rent letter
- * for the current rent period.
+ * for all available rent periods.
  */
-export function hasNorentLetterBeenSentForThisRentPeriod(
+export function hasNorentLetterBeenSentForAllRentPeriods(
   s: AllSessionInfo
 ): boolean {
   const letter = s.norentLatestLetter;
-  const rentPeriod = s.norentLatestRentPeriod;
-  if (!(letter && rentPeriod)) return false;
-  return letter.paymentDate === rentPeriod.paymentDate;
+  return s.norentAvailableRentPeriods.length === 0 && !!letter;
+}
+
+/**
+ * Returns whether the user has sent at least one no rent letter.
+ */
+export function hasNorentLetterBeenSent(s: AllSessionInfo): boolean {
+  return !!s.norentLatestLetter;
+}
+
+/**
+ * Returns whether the user has never sent any no rent letters.
+ */
+export function hasNorentLetterNeverBeenSent(s: AllSessionInfo): boolean {
+  return !hasNorentLetterBeenSent(s);
 }
 
 /**
@@ -35,13 +48,10 @@ export function hasNorentLetterBeenSentForThisRentPeriod(
 export const NorentRequireLoginStep = (c: StepComponent) =>
   withSessionErrorHandling(isUserLoggedOut, NorentNotLoggedInErrorPage, c);
 
-const requireLogout = (c: StepComponent) =>
-  withSessionErrorHandling(isUserLoggedIn, NorentAlreadyLoggedInErrorPage, c);
-
 const requireNotSentLetter = (c: StepComponent) =>
   NorentRequireLoginStep(
     withSessionErrorHandling(
-      hasNorentLetterBeenSentForThisRentPeriod,
+      hasNorentLetterBeenSentForAllRentPeriods,
       NorentAlreadySentLetterErrorPage,
       c
     )
@@ -50,8 +60,10 @@ const requireNotSentLetter = (c: StepComponent) =>
 /**
  * A middle step before the user has created an account.
  */
-export const NorentOnboardingStep = (c: MiddleStepComponent) =>
-  requireLogout(MiddleProgressStep(c));
+export const NorentOnboardingStep = OnboardingStep.bind(
+  this,
+  NorentAlreadyLoggedInErrorPage
+);
 
 /**
  * A middle step after the user has created an account, but

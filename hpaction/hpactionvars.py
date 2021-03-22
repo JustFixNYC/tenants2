@@ -202,6 +202,16 @@ class TenantBoroughMC(Enum):
     STATEN_ISLAND = 'Staten Island'
 
 
+class TenantChildrenUnderSixStatusMC(Enum):
+    # Yes. At least one child under six lives in the apartment.
+    LIVES_HERE = 'lives here'
+    # Yes. At least one child under six (who does not live in the apartment) spends more than 10
+    # hours a week in the apartment.
+    SPENDS_TIME = 'spends time'
+    # No.
+    NO = 'no'
+
+
 class TenantRepairsAllegationsMC(Enum):
     # I filed a complaint with HPD. HPD issued a Notice of Violation. More than 30 days have passed
     # since then. The landlord has not fixed the problem
@@ -209,6 +219,11 @@ class TenantRepairsAllegationsMC(Enum):
     # I filed a complaint with HPD. More than 30 days have passed since then. HPD has not issued a
     # Notice of Violation.
     NO_NOTICE_ISSUED = 'No notice issued'
+    # In accordance with the Directive of the Department of Housing Preservation and Development of
+    # February 11, 1977, and because the above listed conditions constitute an emergency or a danger
+    # to the life, health and safety of the tenant(s), I request that prior notification to the
+    # Department of Housing Preservation and Development be waived.
+    WAIVE = 'Waive'
 
 
 class AreaComplainedOfMC(Enum):
@@ -404,6 +419,10 @@ class HPActionVariables:
     # Zip
     tenant_address_zip_te: Optional[str] = None
 
+    # If you don't know the child's birth date, you can enter an age here instead: (for example, "3
+    # weeks", "5 months", "2")
+    tenant_child_age_te: Optional[str] = None
+
     # What is the source of your income?«.i» (For example, employment, social security, pension,
     # child support, etc.  You can list more than one source.)«.ie»
     tenant_income_source_te: Optional[str] = None
@@ -426,6 +445,10 @@ class HPActionVariables:
     # List any major property that you own, like a car or a valuable item, and the value of that
     # property. (You can list several items in the same answer.)
     tenant_property_owned_te: Optional[str] = None
+
+    # What is the name of the youngest child under 6 who lives in the apartment or routinely spends
+    # more than 10 hours here?
+    tenant_youngest_child_under_6_name_te: Optional[str] = None
 
     # not asked
     inspection_request_copy_number_nu: Optional[Union[int, float, Decimal]] = None
@@ -591,6 +614,10 @@ class HPActionVariables:
     # Borough
     tenant_borough_mc: Optional[TenantBoroughMC] = None
 
+    # Does a child under six live here or routinely spend more than 10 hours a week in the apartment
+    # where the problem is?
+    tenant_children_under_six_status_mc: Optional[TenantChildrenUnderSixStatusMC] = None
+
     # Have you made a complaint to the City’s Department of Housing Preservation and Development
     # (HPD)? «.i» It is not required, but check the box if you have.)«.ie»  To find out whether HPD
     # issued a Notice of Violation, go to HPD's website: «.w
@@ -654,6 +681,8 @@ class HPActionVariables:
                        self.tenant_address_street_te)
         result.add_opt('Tenant address zip TE',
                        self.tenant_address_zip_te)
+        result.add_opt('Tenant child age TE',
+                       self.tenant_child_age_te)
         result.add_opt('Tenant income source TE',
                        self.tenant_income_source_te)
         result.add_opt('Tenant name first TE',
@@ -668,6 +697,8 @@ class HPActionVariables:
                        self.tenant_phone_work_te)
         result.add_opt('Tenant property owned TE',
                        self.tenant_property_owned_te)
+        result.add_opt('Tenant youngest child under 6 name TE',
+                       self.tenant_youngest_child_under_6_name_te)
         result.add_opt('Inspection request copy number NU',
                        self.inspection_request_copy_number_nu)
         result.add_opt('Tenant address floor NU',
@@ -780,6 +811,8 @@ class HPActionVariables:
                        enum2mc_opt(self.tenant_address_state_mc))
         result.add_opt('Tenant borough MC',
                        enum2mc_opt(self.tenant_borough_mc))
+        result.add_opt('Tenant children under six status MC',
+                       enum2mc_opt(self.tenant_children_under_six_status_mc))
         result.add_opt('Tenant repairs allegations MC',
                        enum2mc_opt(self.tenant_repairs_allegations_mc))
         if self.tenant_child_list:

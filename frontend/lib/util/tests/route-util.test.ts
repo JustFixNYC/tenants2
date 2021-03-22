@@ -1,9 +1,22 @@
-import { isModalRoute, RouteMap, createRoutesForSite } from "../route-util";
+import {
+  isModalRoute,
+  RouteMap,
+  createRoutesForSite,
+  isStaticPageRoute,
+  pathWithHash,
+} from "../route-util";
 import i18n from "../../i18n";
 
 test("isModalRoute() works", () => {
   expect(isModalRoute("/blah")).toBe(false);
   expect(isModalRoute("/blah", "/oof/flarg-modal")).toBe(true);
+});
+
+test("isStaticPageRoute() works", () => {
+  expect(isStaticPageRoute("/blah")).toBe(false);
+  expect(isStaticPageRoute("/blah.txt")).toBe(true);
+  expect(isStaticPageRoute("/blah.pdf")).toBe(true);
+  expect(isStaticPageRoute("/blah.html")).toBe(true);
 });
 
 describe("RouteMap", () => {
@@ -71,4 +84,9 @@ describe("createRoutesForSite", () => {
   it("has expected non-localized routes", () => {
     expect(Routes.blarg).toBe("/blarg");
   });
+});
+
+test("pathWithHash() works", () => {
+  expect(pathWithHash("/boop")).toBe("/boop");
+  expect(pathWithHash("/boop", "jones")).toBe("/boop#jones");
 });

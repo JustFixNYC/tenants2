@@ -1,45 +1,51 @@
-import datetime
 from typing import Optional
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.db.models.functions import Coalesce
-from django.utils import timezone
 
 from users.models import JustfixUser
-from onboarding.models import SIGNUP_INTENT_CHOICES
 from project.common_data import Choices
 from project.util import phone_number as pn
-from project.util.site_util import absolutify_url, get_site_name
 
 # https://support.twilio.com/hc/en-us/articles/223134387-What-is-a-Message-SID-
 TWILIO_SID_LENGTH = 34
 
-REMINDERS = Choices([
-    ('LOC', 'Letter of complaint reminder'),
-])
+REMINDERS = Choices(
+    [
+        ("LOC", "Letter of complaint reminder"),
+        ("NORENT_CA_2020_11", "NoRent California reminder - November 2020"),
+        ("NORENT_CA_2020_12", "NoRent California reminder - December 2020"),
+        ("NORENT_CA_2021_01", "NoRent California reminder - January 2021"),
+        ("NORENT_CA_2021_02", "NoRent California reminder - February 2021"),
+        ("NORENT_CA_2021_03", "NoRent California reminder - March 2021"),
+        ("NORENT_CA_2021_04", "NoRent California reminder - April 2021"),
+        ("NORENT_CA_2021_05", "NoRent California reminder - May 2021"),
+        ("NORENT_CA_2021_06", "NoRent California reminder - June 2021"),
+    ]
+)
 
 
 def join_words(*words: Optional[str]) -> str:
-    '''
+    """
     Join together the given words, filtering out any
     falsy values, e.g.:
 
         >>> join_words('hi', '', None, 'there')
         'hi there'
-    '''
+    """
 
-    return ' '.join(filter(None, words))
+    return " ".join(filter(None, words))
 
 
 class PhoneNumberLookupManager(models.Manager):
-    def get_or_lookup(self, phone_number: str) -> Optional['PhoneNumberLookup']:
-        '''
+    def get_or_lookup(self, phone_number: str) -> Optional["PhoneNumberLookup"]:
+        """
         Attept to retrieve the PhoneNumberLookup with the given phone number.
         If one doesn't exist, attempt to contact Twilio to validate the number
         and obtain carrier information about it.
 
         Return None if Twilio integration is disabled or a network error occured.
-        '''
+        """
 
         from .twilio import is_phone_number_valid
 
@@ -54,24 +60,37 @@ class PhoneNumberLookupManager(models.Manager):
         lookup.save()
         return lookup
 
+    def invalidate(self, phone_number: str) -> "PhoneNumberLookup":
+        """
+        Marks the given phone number as being invalid. Deals with the
+        case where a phone number that was once valid is now invalid.
+        """
+
+        lookup, created = self.get_or_create(
+            phone_number=phone_number,
+            defaults={
+                "is_valid": False,
+            },
+        )
+        if not created:
+            lookup.is_valid = False
+            lookup.carrier = None
+            lookup.save()
+        return lookup
+
 
 class PhoneNumberLookup(models.Model):
-    '''
+    """
     Information looked-up about a phone number via Twilio.
-    '''
+    """
 
-    phone_number = models.CharField(
-        unique=True,
-        **pn.get_model_field_kwargs()
-    )
+    phone_number = models.CharField(unique=True, **pn.get_model_field_kwargs())
 
     created_at = models.DateTimeField(auto_now_add=True)
 
     updated_at = models.DateTimeField(auto_now=True)
 
-    is_valid = models.BooleanField(
-        help_text='Whether Twilio thinks the phone number is valid.'
-    )
+    is_valid = models.BooleanField(help_text="Whether Twilio thinks the phone number is valid.")
 
     carrier = JSONField(
         default=None,
@@ -81,15 +100,15 @@ class PhoneNumberLookup(models.Model):
             'specified in <a href="https://www.twilio.com/docs/lookup/api#lookups-carrier-info">'
             "Twilio's carrier information documentation</a>, though the keys are in snake-case "
             "rather than camel-case. This can be None if carrier info has not been looked up."
-        )
+        ),
     )
 
     objects = PhoneNumberLookupManager()
 
     def save(self, *args, **kwargs):
-        '''
+        """
         Save the model, but first attempt to fetch carrier information if possible.
-        '''
+        """
 
         from .twilio import get_carrier_info
 
@@ -100,32 +119,32 @@ class PhoneNumberLookup(models.Model):
 
     @property
     def validity_str(self) -> str:
-        '''
+        """
         Return an adjective describing the validity of the phone number.
-        '''
+        """
 
         if self.is_valid is True:
-            return 'valid'
+            return "valid"
         elif self.is_valid is False:
-            return 'invalid'
-        return 'unknown'
+            return "invalid"
+        return "unknown"
 
     @property
     def carrier_type(self) -> str:
-        '''
+        """
         Return the carrier type of the phone number, or the empty
         string if it's not available. Valid carrier types include
         'landline', 'mobile', and 'voip'.
-        '''
+        """
 
-        ctype = self.carrier and self.carrier.get('type')
+        ctype = self.carrier and self.carrier.get("type")
         if ctype:
             return ctype
-        return ''
+        return ""
 
     @property
     def adjectives(self) -> str:
-        '''
+        """
         Return a set of adjectives describing the type, e.g.:
 
             >>> PhoneNumberLookup().adjectives
@@ -133,13 +152,13 @@ class PhoneNumberLookup(models.Model):
 
             >>> PhoneNumberLookup(is_valid=True, carrier={'type': 'mobile'}).adjectives
             'valid mobile'
-        '''
+        """
 
         return join_words(self.validity_str, self.carrier_type)
 
     @property
     def indefinite_article_with_adjectives(self) -> str:
-        '''
+        """
         Return an indefinite article with adjectives describing the type, e.g.:
 
             >>> PhoneNumberLookup().indefinite_article_with_adjectives
@@ -147,14 +166,14 @@ class PhoneNumberLookup(models.Model):
 
             >>> PhoneNumberLookup(is_valid=True).indefinite_article_with_adjectives
             'a valid'
-        '''
+        """
 
         adjs = self.adjectives
-        article = 'an' if adjs[0] in 'aeiou' else 'a'
-        return f'{article} {adjs}'
+        article = "an" if adjs[0] in "aeiou" else "a"
+        return f"{article} {adjs}"
 
     def __str__(self) -> str:
-        '''
+        """
         Return a description of the lookup, e.g.:
 
             >>> str(PhoneNumberLookup())
@@ -162,78 +181,39 @@ class PhoneNumberLookup(models.Model):
 
             >>> str(PhoneNumberLookup(is_valid=True, phone_number='5551234567'))
             'valid phone number 5551234567'
-        '''
+        """
 
-        return join_words(self.adjectives, 'phone number', self.phone_number)
+        return join_words(self.adjectives, "phone number", self.phone_number)
 
 
 class Reminder(models.Model):
-    '''
+    """
     This model represents a reminder sent to users.
-    '''
+    """
 
     kind = models.TextField(
-        max_length=30, choices=REMINDERS.choices,
-        help_text="The type of reminder sent."
+        max_length=30, choices=REMINDERS.choices, help_text="The type of reminder sent."
     )
 
-    sent_at = models.DateField(
-        help_text="When the reminder was sent."
-    )
+    sent_at = models.DateField(help_text="When the reminder was sent.")
 
     user = models.ForeignKey(
-        JustfixUser, on_delete=models.CASCADE, related_name='reminders',
-        help_text="The user the reminder was sent to."
+        JustfixUser,
+        on_delete=models.CASCADE,
+        related_name="reminders",
+        help_text="The user the reminder was sent to.",
     )
 
     sid = models.CharField(
-        max_length=TWILIO_SID_LENGTH,
-        help_text="The Twilio Message SID for the reminder."
+        max_length=TWILIO_SID_LENGTH, help_text="The Twilio Message SID for the reminder."
     )
-
-
-# After these many days have passed since the user
-# signed up, we will send them a reminder, unless they
-# have completed the LoC process.
-DAYS_UNTIL_LOC_REMINDER = 3
 
 
 def exclude_users_with_invalid_phone_numbers(user_queryset):
-    lookup = PhoneNumberLookup.objects.filter(
-        phone_number=models.OuterRef('phone_number'))
+    lookup = PhoneNumberLookup.objects.filter(phone_number=models.OuterRef("phone_number"))
     return user_queryset.annotate(
-        is_phone_number_valid=Coalesce(models.Subquery(lookup.values('is_valid')), True)
+        is_phone_number_valid=Coalesce(models.Subquery(lookup.values("is_valid")), True)
     ).exclude(is_phone_number_valid=False)
-
-
-def get_users_to_remind_about_loc():
-    days_ago = timezone.now() - datetime.timedelta(days=DAYS_UNTIL_LOC_REMINDER)
-    users = JustfixUser.objects.filter(
-        date_joined__lte=days_ago,
-        onboarding_info__can_we_sms=True,
-        onboarding_info__signup_intent=SIGNUP_INTENT_CHOICES.LOC,
-        letter_request__isnull=True,
-    ).exclude(
-        reminders__kind=REMINDERS.LOC
-    )
-    return exclude_users_with_invalid_phone_numbers(users)
-
-
-def remind_user_about_loc(user):
-    url = absolutify_url('/')
-    sid = user.send_sms(
-        f'Hey {user.first_name}! '
-        f'Don\'t forget that you can use {get_site_name()} to address '
-        f'repair issues in your apartment. '
-        f'Follow this link to continue: {url}'
-    )
-    if sid:
-        Reminder(
-            kind=REMINDERS.LOC,
-            sent_at=timezone.now(),
-            user=user,
-            sid=sid
-        ).save()
 
 
 def get_lookup_description_for_phone_number(phone_number: str) -> str:

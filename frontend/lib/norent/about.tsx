@@ -1,7 +1,7 @@
 import React from "react";
 import Page from "../ui/page";
-import { OutboundLink } from "../analytics/google-analytics";
-import { getImageSrc, JumpArrow } from "./homepage";
+import { OutboundLink } from "../ui/outbound-link";
+import { getNorentImageSrc, JumpArrow } from "./homepage";
 import { StaticImage } from "../ui/static-image";
 import { JustfixLogo } from "./components/logo";
 import { li18n } from "../i18n-lingui";
@@ -60,7 +60,7 @@ export const PartnerLogos = () => (
         >
           <StaticImage
             ratio="is-128x128"
-            src={getImageSrc(partnerDetails.srcName, "png")}
+            src={getNorentImageSrc(partnerDetails.srcName, "png")}
             alt={partnerDetails.name}
           />
         </OutboundLink>

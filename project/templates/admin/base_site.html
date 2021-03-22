@@ -14,8 +14,12 @@
 {% endblock %}
 
 {% block userlinks %}
+{% if perms.texting_history.view_message %}
 <a href="/admin/conversations/">Conversations</a> /
+{% endif %}
+{% if perms.users.change_justfixuser %}
 <a href="{% url 'admin:dashboard' %}">Dashboard</a> /
+{% endif %}
 <a href="{% url 'admin:download-data-index' %}">Download data</a> /
 {{ block.super }}
 {% endblock %}

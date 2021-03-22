@@ -1,0 +1,32 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">
+{% endblock %}
+
+{% block content %}
+{% if noreject_reason %}
+<p>The letter of complaint cannot be rejected because {{ noreject_reason }}.</p>
+{% else %}
+<p>
+  Below is the user's letter of complaint for your perusal.
+</p>
+<embed src="{{ pdf_url }}" style="width: 100%" height="600" type="application/pdf">
+<p>
+  If you're certain this request needs to be rejected, you can use the form below.
+</p>
+<p>
+  Note that <strong>submitting this form will not contact the user</strong>. You are
+  responsible for emailing/texting them and letting them know that their letter
+  request has been rejected, and what they must do to resolve the situation.
+</p>
+<form action="." method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <div class="submit-row">
+    <input type="submit" class="default" value="Reject letter">
+  </div>
+</form>
+{% endif %}
+{% endblock %}

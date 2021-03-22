@@ -7,7 +7,7 @@ import {
 } from "../app-context";
 import { AllSessionInfo, BlankAllSessionInfo } from "../queries/AllSessionInfo";
 import { FormError, strToFormError } from "../forms/form-errors";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes from "../justfix-route-info";
 import { Route } from "react-router-dom";
 
 interface TestClient {
@@ -69,10 +69,13 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   wowOrigin: "https://wow.test",
   efnycOrigin: "https://efnyc.test",
   enableSafeModeURL: "/mysafemode/enable",
+  previewHardshipDeclarationURL: "/preview-declaration.pdf",
+  submittedHardshipDeclarationURL: "/submitted-declaration.pdf",
   mapboxAccessToken: "",
-  enabledLocales: ["en"],
+  enabledLocales: ["en", "es"],
   enableWipLocales: false,
   facebookAppId: "",
+  nycGeoSearchOrigin: "https://myfunky.geosearch.nyc",
 };
 
 export const FakeSessionInfo: Readonly<AllSessionInfo> = BlankAllSessionInfo;

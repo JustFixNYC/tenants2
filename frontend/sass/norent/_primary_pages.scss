@@ -165,35 +165,3 @@ $norent-sticky-menu-height: 100px;
     }
   }
 }
-
-.jf-accordion-item {
-  // Have border extend beyond element boundary
-  padding-left: 1rem;
-  padding-right: 1rem;
-  margin-left: -1rem;
-  margin-right: -1rem;
-
-  details {
-    p,
-    summary {
-      // Have border extend beyond element boundary for a better looking focus border
-      padding: 1rem;
-      margin: 0 -1rem;
-    }
-    summary {
-      // Make question box feel clickable to user
-      cursor: pointer;
-      // Remove default marker
-      list-style-type: none;
-      &::-webkit-details-marker {
-        display: none;
-      }
-      &:focus {
-        @include outline-focus();
-      }
-      .media .media-right {
-        margin-top: 0.15rem;
-      }
-    }
-  }
-}

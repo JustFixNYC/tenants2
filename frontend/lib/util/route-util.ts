@@ -21,6 +21,18 @@ export function isModalRoute(...paths: string[]): boolean {
   return false;
 }
 
+/**
+ * Returns whether the route represents a static page.
+ * For more details, see the `<StaticPage>` component.
+ */
+export function isStaticPageRoute(path: string): boolean {
+  return /\.(txt|html|pdf)$/.test(path);
+}
+
+/**
+ * Returns if the route has parameters. For example, in `/article/:id`,
+ * `id` is a parameter.
+ */
 export function isParameterizedRoute(path: string): boolean {
   return path.indexOf(":") !== -1;
 }
@@ -165,4 +177,13 @@ export function createRoutesForSite<LocalizedRoutes, NonLocalizedRoutes>(
   });
 
   return baseRoutes;
+}
+
+/**
+ * Appends the given hash ID, if any, to the given pathname. Note that
+ * the hash ID should not start with `#`.
+ */
+export function pathWithHash(pathname: string, hashId?: string): string {
+  if (!hashId) return pathname;
+  return `${pathname}#${hashId}`;
 }

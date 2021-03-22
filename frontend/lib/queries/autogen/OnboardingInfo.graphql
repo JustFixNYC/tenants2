@@ -10,10 +10,14 @@ fragment OnboardingInfo on OnboardingInfoType {
   hasCalled311,
   agreedToJustfixTerms,
   agreedToNorentTerms,
+  agreedToEvictionfreeTerms,
   canReceiveRttcComms,
   canReceiveSajeComms,
   borough,
   leaseType,
   state,
-  city
+  city,
+  isInLosAngeles,
+  fullMailingAddress,
+  county
 }

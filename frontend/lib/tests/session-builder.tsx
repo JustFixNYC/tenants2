@@ -20,6 +20,10 @@ import {
   HPActionDetails,
   BlankHPActionDetails,
 } from "../queries/HPActionDetails";
+import {
+  BlankHardshipDeclarationDetails,
+  HardshipDeclarationDetails,
+} from "../queries/HardshipDeclarationDetails";
 
 /**
  * An attempt to encapsulate the creation of a GraphQL session object
@@ -91,7 +95,15 @@ export class SessionBuilder {
       city: "Brooklyn",
       state: "NY",
       zipcode: "11201",
+      fullMailingAddress: "150 Court St\nBrooklyn, NY 11201",
       agreedToJustfixTerms: true,
+    });
+  }
+
+  withLoggedInEvictionFreeUser(): SessionBuilder {
+    return this.withLoggedInJustfixUser().withOnboardingInfo({
+      agreedToJustfixTerms: false,
+      agreedToEvictionfreeTerms: true,
     });
   }
 
@@ -129,12 +141,85 @@ export class SessionBuilder {
   }
 
   withLoggedInNationalUser(): SessionBuilder {
+    return this.withLoggedInLosAngelesUser();
+  }
+
+  withLoggedInLosAngelesUser(): SessionBuilder {
     return this.withLoggedInUser().withOnboardingInfo({
       address: "152 W. 32nd St",
       city: "Los Angeles",
       state: "CA",
       zipcode: "90007",
+      canReceiveRttcComms: true,
       agreedToNorentTerms: true,
+      canReceiveSajeComms: true,
+      isInLosAngeles: true,
+    });
+  }
+
+  withLoggedInSanFranciscoUser(): SessionBuilder {
+    return this.withLoggedInUser().withOnboardingInfo({
+      address: "1 Dr Carlton B Goodlett Pl",
+      city: "San Francisco",
+      state: "CA",
+      zipcode: "94102",
+      canReceiveRttcComms: true,
+      agreedToNorentTerms: true,
+      isInLosAngeles: false,
+    });
+  }
+
+  withLoggedInNewJerseyUser(): SessionBuilder {
+    return this.withLoggedInUser().withOnboardingInfo({
+      address: "319 E State St",
+      city: "Trenton",
+      state: "NJ",
+      zipcode: "08608",
+      canReceiveRttcComms: true,
+      agreedToNorentTerms: true,
+    });
+  }
+
+  withMailedNorentLetter(): SessionBuilder {
+    return this.with({
+      norentLatestLetter: {
+        trackingNumber: "1234",
+        letterSentAt: "2020-03-13T19:41:09+00:00",
+        createdAt: "2020-03-13T19:41:09+00:00",
+      },
+    });
+  }
+
+  withHardshipDeclarationDetails(
+    hdd: Partial<HardshipDeclarationDetails> = {}
+  ): SessionBuilder {
+    return this.with({
+      hardshipDeclarationDetails: {
+        ...(this.value.hardshipDeclarationDetails ??
+          BlankHardshipDeclarationDetails),
+        ...hdd,
+      },
+    });
+  }
+
+  withSubmittedHardshipDeclaration(): SessionBuilder {
+    return this.with({
+      submittedHardshipDeclaration: {
+        createdAt: "2021-01-27",
+        mailedAt: "2021-01-27",
+        emailedAt: "2021-01-27",
+        emailedToHousingCourtAt: "2021-01-27",
+        emailedToUserAt: "2021-01-27",
+        trackingNumber: "12345",
+      },
+    });
+  }
+
+  withAvailableNoRentPeriods(
+    dates: GraphQLDate[] = ["2020-05-01"]
+  ): SessionBuilder {
+    return this.with({
+      norentAvailableRentPeriods: dates.map((paymentDate) => ({ paymentDate })),
     });
   }
 

@@ -1,7 +1,6 @@
 import factory
 
-from onboarding.models import (
-    OnboardingInfo, LEASE_CHOICES, BOROUGH_CHOICES, SIGNUP_INTENT_CHOICES)
+from onboarding.models import OnboardingInfo, LEASE_CHOICES, BOROUGH_CHOICES, SIGNUP_INTENT_CHOICES
 from users.tests.factories import UserFactory
 
 
@@ -11,7 +10,7 @@ class OnboardingInfoFactory(factory.django.DjangoModelFactory):
 
     user = factory.SubFactory(UserFactory)
 
-    address = '150 court street'
+    address = "150 court street"
 
     address_verified = True
 
@@ -19,7 +18,7 @@ class OnboardingInfoFactory(factory.django.DjangoModelFactory):
 
     state = "NY"
 
-    apt_number = '2'
+    apt_number = "2"
 
     is_in_eviction = False
 
@@ -40,3 +39,18 @@ class OnboardingInfoFactory(factory.django.DjangoModelFactory):
     signup_intent = SIGNUP_INTENT_CHOICES.LOC
 
     agreed_to_justfix_terms = True
+
+    @classmethod
+    def set_geocoded_point(cls, model: OnboardingInfo, x: float, y: float):
+        model.geometry = {"type": "Point", "coordinates": [x, y]}
+        model.update_geocoded_point_from_geometry()
+
+
+class NationalOnboardingInfoFactory(OnboardingInfoFactory):
+    address = "200 N Spring St"
+
+    state = "CA"
+
+    borough = ""
+
+    non_nyc_city = "Los Angeles"

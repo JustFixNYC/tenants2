@@ -116,3 +116,10 @@ export function writeFileIfChangedSync(
 export function combineGlobs(globs: string[]): string {
   return globs.length === 1 ? globs[0] : `{${globs.join(",")}}`;
 }
+
+/**
+ * Return whether the given path is a non-empty file.
+ */
+export function isNonEmptyFileSync(path: string): boolean {
+  return fs.statSync(path).size > 0;
+}

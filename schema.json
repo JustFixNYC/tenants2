@@ -5310,7 +5310,7 @@
                 }
               ],
               "deprecationReason": null,
-              "description": null,
+              "description": "\nSends the currently logged-in user an email with a link\nto follow; when they follow the link, their account will be marked\nas having a verified email address.\n\nNote that this endpoint requires the user's email address. If\nthe one provided is different from the one they currently have\nset, it will be changed, and their account will be marked as\nhaving an unverified email address (until they click on the\nlink that has been sent to them, of course).\n",
               "isDeprecated": false,
               "name": "sendVerificationEmail",
               "type": {
@@ -5434,7 +5434,7 @@
                 }
               ],
               "deprecationReason": null,
-              "description": null,
+              "description": "\nReturn information about whether a phone number is associated with\nan account. If the account has no password set, this mutation will\nautomatically send it a verification code, allowing its user to\nset their password.\n\nNote that the phone number provided will be stored in the request\nsession so it can later be reused if the user decides to sign up.\nThis means that any subsequent pages that use this mutation will\nneed to provide the user with the ability to clear their session\ndata (usually provided via a \"cancel\" button).\n",
               "isDeprecated": false,
               "name": "queryOrVerifyPhoneNumber",
               "type": {
@@ -5527,7 +5527,7 @@
                 }
               ],
               "deprecationReason": null,
-              "description": null,
+              "description": "\nUsed when the user verifies the verification code sent to them over SMS.\n",
               "isDeprecated": false,
               "name": "passwordResetVerificationCode",
               "type": {
@@ -5558,7 +5558,7 @@
                 }
               ],
               "deprecationReason": null,
-              "description": null,
+              "description": "\nUsed when the user requests their password be reset.\n",
               "isDeprecated": false,
               "name": "passwordReset",
               "type": {
@@ -5589,7 +5589,7 @@
                 }
               ],
               "deprecationReason": null,
-              "description": null,
+              "description": "\nUsed when the user completes the password reset process\nby providing a new password.\n",
               "isDeprecated": false,
               "name": "passwordResetConfirm",
               "type": {
@@ -5620,7 +5620,7 @@
                 }
               ],
               "deprecationReason": null,
-              "description": null,
+              "description": "\nLike PasswordResetConfirm, but also logs the user in.\n",
               "isDeprecated": false,
               "name": "passwordResetConfirmAndLogin",
               "type": {
@@ -5837,7 +5837,7 @@
                 }
               ],
               "deprecationReason": null,
-              "description": null,
+              "description": "\nSend the user's no rent letter, setting the letter's rent periods\nto the upcoming ones that the user has previously chosen.\n",
               "isDeprecated": false,
               "name": "norentSendLetterV2",
               "type": {
@@ -6147,7 +6147,7 @@
                 }
               ],
               "deprecationReason": null,
-              "description": null,
+              "description": "\nLogs out the user. Clients should pay attention to the\nCSRF token, because apparently this changes on logout too.\n",
               "isDeprecated": false,
               "name": "logout",
               "type": {
@@ -6178,7 +6178,7 @@
                 }
               ],
               "deprecationReason": null,
-              "description": null,
+              "description": "\nA mutation to log in the user. Returns whether or not the login was successful\n(if it wasn't, it's because the credentials were invalid). It also returns\na new CSRF token, because as the Django docs state, \"For security reasons,\nCSRF tokens are rotated each time a user logs in\":\n\n    https://docs.djangoproject.com/en/2.1/ref/csrf/\n",
               "isDeprecated": false,
               "name": "login",
               "type": {
@@ -6921,9 +6921,9 @@
                   }
                 }
               ],
-              "deprecationReason": null,
+              "deprecationReason": "Use EvictionFreeIndexNumberV2 instead.",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "evictionFreeIndexNumber",
               "type": {
                 "kind": "NON_NULL",

@@ -392,3 +392,33 @@ class TestNycAddress(GraphQLTestingPal):
         assert self.execute() == self._expected_default_output
         assert oi.non_nyc_city == ""
         assert oi.state == "NY"
+
+
+class TestPublicAssistance(GraphQLTestingPal):
+    QUERY = """
+    mutation PublicAssistanceMutation($input: PublicAssistanceInput!) {
+        output: publicAssistance(input: $input) {
+            errors { field, messages },
+            session { onboardingInfo {
+                receivesPublicAssistance,
+            } }
+        }
+    }
+    """
+
+    DEFAULT_INPUT = {
+        "receivesPublicAssistance": "True",
+    }
+
+    def test_it_raises_err_when_not_logged_in(self):
+        self.assert_one_field_err("You do not have permission to use this form!")
+
+    def test_it_works(self):
+        oi = OnboardingInfoFactory(receives_public_assistance=False)
+        self.set_user(oi.user)
+        assert self.execute() == {
+            "errors": [],
+            "session": {"onboardingInfo": {"receivesPublicAssistance": True}},
+        }
+        oi.refresh_from_db()
+        assert oi.receives_public_assistance is True

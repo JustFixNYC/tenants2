@@ -139,6 +139,16 @@ class ReliefAttemptsForm(forms.ModelForm):
     )
 
 
+class PublicAssistanceForm(forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ("receives_public_assistance",)
+
+    receives_public_assistance = YesNoRadiosField(
+        help_text=OnboardingInfo._meta.get_field("receives_public_assistance").help_text
+    )
+
+
 class BaseOnboardingStep4Form(forms.Form):
     phone_number = USPhoneNumberField()
 

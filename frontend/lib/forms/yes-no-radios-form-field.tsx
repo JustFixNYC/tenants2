@@ -1,5 +1,5 @@
 import React from "react";
-import { BaseFormFieldProps, RadiosFormField } from "./form-fields";
+import { RadiosFormField, RadiosFormFieldProps } from "./form-fields";
 import { ReactDjangoChoices } from "../common-data";
 import { li18n } from "../i18n-lingui";
 import { t } from "@lingui/macro";
@@ -61,11 +61,8 @@ type ChoiceOptions = {
   noLabel?: string;
 };
 
-export interface YesNoRadiosFormFieldProps
-  extends BaseFormFieldProps<string>,
-    ChoiceOptions {
-  label: string;
-}
+export type YesNoRadiosFormFieldProps = Omit<RadiosFormFieldProps, "choices"> &
+  ChoiceOptions;
 
 export function getYesNoChoices(options: ChoiceOptions): ReactDjangoChoices {
   let [yesChoice, noChoice] = [YES_NO_RADIOS_TRUE, YES_NO_RADIOS_FALSE];

@@ -61,7 +61,9 @@ const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
             <>
               <YesNoRadiosFormField
                 {...ctx.fieldPropsFor("receivesPublicAssistance")}
-                label=""
+                autoFocus
+                hideVisibleLabel
+                label="Do you receive a housing voucher (Section 8, FEPS, Link, HASA, other)?"
               />
               <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>

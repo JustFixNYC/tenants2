@@ -91,14 +91,23 @@ export const AutofocusedInput: React.FC<InputProps> = (props) => {
   return <input ref={ref} {...props} />;
 };
 
+export type RadiosFormFieldProps = ChoiceFormFieldProps & {
+  /**
+   * Hide the label for sighted users. This can be used in situations
+   * where e.g. the question is contained in the surrounding content,
+   * and does not need to be repeated.
+   */
+  hideVisibleLabel?: boolean;
+};
+
 /** A JSX component that encapsulates a set of radio buttons. */
-export function RadiosFormField(props: ChoiceFormFieldProps): JSX.Element {
+export function RadiosFormField(props: RadiosFormFieldProps): JSX.Element {
   let { ariaLabel, errorHelp } = formatErrors(props);
   const idFor = (choice: string) => `${props.id}_${choice}`;
 
   return (
     <div className="field" role="group" aria-label={ariaLabel}>
-      {props.label && (
+      {!props.hideVisibleLabel && (
         <label className="label" aria-hidden="true">
           {props.label}
         </label>

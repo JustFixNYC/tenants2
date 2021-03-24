@@ -112,6 +112,11 @@
         if (window.ga) {
           window.ga("send", "event", "safe-mode", "hide");
         }
+        if (window.amplitude) {
+          window.amplitude
+            .getInstance()
+            .logEvent("Hide compatibility mode opt-in");
+        }
       };
     }
   }
@@ -133,6 +138,12 @@
 
         if (window.ga) {
           window.ga("send", "event", "safe-mode", "show");
+        }
+
+        if (window.amplitude) {
+          window.amplitude
+            .getInstance()
+            .logEvent("Show compatibility mode opt-in");
         }
 
         setupUICloseButton(el);

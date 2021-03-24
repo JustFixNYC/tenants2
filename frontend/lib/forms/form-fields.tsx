@@ -98,9 +98,11 @@ export function RadiosFormField(props: ChoiceFormFieldProps): JSX.Element {
 
   return (
     <div className="field" role="group" aria-label={ariaLabel}>
-      <label className="label" aria-hidden="true">
-        {props.label}
-      </label>
+      {props.label && (
+        <label className="label" aria-hidden="true">
+          {props.label}
+        </label>
+      )}
       <div className="control">
         {props.choices.map(([choice, label], i) => (
           <label

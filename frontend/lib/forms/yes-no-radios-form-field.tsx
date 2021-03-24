@@ -24,6 +24,28 @@ export function isYesNoChoice(value: string): value is YesNoChoice {
   return value === YES_NO_RADIOS_TRUE || value === YES_NO_RADIOS_FALSE;
 }
 
+/**
+ * Converts a boolean true/false to the localized string "Yes" or "No".
+ *
+ * If passed null, returns an empty string.
+ */
+export function optionalBooleanToYesNoLabel(value: boolean | null): string {
+  if (value === null) return "";
+  return value ? li18n._(t`Yes`) : li18n._(t`No`);
+}
+
+/**
+ * Converts a boolean true/false to a yes/no radio choice (specific to Django).
+ *
+ * If passed null, returns an empty string.
+ */
+export function optionalBooleanToYesNoChoice(
+  value: boolean | null
+): YesNoChoice | "" {
+  if (value === null) return "";
+  return value ? YES_NO_RADIOS_TRUE : YES_NO_RADIOS_FALSE;
+}
+
 type ChoiceOptions = {
   /**
    * Whether to make "yes" mean "no" and vice versa. Useful if the negation of a

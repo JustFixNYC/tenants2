@@ -162,3 +162,5 @@ sessionFields = ["onboardingInfo"]
 [mutations.nycAddress]
 
 [mutations.unimpersonate]
+
+[mutations.publicAssistance]

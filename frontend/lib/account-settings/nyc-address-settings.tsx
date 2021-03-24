@@ -12,8 +12,14 @@ import { AddressAndBoroughField } from "../forms/address-and-borough-form-field"
 import { AptNumberFormFields } from "../forms/apt-number-form-fields";
 import { RadiosFormField } from "../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
+import {
+  optionalBooleanToYesNoChoice,
+  optionalBooleanToYesNoLabel,
+  YesNoRadiosFormField,
+} from "../forms/yes-no-radios-form-field";
 import { LeaseTypeMutation } from "../queries/LeaseTypeMutation";
 import { NycAddressMutation } from "../queries/NycAddressMutation";
+import { PublicAssistanceMutation } from "../queries/PublicAssistanceMutation";
 import {
   redirectToAddressConfirmationOrNextStep,
   ConfirmAddressModal,
@@ -22,6 +28,49 @@ import {
 import { EditableInfo, SaveCancelButtons } from "../ui/editable-info";
 import { assertNotNull } from "../util/util";
 import { makeAccountSettingsSection, WithAccountSettingsProps } from "./util";
+
+const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
+  routes,
+}) => {
+  const sec = makeAccountSettingsSection(
+    routes,
+    "Housing voucher?",
+    "public-assistance"
+  );
+  const { session } = useContext(AppContext);
+  const value = session.onboardingInfo?.receivesPublicAssistance ?? null;
+  const valueLabel = optionalBooleanToYesNoLabel(value);
+
+  return (
+    <>
+      {sec.heading}
+      <p>For example, section 8, FEPS, Link, HASA, etc.</p>
+      <EditableInfo
+        {...sec}
+        readonlyContent={valueLabel}
+        path={routes.publicAssistance}
+      >
+        <SessionUpdatingFormSubmitter
+          mutation={PublicAssistanceMutation}
+          onSuccessRedirect={sec.homeLink}
+          initialState={{
+            receivesPublicAssistance: optionalBooleanToYesNoChoice(value),
+          }}
+        >
+          {(ctx) => (
+            <>
+              <YesNoRadiosFormField
+                {...ctx.fieldPropsFor("receivesPublicAssistance")}
+                label=""
+              />
+              <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
+            </>
+          )}
+        </SessionUpdatingFormSubmitter>
+      </EditableInfo>
+    </>
+  );
+};
 
 const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   const sec = makeAccountSettingsSection(routes, "Lease type", "lease");
@@ -134,6 +183,7 @@ export const NycAddressAccountSettings: React.FC<WithAccountSettingsProps> = (
       <h2>Address</h2>
       <NycAddressField {...props} />
       <LeaseTypeField {...props} />
+      <PublicAssistanceField {...props} />
     </>
   );
 };

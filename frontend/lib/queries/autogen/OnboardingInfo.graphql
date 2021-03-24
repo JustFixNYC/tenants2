@@ -8,6 +8,7 @@ fragment OnboardingInfo on OnboardingInfoType {
   aptNumber,
   floorNumber,
   hasCalled311,
+  receivesPublicAssistance,
   agreedToJustfixTerms,
   agreedToNorentTerms,
   agreedToEvictionfreeTerms,

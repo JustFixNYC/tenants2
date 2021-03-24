@@ -32,6 +32,10 @@ class LoggedEvent(models.Model):
 
     user = models.ForeignKey(JustfixUser, on_delete=models.CASCADE, null=True, blank=True)
 
-    kind = models.CharField(max_length=50, choices=LOGGED_EVENT_CHOICES.choices)
+    kind = models.CharField(max_length=50, choices=CHOICES.choices)
 
     objects = LoggedEventManager()
+
+    @property
+    def kind_label(self) -> str:
+        return LoggedEvent.CHOICES.get_label(self.kind)

@@ -24,3 +24,7 @@ class TestLoggedEvent:
         assert le.pk
         assert le.user.username == "boop"
         assert le.kind == "SAFE_MODE_ENABLE"
+
+    def test_kind_works(self):
+        le = LoggedEvent(kind=LoggedEvent.CHOICES.SAFE_MODE_ENABLE)
+        assert le.kind_label == "Enable compatibility mode"

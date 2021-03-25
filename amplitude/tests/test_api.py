@@ -115,3 +115,27 @@ class TestAmpEventUploader:
             "user_properties": {"userprop": 15},
             "event_properties": {"eventprop": "1970-01-02T00:00:00+00:00"},
         }
+
+    def test_it_works_with_anonymous_events(self, requests_mock):
+        mock = requests_mock.post(AMP_BATCH_URL)
+
+        with AmpEventUploader("myapikey", dry_run=False) as uploader:
+            event = AmpEvent(
+                None,
+                "myevent",
+                EPOCH,
+                device_id="boopy",
+            )
+            uploader.queue(event)
+
+        assert mock.call_count == 1
+        payload = mock.last_request.json()
+        assert len(payload["events"]) == 1
+        assert payload["events"][0] == {
+            "event_type": "myevent",
+            "insert_id": "user_boopy_myevent",
+            "time": 0,
+            "device_id": "boopy",
+            "user_properties": {},
+            "event_properties": {},
+        }

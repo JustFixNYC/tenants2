@@ -25,7 +25,7 @@ import { getEmergencyHPAIssueLabels } from "../hpaction/emergency/emergency-hp-a
 import { Trans, t, Plural } from "@lingui/macro";
 import { EnglishOutboundLink } from "../ui/localized-outbound-link";
 import { li18n } from "../i18n-lingui";
-import { efnycURL } from "../ui/efnyc-link";
+import { evictionfreeURL } from "../ui/evictionfree-link";
 import { fbq } from "../analytics/facebook-pixel";
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
@@ -36,7 +36,7 @@ const PLACEHOLDER_IMG = "frontend/img/96x96.png";
 
 const MAX_RECOMMENDED_ACTIONS = 3;
 
-const EFNYC_PRIORITY = 100;
+const EVICTIONFREE_PRIORITY = 100;
 const VIOLATIONS_PRIORITY = 50;
 const VIOLATIONS_HIGH_PRIORITY = 50;
 const COMPLAINTS_PRIORITY = 40;
@@ -512,22 +512,22 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
   },
   function evictionFreeNy(data): ActionCardProps {
     const covidMessage = (
-      <Trans id="justfix.ddoEfnycCovidMessage">
+      <Trans id="justfix.ddoEvictionfreeCovidMessage">
         You can send a hardship declaration form to your landlord and local
         courts— putting your eviction case on hold until May 1st, 2021.
       </Trans>
     );
     return {
       title: li18n._(t`Protect yourself from eviction`),
-      priority: EFNYC_PRIORITY,
+      priority: EVICTIONFREE_PRIORITY,
       isRecommended:
         data.isRtcEligible && (data.numberOfEvictionsFromPortfolio || 0) > 0,
       indicators: [covidMessage],
       fallbackMessage: covidMessage,
       imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
-        to: efnycURL(),
-        gaLabel: "efnyc",
+        to: evictionfreeURL(),
+        gaLabel: "evictionfree",
         text: li18n._(t`Learn more`),
       },
     };

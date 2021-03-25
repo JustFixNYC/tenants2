@@ -2775,7 +2775,7 @@ msgid "justfix.commonWarningAboutChangingLandlordDetails"
 msgstr "If you receive rent-related documents from a different address, or if your landlord has instructed you to use a different address for correspondence, you can <0>provide your own details.</0> But, only use a different address if you are absolutely sure it is correct— it is safer to use the official address your landlord provided to the city."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
-msgid "justfix.ddoEfnycCovidMessage"
+msgid "justfix.ddoEvictionfreeCovidMessage"
 msgstr "You can send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:274

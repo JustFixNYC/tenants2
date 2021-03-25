@@ -119,7 +119,7 @@ export interface AppServerInfo {
   /**
    * The base url for outbound links to Eviction Free NYC.
    */
-  efnycOrigin: string;
+  evictionfreeOrigin: string;
 
   /**
    * Whether the site is in development mode (corresponds to settings.DEBUG in

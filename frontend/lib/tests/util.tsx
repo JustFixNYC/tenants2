@@ -67,7 +67,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   isDemoDeployment: true,
   finishedLocPdfURL: "/my-finished-letter.pdf",
   wowOrigin: "https://wow.test",
-  efnycOrigin: "https://efnyc.test",
+  evictionfreeOrigin: "https://evictionfree.test",
   enableSafeModeURL: "/mysafemode/enable",
   previewHardshipDeclarationURL: "/preview-declaration.pdf",
   submittedHardshipDeclarationURL: "/submitted-declaration.pdf",

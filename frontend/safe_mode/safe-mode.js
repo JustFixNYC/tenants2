@@ -62,18 +62,32 @@
   var showUiTimeout = null;
 
   /**
+   * Whether `SafeMode.appIsReady()` was not called within
+   * a reasonable amount of time.
+   *
+   * @type {boolean}
+   */
+  var appReadyTimeoutExceeded = false;
+
+  /**
    * If the app doesn't tell us it's ready within a certain
-   * amount of time, we will throw an error (thereby triggering
-   * the display of safe mode) as a fail-safe.
+   * amount of time, we will trigger the display of safe mode
+   * as a fail-safe.
    *
    * @type {number}
    */
   var appReadyTimeout = window.setTimeout(function () {
-    throw new Error(
+    // Note that we're not throwing an exception here; that might trigger
+    // error reporting services like Rollbar, and we don't want to
+    // eat up our reporting quota with this low-information event.
+    var message =
       "SafeMode.appIsReady() was not called within " +
-        APP_READY_TIMEOUT_MS +
-        " ms."
-    );
+      APP_READY_TIMEOUT_MS +
+      " ms.";
+    appReadyTimeoutExceeded = true;
+    errors.push(message);
+    scheduleShowUICheck();
+    console.log(message);
   }, APP_READY_TIMEOUT_MS);
 
   /**
@@ -112,6 +126,11 @@
         if (window.ga) {
           window.ga("send", "event", "safe-mode", "hide");
         }
+        if (window.amplitude) {
+          window.amplitude
+            .getInstance()
+            .logEvent("Hide compatibility mode opt-in");
+        }
       };
     }
   }
@@ -133,6 +152,14 @@
 
         if (window.ga) {
           window.ga("send", "event", "safe-mode", "show");
+        }
+
+        if (window.amplitude) {
+          window.amplitude
+            .getInstance()
+            .logEvent("Show compatibility mode opt-in", {
+              appReadyTimeoutExceeded: appReadyTimeoutExceeded,
+            });
         }
 
         setupUICloseButton(el);

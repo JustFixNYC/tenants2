@@ -1,5 +1,6 @@
 [
   ["USERS", "Users v1 (deprecated)"],
   ["USERS_V2", "Users v2"],
-  ["EVICTIONFREE", "EvictionFreeNY.org submitted hardship declarations"]
+  ["EVICTIONFREE", "EvictionFreeNY.org submitted hardship declarations"],
+  ["AMPLITUDE", "Logged events for Amplitude"]
 ]

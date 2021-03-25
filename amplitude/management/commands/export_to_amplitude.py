@@ -99,9 +99,11 @@ class AmplitudeLoggedEventSynchronizer(Synchronizer):
         qs = LoggedEvent.objects.filter(created_at__gte=last_synced_at).select_related("user")
         for le in qs:
             yield AmpEvent(
-                user_id=le.user.id if le.user else 0,
+                user_id=le.user and le.user.id,
+                device_id=le.device_id,
                 event_type=le.kind_label,
                 time=le.created_at,
+                insert_id_suffix=str(le.id),
             )
 
 

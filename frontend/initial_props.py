@@ -50,6 +50,7 @@ def create_initial_props_for_lambda(
             "webpackPublicPathURL": webpack_public_path_url,
             "adminIndexURL": reverse("admin:index"),
             "batchGraphQLURL": reverse("batch-graphql"),
+            "nonbatchGraphQLURL": reverse("nonbatch-graphql"),
             "finishedLocPdfURL": reverse("finished_loc_pdf"),
             "enableSafeModeURL": reverse("safe_mode:enable"),
             "previewHardshipDeclarationURL": reverse("evictionfree:preview_declaration_pdf"),

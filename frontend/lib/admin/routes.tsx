@@ -4,6 +4,7 @@ import JustfixRoutes from "../justfix-route-info";
 import LoginPage from "../pages/login-page";
 import { FrontappPlugin } from "./frontapp-plugin";
 import AdminConversationsRoutes from "./admin-conversations";
+import { AdminDirectory } from "./admin-directory";
 
 const AdminRoutes: React.FC<{}> = () => (
   <Switch>
@@ -17,6 +18,11 @@ const AdminRoutes: React.FC<{}> = () => (
       path={JustfixRoutes.admin.conversations}
       exact
       component={AdminConversationsRoutes}
+    />
+    <Route
+      path={JustfixRoutes.admin.directory}
+      exact
+      component={AdminDirectory}
     />
   </Switch>
 );

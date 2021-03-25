@@ -1,6 +1,13 @@
 import History from "history";
 import { NEXT, ROUTE_PREFIX } from "../util/route-util";
 
+/**
+ * These routes are only accessible by staff.
+ *
+ * NOTE: at present every one of these routes needs to also be listed in
+ * `project/admin.py`, to ensure that the back-end delegates
+ * the rendering of the routes to the React front-end.
+ */
 export const adminRouteInfo = {
   [ROUTE_PREFIX]: "/admin",
 
@@ -14,6 +21,8 @@ export const adminRouteInfo = {
   conversations: "/admin/conversations/",
 
   frontappPlugin: "/admin/frontapp/",
+
+  directory: "/admin/directory/",
 
   /**
    * Create an admin login link that redirects the user to the given location

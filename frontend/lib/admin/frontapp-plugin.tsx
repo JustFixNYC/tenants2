@@ -1,6 +1,5 @@
-import { Route, RouteComponentProps, Switch } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import React, { useEffect, useMemo, useState } from "react";
-import JustfixRoutes from "../justfix-route-info";
 import Front, {
   ApplicationContext,
   SingleConversationContext,
@@ -119,7 +118,7 @@ const UserInfo: React.FC<RecipientProps> = (props) => {
   );
 };
 
-const FrontappPlugin: React.FC<RouteComponentProps<any>> = staffOnlyView(
+export const FrontappPlugin: React.FC<RouteComponentProps<any>> = staffOnlyView(
   (props) => {
     const [recipient, setRecipient] = useState<string>();
     const [frontContext, setFrontContext] = useState<
@@ -151,17 +150,3 @@ const FrontappPlugin: React.FC<RouteComponentProps<any>> = staffOnlyView(
     );
   }
 );
-
-const FrontappPluginRoutes: React.FC<{}> = () => {
-  return (
-    <Switch>
-      <Route
-        component={FrontappPlugin}
-        path={JustfixRoutes.adminFrontappPlugin}
-        exact
-      />
-    </Switch>
-  );
-};
-
-export default FrontappPluginRoutes;

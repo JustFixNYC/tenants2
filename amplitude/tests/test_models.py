@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AnonymousUser
 
 from users.tests.factories import UserFactory
-from frontend.models import LoggedEvent
+from amplitude.models import LoggedEvent
 
 
 class TestLoggedEvent:

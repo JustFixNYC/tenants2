@@ -4,7 +4,7 @@ from django.urls import path
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 
-from frontend.models import LoggedEvent
+from amplitude.models import LoggedEvent
 
 
 MY_DIR = Path(__file__).parent.resolve()

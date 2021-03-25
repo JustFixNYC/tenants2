@@ -8,7 +8,7 @@ from users.models import JustfixUser
 
 SYNC_CHOICES = Choices.from_file("amplitude-sync-choices.json")
 
-LOGGED_EVENT_CHOICES = Choices.from_file("frontend-logged-event-choices.json")
+LOGGED_EVENT_CHOICES = Choices.from_file("amplitude-logged-event-choices.json")
 
 
 class Sync(models.Model):

@@ -1,0 +1,5 @@
+query AdminUserSearch($query: String!) {
+    userSearch(query: $query) {
+        ...JustfixUserType
+    }
+}

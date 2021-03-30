@@ -55,7 +55,6 @@ const UserSearchHelpers: SearchAutocompleteHelpers<
   itemToString: (item) => item?.text ?? "",
   getIncompleteItem: (text) => ({ text }),
   searchResultsToItems: (results) => {
-    console.log("UMM", results);
     if (!results.data?.userSearch) {
       // TODO: Why would this ever happen?  Might want to just assert it's not nullish, or
       // raise an exception, instead of silently failing like this.
@@ -73,7 +72,7 @@ export const AdminDirectory: React.FC<{}> = () => {
       <SimpleProgressiveEnhancement>
         <SearchAutocomplete
           helpers={UserSearchHelpers}
-          label="User search query"
+          label="Search for users"
           onChange={(item) => {
             if (item.fullDetails) {
               setUserDetails(item.fullDetails);

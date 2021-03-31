@@ -254,6 +254,22 @@ def resolve_user_admin_details(
     return None
 
 
+@ensure_request_has_verified_user_with_permission
+def resolve_user_search(parent, info, query: str) -> List[JustfixUser]:
+    from users.admin import JustfixUserAdmin
+    from project.admin import JustfixAdminSite
+
+    MAX_USER_SEARCH_RESULTS = 10
+
+    if not query:
+        return []
+
+    users, has_duplicates = JustfixUserAdmin(JustfixUser, JustfixAdminSite()).get_search_results(
+        info.context, JustfixUser.objects.all(), query
+    )
+    return list(users[:MAX_USER_SEARCH_RESULTS])
+
+
 def normalize_phone_number(phone_number: str) -> str:
     """
     Given either a 10-digit phone number or a U.S. phone number in E.164 format,
@@ -293,6 +309,12 @@ class TextingHistory:
         phone_number=graphene.String(),
         email=graphene.String(),
         resolver=resolve_user_admin_details,
+    )
+
+    user_search = graphene.Field(
+        graphene.List(graphene.NonNull(JustfixUserType)),
+        query=graphene.String(required=True),
+        resolver=resolve_user_search,
     )
 
     is_verified_staff_user = graphene.Boolean(

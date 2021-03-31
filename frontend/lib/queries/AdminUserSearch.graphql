@@ -1,5 +1,5 @@
 query AdminUserSearch($query: String!) {
-    userSearch(query: $query) {
+    output: userSearch(query: $query) {
         ...JustfixUserType
     }
 }

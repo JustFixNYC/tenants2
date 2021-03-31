@@ -1,37 +1,19 @@
-import { SearchRequester } from "@justfixnyc/geosearch-requester";
 import React, { useState } from "react";
-import { getGlobalAppServerInfo } from "../app-context";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
 import {
   SearchAutocomplete,
   SearchAutocompleteHelpers,
 } from "../forms/search-autocomplete";
+import { GraphQLSearchRequester } from "../networking/graphql-search-requester";
 import {
   AdminUserSearch,
-  AdminUserSearchVariables,
-  AdminUserSearch_userSearch,
+  AdminUserSearch_output,
 } from "../queries/AdminUserSearch";
 import Page from "../ui/page";
 import { SimpleProgressiveEnhancement } from "../ui/progressive-enhancement";
 import { AdminUserInfo } from "./admin-user-info";
 
-type UserDetails = AdminUserSearch_userSearch;
-
-type RawAdminUserSearch = { data?: AdminUserSearch };
-
-class UserSearchRequester extends SearchRequester<RawAdminUserSearch> {
-  searchQueryToURL(query: string) {
-    const baseURL = getGlobalAppServerInfo().nonbatchGraphQLURL;
-    const graphQL = AdminUserSearch.graphQL;
-    const vars: AdminUserSearchVariables = {
-      query,
-    };
-
-    return `${baseURL}?query=${encodeURIComponent(
-      graphQL
-    )}&variables=${encodeURIComponent(JSON.stringify(vars))}`;
-  }
-}
+type UserDetails = AdminUserSearch_output;
 
 type UserSearchResult = {
   text: string | null;
@@ -48,19 +30,15 @@ function userDetailsToSearchResult(d: UserDetails): UserSearchResult {
 
 const UserSearchHelpers: SearchAutocompleteHelpers<
   UserSearchResult,
-  RawAdminUserSearch
+  UserDetails[]
 > = {
-  createSearchRequester: (options) => new UserSearchRequester(options),
+  createSearchRequester: (options) =>
+    new GraphQLSearchRequester({ ...options, queryInfo: AdminUserSearch }),
   itemToKey: (item) => item.text,
   itemToString: (item) => item?.text ?? "",
   getIncompleteItem: (text) => ({ text }),
   searchResultsToItems: (results) => {
-    if (!results.data?.userSearch) {
-      // TODO: Why would this ever happen?  Might want to just assert it's not nullish, or
-      // raise an exception, instead of silently failing like this.
-      return [];
-    }
-    return results.data?.userSearch.map(userDetailsToSearchResult);
+    return results.map(userDetailsToSearchResult);
   },
 };
 

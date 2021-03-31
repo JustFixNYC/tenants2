@@ -50,39 +50,46 @@ const AutocompleteListItem: React.FC<UserSearchResult> = (props) => {
   );
 };
 
-export const AdminDirectory: React.FC<RouteComponentProps<any>> = staffOnlyView(
-  () => {
-    const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
-    const [networkError, setNetworkError] = useState(false);
+export const AdminDirectoryWidget: React.FC<{}> = () => {
+  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const [networkError, setNetworkError] = useState(false);
 
-    return (
-      <Page title="Admin user directory" withHeading>
-        {networkError && (
-          <div className="notification is-danger">
-            Oops, a network error occurred. Try reloading the page?
-          </div>
-        )}
-        <SimpleProgressiveEnhancement>
-          <SearchAutocomplete
-            helpers={UserSearchHelpers}
-            label="Search for users"
-            renderListItem={(item) => <AutocompleteListItem {...item} />}
-            onChange={(item) => {
-              setNetworkError(false);
-              setUserDetails(item.fullDetails ?? null);
-            }}
-            onNetworkError={(e) => {
-              console.log(e);
-              setNetworkError(true);
-            }}
-          />
-        </SimpleProgressiveEnhancement>
-        {userDetails && (
-          <div className="content">
-            <AdminUserInfo user={userDetails} showPhoneNumber showName />
-          </div>
-        )}
-      </Page>
-    );
-  }
+  return (
+    <>
+      {networkError && (
+        <div className="notification is-danger">
+          Oops, a network error occurred. Try reloading the page?
+        </div>
+      )}
+      <SimpleProgressiveEnhancement>
+        <SearchAutocomplete
+          helpers={UserSearchHelpers}
+          label="Search for a user"
+          placeholder="name, phone number, or email"
+          renderListItem={(item) => <AutocompleteListItem {...item} />}
+          onChange={(item) => {
+            setNetworkError(false);
+            setUserDetails(item.fullDetails ?? null);
+          }}
+          onNetworkError={(e) => {
+            console.log(e);
+            setNetworkError(true);
+          }}
+        />
+      </SimpleProgressiveEnhancement>
+      {userDetails && (
+        <div className="content">
+          <AdminUserInfo user={userDetails} showPhoneNumber showName />
+        </div>
+      )}
+    </>
+  );
+};
+
+export const AdminDirectory: React.FC<RouteComponentProps<any>> = staffOnlyView(
+  () => (
+    <Page title="Admin user directory" withHeading>
+      <AdminDirectoryWidget />
+    </Page>
+  )
 );

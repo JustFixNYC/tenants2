@@ -122,6 +122,7 @@ export interface SearchAutocompleteProps<Item, SearchResults>
   helpers: SearchAutocompleteHelpers<Item, SearchResults>;
   autoFocus?: boolean;
   renderListItem?: (item: Item) => JSX.Element;
+  placeholder?: string;
 }
 
 interface SearchAutocompleteState<Item> {
@@ -295,6 +296,7 @@ class SearchAutocompleteWithFetchGraphQL<
           <AutofocusedInput
             name={this.state.inputName}
             className="input"
+            placeholder={this.props.placeholder}
             autoFocus={this.props.autoFocus}
             {...this.getInputProps(ds)}
           />

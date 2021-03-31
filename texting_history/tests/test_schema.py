@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock
 import pytest
 
-from users.tests.factories import UserFactory
+from users.tests.factories import SecondUserFactory, UserFactory
 from users.models import VIEW_TEXT_MESSAGE_PERMISSION
 from users.permission_util import get_permissions_from_ns_codenames
 from .factories import MessageFactory
@@ -218,6 +218,21 @@ def test_user_details_query_works(auth_graphql_client):
         "adminUrl": f"https://example.com/admin/users/justfixuser/{user.id}/change/",
         "rapidproGroups": [],
     }
+
+
+def test_user_search_works(auth_graphql_client):
+    # Create a second user to make sure our search doesn't include them.
+    SecondUserFactory()
+
+    user = auth_graphql_client.request.user
+    result = auth_graphql_client.execute(USER_SEARCH_QUERY)["data"]["userSearch"]
+    assert result == [
+        {
+            "firstName": "Boop",
+            "adminUrl": f"https://example.com/admin/users/justfixuser/{user.id}/change/",
+            "rapidproGroups": [],
+        }
+    ]
 
 
 def test_user_details_via_email_query_works(auth_graphql_client):

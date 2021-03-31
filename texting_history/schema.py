@@ -256,7 +256,7 @@ def resolve_user_admin_details(
 
 @ensure_request_has_verified_user_with_permission
 def resolve_user_search(parent, info, query: str) -> List[JustfixUser]:
-    from users.admin import UserAdmin
+    from users.admin import JustfixUserAdmin
     from project.admin import JustfixAdminSite
 
     MAX_USER_SEARCH_RESULTS = 10
@@ -264,7 +264,7 @@ def resolve_user_search(parent, info, query: str) -> List[JustfixUser]:
     if not query:
         return []
 
-    users, has_duplicates = UserAdmin(JustfixUser, JustfixAdminSite()).get_search_results(
+    users, has_duplicates = JustfixUserAdmin(JustfixUser, JustfixAdminSite()).get_search_results(
         info.context, JustfixUser.objects.all(), query
     )
     return list(users[:MAX_USER_SEARCH_RESULTS])

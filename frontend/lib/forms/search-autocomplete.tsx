@@ -21,9 +21,20 @@ import {
 import { GraphQLFetch } from "../networking/graphql-client";
 import { AppContext } from "../app-context";
 
+/**
+ * `SearchRequester` is made for REST-based APIs, while `GraphQLSearchRequester`
+ * is made for GraphQL-based APIs.  We want to support both, so that's what
+ * the following type is for.
+ */
 type GenericSearchRequester<SearchResults> =
   | SearchRequester<SearchResults>
   | GraphQLSearchRequester<SearchResults>;
+
+/**
+ * Because we don't know if the underlying search requester is based
+ * on REST or GraphQL, we'll pass along *all* the dependencies
+ * required for either.
+ */
 type GenericSearchRequesterOptions<SearchResults> = SearchRequesterOptions<
   SearchResults
 > &

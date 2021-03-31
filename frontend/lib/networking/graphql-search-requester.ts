@@ -21,8 +21,10 @@ export interface FetchTextQueryInfo<SearchResults> {
  * Options for the requester constructor.
  */
 export interface GraphQLSearchRequesterOptions<SearchResults> {
+  /** The implementation for the GraphQL endpoint. */
   fetchGraphQL: GraphQLFetch;
 
+  /** The GraphQL query to execute. */
   queryInfo: FetchTextQueryInfo<SearchResults>;
 
   /**
@@ -34,13 +36,6 @@ export interface GraphQLSearchRequesterOptions<SearchResults> {
    * If not provided, this defaults to 250 ms.
    */
   throttleMs?: number;
-
-  /**
-   * An optional callback that is called whenever a search
-   * request has been aborted (because we've been given a
-   * newer search request that takes priority).
-   */
-  onAbort?: (searchText: string) => void;
 
   /**
    * A callback that's called whenever an error occurs fetching
@@ -57,9 +52,13 @@ export interface GraphQLSearchRequesterOptions<SearchResults> {
 }
 
 /**
- * This class can be used to issue search requests
+ * This class can be used to issue GraphQL-based search requests
  * based on a query whose value may change over time
  * due to e.g. keyboard input.
+ *
+ * Note: this is essentially a "fork" of a similar API from
+ * the `@justfixnyc/geosearch-requester` package, but modified
+ * to use GraphQL instead of REST.
  */
 export class GraphQLSearchRequester<SearchResults> {
   private requestId: number;

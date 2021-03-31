@@ -69,11 +69,7 @@ export const AdminDirectory: React.FC<RouteComponentProps<any>> = staffOnlyView(
             renderListItem={(item) => <AutocompleteListItem {...item} />}
             onChange={(item) => {
               setNetworkError(false);
-              if (item.fullDetails) {
-                setUserDetails(item.fullDetails);
-              } else {
-                setUserDetails(null);
-              }
+              setUserDetails(item.fullDetails ?? null);
             }}
             onNetworkError={(e) => {
               console.log(e);

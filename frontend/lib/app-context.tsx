@@ -88,9 +88,6 @@ export interface AppServerInfo {
   /** The batch GraphQL endpoint; required if a GraphQL client is not provided. */
   batchGraphQLURL: string;
 
-  /** The non-batch GraphQL endpoint. */
-  nonbatchGraphQLURL: string;
-
   /** The finished letter of complaint URL (PDF format). */
   finishedLocPdfURL: string;
 

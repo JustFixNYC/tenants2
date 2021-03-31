@@ -64,7 +64,6 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   siteType: "JUSTFIX",
   debug: false,
   batchGraphQLURL: "/mygarphql",
-  nonbatchGraphQLURL: "/mynonbatchgarphql",
   isDemoDeployment: true,
   finishedLocPdfURL: "/my-finished-letter.pdf",
   wowOrigin: "https://wow.test",

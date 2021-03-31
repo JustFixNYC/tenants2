@@ -60,6 +60,5 @@ urlpatterns += i18n_patterns(
     path("hp/", include("hpaction.urls")),
     path("evictionfree/", include("evictionfree.urls")),
     path("graphql", GraphQLView.as_view(batch=True), name="batch-graphql"),
-    path("graphql-nonbatch", GraphQLView.as_view(batch=False), name="nonbatch-graphql"),
     re_path(r".*$", frontend.views.react_rendered_view, name="react"),
 )

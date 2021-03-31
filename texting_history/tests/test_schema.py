@@ -51,6 +51,16 @@ query {
 }
 """
 
+USER_SEARCH_QUERY = """
+query {
+    userSearch(query: "boop") {
+        firstName,
+        adminUrl,
+        rapidproGroups,
+    }
+}
+"""
+
 USER_DETAILS_VIA_EMAIL_QUERY = """
 query {
     userDetails(email: "Boop@jones.net") {
@@ -72,6 +82,7 @@ ALL_QUERIES = [
     (CONVERSATION_QUERY, lambda data: data["conversation"] is None),
     (CONVERSATIONS_QUERY, lambda data: data["conversations"] is None),
     (USER_DETAILS_QUERY, lambda data: data["userDetails"] is None),
+    (USER_SEARCH_QUERY, lambda data: data["userSearch"] is None),
     ("query { isVerifiedStaffUser }", lambda data: data["isVerifiedStaffUser"] is None),
     (
         UPDATE_TEXTING_HISTORY_MUTATION,

@@ -312,7 +312,7 @@ class TextingHistory:
     )
 
     user_search = graphene.Field(
-        graphene.NonNull(graphene.List(graphene.NonNull(JustfixUserType))),
+        graphene.List(graphene.NonNull(JustfixUserType)),
         query=graphene.String(required=True),
         resolver=resolve_user_search,
     )

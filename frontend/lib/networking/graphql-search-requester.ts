@@ -8,7 +8,7 @@ const DEFAULT_THROTTLE_MS = 250;
 
 export interface FetchTextQuery<SearchResults> {
   (fetch: GraphQLFetch, args: { query: string }): Promise<{
-    output: SearchResults;
+    output: SearchResults | null;
   }>;
 }
 

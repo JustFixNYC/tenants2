@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { RouteComponentProps } from "react-router";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
 import {
   SearchAutocomplete,
@@ -12,6 +13,7 @@ import {
 import Page from "../ui/page";
 import { SimpleProgressiveEnhancement } from "../ui/progressive-enhancement";
 import { AdminUserInfo } from "./admin-user-info";
+import { staffOnlyView } from "./staff-only-view";
 
 type UserDetails = AdminUserSearch_output;
 
@@ -42,40 +44,42 @@ const UserSearchHelpers: SearchAutocompleteHelpers<
   },
 };
 
-export const AdminDirectory: React.FC<{}> = () => {
-  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
-  const [networkError, setNetworkError] = useState(false);
+export const AdminDirectory: React.FC<RouteComponentProps<any>> = staffOnlyView(
+  () => {
+    const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+    const [networkError, setNetworkError] = useState(false);
 
-  return (
-    <Page title="Admin user directory" withHeading>
-      {networkError && (
-        <div className="notification is-danger">
-          Oops, a network error occurred. Try reloading the page?
-        </div>
-      )}
-      <SimpleProgressiveEnhancement>
-        <SearchAutocomplete
-          helpers={UserSearchHelpers}
-          label="Search for users"
-          onChange={(item) => {
-            setNetworkError(false);
-            if (item.fullDetails) {
-              setUserDetails(item.fullDetails);
-            } else {
-              setUserDetails(null);
-            }
-          }}
-          onNetworkError={(e) => {
-            console.log(e);
-            setNetworkError(true);
-          }}
-        />
-      </SimpleProgressiveEnhancement>
-      {userDetails && (
-        <div className="content">
-          <AdminUserInfo user={userDetails} showPhoneNumber showName />
-        </div>
-      )}
-    </Page>
-  );
-};
+    return (
+      <Page title="Admin user directory" withHeading>
+        {networkError && (
+          <div className="notification is-danger">
+            Oops, a network error occurred. Try reloading the page?
+          </div>
+        )}
+        <SimpleProgressiveEnhancement>
+          <SearchAutocomplete
+            helpers={UserSearchHelpers}
+            label="Search for users"
+            onChange={(item) => {
+              setNetworkError(false);
+              if (item.fullDetails) {
+                setUserDetails(item.fullDetails);
+              } else {
+                setUserDetails(null);
+              }
+            }}
+            onNetworkError={(e) => {
+              console.log(e);
+              setNetworkError(true);
+            }}
+          />
+        </SimpleProgressiveEnhancement>
+        {userDetails && (
+          <div className="content">
+            <AdminUserInfo user={userDetails} showPhoneNumber showName />
+          </div>
+        )}
+      </Page>
+    );
+  }
+);

@@ -44,23 +44,31 @@ const UserSearchHelpers: SearchAutocompleteHelpers<
 
 export const AdminDirectory: React.FC<{}> = () => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const [networkError, setNetworkError] = useState(false);
 
   return (
     <Page title="Admin user directory" withHeading>
+      {networkError && (
+        <div className="notification is-danger">
+          Oops, a network error occurred. Try reloading the page?
+        </div>
+      )}
       <SimpleProgressiveEnhancement>
         <SearchAutocomplete
           helpers={UserSearchHelpers}
           label="Search for users"
           onChange={(item) => {
+            setNetworkError(false);
             if (item.fullDetails) {
               setUserDetails(item.fullDetails);
             } else {
               setUserDetails(null);
             }
           }}
-          onNetworkError={(e) =>
-            console.log("TODO DO SOMETHING USEFUL HERE", e)
-          }
+          onNetworkError={(e) => {
+            console.log(e);
+            setNetworkError(true);
+          }}
         />
       </SimpleProgressiveEnhancement>
       {userDetails && (

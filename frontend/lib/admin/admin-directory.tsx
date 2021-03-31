@@ -12,7 +12,8 @@ import {
 } from "../queries/AdminUserSearch";
 import Page from "../ui/page";
 import { SimpleProgressiveEnhancement } from "../ui/progressive-enhancement";
-import { AdminUserInfo } from "./admin-user-info";
+import { assertNotUndefined } from "../util/util";
+import { adminGetUserFullName, AdminUserInfo } from "./admin-user-info";
 import { staffOnlyView } from "./staff-only-view";
 
 type UserDetails = AdminUserSearch_output;
@@ -22,26 +23,31 @@ type UserSearchResult = {
   fullDetails?: UserDetails;
 };
 
-function userDetailsToSearchResult(d: UserDetails): UserSearchResult {
-  const phone = formatPhoneNumber(d.phoneNumber);
-  return {
-    text: `${d.firstName} ${d.lastName} / ${phone}`,
-    fullDetails: d,
-  };
-}
-
 const UserSearchHelpers: SearchAutocompleteHelpers<
   UserSearchResult,
   UserDetails[]
 > = {
   createSearchRequester: (options) =>
     new GraphQLSearchRequester({ ...options, queryInfo: AdminUserSearch }),
-  itemToKey: (item) => item.text,
+  itemToKey: (item) => item.fullDetails?.id,
   itemToString: (item) => item?.text ?? "",
   getIncompleteItem: (text) => ({ text }),
   searchResultsToItems: (results) => {
-    return results.map(userDetailsToSearchResult);
+    return results.map((user) => ({
+      text: `${adminGetUserFullName(user)} ${user.phoneNumber}`,
+      fullDetails: user,
+    }));
   },
+};
+
+const AutocompleteListItem: React.FC<UserSearchResult> = (props) => {
+  const fd = assertNotUndefined(props.fullDetails);
+
+  return (
+    <>
+      {fd.firstName} {fd.lastName} / {formatPhoneNumber(fd.phoneNumber)}{" "}
+    </>
+  );
 };
 
 export const AdminDirectory: React.FC<RouteComponentProps<any>> = staffOnlyView(
@@ -60,6 +66,7 @@ export const AdminDirectory: React.FC<RouteComponentProps<any>> = staffOnlyView(
           <SearchAutocomplete
             helpers={UserSearchHelpers}
             label="Search for users"
+            renderListItem={(item) => <AutocompleteListItem {...item} />}
             onChange={(item) => {
               setNetworkError(false);
               if (item.fullDetails) {

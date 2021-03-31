@@ -110,6 +110,7 @@ export interface SearchAutocompleteProps<Item, SearchResults>
   onNetworkError: (err: Error) => void;
   helpers: SearchAutocompleteHelpers<Item, SearchResults>;
   autoFocus?: boolean;
+  renderListItem?: (item: Item) => JSX.Element;
 }
 
 interface SearchAutocompleteState<Item> {
@@ -187,7 +188,11 @@ class SearchAutocompleteWithFetchGraphQL<
       }),
     });
 
-    return <li {...props}>{this.props.helpers.itemToString(item)}</li>;
+    const listItem = this.props.renderListItem
+      ? this.props.renderListItem(item)
+      : this.props.helpers.itemToString(item);
+
+    return <li {...props}>{listItem}</li>;
   }
 
   /**

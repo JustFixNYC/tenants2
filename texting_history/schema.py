@@ -70,6 +70,7 @@ class JustfixUserType(DjangoObjectType):
             "phone_number",
             "first_name",
             "last_name",
+            "email",
             "onboarding_info",
             "letter_request",
         )

@@ -58,9 +58,10 @@ export const AdminUserInfo: React.FC<{
           This user's phone number is {friendlyPhoneNumber(user.phoneNumber)}.
         </p>
       )}
+      {user.email && <p>Their email is {user.email}.</p>}
       <EhpaAttorneyAssigned rapidproGroups={user.rapidproGroups} />
       {user.onboardingInfo && (
-        <p>The user's signup intent is {user.onboardingInfo.signupIntent}.</p>
+        <p>Their signup intent is {user.onboardingInfo.signupIntent}.</p>
       )}
       {user.letterRequest && (
         <p>

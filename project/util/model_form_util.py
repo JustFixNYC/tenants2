@@ -1,3 +1,4 @@
+from project.graphql_user_info import GraphQlUserInfo
 from graphql import ResolveInfo
 from django.db.models import OneToOneField
 from django.forms import ModelForm, inlineformset_factory
@@ -39,7 +40,8 @@ def get_models_for_user(model_class, user):
 
 def _make_resolver(func, model_class):
     def resolver(parent, info: ResolveInfo):
-        return func(model_class, info.context.user)
+        user = GraphQlUserInfo.get_user_from_parent_or_context(parent, info)
+        return func(model_class, user)
 
     return resolver
 
@@ -192,4 +194,5 @@ class OneToOneUserModelFormMutation(SessionFormMutation):
         related model instance for the current user.
         """
 
-        return get_model_for_user(cls._meta.form_class._meta.model, info.context.user)
+        user = GraphQlUserInfo.get_user_from_parent_or_context(parent, info)
+        return get_model_for_user(cls._meta.form_class._meta.model, user)

@@ -14,5 +14,6 @@ fragment JustfixUserType on JustfixUserType {
     updatedAt
   },
   adminUrl,
-  rapidproGroups
+  rapidproGroups,
+  session { ...AllSessionInfo }
 }

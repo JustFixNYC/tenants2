@@ -85,11 +85,20 @@ class JustfixUserType(DjangoObjectType):
         ),
     )
 
+    session = graphene.Field("project.schema.SessionInfo")
+
     def resolve_admin_url(self, info):
         return self.admin_url
 
     def resolve_rapidpro_groups(self, info) -> List[str]:
         return get_group_names_for_user(self)
+
+    def resolve_session(self, info):
+        from project.schema import SessionInfo
+
+        s = SessionInfo()
+        s.set_user(self)
+        return s
 
 
 def is_request_verified_user_with_permission(request):

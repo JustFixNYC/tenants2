@@ -61,6 +61,7 @@ printing the text to the console, returns a field called `funkyResult`,
 which always resolves to 5.
 """
 
+from project.graphql_user_info import GraphQlUserInfo
 from typing import List, Type, Optional
 import textwrap
 import graphene
@@ -134,10 +135,18 @@ def _build_graphene_object_type(name: str, classes: List[Type], __doc__: str) ->
     return type(name, tuple([*classes, graphene.ObjectType]), {"__doc__": __doc__})
 
 
-def build_session_info() -> Type:
+class __TrivialGraphQlUserInfoSubclass(GraphQlUserInfo):
+    # We need to make this a trivial subclass to ensure an intelligible
+    # method resolution order (MRO).
+    pass
+
+
+def build_session_info() -> Type[GraphQlUserInfo]:
     _init()
     return _build_graphene_object_type(
-        "SessionInfo", _session_info_classes, "Information about the current user."
+        "SessionInfo",
+        [*_session_info_classes, __TrivialGraphQlUserInfoSubclass],
+        "Information about the current user.",
     )
 
 

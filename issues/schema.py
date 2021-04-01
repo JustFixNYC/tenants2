@@ -1,3 +1,4 @@
+from project.graphql_user_info import GraphQlUserInfo
 from typing import List
 from graphql import ResolveInfo
 import graphene
@@ -63,7 +64,7 @@ class CustomIssueV2(DjangoObjectType):
 
 
 @schema_registry.register_session_info
-class IssueSessionInfo:
+class IssueSessionInfo(GraphQlUserInfo):
     issues = graphene.List(graphene.NonNull(graphene.String), required=True)
 
     custom_issues_v2 = graphene.List(
@@ -72,7 +73,7 @@ class IssueSessionInfo:
     )
 
     def resolve_issues(self, info: ResolveInfo) -> List[str]:
-        user = info.context.user
+        user = self.get_user(info)
         if not user.is_authenticated:
             return []
         return [issue.value for issue in user.issues.all()]

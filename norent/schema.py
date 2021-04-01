@@ -1,3 +1,4 @@
+from project.graphql_user_info import GraphQlUserInfo
 from project.util.mailing_address import US_STATE_CHOICES, is_zip_code_valid_for_state
 from typing import Optional, Dict, Any, Tuple
 import datetime
@@ -111,7 +112,7 @@ class NorentRentPeriod(DjangoObjectType):
 
 
 @schema_registry.register_session_info
-class NorentSessionInfo(object):
+class NorentSessionInfo(GraphQlUserInfo):
     norent_scaffolding = graphene.Field(NorentScaffolding)
 
     norent_latest_rent_period = graphene.Field(
@@ -156,16 +157,16 @@ class NorentSessionInfo(object):
         return models.RentPeriod.objects.first()
 
     def resolve_norent_available_rent_periods(self, info: ResolveInfo):
-        user = info.context.user
+        user = self.get_user(info)
         if not user.is_authenticated:
             return []
         return list(models.RentPeriod.objects.get_available_for_user(user))
 
     def resolve_norent_latest_letter(self, info: ResolveInfo):
-        request = info.context
-        if not request.user.is_authenticated:
+        user = self.get_user(info)
+        if not user.is_authenticated:
             return None
-        return models.Letter.objects.filter(user=request.user).first()
+        return models.Letter.objects.filter(user=user).first()
 
     def resolve_norent_scaffolding(self, info: ResolveInfo):
         request = info.context
@@ -181,7 +182,7 @@ class NorentSessionInfo(object):
         return models.Letter.objects.all().count()
 
     def resolve_norent_upcoming_letter_rent_periods(self, info: ResolveInfo):
-        user = info.context.user
+        user = self.get_user(info)
         if not user.is_authenticated:
             return []
         return [

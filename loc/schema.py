@@ -1,3 +1,4 @@
+from project.graphql_user_info import GraphQlUserInfo
 from typing import List
 from graphql import ResolveInfo
 import graphene
@@ -159,13 +160,13 @@ class LetterRequestType(DjangoObjectType):
 
 
 @schema_registry.register_session_info
-class LocSessionInfo:
+class LocSessionInfo(GraphQlUserInfo):
     access_dates = graphene.List(graphene.NonNull(graphene.types.String), required=True)
     landlord_details = graphene.Field(LandlordDetailsType, resolver=LandlordDetailsV2.resolve)
     letter_request = graphene.Field(LetterRequestType, resolver=LetterRequest.resolve)
 
     def resolve_access_dates(self, info: ResolveInfo):
-        user = info.context.user
+        user = self.get_user(info)
         if not user.is_authenticated:
             return []
         return models.AccessDate.objects.get_for_user(user)

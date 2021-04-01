@@ -1,3 +1,4 @@
+from project.graphql_user_info import GraphQlUserInfo
 from typing import Optional, List
 import graphene
 from graphene_django.types import DjangoObjectType
@@ -439,7 +440,7 @@ def make_hpa_upload_status_field(kind: str):
 
 
 @schema_registry.register_session_info
-class HPActionSessionInfo:
+class HPActionSessionInfo(GraphQlUserInfo):
     fee_waiver = graphene.Field(
         FeeWaiverType, resolver=create_model_for_user_resolver(models.FeeWaiverDetails)
     )
@@ -463,7 +464,7 @@ class HPActionSessionInfo:
     )
 
     def resolve_management_company_details(self, info: ResolveInfo):
-        user = info.context.user
+        user = self.get_user(info)
         if hasattr(user, "management_company_details"):
             return user.management_company_details
         return None
@@ -492,7 +493,7 @@ class HPActionSessionInfo:
     )
 
     def resolve_emergency_hp_action_signing_status(self, info: ResolveInfo):
-        user = info.context.user
+        user = self.get_user(info)
         if not user.is_authenticated:
             return None
         docs = HPActionDocuments.objects.get_latest_for_user(user, HP_ACTION_CHOICES.EMERGENCY)

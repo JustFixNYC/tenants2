@@ -1,3 +1,4 @@
+from project.graphql_user_info import GraphQlUserInfo
 from typing import Optional
 from enum import Enum
 import graphene
@@ -45,7 +46,7 @@ def purge_last_queried_phone_number(request):
 
 
 @schema_registry.register_session_info
-class BaseSessionInfo:
+class BaseSessionInfo(GraphQlUserInfo):
     user_id = graphene.Int(
         description=("The ID of the currently logged-in user, or null if not logged-in.")
     )
@@ -132,28 +133,28 @@ class BaseSessionInfo:
     )
 
     def resolve_user_id(self, info: ResolveInfo) -> Optional[int]:
-        request = info.context
-        if not request.user.is_authenticated:
+        user = self.get_user(info)
+        if not user.is_authenticated:
             return None
-        return request.user.pk
+        return user.pk
 
     def resolve_first_name(self, info: ResolveInfo) -> Optional[str]:
-        request = info.context
-        if not request.user.is_authenticated:
+        user = self.get_user(info)
+        if not user.is_authenticated:
             return None
-        return request.user.first_name
+        return user.first_name
 
     def resolve_last_name(self, info: ResolveInfo) -> Optional[str]:
-        request = info.context
-        if not request.user.is_authenticated:
+        user = self.get_user(info)
+        if not user.is_authenticated:
             return None
-        return request.user.last_name
+        return user.last_name
 
     def resolve_phone_number(self, info: ResolveInfo) -> Optional[str]:
-        request = info.context
-        if not request.user.is_authenticated:
+        user = self.get_user(info)
+        if not user.is_authenticated:
             return None
-        return request.user.phone_number
+        return user.phone_number
 
     def resolve_last_queried_phone_number(self, info: ResolveInfo) -> Optional[str]:
         return get_last_queried_phone_number(info.context)
@@ -168,16 +169,16 @@ class BaseSessionInfo:
         return None
 
     def resolve_email(self, info: ResolveInfo) -> Optional[str]:
-        request = info.context
-        if not request.user.is_authenticated:
+        user = self.get_user(info)
+        if not user.is_authenticated:
             return None
-        return request.user.email
+        return user.email
 
     def resolve_is_email_verified(self, info: ResolveInfo) -> Optional[bool]:
-        request = info.context
-        if not request.user.is_authenticated:
+        user = self.get_user(info)
+        if not user.is_authenticated:
             return None
-        return request.user.is_email_verified
+        return user.is_email_verified
 
     def resolve_csrf_token(self, info: ResolveInfo) -> str:
         request = info.context
@@ -189,7 +190,7 @@ class BaseSessionInfo:
         return csrf.get_token(request)
 
     def resolve_is_staff(self, info: ResolveInfo) -> bool:
-        return info.context.user.is_staff
+        return self.get_user(info).is_staff
 
     def resolve_is_safe_mode_enabled(self, info: ResolveInfo) -> bool:
         return safe_mode.is_enabled(info.context)

@@ -1,4 +1,5 @@
 import logging
+from project.graphql_user_info import GraphQlUserInfo
 from typing import Optional, Dict, Any, List, Type
 from django.contrib.auth import login
 from django.conf import settings
@@ -347,7 +348,7 @@ class OnboardingInfoType(DjangoObjectType):
 
 
 @schema_registry.register_session_info
-class OnboardingSessionInfo(object):
+class OnboardingSessionInfo(GraphQlUserInfo):
     """
     A mixin class defining all onboarding-related queries.
     """
@@ -369,7 +370,7 @@ class OnboardingSessionInfo(object):
     )
 
     def resolve_onboarding_info(self, info: ResolveInfo) -> Optional[OnboardingInfo]:
-        user = info.context.user
+        user = self.get_user(info)
         if hasattr(user, "onboarding_info"):
             return user.onboarding_info
         return None

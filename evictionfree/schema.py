@@ -1,3 +1,4 @@
+from project.graphql_user_info import GraphQlUserInfo
 from onboarding.schema_util import mutation_requires_onboarding
 from typing import Any, Dict
 from django.http import HttpRequest
@@ -137,7 +138,7 @@ class SubmittedHardshipDeclarationType(DjangoObjectType):
 
 
 @schema_registry.register_session_info
-class EvictionFreeSessionInfo:
+class EvictionFreeSessionInfo(GraphQlUserInfo):
     hardship_declaration_details = graphene.Field(
         HardshipDeclarationDetailsType,
         resolver=create_model_for_user_resolver(models.HardshipDeclarationDetails),

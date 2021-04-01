@@ -44,9 +44,11 @@ const AutocompleteListItem: React.FC<UserSearchResult> = (props) => {
   const fd = assertNotUndefined(props.fullDetails);
 
   return (
-    <>
-      {fd.firstName} {fd.lastName} / {formatPhoneNumber(fd.phoneNumber)}{" "}
-    </>
+    <div>
+      {fd.firstName} {fd.lastName}{" "}
+      <span className="is-size-7"> {formatPhoneNumber(fd.phoneNumber)}</span>
+      <div className="is-size-7">{fd.email}</div>
+    </div>
   );
 };
 

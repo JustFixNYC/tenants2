@@ -9,7 +9,7 @@ from graphene import Mutation
 from graphene_django.types import DjangoObjectType
 
 from project import schema_registry
-from users.models import VIEW_TEXT_MESSAGE_PERMISSION, JustfixUser
+from users.models import VIEW_TEXT_MESSAGE_PERMISSION, CHANGE_USER_PERMISSION, JustfixUser
 from twofactor.util import is_request_user_verified
 from project.util.streaming_json import generate_json_rows
 from rapidpro.models import get_group_names_for_user
@@ -92,7 +92,7 @@ class JustfixUserType(DjangoObjectType):
         return get_group_names_for_user(self)
 
 
-def is_request_verified_user_with_permission(request):
+def is_request_verified_user_with_permission(request, permission: str):
     user = request.user
 
     if not user.is_authenticated:
@@ -107,25 +107,28 @@ def is_request_verified_user_with_permission(request):
         logger.info("User must be verified via two-factor authentication!")
         return False
 
-    if not user.has_perm(VIEW_TEXT_MESSAGE_PERMISSION):
+    if not user.has_perm(permission):
         logger.info("User does not have permission to view text messages!")
         return False
 
     return True
 
 
-def ensure_request_has_verified_user_with_permission(fn):
-    @wraps(fn)
-    def wrapper(parent, info: ResolveInfo, *args, **kwargs):
-        if not is_request_verified_user_with_permission(info.context):
-            return None
+def ensure_request_has_verified_user_with_permission(permission: str):
+    def decorator(fn):
+        @wraps(fn)
+        def wrapper(parent, info: ResolveInfo, *args, **kwargs):
+            if not is_request_verified_user_with_permission(info.context, permission):
+                return None
 
-        return fn(parent, info, *args, **kwargs)
+            return fn(parent, info, *args, **kwargs)
 
-    return wrapper
+        return wrapper
+
+    return decorator
 
 
-@ensure_request_has_verified_user_with_permission
+@ensure_request_has_verified_user_with_permission(VIEW_TEXT_MESSAGE_PERMISSION)
 def resolve_conversation(
     parent,
     info,
@@ -151,7 +154,7 @@ def insert_before(source: str, find: str, insert: str):
     return source.replace(find, f"{insert}{find}")
 
 
-@ensure_request_has_verified_user_with_permission
+@ensure_request_has_verified_user_with_permission(VIEW_TEXT_MESSAGE_PERMISSION)
 def resolve_conversations(
     parent,
     info,
@@ -242,7 +245,7 @@ def resolve_conversations(
         return LatestTextMessagesResult(messages=messages, has_next_page=count > len(messages))
 
 
-@ensure_request_has_verified_user_with_permission
+@ensure_request_has_verified_user_with_permission(CHANGE_USER_PERMISSION)
 def resolve_user_admin_details(
     parent, info, phone_number: Optional[str] = None, email: Optional[str] = None
 ) -> Optional[JustfixUser]:
@@ -255,7 +258,7 @@ def resolve_user_admin_details(
     return None
 
 
-@ensure_request_has_verified_user_with_permission
+@ensure_request_has_verified_user_with_permission(CHANGE_USER_PERMISSION)
 def resolve_user_search(parent, info, query: str) -> List[JustfixUser]:
     from users.admin import JustfixUserAdmin
     from project.admin import JustfixAdminSite
@@ -319,7 +322,9 @@ class TextingHistory:
     )
 
     is_verified_staff_user = graphene.Boolean(
-        resolver=ensure_request_has_verified_user_with_permission(lambda parent, info: True),
+        resolver=ensure_request_has_verified_user_with_permission(CHANGE_USER_PERMISSION)(
+            lambda parent, info: True
+        ),
     )
 
 
@@ -330,7 +335,7 @@ class UpdateTextingHistory(Mutation):
     latest_message = graphene.DateTime()
 
     def mutate(root, info):
-        if not is_request_verified_user_with_permission(info.context):
+        if not is_request_verified_user_with_permission(info.context, VIEW_TEXT_MESSAGE_PERMISSION):
             return UpdateTextingHistory(auth_error=True)
         latest_message = update_texting_history(silent=True)
         return UpdateTextingHistory(latest_message=latest_message)

@@ -4,7 +4,7 @@ from project.tests.schema_admin_test_util import (
 import pytest
 
 from users.tests.factories import SecondUserFactory, UserFactory
-from users.models import CHANGE_USER_PERMISSION
+from users.models import VIEW_USER_PERMISSION
 
 
 USER_DETAILS_QUERY = """
@@ -39,15 +39,15 @@ TestAdminEndpoints = make_permission_test_class(
     [
         (USER_DETAILS_QUERY, lambda data: data["userDetails"] is None),
         (USER_SEARCH_QUERY, lambda data: data["userSearch"] is None),
-        ("query { isVerifiedStaffUser }", lambda data: data["isVerifiedStaffUser"] is None),
-    ]
+    ],
+    VIEW_USER_PERMISSION,
 )
 
 
 @pytest.fixture
 def auth_graphql_client(db, graphql_client):
     user = UserFactory(
-        is_staff=True, email="boop@jones.net", user_permissions=[CHANGE_USER_PERMISSION]
+        is_staff=True, email="boop@jones.net", user_permissions=[VIEW_USER_PERMISSION]
     )
     graphql_client.request.user = user
     return graphql_client
@@ -92,7 +92,13 @@ def test_user_details_with_no_args_returns_none(auth_graphql_client):
     )
 
 
-def test_is_verified_staff_user_works(auth_graphql_client):
+def test_is_verified_staff_user_returns_true(auth_graphql_client):
     assert auth_graphql_client.execute("query { isVerifiedStaffUser }")["data"] == {
         "isVerifiedStaffUser": True,
+    }
+
+
+def test_is_verified_staff_user_returns_none(graphql_client):
+    assert graphql_client.execute("query { isVerifiedStaffUser }")["data"] == {
+        "isVerifiedStaffUser": None,
     }

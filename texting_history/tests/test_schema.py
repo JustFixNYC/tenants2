@@ -57,7 +57,8 @@ TestAdminEndpoints = make_permission_test_class(
             UPDATE_TEXTING_HISTORY_MUTATION,
             lambda data: data["updateTextingHistory"]["authError"] is True,
         ),
-    ]
+    ],
+    VIEW_TEXT_MESSAGE_PERMISSION,
 )
 
 

@@ -22,6 +22,8 @@ VIEW_LETTER_REQUEST_PERMISSION = "loc.view_letterrequest"
 
 CHANGE_LETTER_REQUEST_PERMISSION = "loc.change_letterrequest"
 
+VIEW_USER_PERMISSION = "users.view_justfixuser"
+
 CHANGE_USER_PERMISSION = "users.change_justfixuser"
 
 VIEW_TEXT_MESSAGE_PERMISSION = "texting_history.view_message"
@@ -31,6 +33,7 @@ ROLES = {}
 ROLES["Outreach Coordinators"] = set(
     [
         "users.add_justfixuser",
+        VIEW_USER_PERMISSION,
         CHANGE_USER_PERMISSION,
         *ModelPermissions("loc", "accessdate").all,
         *ModelPermissions("issues", "issue").all,

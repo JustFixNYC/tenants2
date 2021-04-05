@@ -6,7 +6,7 @@ from graphene_django.types import DjangoObjectType
 import graphene
 
 from project import schema_registry
-from users.models import CHANGE_USER_PERMISSION, JustfixUser
+from users.models import VIEW_USER_PERMISSION, JustfixUser
 from twofactor.util import is_request_user_verified
 from rapidpro.models import get_group_names_for_user
 
@@ -45,7 +45,7 @@ class JustfixUserType(DjangoObjectType):
         return get_group_names_for_user(self)
 
 
-def is_request_verified_user_with_permission(request, permission: str):
+def is_request_verified_staff_user(request) -> bool:
     user = request.user
 
     if not user.is_authenticated:
@@ -60,8 +60,17 @@ def is_request_verified_user_with_permission(request, permission: str):
         logger.info("User must be verified via two-factor authentication!")
         return False
 
+    return True
+
+
+def is_request_verified_user_with_permission(request, permission: str) -> bool:
+    user = request.user
+
+    if not is_request_verified_staff_user(request):
+        return False
+
     if not user.has_perm(permission):
-        logger.info("User does not have permission to view text messages!")
+        logger.info(f"User does not have {permission} permission!")
         return False
 
     return True
@@ -97,7 +106,7 @@ def normalize_phone_number(phone_number: str) -> str:
     return phone_number
 
 
-@ensure_request_has_verified_user_with_permission(CHANGE_USER_PERMISSION)
+@ensure_request_has_verified_user_with_permission(VIEW_USER_PERMISSION)
 def resolve_user_admin_details(
     parent, info, phone_number: Optional[str] = None, email: Optional[str] = None
 ) -> Optional[JustfixUser]:
@@ -110,7 +119,7 @@ def resolve_user_admin_details(
     return None
 
 
-@ensure_request_has_verified_user_with_permission(CHANGE_USER_PERMISSION)
+@ensure_request_has_verified_user_with_permission(VIEW_USER_PERMISSION)
 def resolve_user_search(parent, info, query: str) -> List[JustfixUser]:
     from users.admin import JustfixUserAdmin
     from project.admin import JustfixAdminSite
@@ -142,7 +151,14 @@ class AdminQueries:
     )
 
     is_verified_staff_user = graphene.Boolean(
-        resolver=ensure_request_has_verified_user_with_permission(CHANGE_USER_PERMISSION)(
-            lambda parent, info: True
-        ),
+        description="Whether the user is a staff user who has been verified via 2FA."
     )
+
+    def resolve_is_verified_staff_user(parent, info):
+        if is_request_verified_staff_user(info.context):
+            return True
+
+        # Really this should be False, but for historical reasons this returns
+        # None instead, and we don't want to break any existing code that
+        # relies on that right now.
+        return None

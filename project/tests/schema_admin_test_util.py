@@ -4,7 +4,7 @@ import pytest
 from unittest.mock import MagicMock
 
 
-def make_permission_test_class(ALL_QUERIES):
+def make_permission_test_class(ALL_QUERIES, permission: str):
     class TestAdminPermissions:
         @pytest.fixture
         def mocklog(self, monkeypatch):
@@ -30,9 +30,7 @@ def make_permission_test_class(ALL_QUERIES):
             graphql_client.request.user = UserFactory(is_staff=True)
             result = graphql_client.execute(query)
             assert is_denied(result["data"])
-            mocklog.info.assert_called_once_with(
-                "User does not have permission to view text messages!"
-            )
+            mocklog.info.assert_called_once_with(f"User does not have {permission} permission!")
 
         @pytest.mark.parametrize("query, is_denied", ALL_QUERIES)
         def test_endpoints_require_twofactor_when_enabled(

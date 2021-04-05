@@ -427,7 +427,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "Whether the user is a staff user who has been verified via 2FA.",
               "isDeprecated": false,
               "name": "isVerifiedStaffUser",
               "type": {

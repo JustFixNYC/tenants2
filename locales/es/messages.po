@@ -2780,7 +2780,7 @@ msgid "justfix.commonWarningAboutChangingLandlordDetails"
 msgstr "Si recibes documentos relacionados con el alquiler desde una dirección diferente, o si el dueño de tu edificio te ha dado instrucciones de usar una dirección diferente para vuestra correspondencia, puedes <0>proporcionar tus propios datos.</0> Sin embargo, sólo debes usar una dirección distinta a la que te sugerimos si tienes la certeza absoluta de que es correcta — es más seguro usar la dirección oficial que el dueño de tu edificio ha registrado con la ciudad."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
-msgid "justfix.ddoEvictionfreeCovidMessage"
+msgid "justfix.ddoEfnycCovidMessage"
 msgstr "Puedes enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales — deteniendo tu caso de desalojo hasta el 1 de mayo, 2021."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:274

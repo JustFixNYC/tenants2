@@ -527,7 +527,9 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       imageStaticURL: "frontend/img/ddo/judge.svg",
       cta: {
         to: evictionfreeURL(),
-        gaLabel: "evictionfree",
+        // While we've renamed efnyc to evictionfree elsewhere, doing so here would
+        // create a new Google Analytics label. We want to keep continuity instead.
+        gaLabel: "efnyc",
         text: li18n._(t`Learn more`),
       },
     };

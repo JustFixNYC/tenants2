@@ -284,7 +284,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     WOW_ORIGIN: str = "https://whoownswhat.justfix.nyc"
 
     # The base url for outbound links to Eviction Free NYC.
-    EVICTIONFREE_ORIGIN: str = "https://www.evictionfreenyc.org"
+    EFNYC_ORIGIN: str = "https://www.evictionfreenyc.org"
 
     # Whether to use the lambda HTTP server. If false, we'll use a separate
     # subprocess for each server-side rendering request, otherwise we'll

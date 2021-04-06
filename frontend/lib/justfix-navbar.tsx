@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import Navbar from "./ui/navbar";
+import Navbar, { NavbarDropdown } from "./ui/navbar";
 import { Link } from "react-router-dom";
 import { AppContext } from "./app-context";
 import JustfixRoutes from "./justfix-route-info";
@@ -36,11 +36,7 @@ const JustfixMenuItems: React.FC<{}> = () => {
           <Trans>Take action</Trans>
         </Link>
       )}
-      {session.phoneNumber ? (
-        <Link className="navbar-item" to={JustfixRoutes.locale.logout}>
-          <Trans>Sign out</Trans>
-        </Link>
-      ) : (
+      {!session.phoneNumber && (
         <Link className="navbar-item" to={JustfixRoutes.locale.login}>
           <Trans>Sign in</Trans>
         </Link>

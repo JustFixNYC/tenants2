@@ -7,6 +7,7 @@ import { AriaExpandableButton } from "./aria";
 import { bulmaClasses } from "./bulma";
 import { AppContextType, withAppContext, AppContext } from "../app-context";
 import { ga } from "../analytics/google-analytics";
+import { Trans } from "@lingui/macro";
 
 const ALL_DROPDOWNS = Symbol("All dropdowns active (Safe mode only)");
 
@@ -179,12 +180,27 @@ class NavbarWithoutAppContext extends React.Component<
             >
               <div className="navbar-end">
                 {MenuItems && <MenuItems />}
-                {session.isStaff && (
-                  <a className="navbar-item" href={server.adminIndexURL}>
-                    Admin
-                  </a>
-                )}
                 <DevMenu />
+                <NavbarDropdown
+                  id="account"
+                  label={
+                    <span className="jf-user-initials-menu">
+                      <span>AV</span>
+                    </span>
+                  }
+                >
+                  <a className="navbar-item" href="/graphiql">
+                    Account settings
+                  </a>
+                  {session.isStaff && (
+                    <a className="navbar-item" href={server.adminIndexURL}>
+                      Admin
+                    </a>
+                  )}
+                  <Link className="navbar-item" to={"TODO SIGN OUT"}>
+                    <Trans>Sign out</Trans>
+                  </Link>
+                </NavbarDropdown>
               </div>
             </div>
           </div>
@@ -251,7 +267,7 @@ interface NavbarDropdownProps {
   /**
    * The human-readable name of the dropdown menu.
    */
-  label: string;
+  label: string | JSX.Element;
 
   /**
    * The individual links (or other content) shown when the dropdown

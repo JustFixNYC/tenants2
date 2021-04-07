@@ -54,7 +54,7 @@ msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 msgid "<0>Declaration of COVID-19 Related Financial Distress</0><1/>Compliant with Code of Civil Procedure Section 1179.02, SB91, COVID-19 Tenant Relief Act"
 msgstr "<0>Declaración de Complicaciones Financieras Relacionadas con el COVID-19</0><1/>Conforme con la Sección 1179.02, SB91, de la Ley de Alivio de Inquilinos COVID-19"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:447
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:449
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
 msgstr "<0>Herramientas gratuitas para luchar por un hogar seguro y saludable</0><1>Introduce tu dirección para saber más.</1>"
 
@@ -131,7 +131,7 @@ msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines
 msgid "About"
 msgstr "Acerca de"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:403
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:405
 msgid "Actions"
 msgstr "Acciones"
 
@@ -206,7 +206,7 @@ msgstr "El apartamento necesita pintura"
 msgid "Apartment number"
 msgstr "Número de apartamento"
 
-#: frontend/lib/pages/logout-alt-page.tsx:15
+#: frontend/lib/pages/logout-alt-page.tsx:16
 msgid "Are you sure you want to log out?"
 msgstr "¿Estás seguro de que quieres cerrar la sesión?"
 
@@ -573,7 +573,7 @@ msgstr "¿Vives en {0}, {1}?"
 msgid "Do you still want to mail to:"
 msgstr "¿Aún deseas continuar?"
 
-#: frontend/lib/pages/logout-alt-page.tsx:18
+#: frontend/lib/pages/logout-alt-page.tsx:19
 msgid "Don’t worry, we’ll save your progress so you’ll be able to come back to your last step when you log back in."
 msgstr "No te preocupes, guardaremos tus respuestas para que puedas empezar desde donde te quedaste cuando vuelvas a conectarte."
 
@@ -649,7 +649,7 @@ msgstr "Correo electrónico:"
 msgid "English version"
 msgstr "Versión en inglés"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:456
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:458
 msgid "Enter your address to see some recommended actions."
 msgstr "Introduce tu dirección para ver algunas acciones recomendadas."
 
@@ -1139,7 +1139,7 @@ msgstr "Aprenda por qué hemos construido esta herramienta, quiénes somos, y qu
 msgid "Learn about your rent"
 msgstr "Aprende Sobre Tu Alquiler"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:351
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:353
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/the-letter.tsx:29
 msgid "Learn more"
@@ -1197,7 +1197,7 @@ msgstr "Iniciar sesión"
 
 #: frontend/lib/evictionfree/site.tsx:75
 #: frontend/lib/norent/site.tsx:40
-#: frontend/lib/pages/logout-alt-page.tsx:13
+#: frontend/lib/pages/logout-alt-page.tsx:14
 msgid "Log out"
 msgstr "Cerrar sesión"
 
@@ -1323,7 +1323,7 @@ msgstr "Meses de impago de renta"
 msgid "Months you're missing rent payments"
 msgstr "Meses en the te faltan pagos de renta"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:402
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:404
 msgid "More actions"
 msgstr "Más acciones"
 
@@ -1387,7 +1387,8 @@ msgid "Next"
 msgstr "Continuar"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:31
-#: frontend/lib/forms/yes-no-radios-form-field.tsx:27
+#: frontend/lib/forms/yes-no-radios-form-field.tsx:28
+#: frontend/lib/forms/yes-no-radios-form-field.tsx:47
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:28
 #: frontend/lib/ui/confirmation-modal.tsx:20
 msgid "No"
@@ -1625,7 +1626,7 @@ msgstr "Ratas"
 msgid "Rats/mice"
 msgstr "Ratas/ratones"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:395
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:397
 msgid "Recommended actions"
 msgstr "Acciones recomendadas"
 
@@ -1678,7 +1679,7 @@ msgstr "Investiga al dueño de tu edificio"
 msgid "Reset your password"
 msgstr "Cambia tu contraseña"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:391
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:393
 msgid "Results for {0}"
 msgstr "Resultados para \"{0}\""
 
@@ -1710,7 +1711,7 @@ msgstr "Agua Oxidada"
 msgid "Sample NoRent.org letter"
 msgstr "Ejemplar de una carta de NoRent.org"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:460
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:462
 msgid "Search address"
 msgstr "Dirección de búsqueda"
 
@@ -1875,7 +1876,7 @@ msgstr "Detector de humo no funciona"
 msgid "Sorry, the page you are looking for doesn't seem to exist."
 msgstr "Lo sentimos, la página que estás buscando no existe."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:419
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:421
 msgid "Sorry, we don't recognize the address you entered."
 msgstr "Lo sentimos, no reconocemos la dirección que has introducido."
 
@@ -2086,7 +2087,7 @@ msgstr "Desafortunadamente, actualmente no recomendamos enviar esta notificació
 msgid "Unit/apt/lot/suite number"
 msgstr "Número de apartamento/unidad/lote/suite"
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:417
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:419
 msgid "Unrecognized address"
 msgstr "Dirección no reconocida"
 
@@ -2395,7 +2396,8 @@ msgstr "Con esta herramienta gratuita, puedes"
 msgid "Wyoming"
 msgstr "Wyoming"
 
-#: frontend/lib/forms/yes-no-radios-form-field.tsx:26
+#: frontend/lib/forms/yes-no-radios-form-field.tsx:28
+#: frontend/lib/forms/yes-no-radios-form-field.tsx:46
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:30
 #: frontend/lib/ui/confirmation-modal.tsx:20
 msgid "Yes"
@@ -2409,7 +2411,7 @@ msgstr "Sí, JustFix.nyc puede enviarme mensajes de texto para hacer un seguimie
 msgid "Yes, Right to Counsel NYC Coalition, Housing Justice for All, and JustFix.nyc can text me to follow up about my housing issues."
 msgstr "Sí, Right to Counsel NYC Coalition, Housing Justice for All, y JustFix.nyc pueden enviarme un mensaje de texto para hacer un seguimiento de mis asuntos de vivienda."
 
-#: frontend/lib/pages/logout-alt-page.tsx:25
+#: frontend/lib/pages/logout-alt-page.tsx:26
 msgid "Yes, Sign Out"
 msgstr "Sí, cerrar sesión"
 
@@ -2779,13 +2781,13 @@ msgstr "Parece que este edificio deba estar registrado con el HPD. Los proprieta
 msgid "justfix.commonWarningAboutChangingLandlordDetails"
 msgstr "Si recibes documentos relacionados con el alquiler desde una dirección diferente, o si el dueño de tu edificio te ha dado instrucciones de usar una dirección diferente para vuestra correspondencia, puedes <0>proporcionar tus propios datos.</0> Sin embargo, sólo debes usar una dirección distinta a la que te sugerimos si tienes la certeza absoluta de que es correcta — es más seguro usar la dirección oficial que el dueño de tu edificio ha registrado con la ciudad."
 
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
-msgid "justfix.ddoEfnycCovidMessage"
-msgstr "Puedes enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales — deteniendo tu caso de desalojo hasta el 1 de mayo, 2021."
-
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:274
 msgid "justfix.ddoEhpaCovidMessage"
 msgstr "<0>Los Tribunales de Vivienda en la ciudad de Nueva York están cerrados debido a la pandemia Covid-19, y están priorizando los casos con problemas que amenazan la salud y seguridad de tu hogar, tales como: {issues}. </0>"
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
+msgid "justfix.ddoEvictionfreeCovidMessage"
+msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:260
 msgid "justfix.ddoHpaCovidMessage"
@@ -3027,4 +3029,3 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:107
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

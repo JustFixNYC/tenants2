@@ -56,7 +56,7 @@ def create_initial_props_for_lambda(
             "submittedHardshipDeclarationURL": reverse("evictionfree:submitted_declaration_pdf"),
             "navbarLabel": settings.NAVBAR_LABEL,
             "wowOrigin": settings.WOW_ORIGIN,
-            "evictionfreeOrigin": settings.EVICTIONFREE_ORIGIN,
+            "evictionfreeOrigin": settings.EFNYC_ORIGIN,
             "enableEmergencyHPAction": settings.ENABLE_EMERGENCY_HP_ACTION,
             "mapboxAccessToken": settings.MAPBOX_ACCESS_TOKEN,
             "isDemoDeployment": settings.IS_DEMO_DEPLOYMENT,

@@ -94,7 +94,7 @@ if "wow" in DATABASES:  # noqa
 NAVBAR_LABEL = ""
 
 WOW_ORIGIN = "https://demo-whoownswhat.herokuapp.com"
-EVICTIONFREE_ORIGIN = "https://demo-evictionfree.netlify.com"
+EFNYC_ORIGIN = "https://demo-evictionfree.netlify.com"
 
 ENABLE_EMERGENCY_HP_ACTION = True
 

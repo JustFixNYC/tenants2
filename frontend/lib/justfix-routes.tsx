@@ -68,15 +68,8 @@ const LoadableDataRequestsRoutes = loadable(
   }
 );
 
-const LoadableAdminConversationsRoutes = loadable(
-  () => friendlyLoad(import("./admin/admin-conversations")),
-  {
-    fallback: <LoadingPage />,
-  }
-);
-
-const LoadableFrontappPluginRoutes = loadable(
-  () => friendlyLoad(import("./admin/frontapp-plugin")),
+const LoadableAdminRoutes = loadable(
+  () => friendlyLoad(import("./admin/routes")),
   {
     fallback: <LoadingPage />,
   }
@@ -108,15 +101,8 @@ export const JustfixRouteComponent: React.FC<RouteComponentProps> = (props) => {
       />
       <PLRoute path={JustfixRoutes.locale.login} exact component={LoginPage} />
       <Route
-        path={JustfixRoutes.adminFrontappPlugin}
-        exact
-        component={LoadableFrontappPluginRoutes}
-      />
-      <Route path={JustfixRoutes.adminLogin} exact component={LoginPage} />
-      <Route
-        path={JustfixRoutes.adminConversations}
-        exact
-        component={LoadableAdminConversationsRoutes}
+        path={JustfixRoutes.admin.prefix}
+        component={LoadableAdminRoutes}
       />
       <PLRoute
         path={JustfixRoutes.locale.logout}

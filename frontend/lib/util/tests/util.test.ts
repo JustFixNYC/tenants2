@@ -28,6 +28,12 @@ describe("assertNotNull()", () => {
   it("returns argument when not null", () => {
     expect(assertNotNull("")).toBe("");
   });
+
+  it("shows error message when given", () => {
+    expect(() => assertNotNull(null, "custom message")).toThrowError(
+      "custom message"
+    );
+  });
 });
 
 describe("hardFail()", () => {

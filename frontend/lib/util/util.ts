@@ -8,9 +8,12 @@ import { deepStrictEqual } from "assert";
  * statically verify that something isn't null (e.g. due to the limitations
  * of typings we didn't write) but are sure it won't be in practice.
  */
-export function assertNotNull<T>(thing: T | null): T | never {
+export function assertNotNull<T>(thing: T | null, message?: string): T | never {
   if (thing === null) {
-    throw new Error("Assertion failure, expected argument to not be null!");
+    let msg = message
+      ? message
+      : "Assertion failure, expected argument to not be null!";
+    throw new Error(msg);
   }
   return thing;
 }

@@ -125,6 +125,11 @@ class SubmittedHardshipDeclaration(models.Model):
         self.mailed_at = None
         return send_declaration_via_lob(self, render_declaration(self))
 
+    def render_pdf(self) -> bytes:
+        from .declaration_sending import render_declaration
+
+        return render_declaration(self)
+
     def __str__(self):
         if not self.pk:
             return super().__str__()

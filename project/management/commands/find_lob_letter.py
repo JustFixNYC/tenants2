@@ -22,11 +22,15 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         lob_ids: List[str] = options["lob_ids"]
+        found = 0
 
         for model in MODELS:
             qs = model.objects.filter(lob_letter_object__id__in=lob_ids)
             for obj in qs:
+                found += 1
                 lob_id = obj.lob_letter_object["id"]
                 print(f"Found {lob_id}: {obj}.")
                 if hasattr(obj, "admin_pdf_url"):
                     print(f"  PDF: {obj.admin_pdf_url}")
+
+        print(f"Found {found} of {len(lob_ids)} letter(s).")

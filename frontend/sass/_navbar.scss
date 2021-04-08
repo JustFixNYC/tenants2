@@ -110,4 +110,22 @@ nav.navbar {
   .navbar-burger {
     color: $jf-navbar-content;
   }
+
+  .jf-user-initials-menu {
+    width: 2em;
+    height: 2em;
+    overflow: hidden;
+    border: 2px solid $jf-navbar-content;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navbar-link:hover,
+  .is-active {
+    .jf-user-initials-menu {
+      border-color: $jf-navbar-background !important;
+    }
+  }
 }

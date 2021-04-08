@@ -7,6 +7,7 @@ import { AriaExpandableButton } from "./aria";
 import { bulmaClasses } from "./bulma";
 import { AppContextType, withAppContext, AppContext } from "../app-context";
 import { ga } from "../analytics/google-analytics";
+import { AllSessionInfo } from "../queries/AllSessionInfo";
 
 const ALL_DROPDOWNS = Symbol("All dropdowns active (Safe mode only)");
 
@@ -25,6 +26,16 @@ export type NavbarProps = AppContextType & {
    * menu items.
    */
   menuItemsComponent?: React.ComponentType<{}>;
+
+  /**
+   * A component to render any menu items for the "user menu",
+   * which is a menu for user account-related actions at the
+   * very end of the navbar.
+   *
+   * If defined, this will enable the user menu; otherwise,
+   * the user menu will be disabled.
+   */
+  userMenuItemsComponent?: React.ComponentType<{}>;
 };
 
 interface NavbarState {
@@ -47,6 +58,23 @@ const NavbarContext = React.createContext<NavbarContext>({
   isDropdownActive: () => false,
   toggleDropdown: () => {},
 });
+
+/**
+ * Attempts to return the user's initials. If the user
+ * doesn't have a first or last name, however, it
+ * returns null.
+ */
+export function getUserInitials({
+  firstName,
+  lastName,
+}: Pick<AllSessionInfo, "firstName" | "lastName">): string | null {
+  if (firstName && lastName) {
+    return [firstName, lastName]
+      .map((value) => value[0].toUpperCase())
+      .join("");
+  }
+  return null;
+}
 
 class NavbarWithoutAppContext extends React.Component<
   NavbarProps,
@@ -160,11 +188,17 @@ class NavbarWithoutAppContext extends React.Component<
       !session.isSafeModeEnabled && "is-fixed-top"
     );
     const MenuItems = this.props.menuItemsComponent;
+    const UserMenuItems = this.props.userMenuItemsComponent;
     const ctx: NavbarContext = {
       isHamburgerOpen: state.isHamburgerOpen,
       isDropdownActive: this.isDropdownActive,
       toggleDropdown: this.toggleDropdown,
     };
+    const adminMenuItem = session.isStaff && (
+      <a className="navbar-item" href={server.adminIndexURL}>
+        Admin
+      </a>
+    );
 
     return (
       <NavbarContext.Provider value={ctx}>
@@ -179,12 +213,21 @@ class NavbarWithoutAppContext extends React.Component<
             >
               <div className="navbar-end">
                 {MenuItems && <MenuItems />}
-                {session.isStaff && (
-                  <a className="navbar-item" href={server.adminIndexURL}>
-                    Admin
-                  </a>
-                )}
+                {!UserMenuItems && adminMenuItem}
                 <DevMenu />
+                {session.phoneNumber && UserMenuItems && (
+                  <NavbarDropdown
+                    id="usermenu"
+                    label={
+                      <span className="jf-user-initials-menu">
+                        <span>{getUserInitials(session) || "⚙"}</span>
+                      </span>
+                    }
+                  >
+                    {adminMenuItem}
+                    <UserMenuItems />
+                  </NavbarDropdown>
+                )}
               </div>
             </div>
           </div>
@@ -251,7 +294,7 @@ interface NavbarDropdownProps {
   /**
    * The human-readable name of the dropdown menu.
    */
-  label: string;
+  label: string | JSX.Element;
 
   /**
    * The individual links (or other content) shown when the dropdown

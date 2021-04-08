@@ -36,11 +36,7 @@ const JustfixMenuItems: React.FC<{}> = () => {
           <Trans>Take action</Trans>
         </Link>
       )}
-      {session.phoneNumber ? (
-        <Link className="navbar-item" to={JustfixRoutes.locale.logout}>
-          <Trans>Sign out</Trans>
-        </Link>
-      ) : (
+      {!session.phoneNumber && (
         <Link className="navbar-item" to={JustfixRoutes.locale.login}>
           <Trans>Sign in</Trans>
         </Link>
@@ -53,11 +49,28 @@ const JustfixMenuItems: React.FC<{}> = () => {
   );
 };
 
+const JustfixUserMenuItems: React.FC<{}> = () => {
+  return (
+    <>
+      <Link
+        className="navbar-item"
+        to={JustfixRoutes.locale.accountSettings.home}
+      >
+        Account settings
+      </Link>
+      <Link className="navbar-item" to={JustfixRoutes.locale.logout}>
+        <Trans>Sign out</Trans>
+      </Link>
+    </>
+  );
+};
+
 export const JustfixNavbar: React.FC<{}> = () => {
   return (
     <Navbar
       brandComponent={JustfixBrand}
       menuItemsComponent={JustfixMenuItems}
+      userMenuItemsComponent={JustfixUserMenuItems}
     />
   );
 };

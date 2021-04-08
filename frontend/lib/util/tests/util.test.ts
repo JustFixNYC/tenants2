@@ -29,7 +29,7 @@ describe("assertNotNull()", () => {
     expect(assertNotNull("")).toBe("");
   });
 
-  it("shows error message when given", () => {
+  it("shows custom error message when given", () => {
     expect(() => assertNotNull(null, "custom message")).toThrowError(
       "custom message"
     );
@@ -54,6 +54,12 @@ describe("assertNotUndefined()", () => {
 
   it("returns argument when not undefined", () => {
     expect(assertNotUndefined(null)).toBe(null);
+  });
+
+  it("shows custom error message when given", () => {
+    expect(() => assertNotUndefined(undefined, "custom message")).toThrowError(
+      "custom message"
+    );
   });
 });
 

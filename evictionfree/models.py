@@ -115,6 +115,16 @@ class SubmittedHardshipDeclaration(models.Model):
         ),
     )
 
+    def resend_letter(self) -> bool:
+        from .declaration_sending import send_declaration_via_lob, render_declaration
+
+        assert self.tracking_number, "Letter has not already been sent"
+
+        self.lob_letter_object = None
+        self.tracking_number = ""
+        self.mailed_at = None
+        return send_declaration_via_lob(self, render_declaration(self))
+
     def __str__(self):
         if not self.pk:
             return super().__str__()

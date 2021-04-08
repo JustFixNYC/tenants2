@@ -90,6 +90,12 @@ def _munge_tracking_number_when_fake(response: Dict[str, Any], api_key: str) -> 
     return response
 
 
+def get_letter(id: str) -> Dict[str, Any]:
+    with _lock:
+        lob.api_key = settings.LOB_SECRET_API_KEY
+        return _to_plain_object(lob.Letter.retrieve(id))
+
+
 def mail_certified_letter(
     description: str,
     to_address: Dict[str, Any],

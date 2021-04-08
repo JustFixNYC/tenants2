@@ -1,6 +1,7 @@
 from typing import Any, List
 from django.core.management import BaseCommand
 
+from loc import lob_api
 from evictionfree.models import SubmittedHardshipDeclaration
 from norent.models import Letter as NorentLetter
 from loc.models import LetterRequest as LocLetter
@@ -32,5 +33,8 @@ class Command(BaseCommand):
                 print(f"Found {lob_id}: {obj}.")
                 if hasattr(obj, "admin_pdf_url"):
                     print(f"  PDF: {obj.admin_pdf_url}")
+                letter = lob_api.get_letter(lob_id)
+                is_deleted = letter.get("deleted", False)
+                print(f"  Deleted in Lob: {is_deleted}")
 
         print(f"Found {found} of {len(lob_ids)} letter(s).")

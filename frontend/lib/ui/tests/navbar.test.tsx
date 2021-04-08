@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../navbar";
+import Navbar, { getUserInitials } from "../navbar";
 import { FakeDebugAppContext } from "../../tests/util";
 import { MemoryRouter } from "react-router";
 import { AppContext } from "../../app-context";
@@ -66,4 +66,11 @@ describe("Navbar", () => {
       document.body.removeChild(btn);
     }
   });
+});
+
+test("getUserInitials() works", () => {
+  expect(getUserInitials({ firstName: null, lastName: null })).toBe("??");
+  expect(getUserInitials({ firstName: "boop", lastName: null })).toBe("B?");
+  expect(getUserInitials({ firstName: null, lastName: "jones" })).toBe("?J");
+  expect(getUserInitials({ firstName: "boop", lastName: "jones" })).toBe("BJ");
 });

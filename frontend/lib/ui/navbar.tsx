@@ -59,13 +59,21 @@ const NavbarContext = React.createContext<NavbarContext>({
   toggleDropdown: () => {},
 });
 
+/**
+ * Attempts to return the user's initials. If the user
+ * doesn't have a first or last name, however, it
+ * returns null.
+ */
 export function getUserInitials({
   firstName,
   lastName,
-}: Pick<AllSessionInfo, "firstName" | "lastName">): string {
-  return [firstName, lastName]
-    .map((value) => (value ? value[0].toUpperCase() : "?"))
-    .join("");
+}: Pick<AllSessionInfo, "firstName" | "lastName">): string | null {
+  if (firstName && lastName) {
+    return [firstName, lastName]
+      .map((value) => value[0].toUpperCase())
+      .join("");
+  }
+  return null;
 }
 
 class NavbarWithoutAppContext extends React.Component<
@@ -212,7 +220,7 @@ class NavbarWithoutAppContext extends React.Component<
                     id="usermenu"
                     label={
                       <span className="jf-user-initials-menu">
-                        <span>{getUserInitials(session)}</span>
+                        <span>{getUserInitials(session) || "⚙"}</span>
                       </span>
                     }
                   >

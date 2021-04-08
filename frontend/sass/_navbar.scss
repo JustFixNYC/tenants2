@@ -112,8 +112,12 @@ nav.navbar {
   }
 
   .jf-user-initials-menu {
-    width: 2em;
-    height: 2em;
+    // We want the user's initials to fit snugly within the circle.
+    // The following allows the initials "MM", which are likely the
+    // most "extreme" case, to fit.
+    width: 2.25em;
+    height: 2.25em;
+
     overflow: hidden;
     border: 2px solid $jf-navbar-content;
     border-radius: 50%;

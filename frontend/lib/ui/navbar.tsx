@@ -64,7 +64,7 @@ export function getUserInitials({
   lastName,
 }: Pick<AllSessionInfo, "firstName" | "lastName">): string {
   return [firstName, lastName]
-    .map((value) => (value && value[0].toUpperCase()) || "?")
+    .map((value) => (value ? value[0].toUpperCase() : "?"))
     .join("");
 }
 

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import Navbar, { NavbarDropdown } from "./ui/navbar";
+import Navbar from "./ui/navbar";
 import { Link } from "react-router-dom";
 import { AppContext } from "./app-context";
 import JustfixRoutes from "./justfix-route-info";
@@ -49,11 +49,28 @@ const JustfixMenuItems: React.FC<{}> = () => {
   );
 };
 
+const JustfixUserMenuItems: React.FC<{}> = () => {
+  return (
+    <>
+      <Link
+        className="navbar-item"
+        to={JustfixRoutes.locale.accountSettings.home}
+      >
+        Account settings
+      </Link>
+      <Link className="navbar-item" to={JustfixRoutes.locale.logout}>
+        <Trans>Sign out</Trans>
+      </Link>
+    </>
+  );
+};
+
 export const JustfixNavbar: React.FC<{}> = () => {
   return (
     <Navbar
       brandComponent={JustfixBrand}
       menuItemsComponent={JustfixMenuItems}
+      userMenuItemsComponent={JustfixUserMenuItems}
     />
   );
 };

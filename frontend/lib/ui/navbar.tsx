@@ -7,7 +7,7 @@ import { AriaExpandableButton } from "./aria";
 import { bulmaClasses } from "./bulma";
 import { AppContextType, withAppContext, AppContext } from "../app-context";
 import { ga } from "../analytics/google-analytics";
-import { Trans } from "@lingui/macro";
+import { AllSessionInfo } from "../queries/AllSessionInfo";
 
 const ALL_DROPDOWNS = Symbol("All dropdowns active (Safe mode only)");
 
@@ -26,6 +26,16 @@ export type NavbarProps = AppContextType & {
    * menu items.
    */
   menuItemsComponent?: React.ComponentType<{}>;
+
+  /**
+   * A component to render any menu items for the "user menu",
+   * which is a menu for user account-related actions at the
+   * very end of the navbar.
+   *
+   * If defined, this will enable the user menu; otherwise,
+   * the user menu will be disabled.
+   */
+  userMenuItemsComponent?: React.ComponentType<{}>;
 };
 
 interface NavbarState {
@@ -48,6 +58,15 @@ const NavbarContext = React.createContext<NavbarContext>({
   isDropdownActive: () => false,
   toggleDropdown: () => {},
 });
+
+export function getUserInitials({
+  firstName,
+  lastName,
+}: Pick<AllSessionInfo, "firstName" | "lastName">): string {
+  return [firstName, lastName]
+    .map((value) => (value && value[0].toUpperCase()) || "?")
+    .join("");
+}
 
 class NavbarWithoutAppContext extends React.Component<
   NavbarProps,
@@ -161,11 +180,17 @@ class NavbarWithoutAppContext extends React.Component<
       !session.isSafeModeEnabled && "is-fixed-top"
     );
     const MenuItems = this.props.menuItemsComponent;
+    const UserMenuItems = this.props.userMenuItemsComponent;
     const ctx: NavbarContext = {
       isHamburgerOpen: state.isHamburgerOpen,
       isDropdownActive: this.isDropdownActive,
       toggleDropdown: this.toggleDropdown,
     };
+    const adminMenuItem = session.isStaff && (
+      <a className="navbar-item" href={server.adminIndexURL}>
+        Admin
+      </a>
+    );
 
     return (
       <NavbarContext.Provider value={ctx}>
@@ -180,27 +205,21 @@ class NavbarWithoutAppContext extends React.Component<
             >
               <div className="navbar-end">
                 {MenuItems && <MenuItems />}
+                {!UserMenuItems && adminMenuItem}
                 <DevMenu />
-                <NavbarDropdown
-                  id="account"
-                  label={
-                    <span className="jf-user-initials-menu">
-                      <span>AV</span>
-                    </span>
-                  }
-                >
-                  <a className="navbar-item" href="/graphiql">
-                    Account settings
-                  </a>
-                  {session.isStaff && (
-                    <a className="navbar-item" href={server.adminIndexURL}>
-                      Admin
-                    </a>
-                  )}
-                  <Link className="navbar-item" to={"TODO SIGN OUT"}>
-                    <Trans>Sign out</Trans>
-                  </Link>
-                </NavbarDropdown>
+                {session.phoneNumber && UserMenuItems && (
+                  <NavbarDropdown
+                    id="usermenu"
+                    label={
+                      <span className="jf-user-initials-menu">
+                        <span>{getUserInitials(session)}</span>
+                      </span>
+                    }
+                  >
+                    {adminMenuItem}
+                    <UserMenuItems />
+                  </NavbarDropdown>
+                )}
               </div>
             </div>
           </div>

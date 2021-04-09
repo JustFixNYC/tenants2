@@ -9,3 +9,9 @@ type GraphQLDateTime = string;
  * ISO 8601-formatted date like "2020-03-13".
  */
 type GraphQLDate = string;
+
+/**
+ * A custom GraphQL scalar defined by our schema. It's a string
+ * reprecenting a decimal number, e.g. "3.15".
+ */
+type GraphQLDecimal = string;

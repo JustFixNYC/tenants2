@@ -177,22 +177,24 @@ class OnboardingInfo(models.Model):
     )
 
     is_in_eviction = models.BooleanField(
-        null=True, help_text="Has the user received an eviction notice?"
+        null=True, blank=True, help_text="Has the user received an eviction notice?"
     )
 
     needs_repairs = models.BooleanField(
-        null=True, help_text="Does the user need repairs in their apartment?"
+        null=True, blank=True, help_text="Does the user need repairs in their apartment?"
     )
 
     has_no_services = models.BooleanField(
-        null=True, help_text="Is the user missing essential services like water?"
+        null=True, blank=True, help_text="Is the user missing essential services like water?"
     )
 
     has_pests = models.BooleanField(
-        null=True, help_text="Does the user have pests like rodents or bed bugs?"
+        null=True, blank=True, help_text="Does the user have pests like rodents or bed bugs?"
     )
 
-    has_called_311 = models.BooleanField(null=True, help_text="Has the user called 311 before?")
+    has_called_311 = models.BooleanField(
+        null=True, blank=True, help_text="Has the user called 311 before?"
+    )
 
     lease_type = models.CharField(
         max_length=30,
@@ -202,7 +204,7 @@ class OnboardingInfo(models.Model):
     )
 
     receives_public_assistance = models.BooleanField(
-        null=True, help_text="Does the user receive public assistance, e.g. Section 8?"
+        null=True, blank=True, help_text="Does the user receive public assistance, e.g. Section 8?"
     )
 
     can_we_sms = models.BooleanField(
@@ -243,6 +245,7 @@ class OnboardingInfo(models.Model):
 
     can_receive_rttc_comms = models.BooleanField(
         null=True,
+        blank=True,
         help_text=(
             "Whether the user has opted-in to being contacted by "
             "the Right to the City Alliance (RTTC)."
@@ -251,6 +254,7 @@ class OnboardingInfo(models.Model):
 
     can_receive_saje_comms = models.BooleanField(
         null=True,
+        blank=True,
         help_text=(
             "Whether the user has opted-in to being contacted by "
             "Strategic Actions for a Just Economy (SAJE)."

@@ -334,3 +334,16 @@ def test_save_sets_geographic_metadata(db, requests_mock, settings):
     oi.save()
     assert oi.geocoded_point is not None
     assert oi.zipcode == "11201"
+
+
+def test_blank_fields_work(db):
+    user = UserFactory()
+    oi = OnboardingInfo(
+        user=user,
+        signup_intent="LOC",
+        address="123 Boop Ave.",
+        address_verified=False,
+        state="NY",
+        can_we_sms=False,
+    )
+    oi.full_clean()

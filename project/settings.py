@@ -211,6 +211,8 @@ DATABASES = {
     "default": dj_database_url.parse(change_db_url_to_postgis(env.DATABASE_URL)),
 }
 
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
 NYCDB_DATABASE = None
 
 if env.NYCDB_DATABASE_URL:

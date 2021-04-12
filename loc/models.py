@@ -5,7 +5,6 @@ from django.db.models import Q
 from django.utils import timezone
 from django.utils.html import format_html
 from django.core.exceptions import ValidationError
-from django.contrib.postgres.fields import JSONField
 from django.conf import settings
 
 from project.common_data import Choices
@@ -282,7 +281,7 @@ class BaseLetterRequest(models.Model):
         blank=True, help_text="The HTML content of the letter at the time it was requested."
     )
 
-    lob_letter_object = JSONField(
+    lob_letter_object = models.JSONField(
         blank=True,
         null=True,
         help_text=(

@@ -2,7 +2,6 @@ import json
 from typing import List, Dict, Optional
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.contrib.postgres.fields import JSONField
 from django.contrib.gis.db.models import PointField
 from django.contrib.gis.geos import GEOSGeometry
 
@@ -146,7 +145,7 @@ class OnboardingInfo(models.Model):
         help_text=f"The user's ZIP code. {NYCADDR_META_HELP}",
     )
 
-    geometry = JSONField(
+    geometry = models.JSONField(
         blank=True,
         null=True,
         help_text="The GeoJSON point representing the user's address, if available.",

@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.postgres.fields import JSONField
 
 from users.models import JustfixUser
 from project.locales import LOCALE_KWARGS
@@ -60,7 +59,7 @@ class SubmittedHardshipDeclaration(models.Model):
         ),
     )
 
-    cover_letter_variables = JSONField(
+    cover_letter_variables = models.JSONField(
         help_text="The variables used to fill out the cover letter page."
     )
 
@@ -68,11 +67,11 @@ class SubmittedHardshipDeclaration(models.Model):
         help_text="The HTML content of the declaration's cover letter."
     )
 
-    declaration_variables = JSONField(
+    declaration_variables = models.JSONField(
         help_text="The variables used to fill out the declaration form PDF."
     )
 
-    lob_letter_object = JSONField(
+    lob_letter_object = models.JSONField(
         blank=True,
         null=True,
         help_text=(

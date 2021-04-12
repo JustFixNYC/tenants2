@@ -8,7 +8,6 @@ from django.utils.crypto import get_random_string
 from django.utils import timezone
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.exceptions import ValidationError
-from django.contrib.postgres.fields import JSONField
 import PyPDF2
 
 from .hpactionvars import HarassmentAllegationsMS, CourtLocationMC
@@ -708,7 +707,7 @@ class ServingPapers(MailingAddress):
         help_text="The PDF file representing the papers to be served.",
     )
 
-    lob_letter_object = JSONField(
+    lob_letter_object = models.JSONField(
         blank=True,
         null=True,
         help_text=(

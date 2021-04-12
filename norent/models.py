@@ -1,7 +1,6 @@
 from typing import Optional, List
 import datetime
 from django.db import models
-from django.contrib.postgres.fields import JSONField
 
 from users.models import JustfixUser
 from project.locales import LOCALE_KWARGS
@@ -122,7 +121,7 @@ class Letter(models.Model):
         blank=True,
     )
 
-    lob_letter_object = JSONField(
+    lob_letter_object = models.JSONField(
         blank=True,
         null=True,
         help_text=(

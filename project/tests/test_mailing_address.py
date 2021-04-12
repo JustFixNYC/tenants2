@@ -2,10 +2,14 @@ from django.core.exceptions import ValidationError
 import pytest
 
 from project.util.mailing_address import (
-    MailingAddress,
+    MailingAddress as AbstractMailingAddress,
     ZipCodeValidator,
     is_zip_code_valid_for_state,
 )
+
+
+class MailingAddress(AbstractMailingAddress):
+    pass
 
 
 EXAMPLE_KWARGS = dict(

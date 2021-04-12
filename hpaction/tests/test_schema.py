@@ -300,7 +300,7 @@ class TestSessionFeeWaiverInfo:
     def test_it_works_if_started(self, graphql_client, db):
         fw = FeeWaiverDetailsFactory(income_amount_monthly=Decimal("3.15"))
         graphql_client.request.user = fw.user
-        assert self.execute(graphql_client) == {"feeWaiver": {"incomeAmountMonthly": 3.15}}
+        assert self.execute(graphql_client) == {"feeWaiver": {"incomeAmountMonthly": '3.15'}}
 
 
 EMAIL_PACKET_GRAPHQL = """

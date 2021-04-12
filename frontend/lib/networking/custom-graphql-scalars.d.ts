@@ -12,6 +12,6 @@ type GraphQLDate = string;
 
 /**
  * A custom GraphQL scalar defined by our schema. It's a string
- * reprecenting a decimal number, e.g. "3.15".
+ * representing a decimal number, e.g. "3.15".
  */
 type GraphQLDecimal = string;

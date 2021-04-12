@@ -1,5 +1,5 @@
--- zip code of building (pluto_18v2)
--- residential units in building (pluto_18v2) 
+-- zip code of building (pluto_19v2)
+-- residential units in building (pluto_19v2) 
 with Total_Res_Units as(
     select    
         zipcode,
@@ -7,7 +7,7 @@ with Total_Res_Units as(
         bldgclass,
         UnitsRes,
         bbl -- is this necessary?
-    from pluto_18v2
+    from pluto_19v2
     where bbl= %(bbl)s
     ),
     

@@ -10,7 +10,6 @@ class S3StaticFilesStorage(S3Boto3Storage):
             bucket_name=settings.AWS_STORAGE_STATICFILES_BUCKET_NAME,
             gzip=True,
             default_acl="public-read",
-            bucket_acl="public-read",
             querystring_auth=False,
         )
 

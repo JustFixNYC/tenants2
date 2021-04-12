@@ -122,12 +122,12 @@ class HarassmentDetails(models.Model):
         help_text="The user whom the harassment details are for.",
     )
 
-    two_or_less_apartments_in_building: Optional[bool] = models.NullBooleanField(
-        help_text="Does you building have 2 apartments or less?"
+    two_or_less_apartments_in_building: Optional[bool] = models.BooleanField(
+        null=True, help_text="Does you building have 2 apartments or less?"
     )
 
-    more_than_one_family_per_apartment: Optional[bool] = models.NullBooleanField(
-        help_text="Is there more than one family living in each apartment?"
+    more_than_one_family_per_apartment: Optional[bool] = models.BooleanField(
+        null=True, help_text="Is there more than one family living in each apartment?"
     )
 
     harassment_details: str = models.TextField(
@@ -156,11 +156,12 @@ class FeeWaiverDetails(models.Model):
         help_text="The user whom this fee waiver is for.",
     )
 
-    receives_public_assistance: Optional[bool] = models.NullBooleanField(
+    receives_public_assistance: Optional[bool] = models.BooleanField(
+        null=True,
         help_text=(
             "Whether the user receives any kind of public assistance benefits, e.g. "
             "cash benefits, rent assistance, food stamps, Medicaid."
-        )
+        ),
     )
 
     income_amount_monthly: Optional[Decimal] = models.DecimalField(
@@ -220,7 +221,8 @@ class FeeWaiverDetails(models.Model):
 
     expense_other: Decimal = models.DecimalField(**CURRENCY_KWARGS, default=0)
 
-    asked_before: Optional[bool] = models.NullBooleanField(
+    asked_before: Optional[bool] = models.BooleanField(
+        null=True,
         help_text="Whether the user has requested a fee waiver before.",
     )
 
@@ -405,32 +407,33 @@ class HPActionDetails(models.Model):
         help_text="The user whom the HP action is for.",
     )
 
-    sue_for_repairs: Optional[bool] = models.NullBooleanField(
-        help_text=("Whether the user wants to sue for repairs.")
+    sue_for_repairs: Optional[bool] = models.BooleanField(
+        null=True, help_text=("Whether the user wants to sue for repairs.")
     )
 
-    sue_for_harassment: Optional[bool] = models.NullBooleanField(
-        help_text=("Whether the user wants to sue for harassment.")
+    sue_for_harassment: Optional[bool] = models.BooleanField(
+        null=True, help_text=("Whether the user wants to sue for harassment.")
     )
 
-    filed_with_311: Optional[bool] = models.NullBooleanField(
-        help_text=("Whether the user has filed any complaints with 311 before.")
+    filed_with_311: Optional[bool] = models.BooleanField(
+        null=True, help_text=("Whether the user has filed any complaints with 311 before.")
     )
 
-    thirty_days_since_311: Optional[bool] = models.NullBooleanField(
-        help_text=("Whether 30 days have passed since the user filed complaints with 311.")
+    thirty_days_since_311: Optional[bool] = models.BooleanField(
+        null=True,
+        help_text=("Whether 30 days have passed since the user filed complaints with 311."),
     )
 
-    hpd_issued_violations: Optional[bool] = models.NullBooleanField(
-        help_text=("Whether HPD issued any violations.")
+    hpd_issued_violations: Optional[bool] = models.BooleanField(
+        null=True, help_text=("Whether HPD issued any violations.")
     )
 
-    thirty_days_since_violations: Optional[bool] = models.NullBooleanField(
-        help_text=("Whether 30 days have passed since HPD issued violations.")
+    thirty_days_since_violations: Optional[bool] = models.BooleanField(
+        null=True, help_text=("Whether 30 days have passed since HPD issued violations.")
     )
 
-    urgent_and_dangerous: Optional[bool] = models.NullBooleanField(
-        help_text=("Whether the conditions are urgent and dangerous.")
+    urgent_and_dangerous: Optional[bool] = models.BooleanField(
+        null=True, help_text=("Whether the conditions are urgent and dangerous.")
     )
 
 

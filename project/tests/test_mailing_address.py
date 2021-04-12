@@ -9,6 +9,8 @@ from project.util.mailing_address import (
 
 
 class MailingAddress(AbstractMailingAddress):
+    # We need to make a trivial concrete subclass to avoid a
+    # "Abstract models cannot be instantiated" error.
     pass
 
 

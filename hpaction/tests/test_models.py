@@ -8,7 +8,9 @@ from users.tests.factories import UserFactory
 from project.tests.util import strip_locale
 from .factories import HPActionDocumentsFactory, UploadTokenFactory, PriorCaseFactory
 from ..models import (
+    HPActionDetails,
     HPActionDocuments,
+    HarassmentDetails,
     UploadToken,
     UPLOAD_TOKEN_LIFETIME,
     get_upload_status_for_user,
@@ -235,3 +237,22 @@ class TestPriorCase:
 
 def test_config_is_created_automatically(db):
     Config.objects.get()
+
+
+class TestBlankFields:
+    def test_harassment_details(self, db):
+        user = UserFactory()
+        hd = HarassmentDetails(user=user)
+        hd.full_clean()
+
+    def test_fee_waiver_details(self, db):
+        user = UserFactory()
+        fw = FeeWaiverDetails(
+            user=user, income_amount_monthly=Decimal("3.15"), rent_amount=Decimal("2.15")
+        )
+        fw.full_clean()
+
+    def test_hpaction_details(self, db):
+        user = UserFactory()
+        hpad = HPActionDetails(user=user)
+        hpad.full_clean()

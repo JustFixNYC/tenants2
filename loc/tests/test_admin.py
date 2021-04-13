@@ -62,11 +62,14 @@ class TestLobIntegrationField:
     def test_it_returns_info_when_already_mailed(self):
         lr = LetterRequest()
         lr.lob_letter_object = lob_fixture.SAMPLE_LETTER
+        lr.tracking_number = lr.lob_letter_object["tracking_number"]
         assert self.lob_integration(lr) == (
             'The letter was <a href="https://dashboard.lob.com/#/letters/ltr_4868c3b754655f90" '
-            'rel="noreferrer noopener" target="_blank">'
-            "sent via Lob</a> with the tracking number 9407300000000000000004 and has an "
-            "expected delivery date of 2017-09-12."
+            'rel="noreferrer noopener" target="_blank">sent via Lob</a> with the '
+            "tracking number <a href="
+            '"https://tools.usps.com/go/TrackConfirmAction?tLabels=9407300000000000000004" '
+            'rel="noreferrer noopener" target="_blank">9407300000000000000004</a> and has '
+            "an expected delivery date of 2017-09-12."
         )
 
     def test_it_returns_button_when_it_can_be_mailed(self, monkeypatch, db):

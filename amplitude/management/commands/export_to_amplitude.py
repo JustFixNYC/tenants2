@@ -11,6 +11,7 @@ from onboarding.models import OnboardingInfo
 from amplitude.models import Sync, SYNC_CHOICES
 from amplitude.api import AmpEvent, AmpEventUploader, EPOCH
 from evictionfree.models import SubmittedHardshipDeclaration
+from amplitude.models import LoggedEvent
 
 
 class Synchronizer(ABC):
@@ -92,9 +93,24 @@ class EfnySynchronizer(Synchronizer):
             )
 
 
+class AmplitudeLoggedEventSynchronizer(Synchronizer):
+    @classmethod
+    def iter_events(cls, last_synced_at: datetime.datetime) -> Iterator[AmpEvent]:
+        qs = LoggedEvent.objects.filter(created_at__gte=last_synced_at).select_related("user")
+        for le in qs:
+            yield AmpEvent(
+                user_id=le.user and le.user.id,
+                device_id=le.device_id,
+                event_type=le.kind_label,
+                time=le.created_at,
+                insert_id_suffix=str(le.id),
+            )
+
+
 SYNCHRONIZERS: Dict[str, Synchronizer] = {
     SYNC_CHOICES.USERS_V2: UserSynchronizer(),
     SYNC_CHOICES.EVICTIONFREE: EfnySynchronizer(),
+    SYNC_CHOICES.AMPLITUDE: AmplitudeLoggedEventSynchronizer(),
 }
 
 

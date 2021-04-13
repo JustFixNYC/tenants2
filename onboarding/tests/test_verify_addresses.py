@@ -1,3 +1,4 @@
+from datetime import date
 from io import StringIO
 from unittest.mock import patch
 from django.core.management import call_command
@@ -6,6 +7,7 @@ import freezegun
 
 import pytest
 
+from findhelp.tests.factories import CountyFactory
 from onboarding.management.commands import verify_addresses
 from project.tests.test_geocoding import EXAMPLE_SEARCH, enable_fake_geocoding
 from .factories import OnboardingInfoFactory, NationalOnboardingInfoFactory
@@ -145,4 +147,46 @@ def test_handle_works(db):
         f"User admin link: https://example.com/admin/users/justfixuser/{oi.user.pk}/change/",
         "Unable to geocode address for '150 court street, Brooklyn, New York'. The "
         "geocoding service may be down or no addresses matched.",
+        "0 user(s) updated.",
     ]
+
+
+class TestConvertNationalToNycAddrIfNeeded:
+    def make_national_nyc_onboarding_info(self):
+        return NationalOnboardingInfoFactory(
+            state="NY",
+            non_nyc_city="Stratford",
+            geocoded_address="1200 Stratford Avenue, Bronx, New York 10472, "
+            "United States (via Mapbox)",
+            geometry={
+                "type": "Point",
+                "coordinates": [0.1, 0.1],
+            },
+        )
+
+    def test_it_does_nothing_if_already_in_nyc(self, db):
+        cmd = verify_addresses.Command()
+        oi = OnboardingInfoFactory()
+        assert cmd.convert_national_to_nyc_addr_if_needed(oi) is False
+
+    def test_it_does_nothing_if_not_in_nyc_borough(self, db):
+        cmd = verify_addresses.Command()
+        CountyFactory(name="Erie")
+        oi = self.make_national_nyc_onboarding_info()
+        assert cmd.convert_national_to_nyc_addr_if_needed(oi) is False
+
+    def test_it_works(self, db):
+        cmd = verify_addresses.Command()
+        CountyFactory(name="Bronx")
+        oi = self.make_national_nyc_onboarding_info()
+        assert cmd.convert_national_to_nyc_addr_if_needed(oi) is True
+        assert oi.borough == "BRONX"
+        assert oi.non_nyc_city == ""
+        oi.full_clean()
+        oi.save()
+
+
+def test_parse_since_works():
+    assert verify_addresses.parse_since("2020-01-02").date() == date(2020, 1, 2)
+    with freezegun.freeze_time("2020-01-03"):
+        assert verify_addresses.parse_since("2d").date() == date(2020, 1, 1)

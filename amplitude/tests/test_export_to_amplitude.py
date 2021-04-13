@@ -2,9 +2,13 @@ from django.core.management import call_command, CommandError
 from django.utils.timezone import now
 import pytest
 
+from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
 from evictionfree.tests.factories import SubmittedHardshipDeclarationFactory
-from amplitude.management.commands.export_to_amplitude import EfnySynchronizer
+from amplitude.management.commands.export_to_amplitude import (
+    EfnySynchronizer,
+    AmplitudeLoggedEventSynchronizer,
+)
 from amplitude.api import AMP_BATCH_URL, EPOCH
 from amplitude import models
 
@@ -86,6 +90,38 @@ class TestEfnySynchronizer:
             "hasHealthRisk": False,
         }
         assert event.time == shd.created_at
+
+
+class TestAmplitudeLoggedEventSynchronizer:
+    def test_it_works_for_anonymous_users(self, db, http_request):
+        http_request.COOKIES["jf_device_id"] = "bingy"
+        le = models.LoggedEvent.objects.create_for_request(
+            http_request, kind=models.LoggedEvent.CHOICES.SAFE_MODE_ENABLE
+        )
+        events = list(AmplitudeLoggedEventSynchronizer().iter_events(EPOCH))
+        assert len(events) == 1
+        event = events[0]
+        assert event.event_type == "Enable compatibility mode"
+        assert event.user_id is None
+        assert event.device_id == "bingy"
+        assert event.event_properties == {}
+        assert event.time == le.created_at
+
+    def test_it_works_for_logged_in_users(self, db, http_request):
+        user = UserFactory()
+        http_request.user = user
+        le = models.LoggedEvent.objects.create_for_request(
+            http_request, kind=models.LoggedEvent.CHOICES.SAFE_MODE_DISABLE
+        )
+        events = list(AmplitudeLoggedEventSynchronizer().iter_events(EPOCH))
+        assert len(events) == 1
+        event = events[0]
+        assert event.event_type == "Disable compatibility mode"
+        assert event.user_id == user.id
+        assert event.device_id
+        assert event.device_id.startswith("justfix-device:")
+        assert event.event_properties == {}
+        assert event.time == le.created_at
 
 
 def test_it_raises_error_when_amplitude_is_disabled():

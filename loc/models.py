@@ -3,19 +3,17 @@ import datetime
 from django.db import models, transaction
 from django.db.models import Q
 from django.utils import timezone
-from django.utils.html import format_html
 from django.core.exceptions import ValidationError
-from django.contrib.postgres.fields import JSONField
 from django.conf import settings
 
 from project.common_data import Choices
-from project import common_data
 from project.util import phone_number as pn
 from project.util.mailing_address import MailingAddress
 from project.util.site_util import absolute_reverse, get_site_name
 from project.util.instance_change_tracker import InstanceChangeTracker
 from users.models import JustfixUser
 from .landlord_lookup import lookup_landlord
+from .lob_django_util import SendableViaLobMixin
 
 
 LOB_STRICTNESS_HELP_URL = (
@@ -25,8 +23,6 @@ LOB_STRICTNESS_HELP_URL = (
 LOC_MAILING_CHOICES = Choices.from_file("loc-mailing-choices.json")
 
 LOC_REJECTION_CHOICES = Choices.from_file("loc-rejection-choices.json")
-
-USPS_TRACKING_URL_PREFIX = common_data.load_json("loc.json")["USPS_TRACKING_URL_PREFIX"]
 
 # The amount of time a user has to change their letter of request
 # content after originally submitting it.
@@ -268,7 +264,7 @@ class AddressDetails(MailingAddress):
         return self.address.replace("\n", " / ")
 
 
-class BaseLetterRequest(models.Model):
+class BaseLetterRequest(models.Model, SendableViaLobMixin):
     class Meta:
         abstract = True
 
@@ -282,7 +278,7 @@ class BaseLetterRequest(models.Model):
         blank=True, help_text="The HTML content of the letter at the time it was requested."
     )
 
-    lob_letter_object = JSONField(
+    lob_letter_object = models.JSONField(
         blank=True,
         null=True,
         help_text=(
@@ -360,55 +356,6 @@ class LetterRequest(BaseLetterRequest):
             f"{self.user.full_name}'s letter of complaint request from "
             f"{self.created_at.strftime('%A, %B %d %Y')}"
         )
-
-    @property
-    def lob_letter_html_description(self) -> str:
-        """
-        Return an HTML string that describes the mailed Lob letter. If
-        the letter has not been sent through Lob, return an empty string.
-        """
-
-        lob_url = self.lob_url
-        return lob_url and format_html(
-            'The letter was <a href="{}" rel="noreferrer noopener" target="_blank">'
-            "sent via Lob</a> with the tracking number {} and "
-            "has an expected delivery date of {}.",
-            lob_url,
-            self.lob_letter_object["tracking_number"],
-            self.lob_letter_object["expected_delivery_date"],
-        )
-
-    @property
-    def lob_url(self) -> str:
-        """
-        Return the URL on Lob where more information about the mailed Lob
-        version of this letter can be found.
-
-        If the letter has not been sent through Lob, return an empty string.
-        """
-
-        if not self.lob_letter_object:
-            return ""
-        ltr_id = self.lob_letter_object["id"]
-
-        # This URL structure isn't formally documented anywhere, it was
-        # just inferred, so it could technically break at any time, but
-        # it's better than nothing!
-        return f"https://dashboard.lob.com/#/letters/{ltr_id}"
-
-    @property
-    def usps_tracking_url(self) -> str:
-        """
-        Return the URL on the USPS website where more information about
-        the mailed letter can be found.
-
-        If the letter has not been sent, return an empty string.
-        """
-
-        if not self.tracking_number:
-            return ""
-
-        return f"{USPS_TRACKING_URL_PREFIX}{self.tracking_number}"
 
     def can_change_content(self) -> bool:
         if self.__tracker.original_values["mail_choice"] == LOC_MAILING_CHOICES.USER_WILL_MAIL:

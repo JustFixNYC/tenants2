@@ -1,4 +1,9 @@
-import { getYesNoChoices, isYesNoChoice } from "../yes-no-radios-form-field";
+import {
+  getYesNoChoices,
+  isYesNoChoice,
+  optionalBooleanToYesNoChoice,
+  optionalBooleanToYesNoLabel,
+} from "../yes-no-radios-form-field";
 
 test("isYesNoChoice() works", () => {
   expect(isYesNoChoice("bleh")).toBe(false);
@@ -27,4 +32,16 @@ describe("getYesNoChoices", () => {
       ["False", "NOPE"],
     ]);
   });
+});
+
+test("optionalBooleanToYesNoLabel() works", () => {
+  expect(optionalBooleanToYesNoLabel(null)).toBe("");
+  expect(optionalBooleanToYesNoLabel(true)).toBe("Yes");
+  expect(optionalBooleanToYesNoLabel(false)).toBe("No");
+});
+
+test("optionalBooleanToYesNoChoice() works", () => {
+  expect(optionalBooleanToYesNoChoice(null)).toBe("");
+  expect(optionalBooleanToYesNoChoice(true)).toBe("True");
+  expect(optionalBooleanToYesNoChoice(false)).toBe("False");
 });

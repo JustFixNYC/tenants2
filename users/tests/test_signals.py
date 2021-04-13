@@ -51,21 +51,21 @@ def create_log_entry(**kwargs):
 def test_logentry_addition_is_logged():
     with patch("users.signals.logger") as mock:
         create_log_entry(action_flag=ADDITION)
-        mock.info.assert_called_once_with("boop created user 'blargy'.")
+        mock.info.assert_called_once_with("boop created users | user 'blargy'.")
 
 
 @pytest.mark.django_db
 def test_logentry_deletion_is_logged():
     with patch("users.signals.logger") as mock:
         create_log_entry(action_flag=DELETION)
-        mock.info.assert_called_once_with("boop deleted user 'blargy'.")
+        mock.info.assert_called_once_with("boop deleted users | user 'blargy'.")
 
 
 @pytest.mark.django_db
 def test_logentry_change_is_logged():
     with patch("users.signals.logger") as mock:
         create_log_entry(action_flag=CHANGE, change_message="oof")
-        mock.info.assert_called_once_with("boop changed user 'blargy': oof.")
+        mock.info.assert_called_once_with("boop changed users | user 'blargy': oof.")
 
 
 @pytest.mark.django_db

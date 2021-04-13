@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-02 16:30+0000\n"
+"POT-Creation-Date: 2021-03-17 12:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,27 +43,23 @@ msgstr ""
 msgid "For more information about New York’s eviction protections and your rights as a tenant, visit %(url)s. To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
 msgstr ""
 
-#: evictionfree/schema.py:86
+#: evictionfree/schema.py:94
 msgid "You have already sent a hardship declaration form!"
 msgstr ""
 
-#: evictionfree/schema.py:88
-msgid "You haven't provided any account details yet!"
-msgstr ""
-
-#: evictionfree/schema.py:90
+#: evictionfree/schema.py:96
 msgid "You haven't provided any landlord details yet!"
 msgstr ""
 
-#: evictionfree/schema.py:95
+#: evictionfree/schema.py:101
 msgid "You must be in the state of New York to use this tool!"
 msgstr ""
 
-#: evictionfree/schema.py:103
+#: evictionfree/schema.py:109
 msgid "You haven't provided details for your hardship declaration form yet!"
 msgstr ""
 
-#: evictionfree/schema.py:110
+#: evictionfree/schema.py:116
 msgid "This form can only be used from the Eviction Free NY site."
 msgstr ""
 
@@ -97,7 +93,16 @@ msgstr ""
 msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
 msgstr ""
 
-#: norent/schema.py:529
+#: norent/schema.py:311
+#, python-format
+msgid "Please enter a valid ZIP code for %(state_name)s."
+msgstr ""
+
+#: norent/schema.py:318
+msgid "Your address appears to be within New York City. Please go back and enter \"New York City\" as your city."
+msgstr ""
+
+#: norent/schema.py:530
 #, python-format
 msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
 msgstr ""
@@ -120,19 +125,23 @@ msgstr ""
 msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox."
 msgstr ""
 
-#: project/forms.py:13
+#: onboarding/schema_util.py:16
+msgid "You haven't provided any account details yet!"
+msgstr ""
+
+#: project/forms.py:14
 msgid "Please choose at least one option."
 msgstr ""
 
-#: project/forms.py:82
+#: project/forms.py:83
 msgid "Invalid phone number or password."
 msgstr ""
 
-#: project/forms.py:130
+#: project/forms.py:135
 msgid "A user with that email address already exists."
 msgstr ""
 
-#: project/forms.py:163
+#: project/forms.py:169
 msgid "Passwords do not match!"
 msgstr ""
 

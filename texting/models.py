@@ -1,5 +1,4 @@
 from typing import Optional
-from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.db.models.functions import Coalesce
 
@@ -92,7 +91,7 @@ class PhoneNumberLookup(models.Model):
 
     is_valid = models.BooleanField(help_text="Whether Twilio thinks the phone number is valid.")
 
-    carrier = JSONField(
+    carrier = models.JSONField(
         default=None,
         null=True,
         help_text=(

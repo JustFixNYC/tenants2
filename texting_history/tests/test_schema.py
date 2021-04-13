@@ -1,9 +1,8 @@
-from unittest.mock import MagicMock
+from project.tests.schema_admin_test_util import make_permission_test_class
 import pytest
 
 from users.tests.factories import UserFactory
 from users.models import VIEW_TEXT_MESSAGE_PERMISSION
-from users.permission_util import get_permissions_from_ns_codenames
 from .factories import MessageFactory
 
 
@@ -41,24 +40,6 @@ query {
 }
 """
 
-USER_DETAILS_QUERY = """
-query {
-    userDetails(phoneNumber: "5551234567") {
-        firstName,
-        adminUrl,
-        rapidproGroups,
-    }
-}
-"""
-
-USER_DETAILS_VIA_EMAIL_QUERY = """
-query {
-    userDetails(email: "Boop@jones.net") {
-        firstName,
-    }
-}
-"""
-
 UPDATE_TEXTING_HISTORY_MUTATION = """
 mutation {
     updateTextingHistory {
@@ -68,66 +49,26 @@ mutation {
 }
 """
 
-ALL_QUERIES = [
-    (CONVERSATION_QUERY, lambda data: data["conversation"] is None),
-    (CONVERSATIONS_QUERY, lambda data: data["conversations"] is None),
-    (USER_DETAILS_QUERY, lambda data: data["userDetails"] is None),
-    ("query { isVerifiedStaffUser }", lambda data: data["isVerifiedStaffUser"] is None),
-    (
-        UPDATE_TEXTING_HISTORY_MUTATION,
-        lambda data: data["updateTextingHistory"]["authError"] is True,
-    ),
-]
-
-
-@pytest.fixture
-def mocklog(monkeypatch):
-    mock = MagicMock()
-    monkeypatch.setattr("texting_history.schema.logger", mock)
-    return mock
+TestAdminEndpoints = make_permission_test_class(
+    [
+        (CONVERSATION_QUERY, lambda data: data["conversation"] is None),
+        (CONVERSATIONS_QUERY, lambda data: data["conversations"] is None),
+        (
+            UPDATE_TEXTING_HISTORY_MUTATION,
+            lambda data: data["updateTextingHistory"]["authError"] is True,
+        ),
+    ],
+    VIEW_TEXT_MESSAGE_PERMISSION,
+)
 
 
 @pytest.fixture
 def auth_graphql_client(db, graphql_client):
-    user = UserFactory(is_staff=True, email="boop@jones.net")
-    perm = get_permissions_from_ns_codenames([VIEW_TEXT_MESSAGE_PERMISSION])[0]
-    user.user_permissions.add(perm)
+    user = UserFactory(
+        is_staff=True, email="boop@jones.net", user_permissions=[VIEW_TEXT_MESSAGE_PERMISSION]
+    )
     graphql_client.request.user = user
     return graphql_client
-
-
-@pytest.mark.parametrize("query, is_denied", ALL_QUERIES)
-def test_endpoints_require_auth(db, graphql_client, query, is_denied, mocklog):
-    result = graphql_client.execute(query)
-    assert is_denied(result["data"])
-    mocklog.info.assert_called_once_with("User must be authenticated!")
-
-
-@pytest.mark.parametrize("query, is_denied", ALL_QUERIES)
-def test_endpoints_require_staff(db, graphql_client, query, is_denied, mocklog):
-    graphql_client.request.user = UserFactory()
-    result = graphql_client.execute(query)
-    assert is_denied(result["data"])
-    mocklog.info.assert_called_once_with("User must be staff!")
-
-
-@pytest.mark.parametrize("query, is_denied", ALL_QUERIES)
-def test_endpoints_require_permission(db, graphql_client, query, is_denied, mocklog):
-    graphql_client.request.user = UserFactory(is_staff=True)
-    result = graphql_client.execute(query)
-    assert is_denied(result["data"])
-    mocklog.info.assert_called_once_with("User does not have permission to view text messages!")
-
-
-@pytest.mark.parametrize("query, is_denied", ALL_QUERIES)
-def test_endpoints_require_twofactor_when_enabled(
-    db, graphql_client, query, settings, is_denied, mocklog
-):
-    settings.TWOFACTOR_VERIFY_DURATION = 60
-    graphql_client.request.user = UserFactory(is_staff=True)
-    result = graphql_client.execute(query)
-    assert is_denied(result["data"])
-    mocklog.info.assert_called_once_with("User must be verified via two-factor authentication!")
 
 
 def test_conversation_query_works(auth_graphql_client):
@@ -191,36 +132,6 @@ def test_conversations_queries_produce_expected_results(auth_graphql_client, que
         % query
     )["data"]["conversations"]["messages"]
     assert len(messages) == num_results
-
-
-def test_is_verified_staff_user_works(auth_graphql_client):
-    assert auth_graphql_client.execute("query { isVerifiedStaffUser }")["data"] == {
-        "isVerifiedStaffUser": True,
-    }
-
-
-def test_user_details_query_works(auth_graphql_client):
-    user = auth_graphql_client.request.user
-    result = auth_graphql_client.execute(USER_DETAILS_QUERY)["data"]["userDetails"]
-    assert result == {
-        "firstName": "Boop",
-        "adminUrl": f"https://example.com/admin/users/justfixuser/{user.id}/change/",
-        "rapidproGroups": [],
-    }
-
-
-def test_user_details_via_email_query_works(auth_graphql_client):
-    result = auth_graphql_client.execute(USER_DETAILS_VIA_EMAIL_QUERY)["data"]["userDetails"]
-    assert result == {
-        "firstName": "Boop",
-    }
-
-
-def test_user_details_with_no_args_returns_none(auth_graphql_client):
-    assert (
-        auth_graphql_client.execute("query { userDetails { firstName } }")["data"]["userDetails"]
-        is None
-    )
 
 
 def test_update_texting_history_mutation_works(auth_graphql_client, mock_twilio_api):

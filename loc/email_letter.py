@@ -12,7 +12,7 @@ from .views import render_finished_loc_pdf_for_user
 def email_letter(user_id: int, recipients: List[str]) -> None:
     user = JustfixUser.objects.get(pk=user_id)
     request = HttpRequest()
-    SessionMiddleware().process_request(request)
+    SessionMiddleware(lambda request: None).process_request(request)
     email_file_response_as_attachment(
         subject=f"{user.full_name}'s letter of complaint",
         body=(

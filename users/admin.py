@@ -7,7 +7,7 @@ from .forms import JustfixUserCreationForm, JustfixUserChangeForm
 from .models import JustfixUser
 import rapidpro.models
 from onboarding.admin import OnboardingInline
-from .admin_user_proxy import user_signup_intent, sms_conversations_field
+from .admin_user_proxy import impersonate_field, user_signup_intent, sms_conversations_field
 from texting.models import get_lookup_description_for_phone_number
 from loc.admin import LOCUser, LandlordDetailsInline
 from hpaction.admin import HPUser
@@ -64,6 +64,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin, MapModelAdm
                     "phone_number_lookup_details",
                     "sms_conversations",
                     "locale",
+                    "impersonate",
                 )
             },
         ),
@@ -136,6 +137,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin, MapModelAdm
         "phone_number_lookup_details",
         "rapidpro_contact_groups",
         "sms_conversations",
+        "impersonate",
         *UserAdmin.readonly_fields,
     ]
 
@@ -177,6 +179,8 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin, MapModelAdm
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
         return queryset.prefetch_related("onboarding_info")
+
+    impersonate = impersonate_field
 
 
 admin.site.register(JustfixUser, JustfixUserAdmin)

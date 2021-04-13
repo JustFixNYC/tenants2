@@ -177,7 +177,7 @@ export const AskNationalAddress: React.FC<
         <>
           <TextualFormField
             {...ctx.fieldPropsFor("street")}
-            label={li18n._(t`House number and street name`)}
+            label={li18n._(t`Address`)}
           />
           <AptNumberFormFields
             aptNumberProps={ctx.fieldPropsFor("aptNumber")}

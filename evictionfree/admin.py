@@ -7,6 +7,7 @@ from users.admin_user_proxy import UserProxyAdmin
 from project.util.admin_util import admin_field, never_has_permission
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from loc.admin import LandlordDetailsInline
+from loc.lob_django_util import SendableViaLobAdminMixin
 from . import models
 
 
@@ -25,14 +26,14 @@ class HardshipDeclarationDetailsInline(admin.StackedInline):
     verbose_name_plural = verbose_name
 
 
-class SubmittedHardshipDeclarationInline(admin.StackedInline):
+class SubmittedHardshipDeclarationInline(admin.StackedInline, SendableViaLobAdminMixin):
     model = models.SubmittedHardshipDeclaration
     fields = [
         "created_at",
-        "tracking_number",
         "emailed_to_housing_court_at",
         "emailed_at",
         "mailed_at",
+        "lob_integration",
     ]
     readonly_fields = fields
 

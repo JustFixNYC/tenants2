@@ -2,6 +2,7 @@ from django.db import models
 
 from users.models import JustfixUser
 from project.locales import LOCALE_KWARGS
+from loc.lob_django_util import SendableViaLobMixin
 
 
 class HardshipDeclarationDetails(models.Model):
@@ -40,7 +41,7 @@ class HardshipDeclarationDetails(models.Model):
         return self.has_financial_hardship or self.has_health_risk
 
 
-class SubmittedHardshipDeclaration(models.Model):
+class SubmittedHardshipDeclaration(models.Model, SendableViaLobMixin):
     created_at = models.DateTimeField(auto_now_add=True)
 
     updated_at = models.DateTimeField(auto_now=True)

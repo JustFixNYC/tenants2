@@ -4,6 +4,7 @@ from django.db import models
 
 from users.models import JustfixUser
 from project.locales import LOCALE_KWARGS
+from loc.lob_django_util import SendableViaLobMixin
 
 
 class RentPeriodManager(models.Manager):
@@ -81,9 +82,9 @@ class UpcomingLetterRentPeriod(models.Model):
     )
 
 
-class Letter(models.Model):
+class Letter(models.Model, SendableViaLobMixin):
     """
-    A no rent letter that is ready to be sent.
+    A no rent letter that is ready to be sent, or has already been sent.
     """
 
     class Meta:

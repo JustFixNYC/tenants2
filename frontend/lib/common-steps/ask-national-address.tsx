@@ -18,7 +18,7 @@ import {
 } from "../forms/apt-number-form-fields";
 import { YesNoConfirmationModal } from "../ui/confirmation-modal";
 import { AppContext } from "../app-context";
-import { Route } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 import { areAddressesTheSame } from "../ui/address-confirmation";
 import { hardFail } from "../util/util";
 import { BreaksBetweenLines } from "../ui/breaks-between-lines";
@@ -127,6 +127,35 @@ export type NationalAddressModalRoutes = {
   nationalAddressConfirmInvalidModal: string;
 };
 
+const ReadonlyCityAndStateField: React.FC<{
+  changeURL: string;
+}> = ({ changeURL }) => {
+  const { session } = useContext(AppContext);
+  const scf = session.norentScaffolding;
+
+  if (!(scf?.city && scf?.state)) return null;
+
+  const cityAndState = `${scf.city}, ${scf.state}`;
+
+  return (
+    <div className="field">
+      <span className="label">
+        <Trans>City and state</Trans>
+      </span>
+      <div className="control">
+        {cityAndState}{" "}
+        <Link to={changeURL} className="jf-change-readonly-value">
+          <span
+            aria-label={li18n._(t`Change city and state from ${cityAndState}`)}
+          >
+            <Trans>Change</Trans>
+          </span>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
 export const AskNationalAddress: React.FC<
   MiddleProgressStepProps & {
     children: JSX.Element;
@@ -155,6 +184,7 @@ export const AskNationalAddress: React.FC<
             noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
             aptNumberLabel={li18n._(t`Unit/apt/lot/suite number`)}
           />
+          <ReadonlyCityAndStateField changeURL={props.prevStep} />
           <TextualFormField
             {...ctx.fieldPropsFor("zipCode")}
             label={li18n._(t`Zip code`)}

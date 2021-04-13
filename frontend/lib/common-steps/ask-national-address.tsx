@@ -168,13 +168,7 @@ export const AskNationalAddress: React.FC<
 
               <div className="control">
                 {cityAndState}{" "}
-                <Link
-                  to={props.prevStep}
-                  style={{
-                    textDecoration: "underline",
-                    fontSize: "smaller",
-                  }}
-                >
+                <Link to={props.prevStep} className="jf-change-readonly-value">
                   <span
                     aria-label={li18n._(
                       t`Change city and state from ${cityAndState}`
@@ -184,16 +178,6 @@ export const AskNationalAddress: React.FC<
                   </span>
                 </Link>
               </div>
-              {/*
-              <div className="control">
-                <input
-                  type="text"
-                  className="input"
-                  disabled
-                  id="cityAndState"
-                  value={cityAndState}
-                ></input>
-              </div>*/}
             </div>
             <TextualFormField
               {...ctx.fieldPropsFor("zipCode")}

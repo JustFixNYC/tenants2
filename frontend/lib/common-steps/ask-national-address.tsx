@@ -127,74 +127,79 @@ export type NationalAddressModalRoutes = {
   nationalAddressConfirmInvalidModal: string;
 };
 
+const ReadonlyCityAndStateField: React.FC<{
+  changeURL: string;
+}> = ({ changeURL }) => {
+  const { session } = useContext(AppContext);
+  const scf = session.norentScaffolding;
+
+  if (!(scf?.city && scf?.state)) return null;
+
+  const cityAndState = `${scf.city}, ${scf.state}`;
+
+  return (
+    <div className="field">
+      <span className="label">
+        <Trans>City and state</Trans>
+      </span>
+      <div className="control">
+        {cityAndState}{" "}
+        <Link to={changeURL} className="jf-change-readonly-value">
+          <span
+            aria-label={li18n._(t`Change city and state from ${cityAndState}`)}
+          >
+            <Trans>Change</Trans>
+          </span>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
 export const AskNationalAddress: React.FC<
   MiddleProgressStepProps & {
     children: JSX.Element;
     routes: NationalAddressModalRoutes;
   }
-> = (props) => {
-  const { session } = useContext(AppContext);
-  const scf = session.norentScaffolding;
-  const cityAndState =
-    scf?.city && scf?.state ? `${scf.city}, ${scf.state}` : "";
-
-  return (
-    <Page title={li18n._(t`Your residence`)} withHeading="big">
-      <div className="content">{props.children}</div>
-      <SessionUpdatingFormSubmitter
-        mutation={NorentNationalAddressMutation}
-        initialState={getInitialState}
-        onSuccessRedirect={getSuccessRedirect.bind(
-          null,
-          props.routes,
-          props.nextStep
-        )}
-      >
-        {(ctx) => (
-          <>
-            <TextualFormField
-              {...ctx.fieldPropsFor("street")}
-              label={li18n._(t`House number and street name`)}
-            />
-            <AptNumberFormFields
-              aptNumberProps={ctx.fieldPropsFor("aptNumber")}
-              noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
-              aptNumberLabel={li18n._(t`Unit/apt/lot/suite number`)}
-            />
-            <div className="field">
-              <span className="label">
-                <Trans>City and state</Trans>
-              </span>
-
-              <div className="control">
-                {cityAndState}{" "}
-                <Link to={props.prevStep} className="jf-change-readonly-value">
-                  <span
-                    aria-label={li18n._(
-                      t`Change city and state from ${cityAndState}`
-                    )}
-                  >
-                    <Trans>Change</Trans>
-                  </span>
-                </Link>
-              </div>
-            </div>
-            <TextualFormField
-              {...ctx.fieldPropsFor("zipCode")}
-              label={li18n._(t`Zip code`)}
-            />
-            <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
-          </>
-        )}
-      </SessionUpdatingFormSubmitter>
-      <Route
-        path={props.routes.nationalAddressConfirmModal}
-        render={() => <ConfirmValidAddressModal {...props} />}
-      />
-      <Route
-        path={props.routes.nationalAddressConfirmInvalidModal}
-        render={() => <ConfirmInvalidAddressModal {...props} />}
-      />
-    </Page>
-  );
-};
+> = (props) => (
+  <Page title={li18n._(t`Your residence`)} withHeading="big">
+    <div className="content">{props.children}</div>
+    <SessionUpdatingFormSubmitter
+      mutation={NorentNationalAddressMutation}
+      initialState={getInitialState}
+      onSuccessRedirect={getSuccessRedirect.bind(
+        null,
+        props.routes,
+        props.nextStep
+      )}
+    >
+      {(ctx) => (
+        <>
+          <TextualFormField
+            {...ctx.fieldPropsFor("street")}
+            label={li18n._(t`House number and street name`)}
+          />
+          <AptNumberFormFields
+            aptNumberProps={ctx.fieldPropsFor("aptNumber")}
+            noAptNumberProps={ctx.fieldPropsFor("noAptNumber")}
+            aptNumberLabel={li18n._(t`Unit/apt/lot/suite number`)}
+          />
+          <ReadonlyCityAndStateField changeURL={props.prevStep} />
+          <TextualFormField
+            {...ctx.fieldPropsFor("zipCode")}
+            label={li18n._(t`Zip code`)}
+          />
+          <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
+        </>
+      )}
+    </SessionUpdatingFormSubmitter>
+    <Route
+      path={props.routes.nationalAddressConfirmModal}
+      render={() => <ConfirmValidAddressModal {...props} />}
+    />
+    <Route
+      path={props.routes.nationalAddressConfirmInvalidModal}
+      render={() => <ConfirmInvalidAddressModal {...props} />}
+    />
+  </Page>
+);

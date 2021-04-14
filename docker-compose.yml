@@ -10,7 +10,10 @@ services:
     links:
       - db
     ports:
+      # The web server.
       - "8000:8000"
+      # The remote debugger.
+      - "5678:5678"
   frontend:
     extends:
       file: docker-services.yml

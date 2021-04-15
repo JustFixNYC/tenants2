@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-04-15 18:32\n"
+"PO-Revision-Date: 2021-04-15 18:41\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2015,7 +2015,7 @@ msgstr "La página web a la que quieres acceder solo está disponible en inglés
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:121
 msgid "There {0, plural, one {is one unit} other {are # units}} in your building."
-msgstr "{0, plural, one {Hay una unidad} other {Hay # unidades}} en tu edificio."
+msgstr "Hay {0, plural, one {una unidad} other {# unidades}} en tu edificio."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:324
 msgid "Think your apartment may be rent-stabilized? Request its official records."

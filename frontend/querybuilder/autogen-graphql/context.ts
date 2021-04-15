@@ -214,7 +214,17 @@ function getMutationFields(schema: GraphQLSchema): GraphQLFieldMap<any, any> {
 
   if (!mutations) return {};
 
-  return mutations.getFields();
+  const fields = mutations.getFields();
+
+  for (let key in fields) {
+    const field = fields[key];
+    if (field.deprecationReason) {
+      console.log(`Ignoring deprecated GraphQL mutation "${key}".`);
+      delete fields[key];
+    }
+  }
+
+  return fields;
 }
 
 function getExtendedMutationConfig(

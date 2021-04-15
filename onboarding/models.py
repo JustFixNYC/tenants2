@@ -2,7 +2,6 @@ import json
 from typing import List, Dict, Optional
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.contrib.postgres.fields import JSONField
 from django.contrib.gis.db.models import PointField
 from django.contrib.gis.geos import GEOSGeometry
 
@@ -146,7 +145,7 @@ class OnboardingInfo(models.Model):
         help_text=f"The user's ZIP code. {NYCADDR_META_HELP}",
     )
 
-    geometry = JSONField(
+    geometry = models.JSONField(
         blank=True,
         null=True,
         help_text="The GeoJSON point representing the user's address, if available.",
@@ -177,21 +176,25 @@ class OnboardingInfo(models.Model):
         null=True, blank=True, help_text="The floor number the user's apartment is on."
     )
 
-    is_in_eviction = models.NullBooleanField(help_text="Has the user received an eviction notice?")
-
-    needs_repairs = models.NullBooleanField(
-        help_text="Does the user need repairs in their apartment?"
+    is_in_eviction = models.BooleanField(
+        null=True, blank=True, help_text="Has the user received an eviction notice?"
     )
 
-    has_no_services = models.NullBooleanField(
-        help_text="Is the user missing essential services like water?"
+    needs_repairs = models.BooleanField(
+        null=True, blank=True, help_text="Does the user need repairs in their apartment?"
     )
 
-    has_pests = models.NullBooleanField(
-        help_text="Does the user have pests like rodents or bed bugs?"
+    has_no_services = models.BooleanField(
+        null=True, blank=True, help_text="Is the user missing essential services like water?"
     )
 
-    has_called_311 = models.NullBooleanField(help_text="Has the user called 311 before?")
+    has_pests = models.BooleanField(
+        null=True, blank=True, help_text="Does the user have pests like rodents or bed bugs?"
+    )
+
+    has_called_311 = models.BooleanField(
+        null=True, blank=True, help_text="Has the user called 311 before?"
+    )
 
     lease_type = models.CharField(
         max_length=30,
@@ -200,8 +203,8 @@ class OnboardingInfo(models.Model):
         help_text="The type of lease the user has on their dwelling (NYC only).",
     )
 
-    receives_public_assistance = models.NullBooleanField(
-        help_text="Does the user receive public assistance, e.g. Section 8?"
+    receives_public_assistance = models.BooleanField(
+        null=True, blank=True, help_text="Does the user receive public assistance, e.g. Section 8?"
     )
 
     can_we_sms = models.BooleanField(
@@ -240,18 +243,22 @@ class OnboardingInfo(models.Model):
         ),
     )
 
-    can_receive_rttc_comms = models.NullBooleanField(
+    can_receive_rttc_comms = models.BooleanField(
+        null=True,
+        blank=True,
         help_text=(
             "Whether the user has opted-in to being contacted by "
             "the Right to the City Alliance (RTTC)."
-        )
+        ),
     )
 
-    can_receive_saje_comms = models.NullBooleanField(
+    can_receive_saje_comms = models.BooleanField(
+        null=True,
+        blank=True,
         help_text=(
             "Whether the user has opted-in to being contacted by "
             "Strategic Actions for a Just Economy (SAJE)."
-        )
+        ),
     )
 
     @property

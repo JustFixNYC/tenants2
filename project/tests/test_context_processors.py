@@ -117,4 +117,8 @@ def test_rollbar_js_url_exists(staticfiles, client):
     url = rollbar_snippet.get_context()["rollbar_js_url"]
     res = client.get(url)
     assert res.status_code == 200
-    assert res["Content-Type"] == 'application/javascript; charset="utf-8"'
+    # Weird, this used to be application/javascript but upgrading one
+    # of our dependencies changed it to text/javascript; apparently this
+    # is what servers are expected to serve JS as now, as of e.g.
+    # https://html.spec.whatwg.org/multipage/scripting.html#scriptingLanguages
+    assert res["Content-Type"] == 'text/javascript; charset="utf-8"'

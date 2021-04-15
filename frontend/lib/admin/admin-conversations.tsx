@@ -216,7 +216,7 @@ export function makeConversationsURL(
   rawQuery && params.set(QUERY_QS_VAR, rawQuery);
   phoneNumber && params.set(PHONE_QS_VAR, phoneNumber);
   const qs = params.toString();
-  return JustfixRoutes.adminConversations + (qs ? `?${qs}` : "");
+  return JustfixRoutes.admin.conversations + (qs ? `?${qs}` : "");
 }
 
 export function normalizeConversationQuery(query: string): string {
@@ -529,7 +529,7 @@ export default function AdminConversationsRoutes(): JSX.Element {
   return (
     <Switch>
       <Route
-        path={JustfixRoutes.adminConversations}
+        path={JustfixRoutes.admin.conversations}
         exact
         component={AdminConversationsPageWrapper}
       />

@@ -30,6 +30,7 @@ class JustfixAdminSite(admin.AdminSite):
             path("login/", embeddable_in_frontapp(frontend.views.react_rendered_view)),
             path("conversations/", frontend.views.react_rendered_view),
             path("frontapp/", embeddable_in_frontapp(frontend.views.react_rendered_view)),
+            path("directory/", frontend.views.react_rendered_view),
             *self.dashboard_views.get_urls(),
             *self.download_data_views.get_urls(),
             *self.loc_views.get_urls(),

@@ -95,7 +95,7 @@ def http_request(rf) -> HttpRequest:
 
     req = rf.get("/")
     req.user = AnonymousUser()
-    SessionMiddleware().process_request(req)
+    SessionMiddleware(lambda request: None).process_request(req)
 
     return req
 

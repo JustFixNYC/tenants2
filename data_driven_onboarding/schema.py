@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from pathlib import Path
 import logging
 from django.core.cache import caches
@@ -251,6 +251,8 @@ class DDOQuery:
             return None
         props = features[0].properties
         row = cached_run_ddo_sql_query(props.pad_bbl)
+        if not row:
+            return None
         row = normalize_complaint_category(row)
         return DDOSuggestionsResult(
             full_address=props.label,
@@ -269,7 +271,7 @@ def normalize_complaint_category(ddo_query: Dict[str, Any]):
     return ddo_query
 
 
-def cached_run_ddo_sql_query(bbl: str) -> Dict[str, Any]:
+def cached_run_ddo_sql_query(bbl: str) -> Optional[Dict[str, Any]]:
     sql_query_mtime = DDO_SQL_FILE.stat().st_mtime
     cache_key = f"ddo-sql-{sql_query_mtime}-{bbl}"
     cache = caches[DDO_SQL_CACHE]
@@ -280,4 +282,9 @@ def run_ddo_sql_query(bbl: str) -> Dict[str, Any]:
     sql_query = DDO_SQL_FILE.read_text()
     with connections[settings.WOW_DATABASE].cursor() as cursor:
         cursor.execute(sql_query, {"bbl": bbl})
-        return list(generate_json_rows(cursor))[0]
+        results = list(generate_json_rows(cursor))
+        if results:
+            return results[0]
+        # No results are returned if a user goes directly to a query URL with an
+        # address, but we can't find the requested bbl in our database.
+        return None

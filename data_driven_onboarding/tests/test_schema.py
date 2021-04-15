@@ -56,6 +56,15 @@ class TestSchema:
             "unitCount": 123,
         }
 
+    def test_it_returns_none_when_bbl_is_not_in_database(self, settings, monkeypatch):
+        settings.WOW_DATABASE = "blah"
+        monkeypatch.setattr(
+            schema,
+            "run_ddo_sql_query",
+            lambda bbl: [],
+        )
+        assert self.request("address where bbl is missing from db", "Brooklyn") is None
+
     def test_sql_query_contains_no_unexpected_characters(self):
         sql = schema.DDO_SQL_FILE.read_text()
         assert "\u00a0" not in sql, "SQL should not contain non-breaking spaces"

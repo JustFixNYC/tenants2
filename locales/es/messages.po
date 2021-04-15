@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-04-13 22:11\n"
+"PO-Revision-Date: 2021-04-15 18:32\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -393,11 +393,11 @@ msgstr "Techo gotea"
 
 #: frontend/lib/common-steps/ask-national-address.tsx:91
 msgid "Change"
-msgstr "Change"
+msgstr "Cambiar"
 
 #: frontend/lib/common-steps/ask-national-address.tsx:90
 msgid "Change city and state from {cityAndState}"
-msgstr "Change city and state from {cityAndState}"
+msgstr "Cambiar ciudad y estado de {cityAndState}"
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:72
 msgid "Check any or all that apply. Note: You <0>must select at least one box</0> in order to qualify for the State's eviction protections."
@@ -425,7 +425,7 @@ msgstr "Ciudad"
 
 #: frontend/lib/common-steps/ask-national-address.tsx:85
 msgid "City and state"
-msgstr "City and state"
+msgstr "Ciudad y estado"
 
 #: frontend/lib/forms/city-and-state-form-field.tsx:15
 msgid "City/township/borough"

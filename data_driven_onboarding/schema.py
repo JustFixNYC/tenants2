@@ -240,7 +240,9 @@ class DDOQuery:
         borough=graphene.String(),
     )
 
-    def resolve_ddo_suggestions(self, info, address: str, borough: str):
+    def resolve_ddo_suggestions(
+        self, info, address: str, borough: str
+    ) -> Optional[DDOSuggestionsResult]:
         if not address.strip():
             return None
         if not settings.WOW_DATABASE:
@@ -275,10 +277,13 @@ def cached_run_ddo_sql_query(bbl: str) -> Optional[Dict[str, Any]]:
     sql_query_mtime = DDO_SQL_FILE.stat().st_mtime
     cache_key = f"ddo-sql-{sql_query_mtime}-{bbl}"
     cache = caches[DDO_SQL_CACHE]
-    return cache.get_or_set(cache_key, lambda: run_ddo_sql_query(bbl))
+    result = run_ddo_sql_query(bbl)
+    if not result:
+        return None
+    return cache.get_or_set(cache_key, result)
 
 
-def run_ddo_sql_query(bbl: str) -> Dict[str, Any]:
+def run_ddo_sql_query(bbl: str) -> Optional[Dict[str, Any]]:
     sql_query = DDO_SQL_FILE.read_text()
     with connections[settings.WOW_DATABASE].cursor() as cursor:
         cursor.execute(sql_query, {"bbl": bbl})

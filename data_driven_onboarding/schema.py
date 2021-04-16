@@ -291,5 +291,5 @@ def run_ddo_sql_query(bbl: str) -> Optional[Dict[str, Any]]:
         if results:
             return results[0]
         # No results are returned if a user goes directly to a query URL with an
-        # address, but we can't find the requested bbl in our database.
+        # address and we can't find the requested bbl in our database.
         return None

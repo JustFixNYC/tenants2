@@ -10,6 +10,7 @@ import { li18n } from "../i18n-lingui";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { MiddleProgressStepProps } from "../progress/progress-step-route";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
+import { optionalizeLabelIf } from "../forms/optionalize-label";
 
 export const LandlordEmail: React.FC<
   MiddleProgressStepProps & {
@@ -54,10 +55,10 @@ export const LandlordEmail: React.FC<
               type="email"
               {...ctx.fieldPropsFor("email")}
               required={required}
-              label={
-                li18n._(t`Landlord/management company's email`) +
-                (required ? "" : " " + li18n._(t`(optional)`))
-              }
+              label={optionalizeLabelIf(
+                li18n._(t`Landlord/management company's email`),
+                !required
+              )}
             />
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>

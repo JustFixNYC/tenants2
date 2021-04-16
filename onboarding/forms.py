@@ -4,7 +4,6 @@ from django.utils.translation import gettext as _
 
 from project.forms import (
     SetPasswordForm,
-    OptionalSetPasswordForm,
     YesNoRadiosField,
     UniqueEmailForm,
 )
@@ -164,18 +163,18 @@ class BaseOnboardingStep4Form(forms.Form):
         return phone_number
 
 
-class OnboardingStep4Form(BaseOnboardingStep4Form, OptionalSetPasswordForm, forms.ModelForm):
-    class Meta:
-        model = OnboardingInfo
-        fields = ("can_we_sms", "signup_intent")
-
-
 class OnboardingStep4FormVersion2(
     BaseOnboardingStep4Form, UniqueEmailForm, SetPasswordForm, forms.ModelForm
 ):
     class Meta:
         model = OnboardingInfo
         fields = ("can_we_sms", "signup_intent")
+
+
+class OnboardingStep4WithOptionalEmailForm(OnboardingStep4FormVersion2):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["email"].required = False
 
 
 class AgreeToTermsForm(forms.Form):

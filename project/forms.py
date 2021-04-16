@@ -169,18 +169,6 @@ class SetPasswordForm(forms.Form):
             raise ValidationError(_("Passwords do not match!"))
 
 
-class OptionalSetPasswordForm(SetPasswordForm):
-    """
-    A form that can be used to *optionally* set a password. It can also
-    be used as a mixin.
-    """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["password"].required = False
-        self.fields["confirm_password"].required = False
-
-
 class PhoneNumberForm(forms.Form):
     phone_number = USPhoneNumberField()
 

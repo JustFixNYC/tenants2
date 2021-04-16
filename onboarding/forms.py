@@ -3,6 +3,7 @@ from django.forms import ValidationError
 from django.utils.translation import gettext as _
 
 from project.forms import (
+    OptionalUniqueEmailForm,
     SetPasswordForm,
     YesNoRadiosField,
     UniqueEmailForm,
@@ -148,7 +149,11 @@ class PublicAssistanceForm(forms.ModelForm):
     )
 
 
-class BaseOnboardingStep4Form(forms.Form):
+class BaseOnboardingStep4Form(SetPasswordForm, forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ("can_we_sms", "signup_intent")
+
     phone_number = USPhoneNumberField()
 
     agree_to_terms = forms.BooleanField(required=True)
@@ -163,18 +168,12 @@ class BaseOnboardingStep4Form(forms.Form):
         return phone_number
 
 
-class OnboardingStep4FormVersion2(
-    BaseOnboardingStep4Form, UniqueEmailForm, SetPasswordForm, forms.ModelForm
-):
-    class Meta:
-        model = OnboardingInfo
-        fields = ("can_we_sms", "signup_intent")
+class OnboardingStep4FormVersion2(BaseOnboardingStep4Form, UniqueEmailForm):
+    pass
 
 
-class OnboardingStep4WithOptionalEmailForm(OnboardingStep4FormVersion2):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["email"].required = False
+class OnboardingStep4WithOptionalEmailForm(BaseOnboardingStep4Form, OptionalUniqueEmailForm):
+    pass
 
 
 class AgreeToTermsForm(forms.Form):

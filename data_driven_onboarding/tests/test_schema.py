@@ -61,13 +61,17 @@ class TestSchema:
     ):
         settings.GEOCODING_SEARCH_URL = "http://bawlabr"
         settings.WOW_DATABASE = "blah"
+        from unittest.mock import MagicMock
+
+        fake_run_ddo_sql_query = MagicMock(return_value=[])
         requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
         monkeypatch.setattr(
             schema,
             "run_ddo_sql_query",
-            lambda bbl: [],
+            fake_run_ddo_sql_query,
         )
         assert self.request("address where bbl is missing from db", "Brooklyn") is None
+        fake_run_ddo_sql_query.assert_called_once()
 
     def test_sql_query_contains_no_unexpected_characters(self):
         sql = schema.DDO_SQL_FILE.read_text()

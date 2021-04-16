@@ -12,7 +12,7 @@ import {
 } from "./forms-graphql";
 import { AppContext, AppLegacyFormSubmission } from "../app-context";
 import { Route } from "react-router";
-import { assertNotNull } from "../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { getAppStaticContext } from "../app-static-context";
 
 export type LegacyFormSubmitterProps<

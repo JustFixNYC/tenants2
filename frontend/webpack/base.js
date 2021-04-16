@@ -53,6 +53,8 @@ const BUNDLE_FILENAME_TEMPLATE = ENABLE_WEBPACK_CONTENT_HASH
 
 const excludeMostOfNodeModules = /node_modules[\/\\](?!@justfixnyc)/;
 
+exports.excludeMostOfNodeModules = excludeMostOfNodeModules;
+
 /** These options are specific to babel-loader. */
 const babelLoaderOptions = {
   cacheDirectory: true,

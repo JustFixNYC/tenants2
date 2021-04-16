@@ -6,7 +6,7 @@ import { li18n } from "../../i18n-lingui";
 import { ProgressStepProps } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
 import { friendlyDate } from "../../util/date-util";
-import { assertNotNull } from "../../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { NorentRoutes } from "../route-info";
 import { hasNorentLetterBeenSentForAllRentPeriods } from "./step-decorators";
 import { NorentMoreLettersBlurb } from "./more-letters";

@@ -9,7 +9,7 @@ import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
 import { EvictionFreeRequireLoginStep } from "./step-decorators";
 import { Redirect } from "react-router-dom";
-import { assertNotNull } from "../../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { MessageDescriptor } from "@lingui/core";
 import { SocialIcons } from "../../norent/components/social-icons";

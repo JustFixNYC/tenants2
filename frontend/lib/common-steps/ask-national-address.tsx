@@ -20,7 +20,7 @@ import { YesNoConfirmationModal } from "../ui/confirmation-modal";
 import { AppContext } from "../app-context";
 import { Link, Route } from "react-router-dom";
 import { areAddressesTheSame } from "../ui/address-confirmation";
-import { hardFail } from "../util/util";
+import { hardFail } from "@justfixnyc/util";
 import { BreaksBetweenLines } from "../ui/breaks-between-lines";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";

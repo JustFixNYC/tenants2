@@ -255,13 +255,14 @@ class DDOQuery:
         row = cached_run_ddo_sql_query(props.pad_bbl)
         if not row:
             return None
-        row = normalize_complaint_category(row)
+        row_nonnull = row  # Assures mypy that row exists
+        row_nonnull = normalize_complaint_category(row_nonnull)
         return DDOSuggestionsResult(
             full_address=props.label,
             bbl=props.pad_bbl,
-            is_rtc_eligible=row["zipcode"] in RTC_ZIPCODES,
+            is_rtc_eligible=row_nonnull["zipcode"] in RTC_ZIPCODES,
             is_nycha_bbl=is_nycha_bbl(props.pad_bbl),
-            **row,
+            **row_nonnull,
         )
 
 

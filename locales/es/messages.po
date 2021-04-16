@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-03-16 19:27\n"
+"PO-Revision-Date: 2021-04-15 18:41\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -393,11 +393,11 @@ msgstr "Techo gotea"
 
 #: frontend/lib/common-steps/ask-national-address.tsx:91
 msgid "Change"
-msgstr ""
+msgstr "Cambiar"
 
 #: frontend/lib/common-steps/ask-national-address.tsx:90
 msgid "Change city and state from {cityAndState}"
-msgstr ""
+msgstr "Cambiar ciudad y estado de {cityAndState}"
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:72
 msgid "Check any or all that apply. Note: You <0>must select at least one box</0> in order to qualify for the State's eviction protections."
@@ -425,7 +425,7 @@ msgstr "Ciudad"
 
 #: frontend/lib/common-steps/ask-national-address.tsx:85
 msgid "City and state"
-msgstr ""
+msgstr "Ciudad y estado"
 
 #: frontend/lib/forms/city-and-state-form-field.tsx:15
 msgid "City/township/borough"
@@ -712,7 +712,7 @@ msgstr "Lucha para #CancelRent"
 #: frontend/lib/evictionfree/site.tsx:57
 #: frontend/lib/evictionfree/site.tsx:61
 msgid "Fill out my form"
-msgstr "Rellena mi formulario"
+msgstr "Rellenar mi formulario"
 
 #: frontend/lib/evictionfree/homepage.tsx:55
 msgid "Fill out your hardship declaration form online"
@@ -2015,7 +2015,7 @@ msgstr "La página web a la que quieres acceder solo está disponible en inglés
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:121
 msgid "There {0, plural, one {is one unit} other {are # units}} in your building."
-msgstr "{0, plural, one {Hay una unidad} other {Hay # unidades}} en tu edificio."
+msgstr "Hay {0, plural, one {una unidad} other {# unidades}} en tu edificio."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:324
 msgid "Think your apartment may be rent-stabilized? Request its official records."
@@ -3041,3 +3041,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

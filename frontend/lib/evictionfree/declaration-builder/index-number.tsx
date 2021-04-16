@@ -5,6 +5,7 @@ import {
   hideByDefault,
 } from "../../forms/conditional-form-fields";
 import { TextualFormField } from "../../forms/form-fields";
+import { optionalizeLabel } from "../../forms/optionalize-label";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import {
   YesNoRadiosFormField,
@@ -101,11 +102,9 @@ export const EvictionFreeIndexNumber = EvictionFreeNotSentDeclarationStep(
                     </p>
                     <TextualFormField
                       {...courtNameProps}
-                      label={
-                        li18n._(t`Your case's court name`) +
-                        " " +
-                        li18n._(t`(optional)`)
-                      }
+                      label={optionalizeLabel(
+                        li18n._(t`Your case's court name`)
+                      )}
                     />
                   </>
                 </ConditionalFormField>

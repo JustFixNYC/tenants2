@@ -3,8 +3,8 @@ from django.conf import settings
 
 from onboarding.forms import (
     OnboardingStep1Form,
-    OnboardingStep4Form,
     OnboardingStep4FormVersion2,
+    OnboardingStep4WithOptionalEmailForm as OnboardingStep4Form,
     AptNumberWithConfirmationForm,
 )
 from onboarding.models import AddressWithoutBoroughDiagnostic

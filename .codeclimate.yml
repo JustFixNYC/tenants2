@@ -32,3 +32,9 @@ checks:
     # the threshold on a per-language basis here.
     config:
       threshold: 40
+  return-statements:
+    # This isn't a very useful check for Python code because
+    # it's mostly personal preference - sometimes it's better
+    # to have lots of return statements than a lot of
+    # nested ifs.
+    enabled: false

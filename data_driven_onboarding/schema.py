@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from pathlib import Path
 import logging
 from django.core.cache import caches
@@ -240,7 +240,9 @@ class DDOQuery:
         borough=graphene.String(),
     )
 
-    def resolve_ddo_suggestions(self, info, address: str, borough: str):
+    def resolve_ddo_suggestions(
+        self, info, address: str, borough: str
+    ) -> Optional[DDOSuggestionsResult]:
         if not address.strip():
             return None
         if not settings.WOW_DATABASE:
@@ -251,13 +253,15 @@ class DDOQuery:
             return None
         props = features[0].properties
         row = cached_run_ddo_sql_query(props.pad_bbl)
-        row = normalize_complaint_category(row)
+        if not row:
+            return None
+        normalized_row = normalize_complaint_category(row)
         return DDOSuggestionsResult(
             full_address=props.label,
             bbl=props.pad_bbl,
-            is_rtc_eligible=row["zipcode"] in RTC_ZIPCODES,
+            is_rtc_eligible=normalized_row["zipcode"] in RTC_ZIPCODES,
             is_nycha_bbl=is_nycha_bbl(props.pad_bbl),
-            **row,
+            **normalized_row,
         )
 
 
@@ -269,15 +273,23 @@ def normalize_complaint_category(ddo_query: Dict[str, Any]):
     return ddo_query
 
 
-def cached_run_ddo_sql_query(bbl: str) -> Dict[str, Any]:
+def cached_run_ddo_sql_query(bbl: str) -> Optional[Dict[str, Any]]:
     sql_query_mtime = DDO_SQL_FILE.stat().st_mtime
     cache_key = f"ddo-sql-{sql_query_mtime}-{bbl}"
     cache = caches[DDO_SQL_CACHE]
-    return cache.get_or_set(cache_key, lambda: run_ddo_sql_query(bbl))
+    result = run_ddo_sql_query(bbl)
+    if not result:
+        return None
+    return cache.get_or_set(cache_key, result)
 
 
-def run_ddo_sql_query(bbl: str) -> Dict[str, Any]:
+def run_ddo_sql_query(bbl: str) -> Optional[Dict[str, Any]]:
     sql_query = DDO_SQL_FILE.read_text()
     with connections[settings.WOW_DATABASE].cursor() as cursor:
         cursor.execute(sql_query, {"bbl": bbl})
-        return list(generate_json_rows(cursor))[0]
+        results = list(generate_json_rows(cursor))
+        if results:
+            return results[0]
+        # No results are returned if a user goes directly to a query URL with an
+        # address and we can't find the requested bbl in our database.
+        return None

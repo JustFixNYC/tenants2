@@ -18,7 +18,7 @@ import { AppContext, AppContextType, AppServerInfo } from "../app-context";
 import { WithServerFormFieldErrors } from "../forms/form-errors";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { History } from "history";
-import { assertNotNull } from "../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { HelmetProvider } from "react-helmet-async";
 import { FetchMutationInfo } from "../forms/forms-graphql";
 import { QueryLoaderQuery } from "../networking/query-loader-prefetcher";

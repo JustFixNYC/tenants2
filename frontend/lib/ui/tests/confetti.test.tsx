@@ -5,7 +5,7 @@ import Confetti, {
   CONFETTI_WRAPPER_CLASS,
   ensurePointerEventsIsNone,
 } from "../confetti";
-import { assertNotNull } from "../../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { responsiveInt } from "../../../vendor/confetti";
 
 describe("Confetti", () => {

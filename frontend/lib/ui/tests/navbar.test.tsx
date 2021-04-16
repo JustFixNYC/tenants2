@@ -4,7 +4,7 @@ import { FakeDebugAppContext } from "../../tests/util";
 import { MemoryRouter } from "react-router";
 import { AppContext } from "../../app-context";
 import ReactTestingLibraryPal from "../../tests/rtl-pal";
-import { assertNotNull } from "../../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 
 describe("Navbar", () => {
   const createNavbar = () => {

@@ -29,7 +29,7 @@ import { EhpAccessForInspection } from "../hp-action-access-for-inspection";
 import { createHPActionPreviousAttempts } from "../hp-action-previous-attempts";
 import { HPActionYourLandlord } from "../hp-action-your-landlord";
 import { GeneratePDFForm, ShowHPUploadStatus } from "../hp-action-generate-pdf";
-import { assertNotNull } from "../../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { PdfLink } from "../../ui/pdf-link";
 import { BigList } from "../../ui/big-list";
 import { OutboundLink } from "../../ui/outbound-link";

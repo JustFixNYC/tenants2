@@ -4,7 +4,7 @@ import { formatPhoneNumber } from "../forms/phone-number-form-field";
 import { Trans } from "@lingui/macro";
 import { friendlyUTCDate, friendlyDate } from "./date-util";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
-import { assertNotNull } from "./util";
+import { assertNotNull } from "@justfixnyc/util";
 import { makeStringHelperFC } from "./string-helper";
 
 export type BaseLetterContentProps = {

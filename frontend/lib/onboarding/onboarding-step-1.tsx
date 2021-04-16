@@ -12,7 +12,8 @@ import {
   OnboardingStep1Mutation,
   BlankOnboardingStep1Input,
 } from "../queries/OnboardingStep1Mutation";
-import { assertNotNull, exactSubsetOrDefault } from "../util/util";
+import { exactSubsetOrDefault } from "../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import {
   TextualFormField,
   renderSimpleLabel,

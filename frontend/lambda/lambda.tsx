@@ -28,7 +28,7 @@ import {
   AppStaticContext,
 } from "../lib/app-static-context";
 import i18n from "../lib/i18n";
-import { assertNotUndefined } from "../lib/util/util";
+import { assertNotUndefined } from "@justfixnyc/util";
 import { serveLambdaOverHttp, serveLambdaOverStdio } from "./lambda-io";
 import { setGlobalAppServerInfo } from "../lib/app-context";
 import { LambdaResponseHttpHeaders } from "./lambda-response-http-headers";

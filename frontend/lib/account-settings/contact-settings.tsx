@@ -12,7 +12,7 @@ import { li18n } from "../i18n-lingui";
 import { NorentEmailMutation } from "../queries/NorentEmailMutation";
 import { PhoneNumberMutation } from "../queries/PhoneNumberMutation";
 import { EditableInfo, SaveCancelButtons } from "../ui/editable-info";
-import { assertNotNull } from "../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { makeAccountSettingsSection, WithAccountSettingsProps } from "./util";
 
 const PhoneNumberField: React.FC<WithAccountSettingsProps> = ({ routes }) => {

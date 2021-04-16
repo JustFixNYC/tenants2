@@ -6,7 +6,7 @@ import {
   FormsetErrorMap,
   ServerFormFieldError,
 } from "../form-errors";
-import { assertNotNull } from "../../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { simpleFormErrors } from "../../tests/util";
 import ReactTestingLibraryPal from "../../tests/rtl-pal";
 

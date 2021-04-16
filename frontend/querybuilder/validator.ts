@@ -14,7 +14,7 @@ import {
   NoUnusedFragmentsRule,
 } from "graphql";
 import { getGraphQlFragments, isNonEmptyFileSync } from "./util";
-import { assertNotNull } from "../lib/util/util";
+import { assertNotNull } from "@justfixnyc/util";
 
 const rulesMinusUnusedFragments = specifiedRules.filter(
   (rule) => rule !== NoUnusedFragmentsRule

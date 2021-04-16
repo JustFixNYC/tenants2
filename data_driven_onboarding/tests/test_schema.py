@@ -56,8 +56,12 @@ class TestSchema:
             "unitCount": 123,
         }
 
-    def test_it_returns_none_when_bbl_is_not_in_database(self, settings, monkeypatch):
+    def test_it_returns_none_when_bbl_is_not_in_database(
+        self, settings, requests_mock, monkeypatch
+    ):
+        settings.GEOCODING_SEARCH_URL = "http://bawlabr"
         settings.WOW_DATABASE = "blah"
+        requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
         monkeypatch.setattr(
             schema,
             "run_ddo_sql_query",

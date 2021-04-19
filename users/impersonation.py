@@ -90,7 +90,7 @@ def _switch_to(request, user):
     # http://stackoverflow.com/a/2787747
     user.backend = "django.contrib.auth.backends.ModelBackend"
 
-    # We don't want the staff user to have to re-authentica 2FA when
+    # We don't want the staff user to have to re-authenticate 2FA when
     # they switch in/out of impersonation, so let's preserve that
     # particular session key.
     with preserve_session_keys(request, [TWOFACTOR_SESSION_KEY]):

@@ -101,7 +101,7 @@ def _switch_to(request, user):
 def preserve_session_keys(req: HttpRequest, keys: List[str]):
     """
     Context manager to preserve the given request session keys
-    across the `with` statement they are applied to.
+    across the `with` statement the manager is applied to.
 
     This can be used e.g. to ensure that some aspects of the
     user's session are preserved across login or logout.

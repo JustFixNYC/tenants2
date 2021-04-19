@@ -342,7 +342,6 @@ def test_blank_fields_work(db):
         user=user,
         signup_intent="LOC",
         address="123 Boop Ave.",
-        address_verified=False,
         state="NY",
         can_we_sms=False,
     )

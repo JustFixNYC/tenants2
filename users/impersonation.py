@@ -89,12 +89,24 @@ def unimpersonate_user(request: HttpRequest):
 def _switch_to(request, user):
     # http://stackoverflow.com/a/2787747
     user.backend = "django.contrib.auth.backends.ModelBackend"
+
+    # We don't want the staff user to have to re-authentica 2FA when
+    # they switch in/out of impersonation, so let's preserve that
+    # particular session key.
     with preserve_session_keys(request, [TWOFACTOR_SESSION_KEY]):
         auth.login(request, user)
 
 
 @contextmanager
 def preserve_session_keys(req: HttpRequest, keys: List[str]):
+    """
+    Context manager to preserve the given request session keys
+    across the `with` statement they are applied to.
+
+    This can be used e.g. to ensure that some aspects of the
+    user's session are preserved across login or logout.
+    """
+
     keys_dict: Dict[str, Any] = {}
     try:
         keys_dict = {key: req.session[key] for key in keys if key in req.session}

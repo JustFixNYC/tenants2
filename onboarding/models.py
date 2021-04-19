@@ -102,9 +102,10 @@ class OnboardingInfo(models.Model):
     # TODO: This is currently only used for NYC-based users, and we might want to
     # deprecate it entirely: https://github.com/JustFixNYC/tenants2/issues/1991
     address_verified = models.BooleanField(
+        default=False,
         help_text=(
             "Whether we've verified, on the server-side, that the user's " "address is valid."
-        )
+        ),
     )
 
     geocoded_address = models.CharField(

@@ -2,6 +2,17 @@
   --jf-unimportant-color: rgba(0, 0, 0, 0.33);
 }
 
+@media (max-width: 767px) {
+  /**
+   * Urg, the object tools (e.g. "History") link aren't super useful for us
+   * and break up the tab from the content below it on mobile, so let's just
+   * hide it on mobile.
+   */
+  ul.object-tools {
+    display: none;
+  }
+}
+
 .jf-tab-bar {
   display: flex;
   border-bottom: 5px solid var(--primary);

@@ -7,12 +7,8 @@ from .forms import JustfixUserCreationForm, JustfixUserChangeForm
 from .models import JustfixUser
 import rapidpro.models
 from onboarding.admin import OnboardingInline
-from .admin_user_proxy import (
-    impersonate_field,
-    user_signup_intent,
-    sms_conversations_field,
-    UserProxyAdmin,
-)
+from .admin_user_tabs import UserWithTabsMixin
+from .admin_user_proxy import impersonate_field, user_signup_intent, sms_conversations_field
 from texting.models import get_lookup_description_for_phone_number
 from loc.admin import LOCUser, LandlordDetailsInline
 from hpaction.admin import HPUser
@@ -40,7 +36,9 @@ def make_link_to_other_user_view(model_class, short_description):
     return link
 
 
-class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin, MapModelAdmin):
+class JustfixUserAdmin(
+    airtable.sync.SyncUserOnSaveMixin, UserWithTabsMixin, UserAdmin, MapModelAdmin
+):
     add_form = JustfixUserCreationForm
     form = JustfixUserChangeForm
     model = JustfixUser
@@ -48,7 +46,6 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin, MapModelAdm
     list_filter = [
         "onboarding_info__signup_intent",
     ] + list(UserAdmin.list_filter)
-    change_form_template = UserProxyAdmin.change_form_template
     list_display = [
         "phone_number",
         "username",
@@ -174,19 +171,6 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin, MapModelAdm
         return "None"
 
     sms_conversations = sms_conversations_field
-
-    def render_change_form(self, request, context, *args, **kwargs):
-        from .admin_user_tabs import get_user_tab_context_info
-
-        return super().render_change_form(
-            request,
-            {
-                **context,
-                **get_user_tab_context_info(kwargs.get("obj")),
-            },
-            *args,
-            **kwargs,
-        )
 
     def save_model(self, request, obj: JustfixUser, form, change):
         super().save_model(request, obj, form, change)

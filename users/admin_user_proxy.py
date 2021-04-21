@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import reverse
 
+from .admin_user_tabs import UserWithTabsMixin
 from project.util.admin_util import make_edit_link, admin_field, make_button_link
 import airtable.sync
 
@@ -30,7 +31,7 @@ def user_signup_intent(self, obj):
         return obj.onboarding_info.signup_intent
 
 
-class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
+class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, UserWithTabsMixin, admin.ModelAdmin):
     """
     This class can be used to build specialized proxy views of the User model
     for different kinds of products (e.g. Letter of Complaint, HP Action, etc).
@@ -41,8 +42,6 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
     The list view can also be optimized to display only users that have used
     (or signaled intent to use) a particular product.
     """
-
-    change_form_template = "users/justfixuser_change_form.html"
 
     list_display = ["phone_number", "first_name", "last_name", "last_login", "signup_intent"]
 
@@ -72,19 +71,6 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
     sms_conversations = sms_conversations_field
 
     impersonate = impersonate_field
-
-    def render_change_form(self, request, context, *args, **kwargs):
-        from .admin_user_tabs import get_user_tab_context_info
-
-        return super().render_change_form(
-            request,
-            {
-                **context,
-                **get_user_tab_context_info(kwargs.get("obj")),
-            },
-            *args,
-            **kwargs,
-        )
 
     def address(self, obj):
         if hasattr(obj, "onboarding_info"):

@@ -73,6 +73,19 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
 
     impersonate = impersonate_field
 
+    def render_change_form(self, request, context, *args, **kwargs):
+        from .admin_user_tabs import get_user_tab_context_info
+
+        return super().render_change_form(
+            request,
+            {
+                **context,
+                **get_user_tab_context_info(kwargs.get("obj")),
+            },
+            *args,
+            **kwargs,
+        )
+
     def address(self, obj):
         if hasattr(obj, "onboarding_info"):
             return ", ".join(obj.onboarding_info.address_lines_for_mailing)

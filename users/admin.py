@@ -175,6 +175,19 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin, MapModelAdm
 
     sms_conversations = sms_conversations_field
 
+    def render_change_form(self, request, context, *args, **kwargs):
+        from .admin_user_tabs import get_user_tab_context_info
+
+        return super().render_change_form(
+            request,
+            {
+                **context,
+                **get_user_tab_context_info(kwargs.get("obj")),
+            },
+            *args,
+            **kwargs,
+        )
+
     def save_model(self, request, obj: JustfixUser, form, change):
         super().save_model(request, obj, form, change)
         airtable.sync.sync_user(obj)

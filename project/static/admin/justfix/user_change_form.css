@@ -1,0 +1,40 @@
+:root {
+  --jf-unimportant-color: rgba(0, 0, 0, 0.33);
+}
+
+.jf-tab-bar {
+  display: flex;
+  border-bottom: 5px solid var(--primary);
+}
+
+.jf-tab-bar > a:hover {
+  background: var(--button-hover-bg);
+}
+
+.jf-tab-bar > .jf-tab {
+  color: var(--primary-fg);
+  padding: 8px;
+  margin-left: 2em;
+  background: var(--secondary);
+}
+
+.jf-tab-bar > .jf-tab-selected {
+  background: var(--primary);
+}
+
+.jf-action-status {
+  font-size: 11px;
+  display: block;
+}
+
+.jf-tab-bar > .jf-tab-disabled {
+  background: var(--darkened-bg);
+  color: var(--jf-unimportant-color);
+  border-top: 1px solid var(--jf-unimportant-color);
+  border-left: 1px solid var(--jf-unimportant-color);
+  border-right: 1px solid var(--jf-unimportant-color);
+}
+
+.jf-tab-bar > .jf-tab-disabled:hover {
+  background: inherit;
+}

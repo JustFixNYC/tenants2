@@ -43,6 +43,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin, MapModelAdm
     list_filter = [
         "onboarding_info__signup_intent",
     ] + list(UserAdmin.list_filter)
+    change_form_template = "admin/justfix/user_change_form.html"
     list_display = [
         "phone_number",
         "username",

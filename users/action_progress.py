@@ -1,14 +1,18 @@
-from django.core.management import BaseCommand
 from django.db.models import Case, When, Value, Q
-from users.models import JustfixUser
 
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from hpaction.models import HP_DOCUSIGN_STATUS_CHOICES
 
 
-COMPLETE = "COMPLETE"
-IN_PROGRESS = "IN_PROGRESS"
 NOT_STARTED = "NOT_STARTED"
+IN_PROGRESS = "IN_PROGRESS"
+COMPLETE = "COMPLETE"
+
+PROGRESS_LABELS = {
+    NOT_STARTED: "Not started",
+    IN_PROGRESS: "In progress",
+    COMPLETE: "Complete",
+}
 
 LOC_PROGRESS_EXPR = Case(
     When(letter_request__isnull=False, then=Value(COMPLETE)),
@@ -45,25 +49,8 @@ EVICTIONFREE_PROGRESS_EXPR = Case(
 )
 
 PROGRESS_ANNOTATIONS = dict(
-    loc_progress=LOC_PROGRESS_EXPR,
-    ehp_progress=EHP_PROGRESS_EXPR,
-    norent_progress=NORENT_PROGRESS_EXPR,
-    evictionfree_progress=EVICTIONFREE_PROGRESS_EXPR,
+    progress_loc=LOC_PROGRESS_EXPR,
+    progress_ehp=EHP_PROGRESS_EXPR,
+    progress_norent=NORENT_PROGRESS_EXPR,
+    progress_evictionfree=EVICTIONFREE_PROGRESS_EXPR,
 )
-
-
-class Command(BaseCommand):
-    help = "Show user progess in each of our products."
-
-    def handle(self, *args, **options):
-        users = JustfixUser.objects.annotate(**PROGRESS_ANNOTATIONS).order_by(
-            "first_name", "last_name"
-        )
-        for user in users:
-            print(
-                user.full_name,
-                f"loc: {user.loc_progress}",
-                f"ehp: {user.ehp_progress}",
-                f"efny: {user.evictionfree_progress}",
-                f"norent: {user.norent_progress}",
-            )

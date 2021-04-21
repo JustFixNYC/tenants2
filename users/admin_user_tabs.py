@@ -1,5 +1,8 @@
+from .action_progress import PROGRESS_ANNOTATIONS, PROGRESS_LABELS
+
+
 def get_user_tab_context_info(user):
-    return {"user_tabs": "blah"}
+    return {"progress_loc": PROGRESS_LABELS[user.progress_loc]}
 
 
 class UserWithTabsMixin:
@@ -15,3 +18,7 @@ class UserWithTabsMixin:
             *args,
             **kwargs,
         )
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)  # type: ignore
+        return queryset.annotate(**PROGRESS_ANNOTATIONS)

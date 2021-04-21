@@ -7,7 +7,12 @@ from .forms import JustfixUserCreationForm, JustfixUserChangeForm
 from .models import JustfixUser
 import rapidpro.models
 from onboarding.admin import OnboardingInline
-from .admin_user_proxy import impersonate_field, user_signup_intent, sms_conversations_field
+from .admin_user_proxy import (
+    impersonate_field,
+    user_signup_intent,
+    sms_conversations_field,
+    UserProxyAdmin,
+)
 from texting.models import get_lookup_description_for_phone_number
 from loc.admin import LOCUser, LandlordDetailsInline
 from hpaction.admin import HPUser
@@ -43,7 +48,7 @@ class JustfixUserAdmin(airtable.sync.SyncUserOnSaveMixin, UserAdmin, MapModelAdm
     list_filter = [
         "onboarding_info__signup_intent",
     ] + list(UserAdmin.list_filter)
-    change_form_template = "admin/justfix/user_change_form.html"
+    change_form_template = UserProxyAdmin.change_form_template
     list_display = [
         "phone_number",
         "username",

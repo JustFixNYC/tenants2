@@ -42,6 +42,8 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
     (or signaled intent to use) a particular product.
     """
 
+    change_form_template = "users/justfixuser_change_form.html"
+
     list_display = ["phone_number", "first_name", "last_name", "last_login", "signup_intent"]
 
     fields = [

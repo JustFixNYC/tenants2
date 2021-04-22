@@ -28,7 +28,7 @@ class TestChangeViewForSuperusers(ClassCachedValue):
         return get_user_change_view_html(admin_client)
 
     def test_hp_action_information_is_shown(self, admin_client):
-        assert "HP action information" in self.get_value(admin_client)
+        assert "HP action" in self.get_value(admin_client)
 
     def test_superuser_checkbox_is_shown(self, admin_client):
         assert SUPERUSER_SENTINEL in self.get_value(admin_client)

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import reverse
 
 from .admin_user_tabs import UserWithTabsMixin
-from project.util.admin_util import make_edit_link, admin_field, make_button_link
+from project.util.admin_util import admin_field, make_button_link
 import airtable.sync
 
 
@@ -52,7 +52,6 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, UserWithTabsMixin, admin
         "email",
         "signup_intent",
         "address",
-        "edit_user",
         "sms_conversations",
         "locale",
         "impersonate",
@@ -63,8 +62,6 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, UserWithTabsMixin, admin
     ordering = ("-last_login",)
 
     search_fields = ["phone_number", "username", "first_name", "last_name", "email"]
-
-    edit_user = make_edit_link("View/edit user details")
 
     signup_intent = user_signup_intent
 

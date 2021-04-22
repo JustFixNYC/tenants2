@@ -1,8 +1,10 @@
 from typing import NamedTuple
 from django.db.models import Case, When, Value, Q, Expression
+from django.db.models.expressions import Exists, OuterRef
 
 from onboarding.models import SIGNUP_INTENT_CHOICES
-from hpaction.models import HP_DOCUSIGN_STATUS_CHOICES
+from hpaction.models import HP_DOCUSIGN_STATUS_CHOICES, DocusignEnvelope
+from norent.models import Letter as NorentLetter
 
 
 NOT_STARTED = "NOT_STARTED"
@@ -38,7 +40,11 @@ EHP_PROGRESS = ProgressAnnotation(
     "ehp_progress",
     Case(
         When(
-            hpactiondocuments__docusignenvelope__status=HP_DOCUSIGN_STATUS_CHOICES.SIGNED,
+            Exists(
+                DocusignEnvelope.objects.filter(
+                    docs__user=OuterRef("pk"), status=HP_DOCUSIGN_STATUS_CHOICES.SIGNED
+                )
+            ),
             then=Value(COMPLETE),
         ),
         When(
@@ -53,7 +59,7 @@ EHP_PROGRESS = ProgressAnnotation(
 NORENT_PROGRESS = ProgressAnnotation(
     "norent_progress",
     Case(
-        When(norent_letters__isnull=False, then=Value(COMPLETE)),
+        When(Exists(NorentLetter.objects.filter(user=OuterRef("pk"))), then=Value(COMPLETE)),
         When(onboarding_info__agreed_to_norent_terms=True, then=Value(IN_PROGRESS)),
         default=Value(NOT_STARTED),
     ),

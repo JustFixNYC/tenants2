@@ -79,6 +79,11 @@ class UserTabView(NamedTuple):
 
 
 class UserWithTabsMixin:
+    """
+    A mixin for Django's ModelAdmin class that shows tabs at the top of the user
+    change form, which link to different views of user data.
+    """
+
     change_form_template = "users/justfixuser_change_form.html"
 
     def render_change_form(self, request, context, *args, **kwargs):

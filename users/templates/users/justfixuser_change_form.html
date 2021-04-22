@@ -5,23 +5,28 @@
 
 {% block content_subtitle %}
 <h2>{{ original.full_name }}</h2>
+
 <div class="jf-tab-bar">
-  <div class="jf-tab jf-tab-selected">General</div>
-  <a href="/two" class="jf-tab" title="Letter of Complaint">
-    LOC
-    <span class="jf-action-status">{{ progress_loc }}</span>
-  </a>
-  <a href="/three" class="jf-tab" title="HP Action / Emergency HP Action">
-    HP
-    <span class="jf-action-status">In progress</span>
-  </a>
-  <a href="/four" class="jf-tab jf-tab-disabled" title="EvictionFreeNY.org">
-    EFNY
-    <span class="jf-action-status">Not started</span>
-  </a>
-  <a href="/five" class="jf-tab jf-tab-disabled" title="NoRent.org">
-    NoRent
-    <span class="jf-action-status">Not started</span>
-  </a>
+{% for tabview in user_tabs %}
+  {% if tabview.is_selected %}
+    <div class="jf-tab jf-tab-selected" title="{{ tabview.tab.description }}">
+  {% else %}
+    <a href="{{ tabview.admin_url }}"
+       class="jf-tab {% if tabview.progress == 'NOT_STARTED' %}jf-tab-disabled{% endif %}"
+       title="{{ tabview.tab.description }}"
+    >
+  {% endif %}
+
+  {{ tabview.tab.label }}
+  {% if tabview.progress_label %}
+    <span class="jf-action-status">{{ tabview.progress_label }}</span>
+  {% endif %}
+
+  {% if tabview.is_selected %}
+    </div>
+  {% else %}
+    </a>
+  {% endif %}
+{% endfor %}
 </div>
 {% endblock %}

@@ -37,7 +37,7 @@
     "safe_mode_snippet:watch": "node frontend/safe_mode/watcher.js",
     "build": "yarn lingui:compile && yarn querybuilder && yarn sass && yarn sass_norent && yarn sass_evictionfree && yarn webpack && yarn safe_mode_snippet",
     "start": "yarn lingui:compile && yarn querybuilder && yarn sass && yarn sass_norent && yarn sass_evictionfree && concurrently --kill-others \"yarn webpack:watch\" \"yarn sass:watch\" \"yarn sass_norent:watch\" \"yarn sass_evictionfree:watch\" \"yarn querybuilder:watch\" \"yarn safe_mode_snippet:watch\"",
-    "server:start": "yarn django:compilemessages && python manage.py runserver"
+    "server:start": "yarn django:compilemessages && python -m debugpy --listen 0.0.0.0:5678 manage.py runserver"
   },
   "repository": {
     "type": "git",

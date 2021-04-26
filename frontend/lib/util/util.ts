@@ -1,4 +1,4 @@
-import { deepStrictEqual } from "assert";
+import deepEqual from "deep-equal";
 
 /**
  * Call the given callback within the given time period, if it isn't
@@ -91,12 +91,7 @@ export function twoTuple<A, B>(a: A, b: B): [A, B] {
  * https://nodejs.org/api/assert.html#assert_assert_deepstrictequal_actual_expected_message
  */
 export function isDeepEqual<T>(a: T, b: T): boolean {
-  try {
-    deepStrictEqual(a, b);
-    return true;
-  } catch (e) {
-    return false;
-  }
+  return deepEqual(a, b);
 }
 
 /** Capitalize each word of the given string. */

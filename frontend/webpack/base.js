@@ -1,7 +1,7 @@
 // @ts-check
 /**
  * @typedef {import("webpack").Configuration} WebpackConfig
- * @typedef {import("webpack").Plugin} WebpackPlugin
+ * @typedef {import("webpack").WebpackPluginInstance} WebpackPlugin
  * @typedef {import("webpack").RuleSetRule} WebpackRule
  */
 
@@ -35,7 +35,7 @@ const DISABLE_DEV_SOURCE_MAPS = getEnvBoolean("DISABLE_DEV_SOURCE_MAPS", false);
 /** @type WebpackConfig["devtool"] */
 const DEV_SOURCE_MAP = DISABLE_DEV_SOURCE_MAPS
   ? false
-  : "cheap-module-eval-source-map";
+  : "eval-cheap-module-source-map";
 
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
@@ -159,8 +159,6 @@ function getCommonPlugins() {
       DISABLE_DEV_SOURCE_MAPS,
       ENABLE_WEBPACK_CONTENT_HASH,
     }),
-    // https://github.com/webpack/webpack/issues/3078
-    new webpack.IgnorePlugin(/\/iconv-loader$/),
   ];
 
   return plugins;
@@ -177,14 +175,14 @@ function getCommonPlugins() {
  */
 function createNodeScriptConfig(entry, filename, extraPlugins) {
   return {
-    target: "node",
     stats: IN_WATCH_MODE ? "minimal" : "normal",
     entry,
     devtool: IS_PRODUCTION ? "source-map" : DEV_SOURCE_MAP,
     mode: MODE,
+    externalsPresets: { node: true },
     externals: [
       nodeExternals({
-        whitelist: /^@justfixnyc/,
+        allowlist: /^@justfixnyc/,
       }),
     ],
     output: {

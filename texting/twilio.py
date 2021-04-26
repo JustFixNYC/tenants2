@@ -1,4 +1,5 @@
 import logging
+import time
 from typing import Optional, Dict, Any, List
 from django.conf import settings
 from twilio.rest import Client
@@ -10,6 +11,10 @@ from project.util.settings_util import ensure_dependent_settings_are_nonempty
 from project.util.celery_util import fire_and_forget_task, get_task_for_function
 
 logger = logging.getLogger(__name__)
+
+# If this is nonzero, it's the number of seconds to wait
+# to re-send a SMS if our queue is full.
+QUEUE_RESEND_TIMEOUT_SECS = 60
 
 
 def validate_settings():
@@ -104,12 +109,17 @@ def send_sms(
             logger.info(f"Sent Twilio message with sid {msg.sid}.")
             return msg.sid
         except Exception as e:
+            queue_is_full = isinstance(e, TwilioRestException) and e.code == 21611
             is_invalid_number = isinstance(e, TwilioRestException) and e.code == 21211
             if is_invalid_number:
                 logger.info(f"Phone number {phone_number} is invalid.")
                 PhoneNumberLookup.objects.invalidate(phone_number=phone_number)
                 if ignore_invalid_phone_number:
                     return ""
+            if queue_is_full and QUEUE_RESEND_TIMEOUT_SECS:
+                logger.info(f"SMS queue is full, retrying in {QUEUE_RESEND_TIMEOUT_SECS}s.")
+                time.sleep(QUEUE_RESEND_TIMEOUT_SECS)
+                return send_sms(phone_number, body, fail_silently, ignore_invalid_phone_number)
             if fail_silently:
                 logger.exception(f"Error while communicating with Twilio")
                 return ""

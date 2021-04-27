@@ -56,7 +56,7 @@ import { CustomerSupportLink } from "../ui/customer-support-link";
 import { isUserNycha } from "../util/nycha";
 import { HpActionSue } from "./sue";
 import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-routes";
-import { assertNotNull } from "../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { renderSuccessHeading } from "../ui/success-heading";
 import { NycUsersOnly } from "../pages/nyc-users-only";
 

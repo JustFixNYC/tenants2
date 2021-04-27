@@ -26,7 +26,7 @@ import {
   safeGetAddressAndBorough,
 } from "../ui/address-confirmation";
 import { EditableInfo, SaveCancelButtons } from "../ui/editable-info";
-import { assertNotNull } from "../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { makeAccountSettingsSection, WithAccountSettingsProps } from "./util";
 
 const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({

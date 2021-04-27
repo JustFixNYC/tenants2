@@ -1,48 +1,4 @@
-import { deepStrictEqual } from "assert";
-
-/**
- * Assert that the given argument isn't null and return it. Throw
- * an exception otherwise.
- *
- * This is primarily useful for situations where we're unable to
- * statically verify that something isn't null (e.g. due to the limitations
- * of typings we didn't write) but are sure it won't be in practice.
- */
-export function assertNotNull<T>(thing: T | null): T | never {
-  if (thing === null) {
-    throw new Error("Assertion failure, expected argument to not be null!");
-  }
-  return thing;
-}
-
-/**
- * Assert that the given argument isn't undefined and return it. Throw
- * an exception otherwise.
- *
- * This is primarily useful for situations where we're unable to
- * statically verify that something isn't undefined (e.g. due to the limitations
- * of typings we didn't write) but are sure it won't be in practice.
- */
-export function assertNotUndefined<T>(thing: T | undefined): T | never {
-  if (thing === undefined) {
-    throw new Error(
-      "Assertion failure, expected argument to not be undefined!"
-    );
-  }
-  return thing;
-}
-
-/**
- * This function throws an exception with the given optional message. It's
- * useful as an assertion in combination with the logical OR or nullish
- * coalescing operators, as a way of asserting that a value must always
- * be truthy or non-nullish.
- */
-export function hardFail(
-  msg: string = "Code should never reach this point!"
-): never {
-  throw new Error(msg);
-}
+import deepEqual from "deep-equal";
 
 /**
  * Call the given callback within the given time period, if it isn't
@@ -135,12 +91,7 @@ export function twoTuple<A, B>(a: A, b: B): [A, B] {
  * https://nodejs.org/api/assert.html#assert_assert_deepstrictequal_actual_expected_message
  */
 export function isDeepEqual<T>(a: T, b: T): boolean {
-  try {
-    deepStrictEqual(a, b);
-    return true;
-  } catch (e) {
-    return false;
-  }
+  return deepEqual(a, b);
 }
 
 /** Capitalize each word of the given string. */

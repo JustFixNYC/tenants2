@@ -175,6 +175,12 @@ class OnboardingStep4Version2(OnboardingStep4Base):
 
 
 @schema_registry.register_mutation
+class OnboardingStep4WithOptionalEmail(OnboardingStep4Base):
+    class Meta:
+        form_class = forms.OnboardingStep4WithOptionalEmailForm
+
+
+@schema_registry.register_mutation
 class AgreeToTerms(SessionFormMutation):
     class Meta:
         form_class = forms.AgreeToTermsForm

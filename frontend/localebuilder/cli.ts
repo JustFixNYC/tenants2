@@ -11,7 +11,7 @@ import {
 } from "./message-catalog-paths";
 import { argvHasOption } from "../querybuilder/util";
 import { checkExtractedMessagesSync } from "./check-extracted-messages";
-import { assertNotUndefined } from "../lib/util/util";
+import { assertNotUndefined } from "@justfixnyc/util";
 import { garbleMessageCatalogs } from "./garble-catalogs";
 import { readTextFileSync } from "./util";
 import { fixLinguiIssue616Sync } from "./fix-lingui-issue-616";

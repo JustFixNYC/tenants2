@@ -1,9 +1,11 @@
-from typing import Optional
+from typing import Any, Dict, List, Optional
 from enum import Enum
 import logging
+from contextlib import contextmanager
 from django.http import HttpRequest
 from django.contrib import auth
 
+from twofactor.util import SESSION_KEY as TWOFACTOR_SESSION_KEY
 from .models import JustfixUser, IMPERSONATE_USERS_PERMISSION
 
 
@@ -87,4 +89,27 @@ def unimpersonate_user(request: HttpRequest):
 def _switch_to(request, user):
     # http://stackoverflow.com/a/2787747
     user.backend = "django.contrib.auth.backends.ModelBackend"
-    auth.login(request, user)
+
+    # We don't want the staff user to have to re-authenticate 2FA when
+    # they switch in/out of impersonation, so let's preserve that
+    # particular session key.
+    with preserve_session_keys(request, [TWOFACTOR_SESSION_KEY]):
+        auth.login(request, user)
+
+
+@contextmanager
+def preserve_session_keys(req: HttpRequest, keys: List[str]):
+    """
+    Context manager to preserve the given request session keys
+    across the `with` statement the manager is applied to.
+
+    This can be used e.g. to ensure that some aspects of the
+    user's session are preserved across login or logout.
+    """
+
+    keys_dict: Dict[str, Any] = {}
+    try:
+        keys_dict = {key: req.session[key] for key in keys if key in req.session}
+        yield
+    finally:
+        req.session.update(keys_dict)

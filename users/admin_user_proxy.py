@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.urls import reverse
 
-from project.util.admin_util import make_edit_link, admin_field, make_button_link
+from .admin_user_tabs import UserWithTabsMixin
+from project.util.admin_util import admin_field, make_button_link
 import airtable.sync
 
 
@@ -30,7 +31,7 @@ def user_signup_intent(self, obj):
         return obj.onboarding_info.signup_intent
 
 
-class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
+class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, UserWithTabsMixin, admin.ModelAdmin):
     """
     This class can be used to build specialized proxy views of the User model
     for different kinds of products (e.g. Letter of Complaint, HP Action, etc).
@@ -51,7 +52,6 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
         "email",
         "signup_intent",
         "address",
-        "edit_user",
         "sms_conversations",
         "locale",
         "impersonate",
@@ -62,8 +62,6 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, admin.ModelAdmin):
     ordering = ("-last_login",)
 
     search_fields = ["phone_number", "username", "first_name", "last_name", "email"]
-
-    edit_user = make_edit_link("View/edit user details")
 
     signup_intent = user_signup_intent
 

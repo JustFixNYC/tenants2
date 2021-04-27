@@ -35,7 +35,7 @@ import {
   customIssuesForArea,
 } from "./issues";
 import ISSUE_AREA_SVGS from "../svg/issues";
-import { assertNotUndefined } from "../util/util";
+import { assertNotUndefined } from "@justfixnyc/util";
 import {
   IssueAreaChoice,
   isIssueAreaChoice,

@@ -4,7 +4,7 @@ import {
   OnboardingStep1Mutation,
   BlankOnboardingStep1Input,
 } from "../queries/OnboardingStep1Mutation";
-import { assertNotNull } from "../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { redirectToAddressConfirmationOrNextStep } from "../ui/address-confirmation";
 import { HiddenFormField } from "../forms/form-fields";
 import { AddressAndBoroughField } from "../forms/address-and-borough-form-field";

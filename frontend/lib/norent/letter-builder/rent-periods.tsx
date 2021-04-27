@@ -10,7 +10,7 @@ import { NorentSetUpcomingLetterRentPeriodsMutation } from "../../queries/Norent
 import { ProgressButtons } from "../../ui/buttons";
 import Page from "../../ui/page";
 import { friendlyUTCMonthAndYear } from "../../util/date-util";
-import { assertNotNull } from "../../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { NorentNotSentLetterStep } from "./step-decorators";
 import { Accordion } from "../../ui/accordion";
 

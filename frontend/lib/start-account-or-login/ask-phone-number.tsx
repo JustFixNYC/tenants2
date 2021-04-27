@@ -3,7 +3,7 @@ import { QueryOrVerifyPhoneNumberMutation } from "../queries/QueryOrVerifyPhoneN
 import { PhoneNumberFormField } from "../forms/phone-number-form-field";
 import { ProgressButtons } from "../ui/buttons";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
-import { assertNotNull } from "../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import Page from "../ui/page";
 import { StartAccountOrLoginProps } from "./routes";
 import { PhoneNumberAccountStatus } from "../queries/globalTypes";

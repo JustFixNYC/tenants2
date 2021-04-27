@@ -1,7 +1,25 @@
 from django.contrib.auth.models import AnonymousUser
+from django.contrib import auth
+
 from .factories import UserFactory, SecondUserFactory
 from users import impersonation
 from users.models import IMPERSONATE_USERS_PERMISSION
+
+
+class TestPreserveSessionKeys:
+    def test_it_works(self, db, http_request, client):
+        user = UserFactory()
+        other = SecondUserFactory()
+
+        auth.login(http_request, user)
+        http_request.session["preserved"] = "hello"
+        http_request.session["not_preserved"] = "bye"
+
+        with impersonation.preserve_session_keys(http_request, ["preserved"]):
+            auth.login(http_request, other)
+
+        assert http_request.session["preserved"] == "hello"
+        assert "not_preserved" not in http_request.session
 
 
 class TestGetReasonForDenyingImpersonation:

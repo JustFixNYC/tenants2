@@ -5,7 +5,7 @@ import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-sub
 import { ProgressButtons } from "../ui/buttons";
 import { YesNoConfirmationModal } from "../ui/confirmation-modal";
 import { AppContext } from "../app-context";
-import { hardFail } from "../util/util";
+import { hardFail } from "@justfixnyc/util";
 import { Route } from "react-router-dom";
 import { areAddressesTheSame } from "../ui/address-confirmation";
 import { CityAndStateField } from "../forms/city-and-state-form-field";

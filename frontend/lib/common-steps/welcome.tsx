@@ -7,7 +7,7 @@ import { getGlobalSiteRoutes } from "../global-site-routes";
 import { li18n } from "../i18n-lingui";
 import { ProgressStepProps } from "../progress/progress-step-route";
 import Page from "../ui/page";
-import { assertNotNull } from "../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 
 export type WelcomePageProps = ProgressStepProps & {
   /**

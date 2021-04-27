@@ -12,7 +12,7 @@ import {
 } from "../queries/AdminUserSearch";
 import Page from "../ui/page";
 import { SimpleProgressiveEnhancement } from "../ui/progressive-enhancement";
-import { assertNotUndefined } from "../util/util";
+import { assertNotUndefined } from "@justfixnyc/util";
 import { adminGetUserFullName, AdminUserInfo } from "./admin-user-info";
 import { staffOnlyView } from "./staff-only-view";
 

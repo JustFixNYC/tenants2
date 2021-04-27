@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactElement } from "react";
 import { TransitionProps } from "react-transition-group/Transition";
-import { assertNotNull } from "../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { TransitionGroup } from "react-transition-group";
 import { buildContextHocFactory } from "../util/context-util";
 

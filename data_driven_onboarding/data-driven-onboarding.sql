@@ -1,5 +1,5 @@
--- zip code of building (pluto_18v2)
--- residential units in building (pluto_18v2) 
+-- zip code of building (pluto_19v2)
+-- residential units in building (pluto_19v2) 
 with Total_Res_Units as(
     select    
         zipcode,
@@ -7,7 +7,7 @@ with Total_Res_Units as(
         bldgclass,
         UnitsRes,
         bbl -- is this necessary?
-    from pluto_18v2
+    from pluto_19v2
     where bbl= %(bbl)s
     ),
     
@@ -148,18 +148,18 @@ Total_HPD_Violations as (
 
 select
     -- zipcode for the entered bbl. 
-    -- pulled from pluto_18v2. there are no null or instances of '0'. there are blanks?
+    -- pulled from pluto_19v2. there are no null or instances of '0'. there are blanks?
     T.zipcode as zipcode, 
     
     -- year built for the entered bbl. 
-    -- pulled from pluto_18v2. if the year built category is null or is '0', will return null
+    -- pulled from pluto_19v2. if the year built category is null or is '0', will return null
     T.yearbuilt as year_built, 
 
     -- building class for the entered bbl. 
-    -- pulled from pluto_18v2. there are no null or instances of '0'.
+    -- pulled from pluto_19v2. there are no null or instances of '0'.
     T.bldgclass as building_class, 
 
-    -- number of residential units for entered bbl, from pluto_18v2
+    -- number of residential units for entered bbl, from pluto_19v2
     -- will not return null, will return 0
     coalesce(T.UnitsRes,0) as unit_count, 
 

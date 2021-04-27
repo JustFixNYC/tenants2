@@ -126,39 +126,77 @@ const SpanishContent: React.FC<ContentProps> = (props) => (
   <>
     <p>Estimado/a {props.firstName},</p>
     <p>
-      Recibes este mensaje porque creaste una cuenta o enviaste una carta al
-      dueño o manager de tu edificio a través de nuestro sitio web{" "}
-      <WwwNorentDotOrg /> para informarle que no puedes pagar la renta del mes
-      que especificaste debido a razones relacionadas con el COVID-19.
+      Recibe este mensaje para mandarle información sobre los programas de
+      asistencia de fondos para renta para inquilines del Condado de Los
+      Ángeles. La ley del estado de California SB91 provee ayuda para inquilines
+      que califican. ¡La aplicación ya está disponible!
     </p>
+    <h2>Si vive en la Ciudad de Los Ángeles</h2>
+    <ul>
+      <li>La fecha límite para aplicar es el 30 de abril</li>
+      <li>
+        ¿Donde aplico? <NakedLink href="https://hcidla.lacity.org/" />
+      </li>
+      <li>Para preguntas: (833) 373-0587</li>
+      <li>
+        Video de SAJE para ayuda:{" "}
+        <NakedLink href="https://youtu.be/Mh8OvvvJDwE" />
+      </li>
+    </ul>
+    <h2>Si vive en la ciudad de Long Beach</h2>
+    <ul>
+      <li>
+        ¿Donde aplico?{" "}
+        <NakedLink href="http://www.longbeach.gov/lbds/hn/emergency-rental-assistance-program/" />
+      </li>
+    </ul>
+    <h2>
+      Si vive en otra ciudad del condado de Los Ángeles o un área no incorporada
+    </h2>
+    <p>(Como por ejemplo el Este de Los Angeles, Florence-Firestone)</p>
+    <ul>
+      <li>
+        ¿Donde aplico?{" "}
+        <NakedLink href="https://housing.ca.gov/covid_rr/index_esp.html" />
+      </li>
+      <li>
+        Video de SAJE para ayuda:{" "}
+        <NakedLink href="https://youtu.be/gA6NBF5Xzdc" />
+      </li>
+    </ul>
+    <p>Donde llamar para asistencia: Por favor llame para confirmar</p>
+    <ul>
+      <li>
+        <p>
+          <strong>Watts Labor Community Action Committee</strong>
+          <br />
+          Lunes-Viernes, 8:30am-5:30pm
+          <br />
+          (323) 357-6262
+        </p>
+      </li>
+      <li>
+        <p>
+          <strong>Southwest/Florence The Children’s Collective, Inc</strong>
+          <br />
+          Lunes-Viernes, 8:30am-5pm <br />
+          (323) 789-4717
+        </p>
+      </li>
+      <li>
+        <p>
+          <strong>Wilmington/San Pedro Toberman Neighborhood Center</strong>
+          <br />
+          Lunes-Viernes, 9am-5pm
+          <br />
+          (310) 832-1145
+        </p>
+      </li>
+    </ul>
     <p>
-      El 31 de agosto de 2020, el estado de California aprobó protecciones para
-      inquilinos bajo el Proyecto de Ley de la Asamblea 3088. Estas protecciones
-      evitan que los propietarios desalojen a los inquilinos antes del 1 de
-      febrero de 2021 sin una razón válida o por renta no pagada entre el 4 de
-      marzo de 2020 y el 31 de enero de 2021 debido a la pérdida de ingresos o
-      mayores gastos asociados con el COVID-19. Aunque esta ley te protege de
-      ser desalojado/a por no pagar la renta, no la cancela.
+      Si tiene mas preguntas por favor llame a SAJE al 213-745-9961 de Lunes a
+      Viernes 10am-6pm. SAJE le manda buenos deseos durante este tiempo.
     </p>
-    <p>
-      Si debes alquiler por cualquier mes desde marzo de 2020 hasta enero de
-      2021, debes enviar una carta de declaración al dueño o manager de tu
-      edificio por todos los meses en que no hayas podido pagar la renta en su
-      totalidad. También debes pagar un mínimo del 25% de la renta total
-      adeudada, antes del 31 de enero de 2021. Para cumplir con este requisito,
-      puedes pagar el 25% cada mes o puedes hacerlo en un solo pago siempre que
-      pagues el 25% de la renta total antes del 31 de enero de 2021.
-    </p>
-    <p>
-      Debes enviar esta carta de declaración cada mes al dueño o manager de tu
-      edificio indicando que no puedes pagar la renta y las razones. La
-      herramienta NoRent.org actualizada satisface los requisitos para que
-      puedas enviar una carta de declaración al dueño o manager de tu edificio
-      con éxito.
-    </p>
-    <EmailCta href={props.ctaURL}>
-      Envía una carta de declaración al dueño o manager de tu edificio ahora
-    </EmailCta>
   </>
 );
 

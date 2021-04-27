@@ -47,7 +47,6 @@ const EnglishContent: React.FC<ContentProps> = (props) => (
         2806 Clearwater St Los Angeles, CA 90039. Call (323) 899-9428 to find
         out what materials you need to bring.
         <ul>
-          <li>Monday, April 26 from 4-7 pm</li>
           <li>Tuesday, April 27 from 4-7 pm</li>
         </ul>
       </li>

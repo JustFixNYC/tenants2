@@ -60,7 +60,7 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
           <p className="subtitle is-size-5">
             <Trans id="evictionfree.aboutPage1">
               A new State law, passed in late 2020, allows most tenants to stop
-              their eviction case until May 1st, 2021, if they fill out a
+              their eviction case until August 31st, 2021, if they fill out a
               “Hardship Declaration” form. However, this law puts the
               responsibility on tenants to figure out how to do that and doesn’t
               provide easy access to exercise their rights.
@@ -73,8 +73,8 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
               with peace of mind— sending it out via free USPS Certified Mail
               and email to all of the appropriate parties (your landlord and the
               courts) to ensure protection. And since the law doesn’t go far
-              enough to protect folks beyond May 1st, our tool connects tenants
-              to the larger tenant movement so we can #CancelRent.
+              enough to protect folks beyond August 31st, our tool connects
+              tenants to the larger tenant movement so we can #CancelRent.
             </Trans>
           </p>
           <br />

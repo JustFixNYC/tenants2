@@ -14,7 +14,7 @@ const TWITTER_HANDLE = "@JustFixNYC";
 
 const description = () =>
   li18n._(
-    t`You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021.`
+    t`You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until August 31st, 2021.`
   );
 const keywords = () =>
   li18n._(

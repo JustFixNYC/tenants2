@@ -16,42 +16,109 @@ const WwwNorentDotOrg: React.FC<{}> = () => (
   </a>
 );
 
+const NakedLink: React.FC<{ href: string }> = ({ href }) => (
+  <a href={href} data-jf-show-href-only-in-plaintext>
+    {href}
+  </a>
+);
+
 const EnglishContent: React.FC<ContentProps> = (props) => (
   <>
     <p>Dear {props.firstName},</p>
     <p>
-      You are receiving this message because you have created an account or sent
-      a letter to your landlord via our website <WwwNorentDotOrg /> to inform
-      them that you are unable to pay rent for the month you specified due to
-      COVID-19 related reasons.
+      You are receiving this message as a reminder of the Emergency Rental
+      Assistance Program enacted by the new State Law SB91 in the State of
+      California. The application for rental assistance is now available!
     </p>
+    <h2>If you live in the City of Los Angeles</h2>
+    <ul>
+      <li>The last day to apply is April 30th</li>
+      <li>
+        You can apply at <NakedLink href="https://hcidla.lacity.org/" />
+      </li>
+      <li>If you have questions, call (833) 373-0587</li>
+    </ul>
+    <p>Additional application assistance available:</p>
+    <ul>
+      <li>
+        SAJE created a video to walk through the application process:{" "}
+        <NakedLink href="https://youtu.be/c2CW2uzccB4" />
+      </li>
+      <li>
+        In person rental assistance clinics in Northeast Los Angeles provided by
+        LA MAS:{" "}
+        <NakedLink href="https://www.facebook.com/events/811561476446257/" />
+      </li>
+      <li>
+        2806 Clearwater St Los Angeles, CA 90039. Call (323) 899-9428 to find
+        out what materials you need to bring.
+        <ul>
+          <li>Monday, April 26 from 4-7 pm</li>
+          <li>Tuesday, April 27 from 4-7 pm</li>
+        </ul>
+      </li>
+    </ul>
+    <h2>If you live in Long Beach</h2>
+    <ul>
+      <li>
+        Apply here:{" "}
+        <NakedLink href="http://www.longbeach.gov/lbds/hn/emergency-rental-assistance-program/" />
+      </li>
+    </ul>
+    <h2>
+      If you live in another city or an unincorporated area of Los Angeles
+    </h2>
     <p>
-      On August 31, 2020, the State of California passed tenant protections
-      under Assembly Bill 3088. These protections prevent landlords from
-      evicting tenants before February 1, 2021 without a valid reason or for any
-      rent not paid between March 4, 2020 - January 31, 2021 due to loss of
-      income or increased expenses associated with COVID-19. Although this law
-      protects you from being evicted for not paying rent, it does not cancel
-      rent.
+      (for example: Compton, Lynwood, Inglewood or another city NOT the city of
+      Los Angeles or Long Beach OR you live in an unincorporated area such as
+      East Los Angeles, Florence Firestone)
     </p>
+    <ul>
+      <li>
+        Apply here:{" "}
+        <NakedLink href="https://housing.ca.gov/covid_rr/index.html" />
+      </li>
+      <li>
+        Watch a video that SAJE made to help you apply:{" "}
+        <NakedLink href="https://youtu.be/OqfDQH3B9x4" />
+      </li>
+    </ul>
     <p>
-      If you owe rent for any months from March 2020 to January 2021, you must
-      submit a declaration letter to your landlord for any months you cannot pay
-      in full. You must also pay a minimum of 25% of the total rent owed, by
-      January 31, 2021. To satisfy this requirement, you can either pay 25% each
-      month, or you can make one payment as long as you pay the 25% of the total
-      rent before January 31, 2021.
+      Other offices offering assistance (please call them to schedule an
+      appointment):
     </p>
+    <ul>
+      <li>
+        <p>
+          <strong>Watts Labor Community Action Committee</strong>
+          <br />
+          Monday-Friday, 8:30am-5:30pm
+          <br />
+          (323) 357-6262
+        </p>
+      </li>
+      <li>
+        <p>
+          <strong>Southwest/Florence The Children’s Collective, Inc</strong>
+          <br />
+          Monday-Friday, 8:30am-5pm <br />
+          (323) 789-4717
+        </p>
+      </li>
+      <li>
+        <p>
+          <strong>Wilmington/San Pedro Toberman Neighborhood Center</strong>
+          <br />
+          Monday-Friday, 9am-5pm
+          <br />
+          (310) 832-1145
+        </p>
+      </li>
+    </ul>
     <p>
-      You must submit the declaration letter each month to your landlord stating
-      that you are unable to pay rent and the reasons why. The updated
-      NoRent.org tool satisfies the requirements for you to be able to
-      successfully mail a declaration letter to your landlord.
+      If you have further questions, SAJE is available Monday-Friday 10am-6pm
+      for general questions at (213) 745-9961.
     </p>
-
-    <EmailCta href={props.ctaURL}>
-      Send a declaration letter to your landlord now
-    </EmailCta>
   </>
 );
 

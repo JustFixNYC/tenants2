@@ -27,14 +27,9 @@ BASE_HTML = """
 
 def render_pdf(count: int) -> BytesIO:
     css = weasyprint.CSS(string=CSS)
-    html_content = "".join([
-        BASE_HTML,
-        "<div style=\"page-break-after: always;\"></div>" * count
-    ])
+    html_content = "".join([BASE_HTML, '<div style="page-break-after: always;"></div>' * count])
     html = weasyprint.HTML(string=html_content)
-    pdf = BytesIO(html.write_pdf(
-        stylesheets=[css]
-    ))
+    pdf = BytesIO(html.write_pdf(stylesheets=[css]))
     return pdf
 
 
@@ -49,7 +44,7 @@ def merge_page_with_possible_rotation(page: PageObject, numbers_page: PageObject
             numbers_page,
             270,
             numbers_page.mediaBox.getWidth() / 2,
-            numbers_page.mediaBox.getWidth() / 2
+            numbers_page.mediaBox.getWidth() / 2,
         )
     else:
         page.mergePage(numbers_page)

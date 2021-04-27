@@ -2,11 +2,12 @@ import React from "react";
 
 import Page from "../ui/page";
 import { Link } from "react-router-dom";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes from "../justfix-route-info";
 import { NextButton } from "../ui/buttons";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import { LogoutMutation } from "../queries/LogoutMutation";
 import { withAppContext, AppContextType } from "../app-context";
+import { UnimpersonateWidget } from "../ui/impersonation";
 
 export const LogoutPage = withAppContext((props: AppContextType) => {
   if (props.session.phoneNumber) {
@@ -27,6 +28,7 @@ export const LogoutPage = withAppContext((props: AppContextType) => {
               <NextButton isLoading={ctx.isLoading} label="Yes, sign out" />
             )}
           </SessionUpdatingFormSubmitter>
+          <UnimpersonateWidget />
         </div>
       </Page>
     );

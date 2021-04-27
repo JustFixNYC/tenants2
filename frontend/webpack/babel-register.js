@@ -1,6 +1,9 @@
 //@ts-nocheck
 
+const { nodeBabelOptions, excludeMostOfNodeModules } = require("./base");
+
 require("@babel/register")({
-  ...require("./base").nodeBabelOptions,
-  extensions: [".ts", ".tsx"],
+  ...nodeBabelOptions,
+  ignore: [excludeMostOfNodeModules],
+  extensions: [".js", ".ts", ".tsx"],
 });

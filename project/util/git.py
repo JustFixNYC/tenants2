@@ -13,7 +13,7 @@ from .typed_environ import BaseEnvironment
 
 def is_git_repo(dir: Path) -> bool:
     """Is the given directory version-controlled with git?"""
-    return (dir / '.git').exists()
+    return (dir / ".git").exists()
 
 
 def have_git() -> bool:
@@ -54,11 +54,11 @@ def has_extra_files(dir: Path) -> bool:
     return output.strip() != b""
 
 
-T = TypeVar('T', bound='GitInfo')
+T = TypeVar("T", bound="GitInfo")
 
 
 class GitInfo(BaseEnvironment):
-    '''
+    """
     We need some way of letting production deployments, which
     don't contain the project's git repository, what revision
     they're using. This class is used to do that, via
@@ -67,7 +67,7 @@ class GitInfo(BaseEnvironment):
     At the same time, we need an easy way to *generate* those
     environment variables from a Git repository, which this
     class also provides some utility methods for.
-    '''
+    """
 
     # The 40-character revision of the project's git repo.
     GIT_REVISION: str
@@ -79,7 +79,7 @@ class GitInfo(BaseEnvironment):
     @classmethod
     def create_env_dict(cls: Type[T], dir: Path) -> Dict[str, str]:
         return dict(
-            GIT_REVISION=git_revision(dir).decode('ascii'),
+            GIT_REVISION=git_revision(dir).decode("ascii"),
             IS_GIT_REPO_PRISTINE=str(not is_dirty(dir) and not has_extra_files(dir)),
         )
 
@@ -89,21 +89,21 @@ class GitInfo(BaseEnvironment):
 
     @classmethod
     def from_dir_or_env(cls: Type[T], dir: Path) -> T:
-        '''
+        """
         If the given directory is a git repository, pulls git info from there.
         Otherwise, it's assumed that the git revision information lives in the
         environment, and we'll pull it from there.
-        '''
+        """
 
         if have_git() and is_git_repo(dir):
             return cls.from_dir(dir)
         return cls()
 
     def get_version_str(self):
-        '''
+        """
         Returns a 40-character version identifier for the project. If the
         project isn't pristine, this will end in ".mod" (for "modified").
-        '''
+        """
 
         if self.IS_GIT_REPO_PRISTINE:
             return self.GIT_REVISION

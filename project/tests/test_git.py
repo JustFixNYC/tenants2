@@ -23,10 +23,10 @@ class TestGitInfo:
         assert isinstance(gitinfo.IS_GIT_REPO_PRISTINE, bool)
 
     def test_get_version_str_returns_rev_if_pristine(self):
-        gitinfo = git.GitInfo(env={'GIT_REVISION': REV, 'IS_GIT_REPO_PRISTINE': 'True'})
+        gitinfo = git.GitInfo(env={"GIT_REVISION": REV, "IS_GIT_REPO_PRISTINE": "True"})
         assert gitinfo.get_version_str() == REV
 
     def test_get_version_str_works_if_not_pristine(self):
-        gitinfo = git.GitInfo(env={'GIT_REVISION': REV, 'IS_GIT_REPO_PRISTINE': 'False'})
+        gitinfo = git.GitInfo(env={"GIT_REVISION": REV, "IS_GIT_REPO_PRISTINE": "False"})
         assert len(gitinfo.get_version_str()) == 40
         assert gitinfo.get_version_str() == "bafd4d0b0224e28e630eeaacecb2c4c589c5.mod"

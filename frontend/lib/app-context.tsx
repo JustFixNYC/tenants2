@@ -4,7 +4,7 @@ import { AllSessionInfo } from "./queries/AllSessionInfo";
 import { GraphQLFetch } from "./networking/graphql-client";
 import { buildContextHocFactory } from "./util/context-util";
 import { SiteChoice } from "../../common-data/site-choices";
-import { SiteRoutes } from "./routes";
+import { SiteRoutes } from "./global-site-routes";
 import { LocaleChoice } from "../../common-data/locale-choices";
 
 /** Metadata about forms submitted via legacy POST. */
@@ -95,6 +95,18 @@ export interface AppServerInfo {
   enableSafeModeURL: string;
 
   /**
+   * The URL for the preview of the eviction free COVID-19 hardship
+   * declaration for the current user.
+   */
+  previewHardshipDeclarationURL: string;
+
+  /**
+   * The URL for the final, submitted eviction free COVID-19 hardship
+   * declaration for the current user.
+   */
+  submittedHardshipDeclarationURL: string;
+
+  /**
    * An optional label to show the site's navbar.
    */
   navbarLabel?: string;
@@ -156,6 +168,11 @@ export interface AppServerInfo {
    * in the header metatags for the site.
    */
   facebookAppId: string;
+
+  /**
+   * The URL that is the origin of the NYC GeoSearch API endpoint to use.
+   */
+  nycGeoSearchOrigin: string;
 }
 
 /**

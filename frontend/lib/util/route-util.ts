@@ -3,6 +3,12 @@ import i18n, { makeLocalePathPrefix } from "../i18n";
 import { LocaleChoice } from "../../../common-data/locale-choices";
 
 /**
+ * Querystring argument for specifying the URL to redirect the
+ * user to once they're done with the current page.
+ */
+export const NEXT = "next";
+
+/**
  * Special route key indicating the prefix of a set of routes,
  * rather than a route that necessarily leads somewhere.
  */
@@ -177,4 +183,13 @@ export function createRoutesForSite<LocalizedRoutes, NonLocalizedRoutes>(
   });
 
   return baseRoutes;
+}
+
+/**
+ * Appends the given hash ID, if any, to the given pathname. Note that
+ * the hash ID should not start with `#`.
+ */
+export function pathWithHash(pathname: string, hashId?: string): string {
+  if (!hashId) return pathname;
+  return `${pathname}#${hashId}`;
 }

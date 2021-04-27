@@ -1,6 +1,6 @@
 import React from "react";
 import i18n, { SupportedLocaleMap } from "../i18n";
-import { OutboundLink } from "../analytics/google-analytics";
+import { OutboundLink } from "./outbound-link";
 import { Trans } from "@lingui/macro";
 
 /**

@@ -11,7 +11,7 @@ import {
 } from "./message-catalog-paths";
 import { argvHasOption } from "../querybuilder/util";
 import { checkExtractedMessagesSync } from "./check-extracted-messages";
-import { assertNotUndefined } from "../lib/util/util";
+import { assertNotUndefined } from "@justfixnyc/util";
 import { garbleMessageCatalogs } from "./garble-catalogs";
 import { readTextFileSync } from "./util";
 import { fixLinguiIssue616Sync } from "./fix-lingui-issue-616";
@@ -49,6 +49,14 @@ const SPLIT_CHUNK_CONFIGS: MessageCatalogSplitterChunkConfig[] = [
   {
     name: "norent",
     test: (s) => s.startsWith("frontend/lib/norent/"),
+  },
+  /**
+   * Any strings that are *only* present in the evictionfree directory
+   * will go into their own chunk.
+   */
+  {
+    name: "evictionfree",
+    test: (s) => s.startsWith("frontend/lib/evictionfree/"),
   },
   /**
    * Any strings that are *only* present in the rh directory

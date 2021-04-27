@@ -7,10 +7,15 @@ from .models import RentalHistoryRequest
 @admin.register(RentalHistoryRequest)
 class RentalHistoryRequestAdmin(admin.ModelAdmin):
     list_display = [
-        'created_at', 'user', 'first_name', 'last_name', 'address', 'borough',
+        "created_at",
+        "user",
+        "first_name",
+        "last_name",
+        "address",
+        "borough",
     ]
 
-    ordering = ['created_at']
+    ordering = ["created_at"]
 
     has_add_permission = never_has_permission
     has_change_permission = never_has_permission

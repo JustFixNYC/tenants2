@@ -11,9 +11,9 @@ from .. import models
 
 MY_DIR = Path(__file__).parent.resolve()
 
-ONE_PAGE_PDF = MY_DIR / 'one-page.pdf'
+ONE_PAGE_PDF = MY_DIR / "one-page.pdf"
 
-ONE_PAGE_READER = PyPDF2.PdfFileReader(ONE_PAGE_PDF.open('rb'))
+ONE_PAGE_READER = PyPDF2.PdfFileReader(ONE_PAGE_PDF.open("rb"))
 
 NUM_REPAIRS_PAGES = 5
 
@@ -35,7 +35,7 @@ def construct_fake_pdf(num_pages: int) -> bytes:
 
 
 def make_hpa_xml(v: HPActionVariables) -> bytes:
-    return str(v.to_answer_set()).encode('utf-8')
+    return str(v.to_answer_set()).encode("utf-8")
 
 
 class TenantChildFactory(factory.django.DjangoModelFactory):
@@ -44,7 +44,7 @@ class TenantChildFactory(factory.django.DjangoModelFactory):
 
     user = factory.SubFactory(UserFactory)
 
-    name = 'Boop Jones Jr.'
+    name = "Boop Jones Jr."
 
     dob = date(2001, 10, 11)
 
@@ -53,12 +53,11 @@ class HPActionDocumentsFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.HPActionDocuments
 
-    id = 'decafbad'
+    id = "decafbad"
 
     user = factory.SubFactory(UserFactory)
 
-    xml_data = make_hpa_xml(HPActionVariables(
-        sue_for_harassment_tf=False, sue_for_repairs_tf=True))
+    xml_data = make_hpa_xml(HPActionVariables(sue_for_harassment_tf=False, sue_for_repairs_tf=True))
 
     pdf_data = construct_fake_pdf(NUM_REPAIRS_PAGES)
 
@@ -72,15 +71,13 @@ class HPActionDocumentsForRepairsFactory(HPActionDocumentsFactory):
 
 
 class HPActionDocumentsForHarassmentFactory(HPActionDocumentsFactory):
-    xml_data = make_hpa_xml(HPActionVariables(
-        sue_for_harassment_tf=True, sue_for_repairs_tf=False))
+    xml_data = make_hpa_xml(HPActionVariables(sue_for_harassment_tf=True, sue_for_repairs_tf=False))
 
     pdf_data = construct_fake_pdf(NUM_HARASSMENT_PAGES)
 
 
 class HPActionDocumentsForBothFactory(HPActionDocumentsFactory):
-    xml_data = make_hpa_xml(HPActionVariables(
-        sue_for_harassment_tf=True, sue_for_repairs_tf=True))
+    xml_data = make_hpa_xml(HPActionVariables(sue_for_harassment_tf=True, sue_for_repairs_tf=True))
 
     pdf_data = construct_fake_pdf(NUM_BOTH_PAGES)
 
@@ -115,7 +112,7 @@ class DocusignEnvelopeFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.DocusignEnvelope
 
-    id = '3bd24c00-c870-452f-9e6f-68aa07d34fe7'
+    id = "3bd24c00-c870-452f-9e6f-68aa07d34fe7"
 
     docs = factory.SubFactory(HPActionDocumentsFactory)
 
@@ -147,7 +144,7 @@ class PriorCaseFactory(factory.django.DjangoModelFactory):
 
     user = factory.SubFactory(UserFactory)
 
-    case_number = '123456789'
+    case_number = "123456789"
 
     case_date = date(2018, 1, 3)
 

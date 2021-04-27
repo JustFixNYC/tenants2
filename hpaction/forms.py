@@ -1,17 +1,21 @@
-from typing import Optional, Dict, List
+from typing import Dict, List
 from collections import defaultdict
 from django import forms
-from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
 from project import common_data
-from project.forms import YesNoRadiosField, ensure_at_least_one_is_true
+from project.forms import (
+    YesNoRadiosField,
+    ensure_at_least_one_is_true,
+    DynamicallyRequiredFieldsMixin,
+)
 from issues.models import ISSUE_CHOICES, get_issue_area
 from onboarding.models import OnboardingInfo
+from loc.landlord_info_mutation import BaseLandlordExtraInfoForm
 from . import models
 
 
-EMERGENCY_HPA_ISSUE_LIST = common_data.load_json('emergency-hpa-issue-list.json')
+EMERGENCY_HPA_ISSUE_LIST = common_data.load_json("emergency-hpa-issue-list.json")
 
 EMERGENCY_HPA_CHOICES = [
     (value, ISSUE_CHOICES.get_label(value)) for value in EMERGENCY_HPA_ISSUE_LIST
@@ -28,13 +32,13 @@ class FeeWaiverIncomeForm(forms.ModelForm):
     class Meta:
         model = models.FeeWaiverDetails
         fields = [
-            'income_amount_monthly',
-            'income_src_employment',
-            'income_src_hra',
-            'income_src_child_support',
-            'income_src_alimony',
-            'income_src_social_security',
-            'income_src_other',
+            "income_amount_monthly",
+            "income_src_employment",
+            "income_src_hra",
+            "income_src_child_support",
+            "income_src_alimony",
+            "income_src_social_security",
+            "income_src_other",
         ]
 
 
@@ -42,19 +46,19 @@ class FeeWaiverExpensesForm(forms.ModelForm):
     class Meta:
         model = models.FeeWaiverDetails
         fields = [
-            'rent_amount',
-            'expense_utilities',
-            'expense_cable',
-            'expense_phone',
-            'expense_childcare',
-            'expense_other',
+            "rent_amount",
+            "expense_utilities",
+            "expense_cable",
+            "expense_phone",
+            "expense_childcare",
+            "expense_other",
         ]
 
 
 class FeeWaiverMiscForm(forms.ModelForm):
     class Meta:
         model = models.FeeWaiverDetails
-        fields = ['asked_before']
+        fields = ["asked_before"]
 
     asked_before = YesNoRadiosField()
 
@@ -62,7 +66,7 @@ class FeeWaiverMiscForm(forms.ModelForm):
 class FeeWaiverPublicAssistanceForm(forms.ModelForm):
     class Meta:
         model = models.FeeWaiverDetails
-        fields = ['receives_public_assistance']
+        fields = ["receives_public_assistance"]
 
     receives_public_assistance = YesNoRadiosField()
 
@@ -70,37 +74,35 @@ class FeeWaiverPublicAssistanceForm(forms.ModelForm):
 class AccessForInspectionForm(forms.ModelForm):
     class Meta:
         model = OnboardingInfo
-        fields = ['floor_number']
+        fields = ["floor_number"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['floor_number'].required = True
+        self.fields["floor_number"].required = True
 
 
 class PriorCaseForm(forms.ModelForm):
     class Meta:
         model = models.PriorCase
-        fields = ['case_number', 'case_date', 'is_harassment', 'is_repairs']
+        fields = ["case_number", "case_date", "is_harassment", "is_repairs"]
 
 
 class TenantChildForm(forms.ModelForm):
     class Meta:
         model = models.TenantChild
-        fields = ['name', 'dob']
+        fields = ["name", "dob"]
 
 
-FILED_WITH_311 = 'filed_with_311'
-THIRTY_DAYS_SINCE_311 = 'thirty_days_since_311'
-HPD_ISSUED_VIOLATIONS = 'hpd_issued_violations'
-THIRTY_DAYS_SINCE_VIOLATIONS = 'thirty_days_since_violations'
+FILED_WITH_311 = "filed_with_311"
+THIRTY_DAYS_SINCE_311 = "thirty_days_since_311"
+HPD_ISSUED_VIOLATIONS = "hpd_issued_violations"
+THIRTY_DAYS_SINCE_VIOLATIONS = "thirty_days_since_violations"
 
 
 class UrgentAndDangerousForm(forms.ModelForm):
     class Meta:
         model = models.HPActionDetails
-        fields = [
-            'urgent_and_dangerous'
-        ]
+        fields = ["urgent_and_dangerous"]
 
     urgent_and_dangerous = YesNoRadiosField()
 
@@ -109,8 +111,8 @@ class SueForm(forms.ModelForm):
     class Meta:
         model = models.HPActionDetails
         fields = [
-            'sue_for_repairs',
-            'sue_for_harassment',
+            "sue_for_repairs",
+            "sue_for_harassment",
         ]
 
     sue_for_repairs = forms.BooleanField(required=False)
@@ -120,21 +122,7 @@ class SueForm(forms.ModelForm):
         return ensure_at_least_one_is_true(super().clean())
 
 
-class DynamicallyRequiredBoolMixin:
-    def add_dynamically_required_error(self, field: str):
-        msg = forms.Field.default_error_messages['required']
-        self.add_error(field, ValidationError(msg, code='required'))  # type: ignore
-
-    def require_bool_field(self, field: str, cleaned_data) -> Optional[bool]:
-        value = YesNoRadiosField.coerce(cleaned_data.get(field))
-        if value is None:
-            self.add_dynamically_required_error(field)
-        else:
-            assert isinstance(value, bool)
-        return value
-
-
-class PreviousAttemptsForm(DynamicallyRequiredBoolMixin, forms.ModelForm):
+class PreviousAttemptsForm(DynamicallyRequiredFieldsMixin, forms.ModelForm):
     class Meta:
         model = models.HPActionDetails
         fields = [
@@ -154,27 +142,26 @@ class PreviousAttemptsForm(DynamicallyRequiredBoolMixin, forms.ModelForm):
         filed_with_311 = YesNoRadiosField.coerce(cleaned_data.get(FILED_WITH_311))
 
         if filed_with_311 is True:
-            hpd_issued_violations = self.require_bool_field(
-                HPD_ISSUED_VIOLATIONS, cleaned_data)
+            hpd_issued_violations = self.require_bool_field(HPD_ISSUED_VIOLATIONS, cleaned_data)
             if hpd_issued_violations is False:
                 self.require_bool_field(THIRTY_DAYS_SINCE_311, cleaned_data)
-                cleaned_data[THIRTY_DAYS_SINCE_VIOLATIONS] = ''
+                cleaned_data[THIRTY_DAYS_SINCE_VIOLATIONS] = ""
             elif hpd_issued_violations is True:
                 self.require_bool_field(THIRTY_DAYS_SINCE_VIOLATIONS, cleaned_data)
-                cleaned_data[THIRTY_DAYS_SINCE_311] = ''
+                cleaned_data[THIRTY_DAYS_SINCE_311] = ""
         elif filed_with_311 is False:
-            cleaned_data[HPD_ISSUED_VIOLATIONS] = ''
-            cleaned_data[THIRTY_DAYS_SINCE_311] = ''
-            cleaned_data[THIRTY_DAYS_SINCE_VIOLATIONS] = ''
+            cleaned_data[HPD_ISSUED_VIOLATIONS] = ""
+            cleaned_data[THIRTY_DAYS_SINCE_311] = ""
+            cleaned_data[THIRTY_DAYS_SINCE_VIOLATIONS] = ""
 
         return cleaned_data
 
 
-TWO_OR_LESS_APARTMENTS_IN_BUILDING = 'two_or_less_apartments_in_building'
-MORE_THAN_ONE_FAMILY_PER_APARTMENT = 'more_than_one_family_per_apartment'
+TWO_OR_LESS_APARTMENTS_IN_BUILDING = "two_or_less_apartments_in_building"
+MORE_THAN_ONE_FAMILY_PER_APARTMENT = "more_than_one_family_per_apartment"
 
 
-class HarassmentApartmentForm(DynamicallyRequiredBoolMixin, forms.ModelForm):
+class HarassmentApartmentForm(DynamicallyRequiredFieldsMixin, forms.ModelForm):
     class Meta:
         model = models.HarassmentDetails
         fields = [
@@ -192,7 +179,7 @@ class HarassmentApartmentForm(DynamicallyRequiredBoolMixin, forms.ModelForm):
         if two_or_less is True:
             self.require_bool_field(MORE_THAN_ONE_FAMILY_PER_APARTMENT, cleaned_data)
         elif two_or_less is False:
-            cleaned_data[MORE_THAN_ONE_FAMILY_PER_APARTMENT] = ''
+            cleaned_data[MORE_THAN_ONE_FAMILY_PER_APARTMENT] = ""
 
         return cleaned_data
 
@@ -201,13 +188,13 @@ class HarassmentAllegations1Form(forms.ModelForm):
     class Meta:
         model = models.HarassmentDetails
         fields = [
-            'alleg_force',
-            'alleg_misleading_info',
-            'alleg_stopped_service',
-            'alleg_failed_to_comply',
-            'alleg_false_cert_repairs',
-            'alleg_conduct_in_violation',
-            'alleg_sued',
+            "alleg_force",
+            "alleg_misleading_info",
+            "alleg_stopped_service",
+            "alleg_failed_to_comply",
+            "alleg_false_cert_repairs",
+            "alleg_conduct_in_violation",
+            "alleg_sued",
         ]
 
 
@@ -215,12 +202,12 @@ class HarassmentAllegations2Form(forms.ModelForm):
     class Meta:
         model = models.HarassmentDetails
         fields = [
-            'alleg_removed_possessions',
-            'alleg_induced_leaving',
-            'alleg_contact',
-            'alleg_threats_re_status',
-            'alleg_requested_id',
-            'alleg_disturbed'
+            "alleg_removed_possessions",
+            "alleg_induced_leaving",
+            "alleg_contact",
+            "alleg_threats_re_status",
+            "alleg_requested_id",
+            "alleg_disturbed",
         ]
 
 
@@ -228,12 +215,12 @@ class HarassmentExplainForm(forms.ModelForm):
     class Meta:
         model = models.HarassmentDetails
         fields = [
-            'harassment_details',
+            "harassment_details",
         ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['harassment_details'].required = True
+        self.fields["harassment_details"].required = True
 
 
 class GeneratePDFForm(forms.Form):
@@ -248,7 +235,34 @@ class EmergencyHPAIssuesForm(forms.Form):
 
 
 class BeginDocusignForm(forms.Form):
-    next_url = forms.CharField(validators=[RegexValidator(
-        regex=r"^\/.*",
-        message="The URL must start with '/'."
-    )])
+    next_url = forms.CharField(
+        validators=[RegexValidator(regex=r"^\/.*", message="The URL must start with '/'.")]
+    )
+
+
+class ManagementCompanyForm(forms.ModelForm):
+    class Meta:
+        model = models.ManagementCompanyDetails
+        fields = (
+            "name",
+            "primary_line",
+            "city",
+            "state",
+            "zip_code",
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in ["name", "primary_line", "city", "state", "zip_code"]:
+            self.fields[field].required = True
+
+
+class HpLandlordExtraInfoForm(BaseLandlordExtraInfoForm):
+    use_mgmt_co = forms.BooleanField(
+        required=False,
+        help_text=(
+            "If not using recommended defaults, this indicates whether "
+            "a management company will be manually provided. If false, any "
+            "existing management company details will be cleared."
+        ),
+    )

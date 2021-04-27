@@ -1,0 +1,32 @@
+{% extends "admin/change_form.html" %}
+{% load static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static 'admin/justfix/user_change_form.css' %}">{% endblock %}
+
+{% block content_subtitle %}
+<h2>{{ original.full_name }}</h2>
+
+<div class="jf-tab-bar">
+{% for tabview in user_tabs %}
+  {% if tabview.is_selected %}
+    <div class="jf-tab jf-tab-selected" title="{{ tabview.tab.description }}">
+  {% else %}
+    <a href="{{ tabview.admin_url }}"
+       class="jf-tab {% if tabview.progress == 'NOT_STARTED' %}jf-tab-disabled{% endif %}"
+       title="{{ tabview.tab.description }}"
+    >
+  {% endif %}
+
+  {{ tabview.tab.label }}
+  {% if tabview.progress_label %}
+    <span class="jf-action-status">{{ tabview.progress_label }}</span>
+  {% endif %}
+
+  {% if tabview.is_selected %}
+    </div>
+  {% else %}
+    </a>
+  {% endif %}
+{% endfor %}
+</div>
+{% endblock %}

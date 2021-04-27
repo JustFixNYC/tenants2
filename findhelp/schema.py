@@ -12,15 +12,13 @@ MAX_RESULTS = 10
 class TenantResourceType(DjangoObjectType):
     class Meta:
         model = TenantResource
-        only_fields = ('name', 'address', 'website', 'phone_number', 'description')
+        only_fields = ("name", "address", "website", "phone_number", "description")
 
     latitude = graphene.Float(
-        required=True,
-        description="The latitude of the tenant resource's address."
+        required=True, description="The latitude of the tenant resource's address."
     )
     longitude = graphene.Float(
-        required=True,
-        description="The longitude of the tenant resource's address."
+        required=True, description="The longitude of the tenant resource's address."
     )
     miles_away = graphene.Float(
         required=True,
@@ -29,7 +27,7 @@ class TenantResourceType(DjangoObjectType):
             "from the location provided in the query. The distance represents "
             "the 'straight line' distance and does not take into account roads "
             "or other geographic features."
-        )
+        ),
     )
 
     def resolve_latitude(self, info: ResolveInfo):
@@ -41,7 +39,7 @@ class TenantResourceType(DjangoObjectType):
         return self.geocoded_point[0]
 
     def resolve_miles_away(self, info: ResolveInfo):
-        assert hasattr(self, 'distance')
+        assert hasattr(self, "distance")
         return self.distance.mi
 
 
@@ -53,17 +51,12 @@ class FindhelpInfo:
         longitude=graphene.Float(required=True),
         description=(
             "Find tenant resources that service the given location, ordered by their "
-            "proximity to the location. Note that if the tenant resource directory is "
-            "disabled on this endpoint, this will resolve to null."
-        )
+            "proximity to the location."
+        ),
+        required=True,
     )
 
     def resolve_tenant_resources(self, info: ResolveInfo, latitude: float, longitude: float):
-        from project.settings import env
-
-        if not env.ENABLE_FINDHELP:
-            return None
-
         return TenantResource.objects.find_best_for(
             latitude=latitude,
             longitude=longitude,

@@ -12,7 +12,7 @@ def __get_query_dict(url: str) -> Dict[str, str]:
 
 
 def __has_auth_secret(query_args: Dict[str, str], auth_secret: str) -> bool:
-    return constant_time_compare(query_args.get('auth_secret', ''), auth_secret)
+    return constant_time_compare(query_args.get("auth_secret", ""), auth_secret)
 
 
 def does_url_have_auth_secret(url: str, auth_secret: str) -> bool:
@@ -21,23 +21,22 @@ def does_url_have_auth_secret(url: str, auth_secret: str) -> bool:
     query_args = __get_query_dict(url)
     if __has_auth_secret(query_args, auth_secret):
         return True
-    next_url = query_args.get('next', '')
+    next_url = query_args.get("next", "")
     return __has_auth_secret(__get_query_dict(next_url), auth_secret)
 
 
 def embeddable_in_frontapp(view):
-    embeddable_view = csp_update(FRAME_ANCESTORS=[
-        "https://*.frontapp.com",
-        "https://*.frontapplication.com",
-    ])(view)
+    embeddable_view = csp_update(
+        FRAME_ANCESTORS=[
+            "https://*.frontapp.com",
+            "https://*.frontapplication.com",
+        ]
+    )(view)
 
     @functools.wraps(view)
     def wrapped_view(request, *args, **kwargs):
         v = view
-        if does_url_have_auth_secret(
-            request.get_full_path(),
-            settings.FRONTAPP_PLUGIN_AUTH_SECRET
-        ):
+        if does_url_have_auth_secret(request.get_full_path(), settings.FRONTAPP_PLUGIN_AUTH_SECRET):
             v = embeddable_view
         return v(request, *args, **kwargs)
 

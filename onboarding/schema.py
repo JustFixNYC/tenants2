@@ -11,10 +11,11 @@ from django.db import transaction
 
 from project.util.django_graphql_session_forms import (
     DjangoSessionFormObjectType,
-    DjangoSessionFormMutation
+    DjangoSessionFormMutation,
 )
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import get_site_name, SITE_CHOICES
+from project.util.mailing_address import US_STATE_CHOICES
 from project.locales import ALL as LOCALE_CHOICES
 from project import slack, schema_registry
 from users.models import JustfixUser
@@ -22,28 +23,28 @@ from partnerships import referral
 from project.util.model_form_util import OneToOneUserModelFormMutation
 from users.email_verify import send_verification_email_async
 from onboarding import forms
-from onboarding.models import (
-    OnboardingInfo, BOROUGH_CHOICES, LEASE_CHOICES, SIGNUP_INTENT_CHOICES)
+from onboarding.schema_util import mutation_requires_onboarding
+from onboarding.models import OnboardingInfo, BOROUGH_CHOICES, LEASE_CHOICES, SIGNUP_INTENT_CHOICES
 
 
 logger = logging.getLogger(__name__)
 
 
 def session_key_for_step(step: int) -> str:
-    '''
+    """
     We store the results of the user's onboarding steps in
     the session. This function returns the key we use to
     store the data for a particular step in.
-    '''
+    """
 
-    return f'onboarding_step_v{forms.FIELD_SCHEMA_VERSION}_{step}'
+    return f"onboarding_step_v{forms.FIELD_SCHEMA_VERSION}_{step}"
 
 
 class OnboardingStep1Info(DjangoSessionFormObjectType):
     class Meta:
         form_class = forms.OnboardingStep1Form
         session_key = session_key_for_step(1)
-        exclude = ['no_apt_number']
+        exclude = ["no_apt_number"]
 
 
 class OnboardingStep2Info(DjangoSessionFormObjectType):
@@ -59,8 +60,7 @@ class OnboardingStep3Info(DjangoSessionFormObjectType):
 
 
 # The onboarding steps we store in the request session.
-SESSION_STEPS: List[Type[DjangoSessionFormObjectType]] = [
-    OnboardingStep1Info, OnboardingStep3Info]
+SESSION_STEPS: List[Type[DjangoSessionFormObjectType]] = [OnboardingStep1Info, OnboardingStep3Info]
 
 
 @schema_registry.register_mutation
@@ -76,42 +76,38 @@ class OnboardingStep3(DjangoSessionFormMutation):
 
 
 def pick_model_fields(model, **kwargs):
-    '''
+    """
     Return a dictionary containing only the passed-in kwargs
     that correspond to fields on the given model, e.g.:
 
         >>> from django.contrib.auth.models import User
         >>> pick_model_fields(User, boop=1, username='blah')
         {'username': 'blah'}
-    '''
+    """
 
     model_fields = set([field.name for field in model._meta.get_fields()])
 
-    return {
-        key: kwargs[key]
-        for key in kwargs if key in model_fields
-    }
+    return {key: kwargs[key] for key in kwargs if key in model_fields}
 
 
 def complete_onboarding(request, info, password: Optional[str]) -> JustfixUser:
     with transaction.atomic():
         user = JustfixUser.objects.create_user(
             username=JustfixUser.objects.generate_random_username(),
-            first_name=info['first_name'],
-            last_name=info['last_name'],
-            email=info['email'],
-            phone_number=info['phone_number'],
+            first_name=info["first_name"],
+            last_name=info["last_name"],
+            email=info["email"],
+            phone_number=info["phone_number"],
             password=password,
             locale=translation.get_language_from_request(request, check_path=True),
         )
 
-        oi = OnboardingInfo(user=user, **pick_model_fields(
-            OnboardingInfo, **info))
+        oi = OnboardingInfo(user=user, **pick_model_fields(OnboardingInfo, **info))
         oi.full_clean()
         oi.save()
 
     partner = referral.get_partner(request)
-    via = ''
+    via = ""
     if partner:
         partner.users.add(user)
         via = f", via our partner {partner.name}"
@@ -121,7 +117,7 @@ def complete_onboarding(request, info, password: Optional[str]) -> JustfixUser:
         f"from {slack.escape(oi.city)}, {slack.escape(oi.state)} has signed up for "
         f"{slack.escape(SIGNUP_INTENT_CHOICES.get_label(oi.signup_intent))} in "
         f"{slack.escape(LOCALE_CHOICES.get_label(user.locale))}{via}!",
-        is_safe=True
+        is_safe=True,
     )
 
     user.backend = settings.AUTHENTICATION_BACKENDS[0]
@@ -153,10 +149,10 @@ class OnboardingStep4Base(SessionFormMutation):
             cls.log(info, "User has not completed previous steps, aborting mutation.")
             return cls.make_error("You haven't completed all the previous steps yet.")
         allinfo.update(form.cleaned_data)
-        password = form.cleaned_data['password'] or None
-        allinfo['email'] = form.cleaned_data.get('email', '')
-        allinfo['state'] = "NY"
-        allinfo['agreed_to_justfix_terms'] = True
+        password = form.cleaned_data["password"] or None
+        allinfo["email"] = form.cleaned_data.get("email", "")
+        allinfo["state"] = "NY"
+        allinfo["agreed_to_justfix_terms"] = True
         user = complete_onboarding(request, info=allinfo, password=password)
 
         user.send_sms_async(
@@ -179,6 +175,12 @@ class OnboardingStep4Version2(OnboardingStep4Base):
 
 
 @schema_registry.register_mutation
+class OnboardingStep4WithOptionalEmail(OnboardingStep4Base):
+    class Meta:
+        form_class = forms.OnboardingStep4WithOptionalEmailForm
+
+
+@schema_registry.register_mutation
 class AgreeToTerms(SessionFormMutation):
     class Meta:
         form_class = forms.AgreeToTermsForm
@@ -188,22 +190,77 @@ class AgreeToTerms(SessionFormMutation):
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
-        site_type = form.cleaned_data['site']
+        site_type = form.cleaned_data["site"]
         oi = request.user.onboarding_info
         if site_type == SITE_CHOICES.JUSTFIX:
             oi.agreed_to_justfix_terms = True
         elif site_type == SITE_CHOICES.NORENT:
             oi.agreed_to_norent_terms = True
+        elif site_type == SITE_CHOICES.EVICTIONFREE:
+            oi.agreed_to_evictionfree_terms = True
         else:
             raise AssertionError(f"Unknown site type: {site_type}")
         oi.save()
         return cls.mutation_success()
 
 
+class OnboardingInfoMutation(OneToOneUserModelFormMutation):
+    class Meta:
+        abstract = True
+
+    @classmethod
+    @mutation_requires_onboarding
+    def perform_mutate(cls, form, info: ResolveInfo):
+        result = super().perform_mutate(form, info)
+        # The OneToOneUserModelFormMutation's OnboardingInfo
+        # instance is different from the one attached to our
+        # user object, so we need to refresh the one one our
+        # user object from the DB in order for the values
+        # returned in the associated `session` property of
+        # the mutation to be up-to-date.
+        info.context.user.onboarding_info.refresh_from_db()
+        return result
+
+
 @schema_registry.register_mutation
-class ReliefAttempts(OneToOneUserModelFormMutation):
+class NycAddress(SessionFormMutation):
+    class Meta:
+        form_class = forms.NycAddressForm
+
+    login_required = True
+
+    @classmethod
+    @mutation_requires_onboarding
+    def perform_mutate(cls, form, info: ResolveInfo):
+        oi = info.context.user.onboarding_info
+        oi.non_nyc_city = ""
+        oi.state = US_STATE_CHOICES.NY
+        oi.address = form.cleaned_data["address"]
+        oi.borough = form.cleaned_data["borough"]
+        oi.apt_number = form.cleaned_data["apt_number"]
+        oi.address_verified = form.cleaned_data["address_verified"]
+        oi.full_clean()
+        oi.save()
+
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class LeaseType(OnboardingInfoMutation):
+    class Meta:
+        form_class = forms.LeaseTypeForm
+
+
+@schema_registry.register_mutation
+class ReliefAttempts(OnboardingInfoMutation):
     class Meta:
         form_class = forms.ReliefAttemptsForm
+
+
+@schema_registry.register_mutation
+class PublicAssistance(OnboardingInfoMutation):
+    class Meta:
+        form_class = forms.PublicAssistanceForm
 
 
 BoroughEnum = graphene.Enum.from_enum(BOROUGH_CHOICES.enum)
@@ -215,18 +272,30 @@ class OnboardingInfoType(DjangoObjectType):
     class Meta:
         model = OnboardingInfo
         only_fields = (
-            'signup_intent', 'floor_number', 'address', 'apt_number', 'pad_bbl',
-            'has_called_311', 'non_nyc_city', 'zipcode', 'agreed_to_justfix_terms',
-            'agreed_to_norent_terms', 'can_receive_rttc_comms', 'can_receive_saje_comms')
+            "signup_intent",
+            "floor_number",
+            "address",
+            "apt_number",
+            "pad_bbl",
+            "has_called_311",
+            "non_nyc_city",
+            "zipcode",
+            "agreed_to_justfix_terms",
+            "agreed_to_norent_terms",
+            "agreed_to_evictionfree_terms",
+            "can_receive_rttc_comms",
+            "can_receive_saje_comms",
+            "receives_public_assistance",
+        )
 
     borough = graphene.Field(
         BoroughEnum,
-        description=OnboardingInfo._meta.get_field('borough').help_text,
+        description=OnboardingInfo._meta.get_field("borough").help_text,
     )
 
     lease_type = graphene.Field(
         LeaseTypeEnum,
-        description=OnboardingInfo._meta.get_field('lease_type').help_text,
+        description=OnboardingInfo._meta.get_field("lease_type").help_text,
     )
 
     # If we specify 'state' as a model field, graphene-django will turn
@@ -234,7 +303,7 @@ class OnboardingInfoType(DjangoObjectType):
     # so instead we'll just coerce it to a string.
     state = graphene.String(
         required=True,
-        description=OnboardingInfo._meta.get_field('state').help_text,
+        description=OnboardingInfo._meta.get_field("state").help_text,
         resolver=lambda self, context: self.state,
     )
 
@@ -251,10 +320,25 @@ class OnboardingInfoType(DjangoObjectType):
         )
     )
 
+    full_mailing_address = graphene.String(
+        required=True,
+        description=(
+            "The user's full mailing address, as it will appear on mailings and "
+            "other official documents."
+        ),
+        resolver=lambda self, context: "\n".join(self.address_lines_for_mailing),
+    )
+
+    county = graphene.String(
+        description="The county of the user's address, or null if we don't know.",
+        resolver=lambda self, context: self.lookup_county(),
+    )
+
     def resolve_is_in_los_angeles(self, info) -> Optional[bool]:
         if not self.zipcode:
             return None
         from norent.la_zipcodes import is_zip_code_in_la
+
         return is_zip_code_in_la(self.zipcode)
 
     def resolve_borough(self, info):
@@ -270,9 +354,9 @@ class OnboardingInfoType(DjangoObjectType):
 
 @schema_registry.register_session_info
 class OnboardingSessionInfo(object):
-    '''
+    """
     A mixin class defining all onboarding-related queries.
-    '''
+    """
 
     onboarding_step_1 = OnboardingStep1Info.field()
     onboarding_step_2 = OnboardingStep2Info.field(
@@ -287,11 +371,11 @@ class OnboardingSessionInfo(object):
             "the individual onboarding steps, which capture information "
             "someone filled out *during* onboarding, before they became "
             "a full-fledged user."
-        )
+        ),
     )
 
     def resolve_onboarding_info(self, info: ResolveInfo) -> Optional[OnboardingInfo]:
         user = info.context.user
-        if hasattr(user, 'onboarding_info'):
+        if hasattr(user, "onboarding_info"):
             return user.onboarding_info
         return None

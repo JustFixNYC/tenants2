@@ -31,6 +31,7 @@ type AddressAndBoroughFieldProps = {
   renderAddressLabel?: LabelRenderer;
   addressProps: BaseFormFieldProps<string>;
   boroughProps: BaseFormFieldProps<string>;
+  autoFocus?: boolean;
 };
 
 function safeGetBoroughChoice(choice: string): BoroughChoice | null {
@@ -45,6 +46,7 @@ export class AddressAndBoroughField extends React.Component<
     return (
       <React.Fragment>
         <TextualFormField
+          autoFocus={this.props.autoFocus}
           label={this.props.addressLabel || getDefaultAddressLabel()}
           renderLabel={this.props.renderAddressLabel}
           {...this.props.addressProps}
@@ -80,6 +82,7 @@ export class AddressAndBoroughField extends React.Component<
         label={this.props.addressLabel || getDefaultAddressLabel()}
         renderLabel={this.props.renderAddressLabel}
         initialValue={initialValue}
+        autoFocus={this.props.autoFocus}
         onChange={(selection) => {
           this.props.onChange && this.props.onChange();
           addressProps.onChange(selection.address);

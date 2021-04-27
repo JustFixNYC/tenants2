@@ -35,24 +35,28 @@ class TestCityState:
         assert form.cleaned_data == {}
 
     def test_it_does_not_modify_city_if_mapbox_is_disabled(self):
-        form = CityState(data={'city': 'broklyn', 'state': 'NY'})
+        form = CityState(data={"city": "broklyn", "state": "NY"})
         form.full_clean()
         assert form.is_valid()
-        assert form.cleaned_data == {'city': 'broklyn', 'state': 'NY'}
+        assert form.cleaned_data == {"city": "broklyn", "state": "NY", "lnglat": None}
 
     def test_it_modifies_city_if_mapbox_is_enabled(self, requests_mock, settings):
-        settings.MAPBOX_ACCESS_TOKEN = 'blah'
-        mock_brooklyn_results('broklyn, NY', requests_mock)
-        form = CityState(data={'city': 'broklyn', 'state': 'NY'})
+        settings.MAPBOX_ACCESS_TOKEN = "blah"
+        mock_brooklyn_results("broklyn, NY", requests_mock)
+        form = CityState(data={"city": "broklyn", "state": "NY"})
         form.full_clean()
         assert form.is_valid()
-        assert form.cleaned_data == {'city': 'Brooklyn', 'state': 'NY'}
+        assert form.cleaned_data == {
+            "city": "Brooklyn",
+            "state": "NY",
+            "lnglat": (-73.9496, 40.6501),
+        }
 
     def test_it_raises_err_if_mapbox_is_enabled(self, requests_mock, settings):
-        settings.MAPBOX_ACCESS_TOKEN = 'blah'
-        mock_brooklyn_results('broklyn, GA', requests_mock)
-        form = CityState(data={'city': 'broklyn', 'state': 'GA'})
+        settings.MAPBOX_ACCESS_TOKEN = "blah"
+        mock_brooklyn_results("broklyn, GA", requests_mock)
+        form = CityState(data={"city": "broklyn", "state": "GA"})
         form.full_clean()
         assert form.errors == {
-            '__all__': ["broklyn, Georgia doesn't seem to exist!"],
+            "__all__": ["broklyn, Georgia doesn't seem to exist!"],
         }

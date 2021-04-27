@@ -1,10 +1,11 @@
-import React, { DetailedHTMLProps, HTMLAttributes } from "react";
+import React, { DetailedHTMLProps, HTMLAttributes, useRef } from "react";
 
 import { WithFormFieldErrors, formatErrors } from "./form-errors";
-import { ReactDjangoChoices } from "../common-data";
+import { ReactDjangoChoice, ReactDjangoChoices } from "../common-data";
 import { bulmaClasses } from "../ui/bulma";
 import { ariaBool } from "../ui/aria";
 import { SimpleProgressiveEnhancement } from "../ui/progressive-enhancement";
+import { useAutoFocus } from "../ui/use-auto-focus";
 
 /**
  * Base properties that form fields need to have.
@@ -79,31 +80,57 @@ export function renderLabel(
 export interface ChoiceFormFieldProps extends BaseFormFieldProps<string> {
   choices: ReactDjangoChoices;
   label: string;
+  autoFocus?: boolean;
 }
 
+export const AutofocusedInput: React.FC<InputProps> = (props) => {
+  const ref = useRef<HTMLInputElement | null>(null);
+
+  useAutoFocus(ref, props.autoFocus);
+
+  return <input ref={ref} {...props} />;
+};
+
+export type RadiosFormFieldProps = ChoiceFormFieldProps & {
+  /**
+   * Hide the label for sighted users. This can be used in situations
+   * where e.g. the question is contained in the surrounding content,
+   * and does not need to be repeated.
+   */
+  hideVisibleLabel?: boolean;
+};
+
 /** A JSX component that encapsulates a set of radio buttons. */
-export function RadiosFormField(props: ChoiceFormFieldProps): JSX.Element {
+export function RadiosFormField(props: RadiosFormFieldProps): JSX.Element {
   let { ariaLabel, errorHelp } = formatErrors(props);
   const idFor = (choice: string) => `${props.id}_${choice}`;
 
   return (
     <div className="field" role="group" aria-label={ariaLabel}>
-      <label className="label" aria-hidden="true">
-        {props.label}
-      </label>
+      {!props.hideVisibleLabel && (
+        <label className="label" aria-hidden="true">
+          {props.label}
+        </label>
+      )}
       <div className="control">
-        {props.choices.map(([choice, label]) => (
+        {props.choices.map(([choice, label], i) => (
           <label
             htmlFor={idFor(choice)}
             className="radio jf-radio"
             key={choice}
           >
-            <input
+            <AutofocusedInput
               type="radio"
               name={props.name}
               id={idFor(choice)}
               value={choice}
               checked={props.value === choice}
+              autoFocus={
+                props.autoFocus &&
+                // Autofocus if we're the currently-selected choice *or*
+                // nothing is selected and we're the very first choice.
+                (props.value === choice || (!props.value && i === 0))
+              }
               aria-invalid={ariaBool(!!props.errors)}
               disabled={props.isDisabled}
               onChange={(e) => props.onChange(choice)}
@@ -158,9 +185,16 @@ export function SelectFormField(props: ChoiceFormFieldProps): JSX.Element {
   );
 }
 
+/**
+ * An item for a multi-choice form field that can either be an actual
+ * choice, or a JSX Element used to e.g. distinguish groups of choices
+ * from one another.
+ */
+export type MultiChoiceFormFieldItem = ReactDjangoChoice | JSX.Element;
+
 export interface MultiChoiceFormFieldProps
   extends BaseFormFieldProps<string[]> {
-  choices: ReactDjangoChoices;
+  choices: MultiChoiceFormFieldItem[];
   label: string;
 }
 
@@ -176,12 +210,39 @@ export function toggleChoice(
   }
 }
 
+const MultiCheckboxFormFieldCheckbox: React.FC<
+  Omit<MultiChoiceFormFieldProps, "choices"> & {
+    choice: ReactDjangoChoice;
+  }
+> = (props) => {
+  const [choice, label] = props.choice;
+  const id = `${props.id}_${choice}`;
+
+  return (
+    <label htmlFor={id} className="checkbox jf-checkbox" key={choice}>
+      <input
+        type="checkbox"
+        name={props.name}
+        id={id}
+        value={choice}
+        checked={props.value.indexOf(choice) !== -1}
+        aria-invalid={ariaBool(!!props.errors)}
+        disabled={props.isDisabled}
+        onChange={(e) =>
+          props.onChange(toggleChoice(choice, e.target.checked, props.value))
+        }
+      />{" "}
+      <span className="jf-checkbox-symbol" />{" "}
+      <span className="jf-label-text">{label}</span>
+    </label>
+  );
+};
+
 /** A JSX component that encapsulates a set of checkboxes. */
 export function MultiCheckboxFormField(
   props: MultiChoiceFormFieldProps
 ): JSX.Element {
   let { ariaLabel, errorHelp } = formatErrors(props);
-  const idFor = (choice: string) => `${props.id}_${choice}`;
 
   return (
     <div className="field" role="group" aria-label={ariaLabel}>
@@ -189,30 +250,17 @@ export function MultiCheckboxFormField(
         {props.label}
       </label>
       <div className="control">
-        {props.choices.map(([choice, label]) => (
-          <label
-            htmlFor={idFor(choice)}
-            className="checkbox jf-checkbox"
-            key={choice}
-          >
-            <input
-              type="checkbox"
-              name={props.name}
-              id={idFor(choice)}
-              value={choice}
-              checked={props.value.indexOf(choice) !== -1}
-              aria-invalid={ariaBool(!!props.errors)}
-              disabled={props.isDisabled}
-              onChange={(e) =>
-                props.onChange(
-                  toggleChoice(choice, e.target.checked, props.value)
-                )
-              }
-            />{" "}
-            <span className="jf-checkbox-symbol" />{" "}
-            <span className="jf-label-text">{label}</span>
-          </label>
-        ))}
+        {props.choices.map((choice) =>
+          Array.isArray(choice) ? (
+            <MultiCheckboxFormFieldCheckbox
+              {...props}
+              choice={choice}
+              key={choice[0]}
+            />
+          ) : (
+            choice
+          )
+        )}
       </div>
       {errorHelp}
     </div>
@@ -246,8 +294,18 @@ export function CheckboxView(props: CheckboxViewProps) {
   );
 }
 
-export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
+export function CheckboxFormField(
+  props: BooleanFormFieldProps & { extraContentAfterLabel?: JSX.Element }
+): JSX.Element {
   const { errorHelp } = formatErrors(props);
+  const contentAfterLabel = props.extraContentAfterLabel ? (
+    <>
+      {errorHelp}
+      {props.extraContentAfterLabel}
+    </>
+  ) : (
+    errorHelp
+  );
 
   return (
     <CheckboxView
@@ -257,14 +315,14 @@ export function CheckboxFormField(props: BooleanFormFieldProps): JSX.Element {
       aria-invalid={ariaBool(!!props.errors)}
       disabled={props.isDisabled}
       onChange={(e) => props.onChange(e.target.checked)}
-      contentAfterLabel={errorHelp}
+      contentAfterLabel={contentAfterLabel}
     >
       {props.children}
     </CheckboxView>
   );
 }
 
-type HiddenFormFieldProps = Omit<
+export type HiddenFormFieldProps = Omit<
   BaseFormFieldProps<string | boolean | null | undefined>,
   "onChange"
 >;
@@ -309,6 +367,7 @@ export type TextualInputType =
  */
 export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
   type?: TextualInputType;
+  autoFocus?: boolean;
   label: string;
   renderLabel?: LabelRenderer;
   required?: boolean;
@@ -358,7 +417,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
     <div className="field" {...props.fieldProps}>
       {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
       <div className="control">
-        <input
+        <AutofocusedInput
           className={bulmaClasses("input", { "is-danger": !!props.errors })}
           disabled={props.isDisabled}
           aria-invalid={ariaBool(!!props.errors)}
@@ -371,6 +430,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
           type={type}
           value={props.value}
           required={props.required}
+          autoFocus={props.autoFocus}
           onChange={(e) => props.onChange(e.target.value)}
         />
         {type === "date" && <DateClear {...props} />}
@@ -384,12 +444,16 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
 /** A JSX component that encapsulates a <textarea>. */
 export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
   let { ariaLabel, errorHelp } = formatErrors(props);
+  const ref = useRef<HTMLTextAreaElement | null>(null);
+
+  useAutoFocus(ref, props.autoFocus);
 
   return (
     <div className="field" {...props.fieldProps}>
       {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
       <div className="control">
         <textarea
+          ref={ref}
           className={bulmaClasses("textarea", { "is-danger": !!props.errors })}
           disabled={props.isDisabled}
           aria-invalid={ariaBool(!!props.errors)}
@@ -399,6 +463,7 @@ export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
           id={props.id}
           value={props.value}
           maxLength={props.maxLength}
+          autoFocus={props.autoFocus}
           onChange={(e) => props.onChange(e.target.value)}
         />
       </div>

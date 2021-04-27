@@ -10,14 +10,21 @@
 		"terminal.integrated.shell.linux": null,
 		// This is where the virtual environment set up by our Docker Compose config is located.
 		"python.pythonPath": "/venv/bin/python",
+		"python.formatting.provider": "black",
 		"python.linting.pylintEnabled": false,
 		"python.linting.flake8Enabled": true,
 		"python.linting.enabled": true,
 		"python.linting.mypyEnabled": true,
+		"python.languageServer": "Pylance",
 		"eslint.options": {
 			// VSCode will put our tenants2 repository at /workspaces/tenants2,
 			// so that's where we need to find our custom ESLint rules.
 			"rulePaths": ["/workspaces/tenants2/frontend/eslint/rules"]
+		},
+		"[scss]": {
+			"editor.tabSize": 2,
+			"editor.formatOnSave": true,
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
 		},
 		"[typescriptreact]": {
 			"editor.tabSize": 2,
@@ -34,6 +41,7 @@
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
 		},
 		"[python]": {
+			"editor.formatOnSave": true,
 			"editor.detectIndentation": false,
 			"editor.tabSize": 4
 		},
@@ -48,6 +56,7 @@
 		"ms-python.python",
 		"esbenp.prettier-vscode",
 		"dbaeumer.vscode-eslint",
+		"ms-python.vscode-pylance"
 	],
 
 	"mounts": [
@@ -58,5 +67,16 @@
 		"source=tenants2_python-venv,target=/venv/,type=volume",
 		"source=tenants2_unused-node-modules,target=/workspaces/tenants2/node_modules/,type=volume",
 		"source=tenants2_node-modules,target=/node_modules/,type=volume",
+	],
+
+	"runArgs": [
+		// This attaches us to the same Docker network used by our Docker Compose
+		// setup. Most crucially, it will allow us to remotely attach to the debugger of
+		// the app container.
+		//
+		// Note that this was modified from the following comment:
+		//
+		// https://github.com/microsoft/vscode-remote-release/issues/4272#issuecomment-756716816
+		"--network=tenants2_default",
 	],
 }

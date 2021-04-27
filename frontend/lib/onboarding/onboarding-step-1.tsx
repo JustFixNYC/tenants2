@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Page from "../ui/page";
-import { OnboardingRouteInfo } from "../justfix-routes";
+import { OnboardingRouteInfo } from "./route-info";
 import { Link, Route, RouteComponentProps, withRouter } from "react-router-dom";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import {
@@ -12,7 +12,8 @@ import {
   OnboardingStep1Mutation,
   BlankOnboardingStep1Input,
 } from "../queries/OnboardingStep1Mutation";
-import { assertNotNull, exactSubsetOrDefault } from "../util/util";
+import { exactSubsetOrDefault } from "../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import {
   TextualFormField,
   renderSimpleLabel,
@@ -34,7 +35,7 @@ import {
   createAptNumberFormInput,
   AptNumberFormFields,
 } from "../forms/apt-number-form-fields";
-import { OutboundLink } from "../analytics/google-analytics";
+import { OutboundLink } from "../ui/outbound-link";
 
 function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
   return (label, labelProps) => (

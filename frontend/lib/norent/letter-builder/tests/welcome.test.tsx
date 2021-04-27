@@ -1,8 +1,8 @@
 import React from "react";
 
 import { AppTesterPal } from "../../../tests/app-tester-pal";
-import { NorentRoutes } from "../../routes";
-import { NorentLetterBuilderRoutes } from "../steps";
+import { NorentRoutes } from "../../route-info";
+import { NorentLetterBuilderRoutes } from "../routes";
 
 describe("NoRent welcome page", () => {
   const createPal = (phoneNumber?: string) => {
@@ -17,7 +17,7 @@ describe("NoRent welcome page", () => {
   it("should work", async () => {
     const pal = createPal();
     pal.rr.getByText("Build your letter");
-    pal.clickButtonOrLink("Next");
+    pal.clickButtonOrLink("Start");
     await pal.waitForLocation(NorentRoutes.locale.letter.phoneNumber);
   });
 

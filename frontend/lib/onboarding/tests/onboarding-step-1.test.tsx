@@ -5,7 +5,7 @@ import { AppTesterPal } from "../../tests/app-tester-pal";
 import { OnboardingStep1Mutation } from "../../queries/OnboardingStep1Mutation";
 import { createMockFetch } from "../../networking/tests/mock-fetch";
 import { FakeGeoResults } from "../../tests/util";
-import JustfixRoutes from "../../justfix-routes";
+import JustfixRoutes from "../../justfix-route-info";
 import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
 import { LogoutMutation } from "../../queries/LogoutMutation";
 

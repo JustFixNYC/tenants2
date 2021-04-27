@@ -3,7 +3,7 @@ import React from "react";
 import { useContext } from "react";
 import { AppContext } from "../app-context";
 import { asEmailStaticPage } from "../static-page/email-static-page";
-import { NorentRoutes } from "./routes";
+import { NorentRoutes } from "./route-info";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc.json";
@@ -21,29 +21,49 @@ type CaliforniaFAQProps = {
 
 const CALIFORNIA_FAQS: CaliforniaFAQProps[] = [
   {
-    question: t`What is the new law AB3088?`,
+    question: t`What is the new law SB91?`,
     answer: (
       <>
         <p>
-          <Trans id="norent.whatIsAB3088partOne">
-            On August 31, 2020, the State of California passed tenant
-            protections under Assembly Bill 3088. These protections prevent
-            landlords from evicting tenants before February 1, 2021 without a
-            valid reason or for any rent not paid between March 4 - January 31,
-            2021 due to loss of income or increased expenses associated with
-            COVID-19. Although this law protects you from being evicted for not
-            paying rent, it does not cancel rent.
+          <Trans id="norent.whatIsSB91partOne">
+            The Act extends tenant protections included in the Tenant,
+            Homeowner, and Small Landlord Relief and Stabilization Act of 2020
+            (AB3088) to June 30, 2021. These protections were originally set to
+            expire on February 1, 2021. The Act includes the same eligibility
+            and program rules as before including:
           </Trans>
         </p>
-        <p>
-          <Trans id="norent.whatIsAB3088partTwo">
-            If you owe rent for any months from March 2020 to August 2020, you
-            must submit a declaration form to your landlord for any months you
-            do not pay. Now that you have used the NoRent website to mail or
-            email the declaration to your landlord, your landlord cannot legally
-            evict you for not paying rent.
-          </Trans>
-        </p>
+        <Trans id="norent.whatIsSB91partTwo">
+          <ol>
+            <li>
+              Limiting public disclosure of eviction cases involving nonpayment
+              of rent between March 4, 2020 and June 30, 2021.
+            </li>
+            <li>
+              Protects low-income tenants from landlords assigning or selling
+              their rental debt to a third-party debt collector.
+            </li>
+            <li>
+              “Pay or Quit” Notice period for nonpayment of rent extended from 3
+              to 15 days.
+            </li>
+            <li>
+              Protects tenants from being evicted for “just cause” if landlord
+              is shown to be really evicting the tenant for COVID-19 related
+              nonpayment of rent.
+            </li>
+            <li>
+              Landlord may not charge late fees for nonpayment of rent between
+              March 1, 2020 and June 30, 2021 to tenants who have attested they
+              are experiencing a COVID-19-related hardship.
+            </li>
+            <li>
+              Require landlords to notify all tenants who owe back rent about
+              the availability of their rights and the rental assistance program
+              via an informational notice by February 28, 2021.
+            </li>
+          </ol>
+        </Trans>
       </>
     ),
   },
@@ -75,10 +95,10 @@ const CALIFORNIA_FAQS: CaliforniaFAQProps[] = [
     question: t`Do I need to send this declaration every month?`,
     answer: (
       <p>
-        <Trans id="norent.doINeedToSendAB3088LetterEveryMonth">
+        <Trans id="norent.doINeedToSendSB91LetterEveryMonth">
           Yes. Follow these instructions even if you have sent a letter to your
           landlord each month that you have not paid. And send a new declaration
-          for every month moving forward (through January).
+          for every month moving forward (through June 2021).
         </Trans>
       </p>
     ),
@@ -87,13 +107,13 @@ const CALIFORNIA_FAQS: CaliforniaFAQProps[] = [
     question: t`Do I still have to pay my rent?`,
     answer: (
       <p>
-        <Trans id="norent.doIStillHaveToPayMyRentAB3088">
-          On or before 1/30/2020 you must decide whether to pay 25% of the rent
-          for each month from September to January 2021. That’s 5 months
+        <Trans id="norent.doIStillHaveToPayMyRentSB91">
+          On or before 6/30/2021 you must decide whether to pay 25% of the rent
+          for each month from September 2020 to June 2021. That’s 10 months
           multiplied by 25%. If after consulting with an attorney, you determine
           that you do not want to be in eviction court, pay the 25%. Tenants
-          with severe bad conditions or living in illegal units should talk with
-          an attorney before deciding whether to pay.
+          with severely bad conditions or living in illegal units should talk
+          with an attorney before deciding whether to pay.
         </Trans>
       </p>
     ),

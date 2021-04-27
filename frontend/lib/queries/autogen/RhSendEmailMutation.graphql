@@ -12,6 +12,10 @@ mutation RhSendEmailMutation($input: RhSendEmailInput!) {
         phoneNumber,
         addressVerified,
         zipcode
+      },
+      rentStabInfo {
+        latestYear,
+        latestUnitCount
       }
     }
   }

@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import Page from "../../ui/page";
 import { LetterPreview } from "../../static-page/letter-preview";
-import { NorentRoutes } from "../routes";
+import { NorentRoutes } from "../route-info";
 import { NextButton, ProgressButtonsAsLinks } from "../../ui/buttons";
-import { OutboundLink } from "../../analytics/google-analytics";
+import { OutboundLink } from "../../ui/outbound-link";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { Route, Link, Redirect } from "react-router-dom";
 import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
@@ -119,7 +119,7 @@ export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
           <p>
             <Trans>
               Please note that your declaration letter will be structured as
-              follows to meet the requirements of California's AB3088 law:
+              follows to meet the requirements of California's SB91 law:
             </Trans>
           </p>
           <ol>

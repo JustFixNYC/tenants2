@@ -6,7 +6,7 @@ import { AllSessionInfo_letterRequest } from "../queries/AllSessionInfo";
 import Page from "../ui/page";
 import classnames from "classnames";
 import { friendlyDate } from "../util/date-util";
-import { OutboundLink } from "../analytics/google-analytics";
+import { OutboundLink } from "../ui/outbound-link";
 import { PdfLink } from "../ui/pdf-link";
 import { EmailAttachmentForm } from "../forms/email-attachment";
 import { EmailLetterMutation } from "../queries/EmailLetterMutation";
@@ -293,9 +293,14 @@ const knowYourRightsList = (
       </OutboundLink>
     </li>
     <li>
-      <OutboundLink href="https://www.justfix.nyc/learn?utm_source=tenantplatform&utm_medium=loc">
+      <OutboundLink href="https://www.justfix.nyc/en/learn?utm_source=tenantplatform&utm_medium=loc">
         JustFix.nyc's Learning Center
+      </OutboundLink>{" "}
+      (
+      <OutboundLink href="https://www.justfix.nyc/es/learn?utm_source=tenantplatform&utm_medium=loc">
+        en español
       </OutboundLink>
+      )
     </li>
   </ul>
 );

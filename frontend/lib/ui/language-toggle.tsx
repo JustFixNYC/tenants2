@@ -5,26 +5,28 @@ import i18n from "../i18n";
 import { useLocation } from "react-router-dom";
 import { Trans } from "@lingui/macro";
 import { NavbarDropdown } from "./navbar";
-import { getGlobalSiteRoutes } from "../routes";
+import { getGlobalSiteRoutes } from "../global-site-routes";
 
 /**
  * Names of languages in the language itself.
  */
-const LANGUAGE_NAMES: { [k in LocaleChoice]: string } = {
+export const LANGUAGE_NAMES: { [k in LocaleChoice]: string } = {
   en: "English",
   es: "Español",
 };
 
-const SwitchLanguage: React.FC<{
+export const SwitchLanguage: React.FC<{
   locale: LocaleChoice;
   className?: string;
   children?: React.ReactNode;
+  linkToCurrentLocale?: boolean;
 }> = (props) => {
   const { locale } = props;
   const langName = props.children || LANGUAGE_NAMES[locale];
   const location = useLocation();
 
-  if (locale === i18n.locale) return <>{langName}</>;
+  if (locale === i18n.locale && !props.linkToCurrentLocale)
+    return <>{langName}</>;
 
   const pathname =
     i18n.changeLocalePathPrefix(location.pathname, locale) ||
@@ -66,13 +68,15 @@ export const NavbarLanguageDropdown: React.FC<{}> = () => {
   if (locales.length === 1) return null;
 
   return (
-    <NavbarDropdown id="locale" label={activeLocale.toUpperCase()}>
+    <NavbarDropdown id="locale" label={LANGUAGE_NAMES[activeLocale]}>
       {locales
         .filter((locale) => locale !== activeLocale)
         .map((locale) => (
-          <SwitchLanguage key={locale} locale={locale} className="navbar-item">
-            {locale.toUpperCase()}
-          </SwitchLanguage>
+          <SwitchLanguage
+            key={locale}
+            locale={locale}
+            className="navbar-item"
+          />
         ))}
     </NavbarDropdown>
   );

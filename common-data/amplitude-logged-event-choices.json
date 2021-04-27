@@ -1,0 +1,4 @@
+[
+  ["SAFE_MODE_ENABLE", "Enable compatibility mode"],
+  ["SAFE_MODE_DISABLE", "Disable compatibility mode"]
+]

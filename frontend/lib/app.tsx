@@ -35,9 +35,9 @@ import { HelmetProvider } from "react-helmet-async";
 import { browserStorage } from "./browser-storage";
 import { areAnalyticsEnabled } from "./analytics/analytics";
 import { LinguiI18n, li18n } from "./i18n-lingui";
-import { getNorentJumpToTopOfPageRoutes } from "./norent/routes";
+import { getNorentJumpToTopOfPageRoutes } from "./norent/route-info";
 import { SupportedLocale } from "./i18n";
-import { getGlobalSiteRoutes } from "./routes";
+import { getGlobalSiteRoutes } from "./global-site-routes";
 import { ensureNextRedirectIsHard } from "./browser-redirect";
 import {
   updateAmplitudeUserPropertiesOnSessionChange,
@@ -46,6 +46,8 @@ import {
   logAmplitudePageView,
 } from "./analytics/amplitude";
 import { t } from "@lingui/macro";
+import { getEvictionFreeJumpToTopOfPageRoutes } from "./evictionfree/route-info";
+import { AppLocationState } from "./app-location";
 
 // Note that these don't need any special fallback loading screens
 // because they will never need to be dynamically loaded on the
@@ -53,6 +55,7 @@ import { t } from "@lingui/macro";
 // We're just using our infrastructure for code splitting here.
 const LoadableJustfixSite = loadable(() => import("./justfix-site"));
 const LoadableNorentSite = loadable(() => import("./norent/site"));
+const LoadableEvictionFreeSite = loadable(() => import("./evictionfree/site"));
 
 export type AppSiteProps = RouteComponentProps & {
   ref?: React.Ref<HTMLDivElement>;
@@ -117,7 +120,10 @@ export class AppWithoutRouter extends React.Component<
       session: props.initialSession,
     };
     this.pageBodyRef = React.createRef();
-    this.jumpToTopOfPageRoutes = new Set(getNorentJumpToTopOfPageRoutes());
+    this.jumpToTopOfPageRoutes = new Set(
+      ...getNorentJumpToTopOfPageRoutes(),
+      ...getEvictionFreeJumpToTopOfPageRoutes()
+    );
   }
 
   @autobind
@@ -230,21 +236,30 @@ export class AppWithoutRouter extends React.Component<
     prevHash: string,
     pathname: string,
     hash: string,
-    action: Action
+    action: Action,
+    state: AppLocationState
   ) {
     if (prevPathname !== pathname) {
       trackPageView(pathname);
       logAmplitudePageView(pathname);
-      this.handleFocusDuringPathnameChange(prevPathname, pathname, hash);
-      this.handleScrollPositionDuringPathnameChange(
-        prevPathname,
-        pathname,
-        hash,
-        action
-      );
+      if (!state.noFocus) {
+        this.handleFocusDuringPathnameChange(prevPathname, pathname, hash);
+      }
+      if (!state.noScroll) {
+        this.handleScrollPositionDuringPathnameChange(
+          prevPathname,
+          pathname,
+          hash,
+          action
+        );
+      }
     } else if (prevHash !== hash) {
-      this.handleFocusOnHash(hash);
-      this.handleScrollToHash(hash);
+      if (!state.noFocus) {
+        this.handleFocusOnHash(hash);
+      }
+      if (!state.noScroll) {
+        this.handleScrollToHash(hash);
+      }
     }
   }
 
@@ -320,7 +335,8 @@ export class AppWithoutRouter extends React.Component<
       prevProps.location.hash,
       this.props.location.pathname,
       this.props.location.hash,
-      this.props.history.action
+      this.props.history.action,
+      this.props.location.state || {}
     );
   }
 
@@ -346,6 +362,8 @@ export class AppWithoutRouter extends React.Component<
         return LoadableJustfixSite;
       case "NORENT":
         return LoadableNorentSite;
+      case "EVICTIONFREE":
+        return LoadableEvictionFreeSite;
     }
   }
 

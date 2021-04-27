@@ -5,12 +5,12 @@ import {
   BuildMyLetterButton,
   StickyLetterButtonContainer,
   LandingPageChecklist,
-  getImageSrc,
+  getNorentImageSrc,
 } from "./homepage";
 import { NorentFaqsPreview } from "./faqs";
 import { StaticImage } from "../ui/static-image";
 import { LetterPreview } from "../static-page/letter-preview";
-import { NorentRoutes } from "./routes";
+import { NorentRoutes } from "./route-info";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
 
@@ -45,7 +45,7 @@ export const NorentAboutYourLetterPage: React.FC<{}> = () => (
           <div className="container jf-tight-container jf-has-centered-images jf-space-below-2rem">
             <StaticImage
               ratio="is-128x128"
-              src={getImageSrc("question")}
+              src={getNorentImageSrc("question")}
               alt=""
             />
             <div className="jf-has-text-centered-tablet">

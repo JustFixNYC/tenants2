@@ -1,10 +1,10 @@
 import React from "react";
-import Navbar from "../navbar";
+import Navbar, { getUserInitials } from "../navbar";
 import { FakeDebugAppContext } from "../../tests/util";
 import { MemoryRouter } from "react-router";
 import { AppContext } from "../../app-context";
 import ReactTestingLibraryPal from "../../tests/rtl-pal";
-import { assertNotNull } from "../../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 
 describe("Navbar", () => {
   const createNavbar = () => {
@@ -66,4 +66,11 @@ describe("Navbar", () => {
       document.body.removeChild(btn);
     }
   });
+});
+
+test("getUserInitials() works", () => {
+  expect(getUserInitials({ firstName: null, lastName: null })).toBe(null);
+  expect(getUserInitials({ firstName: "boop", lastName: null })).toBe(null);
+  expect(getUserInitials({ firstName: null, lastName: "jones" })).toBe(null);
+  expect(getUserInitials({ firstName: "boop", lastName: "jones" })).toBe("BJ");
 });

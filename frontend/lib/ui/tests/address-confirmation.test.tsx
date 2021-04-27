@@ -2,6 +2,7 @@ import {
   areAddressesTheSame,
   redirectToAddressConfirmationOrNextStep,
   RedirectToAddressConfirmationOrNextStepOptions,
+  safeGetAddressAndBorough,
 } from "../address-confirmation";
 
 test("areAddressesTheSame() works", () => {
@@ -52,5 +53,24 @@ describe("redirectToAddressConfirmationOrNextStep() works", () => {
         resolved: { address: "borough hall", borough },
       })
     ).toBe("confirm");
+  });
+});
+
+test("safeGetAddressAndBorough() works", () => {
+  expect(safeGetAddressAndBorough(null)).toEqual({
+    address: "",
+    borough: "",
+  });
+
+  expect(
+    safeGetAddressAndBorough({
+      address: "",
+      borough: null,
+      fullMailingAddress: "BLARG",
+    })
+  ).toEqual({
+    address: "",
+    borough: "",
+    fullMailingAddress: "BLARG",
   });
 });

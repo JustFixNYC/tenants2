@@ -28,7 +28,7 @@ class TestIsRequestUserVerified:
         assert util.is_request_user_verified(authreq) is True
 
     def test_it_returns_false_if_verification_expired(self, authreq, settings):
-        with freeze_time('2018-01-01') as time:
+        with freeze_time("2018-01-01") as time:
             util.verify_request_user(authreq)
             assert util.is_request_user_verified(authreq) is True
             time.tick(delta=datetime.timedelta(seconds=settings.TWOFACTOR_VERIFY_DURATION + 1))

@@ -12,7 +12,7 @@ import {
 } from "./forms-graphql";
 import { AppContext, AppLegacyFormSubmission } from "../app-context";
 import { Route } from "react-router";
-import { assertNotNull } from "../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { getAppStaticContext } from "../app-static-context";
 
 export type LegacyFormSubmitterProps<
@@ -120,7 +120,7 @@ function LegacyFormSubmissionWrapper<
           extraFormAttributes: {
             ...props.extraFormAttributes,
             method: "POST",
-            action: props.location.pathname,
+            action: props.location.pathname + props.location.search,
           },
         };
         /* istanbul ignore next: this is tested by integration tests. */

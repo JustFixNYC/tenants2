@@ -1,159 +1,211 @@
 import React, { useContext } from "react";
 import { AppContext } from "../app-context";
-import {
-  MiddleProgressStep,
-  MiddleProgressStepProps,
-} from "../progress/progress-step-route";
+import { MiddleProgressStep } from "../progress/progress-step-route";
 import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
+import { exactSubsetOrDefault } from "../util/util";
 import {
-  LandlordDetailsV2Mutation,
-  BlankLandlordDetailsV2Input,
-} from "../queries/LandlordDetailsV2Mutation";
-import { assertNotNull, exactSubsetOrDefault } from "../util/util";
-import { TextualFormField } from "../forms/form-fields";
-import { ProgressButtons, BackButton } from "../ui/buttons";
+  CheckboxFormField,
+  HiddenFormField,
+  TextualFormField,
+} from "../forms/form-fields";
+import { ProgressButtons } from "../ui/buttons";
 import { Link } from "react-router-dom";
 import { USStateFormField } from "../forms/mailing-address-fields";
 import { isUserNycha } from "../util/nycha";
 import { QueryLoader } from "../networking/query-loader";
-import { RecommendedHpLandlord } from "../queries/RecommendedHpLandlord";
+import {
+  RecommendedHpLandlord,
+  RecommendedHpLandlord_recommendedHpLandlord,
+  RecommendedHpLandlord_recommendedHpManagementCompany,
+} from "../queries/RecommendedHpLandlord";
+import { CustomerSupportLink } from "../ui/customer-support-link";
+import {
+  BlankLandlordLandlordDetailsFormFormSetInput,
+  BlankMgmtCoManagementCompanyDetailsFormFormSetInput,
+  HpaLandlordInfoMutation,
+} from "../queries/HpaLandlordInfoMutation";
+import { SingletonFormset } from "../forms/formset";
+import { useProgressiveEnhancement } from "../ui/progressive-enhancement";
+import {
+  LandlordPageContent,
+  MailingAddressWithName,
+  RecommendedLandlordInfo,
+} from "../ui/landlord";
 
-const Address: React.FC<{
-  primaryLine: string;
-  city: string;
-  state: string;
-  zipCode: string;
-}> = (props) => (
+const ReadOnlyLandlordDetails: React.FC<{
+  isUserNycha: boolean;
+  landlord: RecommendedHpLandlord_recommendedHpLandlord;
+  mgmt: RecommendedHpLandlord_recommendedHpManagementCompany | null;
+  forceManualHref: string;
+}> = ({ isUserNycha, landlord, mgmt, forceManualHref }) => (
   <>
-    {props.primaryLine}
-    <br />
-    {props.city}, {props.state} {props.zipCode}
-  </>
-);
-
-const ReadOnlyLandlordDetails: React.FC<MiddleProgressStepProps> = (props) => (
-  <>
-    <p>
-      This is your landlord’s information as registered with the{" "}
-      <b>NYC Department of Housing and Preservation (HPD)</b>. This may be
-      different than where you send your rent checks.
-    </p>
-    <QueryLoader
-      query={RecommendedHpLandlord}
-      input={null}
-      loading={(props) => {
-        return props.error ? (
-          <p>Oops, an error occurred! Try reloading the page.</p>
-        ) : (
-          <section className="section" aria-hidden="true">
-            <div className="jf-loading-overlay">
-              <div className="jf-loader" />
-            </div>
-          </section>
-        );
-      }}
-      render={({
-        recommendedHpLandlord: landlord,
-        recommendedHpManagementCompany: mgmt,
-      }) => {
-        landlord = assertNotNull(landlord);
-        return (
-          <>
-            <dl>
-              <dt>Landlord name</dt>
-              <dd>{landlord.name}</dd>
-              <dt>Landlord address</dt>
-              <dd>
-                <Address {...landlord} />
-              </dd>
-            </dl>
-            {mgmt && (
-              <>
-                <p>
-                  Additionally, your building's HPD registration contains
-                  details about your management company.
-                </p>
-                <dl>
-                  <dt>Management company name</dt>
-                  <dd>{mgmt.name}</dd>
-                  <dt>Management company address</dt>
-                  <dd>
-                    <Address {...mgmt} />
-                  </dd>
-                </dl>
-              </>
-            )}
-          </>
-        );
-      }}
+    <RecommendedLandlordInfo
+      intro={
+        isUserNycha ? (
+          <p>
+            Since you are in NYCHA housing, we will be using the following
+            information to fill out your HP Action forms.
+          </p>
+        ) : undefined
+      }
+      landlord={landlord}
     />
-    <p>
-      We'll use these details to automatically fill out your HP Action forms!
-    </p>
-    <ProgressButtons>
-      <BackButton to={props.prevStep} />
-      <Link to={props.nextStep} className="button is-primary is-medium">
-        Next
-      </Link>
-    </ProgressButtons>
+    {mgmt && (
+      <>
+        <p>
+          Additionally, your building's HPD registration contains details about
+          your management company.
+        </p>
+        <MailingAddressWithName
+          {...mgmt}
+          nameLabel="Management company name"
+          addressLabel="Management company address"
+        />
+      </>
+    )}
+    {isUserNycha ? (
+      <p>
+        If you feel strongly that this information is incorrect, please contact{" "}
+        <CustomerSupportLink />.
+      </p>
+    ) : (
+      <p>
+        We'll use these details to automatically fill out your HP Action forms.
+        If you feel strongly that this information is incorrect or incomplete,
+        however, you can{" "}
+        <Link to={forceManualHref}>provide your own details</Link>.
+      </p>
+    )}
   </>
 );
-
-const EditableLandlordDetails: React.FC<MiddleProgressStepProps> = (props) => {
-  return (
-    <>
-      <p>
-        We were unable to retrieve information from the{" "}
-        <b>NYC Department of Housing and Preservation (HPD)</b> about your
-        landlord, so you will need to fill out the information yourself below.
-      </p>
-      <SessionUpdatingFormSubmitter
-        mutation={LandlordDetailsV2Mutation}
-        initialState={(session) =>
-          exactSubsetOrDefault(
-            session.landlordDetails,
-            BlankLandlordDetailsV2Input
-          )
-        }
-        onSuccessRedirect={props.nextStep}
-      >
-        {(ctx) => (
-          <>
-            <TextualFormField
-              {...ctx.fieldPropsFor("name")}
-              label="Landlord name"
-            />
-            <TextualFormField
-              {...ctx.fieldPropsFor("primaryLine")}
-              label="Street address"
-            />
-            <TextualFormField {...ctx.fieldPropsFor("city")} label="City" />
-            <USStateFormField {...ctx.fieldPropsFor("state")} />
-            <TextualFormField
-              {...ctx.fieldPropsFor("zipCode")}
-              label="Zip code"
-            />
-            <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
-          </>
-        )}
-      </SessionUpdatingFormSubmitter>
-    </>
-  );
-};
 
 export const HPActionYourLandlord = MiddleProgressStep((props) => {
   const { session } = useContext(AppContext);
-  const details = session.landlordDetails;
+  const isEnhanced = useProgressiveEnhancement();
+  const isNycha = isUserNycha(session);
 
   return (
     <Page title="Your landlord" withHeading className="content">
-      {isUserNycha(session) ||
-      (details && details.isLookedUp && details.name && details.address) ? (
-        <ReadOnlyLandlordDetails {...props} />
-      ) : (
-        <EditableLandlordDetails {...props} />
-      )}
+      <QueryLoader
+        query={RecommendedHpLandlord}
+        input={null}
+        render={({ recommendedHpLandlord, recommendedHpManagementCompany }) => (
+          <LandlordPageContent
+            recommendedLandlord={recommendedHpLandlord}
+            disallowManualOverride={isNycha}
+            renderReadOnlyLandlordDetails={(props) => (
+              <ReadOnlyLandlordDetails
+                {...props}
+                mgmt={recommendedHpManagementCompany}
+                isUserNycha={isNycha}
+              />
+            )}
+          >
+            {({ useRecommended, toUnforcedHref }) => (
+              <SessionUpdatingFormSubmitter
+                mutation={HpaLandlordInfoMutation}
+                initialState={(session) => ({
+                  useRecommended,
+                  useMgmtCo: !!session.managementCompanyDetails?.name,
+                  landlord: [
+                    exactSubsetOrDefault(
+                      session.landlordDetails,
+                      BlankLandlordLandlordDetailsFormFormSetInput
+                    ),
+                  ],
+                  mgmtCo: [
+                    exactSubsetOrDefault(
+                      session.managementCompanyDetails,
+                      BlankMgmtCoManagementCompanyDetailsFormFormSetInput
+                    ),
+                  ],
+                })}
+                onSuccessRedirect={props.nextStep}
+              >
+                {(ctx) => (
+                  <>
+                    <HiddenFormField {...ctx.fieldPropsFor("useRecommended")} />
+                    <SingletonFormset {...ctx.formsetPropsFor("landlord")}>
+                      {(formsetCtx) => (
+                        <div className={useRecommended ? "is-hidden" : ""}>
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("name")}
+                            label="Landlord name"
+                          />
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("primaryLine")}
+                            label="Landlord street address"
+                          />
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("city")}
+                            label="Landlord city"
+                          />
+                          <USStateFormField
+                            {...formsetCtx.fieldPropsFor("state")}
+                          />
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("zipCode")}
+                            label="Landlord zip code"
+                          />
+                        </div>
+                      )}
+                    </SingletonFormset>
+                    {useRecommended ? (
+                      <HiddenFormField {...ctx.fieldPropsFor("useMgmtCo")} />
+                    ) : (
+                      <>
+                        <br />
+                        <CheckboxFormField {...ctx.fieldPropsFor("useMgmtCo")}>
+                          {" "}
+                          I have a management company
+                        </CheckboxFormField>
+                      </>
+                    )}
+                    <SingletonFormset {...ctx.formsetPropsFor("mgmtCo")}>
+                      {(formsetCtx) => (
+                        <div
+                          className={
+                            !useRecommended &&
+                            (ctx.fieldPropsFor("useMgmtCo").value ||
+                              !isEnhanced)
+                              ? ""
+                              : "is-hidden"
+                          }
+                        >
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("name")}
+                            label="Management company name"
+                          />
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("primaryLine")}
+                            label="Management company street address"
+                          />
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("city")}
+                            label="Management company city"
+                          />
+                          <USStateFormField
+                            {...formsetCtx.fieldPropsFor("state")}
+                          />
+                          <TextualFormField
+                            {...formsetCtx.fieldPropsFor("zipCode")}
+                            label="Management company zip code"
+                          />
+                        </div>
+                      )}
+                    </SingletonFormset>
+                    <ProgressButtons
+                      back={toUnforcedHref || props.prevStep}
+                      isLoading={ctx.isLoading}
+                    />
+                  </>
+                )}
+              </SessionUpdatingFormSubmitter>
+            )}
+          </LandlordPageContent>
+        )}
+      />
     </Page>
   );
 });

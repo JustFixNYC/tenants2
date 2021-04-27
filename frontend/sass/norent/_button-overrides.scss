@@ -1,5 +1,6 @@
-// New style for extra wide buttons, to accomodate multiple lines of text on mobile:
-.button.jf-is-extra-wide {
+// New style for extra wide/text-wrapped buttons, to accomodate multiple lines of text on mobile:
+.button.jf-is-extra-wide,
+.button.jf-text-wrap {
   font-size: 1.25rem;
   height: 0;
   padding-left: 4rem;
@@ -15,9 +16,9 @@
   }
 }
 
-// For all buttons that aren't extra-wide, let's set the line-height to 0
+// For all buttons that aren't extra-wide/text-wrapped, let's set the line-height to 0
 // so that our button padding doesn't offset the placement of the inner text
-.button:not(.jf-is-extra-wide) {
+.button:not(.jf-is-extra-wide):not(.jf-text-wrap) {
   line-height: 0;
 }
 

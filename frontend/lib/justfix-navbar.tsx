@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Navbar from "./ui/navbar";
 import { Link } from "react-router-dom";
 import { AppContext } from "./app-context";
-import JustfixRoutes from "./justfix-routes";
+import JustfixRoutes from "./justfix-route-info";
 import { StaticImage } from "./ui/static-image";
 import { li18n } from "./i18n-lingui";
 import { t, Trans } from "@lingui/macro";
@@ -36,11 +36,7 @@ const JustfixMenuItems: React.FC<{}> = () => {
           <Trans>Take action</Trans>
         </Link>
       )}
-      {session.phoneNumber ? (
-        <Link className="navbar-item" to={JustfixRoutes.locale.logout}>
-          <Trans>Sign out</Trans>
-        </Link>
-      ) : (
+      {!session.phoneNumber && (
         <Link className="navbar-item" to={JustfixRoutes.locale.login}>
           <Trans>Sign in</Trans>
         </Link>
@@ -53,11 +49,28 @@ const JustfixMenuItems: React.FC<{}> = () => {
   );
 };
 
+const JustfixUserMenuItems: React.FC<{}> = () => {
+  return (
+    <>
+      <Link
+        className="navbar-item"
+        to={JustfixRoutes.locale.accountSettings.home}
+      >
+        Account settings
+      </Link>
+      <Link className="navbar-item" to={JustfixRoutes.locale.logout}>
+        <Trans>Sign out</Trans>
+      </Link>
+    </>
+  );
+};
+
 export const JustfixNavbar: React.FC<{}> = () => {
   return (
     <Navbar
       brandComponent={JustfixBrand}
       menuItemsComponent={JustfixMenuItems}
+      userMenuItemsComponent={JustfixUserMenuItems}
     />
   );
 };

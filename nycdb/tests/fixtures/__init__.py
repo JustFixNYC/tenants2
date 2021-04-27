@@ -8,9 +8,9 @@ FIXTURES_DIR = Path(__file__).parent.resolve()
 
 
 def load_hpd_registration(filename: str) -> HPDRegistration:
-    '''
+    """
     Load the given fixture and return the first model instance in it.
-    '''
+    """
 
     path = FIXTURES_DIR / filename
     first_obj = None

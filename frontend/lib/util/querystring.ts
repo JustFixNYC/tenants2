@@ -1,5 +1,3 @@
-import querystring from "querystring";
-
 /**
  * This is intentionally structured as a subset of react-router's
  * router context, to make it easy to interoperate with.
@@ -25,13 +23,13 @@ export function getQuerystringVar(
   routeInfo: LocationSearchInfo | string,
   name: string
 ): string | undefined {
-  let val = querystring.parse(getSearch(routeInfo).slice(1))[name];
+  const val = new URLSearchParams(getSearch(routeInfo).slice(1)).getAll(name);
 
-  if (Array.isArray(val)) {
-    val = val[val.length - 1];
+  if (val.length > 0) {
+    return val[val.length - 1];
   }
 
-  return val;
+  return undefined;
 }
 
 /**

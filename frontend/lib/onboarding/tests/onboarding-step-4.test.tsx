@@ -3,7 +3,7 @@ import React from "react";
 import OnboardingStep4 from "../onboarding-step-4";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { Switch, Route } from "react-router";
-import JustfixRoutes from "../../justfix-routes";
+import JustfixRoutes from "../../justfix-route-info";
 import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
 import { OnboardingStep4Version2Mutation } from "../../queries/OnboardingStep4Version2Mutation";
 import { BlankAllSessionInfo } from "../../queries/AllSessionInfo";
@@ -11,7 +11,7 @@ import { BlankAllSessionInfo } from "../../queries/AllSessionInfo";
 const PROPS = {
   routes: JustfixRoutes.locale.locOnboarding,
   toSuccess: "/success",
-  signupIntent: OnboardingInfoSignupIntent.HP,
+  signupIntent: OnboardingInfoSignupIntent.EHP,
 };
 
 describe("onboarding step 4 page", () => {

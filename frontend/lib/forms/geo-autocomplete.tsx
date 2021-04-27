@@ -13,6 +13,7 @@ import {
   SearchAutocomplete,
   SearchAutocompleteHelpers,
 } from "./search-autocomplete";
+import { getGlobalAppServerInfo } from "../app-context";
 
 function boroughGidToChoice(gid: GeoSearchBoroughGid): BoroughChoice {
   switch (gid) {
@@ -53,6 +54,11 @@ export function GeoAutocomplete(props: GeoAutocompleteProps) {
   return <SearchAutocomplete {...props} helpers={geoAutocompleteHelpers} />;
 }
 
+function getAutocompleteUrl(): string {
+  const origin = getGlobalAppServerInfo().nycGeoSearchOrigin;
+  return `${origin}/v1/autocomplete`;
+}
+
 const geoAutocompleteHelpers: SearchAutocompleteHelpers<
   GeoAutocompleteItem,
   GeoSearchResults
@@ -61,7 +67,11 @@ const geoAutocompleteHelpers: SearchAutocompleteHelpers<
   itemToString: geoAutocompleteItemToString,
   searchResultsToItems: geoSearchResultsToAutocompleteItems,
   getIncompleteItem: getIncompleteItem,
-  createSearchRequester: (options) => new GeoSearchRequester(options),
+  createSearchRequester: (options) =>
+    new GeoSearchRequester({
+      ...options,
+      customGeoAutocompleteUrl: getAutocompleteUrl(),
+    }),
 };
 
 function itemToKey(item: GeoAutocompleteItem): string {

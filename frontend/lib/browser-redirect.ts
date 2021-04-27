@@ -1,6 +1,6 @@
 import { History } from "history";
 import { getGlobalAppServerInfo } from "./app-context";
-import { getGlobalSiteRoutes } from "./routes";
+import { getGlobalSiteRoutes } from "./global-site-routes";
 
 type HardRedirector = (url: string) => void;
 

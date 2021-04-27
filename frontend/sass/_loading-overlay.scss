@@ -47,3 +47,7 @@ $jf-loading-fade-ms: 500ms;
     height: 64px;
   }
 }
+
+.has-background-grey-lighter .jf-loading-overlay {
+  background: inherit;
+}

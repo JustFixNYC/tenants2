@@ -28,7 +28,7 @@ import {
   AppStaticContext,
 } from "../lib/app-static-context";
 import i18n from "../lib/i18n";
-import { assertNotUndefined } from "../lib/util/util";
+import { assertNotUndefined } from "@justfixnyc/util";
 import { serveLambdaOverHttp, serveLambdaOverStdio } from "./lambda-io";
 import { setGlobalAppServerInfo } from "../lib/app-context";
 import { LambdaResponseHttpHeaders } from "./lambda-response-http-headers";
@@ -145,12 +145,15 @@ export function postProcessStaticMarkup(
 function renderStaticMarkup(
   event: AppProps,
   context: AppStaticContext,
+  extractor: ChunkExtractor,
   jsx: JSX.Element
 ): string {
   return ReactDOMServer.renderToStaticMarkup(
-    <ServerRouter event={event} context={context}>
-      <App {...event} children={jsx} />
-    </ServerRouter>
+    <ChunkExtractorManager extractor={extractor}>
+      <ServerRouter event={event} context={context}>
+        <App {...event} children={jsx} />
+      </ServerRouter>
+    </ChunkExtractorManager>
   );
 }
 
@@ -188,13 +191,13 @@ export function generateLambdaResponse(
   let isStaticContent = false;
   if (context.staticContent) {
     html = postProcessStaticMarkup(
-      staticRenderer(event, context, context.staticContent),
+      staticRenderer(event, context, extractor, context.staticContent),
       context
     );
     isStaticContent = true;
   }
   const modalHtml = context.modal
-    ? staticRenderer(event, context, context.modal)
+    ? staticRenderer(event, context, extractor, context.modal)
     : "";
   let location = null;
   if (context.url) {

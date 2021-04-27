@@ -5,7 +5,7 @@ from users.models import JustfixUser
 
 
 class GraphQLStaticRequest:
-    '''
+    """
     This represents a GraphQL request made on behalf of front-end
     code that is trying to generate static content--such as a PDF
     or email text--and therefore may not have access to an
@@ -18,7 +18,7 @@ class GraphQLStaticRequest:
     of refactoring) is to create a tiny subset of the HttpRequest
     interface that only our static content-related GraphQL endpoints
     will need to access.
-    '''
+    """
 
     def __init__(
         self,

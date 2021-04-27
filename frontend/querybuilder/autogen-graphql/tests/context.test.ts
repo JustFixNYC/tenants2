@@ -1,7 +1,7 @@
 import { AutogenContext } from "../context";
 import { AutogenConfig, LATEST_AUTOGEN_CONFIG_VERSION } from "../config";
 import { BEET_SCHEMA, BEET_TYPE, BEET_FIELDS } from "./util";
-import { assertNotUndefined } from "../../../lib/util/util";
+import { assertNotUndefined } from "@justfixnyc/util";
 
 const EMPTY_AUTOGEN_CONFIG: AutogenConfig = {
   version: LATEST_AUTOGEN_CONFIG_VERSION,

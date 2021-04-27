@@ -6,13 +6,20 @@ import { LeaseChoice } from "../../../common-data/lease-choices";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { isDeepEqual } from "../util/util";
 import { ServerFormFieldError } from "../forms/form-errors";
-import { getGlobalSiteRoutes } from "../routes";
+import { getGlobalSiteRoutes } from "../global-site-routes";
 import { getGlobalAppServerInfo, AppServerInfo } from "../app-context";
 import { LocaleChoice } from "../../../common-data/locale-choices";
 import i18n from "../i18n";
-import JustfixRoutes from "../justfix-routes";
-import { NorentRoutes } from "../norent/routes";
+import JustfixRoutes from "../justfix-route-info";
+import { NorentRoutes } from "../norent/route-info";
+import { EvictionFreeRoutes } from "../evictionfree/route-info";
+import { USER_ID_PREFIX } from "../../../common-data/amplitude.json";
 
+/**
+ * We need to be very careful here that we don't conflict with any of
+ * the user properties sent by the back-end code!  See the
+ * `amplitude` Django app for more details.
+ */
 export type JustfixAmplitudeUserProperties = {
   city: string;
   state: USStateChoice;
@@ -39,12 +46,17 @@ type PageInfo = {
   siteType: SiteChoice;
 };
 
+type OutboundLinkEventData = PageInfo & {
+  href: string;
+};
+
 type FormSubmissionEventData = PageInfo & {
   formKind: string;
   formId?: string;
   redirect?: string;
   errorMessages?: string[];
   errorCodes?: string[];
+  search?: string;
 };
 
 export type JustfixAmplitudeClient = Omit<
@@ -112,7 +124,7 @@ export function updateAmplitudeUserPropertiesOnSessionChange(
 export function trackLoginInAmplitude(s: AllSessionInfo) {
   // This will make it easier to distinguish our user IDs from
   // Amplitude ones, which are just really large numbers.
-  const userId = `justfix:${s.userId}`;
+  const userId = `${USER_ID_PREFIX}${s.userId}`;
   getAmplitude()?.setUserId(userId);
   getAmplitude()?.setUserProperties(getUserPropertiesFromSession(s));
 }
@@ -152,9 +164,18 @@ export function logAmplitudePageView(pathname: string) {
   getAmplitude()?.logEvent(eventName, data);
 }
 
+export function logAmplitudeOutboundLinkClick(href: string) {
+  const data: OutboundLinkEventData = {
+    ...getPageInfo(window.location.pathname),
+    href,
+  };
+  getAmplitude()?.logEvent("Clicked outbound link", data);
+}
+
 export function logAmplitudeFormSubmission(options: {
   pathname: string;
   formKind: string;
+  search?: string;
   formId?: string;
   redirect?: string | null;
   errors?: ServerFormFieldError[];
@@ -179,6 +200,7 @@ export function logAmplitudeFormSubmission(options: {
     ...getPageInfo(options.pathname),
     formKind: options.formKind,
     formId: options.formId,
+    search: options.search,
     redirect: options.redirect ?? undefined,
     errorMessages,
     errorCodes,
@@ -222,6 +244,13 @@ function getNorentPageType(pathname: string): string {
   });
 }
 
+function getEvictionFreePageType(pathname: string): string {
+  const r = EvictionFreeRoutes.locale;
+  return findBestPage(pathname, {
+    [r.declaration.prefix]: "declaration builder",
+  });
+}
+
 export function getAmplitudePageType(pathname: string): string {
   const { siteType } = getGlobalAppServerInfo();
 
@@ -230,5 +259,7 @@ export function getAmplitudePageType(pathname: string): string {
       return "JustFix " + getJustfixPageType(pathname);
     case "NORENT":
       return "NoRent " + getNorentPageType(pathname);
+    case "EVICTIONFREE":
+      return "EvictionFree " + getEvictionFreePageType(pathname);
   }
 }

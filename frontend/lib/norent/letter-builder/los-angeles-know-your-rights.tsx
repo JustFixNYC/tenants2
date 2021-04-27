@@ -1,6 +1,6 @@
 import React from "react";
 import Page from "../../ui/page";
-import { OutboundLink } from "../../analytics/google-analytics";
+import { OutboundLink } from "../../ui/outbound-link";
 import { ProgressButtons } from "../../ui/buttons";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
@@ -38,7 +38,7 @@ export const NorentLbLosAngelesKyr = MiddleProgressStep((props) => {
       </h2>
       <div className="content">
         <p>
-          <Trans id="norent.losAngelesKyr">
+          <Trans id="norent.losAngelesKyrSB91">
             We’ve worked with the non-profit organization{" "}
             <OutboundLink
               href={SAJE_WEBSITE_URL}
@@ -48,7 +48,7 @@ export const NorentLbLosAngelesKyr = MiddleProgressStep((props) => {
               SAJE
             </OutboundLink>{" "}
             to provide additional support once you’ve sent your letter. You can
-            learn more about how AB3088 affects Los Angeles residents at{" "}
+            learn more about how SB91 affects Los Angeles residents at{" "}
             <LocalizedOutboundLink
               hrefs={{
                 en: "https://www.stayhousedla.org/tenant_rights/",

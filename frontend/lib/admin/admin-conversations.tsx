@@ -6,7 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { Switch, Route, RouteComponentProps, Link } from "react-router-dom";
-import JustfixRoutes from "../justfix-routes";
+import JustfixRoutes from "../justfix-route-info";
 import { AppContext } from "../app-context";
 import {
   AdminConversations,
@@ -24,13 +24,14 @@ import { Helmet } from "react-helmet-async";
 import classnames from "classnames";
 import { UpdateTextingHistoryMutation } from "../queries/UpdateTextingHistoryMutation";
 import { niceAdminTimestamp } from "./admin-util";
-import { useRepeatedPromise, useAdminFetch, usePrevious } from "./admin-hooks";
+import { useRepeatedPromise, useAdminFetch } from "./admin-hooks";
 import { staffOnlyView } from "./staff-only-view";
 import { useDebouncedValue } from "../util/use-debounced-value";
 import { friendlyPhoneNumber } from "../util/util";
 import { friendlyDate } from "../util/date-util";
 import { AdminUserInfo } from "./admin-user-info";
 import { AdminAuthExpired } from "./admin-auth-expired";
+import { usePrevious } from "../util/use-previous";
 
 const PHONE_QS_VAR = "phone";
 
@@ -215,7 +216,7 @@ export function makeConversationsURL(
   rawQuery && params.set(QUERY_QS_VAR, rawQuery);
   phoneNumber && params.set(PHONE_QS_VAR, phoneNumber);
   const qs = params.toString();
-  return JustfixRoutes.adminConversations + (qs ? `?${qs}` : "");
+  return JustfixRoutes.admin.conversations + (qs ? `?${qs}` : "");
 }
 
 export function normalizeConversationQuery(query: string): string {
@@ -528,7 +529,7 @@ export default function AdminConversationsRoutes(): JSX.Element {
   return (
     <Switch>
       <Route
-        path={JustfixRoutes.adminConversations}
+        path={JustfixRoutes.admin.conversations}
         exact
         component={AdminConversationsPageWrapper}
       />

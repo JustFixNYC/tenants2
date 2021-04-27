@@ -18,19 +18,11 @@ class FakeAirtable:
         return None
 
     def create(self, fields):
-        record = Record(**{
-            **RECORD,
-            'id': str(self._next_id),
-            'fields': fields.dict()
-        })
+        record = Record(**{**RECORD, "id": str(self._next_id), "fields": fields.dict()})
         self._next_id += 1
         self._records.append(record.copy())
         return record
 
     def update(self, record, fields):
-        our_record = [r for r in self._records
-                      if r.fields_.pk == record.fields_.pk][0]
-        our_record.fields_ = Fields(**{
-            **our_record.fields_.dict(),
-            **fields.dict()
-        })
+        our_record = [r for r in self._records if r.fields_.pk == record.fields_.pk][0]
+        our_record.fields_ = Fields(**{**our_record.fields_.dict(), **fields.dict()})

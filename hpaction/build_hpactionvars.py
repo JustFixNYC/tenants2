@@ -8,11 +8,27 @@ from nycha.models import is_nycha_bbl, NychaProperty
 import nycdb.models
 from project import common_data
 from .models import (
-    FeeWaiverDetails, TenantChild, HPActionDetails, HarassmentDetails,
-    attr_name_for_harassment_allegation, PriorCase, HP_ACTION_CHOICES)
+    FeeWaiverDetails,
+    TenantChild,
+    HPActionDetails,
+    HarassmentDetails,
+    attr_name_for_harassment_allegation,
+    PriorCase,
+    HP_ACTION_CHOICES,
+)
 from .forms import EMERGENCY_HPA_ISSUE_LIST
+from .merge_issues import IssueMerger, merge_issue_models
 from . import hpactionvars as hp
 
+
+ISSUES_TO_MERGE = [
+    # We want to merge these multiple issues into one, to reduce/prevent
+    # the likelihood of addendumification.
+    IssueMerger((ISSUE_CHOICES.HOME__NO_HEAT, ISSUE_CHOICES.HOME__NO_HOT_WATER)),
+    IssueMerger(
+        (ISSUE_CHOICES.HOME__MICE, ISSUE_CHOICES.HOME__RATS, ISSUE_CHOICES.HOME__COCKROACHES)
+    ),
+]
 
 # How many lines the harassment details section of the HP action form has.
 MAX_HARASSMENT_DETAILS_LINES = 11
@@ -20,6 +36,9 @@ MAX_HARASSMENT_DETAILS_LINES = 11
 # How many characters, on average, fit into a line in the harassment
 # details section. (The font use is not monospaced.)
 HARASSMENT_DETAILS_LINE_LENGTH = 60
+
+# The most prior cases to list in EHPAs (so as not to generate an addendum).
+MAX_EMERGENCY_PRIOR_CASES = 3
 
 NYCHA_ADDRESS = common_data.load_json("nycha-address.json")
 
@@ -29,7 +48,7 @@ BOROUGH_COURT_LOCATIONS: Dict[str, hp.CourtLocationMC] = {
     BOROUGH_CHOICES.BRONX: hp.CourtLocationMC.BRONX_COUNTY,
     BOROUGH_CHOICES.BROOKLYN: hp.CourtLocationMC.KINGS_COUNTY,
     BOROUGH_CHOICES.QUEENS: hp.CourtLocationMC.QUEENS_COUNTY,
-    BOROUGH_CHOICES.STATEN_ISLAND: hp.CourtLocationMC.RICHMOND_COUNTY
+    BOROUGH_CHOICES.STATEN_ISLAND: hp.CourtLocationMC.RICHMOND_COUNTY,
 }
 
 
@@ -38,7 +57,7 @@ COURT_COUNTIES: Dict[str, hp.CourtCountyMC] = {
     BOROUGH_CHOICES.BRONX: hp.CourtCountyMC.BRONX,
     BOROUGH_CHOICES.BROOKLYN: hp.CourtCountyMC.KINGS,
     BOROUGH_CHOICES.QUEENS: hp.CourtCountyMC.QUEENS,
-    BOROUGH_CHOICES.STATEN_ISLAND: hp.CourtCountyMC.RICHMOND
+    BOROUGH_CHOICES.STATEN_ISLAND: hp.CourtCountyMC.RICHMOND,
 }
 
 
@@ -47,7 +66,7 @@ BOROUGHS: Dict[str, hp.TenantBoroughMC] = {
     BOROUGH_CHOICES.BRONX: hp.TenantBoroughMC.BRONX,
     BOROUGH_CHOICES.BROOKLYN: hp.TenantBoroughMC.BROOKLYN,
     BOROUGH_CHOICES.QUEENS: hp.TenantBoroughMC.QUEENS,
-    BOROUGH_CHOICES.STATEN_ISLAND: hp.TenantBoroughMC.STATEN_ISLAND
+    BOROUGH_CHOICES.STATEN_ISLAND: hp.TenantBoroughMC.STATEN_ISLAND,
 }
 
 
@@ -78,7 +97,7 @@ def create_complaint(area: str, description: str) -> hp.TenantComplaints:
     return hp.TenantComplaints(
         area_complained_of_mc=justfix_issue_area_to_hp_area(area),
         which_room_mc=justfix_issue_area_to_hp_room(area),
-        conditions_complained_of_te=description
+        conditions_complained_of_te=description,
     )
 
 
@@ -93,10 +112,7 @@ def twoletter_to_hp_state(state: str) -> hp.LandlordAddressStateMC:
     return OneOffEnum.VALUE  # type: ignore
 
 
-def fill_landlord_info_from_contact(
-    v: hp.HPActionVariables,
-    contact: nycdb.models.Contact
-) -> None:
+def fill_landlord_info_from_contact(v: hp.HPActionVariables, contact: nycdb.models.Contact) -> None:
     v.landlord_address_city_te = contact.address.city
     v.landlord_address_street_te = contact.address.first_line
     v.landlord_address_zip_te = contact.address.zipcode
@@ -113,8 +129,7 @@ def fill_landlord_info_from_contact(
 
 
 def fill_landlord_management_info_from_company(
-    v: hp.HPActionVariables,
-    mgmtco: nycdb.models.Company
+    v: hp.HPActionVariables, mgmtco: nycdb.models.Company
 ) -> None:
     v.management_company_address_city_te = mgmtco.address.city
     v.management_company_address_street_te = mgmtco.address.first_line
@@ -128,11 +143,7 @@ def fill_landlord_management_info_from_company(
     v.management_company_to_be_sued_tf = True
 
 
-def fill_landlord_info_from_bbl_or_bin(
-    v: hp.HPActionVariables,
-    pad_bbl: str,
-    pad_bin: str
-) -> bool:
+def fill_landlord_info_from_bbl_or_bin(v: hp.HPActionVariables, pad_bbl: str, pad_bin: str) -> bool:
     landlord_found = False
     contact = nycdb.models.get_non_head_officer_landlord(pad_bbl, pad_bin)
     if contact:
@@ -145,24 +156,23 @@ def fill_landlord_info_from_bbl_or_bin(
 
 
 def get_user_onboarding_str_attr(user: JustfixUser, attr: str) -> str:
-    if hasattr(user, 'onboarding_info'):
+    if hasattr(user, "onboarding_info"):
         return getattr(user.onboarding_info, attr)
-    return ''
+    return ""
 
 
 def get_user_pad_bbl(user: JustfixUser) -> str:
-    return get_user_onboarding_str_attr(user, 'pad_bbl')
+    return get_user_onboarding_str_attr(user, "pad_bbl")
 
 
 def get_user_pad_bin(user: JustfixUser) -> str:
-    return get_user_onboarding_str_attr(user, 'pad_bin')
+    return get_user_onboarding_str_attr(user, "pad_bin")
 
 
 def fill_landlord_management_info_from_user_mgmt_co_details(
-    v: hp.HPActionVariables,
-    user: JustfixUser
+    v: hp.HPActionVariables, user: JustfixUser
 ):
-    if not hasattr(user, 'management_company_details'):
+    if not hasattr(user, "management_company_details"):
         return
     mcd = user.management_company_details
     if mcd.name and mcd.is_address_populated():
@@ -176,10 +186,9 @@ def fill_landlord_management_info_from_user_mgmt_co_details(
 
 
 def fill_landlord_info_from_user_landlord_details(
-    v: hp.HPActionVariables,
-    user: JustfixUser
+    v: hp.HPActionVariables, user: JustfixUser
 ) -> bool:
-    if hasattr(user, 'landlord_details'):
+    if hasattr(user, "landlord_details"):
         ld = user.landlord_details
         if not ld.is_looked_up and ld.name and ld.is_address_populated():
             # The user has manually entered landlord details, use them!
@@ -205,8 +214,8 @@ def fill_landlord_info_from_open_data(v: hp.HPActionVariables, user: JustfixUser
 def fill_landlord_info_from_nycha(v: hp.HPActionVariables, user: JustfixUser) -> bool:
     v.user_is_nycha_tf = True
 
-    name = NYCHA_ADDRESS['name']
-    pad_bbl = get_user_onboarding_str_attr(user, 'pad_bbl')
+    name = NYCHA_ADDRESS["name"]
+    pad_bbl = get_user_onboarding_str_attr(user, "pad_bbl")
 
     if pad_bbl:
         prop = NychaProperty.objects.filter(pad_bbl=pad_bbl).first()
@@ -214,15 +223,15 @@ def fill_landlord_info_from_nycha(v: hp.HPActionVariables, user: JustfixUser) ->
             name = f"NYCHA {prop.development.title()} Houses"
 
     v.landlord_entity_name_te = name
-    v.landlord_address_street_te = NYCHA_ADDRESS['primaryLine']
-    v.landlord_address_city_te = NYCHA_ADDRESS['city']
-    v.landlord_address_zip_te = NYCHA_ADDRESS['zipCode']
-    v.landlord_address_state_mc = twoletter_to_hp_state(NYCHA_ADDRESS['state'])
+    v.landlord_address_street_te = NYCHA_ADDRESS["primaryLine"]
+    v.landlord_address_city_te = NYCHA_ADDRESS["city"]
+    v.landlord_address_zip_te = NYCHA_ADDRESS["zipCode"]
+    v.landlord_address_state_mc = twoletter_to_hp_state(NYCHA_ADDRESS["state"])
     return True
 
 
 def did_user_self_report_as_nycha(user: JustfixUser) -> bool:
-    return get_user_onboarding_str_attr(user, 'lease_type') == LEASE_CHOICES.NYCHA
+    return get_user_onboarding_str_attr(user, "lease_type") == LEASE_CHOICES.NYCHA
 
 
 def does_user_have_a_nycha_bbl(user: JustfixUser) -> bool:
@@ -237,9 +246,8 @@ def fill_landlord_info(
     v.user_is_nycha_tf = False
     if did_user_self_report_as_nycha(user):
         return fill_landlord_info_from_nycha(v, user)
-    was_filled_out = (
-        use_user_landlord_details and
-        fill_landlord_info_from_user_landlord_details(v, user)
+    was_filled_out = use_user_landlord_details and fill_landlord_info_from_user_landlord_details(
+        v, user
     )
     if not was_filled_out:
         # The user has not manually entered landlord details; use the latest
@@ -252,18 +260,15 @@ def fill_landlord_info(
 
 def fill_tenant_children(v: hp.HPActionVariables, children: Iterable[TenantChild]) -> None:
     v.tenant_child_list = [
-        hp.TenantChild(
-            tenant_child_name_te=child.name,
-            tenant_child_dob=child.dob
-        )
+        hp.TenantChild(tenant_child_name_te=child.name, tenant_child_dob=child.dob)
         for child in children
     ]
     v.tenant_children_under_6_nu = len(v.tenant_child_list)
 
 
 def get_tenant_repairs_allegations_mc(
-    h: HPActionDetails
-) -> Optional[hp.TenantRepairsAllegationsMC]:
+    h: HPActionDetails,
+) -> hp.TenantRepairsAllegationsMC:
     if h.filed_with_311 is True:
         if h.hpd_issued_violations is False and h.thirty_days_since_311 is True:
             # I filed a complaint with HPD. More than 30 days have passed since then.
@@ -273,7 +278,7 @@ def get_tenant_repairs_allegations_mc(
             # I filed a complaint with HPD. HPD issued a Notice of Violation.
             # More than 30 days have passed since then. The landlord has not fixed the problem.
             return hp.TenantRepairsAllegationsMC.NOTICE_ISSUED
-    return None
+    return hp.TenantRepairsAllegationsMC.WAIVE
 
 
 def fill_hp_action_details(v: hp.HPActionVariables, h: HPActionDetails, kind: str) -> None:
@@ -300,13 +305,13 @@ def fill_harassment_allegations(v: hp.HPActionVariables, h: HarassmentDetails) -
 
 
 def flip_null_bool(value: Optional[bool]) -> Optional[bool]:
-    '''
+    """
     >>> flip_null_bool(None)
     >>> flip_null_bool(False)
     True
     >>> flip_null_bool(True)
     False
-    '''
+    """
 
     if value is None:
         return value
@@ -314,24 +319,25 @@ def flip_null_bool(value: Optional[bool]) -> Optional[bool]:
 
 
 def reduce_number_of_lines(value: str, max_lines: int, line_length: int) -> str:
-    '''
+    """
     If the given value, when text-wrapped across the given line length, is
     greater than the given number of lines, reduce the number of lines by
     replacing all newlines with ' / '.
-    '''
+    """
 
     import textwrap
 
-    lines = value.split('\n')
+    value = value.replace("\r", "")
+    lines = value.split("\n")
     wrapped_lines: List[str] = []
     for line in lines:
         if line.strip():
             wrapped_lines.extend(textwrap.wrap(line, width=line_length))
         else:
-            wrapped_lines.append('')
+            wrapped_lines.append("")
 
     if len(wrapped_lines) > max_lines:
-        value = ' / '.join(filter(None, lines))
+        value = " / ".join(filter(None, lines))
 
     return value
 
@@ -352,9 +358,9 @@ def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> N
 
     causes: List[str] = []
     if v.sue_for_repairs_tf:
-        causes.append('failed to do repairs')
+        causes.append("failed to do repairs")
     if v.sue_for_harassment_tf:
-        causes.append('engaged in harassing behaviors')
+        causes.append("engaged in harassing behaviors")
 
     # Completes "My case is good and worthwhile because_______".
     v.cause_of_action_description_te = f"Landlord has {' and '.join(causes)}"
@@ -373,7 +379,7 @@ def fill_fee_waiver_details(v: hp.HPActionVariables, fwd: FeeWaiverDetails) -> N
     v.tenant_income_nu = fwd.income_amount_monthly
 
     # What is the source of your income?
-    v.tenant_income_source_te = ', '.join(fwd.income_sources)
+    v.tenant_income_source_te = ", ".join(fwd.income_sources)
 
     # What is your monthly rent?
     v.tenant_monthly_rent_nu = fwd.rent_amount
@@ -431,11 +437,16 @@ def fill_prior_repairs_and_harassment_mcs(v: hp.HPActionVariables, cases: List[P
         v.prior_repairs_case_mc = hp.PriorRepairsCaseMC.NO
 
 
-def fill_prior_cases(v: hp.HPActionVariables, user: JustfixUser):
+def fill_prior_cases(v: hp.HPActionVariables, user: JustfixUser, kind: str):
     cases = list(user.prior_hp_action_cases.all())
-    v.prior_relief_sought_case_numbers_and_dates_te = ", ".join([
-        str(case) for case in cases
-    ])
+    cases_strs = [str(case) for case in cases]
+    prior_cases_str = ", ".join(cases_strs)
+    if kind == HP_ACTION_CHOICES.EMERGENCY and len(cases_strs) > MAX_EMERGENCY_PRIOR_CASES:
+        extra_cases = len(cases_strs) - MAX_EMERGENCY_PRIOR_CASES
+        prior_cases_str = (
+            ", ".join(cases_strs[:MAX_EMERGENCY_PRIOR_CASES]) + f" and {extra_cases} more"
+        )
+    v.prior_relief_sought_case_numbers_and_dates_te = prior_cases_str
     fill_prior_repairs_and_harassment_mcs(v, cases)
 
 
@@ -447,9 +458,8 @@ def fill_issues(v: hp.HPActionVariables, user: JustfixUser, kind: str):
         issues = issues.filter(value__in=EMERGENCY_HPA_ISSUE_LIST)
         custom_issues = custom_issues.filter(area=ISSUE_AREA_CHOICES.HOME)
 
-    for issue in issues:
-        desc = ISSUE_CHOICES.get_label(issue.value)
-        v.tenant_complaints_list.append(create_complaint(issue.area, desc))
+    for issue in merge_issue_models(issues, ISSUES_TO_MERGE):
+        v.tenant_complaints_list.append(create_complaint(issue.area, issue.description))
 
     for cissue in custom_issues:
         # We're lowercasing the description because we *really* don't want
@@ -464,15 +474,18 @@ def fill_issues(v: hp.HPActionVariables, user: JustfixUser, kind: str):
 def is_harlem_cjc(v: hp.HPActionVariables) -> Optional[bool]:
     # This logic needs to mirror the logic in the HotDocs interview file.
     return v.tenant_borough_mc == hp.TenantBoroughMC.MANHATTAN and (
-        v.tenant_address_zip_te in ('10035', '10037') or
-        (v.tenant_address_zip_te == '10029' and v.user_is_nycha_tf)
+        v.tenant_address_zip_te in ("10035", "10037")
+        or (v.tenant_address_zip_te == "10029" and v.user_is_nycha_tf)
     )
 
 
 def is_red_hook_cjc(v: hp.HPActionVariables) -> Optional[bool]:
     # This logic needs to mirror the logic in the HotDocs interview file.
-    return v.tenant_borough_mc == hp.TenantBoroughMC.BROOKLYN and \
-        v.tenant_address_zip_te == '11231' and v.user_is_nycha_tf
+    return (
+        v.tenant_borough_mc == hp.TenantBoroughMC.BROOKLYN
+        and v.tenant_address_zip_te == "11231"
+        and v.user_is_nycha_tf
+    )
 
 
 def fill_onboarding_info(v: hp.HPActionVariables, oinfo: OnboardingInfo) -> None:
@@ -532,20 +545,20 @@ def user_to_hpactionvars(user: JustfixUser, kind: str) -> hp.HPActionVariables:
 
     fill_landlord_info(v, user)
 
-    fill_if_user_has(fill_onboarding_info, v, user, 'onboarding_info')
+    fill_if_user_has(fill_onboarding_info, v, user, "onboarding_info")
 
     fill_issues(v, user, kind)
 
     fill_tenant_children(v, TenantChild.objects.filter(user=user))
 
-    fill_if_user_has_with_kind(fill_hp_action_details, v, user, 'hp_action_details', kind)
+    fill_if_user_has_with_kind(fill_hp_action_details, v, user, "hp_action_details", kind)
 
     if v.sue_for_harassment_tf:
-        fill_if_user_has(fill_harassment_details, v, user, 'harassment_details')
-        fill_prior_cases(v, user)
+        fill_if_user_has(fill_harassment_details, v, user, "harassment_details")
+        fill_prior_cases(v, user, kind)
 
     if kind != HP_ACTION_CHOICES.EMERGENCY:
-        fill_if_user_has(fill_fee_waiver_details, v, user, 'fee_waiver_details')
+        fill_if_user_has(fill_fee_waiver_details, v, user, "fee_waiver_details")
 
     # Assume the tenant always wants to serve the papers themselves.
     v.tenant_wants_to_serve_tf = True

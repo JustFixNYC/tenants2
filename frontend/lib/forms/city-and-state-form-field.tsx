@@ -4,6 +4,7 @@ import { USStateFormField } from "./mailing-address-fields";
 import {
   MapboxCityAutocomplete,
   MapboxCityItem,
+  MapboxCityOptions,
 } from "./mapbox/city-autocomplete";
 import {
   ProgressiveEnhancement,
@@ -20,7 +21,7 @@ import { t } from "@lingui/macro";
 export type CityAndStateFieldProps = {
   cityProps: BaseFormFieldProps<string>;
   stateProps: BaseFormFieldProps<string>;
-};
+} & MapboxCityOptions;
 
 function safeGetUSStateChoice(state: string): USStateChoice | null {
   if (isUSStateChoice(state)) return state;
@@ -32,7 +33,10 @@ const getCityLabel = () => li18n._(t`City/township/borough`);
 const BaselineField: React.FC<CityAndStateFieldProps> = (props) => (
   <>
     <TextualFormField {...props.cityProps} label={getCityLabel()} />
-    <USStateFormField {...props.stateProps} />
+    <USStateFormField
+      {...props.stateProps}
+      stateChoices={props.forState ? [props.forState] : undefined}
+    />
   </>
 );
 
@@ -54,6 +58,8 @@ const EnhancedField: React.FC<
 
   return (
     <MapboxCityAutocomplete
+      forState={props.forState}
+      bbox={props.bbox}
       label={getCityLabel()}
       initialValue={initialValue}
       onChange={(item) => {

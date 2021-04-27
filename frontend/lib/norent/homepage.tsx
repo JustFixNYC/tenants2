@@ -1,9 +1,9 @@
 import React from "react";
 import Page from "../ui/page";
-import { NorentRoutes } from "./routes";
+import { NorentRoutes } from "./route-info";
 import { CenteredPrimaryButtonLink } from "../ui/buttons";
 import { StaticImage } from "../ui/static-image";
-import { OutboundLink } from "../analytics/google-analytics";
+import { OutboundLink } from "../ui/outbound-link";
 import { NorentLogo } from "./components/logo";
 import { NorentFaqsPreview } from "./faqs";
 import { PartnerLogos } from "./about";
@@ -16,7 +16,7 @@ import { li18n } from "../i18n-lingui";
 
 type NorentImageType = "png" | "svg";
 
-export function getImageSrc(name: string, type?: NorentImageType) {
+export function getNorentImageSrc(name: string, type?: NorentImageType) {
   return `frontend/img/norent/${name}.${type || "svg"}`;
 }
 
@@ -25,14 +25,14 @@ export const JumpArrow = (props: { to: string; altText: string }) => (
     <span className="is-hidden-mobile">
       <StaticImage
         ratio="is-32x32"
-        src={getImageSrc("downarrow")}
+        src={getNorentImageSrc("downarrow")}
         alt={props.altText}
       />
     </span>
     <span className="is-hidden-tablet">
       <StaticImage
         ratio="is-24x24"
-        src={getImageSrc("downarrow-mobile")}
+        src={getNorentImageSrc("downarrow-mobile")}
         alt={props.altText}
       />
     </span>
@@ -95,7 +95,7 @@ export const LandingPageChecklist = (props: {
               <div className="media-left">
                 <StaticImage
                   ratio="is-32x32"
-                  src={getImageSrc("checkmark")}
+                  src={getNorentImageSrc("checkmark")}
                   alt={li18n._(t`You can`)}
                 />
               </div>
@@ -120,7 +120,11 @@ const LandingPageCollectiveActionList = () => (
     {demandsListItems().map((demand, i) => (
       <article className="media" key={i}>
         <div className="media-left">
-          <StaticImage ratio="is-64x64" src={getImageSrc("fistpump")} alt="" />
+          <StaticImage
+            ratio="is-64x64"
+            src={getNorentImageSrc("fistpump")}
+            alt=""
+          />
         </div>
         <div className="media-content title jf-alt-title-font is-size-5">
           {demand}
@@ -203,7 +207,7 @@ export const NorentHomePage: React.FC<{}> = () => {
               <div className="jf-illustration-paper-airplanes is-pulled-left">
                 <StaticImage
                   ratio="is-square"
-                  src={getImageSrc("paperairplane1")}
+                  src={getNorentImageSrc("paperairplane1")}
                   alt=""
                 />
               </div>
@@ -215,7 +219,7 @@ export const NorentHomePage: React.FC<{}> = () => {
               <div className="jf-illustration-paper-airplanes is-pulled-right">
                 <StaticImage
                   ratio="is-square"
-                  src={getImageSrc("paperairplane2")}
+                  src={getNorentImageSrc("paperairplane2")}
                   alt=""
                 />
               </div>
@@ -243,7 +247,7 @@ export const NorentHomePage: React.FC<{}> = () => {
                   <div>
                     <StaticImage
                       ratio="is-128x128"
-                      src={getImageSrc("stopwatch")}
+                      src={getNorentImageSrc("stopwatch")}
                       alt=""
                     />
                   </div>
@@ -264,7 +268,7 @@ export const NorentHomePage: React.FC<{}> = () => {
                   <div>
                     <StaticImage
                       ratio="is-128x128"
-                      src={getImageSrc("legal")}
+                      src={getNorentImageSrc("legal")}
                       alt=""
                     />
                   </div>
@@ -284,7 +288,7 @@ export const NorentHomePage: React.FC<{}> = () => {
                   <div>
                     <StaticImage
                       ratio="is-128x128"
-                      src={getImageSrc("letters")}
+                      src={getNorentImageSrc("letters")}
                       alt=""
                     />
                   </div>

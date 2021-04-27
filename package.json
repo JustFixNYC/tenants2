@@ -96,7 +96,7 @@
     "@lingui/cli": "2.9.1",
     "@lingui/macro": "2.9.1",
     "@lingui/react": "2.9.1",
-    "@loadable/babel-plugin": "5.10.3",
+    "@loadable/babel-plugin": "5.11.0",
     "@loadable/component": "5.14.1",
     "@loadable/server": "5.14.2",
     "@loadable/webpack-plugin": "5.14.2",

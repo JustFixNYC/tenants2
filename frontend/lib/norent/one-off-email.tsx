@@ -3,7 +3,7 @@ import { asEmailStaticPage } from "../static-page/email-static-page";
 import { EmailCta, HtmlEmail } from "../static-page/html-email";
 import { AppContext } from "../app-context";
 import i18n, { SupportedLocaleMap } from "../i18n";
-import { NorentRoutes } from "./routes";
+import { NorentRoutes } from "./route-info";
 
 type ContentProps = {
   firstName: string;

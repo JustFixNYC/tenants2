@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { asEmailStaticPage } from "../static-page/email-static-page";
-import { EmailCta, HtmlEmail } from "../static-page/html-email";
+import { HtmlEmail } from "../static-page/html-email";
 import { AppContext } from "../app-context";
 import i18n, { SupportedLocaleMap } from "../i18n";
 import { NorentRoutes } from "./route-info";
@@ -9,12 +9,6 @@ type ContentProps = {
   firstName: string;
   ctaURL: string;
 };
-
-const WwwNorentDotOrg: React.FC<{}> = () => (
-  <a href="https://www.norent.org" data-jf-show-href-only-in-plaintext>
-    www.norent.org
-  </a>
-);
 
 const NakedLink: React.FC<{ href: string }> = ({ href }) => (
   <a href={href} data-jf-show-href-only-in-plaintext>

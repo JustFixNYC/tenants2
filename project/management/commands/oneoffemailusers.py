@@ -20,14 +20,14 @@ def print_users(title: str, users: List[JustfixUser]):
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        users = list(JustfixUser.objects.filter(
-            onboarding_info__state="CA",
-            date_joined__lt=AB3088_LAUNCH_DATE,
-        ))
+        users = list(
+            JustfixUser.objects.filter(
+                onboarding_info__state="CA",
+                date_joined__lt=AB3088_LAUNCH_DATE,
+            )
+        )
 
         print_users(f"California NoRent users", users)
 
         print(f"Writing {OUTFILE}.")
-        OUTFILE.write_text(
-            '\n'.join([user.username for user in users])
-        )
+        OUTFILE.write_text("\n".join([user.username for user in users]))

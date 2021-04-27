@@ -10,7 +10,7 @@ from . import oneoffemailusers
 
 SENDER_NAME = "JustFix.nyc"
 
-LOGFILE = oneoffemailusers.OUTFILE.with_suffix('.log')
+LOGFILE = oneoffemailusers.OUTFILE.with_suffix(".log")
 
 
 def send_email(user: JustfixUser):
@@ -39,19 +39,19 @@ def send_email(user: JustfixUser):
 
 
 class Command(BaseCommand):
-    help = 'Send one-off emails.'
+    help = "Send one-off emails."
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--user',
+            "--user",
             help=(
                 f"The username of the user to send the email to. Default is "
                 f"to send email to all users we haven't yet emailed."
-            )
+            ),
         )
 
     def handle(self, *args, **options):
-        username: Optional[str] = options['user']
+        username: Optional[str] = options["user"]
 
         if username:
             user = JustfixUser.objects.get(username=username)
@@ -59,7 +59,7 @@ class Command(BaseCommand):
             return
 
         if not oneoffemailusers.OUTFILE.exists():
-            raise CommandError('Please run `manage.py oneoffemailusers` first!')
+            raise CommandError("Please run `manage.py oneoffemailusers` first!")
 
         already_sent: Set[str] = set()
 
@@ -68,14 +68,14 @@ class Command(BaseCommand):
 
         print(f"Loading {oneoffemailusers.OUTFILE}.")
         usernames = [
-            username for username
-            in oneoffemailusers.OUTFILE.read_text().splitlines()
+            username
+            for username in oneoffemailusers.OUTFILE.read_text().splitlines()
             if username not in already_sent
         ]
         for username in usernames:
             user = JustfixUser.objects.get(username=username)
             send_email(user)
-            with LOGFILE.open('a') as f:
-                f.write(username + '\n')
+            with LOGFILE.open("a") as f:
+                f.write(username + "\n")
                 f.flush()
         print("Done sending emails.")

@@ -199,9 +199,8 @@ const CONTENT: SupportedLocaleMap<React.FC<ContentProps>> = {
 };
 
 const SUBJECT: SupportedLocaleMap<string> = {
-  en: "Important Updates to NoRent.org and California Eviction Protections",
-  es:
-    "Actualizaciones importantes de NoRent.org y las protecciones contra desalojos de California",
+  en: "NoRent.org: Important Information about Emergency Rental Assistance",
+  es: "Información importante sobre asistencia de fondos para renta",
 };
 
 const Content: React.FC<{}> = () => {

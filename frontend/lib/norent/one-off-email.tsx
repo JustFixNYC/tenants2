@@ -35,7 +35,10 @@ const EnglishContent: React.FC<ContentProps> = (props) => (
     <p>Additional application assistance available:</p>
     <ul>
       <li>
-        SAJE created a video to walk through the application process:{" "}
+        <a href="https://www.saje.net">
+          Strategic Actions for a Just Economy (SAJE)
+        </a>{" "}
+        created a video to walk through the application process:{" "}
         <NakedLink href="https://youtu.be/c2CW2uzccB4" />
       </li>
       <li>
@@ -132,8 +135,11 @@ const SpanishContent: React.FC<ContentProps> = (props) => (
       </li>
       <li>Para preguntas: (833) 373-0587</li>
       <li>
-        Video de SAJE para ayuda:{" "}
-        <NakedLink href="https://youtu.be/Mh8OvvvJDwE" />
+        Video de{" "}
+        <a href="https://espanol.saje.net/">
+          Acciones Estratégicas Para Una Economía Justa (SAJE)
+        </a>{" "}
+        para ayuda: <NakedLink href="https://youtu.be/Mh8OvvvJDwE" />
       </li>
     </ul>
     <h2>Si vive en la ciudad de Long Beach</h2>

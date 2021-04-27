@@ -23,7 +23,7 @@ class Command(BaseCommand):
             JustfixUser.objects.filter(
                 onboarding_info__state="CA",
                 onboarding_info__zipcode__in=LOS_ANGELES_ZIP_CODES,
-            )
+            ).prefetch_related("onboarding_info")
         )
 
         print_users(f"LA NoRent users", users)

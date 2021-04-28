@@ -4,7 +4,7 @@ import { BaseFormContext } from "./form-context";
 import { isDeepEqual } from "../util/util";
 import { bulmaClasses } from "../ui/bulma";
 
-import { LEGACY_FORMSET_ADD_BUTTON_NAME } from "../../../common-data/forms.json";
+import { LEGACY_FORMSET_ADD_BUTTON_NAME } from "../../../common-data/forms";
 import { useProgressiveEnhancement } from "../ui/progressive-enhancement";
 import { LegacyFormSubmissionContext } from "./legacy-form-submitter";
 

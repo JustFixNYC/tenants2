@@ -9,7 +9,7 @@ import {
 import { Accordion } from "../../ui/accordion";
 import { getNorentMetadataForUSState } from "./national-metadata";
 import classnames from "classnames";
-import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
+import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc";
 import { NorentRequireLoginStep } from "./step-decorators";
 import { NorentNonpaymentDocumentation } from "../data/faqs-content";
 import { SocialIcons, SocialShareContent } from "../components/social-icons";

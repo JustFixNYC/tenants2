@@ -54,7 +54,7 @@ import { Formset } from "../../forms/formset";
 import {
   CUSTOM_ISSUE_MAX_LENGTH,
   MAX_CUSTOM_ISSUES_PER_AREA,
-} from "../../../../common-data/issue-validation.json";
+} from "../../../../common-data/issue-validation";
 import { FormsetItem, formsetItemProps } from "../../forms/formset-item";
 import { TextualFieldWithCharsRemaining } from "../../forms/chars-remaining";
 import { SessionStepBuilder } from "../../progress/session-step-builder";

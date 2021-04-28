@@ -1,5 +1,4 @@
 /**
- * @typedef {import("webpack").Plugin} WebpackPlugin
  * @typedef {import("webpack").Compiler} WebpackCompiler
  */
 

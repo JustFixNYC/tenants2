@@ -6,7 +6,7 @@ import { asEmailStaticPage } from "../static-page/email-static-page";
 import { NorentRoutes } from "./route-info";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
-import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc.json";
+import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc";
 import { MessageDescriptor } from "@lingui/core";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 import { HtmlEmail } from "../static-page/html-email";

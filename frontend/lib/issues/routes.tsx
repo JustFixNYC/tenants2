@@ -46,7 +46,7 @@ import { IssueChoice } from "../../../common-data/issue-choices";
 import {
   CUSTOM_ISSUE_MAX_LENGTH,
   MAX_CUSTOM_ISSUES_PER_AREA,
-} from "../../../common-data/issue-validation.json";
+} from "../../../common-data/issue-validation";
 import { FormContext } from "../forms/form-context";
 import { Formset } from "../forms/formset";
 import { FormsetItem, formsetItemProps } from "../forms/formset-item";

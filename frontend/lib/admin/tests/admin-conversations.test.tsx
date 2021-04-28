@@ -104,7 +104,7 @@ describe("<AdminConversationsPage>", () => {
           messages: [
             {
               userPhoneNumber: "+15551234567",
-              userFullName: "Boop Jones",
+              userFullLegalName: "Boop Jones",
               userId: 5,
               ...BASE_MESSAGE,
             },

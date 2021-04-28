@@ -240,9 +240,9 @@ class NorentScaffoldingOrUserDataMutation(SessionFormMutation):
 
 
 @schema_registry.register_mutation
-class NorentFullName(NorentScaffoldingOrUserDataMutation):
+class NorentFullLegalName(NorentScaffoldingOrUserDataMutation):
     class Meta:
-        form_class = forms.FullName
+        form_class = forms.FullLegalName
 
     @classmethod
     def perform_mutate_for_authenticated_user(cls, form, info: ResolveInfo):

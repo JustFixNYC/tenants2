@@ -42,4 +42,6 @@ class TwofactorInfo(models.Model):
     def provisioning_uri(self) -> str:
         "The provisioning URI for the user."
 
-        return self.totp.provisioning_uri(self.user.full_name, issuer_name=get_default_site().name)
+        return self.totp.provisioning_uri(
+            self.user.full_legal_name, issuer_name=get_default_site().name
+        )

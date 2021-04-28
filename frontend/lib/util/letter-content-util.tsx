@@ -29,10 +29,10 @@ const LandlordName = componentizeHelper((props) =>
   props.landlordName.toUpperCase()
 );
 
-const getFullName = (props: BaseLetterContentProps) =>
+const getFullLegalName = (props: BaseLetterContentProps) =>
   `${props.firstName} ${props.lastName}`;
 
-const FullName = componentizeHelper(getFullName);
+const FullLegalName = componentizeHelper(getFullLegalName);
 
 const getTodaysDate = (props: BaseLetterContentProps) =>
   props.todaysDate
@@ -70,7 +70,7 @@ const LandlordAddress: React.FC<BaseLetterContentProps> = (props) => (
 
 const Address: React.FC<BaseLetterContentProps> = (props) => (
   <dd>
-    <FullName {...props} />
+    <FullLegalName {...props} />
     <br />
     {getStreetWithApt(props)}
     <br />
@@ -180,7 +180,7 @@ export const letter = {
   DearLandlord,
   Regards,
   Signed,
-  FullName,
+  FullLegalName,
   AddressLine,
-  getFullName,
+  getFullLegalName,
 };

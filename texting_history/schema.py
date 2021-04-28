@@ -42,7 +42,7 @@ class TextMessage(graphene.ObjectType):
 class LatestTextMessage(TextMessage):
     user_phone_number = graphene.String(required=True)
 
-    user_full_name = graphene.String()
+    user_full_legal_name = graphene.String()
 
     user_id = graphene.Int()
 
@@ -113,7 +113,7 @@ def resolve_conversations(
     SELECT
         msg.*,
         usr.id as user_id,
-        usr.first_name || ' ' || usr.last_name as user_full_name
+        usr.first_name || ' ' || usr.last_name as user_full_legal_name
     FROM
         latest_conversation_msg AS msg
     LEFT JOIN
@@ -126,11 +126,11 @@ def resolve_conversations(
     if parsed.phone_number:
         where_clauses.append("(user_phone_number LIKE '+1' || %(phone_number)s || '%%')")
         sql_args["phone_number"] = parsed.phone_number
-    if parsed.full_name:
+    if parsed.full_legal_name:
         where_clauses.append(
-            "((usr.first_name || ' ' || usr.last_name) ILIKE '%%' || %(full_name)s || '%%')"
+            "((usr.first_name || ' ' || usr.last_name) ILIKE '%%' || %(full_legal_name)s || '%%')"
         )
-        sql_args["full_name"] = parsed.full_name
+        sql_args["full_legal_name"] = parsed.full_legal_name
     if parsed.has_hpa_packet:
         extra_joins.append(
             "INNER JOIN hpaction_hpactiondocuments AS hpadocs ON usr.id = hpadocs.user_id"

@@ -77,7 +77,7 @@ def send_pdf_to_landlord_via_lob(
             **lob_api.verification_to_inline_address(landlord_verification),
         },
         from_address={
-            "name": user.full_name,
+            "name": user.full_legal_name,
             **lob_api.verification_to_inline_address(user_verification),
         },
         file=BytesIO(pdf_bytes),
@@ -114,7 +114,7 @@ def send_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> bool:
             "USPS Tracking: %(url)s."
         )
         % {
-            "name": user.full_name,
+            "name": user.full_legal_name,
             "url": USPS_TRACKING_URL_PREFIX + letter.tracking_number,
         }
     )

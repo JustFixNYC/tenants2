@@ -611,7 +611,7 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "userFullName",
+              "name": "userFullLegalName",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -6151,7 +6151,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "NorentFullNameInput",
+                      "name": "NorentFullLegalNameInput",
                       "ofType": null
                     }
                   }
@@ -6160,13 +6160,13 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "norentFullName",
+              "name": "norentFullLegalName",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "NorentFullNamePayload",
+                  "name": "NorentFullLegalNamePayload",
                   "ofType": null
                 }
               }
@@ -10730,7 +10730,7 @@
           "inputFields": null,
           "interfaces": [],
           "kind": "OBJECT",
-          "name": "NorentFullNamePayload",
+          "name": "NorentFullLegalNamePayload",
           "possibleTypes": null
         },
         {
@@ -10779,7 +10779,7 @@
           ],
           "interfaces": null,
           "kind": "INPUT_OBJECT",
-          "name": "NorentFullNameInput",
+          "name": "NorentFullLegalNameInput",
           "possibleTypes": null
         },
         {

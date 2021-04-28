@@ -20,7 +20,7 @@ from users.models import JustfixUser
 from .models import RentPeriod
 
 
-class FullName(forms.ModelForm):
+class FullLegalName(forms.ModelForm):
     class Meta:
         model = JustfixUser
         fields = ("first_name", "last_name")

@@ -37,7 +37,7 @@ class LandlordDetailsV2Factory(LandlordDetailsFactory):
 
 def create_user_with_all_info(issues=True, landlord=True, access_dates=True):
     info = OnboardingInfoFactory(
-        user__full_name="Bobby Denver",
+        user__full_legal_name="Bobby Denver",
         address="1 Times Square",
         borough="MANHATTAN",
         apt_number="301",

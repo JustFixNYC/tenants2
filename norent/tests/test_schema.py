@@ -281,7 +281,7 @@ def test_full_name_mutation_updates_session_if_logged_out(graphql_client):
     output = graphql_client.execute(
         """
         mutation {
-          output: norentFullName(input: {
+          output: norentFullLegalName(input: {
             firstName: "boeop",
             lastName: "blap",
         }) {
@@ -306,7 +306,7 @@ def test_full_name_mutation_updates_user_if_logged_in(graphql_client, db):
     output = graphql_client.execute(
         """
         mutation {
-          output: norentFullName(input: {
+          output: norentFullLegalName(input: {
             firstName: "snorri",
             lastName: "heb"
         }) {

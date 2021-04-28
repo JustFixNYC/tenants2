@@ -24,7 +24,7 @@ section {
 {% for user in users %}
 <section>
   <p>
-    {{ user.full_name }}<br/>
+    {{ user.full_legal_name }}<br/>
     {% for line in user.onboarding_info.address_lines_for_mailing %}
       {{ line }}<br/>
     {% endfor %}

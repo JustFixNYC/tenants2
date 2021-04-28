@@ -6,7 +6,7 @@ from texting_history.query_parser import Query
 @pytest.mark.parametrize(
     "query,expected",
     [
-        ("blah", Query(full_name="blah")),
+        ("blah", Query(full_legal_name="blah")),
         ("5551234567", Query(phone_number="5551234567")),
         ("has:hpa", Query(has_hpa_packet=True)),
         ('"blarg"', Query(message_body="blarg")),

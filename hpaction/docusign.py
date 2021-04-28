@@ -320,14 +320,14 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
 
     document = dse.Document(
         document_base64=base64_pdf,
-        name=f"HP Action forms for {user.full_name}",
+        name=f"HP Action forms for {user.full_legal_name}",
         file_extension="pdf",
         document_id=HPA_DOCUMENT_ID,
     )
 
     signer = dse.Signer(
         email=user.email,
-        name=user.full_name,
+        name=user.full_legal_name,
         recipient_id=TENANT_RECIPIENT_ID,
         routing_order="1",
         client_user_id=docusign_client_user_id(user),
@@ -340,7 +340,7 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
     carbon_copies: List[dse.CarbonCopy] = [
         dse.CarbonCopy(
             email=user.email,
-            name=user.full_name,
+            name=user.full_legal_name,
             recipient_id="2",
             routing_order="2",
         )
@@ -361,7 +361,7 @@ def create_envelope_definition_for_hpa(docs: HPActionDocuments) -> dse.EnvelopeD
     )
 
     envelope_definition = dse.EnvelopeDefinition(
-        email_subject=f"HP Action forms for {user.full_name}",
+        email_subject=f"HP Action forms for {user.full_legal_name}",
         documents=[document],
         recipients=dse.Recipients(signers=[signer], carbon_copies=carbon_copies),
         status="sent",
@@ -402,7 +402,7 @@ def create_recipient_view_for_hpa(
         client_user_id=docusign_client_user_id(user),
         recipient_id=TENANT_RECIPIENT_ID,
         return_url=return_url,
-        user_name=user.full_name,
+        user_name=user.full_legal_name,
         email=user.email,
     )
 

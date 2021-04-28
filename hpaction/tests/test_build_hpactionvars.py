@@ -58,7 +58,7 @@ def test_justfix_issue_to_hp_room_works():
 
 
 def test_user_to_hpactionvars_requests_fee_waiver_only_if_model_exists(db):
-    user = UserFactory(full_name="Boop Jones")
+    user = UserFactory(full_legal_name="Boop Jones")
     v = user_to_hpactionvars(user, NORMAL)
     assert v.request_fee_waiver_tf is None
 
@@ -72,7 +72,7 @@ def test_user_to_hpactionvars_requests_fee_waiver_only_if_model_exists(db):
 
 
 def test_user_to_hpactionvars_sues_only_if_user_wants_to(db):
-    user = UserFactory(full_name="Boop Jones")
+    user = UserFactory(full_legal_name="Boop Jones")
     v = user_to_hpactionvars(user, NORMAL)
     assert v.sue_for_harassment_tf is None
     assert v.sue_for_repairs_tf is None
@@ -89,7 +89,7 @@ def test_user_to_hpactionvars_sues_only_if_user_wants_to(db):
 
 
 def test_user_to_hpactionvars_populates_basic_info(db):
-    user = UserFactory(full_name="Boop Jones")
+    user = UserFactory(full_legal_name="Boop Jones")
     v = user_to_hpactionvars(user, NORMAL)
     assert v.tenant_name_first_te == "Boop"
     assert v.tenant_name_last_te == "Jones"

@@ -275,7 +275,7 @@ const ConversationsSidebar: React.FC<{
                   >
                     <div className="jf-heading">
                       <div className="jf-tenant">
-                        {conv.userFullName ||
+                        {conv.userFullLegalName ||
                           friendlyPhoneNumber(conv.userPhoneNumber)}{" "}
                         {conv.errorMessage && "❌"}
                       </div>
@@ -367,7 +367,7 @@ const ConversationMessages: React.FC<{
   return <>{elements}</>;
 };
 
-function getUserFullName(user: AdminConversation_userDetails): string {
+function getUserFullLegalName(user: AdminConversation_userDetails): string {
   return [user.firstName, user.lastName].join(" ").trim();
 }
 
@@ -382,7 +382,7 @@ const ConversationPanel: React.FC<{
   };
   const convMsgs = conversation.value?.output?.messages || [];
   const user = conversation.value?.userDetails;
-  const userFullName = user ? getUserFullName(user) : "";
+  const userFullLegalName = user ? getUserFullLegalName(user) : "";
 
   return (
     <div className="jf-current-conversation">
@@ -398,10 +398,14 @@ const ConversationPanel: React.FC<{
               >
                 <h1>
                   Conversation with{" "}
-                  {userFullName || friendlyPhoneNumber(selectedPhoneNumber)}
+                  {userFullLegalName ||
+                    friendlyPhoneNumber(selectedPhoneNumber)}
                 </h1>
                 {user ? (
-                  <AdminUserInfo showPhoneNumber={!!userFullName} user={user} />
+                  <AdminUserInfo
+                    showPhoneNumber={!!userFullLegalName}
+                    user={user}
+                  />
                 ) : (
                   <p>
                     This phone number does not seem to have an account with us.

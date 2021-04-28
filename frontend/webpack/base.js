@@ -250,7 +250,7 @@ function getWebPlugins() {
  * @type {WebpackConfig}
  */
 const webConfig = {
-  target: "web",
+  target: ["web", "es5"],
   stats: IN_WATCH_MODE ? "minimal" : "normal",
   entry: {
     main: [

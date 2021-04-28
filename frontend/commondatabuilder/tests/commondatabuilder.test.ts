@@ -2,7 +2,7 @@ import * as fs from "fs";
 
 import {
   createDjangoChoicesTypescript,
-  createDjangoChoicesTypescriptFiles,
+  createCommonDataFiles,
   getDjangoChoiceLabel,
   validateDjangoChoices,
   filterDjangoChoices,
@@ -48,7 +48,7 @@ describe("commondatabuilder", () => {
 });
 
 it("current common data JSON files are synced with TS files", () => {
-  const files = createDjangoChoicesTypescriptFiles(ourConfig, true);
+  const files = createCommonDataFiles(ourConfig, true);
   files.forEach(({ ts, tsPath }) => {
     const currentTs = fs.readFileSync(tsPath, { encoding: "utf-8" });
     if (currentTs !== ts) {

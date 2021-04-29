@@ -226,7 +226,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     question: li18n._(t`What is the deadline for filling out the declaration?`),
     answer: (
       <p>
-        <Trans id="evictionfree.deadlineFaq">
+        <Trans id="evictionfree.deadlineFaq1">
           You currently can submit your declaration form at any time between now
           and August 31, 2021. Once you submit your declaration form via this
           tool, we will mail and/or email it immediately to your landlord and

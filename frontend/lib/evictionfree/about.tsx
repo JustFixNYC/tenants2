@@ -58,7 +58,7 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
           </h2>
           <br />
           <p className="subtitle is-size-5">
-            <Trans id="evictionfree.aboutPage1">
+            <Trans id="evictionfree.aboutPageText1">
               A new State law, passed in late 2020, allows most tenants to stop
               their eviction case until August 31st, 2021, if they fill out a
               “Hardship Declaration” form. However, this law puts the
@@ -68,7 +68,7 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
           </p>
           <br />
           <p className="subtitle is-size-5">
-            <Trans id="evictionfree.aboutPage2">
+            <Trans id="evictionfree.aboutPageText2">
               Our website helps tenants submit this hardship declaration form
               with peace of mind— sending it out via free USPS Certified Mail
               and email to all of the appropriate parties (your landlord and the

@@ -2454,8 +2454,11 @@ msgid "You can send an additional letter for other months when you couldn't pay 
 msgstr "Puedes enviar otra carta para indicar los demás meses en que no hayas podido pagar la renta."
 
 #: frontend/lib/evictionfree/components/helmet.tsx:12
-#: frontend/lib/evictionfree/homepage.tsx:83
 msgid "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until August 31st, 2021."
+msgstr ""
+
+#: frontend/lib/evictionfree/homepage.tsx:83
+msgid "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021."
 msgstr ""
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:10
@@ -2660,12 +2663,12 @@ msgid "eviction free nyc, eviction free ny, hardship, declaration, declare hards
 msgstr "eviction free nyc, eviction free ny, penuria, declaración, desalojo, desalojado"
 
 #: frontend/lib/evictionfree/about.tsx:45
-msgid "evictionfree.aboutPage1"
-msgstr "Una nueva ley estatal, aprobada a finales de 2020, permite a la mayoría de los inquilinos detener su caso de desalojo hasta el 1 de mayo, 2021, si cumplimentan un formulario de “Declaración de Penuria”. Sin embargo, esta ley carga la responsabilidad de averiguar cómo hacerlo a los inquilinos y no facilita el acceso al ejercicio de sus derechos."
+msgid "evictionfree.aboutPageText1"
+msgstr ""
 
 #: frontend/lib/evictionfree/about.tsx:55
-msgid "evictionfree.aboutPage2"
-msgstr "Nuestro sitio web ayuda a los inquilinos a presentar este formulario de declaración de dificultades con total tranquilidad: enviándolo por correo certificado de USPS y por correo electrónico gratuito a todas las entidades necesarias (el dueño de tu edificio y los tribunales) para garantizar la protección. Y dado que la ley no va lo suficientemente lejos para proteger a la gente más allá del 1 de mayo, nuestra herramienta conecta a los inquilinos con el movimiento de inquilinos más grande para que podamos #CancelRent."
+msgid "evictionfree.aboutPageText2"
+msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:12
 msgid "evictionfree.agreeToStateTermsIntro"
@@ -2684,16 +2687,16 @@ msgid "evictionfree.contactHcaBlurb"
 msgstr "Si has recibido una ‘Notificación de desalojo por incumplimiento de pago de alquiler’ (\"Notice to Pay Rent or Quit\" en inglés) o cualquier otro tipo de aviso de desalojo, comunícate con Housing Court Answers (NYC) al 212-962-4795, de lunes a viernes, de 9:00 AM a 5:00 PM, o llama a la línea directa estatal al 833-503-0447, que funciona 24 horas al día, los siete días de la semana."
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:184
-msgid "evictionfree.deadlineFaq"
-msgstr "Puedes enviar tu formulario de declaración en cualquier momento, hasta el 1 de mayo de 2021. Luego de enviar tu formulario de declaración a través de esta herramienta, se lo enviaremos inmediatamente por correo postal y/o correo electrónico al dueño de tu edificio y a las cortes. Si estás enviando tu formulario SOLAMENTE por correo postal, envíalo lo antes posible y conserva cualquier prueba de envío y/o acuse de recibo para tus archivos."
+msgid "evictionfree.deadlineFaq1"
+msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:70
-msgid "evictionfree.emailBodyTemplateForSharingFromConfirmation"
-msgstr "El 28 de diciembre de 2020, el estado de Nueva York aprobó la legislación que protege a los inquilinos del desalojo debido a la pérdida de ingresos o a los riesgos de salud del COVID-19. Para protegerte, debes rellenar una declaración de penuria y enviarla al dueño de tu edificio y/o a los tribunales. Acabo de utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de mi edificio y a los tribunales locales — deteniendo cualquier caso de desalojo hasta el 1 de mayo, 2021. Míralo aquí: {0}"
+msgid "evictionfree.emailBodyTemplateForSharingFromConfirmation1"
+msgstr ""
 
 #: frontend/lib/evictionfree/homepage.tsx:28
-msgid "evictionfree.emailBodyTemplateForSharingFromHomepage"
-msgstr "El 28 de diciembre de 2020, el estado de Nueva York aprobó la legislación que protege a los inquilinos del desalojo debido a la pérdida de ingresos o a los riesgos de salud del COVID-19. Para protegerte, debes rellenar una declaración de penuria y enviarla al dueño de tu edificio y/o a los tribunales. Puedes utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales — deteniendo tu caso de desalojo hasta el 1 de mayo, 2021. Míralo aquí: {0}"
+msgid "evictionfree.emailBodyTemplateForSharingFromHomepage1"
+msgstr ""
 
 #: frontend/lib/evictionfree/faqs.tsx:54
 msgid "evictionfree.faqsPageIntro"
@@ -2736,8 +2739,8 @@ msgid "evictionfree.legalAgreementCheckboxOnFees"
 msgstr "Además, entiendo que los honorarios, multas o intereses legales por impago total de alquiler o por no haber cumplido con otras obligaciones financieras según requerido por mi tenencia, contrato de alquiler o contrato semejante aún podrán cobrarse y resultar en un fallo monetario en mi contra."
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:36
-msgid "evictionfree.legalAgreementCheckboxOnNewProtections"
-msgstr "Además, entiendo que mi casero puede solicitar el desalojo después del 1 de mayo del 2021 y que la ley puede proporcionarle, en ese momento, ciertas protecciones independientes disponibles a través de esta declaración."
+msgid "evictionfree.legalAgreementCheckboxOnNewProtections1"
+msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23
 msgid "evictionfree.outlineOfDeclarationFormSteps"
@@ -2768,12 +2771,12 @@ msgid "evictionfree.timeLagFaq"
 msgstr "Una vez que completes tu formulario de declaración a través de esta herramienta, este será enviado inmediatamente por correo postal y/o correo electrónico al dueño de tu edificio y a las cortes. Una vez enviado, el correo postal suele entregar la correspondencia en aproximadamente una semana."
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:68
-msgid "evictionfree.tweetTemplateForSharingFromConfirmation"
-msgstr "Acabo de utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de mi edificio y a los tribunales locales — deteniendo cualquier caso de desalojo hasta el 1 de mayo, 2021. Míralo aquí: {0} #EvictionFreeNY por @JustFixNYC @RTCNYC @housing4allNY"
+msgid "evictionfree.tweetTemplateForSharingFromConfirmation1"
+msgstr ""
 
 #: frontend/lib/evictionfree/homepage.tsx:26
-msgid "evictionfree.tweetTemplateForSharingFromHomepage"
-msgstr "Puedes utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales — deteniendo tu caso de desalojo hasta el 1 de mayo, 2021. Míralo aquí: {0} #EvictionFreeNY por @JustFixNYC @RTCNYC @housing4allNY"
+msgid "evictionfree.tweetTemplateForSharingFromHomepage1"
+msgstr ""
 
 #: frontend/lib/evictionfree/homepage.tsx:194
 msgid "evictionfree.whoBuildThisTool"
@@ -2792,8 +2795,8 @@ msgid "justfix.commonWarningAboutChangingLandlordDetails"
 msgstr "Si recibes documentos relacionados con el alquiler desde una dirección diferente, o si el dueño de tu edificio te ha dado instrucciones de usar una dirección diferente para vuestra correspondencia, puedes <0>proporcionar tus propios datos.</0> Sin embargo, sólo debes usar una dirección distinta a la que te sugerimos si tienes la certeza absoluta de que es correcta — es más seguro usar la dirección oficial que el dueño de tu edificio ha registrado con la ciudad."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
-msgid "justfix.ddoEfnycCovidMessage"
-msgstr "Puedes enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales — deteniendo tu caso de desalojo hasta el 1 de mayo, 2021."
+msgid "justfix.ddoEfnycCovidMessage1"
+msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:274
 msgid "justfix.ddoEhpaCovidMessage"

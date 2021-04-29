@@ -240,6 +240,22 @@ class NorentScaffoldingOrUserDataMutation(SessionFormMutation):
 
 
 @schema_registry.register_mutation
+class NorentFullName(NorentScaffoldingOrUserDataMutation):
+    class Meta:
+        form_class = forms.FullLegalName
+
+    deprecation_reason = "Use NorentFullLegalName instead."
+
+    @classmethod
+    def perform_mutate_for_authenticated_user(cls, form, info: ResolveInfo):
+        user = info.context.user
+        user.first_name = form.cleaned_data["first_name"]
+        user.last_name = form.cleaned_data["last_name"]
+        user.save()
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
 class NorentFullLegalName(NorentScaffoldingOrUserDataMutation):
     class Meta:
         form_class = forms.FullLegalName

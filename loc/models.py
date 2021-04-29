@@ -350,10 +350,10 @@ class LetterRequest(BaseLetterRequest):
         return absolute_reverse("loc_for_user", kwargs={"user_id": self.user.pk})
 
     def __str__(self):
-        if not (self.created_at and self.user and self.user.full_name):
+        if not (self.created_at and self.user and self.user.full_legal_name):
             return super().__str__()
         return (
-            f"{self.user.full_name}'s letter of complaint request from "
+            f"{self.user.full_legal_name}'s letter of complaint request from "
             f"{self.created_at.strftime('%A, %B %d %Y')}"
         )
 

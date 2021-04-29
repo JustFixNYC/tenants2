@@ -9,14 +9,14 @@ class Command(BaseCommand):
     help = "Put someone on a RapidPro follow-up campaign."
 
     def add_arguments(self, parser):
-        parser.add_argument("full_name")
+        parser.add_argument("full_legal_name")
         parser.add_argument("phone_number")
         parser.add_argument("campaign")
         parser.add_argument("locale")
 
     def handle(self, *args, **options):
         client = get_rapidpro_client()
-        full_name: str = options["full_name"]
+        full_legal_name: str = options["full_legal_name"]
         phone_number: str = options["phone_number"]
         campaign_name: str = options["campaign"].upper()
         locale: str = options["locale"]
@@ -38,8 +38,8 @@ class Command(BaseCommand):
             )
 
         print(
-            f"Adding {full_name} ({phone_number}, {locale}) to "
+            f"Adding {full_legal_name} ({phone_number}, {locale}) to "
             f"{campaign_name} follow-up campaign..."
         )
-        campaign.add_contact(client, full_name, phone_number, locale)
+        campaign.add_contact(client, full_legal_name, phone_number, locale)
         print("Done.")

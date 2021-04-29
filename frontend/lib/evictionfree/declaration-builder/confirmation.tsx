@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { OutboundLink } from "../../ui/outbound-link";
-import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc.json";
+import { USPS_TRACKING_URL_PREFIX } from "../../../../common-data/loc";
 import Page from "../../ui/page";
 import { AppContext, getGlobalAppServerInfo } from "../../app-context";
 import { friendlyUTCDate } from "../../util/date-util";

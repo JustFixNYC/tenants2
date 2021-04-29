@@ -118,4 +118,4 @@ class SubmittedHardshipDeclaration(models.Model, SendableViaLobMixin):
     def __str__(self):
         if not self.pk:
             return super().__str__()
-        return f"{self.user.full_name}'s hardship declaration"
+        return f"{self.user.full_legal_name}'s hardship declaration"

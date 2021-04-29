@@ -5,7 +5,7 @@ import { AppContext } from "../app-context";
 import { TextualFormField } from "../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import { li18n } from "../i18n-lingui";
-import { NorentFullNameMutation } from "../queries/NorentFullNameMutation";
+import { NorentFullLegalNameMutation } from "../queries/NorentFullLegalNameMutation";
 import { EditableInfo, SaveCancelButtons } from "../ui/editable-info";
 import { makeAccountSettingsSection, WithAccountSettingsProps } from "./util";
 
@@ -23,7 +23,7 @@ const NameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
         path={routes.name}
       >
         <SessionUpdatingFormSubmitter
-          mutation={NorentFullNameMutation}
+          mutation={NorentFullLegalNameMutation}
           initialState={(s) => ({
             firstName: s.firstName || "",
             lastName: s.lastName || "",

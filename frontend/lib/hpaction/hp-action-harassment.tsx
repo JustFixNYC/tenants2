@@ -10,7 +10,7 @@ import { HarassmentExplainMutation } from "../queries/HarassmentExplainMutation"
 import { CheckboxFormField } from "../forms/form-fields";
 import { HarassmentAllegations1Mutation } from "../queries/HarassmentAllegations1Mutation";
 import { HarassmentAllegations2Mutation } from "../queries/HarassmentAllegations2Mutation";
-import { HARASSMENT_DETAILS_MAX_LENGTH } from "../../../common-data/hp-action.json";
+import { HARASSMENT_DETAILS_MAX_LENGTH } from "../../../common-data/hp-action";
 import { TextareaWithCharsRemaining } from "../forms/chars-remaining";
 import {
   hideByDefault,

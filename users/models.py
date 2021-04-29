@@ -12,8 +12,6 @@ from project.locales import LOCALE_KWARGS
 from .permission_util import ModelPermissions
 
 
-FULL_NAME_MAXLEN = 150
-
 IMPERSONATE_USERS_PERMISSION = "users.impersonate_users"
 
 ADD_SERVING_PAPERS_PERMISSION = "hpaction.add_servingpapers"
@@ -145,7 +143,7 @@ class JustfixUser(AbstractUser):
     REQUIRED_FIELDS = ["username", "email"]
 
     @property
-    def full_name(self) -> str:
+    def full_legal_name(self) -> str:
         if self.first_name and self.last_name:
             return " ".join([self.first_name, self.last_name])
         return ""
@@ -177,8 +175,8 @@ class JustfixUser(AbstractUser):
         value: str = self.email
         if not value:
             return None
-        if self.full_name:
-            value = f"{self.full_name} <{value}>"
+        if self.full_legal_name:
+            value = f"{self.full_legal_name} <{value}>"
         return value
 
     def formatted_phone_number(self) -> str:
@@ -220,7 +218,7 @@ class JustfixUser(AbstractUser):
                 f"Triggering rapidpro campaign '{campaign_name}' on user " f"{self.username}."
             )
             fc.trigger_followup_campaign_async(
-                self.full_name,
+                self.full_legal_name,
                 self.phone_number,
                 campaign_name,
                 locale=self.locale,

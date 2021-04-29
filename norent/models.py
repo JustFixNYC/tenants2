@@ -167,5 +167,6 @@ class Letter(models.Model, SendableViaLobMixin):
         if not self.pk:
             return super().__str__()
         return (
-            f"{self.user.full_name}'s no rent letter for " f"{self.__get_rent_period_dates_str()}"
+            f"{self.user.full_legal_name}'s no rent letter for "
+            f"{self.__get_rent_period_dates_str()}"
         )

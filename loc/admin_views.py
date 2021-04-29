@@ -135,7 +135,7 @@ class LocAdminViews:
                 **lob_api.verification_to_inline_address(verifications["landlord_verification"]),
             },
             from_address={
-                "name": letter.user.full_name,
+                "name": letter.user.full_legal_name,
                 **lob_api.verification_to_inline_address(verifications["user_verification"]),
             },
             file=pdf_file,

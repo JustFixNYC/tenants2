@@ -11,10 +11,10 @@ from .models import HP_ACTION_CHOICES
 def email_packet(user_id: int, recipients: List[str]) -> None:
     user = JustfixUser.objects.get(pk=user_id)
     email_file_response_as_attachment(
-        subject=f"{user.full_name}'s HP Action packet",
+        subject=f"{user.full_legal_name}'s HP Action packet",
         body=(
-            f"{get_site_name()} here! Attached is a copy of {user.full_name}'s HP Action packet, "
-            f"which {user.first_name} requested we send you."
+            f"{get_site_name()} here! Attached is a copy of {user.full_legal_name}'s HP Action "
+            f"packet, which {user.first_name} requested we send you."
         ),
         recipients=recipients,
         attachment=get_latest_pdf_for_user(user, HP_ACTION_CHOICES.NORMAL),

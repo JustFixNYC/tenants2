@@ -12,8 +12,6 @@ from project.locales import LOCALE_KWARGS
 from .permission_util import ModelPermissions
 
 
-FULL_LEGAL_NAME_MAXLEN = 150
-
 IMPERSONATE_USERS_PERMISSION = "users.impersonate_users"
 
 ADD_SERVING_PAPERS_PERMISSION = "hpaction.add_servingpapers"

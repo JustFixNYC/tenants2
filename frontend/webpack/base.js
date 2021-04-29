@@ -19,6 +19,8 @@ const IN_WATCH_MODE = process.argv.includes("--watch");
 
 const BASE_DIR = path.resolve(path.join(__dirname, "..", ".."));
 
+const { WEBPACK_ADDITIONAL_MODULE_DIRS } = process.env;
+
 if (!fs.existsSync("package.json")) {
   throw new Error(`Assertion failure, ${BASE_DIR} should contain package.json`);
 }
@@ -175,6 +177,7 @@ function getCommonPlugins() {
  */
 function createNodeScriptConfig(entry, filename, extraPlugins) {
   return {
+    target: "node",
     stats: IN_WATCH_MODE ? "minimal" : "normal",
     entry,
     devtool: IS_PRODUCTION ? "source-map" : DEV_SOURCE_MAP,
@@ -182,7 +185,10 @@ function createNodeScriptConfig(entry, filename, extraPlugins) {
     externalsPresets: { node: true },
     externals: [
       nodeExternals({
-        allowlist: /^@justfixnyc/,
+        allowlist: [/^@justfixnyc/],
+        additionalModuleDirs: WEBPACK_ADDITIONAL_MODULE_DIRS
+          ? WEBPACK_ADDITIONAL_MODULE_DIRS.split(":")
+          : [],
       }),
     ],
     output: {

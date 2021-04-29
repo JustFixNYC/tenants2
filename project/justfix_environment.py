@@ -112,6 +112,9 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # be of the following form:
     #
     #   https://analytics.amplitude.com/<org_name>/settings/projects/<project_id>/general
+    #
+    # This is used for linking to Amplitude from the admin UI. If
+    # empty (the default), no links to Amplitude will be shown.
     AMPLITUDE_PROJECT_SETTINGS_URL: str = ""
 
     # An access token for Rollbar with the 'post_client_item'

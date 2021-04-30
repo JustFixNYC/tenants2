@@ -139,7 +139,7 @@ def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     oi = user.onboarding_info
     assert user.full_legal_name == "boop jones"
     assert user.email == "boop@jones.com"
-    assert user.preferred_name == "bip"
+    assert user.preferred_name == "boop"  # should default to legal name if preferred name is empty
     assert user.pk == request.user.pk
     assert user.locale == "en"
     assert is_password_usable(user.password) is True

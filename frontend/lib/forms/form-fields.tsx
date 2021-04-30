@@ -369,6 +369,7 @@ export interface TextualFormFieldProps extends BaseFormFieldProps<string> {
   type?: TextualInputType;
   autoFocus?: boolean;
   label: string;
+  labelHint?: string | JSX.Element;
   renderLabel?: LabelRenderer;
   required?: boolean;
   autoComplete?: string;
@@ -416,6 +417,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
   return (
     <div className="field" {...props.fieldProps}>
       {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
+      <p className="help">{props.labelHint}</p>
       <div className="control">
         <AutofocusedInput
           className={bulmaClasses("input", { "is-danger": !!props.errors })}

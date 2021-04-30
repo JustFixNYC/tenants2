@@ -123,6 +123,7 @@ export default class OnboardingStep4 extends React.Component<
         <TextualFormField
           label="Create a password"
           type="password"
+          labelHint="Must be at least 8 characters. Can't be all numbers. Don't include your personal information."
           {...ctx.fieldPropsFor("password")}
         />
         <TextualFormField

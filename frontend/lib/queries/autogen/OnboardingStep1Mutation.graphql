@@ -8,7 +8,8 @@ mutation OnboardingStep1Mutation($input: OnboardingStep1Input!) {
         borough,
         aptNumber,
         firstName,
-        lastName
+        lastName,
+        preferredFirstName
       }
     }
   }

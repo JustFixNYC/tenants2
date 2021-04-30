@@ -31,6 +31,16 @@ class FullLegalName(forms.ModelForm):
         self.fields["last_name"].required = True
 
 
+class PreferredName(forms.ModelForm):
+    class Meta:
+        model = JustfixUser
+        fields = ("preferred_first_name",)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["preferred_first_name"].required = False
+
+
 class CityState(forms.Form):
     city = forms.CharField(**CITY_KWARGS)
 

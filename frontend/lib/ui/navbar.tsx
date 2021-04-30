@@ -61,15 +61,15 @@ const NavbarContext = React.createContext<NavbarContext>({
 
 /**
  * Attempts to return the user's initials. If the user
- * doesn't have a first or last name, however, it
+ * doesn't have a preferred first or last name, however, it
  * returns null.
  */
 export function getUserInitials({
-  firstName,
+  preferredFirstName,
   lastName,
-}: Pick<AllSessionInfo, "firstName" | "lastName">): string | null {
-  if (firstName && lastName) {
-    return [firstName, lastName]
+}: Pick<AllSessionInfo, "preferredFirstName" | "lastName">): string | null {
+  if (preferredFirstName && lastName) {
+    return [preferredFirstName, lastName]
       .map((value) => value[0].toUpperCase())
       .join("");
   }

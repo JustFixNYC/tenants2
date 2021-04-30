@@ -50,6 +50,8 @@ class NorentScaffolding(pydantic.BaseModel):
 
     last_name: str = ""
 
+    preferred_first_name: str = ""
+
     # e.g. "666 FIFTH AVENUE"
     street: str = ""
 

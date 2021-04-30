@@ -25,7 +25,8 @@ fragment AllSessionInfo on SessionInfo {
     borough,
     aptNumber,
     firstName,
-    lastName
+    lastName,
+    preferredFirstName
   },
   onboardingStep3 {
     leaseType,
@@ -96,6 +97,7 @@ fragment AllSessionInfo on SessionInfo {
   userId,
   firstName,
   lastName,
+  preferredFirstName,
   phoneNumber,
   lastQueriedPhoneNumber,
   lastQueriedPhoneNumberAccountStatus,

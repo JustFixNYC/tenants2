@@ -122,14 +122,20 @@ class OnboardingStep1WithoutContexts extends React.Component<
         <div className="columns is-mobile">
           <div className="column">
             <TextualFormField
-              label="First name"
+              label="Legal first name"
               {...ctx.fieldPropsFor("firstName")}
             />
           </div>
           <div className="column">
             <TextualFormField
-              label="Last name"
+              label="Legal last name"
               {...ctx.fieldPropsFor("lastName")}
+            />
+          </div>
+          <div className="column">
+            <TextualFormField
+              label="Preferred first name"
+              {...ctx.fieldPropsFor("preferredFirstName")}
             />
           </div>
         </div>

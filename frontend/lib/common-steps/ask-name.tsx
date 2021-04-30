@@ -39,6 +39,7 @@ export const AskNameStep: React.FC<MiddleProgressStepProps> = (props) => {
           </>
         )}
       </SessionUpdatingFormSubmitter>
+      {/* To DO: add preferred name here.*/}
     </Page>
   );
 };

@@ -15,6 +15,7 @@ VALID_STEP_DATA = {
     1: {
         "firstName": "boop",
         "lastName": "jones",
+        "preferredFirstName": "",
         "address": "123 boop way",
         "borough": "MANHATTAN",
         "aptNumber": "3B",
@@ -53,7 +54,7 @@ query {
 
 def _get_step_1_info(graphql_client):
     return graphql_client.execute(
-        "query { session { onboardingStep1 { aptNumber, addressVerified } } }"
+        "query { session { onboardingStep1 { aptNumber, addressVerified, preferredFirstName } } }"
     )["data"]["session"]["onboardingStep1"]
 
 
@@ -80,6 +81,7 @@ def test_onboarding_step_1_works(graphql_client):
     assert graphql_client.request.session[session_key_for_step(1)]["apt_number"] == "3B"
     assert _get_step_1_info(graphql_client)["aptNumber"] == "3B"
     assert _get_step_1_info(graphql_client)["addressVerified"] is False
+    assert _get_step_1_info(graphql_client)["preferredFirstName"] == ""  # not sure if necessary
 
     session_data = graphql_client.request.session[session_key_for_step(1)]
     assert session_data["apt_number"] == "3B"
@@ -137,6 +139,7 @@ def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     oi = user.onboarding_info
     assert user.full_legal_name == "boop jones"
     assert user.email == "boop@jones.com"
+    assert user.preferred_name == "bip"
     assert user.pk == request.user.pk
     assert user.locale == "en"
     assert is_password_usable(user.password) is True

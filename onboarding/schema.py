@@ -96,6 +96,7 @@ def complete_onboarding(request, info, password: Optional[str]) -> JustfixUser:
             username=JustfixUser.objects.generate_random_username(),
             first_name=info["first_name"],
             last_name=info["last_name"],
+            preferred_first_name=info["preferred_first_name"],
             email=info["email"],
             phone_number=info["phone_number"],
             password=password,
@@ -112,6 +113,7 @@ def complete_onboarding(request, info, password: Optional[str]) -> JustfixUser:
         partner.users.add(user)
         via = f", via our partner {partner.name}"
 
+    # Should this use the user's legal or preferred first name?
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
         f"from {slack.escape(oi.city)}, {slack.escape(oi.state)} has signed up for "
@@ -156,7 +158,7 @@ class OnboardingStep4Base(SessionFormMutation):
         user = complete_onboarding(request, info=allinfo, password=password)
 
         user.send_sms_async(
-            f"Welcome to {get_site_name()}, {user.first_name}! "
+            f"Welcome to {get_site_name()}, {user.preferred_name}! "
             f"We'll be sending you notifications from this phone number.",
         )
         if user.email:

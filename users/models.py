@@ -122,6 +122,14 @@ class JustfixUser(AbstractUser):
             ),
         ]
 
+    preferred_first_name = models.CharField(
+        "Preferred first name",
+        max_length=150,
+        blank=True,
+        help_text="The first name Justfix will call the user by. Optional. "
+        " May be different from their legal first name.",
+    )  # why does it have to be here and in forms.py?
+
     phone_number = models.CharField("Phone number", unique=True, **pn.get_model_field_kwargs())
 
     is_email_verified = models.BooleanField(
@@ -147,6 +155,10 @@ class JustfixUser(AbstractUser):
         if self.first_name and self.last_name:
             return " ".join([self.first_name, self.last_name])
         return ""
+
+    @property
+    def preferred_name(self) -> str:
+        return self.preferred_first_name if self.preferred_first_name else self.legal_first_name
 
     def as_email_recipient(self) -> Optional[str]:
         """

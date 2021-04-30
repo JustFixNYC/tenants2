@@ -57,6 +57,7 @@ describe("onboarding step 1 page", () => {
         onboardingStep1: {
           firstName: "boop",
           lastName: "jones",
+          preferredFirstName: "",
           aptNumber: "2",
           address: "150 DOOMBRINGER STREET",
           borough: "MANHATTAN",
@@ -75,6 +76,7 @@ describe("onboarding step 1 page", () => {
     pal.fillFormFields([
       [/first name/i, "boop"],
       [/last name/i, "jones"],
+      [/preferred first name /i, "bip"],
       [/(?<!no\s)apartment number/i, "2"],
       [/address/i, "150 cou"],
     ]);
@@ -84,6 +86,7 @@ describe("onboarding step 1 page", () => {
     pal.withFormMutation(OnboardingStep1Mutation).expect({
       firstName: "boop",
       lastName: "jones",
+      preferredFirstName: "bip",
       aptNumber: "2",
       address: "150 COURT STREET",
       borough: "MANHATTAN",
@@ -110,6 +113,7 @@ describe("onboarding step 1 page", () => {
         onboardingStep1: {
           firstName: "boop",
           lastName: "jones",
+          preferredFirstName: "bip",
           address: "150 COURT STREET",
           borough: "BROOKLYN",
           aptNumber: "2",

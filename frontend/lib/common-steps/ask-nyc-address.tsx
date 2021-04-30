@@ -59,6 +59,7 @@ function getInitialState(s: AllSessionInfo): OnboardingStep1Input {
   return {
     firstName: "ignore",
     lastName: "ignore",
+    preferredFirstName: "ignore", // not sure if this should change
     address: s.onboardingStep1?.address || s.onboardingInfo?.address || "",
     borough: s.onboardingStep1?.borough || s.onboardingInfo?.borough || "",
     ...createAptNumberFormInput(
@@ -94,6 +95,8 @@ export const AskNycAddress: React.FC<
         <>
           <HiddenFormField {...ctx.fieldPropsFor("firstName")} />
           <HiddenFormField {...ctx.fieldPropsFor("lastName")} />
+          {/* <HiddenFormField {...ctx.fieldPropsFor("lastName")} /> */}
+
           <AddressAndBoroughField
             addressProps={ctx.fieldPropsFor("address")}
             boroughProps={ctx.fieldPropsFor("borough")}

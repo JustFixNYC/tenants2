@@ -33,6 +33,8 @@ class NorentScaffolding(graphene.ObjectType):
 
     last_name = graphene.String(required=True)
 
+    preferred_name = graphene.String(required=False)
+
     street = graphene.String(required=True)
 
     city = graphene.String(required=True)
@@ -265,6 +267,19 @@ class NorentFullLegalName(NorentScaffoldingOrUserDataMutation):
         user = info.context.user
         user.first_name = form.cleaned_data["first_name"]
         user.last_name = form.cleaned_data["last_name"]
+        user.save()
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class NorentPreferredName(NorentScaffoldingOrUserDataMutation):
+    class Meta:
+        form_class = forms.PreferredName
+
+    @classmethod
+    def perform_mutate_for_authenticated_user(cls, form, info: ResolveInfo):
+        user = info.context.user
+        user.preferred_first_name = form.cleaned_data["preferred_first_name"]
         user.save()
         return cls.mutation_success()
 

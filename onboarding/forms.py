@@ -82,6 +82,12 @@ class OnboardingStep1Form(AptNumberWithConfirmationForm, AddressAndBoroughFormMi
 
     last_name = forms.CharField(max_length=150)
 
+    preferred_first_name = forms.CharField(
+        max_length=150,
+        required=False,
+        help_text="The first name Justfix will call the user by. Optional. May be different from their legal first name.",
+    )
+
 
 def get_boolean_field(name: str):
     """

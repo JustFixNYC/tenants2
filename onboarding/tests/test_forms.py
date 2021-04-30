@@ -15,6 +15,7 @@ from project.tests.test_geocoding import EXAMPLE_SEARCH, enable_fake_geocoding
 STEP_1_FORM_DATA = {
     "first_name": "Boop",
     "last_name": "Jones",
+    "preferred_first_name": "Bip",
     "address": "150 court",
     "borough": "BROOKLYN",
     "apt_number": "2",
@@ -94,6 +95,14 @@ def test_onboarding_step_4_form_validates_passwords():
             "This password is too common.",
         ]
     }
+
+
+@enable_fake_geocoding
+def test_onboarding_step_1_form_does_not_require_preferred_name(requests_mock):
+    requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
+    form = OnboardingStep1Form(data={**STEP_1_FORM_DATA, "preferred_first_name": ""})
+    form.full_clean()
+    assert form.errors == {}
 
 
 @enable_fake_geocoding

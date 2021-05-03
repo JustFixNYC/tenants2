@@ -277,6 +277,29 @@ def test_city_state_mutation_updates_session(graphql_client):
     }
 
 
+def test_legacy_full_name_mutation_updates_session_if_logged_out(graphql_client):
+    output = graphql_client.execute(
+        """
+        mutation {
+          output: norentFullName(input: {
+            firstName: "boeop",
+            lastName: "blap",
+        }) {
+            errors { field, messages }
+            session {
+              norentScaffolding { firstName, lastName }
+            }
+          }
+        }
+        """
+    )["data"]["output"]
+    assert output["errors"] == []
+    assert output["session"]["norentScaffolding"] == {
+        "firstName": "boeop",
+        "lastName": "blap",
+    }
+
+
 def test_full_name_mutation_updates_session_if_logged_out(graphql_client):
     output = graphql_client.execute(
         """
@@ -307,6 +330,34 @@ def test_full_name_mutation_updates_user_if_logged_in(graphql_client, db):
         """
         mutation {
           output: norentFullLegalName(input: {
+            firstName: "snorri",
+            lastName: "heb"
+        }) {
+            errors { field, messages }
+            session {
+              firstName,
+              lastName,
+              norentScaffolding { email }
+            }
+          }
+        }
+        """
+    )["data"]["output"]
+    assert output["errors"] == []
+    assert output["session"] == {
+        "firstName": "snorri",
+        "lastName": "heb",
+        "norentScaffolding": None,
+    }
+
+
+def test_legacy_full_name_mutation_updates_user_if_logged_in(graphql_client, db):
+    user = UserFactory()
+    graphql_client.request.user = user
+    output = graphql_client.execute(
+        """
+        mutation {
+          output: norentFullName(input: {
             firstName: "snorri",
             lastName: "heb"
         }) {

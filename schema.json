@@ -608,7 +608,7 @@
             },
             {
               "args": [],
-              "deprecationReason": "This is now called user_full_legal_name",
+              "deprecationReason": "This is now called userFullLegalName",
               "description": null,
               "isDeprecated": true,
               "name": "userFullName",

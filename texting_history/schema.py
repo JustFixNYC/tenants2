@@ -42,7 +42,7 @@ class TextMessage(graphene.ObjectType):
 class LatestTextMessage(TextMessage):
     user_phone_number = graphene.String(required=True)
 
-    user_full_name = graphene.String(deprecation_reason="This is now called user_full_legal_name")
+    user_full_name = graphene.String(deprecation_reason="This is now called userFullLegalName")
 
     user_full_legal_name = graphene.String()
 

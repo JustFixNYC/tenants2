@@ -245,6 +245,12 @@ class JustfixUser(AbstractUser):
     def admin_url(self):
         return absolute_reverse("admin:users_justfixuser_change", args=[self.pk])
 
+    @property
+    def amplitude_url(self) -> Optional[str]:
+        from amplitude.util import get_url_for_user_page
+
+        return get_url_for_user_page(self)
+
     def __str__(self):
         if self.username:
             return self.username

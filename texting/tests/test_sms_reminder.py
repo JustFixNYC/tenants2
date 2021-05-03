@@ -16,7 +16,7 @@ class RemindBoops(SmsReminder):
         return queryset.filter(first_name="Boop")
 
     def get_sms_text(self, user):
-        return _("Hello world") + " " + user.full_name
+        return _("Hello world") + " " + user.full_legal_name
 
 
 class TestSmsReminder:

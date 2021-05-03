@@ -10,7 +10,7 @@ import {
   FrontappUserDetails,
   FrontappUserDetailsVariables,
 } from "../queries/FrontappUserDetails";
-import { adminGetUserFullName, AdminUserInfo } from "./admin-user-info";
+import { adminGetUserFullLegalName, AdminUserInfo } from "./admin-user-info";
 import Page from "../ui/page";
 import { AdminAuthExpired } from "./admin-auth-expired";
 import { AdminDirectoryWidget } from "./admin-directory";
@@ -73,7 +73,7 @@ const LoadedUserInfo: React.FC<
   return (
     <>
       <div className="content">
-        <h1>{adminGetUserFullName(userDetails)}</h1>
+        <h1>{adminGetUserFullLegalName(userDetails)}</h1>
         <AdminUserInfo user={userDetails} showPhoneNumber />
         <hr />
         <p>

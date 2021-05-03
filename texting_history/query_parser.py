@@ -8,7 +8,7 @@ IN_QUOTES_RE = re.compile(r'"(?P<text>.+)"')
 
 @dataclass
 class Query:
-    full_name: str = ""
+    full_legal_name: str = ""
     phone_number: str = ""
     has_hpa_packet: bool = False
     message_body: str = ""
@@ -25,5 +25,5 @@ class Query:
         elif query.lower() == "has:hpa":
             result.has_hpa_packet = True
         else:
-            result.full_name = query
+            result.full_legal_name = query
         return result

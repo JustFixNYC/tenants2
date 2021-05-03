@@ -84,7 +84,7 @@ class HPActionDocumentsAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
     user from the model, we basically have to make it a separate view.
     """
 
-    list_display = ["id", "user", "user_full_name", "kind", "created_at"]
+    list_display = ["id", "user", "user_full_legal_name", "kind", "created_at"]
 
     actions = [schedule_for_deletion]
 
@@ -94,9 +94,9 @@ class HPActionDocumentsAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
 
     autocomplete_fields = ["user"]
 
-    def user_full_name(self, obj):
+    def user_full_legal_name(self, obj):
         if obj.user:
-            return obj.user.full_name
+            return obj.user.full_legal_name
 
     inlines = (DocusignEnvelopeInline,)
 

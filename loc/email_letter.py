@@ -14,9 +14,9 @@ def email_letter(user_id: int, recipients: List[str]) -> None:
     request = HttpRequest()
     SessionMiddleware(lambda request: None).process_request(request)
     email_file_response_as_attachment(
-        subject=f"{user.full_name}'s letter of complaint",
+        subject=f"{user.full_legal_name}'s letter of complaint",
         body=(
-            f"{get_site_name()} here! Attached is a copy of {user.full_name}'s letter of "
+            f"{get_site_name()} here! Attached is a copy of {user.full_legal_name}'s letter of "
             f"complaint, which {user.first_name} requested we send you."
         ),
         recipients=recipients,

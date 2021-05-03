@@ -19,12 +19,12 @@ class UserFactory(factory.django.DjangoModelFactory):
     last_name = "Jones"
 
     @classmethod
-    def _convert_full_name(cls, kwargs):
-        if "full_name" in kwargs:
-            first, last = kwargs["full_name"].split(" ")
+    def _convert_full_legal_name(cls, kwargs):
+        if "full_legal_name" in kwargs:
+            first, last = kwargs["full_legal_name"].split(" ")
             kwargs["first_name"] = first
             kwargs["last_name"] = last
-            del kwargs["full_name"]
+            del kwargs["full_legal_name"]
         return kwargs
 
     @classmethod
@@ -36,12 +36,12 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     @classmethod
     def _build(cls, model_class, *args, **kwargs):
-        kwargs = cls._convert_full_name(kwargs)
+        kwargs = cls._convert_full_legal_name(kwargs)
         return super()._build(model_class, *args, **kwargs)
 
     @classmethod
     def _create(cls, model_class, *args, **kwargs):
-        kwargs = cls._convert_full_name(kwargs)
+        kwargs = cls._convert_full_legal_name(kwargs)
         perms = cls._convert_to_perms(kwargs)
         user = JustfixUser.objects.create_user(*args, **kwargs)
         if perms:

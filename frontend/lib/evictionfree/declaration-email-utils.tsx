@@ -3,7 +3,7 @@ import { friendlyUTCDate } from "../util/date-util";
 
 export type EvictionFreeDeclarationEmailProps = {
   firstName: string;
-  fullName: string;
+  fullLegalName: string;
   landlordName: string;
   dateSubmitted: string;
   trackingNumber: string;
@@ -30,7 +30,7 @@ export function sessionToEvictionFreeDeclarationEmailProps(
 
   return {
     firstName: s.firstName,
-    fullName: `${s.firstName} ${s.lastName}`,
+    fullLegalName: `${s.firstName} ${s.lastName}`,
     landlordName: ld.name,
     dateSubmitted: friendlyUTCDate(shd.createdAt),
     indexNumber: hdd?.indexNumber ?? "",
@@ -48,7 +48,7 @@ export function sessionToEvictionFreeDeclarationEmailProps(
 export function evictionFreeDeclarationEmailFormalSubject(
   options: EvictionFreeDeclarationEmailProps
 ): string {
-  const parts = ["Hardship Declaration", options.fullName];
+  const parts = ["Hardship Declaration", options.fullLegalName];
 
   if (options.indexNumber) {
     parts.push(`Index #: ${options.indexNumber}`);

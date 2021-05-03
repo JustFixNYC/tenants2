@@ -97,7 +97,7 @@ export const NorentLetterTranslation: React.FC<{}> = () => {
               <LetterBody {...props} />
               <letter.Signed />
               <p>
-                <letter.FullName {...props} />
+                <letter.FullLegalName {...props} />
               </p>
             </>
           )}
@@ -113,7 +113,7 @@ export const NorentLetterEmailToLandlord: React.FC<BaseLetterContentProps> = (
   <>
     <EmailSubject
       value={li18n._(
-        t`Notice of COVID-19 impact on Rent sent on behalf of ${letter.getFullName(
+        t`Notice of COVID-19 impact on Rent sent on behalf of ${letter.getFullLegalName(
           props
         )}`
       )}
@@ -121,11 +121,11 @@ export const NorentLetterEmailToLandlord: React.FC<BaseLetterContentProps> = (
     <letter.DearLandlord {...props} />
     <Trans id="norent.emailToLandlordBody_v2">
       <p>
-        Please see letter attached from <letter.FullName {...props} />.{" "}
+        Please see letter attached from <letter.FullLegalName {...props} />.{" "}
       </p>
       <p>
         In order to document communications and avoid misunderstandings, please
-        correspond with <letter.FullName {...props} /> via email at{" "}
+        correspond with <letter.FullLegalName {...props} /> via email at{" "}
         <span style={{ textDecoration: "underline" }}>{props.email}</span> or
         mail rather than a phone call or in-person visit.
       </p>
@@ -134,7 +134,7 @@ export const NorentLetterEmailToLandlord: React.FC<BaseLetterContentProps> = (
     <p>
       <Trans>
         NoRent.org <br />
-        sent on behalf of <letter.FullName {...props} />
+        sent on behalf of <letter.FullLegalName {...props} />
       </Trans>
     </p>
   </>
@@ -349,7 +349,7 @@ export const NorentLetterContent: React.FC<NorentLetterContentProps> = (
           <letter.Signed>
             <br />
             <br />
-            <letter.FullName {...props} />
+            <letter.FullLegalName {...props} />
           </letter.Signed>
         </div>
       ))}

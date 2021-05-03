@@ -13,7 +13,7 @@ import {
 import Page from "../ui/page";
 import { SimpleProgressiveEnhancement } from "../ui/progressive-enhancement";
 import { assertNotUndefined } from "@justfixnyc/util";
-import { adminGetUserFullName, AdminUserInfo } from "./admin-user-info";
+import { adminGetUserFullLegalName, AdminUserInfo } from "./admin-user-info";
 import { staffOnlyView } from "./staff-only-view";
 
 type UserDetails = AdminUserSearch_output;
@@ -34,7 +34,7 @@ const UserSearchHelpers: SearchAutocompleteHelpers<
   getIncompleteItem: (text) => ({ text }),
   searchResultsToItems: (results) => {
     return results.map((user) => ({
-      text: `${adminGetUserFullName(user)} ${user.phoneNumber}`,
+      text: `${adminGetUserFullLegalName(user)} ${user.phoneNumber}`,
       fullDetails: user,
     }));
   },

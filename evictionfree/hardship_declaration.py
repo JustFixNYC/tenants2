@@ -144,6 +144,6 @@ def get_vars_for_user(user: JustfixUser) -> Optional[HardshipDeclarationVariable
         address=", ".join(onb.address_lines_for_mailing),
         has_financial_hardship=hdd.has_financial_hardship,
         has_health_risk=hdd.has_health_risk,
-        name=user.full_name,
+        name=user.full_legal_name,
         date=date.today().strftime("%m/%d/%Y"),
     )

@@ -207,7 +207,7 @@ def test_first_and_last_name_works(graphql_client):
 
     assert get() == (None, None), "anonymous user has no first/last name"
 
-    graphql_client.request.user = UserFactory.build(full_name="Boop Jones")
+    graphql_client.request.user = UserFactory.build(full_legal_name="Boop Jones")
     assert get() == ("Boop", "Jones")
 
 

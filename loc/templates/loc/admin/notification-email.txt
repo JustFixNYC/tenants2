@@ -1,4 +1,4 @@
-Hello, {{ user.full_name }} has submitted a letter of
+Hello, {{ user.full_legal_name }} has submitted a letter of
 complaint they would like us to mail.
 
 {% for issue in user.custom_issues.all %}{% if forloop.first %}The user has the following custom issues:

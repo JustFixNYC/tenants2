@@ -608,10 +608,22 @@
             },
             {
               "args": [],
+              "deprecationReason": "This is now called userFullLegalName",
+              "description": null,
+              "isDeprecated": true,
+              "name": "userFullName",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "userFullName",
+              "name": "userFullLegalName",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -6157,9 +6169,9 @@
                   }
                 }
               ],
-              "deprecationReason": null,
+              "deprecationReason": "Use NorentFullLegalName instead.",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "norentFullName",
               "type": {
                 "kind": "NON_NULL",
@@ -6167,6 +6179,37 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "NorentFullNamePayload",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "input",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "NorentFullLegalNameInput",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "norentFullLegalName",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "NorentFullLegalNamePayload",
                   "ofType": null
                 }
               }
@@ -10780,6 +10823,114 @@
           "interfaces": null,
           "kind": "INPUT_OBJECT",
           "name": "NorentFullNameInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "session",
+              "type": {
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "NorentFullLegalNamePayload",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "firstName",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "lastName",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "NorentFullLegalNameInput",
           "possibleTypes": null
         },
         {

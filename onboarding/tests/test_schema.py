@@ -135,7 +135,7 @@ def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     request = graphql_client.request
     user = JustfixUser.objects.get(phone_number="5551234567")
     oi = user.onboarding_info
-    assert user.full_name == "boop jones"
+    assert user.full_legal_name == "boop jones"
     assert user.email == "boop@jones.com"
     assert user.pk == request.user.pk
     assert user.locale == "en"

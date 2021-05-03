@@ -24,7 +24,9 @@ def test_multiple_rows_with_same_pk_are_logged():
 
 @pytest.mark.django_db
 def test_airtable_synchronizer_works():
-    user = UserFactory.create(full_name="Boop Jones", phone_number="5551234567", username="boop")
+    user = UserFactory.create(
+        full_legal_name="Boop Jones", phone_number="5551234567", username="boop"
+    )
 
     airtable = FakeAirtable()
     syncer = AirtableSynchronizer(airtable)

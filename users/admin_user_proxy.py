@@ -20,7 +20,7 @@ def impersonate_field(self, obj):
     if obj.pk:
         return make_button_link(
             reverse("admin:impersonate-user", kwargs={"user_id": obj.pk}),
-            f"Impersonate {obj.full_name}\u2026",
+            f"Impersonate {obj.full_legal_name}\u2026",
         )
     return ""
 

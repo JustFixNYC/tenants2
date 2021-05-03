@@ -19,11 +19,11 @@ function getEmailInfo(s: AllSessionInfo) {
   if (!rh) return null;
 
   const { apartmentNumber } = rh;
-  const fullName = `${rh.firstName} ${rh.lastName}`;
+  const fullLegalName = `${rh.firstName} ${rh.lastName}`;
   const borough = getBoroughChoiceLabels()[rh.borough as BoroughChoice];
   const fullAddress = `${rh.address}, ${borough} ${rh.zipcode}`.trim();
 
-  return { fullName, fullAddress, apartmentNumber };
+  return { fullLegalName, fullAddress, apartmentNumber };
 }
 
 export const RhEmailToDhcr: React.FC<{}> = () => {
@@ -36,14 +36,14 @@ export const RhEmailToDhcr: React.FC<{}> = () => {
           <Trans id="justfix.rhRequestToDhcr">
             <p>DHCR administrator,</p>
             <p>
-              I, {i.fullName}, am currently living at {i.fullAddress} in
+              I, {i.fullLegalName}, am currently living at {i.fullAddress} in
               apartment {i.apartmentNumber}, and would like to request the
               complete Rent History for this apartment back to the year 1984.
             </p>
             <p>
               Thank you,
               <br />
-              {i.fullName}
+              {i.fullLegalName}
             </p>
           </Trans>
         </>

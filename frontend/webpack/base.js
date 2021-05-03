@@ -34,10 +34,30 @@ const DISABLE_WEBPACK_ANALYZER =
 
 const DISABLE_DEV_SOURCE_MAPS = getEnvBoolean("DISABLE_DEV_SOURCE_MAPS", false);
 
-/** @type WebpackConfig["devtool"] */
-const DEV_SOURCE_MAP = DISABLE_DEV_SOURCE_MAPS
+/**
+ * The source map to use for development builds that run in the browser.
+ *
+ * https://webpack.js.org/configuration/devtool/
+ *
+ * @type WebpackConfig["devtool"]
+ */
+const DEV_WEB_SOURCE_MAP = DISABLE_DEV_SOURCE_MAPS
   ? false
   : "eval-cheap-module-source-map";
+
+/**
+ * The source map to use for development builds that run on the server.
+ *
+ * Note that we've had some major issues with node reporting the correct
+ * line number here. For more details, see:
+ *
+ *   https://github.com/JustFixNYC/tenants2/issues/2064
+ *
+ * @type WebpackConfig["devtool"]
+ */
+const DEV_NODE_SOURCE_MAP = DISABLE_DEV_SOURCE_MAPS
+  ? false
+  : "cheap-module-source-map";
 
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
@@ -180,7 +200,7 @@ function createNodeScriptConfig(entry, filename, extraPlugins) {
     target: "node",
     stats: IN_WATCH_MODE ? "minimal" : "normal",
     entry,
-    devtool: IS_PRODUCTION ? "source-map" : DEV_SOURCE_MAP,
+    devtool: IS_PRODUCTION ? "source-map" : DEV_NODE_SOURCE_MAP,
     mode: MODE,
     externalsPresets: { node: true },
     externals: [
@@ -265,7 +285,7 @@ const webConfig = {
       "./frontend/lib/main.ts",
     ],
   },
-  devtool: IS_PRODUCTION ? "source-map" : DEV_SOURCE_MAP,
+  devtool: IS_PRODUCTION ? "source-map" : DEV_WEB_SOURCE_MAP,
   mode: MODE,
   output: {
     filename: BUNDLE_FILENAME_TEMPLATE,

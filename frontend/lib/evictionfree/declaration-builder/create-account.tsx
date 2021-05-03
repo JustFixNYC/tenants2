@@ -15,6 +15,7 @@ import {
   BlankEvictionFreeCreateAccountInput,
   EvictionFreeCreateAccountMutation,
 } from "../../queries/EvictionFreeCreateAccountMutation";
+import { CreatePasswordFields } from "../../common-steps/create-password";
 
 export const EvictionFreeCreateAccount = EvictionFreeOnboardingStep((props) => {
   return (
@@ -38,16 +39,7 @@ export const EvictionFreeCreateAccount = EvictionFreeOnboardingStep((props) => {
       >
         {(ctx) => (
           <>
-            <TextualFormField
-              label={li18n._(t`Password`)}
-              type="password"
-              {...ctx.fieldPropsFor("password")}
-            />
-            <TextualFormField
-              label={li18n._(t`Confirm password`)}
-              type="password"
-              {...ctx.fieldPropsFor("confirmPassword")}
-            />
+            <CreatePasswordFields {ctx=ctx.fieldPropsFor("password")}> 
             <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
               <Trans>
                 Yes, Right to Counsel NYC Coalition, Housing Justice for All,

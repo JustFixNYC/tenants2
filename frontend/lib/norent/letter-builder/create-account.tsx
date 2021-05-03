@@ -48,7 +48,7 @@ export const NorentCreateAccount = NorentOnboardingStep((props) => {
         {(ctx) => (
           <>
             <TextualFormField
-              label={li18n._(t`Password`)}
+              label={li18n._(t`Create a password`)}
               type="password"
               {...ctx.fieldPropsFor("password")}
             />

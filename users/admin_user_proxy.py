@@ -11,7 +11,7 @@ import airtable.sync
 )
 def sms_conversations_field(self, obj):
     return make_button_link(
-        f"/admin/conversations?phone=%2B1{obj.phone_number}", "View SMS conversations"
+        f"/admin/conversations/?phone=%2B1{obj.phone_number}", "View SMS conversations"
     )
 
 

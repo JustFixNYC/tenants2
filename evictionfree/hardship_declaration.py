@@ -14,6 +14,10 @@ PDF_DIR = Path(__file__).parent.resolve() / "pdf"
 # What we call the declaration when we give it to users.
 PDF_NAME = "hardship-declaration.pdf"
 
+# The latest PDF version of the Hardship Declaration to use when
+# rendering brand-new declarations (i.e., ones that were just signed).
+LATEST_PDF_VERSION = 1
+
 
 class GraphQLHardshipDeclarationVariables(graphene.ObjectType):
     index_number = graphene.String()
@@ -33,6 +37,12 @@ class HardshipDeclarationVariables(BaseModel):
     has_health_risk: bool
     name: str
     date: str
+
+    # Note we want this to default to '1' so that old instances of this
+    # object we're pulling from the DB have it set to a value that's
+    # accurate for them. That is, it is intentionally *not* defaulting to
+    # `LATEST_PDF_VERSION`.
+    pdf_version: int = 1
 
 
 EXAMPLE_VARIABLES = HardshipDeclarationVariables(
@@ -105,7 +115,7 @@ def get_pages(v: HardshipDeclarationVariables, locale: str) -> List[Page]:
 
 
 def fill_hardship_pdf(v: HardshipDeclarationVariables, locale: str) -> bytes:
-    path = PDF_DIR / f"hardship-declaration-{locale}.pdf"
+    path = PDF_DIR / f"hardship-declaration-v{v.pdf_version}-{locale}.pdf"
     assert path.exists()
     overlay = Document(pages=get_pages(v, locale))
     return overlay.overlay_atop(path).getvalue()
@@ -130,6 +140,12 @@ def _get_county_and_court_for_user(user: JustfixUser) -> Optional[str]:
 
 
 def get_vars_for_user(user: JustfixUser) -> Optional[HardshipDeclarationVariables]:
+    """
+    Return the hardship declaration variables for the given user, assuming
+    that they want to fill it out and sign the latest version of it
+    right now.
+    """
+
     if not (
         user.is_authenticated
         and hasattr(user, "hardship_declaration_details")
@@ -146,4 +162,5 @@ def get_vars_for_user(user: JustfixUser) -> Optional[HardshipDeclarationVariable
         has_health_risk=hdd.has_health_risk,
         name=user.full_legal_name,
         date=date.today().strftime("%m/%d/%Y"),
+        pdf_version=LATEST_PDF_VERSION,
     )

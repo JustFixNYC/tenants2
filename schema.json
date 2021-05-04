@@ -3337,7 +3337,7 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "preferredName",
+              "name": "preferredFirstName",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",

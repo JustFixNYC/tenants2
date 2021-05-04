@@ -31,6 +31,7 @@ class TestEvictionFreeCreateAccount:
     NYC_SCAFFOLDING = {
         "first_name": "zlorp",
         "last_name": "zones",
+        "preferred_first_name": "",
         "city": "New York City",
         "state": "NY",
         "email": "zlorp@zones.com",
@@ -39,6 +40,7 @@ class TestEvictionFreeCreateAccount:
     NATIONAL_SCAFFOLDING = {
         "first_name": "boop",
         "last_name": "jones",
+        "preferred_first_name": "bip",
         "city": "Albany",
         "state": "NY",
         "email": "boop@jones.com",
@@ -65,7 +67,8 @@ class TestEvictionFreeCreateAccount:
                 output: evictionFreeCreateAccount(input: $input) {
                     errors { field, messages }
                     session {
-                        firstName
+                        firstName,
+                        preferredFirstName
                     }
                 }
             }

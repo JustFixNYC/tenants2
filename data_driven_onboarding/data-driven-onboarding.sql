@@ -122,7 +122,7 @@ Complaint_Category as(
     where bbl= %(bbl)s
     group by category
     order by NumberOfComplaints desc
-    limit 1
+    limit 1 -- maybe try using MAX here
 ),
 
 Complaint_Category_With_BBL as (
@@ -255,4 +255,5 @@ from Total_Res_Units T
     left join Avg_Wait_Time W on T.bbl= W.bbl
     left join Avg_Wait_Time_For_Portfolio P on T.bbl= P.bbl
     left join Complaint_Category_With_BBL MC on T.bbl= MC.bbl
-    left join Total_HPD_Violations THV on T.bbl =THV.bbl    
+    left join Total_HPD_Violations THV on T.bbl =THV.bbl
+    -- maybe try nested subqueries instead of sequential ones - e.g. copy the queries above into here.

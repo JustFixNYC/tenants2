@@ -92,6 +92,7 @@ def pick_model_fields(model, **kwargs):
 
 def complete_onboarding(request, info, password: Optional[str]) -> JustfixUser:
     with transaction.atomic():
+        print(info)
         user = JustfixUser.objects.create_user(
             username=JustfixUser.objects.generate_random_username(),
             first_name=info["first_name"],

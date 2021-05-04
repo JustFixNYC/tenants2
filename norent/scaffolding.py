@@ -9,7 +9,7 @@ from .la_zipcodes import is_zip_code_in_la
 
 
 # This should change whenever our scaffolding model's fields change.
-VERSION = "1"
+VERSION = "2"
 
 
 NYC_CITIES = [

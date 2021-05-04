@@ -281,12 +281,13 @@ def test_legacy_full_name_mutation_updates_session_if_logged_out(graphql_client)
     output = graphql_client.execute(
         """
         mutation {
-          output: norentFullLegalName(input: {
-            preferredName: "bip",
+          output: norentFullName(input: {
+            firstName: "boeop",
+            lastName: "blap",
         }) {
             errors { field, messages }
             session {
-              norentScaffolding { preferredName }
+              norentScaffolding { firstName, lastName }
             }
           }
         }
@@ -294,7 +295,7 @@ def test_legacy_full_name_mutation_updates_session_if_logged_out(graphql_client)
     )["data"]["output"]
     assert output["errors"] == []
     assert output["session"]["norentScaffolding"] == {
-        "preferredName": "bip",
+        "firstName": "boeop",
         "lastName": "blap",
     }
 
@@ -319,6 +320,27 @@ def test_full_legal_name_mutation_updates_session_if_logged_out(graphql_client):
     assert output["session"]["norentScaffolding"] == {
         "firstName": "boeop",
         "lastName": "blap",
+    }
+
+
+def test_preferred_name_mutation_updates_session_if_logged_out(graphql_client):
+    output = graphql_client.execute(
+        """
+        mutation {
+          output: norentPreferredName(input: {
+            preferredFirstName: "bip",
+        }) {
+            errors { field, messages }
+            session {
+              norentScaffolding { preferredFirstName }
+            }
+          }
+        }
+        """
+    )["data"]["output"]
+    assert output["errors"] == []
+    assert output["session"]["norentScaffolding"] == {
+        "preferredFirstName": "bip",
     }
 
 
@@ -401,6 +423,31 @@ def test_legacy_full_name_mutation_updates_user_if_logged_in(graphql_client, db)
     }
 
 
+def test_preferred_name_mutation_updates_if_user_logged_in(graphql_client, db):
+    user = UserFactory()
+    graphql_client.request.user = user
+    output = graphql_client.execute(
+        """
+        mutation {
+          output: norentPreferredName(input: {
+            preferredFirstName: "sno"
+        }) {
+            errors { field, messages }
+            session {
+              preferredFirstName
+              norentScaffolding { email }
+            }
+          }
+        }
+        """
+    )["data"]["output"]
+    assert output["errors"] == []
+    assert output["session"] == {
+        "preferredFirstName": "sno",
+        "norentScaffolding": None,
+    }
+
+
 class TestNorentCreateAccount:
     INCOMPLETE_ERR = [
         {"field": "__all__", "messages": ["You haven't completed all the previous steps yet."]}
@@ -409,6 +456,7 @@ class TestNorentCreateAccount:
     NYC_SCAFFOLDING = {
         "first_name": "zlorp",
         "last_name": "zones",
+        "preferred_first_name": "",
         "city": "New York City",
         "state": "NY",
         "email": "zlorp@zones.com",
@@ -418,6 +466,7 @@ class TestNorentCreateAccount:
     NATIONAL_SCAFFOLDING = {
         "first_name": "boop",
         "last_name": "jones",
+        "preferred_first_name": "bip",
         "city": "Columbus",
         "state": "OH",
         "email": "boop@jones.com",
@@ -489,6 +538,7 @@ class TestNorentCreateAccount:
         user = JustfixUser.objects.get(phone_number="5551234567")
         assert user.first_name == "boop"
         assert user.last_name == "jones"
+        assert user.preferred_first_name == "bip"
         assert user.email == "boop@jones.com"
         oi = user.onboarding_info
         assert oi.non_nyc_city == "Columbus"
@@ -516,6 +566,7 @@ class TestNorentCreateAccount:
         user = JustfixUser.objects.get(phone_number="5551234567")
         assert user.first_name == "zlorp"
         assert user.last_name == "zones"
+        assert user.preferred_first_name == ""
         assert user.email == "zlorp@zones.com"
         oi = user.onboarding_info
         assert oi.non_nyc_city == ""

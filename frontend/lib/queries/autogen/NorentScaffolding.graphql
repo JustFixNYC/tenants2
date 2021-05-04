@@ -2,7 +2,7 @@
 fragment NorentScaffolding on NorentScaffolding {
   firstName,
   lastName,
-  preferredName,
+  preferredFirstName,
   street,
   city,
   isCityInNyc,

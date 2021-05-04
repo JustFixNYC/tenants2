@@ -33,7 +33,7 @@ class NorentScaffolding(graphene.ObjectType):
 
     last_name = graphene.String(required=True)
 
-    preferred_name = graphene.String(required=False)
+    preferred_first_name = graphene.String(required=False)
 
     street = graphene.String(required=True)
 
@@ -507,6 +507,7 @@ class BaseCreateAccount(SessionFormMutation):
             "phone_number": phone_number,
             "first_name": scf.first_name,
             "last_name": scf.last_name,
+            "preferred_first_name": scf.preferred_first_name,
             "state": scf.state,
             "email": scf.email,
             "signup_intent": cls.signup_intent,

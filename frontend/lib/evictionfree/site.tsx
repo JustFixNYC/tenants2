@@ -24,6 +24,7 @@ import {
   getEvictionFreeUnsupportedLocaleChoiceLabels,
 } from "../../../common-data/evictionfree-unsupported-locale-choices";
 import { SwitchToUnsupportedLanguage } from "./unsupported-locale";
+import { EvictionFreeMoratoriumBanner } from "../ui/covid-banners";
 
 export const EvictionFreeLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(
@@ -146,7 +147,8 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
 const EvictionFreeSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
     const isPrimaryPage = useIsPrimaryPage();
-    const isHomepage = useLocation().pathname === Routes.locale.home;
+    const pathname = useLocation().pathname;
+    const isHomepage = pathname === Routes.locale.home;
 
     return (
       <EvictionFreeLinguiI18n>
@@ -182,6 +184,7 @@ const EvictionFreeSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
             )}
             <EvictionFreeHelmet />
           </span>
+          <EvictionFreeMoratoriumBanner pathname={pathname} />
           {!isPrimaryPage && (
             <div className="jf-block-of-color-in-background" />
           )}

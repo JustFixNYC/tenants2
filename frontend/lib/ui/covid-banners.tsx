@@ -10,6 +10,7 @@ import { useDebouncedValue } from "../util/use-debounced-value";
 import { SupportedLocaleMap } from "../i18n";
 import { CovidMoratoriumBanner } from "@justfixnyc/react-common";
 import { li18n } from "../i18n-lingui";
+import { EvictionFreeRoutes } from "../evictionfree/route-info";
 
 export const MORATORIUM_FAQ_URL: SupportedLocaleMap<string> = {
   en:
@@ -24,14 +25,18 @@ const getRoutesWithMoratoriumBanner = () => [
   JustfixRoutes.locale.ehp.splash,
   JustfixRoutes.locale.rh.splash,
   JustfixRoutes.locale.home,
+  EvictionFreeRoutes.locale.home,
+  EvictionFreeRoutes.locale.about,
+  EvictionFreeRoutes.locale.faqs,
 ];
 
 /**
- * This banner is intended to show right below the navbar on certain pages and is a general
- * overview of how JustFix.nyc is adapting to the COVID-19 crisis and Eviction Moratorium.
+ * This banner component is intended to show right below the navbar on certain pages.
  */
-
-const MoratoriumBanner = (props: { pathname?: string }) => {
+export const WarningBanner = (props: {
+  pathname?: string;
+  children: React.ReactNode;
+}) => {
   // This has to be debounced or it weirdly collides with our loading overlay
   // that appears when pages need to load JS bundles and such, so we'll add a
   // short debounce, which seems to obviate this issue.
@@ -67,9 +72,7 @@ const MoratoriumBanner = (props: { pathname?: string }) => {
                 onClick={() => setVisibility(false)}
               />
             </SimpleProgressiveEnhancement>
-            <p>
-              <CovidMoratoriumBanner locale={li18n.language} />
-            </p>
+            <p>{props.children}</p>
           </div>
         </div>
       </section>
@@ -77,7 +80,38 @@ const MoratoriumBanner = (props: { pathname?: string }) => {
   );
 };
 
+/**
+ * This banner is a general overview of how JustFix.nyc is adapting to the COVID-19 crisis
+ * and Eviction Moratorium.
+ */
+const MoratoriumBanner = (props: { pathname?: string }) => (
+  <WarningBanner pathname={props.pathname}>
+    <CovidMoratoriumBanner locale={li18n.language} />
+  </WarningBanner>
+);
+
 export default MoratoriumBanner;
+
+/**
+ * This banner serves as a notification for any Eviction Moratorium updated that relate specifically
+ * to the Eviction Free NY tool.
+ */
+export const EvictionFreeMoratoriumBanner = (props: { pathname?: string }) => (
+  <WarningBanner pathname={props.pathname}>
+    <>
+      <b>The Eviction Moratorium has been extended until August 31, 2021!</b>{" "}
+      The courts haven't provided an updated Hardship Declaration form yet, but
+      it is likely that forms submitted over the last few months will provide
+      protection until the new August deadline. Check back here for updates in
+      the next few days.{" "}
+      <OutboundLink href="https://www.nysenate.gov/legislation/bills/2021/A7175">
+        <b>
+          <u>Learn more</u>
+        </b>
+      </OutboundLink>
+    </>
+  </WarningBanner>
+);
 
 /**
  * This banner is intended to show up within the Letter of Complaint flow

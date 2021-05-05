@@ -24,7 +24,8 @@ import {
   getEvictionFreeUnsupportedLocaleChoiceLabels,
 } from "../../../common-data/evictionfree-unsupported-locale-choices";
 import { SwitchToUnsupportedLanguage } from "./unsupported-locale";
-import { EvictionFreeMoratoriumBanner } from "../ui/covid-banners";
+import { WarningBanner } from "../ui/covid-banners";
+import { OutboundLink } from "../ui/outbound-link";
 
 export const EvictionFreeLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(
@@ -93,6 +94,30 @@ export const EvictionFreeLanguageDropdown: React.FC<{}> = () => {
     </NavbarDropdown>
   );
 };
+
+/**
+ * This banner serves as a notification for any Eviction Moratorium updated that relate specifically
+ * to the Eviction Free NY tool.
+ *
+ * NOTE: Check out the `getRoutesWithMoratoriumBanner()` function in covid-banners.tsx
+ * to see which routes this banner is enabled for.
+ */
+const EvictionFreeMoratoriumBanner = (props: { pathname?: string }) => (
+  <WarningBanner pathname={props.pathname}>
+    <>
+      <Trans id="evictionfree.moratoriumBanner">
+        <b>The Eviction Moratorium has been extended until August 31, 2021!</b>{" "}
+        The courts haven't provided an updated Hardship Declaration form yet,
+        but it is likely that forms submitted over the last few months will
+        provide protection until the new August deadline. Check back here for
+        updates in the next few days.
+      </Trans>{" "}
+      <OutboundLink href="https://www.nysenate.gov/legislation/bills/2021/A7175">
+        <Trans>Learn more</Trans>
+      </OutboundLink>
+    </>
+  </WarningBanner>
+);
 
 const EvictionFreeBuildMyDeclarationLink: React.FC<{}> = () => {
   const isPrimaryPage = useIsPrimaryPage();

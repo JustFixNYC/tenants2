@@ -93,27 +93,6 @@ const MoratoriumBanner = (props: { pathname?: string }) => (
 export default MoratoriumBanner;
 
 /**
- * This banner serves as a notification for any Eviction Moratorium updated that relate specifically
- * to the Eviction Free NY tool.
- */
-export const EvictionFreeMoratoriumBanner = (props: { pathname?: string }) => (
-  <WarningBanner pathname={props.pathname}>
-    <>
-      <b>The Eviction Moratorium has been extended until August 31, 2021!</b>{" "}
-      The courts haven't provided an updated Hardship Declaration form yet, but
-      it is likely that forms submitted over the last few months will provide
-      protection until the new August deadline. Check back here for updates in
-      the next few days.{" "}
-      <OutboundLink href="https://www.nysenate.gov/legislation/bills/2021/A7175">
-        <b>
-          <u>Learn more</u>
-        </b>
-      </OutboundLink>
-    </>
-  </WarningBanner>
-);
-
-/**
  * This banner is intended to show up within the Letter of Complaint flow
  * and makes users aware of the potential risks of requesting in-person repairs during the crisis.
  */

@@ -28,17 +28,15 @@ msgstr "Traducción en español"
 msgid "(Note: the email will be sent in English)"
 msgstr "(Nota: tenga en cuenta que el correo electrónico se enviará en inglés)"
 
-#: frontend/lib/rh/routes.tsx:216
+#: frontend/lib/rh/routes.tsx:217
 msgid "(Note: the request will be sent in English)"
 msgstr "(Nota: tenga en cuenta que la solicitud se enviará en inglés)"
 
-#: frontend/lib/common-steps/ask-email.tsx:15
-#: frontend/lib/common-steps/landlord-email.tsx:38
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:67
+#: frontend/lib/forms/optionalize-label.ts:7
 msgid "(optional)"
 msgstr "(opcional)"
 
-#: frontend/lib/rh/routes.tsx:38
+#: frontend/lib/rh/routes.tsx:39
 msgid "*Division of Housing and Community Renewal"
 msgstr "*División de Vivienda y Renovación de la Comunidad"
 
@@ -123,7 +121,7 @@ msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines
 
 #: frontend/lib/evictionfree/about.tsx:36
 #: frontend/lib/evictionfree/about.tsx:41
-#: frontend/lib/evictionfree/site.tsx:72
+#: frontend/lib/evictionfree/site.tsx:95
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
 #: frontend/lib/norent/components/footer.tsx:40
@@ -202,7 +200,7 @@ msgid "Apartment needs painting"
 msgstr "El apartamento necesita pintura"
 
 #: frontend/lib/forms/apt-number-form-fields.tsx:13
-#: frontend/lib/rh/routes.tsx:120
+#: frontend/lib/rh/routes.tsx:121
 msgid "Apartment number"
 msgstr "Número de apartamento"
 
@@ -369,7 +367,7 @@ msgstr "Cancelar"
 msgid "Cancel Rent Campaign"
 msgstr "Campaña para la Anulación de la Renta"
 
-#: frontend/lib/rh/routes.tsx:128
+#: frontend/lib/rh/routes.tsx:129
 msgid "Cancel request"
 msgstr "Cancelar solicitud"
 
@@ -501,11 +499,11 @@ msgstr "Ponte en contacto con un abogado si el dueño de tu edificio toma repres
 #: frontend/lib/common-steps/error-pages.tsx:19
 #: frontend/lib/evictionfree/declaration-builder/error-pages.tsx:18
 #: frontend/lib/norent/letter-builder/error-pages.tsx:20
-#: frontend/lib/rh/routes.tsx:201
+#: frontend/lib/rh/routes.tsx:202
 msgid "Continue"
 msgstr "Continuar"
 
-#: frontend/lib/rh/routes.tsx:201
+#: frontend/lib/rh/routes.tsx:202
 msgid "Continue anyway"
 msgstr "Aún así continuar"
 
@@ -573,7 +571,7 @@ msgstr "¿Necesito enviar esta declaración cada mes?"
 msgid "Do I still have to pay my rent?"
 msgstr "¿Aún tengo que pagar la renta?"
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:16
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:17
 msgid "Do you have a current eviction court case?"
 msgstr "¿Tiene usted un caso de desalojo en curso?"
 
@@ -644,7 +642,7 @@ msgid "Email"
 msgstr "Correo electrónico"
 
 #: frontend/lib/account-settings/contact-settings.tsx:41
-#: frontend/lib/common-steps/ask-email.tsx:12
+#: frontend/lib/common-steps/ask-email.tsx:13
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
 msgid "Email address"
 msgstr "Dirección de correo electrónico"
@@ -677,7 +675,7 @@ msgstr "Actualizaciones de la Moratoria de Desalojo"
 msgid "Exercise your rights"
 msgstr "Ejercita tus derechos"
 
-#: frontend/lib/rh/routes.tsx:311
+#: frontend/lib/rh/routes.tsx:312
 msgid "Explore our other tools"
 msgstr "Explora nuestras otras herramientas"
 
@@ -690,7 +688,7 @@ msgstr "Explora la herramienta"
 msgid "FAQs"
 msgstr "Preguntas Frecuentes"
 
-#: frontend/lib/evictionfree/site.tsx:69
+#: frontend/lib/evictionfree/site.tsx:92
 #: frontend/lib/norent/components/footer.tsx:37
 #: frontend/lib/norent/site.tsx:34
 msgid "Faqs"
@@ -709,8 +707,8 @@ msgid "Fight to #CancelRent"
 msgstr "Lucha para #CancelRent"
 
 #: frontend/lib/evictionfree/homepage.tsx:32
-#: frontend/lib/evictionfree/site.tsx:57
-#: frontend/lib/evictionfree/site.tsx:61
+#: frontend/lib/evictionfree/site.tsx:80
+#: frontend/lib/evictionfree/site.tsx:84
 msgid "Fill out my form"
 msgstr "Rellenar mi formulario"
 
@@ -724,7 +722,7 @@ msgstr "Más información"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:23
 #: frontend/lib/common-steps/ask-name.tsx:25
-#: frontend/lib/rh/routes.tsx:113
+#: frontend/lib/rh/routes.tsx:114
 msgid "First name"
 msgstr "Nombre"
 
@@ -793,7 +791,7 @@ msgstr "Ir al sitio web"
 msgid "Going on rent strike"
 msgstr "Hacer huelga de renta"
 
-#: frontend/lib/rh/routes.tsx:160
+#: frontend/lib/rh/routes.tsx:161
 msgid "Good news!"
 msgstr "¡Buenas noticias!"
 
@@ -833,7 +831,7 @@ msgstr "¡Ayuda! El dueño de mi edificio ya intenta desalojarme."
 msgid "Here are a few benefits to sending a letter to your landlord:"
 msgstr "Éstos son algunos de los beneficios de enviar una carta al dueño de tu edificio:"
 
-#: frontend/lib/rh/routes.tsx:208
+#: frontend/lib/rh/routes.tsx:209
 msgid "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
 msgstr "Aquí tienes una vista previa de la solicitud de tu Historial de Renta. Incluye tu dirección y número de apartamento para que el DHCR pueda enviarte el carta con tu historial."
 
@@ -875,7 +873,7 @@ msgstr "Página Principal"
 msgid "Hours of operation: Monday to Friday, 9am - 5pm."
 msgstr "Horario: Lunes a Viernes, 9am - 17pm."
 
-#: frontend/lib/rh/routes.tsx:250
+#: frontend/lib/rh/routes.tsx:251
 msgid "Housing Court Answers"
 msgstr "Respuestas de la Corte de Vivienda"
 
@@ -964,7 +962,7 @@ msgstr "Idaho"
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 msgstr "Si no recibiste un código, comprueba tu correo electrónico. Si no lo encuentras, por favor envía un correo electrónico a <0/>."
 
-#: frontend/lib/rh/routes.tsx:305
+#: frontend/lib/rh/routes.tsx:306
 msgid "If you have more questions, please email us at <0/>."
 msgstr "Si tienes más preguntas, por favor envíanos un correo electrónico a <0/>."
 
@@ -976,7 +974,7 @@ msgstr "Si tiene preguntas sobre tus derechos como inquilino/a, por favor <0>con
 msgid "If you have received a Notice to Pay Rent or Quit or any other type of eviction notice, sign up for a workshop and/or get legal help at <0>StayHousedLA.org</0>."
 msgstr "Si has recibido un Aviso de Pago de Renta (Notice to Pay Rent en inglés) o un Aviso de Desalojo (Notice to Quit en inglés) o cualquier otro tipo de aviso, inscríbete a un taller y/o consigue ayuda legal en <0>StayHousedLA.org</0>."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:60
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:61
 msgid "If you know the court name your case is associated with, please provide it below. Otherwise, leave this blank."
 msgstr "Si conoces el nombre de la corte con el que tu caso está asociado, por favor indícalo a continuación. Si no, déjalo en blanco."
 
@@ -1054,8 +1052,8 @@ msgstr "¿Es esta herramienta adecuada para mí?"
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 msgstr "Parece que esta propiedad no tiene que estar registrada con el HPD. Puedes aprender los requisitos de registro de la ciudad en la página <0>Gestión de Propiedad de HPD</0>."
 
-#: frontend/lib/rh/routes.tsx:155
-#: frontend/lib/rh/routes.tsx:162
+#: frontend/lib/rh/routes.tsx:156
+#: frontend/lib/rh/routes.tsx:163
 msgid "It looks like your apartment may be rent stabilized"
 msgstr "Parece que tu apartamento es de renta estabilizada"
 
@@ -1067,8 +1065,8 @@ msgstr "Es importante notificar al dueño o manager de tu edificio de todos los 
 msgid "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."
 msgstr "Puede ser que el dueño de tu edificio tome represalias tras recibir tu carta. Esto es ilegal. Póngase en contacto con <0>un proveedor local de asistencia legal</0> para obtener ayuda."
 
-#: frontend/lib/rh/routes.tsx:156
-#: frontend/lib/rh/routes.tsx:180
+#: frontend/lib/rh/routes.tsx:157
+#: frontend/lib/rh/routes.tsx:181
 msgid "It’s unlikely that your apartment is rent stabilized"
 msgstr "Es poco probable que tu apartamento sea de renta estabilizada"
 
@@ -1092,7 +1090,7 @@ msgstr "Únete a la lucha para cancelar el alquiler"
 msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
 msgstr "JustFix.nyc es una organización registrada 501(c)(3) sin fines de lucro."
 
-#: frontend/lib/rh/routes.tsx:256
+#: frontend/lib/rh/routes.tsx:257
 msgid "JustFix.nyc's Learning Center"
 msgstr "Centro de Aprendizaje de JustFix.nyc"
 
@@ -1116,7 +1114,7 @@ msgstr "Dirección de correo del dueño de tu edificio"
 msgid "Landlord name"
 msgstr "Nombre del dueño de tu edificio"
 
-#: frontend/lib/common-steps/landlord-email.tsx:37
+#: frontend/lib/common-steps/landlord-email.tsx:38
 msgid "Landlord/management company's email"
 msgstr "Dirección de correo electrónico del dueño o manager de tu edificio"
 
@@ -1131,7 +1129,7 @@ msgstr "Idioma:"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:24
 #: frontend/lib/common-steps/ask-name.tsx:26
-#: frontend/lib/rh/routes.tsx:116
+#: frontend/lib/rh/routes.tsx:117
 msgid "Last name"
 msgstr "Apellido"
 
@@ -1152,6 +1150,7 @@ msgid "Learn about your rent"
 msgstr "Aprende Sobre Tu Alquiler"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:351
+#: frontend/lib/evictionfree/site.tsx:71
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/the-letter.tsx:29
 msgid "Learn more"
@@ -1202,12 +1201,12 @@ msgid "Locally supported"
 msgstr "Con apoyo local"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
-#: frontend/lib/evictionfree/site.tsx:77
+#: frontend/lib/evictionfree/site.tsx:100
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Iniciar sesión"
 
-#: frontend/lib/evictionfree/site.tsx:75
+#: frontend/lib/evictionfree/site.tsx:98
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:14
 msgid "Log out"
@@ -1280,7 +1279,7 @@ msgstr "Maryland"
 msgid "Massachusetts"
 msgstr "Massachusetts"
 
-#: frontend/lib/rh/routes.tsx:244
+#: frontend/lib/rh/routes.tsx:245
 msgid "Met Council on Housing"
 msgstr "Met Council on Housing"
 
@@ -1553,7 +1552,7 @@ msgid "Pennsylvania"
 msgstr "Pensilvania"
 
 #: frontend/lib/account-settings/contact-settings.tsx:24
-#: frontend/lib/rh/routes.tsx:121
+#: frontend/lib/rh/routes.tsx:122
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:36
 msgid "Phone number"
 msgstr "Número de teléfono"
@@ -1651,7 +1650,7 @@ msgstr "Refrigerador no funciona"
 msgid "Regards,"
 msgstr "Atentamente,"
 
-#: frontend/lib/rh/routes.tsx:321
+#: frontend/lib/rh/routes.tsx:322
 msgid "Rent History"
 msgstr "Historial de Renta"
 
@@ -1675,11 +1674,11 @@ msgstr "Solicitud de Historial de Renta"
 msgid "Request repairs from your landlord"
 msgstr "Solicitar arreglos del dueño de tu edificio"
 
-#: frontend/lib/rh/routes.tsx:42
+#: frontend/lib/rh/routes.tsx:43
 msgid "Request your Rent History"
 msgstr "Solicita tu Historial de Renta"
 
-#: frontend/lib/rh/routes.tsx:103
+#: frontend/lib/rh/routes.tsx:104
 msgid "Request your apartment's Rent History from the DHCR"
 msgstr "Solicita el Historial de Renta de tu apartamento al DHCR"
 
@@ -1695,7 +1694,7 @@ msgstr "Cambia tu contraseña"
 msgid "Results for {0}"
 msgstr "Resultados para \"{0}\""
 
-#: frontend/lib/rh/routes.tsx:206
+#: frontend/lib/rh/routes.tsx:207
 msgid "Review your request to the DHCR"
 msgstr "Revisa tu solicitud al DHCR"
 
@@ -1912,7 +1911,7 @@ msgstr "Empieza un caso legal por arreglos y/o acoso"
 msgid "Start an emergency legal case for repairs"
 msgstr "Empieza un caso legal de emergencia por arreglos"
 
-#: frontend/lib/rh/routes.tsx:67
+#: frontend/lib/rh/routes.tsx:68
 msgid "Start my request"
 msgstr "Iniciar mi solicitud"
 
@@ -1953,7 +1952,7 @@ msgstr "Dirección (incluye unidad/suite/piso/apt #)"
 msgid "Submit email"
 msgstr "Enviar email"
 
-#: frontend/lib/rh/routes.tsx:238
+#: frontend/lib/rh/routes.tsx:239
 msgid "Submit request"
 msgstr "Enviar Solicitud"
 
@@ -2029,7 +2028,7 @@ msgstr "Este edificio es propiedad de la <0>NYC Housing Authority (NYCHA)</0>."
 msgid "This information seems wrong. Can I change it?"
 msgstr "Esta información parece incorrecta. ¿Puedo cambiarla?"
 
-#: frontend/lib/common-steps/landlord-email.tsx:19
+#: frontend/lib/common-steps/landlord-email.tsx:20
 msgid "This is optional."
 msgstr "Esto es opcional."
 
@@ -2038,7 +2037,7 @@ msgstr "Esto es opcional."
 msgid "This is your landlord’s information as registered with the <0>NYC Department of Housing and Preservation (HPD)</0>. This may be different than where you send your rent checks."
 msgstr "Esta es la información del dueño de tu edificio según los registros del <0>Departamento de Preservación de la Vivienda (HPD por sus siglas en inglés)</0>. Puede que sea distinta de donde envías tu cheque de renta."
 
-#: frontend/lib/rh/routes.tsx:64
+#: frontend/lib/rh/routes.tsx:65
 msgid "This service is free, secure, and confidential."
 msgstr "Este servicio es gratuito, seguro y confidencial."
 
@@ -2062,7 +2061,7 @@ msgstr "Para saber más sobre qué hacer a continuación, consulta nuestra pági
 msgid "To:"
 msgstr "A:"
 
-#: frontend/lib/rh/routes.tsx:221
+#: frontend/lib/rh/routes.tsx:222
 msgid "To: New York Division of Housing and Community Renewal (DHCR)"
 msgstr "Para: La División de Vivienda y Renovación de la Comunidad (DHCR)"
 
@@ -2151,11 +2150,11 @@ msgstr "Visita <0/> para obtener información sobre cómo conectar con un abogad
 msgid "Visit Who Owns What"
 msgstr "Visita Quién Posee Qué"
 
-#: frontend/lib/rh/routes.tsx:50
+#: frontend/lib/rh/routes.tsx:51
 msgid "Want to know if your apartment's rent stabilized? Request your <0>Rent History</0> from the NY State DHCR*!"
 msgstr "¿Quieres saber si tu apartamento es de renta estabilizada? ¡Solicita tu <0>Historial de alquiler</0> en el DHCR* del estado de NY!"
 
-#: frontend/lib/rh/routes.tsx:314
+#: frontend/lib/rh/routes.tsx:315
 msgid "Want to read more about your rights?"
 msgstr "¿Quieres leer más sobre tus derechos?"
 
@@ -2191,7 +2190,7 @@ msgstr "Incluiremos esta información en la carta al dueño de tu edificio."
 msgid "We'll include this information in your hardship declaration form."
 msgstr "Incluiremos esta información en tu formulario de declaración de penuria."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:40
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:41
 msgid "We'll need to add your case's index number to your declaration."
 msgstr "Tendremos que añadir el número de índice de tu caso a tu declaración."
 
@@ -2276,7 +2275,7 @@ msgid "What happens after I send this letter?"
 msgstr "¿Qué ocurre después de enviar esta carta?"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:97
-#: frontend/lib/rh/routes.tsx:269
+#: frontend/lib/rh/routes.tsx:270
 msgid "What happens next?"
 msgstr "¿Y ahora qué?"
 
@@ -2325,7 +2324,7 @@ msgstr "¿Qué tipo de documentación debo recopilar para demostrar que no puedo
 msgid "When you use our tool, you will be able to preview your filled out form before sending it. You can also view a blank copy of the Hardship Declaration form."
 msgstr "Cuando utilices nuestra herramienta, podrás obtener una vista previa de tu formulario completo antes de enviarlo. También puedes ver una copia en blanco del formulario de Declaración de Dificultades."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:46
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:47
 msgid "Where do I find my case's index number?"
 msgstr "¿Dónde encuentro el número de índice de mi caso?"
 
@@ -2517,7 +2516,7 @@ msgstr "Tu carta de NoRent y pasos siguientes importantes"
 msgid "Your NoRent.org letter"
 msgstr "Tu carta de NoRent.org"
 
-#: frontend/lib/rh/routes.tsx:266
+#: frontend/lib/rh/routes.tsx:267
 msgid "Your Rent History has been requested from the New York State DHCR!"
 msgstr "¡Tu Historial de Alquiler ha sido solicitado al DHCR del estado de Nueva York!"
 
@@ -2529,7 +2528,7 @@ msgstr "¡Tu cuenta está lista!"
 msgid "Your apartment may be rent stabilized."
 msgstr "Tu apartamento es de renta estabilizada."
 
-#: frontend/lib/rh/routes.tsx:165
+#: frontend/lib/rh/routes.tsx:166
 msgid "Your building had {0, plural, one {1 rent stabilized unit} other {# rent stabilized units}} in {1}, according to property tax documents."
 msgstr "Tu edificio tenía {0, plural, one {una unidad de renta estabilizada} other {# unidades de renta estabilizada}} en {1}."
 
@@ -2541,11 +2540,11 @@ msgstr "Tu edificio tenía {0, plural, one {una unidad de alquiler estabilizado}
 msgid "Your building was built in {0} or earlier."
 msgstr "Tu edificio fue construido en {0} o antes."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:65
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:66
 msgid "Your case's court name"
 msgstr "Nombre de la corte de tu caso"
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:45
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:46
 msgid "Your case's index number"
 msgstr "Número de índice de tu caso"
 
@@ -2557,7 +2556,7 @@ msgstr "Tu formulario de declaración y los pasos importantes a seguir"
 msgid "Your declaration is ready to send!"
 msgstr "¡Tu declaración está lista para enviar!"
 
-#: frontend/lib/common-steps/ask-email.tsx:17
+#: frontend/lib/common-steps/ask-email.tsx:18
 msgid "Your email address"
 msgstr "Tu dirección de correo electrónico"
 
@@ -2565,7 +2564,7 @@ msgstr "Tu dirección de correo electrónico"
 msgid "Your hardship declaration form has been sent to your landlord via {0}."
 msgstr "Tu formulario de declaración de penuria ha sido enviado a tu propietario a través de {0}."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:47
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:48
 msgid "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
 msgstr "Tu número de índice se encuentra en la parte superior de la Postal o Aviso de Petición (\"Postcard or Notice of Petition\" en inglés) que recibiste de la corte de vivienda. <0>Son así:</0>"
 
@@ -2589,7 +2588,7 @@ msgstr "Puede que el propietario de tu edificio también posea otros edificios."
 msgid "Your landlord or management company's address"
 msgstr "La dirección del dueño o manager de tu edificio"
 
-#: frontend/lib/common-steps/landlord-email.tsx:15
+#: frontend/lib/common-steps/landlord-email.tsx:16
 msgid "Your landlord or management company's email"
 msgstr "La dirección de correo electrónico del dueño o manager de tu edificio"
 
@@ -2741,6 +2740,10 @@ msgstr "Además, entiendo que los honorarios, multas o intereses legales por imp
 msgid "evictionfree.legalAgreementCheckboxOnNewProtections"
 msgstr "Además, entiendo que mi casero puede solicitar el desalojo después del 1 de mayo del 2021 y que la ley puede proporcionarle, en ese momento, ciertas protecciones independientes disponibles a través de esta declaración."
 
+#: frontend/lib/evictionfree/site.tsx:63
+msgid "evictionfree.moratoriumBanner"
+msgstr ""
+
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23
 msgid "evictionfree.outlineOfDeclarationFormSteps"
 msgstr "<0>En los próximos pasos, construiremos tu declaración. Si puedes, ten esta información a mano:</0><1><2><3>tu número de teléfono y dirección postal</3></2><4><5>la dirección postal del dueño de tu edificio y/o su dirección de correo electrónico</5></4></1>"
@@ -2817,15 +2820,15 @@ msgstr "Aviso: La información en {website} no constituye asesoramiento jurídic
 msgid "justfix.privacyInfoModalText"
 msgstr "¡<0>Tu privacidad es muy importante para nosotros! Estas son algunas de las cosas más importantes a saber:</0><1><2>Tu información personal está segura. </2><3>No usaremos tu información personal para beneficiarnos ni la venderemos a terceros. </3><4>Utilizaremos tu dirección postal para encontrar datos sobre tu edificio y su dueño. </4></1><5>Nuestra Política de Privacidad permite compartir datos anónimos sólo con organizaciones de defensa de inquilinos autorizadas exclusivamente para ayudar a promover la misión de proteger los derechos de inquilinos. La Política de Privacidad contiene información sobre qué datos recopilamos, cómo la utilizamos y las opciones que tiene respecto a su información personal. Si quieres leer más, por favor revisa nuestra <6/> completa y nuestros <7/>.</5>"
 
-#: frontend/lib/rh/routes.tsx:57
+#: frontend/lib/rh/routes.tsx:58
 msgid "justfix.rhExplanation"
 msgstr "Este documento te ayuda a averiguar si tu apartamento es de <0>renta estabilizada</0> y si te están <1>cobrando de más</1>. Te muestra la cantidad de renta registrada que se pagó en tu apartamento desde el año 1984."
 
-#: frontend/lib/rh/routes.tsx:183
+#: frontend/lib/rh/routes.tsx:184
 msgid "justfix.rhNoRsUnits"
 msgstr "De acuerdo con los registros de documentación fiscal, tu edificio no ha reportado ninguna unidad de renta estabilizada en los últimos años. Aunque sea posible que tu apartamento sea de renta estabilizada, parece improbable."
 
-#: frontend/lib/rh/routes.tsx:191
+#: frontend/lib/rh/routes.tsx:192
 msgid "justfix.rhNoRsUnitsMeansNoRentHistory"
 msgstr "Aún así puedes enviar una solicitud al DHCR para asegurarte, pero es posible que no tengan ningún historial de alquiler en sus registros que enviarte. En este caso, <0>no recibirías un historial de alquiler</0> por correo."
 
@@ -2833,15 +2836,15 @@ msgstr "Aún así puedes enviar una solicitud al DHCR para asegurarte, pero es p
 msgid "justfix.rhRequestToDhcr"
 msgstr "<0>Querido administrador del DHCR,</0><1> Yo, {0}, vivo actualmente en {1} en el apartamento {2}, y quisiera solicitar el Historial de Renta completo de este apartamento desde el año 1984. </1><2>Gracias,<3/>{3}</2>"
 
-#: frontend/lib/rh/routes.tsx:172
+#: frontend/lib/rh/routes.tsx:173
 msgid "justfix.rhRsUnitsAreGoodSign"
 msgstr "Aunque estos datos no garantizan que tu apartamento sea de renta estabilizada, es un buen indicio de si el DHCR tiene un historial de alquiler en sus archivo que enviarte."
 
-#: frontend/lib/rh/routes.tsx:295
+#: frontend/lib/rh/routes.tsx:296
 msgid "justfix.rhWarningAboutNotReceiving"
 msgstr "<0>Si tu apartamento nunca ha sido de renta estabilizada:</0> no recibirás un historial de alquiler por correo. El DHCR sólo tiene historiales de alquiler para aquellos apartamentos que hayan sido en algún momento de renta estabilizada."
 
-#: frontend/lib/rh/routes.tsx:272
+#: frontend/lib/rh/routes.tsx:273
 msgid "justfix.rhWhatHappensNext"
 msgstr "<0>Si tu apartamento es actualmente de renta estabilizada, o lo ha sido en cualquier momento en el pasado:</0> deberías recibir tu historial de alquiler por correo en aproximadamente una semana. Tu historial de alquiler es un documento importante que muestra los alquileres registrados en tu apartamento desde 1984. Puedes aprender más sobre ello y cómo puede ayudarte a averiguar si estás pagando de más en el <1>la guía de alquiler de recargos de estabilidad de Met Council on Housing</1> o consultando nuestro artículo del <2>Centro de Aprendizaje a cerca de Sobrecargos</2>."
 
@@ -3041,4 +3044,3 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

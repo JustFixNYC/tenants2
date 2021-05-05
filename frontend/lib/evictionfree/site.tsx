@@ -25,7 +25,7 @@ import {
 } from "../../../common-data/evictionfree-unsupported-locale-choices";
 import { SwitchToUnsupportedLanguage } from "./unsupported-locale";
 import { WarningBanner } from "../ui/covid-banners";
-import { OutboundLink } from "../ui/outbound-link";
+import { EnglishOutboundLink } from "../ui/localized-outbound-link";
 
 export const EvictionFreeLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(
@@ -112,9 +112,9 @@ const EvictionFreeMoratoriumBanner = (props: { pathname?: string }) => (
         provide protection until the new August deadline. Check back here for
         updates in the next few days.
       </Trans>{" "}
-      <OutboundLink href="https://www.nysenate.gov/legislation/bills/2021/A7175">
+      <EnglishOutboundLink href="https://www.nysenate.gov/legislation/bills/2021/A7175">
         <Trans>Learn more</Trans>
-      </OutboundLink>
+      </EnglishOutboundLink>
     </>
   </WarningBanner>
 );

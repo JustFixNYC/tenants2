@@ -7,6 +7,22 @@ from project.locales import LOCALE_KWARGS
 from loc.lob_django_util import SendableViaLobMixin
 
 
+class CityWithoutStateDiagnostic(models.Model):
+    """
+    Information about submitted city/state forms that contained
+    city information without state information.
+
+    We're not storing this information in Google Analytics
+    or Rollbar because those services make it very hard
+    or impossible to delete sensitive data, and users might
+    be entering their _full_ address into this field, which is PII.
+    """
+
+    city = models.CharField(max_length=255)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class RentPeriodManager(models.Manager):
     def get_by_iso_date(self, value: str) -> "RentPeriod":
         return self.get(payment_date=datetime.date.fromisoformat(value))

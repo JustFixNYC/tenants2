@@ -514,7 +514,7 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     const covidMessage = (
       <Trans id="justfix.ddoEfnycCovidMessage1">
         You can send a hardship declaration form to your landlord and local
-        courts— putting your eviction case on hold until August 31st, 2021.
+        courts—putting your eviction case on hold until August 31st, 2021.
       </Trans>
     );
     return {

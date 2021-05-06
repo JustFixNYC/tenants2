@@ -145,7 +145,7 @@ msgstr "Address:"
 msgid "After Sending Your Letter"
 msgstr "After Sending Your Letter"
 
-#: frontend/lib/evictionfree/homepage.tsx:228
+#: frontend/lib/evictionfree/homepage.tsx:231
 msgid "After sending your hardship declaration form, connect with local organizing groups to get involved in the fight to make New York eviction free, cancel rent, and more!"
 msgstr "After sending your hardship declaration form, connect with local organizing groups to get involved in the fight to make New York eviction free, cancel rent, and more!"
 
@@ -162,7 +162,7 @@ msgstr "After this step, you cannot go back to make changes. But don’t worry, 
 msgid "After you’ve reviewed your letter, we send it to your landlord on your behalf by email and by certified mail, depending on the contact information that you provide us."
 msgstr "After you’ve reviewed your letter, we send it to your landlord on your behalf by email and by certified mail, depending on the contact information that you provide us."
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:10
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:11
 msgid "Agree to the state’s legal terms"
 msgstr "Agree to the state’s legal terms"
 
@@ -697,7 +697,7 @@ msgstr "Faucets not installed"
 msgid "Faucets not working"
 msgstr "Faucets not working"
 
-#: frontend/lib/evictionfree/homepage.tsx:225
+#: frontend/lib/evictionfree/homepage.tsx:228
 msgid "Fight to #CancelRent"
 msgstr "Fight to #CancelRent"
 
@@ -729,7 +729,7 @@ msgstr "Floor sags"
 msgid "Florida"
 msgstr "Florida"
 
-#: frontend/lib/evictionfree/homepage.tsx:161
+#: frontend/lib/evictionfree/homepage.tsx:164
 msgid "For New York State tenants"
 msgstr "For New York State tenants"
 
@@ -737,7 +737,7 @@ msgstr "For New York State tenants"
 msgid "For more information about New York’s eviction protections and your rights as a tenant, check out our FAQ on the <0>Right to Counsel website</0>."
 msgstr "For more information about New York’s eviction protections and your rights as a tenant, check out our FAQ on the <0>Right to Counsel website</0>."
 
-#: frontend/lib/evictionfree/homepage.tsx:191
+#: frontend/lib/evictionfree/homepage.tsx:194
 msgid "For tenants by tenants"
 msgstr "For tenants by tenants"
 
@@ -941,7 +941,7 @@ msgstr "I live in another state that isn’t New York. Is this tool for me?"
 msgid "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
 msgstr "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:21
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:22
 msgid "I understand that I must comply with all other lawful terms under my tenancy, lease agreement or similar contract."
 msgstr "I understand that I must comply with all other lawful terms under my tenancy, lease agreement or similar contract."
 
@@ -1237,7 +1237,7 @@ msgstr "Los Angeles County"
 msgid "Louisiana"
 msgstr "Louisiana"
 
-#: frontend/lib/evictionfree/homepage.tsx:94
+#: frontend/lib/evictionfree/homepage.tsx:97
 msgid "Made by non-profits <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, and <2>JustFix.nyc</2>"
 msgstr "Made by non-profits <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, and <2>JustFix.nyc</2>"
 
@@ -1380,6 +1380,10 @@ msgstr "New Mexico"
 #: common-data/us-state-choices.ts:97
 msgid "New York"
 msgstr "New York"
+
+#: frontend/lib/evictionfree/homepage.tsx:90
+msgid "New extended moratorium!"
+msgstr "New extended moratorium!"
 
 #: frontend/lib/start-account-or-login/set-password.tsx:21
 msgid "New password"
@@ -1791,7 +1795,7 @@ msgid "Shall we send your letter?"
 msgstr "Shall we send your letter?"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:74
-#: frontend/lib/evictionfree/homepage.tsx:252
+#: frontend/lib/evictionfree/homepage.tsx:255
 #: frontend/lib/norent/letter-builder/confirmation.tsx:214
 msgid "Share this tool"
 msgstr "Share this tool"
@@ -1998,7 +2002,7 @@ msgstr "The above information is not a substitute for direct legal advice for yo
 msgid "The majority of your landlord's properties are concentrated in {0}."
 msgstr "The majority of your landlord's properties are concentrated in {0}."
 
-#: frontend/lib/evictionfree/homepage.tsx:173
+#: frontend/lib/evictionfree/homepage.tsx:176
 msgid "The protections outlined by NY state law apply to you regardless of immigration status."
 msgstr "The protections outlined by NY state law apply to you regardless of immigration status."
 
@@ -2448,11 +2452,11 @@ msgstr "You can contact Strategic Actions for a Just Economy (SAJE) - a 501c3 no
 msgid "You can send an additional letter for other months when you couldn't pay rent."
 msgstr "You can send an additional letter for other months when you couldn't pay rent."
 
-#: frontend/lib/evictionfree/components/helmet.tsx:12
-msgid "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until August 31st, 2021."
-msgstr "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until August 31st, 2021."
-
 #: frontend/lib/evictionfree/homepage.tsx:83
+msgid "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021*."
+msgstr "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021*."
+
+#: frontend/lib/evictionfree/components/helmet.tsx:12
 msgid "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021."
 msgstr "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021."
 
@@ -2657,6 +2661,10 @@ msgstr "email and USPS Certified Mail"
 msgid "eviction free nyc, eviction free ny, hardship, declaration, declare hardship, eviction, evicted"
 msgstr "eviction free nyc, eviction free ny, hardship, declaration, declare hardship, eviction, evicted"
 
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:47
+msgid "evictionFreeMay1DisclaimerNextToCheckbox"
+msgstr "Although this version of the Hardship Declaration still states that these tenant protections end \"May 1, 2021,\" the State of New York has <0>extended these protections</0> until <1>August 31, 2021</1>. By filling out this form, these protections from eviction for tenants now extend to August 31, 2021."
+
 #: frontend/lib/evictionfree/about.tsx:45
 msgid "evictionfree.aboutPageText1"
 msgstr "A new State law, passed in late 2020, allows most tenants to stop their eviction case until August 31st, 2021, if they fill out a “Hardship Declaration” form. However, this law puts the responsibility on tenants to figure out how to do that and doesn’t provide easy access to exercise their rights."
@@ -2665,7 +2673,7 @@ msgstr "A new State law, passed in late 2020, allows most tenants to stop their 
 msgid "evictionfree.aboutPageText2"
 msgstr "Our website helps tenants submit this hardship declaration form with peace of mind— sending it out via free USPS Certified Mail and email to all of the appropriate parties (your landlord and the courts) to ensure protection. And since the law doesn’t go far enough to protect folks beyond August 31st, our tool connects tenants to the larger tenant movement so we can #CancelRent."
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:12
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:13
 msgid "evictionfree.agreeToStateTermsIntro"
 msgstr "These last questions make sure that you understand the limits of the protection granted by this hardship declaration form, and that you answered the previous questions truthfully:"
 
@@ -2713,7 +2721,7 @@ msgstr "Get involved in your local community organization! Join millions in the 
 msgid "evictionfree.hj4aBlurb"
 msgstr "<0>Housing Justice for All</0> is a coalition of over 100 organizations, from Brooklyn to Buffalo, that represent tenants and homeless New Yorkers. We are united in our belief that housing is a human right; that no person should live in fear of an eviction; and that we can end the homelessness crisis in our State."
 
-#: frontend/lib/evictionfree/homepage.tsx:123
+#: frontend/lib/evictionfree/homepage.tsx:126
 msgid "evictionfree.introToLaw"
 msgstr "On December 28, 2020, New York State <0>passed legislation</0> that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a <1>hardship declaration form</1> and send it to your landlord and/or the courts."
 
@@ -2729,13 +2737,13 @@ msgstr "<0>JustFix.nyc</0> co-designs and builds tools for tenants, housing orga
 msgid "evictionfree.landlordRetaliationWarning"
 msgstr "It’s possible that your landlord will retaliate once they’ve received your declaration. This is illegal. Contact the City's Tenant Helpline (which can provide free advice and legal counsel to tenants) by <0>calling 311</0>"
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:27
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:28
 msgid "evictionfree.legalAgreementCheckboxOnFees"
 msgstr "I further understand that lawful fees, penalties or interest for not having paid rent in full or met other financial obligations as required by my tenancy, lease agreement or similar contract may still be charged or collected and may result in a monetary judgment against me."
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:36
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:38
 msgid "evictionfree.legalAgreementCheckboxOnNewProtections1"
-msgstr "I further understand that my landlord may be able to seek eviction after August 31, 2021, and that the law may provide certain protections at that time that are separate from those available through this declaration."
+msgstr "I further understand that my landlord may be able to seek eviction after May 1, 2021, and that the law may provide certain protections at that time that are separate from those available through this declaration."
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23
 msgid "evictionfree.outlineOfDeclarationFormSteps"
@@ -2773,11 +2781,11 @@ msgstr "I just used this website to send a hardship declaration form to my landl
 msgid "evictionfree.tweetTemplateForSharingFromHomepage1"
 msgstr "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until August 31st, 2021. Check it out here: {0} #EvictionFreeNY via @JustFixNYC @RTCNYC @housing4allNY"
 
-#: frontend/lib/evictionfree/homepage.tsx:194
+#: frontend/lib/evictionfree/homepage.tsx:197
 msgid "evictionfree.whoBuildThisTool"
 msgstr "Our free tool was built by the <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, and <2>JustFix.nyc</2> as part of the larger tenant movement across the state."
 
-#: frontend/lib/evictionfree/homepage.tsx:164
+#: frontend/lib/evictionfree/homepage.tsx:167
 msgid "evictionfree.whoHasRightToSubmitForm"
 msgstr "All tenants in New York State have a right to fill out this hardship declaration form. Especially if you've been served an eviction notice or believe you are at risk of being evicted, please consider using this form to protect yourself."
 
@@ -2791,7 +2799,7 @@ msgstr "If you receive rent-related documents from a different address, or if yo
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
 msgid "justfix.ddoEfnycCovidMessage1"
-msgstr "You can send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until August 31st, 2021."
+msgstr "You can send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:274
 msgid "justfix.ddoEhpaCovidMessage"

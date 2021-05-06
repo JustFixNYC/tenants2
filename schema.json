@@ -6325,7 +6325,7 @@
                 }
               ],
               "deprecationReason": null,
-              "description": "\nLogs out the user. Clients should pay attention to the\nCSRF token, because apparently this changes on logout too.\n",
+              "description": "\nLogs out the user. Clients should pay attention to the\nresultant `session.csrfToken`, as (at the time of this writing) Django\nseems to reset it on logout.\n",
               "isDeprecated": false,
               "name": "logout",
               "type": {
@@ -7317,7 +7317,7 @@
                 }
               ],
               "deprecationReason": null,
-              "description": "\nClears the session, but only if the user is not logged in; if they are logged in,\nthis does nothing.\n\nClients should pay attention to the CSRF token, because apparently this changes\non logout too.\n",
+              "description": "\nClears the session, but only if the user is not logged in; if they are logged in,\nthis does nothing.\n\nClients should pay attention to the resultant `session.csrfToken`; if the user's\nsession *is* cleared, their CSRF token may be reset too. (This is all dictated\nby Django's internals, not us.)\n",
               "isDeprecated": false,
               "name": "clearAnonymousSession",
               "type": {
@@ -11303,7 +11303,7 @@
           "possibleTypes": null
         },
         {
-          "description": "Logs out the user. Clients should pay attention to the\nCSRF token, because apparently this changes on logout too.",
+          "description": "Logs out the user. Clients should pay attention to the\nresultant `session.csrfToken`, as (at the time of this writing) Django\nseems to reset it on logout.",
           "enumValues": null,
           "fields": [
             {
@@ -15429,7 +15429,7 @@
           "possibleTypes": null
         },
         {
-          "description": "Clears the session, but only if the user is not logged in; if they are logged in,\nthis does nothing.\n\nClients should pay attention to the CSRF token, because apparently this changes\non logout too.",
+          "description": "Clears the session, but only if the user is not logged in; if they are logged in,\nthis does nothing.\n\nClients should pay attention to the resultant `session.csrfToken`; if the user's\nsession *is* cleared, their CSRF token may be reset too. (This is all dictated\nby Django's internals, not us.)",
           "enumValues": null,
           "fields": [
             {

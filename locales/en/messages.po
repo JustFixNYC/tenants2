@@ -2742,8 +2742,8 @@ msgid "evictionfree.legalAgreementCheckboxOnFees"
 msgstr "I further understand that lawful fees, penalties or interest for not having paid rent in full or met other financial obligations as required by my tenancy, lease agreement or similar contract may still be charged or collected and may result in a monetary judgment against me."
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:38
-msgid "evictionfree.legalAgreementCheckboxOnNewProtections1"
-msgstr "I further understand that my landlord may be able to seek eviction after May 1, 2021, and that the law may provide certain protections at that time that are separate from those available through this declaration."
+msgid "evictionfree.legalAgreementCheckboxOnNewProtections2"
+msgstr "I further understand that my landlord may be able to seek eviction after May 1, 2021*, and that the law may provide certain protections at that time that are separate from those available through this declaration."
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23
 msgid "evictionfree.outlineOfDeclarationFormSteps"

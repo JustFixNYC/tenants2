@@ -2747,7 +2747,7 @@ msgid "evictionfree.legalAgreementCheckboxOnFees"
 msgstr "Además, entiendo que los honorarios, multas o intereses legales por impago total de alquiler o por no haber cumplido con otras obligaciones financieras según requerido por mi tenencia, contrato de alquiler o contrato semejante aún podrán cobrarse y resultar en un fallo monetario en mi contra."
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:38
-msgid "evictionfree.legalAgreementCheckboxOnNewProtections1"
+msgid "evictionfree.legalAgreementCheckboxOnNewProtections2"
 msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23

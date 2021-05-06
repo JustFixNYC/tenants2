@@ -58,12 +58,12 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
           </h2>
           <br />
           <p className="subtitle is-size-5">
-            <Trans id="evictionfree.aboutPageText1">
-              A new State law, passed in late 2020, allows most tenants to stop
-              their eviction case until August 31st, 2021, if they fill out a
-              “Hardship Declaration” form. However, this law puts the
-              responsibility on tenants to figure out how to do that and doesn’t
-              provide easy access to exercise their rights.
+            <Trans id="evictionfree.aboutPageText2">
+              A new State law, passed in late 2020 and extended in 2021, allows
+              most tenants to stop their eviction case until August 31st, 2021,
+              if they fill out a “Hardship Declaration” form. However, this law
+              puts the responsibility on tenants to figure out how to do that
+              and doesn’t provide easy access to exercise their rights.
             </Trans>
           </p>
           <br />

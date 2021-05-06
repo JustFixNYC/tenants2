@@ -2666,8 +2666,8 @@ msgid "evictionFreeMay1DisclaimerNextToCheckbox"
 msgstr "Although this version of the Hardship Declaration still states that these tenant protections end \"May 1, 2021,\" the State of New York has <0>extended these protections</0> until <1>August 31, 2021</1>. By filling out this form, these protections from eviction for tenants now extend to August 31, 2021."
 
 #: frontend/lib/evictionfree/about.tsx:45
-msgid "evictionfree.aboutPageText1"
-msgstr "A new State law, passed in late 2020, allows most tenants to stop their eviction case until August 31st, 2021, if they fill out a “Hardship Declaration” form. However, this law puts the responsibility on tenants to figure out how to do that and doesn’t provide easy access to exercise their rights."
+msgid "evictionfree.aboutPageText2"
+msgstr "A new State law, passed in late 2020 and extended in 2021, allows most tenants to stop their eviction case until August 31st, 2021, if they fill out a “Hardship Declaration” form. However, this law puts the responsibility on tenants to figure out how to do that and doesn’t provide easy access to exercise their rights."
 
 #: frontend/lib/evictionfree/about.tsx:55
 msgid "evictionfree.aboutPageText3"

@@ -2671,8 +2671,8 @@ msgid "evictionFreeMay1DisclaimerNextToCheckbox"
 msgstr "Aunque esta versión de la Declaración de Penuria todavía dice que estas protecciones para inquilinos terminan el \"1 de mayo de 2021,\" el estado de Nueva York <0>ha extendido estas protecciones</0> hasta el <1>31 de agosto de 2021</1>. Al completar este formulario, estas protecciones contra el desalojo para inquilinos ahora se extienden hasta el 31 de agosto de 2021."
 
 #: frontend/lib/evictionfree/about.tsx:45
-msgid "evictionfree.aboutPageText1"
-msgstr "Una nueva ley estatal, aprobada a finales de 2020, permite a la mayoría de los inquilinos detener su caso de desalojo hasta el 31 de agosto, 2021, si cumplimentan un formulario de “Declaración de Penuria”. Sin embargo, esta ley carga la responsabilidad de averiguar cómo hacerlo a los inquilinos y no facilita el acceso al ejercicio de sus derechos."
+msgid "evictionfree.aboutPageText2"
+msgstr ""
 
 #: frontend/lib/evictionfree/about.tsx:55
 msgid "evictionfree.aboutPageText3"
@@ -3050,4 +3050,3 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

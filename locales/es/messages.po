@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-05-06 12:10\n"
+"PO-Revision-Date: 2021-05-06 12:15\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2459,11 +2459,11 @@ msgstr "Puedes enviar otra carta para indicar los demás meses en que no hayas p
 
 #: frontend/lib/evictionfree/homepage.tsx:83
 msgid "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021*."
-msgstr "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021*."
+msgstr "Puedes utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales—deteniendo tu caso de desalojo hasta el 31 de agosto, 2021*."
 
 #: frontend/lib/evictionfree/components/helmet.tsx:12
 msgid "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021."
-msgstr "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021."
+msgstr "Puedes utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales—deteniendo tu caso de desalojo hasta el 31 de agosto, 2021."
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:10
 msgid "You can't send any more letters"
@@ -2676,7 +2676,7 @@ msgstr "Una nueva ley estatal, aprobada a finales de 2020, permite a la mayoría
 
 #: frontend/lib/evictionfree/about.tsx:55
 msgid "evictionfree.aboutPageText3"
-msgstr "Our website helps tenants submit this hardship declaration form with peace of mind—sending it out via free USPS Certified Mail and email to all of the appropriate parties (your landlord and the courts) to ensure protection. And since the law doesn’t go far enough to protect folks beyond August 31st, our tool connects tenants to the larger tenant movement so we can #CancelRent."
+msgstr "Nuestro sitio web ayuda a los inquilinos a presentar este formulario de declaración de dificultades con total tranquilidad: enviándolo por correo certificado de USPS y por correo electrónico gratuito a todas las entidades necesarias (el dueño de tu edificio y los tribunales) para garantizar la protección. Y dado que la ley no va lo suficientemente lejos para proteger a la gente más allá del 31 de agosto, nuestra herramienta conecta a los inquilinos con el movimiento de inquilinos más grande para que podamos #CancelRent."
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:13
 msgid "evictionfree.agreeToStateTermsIntro"
@@ -2688,7 +2688,7 @@ msgstr "Utilizaremos esta información para enviarte una copia de tu declaració
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:141
 msgid "evictionfree.confirmationNoEmailToCourtYet"
-msgstr "A copy of the declaration will also be sent to your local court via email—we are determining the appropriate court to receive your declaration. We will notify you via text and on this page when it is sent."
+msgstr "Una copia de tu declaración también se mandará a tu corte local por correo electrónico—estamos determinando cual es la corte indicada para recibir su declaración. Te avisaremos cuando se haya mandado por mensaje de texto y en esta página."
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:46
 msgid "evictionfree.contactHcaBlurb"
@@ -2700,11 +2700,11 @@ msgstr "Puedes enviar tu formulario de declaración en cualquier momento, hasta 
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:70
 msgid "evictionfree.emailBodyTemplateForSharingFromConfirmation1"
-msgstr "On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. I just used this website to send a hardship declaration form to my landlord and local courts—putting any eviction case on hold until August 31st, 2021. Check it out here: {0}"
+msgstr "El 28 de diciembre de 2020, el estado de Nueva York aprobó la legislación que protege a los inquilinos del desalojo debido a la pérdida de ingresos o a los riesgos de salud del COVID-19. Para protegerte, debes rellenar una declaración de penuria y enviarla al dueño de tu edificio y/o a los tribunales. Acabo de utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de mi edificio y a los tribunales locales—deteniendo cualquier caso de desalojo hasta el 31 de agosto, 2021. Míralo aquí: {0}"
 
 #: frontend/lib/evictionfree/homepage.tsx:28
 msgid "evictionfree.emailBodyTemplateForSharingFromHomepage1"
-msgstr "On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021. Check it out here: {0}"
+msgstr "El 28 de diciembre de 2020, el estado de Nueva York aprobó la legislación que protege a los inquilinos del desalojo debido a la pérdida de ingresos o a los riesgos de salud del COVID-19. Para protegerte, debes rellenar una declaración de penuria y enviarla al dueño de tu edificio y/o a los tribunales. Puedes utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales—deteniendo tu caso de desalojo hasta el 31 de agosto, 2021. Míralo aquí: {0}"
 
 #: frontend/lib/evictionfree/faqs.tsx:54
 msgid "evictionfree.faqsPageIntro"
@@ -2736,7 +2736,7 @@ msgstr "Para beneficiarte de las protecciones de desalojo que han puesto en marc
 
 #: frontend/lib/evictionfree/about.tsx:116
 msgid "evictionfree.justfixBlurb1"
-msgstr "<0>JustFix.nyc</0> co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City. Our mission is to galvanize a 21st century tenant movement working towards housing for all—and we think the power of data and technology should be accessible to those fighting this fight."
+msgstr "<0>JustFix.nyc</0> codiseña y construye herramientas para inquilinos, organizadores del vivienda y abogados que luchan contra el desplazamiento en la ciudad de Nueva York. Nuestra misión es galvanizar un movimiento de inquilinos del siglo XXI que trabaje en favor de la vivienda para todos, y creemos que el poder de los datos y la tecnología debe ser accesible para quienes luchan en esta lucha."
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:37
 msgid "evictionfree.landlordRetaliationWarning"
@@ -2748,7 +2748,7 @@ msgstr "Además, entiendo que los honorarios, multas o intereses legales por imp
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:38
 msgid "evictionfree.legalAgreementCheckboxOnNewProtections2"
-msgstr "I further understand that my landlord may be able to seek eviction after May 1, 2021*, and that the law may provide certain protections at that time that are separate from those available through this declaration."
+msgstr "Además, entiendo que mi casero puede solicitar el desalojo después del 1 de mayo del 2021* y que la ley puede proporcionarle, en ese momento, ciertas protecciones independientes disponibles a través de esta declaración."
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23
 msgid "evictionfree.outlineOfDeclarationFormSteps"
@@ -2780,11 +2780,11 @@ msgstr "Una vez que completes tu formulario de declaración a través de esta he
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:68
 msgid "evictionfree.tweetTemplateForSharingFromConfirmation1"
-msgstr "I just used this website to send a hardship declaration form to my landlord and local courts—putting any eviction case on hold until August 31st, 2021. Check it out here: {0} #EvictionFreeNY via @JustFixNYC @RTCNYC @housing4allNY"
+msgstr "Acabo de utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de mi edificio y a los tribunales locales—deteniendo cualquier caso de desalojo hasta el 31 de agosto, 2021. Míralo aquí: {0} #EvictionFreeNY por @JustFixNYC @RTCNYC @housing4allNY"
 
 #: frontend/lib/evictionfree/homepage.tsx:26
 msgid "evictionfree.tweetTemplateForSharingFromHomepage1"
-msgstr "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021. Check it out here: {0} #EvictionFreeNY via @JustFixNYC @RTCNYC @housing4allNY"
+msgstr "Puedes utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales—deteniendo tu caso de desalojo hasta el 31 de agosto, 2021. Míralo aquí: {0} #EvictionFreeNY por @JustFixNYC @RTCNYC @housing4allNY"
 
 #: frontend/lib/evictionfree/homepage.tsx:197
 msgid "evictionfree.whoBuildThisTool"
@@ -2800,7 +2800,7 @@ msgstr "Parece que este edificio deba estar registrado con el HPD. Los proprieta
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:29
 msgid "justfix.commonWarningAboutChangingLandlordDetails1"
-msgstr "If you receive rent-related documents from a different address, or if your landlord has instructed you to use a different address for correspondence, you can <0>provide your own details.</0> But, only use a different address if you are absolutely sure it is correct—it is safer to use the official address your landlord provided to the city."
+msgstr "Si recibes documentos relacionados con el alquiler desde una dirección diferente, o si el dueño de tu edificio te ha dado instrucciones de usar una dirección diferente para vuestra correspondencia, puedes <0>proporcionar tus propios datos.</0> Sin embargo, sólo debes usar una dirección distinta a la que te sugerimos si tienes la certeza absoluta de que es correcta—es más seguro usar la dirección oficial que el dueño de tu edificio ha registrado con la ciudad."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
 msgid "justfix.ddoEfnycCovidMessage1"

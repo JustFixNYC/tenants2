@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import { SessionUpdatingFormSubmitter } from "./session-updating-form-submitter";
-import { LogoutMutation } from "../queries/LogoutMutation";
+import { ClearAnonymousSessionMutation } from "../queries/ClearAnonymousSessionMutation";
 import { ProgressiveEnhancement } from "../ui/progressive-enhancement";
 import { bulmaClasses } from "../ui/bulma";
 import { FormContext } from "./form-context";
@@ -12,7 +12,7 @@ import { t } from "@lingui/macro";
 
 const getDefaultLabel = () => li18n._(t`Cancel`);
 
-export type ClearSessionButtonProps = {
+export type ClearAnonymousSessionButtonProps = {
   /** The route to redirect the user to after they click the button. */
   to: string;
   /** Whether to disable progressive enhancement. */
@@ -50,12 +50,14 @@ export type ClearSessionButtonProps = {
  *      will appear. It won't be ideal, but hopefully not many
  *      users will see this version.
  */
-export function ClearSessionButton(props: ClearSessionButtonProps) {
+export function ClearAnonymousSessionButton(
+  props: ClearAnonymousSessionButtonProps
+) {
   const label = props.label || getDefaultLabel();
 
   return (
     <SessionUpdatingFormSubmitter
-      mutation={LogoutMutation}
+      mutation={ClearAnonymousSessionMutation}
       initialState={{}}
       onSuccessRedirect={props.to}
     >
@@ -99,13 +101,13 @@ function createButton(label: string, ctx: FormContext<LogoutInput>) {
  * A much simpler clearing session button that doesn't require
  * React Portals, if you don't need to put it on an existing form.
  */
-export const SimpleClearSessionButton: React.FC<Pick<
-  ClearSessionButtonProps,
+export const SimpleClearAnonymousSessionButton: React.FC<Pick<
+  ClearAnonymousSessionButtonProps,
   "to" | "label"
 >> = (props) => {
   return (
     <SessionUpdatingFormSubmitter
-      mutation={LogoutMutation}
+      mutation={ClearAnonymousSessionMutation}
       initialState={{}}
       onSuccessRedirect={props.to}
       children={createButton.bind(null, props.label || getDefaultLabel())}

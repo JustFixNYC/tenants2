@@ -277,6 +277,29 @@ class Logout(SessionFormMutation):
 
 
 @schema_registry.register_mutation
+class ClearAnonymousSession(SessionFormMutation):
+    """
+    Clears the session, but only if the user is not logged in; if they are logged in,
+    this does nothing.
+
+    Clients should pay attention to the CSRF token, because apparently this changes
+    on logout too.
+    """
+
+    class Meta:
+        form_class = forms.LogoutForm
+
+    session = graphene.NonNull("project.schema.SessionInfo")
+
+    @classmethod
+    def perform_mutate(cls, form: forms.LogoutForm, info: ResolveInfo):
+        request = info.context
+        if not request.user.is_authenticated:
+            logout(request)
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
 class PasswordReset(DjangoFormMutation):
     """
     Used when the user requests their password be reset.

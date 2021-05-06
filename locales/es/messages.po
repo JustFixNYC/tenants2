@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-05-06 12:15\n"
+"PO-Revision-Date: 2021-05-06 13:15\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1388,7 +1388,7 @@ msgstr "Nueva York"
 
 #: frontend/lib/evictionfree/homepage.tsx:90
 msgid "New extended moratorium!"
-msgstr "¡Moratoria ampliada y nueva!"
+msgstr "¡Nueva extensión de la moratoria!"
 
 #: frontend/lib/start-account-or-login/set-password.tsx:21
 msgid "New password"
@@ -2672,7 +2672,7 @@ msgstr "Aunque esta versión de la Declaración de Penuria todavía dice que est
 
 #: frontend/lib/evictionfree/about.tsx:45
 msgid "evictionfree.aboutPageText2"
-msgstr ""
+msgstr "Una nueva ley estatal, aprobada a finales de 2020 y extendida en 2021, permite a la mayoría de los inquilinos detener su caso de desalojo hasta el 31 de agosto, 2021, si cumplimentan un formulario de “Declaración de Penuria”. Sin embargo, esta ley carga la responsabilidad de averiguar cómo hacerlo a los inquilinos y no facilita el acceso al ejercicio de sus derechos."
 
 #: frontend/lib/evictionfree/about.tsx:55
 msgid "evictionfree.aboutPageText3"
@@ -3050,3 +3050,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

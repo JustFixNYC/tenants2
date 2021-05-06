@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-05-06 13:15\n"
+"PO-Revision-Date: 2021-05-06 14:56\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -34,7 +34,7 @@ msgstr "(Nota: tenga en cuenta que la solicitud se enviará en inglés)"
 
 #: frontend/lib/evictionfree/homepage.tsx:88
 msgid "(newly extended)"
-msgstr ""
+msgstr "(newly extended)"
 
 #: frontend/lib/forms/optionalize-label.ts:7
 msgid "(optional)"
@@ -2459,7 +2459,7 @@ msgstr "Puedes enviar otra carta para indicar los demás meses en que no hayas p
 
 #: frontend/lib/evictionfree/homepage.tsx:83
 msgid "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021"
-msgstr ""
+msgstr "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021"
 
 #: frontend/lib/evictionfree/components/helmet.tsx:12
 msgid "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021."
@@ -3050,3 +3050,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

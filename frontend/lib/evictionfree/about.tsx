@@ -58,23 +58,23 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
           </h2>
           <br />
           <p className="subtitle is-size-5">
-            <Trans id="evictionfree.aboutPage1">
-              A new State law, passed in late 2020, allows most tenants to stop
-              their eviction case until May 1st, 2021, if they fill out a
-              “Hardship Declaration” form. However, this law puts the
-              responsibility on tenants to figure out how to do that and doesn’t
-              provide easy access to exercise their rights.
+            <Trans id="evictionfree.aboutPageText2">
+              A new State law, passed in late 2020 and extended in 2021, allows
+              most tenants to stop their eviction case until August 31st, 2021,
+              if they fill out a “Hardship Declaration” form. However, this law
+              puts the responsibility on tenants to figure out how to do that
+              and doesn’t provide easy access to exercise their rights.
             </Trans>
           </p>
           <br />
           <p className="subtitle is-size-5">
-            <Trans id="evictionfree.aboutPage2">
+            <Trans id="evictionfree.aboutPageText3">
               Our website helps tenants submit this hardship declaration form
-              with peace of mind— sending it out via free USPS Certified Mail
-              and email to all of the appropriate parties (your landlord and the
+              with peace of mind—sending it out via free USPS Certified Mail and
+              email to all of the appropriate parties (your landlord and the
               courts) to ensure protection. And since the law doesn’t go far
-              enough to protect folks beyond May 1st, our tool connects tenants
-              to the larger tenant movement so we can #CancelRent.
+              enough to protect folks beyond August 31st, our tool connects
+              tenants to the larger tenant movement so we can #CancelRent.
             </Trans>
           </p>
           <br />
@@ -141,14 +141,14 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
               />
             </LocalizedOutboundLink>
             <p className="subtitle is-size-5">
-              <Trans id="evictionfree.justfixBlurb">
+              <Trans id="evictionfree.justfixBlurb1">
                 <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
                   JustFix.nyc
                 </LocalizedOutboundLink>{" "}
                 co-designs and builds tools for tenants, housing organizers, and
                 legal advocates fighting displacement in New York City. Our
                 mission is to galvanize a 21st century tenant movement working
-                towards housing for all — and we think the power of data and
+                towards housing for all—and we think the power of data and
                 technology should be accessible to those fighting this fight.
               </Trans>
             </p>

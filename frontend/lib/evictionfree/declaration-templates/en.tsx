@@ -89,7 +89,7 @@ const HardshipDeclarationEnglish: HardshipDeclarationFC = (props) => (
       other financial obligations as required by my tenancy, lease agreement or
       similar contract may still be charged or collected and may result in a
       monetary judgment against me. I further understand that my landlord may be
-      able to seek eviction after May 1, 2021, and that the law may provide
+      able to seek eviction after August 31, 2021, and that the law may provide
       certain protections at that time that are separate from those available
       through this declaration.
     </p>

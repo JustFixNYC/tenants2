@@ -27,7 +27,7 @@ import {
   ConfirmAddressModal,
   redirectToAddressConfirmationOrNextStep,
 } from "../ui/address-confirmation";
-import { ClearSessionButton } from "../forms/clear-session-button";
+import { ClearAnonymousSessionButton } from "../forms/clear-anonymous-session-button";
 import { updateAddressFromBrowserStorage } from "../browser-storage";
 import { getSignupIntentLabels } from "../../../common-data/signup-intent-choices";
 import { PrivacyInfoModal } from "../ui/privacy-info-modal";
@@ -205,7 +205,7 @@ class OnboardingStep1WithoutContexts extends React.Component<
           </SessionUpdatingFormSubmitter>
         </div>
 
-        <ClearSessionButton
+        <ClearAnonymousSessionButton
           to={this.props.toCancel}
           portalRef={this.cancelControlRef}
           disableProgressiveEnhancement={

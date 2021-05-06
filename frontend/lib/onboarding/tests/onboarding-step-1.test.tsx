@@ -7,7 +7,7 @@ import { createMockFetch } from "../../networking/tests/mock-fetch";
 import { FakeGeoResults } from "../../tests/util";
 import JustfixRoutes from "../../justfix-route-info";
 import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
-import { LogoutMutation } from "../../queries/LogoutMutation";
+import { ClearAnonymousSessionMutation } from "../../queries/ClearAnonymousSessionMutation";
 
 const PROPS = {
   routes: JustfixRoutes.locale.locOnboarding,
@@ -21,7 +21,7 @@ describe("onboarding step 1 page", () => {
   it("calls onCancel when cancel is clicked (progressively enhanced experience)", () => {
     const pal = new AppTesterPal(<OnboardingStep1 {...PROPS} />);
     pal.clickButtonOrLink("Cancel");
-    pal.withFormMutation(LogoutMutation).expect({});
+    pal.withFormMutation(ClearAnonymousSessionMutation).expect({});
   });
 
   it("calls onCancel when cancel is clicked (baseline experience)", () => {
@@ -29,7 +29,7 @@ describe("onboarding step 1 page", () => {
       <OnboardingStep1 {...PROPS} disableProgressiveEnhancement />
     );
     pal.clickButtonOrLink("Cancel");
-    pal.withFormMutation(LogoutMutation).expect({});
+    pal.withFormMutation(ClearAnonymousSessionMutation).expect({});
   });
 
   it("has openable modals", async () => {

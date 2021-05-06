@@ -261,7 +261,8 @@ class Login(SessionFormMutation):
 class Logout(SessionFormMutation):
     """
     Logs out the user. Clients should pay attention to the
-    CSRF token, because apparently this changes on logout too.
+    resultant `session.csrfToken`, as (at the time of this writing) Django
+    seems to reset it on logout.
     """
 
     class Meta:
@@ -282,8 +283,9 @@ class ClearAnonymousSession(SessionFormMutation):
     Clears the session, but only if the user is not logged in; if they are logged in,
     this does nothing.
 
-    Clients should pay attention to the CSRF token, because apparently this changes
-    on logout too.
+    Clients should pay attention to the resultant `session.csrfToken`; if the user's
+    session *is* cleared, their CSRF token may be reset too. (This is all dictated
+    by Django's internals, not us.)
     """
 
     class Meta:

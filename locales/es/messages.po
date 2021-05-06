@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-05-06 11:53\n"
+"PO-Revision-Date: 2021-05-06 12:06\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1388,7 +1388,7 @@ msgstr "Nueva York"
 
 #: frontend/lib/evictionfree/homepage.tsx:90
 msgid "New extended moratorium!"
-msgstr "New extended moratorium!"
+msgstr "¡Moratoria ampliada y nueva!"
 
 #: frontend/lib/start-account-or-login/set-password.tsx:21
 msgid "New password"
@@ -2668,11 +2668,11 @@ msgstr "eviction free nyc, eviction free ny, penuria, declaración, desalojo, de
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:47
 msgid "evictionFreeMay1DisclaimerNextToCheckbox"
-msgstr "Although this version of the Hardship Declaration still states that these tenant protections end \"May 1, 2021,\" the State of New York has <0>extended these protections</0> until <1>August 31, 2021</1>. By filling out this form, these protections from eviction for tenants now extend to August 31, 2021."
+msgstr "Aunque esta versión de la Declaración de Penuria todavía dice que estas protecciones para inquilinos terminan el \"1 de mayo de 2021,\" el estado de Nueva York <0>ha extendido estas protecciones</0> hasta el <1>31 de agosto de 2021</1>. Al completar este formulario, estas protecciones contra el desalojo para inquilinos ahora se extienden hasta el 31 de agosto de 2021."
 
 #: frontend/lib/evictionfree/about.tsx:45
 msgid "evictionfree.aboutPageText1"
-msgstr "A new State law, passed in late 2020, allows most tenants to stop their eviction case until August 31st, 2021, if they fill out a “Hardship Declaration” form. However, this law puts the responsibility on tenants to figure out how to do that and doesn’t provide easy access to exercise their rights."
+msgstr "Una nueva ley estatal, aprobada a finales de 2020, permite a la mayoría de los inquilinos detener su caso de desalojo hasta el 31 de agosto, 2021, si cumplimentan un formulario de “Declaración de Penuria”. Sin embargo, esta ley carga la responsabilidad de averiguar cómo hacerlo a los inquilinos y no facilita el acceso al ejercicio de sus derechos."
 
 #: frontend/lib/evictionfree/about.tsx:55
 msgid "evictionfree.aboutPageText2"
@@ -2696,7 +2696,7 @@ msgstr "Si has recibido una ‘Notificación de desalojo por incumplimiento de p
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:184
 msgid "evictionfree.deadlineFaq1"
-msgstr "You currently can submit your declaration form at any time between now and August 31, 2021. Once you submit your declaration form via this tool, we will mail and/or email it immediately to your landlord and the courts. If you’re ONLY sending your form via physical mail, send it as soon as possible and keep any proof of mailing and/or return receipts for your records."
+msgstr "Puedes enviar tu formulario de declaración en cualquier momento, hasta el 31 de agosto de 2021. Luego de enviar tu formulario de declaración a través de esta herramienta, se lo enviaremos inmediatamente por correo postal y/o correo electrónico al dueño de tu edificio y a las cortes. Si estás enviando tu formulario SOLAMENTE por correo postal, envíalo lo antes posible y conserva cualquier prueba de envío y/o acuse de recibo para tus archivos."
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:70
 msgid "evictionfree.emailBodyTemplateForSharingFromConfirmation1"
@@ -2780,7 +2780,7 @@ msgstr "Una vez que completes tu formulario de declaración a través de esta he
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:68
 msgid "evictionfree.tweetTemplateForSharingFromConfirmation1"
-msgstr "Acabo de utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de mi edificio y a los tribunales locales — deteniendo cualquier caso de desalojo hasta el 31 de agosto, 2021. Míralo aquí: {0} #EvictionFreeNY por @JustFixNYC @RTCNYC @housing4allNY"
+msgstr "Acabo de utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de mi edificio y a los tribunales locales—deteniendo cualquier caso de desalojo hasta el 31 de agosto, 2021. Míralo aquí: {0} #EvictionFreeNY por @JustFixNYC @RTCNYC @housing4allNY"
 
 #: frontend/lib/evictionfree/homepage.tsx:26
 msgid "evictionfree.tweetTemplateForSharingFromHomepage1"

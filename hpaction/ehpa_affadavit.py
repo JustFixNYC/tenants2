@@ -63,7 +63,7 @@ class EHPAAffadavitVars(pydantic.BaseModel):
         fill_landlord_info(v, user)
         ld = get_landlord_details(user)
         return EHPAAffadavitVars(
-            tenant_name=user.full_name or NA,
+            tenant_name=user.full_legal_name or NA,
             tenant_email=user.email or NA,
             tenant_phone=user.formatted_phone_number() or NA,
             tenant_address=", ".join(oi.address_lines_for_mailing) or NA,

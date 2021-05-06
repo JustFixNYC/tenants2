@@ -88,7 +88,7 @@ def test_csp_works_on_static_assets(client, staticfiles):
 
 
 def test_merge_csp_updates_works():
-    m = CSPHashingMiddleware()
+    m = CSPHashingMiddleware(lambda request: None)
     assert m._merge_csp_updates([]) == {}
     assert (
         m._merge_csp_updates(

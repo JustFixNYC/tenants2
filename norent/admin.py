@@ -7,17 +7,23 @@ from users.admin_user_proxy import UserProxyAdmin
 from project.util.admin_util import admin_field, never_has_permission
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from loc.admin import LandlordDetailsInline
+from loc.lob_django_util import SendableViaLobAdminMixin
 from . import models
 
 
-class LetterInline(admin.StackedInline):
+@admin.register(models.CityWithoutStateDiagnostic)
+class CityWithoutStateDiagnosticAdmin(admin.ModelAdmin):
+    list_display = ["city", "created_at"]
+
+
+class LetterInline(admin.StackedInline, SendableViaLobAdminMixin):
     model = models.Letter
     fields = [
         "rent_periods",
         "created_at",
-        "tracking_number",
         "letter_emailed_at",
         "letter_sent_at",
+        "lob_integration",
     ]
     readonly_fields = fields
 

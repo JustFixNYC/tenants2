@@ -108,6 +108,15 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # will be disabled.
     AMPLITUDE_API_KEY: str = ""
 
+    # The URL for your project settings on Amplitude. This should
+    # be of the following form:
+    #
+    #   https://analytics.amplitude.com/<org_name>/settings/projects/<project_id>/general
+    #
+    # This is used for linking to Amplitude from the admin UI. If
+    # empty (the default), no links to Amplitude will be shown.
+    AMPLITUDE_PROJECT_SETTINGS_URL: str = ""
+
     # An access token for Rollbar with the 'post_client_item'
     # scope. If empty (the default), Rollbar is disabled on
     # the client-side.

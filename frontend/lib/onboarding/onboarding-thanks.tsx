@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import Page from "../ui/page";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { AppContext } from "../app-context";
 
 export const OnboardingThanks: React.FC<{ next: string }> = ({ next }) => {
+  const { session } = useContext(AppContext);
+
+  if (!session.email) {
+    return <Redirect to={next} />;
+  }
+
   return (
     <Page title="Thanks for signing up!" className="content has-text-centered">
       <h1>Thanks for signing up!</h1>

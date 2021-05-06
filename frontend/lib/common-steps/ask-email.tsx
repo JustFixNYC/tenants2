@@ -8,6 +8,7 @@ import { ProgressButtons } from "../ui/buttons";
 import { li18n } from "../i18n-lingui";
 import { t } from "@lingui/macro";
 import { NorentOptionalEmailMutation } from "../queries/NorentOptionalEmailMutation";
+import { optionalizeLabel } from "../forms/optionalize-label";
 
 export const AskEmail: React.FC<
   MiddleProgressStepProps & {
@@ -20,7 +21,7 @@ export const AskEmail: React.FC<
 
   if (props.isOptional) {
     mutation = NorentOptionalEmailMutation;
-    label += " " + li18n._(t`(optional)`);
+    label = optionalizeLabel(label);
   }
 
   return (

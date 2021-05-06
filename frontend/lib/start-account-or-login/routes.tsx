@@ -12,7 +12,7 @@ import { VerifyPassword } from "./verify-password";
 import { SetPassword } from "./set-password";
 import { VerifyPhoneNumber } from "./verify-phone-number";
 import { isUserLoggedIn } from "../util/session-predicates";
-import { assertNotNull } from "../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 
 export type StartAccountOrLoginProps = MiddleProgressStepProps & {
   routes: StartAccountOrLoginRouteInfo;

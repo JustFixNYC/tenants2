@@ -26,6 +26,7 @@ from graphene_django.forms.mutation import fields_for_form
 from graphene.utils.str_converters import to_camel_case
 import logging
 
+from users.impersonation import get_impersonating_user
 from .form_with_request import FormWithRequestMixin
 
 
@@ -584,9 +585,12 @@ class GrapheneDjangoFormMixin:
     @classmethod
     def log(cls, info: ResolveInfo, msg: str, lvl: int = logging.INFO) -> None:
         parts = [f"{info.field_name} {cls.query_type}"]
-        user = info.context.user
+        request = info.context
+        user = request.user
         if user.is_authenticated:
             parts.append(f"user={user.username}")
+            if imp_user := get_impersonating_user(request):
+                parts.append(f"impersonated_by={imp_user.username}")
         preamble = " ".join(parts)
         logger.log(lvl, f"[{preamble}] {msg}")
 

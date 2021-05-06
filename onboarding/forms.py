@@ -3,8 +3,8 @@ from django.forms import ValidationError
 from django.utils.translation import gettext as _
 
 from project.forms import (
+    OptionalUniqueEmailForm,
     SetPasswordForm,
-    OptionalSetPasswordForm,
     YesNoRadiosField,
     UniqueEmailForm,
 )
@@ -139,7 +139,21 @@ class ReliefAttemptsForm(forms.ModelForm):
     )
 
 
-class BaseOnboardingStep4Form(forms.Form):
+class PublicAssistanceForm(forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ("receives_public_assistance",)
+
+    receives_public_assistance = YesNoRadiosField(
+        help_text=OnboardingInfo._meta.get_field("receives_public_assistance").help_text
+    )
+
+
+class BaseOnboardingStep4Form(SetPasswordForm, forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ("can_we_sms", "signup_intent")
+
     phone_number = USPhoneNumberField()
 
     agree_to_terms = forms.BooleanField(required=True)
@@ -154,18 +168,12 @@ class BaseOnboardingStep4Form(forms.Form):
         return phone_number
 
 
-class OnboardingStep4Form(BaseOnboardingStep4Form, OptionalSetPasswordForm, forms.ModelForm):
-    class Meta:
-        model = OnboardingInfo
-        fields = ("can_we_sms", "signup_intent")
+class OnboardingStep4FormVersion2(BaseOnboardingStep4Form, UniqueEmailForm):
+    pass
 
 
-class OnboardingStep4FormVersion2(
-    BaseOnboardingStep4Form, UniqueEmailForm, SetPasswordForm, forms.ModelForm
-):
-    class Meta:
-        model = OnboardingInfo
-        fields = ("can_we_sms", "signup_intent")
+class OnboardingStep4WithOptionalEmailForm(BaseOnboardingStep4Form, OptionalUniqueEmailForm):
+    pass
 
 
 class AgreeToTermsForm(forms.Form):

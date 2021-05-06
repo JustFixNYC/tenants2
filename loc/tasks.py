@@ -38,13 +38,14 @@ def send_admin_notification_for_letter(letter_id: int):
             "edit_letter_url": absolute_reverse("admin:loc_locuser_change", args=(user.pk,)),
         },
     )
-    subject = f"Letter of Complaint request for {user.full_name}"
+    subject = f"Letter of Complaint request for {user.full_legal_name}"
+    user_email = user.as_email_recipient()
 
     msg = EmailMessage(
         subject=subject,
         body=body,
         from_email=settings.DEFAULT_FROM_EMAIL,
         to=[settings.LOC_EMAIL],
-        reply_to=[user.email] if user.email else None,
+        reply_to=[user_email] if user_email else None,
     )
     msg.send()

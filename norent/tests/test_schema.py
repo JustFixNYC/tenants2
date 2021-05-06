@@ -10,7 +10,7 @@ from project.schema_base import (
     PhoneNumberAccountStatus,
 )
 import project.locales
-from project.tests.test_mapbox import mock_brl_results, mock_no_results
+from project.tests.test_mapbox import mock_brl_results, mock_la_results, mock_no_results
 from project.util.testing_util import GraphQLTestingPal
 from onboarding.schema import OnboardingStep1Info
 from onboarding.tests.test_schema import _exec_onboarding_step_n
@@ -214,16 +214,31 @@ class TestNationalAddressMutation(GraphQLTestingPal):
 
     def test_it_validates_addresses(self, settings, requests_mock):
         settings.MAPBOX_ACCESS_TOKEN = "blah"
-        self.set_prior_info()
-        mock_brl_results("150 court st, Brooklyn, NY 12345", requests_mock)
-        output = self.execute()
+        update_scaffolding(self.request, {"city": "Los Angeles", "state": "CA"})
+        mock_la_results("200 north spring, Los Angeles, CA 90012", requests_mock)
+        output = self.execute(
+            input={
+                "street": "200 north spring",
+                "zipCode": "90012",
+            }
+        )
         assert output["errors"] == []
         assert output["isValid"] is True
         assert output["session"]["norentScaffolding"] == {
-            "street": "150 Court Street",
-            "zipCode": "11201",
+            "street": "200 North Spring Street",
+            "zipCode": "90012",
             "aptNumber": "2",
         }
+
+    def test_it_errors_on_nyc_addresses(self, settings, requests_mock):
+        settings.MAPBOX_ACCESS_TOKEN = "blah"
+        self.set_prior_info()
+        mock_brl_results("150 court st, Brooklyn, NY 12345", requests_mock)
+        output = self.execute()
+        assert output["errors"] == one_field_err(
+            "Your address appears to be within New York City. Please go back and enter "
+            '"New York City" as your city.'
+        )
 
     def test_it_reports_invaild_addresses_as_invalid(self, settings, requests_mock):
         settings.MAPBOX_ACCESS_TOKEN = "blah"
@@ -262,7 +277,7 @@ def test_city_state_mutation_updates_session(graphql_client):
     }
 
 
-def test_full_name_mutation_updates_session_if_logged_out(graphql_client):
+def test_legacy_full_name_mutation_updates_session_if_logged_out(graphql_client):
     output = graphql_client.execute(
         """
         mutation {
@@ -285,7 +300,58 @@ def test_full_name_mutation_updates_session_if_logged_out(graphql_client):
     }
 
 
+def test_full_name_mutation_updates_session_if_logged_out(graphql_client):
+    output = graphql_client.execute(
+        """
+        mutation {
+          output: norentFullLegalName(input: {
+            firstName: "boeop",
+            lastName: "blap",
+        }) {
+            errors { field, messages }
+            session {
+              norentScaffolding { firstName, lastName }
+            }
+          }
+        }
+        """
+    )["data"]["output"]
+    assert output["errors"] == []
+    assert output["session"]["norentScaffolding"] == {
+        "firstName": "boeop",
+        "lastName": "blap",
+    }
+
+
 def test_full_name_mutation_updates_user_if_logged_in(graphql_client, db):
+    user = UserFactory()
+    graphql_client.request.user = user
+    output = graphql_client.execute(
+        """
+        mutation {
+          output: norentFullLegalName(input: {
+            firstName: "snorri",
+            lastName: "heb"
+        }) {
+            errors { field, messages }
+            session {
+              firstName,
+              lastName,
+              norentScaffolding { email }
+            }
+          }
+        }
+        """
+    )["data"]["output"]
+    assert output["errors"] == []
+    assert output["session"] == {
+        "firstName": "snorri",
+        "lastName": "heb",
+        "norentScaffolding": None,
+    }
+
+
+def test_legacy_full_name_mutation_updates_user_if_logged_in(graphql_client, db):
     user = UserFactory()
     graphql_client.request.user = user
     output = graphql_client.execute(

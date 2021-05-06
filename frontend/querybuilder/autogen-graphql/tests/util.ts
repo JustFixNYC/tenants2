@@ -1,5 +1,5 @@
 import { buildSchema, assertInputObjectType } from "graphql";
-import { assertNotUndefined } from "../../../lib/util/util";
+import { assertNotUndefined } from "@justfixnyc/util";
 import { ensureObjectType } from "../graphql-schema-util";
 
 export const BEET_SCHEMA = buildSchema(`

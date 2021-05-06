@@ -1,4 +1,4 @@
-import { assertNotNull } from "../../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 
 if (typeof window !== "undefined") {
   // Our canvas usage is very minimal and we just want to make

@@ -1,6 +1,6 @@
 import logging
 import random
-from typing import List
+from typing import List, Optional
 from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.utils.crypto import get_random_string
@@ -12,13 +12,15 @@ from project.locales import LOCALE_KWARGS
 from .permission_util import ModelPermissions
 
 
-FULL_NAME_MAXLEN = 150
+IMPERSONATE_USERS_PERMISSION = "users.impersonate_users"
 
 ADD_SERVING_PAPERS_PERMISSION = "hpaction.add_servingpapers"
 
 VIEW_LETTER_REQUEST_PERMISSION = "loc.view_letterrequest"
 
 CHANGE_LETTER_REQUEST_PERMISSION = "loc.change_letterrequest"
+
+VIEW_USER_PERMISSION = "users.view_justfixuser"
 
 CHANGE_USER_PERMISSION = "users.change_justfixuser"
 
@@ -29,6 +31,7 @@ ROLES = {}
 ROLES["Outreach Coordinators"] = set(
     [
         "users.add_justfixuser",
+        VIEW_USER_PERMISSION,
         CHANGE_USER_PERMISSION,
         *ModelPermissions("loc", "accessdate").all,
         *ModelPermissions("issues", "issue").all,
@@ -61,6 +64,7 @@ ROLES["Outreach Coordinators"] = set(
         *ModelPermissions("evictionfree", "submittedhardshipdeclaration").all,
         *ModelPermissions("evictionfree", "hardshipdeclarationdetails").all,
         "evictionfree.change_evictionfreeuser",
+        IMPERSONATE_USERS_PERMISSION,
     ]
 )
 
@@ -111,6 +115,7 @@ class JustfixUser(AbstractUser):
         verbose_name = "user"
         verbose_name_plural = "users"
         permissions = [
+            ("impersonate_users", "Can impersonate other users"),
             (
                 "download_sandefur_data",
                 "Can download data needed for Rebecca Sandefur's research",
@@ -138,10 +143,41 @@ class JustfixUser(AbstractUser):
     REQUIRED_FIELDS = ["username", "email"]
 
     @property
-    def full_name(self) -> str:
+    def full_legal_name(self) -> str:
         if self.first_name and self.last_name:
             return " ".join([self.first_name, self.last_name])
         return ""
+
+    def as_email_recipient(self) -> Optional[str]:
+        """
+        Attempts to construct the most informative string
+        that can be pasted into an email's to/cc/bcc/reply-to field.
+
+        If a user has only an email address, it will return that:
+
+            >>> u = JustfixUser(email="boop@jones.net")
+            >>> u.as_email_recipient()
+            'boop@jones.net'
+
+        But if the user has a full name, it will also return that:
+
+            >>> u.first_name = "Boop"
+            >>> u.last_name = "Jones"
+            >>> u.as_email_recipient()
+            'Boop Jones <boop@jones.net>'
+
+        And if the user has no email, it will just return None:
+
+            >>> JustfixUser().as_email_recipient() is None
+            True
+        """
+
+        value: str = self.email
+        if not value:
+            return None
+        if self.full_legal_name:
+            value = f"{self.full_legal_name} <{value}>"
+        return value
 
     def formatted_phone_number(self) -> str:
         return pn.humanize(self.phone_number)
@@ -182,7 +218,7 @@ class JustfixUser(AbstractUser):
                 f"Triggering rapidpro campaign '{campaign_name}' on user " f"{self.username}."
             )
             fc.trigger_followup_campaign_async(
-                self.full_name,
+                self.full_legal_name,
                 self.phone_number,
                 campaign_name,
                 locale=self.locale,
@@ -196,6 +232,12 @@ class JustfixUser(AbstractUser):
     @property
     def admin_url(self):
         return absolute_reverse("admin:users_justfixuser_change", args=[self.pk])
+
+    @property
+    def amplitude_url(self) -> Optional[str]:
+        from amplitude.util import get_url_for_user_page
+
+        return get_url_for_user_page(self)
 
     def __str__(self):
         if self.username:

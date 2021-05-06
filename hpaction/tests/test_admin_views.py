@@ -92,12 +92,14 @@ class TestCreateServingPapersView:
     def test_it_raises_404_if_lob_is_disabled(self):
         res = self.client.get(get_create_url(1))
         assert res.status_code == 404
-        assert b"Lob integration is disabled" in res.content
+        # https://code.djangoproject.com/ticket/32637
+        # assert b"Lob integration is disabled" in res.content
 
     def test_it_raises_404_if_user_does_not_exist(self, mocklob):
         res = self.client.get(get_create_url(51929))
         assert res.status_code == 404
-        assert b"User not found" in res.content
+        # https://code.djangoproject.com/ticket/32637
+        # assert b"User not found" in res.content
 
     def test_get_works(self, mocklob, sender):
         res = self.client.get(get_create_url(sender.pk))

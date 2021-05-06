@@ -1,16 +1,14 @@
 import {
-  assertNotNull,
   callOnceWithinMs,
   getFunctionProperty,
   exactSubsetOrDefault,
-  assertNotUndefined,
   twoTuple,
   isDeepEqual,
   properNoun,
   numberWithCommas,
-  hardFail,
   friendlyPhoneNumber,
 } from "../util";
+import { assertNotNull, assertNotUndefined, hardFail } from "@justfixnyc/util";
 
 describe("properNoun()", () => {
   it("works", () => {

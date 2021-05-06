@@ -1,10 +1,26 @@
 from typing import Optional, List
 import datetime
 from django.db import models
-from django.contrib.postgres.fields import JSONField
 
 from users.models import JustfixUser
 from project.locales import LOCALE_KWARGS
+from loc.lob_django_util import SendableViaLobMixin
+
+
+class CityWithoutStateDiagnostic(models.Model):
+    """
+    Information about submitted city/state forms that contained
+    city information without state information.
+
+    We're not storing this information in Google Analytics
+    or Rollbar because those services make it very hard
+    or impossible to delete sensitive data, and users might
+    be entering their _full_ address into this field, which is PII.
+    """
+
+    city = models.CharField(max_length=255)
+
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class RentPeriodManager(models.Manager):
@@ -82,9 +98,9 @@ class UpcomingLetterRentPeriod(models.Model):
     )
 
 
-class Letter(models.Model):
+class Letter(models.Model, SendableViaLobMixin):
     """
-    A no rent letter that is ready to be sent.
+    A no rent letter that is ready to be sent, or has already been sent.
     """
 
     class Meta:
@@ -122,7 +138,7 @@ class Letter(models.Model):
         blank=True,
     )
 
-    lob_letter_object = JSONField(
+    lob_letter_object = models.JSONField(
         blank=True,
         null=True,
         help_text=(
@@ -167,5 +183,6 @@ class Letter(models.Model):
         if not self.pk:
             return super().__str__()
         return (
-            f"{self.user.full_name}'s no rent letter for " f"{self.__get_rent_period_dates_str()}"
+            f"{self.user.full_legal_name}'s no rent letter for "
+            f"{self.__get_rent_period_dates_str()}"
         )

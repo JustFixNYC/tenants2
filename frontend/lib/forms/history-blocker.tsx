@@ -2,7 +2,7 @@ import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import autobind from "autobind-decorator";
 import { UnregisterCallback, Location, Action } from "history";
-import { assertNotNull } from "../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { isModalRoute } from "../util/route-util";
 import { ga } from "../analytics/google-analytics";
 

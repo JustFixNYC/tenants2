@@ -100,6 +100,8 @@ sessionFields = ["onboardingStep3"]
 
 [mutations.onboardingStep4Version2]
 
+[mutations.onboardingStep4WithOptionalEmail]
+
 [mutations.issueAreaV2]
 sessionFields = ["issues", "customIssuesV2"]
 
@@ -160,3 +162,7 @@ sessionFields = ["onboardingInfo"]
 [mutations.leaseType]
 
 [mutations.nycAddress]
+
+[mutations.unimpersonate]
+
+[mutations.publicAssistance]

@@ -35,7 +35,7 @@ def unix_time_millis(dt: datetime.datetime) -> int:
 class AmpEvent:
     # https://help.amplitude.com/hc/en-us/articles/360032842391-HTTP-API-V2
 
-    user_id: int
+    user_id: Optional[int]
 
     event_type: str
 
@@ -47,12 +47,20 @@ class AmpEvent:
 
     insert_id_suffix: Union[str, int, None] = None
 
+    device_id: Optional[str] = None
+
     @property
     def insert_id(self) -> str:
         return "_".join(
             [
                 str(part)
-                for part in ["user", self.user_id, self.event_type, self.insert_id_suffix]
+                for part in [
+                    "user",
+                    self.user_id,
+                    self.device_id,
+                    self.event_type,
+                    self.insert_id_suffix,
+                ]
                 if part is not None
             ]
         )
@@ -89,10 +97,16 @@ class AmpEventUploader:
 
     def __to_api_event(self, event: AmpEvent) -> Dict[str, Any]:
         result: Dict[str, Any] = {
-            "user_id": f"{USER_ID_PREFIX}{event.user_id}",
             "event_type": event.event_type,
             "user_properties": to_amp_props(event.user_properties),
         }
+        assert (
+            event.user_id is not None
+        ) or event.device_id, "Amplitude events must have a user or device ID!"
+        if event.user_id is not None:
+            result["user_id"] = f"{USER_ID_PREFIX}{event.user_id}"
+        if event.device_id is not None:
+            result["device_id"] = event.device_id
         if event.time is not None:
             result["time"] = unix_time_millis(event.time)
         if event.event_type != IDENTIFY_EVENT:

@@ -1,7 +1,7 @@
 import History from "history";
 import { OnboardingInfoSignupIntent, Borough } from "./queries/globalTypes";
 import { inputToQuerystring } from "./networking/http-get-query-util";
-import { ROUTE_PREFIX, createRoutesForSite } from "./util/route-util";
+import { NEXT, ROUTE_PREFIX, createRoutesForSite } from "./util/route-util";
 import { createDevRouteInfo } from "./dev/route-info";
 import {
   createOnboardingRouteInfo,
@@ -14,12 +14,7 @@ import { createRentalHistoryRouteInfo } from "./rh/route-info";
 import { createPasswordResetRouteInfo } from "./password-reset/route-info";
 import { createEmergencyHPActionRouteInfo } from "./hpaction/emergency/route-info";
 import { createAccountSettingsRouteInfo } from "./account-settings/route-info";
-
-/**
- * Querystring argument for specifying the URL to redirect the
- * user to once they're done with the current page.
- */
-export const NEXT = "next";
+import { adminRouteInfo } from "./admin/route-info";
 
 /**
  * Metadata about signup intents.
@@ -142,26 +137,7 @@ function createLocalizedRouteInfo(prefix: string) {
  * This is an ad-hoc structure that defines URL routes for our app.
  */
 const JustfixRoutes = createRoutesForSite(createLocalizedRouteInfo, {
-  /**
-   * The *admin* login page. We override Django's default admin login
-   * here, so we need to make sure this URL matches the URL that Django
-   * redirects users to.
-   */
-  adminLogin: "/admin/login/",
-
-  adminConversations: "/admin/conversations/",
-
-  adminFrontappPlugin: "/admin/frontapp/",
-
-  /**
-   * Create an admin login link that redirects the user to the given location
-   * after they've logged in.
-   */
-  createAdminLoginLink(next: History.Location): string {
-    return `${this.adminLogin}?${NEXT}=${encodeURIComponent(
-      next.pathname + next.search
-    )}`;
-  },
+  admin: adminRouteInfo,
 
   /**
    * Example pages used in integration tests, and other

@@ -15,8 +15,8 @@ export const EvictionFreeDeclarationEmailToLandlordStaticPage = asEmailStaticPag
         <HtmlEmail subject={evictionFreeDeclarationEmailFormalSubject(props)}>
           <p>Hello {props.landlordName},</p>
           <p>
-            Attached you will find the Hardship Declaration for {props.fullName}{" "}
-            completed on {props.dateSubmitted}.
+            Attached you will find the Hardship Declaration for{" "}
+            {props.fullLegalName} completed on {props.dateSubmitted}.
           </p>
           <p>
             With this declaration, {props.firstName} is protected from eviction
@@ -28,7 +28,7 @@ export const EvictionFreeDeclarationEmailToLandlordStaticPage = asEmailStaticPag
             proof of completion.
           </p>
           <p>Thank you,</p>
-          <p>{props.fullName}</p>
+          <p>{props.fullLegalName}</p>
           <br />
           <EvictionFreeEmailDisclaimer {...props} />
         </HtmlEmail>

@@ -6,6 +6,7 @@ import { NextButton } from "../ui/buttons";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
 import { getGlobalSiteRoutes } from "../global-site-routes";
+import { UnimpersonateWidget } from "../ui/impersonation";
 
 /**
  * An alternative logout page that redirects the user to the homepage, and
@@ -36,5 +37,6 @@ export const AlernativeLogoutPage: React.FC<{}> = () => (
         </div>
       )}
     </SessionUpdatingFormSubmitter>
+    <UnimpersonateWidget />
   </Page>
 );

@@ -1,5 +1,5 @@
 import { newSb } from "../../tests/session-builder";
-import { assertNotNull } from "../../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { efnyDeclarationEmailToHousingCourtForTesting } from "../declaration-email-to-housing-court";
 import { sessionToEvictionFreeDeclarationEmailProps } from "../declaration-email-utils";
 

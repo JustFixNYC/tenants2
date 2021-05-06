@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro";
 import React from "react";
 
-import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc.json";
+import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc";
 import { li18n } from "../i18n-lingui";
 import { asEmailStaticPage } from "../static-page/email-static-page";
 import { HtmlEmail } from "../static-page/html-email";

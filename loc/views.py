@@ -81,7 +81,7 @@ def envelopes(request):
         user
         for user in JustfixUser.objects.filter(pk__in=user_ids)
         if (
-            user.full_name
+            user.full_legal_name
             and hasattr(user, "onboarding_info")
             and hasattr(user, "landlord_details")
             and user.landlord_details.name

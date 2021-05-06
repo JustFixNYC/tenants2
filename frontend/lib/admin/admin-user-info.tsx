@@ -37,7 +37,7 @@ const EhpaAttorneyAssigned: React.FC<{ rapidproGroups: string[] }> = (
   }
 };
 
-export function adminGetUserFullName(user: {
+export function adminGetUserFullLegalName(user: {
   firstName: string;
   lastName: string;
 }): string {
@@ -49,7 +49,7 @@ export const AdminUserInfo: React.FC<{
   showPhoneNumber: boolean;
   showName?: boolean;
 }> = ({ user, showPhoneNumber, showName }) => {
-  const name = adminGetUserFullName(user);
+  const name = adminGetUserFullLegalName(user);
   return (
     <>
       {showName && name && <p>This user's name is {name}.</p>}
@@ -58,9 +58,10 @@ export const AdminUserInfo: React.FC<{
           This user's phone number is {friendlyPhoneNumber(user.phoneNumber)}.
         </p>
       )}
+      {user.email && <p>Their email is {user.email}.</p>}
       <EhpaAttorneyAssigned rapidproGroups={user.rapidproGroups} />
       {user.onboardingInfo && (
-        <p>The user's signup intent is {user.onboardingInfo.signupIntent}.</p>
+        <p>Their signup intent is {user.onboardingInfo.signupIntent}.</p>
       )}
       {user.letterRequest && (
         <p>

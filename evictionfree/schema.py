@@ -58,6 +58,8 @@ class EvictionFreeIndexNumber(OneToOneUserModelFormMutation):
     class Meta:
         form_class = forms.IndexNumberForm
 
+    deprecation_reason = "Use EvictionFreeIndexNumberV2 instead."
+
 
 @schema_registry.register_mutation
 class EvictionFreeIndexNumberV2(OneToOneUserModelFormMutation):

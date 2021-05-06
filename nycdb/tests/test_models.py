@@ -81,11 +81,11 @@ def test_error_raised_when_nycdb_not_enabled(model):
 
 
 class TestHPDContact:
-    def test_full_name_works(self):
-        assert HPDContact().full_name == ""
-        assert HPDContact(firstname="a", lastname="b").full_name == "a b"
-        assert HPDContact(firstname="a").full_name == "a"
-        assert HPDContact(lastname="b").full_name == "b"
+    def test_full_legal_name_works(self):
+        assert HPDContact().full_legal_name == ""
+        assert HPDContact(firstname="a", lastname="b").full_legal_name == "a b"
+        assert HPDContact(firstname="a").full_legal_name == "a"
+        assert HPDContact(lastname="b").full_legal_name == "b"
 
     def test_street_address_works(self):
         assert HPDContact().street_address == ""

@@ -175,6 +175,12 @@ class OnboardingStep4Version2(OnboardingStep4Base):
 
 
 @schema_registry.register_mutation
+class OnboardingStep4WithOptionalEmail(OnboardingStep4Base):
+    class Meta:
+        form_class = forms.OnboardingStep4WithOptionalEmailForm
+
+
+@schema_registry.register_mutation
 class AgreeToTerms(SessionFormMutation):
     class Meta:
         form_class = forms.AgreeToTermsForm
@@ -251,6 +257,12 @@ class ReliefAttempts(OnboardingInfoMutation):
         form_class = forms.ReliefAttemptsForm
 
 
+@schema_registry.register_mutation
+class PublicAssistance(OnboardingInfoMutation):
+    class Meta:
+        form_class = forms.PublicAssistanceForm
+
+
 BoroughEnum = graphene.Enum.from_enum(BOROUGH_CHOICES.enum)
 
 LeaseTypeEnum = graphene.Enum.from_enum(LEASE_CHOICES.enum)
@@ -273,6 +285,7 @@ class OnboardingInfoType(DjangoObjectType):
             "agreed_to_evictionfree_terms",
             "can_receive_rttc_comms",
             "can_receive_saje_comms",
+            "receives_public_assistance",
         )
 
     borough = graphene.Field(

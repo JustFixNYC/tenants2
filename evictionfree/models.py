@@ -1,8 +1,8 @@
 from django.db import models
-from django.contrib.postgres.fields import JSONField
 
 from users.models import JustfixUser
 from project.locales import LOCALE_KWARGS
+from loc.lob_django_util import SendableViaLobMixin
 
 
 class HardshipDeclarationDetails(models.Model):
@@ -41,7 +41,7 @@ class HardshipDeclarationDetails(models.Model):
         return self.has_financial_hardship or self.has_health_risk
 
 
-class SubmittedHardshipDeclaration(models.Model):
+class SubmittedHardshipDeclaration(models.Model, SendableViaLobMixin):
     created_at = models.DateTimeField(auto_now_add=True)
 
     updated_at = models.DateTimeField(auto_now=True)
@@ -60,7 +60,7 @@ class SubmittedHardshipDeclaration(models.Model):
         ),
     )
 
-    cover_letter_variables = JSONField(
+    cover_letter_variables = models.JSONField(
         help_text="The variables used to fill out the cover letter page."
     )
 
@@ -68,11 +68,11 @@ class SubmittedHardshipDeclaration(models.Model):
         help_text="The HTML content of the declaration's cover letter."
     )
 
-    declaration_variables = JSONField(
+    declaration_variables = models.JSONField(
         help_text="The variables used to fill out the declaration form PDF."
     )
 
-    lob_letter_object = JSONField(
+    lob_letter_object = models.JSONField(
         blank=True,
         null=True,
         help_text=(
@@ -118,4 +118,4 @@ class SubmittedHardshipDeclaration(models.Model):
     def __str__(self):
         if not self.pk:
             return super().__str__()
-        return f"{self.user.full_name}'s hardship declaration"
+        return f"{self.user.full_legal_name}'s hardship declaration"

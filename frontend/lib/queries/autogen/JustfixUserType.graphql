@@ -4,6 +4,7 @@ fragment JustfixUserType on JustfixUserType {
   username,
   firstName,
   lastName,
+  email,
   phoneNumber,
   onboardingInfo { ...OnboardingInfo },
   letterRequest {

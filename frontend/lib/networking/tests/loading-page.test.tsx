@@ -10,7 +10,7 @@ import {
   setFriendlyLoadMs,
 } from "../loading-page";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import { assertNotNull } from "../../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { Link } from "react-router-dom";
 import loadable from "@loadable/component";
 import { HelmetProvider } from "react-helmet-async";

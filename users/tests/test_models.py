@@ -58,12 +58,12 @@ def test_str_works_when_username_is_unavailable():
     assert str(user) == "<unnamed user>"
 
 
-def test_full_name_only_renders_if_both_first_and_last_are_present():
+def test_full_legal_name_only_renders_if_both_first_and_last_are_present():
     user = JustfixUser(first_name="Bobby", last_name="Denver")
-    assert user.full_name == "Bobby Denver"
+    assert user.full_legal_name == "Bobby Denver"
 
-    assert JustfixUser(first_name="Bobby").full_name == ""
-    assert JustfixUser(last_name="Denver").full_name == ""
+    assert JustfixUser(first_name="Bobby").full_legal_name == ""
+    assert JustfixUser(last_name="Denver").full_legal_name == ""
 
 
 def test_send_sms_does_nothing_if_user_has_no_onboarding_info(smsoutbox):

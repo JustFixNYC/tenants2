@@ -1,0 +1,29 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">
+{% endblock %}
+
+{% block content %}
+{% if noimpersonate_reason %}
+<p>{{ noimpersonate_reason.value }}</p>
+{% else %}
+<p>
+  You are about to start impersonating
+  <a href="{% url 'admin:users_justfixuser_change' other_user.pk %}">{{ other_user.full_legal_name }}</a>.
+</p>
+<p>
+  When you click the button below, you will be taken to the site's homepage
+  logged in as {{ other_user.full_legal_name }}.  If you want to return to
+  being logged in as {{ user.full_legal_name }}, visit the "log out" page
+  of the site.
+</p>
+<form action="." method="POST">
+  {% csrf_token %}
+  <div class="submit-row">
+    <input type="submit" class="default" value="Impersonate {{ other_user.full_legal_name }}">
+  </div>
+</form>
+{% endif %}
+{% endblock %}

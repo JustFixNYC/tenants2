@@ -13,8 +13,8 @@ import {
   specifiedRules,
   NoUnusedFragmentsRule,
 } from "graphql";
-import { getGraphQlFragments } from "./util";
-import { assertNotNull } from "../lib/util/util";
+import { getGraphQlFragments, isNonEmptyFileSync } from "./util";
+import { assertNotNull } from "@justfixnyc/util";
 
 const rulesMinusUnusedFragments = specifiedRules.filter(
   (rule) => rule !== NoUnusedFragmentsRule
@@ -137,7 +137,9 @@ export class GraphQLValidator {
 
   validate(): string[] {
     const schema = this.getSchema();
-    const filenames = glob.sync(this.queryGlobPattern);
+    const filenames = glob
+      .sync(this.queryGlobPattern)
+      .filter(isNonEmptyFileSync);
     let queries = new Map<string, QueryInfo>();
     let errors: string[] = [];
 

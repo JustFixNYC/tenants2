@@ -68,4 +68,15 @@
 		"source=tenants2_unused-node-modules,target=/workspaces/tenants2/node_modules/,type=volume",
 		"source=tenants2_node-modules,target=/node_modules/,type=volume",
 	],
+
+	"runArgs": [
+		// This attaches us to the same Docker network used by our Docker Compose
+		// setup. Most crucially, it will allow us to remotely attach to the debugger of
+		// the app container.
+		//
+		// Note that this was modified from the following comment:
+		//
+		// https://github.com/microsoft/vscode-remote-release/issues/4272#issuecomment-756716816
+		"--network=tenants2_default",
+	],
 }

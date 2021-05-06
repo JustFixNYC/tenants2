@@ -185,7 +185,7 @@ TEMPLATES = [
                 "project.context_processors.gtm_noscript_snippet",
                 "project.context_processors.facebook_pixel_snippet",
                 "project.context_processors.facebook_pixel_noscript_snippet",
-                "project.context_processors.amplitude_snippet",
+                "amplitude.context_processors.amplitude_snippet",
                 "project.context_processors.fullstory_snippet",
                 "project.context_processors.rollbar_snippet",
             ],
@@ -210,6 +210,8 @@ DATABASE_ROUTERS: List[str] = []
 DATABASES = {
     "default": dj_database_url.parse(change_db_url_to_postgis(env.DATABASE_URL)),
 }
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 NYCDB_DATABASE = None
 
@@ -417,6 +419,8 @@ GTM_CONTAINER_ID = env.GTM_CONTAINER_ID
 FACEBOOK_PIXEL_ID = env.FACEBOOK_PIXEL_ID
 
 AMPLITUDE_API_KEY = env.AMPLITUDE_API_KEY
+
+AMPLITUDE_PROJECT_SETTINGS_URL = env.AMPLITUDE_PROJECT_SETTINGS_URL
 
 FULLSTORY_ORG_ID = env.FULLSTORY_ORG_ID
 

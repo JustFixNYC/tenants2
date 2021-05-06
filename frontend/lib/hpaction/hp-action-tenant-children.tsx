@@ -5,7 +5,7 @@ import {
   BlankChildrenTenantChildFormFormSetInput,
 } from "../queries/TenantChildrenMutation";
 import { Formset } from "../forms/formset";
-import { TENANT_CHILDREN_MAX_COUNT } from "../../../common-data/hp-action.json";
+import { TENANT_CHILDREN_MAX_COUNT } from "../../../common-data/hp-action";
 import { SessionStepBuilder } from "../progress/session-step-builder";
 import { FormsetItem, formsetItemProps } from "../forms/formset-item";
 

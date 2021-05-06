@@ -95,7 +95,7 @@ class HPActionAdminViews:
                 ),
             },
             from_address={
-                "name": papers.sender.full_name,
+                "name": papers.sender.full_legal_name,
                 **lob_api.verification_to_inline_address(
                     lob_api.verify_address(**papers.sender.onboarding_info.as_lob_params())
                 ),

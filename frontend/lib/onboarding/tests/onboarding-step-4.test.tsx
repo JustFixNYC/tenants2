@@ -11,7 +11,7 @@ import { BlankAllSessionInfo } from "../../queries/AllSessionInfo";
 const PROPS = {
   routes: JustfixRoutes.locale.locOnboarding,
   toSuccess: "/success",
-  signupIntent: OnboardingInfoSignupIntent.HP,
+  signupIntent: OnboardingInfoSignupIntent.EHP,
 };
 
 describe("onboarding step 4 page", () => {

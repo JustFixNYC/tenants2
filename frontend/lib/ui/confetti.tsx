@@ -1,7 +1,7 @@
 import React from "react";
 
 import { confetti } from "../../vendor/confetti";
-import { assertNotNull } from "../util/util";
+import { assertNotNull } from "@justfixnyc/util";
 import { createPortal } from "react-dom";
 import autobind from "autobind-decorator";
 

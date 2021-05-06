@@ -3,6 +3,12 @@ import i18n, { makeLocalePathPrefix } from "../i18n";
 import { LocaleChoice } from "../../../common-data/locale-choices";
 
 /**
+ * Querystring argument for specifying the URL to redirect the
+ * user to once they're done with the current page.
+ */
+export const NEXT = "next";
+
+/**
  * Special route key indicating the prefix of a set of routes,
  * rather than a route that necessarily leads somewhere.
  */

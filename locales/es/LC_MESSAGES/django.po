@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-02 16:30+0000\n"
-"PO-Revision-Date: 2021-02-02 17:44\n"
+"POT-Creation-Date: 2021-03-17 12:04+0000\n"
+"PO-Revision-Date: 2021-03-18 20:00\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -42,27 +42,23 @@ msgstr "%(name)s, también puedes bajarte un PDF de tu formulario de declaració
 msgid "For more information about New York’s eviction protections and your rights as a tenant, visit %(url)s. To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
 msgstr "Para obtener más información sobre las protecciones de desalojo de Nueva York y tus derechos como inquilino, visita %(url)s. Para participar en la organización y en la lucha para #StopEvictions (parar los desalojos) y #CancelRent (cancelar la renta), síguenos en Twitter: @RTCNYC y @ housing4allNY."
 
-#: evictionfree/schema.py:86
+#: evictionfree/schema.py:94
 msgid "You have already sent a hardship declaration form!"
 msgstr "¡Ya has enviado un formulario de declaración de penuria!"
 
-#: evictionfree/schema.py:88
-msgid "You haven't provided any account details yet!"
-msgstr "¡Aún no has proporcionado detalles de cuenta!"
-
-#: evictionfree/schema.py:90
+#: evictionfree/schema.py:96
 msgid "You haven't provided any landlord details yet!"
 msgstr "¡Aún no has proporcionado detalles sobre el dueño de tu edificio!"
 
-#: evictionfree/schema.py:95
+#: evictionfree/schema.py:101
 msgid "You must be in the state of New York to use this tool!"
 msgstr "¡Debes estar en el estado de Nueva York para usar esta herramienta!"
 
-#: evictionfree/schema.py:103
+#: evictionfree/schema.py:109
 msgid "You haven't provided details for your hardship declaration form yet!"
 msgstr "¡Aún no has proporcionado detalles para tu formulario de declaración de penuria!"
 
-#: evictionfree/schema.py:110
+#: evictionfree/schema.py:116
 msgid "This form can only be used from the Eviction Free NY site."
 msgstr "Este formulario sólo se puede utilizar desde el sitio web Eviction Free NY."
 
@@ -96,7 +92,16 @@ msgstr "¡%(city)s, %(state_name)s no existe!"
 msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
 msgstr "%(name)s has enviado tu carta de no pago de renta. Puedes seguir la entrega de tu carta usando USPS Tracking: %(url)s."
 
-#: norent/schema.py:529
+#: norent/schema.py:311
+#, python-format
+msgid "Please enter a valid ZIP code for %(state_name)s."
+msgstr "Por favor, introduzca un código postal válido para %(state_name)s."
+
+#: norent/schema.py:318
+msgid "Your address appears to be within New York City. Please go back and enter \"New York City\" as your city."
+msgstr "Tu dirección parece estar dentro de la ciudad de Nueva York. Por favor, vuelve atrás para introducir \"New York City\" como tu ciudad."
+
+#: norent/schema.py:530
 #, python-format
 msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
 msgstr "Bienvenido/a %(site_name)s, un producto de JustFix.nyc. Te enviaremos notificaciones desde este número de teléfono."
@@ -119,19 +124,23 @@ msgstr "Por favor proporcione un número de apartamento o marque la casilla \"No
 msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox."
 msgstr "Por favor proporcione un número de apartamento o marque la casilla \"No tengo ningún número de apartamento\"."
 
-#: project/forms.py:13
+#: onboarding/schema_util.py:16
+msgid "You haven't provided any account details yet!"
+msgstr "¡Aún no has proporcionado detalles de cuenta!"
+
+#: project/forms.py:14
 msgid "Please choose at least one option."
 msgstr "Por favor, escoja al menos una opción."
 
-#: project/forms.py:82
+#: project/forms.py:83
 msgid "Invalid phone number or password."
 msgstr "Número de teléfono o contraseña no válidos."
 
-#: project/forms.py:130
+#: project/forms.py:135
 msgid "A user with that email address already exists."
 msgstr "Ya existe un usuario con esa dirección de correo electrónico."
 
-#: project/forms.py:163
+#: project/forms.py:169
 msgid "Passwords do not match!"
 msgstr "¡Las contraseñas no coinciden!"
 

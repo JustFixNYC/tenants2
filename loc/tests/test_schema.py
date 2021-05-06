@@ -237,7 +237,7 @@ def test_letter_request_works(graphql_client, smsoutbox, allow_lambda_http, mail
     assert len(mailoutbox) == 1
     assert "Bobby Denver" in mailoutbox[0].subject
     assert mailoutbox[0].recipients() == ["letters@justfigs.nyc"]
-    assert mailoutbox[0].reply_to == ["bobby@denver.net"]
+    assert mailoutbox[0].reply_to == ["Bobby Denver <bobby@denver.net>"]
 
     mailoutbox[:] = []
 

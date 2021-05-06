@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Downshift, {
   ControllerStateAndHelpers,
   DownshiftInterface,
@@ -14,6 +14,31 @@ import {
   SearchRequester,
   SearchRequesterOptions,
 } from "@justfixnyc/geosearch-requester";
+import {
+  GraphQLSearchRequester,
+  GraphQLSearchRequesterOptions,
+} from "../networking/graphql-search-requester";
+import { GraphQLFetch } from "../networking/graphql-client";
+import { AppContext } from "../app-context";
+
+/**
+ * `SearchRequester` is made for REST-based APIs, while `GraphQLSearchRequester`
+ * is made for GraphQL-based APIs.  We want to support both, so that's what
+ * the following type is for.
+ */
+type GenericSearchRequester<SearchResults> =
+  | SearchRequester<SearchResults>
+  | GraphQLSearchRequester<SearchResults>;
+
+/**
+ * Because we don't know if the underlying search requester is based
+ * on REST or GraphQL, we'll pass along *all* the dependencies
+ * required for either.
+ */
+type GenericSearchRequesterOptions<SearchResults> = SearchRequesterOptions<
+  SearchResults
+> &
+  Omit<GraphQLSearchRequesterOptions<SearchResults>, "queryInfo">;
 
 // https://stackoverflow.com/a/4565120
 function isChrome(): boolean {
@@ -54,8 +79,8 @@ export type SearchAutocompleteHelpers<Item, SearchResults> = {
    * kind of search result.
    */
   createSearchRequester: (
-    options: SearchRequesterOptions<SearchResults>
-  ) => SearchRequester<SearchResults>;
+    options: GenericSearchRequesterOptions<SearchResults>
+  ) => GenericSearchRequester<SearchResults>;
 
   /**
    * Convert an autocomplete item into a `key` prop, used when listing
@@ -96,6 +121,8 @@ export interface SearchAutocompleteProps<Item, SearchResults>
   onNetworkError: (err: Error) => void;
   helpers: SearchAutocompleteHelpers<Item, SearchResults>;
   autoFocus?: boolean;
+  renderListItem?: (item: Item) => JSX.Element;
+  placeholder?: string;
 }
 
 interface SearchAutocompleteState<Item> {
@@ -116,13 +143,33 @@ const AUTOCOMPLETE_KEY_THROTTLE_MS = 250;
  * progressive enhancement, since it requires JavaScript and uses
  * a third-party API that might become unavailable.
  */
-export class SearchAutocomplete<Item, SearchResults> extends React.Component<
-  SearchAutocompleteProps<Item, SearchResults>,
+export function SearchAutocomplete<Item, SearchResults>(
+  props: SearchAutocompleteProps<Item, SearchResults>
+) {
+  const { fetchWithoutErrorHandling } = useContext(AppContext);
+
+  return (
+    <SearchAutocompleteWithFetchGraphQL
+      {...props}
+      fetchGraphQL={fetchWithoutErrorHandling}
+    />
+  );
+}
+
+class SearchAutocompleteWithFetchGraphQL<
+  Item,
+  SearchResults
+> extends React.Component<
+  SearchAutocompleteProps<Item, SearchResults> & { fetchGraphQL: GraphQLFetch },
   SearchAutocompleteState<Item>
 > {
-  requester: SearchRequester<SearchResults>;
+  requester: GenericSearchRequester<SearchResults>;
 
-  constructor(props: SearchAutocompleteProps<Item, SearchResults>) {
+  constructor(
+    props: SearchAutocompleteProps<Item, SearchResults> & {
+      fetchGraphQL: GraphQLFetch;
+    }
+  ) {
     super(props);
     this.state = {
       isLoading: false,
@@ -131,6 +178,7 @@ export class SearchAutocomplete<Item, SearchResults> extends React.Component<
     this.requester = this.props.helpers.createSearchRequester({
       createAbortController,
       fetch: awesomeFetch,
+      fetchGraphQL: this.props.fetchGraphQL,
       throttleMs: AUTOCOMPLETE_KEY_THROTTLE_MS,
       onError: this.handleRequesterError,
       onResults: this.handleRequesterResults,
@@ -152,7 +200,11 @@ export class SearchAutocomplete<Item, SearchResults> extends React.Component<
       }),
     });
 
-    return <li {...props}>{this.props.helpers.itemToString(item)}</li>;
+    const listItem = this.props.renderListItem
+      ? this.props.renderListItem(item)
+      : this.props.helpers.itemToString(item);
+
+    return <li {...props}>{listItem}</li>;
   }
 
   /**
@@ -244,6 +296,7 @@ export class SearchAutocomplete<Item, SearchResults> extends React.Component<
           <AutofocusedInput
             name={this.state.inputName}
             className="input"
+            placeholder={this.props.placeholder}
             autoFocus={this.props.autoFocus}
             {...this.getInputProps(ds)}
           />

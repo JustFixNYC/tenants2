@@ -34,13 +34,13 @@ export function getEFImageSrc(
 const SocialShareContent = {
   tweet: t(
     "evictionfree.tweetTemplateForSharingFromHomepage1"
-  )`You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until August 31st, 2021. Check it out here: ${
+  )`You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021. Check it out here: ${
     getGlobalAppServerInfo().originURL
   } #EvictionFreeNY via @JustFixNYC @RTCNYC @housing4allNY`,
   emailSubject: t`Protect yourself from eviction in New York State`,
   emailBody: t(
     "evictionfree.emailBodyTemplateForSharingFromHomepage1"
-  )`On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until August 31st, 2021. Check it out here: ${
+  )`On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021. Check it out here: ${
     getGlobalAppServerInfo().originURL
   }`,
 };

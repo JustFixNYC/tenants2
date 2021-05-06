@@ -68,10 +68,10 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
           </p>
           <br />
           <p className="subtitle is-size-5">
-            <Trans id="evictionfree.aboutPageText2">
+            <Trans id="evictionfree.aboutPageText3">
               Our website helps tenants submit this hardship declaration form
-              with peace of mind— sending it out via free USPS Certified Mail
-              and email to all of the appropriate parties (your landlord and the
+              with peace of mind—sending it out via free USPS Certified Mail and
+              email to all of the appropriate parties (your landlord and the
               courts) to ensure protection. And since the law doesn’t go far
               enough to protect folks beyond August 31st, our tool connects
               tenants to the larger tenant movement so we can #CancelRent.
@@ -141,14 +141,14 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
               />
             </LocalizedOutboundLink>
             <p className="subtitle is-size-5">
-              <Trans id="evictionfree.justfixBlurb">
+              <Trans id="evictionfree.justfixBlurb1">
                 <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
                   JustFix.nyc
                 </LocalizedOutboundLink>{" "}
                 co-designs and builds tools for tenants, housing organizers, and
                 legal advocates fighting displacement in New York City. Our
                 mission is to galvanize a 21st century tenant movement working
-                towards housing for all — and we think the power of data and
+                towards housing for all—and we think the power of data and
                 technology should be accessible to those fighting this fight.
               </Trans>
             </p>

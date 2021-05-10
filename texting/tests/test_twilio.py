@@ -123,6 +123,13 @@ def ensure_twilio_error_is_logged():
     mock_exc.assert_called_once_with("Error while communicating with Twilio")
 
 
+@contextlib.contextmanager
+def ensure_exception_is_not_logged():
+    with patch.object(logger, "exception") as mock_exc:
+        yield
+    mock_exc.assert_not_called()
+
+
 def test_send_sms_does_not_send_to_invalid_numbers(db, settings, requests_mock):
     apply_twilio_settings(settings)
     PhoneNumberLookup(phone_number="5551234567", is_valid=False).save()
@@ -135,6 +142,17 @@ def mock_invalid_number(settings, requests_mock):
         "code": 21211,
         "message": "blah",
         "more_info": "https://www.twilio.com/docs/api/errors/21211",
+        "status": status,
+    }
+    requests_mock.post(get_twilio_sms_url(settings), status_code=status, json=error_json)
+
+
+def mock_blocked_number(settings, requests_mock):
+    status = 400  # I think this is the status for this error but not sure.
+    error_json = {
+        "code": 21610,
+        "message": "blah",
+        "more_info": "https://www.twilio.com/docs/api/errors/21610",
         "status": status,
     }
     requests_mock.post(get_twilio_sms_url(settings), status_code=status, json=error_json)
@@ -174,6 +192,13 @@ def test_send_sms_logs_errors_when_failing_silently(db, settings, requests_mock)
     apply_twilio_settings(settings)
     requests_mock.post(get_twilio_sms_url(settings), json={})
     with ensure_twilio_error_is_logged():
+        send_sms("5551234567", "boop", fail_silently=True)
+
+
+def test_send_sms_does_not_log_blocked_numbers_when_failing_silently(db, settings, requests_mock):
+    apply_twilio_settings(settings)
+    mock_blocked_number(settings, requests_mock)
+    with ensure_exception_is_not_logged():
         send_sms("5551234567", "boop", fail_silently=True)
 
 

@@ -6396,7 +6396,7 @@
                 }
               ],
               "deprecationReason": null,
-              "description": "\nLogs out the user. Clients should pay attention to the\nCSRF token, because apparently this changes on logout too.\n",
+              "description": "\nLogs out the user. Clients should pay attention to the\nresultant `session.csrfToken`, as (at the time of this writing) Django\nseems to reset it on logout.\n",
               "isDeprecated": false,
               "name": "logout",
               "type": {
@@ -7366,6 +7366,37 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "EmailHpActionPdfPayload",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "input",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "ClearAnonymousSessionInput",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "\nClears the session, but only if the user is not logged in; if they are logged in,\nthis does nothing.\n\nClients should pay attention to the resultant `session.csrfToken`; if the user's\nsession *is* cleared, their CSRF token may be reset too. (This is all dictated\nby Django's internals, not us.)\n",
+              "isDeprecated": false,
+              "name": "clearAnonymousSession",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "ClearAnonymousSessionPayload",
                   "ofType": null
                 }
               }
@@ -11451,7 +11482,7 @@
           "possibleTypes": null
         },
         {
-          "description": "Logs out the user. Clients should pay attention to the\nCSRF token, because apparently this changes on logout too.",
+          "description": "Logs out the user. Clients should pay attention to the\nresultant `session.csrfToken`, as (at the time of this writing) Django\nseems to reset it on logout.",
           "enumValues": null,
           "fields": [
             {
@@ -15574,6 +15605,90 @@
           "interfaces": null,
           "kind": "INPUT_OBJECT",
           "name": "EmailHpActionPdfInput",
+          "possibleTypes": null
+        },
+        {
+          "description": "Clears the session, but only if the user is not logged in; if they are logged in,\nthis does nothing.\n\nClients should pay attention to the resultant `session.csrfToken`; if the user's\nsession *is* cleared, their CSRF token may be reset too. (This is all dictated\nby Django's internals, not us.)",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "session",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "SessionInfo",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "ClearAnonymousSessionPayload",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "ClearAnonymousSessionInput",
           "possibleTypes": null
         },
         {

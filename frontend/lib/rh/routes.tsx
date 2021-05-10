@@ -23,7 +23,7 @@ import {
   ConfirmAddressModal,
   redirectToAddressConfirmationOrNextStep,
 } from "../ui/address-confirmation";
-import { ClearSessionButton } from "../forms/clear-session-button";
+import { ClearAnonymousSessionButton } from "../forms/clear-anonymous-session-button";
 import { CustomerSupportLink } from "../ui/customer-support-link";
 import { updateAddressFromBrowserStorage } from "../browser-storage";
 import { GetStartedButton } from "../ui/get-started-button";
@@ -201,7 +201,7 @@ const RentalHistoryForm = MiddleProgressStep((props) => {
           </>
         )}
       </SessionUpdatingFormSubmitter>
-      <ClearSessionButton
+      <ClearAnonymousSessionButton
         to={props.prevStep}
         portalRef={cancelControlRef}
         label={li18n._(t`Cancel request`)}

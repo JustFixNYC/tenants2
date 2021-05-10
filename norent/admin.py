@@ -11,6 +11,11 @@ from loc.lob_django_util import SendableViaLobAdminMixin
 from . import models
 
 
+@admin.register(models.CityWithoutStateDiagnostic)
+class CityWithoutStateDiagnosticAdmin(admin.ModelAdmin):
+    list_display = ["city", "created_at"]
+
+
 class LetterInline(admin.StackedInline, SendableViaLobAdminMixin):
     model = models.Letter
     fields = [

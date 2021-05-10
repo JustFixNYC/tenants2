@@ -208,7 +208,8 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
         path: routes.email,
         exact: true,
         component: EfAskEmail,
-        shouldBeSkipped: isUserLoggedInWithEmail,
+        shouldBeSkipped: (s) =>
+          isUserLoggedInWithEmail(s) || hasEvictionFreeDeclarationBeenSent(s),
       },
       {
         path: routes.createAccount,

@@ -273,7 +273,8 @@ class Login(SessionFormMutation):
 class Logout(SessionFormMutation):
     """
     Logs out the user. Clients should pay attention to the
-    CSRF token, because apparently this changes on logout too.
+    resultant `session.csrfToken`, as (at the time of this writing) Django
+    seems to reset it on logout.
     """
 
     class Meta:
@@ -285,6 +286,30 @@ class Logout(SessionFormMutation):
     def perform_mutate(cls, form: forms.LogoutForm, info: ResolveInfo):
         request = info.context
         logout(request)
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class ClearAnonymousSession(SessionFormMutation):
+    """
+    Clears the session, but only if the user is not logged in; if they are logged in,
+    this does nothing.
+
+    Clients should pay attention to the resultant `session.csrfToken`; if the user's
+    session *is* cleared, their CSRF token may be reset too. (This is all dictated
+    by Django's internals, not us.)
+    """
+
+    class Meta:
+        form_class = forms.LogoutForm
+
+    session = graphene.NonNull("project.schema.SessionInfo")
+
+    @classmethod
+    def perform_mutate(cls, form: forms.LogoutForm, info: ResolveInfo):
+        request = info.context
+        if not request.user.is_authenticated:
+            logout(request)
         return cls.mutation_success()
 
 

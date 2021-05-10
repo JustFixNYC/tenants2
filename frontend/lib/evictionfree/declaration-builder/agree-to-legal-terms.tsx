@@ -9,6 +9,7 @@ import {
   EvictionFreeAgreeToLegalTermsMutation,
 } from "../../queries/EvictionFreeAgreeToLegalTermsMutation";
 import { ProgressButtons } from "../../ui/buttons";
+import { EnglishOutboundLink } from "../../ui/localized-outbound-link";
 import Page from "../../ui/page";
 import { EvictionFreeNotSentDeclarationStep } from "./step-decorators";
 
@@ -55,13 +56,30 @@ export const EvictionFreeAgreeToLegalTerms = EvictionFreeNotSentDeclarationStep(
             <CheckboxFormField
               {...ctx.fieldPropsFor("understandsProtectionIsTemporary")}
             >
-              <Trans id="evictionfree.legalAgreementCheckboxOnNewProtections">
-                I further understand that my landlord may be able to seek
-                eviction after May 1, 2021, and that the law may provide certain
-                protections at that time that are separate from those available
-                through this declaration.
-              </Trans>
+              <p className="is-size-6">
+                <Trans id="evictionfree.legalAgreementCheckboxOnNewProtections2">
+                  I further understand that my landlord may be able to seek
+                  eviction after May 1, 2021*, and that the law may provide
+                  certain protections at that time that are separate from those
+                  available through this declaration.
+                </Trans>
+              </p>
+              <p className="is-size-6 is-italic">
+                *
+                <Trans id="evictionFreeMay1DisclaimerNextToCheckbox">
+                  Although this version of the Hardship Declaration still states
+                  that these tenant protections end "May 1, 2021," the State of
+                  New York has{" "}
+                  <EnglishOutboundLink href="https://www.nysenate.gov/legislation/bills/2021/A7175">
+                    extended these protections
+                  </EnglishOutboundLink>{" "}
+                  until <b>August 31, 2021</b>. By filling out this form, these
+                  protections from eviction for tenants now extend to August 31,
+                  2021.
+                </Trans>
+              </p>
             </CheckboxFormField>
+
             <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
           </>
         )}

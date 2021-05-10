@@ -105,13 +105,17 @@ def send_sms(
             return msg.sid
         except Exception as e:
             is_invalid_number = isinstance(e, TwilioRestException) and e.code == 21211
+            is_blocked_number = isinstance(e, TwilioRestException) and e.code == 21610
             if is_invalid_number:
                 logger.info(f"Phone number {phone_number} is invalid.")
                 PhoneNumberLookup.objects.invalidate(phone_number=phone_number)
                 if ignore_invalid_phone_number:
                     return ""
             if fail_silently:
-                logger.exception(f"Error while communicating with Twilio")
+                if is_blocked_number:
+                    logger.info(f"Phone number {phone_number} is blocked.")
+                else:
+                    logger.exception(f"Error while communicating with Twilio")
                 return ""
             else:
                 raise

@@ -121,7 +121,10 @@ export default class OnboardingStep4 extends React.Component<
         />
         <HiddenFormField {...ctx.fieldPropsFor("signupIntent")} />
         <br />
-        <CreatePasswordFields />
+        <CreatePasswordFields
+          passwordProps={ctx.fieldPropsFor("password")}
+          confirmPasswordProps={ctx.fieldPropsFor("confirmPassword")}
+        />
 
         <CheckboxFormField {...ctx.fieldPropsFor("agreeToTerms")}>
           I agree to the{" "}

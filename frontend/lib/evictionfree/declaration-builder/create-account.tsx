@@ -2,7 +2,7 @@ import React from "react";
 import Page from "../../ui/page";
 import { ProgressButtons } from "../../ui/buttons";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import { CheckboxFormField, TextualFormField } from "../../forms/form-fields";
+import { CheckboxFormField } from "../../forms/form-fields";
 import { ModalLink } from "../../ui/modal";
 import { EvictionFreeRoutes } from "../route-info";
 import { PrivacyInfoModal } from "../../ui/privacy-info-modal";
@@ -39,7 +39,10 @@ export const EvictionFreeCreateAccount = EvictionFreeOnboardingStep((props) => {
       >
         {(ctx) => (
           <>
-            <CreatePasswordFields {ctx=ctx.fieldPropsFor("password")}> 
+            <CreatePasswordFields
+              passwordProps={ctx.fieldPropsFor("password")}
+              confirmPasswordProps={ctx.fieldPropsFor("confirmPassword")}
+            />
             <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
               <Trans>
                 Yes, Right to Counsel NYC Coalition, Housing Justice for All,

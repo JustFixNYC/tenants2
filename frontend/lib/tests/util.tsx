@@ -149,3 +149,19 @@ export const createFakeLoginRoute = () => (
     render={(p) => <p>at login, search is {p.location.search}</p>}
   />
 );
+
+/**
+ * Mock out `console.log` and call the given function with the mock
+ * as its argument. When the function returns, the original
+ * `console.log` will be restored.
+ */
+export function withMockConsoleLog<T>(fn: (mock: jest.Mock) => T): T {
+  const originalLog = console.log;
+  const mockLog = jest.fn();
+  console.log = mockLog;
+  try {
+    return fn(mockLog);
+  } finally {
+    console.log = originalLog;
+  }
+}

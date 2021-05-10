@@ -65,6 +65,29 @@ def is_enabled() -> bool:
     return bool(settings.TWILIO_ACCOUNT_SID)
 
 
+def _handle_twilio_err(
+    e: Exception, phone_number: str, fail_silently: bool, ignore_invalid_phone_number: bool
+) -> bool:
+    from .models import PhoneNumberLookup
+
+    is_invalid_number = isinstance(e, TwilioRestException) and e.code == 21211
+    is_blocked_number = isinstance(e, TwilioRestException) and e.code == 21610
+
+    if is_invalid_number:
+        logger.info(f"Phone number {phone_number} is invalid.")
+        PhoneNumberLookup.objects.invalidate(phone_number=phone_number)
+        if ignore_invalid_phone_number:
+            return True
+    if fail_silently:
+        if is_blocked_number:
+            logger.info(f"Phone number {phone_number} is blocked.")
+        else:
+            logger.exception(f"Error while communicating with Twilio")
+        return True
+
+    return False
+
+
 def send_sms(
     phone_number: str,
     body: str,
@@ -104,17 +127,9 @@ def send_sms(
             logger.info(f"Sent Twilio message with sid {msg.sid}.")
             return msg.sid
         except Exception as e:
-            is_invalid_number = isinstance(e, TwilioRestException) and e.code == 21211
-            if is_invalid_number:
-                logger.info(f"Phone number {phone_number} is invalid.")
-                PhoneNumberLookup.objects.invalidate(phone_number=phone_number)
-                if ignore_invalid_phone_number:
-                    return ""
-            if fail_silently:
-                logger.exception(f"Error while communicating with Twilio")
+            if _handle_twilio_err(e, phone_number, fail_silently, ignore_invalid_phone_number):
                 return ""
-            else:
-                raise
+            raise
     else:
         logger.info(
             f"SMS sending is disabled. If it were enabled, "

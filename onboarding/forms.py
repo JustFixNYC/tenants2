@@ -16,12 +16,12 @@ from .models import OnboardingInfo, APT_NUMBER_KWARGS
 
 
 # Whenever we change the fields in any of the onboarding
-# forms, we should change this number to ensure that we
+# forms, we should increment this number to ensure that we
 # never use an old session's onboarding data with the
 # new validation logic. The downside is that the old
 # session's onboarding data will disappear, but hopefully
 # we won't have to do this often.
-FIELD_SCHEMA_VERSION = 4
+FIELD_SCHEMA_VERSION = 5
 
 
 class AptNumberWithConfirmationForm(forms.Form):

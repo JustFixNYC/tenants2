@@ -95,7 +95,7 @@ export const AskNycAddress: React.FC<
         <>
           <HiddenFormField {...ctx.fieldPropsFor("firstName")} />
           <HiddenFormField {...ctx.fieldPropsFor("lastName")} />
-          {/* <HiddenFormField {...ctx.fieldPropsFor("lastName")} /> */}
+          <HiddenFormField {...ctx.fieldPropsFor("preferredFirstName")} />
 
           <AddressAndBoroughField
             addressProps={ctx.fieldPropsFor("address")}

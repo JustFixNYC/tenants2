@@ -128,7 +128,7 @@ class JustfixUser(AbstractUser):
         blank=True,
         help_text="The first name Justfix will call the user by. Optional. "
         " May be different from their legal first name.",
-    )  # why does it have to be here and in forms.py?
+    )
 
     phone_number = models.CharField("Phone number", unique=True, **pn.get_model_field_kwargs())
 

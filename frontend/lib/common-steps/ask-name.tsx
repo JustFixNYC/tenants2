@@ -7,6 +7,7 @@ import { ProgressButtons } from "../ui/buttons";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import { MiddleProgressStepProps } from "../progress/progress-step-route";
+import { NorentPreferredNameMutation } from "../queries/NorentPreferredNameMutation";
 
 export const AskNameStep: React.FC<MiddleProgressStepProps> = (props) => {
   return (
@@ -39,7 +40,26 @@ export const AskNameStep: React.FC<MiddleProgressStepProps> = (props) => {
           </>
         )}
       </SessionUpdatingFormSubmitter>
-      {/* To DO: add preferred name here.*/}
+      <SessionUpdatingFormSubmitter
+        mutation={NorentPreferredNameMutation}
+        initialState={(s) => ({
+          preferredFirstName:
+            s.norentScaffolding?.preferredFirstName ||
+            s.preferredFirstName ||
+            "",
+        })}
+        onSuccessRedirect={props.nextStep}
+      >
+        {(ctx) => (
+          <>
+            <TextualFormField
+              {...ctx.fieldPropsFor("preferredFirstName")}
+              label={li18n._(t`Preferred first name`)}
+            />
+            <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
+          </>
+        )}
+      </SessionUpdatingFormSubmitter>
     </Page>
   );
 };

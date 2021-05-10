@@ -33,7 +33,7 @@ class NorentScaffolding(graphene.ObjectType):
 
     last_name = graphene.String(required=True)
 
-    preferred_first_name = graphene.String(required=False)
+    preferred_first_name = graphene.String(required=True)
 
     street = graphene.String(required=True)
 

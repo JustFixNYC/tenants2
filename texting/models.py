@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional, Tuple
 from django.db import models
 from django.db.models.functions import Coalesce
 
@@ -59,7 +59,9 @@ class PhoneNumberLookupManager(models.Manager):
         lookup.save()
         return lookup
 
-    def invalidate(self, phone_number: str) -> "PhoneNumberLookup":
+    def invalidate(
+        self, phone_number: str, twilio_err_code: Optional[int] = None
+    ) -> "PhoneNumberLookup":
         """
         Marks the given phone number as being invalid. Deals with the
         case where a phone number that was once valid is now invalid.
@@ -69,11 +71,13 @@ class PhoneNumberLookupManager(models.Manager):
             phone_number=phone_number,
             defaults={
                 "is_valid": False,
+                "twilio_err_code": twilio_err_code,
             },
         )
         if not created:
             lookup.is_valid = False
             lookup.carrier = None
+            lookup.twilio_err_code = twilio_err_code
             lookup.save()
         return lookup
 
@@ -83,13 +87,41 @@ class PhoneNumberLookup(models.Model):
     Information looked-up about a phone number via Twilio.
     """
 
+    # https://www.twilio.com/docs/api/errors/21211
+    TWILIO_INVALID_TO_NUMBER_ERR = 21211
+
+    # https://www.twilio.com/docs/api/errors/21610
+    TWILIO_SEND_TO_UNSUBSCRIBED_RECIPIENT_ERR = 21610
+
+    TWILIO_ERR_CODE_CHOICES: List[Tuple[int, str]] = [
+        (TWILIO_INVALID_TO_NUMBER_ERR, "invalid"),
+        (TWILIO_SEND_TO_UNSUBSCRIBED_RECIPIENT_ERR, "blocked"),
+    ]
+
+    TWILIO_ERR_CODES_DICT = dict(TWILIO_ERR_CODE_CHOICES)
+
     phone_number = models.CharField(unique=True, **pn.get_model_field_kwargs())
 
     created_at = models.DateTimeField(auto_now_add=True)
 
     updated_at = models.DateTimeField(auto_now=True)
 
-    is_valid = models.BooleanField(help_text="Whether Twilio thinks the phone number is valid.")
+    is_valid = models.BooleanField(
+        help_text=(
+            "Whether we think the phone number is valid for the purposes "
+            "of sending SMS numbers to it."
+        )
+    )
+
+    twilio_err_code = models.IntegerField(
+        null=True,
+        blank=True,
+        choices=TWILIO_ERR_CODE_CHOICES,
+        help_text=(
+            "If we think the phone number is invalid, this is the Twilio error code that "
+            "underlies our reasoning."
+        ),
+    )
 
     carrier = models.JSONField(
         default=None,
@@ -125,7 +157,7 @@ class PhoneNumberLookup(models.Model):
         if self.is_valid is True:
             return "valid"
         elif self.is_valid is False:
-            return "invalid"
+            return self.TWILIO_ERR_CODES_DICT.get(self.twilio_err_code, "invalid")
         return "unknown"
 
     @property

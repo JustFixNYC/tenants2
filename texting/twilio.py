@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List, Tuple
 from django.conf import settings
 from twilio.rest import Client
 from twilio.http.http_client import TwilioHttpClient
@@ -65,6 +65,17 @@ def is_enabled() -> bool:
     return bool(settings.TWILIO_ACCOUNT_SID)
 
 
+def get_invalid_twilio_err_info_from_exception(e: Exception) -> Tuple[Optional[int], str]:
+    from texting.models import PhoneNumberLookup
+
+    if isinstance(e, TwilioRestException):
+        code: int = e.code
+        if code in PhoneNumberLookup.TWILIO_ERR_CODES_DICT:
+            return (code, PhoneNumberLookup.TWILIO_ERR_CODES_DICT[code])
+
+    return (None, "")
+
+
 def send_sms(
     phone_number: str,
     body: str,
@@ -104,9 +115,9 @@ def send_sms(
             logger.info(f"Sent Twilio message with sid {msg.sid}.")
             return msg.sid
         except Exception as e:
-            is_invalid_number = isinstance(e, TwilioRestException) and e.code == 21211
-            if is_invalid_number:
-                logger.info(f"Phone number {phone_number} is invalid.")
+            (invalid_err_code, desc) = get_invalid_twilio_err_info_from_exception(e)
+            if invalid_err_code is not None:
+                logger.info(f"Phone number {phone_number} is {desc}.")
                 PhoneNumberLookup.objects.invalidate(phone_number=phone_number)
                 if ignore_invalid_phone_number:
                     return ""

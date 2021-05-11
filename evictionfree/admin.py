@@ -133,6 +133,4 @@ class EvictionFreeUserAdmin(UserProxyAdmin):
         )
         return queryset
 
-    filter_queryset_for_changelist_view = (
-        EVICTIONFREE_PROGRESS.make_filter_queryset_for_changelist_view()
-    )
+    progress_annotation = EVICTIONFREE_PROGRESS

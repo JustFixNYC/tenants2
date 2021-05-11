@@ -178,7 +178,7 @@ class HPUserAdmin(UserProxyAdmin):
         ServingPapersInline,
     )
 
-    filter_queryset_for_changelist_view = EHP_PROGRESS.make_filter_queryset_for_changelist_view()
+    progress_annotation = EHP_PROGRESS
 
     @admin_field(short_description="Create serving papers", allow_tags=True)
     def create_serving_papers(self, obj):

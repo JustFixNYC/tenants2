@@ -23,14 +23,6 @@ class ProgressAnnotation(NamedTuple):
     name: str
     expression: Expression
 
-    def make_filter_queryset_for_changelist_view(self):
-        def filter_queryset_for_changelist_view(model_admin_self, queryset):
-            return queryset.annotate(**{self.name: self.expression}).filter(
-                **{f"{self.name}__in": [IN_PROGRESS, COMPLETE]}
-            )
-
-        return filter_queryset_for_changelist_view
-
 
 LOC_PROGRESS = ProgressAnnotation(
     "loc_progress",

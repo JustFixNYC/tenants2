@@ -262,7 +262,7 @@ class LOCUserAdmin(UserProxyAdmin):
 
     list_filter = ["letter_request__mail_choice"]
 
-    filter_queryset_for_changelist_view = LOC_PROGRESS.make_filter_queryset_for_changelist_view()
+    progress_annotation = LOC_PROGRESS
 
     @admin_field(short_description="Issues", admin_order_field=ISSUE_COUNT)
     def issue_count(self, obj):

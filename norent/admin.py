@@ -124,4 +124,4 @@ class NorentUserAdmin(UserProxyAdmin):
         )
         return queryset
 
-    filter_queryset_for_changelist_view = NORENT_PROGRESS.make_filter_queryset_for_changelist_view()
+    progress_annotation = NORENT_PROGRESS

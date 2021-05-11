@@ -4,11 +4,11 @@ from django import forms
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.html import format_html
-from django.db.models import Q, Count
+from django.db.models import Count
 
 from users.models import JustfixUser
+from users.action_progress import LOC_PROGRESS
 from issues.admin import IssueInline, CustomIssueInline
-from onboarding.models import SIGNUP_INTENT_CHOICES
 from project.util.admin_util import admin_field, admin_action, never_has_permission
 from loc.lob_api import is_lob_fully_enabled
 from users.admin_user_proxy import UserProxyAdmin
@@ -262,11 +262,7 @@ class LOCUserAdmin(UserProxyAdmin):
 
     list_filter = ["letter_request__mail_choice"]
 
-    def filter_queryset_for_changelist_view(self, queryset):
-        return queryset.filter(
-            Q(letter_request__isnull=False)
-            | Q(onboarding_info__signup_intent__in=[SIGNUP_INTENT_CHOICES.LOC])
-        )
+    progress_annotation = LOC_PROGRESS
 
     @admin_field(short_description="Issues", admin_order_field=ISSUE_COUNT)
     def issue_count(self, obj):

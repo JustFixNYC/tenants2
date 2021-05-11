@@ -3,9 +3,9 @@ from django.db.models import Q, Count
 from django.db.models.functions import Concat
 
 from users.models import JustfixUser
+from users.action_progress import NORENT_PROGRESS
 from users.admin_user_proxy import UserProxyAdmin
 from project.util.admin_util import admin_field, never_has_permission
-from onboarding.models import SIGNUP_INTENT_CHOICES
 from loc.admin import LandlordDetailsInline
 from loc.lob_django_util import SendableViaLobAdminMixin
 from . import models
@@ -124,8 +124,4 @@ class NorentUserAdmin(UserProxyAdmin):
         )
         return queryset
 
-    def filter_queryset_for_changelist_view(self, queryset):
-        return queryset.annotate(letter_count=Count("norent_letters", distinct=True),).filter(
-            Q(letter_count__gt=0)
-            | Q(onboarding_info__signup_intent__in=[SIGNUP_INTENT_CHOICES.NORENT])
-        )
+    filter_queryset_for_changelist_view = NORENT_PROGRESS.make_filter_queryset_for_changelist_view()

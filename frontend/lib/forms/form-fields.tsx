@@ -52,16 +52,22 @@ export type InputProps = React.DetailedHTMLProps<
  */
 export type LabelRenderer = (
   label: string,
-  labelProps: LabelProps
+  labelProps: LabelProps,
+  labelHint?: string
 ) => JSX.Element;
 
 /**
  * The simplest possible label renderer, which just renders a label using
- * standard Bulma styling.
+ * standard Bulma styling with an optional sublabel.
  */
-export const renderSimpleLabel: LabelRenderer = (label, props) => (
+export const defaultLabelRenderer: LabelRenderer = (
+  label,
+  props,
+  labelHint
+) => (
   <label className="label" {...props}>
     {label}
+    {labelHint && <div className="jf-label-hint">{labelHint}</div>}
   </label>
 );
 
@@ -71,10 +77,11 @@ export const renderSimpleLabel: LabelRenderer = (label, props) => (
 export function renderLabel(
   label: string,
   labelProps: LabelProps,
-  renderer?: LabelRenderer
+  renderer?: LabelRenderer,
+  labelHint?: string
 ): JSX.Element {
-  renderer = renderer || renderSimpleLabel;
-  return renderer(label, labelProps);
+  renderer = renderer || defaultLabelRenderer;
+  return renderer(label, labelProps, labelHint);
 }
 
 export interface ChoiceFormFieldProps extends BaseFormFieldProps<string> {
@@ -416,8 +423,12 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
 
   return (
     <div className="field" {...props.fieldProps}>
-      {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
-      <p>{props.labelHint}</p>
+      {renderLabel(
+        props.label,
+        { htmlFor: props.id },
+        props.renderLabel,
+        props.labelHint
+      )}
       <div className="control">
         <AutofocusedInput
           className={bulmaClasses("input", { "is-danger": !!props.errors })}

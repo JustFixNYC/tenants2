@@ -88,7 +88,13 @@ class HPActionDocumentsAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
 
     actions = [schedule_for_deletion]
 
-    search_fields = ["id", "user__username", "user__first_name", "user__last_name"]
+    search_fields = [
+        "id",
+        "user__username",
+        "user__first_name",
+        "user__last_name",
+        "user__preferred_first_name",
+    ]
 
     readonly_fields = ["edit_user"]
 

@@ -11,6 +11,12 @@ from project.util.nyc import BBL, to_pad_bbl
 
 logger = logging.getLogger(__name__)
 
+# The open data is updated monthly, so let's give some leeway
+# for an HPD registration to have expired before we consider it to
+# be legitimately expired (i.e., we're confident that our data is
+# accurate, rather than merely stale).
+EXPIRED_REGISTRATION_LEEWAY = datetime.timedelta(days=45)
+
 
 def normalize_apartment(value: str) -> str:
     """
@@ -278,16 +284,19 @@ class NycdbGetter(Generic[T]):
     def __call__(self, pad_bbl: str, pad_bin: str = "") -> Optional[T]:
         if not settings.NYCDB_DATABASE:
             return None
+        recently = datetime.date.today() - EXPIRED_REGISTRATION_LEEWAY
         try:
             result: Optional[T] = None
             if pad_bin:
                 result = self.get_registration(
-                    HPDRegistration.objects.filter(
-                        bin=pad_bin, registrationenddate__gte=datetime.date.today()
-                    )
+                    HPDRegistration.objects.filter(bin=pad_bin, registrationenddate__gte=recently)
                 )
             if result is None:
-                result = self.get_registration(HPDRegistration.objects.from_pad_bbl(pad_bbl))
+                result = self.get_registration(
+                    HPDRegistration.objects.from_pad_bbl(pad_bbl).filter(
+                        registrationenddate__gte=recently
+                    )
+                )
             return result
         except (DatabaseError, Exception):
             # TODO: Once we have more confidence in the underlying code,

@@ -39,6 +39,12 @@ NORMAL = HP_ACTION_CHOICES.NORMAL
 EMERGENCY = HP_ACTION_CHOICES.EMERGENCY
 
 
+class TestFillLandlordInfoResult:
+    def test_bool_works(self):
+        assert FillLandlordInfoResult(True)
+        assert not FillLandlordInfoResult(False)
+
+
 class TestReduceNumberOfLines:
     def test_it_does_nothing_if_lines_are_not_greater_than_limit(self):
         assert reduce_number_of_lines("a\nb\nc", 3, 10) == "a\nb\nc"

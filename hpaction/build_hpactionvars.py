@@ -114,6 +114,15 @@ def twoletter_to_hp_state(state: str) -> hp.LandlordAddressStateMC:
 
 
 class FillLandlordInfoResult(NamedTuple):
+    """
+    When we fill out an HP form with landlord information, we
+    sometimes want to include additional context that the HP Action
+    forms don't have fields for, such as when the HPD registration of
+    the landlord (which their address info was taken from) expires.
+
+    This provides a container for that information.
+    """
+
     # Whether landlord information was actually filled out.
     was_filled: bool
 

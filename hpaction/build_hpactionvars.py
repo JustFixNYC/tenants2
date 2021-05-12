@@ -1,4 +1,5 @@
-from typing import Dict, Iterable, Optional, Callable, Any, List
+from datetime import date
+from typing import Dict, Iterable, NamedTuple, Optional, Callable, Any, List
 from enum import Enum
 
 from users.models import JustfixUser
@@ -112,6 +113,18 @@ def twoletter_to_hp_state(state: str) -> hp.LandlordAddressStateMC:
     return OneOffEnum.VALUE  # type: ignore
 
 
+class FillLandlordInfoResult(NamedTuple):
+    # Whether landlord information was actually filled out.
+    was_filled: bool
+
+    # If the landlord information returns has an expiration date,
+    # e.g. if it was registered via HPD, this is it.
+    expiration_date: Optional[date] = None
+
+    def __bool__(self) -> bool:
+        return self.was_filled
+
+
 def fill_landlord_info_from_contact(v: hp.HPActionVariables, contact: nycdb.models.Contact) -> None:
     v.landlord_address_city_te = contact.address.city
     v.landlord_address_street_te = contact.address.first_line
@@ -143,16 +156,20 @@ def fill_landlord_management_info_from_company(
     v.management_company_to_be_sued_tf = True
 
 
-def fill_landlord_info_from_bbl_or_bin(v: hp.HPActionVariables, pad_bbl: str, pad_bin: str) -> bool:
+def fill_landlord_info_from_bbl_or_bin(
+    v: hp.HPActionVariables, pad_bbl: str, pad_bin: str
+) -> FillLandlordInfoResult:
+    expiration_date: Optional[date] = None
     landlord_found = False
     contact = nycdb.models.get_non_head_officer_landlord(pad_bbl, pad_bin)
     if contact:
         landlord_found = True
+        expiration_date = contact.expiration_date
         fill_landlord_info_from_contact(v, contact)
     mgmtco = nycdb.models.get_management_company(pad_bbl, pad_bin)
     if mgmtco:
         fill_landlord_management_info_from_company(v, mgmtco)
-    return landlord_found
+    return FillLandlordInfoResult(landlord_found, expiration_date)
 
 
 def get_user_onboarding_str_attr(user: JustfixUser, attr: str) -> str:
@@ -203,12 +220,14 @@ def fill_landlord_info_from_user_landlord_details(
     return False
 
 
-def fill_landlord_info_from_open_data(v: hp.HPActionVariables, user: JustfixUser) -> bool:
+def fill_landlord_info_from_open_data(
+    v: hp.HPActionVariables, user: JustfixUser
+) -> FillLandlordInfoResult:
     pad_bbl = get_user_pad_bbl(user)
     pad_bin = get_user_pad_bin(user)
     if pad_bbl or pad_bin:
         return fill_landlord_info_from_bbl_or_bin(v, pad_bbl, pad_bin)
-    return False
+    return FillLandlordInfoResult(False)
 
 
 def fill_landlord_info_from_nycha(v: hp.HPActionVariables, user: JustfixUser) -> bool:
@@ -242,20 +261,20 @@ def fill_landlord_info(
     v: hp.HPActionVariables,
     user: JustfixUser,
     use_user_landlord_details: bool = True,
-) -> bool:
+) -> FillLandlordInfoResult:
     v.user_is_nycha_tf = False
     if did_user_self_report_as_nycha(user):
-        return fill_landlord_info_from_nycha(v, user)
-    was_filled_out = use_user_landlord_details and fill_landlord_info_from_user_landlord_details(
-        v, user
+        return FillLandlordInfoResult(fill_landlord_info_from_nycha(v, user))
+    result = FillLandlordInfoResult(
+        use_user_landlord_details and fill_landlord_info_from_user_landlord_details(v, user)
     )
-    if not was_filled_out:
+    if not result:
         # The user has not manually entered landlord details; use the latest
         # open data to fill in both the landlord and management company.
-        was_filled_out = fill_landlord_info_from_open_data(v, user)
-        if not was_filled_out and does_user_have_a_nycha_bbl(user):
-            was_filled_out = fill_landlord_info_from_nycha(v, user)
-    return was_filled_out
+        result = fill_landlord_info_from_open_data(v, user)
+        if not result and does_user_have_a_nycha_bbl(user):
+            result = FillLandlordInfoResult(fill_landlord_info_from_nycha(v, user))
+    return result
 
 
 def fill_tenant_children(v: hp.HPActionVariables, children: Iterable[TenantChild]) -> None:

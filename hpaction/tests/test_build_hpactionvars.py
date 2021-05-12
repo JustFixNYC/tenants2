@@ -8,6 +8,7 @@ from issues.models import Issue, CustomIssue, ISSUE_AREA_CHOICES, ISSUE_CHOICES
 from issues.forms import CUSTOM_ISSUE_MAX_LENGTH
 from hpaction.models import FeeWaiverDetails, HP_ACTION_CHOICES
 from hpaction.build_hpactionvars import (
+    FillLandlordInfoResult,
     user_to_hpactionvars,
     justfix_issue_area_to_hp_room,
     fill_fee_waiver_details,
@@ -411,7 +412,7 @@ class TestFillLandlordInfo:
         oinfo = OnboardingInfoFactory(**onb_kwargs)
         v = hp.HPActionVariables()
         was_filled_out = is_nycha
-        assert fill_landlord_info(v, oinfo.user) is was_filled_out
+        assert fill_landlord_info(v, oinfo.user) == FillLandlordInfoResult(was_filled_out)
         assert v.user_is_nycha_tf is is_nycha
         assert v.landlord_entity_name_te == name
         if is_nycha:
@@ -422,7 +423,7 @@ class TestFillLandlordInfo:
         ld = LandlordDetailsV2Factory(is_looked_up=True)
         ManagementCompanyDetailsFactory(user=ld.user)
         v = hp.HPActionVariables()
-        assert fill_landlord_info(v, ld.user) is False
+        assert fill_landlord_info(v, ld.user) == FillLandlordInfoResult(False)
         assert v.management_company_name_te is None
         assert v.management_company_to_be_sued_tf is None
 
@@ -430,7 +431,7 @@ class TestFillLandlordInfo:
         ld = LandlordDetailsV2Factory(is_looked_up=False)
         ManagementCompanyDetailsFactory(user=ld.user)
         v = hp.HPActionVariables()
-        assert fill_landlord_info(v, ld.user) is True
+        assert fill_landlord_info(v, ld.user) == FillLandlordInfoResult(True)
         assert v.management_company_name_te == "Parker-Holsman"
         assert v.management_company_address_street_te == "5113 S. Harper Ave #2C"
         assert v.management_company_address_city_te == "Chicago"
@@ -442,7 +443,7 @@ class TestFillLandlordInfo:
     def test_it_fills_from_user_landlord_details(self, db):
         ld = LandlordDetailsV2Factory(is_looked_up=False)
         v = hp.HPActionVariables()
-        assert fill_landlord_info(v, ld.user) is True
+        assert fill_landlord_info(v, ld.user) == FillLandlordInfoResult(True)
         assert v.landlord_entity_name_te == "Landlordo Calrissian"
         assert v.landlord_address_street_te == "123 Cloud City Drive"
         assert v.landlord_address_city_te == "Bespin"

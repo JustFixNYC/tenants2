@@ -60,6 +60,7 @@ class Individual:
     address: Address
     first_name: str
     last_name: str
+    expiration_date: datetime.date
 
     @property
     def name(self) -> str:
@@ -70,6 +71,7 @@ class Individual:
 class Company:
     address: Address
     name: str
+    expiration_date: datetime.date
 
 
 Contact = Union[Individual, Company]
@@ -133,39 +135,49 @@ class HPDRegistration(models.Model):
 
     def _get_company_landlord(self, prefer_head_officer: bool) -> Optional[Company]:
         owners = [
-            (c.corporationname, c.address)
+            (c.corporationname, c.address, c.registration.registrationenddate)
             for c in self.contact_list
             if c.type == HPDContact.CORPORATE_OWNER and c.corporationname
         ]
         if owners:
-            company_name, company_address = owners[0]
+            company_name, company_address, expiration_date = owners[0]
             if not prefer_head_officer and company_address:
                 self._warn_if_multiple(owners, "corporate owners")
                 return Company(
                     name=company_name,
                     address=company_address,
+                    expiration_date=expiration_date,
                 )
             head_officer_addresses = [
-                (c.firstname, c.lastname, c.address)
+                (c.firstname, c.lastname, c.address, c.registration.registrationenddate)
                 for c in self.contact_list
                 if c.type == HPDContact.HEAD_OFFICER and c.address
             ]
             if head_officer_addresses:
                 self._warn_if_multiple(head_officer_addresses, "head officers")
-                first_name, last_name, address = head_officer_addresses[0]
-                return Company(name=f"{first_name} {last_name}", address=address)
+                first_name, last_name, address, expiration_date = head_officer_addresses[0]
+                return Company(
+                    name=f"{first_name} {last_name}",
+                    address=address,
+                    expiration_date=expiration_date,
+                )
         return None
 
     def _get_indiv_landlord(self) -> Optional[Individual]:
         owners = [
-            (c.firstname, c.lastname, c.address)
+            (c.firstname, c.lastname, c.address, c.registration.registrationenddate)
             for c in self.contact_list
             if c.type == HPDContact.INDIVIDUAL_OWNER and c.firstname and c.lastname and c.address
         ]
         if owners:
             self._warn_if_multiple(owners, "individual owners")
-            first_name, last_name, address = owners[0]
-            return Individual(first_name=first_name, last_name=last_name, address=address)
+            first_name, last_name, address, expiration_date = owners[0]
+            return Individual(
+                first_name=first_name,
+                last_name=last_name,
+                address=address,
+                expiration_date=expiration_date,
+            )
         return None
 
     def get_landlord(self, prefer_head_officer: bool = True) -> Optional[Contact]:
@@ -173,14 +185,14 @@ class HPDRegistration(models.Model):
 
     def get_management_company(self) -> Optional[Company]:
         agents = [
-            (c.corporationname, c.address)
+            (c.corporationname, c.address, c.registration.registrationenddate)
             for c in self.contact_list
             if c.type == HPDContact.AGENT and c.address and c.corporationname
         ]
         if agents:
             self._warn_if_multiple(agents, "agents")
-            name, address = agents[0]
-            return Company(name=name, address=address)
+            name, address, expiration_date = agents[0]
+            return Company(name=name, address=address, expiration_date=expiration_date)
         return None
 
 

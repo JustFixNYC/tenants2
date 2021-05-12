@@ -1,4 +1,5 @@
-from typing import Optional, List
+from hpaction.build_hpactionvars import FillLandlordInfoResult
+from typing import Optional, List, Tuple
 import graphene
 from graphene_django.types import DjangoObjectType
 from graphql import ResolveInfo
@@ -504,22 +505,35 @@ class HPActionSessionInfo:
         return HP_DOCUSIGN_STATUS_CHOICES.get_enum_member(de.status)
 
 
-def _fill_user_landlord_info(info: ResolveInfo) -> Optional[HPActionVariables]:
+def _fill_user_landlord_info(
+    info: ResolveInfo,
+) -> Optional[Tuple[HPActionVariables, FillLandlordInfoResult]]:
     request = info.context
     user = request.user
     if user.is_authenticated:
         from .build_hpactionvars import fill_landlord_info
 
         v = HPActionVariables()
-        if fill_landlord_info(v, user, use_user_landlord_details=False):
-            return v
+        result = fill_landlord_info(v, user, use_user_landlord_details=False)
+        if result:
+            return (v, result)
     return None
+
+
+class RecommendedLandlordInfo(GraphQLMailingAddress):
+    expiration_date = graphene.Date(
+        description=(
+            "The date that the landlord information expires, if any. "
+            "This will be non-null if the landlord details were "
+            "retrieved from HPD registration data."
+        )
+    )
 
 
 @schema_registry.register_queries
 class HpQueries:
     recommended_hp_landlord = graphene.Field(
-        GraphQLMailingAddress,
+        RecommendedLandlordInfo,
         description=(
             "The recommended landlord address for "
             "HP Action for the currently "
@@ -528,15 +542,17 @@ class HpQueries:
     )
 
     def resolve_recommended_hp_landlord(self, info: ResolveInfo):
-        v = _fill_user_landlord_info(info)
-        if v:
+        result = _fill_user_landlord_info(info)
+        if result:
+            v, fill_result = result
             assert v.landlord_address_state_mc
-            return GraphQLMailingAddress(
+            return RecommendedLandlordInfo(
                 name=v.landlord_entity_name_te,
                 primary_line=v.landlord_address_street_te,
                 city=v.landlord_address_city_te,
                 state=v.landlord_address_state_mc.value,
                 zip_code=v.landlord_address_zip_te,
+                expiration_date=fill_result.expiration_date,
             )
         return None
 
@@ -550,8 +566,9 @@ class HpQueries:
     )
 
     def resolve_recommended_hp_management_company(self, info: ResolveInfo):
-        v = _fill_user_landlord_info(info)
-        if v and v.management_company_name_te:
+        result = _fill_user_landlord_info(info)
+        if result and result[0].management_company_name_te:
+            v = result[0]
             assert v.management_company_address_state_mc
             return GraphQLMailingAddress(
                 name=v.management_company_name_te,

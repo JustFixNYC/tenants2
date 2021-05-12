@@ -437,7 +437,8 @@ class TestRecommendedHpLandlordAndManagementCompany:
             primaryLine,
             city,
             state,
-            zipCode
+            zipCode,
+            expirationDate
         }
         recommendedHpManagementCompany {
             name,
@@ -479,6 +480,7 @@ class TestRecommendedHpLandlordAndManagementCompany:
                 "primaryLine": "3 ULTRA STREET",
                 "state": "NY",
                 "zipCode": "11999",
+                "expirationDate": "2099-01-01",
             },
             "recommendedHpManagementCompany": {
                 "city": "NEW YORK",

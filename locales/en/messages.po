@@ -464,11 +464,6 @@ msgstr "Community Justice Project"
 msgid "Confirm"
 msgstr "Confirm"
 
-#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:28
-#: frontend/lib/norent/letter-builder/create-account.tsx:35
-msgid "Confirm password"
-msgstr "Confirm password"
-
 #: frontend/lib/start-account-or-login/set-password.tsx:22
 msgid "Confirm your new password"
 msgstr "Confirm your new password"
@@ -524,6 +519,10 @@ msgstr "Cracked sink"
 #: common-data/issue-choices.ts:216
 msgid "Cracked walls"
 msgstr "Cracked walls"
+
+#: frontend/lib/common-steps/create-password.tsx:8
+msgid "Create a password"
+msgstr "Create a password"
 
 #. salutation of formal letter
 #: frontend/lib/util/letter-content-util.tsx:48
@@ -1184,7 +1183,7 @@ msgstr "Let's get to know you."
 msgid "Let's set you up with a new password, so you can easily login again."
 msgstr "Let's set you up with a new password, so you can easily login again."
 
-#: frontend/lib/norent/letter-builder/create-account.tsx:26
+#: frontend/lib/norent/letter-builder/create-account.tsx:27
 msgid "Let's set you up with an account. This will enable you to save your information, and receive updates."
 msgstr "Let's set you up with an account. This will enable you to save your information, and receive updates."
 
@@ -1192,11 +1191,11 @@ msgstr "Let's set you up with an account. This will enable you to save your info
 msgid "Letter Builder"
 msgstr "Letter Builder"
 
-#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:19
+#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:20
 msgid "Let’s set you up with an account. An account will enable you to save your information, download your declaration, and more."
 msgstr "Let’s set you up with an account. An account will enable you to save your information, download your declaration, and more."
 
-#: frontend/lib/norent/letter-builder/create-account.tsx:21
+#: frontend/lib/norent/letter-builder/create-account.tsx:22
 msgid "Let’s set you up with an account. An account will enable you to save your information, download your letter, and more."
 msgstr "Let’s set you up with an account. An account will enable you to save your information, download your letter, and more."
 
@@ -1349,6 +1348,10 @@ msgstr "More resources"
 #: frontend/lib/norent/about.tsx:21
 msgid "Movement Law Lab"
 msgstr "Movement Law Lab"
+
+#: frontend/lib/common-steps/create-password.tsx:8
+msgid "Must be at least 8 characters. Can't be all numbers."
+msgstr "Must be at least 8 characters. Can't be all numbers."
 
 #: frontend/lib/evictionfree/faqs.tsx:24
 msgid "Navigating these laws is confusing. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
@@ -1534,8 +1537,6 @@ msgstr "Outlets not working"
 msgid "Painting overdue (3 years)"
 msgstr "Painting overdue (3 years)"
 
-#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:27
-#: frontend/lib/norent/letter-builder/create-account.tsx:34
 #: frontend/lib/start-account-or-login/verify-password.tsx:61
 msgid "Password"
 msgstr "Password"
@@ -1576,6 +1577,10 @@ msgstr "Please <0>go back and choose a state</0>."
 #: frontend/lib/pages/cross-site-terms-opt-in.tsx:31
 msgid "Please agree to our terms and conditions"
 msgstr "Please agree to our terms and conditions"
+
+#: frontend/lib/common-steps/create-password.tsx:9
+msgid "Please confirm your password"
+msgstr "Please confirm your password"
 
 #: frontend/lib/norent/components/subscribe.tsx:19
 msgid "Please enter an email address!"
@@ -1783,8 +1788,8 @@ msgstr "Sending a letter to your landlord is a big step. Here are a few <0>frequ
 msgid "Separate letters for each month starting in September when you couldn't pay rent in full."
 msgstr "Separate letters for each month starting in September when you couldn't pay rent in full."
 
-#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:16
-#: frontend/lib/norent/letter-builder/create-account.tsx:18
+#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:17
+#: frontend/lib/norent/letter-builder/create-account.tsx:19
 msgid "Set up an account"
 msgstr "Set up an account"
 

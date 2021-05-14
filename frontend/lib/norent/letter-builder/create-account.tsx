@@ -6,7 +6,7 @@ import {
   NorentCreateAccountMutation,
   BlankNorentCreateAccountInput,
 } from "../../queries/NorentCreateAccountMutation";
-import { CheckboxFormField, TextualFormField } from "../../forms/form-fields";
+import { CheckboxFormField } from "../../forms/form-fields";
 import { ModalLink } from "../../ui/modal";
 import { NorentRoutes } from "../route-info";
 import { PrivacyInfoModal } from "../../ui/privacy-info-modal";
@@ -16,6 +16,7 @@ import { useIsOnboardingUserInStateWithProtections } from "./national-metadata";
 import { NorentOnboardingStep } from "./step-decorators";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
+import { CreatePasswordFields } from "../../common-steps/create-password";
 
 export const NorentCreateAccount = NorentOnboardingStep((props) => {
   const isWritingLetter = useIsOnboardingUserInStateWithProtections();
@@ -47,15 +48,9 @@ export const NorentCreateAccount = NorentOnboardingStep((props) => {
       >
         {(ctx) => (
           <>
-            <TextualFormField
-              label={li18n._(t`Password`)}
-              type="password"
-              {...ctx.fieldPropsFor("password")}
-            />
-            <TextualFormField
-              label={li18n._(t`Confirm password`)}
-              type="password"
-              {...ctx.fieldPropsFor("confirmPassword")}
+            <CreatePasswordFields
+              passwordProps={ctx.fieldPropsFor("password")}
+              confirmPasswordProps={ctx.fieldPropsFor("confirmPassword")}
             />
             <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
               <Trans>

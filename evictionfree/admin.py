@@ -3,9 +3,9 @@ from django.db.models import Q, Count
 from django.db.models.functions import Concat
 
 from users.models import JustfixUser
+from users.action_progress import EVICTIONFREE_PROGRESS
 from users.admin_user_proxy import UserProxyAdmin
 from project.util.admin_util import admin_field, never_has_permission
-from onboarding.models import SIGNUP_INTENT_CHOICES
 from loc.admin import LandlordDetailsInline
 from loc.lob_django_util import SendableViaLobAdminMixin
 from . import models
@@ -133,10 +133,4 @@ class EvictionFreeUserAdmin(UserProxyAdmin):
         )
         return queryset
 
-    def filter_queryset_for_changelist_view(self, queryset):
-        return queryset.annotate(
-            letter_count=Count("submitted_hardship_declaration", distinct=True),
-        ).filter(
-            Q(letter_count__gt=0)
-            | Q(onboarding_info__signup_intent__in=[SIGNUP_INTENT_CHOICES.EVICTIONFREE])
-        )
+    progress_annotation = EVICTIONFREE_PROGRESS

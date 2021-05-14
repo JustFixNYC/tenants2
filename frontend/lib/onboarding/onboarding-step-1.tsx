@@ -16,7 +16,7 @@ import { exactSubsetOrDefault } from "../util/util";
 import { assertNotNull } from "@justfixnyc/util";
 import {
   TextualFormField,
-  renderSimpleLabel,
+  defaultLabelRenderer,
   LabelRenderer,
 } from "../forms/form-fields";
 import { NextButton } from "../ui/buttons";
@@ -42,7 +42,7 @@ function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
     <div className="level is-marginless is-mobile">
       <div className="level-left">
         <div className="level-item is-marginless">
-          {renderSimpleLabel(label, labelProps)}
+          {defaultLabelRenderer(label, labelProps)}
         </div>
       </div>
       <div className="level-right">

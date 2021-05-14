@@ -469,11 +469,6 @@ msgstr "Community Justice Project"
 msgid "Confirm"
 msgstr "Confirmar"
 
-#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:28
-#: frontend/lib/norent/letter-builder/create-account.tsx:35
-msgid "Confirm password"
-msgstr "Confirma la contraseña"
-
 #: frontend/lib/start-account-or-login/set-password.tsx:22
 msgid "Confirm your new password"
 msgstr "Confirma tu nueva contraseña"
@@ -529,6 +524,10 @@ msgstr "Lavabo agrietado"
 #: common-data/issue-choices.ts:216
 msgid "Cracked walls"
 msgstr "Paredes Agrietadas"
+
+#: frontend/lib/common-steps/create-password.tsx:8
+msgid "Create a password"
+msgstr ""
 
 #. salutation of formal letter
 #: frontend/lib/util/letter-content-util.tsx:48
@@ -1189,7 +1188,7 @@ msgstr "Conozcámonos."
 msgid "Let's set you up with a new password, so you can easily login again."
 msgstr "Configuremos una nueva contraseña, para que puedas volver fácilmente."
 
-#: frontend/lib/norent/letter-builder/create-account.tsx:26
+#: frontend/lib/norent/letter-builder/create-account.tsx:27
 msgid "Let's set you up with an account. This will enable you to save your information, and receive updates."
 msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información y recibir noticias."
 
@@ -1197,11 +1196,11 @@ msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información y rec
 msgid "Letter Builder"
 msgstr "Generador de cartas"
 
-#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:19
+#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:20
 msgid "Let’s set you up with an account. An account will enable you to save your information, download your declaration, and more."
 msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información, bajarte tu declaración, y más."
 
-#: frontend/lib/norent/letter-builder/create-account.tsx:21
+#: frontend/lib/norent/letter-builder/create-account.tsx:22
 msgid "Let’s set you up with an account. An account will enable you to save your information, download your letter, and more."
 msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información, bajarte tu carta, y más."
 
@@ -1354,6 +1353,10 @@ msgstr "Más información"
 #: frontend/lib/norent/about.tsx:21
 msgid "Movement Law Lab"
 msgstr "Movement Law Lab"
+
+#: frontend/lib/common-steps/create-password.tsx:8
+msgid "Must be at least 8 characters. Can't be all numbers."
+msgstr ""
 
 #: frontend/lib/evictionfree/faqs.tsx:24
 msgid "Navigating these laws is confusing. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
@@ -1539,8 +1542,6 @@ msgstr "Tomas de corriente no funcionan"
 msgid "Painting overdue (3 years)"
 msgstr "Pintura Atrasada (cada 3 años)"
 
-#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:27
-#: frontend/lib/norent/letter-builder/create-account.tsx:34
 #: frontend/lib/start-account-or-login/verify-password.tsx:61
 msgid "Password"
 msgstr "Contraseña"
@@ -1581,6 +1582,10 @@ msgstr "Por favor <0>vuelve y escoge un estado</0>."
 #: frontend/lib/pages/cross-site-terms-opt-in.tsx:31
 msgid "Please agree to our terms and conditions"
 msgstr "Por favor, acepta nuestros términos y condiciones"
+
+#: frontend/lib/common-steps/create-password.tsx:9
+msgid "Please confirm your password"
+msgstr ""
 
 #: frontend/lib/norent/components/subscribe.tsx:19
 msgid "Please enter an email address!"
@@ -1788,8 +1793,8 @@ msgstr "Enviar una carta al dueño de tu edificio es un paso grande. Aquí tiene
 msgid "Separate letters for each month starting in September when you couldn't pay rent in full."
 msgstr "Cartas separadas para cada mes a partir de septiembre, cuando no pudiste pagar la renta en su totalidad."
 
-#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:16
-#: frontend/lib/norent/letter-builder/create-account.tsx:18
+#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:17
+#: frontend/lib/norent/letter-builder/create-account.tsx:19
 msgid "Set up an account"
 msgstr "Configura tu cuenta"
 

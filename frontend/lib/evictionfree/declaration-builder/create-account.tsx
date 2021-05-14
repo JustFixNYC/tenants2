@@ -2,7 +2,7 @@ import React from "react";
 import Page from "../../ui/page";
 import { ProgressButtons } from "../../ui/buttons";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import { CheckboxFormField, TextualFormField } from "../../forms/form-fields";
+import { CheckboxFormField } from "../../forms/form-fields";
 import { ModalLink } from "../../ui/modal";
 import { EvictionFreeRoutes } from "../route-info";
 import { PrivacyInfoModal } from "../../ui/privacy-info-modal";
@@ -15,6 +15,7 @@ import {
   BlankEvictionFreeCreateAccountInput,
   EvictionFreeCreateAccountMutation,
 } from "../../queries/EvictionFreeCreateAccountMutation";
+import { CreatePasswordFields } from "../../common-steps/create-password";
 
 export const EvictionFreeCreateAccount = EvictionFreeOnboardingStep((props) => {
   return (
@@ -38,15 +39,9 @@ export const EvictionFreeCreateAccount = EvictionFreeOnboardingStep((props) => {
       >
         {(ctx) => (
           <>
-            <TextualFormField
-              label={li18n._(t`Password`)}
-              type="password"
-              {...ctx.fieldPropsFor("password")}
-            />
-            <TextualFormField
-              label={li18n._(t`Confirm password`)}
-              type="password"
-              {...ctx.fieldPropsFor("confirmPassword")}
+            <CreatePasswordFields
+              passwordProps={ctx.fieldPropsFor("password")}
+              confirmPasswordProps={ctx.fieldPropsFor("confirmPassword")}
             />
             <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
               <Trans>

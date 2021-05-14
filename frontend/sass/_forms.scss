@@ -4,6 +4,10 @@
   font-size: inherit;
 }
 
+.jf-label-hint {
+  font-weight: normal;
+}
+
 .jf-radio.radio + .jf-radio.radio {
   // This undoes Bulma's default .radio+.radio styling.
   margin-left: 0;

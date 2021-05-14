@@ -1,10 +1,6 @@
 import React from "react";
 import { t } from "@lingui/macro";
-import {
-  BaseFormFieldProps,
-  TextualFormField,
-  LabelRenderer,
-} from "../forms/form-fields";
+import { BaseFormFieldProps, TextualFormField } from "../forms/form-fields";
 import { li18n } from "../i18n-lingui";
 
 // See project/settings.py for the list of password validators.
@@ -13,7 +9,6 @@ const PASSWORD_VALIDATATION_HINT = t`Must be at least 8 characters. Can't be all
 type CreatePasswordProps = {
   passwordProps: BaseFormFieldProps<string>;
   confirmPasswordProps: BaseFormFieldProps<string>;
-  renderPasswordLabel?: LabelRenderer;
 };
 
 export class CreatePasswordFields extends React.Component<CreatePasswordProps> {
@@ -23,7 +18,6 @@ export class CreatePasswordFields extends React.Component<CreatePasswordProps> {
         <TextualFormField
           label={li18n._(t`Create a password`)}
           type="password"
-          renderLabel={this.props.renderPasswordLabel}
           labelHint={li18n._(PASSWORD_VALIDATATION_HINT)}
           {...this.props.passwordProps}
         />

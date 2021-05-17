@@ -45,6 +45,19 @@ class StreetAddress(NamedTuple):
     geometry: FeatureGeometry
 
 
+def _encode_query_for_places_request(query: str) -> str:
+    # Mapbox's API prohibits semicolons, so replace them with commas.
+    query = query.replace(";", ",")
+
+    # By default, urllib.parse.quote() considers '/' a "safe" character to
+    # not quote, but in the context of the Mapbox API it needs to be quoted
+    # or else the URL will 404.  This is particularly important for addresses
+    # which contain fractional addresses, e.g. "654 1/2 Park Place".
+    query = urllib.parse.quote(query, safe="")
+
+    return query
+
+
 def mapbox_places_request(query: str, args: Dict[str, str]) -> Optional[MapboxResults]:
     """
     Make a request for the given place to the Mapbox Places API [1], using the
@@ -61,11 +74,11 @@ def mapbox_places_request(query: str, args: Dict[str, str]) -> Optional[MapboxRe
     if not settings.MAPBOX_ACCESS_TOKEN:
         return None
 
-    query = query.replace(";", ",")
+    query = _encode_query_for_places_request(query)
 
     try:
         response = requests.get(
-            f"{MAPBOX_PLACES_URL}/{urllib.parse.quote(query)}.json",
+            f"{MAPBOX_PLACES_URL}/{query}.json",
             {
                 "access_token": settings.MAPBOX_ACCESS_TOKEN,
                 "country": "US",

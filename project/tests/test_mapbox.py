@@ -6,6 +6,7 @@ import urllib.parse
 
 from project.justfix_environment import BASE_DIR
 from project.mapbox import (
+    _encode_query_for_places_request,
     mapbox_places_request,
     find_city,
     get_mapbox_state,
@@ -110,6 +111,19 @@ class TestDoesCityMatch:
 )
 def test_get_mapbox_street_addr(feature, expected):
     assert get_mapbox_street_addr(feature) == expected
+
+
+@pytest.mark.parametrize(
+    "query,expected",
+    [
+        # Ensure slashes are escaped.
+        ("1/2", "1%2F2"),
+        # Ensure semicolons are replaced with commas.
+        ("boop;jones", "boop%2Cjones"),
+    ],
+)
+def test_encode_query_for_places_request(query, expected):
+    assert _encode_query_for_places_request(query) == expected
 
 
 class TestMapboxPlacesRequest:

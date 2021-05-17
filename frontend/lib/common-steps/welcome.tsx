@@ -2,7 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import React, { useContext } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { AppContext } from "../app-context";
-import { SimpleClearSessionButton } from "../forms/clear-session-button";
+import { SimpleClearAnonymousSessionButton } from "../forms/clear-anonymous-session-button";
 import { getGlobalSiteRoutes } from "../global-site-routes";
 import { li18n } from "../i18n-lingui";
 import { ProgressStepProps } from "../progress/progress-step-route";
@@ -63,7 +63,9 @@ export const WelcomePage: React.FC<WelcomePageProps> = (props) => {
         props.children
       )}
       <div className="buttons jf-two-buttons">
-        <SimpleClearSessionButton to={getGlobalSiteRoutes().locale.home} />
+        <SimpleClearAnonymousSessionButton
+          to={getGlobalSiteRoutes().locale.home}
+        />
         <Link
           to={nextStep}
           className="button jf-is-next-button is-primary is-medium"

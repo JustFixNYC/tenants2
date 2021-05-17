@@ -32,6 +32,26 @@ def test_logout_works(graphql_client):
     assert graphql_client.request.user.pk is None
 
 
+class TestClearAnonymousSession:
+    QUERY = "mutation { output: clearAnonymousSession(input: {}) { session { csrfToken } } }"
+
+    def test_it_does_nothing_if_user_is_logged_in(self, db, graphql_client):
+        user = UserFactory()
+        graphql_client.request.user = user
+        graphql_client.request.session["boop"] = 1
+        result = graphql_client.execute(self.QUERY)
+        assert len(result["data"]["output"]["session"]["csrfToken"]) > 0
+        assert graphql_client.request.user.pk == user.pk
+        assert graphql_client.request.session["boop"] == 1
+
+    def test_it_clears_session_if_it_is_anonymous(self, db, graphql_client):
+        graphql_client.request.session["boop"] = 1
+        result = graphql_client.execute(self.QUERY)
+        assert len(result["data"]["output"]["session"]["csrfToken"]) > 0
+        assert graphql_client.request.user.pk is None
+        assert "boop" not in graphql_client.request.session
+
+
 def test_deprecated_field_is_not_in_session_query():
     all_session_info = get_frontend_query("AllSessionInfo.graphql")
     assert EXAMPLE_DEPRECATED_FIELD not in all_session_info

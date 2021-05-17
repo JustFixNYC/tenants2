@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-05-06 15:17\n"
+"PO-Revision-Date: 2021-05-17 15:41\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -527,7 +527,7 @@ msgstr "Paredes Agrietadas"
 
 #: frontend/lib/common-steps/create-password.tsx:8
 msgid "Create a password"
-msgstr ""
+msgstr "Crea una contraseña"
 
 #. salutation of formal letter
 #: frontend/lib/util/letter-content-util.tsx:48
@@ -1350,7 +1350,7 @@ msgstr "Movement Law Lab"
 
 #: frontend/lib/common-steps/create-password.tsx:8
 msgid "Must be at least 8 characters. Can't be all numbers."
-msgstr ""
+msgstr "Debe tener por lo menos 8 letras. No se puede usar solo números."
 
 #: frontend/lib/evictionfree/faqs.tsx:24
 msgid "Navigating these laws is confusing. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
@@ -1579,7 +1579,7 @@ msgstr "Por favor, acepta nuestros términos y condiciones"
 
 #: frontend/lib/common-steps/create-password.tsx:9
 msgid "Please confirm your password"
-msgstr ""
+msgstr "Por favor confirma tu contraseña"
 
 #: frontend/lib/norent/components/subscribe.tsx:19
 msgid "Please enter an email address!"
@@ -3055,3 +3055,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

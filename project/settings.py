@@ -122,6 +122,7 @@ INSTALLED_APPS = [
     "django.contrib.gis",
     "graphene_django",
     "django_celery_results",
+    "django_sql_dashboard",
     "project.apps.DefaultConfig",
     "project.apps.JustfixAdminConfig",
     "frontend",
@@ -210,6 +211,9 @@ DATABASE_ROUTERS: List[str] = []
 DATABASES = {
     "default": dj_database_url.parse(change_db_url_to_postgis(env.DATABASE_URL)),
 }
+
+if env.DASHBOARD_DATABASE_URL:
+    DATABASES["dashboard"] = dj_database_url.parse(env.DASHBOARD_DATABASE_URL)
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 

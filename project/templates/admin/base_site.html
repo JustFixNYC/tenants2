@@ -18,7 +18,7 @@
 <a href="/admin/conversations/">Conversations</a> /
 {% endif %}
 {% if perms.users.change_justfixuser %}
-<a href="{% url 'admin:dashboard' %}">Dashboard</a> /
+<a href="{% url 'django_sql_dashboard-index' %}">Dashboard</a> /
 {% endif %}
 <a href="{% url 'admin:download-data-index' %}">Download data</a> /
 {{ block.super }}

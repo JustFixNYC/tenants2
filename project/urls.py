@@ -18,6 +18,7 @@ from django.urls import path, re_path, include
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from graphene_django.views import GraphQLView
+import django_sql_dashboard
 
 from .views import example_server_error, redirect_favicon, health, redirect_en_us
 from .frontapp import embeddable_in_frontapp
@@ -34,6 +35,7 @@ dev_patterns = (
 )
 
 urlpatterns = [
+    path("admin/dashboard/", include(django_sql_dashboard.urls)),
     path("verify", embeddable_in_frontapp(twofactor.views.verify), name="verify"),
     path("verify-email", verify_email, name="verify_email"),
     path("health", health, name="health"),

@@ -23,7 +23,7 @@ class DashboardViews:
     def get_urls(self):
         return [
             path(
-                "dashboard/",
+                "vega-dashboard/",
                 self.site.admin_view(
                     # Argh, it's really unfortunate that we have to break CSP
                     # in order to use Vega, which apparently uses eval(). :(

@@ -45,6 +45,7 @@ dj-email-url = "==0.2.0"
 docusign-esign = "==3.7.1"
 pypdf2 = "==1.26.0"
 mailchimp3 = "==3.0.14"
+django-sql-dashboard = "==0.14"
 
 # As of 2021-02-01, this *cannot* be version 2.x because docusign-esign is
 # incompatible with it: https://github.com/docusign/docusign-python-client/issues/94

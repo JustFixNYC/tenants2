@@ -3,6 +3,7 @@ import React from "react";
 import { OutboundLink } from "../../ui/outbound-link";
 import { li18n } from "../../i18n-lingui";
 import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
+import { HARDSHIP_DECLARATION_FORM_URLS } from "../homepage";
 
 export type EvictionFreeFaq = {
   question: string; // Localized
@@ -186,14 +187,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
         <Trans id="evictionfree.printOutFaq">
           <p>
             No, you can print out the{" "}
-            <LocalizedOutboundLink
-              hrefs={{
-                en:
-                  "https://www.nycourts.gov/courts/nyc/SSI/images/corona/HardshipDeclaration.pdf",
-                es:
-                  "https://www.nycourts.gov/courts/nyc/SSI/images/corona/HardshipDeclaration_span.pdf",
-              }}
-            >
+            <LocalizedOutboundLink hrefs={HARDSHIP_DECLARATION_FORM_URLS}>
               hardship declaration form
             </LocalizedOutboundLink>{" "}
             yourself, fill it out by hand, and mail/email it to your landlord

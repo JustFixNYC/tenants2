@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-05-18 13:12\n"
+"PO-Revision-Date: 2021-05-18 13:23\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2749,9 +2749,7 @@ msgstr "Además, entiendo que los honorarios, multas o intereses legales por imp
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:36
 msgid "evictionfree.legalAgreementCheckboxOnNewProtections3"
-msgstr "Además, entiendo que mi casero puede solicitar el desalojo después del 31 de agosto del 2021 y\n"
-"que la ley puede proporcionarle, en ese momento, ciertas protecciones independientes\n"
-"disponibles a través de esta declaración."
+msgstr "Además, entiendo que mi casero puede solicitar el desalojo después del 31 de agosto del 2021 y que la ley puede proporcionarle, en ese momento, ciertas protecciones independientes disponibles a través de esta declaración."
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23
 msgid "evictionfree.outlineOfDeclarationFormSteps"

@@ -27,6 +27,7 @@ import JustfixRoutes from "../justfix-route-info";
 import { useAutoFocus } from "../ui/use-auto-focus";
 import { OnboardingStep4WithOptionalEmailMutation } from "../queries/OnboardingStep4WithOptionalEmailMutation";
 import { optionalizeLabelIf } from "../forms/optionalize-label";
+import { CreatePasswordFields } from "../common-steps/create-password";
 
 type OnboardingStep4Props = {
   routes: OnboardingRouteInfo;
@@ -120,16 +121,11 @@ export default class OnboardingStep4 extends React.Component<
         />
         <HiddenFormField {...ctx.fieldPropsFor("signupIntent")} />
         <br />
-        <TextualFormField
-          label="Create a password"
-          type="password"
-          {...ctx.fieldPropsFor("password")}
+        <CreatePasswordFields
+          passwordProps={ctx.fieldPropsFor("password")}
+          confirmPasswordProps={ctx.fieldPropsFor("confirmPassword")}
         />
-        <TextualFormField
-          label="Please confirm your password"
-          type="password"
-          {...ctx.fieldPropsFor("confirmPassword")}
-        />
+
         <CheckboxFormField {...ctx.fieldPropsFor("agreeToTerms")}>
           I agree to the{" "}
           <ModalLink

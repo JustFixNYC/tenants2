@@ -1,8 +1,10 @@
+from typing import Optional
 from django.contrib import admin
 from django.urls import reverse
 
 from .admin_user_tabs import UserWithTabsMixin
 from project.util.admin_util import admin_field, make_button_link
+from users.action_progress import ProgressAnnotation, IN_PROGRESS, COMPLETE
 import airtable.sync
 
 
@@ -11,7 +13,7 @@ import airtable.sync
 )
 def sms_conversations_field(self, obj):
     return make_button_link(
-        f"/admin/conversations?phone=%2B1{obj.phone_number}", "View SMS conversations"
+        f"/admin/conversations/?phone=%2B1{obj.phone_number}", "View SMS conversations"
     )
 
 
@@ -69,26 +71,24 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, UserWithTabsMixin, admin
 
     impersonate = impersonate_field
 
+    # If provided, this will ensure that the user changelist view will exclude
+    # users who have not started the relevant action.
+    progress_annotation: Optional[ProgressAnnotation] = None
+
     def address(self, obj):
         if hasattr(obj, "onboarding_info"):
             return ", ".join(obj.onboarding_info.address_lines_for_mailing)
 
-    def filter_queryset_for_changelist_view(self, queryset):
-        """
-        This method can be used to filter the list of users that are shown
-        in the list view, if e.g. one wants to show only users who have
-        actually used (or signaled intent to use) a particular product.
-        """
-
-        return queryset
-
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
         queryset = queryset.prefetch_related("onboarding_info")
-        if request.resolver_match.func.__name__ == "changelist_view":
+        pa = self.progress_annotation
+        if request.resolver_match.func.__name__ == "changelist_view" and pa:
             # We only want to constrain the queryset if we're on the
             # list view: we don't want to do it universally because then
             # links from e.g. the regular User admin view wouldn't be able to
             # access our proxy model's detail view.
-            queryset = self.filter_queryset_for_changelist_view(queryset)
+            queryset = queryset.annotate(**{pa.name: pa.expression}).filter(
+                **{f"{pa.name}__in": [IN_PROGRESS, COMPLETE]}
+            )
         return queryset

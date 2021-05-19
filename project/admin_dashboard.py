@@ -1,8 +1,10 @@
 import json
+import functools
 from typing import Dict, Any, List
 from urllib.parse import urlparse
 from pathlib import Path
 from django.urls import path
+from django.http import Http404
 from django.utils.text import slugify
 from django.template.response import TemplateResponse
 from django.conf import settings
@@ -16,6 +18,33 @@ MY_DIR = Path(__file__).parent.resolve()
 SPECS_DIR = MY_DIR / "admin_dashboard"
 
 
+def require_enabled_dashboard(view):
+    @functools.wraps(view)
+    def wrapped_view(*args, **kwargs):
+        if not settings.DASHBOARD_DB_ALIAS:
+            raise Http404()
+        return view(*args, **kwargs)
+
+    return wrapped_view
+
+
+def get_django_admin_dashboard_urls(site):
+    import django_sql_dashboard.urls
+    from django.urls.resolvers import URLPattern
+
+    urlpatterns = [
+        URLPattern(
+            pattern=pattern.pattern,
+            callback=require_enabled_dashboard(site.admin_view(pattern.callback)),
+            default_args=pattern.default_args,
+            name=pattern.name,
+        )
+        for pattern in django_sql_dashboard.urls.urlpatterns
+    ]
+
+    return (urlpatterns, "", "")
+
+
 class DashboardViews:
     def __init__(self, site):
         self.site = site
@@ -23,7 +52,7 @@ class DashboardViews:
     def get_urls(self):
         return [
             path(
-                "dashboard/",
+                "vega-dashboard/",
                 self.site.admin_view(
                     # Argh, it's really unfortunate that we have to break CSP
                     # in order to use Vega, which apparently uses eval(). :(

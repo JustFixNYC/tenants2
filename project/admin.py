@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
 
 import frontend.views
 from .frontapp import embeddable_in_frontapp
@@ -38,3 +39,10 @@ class JustfixAdminSite(admin.AdminSite):
             *self.user_views.get_urls(),
         ]
         return my_urls + urls
+
+    def each_context(self, request):
+        ctx = super().each_context(request)
+        return {
+            **ctx,
+            "is_dashboard_enabled": bool(settings.DASHBOARD_DB_ALIAS),
+        }

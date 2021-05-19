@@ -212,8 +212,11 @@ DATABASES = {
     "default": dj_database_url.parse(change_db_url_to_postgis(env.DATABASE_URL)),
 }
 
+DASHBOARD_DB_ALIAS = None
+
 if env.DASHBOARD_DATABASE_URL:
     DATABASES["dashboard"] = dj_database_url.parse(env.DASHBOARD_DATABASE_URL)
+    DASHBOARD_DB_ALIAS = "dashboard"
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 

@@ -20,6 +20,14 @@ def test_dashboard_works(admin_client, settings):
     assert b"users_justfixuser" in res.content
 
 
+def test_dashboard_requires_2fa_if_2fa_is_enabled(admin_client, settings):
+    settings.DASHBOARD_DB_ALIAS = "default"
+    settings.TWOFACTOR_VERIFY_DURATION = 60
+    res = admin_client.get("/admin/dashboard/")
+    assert res.status_code == 302
+    assert res["Location"] == "/verify?next=http%3A//testserver/admin/dashboard/"
+
+
 def test_dashboard_redirects_anonymous_users_to_login(client, settings):
     settings.DASHBOARD_DB_ALIAS = "default"
     res = client.get("/admin/dashboard/")

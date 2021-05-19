@@ -16,6 +16,17 @@ MY_DIR = Path(__file__).parent.resolve()
 SPECS_DIR = MY_DIR / "admin_dashboard"
 
 
+def get_django_admin_dashboard_urls(site):
+    from django_sql_dashboard.views import dashboard_index, dashboard
+
+    urlpatterns = [
+        path("", site.admin_view(dashboard_index), name="django_sql_dashboard-index"),
+        path("<slug>/", site.admin_view(dashboard), name="django_sql_dashboard-dashboard"),
+    ]
+
+    return (urlpatterns, "", "")
+
+
 class DashboardViews:
     def __init__(self, site):
         self.site = site

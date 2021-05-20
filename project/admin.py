@@ -5,7 +5,6 @@ from django.conf import settings
 import frontend.views
 from .frontapp import embeddable_in_frontapp
 from .admin_download_data import DownloadDataViews
-from .admin_dashboard import DashboardViews
 from project.util.site_util import get_site_name
 from loc.admin_views import LocAdminViews
 from hpaction.admin_views import HPActionAdminViews
@@ -21,7 +20,6 @@ class JustfixAdminSite(admin.AdminSite):
         super().__init__(*args, **kwargs)
         self.loc_views = LocAdminViews(self)
         self.download_data_views = DownloadDataViews(self)
-        self.dashboard_views = DashboardViews(self)
         self.hpaction_views = HPActionAdminViews(self)
         self.user_views = UserAdminViews(self)
 
@@ -32,7 +30,6 @@ class JustfixAdminSite(admin.AdminSite):
             path("conversations/", frontend.views.react_rendered_view),
             path("frontapp/", embeddable_in_frontapp(frontend.views.react_rendered_view)),
             path("directory/", frontend.views.react_rendered_view),
-            *self.dashboard_views.get_urls(),
             *self.download_data_views.get_urls(),
             *self.loc_views.get_urls(),
             *self.hpaction_views.get_urls(),

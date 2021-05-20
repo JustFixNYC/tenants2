@@ -1,12 +1,6 @@
 from users.tests.factories import UserFactory
 
 
-def test_legacy_dashboard_works(admin_client):
-    res = admin_client.get("/admin/vega-dashboard/")
-    assert res.status_code == 200
-    assert b"Dashboard" in res.content
-
-
 def test_dashboard_404s_if_dashboard_is_disabled(admin_client, disable_locale_middleware):
     res = admin_client.get("/admin/dashboard/")
     assert res.status_code == 404

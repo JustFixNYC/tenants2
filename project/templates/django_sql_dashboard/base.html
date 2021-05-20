@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}{% endblock %}</title>
+    <style>{% include "django_sql_dashboard/_css.html" %}</style>
+    {% block extra_head %}{% endblock %}
+  </head>
+  <body>
+    <main>
+      <p><a href="{% url 'admin:index' %}">Back to admin</a></p>
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

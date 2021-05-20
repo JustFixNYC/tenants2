@@ -65,6 +65,7 @@ ROLES["Outreach Coordinators"] = set(
         *ModelPermissions("evictionfree", "hardshipdeclarationdetails").all,
         "evictionfree.change_evictionfreeuser",
         IMPERSONATE_USERS_PERMISSION,
+        "django_sql_dashboard.execute_sql",
     ]
 )
 

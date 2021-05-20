@@ -27,10 +27,6 @@ msgstr "(Note: the email will be sent in English)"
 msgid "(Note: the request will be sent in English)"
 msgstr "(Note: the request will be sent in English)"
 
-#: frontend/lib/evictionfree/homepage.tsx:92
-msgid "(newly extended)"
-msgstr "(newly extended)"
-
 #: frontend/lib/forms/optionalize-label.ts:7
 msgid "(optional)"
 msgstr "(optional)"

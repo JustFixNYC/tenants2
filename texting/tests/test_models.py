@@ -176,6 +176,7 @@ class TestTryToCreateFromSendSmsResult:
             SendSmsResult("boop"), kind=REMINDERS.LOC, user=user
         )
         assert result and result.pk
+        assert result.sid != ""
         assert result.err_code is None
         assert result.kind == REMINDERS.LOC
         assert result.user == user
@@ -187,6 +188,7 @@ class TestTryToCreateFromSendSmsResult:
             SendSmsResult(err_code=TWILIO_BLOCKED_NUMBER_ERR), kind=REMINDERS.LOC, user=user
         )
         assert result and result.pk
+        assert result.sid == ""
         assert result.err_code == TWILIO_BLOCKED_NUMBER_ERR
         assert result.kind == REMINDERS.LOC
         assert result.user == user

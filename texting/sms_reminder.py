@@ -1,7 +1,6 @@
 import abc
 from typing import Iterable
 from django.utils import translation
-from django.utils import timezone
 
 from users.models import JustfixUser
 from .models import Reminder, REMINDERS, exclude_users_with_invalid_phone_numbers
@@ -37,14 +36,13 @@ class SmsReminder(abc.ABC):
                 assert text
                 extra = f" with the text {repr(text)}" if self.dry_run else ""
                 print(f"Sending a {self.reminder_kind} reminder to {user.username}{extra}.")
-                sid = "" if self.dry_run else user.send_sms(text).sid
-                if sid:
-                    Reminder(
+                if not self.dry_run:
+                    send_result = user.send_sms(text)
+                    Reminder.objects.try_to_create_from_send_sms_result(
+                        send_result,
                         kind=self.reminder_kind,
-                        sent_at=timezone.now(),
                         user=user,
-                        sid=sid,
-                    ).save()
+                    )
 
     @staticmethod
     def validate(instance: "SmsReminder"):

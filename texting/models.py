@@ -187,16 +187,14 @@ class PhoneNumberLookup(models.Model):
 
 class Reminder(models.Model):
     """
-    This model represents a reminder we attempted to send to users.
+    This model represents a reminder sent to users.
     """
 
     kind = models.TextField(
-        max_length=30,
-        choices=REMINDERS.choices,
-        help_text="The type of reminder we attempted to send.",
+        max_length=30, choices=REMINDERS.choices, help_text="The type of reminder sent."
     )
 
-    sent_at = models.DateField(help_text="When we last attempted to send the reminder.")
+    sent_at = models.DateField(help_text="When the reminder was sent.")
 
     user = models.ForeignKey(
         JustfixUser,
@@ -206,18 +204,7 @@ class Reminder(models.Model):
     )
 
     sid = models.CharField(
-        max_length=TWILIO_SID_LENGTH,
-        blank=True,
-        help_text="The Twilio Message SID for the reminder, if we sent it.",
-    )
-
-    err_code = models.IntegerField(
-        null=True,
-        blank=True,
-        help_text=(
-            "The Twilio error code encountered when we last "
-            "attempted to send the reminder, if any."
-        ),
+        max_length=TWILIO_SID_LENGTH, help_text="The Twilio Message SID for the reminder."
     )
 
 

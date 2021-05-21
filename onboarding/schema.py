@@ -53,6 +53,15 @@ class OnboardingStep1V2Info(DjangoSessionFormObjectType):
         session_key = session_key_for_step(1)  # is this causing a problem?
         exclude = ["no_apt_number"]
 
+    @classmethod
+    def migrate_dict(cls, value: Dict[str, Any]) -> Dict[str, Any]:
+        # The old version of the onboarding info might not know about
+        # our new preferred first name field, so provide a default.
+        return {
+            "preferred_first_name": "",
+            **value,
+        }
+
 
 class OnboardingStep2Info(DjangoSessionFormObjectType):
     class Meta:

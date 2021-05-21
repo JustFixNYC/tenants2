@@ -5,6 +5,7 @@ from twilio.base.exceptions import TwilioRestException
 from django.core.exceptions import ImproperlyConfigured
 
 from texting.models import PhoneNumberLookup
+from texting import twilio
 from texting.twilio import (
     send_sms_async,
     chain_sms_async,
@@ -13,7 +14,40 @@ from texting.twilio import (
     logger,
     is_phone_number_valid,
     get_carrier_info,
+    SendSmsResult,
 )
+
+
+INVALID_SMS_RESULT = SendSmsResult(sid="", err_code=twilio.TWILIO_INVALID_TO_NUMBER_ERR)
+
+
+class TestSendSmsResult:
+    def test_str_works(self):
+        assert str(SendSmsResult("blap")) == "SendSmsResult(sid='blap', err_code=None)"
+
+    def test_bool_works(self):
+        assert bool(SendSmsResult(err_code=twilio.TWILIO_OTHER_ERR)) is False
+        assert bool(SendSmsResult("boop")) is True
+
+    def test_post_init_raises_error_when_empty(self):
+        with pytest.raises(ValueError, match="must be either successful or unsuccessful"):
+            SendSmsResult()
+
+    def test_post_init_raises_error_when_successful_and_not(self):
+        with pytest.raises(ValueError, match="can't be both successful and unsuccessful"):
+            SendSmsResult("blah", 1234)
+
+    @pytest.mark.parametrize(
+        "ssr,expected",
+        [
+            (SendSmsResult(err_code=twilio.TWILIO_OTHER_ERR), True),
+            (SendSmsResult("1234"), False),
+            (SendSmsResult(err_code=12345), True),
+            (SendSmsResult(err_code=twilio.TWILIO_BLOCKED_NUMBER_ERR), False),
+        ],
+    )
+    def test_should_retry_works(self, ssr, expected):
+        assert ssr.should_retry is expected
 
 
 def test_send_sms_works(db, settings, smsoutbox):
@@ -133,7 +167,7 @@ def ensure_exception_is_not_logged():
 def test_send_sms_does_not_send_to_invalid_numbers(db, settings, requests_mock):
     apply_twilio_settings(settings)
     PhoneNumberLookup(phone_number="5551234567", is_valid=False).save()
-    assert send_sms("5551234567", "boop", ignore_invalid_phone_number=True) == ""
+    assert send_sms("5551234567", "boop", ignore_invalid_phone_number=True) == INVALID_SMS_RESULT
 
 
 def mock_invalid_number(settings, requests_mock):
@@ -161,7 +195,7 @@ def mock_blocked_number(settings, requests_mock):
 def test_send_sms_ignores_invalid_numbers(db, settings, requests_mock):
     apply_twilio_settings(settings)
     mock_invalid_number(settings, requests_mock)
-    assert send_sms("5551234567", "boop", ignore_invalid_phone_number=True) == ""
+    assert send_sms("5551234567", "boop", ignore_invalid_phone_number=True) == INVALID_SMS_RESULT
     lookup = PhoneNumberLookup.objects.get(phone_number="5551234567")
     assert lookup.is_valid is False
 
@@ -170,7 +204,7 @@ def test_send_sms_ignores_invalid_numbers_we_thought_were_valid(db, settings, re
     apply_twilio_settings(settings)
     mock_invalid_number(settings, requests_mock)
     PhoneNumberLookup(phone_number="5551234567", is_valid=True, carrier={}).save()
-    assert send_sms("5551234567", "boop", ignore_invalid_phone_number=True) == ""
+    assert send_sms("5551234567", "boop", ignore_invalid_phone_number=True) == INVALID_SMS_RESULT
     lookup = PhoneNumberLookup.objects.get(phone_number="5551234567")
     assert lookup.is_valid is False
 

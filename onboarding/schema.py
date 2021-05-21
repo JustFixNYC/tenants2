@@ -84,6 +84,8 @@ SESSION_STEPS: List[Type[DjangoSessionFormObjectType]] = [
 
 @schema_registry.register_mutation
 class OnboardingStep1(DjangoSessionFormMutation):
+    deprecation_reason = "Use OnboardingStep1V2 instead (includes preferred first name)."
+
     class Meta:
         source = OnboardingStep1Info
 

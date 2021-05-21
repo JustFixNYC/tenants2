@@ -5965,9 +5965,9 @@
                   }
                 }
               ],
-              "deprecationReason": null,
+              "deprecationReason": "Use OnboardingStep1V2 instead (includes preferred first name).",
               "description": null,
-              "isDeprecated": false,
+              "isDeprecated": true,
               "name": "onboardingStep1",
               "type": {
                 "kind": "NON_NULL",

@@ -13,7 +13,7 @@ import project.locales
 from project.tests.test_mapbox import mock_brl_results, mock_la_results, mock_no_results
 from project.util.testing_util import GraphQLTestingPal
 from onboarding.schema import OnboardingStep1Info, OnboardingStep1V2Info
-from onboarding.tests.test_schema import _exec_onboarding_step_n
+from onboarding.tests.test_schema import _exec_onboarding_step_n, exec_legacy_onboarding_step_1
 from onboarding.tests.factories import OnboardingInfoFactory
 from .factories import RentPeriodFactory, LetterFactory, UpcomingLetterRentPeriodFactory
 from loc.tests.factories import LandlordDetailsFactory, LandlordDetailsV2Factory
@@ -566,7 +566,7 @@ class TestNorentCreateAccount:
     def test_it_works_for_nyc_users(self, smsoutbox, mailoutbox):
         request = self.graphql_client.request
         self.populate_phone_number()
-        res = _exec_onboarding_step_n("1v2", self.graphql_client)
+        res = _exec_onboarding_step_n("1V2", self.graphql_client)
         assert OnboardingStep1V2Info.get_dict_from_request(request) is not None
         assert res["errors"] == []
         update_scaffolding(request, self.NYC_SCAFFOLDING)
@@ -601,7 +601,7 @@ class TestNorentCreateAccount:
     def test_it_works_for_nyc_users_legacy(self, smsoutbox, mailoutbox):
         request = self.graphql_client.request
         self.populate_phone_number()
-        res = _exec_onboarding_step_n(1, self.graphql_client)
+        res = exec_legacy_onboarding_step_1(self.graphql_client)
         assert OnboardingStep1Info.get_dict_from_request(request) is not None
         assert res["errors"] == []
         update_scaffolding(request, self.NYC_SCAFFOLDING_LEGACY)

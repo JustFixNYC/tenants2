@@ -12,7 +12,10 @@ from project.schema_base import (
 )
 from loc.tests.factories import LandlordDetailsV2Factory
 from onboarding.schema import OnboardingStep1Info, OnboardingStep1V2Info
-from onboarding.tests.test_schema import _exec_onboarding_step_n
+from onboarding.tests.test_schema import (
+    _exec_onboarding_step_n,
+    exec_legacy_onboarding_step_1,
+)
 from norent.schema import update_scaffolding, SCAFFOLDING_SESSION_KEY
 from users.tests.factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
@@ -135,7 +138,7 @@ class TestEvictionFreeCreateAccount:
     def test_it_works_for_nyc_users(self, smsoutbox, mailoutbox):
         request = self.graphql_client.request
         self.populate_phone_number()
-        res = _exec_onboarding_step_n("1v2", self.graphql_client)
+        res = _exec_onboarding_step_n("1V2", self.graphql_client)
         assert OnboardingStep1V2Info.get_dict_from_request(request) is not None
         assert res["errors"] == []
         update_scaffolding(request, self.NYC_SCAFFOLDING)
@@ -166,7 +169,7 @@ class TestEvictionFreeCreateAccount:
     def test_it_works_for_nyc_users_legacy(self, smsoutbox, mailoutbox):
         request = self.graphql_client.request
         self.populate_phone_number()
-        res = _exec_onboarding_step_n(1, self.graphql_client)
+        res = exec_legacy_onboarding_step_1(self.graphql_client)
         assert OnboardingStep1Info.get_dict_from_request(request) is not None
         assert res["errors"] == []
         update_scaffolding(request, self.NYC_SCAFFOLDING)

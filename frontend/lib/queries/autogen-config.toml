@@ -44,15 +44,6 @@ ignoreFields = [
     "messages"
 ]
 
-#[types.OnboardingStep1Info]
-#ignoreFields = [
-    # This is defined by our GraphQL schema because it's easier than
-    # not including it in the schema, but we don't need it in the
-    # front-end.
-#    "addressVerified",
-#    "zipcode"
-#]
-
 [types.OnboardingStep1V2Info]
 ignoreFields = [
     # This is defined by our GraphQL schema because it's easier than
@@ -102,9 +93,6 @@ sessionFields = ["email", "isEmailVerified"]
 [mutations."passwordReset.*"]
 
 [mutations.queryOrVerifyPhoneNumber]
-
-[mutations.onboardingStep1]
-sessionFields = ["onboardingStep1"]
 
 [mutations.onboardingStep1V2]
 sessionFields = ["onboardingStep1"]

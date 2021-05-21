@@ -21,9 +21,9 @@ class Row(pydantic.BaseModel):
     BLOCK: str
     LOT: str
     ADDRESS: str
-    ZIP_CODE: str = pydantic.Schema(..., alias="ZIP CODE")
+    ZIP_CODE: str = pydantic.Field(..., alias="ZIP CODE")
     DEVELOPMENT: str
-    MANAGED_BY: str = pydantic.Schema(..., alias="MANAGED BY")
+    MANAGED_BY: str = pydantic.Field(..., alias="MANAGED BY")
     FACILITY: str
 
     @property

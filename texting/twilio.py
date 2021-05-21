@@ -25,6 +25,9 @@ TWILIO_OTHER_ERR = -1
 # The user opted-out of SMS communications on our end.
 TWILIO_USER_OPTED_OUT_ERR = -2
 
+# Twilio integration is disabled, so the SMS wasn't sent.
+TWILIO_INTEGRATION_DISABLED_ERR = -3
+
 # A set of error codes that indicate that we shouldn't bother
 # to try re-sending the SMS.
 TWILIO_NO_RETRY_ERRS = set(
@@ -32,6 +35,7 @@ TWILIO_NO_RETRY_ERRS = set(
         TWILIO_INVALID_TO_NUMBER_ERR,
         TWILIO_BLOCKED_NUMBER_ERR,
         TWILIO_USER_OPTED_OUT_ERR,
+        TWILIO_INTEGRATION_DISABLED_ERR,
     ]
 )
 
@@ -179,7 +183,7 @@ def send_sms(
             f"{phone_number} would receive a text message "
             f"with the body {repr(body)}."
         )
-        return SendSmsResult(sid="")
+        return SendSmsResult(err_code=TWILIO_INTEGRATION_DISABLED_ERR)
 
 
 send_sms_async = fire_and_forget_task(send_sms)

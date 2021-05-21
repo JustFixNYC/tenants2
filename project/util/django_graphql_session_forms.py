@@ -65,11 +65,11 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
 
     @classmethod
     def migrate_dict(cls, value: Dict[str, Any]) -> Dict[str, Any]:
-        '''
+        """
         Subclasses can override this if they want to implement custom logic that
         migrates the dict stored by an old version of the backend to the latest
         schema needed by the current backend.
-        '''
+        """
 
         return value
 

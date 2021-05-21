@@ -99,7 +99,13 @@ class SendSmsResult:
     """
     The result of attempting to send an SMS.  If successful, `sid` will be
     non-empty.  Otherwise, `err_code` will be an integer describing the
-    error.
+    error.  If it is non-negative, it corresponds to a Twilio REST API error
+    code defined here:
+
+       https://www.twilio.com/docs/api/errors
+
+    Otherwise, it will correspond to an application-specific error code;
+    see the `TWILIO_*_ERR` constants in this file for more details.
     """
 
     sid: str = ""

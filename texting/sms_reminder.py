@@ -1,4 +1,5 @@
 import abc
+import time
 from typing import Iterable
 from django.utils import translation
 
@@ -26,7 +27,7 @@ class SmsReminder(abc.ABC):
         users = self.filter_user_queryset(users).exclude(reminders__kind=self.reminder_kind)
         return users
 
-    def remind_users(self):
+    def remind_users(self, seconds_between_texts: float = 0.0):
         SmsReminder.validate(self)
         users = self.get_queryset()
 
@@ -43,6 +44,10 @@ class SmsReminder(abc.ABC):
                         kind=self.reminder_kind,
                         user=user,
                     )
+                    if send_result.sid:
+                        # The message send was successful, let's wait so we don't overload
+                        # Twilio's SMS queue.
+                        time.sleep(seconds_between_texts)
 
     @staticmethod
     def validate(instance: "SmsReminder"):

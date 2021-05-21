@@ -14,4 +14,6 @@ class Command(BaseCommand):
         phone_number: str = options["phone_number"]
         body: str = options["body"]
 
-        twilio.send_sms(phone_number, body)
+        result = twilio.send_sms(phone_number, body)
+
+        print(f"Result: {result}")

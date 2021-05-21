@@ -94,27 +94,45 @@ def is_enabled() -> bool:
 
 
 class SendSmsResult(NamedTuple):
+    """
+    The result of attempting to send an SMS.  If successful, `sid` will be
+    non-empty.  Otherwise, `err_code` will be an integer describing the
+    error.
+    """
+
     sid: str = ""
 
     err_code: Optional[int] = None
 
     @property
     def should_retry(self) -> bool:
+        """
+        Returns whether we should bother trying to retry sending the SMS.
+        """
+
         if self.sid:
             return False
         if self.err_code in TWILIO_NO_RETRY_ERRS:
             return False
-        if not settings.TWILIO_ACCOUNT_SID:
-            return False
         return True
 
     def __bool__(self) -> bool:
-        return self.sid == ""
+        """
+        This object will be falsy if the SMS wasn't sent.
+        """
+
+        return bool(self.sid)
 
 
 def _handle_twilio_err(
     e: Exception, phone_number: str, fail_silently: bool, ignore_invalid_phone_number: bool
 ) -> Optional[SendSmsResult]:
+    """
+    Attempt to handle an exception raised by Twilio. Returns None if the exception should
+    be propagated; otherwise, returns a `SendSmsResult` object with `err_code` set to
+    an appropriate value.
+    """
+
     from .models import PhoneNumberLookup
 
     code: int = e.code if isinstance(e, TwilioRestException) else TWILIO_OTHER_ERR
@@ -143,11 +161,9 @@ def send_sms(
     """
     Send an SMS message to the given phone number, with the given body.
 
-    On success, the sid of the SMS message is returned. On failure
-    (or if Twilio integration is disabled), an empty string is returned.
-
     If `fail_silently` is True, any exceptions raised will be logged,
-    but not propagated.
+    but not propagated.  Any kind of error will be represented in the
+    return value's `err_code` property.
 
     If `ignore_invalid_phone_number' is True, any exceptions raised
     related to invalid phone numbers will be logged, but not
@@ -171,7 +187,7 @@ def send_sms(
                 body=body,
             )
             logger.info(f"Sent Twilio message with sid {msg.sid}.")
-            return msg.sid
+            return SendSmsResult(sid=msg.sid)
         except Exception as e:
             result = _handle_twilio_err(e, phone_number, fail_silently, ignore_invalid_phone_number)
             if result is not None:

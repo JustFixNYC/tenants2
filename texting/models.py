@@ -1,10 +1,15 @@
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 from django.db import models
 from django.db.models.functions import Coalesce
+from django.utils import timezone
 
 from users.models import JustfixUser
 from project.common_data import Choices
 from project.util import phone_number as pn
+
+if TYPE_CHECKING:
+    from .twilio import SendSmsResult
+
 
 # https://support.twilio.com/hc/en-us/articles/223134387-What-is-a-Message-SID-
 TWILIO_SID_LENGTH = 34
@@ -185,27 +190,71 @@ class PhoneNumberLookup(models.Model):
         return join_words(self.adjectives, "phone number", self.phone_number)
 
 
+class ReminderManager(models.Manager):
+    @staticmethod
+    def try_to_create_from_send_sms_result(
+        ssr: "SendSmsResult", kind: str, user: JustfixUser
+    ) -> Optional["Reminder"]:
+        """
+        Attempt to create a Reminder from the result of an SMS send, if the result
+        is one that was either successful or indicates that the send should
+        not be retried.
+
+        If returned, the Reminder will have already been saved to the database.
+        """
+
+        if ssr.sid or not ssr.should_retry:
+            reminder = Reminder(
+                sid=ssr.sid, err_code=ssr.err_code, sent_at=timezone.now(), kind=kind, user=user
+            )
+            reminder.full_clean()
+            reminder.save()
+            return reminder
+        return None
+
+
 class Reminder(models.Model):
     """
-    This model represents a reminder sent to users.
+    This model represents an SMS reminder we attempted to send to a user.
     """
 
     kind = models.TextField(
-        max_length=30, choices=REMINDERS.choices, help_text="The type of reminder sent."
+        max_length=30,
+        choices=REMINDERS.choices,
+        help_text="The type of reminder we attempted to send.",
     )
 
-    sent_at = models.DateField(help_text="When the reminder was sent.")
+    sent_at = models.DateField(help_text="When we attempted to send the reminder.")
 
     user = models.ForeignKey(
         JustfixUser,
         on_delete=models.CASCADE,
         related_name="reminders",
-        help_text="The user the reminder was sent to.",
+        help_text="The user whom we attempted to send the reminder to.",
     )
 
     sid = models.CharField(
-        max_length=TWILIO_SID_LENGTH, help_text="The Twilio Message SID for the reminder."
+        max_length=TWILIO_SID_LENGTH,
+        blank=True,
+        help_text=(
+            "The Twilio Message SID for the reminder, if we sent it. "
+            "If an error occurred, this will be a blank string."
+        ),
     )
+
+    err_code = models.IntegerField(
+        null=True,
+        blank=True,
+        help_text=(
+            "The error code encountered when we attempted to send the reminder, if any."
+            "If the reminder was sent successfully, this will be null.  Note that this "
+            "error should reflect a reason for the reminder to not be sent at all--"
+            "it should *not* represent a temporary error such as a networking error, "
+            "where we would want to retry sending the message after some time."
+        ),
+    )
+
+    objects = ReminderManager()
 
 
 def exclude_users_with_invalid_phone_numbers(user_queryset):

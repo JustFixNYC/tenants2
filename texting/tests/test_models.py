@@ -1,3 +1,4 @@
+from typing import Any
 from unittest.mock import patch
 from contextlib import contextmanager
 import pytest
@@ -6,9 +7,12 @@ from users.models import JustfixUser
 from users.tests.factories import UserFactory
 from texting.models import (
     PhoneNumberLookup,
+    Reminder,
+    REMINDERS,
     get_lookup_description_for_phone_number,
     exclude_users_with_invalid_phone_numbers,
 )
+from texting.twilio import SendSmsResult, TWILIO_BLOCKED_NUMBER_ERR, TWILIO_OTHER_ERR
 
 
 @pytest.mark.parametrize(
@@ -163,3 +167,35 @@ class TestExcludeUsersWithInvalidPhoneNumbers:
     def test_users_are_excluded_when_lookup_indicates_invalid_phone_number(self):
         PhoneNumberLookup(phone_number=self.phone_number, is_valid=False).save()
         assert self.get_users_with_valid_numbers().count() == 0
+
+
+class TestTryToCreateFromSendSmsResult:
+    def test_it_creates_reminder_when_sms_was_sent(self, db):
+        user = UserFactory()
+        result = Reminder.objects.try_to_create_from_send_sms_result(
+            SendSmsResult("boop"), kind=REMINDERS.LOC, user=user
+        )
+        assert result and result.pk
+        assert result.sid != ""
+        assert result.err_code is None
+        assert result.kind == REMINDERS.LOC
+        assert result.user == user
+
+    def test_it_creates_reminder_when_sms_failed_and_should_not_be_retried(self, db):
+        user = UserFactory()
+
+        result = Reminder.objects.try_to_create_from_send_sms_result(
+            SendSmsResult(err_code=TWILIO_BLOCKED_NUMBER_ERR), kind=REMINDERS.LOC, user=user
+        )
+        assert result and result.pk
+        assert result.sid == ""
+        assert result.err_code == TWILIO_BLOCKED_NUMBER_ERR
+        assert result.kind == REMINDERS.LOC
+        assert result.user == user
+
+    def test_it_does_nothing_when_when_sms_failed_and_should_be_retried(self):
+        user: Any = "fake user that will not be used"
+        result = Reminder.objects.try_to_create_from_send_sms_result(
+            SendSmsResult(err_code=TWILIO_OTHER_ERR), kind=REMINDERS.LOC, user=user
+        )
+        assert result is None

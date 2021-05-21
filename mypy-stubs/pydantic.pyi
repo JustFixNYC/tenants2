@@ -7,10 +7,10 @@ class BaseModel:
 
 class ValidationError(Exception): ...
 
-# I think Schema is actually a class, but this seems like
+# I think Field is actually a class, but this seems like
 # the only way to make mypy typecheck properly when assigning
-# a field to a Schema.
-def Schema(default: Any, alias: str) -> Any: ...
+# a field to a Field.
+def Field(default: Any, alias: str) -> Any: ...
 
 class fields:
     class Field:

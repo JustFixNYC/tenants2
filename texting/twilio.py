@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, Dict, Any, List
+from typing import NamedTuple, Optional, Dict, Any, List
 from django.conf import settings
 from twilio.rest import Client
 from twilio.http.http_client import TwilioHttpClient
@@ -10,6 +10,30 @@ from project.util.settings_util import ensure_dependent_settings_are_nonempty
 from project.util.celery_util import fire_and_forget_task, get_task_for_function
 
 logger = logging.getLogger(__name__)
+
+
+# https://www.twilio.com/docs/api/errors/21211
+TWILIO_INVALID_TO_NUMBER_ERR = 21211
+
+# https://www.twilio.com/docs/api/errors/21610
+TWILIO_BLOCKED_NUMBER_ERR = 21610
+
+# Other type of error communicating w/ Twilio, e.g. unable to contact
+# their server or something.
+TWILIO_OTHER_ERR = -1
+
+# The user opted-out of SMS communications on our end.
+TWILIO_USER_OPTED_OUT_ERR = -2
+
+# A set of error codes that indicate that we shouldn't bother
+# to try re-sending the SMS.
+TWILIO_NO_RETRY_ERRS = set(
+    [
+        TWILIO_INVALID_TO_NUMBER_ERR,
+        TWILIO_BLOCKED_NUMBER_ERR,
+        TWILIO_USER_OPTED_OUT_ERR,
+    ]
+)
 
 
 def validate_settings():
@@ -65,27 +89,45 @@ def is_enabled() -> bool:
     return bool(settings.TWILIO_ACCOUNT_SID)
 
 
+class SendSmsResult(NamedTuple):
+    sid: str = ""
+
+    err_code: Optional[int] = None
+
+    @property
+    def should_retry(self) -> bool:
+        if self.sid:
+            return False
+        if self.err_code in TWILIO_NO_RETRY_ERRS:
+            return False
+        if not settings.TWILIO_ACCOUNT_SID:
+            return False
+        return True
+
+    def __bool__(self) -> bool:
+        return self.sid == ""
+
+
 def _handle_twilio_err(
     e: Exception, phone_number: str, fail_silently: bool, ignore_invalid_phone_number: bool
-) -> bool:
+) -> Optional[SendSmsResult]:
     from .models import PhoneNumberLookup
 
-    is_invalid_number = isinstance(e, TwilioRestException) and e.code == 21211
-    is_blocked_number = isinstance(e, TwilioRestException) and e.code == 21610
+    code: int = e.code if isinstance(e, TwilioRestException) else TWILIO_OTHER_ERR
 
-    if is_invalid_number:
+    if code == TWILIO_INVALID_TO_NUMBER_ERR:
         logger.info(f"Phone number {phone_number} is invalid.")
         PhoneNumberLookup.objects.invalidate(phone_number=phone_number)
         if ignore_invalid_phone_number:
-            return True
+            return SendSmsResult(err_code=code)
     if fail_silently:
-        if is_blocked_number:
+        if code == TWILIO_BLOCKED_NUMBER_ERR:
             logger.info(f"Phone number {phone_number} is blocked.")
         else:
             logger.exception(f"Error while communicating with Twilio")
-        return True
+        return SendSmsResult(err_code=code)
 
-    return False
+    return None
 
 
 def send_sms(
@@ -93,7 +135,7 @@ def send_sms(
     body: str,
     fail_silently=False,
     ignore_invalid_phone_number=True,
-) -> str:
+) -> SendSmsResult:
     """
     Send an SMS message to the given phone number, with the given body.
 
@@ -116,7 +158,7 @@ def send_sms(
             lookup = PhoneNumberLookup.objects.filter(phone_number=phone_number).first()
             if lookup and not lookup.is_valid:
                 logger.info(f"Phone number {phone_number} is invalid, not sending SMS.")
-                return ""
+                return SendSmsResult(err_code=TWILIO_INVALID_TO_NUMBER_ERR)
         client = get_client()
         try:
             msg = client.messages.create(
@@ -127,8 +169,9 @@ def send_sms(
             logger.info(f"Sent Twilio message with sid {msg.sid}.")
             return msg.sid
         except Exception as e:
-            if _handle_twilio_err(e, phone_number, fail_silently, ignore_invalid_phone_number):
-                return ""
+            result = _handle_twilio_err(e, phone_number, fail_silently, ignore_invalid_phone_number)
+            if result is not None:
+                return result
             raise
     else:
         logger.info(
@@ -136,7 +179,7 @@ def send_sms(
             f"{phone_number} would receive a text message "
             f"with the body {repr(body)}."
         )
-        return ""
+        return SendSmsResult(sid="")
 
 
 send_sms_async = fire_and_forget_task(send_sms)

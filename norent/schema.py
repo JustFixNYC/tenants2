@@ -14,7 +14,7 @@ from project.util.session_mutation import SessionFormMutation
 from project.util import site_util
 from project import mapbox
 from project.schema_base import get_last_queried_phone_number, purge_last_queried_phone_number
-from onboarding.schema import OnboardingStep1Info, complete_onboarding
+from onboarding.schema import OnboardingStep1V2Info, complete_onboarding
 from onboarding.schema_util import mutation_requires_onboarding
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from loc.models import LandlordDetails
@@ -486,7 +486,7 @@ class BaseCreateAccount(SessionFormMutation):
 
     @classmethod
     def fill_nyc_info(cls, request, info: Dict[str, Any]):
-        step1 = OnboardingStep1Info.get_dict_from_request(request)
+        step1 = OnboardingStep1V2Info.get_dict_from_request(request)
         if step1 is None:
             return None
         info["borough"] = step1["borough"]
@@ -553,7 +553,7 @@ class BaseCreateAccount(SessionFormMutation):
         cls.perform_post_onboarding(form, request, user)
 
         purge_last_queried_phone_number(request)
-        OnboardingStep1Info.clear_from_request(request)
+        OnboardingStep1V2Info.clear_from_request(request)
         purge_scaffolding(request)
 
         return cls.mutation_success()

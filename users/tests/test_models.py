@@ -66,6 +66,20 @@ def test_full_legal_name_only_renders_if_both_first_and_last_are_present():
     assert JustfixUser(last_name="Denver").full_legal_name == ""
 
 
+@pytest.mark.parametrize(
+    "user_kwargs, expected",
+    [
+        ({"first_name": "Roberta"}, "Roberta"),
+        (
+            {"first_name": "Roberta", "preferred_first_name": "Bobbie"},
+            "Bobbie",
+        ),
+    ],
+)
+def test_get_preferred_name(user_kwargs, expected):
+    assert JustfixUser(**user_kwargs).preferred_name == expected
+
+
 def test_send_sms_does_nothing_if_user_has_no_onboarding_info(smsoutbox):
     user = JustfixUser(phone_number="5551234500")
     assert user.send_sms("hello there") == ""

@@ -11,7 +11,7 @@ from project.schema_base import (
     PhoneNumberAccountStatus,
 )
 from loc.tests.factories import LandlordDetailsV2Factory
-from onboarding.schema import OnboardingStep1Info
+from onboarding.schema import OnboardingStep1Info, OnboardingStep1V2Info
 from onboarding.tests.test_schema import _exec_onboarding_step_n
 from norent.schema import update_scaffolding, SCAFFOLDING_SESSION_KEY
 from users.tests.factories import UserFactory
@@ -112,6 +112,7 @@ class TestEvictionFreeCreateAccount:
         user = JustfixUser.objects.get(phone_number="5551234567")
         assert user.first_name == "boop"
         assert user.last_name == "jones"
+        assert user.preferred_first_name == "bip"
         assert user.email == "boop@jones.com"
         oi = user.onboarding_info
         assert oi.non_nyc_city == "Albany"
@@ -132,6 +133,37 @@ class TestEvictionFreeCreateAccount:
         assert SCAFFOLDING_SESSION_KEY not in request.session
 
     def test_it_works_for_nyc_users(self, smsoutbox, mailoutbox):
+        request = self.graphql_client.request
+        self.populate_phone_number()
+        res = _exec_onboarding_step_n("1v2", self.graphql_client)
+        assert OnboardingStep1V2Info.get_dict_from_request(request) is not None
+        assert res["errors"] == []
+        update_scaffolding(request, self.NYC_SCAFFOLDING)
+        assert SCAFFOLDING_SESSION_KEY in request.session
+        assert self.execute()["errors"] == []
+        user = JustfixUser.objects.get(phone_number="5551234567")
+        assert user.first_name == "zlorp"
+        assert user.last_name == "zones"
+        assert user.preferred_first_name == ""
+        assert user.email == "zlorp@zones.com"
+        oi = user.onboarding_info
+        assert oi.non_nyc_city == ""
+        assert oi.borough == "MANHATTAN"
+        assert oi.state == "NY"
+        assert oi.address == "123 boop way"
+        assert oi.apt_number == "3B"
+        assert oi.agreed_to_norent_terms is False
+        assert oi.agreed_to_justfix_terms is False
+        assert oi.agreed_to_evictionfree_terms is True
+
+        # This will only get filled out if geocoding is enabled, which it's not.
+        assert oi.zipcode == ""
+
+        assert get_last_queried_phone_number(request) is None
+        assert OnboardingStep1V2Info.get_dict_from_request(request) is None
+        assert SCAFFOLDING_SESSION_KEY not in request.session
+
+    def test_it_works_for_nyc_users_legacy(self, smsoutbox, mailoutbox):
         request = self.graphql_client.request
         self.populate_phone_number()
         res = _exec_onboarding_step_n(1, self.graphql_client)

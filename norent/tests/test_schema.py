@@ -12,7 +12,7 @@ from project.schema_base import (
 import project.locales
 from project.tests.test_mapbox import mock_brl_results, mock_la_results, mock_no_results
 from project.util.testing_util import GraphQLTestingPal
-from onboarding.schema import OnboardingStep1Info
+from onboarding.schema import OnboardingStep1Info, OnboardingStep1V2Info
 from onboarding.tests.test_schema import _exec_onboarding_step_n
 from onboarding.tests.factories import OnboardingInfoFactory
 from .factories import RentPeriodFactory, LetterFactory, UpcomingLetterRentPeriodFactory
@@ -463,6 +463,15 @@ class TestNorentCreateAccount:
         "can_receive_rttc_comms": True,
     }
 
+    NYC_SCAFFOLDING_LEGACY = {
+        "first_name": "zlorp",
+        "last_name": "zones",
+        "city": "New York City",
+        "state": "NY",
+        "email": "zlorp@zones.com",
+        "can_receive_rttc_comms": True,
+    }
+
     NATIONAL_SCAFFOLDING = {
         "first_name": "boop",
         "last_name": "jones",
@@ -557,10 +566,45 @@ class TestNorentCreateAccount:
     def test_it_works_for_nyc_users(self, smsoutbox, mailoutbox):
         request = self.graphql_client.request
         self.populate_phone_number()
+        res = _exec_onboarding_step_n("1v2", self.graphql_client)
+        assert OnboardingStep1V2Info.get_dict_from_request(request) is not None
+        assert res["errors"] == []
+        update_scaffolding(request, self.NYC_SCAFFOLDING)
+        assert SCAFFOLDING_SESSION_KEY in request.session
+        assert self.execute()["errors"] == []
+        user = JustfixUser.objects.get(phone_number="5551234567")
+        assert user.first_name == "zlorp"
+        assert user.last_name == "zones"
+        assert user.preferred_first_name == ""
+        assert user.email == "zlorp@zones.com"
+        oi = user.onboarding_info
+        assert oi.non_nyc_city == ""
+        assert oi.borough == "MANHATTAN"
+        assert oi.state == "NY"
+        assert oi.address == "123 boop way"
+        assert oi.apt_number == "3B"
+        assert oi.agreed_to_norent_terms is True
+        assert oi.agreed_to_justfix_terms is False
+        assert oi.can_receive_rttc_comms is True
+
+        # This will only get filled out if geocoding is enabled, which it's not.
+        assert oi.zipcode == ""
+
+        assert len(smsoutbox) == 1
+        assert smsoutbox[0].body.startswith("Welcome to NoRent")
+        assert len(mailoutbox) == 0
+
+        assert get_last_queried_phone_number(request) is None
+        assert OnboardingStep1V2Info.get_dict_from_request(request) is None
+        assert SCAFFOLDING_SESSION_KEY not in request.session
+
+    def test_it_works_for_nyc_users_legacy(self, smsoutbox, mailoutbox):
+        request = self.graphql_client.request
+        self.populate_phone_number()
         res = _exec_onboarding_step_n(1, self.graphql_client)
         assert OnboardingStep1Info.get_dict_from_request(request) is not None
         assert res["errors"] == []
-        update_scaffolding(request, self.NYC_SCAFFOLDING)
+        update_scaffolding(request, self.NYC_SCAFFOLDING_LEGACY)
         assert SCAFFOLDING_SESSION_KEY in request.session
         assert self.execute()["errors"] == []
         user = JustfixUser.objects.get(phone_number="5551234567")

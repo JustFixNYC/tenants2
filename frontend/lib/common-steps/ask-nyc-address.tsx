@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import {
-  OnboardingStep1Mutation,
-  BlankOnboardingStep1Input,
-} from "../queries/OnboardingStep1Mutation";
+  OnboardingStep1V2Mutation,
+  BlankOnboardingStep1V2Input,
+} from "../queries/OnboardingStep1V2Mutation";
 import { assertNotNull } from "@justfixnyc/util";
 import { redirectToAddressConfirmationOrNextStep } from "../ui/address-confirmation";
 import { HiddenFormField } from "../forms/form-fields";
@@ -17,7 +17,7 @@ import {
   getBoroughChoiceLabels,
 } from "../../../common-data/borough-choices";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
-import { OnboardingStep1Input } from "../queries/globalTypes";
+import { OnboardingStep1V2Input } from "../queries/globalTypes";
 import {
   AptNumberFormFields,
   createAptNumberFormInput,
@@ -31,7 +31,8 @@ const ConfirmNycAddressModal: React.FC<{
   nextStep: string;
 }> = ({ nextStep }) => {
   const addrInfo =
-    useContext(AppContext).session.onboardingStep1 || BlankOnboardingStep1Input;
+    useContext(AppContext).session.onboardingStep1 ||
+    BlankOnboardingStep1V2Input;
   let borough = "";
   if (isBoroughChoice(addrInfo.borough)) {
     borough = getBoroughChoiceLabels()[addrInfo.borough];
@@ -55,11 +56,11 @@ const ConfirmNycAddressModal: React.FC<{
   );
 };
 
-function getInitialState(s: AllSessionInfo): OnboardingStep1Input {
+function getInitialState(s: AllSessionInfo): OnboardingStep1V2Input {
   return {
     firstName: "ignore",
     lastName: "ignore",
-    preferredFirstName: "ignore", // not sure if this should change
+    preferredFirstName: "",
     address: s.onboardingStep1?.address || s.onboardingInfo?.address || "",
     borough: s.onboardingStep1?.borough || s.onboardingInfo?.borough || "",
     ...createAptNumberFormInput(
@@ -78,7 +79,7 @@ export const AskNycAddress: React.FC<
     <div className="content">{props.children}</div>
     <SessionUpdatingFormSubmitter
       formId="address"
-      mutation={OnboardingStep1Mutation}
+      mutation={OnboardingStep1V2Mutation}
       initialState={getInitialState}
       onSuccessRedirect={(output, input) =>
         redirectToAddressConfirmationOrNextStep({

@@ -2,7 +2,7 @@ import pytest
 from django.conf import settings
 
 from onboarding.forms import (
-    OnboardingStep1Form,
+    OnboardingStep1V2Form,
     OnboardingStep4FormVersion2,
     OnboardingStep4WithOptionalEmailForm as OnboardingStep4Form,
     AptNumberWithConfirmationForm,
@@ -100,7 +100,7 @@ def test_onboarding_step_4_form_validates_passwords():
 @enable_fake_geocoding
 def test_onboarding_step_1_form_does_not_require_preferred_name(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
-    form = OnboardingStep1Form(data={**STEP_1_FORM_DATA, "preferred_first_name": ""})
+    form = OnboardingStep1V2Form(data={**STEP_1_FORM_DATA, "preferred_first_name": ""})
     form.full_clean()
     assert form.errors == {}
 
@@ -108,7 +108,7 @@ def test_onboarding_step_1_form_does_not_require_preferred_name(requests_mock):
 @enable_fake_geocoding
 def test_onboarding_step_1_form_sets_address_to_geocoder_value(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
-    form = OnboardingStep1Form(data=STEP_1_FORM_DATA)
+    form = OnboardingStep1V2Form(data=STEP_1_FORM_DATA)
     form.full_clean()
     assert form.cleaned_data["address"] == "150 COURT STREET"
     assert form.cleaned_data["borough"] == "BROOKLYN"
@@ -119,7 +119,7 @@ def test_onboarding_step_1_form_sets_address_to_geocoder_value(requests_mock):
 @enable_fake_geocoding
 def test_onboarding_step_1_form_works_when_geocoder_is_unavailable(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, status_code=500)
-    form = OnboardingStep1Form(data=STEP_1_FORM_DATA)
+    form = OnboardingStep1V2Form(data=STEP_1_FORM_DATA)
     form.full_clean()
     assert form.cleaned_data["address"] == "150 court"
     assert form.cleaned_data["borough"] == "BROOKLYN"
@@ -130,7 +130,7 @@ def test_onboarding_step_1_form_works_when_geocoder_is_unavailable(requests_mock
 @enable_fake_geocoding
 def test_onboarding_step_1_form_raises_err_on_invalid_address(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, json={"features": []})
-    form = OnboardingStep1Form(data=STEP_1_FORM_DATA)
+    form = OnboardingStep1V2Form(data=STEP_1_FORM_DATA)
     form.full_clean()
     assert form.errors == {"__all__": ["The address provided is invalid."]}
 
@@ -139,7 +139,7 @@ def test_onboarding_step_1_form_raises_err_on_invalid_address(requests_mock):
 @pytest.mark.django_db
 def test_onboarding_step_1_form_sets_borough_to_geocoder_value_when_absent(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, json=EXAMPLE_SEARCH)
-    form = OnboardingStep1Form(data={**STEP_1_FORM_DATA, "borough": ""})
+    form = OnboardingStep1V2Form(data={**STEP_1_FORM_DATA, "borough": ""})
     form.full_clean()
     assert form.cleaned_data["address"] == "150 COURT STREET"
     assert form.cleaned_data["borough"] == "BROOKLYN"
@@ -151,14 +151,14 @@ def test_onboarding_step_1_form_sets_borough_to_geocoder_value_when_absent(reque
 @pytest.mark.django_db
 def test_onboarding_step_1_form_requires_borough_when_geocoder_fails(requests_mock):
     requests_mock.get(settings.GEOCODING_SEARCH_URL, status_code=500)
-    form = OnboardingStep1Form(data={**STEP_1_FORM_DATA, "borough": ""})
+    form = OnboardingStep1V2Form(data={**STEP_1_FORM_DATA, "borough": ""})
     form.full_clean()
     assert form.errors == {"borough": ["This field is required."]}
 
 
 @pytest.mark.django_db
 def test_onboarding_step_1_creates_addr_without_borough_diagnostic():
-    form = OnboardingStep1Form(data={**STEP_1_FORM_DATA, "borough": ""})
+    form = OnboardingStep1V2Form(data={**STEP_1_FORM_DATA, "borough": ""})
     form.full_clean()
     diags = list(AddressWithoutBoroughDiagnostic.objects.all())
     assert len(diags) == 1

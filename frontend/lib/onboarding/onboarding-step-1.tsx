@@ -4,14 +4,14 @@ import { OnboardingRouteInfo } from "./route-info";
 import { Link, Route, RouteComponentProps, withRouter } from "react-router-dom";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import {
-  OnboardingStep1Input,
+  OnboardingStep1V2Input,
   OnboardingInfoSignupIntent,
 } from "../queries/globalTypes";
 import autobind from "autobind-decorator";
 import {
-  OnboardingStep1Mutation,
-  BlankOnboardingStep1Input,
-} from "../queries/OnboardingStep1Mutation";
+  OnboardingStep1V2Mutation,
+  BlankOnboardingStep1V2Input,
+} from "../queries/OnboardingStep1V2Mutation";
 import { exactSubsetOrDefault } from "../util/util";
 import { assertNotNull } from "@justfixnyc/util";
 import {
@@ -58,7 +58,8 @@ function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
 
 function Step1ConfirmAddressModal(props: { toStep3: string }): JSX.Element {
   const addrInfo =
-    useContext(AppContext).session.onboardingStep1 || BlankOnboardingStep1Input;
+    useContext(AppContext).session.onboardingStep1 ||
+    BlankOnboardingStep1V2Input;
   return <ConfirmAddressModal nextStep={props.toStep3} {...addrInfo} />;
 }
 
@@ -114,7 +115,7 @@ class OnboardingStep1WithoutContexts extends React.Component<
   }
 
   @autobind
-  renderForm(ctx: FormContext<OnboardingStep1Input>): JSX.Element {
+  renderForm(ctx: FormContext<OnboardingStep1V2Input>): JSX.Element {
     const { routes } = this.props;
 
     return (
@@ -183,7 +184,7 @@ class OnboardingStep1WithoutContexts extends React.Component<
       >
         <div>
           <SessionUpdatingFormSubmitter
-            mutation={OnboardingStep1Mutation}
+            mutation={OnboardingStep1V2Mutation}
             initialState={(s) =>
               exactSubsetOrDefault(
                 s.onboardingStep1
@@ -192,7 +193,7 @@ class OnboardingStep1WithoutContexts extends React.Component<
                       ...createAptNumberFormInput(s.onboardingStep1.aptNumber),
                     }
                   : null,
-                BlankOnboardingStep1Input
+                BlankOnboardingStep1V2Input
               )
             }
             updateInitialStateInBrowser={updateAddressFromBrowserStorage}

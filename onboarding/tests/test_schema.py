@@ -15,7 +15,15 @@ VALID_STEP_DATA = {
     1: {
         "firstName": "boop",
         "lastName": "jones",
-        "preferredFirstName": "",
+        "address": "123 boop way",
+        "borough": "MANHATTAN",
+        "aptNumber": "3B",
+        "noAptNumber": False,
+    },
+    "1V2": {
+        "firstName": "boop",
+        "lastName": "jones",
+        "preferredFirstName": "bip",
         "address": "123 boop way",
         "borough": "MANHATTAN",
         "aptNumber": "3B",
@@ -66,22 +74,21 @@ def _exec_onboarding_step_n(n, graphql_client, **input_kwargs):
 
 
 def test_onboarding_step_1_validates_data(graphql_client):
-    ob = _exec_onboarding_step_n(1, graphql_client, firstName="")
+    ob = _exec_onboarding_step_n("1v2", graphql_client, firstName="")
     assert len(ob["errors"]) > 0
     assert session_key_for_step(1) not in graphql_client.request.session
     assert _get_step_1_info(graphql_client) is None
 
 
 def test_onboarding_step_1_works(graphql_client):
-    ob = _exec_onboarding_step_n(1, graphql_client)
-    expected_data = {**VALID_STEP_DATA[1]}
+    ob = _exec_onboarding_step_n("1v2", graphql_client)
+    expected_data = {**VALID_STEP_DATA["1v2"]}
     del expected_data["noAptNumber"]
     assert ob["errors"] == []
     assert ob["session"]["onboardingStep1"] == expected_data
     assert graphql_client.request.session[session_key_for_step(1)]["apt_number"] == "3B"
     assert _get_step_1_info(graphql_client)["aptNumber"] == "3B"
     assert _get_step_1_info(graphql_client)["addressVerified"] is False
-    assert _get_step_1_info(graphql_client)["preferredFirstName"] == ""  # not sure if necessary
 
     session_data = graphql_client.request.session[session_key_for_step(1)]
     assert session_data["apt_number"] == "3B"

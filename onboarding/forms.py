@@ -82,6 +82,8 @@ class OnboardingStep1Form(AptNumberWithConfirmationForm, AddressAndBoroughFormMi
 
     last_name = forms.CharField(max_length=150)
 
+
+class OnboardingStep1V2Form(OnboardingStep1Form):
     preferred_first_name = forms.CharField(
         max_length=150,
         required=False,

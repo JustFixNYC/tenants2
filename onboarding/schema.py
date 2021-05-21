@@ -47,6 +47,13 @@ class OnboardingStep1Info(DjangoSessionFormObjectType):
         exclude = ["no_apt_number"]
 
 
+class OnboardingStep1V2Info(DjangoSessionFormObjectType):
+    class Meta:
+        form_class = forms.OnboardingStep1V2Form
+        session_key = session_key_for_step(1)  # is this causing a problem?
+        exclude = ["no_apt_number"]
+
+
 class OnboardingStep2Info(DjangoSessionFormObjectType):
     class Meta:
         form_class = forms.OnboardingStep2Form
@@ -60,13 +67,22 @@ class OnboardingStep3Info(DjangoSessionFormObjectType):
 
 
 # The onboarding steps we store in the request session.
-SESSION_STEPS: List[Type[DjangoSessionFormObjectType]] = [OnboardingStep1Info, OnboardingStep3Info]
+SESSION_STEPS: List[Type[DjangoSessionFormObjectType]] = [
+    OnboardingStep1V2Info,
+    OnboardingStep3Info,
+]
 
 
 @schema_registry.register_mutation
 class OnboardingStep1(DjangoSessionFormMutation):
     class Meta:
         source = OnboardingStep1Info
+
+
+@schema_registry.register_mutation
+class OnboardingStep1V2(DjangoSessionFormMutation):
+    class Meta:
+        source = OnboardingStep1V2Info
 
 
 @schema_registry.register_mutation
@@ -360,7 +376,9 @@ class OnboardingSessionInfo(object):
     A mixin class defining all onboarding-related queries.
     """
 
-    onboarding_step_1 = OnboardingStep1Info.field()
+    onboarding_step_1 = (
+        OnboardingStep1V2Info.field()
+    )  # do i have to declare OnboardingStep1Info deprecated?
     onboarding_step_2 = OnboardingStep2Info.field(
         deprecation_reason="See https://github.com/JustFixNYC/tenants2/issues/1144"
     )

@@ -2,7 +2,7 @@ import React from "react";
 
 import OnboardingStep1 from "../onboarding-step-1";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import { OnboardingStep1Mutation } from "../../queries/OnboardingStep1Mutation";
+import { OnboardingStep1V2Mutation } from "../../queries/OnboardingStep1V2Mutation";
 import { createMockFetch } from "../../networking/tests/mock-fetch";
 import { FakeGeoResults } from "../../tests/util";
 import JustfixRoutes from "../../justfix-route-info";
@@ -83,7 +83,7 @@ describe("onboarding step 1 page", () => {
     await fetch.resolvePromisesAndTimers();
     pal.clickListItem(/150 COURT STREET/);
     pal.clickButtonOrLink("Next");
-    pal.withFormMutation(OnboardingStep1Mutation).expect({
+    pal.withFormMutation(OnboardingStep1V2Mutation).expect({
       firstName: "boop",
       lastName: "jones",
       preferredFirstName: "bip",
@@ -108,7 +108,7 @@ describe("onboarding step 1 page", () => {
     ]);
     pal.clickRadioOrCheckbox(/Brooklyn/);
     pal.clickButtonOrLink("Next");
-    pal.withFormMutation(OnboardingStep1Mutation).respondWith({
+    pal.withFormMutation(OnboardingStep1V2Mutation).respondWith({
       errors: [],
       session: {
         onboardingStep1: {

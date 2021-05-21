@@ -24,7 +24,7 @@ const PreferredNameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
       <p>The name you'd like people to call you by.</p>
       <EditableInfo
         {...sec}
-        readonlyContent={`${session.preferredFirstName}`}
+        readonlyContent={session.preferredFirstName || ""}
         path={routes.preferredname}
       >
         <SessionUpdatingFormSubmitter

@@ -8,8 +8,9 @@ import pydantic
 from .la_zipcodes import is_zip_code_in_la
 
 
-# This should change whenever our scaffolding model's fields change.
-VERSION = "2"
+# This should change whenever our scaffolding model's fields change in a
+# backwards incompatible way.
+VERSION = "1"
 
 
 NYC_CITIES = [

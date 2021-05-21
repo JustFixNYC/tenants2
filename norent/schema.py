@@ -272,6 +272,21 @@ class NorentFullLegalName(NorentScaffoldingOrUserDataMutation):
 
 
 @schema_registry.register_mutation
+class NorentFullLegalAndPreferredName(NorentScaffoldingOrUserDataMutation):
+    class Meta:
+        form_class = forms.FullLegalAndPreferredName
+
+    @classmethod
+    def perform_mutate_for_authenticated_user(cls, form, info: ResolveInfo):
+        user = info.context.user
+        user.first_name = form.cleaned_data["first_name"]
+        user.last_name = form.cleaned_data["last_name"]
+        user.preferred_first_name = form.cleaned_data["preferred_first_name"]
+        user.save()
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
 class NorentPreferredName(NorentScaffoldingOrUserDataMutation):
     class Meta:
         form_class = forms.PreferredName

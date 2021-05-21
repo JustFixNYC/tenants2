@@ -61,7 +61,7 @@ const LegalNameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
       <EditableInfo
         {...sec}
         readonlyContent={`${session.firstName} ${session.lastName}`}
-        path={routes.legalname}
+        path={routes.name}
       >
         <SessionUpdatingFormSubmitter
           mutation={NorentFullLegalNameMutation}

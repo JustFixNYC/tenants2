@@ -1,13 +1,12 @@
 import React from "react";
 import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
-import { NorentFullLegalNameMutation } from "../queries/NorentFullLegalNameMutation";
 import { TextualFormField } from "../forms/form-fields";
 import { ProgressButtons } from "../ui/buttons";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import { MiddleProgressStepProps } from "../progress/progress-step-route";
-import { NorentPreferredNameMutation } from "../queries/NorentPreferredNameMutation";
+import { NorentFullLegalAndPreferredNameMutation } from "../queries/NorentFullLegalAndPreferredNameMutation";
 
 export const AskNameStep: React.FC<MiddleProgressStepProps> = (props) => {
   return (
@@ -19,30 +18,10 @@ export const AskNameStep: React.FC<MiddleProgressStepProps> = (props) => {
       </div>
       <br />
       <SessionUpdatingFormSubmitter
-        mutation={NorentFullLegalNameMutation}
+        mutation={NorentFullLegalAndPreferredNameMutation}
         initialState={(s) => ({
           firstName: s.norentScaffolding?.firstName || s.firstName || "",
           lastName: s.norentScaffolding?.lastName || s.lastName || "",
-        })}
-        onSuccessRedirect={props.nextStep}
-      >
-        {(ctx) => (
-          <>
-            <TextualFormField
-              {...ctx.fieldPropsFor("firstName")}
-              label={li18n._(t`First name`)}
-            />
-            <TextualFormField
-              {...ctx.fieldPropsFor("lastName")}
-              label={li18n._(t`Last name`)}
-            />
-            <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
-          </>
-        )}
-      </SessionUpdatingFormSubmitter>
-      <SessionUpdatingFormSubmitter
-        mutation={NorentPreferredNameMutation}
-        initialState={(s) => ({
           preferredFirstName:
             s.norentScaffolding?.preferredFirstName ||
             s.preferredFirstName ||
@@ -52,6 +31,14 @@ export const AskNameStep: React.FC<MiddleProgressStepProps> = (props) => {
       >
         {(ctx) => (
           <>
+            <TextualFormField
+              {...ctx.fieldPropsFor("firstName")}
+              label={li18n._(t`Legal first name`)}
+            />
+            <TextualFormField
+              {...ctx.fieldPropsFor("lastName")}
+              label={li18n._(t`Legal last name`)}
+            />
             <TextualFormField
               {...ctx.fieldPropsFor("preferredFirstName")}
               label={li18n._(t`Preferred first name`)}

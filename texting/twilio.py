@@ -1,5 +1,6 @@
 import logging
-from typing import NamedTuple, Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List
+from dataclasses import dataclass
 from django.conf import settings
 from twilio.rest import Client
 from twilio.http.http_client import TwilioHttpClient
@@ -93,7 +94,8 @@ def is_enabled() -> bool:
     return bool(settings.TWILIO_ACCOUNT_SID)
 
 
-class SendSmsResult(NamedTuple):
+@dataclass
+class SendSmsResult:
     """
     The result of attempting to send an SMS.  If successful, `sid` will be
     non-empty.  Otherwise, `err_code` will be an integer describing the
@@ -104,15 +106,19 @@ class SendSmsResult(NamedTuple):
 
     err_code: Optional[int] = None
 
+    def __post_init__(self):
+        if (not self.sid) and self.err_code is None:
+            raise ValueError("SendSmsResult must be either successful or unsuccessful")
+        if self.sid and self.err_code is not None:
+            raise ValueError("SendSmsResult can't be both successful and unsuccessful")
+
     @property
     def should_retry(self) -> bool:
         """
         Returns whether we should bother trying to retry sending the SMS.
         """
 
-        if self.sid:
-            return False
-        if self.err_code in TWILIO_NO_RETRY_ERRS:
+        if self.sid or self.err_code in TWILIO_NO_RETRY_ERRS:
             return False
         return True
 

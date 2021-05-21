@@ -26,13 +26,21 @@ class TestSendSmsResult:
         assert str(SendSmsResult("blap")) == "SendSmsResult(sid='blap', err_code=None)"
 
     def test_bool_works(self):
-        assert bool(SendSmsResult("")) is False
+        assert bool(SendSmsResult(err_code=twilio.TWILIO_OTHER_ERR)) is False
         assert bool(SendSmsResult("boop")) is True
+
+    def test_post_init_raises_error_when_empty(self):
+        with pytest.raises(ValueError, match="must be either successful or unsuccessful"):
+            SendSmsResult()
+
+    def test_post_init_raises_error_when_successful_and_not(self):
+        with pytest.raises(ValueError, match="can't be both successful and unsuccessful"):
+            SendSmsResult("blah", 1234)
 
     @pytest.mark.parametrize(
         "ssr,expected",
         [
-            (SendSmsResult(), True),
+            (SendSmsResult(err_code=twilio.TWILIO_OTHER_ERR), True),
             (SendSmsResult("1234"), False),
             (SendSmsResult(err_code=12345), True),
             (SendSmsResult(err_code=twilio.TWILIO_BLOCKED_NUMBER_ERR), False),

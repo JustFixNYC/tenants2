@@ -6,6 +6,14 @@
 {% block content_subtitle %}
 <h2>{{ original.full_name }}</h2>
 
+{% if original.amplitude_url %}
+<p style="text-align: right">
+  <a href="{{ original.amplitude_url }}" target="_blank" rel="noopener noreferrer" title="View this user's activity in Amplitude">
+    <img src="{% static 'admin/justfix/amplitude-logo.svg' %}" alt="Amplitude">
+  </a>
+</p>
+{% endif %}
+
 <div class="jf-tab-bar">
 {% for tabview in user_tabs %}
   {% if tabview.is_selected %}

@@ -1,6 +1,6 @@
 import { argvHasOption } from "../querybuilder/util";
 import ourConfig from "../../common-data/config";
-import { createDjangoChoicesTypescriptFiles } from "./commondatabuilder";
+import { createCommonDataFiles } from "./commondatabuilder";
 
 const VERSION = "0.1.0";
 
@@ -18,5 +18,5 @@ export function run() {
     process.exit(0);
   }
 
-  createDjangoChoicesTypescriptFiles(ourConfig);
+  createCommonDataFiles(ourConfig);
 }

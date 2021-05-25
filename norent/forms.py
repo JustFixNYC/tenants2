@@ -17,10 +17,10 @@ from loc.lob_api import MAX_NAME_LEN as MAX_LOB_NAME_LEN
 from onboarding.models import OnboardingInfo
 from onboarding.forms import AptNumberWithConfirmationForm
 from users.models import JustfixUser
-from .models import RentPeriod
+from .models import RentPeriod, CityWithoutStateDiagnostic
 
 
-class FullName(forms.ModelForm):
+class FullLegalName(forms.ModelForm):
     class Meta:
         model = JustfixUser
         fields = ("first_name", "last_name")
@@ -58,6 +58,9 @@ class CityState(forms.Form):
         cleaned_data = super().clean()
         city = cleaned_data.get("city")
         state = cleaned_data.get("state")
+
+        if city and not state:
+            CityWithoutStateDiagnostic(city=city).save()
 
         if city and state:
             city, point = self.validate_city_and_state(city, state)

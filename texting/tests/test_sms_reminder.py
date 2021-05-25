@@ -16,7 +16,7 @@ class RemindBoops(SmsReminder):
         return queryset.filter(first_name="Boop")
 
     def get_sms_text(self, user):
-        return _("Hello world") + " " + user.full_name
+        return _("Hello world") + " " + user.full_legal_name
 
 
 class TestSmsReminder:
@@ -27,11 +27,11 @@ class TestSmsReminder:
     def test_it_ignores_users_with_invalid_numbers(self):
         user = OnboardingInfoFactory().user
         r = RemindBoops()
-        assert r.get_queryset().count() == 1
+        assert r.get_queryset().count() == 1  # type: ignore
 
         pl = PhoneNumberLookup(phone_number=user.phone_number, is_valid=False)
         pl.save()
-        assert r.get_queryset().count() == 0
+        assert r.get_queryset().count() == 0  # type: ignore
 
     def test_it_filters_out_users(self):
         OnboardingInfoFactory(user=SecondUserFactory())

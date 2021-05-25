@@ -55,11 +55,11 @@ export const EvictionFreeAgreeToLegalTerms = EvictionFreeNotSentDeclarationStep(
             <CheckboxFormField
               {...ctx.fieldPropsFor("understandsProtectionIsTemporary")}
             >
-              <Trans id="evictionfree.legalAgreementCheckboxOnNewProtections">
+              <Trans id="evictionfree.legalAgreementCheckboxOnNewProtections3">
                 I further understand that my landlord may be able to seek
-                eviction after May 1, 2021, and that the law may provide certain
-                protections at that time that are separate from those available
-                through this declaration.
+                eviction after August 31, 2021, and that the law may provide
+                certain protections at that time that are separate from those
+                available through this declaration.
               </Trans>
             </CheckboxFormField>
             <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />

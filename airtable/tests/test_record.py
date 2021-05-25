@@ -17,7 +17,7 @@ from airtable.record import Fields, apply_annotations_to_user
 
 @pytest.mark.django_db
 def test_from_user_works_with_minimal_user():
-    user = UserFactory(phone_number="5551234567", full_name="Bobby Denver")
+    user = UserFactory(phone_number="5551234567", full_legal_name="Bobby Denver")
     fields = Fields.from_user(user)
     assert fields.pk == user.pk
     assert fields.first_name == "Bobby"

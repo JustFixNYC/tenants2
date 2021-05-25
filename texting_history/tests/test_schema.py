@@ -33,7 +33,7 @@ query {
             body,
             errorMessage,
             userPhoneNumber,
-            userFullName
+            userFullLegalName
         }
         hasNextPage
     }
@@ -102,7 +102,7 @@ def test_conversations_query_works(auth_graphql_client):
                 "isFromUs": False,
                 "ordering": 0.0,
                 "sid": "+15551234567",
-                "userFullName": "Boop Jones",
+                "userFullLegalName": "Boop Jones",
                 "userPhoneNumber": "+15551234567",
             }
         ],

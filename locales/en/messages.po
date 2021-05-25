@@ -23,17 +23,15 @@ msgstr "(Name of your language) translation"
 msgid "(Note: the email will be sent in English)"
 msgstr "(Note: the email will be sent in English)"
 
-#: frontend/lib/rh/routes.tsx:216
+#: frontend/lib/rh/routes.tsx:217
 msgid "(Note: the request will be sent in English)"
 msgstr "(Note: the request will be sent in English)"
 
-#: frontend/lib/common-steps/ask-email.tsx:15
-#: frontend/lib/common-steps/landlord-email.tsx:38
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:67
+#: frontend/lib/forms/optionalize-label.ts:7
 msgid "(optional)"
 msgstr "(optional)"
 
-#: frontend/lib/rh/routes.tsx:38
+#: frontend/lib/rh/routes.tsx:39
 msgid "*Division of Housing and Community Renewal"
 msgstr "*Division of Housing and Community Renewal"
 
@@ -135,11 +133,11 @@ msgstr "Actions"
 msgid "Address"
 msgstr "Address"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:20
-#: frontend/lib/evictionfree/data/faqs-content.tsx:34
-#: frontend/lib/evictionfree/data/faqs-content.tsx:48
-#: frontend/lib/evictionfree/data/faqs-content.tsx:62
-#: frontend/lib/evictionfree/data/faqs-content.tsx:77
+#: frontend/lib/evictionfree/data/faqs-content.tsx:21
+#: frontend/lib/evictionfree/data/faqs-content.tsx:35
+#: frontend/lib/evictionfree/data/faqs-content.tsx:49
+#: frontend/lib/evictionfree/data/faqs-content.tsx:63
+#: frontend/lib/evictionfree/data/faqs-content.tsx:78
 msgid "Address:"
 msgstr "Address:"
 
@@ -147,7 +145,7 @@ msgstr "Address:"
 msgid "After Sending Your Letter"
 msgstr "After Sending Your Letter"
 
-#: frontend/lib/evictionfree/homepage.tsx:228
+#: frontend/lib/evictionfree/homepage.tsx:230
 msgid "After sending your hardship declaration form, connect with local organizing groups to get involved in the fight to make New York eviction free, cancel rent, and more!"
 msgstr "After sending your hardship declaration form, connect with local organizing groups to get involved in the fight to make New York eviction free, cancel rent, and more!"
 
@@ -197,7 +195,7 @@ msgid "Apartment needs painting"
 msgstr "Apartment needs painting"
 
 #: frontend/lib/forms/apt-number-form-fields.tsx:13
-#: frontend/lib/rh/routes.tsx:120
+#: frontend/lib/rh/routes.tsx:121
 msgid "Apartment number"
 msgstr "Apartment number"
 
@@ -217,7 +215,7 @@ msgstr "Arizona"
 msgid "Arkansas"
 msgstr "Arkansas"
 
-#: frontend/lib/evictionfree/homepage.tsx:58
+#: frontend/lib/evictionfree/homepage.tsx:62
 msgid "Automatically fill in your landlord's information based on your address if you live in New York City"
 msgstr "Automatically fill in your landlord's information based on your address if you live in New York City"
 
@@ -285,11 +283,11 @@ msgstr "Benefit from the eviction protections that local elected officials have 
 msgid "Broken/no smoke/Co2 detector"
 msgstr "Broken/no smoke/Co2 detector"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:30
+#: frontend/lib/evictionfree/data/faqs-content.tsx:31
 msgid "Bronx Housing Court:"
 msgstr "Bronx Housing Court:"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:44
+#: frontend/lib/evictionfree/data/faqs-content.tsx:45
 msgid "Brooklyn Housing Court:"
 msgstr "Brooklyn Housing Court:"
 
@@ -347,7 +345,7 @@ msgstr "California"
 msgid "Call the Housing Court Answers hotline at <0>212-962-4795</0>."
 msgstr "Call the Housing Court Answers hotline at <0>212-962-4795</0>."
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:139
+#: frontend/lib/evictionfree/data/faqs-content.tsx:140
 msgid "Can I see what forms I’m sending before I fill them out?"
 msgstr "Can I see what forms I’m sending before I fill them out?"
 
@@ -356,7 +354,7 @@ msgstr "Can I see what forms I’m sending before I fill them out?"
 msgid "Can't pay rent?"
 msgstr "Can't pay rent?"
 
-#: frontend/lib/forms/clear-session-button.tsx:9
+#: frontend/lib/forms/clear-anonymous-session-button.tsx:9
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -364,7 +362,7 @@ msgstr "Cancel"
 msgid "Cancel Rent Campaign"
 msgstr "Cancel Rent Campaign"
 
-#: frontend/lib/rh/routes.tsx:128
+#: frontend/lib/rh/routes.tsx:129
 msgid "Cancel request"
 msgstr "Cancel request"
 
@@ -462,11 +460,6 @@ msgstr "Community Justice Project"
 msgid "Confirm"
 msgstr "Confirm"
 
-#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:28
-#: frontend/lib/norent/letter-builder/create-account.tsx:35
-msgid "Confirm password"
-msgstr "Confirm password"
-
 #: frontend/lib/start-account-or-login/set-password.tsx:22
 msgid "Confirm your new password"
 msgstr "Confirm your new password"
@@ -496,11 +489,11 @@ msgstr "Contact a lawyer if your landlord retaliates"
 #: frontend/lib/common-steps/error-pages.tsx:19
 #: frontend/lib/evictionfree/declaration-builder/error-pages.tsx:18
 #: frontend/lib/norent/letter-builder/error-pages.tsx:20
-#: frontend/lib/rh/routes.tsx:201
+#: frontend/lib/rh/routes.tsx:202
 msgid "Continue"
 msgstr "Continue"
 
-#: frontend/lib/rh/routes.tsx:201
+#: frontend/lib/rh/routes.tsx:202
 msgid "Continue anyway"
 msgstr "Continue anyway"
 
@@ -522,6 +515,10 @@ msgstr "Cracked sink"
 #: common-data/issue-choices.ts:216
 msgid "Cracked walls"
 msgstr "Cracked walls"
+
+#: frontend/lib/common-steps/create-password.tsx:10
+msgid "Create a password"
+msgstr "Create a password"
 
 #. salutation of formal letter
 #: frontend/lib/util/letter-content-util.tsx:48
@@ -552,7 +549,7 @@ msgstr "Developed with <0>Law Help Interactive</0>"
 msgid "District of Columbia"
 msgstr "District of Columbia"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:107
+#: frontend/lib/evictionfree/data/faqs-content.tsx:108
 msgid "Do I have to go to the post office to mail my declaration?"
 msgstr "Do I have to go to the post office to mail my declaration?"
 
@@ -568,7 +565,7 @@ msgstr "Do I need to send this declaration every month?"
 msgid "Do I still have to pay my rent?"
 msgstr "Do I still have to pay my rent?"
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:16
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:17
 msgid "Do you have a current eviction court case?"
 msgstr "Do you have a current eviction court case?"
 
@@ -639,16 +636,16 @@ msgid "Email"
 msgstr "Email"
 
 #: frontend/lib/account-settings/contact-settings.tsx:41
-#: frontend/lib/common-steps/ask-email.tsx:12
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
+#: frontend/lib/common-steps/ask-email.tsx:13
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:68
 msgid "Email address"
 msgstr "Email address"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:23
-#: frontend/lib/evictionfree/data/faqs-content.tsx:37
-#: frontend/lib/evictionfree/data/faqs-content.tsx:51
-#: frontend/lib/evictionfree/data/faqs-content.tsx:66
-#: frontend/lib/evictionfree/data/faqs-content.tsx:81
+#: frontend/lib/evictionfree/data/faqs-content.tsx:24
+#: frontend/lib/evictionfree/data/faqs-content.tsx:38
+#: frontend/lib/evictionfree/data/faqs-content.tsx:52
+#: frontend/lib/evictionfree/data/faqs-content.tsx:67
+#: frontend/lib/evictionfree/data/faqs-content.tsx:82
 msgid "Email:"
 msgstr "Email:"
 
@@ -672,7 +669,7 @@ msgstr "Eviction Moratorium updates"
 msgid "Exercise your rights"
 msgstr "Exercise your rights"
 
-#: frontend/lib/rh/routes.tsx:311
+#: frontend/lib/rh/routes.tsx:312
 msgid "Explore our other tools"
 msgstr "Explore our other tools"
 
@@ -699,17 +696,17 @@ msgstr "Faucets not installed"
 msgid "Faucets not working"
 msgstr "Faucets not working"
 
-#: frontend/lib/evictionfree/homepage.tsx:225
+#: frontend/lib/evictionfree/homepage.tsx:227
 msgid "Fight to #CancelRent"
 msgstr "Fight to #CancelRent"
 
-#: frontend/lib/evictionfree/homepage.tsx:32
+#: frontend/lib/evictionfree/homepage.tsx:36
 #: frontend/lib/evictionfree/site.tsx:57
 #: frontend/lib/evictionfree/site.tsx:61
 msgid "Fill out my form"
 msgstr "Fill out my form"
 
-#: frontend/lib/evictionfree/homepage.tsx:55
+#: frontend/lib/evictionfree/homepage.tsx:59
 msgid "Fill out your hardship declaration form online"
 msgstr "Fill out your hardship declaration form online"
 
@@ -719,7 +716,7 @@ msgstr "Find out more"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:23
 #: frontend/lib/common-steps/ask-name.tsx:25
-#: frontend/lib/rh/routes.tsx:113
+#: frontend/lib/rh/routes.tsx:114
 msgid "First name"
 msgstr "First name"
 
@@ -731,7 +728,7 @@ msgstr "Floor sags"
 msgid "Florida"
 msgstr "Florida"
 
-#: frontend/lib/evictionfree/homepage.tsx:161
+#: frontend/lib/evictionfree/homepage.tsx:163
 msgid "For New York State tenants"
 msgstr "For New York State tenants"
 
@@ -739,7 +736,7 @@ msgstr "For New York State tenants"
 msgid "For more information about New York’s eviction protections and your rights as a tenant, check out our FAQ on the <0>Right to Counsel website</0>."
 msgstr "For more information about New York’s eviction protections and your rights as a tenant, check out our FAQ on the <0>Right to Counsel website</0>."
 
-#: frontend/lib/evictionfree/homepage.tsx:191
+#: frontend/lib/evictionfree/homepage.tsx:193
 msgid "For tenants by tenants"
 msgstr "For tenants by tenants"
 
@@ -788,7 +785,7 @@ msgstr "Go to website"
 msgid "Going on rent strike"
 msgstr "Going on rent strike"
 
-#: frontend/lib/rh/routes.tsx:160
+#: frontend/lib/rh/routes.tsx:161
 msgid "Good news!"
 msgstr "Good news!"
 
@@ -828,7 +825,7 @@ msgstr "Help! My landlord is already trying to evict me."
 msgid "Here are a few benefits to sending a letter to your landlord:"
 msgstr "Here are a few benefits to sending a letter to your landlord:"
 
-#: frontend/lib/rh/routes.tsx:208
+#: frontend/lib/rh/routes.tsx:209
 msgid "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
 msgstr "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
 
@@ -870,7 +867,7 @@ msgstr "Homepage"
 msgid "Hours of operation: Monday to Friday, 9am - 5pm."
 msgstr "Hours of operation: Monday to Friday, 9am - 5pm."
 
-#: frontend/lib/rh/routes.tsx:250
+#: frontend/lib/rh/routes.tsx:251
 msgid "Housing Court Answers"
 msgstr "Housing Court Answers"
 
@@ -923,7 +920,7 @@ msgstr "I am experiencing financial hardship due to COVID-19."
 msgid "I forgot my password"
 msgstr "I forgot my password"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:119
+#: frontend/lib/evictionfree/data/faqs-content.tsx:120
 msgid "I have a current eviction case in NYC. How do I connect with a lawyer?"
 msgstr "I have a current eviction case in NYC. How do I connect with a lawyer?"
 
@@ -935,7 +932,7 @@ msgstr "I have no apartment number"
 msgid "I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
 msgstr "I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:207
+#: frontend/lib/evictionfree/data/faqs-content.tsx:205
 msgid "I live in another state that isn’t New York. Is this tool for me?"
 msgstr "I live in another state that isn’t New York. Is this tool for me?"
 
@@ -959,7 +956,7 @@ msgstr "Idaho"
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 msgstr "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 
-#: frontend/lib/rh/routes.tsx:305
+#: frontend/lib/rh/routes.tsx:306
 msgid "If you have more questions, please email us at <0/>."
 msgstr "If you have more questions, please email us at <0/>."
 
@@ -971,7 +968,7 @@ msgstr "If you have questions about your rights as a tenant, please <0>connect w
 msgid "If you have received a Notice to Pay Rent or Quit or any other type of eviction notice, sign up for a workshop and/or get legal help at <0>StayHousedLA.org</0>."
 msgstr "If you have received a Notice to Pay Rent or Quit or any other type of eviction notice, sign up for a workshop and/or get legal help at <0>StayHousedLA.org</0>."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:60
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:61
 msgid "If you know the court name your case is associated with, please provide it below. Otherwise, leave this blank."
 msgstr "If you know the court name your case is associated with, please provide it below. Otherwise, leave this blank."
 
@@ -979,7 +976,7 @@ msgstr "If you know the court name your case is associated with, please provide 
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
 msgstr "If you need to make changes to your name or contact information, please contact <0/>."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:54
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:53
 msgid "If you write checks or transfer money through your bank to pay your rent, use that name here."
 msgstr "If you write checks or transfer money through your bank to pay your rent, use that name here."
 
@@ -1024,11 +1021,11 @@ msgstr "Iowa"
 msgid "Is not paying my rent because of COVID-19 considered a “rent strike”?"
 msgstr "Is not paying my rent because of COVID-19 considered a “rent strike”?"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:149
+#: frontend/lib/evictionfree/data/faqs-content.tsx:150
 msgid "Is the online tool the only way to submit this form?"
 msgstr "Is the online tool the only way to submit this form?"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:195
+#: frontend/lib/evictionfree/data/faqs-content.tsx:193
 msgid "Is there a way to resend the declaration if the landlord claims they never received it?"
 msgstr "Is there a way to resend the declaration if the landlord claims they never received it?"
 
@@ -1036,7 +1033,7 @@ msgstr "Is there a way to resend the declaration if the landlord claims they nev
 msgid "Is there someone I can connect with after this to get help?"
 msgstr "Is there someone I can connect with after this to get help?"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:97
+#: frontend/lib/evictionfree/data/faqs-content.tsx:98
 #: frontend/lib/norent/data/faqs-content.tsx:169
 msgid "Is this free?"
 msgstr "Is this free?"
@@ -1049,8 +1046,8 @@ msgstr "Is this tool right for me?"
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 msgstr "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 
-#: frontend/lib/rh/routes.tsx:155
-#: frontend/lib/rh/routes.tsx:162
+#: frontend/lib/rh/routes.tsx:156
+#: frontend/lib/rh/routes.tsx:163
 msgid "It looks like your apartment may be rent stabilized"
 msgstr "It looks like your apartment may be rent stabilized"
 
@@ -1062,8 +1059,8 @@ msgstr "It's important to notify your landlord of all months when you couldn't p
 msgid "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."
 msgstr "It’s possible that your landlord will retaliate once they’ve received your letter. This is illegal. Contact <0>your local legal aid provider</0> for assistance."
 
-#: frontend/lib/rh/routes.tsx:156
-#: frontend/lib/rh/routes.tsx:180
+#: frontend/lib/rh/routes.tsx:157
+#: frontend/lib/rh/routes.tsx:181
 msgid "It’s unlikely that your apartment is rent stabilized"
 msgstr "It’s unlikely that your apartment is rent stabilized"
 
@@ -1071,7 +1068,7 @@ msgstr "It’s unlikely that your apartment is rent stabilized"
 msgid "It’s your first time here!"
 msgstr "It’s your first time here!"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:129
+#: frontend/lib/evictionfree/data/faqs-content.tsx:130
 msgid "I’m undocumented. Can I use this tool?"
 msgstr "I’m undocumented. Can I use this tool?"
 
@@ -1087,7 +1084,7 @@ msgstr "Join the fight to cancel rent"
 msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
 msgstr "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
 
-#: frontend/lib/rh/routes.tsx:256
+#: frontend/lib/rh/routes.tsx:257
 msgid "JustFix.nyc's Learning Center"
 msgstr "JustFix.nyc's Learning Center"
 
@@ -1111,11 +1108,11 @@ msgstr "Landlord address"
 msgid "Landlord name"
 msgstr "Landlord name"
 
-#: frontend/lib/common-steps/landlord-email.tsx:37
+#: frontend/lib/common-steps/landlord-email.tsx:38
 msgid "Landlord/management company's email"
 msgstr "Landlord/management company's email"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:52
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:51
 msgid "Landlord/management company's name"
 msgstr "Landlord/management company's name"
 
@@ -1126,7 +1123,7 @@ msgstr "Language:"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:24
 #: frontend/lib/common-steps/ask-name.tsx:26
-#: frontend/lib/rh/routes.tsx:116
+#: frontend/lib/rh/routes.tsx:117
 msgid "Last name"
 msgstr "Last name"
 
@@ -1176,7 +1173,7 @@ msgstr "Let's get to know you."
 msgid "Let's set you up with a new password, so you can easily login again."
 msgstr "Let's set you up with a new password, so you can easily login again."
 
-#: frontend/lib/norent/letter-builder/create-account.tsx:26
+#: frontend/lib/norent/letter-builder/create-account.tsx:27
 msgid "Let's set you up with an account. This will enable you to save your information, and receive updates."
 msgstr "Let's set you up with an account. This will enable you to save your information, and receive updates."
 
@@ -1184,11 +1181,11 @@ msgstr "Let's set you up with an account. This will enable you to save your info
 msgid "Letter Builder"
 msgstr "Letter Builder"
 
-#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:19
+#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:20
 msgid "Let’s set you up with an account. An account will enable you to save your information, download your declaration, and more."
 msgstr "Let’s set you up with an account. An account will enable you to save your information, download your declaration, and more."
 
-#: frontend/lib/norent/letter-builder/create-account.tsx:21
+#: frontend/lib/norent/letter-builder/create-account.tsx:22
 msgid "Let’s set you up with an account. An account will enable you to save your information, download your letter, and more."
 msgstr "Let’s set you up with an account. An account will enable you to save your information, download your letter, and more."
 
@@ -1239,7 +1236,7 @@ msgstr "Los Angeles County"
 msgid "Louisiana"
 msgstr "Louisiana"
 
-#: frontend/lib/evictionfree/homepage.tsx:94
+#: frontend/lib/evictionfree/homepage.tsx:99
 msgid "Made by non-profits <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, and <2>JustFix.nyc</2>"
 msgstr "Made by non-profits <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, and <2>JustFix.nyc</2>"
 
@@ -1247,7 +1244,7 @@ msgstr "Made by non-profits <0>Right to Counsel NYC Coalition</0>, <1>Housing Ju
 msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 msgstr "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:72
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:71
 msgid "Mailing address"
 msgstr "Mailing address"
 
@@ -1259,7 +1256,7 @@ msgstr "Maine"
 msgid "Make sure all the information above is correct."
 msgstr "Make sure all the information above is correct."
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:16
+#: frontend/lib/evictionfree/data/faqs-content.tsx:17
 msgid "Manhattan Housing Court:"
 msgstr "Manhattan Housing Court:"
 
@@ -1275,7 +1272,7 @@ msgstr "Maryland"
 msgid "Massachusetts"
 msgstr "Massachusetts"
 
-#: frontend/lib/rh/routes.tsx:244
+#: frontend/lib/rh/routes.tsx:245
 msgid "Met Council on Housing"
 msgstr "Met Council on Housing"
 
@@ -1341,6 +1338,10 @@ msgstr "More resources"
 #: frontend/lib/norent/about.tsx:21
 msgid "Movement Law Lab"
 msgstr "Movement Law Lab"
+
+#: frontend/lib/common-steps/create-password.tsx:6
+msgid "Must be at least 8 characters. Can't be all numbers."
+msgstr "Must be at least 8 characters. Can't be all numbers."
 
 #: frontend/lib/evictionfree/faqs.tsx:24
 msgid "Navigating these laws is confusing. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
@@ -1432,7 +1433,7 @@ msgstr "No rent receipts given"
 msgid "No smoke detector"
 msgstr "No smoke detector"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:209
+#: frontend/lib/evictionfree/data/faqs-content.tsx:207
 msgid "No. Unfortunately, these protections only apply to residents of New York State."
 msgstr "No. Unfortunately, these protections only apply to residents of New York State."
 
@@ -1526,8 +1527,6 @@ msgstr "Outlets not working"
 msgid "Painting overdue (3 years)"
 msgstr "Painting overdue (3 years)"
 
-#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:27
-#: frontend/lib/norent/letter-builder/create-account.tsx:34
 #: frontend/lib/start-account-or-login/verify-password.tsx:61
 msgid "Password"
 msgstr "Password"
@@ -1548,7 +1547,7 @@ msgid "Pennsylvania"
 msgstr "Pennsylvania"
 
 #: frontend/lib/account-settings/contact-settings.tsx:24
-#: frontend/lib/rh/routes.tsx:121
+#: frontend/lib/rh/routes.tsx:122
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:36
 msgid "Phone number"
 msgstr "Phone number"
@@ -1568,6 +1567,10 @@ msgstr "Please <0>go back and choose a state</0>."
 #: frontend/lib/pages/cross-site-terms-opt-in.tsx:31
 msgid "Please agree to our terms and conditions"
 msgstr "Please agree to our terms and conditions"
+
+#: frontend/lib/common-steps/create-password.tsx:11
+msgid "Please confirm your password"
+msgstr "Please confirm your password"
 
 #: frontend/lib/norent/components/subscribe.tsx:19
 msgid "Please enter an email address!"
@@ -1604,9 +1607,9 @@ msgid "Protect yourself from eviction"
 msgstr "Protect yourself from eviction"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:69
-#: frontend/lib/evictionfree/homepage.tsx:27
-#: frontend/lib/evictionfree/homepage.tsx:74
-#: frontend/lib/evictionfree/homepage.tsx:80
+#: frontend/lib/evictionfree/homepage.tsx:31
+#: frontend/lib/evictionfree/homepage.tsx:78
+#: frontend/lib/evictionfree/homepage.tsx:84
 msgid "Protect yourself from eviction in New York State"
 msgstr "Protect yourself from eviction in New York State"
 
@@ -1614,7 +1617,7 @@ msgstr "Protect yourself from eviction in New York State"
 msgid "Puerto Rico"
 msgstr "Puerto Rico"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:58
+#: frontend/lib/evictionfree/data/faqs-content.tsx:59
 msgid "Queens Housing Court:"
 msgstr "Queens Housing Court:"
 
@@ -1646,7 +1649,7 @@ msgstr "Refrigerator not working"
 msgid "Regards,"
 msgstr "Regards,"
 
-#: frontend/lib/rh/routes.tsx:321
+#: frontend/lib/rh/routes.tsx:322
 msgid "Rent History"
 msgstr "Rent History"
 
@@ -1670,11 +1673,11 @@ msgstr "Request for Rent History"
 msgid "Request repairs from your landlord"
 msgstr "Request repairs from your landlord"
 
-#: frontend/lib/rh/routes.tsx:42
+#: frontend/lib/rh/routes.tsx:43
 msgid "Request your Rent History"
 msgstr "Request your Rent History"
 
-#: frontend/lib/rh/routes.tsx:103
+#: frontend/lib/rh/routes.tsx:104
 msgid "Request your apartment's Rent History from the DHCR"
 msgstr "Request your apartment's Rent History from the DHCR"
 
@@ -1690,7 +1693,7 @@ msgstr "Reset your password"
 msgid "Results for {0}"
 msgstr "Results for {0}"
 
-#: frontend/lib/rh/routes.tsx:206
+#: frontend/lib/rh/routes.tsx:207
 msgid "Review your request to the DHCR"
 msgstr "Review your request to the DHCR"
 
@@ -1698,7 +1701,7 @@ msgstr "Review your request to the DHCR"
 msgid "Rhode Island"
 msgstr "Rhode Island"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:10
+#: frontend/lib/evictionfree/data/faqs-content.tsx:11
 msgid "Right to Counsel's FAQ page"
 msgstr "Right to Counsel's FAQ page"
 
@@ -1743,11 +1746,11 @@ msgstr "Send another letter"
 msgid "Send code"
 msgstr "Send code"
 
-#: frontend/lib/evictionfree/homepage.tsx:67
+#: frontend/lib/evictionfree/homepage.tsx:71
 msgid "Send your form by USPS Certified Mail for free to your landlord"
 msgstr "Send your form by USPS Certified Mail for free to your landlord"
 
-#: frontend/lib/evictionfree/homepage.tsx:64
+#: frontend/lib/evictionfree/homepage.tsx:68
 msgid "Send your form by email to your landlord and the courts"
 msgstr "Send your form by email to your landlord and the courts"
 
@@ -1771,8 +1774,8 @@ msgstr "Sending a letter to your landlord is a big step. Here are a few <0>frequ
 msgid "Separate letters for each month starting in September when you couldn't pay rent in full."
 msgstr "Separate letters for each month starting in September when you couldn't pay rent in full."
 
-#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:16
-#: frontend/lib/norent/letter-builder/create-account.tsx:18
+#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:17
+#: frontend/lib/norent/letter-builder/create-account.tsx:19
 msgid "Set up an account"
 msgstr "Set up an account"
 
@@ -1793,7 +1796,7 @@ msgid "Shall we send your letter?"
 msgstr "Shall we send your letter?"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:74
-#: frontend/lib/evictionfree/homepage.tsx:252
+#: frontend/lib/evictionfree/homepage.tsx:254
 #: frontend/lib/norent/letter-builder/confirmation.tsx:214
 msgid "Share this tool"
 msgstr "Share this tool"
@@ -1907,7 +1910,7 @@ msgstr "Start a legal case for repairs and/or harassment"
 msgid "Start an emergency legal case for repairs"
 msgstr "Start an emergency legal case for repairs"
 
-#: frontend/lib/rh/routes.tsx:67
+#: frontend/lib/rh/routes.tsx:68
 msgid "Start my request"
 msgstr "Start my request"
 
@@ -1915,7 +1918,7 @@ msgstr "Start my request"
 msgid "State"
 msgstr "State"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:73
+#: frontend/lib/evictionfree/data/faqs-content.tsx:74
 msgid "Staten Island Housing Court:"
 msgstr "Staten Island Housing Court:"
 
@@ -1948,7 +1951,7 @@ msgstr "Street address (include unit/suite/floor/apt #)"
 msgid "Submit email"
 msgstr "Submit email"
 
-#: frontend/lib/rh/routes.tsx:238
+#: frontend/lib/rh/routes.tsx:239
 msgid "Submit request"
 msgstr "Submit request"
 
@@ -2000,7 +2003,7 @@ msgstr "The above information is not a substitute for direct legal advice for yo
 msgid "The majority of your landlord's properties are concentrated in {0}."
 msgstr "The majority of your landlord's properties are concentrated in {0}."
 
-#: frontend/lib/evictionfree/homepage.tsx:173
+#: frontend/lib/evictionfree/homepage.tsx:175
 msgid "The protections outlined by NY state law apply to you regardless of immigration status."
 msgstr "The protections outlined by NY state law apply to you regardless of immigration status."
 
@@ -2024,7 +2027,7 @@ msgstr "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 msgid "This information seems wrong. Can I change it?"
 msgstr "This information seems wrong. Can I change it?"
 
-#: frontend/lib/common-steps/landlord-email.tsx:19
+#: frontend/lib/common-steps/landlord-email.tsx:20
 msgid "This is optional."
 msgstr "This is optional."
 
@@ -2033,7 +2036,7 @@ msgstr "This is optional."
 msgid "This is your landlord’s information as registered with the <0>NYC Department of Housing and Preservation (HPD)</0>. This may be different than where you send your rent checks."
 msgstr "This is your landlord’s information as registered with the <0>NYC Department of Housing and Preservation (HPD)</0>. This may be different than where you send your rent checks."
 
-#: frontend/lib/rh/routes.tsx:64
+#: frontend/lib/rh/routes.tsx:65
 msgid "This service is free, secure, and confidential."
 msgstr "This service is free, secure, and confidential."
 
@@ -2057,7 +2060,7 @@ msgstr "To learn more about what to do next, check out our FAQ page: {faqURL}"
 msgid "To:"
 msgstr "To:"
 
-#: frontend/lib/rh/routes.tsx:221
+#: frontend/lib/rh/routes.tsx:222
 msgid "To: New York Division of Housing and Community Renewal (DHCR)"
 msgstr "To: New York Division of Housing and Community Renewal (DHCR)"
 
@@ -2138,7 +2141,7 @@ msgstr "View this letter as a PDF"
 msgid "Virginia"
 msgstr "Virginia"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:122
+#: frontend/lib/evictionfree/data/faqs-content.tsx:123
 msgid "Visit <0/> for information on how to connect with a lawyer."
 msgstr "Visit <0/> for information on how to connect with a lawyer."
 
@@ -2146,11 +2149,11 @@ msgstr "Visit <0/> for information on how to connect with a lawyer."
 msgid "Visit Who Owns What"
 msgstr "Visit Who Owns What"
 
-#: frontend/lib/rh/routes.tsx:50
+#: frontend/lib/rh/routes.tsx:51
 msgid "Want to know if your apartment's rent stabilized? Request your <0>Rent History</0> from the NY State DHCR*!"
 msgstr "Want to know if your apartment's rent stabilized? Request your <0>Rent History</0> from the NY State DHCR*!"
 
-#: frontend/lib/rh/routes.tsx:314
+#: frontend/lib/rh/routes.tsx:315
 msgid "Want to read more about your rights?"
 msgstr "Want to read more about your rights?"
 
@@ -2186,7 +2189,7 @@ msgstr "We'll include this information in the letter to your landlord."
 msgid "We'll include this information in your hardship declaration form."
 msgstr "We'll include this information in your hardship declaration form."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:40
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:41
 msgid "We'll need to add your case's index number to your declaration."
 msgstr "We'll need to add your case's index number to your declaration."
 
@@ -2246,7 +2249,7 @@ msgstr "We’ve partnered with <0/> to provide additional support once you’ve 
 msgid "We’ve partnered with <0/> to provide additional support."
 msgstr "We’ve partnered with <0/> to provide additional support."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:60
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:59
 msgid "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
 msgstr "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
 
@@ -2271,7 +2274,7 @@ msgid "What happens after I send this letter?"
 msgstr "What happens after I send this letter?"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:97
-#: frontend/lib/rh/routes.tsx:269
+#: frontend/lib/rh/routes.tsx:270
 msgid "What happens next?"
 msgstr "What happens next?"
 
@@ -2296,7 +2299,7 @@ msgstr "What if I live in a state without an eviction moratorium?"
 msgid "What if my landlord sends me a notice?"
 msgstr "What if my landlord sends me a notice?"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:182
+#: frontend/lib/evictionfree/data/faqs-content.tsx:180
 msgid "What is the deadline for filling out the declaration?"
 msgstr "What is the deadline for filling out the declaration?"
 
@@ -2304,7 +2307,7 @@ msgstr "What is the deadline for filling out the declaration?"
 msgid "What is the new law SB91?"
 msgstr "What is the new law SB91?"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:172
+#: frontend/lib/evictionfree/data/faqs-content.tsx:170
 msgid "What is the time lag between me filling this out and when it gets sent?"
 msgstr "What is the time lag between me filling this out and when it gets sent?"
 
@@ -2316,15 +2319,15 @@ msgstr "What is your borough?"
 msgid "What kind of documentation should I collect to prove I can’t pay rent?"
 msgstr "What kind of documentation should I collect to prove I can’t pay rent?"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:141
+#: frontend/lib/evictionfree/data/faqs-content.tsx:142
 msgid "When you use our tool, you will be able to preview your filled out form before sending it. You can also view a blank copy of the Hardship Declaration form."
 msgstr "When you use our tool, you will be able to preview your filled out form before sending it. You can also view a blank copy of the Hardship Declaration form."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:46
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:47
 msgid "Where do I find my case's index number?"
 msgstr "Where do I find my case's index number?"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:53
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:52
 msgid "Where do I find this information?"
 msgstr "Where do I find this information?"
 
@@ -2395,7 +2398,7 @@ msgstr "Window guards missing"
 msgid "Wisconsin"
 msgstr "Wisconsin"
 
-#: frontend/lib/evictionfree/homepage.tsx:50
+#: frontend/lib/evictionfree/homepage.tsx:54
 msgid "With this free tool, you can"
 msgstr "With this free tool, you can"
 
@@ -2422,11 +2425,11 @@ msgstr "Yes, Right to Counsel NYC Coalition, Housing Justice for All, and JustFi
 msgid "Yes, Sign Out"
 msgstr "Yes, Sign Out"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:132
+#: frontend/lib/evictionfree/data/faqs-content.tsx:133
 msgid "Yes, the protections outlined by New York State law apply to you regardless of immigration status."
 msgstr "Yes, the protections outlined by New York State law apply to you regardless of immigration status."
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:100
+#: frontend/lib/evictionfree/data/faqs-content.tsx:101
 msgid "Yes, this is a free website created by 501(c)3 non-profit organizations."
 msgstr "Yes, this is a free website created by 501(c)3 non-profit organizations."
 
@@ -2450,10 +2453,13 @@ msgstr "You can contact Strategic Actions for a Just Economy (SAJE) - a 501c3 no
 msgid "You can send an additional letter for other months when you couldn't pay rent."
 msgstr "You can send an additional letter for other months when you couldn't pay rent."
 
+#: frontend/lib/evictionfree/homepage.tsx:87
+msgid "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021"
+msgstr "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021"
+
 #: frontend/lib/evictionfree/components/helmet.tsx:12
-#: frontend/lib/evictionfree/homepage.tsx:83
-msgid "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021."
-msgstr "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021."
+msgid "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021."
+msgstr "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021."
 
 #: frontend/lib/norent/letter-builder/error-pages.tsx:10
 msgid "You can't send any more letters"
@@ -2512,7 +2518,7 @@ msgstr "Your NoRent letter and important next steps"
 msgid "Your NoRent.org letter"
 msgstr "Your NoRent.org letter"
 
-#: frontend/lib/rh/routes.tsx:266
+#: frontend/lib/rh/routes.tsx:267
 msgid "Your Rent History has been requested from the New York State DHCR!"
 msgstr "Your Rent History has been requested from the New York State DHCR!"
 
@@ -2524,7 +2530,7 @@ msgstr "Your account is set up"
 msgid "Your apartment may be rent stabilized."
 msgstr "Your apartment may be rent stabilized."
 
-#: frontend/lib/rh/routes.tsx:165
+#: frontend/lib/rh/routes.tsx:166
 msgid "Your building had {0, plural, one {1 rent stabilized unit} other {# rent stabilized units}} in {1}, according to property tax documents."
 msgstr "Your building had {0, plural, one {1 rent stabilized unit} other {# rent stabilized units}} in {1}, according to property tax documents."
 
@@ -2536,11 +2542,11 @@ msgstr "Your building had {0, plural, one {one rent stabilized unit} other {# re
 msgid "Your building was built in {0} or earlier."
 msgstr "Your building was built in {0} or earlier."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:65
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:66
 msgid "Your case's court name"
 msgstr "Your case's court name"
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:45
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:46
 msgid "Your case's index number"
 msgstr "Your case's index number"
 
@@ -2552,7 +2558,7 @@ msgstr "Your declaration form and important next steps"
 msgid "Your declaration is ready to send!"
 msgstr "Your declaration is ready to send!"
 
-#: frontend/lib/common-steps/ask-email.tsx:17
+#: frontend/lib/common-steps/ask-email.tsx:18
 msgid "Your email address"
 msgstr "Your email address"
 
@@ -2560,7 +2566,7 @@ msgstr "Your email address"
 msgid "Your hardship declaration form has been sent to your landlord via {0}."
 msgstr "Your hardship declaration form has been sent to your landlord via {0}."
 
-#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:47
+#: frontend/lib/evictionfree/declaration-builder/index-number.tsx:48
 msgid "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
 msgstr "Your index number can be found at the top of Postcard or Notice of Petition that you received from housing court. <0>They look like this:</0>"
 
@@ -2584,11 +2590,11 @@ msgstr "Your landlord might own other buildings, too."
 msgid "Your landlord or management company's address"
 msgstr "Your landlord or management company's address"
 
-#: frontend/lib/common-steps/landlord-email.tsx:15
+#: frontend/lib/common-steps/landlord-email.tsx:16
 msgid "Your landlord or management company's email"
 msgstr "Your landlord or management company's email"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:94
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:93
 msgid "Your landlord or management company's information"
 msgstr "Your landlord or management company's information"
 
@@ -2657,12 +2663,12 @@ msgid "eviction free nyc, eviction free ny, hardship, declaration, declare hards
 msgstr "eviction free nyc, eviction free ny, hardship, declaration, declare hardship, eviction, evicted"
 
 #: frontend/lib/evictionfree/about.tsx:45
-msgid "evictionfree.aboutPage1"
-msgstr "A new State law, passed in late 2020, allows most tenants to stop their eviction case until May 1st, 2021, if they fill out a “Hardship Declaration” form. However, this law puts the responsibility on tenants to figure out how to do that and doesn’t provide easy access to exercise their rights."
+msgid "evictionfree.aboutPageText2"
+msgstr "A new State law, passed in late 2020 and extended in 2021, allows most tenants to stop their eviction case until August 31st, 2021, if they fill out a “Hardship Declaration” form. However, this law puts the responsibility on tenants to figure out how to do that and doesn’t provide easy access to exercise their rights."
 
 #: frontend/lib/evictionfree/about.tsx:55
-msgid "evictionfree.aboutPage2"
-msgstr "Our website helps tenants submit this hardship declaration form with peace of mind— sending it out via free USPS Certified Mail and email to all of the appropriate parties (your landlord and the courts) to ensure protection. And since the law doesn’t go far enough to protect folks beyond May 1st, our tool connects tenants to the larger tenant movement so we can #CancelRent."
+msgid "evictionfree.aboutPageText3"
+msgstr "Our website helps tenants submit this hardship declaration form with peace of mind—sending it out via free USPS Certified Mail and email to all of the appropriate parties (your landlord and the courts) to ensure protection. And since the law doesn’t go far enough to protect folks beyond August 31st, our tool connects tenants to the larger tenant movement so we can #CancelRent."
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:12
 msgid "evictionfree.agreeToStateTermsIntro"
@@ -2674,23 +2680,23 @@ msgstr "We'll use this information to email you a copy of your hardship declarat
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:141
 msgid "evictionfree.confirmationNoEmailToCourtYet"
-msgstr "A copy of the declaration will also be sent to your local court via email— we are determining the appropriate court to receive your declaration. We will notify you via text and on this page when it is sent."
+msgstr "A copy of the declaration will also be sent to your local court via email—we are determining the appropriate court to receive your declaration. We will notify you via text and on this page when it is sent."
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:46
 msgid "evictionfree.contactHcaBlurb"
 msgstr "If you have received a Notice to Pay Rent or Quit or any other kind of eviction notice, contact Housing Court Answers (NYC) at 212-962-4795, Monday - Friday, 9am-5pm or the Statewide Hotline at 833-503-0447, open 24/7."
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:184
-msgid "evictionfree.deadlineFaq"
-msgstr "You currently can submit your declaration form at any time between now and May 1, 2021. Once you submit your declaration form via this tool, we will mail and/or email it immediately to your landlord and the courts. If you’re ONLY sending your form via physical mail, send it as soon as possible and keep any proof of mailing and/or return receipts for your records."
+#: frontend/lib/evictionfree/data/faqs-content.tsx:182
+msgid "evictionfree.deadlineFaq1"
+msgstr "You currently can submit your declaration form at any time between now and August 31, 2021. Once you submit your declaration form via this tool, we will mail and/or email it immediately to your landlord and the courts. If you’re ONLY sending your form via physical mail, send it as soon as possible and keep any proof of mailing and/or return receipts for your records."
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:70
-msgid "evictionfree.emailBodyTemplateForSharingFromConfirmation"
-msgstr "On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. I just used this website to send a hardship declaration form to my landlord and local courts— putting any eviction case on hold until May 1st, 2021. Check it out here: {0}"
+msgid "evictionfree.emailBodyTemplateForSharingFromConfirmation1"
+msgstr "On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. I just used this website to send a hardship declaration form to my landlord and local courts—putting any eviction case on hold until August 31st, 2021. Check it out here: {0}"
 
-#: frontend/lib/evictionfree/homepage.tsx:28
-msgid "evictionfree.emailBodyTemplateForSharingFromHomepage"
-msgstr "On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021. Check it out here: {0}"
+#: frontend/lib/evictionfree/homepage.tsx:32
+msgid "evictionfree.emailBodyTemplateForSharingFromHomepage1"
+msgstr "On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021. Check it out here: {0}"
 
 #: frontend/lib/evictionfree/faqs.tsx:54
 msgid "evictionfree.faqsPageIntro"
@@ -2712,7 +2718,7 @@ msgstr "Get involved in your local community organization! Join millions in the 
 msgid "evictionfree.hj4aBlurb"
 msgstr "<0>Housing Justice for All</0> is a coalition of over 100 organizations, from Brooklyn to Buffalo, that represent tenants and homeless New Yorkers. We are united in our belief that housing is a human right; that no person should live in fear of an eviction; and that we can end the homelessness crisis in our State."
 
-#: frontend/lib/evictionfree/homepage.tsx:123
+#: frontend/lib/evictionfree/homepage.tsx:128
 msgid "evictionfree.introToLaw"
 msgstr "On December 28, 2020, New York State <0>passed legislation</0> that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a <1>hardship declaration form</1> and send it to your landlord and/or the courts."
 
@@ -2721,8 +2727,8 @@ msgid "evictionfree.introductionToDeclarationFormSteps"
 msgstr "In order to benefit from the eviction protections that local government representatives have put in place, you can notify your landlord by filling out a hardship declaration form. <0>In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense.</0>"
 
 #: frontend/lib/evictionfree/about.tsx:116
-msgid "evictionfree.justfixBlurb"
-msgstr "<0>JustFix.nyc</0> co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City. Our mission is to galvanize a 21st century tenant movement working towards housing for all — and we think the power of data and technology should be accessible to those fighting this fight."
+msgid "evictionfree.justfixBlurb1"
+msgstr "<0>JustFix.nyc</0> co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City. Our mission is to galvanize a 21st century tenant movement working towards housing for all—and we think the power of data and technology should be accessible to those fighting this fight."
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:37
 msgid "evictionfree.landlordRetaliationWarning"
@@ -2733,22 +2739,22 @@ msgid "evictionfree.legalAgreementCheckboxOnFees"
 msgstr "I further understand that lawful fees, penalties or interest for not having paid rent in full or met other financial obligations as required by my tenancy, lease agreement or similar contract may still be charged or collected and may result in a monetary judgment against me."
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:36
-msgid "evictionfree.legalAgreementCheckboxOnNewProtections"
-msgstr "I further understand that my landlord may be able to seek eviction after May 1, 2021, and that the law may provide certain protections at that time that are separate from those available through this declaration."
+msgid "evictionfree.legalAgreementCheckboxOnNewProtections3"
+msgstr "I further understand that my landlord may be able to seek eviction after August 31, 2021, and that the law may provide certain protections at that time that are separate from those available through this declaration."
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23
 msgid "evictionfree.outlineOfDeclarationFormSteps"
 msgstr "<0>In the next few steps, we’ll help you fill out your hardship declaration form. Have this information on hand if possible:</0><1><2><3>your phone number and residence</3></2><4><5>your landlord or management company’s mailing and/or email address</5></4></1>"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:110
+#: frontend/lib/evictionfree/data/faqs-content.tsx:111
 msgid "evictionfree.postOfficeFaq"
 msgstr "No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed. If you choose not to use this tool, you will be responsible for mailing your declaration."
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:151
+#: frontend/lib/evictionfree/data/faqs-content.tsx:152
 msgid "evictionfree.printOutFaq"
 msgstr "<0>No, you can print out the <1>hardship declaration form</1> yourself, fill it out by hand, and mail/email it to your landlord and local housing court.</0><2>New York City residents can send their declarations to the court in their borough:</2>"
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:197
+#: frontend/lib/evictionfree/data/faqs-content.tsx:195
 msgid "evictionfree.resendFaq"
 msgstr "You currently cannot use this tool to send more than one declaration form. However, once you use this tool, you will be able to download a PDF copy of your declaration on the “Confirmation Page,” and you can choose to resend that declaration on your own. You should keep it for your records, in case your landlord tries to bring you to court."
 
@@ -2760,23 +2766,23 @@ msgstr "The <0>Right to Counsel NYC Coalition</0> is a tenant-led, broad-based c
 msgid "evictionfree.significantHealthRiskExplainer"
 msgstr "This means you or one or more members of your household have an increased risk for severe illness or death from COVID-19 due to being over the age of sixty-five, having a disability or having an underlying medical condition, which may include but is not limited to being immunocompromised."
 
-#: frontend/lib/evictionfree/data/faqs-content.tsx:174
+#: frontend/lib/evictionfree/data/faqs-content.tsx:172
 msgid "evictionfree.timeLagFaq"
 msgstr "Once you build your declaration form via this tool, it gets mailed and/or emailed immediately to your landlord and the courts. After it's sent, physical mail usually delivers in about a week."
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:68
-msgid "evictionfree.tweetTemplateForSharingFromConfirmation"
-msgstr "I just used this website to send a hardship declaration form to my landlord and local courts— putting any eviction case on hold until May 1st, 2021. Check it out here: {0} #EvictionFreeNY via @JustFixNYC @RTCNYC @housing4allNY"
+msgid "evictionfree.tweetTemplateForSharingFromConfirmation1"
+msgstr "I just used this website to send a hardship declaration form to my landlord and local courts—putting any eviction case on hold until August 31st, 2021. Check it out here: {0} #EvictionFreeNY via @JustFixNYC @RTCNYC @housing4allNY"
 
-#: frontend/lib/evictionfree/homepage.tsx:26
-msgid "evictionfree.tweetTemplateForSharingFromHomepage"
-msgstr "You can use this website to send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021. Check it out here: {0} #EvictionFreeNY via @JustFixNYC @RTCNYC @housing4allNY"
+#: frontend/lib/evictionfree/homepage.tsx:30
+msgid "evictionfree.tweetTemplateForSharingFromHomepage1"
+msgstr "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021. Check it out here: {0} #EvictionFreeNY via @JustFixNYC @RTCNYC @housing4allNY"
 
-#: frontend/lib/evictionfree/homepage.tsx:194
+#: frontend/lib/evictionfree/homepage.tsx:196
 msgid "evictionfree.whoBuildThisTool"
 msgstr "Our free tool was built by the <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, and <2>JustFix.nyc</2> as part of the larger tenant movement across the state."
 
-#: frontend/lib/evictionfree/homepage.tsx:164
+#: frontend/lib/evictionfree/homepage.tsx:166
 msgid "evictionfree.whoHasRightToSubmitForm"
 msgstr "All tenants in New York State have a right to fill out this hardship declaration form. Especially if you've been served an eviction notice or believe you are at risk of being evicted, please consider using this form to protect yourself."
 
@@ -2785,12 +2791,12 @@ msgid "justfix.DdoMayNeedHpdRegistration"
 msgstr "It looks like this building may require registration with HPD. Landlords who don't properly register their properties incur fines and also cannot bring tenants to court for nonpayment of rent. You can find more information on <0>HPD's Property Management page</0>"
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:29
-msgid "justfix.commonWarningAboutChangingLandlordDetails"
-msgstr "If you receive rent-related documents from a different address, or if your landlord has instructed you to use a different address for correspondence, you can <0>provide your own details.</0> But, only use a different address if you are absolutely sure it is correct— it is safer to use the official address your landlord provided to the city."
+msgid "justfix.commonWarningAboutChangingLandlordDetails1"
+msgstr "If you receive rent-related documents from a different address, or if your landlord has instructed you to use a different address for correspondence, you can <0>provide your own details.</0> But, only use a different address if you are absolutely sure it is correct—it is safer to use the official address your landlord provided to the city."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:337
-msgid "justfix.ddoEfnycCovidMessage"
-msgstr "You can send a hardship declaration form to your landlord and local courts— putting your eviction case on hold until May 1st, 2021."
+msgid "justfix.ddoEfnycCovidMessage1"
+msgstr "You can send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:274
 msgid "justfix.ddoEhpaCovidMessage"
@@ -2812,15 +2818,15 @@ msgstr "Disclaimer: The information in {website} does not constitute legal advic
 msgid "justfix.privacyInfoModalText"
 msgstr "<0>Your privacy is very important to us! Here are some important things to know:</0><1><2>Your personal information is secure.</2><3>We don’t use your personal information for profit or sell it to third parties.</3><4>We use your address to find information about your landlord and your building.</4></1><5>Our Privacy Policy enables sharing anonymized data with approved tenant advocacy organizations exclusively to help further our tenants rights mission. The Privacy Policy contains information regarding what data we collect, how we use it, and the choices you have regarding your personal information. If you’d like to read more, please review our full <6/> and <7/>.</5>"
 
-#: frontend/lib/rh/routes.tsx:57
+#: frontend/lib/rh/routes.tsx:58
 msgid "justfix.rhExplanation"
 msgstr "This document helps you find out if your apartment is <0>rent stabilized</0> and if you're being <1>overcharged</1>. It shows the registered rents in your apartment since 1984."
 
-#: frontend/lib/rh/routes.tsx:183
+#: frontend/lib/rh/routes.tsx:184
 msgid "justfix.rhNoRsUnits"
 msgstr "According to property tax documents, your building hasn’t reported any rent stabilized units over the past several years. While there is a chance that your apartment is rent stabilized, it looks unlikely."
 
-#: frontend/lib/rh/routes.tsx:191
+#: frontend/lib/rh/routes.tsx:192
 msgid "justfix.rhNoRsUnitsMeansNoRentHistory"
 msgstr "You may still submit a request to the DHCR to make sure, but they may not have a rent history on file to send you. In this case, <0>you would not receive a rent history</0> in the mail."
 
@@ -2828,15 +2834,15 @@ msgstr "You may still submit a request to the DHCR to make sure, but they may no
 msgid "justfix.rhRequestToDhcr"
 msgstr "<0>DHCR administrator,</0><1>I, {0}, am currently living at {1} in apartment {2}, and would like to request the complete Rent History for this apartment back to the year 1984.</1><2>Thank you,<3/>{3}</2>"
 
-#: frontend/lib/rh/routes.tsx:172
+#: frontend/lib/rh/routes.tsx:173
 msgid "justfix.rhRsUnitsAreGoodSign"
 msgstr "While this data doesn’t guarantee that your apartment is rent stabilized, it’s a good sign that the DHCR has a rent history on file to send you."
 
-#: frontend/lib/rh/routes.tsx:295
+#: frontend/lib/rh/routes.tsx:296
 msgid "justfix.rhWarningAboutNotReceiving"
 msgstr "<0>If your apartment has never been rent stabilized:</0> you will not receive a rent history in the mail. The DHCR only has rent histories for apartments that were rent stabilized at some point in time."
 
-#: frontend/lib/rh/routes.tsx:272
+#: frontend/lib/rh/routes.tsx:273
 msgid "justfix.rhWhatHappensNext"
 msgstr "<0>If your apartment is currently rent stabilized, or has been at any point in the past:</0> you should receive your Rent History in the mail in about a week. Your Rent History is an important document—it shows the registered rents in your apartment since 1984. You can learn more about it and how it can help you figure out if you’re being overcharged on rent at the <1>Met Council on Housing guide to Rent Stabilization Overcharges</1> or by checking out our <2>Learning Center article on Rent Overcharge</2>."
 

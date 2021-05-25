@@ -21,6 +21,7 @@ from graphene_django.views import GraphQLView
 
 from .views import example_server_error, redirect_favicon, health, redirect_en_us
 from .frontapp import embeddable_in_frontapp
+from .admin_dashboard import get_django_admin_dashboard_urls
 import frontend.views
 from users.views import verify_email
 import twofactor.views
@@ -37,6 +38,7 @@ urlpatterns = [
     path("verify", embeddable_in_frontapp(twofactor.views.verify), name="verify"),
     path("verify-email", verify_email, name="verify_email"),
     path("health", health, name="health"),
+    path("admin/dashboard/", get_django_admin_dashboard_urls(admin.site)),
     path("admin/", admin.site.urls),
     path("safe-mode/", include("frontend.safe_mode")),
     path("favicon.ico", redirect_favicon),

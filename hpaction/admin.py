@@ -1,13 +1,12 @@
 from django.contrib import admin
-from django.db.models import Q
 from django.urls import reverse
 from django.utils.html import format_html
 
 from users.models import JustfixUser
+from users.action_progress import EHP_PROGRESS
 from issues.admin import IssueInline, CustomIssueInline
 from loc.admin import LandlordDetailsInline
 from loc.lob_api import is_lob_fully_enabled
-from onboarding.models import SIGNUP_INTENT_CHOICES
 from project.util.admin_util import admin_action, never_has_permission, make_edit_link, admin_field
 from users.admin_user_proxy import UserProxyAdmin
 from . import models
@@ -84,7 +83,7 @@ class HPActionDocumentsAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
     user from the model, we basically have to make it a separate view.
     """
 
-    list_display = ["id", "user", "user_full_name", "kind", "created_at"]
+    list_display = ["id", "user", "user_full_legal_name", "kind", "created_at"]
 
     actions = [schedule_for_deletion]
 
@@ -94,9 +93,9 @@ class HPActionDocumentsAdmin(NoAddOrDeleteMixin, admin.ModelAdmin):
 
     autocomplete_fields = ["user"]
 
-    def user_full_name(self, obj):
+    def user_full_legal_name(self, obj):
         if obj.user:
-            return obj.user.full_name
+            return obj.user.full_legal_name
 
     inlines = (DocusignEnvelopeInline,)
 
@@ -179,16 +178,7 @@ class HPUserAdmin(UserProxyAdmin):
         ServingPapersInline,
     )
 
-    def filter_queryset_for_changelist_view(self, queryset):
-        return queryset.filter(
-            Q(hp_action_details__isnull=False)
-            | Q(
-                onboarding_info__signup_intent__in=[
-                    SIGNUP_INTENT_CHOICES.HP,
-                    SIGNUP_INTENT_CHOICES.EHP,
-                ]
-            )
-        )
+    progress_annotation = EHP_PROGRESS
 
     @admin_field(short_description="Create serving papers", allow_tags=True)
     def create_serving_papers(self, obj):

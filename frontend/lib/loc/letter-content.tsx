@@ -190,7 +190,7 @@ const LetterConclusion: React.FC<LocContentProps> = (props) => (
       <letter.Regards>
         <br />
         <br />
-        <letter.FullName {...props} />
+        <letter.FullLegalName {...props} />
       </letter.Regards>
     </div>
   </>

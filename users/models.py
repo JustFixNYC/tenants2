@@ -12,8 +12,6 @@ from project.locales import LOCALE_KWARGS
 from .permission_util import ModelPermissions
 
 
-FULL_NAME_MAXLEN = 150
-
 IMPERSONATE_USERS_PERMISSION = "users.impersonate_users"
 
 ADD_SERVING_PAPERS_PERMISSION = "hpaction.add_servingpapers"
@@ -67,6 +65,7 @@ ROLES["Outreach Coordinators"] = set(
         *ModelPermissions("evictionfree", "hardshipdeclarationdetails").all,
         "evictionfree.change_evictionfreeuser",
         IMPERSONATE_USERS_PERMISSION,
+        "django_sql_dashboard.execute_sql",
     ]
 )
 
@@ -145,7 +144,7 @@ class JustfixUser(AbstractUser):
     REQUIRED_FIELDS = ["username", "email"]
 
     @property
-    def full_name(self) -> str:
+    def full_legal_name(self) -> str:
         if self.first_name and self.last_name:
             return " ".join([self.first_name, self.last_name])
         return ""
@@ -177,8 +176,8 @@ class JustfixUser(AbstractUser):
         value: str = self.email
         if not value:
             return None
-        if self.full_name:
-            value = f"{self.full_name} <{value}>"
+        if self.full_legal_name:
+            value = f"{self.full_legal_name} <{value}>"
         return value
 
     def formatted_phone_number(self) -> str:
@@ -194,11 +193,11 @@ class JustfixUser(AbstractUser):
         else:
             logging.info(f"Not sending a SMS to user {self.username} because they opted out.")
 
-    def send_sms(self, body: str, fail_silently=True) -> str:
+    def send_sms(self, body: str, fail_silently=True) -> twilio.SendSmsResult:
         self._log_sms()
         if self.can_we_sms:
             return twilio.send_sms(self.phone_number, body, fail_silently=fail_silently)
-        return ""
+        return twilio.SendSmsResult(err_code=twilio.TWILIO_USER_OPTED_OUT_ERR)
 
     def send_sms_async(self, body: str) -> None:
         self._log_sms()
@@ -220,7 +219,7 @@ class JustfixUser(AbstractUser):
                 f"Triggering rapidpro campaign '{campaign_name}' on user " f"{self.username}."
             )
             fc.trigger_followup_campaign_async(
-                self.full_name,
+                self.full_legal_name,
                 self.phone_number,
                 campaign_name,
                 locale=self.locale,
@@ -234,6 +233,12 @@ class JustfixUser(AbstractUser):
     @property
     def admin_url(self):
         return absolute_reverse("admin:users_justfixuser_change", args=[self.pk])
+
+    @property
+    def amplitude_url(self) -> Optional[str]:
+        from amplitude.util import get_url_for_user_page
+
+        return get_url_for_user_page(self)
 
     def __str__(self):
         if self.username:

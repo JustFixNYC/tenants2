@@ -32,8 +32,10 @@ GTM_CONTAINER_ID = ""
 FACEBOOK_PIXEL_ID = ""
 FACEBOOK_APP_ID = ""
 AMPLITUDE_API_KEY = ""
+AMPLITUDE_PROJECT_SETTINGS_URL = ""
 ROLLBAR_ACCESS_TOKEN = ""
 MAPBOX_ACCESS_TOKEN = ""
+DASHBOARD_DB_ALIAS = None
 NYCDB_DATABASE = None
 WOW_DATABASE = None
 DWH_DATABASE = "default"
@@ -90,6 +92,9 @@ if "nycdb" in DATABASES:  # noqa
 
 if "wow" in DATABASES:  # noqa
     del DATABASES["wow"]  # noqa
+
+if "dashboard" in DATABASES:  # noqa
+    del DATABASES["dashboard"]  # noqa
 
 NAVBAR_LABEL = ""
 

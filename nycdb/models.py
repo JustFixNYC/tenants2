@@ -221,7 +221,7 @@ class HPDContact(models.Model):
         return f"{self.businesshousenumber or ''} {self.businessstreetname or ''}".strip()
 
     @property
-    def full_name(self) -> str:
+    def full_legal_name(self) -> str:
         return f"{self.firstname or ''} {self.lastname or ''}".strip()
 
     @property

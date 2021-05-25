@@ -8,14 +8,14 @@ SUPERUSER_SENTINEL = "superuser"
 
 
 def test_list_view_works(admin_client):
-    UserFactory(full_name="Blargy Blargface")
+    UserFactory(full_legal_name="Blargy Blargface")
     res = admin_client.get("/admin/users/justfixuser/")
     assert res.status_code == 200
     assert b"Blargy" in res.content
 
 
 def get_user_change_view_html(client):
-    user = UserFactory(full_name="Blargy Blargface")
+    user = UserFactory(full_legal_name="Blargy Blargface")
     res = client.get(f"/admin/users/justfixuser/{user.pk}/change/")
     assert res.status_code == 200
     assert b"Blargface" in res.content

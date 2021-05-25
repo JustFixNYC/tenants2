@@ -158,16 +158,16 @@ class Fields(pydantic.BaseModel):
     phone_number: str = ""
 
     # Whether we can SMS the user.
-    onboarding_info__can_we_sms: bool = pydantic.Schema(default=False, alias="can_we_sms")
+    onboarding_info__can_we_sms: bool = pydantic.Field(default=False, alias="can_we_sms")
 
     # The user's lease type.
-    onboarding_info__lease_type: str = pydantic.Schema(default="", alias="lease_type")
+    onboarding_info__lease_type: str = pydantic.Field(default="", alias="lease_type")
 
     # The user's borough.
-    onboarding_info__borough: str = pydantic.Schema(default="", alias="borough")
+    onboarding_info__borough: str = pydantic.Field(default="", alias="borough")
 
     # When the user's letter of complaint was requested.
-    letter_request__created_at: Optional[str] = pydantic.Schema(
+    letter_request__created_at: Optional[str] = pydantic.Field(
         # Note that it's important to set dates to None/null in Airtable if they don't
         # exist, as Airtable will complain that it can't parse the value if we give it
         # an empty string.
@@ -176,48 +176,48 @@ class Fields(pydantic.BaseModel):
     )
 
     # When we sent the user's letter of complaint.
-    letter_request__letter_sent_at: Optional[str] = pydantic.Schema(
+    letter_request__letter_sent_at: Optional[str] = pydantic.Field(
         default=None, alias="letter_sent_date"
     )
 
     # The reason we didn't mail the letter, if applicable.
-    letter_request__rejection_reason: str = pydantic.Schema(
+    letter_request__rejection_reason: str = pydantic.Field(
         default="", alias="letter_rejection_reason"
     )
 
     # The tracking number for the letter, if we sent it.
-    letter_request__tracking_number: str = pydantic.Schema(
+    letter_request__tracking_number: str = pydantic.Field(
         default="", alias="letter_tracking_number"
     )
 
     # The tenant's full mailing address.
-    onboarding_info__address_for_mailing: str = pydantic.Schema(default="", alias="address")
+    onboarding_info__address_for_mailing: str = pydantic.Field(default="", alias="address")
 
     # The tenant's boro-block-lot (BBL) number.
-    onboarding_info__pad_bbl: str = pydantic.Schema(default="", alias="pad_bbl")
+    onboarding_info__pad_bbl: str = pydantic.Field(default="", alias="pad_bbl")
 
     # A link to the letter of complaint PDF.
-    letter_request__admin_pdf_url: str = pydantic.Schema(default="", alias="letter_pdf_url")
+    letter_request__admin_pdf_url: str = pydantic.Field(default="", alias="letter_pdf_url")
 
     # The tenant's landlord's name.
-    landlord_details__name: str = pydantic.Schema(default="", alias="landlord_name")
+    landlord_details__name: str = pydantic.Field(default="", alias="landlord_name")
 
     # The tenant's landlord's address.
-    landlord_details__address: str = pydantic.Schema(default="", alias="landlord_address")
+    landlord_details__address: str = pydantic.Field(default="", alias="landlord_address")
 
     # Whether or not the user wants us to mail the letter for them.
-    letter_request__will_we_mail: bool = pydantic.Schema(default=False, alias="will_we_mail_letter")
+    letter_request__will_we_mail: bool = pydantic.Field(default=False, alias="will_we_mail_letter")
 
     # The most recent date the user's HP action documents were generated.
     hp_latest_documents_date: Optional[str] = None
 
     # Whether the user wants to sue for repairs.
-    hp_action_details__sue_for_repairs: bool = pydantic.Schema(
+    hp_action_details__sue_for_repairs: bool = pydantic.Field(
         default=False, alias="hp_sue_for_repairs"
     )
 
     # Whether the user wants to sue for harassment.
-    hp_action_details__sue_for_harassment: bool = pydantic.Schema(
+    hp_action_details__sue_for_harassment: bool = pydantic.Field(
         default=False, alias="hp_sue_for_harassment"
     )
 
@@ -293,7 +293,7 @@ class Record(pydantic.BaseModel):
 
     # The fields of this row. We need to call it "fields_" because
     # the attribute "fields" is already used by pydantic.
-    fields_: Fields = pydantic.Schema(default=..., alias="fields")
+    fields_: Fields = pydantic.Field(default=..., alias="fields")
 
     # The date the row was created, e.g. '2018-10-15T20:27:20.000Z'.
     createdTime: str

@@ -1,7 +1,7 @@
 import React from "react";
 import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
-import { NorentFullNameMutation } from "../queries/NorentFullNameMutation";
+import { NorentFullLegalNameMutation } from "../queries/NorentFullLegalNameMutation";
 import { TextualFormField } from "../forms/form-fields";
 import { ProgressButtons } from "../ui/buttons";
 import { li18n } from "../i18n-lingui";
@@ -18,7 +18,7 @@ export const AskNameStep: React.FC<MiddleProgressStepProps> = (props) => {
       </div>
       <br />
       <SessionUpdatingFormSubmitter
-        mutation={NorentFullNameMutation}
+        mutation={NorentFullLegalNameMutation}
         initialState={(s) => ({
           firstName: s.norentScaffolding?.firstName || s.firstName || "",
           lastName: s.norentScaffolding?.lastName || s.lastName || "",

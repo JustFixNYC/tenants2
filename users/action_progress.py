@@ -3,6 +3,7 @@ from django.db.models import Case, When, Value, Q, Expression
 from django.db.models.expressions import Exists, OuterRef
 
 from onboarding.models import SIGNUP_INTENT_CHOICES
+from loc.models import AccessDate
 from hpaction.models import HP_DOCUSIGN_STATUS_CHOICES, DocusignEnvelope
 from norent.models import Letter as NorentLetter
 
@@ -29,7 +30,7 @@ LOC_PROGRESS = ProgressAnnotation(
         When(letter_request__isnull=False, then=Value(COMPLETE)),
         When(
             Q(onboarding_info__signup_intent=SIGNUP_INTENT_CHOICES.LOC)
-            | Q(access_dates__isnull=False),
+            | Q(Exists(AccessDate.objects.filter(user=OuterRef("pk")))),
             then=Value(IN_PROGRESS),
         ),
         default=Value(NOT_STARTED),

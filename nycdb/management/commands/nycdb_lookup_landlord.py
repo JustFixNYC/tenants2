@@ -37,7 +37,12 @@ class Command(BaseCommand):
         fields = " / ".join(
             filter(
                 None,
-                [contact.type, contact.corporationname, contact.full_name, contact.street_address],
+                [
+                    contact.type,
+                    contact.corporationname,
+                    contact.full_legal_name,
+                    contact.street_address,
+                ],
             )
         )
         self.stdout.write(f"  {fields}\n")

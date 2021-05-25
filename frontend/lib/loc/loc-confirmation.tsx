@@ -11,7 +11,7 @@ import { PdfLink } from "../ui/pdf-link";
 import { EmailAttachmentForm } from "../forms/email-attachment";
 import { EmailLetterMutation } from "../queries/EmailLetterMutation";
 import { BigList } from "../ui/big-list";
-import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc.json";
+import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc";
 import { SquareImage } from "../data-driven-onboarding/data-driven-onboarding";
 import { ariaBool } from "../ui/aria";
 import { renderSuccessHeading } from "../ui/success-heading";

@@ -124,6 +124,7 @@ INSTALLED_APPS = [
     "django_celery_results",
     "project.apps.DefaultConfig",
     "project.apps.JustfixAdminConfig",
+    "django_sql_dashboard",
     "frontend",
     "users.apps.UsersConfig",
     "hpaction.apps.HPActionConfig",
@@ -211,6 +212,12 @@ DATABASES = {
     "default": dj_database_url.parse(change_db_url_to_postgis(env.DATABASE_URL)),
 }
 
+DASHBOARD_DB_ALIAS = None
+
+if env.DASHBOARD_DATABASE_URL:
+    DATABASES["dashboard"] = dj_database_url.parse(env.DASHBOARD_DATABASE_URL)
+    DASHBOARD_DB_ALIAS = "dashboard"
+
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 NYCDB_DATABASE = None
@@ -240,7 +247,9 @@ MIGRATION_MODULES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
-
+#
+# When these change, update frontend/lib/common-steps/create-password.tsx with a string
+# description so users know what the rules are.
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -419,6 +428,8 @@ GTM_CONTAINER_ID = env.GTM_CONTAINER_ID
 FACEBOOK_PIXEL_ID = env.FACEBOOK_PIXEL_ID
 
 AMPLITUDE_API_KEY = env.AMPLITUDE_API_KEY
+
+AMPLITUDE_PROJECT_SETTINGS_URL = env.AMPLITUDE_PROJECT_SETTINGS_URL
 
 FULLSTORY_ORG_ID = env.FULLSTORY_ORG_ID
 

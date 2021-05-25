@@ -1,5 +1,6 @@
 import logging
 from typing import Optional, Dict, Any, List
+from dataclasses import dataclass
 from django.conf import settings
 from twilio.rest import Client
 from twilio.http.http_client import TwilioHttpClient
@@ -10,6 +11,34 @@ from project.util.settings_util import ensure_dependent_settings_are_nonempty
 from project.util.celery_util import fire_and_forget_task, get_task_for_function
 
 logger = logging.getLogger(__name__)
+
+
+# https://www.twilio.com/docs/api/errors/21211
+TWILIO_INVALID_TO_NUMBER_ERR = 21211
+
+# https://www.twilio.com/docs/api/errors/21610
+TWILIO_BLOCKED_NUMBER_ERR = 21610
+
+# Other type of error communicating w/ Twilio, e.g. unable to contact
+# their server or something.
+TWILIO_OTHER_ERR = -1
+
+# The user opted-out of SMS communications on our end.
+TWILIO_USER_OPTED_OUT_ERR = -2
+
+# Twilio integration is disabled, so the SMS wasn't sent.
+TWILIO_INTEGRATION_DISABLED_ERR = -3
+
+# A set of error codes that indicate that we shouldn't bother
+# to try re-sending the SMS.
+TWILIO_NO_RETRY_ERRS = set(
+    [
+        TWILIO_INVALID_TO_NUMBER_ERR,
+        TWILIO_BLOCKED_NUMBER_ERR,
+        TWILIO_USER_OPTED_OUT_ERR,
+        TWILIO_INTEGRATION_DISABLED_ERR,
+    ]
+)
 
 
 def validate_settings():
@@ -65,20 +94,88 @@ def is_enabled() -> bool:
     return bool(settings.TWILIO_ACCOUNT_SID)
 
 
+@dataclass
+class SendSmsResult:
+    """
+    The result of attempting to send an SMS.  If successful, `sid` will be
+    non-empty.  Otherwise, `err_code` will be an integer describing the
+    error.  If it is non-negative, it corresponds to a Twilio REST API error
+    code defined here:
+
+       https://www.twilio.com/docs/api/errors
+
+    Otherwise, it will correspond to an application-specific error code;
+    see the `TWILIO_*_ERR` constants in this file for more details.
+    """
+
+    sid: str = ""
+
+    err_code: Optional[int] = None
+
+    def __post_init__(self):
+        if (not self.sid) and self.err_code is None:
+            raise ValueError("SendSmsResult must be either successful or unsuccessful")
+        if self.sid and self.err_code is not None:
+            raise ValueError("SendSmsResult can't be both successful and unsuccessful")
+
+    @property
+    def should_retry(self) -> bool:
+        """
+        Returns whether we should bother trying to retry sending the SMS.
+        """
+
+        if self.sid or self.err_code in TWILIO_NO_RETRY_ERRS:
+            return False
+        return True
+
+    def __bool__(self) -> bool:
+        """
+        This object will be falsy if the SMS wasn't sent.
+        """
+
+        return bool(self.sid)
+
+
+def _handle_twilio_err(
+    e: Exception, phone_number: str, fail_silently: bool, ignore_invalid_phone_number: bool
+) -> Optional[SendSmsResult]:
+    """
+    Attempt to handle an exception raised by Twilio. Returns None if the exception should
+    be propagated; otherwise, returns a `SendSmsResult` object with `err_code` set to
+    an appropriate value.
+    """
+
+    from .models import PhoneNumberLookup
+
+    code: int = e.code if isinstance(e, TwilioRestException) else TWILIO_OTHER_ERR
+
+    if code == TWILIO_INVALID_TO_NUMBER_ERR:
+        logger.info(f"Phone number {phone_number} is invalid.")
+        PhoneNumberLookup.objects.invalidate(phone_number=phone_number)
+        if ignore_invalid_phone_number:
+            return SendSmsResult(err_code=code)
+    if fail_silently:
+        if code == TWILIO_BLOCKED_NUMBER_ERR:
+            logger.info(f"Phone number {phone_number} is blocked.")
+        else:
+            logger.exception(f"Error while communicating with Twilio")
+        return SendSmsResult(err_code=code)
+
+    return None
+
+
 def send_sms(
     phone_number: str,
     body: str,
     fail_silently=False,
     ignore_invalid_phone_number=True,
-) -> str:
+) -> SendSmsResult:
     """
     Send an SMS message to the given phone number, with the given body.
 
-    On success, the sid of the SMS message is returned. On failure
-    (or if Twilio integration is disabled), an empty string is returned.
-
     If `fail_silently` is True, any exceptions raised will be logged,
-    but not propagated.
+    but not propagated.  Any kind of error will be represented in the
+    return value's `err_code` property.
 
     If `ignore_invalid_phone_number' is True, any exceptions raised
     related to invalid phone numbers will be logged, but not
@@ -93,7 +190,7 @@ def send_sms(
             lookup = PhoneNumberLookup.objects.filter(phone_number=phone_number).first()
             if lookup and not lookup.is_valid:
                 logger.info(f"Phone number {phone_number} is invalid, not sending SMS.")
-                return ""
+                return SendSmsResult(err_code=TWILIO_INVALID_TO_NUMBER_ERR)
         client = get_client()
         try:
             msg = client.messages.create(
@@ -102,26 +199,19 @@ def send_sms(
                 body=body,
             )
             logger.info(f"Sent Twilio message with sid {msg.sid}.")
-            return msg.sid
+            return SendSmsResult(sid=msg.sid)
         except Exception as e:
-            is_invalid_number = isinstance(e, TwilioRestException) and e.code == 21211
-            if is_invalid_number:
-                logger.info(f"Phone number {phone_number} is invalid.")
-                PhoneNumberLookup.objects.invalidate(phone_number=phone_number)
-                if ignore_invalid_phone_number:
-                    return ""
-            if fail_silently:
-                logger.exception(f"Error while communicating with Twilio")
-                return ""
-            else:
-                raise
+            result = _handle_twilio_err(e, phone_number, fail_silently, ignore_invalid_phone_number)
+            if result is not None:
+                return result
+            raise
     else:
         logger.info(
             f"SMS sending is disabled. If it were enabled, "
             f"{phone_number} would receive a text message "
             f"with the body {repr(body)}."
         )
-        return ""
+        return SendSmsResult(err_code=TWILIO_INTEGRATION_DISABLED_ERR)
 
 
 send_sms_async = fire_and_forget_task(send_sms)

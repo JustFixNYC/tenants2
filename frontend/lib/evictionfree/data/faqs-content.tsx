@@ -3,6 +3,7 @@ import React from "react";
 import { OutboundLink } from "../../ui/outbound-link";
 import { li18n } from "../../i18n-lingui";
 import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
+import { HARDSHIP_DECLARATION_FORM_URLS } from "../homepage";
 
 export type EvictionFreeFaq = {
   question: string; // Localized
@@ -186,14 +187,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
         <Trans id="evictionfree.printOutFaq">
           <p>
             No, you can print out the{" "}
-            <LocalizedOutboundLink
-              hrefs={{
-                en:
-                  "https://www.nycourts.gov/courts/nyc/SSI/images/corona/HardshipDeclaration.pdf",
-                es:
-                  "https://www.nycourts.gov/courts/nyc/SSI/images/corona/HardshipDeclaration_span.pdf",
-              }}
-            >
+            <LocalizedOutboundLink hrefs={HARDSHIP_DECLARATION_FORM_URLS}>
               hardship declaration form
             </LocalizedOutboundLink>{" "}
             yourself, fill it out by hand, and mail/email it to your landlord
@@ -226,13 +220,13 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     question: li18n._(t`What is the deadline for filling out the declaration?`),
     answer: (
       <p>
-        <Trans id="evictionfree.deadlineFaq">
+        <Trans id="evictionfree.deadlineFaq1">
           You currently can submit your declaration form at any time between now
-          and May 1, 2021. Once you submit your declaration form via this tool,
-          we will mail and/or email it immediately to your landlord and the
-          courts. If you’re ONLY sending your form via physical mail, send it as
-          soon as possible and keep any proof of mailing and/or return receipts
-          for your records.
+          and August 31, 2021. Once you submit your declaration form via this
+          tool, we will mail and/or email it immediately to your landlord and
+          the courts. If you’re ONLY sending your form via physical mail, send
+          it as soon as possible and keep any proof of mailing and/or return
+          receipts for your records.
         </Trans>
       </p>
     ),

@@ -1,8 +1,16 @@
-import { DjangoChoicesTypescriptConfig } from "../frontend/commondatabuilder/commondatabuilder";
+import { CommonDataConfig } from "../frontend/commondatabuilder/commondatabuilder";
 
-const config: DjangoChoicesTypescriptConfig = {
+const config: CommonDataConfig = {
   rootDir: __dirname,
-  files: [
+  namedConstantsFiles: [
+    "loc.json",
+    "issue-validation.json",
+    "hp-action.json",
+    "forms.json",
+    "email-attachment-validation.json",
+    "amplitude.json",
+  ],
+  djangoChoicesFiles: [
     {
       jsonFilename: "issue-choices.json",
       typeName: "IssueChoice",

@@ -13,7 +13,7 @@ import i18n from "../i18n";
 import JustfixRoutes from "../justfix-route-info";
 import { NorentRoutes } from "../norent/route-info";
 import { EvictionFreeRoutes } from "../evictionfree/route-info";
-import { USER_ID_PREFIX } from "../../../common-data/amplitude.json";
+import { USER_ID_PREFIX } from "../../../common-data/amplitude";
 
 /**
  * We need to be very careful here that we don't conflict with any of

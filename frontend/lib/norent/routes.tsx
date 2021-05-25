@@ -20,7 +20,6 @@ import { AlernativeLogoutPage } from "../pages/logout-alt-page";
 import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
 import loadable from "@loadable/component";
 import { friendlyLoad, LoadingPage } from "../networking/loading-page";
-import { OneOffEmail } from "./one-off-email";
 
 const LoadableDevRoutes = loadable(
   () => friendlyLoad(import("../dev/routes")),
@@ -62,7 +61,6 @@ export const NorentRouteComponent: React.FC<RouteComponentProps> = (props) => {
         Routes.locale.letterContent,
         NorentLetterForUserStaticPage
       )}
-      {createHtmlEmailStaticPageRoutes(Routes.locale.oneOffEmail, OneOffEmail)}
       <Route
         path={Routes.locale.letterEmail}
         exact

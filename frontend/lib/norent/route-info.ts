@@ -42,8 +42,6 @@ function createLocalizedRouteInfo(prefix: string) {
       `${prefix}/letter-email-to-user`
     ),
 
-    oneOffEmail: createHtmlEmailStaticPageRouteInfo(`${prefix}/one-off-email`),
-
     /** The sample letter content (HTML and PDF versions). */
     sampleLetterContent: createLetterStaticPageRouteInfo(
       `${prefix}/sample-letter`

@@ -64,6 +64,8 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The logout page. */
     logout: `${prefix}/logout`,
 
+    oneOffEmail: createHtmlEmailStaticPageRouteInfo(`${prefix}/one-off-email`),
+
     /** The email to the user w/ a copy of the declaration. */
     declarationEmailToUser: createHtmlEmailStaticPageRouteInfo(
       `${prefix}/declaration-email-to-user`

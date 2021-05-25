@@ -16,7 +16,7 @@ LOGFILE = oneoffemailusers.OUTFILE.with_suffix(".log")
 def send_email(user: JustfixUser):
     url = f"/one-off-email.html"
     email = react_render_email(
-        SITE_CHOICES.NORENT,
+        SITE_CHOICES.EVICTIONFREE,
         user.locale,
         url[1:],
         locale_prefix_url=True,

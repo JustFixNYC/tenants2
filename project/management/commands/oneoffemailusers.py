@@ -12,7 +12,7 @@ OUTFILE = Path("oneoffemail.txt")
 def print_users(title: str, users: List[JustfixUser]):
     print(f"{title} ({len(users)}):\n")
     for user in users:
-        print("  ", user.full_name, user.locale, user.email)
+        print("  ", user.username, user.locale, user.email)
     print()
 
 

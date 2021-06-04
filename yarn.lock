@@ -1385,10 +1385,10 @@
   resolved "https://registry.yarnpkg.com/@justfixnyc/react-aria-modal/-/react-aria-modal-5.1.0.tgz#edbd9f8432528d0702ae32a38bedc0e06bb1e30c"
   integrity sha512-b9YIw7azL273CkRczighjuAb0Qtd7RM4f0NjmYCf3PT7opHkRpAUuhi2KZZAPeVY2Eg0MgzZo+h/ZwsAAF9BQQ==
 
-"@justfixnyc/react-common@0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@justfixnyc/react-common/-/react-common-0.0.10.tgz#7d29baf28047e3d730875467c5ec518c824f92fd"
-  integrity sha512-GM70NkIpu+nCZiEaN36DzmH2wK4zViHyj65cBVLTSqgkL1QCN3Vmv+K2UXFRStIhyJ+yv4PCac+kGantGJKVmQ==
+"@justfixnyc/react-common@0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@justfixnyc/react-common/-/react-common-0.0.11.tgz#66da4d06c5ea8c5a898b5bcb12c96f34c652e934"
+  integrity sha512-eq6zkjAvbLnnpJmFkHIe3918ZGPxSvB+bn9U22RWVW1wc0rcPg+9wKI4FfoiuKmpXLGhOBAmGUN9OdPnjA2y0g==
 
 "@justfixnyc/util@0.2.0":
   version "0.2.0"

@@ -3,7 +3,6 @@ import { SimpleProgressiveEnhancement } from "./progressive-enhancement";
 import classnames from "classnames";
 import { Icon } from "./icon";
 import { OutboundLink } from "./outbound-link";
-import { getEmergencyHPAIssueLabels } from "../hpaction/emergency/emergency-hp-action-issues";
 import { CSSTransition } from "react-transition-group";
 import JustfixRoutes from "../justfix-route-info";
 import { useDebouncedValue } from "../util/use-debounced-value";
@@ -120,34 +119,26 @@ export const MoratoriumWarning = () => (
  */
 
 export const CovidEhpDisclaimer = () => {
-  const acceptedEmergencyHpCases = getEmergencyHPAIssueLabels();
-  const caseList = [...acceptedEmergencyHpCases, "Harassing you"].map((v) =>
-    v.toLowerCase()
-  );
-  const numCases = caseList.length;
-  const generateCaseList = (start: number, end: number) =>
-    caseList
-      .map((caseType, i) => <li key={i}> {caseType} </li>)
-      .slice(start, end);
+  const EHP_MEDIUM_URL =
+    "https://justfixnyc.medium.com/housing-court-blocks-tenants-from-suing-their-landlords-d7b9e3629a32";
   return (
     <div className="jf-covid-ehp-disclaimer notification is-warning">
       <p>
-        Due to the COVID-19 pandemic, Housing Courts in New York City are
-        prioritizing cases for the following conditions,{" "}
-        <strong>
-          or others that threaten the health and safety of your household
-        </strong>
-        :
+        DEVELOPING: Housing Court is blocking tenants from suing their landlords
+        through JustFix.{" "}
+        <OutboundLink href={EHP_MEDIUM_URL}>Read our statement</OutboundLink>.
       </p>
-      <div className="is-hidden-tablet">{generateCaseList(0, numCases)}</div>
-      <div className="columns is-mobile is-hidden-mobile">
-        <div className="column is-one-third">
-          {generateCaseList(0, Math.round(numCases / 2))}
-        </div>
-        <div className="column">
-          {generateCaseList(Math.round(numCases / 2), numCases)}
-        </div>
-      </div>
+      <p>
+        At this time, we don't recommend starting a new case using this tool.
+      </p>
+      <p>
+        It is still possible to file a case in person. If you would like to do
+        this,{" "}
+        <OutboundLink href={EHP_MEDIUM_URL}>
+          see these instructions
+        </OutboundLink>
+        .
+      </p>
     </div>
   );
 };

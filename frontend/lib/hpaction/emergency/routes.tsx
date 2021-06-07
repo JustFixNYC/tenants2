@@ -121,7 +121,7 @@ function EmergencyHPActionSplash(): JSX.Element {
                   intent={OnboardingInfoSignupIntent.EHP}
                   pageType="splash"
                 >
-                  Start my case
+                  Start my case anyway
                 </GetStartedButton>
                 <p className="jf-secondary-cta has-text-centered">
                   Already have an account?{" "}
@@ -146,13 +146,11 @@ function EmergencyHPActionSplash(): JSX.Element {
   );
 }
 
-const EmergencyHPActionWelcome: React.FC<ProgressStepProps> = (props) => {
-  const { session } = useContext(AppContext);
-  const title = `Welcome, ${session.firstName}! Let's start your Emergency HP Action paperwork.`;
-
-  return (
-    <Page title={title} withHeading="big" className="content">
-      <CovidEhpDisclaimer />
+const EmergencyHPWelcomeInstructions: React.FC<{ hide?: Boolean }> = ({
+  hide,
+}) => {
+  const list = (
+    <>
       <p>
         An <strong>Emergency HP (Housing Part) Action</strong> is a legal case
         you can bring against your landlord for failing to make repairs, not
@@ -201,13 +199,26 @@ const EmergencyHPActionWelcome: React.FC<ProgressStepProps> = (props) => {
           step of the way.
         </li>
       </BigList>
+    </>
+  );
+  return hide ? null : list;
+};
+
+const EmergencyHPActionWelcome: React.FC<ProgressStepProps> = (props) => {
+  const { session } = useContext(AppContext);
+  const title = `Welcome, ${session.firstName}! Let's start your Emergency HP Action paperwork.`;
+
+  return (
+    <Page title={title} withHeading="big" className="content">
+      <CovidEhpDisclaimer />
+      <EmergencyHPWelcomeInstructions hide />
       <br />
       <GetStartedButton
         to={assertNotNull(props.nextStep)}
         intent={OnboardingInfoSignupIntent.EHP}
         pageType="welcome"
       >
-        Get started
+        Get started anyway
       </GetStartedButton>
     </Page>
   );

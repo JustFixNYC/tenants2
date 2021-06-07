@@ -79,18 +79,17 @@ import {
   ServiceInstructionsWebpage,
 } from "../service-instructions-email";
 import { NycUsersOnly } from "../../pages/nyc-users-only";
-import { EnglishOutboundLink } from "../../ui/localized-outbound-link";
 
 const HP_ICON = "frontend/img/hp-action.svg";
 
 const LegalReferralLink = () => (
-  <p className="has-text-centered">
-    <EnglishOutboundLink href="TODO: Add form url here">
+  <div className="has-text-centered">
+    <a href="TODO: Add form url here" target="_blank" rel="noopener noreferrer">
       <div className="button is-primary is-large jf-is-extra-wide">
         Request a legal referral
       </div>
-    </EnglishOutboundLink>
-  </p>
+    </a>
+  </div>
 );
 
 function EmergencyHPActionSplash(): JSX.Element {

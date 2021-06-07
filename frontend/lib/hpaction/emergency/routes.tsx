@@ -1,18 +1,11 @@
 import React, { useContext } from "react";
-import JustfixRoutes, {
-  getSignupIntentOnboardingInfo,
-} from "../../justfix-route-info";
+import JustfixRoutes from "../../justfix-route-info";
 import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
 } from "../../progress/progress-routes";
-import {
-  HPUploadStatus,
-  OnboardingInfoSignupIntent,
-  HPDocusignStatus,
-} from "../../queries/globalTypes";
+import { HPUploadStatus, HPDocusignStatus } from "../../queries/globalTypes";
 import Page from "../../ui/page";
-import { GetStartedButton } from "../../ui/get-started-button";
 import { AppContext } from "../../app-context";
 import { TenantChildren } from "../hp-action-tenant-children";
 import {
@@ -23,7 +16,12 @@ import {
   MiddleProgressStep,
   ProgressStepProps,
 } from "../../progress/progress-step-route";
-import { ProgressButtons, BackButton, NextButton } from "../../ui/buttons";
+import {
+  ProgressButtons,
+  BackButton,
+  NextButton,
+  CenteredPrimaryButtonLink,
+} from "../../ui/buttons";
 import { Link, Switch, Route } from "react-router-dom";
 import { EhpAccessForInspection } from "../hp-action-access-for-inspection";
 import { createHPActionPreviousAttempts } from "../hp-action-previous-attempts";
@@ -89,9 +87,11 @@ import { NycUsersOnly } from "../../pages/nyc-users-only";
 
 const HP_ICON = "frontend/img/hp-action.svg";
 
-const onboardingForHPActionRoute = () =>
-  getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.EHP).onboarding
-    .latestStep;
+const LegalReferralLink = () => (
+  <CenteredPrimaryButtonLink to="TODO: Add form url here" className="is-large">
+    Request a legal referral
+  </CenteredPrimaryButtonLink>
+);
 
 function EmergencyHPActionSplash(): JSX.Element {
   const title =
@@ -116,13 +116,7 @@ function EmergencyHPActionSplash(): JSX.Element {
                   and secure.
                 </p>
                 <CovidEhpDisclaimer />
-                <GetStartedButton
-                  to={onboardingForHPActionRoute()}
-                  intent={OnboardingInfoSignupIntent.EHP}
-                  pageType="splash"
-                >
-                  Start my case anyway
-                </GetStartedButton>
+                <LegalReferralLink />
                 <p className="jf-secondary-cta has-text-centered">
                   Already have an account?{" "}
                   <Link to={JustfixRoutes.locale.login}>Sign in</Link>
@@ -213,13 +207,7 @@ const EmergencyHPActionWelcome: React.FC<ProgressStepProps> = (props) => {
       <CovidEhpDisclaimer />
       <EmergencyHPWelcomeInstructions hide />
       <br />
-      <GetStartedButton
-        to={assertNotNull(props.nextStep)}
-        intent={OnboardingInfoSignupIntent.EHP}
-        pageType="welcome"
-      >
-        Get started anyway
-      </GetStartedButton>
+      <LegalReferralLink />
     </Page>
   );
 };

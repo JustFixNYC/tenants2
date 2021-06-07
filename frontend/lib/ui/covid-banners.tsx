@@ -9,6 +9,7 @@ import { useDebouncedValue } from "../util/use-debounced-value";
 import { SupportedLocaleMap } from "../i18n";
 import { CovidMoratoriumBanner } from "@justfixnyc/react-common";
 import { li18n } from "../i18n-lingui";
+import { Trans } from "@lingui/macro";
 
 export const MORATORIUM_FAQ_URL: SupportedLocaleMap<string> = {
   en:
@@ -115,29 +116,27 @@ export const MoratoriumWarning = () => (
 
 /**
  * This banner is intended to show up in the Emergency HP splash and welcome pages, listing
- * out the cases that are currently eligible for Emergency HP actions during the COVID-19 crisis.
+ * out the current status of the EHP tool.
  */
 
+const EHP_MEDIUM_URL =
+  "https://justfixnyc.medium.com/housing-court-blocks-tenants-from-suing-their-landlords-d7b9e3629a32";
+
+export const CovidEhpDisclaimerText = () => (
+  <Trans id="justfix.ddoEhpaDeactivatedMessage">
+    As of June 8, 2021, our Emergency HP Action tool is no longer available.
+    Housing Court has blocked tenants from suing their landlords through
+    JustFix.nyc.{" "}
+    <OutboundLink href={EHP_MEDIUM_URL}>Read our statement here</OutboundLink>.
+    In the meantime, sign up to be referred to one of our legal partners.
+  </Trans>
+);
+
 export const CovidEhpDisclaimer = () => {
-  const EHP_MEDIUM_URL =
-    "https://justfixnyc.medium.com/housing-court-blocks-tenants-from-suing-their-landlords-d7b9e3629a32";
   return (
     <div className="jf-covid-ehp-disclaimer notification is-warning">
       <p>
-        DEVELOPING: Housing Court is blocking tenants from suing their landlords
-        through JustFix.{" "}
-        <OutboundLink href={EHP_MEDIUM_URL}>Read our statement</OutboundLink>.
-      </p>
-      <p>
-        At this time, we don't recommend starting a new case using this tool.
-      </p>
-      <p>
-        It is still possible to file a case in person. If you would like to do
-        this,{" "}
-        <OutboundLink href={EHP_MEDIUM_URL}>
-          see these instructions
-        </OutboundLink>
-        .
+        <CovidEhpDisclaimerText />
       </p>
     </div>
   );

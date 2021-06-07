@@ -16,12 +16,7 @@ import {
   MiddleProgressStep,
   ProgressStepProps,
 } from "../../progress/progress-step-route";
-import {
-  ProgressButtons,
-  BackButton,
-  NextButton,
-  CenteredPrimaryButtonLink,
-} from "../../ui/buttons";
+import { ProgressButtons, BackButton, NextButton } from "../../ui/buttons";
 import { Link, Switch, Route } from "react-router-dom";
 import { EhpAccessForInspection } from "../hp-action-access-for-inspection";
 import { createHPActionPreviousAttempts } from "../hp-action-previous-attempts";
@@ -84,13 +79,18 @@ import {
   ServiceInstructionsWebpage,
 } from "../service-instructions-email";
 import { NycUsersOnly } from "../../pages/nyc-users-only";
+import { EnglishOutboundLink } from "../../ui/localized-outbound-link";
 
 const HP_ICON = "frontend/img/hp-action.svg";
 
 const LegalReferralLink = () => (
-  <CenteredPrimaryButtonLink to="TODO: Add form url here" className="is-large">
-    Request a legal referral
-  </CenteredPrimaryButtonLink>
+  <p className="has-text-centered">
+    <EnglishOutboundLink href="TODO: Add form url here">
+      <div className="button is-primary is-large jf-is-extra-wide">
+        Request a legal referral
+      </div>
+    </EnglishOutboundLink>
+  </p>
 );
 
 function EmergencyHPActionSplash(): JSX.Element {
@@ -117,20 +117,6 @@ function EmergencyHPActionSplash(): JSX.Element {
                 </p>
                 <CovidEhpDisclaimer />
                 <LegalReferralLink />
-                <p className="jf-secondary-cta has-text-centered">
-                  Already have an account?{" "}
-                  <Link to={JustfixRoutes.locale.login}>Sign in</Link>
-                </p>
-                <div className="content has-text-centered">
-                  <p className="jf-secondary-cta">
-                    Would you prefer to have personal assistance to start your
-                    case?
-                    <br />
-                    Call the Housing Court Answers hotline at{" "}
-                    <a href="tel:1-212-962-4795">212-962-4795</a> Monday to
-                    Friday, 9am to 5pm.
-                  </p>
-                </div>
               </div>
             </div>
           </div>

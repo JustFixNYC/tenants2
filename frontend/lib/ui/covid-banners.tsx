@@ -131,7 +131,8 @@ export const CovidEhpDisclaimerText = () => (
     <EnglishOutboundLink href={EHP_MEDIUM_URL}>
       Read our statement here
     </EnglishOutboundLink>
-    . In the meantime, sign up to be referred to one of our legal partners.
+    . In the meantime, add your name to a list of tenants seeking a potential
+    referral to one of our legal partners.
   </Trans>
 );
 

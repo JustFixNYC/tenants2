@@ -82,8 +82,7 @@ import { NycUsersOnly } from "../../pages/nyc-users-only";
 
 const HP_ICON = "frontend/img/hp-action.svg";
 
-export const LEGAL_REFERRAL_GOOGLE_FORM_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLScQOifmj8aX-jtz1m4gQGkbuk0XkCGX-WMgMqel1UEMwYUVPg/viewform";
+export const LEGAL_REFERRAL_GOOGLE_FORM_URL = "http://bit.ly/LegalReferral";
 
 const LegalReferralLink = () => (
   <div className="has-text-centered">

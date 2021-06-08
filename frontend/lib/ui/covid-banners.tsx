@@ -3,13 +3,14 @@ import { SimpleProgressiveEnhancement } from "./progressive-enhancement";
 import classnames from "classnames";
 import { Icon } from "./icon";
 import { OutboundLink } from "./outbound-link";
-import { getEmergencyHPAIssueLabels } from "../hpaction/emergency/emergency-hp-action-issues";
 import { CSSTransition } from "react-transition-group";
 import JustfixRoutes from "../justfix-route-info";
 import { useDebouncedValue } from "../util/use-debounced-value";
 import { SupportedLocaleMap } from "../i18n";
 import { CovidMoratoriumBanner } from "@justfixnyc/react-common";
 import { li18n } from "../i18n-lingui";
+import { Trans } from "@lingui/macro";
+import { EnglishOutboundLink } from "./localized-outbound-link";
 
 export const MORATORIUM_FAQ_URL: SupportedLocaleMap<string> = {
   en:
@@ -116,38 +117,31 @@ export const MoratoriumWarning = () => (
 
 /**
  * This banner is intended to show up in the Emergency HP splash and welcome pages, listing
- * out the cases that are currently eligible for Emergency HP actions during the COVID-19 crisis.
+ * out the current status of the EHP tool.
  */
 
+const EHP_MEDIUM_URL =
+  "https://justfixnyc.medium.com/housing-court-blocks-tenants-from-suing-their-landlords-d7b9e3629a32";
+
+export const CovidEhpDisclaimerText = () => (
+  <Trans id="justfix.ddoEhpaDeactivatedMessage">
+    As of June 8, 2021, our Emergency HP Action tool is no longer available.
+    Housing Court has blocked tenants from suing their landlords through
+    JustFix.nyc.{" "}
+    <EnglishOutboundLink href={EHP_MEDIUM_URL}>
+      Read our statement here
+    </EnglishOutboundLink>
+    . In the meantime, add your name to a list of tenants seeking a potential
+    referral to one of our legal partners.
+  </Trans>
+);
+
 export const CovidEhpDisclaimer = () => {
-  const acceptedEmergencyHpCases = getEmergencyHPAIssueLabels();
-  const caseList = [...acceptedEmergencyHpCases, "Harassing you"].map((v) =>
-    v.toLowerCase()
-  );
-  const numCases = caseList.length;
-  const generateCaseList = (start: number, end: number) =>
-    caseList
-      .map((caseType, i) => <li key={i}> {caseType} </li>)
-      .slice(start, end);
   return (
     <div className="jf-covid-ehp-disclaimer notification is-warning">
       <p>
-        Due to the COVID-19 pandemic, Housing Courts in New York City are
-        prioritizing cases for the following conditions,{" "}
-        <strong>
-          or others that threaten the health and safety of your household
-        </strong>
-        :
+        <CovidEhpDisclaimerText />
       </p>
-      <div className="is-hidden-tablet">{generateCaseList(0, numCases)}</div>
-      <div className="columns is-mobile is-hidden-mobile">
-        <div className="column is-one-third">
-          {generateCaseList(0, Math.round(numCases / 2))}
-        </div>
-        <div className="column">
-          {generateCaseList(Math.round(numCases / 2), numCases)}
-        </div>
-      </div>
     </div>
   );
 };

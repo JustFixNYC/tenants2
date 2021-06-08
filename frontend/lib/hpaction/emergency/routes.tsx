@@ -82,13 +82,18 @@ import { NycUsersOnly } from "../../pages/nyc-users-only";
 
 const HP_ICON = "frontend/img/hp-action.svg";
 
+export const LEGAL_REFERRAL_GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScQOifmj8aX-jtz1m4gQGkbuk0XkCGX-WMgMqel1UEMwYUVPg/viewform";
+
 const LegalReferralLink = () => (
   <div className="has-text-centered">
-    <a href="TODO: Add form url here" target="_blank" rel="noopener noreferrer">
-      <div className="button is-primary is-large jf-is-extra-wide">
+      <OutboundLink
+        className="button is-primary is-large jf-is-extra-wide"
+        href={LEGAL_REFERRAL_GOOGLE_FORM_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Request a legal referral
-      </div>
-    </a>
+      </OutboundLink>
   </div>
 );
 

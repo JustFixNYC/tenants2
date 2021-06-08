@@ -26,6 +26,14 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # extension to be installed on it at runtime.
     DATABASE_URL: str
 
+    # The database URL to use for django-sql-dashboard. It should be
+    # read-only; for more details, see:
+    #
+    #   https://django-sql-dashboard.datasette.io/en/latest/setup.html
+    #
+    # Leaving this blank (the default) will disable the dashboard.
+    DASHBOARD_DATABASE_URL: str = ""
+
     # The NYC-DB database URL. If empty, NYCDB integration will be
     # disabled. For more details on NYCDB, see:
     #

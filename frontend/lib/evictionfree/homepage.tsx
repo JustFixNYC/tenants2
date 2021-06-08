@@ -133,8 +133,8 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
                 You can use this website to send a hardship declaration form to
                 your landlord and local courts—putting your eviction case on
                 hold until August 31st, 2021
-              </Trans>{" "}
-              <Trans>(newly extended)</Trans>.
+              </Trans>
+              .
             </p>
             <br />
             <div>

@@ -10,6 +10,7 @@ import { SupportedLocaleMap } from "../i18n";
 import { CovidMoratoriumBanner } from "@justfixnyc/react-common";
 import { li18n } from "../i18n-lingui";
 import { Trans } from "@lingui/macro";
+import { EnglishOutboundLink } from "./localized-outbound-link";
 
 export const MORATORIUM_FAQ_URL: SupportedLocaleMap<string> = {
   en:
@@ -127,8 +128,10 @@ export const CovidEhpDisclaimerText = () => (
     As of June 8, 2021, our Emergency HP Action tool is no longer available.
     Housing Court has blocked tenants from suing their landlords through
     JustFix.nyc.{" "}
-    <OutboundLink href={EHP_MEDIUM_URL}>Read our statement here</OutboundLink>.
-    In the meantime, sign up to be referred to one of our legal partners.
+    <EnglishOutboundLink href={EHP_MEDIUM_URL}>
+      Read our statement here
+    </EnglishOutboundLink>
+    . In the meantime, sign up to be referred to one of our legal partners.
   </Trans>
 );
 

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-06-08 15:31\n"
+"PO-Revision-Date: 2021-06-08 15:32\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1672,7 +1672,7 @@ msgstr "Recibos de Alquiler Incompletos"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:267
 msgid "Request a legal referral"
-msgstr "Request a legal referral"
+msgstr "Solicita una referencia legal"
 
 #: frontend/lib/rh/email-to-dhcr.tsx:20
 msgid "Request for Rent History"
@@ -2799,7 +2799,7 @@ msgstr "Puedes enviar un formulario de declaración de penurias al dueño de tu 
 
 #: frontend/lib/ui/covid-banners.tsx:83
 msgid "justfix.ddoEhpaDeactivatedMessage"
-msgstr "As of June 8, 2021, our Emergency HP Action tool is no longer available. Housing Court has blocked tenants from suing their landlords through JustFix.nyc. <0>Read our statement here</0>. In the meantime, add your name to a list of tenants seeking a potential referral to one of our legal partners."
+msgstr "A partir del 8 de junio de 2021, nuestra herramienta Emergency HP Action ya no está disponible. La Corte de Viviendas ha impedido que los inquilinos demanden a sus dueños a través de JustFix.nyc. <0>Lea nuestra declaración aquí</0>. Mientras tanto, agregue su nombre a una lista de inquilinos que buscan una posible referencia a uno de nuestros aliados de servicios legales."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:232
 msgid "justfix.ddoLocCovidMessage"

@@ -3,7 +3,7 @@ import json
 
 from mailchimp.mailchimp import get_email_hash, MailChimpError
 from mailchimp.views import is_origin_valid, mailchimp_err_to_json_err
-from .test_mailchimp import FAKE_EMAIL_ERR
+from .test_mailchimp import FAKE_EMAIL_ERR, FAKE_NO_MORE_SIGNUPS_ERR
 
 
 SUBSCRIBE_PATH = "/mailchimp/subscribe"
@@ -30,6 +30,7 @@ def test_is_origin_valid(origin, valid_origins, result):
 @pytest.mark.parametrize(
     "blob,err_code",
     [
+        (FAKE_NO_MORE_SIGNUPS_ERR, "NO_MORE_SIGNUPS_FOR_EMAIL"),
         (FAKE_EMAIL_ERR, "INVALID_EMAIL"),
         ({"blah": 1}, "INTERNAL_SERVER_ERROR"),
     ],

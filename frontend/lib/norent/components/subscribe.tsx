@@ -41,9 +41,15 @@ const Subscribe = () => {
         } else if (result.errorCode === "INVALID_EMAIL") {
           setResponse(li18n._(t`Oops! That email is invalid.`));
         } else {
-          window.Rollbar?.error(
-            `Mailchimp email signup responded with error code ${result.errorCode}.`
-          );
+          // If we're getting a "no more signups for this email" error, then
+          // the user can try again later and it might work, so just show them
+          // the same error that way show when we get any other kind of error
+          // from MailChimp, but don't report it.
+          if (result.errorCode !== "NO_MORE_SIGNUPS_FOR_EMAIL") {
+            window.Rollbar?.error(
+              `Mailchimp email signup responded with error code ${result.errorCode}.`
+            );
+          }
           setResponse(
             li18n._(t`Oops! A network error occurred. Try again later.`)
           );

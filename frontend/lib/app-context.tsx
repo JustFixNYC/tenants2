@@ -6,6 +6,11 @@ import { buildContextHocFactory } from "./util/context-util";
 import { SiteChoice } from "../../common-data/site-choices";
 import { SiteRoutes } from "./global-site-routes";
 import { LocaleChoice } from "../../common-data/locale-choices";
+import { Document } from "@contentful/rich-text-types";
+
+type ContentfulCommonStrings = {
+  [key: string]: { [locale in LocaleChoice]: Document | undefined };
+};
 
 /** Metadata about forms submitted via legacy POST. */
 export interface AppLegacyFormSubmission<FormInput = any, FormOutput = any> {
@@ -173,6 +178,8 @@ export interface AppServerInfo {
    * The URL that is the origin of the NYC GeoSearch API endpoint to use.
    */
   nycGeoSearchOrigin: string;
+
+  contentfulCommonStrings: ContentfulCommonStrings | null;
 }
 
 /**

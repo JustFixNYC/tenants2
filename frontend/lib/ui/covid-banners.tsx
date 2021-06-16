@@ -7,10 +7,12 @@ import { CSSTransition } from "react-transition-group";
 import JustfixRoutes from "../justfix-route-info";
 import { useDebouncedValue } from "../util/use-debounced-value";
 import { SupportedLocaleMap } from "../i18n";
-import { CovidMoratoriumBanner } from "@justfixnyc/react-common";
-import { li18n } from "../i18n-lingui";
+import i18n from "../i18n";
 import { Trans } from "@lingui/macro";
 import { EnglishOutboundLink } from "./localized-outbound-link";
+import { useContext } from "react";
+import { AppContext } from "../app-context";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
 export const MORATORIUM_FAQ_URL: SupportedLocaleMap<string> = {
   en:
@@ -45,6 +47,17 @@ const MoratoriumBanner = (props: { pathname?: string }) => {
 
   const show = !!includeBanner && isVisible;
 
+  const locales = useContext(AppContext).server.contentfulCommonStrings
+    ?.covidMoratoriumBanner;
+
+  const document = locales && locales[i18n.locale];
+
+  if (!document) {
+    return null;
+  }
+
+  const bannerContent = documentToReactComponents(document);
+
   return (
     <CSSTransition
       in={show}
@@ -68,9 +81,7 @@ const MoratoriumBanner = (props: { pathname?: string }) => {
                 onClick={() => setVisibility(false)}
               />
             </SimpleProgressiveEnhancement>
-            <p>
-              <CovidMoratoriumBanner locale={li18n.language} />
-            </p>
+            <p>{bannerContent}</p>
           </div>
         </div>
       </section>

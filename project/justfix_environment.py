@@ -396,6 +396,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # The origin of the NYC GeoSearch API.
     NYC_GEOSEARCH_ORIGIN: str = "https://geosearch.planninglabs.nyc"
 
+    CONTENTFUL_SPACE_ID: str = ""
+
+    CONTENTFUL_ACCESS_TOKEN: str = ""
+
 
 class JustfixBuildPipelineDefaults(JustfixEnvironment):
     """

@@ -12,6 +12,19 @@ ORIGIN = "https://cdn.contentful.com"
 CommonStrings = Dict[str, Any]
 
 
+def _extract_common_strings(items: Any) -> CommonStrings:
+    result: CommonStrings = {}
+
+    for item in items:
+        fields = item["fields"]
+        key = fields.get("id", {}).get("en")
+        value = fields.get("value")
+        if key and value:
+            result[key] = value
+
+    return result
+
+
 def get_common_strings() -> Optional[CommonStrings]:
     if not (settings.CONTENTFUL_ACCESS_TOKEN and settings.CONTENTFUL_SPACE_ID):
         # Contentful integration is disabled.
@@ -25,12 +38,15 @@ def get_common_strings() -> Optional[CommonStrings]:
         try:
             response = requests.get(
                 f"{ORIGIN}/spaces/{settings.CONTENTFUL_SPACE_ID}/entries",
-                {"access_token": settings.CONTENTFUL_ACCESS_TOKEN, "locale": "*"},
+                {
+                    "access_token": settings.CONTENTFUL_ACCESS_TOKEN,
+                    "locale": "*",
+                    "metadata.tags.sys.id[in]": settings.CONTENTFUL_COMMON_STRING_TAG,
+                },
                 timeout=settings.CONTENTFUL_TIMEOUT,
             )
             response.raise_for_status()
-            items = response.json()["items"]
-            result = {item["fields"]["id"]["en"]: item["fields"]["value"] for item in items}
+            result = _extract_common_strings(response.json()["items"])
             cache.set(cache_key, result, settings.CONTENTFUL_CACHE_TIMEOUT)
         except Exception:
             logger.exception(f"Error while retrieving data from {ORIGIN}")

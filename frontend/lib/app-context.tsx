@@ -6,11 +6,7 @@ import { buildContextHocFactory } from "./util/context-util";
 import { SiteChoice } from "../../common-data/site-choices";
 import { SiteRoutes } from "./global-site-routes";
 import { LocaleChoice } from "../../common-data/locale-choices";
-import { Document } from "@contentful/rich-text-types";
-
-type ContentfulCommonStrings = {
-  [key: string]: { [locale in LocaleChoice]: Document | undefined };
-};
+import { ContentfulCommonStrings } from "./contentful";
 
 /** Metadata about forms submitted via legacy POST. */
 export interface AppLegacyFormSubmission<FormInput = any, FormOutput = any> {

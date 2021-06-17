@@ -184,6 +184,7 @@ class RollbarSnippet(JsSnippetContextProcessor):
     var _rollbarConfig = {
         accessToken: "%(ROLLBAR_ACCESS_TOKEN)s",
         rollbarJsUrl: "%(rollbar_js_url)s",
+        hostSafeList: ["%(current_hostname)" ],
         captureUncaught: true,
         captureUnhandledRejections: true,
         payload: {

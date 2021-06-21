@@ -46,7 +46,13 @@ class Command(BaseCommand):
             )
             if other_loc_users > 0:
                 letters_with_allies += 1
-            print(other_loc_users, letter.user.first_name, letter.letter_sent_at.date())
+                print(
+                    f"{other_loc_users:2}",
+                    letter.user.username,
+                    letter.letter_sent_at.date(),
+                    f"{onb.lease_type:20}",
+                    f"https://whoownswhat.justfix.nyc/en/bbl/{onb.pad_bbl}",
+                )
         pct = int(float(letters_with_allies) / len(recent_letters) * 100)
         print(
             f"\nOut of the {len(recent_letters)} LOCs sent over the past {days_old} days, "

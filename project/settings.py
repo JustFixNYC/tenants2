@@ -149,6 +149,7 @@ INSTALLED_APPS = [
     "partnerships.apps.PartnershipsConfig",
     "evictionfree.apps.EvictionfreeConfig",
     "amplitude.apps.AmplitudeConfig",
+    "nycx",
 ]
 
 MIDDLEWARE = [

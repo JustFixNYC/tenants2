@@ -58,3 +58,9 @@ class TestEvaluateAddress:
         res = client.get("/nycx/address?text=boop")
         assert res.status_code == 200
         assert res.json()["result"]["predicted_housing_type"] == "MARKET_RATE"
+
+
+def test_index_works(client):
+    res = client.get("/nycx/")
+    assert b"NYCx API documentation" in res.content
+    assert res.status_code == 200

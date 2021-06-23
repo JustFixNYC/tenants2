@@ -2,6 +2,7 @@ from typing import Any, Dict, Optional
 from pathlib import Path
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
+from django.shortcuts import render
 from django.db import connections
 from django.conf import settings
 
@@ -54,3 +55,7 @@ def predict_housing_type(bbl: str) -> Optional[str]:
     with connections[settings.NYCDB_DATABASE].cursor() as cursor:
         cursor.execute(sql_query, {"bbl": bbl})
         return cursor.fetchone()[0]
+
+
+def index(request):
+    return render(request, "nycx/api-docs.html")

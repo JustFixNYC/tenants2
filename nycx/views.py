@@ -54,7 +54,10 @@ def predict_housing_type(bbl: str) -> Optional[str]:
     sql_query = ADDRESS_HOUSINGTYPE_SQL_FILE.read_text()
     with connections[settings.NYCDB_DATABASE].cursor() as cursor:
         cursor.execute(sql_query, {"bbl": bbl})
-        return cursor.fetchone()[0]
+        # It's possible in rare cases for this query to return
+        # no rows, e.g. if we've been given a bbl that isn't in PLUTO.
+        result = cursor.fetchone()
+        return result and result[0]
 
 
 def index(request):

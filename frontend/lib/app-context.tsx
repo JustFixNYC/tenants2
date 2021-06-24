@@ -6,7 +6,7 @@ import { buildContextHocFactory } from "./util/context-util";
 import { SiteChoice } from "../../common-data/site-choices";
 import { SiteRoutes } from "./global-site-routes";
 import { LocaleChoice } from "../../common-data/locale-choices";
-import { ContentfulCommonStrings } from "./contentful";
+import { ContentfulCommonStringsMapping } from "@justfixnyc/contentful-common-strings";
 
 /** Metadata about forms submitted via legacy POST. */
 export interface AppLegacyFormSubmission<FormInput = any, FormOutput = any> {
@@ -175,7 +175,7 @@ export interface AppServerInfo {
    */
   nycGeoSearchOrigin: string;
 
-  contentfulCommonStrings: ContentfulCommonStrings | null;
+  contentfulCommonStrings: ContentfulCommonStringsMapping | null;
 }
 
 /**

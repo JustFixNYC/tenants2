@@ -88,6 +88,7 @@
     "@contentful/rich-text-react-renderer": "15.0.0",
     "@contentful/rich-text-types": "15.0.0",
     "@frontapp/plugin-sdk": "^1.0.1",
+    "@justfixnyc/contentful-common-strings": "^0.0.2",
     "@justfixnyc/geosearch-requester": "0.4.0",
     "@justfixnyc/react-aria-modal": "5.1.0",
     "@justfixnyc/util": "0.2.0",

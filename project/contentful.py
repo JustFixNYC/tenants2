@@ -12,10 +12,20 @@ ORIGIN = "https://cdn.contentful.com"
 CommonStrings = Dict[str, Any]
 
 
-def _extract_common_strings(items: Any) -> CommonStrings:
+def _to_common_strings_map(raw: Any) -> CommonStrings:
+    """
+    Converts the given raw Contentful API result and converts
+    it into a Contentful common strings mapping.
+
+    This is the Python version of the `toCommonStringsMap`
+    function from the following TypeScript code:
+
+      https://github.com/JustFixNYC/justfix-ts/blob/master/packages/contentful-common-strings/src/fetch-common-strings.ts
+    """
+
     result: CommonStrings = {}
 
-    for item in items:
+    for item in raw["items"]:
         fields = item["fields"]
         key = fields.get("id", {}).get("en")
         value = fields.get("value")
@@ -26,6 +36,16 @@ def _extract_common_strings(items: Any) -> CommonStrings:
 
 
 def get_common_strings() -> Optional[CommonStrings]:
+    """
+    Fetches Contentful common strings and returns them.
+
+    Caching is used to ensure that we don't trigger Contentful's rate
+    limiting or cause undue latency.
+
+    If Contentful integration is disabled, or if a network error
+    occurs and we don't have a cached value, returns `None`.
+    """
+
     if not (settings.CONTENTFUL_ACCESS_TOKEN and settings.CONTENTFUL_SPACE_ID):
         # Contentful integration is disabled.
         return None
@@ -46,7 +66,7 @@ def get_common_strings() -> Optional[CommonStrings]:
                 timeout=settings.CONTENTFUL_TIMEOUT,
             )
             response.raise_for_status()
-            result = _extract_common_strings(response.json()["items"])
+            result = _to_common_strings_map(response.json())
             cache.set(cache_key, result, settings.CONTENTFUL_CACHE_TIMEOUT)
         except Exception:
             logger.exception(f"Error while retrieving data from {ORIGIN}")

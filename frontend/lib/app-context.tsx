@@ -175,6 +175,10 @@ export interface AppServerInfo {
    */
   nycGeoSearchOrigin: string;
 
+  /**
+   * Content from Contentful, shared across multiple JustFix properties,
+   * that have been passed to us from the back-end.
+   */
   contentfulCommonStrings: ContentfulCommonStringsMapping | null;
 }
 

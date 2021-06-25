@@ -9,8 +9,12 @@ import { useDebouncedValue } from "../util/use-debounced-value";
 import { SupportedLocaleMap } from "../i18n";
 import { Trans } from "@lingui/macro";
 import { EnglishOutboundLink } from "./localized-outbound-link";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import {
+  documentToReactComponents,
+  RenderNode,
+} from "@contentful/rich-text-react-renderer";
 import { useContentfulCommonString } from "../contentful";
+import { INLINES } from "@contentful/rich-text-types";
 
 export const MORATORIUM_FAQ_URL: SupportedLocaleMap<string> = {
   en:
@@ -26,6 +30,14 @@ const getRoutesWithMoratoriumBanner = () => [
   JustfixRoutes.locale.rh.splash,
   JustfixRoutes.locale.home,
 ];
+
+const RENDER_NODE: RenderNode = {
+  [INLINES.HYPERLINK]: (node, children) => (
+    <a rel="noreferrer noopener" target="_blank" href={node.data.uri}>
+      {children}
+    </a>
+  ),
+};
 
 /**
  * This banner is intended to show right below the navbar on certain pages and is a general
@@ -68,7 +80,9 @@ const MoratoriumBanner: React.FC<{ pathname?: string }> = (props) => {
                   onClick={() => setVisibility(false)}
                 />
               </SimpleProgressiveEnhancement>
-              {documentToReactComponents(document)}
+              {documentToReactComponents(document, {
+                renderNode: RENDER_NODE,
+              })}
             </div>
           </div>
         </section>

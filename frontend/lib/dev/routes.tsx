@@ -74,6 +74,7 @@ const DevHome = withAppContext(
   (props: AppContextType): JSX.Element => {
     const frontendRouteLinks: JSX.Element[] = [];
     const serverRouteLinks: JSX.Element[] = [];
+    const extraDevLinks: JSX.Element[] = [];
 
     for (let entry of Object.entries(props.server)) {
       const [name, path] = entry;
@@ -98,6 +99,14 @@ const DevHome = withAppContext(
       );
     }
 
+    for (let { name, url } of props.server.extraDevLinks) {
+      extraDevLinks.push(
+        <li key={name}>
+          <a href={url}>{name}</a>
+        </li>
+      );
+    }
+
     return (
       <Page title="Development tools">
         <DemoDeploymentNote>
@@ -107,11 +116,17 @@ const DevHome = withAppContext(
           </p>
         </DemoDeploymentNote>
         <div className="content">
-          <h1>Development tools</h1>
+          <h1>Sundry development tools, documentation, examples, etc.</h1>
+          <ol children={[extraDevLinks]} />
+          <h2>Front-end routes</h2>
+          <p>
+            See the routes that start with{" "}
+            <code>{props.siteRoutes.dev.prefix}/</code> for pages that are
+            particularly useful for development.
+          </p>
+          <ol children={[frontendRouteLinks]} />
           <h2>Back-end routes</h2>
           <dl children={[serverRouteLinks]} />
-          <h2>Front-end routes</h2>
-          <ol children={[frontendRouteLinks]} />
         </div>
       </Page>
     );

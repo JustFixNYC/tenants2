@@ -65,6 +65,18 @@ def create_initial_props_for_lambda(
             "debug": settings.DEBUG,
             "facebookAppId": settings.FACEBOOK_APP_ID,
             "nycGeoSearchOrigin": settings.NYC_GEOSEARCH_ORIGIN,
+            "extraDevLinks": [
+                dict(name="Example PDF", url=reverse("loc_example", args=("pdf",))),
+                dict(name="Example PDF (HTML preview)", url=reverse("loc_example", args=("html",))),
+                dict(
+                    name="Mailchimp subscribe API documentation",
+                    url=reverse("mailchimp:subscribe"),
+                ),
+                dict(
+                    name="NYCx API documentation",
+                    url=reverse("nycx:index"),
+                ),
+            ],
         },
         "testInternalServerError": TEST_INTERNAL_SERVER_ERROR,
     }

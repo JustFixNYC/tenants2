@@ -91,20 +91,28 @@ const DevHome = withAppContext(
       );
     }
 
-    for (let path of props.siteRoutes.routeMap.nonParameterizedRoutes()) {
-      frontendRouteLinks.push(
-        <li key={path}>
-          <RouteLink path={path} />
-        </li>
-      );
-    }
-
     for (let { name, url } of props.server.extraDevLinks) {
       extraDevLinks.push(
         <li key={name}>
           <a href={url}>{name}</a>
         </li>
       );
+    }
+
+    for (let path of props.siteRoutes.routeMap.nonParameterizedRoutes()) {
+      const li = (
+        <li key={path}>
+          <RouteLink path={path} />
+        </li>
+      );
+      if (path.startsWith(props.siteRoutes.dev.prefix)) {
+        // No need to add a link to the page we're already on.
+        if (path !== props.siteRoutes.dev.home) {
+          extraDevLinks.push(li);
+        }
+      } else {
+        frontendRouteLinks.push(li);
+      }
     }
 
     return (
@@ -119,11 +127,6 @@ const DevHome = withAppContext(
           <h1>Sundry development tools, documentation, examples, etc.</h1>
           <ol children={[extraDevLinks]} />
           <h2>Front-end routes</h2>
-          <p>
-            See the routes that start with{" "}
-            <code>{props.siteRoutes.dev.prefix}/</code> for pages that are
-            particularly useful for development.
-          </p>
           <ol children={[frontendRouteLinks]} />
           <h2>Back-end routes</h2>
           <dl children={[serverRouteLinks]} />

@@ -66,8 +66,6 @@ def create_initial_props_for_lambda(
             "facebookAppId": settings.FACEBOOK_APP_ID,
             "nycGeoSearchOrigin": settings.NYC_GEOSEARCH_ORIGIN,
             "extraDevLinks": [
-                dict(name="Example PDF", url=reverse("loc_example", args=("pdf",))),
-                dict(name="Example PDF (HTML preview)", url=reverse("loc_example", args=("html",))),
                 dict(
                     name="Mailchimp subscribe API documentation",
                     url=reverse("mailchimp:subscribe"),
@@ -75,6 +73,11 @@ def create_initial_props_for_lambda(
                 dict(
                     name="NYCx API documentation",
                     url=reverse("nycx:index"),
+                ),
+                dict(name="Example letter PDF", url=reverse("loc_example", args=("pdf",))),
+                dict(
+                    name="Example letter PDF (HTML preview)",
+                    url=reverse("loc_example", args=("html",)),
                 ),
             ],
         },

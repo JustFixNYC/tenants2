@@ -149,6 +149,7 @@ INSTALLED_APPS = [
     "partnerships.apps.PartnershipsConfig",
     "evictionfree.apps.EvictionfreeConfig",
     "amplitude.apps.AmplitudeConfig",
+    "nycx",
 ]
 
 MIDDLEWARE = [
@@ -217,6 +218,8 @@ DASHBOARD_DB_ALIAS = None
 if env.DASHBOARD_DATABASE_URL:
     DATABASES["dashboard"] = dj_database_url.parse(env.DASHBOARD_DATABASE_URL)
     DASHBOARD_DB_ALIAS = "dashboard"
+
+DASHBOARD_ENABLE_FULL_EXPORT = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 

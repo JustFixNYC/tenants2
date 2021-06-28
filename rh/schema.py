@@ -31,7 +31,7 @@ def get_slack_notify_text(rhr: models.RentalHistoryRequest) -> str:
         href=absolute_reverse("admin:rh_rentalhistoryrequest_change", args=[rhr.pk]),
     )
     if rhr.user:
-        user_text = slack.hyperlink(text=rhr.user.first_name, href=rhr.user.admin_url)
+        user_text = slack.hyperlink(text=rhr.user.best_first_name, href=rhr.user.admin_url)
     else:
         user_text = slack.escape(rhr.first_name)
     return f"{user_text} has requested {rh_link}!"

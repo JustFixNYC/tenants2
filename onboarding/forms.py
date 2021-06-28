@@ -21,7 +21,10 @@ from .models import OnboardingInfo, APT_NUMBER_KWARGS
 # new validation logic. The downside is that the old
 # session's onboarding data will disappear, but hopefully
 # we won't have to do this often.
-FIELD_SCHEMA_VERSION = 5
+# As an alternative to incrementing this, consider migrating
+# old data schemas instead using migrate_dict in
+# onboarding/schema.py.
+FIELD_SCHEMA_VERSION = 4
 
 
 class AptNumberWithConfirmationForm(forms.Form):

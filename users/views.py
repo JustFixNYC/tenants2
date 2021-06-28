@@ -24,7 +24,7 @@ def verify_email(request: HttpRequest) -> HttpResponse:
         )
     if result == ev.VERIFY_OK:
         slack.sendmsg_async(
-            f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+            f"{slack.hyperlink(text=user.best_first_name, href=user.admin_url)} "
             f"has verified their email address!",
             is_safe=True,
         )

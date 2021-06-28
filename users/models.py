@@ -158,7 +158,7 @@ class JustfixUser(AbstractUser):
         return ""
 
     @property
-    def preferred_name(self) -> str:
+    def best_first_name(self) -> str:
         return self.preferred_first_name if self.preferred_first_name else self.first_name
 
     def as_email_recipient(self) -> Optional[str]:

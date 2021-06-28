@@ -21,7 +21,7 @@ def test_send_verification_email_works(db, mailoutbox):
     assert len(mailoutbox) == 1
     mail = mailoutbox[0]
     assert mail.to == ["boop@jones.com"]
-    assert "Hello Boop" in mail.body
+    assert "Hello Bip" in mail.body
     assert "code=" in mail.body
 
 

@@ -94,7 +94,7 @@ def get_answers_and_documents_and_notify(token_id: str) -> None:
             user.trigger_followup_campaign_async("HP")
         label = HP_ACTION_CHOICES.get_label(kind)
         slack.sendmsg_async(
-            f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+            f"{slack.hyperlink(text=user.best_first_name, href=user.admin_url)} "
             f"has generated {label} legal forms!",
             is_safe=True,
         )

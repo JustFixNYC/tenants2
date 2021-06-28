@@ -33,7 +33,7 @@ def email_file_response_as_attachment(
 
 def get_slack_notify_text(user: JustfixUser, attachment_name: str, num_recipients: int) -> str:
     return (
-        f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+        f"{slack.hyperlink(text=user.best_first_name, href=user.admin_url)} "
         f"emailed {slack.escape(attachment_name)} to {num_recipients} "
         f"recipient{'s' if num_recipients > 1 else ''}!"
     )

@@ -39,7 +39,7 @@ def session_key_for_step(step: int) -> str:
 
     return f"onboarding_step_v{forms.FIELD_SCHEMA_VERSION}_{step}"
 
-
+# This should be removed when OnboardingStep1Mutation is deprecated.
 class OnboardingStep1Info(DjangoSessionFormObjectType):
     class Meta:
         form_class = forms.OnboardingStep1Form
@@ -141,7 +141,7 @@ def complete_onboarding(request, info, password: Optional[str]) -> JustfixUser:
         via = f", via our partner {partner.name}"
 
     slack.sendmsg_async(
-        f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+        f"{slack.hyperlink(text=user.best_first_name, href=user.admin_url)} "
         f"from {slack.escape(oi.city)}, {slack.escape(oi.state)} has signed up for "
         f"{slack.escape(SIGNUP_INTENT_CHOICES.get_label(oi.signup_intent))} in "
         f"{slack.escape(LOCALE_CHOICES.get_label(user.locale))}{via}!",
@@ -184,7 +184,7 @@ class OnboardingStep4Base(SessionFormMutation):
         user = complete_onboarding(request, info=allinfo, password=password)
 
         user.send_sms_async(
-            f"Welcome to {get_site_name()}, {user.preferred_name}! "
+            f"Welcome to {get_site_name()}, {user.best_first_name}! "
             f"We'll be sending you notifications from this phone number.",
         )
         if user.email:

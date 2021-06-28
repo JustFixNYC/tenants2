@@ -77,8 +77,8 @@ def test_full_legal_name_only_renders_if_both_first_and_last_are_present():
         ),
     ],
 )
-def test_get_preferred_name(user_kwargs, expected):
-    assert JustfixUser(**user_kwargs).preferred_name == expected
+def test_best_first_name(user_kwargs, expected):
+    assert JustfixUser(**user_kwargs).best_first_name == expected
 
 
 def test_send_sms_does_nothing_if_user_has_no_onboarding_info(smsoutbox):

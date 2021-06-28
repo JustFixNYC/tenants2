@@ -84,7 +84,7 @@ class BeginDocusign(DjangoFormMutation):
                 envelope_definition=envelope_definition, api_client=api_client
             )
             slack.sendmsg_async(
-                f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+                f"{slack.hyperlink(text=user.best_first_name, href=user.admin_url)} "
                 f"has started the Emergency HP Action signing ceremony! 🔥",
                 is_safe=True,
             )

@@ -39,6 +39,7 @@ def session_key_for_step(step: int) -> str:
 
     return f"onboarding_step_v{forms.FIELD_SCHEMA_VERSION}_{step}"
 
+
 # This should be removed when OnboardingStep1Mutation is deprecated.
 class OnboardingStep1Info(DjangoSessionFormObjectType):
     class Meta:

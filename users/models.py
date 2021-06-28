@@ -205,11 +205,11 @@ class JustfixUser(AbstractUser):
         else:
             logging.info(f"Not sending a SMS to user {self.username} because they opted out.")
 
-    def send_sms(self, body: str, fail_silently=True) -> str:
+    def send_sms(self, body: str, fail_silently=True) -> twilio.SendSmsResult:
         self._log_sms()
         if self.can_we_sms:
             return twilio.send_sms(self.phone_number, body, fail_silently=fail_silently)
-        return ""
+        return twilio.SendSmsResult(err_code=twilio.TWILIO_USER_OPTED_OUT_ERR)
 
     def send_sms_async(self, body: str) -> None:
         self._log_sms()

@@ -51,6 +51,18 @@ def is_fake_email_err(e: MailChimpError) -> bool:
         return False
 
 
+def is_no_more_signups_err(e: MailChimpError) -> bool:
+    try:
+        # This appears to be the only way to detect this kind of error;
+        # as far as we can tell, Mailchimp has no notion of an "error code"
+        # for it.
+        #
+        # https://stackoverflow.com/a/46351562/2422398
+        return "not allowing more signups for now" in e.args[0]["detail"]
+    except Exception:
+        return False
+
+
 def subscribe(email: str, language: Language, source: SubscribeSource):
     client = get_client()
     md5hash = get_email_hash(email)

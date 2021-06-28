@@ -4,6 +4,7 @@ import pytest
 from ..models import JustfixUser, create_random_phone_number
 from .factories import UserFactory
 from onboarding.tests.factories import OnboardingInfoFactory
+from texting import twilio
 
 
 def test_create_random_phone_number_works():
@@ -82,7 +83,9 @@ def test_get_preferred_name(user_kwargs, expected):
 
 def test_send_sms_does_nothing_if_user_has_no_onboarding_info(smsoutbox):
     user = JustfixUser(phone_number="5551234500")
-    assert user.send_sms("hello there") == ""
+    assert user.send_sms("hello there") == twilio.SendSmsResult(
+        err_code=twilio.TWILIO_USER_OPTED_OUT_ERR
+    )
     user.send_sms_async("hello there")
     user.chain_sms_async(["hello there"])
     assert len(smsoutbox) == 0
@@ -91,7 +94,9 @@ def test_send_sms_does_nothing_if_user_has_no_onboarding_info(smsoutbox):
 @pytest.mark.django_db
 def test_send_sms_does_nothing_if_user_does_not_allow_it(smsoutbox):
     user = OnboardingInfoFactory(can_we_sms=False).user
-    assert user.send_sms("hello there") == ""
+    assert user.send_sms("hello there") == twilio.SendSmsResult(
+        err_code=twilio.TWILIO_USER_OPTED_OUT_ERR
+    )
     user.send_sms_async("hello there")
     user.chain_sms_async(["hello there"])
     assert len(smsoutbox) == 0
@@ -106,7 +111,7 @@ def test_send_sms_works_if_user_allows_it(smsoutbox):
         smsoutbox[:] = []
 
     user = OnboardingInfoFactory(can_we_sms=True, user__phone_number="5551234500").user
-    assert user.send_sms("hello there") != ""
+    assert user.send_sms("hello there")
     assert_sms_was_sent()
     user.send_sms_async("hello there")
     assert_sms_was_sent()

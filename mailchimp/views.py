@@ -65,6 +65,8 @@ def make_invalid_email_err():
 def mailchimp_err_to_json_err(e: mailchimp.MailChimpError):
     if mailchimp.is_fake_email_err(e):
         return make_invalid_email_err()
+    elif mailchimp.is_no_more_signups_err(e):
+        return make_json_error("NO_MORE_SIGNUPS_FOR_EMAIL", 400)
     logger.exception("An error occurred when subscribing to Mailchimp.")
     return make_json_error("INTERNAL_SERVER_ERROR", 500)
 

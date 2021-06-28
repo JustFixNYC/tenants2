@@ -1,18 +1,11 @@
 import React, { useContext } from "react";
-import JustfixRoutes, {
-  getSignupIntentOnboardingInfo,
-} from "../../justfix-route-info";
+import JustfixRoutes from "../../justfix-route-info";
 import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
 } from "../../progress/progress-routes";
-import {
-  HPUploadStatus,
-  OnboardingInfoSignupIntent,
-  HPDocusignStatus,
-} from "../../queries/globalTypes";
+import { HPUploadStatus, HPDocusignStatus } from "../../queries/globalTypes";
 import Page from "../../ui/page";
-import { GetStartedButton } from "../../ui/get-started-button";
 import { AppContext } from "../../app-context";
 import { TenantChildren } from "../hp-action-tenant-children";
 import {
@@ -89,9 +82,20 @@ import { NycUsersOnly } from "../../pages/nyc-users-only";
 
 const HP_ICON = "frontend/img/hp-action.svg";
 
-const onboardingForHPActionRoute = () =>
-  getSignupIntentOnboardingInfo(OnboardingInfoSignupIntent.EHP).onboarding
-    .latestStep;
+export const LEGAL_REFERRAL_GOOGLE_FORM_URL = "http://bit.ly/LegalReferral";
+
+const LegalReferralLink = () => (
+  <div className="has-text-centered">
+    <OutboundLink
+      className="button is-primary is-large jf-is-extra-wide"
+      href={LEGAL_REFERRAL_GOOGLE_FORM_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Request a legal referral
+    </OutboundLink>
+  </div>
+);
 
 function EmergencyHPActionSplash(): JSX.Element {
   const title =
@@ -116,27 +120,7 @@ function EmergencyHPActionSplash(): JSX.Element {
                   and secure.
                 </p>
                 <CovidEhpDisclaimer />
-                <GetStartedButton
-                  to={onboardingForHPActionRoute()}
-                  intent={OnboardingInfoSignupIntent.EHP}
-                  pageType="splash"
-                >
-                  Start my case
-                </GetStartedButton>
-                <p className="jf-secondary-cta has-text-centered">
-                  Already have an account?{" "}
-                  <Link to={JustfixRoutes.locale.login}>Sign in</Link>
-                </p>
-                <div className="content has-text-centered">
-                  <p className="jf-secondary-cta">
-                    Would you prefer to have personal assistance to start your
-                    case?
-                    <br />
-                    Call the Housing Court Answers hotline at{" "}
-                    <a href="tel:1-212-962-4795">212-962-4795</a> Monday to
-                    Friday, 9am to 5pm.
-                  </p>
-                </div>
+                <LegalReferralLink />
               </div>
             </div>
           </div>
@@ -146,13 +130,11 @@ function EmergencyHPActionSplash(): JSX.Element {
   );
 }
 
-const EmergencyHPActionWelcome: React.FC<ProgressStepProps> = (props) => {
-  const { session } = useContext(AppContext);
-  const title = `Welcome, ${session.firstName}! Let's start your Emergency HP Action paperwork.`;
-
-  return (
-    <Page title={title} withHeading="big" className="content">
-      <CovidEhpDisclaimer />
+const EmergencyHPWelcomeInstructions: React.FC<{ hide?: Boolean }> = ({
+  hide,
+}) => {
+  const list = (
+    <>
       <p>
         An <strong>Emergency HP (Housing Part) Action</strong> is a legal case
         you can bring against your landlord for failing to make repairs, not
@@ -201,14 +183,21 @@ const EmergencyHPActionWelcome: React.FC<ProgressStepProps> = (props) => {
           step of the way.
         </li>
       </BigList>
+    </>
+  );
+  return hide ? null : list;
+};
+
+const EmergencyHPActionWelcome: React.FC<ProgressStepProps> = (props) => {
+  const { session } = useContext(AppContext);
+  const title = `Welcome, ${session.firstName}! Let's start your Emergency HP Action paperwork.`;
+
+  return (
+    <Page title={title} withHeading="big" className="content">
+      <CovidEhpDisclaimer />
+      <EmergencyHPWelcomeInstructions hide />
       <br />
-      <GetStartedButton
-        to={assertNotNull(props.nextStep)}
-        intent={OnboardingInfoSignupIntent.EHP}
-        pageType="welcome"
-      >
-        Get started
-      </GetStartedButton>
+      <LegalReferralLink />
     </Page>
   );
 };

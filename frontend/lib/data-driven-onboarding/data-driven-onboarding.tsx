@@ -16,17 +16,18 @@ import {
   QueryFormSubmitter,
   useQueryFormResultFocusProps,
 } from "../forms/query-form-submitter";
-import { AppContext, getGlobalAppServerInfo } from "../app-context";
+import { AppContext } from "../app-context";
 import { properNoun } from "../util/util";
 import { ga } from "../analytics/google-analytics";
 import { OutboundLink } from "../ui/outbound-link";
 import { UpdateBrowserStorage } from "../browser-storage";
-import { getEmergencyHPAIssueLabels } from "../hpaction/emergency/emergency-hp-action-issues";
 import { Trans, t, Plural } from "@lingui/macro";
 import { EnglishOutboundLink } from "../ui/localized-outbound-link";
 import { li18n } from "../i18n-lingui";
 import { efnycURL } from "../ui/efnyc-link";
 import { fbq } from "../analytics/facebook-pixel";
+import { CovidEhpDisclaimerText } from "../ui/covid-banners";
+import { LEGAL_REFERRAL_GOOGLE_FORM_URL } from "../hpaction/emergency/routes";
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
@@ -37,11 +38,10 @@ const PLACEHOLDER_IMG = "frontend/img/96x96.png";
 const MAX_RECOMMENDED_ACTIONS = 3;
 
 const EFNYC_PRIORITY = 100;
-const VIOLATIONS_PRIORITY = 50;
-const VIOLATIONS_HIGH_PRIORITY = 50;
 const COMPLAINTS_PRIORITY = 40;
 const WOW_PRIORITY = 20;
 const RENT_HISTORY_PRIORITY = 10;
+const EHP_DEACTIVATED_PRIORITY = 1;
 
 // This flag disables any DDO cards from appearing as "Recommended Actions"
 // When "true", all cards show up under a single header called "Actions"
@@ -328,14 +328,6 @@ const useBuildingIntroCard: ActionCardPropsCreator = (
   };
 };
 
-function commaSeparatedConjunction(items: string[]): string {
-  return items
-    .map((item, i) =>
-      i === items.length - 1 ? li18n._(t`and`) + ` ${item}` : item
-    )
-    .join(", ");
-}
-
 const ACTION_CARDS: ActionCardPropsCreator[] = [
   function whoOwnsWhat(data): ActionCardProps {
     const buildings = data.associatedBuildingCount || 0;
@@ -407,71 +399,24 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     };
   },
   function hpAction(data): ActionCardProps {
-    // Default content temporarily implemented during COVID-19 Outbreak
-    const normalCovidMessage = (
-      <Trans id="justfix.ddoHpaCovidMessage">
-        <span className="subtitle">
-          Due to the Covid-19 health crisis, Housing Courts in New York City are
-          closed. You can still make the forms to take your landlord to court
-          but you will not be able to file them until the courts re-open.
-        </span>
-        <span className="subtitle">
-          If you are facing an emergency such as lack of heat and/or hot water,
-          call the Housing Court Answers Hotline at{" "}
-          <a href="tel:1-212-962-4795">(212) 962-4795</a> to get assistance
-          Mon-Fri, 9am-5pm. Assistance is available in English and Spanish.
-        </span>
-      </Trans>
-    );
-    let issues = commaSeparatedConjunction(
-      getEmergencyHPAIssueLabels().map((v) => v.toLowerCase())
-    );
     const emergencyCovidMessage = (
-      <Trans id="justfix.ddoEhpaCovidMessage">
-        <span className="subtitle">
-          Due to the covid-19 pandemic, Housing Courts in New York City are
-          prioritizing cases for conditions that threaten the health and safety
-          of your household, such as: {issues}.
-        </span>
-      </Trans>
+      <span className="subtitle">
+        <CovidEhpDisclaimerText />
+      </span>
     );
-    const normalHpAction: ActionCardProps = {
+    return {
       title: li18n._(t`Start a legal case for repairs and/or harassment`),
-      priority:
-        (data.hpdOpenClassCViolationCount || 0) > 2
-          ? VIOLATIONS_HIGH_PRIORITY
-          : VIOLATIONS_PRIORITY,
-      isRecommended:
-        data.hpdOpenViolationCount > 2 ||
-        calcPerUnit(data.hpdOpenViolationCount, data) > 0.7 ||
-        data.numberOfTotalHpdViolations > 10 ||
-        calcPerUnit(data.numberOfTotalHpdViolations, data) > 1.6 ||
-        (data.hpdOpenClassCViolationCount || 0) > 0,
-      indicators: [normalCovidMessage],
-      fallbackMessage: normalCovidMessage,
+      priority: EHP_DEACTIVATED_PRIORITY,
+      isRecommended: true,
+      indicators: [emergencyCovidMessage],
+      fallbackMessage: emergencyCovidMessage,
       imageStaticURL: "frontend/img/ddo/legal.svg",
       cta: {
-        to: JustfixRoutes.locale.hp.latestStep,
+        to: LEGAL_REFERRAL_GOOGLE_FORM_URL,
         gaLabel: "hp",
-        text: li18n._(t`Sue your landlord`),
-        isBeta: true,
+        text: li18n._(t`Request a legal referral`),
       },
     };
-
-    return getGlobalAppServerInfo().enableEmergencyHPAction
-      ? {
-          ...normalHpAction,
-          title: li18n._(t`Start an emergency legal case for repairs`),
-          indicators: [emergencyCovidMessage],
-          fallbackMessage: emergencyCovidMessage,
-          cta: {
-            to: JustfixRoutes.locale.ehp.latestStep,
-            gaLabel: "ehp",
-            text: li18n._(t`Sue your landlord`),
-            isBeta: true,
-          },
-        }
-      : normalHpAction;
   },
   function rentHistory(data): ActionCardProps {
     return {

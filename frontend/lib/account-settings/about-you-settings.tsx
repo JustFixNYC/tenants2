@@ -96,7 +96,7 @@ export const AboutYouAccountSettings: React.FC<WithAccountSettingsProps> = (
 ) => {
   return (
     <>
-      <h2>About you</h2>
+      <h2 className="jf-account-settings-h3">About you</h2>
       <LegalNameField {...props} />
       <PreferredNameField {...props} />
     </>

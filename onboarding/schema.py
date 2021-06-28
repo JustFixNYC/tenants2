@@ -50,7 +50,7 @@ class OnboardingStep1Info(DjangoSessionFormObjectType):
 class OnboardingStep1V2Info(DjangoSessionFormObjectType):
     class Meta:
         form_class = forms.OnboardingStep1V2Form
-        session_key = session_key_for_step(1)  # is this causing a problem?
+        session_key = session_key_for_step(1)
         exclude = ["no_apt_number"]
 
     @classmethod
@@ -140,7 +140,6 @@ def complete_onboarding(request, info, password: Optional[str]) -> JustfixUser:
         partner.users.add(user)
         via = f", via our partner {partner.name}"
 
-    # Should this use the user's legal or preferred first name?
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
         f"from {slack.escape(oi.city)}, {slack.escape(oi.state)} has signed up for "
@@ -387,9 +386,7 @@ class OnboardingSessionInfo(object):
     A mixin class defining all onboarding-related queries.
     """
 
-    onboarding_step_1 = (
-        OnboardingStep1V2Info.field()
-    )
+    onboarding_step_1 = OnboardingStep1V2Info.field()
     onboarding_step_2 = OnboardingStep2Info.field(
         deprecation_reason="See https://github.com/JustFixNYC/tenants2/issues/1144"
     )

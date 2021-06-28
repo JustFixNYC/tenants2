@@ -255,4 +255,4 @@ from Total_Res_Units T
     left join Avg_Wait_Time W on T.bbl= W.bbl
     left join Avg_Wait_Time_For_Portfolio P on T.bbl= P.bbl
     left join Complaint_Category_With_BBL MC on T.bbl= MC.bbl
-    left join Total_HPD_Violations THV on T.bbl =THV.bbl
+    left join Total_HPD_Violations THV on T.bbl =THV.bbl    

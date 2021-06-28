@@ -4,7 +4,7 @@ export function createAccountSettingsRouteInfo(prefix: string) {
   return {
     [ROUTE_PREFIX]: prefix,
     home: prefix,
-    name: `${prefix}/name`,
+    name: `${prefix}/name`, // This is name rather than legalname to preserve backwards compatibility.
     preferredname: `${prefix}/preferredname`,
     phoneNumber: `${prefix}/phone`,
     email: `${prefix}/email`,

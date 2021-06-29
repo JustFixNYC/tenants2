@@ -262,8 +262,8 @@ const DevMenu: React.FC<{}> = () => {
       <a className="navbar-item" href="/graphiql">
         GraphiQL
       </a>
-      <a className="navbar-item" href="/loc/example.pdf">
-        Example PDF
+      <a className="navbar-item" href={siteRoutes.dev.styleGuide}>
+        Style guide
       </a>
       <a className="navbar-item" href="https://github.com/JustFixNYC/tenants2">
         GitHub

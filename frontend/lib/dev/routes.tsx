@@ -74,6 +74,7 @@ const DevHome = withAppContext(
   (props: AppContextType): JSX.Element => {
     const frontendRouteLinks: JSX.Element[] = [];
     const serverRouteLinks: JSX.Element[] = [];
+    const extraDevLinks: JSX.Element[] = [];
 
     for (let entry of Object.entries(props.server)) {
       const [name, path] = entry;
@@ -90,12 +91,28 @@ const DevHome = withAppContext(
       );
     }
 
+    for (let { name, url } of props.server.extraDevLinks) {
+      extraDevLinks.push(
+        <li key={name}>
+          <a href={url}>{name}</a>
+        </li>
+      );
+    }
+
     for (let path of props.siteRoutes.routeMap.nonParameterizedRoutes()) {
-      frontendRouteLinks.push(
+      const li = (
         <li key={path}>
           <RouteLink path={path} />
         </li>
       );
+      if (path.startsWith(props.siteRoutes.dev.prefix)) {
+        // No need to add a link to the page we're already on.
+        if (path !== props.siteRoutes.dev.home) {
+          extraDevLinks.push(li);
+        }
+      } else {
+        frontendRouteLinks.push(li);
+      }
     }
 
     return (
@@ -107,11 +124,12 @@ const DevHome = withAppContext(
           </p>
         </DemoDeploymentNote>
         <div className="content">
-          <h1>Development tools</h1>
-          <h2>Back-end routes</h2>
-          <dl children={[serverRouteLinks]} />
+          <h1>Sundry development tools, documentation, examples, etc.</h1>
+          <ol children={[extraDevLinks]} />
           <h2>Front-end routes</h2>
           <ol children={[frontendRouteLinks]} />
+          <h2>Back-end routes</h2>
+          <dl children={[serverRouteLinks]} />
         </div>
       </Page>
     );

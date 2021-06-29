@@ -36,6 +36,9 @@ import {
   AptNumberFormFields,
 } from "../forms/apt-number-form-fields";
 import { OutboundLink } from "../ui/outbound-link";
+import { optionalizeLabel } from "../forms/optionalize-label";
+import { li18n } from "../i18n-lingui";
+import { t } from "@lingui/macro";
 
 function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
   return (label, labelProps) => (
@@ -123,19 +126,19 @@ class OnboardingStep1WithoutContexts extends React.Component<
         <div className="columns is-mobile">
           <div className="column">
             <TextualFormField
-              label="Legal first name"
+              label={li18n._(t`Legal first name`)}
               {...ctx.fieldPropsFor("firstName")}
             />
           </div>
           <div className="column">
             <TextualFormField
-              label="Legal last name"
+              label={li18n._(t`Legal last name`)}
               {...ctx.fieldPropsFor("lastName")}
             />
           </div>
           <div className="column">
             <TextualFormField
-              label="Preferred first name"
+              label={optionalizeLabel(li18n._(t`Preferred first name`))}
               {...ctx.fieldPropsFor("preferredFirstName")}
             />
           </div>

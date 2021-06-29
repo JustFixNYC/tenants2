@@ -76,7 +76,7 @@ describe("onboarding step 1 page", () => {
     pal.fillFormFields([
       ["Legal first name", "boop"],
       ["Legal last name", "jones"],
-      ["Preferred first name", "bip"],
+      ["Preferred first name (optional)", "bip"],
       [/(?<!no\s)apartment number/i, "2"],
       [/address/i, "150 cou"],
     ]);
@@ -102,7 +102,7 @@ describe("onboarding step 1 page", () => {
     pal.fillFormFields([
       ["Legal first name", "boop"],
       ["Legal last name", "jones"],
-      ["Preferred first name", "bip"],
+      ["Preferred first name (optional)", "bip"],
       [/address/i, "150 court"],
       [/(?<!no\s)apartment number/i, "2"],
     ]);

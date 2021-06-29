@@ -15,7 +15,7 @@ const PreferredNameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   const sec = makeAccountSettingsSection(
     routes,
     "Preferred First Name (optional)",
-    "preferredname"
+    "preferredName"
   );
 
   return (
@@ -25,7 +25,7 @@ const PreferredNameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
       <EditableInfo
         {...sec}
         readonlyContent={session.preferredFirstName || ""}
-        path={routes.preferredname}
+        path={routes.preferredName}
       >
         <SessionUpdatingFormSubmitter
           mutation={NorentPreferredNameMutation}

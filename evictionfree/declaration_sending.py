@@ -99,7 +99,7 @@ def email_declaration_to_landlord(decl: SubmittedHardshipDeclaration, pdf_bytes:
     user.send_sms_async(
         _("%(name)s, your eviction protection form has been emailed to your landlord.")
         % {
-            "name": user.first_name,
+            "name": user.best_first_name,
         }
     )
 
@@ -135,7 +135,7 @@ def send_declaration_via_lob(decl: SubmittedHardshipDeclaration, pdf_bytes: byte
             "You can track the delivery of your hard copy form using USPS Tracking: %(url)s."
         )
         % {
-            "name": user.first_name,
+            "name": user.best_first_name,
             "url": USPS_TRACKING_URL_PREFIX + decl.tracking_number,
         }
     )
@@ -175,7 +175,7 @@ def send_declaration_to_housing_court(decl: SubmittedHardshipDeclaration, pdf_by
     user.send_sms_async(
         _("%(name)s, your eviction protection form has been emailed to your local housing court.")
         % {
-            "name": user.first_name,
+            "name": user.best_first_name,
         }
     )
 
@@ -250,7 +250,7 @@ def send_declaration(decl: SubmittedHardshipDeclaration):
                     "logging back into your account: %(url)s."
                 )
                 % {
-                    "name": user.first_name,
+                    "name": user.best_first_name,
                     "url": f"{ef_site_origin}/{user.locale}/login",
                 },
                 _(
@@ -266,7 +266,7 @@ def send_declaration(decl: SubmittedHardshipDeclaration):
         )
 
         slack.sendmsg_async(
-            f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+            f"{slack.hyperlink(text=user.best_first_name, href=user.admin_url)} "
             f"has sent a hardship declaration! :meowparty:",
             is_safe=True,
         )

@@ -24,6 +24,10 @@ export function makeAccountSettingsSection(
         noFocus: true,
       },
     }),
-    heading: <h3 id={hashId}>{name}</h3>,
+    heading: (
+      <h3 className="is-uppercase is-size-5" id={hashId}>
+        {name}
+      </h3>
+    ),
   };
 }

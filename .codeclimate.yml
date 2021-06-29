@@ -31,7 +31,7 @@ checks:
     # non-JSX code, but it doesn't seem possible to change
     # the threshold on a per-language basis here.
     config:
-      threshold: 40
+      threshold: 60
   return-statements:
     # This isn't a very useful check for Python code because
     # it's mostly personal preference - sometimes it's better

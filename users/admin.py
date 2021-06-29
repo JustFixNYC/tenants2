@@ -33,6 +33,7 @@ class JustfixUserAdmin(
         "username",
         "first_name",
         "last_name",
+        "preferred_first_name",
         "last_login",
         "signup_intent",
     ]
@@ -43,6 +44,7 @@ class JustfixUserAdmin(
                 "fields": (
                     "first_name",
                     "last_name",
+                    "preferred_first_name",
                     "email",
                     "is_email_verified",
                     "phone_number",

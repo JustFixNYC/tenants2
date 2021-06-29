@@ -14,7 +14,7 @@ from project.util.session_mutation import SessionFormMutation
 from project.util import site_util
 from project import mapbox
 from project.schema_base import get_last_queried_phone_number, purge_last_queried_phone_number
-from onboarding.schema import OnboardingStep1Info, complete_onboarding
+from onboarding.schema import OnboardingStep1V2Info, complete_onboarding
 from onboarding.schema_util import mutation_requires_onboarding
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from loc.models import LandlordDetails
@@ -32,6 +32,8 @@ class NorentScaffolding(graphene.ObjectType):
     first_name = graphene.String(required=True)
 
     last_name = graphene.String(required=True)
+
+    preferred_first_name = graphene.String(required=True)
 
     street = graphene.String(required=True)
 
@@ -270,6 +272,34 @@ class NorentFullLegalName(NorentScaffoldingOrUserDataMutation):
 
 
 @schema_registry.register_mutation
+class NorentFullLegalAndPreferredName(NorentScaffoldingOrUserDataMutation):
+    class Meta:
+        form_class = forms.FullLegalAndPreferredName
+
+    @classmethod
+    def perform_mutate_for_authenticated_user(cls, form, info: ResolveInfo):
+        user = info.context.user
+        user.first_name = form.cleaned_data["first_name"]
+        user.last_name = form.cleaned_data["last_name"]
+        user.preferred_first_name = form.cleaned_data["preferred_first_name"]
+        user.save()
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class NorentPreferredName(NorentScaffoldingOrUserDataMutation):
+    class Meta:
+        form_class = forms.PreferredName
+
+    @classmethod
+    def perform_mutate_for_authenticated_user(cls, form, info: ResolveInfo):
+        user = info.context.user
+        user.preferred_first_name = form.cleaned_data["preferred_first_name"]
+        user.save()
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
 class NorentCityState(NorentScaffoldingMutation):
     class Meta:
         form_class = forms.CityState
@@ -456,7 +486,7 @@ class BaseCreateAccount(SessionFormMutation):
 
     @classmethod
     def fill_nyc_info(cls, request, info: Dict[str, Any]):
-        step1 = OnboardingStep1Info.get_dict_from_request(request)
+        step1 = OnboardingStep1V2Info.get_dict_from_request(request)
         if step1 is None:
             return None
         info["borough"] = step1["borough"]
@@ -492,6 +522,7 @@ class BaseCreateAccount(SessionFormMutation):
             "phone_number": phone_number,
             "first_name": scf.first_name,
             "last_name": scf.last_name,
+            "preferred_first_name": scf.preferred_first_name,
             "state": scf.state,
             "email": scf.email,
             "signup_intent": cls.signup_intent,
@@ -522,7 +553,7 @@ class BaseCreateAccount(SessionFormMutation):
         cls.perform_post_onboarding(form, request, user)
 
         purge_last_queried_phone_number(request)
-        OnboardingStep1Info.clear_from_request(request)
+        OnboardingStep1V2Info.clear_from_request(request)
         purge_scaffolding(request)
 
         return cls.mutation_success()

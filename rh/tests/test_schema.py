@@ -154,7 +154,7 @@ class TestGetSlackNotifyText:
     def test_it_works_for_logged_in_users(self, db):
         rhr = RentalHistoryRequestFactory(user__first_name="Blarf", first_name="Glorp")
         assert get_slack_notify_text(rhr) == (
-            f"<https://example.com/admin/users/justfixuser/{rhr.user.pk}/change/|Blarf> has "
+            f"<https://example.com/admin/users/justfixuser/{rhr.user.pk}/change/|Bip> has "
             f"requested "
             f"<https://example.com/admin/rh/rentalhistoryrequest/{rhr.pk}/change/|rent history>!"
         )

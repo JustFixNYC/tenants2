@@ -719,7 +719,6 @@ msgstr "Rellena en línea tu formulario de declaración de penuria"
 msgid "Find out more"
 msgstr "Más información"
 
-#: frontend/lib/account-settings/about-you-settings.tsx:23
 #: frontend/lib/common-steps/ask-name.tsx:25
 #: frontend/lib/rh/routes.tsx:114
 msgid "First name"
@@ -1126,7 +1125,6 @@ msgstr "Nombre del dueño o manager de tu edificio"
 msgid "Language:"
 msgstr "Idioma:"
 
-#: frontend/lib/account-settings/about-you-settings.tsx:24
 #: frontend/lib/common-steps/ask-name.tsx:26
 #: frontend/lib/rh/routes.tsx:117
 msgid "Last name"
@@ -1165,6 +1163,14 @@ msgstr "Aprender más."
 #: frontend/lib/norent/homepage.tsx:202
 msgid "Legal Protections"
 msgstr "Protecciones jurídicas"
+
+#: frontend/lib/account-settings/about-you-settings.tsx:42
+msgid "Legal first name"
+msgstr ""
+
+#: frontend/lib/account-settings/about-you-settings.tsx:43
+msgid "Legal last name"
+msgstr ""
 
 #: frontend/lib/norent/homepage.tsx:125
 msgid "Legally vetted"
@@ -1592,6 +1598,10 @@ msgstr "Ten en cuenta que tu carta de declaración tendrá la siguiente estructu
 #: frontend/lib/norent/letter-email-to-user.tsx:214
 msgid "Please read the rest of this email carefully as it contains important information about your next steps."
 msgstr "Por favor, lee atentamente el resto del correo electrónico ya que contiene información importante sobre tus próximos pasos."
+
+#: frontend/lib/account-settings/about-you-settings.tsx:23
+msgid "Preferred first name"
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:102
 #: frontend/lib/norent/the-letter.tsx:92

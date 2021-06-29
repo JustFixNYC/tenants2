@@ -36,5 +36,5 @@ class TestSendNorentReminders:
         LetterFactory(user=self.user)
         call_command("send_norent_reminders", "2020-11")
         assert len(smsoutbox) == 1
-        assert "Boop" in smsoutbox[0].body
+        assert "Bip" in smsoutbox[0].body
         assert "https://example.com/" in smsoutbox[0].body

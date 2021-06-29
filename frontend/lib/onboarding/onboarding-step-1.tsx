@@ -123,7 +123,7 @@ class OnboardingStep1WithoutContexts extends React.Component<
 
     return (
       <React.Fragment>
-        <div className="columns is-mobile">
+        <div className="columns">
           <div className="column">
             <TextualFormField
               label={li18n._(t`Legal first name`)}
@@ -136,11 +136,13 @@ class OnboardingStep1WithoutContexts extends React.Component<
               {...ctx.fieldPropsFor("lastName")}
             />
           </div>
+          <div className="column">
+            <TextualFormField
+              label={optionalizeLabel(li18n._(t`Preferred first name`))}
+              {...ctx.fieldPropsFor("preferredFirstName")}
+            />
+          </div>
         </div>
-        <TextualFormField
-          label={optionalizeLabel(li18n._(t`Preferred first name`))}
-          {...ctx.fieldPropsFor("preferredFirstName")}
-        />
         <AddressAndBoroughField
           disableProgressiveEnhancement={
             this.props.disableProgressiveEnhancement

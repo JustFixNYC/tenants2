@@ -158,6 +158,12 @@ class JustfixUser(AbstractUser):
         return ""
 
     @property
+    def full_preferred_name(self) -> str:
+        if self.best_first_name and self.last_name:
+            return " ".join([self.best_first_name, self.last_name])
+        return ""
+
+    @property
     def best_first_name(self) -> str:
         return self.preferred_first_name if self.preferred_first_name else self.first_name
 
@@ -231,7 +237,7 @@ class JustfixUser(AbstractUser):
                 f"Triggering rapidpro campaign '{campaign_name}' on user " f"{self.username}."
             )
             fc.trigger_followup_campaign_async(
-                self.full_legal_name,
+                self.full_preferred_name,  # Use the user's preferred name when we text them.
                 self.phone_number,
                 campaign_name,
                 locale=self.locale,

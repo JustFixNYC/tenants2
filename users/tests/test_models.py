@@ -67,6 +67,14 @@ def test_full_legal_name_only_renders_if_both_first_and_last_are_present():
     assert JustfixUser(last_name="Denver").full_legal_name == ""
 
 
+def test_full_preferred_name_uses_correct_first_name():
+    user = JustfixUser(first_name="Bobby", last_name="Denver", preferred_first_name="Martha")
+    assert user.full_legal_name == "Bobby Denver"
+    assert user.full_preferred_name == "Martha Denver"
+
+    assert JustfixUser(first_name="Bobby", last_name="Denver").full_preferred_name == "Bobby Denver"
+
+
 @pytest.mark.parametrize(
     "user_kwargs, expected",
     [
@@ -133,4 +141,4 @@ class TestTriggerFollowupCampaign:
 
     def test_it_triggers_followup_campaign_if_user_allows_sms(self, db):
         OnboardingInfoFactory(can_we_sms=True).user.trigger_followup_campaign_async("LOC")
-        self.trigger.assert_called_once_with("Boop Jones", "5551234567", "LOC", locale="en")
+        self.trigger.assert_called_once_with("Bip Jones", "5551234567", "LOC", locale="en")

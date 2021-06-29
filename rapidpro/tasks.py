@@ -11,7 +11,7 @@ from .followup_campaigns import DjangoSettingsFollowupCampaigns
 # versions of the codebase which never supplied this argument.
 @shared_task(bind=True, retry_backoff=True, default_retry_delay=30 * 60)
 def trigger_followup_campaign(
-    self, full_legal_name: str, phone_number: str, campaign_name: str, locale: str = "en"
+    self, full_preferred_name: str, phone_number: str, campaign_name: str, locale: str = "en"
 ):
     client = get_client_from_settings()
     campaign = DjangoSettingsFollowupCampaigns.get_campaign(campaign_name)
@@ -20,6 +20,6 @@ def trigger_followup_campaign(
     assert campaign is not None
 
     try:
-        campaign.add_contact(client, full_legal_name, phone_number, locale=locale)
+        campaign.add_contact(client, full_preferred_name, phone_number, locale=locale)
     except TembaHttpError as e:
         raise self.retry(exc=e)

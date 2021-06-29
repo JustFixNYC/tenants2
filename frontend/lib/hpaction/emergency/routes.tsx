@@ -436,49 +436,14 @@ const Confirmation: React.FC<{}> = () => {
         Your completed, signed Emergency HP Action forms have been emailed to
         you and your Borough's Housing Court.
       </p>
-      <h2>What happens next?</h2>
-      <BigList>
-        <li>
-          The Clerk will present the paperwork to the Judge and the Judge will
-          decide whether or not to approve your case.
-        </li>
-        <li>
-          If your case is approved, the clerk will email you the signed copy of
-          the paperwork by email as an attachment. If your case is rejected, the
-          Clerk will email you to let you know.
-        </li>
-        <li>
-          Once you get the signed paperwork you will need to inform your
-          landlord and/or management company that you are suing them by
-          “serving” the papers on them. This is called service and it must be
-          done exactly as the Judge says on your paperwork. It might be by USPS
-          mail, email, or in-person. We will give you detailed instructions on
-          how to serve in a confirmation email once your filing is submitted.
-        </li>
-        <li>
-          Your case might be considered an emergency. If so, the court will
-          assign you a lawyer. If not, you will need to do the rest of the
-          process on your own. This is called being “pro-se”. If you do not hear
-          from a lawyer within 3 days, you should assume that you will need to
-          be pro-se.
-        </li>
-        <li>
-          If you are suing for Repairs, an inspector from Housing Preservation
-          and Development (HPD) will come to your apartment to verify the
-          issue(s) and make a report for the court.
-        </li>
-        <li>
-          The court hearing will happen through a video call so that{" "}
-          <strong>you do not have to go to the Courthouse in-person</strong>.
-          Your lawyer will give you all of the details and will guide you every
-          step of the way.
-        </li>
-      </BigList>
+      <CovidEhpDisclaimer />
+      <LegalReferralLink />
       <h2>Do you need to re-file your case?</h2>
       <p>
         If you need to change something and re-file your case, you can always{" "}
-        <Link to={JustfixRoutes.locale.ehp.sue}>start a new case</Link>.
+        start a new case with one of our legal partners.
       </p>
+      <LegalReferralLink />
       <h2>Want to read more about your rights?</h2>
       <ul>
         {/* TODO: This is currently duplicated from the HP action flow, we might want to create a reusable component out of it. */}

@@ -123,7 +123,7 @@ class OnboardingStep1WithoutContexts extends React.Component<
 
     return (
       <React.Fragment>
-        <div className="columns is-mobile">
+        <div className="columns">
           <div className="column">
             <TextualFormField
               label={li18n._(t`Legal first name`)}

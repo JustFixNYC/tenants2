@@ -124,6 +124,19 @@ export class RouteMap {
     }
     return false;
   }
+
+  /**
+   * Attempts to get the closest path to the given pathname by
+   * adding or removing a single `/`. If one doesn't exist, this
+   * returns `null`.
+   */
+  getClosest(pathname: string): string | null {
+    let candidate = pathname.endsWith("/")
+      ? pathname.slice(0, -1)
+      : pathname + "/";
+
+    return this.exists(candidate) ? candidate : null;
+  }
 }
 
 /**

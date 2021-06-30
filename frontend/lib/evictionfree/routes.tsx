@@ -2,7 +2,7 @@ import loadable from "@loadable/component";
 import { friendlyLoad, LoadingPage } from "../networking/loading-page";
 import React from "react";
 import { NotFound } from "../pages/not-found";
-import { Redirect, Route, RouteComponentProps, Switch } from "react-router-dom";
+import { Redirect, Route, RouteComponentProps } from "react-router-dom";
 import { EvictionFreeRoutes as Routes } from "./route-info";
 import { EvictionFreeHomePage } from "./homepage";
 import { EvictionFreeDeclarationBuilderRoutes } from "./declaration-builder/routes";
@@ -14,6 +14,7 @@ import { EvictionFreeDeclarationEmailToUserStaticPage } from "./declaration-emai
 import { EvictionFreeDeclarationEmailToHousingCourtStaticPage } from "./declaration-email-to-housing-court";
 import { EvictionFreeDeclarationEmailToLandlordStaticPage } from "./declaration-email-to-landlord";
 import { createEvictionFreeUnsupportedLocaleRoutes } from "./unsupported-locale";
+import { RouteSwitch } from "../util/route-switch";
 
 const LoadableDevRoutes = loadable(
   () => friendlyLoad(import("../dev/routes")),
@@ -29,12 +30,8 @@ const LoginPageRedirect = () => (
 export const EvictionFreeRouteComponent: React.FC<RouteComponentProps> = (
   props
 ) => {
-  const { location } = props;
-  if (!Routes.routeMap.exists(location.pathname)) {
-    return NotFound(props);
-  }
   return (
-    <Switch location={location}>
+    <RouteSwitch {...props} routes={Routes}>
       <Route path={Routes.locale.home} exact component={EvictionFreeHomePage} />
       <Route
         path={Routes.locale.about}
@@ -67,6 +64,6 @@ export const EvictionFreeRouteComponent: React.FC<RouteComponentProps> = (
       )}
       {createEvictionFreeUnsupportedLocaleRoutes()}
       <Route component={NotFound} />
-    </Switch>
+    </RouteSwitch>
   );
 };

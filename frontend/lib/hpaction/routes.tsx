@@ -112,8 +112,9 @@ function HPActionSplash(): JSX.Element {
 }
 
 const HPActionWelcome: React.FC<ProgressStepProps> = (props) => {
-  const { firstName } = useContext(AppContext).session;
-  const title = `Welcome, ${firstName}! Let's start your HP Action paperwork.`;
+  const session = useContext(AppContext).session;
+  const bestFirstName = session.preferredFirstName || session.firstName;
+  const title = `Welcome, ${bestFirstName}! Let's start your HP Action paperwork.`;
 
   return (
     <Page title={title} withHeading="big" className="content">

@@ -130,7 +130,7 @@ export class RouteMap {
    * adding or removing a single `/`. If one doesn't exist, this
    * returns `null`.
    */
-  getClosest(pathname: string): string | null {
+  getClosestWithOrWithoutSlash(pathname: string): string | null {
     let candidate = pathname.endsWith("/")
       ? pathname.slice(0, -1)
       : pathname + "/";

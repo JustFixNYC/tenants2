@@ -23,7 +23,7 @@ export const RouteSwitch: React.FC<
   const { routeMap } = props.routes;
 
   if (!routeMap.exists(location.pathname)) {
-    const redirect = routeMap.getClosest(location.pathname);
+    const redirect = routeMap.getClosestWithOrWithoutSlash(location.pathname);
     return redirect ? <Redirect to={redirect} /> : <NotFound {...props} />;
   }
 

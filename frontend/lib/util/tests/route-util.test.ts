@@ -54,9 +54,9 @@ describe("RouteMap", () => {
 
   it("finds closest routes", () => {
     const map = new RouteMap({ blah: "/blah", bop: "/bop/" });
-    expect(map.getClosest("/blah/")).toBe("/blah");
-    expect(map.getClosest("/bop")).toBe("/bop/");
-    expect(map.getClosest("/zzzzzzzzz")).toBe(null);
+    expect(map.getClosestWithOrWithoutSlash("/blah/")).toBe("/blah");
+    expect(map.getClosestWithOrWithoutSlash("/bop")).toBe("/bop/");
+    expect(map.getClosestWithOrWithoutSlash("/zzzzzzzzz")).toBe(null);
   });
 });
 

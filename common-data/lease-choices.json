@@ -3,6 +3,6 @@
   ["MARKET_RATE", "Market Rate"],
   ["NYCHA", "NYCHA Housing Development"],
   ["OTHER", "Other (Mitchell Lama, COOP/Condo, House, HUD, etc.)"],
-  ["NOT_SURE", "I'm not sure (currently hidden in app)"],
+  ["NOT_SURE", "I'm not sure"],
   ["NO_LEASE", "I don't have a lease"]
 ]

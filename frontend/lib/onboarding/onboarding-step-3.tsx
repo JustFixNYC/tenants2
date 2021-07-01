@@ -150,6 +150,15 @@ export const createLeaseModals = (
       </LeaseInfoModal>
     ),
   },
+  {
+    route: routes.step3NoLeaseModal,
+    leaseType: "NOT_SURE", // might want to rewrite the Generic no lease warning for this.
+    component: () => (
+      <LeaseInfoModal title="Not sure" isWarning toNextStep={routes.step4}>
+        {GENERIC_NO_LEASE_WARNING}
+      </LeaseInfoModal>
+    ),
+  },
 ];
 
 export const createLeaseLearnMoreModals = (
@@ -242,7 +251,7 @@ export default class OnboardingStep3 extends React.Component<
         <RadiosFormField
           {...ctx.fieldPropsFor("leaseType")}
           choices={this.leaseChoicesWithInfo}
-          label="Lease type"
+          label="Housing type"
         />
         <YesNoRadiosFormField
           {...ctx.fieldPropsFor("receivesPublicAssistance")}
@@ -266,15 +275,16 @@ export default class OnboardingStep3 extends React.Component<
     return this.props.routes.step4;
   }
 
+  // Should everything in here be internationalized?
   render() {
     return (
-      <Page title="What type of lease do you have?">
+      <Page title="What type of housing do you live in?">
         <div>
           <h1 className="title is-4 is-spaced">
-            What type of lease do you have?
+            What type of housing do you live in?
           </h1>
           <p className="subtitle is-6">
-            Your rights vary depending on what type of lease you have.
+            Your rights vary depending on what type of housing you live in.
           </p>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep3Mutation}

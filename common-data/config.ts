@@ -38,7 +38,6 @@ const config: CommonDataConfig = {
       jsonFilename: "lease-choices.json",
       typeName: "LeaseChoice",
       exportLabels: true,
-      filterOut: ["NOT_SURE"],
     },
     {
       jsonFilename: "signup-intent-choices.json",

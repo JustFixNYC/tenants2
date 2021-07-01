@@ -75,7 +75,7 @@ const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
 };
 
 const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
-  const sec = makeAccountSettingsSection(routes, "Lease type", "lease");
+  const sec = makeAccountSettingsSection(routes, "Housing type", "lease");
   const { session } = useContext(AppContext);
   const leaseType = session.onboardingInfo?.leaseType || "";
   let leaseTypeLabel = "";
@@ -102,7 +102,7 @@ const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
                 {...ctx.fieldPropsFor("leaseType")}
                 autoFocus
                 choices={toDjangoChoices(LeaseChoices, getLeaseChoiceLabels())}
-                label="Lease type"
+                label="Housing type"
               />
               <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>

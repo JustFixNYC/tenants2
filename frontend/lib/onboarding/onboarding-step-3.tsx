@@ -151,7 +151,7 @@ export const createLeaseModals = (
     ),
   },
   {
-    route: routes.step3NoLeaseModal,
+    route: routes.step3NotSureModal,
     leaseType: "NOT_SURE", // might want to rewrite the Generic no lease warning for this.
     component: () => (
       <LeaseInfoModal title="Not sure" isWarning toNextStep={routes.step4}>

@@ -14,6 +14,7 @@ export function createOnboardingRouteInfo(prefix: string) {
     step3MarketRateModal: `${prefix}/step/3/market-rate-modal`,
     step3OtherModal: `${prefix}/step/3/other-modal`,
     step3NoLeaseModal: `${prefix}/step/3/no-lease-modal`,
+    step3NotSureModal: `${prefix}/step/3/not-sure-modal`,
     step3LearnMoreModals: {
       rentStabilized: `${prefix}/step/3/learn-more-rent-stabilized-modal`,
       marketRate: `${prefix}/step/3/learn-more-market-rate-modal`,

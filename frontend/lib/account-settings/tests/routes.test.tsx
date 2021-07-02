@@ -80,10 +80,10 @@ describe("AccountSettingsRoutes", () => {
     pal.clickButtonOrLink("Cancel");
   });
 
-  it("Can edit lease type", () => {
+  it("Can edit housing type", () => {
     const pal = makePal();
     pal.rr.findByText(/rent stabilized/i);
-    pal.rr.getByLabelText(/edit lease type/i).click();
+    pal.rr.getByLabelText(/edit housing type/i).click();
     pal.clickRadioOrCheckbox("Market Rate");
     pal.clickButtonOrLink("Cancel");
   });

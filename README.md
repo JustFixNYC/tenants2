@@ -390,10 +390,10 @@ To push your new version, you will need to:
 
 ## Deployment
 
-### <b>To deploy on Justfix architecture</b>
+### **To deploy on Justfix architecture**
 See the wiki section on [Deployment](https://github.com/JustFixNYC/tenants2/wiki/Deployment).
 
-### <b>To deploy outside of Justfix's deployment architecture</b>
+### **To deploy outside of Justfix's deployment architecture**
 The app uses the [twelve-factor methodology][], so
 deploying it should be relatively straightforward.
 
@@ -406,7 +406,7 @@ repository's root directory and can assist with
 deployment. It has no dependencies other than
 Python 3.
 
-#### <b>Deploying to Heroku via Docker</b>
+#### **Deploying to Heroku via Docker**
 
 It's possible to deploy to Heroku using their
 [Container Registry and Runtime][].  To build

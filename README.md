@@ -390,7 +390,34 @@ To push your new version, you will need to:
 
 ## Deployment
 
+### <b>To deploy on Justfix architecture</b>
 See the wiki section on [Deployment](https://github.com/JustFixNYC/tenants2/wiki/Deployment).
+
+### <b>To deploy outside of Justfix's deployment architecture</b>
+The app uses the [twelve-factor methodology][], so
+deploying it should be relatively straightforward.
+
+At the time of this writing, however, the app's
+runtime environment does need *both* Python and Node
+to execute properly, which could complicate matters.
+
+A Python 3 script, `deploy.py`, is located in the
+repository's root directory and can assist with
+deployment. It has no dependencies other than
+Python 3.
+
+#### <b>Deploying to Heroku via Docker</b>
+
+It's possible to deploy to Heroku using their
+[Container Registry and Runtime][].  To build
+and push the container to their registry, run:
+
+```
+python3 deploy.py heroku
+```
+
+You'll likely want to use [Heroku Postgres][] as your
+ndatabase backend.
 
 ## Internationalization
 

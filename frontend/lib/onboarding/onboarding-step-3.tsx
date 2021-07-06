@@ -129,33 +129,41 @@ export const createLeaseModals = (
     ),
   },
   {
-    route: routes.step3OtherModal,
-    leaseType: "OTHER",
+    route: routes.step3OtherAffordableModal,
+    leaseType: "OTHER_AFFORDABLE",
     component: () => (
       <LeaseInfoModal
-        title="Other (Mitchell Lama, COOP/Condo, House, HUD, etc.)"
+        title="Affordable (other than rent stabilized)"
         isWarning
         toNextStep={routes.step4}
       >
-        {GENERIC_NO_LEASE_WARNING}
+        {?} // TODO
       </LeaseInfoModal>
     ),
   },
   {
-    route: routes.step3NoLeaseModal,
-    leaseType: "NO_LEASE",
+    route: routes.step3OtherAffordableModal,
+    leaseType: "NYCHA",
     component: () => (
-      <LeaseInfoModal title="No lease" isWarning toNextStep={routes.step4}>
-        {GENERIC_NO_LEASE_WARNING}
+      <LeaseInfoModal
+        title="NYCHA/Public Housing"
+        isWarning
+        toNextStep={routes.step4}
+      >
+        {?} // TODO
       </LeaseInfoModal>
     ),
   },
   {
-    route: routes.step3NotSureModal,
-    leaseType: "NOT_SURE", // might want to rewrite the Generic no lease warning for this.
+    route: routes.step3OtherAffordableModal,
+    leaseType: "NOT_SURE",
     component: () => (
-      <LeaseInfoModal title="Not sure" isWarning toNextStep={routes.step4}>
-        {GENERIC_NO_LEASE_WARNING}
+      <LeaseInfoModal
+        title="Not sure"
+        isWarning
+        toNextStep={routes.step4}
+      >
+        {?} // TODO
       </LeaseInfoModal>
     ),
   },
@@ -190,14 +198,29 @@ export const createLeaseLearnMoreModals = (
     ),
   },
   {
-    route: routes.step3LearnMoreModals.noLease,
-    leaseType: "NO_LEASE",
+    route: routes.step3LearnMoreModals.NYCHA,
+    leaseType: "NYCHA", // TODO
     component: () => (
-      <LeaseLearnMoreModal title="Month-to-month tenants">
-        <p>
-          It's important that you have a lease. If you are a month-to-month
-          tenant, you don't have as many rights.
-        </p>
+      <LeaseLearnMoreModal title="Add title">
+        <p>Add text</p>
+      </LeaseLearnMoreModal>
+    ),
+  },
+  {
+    route: routes.step3LearnMoreModals.otherAffordable,
+    leaseType: "OTHER_AFFORDABLE", // TODO
+    component: () => (
+      <LeaseLearnMoreModal title="Add text">
+        <p></p>
+      </LeaseLearnMoreModal>
+    ),
+  },
+  {
+    route: routes.step3LearnMoreModals.notSure,
+    leaseType: "NOT_SURE", // TODO
+    component: () => (
+      <LeaseLearnMoreModal title="Add text">
+        <p></p>
       </LeaseLearnMoreModal>
     ),
   },
@@ -255,8 +278,7 @@ export default class OnboardingStep3 extends React.Component<
         />
         <YesNoRadiosFormField
           {...ctx.fieldPropsFor("receivesPublicAssistance")}
-          label="Do you receive a housing voucher (Section 8, FEPS, Link, HASA, other)?"
-        />
+          label="Do you receive a housing voucher or program (Section 8 [Housing Choice Program], FHEPS, CITYFHEPS, HASA, etc.)?"        />
         <ProgressButtons
           back={this.props.routes.step1}
           isLoading={ctx.isLoading}
@@ -275,7 +297,6 @@ export default class OnboardingStep3 extends React.Component<
     return this.props.routes.step4;
   }
 
-  // Should everything in here be internationalized?
   render() {
     return (
       <Page title="What type of housing do you live in?">

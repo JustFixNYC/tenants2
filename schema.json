@@ -3262,6 +3262,12 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
+              "name": "OTHER_AFFORDABLE"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
               "name": "MARKET_RATE"
             },
             {
@@ -3274,13 +3280,13 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "OTHER"
+              "name": "NOT_SURE"
             },
             {
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "NOT_SURE"
+              "name": "OTHER"
             },
             {
               "deprecationReason": null,

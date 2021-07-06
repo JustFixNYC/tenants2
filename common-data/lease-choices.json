@@ -1,8 +1,12 @@
 [
   ["RENT_STABILIZED", "Rent Stabilized/Rent Controlled"],
+  ["OTHER_AFFORDABLE", "Affordable housing (other than rent-stabilized)"],
   ["MARKET_RATE", "Market Rate"],
-  ["NYCHA", "NYCHA Housing Development"],
-  ["OTHER", "Other (Mitchell Lama, COOP/Condo, House, HUD, etc.)"],
+  ["NYCHA", "NYCHA/Public Housing"],
   ["NOT_SURE", "I'm not sure"],
-  ["NO_LEASE", "I don't have a lease"]
+  [
+    "OTHER",
+    "Other (Mitchell Lama, COOP/Condo, House, HUD, etc.) DELETE THIS AND DEFAULT PPL TO NOT_SURE."
+  ],
+  ["NO_LEASE", "I don't have a lease. Deprecated."]
 ]

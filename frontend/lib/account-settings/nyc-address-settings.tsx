@@ -63,7 +63,7 @@ const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
                 {...ctx.fieldPropsFor("receivesPublicAssistance")}
                 autoFocus
                 hideVisibleLabel
-                label="Do you receive a housing voucher (Section 8, FEPS, Link, HASA, other)?"
+                label="Do you receive a housing voucher or program (Section 8 [Housing Choice Program], FHEPS, CITYFHEPS, HASA, etc.)?"
               />
               <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>

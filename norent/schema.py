@@ -488,6 +488,8 @@ class BaseCreateAccount(SessionFormMutation):
 
     @classmethod
     def fill_nyc_info_from_deprecated_endpoint(cls, request, info: Dict[str, Any]):
+        # For more details on why this is deprecated, see:
+        # https://github.com/JustFixNYC/tenants2/pull/2143
         step1 = OnboardingStep1V2Info.get_dict_from_request(request)
         if step1 is None:
             return None

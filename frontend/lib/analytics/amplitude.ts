@@ -212,6 +212,13 @@ export function trackLogoutInAmplitude(s: AllSessionInfo) {
   getAmplitude()?.setUserProperties(getUserPropertiesFromSession(s));
 }
 
+/**
+ * Returns page information about the given URL pathname, to
+ * be included as event properties for events that take place
+ * on that page.
+ *
+ * @see PageInfo
+ */
 function getPageInfo(pathname: string): PageInfo {
   const serverInfo = getGlobalAppServerInfo();
   return {
@@ -239,12 +246,21 @@ function unlocalizePathname(
     : pathname;
 }
 
+/**
+ * Log a page view event in Amplitude.
+ *
+ * The name of the event is of the form `Viewed [page type]`,
+ * where `[page type]` varies based on the page visited.
+ */
 export function logAmplitudePageView(pathname: string) {
   const data: PageInfo = getPageInfo(pathname);
   const eventName = `Viewed ${getAmplitudePageType(pathname)}`;
   getAmplitude()?.logEvent(eventName, data);
 }
 
+/**
+ * Log a `Clicked outbound link` event in Amplitude.
+ */
 export function logAmplitudeOutboundLinkClick(href: string) {
   const data: OutboundLinkEventData = {
     ...getPageInfo(window.location.pathname),
@@ -253,6 +269,13 @@ export function logAmplitudeOutboundLinkClick(href: string) {
   getAmplitude()?.logEvent("Clicked outbound link", data);
 }
 
+/**
+ * Log a form submission event in Amplitude.
+ *
+ * If the form submission contains errors, the event
+ * will be called `Submitted form with errors`. Otherwise
+ * it will be called `Submitted form successfully`.
+ */
 export function logAmplitudeFormSubmission(options: {
   pathname: string;
   formKind: string;

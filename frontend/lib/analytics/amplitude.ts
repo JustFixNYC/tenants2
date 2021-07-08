@@ -91,7 +91,7 @@ type OutboundLinkEventData = PageInfo & {
 type FormSubmissionEventData = PageInfo & {
   /**
    * This is usually the name of the GraphQL mutation that processed
-   * the form submission.
+   * the form submission, e.g. `LoginMutation`.
    */
   formKind: string;
 

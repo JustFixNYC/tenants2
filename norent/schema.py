@@ -202,6 +202,11 @@ def get_scaffolding(request) -> scaffolding.NorentScaffolding:
 def update_scaffolding(request, new_data):
     scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
     scaffolding_dict.update(new_data)
+
+    # This ensures that whatever changes we're making are copacetic
+    # with our Pydantic model.
+    scaffolding.NorentScaffolding(**scaffolding_dict)
+
     request.session[SCAFFOLDING_SESSION_KEY] = scaffolding_dict
 
 

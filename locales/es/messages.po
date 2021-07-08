@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-07-08 17:42\n"
+"PO-Revision-Date: 2021-07-08 17:49\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1166,11 +1166,11 @@ msgstr "Protecciones jurídicas"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:42
 msgid "Legal first name"
-msgstr "Legal first name"
+msgstr "Primer nombre legal"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:43
 msgid "Legal last name"
-msgstr "Legal last name"
+msgstr "Apellido legal"
 
 #: frontend/lib/norent/homepage.tsx:125
 msgid "Legally vetted"
@@ -1601,7 +1601,7 @@ msgstr "Por favor, lee atentamente el resto del correo electrónico ya que conti
 
 #: frontend/lib/account-settings/about-you-settings.tsx:23
 msgid "Preferred first name"
-msgstr "Preferred first name"
+msgstr "Nombre de preferencia"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:102
 #: frontend/lib/norent/the-letter.tsx:92

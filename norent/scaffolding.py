@@ -61,8 +61,8 @@ class NorentScaffolding(pydantic.BaseModel):
     # e.g. "NY"
     state: str = ""
 
-    # If in NYC, the borough code.
-    borough: Optional[str] = None
+    # If in NYC, the borough code, e.g. "STATEN_ISLAND".
+    borough: str = ""
 
     # Whether or not we verified that the user's address was verified
     # on the server-side.

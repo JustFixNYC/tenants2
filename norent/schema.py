@@ -50,6 +50,8 @@ class NorentScaffolding(graphene.ObjectType):
 
     state = graphene.String(required=True)
 
+    borough = graphene.String(required=True)
+
     zip_code = graphene.String(required=True)
 
     apt_number = graphene.String()

@@ -297,6 +297,11 @@ type StringMapping = {
   [k: string]: string;
 };
 
+/**
+ * Given a URL pathname, attempts to figure out the best category
+ * for the page, given a mapping from URL pathname prefixes to
+ * category names.
+ */
 function findBestPage(pathname: string, mapping: StringMapping): string {
   for (let [prefix, name] of Object.entries(mapping)) {
     if (pathname.startsWith(prefix)) {
@@ -306,6 +311,11 @@ function findBestPage(pathname: string, mapping: StringMapping): string {
   return "page";
 }
 
+/**
+ * Given a URL pathname on the app.justfix.nyc site,
+ * returns the type of page it refers to, for the
+ * purposes of naming Amplitude events.
+ */
 function getJustfixPageType(pathname: string): string {
   const r = JustfixRoutes.locale;
   if (pathname === r.home) return "DDO";
@@ -318,6 +328,11 @@ function getJustfixPageType(pathname: string): string {
   });
 }
 
+/**
+ * Given a URL pathname on the norent.org site,
+ * returns the type of page it refers to, for the
+ * purposes of naming Amplitude events.
+ */
 function getNorentPageType(pathname: string): string {
   const r = NorentRoutes.locale;
   return findBestPage(pathname, {
@@ -325,6 +340,11 @@ function getNorentPageType(pathname: string): string {
   });
 }
 
+/**
+ * Given a URL pathname on the evictionfreeny.org site,
+ * returns the type of page it refers to, for the
+ * purposes of naming Amplitude events.
+ */
 function getEvictionFreePageType(pathname: string): string {
   const r = EvictionFreeRoutes.locale;
   return findBestPage(pathname, {
@@ -332,6 +352,11 @@ function getEvictionFreePageType(pathname: string): string {
   });
 }
 
+/**
+ * Attempts to classify the given URL pathname
+ * for the purposes of naming Amplitude events so
+ * that they are neither too granular nor too broad.
+ */
 export function getAmplitudePageType(pathname: string): string {
   const { siteType } = getGlobalAppServerInfo();
 

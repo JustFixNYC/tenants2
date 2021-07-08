@@ -509,7 +509,7 @@ class BaseCreateAccount(SessionFormMutation):
         }
 
         if scf.is_city_in_nyc():
-            if info.get("borough"):
+            if scf.borough:
                 # The new NYC address entry endpoint was used, so we already
                 # have the information we need.
                 info["borough"] = scf.borough

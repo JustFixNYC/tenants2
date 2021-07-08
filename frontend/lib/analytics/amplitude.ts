@@ -237,7 +237,7 @@ function getPageInfo(pathname: string): PageInfo {
  * locale. This is done partly to ensure that we don't accidentally
  * remove prefixes that don't actually represent locales.
  */
-export function unlocalizePathname(
+function unlocalizePathname(
   pathname: string,
   serverInfo = getGlobalAppServerInfo()
 ): string {
@@ -246,6 +246,16 @@ export function unlocalizePathname(
     ? pathname.substring(prefix.length)
     : pathname;
 }
+
+/**
+ * Stuff that we don't really want to pollute IDE auto-import
+ * namespaces with, but that we still want to run automated
+ * tests on.
+ */
+export const _forTestingAmplitude = {
+  getPageInfo,
+  unlocalizePathname,
+};
 
 /**
  * Log a page view event in Amplitude.

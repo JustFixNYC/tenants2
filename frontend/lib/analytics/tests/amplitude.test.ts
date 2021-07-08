@@ -1,9 +1,14 @@
 import i18n from "../../i18n";
-import { unlocalizePathname } from "../amplitude";
+import { _forTestingAmplitude as amp } from "../amplitude";
 
-describe("unlocalizePathname", () => {
+beforeEach(() => {
+  i18n.initialize("en");
+});
+
+describe("unlocalizePathname() works", () => {
+  const { unlocalizePathname } = amp;
+
   it("unlocalizes paths of the current locale", () => {
-    i18n.initialize("en");
     expect(unlocalizePathname("/en/blarg")).toBe("/blarg");
 
     i18n.initialize("es");
@@ -11,7 +16,14 @@ describe("unlocalizePathname", () => {
   });
 
   it("does not unlocalize paths of the not-current locale", () => {
-    i18n.initialize("en");
     expect(unlocalizePathname("/es/blarg")).toBe("/es/blarg");
+  });
+});
+
+test("getPageInfo() works", () => {
+  expect(amp.getPageInfo("/en/blarg")).toEqual({
+    pathname: "/blarg",
+    locale: "en",
+    siteType: "JUSTFIX",
   });
 });

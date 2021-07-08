@@ -16,6 +16,14 @@ import { EvictionFreeRoutes } from "../evictionfree/route-info";
 import { USER_ID_PREFIX } from "../../../common-data/amplitude";
 
 /**
+ * These are Amplitude user properties updated by the front-end.
+ *
+ * From the Amplitude documentation:
+ *
+ *   > User properties are the attributes of individual users. Common
+ *   > user properties include device type, location, User ID, and
+ *   > whether the user is a paying customer or not.
+ *
  * We need to be very careful here that we don't conflict with any of
  * the user properties sent by the back-end code!  See the
  * `amplitude` Django app for more details.
@@ -40,22 +48,83 @@ export type JustfixAmplitudeUserProperties = {
   prefersLegacyApp: boolean | null;
 };
 
+/**
+ * This structure has Amplitude event properties shared by many
+ * of our events.
+ */
 type PageInfo = {
+  /**
+   * The pathname of the URL the user was on when the event took place,
+   * *without* any leading locale, e.g. `/account`.
+   *
+   * Because the locale isn't included, we can easily aggregate
+   * statistics without having to account for every possible locale
+   * we support.
+   */
   pathname: string;
+
+  /**
+   * The locale the user was using when the event took place, e.g. `en`.
+   */
   locale: LocaleChoice;
+
+  /**
+   * The site the user was on when the event took place, e.g. `NORENT`.
+   */
   siteType: SiteChoice;
 };
 
+/**
+ * Amplitude event properties for outbound link clicks.
+ */
 type OutboundLinkEventData = PageInfo & {
+  /**
+   * The "href" attribute of the outbound link the user clicked on.
+   */
   href: string;
 };
 
+/**
+ * Amplitude event properties for form submissions.
+ */
 type FormSubmissionEventData = PageInfo & {
+  /**
+   * This is usually the name of the GraphQL mutation that processed
+   * the form submission.
+   */
   formKind: string;
+
+  /**
+   * The unique id of the form on the page (this is often set if
+   * there are multiple forms on the page).
+   */
   formId?: string;
+
+  /**
+   * If the form submission redirected the user somewhere, this
+   * is the value of the redirect.
+   */
   redirect?: string;
+
+  /**
+   * If the form submission resulted in any validation errors,
+   * this is a list of all the error messages shown to the user,
+   * preceded by their field name, e.g. `"state: This field is required"`
+   * or `"__all__: Please choose at least one option"`.
+   *
+   * Note that the error messages will be localized to whatever locale
+   * the user has activated, so `"phoneNumber: Este campo es obligatorio."`
+   * is a valid potential error message.
+   */
   errorMessages?: string[];
+
+  /**
+   * If the form submission resulted in any validation errors,
+   * this is a list of all the error codes, preceded by their field
+   * name, e.g. `"password: password_too_short"`.
+   */
   errorCodes?: string[];
+
   search?: string;
 };
 
@@ -76,6 +145,10 @@ declare global {
   }
 }
 
+/**
+ * Returns the Amplitude client, or `undefined` if
+ * Amplitude integration is disabled.
+ */
 function getAmplitude(): JustfixAmplitudeClient | undefined {
   if (typeof window === "undefined") return undefined;
   return window.amplitude?.getInstance();
@@ -148,6 +221,14 @@ function getPageInfo(pathname: string): PageInfo {
   };
 }
 
+/**
+ * Removes the current locale's prefix from the given pathname if
+ * it's present.
+ *
+ * Note that the prefix will only be removed if it's the _current_
+ * locale. This is done partly to ensure that we don't accidentally
+ * remove prefixes that don't actually represent locales.
+ */
 function unlocalizePathname(
   pathname: string,
   serverInfo: AppServerInfo

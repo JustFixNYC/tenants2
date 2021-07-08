@@ -5,6 +5,7 @@ from mailchimp.mailchimp import (
     validate_settings,
     get_tag_for_source,
     is_fake_email_err,
+    is_no_more_signups_err,
     SubscribeSource,
     MailChimpError,
 )
@@ -39,6 +40,17 @@ FAKE_EMAIL_ERR = {
     "instance": "bdae75e6-64e2-4e29-a866-cb168ba731ce",
 }
 
+FAKE_NO_MORE_SIGNUPS_ERR = {
+    "type": "https://mailchimp.com/developer/marketing/docs/errors/",
+    "title": "Invalid Resource",
+    "status": 400,
+    "detail": (
+        "someone@example.com has signed up to a lot of lists very recently; "
+        "we're not allowing more signups for now"
+    ),
+    "instance": "689304bc-af3b-57d7-2a5d-a7f2da2e6ccc",
+}
+
 
 @pytest.mark.parametrize(
     "blob,expected",
@@ -49,3 +61,14 @@ FAKE_EMAIL_ERR = {
 )
 def test_is_fake_email_err_works(blob, expected):
     assert is_fake_email_err(MailChimpError(blob)) is expected
+
+
+@pytest.mark.parametrize(
+    "blob,expected",
+    [
+        [{"blah": 1}, False],
+        [FAKE_NO_MORE_SIGNUPS_ERR, True],
+    ],
+)
+def test_is_no_more_signups_err_works(blob, expected):
+    assert is_no_more_signups_err(MailChimpError(blob)) is expected

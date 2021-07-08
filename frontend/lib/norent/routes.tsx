@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, RouteComponentProps, Route } from "react-router-dom";
+import { RouteComponentProps, Route } from "react-router-dom";
 import { NorentRoutes as Routes } from "./route-info";
 import { NotFound } from "../pages/not-found";
 import { NorentHomePage } from "./homepage";
@@ -20,6 +20,7 @@ import { AlernativeLogoutPage } from "../pages/logout-alt-page";
 import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
 import loadable from "@loadable/component";
 import { friendlyLoad, LoadingPage } from "../networking/loading-page";
+import { RouteSwitch } from "../util/route-switch";
 
 const LoadableDevRoutes = loadable(
   () => friendlyLoad(import("../dev/routes")),
@@ -34,12 +35,8 @@ const LoadableDevRoutes = loadable(
  * the `route-info.ts` file in the same directory as this file.
  */
 export const NorentRouteComponent: React.FC<RouteComponentProps> = (props) => {
-  const { location } = props;
-  if (!Routes.routeMap.exists(location.pathname)) {
-    return NotFound(props);
-  }
   return (
-    <Switch location={location}>
+    <RouteSwitch {...props} routes={Routes}>
       <Route path={Routes.locale.home} exact component={NorentHomePage} />
       <Route path={Routes.locale.faqs} exact component={NorentFaqsPage} />
       <Route path={Routes.locale.about} exact component={NorentAboutPage} />
@@ -76,6 +73,6 @@ export const NorentRouteComponent: React.FC<RouteComponentProps> = (props) => {
       )}
       <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
       <Route component={NotFound} />
-    </Switch>
+    </RouteSwitch>
   );
 };

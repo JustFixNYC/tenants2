@@ -169,8 +169,8 @@ class LocAdminViews:
                 self._log_letter_action(request, letter, "Mailed the letter via Lob.", CHANGE)
                 airtable.sync.sync_user(user)
                 slack.sendmsg_async(
-                    f"{slack.escape(request.user.first_name)} has sent "
-                    f"{slack.hyperlink(text=user.first_name, href=user.admin_url)}'s "
+                    f"{slack.escape(request.user.best_first_name)} has sent "
+                    f"{slack.hyperlink(text=user.best_first_name, href=user.admin_url)}'s "
                     "letter of complaint!",
                     is_safe=True,
                 )

@@ -53,6 +53,6 @@ describe("Onboarding", () => {
       url: JustfixRoutes.locale.locOnboarding.latestStep,
     });
     expect(pal.history.location.pathname).toEqual("/en/onboarding/step/1");
-    pal.rr.getByLabelText("First name");
+    pal.rr.getByLabelText("Legal first name");
   });
 });

@@ -45,11 +45,19 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, UserWithTabsMixin, admin
     (or signaled intent to use) a particular product.
     """
 
-    list_display = ["phone_number", "first_name", "last_name", "last_login", "signup_intent"]
+    list_display = [
+        "phone_number",
+        "first_name",
+        "last_name",
+        "preferred_first_name",
+        "last_login",
+        "signup_intent",
+    ]
 
     fields = [
         "first_name",
         "last_name",
+        "preferred_first_name",
         "phone_number",
         "email",
         "signup_intent",
@@ -63,7 +71,14 @@ class UserProxyAdmin(airtable.sync.SyncUserOnSaveMixin, UserWithTabsMixin, admin
 
     ordering = ("-last_login",)
 
-    search_fields = ["phone_number", "username", "first_name", "last_name", "email"]
+    search_fields = [
+        "phone_number",
+        "username",
+        "first_name",
+        "last_name",
+        "preferred_first_name",
+        "email",
+    ]
 
     signup_intent = user_signup_intent
 

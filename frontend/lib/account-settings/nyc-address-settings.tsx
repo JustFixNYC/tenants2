@@ -182,7 +182,7 @@ export const NycAddressAccountSettings: React.FC<WithAccountSettingsProps> = (
 ) => {
   return (
     <>
-      <h2>Address</h2>
+      <h2 className="jf-account-settings-h2">Address</h2>
       <NycAddressField {...props} />
       <LeaseTypeField {...props} />
       <PublicAssistanceField {...props} />

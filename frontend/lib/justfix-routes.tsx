@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Switch, Route, RouteComponentProps, Redirect } from "react-router-dom";
+import { Route, RouteComponentProps, Redirect } from "react-router-dom";
 import loadable from "@loadable/component";
 
 import { AppContext } from "./app-context";
@@ -14,6 +14,7 @@ import HelpPage from "./pages/help-page";
 import { createRedirectWithSearch } from "./util/redirect-util";
 import { PLRoute, toPLRoute } from "./pages/redirect-to-english-page";
 import { AccountSettingsRoutes } from "./account-settings/routes";
+import { RouteSwitch } from "./util/route-switch";
 
 const LoadableDataDrivenOnboardingPage = loadable(
   () => friendlyLoad(import("./data-driven-onboarding/data-driven-onboarding")),
@@ -76,18 +77,14 @@ const LoadableAdminRoutes = loadable(
 );
 
 export const JustfixRouteComponent: React.FC<RouteComponentProps> = (props) => {
-  const { location } = props;
   const { server, session } = useContext(AppContext);
-  if (!JustfixRoutes.routeMap.exists(location.pathname)) {
-    return NotFound(props);
-  }
   const enableEHP = server.enableEmergencyHPAction;
   const redirectToEHP =
     enableEHP &&
     !(session.onboardingInfo?.signupIntent === OnboardingInfoSignupIntent.HP);
 
   return (
-    <Switch location={location}>
+    <RouteSwitch {...props} routes={JustfixRoutes}>
       <Route
         path={JustfixRoutes.locale.home}
         exact
@@ -163,6 +160,6 @@ export const JustfixRouteComponent: React.FC<RouteComponentProps> = (props) => {
         component={LoadablePasswordResetRoutes}
       />
       <Route render={NotFound} />
-    </Switch>
+    </RouteSwitch>
   );
 };

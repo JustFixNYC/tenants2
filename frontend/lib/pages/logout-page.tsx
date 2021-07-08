@@ -16,7 +16,10 @@ export const LogoutPage = withAppContext((props: AppContextType) => {
         <div className="box">
           <h1 className="title">
             Are you sure you want to sign out,{" "}
-            {props.session.firstName || props.session.phoneNumber}?
+            {props.session.preferredFirstName ||
+              props.session.firstName ||
+              props.session.phoneNumber}
+            ?
           </h1>
           <SessionUpdatingFormSubmitter
             mutation={LogoutMutation}

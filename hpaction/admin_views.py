@@ -127,8 +127,8 @@ class HPActionAdminViews:
                     request, "The recipient has been served! See below for more details."
                 )
                 slack.sendmsg_async(
-                    f"{slack.escape(request.user.first_name)} has served "
-                    f"{slack.hyperlink(text=sender.first_name, href=sender.admin_url)}'s "
+                    f"{slack.escape(request.user.best_first_name)} has served "
+                    f"{slack.hyperlink(text=sender.best_first_name, href=sender.admin_url)}'s "
                     "landlord!",
                     is_safe=True,
                 )

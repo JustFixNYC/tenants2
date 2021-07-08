@@ -58,6 +58,12 @@ class BaseSessionInfo:
         description=("The last name of the currently logged-in user, or " "null if not logged-in.")
     )
 
+    preferred_first_name = graphene.String(
+        description=(
+            "The preferred first name of the currently logged-in user, or " "null if not logged-in."
+        )
+    )
+
     phone_number = graphene.String(
         description=(
             "The phone number of the currently logged-in user, or " "null if not logged-in."
@@ -148,6 +154,12 @@ class BaseSessionInfo:
         if not request.user.is_authenticated:
             return None
         return request.user.last_name
+
+    def resolve_preferred_first_name(self, info: ResolveInfo) -> Optional[str]:
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        return request.user.preferred_first_name
 
     def resolve_phone_number(self, info: ResolveInfo) -> Optional[str]:
         request = info.context

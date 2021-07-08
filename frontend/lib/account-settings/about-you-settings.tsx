@@ -5,13 +5,54 @@ import { AppContext } from "../app-context";
 import { TextualFormField } from "../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
 import { li18n } from "../i18n-lingui";
+import { NorentPreferredNameMutation } from "../queries/NorentPreferredNameMutation";
 import { NorentFullLegalNameMutation } from "../queries/NorentFullLegalNameMutation";
 import { EditableInfo, SaveCancelButtons } from "../ui/editable-info";
 import { makeAccountSettingsSection, WithAccountSettingsProps } from "./util";
 
-const NameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
+const PreferredNameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   const { session } = useContext(AppContext);
-  const sec = makeAccountSettingsSection(routes, "Name", "name");
+  const sec = makeAccountSettingsSection(
+    routes,
+    "Preferred First Name (optional)",
+    "preferredName"
+  );
+
+  return (
+    <>
+      {sec.heading}
+      <p>The name you'd like people to call you by.</p>
+      <EditableInfo
+        {...sec}
+        readonlyContent={session.preferredFirstName || ""}
+        path={routes.preferredName}
+      >
+        <SessionUpdatingFormSubmitter
+          mutation={NorentPreferredNameMutation}
+          initialState={(s) => ({
+            preferredFirstName: s.preferredFirstName || "",
+          })}
+          onSuccessRedirect={sec.homeLink}
+        >
+          {(ctx) => (
+            <>
+              <TextualFormField
+                autoFocus
+                {...ctx.fieldPropsFor("preferredFirstName")}
+                label={li18n._(t`Preferred first name`)}
+              />
+              <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
+            </>
+          )}
+        </SessionUpdatingFormSubmitter>
+      </EditableInfo>
+    </>
+  );
+};
+
+const LegalNameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
+  const { session } = useContext(AppContext);
+  const sec = makeAccountSettingsSection(routes, "Legal Name", "legalname");
 
   return (
     <>
@@ -35,11 +76,11 @@ const NameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
               <TextualFormField
                 autoFocus
                 {...ctx.fieldPropsFor("firstName")}
-                label={li18n._(t`First name`)}
+                label={li18n._(t`Legal first name`)}
               />
               <TextualFormField
                 {...ctx.fieldPropsFor("lastName")}
-                label={li18n._(t`Last name`)}
+                label={li18n._(t`Legal last name`)}
               />
               <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>
@@ -55,8 +96,9 @@ export const AboutYouAccountSettings: React.FC<WithAccountSettingsProps> = (
 ) => {
   return (
     <>
-      <h2>About you</h2>
-      <NameField {...props} />
+      <h2 className="jf-account-settings-h2">About you</h2>
+      <LegalNameField {...props} />
+      <PreferredNameField {...props} />
     </>
   );
 };

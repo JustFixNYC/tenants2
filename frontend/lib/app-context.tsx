@@ -173,6 +173,12 @@ export interface AppServerInfo {
    * The URL that is the origin of the NYC GeoSearch API endpoint to use.
    */
   nycGeoSearchOrigin: string;
+
+  /**
+   * Additional links to other development-related links such as
+   * documentation, tooling, etc.
+   */
+  extraDevLinks: { name: string; url: string }[];
 }
 
 /**

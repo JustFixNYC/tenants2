@@ -19,14 +19,22 @@ describe("AccountSettingsRoutes", () => {
       }
     );
 
-  it("Can edit name", () => {
+  it("Can edit legal name", () => {
     const pal = makePal();
     pal.rr.findByText("Boop Jones");
-    pal.rr.getByLabelText(/edit name/i).click();
+    pal.rr.getByLabelText(/edit legal name/i).click();
     pal.fillFormFields([
-      ["First name", "Spike"],
-      ["Last name", "Jonze"],
+      ["Legal first name", "Spike"],
+      ["Legal last name", "Jonze"],
     ]);
+    pal.clickButtonOrLink("Cancel");
+  });
+
+  it("Can edit preferred name", () => {
+    const pal = makePal();
+    pal.rr.findByText("Boop Jones");
+    pal.rr.getByLabelText(/edit preferred first name/i).click();
+    pal.fillFormFields([["Preferred first name", "Charlotte"]]);
     pal.clickButtonOrLink("Cancel");
   });
 

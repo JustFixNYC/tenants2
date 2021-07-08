@@ -93,7 +93,7 @@ class FollowupCampaign(NamedTuple):
         )
 
     def add_contact(
-        self, client: TembaClient, full_legal_name: str, phone_number: str, locale: str
+        self, client: TembaClient, full_preferred_name: str, phone_number: str, locale: str
     ):
         """
         Add the given contact to the follow-up campaign, creating a new RapidPro contact
@@ -102,7 +102,7 @@ class FollowupCampaign(NamedTuple):
         Locale should be an ISO 639-1 code, e.g. "en".
         """
 
-        contact = get_or_create_contact(client, full_legal_name, phone_number, locale=locale)
+        contact = get_or_create_contact(client, full_preferred_name, phone_number, locale=locale)
         self.add_to_group_and_update_date_field(client, contact)
 
     @classmethod
@@ -124,7 +124,7 @@ class FollowupCampaign(NamedTuple):
 
 
 def trigger_followup_campaign_async(
-    full_legal_name: str, phone_number: str, campaign_name: str, locale: str
+    full_preferred_name: str, phone_number: str, campaign_name: str, locale: str
 ):
     """
     Add the given contact to the given follow-up campaign from Django settings, e.g.:
@@ -139,7 +139,9 @@ def trigger_followup_campaign_async(
     if client and campaign:
         from . import tasks
 
-        tasks.trigger_followup_campaign.delay(full_legal_name, phone_number, campaign_name, locale)
+        tasks.trigger_followup_campaign.delay(
+            full_preferred_name, phone_number, campaign_name, locale
+        )
 
 
 def ensure_followup_campaign_exists(campaign_name: str) -> None:

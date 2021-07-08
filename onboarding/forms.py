@@ -16,11 +16,14 @@ from .models import OnboardingInfo, APT_NUMBER_KWARGS
 
 
 # Whenever we change the fields in any of the onboarding
-# forms, we should change this number to ensure that we
+# forms, we should increment this number to ensure that we
 # never use an old session's onboarding data with the
 # new validation logic. The downside is that the old
 # session's onboarding data will disappear, but hopefully
 # we won't have to do this often.
+# As an alternative to incrementing this, consider migrating
+# old data schemas instead using migrate_dict in
+# onboarding/schema.py.
 FIELD_SCHEMA_VERSION = 4
 
 
@@ -81,6 +84,17 @@ class OnboardingStep1Form(AptNumberWithConfirmationForm, AddressAndBoroughFormMi
     first_name = forms.CharField(max_length=30)
 
     last_name = forms.CharField(max_length=150)
+
+
+class OnboardingStep1V2Form(OnboardingStep1Form):
+    preferred_first_name = forms.CharField(
+        max_length=150,
+        required=False,
+        help_text=(
+            "The first name Justfix will call the user by. Optional. May be different from "
+            "their legal first name."
+        ),
+    )
 
 
 def get_boolean_field(name: str):

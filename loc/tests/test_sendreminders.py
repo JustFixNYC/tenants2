@@ -47,7 +47,7 @@ def test_loc_reminder_is_sent_when_needed(db, smsoutbox):
     msg = smsoutbox[0]
     assert msg.to == "+15551234567"
     assert msg.body == (
-        "Hey Boop! Don't forget that you can use JustFix.nyc "
+        "Hey Bip! Don't forget that you can use JustFix.nyc "
         "to address repair issues in your apartment. "
         "Follow this link to continue: https://example.com/"
     )

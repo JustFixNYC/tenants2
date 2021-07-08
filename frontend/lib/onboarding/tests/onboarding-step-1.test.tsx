@@ -2,7 +2,7 @@ import React from "react";
 
 import OnboardingStep1 from "../onboarding-step-1";
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import { OnboardingStep1Mutation } from "../../queries/OnboardingStep1Mutation";
+import { OnboardingStep1V2Mutation } from "../../queries/OnboardingStep1V2Mutation";
 import { createMockFetch } from "../../networking/tests/mock-fetch";
 import { FakeGeoResults } from "../../tests/util";
 import JustfixRoutes from "../../justfix-route-info";
@@ -57,6 +57,7 @@ describe("onboarding step 1 page", () => {
         onboardingStep1: {
           firstName: "boop",
           lastName: "jones",
+          preferredFirstName: "",
           aptNumber: "2",
           address: "150 DOOMBRINGER STREET",
           borough: "MANHATTAN",
@@ -73,17 +74,19 @@ describe("onboarding step 1 page", () => {
     const pal = new AppTesterPal(<OnboardingStep1 {...PROPS} />);
     fetch.mockReturnJson(FakeGeoResults);
     pal.fillFormFields([
-      [/first name/i, "boop"],
-      [/last name/i, "jones"],
+      ["Legal first name", "boop"],
+      ["Legal last name", "jones"],
+      ["Preferred first name (optional)", "bip"],
       [/(?<!no\s)apartment number/i, "2"],
       [/address/i, "150 cou"],
     ]);
     await fetch.resolvePromisesAndTimers();
     pal.clickListItem(/150 COURT STREET/);
     pal.clickButtonOrLink("Next");
-    pal.withFormMutation(OnboardingStep1Mutation).expect({
+    pal.withFormMutation(OnboardingStep1V2Mutation).expect({
       firstName: "boop",
       lastName: "jones",
+      preferredFirstName: "bip",
       aptNumber: "2",
       address: "150 COURT STREET",
       borough: "MANHATTAN",
@@ -97,19 +100,21 @@ describe("onboarding step 1 page", () => {
       <OnboardingStep1 {...PROPS} disableProgressiveEnhancement />
     );
     pal.fillFormFields([
-      [/first name/i, "boop"],
-      [/last name/i, "jones"],
+      ["Legal first name", "boop"],
+      ["Legal last name", "jones"],
+      ["Preferred first name (optional)", "bip"],
       [/address/i, "150 court"],
       [/(?<!no\s)apartment number/i, "2"],
     ]);
     pal.clickRadioOrCheckbox(/Brooklyn/);
     pal.clickButtonOrLink("Next");
-    pal.withFormMutation(OnboardingStep1Mutation).respondWith({
+    pal.withFormMutation(OnboardingStep1V2Mutation).respondWith({
       errors: [],
       session: {
         onboardingStep1: {
           firstName: "boop",
           lastName: "jones",
+          preferredFirstName: "bip",
           address: "150 COURT STREET",
           borough: "BROOKLYN",
           aptNumber: "2",

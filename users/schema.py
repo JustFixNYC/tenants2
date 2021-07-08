@@ -73,4 +73,4 @@ class UserSessionInfo:
         other_user = impersonation.get_impersonating_user(request)
         if other_user is None:
             return None
-        return other_user.first_name or other_user.username
+        return other_user.best_first_name or other_user.username

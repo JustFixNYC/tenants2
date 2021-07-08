@@ -7,7 +7,7 @@ import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { isDeepEqual } from "../util/util";
 import { ServerFormFieldError } from "../forms/form-errors";
 import { getGlobalSiteRoutes } from "../global-site-routes";
-import { getGlobalAppServerInfo, AppServerInfo } from "../app-context";
+import { getGlobalAppServerInfo } from "../app-context";
 import { LocaleChoice } from "../../../common-data/locale-choices";
 import i18n from "../i18n";
 import JustfixRoutes from "../justfix-route-info";
@@ -237,9 +237,9 @@ function getPageInfo(pathname: string): PageInfo {
  * locale. This is done partly to ensure that we don't accidentally
  * remove prefixes that don't actually represent locales.
  */
-function unlocalizePathname(
+export function unlocalizePathname(
   pathname: string,
-  serverInfo: AppServerInfo
+  serverInfo = getGlobalAppServerInfo()
 ): string {
   const { prefix } = getGlobalSiteRoutes(serverInfo).locale;
   return pathname.startsWith(prefix + "/")

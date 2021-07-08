@@ -25,8 +25,9 @@ import { USER_ID_PREFIX } from "../../../common-data/amplitude";
  *   > whether the user is a paying customer or not.
  *
  * We need to be very careful here that we don't conflict with any of
- * the user properties sent by the back-end code!  See the
- * `amplitude` Django app for more details.
+ * the user properties sent by the back-end code!  For more details, see
+ * the `amplitude` Django app--especially its `export_to_amplitude.py`
+ * file.
  */
 export type JustfixAmplitudeUserProperties = {
   city: string;

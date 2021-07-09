@@ -50,6 +50,8 @@ class NorentScaffolding(graphene.ObjectType):
 
     state = graphene.String(required=True)
 
+    borough = graphene.String(required=True)
+
     zip_code = graphene.String(required=True)
 
     apt_number = graphene.String()
@@ -200,6 +202,11 @@ def get_scaffolding(request) -> scaffolding.NorentScaffolding:
 def update_scaffolding(request, new_data):
     scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
     scaffolding_dict.update(new_data)
+
+    # This ensures that whatever changes we're making are copacetic
+    # with our Pydantic model.
+    scaffolding.NorentScaffolding(**scaffolding_dict)
+
     request.session[SCAFFOLDING_SESSION_KEY] = scaffolding_dict
 
 
@@ -485,7 +492,9 @@ class BaseCreateAccount(SessionFormMutation):
     signup_intent: str = ""
 
     @classmethod
-    def fill_nyc_info(cls, request, info: Dict[str, Any]):
+    def fill_nyc_info_from_deprecated_endpoint(cls, request, info: Dict[str, Any]):
+        # For more details on why this is deprecated, see:
+        # https://github.com/JustFixNYC/tenants2/pull/2143
         step1 = OnboardingStep1V2Info.get_dict_from_request(request)
         if step1 is None:
             return None
@@ -497,16 +506,26 @@ class BaseCreateAccount(SessionFormMutation):
 
     @classmethod
     def fill_city_info(cls, request, info: Dict[str, Any], scf: scaffolding.NorentScaffolding):
-        if scf.is_city_in_nyc():
-            return cls.fill_nyc_info(request, info)
+        info = {
+            **info,
+            "address": scf.street,
+            "apt_number": scf.apt_number,
+            "address_verified": scf.address_verified,
+        }
 
-        if not are_all_truthy(scf.street, scf.zip_code):
-            return None
-        info["non_nyc_city"] = scf.city
-        info["address"] = scf.street
-        info["apt_number"] = scf.apt_number
-        info["zipcode"] = scf.zip_code
-        info["address_verified"] = False
+        if scf.is_city_in_nyc():
+            if scf.borough:
+                # The new NYC address entry endpoint was used, so we already
+                # have the information we need.
+                info["borough"] = scf.borough
+            else:
+                # The old onboarding endpoint was used, so fill things in from there.
+                return cls.fill_nyc_info_from_deprecated_endpoint(request, info)
+        else:
+            if not are_all_truthy(scf.street, scf.zip_code):
+                return None
+            info["non_nyc_city"] = scf.city
+            info["zipcode"] = scf.zip_code
         return info
 
     @classmethod

@@ -256,11 +256,11 @@ class NycAddress(SessionFormMutation):
     class Meta:
         form_class = forms.NycAddressForm
 
-    login_required = True
+    login_required = False
 
     @classmethod
     @mutation_requires_onboarding
-    def perform_mutate(cls, form, info: ResolveInfo):
+    def perform_mutate_for_logged_in_user(cls, form, info: ResolveInfo):
         oi = info.context.user.onboarding_info
         oi.non_nyc_city = ""
         oi.state = US_STATE_CHOICES.NY
@@ -270,6 +270,23 @@ class NycAddress(SessionFormMutation):
         oi.address_verified = form.cleaned_data["address_verified"]
         oi.full_clean()
         oi.save()
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        if info.context.user.is_authenticated:
+            cls.perform_mutate_for_logged_in_user(form, info)
+        else:
+            from norent.schema import update_scaffolding
+
+            update_scaffolding(
+                info.context,
+                {
+                    "street": form.cleaned_data["address"],
+                    "borough": form.cleaned_data["borough"],
+                    "apt_number": form.cleaned_data["apt_number"],
+                    "address_verified": form.cleaned_data["address_verified"],
+                },
+            )
 
         return cls.mutation_success()
 

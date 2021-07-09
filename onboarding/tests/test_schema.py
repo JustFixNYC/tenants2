@@ -1,3 +1,4 @@
+from onboarding.schema import OnboardingStep1V2Info
 from unittest.mock import patch
 import pytest
 from django.contrib.auth.hashers import is_password_usable
@@ -7,7 +8,6 @@ from findhelp.tests.factories import CountyFactory
 from project.util.testing_util import GraphQLTestingPal
 from frontend.tests.util import get_frontend_query
 from users.models import JustfixUser
-from onboarding.schema import session_key_for_step
 from .factories import OnboardingInfoFactory, NationalOnboardingInfoFactory, UserFactory
 
 LEGACY_STEP_1_DATA = {
@@ -106,7 +106,7 @@ def exec_legacy_onboarding_step_1(graphql_client, **input_kwargs):
 def test_onboarding_step_1_validates_data(graphql_client):
     ob = _exec_onboarding_step_n("1V2", graphql_client, firstName="")
     assert len(ob["errors"]) > 0
-    assert session_key_for_step(1) not in graphql_client.request.session
+    assert OnboardingStep1V2Info.get_dict_from_request(graphql_client.request) is None
     assert _get_step_1_info(graphql_client) is None
 
 
@@ -116,12 +116,11 @@ def test_onboarding_step_1_works(graphql_client):
     del expected_data["noAptNumber"]
     assert ob["errors"] == []
     assert ob["session"]["onboardingStep1"] == expected_data
-    assert graphql_client.request.session[session_key_for_step(1)]["apt_number"] == "3B"
+    session_data = OnboardingStep1V2Info.get_dict_from_request(graphql_client.request)
+    assert session_data["apt_number"] == "3B"
     assert _get_step_1_info(graphql_client)["aptNumber"] == "3B"
     assert _get_step_1_info(graphql_client)["addressVerified"] is False
 
-    session_data = graphql_client.request.session[session_key_for_step(1)]
-    assert session_data["apt_number"] == "3B"
     assert "no_apt_number" not in session_data
 
 
@@ -247,15 +246,14 @@ def test_county_works(db, graphql_client):
 
 
 def test_onboarding_session_info_is_fault_tolerant(graphql_client):
-    key = session_key_for_step(1)
-    graphql_client.request.session[key] = {"lol": 1}
+    OnboardingStep1V2Info._meta.session_storage.save(graphql_client.request, {"lol": 1})
 
     with patch("project.util.django_graphql_session_forms.logger") as m:
         assert _get_step_1_info(graphql_client) is None
         m.exception.assert_called_once_with(
             f"Error deserializing OnboardingStep1V2Form from session"
         )
-        assert key not in graphql_client.request.session
+        assert OnboardingStep1V2Info._meta.session_storage.load(graphql_client.request) is None
 
 
 def test_onboarding_session_info_returns_city_and_state(db, graphql_client):

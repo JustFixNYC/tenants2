@@ -6,18 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("users", "0010_alter_justfixuser_first_name"),
+        ('users', '0010_alter_justfixuser_first_name'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name="justfixuser",
-            name="preferred_first_name",
-            field=models.CharField(
-                blank=True,
-                help_text="The first name Justfix will call the user by. Optional.  May be different from their legal first name.",
-                max_length=150,
-                verbose_name="Preferred first name",
-            ),
+            model_name='justfixuser',
+            name='preferred_first_name',
+            field=models.CharField(blank=True, help_text='The first name Justfix will call the user by. Optional.  May be different from their legal first name.', max_length=150, verbose_name='Preferred first name'),
         ),
     ]

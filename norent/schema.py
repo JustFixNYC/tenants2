@@ -58,28 +58,6 @@ class NorentScaffolding(graphene.ObjectType):
 
     email = graphene.String(required=True)
 
-    phone_number = graphene.String(
-        required=True, deprecation_reason="In lastQueriedPhoneNumber now"
-    )
-
-    landlord_name = graphene.String(required=True, deprecation_reason="In landlordDetails now")
-
-    landlord_primary_line = graphene.String(
-        required=True, deprecation_reason="In landlordDetails now"
-    )
-
-    landlord_city = graphene.String(required=True, deprecation_reason="In landlordDetails now")
-
-    landlord_state = graphene.String(required=True, deprecation_reason="In landlordDetails now")
-
-    landlord_zip_code = graphene.String(required=True, deprecation_reason="In landlordDetails now")
-
-    landlord_email = graphene.String(required=True, deprecation_reason="In landlordDetails now")
-
-    landlord_phone_number = graphene.String(
-        required=True, deprecation_reason="In landlordDetails now"
-    )
-
     has_landlord_email_address = graphene.Boolean()
 
     has_landlord_mailing_address = graphene.Boolean()

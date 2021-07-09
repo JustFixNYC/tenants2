@@ -79,21 +79,6 @@ class NorentScaffolding(pydantic.BaseModel):
 
     phone_number: str = ""
 
-    landlord_name: str = ""
-
-    # e.g. "666 FIFTH AVENUE, APT 2"
-    landlord_primary_line: str = ""
-
-    landlord_city: str = ""
-
-    landlord_state: str = ""
-
-    landlord_zip_code: str = ""
-
-    landlord_email: str = ""
-
-    landlord_phone_number: str = ""
-
     has_landlord_email_address: Optional[bool] = None
 
     has_landlord_mailing_address: Optional[bool] = None

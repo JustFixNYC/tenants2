@@ -2309,18 +2309,6 @@
             },
             {
               "args": [],
-              "deprecationReason": "Legacy app integration is no longer relevant since the legacy app was decommissioned on August 3, 2020.",
-              "description": "Whether we should redirect this user to the legacy tenant app after they log in. If null, the user is either not a legacy user, or legacy app integration is disabled.",
-              "isDeprecated": true,
-              "name": "prefersLegacyApp",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
               "deprecationReason": "This is an example of a deprecated session field. It should never appear in auto-generated GraphQL queries because it is deprecated, but it can still be queried, which will allow legacy clients asking for it to not crash.",
               "description": "An example deprecated session field.",
               "isDeprecated": true,

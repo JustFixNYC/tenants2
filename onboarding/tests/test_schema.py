@@ -252,7 +252,9 @@ def test_onboarding_session_info_is_fault_tolerant(graphql_client):
 
     with patch("project.util.django_graphql_session_forms.logger") as m:
         assert _get_step_1_info(graphql_client) is None
-        m.exception.assert_called_once_with(f"Error deserializing {key} from session")
+        m.exception.assert_called_once_with(
+            f"Error deserializing OnboardingStep1V2Form from session"
+        )
         assert key not in graphql_client.request.session
 
 

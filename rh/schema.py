@@ -128,7 +128,7 @@ class RhSendEmail(SessionFormMutation):
             SITE_CHOICES.JUSTFIX,
             project.locales.DEFAULT,
             "rh/email-to-dhcr.txt",
-            session={RhFormInfo._meta.session_key: form_data},
+            session=request.session,
         )
         email_dhcr.send_email_to_dhcr(email.subject, email.body)
         trigger_followup_campaign_async(

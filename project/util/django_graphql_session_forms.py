@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 import logging
 from typing import Dict, Any, Optional
 from graphql import ResolveInfo
@@ -15,9 +16,50 @@ from project.util.django_graphql_forms import DjangoFormMutationOptions
 logger = logging.getLogger(__name__)
 
 
+class SessionStorage(ABC):
+    @abstractmethod
+    def load(self, request: HttpRequest) -> Optional[Dict[str, Any]]:
+        """
+        If the object data exists in the given request's session, return it.
+        """
+
+        pass
+
+    @abstractmethod
+    def save(cls, request: HttpRequest, data: Dict[str, Any]):
+        """
+        Save the given object to the given request's session.
+        """
+
+        pass
+
+    @abstractmethod
+    def clear(self, request: HttpRequest):
+        """
+        If the object data exists in the given request's session, remove it.
+        """
+
+        pass
+
+
+class SessionKeyStorage(SessionStorage):
+    def __init__(self, session_key: str):
+        self.session_key = session_key
+
+    def load(self, request: HttpRequest) -> Optional[Dict[str, Any]]:
+        return request.session.get(self.session_key)
+
+    def save(self, request: HttpRequest, data: Dict[str, Any]):
+        request.session[self.session_key] = data
+
+    def clear(self, request: HttpRequest):
+        if self.session_key in request.session:
+            request.session.pop(self.session_key)
+
+
 class SessionObjectTypeOptions(ObjectTypeOptions):
     form_class = None
-    session_key: str = ""
+    session_storage: SessionStorage
 
 
 class DjangoSessionFormObjectType(graphene.ObjectType):
@@ -46,7 +88,7 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
             _meta = SessionObjectTypeOptions(cls)
 
         assert session_key, f"{cls.__name__} must define Meta.session_key."
-        _meta.session_key = session_key
+        _meta.session_storage = SessionKeyStorage(session_key)
 
         assert form_class is not None, f"{cls.__name__} must define Meta.form_class."
         _meta.form_class = form_class
@@ -79,7 +121,7 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
         If the object data exists in the given request's session, return it.
         """
 
-        value = request.session.get(cls._meta.session_key)
+        value = cls._meta.session_storage.load(request)
         if value is None:
             return None
         return cls.migrate_dict(value)
@@ -90,14 +132,13 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
         If the object data exists in the given request's session, remove it.
         """
 
-        if cls._meta.session_key in request.session:
-            request.session.pop(cls._meta.session_key)
+        cls._meta.session_storage.clear(request)
 
     @classmethod
     def _resolve_from_session(cls, parent, info: ResolveInfo):
-        key = cls._meta.session_key
+        form_name = cls._meta.form_class.__name__
         request = info.context
-        obinfo = request.session.get(key)
+        obinfo = cls._meta.session_storage.load(request)
         if obinfo:
             try:
                 return cls(**cls.migrate_dict(obinfo))
@@ -108,8 +149,8 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
                 # This should technically never happen if we remember to tie
                 # the session key name to a version, e.g. "user_v1", but it's possible we
                 # might forget to do that.
-                logger.exception(f"Error deserializing {key} from session")
-                request.session.pop(key)
+                logger.exception(f"Error deserializing {form_name} from session")
+                cls._meta.session_storage.clear(request)
         return None
 
     @classmethod
@@ -126,7 +167,7 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
     def save_form_to_session(cls, form, request: HttpRequest):
         assert form.is_valid()
         assert isinstance(form, cls._meta.form_class)
-        request.session[cls._meta.session_key] = form.cleaned_data
+        cls._meta.session_storage.save(request, form.cleaned_data)
 
 
 class StoreToSessionFormOptions(DjangoFormMutationOptions):

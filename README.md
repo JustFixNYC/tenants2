@@ -537,7 +537,23 @@ To view this alternate website, you'll need to either add a new
 a name that includes the text "NoRent" somewhere in it (the match is
 case-insensitive, so it can be "norent" or "NORENT", etc).
 
-If you added a new Django Site model, you'll need to make sure it
+To do this:
+1. [Edit your `/etc/hosts` file](https://www.howtogeek.com/howto/27350/beginner-geek-how-to-edit-your-hosts-file/) to map localhost.norent to 127.0.0.1.
+Your file should have the following line: 
+```
+127.0.0.1       localhost.norent
+```
+2. Add an additional Site model (in addition to the default one).
+You can do this by going to http://localhost:8000/admin/sites/site/ and clicking "add site". Set `domain` to localhost.norent:8000 and set `name` to norent.
+It should look like this:
+```
+DOMAIN NAME                   DISPLAY NAME
+localhost.norent:8000         NoRent
+```
+
+This will allow you to access NoRent at `http://localhost.norent:8000/`.
+
+In general, if you add a new Django Site model, you'll need to make sure it
 has a domain that matches whatever domain you're visiting the
 site at, or else the code won't be able to map your request to
 the new Site you added.

@@ -17,80 +17,20 @@ from project.schema_base import get_last_queried_phone_number, purge_last_querie
 from onboarding.schema import OnboardingStep1V2Info, complete_onboarding
 from onboarding.schema_util import mutation_requires_onboarding
 from onboarding.models import SIGNUP_INTENT_CHOICES
+from onboarding import scaffolding
 from loc.models import LandlordDetails
-from . import scaffolding, forms, models, letter_sending
+from . import forms, models, letter_sending
 
 
 SCAFFOLDING_SESSION_KEY = f"norent_scaffolding_v{scaffolding.VERSION}"
 
 
-class NorentScaffolding(graphene.ObjectType):
+class NorentScaffolding(scaffolding.GraphQlOnboardingScaffolding):
     """
     Represents all fields of our scaffolding model.
     """
 
-    first_name = graphene.String(required=True)
-
-    last_name = graphene.String(required=True)
-
-    preferred_first_name = graphene.String(required=True)
-
-    street = graphene.String(required=True)
-
-    city = graphene.String(required=True)
-
-    is_city_in_nyc = graphene.Boolean()
-
-    is_in_los_angeles = graphene.Boolean(
-        description=(
-            "Whether the onboarding user is in Los Angeles County. If "
-            "we don't have enough information to tell, this will be null."
-        )
-    )
-
-    state = graphene.String(required=True)
-
-    zip_code = graphene.String(required=True)
-
-    apt_number = graphene.String()
-
-    email = graphene.String(required=True)
-
-    phone_number = graphene.String(
-        required=True, deprecation_reason="In lastQueriedPhoneNumber now"
-    )
-
-    landlord_name = graphene.String(required=True, deprecation_reason="In landlordDetails now")
-
-    landlord_primary_line = graphene.String(
-        required=True, deprecation_reason="In landlordDetails now"
-    )
-
-    landlord_city = graphene.String(required=True, deprecation_reason="In landlordDetails now")
-
-    landlord_state = graphene.String(required=True, deprecation_reason="In landlordDetails now")
-
-    landlord_zip_code = graphene.String(required=True, deprecation_reason="In landlordDetails now")
-
-    landlord_email = graphene.String(required=True, deprecation_reason="In landlordDetails now")
-
-    landlord_phone_number = graphene.String(
-        required=True, deprecation_reason="In landlordDetails now"
-    )
-
-    has_landlord_email_address = graphene.Boolean()
-
-    has_landlord_mailing_address = graphene.Boolean()
-
-    can_receive_rttc_comms = graphene.Boolean()
-
-    can_receive_saje_comms = graphene.Boolean()
-
-    def resolve_is_city_in_nyc(self, info: ResolveInfo) -> Optional[bool]:
-        return self.is_city_in_nyc()
-
-    def resolve_is_in_los_angeles(self, info: ResolveInfo) -> Optional[bool]:
-        return self.is_zip_code_in_la()
+    pass
 
 
 class NorentLetter(DjangoObjectType):
@@ -173,7 +113,7 @@ class NorentSessionInfo(object):
         request = info.context
         kwargs = request.session.get(SCAFFOLDING_SESSION_KEY, {})
         if kwargs:
-            return scaffolding.NorentScaffolding(**kwargs)
+            return scaffolding.OnboardingScaffolding(**kwargs)
         return None
 
     def resolve_norent_letters_sent(self, info: ResolveInfo):
@@ -192,9 +132,9 @@ class NorentSessionInfo(object):
         ]
 
 
-def get_scaffolding(request) -> scaffolding.NorentScaffolding:
+def get_scaffolding(request) -> scaffolding.OnboardingScaffolding:
     scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
-    return scaffolding.NorentScaffolding(**scaffolding_dict)
+    return scaffolding.OnboardingScaffolding(**scaffolding_dict)
 
 
 def update_scaffolding(request, new_data):
@@ -496,7 +436,7 @@ class BaseCreateAccount(SessionFormMutation):
         return info
 
     @classmethod
-    def fill_city_info(cls, request, info: Dict[str, Any], scf: scaffolding.NorentScaffolding):
+    def fill_city_info(cls, request, info: Dict[str, Any], scf: scaffolding.OnboardingScaffolding):
         if scf.is_city_in_nyc():
             return cls.fill_nyc_info(request, info)
 

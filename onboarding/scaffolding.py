@@ -4,8 +4,8 @@ from pathlib import Path
 from typing import Optional, Tuple
 from django.contrib.gis.geos import GEOSGeometry, Point
 import pydantic
-
-from .la_zipcodes import is_zip_code_in_la
+import graphene
+from graphql import ResolveInfo
 
 
 # This should change whenever our scaffolding model's fields change in a
@@ -39,12 +39,12 @@ def is_city_name_in_nyc(city: str) -> bool:
     return False
 
 
-class NorentScaffolding(pydantic.BaseModel):
+class OnboardingScaffolding(pydantic.BaseModel):
     """
-    This is just some scaffolding we have in place of an actual
-    Django Model (or collection of models).  It allows us to get
-    off the ground running without having to dedicate ourselves
-    to a particular database schema.
+    This is scaffolding we have in place of an actual
+    Django Model (or collection of models), for use while
+    a user is onboarding onto our platform without
+    having had made an account yet.
     """
 
     first_name: str = ""
@@ -60,6 +60,13 @@ class NorentScaffolding(pydantic.BaseModel):
 
     # e.g. "NY"
     state: str = ""
+
+    # If in NYC, the borough code, e.g. "STATEN_ISLAND".
+    borough: str = ""
+
+    # Whether or not we verified that the user's address was verified
+    # on the server-side.
+    address_verified: bool = False
 
     # e.g. (-73.9496, 40.6501)
     lnglat: Optional[Tuple[float, float]] = None
@@ -106,6 +113,8 @@ class NorentScaffolding(pydantic.BaseModel):
         return False
 
     def is_zip_code_in_la(self) -> Optional[bool]:
+        from norent.la_zipcodes import is_zip_code_in_la
+
         if not self.zip_code:
             return None
         return is_zip_code_in_la(self.zip_code)
@@ -121,3 +130,50 @@ def is_lnglat_in_nyc(lnglat: Tuple[float, float]) -> bool:
         )
         assert _nyc_bounds is not None
     return _nyc_bounds.contains(Point(*lnglat))
+
+
+class GraphQlOnboardingScaffolding(graphene.ObjectType):
+    """
+    Represents the public fields of our Onboarding scaffolding, as a GraphQL type.
+    """
+
+    first_name = graphene.String(required=True)
+
+    last_name = graphene.String(required=True)
+
+    preferred_first_name = graphene.String(required=True)
+
+    street = graphene.String(required=True)
+
+    city = graphene.String(required=True)
+
+    is_city_in_nyc = graphene.Boolean()
+
+    is_in_los_angeles = graphene.Boolean(
+        description=(
+            "Whether the onboarding user is in Los Angeles County. If "
+            "we don't have enough information to tell, this will be null."
+        )
+    )
+
+    state = graphene.String(required=True)
+
+    zip_code = graphene.String(required=True)
+
+    apt_number = graphene.String()
+
+    email = graphene.String(required=True)
+
+    has_landlord_email_address = graphene.Boolean()
+
+    has_landlord_mailing_address = graphene.Boolean()
+
+    can_receive_rttc_comms = graphene.Boolean()
+
+    can_receive_saje_comms = graphene.Boolean()
+
+    def resolve_is_city_in_nyc(self, info: ResolveInfo) -> Optional[bool]:
+        return self.is_city_in_nyc()
+
+    def resolve_is_in_los_angeles(self, info: ResolveInfo) -> Optional[bool]:
+        return self.is_zip_code_in_la()

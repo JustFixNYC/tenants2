@@ -122,9 +122,15 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
 
         return graphene.Field(cls, resolver=cls._resolve_from_session, **kwargs)
 
+    @classmethod
+    def save_form_to_session(cls, form, request: HttpRequest):
+        assert form.is_valid()
+        assert isinstance(form, cls._meta.form_class)
+        request.session[cls._meta.session_key] = form.cleaned_data
+
 
 class StoreToSessionFormOptions(DjangoFormMutationOptions):
-    session_key: str = ""
+    source: DjangoSessionFormObjectType
 
 
 class DjangoSessionFormMutation(SessionFormMutation):
@@ -148,7 +154,7 @@ class DjangoSessionFormMutation(SessionFormMutation):
             source, DjangoSessionFormObjectType
         ), f"{cls.__name__} must define Meta.source."
 
-        _meta.session_key = source._meta.session_key
+        _meta.source = source
         options["form_class"] = source._meta.form_class
 
         super().__init_subclass_with_meta__(_meta=_meta, **options)
@@ -156,5 +162,5 @@ class DjangoSessionFormMutation(SessionFormMutation):
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
-        request.session[cls._meta.session_key] = form.cleaned_data
+        cls._meta.source.save_form_to_session(form, request)
         return cls.mutation_success()

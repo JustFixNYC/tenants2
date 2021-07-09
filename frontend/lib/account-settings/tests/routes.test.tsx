@@ -34,7 +34,7 @@ describe("AccountSettingsRoutes", () => {
     const pal = makePal();
     pal.rr.findByText("Boop Jones");
     pal.rr.getByLabelText(/edit preferred first name/i).click();
-    pal.fillFormFields([["Preferred first name", "Charlotte"]]);
+    pal.fillFormFields([["Preferred first name (optional)", "Charlotte"]]);
     pal.clickButtonOrLink("Cancel");
   });
 

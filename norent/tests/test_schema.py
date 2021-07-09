@@ -13,7 +13,7 @@ import project.locales
 from project.tests.test_mapbox import mock_brl_results, mock_la_results, mock_no_results
 from project.util.testing_util import GraphQLTestingPal
 from onboarding.schema import OnboardingStep1V2Info
-from onboarding.tests.test_schema import _exec_onboarding_step_n, exec_legacy_onboarding_step_1
+from onboarding.tests.test_schema import _exec_onboarding_step_n
 from onboarding.tests.factories import OnboardingInfoFactory
 from .factories import RentPeriodFactory, LetterFactory, UpcomingLetterRentPeriodFactory
 from loc.tests.factories import LandlordDetailsFactory, LandlordDetailsV2Factory

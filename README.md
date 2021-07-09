@@ -543,12 +543,15 @@ Your file should have the following line:
 ```
 127.0.0.1       localhost.norent
 ```
-2. Add an additional Site model (in addition to the default one) with domain set to localhost.norent:8000 and name set to norent.
-You can do this by going to http://localhost:8000/admin/sites/site/ and clicking "add site".
+2. Add an additional Site model (in addition to the default one).
+You can do this by going to http://localhost:8000/admin/sites/site/ and clicking "add site". Set `domain` to localhost.norent:8000 and set `name` to norent.
 It should look like this:
-<img width="1004" alt="Screen Shot 2021-07-09 at 3 37 52 PM" src="https://user-images.githubusercontent.com/1595717/125128218-998eb880-e0b2-11eb-93d7-97c76bb87101.png">
+```
+DOMAIN NAME                   DISPLAY NAME
+localhost.norent:8000         NoRent
+```
 
-This will allow you to access NoRent `http://localhost.norent:8000/`.
+This will allow you to access NoRent at `http://localhost.norent:8000/`.
 
 In general, if you add a new Django Site model, you'll need to make sure it
 has a domain that matches whatever domain you're visiting the

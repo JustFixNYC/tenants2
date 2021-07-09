@@ -17,15 +17,19 @@ from project.schema_base import get_last_queried_phone_number, purge_last_querie
 from onboarding.schema import OnboardingStep1V2Info, complete_onboarding
 from onboarding.schema_util import mutation_requires_onboarding
 from onboarding.models import SIGNUP_INTENT_CHOICES
-from onboarding import scaffolding
+from onboarding.scaffolding import (
+    OnboardingScaffolding,
+    GraphQlOnboardingScaffolding,
+    update_scaffolding,
+    get_scaffolding,
+    purge_scaffolding,
+    is_lnglat_in_nyc,
+)
 from loc.models import LandlordDetails
 from . import forms, models, letter_sending
 
 
-SCAFFOLDING_SESSION_KEY = f"norent_scaffolding_v{scaffolding.VERSION}"
-
-
-class NorentScaffolding(scaffolding.GraphQlOnboardingScaffolding):
+class NorentScaffolding(GraphQlOnboardingScaffolding):
     """
     Represents all fields of our scaffolding model.
     """
@@ -54,7 +58,7 @@ class NorentRentPeriod(DjangoObjectType):
 
 @schema_registry.register_session_info
 class NorentSessionInfo(object):
-    norent_scaffolding = graphene.Field(NorentScaffolding)
+    norent_scaffolding = NorentScaffolding.graphql_field()
 
     norent_latest_rent_period = graphene.Field(
         NorentRentPeriod,
@@ -109,13 +113,6 @@ class NorentSessionInfo(object):
             return None
         return models.Letter.objects.filter(user=request.user).first()
 
-    def resolve_norent_scaffolding(self, info: ResolveInfo):
-        request = info.context
-        kwargs = request.session.get(SCAFFOLDING_SESSION_KEY, {})
-        if kwargs:
-            return scaffolding.OnboardingScaffolding(**kwargs)
-        return None
-
     def resolve_norent_letters_sent(self, info: ResolveInfo):
         # Note that Postgres' count() is not very efficient, as it
         # generally needs to perform a sequential scan, so we might
@@ -130,22 +127,6 @@ class NorentSessionInfo(object):
             datetime.date.fromisoformat(d)
             for d in models.UpcomingLetterRentPeriod.objects.get_for_user(user)
         ]
-
-
-def get_scaffolding(request) -> scaffolding.OnboardingScaffolding:
-    scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
-    return scaffolding.OnboardingScaffolding(**scaffolding_dict)
-
-
-def update_scaffolding(request, new_data):
-    scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
-    scaffolding_dict.update(new_data)
-    request.session[SCAFFOLDING_SESSION_KEY] = scaffolding_dict
-
-
-def purge_scaffolding(request):
-    if SCAFFOLDING_SESSION_KEY in request.session:
-        del request.session[SCAFFOLDING_SESSION_KEY]
 
 
 class NorentScaffoldingMutation(SessionFormMutation):
@@ -298,7 +279,7 @@ class NorentNationalAddress(SessionFormMutation):
                 % {"state_name": US_STATE_CHOICES.get_label(state)},
                 field="zip_code",
             )
-        if is_valid and scaffolding.is_lnglat_in_nyc(cleaned_data["lnglat"]):
+        if is_valid and is_lnglat_in_nyc(cleaned_data["lnglat"]):
             return cls.make_error(
                 _(
                     "Your address appears to be within New York City. Please "
@@ -436,7 +417,7 @@ class BaseCreateAccount(SessionFormMutation):
         return info
 
     @classmethod
-    def fill_city_info(cls, request, info: Dict[str, Any], scf: scaffolding.OnboardingScaffolding):
+    def fill_city_info(cls, request, info: Dict[str, Any], scf: OnboardingScaffolding):
         if scf.is_city_in_nyc():
             return cls.fill_nyc_info(request, info)
 

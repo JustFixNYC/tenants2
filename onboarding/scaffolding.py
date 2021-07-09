@@ -3,6 +3,7 @@ from findhelp.models import union_geometries
 from pathlib import Path
 from typing import Optional, Tuple
 from django.contrib.gis.geos import GEOSGeometry, Point
+from django.http import HttpRequest
 import pydantic
 import graphene
 from graphql import ResolveInfo
@@ -12,6 +13,7 @@ from graphql import ResolveInfo
 # backwards incompatible way.
 VERSION = "1"
 
+SCAFFOLDING_SESSION_KEY = f"norent_scaffolding_v{VERSION}"
 
 NYC_CITIES = [
     "nyc",
@@ -177,3 +179,35 @@ class GraphQlOnboardingScaffolding(graphene.ObjectType):
 
     def resolve_is_in_los_angeles(self, info: ResolveInfo) -> Optional[bool]:
         return self.is_zip_code_in_la()
+
+    @classmethod
+    def graphql_field(cls):
+        def resolver(_, info: ResolveInfo):
+            request = info.context
+            kwargs = request.session.get(SCAFFOLDING_SESSION_KEY, {})
+            if kwargs:
+                return OnboardingScaffolding(**kwargs)
+            return None
+
+        return graphene.Field(cls, resolver=resolver)
+
+
+def get_scaffolding(request: HttpRequest) -> OnboardingScaffolding:
+    scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
+    return OnboardingScaffolding(**scaffolding_dict)
+
+
+def update_scaffolding(request: HttpRequest, new_data):
+    scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
+    scaffolding_dict.update(new_data)
+
+    # This ensures that whatever changes we're making are copacetic
+    # with our Pydantic model.
+    OnboardingScaffolding(**scaffolding_dict)
+
+    request.session[SCAFFOLDING_SESSION_KEY] = scaffolding_dict
+
+
+def purge_scaffolding(request: HttpRequest):
+    if SCAFFOLDING_SESSION_KEY in request.session:
+        del request.session[SCAFFOLDING_SESSION_KEY]

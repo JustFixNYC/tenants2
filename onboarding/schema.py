@@ -64,12 +64,6 @@ class OnboardingStep1V2Info(DjangoSessionFormObjectType):
         }
 
 
-class OnboardingStep2Info(DjangoSessionFormObjectType):
-    class Meta:
-        form_class = forms.OnboardingStep2Form
-        session_key = session_key_for_step(2)
-
-
 class OnboardingStep3Info(DjangoSessionFormObjectType):
     class Meta:
         form_class = forms.OnboardingStep3Form
@@ -405,9 +399,6 @@ class OnboardingSessionInfo(object):
     """
 
     onboarding_step_1 = OnboardingStep1V2Info.field()
-    onboarding_step_2 = OnboardingStep2Info.field(
-        deprecation_reason="See https://github.com/JustFixNYC/tenants2/issues/1144"
-    )
     onboarding_step_3 = OnboardingStep3Info.field()
     onboarding_info = graphene.Field(
         OnboardingInfoType,

@@ -121,14 +121,6 @@ class LeaseTypeForm(forms.ModelForm):
         self.fields["lease_type"].required = True
 
 
-class OnboardingStep2Form(forms.Form):
-    is_in_eviction = get_boolean_field("is_in_eviction")
-    needs_repairs = get_boolean_field("needs_repairs")
-    has_no_services = get_boolean_field("has_no_services")
-    has_pests = get_boolean_field("has_pests")
-    has_called_311 = get_boolean_field("has_called_311")
-
-
 class OnboardingStep3Form(forms.ModelForm):
     class Meta:
         model = OnboardingInfo

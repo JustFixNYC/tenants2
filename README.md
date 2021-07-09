@@ -537,6 +537,8 @@ To view this alternate website, you'll need to either add a new
 a name that includes the text "NoRent" somewhere in it (the match is
 case-insensitive, so it can be "norent" or "NORENT", etc).
 
+This will allow you to access NoRent at a URL like `http://localhost.norent:8000/`.
+
 If you added a new Django Site model, you'll need to make sure it
 has a domain that matches whatever domain you're visiting the
 site at, or else the code won't be able to map your request to

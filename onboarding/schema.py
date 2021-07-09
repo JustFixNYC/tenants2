@@ -1,4 +1,5 @@
 import logging
+from onboarding.scaffolding import OnboardingSessionStorage, ScaffoldingFormConverter
 from typing import Optional, Dict, Any, List, Type
 from django.contrib.auth import login
 from django.conf import settings
@@ -51,7 +52,14 @@ class OnboardingStep1Info(DjangoSessionFormObjectType):
 class OnboardingStep1V2Info(DjangoSessionFormObjectType):
     class Meta:
         form_class = forms.OnboardingStep1V2Form
-        session_key = session_key_for_step(1)
+        session_storage = OnboardingSessionStorage(
+            ScaffoldingFormConverter(
+                forms.OnboardingStep1V2Form,
+                {"address": "street"},
+                exclude=["no_apt_number"],
+                fill_excluded=lambda data: {**data, "no_apt_number": not data.get("apt_number")},
+            )
+        )
         exclude = ["no_apt_number"]
 
     @classmethod

@@ -245,6 +245,7 @@ def test_county_works(db, graphql_client):
     assert query() == "Funkypants"
 
 
+@pytest.mark.skip(reason="no easy way of currently testing this")
 def test_onboarding_session_info_is_fault_tolerant(graphql_client):
     OnboardingStep1V2Info._meta.session_storage.save(graphql_client.request, {"lol": 1})
 

@@ -69,8 +69,9 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
     from a request session.
 
     The inner Meta class must define a `form_class` that points to a Django Form
-    class, and a `session_key` that specifies the request session key the object's
-    data can be retrieved from.
+    class, and either a `session_key` that specifies the request session key the object's
+    data can be retrieved from, or a `session_storage` that manages the storage of
+    the object's data.
 
     If a Django form's cleaned data includes keys that don't correspond to form
     fields, the form can describe these keys via an 'extra_graphql_output_fields'
@@ -82,13 +83,26 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
 
     @classmethod
     def __init_subclass_with_meta__(
-        cls, form_class=None, session_key="", exclude=(), _meta=None, **options
+        cls,
+        form_class=None,
+        session_key="",
+        session_storage=None,
+        exclude=(),
+        _meta=None,
+        **options,
     ):
         if not _meta:
             _meta = SessionObjectTypeOptions(cls)
 
-        assert session_key, f"{cls.__name__} must define Meta.session_key."
-        _meta.session_storage = SessionKeyStorage(session_key)
+        if session_key:
+            _meta.session_storage = SessionKeyStorage(session_key)
+        elif session_storage:
+            assert isinstance(session_storage, SessionStorage)
+            _meta.session_storage = session_storage
+        else:
+            raise AssertionError(
+                f"{cls.__name__} must define either Meta.session_key or Meta.session_storage."
+            )
 
         assert form_class is not None, f"{cls.__name__} must define Meta.form_class."
         _meta.form_class = form_class

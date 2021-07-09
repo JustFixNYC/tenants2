@@ -1,6 +1,7 @@
 import pytest
+from django import forms
 
-from onboarding.scaffolding import OnboardingScaffolding
+from onboarding.scaffolding import OnboardingScaffolding, ScaffoldingFormConverter
 
 
 @pytest.mark.parametrize(
@@ -27,3 +28,38 @@ from onboarding.scaffolding import OnboardingScaffolding
 )
 def test_is_city_in_nyc_works(scaffolding, expected):
     assert scaffolding.is_city_in_nyc() is expected
+
+
+class TestScaffoldingFormConverter:
+    def test_it_raises_error_on_unknown_scaffolding_keys(self):
+        class MyForm(forms.Form):
+            blarg = forms.BooleanField()
+
+        with pytest.raises(ValueError, match="Unknown scaffolding keys: blarg"):
+            ScaffoldingFormConverter(MyForm)
+
+    def test_update_scaffolding_from_form_works(self):
+        class MyForm(forms.Form):
+            first_name = forms.CharField()
+            surname = forms.CharField()
+
+        conv = ScaffoldingFormConverter(MyForm, {"surname": "last_name"})
+
+        scf = OnboardingScaffolding()
+        conv.update_scaffolding_from_form(
+            scf, MyForm(data={"first_name": "boop", "surname": "jones"})
+        )
+        assert scf.first_name == "boop"
+        assert scf.last_name == "jones"
+
+    def test_to_form_works(self):
+        class MyForm(forms.Form):
+            first_name = forms.CharField()
+            surname = forms.CharField()
+
+        conv = ScaffoldingFormConverter(MyForm, {"surname": "last_name"})
+
+        scf = OnboardingScaffolding(first_name="boop", last_name="jones")
+        form = conv.to_form(scf)
+        assert form.is_valid()
+        assert form.cleaned_data == {"first_name": "boop", "surname": "jones"}

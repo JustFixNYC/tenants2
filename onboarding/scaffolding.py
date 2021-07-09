@@ -1,7 +1,7 @@
 import json
 from findhelp.models import union_geometries
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Dict, Optional, Tuple
 from django.contrib.gis.geos import GEOSGeometry, Point
 from django.http import HttpRequest
 import pydantic
@@ -211,3 +211,34 @@ def update_scaffolding(request: HttpRequest, new_data):
 def purge_scaffolding(request: HttpRequest):
     if SCAFFOLDING_SESSION_KEY in request.session:
         del request.session[SCAFFOLDING_SESSION_KEY]
+
+
+class ScaffoldingFormConverter:
+    def __init__(self, form_class, form_to_scaffolding_mapping: Dict[str, str] = {}):
+        self.form_class = form_class
+        self.form_field_names = list(name for name in form_class().fields.keys())
+        self.to_scaffolding_mapping = {
+            form_field: form_to_scaffolding_mapping.get(form_field, form_field)
+            for form_field in self.form_field_names
+        }
+        self.to_form_mapping = {value: key for key, value in self.to_scaffolding_mapping.items()}
+        scf = OnboardingScaffolding()
+        invalid_scf_keys = [
+            scf_key for scf_key in self.to_form_mapping.keys() if not hasattr(scf, scf_key)
+        ]
+        if invalid_scf_keys:
+            raise ValueError(f'Unknown scaffolding keys: {", ".join(invalid_scf_keys)}')
+
+    def to_form(self, scf: OnboardingScaffolding):
+        form = self.form_class()
+        form_data = {
+            form_field: getattr(scf, self.to_scaffolding_mapping[form_field])
+            for form_field in form.fields.keys()
+        }
+        return self.form_class(data=form_data)
+
+    def update_scaffolding_from_form(self, scf: OnboardingScaffolding, form):
+        assert isinstance(form, self.form_class)
+        assert form.is_valid()
+        for form_field in self.form_field_names:
+            setattr(scf, self.to_scaffolding_mapping[form_field], form.cleaned_data[form_field])

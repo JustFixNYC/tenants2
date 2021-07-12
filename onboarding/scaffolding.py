@@ -33,7 +33,7 @@ NYC_CITIES = [
     "the bronx",
 ]
 
-BBOUNDS_PATH = Path("findhelp") / "data" / "Borough-Boundaries.geojson"
+BOROUGH_BOUNDS_PATH = Path("findhelp") / "data" / "Borough-Boundaries.geojson"
 
 _nyc_bounds: Optional[GEOSGeometry] = None
 
@@ -116,7 +116,10 @@ def is_lnglat_in_nyc(lnglat: Tuple[float, float]) -> bool:
     global _nyc_bounds
 
     if _nyc_bounds is None:
-        bbounds = json.loads(BBOUNDS_PATH.read_text())
+        # TODO: Now that findhelp is always enabled and we have access to PostGIS in
+        # production, we should just delegate this to the database to figure out. It
+        # will also save memory in our server process.
+        bbounds = json.loads(BOROUGH_BOUNDS_PATH.read_text())
         _nyc_bounds = union_geometries(
             GEOSGeometry(json.dumps(feature["geometry"])) for feature in bbounds["features"]
         )

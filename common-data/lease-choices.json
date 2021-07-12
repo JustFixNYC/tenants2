@@ -4,9 +4,5 @@
   ["MARKET_RATE", "Market Rate"],
   ["NYCHA", "NYCHA/Public Housing"],
   ["NOT_SURE", "I'm not sure"],
-  [
-    "OTHER",
-    "Other (Mitchell Lama, COOP/Condo, House, HUD, etc.) DELETE THIS AND DEFAULT PPL TO NOT_SURE."
-  ],
-  ["NO_LEASE", "I don't have a lease. Deprecated."]
+  ["NO_LEASE", "I don't have a lease. This option is deprecated."]
 ]

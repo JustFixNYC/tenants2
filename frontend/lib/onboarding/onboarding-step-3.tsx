@@ -23,6 +23,10 @@ import {
   LeaseChoice,
 } from "../../../common-data/lease-choices";
 import { FormContext } from "../forms/form-context";
+import {
+  HOUSING_TYPE_FIELD_LABEL,
+  PUBLIC_ASSISTANCE_QUESTION_TEXT,
+} from "../util/housing-type";
 
 type LeaseInfoModalProps = {
   children: any;
@@ -81,7 +85,7 @@ type LeaseModalInfo = {
   component: () => JSX.Element;
 };
 
-const GENERIC_NO_LEASE_WARNING = (
+const GENERIC_NO_PROTECTION_WARNING = (
   <p>
     <strong className="has-text-danger">Warning:</strong> If you do not have a
     lease, taking action against your landlord could provoke retaliation and/or
@@ -133,16 +137,16 @@ export const createLeaseModals = (
     leaseType: "OTHER_AFFORDABLE",
     component: () => (
       <LeaseInfoModal
-        title="Affordable (other than rent stabilized)"
+        title="Affordable housing (other than rent stabilized)"
         isWarning
         toNextStep={routes.step4}
       >
-        {?} // TODO
-      </LeaseInfoModal>
+        {GENERIC_NO_PROTECTION_WARNING}
+      </LeaseInfoModal> // TODO
     ),
   },
   {
-    route: routes.step3OtherAffordableModal,
+    route: routes.step3NYCHAModal,
     leaseType: "NYCHA",
     component: () => (
       <LeaseInfoModal
@@ -150,21 +154,17 @@ export const createLeaseModals = (
         isWarning
         toNextStep={routes.step4}
       >
-        {?} // TODO
-      </LeaseInfoModal>
+        {GENERIC_NO_PROTECTION_WARNING}
+      </LeaseInfoModal> // TODO
     ),
   },
   {
-    route: routes.step3OtherAffordableModal,
+    route: routes.step3NotSureModal,
     leaseType: "NOT_SURE",
     component: () => (
-      <LeaseInfoModal
-        title="Not sure"
-        isWarning
-        toNextStep={routes.step4}
-      >
-        {?} // TODO
-      </LeaseInfoModal>
+      <LeaseInfoModal title="Not sure" isWarning toNextStep={routes.step4}>
+        {GENERIC_NO_PROTECTION_WARNING}
+      </LeaseInfoModal> // TODO
     ),
   },
 ];
@@ -274,11 +274,12 @@ export default class OnboardingStep3 extends React.Component<
         <RadiosFormField
           {...ctx.fieldPropsFor("leaseType")}
           choices={this.leaseChoicesWithInfo}
-          label="Housing type"
+          label={HOUSING_TYPE_FIELD_LABEL}
         />
         <YesNoRadiosFormField
           {...ctx.fieldPropsFor("receivesPublicAssistance")}
-          label="Do you receive a housing voucher or program (Section 8 [Housing Choice Program], FHEPS, CITYFHEPS, HASA, etc.)?"        />
+          label={PUBLIC_ASSISTANCE_QUESTION_TEXT}
+        />
         <ProgressButtons
           back={this.props.routes.step1}
           isLoading={ctx.isLoading}

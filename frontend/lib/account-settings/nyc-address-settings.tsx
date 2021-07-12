@@ -28,6 +28,10 @@ import {
 import { EditableInfo, SaveCancelButtons } from "../ui/editable-info";
 import { assertNotNull } from "@justfixnyc/util";
 import { makeAccountSettingsSection, WithAccountSettingsProps } from "./util";
+import {
+  HOUSING_TYPE_FIELD_LABEL,
+  PUBLIC_ASSISTANCE_QUESTION_TEXT,
+} from "../util/housing-type";
 
 const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
   routes,
@@ -44,7 +48,10 @@ const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
   return (
     <>
       {sec.heading}
-      <p>For example, section 8, FEPS, Link, HASA, etc.</p>
+      <p>
+        For example, Section 8 [Housing Choice Program], FHEPS, CITYFHEPS, HASA,
+        etc.
+      </p>
       <EditableInfo
         {...sec}
         readonlyContent={valueLabel}
@@ -63,7 +70,7 @@ const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
                 {...ctx.fieldPropsFor("receivesPublicAssistance")}
                 autoFocus
                 hideVisibleLabel
-                label="Do you receive a housing voucher or program (Section 8 [Housing Choice Program], FHEPS, CITYFHEPS, HASA, etc.)?"
+                label={PUBLIC_ASSISTANCE_QUESTION_TEXT}
               />
               <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>
@@ -75,12 +82,24 @@ const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
 };
 
 const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
-  const sec = makeAccountSettingsSection(routes, "Housing type", "lease");
+  const sec = makeAccountSettingsSection(
+    routes,
+    HOUSING_TYPE_FIELD_LABEL,
+    "lease"
+    // Route will stay "lease" even though all other user-facing strings have been changed to
+    // "housing type" to preserve backwards compatibility.
+  );
   const { session } = useContext(AppContext);
   const leaseType = session.onboardingInfo?.leaseType || "";
   let leaseTypeLabel = "";
   if (isLeaseChoice(leaseType)) {
     leaseTypeLabel = getLeaseChoiceLabels()[leaseType];
+    // The following line is here to handle a legacy data value that used to be a valid
+    // lease type
+    // eslint-disable-next-line
+    // @ts-ignore
+  } else if (leaseType == "NO_LEASE") {
+    leaseTypeLabel = "No lease";
   }
 
   return (
@@ -102,7 +121,7 @@ const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
                 {...ctx.fieldPropsFor("leaseType")}
                 autoFocus
                 choices={toDjangoChoices(LeaseChoices, getLeaseChoiceLabels())}
-                label="Housing type"
+                label={HOUSING_TYPE_FIELD_LABEL}
               />
               <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>

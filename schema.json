@@ -2693,16 +2693,6 @@
             {
               "args": [],
               "deprecationReason": null,
-            }
-          ]
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
               "description": "The type of housing the user lives in (NYC only).",
               "isDeprecated": false,
               "name": "leaseType",

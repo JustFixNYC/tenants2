@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-06-08 15:32\n"
+"PO-Revision-Date: 2021-07-08 17:49\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1166,11 +1166,11 @@ msgstr "Protecciones jurídicas"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:42
 msgid "Legal first name"
-msgstr ""
+msgstr "Primer nombre legal"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:43
 msgid "Legal last name"
-msgstr ""
+msgstr "Apellido legal"
 
 #: frontend/lib/norent/homepage.tsx:125
 msgid "Legally vetted"
@@ -1601,7 +1601,7 @@ msgstr "Por favor, lee atentamente el resto del correo electrónico ya que conti
 
 #: frontend/lib/account-settings/about-you-settings.tsx:23
 msgid "Preferred first name"
-msgstr ""
+msgstr "Nombre de preferencia"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:102
 #: frontend/lib/norent/the-letter.tsx:92
@@ -2157,7 +2157,7 @@ msgstr "Visita <0/> para obtener información sobre cómo conectar con un abogad
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:226
 msgid "Visit Who Owns What"
-msgstr "Visita Quién Posee Qué"
+msgstr "Visita Quién Es El Dueño"
 
 #: frontend/lib/rh/routes.tsx:51
 msgid "Want to know if your apartment's rent stabilized? Request your <0>Rent History</0> from the NY State DHCR*!"

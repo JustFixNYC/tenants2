@@ -391,6 +391,10 @@ class TestNycAddress(GraphQLTestingPal):
                 address,
                 borough,
                 aptNumber
+            }, norentScaffolding {
+                street,
+                borough,
+                aptNumber
             } }
         }
     }
@@ -403,33 +407,44 @@ class TestNycAddress(GraphQLTestingPal):
         "noAptNumber": False,
     }
 
-    _expected_default_output = {
+    _expected_logged_in_output = {
         "errors": [],
         "session": {
             "onboardingInfo": {
                 "address": "654 park place",
                 "borough": "BROOKLYN",
                 "aptNumber": "2",
-            }
+            },
+            "norentScaffolding": None,
         },
     }
 
-    def test_it_raises_err_when_not_logged_in(self):
-        self.assert_one_field_err("You do not have permission to use this form!")
+    def test_it_updates_scaffolding_when_not_logged_in(self):
+        assert self.execute() == {
+            "errors": [],
+            "session": {
+                "onboardingInfo": None,
+                "norentScaffolding": {
+                    "street": "654 park place",
+                    "borough": "BROOKLYN",
+                    "aptNumber": "2",
+                },
+            },
+        }
 
     def test_it_works_when_geocoding_fails(self):
         oi = OnboardingInfoFactory(
             address="123 boop street", borough="QUEENS", apt_number="", address_verified=True
         )
         self.set_user(oi.user)
-        assert self.execute() == self._expected_default_output
+        assert self.execute() == self._expected_logged_in_output
         assert oi.address == "654 park place"
         assert oi.address_verified is False
 
     def test_it_works_when_switching_from_non_nyc_address(self):
         oi = NationalOnboardingInfoFactory()
         self.set_user(oi.user)
-        assert self.execute() == self._expected_default_output
+        assert self.execute() == self._expected_logged_in_output
         assert oi.non_nyc_city == ""
         assert oi.state == "NY"
 

@@ -1,4 +1,5 @@
 import logging
+from project.util.rename_dict_keys import with_keys_renamed
 from typing import Optional, Dict, Any, List, Type
 from django.contrib.auth import login
 from django.conf import settings
@@ -23,6 +24,7 @@ from partnerships import referral
 from project.util.model_form_util import OneToOneUserModelFormMutation
 from users.email_verify import send_verification_email_async
 from onboarding import forms
+from onboarding.scaffolding import update_scaffolding
 from onboarding.schema_util import mutation_requires_onboarding
 from onboarding.models import OnboardingInfo, BOROUGH_CHOICES, LEASE_CHOICES, SIGNUP_INTENT_CHOICES
 
@@ -62,12 +64,6 @@ class OnboardingStep1V2Info(DjangoSessionFormObjectType):
             "preferred_first_name": "",
             **value,
         }
-
-
-class OnboardingStep2Info(DjangoSessionFormObjectType):
-    class Meta:
-        form_class = forms.OnboardingStep2Form
-        session_key = session_key_for_step(2)
 
 
 class OnboardingStep3Info(DjangoSessionFormObjectType):
@@ -256,11 +252,11 @@ class NycAddress(SessionFormMutation):
     class Meta:
         form_class = forms.NycAddressForm
 
-    login_required = True
+    login_required = False
 
     @classmethod
     @mutation_requires_onboarding
-    def perform_mutate(cls, form, info: ResolveInfo):
+    def perform_mutate_for_logged_in_user(cls, form, info: ResolveInfo):
         oi = info.context.user.onboarding_info
         oi.non_nyc_city = ""
         oi.state = US_STATE_CHOICES.NY
@@ -270,6 +266,15 @@ class NycAddress(SessionFormMutation):
         oi.address_verified = form.cleaned_data["address_verified"]
         oi.full_clean()
         oi.save()
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        if info.context.user.is_authenticated:
+            cls.perform_mutate_for_logged_in_user(form, info)
+        else:
+            update_scaffolding(
+                info.context, with_keys_renamed(form.cleaned_data, {"address": "street"})
+            )
 
         return cls.mutation_success()
 
@@ -388,9 +393,6 @@ class OnboardingSessionInfo(object):
     """
 
     onboarding_step_1 = OnboardingStep1V2Info.field()
-    onboarding_step_2 = OnboardingStep2Info.field(
-        deprecation_reason="See https://github.com/JustFixNYC/tenants2/issues/1144"
-    )
     onboarding_step_3 = OnboardingStep3Info.field()
     onboarding_info = graphene.Field(
         OnboardingInfoType,

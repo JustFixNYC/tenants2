@@ -1,4 +1,5 @@
 import logging
+from project.util.rename_dict_keys import with_keys_renamed
 from typing import Optional, Dict, Any, List, Type
 from django.contrib.auth import login
 from django.conf import settings
@@ -273,13 +274,7 @@ class NycAddress(SessionFormMutation):
             from norent.schema import update_scaffolding
 
             update_scaffolding(
-                info.context,
-                {
-                    "street": form.cleaned_data["address"],
-                    "borough": form.cleaned_data["borough"],
-                    "apt_number": form.cleaned_data["apt_number"],
-                    "address_verified": form.cleaned_data["address_verified"],
-                },
+                info.context, with_keys_renamed(form.cleaned_data, {"address": "street"})
             )
 
         return cls.mutation_success()

@@ -3281,6 +3281,12 @@
               "description": null,
               "isDeprecated": false,
               "name": "NOT_SURE"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "NO_LEASE"
             }
           ],
           "fields": null,

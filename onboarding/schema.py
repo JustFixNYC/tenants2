@@ -24,6 +24,7 @@ from partnerships import referral
 from project.util.model_form_util import OneToOneUserModelFormMutation
 from users.email_verify import send_verification_email_async
 from onboarding import forms
+from onboarding.scaffolding import update_scaffolding
 from onboarding.schema_util import mutation_requires_onboarding
 from onboarding.models import OnboardingInfo, BOROUGH_CHOICES, LEASE_CHOICES, SIGNUP_INTENT_CHOICES
 
@@ -271,8 +272,6 @@ class NycAddress(SessionFormMutation):
         if info.context.user.is_authenticated:
             cls.perform_mutate_for_logged_in_user(form, info)
         else:
-            from norent.schema import update_scaffolding
-
             update_scaffolding(
                 info.context, with_keys_renamed(form.cleaned_data, {"address": "street"})
             )

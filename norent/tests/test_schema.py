@@ -17,7 +17,7 @@ from onboarding.tests.test_schema import _exec_onboarding_step_n, exec_legacy_on
 from onboarding.tests.factories import OnboardingInfoFactory
 from .factories import RentPeriodFactory, LetterFactory, UpcomingLetterRentPeriodFactory
 from loc.tests.factories import LandlordDetailsFactory, LandlordDetailsV2Factory
-from norent.schema import update_scaffolding, SCAFFOLDING_SESSION_KEY
+from onboarding.scaffolding import update_scaffolding, SCAFFOLDING_SESSION_KEY
 from norent.models import Letter, UpcomingLetterRentPeriod
 
 

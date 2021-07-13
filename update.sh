@@ -11,6 +11,7 @@ pipenv install --dev --keep-outdated
 pip install -r requirements.production.txt
 
 echo "----- Updating Node Dependencies -----"
+# Change --frozen-lockfile to --immutable for Yarn2 https://yarnpkg.com/cli/install/#details
 yarn install --frozen-lockfile
 
 echo "----- Rebuilding GraphQL queries -----"

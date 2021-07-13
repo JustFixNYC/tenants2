@@ -42,6 +42,7 @@ RUN useradd -m myuser
 RUN chown myuser /tenants2
 USER myuser
 
+# Change --frozen-lockfile to --immutable for Yarn2 https://yarnpkg.com/cli/install/#details
 RUN yarn install --frozen-lockfile \
   && yarn cache clean
 

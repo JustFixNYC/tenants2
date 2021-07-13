@@ -66,6 +66,7 @@ jobs:
              # For more details, see: https://stackoverflow.com/a/52767310
              yarn config set unsafe-perm true
 
+             # Change --frozen-lockfile to --immutable for Yarn2 https://yarnpkg.com/cli/install/#details
              yarn install --frozen-lockfile
       - save_cache:
           name: Save Yarn cache

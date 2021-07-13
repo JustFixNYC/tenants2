@@ -7,10 +7,14 @@ import { CSSTransition } from "react-transition-group";
 import JustfixRoutes from "../justfix-route-info";
 import { useDebouncedValue } from "../util/use-debounced-value";
 import { SupportedLocaleMap } from "../i18n";
-import { CovidMoratoriumBanner } from "@justfixnyc/react-common";
-import { li18n } from "../i18n-lingui";
 import { Trans } from "@lingui/macro";
 import { EnglishOutboundLink } from "./localized-outbound-link";
+import {
+  documentToReactComponents,
+  RenderNode,
+} from "@contentful/rich-text-react-renderer";
+import { useContentfulCommonString } from "../contentful";
+import { INLINES } from "@contentful/rich-text-types";
 
 export const MORATORIUM_FAQ_URL: SupportedLocaleMap<string> = {
   en:
@@ -27,12 +31,20 @@ const getRoutesWithMoratoriumBanner = () => [
   JustfixRoutes.locale.home,
 ];
 
+const RENDER_NODE: RenderNode = {
+  [INLINES.HYPERLINK]: (node, children) => (
+    <a rel="noreferrer noopener" target="_blank" href={node.data.uri}>
+      {children}
+    </a>
+  ),
+};
+
 /**
  * This banner is intended to show right below the navbar on certain pages and is a general
  * overview of how JustFix.nyc is adapting to the COVID-19 crisis and Eviction Moratorium.
  */
 
-const MoratoriumBanner = (props: { pathname?: string }) => {
+const MoratoriumBanner: React.FC<{ pathname?: string }> = (props) => {
   // This has to be debounced or it weirdly collides with our loading overlay
   // that appears when pages need to load JS bundles and such, so we'll add a
   // short debounce, which seems to obviate this issue.
@@ -40,41 +52,42 @@ const MoratoriumBanner = (props: { pathname?: string }) => {
     props.pathname && getRoutesWithMoratoriumBanner().includes(props.pathname),
     10
   );
-
   const [isVisible, setVisibility] = useState(true);
-
   const show = !!includeBanner && isVisible;
+  const document = useContentfulCommonString("covidMoratoriumBanner");
 
   return (
-    <CSSTransition
-      in={show}
-      unmountOnExit
-      classNames="jf-slide-500px-200ms"
-      timeout={200}
-    >
-      <section
-        className={classnames(
-          "jf-moratorium-banner",
-          "hero",
-          "is-warning",
-          "is-small"
-        )}
+    document && (
+      <CSSTransition
+        in={show}
+        unmountOnExit
+        classNames="jf-slide-500px-200ms"
+        timeout={200}
       >
-        <div className="hero-body">
-          <div className="container">
-            <SimpleProgressiveEnhancement>
-              <button
-                className="delete is-medium is-pulled-right"
-                onClick={() => setVisibility(false)}
-              />
-            </SimpleProgressiveEnhancement>
-            <p>
-              <CovidMoratoriumBanner locale={li18n.language} />
-            </p>
+        <section
+          className={classnames(
+            "jf-moratorium-banner",
+            "hero",
+            "is-warning",
+            "is-small"
+          )}
+        >
+          <div className="hero-body">
+            <div className="container">
+              <SimpleProgressiveEnhancement>
+                <button
+                  className="delete is-medium is-pulled-right"
+                  onClick={() => setVisibility(false)}
+                />
+              </SimpleProgressiveEnhancement>
+              {documentToReactComponents(document, {
+                renderNode: RENDER_NODE,
+              })}
+            </div>
           </div>
-        </div>
-      </section>
-    </CSSTransition>
+        </section>
+      </CSSTransition>
+    )
   );
 };
 

@@ -31,9 +31,9 @@ debug-data/
 *.log
 docker-compose.override.yml
 .yarn/*
-!.yarn/cache
 !.yarn/patches
 !.yarn/plugin
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+.pnp.*

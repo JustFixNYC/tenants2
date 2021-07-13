@@ -61,14 +61,21 @@ const NavbarContext = React.createContext<NavbarContext>({
 
 /**
  * Attempts to return the user's initials. If the user
- * doesn't have a first or last name, however, it
+ * doesn't have a preferred first or last name, however, it
  * returns null.
  */
 export function getUserInitials({
+  preferredFirstName,
   firstName,
   lastName,
-}: Pick<AllSessionInfo, "firstName" | "lastName">): string | null {
-  if (firstName && lastName) {
+}: Pick<AllSessionInfo, "preferredFirstName" | "firstName" | "lastName">):
+  | string
+  | null {
+  if (preferredFirstName && lastName) {
+    return [preferredFirstName, lastName]
+      .map((value) => value[0].toUpperCase())
+      .join("");
+  } else if (firstName && lastName) {
     return [firstName, lastName]
       .map((value) => value[0].toUpperCase())
       .join("");
@@ -255,8 +262,8 @@ const DevMenu: React.FC<{}> = () => {
       <a className="navbar-item" href="/graphiql">
         GraphiQL
       </a>
-      <a className="navbar-item" href="/loc/example.pdf">
-        Example PDF
+      <a className="navbar-item" href={siteRoutes.dev.styleGuide}>
+        Style guide
       </a>
       <a className="navbar-item" href="https://github.com/JustFixNYC/tenants2">
         GitHub

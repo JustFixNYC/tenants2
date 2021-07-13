@@ -77,6 +77,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   facebookAppId: "",
   nycGeoSearchOrigin: "https://myfunky.geosearch.nyc",
   contentfulCommonStrings: null,
+  extraDevLinks: [],
 };
 
 export const FakeSessionInfo: Readonly<AllSessionInfo> = BlankAllSessionInfo;

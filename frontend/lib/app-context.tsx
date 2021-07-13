@@ -180,6 +180,12 @@ export interface AppServerInfo {
    * that have been passed to us from the back-end.
    */
   contentfulCommonStrings: ContentfulCommonStringsMapping | null;
+
+  /**
+   * Additional links to other development-related links such as
+   * documentation, tooling, etc.
+   */
+  extraDevLinks: { name: string; url: string }[];
 }
 
 /**

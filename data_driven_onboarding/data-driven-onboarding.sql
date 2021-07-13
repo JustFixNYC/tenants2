@@ -208,11 +208,6 @@ select
     -- will not return null, will return 0
     coalesce(R.unitsstab2007,0) as stabilized_unit_count_2007,
 
-    -- number of stabilized units at entered bbl in 2017
-    -- drawn from rentstab_summary
-    -- will not return null, will return 0
-    coalesce(R.unitsstab2017,0) as stabilized_unit_count_2017,
-
     -- number of stabilized units at entered bbl in 2019
     -- drawn from rentstab_v2
     -- will not return null, will return 0

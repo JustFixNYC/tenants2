@@ -18,6 +18,8 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     last_name = "Jones"
 
+    preferred_first_name = "Bip"
+
     @classmethod
     def _convert_full_legal_name(cls, kwargs):
         if "full_legal_name" in kwargs:

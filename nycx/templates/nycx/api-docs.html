@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>NYCx API documentation</title>
+<style>
+html {
+  font-family: sans-serif;
+}
+
+body {
+  max-width: 40em;
+  margin: 0 auto;
+}
+
+label {
+  font-family: monospace;
+}
+
+ul.enum {
+  display: inline;
+  padding: 0;
+}
+
+ul.enum li {
+  display: inline;
+  font-family: monospace;
+}
+
+ul.enum li:not(:last-child)::after {
+  content: ',';
+  font-family: sans-serif;
+}
+</style>
+<h1>NYCx API documentation</h1>
+<p>
+  All of the following endpoints are intended for use by remote servers, such
+  as those powered by <a href="https://textit.com/" target="_blank" rel="noopener noreferrer">TextIt</a>.
+</p>
+<h2>{% url 'nycx:address' %}</h2>
+<p>
+  Sending a GET to this URL will return information about a NYC street address.
+</p>
+<p>
+  The GET requires the following querystring arguments:
+</p>
+<ul>
+  <li><code>text</code> is the NYC street address to obtain information on, e.g. <code>654 park place, brooklyn</code>. It should not contain an apartment number.</li>
+</ul>
+<p>
+  If an error occurs, the JSON response will contain one of the following <code>errorCode</code> properties:
+</p>
+<ul>
+  <li><code>NOT_IMPLEMENTED</code> means that the server isn't configured to support this endpoint.</li>
+  <li><code>INVALID_TEXT</code> means that the <code>text</code> querystring argument wasn't provided.</li>
+  <li><code>GEOCODING_UNAVAILABLE</code> means that an error occurred when attempting to geocode the address.</li>
+</ul>
+<p>
+  If successful, a HTTP 200 will be returned, and the JSON response will contain a
+  <code>result</code> property. It will be <code>null</code> if no information could
+  be found about the given address (i.e., the address is probably invalid).
+  Otherwise, it will be an object with the following keys:
+</p>
+<ul>
+  <li><code>predicted_housing_type</code> will be either <code>null</code>
+    (if we couldn't predict the address' housing type) or one of the following strings:
+    <code>NYCHA</code>, <code>RENT_STABILIZED</code>, <code>MARKET_RATE</code>.
+  </li>
+  <li><code>postalcode</code> is the ZIP code, e.g. "11201". Note that in some rare cases it can be <code>null</code>.</li>
+  <li><code>name</code> is the street number and name, e.g. "666 FIFTH AVENUE".</li>
+  <li><code>street</code> is the street name, e.g. "FIFTH AVENUE".</li>
+  <li><code>borough</code> is the borough, e.g. "Manhattan".</li>
+  <li><code>label</code> is the full address, e.g. "666 FIFTH AVENUE, Manhattan, New York, NY, USA".</li>
+  <li><code>pad_bbl</code> is the borough, block, lot number of the address, e.g. "3002920026".</li>
+</ul>
+<h3>API sandbox for {% url 'nycx:address' %}</h3>
+<p>
+  The form below can be used to experiment with the API.
+</p>
+<form action="{% url 'nycx:address' %}" method="GET">
+  <p>
+    <label for="text">text</label>
+    <input id="text" type="text" name="text">
+  </p>
+  <button type="submit">Submit</button>
+</form>

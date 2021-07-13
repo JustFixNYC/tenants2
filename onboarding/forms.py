@@ -16,11 +16,14 @@ from .models import OnboardingInfo, APT_NUMBER_KWARGS
 
 
 # Whenever we change the fields in any of the onboarding
-# forms, we should change this number to ensure that we
+# forms, we should increment this number to ensure that we
 # never use an old session's onboarding data with the
 # new validation logic. The downside is that the old
 # session's onboarding data will disappear, but hopefully
 # we won't have to do this often.
+# As an alternative to incrementing this, consider migrating
+# old data schemas instead using migrate_dict in
+# onboarding/schema.py.
 FIELD_SCHEMA_VERSION = 4
 
 
@@ -83,6 +86,17 @@ class OnboardingStep1Form(AptNumberWithConfirmationForm, AddressAndBoroughFormMi
     last_name = forms.CharField(max_length=150)
 
 
+class OnboardingStep1V2Form(OnboardingStep1Form):
+    preferred_first_name = forms.CharField(
+        max_length=150,
+        required=False,
+        help_text=(
+            "The first name Justfix will call the user by. Optional. May be different from "
+            "their legal first name."
+        ),
+    )
+
+
 def get_boolean_field(name: str):
     """
     Django's ModelForm represents boolean fields w/ nulls as a
@@ -105,14 +119,6 @@ class LeaseTypeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["lease_type"].required = True
-
-
-class OnboardingStep2Form(forms.Form):
-    is_in_eviction = get_boolean_field("is_in_eviction")
-    needs_repairs = get_boolean_field("needs_repairs")
-    has_no_services = get_boolean_field("has_no_services")
-    has_pests = get_boolean_field("has_pests")
-    has_called_311 = get_boolean_field("has_called_311")
 
 
 class OnboardingStep3Form(forms.ModelForm):

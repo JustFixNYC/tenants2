@@ -58,6 +58,12 @@ class BaseSessionInfo:
         description=("The last name of the currently logged-in user, or " "null if not logged-in.")
     )
 
+    preferred_first_name = graphene.String(
+        description=(
+            "The preferred first name of the currently logged-in user, or " "null if not logged-in."
+        )
+    )
+
     phone_number = graphene.String(
         description=(
             "The phone number of the currently logged-in user, or " "null if not logged-in."
@@ -105,21 +111,6 @@ class BaseSessionInfo:
         required=True,
     )
 
-    prefers_legacy_app = graphene.Boolean(
-        description=(
-            "Whether we should redirect this user to the legacy "
-            "tenant app after they log in. If null, the user is either not "
-            "a legacy user, or legacy app integration is disabled."
-        ),
-        deprecation_reason=(
-            "Legacy app integration is no longer relevant since the "
-            "legacy app was decommissioned on August 3, 2020."
-        ),
-    )
-
-    def resolve_prefers_legacy_app(self, info: ResolveInfo) -> Optional[bool]:
-        return None
-
     example_deprecated_field = graphene.String(
         description="An example deprecated session field.",
         deprecation_reason=(
@@ -148,6 +139,12 @@ class BaseSessionInfo:
         if not request.user.is_authenticated:
             return None
         return request.user.last_name
+
+    def resolve_preferred_first_name(self, info: ResolveInfo) -> Optional[str]:
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        return request.user.preferred_first_name
 
     def resolve_phone_number(self, info: ResolveInfo) -> Optional[str]:
         request = info.context

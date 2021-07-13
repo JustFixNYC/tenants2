@@ -69,8 +69,32 @@ describe("Navbar", () => {
 });
 
 test("getUserInitials() works", () => {
-  expect(getUserInitials({ firstName: null, lastName: null })).toBe(null);
-  expect(getUserInitials({ firstName: "boop", lastName: null })).toBe(null);
-  expect(getUserInitials({ firstName: null, lastName: "jones" })).toBe(null);
-  expect(getUserInitials({ firstName: "boop", lastName: "jones" })).toBe("BJ");
+  expect(
+    getUserInitials({
+      preferredFirstName: null,
+      firstName: null,
+      lastName: null,
+    })
+  ).toBe(null);
+  expect(
+    getUserInitials({
+      preferredFirstName: "",
+      firstName: "",
+      lastName: "",
+    })
+  ).toBe(null);
+  expect(
+    getUserInitials({
+      preferredFirstName: "",
+      firstName: "boop",
+      lastName: "jones",
+    })
+  ).toBe("BJ");
+  expect(
+    getUserInitials({
+      preferredFirstName: "lip",
+      firstName: "boop",
+      lastName: "jones",
+    })
+  ).toBe("LJ");
 });

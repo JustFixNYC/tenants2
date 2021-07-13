@@ -51,6 +51,13 @@ describe("RouteMap", () => {
     expect(map.exists("/blah/7")).toBe(true);
     expect(map.exists("/blah/9/zorp")).toBe(false);
   });
+
+  it("finds closest routes", () => {
+    const map = new RouteMap({ blah: "/blah", bop: "/bop/" });
+    expect(map.getClosestWithOrWithoutSlash("/blah/")).toBe("/blah");
+    expect(map.getClosestWithOrWithoutSlash("/bop")).toBe("/bop/");
+    expect(map.getClosestWithOrWithoutSlash("/zzzzzzzzz")).toBe(null);
+  });
 });
 
 describe("createRoutesForSite", () => {

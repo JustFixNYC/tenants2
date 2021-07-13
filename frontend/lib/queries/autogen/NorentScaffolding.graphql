@@ -2,11 +2,13 @@
 fragment NorentScaffolding on NorentScaffolding {
   firstName,
   lastName,
+  preferredFirstName,
   street,
   city,
   isCityInNyc,
   isInLosAngeles,
   state,
+  borough,
   zipCode,
   aptNumber,
   email,

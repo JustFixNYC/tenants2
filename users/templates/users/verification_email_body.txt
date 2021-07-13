@@ -1,4 +1,4 @@
-Hello {{ user.first_name }}!
+Hello {{ user.best_first_name }}!
 
 You're almost done. To confirm your email address ({{ user.email }}), open this link in your web browser:
 

@@ -239,7 +239,7 @@ def send_letter(letter: models.Letter):
         )
 
     slack.sendmsg_async(
-        f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+        f"{slack.hyperlink(text=user.best_first_name, href=user.admin_url)} "
         f"has sent a no rent letter!",
         is_safe=True,
     )

@@ -37,7 +37,7 @@ class NorentReminder(SmsReminder):
             )
 
         params = {
-            "first_name": user.first_name,
+            "first_name": user.best_first_name,
             "url": url,
         }
 

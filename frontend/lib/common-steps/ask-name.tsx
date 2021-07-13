@@ -1,12 +1,13 @@
 import React from "react";
 import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
-import { NorentFullLegalNameMutation } from "../queries/NorentFullLegalNameMutation";
 import { TextualFormField } from "../forms/form-fields";
 import { ProgressButtons } from "../ui/buttons";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import { MiddleProgressStepProps } from "../progress/progress-step-route";
+import { NorentFullLegalAndPreferredNameMutation } from "../queries/NorentFullLegalAndPreferredNameMutation";
+import { optionalizeLabel } from "../forms/optionalize-label";
 
 export const AskNameStep: React.FC<MiddleProgressStepProps> = (props) => {
   return (
@@ -18,10 +19,14 @@ export const AskNameStep: React.FC<MiddleProgressStepProps> = (props) => {
       </div>
       <br />
       <SessionUpdatingFormSubmitter
-        mutation={NorentFullLegalNameMutation}
+        mutation={NorentFullLegalAndPreferredNameMutation}
         initialState={(s) => ({
           firstName: s.norentScaffolding?.firstName || s.firstName || "",
           lastName: s.norentScaffolding?.lastName || s.lastName || "",
+          preferredFirstName:
+            s.norentScaffolding?.preferredFirstName ||
+            s.preferredFirstName ||
+            "",
         })}
         onSuccessRedirect={props.nextStep}
       >
@@ -29,11 +34,15 @@ export const AskNameStep: React.FC<MiddleProgressStepProps> = (props) => {
           <>
             <TextualFormField
               {...ctx.fieldPropsFor("firstName")}
-              label={li18n._(t`First name`)}
+              label={li18n._(t`Legal first name`)}
             />
             <TextualFormField
               {...ctx.fieldPropsFor("lastName")}
-              label={li18n._(t`Last name`)}
+              label={li18n._(t`Legal last name`)}
+            />
+            <TextualFormField
+              {...ctx.fieldPropsFor("preferredFirstName")}
+              label={optionalizeLabel(li18n._(t`Preferred first name`))}
             />
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>

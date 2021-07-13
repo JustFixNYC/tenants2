@@ -64,12 +64,25 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
         super().__init_subclass_with_meta__(_meta=_meta, **options)
 
     @classmethod
+    def migrate_dict(cls, value: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Subclasses can override this if they want to implement custom logic that
+        migrates the dict stored by an old version of the backend to the latest
+        schema needed by the current backend.
+        """
+
+        return value
+
+    @classmethod
     def get_dict_from_request(cls, request: HttpRequest) -> Optional[Dict[str, Any]]:
         """
         If the object data exists in the given request's session, return it.
         """
 
-        return request.session.get(cls._meta.session_key)
+        value = request.session.get(cls._meta.session_key)
+        if value is None:
+            return None
+        return cls.migrate_dict(value)
 
     @classmethod
     def clear_from_request(cls, request: HttpRequest):
@@ -87,7 +100,7 @@ class DjangoSessionFormObjectType(graphene.ObjectType):
         obinfo = request.session.get(key)
         if obinfo:
             try:
-                return cls(**obinfo)
+                return cls(**cls.migrate_dict(obinfo))
             except TypeError:
                 # This can happen when we change the "schema" of an onboarding
                 # step while a user's session contains data in the old schema.

@@ -26,13 +26,14 @@ import { createLetterStaticPageRoutes } from "../static-page/routes";
 import { NycUsersOnly } from "../pages/nyc-users-only";
 
 export const Welcome: React.FC<ProgressStepProps> = (props) => {
-  const { firstName } = useContext(AppContext).session;
+  const session = useContext(AppContext).session;
+  const bestFirstName = session.preferredFirstName || session.firstName;
 
   return (
     <Page title="Let's start your letter!">
       <div className="content">
         <h1 className="title">
-          Hi {firstName}, welcome to JustFix.nyc! Let's start your Letter of
+          Hi {bestFirstName}, welcome to JustFix.nyc! Let's start your Letter of
           Complaint.
         </h1>
         <p>

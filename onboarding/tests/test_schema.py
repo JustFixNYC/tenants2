@@ -10,11 +10,20 @@ from users.models import JustfixUser
 from onboarding.schema import session_key_for_step
 from .factories import OnboardingInfoFactory, NationalOnboardingInfoFactory, UserFactory
 
+LEGACY_STEP_1_DATA = {
+    "firstName": "boop",
+    "lastName": "jones",
+    "address": "123 boop way",
+    "borough": "MANHATTAN",
+    "aptNumber": "3B",
+    "noAptNumber": False,
+}
 
 VALID_STEP_DATA = {
-    1: {
+    "1V2": {
         "firstName": "boop",
         "lastName": "jones",
+        "preferredFirstName": "bip",
         "address": "123 boop way",
         "borough": "MANHATTAN",
         "aptNumber": "3B",
@@ -53,7 +62,7 @@ query {
 
 def _get_step_1_info(graphql_client):
     return graphql_client.execute(
-        "query { session { onboardingStep1 { aptNumber, addressVerified } } }"
+        "query { session { onboardingStep1 { aptNumber, addressVerified, preferredFirstName } } }"
     )["data"]["session"]["onboardingStep1"]
 
 
@@ -64,16 +73,46 @@ def _exec_onboarding_step_n(n, graphql_client, **input_kwargs):
     )["data"][f"output"]
 
 
+def exec_legacy_onboarding_step_1(graphql_client, **input_kwargs):
+    mutation = """
+        mutation OnboardingStep1Mutation($input: OnboardingStep1Input!) {
+            output: onboardingStep1(input: $input) {
+                errors {
+                    field,
+                    extendedMessages {
+                        message,
+                        code
+                    }
+                },
+                session {
+                    onboardingStep1 {
+                        address,
+                        borough,
+                        aptNumber,
+                        firstName,
+                        lastName,
+                        preferredFirstName
+                    }
+                }
+            }
+        }
+    """
+    return graphql_client.execute(
+        mutation,
+        variables={"input": {**LEGACY_STEP_1_DATA, **input_kwargs}},
+    )["data"][f"output"]
+
+
 def test_onboarding_step_1_validates_data(graphql_client):
-    ob = _exec_onboarding_step_n(1, graphql_client, firstName="")
+    ob = _exec_onboarding_step_n("1V2", graphql_client, firstName="")
     assert len(ob["errors"]) > 0
     assert session_key_for_step(1) not in graphql_client.request.session
     assert _get_step_1_info(graphql_client) is None
 
 
 def test_onboarding_step_1_works(graphql_client):
-    ob = _exec_onboarding_step_n(1, graphql_client)
-    expected_data = {**VALID_STEP_DATA[1]}
+    ob = _exec_onboarding_step_n("1V2", graphql_client)
+    expected_data = {**VALID_STEP_DATA["1V2"]}
     del expected_data["noAptNumber"]
     assert ob["errors"] == []
     assert ob["session"]["onboardingStep1"] == expected_data
@@ -137,6 +176,7 @@ def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     oi = user.onboarding_info
     assert user.full_legal_name == "boop jones"
     assert user.email == "boop@jones.com"
+    assert user.preferred_first_name == "bip"
     assert user.pk == request.user.pk
     assert user.locale == "en"
     assert is_password_usable(user.password) is True
@@ -150,7 +190,7 @@ def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     assert oi.agreed_to_norent_terms is False
     assert len(smsoutbox) == 1
     assert smsoutbox[0].to == "+15551234567"
-    assert "Welcome to JustFix.nyc, boop" in smsoutbox[0].body
+    assert "Welcome to JustFix.nyc, bip" in smsoutbox[0].body
     assert len(mailoutbox) == 1
     assert "verify your email" in mailoutbox[0].subject
 
@@ -351,6 +391,10 @@ class TestNycAddress(GraphQLTestingPal):
                 address,
                 borough,
                 aptNumber
+            }, norentScaffolding {
+                street,
+                borough,
+                aptNumber
             } }
         }
     }
@@ -363,33 +407,44 @@ class TestNycAddress(GraphQLTestingPal):
         "noAptNumber": False,
     }
 
-    _expected_default_output = {
+    _expected_logged_in_output = {
         "errors": [],
         "session": {
             "onboardingInfo": {
                 "address": "654 park place",
                 "borough": "BROOKLYN",
                 "aptNumber": "2",
-            }
+            },
+            "norentScaffolding": None,
         },
     }
 
-    def test_it_raises_err_when_not_logged_in(self):
-        self.assert_one_field_err("You do not have permission to use this form!")
+    def test_it_updates_scaffolding_when_not_logged_in(self):
+        assert self.execute() == {
+            "errors": [],
+            "session": {
+                "onboardingInfo": None,
+                "norentScaffolding": {
+                    "street": "654 park place",
+                    "borough": "BROOKLYN",
+                    "aptNumber": "2",
+                },
+            },
+        }
 
     def test_it_works_when_geocoding_fails(self):
         oi = OnboardingInfoFactory(
             address="123 boop street", borough="QUEENS", apt_number="", address_verified=True
         )
         self.set_user(oi.user)
-        assert self.execute() == self._expected_default_output
+        assert self.execute() == self._expected_logged_in_output
         assert oi.address == "654 park place"
         assert oi.address_verified is False
 
     def test_it_works_when_switching_from_non_nyc_address(self):
         oi = NationalOnboardingInfoFactory()
         self.set_user(oi.user)
-        assert self.execute() == self._expected_default_output
+        assert self.execute() == self._expected_logged_in_output
         assert oi.non_nyc_city == ""
         assert oi.state == "NY"
 

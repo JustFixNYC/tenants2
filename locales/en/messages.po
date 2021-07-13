@@ -714,7 +714,6 @@ msgstr "Fill out your hardship declaration form online"
 msgid "Find out more"
 msgstr "Find out more"
 
-#: frontend/lib/account-settings/about-you-settings.tsx:23
 #: frontend/lib/common-steps/ask-name.tsx:25
 #: frontend/lib/rh/routes.tsx:114
 msgid "First name"
@@ -1121,7 +1120,6 @@ msgstr "Landlord/management company's name"
 msgid "Language:"
 msgstr "Language:"
 
-#: frontend/lib/account-settings/about-you-settings.tsx:24
 #: frontend/lib/common-steps/ask-name.tsx:26
 #: frontend/lib/rh/routes.tsx:117
 msgid "Last name"
@@ -1160,6 +1158,14 @@ msgstr "Learn more."
 #: frontend/lib/norent/homepage.tsx:202
 msgid "Legal Protections"
 msgstr "Legal Protections"
+
+#: frontend/lib/account-settings/about-you-settings.tsx:42
+msgid "Legal first name"
+msgstr "Legal first name"
+
+#: frontend/lib/account-settings/about-you-settings.tsx:43
+msgid "Legal last name"
+msgstr "Legal last name"
 
 #: frontend/lib/norent/homepage.tsx:125
 msgid "Legally vetted"
@@ -1587,6 +1593,10 @@ msgstr "Please note that your declaration letter will be structured as follows t
 #: frontend/lib/norent/letter-email-to-user.tsx:214
 msgid "Please read the rest of this email carefully as it contains important information about your next steps."
 msgstr "Please read the rest of this email carefully as it contains important information about your next steps."
+
+#: frontend/lib/account-settings/about-you-settings.tsx:23
+msgid "Preferred first name"
+msgstr "Preferred first name"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:102
 #: frontend/lib/norent/the-letter.tsx:92

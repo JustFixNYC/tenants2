@@ -1,4 +1,5 @@
 import logging
+from project.util.rename_dict_keys import with_keys_renamed
 from typing import Optional, Dict, Any, List, Type
 from django.contrib.auth import login
 from django.conf import settings
@@ -23,6 +24,7 @@ from partnerships import referral
 from project.util.model_form_util import OneToOneUserModelFormMutation
 from users.email_verify import send_verification_email_async
 from onboarding import forms
+from onboarding.scaffolding import update_scaffolding
 from onboarding.schema_util import mutation_requires_onboarding
 from onboarding.models import OnboardingInfo, BOROUGH_CHOICES, LEASE_CHOICES, SIGNUP_INTENT_CHOICES
 
@@ -40,6 +42,7 @@ def session_key_for_step(step: int) -> str:
     return f"onboarding_step_v{forms.FIELD_SCHEMA_VERSION}_{step}"
 
 
+# This should be removed when OnboardingStep1Mutation is deprecated.
 class OnboardingStep1Info(DjangoSessionFormObjectType):
     class Meta:
         form_class = forms.OnboardingStep1Form
@@ -47,10 +50,20 @@ class OnboardingStep1Info(DjangoSessionFormObjectType):
         exclude = ["no_apt_number"]
 
 
-class OnboardingStep2Info(DjangoSessionFormObjectType):
+class OnboardingStep1V2Info(DjangoSessionFormObjectType):
     class Meta:
-        form_class = forms.OnboardingStep2Form
-        session_key = session_key_for_step(2)
+        form_class = forms.OnboardingStep1V2Form
+        session_key = session_key_for_step(1)
+        exclude = ["no_apt_number"]
+
+    @classmethod
+    def migrate_dict(cls, value: Dict[str, Any]) -> Dict[str, Any]:
+        # The old version of the onboarding info might not know about
+        # our new preferred first name field, so provide a default.
+        return {
+            "preferred_first_name": "",
+            **value,
+        }
 
 
 class OnboardingStep3Info(DjangoSessionFormObjectType):
@@ -60,13 +73,24 @@ class OnboardingStep3Info(DjangoSessionFormObjectType):
 
 
 # The onboarding steps we store in the request session.
-SESSION_STEPS: List[Type[DjangoSessionFormObjectType]] = [OnboardingStep1Info, OnboardingStep3Info]
+SESSION_STEPS: List[Type[DjangoSessionFormObjectType]] = [
+    OnboardingStep1V2Info,
+    OnboardingStep3Info,
+]
 
 
 @schema_registry.register_mutation
 class OnboardingStep1(DjangoSessionFormMutation):
+    deprecation_reason = "Use OnboardingStep1V2 instead (includes preferred first name)."
+
     class Meta:
         source = OnboardingStep1Info
+
+
+@schema_registry.register_mutation
+class OnboardingStep1V2(DjangoSessionFormMutation):
+    class Meta:
+        source = OnboardingStep1V2Info
 
 
 @schema_registry.register_mutation
@@ -96,6 +120,7 @@ def complete_onboarding(request, info, password: Optional[str]) -> JustfixUser:
             username=JustfixUser.objects.generate_random_username(),
             first_name=info["first_name"],
             last_name=info["last_name"],
+            preferred_first_name=info.get("preferred_first_name", ""),
             email=info["email"],
             phone_number=info["phone_number"],
             password=password,
@@ -113,7 +138,7 @@ def complete_onboarding(request, info, password: Optional[str]) -> JustfixUser:
         via = f", via our partner {partner.name}"
 
     slack.sendmsg_async(
-        f"{slack.hyperlink(text=user.first_name, href=user.admin_url)} "
+        f"{slack.hyperlink(text=user.best_first_name, href=user.admin_url)} "
         f"from {slack.escape(oi.city)}, {slack.escape(oi.state)} has signed up for "
         f"{slack.escape(SIGNUP_INTENT_CHOICES.get_label(oi.signup_intent))} in "
         f"{slack.escape(LOCALE_CHOICES.get_label(user.locale))}{via}!",
@@ -156,7 +181,7 @@ class OnboardingStep4Base(SessionFormMutation):
         user = complete_onboarding(request, info=allinfo, password=password)
 
         user.send_sms_async(
-            f"Welcome to {get_site_name()}, {user.first_name}! "
+            f"Welcome to {get_site_name()}, {user.best_first_name}! "
             f"We'll be sending you notifications from this phone number.",
         )
         if user.email:
@@ -227,11 +252,11 @@ class NycAddress(SessionFormMutation):
     class Meta:
         form_class = forms.NycAddressForm
 
-    login_required = True
+    login_required = False
 
     @classmethod
     @mutation_requires_onboarding
-    def perform_mutate(cls, form, info: ResolveInfo):
+    def perform_mutate_for_logged_in_user(cls, form, info: ResolveInfo):
         oi = info.context.user.onboarding_info
         oi.non_nyc_city = ""
         oi.state = US_STATE_CHOICES.NY
@@ -241,6 +266,15 @@ class NycAddress(SessionFormMutation):
         oi.address_verified = form.cleaned_data["address_verified"]
         oi.full_clean()
         oi.save()
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        if info.context.user.is_authenticated:
+            cls.perform_mutate_for_logged_in_user(form, info)
+        else:
+            update_scaffolding(
+                info.context, with_keys_renamed(form.cleaned_data, {"address": "street"})
+            )
 
         return cls.mutation_success()
 
@@ -358,10 +392,7 @@ class OnboardingSessionInfo(object):
     A mixin class defining all onboarding-related queries.
     """
 
-    onboarding_step_1 = OnboardingStep1Info.field()
-    onboarding_step_2 = OnboardingStep2Info.field(
-        deprecation_reason="See https://github.com/JustFixNYC/tenants2/issues/1144"
-    )
+    onboarding_step_1 = OnboardingStep1V2Info.field()
     onboarding_step_3 = OnboardingStep3Info.field()
     onboarding_info = graphene.Field(
         OnboardingInfoType,

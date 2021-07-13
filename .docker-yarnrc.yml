@@ -1,0 +1,3 @@
+# --modules-folder /node_modules. Not sure how to migrate this to Yarn 2
+cacheFolder: "/var/yarn-cache"
+nodeLinker: "node-modules"

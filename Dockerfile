@@ -3,6 +3,8 @@
 FROM python:3.8.2
 
 ENV NODE_VERSION=12
+# Should we add `yarn set version berry` somewhere in here, as recommended in
+# https://github.com/nodejs/docker-node/issues/1180#issuecomment-657405890?
 
 RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
   && curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash - \

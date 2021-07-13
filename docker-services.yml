@@ -16,7 +16,7 @@ services:
       # root of the container) to store all our things.
       - unused-node-modules:/tenants2/node_modules/
       - node-modules:/node_modules/
-      - .docker-yarnrc:/.yarnrc
+      - .docker-yarnrc.yml:/.yarnrc.yml
       - yarn-cache:/var/yarn-cache/
       - pipenv-cache:/var/pipenv-cache/
     environment:

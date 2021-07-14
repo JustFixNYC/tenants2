@@ -245,11 +245,20 @@ def _migrate_onboarding_info_to_scaffolding(request):
     d = request.session.get(SCAFFOLDING_SESSION_KEY, {})
     updated = False
 
-    if not d.get("first_name"):
+    if not d.get("first_name") or not d.get("borough"):
         from .schema import OnboardingStep1V2Info
 
         legacy_step1 = OnboardingStep1V2Info.get_dict_from_request(request)
         if legacy_step1:
+            if legacy_step1["first_name"] == legacy_step1["last_name"] == "ignore":
+                # This is data submitted by code deprecated in
+                # https://github.com/JustFixNYC/tenants2/pull/2143 which only set
+                # useful address info, so remove the name info.
+                del legacy_step1["first_name"]
+                del legacy_step1["last_name"]
+                if "preferred_first_name" in legacy_step1:
+                    del legacy_step1["preferred_first_name"]
+
             d.update(with_keys_renamed(legacy_step1, {"address": "street"}))
             updated = True
             OnboardingStep1V2Info.clear_from_request(request)

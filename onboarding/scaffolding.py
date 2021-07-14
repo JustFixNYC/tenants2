@@ -292,6 +292,15 @@ def _migrate_legacy_session_data_to_scaffolding(request):
             updated = True
             OnboardingStep3Info.clear_from_request(request)
 
+    if not d.get("phone_number"):
+        from rh.schema import RhFormInfo
+
+        legacy_rh = RhFormInfo.get_dict_from_request(request)
+        if legacy_rh:
+            d.update(with_keys_renamed(legacy_rh, {"address": "street"}))
+            updated = True
+            RhFormInfo.clear_from_request(request)
+
     if updated:
         request.session[SCAFFOLDING_SESSION_KEY] = d
 

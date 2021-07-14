@@ -4,5 +4,5 @@
   ["MARKET_RATE", "Market Rate"],
   ["NYCHA", "NYCHA/Public Housing"],
   ["NOT_SURE", "I'm not sure"],
-  ["NO_LEASE", "I don't have a lease. This option is deprecated."]
+  ["NO_LEASE", "I don't have a lease"]
 ]

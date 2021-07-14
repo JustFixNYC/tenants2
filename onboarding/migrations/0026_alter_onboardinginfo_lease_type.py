@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                     ("MARKET_RATE", "Market Rate"),
                     ("NYCHA", "NYCHA/Public Housing"),
                     ("NOT_SURE", "I'm not sure"),
-                    ("NO_LEASE", "I don't have a lease. This option is deprecated."),
+                    ("NO_LEASE", "I don't have a lease"),
                 ],
                 help_text="The type of housing the user lives in (NYC only).",
                 max_length=30,

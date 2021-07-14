@@ -243,6 +243,7 @@ class OnboardingScaffoldingOrUserDataMutation(SessionFormMutation):
 
 def _migrate_onboarding_info_to_scaffolding(request):
     d = request.session.get(SCAFFOLDING_SESSION_KEY, {})
+    updated = False
 
     if not d.get("first_name"):
         from .schema import OnboardingStep1V2Info
@@ -250,6 +251,7 @@ def _migrate_onboarding_info_to_scaffolding(request):
         legacy_step1 = OnboardingStep1V2Info.get_dict_from_request(request)
         if legacy_step1:
             d.update(with_keys_renamed(legacy_step1, {"address": "street"}))
+            updated = True
             OnboardingStep1V2Info.clear_from_request(request)
 
     if not d.get("lease_type"):
@@ -263,9 +265,11 @@ def _migrate_onboarding_info_to_scaffolding(request):
                 legacy_step3["receives_public_assistance"]
             )
             d.update(legacy_step3)
+            updated = True
             OnboardingStep3Info.clear_from_request(request)
 
-    request.session[SCAFFOLDING_SESSION_KEY] = d
+    if updated:
+        request.session[SCAFFOLDING_SESSION_KEY] = d
 
 
 def get_scaffolding(request) -> OnboardingScaffolding:

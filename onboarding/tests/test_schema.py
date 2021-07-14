@@ -1,5 +1,4 @@
 from onboarding.scaffolding import get_scaffolding
-from unittest.mock import patch
 import pytest
 from django.contrib.auth.hashers import is_password_usable
 

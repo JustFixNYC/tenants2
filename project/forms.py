@@ -27,6 +27,13 @@ def ensure_at_least_one_is_true(cleaned_data):
 
 
 class YesNoRadiosField(forms.ChoiceField):
+    """
+    This field represents a set of yes/no radios for the user to choose between.
+
+    It is distinct from a checkbox in that the user must actively answer either
+    "yes" or "no" (in contrast, a checkbox defaults to "no").
+    """
+
     # Choice when a user selects "yes" from a yes/no radio (specific to Django).
     TRUE = "True"
 

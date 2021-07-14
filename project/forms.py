@@ -27,6 +27,12 @@ def ensure_at_least_one_is_true(cleaned_data):
 
 
 class YesNoRadiosField(forms.ChoiceField):
+    # Choice when a user selects "yes" from a yes/no radio (specific to Django).
+    TRUE = "True"
+
+    # Choice when a user selects "no" from a yes/no radio (specific to Django).
+    FALSE = "False"
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs, choices=[(True, "Yes"), (False, "No")])
 
@@ -34,11 +40,20 @@ class YesNoRadiosField(forms.ChoiceField):
     def coerce(cls, value: Optional[str]) -> Optional[bool]:
         if value in cls.empty_values:
             return None
-        if value == "True":
+        if value == cls.TRUE:
             return True
-        if value == "False":
+        if value == cls.FALSE:
             return False
         raise ValueError(f"Invalid YesNoRadiosField value: {value}")
+
+    @classmethod
+    def reverse_coerce_to_str(cls, value: Optional[bool]) -> str:
+        if value is None:
+            return ""
+        if value is True:
+            return cls.TRUE
+        assert value is False
+        return cls.FALSE
 
 
 class DynamicallyRequiredFieldsMixin:

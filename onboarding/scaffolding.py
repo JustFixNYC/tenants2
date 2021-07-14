@@ -1,7 +1,8 @@
 import json
 from pathlib import Path
+from project.util.rename_dict_keys import with_keys_renamed
 from project.util.session_mutation import SessionFormMutation
-from typing import Optional, Tuple
+from typing import Any, Dict, Optional, Tuple
 from django.contrib.gis.geos import GEOSGeometry, Point
 import graphene
 from graphql import ResolveInfo
@@ -74,6 +75,10 @@ class OnboardingScaffolding(pydantic.BaseModel):
     # Whether or not we verified that the user's address was verified
     # on the server-side.
     address_verified: bool = False
+
+    lease_type: str = ""
+
+    receives_public_assistance: Optional[bool] = None
 
     # e.g. (-73.9496, 40.6501)
     lnglat: Optional[Tuple[float, float]] = None
@@ -196,9 +201,13 @@ class OnboardingScaffoldingMutation(SessionFormMutation):
         abstract = True
 
     @classmethod
+    def get_scaffolding_fields_from_form(cls, form) -> Dict[str, Any]:
+        return form.cleaned_data
+
+    @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
-        update_scaffolding(request, form.cleaned_data)
+        update_scaffolding(request, cls.get_scaffolding_fields_from_form(form))
         return cls.mutation_success()
 
 
@@ -232,12 +241,41 @@ class OnboardingScaffoldingOrUserDataMutation(SessionFormMutation):
         return cls.perform_mutate_for_anonymous_user(form, info)
 
 
+def _migrate_onboarding_info_to_scaffolding(request):
+    d = request.session.get(SCAFFOLDING_SESSION_KEY, {})
+
+    if not d.get("first_name"):
+        from .schema import OnboardingStep1V2Info
+
+        legacy_step1 = OnboardingStep1V2Info.get_dict_from_request(request)
+        if legacy_step1:
+            d.update(with_keys_renamed(legacy_step1, {"address": "street"}))
+            OnboardingStep1V2Info.clear_from_request(request)
+
+    if not d.get("lease_type"):
+        from .schema import OnboardingStep3Info
+
+        legacy_step3 = OnboardingStep3Info.get_dict_from_request(request)
+        if legacy_step3:
+            from project.forms import YesNoRadiosField
+
+            legacy_step3["receives_public_assistance"] = YesNoRadiosField.coerce(
+                legacy_step3["receives_public_assistance"]
+            )
+            d.update(legacy_step3)
+            OnboardingStep3Info.clear_from_request(request)
+
+    request.session[SCAFFOLDING_SESSION_KEY] = d
+
+
 def get_scaffolding(request) -> OnboardingScaffolding:
+    _migrate_onboarding_info_to_scaffolding(request)
     scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
     return OnboardingScaffolding(**scaffolding_dict)
 
 
 def update_scaffolding(request, new_data):
+    _migrate_onboarding_info_to_scaffolding(request)
     scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
     scaffolding_dict.update(new_data)
 

@@ -241,7 +241,22 @@ class OnboardingScaffoldingOrUserDataMutation(SessionFormMutation):
         return cls.perform_mutate_for_anonymous_user(form, info)
 
 
-def _migrate_onboarding_info_to_scaffolding(request):
+def _migrate_legacy_session_data_to_scaffolding(request):
+    """
+    This function takes any data we have stored elsewhere in
+    the session by legacy endpoints and migrates it over to the
+    onboarding scaffolding if possible.
+
+    As each legacy endpoint is fully deprecated and removed, we'll
+    remove the relevant migration code from this function. Eventually
+    we'll have nothing left to migrate and we can get rid of this
+    function.
+
+    For more context around all this, see:
+
+        https://github.com/JustFixNYC/tenants2/issues/2142
+    """
+
     d = request.session.get(SCAFFOLDING_SESSION_KEY, {})
     updated = False
 
@@ -282,13 +297,13 @@ def _migrate_onboarding_info_to_scaffolding(request):
 
 
 def get_scaffolding(request) -> OnboardingScaffolding:
-    _migrate_onboarding_info_to_scaffolding(request)
+    _migrate_legacy_session_data_to_scaffolding(request)
     scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
     return OnboardingScaffolding(**scaffolding_dict)
 
 
 def update_scaffolding(request, new_data):
-    _migrate_onboarding_info_to_scaffolding(request)
+    _migrate_legacy_session_data_to_scaffolding(request)
     scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
     scaffolding_dict.update(new_data)
 

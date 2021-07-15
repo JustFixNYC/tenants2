@@ -91,15 +91,18 @@ const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   );
   const { session } = useContext(AppContext);
   const leaseType = session.onboardingInfo?.leaseType || "";
+  let choices = toDjangoChoices(LeaseChoices, getLeaseChoiceLabels());
   let leaseTypeLabel = "";
   if (isLeaseChoice(leaseType)) {
     leaseTypeLabel = getLeaseChoiceLabels()[leaseType];
-    // The following line is here to handle a legacy data value that used to be a valid
-    // lease type
-    // eslint-disable-next-line
-    // @ts-ignore
-  } else if (leaseType == "NO_LEASE") {
-    leaseTypeLabel = "No lease";
+
+    // If the user previously onboarded and chose the "No lease" option, which
+    // has since been deprecated, we still want them to be able to see it and
+    // choose it. However, if they didn't pick that option, we don't want them
+    // to be able to choose it now.
+    if (leaseType !== "NO_LEASE") {
+      choices = choices.filter(([choice, _]) => choice !== "NO_LEASE");
+    }
   }
 
   return (
@@ -120,7 +123,7 @@ const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
               <RadiosFormField
                 {...ctx.fieldPropsFor("leaseType")}
                 autoFocus
-                choices={toDjangoChoices(LeaseChoices, getLeaseChoiceLabels())}
+                choices={choices}
                 label={HOUSING_TYPE_FIELD_LABEL}
               />
               <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />

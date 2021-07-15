@@ -250,7 +250,12 @@ export default class OnboardingStep3 extends React.Component<
 
     const leaseLabels = getLeaseChoiceLabels();
 
-    this.leaseChoicesWithInfo = LeaseChoices.map((value) => {
+    this.leaseChoicesWithInfo = LeaseChoices.filter(
+      // NO_LEASE has been deprecated; we still want legacy users to be
+      // able to have it, but we don't want new users to be able to choose
+      // from it.
+      (c) => c !== "NO_LEASE"
+    ).map((value) => {
       const label = leaseLabels[value];
       const info = leaseLearnMoreModalMap.get(value);
       const title = `Learn more about ${label} leases`;

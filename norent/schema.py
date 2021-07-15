@@ -373,19 +373,6 @@ class BaseCreateAccount(SessionFormMutation):
     signup_intent: str = ""
 
     @classmethod
-    def fill_nyc_info_from_deprecated_endpoint(cls, request, info: Dict[str, Any]):
-        # For more details on why this is deprecated, see:
-        # https://github.com/JustFixNYC/tenants2/pull/2143
-        step1 = OnboardingStep1V2Info.get_dict_from_request(request)
-        if step1 is None:
-            return None
-        info["borough"] = step1["borough"]
-        info["address"] = step1["address"]
-        info["apt_number"] = step1["apt_number"]
-        info["address_verified"] = step1["address_verified"]
-        return info
-
-    @classmethod
     def fill_city_info(cls, request, info: Dict[str, Any], scf: OnboardingScaffolding):
         info = {
             **info,
@@ -396,12 +383,9 @@ class BaseCreateAccount(SessionFormMutation):
 
         if scf.is_city_in_nyc():
             if scf.borough:
-                # The new NYC address entry endpoint was used, so we already
-                # have the information we need.
                 info["borough"] = scf.borough
             else:
-                # The old onboarding endpoint was used, so fill things in from there.
-                return cls.fill_nyc_info_from_deprecated_endpoint(request, info)
+                return None
         else:
             if not are_all_truthy(scf.street, scf.zip_code):
                 return None

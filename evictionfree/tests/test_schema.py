@@ -179,7 +179,6 @@ class TestEvictionFreeCreateAccount:
         request = self.graphql_client.request
         self.populate_phone_number()
         res = _exec_onboarding_step_n("1V2", self.graphql_client)
-        assert OnboardingStep1V2Info.get_dict_from_request(request) is not None
         assert res["errors"] == []
         update_scaffolding(request, self.NYC_SCAFFOLDING_LEGACY)
         assert SCAFFOLDING_SESSION_KEY in request.session
@@ -210,7 +209,6 @@ class TestEvictionFreeCreateAccount:
         request = self.graphql_client.request
         self.populate_phone_number()
         res = exec_legacy_onboarding_step_1(self.graphql_client)
-        assert OnboardingStep1Info.get_dict_from_request(request) is not None
         assert res["errors"] == []
         update_scaffolding(request, self.NYC_SCAFFOLDING_LEGACY)
         assert SCAFFOLDING_SESSION_KEY in request.session

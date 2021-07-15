@@ -97,7 +97,8 @@ class RhForm(OnboardingScaffoldingMutation):
     @classmethod
     def get_scaffolding_fields_from_form(cls, form) -> Dict[str, Any]:
         return with_keys_renamed(
-            form.cleaned_data, {"address": "street", "apartment_number": "apt_number"}
+            form.cleaned_data,
+            {"address": "street", "apartment_number": "apt_number", "zipcode": "zip_code"},
         )
 
     @classmethod
@@ -115,7 +116,12 @@ class RhForm(OnboardingScaffoldingMutation):
 
 def scaffolding_has_rental_history_request_info(scf: OnboardingScaffolding) -> bool:
     return bool(
-        scf.first_name and scf.last_name and scf.street and scf.borough and scf.phone_number
+        scf.first_name
+        and scf.last_name
+        and scf.street
+        and scf.borough
+        and scf.phone_number
+        and scf.apt_number
     )
 
 

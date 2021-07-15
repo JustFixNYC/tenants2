@@ -297,7 +297,12 @@ def _migrate_legacy_session_data_to_scaffolding(request):
 
         legacy_rh = RhFormInfo.get_dict_from_request(request)
         if legacy_rh:
-            d.update(with_keys_renamed(legacy_rh, {"address": "street"}))
+            d.update(
+                with_keys_renamed(
+                    legacy_rh,
+                    {"address": "street", "apartment_number": "apt_number", "zipcode": "zip_code"},
+                )
+            )
             updated = True
             RhFormInfo.clear_from_request(request)
 

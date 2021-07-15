@@ -52,7 +52,7 @@ class TestMigrateOnboardingToScaffolding:
         assert scf.street == "123 boop street"
         assert scf.borough == "MANHATTAN"
 
-        assert session_key_for_step(1) not in http_request
+        assert session_key_for_step(1) not in http_request.session
 
     def test_it_migrates_only_step_1_address_info_when_needed(self, http_request):
         update_scaffolding(
@@ -83,7 +83,7 @@ class TestMigrateOnboardingToScaffolding:
         assert scf.street == "123 boop street"
         assert scf.borough == "MANHATTAN"
 
-        assert session_key_for_step(1) not in http_request
+        assert session_key_for_step(1) not in http_request.session
 
     def test_it_migrates_step_3(self, http_request):
         http_request.session[session_key_for_step(3)] = {
@@ -96,4 +96,30 @@ class TestMigrateOnboardingToScaffolding:
         assert scf.lease_type == "RENT_STABILIZED"
         assert scf.receives_public_assistance is True
 
-        assert session_key_for_step(3) not in http_request
+        assert session_key_for_step(3) not in http_request.session
+
+    def test_it_migrates_rent_history_form_info(self, http_request):
+        from rh.schema import RhFormInfo
+
+        key = RhFormInfo._meta.session_key
+
+        http_request.session[key] = {
+            "address": "123 boop st",
+            "borough": "MANHATTAN",
+            "first_name": "boop",
+            "last_name": "jonze",
+            "phone_number": "5551234567",
+            "apartment_number": "2B",
+            "zipcode": "11201",
+        }
+
+        scf = get_scaffolding(http_request)
+
+        assert scf.first_name == "boop"
+        assert scf.last_name == "jonze"
+        assert scf.street == "123 boop st"
+        assert scf.apt_number == "2B"
+        assert scf.zip_code == "11201"
+        assert scf.phone_number == "5551234567"
+
+        assert key not in http_request.session

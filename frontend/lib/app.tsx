@@ -44,6 +44,7 @@ import {
   trackLoginInAmplitude,
   trackLogoutInAmplitude,
   logAmplitudePageView,
+  trackFrontendVersionInAmplitude,
 } from "./analytics/amplitude";
 import { t } from "@lingui/macro";
 import { getEvictionFreeJumpToTopOfPageRoutes } from "./evictionfree/route-info";
@@ -307,6 +308,7 @@ export class AppWithoutRouter extends React.Component<
   }
 
   componentDidMount() {
+    trackFrontendVersionInAmplitude();
     if (this.state.session.userId !== null) {
       this.handleLogin();
     }

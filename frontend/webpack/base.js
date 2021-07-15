@@ -19,6 +19,8 @@ const IN_WATCH_MODE = process.argv.includes("--watch");
 
 const BASE_DIR = path.resolve(path.join(__dirname, "..", ".."));
 
+const GIT_REVISION = process.env.GIT_REVISION || null;
+
 const { WEBPACK_ADDITIONAL_MODULE_DIRS } = process.env;
 
 if (!fs.existsSync("package.json")) {
@@ -177,6 +179,7 @@ function getCommonPlugins() {
   /** @type WebpackPlugin[] */
   const plugins = [
     new webpack.DefinePlugin({
+      GIT_REVISION: JSON.stringify(GIT_REVISION),
       DISABLE_WEBPACK_ANALYZER,
       DISABLE_DEV_SOURCE_MAPS,
       ENABLE_WEBPACK_CONTENT_HASH,

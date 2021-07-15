@@ -40,6 +40,12 @@ export type JustfixAmplitudeUserProperties = {
   issueCount: number;
 
   /**
+   * The git revision that built the front-end the user
+   * most recently used, or `null` if we don't know.
+   */
+  frontendVersion: string | null;
+
+  /**
    * This field is no longer relevant since we decomissioned the
    * legacy app, but we're keeping it around in the type definition
    * for documentation purposes.  It was used to track whether the
@@ -193,6 +199,12 @@ export function updateAmplitudeUserPropertiesOnSessionChange(
 
   getAmplitude()?.setUserProperties(userProperties);
   return true;
+}
+
+export function trackFrontendVersionInAmplitude() {
+  getAmplitude()?.setUserProperties({
+    frontendVersion: GIT_REVISION,
+  });
 }
 
 export function trackLoginInAmplitude(s: AllSessionInfo) {

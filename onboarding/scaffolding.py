@@ -202,7 +202,10 @@ class OnboardingScaffoldingMutation(SessionFormMutation):
 
     @classmethod
     def get_scaffolding_fields_from_form(cls, form) -> Dict[str, Any]:
-        return form.cleaned_data
+        data = form.cleaned_data
+        if hasattr(form, "to_scaffolding_keys"):
+            data = with_keys_renamed(data, form.to_scaffolding_keys)
+        return data
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
@@ -274,7 +277,11 @@ def _migrate_legacy_session_data_to_scaffolding(request):
                 if "preferred_first_name" in legacy_step1:
                     del legacy_step1["preferred_first_name"]
 
-            d.update(with_keys_renamed(legacy_step1, {"address": "street"}))
+            d.update(
+                with_keys_renamed(
+                    legacy_step1, OnboardingStep1V2Info._meta.form_class.to_scaffolding_keys
+                )
+            )
             updated = True
             OnboardingStep1V2Info.clear_from_request(request)
 
@@ -297,12 +304,7 @@ def _migrate_legacy_session_data_to_scaffolding(request):
 
         legacy_rh = RhFormInfo.get_dict_from_request(request)
         if legacy_rh:
-            d.update(
-                with_keys_renamed(
-                    legacy_rh,
-                    {"address": "street", "apartment_number": "apt_number", "zipcode": "zip_code"},
-                )
-            )
+            d.update(with_keys_renamed(legacy_rh, RhFormInfo._meta.form_class.to_scaffolding_keys))
             updated = True
             RhFormInfo.clear_from_request(request)
 

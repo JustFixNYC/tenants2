@@ -95,13 +95,6 @@ class RhForm(OnboardingScaffoldingMutation):
         form_class = forms.RhForm
 
     @classmethod
-    def get_scaffolding_fields_from_form(cls, form) -> Dict[str, Any]:
-        return with_keys_renamed(
-            form.cleaned_data,
-            {"address": "street", "apartment_number": "apt_number", "zipcode": "zip_code"},
-        )
-
-    @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
         result = super().perform_mutate(form, info)
@@ -202,9 +195,6 @@ class RhSessionInfo(object):
     def resolve_rental_history_info(self, info: ResolveInfo):
         scf = get_scaffolding(info.context)
         if scaffolding_has_rental_history_request_info(scf):
-            d = with_keys_renamed(
-                scf.dict(),
-                {"street": "address", "apt_number": "apartment_number", "zip_code": "zipcode"},
-            )
+            d = with_keys_renamed(scf.dict(), RhFormInfo._meta.form_class.from_scaffolding_keys)
             return d
         return None

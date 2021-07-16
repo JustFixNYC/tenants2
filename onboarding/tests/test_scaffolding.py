@@ -40,6 +40,7 @@ class TestMigrateOnboardingToScaffolding:
             "address": "123 boop street",
             "borough": "MANHATTAN",
             "address_verified": True,
+            "zipcode": "11201",
         }
 
         scf = get_scaffolding(http_request)
@@ -51,6 +52,7 @@ class TestMigrateOnboardingToScaffolding:
         assert scf.apt_number == "3"
         assert scf.street == "123 boop street"
         assert scf.borough == "MANHATTAN"
+        assert scf.zip_code == "11201"
 
         assert session_key_for_step(1) not in http_request.session
 
@@ -71,6 +73,7 @@ class TestMigrateOnboardingToScaffolding:
             "address": "123 boop street",
             "borough": "MANHATTAN",
             "address_verified": True,
+            "zipcode": "11201",
         }
 
         scf = get_scaffolding(http_request)

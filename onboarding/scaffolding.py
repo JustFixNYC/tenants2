@@ -192,6 +192,23 @@ class GraphQlOnboardingScaffolding(graphene.ObjectType):
         return graphene.Field(cls, resolver=resolver)
 
 
+def get_scaffolding_fields_from_form(form) -> Dict[str, Any]:
+    """
+    Returns the form's cleaned data in a format that is suitable
+    for updating scaffolding data.
+
+    Generally this is just the form's cleaned data. However, if the
+    form has a `to_scaffolding_keys` property that maps its field
+    names to scaffolding field names, that is used to rename fields
+    as needed.
+    """
+
+    data = form.cleaned_data
+    if hasattr(form, "to_scaffolding_keys"):
+        data = with_keys_renamed(data, form.to_scaffolding_keys)
+    return data
+
+
 class OnboardingScaffoldingMutation(SessionFormMutation):
     """
     Base class for writing a form's `cleaned_data` into onboarding scaffolding.
@@ -201,16 +218,9 @@ class OnboardingScaffoldingMutation(SessionFormMutation):
         abstract = True
 
     @classmethod
-    def get_scaffolding_fields_from_form(cls, form) -> Dict[str, Any]:
-        data = form.cleaned_data
-        if hasattr(form, "to_scaffolding_keys"):
-            data = with_keys_renamed(data, form.to_scaffolding_keys)
-        return data
-
-    @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
-        update_scaffolding(request, cls.get_scaffolding_fields_from_form(form))
+        update_scaffolding(request, get_scaffolding_fields_from_form(form))
         return cls.mutation_success()
 
 
@@ -232,7 +242,7 @@ class OnboardingScaffoldingOrUserDataMutation(SessionFormMutation):
 
     @classmethod
     def perform_mutate_for_anonymous_user(cls, form, info: ResolveInfo):
-        update_scaffolding(info.context, form.cleaned_data)
+        update_scaffolding(info.context, get_scaffolding_fields_from_form(form))
         return cls.mutation_success()
 
     @classmethod

@@ -49,8 +49,8 @@ msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
 #: frontend/lib/norent/letter-content.tsx:15
-msgid "<0>Declaration of COVID-19 Related Financial Distress</0><1/>Compliant with Code of Civil Procedure Section 1179.02, SB91, COVID-19 Tenant Relief Act"
-msgstr "<0>Declaración de Complicaciones Financieras Relacionadas con el COVID-19</0><1/>Conforme con la Sección 1179.02, SB91, de la Ley de Alivio de Inquilinos COVID-19"
+msgid "<0>Declaration of COVID-19 Related Financial Distress</0><1/>Compliant with Code of Civil Procedure Section 1179.02, AB832, COVID-19 Tenant Relief Act"
+msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:409
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
@@ -470,7 +470,7 @@ msgid "Confirm your new password"
 msgstr "Confirma tu nueva contraseña"
 
 #: frontend/lib/common-steps/ask-national-address.tsx:33
-#: frontend/lib/common-steps/ask-nyc-address.tsx:23
+#: frontend/lib/common-steps/ask-nyc-address.tsx:22
 msgid "Confirming the address"
 msgstr "Confirmando la dirección"
 
@@ -617,7 +617,7 @@ msgstr "Secadora no funciona"
 msgid "Due to the COVID-19 pandemic, some offices are closed and may not answer phones."
 msgstr "Debido a la pandemia del COVID-19, algunas oficinas están cerradas y pueden no contestar a los teléfonos."
 
-#: frontend/lib/norent/components/subscribe.tsx:55
+#: frontend/lib/norent/components/subscribe.tsx:61
 msgid "ENTER YOUR EMAIL"
 msgstr "INTRODUCE TU CORREO ELECTRÓNICO"
 
@@ -636,7 +636,7 @@ msgstr "Alambrado Eléctrico Expuesto"
 msgid "Electricity not working"
 msgstr "La electricidad no funciona"
 
-#: frontend/lib/norent/components/subscribe.tsx:53
+#: frontend/lib/norent/components/subscribe.tsx:59
 msgid "Email"
 msgstr "Correo electrónico"
 
@@ -719,7 +719,6 @@ msgstr "Rellena en línea tu formulario de declaración de penuria"
 msgid "Find out more"
 msgstr "Más información"
 
-#: frontend/lib/common-steps/ask-name.tsx:25
 #: frontend/lib/rh/routes.tsx:114
 msgid "First name"
 msgstr "Nombre"
@@ -1068,7 +1067,7 @@ msgstr "Puede ser que el dueño de tu edificio tome represalias tras recibir tu 
 msgid "It’s unlikely that your apartment is rent stabilized"
 msgstr "Es poco probable que tu apartamento sea de renta estabilizada"
 
-#: frontend/lib/common-steps/ask-name.tsx:10
+#: frontend/lib/common-steps/ask-name.tsx:11
 msgid "It’s your first time here!"
 msgstr "¡Es la primera vez que estás aquí!"
 
@@ -1125,7 +1124,6 @@ msgstr "Nombre del dueño o manager de tu edificio"
 msgid "Language:"
 msgstr "Idioma:"
 
-#: frontend/lib/common-steps/ask-name.tsx:26
 #: frontend/lib/rh/routes.tsx:117
 msgid "Last name"
 msgstr "Apellido"
@@ -1164,11 +1162,15 @@ msgstr "Aprender más."
 msgid "Legal Protections"
 msgstr "Protecciones jurídicas"
 
-#: frontend/lib/account-settings/about-you-settings.tsx:42
+#: frontend/lib/account-settings/about-you-settings.tsx:43
+#: frontend/lib/common-steps/ask-name.tsx:29
+#: frontend/lib/onboarding/onboarding-step-1.tsx:86
 msgid "Legal first name"
 msgstr "Primer nombre legal"
 
-#: frontend/lib/account-settings/about-you-settings.tsx:43
+#: frontend/lib/account-settings/about-you-settings.tsx:44
+#: frontend/lib/common-steps/ask-name.tsx:30
+#: frontend/lib/onboarding/onboarding-step-1.tsx:89
 msgid "Legal last name"
 msgstr "Apellido legal"
 
@@ -1176,7 +1178,7 @@ msgstr "Apellido legal"
 msgid "Legally vetted"
 msgstr "Verificado legalmente"
 
-#: frontend/lib/common-steps/ask-name.tsx:13
+#: frontend/lib/common-steps/ask-name.tsx:14
 msgid "Let's get to know you."
 msgstr "Conozcámonos."
 
@@ -1489,8 +1491,8 @@ msgid "One letter for the months between March and August when you couldn't pay 
 msgstr "Una carta para los meses entre marzo y agosto cuando no pudiste pagar la renta en su totalidad."
 
 #: frontend/lib/app.tsx:57
-#: frontend/lib/norent/components/subscribe.tsx:41
-#: frontend/lib/norent/components/subscribe.tsx:45
+#: frontend/lib/norent/components/subscribe.tsx:47
+#: frontend/lib/norent/components/subscribe.tsx:51
 msgid "Oops! A network error occurred. Try again later."
 msgstr "¡Vaya! Hubo un error en la red. Inténtalo más tarde."
 
@@ -1515,7 +1517,7 @@ msgid "Our letter cites the most up-to-date legal ordinances that protect tenant
 msgstr "Nuestra carta cita las ordenanzas legales actuales que protegen los derechos de los inquilinos en tu estado."
 
 #: frontend/lib/common-steps/ask-national-address.tsx:35
-#: frontend/lib/common-steps/ask-nyc-address.tsx:25
+#: frontend/lib/common-steps/ask-nyc-address.tsx:24
 msgid "Our records have shown us a similar address. Would you like to proceed with this address:"
 msgstr "Nuestros registros han encontrado una dirección similar. ¿Quieres continuar con la dirección siguiente?"
 
@@ -1599,7 +1601,9 @@ msgstr "Ten en cuenta que tu carta de declaración tendrá la siguiente estructu
 msgid "Please read the rest of this email carefully as it contains important information about your next steps."
 msgstr "Por favor, lee atentamente el resto del correo electrónico ya que contiene información importante sobre tus próximos pasos."
 
-#: frontend/lib/account-settings/about-you-settings.tsx:23
+#: frontend/lib/account-settings/about-you-settings.tsx:24
+#: frontend/lib/common-steps/ask-name.tsx:31
+#: frontend/lib/onboarding/onboarding-step-1.tsx:92
 msgid "Preferred first name"
 msgstr "Nombre de preferencia"
 
@@ -1961,8 +1965,8 @@ msgstr "Acciones Estratégicas para una Economía Justa (SAJE) puede ponerse en 
 msgid "Street address (include unit/suite/floor/apt #)"
 msgstr "Dirección (incluye unidad/suite/piso/apt #)"
 
-#: frontend/lib/norent/components/subscribe.tsx:58
-#: frontend/lib/norent/components/subscribe.tsx:59
+#: frontend/lib/norent/components/subscribe.tsx:64
+#: frontend/lib/norent/components/subscribe.tsx:65
 msgid "Submit email"
 msgstr "Enviar email"
 
@@ -2642,7 +2646,7 @@ msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure
 msgstr "¡Tu privacidad es muy importante para nosotros! Todo en JustFix.nyc es seguro."
 
 #: frontend/lib/common-steps/ask-national-address.tsx:97
-#: frontend/lib/common-steps/ask-nyc-address.tsx:39
+#: frontend/lib/common-steps/ask-nyc-address.tsx:44
 msgid "Your residence"
 msgstr "Tu hogar"
 
@@ -2807,7 +2811,7 @@ msgstr "Si recibes documentos relacionados con el alquiler desde una dirección 
 msgid "justfix.ddoEfnycCovidMessage1"
 msgstr "Puedes enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales—deteniendo tu caso de desalojo hasta el 31 de agosto, 2021."
 
-#: frontend/lib/ui/covid-banners.tsx:83
+#: frontend/lib/ui/covid-banners.tsx:90
 msgid "justfix.ddoEhpaDeactivatedMessage"
 msgstr "A partir del 8 de junio de 2021, nuestra herramienta Emergency HP Action ya no está disponible. La Corte de Viviendas ha impedido que los inquilinos demanden a sus dueños a través de JustFix.nyc. <0>Lea nuestra declaración aquí</0>. Mientras tanto, agregue su nombre a una lista de inquilinos que buscan una posible referencia a uno de nuestros aliados de servicios legales."
 
@@ -3047,4 +3051,3 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

@@ -99,10 +99,6 @@ class OnboardingStep1V2(OnboardingScaffoldingMutation):
         form_class = forms.OnboardingStep1V2Form
         exclude = ["no_apt_number"]
 
-    @classmethod
-    def get_scaffolding_fields_from_form(cls, form) -> Dict[str, Any]:
-        return with_keys_renamed(form.cleaned_data, {"address": "street"})
-
 
 @schema_registry.register_mutation
 class OnboardingStep3(OnboardingScaffoldingMutation):
@@ -177,7 +173,7 @@ class OnboardingStep4Base(SessionFormMutation):
             and scf.receives_public_assistance is not None
         ):
             return None
-        return with_keys_renamed(scf.dict(), {"street": "address"})
+        return with_keys_renamed(scf.dict(), forms.OnboardingStep1V2Form.from_scaffolding_keys)
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
@@ -285,7 +281,7 @@ class NycAddress(SessionFormMutation):
             cls.perform_mutate_for_logged_in_user(form, info)
         else:
             update_scaffolding(
-                info.context, with_keys_renamed(form.cleaned_data, {"address": "street"})
+                info.context, with_keys_renamed(form.cleaned_data, form.to_scaffolding_keys)
             )
 
         return cls.mutation_success()
@@ -428,7 +424,9 @@ class OnboardingSessionInfo(object):
     def resolve_onboarding_step_1(self, info: ResolveInfo):
         scf = get_scaffolding(info.context)
         if scf.first_name and scf.last_name and scf.street:
-            return with_keys_renamed(scf.dict(), {"street": "address"})
+            return with_keys_renamed(
+                scf.dict(), OnboardingStep1V2Info._meta.form_class.from_scaffolding_keys
+            )
         return None
 
     def resolve_onboarding_step_3(self, info: ResolveInfo):

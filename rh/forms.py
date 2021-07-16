@@ -1,3 +1,4 @@
+from project.util.rename_dict_keys import flip_dict
 from django import forms
 
 from project.util.phone_number import USPhoneNumberField
@@ -24,6 +25,13 @@ class RhForm(AddressAndBoroughFormMixin, forms.ModelForm):
         )
 
     phone_number = USPhoneNumberField()
+
+    to_scaffolding_keys = {
+        **AddressAndBoroughFormMixin.to_scaffolding_keys,
+        "apartment_number": "apt_number",
+    }
+
+    from_scaffolding_keys = flip_dict(to_scaffolding_keys)
 
 
 class RhSendEmail(forms.Form):

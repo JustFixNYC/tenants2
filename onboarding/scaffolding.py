@@ -192,6 +192,23 @@ class GraphQlOnboardingScaffolding(graphene.ObjectType):
         return graphene.Field(cls, resolver=resolver)
 
 
+def get_scaffolding_fields_from_form(form) -> Dict[str, Any]:
+    """
+    Returns the form's cleaned data in a format that is suitable
+    for updating scaffolding data.
+
+    Generally this is just the form's cleaned data. However, if the
+    form has a `to_scaffolding_keys` property that maps its field
+    names to scaffolding field names, that is used to rename fields
+    as needed.
+    """
+
+    data = form.cleaned_data
+    if hasattr(form, "to_scaffolding_keys"):
+        data = with_keys_renamed(data, form.to_scaffolding_keys)
+    return data
+
+
 class OnboardingScaffoldingMutation(SessionFormMutation):
     """
     Base class for writing a form's `cleaned_data` into onboarding scaffolding.
@@ -201,13 +218,9 @@ class OnboardingScaffoldingMutation(SessionFormMutation):
         abstract = True
 
     @classmethod
-    def get_scaffolding_fields_from_form(cls, form) -> Dict[str, Any]:
-        return form.cleaned_data
-
-    @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
-        update_scaffolding(request, cls.get_scaffolding_fields_from_form(form))
+        update_scaffolding(request, get_scaffolding_fields_from_form(form))
         return cls.mutation_success()
 
 
@@ -229,7 +242,7 @@ class OnboardingScaffoldingOrUserDataMutation(SessionFormMutation):
 
     @classmethod
     def perform_mutate_for_anonymous_user(cls, form, info: ResolveInfo):
-        update_scaffolding(info.context, form.cleaned_data)
+        update_scaffolding(info.context, get_scaffolding_fields_from_form(form))
         return cls.mutation_success()
 
     @classmethod
@@ -274,7 +287,11 @@ def _migrate_legacy_session_data_to_scaffolding(request):
                 if "preferred_first_name" in legacy_step1:
                     del legacy_step1["preferred_first_name"]
 
-            d.update(with_keys_renamed(legacy_step1, {"address": "street"}))
+            d.update(
+                with_keys_renamed(
+                    legacy_step1, OnboardingStep1V2Info._meta.form_class.to_scaffolding_keys
+                )
+            )
             updated = True
             OnboardingStep1V2Info.clear_from_request(request)
 
@@ -291,6 +308,15 @@ def _migrate_legacy_session_data_to_scaffolding(request):
             d.update(legacy_step3)
             updated = True
             OnboardingStep3Info.clear_from_request(request)
+
+    if not d.get("phone_number"):
+        from rh.schema import RhFormInfo
+
+        legacy_rh = RhFormInfo.get_dict_from_request(request)
+        if legacy_rh:
+            d.update(with_keys_renamed(legacy_rh, RhFormInfo._meta.form_class.to_scaffolding_keys))
+            updated = True
+            RhFormInfo.clear_from_request(request)
 
     if updated:
         request.session[SCAFFOLDING_SESSION_KEY] = d

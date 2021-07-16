@@ -102,7 +102,7 @@ class AddressAndBoroughFormMixin(forms.Form):
     )
 
     # Our onboarding scaffolding structure uses slightly different field names for the
-    # same kind of values; this dictionary maps our field names to the ones the
+    # same kind of values; this dictionary maps this form's field names to the ones the
     # scaffolding uses.
     to_scaffolding_keys = {
         "address": "street",

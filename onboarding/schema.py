@@ -1,4 +1,6 @@
 import logging
+from project.forms import YesNoRadiosField
+from project.util.rename_dict_keys import with_keys_renamed
 from typing import Optional, Dict, Any, List, Type
 from django.contrib.auth import login
 from django.conf import settings
@@ -23,6 +25,12 @@ from partnerships import referral
 from project.util.model_form_util import OneToOneUserModelFormMutation
 from users.email_verify import send_verification_email_async
 from onboarding import forms
+from onboarding.scaffolding import (
+    OnboardingScaffoldingMutation,
+    get_scaffolding,
+    purge_scaffolding,
+    update_scaffolding,
+)
 from onboarding.schema_util import mutation_requires_onboarding
 from onboarding.models import OnboardingInfo, BOROUGH_CHOICES, LEASE_CHOICES, SIGNUP_INTENT_CHOICES
 
@@ -64,12 +72,6 @@ class OnboardingStep1V2Info(DjangoSessionFormObjectType):
         }
 
 
-class OnboardingStep2Info(DjangoSessionFormObjectType):
-    class Meta:
-        form_class = forms.OnboardingStep2Form
-        session_key = session_key_for_step(2)
-
-
 class OnboardingStep3Info(DjangoSessionFormObjectType):
     class Meta:
         form_class = forms.OnboardingStep3Form
@@ -92,15 +94,16 @@ class OnboardingStep1(DjangoSessionFormMutation):
 
 
 @schema_registry.register_mutation
-class OnboardingStep1V2(DjangoSessionFormMutation):
+class OnboardingStep1V2(OnboardingScaffoldingMutation):
     class Meta:
-        source = OnboardingStep1V2Info
+        form_class = forms.OnboardingStep1V2Form
+        exclude = ["no_apt_number"]
 
 
 @schema_registry.register_mutation
-class OnboardingStep3(DjangoSessionFormMutation):
+class OnboardingStep3(OnboardingScaffoldingMutation):
     class Meta:
-        source = OnboardingStep3Info
+        form_class = forms.OnboardingStep3Form
 
 
 def pick_model_fields(model, **kwargs):
@@ -161,14 +164,16 @@ class OnboardingStep4Base(SessionFormMutation):
 
     @classmethod
     def __extract_all_step_session_data(cls, request: HttpRequest) -> Optional[Dict[str, Any]]:
-        result: Dict[str, Any] = {}
-        for step in SESSION_STEPS:
-            value = step.get_dict_from_request(request)
-            if not value:
-                return None
-            else:
-                result.update(value)
-        return result
+        scf = get_scaffolding(request)
+        if not (
+            scf.first_name
+            and scf.last_name
+            and scf.street
+            and scf.lease_type
+            and scf.receives_public_assistance is not None
+        ):
+            return None
+        return with_keys_renamed(scf.dict(), forms.OnboardingStep1V2Form.from_scaffolding_keys)
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
@@ -191,8 +196,7 @@ class OnboardingStep4Base(SessionFormMutation):
         if user.email:
             send_verification_email_async(user.pk)
 
-        for step in SESSION_STEPS:
-            step.clear_from_request(request)
+        purge_scaffolding(request)
 
         return cls.mutation_success()
 
@@ -256,11 +260,11 @@ class NycAddress(SessionFormMutation):
     class Meta:
         form_class = forms.NycAddressForm
 
-    login_required = True
+    login_required = False
 
     @classmethod
     @mutation_requires_onboarding
-    def perform_mutate(cls, form, info: ResolveInfo):
+    def perform_mutate_for_logged_in_user(cls, form, info: ResolveInfo):
         oi = info.context.user.onboarding_info
         oi.non_nyc_city = ""
         oi.state = US_STATE_CHOICES.NY
@@ -270,6 +274,15 @@ class NycAddress(SessionFormMutation):
         oi.address_verified = form.cleaned_data["address_verified"]
         oi.full_clean()
         oi.save()
+
+    @classmethod
+    def perform_mutate(cls, form, info: ResolveInfo):
+        if info.context.user.is_authenticated:
+            cls.perform_mutate_for_logged_in_user(form, info)
+        else:
+            update_scaffolding(
+                info.context, with_keys_renamed(form.cleaned_data, form.to_scaffolding_keys)
+            )
 
         return cls.mutation_success()
 
@@ -387,11 +400,10 @@ class OnboardingSessionInfo(object):
     A mixin class defining all onboarding-related queries.
     """
 
-    onboarding_step_1 = OnboardingStep1V2Info.field()
-    onboarding_step_2 = OnboardingStep2Info.field(
-        deprecation_reason="See https://github.com/JustFixNYC/tenants2/issues/1144"
-    )
-    onboarding_step_3 = OnboardingStep3Info.field()
+    onboarding_step_1 = graphene.Field(OnboardingStep1V2Info)
+
+    onboarding_step_3 = graphene.Field(OnboardingStep3Info)
+
     onboarding_info = graphene.Field(
         OnboardingInfoType,
         description=(
@@ -407,4 +419,23 @@ class OnboardingSessionInfo(object):
         user = info.context.user
         if hasattr(user, "onboarding_info"):
             return user.onboarding_info
+        return None
+
+    def resolve_onboarding_step_1(self, info: ResolveInfo):
+        scf = get_scaffolding(info.context)
+        if scf.first_name and scf.last_name and scf.street:
+            return with_keys_renamed(
+                scf.dict(), OnboardingStep1V2Info._meta.form_class.from_scaffolding_keys
+            )
+        return None
+
+    def resolve_onboarding_step_3(self, info: ResolveInfo):
+        scf = get_scaffolding(info.context)
+        if scf.lease_type and scf.receives_public_assistance is not None:
+            return {
+                "lease_type": scf.lease_type,
+                "receives_public_assistance": YesNoRadiosField.reverse_coerce_to_str(
+                    scf.receives_public_assistance
+                ),
+            }
         return None

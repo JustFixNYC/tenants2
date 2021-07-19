@@ -7,6 +7,7 @@ import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import { MiddleProgressStepProps } from "../progress/progress-step-route";
 import { NorentFullLegalAndPreferredNameMutation } from "../queries/NorentFullLegalAndPreferredNameMutation";
+import { optionalizeLabel } from "../forms/optionalize-label";
 
 export const AskNameStep: React.FC<MiddleProgressStepProps> = (props) => {
   return (
@@ -41,7 +42,7 @@ export const AskNameStep: React.FC<MiddleProgressStepProps> = (props) => {
             />
             <TextualFormField
               {...ctx.fieldPropsFor("preferredFirstName")}
-              label={li18n._(t`Preferred first name`)}
+              label={optionalizeLabel(li18n._(t`Preferred first name`))}
             />
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>

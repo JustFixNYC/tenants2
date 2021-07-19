@@ -27,13 +27,20 @@ class NorentReminder(SmsReminder):
                 "In order to be protected from eviction, you must send a new declaration "
                 "letter to your landlord through NoRent.org: %(url)s"
             )
+        elif self.year_and_month == "2021-07":
+            msg = _(
+                "%(first_name)s, you've previously created an account on NoRent.org. "
+                "The California Tenant Relief Act of 2020 was extended by the new law AB832. "
+                "In order to be protected from eviction, you must send a new declaration "
+                "letter to your landlord through NoRent.org: %(url)s"
+            )
         else:
             msg = _(
                 "%(first_name)s, you've previously created an account on NoRent.org. "
                 "If you are unable to pay rent next month AND you have a COVID-19 "
                 "related reason for not paying, we recommend that on or before your "
                 "rent due date or within 7 days of your rent due date, you send a "
-                "new SB91 declaration to your landlord through NoRent.org: %(url)s"
+                "new AB832 declaration to your landlord through NoRent.org: %(url)s"
             )
 
         params = {

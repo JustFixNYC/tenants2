@@ -7,7 +7,7 @@ import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { isDeepEqual } from "../util/util";
 import { ServerFormFieldError } from "../forms/form-errors";
 import { getGlobalSiteRoutes } from "../global-site-routes";
-import { getGlobalAppServerInfo, AppServerInfo } from "../app-context";
+import { getGlobalAppServerInfo } from "../app-context";
 import { LocaleChoice } from "../../../common-data/locale-choices";
 import i18n from "../i18n";
 import JustfixRoutes from "../justfix-route-info";
@@ -16,9 +16,18 @@ import { EvictionFreeRoutes } from "../evictionfree/route-info";
 import { USER_ID_PREFIX } from "../../../common-data/amplitude";
 
 /**
+ * These are Amplitude user properties updated by the front-end.
+ *
+ * From the Amplitude documentation:
+ *
+ *   > User properties are the attributes of individual users. Common
+ *   > user properties include device type, location, User ID, and
+ *   > whether the user is a paying customer or not.
+ *
  * We need to be very careful here that we don't conflict with any of
- * the user properties sent by the back-end code!  See the
- * `amplitude` Django app for more details.
+ * the user properties sent by the back-end code!  For more details, see
+ * the `amplitude` Django app--especially its `export_to_amplitude.py`
+ * file.
  */
 export type JustfixAmplitudeUserProperties = {
   city: string;
@@ -31,6 +40,12 @@ export type JustfixAmplitudeUserProperties = {
   issueCount: number;
 
   /**
+   * The git revision that built the front-end the user
+   * most recently used, or `null` if we don't know.
+   */
+  frontendVersion: string | null;
+
+  /**
    * This field is no longer relevant since we decomissioned the
    * legacy app, but we're keeping it around in the type definition
    * for documentation purposes.  It was used to track whether the
@@ -40,22 +55,83 @@ export type JustfixAmplitudeUserProperties = {
   prefersLegacyApp: boolean | null;
 };
 
+/**
+ * This structure has Amplitude event properties shared by many
+ * of our events.
+ */
 type PageInfo = {
+  /**
+   * The pathname of the URL the user was on when the event took place,
+   * *without* any leading locale, e.g. `/account`.
+   *
+   * Because the locale isn't included, we can easily aggregate
+   * statistics without having to account for every possible locale
+   * we support.
+   */
   pathname: string;
+
+  /**
+   * The locale the user was using when the event took place, e.g. `en`.
+   */
   locale: LocaleChoice;
+
+  /**
+   * The site the user was on when the event took place, e.g. `NORENT`.
+   */
   siteType: SiteChoice;
 };
 
+/**
+ * Amplitude event properties for outbound link clicks.
+ */
 type OutboundLinkEventData = PageInfo & {
+  /**
+   * The "href" attribute of the outbound link the user clicked on.
+   */
   href: string;
 };
 
+/**
+ * Amplitude event properties for form submissions.
+ */
 type FormSubmissionEventData = PageInfo & {
+  /**
+   * This is usually the name of the GraphQL mutation that processed
+   * the form submission, e.g. `LoginMutation`.
+   */
   formKind: string;
+
+  /**
+   * The unique id of the form on the page (this is often set if
+   * there are multiple forms on the page).
+   */
   formId?: string;
+
+  /**
+   * If the form submission redirected the user somewhere, this
+   * is the value of the redirect.
+   */
   redirect?: string;
+
+  /**
+   * If the form submission resulted in any validation errors,
+   * this is a list of all the error messages shown to the user,
+   * preceded by their field name, e.g. `"state: This field is required"`
+   * or `"__all__: Please choose at least one option"`.
+   *
+   * Note that the error messages will be localized to whatever locale
+   * the user has activated, so `"phoneNumber: Este campo es obligatorio."`
+   * is a valid potential error message.
+   */
   errorMessages?: string[];
+
+  /**
+   * If the form submission resulted in any validation errors,
+   * this is a list of all the error codes, preceded by their field
+   * name, e.g. `"password: password_too_short"`.
+   */
   errorCodes?: string[];
+
   search?: string;
 };
 
@@ -76,6 +152,10 @@ declare global {
   }
 }
 
+/**
+ * Returns the Amplitude client, or `undefined` if
+ * Amplitude integration is disabled.
+ */
 function getAmplitude(): JustfixAmplitudeClient | undefined {
   if (typeof window === "undefined") return undefined;
   return window.amplitude?.getInstance();
@@ -121,6 +201,12 @@ export function updateAmplitudeUserPropertiesOnSessionChange(
   return true;
 }
 
+export function trackFrontendVersionInAmplitude() {
+  getAmplitude()?.setUserProperties({
+    frontendVersion: GIT_REVISION,
+  });
+}
+
 export function trackLoginInAmplitude(s: AllSessionInfo) {
   // This will make it easier to distinguish our user IDs from
   // Amplitude ones, which are just really large numbers.
@@ -139,6 +225,13 @@ export function trackLogoutInAmplitude(s: AllSessionInfo) {
   getAmplitude()?.setUserProperties(getUserPropertiesFromSession(s));
 }
 
+/**
+ * Returns page information about the given URL pathname, to
+ * be included as event properties for events that take place
+ * on that page.
+ *
+ * @see PageInfo
+ */
 function getPageInfo(pathname: string): PageInfo {
   const serverInfo = getGlobalAppServerInfo();
   return {
@@ -148,9 +241,17 @@ function getPageInfo(pathname: string): PageInfo {
   };
 }
 
+/**
+ * Removes the current locale's prefix from the given pathname if
+ * it's present.
+ *
+ * Note that the prefix will only be removed if it's the _current_
+ * locale. This is done partly to ensure that we don't accidentally
+ * remove prefixes that don't actually represent locales.
+ */
 function unlocalizePathname(
   pathname: string,
-  serverInfo: AppServerInfo
+  serverInfo = getGlobalAppServerInfo()
 ): string {
   const { prefix } = getGlobalSiteRoutes(serverInfo).locale;
   return pathname.startsWith(prefix + "/")
@@ -158,12 +259,31 @@ function unlocalizePathname(
     : pathname;
 }
 
+/**
+ * Stuff that we don't really want to pollute IDE auto-import
+ * namespaces with, but that we still want to run automated
+ * tests on.
+ */
+export const _forTestingAmplitude = {
+  getPageInfo,
+  unlocalizePathname,
+};
+
+/**
+ * Log a page view event in Amplitude.
+ *
+ * The name of the event is of the form `Viewed [page type]`,
+ * where `[page type]` varies based on the page visited.
+ */
 export function logAmplitudePageView(pathname: string) {
   const data: PageInfo = getPageInfo(pathname);
   const eventName = `Viewed ${getAmplitudePageType(pathname)}`;
   getAmplitude()?.logEvent(eventName, data);
 }
 
+/**
+ * Log a `Clicked outbound link` event in Amplitude.
+ */
 export function logAmplitudeOutboundLinkClick(href: string) {
   const data: OutboundLinkEventData = {
     ...getPageInfo(window.location.pathname),
@@ -172,6 +292,13 @@ export function logAmplitudeOutboundLinkClick(href: string) {
   getAmplitude()?.logEvent("Clicked outbound link", data);
 }
 
+/**
+ * Log a form submission event in Amplitude.
+ *
+ * If the form submission contains errors, the event
+ * will be called `Submitted form with errors`. Otherwise
+ * it will be called `Submitted form successfully`.
+ */
 export function logAmplitudeFormSubmission(options: {
   pathname: string;
   formKind: string;
@@ -216,6 +343,11 @@ type StringMapping = {
   [k: string]: string;
 };
 
+/**
+ * Given a URL pathname, attempts to figure out the best category
+ * for the page, given a mapping from URL pathname prefixes to
+ * category names.
+ */
 function findBestPage(pathname: string, mapping: StringMapping): string {
   for (let [prefix, name] of Object.entries(mapping)) {
     if (pathname.startsWith(prefix)) {
@@ -225,6 +357,11 @@ function findBestPage(pathname: string, mapping: StringMapping): string {
   return "page";
 }
 
+/**
+ * Given a URL pathname on the app.justfix.nyc site,
+ * returns the type of page it refers to, for the
+ * purposes of naming Amplitude events.
+ */
 function getJustfixPageType(pathname: string): string {
   const r = JustfixRoutes.locale;
   if (pathname === r.home) return "DDO";
@@ -237,6 +374,11 @@ function getJustfixPageType(pathname: string): string {
   });
 }
 
+/**
+ * Given a URL pathname on the norent.org site,
+ * returns the type of page it refers to, for the
+ * purposes of naming Amplitude events.
+ */
 function getNorentPageType(pathname: string): string {
   const r = NorentRoutes.locale;
   return findBestPage(pathname, {
@@ -244,6 +386,11 @@ function getNorentPageType(pathname: string): string {
   });
 }
 
+/**
+ * Given a URL pathname on the evictionfreeny.org site,
+ * returns the type of page it refers to, for the
+ * purposes of naming Amplitude events.
+ */
 function getEvictionFreePageType(pathname: string): string {
   const r = EvictionFreeRoutes.locale;
   return findBestPage(pathname, {
@@ -251,6 +398,11 @@ function getEvictionFreePageType(pathname: string): string {
   });
 }
 
+/**
+ * Attempts to classify the given URL pathname
+ * for the purposes of naming Amplitude events so
+ * that they are neither too granular nor too broad.
+ */
 export function getAmplitudePageType(pathname: string): string {
   const { siteType } = getGlobalAppServerInfo();
 

@@ -1562,18 +1562,6 @@
             },
             {
               "args": [],
-              "deprecationReason": "This field has been deprecated as we now use `stabilized_unit_count` to store the rs unit count for the most up-to-date-year we have available.",
-              "description": "The number of rent-stabilized residential units at the BBL in 2017.",
-              "isDeprecated": true,
-              "name": "stabilizedUnitCount2017",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
               "deprecationReason": null,
               "description": "The number of rent-stabilized residential units at the BBL for the most recent year we have data for.",
               "isDeprecated": false,
@@ -1752,18 +1740,6 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "OnboardingStep1V2Info",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": "See https://github.com/JustFixNYC/tenants2/issues/1144",
-              "description": null,
-              "isDeprecated": true,
-              "name": "onboardingStep2",
-              "type": {
-                "kind": "OBJECT",
-                "name": "OnboardingStep2Info",
                 "ofType": null
               }
             },
@@ -2321,18 +2297,6 @@
             },
             {
               "args": [],
-              "deprecationReason": "Legacy app integration is no longer relevant since the legacy app was decommissioned on August 3, 2020.",
-              "description": "Whether we should redirect this user to the legacy tenant app after they log in. If null, the user is either not a legacy user, or legacy app integration is disabled.",
-              "isDeprecated": true,
-              "name": "prefersLegacyApp",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
               "deprecationReason": "This is an example of a deprecated session field. It should never appear in auto-generated GraphQL queries because it is deprecated, but it can still be queried, which will allow legacy clients asking for it to not crash.",
               "description": "An example deprecated session field.",
               "isDeprecated": true,
@@ -2720,97 +2684,6 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "OnboardingStep1V2Info",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": "Has the user received an eviction notice?",
-              "isDeprecated": false,
-              "name": "isInEviction",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": "Does the user need repairs in their apartment?",
-              "isDeprecated": false,
-              "name": "needsRepairs",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": "Is the user missing essential services like water?",
-              "isDeprecated": false,
-              "name": "hasNoServices",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": "Does the user have pests like rodents or bed bugs?",
-              "isDeprecated": false,
-              "name": "hasPests",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": "Has the user called 311 before?",
-              "isDeprecated": false,
-              "name": "hasCalled311",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "OnboardingStep2Info",
           "possibleTypes": null
         },
         {
@@ -3425,6 +3298,22 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
+              "name": "borough",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
               "name": "zipCode",
               "type": {
                 "kind": "NON_NULL",
@@ -3454,134 +3343,6 @@
               "description": null,
               "isDeprecated": false,
               "name": "email",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": "In lastQueriedPhoneNumber now",
-              "description": null,
-              "isDeprecated": true,
-              "name": "phoneNumber",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": "In landlordDetails now",
-              "description": null,
-              "isDeprecated": true,
-              "name": "landlordName",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": "In landlordDetails now",
-              "description": null,
-              "isDeprecated": true,
-              "name": "landlordPrimaryLine",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": "In landlordDetails now",
-              "description": null,
-              "isDeprecated": true,
-              "name": "landlordCity",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": "In landlordDetails now",
-              "description": null,
-              "isDeprecated": true,
-              "name": "landlordState",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": "In landlordDetails now",
-              "description": null,
-              "isDeprecated": true,
-              "name": "landlordZipCode",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": "In landlordDetails now",
-              "description": null,
-              "isDeprecated": true,
-              "name": "landlordEmail",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": "In landlordDetails now",
-              "description": null,
-              "isDeprecated": true,
-              "name": "landlordPhoneNumber",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,

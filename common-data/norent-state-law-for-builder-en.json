@@ -17,14 +17,14 @@
   },
   "CA": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "If you live in the state of California and you are not able to pay your rent due to COVID-19 reasons from March 1, 2020 to June 30, 2021 you are likely covered by SB91 - an extension of the Tenant Relief Act of 2020. You must submit a declaration letter each month to your landlord stating that you are unable to pay rent and the reasons why. This tool satisfies the requirements for you to be able to successfully mail a declaration letter to your landlord."
+    "textOfLegislation": "If you live in the state of California and you are not able to pay your rent due to COVID-19 reasons from March 1, 2020 to September 30, 2021 you are likely covered by AB832 - an extension of the Tenant Relief Act of 2020. You must submit a declaration letter each month to your landlord stating that you are unable to pay rent and the reasons why. This tool satisfies the requirements for you to be able to successfully mail a declaration letter to your landlord."
   },
   "CO": {
     "stateWithoutProtections": true,
     "textOfLegislation": "Colorado Governor issued an executive order that directs certain departments to work with landlords and banks to find lawful means of avoiding evictions, as well as asks sheriffs and other local enforcement to avoid executing evictions."
   },
   "CT": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "Governor Lamont\u2019s Executive Order 10A renewed January 26, 2021 extends eviction moratorium to April 20, 2021."
   },
   "DC": {
@@ -55,7 +55,7 @@
     "textOfLegislation": "Idaho issued a statewide order directing that eviction cases be suspended except for drug-related cases until April 15. It is not clear if eviction cases have now resumed."
   },
   "IL": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "Tenants in Illinois impacted by the COVID-19 crisis are protected from eviction for nonpayment per Governor Pritzker's COVID-19 Executive Order No. 2021-05, Issued March 5, 2020."
   },
   "IN": {
@@ -120,7 +120,7 @@
   },
   "NJ": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Tenants in New Jersey are protected from eviction for non-payment by Executive Order No. 106 until two months after Governor Murphy declares an end to the COVID-19 health crisis."
+    "textOfLegislation": "Under the legislation (S3691), renters in New Jersey are protected from eviction through Aug. 31 if your annual household income is above 80% of their county\u2019s median income. Renters who make less than 80% will be protected under the moratorium through Dec. 31."
   },
   "NM": {
     "stateWithoutProtections": true

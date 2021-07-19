@@ -9,6 +9,7 @@ import { NorentPreferredNameMutation } from "../queries/NorentPreferredNameMutat
 import { NorentFullLegalNameMutation } from "../queries/NorentFullLegalNameMutation";
 import { EditableInfo, SaveCancelButtons } from "../ui/editable-info";
 import { makeAccountSettingsSection, WithAccountSettingsProps } from "./util";
+import { optionalizeLabel } from "../forms/optionalize-label";
 
 const PreferredNameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   const { session } = useContext(AppContext);
@@ -39,7 +40,7 @@ const PreferredNameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
               <TextualFormField
                 autoFocus
                 {...ctx.fieldPropsFor("preferredFirstName")}
-                label={li18n._(t`Preferred first name`)}
+                label={optionalizeLabel(li18n._(t`Preferred first name`))}
               />
               <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>

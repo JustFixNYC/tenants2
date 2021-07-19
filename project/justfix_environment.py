@@ -396,6 +396,24 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # The origin of the NYC GeoSearch API.
     NYC_GEOSEARCH_ORIGIN: str = "https://geosearch.planninglabs.nyc"
 
+    # The Contentful Space ID to use for retrieving common strings. For more
+    # details, see: https://github.com/JustFixNYC/tenants2/pull/2125
+    #
+    # If empty, Contentful integration will be disabled.
+    #
+    # By default, this is set to retrieve JustFix.nyc's publicly-available
+    # common strings.
+    CONTENTFUL_SPACE_ID: str = "markmr2gi204"
+
+    # The Contentful access token to use for retrieving common strings. For more
+    # details, see: https://github.com/JustFixNYC/tenants2/pull/2125
+    #
+    # If empty, Contentful integration will be disabled.
+    #
+    # By default, this is set to retrieve JustFix.nyc's publicly-available
+    # common strings.
+    CONTENTFUL_ACCESS_TOKEN: str = "Fli_OMdKgUFw6tEX3uv6HqvptuG6A6jn9bZVPlHZj8E"
+
 
 class JustfixBuildPipelineDefaults(JustfixEnvironment):
     """

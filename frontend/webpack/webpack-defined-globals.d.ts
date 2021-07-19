@@ -31,3 +31,15 @@ declare const DISABLE_DEV_SOURCE_MAPS: boolean;
  * otherwise it defaults to false.
  */
 declare const ENABLE_WEBPACK_CONTENT_HASH: boolean;
+
+/**
+ * This is the hash of the git revision used to build
+ * the front-end and the server-side renderer, or `null` if
+ * unknown.
+ *
+ * It should not be confused with the git revision of
+ * the back-end at the time that the front-end is running.
+ *
+ * During development, this will be null.
+ */
+declare const GIT_REVISION: string | null;

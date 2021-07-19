@@ -17,14 +17,14 @@
   },
   "CA": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Si vives en el estado de California y no puedes pagar la renta por motivos relacionados al COVID-19 entre Marzo de 2020 y Junio de 2021, es probable que tengas cobertura legal bajo el \"Extension de Acto de Alivio a los Inquilinos de 2020\" SB91. Cada mes, debes enviar una carta de declaraci\u00f3n de aviso de impago al due\u00f1o o manager de tu edificio para que sepan que no puedes pagar y el porque. Esta herramienta satisface las necesidades legales para que puedas mandar tal carta de declaraci\u00f3n con certeza."
+    "textOfLegislation": "Si vives en el estado de California y no puedes pagar la renta por motivos relacionados al COVID-19 entre Marzo de 2020 y Septiembre de 2021, es probable que tengas cobertura legal bajo el \"Extension de Acto de Alivio a los Inquilinos de 2020\" AB832. Cada mes, debes enviar una carta de declaraci\u00f3n de aviso de impago al due\u00f1o o manager de tu edificio para que sepan que no puedes pagar y el porque. Esta herramienta satisface las necesidades legales para que puedas mandar tal carta de declaraci\u00f3n con certeza."
   },
   "CO": {
     "stateWithoutProtections": true,
     "textOfLegislation": "El Gobernador de Colorado emiti\u00f3 una orden ejecutiva que exige a ciertos departamentos trabajar con los due\u00f1os de edificios y bancos para encontrar mecanismos legales que eviten los desalojos, y tambi\u00e9n pide a los alguaciles y otras autoridades locales que eviten ejecutar los desalojos."
   },
   "CT": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "Los inquilinos de Connecticut est\u00e1n protegidos contra el desalojo por falta de pago hasta el 20 de Abril de 2021, mediante la Orden Ejecutiva 10A, emitida por el gobernador Ned Lamont."
   },
   "DC": {
@@ -55,7 +55,7 @@
     "textOfLegislation": "Idaho emiti\u00f3 una orden estatal que exige suspender los procesos de desalojo, excepto los procesos relacionados con drogas, hasta el 15 de abril de 2020. No est\u00e1 claro si los procesos de desalojo se han reanudado."
   },
   "IL": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "En Illinois, los inquilinos afectados por la crisis de COVID-19 est\u00e1n protegidos contra el desalojo por falta de pago, de conformidad con la Orden Ejecutiva COVID-19 No. 2021-05 del Gobernador Pritzker, emitida el 5 de marzo de 2021."
   },
   "IN": {
@@ -120,7 +120,7 @@
   },
   "NJ": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Los inquilinos de Nueva Jersey est\u00e1n protegidos contra el desalojo por falta de pago mediante la Orden Ejecutiva No. 106, hasta dos meses despu\u00e9s de que el gobernador Murphy declarara el fin de la crisis de salud del COVID-19."
+    "textOfLegislation": "Seg\u00fan la legislaci\u00f3n (S3691), los inquilinos en Nueva Jersey est\u00e1n protegidos contra el desalojo hasta el 31 de agosto si su ingreso familiar anual es superior al 80% del ingreso medio de su condado. Los arrendatarios que ganen menos del 80% estar\u00e1n protegidos por la moratoria hasta el 31 de diciembre."
   },
   "NM": {
     "stateWithoutProtections": true

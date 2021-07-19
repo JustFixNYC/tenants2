@@ -17,80 +17,24 @@ from project.schema_base import get_last_queried_phone_number, purge_last_querie
 from onboarding.schema import OnboardingStep1V2Info, complete_onboarding
 from onboarding.schema_util import mutation_requires_onboarding
 from onboarding.models import SIGNUP_INTENT_CHOICES
+from onboarding.scaffolding import (
+    OnboardingScaffolding,
+    OnboardingScaffoldingMutation,
+    OnboardingScaffoldingOrUserDataMutation,
+    get_scaffolding,
+    update_scaffolding,
+    purge_scaffolding,
+    is_lnglat_in_nyc,
+    GraphQlOnboardingScaffolding,
+)
 from loc.models import LandlordDetails
-from . import scaffolding, forms, models, letter_sending
+from . import forms, models, letter_sending
 
 
-SCAFFOLDING_SESSION_KEY = f"norent_scaffolding_v{scaffolding.VERSION}"
-
-
-class NorentScaffolding(graphene.ObjectType):
+class NorentScaffolding(GraphQlOnboardingScaffolding):
     """
     Represents all fields of our scaffolding model.
     """
-
-    first_name = graphene.String(required=True)
-
-    last_name = graphene.String(required=True)
-
-    preferred_first_name = graphene.String(required=True)
-
-    street = graphene.String(required=True)
-
-    city = graphene.String(required=True)
-
-    is_city_in_nyc = graphene.Boolean()
-
-    is_in_los_angeles = graphene.Boolean(
-        description=(
-            "Whether the onboarding user is in Los Angeles County. If "
-            "we don't have enough information to tell, this will be null."
-        )
-    )
-
-    state = graphene.String(required=True)
-
-    zip_code = graphene.String(required=True)
-
-    apt_number = graphene.String()
-
-    email = graphene.String(required=True)
-
-    phone_number = graphene.String(
-        required=True, deprecation_reason="In lastQueriedPhoneNumber now"
-    )
-
-    landlord_name = graphene.String(required=True, deprecation_reason="In landlordDetails now")
-
-    landlord_primary_line = graphene.String(
-        required=True, deprecation_reason="In landlordDetails now"
-    )
-
-    landlord_city = graphene.String(required=True, deprecation_reason="In landlordDetails now")
-
-    landlord_state = graphene.String(required=True, deprecation_reason="In landlordDetails now")
-
-    landlord_zip_code = graphene.String(required=True, deprecation_reason="In landlordDetails now")
-
-    landlord_email = graphene.String(required=True, deprecation_reason="In landlordDetails now")
-
-    landlord_phone_number = graphene.String(
-        required=True, deprecation_reason="In landlordDetails now"
-    )
-
-    has_landlord_email_address = graphene.Boolean()
-
-    has_landlord_mailing_address = graphene.Boolean()
-
-    can_receive_rttc_comms = graphene.Boolean()
-
-    can_receive_saje_comms = graphene.Boolean()
-
-    def resolve_is_city_in_nyc(self, info: ResolveInfo) -> Optional[bool]:
-        return self.is_city_in_nyc()
-
-    def resolve_is_in_los_angeles(self, info: ResolveInfo) -> Optional[bool]:
-        return self.is_zip_code_in_la()
 
 
 class NorentLetter(DjangoObjectType):
@@ -114,7 +58,7 @@ class NorentRentPeriod(DjangoObjectType):
 
 @schema_registry.register_session_info
 class NorentSessionInfo(object):
-    norent_scaffolding = graphene.Field(NorentScaffolding)
+    norent_scaffolding = NorentScaffolding.graphql_field()
 
     norent_latest_rent_period = graphene.Field(
         NorentRentPeriod,
@@ -169,13 +113,6 @@ class NorentSessionInfo(object):
             return None
         return models.Letter.objects.filter(user=request.user).first()
 
-    def resolve_norent_scaffolding(self, info: ResolveInfo):
-        request = info.context
-        kwargs = request.session.get(SCAFFOLDING_SESSION_KEY, {})
-        if kwargs:
-            return scaffolding.NorentScaffolding(**kwargs)
-        return None
-
     def resolve_norent_letters_sent(self, info: ResolveInfo):
         # Note that Postgres' count() is not very efficient, as it
         # generally needs to perform a sequential scan, so we might
@@ -192,57 +129,8 @@ class NorentSessionInfo(object):
         ]
 
 
-def get_scaffolding(request) -> scaffolding.NorentScaffolding:
-    scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
-    return scaffolding.NorentScaffolding(**scaffolding_dict)
-
-
-def update_scaffolding(request, new_data):
-    scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
-    scaffolding_dict.update(new_data)
-    request.session[SCAFFOLDING_SESSION_KEY] = scaffolding_dict
-
-
-def purge_scaffolding(request):
-    if SCAFFOLDING_SESSION_KEY in request.session:
-        del request.session[SCAFFOLDING_SESSION_KEY]
-
-
-class NorentScaffoldingMutation(SessionFormMutation):
-    class Meta:
-        abstract = True
-
-    @classmethod
-    def perform_mutate(cls, form, info: ResolveInfo):
-        request = info.context
-        update_scaffolding(request, form.cleaned_data)
-        return cls.mutation_success()
-
-
-class NorentScaffoldingOrUserDataMutation(SessionFormMutation):
-    class Meta:
-        abstract = True
-
-    @classmethod
-    def perform_mutate_for_authenticated_user(cls, form, info: ResolveInfo):
-        raise NotImplementedError()
-
-    @classmethod
-    def perform_mutate_for_anonymous_user(cls, form, info: ResolveInfo):
-        update_scaffolding(info.context, form.cleaned_data)
-        return cls.mutation_success()
-
-    @classmethod
-    def perform_mutate(cls, form, info: ResolveInfo):
-        request = info.context
-        user = request.user
-        if user.is_authenticated:
-            return cls.perform_mutate_for_authenticated_user(form, info)
-        return cls.perform_mutate_for_anonymous_user(form, info)
-
-
 @schema_registry.register_mutation
-class NorentFullName(NorentScaffoldingOrUserDataMutation):
+class NorentFullName(OnboardingScaffoldingOrUserDataMutation):
     class Meta:
         form_class = forms.FullLegalName
 
@@ -258,7 +146,7 @@ class NorentFullName(NorentScaffoldingOrUserDataMutation):
 
 
 @schema_registry.register_mutation
-class NorentFullLegalName(NorentScaffoldingOrUserDataMutation):
+class NorentFullLegalName(OnboardingScaffoldingOrUserDataMutation):
     class Meta:
         form_class = forms.FullLegalName
 
@@ -272,7 +160,7 @@ class NorentFullLegalName(NorentScaffoldingOrUserDataMutation):
 
 
 @schema_registry.register_mutation
-class NorentFullLegalAndPreferredName(NorentScaffoldingOrUserDataMutation):
+class NorentFullLegalAndPreferredName(OnboardingScaffoldingOrUserDataMutation):
     class Meta:
         form_class = forms.FullLegalAndPreferredName
 
@@ -287,7 +175,7 @@ class NorentFullLegalAndPreferredName(NorentScaffoldingOrUserDataMutation):
 
 
 @schema_registry.register_mutation
-class NorentPreferredName(NorentScaffoldingOrUserDataMutation):
+class NorentPreferredName(OnboardingScaffoldingOrUserDataMutation):
     class Meta:
         form_class = forms.PreferredName
 
@@ -300,7 +188,7 @@ class NorentPreferredName(NorentScaffoldingOrUserDataMutation):
 
 
 @schema_registry.register_mutation
-class NorentCityState(NorentScaffoldingMutation):
+class NorentCityState(OnboardingScaffoldingMutation):
     class Meta:
         form_class = forms.CityState
 
@@ -358,7 +246,7 @@ class NorentNationalAddress(SessionFormMutation):
                 % {"state_name": US_STATE_CHOICES.get_label(state)},
                 field="zip_code",
             )
-        if is_valid and scaffolding.is_lnglat_in_nyc(cleaned_data["lnglat"]):
+        if is_valid and is_lnglat_in_nyc(cleaned_data["lnglat"]):
             return cls.make_error(
                 _(
                     "Your address appears to be within New York City. Please "
@@ -370,7 +258,7 @@ class NorentNationalAddress(SessionFormMutation):
         return cls.mutation_success(is_valid=is_valid)
 
 
-class BaseNorentEmail(NorentScaffoldingOrUserDataMutation):
+class BaseNorentEmail(OnboardingScaffoldingOrUserDataMutation):
     class Meta:
         abstract = True
 
@@ -485,28 +373,24 @@ class BaseCreateAccount(SessionFormMutation):
     signup_intent: str = ""
 
     @classmethod
-    def fill_nyc_info(cls, request, info: Dict[str, Any]):
-        step1 = OnboardingStep1V2Info.get_dict_from_request(request)
-        if step1 is None:
-            return None
-        info["borough"] = step1["borough"]
-        info["address"] = step1["address"]
-        info["apt_number"] = step1["apt_number"]
-        info["address_verified"] = step1["address_verified"]
-        return info
+    def fill_city_info(cls, request, info: Dict[str, Any], scf: OnboardingScaffolding):
+        info = {
+            **info,
+            "address": scf.street,
+            "apt_number": scf.apt_number,
+            "address_verified": scf.address_verified,
+        }
 
-    @classmethod
-    def fill_city_info(cls, request, info: Dict[str, Any], scf: scaffolding.NorentScaffolding):
         if scf.is_city_in_nyc():
-            return cls.fill_nyc_info(request, info)
-
-        if not are_all_truthy(scf.street, scf.zip_code):
-            return None
-        info["non_nyc_city"] = scf.city
-        info["address"] = scf.street
-        info["apt_number"] = scf.apt_number
-        info["zipcode"] = scf.zip_code
-        info["address_verified"] = False
+            if scf.borough:
+                info["borough"] = scf.borough
+            else:
+                return None
+        else:
+            if not are_all_truthy(scf.street, scf.zip_code):
+                return None
+            info["non_nyc_city"] = scf.city
+            info["zipcode"] = scf.zip_code
         return info
 
     @classmethod
@@ -598,7 +482,7 @@ class NorentSetUpcomingLetterRentPeriods(SessionFormMutation):
         return cls.mutation_success()
 
 
-class NorentOptInToComms(NorentScaffoldingOrUserDataMutation):
+class NorentOptInToComms(OnboardingScaffoldingOrUserDataMutation):
     """
     Abstract base class to make it easy to opt-in to
     communications from a partner organization.

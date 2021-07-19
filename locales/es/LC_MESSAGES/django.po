@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-17 12:04+0000\n"
-"PO-Revision-Date: 2021-03-18 20:00\n"
+"POT-Creation-Date: 2021-07-16 19:26+0000\n"
+"PO-Revision-Date: 2021-07-19 14:12\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -42,23 +42,23 @@ msgstr "%(name)s, también puedes bajarte un PDF de tu formulario de declaració
 msgid "For more information about New York’s eviction protections and your rights as a tenant, visit %(url)s. To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
 msgstr "Para obtener más información sobre las protecciones de desalojo de Nueva York y tus derechos como inquilino, visita %(url)s. Para participar en la organización y en la lucha para #StopEvictions (parar los desalojos) y #CancelRent (cancelar la renta), síguenos en Twitter: @RTCNYC y @ housing4allNY."
 
-#: evictionfree/schema.py:94
+#: evictionfree/schema.py:96
 msgid "You have already sent a hardship declaration form!"
 msgstr "¡Ya has enviado un formulario de declaración de penuria!"
 
-#: evictionfree/schema.py:96
+#: evictionfree/schema.py:98
 msgid "You haven't provided any landlord details yet!"
 msgstr "¡Aún no has proporcionado detalles sobre el dueño de tu edificio!"
 
-#: evictionfree/schema.py:101
+#: evictionfree/schema.py:103
 msgid "You must be in the state of New York to use this tool!"
 msgstr "¡Debes estar en el estado de Nueva York para usar esta herramienta!"
 
-#: evictionfree/schema.py:109
+#: evictionfree/schema.py:111
 msgid "You haven't provided details for your hardship declaration form yet!"
 msgstr "¡Aún no has proporcionado detalles para tu formulario de declaración de penuria!"
 
-#: evictionfree/schema.py:116
+#: evictionfree/schema.py:118
 msgid "This form can only be used from the Eviction Free NY site."
 msgstr "Este formulario sólo se puede utilizar desde el sitio web Eviction Free NY."
 
@@ -82,7 +82,7 @@ msgstr "Activar modo de compatibilidad"
 msgid "close"
 msgstr "cerrar"
 
-#: norent/forms.py:49
+#: norent/forms.py:65
 #, python-format
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
 msgstr "¡%(city)s, %(state_name)s no existe!"
@@ -92,16 +92,16 @@ msgstr "¡%(city)s, %(state_name)s no existe!"
 msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
 msgstr "%(name)s has enviado tu carta de no pago de renta. Puedes seguir la entrega de tu carta usando USPS Tracking: %(url)s."
 
-#: norent/schema.py:311
+#: norent/schema.py:245
 #, python-format
 msgid "Please enter a valid ZIP code for %(state_name)s."
 msgstr "Por favor, introduzca un código postal válido para %(state_name)s."
 
-#: norent/schema.py:318
+#: norent/schema.py:252
 msgid "Your address appears to be within New York City. Please go back and enter \"New York City\" as your city."
 msgstr "Tu dirección parece estar dentro de la ciudad de Nueva York. Por favor, vuelve atrás para introducir \"New York City\" como tu ciudad."
 
-#: norent/schema.py:530
+#: norent/schema.py:477
 #, python-format
 msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
 msgstr "Bienvenido/a %(site_name)s, un producto de JustFix.nyc. Te enviaremos notificaciones desde este número de teléfono."
@@ -113,14 +113,19 @@ msgstr "%(first_name)s, previamente creaste una cuenta en NoRent.org. La Ley de 
 
 #: norent/sms_reminders.py:32
 #, python-format
-msgid "%(first_name)s, you've previously created an account on NoRent.org. If you are unable to pay rent next month AND you have a COVID-19 related reason for not paying, we recommend that on or before your rent due date or within 7 days of your rent due date, you send a new SB91 declaration to your landlord through NoRent.org: %(url)s"
-msgstr "%(first_name)s, previamente creaste una cuenta de usuario en NoRent.org. Si no puedes pagar el alquiler el mes que viene y tienes una razón para no pagar relacionada con el COVID-19, recomendamos que envíes una nueva declaración SB91 al dueño o manager de tu edificio antes de la fecha de vencimiento de la renta, en el día mismo o dentro de los 7 días siguientes a través de NoRent.org: %(url)s"
+msgid "%(first_name)s, you've previously created an account on NoRent.org. The California Tenant Relief Act of 2020 was extended by the new law AB832. In order to be protected from eviction, you must send a new declaration letter to your landlord through NoRent.org: %(url)s"
+msgstr "%(first_name)s, previamente creaste una cuenta en NoRent.org. La Ley de Alivio de Inquilinos de California de 2020 fue ampliada por la nueva ley AB832. Para estar protegido del desalojo, debes enviar una nueva carta de declaración al dueño o manager de tu edificio a través de NoRent.org: %(url)s"
 
-#: onboarding/forms.py:57
+#: norent/sms_reminders.py:39
+#, python-format
+msgid "%(first_name)s, you've previously created an account on NoRent.org. If you are unable to pay rent next month AND you have a COVID-19 related reason for not paying, we recommend that on or before your rent due date or within 7 days of your rent due date, you send a new AB832 declaration to your landlord through NoRent.org: %(url)s"
+msgstr "%(first_name)s, previamente creaste una cuenta de usuario en NoRent.org. Si no puedes pagar el alquiler el mes que viene y tienes una razón relacionada con COVID-19 para no pagar, recomendamos que envíes una nueva declaración AB832 al dueño o manager de tu edificio a través de NoRent.org: %(url)s antes de la fecha de vencimiento de la renta, en el día mismo o dentro de los 7 días siguientes."
+
+#: onboarding/forms.py:60
 msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox (but not both)."
 msgstr "Por favor proporcione un número de apartamento o marque la casilla \"No tengo número de apartamento\" (pero no ambos)."
 
-#: onboarding/forms.py:65
+#: onboarding/forms.py:68
 msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox."
 msgstr "Por favor proporcione un número de apartamento o marque la casilla \"No tengo ningún número de apartamento\"."
 

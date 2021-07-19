@@ -1,4 +1,4 @@
-from unittest.mock import patch
+from onboarding.scaffolding import get_scaffolding
 import pytest
 from django.contrib.auth.hashers import is_password_usable
 
@@ -112,17 +112,16 @@ def test_onboarding_step_1_validates_data(graphql_client):
 
 def test_onboarding_step_1_works(graphql_client):
     ob = _exec_onboarding_step_n("1V2", graphql_client)
-    expected_data = {**VALID_STEP_DATA["1V2"]}
-    del expected_data["noAptNumber"]
     assert ob["errors"] == []
-    assert ob["session"]["onboardingStep1"] == expected_data
-    assert graphql_client.request.session[session_key_for_step(1)]["apt_number"] == "3B"
+    scf = get_scaffolding(graphql_client.request)
+    assert scf.first_name == "boop"
+    assert scf.last_name == "jones"
+    assert scf.apt_number == "3B"
+    assert scf.street == "123 boop way"
+    assert scf.borough == "MANHATTAN"
+    assert scf.preferred_first_name == "bip"
     assert _get_step_1_info(graphql_client)["aptNumber"] == "3B"
     assert _get_step_1_info(graphql_client)["addressVerified"] is False
-
-    session_data = graphql_client.request.session[session_key_for_step(1)]
-    assert session_data["apt_number"] == "3B"
-    assert "no_apt_number" not in session_data
 
 
 @pytest.mark.django_db
@@ -244,16 +243,6 @@ def test_county_works(db, graphql_client):
     OnboardingInfoFactory.set_geocoded_point(onb, 0.1, 0.1)
     onb.save()
     assert query() == "Funkypants"
-
-
-def test_onboarding_session_info_is_fault_tolerant(graphql_client):
-    key = session_key_for_step(1)
-    graphql_client.request.session[key] = {"lol": 1}
-
-    with patch("project.util.django_graphql_session_forms.logger") as m:
-        assert _get_step_1_info(graphql_client) is None
-        m.exception.assert_called_once_with(f"Error deserializing {key} from session")
-        assert key not in graphql_client.request.session
 
 
 def test_onboarding_session_info_returns_city_and_state(db, graphql_client):
@@ -391,6 +380,10 @@ class TestNycAddress(GraphQLTestingPal):
                 address,
                 borough,
                 aptNumber
+            }, norentScaffolding {
+                street,
+                borough,
+                aptNumber
             } }
         }
     }
@@ -403,33 +396,44 @@ class TestNycAddress(GraphQLTestingPal):
         "noAptNumber": False,
     }
 
-    _expected_default_output = {
+    _expected_logged_in_output = {
         "errors": [],
         "session": {
             "onboardingInfo": {
                 "address": "654 park place",
                 "borough": "BROOKLYN",
                 "aptNumber": "2",
-            }
+            },
+            "norentScaffolding": None,
         },
     }
 
-    def test_it_raises_err_when_not_logged_in(self):
-        self.assert_one_field_err("You do not have permission to use this form!")
+    def test_it_updates_scaffolding_when_not_logged_in(self):
+        assert self.execute() == {
+            "errors": [],
+            "session": {
+                "onboardingInfo": None,
+                "norentScaffolding": {
+                    "street": "654 park place",
+                    "borough": "BROOKLYN",
+                    "aptNumber": "2",
+                },
+            },
+        }
 
     def test_it_works_when_geocoding_fails(self):
         oi = OnboardingInfoFactory(
             address="123 boop street", borough="QUEENS", apt_number="", address_verified=True
         )
         self.set_user(oi.user)
-        assert self.execute() == self._expected_default_output
+        assert self.execute() == self._expected_logged_in_output
         assert oi.address == "654 park place"
         assert oi.address_verified is False
 
     def test_it_works_when_switching_from_non_nyc_address(self):
         oi = NationalOnboardingInfoFactory()
         self.set_user(oi.user)
-        assert self.execute() == self._expected_default_output
+        assert self.execute() == self._expected_logged_in_output
         assert oi.non_nyc_city == ""
         assert oi.state == "NY"
 

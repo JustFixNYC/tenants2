@@ -1,3 +1,4 @@
+from project.util.rename_dict_keys import flip_dict
 from typing import NamedTuple
 from django import forms
 from django.utils.translation import gettext as _
@@ -99,6 +100,16 @@ class AddressAndBoroughFormMixin(forms.Form):
     borough = forms.ChoiceField(
         choices=BOROUGH_CHOICES.choices, required=False, help_text="A New York City borough."
     )
+
+    # Our onboarding scaffolding structure uses slightly different field names for the
+    # same kind of values; this dictionary maps this form's field names to the ones the
+    # scaffolding uses.
+    to_scaffolding_keys = {
+        "address": "street",
+        "zipcode": "zip_code",
+    }
+
+    from_scaffolding_keys = flip_dict(to_scaffolding_keys)
 
     extra_graphql_output_fields = {
         "address_verified": graphene.Boolean(

@@ -6,6 +6,7 @@ import { buildContextHocFactory } from "./util/context-util";
 import { SiteChoice } from "../../common-data/site-choices";
 import { SiteRoutes } from "./global-site-routes";
 import { LocaleChoice } from "../../common-data/locale-choices";
+import { ContentfulCommonStringsMapping } from "@justfixnyc/contentful-common-strings";
 
 /** Metadata about forms submitted via legacy POST. */
 export interface AppLegacyFormSubmission<FormInput = any, FormOutput = any> {
@@ -173,6 +174,12 @@ export interface AppServerInfo {
    * The URL that is the origin of the NYC GeoSearch API endpoint to use.
    */
   nycGeoSearchOrigin: string;
+
+  /**
+   * Content from Contentful, shared across multiple JustFix properties,
+   * that have been passed to us from the back-end.
+   */
+  contentfulCommonStrings: ContentfulCommonStringsMapping | null;
 
   /**
    * Additional links to other development-related links such as

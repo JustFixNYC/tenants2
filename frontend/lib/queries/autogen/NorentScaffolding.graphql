@@ -8,6 +8,7 @@ fragment NorentScaffolding on NorentScaffolding {
   isCityInNyc,
   isInLosAngeles,
   state,
+  borough,
   zipCode,
   aptNumber,
   email,

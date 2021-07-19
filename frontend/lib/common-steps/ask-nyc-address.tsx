@@ -1,12 +1,6 @@
 import React, { useContext } from "react";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
-import {
-  OnboardingStep1V2Mutation,
-  BlankOnboardingStep1V2Input,
-} from "../queries/OnboardingStep1V2Mutation";
-import { assertNotNull } from "@justfixnyc/util";
 import { redirectToAddressConfirmationOrNextStep } from "../ui/address-confirmation";
-import { HiddenFormField } from "../forms/form-fields";
 import { AddressAndBoroughField } from "../forms/address-and-borough-form-field";
 import { ProgressButtons } from "../ui/buttons";
 import Page from "../ui/page";
@@ -17,7 +11,7 @@ import {
   getBoroughChoiceLabels,
 } from "../../../common-data/borough-choices";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
-import { OnboardingStep1V2Input } from "../queries/globalTypes";
+import { NycAddressInput } from "../queries/globalTypes";
 import {
   AptNumberFormFields,
   createAptNumberFormInput,
@@ -26,13 +20,14 @@ import { YesNoConfirmationModal } from "../ui/confirmation-modal";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import { MiddleProgressStepProps } from "../progress/progress-step-route";
+import { NycAddressMutation } from "../queries/NycAddressMutation";
+import { BlankNorentScaffolding } from "../queries/NorentScaffolding";
 
 const ConfirmNycAddressModal: React.FC<{
   nextStep: string;
 }> = ({ nextStep }) => {
   const addrInfo =
-    useContext(AppContext).session.onboardingStep1 ||
-    BlankOnboardingStep1V2Input;
+    useContext(AppContext).session.norentScaffolding || BlankNorentScaffolding;
   let borough = "";
   if (isBoroughChoice(addrInfo.borough)) {
     borough = getBoroughChoiceLabels()[addrInfo.borough];
@@ -50,21 +45,28 @@ const ConfirmNycAddressModal: React.FC<{
         </Trans>
       </p>
       <p className="content is-italic">
-        {addrInfo.address}, {borough}
+        {addrInfo.street}, {borough}
       </p>
     </YesNoConfirmationModal>
   );
 };
 
-function getInitialState(s: AllSessionInfo): OnboardingStep1V2Input {
+function getInitialState(s: AllSessionInfo): NycAddressInput {
   return {
-    firstName: "ignore",
-    lastName: "ignore",
-    preferredFirstName: "",
-    address: s.onboardingStep1?.address || s.onboardingInfo?.address || "",
-    borough: s.onboardingStep1?.borough || s.onboardingInfo?.borough || "",
+    address:
+      s.norentScaffolding?.street ||
+      s.onboardingStep1?.address ||
+      s.onboardingInfo?.address ||
+      "",
+    borough:
+      s.norentScaffolding?.borough ||
+      s.onboardingStep1?.borough ||
+      s.onboardingInfo?.borough ||
+      "",
     ...createAptNumberFormInput(
-      s.onboardingStep1?.aptNumber ?? s.onboardingInfo?.aptNumber
+      s.norentScaffolding?.aptNumber ??
+        s.onboardingStep1?.aptNumber ??
+        s.onboardingInfo?.aptNumber
     ),
   };
 }
@@ -79,14 +81,15 @@ export const AskNycAddress: React.FC<
     <div className="content">{props.children}</div>
     <SessionUpdatingFormSubmitter
       formId="address"
-      mutation={OnboardingStep1V2Mutation}
+      mutation={NycAddressMutation}
       initialState={getInitialState}
       onSuccessRedirect={(output, input) =>
         redirectToAddressConfirmationOrNextStep({
           input,
-          resolved: assertNotNull(
-            assertNotNull(output.session).onboardingStep1
-          ),
+          resolved: {
+            address: output.session?.norentScaffolding?.street ?? "",
+            borough: output.session?.norentScaffolding?.borough ?? "",
+          },
           nextStep: props.nextStep,
           confirmation: props.confirmModalRoute,
         })
@@ -94,10 +97,6 @@ export const AskNycAddress: React.FC<
     >
       {(ctx) => (
         <>
-          <HiddenFormField {...ctx.fieldPropsFor("firstName")} />
-          <HiddenFormField {...ctx.fieldPropsFor("lastName")} />
-          <HiddenFormField {...ctx.fieldPropsFor("preferredFirstName")} />
-
           <AddressAndBoroughField
             addressProps={ctx.fieldPropsFor("address")}
             boroughProps={ctx.fieldPropsFor("borough")}

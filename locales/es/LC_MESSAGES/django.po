@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-16 19:26+0000\n"
-"PO-Revision-Date: 2021-03-18 20:00\n"
+"PO-Revision-Date: 2021-07-19 14:12\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -112,16 +112,14 @@ msgid "%(first_name)s, you've previously created an account on NoRent.org. The C
 msgstr "%(first_name)s, previamente creaste una cuenta en NoRent.org. La Ley de Alivio de Inquilinos de California de 2020 fue ampliada por la nueva ley SB91. Para estar protegido del desalojo, debes enviar una nueva carta de declaración al dueño o manager de tu edificio a través de NoRent.org: %(url)s"
 
 #: norent/sms_reminders.py:32
-#, fuzzy, python-format
-#| msgid "%(first_name)s, you've previously created an account on NoRent.org. The California Tenant Relief Act of 2020 was extended by the new law SB91. In order to be protected from eviction, you must send a new declaration letter to your landlord through NoRent.org: %(url)s"
+#, python-format
 msgid "%(first_name)s, you've previously created an account on NoRent.org. The California Tenant Relief Act of 2020 was extended by the new law AB832. In order to be protected from eviction, you must send a new declaration letter to your landlord through NoRent.org: %(url)s"
-msgstr "%(first_name)s, previamente creaste una cuenta en NoRent.org. La Ley de Alivio de Inquilinos de California de 2020 fue ampliada por la nueva ley SB91. Para estar protegido del desalojo, debes enviar una nueva carta de declaración al dueño o manager de tu edificio a través de NoRent.org: %(url)s"
+msgstr "%(first_name)s, previamente creaste una cuenta en NoRent.org. La Ley de Alivio de Inquilinos de California de 2020 fue ampliada por la nueva ley AB832. Para estar protegido del desalojo, debes enviar una nueva carta de declaración al dueño o manager de tu edificio a través de NoRent.org: %(url)s"
 
 #: norent/sms_reminders.py:39
-#, fuzzy, python-format
-#| msgid "%(first_name)s, you've previously created an account on NoRent.org. If you are unable to pay rent next month AND you have a COVID-19 related reason for not paying, we recommend that on or before your rent due date or within 7 days of your rent due date, you send a new SB91 declaration to your landlord through NoRent.org: %(url)s"
+#, python-format
 msgid "%(first_name)s, you've previously created an account on NoRent.org. If you are unable to pay rent next month AND you have a COVID-19 related reason for not paying, we recommend that on or before your rent due date or within 7 days of your rent due date, you send a new AB832 declaration to your landlord through NoRent.org: %(url)s"
-msgstr "%(first_name)s, previamente creaste una cuenta de usuario en NoRent.org. Si no puedes pagar el alquiler el mes que viene y tienes una razón para no pagar relacionada con el COVID-19, recomendamos que envíes una nueva declaración SB91 al dueño o manager de tu edificio antes de la fecha de vencimiento de la renta, en el día mismo o dentro de los 7 días siguientes a través de NoRent.org: %(url)s"
+msgstr "%(first_name)s, previamente creaste una cuenta de usuario en NoRent.org. Si no puedes pagar el alquiler el mes que viene y tienes una razón relacionada con COVID-19 para no pagar, recomendamos que envíes una nueva declaración AB832 al dueño o manager de tu edificio a través de NoRent.org: %(url)s antes de la fecha de vencimiento de la renta, en el día mismo o dentro de los 7 días siguientes."
 
 #: onboarding/forms.py:60
 msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox (but not both)."
@@ -191,3 +189,4 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 #: project/util/phone_number.py:70
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
+

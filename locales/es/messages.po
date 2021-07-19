@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-07-08 17:49\n"
+"PO-Revision-Date: 2021-07-19 14:10\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -50,7 +50,7 @@ msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
 #: frontend/lib/norent/letter-content.tsx:15
 msgid "<0>Declaration of COVID-19 Related Financial Distress</0><1/>Compliant with Code of Civil Procedure Section 1179.02, AB832, COVID-19 Tenant Relief Act"
-msgstr ""
+msgstr "<0>Declaración de Complicaciones Financieras Relacionadas con el COVID-19</0><1/>Conforme con la Sección 1179.02, AB832, de la Ley de Alivio de Inquilinos COVID-19"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:409
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
@@ -2319,7 +2319,7 @@ msgstr "¿Cuál es el plazo para completar el formulario de declaración?"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:25
 msgid "What is the new law AB832?"
-msgstr ""
+msgstr "¿Qué es la nueva ley AB832?"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:170
 msgid "What is the time lag between me filling this out and when it gets sent?"
@@ -2873,11 +2873,11 @@ msgstr "<0>Una \"moratoria de desalojo\" puede significar algo diferente en cada
 
 #: frontend/lib/norent/letter-email-to-user.tsx:95
 msgid "norent.doINeedToSendAB832LetterEveryMonth"
-msgstr ""
+msgstr "Si. Siga estas instrucciones incluso si ha enviado una carta a su propietario cada mes que no ha pagado renta. Y envíe una nueva declaración por cada mes en el futuro (hasta septiembre de 2021)."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:105
 msgid "norent.doIStillHaveToPayMyRentAB832"
-msgstr ""
+msgstr "El 30 de septiembre o antes, debe decidir si va pagar el 25% de la renta por cada mes desde septiembre de 2020 hasta septiembre de 2021. Sería un total de 13 meses multiplicado por 25%. Si después de consultar con un abogado, determina que no quiere estar en la corte de desalojo, pague el 25%. Los inquilinos con condiciones de vivienda muy malas o que viven en unidades ilegales deben hablar con un abogado antes de decidir si pagar o no pagar."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:25
 msgid "norent.emailBodyTemplateForSharingNoRent"
@@ -3013,11 +3013,11 @@ msgstr "Si el propietario le envía un aviso para pagar el alquiler con una decl
 
 #: frontend/lib/norent/letter-email-to-user.tsx:28
 msgid "norent.whatIsAB832partOne"
-msgstr ""
+msgstr "AB832 es ahora ley estatal y extiende la protección al inquilino hasta el 30 de septiembre de 2021. La ley extiende las protecciones para inquilinos incluidas en la Ley de Estabilización y Alivio para Inquilinos, Propietarios y Pequeños Propietarios de 2020 (AB3088) y SB91 al 30 de septiembre de 2021. Estas protecciones originalmente se expiraban el 30 de junio de 2021 según SB91. La Ley incluye las mismas reglas de elegibilidad y programa que antes, incluyendo:"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:37
 msgid "norent.whatIsAB832partTwo"
-msgstr ""
+msgstr "<0><1>Limitar la divulgación pública de casos de desalojo que involucren la falta de pago de renta durante el 4 de marzo de 2020 al 30 de septiembre de 2021.</1><2>Protege a inquilinos de bajos ingresos de que los propietarios cedan o vendan su deuda de renta a un tercero cobrador de deudas.</2><3>El período de aviso de “Pagar o Desalojar” por falta de pago de renta se extendió de 3 a 15 días.</3><4>Protege a inquilinos de ser desalojados por “causa justa” si se puede demostrar que el propietario realmente está desalojando al inquilino por falta de pago de renta relacionado con COVID-19.</4><5>El propietario no le puede cobrar cargos por pago atrasado o por falta de pago de renta durante el 1 de marzo de 2020 a 30 de septiembre de 2021 a inquilinos que han experimentando dificultades relacionadas con COVID-19.</5><6>Exigir a los propietarios que notifiquen a todos los inquilinos que adeudan renta atrasada sobre sus derechos y el programa de asistencia de renta a través de un aviso informativo antes del 28 de febrero de 2021.</6></0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:120
 msgid "norent.whatToDoIfLandlordRetaliates"
@@ -3051,3 +3051,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

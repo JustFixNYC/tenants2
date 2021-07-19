@@ -6,7 +6,8 @@ mutation RhFormMutation($input: RhFormInput!) {
       rentStabInfo {
         latestYear,
         latestUnitCount
-      }
+      },
+      onboardingScaffolding { ...OnboardingScaffolding }
     }
   }
 }

@@ -26,13 +26,13 @@ def test_scaffolding_is_null_when_it_does_not_exist(graphql_client):
         """
         query {
           session {
-            norentScaffolding {
+            onboardingScaffolding {
               firstName
             }
           }
         }
         """
-    )["data"]["session"]["norentScaffolding"]
+    )["data"]["session"]["onboardingScaffolding"]
     assert result is None
 
 
@@ -42,7 +42,7 @@ def test_scaffolding_defaults_work(graphql_client):
         """
         query {
           session {
-            norentScaffolding {
+            onboardingScaffolding {
               firstName,
               canReceiveRttcComms,
               canReceiveSajeComms,
@@ -50,7 +50,7 @@ def test_scaffolding_defaults_work(graphql_client):
           }
         }
         """
-    )["data"]["session"]["norentScaffolding"]
+    )["data"]["session"]["onboardingScaffolding"]
     assert result == {
         "firstName": "",
         "canReceiveRttcComms": None,
@@ -74,9 +74,9 @@ def test_is_city_in_nyc_works(graphql_client, city, state, expected):
 
     actual = graphql_client.execute(
         """
-        query { session { norentScaffolding { isCityInNyc } } }
+        query { session { onboardingScaffolding { isCityInNyc } } }
         """
-    )["data"]["session"]["norentScaffolding"]["isCityInNyc"]
+    )["data"]["session"]["onboardingScaffolding"]["isCityInNyc"]
 
     assert actual is expected
 
@@ -99,9 +99,9 @@ def test_is_in_los_angeles_works(graphql_client, zip_code, expected):
 
     actual = graphql_client.execute(
         """
-        query { session { norentScaffolding { isInLosAngeles } } }
+        query { session { onboardingScaffolding { isInLosAngeles } } }
         """
-    )["data"]["session"]["norentScaffolding"]["isInLosAngeles"]
+    )["data"]["session"]["onboardingScaffolding"]["isInLosAngeles"]
 
     assert actual is expected
 
@@ -115,14 +115,14 @@ def test_email_mutation_updates_session_if_not_logged_in(db, graphql_client):
         }) {
             errors { field, messages }
             session {
-              norentScaffolding { email }
+              onboardingScaffolding { email }
             }
           }
         }
         """
     )["data"]["output"]
     assert output["errors"] == []
-    assert output["session"]["norentScaffolding"] == {
+    assert output["session"]["onboardingScaffolding"] == {
         "email": "blarf@blarg.com",
     }
 
@@ -136,7 +136,7 @@ EMAIL_MUTATION_GRAPHQL = """
             session {
               email,
               isEmailVerified,
-              norentScaffolding { email }
+              onboardingScaffolding { email }
             }
           }
         }
@@ -151,7 +151,7 @@ def test_email_mutation_updates_user_email_if_logged_in(db, graphql_client):
     assert output["session"] == {
         "email": "blarf@blarg.com",
         "isEmailVerified": False,
-        "norentScaffolding": None,
+        "onboardingScaffolding": None,
     }
 
 
@@ -163,7 +163,7 @@ def test_email_mutation_does_nothing_if_user_submits_their_current_email(db, gra
     assert output["session"] == {
         "email": "blarf@blarg.com",
         "isEmailVerified": True,
-        "norentScaffolding": None,
+        "onboardingScaffolding": None,
     }
 
 
@@ -174,7 +174,7 @@ class TestNationalAddressMutation(GraphQLTestingPal):
             errors { field, messages }
             isValid
             session {
-                norentScaffolding { street, zipCode, aptNumber }
+                onboardingScaffolding { street, zipCode, aptNumber }
             }
         }
     }
@@ -198,7 +198,7 @@ class TestNationalAddressMutation(GraphQLTestingPal):
         output = self.execute()
         assert output["errors"] == []
         assert output["isValid"] is None
-        assert output["session"]["norentScaffolding"] == {
+        assert output["session"]["onboardingScaffolding"] == {
             "street": "150 court st",
             "zipCode": "12345",
             "aptNumber": "2",
@@ -224,7 +224,7 @@ class TestNationalAddressMutation(GraphQLTestingPal):
         )
         assert output["errors"] == []
         assert output["isValid"] is True
-        assert output["session"]["norentScaffolding"] == {
+        assert output["session"]["onboardingScaffolding"] == {
             "street": "200 North Spring Street",
             "zipCode": "90012",
             "aptNumber": "2",
@@ -247,7 +247,7 @@ class TestNationalAddressMutation(GraphQLTestingPal):
         output = self.execute(input={"street": "zzz"})
         assert output["errors"] == []
         assert output["isValid"] is False
-        assert output["session"]["norentScaffolding"] == {
+        assert output["session"]["onboardingScaffolding"] == {
             "street": "zzz",
             "zipCode": "12345",
             "aptNumber": "2",
@@ -264,14 +264,14 @@ def test_city_state_mutation_updates_session(graphql_client):
         }) {
             errors { field, messages }
             session {
-              norentScaffolding { city, state }
+              onboardingScaffolding { city, state }
             }
           }
         }
         """
     )["data"]["output"]
     assert output["errors"] == []
-    assert output["session"]["norentScaffolding"] == {
+    assert output["session"]["onboardingScaffolding"] == {
         "city": "oof",
         "state": "OH",
     }
@@ -287,14 +287,14 @@ def test_legacy_full_name_mutation_updates_session_if_logged_out(graphql_client)
         }) {
             errors { field, messages }
             session {
-              norentScaffolding { firstName, lastName }
+              onboardingScaffolding { firstName, lastName }
             }
           }
         }
         """
     )["data"]["output"]
     assert output["errors"] == []
-    assert output["session"]["norentScaffolding"] == {
+    assert output["session"]["onboardingScaffolding"] == {
         "firstName": "boeop",
         "lastName": "blap",
     }
@@ -310,14 +310,14 @@ def test_full_legal_name_mutation_updates_session_if_logged_out(graphql_client):
         }) {
             errors { field, messages }
             session {
-              norentScaffolding { firstName, lastName }
+              onboardingScaffolding { firstName, lastName }
             }
           }
         }
         """
     )["data"]["output"]
     assert output["errors"] == []
-    assert output["session"]["norentScaffolding"] == {
+    assert output["session"]["onboardingScaffolding"] == {
         "firstName": "boeop",
         "lastName": "blap",
     }
@@ -332,14 +332,14 @@ def test_preferred_name_mutation_updates_session_if_logged_out(graphql_client):
         }) {
             errors { field, messages }
             session {
-              norentScaffolding { preferredFirstName }
+              onboardingScaffolding { preferredFirstName }
             }
           }
         }
         """
     )["data"]["output"]
     assert output["errors"] == []
-    assert output["session"]["norentScaffolding"] == {
+    assert output["session"]["onboardingScaffolding"] == {
         "preferredFirstName": "bip",
     }
 
@@ -354,14 +354,14 @@ def test_full_name_mutation_updates_session_if_logged_out(graphql_client):
         }) {
             errors { field, messages }
             session {
-              norentScaffolding { firstName, lastName }
+              onboardingScaffolding { firstName, lastName }
             }
           }
         }
         """
     )["data"]["output"]
     assert output["errors"] == []
-    assert output["session"]["norentScaffolding"] == {
+    assert output["session"]["onboardingScaffolding"] == {
         "firstName": "boeop",
         "lastName": "blap",
     }
@@ -381,7 +381,7 @@ def test_full_name_mutation_updates_user_if_logged_in(graphql_client, db):
             session {
               firstName,
               lastName,
-              norentScaffolding { email }
+              onboardingScaffolding { email }
             }
           }
         }
@@ -391,7 +391,7 @@ def test_full_name_mutation_updates_user_if_logged_in(graphql_client, db):
     assert output["session"] == {
         "firstName": "snorri",
         "lastName": "heb",
-        "norentScaffolding": None,
+        "onboardingScaffolding": None,
     }
 
 
@@ -409,7 +409,7 @@ def test_legacy_full_name_mutation_updates_user_if_logged_in(graphql_client, db)
             session {
               firstName,
               lastName,
-              norentScaffolding { email }
+              onboardingScaffolding { email }
             }
           }
         }
@@ -419,7 +419,7 @@ def test_legacy_full_name_mutation_updates_user_if_logged_in(graphql_client, db)
     assert output["session"] == {
         "firstName": "snorri",
         "lastName": "heb",
-        "norentScaffolding": None,
+        "onboardingScaffolding": None,
     }
 
 
@@ -435,7 +435,7 @@ def test_preferred_name_mutation_updates_if_user_logged_in(graphql_client, db):
             errors { field, messages }
             session {
               preferredFirstName
-              norentScaffolding { email }
+              onboardingScaffolding { email }
             }
           }
         }
@@ -444,7 +444,7 @@ def test_preferred_name_mutation_updates_if_user_logged_in(graphql_client, db):
     assert output["errors"] == []
     assert output["session"] == {
         "preferredFirstName": "sno",
-        "norentScaffolding": None,
+        "onboardingScaffolding": None,
     }
 
 
@@ -712,7 +712,7 @@ class TestNorentLandlordNameAndContactTypes:
                     errors { field, messages }
                     session {
                         landlordDetails { name, email, primaryLine }
-                        norentScaffolding {
+                        onboardingScaffolding {
                             hasLandlordEmailAddress,
                             hasLandlordMailingAddress
                         }
@@ -732,7 +732,7 @@ class TestNorentLandlordNameAndContactTypes:
         assert res["errors"] == []
         assert res["session"] == {
             "landlordDetails": {"name": "Bleh", "email": "", "primaryLine": ""},
-            "norentScaffolding": {
+            "onboardingScaffolding": {
                 "hasLandlordEmailAddress": True,
                 "hasLandlordMailingAddress": False,
             },
@@ -744,7 +744,7 @@ class TestNorentLandlordNameAndContactTypes:
         assert res["errors"] == []
         assert res["session"] == {
             "landlordDetails": {"name": "Bleh", "email": "a@b.com", "primaryLine": ""},
-            "norentScaffolding": {
+            "onboardingScaffolding": {
                 "hasLandlordEmailAddress": True,
                 "hasLandlordMailingAddress": False,
             },
@@ -756,7 +756,7 @@ class TestNorentLandlordNameAndContactTypes:
         assert res["errors"] == []
         assert res["session"] == {
             "landlordDetails": {"name": "Bleh", "email": "", "primaryLine": "123 Cloud City Drive"},
-            "norentScaffolding": {
+            "onboardingScaffolding": {
                 "hasLandlordEmailAddress": False,
                 "hasLandlordMailingAddress": True,
             },
@@ -954,7 +954,7 @@ class TestOptInToRttcComms(GraphQLTestingPal):
             errors { field, messages },
             session {
                 onboardingInfo { canReceiveRttcComms },
-                norentScaffolding { canReceiveRttcComms }
+                onboardingScaffolding { canReceiveRttcComms }
             },
         }
     }
@@ -974,14 +974,14 @@ class TestOptInToRttcComms(GraphQLTestingPal):
         assert res["errors"] == []
         assert res["session"] == {
             "onboardingInfo": None,
-            "norentScaffolding": {"canReceiveRttcComms": False},
+            "onboardingScaffolding": {"canReceiveRttcComms": False},
         }
 
         res = self.execute(input={"optIn": True})
         assert res["errors"] == []
         assert res["session"] == {
             "onboardingInfo": None,
-            "norentScaffolding": {"canReceiveRttcComms": True},
+            "onboardingScaffolding": {"canReceiveRttcComms": True},
         }
 
     def test_it_works_when_logged_in(self, logged_in):
@@ -989,14 +989,14 @@ class TestOptInToRttcComms(GraphQLTestingPal):
         assert res["errors"] == []
         assert res["session"] == {
             "onboardingInfo": {"canReceiveRttcComms": False},
-            "norentScaffolding": None,
+            "onboardingScaffolding": None,
         }
 
         res = self.execute(input={"optIn": True})
         assert res["errors"] == []
         assert res["session"] == {
             "onboardingInfo": {"canReceiveRttcComms": True},
-            "norentScaffolding": None,
+            "onboardingScaffolding": None,
         }
 
         self.oi.refresh_from_db()
@@ -1010,7 +1010,7 @@ class TestOptInToSajeComms(GraphQLTestingPal):
             errors { field, messages },
             session {
                 onboardingInfo { canReceiveSajeComms },
-                norentScaffolding { canReceiveSajeComms }
+                onboardingScaffolding { canReceiveSajeComms }
             },
         }
     }
@@ -1030,14 +1030,14 @@ class TestOptInToSajeComms(GraphQLTestingPal):
         assert res["errors"] == []
         assert res["session"] == {
             "onboardingInfo": None,
-            "norentScaffolding": {"canReceiveSajeComms": False},
+            "onboardingScaffolding": {"canReceiveSajeComms": False},
         }
 
         res = self.execute(input={"optIn": True})
         assert res["errors"] == []
         assert res["session"] == {
             "onboardingInfo": None,
-            "norentScaffolding": {"canReceiveSajeComms": True},
+            "onboardingScaffolding": {"canReceiveSajeComms": True},
         }
 
     def test_it_works_when_logged_in(self, logged_in):
@@ -1045,14 +1045,14 @@ class TestOptInToSajeComms(GraphQLTestingPal):
         assert res["errors"] == []
         assert res["session"] == {
             "onboardingInfo": {"canReceiveSajeComms": False},
-            "norentScaffolding": None,
+            "onboardingScaffolding": None,
         }
 
         res = self.execute(input={"optIn": True})
         assert res["errors"] == []
         assert res["session"] == {
             "onboardingInfo": {"canReceiveSajeComms": True},
-            "norentScaffolding": None,
+            "onboardingScaffolding": None,
         }
 
         self.oi.refresh_from_db()

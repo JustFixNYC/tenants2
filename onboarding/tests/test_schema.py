@@ -380,7 +380,7 @@ class TestNycAddress(GraphQLTestingPal):
                 address,
                 borough,
                 aptNumber
-            }, norentScaffolding {
+            }, onboardingScaffolding {
                 street,
                 borough,
                 aptNumber
@@ -404,7 +404,7 @@ class TestNycAddress(GraphQLTestingPal):
                 "borough": "BROOKLYN",
                 "aptNumber": "2",
             },
-            "norentScaffolding": None,
+            "onboardingScaffolding": None,
         },
     }
 
@@ -413,7 +413,7 @@ class TestNycAddress(GraphQLTestingPal):
             "errors": [],
             "session": {
                 "onboardingInfo": None,
-                "norentScaffolding": {
+                "onboardingScaffolding": {
                     "street": "654 park place",
                     "borough": "BROOKLYN",
                     "aptNumber": "2",

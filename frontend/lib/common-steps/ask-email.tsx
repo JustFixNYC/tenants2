@@ -30,7 +30,7 @@ export const AskEmail: React.FC<
       <SessionUpdatingFormSubmitter
         mutation={mutation}
         initialState={(s) => ({
-          email: s.norentScaffolding?.email || s.email || "",
+          email: s.onboardingScaffolding?.email || s.email || "",
         })}
         onSuccessRedirect={props.nextStep}
       >

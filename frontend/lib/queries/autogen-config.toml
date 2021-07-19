@@ -132,7 +132,7 @@ sessionFields = ["hpActionDetails"]
 sessionFields = ["harassmentDetails"]
 
 [mutations."rh.*"]
-sessionFields = ["rentalHistoryInfo", "rentStabInfo"]
+sessionFields = ["onboardingScaffolding", "rentStabInfo"]
 
 [mutations.tenantChildren]
 sessionFields = ["tenantChildren"]

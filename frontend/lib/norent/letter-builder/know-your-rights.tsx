@@ -42,7 +42,7 @@ type ProtectionsContentComponent = React.FC<
 
 const getRttcValue = (s: AllSessionInfo) =>
   s.onboardingInfo?.canReceiveRttcComms ??
-  s.norentScaffolding?.canReceiveRttcComms;
+  s.onboardingScaffolding?.canReceiveRttcComms;
 
 export function hasUserSeenRttcCheckboxYet(s: AllSessionInfo): boolean {
   return typeof getRttcValue(s) === "boolean" ? true : false;
@@ -149,7 +149,7 @@ export const StateWithProtectionsContent: ProtectionsContentComponent = (
 export const NorentLbKnowYourRights = MiddleProgressStep((props) => {
   const { session } = useContext(AppContext);
   const rawState =
-    session.norentScaffolding?.state || session.onboardingInfo?.state;
+    session.onboardingScaffolding?.state || session.onboardingInfo?.state;
 
   if (!rawState) {
     return (

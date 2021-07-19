@@ -165,18 +165,15 @@ function getUserPropertiesFromSession(
   s: AllSessionInfo
 ): Partial<JustfixAmplitudeUserProperties> {
   return {
-    city:
-      s.onboardingInfo?.city ??
-      s.norentScaffolding?.city ??
-      s.onboardingStep1?.borough,
+    city: s.onboardingInfo?.city ?? s.onboardingScaffolding?.city,
     state:
       (s.onboardingInfo?.state as USStateChoice) ??
-      s.norentScaffolding?.state ??
-      (s.onboardingStep1?.borough ? "NY" : undefined),
+      s.onboardingScaffolding?.state ??
+      (s.onboardingScaffolding?.borough ? "NY" : undefined),
     signupIntent: s.onboardingInfo?.signupIntent,
     leaseType:
       (s.onboardingInfo?.leaseType as LeaseChoice) ??
-      s.onboardingStep3?.leaseType ??
+      s.onboardingScaffolding?.leaseType ??
       undefined,
     prefersLegacyApp: null,
     isEmailVerified: s.isEmailVerified ?? undefined,

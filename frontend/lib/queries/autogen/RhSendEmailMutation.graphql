@@ -6,7 +6,8 @@ mutation RhSendEmailMutation($input: RhSendEmailInput!) {
       rentStabInfo {
         latestYear,
         latestUnitCount
-      }
+      },
+      onboardingScaffolding { ...OnboardingScaffolding }
     }
   }
 }

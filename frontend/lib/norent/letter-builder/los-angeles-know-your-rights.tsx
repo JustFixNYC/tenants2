@@ -21,7 +21,7 @@ const SAJE_CHECKBOX_DEFAULT = true;
 
 const getSajeValue = (s: AllSessionInfo) =>
   s.onboardingInfo?.canReceiveSajeComms ??
-  s.norentScaffolding?.canReceiveSajeComms;
+  s.onboardingScaffolding?.canReceiveSajeComms;
 
 export function hasUserSeenSajeCheckboxYet(s: AllSessionInfo): boolean {
   return typeof getSajeValue(s) === "boolean" ? true : false;

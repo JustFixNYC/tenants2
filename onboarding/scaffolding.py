@@ -166,6 +166,12 @@ class GraphQlOnboardingScaffolding(graphene.ObjectType):
 
     email = graphene.String(required=True)
 
+    phone_number = graphene.String(required=True)
+
+    lease_type = graphene.String(required=True)
+
+    receives_public_assistance = graphene.Boolean()
+
     has_landlord_email_address = graphene.Boolean()
 
     has_landlord_mailing_address = graphene.Boolean()

@@ -14,16 +14,28 @@ import { TransformSession } from "../util/transform-session";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 
 function getEmailInfo(s: AllSessionInfo) {
-  const rh = s.rentalHistoryInfo;
+  const rh = s.onboardingScaffolding;
 
   if (!rh) return null;
 
-  const { apartmentNumber } = rh;
+  if (
+    !(
+      rh.aptNumber &&
+      rh.firstName &&
+      rh.lastName &&
+      rh.borough &&
+      rh.street &&
+      rh.zipCode
+    )
+  ) {
+    return null;
+  }
+
   const fullLegalName = `${rh.firstName} ${rh.lastName}`;
   const borough = getBoroughChoiceLabels()[rh.borough as BoroughChoice];
-  const fullAddress = `${rh.address}, ${borough} ${rh.zipcode}`.trim();
+  const fullAddress = `${rh.street}, ${borough} ${rh.zipCode}`.trim();
 
-  return { fullLegalName, fullAddress, apartmentNumber };
+  return { fullLegalName, fullAddress, apartmentNumber: rh.aptNumber };
 }
 
 export const RhEmailToDhcr: React.FC<{}> = () => {

@@ -22,7 +22,7 @@ describe("NoRent letter builder steps", () => {
     it: "takes brand-new users through onboarding",
     usingSession: sb
       .withQueriedPhoneNumber(PhoneNumberAccountStatus.NO_ACCOUNT)
-      .withNorentScaffolding({
+      .withOnboardingScaffolding({
         city: "Louisville",
         state: "KY",
       }),
@@ -39,7 +39,7 @@ describe("NoRent letter builder steps", () => {
 
   tester.defineTest({
     it: "takes onboarding LA users through LA modal",
-    usingSession: sb.withNorentScaffolding({
+    usingSession: sb.withOnboardingScaffolding({
       city: "Los Angeles",
       state: "CA",
       zipCode: "90210",
@@ -56,7 +56,7 @@ describe("NoRent letter builder steps", () => {
 
   tester.defineTest({
     it: "takes onboarding NYC users through NYC address input",
-    usingSession: sb.withNorentScaffolding({
+    usingSession: sb.withOnboardingScaffolding({
       city: "Brooklyn",
       state: "NY",
       isCityInNyc: true,
@@ -138,7 +138,7 @@ describe("NoRent letter builder steps", () => {
 
   tester.defineTest({
     it: "takes onboarded users through flow to confirmation",
-    usingSession: sb.withLoggedInNationalUser().withNorentScaffolding({
+    usingSession: sb.withLoggedInNationalUser().withOnboardingScaffolding({
       hasLandlordEmailAddress: true,
       hasLandlordMailingAddress: true,
     }),

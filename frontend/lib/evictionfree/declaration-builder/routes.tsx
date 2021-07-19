@@ -56,7 +56,7 @@ const DEFAULT_STEP_CONTENT = (
 // TODO: An identical function exists in NoRent's codebase, ideally we should
 // consolidate.
 function isUserInNYC(s: AllSessionInfo): boolean {
-  return s.norentScaffolding?.isCityInNyc || false;
+  return s.onboardingScaffolding?.isCityInNyc || false;
 }
 
 // TODO: An identical function exists in NoRent's codebase, ideally we should

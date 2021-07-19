@@ -1,14 +1,11 @@
-import json
-from pathlib import Path
 from project.util.rename_dict_keys import with_keys_renamed
 from project.util.session_mutation import SessionFormMutation
 from typing import Any, Dict, Optional, Tuple
-from django.contrib.gis.geos import GEOSGeometry, Point
 import graphene
 from graphql import ResolveInfo
 import pydantic
 
-from findhelp.models import union_geometries
+from findhelp.models import is_lnglat_in_nyc
 
 
 # This should change whenever our scaffolding model's fields change in a
@@ -33,10 +30,6 @@ NYC_CITIES = [
     "bronx",
     "the bronx",
 ]
-
-BOROUGH_BOUNDS_PATH = Path("findhelp") / "data" / "Borough-Boundaries.geojson"
-
-_nyc_bounds: Optional[GEOSGeometry] = None
 
 
 def is_city_name_in_nyc(city: str) -> bool:
@@ -115,21 +108,6 @@ class OnboardingScaffolding(pydantic.BaseModel):
         if not self.zip_code:
             return None
         return is_zip_code_in_la(self.zip_code)
-
-
-def is_lnglat_in_nyc(lnglat: Tuple[float, float]) -> bool:
-    global _nyc_bounds
-
-    if _nyc_bounds is None:
-        # TODO: Now that findhelp is always enabled and we have access to PostGIS in
-        # production, we should just delegate this to the database to figure out. It
-        # will also save memory in our server process.
-        bbounds = json.loads(BOROUGH_BOUNDS_PATH.read_text())
-        _nyc_bounds = union_geometries(
-            GEOSGeometry(json.dumps(feature["geometry"])) for feature in bbounds["features"]
-        )
-        assert _nyc_bounds is not None
-    return _nyc_bounds.contains(Point(*lnglat))
 
 
 class GraphQlOnboardingScaffolding(graphene.ObjectType):

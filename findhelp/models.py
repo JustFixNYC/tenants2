@@ -1,6 +1,6 @@
 import itertools
 from project.util.mailing_address import STATE_KWARGS
-from typing import Union, Iterator, Optional
+from typing import Tuple, Union, Iterator, Optional
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry, Point, Polygon, MultiPolygon
 from django.contrib.gis.db.models.functions import Distance
@@ -64,6 +64,10 @@ class Borough(models.Model):
 
     def __str__(self):
         return self.name
+
+
+def is_lnglat_in_nyc(lnglat: Tuple[float, float]) -> bool:
+    return Borough.objects.filter(geom__contains=Point(*lnglat)).exists()
 
 
 class Neighborhood(models.Model):

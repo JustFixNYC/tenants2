@@ -25,6 +25,9 @@ REMINDERS = Choices(
         ("NORENT_CA_2021_04", "NoRent California reminder - April 2021"),
         ("NORENT_CA_2021_05", "NoRent California reminder - May 2021"),
         ("NORENT_CA_2021_06", "NoRent California reminder - June 2021"),
+        ("NORENT_CA_2021_07", "NoRent California reminder - July 2021"),
+        ("NORENT_CA_2021_08", "NoRent California reminder - August 2021"),
+        ("NORENT_CA_2021_09", "NoRent California reminder - September 2021"),
     ]
 )
 

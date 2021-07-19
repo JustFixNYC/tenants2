@@ -21,23 +21,24 @@ type CaliforniaFAQProps = {
 
 const CALIFORNIA_FAQS: CaliforniaFAQProps[] = [
   {
-    question: t`What is the new law SB91?`,
+    question: t`What is the new law AB832?`,
     answer: (
       <>
         <p>
-          <Trans id="norent.whatIsSB91partOne">
-            The Act extends tenant protections included in the Tenant,
+          <Trans id="norent.whatIsAB832partOne">
+            AB832 is now state law and extends tenant protection until September
+            30, 2021. The Act extends tenant protections included in the Tenant,
             Homeowner, and Small Landlord Relief and Stabilization Act of 2020
-            (AB3088) to June 30, 2021. These protections were originally set to
-            expire on February 1, 2021. The Act includes the same eligibility
-            and program rules as before including:
+            (AB3088) and SB91 to September 30, 2021. These protections were
+            originally set to expire on June 30, 2021 under SB91. The Act
+            includes the same eligibility and program rules as before including:
           </Trans>
         </p>
-        <Trans id="norent.whatIsSB91partTwo">
+        <Trans id="norent.whatIsAB832partTwo">
           <ol>
             <li>
               Limiting public disclosure of eviction cases involving nonpayment
-              of rent between March 4, 2020 and June 30, 2021.
+              of rent between March 4, 2020 and September 30, 2021.
             </li>
             <li>
               Protects low-income tenants from landlords assigning or selling
@@ -54,8 +55,8 @@ const CALIFORNIA_FAQS: CaliforniaFAQProps[] = [
             </li>
             <li>
               Landlord may not charge late fees for nonpayment of rent between
-              March 1, 2020 and June 30, 2021 to tenants who have attested they
-              are experiencing a COVID-19-related hardship.
+              March 1, 2020 and September 30, 2021 to tenants who have attested
+              they are experiencing a COVID-19-related hardship.
             </li>
             <li>
               Require landlords to notify all tenants who owe back rent about
@@ -95,10 +96,10 @@ const CALIFORNIA_FAQS: CaliforniaFAQProps[] = [
     question: t`Do I need to send this declaration every month?`,
     answer: (
       <p>
-        <Trans id="norent.doINeedToSendSB91LetterEveryMonth">
+        <Trans id="norent.doINeedToSendAB832LetterEveryMonth">
           Yes. Follow these instructions even if you have sent a letter to your
           landlord each month that you have not paid. And send a new declaration
-          for every month moving forward (through June 2021).
+          for every month moving forward (through September 2021).
         </Trans>
       </p>
     ),
@@ -107,9 +108,9 @@ const CALIFORNIA_FAQS: CaliforniaFAQProps[] = [
     question: t`Do I still have to pay my rent?`,
     answer: (
       <p>
-        <Trans id="norent.doIStillHaveToPayMyRentSB91">
+        <Trans id="norent.doIStillHaveToPayMyRentAB832">
           On or before 6/30/2021 you must decide whether to pay 25% of the rent
-          for each month from September 2020 to June 2021. That’s 10 months
+          for each month from September 2020 to September 2021. That’s 13 months
           multiplied by 25%. If after consulting with an attorney, you determine
           that you do not want to be in eviction court, pay the 25%. Tenants
           with severely bad conditions or living in illegal units should talk

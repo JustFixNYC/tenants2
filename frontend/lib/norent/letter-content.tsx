@@ -142,7 +142,7 @@ export const NorentLetterEmailToLandlord: React.FC<BaseLetterContentProps> = (
 
 const LetterBodyCalifornia: React.FC<NorentLetterContentProps> = (props) => {
   return (
-    <Trans id="norent.letterBodyCaliforniaAB3088">
+    <Trans id="norent.letterBodyCaliforniaAB832">
       <p>
         This declaration letter is in regards to rent payment for the following
         months:
@@ -175,14 +175,14 @@ const LetterBodyCalifornia: React.FC<NorentLetterContentProps> = (props) => {
           Other circumstances related to the COVID-19 pandemic that have reduced
           my income or increased my expenses.
         </li>
-        <li>
-          Any public assistance, including unemployment insurance, pandemic
-          unemployment assistance, state disability insurance (SDI), or paid
-          family leave, that I have received since the start of the COVID-19
-          pandemic does not fully make up for my loss of income and/or increased
-          expenses.
-        </li>
       </ol>
+      <p>
+        Any public assistance, including unemployment insurance, pandemic
+        unemployment assistance, state disability insurance (SDI), or paid
+        family leave, that I have received since the start of the COVID-19
+        pandemic does not fully make up for my loss of income and/or increased
+        expenses.
+      </p>
       <p className="jf-avoid-page-breaks-after">
         I declare under penalty of perjury under the laws of the State of
         California that the foregoing is true and correct.

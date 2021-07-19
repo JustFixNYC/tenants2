@@ -166,8 +166,7 @@ def test_onboarding_sets_referral(db, graphql_client):
 def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     result = execute_onboarding(graphql_client)
 
-    for i in [1, 3]:
-        assert result["session"][f"onboardingStep{i}"] is None
+    assert result["session"]["onboardingScaffolding"] is None
     assert result["session"]["phoneNumber"] == "5551234567"
 
     request = graphql_client.request

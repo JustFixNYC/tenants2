@@ -19,14 +19,7 @@ function getEmailInfo(s: AllSessionInfo) {
   if (!rh) return null;
 
   if (
-    !(
-      rh.aptNumber &&
-      rh.firstName &&
-      rh.lastName &&
-      rh.borough &&
-      rh.street &&
-      rh.zipCode
-    )
+    !(rh.aptNumber && rh.firstName && rh.lastName && rh.borough && rh.street)
   ) {
     return null;
   }

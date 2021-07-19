@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-07-08 17:49\n"
+"PO-Revision-Date: 2021-07-19 13:54\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -50,7 +50,7 @@ msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
 #: frontend/lib/norent/letter-content.tsx:15
 msgid "<0>Declaration of COVID-19 Related Financial Distress</0><1/>Compliant with Code of Civil Procedure Section 1179.02, AB832, COVID-19 Tenant Relief Act"
-msgstr ""
+msgstr "<0>Declaration of COVID-19 Related Financial Distress</0><1/>Compliant with Code of Civil Procedure Section 1179.02, AB832, COVID-19 Tenant Relief Act"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:409
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
@@ -2319,7 +2319,7 @@ msgstr "¿Cuál es el plazo para completar el formulario de declaración?"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:25
 msgid "What is the new law AB832?"
-msgstr ""
+msgstr "What is the new law AB832?"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:170
 msgid "What is the time lag between me filling this out and when it gets sent?"
@@ -2873,11 +2873,11 @@ msgstr "<0>Una \"moratoria de desalojo\" puede significar algo diferente en cada
 
 #: frontend/lib/norent/letter-email-to-user.tsx:95
 msgid "norent.doINeedToSendAB832LetterEveryMonth"
-msgstr ""
+msgstr "Yes. Follow these instructions even if you have sent a letter to your landlord each month that you have not paid. And send a new declaration for every month moving forward (through September 2021)."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:105
 msgid "norent.doIStillHaveToPayMyRentAB832"
-msgstr ""
+msgstr "On or before 6/30/2021 you must decide whether to pay 25% of the rent for each month from September 2020 to September 2021. That’s 13 months multiplied by 25%. If after consulting with an attorney, you determine that you do not want to be in eviction court, pay the 25%. Tenants with severely bad conditions or living in illegal units should talk with an attorney before deciding whether to pay."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:25
 msgid "norent.emailBodyTemplateForSharingNoRent"
@@ -3013,11 +3013,11 @@ msgstr "Si el propietario le envía un aviso para pagar el alquiler con una decl
 
 #: frontend/lib/norent/letter-email-to-user.tsx:28
 msgid "norent.whatIsAB832partOne"
-msgstr ""
+msgstr "AB832 is now state law and extends tenant protection until September 30, 2021. The Act extends tenant protections included in the Tenant, Homeowner, and Small Landlord Relief and Stabilization Act of 2020 (AB3088) and SB91 to September 30, 2021. These protections were originally set to expire on June 30, 2021 under SB91. The Act includes the same eligibility and program rules as before including:"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:37
 msgid "norent.whatIsAB832partTwo"
-msgstr ""
+msgstr "<0><1>Limiting public disclosure of eviction cases involving nonpayment of rent between March 4, 2020 and September 30, 2021.</1><2>Protects low-income tenants from landlords assigning or selling their rental debt to a third-party debt collector.</2><3>“Pay or Quit” Notice period for nonpayment of rent extended from 3 to 15 days.</3><4>Protects tenants from being evicted for “just cause” if landlord is shown to be really evicting the tenant for COVID-19 related nonpayment of rent.</4><5>Landlord may not charge late fees for nonpayment of rent between March 1, 2020 and September 30, 2021 to tenants who have attested they are experiencing a COVID-19-related hardship.</5><6>Require landlords to notify all tenants who owe back rent about the availability of their rights and the rental assistance program via an informational notice by February 28, 2021.</6></0>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:120
 msgid "norent.whatToDoIfLandlordRetaliates"
@@ -3051,3 +3051,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

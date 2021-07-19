@@ -5,6 +5,7 @@ from graphql import ResolveInfo
 from django.contrib.auth import logout, login, authenticate
 from django.middleware import csrf
 from django.forms import formset_factory
+from django.conf import settings
 
 from users.models import JustfixUser
 from project.graphql_static_request import GraphQLStaticRequest
@@ -251,7 +252,15 @@ class Login(SessionFormMutation):
     def perform_mutate(cls, form: forms.LoginForm, info: ResolveInfo):
         request = info.context
         login(request, form.authenticated_user)
+        request.session.set_expiry(settings.SESSION_LOGGED_IN_COOKIE_AGE)
+        assert request.session.get_expire_at_browser_close() is False
         return cls.mutation_success()
+
+
+def logout_and_set_session_expiry(request):
+    logout(request)
+    request.session.set_expiry(None)
+    assert request.session.get_expire_at_browser_close() is True
 
 
 @schema_registry.register_mutation
@@ -270,7 +279,7 @@ class Logout(SessionFormMutation):
     @classmethod
     def perform_mutate(cls, form: forms.LogoutForm, info: ResolveInfo):
         request = info.context
-        logout(request)
+        logout_and_set_session_expiry(request)
         return cls.mutation_success()
 
 
@@ -294,7 +303,7 @@ class ClearAnonymousSession(SessionFormMutation):
     def perform_mutate(cls, form: forms.LogoutForm, info: ResolveInfo):
         request = info.context
         if not request.user.is_authenticated:
-            logout(request)
+            logout_and_set_session_expiry(request)
         return cls.mutation_success()
 
 

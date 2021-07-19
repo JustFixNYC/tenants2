@@ -66,6 +66,15 @@ if SESSION_COOKIE_SECURE:
 if CSRF_COOKIE_SECURE:
     CSRF_COOKIE_SAMESITE = "None"
 
+# This will only be used for sessions in which the
+# user is logged in.
+SESSION_LOGGED_IN_COOKIE_AGE = 1209600  # 2 weeks, in seconds.
+
+# By default, for anonymous sessions, we want the session
+# to expire at browser close, so that sensitive PII isn't
+# leaked on shared computers.
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 SECURE_BROWSER_XSS_FILTER = True

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-16 19:26+0000\n"
-"PO-Revision-Date: 2021-07-19 13:54\n"
+"PO-Revision-Date: 2021-07-19 14:10\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -114,7 +114,7 @@ msgstr "%(first_name)s, previamente creaste una cuenta en NoRent.org. La Ley de 
 #: norent/sms_reminders.py:32
 #, python-format
 msgid "%(first_name)s, you've previously created an account on NoRent.org. The California Tenant Relief Act of 2020 was extended by the new law AB832. In order to be protected from eviction, you must send a new declaration letter to your landlord through NoRent.org: %(url)s"
-msgstr ""
+msgstr "%(first_name)s, previamente creaste una cuenta en NoRent.org. La Ley de Alivio de Inquilinos de California de 2020 fue ampliada por la nueva ley AB832. Para estar protegido del desalojo, debes enviar una nueva carta de declaración al dueño o manager de tu edificio a través de NoRent.org: %(url)s"
 
 #: norent/sms_reminders.py:39
 #, python-format

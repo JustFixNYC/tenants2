@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-16 19:26+0000\n"
-"PO-Revision-Date: 2021-07-19 14:10\n"
+"PO-Revision-Date: 2021-07-19 14:12\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -119,7 +119,7 @@ msgstr "%(first_name)s, previamente creaste una cuenta en NoRent.org. La Ley de 
 #: norent/sms_reminders.py:39
 #, python-format
 msgid "%(first_name)s, you've previously created an account on NoRent.org. If you are unable to pay rent next month AND you have a COVID-19 related reason for not paying, we recommend that on or before your rent due date or within 7 days of your rent due date, you send a new AB832 declaration to your landlord through NoRent.org: %(url)s"
-msgstr ""
+msgstr "%(first_name)s, previamente creaste una cuenta de usuario en NoRent.org. Si no puedes pagar el alquiler el mes que viene y tienes una razón relacionada con COVID-19 para no pagar, recomendamos que envíes una nueva declaración AB832 al dueño o manager de tu edificio a través de NoRent.org: %(url)s antes de la fecha de vencimiento de la renta, en el día mismo o dentro de los 7 días siguientes."
 
 #: onboarding/forms.py:60
 msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox (but not both)."

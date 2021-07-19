@@ -58,7 +58,9 @@ class NorentRentPeriod(DjangoObjectType):
 
 @schema_registry.register_session_info
 class NorentSessionInfo(object):
-    norent_scaffolding = NorentScaffolding.graphql_field()
+    norent_scaffolding = NorentScaffolding.graphql_field(
+        deprecation_reason="Use session.onboardingScaffolding instead."
+    )
 
     norent_latest_rent_period = graphene.Field(
         NorentRentPeriod,

@@ -3,14 +3,7 @@ mutation OnboardingStep1V2Mutation($input: OnboardingStep1V2Input!) {
   output: onboardingStep1V2(input: $input) {
     errors { ...ExtendedFormFieldErrors },
     session {
-      onboardingStep1 {
-        address,
-        borough,
-        aptNumber,
-        firstName,
-        lastName,
-        preferredFirstName
-      }
+      onboardingScaffolding { ...OnboardingScaffolding }
     }
   }
 }

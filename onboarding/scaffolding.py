@@ -181,7 +181,7 @@ class GraphQlOnboardingScaffolding(graphene.ObjectType):
         return self.is_zip_code_in_la()
 
     @classmethod
-    def graphql_field(cls):
+    def graphql_field(cls, **kwargs):
         def resolver(_, info: ResolveInfo):
             request = info.context
             kwargs = request.session.get(SCAFFOLDING_SESSION_KEY, {})
@@ -189,7 +189,7 @@ class GraphQlOnboardingScaffolding(graphene.ObjectType):
                 return OnboardingScaffolding(**kwargs)
             return None
 
-        return graphene.Field(cls, resolver=resolver)
+        return graphene.Field(cls, resolver=resolver, **kwargs)
 
 
 def get_scaffolding_fields_from_form(form) -> Dict[str, Any]:

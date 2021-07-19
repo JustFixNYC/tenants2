@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-07-19 16:12\n"
+"PO-Revision-Date: 2021-07-19 16:14\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1595,7 +1595,7 @@ msgstr "Por favor, proporciona el nombre del dueño de tu edificio así como su 
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:68
 msgid "Please note that your declaration letter will be structured as follows to meet the requirements of California's AB832 law:"
-msgstr "Please note that your declaration letter will be structured as follows to meet the requirements of California's AB832 law:"
+msgstr "Tenga en cuenta que su carta de declaración tendrá la siguiente estructura para cumplir con los requisitos de la ley AB832 de California:"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:215
 msgid "Please read the rest of this email carefully as it contains important information about your next steps."
@@ -2961,7 +2961,7 @@ msgstr "Esta carta es para informarle de las protecciones para inquilinos existe
 
 #: frontend/lib/norent/letter-content.tsx:88
 msgid "norent.letterBodyCaliforniaAB832"
-msgstr "<0>This declaration letter is in regards to rent payment for the following months:</0><1/><2>I am currently unable to pay my rent or other financial obligations under the lease in full because of one or more of the following:</2><3><4>Loss of income caused by the COVID-19 pandemic.</4><5>Increased out-of-pocket expenses directly related to performing essential work during the COVID-19 pandemic.</5><6>Increased expenses directly related to health impacts of the COVID-19 pandemic.</6><7>Childcare responsibilities or responsibilities to care for an elderly, disabled, or sick family member directly related to the COVID-19 pandemic that limit my ability to earn income.</7><8>Increased costs for childcare or attending to an elderly, disabled, or sick family member directly related to the COVID-19 pandemic.</8><9>Other circumstances related to the COVID-19 pandemic that have reduced my income or increased my expenses.</9></3><10>Any public assistance, including unemployment insurance, pandemic unemployment assistance, state disability insurance (SDI), or paid family leave, that I have received since the start of the COVID-19 pandemic does not fully make up for my loss of income and/or increased expenses.</10><11>I declare under penalty of perjury under the laws of the State of California that the foregoing is true and correct.</11>"
+msgstr "<0>Esta carta de declaración se refiere al pago del alquiler durante los meses siguientes:</0><1/><2>Actualmente no puedo pagar mi alquiler u otras obligaciones financieras delineadas en el contrato de arrendamiento debido a uno o más de lo siguiente:</2><3><4>Pérdida de ingresos causada por la pandemia COVID-19. </4><5>Gastos adicionales directamente relacionados con la realización de trabajos esenciales durante el mandato COVID-19.</5><6>Gastos adicionales relacionados con impactos de la salud del pandemia COVID-19. </6><7>Satisfacción de responsabilidades de cuidado de niños, personas discapacitadas, o familiares enfermos directamente relacionadas con la pandemia COVID-19 que limita mi capacidad de obtener ingresos. </7><8>Aumento de los costos para el cuidado de los niños o para atender a un miembro de la familia con discapacidades o enfermo relacionado directamente con la pandemia COVID-19. </8><9>Otras circunstancias relacionadas con la pandemia COVID-19 que han reducido mis ingresos o aumentado mis gastos. </9></3><10>Cualquier asistencia pública, incluyendo seguro de desempleo, asistencia pandémica para el desempleo, seguro de discapacidad estatal (SDI), o permiso familiar pagado, que he recibido desde el inicio de la pandemia COVID-19 no compensa plenamente mi pérdida de ingresos y/o gastos adicionales. </10><11>Declaro bajo pena de perjurio en virtud de las leyes del Estado de California que lo declarado es verdadero y correcto.</11>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:47
 msgid "norent.listOfSuggestedNonpaymentDocumentation"
@@ -2969,7 +2969,7 @@ msgstr "<0>Mientras esperas que el dueño de tu edificio te dé una respuesta, r
 
 #: frontend/lib/norent/letter-builder/los-angeles-know-your-rights.tsx:35
 msgid "norent.losAngelesKyrAB832"
-msgstr "We’ve worked with the non-profit organization <0>SAJE</0> to provide additional support once you’ve sent your letter. You can learn more about how AB832 affects Los Angeles residents at <1>Stay Housed LA</1>."
+msgstr "Hemos trabajado con la organización sin fines de lucro <0>SAJE</0> para proporcionarte apoyo adicional una vez que hayas enviado tu carta. Puedes aprender más sobre cómo la ley AB832 afecta a los residentes de Los Angeles en <1>Stay Housed LA</1>."
 
 #: frontend/lib/norent/about.tsx:99
 msgid "norent.madeByBlurb"

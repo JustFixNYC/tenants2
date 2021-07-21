@@ -16,6 +16,12 @@ POLY_1 = Polygon.from_bbox((0, 0, 1, 1))
 POLY_2 = Polygon.from_bbox((1, 1, 2, 2))
 
 
+class LngLats:
+    BROOKLYN_HEIGHTS = (-73.9943, 40.6977)
+    ALBANY = (-73.755, 42.6512)
+    YONKERS = (-73.8987, 40.9312)
+
+
 class CountyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = County

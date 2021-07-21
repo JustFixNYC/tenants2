@@ -230,7 +230,10 @@ class TestNationalAddressMutation(GraphQLTestingPal):
             "aptNumber": "2",
         }
 
-    def test_it_errors_on_nyc_addresses(self, settings, requests_mock):
+    def test_it_errors_on_nyc_addresses(self, settings, requests_mock, monkeypatch):
+        from norent import schema
+
+        monkeypatch.setattr(schema, "is_lnglat_in_nyc", lambda point: True)
         settings.MAPBOX_ACCESS_TOKEN = "blah"
         self.set_prior_info()
         mock_brl_results("150 court st, Brooklyn, NY 12345", requests_mock)

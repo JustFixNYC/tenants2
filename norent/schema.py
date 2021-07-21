@@ -24,9 +24,9 @@ from onboarding.scaffolding import (
     get_scaffolding,
     update_scaffolding,
     purge_scaffolding,
-    is_lnglat_in_nyc,
     GraphQlOnboardingScaffolding,
 )
+from findhelp.models import is_lnglat_in_nyc
 from loc.models import LandlordDetails
 from . import forms, models, letter_sending
 

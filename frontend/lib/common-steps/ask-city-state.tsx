@@ -15,7 +15,7 @@ import { MiddleProgressStepProps } from "../progress/progress-step-route";
 import { MapboxCityOptions } from "../forms/mapbox/city-autocomplete";
 
 const ConfirmCityModal: React.FC<{ nextStep: string }> = (props) => {
-  const scf = useContext(AppContext).session.norentScaffolding;
+  const scf = useContext(AppContext).session.onboardingScaffolding;
 
   return (
     <YesNoConfirmationModal
@@ -44,13 +44,14 @@ export const AskCityState: React.FC<
       <SessionUpdatingFormSubmitter
         mutation={NorentCityStateMutation}
         initialState={(s) => ({
-          city: s.norentScaffolding?.city || s.onboardingInfo?.city || "",
-          state: s.norentScaffolding?.state || s.onboardingInfo?.state || "",
+          city: s.onboardingScaffolding?.city || s.onboardingInfo?.city || "",
+          state:
+            s.onboardingScaffolding?.state || s.onboardingInfo?.state || "",
         })}
         onSuccessRedirect={(output, input) =>
           areAddressesTheSame(
             input.city,
-            output.session?.norentScaffolding?.city ?? hardFail()
+            output.session?.onboardingScaffolding?.city ?? hardFail()
           )
             ? props.nextStep
             : props.confirmModalRoute

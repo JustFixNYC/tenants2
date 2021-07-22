@@ -9,7 +9,7 @@ import { TextualFormField } from "../forms/form-fields";
 import { ProgressButtons } from "../ui/buttons";
 import {
   AllSessionInfo,
-  AllSessionInfo_norentScaffolding,
+  AllSessionInfo_onboardingScaffolding,
 } from "../queries/AllSessionInfo";
 import { NorentNationalAddressInput } from "../queries/globalTypes";
 import {
@@ -27,7 +27,7 @@ import { t, Trans } from "@lingui/macro";
 import { MiddleProgressStepProps } from "../progress/progress-step-route";
 
 function getNationalAddressLines(
-  scf: AllSessionInfo_norentScaffolding
+  scf: AllSessionInfo_onboardingScaffolding
 ): string[] {
   const firstLineParts = [scf.street];
 
@@ -39,10 +39,10 @@ function getNationalAddressLines(
 }
 
 const ScaffoldingAddress: React.FC<{}> = (props) => {
-  const { norentScaffolding } = useContext(AppContext).session;
-  if (!norentScaffolding) return null;
+  const { onboardingScaffolding } = useContext(AppContext).session;
+  if (!onboardingScaffolding) return null;
 
-  const addr = getNationalAddressLines(norentScaffolding);
+  const addr = getNationalAddressLines(onboardingScaffolding);
 
   return (
     <p className="content is-italic">
@@ -86,10 +86,11 @@ const ConfirmInvalidAddressModal: React.FC<{ nextStep: string }> = (props) => {
 
 function getInitialState(s: AllSessionInfo): NorentNationalAddressInput {
   return {
-    street: s.norentScaffolding?.street || s.onboardingInfo?.address || "",
-    zipCode: s.norentScaffolding?.zipCode || s.onboardingInfo?.zipcode || "",
+    street: s.onboardingScaffolding?.street || s.onboardingInfo?.address || "",
+    zipCode:
+      s.onboardingScaffolding?.zipCode || s.onboardingInfo?.zipcode || "",
     ...createAptNumberFormInput(
-      s.norentScaffolding?.aptNumber ?? s.onboardingInfo?.aptNumber
+      s.onboardingScaffolding?.aptNumber ?? s.onboardingInfo?.aptNumber
     ),
   };
 }
@@ -104,7 +105,7 @@ function getSuccessRedirect(
     return routes.nationalAddressConfirmInvalidModal;
   }
   if (output.isValid) {
-    const scf = output.session?.norentScaffolding ?? hardFail();
+    const scf = output.session?.onboardingScaffolding ?? hardFail();
     if (
       !areAddressesTheSame(input.zipCode, scf.zipCode) ||
       !areAddressesTheSame(input.street, scf.street)
@@ -131,7 +132,7 @@ const ReadonlyCityAndStateField: React.FC<{
   changeURL: string;
 }> = ({ changeURL }) => {
   const { session } = useContext(AppContext);
-  const scf = session.norentScaffolding;
+  const scf = session.onboardingScaffolding;
 
   if (!(scf?.city && scf?.state)) return null;
 

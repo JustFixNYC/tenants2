@@ -144,6 +144,12 @@ class GraphQlOnboardingScaffolding(graphene.ObjectType):
 
     email = graphene.String(required=True)
 
+    phone_number = graphene.String(required=True)
+
+    lease_type = graphene.String(required=True)
+
+    receives_public_assistance = graphene.Boolean()
+
     has_landlord_email_address = graphene.Boolean()
 
     has_landlord_mailing_address = graphene.Boolean()
@@ -159,7 +165,7 @@ class GraphQlOnboardingScaffolding(graphene.ObjectType):
         return self.is_zip_code_in_la()
 
     @classmethod
-    def graphql_field(cls):
+    def graphql_field(cls, **kwargs):
         def resolver(_, info: ResolveInfo):
             request = info.context
             kwargs = request.session.get(SCAFFOLDING_SESSION_KEY, {})
@@ -167,7 +173,7 @@ class GraphQlOnboardingScaffolding(graphene.ObjectType):
                 return OnboardingScaffolding(**kwargs)
             return None
 
-        return graphene.Field(cls, resolver=resolver)
+        return graphene.Field(cls, resolver=resolver, **kwargs)
 
 
 def get_scaffolding_fields_from_form(form) -> Dict[str, Any]:

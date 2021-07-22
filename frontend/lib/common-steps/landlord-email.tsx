@@ -71,5 +71,5 @@ export const LandlordEmail: React.FC<
 export function shouldSkipLandlordEmailStep(s: AllSessionInfo): boolean {
   return s.landlordDetails?.isLookedUp
     ? false
-    : !s.norentScaffolding?.hasLandlordEmailAddress;
+    : !s.onboardingScaffolding?.hasLandlordEmailAddress;
 }

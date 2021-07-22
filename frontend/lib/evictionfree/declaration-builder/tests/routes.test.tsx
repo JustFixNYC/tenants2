@@ -19,7 +19,7 @@ describe("Eviction free declaration builder steps", () => {
     it: "takes brand-new users through onboarding",
     usingSession: sb
       .withQueriedPhoneNumber(PhoneNumberAccountStatus.NO_ACCOUNT)
-      .withNorentScaffolding({
+      .withOnboardingScaffolding({
         city: "Albany",
         state: "NY",
       }),
@@ -41,7 +41,7 @@ tester.defineTest({
     .withOnboardingInfo({
       state: "NY",
     })
-    .withNorentScaffolding({
+    .withOnboardingScaffolding({
       hasLandlordEmailAddress: true,
       hasLandlordMailingAddress: true,
     }),

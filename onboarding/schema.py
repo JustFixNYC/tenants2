@@ -26,6 +26,7 @@ from project.util.model_form_util import OneToOneUserModelFormMutation
 from users.email_verify import send_verification_email_async
 from onboarding import forms
 from onboarding.scaffolding import (
+    GraphQlOnboardingScaffolding,
     OnboardingScaffoldingMutation,
     get_scaffolding,
     purge_scaffolding,
@@ -237,6 +238,26 @@ class AgreeToTerms(SessionFormMutation):
         return cls.mutation_success()
 
 
+class OnboardingScaffolding(GraphQlOnboardingScaffolding):
+    """
+    This contains all information related to onboarding
+    that needs to be stored somewhere while the user
+    doesn't yet have an account.
+
+    It may also be used for other "short-term memory" needed
+    while the user is using the site.
+
+    Under the hood, all the data under this field is stored
+    in the user's session via the Django sessions framework.
+    It is temporary and will eventually expire.
+
+    Note that if the user is logged in, other GraphQL
+    fields containing the same information should be preferred
+    over this one, since they will be returning user data that
+    is stored permanently in the database.
+    """
+
+
 class OnboardingInfoMutation(OneToOneUserModelFormMutation):
     class Meta:
         abstract = True
@@ -400,9 +421,15 @@ class OnboardingSessionInfo(object):
     A mixin class defining all onboarding-related queries.
     """
 
-    onboarding_step_1 = graphene.Field(OnboardingStep1V2Info)
+    onboarding_step_1 = graphene.Field(
+        OnboardingStep1V2Info, deprecation_reason="Use session.onboardingScaffolding instead."
+    )
 
-    onboarding_step_3 = graphene.Field(OnboardingStep3Info)
+    onboarding_step_3 = graphene.Field(
+        OnboardingStep3Info, deprecation_reason="Use onboardingScaffolding instead."
+    )
+
+    onboarding_scaffolding = OnboardingScaffolding.graphql_field()
 
     onboarding_info = graphene.Field(
         OnboardingInfoType,

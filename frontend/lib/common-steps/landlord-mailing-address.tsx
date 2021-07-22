@@ -105,5 +105,5 @@ export function shouldSkipLandlordMailingAddressStep(
 ): boolean {
   return s.landlordDetails?.isLookedUp
     ? true
-    : !s.norentScaffolding?.hasLandlordMailingAddress;
+    : !s.onboardingScaffolding?.hasLandlordMailingAddress;
 }

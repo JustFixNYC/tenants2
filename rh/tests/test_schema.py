@@ -73,11 +73,13 @@ def test_rh_form_validates_data(db, graphql_client):
 def test_rh_form_saves_data_to_session(db, graphql_client):
     ob = _exec_rh_form(graphql_client)
     assert ob["errors"] == []
-    assert ob["session"]["rentalHistoryInfo"] == {
-        **VALID_RH_DATA,
-        "zipcode": "",
-        "addressVerified": False,
-    }
+    scf = ob["session"]["onboardingScaffolding"]
+    assert scf["firstName"] == "Boop"
+    assert scf["lastName"] == "Jones"
+    assert scf["street"] == "123 Boop Way"
+    assert scf["borough"] == "STATEN_ISLAND"
+    assert scf["aptNumber"] == "36C"
+    assert scf["phoneNumber"] == "2120000000"
 
 
 def test_rh_form_grabs_rent_stab_info(db, graphql_client, monkeypatch, mock_geocoding_and_nycdb):

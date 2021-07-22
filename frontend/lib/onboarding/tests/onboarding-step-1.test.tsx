@@ -8,6 +8,7 @@ import { FakeGeoResults } from "../../tests/util";
 import JustfixRoutes from "../../justfix-route-info";
 import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
 import { ClearAnonymousSessionMutation } from "../../queries/ClearAnonymousSessionMutation";
+import { newSb } from "../../tests/session-builder";
 
 const PROPS = {
   routes: JustfixRoutes.locale.locOnboarding,
@@ -53,16 +54,14 @@ describe("onboarding step 1 page", () => {
 
   it("shows initial address and borough in autocomplete field", () => {
     const pal = new AppTesterPal(<OnboardingStep1 {...PROPS} />, {
-      session: {
-        onboardingStep1: {
-          firstName: "boop",
-          lastName: "jones",
-          preferredFirstName: "",
-          aptNumber: "2",
-          address: "150 DOOMBRINGER STREET",
-          borough: "MANHATTAN",
-        },
-      },
+      session: newSb().withOnboardingScaffolding({
+        firstName: "boop",
+        lastName: "jones",
+        preferredFirstName: "",
+        aptNumber: "2",
+        street: "150 DOOMBRINGER STREET",
+        borough: "MANHATTAN",
+      }).value,
     });
     const input = pal.rr.getAllByLabelText(/address/i)[0] as HTMLInputElement;
     expect(input.value).toEqual("150 DOOMBRINGER STREET, Manhattan");
@@ -110,16 +109,14 @@ describe("onboarding step 1 page", () => {
     pal.clickButtonOrLink("Next");
     pal.withFormMutation(OnboardingStep1V2Mutation).respondWith({
       errors: [],
-      session: {
-        onboardingStep1: {
-          firstName: "boop",
-          lastName: "jones",
-          preferredFirstName: "bip",
-          address: "150 COURT STREET",
-          borough: "BROOKLYN",
-          aptNumber: "2",
-        },
-      },
+      session: newSb().withOnboardingScaffolding({
+        firstName: "boop",
+        lastName: "jones",
+        preferredFirstName: "bip",
+        street: "150 COURT STREET",
+        borough: "BROOKLYN",
+        aptNumber: "2",
+      }).value,
     });
     await pal.rt.waitFor(() => pal.getDialogWithLabel(/Is this your address/i));
   });

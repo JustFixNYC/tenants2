@@ -86,9 +86,7 @@ describe("Rental history frontend", () => {
   it("deletes user details on clicking cancel button", () => {
     const pal = new AppTesterPal(<RentalHistoryRoutes />, {
       url: JustfixRoutes.locale.rh.form,
-      session: {
-        rentalHistoryInfo: exampleRentalHistoryInfo,
-      },
+      session: exampleRentalHistoryInfo.value,
     });
     const inputAddress = pal.rr.getAllByLabelText(
       /address/i
@@ -111,7 +109,7 @@ describe("Rental history frontend", () => {
       url: JustfixRoutes.locale.rh.form,
       session: {
         userId: null,
-        rentalHistoryInfo: null,
+        onboardingScaffolding: null,
       },
     });
 

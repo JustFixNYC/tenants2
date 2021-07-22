@@ -4,7 +4,7 @@ import {
   hasUserSeenRttcCheckboxYet,
 } from "../know-your-rights";
 import { override } from "../../../tests/util";
-import { BlankNorentScaffolding } from "../../../queries/NorentScaffolding";
+import { BlankOnboardingScaffolding } from "../../../queries/OnboardingScaffolding";
 import { createProgressStepJSX } from "../../../progress/tests/progress-step-test-util";
 import { newSb } from "../../../tests/session-builder";
 import { initNationalMetadataForTesting } from "./national-metadata-test-util";
@@ -15,7 +15,7 @@ describe("<NorentLbKnowYourRights>", () => {
   const createPal = (state: string) => {
     return new AppTesterPal(createProgressStepJSX(NorentLbKnowYourRights), {
       session: {
-        norentScaffolding: override(BlankNorentScaffolding, {
+        onboardingScaffolding: override(BlankOnboardingScaffolding, {
           state,
         }),
       },
@@ -55,7 +55,7 @@ describe("hasUserSeenRttcCheckboxYet", () => {
     for (let canReceiveRttcComms of [true, false]) {
       expect(
         hasUserSeenRttcCheckboxYet(
-          newSb().withNorentScaffolding({ canReceiveRttcComms }).value
+          newSb().withOnboardingScaffolding({ canReceiveRttcComms }).value
         )
       ).toBe(true);
 

@@ -49,7 +49,7 @@ function getLetterBuilderRoutes(): NorentLetterBuilderRouteInfo {
 }
 
 function isUserInNYC(s: AllSessionInfo): boolean {
-  return s.norentScaffolding?.isCityInNyc || false;
+  return s.onboardingScaffolding?.isCityInNyc || false;
 }
 
 function isUserOutsideNYC(s: AllSessionInfo): boolean {
@@ -59,7 +59,7 @@ function isUserOutsideNYC(s: AllSessionInfo): boolean {
 function isUserInLA(s: AllSessionInfo): boolean {
   return (
     s.onboardingInfo?.isInLosAngeles ??
-    s.norentScaffolding?.isInLosAngeles ??
+    s.onboardingScaffolding?.isInLosAngeles ??
     false
   );
 }

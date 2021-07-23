@@ -5,9 +5,7 @@ import { exampleRentalHistoryInfo } from "./example-rh-info";
 
 test("email to dhcr renders", () => {
   const pal = new AppTesterPal(<RhEmailToDhcr />, {
-    session: {
-      rentalHistoryInfo: exampleRentalHistoryInfo,
-    },
+    session: exampleRentalHistoryInfo.value,
   });
 
   expect(pal.rr.container).toMatchSnapshot();

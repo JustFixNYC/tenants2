@@ -39,6 +39,7 @@ import { OutboundLink } from "../ui/outbound-link";
 import { optionalizeLabel } from "../forms/optionalize-label";
 import { li18n } from "../i18n-lingui";
 import { t } from "@lingui/macro";
+import { AllSessionInfo } from "../queries/AllSessionInfo";
 
 function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
   return (label, labelProps) => (
@@ -60,9 +61,7 @@ function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
 }
 
 function Step1ConfirmAddressModal(props: { toStep3: string }): JSX.Element {
-  const addrInfo =
-    useContext(AppContext).session.onboardingStep1 ||
-    BlankOnboardingStep1V2Input;
+  const addrInfo = toStep1Input(useContext(AppContext).session);
   return <ConfirmAddressModal nextStep={props.toStep3} {...addrInfo} />;
 }
 
@@ -87,6 +86,21 @@ const ReferralInfo: React.FC<{}> = () => {
 
   return null;
 };
+
+function toStep1Input(
+  s: Pick<AllSessionInfo, "onboardingScaffolding">
+): OnboardingStep1V2Input {
+  return exactSubsetOrDefault(
+    s.onboardingScaffolding
+      ? {
+          ...s.onboardingScaffolding,
+          address: s.onboardingScaffolding.street,
+          ...createAptNumberFormInput(s.onboardingScaffolding.aptNumber),
+        }
+      : null,
+    BlankOnboardingStep1V2Input
+  );
+}
 
 type OnboardingStep1Props = {
   disableProgressiveEnhancement?: boolean;
@@ -188,23 +202,13 @@ class OnboardingStep1WithoutContexts extends React.Component<
         <div>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep1V2Mutation}
-            initialState={(s) =>
-              exactSubsetOrDefault(
-                s.onboardingStep1
-                  ? {
-                      ...s.onboardingStep1,
-                      ...createAptNumberFormInput(s.onboardingStep1.aptNumber),
-                    }
-                  : null,
-                BlankOnboardingStep1V2Input
-              )
-            }
+            initialState={toStep1Input}
             updateInitialStateInBrowser={updateAddressFromBrowserStorage}
             onSuccessRedirect={(output, input) =>
               redirectToAddressConfirmationOrNextStep({
                 input,
                 resolved: assertNotNull(
-                  assertNotNull(output.session).onboardingStep1
+                  toStep1Input(assertNotNull(output.session))
                 ),
                 nextStep: routes.step3,
                 confirmation: routes.step1ConfirmAddressModal,

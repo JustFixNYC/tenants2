@@ -2,6 +2,21 @@ import pytest
 
 from onboarding.scaffolding import OnboardingScaffolding, get_scaffolding, update_scaffolding
 from onboarding.schema import session_key_for_step
+from findhelp.tests.factories import LngLats
+
+
+@pytest.fixture
+def fake_is_lnglat_in_nyc(monkeypatch):
+    from onboarding import scaffolding
+
+    def is_lnglat_in_nyc(point):
+        return {
+            LngLats.BROOKLYN_HEIGHTS: True,
+            LngLats.ALBANY: False,
+            LngLats.YONKERS: False,
+        }[point]
+
+    monkeypatch.setattr(scaffolding, "is_lnglat_in_nyc", is_lnglat_in_nyc)
 
 
 @pytest.mark.parametrize(
@@ -19,14 +34,16 @@ from onboarding.schema import session_key_for_step
         (OnboardingScaffolding(city="South ozone park./Queens", state="NY"), True),
         (OnboardingScaffolding(city="blarg / flarg", state="NY"), False),
         (
-            OnboardingScaffolding(city="brooklyn heights", state="NY", lnglat=(-73.9943, 40.6977)),
+            OnboardingScaffolding(
+                city="brooklyn heights", state="NY", lnglat=LngLats.BROOKLYN_HEIGHTS
+            ),
             True,
         ),
-        (OnboardingScaffolding(city="Albany", state="NY", lnglat=(-73.755, 42.6512)), False),
-        (OnboardingScaffolding(city="Yonkers", state="NY", lnglat=(-73.8987, 40.9312)), False),
+        (OnboardingScaffolding(city="Albany", state="NY", lnglat=LngLats.ALBANY), False),
+        (OnboardingScaffolding(city="Yonkers", state="NY", lnglat=LngLats.YONKERS), False),
     ],
 )
-def test_is_city_in_nyc_works(scaffolding, expected):
+def test_is_city_in_nyc_works(scaffolding, fake_is_lnglat_in_nyc, expected):
     assert scaffolding.is_city_in_nyc() is expected
 
 

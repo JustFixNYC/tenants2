@@ -21,7 +21,7 @@ const SAJE_CHECKBOX_DEFAULT = true;
 
 const getSajeValue = (s: AllSessionInfo) =>
   s.onboardingInfo?.canReceiveSajeComms ??
-  s.norentScaffolding?.canReceiveSajeComms;
+  s.onboardingScaffolding?.canReceiveSajeComms;
 
 export function hasUserSeenSajeCheckboxYet(s: AllSessionInfo): boolean {
   return typeof getSajeValue(s) === "boolean" ? true : false;
@@ -38,7 +38,7 @@ export const NorentLbLosAngelesKyr = MiddleProgressStep((props) => {
       </h2>
       <div className="content">
         <p>
-          <Trans id="norent.losAngelesKyrSB91">
+          <Trans id="norent.losAngelesKyrAB832">
             We’ve worked with the non-profit organization{" "}
             <OutboundLink
               href={SAJE_WEBSITE_URL}
@@ -48,7 +48,7 @@ export const NorentLbLosAngelesKyr = MiddleProgressStep((props) => {
               SAJE
             </OutboundLink>{" "}
             to provide additional support once you’ve sent your letter. You can
-            learn more about how SB91 affects Los Angeles residents at{" "}
+            learn more about how AB832 affects Los Angeles residents at{" "}
             <LocalizedOutboundLink
               hrefs={{
                 en: "https://www.stayhousedla.org/tenant_rights/",

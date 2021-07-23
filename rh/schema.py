@@ -181,7 +181,9 @@ class RhRentStabData(graphene.ObjectType):
 
 @schema_registry.register_session_info
 class RhSessionInfo(object):
-    rental_history_info = graphene.Field(RhFormInfo)
+    rental_history_info = graphene.Field(
+        RhFormInfo, deprecation_reason="Use session.onboardingScaffolding instead."
+    )
 
     rent_stab_info = graphene.Field(RhRentStabData)
 

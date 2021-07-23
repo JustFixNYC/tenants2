@@ -7,6 +7,7 @@ import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { getLatestStep } from "../../progress/progress-redirection";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
+import { newSb } from "../../tests/session-builder";
 
 const PROPS: OnboardingRoutesProps = {
   toCancel: "/cancel",
@@ -14,6 +15,15 @@ const PROPS: OnboardingRoutesProps = {
   routes: JustfixRoutes.locale.locOnboarding,
   signupIntent: OnboardingInfoSignupIntent.LOC,
 };
+
+const COMPLETED_STEP_1 = newSb().withOnboardingScaffolding({
+  firstName: "boop",
+  lastName: "jones",
+  phoneNumber: "5551234567",
+  borough: "MANHATTAN",
+  street: "123 Doombringer",
+  aptNumber: "2",
+});
 
 describe("latest step redirector", () => {
   function getLatestOnboardingStep(session: AllSessionInfo): string {
@@ -28,21 +38,19 @@ describe("latest step redirector", () => {
   });
 
   it("returns step 3 when step 1 is complete", () => {
-    expect(
-      getLatestOnboardingStep({
-        ...FakeSessionInfo,
-        onboardingStep1: {} as any,
-      })
-    ).toBe(JustfixRoutes.locale.locOnboarding.step3);
+    expect(getLatestOnboardingStep(COMPLETED_STEP_1.value)).toBe(
+      JustfixRoutes.locale.locOnboarding.step3
+    );
   });
 
   it("returns step 4 when step 3 is complete", () => {
     expect(
-      getLatestOnboardingStep({
-        ...FakeSessionInfo,
-        onboardingStep1: {} as any,
-        onboardingStep3: {} as any,
-      })
+      getLatestOnboardingStep(
+        COMPLETED_STEP_1.withOnboardingScaffolding({
+          leaseType: "RENT_STABILIZED",
+          receivesPublicAssistance: false,
+        }).value
+      )
     ).toBe(JustfixRoutes.locale.locOnboarding.step4);
   });
 });

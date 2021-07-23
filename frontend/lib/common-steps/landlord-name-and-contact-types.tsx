@@ -71,10 +71,10 @@ const NameAndContactTypesForm: React.FC<
       initialState={(s) => ({
         name: s.landlordDetails?.name || "",
         hasEmailAddress:
-          s.norentScaffolding?.hasLandlordEmailAddress ??
+          s.onboardingScaffolding?.hasLandlordEmailAddress ??
           !!s.landlordDetails?.email,
         hasMailingAddress:
-          s.norentScaffolding?.hasLandlordMailingAddress ??
+          s.onboardingScaffolding?.hasLandlordMailingAddress ??
           !!s.landlordDetails?.address,
       })}
       onSuccessRedirect={props.nextStep}

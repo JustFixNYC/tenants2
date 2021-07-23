@@ -130,11 +130,11 @@ def test_rh_form_saves_info_to_db(db, graphql_client, allow_lambda_http):
     assert rhr.address == "123 Boop Way"
 
 
-def test_rh_form_sends_email_and_clears_session(db, graphql_client, mailoutbox, allow_lambda_http):
+def test_rh_form_sends_email(db, graphql_client, mailoutbox, allow_lambda_http):
     ob = _exec_rh_form(graphql_client)
     assert ob["errors"] == []
     result = graphql_client.execute(RH_EMAIL_MUTATION)["data"]["rhSendEmail"]
-    assert result == {"errors": [], "session": {"rentalHistoryInfo": None}}
+    assert result["errors"] == []
     assert len(mailoutbox) == 1
     msg = mailoutbox[0]
     assert msg.subject == "Request for Rent History"

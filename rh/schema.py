@@ -3,7 +3,6 @@ from onboarding.scaffolding import (
     OnboardingScaffolding,
     OnboardingScaffoldingMutation,
     get_scaffolding,
-    purge_scaffolding,
 )
 from . import models, forms, email_dhcr
 from typing import Dict, Any, Optional
@@ -159,7 +158,11 @@ class RhSendEmail(SessionFormMutation):
             "RH",
             locale=translation.get_language_from_request(request, check_path=True),
         )
-        purge_scaffolding(request)
+
+        # Note that we used to purge the scaffolding information here, but lots
+        # of users go on to create an account after this, and we don't want them
+        # to have to re-enter all their information, so we'll keep it around.
+
         return cls.mutation_success()
 
 

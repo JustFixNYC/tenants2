@@ -4,7 +4,8 @@ from typing import Iterable
 from django.utils import translation
 
 from users.models import JustfixUser
-from .models import Reminder, REMINDERS, exclude_users_with_invalid_phone_numbers, progressBar
+from .models import Reminder, REMINDERS, exclude_users_with_invalid_phone_numbers
+from project.util.progress_bar import cli_progress_bar
 
 
 class SmsReminder(abc.ABC):
@@ -31,7 +32,7 @@ class SmsReminder(abc.ABC):
         SmsReminder.validate(self)
         users = self.get_queryset()
 
-        for user in progressBar(users, prefix="Progress:", suffix="Complete", length=50):
+        for user in cli_progress_bar(users, prefix="Progress:", suffix="Complete", length=50):
             with translation.override(user.locale):
                 text = self.get_sms_text(user)
                 assert text

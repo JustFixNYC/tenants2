@@ -21,10 +21,10 @@ export const AskNameStep: React.FC<MiddleProgressStepProps> = (props) => {
       <SessionUpdatingFormSubmitter
         mutation={NorentFullLegalAndPreferredNameMutation}
         initialState={(s) => ({
-          firstName: s.norentScaffolding?.firstName || s.firstName || "",
-          lastName: s.norentScaffolding?.lastName || s.lastName || "",
+          firstName: s.onboardingScaffolding?.firstName || s.firstName || "",
+          lastName: s.onboardingScaffolding?.lastName || s.lastName || "",
           preferredFirstName:
-            s.norentScaffolding?.preferredFirstName ||
+            s.onboardingScaffolding?.preferredFirstName ||
             s.preferredFirstName ||
             "",
         })}

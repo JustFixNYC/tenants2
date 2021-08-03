@@ -1,3 +1,9 @@
+from project.util.rename_dict_keys import with_keys_renamed
+from onboarding.scaffolding import (
+    OnboardingScaffolding,
+    OnboardingScaffoldingMutation,
+    get_scaffolding,
+)
 from . import models, forms, email_dhcr
 from typing import Dict, Any, Optional
 from django.utils import translation
@@ -7,10 +13,7 @@ from django.conf import settings
 import graphene
 from graphql import ResolveInfo
 from project import slack
-from project.util.django_graphql_session_forms import (
-    DjangoSessionFormObjectType,
-    DjangoSessionFormMutation,
-)
+from project.util.django_graphql_session_forms import DjangoSessionFormObjectType
 from project.util.session_mutation import SessionFormMutation
 from project.util.streaming_json import generate_json_rows
 from project.util.site_util import absolute_reverse, SITE_CHOICES
@@ -86,21 +89,32 @@ class RhFormInfo(DjangoSessionFormObjectType):
 
 
 @schema_registry.register_mutation
-class RhForm(DjangoSessionFormMutation):
+class RhForm(OnboardingScaffoldingMutation):
     class Meta:
-        source = RhFormInfo
+        form_class = forms.RhForm
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context
         result = super().perform_mutate(form, info)
-        form_data = RhFormInfo.get_dict_from_request(request)
-        assert form_data is not None
+        scf = get_scaffolding(request)
+        assert scf.street and scf.borough
 
-        full_address = form_data["address"] + ", " + form_data["borough"]
+        full_address = scf.street + ", " + scf.borough
         bbl, _, _ = lookup_bbl_and_bin_and_full_address(full_address)
         request.session[RENT_STAB_INFO_SESSION_KEY] = get_rent_stab_info_for_bbl(bbl)
         return result
+
+
+def scaffolding_has_rental_history_request_info(scf: OnboardingScaffolding) -> bool:
+    return bool(
+        scf.first_name
+        and scf.last_name
+        and scf.street
+        and scf.borough
+        and scf.phone_number
+        and scf.apt_number
+    )
 
 
 @schema_registry.register_mutation
@@ -111,33 +125,44 @@ class RhSendEmail(SessionFormMutation):
     @classmethod
     def perform_mutate(cls, form, info):
         request = info.context
-        form_data = RhFormInfo.get_dict_from_request(request)
-        if form_data is None:
+        scf = get_scaffolding(request)
+        if not scaffolding_has_rental_history_request_info(scf):
             cls.log(info, "User has not completed the rental history form, aborting mutation.")
             return cls.make_error("You haven't completed all the previous steps yet.")
 
-        rhr = models.RentalHistoryRequest(**form_data)
+        rhr = models.RentalHistoryRequest(
+            first_name=scf.first_name,
+            last_name=scf.last_name,
+            apartment_number=scf.apt_number,
+            phone_number=scf.phone_number,
+            address=scf.street,
+            address_verified=scf.address_verified,
+            borough=scf.borough,
+            zipcode=scf.zip_code,
+        )
         rhr.set_user(request.user)
         rhr.full_clean()
         rhr.save()
         slack.sendmsg_async(get_slack_notify_text(rhr), is_safe=True)
 
-        first_name: str = form_data["first_name"]
-        last_name: str = form_data["last_name"]
         email = react_render_email(
             SITE_CHOICES.JUSTFIX,
             project.locales.DEFAULT,
             "rh/email-to-dhcr.txt",
-            session={RhFormInfo._meta.session_key: form_data},
+            session=request.session,
         )
         email_dhcr.send_email_to_dhcr(email.subject, email.body)
         trigger_followup_campaign_async(
-            f"{first_name} {last_name}",
-            form_data["phone_number"],
+            f"{scf.first_name} {scf.last_name}",
+            scf.phone_number,
             "RH",
             locale=translation.get_language_from_request(request, check_path=True),
         )
-        RhFormInfo.clear_from_request(request)
+
+        # Note that we used to purge the scaffolding information here, but lots
+        # of users go on to create an account after this, and we don't want them
+        # to have to re-enter all their information, so we'll keep it around.
+
         return cls.mutation_success()
 
 
@@ -159,7 +184,10 @@ class RhRentStabData(graphene.ObjectType):
 
 @schema_registry.register_session_info
 class RhSessionInfo(object):
-    rental_history_info = RhFormInfo.field()
+    rental_history_info = graphene.Field(
+        RhFormInfo, deprecation_reason="Use session.onboardingScaffolding instead."
+    )
+
     rent_stab_info = graphene.Field(RhRentStabData)
 
     def resolve_rent_stab_info(self, info: ResolveInfo):
@@ -167,4 +195,11 @@ class RhSessionInfo(object):
         kwargs = request.session.get(RENT_STAB_INFO_SESSION_KEY, {})
         if kwargs:
             return RhRentStabData(**kwargs)
+        return None
+
+    def resolve_rental_history_info(self, info: ResolveInfo):
+        scf = get_scaffolding(info.context)
+        if scaffolding_has_rental_history_request_info(scf):
+            d = with_keys_renamed(scf.dict(), RhFormInfo._meta.form_class.from_scaffolding_keys)
+            return d
         return None

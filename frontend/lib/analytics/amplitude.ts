@@ -40,6 +40,12 @@ export type JustfixAmplitudeUserProperties = {
   issueCount: number;
 
   /**
+   * The git revision that built the front-end the user
+   * most recently used, or `null` if we don't know.
+   */
+  frontendVersion: string | null;
+
+  /**
    * This field is no longer relevant since we decomissioned the
    * legacy app, but we're keeping it around in the type definition
    * for documentation purposes.  It was used to track whether the
@@ -159,18 +165,15 @@ function getUserPropertiesFromSession(
   s: AllSessionInfo
 ): Partial<JustfixAmplitudeUserProperties> {
   return {
-    city:
-      s.onboardingInfo?.city ??
-      s.norentScaffolding?.city ??
-      s.onboardingStep1?.borough,
+    city: s.onboardingInfo?.city ?? s.onboardingScaffolding?.city,
     state:
       (s.onboardingInfo?.state as USStateChoice) ??
-      s.norentScaffolding?.state ??
-      (s.onboardingStep1?.borough ? "NY" : undefined),
+      s.onboardingScaffolding?.state ??
+      (s.onboardingScaffolding?.borough ? "NY" : undefined),
     signupIntent: s.onboardingInfo?.signupIntent,
     leaseType:
       (s.onboardingInfo?.leaseType as LeaseChoice) ??
-      s.onboardingStep3?.leaseType ??
+      s.onboardingScaffolding?.leaseType ??
       undefined,
     prefersLegacyApp: null,
     isEmailVerified: s.isEmailVerified ?? undefined,
@@ -193,6 +196,12 @@ export function updateAmplitudeUserPropertiesOnSessionChange(
 
   getAmplitude()?.setUserProperties(userProperties);
   return true;
+}
+
+export function trackFrontendVersionInAmplitude() {
+  getAmplitude()?.setUserProperties({
+    frontendVersion: GIT_REVISION,
+  });
 }
 
 export function trackLoginInAmplitude(s: AllSessionInfo) {

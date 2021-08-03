@@ -45,6 +45,17 @@ class TestYesNoRadiosField:
     def test_coerce_works(self, value, expected):
         assert YesNoRadiosField.coerce(value) is expected
 
+    @pytest.mark.parametrize(
+        "value,expected",
+        [
+            (None, ""),
+            (True, "True"),
+            (False, "False"),
+        ],
+    )
+    def test_reverse_coerce_to_str_works(self, value, expected):
+        assert YesNoRadiosField.reverse_coerce_to_str(value) == expected
+
     def test_raises_value_error_on_unexpected_value(self):
         with pytest.raises(ValueError, match="Invalid YesNoRadiosField value: blah"):
             YesNoRadiosField.coerce("blah")

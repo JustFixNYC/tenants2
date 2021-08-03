@@ -24,9 +24,9 @@ from onboarding.scaffolding import (
     get_scaffolding,
     update_scaffolding,
     purge_scaffolding,
-    is_lnglat_in_nyc,
     GraphQlOnboardingScaffolding,
 )
+from findhelp.models import is_lnglat_in_nyc
 from loc.models import LandlordDetails
 from . import forms, models, letter_sending
 
@@ -58,7 +58,9 @@ class NorentRentPeriod(DjangoObjectType):
 
 @schema_registry.register_session_info
 class NorentSessionInfo(object):
-    norent_scaffolding = NorentScaffolding.graphql_field()
+    norent_scaffolding = NorentScaffolding.graphql_field(
+        deprecation_reason="Use session.onboardingScaffolding instead."
+    )
 
     norent_latest_rent_period = graphene.Field(
         NorentRentPeriod,
@@ -373,19 +375,6 @@ class BaseCreateAccount(SessionFormMutation):
     signup_intent: str = ""
 
     @classmethod
-    def fill_nyc_info_from_deprecated_endpoint(cls, request, info: Dict[str, Any]):
-        # For more details on why this is deprecated, see:
-        # https://github.com/JustFixNYC/tenants2/pull/2143
-        step1 = OnboardingStep1V2Info.get_dict_from_request(request)
-        if step1 is None:
-            return None
-        info["borough"] = step1["borough"]
-        info["address"] = step1["address"]
-        info["apt_number"] = step1["apt_number"]
-        info["address_verified"] = step1["address_verified"]
-        return info
-
-    @classmethod
     def fill_city_info(cls, request, info: Dict[str, Any], scf: OnboardingScaffolding):
         info = {
             **info,
@@ -396,12 +385,9 @@ class BaseCreateAccount(SessionFormMutation):
 
         if scf.is_city_in_nyc():
             if scf.borough:
-                # The new NYC address entry endpoint was used, so we already
-                # have the information we need.
                 info["borough"] = scf.borough
             else:
-                # The old onboarding endpoint was used, so fill things in from there.
-                return cls.fill_nyc_info_from_deprecated_endpoint(request, info)
+                return None
         else:
             if not are_all_truthy(scf.street, scf.zip_code):
                 return None

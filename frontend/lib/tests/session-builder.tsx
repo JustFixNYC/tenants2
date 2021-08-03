@@ -1,9 +1,9 @@
 import { BlankAllSessionInfo, AllSessionInfo } from "../queries/AllSessionInfo";
 import { override } from "./util";
 import {
-  NorentScaffolding,
-  BlankNorentScaffolding,
-} from "../queries/NorentScaffolding";
+  OnboardingScaffolding,
+  BlankOnboardingScaffolding,
+} from "../queries/OnboardingScaffolding";
 import { BlankOnboardingInfo, OnboardingInfo } from "../queries/OnboardingInfo";
 import {
   PhoneNumberAccountStatus,
@@ -58,11 +58,13 @@ export class SessionBuilder {
     });
   }
 
-  withNorentScaffolding(scf: Partial<NorentScaffolding>): SessionBuilder {
+  withOnboardingScaffolding(
+    scf: Partial<OnboardingScaffolding>
+  ): SessionBuilder {
     return new SessionBuilder({
       ...this.value,
-      norentScaffolding: override(
-        this.value.norentScaffolding || BlankNorentScaffolding,
+      onboardingScaffolding: override(
+        this.value.onboardingScaffolding || BlankOnboardingScaffolding,
         scf
       ),
     });

@@ -24,6 +24,8 @@ TWILIO_PHONE_NUMBER = ""
 
 # Disable a bunch of third-party integrations by default.
 GEOCODING_SEARCH_URL = ""
+CONTENTFUL_SPACE_ID = ""
+CONTENTFUL_ACCESS_TOKEN = ""
 AIRTABLE_API_KEY = ""
 AIRTABLE_URL = ""
 SLACK_WEBHOOK_URL = ""

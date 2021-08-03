@@ -7,14 +7,17 @@ import { Link, Route } from "react-router-dom";
 import { ProgressButtons } from "../ui/buttons";
 import { IconLink } from "../ui/icon";
 import { RadiosFormField } from "../forms/form-fields";
-import { YesNoRadiosFormField } from "../forms/yes-no-radios-form-field";
+import {
+  optionalBooleanToYesNoChoice,
+  YesNoRadiosFormField,
+} from "../forms/yes-no-radios-form-field";
 import { ReactDjangoChoices } from "../common-data";
 import {
   OnboardingStep3Mutation,
   BlankOnboardingStep3Input,
 } from "../queries/OnboardingStep3Mutation";
 import { Modal, BackOrUpOneDirLevel } from "../ui/modal";
-import { twoTuple } from "../util/util";
+import { exactSubsetOrDefault, twoTuple } from "../util/util";
 import { glueToLastWord } from "../ui/word-glue";
 import { OnboardingRouteInfo } from "./route-info";
 import {
@@ -27,6 +30,7 @@ import {
   HOUSING_TYPE_FIELD_LABEL,
   PUBLIC_ASSISTANCE_QUESTION_TEXT,
 } from "../util/housing-type";
+import { AllSessionInfo } from "../queries/AllSessionInfo";
 
 type LeaseInfoModalProps = {
   children: any;
@@ -168,6 +172,20 @@ export const createLeaseModals = (
     ),
   },
 ];
+
+function toStep3Input(s: AllSessionInfo): OnboardingStep3Input {
+  const scf = s.onboardingScaffolding;
+  if (!scf) return BlankOnboardingStep3Input;
+  return exactSubsetOrDefault(
+    {
+      ...scf,
+      receivesPublicAssistance: optionalBooleanToYesNoChoice(
+        scf.receivesPublicAssistance
+      ),
+    },
+    BlankOnboardingStep3Input
+  );
+}
 
 export const createLeaseLearnMoreModals = (
   routes: OnboardingRouteInfo
@@ -315,9 +333,7 @@ export default class OnboardingStep3 extends React.Component<
           </p>
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep3Mutation}
-            initialState={(session) =>
-              session.onboardingStep3 || BlankOnboardingStep3Input
-            }
+            initialState={toStep3Input}
             onSuccessRedirect={(_, input) =>
               this.getSuccessRedirect(input.leaseType)
             }

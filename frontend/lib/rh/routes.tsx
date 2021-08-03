@@ -45,7 +45,10 @@ import {
   InYourLanguageTranslation,
 } from "../ui/cross-language";
 import { MiddleProgressStep } from "../progress/progress-step-route";
-import { AllSessionInfo_rentStabInfo } from "../queries/AllSessionInfo";
+import {
+  AllSessionInfo,
+  AllSessionInfo_rentStabInfo,
+} from "../queries/AllSessionInfo";
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -107,9 +110,26 @@ function RentalHistorySplash(): JSX.Element {
 /** This function renders a confirmation modal for when a user's inputted address isn't verified by our geocoder. */
 
 function FormConfirmAddressModal(props: { toStep2: string }): JSX.Element {
-  const addrInfo =
-    useContext(AppContext).session.rentalHistoryInfo || BlankRhFormInput;
+  const addrInfo = toRhFormInput(useContext(AppContext).session);
   return <ConfirmAddressModal nextStep={props.toStep2} {...addrInfo} />;
+}
+
+function toRhFormInput(
+  s: Pick<AllSessionInfo, "onboardingScaffolding">,
+  defaultValue = BlankRhFormInput
+): RhFormInput {
+  const scf = s.onboardingScaffolding;
+
+  if (!scf) return defaultValue;
+
+  return exactSubsetOrDefault(
+    {
+      ...scf,
+      apartmentNumber: scf.aptNumber || "",
+      address: scf.street,
+    },
+    defaultValue
+  );
 }
 
 /**
@@ -150,16 +170,12 @@ const RentalHistoryForm = MiddleProgressStep((props) => {
     >
       <SessionUpdatingFormSubmitter
         mutation={RhFormMutation}
-        initialState={(s) =>
-          exactSubsetOrDefault(s.rentalHistoryInfo, UserRhFormInput)
-        }
+        initialState={(s) => toRhFormInput(s, UserRhFormInput)}
         updateInitialStateInBrowser={updateAddressFromBrowserStorage}
         onSuccessRedirect={(output, input) =>
           redirectToAddressConfirmationOrNextStep({
             input,
-            resolved: assertNotNull(
-              assertNotNull(output.session).rentalHistoryInfo
-            ),
+            resolved: toRhFormInput(assertNotNull(output.session)),
             nextStep: props.nextStep,
             confirmation: JustfixRoutes.locale.rh.formAddressModal,
           })

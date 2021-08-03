@@ -1,4 +1,5 @@
 import logging
+from project.forms import YesNoRadiosField
 from project.util.rename_dict_keys import with_keys_renamed
 from typing import Optional, Dict, Any, List, Type
 from django.contrib.auth import login
@@ -24,7 +25,13 @@ from partnerships import referral
 from project.util.model_form_util import OneToOneUserModelFormMutation
 from users.email_verify import send_verification_email_async
 from onboarding import forms
-from onboarding.scaffolding import update_scaffolding
+from onboarding.scaffolding import (
+    GraphQlOnboardingScaffolding,
+    OnboardingScaffoldingMutation,
+    get_scaffolding,
+    purge_scaffolding,
+    update_scaffolding,
+)
 from onboarding.schema_util import mutation_requires_onboarding
 from onboarding.models import OnboardingInfo, BOROUGH_CHOICES, LEASE_CHOICES, SIGNUP_INTENT_CHOICES
 
@@ -88,15 +95,16 @@ class OnboardingStep1(DjangoSessionFormMutation):
 
 
 @schema_registry.register_mutation
-class OnboardingStep1V2(DjangoSessionFormMutation):
+class OnboardingStep1V2(OnboardingScaffoldingMutation):
     class Meta:
-        source = OnboardingStep1V2Info
+        form_class = forms.OnboardingStep1V2Form
+        exclude = ["no_apt_number"]
 
 
 @schema_registry.register_mutation
-class OnboardingStep3(DjangoSessionFormMutation):
+class OnboardingStep3(OnboardingScaffoldingMutation):
     class Meta:
-        source = OnboardingStep3Info
+        form_class = forms.OnboardingStep3Form
 
 
 def pick_model_fields(model, **kwargs):
@@ -157,14 +165,16 @@ class OnboardingStep4Base(SessionFormMutation):
 
     @classmethod
     def __extract_all_step_session_data(cls, request: HttpRequest) -> Optional[Dict[str, Any]]:
-        result: Dict[str, Any] = {}
-        for step in SESSION_STEPS:
-            value = step.get_dict_from_request(request)
-            if not value:
-                return None
-            else:
-                result.update(value)
-        return result
+        scf = get_scaffolding(request)
+        if not (
+            scf.first_name
+            and scf.last_name
+            and scf.street
+            and scf.lease_type
+            and scf.receives_public_assistance is not None
+        ):
+            return None
+        return with_keys_renamed(scf.dict(), forms.OnboardingStep1V2Form.from_scaffolding_keys)
 
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
@@ -187,8 +197,7 @@ class OnboardingStep4Base(SessionFormMutation):
         if user.email:
             send_verification_email_async(user.pk)
 
-        for step in SESSION_STEPS:
-            step.clear_from_request(request)
+        purge_scaffolding(request)
 
         return cls.mutation_success()
 
@@ -227,6 +236,26 @@ class AgreeToTerms(SessionFormMutation):
             raise AssertionError(f"Unknown site type: {site_type}")
         oi.save()
         return cls.mutation_success()
+
+
+class OnboardingScaffolding(GraphQlOnboardingScaffolding):
+    """
+    This contains all information related to onboarding
+    that needs to be stored somewhere while the user
+    doesn't yet have an account.
+
+    It may also be used for other "short-term memory" needed
+    while the user is using the site.
+
+    Under the hood, all the data under this field is stored
+    in the user's session via the Django sessions framework.
+    It is temporary and will eventually expire.
+
+    Note that if the user is logged in, other GraphQL
+    fields containing the same information should be preferred
+    over this one, since they will be returning user data that
+    is stored permanently in the database.
+    """
 
 
 class OnboardingInfoMutation(OneToOneUserModelFormMutation):
@@ -273,7 +302,7 @@ class NycAddress(SessionFormMutation):
             cls.perform_mutate_for_logged_in_user(form, info)
         else:
             update_scaffolding(
-                info.context, with_keys_renamed(form.cleaned_data, {"address": "street"})
+                info.context, with_keys_renamed(form.cleaned_data, form.to_scaffolding_keys)
             )
 
         return cls.mutation_success()
@@ -392,8 +421,16 @@ class OnboardingSessionInfo(object):
     A mixin class defining all onboarding-related queries.
     """
 
-    onboarding_step_1 = OnboardingStep1V2Info.field()
-    onboarding_step_3 = OnboardingStep3Info.field()
+    onboarding_step_1 = graphene.Field(
+        OnboardingStep1V2Info, deprecation_reason="Use session.onboardingScaffolding instead."
+    )
+
+    onboarding_step_3 = graphene.Field(
+        OnboardingStep3Info, deprecation_reason="Use onboardingScaffolding instead."
+    )
+
+    onboarding_scaffolding = OnboardingScaffolding.graphql_field()
+
     onboarding_info = graphene.Field(
         OnboardingInfoType,
         description=(
@@ -409,4 +446,23 @@ class OnboardingSessionInfo(object):
         user = info.context.user
         if hasattr(user, "onboarding_info"):
             return user.onboarding_info
+        return None
+
+    def resolve_onboarding_step_1(self, info: ResolveInfo):
+        scf = get_scaffolding(info.context)
+        if scf.first_name and scf.last_name and scf.street:
+            return with_keys_renamed(
+                scf.dict(), OnboardingStep1V2Info._meta.form_class.from_scaffolding_keys
+            )
+        return None
+
+    def resolve_onboarding_step_3(self, info: ResolveInfo):
+        scf = get_scaffolding(info.context)
+        if scf.lease_type and scf.receives_public_assistance is not None:
+            return {
+                "lease_type": scf.lease_type,
+                "receives_public_assistance": YesNoRadiosField.reverse_coerce_to_str(
+                    scf.receives_public_assistance
+                ),
+            }
         return None

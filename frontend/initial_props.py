@@ -9,6 +9,7 @@ from project.util.site_util import (
 )
 
 from .graphql import get_initial_session
+from project import contentful
 
 # This is changed by test suites to ensure that
 # everything works okay when the server-side renderer fails
@@ -65,6 +66,7 @@ def create_initial_props_for_lambda(
             "debug": settings.DEBUG,
             "facebookAppId": settings.FACEBOOK_APP_ID,
             "nycGeoSearchOrigin": settings.NYC_GEOSEARCH_ORIGIN,
+            "contentfulCommonStrings": contentful.get_common_strings(),
             "extraDevLinks": [
                 dict(
                     name="Mailchimp subscribe API documentation",

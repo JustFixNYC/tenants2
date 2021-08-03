@@ -21,13 +21,14 @@ import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import { MiddleProgressStepProps } from "../progress/progress-step-route";
 import { NycAddressMutation } from "../queries/NycAddressMutation";
-import { BlankNorentScaffolding } from "../queries/NorentScaffolding";
+import { BlankOnboardingScaffolding } from "../queries/OnboardingScaffolding";
 
 const ConfirmNycAddressModal: React.FC<{
   nextStep: string;
 }> = ({ nextStep }) => {
   const addrInfo =
-    useContext(AppContext).session.norentScaffolding || BlankNorentScaffolding;
+    useContext(AppContext).session.onboardingScaffolding ||
+    BlankOnboardingScaffolding;
   let borough = "";
   if (isBoroughChoice(addrInfo.borough)) {
     borough = getBoroughChoiceLabels()[addrInfo.borough];
@@ -53,20 +54,11 @@ const ConfirmNycAddressModal: React.FC<{
 
 function getInitialState(s: AllSessionInfo): NycAddressInput {
   return {
-    address:
-      s.norentScaffolding?.street ||
-      s.onboardingStep1?.address ||
-      s.onboardingInfo?.address ||
-      "",
+    address: s.onboardingScaffolding?.street || s.onboardingInfo?.address || "",
     borough:
-      s.norentScaffolding?.borough ||
-      s.onboardingStep1?.borough ||
-      s.onboardingInfo?.borough ||
-      "",
+      s.onboardingScaffolding?.borough || s.onboardingInfo?.borough || "",
     ...createAptNumberFormInput(
-      s.norentScaffolding?.aptNumber ??
-        s.onboardingStep1?.aptNumber ??
-        s.onboardingInfo?.aptNumber
+      s.onboardingScaffolding?.aptNumber ?? s.onboardingInfo?.aptNumber
     ),
   };
 }
@@ -87,8 +79,8 @@ export const AskNycAddress: React.FC<
         redirectToAddressConfirmationOrNextStep({
           input,
           resolved: {
-            address: output.session?.norentScaffolding?.street ?? "",
-            borough: output.session?.norentScaffolding?.borough ?? "",
+            address: output.session?.onboardingScaffolding?.street ?? "",
+            borough: output.session?.onboardingScaffolding?.borough ?? "",
           },
           nextStep: props.nextStep,
           confirmation: props.confirmModalRoute,

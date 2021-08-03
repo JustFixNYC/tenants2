@@ -15,3 +15,14 @@ def with_keys_renamed(d: Dict[str, Any], renames: Dict[str, str]) -> Dict[str, A
         result[renamed] = d[original]
 
     return result
+
+
+def flip_dict(d: Dict[str, str]) -> Dict[str, str]:
+    """
+    Return the given dictionary with its keys and values swapped, e.g.:
+
+        >>> flip_dict({'foo': 'bar'})
+        {'bar': 'foo'}
+    """
+
+    return {value: key for key, value in d.items()}

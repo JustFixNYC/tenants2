@@ -1,12 +1,11 @@
-import { AllSessionInfo_rentalHistoryInfo } from "../../queries/AllSessionInfo";
+import { newSb } from "../../tests/session-builder";
 
-export const exampleRentalHistoryInfo: AllSessionInfo_rentalHistoryInfo = {
+export const exampleRentalHistoryInfo = newSb().withOnboardingScaffolding({
   firstName: "boop",
   lastName: "jones",
-  address: "150 DOOMBRINGER STREET",
-  apartmentNumber: "2",
+  street: "150 DOOMBRINGER STREET",
+  aptNumber: "2",
   phoneNumber: "2120000000",
   borough: "MANHATTAN",
-  zipcode: "10001",
-  addressVerified: true,
-};
+  zipCode: "10001",
+});

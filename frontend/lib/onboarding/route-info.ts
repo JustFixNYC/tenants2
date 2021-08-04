@@ -12,11 +12,10 @@ export function createOnboardingRouteInfo(prefix: string) {
     step3: `${prefix}/step/3`,
     step3RentStabilizedModal: `${prefix}/step/3/rent-stabilized-modal`,
     step3MarketRateModal: `${prefix}/step/3/market-rate-modal`,
-    step3NYCHAModal: `${prefix}/step/3/nycha-modal`,
-    step3OtherAffordableModal: `${prefix}/step/3/other-affordable-modal`,
     step3NotSureModal: `${prefix}/step/3/not-sure-modal`,
     step3LearnMoreModals: {
       rentStabilized: `${prefix}/step/3/learn-more-rent-stabilized-modal`,
+      rentControlled: `${prefix}/step/3/learn-more-rent-controlled-modal`,
       marketRate: `${prefix}/step/3/learn-more-market-rate-modal`,
       NYCHA: `${prefix}/step/3/learn-more-nycha-modal`,
       otherAffordable: `${prefix}/step/3/learn-more-other-affordable-modal`,

@@ -1,8 +1,13 @@
 [
-  ["RENT_STABILIZED", "Rent Stabilized/Rent Controlled"],
+  ["RENT_STABILIZED", "Rent Stabilized"],
+  ["RENT_CONTROLLED", "Rent Controlled"],
   ["OTHER_AFFORDABLE", "Affordable housing (other than rent-stabilized)"],
   ["MARKET_RATE", "Market Rate"],
   ["NYCHA", "NYCHA/Public Housing"],
   ["NOT_SURE", "I'm not sure"],
-  ["NO_LEASE", "I don't have a lease"]
+  ["NO_LEASE", "I don't have a lease"],
+  [
+    "RENT_STABILIZED_OR_CONTROLLED",
+    "Either Rent Stabilized or Rent Controlled (legacy option)"
+  ]
 ]

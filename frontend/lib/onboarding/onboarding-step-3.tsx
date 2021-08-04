@@ -31,6 +31,7 @@ import {
   PUBLIC_ASSISTANCE_QUESTION_TEXT,
 } from "../util/housing-type";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
+import { OutboundLink } from "../ui/outbound-link";
 
 type LeaseInfoModalProps = {
   children: any;
@@ -89,17 +90,6 @@ type LeaseModalInfo = {
   component: () => JSX.Element;
 };
 
-const GENERIC_NO_PROTECTION_WARNING = (
-  <p>
-    <strong className="has-text-danger">Warning:</strong> If you do not have a
-    lease, taking action against your landlord could provoke retaliation and/or
-    an eviction notice once the Eviction Moratorium is lifted.{" "}
-    <strong>
-      Take caution and make sure that this service is right for you.
-    </strong>
-  </p>
-);
-
 export const createLeaseModals = (
   routes: OnboardingRouteInfo
 ): LeaseModalInfo[] => [
@@ -107,11 +97,15 @@ export const createLeaseModals = (
     route: routes.step3RentStabilizedModal,
     leaseType: "RENT_STABILIZED",
     component: () => (
-      <LeaseInfoModal title="Great news!" toNextStep={routes.step4}>
+      <LeaseInfoModal title="Rent stabilized" toNextStep={routes.step4}>
         <p>
-          As a rent stabilized tenant, you have additional rights that protect
-          you from landlord retaliation, especially your right to a renewal
-          lease every one or two years.
+          Good news! As a rent regulated tenant, you likely have extra
+          protections against retaliation. Want to find out if you’re being
+          overcharged? Order your rent history{" "}
+          <OutboundLink href="https://app.justfix.nyc/en/rh/splash">
+            here
+          </OutboundLink>
+          !
         </p>
       </LeaseInfoModal>
     ),
@@ -120,46 +114,22 @@ export const createLeaseModals = (
     route: routes.step3MarketRateModal,
     leaseType: "MARKET_RATE",
     component: () => (
-      <LeaseInfoModal
-        title="Market Rate lease"
-        isWarning
-        toNextStep={routes.step4}
-      >
+      <LeaseInfoModal title="Market Rate" isWarning toNextStep={routes.step4}>
         <p>
-          <strong className="has-text-danger">Warning:</strong> Taking action
-          against your landlord could provoke retaliation and/or an eviction
-          notice once the Eviction Moratorium is lifted.{" "}
-          <strong>
-            Take caution and make sure that this service is right for you.
-          </strong>
+          <strong className="has-text-danger">Know the Risks:</strong> Market
+          tenants have fewer protections against eviction and larger rent
+          increases than rent regulated tenants.{" "}
+        </p>
+        <p>
+          Retaliation is <b>illegal</b> and all New Yorkers are{" "}
+          <b>entitled to repairs</b> but, if you use this tool, your landlord
+          could retaliate by raising the rent or sending a termination notice
+          once your lease ends.
+        </p>
+        <p>
+          <strong className="has-text-danger">Proceed with caution.</strong>
         </p>
       </LeaseInfoModal>
-    ),
-  },
-  {
-    route: routes.step3OtherAffordableModal,
-    leaseType: "OTHER_AFFORDABLE",
-    component: () => (
-      <LeaseInfoModal
-        title="Affordable housing (other than rent stabilized)"
-        isWarning
-        toNextStep={routes.step4}
-      >
-        {GENERIC_NO_PROTECTION_WARNING}
-      </LeaseInfoModal> // TODO
-    ),
-  },
-  {
-    route: routes.step3NYCHAModal,
-    leaseType: "NYCHA",
-    component: () => (
-      <LeaseInfoModal
-        title="NYCHA/Public Housing"
-        isWarning
-        toNextStep={routes.step4}
-      >
-        {GENERIC_NO_PROTECTION_WARNING}
-      </LeaseInfoModal> // TODO
     ),
   },
   {
@@ -167,8 +137,27 @@ export const createLeaseModals = (
     leaseType: "NOT_SURE",
     component: () => (
       <LeaseInfoModal title="Not sure" isWarning toNextStep={routes.step4}>
-        {GENERIC_NO_PROTECTION_WARNING}
-      </LeaseInfoModal> // TODO
+        <p>
+          <strong className="has-text-danger">Know the Risks:</strong> If you
+          aren’t sure about your regulated status, you may want to do more
+          research before using our tools. Non-regulated tenants have fewer
+          protections against eviction and larger rent increases than regulated
+          tenants.{" "}
+          <OutboundLink href="https://rentguidelinesboard.cityofnewyork.us/resources/faqs/">
+            Learn more here
+          </OutboundLink>
+          .
+        </p>
+        <p>
+          Retaliation is <b>illegal</b> and all New Yorkers are{" "}
+          <b>entitled to repairs</b> but, if you use this tool, your landlord
+          could retaliate by raising the rent or sending a termination notice
+          once your lease ends.
+        </p>
+        <p>
+          <strong className="has-text-danger">Proceed with caution.</strong>
+        </p>
+      </LeaseInfoModal>
     ),
   },
 ];
@@ -194,12 +183,30 @@ export const createLeaseLearnMoreModals = (
     route: routes.step3LearnMoreModals.rentStabilized,
     leaseType: "RENT_STABILIZED",
     component: () => (
-      <LeaseLearnMoreModal title="About rent stabilization">
+      <LeaseLearnMoreModal title="What is Rent Stabilized Housing?">
         <p>
-          If your building has more than 6 units and was built before 1974, your
-          apartment is likely rent stabilized.
+          Housing in buildings built before January 1, 1974 with six or more
+          units, including Single Room Occupancy (“SRO”) hotels and rooming
+          houses.
         </p>
-        <p>Check your lease to make sure.</p>
+        <p>
+          All apartments in buildings that receive a tax abatement such as J-51,
+          421a, and 421g are also stabilized.
+        </p>
+      </LeaseLearnMoreModal>
+    ),
+  },
+  {
+    route: routes.step3LearnMoreModals.rentControlled,
+    leaseType: "RENT_CONTROLLED",
+    component: () => (
+      <LeaseLearnMoreModal title="What is Rent Controlled Housing?">
+        <p>
+          This is a rare kind of housing! Buildings that had three or more
+          residential units before February 1, 1947, where the tenant or
+          immediate family member has been continuously living in the apartment
+          since July 1, 1971.
+        </p>
       </LeaseLearnMoreModal>
     ),
   },
@@ -207,38 +214,57 @@ export const createLeaseLearnMoreModals = (
     route: routes.step3LearnMoreModals.marketRate,
     leaseType: "MARKET_RATE",
     component: () => (
-      <LeaseLearnMoreModal title="Is your lease Market Rate?">
+      <LeaseLearnMoreModal title="What is Market Rate Housing?">
         <p>
-          If you live in a newer building and your rent is over $2700 a month,
-          you probably have a market rate lease.
+          Market rate tenants typically live in buildings of fewer than six (6)
+          units, newer buildings, or formerly rent stabilized apartments that a
+          landlord deregulated before 2019.
         </p>
       </LeaseLearnMoreModal>
     ),
   },
   {
     route: routes.step3LearnMoreModals.NYCHA,
-    leaseType: "NYCHA", // TODO
+    leaseType: "NYCHA",
     component: () => (
-      <LeaseLearnMoreModal title="Add title">
-        <p>Add text</p>
+      <LeaseLearnMoreModal title="What is NYCHA or Public Housing?">
+        <p>
+          Federally-funded affordable housing developments owned by the
+          government.
+        </p>
       </LeaseLearnMoreModal>
     ),
   },
   {
     route: routes.step3LearnMoreModals.otherAffordable,
-    leaseType: "OTHER_AFFORDABLE", // TODO
+    leaseType: "OTHER_AFFORDABLE",
     component: () => (
-      <LeaseLearnMoreModal title="Add text">
-        <p></p>
+      <LeaseLearnMoreModal title="What is Affordable Housing (other than rent stabilized)?">
+        <p>
+          New York City has many forms of affordable housing. Some common types
+          include Mitchell Lama, Project-Based Section 8 buildings (also known
+          as HUD), LIHTC, HDFC rentals, and others.
+        </p>
       </LeaseLearnMoreModal>
     ),
   },
   {
     route: routes.step3LearnMoreModals.notSure,
-    leaseType: "NOT_SURE", // TODO
+    leaseType: "NOT_SURE",
     component: () => (
-      <LeaseLearnMoreModal title="Add text">
-        <p></p>
+      <LeaseLearnMoreModal title="Don’t know what type of housing you live in?">
+        <p>
+          New York City has many kinds of housing. Learn more by ordering your
+          rent history{" "}
+          <OutboundLink href="https://app.justfix.nyc/en/rh/splash">
+            here
+          </OutboundLink>{" "}
+          or reading about{" "}
+          <OutboundLink href="https://rentguidelinesboard.cityofnewyork.us/resources/faqs/rent-stabilization/">
+            rent regulation
+          </OutboundLink>
+          .
+        </p>
       </LeaseLearnMoreModal>
     ),
   },
@@ -269,10 +295,10 @@ export default class OnboardingStep3 extends React.Component<
     const leaseLabels = getLeaseChoiceLabels();
 
     this.leaseChoicesWithInfo = LeaseChoices.filter(
-      // NO_LEASE has been deprecated; we still want legacy users to be
-      // able to have it, but we don't want new users to be able to choose
-      // from it.
-      (c) => c !== "NO_LEASE"
+      // NO_LEASE and RENT_STABILIZED_OR_CONTROLLED have been deprecated;
+      // we want legacy users to keep their data, but we don't want new users to be
+      // able to choose this option.
+      (c) => c !== "NO_LEASE" && c !== "RENT_STABILIZED_OR_CONTROLLED"
     ).map((value) => {
       const label = leaseLabels[value];
       const info = leaseLearnMoreModalMap.get(value);

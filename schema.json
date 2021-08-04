@@ -3430,6 +3430,12 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
+              "name": "RENT_CONTROLLED"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
               "name": "OTHER_AFFORDABLE"
             },
             {
@@ -3455,6 +3461,12 @@
               "description": null,
               "isDeprecated": false,
               "name": "NO_LEASE"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "RENT_STABILIZED_OR_CONTROLLED"
             }
           ],
           "fields": null,

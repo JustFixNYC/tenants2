@@ -103,6 +103,11 @@ const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
     if (leaseType !== "NO_LEASE") {
       choices = choices.filter(([choice, _]) => choice !== "NO_LEASE");
     }
+    if (leaseType !== "RENT_STABILIZED_OR_CONTROLLED") {
+      choices = choices.filter(
+        ([choice, _]) => choice !== "RENT_STABILIZED_OR_CONTROLLED"
+      );
+    }
   }
 
   return (

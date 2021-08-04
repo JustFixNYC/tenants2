@@ -4,6 +4,7 @@ import { Route } from "react-router-dom";
 import {
   getLeaseChoiceLabels,
   isLeaseChoice,
+  LeaseChoice,
   LeaseChoices,
 } from "../../../common-data/lease-choices";
 import { AppContext } from "../app-context";
@@ -32,6 +33,7 @@ import {
   HOUSING_TYPE_FIELD_LABEL,
   PUBLIC_ASSISTANCE_QUESTION_TEXT,
 } from "../util/housing-type";
+import { LeaseType } from "../queries/globalTypes";
 
 const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
   routes,
@@ -81,6 +83,27 @@ const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
   );
 };
 
+function filterLeaseChoices(
+  leaseType: "" | LeaseType,
+  choices: [LeaseChoice, string][]
+) {
+  let filteredChoices = [...choices];
+
+  // If the user previously onboarded and chose the "No lease" or "Rent stabilized
+  // or controlled" options, which have since been deprecated, we still want them
+  // to be able to see it and choose it. However, if they didn't pick that option,
+  // we don't want them to be able to choose it now.
+  if (leaseType !== "NO_LEASE") {
+    filteredChoices = choices.filter(([choice, _]) => choice !== "NO_LEASE");
+  }
+  if (leaseType !== "RENT_STABILIZED_OR_CONTROLLED") {
+    filteredChoices = choices.filter(
+      ([choice, _]) => choice !== "RENT_STABILIZED_OR_CONTROLLED"
+    );
+  }
+  return filteredChoices;
+}
+
 const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   const sec = makeAccountSettingsSection(
     routes,
@@ -95,19 +118,7 @@ const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   let leaseTypeLabel = "";
   if (isLeaseChoice(leaseType)) {
     leaseTypeLabel = getLeaseChoiceLabels()[leaseType];
-
-    // If the user previously onboarded and chose the "No lease" option, which
-    // has since been deprecated, we still want them to be able to see it and
-    // choose it. However, if they didn't pick that option, we don't want them
-    // to be able to choose it now.
-    if (leaseType !== "NO_LEASE") {
-      choices = choices.filter(([choice, _]) => choice !== "NO_LEASE");
-    }
-    if (leaseType !== "RENT_STABILIZED_OR_CONTROLLED") {
-      choices = choices.filter(
-        ([choice, _]) => choice !== "RENT_STABILIZED_OR_CONTROLLED"
-      );
-    }
+    choices = filterLeaseChoices(leaseType, choices);
   }
 
   return (

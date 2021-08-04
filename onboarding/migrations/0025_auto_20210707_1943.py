@@ -11,17 +11,6 @@ def change_other_housing_type_to_not_sure(apps, schema_editor):
         user.save()
 
 
-def undo_change_other_to_not_sure(apps, schema_editor):
-    """Caution: this does NOT just reverse the historically OTHER
-    entries, this will change ALL NOT_SURE to OTHER.
-    It's only here for debugging. Remove before merging.
-    """
-    OnboardingInfo = apps.get_model("onboarding", "OnboardingInfo")
-    for user in OnboardingInfo.objects.filter(lease_type="NOT_SURE"):
-        user.lease_type = "OTHER"
-        user.save()
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -29,5 +18,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(change_other_housing_type_to_not_sure, undo_change_other_to_not_sure)
+        migrations.RunPython(
+            change_other_housing_type_to_not_sure,
+        )
     ]

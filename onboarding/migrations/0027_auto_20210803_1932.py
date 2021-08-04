@@ -11,20 +11,6 @@ def change_legacy_rent_stabilized_housing_type_to_joint_stabilized_controlled_ty
         user.lease_type = "RENT_STABILIZED_OR_CONTROLLED"
         user.save()
 
-
-def undo_change_legacy_rent_stabilized_housing_type_to_joint_stabilized_controlled_type(
-    apps, schema_editor
-):
-    """Caution: this does NOT just reverse the historically RENT_STABILIZED
-    entries, this will change ALL RENT_STABILIZED_OR_CONTROLLED to RENT_STABILIZED.
-    It's only here for debugging. Remove before merging.
-    """
-    OnboardingInfo = apps.get_model("onboarding", "OnboardingInfo")
-    for user in OnboardingInfo.objects.filter(lease_type="RENT_STABILIZED_OR_CONTROLLED"):
-        user.lease_type = "RENT_STABILIZED"
-        user.save()
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -34,6 +20,5 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunPython(
             change_legacy_rent_stabilized_housing_type_to_joint_stabilized_controlled_type,
-            undo_change_legacy_rent_stabilized_housing_type_to_joint_stabilized_controlled_type,
         )
     ]

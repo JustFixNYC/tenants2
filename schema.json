@@ -2705,7 +2705,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The type of lease the user has on their dwelling (NYC only).",
+              "description": "The type of housing the user lives in (NYC only).",
               "isDeprecated": false,
               "name": "leaseType",
               "type": {
@@ -3247,7 +3247,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The type of lease the user has on their dwelling (NYC only).",
+              "description": "The type of housing the user lives in (NYC only).",
               "isDeprecated": false,
               "name": "leaseType",
               "type": {
@@ -3430,6 +3430,18 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
+              "name": "RENT_CONTROLLED"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "OTHER_AFFORDABLE"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
               "name": "MARKET_RATE"
             },
             {
@@ -3442,12 +3454,6 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "OTHER"
-            },
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
               "name": "NOT_SURE"
             },
             {
@@ -3455,6 +3461,12 @@
               "description": null,
               "isDeprecated": false,
               "name": "NO_LEASE"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "RENT_STABILIZED_OR_CONTROLLED"
             }
           ],
           "fields": null,
@@ -9909,7 +9921,7 @@
           "inputFields": [
             {
               "defaultValue": null,
-              "description": "The type of lease the user has on their dwelling (NYC only).",
+              "description": "The type of housing the user lives in (NYC only).",
               "name": "leaseType",
               "type": {
                 "kind": "NON_NULL",
@@ -12492,7 +12504,7 @@
           "inputFields": [
             {
               "defaultValue": null,
-              "description": "The type of lease the user has on their dwelling (NYC only).",
+              "description": "The type of housing the user lives in (NYC only).",
               "name": "leaseType",
               "type": {
                 "kind": "NON_NULL",

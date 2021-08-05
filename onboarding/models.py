@@ -201,7 +201,7 @@ class OnboardingInfo(models.Model):
         max_length=30,
         choices=LEASE_CHOICES.choices,
         blank=True,
-        help_text="The type of lease the user has on their dwelling (NYC only).",
+        help_text="The type of housing the user lives in (NYC only).",
     )
 
     receives_public_assistance = models.BooleanField(

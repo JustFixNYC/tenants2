@@ -26,5 +26,4 @@ export function isUserNycha(session: AllSessionInfo): boolean {
   return session.onboardingInfo
     ? session.onboardingInfo.leaseType === LeaseType.NYCHA
     : false;
-  // This is the only place
 }

@@ -5,7 +5,6 @@ from django.db import migrations
 
 def change_other_housing_type_to_not_sure(apps, schema_editor):
     OnboardingInfo = apps.get_model("onboarding", "OnboardingInfo")
-    print(len(OnboardingInfo.objects.filter(lease_type="OTHER")))
     for user in OnboardingInfo.objects.filter(lease_type="OTHER"):
         user.lease_type = "NOT_SURE"
         user.save()

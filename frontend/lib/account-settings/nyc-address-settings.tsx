@@ -94,10 +94,12 @@ function filterLeaseChoices(
   // to be able to see it and choose it. However, if they didn't pick that option,
   // we don't want them to be able to choose it now.
   if (leaseType !== "NO_LEASE") {
-    filteredChoices = choices.filter(([choice, _]) => choice !== "NO_LEASE");
+    filteredChoices = filteredChoices.filter(
+      ([choice, _]) => choice !== "NO_LEASE"
+    );
   }
   if (leaseType !== "RENT_STABILIZED_OR_CONTROLLED") {
-    filteredChoices = choices.filter(
+    filteredChoices = filteredChoices.filter(
       ([choice, _]) => choice !== "RENT_STABILIZED_OR_CONTROLLED"
     );
   }

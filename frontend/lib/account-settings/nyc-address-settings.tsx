@@ -31,7 +31,9 @@ import { assertNotNull } from "@justfixnyc/util";
 import { makeAccountSettingsSection, WithAccountSettingsProps } from "./util";
 import {
   HOUSING_TYPE_FIELD_LABEL,
+  PUBLIC_ASSISTANCE_SECTION_LABEL,
   PUBLIC_ASSISTANCE_QUESTION_TEXT,
+  PUBLIC_ASSISTANCE_SECTION_DESCRIPTION,
 } from "../util/housing-type";
 import { LeaseType } from "../queries/globalTypes";
 
@@ -40,7 +42,7 @@ const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
 }) => {
   const sec = makeAccountSettingsSection(
     routes,
-    "Housing voucher?",
+    PUBLIC_ASSISTANCE_SECTION_LABEL,
     "public-assistance"
   );
   const { session } = useContext(AppContext);
@@ -50,10 +52,7 @@ const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
   return (
     <>
       {sec.heading}
-      <p>
-        For example, Section 8 [Housing Choice Program], FHEPS, CITYFHEPS, HASA,
-        etc.
-      </p>
+      <p>{PUBLIC_ASSISTANCE_SECTION_DESCRIPTION}</p>
       <EditableInfo
         {...sec}
         readonlyContent={valueLabel}

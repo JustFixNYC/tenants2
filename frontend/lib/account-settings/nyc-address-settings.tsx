@@ -31,7 +31,7 @@ import { assertNotNull } from "@justfixnyc/util";
 import { makeAccountSettingsSection, WithAccountSettingsProps } from "./util";
 import {
   HOUSING_TYPE_FIELD_LABEL,
-  HOUSING_VOUCHER_FIELD_LABEL,
+  PUBLIC_ASSISTANCE_SECTION_LABEL,
   PUBLIC_ASSISTANCE_QUESTION_TEXT,
   PUBLIC_ASSISTANCE_SECTION_DESCRIPTION,
 } from "../util/housing-type";
@@ -42,7 +42,7 @@ const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
 }) => {
   const sec = makeAccountSettingsSection(
     routes,
-    HOUSING_VOUCHER_FIELD_LABEL,
+    PUBLIC_ASSISTANCE_SECTION_LABEL,
     "public-assistance"
   );
   const { session } = useContext(AppContext);

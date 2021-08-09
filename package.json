@@ -12,6 +12,8 @@
     "lingui:extract-and-check": "node localebuilder.js --check",
     "l10n:extract": "yarn lingui:extract && yarn django:makemessages",
     "l10n:compile": "yarn lingui:compile && yarn django:compilemessages",
+    "l10n:garble": "node localebuilder.js --garble && yarn l10n:compile",
+    "l10n:ungarble": "git checkout -- 'locales/**/*.po' && yarn l10n:compile",
     "prettier": "prettier",
     "prettier:check": "prettier \"**/*.{scss,json,js,ts,tsx}\" --check",
     "prettier:fix": "prettier \"**/*.{scss,json,js,ts,tsx}\" --write",

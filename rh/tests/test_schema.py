@@ -20,12 +20,12 @@ VALID_RH_DATA = {
 RH_DATA_QUERY = """
 query {
     session {
-        rentalHistoryInfo {
+        onboardingScaffolding {
             firstName
             lastName
-            address
+            street
             borough
-            apartmentNumber
+            aptNumber
             phoneNumber
         }
     }
@@ -37,7 +37,7 @@ mutation {
     rhSendEmail(input: {}) {
         errors { field, messages }
         session {
-            rentalHistoryInfo {
+            onboardingScaffolding {
                 firstName
             }
         }
@@ -47,7 +47,7 @@ mutation {
 
 
 def _get_rh_info(graphql_client):
-    return graphql_client.execute(RH_DATA_QUERY)["data"]["session"]["rentalHistoryInfo"]
+    return graphql_client.execute(RH_DATA_QUERY)["data"]["session"]["onboardingScaffolding"]
 
 
 def _exec_rh_form(graphql_client, **input_kwargs):

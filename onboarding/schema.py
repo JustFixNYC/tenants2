@@ -1,7 +1,6 @@
 import logging
-from project.forms import YesNoRadiosField
 from project.util.rename_dict_keys import with_keys_renamed
-from typing import Optional, Dict, Any, List, Type
+from typing import Optional, Dict, Any
 from django.contrib.auth import login
 from django.conf import settings
 from django.http import HttpRequest
@@ -11,10 +10,6 @@ from graphql import ResolveInfo
 from graphene_django.types import DjangoObjectType
 from django.db import transaction
 
-from project.util.django_graphql_session_forms import (
-    DjangoSessionFormObjectType,
-    DjangoSessionFormMutation,
-)
 from project.util.session_mutation import SessionFormMutation
 from project.util.site_util import get_site_name, SITE_CHOICES
 from project.util.mailing_address import US_STATE_CHOICES
@@ -37,61 +32,6 @@ from onboarding.models import OnboardingInfo, BOROUGH_CHOICES, LEASE_CHOICES, SI
 
 
 logger = logging.getLogger(__name__)
-
-
-def session_key_for_step(step: int) -> str:
-    """
-    We store the results of the user's onboarding steps in
-    the session. This function returns the key we use to
-    store the data for a particular step in.
-    """
-
-    return f"onboarding_step_v{forms.FIELD_SCHEMA_VERSION}_{step}"
-
-
-# This should be removed when OnboardingStep1Mutation is deprecated.
-class OnboardingStep1Info(DjangoSessionFormObjectType):
-    class Meta:
-        form_class = forms.OnboardingStep1Form
-        session_key = session_key_for_step(1)
-        exclude = ["no_apt_number"]
-
-
-class OnboardingStep1V2Info(DjangoSessionFormObjectType):
-    class Meta:
-        form_class = forms.OnboardingStep1V2Form
-        session_key = session_key_for_step(1)
-        exclude = ["no_apt_number"]
-
-    @classmethod
-    def migrate_dict(cls, value: Dict[str, Any]) -> Dict[str, Any]:
-        # The old version of the onboarding info might not know about
-        # our new preferred first name field, so provide a default.
-        return {
-            "preferred_first_name": "",
-            **value,
-        }
-
-
-class OnboardingStep3Info(DjangoSessionFormObjectType):
-    class Meta:
-        form_class = forms.OnboardingStep3Form
-        session_key = session_key_for_step(3)
-
-
-# The onboarding steps we store in the request session.
-SESSION_STEPS: List[Type[DjangoSessionFormObjectType]] = [
-    OnboardingStep1V2Info,
-    OnboardingStep3Info,
-]
-
-
-@schema_registry.register_mutation
-class OnboardingStep1(DjangoSessionFormMutation):
-    deprecation_reason = "Use OnboardingStep1V2 instead (includes preferred first name)."
-
-    class Meta:
-        source = OnboardingStep1Info
 
 
 @schema_registry.register_mutation
@@ -421,14 +361,6 @@ class OnboardingSessionInfo(object):
     A mixin class defining all onboarding-related queries.
     """
 
-    onboarding_step_1 = graphene.Field(
-        OnboardingStep1V2Info, deprecation_reason="Use session.onboardingScaffolding instead."
-    )
-
-    onboarding_step_3 = graphene.Field(
-        OnboardingStep3Info, deprecation_reason="Use onboardingScaffolding instead."
-    )
-
     onboarding_scaffolding = OnboardingScaffolding.graphql_field()
 
     onboarding_info = graphene.Field(
@@ -446,23 +378,4 @@ class OnboardingSessionInfo(object):
         user = info.context.user
         if hasattr(user, "onboarding_info"):
             return user.onboarding_info
-        return None
-
-    def resolve_onboarding_step_1(self, info: ResolveInfo):
-        scf = get_scaffolding(info.context)
-        if scf.first_name and scf.last_name and scf.street:
-            return with_keys_renamed(
-                scf.dict(), OnboardingStep1V2Info._meta.form_class.from_scaffolding_keys
-            )
-        return None
-
-    def resolve_onboarding_step_3(self, info: ResolveInfo):
-        scf = get_scaffolding(info.context)
-        if scf.lease_type and scf.receives_public_assistance is not None:
-            return {
-                "lease_type": scf.lease_type,
-                "receives_public_assistance": YesNoRadiosField.reverse_coerce_to_str(
-                    scf.receives_public_assistance
-                ),
-            }
         return None

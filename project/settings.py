@@ -160,6 +160,7 @@ INSTALLED_APPS = [
     "evictionfree.apps.EvictionfreeConfig",
     "amplitude.apps.AmplitudeConfig",
     "nycx",
+    "shortlinks",
 ]
 
 MIDDLEWARE = [

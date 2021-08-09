@@ -14,7 +14,7 @@ from project.util.session_mutation import SessionFormMutation
 from project.util import site_util
 from project import mapbox
 from project.schema_base import get_last_queried_phone_number, purge_last_queried_phone_number
-from onboarding.schema import OnboardingStep1V2Info, complete_onboarding
+from onboarding.schema import complete_onboarding
 from onboarding.schema_util import mutation_requires_onboarding
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from onboarding.scaffolding import (
@@ -439,7 +439,6 @@ class BaseCreateAccount(SessionFormMutation):
         cls.perform_post_onboarding(form, request, user)
 
         purge_last_queried_phone_number(request)
-        OnboardingStep1V2Info.clear_from_request(request)
         purge_scaffolding(request)
 
         return cls.mutation_success()

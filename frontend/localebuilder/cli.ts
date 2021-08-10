@@ -27,10 +27,16 @@ const LOCALES_DIR = path.resolve(path.join(MY_DIR, "..", "..", "locales"));
 const DEFAULT_LOCALE = "en";
 
 /**
- * The command to run to extract messages from our source code and
+ * The command to run to extract messages from our front-end source code and
  * regenerate PO files.
  */
-const EXTRACT_CMD = "yarn lingui:extract";
+const FRONTEND_EXTRACT_CMD = "yarn lingui:extract";
+
+/**
+ * The command to run to extract messages from our front-end source code and
+ * regenerate PO files.
+ */
+const BACKEND_EXTRACT_CMD = "yarn django:makemessages";
 
 /**
  * The maximum preferred length of a message id.
@@ -124,7 +130,8 @@ export function run() {
   }
 
   if (argvHasOption("--check")) {
-    checkExtractedMessagesSync(defaultPath.po, EXTRACT_CMD);
+    checkExtractedMessagesSync(defaultPath.djangoPo, BACKEND_EXTRACT_CMD);
+    checkExtractedMessagesSync(defaultPath.po, FRONTEND_EXTRACT_CMD);
     process.exit(0);
   }
 

@@ -461,6 +461,37 @@ yarn lingui:compile
 
 [Lingui]: https://lingui.js.org/
 
+### Garbling message catalogs
+
+When internationalizing a piece of code, it can be difficult to
+tell if one missed any strings because of how our internationalization
+frameworks fall back to English when our strings haven't been translated
+yet.
+
+To compensate for this, we provide a way to "garble" message catalogs with
+nonsense localizations, which makes it easier to tell whether all our strings
+have been properly internationalized.  When enabled, it looks like this:
+
+> <img src="https://user-images.githubusercontent.com/124687/82383356-9b537380-99fb-11ea-8953-8c3c511591b2.png" alt="Screenshot of a page with question marks for all text">
+
+To activate the garbling, run:
+
+```
+yarn l10n:garble
+```
+
+**Be careful about making commits while the message catalogs are garbled!**
+Because garbling changes the actual `.po` files, and because those files
+are version-controlled, any commits you make while garbling is active may
+accidentally commit garbled message catalogs.
+
+When you're done using the garbled codebase, you can un-garble the message
+catalogs by running:
+
+```
+yarn l10n:ungarble
+```
+
 ## Optional integrations
 
 The codebase has a number of optional integations with third-party services

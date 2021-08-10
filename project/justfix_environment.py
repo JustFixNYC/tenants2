@@ -488,11 +488,11 @@ def get() -> JustfixEnvironment:
         env_class = JustfixTestingEnvironment
     else:
         env = JustfixEnvironment(throw_when_invalid=False)
-        if env.DEBUG:
+        if get_management_command() in BUILD_PIPELINE_MANAGEMENT_CMDS:
+            env_class = JustfixBuildPipelineDefaults
+        elif env.DEBUG:
             env_class = JustfixDebugEnvironment
         elif env.USE_DEVELOPMENT_DEFAULTS:
             env_class = JustfixDevelopmentDefaults
-        elif get_management_command() in BUILD_PIPELINE_MANAGEMENT_CMDS:
-            env_class = JustfixBuildPipelineDefaults
 
     return env_class(exit_when_invalid=True)

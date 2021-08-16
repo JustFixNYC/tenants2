@@ -14,6 +14,8 @@ describe("EvictionFreeSite", () => {
 
   it("renders home page", async () => {
     const pal = new AppTesterPal(route, { url: "/en/" });
-    await waitFor(() => pal.rr.getByText(/has been suspended/i));
+    await waitFor(() =>
+      pal.rr.getByText(/take action today to protect and expand them/i)
+    );
   });
 });

@@ -11,7 +11,6 @@ import {
   getEvictionFreeFaqsWithPreviewContent,
   RightToCounselFaqsLink,
 } from "./data/faqs-content";
-import { StickyLetterButtonContainer } from "./homepage";
 import { EvictionFreeRoutes } from "./route-info";
 
 function generateFaqsListFromData(data: EvictionFreeFaq[]) {
@@ -91,17 +90,15 @@ export const EvictionFreeFaqsPage: React.FC<{}> = () => {
         </div>
       </section>
 
-      <StickyLetterButtonContainer>
-        <section className="hero jf-faqs" id="more-info">
-          <div className="hero-body">
-            <div className="container jf-tight-container">
-              <br />
-              {generateFaqsListFromData(allFaqs)}
-            </div>
+      <section className="hero jf-faqs" id="more-info">
+        <div className="hero-body">
+          <div className="container jf-tight-container">
+            <br />
+            {generateFaqsListFromData(allFaqs)}
           </div>
-        </section>
-        <AdditionalSupportBanner />
-      </StickyLetterButtonContainer>
+        </div>
+      </section>
+      <AdditionalSupportBanner />
     </Page>
   );
 };

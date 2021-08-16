@@ -40,7 +40,7 @@ const Message: React.FC<{}> = () => {
   if (location.search.includes(MESSAGE_QS)) {
     return (
       <div className="notification is-danger">
-        Alas, this tool has been discontinued!
+        <Trans>This tool has been suspended</Trans>!
       </div>
     );
   }
@@ -61,7 +61,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
               <Trans>Eviction Free NY has been suspended</Trans>
             </h1>
             <p className="subtitle">
-              <Trans>
+              <Trans id="evictionfree.noticeOfSuddenMoratoriumSuspension">
                 The State law that delays evictions for tenants who submit
                 hardship declarations has been suspended. Learn about your
                 rights, and take action today to protect and expand them

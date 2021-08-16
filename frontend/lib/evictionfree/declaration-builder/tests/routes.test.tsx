@@ -1,5 +1,5 @@
 import { ProgressRoutesTester } from "../../../progress/tests/progress-routes-tester";
-import { PhoneNumberAccountStatus } from "../../../queries/globalTypes";
+// import { PhoneNumberAccountStatus } from "../../../queries/globalTypes";
 import { AppTesterPal } from "../../../tests/app-tester-pal";
 import { newSb } from "../../../tests/session-builder";
 import { getEvictionFreeDeclarationBuilderProgressRoutesProps } from "../routes";
@@ -13,13 +13,13 @@ const tester = new ProgressRoutesTester(
 tester.defineSmokeTests();
 
 const sb = newSb();
-
+/*
 describe("Eviction free declaration builder steps", () => {
   tester.defineTest({
     it: "takes brand-new users through onboarding",
     usingSession: sb
       .withQueriedPhoneNumber(PhoneNumberAccountStatus.NO_ACCOUNT)
-      .withNorentScaffolding({
+      .withOnboardingScaffolding({
         city: "Albany",
         state: "NY",
       }),
@@ -41,7 +41,7 @@ tester.defineTest({
     .withOnboardingInfo({
       state: "NY",
     })
-    .withNorentScaffolding({
+    .withOnboardingScaffolding({
       hasLandlordEmailAddress: true,
       hasLandlordMailingAddress: true,
     }),
@@ -77,6 +77,7 @@ tester.defineTest({
   usingSession: sb.withLoggedInEvictionFreeUser().with({ email: "" }),
   expectSteps: ["/en/declaration/email", "/en/declaration/hardship-situation"],
 });
+*/
 
 test("it takes users who have already sent a declaration straight to confirmation", async () => {
   const pal = new AppTesterPal(tester.render(), {

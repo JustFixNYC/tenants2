@@ -14,7 +14,7 @@ from project.util.session_mutation import SessionFormMutation
 from project.util import site_util
 from project import mapbox
 from project.schema_base import get_last_queried_phone_number, purge_last_queried_phone_number
-from onboarding.schema import OnboardingStep1V2Info, complete_onboarding
+from onboarding.schema import complete_onboarding
 from onboarding.schema_util import mutation_requires_onboarding
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from onboarding.scaffolding import (
@@ -24,17 +24,10 @@ from onboarding.scaffolding import (
     get_scaffolding,
     update_scaffolding,
     purge_scaffolding,
-    is_lnglat_in_nyc,
-    GraphQlOnboardingScaffolding,
 )
+from findhelp.models import is_lnglat_in_nyc
 from loc.models import LandlordDetails
 from . import forms, models, letter_sending
-
-
-class NorentScaffolding(GraphQlOnboardingScaffolding):
-    """
-    Represents all fields of our scaffolding model.
-    """
 
 
 class NorentLetter(DjangoObjectType):
@@ -58,8 +51,6 @@ class NorentRentPeriod(DjangoObjectType):
 
 @schema_registry.register_session_info
 class NorentSessionInfo(object):
-    norent_scaffolding = NorentScaffolding.graphql_field()
-
     norent_latest_rent_period = graphene.Field(
         NorentRentPeriod,
         deprecation_reason="No longer used by front-end code.",
@@ -437,7 +428,6 @@ class BaseCreateAccount(SessionFormMutation):
         cls.perform_post_onboarding(form, request, user)
 
         purge_last_queried_phone_number(request)
-        OnboardingStep1V2Info.clear_from_request(request)
         purge_scaffolding(request)
 
         return cls.mutation_success()
@@ -498,7 +488,7 @@ class NorentOptInToComms(OnboardingScaffoldingOrUserDataMutation):
         abstract = True
 
     # This needs to be set to a nullable boolean field of both
-    # OnboardingInfo and NorentScaffolding.
+    # OnboardingInfo and OnboardingScaffolding.
     comms_field_name = ""
 
     @classmethod

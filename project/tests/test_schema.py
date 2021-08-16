@@ -20,6 +20,7 @@ def test_login_works(graphql_client):
     assert login["errors"] == []
     assert len(login["session"]["csrfToken"]) > 0
     assert graphql_client.request.user.pk == user.pk
+    assert graphql_client.request.session.get_expire_at_browser_close() is False
 
 
 @pytest.mark.django_db
@@ -30,6 +31,7 @@ def test_logout_works(graphql_client):
     result = graphql_client.execute(logout_mutation, variables={"input": {}})
     assert len(result["data"]["output"]["session"]["csrfToken"]) > 0
     assert graphql_client.request.user.pk is None
+    assert graphql_client.request.session.get_expire_at_browser_close() is True
 
 
 class TestClearAnonymousSession:

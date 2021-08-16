@@ -1,9 +1,7 @@
-from project.util.rename_dict_keys import with_keys_renamed
 from onboarding.scaffolding import (
     OnboardingScaffolding,
     OnboardingScaffoldingMutation,
     get_scaffolding,
-    purge_scaffolding,
 )
 from . import models, forms, email_dhcr
 from typing import Dict, Any, Optional
@@ -14,7 +12,6 @@ from django.conf import settings
 import graphene
 from graphql import ResolveInfo
 from project import slack
-from project.util.django_graphql_session_forms import DjangoSessionFormObjectType
 from project.util.session_mutation import SessionFormMutation
 from project.util.streaming_json import generate_json_rows
 from project.util.site_util import absolute_reverse, SITE_CHOICES
@@ -81,12 +78,6 @@ def get_rent_stab_info_for_bbl(bbl: str) -> Optional[Dict[str, Any]]:
     # Case 3: We connected to the database, and RS data was found
     else:
         return process_rent_stab_data(raw_data)
-
-
-class RhFormInfo(DjangoSessionFormObjectType):
-    class Meta:
-        form_class = forms.RhForm
-        session_key = f"rh_v{forms.FIELD_SCHEMA_VERSION}"
 
 
 @schema_registry.register_mutation
@@ -159,7 +150,11 @@ class RhSendEmail(SessionFormMutation):
             "RH",
             locale=translation.get_language_from_request(request, check_path=True),
         )
-        purge_scaffolding(request)
+
+        # Note that we used to purge the scaffolding information here, but lots
+        # of users go on to create an account after this, and we don't want them
+        # to have to re-enter all their information, so we'll keep it around.
+
         return cls.mutation_success()
 
 
@@ -181,8 +176,6 @@ class RhRentStabData(graphene.ObjectType):
 
 @schema_registry.register_session_info
 class RhSessionInfo(object):
-    rental_history_info = graphene.Field(RhFormInfo)
-
     rent_stab_info = graphene.Field(RhRentStabData)
 
     def resolve_rent_stab_info(self, info: ResolveInfo):
@@ -190,11 +183,4 @@ class RhSessionInfo(object):
         kwargs = request.session.get(RENT_STAB_INFO_SESSION_KEY, {})
         if kwargs:
             return RhRentStabData(**kwargs)
-        return None
-
-    def resolve_rental_history_info(self, info: ResolveInfo):
-        scf = get_scaffolding(info.context)
-        if scaffolding_has_rental_history_request_info(scf):
-            d = with_keys_renamed(scf.dict(), RhFormInfo._meta.form_class.from_scaffolding_keys)
-            return d
         return None

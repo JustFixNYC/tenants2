@@ -20,12 +20,12 @@ VALID_RH_DATA = {
 RH_DATA_QUERY = """
 query {
     session {
-        rentalHistoryInfo {
+        onboardingScaffolding {
             firstName
             lastName
-            address
+            street
             borough
-            apartmentNumber
+            aptNumber
             phoneNumber
         }
     }
@@ -37,7 +37,7 @@ mutation {
     rhSendEmail(input: {}) {
         errors { field, messages }
         session {
-            rentalHistoryInfo {
+            onboardingScaffolding {
                 firstName
             }
         }
@@ -47,7 +47,7 @@ mutation {
 
 
 def _get_rh_info(graphql_client):
-    return graphql_client.execute(RH_DATA_QUERY)["data"]["session"]["rentalHistoryInfo"]
+    return graphql_client.execute(RH_DATA_QUERY)["data"]["session"]["onboardingScaffolding"]
 
 
 def _exec_rh_form(graphql_client, **input_kwargs):
@@ -73,11 +73,13 @@ def test_rh_form_validates_data(db, graphql_client):
 def test_rh_form_saves_data_to_session(db, graphql_client):
     ob = _exec_rh_form(graphql_client)
     assert ob["errors"] == []
-    assert ob["session"]["rentalHistoryInfo"] == {
-        **VALID_RH_DATA,
-        "zipcode": "",
-        "addressVerified": False,
-    }
+    scf = ob["session"]["onboardingScaffolding"]
+    assert scf["firstName"] == "Boop"
+    assert scf["lastName"] == "Jones"
+    assert scf["street"] == "123 Boop Way"
+    assert scf["borough"] == "STATEN_ISLAND"
+    assert scf["aptNumber"] == "36C"
+    assert scf["phoneNumber"] == "2120000000"
 
 
 def test_rh_form_grabs_rent_stab_info(db, graphql_client, monkeypatch, mock_geocoding_and_nycdb):
@@ -128,11 +130,11 @@ def test_rh_form_saves_info_to_db(db, graphql_client, allow_lambda_http):
     assert rhr.address == "123 Boop Way"
 
 
-def test_rh_form_sends_email_and_clears_session(db, graphql_client, mailoutbox, allow_lambda_http):
+def test_rh_form_sends_email(db, graphql_client, mailoutbox, allow_lambda_http):
     ob = _exec_rh_form(graphql_client)
     assert ob["errors"] == []
     result = graphql_client.execute(RH_EMAIL_MUTATION)["data"]["rhSendEmail"]
-    assert result == {"errors": [], "session": {"rentalHistoryInfo": None}}
+    assert result["errors"] == []
     assert len(mailoutbox) == 1
     msg = mailoutbox[0]
     assert msg.subject == "Request for Rent History"

@@ -6,6 +6,7 @@ import { OnboardingStep3Mutation } from "../../queries/OnboardingStep3Mutation";
 import { escapeRegExp } from "../../tests/util";
 import JustfixRoutes from "../../justfix-route-info";
 import { getLeaseChoiceLabels } from "../../../../common-data/lease-choices";
+import { newSb } from "../../tests/session-builder";
 
 const PROPS = {
   routes: JustfixRoutes.locale.locOnboarding,
@@ -39,12 +40,10 @@ describe("onboarding step 3 page", () => {
       pal.clickButtonOrLink("Next");
       pal.withFormMutation(OnboardingStep3Mutation).respondWith({
         errors: [],
-        session: {
-          onboardingStep3: {
-            leaseType,
-            receivesPublicAssistance: "False",
-          },
-        },
+        session: newSb().withOnboardingScaffolding({
+          leaseType,
+          receivesPublicAssistance: false,
+        }).value,
       });
       await pal.rt.waitFor(() => pal.getDialogWithLabel(/.+/i));
     });

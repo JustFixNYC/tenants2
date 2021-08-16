@@ -1,9 +1,10 @@
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import React, { useContext } from "react";
 import { AppContext } from "../../app-context";
 import { WelcomePage } from "../../common-steps/welcome";
 import { li18n } from "../../i18n-lingui";
 import { ProgressStepProps } from "../../progress/progress-step-route";
+import { EvictionFreeRedirectToHomepageWithMessage } from "./redirect-to-homepage-with-message";
 import { hasEvictionFreeDeclarationBeenSent } from "./step-decorators";
 
 export const EvictionFreeDbWelcome: React.FC<ProgressStepProps> = (props) => {
@@ -15,6 +16,8 @@ export const EvictionFreeDbWelcome: React.FC<ProgressStepProps> = (props) => {
       title={li18n._(t`Protect yourself from eviction`)}
       hasFlowBeenCompleted={hasEvictionFreeDeclarationBeenSent(session)}
     >
+      <EvictionFreeRedirectToHomepageWithMessage />
+      {/*
       <>
         <p>
           <Trans id="evictionfree.introductionToDeclarationFormSteps">
@@ -45,7 +48,7 @@ export const EvictionFreeDbWelcome: React.FC<ProgressStepProps> = (props) => {
             </li>
           </ul>
         </Trans>
-      </>
+    </> */}
     </WelcomePage>
   );
 };

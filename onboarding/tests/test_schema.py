@@ -1,4 +1,3 @@
-from onboarding.scaffolding import get_scaffolding
 import pytest
 from django.contrib.auth.hashers import is_password_usable
 
@@ -7,17 +6,9 @@ from findhelp.tests.factories import CountyFactory
 from project.util.testing_util import GraphQLTestingPal
 from frontend.tests.util import get_frontend_query
 from users.models import JustfixUser
-from onboarding.schema import session_key_for_step
+from onboarding.scaffolding import SCAFFOLDING_SESSION_KEY, get_scaffolding
 from .factories import OnboardingInfoFactory, NationalOnboardingInfoFactory, UserFactory
 
-LEGACY_STEP_1_DATA = {
-    "firstName": "boop",
-    "lastName": "jones",
-    "address": "123 boop way",
-    "borough": "MANHATTAN",
-    "aptNumber": "3B",
-    "noAptNumber": False,
-}
 
 VALID_STEP_DATA = {
     "1V2": {
@@ -62,8 +53,9 @@ query {
 
 def _get_step_1_info(graphql_client):
     return graphql_client.execute(
-        "query { session { onboardingStep1 { aptNumber, addressVerified, preferredFirstName } } }"
-    )["data"]["session"]["onboardingStep1"]
+        "query { session { onboardingScaffolding { "
+        + "aptNumber, addressVerified, preferredFirstName } } }"
+    )["data"]["session"]["onboardingScaffolding"]
 
 
 def _exec_onboarding_step_n(n, graphql_client, **input_kwargs):
@@ -73,40 +65,10 @@ def _exec_onboarding_step_n(n, graphql_client, **input_kwargs):
     )["data"][f"output"]
 
 
-def exec_legacy_onboarding_step_1(graphql_client, **input_kwargs):
-    mutation = """
-        mutation OnboardingStep1Mutation($input: OnboardingStep1Input!) {
-            output: onboardingStep1(input: $input) {
-                errors {
-                    field,
-                    extendedMessages {
-                        message,
-                        code
-                    }
-                },
-                session {
-                    onboardingStep1 {
-                        address,
-                        borough,
-                        aptNumber,
-                        firstName,
-                        lastName,
-                        preferredFirstName
-                    }
-                }
-            }
-        }
-    """
-    return graphql_client.execute(
-        mutation,
-        variables={"input": {**LEGACY_STEP_1_DATA, **input_kwargs}},
-    )["data"][f"output"]
-
-
 def test_onboarding_step_1_validates_data(graphql_client):
     ob = _exec_onboarding_step_n("1V2", graphql_client, firstName="")
     assert len(ob["errors"]) > 0
-    assert session_key_for_step(1) not in graphql_client.request.session
+    assert SCAFFOLDING_SESSION_KEY not in graphql_client.request.session
     assert _get_step_1_info(graphql_client) is None
 
 
@@ -122,6 +84,7 @@ def test_onboarding_step_1_works(graphql_client):
     assert scf.preferred_first_name == "bip"
     assert _get_step_1_info(graphql_client)["aptNumber"] == "3B"
     assert _get_step_1_info(graphql_client)["addressVerified"] is False
+    assert SCAFFOLDING_SESSION_KEY in graphql_client.request.session
 
 
 @pytest.mark.django_db
@@ -166,8 +129,7 @@ def test_onboarding_sets_referral(db, graphql_client):
 def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     result = execute_onboarding(graphql_client)
 
-    for i in [1, 3]:
-        assert result["session"][f"onboardingStep{i}"] is None
+    assert result["session"]["onboardingScaffolding"] is None
     assert result["session"]["phoneNumber"] == "5551234567"
 
     request = graphql_client.request
@@ -380,7 +342,7 @@ class TestNycAddress(GraphQLTestingPal):
                 address,
                 borough,
                 aptNumber
-            }, norentScaffolding {
+            }, onboardingScaffolding {
                 street,
                 borough,
                 aptNumber
@@ -404,7 +366,7 @@ class TestNycAddress(GraphQLTestingPal):
                 "borough": "BROOKLYN",
                 "aptNumber": "2",
             },
-            "norentScaffolding": None,
+            "onboardingScaffolding": None,
         },
     }
 
@@ -413,7 +375,7 @@ class TestNycAddress(GraphQLTestingPal):
             "errors": [],
             "session": {
                 "onboardingInfo": None,
-                "norentScaffolding": {
+                "onboardingScaffolding": {
                     "street": "654 park place",
                     "borough": "BROOKLYN",
                     "aptNumber": "2",

@@ -197,7 +197,7 @@ function isInStateWithProtections(state: string | null | undefined): boolean {
  */
 export function useIsOnboardingUserInStateWithProtections(): boolean {
   const s = useContext(AppContext).session;
-  return isInStateWithProtections(s.norentScaffolding?.state);
+  return isInStateWithProtections(s.onboardingScaffolding?.state);
 }
 
 /**
@@ -210,7 +210,7 @@ export function useIsOnboardingUserInStateWithProtections(): boolean {
 export function isOnboardingUserInStateWithProtections(
   s: AllSessionInfo
 ): boolean {
-  return isInStateWithProtections(s.norentScaffolding?.state);
+  return isInStateWithProtections(s.onboardingScaffolding?.state);
 }
 
 /**

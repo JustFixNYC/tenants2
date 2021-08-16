@@ -1,14 +1,11 @@
-import json
-from pathlib import Path
 from project.util.rename_dict_keys import with_keys_renamed
 from project.util.session_mutation import SessionFormMutation
 from typing import Any, Dict, Optional, Tuple
-from django.contrib.gis.geos import GEOSGeometry, Point
 import graphene
 from graphql import ResolveInfo
 import pydantic
 
-from findhelp.models import union_geometries
+from findhelp.models import is_lnglat_in_nyc
 
 
 # This should change whenever our scaffolding model's fields change in a
@@ -33,10 +30,6 @@ NYC_CITIES = [
     "bronx",
     "the bronx",
 ]
-
-BOROUGH_BOUNDS_PATH = Path("findhelp") / "data" / "Borough-Boundaries.geojson"
-
-_nyc_bounds: Optional[GEOSGeometry] = None
 
 
 def is_city_name_in_nyc(city: str) -> bool:
@@ -117,21 +110,6 @@ class OnboardingScaffolding(pydantic.BaseModel):
         return is_zip_code_in_la(self.zip_code)
 
 
-def is_lnglat_in_nyc(lnglat: Tuple[float, float]) -> bool:
-    global _nyc_bounds
-
-    if _nyc_bounds is None:
-        # TODO: Now that findhelp is always enabled and we have access to PostGIS in
-        # production, we should just delegate this to the database to figure out. It
-        # will also save memory in our server process.
-        bbounds = json.loads(BOROUGH_BOUNDS_PATH.read_text())
-        _nyc_bounds = union_geometries(
-            GEOSGeometry(json.dumps(feature["geometry"])) for feature in bbounds["features"]
-        )
-        assert _nyc_bounds is not None
-    return _nyc_bounds.contains(Point(*lnglat))
-
-
 class GraphQlOnboardingScaffolding(graphene.ObjectType):
     """
     Represents the public fields of our Onboarding scaffolding, as a GraphQL type.
@@ -160,11 +138,25 @@ class GraphQlOnboardingScaffolding(graphene.ObjectType):
 
     borough = graphene.String(required=True)
 
+    address_verified = graphene.Boolean(
+        deprecation_reason=(
+            "This isn't currently used by the front-end, and its use is "
+            "in question; for more details, see: "
+            "https://github.com/JustFixNYC/tenants2/issues/1991"
+        )
+    )
+
     zip_code = graphene.String(required=True)
 
     apt_number = graphene.String()
 
     email = graphene.String(required=True)
+
+    phone_number = graphene.String(required=True)
+
+    lease_type = graphene.String(required=True)
+
+    receives_public_assistance = graphene.Boolean()
 
     has_landlord_email_address = graphene.Boolean()
 
@@ -181,7 +173,7 @@ class GraphQlOnboardingScaffolding(graphene.ObjectType):
         return self.is_zip_code_in_la()
 
     @classmethod
-    def graphql_field(cls):
+    def graphql_field(cls, **kwargs):
         def resolver(_, info: ResolveInfo):
             request = info.context
             kwargs = request.session.get(SCAFFOLDING_SESSION_KEY, {})
@@ -189,7 +181,7 @@ class GraphQlOnboardingScaffolding(graphene.ObjectType):
                 return OnboardingScaffolding(**kwargs)
             return None
 
-        return graphene.Field(cls, resolver=resolver)
+        return graphene.Field(cls, resolver=resolver, **kwargs)
 
 
 def get_scaffolding_fields_from_form(form) -> Dict[str, Any]:
@@ -254,82 +246,12 @@ class OnboardingScaffoldingOrUserDataMutation(SessionFormMutation):
         return cls.perform_mutate_for_anonymous_user(form, info)
 
 
-def _migrate_legacy_session_data_to_scaffolding(request):
-    """
-    This function takes any data we have stored elsewhere in
-    the session by legacy endpoints and migrates it over to the
-    onboarding scaffolding if possible.
-
-    As each legacy endpoint is fully deprecated and removed, we'll
-    remove the relevant migration code from this function. Eventually
-    we'll have nothing left to migrate and we can get rid of this
-    function.
-
-    For more context around all this, see:
-
-        https://github.com/JustFixNYC/tenants2/issues/2142
-    """
-
-    d = request.session.get(SCAFFOLDING_SESSION_KEY, {})
-    updated = False
-
-    if not d.get("first_name") or not d.get("borough"):
-        from .schema import OnboardingStep1V2Info
-
-        legacy_step1 = OnboardingStep1V2Info.get_dict_from_request(request)
-        if legacy_step1:
-            if legacy_step1["first_name"] == legacy_step1["last_name"] == "ignore":
-                # This is data submitted by code deprecated in
-                # https://github.com/JustFixNYC/tenants2/pull/2143 which only set
-                # useful address info, so remove the name info.
-                del legacy_step1["first_name"]
-                del legacy_step1["last_name"]
-                if "preferred_first_name" in legacy_step1:
-                    del legacy_step1["preferred_first_name"]
-
-            d.update(
-                with_keys_renamed(
-                    legacy_step1, OnboardingStep1V2Info._meta.form_class.to_scaffolding_keys
-                )
-            )
-            updated = True
-            OnboardingStep1V2Info.clear_from_request(request)
-
-    if not d.get("lease_type"):
-        from .schema import OnboardingStep3Info
-
-        legacy_step3 = OnboardingStep3Info.get_dict_from_request(request)
-        if legacy_step3:
-            from project.forms import YesNoRadiosField
-
-            legacy_step3["receives_public_assistance"] = YesNoRadiosField.coerce(
-                legacy_step3["receives_public_assistance"]
-            )
-            d.update(legacy_step3)
-            updated = True
-            OnboardingStep3Info.clear_from_request(request)
-
-    if not d.get("phone_number"):
-        from rh.schema import RhFormInfo
-
-        legacy_rh = RhFormInfo.get_dict_from_request(request)
-        if legacy_rh:
-            d.update(with_keys_renamed(legacy_rh, RhFormInfo._meta.form_class.to_scaffolding_keys))
-            updated = True
-            RhFormInfo.clear_from_request(request)
-
-    if updated:
-        request.session[SCAFFOLDING_SESSION_KEY] = d
-
-
 def get_scaffolding(request) -> OnboardingScaffolding:
-    _migrate_legacy_session_data_to_scaffolding(request)
     scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
     return OnboardingScaffolding(**scaffolding_dict)
 
 
 def update_scaffolding(request, new_data):
-    _migrate_legacy_session_data_to_scaffolding(request)
     scaffolding_dict = request.session.get(SCAFFOLDING_SESSION_KEY, {})
     scaffolding_dict.update(new_data)
 

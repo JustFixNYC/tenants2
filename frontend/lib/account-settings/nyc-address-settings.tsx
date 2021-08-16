@@ -4,6 +4,7 @@ import { Route } from "react-router-dom";
 import {
   getLeaseChoiceLabels,
   isLeaseChoice,
+  LeaseChoice,
   LeaseChoices,
 } from "../../../common-data/lease-choices";
 import { AppContext } from "../app-context";
@@ -28,13 +29,20 @@ import {
 import { EditableInfo, SaveCancelButtons } from "../ui/editable-info";
 import { assertNotNull } from "@justfixnyc/util";
 import { makeAccountSettingsSection, WithAccountSettingsProps } from "./util";
+import {
+  HOUSING_TYPE_FIELD_LABEL,
+  PUBLIC_ASSISTANCE_SECTION_LABEL,
+  PUBLIC_ASSISTANCE_QUESTION_TEXT,
+  PUBLIC_ASSISTANCE_SECTION_DESCRIPTION,
+} from "../util/housing-type";
+import { LeaseType } from "../queries/globalTypes";
 
 const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
   routes,
 }) => {
   const sec = makeAccountSettingsSection(
     routes,
-    "Housing voucher?",
+    PUBLIC_ASSISTANCE_SECTION_LABEL,
     "public-assistance"
   );
   const { session } = useContext(AppContext);
@@ -44,7 +52,7 @@ const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
   return (
     <>
       {sec.heading}
-      <p>For example, section 8, FEPS, Link, HASA, etc.</p>
+      <p>{PUBLIC_ASSISTANCE_SECTION_DESCRIPTION}</p>
       <EditableInfo
         {...sec}
         readonlyContent={valueLabel}
@@ -63,7 +71,7 @@ const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
                 {...ctx.fieldPropsFor("receivesPublicAssistance")}
                 autoFocus
                 hideVisibleLabel
-                label="Do you receive a housing voucher (Section 8, FEPS, Link, HASA, other)?"
+                label={PUBLIC_ASSISTANCE_QUESTION_TEXT}
               />
               <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>
@@ -74,13 +82,44 @@ const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
   );
 };
 
+function filterLeaseChoices(
+  leaseType: "" | LeaseType,
+  choices: [LeaseChoice, string][]
+) {
+  let filteredChoices = [...choices];
+
+  // If the user previously onboarded and chose the "No lease" or "Rent stabilized
+  // or controlled" options, which have since been deprecated, we still want them
+  // to be able to see it and choose it. However, if they didn't pick that option,
+  // we don't want them to be able to choose it now.
+  if (leaseType !== "NO_LEASE") {
+    filteredChoices = filteredChoices.filter(
+      ([choice, _]) => choice !== "NO_LEASE"
+    );
+  }
+  if (leaseType !== "RENT_STABILIZED_OR_CONTROLLED") {
+    filteredChoices = filteredChoices.filter(
+      ([choice, _]) => choice !== "RENT_STABILIZED_OR_CONTROLLED"
+    );
+  }
+  return filteredChoices;
+}
+
 const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
-  const sec = makeAccountSettingsSection(routes, "Lease type", "lease");
+  const sec = makeAccountSettingsSection(
+    routes,
+    HOUSING_TYPE_FIELD_LABEL,
+    "lease"
+    // Route will stay "lease" even though all other user-facing strings have been changed to
+    // "housing type" to preserve backwards compatibility.
+  );
   const { session } = useContext(AppContext);
   const leaseType = session.onboardingInfo?.leaseType || "";
+  let choices = toDjangoChoices(LeaseChoices, getLeaseChoiceLabels());
   let leaseTypeLabel = "";
   if (isLeaseChoice(leaseType)) {
     leaseTypeLabel = getLeaseChoiceLabels()[leaseType];
+    choices = filterLeaseChoices(leaseType, choices);
   }
 
   return (
@@ -101,8 +140,8 @@ const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
               <RadiosFormField
                 {...ctx.fieldPropsFor("leaseType")}
                 autoFocus
-                choices={toDjangoChoices(LeaseChoices, getLeaseChoiceLabels())}
-                label="Lease type"
+                choices={choices}
+                label={HOUSING_TYPE_FIELD_LABEL}
               />
               <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>

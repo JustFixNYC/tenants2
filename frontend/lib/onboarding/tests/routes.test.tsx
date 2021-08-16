@@ -26,25 +26,6 @@ describe("latest step redirector", () => {
       JustfixRoutes.locale.locOnboarding.step1
     );
   });
-
-  it("returns step 3 when step 1 is complete", () => {
-    expect(
-      getLatestOnboardingStep({
-        ...FakeSessionInfo,
-        onboardingStep1: {} as any,
-      })
-    ).toBe(JustfixRoutes.locale.locOnboarding.step3);
-  });
-
-  it("returns step 4 when step 3 is complete", () => {
-    expect(
-      getLatestOnboardingStep({
-        ...FakeSessionInfo,
-        onboardingStep1: {} as any,
-        onboardingStep3: {} as any,
-      })
-    ).toBe(JustfixRoutes.locale.locOnboarding.step4);
-  });
 });
 
 describe("Onboarding", () => {

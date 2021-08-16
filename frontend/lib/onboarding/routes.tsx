@@ -37,12 +37,10 @@ export default class OnboardingRoutes extends React.Component<
             signupIntent={signupIntent}
           />
         ),
-        isComplete: (s) => !!s.onboardingStep1,
       },
       {
         path: routes.step3,
         render: () => <OnboardingStep3 routes={routes} />,
-        isComplete: (s) => !!s.onboardingStep3,
       },
       {
         path: routes.step4,

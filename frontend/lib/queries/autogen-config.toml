@@ -22,8 +22,8 @@ createBlankLiteral = true
 fragmentName = "HPActionDetails"
 createBlankLiteral = true
 
-[types.NorentScaffolding]
-fragmentName = "NorentScaffolding"
+[types.OnboardingScaffolding]
+fragmentName = "OnboardingScaffolding"
 createBlankLiteral = true
 
 [types.FeeWaiverType]
@@ -42,15 +42,6 @@ fragmentName = "ExtendedFormFieldErrors"
 ignoreFields = [
     # This is a deprecated field that we will eventually remove from the server.
     "messages"
-]
-
-[types.OnboardingStep1V2Info]
-ignoreFields = [
-    # This is defined by our GraphQL schema because it's easier than
-    # not including it in the schema, but we don't need it in the
-    # front-end.
-    "addressVerified",
-    "zipcode"
 ]
 
 [types.TextMessagesResult]
@@ -95,10 +86,10 @@ sessionFields = ["email", "isEmailVerified"]
 [mutations.queryOrVerifyPhoneNumber]
 
 [mutations.onboardingStep1V2]
-sessionFields = ["onboardingStep1"]
+sessionFields = ["onboardingScaffolding"]
 
 [mutations.onboardingStep3]
-sessionFields = ["onboardingStep3"]
+sessionFields = ["onboardingScaffolding"]
 
 [mutations.onboardingStep4Version2]
 
@@ -141,7 +132,7 @@ sessionFields = ["hpActionDetails"]
 sessionFields = ["harassmentDetails"]
 
 [mutations."rh.*"]
-sessionFields = ["rentalHistoryInfo", "rentStabInfo"]
+sessionFields = ["onboardingScaffolding", "rentStabInfo"]
 
 [mutations.tenantChildren]
 sessionFields = ["tenantChildren"]

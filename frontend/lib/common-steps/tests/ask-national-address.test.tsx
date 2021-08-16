@@ -9,7 +9,7 @@ import {
   NorentNationalAddressMutation_output,
   BlankNorentNationalAddressInput,
 } from "../../queries/NorentNationalAddressMutation";
-import { BlankNorentScaffolding } from "../../queries/NorentScaffolding";
+import { BlankOnboardingScaffolding } from "../../queries/OnboardingScaffolding";
 import { BlankAllSessionInfo } from "../../queries/AllSessionInfo";
 import { override } from "../../tests/util";
 
@@ -21,7 +21,7 @@ const {
 } = AskNationalAddress_forUnitTests;
 
 describe("getNationalAddressLines() works", () => {
-  const scf = override(BlankNorentScaffolding, {
+  const scf = override(BlankOnboardingScaffolding, {
     street: "150 Court Street",
     city: "Boopville",
     state: "OH",
@@ -58,7 +58,7 @@ describe("getSuccessRedirect()", () => {
     errors: [],
     isValid: null,
     session: override(BlankAllSessionInfo, {
-      norentScaffolding: override(BlankNorentScaffolding, {
+      onboardingScaffolding: override(BlankOnboardingScaffolding, {
         street: "150 Court Street",
         zipCode: "11201",
       }),

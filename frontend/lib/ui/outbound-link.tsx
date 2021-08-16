@@ -33,7 +33,7 @@ export function handleOutboundLinkClick(e: MouseEvent<HTMLAnchorElement>) {
     });
     // Note that we're not currently logging Amplitude events in this branch,
     // but that should be OK because we almost always follow the other branch
-    // in pratice (virtually all our external links open in a new window).
+    // in practice (virtually all our external links open in a new window).
     e.preventDefault();
   } else {
     ga("send", "event", "outbound", "click", href);

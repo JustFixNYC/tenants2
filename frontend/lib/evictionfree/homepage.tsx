@@ -58,7 +58,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
           <div className="column is-three-fifths">
             <Message />
             <h1 className="title is-spaced">
-              <Trans>EvictionFree NY has been suspended</Trans>
+              <Trans>Eviction Free NY has been suspended</Trans>
             </h1>
             <p className="subtitle">
               <Trans>

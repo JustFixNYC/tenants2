@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-07-19 16:14\n"
+"PO-Revision-Date: 2021-08-16 23:18\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -651,11 +651,11 @@ msgstr "Establece tu defensa"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:117
 msgid "Eviction Free NY Has Been Suspended"
-msgstr ""
+msgstr "Eviction Free NY Has Been Suspended"
 
 #: frontend/lib/evictionfree/homepage.tsx:39
 msgid "Eviction Free NY has been suspended"
-msgstr ""
+msgstr "Eviction Free NY has been suspended"
 
 #: frontend/lib/norent/data/state-localized-resources.tsx:14
 msgid "Eviction Moratorium updates"
@@ -1966,7 +1966,7 @@ msgstr "La Carta"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:119
 msgid "The State law that delays evictions for tenants who submit hardship declarations has been suspended."
-msgstr ""
+msgstr "The State law that delays evictions for tenants who submit hardship declarations has been suspended."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:225
 msgid "The above information is not a substitute for direct legal advice for your specific situation."
@@ -2011,7 +2011,7 @@ msgstr "Este servicio es gratuito, seguro y confidencial."
 
 #: frontend/lib/evictionfree/homepage.tsx:27
 msgid "This tool has been suspended"
-msgstr ""
+msgstr "This tool has been suspended"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:200
 msgid "This tool is provided by JustFix.nyc. We’re a non-profit that creates tools for tenants and the housing rights movement. We always want feedback to improve our tools."
@@ -2684,7 +2684,7 @@ msgstr "Además, entiendo que mi casero puede solicitar el desalojo después del
 
 #: frontend/lib/evictionfree/homepage.tsx:42
 msgid "evictionfree.noticeOfSuddenMoratoriumSuspension"
-msgstr ""
+msgstr "The State law that delays evictions for tenants who submit hardship declarations has been suspended. Learn about your rights, and take action today to protect and expand them"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:111
 msgid "evictionfree.postOfficeFaq"
@@ -2966,3 +2966,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

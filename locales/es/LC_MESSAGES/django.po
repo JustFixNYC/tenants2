@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-16 22:22+0000\n"
-"PO-Revision-Date: 2021-07-19 14:12\n"
+"PO-Revision-Date: 2021-08-16 23:29\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -64,7 +64,7 @@ msgstr "Este formulario sólo se puede utilizar desde el sitio web Eviction Free
 
 #: evictionfree/schema.py:125
 msgid "This tool has been suspended! Please reload the page for more details."
-msgstr ""
+msgstr "¡Esta herramienta ha sido suspendida! Por favor, recarga la página para más detalles."
 
 #: frontend/templates/frontend/safe_mode_ui.html:9
 msgid "This site is currently in <strong>compatibility mode</strong>. For an enhanced experience, you can disable it, but this may cause compatibility issues with your current browser."
@@ -193,3 +193,4 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 #: project/util/phone_number.py:70
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
+

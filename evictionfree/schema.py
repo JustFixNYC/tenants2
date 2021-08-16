@@ -122,7 +122,7 @@ class EvictionFreeSubmitDeclaration(SessionFormMutation):
         # declaration.  Reject this request and tell the user to reload their browser,
         # so that they'll be given more details on why the tool was discontinued.
         return cls.make_error(
-            _("This tool has been discontinued! Please reload the page for more details.")
+            _("This tool has been suspended! Please reload the page for more details.")
         )
 
         declaration_sending.create_and_send_declaration(user)

@@ -64,7 +64,7 @@ msgid "This form can only be used from the Eviction Free NY site."
 msgstr ""
 
 #: evictionfree/schema.py:125
-msgid "This tool has been discontinued! Please reload the page for more details."
+msgid "This tool has been suspended! Please reload the page for more details."
 msgstr ""
 
 #: frontend/templates/frontend/safe_mode_ui.html:9

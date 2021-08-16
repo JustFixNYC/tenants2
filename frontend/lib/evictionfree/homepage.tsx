@@ -4,10 +4,8 @@ import Page from "../ui/page";
 import { StaticImage } from "../ui/static-image";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
-import {
-  EnglishOutboundLink,
-  LocalizedOutboundLink,
-} from "../ui/localized-outbound-link";
+import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
+import { OutboundLink } from "../ui/outbound-link";
 
 export const MESSAGE_QS = "msg=on";
 export const RTC_WEBSITE_URL = "https://www.righttocounselnyc.org/";
@@ -82,11 +80,11 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
                   <Trans>Learn more</Trans>
                 </div>
               </LocalizedOutboundLink>
-              <EnglishOutboundLink href="https://www.righttocounselnyc.org/take_action_rtc">
+              <OutboundLink href="https://www.righttocounselnyc.org/take_action_rtc">
                 <div className="button is-primary jf-build-my-declaration-btn jf-is-extra-wide">
                   <Trans>Take action</Trans>
                 </div>
-              </EnglishOutboundLink>
+              </OutboundLink>
             </div>
           </div>
           <div className="column">

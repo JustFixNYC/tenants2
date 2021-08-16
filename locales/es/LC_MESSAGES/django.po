@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-16 19:26+0000\n"
+"POT-Creation-Date: 2021-08-16 22:22+0000\n"
 "PO-Revision-Date: 2021-07-19 14:12\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -62,6 +62,10 @@ msgstr "¡Aún no has proporcionado detalles para tu formulario de declaración 
 msgid "This form can only be used from the Eviction Free NY site."
 msgstr "Este formulario sólo se puede utilizar desde el sitio web Eviction Free NY."
 
+#: evictionfree/schema.py:125
+msgid "This tool has been discontinued! Please reload the page for more details."
+msgstr ""
+
 #: frontend/templates/frontend/safe_mode_ui.html:9
 msgid "This site is currently in <strong>compatibility mode</strong>. For an enhanced experience, you can disable it, but this may cause compatibility issues with your current browser."
 msgstr "Este sitio está actualmente en <strong>modo de compatibilidad</strong>. Para una experiencia mejor, puede desactivarlo, pero esto puede causar problemas de compatibilidad con su navegador actual."
@@ -92,16 +96,16 @@ msgstr "¡%(city)s, %(state_name)s no existe!"
 msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
 msgstr "%(name)s has enviado tu carta de no pago de renta. Puedes seguir la entrega de tu carta usando USPS Tracking: %(url)s."
 
-#: norent/schema.py:245
+#: norent/schema.py:236
 #, python-format
 msgid "Please enter a valid ZIP code for %(state_name)s."
 msgstr "Por favor, introduzca un código postal válido para %(state_name)s."
 
-#: norent/schema.py:252
+#: norent/schema.py:243
 msgid "Your address appears to be within New York City. Please go back and enter \"New York City\" as your city."
 msgstr "Tu dirección parece estar dentro de la ciudad de Nueva York. Por favor, vuelve atrás para introducir \"New York City\" como tu ciudad."
 
-#: norent/schema.py:477
+#: norent/schema.py:451
 #, python-format
 msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
 msgstr "Bienvenido/a %(site_name)s, un producto de JustFix.nyc. Te enviaremos notificaciones desde este número de teléfono."
@@ -137,15 +141,15 @@ msgstr "¡Aún no has proporcionado detalles de cuenta!"
 msgid "Please choose at least one option."
 msgstr "Por favor, escoja al menos una opción."
 
-#: project/forms.py:83
+#: project/forms.py:105
 msgid "Invalid phone number or password."
 msgstr "Número de teléfono o contraseña no válidos."
 
-#: project/forms.py:135
+#: project/forms.py:157
 msgid "A user with that email address already exists."
 msgstr "Ya existe un usuario con esa dirección de correo electrónico."
 
-#: project/forms.py:169
+#: project/forms.py:191
 msgid "Passwords do not match!"
 msgstr "¡Las contraseñas no coinciden!"
 
@@ -164,7 +168,7 @@ msgstr "Aquí %(site_name)s! Tu código de verificación es %(code)s."
 msgid "Hello world"
 msgstr "Hola mundo"
 
-#: project/util/address_form_fields.py:71
+#: project/util/address_form_fields.py:72
 msgid "The address provided is invalid."
 msgstr "La dirección proporcionada no es válida."
 
@@ -189,4 +193,3 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 #: project/util/phone_number.py:70
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
-

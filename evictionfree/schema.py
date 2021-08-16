@@ -118,6 +118,13 @@ class EvictionFreeSubmitDeclaration(SessionFormMutation):
                 info, _("This form can only be used from the Eviction Free NY site.")
             )
 
+        # The user is on an old version of the front-end and has submitted a hardship
+        # declaration.  Reject this request and tell the user to reload their browser,
+        # so that they'll be given more details on why the tool was discontinued.
+        return cls.make_error(
+            _("This tool has been discontinued! Please reload the page for more details.")
+        )
+
         declaration_sending.create_and_send_declaration(user)
 
         return cls.mutation_success()

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-16 19:26+0000\n"
+"POT-Creation-Date: 2021-08-16 22:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -63,6 +63,10 @@ msgstr ""
 msgid "This form can only be used from the Eviction Free NY site."
 msgstr ""
 
+#: evictionfree/schema.py:125
+msgid "This tool has been discontinued! Please reload the page for more details."
+msgstr ""
+
 #: frontend/templates/frontend/safe_mode_ui.html:9
 msgid "This site is currently in <strong>compatibility mode</strong>. For an enhanced experience, you can disable it, but this may cause compatibility issues with your current browser."
 msgstr ""
@@ -93,16 +97,16 @@ msgstr ""
 msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
 msgstr ""
 
-#: norent/schema.py:245
+#: norent/schema.py:236
 #, python-format
 msgid "Please enter a valid ZIP code for %(state_name)s."
 msgstr ""
 
-#: norent/schema.py:252
+#: norent/schema.py:243
 msgid "Your address appears to be within New York City. Please go back and enter \"New York City\" as your city."
 msgstr ""
 
-#: norent/schema.py:477
+#: norent/schema.py:451
 #, python-format
 msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
 msgstr ""
@@ -138,15 +142,15 @@ msgstr ""
 msgid "Please choose at least one option."
 msgstr ""
 
-#: project/forms.py:83
+#: project/forms.py:105
 msgid "Invalid phone number or password."
 msgstr ""
 
-#: project/forms.py:135
+#: project/forms.py:157
 msgid "A user with that email address already exists."
 msgstr ""
 
-#: project/forms.py:169
+#: project/forms.py:191
 msgid "Passwords do not match!"
 msgstr ""
 
@@ -165,7 +169,7 @@ msgstr ""
 msgid "Hello world"
 msgstr ""
 
-#: project/util/address_form_fields.py:71
+#: project/util/address_form_fields.py:72
 msgid "The address provided is invalid."
 msgstr ""
 

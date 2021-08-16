@@ -1,5 +1,6 @@
 import { Trans, t } from "@lingui/macro";
 import React from "react";
+import { useLocation } from "react-router-dom";
 import { AskCityState } from "../../common-steps/ask-city-state";
 import { AskEmail } from "../../common-steps/ask-email";
 import { AskNameStep } from "../../common-steps/ask-name";
@@ -25,6 +26,7 @@ import {
 } from "../../progress/progress-step-route";
 import { skipStepsIf } from "../../progress/skip-steps-if";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
+import { createStartAccountOrLoginRouteInfo } from "../../start-account-or-login/route-info";
 import { createStartAccountOrLoginSteps } from "../../start-account-or-login/routes";
 import Page from "../../ui/page";
 import {
@@ -38,6 +40,7 @@ import { EvictionFreeCovidImpact } from "./covid-impact";
 import { EvictionFreeCreateAccount } from "./create-account";
 import { EvictionFreeIndexNumber } from "./index-number";
 import { EvictionFreePreviewPage } from "./preview";
+import { EvictionFreeRedirectToHomepageWithMessage } from "./redirect-to-homepage-with-message";
 import {
   EvictionFreeNotSentDeclarationStep,
   EvictionFreeOnboardingStep,
@@ -272,6 +275,26 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
   };
 };
 
-export const EvictionFreeDeclarationBuilderRoutes = buildProgressRoutesComponent(
+const OriginalEvictionFreeDeclarationBuilderRoutes = buildProgressRoutesComponent(
   getEvictionFreeDeclarationBuilderProgressRoutesProps
 );
+
+export const EvictionFreeDeclarationBuilderRoutes: React.FC<{}> = () => {
+  const location = useLocation();
+  const routes = EvictionFreeRoutes.locale.declaration;
+  const loginRoutes = Object.values(
+    createStartAccountOrLoginRouteInfo(routes.prefix)
+  );
+  const excludedRoutes = new Set([
+    routes.latestStep,
+    routes.welcome,
+    ...loginRoutes,
+    routes.confirmation,
+  ]);
+
+  if (excludedRoutes.has(location.pathname)) {
+    return <OriginalEvictionFreeDeclarationBuilderRoutes />;
+  }
+
+  return <EvictionFreeRedirectToHomepageWithMessage />;
+};

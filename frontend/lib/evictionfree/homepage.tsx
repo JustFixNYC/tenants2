@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Page from "../ui/page";
 import { StaticImage } from "../ui/static-image";
 import { EvictionFreeRoutes as Routes } from "./route-info";
@@ -13,6 +13,7 @@ import classnames from "classnames";
 import { SocialIcons } from "../norent/components/social-icons";
 import { getGlobalAppServerInfo } from "../app-context";
 
+export const MESSAGE_QS = "msg=on";
 export const RTC_WEBSITE_URL = "https://www.righttocounselnyc.org/";
 export const HJ4A_SOCIAL_URL = "https://twitter.com/housing4allNY";
 export const JUSTFIX_WEBSITE_URLS = {
@@ -116,6 +117,19 @@ const LandingPageChecklist = () => (
   </div>
 );
 
+const Message: React.FC<{}> = () => {
+  const location = useLocation();
+
+  if (location.search.includes(MESSAGE_QS)) {
+    return (
+      <div className="notification is-danger">
+        Alas, this tool has been discontinued!
+      </div>
+    );
+  }
+  return null;
+};
+
 export const EvictionFreeHomePage: React.FC<{}> = () => (
   <Page
     title={li18n._(t`Protect yourself from eviction in New York State`)}
@@ -125,6 +139,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
       <div className="hero-body">
         <div className="columns">
           <div className="column is-three-fifths">
+            <Message />
             <h1 className="title is-spaced">
               <Trans>Protect yourself from eviction in New York State</Trans>
             </h1>

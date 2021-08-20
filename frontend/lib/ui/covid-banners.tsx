@@ -135,17 +135,22 @@ export const MoratoriumWarning = () => (
 
 const EHP_MEDIUM_URL =
   "https://justfixnyc.medium.com/housing-court-blocks-tenants-from-suing-their-landlords-d7b9e3629a32";
+const HCA_URL =
+  "http://housingcourtanswers.org/answers/for-tenants/hp-actions-tenants/";
 
 export const CovidEhpDisclaimerText = () => (
   <Trans id="justfix.ddoEhpaDeactivatedMessage">
-    As of June 8, 2021, our Emergency HP Action tool is no longer available.
-    Housing Court has blocked tenants from suing their landlords through
-    JustFix.nyc.{" "}
+    Since June 2021, Housing Court has blocked tenants from suing their landlord
+    through JustFix’s HP Action Tool. To learn how to file an HP Action now,
+    read our{" "}
     <EnglishOutboundLink href={EHP_MEDIUM_URL}>
-      Read our statement here
+      Medium article
     </EnglishOutboundLink>
-    . In the meantime, add your name to a list of tenants seeking a potential
-    referral to one of our legal partners.
+    . To learn more about HP Actions and find a list of legal providers, visit{" "}
+    <EnglishOutboundLink href={HCA_URL}>
+      Housing Court Answers
+    </EnglishOutboundLink>
+    .
   </Trans>
 );
 

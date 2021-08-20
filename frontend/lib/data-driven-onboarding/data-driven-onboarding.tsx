@@ -411,11 +411,6 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       indicators: [emergencyCovidMessage],
       fallbackMessage: emergencyCovidMessage,
       imageStaticURL: "frontend/img/ddo/legal.svg",
-      cta: {
-        to: LEGAL_REFERRAL_GOOGLE_FORM_URL,
-        gaLabel: "hp",
-        text: li18n._(t`Request a legal referral`),
-      },
     };
   },
   function rentHistory(data): ActionCardProps {

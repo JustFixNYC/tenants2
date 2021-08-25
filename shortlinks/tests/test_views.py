@@ -3,7 +3,7 @@ import pytest
 from .factories import LinkFactory
 
 
-@pytest.mark.parametrize("slug", ["hca", "hca-is_k00l"])
+@pytest.mark.parametrize("slug", ["hca", "hca-is_K00L"])
 def test_redirect_works(db, client, slug):
     LinkFactory(slug=slug)
     res = client.get(f"/s/{slug}")
@@ -11,7 +11,7 @@ def test_redirect_works(db, client, slug):
     assert res["Location"] == "http://housingcourtanswers.org/"
 
 
-def test_client_redirect_default_to_lowercase(db, client): 
+def test_client_redirect_defaults_to_lowercase(db, client): 
     LinkFactory(slug="hca")
     res = client.get(f"/s/HcA")
     assert res.status_code == 302

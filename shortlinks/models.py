@@ -14,7 +14,8 @@ class Link(models.Model):
         max_length=200,
         help_text=(
             "The slug of the link. This will be used in the short link, so "
-            "try to keep it short yet (hopefully) memorable."
+            "try to keep it short yet (hopefully) memorable. NOTE: the slug "
+            "will be saved as fully lowercase (i.e. 'hOMe' will be saved as 'home')."
         ),
         unique=True,
     )
@@ -23,3 +24,7 @@ class Link(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def save(self, *args, **kwargs):
+        self.slug = self.slug.lower()
+        return super(Link, self).save(*args, **kwargs)

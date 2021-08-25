@@ -158,7 +158,7 @@ jobs:
       - run:
           name: Install Git LFS
           command: |
-            curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo env os=el dist=11 bash
+            curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo env os=debian dist=bullseye bash
             sudo apt-get install git-lfs
             git lfs install
       - checkout

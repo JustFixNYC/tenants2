@@ -5,6 +5,5 @@ from .models import Link
 
 
 def redirect_to_link(request, slug):
-    formatted_slug = slug.lower()
-    link = get_object_or_404(Link, slug=formatted_slug)
+    link = get_object_or_404(Link, slug=slug.lower())
     return HttpResponseRedirect(link.url)

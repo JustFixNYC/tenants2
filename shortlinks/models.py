@@ -24,7 +24,7 @@ class Link(models.Model):
 
     def __str__(self):
         return self.title
-    
+
     def save(self, *args, **kwargs):
         self.slug = self.slug.lower()
         return super(Link, self).save(*args, **kwargs)

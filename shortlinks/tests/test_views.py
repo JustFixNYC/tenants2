@@ -11,7 +11,7 @@ def test_redirect_works(db, client, slug):
     assert res["Location"] == "http://housingcourtanswers.org/"
 
 
-def test_client_redirect_defaults_to_lowercase(db, client): 
+def test_client_redirect_defaults_to_lowercase(db, client):
     LinkFactory(slug="hca")
     res = client.get(f"/s/HcA")
     assert res.status_code == 302

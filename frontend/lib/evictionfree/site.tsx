@@ -93,10 +93,41 @@ export const EvictionFreeLanguageDropdown: React.FC<{}> = () => {
   );
 };
 
+const EvictionFreeBuildMyDeclarationLink: React.FC<{}> = () => {
+  const isPrimaryPage = useIsPrimaryPage();
+  return (
+    <>
+      <div className="navbar-item is-hidden-touch">
+        <Link
+          className={classnames(
+            "button",
+            isPrimaryPage ? "is-primary" : "is-info is-inverted is-outlined"
+          )}
+          to={Routes.locale.declaration.latestStep}
+        >
+          <Trans>Fill out my form</Trans>
+        </Link>
+      </div>
+      <Link
+        className="navbar-item is-hidden-desktop"
+        to={Routes.locale.declaration.latestStep}
+      >
+        <Trans>Fill out my form</Trans>
+      </Link>
+    </>
+  );
+};
+
 const EvictionFreeMenuItems: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   return (
     <>
+      <Link className="navbar-item" to={Routes.locale.faqs}>
+        <Trans>Faqs</Trans>
+      </Link>
+      <Link className="navbar-item" to={Routes.locale.about}>
+        <Trans>About</Trans>
+      </Link>
       {session.phoneNumber ? (
         <Link className="navbar-item" to={Routes.locale.logout}>
           <Trans>Log out</Trans>
@@ -107,6 +138,7 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
         </Link>
       )}
       <EvictionFreeLanguageDropdown />
+      <EvictionFreeBuildMyDeclarationLink />
     </>
   );
 };

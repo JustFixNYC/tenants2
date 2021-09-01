@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-08-17 03:33\n"
+"PO-Revision-Date: 2021-08-16 23:21\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -651,11 +651,11 @@ msgstr "Establece tu defensa"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:117
 msgid "Eviction Free NY Has Been Suspended"
-msgstr "Eviction Free NY ha sido suspendido"
+msgstr "EvictionFree NY ha sido suspendido"
 
 #: frontend/lib/evictionfree/homepage.tsx:40
 msgid "Eviction Free NY has been suspended"
-msgstr "Eviction Free NY ha sido suspendido"
+msgstr "EvictionFree NY ha sido suspendido"
 
 #: frontend/lib/norent/data/state-localized-resources.tsx:14
 msgid "Eviction Moratorium updates"

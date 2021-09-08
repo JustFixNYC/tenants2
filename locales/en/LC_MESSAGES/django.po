@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-20 15:05+0000\n"
+"POT-Creation-Date: 2021-09-01 14:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,10 +61,6 @@ msgstr ""
 
 #: evictionfree/schema.py:118
 msgid "This form can only be used from the Eviction Free NY site."
-msgstr ""
-
-#: evictionfree/schema.py:125
-msgid "This tool has been suspended! Please reload the page for more details."
 msgstr ""
 
 #: frontend/templates/frontend/safe_mode_ui.html:9

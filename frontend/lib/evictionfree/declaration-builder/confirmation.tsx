@@ -24,6 +24,24 @@ const LIST_OF_ORGANIZING_GROUPS_URL =
 
 const H2_CLASSNAME = "title is-size-4 is-size-5-mobile is-spaced";
 
+const checkCircleSvg = require("../../svg/check-circle-solid.svg") as JSX.Element;
+
+const renderTitleWithCheckCircle = (title: string) => (
+  <>
+    <div className="has-text-centered is-hidden-tablet">
+      <i className="has-text-info">{checkCircleSvg}</i>
+    </div>
+    <div className="media">
+      <div className="media-left is-hidden-mobile">
+        <i className="has-text-info">{checkCircleSvg}</i>
+      </div>
+      <div className="media-content">
+        <h1 className="title">{title}</h1>
+      </div>
+    </div>
+  </>
+);
+
 const RetaliationBlurb = () => (
   <>
     <h2 className={H2_CLASSNAME}>
@@ -176,16 +194,38 @@ export const EvictionFreeDbConfirmation = EvictionFreeRequireLoginStep(
 
     return (
       <Page
-        title={li18n._(t`Eviction Free NY Has Been Suspended`)}
+        title={li18n._(t`You've sent your hardship declaration`)}
         className="content"
-        withHeading
+        withHeading={renderTitleWithCheckCircle}
       >
         <p>
           <Trans>
-            The State law that delays evictions for tenants who submit hardship
-            declarations has been suspended.
-          </Trans>
+            Your hardship declaration form has been sent to your landlord via{" "}
+            {info.landlordMailLabel}.
+          </Trans>{" "}
+          {info.wasEmailedToHousingCourt ? (
+            <Trans>
+              A copy of the declaration has also been sent to your local court
+              via email in order to ensure they have it on record if your
+              landlord attempts to initiate an eviction case.
+            </Trans>
+          ) : (
+            <Trans id="evictionfree.confirmationNoEmailToCourtYet">
+              A copy of the declaration will also be sent to your local court
+              via email—we are determining the appropriate court to receive your
+              declaration. We will notify you via text and on this page when it
+              is sent.
+            </Trans>
+          )}
         </p>
+        {info.wasEmailedToUser && (
+          <p>
+            <Trans>
+              Check your email for a message containing a copy of your
+              declaration and additional important information on next steps.
+            </Trans>
+          </p>
+        )}
         {info.mailedAt && (
           <>
             <h2 className={H2_CLASSNAME}>

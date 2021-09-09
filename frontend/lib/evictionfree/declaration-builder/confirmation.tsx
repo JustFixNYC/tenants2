@@ -13,14 +13,22 @@ import { assertNotNull } from "@justfixnyc/util";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { MessageDescriptor } from "@lingui/core";
 import { SocialIcons } from "../../norent/components/social-icons";
+import { EnglishOutboundLink } from "../../ui/localized-outbound-link";
+import { RightToCounselFaqsLink } from "../data/faqs-content";
 
 export const HCA_HOTLINE_PHONE_LINK = "tel:+12129624795";
+
+const RENTAL_ASSISTANCE_HOTLINE_PHONE_LINK = "tel:+18446917368";
 
 const NYC_311_CONTACT_LINK =
   "https://portal.311.nyc.gov/article/?kanumber=KA-02498";
 
 const LIST_OF_ORGANIZING_GROUPS_URL =
   "https://d3n8a8pro7vhmx.cloudfront.net/righttocounselnyc/pages/1232/attachments/original/1590279936/List_of_Tenant_Organizing_Groups_Across_NY_State.pdf?1590279936";
+
+const ERAP_APPLICATION_URL = "https://otda.ny.gov/ERAP";
+const ERAP_LIST_OF_ASSISTING_GROUPS =
+  "https://www1.nyc.gov/site/hra/help/new-york-emergency-rental-assistance-program-erap.page";
 
 const H2_CLASSNAME = "title is-size-4 is-size-5-mobile is-spaced";
 
@@ -117,6 +125,46 @@ const ShareThisTool = () => (
       customStyleClasses="is-marginless"
       socialShareContent={SocialShareContent}
     />
+  </>
+);
+
+const ErapBlurb = () => (
+  <>
+    <h2 className={H2_CLASSNAME}>
+      <Trans>Can't pay rent?</Trans>
+    </h2>
+    <p>
+      <Trans>
+        You are not alone. Over a million New Yorkers cannot pay rent. New York
+        State now has a rental relief program, the Emergency Rental Assistance
+        Program (ERAP).
+      </Trans>
+    </p>
+    <p>
+      <Trans>Here are some important resources:</Trans>
+      <ul>
+        <li>
+          <EnglishOutboundLink href={ERAP_APPLICATION_URL}>
+            <Trans>ERAP Application</Trans>
+          </EnglishOutboundLink>
+        </li>
+        <li>
+          <EnglishOutboundLink href={ERAP_LIST_OF_ASSISTING_GROUPS}>
+            <Trans>List of groups who can help you apply</Trans>
+          </EnglishOutboundLink>
+        </li>
+        <li>
+          <Trans>Rental Assistance Application Hotline:</Trans>
+          <br />{" "}
+          <OutboundLink href={RENTAL_ASSISTANCE_HOTLINE_PHONE_LINK}>
+            1-844-NY1-RENT (1-844-691-7368)
+          </OutboundLink>
+        </li>
+      </ul>
+      <Trans>
+        Learn more on <RightToCounselFaqsLink />.
+      </Trans>
+    </p>
   </>
 );
 
@@ -254,6 +302,7 @@ export const EvictionFreeDbConfirmation = EvictionFreeRequireLoginStep(
           href={info.pdfLink}
           label={li18n._(t`Download completed declaration`)}
         />
+        <ErapBlurb />
         <OrganizingGroupsBlurb />
         {info.isUserInNyc && (
           <>

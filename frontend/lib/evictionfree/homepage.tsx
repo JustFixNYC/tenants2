@@ -1,13 +1,18 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Page from "../ui/page";
 import { StaticImage } from "../ui/static-image";
+import { EvictionFreeRoutes as Routes } from "./route-info";
+import { EvictionFreeFaqsPreview } from "./faqs";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
-import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
+import { BackgroundImage } from "./components/background-image";
 import { OutboundLink } from "../ui/outbound-link";
+import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
+import classnames from "classnames";
+import { SocialIcons } from "../norent/components/social-icons";
+import { getGlobalAppServerInfo } from "../app-context";
 
-export const MESSAGE_QS = "msg=on";
 export const RTC_WEBSITE_URL = "https://www.righttocounselnyc.org/";
 export const HJ4A_SOCIAL_URL = "https://twitter.com/housing4allNY";
 export const JUSTFIX_WEBSITE_URLS = {
@@ -20,6 +25,8 @@ export const HARDSHIP_DECLARATION_FORM_URLS = {
   es:
     "http://www.nycourts.gov/eefpa/PDF/Eviction_Hardship_Declaration-Spanish.pdf",
 };
+export const getEvictionMoratoriumEndDate = (withoutYear?: boolean) =>
+  withoutYear ? li18n._(t`August 31st`) : li18n._(t`August 31st, 2021`);
 
 type EvictionFreeImageType = "png" | "svg" | "jpg" | "gif";
 
@@ -32,18 +39,84 @@ export function getEFImageSrc(
   return `frontend/img/evictionfree/${fileName}.${type || "svg"}`;
 }
 
-const Message: React.FC<{}> = () => {
-  const location = useLocation();
-
-  if (location.search.includes(MESSAGE_QS)) {
-    return (
-      <div className="notification is-danger">
-        <Trans>This tool has been suspended</Trans>!
-      </div>
-    );
-  }
-  return null;
+const SocialShareContent = {
+  tweet: t(
+    "evictionfree.tweetTemplateForSharingFromHomepage1"
+  )`You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until ${getEvictionMoratoriumEndDate()}. Check it out here: ${
+    getGlobalAppServerInfo().originURL
+  } #EvictionFreeNY via @JustFixNYC @RTCNYC @housing4allNY`,
+  emailSubject: t`Protect yourself from eviction in New York State`,
+  emailBody: t(
+    "evictionfree.emailBodyTemplateForSharingFromHomepage1"
+  )`On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until ${getEvictionMoratoriumEndDate()}. Check it out here: ${
+    getGlobalAppServerInfo().originURL
+  }`,
 };
+
+const FillOutMyFormButton = (props: { isHiddenMobile?: boolean }) => (
+  <span className={classnames(props.isHiddenMobile && "is-hidden-mobile")}>
+    <Link
+      className="button is-primary jf-build-my-declaration-btn jf-is-extra-wide"
+      to={Routes.locale.declaration.latestStep}
+    >
+      <Trans>Fill out my form</Trans>
+    </Link>
+  </span>
+);
+
+export const StickyLetterButtonContainer = (props: {
+  children: React.ReactNode;
+}) => (
+  <div className="jf-sticky-button-container">
+    <div className="jf-sticky-button-menu has-background-white is-hidden-tablet">
+      <FillOutMyFormButton />
+    </div>
+    {props.children}
+  </div>
+);
+
+const ChecklistItem: React.FC<React.PropsWithChildren<{}>> = ({ children }) => (
+  <article className="media">
+    <div className="media-left">
+      <StaticImage
+        ratio="is-32x32"
+        src={getEFImageSrc("checkmark")}
+        alt="You can"
+      />
+    </div>
+    <div className="media-content">{children}</div>
+  </article>
+);
+
+const LandingPageChecklist = () => (
+  <div className="hero">
+    <div className="hero-body">
+      <h2 className="title is-spaced has-text-weight-bold">
+        <Trans>With this free tool, you can</Trans>
+      </h2>
+      <br />
+      <div className="jf-space-below-2rem">
+        <ChecklistItem>
+          <Trans>Fill out your hardship declaration form online</Trans>
+        </ChecklistItem>
+        <ChecklistItem>
+          <Trans>
+            Automatically fill in your landlord's information based on your
+            address if you live in New York City
+          </Trans>
+        </ChecklistItem>
+        <ChecklistItem>
+          <Trans>Send your form by email to your landlord and the courts</Trans>
+        </ChecklistItem>
+        <ChecklistItem>
+          <Trans>
+            Send your form by USPS Certified Mail for free to your landlord
+          </Trans>
+        </ChecklistItem>
+      </div>
+    </div>
+  </div>
+);
 
 export const EvictionFreeHomePage: React.FC<{}> = () => (
   <Page
@@ -54,37 +127,38 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
       <div className="hero-body">
         <div className="columns">
           <div className="column is-three-fifths">
-            <Message />
             <h1 className="title is-spaced">
-              <Trans>Eviction Free NY has been suspended</Trans>
+              <Trans>Protect yourself from eviction in New York State</Trans>
             </h1>
             <p className="subtitle">
-              <Trans id="evictionfree.noticeOfSuddenMoratoriumSuspension">
-                The State law that delays evictions for tenants who submit
-                hardship declarations has been suspended. Learn about your
-                rights, and take action today to protect and expand them
+              <Trans>
+                You can use this website to send a hardship declaration form to
+                your landlord and local courts—putting your eviction case on
+                hold until {getEvictionMoratoriumEndDate()}
               </Trans>
               .
             </p>
             <br />
             <div>
-              <LocalizedOutboundLink
-                hrefs={{
-                  en:
-                    "https://www.righttocounselnyc.org/eviction_protections_during_covid",
-                  es:
-                    "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
-                }}
-              >
-                <div className="button is-primary jf-build-my-declaration-btn jf-is-extra-wide">
-                  <Trans>Learn more</Trans>
-                </div>
-              </LocalizedOutboundLink>
-              <OutboundLink href="https://www.righttocounselnyc.org/take_action_rtc">
-                <div className="button is-primary jf-build-my-declaration-btn jf-is-extra-wide">
-                  <Trans>Take action</Trans>
-                </div>
-              </OutboundLink>
+              <FillOutMyFormButton isHiddenMobile />
+              <div className="jf-evictionfree-byline">
+                <p className="is-size-7">
+                  <Trans>
+                    Made by non-profits{" "}
+                    <OutboundLink href={RTC_WEBSITE_URL}>
+                      Right to Counsel NYC Coalition
+                    </OutboundLink>
+                    ,{" "}
+                    <OutboundLink href={HJ4A_SOCIAL_URL}>
+                      Housing Justice for All
+                    </OutboundLink>
+                    , and{" "}
+                    <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
+                      JustFix.nyc
+                    </LocalizedOutboundLink>
+                  </Trans>
+                </p>
+              </div>
             </div>
           </div>
           <div className="column">
@@ -97,5 +171,151 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
         </div>
       </div>
     </section>
+    <StickyLetterButtonContainer>
+      <section className="hero is-info">
+        <div className="hero-body">
+          <div className="columns is-centered">
+            <div className="column is-four-fifths is-size-3 is-size-4-mobile has-text-centered-tablet">
+              <Trans id="evictionfree.introToLaw">
+                On December 28, 2020, New York State{" "}
+                <OutboundLink href="https://legislation.nysenate.gov/pdf/bills/2019/s9114">
+                  passed legislation
+                </OutboundLink>{" "}
+                that protects tenants from eviction due to lost income or
+                COVID-19 health risks. In order to get protected, you must fill
+                out a{" "}
+                <LocalizedOutboundLink hrefs={HARDSHIP_DECLARATION_FORM_URLS}>
+                  hardship declaration form
+                </LocalizedOutboundLink>{" "}
+                and send it to your landlord and/or the courts.
+              </Trans>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="columns">
+        <div className="column is-half">
+          <LandingPageChecklist />
+        </div>
+        <div>
+          <BackgroundImage src={getEFImageSrc("phone", "gif")} alt="" />
+        </div>
+      </div>
+
+      <div className="columns">
+        <div className="is-hidden-mobile">
+          <BackgroundImage src={getEFImageSrc("buildings", "jpg")} alt="" />
+        </div>
+        <div className="column is-half">
+          <div className="hero">
+            <div className="hero-body">
+              <h2 className="title is-spaced has-text-weight-bold">
+                <Trans>For New York State tenants</Trans>
+              </h2>
+              <p>
+                <Trans id="evictionfree.whoHasRightToSubmitForm">
+                  All tenants in New York State have a right to fill out this
+                  hardship declaration form. Especially if you've been served an
+                  eviction notice or believe you are at risk of being evicted,
+                  please consider using this form to protect yourself.
+                </Trans>
+              </p>
+              <br />
+              <p className="has-text-weight-bold">
+                <Trans>
+                  The protections outlined by NY state law apply to you
+                  regardless of immigration status.
+                </Trans>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="is-hidden-tablet">
+          <BackgroundImage src={getEFImageSrc("buildings", "jpg")} alt="" />
+        </div>
+      </div>
+
+      <div className="columns">
+        <div className="column is-half">
+          <div className="hero">
+            <div className="hero-body">
+              <h2 className="title is-spaced has-text-weight-bold">
+                <Trans>For tenants by tenants</Trans>
+              </h2>
+              <p>
+                <Trans id="evictionfree.whoBuildThisTool">
+                  Our free tool was built by the{" "}
+                  <OutboundLink href={RTC_WEBSITE_URL}>
+                    Right to Counsel NYC Coalition
+                  </OutboundLink>
+                  ,{" "}
+                  <OutboundLink href={HJ4A_SOCIAL_URL}>
+                    Housing Justice for All
+                  </OutboundLink>
+                  , and{" "}
+                  <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
+                    JustFix.nyc
+                  </LocalizedOutboundLink>{" "}
+                  as part of the larger tenant movement across the state.
+                </Trans>
+              </p>
+            </div>
+            <br />
+          </div>
+        </div>
+        <div>
+          <BackgroundImage src={getEFImageSrc("speaker", "jpg")} alt="" />
+        </div>
+      </div>
+
+      <section className="hero has-background-white-ter">
+        <div className="jf-block-of-color-in-background" />
+        <div className="hero-body">
+          <div className="columns is-centered">
+            <div className="column is-three-quarters has-text-centered-tablet">
+              <h2 className="has-text-white	is-spaced has-text-weight-bold">
+                <Trans>Fight to #CancelRent</Trans>
+              </h2>
+              <p className="is-size-3 is-size-4-mobile has-text-white">
+                <Trans>
+                  After sending your hardship declaration form, connect with
+                  local organizing groups to get involved in the fight to make
+                  New York eviction free, cancel rent, and more!
+                </Trans>
+              </p>
+              <br />
+              <span className="is-hidden-mobile">
+                <br />
+                <StaticImage
+                  ratio="is-3by2"
+                  src={getEFImageSrc("protest", "jpg")}
+                  alt=""
+                />
+              </span>
+            </div>
+            <span className="is-hidden-tablet">
+              <BackgroundImage src={getEFImageSrc("protest", "jpg")} alt="" />
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <EvictionFreeFaqsPreview />
+      <section className="hero is-info">
+        <div className="hero-body">
+          <div className="container jf-has-text-centered-tablet">
+            <h2 className="is-spaced has-text-white has-text-weight-bold">
+              <Trans>Share this tool</Trans>
+            </h2>
+            <SocialIcons
+              color="white"
+              customStyleClasses="is-marginless is-inline-flex"
+              socialShareContent={SocialShareContent}
+            />
+          </div>
+        </div>
+      </section>
+    </StickyLetterButtonContainer>
   </Page>
 );

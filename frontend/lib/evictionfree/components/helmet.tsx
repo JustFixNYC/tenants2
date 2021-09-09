@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Helmet } from "react-helmet-async";
-import { getEFImageSrc } from "../homepage";
+import { getEFImageSrc, getEvictionMoratoriumEndDate } from "../homepage";
 import { useSiteName } from "../../ui/page";
 import { AppContext } from "../../app-context";
 import { li18n } from "../../i18n-lingui";
@@ -14,7 +14,7 @@ const TWITTER_HANDLE = "@JustFixNYC";
 
 const description = () =>
   li18n._(
-    t`You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until August 31st, 2021.`
+    t`You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until ${getEvictionMoratoriumEndDate()}.`
   );
 const keywords = () =>
   li18n._(

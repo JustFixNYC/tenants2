@@ -27,6 +27,7 @@ import { li18n } from "../i18n-lingui";
 import { efnycURL } from "../ui/efnyc-link";
 import { fbq } from "../analytics/facebook-pixel";
 import { CovidEhpDisclaimerText } from "../ui/covid-banners";
+import { getEvictionMoratoriumEndDate } from "../evictionfree/homepage";
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
@@ -453,7 +454,8 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     const covidMessage = (
       <Trans id="justfix.ddoEfnycCovidMessage1">
         You can send a hardship declaration form to your landlord and local
-        courts—putting your eviction case on hold until August 31st, 2021.
+        courts—putting your eviction case on hold until{" "}
+        {getEvictionMoratoriumEndDate()}.
       </Trans>
     );
     return {

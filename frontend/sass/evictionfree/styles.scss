@@ -79,7 +79,6 @@ $max-content-width: 1440px;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 200;
-  margin: 0 2rem 2rem 0;
 }
 
 .jf-background-image.image {
@@ -109,9 +108,6 @@ $max-content-width: 1440px;
   .column {
     &.is-half .hero {
       height: 100%;
-    }
-    a {
-      text-decoration: none;
     }
     .hero .hero-body {
       padding: 3rem 4rem;
@@ -233,7 +229,7 @@ html:lang(es) nav.navbar .navbar-item {
   h1.title {
     line-height: 1.15;
     @include touch {
-      font-size: 2.8rem;
+      font-size: 3rem;
       line-height: 1;
     }
   }

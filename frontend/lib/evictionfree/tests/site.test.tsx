@@ -15,7 +15,9 @@ describe("EvictionFreeSite", () => {
   it("renders home page", async () => {
     const pal = new AppTesterPal(route, { url: "/en/" });
     await waitFor(() =>
-      pal.rr.getByText(/take action today to protect and expand them/i)
+      pal.rr.getByText(
+        /You can use this website to send a hardship declaration/i
+      )
     );
   });
 });

@@ -2744,7 +2744,7 @@ msgid "evictionfree.emailBodyTemplateForSharingFromHomepage1"
 msgstr "On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until {0}. Check it out here: {1}"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:120
-msgid "evictionfree.faqListOfHowToConnectWithLawyer1"
+msgid "evictionfree.faqListOfHowToConnectWithLawyer"
 msgstr "<0><1>Call Housing Court Answers at <2>718 557-1379</2> or <3>212 962-4795</3> from Monday - Friday, 9am - 5pm</1><4>Call <5>311</5> and ask for the Tenant Helpline</4><6>Email OCJ (Office of Civil Justice) at <7>civiljustice@hra.nyc.gov</7>. Please provide a name, telephone number, and Housing Court case index number for your eviction case (if known) in your email.</6></0>"
 
 #: frontend/lib/evictionfree/faqs.tsx:54

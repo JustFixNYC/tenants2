@@ -2749,7 +2749,7 @@ msgid "evictionfree.emailBodyTemplateForSharingFromHomepage1"
 msgstr ""
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:120
-msgid "evictionfree.faqListOfHowToConnectWithLawyer1"
+msgid "evictionfree.faqListOfHowToConnectWithLawyer"
 msgstr ""
 
 #: frontend/lib/evictionfree/faqs.tsx:54

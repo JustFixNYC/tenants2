@@ -221,6 +221,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     question: li18n._(
       t`Who is not protected by NY's COVID-19 Tenant Protection Laws?`
     ),
+    priorityInPreview: 6,
     answer: (
       <p>
         <Trans id="evictionfree.whoIsNotProtectedFaq">

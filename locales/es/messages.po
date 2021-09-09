@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-09-09 13:35\n"
+"PO-Revision-Date: 2021-09-09 13:53\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2817,7 +2817,7 @@ msgstr "Puedes enviar un formulario de declaración de penurias al dueño de tu 
 
 #: frontend/lib/ui/covid-banners.tsx:91
 msgid "justfix.ddoEhpaDeactivatedMessage"
-msgstr "A partir de junio de 2021, La Corte de Vivienda ha impedido que los inquilinos demanden a sus dueños a través de la herramienta HP Action de JustFix.nyc. Para aprender cómo presentar una Acción de HP ahora, lea nuestra <0>artículo de Medium</0>. Para aprender más acera de Acciones de HP y encontrar una lista de proveedores legales, viste <1>Housing Court Answers</1>."
+msgstr "A partir de junio de 2021, La Corte de Vivienda ha impedido que los inquilinos demanden a sus dueños a través de la herramienta HP Action de JustFix.nyc. Para aprender cómo presentar una Acción de HP ahora, lee nuestra <0>artículo de Medium</0>. Para aprender más acera de Acciones de HP y encontrar una lista de proveedores legales, visita <1>Housing Court Answers</1>."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:232
 msgid "justfix.ddoLocCovidMessage"

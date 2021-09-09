@@ -6,6 +6,7 @@ import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
 import {
   getEvictionMoratoriumEndDate,
   HARDSHIP_DECLARATION_FORM_URLS,
+  RTC_FAQS_PAGE_URLS,
 } from "../homepage";
 
 export type EvictionFreeFaq = {
@@ -15,12 +16,7 @@ export type EvictionFreeFaq = {
 };
 
 export const RightToCounselFaqsLink = () => (
-  <LocalizedOutboundLink
-    hrefs={{
-      en: "https://www.righttocounselnyc.org/eviction_protections_during_covid",
-      es: "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
-    }}
-  >
+  <LocalizedOutboundLink hrefs={RTC_FAQS_PAGE_URLS}>
     <Trans>Right to Counsel's FAQ page</Trans>
   </LocalizedOutboundLink>
 );

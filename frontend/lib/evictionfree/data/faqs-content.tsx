@@ -146,9 +146,28 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     priorityInPreview: 3,
     answer: (
       <p>
-        <Trans>
-          Visit <RightToCounselFaqsLink /> for information on how to connect
-          with a lawyer.
+        <Trans id="evictionfree.faqListOfHowToConnectWithLawyer">
+          <ul>
+            <li>
+              Call Housing Court Answers at{" "}
+              <OutboundLink href="tel:+17185571379">718 557-1379</OutboundLink>{" "}
+              or{" "}
+              <OutboundLink href="tel:+12129624795">212 962-4795</OutboundLink>{" "}
+              from Monday - Friday, 9am - 5pm
+            </li>
+            <li>
+              Call <OutboundLink href="tel:+1311">311</OutboundLink> and ask for
+              the Tenant Helpline
+            </li>
+            <li>
+              Email OCJ (Office of Civil Justice) at{" "}
+              <OutboundLink href="mailto:civiljustice@hra.nyc.gov">
+                civiljustice@hra.nyc.gov
+              </OutboundLink>
+              . Please provide a name, telephone number, and Housing Court case
+              index number for your eviction case (if known) in your email.
+            </li>
+          </ul>
         </Trans>
       </p>
     ),
@@ -161,6 +180,59 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
         <Trans>
           Yes, the protections outlined by New York State law apply to you
           regardless of immigration status.
+        </Trans>
+      </p>
+    ),
+  },
+  {
+    question: li18n._(t`Can my landlord challenge my hardship declaration?`),
+    priorityInPreview: 5,
+    answer: (
+      <Trans id="evictionFree.canLandlordChallengeDeclarationFaq">
+        <p>
+          YES. THIS IS NEW. Landlords now have the right to challenge the
+          validity of a tenants’ hardship declaration. To do this, landlords can
+          file a motion with the court, stating they don’t believe the tenant
+          has the hardship they claimed in their Hardship Declaration. If this
+          happens, the Court will then grant a hearing to determine the validity
+          of the tenant's hardship claim and tenants will need to show proof of
+          the hardship they claimed in their Declaration. In NYC,{" "}
+          <b>
+            tenants will be assigned an attorney through Right to Counsel for
+            these hearings
+          </b>
+          .
+        </p>
+        <p>
+          If the court decides that the tenant proved their hardship claim, then
+          their case/eviction remains paused until at least{" "}
+          {getEvictionMoratoriumEndDate}. The court will direct the parties to
+          apply to ERAP if it seems like the tenant is eligible and they haven't
+          yet applied.
+        </p>
+        <p>
+          If the court decides that the tenant is NOT experiencing hardship,
+          then their case and eviction can move forward.
+        </p>
+      </Trans>
+    ),
+  },
+  {
+    question: li18n._(
+      t`Who is not protected by NY's COVID-19 Tenant Protection Laws?`
+    ),
+    answer: (
+      <p>
+        <Trans id="evictionfree.whoIsNotProtectedFaq">
+          If a landlord claims that a tenant is a nuisance, meaning they say a
+          tenant “persistently behaves in a way that substantially infringes on
+          the use or enjoyment of other tenants OR that causes substantial
+          safety hazards to others,” or that a tenant intentionally caused
+          significant damage to the apartment, then the tenant is not protected
+          by this law. Remember, a landlord would have to show this in court. If
+          they can’t and the tenant filled out the hardship declaration form,
+          then the eviction is delayed until at least{" "}
+          {getEvictionMoratoriumEndDate}.
         </Trans>
       </p>
     ),

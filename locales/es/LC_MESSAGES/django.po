@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-16 22:22+0000\n"
-"PO-Revision-Date: 2021-08-16 23:29\n"
+"POT-Creation-Date: 2021-09-01 14:04+0000\n"
+"PO-Revision-Date: 2021-09-08 17:12\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -61,10 +61,6 @@ msgstr "¡Aún no has proporcionado detalles para tu formulario de declaración 
 #: evictionfree/schema.py:118
 msgid "This form can only be used from the Eviction Free NY site."
 msgstr "Este formulario sólo se puede utilizar desde el sitio web Eviction Free NY."
-
-#: evictionfree/schema.py:125
-msgid "This tool has been suspended! Please reload the page for more details."
-msgstr "¡Esta herramienta ha sido suspendida! Por favor, recarga la página para más detalles."
 
 #: frontend/templates/frontend/safe_mode_ui.html:9
 msgid "This site is currently in <strong>compatibility mode</strong>. For an enhanced experience, you can disable it, but this may cause compatibility issues with your current browser."

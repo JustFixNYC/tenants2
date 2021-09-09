@@ -27,7 +27,6 @@ import { li18n } from "../i18n-lingui";
 import { efnycURL } from "../ui/efnyc-link";
 import { fbq } from "../analytics/facebook-pixel";
 import { CovidEhpDisclaimerText } from "../ui/covid-banners";
-import { LEGAL_REFERRAL_GOOGLE_FORM_URL } from "../hpaction/emergency/routes";
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
@@ -411,11 +410,6 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
       indicators: [emergencyCovidMessage],
       fallbackMessage: emergencyCovidMessage,
       imageStaticURL: "frontend/img/ddo/legal.svg",
-      cta: {
-        to: LEGAL_REFERRAL_GOOGLE_FORM_URL,
-        gaLabel: "hp",
-        text: li18n._(t`Request a legal referral`),
-      },
     };
   },
   function rentHistory(data): ActionCardProps {

@@ -146,7 +146,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     priorityInPreview: 3,
     answer: (
       <p>
-        <Trans id="evictionfree.faqListOfHowToConnectWithLawyer">
+        <Trans id="evictionfree.faqListOfHowToConnectWithLawyer1">
           <ul>
             <li>
               Call Housing Court Answers at{" "}

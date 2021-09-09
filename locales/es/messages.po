@@ -107,7 +107,7 @@ msgstr "<0>Tu cuenta está configurada.</0><1>Actualmente, no recomendamos envia
 msgid "A PDF of your form is attached to this email. Please save a copy for your records."
 msgstr "Adjunto a este correo electrónico encontrarás un PDF de tu formulario. Conserva una copia para tus archivos."
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:179
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:178
 msgid "A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case."
 msgstr ""
 
@@ -414,7 +414,7 @@ msgstr "Marque cualquiera o todas las casillas que apliquen. Nota: Para califica
 msgid "Check out these valuable resources for your state:"
 msgstr "Explora otros recursos específicos para tu estado:"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:191
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:190
 msgid "Check your email for a message containing a copy of your declaration and additional important information on next steps."
 msgstr ""
 
@@ -547,7 +547,7 @@ msgstr "Estimado dueño/manager del edificio."
 msgid "Delaware"
 msgstr "Delaware"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:198
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:197
 msgid "Details about your declaration"
 msgstr "Detalles sobre tu declaración"
 
@@ -610,7 +610,7 @@ msgstr "Puerta no funciona"
 msgid "Doorbell not working"
 msgstr "El timbre de la casa no funciona"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:213
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:212
 msgid "Download completed declaration"
 msgstr "Descargar declaración completada"
 
@@ -622,7 +622,7 @@ msgstr "Desagüe atascado"
 msgid "Dryer not working"
 msgstr "Secadora no funciona"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:139
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:138
 msgid "Due to the COVID-19 pandemic, some offices are closed and may not answer phones."
 msgstr "Debido a la pandemia del COVID-19, algunas oficinas están cerradas y pueden no contestar a los teléfonos."
 
@@ -1101,8 +1101,8 @@ msgid "Join our <0/>mailing list"
 msgstr "¡Únete a nuestra <0/>lista de distribución!"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:123
-msgid "Join the fight to cancel rent"
-msgstr "Únete a la lucha para cancelar el alquiler"
+msgid "Join the tenant movement"
+msgstr ""
 
 #: frontend/lib/ui/footer.tsx:27
 msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
@@ -2115,11 +2115,11 @@ msgstr "Inodoro con Fugas"
 msgid "Toilet not working"
 msgstr "Inodoro No Funciona"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:147
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:146
 msgid "USPS Certified Mail"
 msgstr "Correo Certificado de USPS"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:205
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:204
 #: frontend/lib/norent/letter-builder/confirmation.tsx:89
 msgid "USPS Tracking #:"
 msgstr "Número de Seguimiento USPS:"
@@ -2172,7 +2172,7 @@ msgstr "Vermont"
 msgid "View details about your last letter"
 msgstr "Ver detalles sobre tu última carta"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:134
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:133
 msgid "View list of organizations"
 msgstr "Ver lista de organizaciones"
 
@@ -2540,7 +2540,7 @@ msgstr "Ya has enviado cartas que corresponden a todos los meses desde que comen
 msgid "You've already sent your hardship declaration"
 msgstr "Ya has enviado tu declaración de penuria"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:173
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:172
 msgid "You've sent your hardship declaration"
 msgstr ""
 
@@ -2609,7 +2609,7 @@ msgstr "¡Tu declaración está lista para enviar!"
 msgid "Your email address"
 msgstr "Tu dirección de correo electrónico"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:175
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:174
 msgid "Your hardship declaration form has been sent to your landlord via {0}."
 msgstr ""
 
@@ -2657,7 +2657,7 @@ msgstr "Tu carta ha sido enviada al dueño de tu edificio por correo certificado
 msgid "Your letter has been sent to your landlord via email. A copy of your letter has also been sent to your email."
 msgstr "Tu carta ha sido enviada al dueño o manager de tu edificio por correo certificado de USPS. También hemos enviado una copia de tu carta a tu dirección de correo electrónico."
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:201
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:200
 #: frontend/lib/norent/letter-builder/confirmation.tsx:83
 msgid "Your letter was sent on {0}."
 msgstr "Tu carta fue enviada el {0}."
@@ -2696,11 +2696,11 @@ msgstr "Código postal"
 msgid "and"
 msgstr "y"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:146
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:145
 msgid "email"
 msgstr "correo electrónico"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:148
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:147
 msgid "email and USPS Certified Mail"
 msgstr "email y correo certificado por USPS"
 
@@ -2728,7 +2728,7 @@ msgstr "Estas últimas preguntas son para asegurarse de que entiendes los límit
 msgid "evictionfree.askForEmail"
 msgstr "Utilizaremos esta información para enviarte una copia de tu declaración. Si es posible, también te reenviaremos el correo electrónico de parte de la corte cuando hayan recibido tu formulario de declaración."
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:183
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:182
 msgid "evictionfree.confirmationNoEmailToCourtYet"
 msgstr ""
 
@@ -2749,7 +2749,7 @@ msgid "evictionfree.emailBodyTemplateForSharingFromHomepage1"
 msgstr ""
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:120
-msgid "evictionfree.faqListOfHowToConnectWithLawyer"
+msgid "evictionfree.faqListOfHowToConnectWithLawyer1"
 msgstr ""
 
 #: frontend/lib/evictionfree/faqs.tsx:54
@@ -2765,8 +2765,8 @@ msgid "evictionfree.financialHardshipExplainer2"
 msgstr "<0>Perdida significativa de ingresos del hogar durante la pandemia COVID-19.</0><1>Aumento en gastos corrientes necesarios relacionados con la realización de trabajo esencial o relacionados con el impacto sobre la salud durante la pandemia COVID-19.</1><2>Las responsabilidades de cuidado diurno para menores o el cuidado de familiares ancianos, discapacitados o enfermos durante la pandemia COVID-19 han impactado negativamente sobre mi capacidad o la capacidad de otros integrantes del hogar de obtener empleo significativo, ganar ingresos, o han aumentado los gastos.</2><3>Es difícil mudarme debido a los gastos de mudanza y la dificultad en conseguir una vivienda alterna u otra residencia durante la pandemia COVID-19.</3><4>Otras circunstancias relacionadas con la pandemia COVID-19 han impactado negativamente mi capacidad de obtener empleo significativo o ganar ingresos o los ingresos del hogar han reducido significativamente o han aumentado significativamente mis gastos.</4><5>En la medida en que he perdido ingresos en el hogar o han aumentado los gastos, el ingreso recibido, sea por asistencia pública, incluso el seguro de desempleo, asistencia por desempleo por causa de la pandemia, el seguro por discapacidad o la licencia familiar pagada, que haya recibido desde el comienzo de la pandemia COVID-19 no compensa en su totalidad la pérdida de ingresos del hogar o el aumento de los gastos.</5>"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:126
-msgid "evictionfree.getInvolvedWithCBO"
-msgstr "¡Involúcrate con la organización local de tu comunidad! Únete a millones en la lucha por un futuro libre de deuda y para ganar una cancelación de renta, hipotecas y utilidades."
+msgid "evictionfree.getInvolvedWithCBO2"
+msgstr ""
 
 #: frontend/lib/evictionfree/about.tsx:102
 msgid "evictionfree.hj4aBlurb"

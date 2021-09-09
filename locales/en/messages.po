@@ -102,7 +102,7 @@ msgstr "<0>Your account is set up.</0><1>We do not currently recommend sending t
 msgid "A PDF of your form is attached to this email. Please save a copy for your records."
 msgstr "A PDF of your form is attached to this email. Please save a copy for your records."
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:179
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:178
 msgid "A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case."
 msgstr "A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case."
 
@@ -409,7 +409,7 @@ msgstr "Check any or all that apply. Note: You <0>must select at least one box</
 msgid "Check out these valuable resources for your state:"
 msgstr "Check out these valuable resources for your state:"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:191
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:190
 msgid "Check your email for a message containing a copy of your declaration and additional important information on next steps."
 msgstr "Check your email for a message containing a copy of your declaration and additional important information on next steps."
 
@@ -542,7 +542,7 @@ msgstr "Dear Landlord/Management."
 msgid "Delaware"
 msgstr "Delaware"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:198
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:197
 msgid "Details about your declaration"
 msgstr "Details about your declaration"
 
@@ -605,7 +605,7 @@ msgstr "Door not working"
 msgid "Doorbell not working"
 msgstr "Doorbell not working"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:213
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:212
 msgid "Download completed declaration"
 msgstr "Download completed declaration"
 
@@ -617,7 +617,7 @@ msgstr "Drain stoppage"
 msgid "Dryer not working"
 msgstr "Dryer not working"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:139
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:138
 msgid "Due to the COVID-19 pandemic, some offices are closed and may not answer phones."
 msgstr "Due to the COVID-19 pandemic, some offices are closed and may not answer phones."
 
@@ -1096,8 +1096,8 @@ msgid "Join our <0/>mailing list"
 msgstr "Join our <0/>mailing list"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:123
-msgid "Join the fight to cancel rent"
-msgstr "Join the fight to cancel rent"
+msgid "Join the tenant movement"
+msgstr "Join the tenant movement"
 
 #: frontend/lib/ui/footer.tsx:27
 msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
@@ -2110,11 +2110,11 @@ msgstr "Toilet leaking"
 msgid "Toilet not working"
 msgstr "Toilet not working"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:147
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:146
 msgid "USPS Certified Mail"
 msgstr "USPS Certified Mail"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:205
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:204
 #: frontend/lib/norent/letter-builder/confirmation.tsx:89
 msgid "USPS Tracking #:"
 msgstr "USPS Tracking #:"
@@ -2167,7 +2167,7 @@ msgstr "Vermont"
 msgid "View details about your last letter"
 msgstr "View details about your last letter"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:134
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:133
 msgid "View list of organizations"
 msgstr "View list of organizations"
 
@@ -2535,7 +2535,7 @@ msgstr "You've already sent letters for all of the months since COVID-19 started
 msgid "You've already sent your hardship declaration"
 msgstr "You've already sent your hardship declaration"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:173
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:172
 msgid "You've sent your hardship declaration"
 msgstr "You've sent your hardship declaration"
 
@@ -2604,7 +2604,7 @@ msgstr "Your declaration is ready to send!"
 msgid "Your email address"
 msgstr "Your email address"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:175
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:174
 msgid "Your hardship declaration form has been sent to your landlord via {0}."
 msgstr "Your hardship declaration form has been sent to your landlord via {0}."
 
@@ -2652,7 +2652,7 @@ msgstr "Your letter has been mailed to your landlord via USPS Certified Mail. A 
 msgid "Your letter has been sent to your landlord via email. A copy of your letter has also been sent to your email."
 msgstr "Your letter has been sent to your landlord via email. A copy of your letter has also been sent to your email."
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:201
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:200
 #: frontend/lib/norent/letter-builder/confirmation.tsx:83
 msgid "Your letter was sent on {0}."
 msgstr "Your letter was sent on {0}."
@@ -2691,11 +2691,11 @@ msgstr "Zip code"
 msgid "and"
 msgstr "and"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:146
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:145
 msgid "email"
 msgstr "email"
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:148
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:147
 msgid "email and USPS Certified Mail"
 msgstr "email and USPS Certified Mail"
 
@@ -2723,7 +2723,7 @@ msgstr "These last questions make sure that you understand the limits of the pro
 msgid "evictionfree.askForEmail"
 msgstr "We'll use this information to email you a copy of your hardship declaration form. If possible, we’ll also forward you any confirmation emails from the courts once they receive your declaration form."
 
-#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:183
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:182
 msgid "evictionfree.confirmationNoEmailToCourtYet"
 msgstr "A copy of the declaration will also be sent to your local court via email—we are determining the appropriate court to receive your declaration. We will notify you via text and on this page when it is sent."
 
@@ -2744,7 +2744,7 @@ msgid "evictionfree.emailBodyTemplateForSharingFromHomepage1"
 msgstr "On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until {0}. Check it out here: {1}"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:120
-msgid "evictionfree.faqListOfHowToConnectWithLawyer"
+msgid "evictionfree.faqListOfHowToConnectWithLawyer1"
 msgstr "<0><1>Call Housing Court Answers at <2>718 557-1379</2> or <3>212 962-4795</3> from Monday - Friday, 9am - 5pm</1><4>Call <5>311</5> and ask for the Tenant Helpline</4><6>Email OCJ (Office of Civil Justice) at <7>civiljustice@hra.nyc.gov</7>. Please provide a name, telephone number, and Housing Court case index number for your eviction case (if known) in your email.</6></0>"
 
 #: frontend/lib/evictionfree/faqs.tsx:54
@@ -2760,8 +2760,8 @@ msgid "evictionfree.financialHardshipExplainer2"
 msgstr "<0>Significant loss of household income during the COVID-19 pandemic.</0><1>Increase in necessary out-of-pocket expenses related to performing essential work or related to health impacts during the COVID-19 pandemic.</1><2>Childcare responsibilities or responsibilities to care for an elderly, disabled, or sick family member during the COVID-19 pandemic have negatively affected your ability or the ability of someone in your household to obtain meaningful employment or earn income or increased your necessary out-of-pocket expenses.</2><3>Moving expenses and difficulty you have securing alternative housing make it a hardship for you to relocate to another residence during the COVID-19 pandemic.</3><4>Other circumstances related to the COVID-19 pandemic have negatively affected your ability to obtain meaningful employment or earn income or have significantly reduced your household income or significantly increased your expenses.</4><5>To the extent that you have lost household income or had increased expenses, any public assistance, including unemployment insurance, pandemic unemployment assistance, disability insurance, or paid family leave, that you have received since the start of the COVID-19 pandemic does not fully make up for your loss of household income or increased expenses.</5>"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:126
-msgid "evictionfree.getInvolvedWithCBO"
-msgstr "Get involved in your local community organization! Join millions in the fight for a future free from debt and to win a cancelation of rent, mortgage and utility payments."
+msgid "evictionfree.getInvolvedWithCBO2"
+msgstr "Get involved in your local community organization! Join thousands in the fight for an Eviction Free NY!"
 
 #: frontend/lib/evictionfree/about.tsx:102
 msgid "evictionfree.hj4aBlurb"

@@ -172,13 +172,12 @@ const OrganizingGroupsBlurb = () => (
   <>
     {" "}
     <h2 className={H2_CLASSNAME}>
-      <Trans>Join the fight to cancel rent</Trans>
+      <Trans>Join the tenant movement</Trans>
     </h2>
     <p>
-      <Trans id="evictionfree.getInvolvedWithCBO">
-        Get involved in your local community organization! Join millions in the
-        fight for a future free from debt and to win a cancelation of rent,
-        mortgage and utility payments.
+      <Trans id="evictionfree.getInvolvedWithCBO2">
+        Get involved in your local community organization! Join thousands in the
+        fight for an Eviction Free NY!
       </Trans>
     </p>
     <p className="has-text-centered">

@@ -206,7 +206,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
         <p>
           If the court decides that the tenant proved their hardship claim, then
           their case/eviction remains paused until at least{" "}
-          {getEvictionMoratoriumEndDate}. The court will direct the parties to
+          {getEvictionMoratoriumEndDate()}. The court will direct the parties to
           apply to ERAP if it seems like the tenant is eligible and they haven't
           yet applied.
         </p>
@@ -233,7 +233,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
           by this law. Remember, a landlord would have to show this in court. If
           they can’t and the tenant filled out the hardship declaration form,
           then the eviction is delayed until at least{" "}
-          {getEvictionMoratoriumEndDate}.
+          {getEvictionMoratoriumEndDate()}.
         </Trans>
       </p>
     ),

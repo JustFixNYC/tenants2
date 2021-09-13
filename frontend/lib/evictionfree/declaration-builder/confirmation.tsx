@@ -105,13 +105,15 @@ const HcaHotlineBlurb = () => (
 const SocialShareContent = {
   tweet: t(
     "evictionfree.tweetTemplateForSharingFromConfirmation1"
-  )`I just used this website to send a hardship declaration form to my landlord and local courts—putting any eviction case on hold until ${getEvictionMoratoriumEndDate()}. Check it out here: ${getGlobalAppServerInfo().originURL
-    } #EvictionFreeNY via @JustFixNYC @RTCNYC @housing4allNY`,
+  )`I just used this website to send a hardship declaration form to my landlord and local courts—putting any eviction case on hold until ${getEvictionMoratoriumEndDate()}. Check it out here: ${
+    getGlobalAppServerInfo().originURL
+  } #EvictionFreeNY via @JustFixNYC @RTCNYC @housing4allNY`,
   emailSubject: t`Protect yourself from eviction in New York State`,
   emailBody: t(
     "evictionfree.emailBodyTemplateForSharingFromConfirmation1"
-  )`On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. I just used this website to send a hardship declaration form to my landlord and local courts—putting any eviction case on hold until ${getEvictionMoratoriumEndDate()}. Check it out here: ${getGlobalAppServerInfo().originURL
-    }`,
+  )`On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. I just used this website to send a hardship declaration form to my landlord and local courts—putting any eviction case on hold until ${getEvictionMoratoriumEndDate()}. Check it out here: ${
+    getGlobalAppServerInfo().originURL
+  }`,
 };
 
 const ShareThisTool = () => (

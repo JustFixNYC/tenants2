@@ -162,7 +162,7 @@ msgstr "After this step, you cannot go back to make changes. But don’t worry, 
 msgid "After you’ve reviewed your letter, we send it to your landlord on your behalf by email and by certified mail, depending on the contact information that you provide us."
 msgstr "After you’ve reviewed your letter, we send it to your landlord on your behalf by email and by certified mail, depending on the contact information that you provide us."
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:10
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:11
 msgid "Agree to the state’s legal terms"
 msgstr "Agree to the state’s legal terms"
 
@@ -947,7 +947,7 @@ msgstr "I live in another state that isn’t New York. Is this tool for me?"
 msgid "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
 msgstr "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:21
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:22
 msgid "I understand that I must comply with all other lawful terms under my tenancy, lease agreement or similar contract."
 msgstr "I understand that I must comply with all other lawful terms under my tenancy, lease agreement or similar contract."
 
@@ -2711,7 +2711,7 @@ msgstr "A new State law, passed in late 2020 and extended in 2021, allows most t
 msgid "evictionfree.aboutPageText3"
 msgstr "Our website helps tenants submit this hardship declaration form with peace of mind—sending it out via free USPS Certified Mail and email to all of the appropriate parties (your landlord and the courts) to ensure protection. And since the law doesn’t go far enough to protect folks beyond {0}, our tool connects tenants to the larger tenant movement so we can #CancelRent."
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:12
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:13
 msgid "evictionfree.agreeToStateTermsIntro"
 msgstr "These last questions make sure that you understand the limits of the protection granted by this hardship declaration form, and that you answered the previous questions truthfully:"
 
@@ -2783,13 +2783,17 @@ msgstr "<0>JustFix.nyc</0> co-designs and builds tools for tenants, housing orga
 msgid "evictionfree.landlordRetaliationWarning"
 msgstr "It’s possible that your landlord will retaliate once they’ve received your declaration. This is illegal. Contact the City's Tenant Helpline (which can provide free advice and legal counsel to tenants) by <0>calling 311</0>"
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:27
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:28
 msgid "evictionfree.legalAgreementCheckboxOnFees"
 msgstr "I further understand that lawful fees, penalties or interest for not having paid rent in full or met other financial obligations as required by my tenancy, lease agreement or similar contract may still be charged or collected and may result in a monetary judgment against me."
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:36
-msgid "evictionfree.legalAgreementCheckboxOnNewProtections3"
-msgstr "I further understand that my landlord may be able to seek eviction after August 31, 2021, and that the law may provide certain protections at that time that are separate from those available through this declaration."
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:37
+msgid "evictionfree.legalAgreementCheckboxOnLandlordChallenge"
+msgstr "I further understand that my landlord may request a hearing to challenge the certification of hardship made herein, and that I will have the opportunity to participate in any proceedings regarding my tenancy."
+
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:45
+msgid "evictionfree.legalAgreementCheckboxOnNewProtections4"
+msgstr "I further understand that my landlord may be able to seek eviction after {0}, and that the law may provide certain protections at that time that are separate from those available through this declaration."
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23
 msgid "evictionfree.outlineOfDeclarationFormSteps"

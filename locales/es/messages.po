@@ -167,7 +167,7 @@ msgstr "Después de este paso, no puedes volver a hacer cambios. Pero no te preo
 msgid "After you’ve reviewed your letter, we send it to your landlord on your behalf by email and by certified mail, depending on the contact information that you provide us."
 msgstr "Después de que hayas revisado tu carta, la enviaremos a tu arrendador por correo electrónico y por correo certificado, según la información de contacto que nos hayas proporcionado."
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:10
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:11
 msgid "Agree to the state’s legal terms"
 msgstr "Aceptar los términos legales del estado"
 
@@ -952,7 +952,7 @@ msgstr "No vivo en el estado de Nueva York. ¿Puedo igual usar esta herramienta?
 msgid "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
 msgstr "Entiendo que estoy firmando y enviando este formulario bajo pena de ley. Sé que es ilegal hacer a sabiendas una declaración falsa en este formulario."
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:21
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:22
 msgid "I understand that I must comply with all other lawful terms under my tenancy, lease agreement or similar contract."
 msgstr "Entiendo que debo cumplir con todos los demás términos legales de mi contrato de alquiler y tenencia o contrato semejante."
 
@@ -2716,7 +2716,7 @@ msgstr "Una nueva ley estatal, aprobada a finales de 2020 y extendida en 2021, p
 msgid "evictionfree.aboutPageText3"
 msgstr "Nuestro sitio web ayuda a los inquilinos a presentar este formulario de declaración de dificultades con total tranquilidad: enviándolo por correo certificado de USPS y por correo electrónico gratuito a todas las entidades necesarias (el dueño de tu edificio y los tribunales) para garantizar la protección. Y dado que la ley no va lo suficientemente lejos para proteger a la gente más allá del 31 de agosto, nuestra herramienta conecta a los inquilinos con el movimiento de inquilinos más grande para que podamos #CancelRent."
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:12
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:13
 msgid "evictionfree.agreeToStateTermsIntro"
 msgstr "Estas últimas preguntas son para asegurarse de que entiendes los límites de la protección concedida por este formulario de declaración de penuria, y de que contestaste a las preguntas anteriores con veracidad:"
 
@@ -2788,13 +2788,17 @@ msgstr "<0>JustFix.nyc</0> codiseña y construye herramientas para inquilinos, o
 msgid "evictionfree.landlordRetaliationWarning"
 msgstr "Puede que el dueño de tu edificio tome represalias una vez que haya recibido tu declaración. Esto es ilegal. Ponte en contacto con la Línea de Ayuda del Inquilino de la Ciudad (que puede proporcionar consejo gratuito y asesoramiento legal a los inquilinos) llamando al <0>311</0>"
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:27
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:28
 msgid "evictionfree.legalAgreementCheckboxOnFees"
 msgstr "Además, entiendo que los honorarios, multas o intereses legales por impago total de alquiler o por no haber cumplido con otras obligaciones financieras según requerido por mi tenencia, contrato de alquiler o contrato semejante aún podrán cobrarse y resultar en un fallo monetario en mi contra."
 
-#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:36
-msgid "evictionfree.legalAgreementCheckboxOnNewProtections3"
-msgstr "Además, entiendo que mi casero puede solicitar el desalojo después del 31 de agosto del 2021 y que la ley puede proporcionarle, en ese momento, ciertas protecciones independientes disponibles a través de esta declaración."
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:37
+msgid "evictionfree.legalAgreementCheckboxOnLandlordChallenge"
+msgstr ""
+
+#: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:45
+msgid "evictionfree.legalAgreementCheckboxOnNewProtections4"
+msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23
 msgid "evictionfree.outlineOfDeclarationFormSteps"

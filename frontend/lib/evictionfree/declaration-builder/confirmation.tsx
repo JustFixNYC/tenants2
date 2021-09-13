@@ -15,7 +15,6 @@ import { MessageDescriptor } from "@lingui/core";
 import { SocialIcons } from "../../norent/components/social-icons";
 import { EnglishOutboundLink } from "../../ui/localized-outbound-link";
 import { RightToCounselFaqsLink } from "../data/faqs-content";
-import { emit } from "process";
 
 export const HCA_HOTLINE_PHONE_LINK = "tel:+12129624795";
 

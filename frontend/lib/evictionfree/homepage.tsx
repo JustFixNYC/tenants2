@@ -30,7 +30,7 @@ export const RTC_FAQS_PAGE_URLS = {
   es: "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
 };
 export const getEvictionMoratoriumEndDate = (withoutYear?: boolean) =>
-  withoutYear ? li18n._(t`January 15th`) : li18n._(t`January 15th, 2022`);
+  withoutYear ? li18n._(t`January 15`) : li18n._(t`January 15, 2022`);
 
 type EvictionFreeImageType = "png" | "svg" | "jpg" | "gif";
 

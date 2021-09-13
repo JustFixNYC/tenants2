@@ -15,6 +15,7 @@ import { MessageDescriptor } from "@lingui/core";
 import { SocialIcons } from "../../norent/components/social-icons";
 import { EnglishOutboundLink } from "../../ui/localized-outbound-link";
 import { RightToCounselFaqsLink } from "../data/faqs-content";
+import { emit } from "process";
 
 export const HCA_HOTLINE_PHONE_LINK = "tel:+12129624795";
 
@@ -134,23 +135,32 @@ const ErapBlurb = () => (
       <Trans>Can't pay rent?</Trans>
     </h2>
     <p>
-      <Trans>
+      <Trans id="evictionfree.erapBlurbOnConfirmation">
         You are not alone. Over a million New Yorkers cannot pay rent. New York
         State now has a rental relief program, the Emergency Rental Assistance
-        Program (ERAP).
+        Program (ERAP). If you apply for ERAP,{" "}
+        <b>your landlord cannot start a new eviction case</b> against you and
+        any current eviction case will be paused.
       </Trans>
     </p>
+    <br />
+    <p className="has-text-centered">
+      <OutboundLink
+        className="button is-primary is-large jf-is-extra-wide"
+        href={ERAP_APPLICATION_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Trans>Apply for ERAP Online</Trans> →
+      </OutboundLink>
+    </p>
+    <br />
     <p>
-      <Trans>Here are some important resources:</Trans>
+      <Trans>Other important resources:</Trans>
       <ul>
         <li>
-          <EnglishOutboundLink href={ERAP_APPLICATION_URL}>
-            <Trans>ERAP Application</Trans>
-          </EnglishOutboundLink>
-        </li>
-        <li>
           <EnglishOutboundLink href={ERAP_LIST_OF_ASSISTING_GROUPS}>
-            <Trans>List of groups who can help you apply</Trans>
+            <Trans>List of groups who can help you apply for ERAP</Trans>
           </EnglishOutboundLink>
         </li>
         <li>

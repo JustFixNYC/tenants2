@@ -143,7 +143,6 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     question: li18n._(
       t`I have a current eviction case in NYC. How do I connect with a lawyer?`
     ),
-    priorityInPreview: 3,
     answer: (
       <p>
         <Trans id="evictionfree.faqListOfHowToConnectWithLawyer">
@@ -186,7 +185,7 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
   },
   {
     question: li18n._(t`Can my landlord challenge my hardship declaration?`),
-    priorityInPreview: 5,
+    priorityInPreview: 3,
     answer: (
       <Trans id="evictionFree.canLandlordChallengeDeclarationFaq">
         <p>
@@ -221,7 +220,6 @@ export const getEvictionFreeFaqsContent: () => EvictionFreeFaq[] = () => [
     question: li18n._(
       t`Who is not protected by NY's COVID-19 Tenant Protection Laws?`
     ),
-    priorityInPreview: 6,
     answer: (
       <p>
         <Trans id="evictionfree.whoIsNotProtectedFaq">

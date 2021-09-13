@@ -72,9 +72,9 @@ def _pages_en(v: HardshipDeclarationVariables) -> List[Page]:
             items=[
                 Checkbox(v.has_health_risk, 91, 255),
                 # Signature
-                Text(v.name, 290, 540),
+                Text(v.name, 290, 558),
                 # Printed name
-                Text(v.name, 290, 579),
+                Text(v.name, 290, 589),
                 Text(v.date, 290, 620),
             ]
         ),

@@ -16,7 +16,7 @@ PDF_NAME = "hardship-declaration.pdf"
 
 # The latest PDF version of the Hardship Declaration to use when
 # rendering brand-new declarations (i.e., ones that were just signed).
-LATEST_PDF_VERSION = 2
+LATEST_PDF_VERSION = 3
 
 
 class GraphQLHardshipDeclarationVariables(graphene.ObjectType):

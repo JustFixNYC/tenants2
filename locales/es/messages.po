@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-09-13 21:31\n"
+"PO-Revision-Date: 2021-09-13 21:49\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1225,7 +1225,7 @@ msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información, baja
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:108
 msgid "List of groups who can help you apply for ERAP"
-msgstr "List of groups who can help you apply for ERAP"
+msgstr "Lista de grupos que pueden ayudarte a solicitar el ERAP"
 
 #: frontend/lib/norent/homepage.tsx:293
 msgid "Locally supported"
@@ -2747,11 +2747,11 @@ msgstr "El 28 de diciembre de 2020, el estado de Nueva York aprobó la legislaci
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:88
 msgid "evictionfree.erapBlurbOnConfirmation"
-msgstr "You are not alone. Over a million New Yorkers cannot pay rent. New York State now has a rental relief program, the Emergency Rental Assistance Program (ERAP). If you apply for ERAP, <0>your landlord cannot start a new eviction case</0> against you and any current eviction case will be paused."
+msgstr "No estás solo. Hay más de un millón de neoyorquinos que no pueden pagar su renta. Ahora NYS tiene un programa de ayuda con la renta, el Programa de Emergencia de Asistencia de Renta (ERAP). Si usted solicitó ERAP, <0>su casero no puede iniciar un nuevo caso de desalojo</0> contra usted, y cualquier caso de desalojo actual se detendrá."
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:119
 msgid "evictionfree.faqListOfHowToConnectWithLawyer"
-msgstr "<0><1>Call Housing Court Answers at <2>718 557-1379</2> or <3>212 962-4795</3> from Monday - Friday, 9am - 5pm</1><4>Call <5>311</5> and ask for the Tenant Helpline</4><6>Email OCJ (Office of Civil Justice) at <7>civiljustice@hra.nyc.gov</7>. Please provide a name, telephone number, and Housing Court case index number for your eviction case (if known) in your email.</6></0>"
+msgstr "<0><1>Llama al <2>718 557-1379</2> o al <3>212 962-4795</3> de Lunes - Viernes, 9 - 5pm</1><4>Llama al <5>311</5> y solicite la línea de ayuda para inquilinos</4><6>Envía un correo electrónico a OCJ (Office of Civil Justice en inglés) a <7>civiljustice@hra.nyc.gov</7>. Proporciona un nombre, número de teléfono y número de índice del caso del Tribunal de Vivienda para tu caso de desalojo (si lo conoces) en tu correo electrónico.</6></0>"
 
 #: frontend/lib/evictionfree/faqs.tsx:54
 msgid "evictionfree.faqsPageIntro"
@@ -2767,7 +2767,7 @@ msgstr "<0>Perdida significativa de ingresos del hogar durante la pandemia COVID
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:130
 msgid "evictionfree.getInvolvedWithCBO2"
-msgstr "Get involved in your local community organization! Join thousands in the fight for an Eviction Free NY!"
+msgstr "¡Involúcrate con la organización local de tu comunidad! ¡Únete a millones en la lucha por un futuro libre de desalojos!"
 
 #: frontend/lib/evictionfree/about.tsx:102
 msgid "evictionfree.hj4aBlurb"
@@ -2775,7 +2775,7 @@ msgstr "<0>Housing Justice for All</0> es una coalición de más de 100 organiza
 
 #: frontend/lib/evictionfree/homepage.tsx:133
 msgid "evictionfree.introToLaw2"
-msgstr "New York State law temporarily protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. Because of landlord attacks, these laws have been weakened. <0>Read your full rights</0> and join the movement to fight back."
+msgstr "La legislación del estado de Nueva York protege temporalmente a los inquilinos del desalojo debido a la pérdida de ingresos o a los riesgos de salud del COVID-19. Para protegerte, debes rellenar una declaración de penuria y enviarla al dueño de tu edificio y/o a los tribunales. Porque los dueños atacaron, estas leyes han sido debilitadas. <0>Lee sobre todos sus derechos</0> y únete al movimiento para contra-atacar."
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:12
 msgid "evictionfree.introductionToDeclarationFormSteps"
@@ -2799,7 +2799,7 @@ msgstr "I further understand that my landlord may request a hearing to challenge
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:45
 msgid "evictionfree.legalAgreementCheckboxOnNewProtections4"
-msgstr "I further understand that my landlord may be able to seek eviction after {0}, and that the law may provide certain protections at that time that are separate from those available through this declaration."
+msgstr "Además, entiendo que mi casero puede solicitar el desalojo después del {0}, y que la ley puede proporcionarle, en ese momento, ciertas protecciones independientes disponibles a través de esta declaración."
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23
 msgid "evictionfree.outlineOfDeclarationFormSteps"
@@ -2847,7 +2847,7 @@ msgstr "Todos los inquilinos del estado de Nueva York tienen derecho a rellenar 
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:188
 msgid "evictionfree.whoIsNotProtectedFaq"
-msgstr "If a landlord claims that a tenant is a nuisance, meaning they say a tenant “persistently behaves in a way that substantially infringes on the use or enjoyment of other tenants OR that causes substantial safety hazards to others,” or that a tenant intentionally caused significant damage to the apartment, then the tenant is not protected by this law. Remember, a landlord would have to show this in court. If they can’t and the tenant filled out the hardship declaration form, then the eviction is delayed until at least {0}."
+msgstr "Si un casero afirma que un inquilino es una molestia, es decir, afirma que el inquilino “se comporta persistentemente de una manera que infringe sustancialmente en el uso o disfrute de otros inquilinos O que causen riesgos sustanciales para la seguridad de otros,” o que un inquilino intencionalmente causó daños significativos al apartamento, entonces el inquilino no tiene la protección de esta ley. Recuerde, un casero tendría que demostrar esto en la corte. Si no lo puede demostrar y el inquilino llenó el formulario de declaración de dificultades, entonces se retrasa el desalojo al menos hasta el {0}."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:166
 msgid "justfix.DdoMayNeedHpdRegistration"

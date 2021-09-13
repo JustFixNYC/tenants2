@@ -16,7 +16,7 @@ PDF_NAME = "hardship-declaration.pdf"
 
 # The latest PDF version of the Hardship Declaration to use when
 # rendering brand-new declarations (i.e., ones that were just signed).
-LATEST_PDF_VERSION = 2
+LATEST_PDF_VERSION = 3
 
 
 class GraphQLHardshipDeclarationVariables(graphene.ObjectType):
@@ -57,25 +57,31 @@ EXAMPLE_VARIABLES = HardshipDeclarationVariables(
 
 
 def _pages_en(v: HardshipDeclarationVariables) -> List[Page]:
+    # These variables offset the y-axis placement of text depending on the pdf version
+    universal_vertical_offset = -5 if v.pdf_version == 3 else 0
+    signature_text_vertical_offset = 18 if v.pdf_version == 3 else 0
+    printed_name_text_vertical_offset = 10 if v.pdf_version == 3 else 0
     return [
         # First page has nothing to be filled out.
         Page(items=[]),
         Page(
             items=[
-                Text(v.index_number, 288, 128),
-                Text(v.county_and_court, 310, 160),
-                Text(v.address, 75, 324),
-                Checkbox(v.has_financial_hardship, 91, 410),
+                Text(v.index_number, 288, 128 + universal_vertical_offset),
+                Text(v.county_and_court, 310, 160 + universal_vertical_offset),
+                Text(v.address, 75, 324 + universal_vertical_offset),
+                Checkbox(v.has_financial_hardship, 91, 410 + universal_vertical_offset),
             ]
         ),
         Page(
             items=[
-                Checkbox(v.has_health_risk, 91, 255),
+                Checkbox(v.has_health_risk, 91, 255 + universal_vertical_offset),
                 # Signature
-                Text(v.name, 290, 540),
+                Text(v.name, 290, 540 + signature_text_vertical_offset + universal_vertical_offset),
                 # Printed name
-                Text(v.name, 290, 579),
-                Text(v.date, 290, 620),
+                Text(
+                    v.name, 290, 579 + printed_name_text_vertical_offset + universal_vertical_offset
+                ),
+                Text(v.date, 290, 620 + universal_vertical_offset),
             ]
         ),
     ]

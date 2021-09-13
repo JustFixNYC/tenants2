@@ -25,8 +25,12 @@ export const HARDSHIP_DECLARATION_FORM_URLS = {
   es:
     "http://www.nycourts.gov/eefpa/PDF/Eviction_Hardship_Declaration-Spanish.pdf",
 };
+export const RTC_FAQS_PAGE_URLS = {
+  en: "https://www.righttocounselnyc.org/eviction_protections_during_covid",
+  es: "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
+};
 export const getEvictionMoratoriumEndDate = (withoutYear?: boolean) =>
-  withoutYear ? li18n._(t`August 31st`) : li18n._(t`August 31st, 2021`);
+  withoutYear ? li18n._(t`January 15`) : li18n._(t`January 15, 2022`);
 
 type EvictionFreeImageType = "png" | "svg" | "jpg" | "gif";
 
@@ -176,18 +180,16 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
         <div className="hero-body">
           <div className="columns is-centered">
             <div className="column is-four-fifths is-size-3 is-size-4-mobile has-text-centered-tablet">
-              <Trans id="evictionfree.introToLaw">
-                On December 28, 2020, New York State{" "}
-                <OutboundLink href="https://legislation.nysenate.gov/pdf/bills/2019/s9114">
-                  passed legislation
-                </OutboundLink>{" "}
-                that protects tenants from eviction due to lost income or
-                COVID-19 health risks. In order to get protected, you must fill
-                out a{" "}
-                <LocalizedOutboundLink hrefs={HARDSHIP_DECLARATION_FORM_URLS}>
-                  hardship declaration form
+              <Trans id="evictionfree.introToLaw2">
+                New York State law temporarily protects tenants from eviction
+                due to lost income or COVID-19 health risks. In order to get
+                protected, you must fill out a hardship declaration form and
+                send it to your landlord and/or the courts. Because of landlord
+                attacks, these laws have been weakened.{" "}
+                <LocalizedOutboundLink hrefs={RTC_FAQS_PAGE_URLS}>
+                  Read your full rights
                 </LocalizedOutboundLink>{" "}
-                and send it to your landlord and/or the courts.
+                and join the movement to fight back.
               </Trans>
             </div>
           </div>
@@ -275,13 +277,13 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
           <div className="columns is-centered">
             <div className="column is-three-quarters has-text-centered-tablet">
               <h2 className="has-text-white	is-spaced has-text-weight-bold">
-                <Trans>Fight to #CancelRent</Trans>
+                <Trans>Build Tenant Power</Trans>
               </h2>
               <p className="is-size-3 is-size-4-mobile has-text-white">
                 <Trans>
                   After sending your hardship declaration form, connect with
                   local organizing groups to get involved in the fight to make
-                  New York eviction free, cancel rent, and more!
+                  New York eviction free!
                 </Trans>
               </p>
               <br />

@@ -57,6 +57,7 @@ EXAMPLE_VARIABLES = HardshipDeclarationVariables(
 
 
 def _pages_en(v: HardshipDeclarationVariables) -> List[Page]:
+    # These variables offset the y-axis placement of text depending on the pdf version
     universal_vertical_offset = -5 if v.pdf_version == 3 else 0
     signature_text_vertical_offset = 18 if v.pdf_version == 3 else 0
     printed_name_text_vertical_offset = 10 if v.pdf_version == 3 else 0

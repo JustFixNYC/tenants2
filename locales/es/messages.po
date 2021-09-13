@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-09-13 21:12\n"
+"PO-Revision-Date: 2021-09-13 21:21\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -152,7 +152,7 @@ msgstr "Después de enviar tu carta"
 
 #: frontend/lib/evictionfree/homepage.tsx:233
 msgid "After sending your hardship declaration form, connect with local organizing groups to get involved in the fight to make New York eviction free!"
-msgstr "After sending your hardship declaration form, connect with local organizing groups to get involved in the fight to make New York eviction free!"
+msgstr "Después de enviar tu formulario de declaración de penuria, ¡conecta con grupos de organizadores locales para involucrarte en la lucha para que el estado de Nueva York sea libre de desalojos!"
 
 #: frontend/lib/norent/homepage.tsx:296
 msgid "After sending your letter, we can connect you to <0>local groups</0> to organize for greater demands with other tenants."
@@ -206,7 +206,7 @@ msgstr "Número de apartamento"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:99
 msgid "Apply for ERAP Online"
-msgstr "Apply for ERAP Online"
+msgstr "Solicitar ERAP en línea"
 
 #: frontend/lib/pages/logout-alt-page.tsx:16
 msgid "Are you sure you want to log out?"
@@ -310,7 +310,7 @@ msgstr "Infestación de insectos"
 
 #: frontend/lib/evictionfree/homepage.tsx:230
 msgid "Build Tenant Power"
-msgstr "Build Tenant Power"
+msgstr "Construir el poder del inquilino"
 
 #: frontend/lib/norent/homepage.tsx:39
 msgid "Build a letter using our free letter builder"
@@ -364,7 +364,7 @@ msgstr "¿Puedo ver qué formularios voy a enviar antes de llenarlos?"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:155
 msgid "Can my landlord challenge my hardship declaration?"
-msgstr "Can my landlord challenge my hardship declaration?"
+msgstr "¿Es verdad que mi casero puede impugnar la validez de mi declaración de penuria?"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:85
 #: frontend/lib/norent/components/helmet.tsx:55
@@ -1086,11 +1086,11 @@ msgstr "Soy indocumentado. ¿Puedo usar esta herramienta?"
 
 #: frontend/lib/evictionfree/homepage.tsx:29
 msgid "January 15"
-msgstr "January 15"
+msgstr "15 de enero"
 
 #: frontend/lib/evictionfree/homepage.tsx:29
 msgid "January 15, 2022"
-msgstr "January 15, 2022"
+msgstr "15 de enero de 2022"
 
 #: frontend/lib/norent/components/footer.tsx:19
 msgid "Join our <0/>mailing list"
@@ -1098,7 +1098,7 @@ msgstr "¡Únete a nuestra <0/>lista de distribución!"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:127
 msgid "Join the tenant movement"
-msgstr "Join the tenant movement"
+msgstr "Únete al movimiento de los inquilinos"
 
 #: frontend/lib/ui/footer.tsx:27
 msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
@@ -1173,7 +1173,7 @@ msgstr "Obtén más información a cerca de nuestra misión en nuestro sitio web
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:119
 msgid "Learn more on <0/>."
-msgstr "Learn more on <0/>."
+msgstr "Más información en <0/>."
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:47
 msgid "Learn more."

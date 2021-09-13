@@ -10,6 +10,7 @@ import {
 } from "../../queries/EvictionFreeAgreeToLegalTermsMutation";
 import { ProgressButtons } from "../../ui/buttons";
 import Page from "../../ui/page";
+import { getEvictionMoratoriumEndDate } from "../homepage";
 import { EvictionFreeNotSentDeclarationStep } from "./step-decorators";
 
 export const EvictionFreeAgreeToLegalTerms = EvictionFreeNotSentDeclarationStep(
@@ -53,13 +54,23 @@ export const EvictionFreeAgreeToLegalTerms = EvictionFreeNotSentDeclarationStep(
               </Trans>
             </CheckboxFormField>
             <CheckboxFormField
+              {...ctx.fieldPropsFor("understandsRiskOfLandlordChallenge")}
+            >
+              <Trans id="evictionfree.legalAgreementCheckboxOnLandlordChallenge">
+                I further understand that my landlord may request a hearing to
+                challenge the certification of hardship made herein, and that I
+                will have the opportunity to participate in any proceedings
+                regarding my tenancy.
+              </Trans>
+            </CheckboxFormField>
+            <CheckboxFormField
               {...ctx.fieldPropsFor("understandsProtectionIsTemporary")}
             >
-              <Trans id="evictionfree.legalAgreementCheckboxOnNewProtections3">
+              <Trans id="evictionfree.legalAgreementCheckboxOnNewProtections4">
                 I further understand that my landlord may be able to seek
-                eviction after August 31, 2021, and that the law may provide
-                certain protections at that time that are separate from those
-                available through this declaration.
+                eviction after {getEvictionMoratoriumEndDate()}, and that the
+                law may provide certain protections at that time that are
+                separate from those available through this declaration.
               </Trans>
             </CheckboxFormField>
             <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />

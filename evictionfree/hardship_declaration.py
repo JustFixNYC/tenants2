@@ -59,6 +59,7 @@ EXAMPLE_VARIABLES = HardshipDeclarationVariables(
 def _pages_en(v: HardshipDeclarationVariables) -> List[Page]:
     # These variables offset the y-axis placement of text depending on the pdf version
     universal_vertical_offset = -5 if v.pdf_version == 3 else 0
+    second_checkbox_vertical_offset = 5 if v.pdf_version == 3 else 0
     signature_text_vertical_offset = 18 if v.pdf_version == 3 else 0
     printed_name_text_vertical_offset = 10 if v.pdf_version == 3 else 0
     return [
@@ -74,7 +75,11 @@ def _pages_en(v: HardshipDeclarationVariables) -> List[Page]:
         ),
         Page(
             items=[
-                Checkbox(v.has_health_risk, 91, 255 + universal_vertical_offset),
+                Checkbox(
+                    v.has_health_risk,
+                    91,
+                    255 + second_checkbox_vertical_offset + universal_vertical_offset,
+                ),
                 # Signature
                 Text(v.name, 290, 540 + signature_text_vertical_offset + universal_vertical_offset),
                 # Printed name

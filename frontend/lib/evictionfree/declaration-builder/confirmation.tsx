@@ -172,9 +172,11 @@ const ErapBlurb = () => (
         </OutboundLink>
       </li>
     </ul>
-    <Trans>
-      Learn more on <RightToCounselFaqsLink />.
-    </Trans>
+    <p>
+      <Trans>
+        Learn more on <RightToCounselFaqsLink />.
+      </Trans>
+    </p>
   </>
 );
 

@@ -102,18 +102,18 @@ const HcaHotlineBlurb = () => (
   </>
 );
 
-const SocialShareContent = {
-  tweet: t(
-    "evictionfree.tweetTemplateForSharingFromConfirmation1"
-  )`I just used this website to send a hardship declaration form to my landlord and local courts—putting any eviction case on hold until ${getEvictionMoratoriumEndDate()}. Check it out here: ${
-    getGlobalAppServerInfo().originURL
-  } #EvictionFreeNY via @JustFixNYC @RTCNYC @housing4allNY`,
-  emailSubject: t`Protect yourself from eviction in New York State`,
-  emailBody: t(
-    "evictionfree.emailBodyTemplateForSharingFromConfirmation1"
-  )`On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. I just used this website to send a hardship declaration form to my landlord and local courts—putting any eviction case on hold until ${getEvictionMoratoriumEndDate()}. Check it out here: ${
-    getGlobalAppServerInfo().originURL
-  }`,
+const getSocialShareContent = () => {
+  const date = getEvictionMoratoriumEndDate();
+  const url = getGlobalAppServerInfo().originURL;
+  return {
+    tweet: t(
+      "evictionfree.tweetTemplateForSharingFromConfirmation2"
+    )`I just used this website to send a hardship declaration form to my landlord and local courts—putting any eviction case on hold until ${date}. Check it out here: ${url} #EvictionFreeNY via @JustFixNYC @RTCNYC @housing4allNY`,
+    emailSubject: t`Protect yourself from eviction in New York State`,
+    emailBody: t(
+      "evictionfree.emailBodyTemplateForSharingFromConfirmation2"
+    )`On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. I just used this website to send a hardship declaration form to my landlord and local courts—putting any eviction case on hold until ${date}. Check it out here: ${url}`,
+  };
 };
 
 const ShareThisTool = () => (
@@ -124,7 +124,7 @@ const ShareThisTool = () => (
     <SocialIcons
       color="mulberry"
       customStyleClasses="is-marginless"
-      socialShareContent={SocialShareContent}
+      socialShareContent={getSocialShareContent()}
     />
   </>
 );
@@ -157,24 +157,24 @@ const ErapBlurb = () => (
     <br />
     <p>
       <Trans>Other important resources:</Trans>
-      <ul>
-        <li>
-          <EnglishOutboundLink href={ERAP_LIST_OF_ASSISTING_GROUPS}>
-            <Trans>List of groups who can help you apply for ERAP</Trans>
-          </EnglishOutboundLink>
-        </li>
-        <li>
-          <Trans>Rental Assistance Application Hotline:</Trans>
-          <br />{" "}
-          <OutboundLink href={RENTAL_ASSISTANCE_HOTLINE_PHONE_LINK}>
-            1-844-NY1-RENT (1-844-691-7368)
-          </OutboundLink>
-        </li>
-      </ul>
-      <Trans>
-        Learn more on <RightToCounselFaqsLink />.
-      </Trans>
     </p>
+    <ul>
+      <li>
+        <EnglishOutboundLink href={ERAP_LIST_OF_ASSISTING_GROUPS}>
+          <Trans>List of groups who can help you apply for ERAP</Trans>
+        </EnglishOutboundLink>
+      </li>
+      <li>
+        <Trans>Rental Assistance Application Hotline:</Trans>
+        <br />{" "}
+        <OutboundLink href={RENTAL_ASSISTANCE_HOTLINE_PHONE_LINK}>
+          1-844-NY1-RENT (1-844-691-7368)
+        </OutboundLink>
+      </li>
+    </ul>
+    <Trans>
+      Learn more on <RightToCounselFaqsLink />.
+    </Trans>
   </>
 );
 

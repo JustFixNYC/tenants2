@@ -68,6 +68,8 @@ class AgreeToLegalTermsForm(forms.Form):
 
     understands_protection_is_temporary = forms.BooleanField(required=True)
 
+    understands_risk_of_landlord_challenge = forms.BooleanField(required=True)
+
 
 class SigningTruthfullyForm(forms.Form):
     is_signing_truthfully = forms.BooleanField(required=True)

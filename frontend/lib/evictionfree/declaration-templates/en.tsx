@@ -88,10 +88,13 @@ const HardshipDeclarationEnglish: HardshipDeclarationFC = (props) => (
       lawful fees, penalties or interest for not having paid rent in full or met
       other financial obligations as required by my tenancy, lease agreement or
       similar contract may still be charged or collected and may result in a
-      monetary judgment against me. I further understand that my landlord may be
-      able to seek eviction after August 31, 2021, and that the law may provide
-      certain protections at that time that are separate from those available
-      through this declaration.
+      monetary judgment against me. I further understand that my landlord may
+      request a hearing to challenge the certification of hardship made herein,
+      and that I will have the opportunity to participate in any proceedings
+      regarding my tenancy. I further understand that my landlord may be able to
+      seek eviction after January 15, 2022, and that the law may provide certain
+      protections at that time that are separate from those available through
+      this declaration.
     </p>
     <p>
       Signed: <FilledField>{props.name}</FilledField>

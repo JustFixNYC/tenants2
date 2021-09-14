@@ -2753,6 +2753,14 @@ msgstr "No estás solo. Hay más de un millón de neoyorquinos que no pueden pag
 msgid "evictionfree.faqListOfHowToConnectWithLawyer"
 msgstr "<0><1>Llama al <2>718 557-1379</2> o al <3>212 962-4795</3> de Lunes - Viernes, 9 - 5pm</1><4>Llama al <5>311</5> y solicite la línea de ayuda para inquilinos</4><6>Envía un correo electrónico a OCJ (Office of Civil Justice en inglés) a <7>civiljustice@hra.nyc.gov</7>. Proporciona un nombre, número de teléfono y número de índice del caso del Tribunal de Vivienda para tu caso de desalojo (si lo conoces) en tu correo electrónico.</6></0>"
 
+#: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:88
+msgid "evictionfree.erapBlurbOnConfirmation"
+msgstr ""
+
+#: frontend/lib/evictionfree/data/faqs-content.tsx:119
+msgid "evictionfree.faqListOfHowToConnectWithLawyer"
+msgstr ""
+
 #: frontend/lib/evictionfree/faqs.tsx:54
 msgid "evictionfree.faqsPageIntro"
 msgstr "Comprender estas leyes es difícil. A continuación, echa un vistazo a nuestras preguntas frecuentes de personas que han usado nuestra herramienta. Si tienes preguntas sobre el estado de la corte de vivienda y el estatus actual de los casos de desalojo, consulte"
@@ -2848,6 +2856,10 @@ msgstr "Todos los inquilinos del estado de Nueva York tienen derecho a rellenar 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:188
 msgid "evictionfree.whoIsNotProtectedFaq"
 msgstr "Si un casero afirma que un inquilino es una molestia, es decir, afirma que el inquilino “se comporta persistentemente de una manera que infringe sustancialmente en el uso o disfrute de otros inquilinos O que causen riesgos sustanciales para la seguridad de otros,” o que un inquilino intencionalmente causó daños significativos al apartamento, entonces el inquilino no tiene la protección de esta ley. Recuerde, un casero tendría que demostrar esto en la corte. Si no lo puede demostrar y el inquilino llenó el formulario de declaración de dificultades, entonces se retrasa el desalojo al menos hasta el {0}."
+
+#: frontend/lib/evictionfree/data/faqs-content.tsx:188
+msgid "evictionfree.whoIsNotProtectedFaq"
+msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:166
 msgid "justfix.DdoMayNeedHpdRegistration"

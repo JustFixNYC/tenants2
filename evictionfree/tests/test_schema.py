@@ -236,7 +236,6 @@ class TestEvictionFreeSubmitDeclaration:
             )
 
     @pytest.mark.skip(reason="The tool has been suspended")
-
     def test_it_works(
         self,
         use_evictionfree_site,

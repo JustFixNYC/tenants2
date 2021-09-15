@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Page from "../ui/page";
 import { StaticImage } from "../ui/static-image";
 import { EvictionFreeRoutes as Routes } from "./route-info";
@@ -13,6 +14,7 @@ import classnames from "classnames";
 import { SocialIcons } from "../norent/components/social-icons";
 import { getGlobalAppServerInfo } from "../app-context";
 
+export const MESSAGE_QS = "msg=on";
 export const RTC_WEBSITE_URL = "https://www.righttocounselnyc.org/";
 export const HJ4A_SOCIAL_URL = "https://twitter.com/housing4allNY";
 export const JUSTFIX_WEBSITE_URLS = {
@@ -33,6 +35,18 @@ export const getEvictionMoratoriumEndDate = (withoutYear?: boolean) =>
   withoutYear ? li18n._(t`January 15`) : li18n._(t`January 15, 2022`);
 
 type EvictionFreeImageType = "png" | "svg" | "jpg" | "gif";
+
+const Message: React.FC<{}> = () => {
+  const location = useLocation();
+  if (location.search.includes(MESSAGE_QS)) {
+    return (
+      <div className="notification is-danger">
+        <Trans>This tool has been suspended</Trans>!
+      </div>
+    );
+  }
+  return null;
+};
 
 export function getEFImageSrc(
   name: string,
@@ -128,6 +142,7 @@ const EvictionFreeTopLevelContent = () => (
       <div className="columns">
         {getGlobalAppServerInfo().isEfnySuspended ? (
           <div className="column is-three-fifths jf-evictionfree-top-level-content">
+            <Message />
             <h1 className="title is-spaced">
               <Trans>Eviction Free NY has been suspended</Trans>
             </h1>

@@ -65,6 +65,7 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   debug: false,
   batchGraphQLURL: "/mygarphql",
   isDemoDeployment: true,
+  isEfnySuspended: false,
   finishedLocPdfURL: "/my-finished-letter.pdf",
   wowOrigin: "https://wow.test",
   efnycOrigin: "https://efnyc.test",

@@ -122,6 +122,91 @@ const LandingPageChecklist = () => (
   </div>
 );
 
+const EvictionFreeTopLevelContent = () => {
+  const siteIsActive = !getGlobalAppServerInfo().isEfnySuspended;
+  return (
+    <div className="columns">
+      {siteIsActive ? (
+        <div className="column is-three-fifths jf-evictionfree-top-level-content">
+          <h1 className="title is-spaced">
+            <Trans>Protect yourself from eviction in New York State</Trans>
+          </h1>
+          <p className="subtitle">
+            <Trans>
+              You can use this website to send a hardship declaration form to
+              your landlord and local courts—putting your eviction case on hold
+              until {getEvictionMoratoriumEndDate()}
+            </Trans>
+            .
+          </p>
+          <br />
+          <div>
+            <FillOutMyFormButton isHiddenMobile />
+            <div className="jf-evictionfree-byline">
+              <p className="is-size-7">
+                <Trans>
+                  Made by non-profits{" "}
+                  <OutboundLink href={RTC_WEBSITE_URL}>
+                    Right to Counsel NYC Coalition
+                  </OutboundLink>
+                  ,{" "}
+                  <OutboundLink href={HJ4A_SOCIAL_URL}>
+                    Housing Justice for All
+                  </OutboundLink>
+                  , and{" "}
+                  <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
+                    JustFix.nyc
+                  </LocalizedOutboundLink>
+                </Trans>
+              </p>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="column is-three-fifths jf-evictionfree-top-level-content">
+          <h1 className="title is-spaced">
+            <Trans>Eviction Free NY has been suspended</Trans>
+          </h1>
+          <p className="subtitle">
+            <Trans id="evictionfree.noticeOfSuddenMoratoriumSuspension">
+              The State law that delays evictions for tenants who submit
+              hardship declarations has been suspended. Learn about your rights,
+              and take action today to protect and expand them
+            </Trans>
+            .
+          </p>
+          <br />
+          <LocalizedOutboundLink
+            hrefs={{
+              en:
+                "https://www.righttocounselnyc.org/eviction_protections_during_covid",
+              es:
+                "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
+            }}
+          >
+            <div className="button is-primary jf-build-my-declaration-btn jf-is-extra-wide">
+              <Trans>Learn more</Trans>
+            </div>
+          </LocalizedOutboundLink>
+          <OutboundLink href="https://www.righttocounselnyc.org/take_action_rtc">
+            <div className="button is-primary jf-build-my-declaration-btn jf-is-extra-wide">
+              <Trans>Take action</Trans>
+            </div>
+          </OutboundLink>
+        </div>
+      )}
+
+      <div className="column">
+        <StaticImage
+          ratio="is-square"
+          src={getEFImageSrc("forms", "png", true)}
+          alt=""
+        />
+      </div>
+    </div>
+  );
+};
+
 export const EvictionFreeHomePage: React.FC<{}> = () => {
   const siteIsActive = !getGlobalAppServerInfo().isEfnySuspended;
   return (
@@ -131,87 +216,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => {
     >
       <section className="hero is-fullheight-with-navbar">
         <div className="hero-body">
-          <div className="columns">
-            {siteIsActive ? (
-              <div className="column is-three-fifths jf-evictionfree-top-level-content">
-                <h1 className="title is-spaced">
-                  <Trans>
-                    Protect yourself from eviction in New York State
-                  </Trans>
-                </h1>
-                <p className="subtitle">
-                  <Trans>
-                    You can use this website to send a hardship declaration form
-                    to your landlord and local courts—putting your eviction case
-                    on hold until {getEvictionMoratoriumEndDate()}
-                  </Trans>
-                  .
-                </p>
-                <br />
-                <div>
-                  <FillOutMyFormButton isHiddenMobile />
-                  <div className="jf-evictionfree-byline">
-                    <p className="is-size-7">
-                      <Trans>
-                        Made by non-profits{" "}
-                        <OutboundLink href={RTC_WEBSITE_URL}>
-                          Right to Counsel NYC Coalition
-                        </OutboundLink>
-                        ,{" "}
-                        <OutboundLink href={HJ4A_SOCIAL_URL}>
-                          Housing Justice for All
-                        </OutboundLink>
-                        , and{" "}
-                        <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
-                          JustFix.nyc
-                        </LocalizedOutboundLink>
-                      </Trans>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="column is-three-fifths jf-evictionfree-top-level-content">
-                <h1 className="title is-spaced">
-                  <Trans>Eviction Free NY has been suspended</Trans>
-                </h1>
-                <p className="subtitle">
-                  <Trans id="evictionfree.noticeOfSuddenMoratoriumSuspension">
-                    The State law that delays evictions for tenants who submit
-                    hardship declarations has been suspended. Learn about your
-                    rights, and take action today to protect and expand them
-                  </Trans>
-                  .
-                </p>
-                <br />
-                <LocalizedOutboundLink
-                  hrefs={{
-                    en:
-                      "https://www.righttocounselnyc.org/eviction_protections_during_covid",
-                    es:
-                      "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
-                  }}
-                >
-                  <div className="button is-primary jf-build-my-declaration-btn jf-is-extra-wide">
-                    <Trans>Learn more</Trans>
-                  </div>
-                </LocalizedOutboundLink>
-                <OutboundLink href="https://www.righttocounselnyc.org/take_action_rtc">
-                  <div className="button is-primary jf-build-my-declaration-btn jf-is-extra-wide">
-                    <Trans>Take action</Trans>
-                  </div>
-                </OutboundLink>
-              </div>
-            )}
-
-            <div className="column">
-              <StaticImage
-                ratio="is-square"
-                src={getEFImageSrc("forms", "png", true)}
-                alt=""
-              />
-            </div>
-          </div>
+          <EvictionFreeTopLevelContent />
         </div>
       </section>
       {siteIsActive && (

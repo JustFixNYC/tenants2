@@ -20,4 +20,14 @@ describe("EvictionFreeSite", () => {
       )
     );
   });
+
+  it("renders special text on home page when EvictionFree is suspended", async () => {
+    const pal = new AppTesterPal(route, {
+      url: "/en/",
+      server: { isEfnySuspended: true },
+    });
+    await waitFor(() =>
+      pal.rr.getByText(/Eviction Free NY has been suspended/i)
+    );
+  });
 });

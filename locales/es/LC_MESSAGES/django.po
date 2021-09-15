@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-01 14:04+0000\n"
+"POT-Creation-Date: 2021-09-15 13:37+0000\n"
 "PO-Revision-Date: 2021-09-08 17:12\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -42,25 +42,29 @@ msgstr "%(name)s, también puedes bajarte un PDF de tu formulario de declaració
 msgid "For more information about New York’s eviction protections and your rights as a tenant, visit %(url)s. To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
 msgstr "Para obtener más información sobre las protecciones de desalojo de Nueva York y tus derechos como inquilino, visita %(url)s. Para participar en la organización y en la lucha para #StopEvictions (parar los desalojos) y #CancelRent (cancelar la renta), síguenos en Twitter: @RTCNYC y @ housing4allNY."
 
-#: evictionfree/schema.py:96
+#: evictionfree/schema.py:97
 msgid "You have already sent a hardship declaration form!"
 msgstr "¡Ya has enviado un formulario de declaración de penuria!"
 
-#: evictionfree/schema.py:98
+#: evictionfree/schema.py:99
 msgid "You haven't provided any landlord details yet!"
 msgstr "¡Aún no has proporcionado detalles sobre el dueño de tu edificio!"
 
-#: evictionfree/schema.py:103
+#: evictionfree/schema.py:104
 msgid "You must be in the state of New York to use this tool!"
 msgstr "¡Debes estar en el estado de Nueva York para usar esta herramienta!"
 
-#: evictionfree/schema.py:111
+#: evictionfree/schema.py:112
 msgid "You haven't provided details for your hardship declaration form yet!"
 msgstr "¡Aún no has proporcionado detalles para tu formulario de declaración de penuria!"
 
-#: evictionfree/schema.py:118
+#: evictionfree/schema.py:119
 msgid "This form can only be used from the Eviction Free NY site."
 msgstr "Este formulario sólo se puede utilizar desde el sitio web Eviction Free NY."
+
+#: evictionfree/schema.py:126
+msgid "This tool has been suspended! Please reload the page for more details."
+msgstr ""
 
 #: frontend/templates/frontend/safe_mode_ui.html:9
 msgid "This site is currently in <strong>compatibility mode</strong>. For an enhanced experience, you can disable it, but this may cause compatibility issues with your current browser."
@@ -189,4 +193,3 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 #: project/util/phone_number.py:70
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
-

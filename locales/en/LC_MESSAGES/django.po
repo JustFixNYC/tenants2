@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-01 14:04+0000\n"
+"POT-Creation-Date: 2021-09-15 13:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,24 +43,28 @@ msgstr ""
 msgid "For more information about New York’s eviction protections and your rights as a tenant, visit %(url)s. To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
 msgstr ""
 
-#: evictionfree/schema.py:96
+#: evictionfree/schema.py:97
 msgid "You have already sent a hardship declaration form!"
 msgstr ""
 
-#: evictionfree/schema.py:98
+#: evictionfree/schema.py:99
 msgid "You haven't provided any landlord details yet!"
 msgstr ""
 
-#: evictionfree/schema.py:103
+#: evictionfree/schema.py:104
 msgid "You must be in the state of New York to use this tool!"
 msgstr ""
 
-#: evictionfree/schema.py:111
+#: evictionfree/schema.py:112
 msgid "You haven't provided details for your hardship declaration form yet!"
 msgstr ""
 
-#: evictionfree/schema.py:118
+#: evictionfree/schema.py:119
 msgid "This form can only be used from the Eviction Free NY site."
+msgstr ""
+
+#: evictionfree/schema.py:126
+msgid "This tool has been suspended! Please reload the page for more details."
 msgstr ""
 
 #: frontend/templates/frontend/safe_mode_ui.html:9

@@ -224,6 +224,19 @@ class TestEvictionFreeSubmitDeclaration:
             "This form can only be used from the Eviction Free NY site."
         )
 
+    def test_it_shows_discontinued_message(self, use_evictionfree_site, settings):
+        settings.IS_EFNY_SUSPENDED = True
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
+        HardshipDeclarationDetailsFactory(user=self.user)
+
+        with freezegun.freeze_time("2021-01-26"):
+            assert self.execute()["errors"] == one_field_err(
+                "This tool has been suspended! Please reload the page for more details."
+            )
+
+    @pytest.mark.skip(reason="The tool has been suspended")
+
     def test_it_works(
         self,
         use_evictionfree_site,

@@ -133,7 +133,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => {
         <div className="hero-body">
           <div className="columns">
             {siteIsActive ? (
-              <div className="column is-three-fifths">
+              <div className="column is-three-fifths jf-evictionfree-top-level-content">
                 <h1 className="title is-spaced">
                   <Trans>
                     Protect yourself from eviction in New York State
@@ -171,7 +171,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => {
                 </div>
               </div>
             ) : (
-              <div className="column is-three-fifths">
+              <div className="column is-three-fifths jf-evictionfree-top-level-content">
                 <h1 className="title is-spaced">
                   <Trans>Eviction Free NY has been suspended</Trans>
                 </h1>

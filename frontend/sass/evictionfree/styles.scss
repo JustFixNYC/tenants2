@@ -84,7 +84,7 @@ $max-content-width: 1440px;
 
 // Make sure all links within the landing title content don't have underlines
 // This fixes an issue where buttons that have an outbound link show up with underlines
-.column.is-three-fifths a {
+.column.jf-evictionfree-top-level-content a {
   text-decoration: none;
 }
 

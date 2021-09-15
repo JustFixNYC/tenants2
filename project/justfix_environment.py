@@ -359,7 +359,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     IS_DEMO_DEPLOYMENT: bool = False
 
     # Whether or not the Eviction Free NY site is "suspended," meaning
-    # that users can visit the site but are blocked from starting a 
+    # that users can visit the site but are blocked from starting a
     # new hardship declaration form or completing one in progress.
     IS_EFNY_SUSPENDED: bool = False
 

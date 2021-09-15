@@ -61,6 +61,7 @@ def create_initial_props_for_lambda(
             "enableEmergencyHPAction": settings.ENABLE_EMERGENCY_HP_ACTION,
             "mapboxAccessToken": settings.MAPBOX_ACCESS_TOKEN,
             "isDemoDeployment": settings.IS_DEMO_DEPLOYMENT,
+            "isEfnySuspended": settings.IS_EFNY_SUSPENDED,
             "enabledLocales": get_enabled_locales(),
             "enableWipLocales": settings.ENABLE_WIP_LOCALES,
             "debug": settings.DEBUG,

@@ -1,6 +1,7 @@
 from onboarding.schema_util import mutation_requires_onboarding
 from typing import Any, Dict
 from django.http import HttpRequest
+from django.conf import settings
 import graphene
 from graphql import ResolveInfo
 from graphene_django.types import DjangoObjectType
@@ -116,6 +117,13 @@ class EvictionFreeSubmitDeclaration(SessionFormMutation):
         if site_type != site_util.SITE_CHOICES.EVICTIONFREE:
             return cls.make_and_log_error(
                 info, _("This form can only be used from the Eviction Free NY site.")
+            )
+
+        # If EFNY is suspended, reject this request and tell the user to reload their browser,
+        # so that they'll be given more details on why the tool was discontinued.
+        if settings.IS_EFNY_SUSPENDED:
+            return cls.make_error(
+                _("This tool has been suspended! Please reload the page for more details.")
             )
 
         declaration_sending.create_and_send_declaration(user)

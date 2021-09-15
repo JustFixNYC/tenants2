@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-15 13:37+0000\n"
-"PO-Revision-Date: 2021-09-15 16:56\n"
+"PO-Revision-Date: 2021-09-15 16:57\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -64,7 +64,7 @@ msgstr "Este formulario sólo se puede utilizar desde el sitio web Eviction Free
 
 #: evictionfree/schema.py:126
 msgid "This tool has been suspended! Please reload the page for more details."
-msgstr ""
+msgstr "¡Esta herramienta ha sido suspendida! Por favor, recarga la página para más detalles."
 
 #: frontend/templates/frontend/safe_mode_ui.html:9
 msgid "This site is currently in <strong>compatibility mode</strong>. For an enhanced experience, you can disable it, but this may cause compatibility issues with your current browser."

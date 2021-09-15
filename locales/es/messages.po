@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-09-15 16:56\n"
+"PO-Revision-Date: 2021-09-15 16:57\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -681,7 +681,7 @@ msgstr "Establece tu defensa"
 
 #: frontend/lib/evictionfree/homepage.tsx:100
 msgid "Eviction Free NY has been suspended"
-msgstr "Eviction Free NY has been suspended"
+msgstr "Eviction Free NY ha sido suspendido"
 
 #: frontend/lib/norent/data/state-localized-resources.tsx:14
 msgid "Eviction Moratorium updates"
@@ -2091,7 +2091,7 @@ msgstr "Este servicio es gratuito, seguro y confidencial."
 
 #: frontend/lib/evictionfree/homepage.tsx:36
 msgid "This tool has been suspended"
-msgstr "This tool has been suspended"
+msgstr "Esta herramienta ha sido suspendida"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:200
 msgid "This tool is provided by JustFix.nyc. We’re a non-profit that creates tools for tenants and the housing rights movement. We always want feedback to improve our tools."
@@ -2813,7 +2813,7 @@ msgstr "Además, entiendo que mi casero puede solicitar el desalojo después del
 
 #: frontend/lib/evictionfree/homepage.tsx:103
 msgid "evictionfree.noticeOfSuddenMoratoriumSuspension"
-msgstr "The State law that delays evictions for tenants who submit hardship declarations has been suspended. Learn about your rights, and take action today to protect and expand them"
+msgstr "La ley estatal que retrasa los desalojos para los inquilinos que presentan una declaración de penuria ha sido suspendida. Conozca sus derechos y actúe hoy mismo para protegerlos y ampliarlos"
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:24
 msgid "evictionfree.outlineOfDeclarationFormSteps"

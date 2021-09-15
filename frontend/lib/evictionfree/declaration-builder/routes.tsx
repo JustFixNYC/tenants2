@@ -277,7 +277,7 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
 };
 
 /**
- * Full set of EvictionFree routes for when the tool is active and allowing users to
+ * Full EvictionFree Routes component for when the tool is active and allowing users to
  * generate and send declaration forms.
  */
 const FullEvictionFreeDeclarationBuilderRoutes = buildProgressRoutesComponent(
@@ -285,8 +285,10 @@ const FullEvictionFreeDeclarationBuilderRoutes = buildProgressRoutesComponent(
 );
 
 /**
- * Modified set of EvictionFree routes for when the tool is suspended and blocking users from
- * generating and sending declaration forms.
+ * Modified EvictionFree Routes component for when the tool is suspended and blocking users from
+ * generating and sending declaration forms. This modified component takes note of the current
+ * location of the user and will redirect them back to the homepage unless they are on one of
+ * the "Excluded Routes" that we still want to keep active even when the tool is suspended.
  */
 const SuspendedEvictionFreeDeclarationBuilderRoutes = () => {
   const location = useLocation();

@@ -123,7 +123,7 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
   const siteIsActive = !getGlobalAppServerInfo().isEfnySuspended;
   return (
     <>
-      {siteIsActive &&
+      {siteIsActive && (
         <>
           <Link className="navbar-item" to={Routes.locale.faqs}>
             <Trans>Faqs</Trans>
@@ -132,7 +132,7 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
             <Trans>About</Trans>
           </Link>
         </>
-      }
+      )}
       {session.phoneNumber ? (
         <Link className="navbar-item" to={Routes.locale.logout}>
           <Trans>Log out</Trans>

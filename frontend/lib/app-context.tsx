@@ -164,7 +164,7 @@ export interface AppServerInfo {
   isDemoDeployment: boolean;
 
   /**
-   * Whether or not the Eviction Free NY site is "suspended" (users 
+   * Whether or not the Eviction Free NY site is "suspended" (users
    * are blocked from starting/sending a new hardship declaration).
    */
   isEfnySuspended: boolean;

@@ -79,6 +79,11 @@ $max-content-width: 1440px;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 200;
+  margin: 0 2rem 2rem 0;
+}
+
+.column.is-three-fifths a {
+  text-decoration: none;
 }
 
 .jf-background-image.image {
@@ -229,7 +234,7 @@ html:lang(es) nav.navbar .navbar-item {
   h1.title {
     line-height: 1.15;
     @include touch {
-      font-size: 3rem;
+      font-size: 2.8rem;
       line-height: 1;
     }
   }

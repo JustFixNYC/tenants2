@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Iterator
+from pydantic import validator
 from unittest.mock import patch
 from graphene.test import Client
 from django.http import HttpRequest
@@ -133,9 +134,17 @@ def graphql_client(http_request) -> TestGraphQLClient:
 @dataclass
 class FakeSmsMessage:
     to: str
-    from_: str
     body: str
     sid: str
+    messaging_service_sid: str = ""
+    from_: str = ""
+
+    @validator("messaging_service_sid", "from_")
+    def prevent_empty(cls, v, values, **kwargs):
+        if "messaging_service_sid" in values and "from_" in values:
+            raise ValueError("messaging_service_sid and from_ field cannot both be set")
+        if "messaging_service_sid" not in values and "fron_" not in values:
+            raise ValueError("either messaging_service_sid or from_ field must be set")
 
 
 @dataclass
@@ -164,9 +173,16 @@ def smsoutbox(settings) -> Iterator[List[FakeSmsMessage]]:
         def messages(self):
             return self
 
-        def create(self, to: str, from_: str, body: str):
+        def create(self, to: str, body: str, messaging_service_sid: str = "", from_: str = ""):
             sid = "blarg"
-            outbox.append(FakeSmsMessage(to=to, from_=from_, body=body, sid=sid))
+            if messaging_service_sid:
+                outbox.append(
+                    FakeSmsMessage(
+                        to=to, messaging_service_sid=messaging_service_sid, body=body, sid=sid
+                    )
+                )
+            else:
+                outbox.append(FakeSmsMessage(to=to, from_=from_, body=body, sid=sid))
             return FakeSmsCreateResult(sid=sid)
 
     with patch("texting.twilio.Client", FakeTwilioClient):

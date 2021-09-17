@@ -5,6 +5,7 @@ from django.conf import settings
 from twilio.rest import Client
 from twilio.http.http_client import TwilioHttpClient
 from twilio.base.exceptions import TwilioRestException
+from twilio.rest.api.v2010.account.message import MessageInstance
 from twilio.rest.lookups.v1.phone_number import PhoneNumberInstance
 
 from project.util.settings_util import ensure_dependent_settings_are_nonempty
@@ -193,11 +194,8 @@ def send_sms(
                 return SendSmsResult(err_code=TWILIO_INVALID_TO_NUMBER_ERR)
         client = get_client()
         try:
-            msg = client.messages.create(
-                to=tendigit_to_e164(phone_number),
-                from_=tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
-                body=body,
-            )
+            msg = create_message(client, phone_number, body)
+
             logger.info(f"Sent Twilio message with sid {msg.sid}.")
             return SendSmsResult(sid=msg.sid)
         except Exception as e:
@@ -212,6 +210,27 @@ def send_sms(
             f"with the body {repr(body)}."
         )
         return SendSmsResult(err_code=TWILIO_INTEGRATION_DISABLED_ERR)
+
+
+def is_messaging_service(num):
+    return num.startswith("MG")
+
+
+def create_message(client: Client, phone_number: str, body: str) -> MessageInstance:
+    msg = None
+    if is_messaging_service(settings.TWILIO_PHONE_NUMBER):
+        msg = client.messages.create(
+            body=body,
+            messaging_service_sid=settings.TWILIO_PHONE_NUMBER,
+            to=tendigit_to_e164(phone_number),
+        )
+    else:
+        msg = client.messages.create(
+            to=tendigit_to_e164(phone_number),
+            from_=tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
+            body=body,
+        )
+    return msg
 
 
 send_sms_async = fire_and_forget_task(send_sms)

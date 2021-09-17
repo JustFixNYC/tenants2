@@ -60,6 +60,16 @@ def test_send_sms_works(db, settings, smsoutbox):
     assert smsoutbox[0].body == "boop"
 
 
+def test_send_sms_works_with_messaging_service(db, settings, smsoutbox):
+    settings.TWILIO_PHONE_NUMBER = "MG52d06cc7042a79d97c93a381ae2a10a1"
+
+    send_sms("6503530012", "boop")
+    assert len(smsoutbox) == 1
+    assert smsoutbox[0].to == "+16503530012"
+    assert smsoutbox[0].messaging_service_sid == "MG52d06cc7042a79d97c93a381ae2a10a1"
+    assert smsoutbox[0].body == "boop"
+
+
 def test_send_sms_still_works_if_lookup_says_number_is_valid(db, settings, smsoutbox):
     apply_twilio_settings(settings)
 

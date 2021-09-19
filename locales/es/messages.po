@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-09-15 16:57\n"
+"PO-Revision-Date: 2021-09-19 18:00\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2716,8 +2716,7 @@ msgstr "eviction free nyc, eviction free ny, penuria, declaración, desalojo, de
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:157
 msgid "evictionFree.canLandlordChallengeDeclarationFaq"
-msgstr ""
-"<0>SI. ESTO ES NUEVO. Ahora, el casero tiene derecho a impugnar la validez de la declaración de dificultades de un inquilino. Para hacer esto, el casero puede presentar una moción ante la corte, declarando que no cree que el inquilino tenga las dificultades que reclamó en su Declaración de Dificultades. Si ocurre esto, la Corte concederá una audiencia para determinar la validez de la declaración de dificultades del inquilino y el inquilino deberá mostrar prueba de las dificultades que reclamó en su Declaración. En NYC, <1>inquilinos tienen el derecho a un abogado a través de Right to Counsel para estas audiencias</1>.</0><2>\n"
+msgstr "<0>SI. ESTO ES NUEVO. Ahora, el casero tiene derecho a impugnar la validez de la declaración de dificultades de un inquilino. Para hacer esto, el casero puede presentar una moción ante la corte, declarando que no cree que el inquilino tenga las dificultades que reclamó en su Declaración de Dificultades. Si ocurre esto, la Corte concederá una audiencia para determinar la validez de la declaración de dificultades del inquilino y el inquilino deberá mostrar prueba de las dificultades que reclamó en su Declaración. En NYC, <1>inquilinos tienen el derecho a un abogado a través de Right to Counsel para estas audiencias</1>.</0><2>\n"
 "Si la corte decide que el inquilino demostró su reclamo por dificultades, entonces su caso/desalojo permanecerá en pausa hasta al menos el {0}. La corte instruirá a las partes que soliciten ERAP si parece que el inquilino es elegible y aún no ha presentado esa solicitud.</2><3>Si la corte decide que el inquilino NO está experimentando dificultades, entonces su caso y desalojo pueden proceder.</3>"
 
 #: frontend/lib/evictionfree/about.tsx:45
@@ -2750,7 +2749,7 @@ msgstr "Puedes enviar tu formulario de declaración en cualquier momento, hasta 
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:79
 msgid "evictionfree.emailBodyTemplateForSharingFromConfirmation2"
-msgstr ""
+msgstr "El 28 de diciembre de 2020, el estado de Nueva York aprobó la legislación que protege a los inquilinos del desalojo debido a la pérdida de ingresos o a los riesgos de salud del COVID-19. Para protegerte, debes rellenar una declaración de penuria y enviarla al dueño de tu edificio y/o a los tribunales. Acabo de utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de mi edificio y a los tribunales locales—deteniendo cualquier caso de desalojo hasta el {date}. Míralo aquí: {url}"
 
 #: frontend/lib/evictionfree/homepage.tsx:48
 msgid "evictionfree.emailBodyTemplateForSharingFromHomepage1"
@@ -2806,7 +2805,9 @@ msgstr "Además, entiendo que los honorarios, multas o intereses legales por imp
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:37
 msgid "evictionfree.legalAgreementCheckboxOnLandlordChallenge"
-msgstr "I further understand that my landlord may request a hearing to challenge the certification of hardship made herein, and that I will have the opportunity to participate in any proceedings regarding my tenancy."
+msgstr "Además, entiendo que mi casero puede solicitar una audiencia para retar el presente\n"
+"certificado de penuria y tendré la oportunidad de participar en todo procedimiento\n"
+"de tenencia inmobiliaria."
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:45
 msgid "evictionfree.legalAgreementCheckboxOnNewProtections4"
@@ -2846,7 +2847,7 @@ msgstr "Una vez que completes tu formulario de declaración a través de esta he
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:77
 msgid "evictionfree.tweetTemplateForSharingFromConfirmation2"
-msgstr ""
+msgstr "Acabo de utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de mi edificio y a los tribunales locales—deteniendo cualquier caso de desalojo hasta el {date}. Míralo aquí: {url} #EvictionFreeNY por @JustFixNYC @RTCNYC @housing4allNY"
 
 #: frontend/lib/evictionfree/homepage.tsx:46
 msgid "evictionfree.tweetTemplateForSharingFromHomepage1"
@@ -3116,3 +3117,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

@@ -96,12 +96,15 @@ def _pages_es(v: HardshipDeclarationVariables) -> List[Page]:
     # These variables offset the y-axis placement of text depending on the pdf version
     universal_vertical_offset = -5 if v.pdf_version == 3 else 0
     address_text_vertical_offset = -5 if v.pdf_version == 3 else 0
-    checkbox_horizontal_offset = 12 if v.pdf_version == 3 else 0
     first_checkbox_vertical_offset = 9 if v.pdf_version == 3 else 0
     second_checkbox_vertical_offset = 4 if v.pdf_version == 3 else 0
     signature_text_vertical_offset = 33 if v.pdf_version == 3 else 0
     printed_name_text_vertical_offset = 25 if v.pdf_version == 3 else 0
     date_vertical_offset = 18 if v.pdf_version == 3 else 0
+
+    # These variables offset the x-axis placement of text depending on the pdf version
+    checkbox_horizontal_offset = 12 if v.pdf_version == 3 else 0
+
     return [
         # First page has nothing to be filled out.
         Page(items=[]),

@@ -93,25 +93,44 @@ def _pages_en(v: HardshipDeclarationVariables) -> List[Page]:
 
 
 def _pages_es(v: HardshipDeclarationVariables) -> List[Page]:
+    # These variables offset the y-axis placement of text depending on the pdf version
+    universal_vertical_offset = -5 if v.pdf_version == 3 else 0
+    address_text_vertical_offset = -5 if v.pdf_version == 3 else 0
+    checkbox_horizontal_offset = 12 if v.pdf_version == 3 else 0
+    first_checkbox_vertical_offset = 9 if v.pdf_version == 3 else 0
+    second_checkbox_vertical_offset = 4 if v.pdf_version == 3 else 0
+    signature_text_vertical_offset = 33 if v.pdf_version == 3 else 0
+    printed_name_text_vertical_offset = 25 if v.pdf_version == 3 else 0
+    date_vertical_offset = 18 if v.pdf_version == 3 else 0
     return [
         # First page has nothing to be filled out.
         Page(items=[]),
         Page(
             items=[
-                Text(v.index_number, 344, 128),
-                Text(v.county_and_court, 353, 160),
-                Text(v.address, 65, 324),
-                Checkbox(v.has_financial_hardship, 79, 413),
+                Text(v.index_number, 344, 128 + universal_vertical_offset),
+                Text(v.county_and_court, 353, 160 + universal_vertical_offset),
+                Text(v.address, 65, 324 + universal_vertical_offset + address_text_vertical_offset),
+                Checkbox(
+                    v.has_financial_hardship,
+                    79 + checkbox_horizontal_offset,
+                    413 + universal_vertical_offset + first_checkbox_vertical_offset,
+                ),
             ]
         ),
         Page(
             items=[
-                Checkbox(v.has_health_risk, 80, 256),
+                Checkbox(
+                    v.has_health_risk,
+                    80 + checkbox_horizontal_offset,
+                    256 + universal_vertical_offset + second_checkbox_vertical_offset,
+                ),
                 # Signature
-                Text(v.name, 300, 524),
+                Text(v.name, 300, 524 + universal_vertical_offset + signature_text_vertical_offset),
                 # Printed name
-                Text(v.name, 300, 564),
-                Text(v.date, 300, 604),
+                Text(
+                    v.name, 300, 564 + universal_vertical_offset + printed_name_text_vertical_offset
+                ),
+                Text(v.date, 300, 604 + universal_vertical_offset + date_vertical_offset),
             ]
         ),
     ]

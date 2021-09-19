@@ -93,9 +93,12 @@ const HardshipDeclarationEnglish: HardshipDeclarationFC = (props) => (
       por no haber cumplido con otras obligaciones financieras según requerido
       por mi tenencia, contrato de alquiler o contrato semejante aún podrán
       cobrarse y resultar en un fallo monetario en mi contra. Además, entiendo
-      que mi casero puede solicitar el desalojo después del 31 de agosto del
-      2021 y que la ley puede proporcionarle, en ese momento, ciertas
-      protecciones independientes disponibles a través de esta declaración.
+      que mi casero puede solicitar una audiencia para retar el presente
+      certificado de penuria y tendré la oportunidad de participar en todo
+      procedimiento de tenencia inmobiliaria. Además, entiendo que mi casero
+      puede solicitar el desalojo después del 15 de enero de 2022 y que para ese
+      entonces por ley se le proporcionen ciertas protecciones en ese momento
+      que son distintas a las que están disponibles mediante esta declaración.
     </p>
     <p>
       Firmado: <FilledField>{props.name}</FilledField>

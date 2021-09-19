@@ -23,9 +23,9 @@ export const JUSTFIX_WEBSITE_URLS = {
 };
 export const HARDSHIP_DECLARATION_FORM_URLS = {
   en:
-    "http://www.nycourts.gov/eefpa/PDF/Eviction_Hardship_Declaration-English.pdf",
+    "https://nycourts.gov/eefpa/PDF/Residential_Eviction_Hardship_Declaration-English.pdf",
   es:
-    "http://www.nycourts.gov/eefpa/PDF/Eviction_Hardship_Declaration-Spanish.pdf",
+    "https://nycourts.gov/eefpa/PDF/Eviction_Hardship_Declaration-Spanish.pdf",
 };
 export const RTC_FAQS_PAGE_URLS = {
   en: "https://www.righttocounselnyc.org/eviction_protections_during_covid",

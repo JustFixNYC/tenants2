@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-09-19 17:59\n"
+"PO-Revision-Date: 2021-09-19 18:00\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2749,7 +2749,7 @@ msgstr "Puedes enviar tu formulario de declaración en cualquier momento, hasta 
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:79
 msgid "evictionfree.emailBodyTemplateForSharingFromConfirmation2"
-msgstr "On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. I just used this website to send a hardship declaration form to my landlord and local courts—putting any eviction case on hold until {date}. Check it out here: {url}"
+msgstr "El 28 de diciembre de 2020, el estado de Nueva York aprobó la legislación que protege a los inquilinos del desalojo debido a la pérdida de ingresos o a los riesgos de salud del COVID-19. Para protegerte, debes rellenar una declaración de penuria y enviarla al dueño de tu edificio y/o a los tribunales. Acabo de utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de mi edificio y a los tribunales locales—deteniendo cualquier caso de desalojo hasta el {date}. Míralo aquí: {url}"
 
 #: frontend/lib/evictionfree/homepage.tsx:48
 msgid "evictionfree.emailBodyTemplateForSharingFromHomepage1"
@@ -2847,7 +2847,7 @@ msgstr "Una vez que completes tu formulario de declaración a través de esta he
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:77
 msgid "evictionfree.tweetTemplateForSharingFromConfirmation2"
-msgstr "I just used this website to send a hardship declaration form to my landlord and local courts—putting any eviction case on hold until {date}. Check it out here: {url} #EvictionFreeNY via @JustFixNYC @RTCNYC @housing4allNY"
+msgstr "Acabo de utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de mi edificio y a los tribunales locales—deteniendo cualquier caso de desalojo hasta el {date}. Míralo aquí: {url} #EvictionFreeNY por @JustFixNYC @RTCNYC @housing4allNY"
 
 #: frontend/lib/evictionfree/homepage.tsx:46
 msgid "evictionfree.tweetTemplateForSharingFromHomepage1"

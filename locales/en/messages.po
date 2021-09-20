@@ -203,6 +203,10 @@ msgstr "Apartment number"
 msgid "Apply for ERAP Online"
 msgstr "Apply for ERAP Online"
 
+#: frontend/lib/norent/data/state-localized-resources.tsx:12
+msgid "Apply for Rental Assistance. Qualifying renters are eligible for 100% of rent and utilities owed."
+msgstr "Apply for Rental Assistance. Qualifying renters are eligible for 100% of rent and utilities owed."
+
 #: frontend/lib/pages/logout-alt-page.tsx:16
 msgid "Are you sure you want to log out?"
 msgstr "Are you sure you want to log out?"
@@ -371,7 +375,7 @@ msgstr "Can't pay rent?"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:21
+#: frontend/lib/norent/data/state-localized-resources.tsx:31
 msgid "Cancel Rent Campaign"
 msgstr "Cancel Rent Campaign"
 
@@ -678,7 +682,7 @@ msgstr "Establish your defense"
 msgid "Eviction Free NY has been suspended"
 msgstr "Eviction Free NY has been suspended"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:14
+#: frontend/lib/norent/data/state-localized-resources.tsx:24
 msgid "Eviction Moratorium updates"
 msgstr "Eviction Moratorium updates"
 
@@ -1705,7 +1709,7 @@ msgstr "Rent History"
 msgid "Rent Strike 2020: A Resource List"
 msgstr "Rent Strike 2020: A Resource List"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:29
+#: frontend/lib/norent/data/state-localized-resources.tsx:39
 msgid "Rent Strike Organizing"
 msgstr "Rent Strike Organizing"
 

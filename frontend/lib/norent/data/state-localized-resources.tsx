@@ -17,6 +17,18 @@ export const STATE_LOCALIZED_RESOURCES: StateLocalizedResources = {
         en: "https://www.bcsh.ca.gov/covidrelief/",
       },
     },
+    {
+      children: (
+        <Trans>
+          Apply for Rental Assistance. Qualifying renters are eligible for 100%
+          of rent and utilities owed.
+        </Trans>
+      ),
+      hrefs: {
+        en: "https://housing.ca.gov/covid_rr/index.html",
+        es: "https://housing.ca.gov/covid_rr/index_esp.html",
+      },
+    },
   ],
   NY: [
     {

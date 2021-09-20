@@ -79,8 +79,6 @@ $max-content-width: 1440px;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 200;
-  // Spacing support for when there are multiple buttons side-by-side
-  margin: 1rem 2rem 0 0;
 }
 
 // Make sure all links within the landing title content don't have underlines
@@ -88,6 +86,10 @@ $max-content-width: 1440px;
 .column.jf-evictionfree-top-level-content {
   a {
     text-decoration: none;
+  }
+  .jf-build-my-declaration-btn {
+    // Spacing support for when there are multiple buttons side-by-side
+    margin: 1rem 2rem 0 0;
   }
   .jf-evictionfree-byline a {
     text-decoration: underline;

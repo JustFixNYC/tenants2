@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-09-20 14:16\n"
+"PO-Revision-Date: 2021-09-20 14:52\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -210,7 +210,7 @@ msgstr "Solicitar ERAP en línea"
 
 #: frontend/lib/norent/data/state-localized-resources.tsx:12
 msgid "Apply for Rental Assistance. Qualifying renters are eligible for 100% of rent and utilities owed."
-msgstr "Apply for Rental Assistance. Qualifying renters are eligible for 100% of rent and utilities owed."
+msgstr "Aplique para asistencia de renta. Los inquilinos que califiquen ahora son elegibles para recibir el 100% de la renta y los servicios públicos adeudados."
 
 #: frontend/lib/pages/logout-alt-page.tsx:16
 msgid "Are you sure you want to log out?"

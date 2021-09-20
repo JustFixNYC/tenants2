@@ -208,19 +208,19 @@ select
     -- will not return null, will return 0
     coalesce(R.unitsstab2007,0) as stabilized_unit_count_2007,
 
-    -- number of stabilized units at entered bbl in 2019
+    -- number of stabilized units at entered bbl in 2020
     -- drawn from rentstab_v2
     -- will not return null, will return 0
-    coalesce(R2.uc2019,0) as stabilized_unit_count,
+    coalesce(R2.uc2020,0) as stabilized_unit_count,
 
     -- year that latest rent stabilized unit count comes from
     -- hard-coded in to the SQL query itself
-    2019 as stabilized_unit_count_year,
+    2020 as stabilized_unit_count_year,
 
-    -- maximum number of stabilized units at entered bbl on any year between 2007 and 2019
+    -- maximum number of stabilized units at entered bbl on any year between 2007 and 2020
     -- false if there have been no stabilized units at any point
     -- will not return null, will return 0
-    greatest(R.unitstotal, R2.uc2018, R2.uc2019, 0) as stabilized_unit_count_maximum,
+    greatest(R.unitstotal, R2.uc2018, R2.uc2020, 0) as stabilized_unit_count_maximum,
 
     -- average wait time for repairs after a landlord has been notified of a violation. for the entered bbl
     -- may return null if unknown

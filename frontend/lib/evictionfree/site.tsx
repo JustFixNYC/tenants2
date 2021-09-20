@@ -12,7 +12,7 @@ import {
   useEvictionFreeUnsupportedLocale,
 } from "./route-info";
 import Navbar, { NavbarDropdown } from "../ui/navbar";
-import { AppContext } from "../app-context";
+import { AppContext, getGlobalAppServerInfo } from "../app-context";
 import { Trans } from "@lingui/macro";
 import { LANGUAGE_NAMES, SwitchLanguage } from "../ui/language-toggle";
 import classnames from "classnames";
@@ -120,14 +120,19 @@ const EvictionFreeBuildMyDeclarationLink: React.FC<{}> = () => {
 
 const EvictionFreeMenuItems: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
+  const siteIsActive = !getGlobalAppServerInfo().isEfnySuspended;
   return (
     <>
-      <Link className="navbar-item" to={Routes.locale.faqs}>
-        <Trans>Faqs</Trans>
-      </Link>
-      <Link className="navbar-item" to={Routes.locale.about}>
-        <Trans>About</Trans>
-      </Link>
+      {siteIsActive && (
+        <>
+          <Link className="navbar-item" to={Routes.locale.faqs}>
+            <Trans>Faqs</Trans>
+          </Link>
+          <Link className="navbar-item" to={Routes.locale.about}>
+            <Trans>About</Trans>
+          </Link>
+        </>
+      )}
       {session.phoneNumber ? (
         <Link className="navbar-item" to={Routes.locale.logout}>
           <Trans>Log out</Trans>
@@ -138,7 +143,7 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
         </Link>
       )}
       <EvictionFreeLanguageDropdown />
-      <EvictionFreeBuildMyDeclarationLink />
+      {siteIsActive && <EvictionFreeBuildMyDeclarationLink />}
     </>
   );
 };

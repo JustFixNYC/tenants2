@@ -164,6 +164,12 @@ export interface AppServerInfo {
   isDemoDeployment: boolean;
 
   /**
+   * Whether or not the Eviction Free NY site is "suspended" (users
+   * are blocked from starting/sending a new hardship declaration).
+   */
+  isEfnySuspended: boolean;
+
+  /**
    * An optional "Facebook App ID" for the an associated organization's Facebook page.
    * If empty (the default), there will be no reference to a Facebook App ID
    * in the header metatags for the site.

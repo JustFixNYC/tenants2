@@ -29,7 +29,7 @@ function getCurrentRentNonpaymentPeriods(s: AllSessionInfo): string[] {
 function addCaveatForLA(paymentDate: GraphQLDate) {
   let caveat = "";
   if (new Date(paymentDate) >= END_DATE_OF_CA_STATE_PROTECTIONS) {
-    caveat = li18n._(t` (only for City of Los Angeles residents)`);
+    caveat = " " + li18n._(t` (only for City of Los Angeles residents)`);
   }
   return friendlyUTCMonthAndYear(paymentDate) + caveat;
 }

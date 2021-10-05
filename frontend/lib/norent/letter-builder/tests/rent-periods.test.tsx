@@ -8,8 +8,8 @@ it("attaches a caveat for CA letters with months after september 2021", () => {
       { paymentDate: "2021-11-01" },
     ])
   ).toEqual([
-    "2021-9-01",
-    "2021-10-01 (only for City of Los Angeles residents)",
-    "2021-11-01 (only for City of Los Angeles residents)",
+    ["2021-9-01", "September 2021"],
+    ["2021-10-01", "October 2021 (only for City of Los Angeles residents)"],
+    ["2021-11-01", "November 2021 (only for City of Los Angeles residents)"],
   ]);
 });

@@ -26,9 +26,18 @@ function getCurrentRentNonpaymentPeriods(s: AllSessionInfo): string[] {
 function getRentNonpaymentChoices(
   periods: AllSessionInfo["norentAvailableRentPeriods"]
 ): DjangoChoices {
+  // LA residents' protections extend beyond those in other cities.
+  function addCaveatForLA(paymentDate: GraphQLDate) {
+    let caveat = "";
+    if (new Date(paymentDate) >= new Date("01 October 2021")) {
+      caveat = " (only for City of Los Angeles residents)";
+    }
+    return friendlyUTCMonthAndYear(paymentDate) + caveat;
+  }
+
   return assertNotNull(periods).map(({ paymentDate }) => [
     paymentDate,
-    friendlyUTCMonthAndYear(paymentDate),
+    addCaveatForLA(paymentDate),
   ]);
 }
 

@@ -12,6 +12,7 @@ import Page from "../ui/page";
 import { StartAccountOrLoginProps } from "./routes";
 import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
+import { PhoneNumberFormField } from "../forms/phone-number-form-field";
 
 const ForgotPasswordModal: React.FC<StartAccountOrLoginProps> = ({
   routes,
@@ -36,23 +37,37 @@ const ForgotPasswordModal: React.FC<StartAccountOrLoginProps> = ({
             initialState={{ phoneNumber: session.lastQueriedPhoneNumber || "" }}
             onSuccessRedirect={routes.verifyPhoneNumber}
           >
-            {(ctx) => (
-              <>
-                <HiddenFormField {...ctx.fieldPropsFor("phoneNumber")} />
-                <div className="buttons jf-two-buttons">
-                  <Link
-                    {...modalCtx.getLinkCloseProps()}
-                    className="button is-medium jf-is-back-button"
-                  >
-                    <Trans>Go back</Trans>
-                  </Link>
-                  <NextButton
-                    isLoading={ctx.isLoading}
-                    label={li18n._(t`Send code`)}
-                  />
-                </div>
-              </>
-            )}
+            {}
+            {(ctx) => {
+              console.log(ctx.fieldPropsFor("phoneNumber"));
+              return (
+                <>
+                  {session.lastQueriedPhoneNumber ? (
+                    <HiddenFormField {...ctx.fieldPropsFor("phoneNumber")} />
+                  ) : (
+                    <>
+                      <br />
+                      <PhoneNumberFormField
+                        {...ctx.fieldPropsFor("phoneNumber")}
+                        label={li18n._(t`Phone number`)}
+                      />
+                    </>
+                  )}
+                  <div className="buttons jf-two-buttons">
+                    <Link
+                      {...modalCtx.getLinkCloseProps()}
+                      className="button is-medium jf-is-back-button"
+                    >
+                      <Trans>Go back</Trans>
+                    </Link>
+                    <NextButton
+                      isLoading={ctx.isLoading}
+                      label={li18n._(t`Send code`)}
+                    />
+                  </div>
+                </>
+              );
+            }}
           </LegacyFormSubmitter>
         </>
       )}

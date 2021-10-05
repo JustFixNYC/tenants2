@@ -37,9 +37,7 @@ const ForgotPasswordModal: React.FC<StartAccountOrLoginProps> = ({
             initialState={{ phoneNumber: session.lastQueriedPhoneNumber || "" }}
             onSuccessRedirect={routes.verifyPhoneNumber}
           >
-            {}
             {(ctx) => {
-              console.log(ctx.fieldPropsFor("phoneNumber"));
               return (
                 <>
                   {session.lastQueriedPhoneNumber ? (
@@ -79,6 +77,7 @@ export const VerifyPassword: React.FC<StartAccountOrLoginProps> = ({
   routes,
   ...props
 }) => {
+  const { session } = useContext(AppContext);
   return (
     <Page title={li18n._(t`You already have an account`)} withHeading="big">
       <div className="content">
@@ -100,7 +99,18 @@ export const VerifyPassword: React.FC<StartAccountOrLoginProps> = ({
       >
         {(ctx) => (
           <>
-            <HiddenFormField {...ctx.fieldPropsFor("phoneNumber")} />
+            {session.lastQueriedPhoneNumber ? (
+              <HiddenFormField {...ctx.fieldPropsFor("phoneNumber")} />
+            ) : (
+              <>
+                <br />
+                <PhoneNumberFormField
+                  {...ctx.fieldPropsFor("phoneNumber")}
+                  label={li18n._(t`Phone number`)}
+                />
+              </>
+            )}
+
             <TextualFormField
               label={li18n._(t`Password`)}
               type="password"

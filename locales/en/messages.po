@@ -27,6 +27,10 @@ msgstr "(Note: the email will be sent in English)"
 msgid "(Note: the request will be sent in English)"
 msgstr "(Note: the request will be sent in English)"
 
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:23
+msgid "(only for City of Los Angeles residents)"
+msgstr "(only for City of Los Angeles residents)"
+
 #: frontend/lib/forms/optionalize-label.ts:7
 msgid "(optional)"
 msgstr "(optional)"
@@ -85,7 +89,7 @@ msgstr "<0>Notice of COVID-19 impact on rent</0><1/>at <2/>"
 msgid "<0>To</0><1/><2>From</2><3/>"
 msgstr "<0>To</0><1/><2>From</2><3/>"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:47
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:48
 msgid "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
 msgstr "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
 
@@ -1062,7 +1066,7 @@ msgstr "It doesn't seem like this property is required to register with HPD. You
 msgid "It looks like your apartment may be rent stabilized"
 msgstr "It looks like your apartment may be rent stabilized"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:36
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:37
 msgid "It's important to notify your landlord of all months when you couldn't pay rent in full."
 msgstr "It's important to notify your landlord of all months when you couldn't pay rent in full."
 
@@ -1357,11 +1361,11 @@ msgstr "Mold on walls"
 msgid "Montana"
 msgstr "Montana"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:45
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:46
 msgid "Months of rent non-payment"
 msgstr "Months of rent non-payment"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:34
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:35
 msgid "Months you're missing rent payments"
 msgstr "Months you're missing rent payments"
 
@@ -2402,7 +2406,7 @@ msgstr "Who is not protected by NY's COVID-19 Tenant Protection Laws?"
 msgid "Who we are"
 msgstr "Who we are"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:46
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:47
 msgid "Why aren't all months listed?"
 msgstr "Why aren't all months listed?"
 

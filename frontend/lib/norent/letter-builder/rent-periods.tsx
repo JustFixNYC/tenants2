@@ -14,6 +14,8 @@ import { assertNotNull } from "@justfixnyc/util";
 import { NorentNotSentLetterStep } from "./step-decorators";
 import { Accordion } from "../../ui/accordion";
 
+const END_DATE_OF_CA_STATE_PROTECTIONS = new Date("01 October 2021");
+
 function getCurrentRentNonpaymentPeriods(s: AllSessionInfo): string[] {
   const validDates = new Set(
     s.norentAvailableRentPeriods.map((p) => p.paymentDate)
@@ -23,18 +25,18 @@ function getCurrentRentNonpaymentPeriods(s: AllSessionInfo): string[] {
   );
 }
 
-function getRentNonpaymentChoices(
+// LA residents' protections extend beyond those in other cities.
+function addCaveatForLA(paymentDate: GraphQLDate) {
+  let caveat = "";
+  if (new Date(paymentDate) >= END_DATE_OF_CA_STATE_PROTECTIONS) {
+    caveat = li18n._(t` (only for City of Los Angeles residents)`);
+  }
+  return friendlyUTCMonthAndYear(paymentDate) + caveat;
+}
+
+export function getRentNonpaymentChoices(
   periods: AllSessionInfo["norentAvailableRentPeriods"]
 ): DjangoChoices {
-  // LA residents' protections extend beyond those in other cities.
-  function addCaveatForLA(paymentDate: GraphQLDate) {
-    let caveat = "";
-    if (new Date(paymentDate) >= new Date("01 October 2021")) {
-      caveat = " (only for City of Los Angeles residents)";
-    }
-    return friendlyUTCMonthAndYear(paymentDate) + caveat;
-  }
-
   return assertNotNull(periods).map(({ paymentDate }) => [
     paymentDate,
     addCaveatForLA(paymentDate),

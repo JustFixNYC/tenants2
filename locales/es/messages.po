@@ -90,7 +90,7 @@ msgstr "<0>Aviso de impacto del COVID-19 en la renta</0><1/>en <2/>"
 msgid "<0>To</0><1/><2>From</2><3/>"
 msgstr "<0>De</0><1/><2>Hasta</2><3/>"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:39
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:47
 msgid "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
 msgstr "<0>No incluimos meses en los que ya has informado al dueño de tu edificio anteriormente.</0>"
 
@@ -208,7 +208,7 @@ msgstr "Número de apartamento"
 msgid "Apply for ERAP Online"
 msgstr "Solicitar ERAP en línea"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:12
+#: frontend/lib/norent/data/state-localized-resources.tsx:6
 msgid "Apply for Rental Assistance. Qualifying renters are eligible for 100% of rent and utilities owed."
 msgstr "Aplique para asistencia de renta. Los inquilinos que califiquen ahora son elegibles para recibir el 100% de la renta y los servicios públicos adeudados."
 
@@ -349,10 +349,6 @@ msgstr "El timbre del edificio no funciona"
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
 msgstr "Mapa de huelgas de renta y protección para inquilinos ante la emergencia generada por el COVID-19"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:6
-msgid "COVID-19 Tenant Relief Act Extension"
-msgstr "Extensión de la Ley de Alivio de Inquilinos COVID-19"
-
 #: common-data/us-state-choices.ts:69
 msgid "California"
 msgstr "California"
@@ -380,7 +376,7 @@ msgstr "¿No puedes pagar la renta?"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:31
+#: frontend/lib/norent/data/state-localized-resources.tsx:25
 msgid "Cancel Rent Campaign"
 msgstr "Campaña para la Anulación de la Renta"
 
@@ -687,7 +683,7 @@ msgstr "Establece tu defensa"
 msgid "Eviction Free NY has been suspended"
 msgstr "Eviction Free NY ha sido suspendido"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:24
+#: frontend/lib/norent/data/state-localized-resources.tsx:18
 msgid "Eviction Moratorium updates"
 msgstr "Actualizaciones de la Moratoria de Desalojo"
 
@@ -793,7 +789,7 @@ msgstr "Comparte tu opinión"
 msgid "Give us feedback"
 msgstr "Comparte tu opinión"
 
-#: frontend/lib/start-account-or-login/verify-password.tsx:39
+#: frontend/lib/start-account-or-login/verify-password.tsx:44
 msgid "Go back"
 msgstr "Atrás"
 
@@ -936,7 +932,7 @@ msgstr "Acepto los <0>términos y condiciones de NoRent.org</0>."
 msgid "I am experiencing financial hardship due to COVID-19."
 msgstr "Estoy experimentando dificultades financieras debido al COVID-19."
 
-#: frontend/lib/start-account-or-login/verify-password.tsx:64
+#: frontend/lib/start-account-or-login/verify-password.tsx:75
 msgid "I forgot my password"
 msgstr "He perdido mi contraseña"
 
@@ -1071,7 +1067,7 @@ msgstr "Parece que esta propiedad no tiene que estar registrada con el HPD. Pued
 msgid "It looks like your apartment may be rent stabilized"
 msgstr "Parece que tu apartamento es de renta estabilizada"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:28
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:36
 msgid "It's important to notify your landlord of all months when you couldn't pay rent in full."
 msgstr "Es importante notificar al dueño o manager de tu edificio de todos los meses cuando no pudiste pagar el alquiler completo."
 
@@ -1366,11 +1362,11 @@ msgstr "Muros Con Moho"
 msgid "Montana"
 msgstr "Montana"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:37
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:45
 msgid "Months of rent non-payment"
 msgstr "Meses de impago de renta"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:26
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:34
 msgid "Months you're missing rent payments"
 msgstr "Meses en the te faltan pagos de renta"
 
@@ -1508,7 +1504,7 @@ msgstr "No poder pagar la renta debido al COVID-19 no es nada de lo que avergonz
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 msgstr "Aviso de impacto del COVID-19 en la renta enviado en nombre de {0}"
 
-#: frontend/lib/start-account-or-login/verify-password.tsx:52
+#: frontend/lib/start-account-or-login/verify-password.tsx:59
 msgid "Now we just need your password. This is the same one you’ve used on JustFix.nyc."
 msgstr "Ahora sólo necesitamos tu contraseña. Esta es la misma que usas en JustFix.nyc."
 
@@ -1578,7 +1574,7 @@ msgstr "Tomas de corriente no funcionan"
 msgid "Painting overdue (3 years)"
 msgstr "Pintura Atrasada (cada 3 años)"
 
-#: frontend/lib/start-account-or-login/verify-password.tsx:61
+#: frontend/lib/start-account-or-login/verify-password.tsx:72
 msgid "Password"
 msgstr "Contraseña"
 
@@ -1600,6 +1596,8 @@ msgstr "Pensilvania"
 #: frontend/lib/account-settings/contact-settings.tsx:24
 #: frontend/lib/rh/routes.tsx:128
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:36
+#: frontend/lib/start-account-or-login/verify-password.tsx:40
+#: frontend/lib/start-account-or-login/verify-password.tsx:69
 msgid "Phone number"
 msgstr "Número de teléfono"
 
@@ -1714,7 +1712,7 @@ msgstr "Historial de Renta"
 msgid "Rent Strike 2020: A Resource List"
 msgstr "Huelga de Renta 2020: Lista de recursos (en inglés)"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:39
+#: frontend/lib/norent/data/state-localized-resources.tsx:33
 msgid "Rent Strike Organizing"
 msgstr "Organizar Huelgas de Renta"
 
@@ -1746,7 +1744,7 @@ msgstr "Solicita el Historial de Renta de tu apartamento al DHCR"
 msgid "Research your landlord"
 msgstr "Investiga al dueño de tu edificio"
 
-#: frontend/lib/start-account-or-login/verify-password.tsx:27
+#: frontend/lib/start-account-or-login/verify-password.tsx:28
 msgid "Reset your password"
 msgstr "Cambia tu contraseña"
 
@@ -1803,7 +1801,7 @@ msgstr "Enviar una carta de queja"
 msgid "Send another letter"
 msgstr "Enviar otra carta"
 
-#: frontend/lib/start-account-or-login/verify-password.tsx:41
+#: frontend/lib/start-account-or-login/verify-password.tsx:46
 msgid "Send code"
 msgstr "Enviar código"
 
@@ -2101,7 +2099,7 @@ msgstr "Esta herramienta ha sido suspendida"
 msgid "This tool is provided by JustFix.nyc. We’re a non-profit that creates tools for tenants and the housing rights movement. We always want feedback to improve our tools."
 msgstr "Esta herramienta te la trae JustFix.nyc. Somos una organización sin fines de lucro que crea herramientas para inquilinos y el movimiento de derechos de la vivienda. Siempre nos interesa tu opinión para mejorar nuestras herramientas."
 
-#: frontend/lib/start-account-or-login/verify-password.tsx:29
+#: frontend/lib/start-account-or-login/verify-password.tsx:30
 msgid "To begin the password reset process, we'll text you a verification code."
 msgstr "Para restablecer tu contraseña, te enviaremos un código de verificación."
 
@@ -2409,7 +2407,7 @@ msgstr "¿Quién no está protegido por las leyes de protección de inquilinos C
 msgid "Who we are"
 msgstr "Quiénes somos"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:38
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:46
 msgid "Why aren't all months listed?"
 msgstr "¿Por qué no puedo ver todos los meses?"
 
@@ -2490,7 +2488,7 @@ msgstr "Sí, las protecciones descritas por la ley del estado de Nueva York te p
 msgid "Yes, this is a free website created by 501(c)3 non-profit organizations."
 msgstr "Sí, este es un sitio web gratuito creado por organizaciones sin fines de lucro reconocidas con la categoría de exención tributaria 501(c)3."
 
-#: frontend/lib/start-account-or-login/verify-password.tsx:49
+#: frontend/lib/start-account-or-login/verify-password.tsx:56
 msgid "You already have an account"
 msgstr "Ya tienes una cuenta"
 
@@ -2720,7 +2718,8 @@ msgstr "eviction free nyc, eviction free ny, penuria, declaración, desalojo, de
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:157
 msgid "evictionFree.canLandlordChallengeDeclarationFaq"
-msgstr "<0>SI. ESTO ES NUEVO. Ahora, el casero tiene derecho a impugnar la validez de la declaración de dificultades de un inquilino. Para hacer esto, el casero puede presentar una moción ante la corte, declarando que no cree que el inquilino tenga las dificultades que reclamó en su Declaración de Dificultades. Si ocurre esto, la Corte concederá una audiencia para determinar la validez de la declaración de dificultades del inquilino y el inquilino deberá mostrar prueba de las dificultades que reclamó en su Declaración. En NYC, <1>inquilinos tienen el derecho a un abogado a través de Right to Counsel para estas audiencias</1>.</0><2>\n"
+msgstr ""
+"<0>SI. ESTO ES NUEVO. Ahora, el casero tiene derecho a impugnar la validez de la declaración de dificultades de un inquilino. Para hacer esto, el casero puede presentar una moción ante la corte, declarando que no cree que el inquilino tenga las dificultades que reclamó en su Declaración de Dificultades. Si ocurre esto, la Corte concederá una audiencia para determinar la validez de la declaración de dificultades del inquilino y el inquilino deberá mostrar prueba de las dificultades que reclamó en su Declaración. En NYC, <1>inquilinos tienen el derecho a un abogado a través de Right to Counsel para estas audiencias</1>.</0><2>\n"
 "Si la corte decide que el inquilino demostró su reclamo por dificultades, entonces su caso/desalojo permanecerá en pausa hasta al menos el {0}. La corte instruirá a las partes que soliciten ERAP si parece que el inquilino es elegible y aún no ha presentado esa solicitud.</2><3>Si la corte decide que el inquilino NO está experimentando dificultades, entonces su caso y desalojo pueden proceder.</3>"
 
 #: frontend/lib/evictionfree/about.tsx:45
@@ -2809,7 +2808,8 @@ msgstr "Además, entiendo que los honorarios, multas o intereses legales por imp
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:37
 msgid "evictionfree.legalAgreementCheckboxOnLandlordChallenge"
-msgstr "Además, entiendo que mi casero puede solicitar una audiencia para retar el presente\n"
+msgstr ""
+"Además, entiendo que mi casero puede solicitar una audiencia para retar el presente\n"
 "certificado de penuria y tendré la oportunidad de participar en todo procedimiento\n"
 "de tenencia inmobiliaria."
 
@@ -3121,4 +3121,3 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

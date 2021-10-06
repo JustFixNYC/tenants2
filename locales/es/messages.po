@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-09-20 14:52\n"
+"PO-Revision-Date: 2021-10-06 17:47\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -34,7 +34,7 @@ msgstr "(Nota: tenga en cuenta que la solicitud se enviará en inglés)"
 
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:23
 msgid "(only for City of Los Angeles residents)"
-msgstr ""
+msgstr "(solo para residentes de la ciudad de Los Angeles)"
 
 #: frontend/lib/forms/optionalize-label.ts:7
 msgid "(optional)"

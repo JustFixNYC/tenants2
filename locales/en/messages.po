@@ -3033,7 +3033,7 @@ msgstr "<0>While you wait for your landlord to respond, gather as much documenta
 
 #: frontend/lib/norent/letter-builder/los-angeles-know-your-rights.tsx:35
 msgid "norent.losAngelesKyrAB832"
-msgstr "We’ve worked with the non-profit organization <0>SAJE</0> to provide additional support once you’ve sent your letter. You can learn more about how AB832 affects Los Angeles residents at <1>Stay Housed LA</1>."
+msgstr "We’ve worked with the non-profit organization <0>SAJE</0> to provide additional support once you’ve sent your letter. You can learn more about eviction protections for Los Angeles residents at <1>Stay Housed LA</1>."
 
 #: frontend/lib/norent/about.tsx:99
 msgid "norent.madeByBlurb"

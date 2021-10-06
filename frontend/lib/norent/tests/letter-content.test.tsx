@@ -25,7 +25,7 @@ describe("", () => {
     expect(chunkifyPropsForBizarreCaliforniaLawyers(props)).toEqual([props]);
   });
 
-  it("works for CA letters with months before september", () => {
+  it("works for CA letters with months before september 2020", () => {
     expect(
       chunkifyPropsForBizarreCaliforniaLawyers({
         state: "CA",
@@ -34,7 +34,7 @@ describe("", () => {
     ).toEqual([{ state: "CA", paymentDates: ["2020-07-01", "2020-08-01"] }]);
   });
 
-  it("works for CA letters with months >= september", () => {
+  it("works for CA letters with months >= september 2020", () => {
     expect(
       chunkifyPropsForBizarreCaliforniaLawyers({
         state: "CA",
@@ -46,7 +46,7 @@ describe("", () => {
     ]);
   });
 
-  it("works for CA letters with months before and >= september", () => {
+  it("works for CA letters with months before and >= september 2020", () => {
     expect(
       chunkifyPropsForBizarreCaliforniaLawyers({
         state: "CA",

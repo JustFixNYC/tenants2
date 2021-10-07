@@ -28,7 +28,8 @@ class Command(BaseCommand):
         if users:
             count = len(users)
             if count == 1:
-                desc = "One user has not had their letter of complaint sent"
+                desc = "One user ({users[0].full_preferred_name}) has not had their letter of "
+                "complaint sent"
             else:
                 desc = f"{count} users have not had their letters of complaint sent"
 

@@ -17,7 +17,7 @@
   },
   "CA": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "If you live in the state of California and you are not able to pay your rent due to COVID-19 reasons from March 1, 2020 to September 30, 2021 you are likely covered by AB832 - an extension of the Tenant Relief Act of 2020. You must submit a declaration letter each month to your landlord stating that you are unable to pay rent and the reasons why. This tool satisfies the requirements for you to be able to successfully mail a declaration letter to your landlord."
+    "textOfLegislation": "On Friday, October 1, 2021, California\u2019s statewide protections for tenants who are unable to pay rent due to COVID-19 \u201cAB832\u201d expired. If you have not submitted a declaration for a month you were unable to pay rent, do so now through NoRent.org here. If you are unable to cover the rent costs, we strongly encourage you to apply for government rental assistance through Housing is Key."
   },
   "CO": {
     "stateWithoutProtections": true,
@@ -119,7 +119,7 @@
     "stateWithoutProtections": true
   },
   "NJ": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "Under the legislation (S3691), renters in New Jersey are protected from eviction through Aug. 31 if your annual household income is above 80% of their county\u2019s median income. Renters who make less than 80% will be protected under the moratorium through Dec. 31."
   },
   "NM": {

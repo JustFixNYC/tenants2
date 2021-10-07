@@ -17,7 +17,7 @@
   },
   "CA": {
     "stateWithoutProtections": false,
-    "textOfLegislation": "Si vives en el estado de California y no puedes pagar la renta por motivos relacionados al COVID-19 entre Marzo de 2020 y Septiembre de 2021, es probable que tengas cobertura legal bajo el \"Extension de Acto de Alivio a los Inquilinos de 2020\" AB832. Cada mes, debes enviar una carta de declaraci\u00f3n de aviso de impago al due\u00f1o o manager de tu edificio para que sepan que no puedes pagar y el porque. Esta herramienta satisface las necesidades legales para que puedas mandar tal carta de declaraci\u00f3n con certeza."
+    "textOfLegislation": "El viernes 1 de Octubre de 2021, las protecciones estatales de California para inquilinos que no pudieron pagar el alquiler debido a COVID-19 \"AB832\" expiraron. Si no ha podido pagar el alquiler y no ha presentado una declaraci\u00f3n al propietario o administrador de la propiedad, complete una declaraci\u00f3n lo antes posible. Si no puede pagar la renta, le recomendamos encarecidamente que solicite asistencia renta del gobierno a trav\u00e9s de Housing is Key."
   },
   "CO": {
     "stateWithoutProtections": true,
@@ -119,7 +119,7 @@
     "stateWithoutProtections": true
   },
   "NJ": {
-    "stateWithoutProtections": false,
+    "stateWithoutProtections": true,
     "textOfLegislation": "Seg\u00fan la legislaci\u00f3n (S3691), los inquilinos en Nueva Jersey est\u00e1n protegidos contra el desalojo hasta el 31 de agosto si su ingreso familiar anual es superior al 80% del ingreso medio de su condado. Los arrendatarios que ganen menos del 80% estar\u00e1n protegidos por la moratoria hasta el 31 de diciembre."
   },
   "NM": {

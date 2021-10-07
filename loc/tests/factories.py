@@ -2,7 +2,7 @@ import factory
 import datetime
 
 from onboarding.tests.factories import OnboardingInfoFactory
-from users.tests.factories import UserFactory
+from users.tests.factories import UserFactory, SecondUserFactory
 from loc.models import LetterRequest, LOC_MAILING_CHOICES, LandlordDetails, AccessDate
 from issues.models import Issue
 
@@ -12,6 +12,15 @@ class LetterRequestFactory(factory.django.DjangoModelFactory):
         model = LetterRequest
 
     user = factory.SubFactory(UserFactory)
+
+    mail_choice = LOC_MAILING_CHOICES.WE_WILL_MAIL
+
+
+class SecondLetterRequestFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = LetterRequest
+
+    user = factory.SubFactory(SecondUserFactory)
 
     mail_choice = LOC_MAILING_CHOICES.WE_WILL_MAIL
 

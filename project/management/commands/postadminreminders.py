@@ -27,13 +27,17 @@ class Command(BaseCommand):
         users = get_old_loc_users()
         if users:
             count = len(users)
+            username = users[0].full_preferred_name
             if count == 1:
-                desc = "One user ({users[0].full_preferred_name}) has not had their letter of "
-                "complaint sent"
+                desc = f"One user ({username}) has not had their letter of complaint sent"
             else:
-                desc = f"{count} users have not had their letters of complaint sent"
+                desc = f"{count} users, including {username}, have not had their letters".join(
+                    "of complaint sent"
+                )
 
-            self.stdout.write("Posting reminder to admins about sending letters of complaint.\n")
+            self.stdout.write(
+                f"Posting reminder to admins about sending letters of complaint: '{desc}'\n"
+            )
 
             url = absolute_reverse("admin:loc_locuser_changelist")
             link = slack.hyperlink(url, text="send letters of complaint")

@@ -18,21 +18,32 @@ class NorentReminder(SmsReminder):
         ).exclude(norent_letters__rent_periods=rp)
 
     def get_sms_text(self, user):
-        site = site_util.get_site_of_type(site_util.SITE_CHOICES.NORENT)
-        url = site_util.absolutify_url("/", site=site)
+        norentSite = site_util.get_site_of_type(site_util.SITE_CHOICES.NORENT)
+        norentUrl = site_util.absolutify_url("/", site=norentSite)
+        housingIsKeyUrl = "https://housing.ca.gov/"
         if self.year_and_month == "2021-02":
             msg = _(
                 "%(first_name)s, you've previously created an account on NoRent.org. "
                 "The California Tenant Relief Act of 2020 was extended by the new law SB91. "
                 "In order to be protected from eviction, you must send a new declaration "
-                "letter to your landlord through NoRent.org: %(url)s"
+                "letter to your landlord through NoRent.org: %(norentUrl)s"
             )
         elif self.year_and_month == "2021-07":
             msg = _(
                 "%(first_name)s, you've previously created an account on NoRent.org. "
                 "The California Tenant Relief Act of 2020 was extended by the new law AB832. "
                 "In order to be protected from eviction, you must send a new declaration "
-                "letter to your landlord through NoRent.org: %(url)s"
+                "letter to your landlord through NoRent.org: %(norentUrl)s"
+            )
+        elif self.year_and_month == "2021-10":
+            msg = _(
+                "This is NoRent, texting from a new number. You’ve previously created an account "
+                "on NoRent.org. On Friday, Oct 1, 2021, California’s statewide protections "
+                "for tenants unable to pay rent due to COVID-19 (AB832) expired. If "
+                "you have not submitted a declaration for a month you were unable to pay rent, "
+                "do so now through NoRent.org: %(norentUrl)s. We also strongly encourage you to "
+                "apply for government rental assistance through Housing is Key: "
+                "%(housingIsKeyUrl)s or call 833-430-2122."
             )
         else:
             msg = _(
@@ -40,15 +51,16 @@ class NorentReminder(SmsReminder):
                 "If you are unable to pay rent next month AND you have a COVID-19 "
                 "related reason for not paying, we recommend that on or before your "
                 "rent due date or within 7 days of your rent due date, you send a "
-                "new AB832 declaration to your landlord through NoRent.org: %(url)s"
+                "new AB832 declaration to your landlord through NoRent.org: %(norentUrl)s"
             )
 
         params = {
             "first_name": user.best_first_name,
-            "url": url,
+            "norentUrl": norentUrl,
+            "housingIsKeyUrl": housingIsKeyUrl,
         }
 
         return msg % params
 
 
-SmsReminder.validate(NorentReminder("2020-11"))
+SmsReminder.validate(NorentReminder("2021-10"))

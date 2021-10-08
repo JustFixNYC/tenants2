@@ -18,9 +18,10 @@ class NorentReminder(SmsReminder):
         ).exclude(norent_letters__rent_periods=rp)
 
     def get_sms_text(self, user):
-        site = site_util.get_site_of_type(site_util.SITE_CHOICES.NORENT)
-        norentUrl = site_util.absolutify_url("/", site=site)
-        housingIsKeyUrl = site_util.absolutify_url("/", site="https://housing.ca.gov")
+        norentSite = site_util.get_site_of_type(site_util.SITE_CHOICES.NORENT)
+        norentUrl = site_util.absolutify_url("/", site=norentSite)
+        housingIsKeySite = site_util.get_site_of_type(site_util.SITE_CHOICES.HOUSINGISKEY)
+        housingIsKeyUrl = site_util.absolutify_url("/", site=housingIsKeySite)
         if self.year_and_month == "2021-02":
             msg = _(
                 "%(first_name)s, you've previously created an account on NoRent.org. "

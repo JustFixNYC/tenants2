@@ -74,13 +74,6 @@ export function LocSplash(): JSX.Element {
             <li>
               We'll text you to see how things are going after a few weeks.
             </li>
-            <li>
-              If repairs aren't made, learn about additional tactics like{" "}
-              <Link to={JustfixRoutes.locale.hp.splash}>
-                suing your landlord
-              </Link>{" "}
-              in Housing Court.
-            </li>
           </BigList>
           <GetStartedButton
             to={JustfixRoutes.locale.locOnboarding.latestStep}

@@ -9,15 +9,15 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-10-07 20:32\n"
+"PO-Revision-Date: 2021-10-14 22:57\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tenants2\n"
 "X-Crowdin-Project-ID: 402800\n"
 "X-Crowdin-Language: es-ES\n"
-"X-Crowdin-File: /[JustFixNYC.tenants2] master/locales/en/messages.po\n"
-"X-Crowdin-File-ID: 40\n"
+"X-Crowdin-File: /master/locales/en/messages.po\n"
+"X-Crowdin-File-ID: 51\n"
 
 #. This is used when showing the translation of English content in the user's language. It should be localized to use the name of the language itself, e.g. 'Spanish translation'.
 #: frontend/lib/ui/cross-language.tsx:8

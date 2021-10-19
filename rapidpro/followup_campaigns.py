@@ -93,8 +93,8 @@ class FollowupCampaign(NamedTuple):
         )
         if blocked_or_stopped:
             logger.info(
-                "Contact %s has %s Justfix, so not adding them to group",
-                contact.uuid,
+                "Contact has %s Justfix, so not adding them to group %s",
+                self.group_name,
                 blocked_or_stopped,
                 exc_info=True,
             )

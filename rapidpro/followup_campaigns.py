@@ -1,4 +1,5 @@
 import datetime
+import logging
 from typing import NamedTuple, Optional, List
 from django.conf import settings
 from temba_client.v2 import TembaClient
@@ -6,6 +7,8 @@ from temba_client.v2.types import Contact
 from temba_client.utils import format_iso8601
 
 from .rapidpro_util import get_field, get_group, get_or_create_contact, get_client_from_settings
+
+logger = logging.getLogger(__name__)
 
 
 class DjangoSettingsFollowupCampaigns:
@@ -85,6 +88,17 @@ class FollowupCampaign(NamedTuple):
         Add the given contact to the follow-up campaign's group, setting the campaign's
         field key to the current date and time.
         """
+        blocked_or_stopped = (
+            "blocked" if contact.blocked else "stopped texts from" if contact.stopped else None
+        )
+        if blocked_or_stopped:
+            logger.info(
+                "Contact %s has %s Justfix, so not adding them to group",
+                contact.uuid,
+                blocked_or_stopped,
+                exc_info=True,
+            )
+            return
 
         client.update_contact(
             contact,

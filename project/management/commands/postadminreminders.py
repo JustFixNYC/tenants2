@@ -31,10 +31,8 @@ class Command(BaseCommand):
             if count == 1:
                 desc = f"One user ({username}) has not had their letter of complaint sent"
             else:
-                desc = f"{count} users, including {username}, have not had their letters".join(
-                    "of complaint sent"
-                )
-
+                desc = f"{count} users, including {username}, have not had their letters of complaint sent"
+            print(desc)
             self.stdout.write(
                 f"Posting reminder to admins about sending letters of complaint: '{desc}'\n"
             )

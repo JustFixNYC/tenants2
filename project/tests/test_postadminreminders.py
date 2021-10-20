@@ -13,16 +13,23 @@ class TestPostAdminReminders:
         call_command("postadminreminders", stdout=output)
         assert "Posting reminder to admins about sending letters of complaint" in output.getvalue()
 
-    def test_it_includes_usernames_for_one_old_loc_requests(self, db):
+    def test_it_includes_usernames_for_one_old_loc_request(self, db):
         output = StringIO()
         with freezegun.freeze_time("2001-01-01"):
             LetterRequestFactory()
         call_command("postadminreminders", stdout=output)
         assert "One user (Bip Jones) has not had their letter" in output.getvalue()
+
+    def test_it_includes_usernames_for_multiple_old_loc_requests(self, db):
+        output = StringIO()
         with freezegun.freeze_time("2001-01-02"):
+            LetterRequestFactory()
             SecondLetterRequestFactory()
         call_command("postadminreminders", stdout=output)
-        assert "2 users, including Bip Jones" in output.getvalue()
+        assert (
+            "2 users, including Bip Jones, have not had their letters of complaint sent"
+            in output.getvalue()
+        )
 
     def test_it_ignores_new_loc_requests(self, db):
         output = StringIO()

@@ -18,9 +18,9 @@ class TestPostAdminReminders:
         with freezegun.freeze_time("2001-01-01"):
             LetterRequestFactory()
         call_command("postadminreminders", stdout=output)
-        assert (
-            f"One user (<https://example.com/admin/users/justfixuser/2/change/|Bip>) has not had "
-            f"their letter of complaint sent" in output.getvalue()
+        assert all(
+            s in output.getvalue()
+            for s in ["One user ", "Bip", "has not had their letter of complaint sent"]
         )
 
     def test_it_includes_usernames_for_multiple_old_loc_requests(self, db):
@@ -29,9 +29,9 @@ class TestPostAdminReminders:
             LetterRequestFactory()
             SecondLetterRequestFactory()
         call_command("postadminreminders", stdout=output)
-        assert (
-            f"2 users, including <https://example.com/admin/users/justfixuser/3/change/|Bip>, "
-            f"have not had their letters of complaint sent" in output.getvalue()
+        assert all(
+            s in output.getvalue()
+            for s in ["2 users, including ", "Bip", "have not had their letters of complaint sent"]
         )
 
     def test_it_ignores_new_loc_requests(self, db):

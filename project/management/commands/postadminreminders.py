@@ -40,7 +40,6 @@ class Command(BaseCommand):
                     f"have not had their letters of "
                     f"complaint sent"
                 )
-            print(desc)
             self.stdout.write(
                 f"Posting reminder to admins about sending letters of complaint: '{desc}'\n"
             )

@@ -114,6 +114,7 @@ def test_get_site_origin_works(settings):
         ["NoRent.org", SITE_CHOICES.NORENT],
         ["my norent site", SITE_CHOICES.NORENT],
         ["EvictionFreeNY.org", SITE_CHOICES.EVICTIONFREE],
+        ["LALetterBuilder.org", SITE_CHOICES.LALETTERBUILDER],
     ],
 )
 def test_get_site_type_works(name, expected):

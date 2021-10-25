@@ -65,6 +65,14 @@ const SPLIT_CHUNK_CONFIGS: MessageCatalogSplitterChunkConfig[] = [
     test: (s) => s.startsWith("frontend/lib/evictionfree/"),
   },
   /**
+   * Any strings that are *only* present in the laletterbuilder directory
+   * will go into their own chunk.
+   */
+  {
+    name: "laletterbuilder",
+    test: (s) => s.startsWith("frontend/lib/laletterbuilder/"),
+  },
+  /**
    * Any strings that are *only* present in the rh directory
    * will go into their own chunk.
    */

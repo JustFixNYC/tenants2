@@ -14,6 +14,7 @@ import JustfixRoutes from "../justfix-route-info";
 import { NorentRoutes } from "../norent/route-info";
 import { EvictionFreeRoutes } from "../evictionfree/route-info";
 import { USER_ID_PREFIX } from "../../../common-data/amplitude";
+import { LALetterBuilderRoutes } from "../laletterbuilder/route-info";
 
 /**
  * These are Amplitude user properties updated by the front-end.
@@ -396,6 +397,18 @@ function getEvictionFreePageType(pathname: string): string {
 }
 
 /**
+ * Given a URL pathname on the letter builder site,
+ * returns the type of page it refers to, for the
+ * purposes of naming Amplitude events.
+ */
+function getLALetterBuilderPageType(pathname: string): string {
+  const r = LALetterBuilderRoutes.locale;
+  return findBestPage(pathname, {
+    [r.home]: "letter builder",
+  });
+}
+
+/**
  * Attempts to classify the given URL pathname
  * for the purposes of naming Amplitude events so
  * that they are neither too granular nor too broad.
@@ -410,5 +423,7 @@ export function getAmplitudePageType(pathname: string): string {
       return "NoRent " + getNorentPageType(pathname);
     case "EVICTIONFREE":
       return "EvictionFree " + getEvictionFreePageType(pathname);
+    case "LALETTERBUILDER":
+      return "LALetterBuilder " + getLALetterBuilderPageType(pathname);
   }
 }

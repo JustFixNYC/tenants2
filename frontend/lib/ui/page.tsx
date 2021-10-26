@@ -44,6 +44,10 @@ function getSiteBaseName(siteType: SiteChoice): string {
 
     case "EVICTIONFREE":
       return "Eviction Free NY";
+
+    case "LALETTERBUILDER":
+      // May need to change this later based on the final domain name.
+      return "LALetterBuilder";
   }
 }
 

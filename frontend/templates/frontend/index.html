@@ -9,6 +9,8 @@
             <link rel="stylesheet" href="{% static "frontend/styles-norent.css" %}" />
         {% elif site_type == "EVICTIONFREE" %}
             <link rel="stylesheet" href="{% static "frontend/styles-evictionfree.css" %}" />
+        {% elif site_type == "LALETTERBUILDER" %}
+            <link rel="stylesheet" href="{% static "frontend/styles-laletterbuilder.css" %}" />
         {% else %}
             <link rel="stylesheet" href="{% static "frontend/styles.css" %}" />
         {% endif %}

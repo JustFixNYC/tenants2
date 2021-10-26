@@ -53,7 +53,6 @@ def get_site_type(site: Site) -> str:
     """
     Returns the type of the given site.
     """
-    print(f"site = {site.name}")
     if re.match(r".*norent.*", site.name, re.IGNORECASE):
         return SITE_CHOICES.NORENT
     elif re.match(r".*evictionfree.*", site.name, re.IGNORECASE):

@@ -4,7 +4,7 @@ import { Route } from "react-router-dom";
 import { waitFor } from "@testing-library/react";
 import LALetterBuilderSite from "../site";
 
-describe("EvictionFreeSite", () => {
+describe("LALetterBuilderSite", () => {
   const route = (
     <Route render={(props) => <LALetterBuilderSite {...props} />} />
   );

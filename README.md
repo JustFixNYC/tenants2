@@ -578,15 +578,19 @@ Your file should have the following line:
 You can do this by going to http://localhost:8000/admin/sites/site/ and clicking "add site". Set `domain` to localhost.norent:8000 and set `name` to norent.
 It should look like this:
 ```
-DOMAIN NAME                   DISPLAY NAME
-localhost.norent:8000         NoRent
+DOMAIN NAME                    DISPLAY NAME
+localhost.norent:8000          NoRent
+localhost.laletterbuilder:8000 LALetterBuilder
 ```
 
-This will allow you to access NoRent at `http://localhost.norent:8000/`.
+This will allow you to access NoRent at `http://localhost.norent:8000/` and
+LA Letter Builder at `http://localhost.laletterbuilder:8000/`.
 
 In general, if you add a new Django Site model, you'll need to make sure it
 has a domain that matches whatever domain you're visiting the
 site at, or else the code won't be able to map your request to
-the new Site you added.
+the new Site you added. The display name matters too - it will be matched by
+a regular expression in `site_util.py`, so make sure that regex will match your
+display name. Best practice is not to include spaces.
 
 [Django Site model]: https://docs.djangoproject.com/en/3.0/ref/contrib/sites/#django.contrib.sites.models.Site

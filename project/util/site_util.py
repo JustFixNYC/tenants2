@@ -53,11 +53,12 @@ def get_site_type(site: Site) -> str:
     """
     Returns the type of the given site.
     """
-
     if re.match(r".*norent.*", site.name, re.IGNORECASE):
         return SITE_CHOICES.NORENT
     elif re.match(r".*evictionfree.*", site.name, re.IGNORECASE):
         return SITE_CHOICES.EVICTIONFREE
+    elif re.match(r".*laletterbuilder.*", site.name, re.IGNORECASE):
+        return SITE_CHOICES.LALETTERBUILDER
     return SITE_CHOICES.JUSTFIX
 
 
@@ -129,6 +130,7 @@ def get_site_base_name(site_type: str) -> str:
         return "JustFix.nyc"
     elif site_type == SITE_CHOICES.NORENT:
         return "NoRent"
+    # See if it's necessary to add EvictionFree or LALetterBuilder to this
     raise ValueError(f"Invalid site type: {site_type}")
 
 

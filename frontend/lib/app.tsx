@@ -57,6 +57,9 @@ import { AppLocationState } from "./app-location";
 const LoadableJustfixSite = loadable(() => import("./justfix-site"));
 const LoadableNorentSite = loadable(() => import("./norent/site"));
 const LoadableEvictionFreeSite = loadable(() => import("./evictionfree/site"));
+const LoadableLALetterBuilderSite = loadable(() =>
+  import("./laletterbuilder/site")
+);
 
 export type AppSiteProps = RouteComponentProps & {
   ref?: React.Ref<HTMLDivElement>;
@@ -366,6 +369,8 @@ export class AppWithoutRouter extends React.Component<
         return LoadableNorentSite;
       case "EVICTIONFREE":
         return LoadableEvictionFreeSite;
+      case "LALETTERBUILDER":
+        return LoadableLALetterBuilderSite;
     }
   }
 

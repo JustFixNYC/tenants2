@@ -21,6 +21,10 @@ function getURLforSite(baseURL: string, site: SiteChoice): string {
 
     case "EVICTIONFREE":
       return `${baseURL}-eviction-free`;
+
+    case "LALETTERBUILDER":
+      // Figure out if we need a separate privacy policy / terms for LA Letter Builder
+      return `${baseURL}-la-letter-builder`;
   }
 }
 

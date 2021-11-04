@@ -5,6 +5,7 @@ import { NotFound } from "../pages/not-found";
 import { Route, RouteComponentProps, Switch } from "react-router-dom";
 import { LALetterBuilderRoutes as Routes } from "./route-info";
 import { LALetterBuilderHomepage } from "./homepage";
+import { LALetterBuilderAboutPage } from "./about";
 
 const LoadableDevRoutes = loadable(
   () => friendlyLoad(import("../dev/routes")),
@@ -28,6 +29,11 @@ export const LALetterBuilderRouteComponent: React.FC<RouteComponentProps> = (
         component={LALetterBuilderHomepage}
       />
       <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
+      <Route
+        path={Routes.locale.about}
+        exact
+        component={LALetterBuilderAboutPage}
+      />
       <Route component={NotFound} />
     </Switch>
   );

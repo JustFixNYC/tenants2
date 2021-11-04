@@ -8,6 +8,9 @@ function createLocalizedRouteInfo(prefix: string) {
 
     /** The home page. */
     home: `${prefix}/`,
+
+    /** The about page. */
+    about: `${prefix}/about`,
   };
 }
 

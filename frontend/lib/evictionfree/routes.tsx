@@ -6,7 +6,7 @@ import { Redirect, Route, RouteComponentProps } from "react-router-dom";
 import { EvictionFreeRoutes as Routes } from "./route-info";
 import { EvictionFreeHomePage } from "./homepage";
 import { EvictionFreeDeclarationBuilderRoutes } from "./declaration-builder/routes";
-import { AlernativeLogoutPage } from "../pages/logout-alt-page";
+import { AlternativeLogoutPage } from "../pages/logout-alt-page";
 import { EvictionFreeAboutPage } from "./about";
 import { EvictionFreeFaqsPage } from "./faqs";
 import { createHtmlEmailStaticPageRoutes } from "../static-page/routes";
@@ -48,7 +48,7 @@ export const EvictionFreeRouteComponent: React.FC<RouteComponentProps> = (
       <Route
         path={Routes.locale.logout}
         exact
-        component={AlernativeLogoutPage}
+        component={AlternativeLogoutPage}
       />
       {createHtmlEmailStaticPageRoutes(
         Routes.locale.declarationEmailToUser,

@@ -121,6 +121,8 @@ msgstr "A national tool by non-profit <0>JustFix.nyc</0>"
 #: frontend/lib/evictionfree/about.tsx:36
 #: frontend/lib/evictionfree/about.tsx:41
 #: frontend/lib/evictionfree/site.tsx:74
+#: frontend/lib/laletterbuilder/about.tsx:23
+#: frontend/lib/laletterbuilder/about.tsx:28
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
 #: frontend/lib/norent/components/footer.tsx:40
@@ -1123,6 +1125,10 @@ msgstr "Kentucky"
 msgid "Know your rights"
 msgstr "Know your rights"
 
+#: frontend/lib/laletterbuilder/about.tsx:99
+msgid "LALetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
+msgstr "LALetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
+
 #: frontend/lib/ui/landlord.tsx:36
 msgid "Landlord address"
 msgstr "Landlord address"
@@ -1156,6 +1162,7 @@ msgstr "Lead-based paint"
 msgid "Leaky faucet"
 msgstr "Leaky faucet"
 
+#: frontend/lib/laletterbuilder/about.tsx:32
 #: frontend/lib/norent/about.tsx:57
 msgid "Learn about why we made this tool, who we are, and who our partners are."
 msgstr "Learn about why we made this tool, who we are, and who our partners are."
@@ -1166,11 +1173,13 @@ msgstr "Learn about your rent"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:309
 #: frontend/lib/evictionfree/homepage.tsx:116
+#: frontend/lib/laletterbuilder/about.tsx:41
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/the-letter.tsx:29
 msgid "Learn more"
 msgstr "Learn more"
 
+#: frontend/lib/laletterbuilder/about.tsx:84
 #: frontend/lib/norent/about.tsx:111
 msgid "Learn more about our mission on our website"
 msgstr "Learn more about our mission on our website"
@@ -1541,6 +1550,7 @@ msgstr "Oregon"
 msgid "Other important resources:"
 msgstr "Other important resources:"
 
+#: frontend/lib/laletterbuilder/about.tsx:95
 #: frontend/lib/norent/about.tsx:122
 msgid "Our Partners"
 msgstr "Our Partners"
@@ -1988,6 +1998,7 @@ msgstr "Step {currStep} of {numSteps}"
 msgid "Stove not working"
 msgstr "Stove not working"
 
+#: frontend/lib/laletterbuilder/about.tsx:11
 #: frontend/lib/norent/about.tsx:31
 msgid "Strategic Actions for a Just Economy"
 msgstr "Strategic Actions for a Just Economy"
@@ -2406,6 +2417,7 @@ msgid "Who is not protected by NY's COVID-19 Tenant Protection Laws?"
 msgstr "Who is not protected by NY's COVID-19 Tenant Protection Laws?"
 
 #: frontend/lib/evictionfree/about.tsx:76
+#: frontend/lib/laletterbuilder/about.tsx:67
 #: frontend/lib/norent/about.tsx:94
 msgid "Who we are"
 msgstr "Who we are"
@@ -2426,6 +2438,7 @@ msgstr "Why send a letter"
 msgid "Why should I notify my landlord if I can’t pay my rent?"
 msgstr "Why should I notify my landlord if I can’t pay my rent?"
 
+#: frontend/lib/laletterbuilder/about.tsx:50
 #: frontend/lib/norent/about.tsx:75
 msgid "Why we made this"
 msgstr "Why we made this"
@@ -2926,6 +2939,14 @@ msgstr "<0>If your apartment is currently rent stabilized, or has been at any po
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:39
 msgid "justfix.whyIsPhoneNumberNeeded"
 msgstr "We’ll use this information to either:<0><1>Log you into your existing account</1><2>Match with a pre-existing account </2><3>Sign you up for a new account.</3></0><4/>An account will allow you to return to our tools at any point in the process without having to start from the beginning, download any documents you complete, and be notified of relevant changes to policies that affect you."
+
+#: frontend/lib/laletterbuilder/about.tsx:54
+msgid "laletterbuilder.explanationAboutWhyWeMadeThisSite"
+msgstr "We made this site because xyz"
+
+#: frontend/lib/laletterbuilder/about.tsx:72
+msgid "laletterbuilder.madeByBlurb"
+msgstr "LALetterBuilder is made by <0>JustFix.nyc</0>, a non-profit organization that co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City."
 
 #: frontend/lib/norent/data/faqs-content.tsx:215
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"

@@ -2,11 +2,10 @@ import loadable from "@loadable/component";
 import { friendlyLoad, LoadingPage } from "../networking/loading-page";
 import React from "react";
 import { NotFound } from "../pages/not-found";
-import { Route, RouteComponentProps } from "react-router-dom";
+import { Route, RouteComponentProps, Switch } from "react-router-dom";
 import { LALetterBuilderRoutes as Routes } from "./route-info";
 import { LALetterBuilderHomepage } from "./homepage";
 import { LALetterBuilderAboutPage } from "./about";
-import { RouteSwitch } from "../util/route-switch";
 import { AlternativeLogoutPage } from "../pages/logout-alt-page";
 import { LALetterBuilderFormsRoutes } from "./letter-builder/routes";
 
@@ -20,11 +19,12 @@ const LoadableDevRoutes = loadable(
 export const LALetterBuilderRouteComponent: React.FC<RouteComponentProps> = (
   props
 ) => {
+  const { location } = props;
   if (!Routes.routeMap.exists(location.pathname)) {
     return NotFound(props);
   }
   return (
-    <RouteSwitch {...props} routes={Routes}>
+    <Switch location={location}>
       <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
       <Route
         path={Routes.locale.home}
@@ -46,6 +46,6 @@ export const LALetterBuilderRouteComponent: React.FC<RouteComponentProps> = (
         component={LALetterBuilderFormsRoutes}
       />
       <Route component={NotFound} />
-    </RouteSwitch>
+    </Switch>
   );
 };

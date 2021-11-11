@@ -1,11 +1,13 @@
-import { Trans } from "@lingui/macro";
 import React from "react";
 import { Link } from "react-router-dom";
+
+import { assertNotNull } from "@justfixnyc/util";
+import { Trans } from "@lingui/macro";
+
 import { SimpleClearAnonymousSessionButton } from "../../forms/clear-anonymous-session-button";
 import { ProgressStepProps } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
 import { LALetterBuilderRoutes } from "../route-info";
-import { assertNotNull } from "@justfixnyc/util";
 
 export const LALetterBuilderWelcome: React.FC<ProgressStepProps> = (props) => {
   return (

@@ -1,5 +1,5 @@
-import { ROUTE_PREFIX } from "../../util/route-util";
 import { createStartAccountOrLoginRouteInfo } from "../../start-account-or-login/route-info";
+import { ROUTE_PREFIX } from "../../util/route-util";
 
 export type LALetterBuilderRouteInfo = ReturnType<
   typeof createLALetterBuilderRouteInfo

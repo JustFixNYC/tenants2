@@ -1,13 +1,15 @@
-import loadable from "@loadable/component";
-import { friendlyLoad, LoadingPage } from "../networking/loading-page";
 import React from "react";
-import { NotFound } from "../pages/not-found";
 import { Route, RouteComponentProps, Switch } from "react-router-dom";
-import { LALetterBuilderRoutes as Routes } from "./route-info";
-import { LALetterBuilderHomepage } from "./homepage";
-import { LALetterBuilderAboutPage } from "./about";
+
+import loadable from "@loadable/component";
+
+import { friendlyLoad, LoadingPage } from "../networking/loading-page";
 import { AlternativeLogoutPage } from "../pages/logout-alt-page";
+import { NotFound } from "../pages/not-found";
+import { LALetterBuilderAboutPage } from "./about";
+import { LALetterBuilderHomepage } from "./homepage";
 import { LALetterBuilderFormsRoutes } from "./letter-builder/routes";
+import { LALetterBuilderRoutes as Routes } from "./route-info";
 
 const LoadableDevRoutes = loadable(
   () => friendlyLoad(import("../dev/routes")),

@@ -1,5 +1,6 @@
 import { createRoutesForSite, ROUTE_PREFIX } from "../util/route-util";
 import { createDevRouteInfo } from "../dev/route-info";
+import { createLALetterBuilderRouteInfo } from "./letter-builder/route-info";
 
 function createLocalizedRouteInfo(prefix: string) {
   return {
@@ -8,6 +9,15 @@ function createLocalizedRouteInfo(prefix: string) {
 
     /** The home page. */
     home: `${prefix}/`,
+
+    /** The letter builder */
+    letter: createLALetterBuilderRouteInfo(`${prefix}/letter`),
+
+    /** The logout page. */
+    logout: `${prefix}/logout`,
+
+    /** The about page. */
+    about: `${prefix}/about`,
   };
 }
 

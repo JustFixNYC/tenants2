@@ -126,6 +126,8 @@ msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines
 #: frontend/lib/evictionfree/about.tsx:36
 #: frontend/lib/evictionfree/about.tsx:41
 #: frontend/lib/evictionfree/site.tsx:74
+#: frontend/lib/laletterbuilder/about.tsx:23
+#: frontend/lib/laletterbuilder/about.tsx:28
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
 #: frontend/lib/norent/components/footer.tsx:40
@@ -1128,6 +1130,10 @@ msgstr "Kentucky"
 msgid "Know your rights"
 msgstr "Conoce tus derechos"
 
+#: frontend/lib/laletterbuilder/about.tsx:99
+msgid "LALetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
+msgstr ""
+
 #: frontend/lib/ui/landlord.tsx:36
 msgid "Landlord address"
 msgstr "Dirección de correo del dueño de tu edificio"
@@ -1161,6 +1167,7 @@ msgstr "Pintura a base de plomo"
 msgid "Leaky faucet"
 msgstr "Grifo con fugas"
 
+#: frontend/lib/laletterbuilder/about.tsx:32
 #: frontend/lib/norent/about.tsx:57
 msgid "Learn about why we made this tool, who we are, and who our partners are."
 msgstr "Aprenda por qué hemos construido esta herramienta, quiénes somos, y quiénes son nuestros aliados."
@@ -1171,11 +1178,13 @@ msgstr "Aprende Sobre Tu Alquiler"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:309
 #: frontend/lib/evictionfree/homepage.tsx:116
+#: frontend/lib/laletterbuilder/about.tsx:41
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/the-letter.tsx:29
 msgid "Learn more"
 msgstr "Aprender más"
 
+#: frontend/lib/laletterbuilder/about.tsx:84
 #: frontend/lib/norent/about.tsx:111
 msgid "Learn more about our mission on our website"
 msgstr "Obtén más información a cerca de nuestra misión en nuestro sitio web (sólo en inglés)"
@@ -1546,6 +1555,7 @@ msgstr "Oregón"
 msgid "Other important resources:"
 msgstr "Otros recursos importantes:"
 
+#: frontend/lib/laletterbuilder/about.tsx:95
 #: frontend/lib/norent/about.tsx:122
 msgid "Our Partners"
 msgstr "Nuestros aliados"
@@ -1993,6 +2003,7 @@ msgstr "Paso {currStep} de {numSteps}"
 msgid "Stove not working"
 msgstr "Estufa no funciona"
 
+#: frontend/lib/laletterbuilder/about.tsx:11
 #: frontend/lib/norent/about.tsx:31
 msgid "Strategic Actions for a Just Economy"
 msgstr "Strategic Actions for a Just Economy"
@@ -2411,6 +2422,7 @@ msgid "Who is not protected by NY's COVID-19 Tenant Protection Laws?"
 msgstr "¿Quién no está protegido por las leyes de protección de inquilinos COVID-19 de Nueva York?"
 
 #: frontend/lib/evictionfree/about.tsx:76
+#: frontend/lib/laletterbuilder/about.tsx:67
 #: frontend/lib/norent/about.tsx:94
 msgid "Who we are"
 msgstr "Quiénes somos"
@@ -2431,6 +2443,7 @@ msgstr "Por qué enviar una carta"
 msgid "Why should I notify my landlord if I can’t pay my rent?"
 msgstr "¿Por qué debo avisar al dueño de mi edificio de que no puedo pagar la renta?"
 
+#: frontend/lib/laletterbuilder/about.tsx:50
 #: frontend/lib/norent/about.tsx:75
 msgid "Why we made this"
 msgstr "Por qué hemos creado esta herramienta"
@@ -2936,6 +2949,14 @@ msgstr "<0>Si tu apartamento es actualmente de renta estabilizada, o lo ha sido 
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:39
 msgid "justfix.whyIsPhoneNumberNeeded"
 msgstr "Utilizaremos esta información para:<0><1>Acceder a tu cuenta actual</1><2>Comprobar si coincide con una cuenta preexistente </2><3>Abrirte una cuenta nueva.</3></0><4/>Una cuenta te permitirá volver a nuestras herramientas en cualquier punto del proceso sin tener que empezar desde el principio, descargar cualquier documentos que hayas completado, y recibir notificaciones sobre cambios relevantes a políticas que te afecten."
+
+#: frontend/lib/laletterbuilder/about.tsx:54
+msgid "laletterbuilder.explanationAboutWhyWeMadeThisSite"
+msgstr ""
+
+#: frontend/lib/laletterbuilder/about.tsx:72
+msgid "laletterbuilder.madeByBlurb"
+msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:215
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"

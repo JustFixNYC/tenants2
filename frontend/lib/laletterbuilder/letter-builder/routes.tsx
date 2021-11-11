@@ -6,6 +6,12 @@ import { createStartAccountOrLoginSteps } from "../../start-account-or-login/rou
 import { LALetterBuilderRoutes } from "../route-info";
 import { LALetterBuilderConfirmation } from "./confirmation";
 import { LALetterBuilderWelcome } from "./welcome";
+import { AskNameStep } from "../../common-steps/ask-name";
+import { skipStepsIf } from "../../progress/skip-steps-if";
+import { isUserLoggedIn } from "../../util/session-predicates";
+import { LALetterBuilderOnboardingStep } from "./step-decorators";
+
+const LALetterBuilderAskName = LALetterBuilderOnboardingStep(AskNameStep);
 
 export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = LALetterBuilderRoutes.locale.letter;
@@ -20,7 +26,16 @@ export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
       },
       ...createStartAccountOrLoginSteps(routes),
     ],
-    stepsToFillOut: [],
+    stepsToFillOut: [
+      // TODO: Add cross-site "agree to terms" step.
+      ...skipStepsIf(isUserLoggedIn, [
+        {
+          path: routes.name,
+          exact: true,
+          component: LALetterBuilderAskName,
+        },
+      ]),
+    ],
     confirmationSteps: [
       {
         path: routes.confirmation,

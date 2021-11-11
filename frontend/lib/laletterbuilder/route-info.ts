@@ -31,3 +31,12 @@ export const LALetterBuilderRoutes = createRoutesForSite(
     dev: createDevRouteInfo("/dev"),
   }
 );
+
+export const getLALetterBuilderJumpToTopOfPageRoutes = () => [
+  LALetterBuilderRoutes.locale.letter.confirmation,
+  ...getLALetterBuilderRoutesForPrimaryPages(),
+];
+
+export const getLALetterBuilderRoutesForPrimaryPages = () => [
+  LALetterBuilderRoutes.locale.home,
+];

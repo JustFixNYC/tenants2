@@ -1246,11 +1246,13 @@ msgstr "Locally supported"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
 #: frontend/lib/evictionfree/site.tsx:80
+#: frontend/lib/laletterbuilder/site.tsx:36
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Log in"
 
 #: frontend/lib/evictionfree/site.tsx:78
+#: frontend/lib/laletterbuilder/site.tsx:34
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:14
 msgid "Log out"
@@ -1440,6 +1442,7 @@ msgid "New password"
 msgstr "New password"
 
 #: frontend/lib/common-steps/welcome.tsx:45
+#: frontend/lib/laletterbuilder/letter-builder/welcome.tsx:14
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
 msgid "Next"
@@ -1528,7 +1531,7 @@ msgstr "Oklahoma"
 msgid "One letter for the months between March and August when you couldn't pay rent in full."
 msgstr "One letter for the months between March and August when you couldn't pay rent in full."
 
-#: frontend/lib/app.tsx:58
+#: frontend/lib/app.tsx:59
 #: frontend/lib/norent/components/subscribe.tsx:47
 #: frontend/lib/norent/components/subscribe.tsx:51
 msgid "Oops! A network error occurred. Try again later."
@@ -2088,9 +2091,9 @@ msgstr "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 msgid "This information seems wrong. Can I change it?"
 msgstr "This information seems wrong. Can I change it?"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:7
-msgid "This is a test localization message for LA Letter Builder."
-msgstr "This is a test localization message for LA Letter Builder."
+#: frontend/lib/laletterbuilder/homepage.tsx:11
+msgid "This is a test localization message for LALetterBuilder."
+msgstr "This is a test localization message for LALetterBuilder."
 
 #: frontend/lib/common-steps/landlord-email.tsx:20
 msgid "This is optional."

@@ -35,7 +35,6 @@ import { HelmetProvider } from "react-helmet-async";
 import { browserStorage } from "./browser-storage";
 import { areAnalyticsEnabled } from "./analytics/analytics";
 import { LinguiI18n, li18n } from "./i18n-lingui";
-import { getNorentJumpToTopOfPageRoutes } from "./norent/route-info";
 import { SupportedLocale } from "./i18n";
 import { getGlobalSiteRoutes } from "./global-site-routes";
 import { ensureNextRedirectIsHard } from "./browser-redirect";
@@ -47,7 +46,9 @@ import {
   trackFrontendVersionInAmplitude,
 } from "./analytics/amplitude";
 import { t } from "@lingui/macro";
+import { getNorentJumpToTopOfPageRoutes } from "./norent/route-info";
 import { getEvictionFreeJumpToTopOfPageRoutes } from "./evictionfree/route-info";
+import { getLALetterBuilderJumpToTopOfPageRoutes } from "./laletterbuilder/route-info";
 import { AppLocationState } from "./app-location";
 
 // Note that these don't need any special fallback loading screens
@@ -126,7 +127,8 @@ export class AppWithoutRouter extends React.Component<
     this.pageBodyRef = React.createRef();
     this.jumpToTopOfPageRoutes = new Set(
       ...getNorentJumpToTopOfPageRoutes(),
-      ...getEvictionFreeJumpToTopOfPageRoutes()
+      ...getEvictionFreeJumpToTopOfPageRoutes(),
+      ...getLALetterBuilderJumpToTopOfPageRoutes()
     );
   }
 

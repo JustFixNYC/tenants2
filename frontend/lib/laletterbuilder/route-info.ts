@@ -1,5 +1,5 @@
 import { createDevRouteInfo } from "../dev/route-info";
-import { createRoutesForSite, ROUTE_PREFIX } from "../util/route-util";
+import { ROUTE_PREFIX, createRoutesForSite } from "../util/route-util";
 import { createLALetterBuilderRouteInfo } from "./letter-builder/route-info";
 
 function createLocalizedRouteInfo(prefix: string) {

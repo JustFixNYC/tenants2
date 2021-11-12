@@ -1,10 +1,10 @@
 import React from "react";
 
-import { t, Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 
 import { li18n } from "../i18n-lingui";
 import { JustfixLogo } from "../norent/components/logo"; // TODO: change this
-import { getNorentImageSrc, JumpArrow } from "../norent/homepage"; // TODO: move these out of NoRent
+import { JumpArrow, getNorentImageSrc } from "../norent/homepage"; // TODO: move these out of NoRent
 import { OutboundLink } from "../ui/outbound-link";
 import Page from "../ui/page";
 import { StaticImage } from "../ui/static-image";

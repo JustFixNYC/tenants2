@@ -1,9 +1,9 @@
 import React from "react";
-import { Route, RouteComponentProps, Switch } from "react-router-dom";
+import { Switch, RouteComponentProps, Route } from "react-router-dom";
 
 import loadable from "@loadable/component";
 
-import { friendlyLoad, LoadingPage } from "../networking/loading-page";
+import { LoadingPage, friendlyLoad } from "../networking/loading-page";
 import { AlternativeLogoutPage } from "../pages/logout-alt-page";
 import { NotFound } from "../pages/not-found";
 import { LALetterBuilderAboutPage } from "./about";

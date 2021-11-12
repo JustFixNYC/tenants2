@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { assertNotNull } from "@justfixnyc/util";
-import { t, Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 
 import { SimpleClearAnonymousSessionButton } from "../../forms/clear-anonymous-session-button";
 import { li18n } from "../../i18n-lingui";

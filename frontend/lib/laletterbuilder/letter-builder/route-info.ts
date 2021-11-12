@@ -10,6 +10,7 @@ export function createLALetterBuilderRouteInfo(prefix: string) {
     [ROUTE_PREFIX]: prefix,
     latestStep: prefix,
     welcome: `${prefix}/welcome`,
+    name: `${prefix}/name`,
     ...createStartAccountOrLoginRouteInfo(prefix),
     confirmation: `${prefix}/confirmation`,
   };

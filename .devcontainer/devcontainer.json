@@ -57,7 +57,8 @@
 		"ms-python.python",
 		"esbenp.prettier-vscode",
 		"dbaeumer.vscode-eslint",
-		"ms-python.vscode-pylance"
+		"ms-python.vscode-pylance",
+		"mike-co.import-sorter"
 	],
 
 	"mounts": [

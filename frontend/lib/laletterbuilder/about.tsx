@@ -1,11 +1,13 @@
 import React from "react";
-import Page from "../ui/page";
-import { OutboundLink } from "../ui/outbound-link";
-import { getNorentImageSrc, JumpArrow } from "../norent/homepage"; // TODO: move these out of NoRent
-import { StaticImage } from "../ui/static-image";
-import { JustfixLogo } from "../norent/components/logo"; // TODO: change this
+
+import { Trans, t } from "@lingui/macro";
+
 import { li18n } from "../i18n-lingui";
-import { t, Trans } from "@lingui/macro";
+import { JustfixLogo } from "../norent/components/logo"; // TODO: change this
+import { JumpArrow, getNorentImageSrc } from "../norent/homepage"; // TODO: move these out of NoRent
+import { OutboundLink } from "../ui/outbound-link";
+import Page from "../ui/page";
+import { StaticImage } from "../ui/static-image";
 
 type PartnerLogo = {
   name: string;

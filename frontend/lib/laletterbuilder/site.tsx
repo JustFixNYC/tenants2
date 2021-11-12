@@ -1,23 +1,23 @@
-import classnames from "classnames";
-import React, { useContext } from "react";
-import { Link, Route, useLocation } from "react-router-dom";
+import classnames from 'classnames';
+import React, { useContext } from 'react';
+import { Link, Route, useLocation } from 'react-router-dom';
 
-import { Trans } from "@lingui/macro";
-import loadable from "@loadable/component";
+import { Trans } from '@lingui/macro';
+import loadable from '@loadable/component';
 
-import { AppContext } from "../app-context";
-import { createLinguiCatalogLoader } from "../i18n-lingui";
-import { LoadingOverlayManager } from "../networking/loading-page";
-import { NavbarLanguageDropdown } from "../ui/language-toggle";
-import Navbar from "../ui/navbar";
-import { LALetterBuilderFooter } from "./components/footer";
+import { AppContext } from '../app-context';
+import { createLinguiCatalogLoader } from '../i18n-lingui';
+import { LoadingOverlayManager } from '../networking/loading-page';
+import { NavbarLanguageDropdown } from '../ui/language-toggle';
+import Navbar from '../ui/navbar';
+import { LALetterBuilderFooter } from './components/footer';
 import {
-  getLALetterBuilderRoutesForPrimaryPages,
-  LALetterBuilderRoutes as Routes,
-} from "./route-info";
-import { LALetterBuilderRouteComponent } from "./routes";
+    getLALetterBuilderRoutesForPrimaryPages, LALetterBuilderRoutes as Routes
+} from './route-info';
+import { LALetterBuilderRouteComponent } from './routes';
 
 import type { AppSiteProps } from "../app";
+
 export const LALetterBuilderLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(
     () => import("../../../locales/en/laletterbuilder.chunk") as any

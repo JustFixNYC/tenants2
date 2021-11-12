@@ -2,16 +2,21 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { assertNotNull } from "@justfixnyc/util";
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 
 import { SimpleClearAnonymousSessionButton } from "../../forms/clear-anonymous-session-button";
+import { li18n } from "../../i18n-lingui";
 import { ProgressStepProps } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
 import { LALetterBuilderRoutes } from "../route-info";
 
 export const LALetterBuilderWelcome: React.FC<ProgressStepProps> = (props) => {
   return (
-    <Page title="Build your letter" className="content" withHeading="big">
+    <Page
+      title={li18n._(t`Build your letter`)}
+      className="content"
+      withHeading="big"
+    >
       <p>TODO: Add welcome content here. </p>
       <div className="buttons jf-two-buttons">
         <SimpleClearAnonymousSessionButton

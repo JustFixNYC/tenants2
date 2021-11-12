@@ -10,6 +10,12 @@ import { LALetterBuilderRoutes } from "../route-info";
 import { LALetterBuilderConfirmation } from "./confirmation";
 import { LALetterBuilderOnboardingStep } from "./step-decorators";
 import { LALetterBuilderWelcome } from "./welcome";
+import { AskNameStep } from "../../common-steps/ask-name";
+import { skipStepsIf } from "../../progress/skip-steps-if";
+import { isUserLoggedIn } from "../../util/session-predicates";
+import { LALetterBuilderOnboardingStep } from "./step-decorators";
+
+const LALetterBuilderAskName = LALetterBuilderOnboardingStep(AskNameStep);
 
 const LALetterBuilderAskName = LALetterBuilderOnboardingStep(AskNameStep);
 

@@ -339,6 +339,7 @@ msgstr "Crear mi carta"
 msgid "Build power in numbers"
 msgstr "Construye poder común"
 
+#: frontend/lib/laletterbuilder/letter-builder/welcome.tsx:10
 #: frontend/lib/norent/letter-builder/welcome.tsx:9
 msgid "Build your letter"
 msgstr "Crea tu carta"
@@ -1447,7 +1448,7 @@ msgid "New password"
 msgstr "Contraseña nueva"
 
 #: frontend/lib/common-steps/welcome.tsx:45
-#: frontend/lib/laletterbuilder/letter-builder/welcome.tsx:14
+#: frontend/lib/laletterbuilder/letter-builder/welcome.tsx:15
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
 msgid "Next"

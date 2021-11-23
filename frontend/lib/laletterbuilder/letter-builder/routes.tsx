@@ -1,4 +1,6 @@
+import React from "react";
 import { AskNameStep } from "../../common-steps/ask-name";
+import { AskCityState } from "../../common-steps/ask-city-state";
 import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
@@ -10,8 +12,17 @@ import { LALetterBuilderRoutes } from "../route-info";
 import { LALetterBuilderConfirmation } from "./confirmation";
 import { LALetterBuilderOnboardingStep } from "./step-decorators";
 import { LALetterBuilderWelcome } from "./welcome";
+import { EvictionFreeRoutes } from "../../evictionfree/route-info";
 
 const LALetterBuilderAskName = LALetterBuilderOnboardingStep(AskNameStep);
+const LALetterBuilderAskCityState = LALetterBuilderOnboardingStep((props) => (
+  <AskCityState
+    {...props}
+    confirmModalRoute={EvictionFreeRoutes.locale.declaration.cityConfirmModal}
+  >
+    <p>must be California</p>
+  </AskCityState>
+));
 
 export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = LALetterBuilderRoutes.locale.letter;
@@ -33,6 +44,11 @@ export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
           path: routes.name,
           exact: true,
           component: LALetterBuilderAskName,
+        },
+        {
+          path: routes.city,
+          exact: false,
+          component: LALetterBuilderAskCityState,
         },
       ]),
     ],

@@ -1,6 +1,7 @@
 import React from "react";
 import { AskNameStep } from "../../common-steps/ask-name";
 import { AskCityState } from "../../common-steps/ask-city-state";
+import { AskNationalAddress } from "../../common-steps/ask-national-address";
 import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
@@ -12,17 +13,23 @@ import { LALetterBuilderRoutes } from "../route-info";
 import { LALetterBuilderConfirmation } from "./confirmation";
 import { LALetterBuilderOnboardingStep } from "./step-decorators";
 import { LALetterBuilderWelcome } from "./welcome";
-import { EvictionFreeRoutes } from "../../evictionfree/route-info";
 
 const LALetterBuilderAskName = LALetterBuilderOnboardingStep(AskNameStep);
 const LALetterBuilderAskCityState = LALetterBuilderOnboardingStep((props) => (
   <AskCityState
     {...props}
-    confirmModalRoute={EvictionFreeRoutes.locale.declaration.cityConfirmModal}
+    confirmModalRoute={LALetterBuilderRoutes.locale.letter.cityConfirmModal}
   >
     <p>must be California</p>
   </AskCityState>
 ));
+const LALetterBuilderAskNationalAddress = LALetterBuilderOnboardingStep(
+  (props) => (
+    <AskNationalAddress {...props} routes={LALetterBuilderRoutes.locale.letter}>
+      <p>TODO: Add content here.</p>
+    </AskNationalAddress>
+  )
+);
 
 export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = LALetterBuilderRoutes.locale.letter;
@@ -49,6 +56,12 @@ export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
           path: routes.city,
           exact: false,
           component: LALetterBuilderAskCityState,
+        },
+        {
+          path: routes.nationalAddress,
+          exact: false,
+          // TODO: add something that short circuits if the user isn't in LA
+          component: LALetterBuilderAskNationalAddress,
         },
       ]),
     ],

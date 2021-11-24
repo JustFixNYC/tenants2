@@ -51,10 +51,10 @@ describe("detects user location", () => {
   let nycAllSessionInfo = override(BlankAllSessionInfo, {
     onboardingScaffolding: nycOnboardingScaffolding,
   });
-  expect(isUserInNYC(nycAllSessionInfo)).toEqual([true]);
-  expect(isUserInLA(nycAllSessionInfo)).toEqual([false]);
-  expect(isUserOutsideLA(nycAllSessionInfo)).toEqual([true]);
-  expect(isUserOutsideNYC(nycAllSessionInfo)).toEqual([false]);
+  expect(isUserInNYC(nycAllSessionInfo)).toEqual(true);
+  expect(isUserInLA(nycAllSessionInfo)).toEqual(false);
+  expect(isUserOutsideLA(nycAllSessionInfo)).toEqual(true);
+  expect(isUserOutsideNYC(nycAllSessionInfo)).toEqual(false);
 });
 
 describe("Asking for national address", () => {

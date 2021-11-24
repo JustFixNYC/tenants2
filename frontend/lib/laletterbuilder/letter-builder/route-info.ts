@@ -12,6 +12,8 @@ export function createLALetterBuilderRouteInfo(prefix: string) {
     welcome: `${prefix}/welcome`,
     name: `${prefix}/name`,
     ...createStartAccountOrLoginRouteInfo(prefix),
+    createAccount: `$prefix/create-account`,
+    createAccountTermsModal: `${prefix}/create-account/terms-modal`,
     confirmation: `${prefix}/confirmation`,
   };
 }

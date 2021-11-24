@@ -8,6 +8,7 @@ import { createStartAccountOrLoginSteps } from "../../start-account-or-login/rou
 import { isUserLoggedIn } from "../../util/session-predicates";
 import { LALetterBuilderRoutes } from "../route-info";
 import { LALetterBuilderConfirmation } from "./confirmation";
+import { LALetterBuilderCreateAccount } from "./create-account";
 import { LALetterBuilderOnboardingStep } from "./step-decorators";
 import { LALetterBuilderWelcome } from "./welcome";
 
@@ -33,6 +34,11 @@ export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
           path: routes.name,
           exact: true,
           component: LALetterBuilderAskName,
+        },
+        {
+          path: routes.createAccount,
+          component: LALetterBuilderCreateAccount,
+          shouldBeSkipped: isUserLoggedIn,
         },
       ]),
     ],

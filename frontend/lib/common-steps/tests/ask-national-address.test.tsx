@@ -2,6 +2,10 @@ import React from "react";
 
 import {
   AskNationalAddress_forUnitTests,
+  isUserInNYC,
+  isUserInLA,
+  isUserOutsideLA,
+  isUserOutsideNYC,
   NationalAddressModalRoutes,
 } from "../ask-national-address";
 import { AppTesterPal } from "../../tests/app-tester-pal";
@@ -38,6 +42,25 @@ describe("getNationalAddressLines() works", () => {
     "Boopville, OH 43216",
   ]);
 });
+
+describe("detects user location", () => {
+  let nycOnboardingScaffolding = {...BlankOnboardingScaffolding, ...{isCityInNyc: true}};
+  let nycAllSessionInfo = override(BlankAllSessionInfo, 
+    {onboardingScaffolding: nycOnboardingScaffolding}
+  );
+  expect(isUserInNYC(nycAllSessionInfo)).toEqual([
+    true
+  ]);
+  expect(isUserInLA(nycAllSessionInfo)).toEqual([
+    false
+  ]);
+  expect(isUserOutsideLA(nycAllSessionInfo)).toEqual([
+    true
+  ]);
+  expect(isUserOutsideNYC(nycAllSessionInfo)).toEqual([
+    false
+  ]);
+})
 
 describe("Asking for national address", () => {
   it("renders confirm valid address modal", () => {

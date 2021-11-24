@@ -44,17 +44,33 @@ describe("getNationalAddressLines() works", () => {
 });
 
 describe("detects user location", () => {
-  let nycOnboardingScaffolding = {
-    ...BlankOnboardingScaffolding,
-    ...{ isCityInNyc: true },
-  };
-  let nycAllSessionInfo = override(BlankAllSessionInfo, {
-    onboardingScaffolding: nycOnboardingScaffolding,
+  it("understands NY location", () => {
+    let nycOnboardingScaffolding = {
+      ...BlankOnboardingScaffolding,
+      ...{ isCityInNyc: true },
+    };
+    let nycAllSessionInfo = override(BlankAllSessionInfo, {
+      onboardingScaffolding: nycOnboardingScaffolding,
+    });
+    expect(isUserInNYC(nycAllSessionInfo)).toEqual(true);
+    expect(isUserInLA(nycAllSessionInfo)).toEqual(false);
+    expect(isUserOutsideLA(nycAllSessionInfo)).toEqual(true);
+    expect(isUserOutsideNYC(nycAllSessionInfo)).toEqual(false);
   });
-  expect(isUserInNYC(nycAllSessionInfo)).toEqual(true);
-  expect(isUserInLA(nycAllSessionInfo)).toEqual(false);
-  expect(isUserOutsideLA(nycAllSessionInfo)).toEqual(true);
-  expect(isUserOutsideNYC(nycAllSessionInfo)).toEqual(false);
+
+  it("understands LA location", () => {
+    let laOnboardingScaffolding = {
+      ...BlankOnboardingScaffolding,
+      ...{ isCityInLA: true },
+    };
+    let laAllSessionInfo = override(BlankAllSessionInfo, {
+      onboardingScaffolding: laOnboardingScaffolding,
+    });
+    expect(isUserInNYC(laAllSessionInfo)).toEqual(false);
+    expect(isUserInLA(laAllSessionInfo)).toEqual(true);
+    expect(isUserOutsideLA(laAllSessionInfo)).toEqual(false);
+    expect(isUserOutsideNYC(laAllSessionInfo)).toEqual(true);
+  });
 });
 
 describe("Asking for national address", () => {

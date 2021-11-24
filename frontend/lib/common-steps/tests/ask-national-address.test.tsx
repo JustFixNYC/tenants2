@@ -61,7 +61,7 @@ describe("detects user location", () => {
   it("understands LA location", () => {
     let laOnboardingScaffolding = {
       ...BlankOnboardingScaffolding,
-      ...{ isCityInLA: true },
+      ...{ isInLosAngeles: true },
     };
     let laAllSessionInfo = override(BlankAllSessionInfo, {
       onboardingScaffolding: laOnboardingScaffolding,

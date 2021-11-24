@@ -44,23 +44,18 @@ describe("getNationalAddressLines() works", () => {
 });
 
 describe("detects user location", () => {
-  let nycOnboardingScaffolding = {...BlankOnboardingScaffolding, ...{isCityInNyc: true}};
-  let nycAllSessionInfo = override(BlankAllSessionInfo, 
-    {onboardingScaffolding: nycOnboardingScaffolding}
-  );
-  expect(isUserInNYC(nycAllSessionInfo)).toEqual([
-    true
-  ]);
-  expect(isUserInLA(nycAllSessionInfo)).toEqual([
-    false
-  ]);
-  expect(isUserOutsideLA(nycAllSessionInfo)).toEqual([
-    true
-  ]);
-  expect(isUserOutsideNYC(nycAllSessionInfo)).toEqual([
-    false
-  ]);
-})
+  let nycOnboardingScaffolding = {
+    ...BlankOnboardingScaffolding,
+    ...{ isCityInNyc: true },
+  };
+  let nycAllSessionInfo = override(BlankAllSessionInfo, {
+    onboardingScaffolding: nycOnboardingScaffolding,
+  });
+  expect(isUserInNYC(nycAllSessionInfo)).toEqual([true]);
+  expect(isUserInLA(nycAllSessionInfo)).toEqual([false]);
+  expect(isUserOutsideLA(nycAllSessionInfo)).toEqual([true]);
+  expect(isUserOutsideNYC(nycAllSessionInfo)).toEqual([false]);
+});
 
 describe("Asking for national address", () => {
   it("renders confirm valid address modal", () => {

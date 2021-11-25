@@ -139,7 +139,7 @@ msgstr "Acerca de"
 msgid "Actions"
 msgstr "Acciones"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:101
+#: frontend/lib/common-steps/ask-national-address.tsx:115
 #: frontend/lib/forms/address-and-borough-form-field.tsx:9
 msgid "Address"
 msgstr "Dirección"
@@ -222,7 +222,7 @@ msgstr "Aplique para asistencia de renta. Los inquilinos que califiquen ahora so
 msgid "Are you sure you want to log out?"
 msgstr "¿Estás seguro de que quieres cerrar la sesión?"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:46
+#: frontend/lib/common-steps/ask-national-address.tsx:60
 msgid "Are you sure you want to proceed with the following address?"
 msgstr "¿Seguro que quieres continuar con la siguiente dirección?"
 
@@ -409,11 +409,11 @@ msgstr "Techo colapsado/se colapsa"
 msgid "Ceiling leaking"
 msgstr "Techo gotea"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:91
+#: frontend/lib/common-steps/ask-national-address.tsx:105
 msgid "Change"
 msgstr "Cambiar"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:90
+#: frontend/lib/common-steps/ask-national-address.tsx:104
 msgid "Change city and state from {cityAndState}"
 msgstr "Cambiar ciudad y estado de {cityAndState}"
 
@@ -441,7 +441,7 @@ msgstr "Cita ordenanzas legales actuales en tu carta"
 msgid "City"
 msgstr "Ciudad"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:85
+#: frontend/lib/common-steps/ask-national-address.tsx:99
 msgid "City and state"
 msgstr "Ciudad y estado"
 
@@ -489,7 +489,7 @@ msgstr "Confirmar"
 msgid "Confirm your new password"
 msgstr "Confirma tu nueva contraseña"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:33
+#: frontend/lib/common-steps/ask-national-address.tsx:47
 #: frontend/lib/common-steps/ask-nyc-address.tsx:23
 msgid "Confirming the address"
 msgstr "Confirmando la dirección"
@@ -876,7 +876,7 @@ msgstr "Así será la carta:"
 msgid "Here’s what you can do with <0>NoRent</0>"
 msgstr "Esto es lo que puedes hacer con <0>NoRent</0>"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:57
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:46
 msgid "Highly recommended."
 msgstr "Altamente recomendable."
 
@@ -1568,12 +1568,12 @@ msgstr "Nuestros aliados"
 msgid "Our letter cites the most up-to-date legal ordinances that protect tenant rights in your state."
 msgstr "Nuestra carta cita las ordenanzas legales actuales que protegen los derechos de los inquilinos en tu estado."
 
-#: frontend/lib/common-steps/ask-national-address.tsx:35
+#: frontend/lib/common-steps/ask-national-address.tsx:49
 #: frontend/lib/common-steps/ask-nyc-address.tsx:25
 msgid "Our records have shown us a similar address. Would you like to proceed with this address:"
 msgstr "Nuestros registros han encontrado una dirección similar. ¿Quieres continuar con la dirección siguiente?"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:44
+#: frontend/lib/common-steps/ask-national-address.tsx:58
 msgid "Our records tell us that this address is invalid."
 msgstr "Nuestros registros indican que esta dirección no es válida."
 
@@ -2159,7 +2159,7 @@ msgstr "Correo Certificado de USPS"
 msgid "USPS Tracking #:"
 msgstr "Número de Seguimiento USPS:"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:92
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:81
 msgid "Unfortunately, this tool is currently only available to individuals who live in the state of New York."
 msgstr "Desafortunadamente, esta herramienta sólo está disponible actualmente para personas que viven en el estado de Nueva York."
 
@@ -2171,7 +2171,7 @@ msgstr "Desafortunadamente, en este momento no recomendamos enviar una carta de 
 msgid "Unfortunately, we do not currently recommend sending this notice of non-payment to your landlord. <0/>"
 msgstr "Desafortunadamente, actualmente no recomendamos enviar esta notificación de falta de pago al dueño o manager de tu edificio. <0/>"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:102
+#: frontend/lib/common-steps/ask-national-address.tsx:116
 msgid "Unit/apt/lot/suite number"
 msgstr "Número de apartamento/unidad/lote/suite"
 
@@ -2275,12 +2275,12 @@ msgstr "Utilizaremos esta información para enviarte una copia de tu carta."
 msgid "We'll use this information to send you updates."
 msgstr "Utilizaremos esta información para enviarte noticias."
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:84
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:73
 msgid "We'll use this information to send your hardship declaration form via certified mail for free."
 msgstr "Utilizaremos esta información para enviar su formulario de declaración de penuria por correo certificado de forma gratuita."
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:74
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:79
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:63
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:68
 msgid "We'll use this information to send your hardship declaration form."
 msgstr "Utilizaremos esta información para enviar tu declaración de penuria."
 
@@ -2545,7 +2545,7 @@ msgstr "Puedes utilizar este sitio web para enviar un formulario de declaración
 msgid "You can't send any more letters"
 msgstr "No puedes enviar más cartas"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:90
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:79
 msgid "You don't live in New York"
 msgstr "No vives en Nueva York"
 
@@ -2711,7 +2711,7 @@ msgstr "¡Su privacidad es muy importante para nosotros!"
 msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 msgstr "¡Tu privacidad es muy importante para nosotros! Todo en JustFix.nyc es seguro."
 
-#: frontend/lib/common-steps/ask-national-address.tsx:97
+#: frontend/lib/common-steps/ask-national-address.tsx:111
 #: frontend/lib/common-steps/ask-nyc-address.tsx:39
 msgid "Your residence"
 msgstr "Tu hogar"
@@ -2720,7 +2720,7 @@ msgstr "Tu hogar"
 msgid "You’re not alone. Millions of Americans won’t be able to pay rent because of COVID‑19. Use our FREE tool to take action by writing a letter to your landlord."
 msgstr "No estás solo. Millones de estadounidenses no podrán pagar la renta por culpa del COVID 19. Utiliza nuestra herramienta GRATIS para tomar acción mandando una carta al dueño de tu edificio."
 
-#: frontend/lib/common-steps/ask-national-address.tsx:104
+#: frontend/lib/common-steps/ask-national-address.tsx:118
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:41
 msgid "Zip code"
 msgstr "Código postal"
@@ -2759,7 +2759,7 @@ msgstr "Nuestro sitio web ayuda a los inquilinos a presentar este formulario de 
 msgid "evictionfree.agreeToStateTermsIntro"
 msgstr "Estas últimas preguntas son para asegurarse de que entiendes los límites de la protección concedida por este formulario de declaración de penuria, y de que contestaste a las preguntas anteriores con veracidad:"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:59
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:48
 msgid "evictionfree.askForEmail"
 msgstr "Utilizaremos esta información para enviarte una copia de tu declaración. Si es posible, también te reenviaremos el correo electrónico de parte de la corte cuando hayan recibido tu formulario de declaración."
 

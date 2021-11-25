@@ -10,8 +10,13 @@ export function createLALetterBuilderRouteInfo(prefix: string) {
     [ROUTE_PREFIX]: prefix,
     latestStep: prefix,
     welcome: `${prefix}/welcome`,
-    name: `${prefix}/name`,
     ...createStartAccountOrLoginRouteInfo(prefix),
+    name: `${prefix}/name`,
+    city: `${prefix}/city`,
+    cityConfirmModal: `${prefix}/city/confirm-modal`,
+    nationalAddress: `${prefix}/address/national`,
+    nationalAddressConfirmModal: `${prefix}/address/national/confirm-modal`,
+    nationalAddressConfirmInvalidModal: `${prefix}/address/national/confirm-invalid-modal`,
     confirmation: `${prefix}/confirmation`,
   };
 }

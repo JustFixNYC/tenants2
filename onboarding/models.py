@@ -244,6 +244,14 @@ class OnboardingInfo(models.Model):
         ),
     )
 
+    agreed_to_lalatterbuilder_terms = models.BooleanField(
+        default=False,
+        help_text=(
+            "Whether the user has agreed to the LA Letter Builder terms "
+            "of service and privacy policy."
+        ),
+    )
+
     can_receive_rttc_comms = models.BooleanField(
         null=True,
         blank=True,

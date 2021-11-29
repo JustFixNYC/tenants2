@@ -6,13 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('onboarding', '0029_alter_onboardinginfo_signup_intent'),
+        ("onboarding", "0029_alter_onboardinginfo_signup_intent"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='onboardinginfo',
-            name='agreed_to_lalatterbuilder_terms',
-            field=models.BooleanField(default=False, help_text='Whether the user has agreed to the LA Letter Builder terms of service and privacy policy.'),
+            model_name="onboardinginfo",
+            name="agreed_to_lalatterbuilder_terms",
+            field=models.BooleanField(
+                default=False,
+                help_text="Whether the user has agreed to the LA Letter Builder terms of service and privacy policy.",
+            ),
         ),
     ]

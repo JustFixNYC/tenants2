@@ -39,10 +39,11 @@ class TestLALetterBuilderCreateAccount:
         return self.graphql_client.execute(
             """
             mutation Create($input: LALetterBuilderCreateAccountInput!) {
-                output: LALetterBuilderCreateAccount(input: $input) {
+                output: laLetterBuilderCreateAccount(input: $input) {
                     errors { field, messages }
                     session {
-                        firstName
+                        firstName,
+                        preferredFirstName
                     }
                 }
             }

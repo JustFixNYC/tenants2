@@ -172,6 +172,8 @@ class AgreeToTerms(SessionFormMutation):
             oi.agreed_to_norent_terms = True
         elif site_type == SITE_CHOICES.EVICTIONFREE:
             oi.agreed_to_evictionfree_terms = True
+        elif site_type == SITE_CHOICES.LALETTERBUILDER:
+            oi.agreed_to_laletterbuilder_terms = True
         else:
             raise AssertionError(f"Unknown site type: {site_type}")
         oi.save()

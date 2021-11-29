@@ -34,7 +34,7 @@ export function hasLoggedInUserAgreedToTerms(s: AllSessionInfo): boolean {
 
     case "LALETTERBUILDER":
       // TODO: Make this real if we need separate terms for LA Letter builder
-      return false;
+      return s.onboardingInfo.agreedToLaletterbuilderTerms;
   }
 }
 

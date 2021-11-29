@@ -2854,6 +2854,22 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "Whether the user has agreed to the LA Letter Builder terms of service and privacy policy.",
+              "isDeprecated": false,
+              "name": "agreedToLaletterbuilderTerms",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "Whether the user has opted-in to being contacted by the Right to the City Alliance (RTTC).",
               "isDeprecated": false,
               "name": "canReceiveRttcComms",

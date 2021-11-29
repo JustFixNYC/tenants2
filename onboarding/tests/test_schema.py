@@ -246,7 +246,7 @@ class TestAgreeToTerms(GraphQLTestingPal):
                 agreedToJustfixTerms,
                 agreedToNorentTerms,
                 agreedToEvictionfreeTerms
-                agreedToLaLetterBuilderTerms
+                agreedToLaletterbuilderTerms
             } }
         }
     }
@@ -278,7 +278,7 @@ class TestAgreeToTerms(GraphQLTestingPal):
             "agreedToJustfixTerms": True,
             "agreedToNorentTerms": False,
             "agreedToEvictionfreeTerms": False,
-            "agreedToLaLetterBuilderTerms": False,
+            "agreedToLaletterbuilderTerms": False,
         }
 
     def test_it_works_with_norent_site(self, logged_in):
@@ -288,7 +288,7 @@ class TestAgreeToTerms(GraphQLTestingPal):
             "agreedToJustfixTerms": False,
             "agreedToNorentTerms": True,
             "agreedToEvictionfreeTerms": False,
-            "agreedToLaLetterBuilderTerms": False,
+            "agreedToLaletterbuilderTerms": False,
         }
         self.oi.refresh_from_db()
         assert self.oi.agreed_to_norent_terms is True
@@ -300,23 +300,22 @@ class TestAgreeToTerms(GraphQLTestingPal):
             "agreedToJustfixTerms": False,
             "agreedToNorentTerms": False,
             "agreedToEvictionfreeTerms": True,
-            "agreedToLaLetterBuilderTerms": False,
+            "agreedToLaletterbuilderTerms": False,
         }
         self.oi.refresh_from_db()
         assert self.oi.agreed_to_evictionfree_terms is True
 
-
-def test_it_works_with_laletterbuilder_site(self, logged_in):
-    res = self.execute(input={"site": "LALETTERBUILDER"})
-    assert res["errors"] == []
-    assert res["session"]["onboardingInfo"] == {
-        "agreedToJustfixTerms": False,
-        "agreedToNorentTerms": False,
-        "agreedToEvictionfreeTerms": False,
-        "agreedToLaLetterBuilderTerms": True,
-    }
-    self.oi.refresh_from_db()
-    assert self.oi.agreed_to_laletterbuilder_terms is True
+    def test_it_works_with_laletterbuilder_site(self, logged_in):
+        res = self.execute(input={"site": "LALETTERBUILDER"})
+        assert res["errors"] == []
+        assert res["session"]["onboardingInfo"] == {
+            "agreedToJustfixTerms": False,
+            "agreedToNorentTerms": False,
+            "agreedToEvictionfreeTerms": False,
+            "agreedToLaletterbuilderTerms": True,
+        }
+        self.oi.refresh_from_db()
+        assert self.oi.agreed_to_laletterbuilder_terms is True
 
 
 class TestLeaseType(GraphQLTestingPal):

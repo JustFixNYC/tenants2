@@ -288,6 +288,7 @@ class OnboardingInfoType(DjangoObjectType):
             "agreed_to_justfix_terms",
             "agreed_to_norent_terms",
             "agreed_to_evictionfree_terms",
+            "agreed_to_laletterbuilder_terms",
             "can_receive_rttc_comms",
             "can_receive_saje_comms",
             "receives_public_assistance",

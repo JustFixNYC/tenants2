@@ -163,6 +163,7 @@ INSTALLED_APPS = [
     "amplitude.apps.AmplitudeConfig",
     "nycx",
     "shortlinks",
+    "laletterbuilder.apps.LALetterBuilderConfig",
 ]
 
 MIDDLEWARE = [

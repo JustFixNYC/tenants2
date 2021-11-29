@@ -148,6 +148,7 @@ class TestEvictionFreeCreateAccount:
         assert oi.agreed_to_norent_terms is False
         assert oi.agreed_to_justfix_terms is False
         assert oi.agreed_to_evictionfree_terms is True
+        assert oi.agreed_to_laletterbuilder_terms is False
 
         # This will only get filled out if geocoding is enabled, which it's not.
         assert oi.zipcode == ""

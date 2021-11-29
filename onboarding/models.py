@@ -244,7 +244,7 @@ class OnboardingInfo(models.Model):
         ),
     )
 
-    agreed_to_lalatterbuilder_terms = models.BooleanField(
+    agreed_to_laletterbuilder_terms = models.BooleanField(
         default=False,
         help_text=(
             "Whether the user has agreed to the LA Letter Builder terms "

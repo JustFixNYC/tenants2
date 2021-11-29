@@ -316,7 +316,7 @@ def test_it_works_with_laletterbuilder_site(self, logged_in):
         "agreedToLaLetterBuilderTerms": True,
     }
     self.oi.refresh_from_db()
-    assert self.oi.agreed_to_lalatterbuilder_terms is True
+    assert self.oi.agreed_to_laletterbuilder_terms is True
 
 
 class TestLeaseType(GraphQLTestingPal):

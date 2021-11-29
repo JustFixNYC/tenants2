@@ -65,7 +65,8 @@ class TestLALetterBuilderCreateAccount:
         self.populate_phone_number()
         assert self.execute()["errors"] == self.INCOMPLETE_ERR
 
-    # TODO: add a test for if they have an address but nothing else in the session (once we require more)
+    # TODO: add a test for if they have an address but nothing else in the session
+    # (once we require more)
     # TODO: Make sure if users are outside LA it returns the correct kind of error
 
     def test_it_works_for_la_users(self, smsoutbox, mailoutbox):

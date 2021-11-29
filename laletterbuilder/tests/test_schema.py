@@ -17,11 +17,13 @@ class TestLALetterBuilderCreateAccount:
     LA_SCAFFOLDING = {
         "first_name": "zanet",
         "last_name": "zones",
+        "preferred_first_name": "bip",
         "city": "Los Angeles",
         "state": "CA",
         "email": "zanet@zones.com",
-        "street": "123 boop way",
-        "apt_number": "3B",
+        "street": "1200 Bingy Bingy Way",
+        "apt_number": "5A",
+        "zip_code": "12345",
     }
 
     @pytest.fixture(autouse=True)
@@ -63,11 +65,6 @@ class TestLALetterBuilderCreateAccount:
         self.populate_phone_number()
         assert self.execute()["errors"] == self.INCOMPLETE_ERR
 
-    def test_it_returns_error_when_la_addr_but_onboarding_step_1_empty(self):
-        self.populate_phone_number()
-        update_scaffolding(self.graphql_client.request, self.LA_SCAFFOLDING)
-        assert self.execute()["errors"] == self.INCOMPLETE_ERR
-
     # TODO: Make sure if users are outside LA it returns the correct kind of error
 
     def test_it_works_for_la_users(self, smsoutbox, mailoutbox):
@@ -83,15 +80,13 @@ class TestLALetterBuilderCreateAccount:
         oi = user.onboarding_info
         assert oi.non_nyc_city == "Los Angeles"
         assert oi.state == "CA"
-        assert oi.address == "123 boop way"
-        assert oi.apt_number == "3B"
+        assert oi.address == "1200 Bingy Bingy Way"
+        assert oi.apt_number == "5A"
         assert oi.agreed_to_norent_terms is False
         assert oi.agreed_to_justfix_terms is False
         assert oi.agreed_to_evictionfree_terms is False
         assert oi.agreed_to_laletterbuilder_terms is True
-
-        # This will only get filled out if geocoding is enabled, which it's not.
-        assert oi.zipcode == ""
+        assert oi.zipcode == "12345"
 
         assert get_last_queried_phone_number(request) is None
         assert SCAFFOLDING_SESSION_KEY not in request.session

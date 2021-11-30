@@ -1,11 +1,21 @@
 import React from "react";
-import { AskNameStep } from "../../common-steps/ask-name";
+
 import { AskCityState } from "../../common-steps/ask-city-state";
+import { AskNameStep } from "../../common-steps/ask-name";
 import { AskNationalAddress } from "../../common-steps/ask-national-address";
+import {
+  shouldSkipLandlordEmailStep,
+  LandlordEmail,
+} from "../../common-steps/landlord-email";
+import LandlordMailingAddress, {
+  shouldSkipLandlordMailingAddressStep,
+} from "../../common-steps/landlord-mailing-address";
+import { LandlordNameAndContactTypes } from "../../common-steps/landlord-name-and-contact-types";
 import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
 } from "../../progress/progress-routes";
+import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { skipStepsIf } from "../../progress/skip-steps-if";
 import { createStartAccountOrLoginSteps } from "../../start-account-or-login/routes";
 import { isUserLoggedIn } from "../../util/session-predicates";
@@ -31,6 +41,29 @@ const LALetterBuilderAskNationalAddress = LALetterBuilderOnboardingStep(
     </AskNationalAddress>
   )
 );
+
+const LALetterBuilderLandlordNameAndContactTypes = MiddleProgressStep(
+  (props) => (
+    <LandlordNameAndContactTypes {...props}>
+      <p>TODO: Add content here.</p>
+    </LandlordNameAndContactTypes>
+  )
+);
+
+const LALetterBuilderLandlordEmail = MiddleProgressStep((props) => (
+  <LandlordEmail {...props} introText="TODO: Add content here." />
+));
+
+const LALetterBuilderLandlordMailingAddress = MiddleProgressStep((props) => (
+  <LandlordMailingAddress
+    {...props}
+    confirmModalRoute={
+      LALetterBuilderRoutes.locale.letter.landlordAddressConfirmModal
+    }
+  >
+    <p>TODO: Add content here.</p>
+  </LandlordMailingAddress>
+));
 
 export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = LALetterBuilderRoutes.locale.letter;
@@ -68,6 +101,23 @@ export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
         path: routes.createAccount,
         component: LALetterBuilderCreateAccount,
         shouldBeSkipped: isUserLoggedIn,
+      },
+      {
+        path: routes.landlordName,
+        exact: true,
+        component: LALetterBuilderLandlordNameAndContactTypes,
+      },
+      {
+        path: routes.landlordEmail,
+        exact: true,
+        shouldBeSkipped: shouldSkipLandlordEmailStep,
+        component: LALetterBuilderLandlordEmail,
+      },
+      {
+        path: routes.landlordAddress,
+        exact: false,
+        shouldBeSkipped: shouldSkipLandlordMailingAddressStep,
+        component: LALetterBuilderLandlordMailingAddress,
       },
     ],
     confirmationSteps: [

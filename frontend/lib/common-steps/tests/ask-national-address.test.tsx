@@ -2,6 +2,10 @@ import React from "react";
 
 import {
   AskNationalAddress_forUnitTests,
+  isUserInNYC,
+  isUserInLA,
+  isUserOutsideLA,
+  isUserOutsideNYC,
   NationalAddressModalRoutes,
 } from "../ask-national-address";
 import { AppTesterPal } from "../../tests/app-tester-pal";
@@ -37,6 +41,36 @@ describe("getNationalAddressLines() works", () => {
     "150 Court Street #2",
     "Boopville, OH 43216",
   ]);
+});
+
+describe("detects user location", () => {
+  it("understands NY location", () => {
+    let nycOnboardingScaffolding = {
+      ...BlankOnboardingScaffolding,
+      ...{ isCityInNyc: true },
+    };
+    let nycAllSessionInfo = override(BlankAllSessionInfo, {
+      onboardingScaffolding: nycOnboardingScaffolding,
+    });
+    expect(isUserInNYC(nycAllSessionInfo)).toEqual(true);
+    expect(isUserInLA(nycAllSessionInfo)).toEqual(false);
+    expect(isUserOutsideLA(nycAllSessionInfo)).toEqual(true);
+    expect(isUserOutsideNYC(nycAllSessionInfo)).toEqual(false);
+  });
+
+  it("understands LA location", () => {
+    let laOnboardingScaffolding = {
+      ...BlankOnboardingScaffolding,
+      ...{ isInLosAngeles: true },
+    };
+    let laAllSessionInfo = override(BlankAllSessionInfo, {
+      onboardingScaffolding: laOnboardingScaffolding,
+    });
+    expect(isUserInNYC(laAllSessionInfo)).toEqual(false);
+    expect(isUserInLA(laAllSessionInfo)).toEqual(true);
+    expect(isUserOutsideLA(laAllSessionInfo)).toEqual(false);
+    expect(isUserOutsideNYC(laAllSessionInfo)).toEqual(true);
+  });
 });
 
 describe("Asking for national address", () => {

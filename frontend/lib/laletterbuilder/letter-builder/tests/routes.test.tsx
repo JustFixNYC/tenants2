@@ -27,6 +27,7 @@ describe("LA letter builder steps", () => {
       "/en/letter/name",
       "/en/letter/city",
       "/en/letter/address/national",
+      "/en/declaration/create-account",
     ],
   });
 });

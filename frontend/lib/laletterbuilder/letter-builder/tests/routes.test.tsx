@@ -31,3 +31,18 @@ describe("LA letter builder steps", () => {
     ],
   });
 });
+
+tester.defineTest({
+  it: "takes onboarded users through flow to confirmation",
+  usingSession: sb.withLoggedInNationalUser().withOnboardingScaffolding({
+    hasLandlordEmailAddress: true,
+    hasLandlordMailingAddress: true,
+  }),
+  startingAtStep: "/en/letter/create-account",
+  expectSteps: [
+    "/en/letter/landlord/name",
+    "/en/letter/landlord/email",
+    "/en/letter/landlord/address",
+    "/en/letter/confirmation",
+  ],
+});

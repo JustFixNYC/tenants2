@@ -13,8 +13,8 @@ import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
 import {
   BlankLALetterBuilderCreateAccountInput,
-  LALetterBuilderCreateAccountMutation,
-} from "../../queries/LALetterBuilderCreateAccountMutation";
+  LaLetterBuilderCreateAccountMutation,
+} from "../../queries/LaLetterBuilderCreateAccountMutation";
 
 export const LALetterBuilderCreateAccount = LALetterBuilderOnboardingStep(
   (props) => {
@@ -27,7 +27,7 @@ export const LALetterBuilderCreateAccount = LALetterBuilderOnboardingStep(
           </p>
         </div>
         <SessionUpdatingFormSubmitter
-          mutation={LALetterBuilderCreateAccountMutation}
+          mutation={LaLetterBuilderCreateAccountMutation}
           initialState={{
             ...BlankLALetterBuilderCreateAccountInput,
             canWeSms: true,

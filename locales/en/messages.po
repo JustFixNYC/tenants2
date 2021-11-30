@@ -43,7 +43,7 @@ msgstr "*Division of Housing and Community Renewal"
 msgid "8 Minutes"
 msgstr "8 Minutes"
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:36
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:35
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> makes use of a <1/> and <2/>, which you can review."
 
@@ -479,6 +479,10 @@ msgstr "Community Justice Project"
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:33
 msgid "Confirm"
 msgstr "Confirm"
+
+#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:26
+msgid "Confirm password"
+msgstr "Confirm password"
 
 #: frontend/lib/start-account-or-login/set-password.tsx:22
 msgid "Confirm your new password"
@@ -918,7 +922,7 @@ msgstr "How does sending this declaration help me?"
 msgid "How it works"
 msgstr "How it works"
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:48
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:47
 msgid "I agree to the <0/> terms and conditions."
 msgstr "I agree to the <0/> terms and conditions."
 
@@ -1587,6 +1591,7 @@ msgstr "Outlets not working"
 msgid "Painting overdue (3 years)"
 msgstr "Painting overdue (3 years)"
 
+#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:25
 #: frontend/lib/start-account-or-login/verify-password.tsx:72
 msgid "Password"
 msgstr "Password"
@@ -1626,7 +1631,7 @@ msgstr "Pipes leaking"
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Please <0>go back and choose a state</0>."
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:34
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:33
 msgid "Please agree to our terms and conditions"
 msgstr "Please agree to our terms and conditions"
 
@@ -1847,6 +1852,7 @@ msgid "Separate letters for each month starting in September when you couldn't p
 msgstr "Separate letters for each month starting in September when you couldn't pay rent in full."
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:17
+#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:16
 #: frontend/lib/norent/letter-builder/create-account.tsx:19
 msgid "Set up an account"
 msgstr "Set up an account"
@@ -2488,6 +2494,7 @@ msgstr "Wyoming"
 msgid "Yes"
 msgstr "Yes"
 
+#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:28
 #: frontend/lib/norent/letter-builder/create-account.tsx:37
 msgid "Yes, JustFix.nyc can text me to follow up about my housing issues."
 msgstr "Yes, JustFix.nyc can text me to follow up about my housing issues."

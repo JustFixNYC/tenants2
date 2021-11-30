@@ -11,6 +11,7 @@ import { createStartAccountOrLoginSteps } from "../../start-account-or-login/rou
 import { isUserLoggedIn } from "../../util/session-predicates";
 import { LALetterBuilderRoutes } from "../route-info";
 import { LALetterBuilderConfirmation } from "./confirmation";
+import { LALetterBuilderCreateAccount } from "./create-account";
 import { LALetterBuilderOnboardingStep } from "./step-decorators";
 import { LALetterBuilderWelcome } from "./welcome";
 
@@ -45,7 +46,6 @@ export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
       ...createStartAccountOrLoginSteps(routes),
     ],
     stepsToFillOut: [
-      // TODO: Add cross-site "agree to terms" step.
       ...skipStepsIf(isUserLoggedIn, [
         {
           path: routes.name,
@@ -64,6 +64,11 @@ export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
           component: LALetterBuilderAskNationalAddress,
         },
       ]),
+      {
+        path: routes.createAccount,
+        component: LALetterBuilderCreateAccount,
+        shouldBeSkipped: isUserLoggedIn,
+      },
     ],
     confirmationSteps: [
       {

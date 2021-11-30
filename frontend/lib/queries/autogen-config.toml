@@ -150,6 +150,8 @@ sessionFields = ["onboardingInfo"]
 
 [mutations."evictionFree.*"]
 
+[mutations."laLetterBuilder.*"]
+
 [mutations.phoneNumber]
 
 [mutations.leaseType]

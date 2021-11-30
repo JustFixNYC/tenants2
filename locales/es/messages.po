@@ -48,7 +48,7 @@ msgstr "*División de Vivienda y Renovación de la Comunidad"
 msgid "8 Minutes"
 msgstr "8 minutos"
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:36
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:35
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
@@ -484,6 +484,10 @@ msgstr "Community Justice Project"
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:33
 msgid "Confirm"
 msgstr "Confirmar"
+
+#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:26
+msgid "Confirm password"
+msgstr ""
 
 #: frontend/lib/start-account-or-login/set-password.tsx:22
 msgid "Confirm your new password"
@@ -923,7 +927,7 @@ msgstr "¿Por qué me sirve de ayuda enviar esta declaración?"
 msgid "How it works"
 msgstr "Cómo funciona"
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:48
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:47
 msgid "I agree to the <0/> terms and conditions."
 msgstr "Acepto los términos y condiciones de <0/>."
 
@@ -1592,6 +1596,7 @@ msgstr "Tomas de corriente no funcionan"
 msgid "Painting overdue (3 years)"
 msgstr "Pintura Atrasada (cada 3 años)"
 
+#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:25
 #: frontend/lib/start-account-or-login/verify-password.tsx:72
 msgid "Password"
 msgstr "Contraseña"
@@ -1631,7 +1636,7 @@ msgstr "Tuberías con fugas"
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Por favor <0>vuelve y escoge un estado</0>."
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:34
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:33
 msgid "Please agree to our terms and conditions"
 msgstr "Por favor, acepta nuestros términos y condiciones"
 
@@ -1852,6 +1857,7 @@ msgid "Separate letters for each month starting in September when you couldn't p
 msgstr "Cartas separadas para cada mes a partir de septiembre, cuando no pudiste pagar la renta en su totalidad."
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:17
+#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:16
 #: frontend/lib/norent/letter-builder/create-account.tsx:19
 msgid "Set up an account"
 msgstr "Configura tu cuenta"
@@ -2493,6 +2499,7 @@ msgstr "Wyoming"
 msgid "Yes"
 msgstr "Si"
 
+#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:28
 #: frontend/lib/norent/letter-builder/create-account.tsx:37
 msgid "Yes, JustFix.nyc can text me to follow up about my housing issues."
 msgstr "Sí, JustFix.nyc puede enviarme mensajes de texto para hacer un seguimiento de mis problemas de vivienda."

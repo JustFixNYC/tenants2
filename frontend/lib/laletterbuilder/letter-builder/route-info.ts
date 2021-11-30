@@ -17,6 +17,8 @@ export function createLALetterBuilderRouteInfo(prefix: string) {
     nationalAddress: `${prefix}/address/national`,
     nationalAddressConfirmModal: `${prefix}/address/national/confirm-modal`,
     nationalAddressConfirmInvalidModal: `${prefix}/address/national/confirm-invalid-modal`,
+    createAccount: `${prefix}/create-account`,
+    createAccountTermsModal: `${prefix}/create-account/terms-modal`,
     confirmation: `${prefix}/confirmation`,
   };
 }

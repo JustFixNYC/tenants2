@@ -24,6 +24,8 @@ import { LALetterBuilderConfirmation } from "./confirmation";
 import { LALetterBuilderCreateAccount } from "./create-account";
 import { LALetterBuilderOnboardingStep } from "./step-decorators";
 import { LALetterBuilderWelcome } from "./welcome";
+import { createCrossSiteAgreeToTermsStep } from "../../pages/cross-site-terms-opt-in";
+import { ChooseLetterTypes } from "./choose-letters";
 
 const LALetterBuilderAskName = LALetterBuilderOnboardingStep(AskNameStep);
 const LALetterBuilderAskCityState = LALetterBuilderOnboardingStep((props) => (
@@ -65,6 +67,10 @@ const LALetterBuilderLandlordMailingAddress = MiddleProgressStep((props) => (
   </LandlordMailingAddress>
 ));
 
+const LALetterBuilderChooseLetters = MiddleProgressStep((props) => (
+  <ChooseLetterTypes {...props} />
+));
+
 export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = LALetterBuilderRoutes.locale.letter;
 
@@ -79,6 +85,7 @@ export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
       ...createStartAccountOrLoginSteps(routes),
     ],
     stepsToFillOut: [
+      createCrossSiteAgreeToTermsStep(routes.crossSiteAgreeToTerms),
       ...skipStepsIf(isUserLoggedIn, [
         {
           path: routes.name,
@@ -97,6 +104,11 @@ export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
           component: LALetterBuilderAskNationalAddress,
         },
       ]),
+      {
+        path: routes.chooseLetters,
+        // TODO: figure out when to skip this, if ever (maybe if in the middle of a letter?)
+        component: LALetterBuilderChooseLetters,
+      },
       {
         path: routes.createAccount,
         component: LALetterBuilderCreateAccount,

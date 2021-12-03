@@ -1,8 +1,6 @@
 from django.db import models
-
+from mailing.models import MailItem
 from users.models import JustfixUser
-from project.locales import LOCALE_KWARGS
-from loc.lob_django_util import SendableViaLobMixin
 
 
 class HardshipDeclarationDetails(models.Model):
@@ -41,23 +39,10 @@ class HardshipDeclarationDetails(models.Model):
         return self.has_financial_hardship or self.has_health_risk
 
 
-class SubmittedHardshipDeclaration(models.Model, SendableViaLobMixin):
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    updated_at = models.DateTimeField(auto_now=True)
+class SubmittedHardshipDeclaration(MailItem):
 
     user = models.OneToOneField(
         JustfixUser, on_delete=models.CASCADE, related_name="submitted_hardship_declaration"
-    )
-
-    locale = models.CharField(
-        **LOCALE_KWARGS,
-        help_text=(
-            "The locale of the user who sent the letter, at the time that "
-            "they sent it. Note that this may be different from the user's "
-            "current locale, e.g. if they changed it after sending the "
-            "letter."
-        ),
     )
 
     cover_letter_variables = models.JSONField(
@@ -70,21 +55,6 @@ class SubmittedHardshipDeclaration(models.Model, SendableViaLobMixin):
 
     declaration_variables = models.JSONField(
         help_text="The variables used to fill out the declaration form PDF."
-    )
-
-    lob_letter_object = models.JSONField(
-        blank=True,
-        null=True,
-        help_text=(
-            "If the declaration was sent via Lob, this is the JSON response of the API call that "
-            "was made to send the letter, documented at https://lob.com/docs/python#letters."
-        ),
-    )
-
-    tracking_number = models.CharField(
-        max_length=100,
-        blank=True,
-        help_text="The USPS tracking number for the declaration.",
     )
 
     mailed_at = models.DateTimeField(

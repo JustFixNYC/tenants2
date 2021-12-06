@@ -4,7 +4,8 @@ import pydantic
 from django import forms
 from django.core.exceptions import ValidationError
 
-from . import models, lob_api
+from project.util import lob_api
+from . import models
 from project import common_data
 
 

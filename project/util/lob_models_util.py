@@ -1,5 +1,5 @@
 from django.db import models
-from loc.lob_django_util import SendableViaLobMixin
+from .lob_django_util import SendableViaLobMixin
 from project.locales import LOCALE_KWARGS
 
 
@@ -8,6 +8,9 @@ class MailItem(models.Model, SendableViaLobMixin):
     A piece of mail (e.g., a letter or declaration) that is ready to be sent,
     or has already been sent.
     """
+
+    class Meta:
+        abstract = True
 
     created_at = models.DateTimeField(auto_now_add=True)
 

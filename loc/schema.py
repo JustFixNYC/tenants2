@@ -10,7 +10,8 @@ from project.util.email_attachment import EmailAttachmentMutation
 from project.util.site_util import get_site_name
 from project.util.graphql_mailing_address import GraphQLMailingAddress
 from project import slack, schema_registry, common_data
-from . import forms, models, email_letter, views, lob_api, tasks
+from project.util import lob_api
+from . import forms, models, email_letter, views, tasks
 from .landlord_info_mutation import (
     BaseLandlordInfoMutation,
     BaseLandlordInfoMutationMeta,

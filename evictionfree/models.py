@@ -1,5 +1,5 @@
 from django.db import models
-from mailing.models import MailItem
+from project.util.lob_models_util import MailItem
 from users.models import JustfixUser
 
 

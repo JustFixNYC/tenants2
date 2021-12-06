@@ -40,6 +40,3 @@ class MailItem(models.Model, SendableViaLobMixin):
         blank=True,
         help_text="The USPS tracking number for the mail item.",
     )
-
-    def __str__(self):
-        raise NotImplementedError("Subclasses must implement __str__")

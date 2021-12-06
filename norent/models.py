@@ -1,10 +1,8 @@
 from typing import Optional, List
 import datetime
 from django.db import models
-
+from project.util.lob_models_util import MailItem
 from users.models import JustfixUser
-from project.locales import LOCALE_KWARGS
-from loc.lob_django_util import SendableViaLobMixin
 
 
 class CityWithoutStateDiagnostic(models.Model):
@@ -98,7 +96,7 @@ class UpcomingLetterRentPeriod(models.Model):
     )
 
 
-class Letter(models.Model, SendableViaLobMixin):
+class Letter(MailItem):
     """
     A no rent letter that is ready to be sent, or has already been sent.
     """
@@ -106,21 +104,7 @@ class Letter(models.Model, SendableViaLobMixin):
     class Meta:
         ordering = ["-created_at"]
 
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    updated_at = models.DateTimeField(auto_now=True)
-
     user = models.ForeignKey(JustfixUser, on_delete=models.CASCADE, related_name="norent_letters")
-
-    locale = models.CharField(
-        **LOCALE_KWARGS,
-        help_text=(
-            "The locale of the user who sent the letter, at the time that "
-            "they sent it. Note that this may be different from the user's "
-            "current locale, e.g. if they changed it after sending the "
-            "letter."
-        ),
-    )
 
     rent_periods = models.ManyToManyField(RentPeriod)
 
@@ -136,21 +120,6 @@ class Letter(models.Model, SendableViaLobMixin):
             "version is already stored in another field)."
         ),
         blank=True,
-    )
-
-    lob_letter_object = models.JSONField(
-        blank=True,
-        null=True,
-        help_text=(
-            "If the letter was sent via Lob, this is the JSON response of the API call that "
-            "was made to send the letter, documented at https://lob.com/docs/python#letters."
-        ),
-    )
-
-    tracking_number = models.CharField(
-        max_length=100,
-        blank=True,
-        help_text="The tracking number for the letter.",
     )
 
     letter_sent_at = models.DateTimeField(

@@ -51,6 +51,11 @@ const config: CommonDataConfig = {
       exportLabels: false,
     },
     {
+      jsonFilename: "la-letter-builder-letter-choices.json",
+      typeName: "LetterChoice",
+      exportLabels: true,
+    },
+    {
       jsonFilename: "us-state-choices.json",
       typeName: "USStateChoice",
       exportLabels: true,

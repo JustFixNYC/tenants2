@@ -13,7 +13,7 @@ from project.util.mailing_address import US_STATE_CHOICES, ZipCodeValidator, CIT
 from project.util.address_form_fields import ADDRESS_FIELD_KWARGS
 from project import mapbox
 from loc.models import LandlordDetails
-from loc.lob_api import MAX_NAME_LEN as MAX_LOB_NAME_LEN
+from project.util.lob_api import MAX_NAME_LEN as MAX_LOB_NAME_LEN
 from onboarding.models import OnboardingInfo
 from onboarding.forms import AptNumberWithConfirmationForm
 from users.models import JustfixUser

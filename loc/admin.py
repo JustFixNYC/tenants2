@@ -10,7 +10,7 @@ from users.models import JustfixUser
 from users.action_progress import LOC_PROGRESS
 from issues.admin import IssueInline, CustomIssueInline
 from project.util.admin_util import admin_field, admin_action, never_has_permission
-from loc.lob_api import is_lob_fully_enabled
+from project.util.lob_api import is_lob_fully_enabled
 from users.admin_user_proxy import UserProxyAdmin
 from . import models
 

@@ -3201,7 +3201,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The tracking number for the letter.",
+              "description": "The USPS tracking number for the mail item.",
               "isDeprecated": false,
               "name": "trackingNumber",
               "type": {
@@ -4531,7 +4531,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "The USPS tracking number for the declaration.",
+              "description": "The USPS tracking number for the mail item.",
               "isDeprecated": false,
               "name": "trackingNumber",
               "type": {

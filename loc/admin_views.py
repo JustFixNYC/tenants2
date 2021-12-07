@@ -13,7 +13,8 @@ from django.contrib.contenttypes.models import ContentType
 from users.models import CHANGE_LETTER_REQUEST_PERMISSION
 import airtable.sync
 from project import slack
-from . import models, views, lob_api
+from project.util import lob_api
+from . import models, views
 
 
 MAX_NOTES_LEN = 1000

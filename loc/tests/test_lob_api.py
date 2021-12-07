@@ -2,7 +2,7 @@ from io import BytesIO
 import lob
 import pytest
 
-from loc import lob_api
+from project.util import lob_api
 
 
 def test_verify_address_works(mocklob):

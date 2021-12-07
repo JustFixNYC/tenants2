@@ -13,7 +13,7 @@ from project.util.site_util import absolute_reverse, get_site_name
 from project.util.instance_change_tracker import InstanceChangeTracker
 from users.models import JustfixUser
 from .landlord_lookup import lookup_landlord
-from .lob_django_util import SendableViaLobMixin
+from project.util.lob_django_util import SendableViaLobMixin
 
 
 LOB_STRICTNESS_HELP_URL = (

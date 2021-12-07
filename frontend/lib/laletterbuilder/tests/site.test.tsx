@@ -1,7 +1,9 @@
 import React from "react";
-import { AppTesterPal } from "../../tests/app-tester-pal";
 import { Route } from "react-router-dom";
+
 import { waitFor } from "@testing-library/react";
+
+import { AppTesterPal } from "../../tests/app-tester-pal";
 import LALetterBuilderSite from "../site";
 
 describe("LALetterBuilderSite", () => {

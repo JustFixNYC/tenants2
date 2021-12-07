@@ -6,7 +6,7 @@ from users.models import JustfixUser
 from users.action_progress import EHP_PROGRESS
 from issues.admin import IssueInline, CustomIssueInline
 from loc.admin import LandlordDetailsInline
-from loc.lob_api import is_lob_fully_enabled
+from project.util.lob_api import is_lob_fully_enabled
 from project.util.admin_util import admin_action, never_has_permission, make_edit_link, admin_field
 from users.admin_user_proxy import UserProxyAdmin
 from . import models

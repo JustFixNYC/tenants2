@@ -1,4 +1,5 @@
 import React from "react";
+
 import { FooterLanguageToggle } from "../../ui/language-toggle";
 import { LegalDisclaimer } from "../../ui/legal-disclaimer";
 

@@ -1,5 +1,7 @@
-import { Trans } from "@lingui/macro";
 import React from "react";
+
+import { Trans } from "@lingui/macro";
+
 import Page from "../ui/page";
 
 export const LALetterBuilderHomepage: React.FC<{}> = () => (

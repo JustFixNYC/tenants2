@@ -17,7 +17,7 @@ from frontend.static_content import (
 )
 from users.models import JustfixUser
 from loc.views import render_pdf_bytes
-from loc import lob_api
+from project.util import lob_api
 from . import models
 
 

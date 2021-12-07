@@ -9,7 +9,13 @@ from django import forms
 from django.utils import timezone
 
 from users.models import JustfixUser, ADD_SERVING_PAPERS_PERMISSION
-from loc import lob_api
+from project.util.lob_api import (
+    is_address_undeliverable,
+    is_lob_fully_enabled,
+    mail_certified_letter,
+    verification_to_inline_address,
+    verify_address,
+)
 from project import slack
 from . import models
 from .normalize_serving_papers import convert_to_letter_pages
@@ -45,7 +51,7 @@ class ServingPapersForm(forms.ModelForm):
         if (
             sp.is_address_populated()
             and (not is_definitely_deliverable)
-            and lob_api.is_address_undeliverable(**sp.as_lob_params())
+            and is_address_undeliverable(**sp.as_lob_params())
         ):
             raise ValidationError(
                 "Lob thinks the recipient's address is undeliverable. "
@@ -82,22 +88,20 @@ class HPActionAdminViews:
         raise Http404("User not found and/or lacks required information")
 
     def _ensure_lob_integration(self):
-        if not lob_api.is_lob_fully_enabled():
+        if not is_lob_fully_enabled():
             raise Http404("Lob integration is disabled")
 
     def _send_papers(self, papers: models.ServingPapers):
-        response = lob_api.mail_certified_letter(
+        response = mail_certified_letter(
             description="Serving papers",
             to_address={
                 "name": papers.name,
-                **lob_api.verification_to_inline_address(
-                    lob_api.verify_address(**papers.as_lob_params())
-                ),
+                **verification_to_inline_address(verify_address(**papers.as_lob_params())),
             },
             from_address={
                 "name": papers.sender.full_legal_name,
-                **lob_api.verification_to_inline_address(
-                    lob_api.verify_address(**papers.sender.onboarding_info.as_lob_params())
+                **verification_to_inline_address(
+                    verify_address(**papers.sender.onboarding_info.as_lob_params())
                 ),
             },
             file=convert_to_letter_pages(papers.pdf_file.open()),

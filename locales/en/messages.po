@@ -43,7 +43,7 @@ msgstr "*Division of Housing and Community Renewal"
 msgid "8 Minutes"
 msgstr "8 Minutes"
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:36
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:35
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> makes use of a <1/> and <2/>, which you can review."
 
@@ -134,7 +134,7 @@ msgstr "About"
 msgid "Actions"
 msgstr "Actions"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:101
+#: frontend/lib/common-steps/ask-national-address.tsx:115
 #: frontend/lib/forms/address-and-borough-form-field.tsx:9
 msgid "Address"
 msgstr "Address"
@@ -217,7 +217,7 @@ msgstr "Apply for Rental Assistance. Qualifying renters are eligible for 100% of
 msgid "Are you sure you want to log out?"
 msgstr "Are you sure you want to log out?"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:46
+#: frontend/lib/common-steps/ask-national-address.tsx:60
 msgid "Are you sure you want to proceed with the following address?"
 msgstr "Are you sure you want to proceed with the following address?"
 
@@ -334,6 +334,7 @@ msgstr "Build my letter"
 msgid "Build power in numbers"
 msgstr "Build power in numbers"
 
+#: frontend/lib/laletterbuilder/letter-builder/welcome.tsx:10
 #: frontend/lib/norent/letter-builder/welcome.tsx:9
 msgid "Build your letter"
 msgstr "Build your letter"
@@ -403,11 +404,11 @@ msgstr "Ceiling falling/fell"
 msgid "Ceiling leaking"
 msgstr "Ceiling leaking"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:91
+#: frontend/lib/common-steps/ask-national-address.tsx:105
 msgid "Change"
 msgstr "Change"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:90
+#: frontend/lib/common-steps/ask-national-address.tsx:104
 msgid "Change city and state from {cityAndState}"
 msgstr "Change city and state from {cityAndState}"
 
@@ -435,7 +436,7 @@ msgstr "Cite up-to-date legal ordinances in your letter"
 msgid "City"
 msgstr "City"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:85
+#: frontend/lib/common-steps/ask-national-address.tsx:99
 msgid "City and state"
 msgstr "City and state"
 
@@ -479,11 +480,15 @@ msgstr "Community Justice Project"
 msgid "Confirm"
 msgstr "Confirm"
 
+#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:26
+msgid "Confirm password"
+msgstr "Confirm password"
+
 #: frontend/lib/start-account-or-login/set-password.tsx:22
 msgid "Confirm your new password"
 msgstr "Confirm your new password"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:33
+#: frontend/lib/common-steps/ask-national-address.tsx:47
 #: frontend/lib/common-steps/ask-nyc-address.tsx:23
 msgid "Confirming the address"
 msgstr "Confirming the address"
@@ -870,7 +875,7 @@ msgstr "Here’s what the letter will look like:"
 msgid "Here’s what you can do with <0>NoRent</0>"
 msgstr "Here’s what you can do with <0>NoRent</0>"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:57
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:46
 msgid "Highly recommended."
 msgstr "Highly recommended."
 
@@ -917,7 +922,7 @@ msgstr "How does sending this declaration help me?"
 msgid "How it works"
 msgstr "How it works"
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:48
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:47
 msgid "I agree to the <0/> terms and conditions."
 msgstr "I agree to the <0/> terms and conditions."
 
@@ -1442,7 +1447,7 @@ msgid "New password"
 msgstr "New password"
 
 #: frontend/lib/common-steps/welcome.tsx:45
-#: frontend/lib/laletterbuilder/letter-builder/welcome.tsx:14
+#: frontend/lib/laletterbuilder/letter-builder/welcome.tsx:15
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
 msgid "Next"
@@ -1562,12 +1567,12 @@ msgstr "Our Partners"
 msgid "Our letter cites the most up-to-date legal ordinances that protect tenant rights in your state."
 msgstr "Our letter cites the most up-to-date legal ordinances that protect tenant rights in your state."
 
-#: frontend/lib/common-steps/ask-national-address.tsx:35
+#: frontend/lib/common-steps/ask-national-address.tsx:49
 #: frontend/lib/common-steps/ask-nyc-address.tsx:25
 msgid "Our records have shown us a similar address. Would you like to proceed with this address:"
 msgstr "Our records have shown us a similar address. Would you like to proceed with this address:"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:44
+#: frontend/lib/common-steps/ask-national-address.tsx:58
 msgid "Our records tell us that this address is invalid."
 msgstr "Our records tell us that this address is invalid."
 
@@ -1586,6 +1591,7 @@ msgstr "Outlets not working"
 msgid "Painting overdue (3 years)"
 msgstr "Painting overdue (3 years)"
 
+#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:25
 #: frontend/lib/start-account-or-login/verify-password.tsx:72
 msgid "Password"
 msgstr "Password"
@@ -1625,7 +1631,7 @@ msgstr "Pipes leaking"
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Please <0>go back and choose a state</0>."
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:34
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:33
 msgid "Please agree to our terms and conditions"
 msgstr "Please agree to our terms and conditions"
 
@@ -1846,6 +1852,7 @@ msgid "Separate letters for each month starting in September when you couldn't p
 msgstr "Separate letters for each month starting in September when you couldn't pay rent in full."
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:17
+#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:16
 #: frontend/lib/norent/letter-builder/create-account.tsx:19
 msgid "Set up an account"
 msgstr "Set up an account"
@@ -2153,7 +2160,7 @@ msgstr "USPS Certified Mail"
 msgid "USPS Tracking #:"
 msgstr "USPS Tracking #:"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:92
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:81
 msgid "Unfortunately, this tool is currently only available to individuals who live in the state of New York."
 msgstr "Unfortunately, this tool is currently only available to individuals who live in the state of New York."
 
@@ -2165,7 +2172,7 @@ msgstr "Unfortunately, we do not currently recommend sending a notice of non-pay
 msgid "Unfortunately, we do not currently recommend sending this notice of non-payment to your landlord. <0/>"
 msgstr "Unfortunately, we do not currently recommend sending this notice of non-payment to your landlord. <0/>"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:102
+#: frontend/lib/common-steps/ask-national-address.tsx:116
 msgid "Unit/apt/lot/suite number"
 msgstr "Unit/apt/lot/suite number"
 
@@ -2269,12 +2276,12 @@ msgstr "We'll use this information to email you a copy of your letter."
 msgid "We'll use this information to send you updates."
 msgstr "We'll use this information to send you updates."
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:84
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:73
 msgid "We'll use this information to send your hardship declaration form via certified mail for free."
 msgstr "We'll use this information to send your hardship declaration form via certified mail for free."
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:74
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:79
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:63
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:68
 msgid "We'll use this information to send your hardship declaration form."
 msgstr "We'll use this information to send your hardship declaration form."
 
@@ -2487,6 +2494,7 @@ msgstr "Wyoming"
 msgid "Yes"
 msgstr "Yes"
 
+#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:28
 #: frontend/lib/norent/letter-builder/create-account.tsx:37
 msgid "Yes, JustFix.nyc can text me to follow up about my housing issues."
 msgstr "Yes, JustFix.nyc can text me to follow up about my housing issues."
@@ -2539,7 +2547,7 @@ msgstr "You can use this website to send a hardship declaration form to your lan
 msgid "You can't send any more letters"
 msgstr "You can't send any more letters"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:90
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:79
 msgid "You don't live in New York"
 msgstr "You don't live in New York"
 
@@ -2705,7 +2713,7 @@ msgstr "Your privacy is very important to us!"
 msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 msgstr "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 
-#: frontend/lib/common-steps/ask-national-address.tsx:97
+#: frontend/lib/common-steps/ask-national-address.tsx:111
 #: frontend/lib/common-steps/ask-nyc-address.tsx:39
 msgid "Your residence"
 msgstr "Your residence"
@@ -2714,7 +2722,7 @@ msgstr "Your residence"
 msgid "You’re not alone. Millions of Americans won’t be able to pay rent because of COVID‑19. Use our FREE tool to take action by writing a letter to your landlord."
 msgstr "You’re not alone. Millions of Americans won’t be able to pay rent because of COVID‑19. Use our FREE tool to take action by writing a letter to your landlord."
 
-#: frontend/lib/common-steps/ask-national-address.tsx:104
+#: frontend/lib/common-steps/ask-national-address.tsx:118
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:41
 msgid "Zip code"
 msgstr "Zip code"
@@ -2751,7 +2759,7 @@ msgstr "Our website helps tenants submit this hardship declaration form with pea
 msgid "evictionfree.agreeToStateTermsIntro"
 msgstr "These last questions make sure that you understand the limits of the protection granted by this hardship declaration form, and that you answered the previous questions truthfully:"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:59
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:48
 msgid "evictionfree.askForEmail"
 msgstr "We'll use this information to email you a copy of your hardship declaration form. If possible, we’ll also forward you any confirmation emails from the courts once they receive your declaration form."
 

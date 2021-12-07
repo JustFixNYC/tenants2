@@ -12,6 +12,7 @@ fragment OnboardingInfo on OnboardingInfoType {
   agreedToJustfixTerms,
   agreedToNorentTerms,
   agreedToEvictionfreeTerms,
+  agreedToLaletterbuilderTerms,
   canReceiveRttcComms,
   canReceiveSajeComms,
   borough,

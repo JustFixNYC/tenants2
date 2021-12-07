@@ -14,7 +14,7 @@ from .hpactionvars import HarassmentAllegationsMS, CourtLocationMC
 from .hotdocs_xml_parsing import get_answers_xml_court_location_mc
 from . import page_numbering
 from project.util.site_util import absolute_reverse
-from loc.lob_api import MAX_NAME_LEN as MAX_LOB_NAME_LEN
+from project.util.lob_api import MAX_NAME_LEN as MAX_LOB_NAME_LEN
 from project.util.mailing_address import MailingAddress
 from project import common_data
 from onboarding.models import BOROUGH_CHOICES

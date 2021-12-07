@@ -7,7 +7,7 @@ from users.action_progress import NORENT_PROGRESS
 from users.admin_user_proxy import UserProxyAdmin
 from project.util.admin_util import admin_field, never_has_permission
 from loc.admin import LandlordDetailsInline
-from loc.lob_django_util import SendableViaLobAdminMixin
+from project.util.lob_django_util import SendableViaLobAdminMixin
 from . import models
 
 

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-11-30 22:03\n"
+"PO-Revision-Date: 2021-12-07 22:06\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -484,10 +484,6 @@ msgstr "Community Justice Project"
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:33
 msgid "Confirm"
 msgstr "Confirmar"
-
-#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:26
-msgid "Confirm password"
-msgstr "Confirm password"
 
 #: frontend/lib/start-account-or-login/set-password.tsx:22
 msgid "Confirm your new password"
@@ -1596,7 +1592,6 @@ msgstr "Tomas de corriente no funcionan"
 msgid "Painting overdue (3 years)"
 msgstr "Pintura Atrasada (cada 3 años)"
 
-#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:25
 #: frontend/lib/start-account-or-login/verify-password.tsx:72
 msgid "Password"
 msgstr "Contraseña"
@@ -1857,7 +1852,7 @@ msgid "Separate letters for each month starting in September when you couldn't p
 msgstr "Cartas separadas para cada mes a partir de septiembre, cuando no pudiste pagar la renta en su totalidad."
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:17
-#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:16
+#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:17
 #: frontend/lib/norent/letter-builder/create-account.tsx:19
 msgid "Set up an account"
 msgstr "Configura tu cuenta"

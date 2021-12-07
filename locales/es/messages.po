@@ -485,10 +485,6 @@ msgstr "Community Justice Project"
 msgid "Confirm"
 msgstr "Confirmar"
 
-#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:26
-msgid "Confirm password"
-msgstr ""
-
 #: frontend/lib/start-account-or-login/set-password.tsx:22
 msgid "Confirm your new password"
 msgstr "Confirma tu nueva contraseña"
@@ -1596,7 +1592,6 @@ msgstr "Tomas de corriente no funcionan"
 msgid "Painting overdue (3 years)"
 msgstr "Pintura Atrasada (cada 3 años)"
 
-#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:25
 #: frontend/lib/start-account-or-login/verify-password.tsx:72
 msgid "Password"
 msgstr "Contraseña"
@@ -1857,7 +1852,7 @@ msgid "Separate letters for each month starting in September when you couldn't p
 msgstr "Cartas separadas para cada mes a partir de septiembre, cuando no pudiste pagar la renta en su totalidad."
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:17
-#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:16
+#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:17
 #: frontend/lib/norent/letter-builder/create-account.tsx:19
 msgid "Set up an account"
 msgstr "Configura tu cuenta"

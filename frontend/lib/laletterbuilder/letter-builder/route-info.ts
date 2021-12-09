@@ -12,7 +12,7 @@ export function createLALetterBuilderRouteInfo(prefix: string) {
     welcome: `${prefix}/welcome`,
     ...createStartAccountOrLoginRouteInfo(prefix),
     crossSiteAgreeToTerms: `${prefix}/terms`,
-    chooseLetters: `${prefix}/choose-letters`,
+    chooseLetter: `${prefix}/choose-letter`,
     name: `${prefix}/name`,
     city: `${prefix}/city`,
     cityConfirmModal: `${prefix}/city/confirm-modal`,

@@ -18,9 +18,9 @@ import {
 } from "../../queries/LaLetterBuilderChooseLetterTypeMutation";
 import { MiddleProgressStepProps } from "../../progress/progress-step-route";
 
-export const ChooseLetters: React.FC<MiddleProgressStepProps> = (props) => {
+export const ChooseLetterType: React.FC<MiddleProgressStepProps> = (props) => {
   return (
-    <Page title={li18n._(t`Letters you'd like to send`)}>
+    <Page title={li18n._(t`Letter type you'd like to send`)}>
       <SessionUpdatingFormSubmitter
         mutation={LaLetterBuilderChooseLetterTypeMutation}
         initialState={{

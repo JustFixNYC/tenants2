@@ -1,41 +1,39 @@
-import React, { useContext } from "react";
+import React from "react";
 
-import { Trans, t } from "@lingui/macro";
+import { t } from "@lingui/macro";
 
-import { AppContext } from "../../app-context";
-import { DjangoChoices } from "../../common-data";
-import { MultiCheckboxFormField } from "../../forms/form-fields";
-import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
+import { toDjangoChoices } from "../../common-data";
+import { RadiosFormField } from "../../forms/form-fields";
 import { li18n } from "../../i18n-lingui";
-import { MiddleProgressStep } from "../../progress/progress-step-route";
-import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { ProgressButtons } from "../../ui/buttons";
+import {
+  LetterChoices,
+  getLetterChoiceLabels,
+} from "../../../../common-data/la-letter-builder-letter-choices";
+import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import Page from "../../ui/page";
+import { LALetterBuilderOnboardingStep } from "./step-decorators";
+import {
+  BlankLALetterBuilderChooseLetterTypeInput,
+  LaLetterBuilderChooseLetterTypeMutation,
+} from "../../queries/LaLetterBuilderChooseLetterTypeMutation";
 
-export const ChooseLetterTypes = MiddleProgressStep((props) => {
-  const { session } = useContext(AppContext);
+export const ChooseLetters = LALetterBuilderOnboardingStep((props) => {
   return (
-    <Page
-      title={li18n._(t`Letters you'd like to send`)}
-      withHeading="big"
-      className="content"
-    >
-      <p>
-        <Trans>add extra content here</Trans>
-      </p>
+    <Page title={li18n._(t`Letters you'd like to send`)}>
       <SessionUpdatingFormSubmitter
-        mutation={LALetterBuilderSetLetterTypesMutation} // or whatever the mutation is called
-        initialState={(s) => ({
-          laLetterTypes: ["repairs"], // change this
-        })}
+        mutation={LaLetterBuilderChooseLetterTypeMutation}
+        initialState={{
+          ...BlankLALetterBuilderChooseLetterTypeInput,
+        }}
         onSuccessRedirect={props.nextStep}
       >
         {(ctx) => (
           <>
-            <MultiCheckboxFormField
-              {...ctx.fieldPropsFor("laLetterTypes")}
+            <RadiosFormField
+              {...ctx.fieldPropsFor("letterType")}
               label={li18n._(t`Letter Types`)}
-              choices={getLetterTypeChoices(session.laLetterTypeChoices)}
+              choices={toDjangoChoices(LetterChoices, getLetterChoiceLabels())}
             />
             <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
           </>
@@ -44,10 +42,3 @@ export const ChooseLetterTypes = MiddleProgressStep((props) => {
     </Page>
   );
 });
-
-function getLetterTypeChoices(
-  letterTypes: AllSessionInfo["laLetterTypes"]
-): DjangoChoices {
-  // TODO: only show the letter types that are sendable based on the user's address (LA City, County, or CA)
-  return [["repairs", "repairs"]];
-}

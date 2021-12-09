@@ -23,7 +23,7 @@ export const LALetterBuilderCreateAccount = LALetterBuilderOnboardingStep(
         <div className="content">
           <p>
             Let’s set you up with an account. An account will enable you to save
-            your information, download your declaration, and more.
+            your information, download your letters, and more.
           </p>
         </div>
         <SessionUpdatingFormSubmitter

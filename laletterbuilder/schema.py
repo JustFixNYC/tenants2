@@ -33,7 +33,7 @@ class LALetterBuilderCreateAccount(BaseCreateAccount):
 @schema_registry.register_mutation
 class LALetterBuilderChooseLetterType(OnboardingScaffoldingOrUserDataMutation):
     """
-    Save which letters the user wants to send during this session.
+    Save which type of letter the user wants to send during this session.
     """
 
     class Meta:

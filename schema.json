@@ -6142,7 +6142,7 @@
                 }
               ],
               "deprecationReason": null,
-              "description": "\nSave which letters the user wants to send during this session.\n",
+              "description": "\nSave which type of letter the user wants to send during this session.\n",
               "isDeprecated": false,
               "name": "laLetterBuilderChooseLetterType",
               "type": {
@@ -12080,7 +12080,7 @@
           "possibleTypes": null
         },
         {
-          "description": "Save which letters the user wants to send during this session.",
+          "description": "Save which type of letter the user wants to send during this session.",
           "enumValues": null,
           "fields": [
             {

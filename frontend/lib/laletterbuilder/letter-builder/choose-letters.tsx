@@ -12,13 +12,13 @@ import {
 } from "../../../../common-data/la-letter-builder-letter-choices";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import Page from "../../ui/page";
-import { LALetterBuilderOnboardingStep } from "./step-decorators";
 import {
   BlankLALetterBuilderChooseLetterTypeInput,
   LaLetterBuilderChooseLetterTypeMutation,
 } from "../../queries/LaLetterBuilderChooseLetterTypeMutation";
+import { MiddleProgressStepProps } from "../../progress/progress-step-route";
 
-export const ChooseLetters = LALetterBuilderOnboardingStep((props) => {
+export const ChooseLetters: React.FC<MiddleProgressStepProps> = (props) => {
   return (
     <Page title={li18n._(t`Letters you'd like to send`)}>
       <SessionUpdatingFormSubmitter
@@ -41,4 +41,4 @@ export const ChooseLetters = LALetterBuilderOnboardingStep((props) => {
       </SessionUpdatingFormSubmitter>
     </Page>
   );
-});
+};

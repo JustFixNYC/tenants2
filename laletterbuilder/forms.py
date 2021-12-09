@@ -1,7 +1,7 @@
 from django import forms
 from project import common_data
 
-LETTER_TYPE_CHOICES = common_data.Choices.from_file("hp-action-choices.json")
+LETTER_TYPE_CHOICES = common_data.Choices.from_file("la-letter-builder-letter-choices.json")
 
 
 class ChooseLetterTypeForm(forms.Form):

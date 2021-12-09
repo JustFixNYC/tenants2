@@ -42,21 +42,17 @@ class LALetterBuilderChooseLetterType(OnboardingScaffoldingOrUserDataMutation):
     selected_letter_type = ""
 
     @classmethod
-    def get_selected_letter(cls, form) -> str:
-        return "habitability"  # change this
-
-    @classmethod
     def perform_mutate_for_authenticated_user(cls, form, info: ResolveInfo):
         request = info.context
         user = request.user
         oi = user.onboarding_info
-        setattr(oi, cls.selected_letter_type, cls.get_selected_letter_type(form))
+        setattr(oi, cls.selected_letter_type, form.cleaned_data["letter_type"])
         oi.save()
         return cls.mutation_success()
 
     @classmethod
     def perform_mutate_for_anonymous_user(cls, form, info: ResolveInfo):
         update_scaffolding(
-            info.context, {cls.selected_letter_type: cls.get_selected_letter_type(form)}
+            info.context, {cls.selected_letter_type: form.cleaned_data["letter_type"]}
         )
         return cls.mutation_success()

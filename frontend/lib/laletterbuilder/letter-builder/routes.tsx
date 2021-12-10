@@ -71,6 +71,11 @@ export const LALetterBuilderChooseLetterType = MiddleProgressStep((props) => (
   <ChooseLetterType {...props} />
 ));
 
+/**
+ * This function defines all routes within the LA Letter Builder flow.
+ * To find the map of each route to its corresponding URL path, check out
+ * the `routes-info.ts` file in the same directory as this file.
+ */
 export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = LALetterBuilderRoutes.locale.letter;
 

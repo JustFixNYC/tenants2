@@ -30,6 +30,9 @@ fragment AllSessionInfo on SessionInfo {
     letterSentAt,
     updatedAt
   },
+  laLetterDetails {
+    letterType
+  },
   issues,
   customIssuesV2 {
     id,

@@ -1884,6 +1884,18 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
+              "name": "laLetterDetails",
+              "type": {
+                "kind": "OBJECT",
+                "name": "LetterDetailsType",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
               "name": "issues",
               "type": {
                 "kind": "NON_NULL",
@@ -3496,6 +3508,64 @@
           "interfaces": null,
           "kind": "ENUM",
           "name": "LetterRequestMailChoice",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The type of letter the tenant is creating in this session.",
+              "isDeprecated": false,
+              "name": "letterType",
+              "type": {
+                "kind": "ENUM",
+                "name": "LALetterDetailsLetterType",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "LetterDetailsType",
+          "possibleTypes": null
+        },
+        {
+          "description": "An enumeration.",
+          "enumValues": [
+            {
+              "deprecationReason": null,
+              "description": "Habitability (CA)",
+              "isDeprecated": false,
+              "name": "HABITABILITY"
+            },
+            {
+              "deprecationReason": null,
+              "description": "Harassment (CA)",
+              "isDeprecated": false,
+              "name": "CA_HARASSMENT"
+            },
+            {
+              "deprecationReason": null,
+              "description": "Harassment (LA City/TAHO)",
+              "isDeprecated": false,
+              "name": "LA_HARASSMENT"
+            },
+            {
+              "deprecationReason": null,
+              "description": "Right to Privacy (CA)",
+              "isDeprecated": false,
+              "name": "PRIVACY"
+            }
+          ],
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "ENUM",
+          "name": "LALetterDetailsLetterType",
           "possibleTypes": null
         },
         {
@@ -6120,6 +6190,37 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "LALetterBuilderCreateAccountPayload",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "input",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "LALetterBuilderChooseLetterInput",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "laLetterBuilderChooseLetter",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "LALetterBuilderChooseLetterPayload",
                   "ofType": null
                 }
               }
@@ -12046,6 +12147,100 @@
           "interfaces": null,
           "kind": "INPUT_OBJECT",
           "name": "LALetterBuilderCreateAccountInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "session",
+              "type": {
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "LALetterBuilderChooseLetterPayload",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": "The type of letter the tenant is creating in this session.",
+              "name": "letterType",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "LALetterBuilderChooseLetterInput",
           "possibleTypes": null
         },
         {

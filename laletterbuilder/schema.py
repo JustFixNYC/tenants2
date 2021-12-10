@@ -1,11 +1,17 @@
 from typing import Any, Dict
 from django.http import HttpRequest
-
+from graphene_django.types import DjangoObjectType
+import graphene
 from users.models import JustfixUser
 from project import schema_registry
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from norent.schema import BaseCreateAccount
 from norent.forms import CreateAccount
+from project.util.model_form_util import (
+    ManyToOneUserModelFormMutation,
+    create_model_for_user_resolver,
+)
+from . import forms, models
 
 
 @schema_registry.register_mutation
@@ -25,3 +31,23 @@ class LALetterBuilderCreateAccount(BaseCreateAccount):
     def perform_post_onboarding(cls, form, request: HttpRequest, user: JustfixUser):
         # TODO: Send SMS.
         pass
+
+
+class LetterDetailsType(DjangoObjectType):
+    class Meta:
+        model = models.LALetterDetails
+        exclude_fields = ("user", "id")  # not sure why here but we do this in evictionfree
+
+
+@schema_registry.register_mutation
+class LALetterBuilderChooseLetter(ManyToOneUserModelFormMutation):
+    class Meta:
+        form_class = forms.ChooseLetterTypeForm
+
+
+@schema_registry.register_session_info
+class LALetterBuilderSessionInfo:
+    la_letter_details = graphene.Field(
+        LetterDetailsType,
+        resolver=create_model_for_user_resolver(models.LALetterDetails),
+    )

@@ -20,6 +20,7 @@ import { skipStepsIf } from "../../progress/skip-steps-if";
 import { createStartAccountOrLoginSteps } from "../../start-account-or-login/routes";
 import { isUserLoggedIn } from "../../util/session-predicates";
 import { LALetterBuilderRoutes } from "../route-info";
+import { LALetterBuilderChooseLetterType } from "./choose-letters";
 import { LALetterBuilderConfirmation } from "./confirmation";
 import { LALetterBuilderCreateAccount } from "./create-account";
 import { LALetterBuilderOnboardingStep } from "./step-decorators";
@@ -101,6 +102,11 @@ export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
         path: routes.createAccount,
         component: LALetterBuilderCreateAccount,
         shouldBeSkipped: isUserLoggedIn,
+      },
+      {
+        path: routes.chooseLetterType,
+        exact: true,
+        component: LALetterBuilderChooseLetterType,
       },
       {
         path: routes.landlordName,

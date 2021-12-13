@@ -6,14 +6,15 @@ from project import common_data
 LETTER_TYPE_CHOICES = common_data.Choices.from_file("la-letter-builder-letter-choices.json")
 
 
-class LALetterDetails(models.Model):
+class LaLetterDetails(models.Model):
     user = ForeignKey(
         JustfixUser,
         on_delete=models.CASCADE,
-        help_text="The user these letter details are for.",
+        related_name="la_letter_details",
+        help_text="The user these letter details relate to",
     )
 
-    letter_type = models.CharField(
+    letter_type: str = models.CharField(
         max_length=20,
         blank=True,
         choices=LETTER_TYPE_CHOICES.choices,

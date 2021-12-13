@@ -2,20 +2,20 @@ from typing import Any, Dict
 from django.http import HttpRequest
 from graphene_django.types import DjangoObjectType
 import graphene
+from project.util.session_mutation import SessionFormMutation
 from users.models import JustfixUser
 from project import schema_registry
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from norent.schema import BaseCreateAccount
 from norent.forms import CreateAccount
 from project.util.model_form_util import (
-    ManyToOneUserModelFormMutation,
     create_model_for_user_resolver,
 )
 from . import forms, models
 
 
 @schema_registry.register_mutation
-class LALetterBuilderCreateAccount(BaseCreateAccount):
+class LaLetterBuilderCreateAccount(BaseCreateAccount):
     class Meta:
         form_class = CreateAccount
 
@@ -35,19 +35,19 @@ class LALetterBuilderCreateAccount(BaseCreateAccount):
 
 class LetterDetailsType(DjangoObjectType):
     class Meta:
-        model = models.LALetterDetails
+        model = models.LaLetterDetails
         exclude_fields = ("user", "id")  # not sure why here but we do this in evictionfree
 
 
 @schema_registry.register_mutation
-class LALetterBuilderChooseLetter(ManyToOneUserModelFormMutation):
+class LaLetterBuilderChooseLetter(SessionFormMutation):
     class Meta:
         form_class = forms.ChooseLetterTypeForm
 
 
 @schema_registry.register_session_info
-class LALetterBuilderSessionInfo:
+class LaLetterBuilderSessionInfo(object):
     la_letter_details = graphene.Field(
         LetterDetailsType,
-        resolver=create_model_for_user_resolver(models.LALetterDetails),
+        resolver=create_model_for_user_resolver(models.LaLetterDetails),
     )

@@ -15,16 +15,16 @@ import Page from "../../ui/page";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import {
   LaLetterBuilderChooseLetterMutation,
-  BlankLALetterBuilderChooseLetterInput,
+  BlankLaLetterBuilderChooseLetterInput,
 } from "../../queries/LaLetterBuilderChooseLetterMutation";
 
-export const LALetterBuilderChooseLetterType = MiddleProgressStep((props) => {
+export const LaLetterBuilderChooseLetterType = MiddleProgressStep((props) => {
   return (
     <Page title={li18n._(t`Letter type you'd like to send`)}>
       <SessionUpdatingFormSubmitter
         mutation={LaLetterBuilderChooseLetterMutation}
         initialState={{
-          ...BlankLALetterBuilderChooseLetterInput,
+          ...BlankLaLetterBuilderChooseLetterInput,
         }}
         onSuccessRedirect={props.nextStep}
       >

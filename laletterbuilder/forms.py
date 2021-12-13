@@ -1,11 +1,12 @@
 from django import forms
-from .models import LALetterDetails
+from .models import LaLetterDetails
 
 
 class ChooseLetterTypeForm(forms.ModelForm):
     class Meta:
-        model = LALetterDetails
+        model = LaLetterDetails
         fields = ("letter_type",)
 
     def clean(self):
-        pass
+        cleaned_data = super().clean()
+        return cleaned_data

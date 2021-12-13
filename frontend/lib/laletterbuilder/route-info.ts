@@ -1,6 +1,6 @@
 import { createDevRouteInfo } from "../dev/route-info";
 import { ROUTE_PREFIX, createRoutesForSite } from "../util/route-util";
-import { createLALetterBuilderRouteInfo } from "./letter-builder/route-info";
+import { createLaLetterBuilderRouteInfo } from "./letter-builder/route-info";
 
 function createLocalizedRouteInfo(prefix: string) {
   return {
@@ -11,7 +11,7 @@ function createLocalizedRouteInfo(prefix: string) {
     home: `${prefix}/`,
 
     /** The letter builder */
-    letter: createLALetterBuilderRouteInfo(`${prefix}/letter`),
+    letter: createLaLetterBuilderRouteInfo(`${prefix}/letter`),
 
     /** The logout page. */
     logout: `${prefix}/logout`,
@@ -21,7 +21,7 @@ function createLocalizedRouteInfo(prefix: string) {
   };
 }
 
-export const LALetterBuilderRoutes = createRoutesForSite(
+export const LaLetterBuilderRoutes = createRoutesForSite(
   createLocalizedRouteInfo,
   {
     /**
@@ -32,11 +32,11 @@ export const LALetterBuilderRoutes = createRoutesForSite(
   }
 );
 
-export const getLALetterBuilderJumpToTopOfPageRoutes = () => [
-  LALetterBuilderRoutes.locale.letter.confirmation,
-  ...getLALetterBuilderRoutesForPrimaryPages(),
+export const getLaLetterBuilderJumpToTopOfPageRoutes = () => [
+  LaLetterBuilderRoutes.locale.letter.confirmation,
+  ...getLaLetterBuilderRoutesForPrimaryPages(),
 ];
 
-export const getLALetterBuilderRoutesForPrimaryPages = () => [
-  LALetterBuilderRoutes.locale.home,
+export const getLaLetterBuilderRoutesForPrimaryPages = () => [
+  LaLetterBuilderRoutes.locale.home,
 ];

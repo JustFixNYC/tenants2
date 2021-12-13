@@ -9,7 +9,7 @@ from project.schema_base import (
 from onboarding.scaffolding import update_scaffolding, SCAFFOLDING_SESSION_KEY
 
 
-class TestLALetterBuilderCreateAccount:
+class TestLaLetterBuilderCreateAccount:
     INCOMPLETE_ERR = [
         {"field": "__all__", "messages": ["You haven't completed all the previous steps yet."]}
     ]
@@ -40,7 +40,7 @@ class TestLALetterBuilderCreateAccount:
 
         return self.graphql_client.execute(
             """
-            mutation Create($input: LALetterBuilderCreateAccountInput!) {
+            mutation Create($input: LaLetterBuilderCreateAccountInput!) {
                 output: laLetterBuilderCreateAccount(input: $input) {
                     errors { field, messages }
                     session {

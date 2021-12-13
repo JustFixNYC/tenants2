@@ -130,7 +130,7 @@ def get_site_base_name(site_type: str) -> str:
         return "JustFix.nyc"
     elif site_type == SITE_CHOICES.NORENT:
         return "NoRent"
-    # See if it's necessary to add EvictionFree or LALetterBuilder to this
+    # See if it's necessary to add EvictionFree or LaLetterBuilder to this
     raise ValueError(f"Invalid site type: {site_type}")
 
 

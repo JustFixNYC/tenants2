@@ -1882,7 +1882,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "Type of letter the user is currently creating",
               "isDeprecated": false,
               "name": "laLetterDetails",
               "type": {

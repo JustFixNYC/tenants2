@@ -13,19 +13,16 @@ import {
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import Page from "../../ui/page";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
-import {
-  LaLetterBuilderChooseLetterMutation,
-  BlankLaLetterBuilderChooseLetterInput,
-} from "../../queries/LaLetterBuilderChooseLetterMutation";
+import { LaLetterBuilderChooseLetterMutation } from "../../queries/LaLetterBuilderChooseLetterMutation";
 
 export const LaLetterBuilderChooseLetterType = MiddleProgressStep((props) => {
   return (
     <Page title={li18n._(t`Letter type you'd like to send`)}>
       <SessionUpdatingFormSubmitter
         mutation={LaLetterBuilderChooseLetterMutation}
-        initialState={{
-          ...BlankLaLetterBuilderChooseLetterInput,
-        }}
+        initialState={(s) => ({
+          letterType: s.laLetterDetails?.letterType || "",
+        })}
         onSuccessRedirect={props.nextStep}
       >
         {(ctx) => (

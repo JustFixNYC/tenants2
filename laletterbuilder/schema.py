@@ -10,9 +10,6 @@ from project import schema_registry
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from norent.schema import BaseCreateAccount
 from norent.forms import CreateAccount
-from project.util.model_form_util import (
-    create_model_for_user_resolver,
-)
 from . import forms, models
 
 

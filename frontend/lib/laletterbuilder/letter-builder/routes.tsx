@@ -19,30 +19,30 @@ import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { skipStepsIf } from "../../progress/skip-steps-if";
 import { createStartAccountOrLoginSteps } from "../../start-account-or-login/routes";
 import { isUserLoggedIn } from "../../util/session-predicates";
-import { LALetterBuilderRoutes } from "../route-info";
-import { LALetterBuilderConfirmation } from "./confirmation";
-import { LALetterBuilderCreateAccount } from "./create-account";
-import { LALetterBuilderOnboardingStep } from "./step-decorators";
-import { LALetterBuilderWelcome } from "./welcome";
+import { LaLetterBuilderRoutes } from "../route-info";
+import { LaLetterBuilderConfirmation } from "./confirmation";
+import { LaLetterBuilderCreateAccount } from "./create-account";
+import { LaLetterBuilderOnboardingStep } from "./step-decorators";
+import { LaLetterBuilderWelcome } from "./welcome";
 
-const LALetterBuilderAskName = LALetterBuilderOnboardingStep(AskNameStep);
-const LALetterBuilderAskCityState = LALetterBuilderOnboardingStep((props) => (
+const LaLetterBuilderAskName = LaLetterBuilderOnboardingStep(AskNameStep);
+const LaLetterBuilderAskCityState = LaLetterBuilderOnboardingStep((props) => (
   <AskCityState
     {...props}
-    confirmModalRoute={LALetterBuilderRoutes.locale.letter.cityConfirmModal}
+    confirmModalRoute={LaLetterBuilderRoutes.locale.letter.cityConfirmModal}
   >
     <p>must be California</p>
   </AskCityState>
 ));
-const LALetterBuilderAskNationalAddress = LALetterBuilderOnboardingStep(
+const LaLetterBuilderAskNationalAddress = LaLetterBuilderOnboardingStep(
   (props) => (
-    <AskNationalAddress {...props} routes={LALetterBuilderRoutes.locale.letter}>
+    <AskNationalAddress {...props} routes={LaLetterBuilderRoutes.locale.letter}>
       <p>TODO: Add content here.</p>
     </AskNationalAddress>
   )
 );
 
-const LALetterBuilderLandlordNameAndContactTypes = MiddleProgressStep(
+const LaLetterBuilderLandlordNameAndContactTypes = MiddleProgressStep(
   (props) => (
     <LandlordNameAndContactTypes {...props}>
       <p>TODO: Add content here.</p>
@@ -50,23 +50,23 @@ const LALetterBuilderLandlordNameAndContactTypes = MiddleProgressStep(
   )
 );
 
-const LALetterBuilderLandlordEmail = MiddleProgressStep((props) => (
+const LaLetterBuilderLandlordEmail = MiddleProgressStep((props) => (
   <LandlordEmail {...props} introText="TODO: Add content here." />
 ));
 
-const LALetterBuilderLandlordMailingAddress = MiddleProgressStep((props) => (
+const LaLetterBuilderLandlordMailingAddress = MiddleProgressStep((props) => (
   <LandlordMailingAddress
     {...props}
     confirmModalRoute={
-      LALetterBuilderRoutes.locale.letter.landlordAddressConfirmModal
+      LaLetterBuilderRoutes.locale.letter.landlordAddressConfirmModal
     }
   >
     <p>TODO: Add content here.</p>
   </LandlordMailingAddress>
 ));
 
-export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => {
-  const routes = LALetterBuilderRoutes.locale.letter;
+export const getLaLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => {
+  const routes = LaLetterBuilderRoutes.locale.letter;
 
   return {
     toLatestStep: routes.latestStep,
@@ -74,7 +74,7 @@ export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
       {
         path: routes.welcome,
         exact: true,
-        component: LALetterBuilderWelcome,
+        component: LaLetterBuilderWelcome,
       },
       ...createStartAccountOrLoginSteps(routes),
     ],
@@ -83,53 +83,53 @@ export const getLALetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
         {
           path: routes.name,
           exact: true,
-          component: LALetterBuilderAskName,
+          component: LaLetterBuilderAskName,
         },
         {
           path: routes.city,
           exact: false,
-          component: LALetterBuilderAskCityState,
+          component: LaLetterBuilderAskCityState,
         },
         {
           path: routes.nationalAddress,
           exact: false,
           // TODO: add something that short circuits if the user isn't in LA
-          component: LALetterBuilderAskNationalAddress,
+          component: LaLetterBuilderAskNationalAddress,
         },
       ]),
       {
         path: routes.createAccount,
-        component: LALetterBuilderCreateAccount,
+        component: LaLetterBuilderCreateAccount,
         shouldBeSkipped: isUserLoggedIn,
       },
       {
         path: routes.landlordName,
         exact: true,
-        component: LALetterBuilderLandlordNameAndContactTypes,
+        component: LaLetterBuilderLandlordNameAndContactTypes,
       },
       {
         path: routes.landlordEmail,
         exact: true,
         shouldBeSkipped: shouldSkipLandlordEmailStep,
-        component: LALetterBuilderLandlordEmail,
+        component: LaLetterBuilderLandlordEmail,
       },
       {
         path: routes.landlordAddress,
         exact: false,
         shouldBeSkipped: shouldSkipLandlordMailingAddressStep,
-        component: LALetterBuilderLandlordMailingAddress,
+        component: LaLetterBuilderLandlordMailingAddress,
       },
     ],
     confirmationSteps: [
       {
         path: routes.confirmation,
         exact: true,
-        component: LALetterBuilderConfirmation,
+        component: LaLetterBuilderConfirmation,
       },
     ],
   };
 };
 
-export const LALetterBuilderFormsRoutes = buildProgressRoutesComponent(
-  getLALetterBuilderProgressRoutesProps
+export const LaLetterBuilderFormsRoutes = buildProgressRoutesComponent(
+  getLaLetterBuilderProgressRoutesProps
 );

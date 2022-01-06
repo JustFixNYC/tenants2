@@ -1127,8 +1127,8 @@ msgid "Know your rights"
 msgstr "Know your rights"
 
 #: frontend/lib/laletterbuilder/about.tsx:99
-msgid "LALetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
-msgstr "LALetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
+msgid "LaLetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
+msgstr "LaLetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
 
 #: frontend/lib/ui/landlord.tsx:36
 msgid "Landlord address"
@@ -2094,8 +2094,8 @@ msgid "This information seems wrong. Can I change it?"
 msgstr "This information seems wrong. Can I change it?"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:11
-msgid "This is a test localization message for LALetterBuilder."
-msgstr "This is a test localization message for LALetterBuilder."
+msgid "This is a test localization message for LaLetterBuilder."
+msgstr "This is a test localization message for LaLetterBuilder."
 
 #: frontend/lib/common-steps/landlord-email.tsx:20
 msgid "This is optional."
@@ -2952,7 +2952,7 @@ msgstr "We made this site because xyz"
 
 #: frontend/lib/laletterbuilder/about.tsx:72
 msgid "laletterbuilder.madeByBlurb"
-msgstr "LALetterBuilder is made by <0>JustFix.nyc</0>, a non-profit organization that co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City."
+msgstr "LaLetterBuilder is made by <0>JustFix.nyc</0>, a non-profit organization that co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City."
 
 #: frontend/lib/norent/data/faqs-content.tsx:215
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"

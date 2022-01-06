@@ -6104,7 +6104,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "LALetterBuilderCreateAccountInput",
+                      "name": "LaLetterBuilderCreateAccountInput",
                       "ofType": null
                     }
                   }
@@ -6119,7 +6119,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "LALetterBuilderCreateAccountPayload",
+                  "name": "LaLetterBuilderCreateAccountPayload",
                   "ofType": null
                 }
               }
@@ -11968,7 +11968,7 @@
           "inputFields": null,
           "interfaces": [],
           "kind": "OBJECT",
-          "name": "LALetterBuilderCreateAccountPayload",
+          "name": "LaLetterBuilderCreateAccountPayload",
           "possibleTypes": null
         },
         {
@@ -12045,7 +12045,7 @@
           ],
           "interfaces": null,
           "kind": "INPUT_OBJECT",
-          "name": "LALetterBuilderCreateAccountInput",
+          "name": "LaLetterBuilderCreateAccountInput",
           "possibleTypes": null
         },
         {

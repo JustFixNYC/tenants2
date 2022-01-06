@@ -4,7 +4,7 @@ import { Trans } from "@lingui/macro";
 
 import Page from "../ui/page";
 
-export const LALetterBuilderHomepage: React.FC<{}> = () => (
+export const LaLetterBuilderHomepage: React.FC<{}> = () => (
   <Page title="">
     <section className="hero is-fullheight-with-navbar">
       <div className="hero-body">
@@ -13,7 +13,7 @@ export const LALetterBuilderHomepage: React.FC<{}> = () => (
           <p>
             <small>
               <Trans>
-                This is a test localization message for LALetterBuilder.
+                This is a test localization message for LaLetterBuilder.
               </Trans>
             </small>
           </p>

@@ -1,11 +1,11 @@
 import { createStartAccountOrLoginRouteInfo } from "../../start-account-or-login/route-info";
 import { ROUTE_PREFIX } from "../../util/route-util";
 
-export type LALetterBuilderRouteInfo = ReturnType<
-  typeof createLALetterBuilderRouteInfo
+export type LaLetterBuilderRouteInfo = ReturnType<
+  typeof createLaLetterBuilderRouteInfo
 >;
 
-export function createLALetterBuilderRouteInfo(prefix: string) {
+export function createLaLetterBuilderRouteInfo(prefix: string) {
   return {
     [ROUTE_PREFIX]: prefix,
     latestStep: prefix,

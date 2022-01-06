@@ -46,7 +46,7 @@ export const PartnerLogos = () => (
   </div>
 );
 
-export const LALetterBuilderAboutPage: React.FC<{}> = () => (
+export const LaLetterBuilderAboutPage: React.FC<{}> = () => (
   <Page title={li18n._(t`About`)} className="content">
     <section className="hero is-medium">
       <div className="hero-body">
@@ -97,7 +97,7 @@ export const LALetterBuilderAboutPage: React.FC<{}> = () => (
           <JustfixLogo isHyperlinked />
           <p className="subtitle is-size-5">
             <Trans id="laletterbuilder.madeByBlurb">
-              LALetterBuilder is made by{" "}
+              LaLetterBuilder is made by{" "}
               <OutboundLink
                 className="has-text-weight-normal"
                 href="https://www.justfix.nyc/"
@@ -134,7 +134,7 @@ export const LALetterBuilderAboutPage: React.FC<{}> = () => (
           <br />
           <p className="subtitle is-size-5">
             <Trans>
-              LALetterBuilder is a collaboration between JustFix.nyc and legal
+              LaLetterBuilder is a collaboration between JustFix.nyc and legal
               organizations and housing rights non-profits in Los Angeles.
             </Trans>
           </p>

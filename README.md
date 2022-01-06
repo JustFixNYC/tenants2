@@ -589,7 +589,7 @@ It should look like this:
 ```
 DOMAIN NAME                    DISPLAY NAME
 localhost.norent:8000          NoRent
-localhost.laletterbuilder:8000 LALetterBuilder
+localhost.laletterbuilder:8000 LaLetterBuilder
 ```
 
 This will allow you to access NoRent at `http://localhost.norent:8000/` and

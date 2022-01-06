@@ -285,6 +285,15 @@ and make sure you give it at least 4 GB of memory to play with.
 If you don't, you might get an out-of-memory error when attempting
 to build and/or run the Docker image.
 
+You'll also need [Git Large File Storage (LFS)][git-lfs].
+On a Mac with Homebrew, that's
+```
+brew install git-lfs
+git lfs install
+```
+If you didn't have Git LFS installed before cloning the repository,
+you can obtain the repository's large files by running `git lfs pull`.
+
 As with the non-Docker setup, you'll first want to create an environment
 file and optionally edit it as you see fit:
 

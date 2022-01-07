@@ -20,10 +20,7 @@ import { skipStepsIf } from "../../progress/skip-steps-if";
 import { createStartAccountOrLoginSteps } from "../../start-account-or-login/routes";
 import { isUserLoggedIn } from "../../util/session-predicates";
 import { LaLetterBuilderRoutes } from "../route-info";
-<<<<<<< HEAD
 import { LaLetterBuilderChooseLetterType } from "./choose-letters";
-=======
->>>>>>> master
 import { LaLetterBuilderConfirmation } from "./confirmation";
 import { LaLetterBuilderCreateAccount } from "./create-account";
 import { LaLetterBuilderOnboardingStep } from "./step-decorators";

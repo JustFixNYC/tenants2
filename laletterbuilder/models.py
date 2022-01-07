@@ -7,6 +7,10 @@ LETTER_TYPE_CHOICES = common_data.Choices.from_file("la-letter-builder-letter-ch
 
 
 class LaLetterDetails(models.Model):
+    """
+    Information about a particular letter a user is in the process of creating.
+    """
+
     user = ForeignKey(
         JustfixUser,
         on_delete=models.CASCADE,

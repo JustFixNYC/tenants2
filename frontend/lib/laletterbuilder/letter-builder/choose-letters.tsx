@@ -15,7 +15,7 @@ import Page from "../../ui/page";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { LaLetterBuilderChooseLetterMutation } from "../../queries/LaLetterBuilderChooseLetterMutation";
 
-export const LaLetterBuilderChooseLetterType = MiddleProgressStep((props) => {
+export const LaLetterBuilderChooseLetterStep = MiddleProgressStep((props) => {
   return (
     <Page title={li18n._(t`Letter type you'd like to send`)}>
       <SessionUpdatingFormSubmitter

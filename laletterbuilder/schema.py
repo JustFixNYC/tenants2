@@ -41,7 +41,7 @@ class LetterDetailsType(DjangoObjectType):
 @schema_registry.register_mutation
 class LaLetterBuilderChooseLetter(SessionFormMutation):
     class Meta:
-        form_class = forms.ChooseLetterTypeForm
+        form_class = forms.ChooseLetterForm
 
     login_required = True
 
@@ -59,10 +59,10 @@ class LaLetterBuilderChooseLetter(SessionFormMutation):
 @schema_registry.register_session_info
 class LaLetterBuilderSessionInfo(object):
     la_letter_details = graphene.Field(
-        LetterDetailsType, description="Type of letter the user is currently creating"
+        LetterDetailsType, description="Information about the letter the user is currently creating"
     )
 
-    def resolve_la_letter_details(self, info: ResolveInfo):
+    def resolve_la_letter_details(self, info: ResolveInfo) -> LetterDetailsType:
         user = info.context.user
         if not user.is_authenticated:
             return None

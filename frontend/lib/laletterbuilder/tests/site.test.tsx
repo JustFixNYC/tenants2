@@ -4,11 +4,11 @@ import { Route } from "react-router-dom";
 import { waitFor } from "@testing-library/react";
 
 import { AppTesterPal } from "../../tests/app-tester-pal";
-import LALetterBuilderSite from "../site";
+import LaLetterBuilderSite from "../site";
 
-describe("LALetterBuilderSite", () => {
+describe("LaLetterBuilderSite", () => {
   const route = (
-    <Route render={(props) => <LALetterBuilderSite {...props} />} />
+    <Route render={(props) => <LaLetterBuilderSite {...props} />} />
   );
 
   it("renders 404 page", () => {
@@ -20,7 +20,7 @@ describe("LALetterBuilderSite", () => {
     const pal = new AppTesterPal(route, { url: "/en/" });
     waitFor(() =>
       pal.rr.getByText(
-        /This is a test localization message for LALetterBuilder/i
+        /This is a test localization message for LaLetterBuilder/i
       )
     );
   });

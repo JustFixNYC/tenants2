@@ -1,10 +1,10 @@
 import React from "react";
 
 import { AlreadyLoggedInErrorPage } from "../../common-steps/error-pages";
-import { LALetterBuilderRoutes } from "../route-info";
+import { LaLetterBuilderRoutes } from "../route-info";
 
-export const LALetterBuilderAlreadyLoggedInErrorPage: React.FC<{}> = () => (
+export const LaLetterBuilderAlreadyLoggedInErrorPage: React.FC<{}> = () => (
   <AlreadyLoggedInErrorPage
-    continueUrl={LALetterBuilderRoutes.locale.letter.latestStep}
+    continueUrl={LaLetterBuilderRoutes.locale.letter.latestStep}
   />
 );

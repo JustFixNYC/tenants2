@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class LALetterBuilderConfig(AppConfig):
+class LaLetterBuilderConfig(AppConfig):
     name = "laletterbuilder"

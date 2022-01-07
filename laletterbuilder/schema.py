@@ -9,7 +9,7 @@ from norent.forms import CreateAccount
 
 
 @schema_registry.register_mutation
-class LALetterBuilderCreateAccount(BaseCreateAccount):
+class LaLetterBuilderCreateAccount(BaseCreateAccount):
     class Meta:
         form_class = CreateAccount
 

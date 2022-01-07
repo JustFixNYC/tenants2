@@ -47,7 +47,7 @@ function getSiteBaseName(siteType: SiteChoice): string {
 
     case "LALETTERBUILDER":
       // May need to change this later based on the final domain name.
-      return "LALetterBuilder";
+      return "LaLetterBuilder";
   }
 }
 

@@ -24,7 +24,6 @@ import { LaLetterBuilderConfirmation } from "./confirmation";
 import { LaLetterBuilderCreateAccount } from "./create-account";
 import { LaLetterBuilderOnboardingStep } from "./step-decorators";
 import { LaLetterBuilderWelcome } from "./welcome";
-import { LaLetterBuilderRepairIssues, shouldSkipRepairIssuesStep } from "./re";
 import AccessDatesPage from "../../loc/access-dates";
 
 const LaLetterBuilderAskName = LaLetterBuilderOnboardingStep(AskNameStep);

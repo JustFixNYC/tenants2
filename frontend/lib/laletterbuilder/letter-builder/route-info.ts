@@ -1,4 +1,3 @@
-import { createIssuesRouteInfo } from "../../issues/route-info";
 import { createStartAccountOrLoginRouteInfo } from "../../start-account-or-login/route-info";
 import { ROUTE_PREFIX } from "../../util/route-util";
 

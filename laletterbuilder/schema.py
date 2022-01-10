@@ -41,7 +41,7 @@ class LetterDetailsType(DjangoObjectType):
 @schema_registry.register_mutation
 class LaLetterBuilderChooseLetter(SessionFormMutation):
     class Meta:
-        form_class = forms.ChooseLetterTypeForm
+        form_class = forms.ChooseLetterForm
 
     login_required = True
 
@@ -57,15 +57,10 @@ class LaLetterBuilderChooseLetter(SessionFormMutation):
 
 
 @schema_registry.register_session_info
-class LaLetterBuilderSessionInfo(object):
+class LaLetterBuilderSessionInfo:
     la_letter_details = graphene.Field(
-        LetterDetailsType, description="Type of letter the user is currently creating"
+        LetterDetailsType, description="Information about the letter the user is currently creating"
     )
 
-    def resolve_la_letter_details(self, info: ResolveInfo):
-        user = info.context.user
-        if not user.is_authenticated:
-            return None
-        return models.LaLetterDetails.objects.filter(
-            user=user
-        ).first()  # todo: change from first to most recent
+    # TODO: Write a resolver that fetches the latest LaLetterDetails object from the database and displays
+    # the Letter Type if the user comes back to that page.

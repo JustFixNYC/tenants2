@@ -1,3 +1,4 @@
+import { createIssuesRouteInfo } from "../../issues/route-info";
 import { createStartAccountOrLoginRouteInfo } from "../../start-account-or-login/route-info";
 import { ROUTE_PREFIX } from "../../util/route-util";
 
@@ -24,6 +25,7 @@ export function createLaLetterBuilderRouteInfo(prefix: string) {
     landlordEmail: `${prefix}/landlord/email`,
     landlordAddress: `${prefix}/landlord/address`,
     landlordAddressConfirmModal: `${prefix}/landlord/address/confirm-modal`,
+    accessDates: `${prefix}/access-dates`,
     confirmation: `${prefix}/confirmation`,
   };
 }

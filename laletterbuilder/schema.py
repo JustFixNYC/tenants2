@@ -62,5 +62,5 @@ class LaLetterBuilderSessionInfo:
         LetterDetailsType, description="Information about the letter the user is currently creating"
     )
 
-    # TODO: Write a resolver that fetches the latest LaLetterDetails object from the database and displays
-    # the Letter Type if the user comes back to that page.
+    # TODO: Write a resolver that fetches the latest LaLetterDetails object from the
+    # database and displays the Letter Type if the user comes back to that page.

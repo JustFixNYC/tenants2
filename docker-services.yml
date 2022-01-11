@@ -48,4 +48,4 @@ services:
     entrypoint: ["python", "/tenants2/docker_django_management.py"]
     working_dir: /tenants2
     mem_limit: 2G
-    memswap_limit: 4G
+    memswap_limit: 0

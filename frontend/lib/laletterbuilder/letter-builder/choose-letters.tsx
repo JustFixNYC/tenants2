@@ -20,9 +20,9 @@ export const LaLetterBuilderChooseLetterStep = MiddleProgressStep((props) => {
     <Page title={li18n._(t`Letter type you'd like to send`)}>
       <SessionUpdatingFormSubmitter
         mutation={LaLetterBuilderChooseLetterMutation}
-        initialState={(s) => ({
-          letterType: s.laLetterDetails?.letterType || "",
-        })}
+        initialState={{
+          letterType: "",
+        }}
         onSuccessRedirect={props.nextStep}
       >
         {(ctx) => (

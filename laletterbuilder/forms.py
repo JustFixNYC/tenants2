@@ -1,16 +1,10 @@
 from django import forms
-from .models import LaLetterDetails
+from .models import LETTER_TYPE_CHOICES
 
 
-class ChooseLetterForm(forms.ModelForm):
-    class Meta:
-        model = LaLetterDetails
-        fields = ("letter_type",)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["letter_type"].required = True
-
-    def clean(self):
-        cleaned_data = super().clean()
-        return cleaned_data
+class ChooseLetterForm(forms.Form):
+    letter_type = forms.ChoiceField(
+        choices=LETTER_TYPE_CHOICES.choices,
+        required=True,
+        help_text=("The type of letter the tenant is creating in this session."),
+    )

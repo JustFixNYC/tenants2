@@ -19,12 +19,12 @@ export function createLaLetterBuilderRouteInfo(prefix: string) {
     nationalAddressConfirmInvalidModal: `${prefix}/address/national/confirm-invalid-modal`,
     createAccount: `${prefix}/create-account`,
     createAccountTermsModal: `${prefix}/create-account/terms-modal`,
-    // TODO: insert step to figure out which letter folks should use
     chooseLetter: `${prefix}/choose-letter`,
-    landlordName: `${prefix}/landlord/name`,
-    landlordEmail: `${prefix}/landlord/email`,
-    landlordAddress: `${prefix}/landlord/address`,
-    landlordAddressConfirmModal: `${prefix}/landlord/address/confirm-modal`,
+    landlordName: `${prefix}/habitability/landlord/name`,
+    landlordEmail: `${prefix}/habitability/landlord/email`,
+    landlordAddress: `${prefix}/habitability/landlord/address`,
+    landlordAddressConfirmModal: `${prefix}/habitability/landlord/address/confirm-modal`,
+    // TODO: refactor so that each letter type gets its own route-info
     confirmation: `${prefix}/confirmation`,
   };
 }

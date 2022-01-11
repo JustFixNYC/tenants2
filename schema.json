@@ -1882,18 +1882,6 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "Information about the letter the user is currently creating",
-              "isDeprecated": false,
-              "name": "laLetterDetails",
-              "type": {
-                "kind": "OBJECT",
-                "name": "LetterDetailsType",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
               "name": "issues",
@@ -3508,64 +3496,6 @@
           "interfaces": null,
           "kind": "ENUM",
           "name": "LetterRequestMailChoice",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": "The type of letter the tenant is creating in this session.",
-              "isDeprecated": false,
-              "name": "letterType",
-              "type": {
-                "kind": "ENUM",
-                "name": "LaLetterDetailsLetterType",
-                "ofType": null
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "LetterDetailsType",
-          "possibleTypes": null
-        },
-        {
-          "description": "An enumeration.",
-          "enumValues": [
-            {
-              "deprecationReason": null,
-              "description": "Habitability (CA)",
-              "isDeprecated": false,
-              "name": "HABITABILITY"
-            },
-            {
-              "deprecationReason": null,
-              "description": "Harassment (CA)",
-              "isDeprecated": false,
-              "name": "CA_HARASSMENT"
-            },
-            {
-              "deprecationReason": null,
-              "description": "Harassment (LA City/TAHO)",
-              "isDeprecated": false,
-              "name": "LA_HARASSMENT"
-            },
-            {
-              "deprecationReason": null,
-              "description": "Right to Privacy (CA)",
-              "isDeprecated": false,
-              "name": "PRIVACY"
-            }
-          ],
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "kind": "ENUM",
-          "name": "LaLetterDetailsLetterType",
           "possibleTypes": null
         },
         {

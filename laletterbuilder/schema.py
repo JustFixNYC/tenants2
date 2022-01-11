@@ -1,5 +1,6 @@
 from typing import Any, Dict
 from django.http import HttpRequest
+from graphql import ResolveInfo
 from project.util.session_mutation import SessionFormMutation
 from users.models import JustfixUser
 from project import schema_registry
@@ -26,15 +27,6 @@ class LaLetterBuilderCreateAccount(BaseCreateAccount):
     def perform_post_onboarding(cls, form, request: HttpRequest, user: JustfixUser):
         # TODO: Send SMS.
         pass
-
-
-"""
-class LetterDetailsType(DjangoObjectType):
-    class Meta:
-        model = models.LaLetterDetails
-        exclude_fields = ("user", "id")
-
-"""
 
 
 @schema_registry.register_mutation

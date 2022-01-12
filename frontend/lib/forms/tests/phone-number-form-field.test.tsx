@@ -70,6 +70,7 @@ describe("PhoneNumberFormField", () => {
       name: "phone",
       id: "phone",
       isDisabled: false,
+      labelHint: "use a textable one",
     };
     const pal = new ReactTestingLibraryPal(<PhoneNumberFormField {...props} />);
     const input = pal.rr.getByLabelText(label) as HTMLInputElement;

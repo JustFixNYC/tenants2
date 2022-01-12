@@ -33,7 +33,7 @@ export const LaLetterBuilderRoutes = createRoutesForSite(
 );
 
 export const getLaLetterBuilderJumpToTopOfPageRoutes = () => [
-  LaLetterBuilderRoutes.locale.letter.confirmation,
+  LaLetterBuilderRoutes.locale.letter.recommendation,
   ...getLaLetterBuilderRoutesForPrimaryPages(),
 ];
 

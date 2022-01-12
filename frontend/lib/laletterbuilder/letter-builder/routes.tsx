@@ -21,10 +21,11 @@ import { createStartAccountOrLoginSteps } from "../../start-account-or-login/rou
 import { isUserLoggedIn } from "../../util/session-predicates";
 import { LaLetterBuilderRoutes } from "../route-info";
 import { LaLetterBuilderChooseLetterStep } from "./choose-letters";
-import { LaLetterBuilderConfirmation } from "./confirmation";
+import { LaLetterBuilderLetterRecommendation } from "./letter-recommendation";
 import { LaLetterBuilderCreateAccount } from "./create-account";
 import { LaLetterBuilderOnboardingStep } from "./step-decorators";
 import { LaLetterBuilderWelcome } from "./welcome";
+//import { createHabitabilitySteps } from "./habitability/routes";
 
 const LaLetterBuilderAskName = LaLetterBuilderOnboardingStep(AskNameStep);
 const LaLetterBuilderAskCityState = LaLetterBuilderOnboardingStep((props) => (
@@ -43,30 +44,7 @@ const LaLetterBuilderAskNationalAddress = LaLetterBuilderOnboardingStep(
   )
 );
 
-const LaLetterBuilderLandlordNameAndContactTypes = MiddleProgressStep(
-  (props) => (
-    <LandlordNameAndContactTypes {...props}>
-      <p>TODO: Add content here.</p>
-    </LandlordNameAndContactTypes>
-  )
-);
-
-const LaLetterBuilderLandlordEmail = MiddleProgressStep((props) => (
-  <LandlordEmail {...props} introText="TODO: Add content here." />
-));
-
-const LaLetterBuilderLandlordMailingAddress = MiddleProgressStep((props) => (
-  <LandlordMailingAddress
-    {...props}
-    confirmModalRoute={
-      LaLetterBuilderRoutes.locale.letter.landlordAddressConfirmModal
-    }
-  >
-    <p>TODO: Add content here.</p>
-  </LandlordMailingAddress>
-));
-
-export const getLaLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => {
+export const getLaLetterBuilderOnboardingProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = LaLetterBuilderRoutes.locale.letter;
 
   return {
@@ -108,34 +86,18 @@ export const getLaLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
         exact: true,
         component: LaLetterBuilderChooseLetterStep,
       },
-      {
-        path: routes.landlordName,
-        exact: true,
-        component: LaLetterBuilderLandlordNameAndContactTypes,
-      },
-      {
-        path: routes.landlordEmail,
-        exact: true,
-        shouldBeSkipped: shouldSkipLandlordEmailStep,
-        component: LaLetterBuilderLandlordEmail,
-      },
-      {
-        path: routes.landlordAddress,
-        exact: false,
-        shouldBeSkipped: shouldSkipLandlordMailingAddressStep,
-        component: LaLetterBuilderLandlordMailingAddress,
-      },
+      //...createHabitabilitySteps(routes),
     ],
     confirmationSteps: [
       {
-        path: routes.confirmation,
+        path: routes.recommendation,
         exact: true,
-        component: LaLetterBuilderConfirmation,
+        component: LaLetterBuilderLetterRecommendation,
       },
     ],
   };
 };
 
-export const LaLetterBuilderFormsRoutes = buildProgressRoutesComponent(
-  getLaLetterBuilderProgressRoutesProps
+export const LaLetterBuilderOnboardingRoutes = buildProgressRoutesComponent(
+  getLaLetterBuilderOnboardingProgressRoutesProps
 );

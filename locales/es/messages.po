@@ -1655,6 +1655,10 @@ msgstr "Tenga en cuenta que su carta de declaración tendrá la siguiente estruc
 msgid "Please read the rest of this email carefully as it contains important information about your next steps."
 msgstr "Por favor, lee atentamente el resto del correo electrónico ya que contiene información importante sobre tus próximos pasos."
 
+#: frontend/lib/account-settings/contact-settings.tsx:24
+msgid "Please use a number that can receive text messages."
+msgstr "Por favor, usa un número que pueda recibir mensajes de texto."
+
 #: frontend/lib/account-settings/about-you-settings.tsx:24
 #: frontend/lib/common-steps/ask-name.tsx:31
 #: frontend/lib/onboarding/onboarding-step-1.tsx:95

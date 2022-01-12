@@ -1650,6 +1650,10 @@ msgstr "Please note that your declaration letter will be structured as follows t
 msgid "Please read the rest of this email carefully as it contains important information about your next steps."
 msgstr "Please read the rest of this email carefully as it contains important information about your next steps."
 
+#: frontend/lib/account-settings/contact-settings.tsx:24
+msgid "Please use a number that can receive text messages."
+msgstr "Please use a number that can receive text messages."
+
 #: frontend/lib/account-settings/about-you-settings.tsx:24
 #: frontend/lib/common-steps/ask-name.tsx:31
 #: frontend/lib/onboarding/onboarding-step-1.tsx:95

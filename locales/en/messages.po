@@ -1229,11 +1229,11 @@ msgstr "Let's set you up with an account. This will enable you to save your info
 msgid "Letter Builder"
 msgstr "Letter Builder"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letters.tsx:21
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:18
 msgid "Letter Types"
 msgstr "Letter Types"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letters.tsx:13
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:13
 msgid "Letter type you'd like to send"
 msgstr "Letter type you'd like to send"
 

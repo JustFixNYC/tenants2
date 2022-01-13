@@ -11,7 +11,7 @@ import { skipStepsIf } from "../../progress/skip-steps-if";
 import { createStartAccountOrLoginSteps } from "../../start-account-or-login/routes";
 import { isUserLoggedIn } from "../../util/session-predicates";
 import { LaLetterBuilderRouteInfo } from "../route-info";
-import { LaLetterBuilderChooseLetterStep } from "./choose-letters";
+import { LaLetterBuilderChooseLetterStep } from "./choose-letter";
 import { LaLetterBuilderCreateAccount } from "./create-account";
 import { LaLetterBuilderOnboardingStep } from "./step-decorators";
 import { LaLetterBuilderWelcome } from "./welcome";

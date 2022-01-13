@@ -1,6 +1,5 @@
 import { createStartAccountOrLoginRouteInfo } from "../../start-account-or-login/route-info";
 import { ROUTE_PREFIX } from "../../util/route-util";
-import { createHabitabilityRouteInfo } from "./habitability/route-info";
 
 export type LaLetterBuilderRouteInfo = ReturnType<
   typeof createLaLetterBuilderRouteInfo
@@ -21,8 +20,10 @@ export function createLaLetterBuilderRouteInfo(prefix: string) {
     createAccount: `${prefix}/create-account`,
     createAccountTermsModal: `${prefix}/create-account/terms-modal`,
     chooseLetter: `${prefix}/choose-letter`,
-    recommendation: `${prefix}/recommendation`,
-    ...createHabitabilityRouteInfo(prefix),
-    // TODO: refactor so that each letter type gets its own route-info
+    landlordName: `${prefix}/landlord/name`,
+    landlordEmail: `${prefix}/landlord/email`,
+    landlordAddress: `${prefix}/landlord/address`,
+    landlordAddressConfirmModal: `${prefix}/landlord/address/confirm-modal`,
+    confirmation: `${prefix}/confirmation`,
   };
 }

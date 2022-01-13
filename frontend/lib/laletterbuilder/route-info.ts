@@ -21,7 +21,7 @@ function createLocalizedRouteInfo(prefix: string) {
   };
 }
 
-export const LaLetterBuilderRoutes = createRoutesForSite(
+export const LaLetterBuilderRouteInfo = createRoutesForSite(
   createLocalizedRouteInfo,
   {
     /**
@@ -33,10 +33,10 @@ export const LaLetterBuilderRoutes = createRoutesForSite(
 );
 
 export const getLaLetterBuilderJumpToTopOfPageRoutes = () => [
-  LaLetterBuilderRoutes.locale.letter.recommendation,
+  LaLetterBuilderRouteInfo.locale.letter.confirmation,
   ...getLaLetterBuilderRoutesForPrimaryPages(),
 ];
 
 export const getLaLetterBuilderRoutesForPrimaryPages = () => [
-  LaLetterBuilderRoutes.locale.home,
+  LaLetterBuilderRouteInfo.locale.home,
 ];

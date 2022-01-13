@@ -41,9 +41,9 @@ tester.defineTest({
   startingAtStep: "/en/letter/create-account",
   expectSteps: [
     "/en/letter/choose-letter",
-    "/en/letter/habitability/landlord/name",
-    "/en/letter/habitability/landlord/email",
-    "/en/letter/habitability/landlord/address",
+    "/en/letter/landlord/name",
+    "/en/letter/landlord/email",
+    "/en/letter/landlord/address",
     "/en/letter/confirmation",
   ],
 });

@@ -44,7 +44,7 @@ import { EvictionFreeCovidImpact } from "./covid-impact";
 import { EvictionFreeCreateAccount } from "./create-account";
 import { EvictionFreeIndexNumber } from "./index-number";
 import { EvictionFreePreviewPage } from "./preview";
-import { EvictionFreeRedirectToHomepageWithMessage } from "./redirect-to-homepage-with-message";
+import { EvictionFreeRedirectToHomepage } from "./redirect-to-homepage-with-message";
 import {
   EvictionFreeNotSentDeclarationStep,
   EvictionFreeOnboardingStep,
@@ -291,6 +291,11 @@ const SuspendedEvictionFreeDeclarationBuilderRoutes = () => {
     routes.latestStep,
     routes.welcome,
     ...loginRoutes,
+    /* Note: If users create an account without an email address, they will be taken
+     * to the email step of the letter builder flow after logging in. Therefore, we must exclude
+     * this route so that these users can successfully reach the confirmation page without a redirect.
+     */
+    routes.email,
     routes.confirmation,
   ]);
 
@@ -298,7 +303,7 @@ const SuspendedEvictionFreeDeclarationBuilderRoutes = () => {
     return <FullEvictionFreeDeclarationBuilderRoutes />;
   }
 
-  return <EvictionFreeRedirectToHomepageWithMessage />;
+  return <EvictionFreeRedirectToHomepage />;
 };
 
 export const EvictionFreeDeclarationBuilderRoutes: React.FC<{}> = () =>

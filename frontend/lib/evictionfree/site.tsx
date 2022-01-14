@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import Headroom from "react-headroom";
 import { Link, Route, useLocation } from "react-router-dom";
 import type { AppSiteProps } from "../app";
-import { createLinguiCatalogLoader } from "../i18n-lingui";
+import { createLinguiCatalogLoader, li18n } from "../i18n-lingui";
 import { LoadingOverlayManager } from "../networking/loading-page";
 import { EvictionFreeRouteComponent } from "./routes";
 import {
@@ -13,7 +13,7 @@ import {
 } from "./route-info";
 import Navbar, { NavbarDropdown } from "../ui/navbar";
 import { AppContext, getGlobalAppServerInfo } from "../app-context";
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { LANGUAGE_NAMES, SwitchLanguage } from "../ui/language-toggle";
 import classnames from "classnames";
 import { EvictionFreeFooter } from "./components/footer";
@@ -24,6 +24,8 @@ import {
   getEvictionFreeUnsupportedLocaleChoiceLabels,
 } from "../../../common-data/evictionfree-unsupported-locale-choices";
 import { SwitchToUnsupportedLanguage } from "./unsupported-locale";
+import { Modal } from "../ui/modal";
+import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 
 export const EvictionFreeLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(
@@ -33,6 +35,28 @@ export const EvictionFreeLinguiI18n = createLinguiCatalogLoader({
     () => import("../../../locales/es/evictionfree.chunk") as any
   ),
 });
+
+/**
+ * This list of routes represents all pages on EFNY that an existing user would
+ * potentially navigate to in order to log in to their account and view the
+ * details of their submitted declaration form.
+ */
+const EXISTING_EFNY_USER_ROUTES = [
+  Routes.locale.declaration.phoneNumber,
+  Routes.locale.declaration.verifyPassword,
+  Routes.locale.declaration.verifyPhoneNumber,
+  Routes.locale.declaration.forgotPasswordModal,
+  Routes.locale.declaration.setPassword,
+  Routes.locale.declaration.phoneNumberTermsModal,
+  Routes.locale.declaration.crossSiteAgreeToTerms,
+  Routes.locale.declaration.agreeToLegalTerms,
+  Routes.locale.logout,
+
+  // Some existing users who never provided an email may pass through the
+  // "email" step of the flow before reaching the confirmation page
+  Routes.locale.declaration.email,
+  Routes.locale.declaration.confirmation,
+];
 
 function useIsPrimaryPage() {
   const location = useLocation();
@@ -120,19 +144,14 @@ const EvictionFreeBuildMyDeclarationLink: React.FC<{}> = () => {
 
 const EvictionFreeMenuItems: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
-  const siteIsActive = !getGlobalAppServerInfo().isEfnySuspended;
   return (
     <>
-      {siteIsActive && (
-        <>
-          <Link className="navbar-item" to={Routes.locale.faqs}>
-            <Trans>Faqs</Trans>
-          </Link>
-          <Link className="navbar-item" to={Routes.locale.about}>
-            <Trans>About</Trans>
-          </Link>
-        </>
-      )}
+      <Link className="navbar-item" to={Routes.locale.faqs}>
+        <Trans>Faqs</Trans>
+      </Link>
+      <Link className="navbar-item" to={Routes.locale.about}>
+        <Trans>About</Trans>
+      </Link>
       {session.phoneNumber ? (
         <Link className="navbar-item" to={Routes.locale.logout}>
           <Trans>Log out</Trans>
@@ -143,18 +162,62 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
         </Link>
       )}
       <EvictionFreeLanguageDropdown />
-      {siteIsActive && <EvictionFreeBuildMyDeclarationLink />}
+      <EvictionFreeBuildMyDeclarationLink />
     </>
   );
 };
+
+export const EvictionFreeSuspendedModal = () => (
+  <Modal title={li18n._(t`Eviction Free NY has been suspended`)} onCloseGoTo="">
+    <div className="jf-is-scrollable-if-too-tall has-text-centered">
+      <p>
+        <Trans id="evictionfree.toolSuspensionMessage">
+          As of January 15, 2022, tenants in New York State are no longer
+          protected from eviction after submitting a declaration of hardship.
+          However, you still have other options to protect yourself and your
+          neighbors!
+        </Trans>
+      </p>
+      <br />
+      <LocalizedOutboundLink
+        className="button is-primary is-large jf-is-extra-wide jf-build-my-declaration-btn"
+        hrefs={{
+          en:
+            "https://www.righttocounselnyc.org/eviction_protections_during_covid",
+          es: "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
+        }}
+      >
+        <Trans>Learn more</Trans>
+      </LocalizedOutboundLink>
+      <br />
+      <br />
+      <p className="is-size-7">
+        <Trans>
+          Already submitted a hardship declaration form?{" "}
+          <Link to={Routes.locale.login}>
+            Log in here to download your form
+          </Link>
+        </Trans>
+      </p>
+    </div>
+  </Modal>
+);
 
 const EvictionFreeSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
     const isPrimaryPage = useIsPrimaryPage();
     const isHomepage = useLocation().pathname === Routes.locale.home;
 
+    const siteIsSuspended = getGlobalAppServerInfo().isEfnySuspended;
+    const isExistingUserPage = EXISTING_EFNY_USER_ROUTES.includes(
+      useLocation().pathname
+    );
+
     return (
       <EvictionFreeLinguiI18n>
+        {siteIsSuspended && !isExistingUserPage && (
+          <EvictionFreeSuspendedModal />
+        )}
         <section
           className={classnames(
             isPrimaryPage

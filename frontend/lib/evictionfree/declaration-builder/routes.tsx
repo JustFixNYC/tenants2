@@ -1,7 +1,5 @@
 import { Trans, t } from "@lingui/macro";
 import React from "react";
-import { useLocation } from "react-router";
-import { getGlobalAppServerInfo } from "../../app-context";
 import { AskCityState } from "../../common-steps/ask-city-state";
 import { AskEmail } from "../../common-steps/ask-email";
 import { AskNameStep } from "../../common-steps/ask-name";
@@ -30,7 +28,6 @@ import {
   ProgressStepProps,
 } from "../../progress/progress-step-route";
 import { skipStepsIf } from "../../progress/skip-steps-if";
-import { createStartAccountOrLoginRouteInfo } from "../../start-account-or-login/route-info";
 import { createStartAccountOrLoginSteps } from "../../start-account-or-login/routes";
 import Page from "../../ui/page";
 import {
@@ -44,7 +41,6 @@ import { EvictionFreeCovidImpact } from "./covid-impact";
 import { EvictionFreeCreateAccount } from "./create-account";
 import { EvictionFreeIndexNumber } from "./index-number";
 import { EvictionFreePreviewPage } from "./preview";
-import { EvictionFreeRedirectToHomepageWithMessage } from "./redirect-to-homepage-with-message";
 import {
   EvictionFreeNotSentDeclarationStep,
   EvictionFreeOnboardingStep,
@@ -271,39 +267,6 @@ export const getEvictionFreeDeclarationBuilderProgressRoutesProps = (): Progress
  * Full EvictionFree Routes component for when the tool is active and allowing users to
  * generate and send declaration forms.
  */
-const FullEvictionFreeDeclarationBuilderRoutes = buildProgressRoutesComponent(
+export const EvictionFreeDeclarationBuilderRoutes = buildProgressRoutesComponent(
   getEvictionFreeDeclarationBuilderProgressRoutesProps
 );
-
-/**
- * Modified EvictionFree Routes component for when the tool is suspended and blocking users from
- * generating and sending declaration forms. This modified component takes note of the current
- * location of the user and will redirect them back to the homepage unless they are on one of
- * the "Excluded Routes" that we still want to keep active even when the tool is suspended.
- */
-const SuspendedEvictionFreeDeclarationBuilderRoutes = () => {
-  const location = useLocation();
-  const routes = EvictionFreeRoutes.locale.declaration;
-  const loginRoutes = Object.values(
-    createStartAccountOrLoginRouteInfo(routes.prefix)
-  );
-  const excludedRoutes = new Set([
-    routes.latestStep,
-    routes.welcome,
-    ...loginRoutes,
-    routes.confirmation,
-  ]);
-
-  if (excludedRoutes.has(location.pathname)) {
-    return <FullEvictionFreeDeclarationBuilderRoutes />;
-  }
-
-  return <EvictionFreeRedirectToHomepageWithMessage />;
-};
-
-export const EvictionFreeDeclarationBuilderRoutes: React.FC<{}> = () =>
-  getGlobalAppServerInfo().isEfnySuspended ? (
-    <SuspendedEvictionFreeDeclarationBuilderRoutes />
-  ) : (
-    <FullEvictionFreeDeclarationBuilderRoutes />
-  );

@@ -2107,7 +2107,7 @@ msgstr "Esta información parece incorrecta. ¿Puedo cambiarla?"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:11
 msgid "This is a test localization message for LaLetterBuilder."
-msgstr "This is a test localization message for LaLetterBuilder."
+msgstr ""
 
 #: frontend/lib/common-steps/landlord-email.tsx:20
 msgid "This is optional."

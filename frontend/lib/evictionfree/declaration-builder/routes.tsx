@@ -306,9 +306,6 @@ const SuspendedEvictionFreeDeclarationBuilderRoutes = () => {
   return <EvictionFreeRedirectToHomepage />;
 };
 
-export const EvictionFreeDeclarationBuilderRoutes: React.FC<{}> = () =>
-  getGlobalAppServerInfo().isEfnySuspended ? (
-    <SuspendedEvictionFreeDeclarationBuilderRoutes />
-  ) : (
-    <FullEvictionFreeDeclarationBuilderRoutes />
-  );
+export const EvictionFreeDeclarationBuilderRoutes: React.FC<{}> = () => (
+  <FullEvictionFreeDeclarationBuilderRoutes />
+);

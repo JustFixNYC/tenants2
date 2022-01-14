@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-11-11 15:58\n"
+"PO-Revision-Date: 2022-01-14 19:29\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -125,7 +125,7 @@ msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines
 
 #: frontend/lib/evictionfree/about.tsx:36
 #: frontend/lib/evictionfree/about.tsx:41
-#: frontend/lib/evictionfree/site.tsx:91
+#: frontend/lib/evictionfree/site.tsx:94
 #: frontend/lib/laletterbuilder/about.tsx:23
 #: frontend/lib/laletterbuilder/about.tsx:28
 #: frontend/lib/norent/about.tsx:48
@@ -193,9 +193,9 @@ msgstr "Alaska"
 msgid "All set! Thanks for subscribing!"
 msgstr "¡Todo listo! ¡Gracias por suscribirte!"
 
-#: frontend/lib/evictionfree/site.tsx:122
+#: frontend/lib/evictionfree/site.tsx:125
 msgid "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
-msgstr ""
+msgstr "¿Has enviado ya un formulario de declaración de penuria? <0>Inicia tu sesión aquí para descargar tu formulario</0>"
 
 #: frontend/lib/norent/homepage.tsx:188
 msgid "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
@@ -690,7 +690,7 @@ msgstr "Introduce tu dirección para ver algunas acciones recomendadas."
 msgid "Establish your defense"
 msgstr "Establece tu defensa"
 
-#: frontend/lib/evictionfree/site.tsx:102
+#: frontend/lib/evictionfree/site.tsx:105
 msgid "Eviction Free NY has been suspended"
 msgstr "Eviction Free NY ha sido suspendido"
 
@@ -715,7 +715,7 @@ msgstr "Explora la herramienta"
 msgid "FAQs"
 msgstr "Preguntas Frecuentes"
 
-#: frontend/lib/evictionfree/site.tsx:88
+#: frontend/lib/evictionfree/site.tsx:91
 #: frontend/lib/norent/components/footer.tsx:37
 #: frontend/lib/norent/site.tsx:34
 msgid "Faqs"
@@ -730,8 +730,8 @@ msgid "Faucets not working"
 msgstr "Grifos No Funcionan"
 
 #: frontend/lib/evictionfree/homepage.tsx:42
-#: frontend/lib/evictionfree/site.tsx:76
-#: frontend/lib/evictionfree/site.tsx:80
+#: frontend/lib/evictionfree/site.tsx:79
+#: frontend/lib/evictionfree/site.tsx:83
 msgid "Fill out my form"
 msgstr "Rellena mi formulario"
 
@@ -1182,7 +1182,7 @@ msgid "Learn about your rent"
 msgstr "Aprende Sobre Tu Alquiler"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:309
-#: frontend/lib/evictionfree/site.tsx:117
+#: frontend/lib/evictionfree/site.tsx:120
 #: frontend/lib/laletterbuilder/about.tsx:41
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/the-letter.tsx:29
@@ -1255,13 +1255,13 @@ msgid "Locally supported"
 msgstr "Con apoyo local"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
-#: frontend/lib/evictionfree/site.tsx:96
+#: frontend/lib/evictionfree/site.tsx:99
 #: frontend/lib/laletterbuilder/site.tsx:36
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Iniciar sesión"
 
-#: frontend/lib/evictionfree/site.tsx:94
+#: frontend/lib/evictionfree/site.tsx:97
 #: frontend/lib/laletterbuilder/site.tsx:34
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:14
@@ -2107,7 +2107,7 @@ msgstr "Esta información parece incorrecta. ¿Puedo cambiarla?"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:11
 msgid "This is a test localization message for LaLetterBuilder."
-msgstr ""
+msgstr "Este es un mensaje de localización de prueba para LaLetterBuilder."
 
 #: frontend/lib/common-steps/landlord-email.tsx:20
 msgid "This is optional."
@@ -2875,9 +2875,9 @@ msgstr "Esto significa que usted o uno o más miembros de su familia tienen un m
 msgid "evictionfree.timeLagFaq"
 msgstr "Una vez que completes tu formulario de declaración a través de esta herramienta, este será enviado inmediatamente por correo postal y/o correo electrónico al dueño de tu edificio y a las cortes. Una vez enviado, el correo postal suele entregar la correspondencia en aproximadamente una semana."
 
-#: frontend/lib/evictionfree/site.tsx:105
+#: frontend/lib/evictionfree/site.tsx:108
 msgid "evictionfree.toolSuspensionMessage"
-msgstr ""
+msgstr "A partir del 15 de enero de 2022, los inquilinos del Estado de Nueva York ya no están protegidos contra el desalojo después de presentar una declaración de penuria. Sin embargo, ¡todavía tienes otras opciones para protegerte a ti mismo y a tus vecinos!"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:77
 msgid "evictionfree.tweetTemplateForSharingFromConfirmation2"
@@ -2965,7 +2965,7 @@ msgstr "We made this site because xyz"
 
 #: frontend/lib/laletterbuilder/about.tsx:72
 msgid "laletterbuilder.madeByBlurb"
-msgstr "LaLetterBuilder is made by <0>JustFix.nyc</0>, a non-profit organization that co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City."
+msgstr "LaLetterBuilder fue creado por <0>JustFix.nyc</0>, una organización sin fines de lucro que co-diseña y construye herramientas para inquilinos, organizadores de viviendas y abogados que luchan contra el desplazamiento en la ciudad de Nueva York."
 
 #: frontend/lib/norent/data/faqs-content.tsx:215
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"

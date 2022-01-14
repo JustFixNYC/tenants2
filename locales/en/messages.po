@@ -120,7 +120,7 @@ msgstr "A national tool by non-profit <0>JustFix.nyc</0>"
 
 #: frontend/lib/evictionfree/about.tsx:36
 #: frontend/lib/evictionfree/about.tsx:41
-#: frontend/lib/evictionfree/site.tsx:91
+#: frontend/lib/evictionfree/site.tsx:94
 #: frontend/lib/laletterbuilder/about.tsx:23
 #: frontend/lib/laletterbuilder/about.tsx:28
 #: frontend/lib/norent/about.tsx:48
@@ -188,7 +188,7 @@ msgstr "Alaska"
 msgid "All set! Thanks for subscribing!"
 msgstr "All set! Thanks for subscribing!"
 
-#: frontend/lib/evictionfree/site.tsx:122
+#: frontend/lib/evictionfree/site.tsx:125
 msgid "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
 msgstr "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
 
@@ -685,7 +685,7 @@ msgstr "Enter your address to see some recommended actions."
 msgid "Establish your defense"
 msgstr "Establish your defense"
 
-#: frontend/lib/evictionfree/site.tsx:102
+#: frontend/lib/evictionfree/site.tsx:105
 msgid "Eviction Free NY has been suspended"
 msgstr "Eviction Free NY has been suspended"
 
@@ -710,7 +710,7 @@ msgstr "Explore the tool"
 msgid "FAQs"
 msgstr "FAQs"
 
-#: frontend/lib/evictionfree/site.tsx:88
+#: frontend/lib/evictionfree/site.tsx:91
 #: frontend/lib/norent/components/footer.tsx:37
 #: frontend/lib/norent/site.tsx:34
 msgid "Faqs"
@@ -725,8 +725,8 @@ msgid "Faucets not working"
 msgstr "Faucets not working"
 
 #: frontend/lib/evictionfree/homepage.tsx:42
-#: frontend/lib/evictionfree/site.tsx:76
-#: frontend/lib/evictionfree/site.tsx:80
+#: frontend/lib/evictionfree/site.tsx:79
+#: frontend/lib/evictionfree/site.tsx:83
 msgid "Fill out my form"
 msgstr "Fill out my form"
 
@@ -1177,7 +1177,7 @@ msgid "Learn about your rent"
 msgstr "Learn about your rent"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:309
-#: frontend/lib/evictionfree/site.tsx:117
+#: frontend/lib/evictionfree/site.tsx:120
 #: frontend/lib/laletterbuilder/about.tsx:41
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/the-letter.tsx:29
@@ -1250,13 +1250,13 @@ msgid "Locally supported"
 msgstr "Locally supported"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
-#: frontend/lib/evictionfree/site.tsx:96
+#: frontend/lib/evictionfree/site.tsx:99
 #: frontend/lib/laletterbuilder/site.tsx:36
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Log in"
 
-#: frontend/lib/evictionfree/site.tsx:94
+#: frontend/lib/evictionfree/site.tsx:97
 #: frontend/lib/laletterbuilder/site.tsx:34
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:14
@@ -2865,7 +2865,7 @@ msgstr "This means you or one or more members of your household have an increase
 msgid "evictionfree.timeLagFaq"
 msgstr "Once you build your declaration form via this tool, it gets mailed and/or emailed immediately to your landlord and the courts. After it's sent, physical mail usually delivers in about a week."
 
-#: frontend/lib/evictionfree/site.tsx:105
+#: frontend/lib/evictionfree/site.tsx:108
 msgid "evictionfree.toolSuspensionMessage"
 msgstr "As of January 15, 2022, tenants in New York State are no longer protected from eviction after submitting a declaration of hardship. However, you still have other options to protect yourself and your neighbors!"
 

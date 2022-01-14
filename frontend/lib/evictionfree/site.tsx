@@ -46,6 +46,7 @@ const EXISTING_EFNY_USER_ROUTES = [
   Routes.locale.declaration.verifyPassword,
   Routes.locale.declaration.verifyPhoneNumber,
   Routes.locale.declaration.forgotPasswordModal,
+  Routes.locale.declaration.setPassword,
   Routes.locale.declaration.phoneNumberTermsModal,
   Routes.locale.logout,
 

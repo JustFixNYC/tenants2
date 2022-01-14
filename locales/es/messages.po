@@ -1661,7 +1661,7 @@ msgstr "Por favor, lee atentamente el resto del correo electrónico ya que conti
 
 #: frontend/lib/account-settings/contact-settings.tsx:24
 msgid "Please use a number that can receive text messages."
-msgstr "Please use a number that can receive text messages."
+msgstr "Por favor, usa un número que pueda recibir mensajes de texto."
 
 #: frontend/lib/account-settings/about-you-settings.tsx:24
 #: frontend/lib/common-steps/ask-name.tsx:31
@@ -2875,7 +2875,7 @@ msgstr "Una vez que completes tu formulario de declaración a través de esta he
 
 #: frontend/lib/evictionfree/site.tsx:105
 msgid "evictionfree.toolSuspensionMessage"
-msgstr "A partir del 15 de enero de 2022, los inquilinos del Estado de Nueva York ya no están protegidos contra el desalojo después de presentar una declaración de penuria. Sin embargo, ¡todavía tienes otras opciones para protegerte a ti mismo y a tus vecinos!"
+msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:77
 msgid "evictionfree.tweetTemplateForSharingFromConfirmation2"

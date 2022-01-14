@@ -10,16 +10,16 @@ import { createLinguiCatalogLoader } from "../i18n-lingui";
 import { LoadingOverlayManager } from "../networking/loading-page";
 import { NavbarLanguageDropdown } from "../ui/language-toggle";
 import Navbar from "../ui/navbar";
-import { LALetterBuilderFooter } from "./components/footer";
+import { LaLetterBuilderFooter } from "./components/footer";
 import {
-  LALetterBuilderRoutes as Routes,
-  getLALetterBuilderRoutesForPrimaryPages,
+  LaLetterBuilderRoutes as Routes,
+  getLaLetterBuilderRoutesForPrimaryPages,
 } from "./route-info";
-import { LALetterBuilderRouteComponent } from "./routes";
+import { LaLetterBuilderRouteComponent } from "./routes";
 
 import type { AppSiteProps } from "../app";
 
-export const LALetterBuilderLinguiI18n = createLinguiCatalogLoader({
+export const LaLetterBuilderLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(
     () => import("../../../locales/en/laletterbuilder.chunk") as any
   ),
@@ -30,10 +30,10 @@ export const LALetterBuilderLinguiI18n = createLinguiCatalogLoader({
 
 function useIsPrimaryPage() {
   const location = useLocation();
-  return getLALetterBuilderRoutesForPrimaryPages().includes(location.pathname);
+  return getLaLetterBuilderRoutesForPrimaryPages().includes(location.pathname);
 }
 
-const LALetterBuilderBrand: React.FC<{}> = () => {
+const LaLetterBuilderBrand: React.FC<{}> = () => {
   return (
     <Link className="navbar-item" to={Routes.locale.home}>
       <span className="jf-laletterbuilder-logo">LA Letter Builder</span>
@@ -41,7 +41,7 @@ const LALetterBuilderBrand: React.FC<{}> = () => {
   );
 };
 
-const LALetterBuilderMenuItems: React.FC<{}> = () => {
+const LaLetterBuilderMenuItems: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   return (
     <>
@@ -62,12 +62,12 @@ const LALetterBuilderMenuItems: React.FC<{}> = () => {
   );
 };
 
-const LALetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
+const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
     const isPrimaryPage = useIsPrimaryPage();
 
     return (
-      <LALetterBuilderLinguiI18n>
+      <LaLetterBuilderLinguiI18n>
         <section
           className={classnames(
             isPrimaryPage
@@ -77,8 +77,8 @@ const LALetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
         >
           <span className={classnames(isPrimaryPage && "jf-white-navbar")}>
             <Navbar
-              menuItemsComponent={LALetterBuilderMenuItems}
-              brandComponent={LALetterBuilderBrand}
+              menuItemsComponent={LaLetterBuilderMenuItems}
+              brandComponent={LaLetterBuilderBrand}
             />
           </span>
           {!isPrimaryPage && (
@@ -93,14 +93,14 @@ const LALetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
             )}
           >
             <LoadingOverlayManager>
-              <Route component={LALetterBuilderRouteComponent} />
+              <Route component={LaLetterBuilderRouteComponent} />
             </LoadingOverlayManager>
           </div>
         </section>
-        <LALetterBuilderFooter />
-      </LALetterBuilderLinguiI18n>
+        <LaLetterBuilderFooter />
+      </LaLetterBuilderLinguiI18n>
     );
   }
 );
 
-export default LALetterBuilderSite;
+export default LaLetterBuilderSite;

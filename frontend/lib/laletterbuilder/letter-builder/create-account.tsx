@@ -2,21 +2,22 @@ import React from "react";
 import Page from "../../ui/page";
 import { ProgressButtons } from "../../ui/buttons";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import { CheckboxFormField, TextualFormField } from "../../forms/form-fields";
+import { CheckboxFormField } from "../../forms/form-fields";
 import { ModalLink } from "../../ui/modal";
-import { LALetterBuilderRoutes } from "../route-info";
+import { LaLetterBuilderRoutes } from "../route-info";
 import { PrivacyInfoModal } from "../../ui/privacy-info-modal";
 import { trackSignup } from "../../analytics/track-signup";
 import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
-import { LALetterBuilderOnboardingStep } from "./step-decorators";
+import { LaLetterBuilderOnboardingStep } from "./step-decorators";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
 import {
-  BlankLALetterBuilderCreateAccountInput,
+  BlankLaLetterBuilderCreateAccountInput,
   LaLetterBuilderCreateAccountMutation,
 } from "../../queries/LaLetterBuilderCreateAccountMutation";
+import { CreatePasswordFields } from "../../common-steps/create-password";
 
-export const LALetterBuilderCreateAccount = LALetterBuilderOnboardingStep(
+export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
   (props) => {
     return (
       <Page title={li18n._(t`Set up an account`)} withHeading="big">
@@ -29,7 +30,7 @@ export const LALetterBuilderCreateAccount = LALetterBuilderOnboardingStep(
         <SessionUpdatingFormSubmitter
           mutation={LaLetterBuilderCreateAccountMutation}
           initialState={{
-            ...BlankLALetterBuilderCreateAccountInput,
+            ...BlankLaLetterBuilderCreateAccountInput,
             canWeSms: true,
           }}
           onSuccess={() =>
@@ -39,15 +40,9 @@ export const LALetterBuilderCreateAccount = LALetterBuilderOnboardingStep(
         >
           {(ctx) => (
             <>
-              <TextualFormField
-                label={li18n._(t`Password`)}
-                type="password"
-                {...ctx.fieldPropsFor("password")}
-              />
-              <TextualFormField
-                label={li18n._(t`Confirm password`)}
-                type="password"
-                {...ctx.fieldPropsFor("confirmPassword")}
+              <CreatePasswordFields
+                passwordProps={ctx.fieldPropsFor("password")}
+                confirmPasswordProps={ctx.fieldPropsFor("confirmPassword")}
               />
               <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
                 <Trans>
@@ -59,11 +54,11 @@ export const LALetterBuilderCreateAccount = LALetterBuilderOnboardingStep(
                 I agree to the{" "}
                 <ModalLink
                   to={
-                    LALetterBuilderRoutes.locale.letter.createAccountTermsModal
+                    LaLetterBuilderRoutes.locale.letter.createAccountTermsModal
                   }
                   render={() => <PrivacyInfoModal />}
                 >
-                  LALetterBuilder.org terms and conditions
+                  LaLetterBuilder.org terms and conditions
                 </ModalLink>
                 .
               </CheckboxFormField>

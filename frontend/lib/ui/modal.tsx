@@ -39,7 +39,7 @@ interface ModalProps {
   render?: (ctx: ModalRenderPropContext) => JSX.Element;
   /**
    * When "onCloseGoTo" is set to an empty string, we implement a permanently visible
-   * Modal with no action to close.
+   * Modal with no button to close.
    */
   onCloseGoTo: string | BackOrUpOneDirLevel | ((location: Location) => string);
   withHeading?: boolean;

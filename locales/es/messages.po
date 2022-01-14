@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-01-14 18:49\n"
+"PO-Revision-Date: 2022-01-14 18:52\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -195,7 +195,7 @@ msgstr "¡Todo listo! ¡Gracias por suscribirte!"
 
 #: frontend/lib/evictionfree/site.tsx:122
 msgid "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
-msgstr "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
+msgstr "¿Has enviado ya un formulario de declaración de penuria? <0>Inicia tu sesión aquí para descargar tu formulario</0>"
 
 #: frontend/lib/norent/homepage.tsx:188
 msgid "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
@@ -2875,7 +2875,7 @@ msgstr "Una vez que completes tu formulario de declaración a través de esta he
 
 #: frontend/lib/evictionfree/site.tsx:105
 msgid "evictionfree.toolSuspensionMessage"
-msgstr "As of January 15, 2022, tenants in New York State are no longer protected from eviction after submitting a declaration of hardship. However, you still have other options to protect yourself and your neighbors!"
+msgstr "A partir del 15 de enero de 2022, los inquilinos del Estado de Nueva York ya no están protegidos contra el desalojo después de presentar una declaración de penuria. Sin embargo, ¡todavía tienes otras opciones para protegerte a ti mismo y a tus vecinos!"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:77
 msgid "evictionfree.tweetTemplateForSharingFromConfirmation2"

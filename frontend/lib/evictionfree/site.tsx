@@ -176,18 +176,16 @@ export const EvictionFreeSuspendedModal = () => (
         </Trans>
       </p>
       <br />
-      <button className="button is-primary jf-build-my-declaration-btn jf-is-extra-wide">
-        <LocalizedOutboundLink
-          hrefs={{
-            en:
-              "https://www.righttocounselnyc.org/eviction_protections_during_covid",
-            es:
-              "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
-          }}
-        >
-          Learn More
-        </LocalizedOutboundLink>
-      </button>
+      <LocalizedOutboundLink
+        className="button is-primary is-large jf-is-extra-wide jf-build-my-declaration-btn"
+        hrefs={{
+          en:
+            "https://www.righttocounselnyc.org/eviction_protections_during_covid",
+          es: "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
+        }}
+      >
+        <Trans>Learn more</Trans>
+      </LocalizedOutboundLink>
       <br />
       <br />
       <p className="is-size-7">

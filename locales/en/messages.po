@@ -188,7 +188,7 @@ msgstr "Alaska"
 msgid "All set! Thanks for subscribing!"
 msgstr "All set! Thanks for subscribing!"
 
-#: frontend/lib/evictionfree/site.tsx:124
+#: frontend/lib/evictionfree/site.tsx:122
 msgid "Already filled out a hardship declaration form? <0>Log in here</0>"
 msgstr "Already filled out a hardship declaration form? <0>Log in here</0>"
 
@@ -876,7 +876,7 @@ msgstr "Here’s what the letter will look like:"
 msgid "Here’s what you can do with <0>NoRent</0>"
 msgstr "Here’s what you can do with <0>NoRent</0>"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:45
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:42
 msgid "Highly recommended."
 msgstr "Highly recommended."
 
@@ -1179,6 +1179,7 @@ msgstr "Learn about your rent"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:309
 #: frontend/lib/evictionfree/homepage.tsx:116
+#: frontend/lib/evictionfree/site.tsx:117
 #: frontend/lib/laletterbuilder/about.tsx:41
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/the-letter.tsx:29
@@ -2164,7 +2165,7 @@ msgstr "USPS Certified Mail"
 msgid "USPS Tracking #:"
 msgstr "USPS Tracking #:"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:80
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:77
 msgid "Unfortunately, this tool is currently only available to individuals who live in the state of New York."
 msgstr "Unfortunately, this tool is currently only available to individuals who live in the state of New York."
 
@@ -2264,7 +2265,7 @@ msgstr "We will be mailing this letter on your behalf by USPS certified mail and
 msgid "We'll include this information in the letter to your landlord."
 msgstr "We'll include this information in the letter to your landlord."
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:32
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:29
 msgid "We'll include this information in your hardship declaration form."
 msgstr "We'll include this information in your hardship declaration form."
 
@@ -2280,12 +2281,12 @@ msgstr "We'll use this information to email you a copy of your letter."
 msgid "We'll use this information to send you updates."
 msgstr "We'll use this information to send you updates."
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:72
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:69
 msgid "We'll use this information to send your hardship declaration form via certified mail for free."
 msgstr "We'll use this information to send your hardship declaration form via certified mail for free."
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:62
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:67
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:59
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:64
 msgid "We'll use this information to send your hardship declaration form."
 msgstr "We'll use this information to send your hardship declaration form."
 
@@ -2551,7 +2552,7 @@ msgstr "You can use this website to send a hardship declaration form to your lan
 msgid "You can't send any more letters"
 msgstr "You can't send any more letters"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:78
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:75
 msgid "You don't live in New York"
 msgstr "You don't live in New York"
 
@@ -2763,7 +2764,7 @@ msgstr "Our website helps tenants submit this hardship declaration form with pea
 msgid "evictionfree.agreeToStateTermsIntro"
 msgstr "These last questions make sure that you understand the limits of the protection granted by this hardship declaration form, and that you answered the previous questions truthfully:"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:47
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:44
 msgid "evictionfree.askForEmail"
 msgstr "We'll use this information to email you a copy of your hardship declaration form. If possible, we’ll also forward you any confirmation emails from the courts once they receive your declaration form."
 

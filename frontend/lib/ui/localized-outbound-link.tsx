@@ -21,6 +21,9 @@ export type LocalizedOutboundLinkProps = {
 
   /** The URLs of the link for each supported locale. */
   hrefs: PartiallyLocalizedHrefs;
+
+  /** Custom CSS class names to pass down to OutboundLink components. */
+  className?: string;
 };
 
 /**
@@ -39,12 +42,21 @@ export const LocalizedOutboundLink: React.FC<LocalizedOutboundLinkProps> = (
 
   if (!href) {
     return (
-      <EnglishOutboundLink href={props.hrefs.en} children={props.children} />
+      <EnglishOutboundLink
+        className={props.className}
+        href={props.hrefs.en}
+        children={props.children}
+      />
     );
   }
 
   return (
-    <OutboundLink target="_blank" rel="noopener noreferrer" href={href}>
+    <OutboundLink
+      className={props.className}
+      target="_blank"
+      rel="noopener noreferrer"
+      href={href}
+    >
       {props.children}
     </OutboundLink>
   );
@@ -74,6 +86,9 @@ export type EnglishOutboundLinkProps = {
 
   /** The URL of the link for English. */
   href: string;
+
+  /** Custom CSS class names to pass down to OutboundLink components. */
+  className?: string;
 };
 
 /**
@@ -98,7 +113,12 @@ export const EnglishOutboundLink: React.FC<EnglishOutboundLinkProps> = (
     );
 
   return (
-    <OutboundLink target="_blank" rel="noopener noreferrer" href={props.href}>
+    <OutboundLink
+      className={props.className}
+      target="_blank"
+      rel="noopener noreferrer"
+      href={props.href}
+    >
       {children}
     </OutboundLink>
   );

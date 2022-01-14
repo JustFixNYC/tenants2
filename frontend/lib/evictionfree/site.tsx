@@ -191,7 +191,7 @@ export const EvictionFreeSuspendedModal = () => (
       </LocalizedOutboundLink>
       <br />
       <br />
-      <p className="is-size-7">
+      <p className="is-size-6">
         <Trans>
           Already submitted a hardship declaration form?{" "}
           <Link to={Routes.locale.login}>

@@ -36,18 +36,6 @@ export const getEvictionMoratoriumEndDate = (withoutYear?: boolean) =>
 
 type EvictionFreeImageType = "png" | "svg" | "jpg" | "gif";
 
-const Message: React.FC<{}> = () => {
-  const location = useLocation();
-  if (location.search.includes(MESSAGE_QS)) {
-    return (
-      <div className="notification is-danger">
-        <Trans>This tool has been suspended</Trans>!
-      </div>
-    );
-  }
-  return null;
-};
-
 export function getEFImageSrc(
   name: string,
   type?: EvictionFreeImageType,

@@ -190,8 +190,10 @@ export const EvictionFreeSuspendedModal = () => (
       <br />
       <p className="is-size-7">
         <Trans>
-          Already filled out a hardship declaration form?{" "}
-          <Link to={Routes.locale.login}>Log in here</Link>
+          Already submitted a hardship declaration form?{" "}
+          <Link to={Routes.locale.login}>
+            Log in here to download your form
+          </Link>
         </Trans>
       </p>
     </div>

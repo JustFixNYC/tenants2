@@ -347,6 +347,12 @@ html:lang(es) nav.navbar .navbar-item {
   display: none;
 }
 
+// Since we now have a mix of closeable and uncloseable modals on EFNY,
+// let's reset the cursor on modal underlays to be regular cursor icons.
+.jf-modal-underlay {
+  cursor: auto;
+}
+
 // Footer overrides
 footer .content a:not(.button):hover {
   color: unset;

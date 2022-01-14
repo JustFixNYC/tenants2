@@ -125,7 +125,7 @@ msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines
 
 #: frontend/lib/evictionfree/about.tsx:36
 #: frontend/lib/evictionfree/about.tsx:41
-#: frontend/lib/evictionfree/site.tsx:76
+#: frontend/lib/evictionfree/site.tsx:91
 #: frontend/lib/laletterbuilder/about.tsx:23
 #: frontend/lib/laletterbuilder/about.tsx:28
 #: frontend/lib/norent/about.tsx:48
@@ -193,7 +193,7 @@ msgstr "Alaska"
 msgid "All set! Thanks for subscribing!"
 msgstr "¡Todo listo! ¡Gracias por suscribirte!"
 
-#: frontend/lib/evictionfree/site.tsx:110
+#: frontend/lib/evictionfree/site.tsx:124
 msgid "Already filled out a hardship declaration form? <0>Log in here</0>"
 msgstr ""
 
@@ -691,7 +691,7 @@ msgid "Establish your defense"
 msgstr "Establece tu defensa"
 
 #: frontend/lib/evictionfree/homepage.tsx:100
-#: frontend/lib/evictionfree/site.tsx:88
+#: frontend/lib/evictionfree/site.tsx:102
 msgid "Eviction Free NY has been suspended"
 msgstr "Eviction Free NY ha sido suspendido"
 
@@ -716,7 +716,7 @@ msgstr "Explora la herramienta"
 msgid "FAQs"
 msgstr "Preguntas Frecuentes"
 
-#: frontend/lib/evictionfree/site.tsx:73
+#: frontend/lib/evictionfree/site.tsx:88
 #: frontend/lib/norent/components/footer.tsx:37
 #: frontend/lib/norent/site.tsx:34
 msgid "Faqs"
@@ -731,8 +731,8 @@ msgid "Faucets not working"
 msgstr "Grifos No Funcionan"
 
 #: frontend/lib/evictionfree/homepage.tsx:52
-#: frontend/lib/evictionfree/site.tsx:59
-#: frontend/lib/evictionfree/site.tsx:63
+#: frontend/lib/evictionfree/site.tsx:76
+#: frontend/lib/evictionfree/site.tsx:80
 msgid "Fill out my form"
 msgstr "Rellena mi formulario"
 
@@ -1256,13 +1256,13 @@ msgid "Locally supported"
 msgstr "Con apoyo local"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
-#: frontend/lib/evictionfree/site.tsx:82
+#: frontend/lib/evictionfree/site.tsx:96
 #: frontend/lib/laletterbuilder/site.tsx:36
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Iniciar sesión"
 
-#: frontend/lib/evictionfree/site.tsx:80
+#: frontend/lib/evictionfree/site.tsx:94
 #: frontend/lib/laletterbuilder/site.tsx:34
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:14
@@ -2885,7 +2885,7 @@ msgstr "Esto significa que usted o uno o más miembros de su familia tienen un m
 msgid "evictionfree.timeLagFaq"
 msgstr "Una vez que completes tu formulario de declaración a través de esta herramienta, este será enviado inmediatamente por correo postal y/o correo electrónico al dueño de tu edificio y a las cortes. Una vez enviado, el correo postal suele entregar la correspondencia en aproximadamente una semana."
 
-#: frontend/lib/evictionfree/site.tsx:91
+#: frontend/lib/evictionfree/site.tsx:105
 msgid "evictionfree.toolSuspensionMessage"
 msgstr ""
 

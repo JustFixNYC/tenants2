@@ -342,6 +342,12 @@ html:lang(es) nav.navbar .navbar-item {
   }
 }
 
+.jf-modal-dialog[aria-label="Eviction Free NY has been suspended"] {
+  .modal-close {
+    display: none;
+  }
+}
+
 // Footer overrides
 footer .content a:not(.button):hover {
   color: unset;

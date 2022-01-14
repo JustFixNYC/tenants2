@@ -36,6 +36,25 @@ export const EvictionFreeLinguiI18n = createLinguiCatalogLoader({
   ),
 });
 
+/**
+ * This list of routes represents all pages on EFNY that an existing user would
+ * potentially navigate to in order to log in to their account and view the
+ * details of their submitted declaration form.
+ */
+const EXISTING_EFNY_USER_ROUTES = [
+  Routes.locale.declaration.phoneNumber,
+  Routes.locale.declaration.verifyPassword,
+  Routes.locale.declaration.verifyPhoneNumber,
+  Routes.locale.declaration.forgotPasswordModal,
+  Routes.locale.declaration.phoneNumberTermsModal,
+  Routes.locale.logout,
+
+  // Some existing users who never provided an email may pass through the
+  // "email" step of the flow before reaching the confirmation page
+  Routes.locale.declaration.email,
+  Routes.locale.declaration.confirmation,
+];
+
 function useIsPrimaryPage() {
   const location = useLocation();
   return getEvictionFreeRoutesForPrimaryPages().includes(location.pathname);
@@ -122,19 +141,14 @@ const EvictionFreeBuildMyDeclarationLink: React.FC<{}> = () => {
 
 const EvictionFreeMenuItems: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
-  const siteIsActive = !getGlobalAppServerInfo().isEfnySuspended;
   return (
     <>
-      {siteIsActive && (
-        <>
-          <Link className="navbar-item" to={Routes.locale.faqs}>
-            <Trans>Faqs</Trans>
-          </Link>
-          <Link className="navbar-item" to={Routes.locale.about}>
-            <Trans>About</Trans>
-          </Link>
-        </>
-      )}
+      <Link className="navbar-item" to={Routes.locale.faqs}>
+        <Trans>Faqs</Trans>
+      </Link>
+      <Link className="navbar-item" to={Routes.locale.about}>
+        <Trans>About</Trans>
+      </Link>
       {session.phoneNumber ? (
         <Link className="navbar-item" to={Routes.locale.logout}>
           <Trans>Log out</Trans>
@@ -145,16 +159,13 @@ const EvictionFreeMenuItems: React.FC<{}> = () => {
         </Link>
       )}
       <EvictionFreeLanguageDropdown />
-      {siteIsActive && <EvictionFreeBuildMyDeclarationLink />}
+      <EvictionFreeBuildMyDeclarationLink />
     </>
   );
 };
 
 export const EvictionFreeSuspendedModal = () => (
-  <Modal
-    title={li18n._(t`Eviction Free NY has been suspended`)}
-    onCloseGoTo={1}
-  >
+  <Modal title={li18n._(t`Eviction Free NY has been suspended`)} onCloseGoTo="">
     <div className="jf-is-scrollable-if-too-tall has-text-centered">
       <p>
         <Trans id="evictionfree.toolSuspensionMessage">
@@ -194,9 +205,16 @@ const EvictionFreeSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
     const isPrimaryPage = useIsPrimaryPage();
     const isHomepage = useLocation().pathname === Routes.locale.home;
 
+    const siteIsSuspended = getGlobalAppServerInfo().isEfnySuspended;
+    const isExistingUserPage = EXISTING_EFNY_USER_ROUTES.includes(
+      useLocation().pathname
+    );
+
     return (
       <EvictionFreeLinguiI18n>
-        <EvictionFreeSuspendedModal />
+        {siteIsSuspended && !isExistingUserPage && (
+          <EvictionFreeSuspendedModal />
+        )}
         <section
           className={classnames(
             isPrimaryPage

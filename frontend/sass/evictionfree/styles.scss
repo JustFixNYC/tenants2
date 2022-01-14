@@ -342,10 +342,9 @@ html:lang(es) nav.navbar .navbar-item {
   }
 }
 
-.jf-modal-dialog[aria-label="Eviction Free NY has been suspended"] {
-  .modal-close {
-    display: none;
-  }
+// If a modal close button doesn't take the user anywhere, let's hide it:
+.modal-close[href="/"] {
+  display: none;
 }
 
 // Footer overrides

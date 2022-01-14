@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import Page from "../ui/page";
 import { StaticImage } from "../ui/static-image";
 import { EvictionFreeRoutes as Routes } from "./route-info";

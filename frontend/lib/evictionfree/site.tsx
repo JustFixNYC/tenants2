@@ -48,6 +48,8 @@ const EXISTING_EFNY_USER_ROUTES = [
   Routes.locale.declaration.forgotPasswordModal,
   Routes.locale.declaration.setPassword,
   Routes.locale.declaration.phoneNumberTermsModal,
+  Routes.locale.declaration.crossSiteAgreeToTerms,
+  Routes.locale.declaration.agreeToLegalTerms,
   Routes.locale.logout,
 
   // Some existing users who never provided an email may pass through the

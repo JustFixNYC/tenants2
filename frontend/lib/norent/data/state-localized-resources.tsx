@@ -12,9 +12,15 @@ export type StateLocalizedResources = Partial<
 export const STATE_LOCALIZED_RESOURCES: StateLocalizedResources = {
   CA: [
     {
-      children: <Trans>COVID-19 Tenant Relief Act Extension</Trans>,
+      children: (
+        <Trans>
+          Apply for Rental Assistance. Qualifying renters are eligible for 100%
+          of rent and utilities owed.
+        </Trans>
+      ),
       hrefs: {
-        en: "https://www.bcsh.ca.gov/covidrelief/",
+        en: "https://housing.ca.gov/covid_rr/index.html",
+        es: "https://housing.ca.gov/covid_rr/index_esp.html",
       },
     },
   ],

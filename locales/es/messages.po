@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-09-19 18:00\n"
+"PO-Revision-Date: 2022-01-14 18:52\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-Crowdin-Project-ID: 402800\n"
 "X-Crowdin-Language: es-ES\n"
 "X-Crowdin-File: /master/locales/en/messages.po\n"
-"X-Crowdin-File-ID: 40\n"
+"X-Crowdin-File-ID: 51\n"
 
 #. This is used when showing the translation of English content in the user's language. It should be localized to use the name of the language itself, e.g. 'Spanish translation'.
 #: frontend/lib/ui/cross-language.tsx:8
@@ -32,6 +32,10 @@ msgstr "(Nota: tenga en cuenta que el correo electrónico se enviará en inglés
 msgid "(Note: the request will be sent in English)"
 msgstr "(Nota: tenga en cuenta que la solicitud se enviará en inglés)"
 
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:23
+msgid "(only for City of Los Angeles residents)"
+msgstr "(solo para residentes de la ciudad de Los Angeles)"
+
 #: frontend/lib/forms/optionalize-label.ts:7
 msgid "(optional)"
 msgstr "(opcional)"
@@ -44,7 +48,7 @@ msgstr "*División de Vivienda y Renovación de la Comunidad"
 msgid "8 Minutes"
 msgstr "8 minutos"
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:33
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:35
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
@@ -90,7 +94,7 @@ msgstr "<0>Aviso de impacto del COVID-19 en la renta</0><1/>en <2/>"
 msgid "<0>To</0><1/><2>From</2><3/>"
 msgstr "<0>De</0><1/><2>Hasta</2><3/>"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:39
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:48
 msgid "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
 msgstr "<0>No incluimos meses en los que ya has informado al dueño de tu edificio anteriormente.</0>"
 
@@ -121,7 +125,9 @@ msgstr "Una herramienta nacional por <0>JustFix.nyc</0>, organización sin fines
 
 #: frontend/lib/evictionfree/about.tsx:36
 #: frontend/lib/evictionfree/about.tsx:41
-#: frontend/lib/evictionfree/site.tsx:74
+#: frontend/lib/evictionfree/site.tsx:91
+#: frontend/lib/laletterbuilder/about.tsx:23
+#: frontend/lib/laletterbuilder/about.tsx:28
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
 #: frontend/lib/norent/components/footer.tsx:40
@@ -133,7 +139,7 @@ msgstr "Acerca de"
 msgid "Actions"
 msgstr "Acciones"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:101
+#: frontend/lib/common-steps/ask-national-address.tsx:115
 #: frontend/lib/forms/address-and-borough-form-field.tsx:9
 msgid "Address"
 msgstr "Dirección"
@@ -150,7 +156,7 @@ msgstr "Dirección:"
 msgid "After Sending Your Letter"
 msgstr "Después de enviar tu carta"
 
-#: frontend/lib/evictionfree/homepage.tsx:274
+#: frontend/lib/evictionfree/homepage.tsx:236
 msgid "After sending your hardship declaration form, connect with local organizing groups to get involved in the fight to make New York eviction free!"
 msgstr "Después de enviar tu formulario de declaración de penuria, ¡conecta con grupos de organizadores locales para involucrarte en la lucha para que el estado de Nueva York sea libre de desalojos!"
 
@@ -187,6 +193,10 @@ msgstr "Alaska"
 msgid "All set! Thanks for subscribing!"
 msgstr "¡Todo listo! ¡Gracias por suscribirte!"
 
+#: frontend/lib/evictionfree/site.tsx:122
+msgid "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
+msgstr "¿Has enviado ya un formulario de declaración de penuria? <0>Inicia tu sesión aquí para descargar tu formulario</0>"
+
 #: frontend/lib/norent/homepage.tsx:188
 msgid "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
 msgstr "Contesta algunas preguntas sobre ti y sobre el dueño o manager de tu edificio. Tardarás menos de 8 minutos."
@@ -208,11 +218,15 @@ msgstr "Número de apartamento"
 msgid "Apply for ERAP Online"
 msgstr "Solicitar ERAP en línea"
 
+#: frontend/lib/norent/data/state-localized-resources.tsx:6
+msgid "Apply for Rental Assistance. Qualifying renters are eligible for 100% of rent and utilities owed."
+msgstr "Aplique para asistencia de renta. Los inquilinos que califiquen ahora son elegibles para recibir el 100% de la renta y los servicios públicos adeudados."
+
 #: frontend/lib/pages/logout-alt-page.tsx:16
 msgid "Are you sure you want to log out?"
 msgstr "¿Estás seguro de que quieres cerrar la sesión?"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:46
+#: frontend/lib/common-steps/ask-national-address.tsx:60
 msgid "Are you sure you want to proceed with the following address?"
 msgstr "¿Seguro que quieres continuar con la siguiente dirección?"
 
@@ -224,7 +238,7 @@ msgstr "Arizona"
 msgid "Arkansas"
 msgstr "Arkansas"
 
-#: frontend/lib/evictionfree/homepage.tsx:78
+#: frontend/lib/evictionfree/homepage.tsx:68
 msgid "Automatically fill in your landlord's information based on your address if you live in New York City"
 msgstr "Rellena automáticamente la información del dueño de tu edificio en base a tu dirección si vives en la ciudad de Nueva York"
 
@@ -308,7 +322,7 @@ msgstr "Explora las preguntas frecuentes"
 msgid "Bug infestation"
 msgstr "Infestación de insectos"
 
-#: frontend/lib/evictionfree/homepage.tsx:271
+#: frontend/lib/evictionfree/homepage.tsx:233
 msgid "Build Tenant Power"
 msgstr "Construir el poder del inquilino"
 
@@ -329,6 +343,7 @@ msgstr "Crear mi carta"
 msgid "Build power in numbers"
 msgstr "Construye poder común"
 
+#: frontend/lib/laletterbuilder/letter-builder/welcome.tsx:10
 #: frontend/lib/norent/letter-builder/welcome.tsx:9
 msgid "Build your letter"
 msgstr "Crea tu carta"
@@ -344,10 +359,6 @@ msgstr "El timbre del edificio no funciona"
 #: frontend/lib/norent/data/faqs-content.tsx:41
 msgid "COVID-19 Emergency Tenant Protections & Rent Strikes Map"
 msgstr "Mapa de huelgas de renta y protección para inquilinos ante la emergencia generada por el COVID-19"
-
-#: frontend/lib/norent/data/state-localized-resources.tsx:6
-msgid "COVID-19 Tenant Relief Act Extension"
-msgstr "Extensión de la Ley de Alivio de Inquilinos COVID-19"
 
 #: common-data/us-state-choices.ts:69
 msgid "California"
@@ -376,7 +387,7 @@ msgstr "¿No puedes pagar la renta?"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:21
+#: frontend/lib/norent/data/state-localized-resources.tsx:25
 msgid "Cancel Rent Campaign"
 msgstr "Campaña para la Anulación de la Renta"
 
@@ -402,11 +413,11 @@ msgstr "Techo colapsado/se colapsa"
 msgid "Ceiling leaking"
 msgstr "Techo gotea"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:91
+#: frontend/lib/common-steps/ask-national-address.tsx:105
 msgid "Change"
 msgstr "Cambiar"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:90
+#: frontend/lib/common-steps/ask-national-address.tsx:104
 msgid "Change city and state from {cityAndState}"
 msgstr "Cambiar ciudad y estado de {cityAndState}"
 
@@ -434,7 +445,7 @@ msgstr "Cita ordenanzas legales actuales en tu carta"
 msgid "City"
 msgstr "Ciudad"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:85
+#: frontend/lib/common-steps/ask-national-address.tsx:99
 msgid "City and state"
 msgstr "Ciudad y estado"
 
@@ -482,7 +493,7 @@ msgstr "Confirmar"
 msgid "Confirm your new password"
 msgstr "Confirma tu nueva contraseña"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:33
+#: frontend/lib/common-steps/ask-national-address.tsx:47
 #: frontend/lib/common-steps/ask-nyc-address.tsx:23
 msgid "Confirming the address"
 msgstr "Confirmando la dirección"
@@ -679,11 +690,11 @@ msgstr "Introduce tu dirección para ver algunas acciones recomendadas."
 msgid "Establish your defense"
 msgstr "Establece tu defensa"
 
-#: frontend/lib/evictionfree/homepage.tsx:100
+#: frontend/lib/evictionfree/site.tsx:102
 msgid "Eviction Free NY has been suspended"
 msgstr "Eviction Free NY ha sido suspendido"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:14
+#: frontend/lib/norent/data/state-localized-resources.tsx:18
 msgid "Eviction Moratorium updates"
 msgstr "Actualizaciones de la Moratoria de Desalojo"
 
@@ -704,7 +715,7 @@ msgstr "Explora la herramienta"
 msgid "FAQs"
 msgstr "Preguntas Frecuentes"
 
-#: frontend/lib/evictionfree/site.tsx:71
+#: frontend/lib/evictionfree/site.tsx:88
 #: frontend/lib/norent/components/footer.tsx:37
 #: frontend/lib/norent/site.tsx:34
 msgid "Faqs"
@@ -718,13 +729,13 @@ msgstr "Grifos No Instalados"
 msgid "Faucets not working"
 msgstr "Grifos No Funcionan"
 
-#: frontend/lib/evictionfree/homepage.tsx:52
-#: frontend/lib/evictionfree/site.tsx:57
-#: frontend/lib/evictionfree/site.tsx:61
+#: frontend/lib/evictionfree/homepage.tsx:42
+#: frontend/lib/evictionfree/site.tsx:76
+#: frontend/lib/evictionfree/site.tsx:80
 msgid "Fill out my form"
 msgstr "Rellena mi formulario"
 
-#: frontend/lib/evictionfree/homepage.tsx:75
+#: frontend/lib/evictionfree/homepage.tsx:65
 msgid "Fill out your hardship declaration form online"
 msgstr "Rellena en línea tu formulario de declaración de penuria"
 
@@ -744,7 +755,7 @@ msgstr "Piso hundido"
 msgid "Florida"
 msgstr "Florida"
 
-#: frontend/lib/evictionfree/homepage.tsx:206
+#: frontend/lib/evictionfree/homepage.tsx:169
 msgid "For New York State tenants"
 msgstr "Para los inquilinos del estado de Nueva York"
 
@@ -752,7 +763,7 @@ msgstr "Para los inquilinos del estado de Nueva York"
 msgid "For more information about New York’s eviction protections and your rights as a tenant, check out our FAQ on the <0>Right to Counsel website</0>."
 msgstr "Para obtener más información sobre las protecciones de desalojo de Nueva York y tus derechos como inquilino, consulta nuestras preguntas frecuentes en <0>el sitio web de Right to Counsel</0>."
 
-#: frontend/lib/evictionfree/homepage.tsx:237
+#: frontend/lib/evictionfree/homepage.tsx:199
 msgid "For tenants by tenants"
 msgstr "Para inquilinos por inquilinos"
 
@@ -789,7 +800,7 @@ msgstr "Comparte tu opinión"
 msgid "Give us feedback"
 msgstr "Comparte tu opinión"
 
-#: frontend/lib/start-account-or-login/verify-password.tsx:39
+#: frontend/lib/start-account-or-login/verify-password.tsx:44
 msgid "Go back"
 msgstr "Atrás"
 
@@ -805,7 +816,7 @@ msgstr "Hacer huelga de renta"
 msgid "Good news!"
 msgstr "¡Buenas noticias!"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:61
+#: frontend/lib/ui/privacy-info-modal.tsx:64
 msgid "Got it!"
 msgstr "¡Entendido!"
 
@@ -869,7 +880,7 @@ msgstr "Así será la carta:"
 msgid "Here’s what you can do with <0>NoRent</0>"
 msgstr "Esto es lo que puedes hacer con <0>NoRent</0>"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:57
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:42
 msgid "Highly recommended."
 msgstr "Altamente recomendable."
 
@@ -916,7 +927,7 @@ msgstr "¿Por qué me sirve de ayuda enviar esta declaración?"
 msgid "How it works"
 msgstr "Cómo funciona"
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:45
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:47
 msgid "I agree to the <0/> terms and conditions."
 msgstr "Acepto los términos y condiciones de <0/>."
 
@@ -932,7 +943,7 @@ msgstr "Acepto los <0>términos y condiciones de NoRent.org</0>."
 msgid "I am experiencing financial hardship due to COVID-19."
 msgstr "Estoy experimentando dificultades financieras debido al COVID-19."
 
-#: frontend/lib/start-account-or-login/verify-password.tsx:64
+#: frontend/lib/start-account-or-login/verify-password.tsx:75
 msgid "I forgot my password"
 msgstr "He perdido mi contraseña"
 
@@ -1067,7 +1078,7 @@ msgstr "Parece que esta propiedad no tiene que estar registrada con el HPD. Pued
 msgid "It looks like your apartment may be rent stabilized"
 msgstr "Parece que tu apartamento es de renta estabilizada"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:28
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:37
 msgid "It's important to notify your landlord of all months when you couldn't pay rent in full."
 msgstr "Es importante notificar al dueño o manager de tu edificio de todos los meses cuando no pudiste pagar el alquiler completo."
 
@@ -1088,11 +1099,11 @@ msgstr "¡Es la primera vez que estás aquí!"
 msgid "I’m undocumented. Can I use this tool?"
 msgstr "Soy indocumentado. ¿Puedo usar esta herramienta?"
 
-#: frontend/lib/evictionfree/homepage.tsx:31
+#: frontend/lib/evictionfree/homepage.tsx:30
 msgid "January 15"
 msgstr "15 de enero"
 
-#: frontend/lib/evictionfree/homepage.tsx:31
+#: frontend/lib/evictionfree/homepage.tsx:30
 msgid "January 15, 2022"
 msgstr "15 de enero de 2022"
 
@@ -1123,6 +1134,10 @@ msgstr "Kentucky"
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:113
 msgid "Know your rights"
 msgstr "Conoce tus derechos"
+
+#: frontend/lib/laletterbuilder/about.tsx:99
+msgid "LaLetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
+msgstr "LaLetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
 
 #: frontend/lib/ui/landlord.tsx:36
 msgid "Landlord address"
@@ -1157,6 +1172,7 @@ msgstr "Pintura a base de plomo"
 msgid "Leaky faucet"
 msgstr "Grifo con fugas"
 
+#: frontend/lib/laletterbuilder/about.tsx:32
 #: frontend/lib/norent/about.tsx:57
 msgid "Learn about why we made this tool, who we are, and who our partners are."
 msgstr "Aprenda por qué hemos construido esta herramienta, quiénes somos, y quiénes son nuestros aliados."
@@ -1166,12 +1182,14 @@ msgid "Learn about your rent"
 msgstr "Aprende Sobre Tu Alquiler"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:309
-#: frontend/lib/evictionfree/homepage.tsx:116
+#: frontend/lib/evictionfree/site.tsx:117
+#: frontend/lib/laletterbuilder/about.tsx:41
 #: frontend/lib/norent/about.tsx:66
 #: frontend/lib/norent/the-letter.tsx:29
 msgid "Learn more"
 msgstr "Aprender más"
 
+#: frontend/lib/laletterbuilder/about.tsx:84
 #: frontend/lib/norent/about.tsx:111
 msgid "Learn more about our mission on our website"
 msgstr "Obtén más información a cerca de nuestra misión en nuestro sitio web (sólo en inglés)"
@@ -1237,12 +1255,14 @@ msgid "Locally supported"
 msgstr "Con apoyo local"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
-#: frontend/lib/evictionfree/site.tsx:80
+#: frontend/lib/evictionfree/site.tsx:96
+#: frontend/lib/laletterbuilder/site.tsx:36
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Iniciar sesión"
 
-#: frontend/lib/evictionfree/site.tsx:78
+#: frontend/lib/evictionfree/site.tsx:94
+#: frontend/lib/laletterbuilder/site.tsx:34
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:14
 msgid "Log out"
@@ -1279,7 +1299,7 @@ msgstr "El Condado de Los Angeles"
 msgid "Louisiana"
 msgstr "Luisiana"
 
-#: frontend/lib/evictionfree/homepage.tsx:141
+#: frontend/lib/evictionfree/homepage.tsx:104
 msgid "Made by non-profits <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, and <2>JustFix.nyc</2>"
 msgstr "Fabricado por las organizaciones sin fines de lucro <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, y <2>JustFix.nyc</2>"
 
@@ -1362,13 +1382,13 @@ msgstr "Muros Con Moho"
 msgid "Montana"
 msgstr "Montana"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:37
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:46
 msgid "Months of rent non-payment"
 msgstr "Meses de impago de renta"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:26
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:35
 msgid "Months you're missing rent payments"
-msgstr "Meses en the te faltan pagos de renta"
+msgstr "Meses en que le faltan pagos de renta"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:360
 msgid "More actions"
@@ -1432,6 +1452,7 @@ msgid "New password"
 msgstr "Contraseña nueva"
 
 #: frontend/lib/common-steps/welcome.tsx:45
+#: frontend/lib/laletterbuilder/letter-builder/welcome.tsx:15
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
 msgid "Next"
@@ -1504,7 +1525,7 @@ msgstr "No poder pagar la renta debido al COVID-19 no es nada de lo que avergonz
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 msgstr "Aviso de impacto del COVID-19 en la renta enviado en nombre de {0}"
 
-#: frontend/lib/start-account-or-login/verify-password.tsx:52
+#: frontend/lib/start-account-or-login/verify-password.tsx:59
 msgid "Now we just need your password. This is the same one you’ve used on JustFix.nyc."
 msgstr "Ahora sólo necesitamos tu contraseña. Esta es la misma que usas en JustFix.nyc."
 
@@ -1520,7 +1541,7 @@ msgstr "Oklahoma"
 msgid "One letter for the months between March and August when you couldn't pay rent in full."
 msgstr "Una carta para los meses entre marzo y agosto cuando no pudiste pagar la renta en su totalidad."
 
-#: frontend/lib/app.tsx:57
+#: frontend/lib/app.tsx:59
 #: frontend/lib/norent/components/subscribe.tsx:47
 #: frontend/lib/norent/components/subscribe.tsx:51
 msgid "Oops! A network error occurred. Try again later."
@@ -1542,6 +1563,7 @@ msgstr "Oregón"
 msgid "Other important resources:"
 msgstr "Otros recursos importantes:"
 
+#: frontend/lib/laletterbuilder/about.tsx:95
 #: frontend/lib/norent/about.tsx:122
 msgid "Our Partners"
 msgstr "Nuestros aliados"
@@ -1550,12 +1572,12 @@ msgstr "Nuestros aliados"
 msgid "Our letter cites the most up-to-date legal ordinances that protect tenant rights in your state."
 msgstr "Nuestra carta cita las ordenanzas legales actuales que protegen los derechos de los inquilinos en tu estado."
 
-#: frontend/lib/common-steps/ask-national-address.tsx:35
+#: frontend/lib/common-steps/ask-national-address.tsx:49
 #: frontend/lib/common-steps/ask-nyc-address.tsx:25
 msgid "Our records have shown us a similar address. Would you like to proceed with this address:"
 msgstr "Nuestros registros han encontrado una dirección similar. ¿Quieres continuar con la dirección siguiente?"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:44
+#: frontend/lib/common-steps/ask-national-address.tsx:58
 msgid "Our records tell us that this address is invalid."
 msgstr "Nuestros registros indican que esta dirección no es válida."
 
@@ -1574,7 +1596,7 @@ msgstr "Tomas de corriente no funcionan"
 msgid "Painting overdue (3 years)"
 msgstr "Pintura Atrasada (cada 3 años)"
 
-#: frontend/lib/start-account-or-login/verify-password.tsx:61
+#: frontend/lib/start-account-or-login/verify-password.tsx:72
 msgid "Password"
 msgstr "Contraseña"
 
@@ -1596,6 +1618,8 @@ msgstr "Pensilvania"
 #: frontend/lib/account-settings/contact-settings.tsx:24
 #: frontend/lib/rh/routes.tsx:128
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:36
+#: frontend/lib/start-account-or-login/verify-password.tsx:40
+#: frontend/lib/start-account-or-login/verify-password.tsx:69
 msgid "Phone number"
 msgstr "Número de teléfono"
 
@@ -1611,7 +1635,7 @@ msgstr "Tuberías con fugas"
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Por favor <0>vuelve y escoge un estado</0>."
 
-#: frontend/lib/pages/cross-site-terms-opt-in.tsx:31
+#: frontend/lib/pages/cross-site-terms-opt-in.tsx:33
 msgid "Please agree to our terms and conditions"
 msgstr "Por favor, acepta nuestros términos y condiciones"
 
@@ -1635,6 +1659,10 @@ msgstr "Tenga en cuenta que su carta de declaración tendrá la siguiente estruc
 msgid "Please read the rest of this email carefully as it contains important information about your next steps."
 msgstr "Por favor, lee atentamente el resto del correo electrónico ya que contiene información importante sobre tus próximos pasos."
 
+#: frontend/lib/account-settings/contact-settings.tsx:24
+msgid "Please use a number that can receive text messages."
+msgstr "Please use a number that can receive text messages."
+
 #: frontend/lib/account-settings/about-you-settings.tsx:24
 #: frontend/lib/common-steps/ask-name.tsx:31
 #: frontend/lib/onboarding/onboarding-step-1.tsx:95
@@ -1650,19 +1678,19 @@ msgstr "Vista previa de tu carta NoRent.org"
 msgid "Preview this declaration as a PDF"
 msgstr "Vista previa de esta declaración como PDF"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:27
+#: frontend/lib/ui/privacy-info-modal.tsx:30
 msgid "Privacy Policy"
 msgstr "Política de Privacidad"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:300
-#: frontend/lib/evictionfree/declaration-builder/welcome.tsx:10
+#: frontend/lib/evictionfree/declaration-builder/welcome.tsx:9
 msgid "Protect yourself from eviction"
 msgstr "Protéjete del desalojo"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:78
-#: frontend/lib/evictionfree/homepage.tsx:47
-#: frontend/lib/evictionfree/homepage.tsx:126
-#: frontend/lib/evictionfree/homepage.tsx:166
+#: frontend/lib/evictionfree/homepage.tsx:37
+#: frontend/lib/evictionfree/homepage.tsx:89
+#: frontend/lib/evictionfree/homepage.tsx:129
 msgid "Protect yourself from eviction in New York State"
 msgstr "Protéjete del desalojo en el estado de Nueva York"
 
@@ -1710,7 +1738,7 @@ msgstr "Historial de Renta"
 msgid "Rent Strike 2020: A Resource List"
 msgstr "Huelga de Renta 2020: Lista de recursos (en inglés)"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:29
+#: frontend/lib/norent/data/state-localized-resources.tsx:33
 msgid "Rent Strike Organizing"
 msgstr "Organizar Huelgas de Renta"
 
@@ -1742,7 +1770,7 @@ msgstr "Solicita el Historial de Renta de tu apartamento al DHCR"
 msgid "Research your landlord"
 msgstr "Investiga al dueño de tu edificio"
 
-#: frontend/lib/start-account-or-login/verify-password.tsx:27
+#: frontend/lib/start-account-or-login/verify-password.tsx:28
 msgid "Reset your password"
 msgstr "Cambia tu contraseña"
 
@@ -1799,15 +1827,15 @@ msgstr "Enviar una carta de queja"
 msgid "Send another letter"
 msgstr "Enviar otra carta"
 
-#: frontend/lib/start-account-or-login/verify-password.tsx:41
+#: frontend/lib/start-account-or-login/verify-password.tsx:46
 msgid "Send code"
 msgstr "Enviar código"
 
-#: frontend/lib/evictionfree/homepage.tsx:87
+#: frontend/lib/evictionfree/homepage.tsx:77
 msgid "Send your form by USPS Certified Mail for free to your landlord"
 msgstr "Envía tu declaración por correo certificado \"USPS Certified Mail\" de forma gratuita al dueño de tu edificio"
 
-#: frontend/lib/evictionfree/homepage.tsx:84
+#: frontend/lib/evictionfree/homepage.tsx:74
 msgid "Send your form by email to your landlord and the courts"
 msgstr "Envía tu declaración por correo electrónico al dueño de tu edificio y a los tribunales"
 
@@ -1832,6 +1860,7 @@ msgid "Separate letters for each month starting in September when you couldn't p
 msgstr "Cartas separadas para cada mes a partir de septiembre, cuando no pudiste pagar la renta en su totalidad."
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:17
+#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:17
 #: frontend/lib/norent/letter-builder/create-account.tsx:19
 msgid "Set up an account"
 msgstr "Configura tu cuenta"
@@ -1853,7 +1882,7 @@ msgid "Shall we send your letter?"
 msgstr "¿Quieres que enviemos tu carta?"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:84
-#: frontend/lib/evictionfree/homepage.tsx:298
+#: frontend/lib/evictionfree/homepage.tsx:260
 #: frontend/lib/norent/letter-builder/confirmation.tsx:214
 msgid "Share this tool"
 msgstr "Compartir esta herramienta"
@@ -1987,6 +2016,7 @@ msgstr "Paso {currStep} de {numSteps}"
 msgid "Stove not working"
 msgstr "Estufa no funciona"
 
+#: frontend/lib/laletterbuilder/about.tsx:11
 #: frontend/lib/norent/about.tsx:31
 msgid "Strategic Actions for a Just Economy"
 msgstr "Strategic Actions for a Just Economy"
@@ -2008,7 +2038,6 @@ msgstr "Enviar email"
 msgid "Submit request"
 msgstr "Enviar Solicitud"
 
-#: frontend/lib/evictionfree/homepage.tsx:121
 #: frontend/lib/justfix-navbar.tsx:21
 msgid "Take action"
 msgstr "Toma acción"
@@ -2029,7 +2058,7 @@ msgstr "Los inquilinos afectados por la crisis del COVID-19 están protegidos de
 msgid "Tennessee"
 msgstr "Tennessee"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:28
+#: frontend/lib/ui/privacy-info-modal.tsx:31
 msgid "Terms of Use"
 msgstr "Términos de Uso"
 
@@ -2052,7 +2081,7 @@ msgstr "Esta información no sustituye el asesoramiento legal directo sobre tu s
 msgid "The majority of your landlord's properties are concentrated in {0}."
 msgstr "La mayoría de las propiedades del dueño de tu edificio se concentran en {0}."
 
-#: frontend/lib/evictionfree/homepage.tsx:219
+#: frontend/lib/evictionfree/homepage.tsx:181
 msgid "The protections outlined by NY state law apply to you regardless of immigration status."
 msgstr "Las protecciones que la ley del estado de Nueva York te proporcionan te aplican independientemente de tu estado migratorio."
 
@@ -2076,6 +2105,10 @@ msgstr "Este edificio es propiedad de la <0>NYC Housing Authority (NYCHA)</0>."
 msgid "This information seems wrong. Can I change it?"
 msgstr "Esta información parece incorrecta. ¿Puedo cambiarla?"
 
+#: frontend/lib/laletterbuilder/homepage.tsx:11
+msgid "This is a test localization message for LaLetterBuilder."
+msgstr "This is a test localization message for LaLetterBuilder."
+
 #: frontend/lib/common-steps/landlord-email.tsx:20
 msgid "This is optional."
 msgstr "Esto es opcional."
@@ -2089,15 +2122,11 @@ msgstr "Esta es la información del dueño de tu edificio según los registros d
 msgid "This service is free, secure, and confidential."
 msgstr "Este servicio es gratuito, seguro y confidencial."
 
-#: frontend/lib/evictionfree/homepage.tsx:36
-msgid "This tool has been suspended"
-msgstr "Esta herramienta ha sido suspendida"
-
 #: frontend/lib/norent/letter-builder/confirmation.tsx:200
 msgid "This tool is provided by JustFix.nyc. We’re a non-profit that creates tools for tenants and the housing rights movement. We always want feedback to improve our tools."
 msgstr "Esta herramienta te la trae JustFix.nyc. Somos una organización sin fines de lucro que crea herramientas para inquilinos y el movimiento de derechos de la vivienda. Siempre nos interesa tu opinión para mejorar nuestras herramientas."
 
-#: frontend/lib/start-account-or-login/verify-password.tsx:29
+#: frontend/lib/start-account-or-login/verify-password.tsx:30
 msgid "To begin the password reset process, we'll text you a verification code."
 msgstr "Para restablecer tu contraseña, te enviaremos un código de verificación."
 
@@ -2134,7 +2163,7 @@ msgstr "Correo Certificado de USPS"
 msgid "USPS Tracking #:"
 msgstr "Número de Seguimiento USPS:"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:92
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:77
 msgid "Unfortunately, this tool is currently only available to individuals who live in the state of New York."
 msgstr "Desafortunadamente, esta herramienta sólo está disponible actualmente para personas que viven en el estado de Nueva York."
 
@@ -2146,7 +2175,7 @@ msgstr "Desafortunadamente, en este momento no recomendamos enviar una carta de 
 msgid "Unfortunately, we do not currently recommend sending this notice of non-payment to your landlord. <0/>"
 msgstr "Desafortunadamente, actualmente no recomendamos enviar esta notificación de falta de pago al dueño o manager de tu edificio. <0/>"
 
-#: frontend/lib/common-steps/ask-national-address.tsx:102
+#: frontend/lib/common-steps/ask-national-address.tsx:116
 msgid "Unit/apt/lot/suite number"
 msgstr "Número de apartamento/unidad/lote/suite"
 
@@ -2234,7 +2263,7 @@ msgstr "Enviaremos la carta en tu nombre por correo certificado de USPS y te pro
 msgid "We'll include this information in the letter to your landlord."
 msgstr "Incluiremos esta información en la carta al dueño de tu edificio."
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:33
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:29
 msgid "We'll include this information in your hardship declaration form."
 msgstr "Incluiremos esta información en tu formulario de declaración de penuria."
 
@@ -2250,12 +2279,12 @@ msgstr "Utilizaremos esta información para enviarte una copia de tu carta."
 msgid "We'll use this information to send you updates."
 msgstr "Utilizaremos esta información para enviarte noticias."
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:84
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:69
 msgid "We'll use this information to send your hardship declaration form via certified mail for free."
 msgstr "Utilizaremos esta información para enviar su formulario de declaración de penuria por correo certificado de forma gratuita."
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:74
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:79
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:59
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:64
 msgid "We'll use this information to send your hardship declaration form."
 msgstr "Utilizaremos esta información para enviar tu declaración de penuria."
 
@@ -2401,11 +2430,12 @@ msgid "Who is not protected by NY's COVID-19 Tenant Protection Laws?"
 msgstr "¿Quién no está protegido por las leyes de protección de inquilinos COVID-19 de Nueva York?"
 
 #: frontend/lib/evictionfree/about.tsx:76
+#: frontend/lib/laletterbuilder/about.tsx:67
 #: frontend/lib/norent/about.tsx:94
 msgid "Who we are"
 msgstr "Quiénes somos"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:38
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:47
 msgid "Why aren't all months listed?"
 msgstr "¿Por qué no puedo ver todos los meses?"
 
@@ -2421,6 +2451,7 @@ msgstr "Por qué enviar una carta"
 msgid "Why should I notify my landlord if I can’t pay my rent?"
 msgstr "¿Por qué debo avisar al dueño de mi edificio de que no puedo pagar la renta?"
 
+#: frontend/lib/laletterbuilder/about.tsx:50
 #: frontend/lib/norent/about.tsx:75
 msgid "Why we made this"
 msgstr "Por qué hemos creado esta herramienta"
@@ -2451,7 +2482,7 @@ msgstr "Faltan Protectores de Ventana"
 msgid "Wisconsin"
 msgstr "Wisconsin"
 
-#: frontend/lib/evictionfree/homepage.tsx:70
+#: frontend/lib/evictionfree/homepage.tsx:60
 msgid "With this free tool, you can"
 msgstr "Con esta herramienta gratuita, puedes"
 
@@ -2466,6 +2497,7 @@ msgstr "Wyoming"
 msgid "Yes"
 msgstr "Si"
 
+#: frontend/lib/laletterbuilder/letter-builder/create-account.tsx:28
 #: frontend/lib/norent/letter-builder/create-account.tsx:37
 msgid "Yes, JustFix.nyc can text me to follow up about my housing issues."
 msgstr "Sí, JustFix.nyc puede enviarme mensajes de texto para hacer un seguimiento de mis problemas de vivienda."
@@ -2486,7 +2518,7 @@ msgstr "Sí, las protecciones descritas por la ley del estado de Nueva York te p
 msgid "Yes, this is a free website created by 501(c)3 non-profit organizations."
 msgstr "Sí, este es un sitio web gratuito creado por organizaciones sin fines de lucro reconocidas con la categoría de exención tributaria 501(c)3."
 
-#: frontend/lib/start-account-or-login/verify-password.tsx:49
+#: frontend/lib/start-account-or-login/verify-password.tsx:56
 msgid "You already have an account"
 msgstr "Ya tienes una cuenta"
 
@@ -2506,7 +2538,7 @@ msgstr "Puedes contactar Acciones Estratégicas para una Economía Justa (SAJE) 
 msgid "You can send an additional letter for other months when you couldn't pay rent."
 msgstr "Puedes enviar otra carta para indicar los demás meses en que no hayas podido pagar la renta."
 
-#: frontend/lib/evictionfree/homepage.tsx:129
+#: frontend/lib/evictionfree/homepage.tsx:92
 msgid "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until {0}"
 msgstr "Puedes utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales — deteniendo tu caso de desalojo hasta el {0}"
 
@@ -2518,7 +2550,7 @@ msgstr "Puedes utilizar este sitio web para enviar un formulario de declaración
 msgid "You can't send any more letters"
 msgstr "No puedes enviar más cartas"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:90
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:75
 msgid "You don't live in New York"
 msgstr "No vives en Nueva York"
 
@@ -2676,7 +2708,7 @@ msgstr "la corte de vivienda local"
 msgid "Your phone number"
 msgstr "Tu número de teléfono"
 
-#: frontend/lib/ui/privacy-info-modal.tsx:30
+#: frontend/lib/ui/privacy-info-modal.tsx:33
 msgid "Your privacy is very important to us!"
 msgstr "¡Su privacidad es muy importante para nosotros!"
 
@@ -2684,7 +2716,7 @@ msgstr "¡Su privacidad es muy importante para nosotros!"
 msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure."
 msgstr "¡Tu privacidad es muy importante para nosotros! Todo en JustFix.nyc es seguro."
 
-#: frontend/lib/common-steps/ask-national-address.tsx:97
+#: frontend/lib/common-steps/ask-national-address.tsx:111
 #: frontend/lib/common-steps/ask-nyc-address.tsx:39
 msgid "Your residence"
 msgstr "Tu hogar"
@@ -2693,7 +2725,7 @@ msgstr "Tu hogar"
 msgid "You’re not alone. Millions of Americans won’t be able to pay rent because of COVID‑19. Use our FREE tool to take action by writing a letter to your landlord."
 msgstr "No estás solo. Millones de estadounidenses no podrán pagar la renta por culpa del COVID 19. Utiliza nuestra herramienta GRATIS para tomar acción mandando una carta al dueño de tu edificio."
 
-#: frontend/lib/common-steps/ask-national-address.tsx:104
+#: frontend/lib/common-steps/ask-national-address.tsx:118
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:41
 msgid "Zip code"
 msgstr "Código postal"
@@ -2731,7 +2763,7 @@ msgstr "Nuestro sitio web ayuda a los inquilinos a presentar este formulario de 
 msgid "evictionfree.agreeToStateTermsIntro"
 msgstr "Estas últimas preguntas son para asegurarse de que entiendes los límites de la protección concedida por este formulario de declaración de penuria, y de que contestaste a las preguntas anteriores con veracidad:"
 
-#: frontend/lib/evictionfree/declaration-builder/routes.tsx:59
+#: frontend/lib/evictionfree/declaration-builder/routes.tsx:44
 msgid "evictionfree.askForEmail"
 msgstr "Utilizaremos esta información para enviarte una copia de tu declaración. Si es posible, también te reenviaremos el correo electrónico de parte de la corte cuando hayan recibido tu formulario de declaración."
 
@@ -2751,7 +2783,7 @@ msgstr "Puedes enviar tu formulario de declaración en cualquier momento, hasta 
 msgid "evictionfree.emailBodyTemplateForSharingFromConfirmation2"
 msgstr "El 28 de diciembre de 2020, el estado de Nueva York aprobó la legislación que protege a los inquilinos del desalojo debido a la pérdida de ingresos o a los riesgos de salud del COVID-19. Para protegerte, debes rellenar una declaración de penuria y enviarla al dueño de tu edificio y/o a los tribunales. Acabo de utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de mi edificio y a los tribunales locales—deteniendo cualquier caso de desalojo hasta el {date}. Míralo aquí: {url}"
 
-#: frontend/lib/evictionfree/homepage.tsx:48
+#: frontend/lib/evictionfree/homepage.tsx:38
 msgid "evictionfree.emailBodyTemplateForSharingFromHomepage1"
 msgstr "El 28 de diciembre de 2020, el estado de Nueva York aprobó la legislación que protege a los inquilinos del desalojo debido a la pérdida de ingresos o a los riesgos de salud del COVID-19. Para protegerte, debes rellenar una declaración de penuria y enviarla al dueño de tu edificio y/o a los tribunales. Puedes utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales — deteniendo tu caso de desalojo hasta el {0}. Míralo aquí: {1}"
 
@@ -2783,11 +2815,11 @@ msgstr "¡Involúcrate con la organización local de tu comunidad! ¡Únete a mi
 msgid "evictionfree.hj4aBlurb"
 msgstr "<0>Housing Justice for All</0> es una coalición de más de 100 organizaciones, desde Brooklyn a Buffalo, que representan a los inquilinos y aquellos que no tienen hogar en el estado de Nueva York. Estamos unidos en nuestra convicción de que la vivienda es un derecho humano; que ninguna persona debe vivir con miedo a un desalojo; y que podemos poner fin a la crisis de las personas sin hogar en nuestro Estado."
 
-#: frontend/lib/evictionfree/homepage.tsx:173
+#: frontend/lib/evictionfree/homepage.tsx:136
 msgid "evictionfree.introToLaw2"
 msgstr "La legislación del estado de Nueva York protege temporalmente a los inquilinos del desalojo debido a la pérdida de ingresos o a los riesgos de salud del COVID-19. Para protegerte, debes rellenar una declaración de penuria y enviarla al dueño de tu edificio y/o a los tribunales. Porque los dueños atacaron, estas leyes han sido debilitadas. <0>Lee sobre todos sus derechos</0> y únete al movimiento para contra-atacar."
 
-#: frontend/lib/evictionfree/declaration-builder/welcome.tsx:13
+#: frontend/lib/evictionfree/declaration-builder/welcome.tsx:12
 msgid "evictionfree.introductionToDeclarationFormSteps"
 msgstr "Para beneficiarte de las protecciones de desalojo que han puesto en marcha los representantes gubernamentales locales, puedes notificar al dueño de tu edificio rellenando un formulario de declaración de penuria. <0>En el caso de que el dueño de tu edificio intente desalojarte, los tribunales lo verán como un paso proactivo que ayuda a establecer tu defensa.</0>"
 
@@ -2813,11 +2845,7 @@ msgstr "Además, entiendo que mi casero puede solicitar una audiencia para retar
 msgid "evictionfree.legalAgreementCheckboxOnNewProtections4"
 msgstr "Además, entiendo que mi casero puede solicitar el desalojo después del {0}, y que la ley puede proporcionarle, en ese momento, ciertas protecciones independientes disponibles a través de esta declaración."
 
-#: frontend/lib/evictionfree/homepage.tsx:103
-msgid "evictionfree.noticeOfSuddenMoratoriumSuspension"
-msgstr "La ley estatal que retrasa los desalojos para los inquilinos que presentan una declaración de penuria ha sido suspendida. Conozca sus derechos y actúe hoy mismo para protegerlos y ampliarlos"
-
-#: frontend/lib/evictionfree/declaration-builder/welcome.tsx:24
+#: frontend/lib/evictionfree/declaration-builder/welcome.tsx:23
 msgid "evictionfree.outlineOfDeclarationFormSteps"
 msgstr "<0>En los próximos pasos, construiremos tu declaración. Si puedes, ten esta información a mano:</0><1><2><3>tu número de teléfono y dirección postal</3></2><4><5>la dirección postal del dueño de tu edificio y/o su dirección de correo electrónico</5></4></1>"
 
@@ -2845,19 +2873,23 @@ msgstr "Esto significa que usted o uno o más miembros de su familia tienen un m
 msgid "evictionfree.timeLagFaq"
 msgstr "Una vez que completes tu formulario de declaración a través de esta herramienta, este será enviado inmediatamente por correo postal y/o correo electrónico al dueño de tu edificio y a las cortes. Una vez enviado, el correo postal suele entregar la correspondencia en aproximadamente una semana."
 
+#: frontend/lib/evictionfree/site.tsx:105
+msgid "evictionfree.toolSuspensionMessage"
+msgstr "A partir del 15 de enero de 2022, los inquilinos del Estado de Nueva York ya no están protegidos contra el desalojo después de presentar una declaración de penuria. Sin embargo, ¡todavía tienes otras opciones para protegerte a ti mismo y a tus vecinos!"
+
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:77
 msgid "evictionfree.tweetTemplateForSharingFromConfirmation2"
 msgstr "Acabo de utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de mi edificio y a los tribunales locales—deteniendo cualquier caso de desalojo hasta el {date}. Míralo aquí: {url} #EvictionFreeNY por @JustFixNYC @RTCNYC @housing4allNY"
 
-#: frontend/lib/evictionfree/homepage.tsx:46
+#: frontend/lib/evictionfree/homepage.tsx:36
 msgid "evictionfree.tweetTemplateForSharingFromHomepage1"
 msgstr "Puedes utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales — deteniendo tu caso de desalojo hasta el {0}. Míralo aquí: {1} #EvictionFreeNY por @JustFixNYC @RTCNYC @housing4allNY"
 
-#: frontend/lib/evictionfree/homepage.tsx:240
+#: frontend/lib/evictionfree/homepage.tsx:202
 msgid "evictionfree.whoBuildThisTool"
 msgstr "Nuestra herramienta gratuita fue construida por la <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, y <2>JustFix.nyc</2> como parte del movimiento de inquilinos en todo el estado."
 
-#: frontend/lib/evictionfree/homepage.tsx:209
+#: frontend/lib/evictionfree/homepage.tsx:172
 msgid "evictionfree.whoHasRightToSubmitForm"
 msgstr "Todos los inquilinos del estado de Nueva York tienen derecho a rellenar este formulario de declaración de penuria. Especialmente si has recibido una notificación de desalojo o crees que corres el riesgo de ser desalojado, por favor considera utilizar este formulario para protegerte."
 
@@ -2889,7 +2921,7 @@ msgstr "¿El dueño de tu edificio no contesta? ¡Puedes tomar acción gratis pa
 msgid "justfix.legalDisclaimer"
 msgstr "Aviso: La información en {website} no constituye asesoramiento jurídico y no debe ser utilizado como sustituto del asesoramiento de un abogado cualificado para asesorar sobre cuestiones jurídicas relativas a la vivienda. Si lo necesitas, podemos ayudar a dirigirte a servicios legales gratuitos."
 
-#: frontend/lib/ui/privacy-info-modal.tsx:32
+#: frontend/lib/ui/privacy-info-modal.tsx:35
 msgid "justfix.privacyInfoModalText"
 msgstr "¡<0>Tu privacidad es muy importante para nosotros! Estas son algunas de las cosas más importantes a saber:</0><1><2>Tu información personal está segura. </2><3>No usaremos tu información personal para beneficiarnos ni la venderemos a terceros. </3><4>Utilizaremos tu dirección postal para encontrar datos sobre tu edificio y su dueño. </4></1><5>Nuestra Política de Privacidad permite compartir datos anónimos sólo con organizaciones de defensa de inquilinos autorizadas exclusivamente para ayudar a promover la misión de proteger los derechos de inquilinos. La Política de Privacidad contiene información sobre qué datos recopilamos, cómo la utilizamos y las opciones que tiene respecto a su información personal. Si quieres leer más, por favor revisa nuestra <6/> completa y nuestros <7/>.</5>"
 
@@ -2924,6 +2956,14 @@ msgstr "<0>Si tu apartamento es actualmente de renta estabilizada, o lo ha sido 
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:39
 msgid "justfix.whyIsPhoneNumberNeeded"
 msgstr "Utilizaremos esta información para:<0><1>Acceder a tu cuenta actual</1><2>Comprobar si coincide con una cuenta preexistente </2><3>Abrirte una cuenta nueva.</3></0><4/>Una cuenta te permitirá volver a nuestras herramientas en cualquier punto del proceso sin tener que empezar desde el principio, descargar cualquier documentos que hayas completado, y recibir notificaciones sobre cambios relevantes a políticas que te afecten."
+
+#: frontend/lib/laletterbuilder/about.tsx:54
+msgid "laletterbuilder.explanationAboutWhyWeMadeThisSite"
+msgstr "We made this site because xyz"
+
+#: frontend/lib/laletterbuilder/about.tsx:72
+msgid "laletterbuilder.madeByBlurb"
+msgstr "LaLetterBuilder is made by <0>JustFix.nyc</0>, a non-profit organization that co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City."
 
 #: frontend/lib/norent/data/faqs-content.tsx:215
 msgid "norent.additionalInstructionsForConnectingWithOrganizers"
@@ -3034,8 +3074,8 @@ msgid "norent.listOfSuggestedNonpaymentDocumentation"
 msgstr "<0>Mientras esperas que el dueño de tu edificio te dé una respuesta, reúne toda la documentación que puedas. Algunos tipos de documentación que puedes recopilar incluyen:</0><1><2><3>Carta de tu jefe:</3>una carta de tu jefe o de un compañero de trabajo que mencione el virus COVID-19 y muestre la pérdida de trabajo o la reducción de horas como resultado del COVID-19.</2><4><5> Documentos de beneficios de desempleo</5>: son los documentos que demuestran que solicitaste o recibiste beneficios del Departamento de Desarrollo del Empleo.</4><6><7>Recibos de pago de salario</7>: pueden ser cheques de pagos anteriores a la fecha de terminación o despido. Si has tenido un cambio en el número de horas de trabajo, puedes retener tus cheques de pago anteriores y posteriores a ese cambio.</6><8><9>Gastos relacionados con el COVID-19</9>: pueden ser facturas que demuestren que tus gastos han aumentado por problemas derivados del COVID-19, incluidos los costos de cuidado de niños, gastos para cumplir con las directivas de salud pública u otros gastos relacionados.</8><10><11>Cierre de escuelas</11>: esta podría ser una notificación de la escuela de tus hijos diciendo que ha cerrado debido al COVID-19. También puedes incluir pruebas de que tus hijos están matriculados.</10><12><13> Estados financieros</13>: pueden ser presupuestos, estados de cuenta bancarios o archivos personales que demuestren que tus ingresos laborales o de negocio se han interrumpido debido a la crisis provocada por el COVID-19. Asegúrate de no enviar información financiera personal confidencial que no quieras que vea el dueño de tu edificio.</12><14><15>Registros médicos del COVID-19</15>: esto podría incluir gastos médicos extraordinarios que tengan relación con el diagnóstico, pruebas y/o tratamiento del COVID-19 que hayas efectuado con tu dinero propio para ti o algún miembro de tu familia. Debido a la confidencialidad de los archivos médicos, es posible que no desees enviarlos al dueño de tu edificio. Sin embargo, debes conservar estos recibos para tu archivo personal. Estos podrían ser utilizados como prueba en caso que debas presentarlos como evidencia en procedimientos judiciales.</14><16><17>Alguna otra prueba del impacto financiero relacionado con el COVID-19</17>: puede ser cualquier otra prueba que demuestre cómo el virus COVID-19 ha afectado tu capacidad de pagar la renta.</16></1>"
 
 #: frontend/lib/norent/letter-builder/los-angeles-know-your-rights.tsx:35
-msgid "norent.losAngelesKyrAB832"
-msgstr "Hemos trabajado con la organización sin fines de lucro <0>SAJE</0> para proporcionarte apoyo adicional una vez que hayas enviado tu carta. Puedes aprender más sobre cómo la ley AB832 afecta a los residentes de Los Angeles en <1>Stay Housed LA</1>."
+msgid "norent.losAngelesKyrPostProtectionExpiration"
+msgstr "Hemos trabajado con la organización sin fines de lucro, <0>SAJE</0> para ofrecer apoyo adicional una vez que haya enviado su carta. Puede aprender más sobre las protecciones contra desalojo para los residentes de Los Angeles en <1>Stay Housed</1>."
 
 #: frontend/lib/norent/about.tsx:99
 msgid "norent.madeByBlurb"

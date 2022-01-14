@@ -5,7 +5,11 @@ import { getGlobalAppServerInfo } from "../../app-context";
 import { AskCityState } from "../../common-steps/ask-city-state";
 import { AskEmail } from "../../common-steps/ask-email";
 import { AskNameStep } from "../../common-steps/ask-name";
-import { AskNationalAddress } from "../../common-steps/ask-national-address";
+import {
+  AskNationalAddress,
+  isUserInNYC,
+  isUserOutsideNYC,
+} from "../../common-steps/ask-national-address";
 import { AskNycAddress } from "../../common-steps/ask-nyc-address";
 import {
   LandlordEmail,
@@ -26,7 +30,6 @@ import {
   ProgressStepProps,
 } from "../../progress/progress-step-route";
 import { skipStepsIf } from "../../progress/skip-steps-if";
-import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { createStartAccountOrLoginRouteInfo } from "../../start-account-or-login/route-info";
 import { createStartAccountOrLoginSteps } from "../../start-account-or-login/routes";
 import Page from "../../ui/page";
@@ -56,18 +59,6 @@ const DEFAULT_STEP_CONTENT = (
     </Trans>
   </p>
 );
-
-// TODO: An identical function exists in NoRent's codebase, ideally we should
-// consolidate.
-function isUserInNYC(s: AllSessionInfo): boolean {
-  return s.onboardingScaffolding?.isCityInNyc || false;
-}
-
-// TODO: An identical function exists in NoRent's codebase, ideally we should
-// consolidate.
-function isUserOutsideNYC(s: AllSessionInfo): boolean {
-  return !isUserInNYC(s);
-}
 
 const EfAskName = EvictionFreeOnboardingStep(AskNameStep);
 

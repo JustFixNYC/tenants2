@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-15 13:37+0000\n"
-"PO-Revision-Date: 2021-09-15 16:57\n"
+"POT-Creation-Date: 2021-10-08 16:00+0000\n"
+"PO-Revision-Date: 2021-12-07 22:06\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Crowdin-Project-ID: 402800\n"
 "X-Crowdin-Language: es-ES\n"
 "X-Crowdin-File: /master/locales/en/LC_MESSAGES/django.po\n"
-"X-Crowdin-File-ID: 42\n"
+"X-Crowdin-File-ID: 53\n"
 
 #: evictionfree/declaration_sending.py:100
 #, python-format
@@ -110,20 +110,25 @@ msgstr "Tu dirección parece estar dentro de la ciudad de Nueva York. Por favor,
 msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
 msgstr "Bienvenido/a %(site_name)s, un producto de JustFix.nyc. Te enviaremos notificaciones desde este número de teléfono."
 
-#: norent/sms_reminders.py:25
+#: norent/sms_reminders.py:26
 #, python-format
-msgid "%(first_name)s, you've previously created an account on NoRent.org. The California Tenant Relief Act of 2020 was extended by the new law SB91. In order to be protected from eviction, you must send a new declaration letter to your landlord through NoRent.org: %(url)s"
-msgstr "%(first_name)s, previamente creaste una cuenta en NoRent.org. La Ley de Alivio de Inquilinos de California de 2020 fue ampliada por la nueva ley SB91. Para estar protegido del desalojo, debes enviar una nueva carta de declaración al dueño o manager de tu edificio a través de NoRent.org: %(url)s"
+msgid "%(first_name)s, you've previously created an account on NoRent.org. The California Tenant Relief Act of 2020 was extended by the new law SB91. In order to be protected from eviction, you must send a new declaration letter to your landlord through NoRent.org: %(norentUrl)s"
+msgstr "%(first_name)s, previamente creaste una cuenta en NoRent.org. La Ley de Alivio de Inquilinos de California de 2020 fue ampliada por la nueva ley SB91. Para estar protegido del desalojo, debes enviar una nueva carta de declaración al dueño o manager de tu edificio a través de NoRent.org: %(norentUrl)s"
 
-#: norent/sms_reminders.py:32
+#: norent/sms_reminders.py:33
 #, python-format
-msgid "%(first_name)s, you've previously created an account on NoRent.org. The California Tenant Relief Act of 2020 was extended by the new law AB832. In order to be protected from eviction, you must send a new declaration letter to your landlord through NoRent.org: %(url)s"
-msgstr "%(first_name)s, previamente creaste una cuenta en NoRent.org. La Ley de Alivio de Inquilinos de California de 2020 fue ampliada por la nueva ley AB832. Para estar protegido del desalojo, debes enviar una nueva carta de declaración al dueño o manager de tu edificio a través de NoRent.org: %(url)s"
+msgid "%(first_name)s, you've previously created an account on NoRent.org. The California Tenant Relief Act of 2020 was extended by the new law AB832. In order to be protected from eviction, you must send a new declaration letter to your landlord through NoRent.org: %(norentUrl)s"
+msgstr "%(first_name)s, previamente creaste una cuenta en NoRent.org. La Ley de Alivio de Inquilinos de California de 2020 fue ampliada por la nueva ley AB832. Para estar protegido del desalojo, debes enviar una nueva carta de declaración al dueño o manager de tu edificio a través de NoRent.org: %(norentUrl)s"
 
-#: norent/sms_reminders.py:39
+#: norent/sms_reminders.py:40
 #, python-format
-msgid "%(first_name)s, you've previously created an account on NoRent.org. If you are unable to pay rent next month AND you have a COVID-19 related reason for not paying, we recommend that on or before your rent due date or within 7 days of your rent due date, you send a new AB832 declaration to your landlord through NoRent.org: %(url)s"
-msgstr "%(first_name)s, previamente creaste una cuenta de usuario en NoRent.org. Si no puedes pagar el alquiler el mes que viene y tienes una razón relacionada con COVID-19 para no pagar, recomendamos que envíes una nueva declaración AB832 al dueño o manager de tu edificio a través de NoRent.org: %(url)s antes de la fecha de vencimiento de la renta, en el día mismo o dentro de los 7 días siguientes."
+msgid "This is NoRent, texting from a new number. You’ve previously created an account on NoRent.org. On Friday, Oct 1, 2021, California’s statewide protections for tenants unable to pay rent due to COVID-19 (AB832) expired. If you have not submitted a declaration for a month you were unable to pay rent, do so now through NoRent.org: %(norentUrl)s. We also strongly encourage you to apply for government rental assistance through Housing is Key: %(housingIsKeyUrl)s or call 833-430-2122."
+msgstr "Esto es “No Rent,” mandando un mensaje de texto desde un nuevo numero. Previamente, usted ha creado una cuenta con norent.org. El día viernes, el 1 de octubre de 2021, las protecciones en todo el estado de California para los inquilinos que no pueden pagan su renta por COVID-19 (AB 832) expiraron. Si usted no ha enviado su declaración para un mes en que no podía pagar la renta, hay que hacerlo ahora por %(norentUrl)s. También, nosotros le recomendemos fuertemente, que solicite asistencia de la renta del gobierno por Housing is Key: %(housingIsKeyUrl)s o por llamar a 833-430-2122."
+
+#: norent/sms_reminders.py:50
+#, python-format
+msgid "%(first_name)s, you've previously created an account on NoRent.org. If you are unable to pay rent next month AND you have a COVID-19 related reason for not paying, we recommend that on or before your rent due date or within 7 days of your rent due date, you send a new AB832 declaration to your landlord through NoRent.org: %(norentUrl)s"
+msgstr "%(first_name)s, previamente creaste una cuenta de usuario en NoRent.org. Si no puedes pagar el alquiler el mes que viene y tienes una razón relacionada con COVID-19 para no pagar, recomendamos que envíes una nueva declaración AB832 al dueño o manager de tu edificio a través de NoRent.org: %(norentUrl)s antes de la fecha de vencimiento de la renta, en el día mismo o dentro de los 7 días siguientes."
 
 #: onboarding/forms.py:60
 msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox (but not both)."

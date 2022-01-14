@@ -35,7 +35,6 @@ import { HelmetProvider } from "react-helmet-async";
 import { browserStorage } from "./browser-storage";
 import { areAnalyticsEnabled } from "./analytics/analytics";
 import { LinguiI18n, li18n } from "./i18n-lingui";
-import { getNorentJumpToTopOfPageRoutes } from "./norent/route-info";
 import { SupportedLocale } from "./i18n";
 import { getGlobalSiteRoutes } from "./global-site-routes";
 import { ensureNextRedirectIsHard } from "./browser-redirect";
@@ -47,7 +46,9 @@ import {
   trackFrontendVersionInAmplitude,
 } from "./analytics/amplitude";
 import { t } from "@lingui/macro";
+import { getNorentJumpToTopOfPageRoutes } from "./norent/route-info";
 import { getEvictionFreeJumpToTopOfPageRoutes } from "./evictionfree/route-info";
+import { getLALetterBuilderJumpToTopOfPageRoutes } from "./laletterbuilder/route-info";
 import { AppLocationState } from "./app-location";
 
 // Note that these don't need any special fallback loading screens
@@ -57,6 +58,9 @@ import { AppLocationState } from "./app-location";
 const LoadableJustfixSite = loadable(() => import("./justfix-site"));
 const LoadableNorentSite = loadable(() => import("./norent/site"));
 const LoadableEvictionFreeSite = loadable(() => import("./evictionfree/site"));
+const LoadableLALetterBuilderSite = loadable(() =>
+  import("./laletterbuilder/site")
+);
 
 export type AppSiteProps = RouteComponentProps & {
   ref?: React.Ref<HTMLDivElement>;
@@ -123,7 +127,8 @@ export class AppWithoutRouter extends React.Component<
     this.pageBodyRef = React.createRef();
     this.jumpToTopOfPageRoutes = new Set(
       ...getNorentJumpToTopOfPageRoutes(),
-      ...getEvictionFreeJumpToTopOfPageRoutes()
+      ...getEvictionFreeJumpToTopOfPageRoutes(),
+      ...getLALetterBuilderJumpToTopOfPageRoutes()
     );
   }
 
@@ -366,6 +371,8 @@ export class AppWithoutRouter extends React.Component<
         return LoadableNorentSite;
       case "EVICTIONFREE":
         return LoadableEvictionFreeSite;
+      case "LALETTERBUILDER":
+        return LoadableLALetterBuilderSite;
     }
   }
 

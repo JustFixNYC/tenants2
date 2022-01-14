@@ -31,6 +31,9 @@ export function hasLoggedInUserAgreedToTerms(s: AllSessionInfo): boolean {
 
     case "EVICTIONFREE":
       return s.onboardingInfo.agreedToEvictionfreeTerms;
+
+    case "LALETTERBUILDER":
+      return s.onboardingInfo.agreedToLaletterbuilderTerms;
   }
 }
 

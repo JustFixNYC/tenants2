@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-15 13:37+0000\n"
+"POT-Creation-Date: 2021-11-29 19:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,19 +111,24 @@ msgstr ""
 msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
 msgstr ""
 
-#: norent/sms_reminders.py:25
+#: norent/sms_reminders.py:26
 #, python-format
-msgid "%(first_name)s, you've previously created an account on NoRent.org. The California Tenant Relief Act of 2020 was extended by the new law SB91. In order to be protected from eviction, you must send a new declaration letter to your landlord through NoRent.org: %(url)s"
+msgid "%(first_name)s, you've previously created an account on NoRent.org. The California Tenant Relief Act of 2020 was extended by the new law SB91. In order to be protected from eviction, you must send a new declaration letter to your landlord through NoRent.org: %(norentUrl)s"
 msgstr ""
 
-#: norent/sms_reminders.py:32
+#: norent/sms_reminders.py:33
 #, python-format
-msgid "%(first_name)s, you've previously created an account on NoRent.org. The California Tenant Relief Act of 2020 was extended by the new law AB832. In order to be protected from eviction, you must send a new declaration letter to your landlord through NoRent.org: %(url)s"
+msgid "%(first_name)s, you've previously created an account on NoRent.org. The California Tenant Relief Act of 2020 was extended by the new law AB832. In order to be protected from eviction, you must send a new declaration letter to your landlord through NoRent.org: %(norentUrl)s"
 msgstr ""
 
-#: norent/sms_reminders.py:39
+#: norent/sms_reminders.py:40
 #, python-format
-msgid "%(first_name)s, you've previously created an account on NoRent.org. If you are unable to pay rent next month AND you have a COVID-19 related reason for not paying, we recommend that on or before your rent due date or within 7 days of your rent due date, you send a new AB832 declaration to your landlord through NoRent.org: %(url)s"
+msgid "This is NoRent, texting from a new number. You’ve previously created an account on NoRent.org. On Friday, Oct 1, 2021, California’s statewide protections for tenants unable to pay rent due to COVID-19 (AB832) expired. If you have not submitted a declaration for a month you were unable to pay rent, do so now through NoRent.org: %(norentUrl)s. We also strongly encourage you to apply for government rental assistance through Housing is Key: %(housingIsKeyUrl)s or call 833-430-2122."
+msgstr ""
+
+#: norent/sms_reminders.py:50
+#, python-format
+msgid "%(first_name)s, you've previously created an account on NoRent.org. If you are unable to pay rent next month AND you have a COVID-19 related reason for not paying, we recommend that on or before your rent due date or within 7 days of your rent due date, you send a new AB832 declaration to your landlord through NoRent.org: %(norentUrl)s"
 msgstr ""
 
 #: onboarding/forms.py:60

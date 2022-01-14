@@ -12,7 +12,7 @@ import { UnimpersonateWidget } from "../ui/impersonation";
  * An alternative logout page that redirects the user to the homepage, and
  * lets them know their progress will be saved.
  */
-export const AlernativeLogoutPage: React.FC<{}> = () => (
+export const AlternativeLogoutPage: React.FC<{}> = () => (
   <Page title={li18n._(t`Log out`)}>
     <h2 className="title">
       <Trans>Are you sure you want to log out?</Trans>

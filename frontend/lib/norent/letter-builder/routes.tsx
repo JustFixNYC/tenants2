@@ -6,13 +6,17 @@ import { NorentRoutes } from "../route-info";
 import { NorentLandlordNameAndContactTypes } from "./landlord-name-and-contact-types";
 import { NorentLetterPreviewPage } from "./letter-preview";
 import { createStartAccountOrLoginSteps } from "../../start-account-or-login/routes";
-import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { NorentLetterBuilderRouteInfo } from "./route-info";
 import { NorentLbWelcome } from "./welcome";
 import { AskNameStep } from "../../common-steps/ask-name";
 import { NorentLbAskCityState } from "./ask-city-state";
 import { NorentLbAskEmail } from "./ask-email";
 import { NorentLbAskNationalAddress } from "./ask-national-address";
+import {
+  isUserInNYC,
+  isUserOutsideLA,
+  isUserOutsideNYC,
+} from "../../common-steps/ask-national-address";
 import { NorentLbAskNycAddress } from "./ask-nyc-address";
 import {
   isUserLoggedIn,
@@ -46,26 +50,6 @@ import { shouldSkipLandlordMailingAddressStep } from "../../common-steps/landlor
 
 function getLetterBuilderRoutes(): NorentLetterBuilderRouteInfo {
   return NorentRoutes.locale.letter;
-}
-
-function isUserInNYC(s: AllSessionInfo): boolean {
-  return s.onboardingScaffolding?.isCityInNyc || false;
-}
-
-function isUserOutsideNYC(s: AllSessionInfo): boolean {
-  return !isUserInNYC(s);
-}
-
-function isUserInLA(s: AllSessionInfo): boolean {
-  return (
-    s.onboardingInfo?.isInLosAngeles ??
-    s.onboardingScaffolding?.isInLosAngeles ??
-    false
-  );
-}
-
-function isUserOutsideLA(s: AllSessionInfo): boolean {
-  return !isUserInLA(s);
 }
 
 const NorentLbAskName = NorentOnboardingStep(AskNameStep);

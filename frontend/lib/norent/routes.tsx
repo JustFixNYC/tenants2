@@ -16,7 +16,7 @@ import { NorentFaqsPage } from "./faqs";
 import { NorentAboutPage } from "./about";
 import { NorentAboutYourLetterPage } from "./the-letter";
 import { NorentLetterBuilderRoutes } from "./letter-builder/routes";
-import { AlernativeLogoutPage } from "../pages/logout-alt-page";
+import { AlternativeLogoutPage } from "../pages/logout-alt-page";
 import { NorentLetterEmailToUserStaticPage } from "./letter-email-to-user";
 import loadable from "@loadable/component";
 import { friendlyLoad, LoadingPage } from "../networking/loading-page";
@@ -48,7 +48,7 @@ export const NorentRouteComponent: React.FC<RouteComponentProps> = (props) => {
       <Route
         path={Routes.locale.logout}
         exact
-        component={AlernativeLogoutPage}
+        component={AlternativeLogoutPage}
       />
       <Route
         path={Routes.locale.letter.prefix}

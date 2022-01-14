@@ -38,6 +38,26 @@ function getNationalAddressLines(
   return [firstLineParts.join(" "), `${scf.city}, ${scf.state} ${scf.zipCode}`];
 }
 
+export function isUserInNYC(s: AllSessionInfo): boolean {
+  return s.onboardingScaffolding?.isCityInNyc || false;
+}
+
+export function isUserOutsideNYC(s: AllSessionInfo): boolean {
+  return !isUserInNYC(s);
+}
+
+export function isUserInLA(s: AllSessionInfo): boolean {
+  return (
+    s.onboardingInfo?.isInLosAngeles ??
+    s.onboardingScaffolding?.isInLosAngeles ??
+    false
+  );
+}
+
+export function isUserOutsideLA(s: AllSessionInfo): boolean {
+  return !isUserInLA(s);
+}
+
 const ScaffoldingAddress: React.FC<{}> = (props) => {
   const { onboardingScaffolding } = useContext(AppContext).session;
   if (!onboardingScaffolding) return null;

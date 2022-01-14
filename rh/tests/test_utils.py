@@ -15,6 +15,7 @@ EXAMPLE_RENT_STAB_DATA = {
     "uc2017": 12,
     "uc2018": 12,
     "uc2019": 12,
+    "uc2020": 12,
 }
 
 # Data for 69 Montrose Avenue, had rent stab units in 2008 but not after
@@ -32,6 +33,7 @@ EXAMPLE_OLD_RENT_STAB_DATA = {
     "uc2017": None,
     "uc2018": None,
     "uc2019": None,
+    "uc2020": None,
 }
 
 # Data for 93 Knickerbocker Ave, has record in rent stab data but lists 0 units each year
@@ -49,12 +51,13 @@ EXAMPLE_ZERO_RENT_STAB_DATA = {
     "uc2017": None,
     "uc2018": None,
     "uc2019": None,
+    "uc2020": None,
 }
 
 
 def test_process_rent_stab_data_works_when_data_is_given():
     assert process_rent_stab_data(EXAMPLE_RENT_STAB_DATA) == {
-        "latest_year": "2019",
+        "latest_year": "2020",
         "latest_unit_count": 12,
     }
     assert process_rent_stab_data(EXAMPLE_OLD_RENT_STAB_DATA) == {

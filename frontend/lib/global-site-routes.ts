@@ -4,7 +4,7 @@ import { getGlobalAppServerInfo, AppServerInfo } from "./app-context";
 import { default as JustfixRoutes } from "./justfix-route-info";
 import { NorentRoutes } from "./norent/route-info";
 import { EvictionFreeRoutes } from "./evictionfree/route-info";
-import { LaLetterBuilderRoutes } from "./laletterbuilder/route-info";
+import { LaLetterBuilderRouteInfo } from "./laletterbuilder/route-info";
 import History from "history";
 
 /** Common localized routes all our sites support. */
@@ -50,6 +50,6 @@ export function getGlobalSiteRoutes(
     case "EVICTIONFREE":
       return EvictionFreeRoutes;
     case "LALETTERBUILDER":
-      return LaLetterBuilderRoutes;
+      return LaLetterBuilderRouteInfo;
   }
 }

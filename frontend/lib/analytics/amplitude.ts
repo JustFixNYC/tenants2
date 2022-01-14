@@ -14,7 +14,7 @@ import JustfixRoutes from "../justfix-route-info";
 import { NorentRoutes } from "../norent/route-info";
 import { EvictionFreeRoutes } from "../evictionfree/route-info";
 import { USER_ID_PREFIX } from "../../../common-data/amplitude";
-import { LaLetterBuilderRoutes } from "../laletterbuilder/route-info";
+import { LaLetterBuilderRouteInfo } from "../laletterbuilder/route-info";
 
 /**
  * These are Amplitude user properties updated by the front-end.
@@ -402,7 +402,7 @@ function getEvictionFreePageType(pathname: string): string {
  * purposes of naming Amplitude events.
  */
 function getLaLetterBuilderPageType(pathname: string): string {
-  const r = LaLetterBuilderRoutes.locale;
+  const r = LaLetterBuilderRouteInfo.locale;
   return findBestPage(pathname, {
     [r.home]: "letter builder",
   });

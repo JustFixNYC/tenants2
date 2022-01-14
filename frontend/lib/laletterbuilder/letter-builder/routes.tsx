@@ -4,6 +4,18 @@ import { AskCityState } from "../../common-steps/ask-city-state";
 import { AskNameStep } from "../../common-steps/ask-name";
 import { AskNationalAddress } from "../../common-steps/ask-national-address";
 import {
+  ProgressRoutesProps,
+  buildProgressRoutesComponent,
+} from "../../progress/progress-routes";
+import { skipStepsIf } from "../../progress/skip-steps-if";
+import { createStartAccountOrLoginSteps } from "../../start-account-or-login/routes";
+import { isUserLoggedIn } from "../../util/session-predicates";
+import { LaLetterBuilderRouteInfo } from "../route-info";
+import { LaLetterBuilderChooseLetterStep } from "./choose-letter";
+import { LaLetterBuilderCreateAccount } from "./create-account";
+import { LaLetterBuilderOnboardingStep } from "./step-decorators";
+import { LaLetterBuilderWelcome } from "./welcome";
+import {
   shouldSkipLandlordEmailStep,
   LandlordEmail,
 } from "../../common-steps/landlord-email";
@@ -11,32 +23,24 @@ import LandlordMailingAddress, {
   shouldSkipLandlordMailingAddressStep,
 } from "../../common-steps/landlord-mailing-address";
 import { LandlordNameAndContactTypes } from "../../common-steps/landlord-name-and-contact-types";
-import {
-  ProgressRoutesProps,
-  buildProgressRoutesComponent,
-} from "../../progress/progress-routes";
-import { MiddleProgressStep } from "../../progress/progress-step-route";
-import { skipStepsIf } from "../../progress/skip-steps-if";
-import { createStartAccountOrLoginSteps } from "../../start-account-or-login/routes";
-import { isUserLoggedIn } from "../../util/session-predicates";
-import { LaLetterBuilderRoutes } from "../route-info";
 import { LaLetterBuilderConfirmation } from "./confirmation";
-import { LaLetterBuilderCreateAccount } from "./create-account";
-import { LaLetterBuilderOnboardingStep } from "./step-decorators";
-import { LaLetterBuilderWelcome } from "./welcome";
+import { MiddleProgressStep } from "../../progress/progress-step-route";
 
 const LaLetterBuilderAskName = LaLetterBuilderOnboardingStep(AskNameStep);
 const LaLetterBuilderAskCityState = LaLetterBuilderOnboardingStep((props) => (
   <AskCityState
     {...props}
-    confirmModalRoute={LaLetterBuilderRoutes.locale.letter.cityConfirmModal}
+    confirmModalRoute={LaLetterBuilderRouteInfo.locale.letter.cityConfirmModal}
   >
     <p>must be California</p>
   </AskCityState>
 ));
 const LaLetterBuilderAskNationalAddress = LaLetterBuilderOnboardingStep(
   (props) => (
-    <AskNationalAddress {...props} routes={LaLetterBuilderRoutes.locale.letter}>
+    <AskNationalAddress
+      {...props}
+      routes={LaLetterBuilderRouteInfo.locale.letter}
+    >
       <p>TODO: Add content here.</p>
     </AskNationalAddress>
   )
@@ -49,7 +53,6 @@ const LaLetterBuilderLandlordNameAndContactTypes = MiddleProgressStep(
     </LandlordNameAndContactTypes>
   )
 );
-
 const LaLetterBuilderLandlordEmail = MiddleProgressStep((props) => (
   <LandlordEmail {...props} introText="TODO: Add content here." />
 ));
@@ -58,7 +61,7 @@ const LaLetterBuilderLandlordMailingAddress = MiddleProgressStep((props) => (
   <LandlordMailingAddress
     {...props}
     confirmModalRoute={
-      LaLetterBuilderRoutes.locale.letter.landlordAddressConfirmModal
+      LaLetterBuilderRouteInfo.locale.letter.landlordAddressConfirmModal
     }
   >
     <p>TODO: Add content here.</p>
@@ -66,7 +69,7 @@ const LaLetterBuilderLandlordMailingAddress = MiddleProgressStep((props) => (
 ));
 
 export const getLaLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => {
-  const routes = LaLetterBuilderRoutes.locale.letter;
+  const routes = LaLetterBuilderRouteInfo.locale.letter;
 
   return {
     toLatestStep: routes.latestStep,
@@ -103,6 +106,11 @@ export const getLaLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
         shouldBeSkipped: isUserLoggedIn,
       },
       {
+        path: routes.chooseLetter,
+        exact: true,
+        component: LaLetterBuilderChooseLetterStep,
+      },
+      {
         path: routes.landlordName,
         exact: true,
         component: LaLetterBuilderLandlordNameAndContactTypes,
@@ -130,6 +138,6 @@ export const getLaLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
   };
 };
 
-export const LaLetterBuilderFormsRoutes = buildProgressRoutesComponent(
+export const LaLetterBuilderRoutes = buildProgressRoutesComponent(
   getLaLetterBuilderProgressRoutesProps
 );

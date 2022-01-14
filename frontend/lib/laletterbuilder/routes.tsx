@@ -8,8 +8,8 @@ import { AlternativeLogoutPage } from "../pages/logout-alt-page";
 import { NotFound } from "../pages/not-found";
 import { LaLetterBuilderAboutPage } from "./about";
 import { LaLetterBuilderHomepage } from "./homepage";
-import { LaLetterBuilderFormsRoutes } from "./letter-builder/routes";
-import { LaLetterBuilderRoutes as Routes } from "./route-info";
+import { LaLetterBuilderRoutes } from "./letter-builder/routes";
+import { LaLetterBuilderRouteInfo as Routes } from "./route-info";
 
 const LoadableDevRoutes = loadable(
   () => friendlyLoad(import("../dev/routes")),
@@ -45,7 +45,7 @@ export const LaLetterBuilderRouteComponent: React.FC<RouteComponentProps> = (
       />
       <Route
         path={Routes.locale.letter.prefix}
-        component={LaLetterBuilderFormsRoutes}
+        component={LaLetterBuilderRoutes}
       />
       <Route component={NotFound} />
     </Switch>

@@ -1238,6 +1238,14 @@ msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información y rec
 msgid "Letter Builder"
 msgstr "Generador de cartas"
 
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:18
+msgid "Letter Types"
+msgstr ""
+
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:13
+msgid "Letter type you'd like to send"
+msgstr ""
+
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:20
 msgid "Let’s set you up with an account. An account will enable you to save your information, download your declaration, and more."
 msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información, bajarte tu declaración, y más."

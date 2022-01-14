@@ -1233,6 +1233,14 @@ msgstr "Let's set you up with an account. This will enable you to save your info
 msgid "Letter Builder"
 msgstr "Letter Builder"
 
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:18
+msgid "Letter Types"
+msgstr "Letter Types"
+
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:13
+msgid "Letter type you'd like to send"
+msgstr "Letter type you'd like to send"
+
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:20
 msgid "Let’s set you up with an account. An account will enable you to save your information, download your declaration, and more."
 msgstr "Let’s set you up with an account. An account will enable you to save your information, download your declaration, and more."

@@ -30,8 +30,7 @@ checks:
     # the default threshold of 25 lines is reasonable for
     # non-JSX code, but it doesn't seem possible to change
     # the threshold on a per-language basis here.
-    config:
-      threshold: 60
+    enabled: false
   return-statements:
     # This isn't a very useful check for Python code because
     # it's mostly personal preference - sometimes it's better

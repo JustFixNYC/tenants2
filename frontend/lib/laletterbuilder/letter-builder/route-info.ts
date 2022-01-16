@@ -19,7 +19,7 @@ export function createLaLetterBuilderRouteInfo(prefix: string) {
     nationalAddressConfirmInvalidModal: `${prefix}/address/national/confirm-invalid-modal`,
     createAccount: `${prefix}/create-account`,
     createAccountTermsModal: `${prefix}/create-account/terms-modal`,
-    // TODO: insert step to figure out which letter folks should use
+    chooseLetter: `${prefix}/choose-letter`,
     landlordName: `${prefix}/landlord/name`,
     landlordEmail: `${prefix}/landlord/email`,
     landlordAddress: `${prefix}/landlord/address`,

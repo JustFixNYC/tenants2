@@ -12,7 +12,7 @@ import { NavbarLanguageDropdown } from "../ui/language-toggle";
 import Navbar from "../ui/navbar";
 import { LaLetterBuilderFooter } from "./components/footer";
 import {
-  LaLetterBuilderRoutes as Routes,
+  LaLetterBuilderRouteInfo as Routes,
   getLaLetterBuilderRoutesForPrimaryPages,
 } from "./route-info";
 import { LaLetterBuilderRouteComponent } from "./routes";

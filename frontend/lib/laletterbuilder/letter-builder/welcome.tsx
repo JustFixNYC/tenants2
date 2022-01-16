@@ -8,7 +8,7 @@ import { SimpleClearAnonymousSessionButton } from "../../forms/clear-anonymous-s
 import { li18n } from "../../i18n-lingui";
 import { ProgressStepProps } from "../../progress/progress-step-route";
 import Page from "../../ui/page";
-import { LaLetterBuilderRoutes } from "../route-info";
+import { LaLetterBuilderRouteInfo } from "../route-info";
 
 export const LaLetterBuilderWelcome: React.FC<ProgressStepProps> = (props) => {
   return (
@@ -20,7 +20,7 @@ export const LaLetterBuilderWelcome: React.FC<ProgressStepProps> = (props) => {
       <p>TODO: Add welcome content here. </p>
       <div className="buttons jf-two-buttons">
         <SimpleClearAnonymousSessionButton
-          to={LaLetterBuilderRoutes.locale.home}
+          to={LaLetterBuilderRouteInfo.locale.home}
         />
         <Link
           to={assertNotNull(props.nextStep)}

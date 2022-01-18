@@ -1,5 +1,6 @@
 import { createStartAccountOrLoginRouteInfo } from "../../start-account-or-login/route-info";
 import { ROUTE_PREFIX } from "../../util/route-util";
+import { createIssuesRouteInfo } from "../../issues/route-info";
 
 export type LaLetterBuilderRouteInfo = ReturnType<
   typeof createLaLetterBuilderRouteInfo
@@ -24,6 +25,7 @@ export function createLaLetterBuilderRouteInfo(prefix: string) {
     landlordEmail: `${prefix}/landlord/email`,
     landlordAddress: `${prefix}/landlord/address`,
     landlordAddressConfirmModal: `${prefix}/landlord/address/confirm-modal`,
+    issues: createIssuesRouteInfo(`${prefix}/issues`),
     accessDates: `${prefix}/access-dates`,
     confirmation: `${prefix}/confirmation`,
   };

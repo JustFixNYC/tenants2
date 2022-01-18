@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import Page from "../ui/page";
 import { StaticImage } from "../ui/static-image";
 import { EvictionFreeRoutes as Routes } from "./route-info";
@@ -35,18 +34,6 @@ export const getEvictionMoratoriumEndDate = (withoutYear?: boolean) =>
   withoutYear ? li18n._(t`January 15`) : li18n._(t`January 15, 2022`);
 
 type EvictionFreeImageType = "png" | "svg" | "jpg" | "gif";
-
-const Message: React.FC<{}> = () => {
-  const location = useLocation();
-  if (location.search.includes(MESSAGE_QS)) {
-    return (
-      <div className="notification is-danger">
-        <Trans>This tool has been suspended</Trans>!
-      </div>
-    );
-  }
-  return null;
-};
 
 export function getEFImageSrc(
   name: string,
@@ -140,76 +127,41 @@ const EvictionFreeTopLevelContent = () => (
   <section className="hero is-fullheight-with-navbar">
     <div className="hero-body">
       <div className="columns">
-        {getGlobalAppServerInfo().isEfnySuspended ? (
-          <div className="column is-three-fifths jf-evictionfree-top-level-content">
-            <Message />
-            <h1 className="title is-spaced">
-              <Trans>Eviction Free NY has been suspended</Trans>
-            </h1>
-            <p className="subtitle">
-              <Trans id="evictionfree.noticeOfSuddenMoratoriumSuspension">
-                The State law that delays evictions for tenants who submit
-                hardship declarations has been suspended. Learn about your
-                rights, and take action today to protect and expand them
-              </Trans>
-              .
-            </p>
-            <br />
-            <LocalizedOutboundLink
-              hrefs={{
-                en:
-                  "https://www.righttocounselnyc.org/eviction_protections_during_covid",
-                es:
-                  "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
-              }}
-            >
-              <div className="button is-primary jf-build-my-declaration-btn jf-is-extra-wide">
-                <Trans>Learn more</Trans>
-              </div>
-            </LocalizedOutboundLink>
-            <OutboundLink href="https://www.righttocounselnyc.org/take_action_rtc">
-              <div className="button is-primary jf-build-my-declaration-btn jf-is-extra-wide">
-                <Trans>Take action</Trans>
-              </div>
-            </OutboundLink>
-          </div>
-        ) : (
-          <div className="column is-three-fifths jf-evictionfree-top-level-content">
-            <h1 className="title is-spaced">
-              <Trans>Protect yourself from eviction in New York State</Trans>
-            </h1>
-            <p className="subtitle">
-              <Trans>
-                You can use this website to send a hardship declaration form to
-                your landlord and local courts—putting your eviction case on
-                hold until {getEvictionMoratoriumEndDate()}
-              </Trans>
-              .
-            </p>
-            <br />
-            <div>
-              <FillOutMyFormButton isHiddenMobile />
-              <div className="jf-evictionfree-byline">
-                <p className="is-size-7">
-                  <Trans>
-                    Made by non-profits{" "}
-                    <OutboundLink href={RTC_WEBSITE_URL}>
-                      Right to Counsel NYC Coalition
-                    </OutboundLink>
-                    ,{" "}
-                    <OutboundLink href={HJ4A_SOCIAL_URL}>
-                      Housing Justice for All
-                    </OutboundLink>
-                    , and{" "}
-                    <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
-                      JustFix.nyc
-                    </LocalizedOutboundLink>
-                  </Trans>
-                </p>
-              </div>
+        <div className="column is-three-fifths jf-evictionfree-top-level-content">
+          <h1 className="title is-spaced">
+            <Trans>Protect yourself from eviction in New York State</Trans>
+          </h1>
+          <p className="subtitle">
+            <Trans>
+              You can use this website to send a hardship declaration form to
+              your landlord and local courts—putting your eviction case on hold
+              until {getEvictionMoratoriumEndDate()}
+            </Trans>
+            .
+          </p>
+          <br />
+          <div>
+            <FillOutMyFormButton isHiddenMobile />
+            <div className="jf-evictionfree-byline">
+              <p className="is-size-7">
+                <Trans>
+                  Made by non-profits{" "}
+                  <OutboundLink href={RTC_WEBSITE_URL}>
+                    Right to Counsel NYC Coalition
+                  </OutboundLink>
+                  ,{" "}
+                  <OutboundLink href={HJ4A_SOCIAL_URL}>
+                    Housing Justice for All
+                  </OutboundLink>
+                  , and{" "}
+                  <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
+                    JustFix.nyc
+                  </LocalizedOutboundLink>
+                </Trans>
+              </p>
             </div>
           </div>
-        )}
+        </div>
 
         <div className="column">
           <StaticImage
@@ -229,152 +181,149 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
     className="content jf-evictionfree-homepage"
   >
     <EvictionFreeTopLevelContent />
-    {!getGlobalAppServerInfo().isEfnySuspended && (
-      <StickyLetterButtonContainer>
-        <section className="hero is-info">
-          <div className="hero-body">
-            <div className="columns is-centered">
-              <div className="column is-four-fifths is-size-3 is-size-4-mobile has-text-centered-tablet">
-                <Trans id="evictionfree.introToLaw2">
-                  New York State law temporarily protects tenants from eviction
-                  due to lost income or COVID-19 health risks. In order to get
-                  protected, you must fill out a hardship declaration form and
-                  send it to your landlord and/or the courts. Because of
-                  landlord attacks, these laws have been weakened.{" "}
-                  <LocalizedOutboundLink hrefs={RTC_FAQS_PAGE_URLS}>
-                    Read your full rights
-                  </LocalizedOutboundLink>{" "}
-                  and join the movement to fight back.
+    <StickyLetterButtonContainer>
+      <section className="hero is-info">
+        <div className="hero-body">
+          <div className="columns is-centered">
+            <div className="column is-four-fifths is-size-3 is-size-4-mobile has-text-centered-tablet">
+              <Trans id="evictionfree.introToLaw2">
+                New York State law temporarily protects tenants from eviction
+                due to lost income or COVID-19 health risks. In order to get
+                protected, you must fill out a hardship declaration form and
+                send it to your landlord and/or the courts. Because of landlord
+                attacks, these laws have been weakened.{" "}
+                <LocalizedOutboundLink hrefs={RTC_FAQS_PAGE_URLS}>
+                  Read your full rights
+                </LocalizedOutboundLink>{" "}
+                and join the movement to fight back.
+              </Trans>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="columns">
+        <div className="column is-half">
+          <LandingPageChecklist />
+        </div>
+        <div>
+          <BackgroundImage src={getEFImageSrc("phone", "gif")} alt="" />
+        </div>
+      </div>
+
+      <div className="columns">
+        <div className="is-hidden-mobile">
+          <BackgroundImage src={getEFImageSrc("buildings", "jpg")} alt="" />
+        </div>
+        <div className="column is-half">
+          <div className="hero">
+            <div className="hero-body">
+              <h2 className="title is-spaced has-text-weight-bold">
+                <Trans>For New York State tenants</Trans>
+              </h2>
+              <p>
+                <Trans id="evictionfree.whoHasRightToSubmitForm">
+                  All tenants in New York State have a right to fill out this
+                  hardship declaration form. Especially if you've been served an
+                  eviction notice or believe you are at risk of being evicted,
+                  please consider using this form to protect yourself.
                 </Trans>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div className="columns">
-          <div className="column is-half">
-            <LandingPageChecklist />
-          </div>
-          <div>
-            <BackgroundImage src={getEFImageSrc("phone", "gif")} alt="" />
-          </div>
-        </div>
-
-        <div className="columns">
-          <div className="is-hidden-mobile">
-            <BackgroundImage src={getEFImageSrc("buildings", "jpg")} alt="" />
-          </div>
-          <div className="column is-half">
-            <div className="hero">
-              <div className="hero-body">
-                <h2 className="title is-spaced has-text-weight-bold">
-                  <Trans>For New York State tenants</Trans>
-                </h2>
-                <p>
-                  <Trans id="evictionfree.whoHasRightToSubmitForm">
-                    All tenants in New York State have a right to fill out this
-                    hardship declaration form. Especially if you've been served
-                    an eviction notice or believe you are at risk of being
-                    evicted, please consider using this form to protect
-                    yourself.
-                  </Trans>
-                </p>
-                <br />
-                <p className="has-text-weight-bold">
-                  <Trans>
-                    The protections outlined by NY state law apply to you
-                    regardless of immigration status.
-                  </Trans>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="is-hidden-tablet">
-            <BackgroundImage src={getEFImageSrc("buildings", "jpg")} alt="" />
-          </div>
-        </div>
-
-        <div className="columns">
-          <div className="column is-half">
-            <div className="hero">
-              <div className="hero-body">
-                <h2 className="title is-spaced has-text-weight-bold">
-                  <Trans>For tenants by tenants</Trans>
-                </h2>
-                <p>
-                  <Trans id="evictionfree.whoBuildThisTool">
-                    Our free tool was built by the{" "}
-                    <OutboundLink href={RTC_WEBSITE_URL}>
-                      Right to Counsel NYC Coalition
-                    </OutboundLink>
-                    ,{" "}
-                    <OutboundLink href={HJ4A_SOCIAL_URL}>
-                      Housing Justice for All
-                    </OutboundLink>
-                    , and{" "}
-                    <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
-                      JustFix.nyc
-                    </LocalizedOutboundLink>{" "}
-                    as part of the larger tenant movement across the state.
-                  </Trans>
-                </p>
-              </div>
+              </p>
               <br />
+              <p className="has-text-weight-bold">
+                <Trans>
+                  The protections outlined by NY state law apply to you
+                  regardless of immigration status.
+                </Trans>
+              </p>
             </div>
           </div>
-          <div>
-            <BackgroundImage src={getEFImageSrc("speaker", "jpg")} alt="" />
+        </div>
+        <div className="is-hidden-tablet">
+          <BackgroundImage src={getEFImageSrc("buildings", "jpg")} alt="" />
+        </div>
+      </div>
+
+      <div className="columns">
+        <div className="column is-half">
+          <div className="hero">
+            <div className="hero-body">
+              <h2 className="title is-spaced has-text-weight-bold">
+                <Trans>For tenants by tenants</Trans>
+              </h2>
+              <p>
+                <Trans id="evictionfree.whoBuildThisTool">
+                  Our free tool was built by the{" "}
+                  <OutboundLink href={RTC_WEBSITE_URL}>
+                    Right to Counsel NYC Coalition
+                  </OutboundLink>
+                  ,{" "}
+                  <OutboundLink href={HJ4A_SOCIAL_URL}>
+                    Housing Justice for All
+                  </OutboundLink>
+                  , and{" "}
+                  <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
+                    JustFix.nyc
+                  </LocalizedOutboundLink>{" "}
+                  as part of the larger tenant movement across the state.
+                </Trans>
+              </p>
+            </div>
+            <br />
           </div>
         </div>
+        <div>
+          <BackgroundImage src={getEFImageSrc("speaker", "jpg")} alt="" />
+        </div>
+      </div>
 
-        <section className="hero has-background-white-ter">
-          <div className="jf-block-of-color-in-background" />
-          <div className="hero-body">
-            <div className="columns is-centered">
-              <div className="column is-three-quarters has-text-centered-tablet">
-                <h2 className="has-text-white	is-spaced has-text-weight-bold">
-                  <Trans>Build Tenant Power</Trans>
-                </h2>
-                <p className="is-size-3 is-size-4-mobile has-text-white">
-                  <Trans>
-                    After sending your hardship declaration form, connect with
-                    local organizing groups to get involved in the fight to make
-                    New York eviction free!
-                  </Trans>
-                </p>
+      <section className="hero has-background-white-ter">
+        <div className="jf-block-of-color-in-background" />
+        <div className="hero-body">
+          <div className="columns is-centered">
+            <div className="column is-three-quarters has-text-centered-tablet">
+              <h2 className="has-text-white	is-spaced has-text-weight-bold">
+                <Trans>Build Tenant Power</Trans>
+              </h2>
+              <p className="is-size-3 is-size-4-mobile has-text-white">
+                <Trans>
+                  After sending your hardship declaration form, connect with
+                  local organizing groups to get involved in the fight to make
+                  New York eviction free!
+                </Trans>
+              </p>
+              <br />
+              <span className="is-hidden-mobile">
                 <br />
-                <span className="is-hidden-mobile">
-                  <br />
-                  <StaticImage
-                    ratio="is-3by2"
-                    src={getEFImageSrc("protest", "jpg")}
-                    alt=""
-                  />
-                </span>
-              </div>
-              <span className="is-hidden-tablet">
-                <BackgroundImage src={getEFImageSrc("protest", "jpg")} alt="" />
+                <StaticImage
+                  ratio="is-3by2"
+                  src={getEFImageSrc("protest", "jpg")}
+                  alt=""
+                />
               </span>
             </div>
+            <span className="is-hidden-tablet">
+              <BackgroundImage src={getEFImageSrc("protest", "jpg")} alt="" />
+            </span>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <EvictionFreeFaqsPreview />
-        <section className="hero is-info">
-          <div className="hero-body">
-            <div className="container jf-has-text-centered-tablet">
-              <h2 className="is-spaced has-text-white has-text-weight-bold">
-                <Trans>Share this tool</Trans>
-              </h2>
-              <SocialIcons
-                color="white"
-                customStyleClasses="is-marginless is-inline-flex"
-                socialShareContent={SocialShareContent}
-              />
-            </div>
+      <EvictionFreeFaqsPreview />
+      <section className="hero is-info">
+        <div className="hero-body">
+          <div className="container jf-has-text-centered-tablet">
+            <h2 className="is-spaced has-text-white has-text-weight-bold">
+              <Trans>Share this tool</Trans>
+            </h2>
+            <SocialIcons
+              color="white"
+              customStyleClasses="is-marginless is-inline-flex"
+              socialShareContent={SocialShareContent}
+            />
           </div>
-        </section>
-      </StickyLetterButtonContainer>
-    )}
+        </div>
+      </section>
+    </StickyLetterButtonContainer>
   </Page>
 );

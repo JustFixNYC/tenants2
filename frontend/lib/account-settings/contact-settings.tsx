@@ -40,6 +40,9 @@ const PhoneNumberField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
                 autoFocus
                 {...ctx.fieldPropsFor("phoneNumber")}
                 label={li18n._(t`Phone number`)}
+                labelHint={li18n._(
+                  t`Please use a number that can receive text messages.`
+                )}
               />
               <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>

@@ -26,8 +26,6 @@ describe("EvictionFreeSite", () => {
       url: "/en/",
       server: { isEfnySuspended: true },
     });
-    await waitFor(() =>
-      pal.rr.getByText(/Eviction Free NY has been suspended/i)
-    );
+    await waitFor(() => pal.rr.getByText(/no longer protected/i));
   });
 });

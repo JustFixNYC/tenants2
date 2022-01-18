@@ -18,6 +18,11 @@ checks:
     # 3 made it even *more* sensitive, so I'm just disabling
     # it entirely now.
     enabled: false
+  argument-count:
+    # This isn't a very useful check for Python code because
+    # it's perfectly fine to have functions that take lots
+    # of arguments, as long as most of them are passed as kwargs.
+    enabled: false
   method-lines:
     # This isn't a very useful check for JSX code because
     # splitting up JSX into multiple 25-line functions often
@@ -25,11 +30,6 @@ checks:
     # the default threshold of 25 lines is reasonable for
     # non-JSX code, but it doesn't seem possible to change
     # the threshold on a per-language basis here.
-    enabled: false
-  argument-count:
-    # This isn't a very useful check for Python code because
-    # it's perfectly fine to have functions that take lots
-    # of arguments, as long as most of them are passed as kwargs.
     enabled: false
   return-statements:
     # This isn't a very useful check for Python code because

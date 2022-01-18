@@ -106,6 +106,7 @@ export default class OnboardingStep4 extends React.Component<
         )}
         <PhoneNumberFormField
           label="Phone number"
+          labelHint="Please use a number that can receive text messages."
           {...ctx.fieldPropsFor("phoneNumber")}
         />
         <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>

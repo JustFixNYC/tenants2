@@ -4,7 +4,7 @@ import { ProgressButtons } from "../../ui/buttons";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { CheckboxFormField } from "../../forms/form-fields";
 import { ModalLink } from "../../ui/modal";
-import { LaLetterBuilderRoutes } from "../route-info";
+import { LaLetterBuilderRouteInfo } from "../route-info";
 import { PrivacyInfoModal } from "../../ui/privacy-info-modal";
 import { trackSignup } from "../../analytics/track-signup";
 import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
@@ -54,7 +54,8 @@ export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
                 I agree to the{" "}
                 <ModalLink
                   to={
-                    LaLetterBuilderRoutes.locale.letter.createAccountTermsModal
+                    LaLetterBuilderRouteInfo.locale.letter
+                      .createAccountTermsModal
                   }
                   render={() => <PrivacyInfoModal />}
                 >

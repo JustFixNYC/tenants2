@@ -37,6 +37,10 @@ interface ModalProps {
   title: string;
   children?: any;
   render?: (ctx: ModalRenderPropContext) => JSX.Element;
+  /**
+   * When "onCloseGoTo" is set to an empty string, we implement a permanently visible
+   * Modal with no button to close.
+   */
   onCloseGoTo: string | BackOrUpOneDirLevel | ((location: Location) => string);
   withHeading?: boolean;
 }
@@ -167,11 +171,13 @@ export class ModalWithoutRouter extends React.Component<
             {this.props.children}
           </div>
         </div>
-        <Link
-          {...this.getLinkCloseProps()}
-          className="modal-close is-large"
-          aria-label="close"
-        ></Link>
+        {!!this.props.onCloseGoTo && (
+          <Link
+            {...this.getLinkCloseProps()}
+            className="modal-close is-large"
+            aria-label="close"
+          ></Link>
+        )}
       </>
     );
   }

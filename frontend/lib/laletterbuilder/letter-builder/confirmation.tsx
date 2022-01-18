@@ -7,12 +7,8 @@ export const LaLetterBuilderConfirmation: React.FC<ProgressStepProps> = (
   props
 ) => {
   return (
-    <Page
-      title="Placeholder confirmation page"
-      withHeading="big"
-      className="content"
-    >
-      <p>TODO: Add confirmation content here.</p>
+    <Page title="Confirmation" withHeading="big" className="content">
+      <p>You've sent your letter!</p>
     </Page>
   );
 };

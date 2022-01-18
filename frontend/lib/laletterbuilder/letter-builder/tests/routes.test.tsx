@@ -44,6 +44,7 @@ tester.defineTest({
     "/en/letter/landlord/name",
     "/en/letter/landlord/email",
     "/en/letter/landlord/address",
+    "/en/letter/access-dates",
     "/en/letter/confirmation",
   ],
 });

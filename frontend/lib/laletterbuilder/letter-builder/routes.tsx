@@ -15,6 +15,7 @@ import { LaLetterBuilderChooseLetterStep } from "./choose-letter";
 import { LaLetterBuilderCreateAccount } from "./create-account";
 import { LaLetterBuilderOnboardingStep } from "./step-decorators";
 import { LaLetterBuilderWelcome } from "./welcome";
+import AccessDatesPage from "../../loc/access-dates";
 import {
   shouldSkipLandlordEmailStep,
   LandlordEmail,
@@ -126,6 +127,11 @@ export const getLaLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
         exact: false,
         shouldBeSkipped: shouldSkipLandlordMailingAddressStep,
         component: LaLetterBuilderLandlordMailingAddress,
+      },
+      {
+        path: routes.accessDates,
+        exact: true,
+        component: AccessDatesPage,
       },
     ],
     confirmationSteps: [

@@ -26,6 +26,7 @@ import LandlordMailingAddress, {
 import { LandlordNameAndContactTypes } from "../../common-steps/landlord-name-and-contact-types";
 import { LaLetterBuilderConfirmation } from "./confirmation";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
+import { IssuesRoutes } from "../../issues/routes";
 
 const LaLetterBuilderAskName = LaLetterBuilderOnboardingStep(AskNameStep);
 const LaLetterBuilderAskCityState = LaLetterBuilderOnboardingStep((props) => (
@@ -68,6 +69,14 @@ const LaLetterBuilderLandlordMailingAddress = MiddleProgressStep((props) => (
     <p>TODO: Add content here.</p>
   </LandlordMailingAddress>
 ));
+
+const LaLetterBuilderIssuesRoutes = () => (
+  <IssuesRoutes
+    routes={LaLetterBuilderRouteInfo.locale.letter.issues}
+    toBack={LaLetterBuilderRouteInfo.locale.letter.landlordAddress}
+    toNext={LaLetterBuilderRouteInfo.locale.letter.accessDates}
+  ></IssuesRoutes>
+);
 
 export const getLaLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = LaLetterBuilderRouteInfo.locale.letter;
@@ -127,6 +136,10 @@ export const getLaLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
         exact: false,
         shouldBeSkipped: shouldSkipLandlordMailingAddressStep,
         component: LaLetterBuilderLandlordMailingAddress,
+      },
+      {
+        path: routes.issues.prefix,
+        component: LaLetterBuilderIssuesRoutes,
       },
       {
         path: routes.accessDates,

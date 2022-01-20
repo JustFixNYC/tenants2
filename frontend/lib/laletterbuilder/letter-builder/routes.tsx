@@ -14,7 +14,6 @@ import { LaLetterBuilderRouteInfo } from "../route-info";
 import { LaLetterBuilderChooseLetterStep } from "./choose-letter";
 import { LaLetterBuilderCreateAccount } from "./create-account";
 import { LaLetterBuilderOnboardingStep } from "./step-decorators";
-import { LaLetterBuilderWelcome } from "./welcome";
 import AccessDatesPage from "../../loc/access-dates";
 import {
   shouldSkipLandlordEmailStep,
@@ -85,9 +84,9 @@ export const getLaLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
     toLatestStep: routes.latestStep,
     welcomeSteps: [
       {
-        path: routes.welcome,
+        path: routes.chooseLetter,
         exact: true,
-        component: LaLetterBuilderWelcome,
+        component: LaLetterBuilderChooseLetterStep,
       },
       ...createStartAccountOrLoginSteps(routes),
     ],
@@ -114,11 +113,6 @@ export const getLaLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
         path: routes.createAccount,
         component: LaLetterBuilderCreateAccount,
         shouldBeSkipped: isUserLoggedIn,
-      },
-      {
-        path: routes.chooseLetter,
-        exact: true,
-        component: LaLetterBuilderChooseLetterStep,
       },
       {
         path: routes.landlordName,

@@ -3,6 +3,9 @@ import React from "react";
 import { Trans } from "@lingui/macro";
 
 import Page from "../ui/page";
+import { Link } from "react-router-dom";
+
+import { LaLetterBuilderRouteInfo as Routes } from "./route-info";
 
 export const LaLetterBuilderHomepage: React.FC<{}> = () => (
   <Page title="">
@@ -16,6 +19,14 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
                 This is a test localization message for LaLetterBuilder.
               </Trans>
             </small>
+          </p>
+          <p>
+            <Link
+              className="button is-light is-medium"
+              to={Routes.locale.letter.latestStep}
+            >
+              Build my letter
+            </Link>
           </p>
         </div>
       </div>

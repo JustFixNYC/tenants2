@@ -17,7 +17,11 @@ import { LaLetterBuilderChooseLetterMutation } from "../../queries/LaLetterBuild
 
 export const LaLetterBuilderChooseLetterStep = MiddleProgressStep((props) => {
   return (
-    <Page title={li18n._(t`Letter type you'd like to send`)}>
+    <Page
+      title={li18n._(t`Select a letter to get started`)}
+      className="content"
+      withHeading="small"
+    >
       <SessionUpdatingFormSubmitter
         mutation={LaLetterBuilderChooseLetterMutation}
         initialState={{

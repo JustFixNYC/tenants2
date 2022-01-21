@@ -1,6 +1,6 @@
 import React from "react";
 
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 
 import { toDjangoChoices } from "../../common-data";
 import { li18n } from "../../i18n-lingui";
@@ -35,7 +35,7 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
                 to={assertNotNull(props.nextStep)} // TODO: make this different for each button
                 className="button jf-is-next-button is-primary is-medium"
               >
-                <Trans>{choice[1]}</Trans>
+                {choice[1]} {/** TODO: internationalize these strings */}
               </Link>
             </div>
           )

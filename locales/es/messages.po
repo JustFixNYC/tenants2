@@ -558,6 +558,10 @@ msgstr "Estimado/a <0/>,"
 msgid "Dear Landlord/Management."
 msgstr "Estimado dueño/manager del edificio."
 
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:8
+msgid "Decide how to send your letter"
+msgstr ""
+
 #: common-data/us-state-choices.ts:72
 msgid "Delaware"
 msgstr "Delaware"
@@ -1139,6 +1143,10 @@ msgstr "Conoce tus derechos"
 msgid "LaLetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
 msgstr "LaLetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
 
+#: frontend/lib/laletterbuilder/homepage.tsx:11
+msgid "Landing page"
+msgstr ""
+
 #: frontend/lib/ui/landlord.tsx:36
 msgid "Landlord address"
 msgstr "Dirección de correo del dueño de tu edificio"
@@ -1237,14 +1245,6 @@ msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información y rec
 #: frontend/lib/norent/data/faqs-content.tsx:8
 msgid "Letter Builder"
 msgstr "Generador de cartas"
-
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:18
-msgid "Letter Types"
-msgstr ""
-
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:13
-msgid "Letter type you'd like to send"
-msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:20
 msgid "Let’s set you up with an account. An account will enable you to save your information, download your declaration, and more."
@@ -1786,6 +1786,10 @@ msgstr "Cambia tu contraseña"
 msgid "Results for {0}"
 msgstr "Resultados para \"{0}\""
 
+#: frontend/lib/laletterbuilder/letter-builder/letter-preview.tsx:8
+msgid "Review your letter"
+msgstr ""
+
 #: frontend/lib/rh/routes.tsx:213
 msgid "Review your request to the DHCR"
 msgstr "Revisa tu solicitud al DHCR"
@@ -1822,6 +1826,10 @@ msgstr "Dirección de búsqueda"
 #: frontend/lib/norent/faqs.tsx:48
 msgid "See more FAQs"
 msgstr "Ver todas las preguntas frecuentes"
+
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:12
+msgid "Select a letter to get started"
+msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:69
 msgid "Send"
@@ -2113,7 +2121,7 @@ msgstr "Este edificio es propiedad de la <0>NYC Housing Authority (NYCHA)</0>."
 msgid "This information seems wrong. Can I change it?"
 msgstr "Esta información parece incorrecta. ¿Puedo cambiarla?"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:11
+#: frontend/lib/laletterbuilder/homepage.tsx:17
 msgid "This is a test localization message for LaLetterBuilder."
 msgstr "Este es un mensaje de localización de prueba para LaLetterBuilder."
 
@@ -3154,6 +3162,10 @@ msgstr "<0>Sí. Después de enviar la carta seguirás obligado a pagar la renta 
 #: frontend/lib/norent/components/helmet.tsx:13
 msgid "pay rent, rent, can't pay rent, june rent, june 1"
 msgstr "pagar la renta, renta, no puedo pagar la renta, renta de junio, 1 de junio"
+
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:18
+msgid "{0}"
+msgstr ""
 
 #. This is used to describe a link to another website that is only available in English.
 #: frontend/lib/ui/localized-outbound-link.tsx:44

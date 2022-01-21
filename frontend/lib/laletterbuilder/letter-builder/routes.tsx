@@ -27,6 +27,8 @@ import { LandlordNameAndContactTypes } from "../../common-steps/landlord-name-an
 import { LaLetterBuilderConfirmation } from "./confirmation";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { IssuesRoutes } from "../../issues/routes";
+import { LaLetterBuilderPreview } from "./letter-preview";
+import { LaLetterBuilderSendOptions } from "./send-options";
 
 const LaLetterBuilderAskName = LaLetterBuilderOnboardingStep(AskNameStep);
 const LaLetterBuilderAskCityState = LaLetterBuilderOnboardingStep((props) => (
@@ -145,6 +147,16 @@ export const getLaLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
         path: routes.accessDates,
         exact: true,
         component: AccessDatesPage,
+      },
+      {
+        path: routes.preview,
+        exact: true,
+        component: LaLetterBuilderPreview,
+      },
+      {
+        path: routes.sending,
+        exact: true,
+        component: LaLetterBuilderSendOptions,
       },
     ],
     confirmationSteps: [

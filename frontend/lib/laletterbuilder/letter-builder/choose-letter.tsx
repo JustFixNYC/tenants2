@@ -29,8 +29,8 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
           to={LaLetterBuilderRouteInfo.locale.home}
         />
         {toDjangoChoices(LetterChoices, getLetterChoiceLabels()).map(
-          (choice) => (
-            <div>
+          (choice, i) => (
+            <div key={i}>
               <Link
                 to={assertNotNull(props.nextStep)} // TODO: make this different for each button
                 className="button jf-is-next-button is-primary is-medium"

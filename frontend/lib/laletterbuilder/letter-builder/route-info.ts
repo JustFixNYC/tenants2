@@ -27,6 +27,8 @@ export function createLaLetterBuilderRouteInfo(prefix: string) {
     landlordAddressConfirmModal: `${prefix}/landlord/address/confirm-modal`,
     issues: createIssuesRouteInfo(`${prefix}/issues`),
     accessDates: `${prefix}/access-dates`,
+    preview: `${prefix}/preview`,
+    sending: `${prefix}/sending`,
     confirmation: `${prefix}/confirmation`,
   };
 }

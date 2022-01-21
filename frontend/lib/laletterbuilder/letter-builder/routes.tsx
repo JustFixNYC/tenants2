@@ -14,6 +14,7 @@ import { LaLetterBuilderRouteInfo } from "../route-info";
 import { LaLetterBuilderChooseLetterStep } from "./choose-letter";
 import { LaLetterBuilderCreateAccount } from "./create-account";
 import { LaLetterBuilderOnboardingStep } from "./step-decorators";
+import { LaLetterBuilderWelcome } from "./welcome";
 import AccessDatesPage from "../../loc/access-dates";
 import {
   shouldSkipLandlordEmailStep,
@@ -26,6 +27,8 @@ import { LandlordNameAndContactTypes } from "../../common-steps/landlord-name-an
 import { LaLetterBuilderConfirmation } from "./confirmation";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { IssuesRoutes } from "../../issues/routes";
+import { LaLetterBuilderPreview } from "./letter-preview";
+import { LaLetterBuilderSendOptions } from "./send-options";
 
 const LaLetterBuilderAskName = LaLetterBuilderOnboardingStep(AskNameStep);
 const LaLetterBuilderAskCityState = LaLetterBuilderOnboardingStep((props) => (
@@ -84,9 +87,9 @@ export const getLaLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
     toLatestStep: routes.latestStep,
     welcomeSteps: [
       {
-        path: routes.chooseLetter,
+        path: routes.welcome,
         exact: true,
-        component: LaLetterBuilderChooseLetterStep,
+        component: LaLetterBuilderWelcome,
       },
       ...createStartAccountOrLoginSteps(routes),
     ],
@@ -115,6 +118,11 @@ export const getLaLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
         shouldBeSkipped: isUserLoggedIn,
       },
       {
+        path: routes.chooseLetter,
+        exact: true,
+        component: LaLetterBuilderChooseLetterStep,
+      },
+      {
         path: routes.landlordName,
         exact: true,
         component: LaLetterBuilderLandlordNameAndContactTypes,
@@ -139,6 +147,16 @@ export const getLaLetterBuilderProgressRoutesProps = (): ProgressRoutesProps => 
         path: routes.accessDates,
         exact: true,
         component: AccessDatesPage,
+      },
+      {
+        path: routes.preview,
+        exact: true,
+        component: LaLetterBuilderPreview,
+      },
+      {
+        path: routes.sending,
+        exact: true,
+        component: LaLetterBuilderSendOptions,
       },
     ],
     confirmationSteps: [

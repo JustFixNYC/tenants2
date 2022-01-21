@@ -3163,10 +3163,6 @@ msgstr "<0>Sí. Después de enviar la carta seguirás obligado a pagar la renta 
 msgid "pay rent, rent, can't pay rent, june rent, june 1"
 msgstr "pagar la renta, renta, no puedo pagar la renta, renta de junio, 1 de junio"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:18
-msgid "{0}"
-msgstr ""
-
 #. This is used to describe a link to another website that is only available in English.
 #: frontend/lib/ui/localized-outbound-link.tsx:44
 msgid "{0} (in English)"

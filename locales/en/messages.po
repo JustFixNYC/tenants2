@@ -3153,10 +3153,6 @@ msgstr "<0>Yes, you’ll still owe rent after sending the letter because our sta
 msgid "pay rent, rent, can't pay rent, june rent, june 1"
 msgstr "pay rent, rent, can't pay rent, june rent, june 1"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:18
-msgid "{0}"
-msgstr "{0}"
-
 #. This is used to describe a link to another website that is only available in English.
 #: frontend/lib/ui/localized-outbound-link.tsx:44
 msgid "{0} (in English)"

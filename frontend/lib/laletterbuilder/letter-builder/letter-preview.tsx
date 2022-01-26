@@ -37,7 +37,6 @@ type LetterPreviewProps = {
     html: string;
     pdf: string;
   };
-  emailText: React.FC;
   letterTranslation: React.FC;
   session: AllSessionInfo;
   prevStep: string;
@@ -53,7 +52,6 @@ export const LaLetterBuilderPreviewPage = MiddleProgressStep((props) => {
     <LetterPreviewPage
       title="LA Letter builder title"
       letterContent={letterContent}
-      emailText={HabitabilityLetterEmailToLandlordForUser}
       letterTranslation={HabitabilityLetterTranslation}
       session={session}
       prevStep={props.prevStep}
@@ -135,7 +133,7 @@ const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
                 `<${props.session.landlordDetails?.email}>`}
             </div>
             <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
-              {props.emailText}
+              <HabitabilityLetterEmailToLandlordForUser />
             </div>
           </article>
         </>

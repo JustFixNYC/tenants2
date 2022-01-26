@@ -10,7 +10,10 @@ import { LaLetterBuilderAboutPage } from "./about";
 import { LaLetterBuilderHomepage } from "./homepage";
 import { LaLetterBuilderRoutes } from "./letter-builder/routes";
 import { LaLetterBuilderRouteInfo as Routes } from "./route-info";
-import { createLetterStaticPageRoutes } from "../static-page/routes";
+import {
+  createHtmlEmailStaticPageRoutes,
+  createLetterStaticPageRoutes,
+} from "../static-page/routes";
 import {
   HabitabilityLetterEmailToLandlordForUserStaticPage,
   HabitabilityLetterForUserStaticPage,

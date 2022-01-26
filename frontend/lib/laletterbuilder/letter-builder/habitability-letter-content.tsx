@@ -149,7 +149,9 @@ export const HabitabilityLetterForUserStaticPage: React.FC<{
 const LetterBody: React.FC<HabitabilityLetterContentProps> = (props) => {
   return (
     <>
-      <p>LETTER TEXT</p>
+      <p>
+        <Trans id="laletterbuilder.habitability.intro">LETTER TEXT</Trans>
+      </p>
     </>
   );
 };

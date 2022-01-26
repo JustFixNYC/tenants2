@@ -19,6 +19,7 @@ msgstr ""
 msgid "(Name of your language) translation"
 msgstr "(Name of your language) translation"
 
+#: frontend/lib/laletterbuilder/letter-builder/letter-preview.tsx:72
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:123
 msgid "(Note: the email will be sent in English)"
 msgstr "(Note: the email will be sent in English)"
@@ -289,6 +290,7 @@ msgstr "Bathtub: pipes leaking"
 msgid "Before you send your hardship declaration form, let's review what will be sent to make sure all the information is correct."
 msgstr "Before you send your hardship declaration form, let's review what will be sent to make sure all the information is correct."
 
+#: frontend/lib/laletterbuilder/letter-builder/letter-preview.tsx:32
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:61
 msgid "Before you send your letter, let's review what will be sent to make sure all the information is correct."
 msgstr "Before you send your letter, let's review what will be sent to make sure all the information is correct."
@@ -677,6 +679,7 @@ msgstr "Email address"
 msgid "Email:"
 msgstr "Email:"
 
+#: frontend/lib/laletterbuilder/letter-builder/letter-preview.tsx:48
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:99
 msgid "English version"
 msgstr "English version"
@@ -823,6 +826,14 @@ msgstr "Got it!"
 msgid "Got it, take me there"
 msgstr "Got it, take me there"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability-letter-content.tsx:9
+msgid "Habitability"
+msgstr "Habitability"
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability-letter-content.tsx:14
+msgid "Habitability notice sent on behalf of {0}"
+msgstr "Habitability notice sent on behalf of {0}"
+
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"
 msgstr "Hawaii"
@@ -855,14 +866,17 @@ msgstr "Here are a few benefits to sending a letter to your landlord:"
 msgid "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
 msgstr "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
 
+#: frontend/lib/laletterbuilder/letter-builder/letter-preview.tsx:39
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:90
 msgid "Here's a preview of the letter that will be attached in an email to your landlord:"
 msgstr "Here's a preview of the letter that will be attached in an email to your landlord:"
 
+#: frontend/lib/laletterbuilder/letter-builder/letter-preview.tsx:42
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:93
 msgid "Here's a preview of the letter:"
 msgstr "Here's a preview of the letter:"
 
+#: frontend/lib/laletterbuilder/letter-builder/letter-preview.tsx:67
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:118
 msgid "Here’s a preview of the email that will be sent on your behalf:"
 msgstr "Here’s a preview of the email that will be sent on your behalf:"
@@ -1138,6 +1152,10 @@ msgstr "Know your rights"
 msgid "LaLetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
 msgstr "LaLetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability-letter-content.tsx:29
+msgid "LaLetterBuilder.org <0/>sent on behalf of <1/>"
+msgstr "LaLetterBuilder.org <0/>sent on behalf of <1/>"
+
 #: frontend/lib/laletterbuilder/homepage.tsx:11
 msgid "Landing page"
 msgstr "Landing page"
@@ -1318,6 +1336,7 @@ msgstr "Mailing address"
 msgid "Maine"
 msgstr "Maine"
 
+#: frontend/lib/laletterbuilder/letter-builder/letter-preview.tsx:86
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:137
 msgid "Make sure all the information above is correct."
 msgstr "Make sure all the information above is correct."
@@ -1677,6 +1696,10 @@ msgstr "Preferred first name"
 msgid "Preview of your NoRent.org letter"
 msgstr "Preview of your NoRent.org letter"
 
+#: frontend/lib/laletterbuilder/letter-builder/letter-preview.tsx:51
+msgid "Preview of your letter"
+msgstr "Preview of your letter"
+
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:56
 msgid "Preview this declaration as a PDF"
 msgstr "Preview this declaration as a PDF"
@@ -1781,7 +1804,7 @@ msgstr "Reset your password"
 msgid "Results for {0}"
 msgstr "Results for {0}"
 
-#: frontend/lib/laletterbuilder/letter-builder/letter-preview.tsx:8
+#: frontend/lib/laletterbuilder/letter-builder/letter-preview.tsx:30
 msgid "Review your letter"
 msgstr "Review your letter"
 
@@ -1808,6 +1831,10 @@ msgstr "Right to the City Alliance can contact me to provide additional support.
 #: common-data/issue-choices.ts:256
 msgid "Rusty water"
 msgstr "Rusty water"
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability-letter-content.tsx:87
+msgid "Sample Habitability letter"
+msgstr "Sample Habitability letter"
 
 #: frontend/lib/norent/letter-content.tsx:274
 msgid "Sample NoRent.org letter"
@@ -2149,6 +2176,7 @@ msgstr "To get involved in organizing and the fight to #StopEvictions and #Cance
 msgid "To learn more about what to do next, check out our FAQ page: {faqURL}"
 msgstr "To learn more about what to do next, check out our FAQ page: {faqURL}"
 
+#: frontend/lib/laletterbuilder/letter-builder/letter-preview.tsx:76
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:127
 msgid "To:"
 msgstr "To:"
@@ -2226,6 +2254,7 @@ msgstr "View details about your last letter"
 msgid "View list of organizations"
 msgstr "View list of organizations"
 
+#: frontend/lib/laletterbuilder/letter-builder/letter-preview.tsx:54
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:105
 msgid "View this letter as a PDF"
 msgstr "View this letter as a PDF"
@@ -2265,6 +2294,7 @@ msgstr "Water damage"
 msgid "We make it easy to notify your landlord by email or by certified mail for free."
 msgstr "We make it easy to notify your landlord by email or by certified mail for free."
 
+#: frontend/lib/laletterbuilder/letter-builder/letter-preview.tsx:58
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:109
 msgid "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 msgstr "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
@@ -2610,6 +2640,7 @@ msgstr "Your Letter Is Ready To Send!"
 msgid "Your NoRent letter and important next steps"
 msgstr "Your NoRent letter and important next steps"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability-letter-content.tsx:76
 #: frontend/lib/norent/letter-content.tsx:267
 msgid "Your NoRent.org letter"
 msgstr "Your NoRent.org letter"
@@ -2965,9 +2996,17 @@ msgstr "<0>If your apartment is currently rent stabilized, or has been at any po
 msgid "justfix.whyIsPhoneNumberNeeded"
 msgstr "We’ll use this information to either:<0><1>Log you into your existing account</1><2>Match with a pre-existing account </2><3>Sign you up for a new account.</3></0><4/>An account will allow you to return to our tools at any point in the process without having to start from the beginning, download any documents you complete, and be notified of relevant changes to policies that affect you."
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability-letter-content.tsx:16
+msgid "laletterbuilder.emailToLandlordBody"
+msgstr "<0>Please see letter attached from <1/>. </0><2>In order to document communications and avoid misunderstandings, please correspond with <3/> via email at <4>{0}</4> or mail rather than a phone call or in-person visit.</2>"
+
 #: frontend/lib/laletterbuilder/about.tsx:54
 msgid "laletterbuilder.explanationAboutWhyWeMadeThisSite"
 msgstr "We made this site because xyz"
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability-letter-content.tsx:80
+msgid "laletterbuilder.habitability.intro"
+msgstr "LETTER TEXT"
 
 #: frontend/lib/laletterbuilder/about.tsx:72
 msgid "laletterbuilder.madeByBlurb"

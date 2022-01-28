@@ -12,11 +12,10 @@ import {
 } from "../../ui/cross-language";
 import { OutboundLink } from "../../ui/outbound-link";
 import Page from "../../ui/page";
-import { LaLetterBuilderRouteInfo } from "../route-info";
 import {
   HabitabilityLetterEmailToLandlordForUser,
   HabitabilityLetterTranslation,
-} from "./habitability-letter-content";
+} from "../letter-builder/habitability/habitability-letter-content";
 
 const Microcopy: React.FC<{ children: React.ReactNode }> = (props) => (
   <p className="is-uppercase is-size-7">{props.children}</p>
@@ -31,36 +30,20 @@ const InYourLanguageMicrocopy: React.FC<{
   </Microcopy>
 );
 
+type LetterContent = {
+  html: string;
+  pdf: string;
+};
+
 type LetterPreviewProps = {
   title: string;
-  letterContent: {
-    html: string;
-    pdf: string;
-  };
+  letterContent: LetterContent;
   emailContent: React.FC;
   letterTranslation: React.FC;
   session: AllSessionInfo;
   prevStep: string;
   nextStep: string;
 };
-
-export const LaLetterBuilderPreviewPage = MiddleProgressStep((props) => {
-  const { letterContent } = LaLetterBuilderRouteInfo.getLocale("en");
-  const { session } = useContext(AppContext);
-  console.log(letterContent.html);
-
-  return (
-    <LetterPreviewPage
-      title="LA Letter builder title"
-      letterContent={letterContent}
-      emailContent={HabitabilityLetterEmailToLandlordForUser}
-      letterTranslation={HabitabilityLetterTranslation}
-      session={session}
-      prevStep={props.prevStep}
-      nextStep={props.nextStep}
-    />
-  );
-});
 
 const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
   const isMailingLetter = props.session.landlordDetails?.address;
@@ -149,3 +132,23 @@ const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
     </Page>
   );
 };
+
+export function createLaLetterBuilderPreviewPage(
+  englishVersionOfLetterContent: LetterContent
+) {
+  return MiddleProgressStep((props) => {
+    const { session } = useContext(AppContext);
+
+    return (
+      <LetterPreviewPage
+        title="LA Letter builder title"
+        letterContent={englishVersionOfLetterContent}
+        emailContent={HabitabilityLetterEmailToLandlordForUser}
+        letterTranslation={HabitabilityLetterTranslation}
+        session={session}
+        prevStep={props.prevStep}
+        nextStep={props.nextStep}
+      />
+    );
+  });
+}

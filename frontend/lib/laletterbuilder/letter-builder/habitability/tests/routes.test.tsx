@@ -1,10 +1,10 @@
-import { getLaLetterBuilderProgressRoutesProps } from "../routes";
-import { ProgressRoutesTester } from "../../../progress/tests/progress-routes-tester";
-import { newSb } from "../../../tests/session-builder";
-import { PhoneNumberAccountStatus } from "../../../queries/globalTypes";
+import { ProgressRoutesTester } from "../../../../progress/tests/progress-routes-tester";
+import { newSb } from "../../../../tests/session-builder";
+import { PhoneNumberAccountStatus } from "../../../../queries/globalTypes";
+import { getHabitabilityProgressRoutesProps } from "../routes";
 
 const tester = new ProgressRoutesTester(
-  getLaLetterBuilderProgressRoutesProps(),
+  getHabitabilityProgressRoutesProps(),
   "LA letter builder flow",
   { server: { siteType: "LALETTERBUILDER" } }
 );

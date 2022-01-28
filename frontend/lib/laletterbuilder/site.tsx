@@ -45,7 +45,7 @@ const LaLetterBuilderMenuItems: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   return (
     <>
-      <Link className="navbar-item" to={Routes.locale.letter.latestStep}>
+      <Link className="navbar-item" to={Routes.locale.habitability.latestStep}>
         Build my letter
       </Link>
       {session.phoneNumber ? (
@@ -53,7 +53,10 @@ const LaLetterBuilderMenuItems: React.FC<{}> = () => {
           <Trans>Log out</Trans>
         </Link>
       ) : (
-        <Link className="navbar-item" to={Routes.locale.letter.phoneNumber}>
+        <Link
+          className="navbar-item"
+          to={Routes.locale.habitability.phoneNumber}
+        >
           <Trans>Log in</Trans>
         </Link>
       )}

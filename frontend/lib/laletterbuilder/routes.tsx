@@ -11,6 +11,12 @@ import { LaLetterBuilderHomepage } from "./homepage";
 import { LaLetterBuilderRouteInfo as Routes } from "./route-info";
 import HabitabilityRoutes from "./letter-builder/habitability/routes";
 import { LaLetterBuilderChooseLetterStep } from "./letter-builder/choose-letter";
+import { createLetterStaticPageRoutes } from "../static-page/routes";
+import {
+  HabitabilityLetterEmailToLandlordForUserStaticPage,
+  HabitabilityLetterForUserStaticPage,
+  HabitabilitySampleLetterSamplePage,
+} from "./letter-builder/habitability-letter-content";
 
 const LoadableDevRoutes = loadable(
   () => friendlyLoad(import("../dev/routes")),
@@ -52,6 +58,19 @@ export const LaLetterBuilderRouteComponent: React.FC<RouteComponentProps> = (
         path={Routes.locale.chooseLetter}
         component={LaLetterBuilderChooseLetterStep}
       />
+      {createLetterStaticPageRoutes(
+        Routes.locale.letterContent,
+        HabitabilityLetterForUserStaticPage
+      )}
+      <Route
+        path={Routes.locale.letterEmail}
+        exact
+        component={HabitabilityLetterEmailToLandlordForUserStaticPage}
+      />
+      {createLetterStaticPageRoutes(
+        Routes.locale.sampleLetterContent,
+        HabitabilitySampleLetterSamplePage
+      )}
       <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
       <Route component={NotFound} />
     </Switch>

@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<HabitabilityContent> works 1`] = `
+<div>
+  <h1
+    class="has-text-right"
+    style="white-space: pre-wrap;"
+  >
+    Habitability
+  </h1>
+  <div
+    class="jf-page-break-after"
+  >
+    <p
+      class="has-text-right"
+    >
+      Wednesday, June 10, 2020
+    </p>
+    <dl
+      class="jf-letter-heading"
+    >
+      <dt>
+        To
+      </dt>
+      <dd>
+        LANDLORDO CALRISSIAN
+        <br />
+        1 Cloud City Drive
+        <br />
+        Bespin, OH 41235
+      </dd>
+      <dt>
+        From
+      </dt>
+      <dd>
+        Boop Jones
+        <br />
+        654 Park Place #2
+        <br />
+        Brooklyn
+        , 
+        NY
+         
+        12345
+        <br />
+        (555) 123-4567
+      </dd>
+    </dl>
+    <p>
+      Dear 
+      LANDLORDO CALRISSIAN
+      ,
+    </p>
+    <p>
+      laletterbuilder.habitability.intro
+    </p>
+    <p
+      class="jf-signature"
+    >
+      Signed,
+      <br />
+      <br />
+      Boop Jones
+    </p>
+  </div>
+</div>
+`;
+
+exports[`getLocContentPropsFromSession() returns expected value when user is logged in 1`] = `
+Object {
+  "aptNumber": "",
+  "city": "Brooklyn",
+  "email": "boop@jones.net",
+  "firstName": "Boop",
+  "landlordAddress": "123 Cloud City Drive
+Bespin, NY 12345",
+  "landlordEmail": "landlordo@calrissian.net",
+  "landlordName": "Landlordo Calrissian",
+  "lastName": "Jones",
+  "phoneNumber": "5551234567",
+  "state": "NY",
+  "street": "150 Court St",
+  "zipCode": "11201",
+}
+`;

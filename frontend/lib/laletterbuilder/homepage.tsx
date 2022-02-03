@@ -27,7 +27,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
           <p>
             <Link
               className="button is-light is-medium"
-              to={Routes.locale.habitability.latestStep}
+              to={Routes.locale.chooseLetter}
             >
               See which letter is right for me
             </Link>

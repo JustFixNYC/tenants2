@@ -28,18 +28,14 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
         <SimpleClearAnonymousSessionButton
           to={LaLetterBuilderRouteInfo.locale.home}
         />
-        {toDjangoChoices(LetterChoices, getLetterChoiceLabels()).map(
-          (choice, i) => (
-            <div key={i}>
-              <Link
-                to={assertNotNull(props.nextStep)} // TODO: make this different for each button
-                className="button jf-is-next-button is-primary is-medium"
-              >
-                {choice[1]} {/** TODO: internationalize these strings */}
-              </Link>
-            </div>
-          )
-        )}
+        <div>
+          <Link
+            to={LaLetterBuilderRouteInfo.locale.habitability.latestStep} // TODO: make this different for each button
+            className="button jf-is-next-button is-primary is-medium"
+          >
+            {li18n._(t`Habitability`)}
+          </Link>
+        </div>
       </div>
     </Page>
   );

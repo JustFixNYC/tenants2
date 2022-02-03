@@ -16,7 +16,7 @@ import {
   HabitabilityLetterEmailToLandlordForUserStaticPage,
   HabitabilityLetterForUserStaticPage,
   HabitabilitySampleLetterSamplePage,
-} from "./letter-builder/habitability-letter-content";
+} from "./letter-builder/habitability/habitability-letter-content";
 
 const LoadableDevRoutes = loadable(
   () => friendlyLoad(import("../dev/routes")),

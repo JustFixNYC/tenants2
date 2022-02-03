@@ -15,7 +15,7 @@ const sb = newSb();
 
 describe("LA letter builder steps", () => {
   tester.defineTest({
-    it: "takes brand-new users through onboarding",
+    it: "takes brand-new users through habitability onboarding",
     usingSession: sb
       .withQueriedPhoneNumber(PhoneNumberAccountStatus.NO_ACCOUNT)
       .withOnboardingScaffolding({
@@ -23,11 +23,11 @@ describe("LA letter builder steps", () => {
         state: "CA",
       }),
     expectSteps: [
-      "/en/letter/phone/ask",
-      "/en/letter/name",
-      "/en/letter/city",
-      "/en/letter/address/national",
-      "/en/letter/create-account",
+      "/en/habitability/phone/ask",
+      "/en/habitability/name",
+      "/en/habitability/city",
+      "/en/habitability/address/national",
+      "/en/habitability/create-account",
     ],
   });
 });
@@ -38,16 +38,15 @@ tester.defineTest({
     hasLandlordEmailAddress: true,
     hasLandlordMailingAddress: true,
   }),
-  startingAtStep: "/en/letter/create-account",
+  startingAtStep: "/en/habitability/create-account",
   expectSteps: [
-    "/en/letter/choose-letter",
-    "/en/letter/landlord/name",
-    "/en/letter/landlord/email",
-    "/en/letter/landlord/address",
-    "/en/letter/issues",
-    "/en/letter/access-dates",
-    "/en/letter/preview",
-    "/en/letter/sending",
-    "/en/letter/confirmation",
+    "/en/habitability/landlord/name",
+    "/en/habitability/landlord/email",
+    "/en/habitability/landlord/address",
+    "/en/habitability/issues",
+    "/en/habitability/access-dates",
+    "/en/habitability/preview",
+    "/en/habitability/sending",
+    "/en/habitability/confirmation",
   ],
 });

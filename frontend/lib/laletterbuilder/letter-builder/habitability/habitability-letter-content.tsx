@@ -115,7 +115,7 @@ const HabitabilityLetterStaticPage = createLetterStaticPageWithQuery(
   HabitabilityLetterContent
 );
 
-function getHabitabilityLetterContentPropsFromSession(
+export function getHabitabilityLetterContentPropsFromSession(
   session: AllSessionInfo
 ): HabitabilityLetterContentProps | null {
   const baseProps = getBaseLetterContentPropsFromSession(session);

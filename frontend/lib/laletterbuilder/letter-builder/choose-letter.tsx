@@ -2,16 +2,10 @@ import React from "react";
 
 import { t } from "@lingui/macro";
 
-import { toDjangoChoices } from "../../common-data";
 import { li18n } from "../../i18n-lingui";
-import {
-  LetterChoices,
-  getLetterChoiceLabels,
-} from "../../../../common-data/la-letter-builder-letter-choices";
 import Page from "../../ui/page";
 import { ProgressStepProps } from "../../progress/progress-step-route";
 import { Link } from "react-router-dom";
-import { assertNotNull } from "@justfixnyc/util";
 import { SimpleClearAnonymousSessionButton } from "../../forms/clear-anonymous-session-button";
 import { LaLetterBuilderRouteInfo } from "../route-info";
 

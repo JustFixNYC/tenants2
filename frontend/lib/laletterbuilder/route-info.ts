@@ -4,7 +4,7 @@ import {
   createLetterStaticPageRouteInfo,
 } from "../static-page/routes";
 import { ROUTE_PREFIX, createRoutesForSite } from "../util/route-util";
-import { createLaLetterBuilderRouteInfo } from "./letter-builder/route-info";
+import { createHabitabilityRouteInfo } from "./letter-builder/habitability/route-info";
 
 function createLocalizedRouteInfo(prefix: string) {
   return {
@@ -14,8 +14,10 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The home page. */
     home: `${prefix}/`,
 
-    /** The letter builder */
-    letter: createLaLetterBuilderRouteInfo(`${prefix}/letter`),
+    chooseLetter: `${prefix}/choose-letter`,
+
+    /** Habitability Letter flow */
+    habitability: createHabitabilityRouteInfo(`${prefix}/habitability`),
 
     /** The letter content for the user's own data (HTML and PDF versions). */
     letterContent: createLetterStaticPageRouteInfo(`${prefix}/letter`),
@@ -53,7 +55,7 @@ export const LaLetterBuilderRouteInfo = createRoutesForSite(
 );
 
 export const getLaLetterBuilderJumpToTopOfPageRoutes = () => [
-  LaLetterBuilderRouteInfo.locale.letter.confirmation,
+  LaLetterBuilderRouteInfo.locale.habitability.confirmation, // add a ref to all confirmation pages for all 4 letters
   ...getLaLetterBuilderRoutesForPrimaryPages(),
 ];
 

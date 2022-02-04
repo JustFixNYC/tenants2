@@ -1,11 +1,11 @@
 import React from "react";
-import ReactTestingLibraryPal from "../../../tests/rtl-pal";
+import ReactTestingLibraryPal from "../../../../tests/rtl-pal";
 import {
   HabitabilityLetterContent,
   habitabilitySampleLetterProps,
   getHabitabilityLetterContentPropsFromSession,
 } from "../habitability-letter-content";
-import { newSb } from "../../../tests/session-builder";
+import { newSb } from "../../../../tests/session-builder";
 
 describe("<HabitabilityContent>", () => {
   it("works", () => {

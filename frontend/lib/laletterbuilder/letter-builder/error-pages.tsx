@@ -5,6 +5,6 @@ import { LaLetterBuilderRouteInfo } from "../route-info";
 
 export const LaLetterBuilderAlreadyLoggedInErrorPage: React.FC<{}> = () => (
   <AlreadyLoggedInErrorPage
-    continueUrl={LaLetterBuilderRouteInfo.locale.letter.latestStep}
+    continueUrl={LaLetterBuilderRouteInfo.locale.habitability.latestStep}
   />
 );

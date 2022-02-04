@@ -8,7 +8,7 @@ import { LaLetterBuilderRouteInfo } from "../route-info";
 import { PrivacyInfoModal } from "../../ui/privacy-info-modal";
 import { trackSignup } from "../../analytics/track-signup";
 import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
-import { LaLetterBuilderOnboardingStep } from "./step-decorators";
+import { LaLetterBuilderOnboardingStep } from "../letter-builder/step-decorators";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../../i18n-lingui";
 import {
@@ -54,7 +54,7 @@ export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
                 I agree to the{" "}
                 <ModalLink
                   to={
-                    LaLetterBuilderRouteInfo.locale.letter
+                    LaLetterBuilderRouteInfo.locale.habitability // pass this in instead
                       .createAccountTermsModal
                   }
                   render={() => <PrivacyInfoModal />}

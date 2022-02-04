@@ -1,19 +1,19 @@
 import { t, Trans } from "@lingui/macro";
 import React from "react";
-import { li18n } from "../../i18n-lingui";
-import { AllSessionInfo } from "../../queries/AllSessionInfo";
+import { li18n } from "../../../i18n-lingui";
+import { AllSessionInfo } from "../../../queries/AllSessionInfo";
 import {
   asEmailStaticPage,
   EmailSubject,
-} from "../../static-page/email-static-page";
-import { createLetterStaticPageWithQuery } from "../../static-page/letter-static-page";
+} from "../../../static-page/email-static-page";
+import { createLetterStaticPageWithQuery } from "../../../static-page/letter-static-page";
 import {
   getBaseLetterContentPropsFromSession,
   BaseLetterContentProps,
   letter,
   baseSampleLetterProps,
-} from "../../util/letter-content-util";
-import { TransformSession } from "../../util/transform-session";
+} from "../../../util/letter-content-util";
+import { TransformSession } from "../../../util/transform-session";
 
 export type HabitabilityLetterContentProps = BaseLetterContentProps; // TODO: add in any necessary extra props
 

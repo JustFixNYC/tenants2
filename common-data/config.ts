@@ -53,6 +53,7 @@ const config: CommonDataConfig = {
     {
       jsonFilename: "la-letter-builder-letter-choices.json",
       typeName: "LetterChoice",
+      internationalizeLabels: true,
       exportLabels: true,
     },
     {

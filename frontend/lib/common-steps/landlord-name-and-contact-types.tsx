@@ -59,6 +59,15 @@ const ReadOnlyLandlordDetails: React.FC<
   );
 };
 
+export const WhereDoIFindLandlordInfo: React.FC = () => (
+  <Accordion question={li18n._(t`Where do I find this information?`)}>
+    <Trans>
+      If you write checks or transfer money through your bank to pay your rent,
+      use that name here.
+    </Trans>
+  </Accordion>
+);
+
 const NameAndContactTypesForm: React.FC<
   MiddleProgressStepProps & {
     children: JSX.Element;
@@ -85,12 +94,7 @@ const NameAndContactTypesForm: React.FC<
             {...ctx.fieldPropsFor("name")}
             label={li18n._(t`Landlord/management company's name`)}
           />
-          <Accordion question={li18n._(t`Where do I find this information?`)}>
-            <Trans>
-              If you write checks or transfer money through your bank to pay
-              your rent, use that name here.
-            </Trans>
-          </Accordion>
+          <WhereDoIFindLandlordInfo />
           <p>
             <Trans>
               What contact information do you have for your landlord or building

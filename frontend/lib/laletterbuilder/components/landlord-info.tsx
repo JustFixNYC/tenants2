@@ -21,6 +21,7 @@ import {
 } from "../../queries/LandlordNameAddressEmailMutation";
 import { optionalizeLabel } from "../../forms/optionalize-label";
 import { exactSubsetOrDefault } from "../../util/util";
+import { WhereDoIFindLandlordInfo } from "../../common-steps/landlord-name-and-contact-types";
 
 export const LaLetterBuilderLandlordNameAddressEmail = MiddleProgressStep(
   (props) => (
@@ -83,12 +84,7 @@ const NameAddressEmailForm: React.FC<
             {...ctx.fieldPropsFor("name")}
             label={li18n._(t`Landlord/management company's name`)}
           />
-          <Accordion question={li18n._(t`Where do I find this information?`)}>
-            <Trans>
-              If you write checks or transfer money through your bank to pay
-              your rent, use that name here.
-            </Trans>
-          </Accordion>
+          <WhereDoIFindLandlordInfo />
           <TextualFormField
             {...ctx.fieldPropsFor("primaryLine")}
             label={li18n._(t`Street address (include unit/suite/floor/apt #)`)}

@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import React from "react";
 import { Route } from "react-router-dom";
 import { TextualFormField } from "../../forms/form-fields";
@@ -9,7 +9,6 @@ import {
   MiddleProgressStep,
   MiddleProgressStepProps,
 } from "../../progress/progress-step-route";
-import { Accordion } from "../../ui/accordion";
 import { ConfirmAddressModal } from "../../common-steps/landlord-mailing-address";
 import { ProgressButtons } from "../../ui/buttons";
 import { DemoDeploymentNote } from "../../ui/demo-deployment-note";

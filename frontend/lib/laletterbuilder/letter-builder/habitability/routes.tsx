@@ -1,7 +1,5 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import { shouldSkipLandlordEmailStep } from "../../../common-steps/landlord-email";
-import { shouldSkipLandlordMailingAddressStep } from "../../../common-steps/landlord-mailing-address";
 import AccessDatesPage from "../../../loc/access-dates";
 import {
   ProgressRoutesProps,
@@ -26,9 +24,6 @@ import {
   LaLetterBuilderAskName,
   LaLetterBuilderAskCityState,
   LaLetterBuilderAskNationalAddress,
-  LaLetterBuilderLandlordNameAndContactTypes,
-  LaLetterBuilderLandlordEmail,
-  LaLetterBuilderLandlordMailingAddress,
 } from "../../components/useful-components";
 import { IssuesRoutes } from "../../../issues/routes";
 import { LaLetterBuilderLandlordNameAddressEmail } from "../../components/landlord-info";
@@ -94,18 +89,6 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
         exact: true,
         component: LaLetterBuilderLandlordNameAddressEmail,
       },
-      /**{
-        path: routes.landlordEmail,
-        exact: true,
-        shouldBeSkipped: shouldSkipLandlordEmailStep,
-        component: LaLetterBuilderLandlordEmail,
-      },
-      {
-        path: routes.landlordAddress,
-        exact: false,
-        shouldBeSkipped: shouldSkipLandlordMailingAddressStep,
-        component: LaLetterBuilderLandlordMailingAddress,
-      },*/
       {
         path: routes.issues.prefix,
         component: LaLetterBuilderIssuesRoutes,

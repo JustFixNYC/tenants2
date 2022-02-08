@@ -31,6 +31,7 @@ import {
   LaLetterBuilderLandlordMailingAddress,
 } from "../../components/useful-components";
 import { IssuesRoutes } from "../../../issues/routes";
+import { LaLetterBuilderLandlordNameAddressEmail } from "../../components/landlord-info";
 
 const HabitabilityRoutes: React.FC<{}> = () => (
   <Switch>
@@ -89,11 +90,11 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
         shouldBeSkipped: isUserLoggedIn,
       },
       {
-        path: routes.landlordName,
+        path: routes.landlordInfo,
         exact: true,
-        component: LaLetterBuilderLandlordNameAndContactTypes,
+        component: LaLetterBuilderLandlordNameAddressEmail,
       },
-      {
+      /**{
         path: routes.landlordEmail,
         exact: true,
         shouldBeSkipped: shouldSkipLandlordEmailStep,
@@ -104,7 +105,7 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
         exact: false,
         shouldBeSkipped: shouldSkipLandlordMailingAddressStep,
         component: LaLetterBuilderLandlordMailingAddress,
-      },
+      },*/
       {
         path: routes.issues.prefix,
         component: LaLetterBuilderIssuesRoutes,
@@ -142,7 +143,7 @@ export const HabitabilityProgressRoutes = buildProgressRoutesComponent(
 const LaLetterBuilderIssuesRoutes = () => (
   <IssuesRoutes
     routes={LaLetterBuilderRouteInfo.locale.habitability.issues}
-    toBack={LaLetterBuilderRouteInfo.locale.habitability.landlordAddress}
+    toBack={LaLetterBuilderRouteInfo.locale.habitability.landlordInfo}
     toNext={LaLetterBuilderRouteInfo.locale.habitability.accessDates}
   ></IssuesRoutes>
 );

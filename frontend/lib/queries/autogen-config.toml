@@ -113,6 +113,9 @@ sessionFields = ["landlordDetails"]
 [mutations.letterRequest]
 sessionFields = ["letterRequest"]
 
+[mutations.landlordNameAddressEmail]
+sessionFields = ["landlordDetails"]
+
 [mutations.generateHpActionPdf]
 name = "GenerateHPActionPDFMutation"
 sessionFields = ["latestHpActionPdfUrl", "hpActionUploadStatus", "latestEmergencyHpActionPdfUrl", "emergencyHpActionUploadStatus"]

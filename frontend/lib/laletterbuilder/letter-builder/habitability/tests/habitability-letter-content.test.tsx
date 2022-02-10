@@ -23,7 +23,7 @@ describe("<HabitabilityContent>", () => {
 
 const filledUser = newSb().withLoggedInJustfixUser().withLandlordDetails();
 
-describe("getLocContentPropsFromSession()", () => {
+describe("getHabitabilityContentPropsFromSession()", () => {
   it("returns null when user is logged out", () => {
     expect(getHabitabilityLetterContentPropsFromSession(newSb().value)).toBe(
       null

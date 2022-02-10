@@ -7,6 +7,97 @@ from project.schema_base import (
     PhoneNumberAccountStatus,
 )
 from onboarding.scaffolding import update_scaffolding, SCAFFOLDING_SESSION_KEY
+from users.tests.factories import UserFactory
+from laletterbuilder.tests.factories import LandlordDetailsFactory
+
+
+DEFAULT_LANDLORD_DETAILS_INPUT = {
+    "name": "",
+    "primaryLine": "",
+    "city": "",
+    "state": "",
+    "zipCode": "",
+    "email": "",
+}
+
+EXAMPLE_LANDLORD_DETAILS_INPUT = {
+    "name": "Boop Jones",
+    "primaryLine": "123 Boop Way",
+    "city": "Somewhere",
+    "state": "NY",
+    "zipCode": "11299",
+    "email": "boop@boop.com",
+}
+
+
+def execute_ld_mutation(graphql_client, **input):
+    input = {**DEFAULT_LANDLORD_DETAILS_INPUT, **input}
+    return graphql_client.execute(
+        """
+        mutation MyMutation($input: LandlordNameAddressEmailInput!) {
+            output: landlordNameAddressEmail(input: $input) {
+                errors {
+                    field
+                    messages
+                }
+                isUndeliverable,
+                session {
+                    landlordDetails {
+                        name
+                        primaryLine
+                        city
+                        state
+                        zipCode
+                        email
+                    }
+                }
+            }
+        }
+        """,
+        variables={"input": input},
+    )["data"]["output"]
+
+
+class TestLaLetterBuilderLandlordInfo:
+    @pytest.mark.django_db
+    def test_landlord_name_address_email_creates_details(self, graphql_client):
+        graphql_client.request.user = UserFactory()
+        ld_1 = EXAMPLE_LANDLORD_DETAILS_INPUT
+        result = execute_ld_mutation(graphql_client, **ld_1)
+        assert result["errors"] == []
+        assert result["isUndeliverable"] is None
+        assert result["session"]["landlordDetails"] == ld_1
+
+    @pytest.mark.django_db
+    def test_landlord_name_address_email_requires_fields(self, graphql_client):
+        graphql_client.request.user = UserFactory()
+        errors = execute_ld_mutation(graphql_client)["errors"]
+        expected_errors = 5
+        assert len(errors) == expected_errors
+        for i in range(expected_errors):
+            assert errors[0]["messages"] == ["This field is required."]
+
+    @pytest.mark.django_db
+    def test_landlord_details_v2_modifies_existing_details(self, graphql_client):
+        ld = LandlordDetailsFactory(is_looked_up=True)
+        graphql_client.request.user = ld.user
+
+        assert execute_ld_mutation(graphql_client, name="blop")["errors"][0]["messages"] == [
+            "This field is required."
+        ]
+
+        ld.refresh_from_db()
+        assert ld.is_looked_up is True
+
+        ld_1 = EXAMPLE_LANDLORD_DETAILS_INPUT
+
+        result = execute_ld_mutation(graphql_client, **ld_1)
+        assert result["errors"] == []
+        assert result["session"]["landlordDetails"] == ld_1
+
+        ld.refresh_from_db()
+        assert ld.address == "123 Boop Way\nSomewhere, NY 11299"
+        assert ld.is_looked_up is False
 
 
 class TestLaLetterBuilderCreateAccount:

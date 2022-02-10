@@ -1,7 +1,5 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import { shouldSkipLandlordEmailStep } from "../../../common-steps/landlord-email";
-import { shouldSkipLandlordMailingAddressStep } from "../../../common-steps/landlord-mailing-address";
 import AccessDatesPage from "../../../loc/access-dates";
 import {
   ProgressRoutesProps,
@@ -26,11 +24,9 @@ import {
   LaLetterBuilderAskName,
   LaLetterBuilderAskCityState,
   LaLetterBuilderAskNationalAddress,
-  LaLetterBuilderLandlordNameAndContactTypes,
-  LaLetterBuilderLandlordEmail,
-  LaLetterBuilderLandlordMailingAddress,
 } from "../../components/useful-components";
 import { IssuesRoutes } from "../../../issues/routes";
+import { LaLetterBuilderLandlordNameAddressEmail } from "../../components/landlord-info";
 
 const HabitabilityRoutes: React.FC<{}> = () => (
   <Switch>
@@ -89,21 +85,9 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
         shouldBeSkipped: isUserLoggedIn,
       },
       {
-        path: routes.landlordName,
+        path: routes.landlordInfo,
         exact: true,
-        component: LaLetterBuilderLandlordNameAndContactTypes,
-      },
-      {
-        path: routes.landlordEmail,
-        exact: true,
-        shouldBeSkipped: shouldSkipLandlordEmailStep,
-        component: LaLetterBuilderLandlordEmail,
-      },
-      {
-        path: routes.landlordAddress,
-        exact: false,
-        shouldBeSkipped: shouldSkipLandlordMailingAddressStep,
-        component: LaLetterBuilderLandlordMailingAddress,
+        component: LaLetterBuilderLandlordNameAddressEmail,
       },
       {
         path: routes.issues.prefix,
@@ -142,7 +126,7 @@ export const HabitabilityProgressRoutes = buildProgressRoutesComponent(
 const LaLetterBuilderIssuesRoutes = () => (
   <IssuesRoutes
     routes={LaLetterBuilderRouteInfo.locale.habitability.issues}
-    toBack={LaLetterBuilderRouteInfo.locale.habitability.landlordAddress}
+    toBack={LaLetterBuilderRouteInfo.locale.habitability.landlordInfo}
     toNext={LaLetterBuilderRouteInfo.locale.habitability.accessDates}
   ></IssuesRoutes>
 );

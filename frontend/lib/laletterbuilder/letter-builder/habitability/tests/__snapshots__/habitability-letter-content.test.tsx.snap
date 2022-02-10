@@ -66,7 +66,7 @@ exports[`<HabitabilityContent> works 1`] = `
 </div>
 `;
 
-exports[`getLocContentPropsFromSession() returns expected value when user is logged in 1`] = `
+exports[`getHabitabilityContentPropsFromSession() returns expected value when user is logged in 1`] = `
 Object {
   "aptNumber": "",
   "city": "Brooklyn",

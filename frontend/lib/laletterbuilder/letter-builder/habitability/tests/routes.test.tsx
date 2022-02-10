@@ -40,9 +40,7 @@ tester.defineTest({
   }),
   startingAtStep: "/en/habitability/create-account",
   expectSteps: [
-    "/en/habitability/landlord/name",
-    "/en/habitability/landlord/email",
-    "/en/habitability/landlord/address",
+    "/en/habitability/landlord/info",
     "/en/habitability/issues",
     "/en/habitability/access-dates",
     "/en/habitability/preview",

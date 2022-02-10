@@ -2,40 +2,35 @@ import React from "react";
 
 import { t } from "@lingui/macro";
 
-import { toDjangoChoices } from "../../common-data";
-import { RadiosFormField } from "../../forms/form-fields";
 import { li18n } from "../../i18n-lingui";
-import { ProgressButtons } from "../../ui/buttons";
-import {
-  LetterChoices,
-  getLetterChoiceLabels,
-} from "../../../../common-data/la-letter-builder-letter-choices";
-import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import Page from "../../ui/page";
-import { MiddleProgressStep } from "../../progress/progress-step-route";
-import { LaLetterBuilderChooseLetterMutation } from "../../queries/LaLetterBuilderChooseLetterMutation";
+import { ProgressStepProps } from "../../progress/progress-step-route";
+import { Link } from "react-router-dom";
+import { SimpleClearAnonymousSessionButton } from "../../forms/clear-anonymous-session-button";
+import { LaLetterBuilderRouteInfo } from "../route-info";
 
-export const LaLetterBuilderChooseLetterStep = MiddleProgressStep((props) => {
+export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
+  props
+) => {
   return (
-    <Page title={li18n._(t`Letter type you'd like to send`)}>
-      <SessionUpdatingFormSubmitter
-        mutation={LaLetterBuilderChooseLetterMutation}
-        initialState={{
-          letterType: "",
-        }}
-        onSuccessRedirect={props.nextStep}
-      >
-        {(ctx) => (
-          <>
-            <RadiosFormField
-              {...ctx.fieldPropsFor("letterType")}
-              label={li18n._(t`Letter Types`)}
-              choices={toDjangoChoices(LetterChoices, getLetterChoiceLabels())}
-            />
-            <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
-          </>
-        )}
-      </SessionUpdatingFormSubmitter>
+    <Page
+      title={li18n._(t`Select a letter to get started`)}
+      className="content"
+      withHeading="small"
+    >
+      <div className="buttons jf-two-buttons">
+        <SimpleClearAnonymousSessionButton
+          to={LaLetterBuilderRouteInfo.locale.home}
+        />
+        <div>
+          <Link
+            to={LaLetterBuilderRouteInfo.locale.habitability.latestStep} // TODO: make this different for each button
+            className="button jf-is-next-button is-primary is-medium"
+          >
+            {li18n._(t`Habitability`)}
+          </Link>
+        </div>
+      </div>
     </Page>
   );
-});
+};

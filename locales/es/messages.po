@@ -562,7 +562,7 @@ msgstr "Estimado dueño/manager del edificio."
 
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:8
 msgid "Decide how to send your letter"
-msgstr "Decide how to send your letter"
+msgstr ""
 
 #: common-data/us-state-choices.ts:72
 msgid "Delaware"
@@ -834,23 +834,23 @@ msgstr "Entendido, llévame"
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:15
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:9
 msgid "Habitability"
-msgstr "Habitability"
+msgstr ""
 
 #: common-data/la-letter-builder-letter-choices.ts:17
 msgid "Habitability (CA)"
-msgstr "Habitability (CA)"
+msgstr ""
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:14
 msgid "Habitability notice sent on behalf of {0}"
-msgstr "Habitability notice sent on behalf of {0}"
+msgstr ""
 
 #: common-data/la-letter-builder-letter-choices.ts:18
 msgid "Harassment (CA)"
-msgstr "Harassment (CA)"
+msgstr ""
 
 #: common-data/la-letter-builder-letter-choices.ts:19
 msgid "Harassment (LA City/TAHO)"
-msgstr "Harassment (LA City/TAHO)"
+msgstr ""
 
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"
@@ -1172,11 +1172,11 @@ msgstr "LaLetterBuilder is a collaboration between JustFix.nyc and legal organiz
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:29
 msgid "LaLetterBuilder.org <0/>sent on behalf of <1/>"
-msgstr "LaLetterBuilder.org <0/>sent on behalf of <1/>"
+msgstr ""
 
 #: frontend/lib/laletterbuilder/homepage.tsx:11
 msgid "Landing page"
-msgstr "Landing page"
+msgstr ""
 
 #: frontend/lib/ui/landlord.tsx:36
 msgid "Landlord address"
@@ -1716,7 +1716,7 @@ msgstr "Vista previa de tu carta NoRent.org"
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:44
 msgid "Preview of your letter"
-msgstr "Preview of your letter"
+msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:56
 msgid "Preview this declaration as a PDF"
@@ -1824,7 +1824,7 @@ msgstr "Resultados para \"{0}\""
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:23
 msgid "Review your letter"
-msgstr "Review your letter"
+msgstr ""
 
 #: frontend/lib/rh/routes.tsx:213
 msgid "Review your request to the DHCR"
@@ -1840,7 +1840,7 @@ msgstr "Página de Preguntas Frecuentes del Right to Counsel"
 
 #: common-data/la-letter-builder-letter-choices.ts:20
 msgid "Right to Privacy (CA)"
-msgstr "Right to Privacy (CA)"
+msgstr ""
 
 #: frontend/lib/norent/about.tsx:16
 msgid "Right to the City"
@@ -1856,7 +1856,7 @@ msgstr "Agua Oxidada"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:87
 msgid "Sample Habitability letter"
-msgstr "Sample Habitability letter"
+msgstr ""
 
 #: frontend/lib/norent/letter-content.tsx:274
 msgid "Sample NoRent.org letter"
@@ -1873,7 +1873,7 @@ msgstr "Ver todas las preguntas frecuentes"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:9
 msgid "Select a letter to get started"
-msgstr "Select a letter to get started"
+msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:69
 msgid "Send"

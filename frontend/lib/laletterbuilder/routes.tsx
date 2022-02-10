@@ -8,8 +8,15 @@ import { AlternativeLogoutPage } from "../pages/logout-alt-page";
 import { NotFound } from "../pages/not-found";
 import { LaLetterBuilderAboutPage } from "./about";
 import { LaLetterBuilderHomepage } from "./homepage";
-import { LaLetterBuilderRoutes } from "./letter-builder/routes";
 import { LaLetterBuilderRouteInfo as Routes } from "./route-info";
+import HabitabilityRoutes from "./letter-builder/habitability/routes";
+import { LaLetterBuilderChooseLetterStep } from "./letter-builder/choose-letter";
+import { createLetterStaticPageRoutes } from "../static-page/routes";
+import {
+  HabitabilityLetterEmailToLandlordForUserStaticPage,
+  HabitabilityLetterForUserStaticPage,
+  HabitabilitySampleLetterSamplePage,
+} from "./letter-builder/habitability/habitability-letter-content";
 
 const LoadableDevRoutes = loadable(
   () => friendlyLoad(import("../dev/routes")),
@@ -44,9 +51,27 @@ export const LaLetterBuilderRouteComponent: React.FC<RouteComponentProps> = (
         component={AlternativeLogoutPage}
       />
       <Route
-        path={Routes.locale.letter.prefix}
-        component={LaLetterBuilderRoutes}
+        path={Routes.locale.habitability.prefix}
+        component={HabitabilityRoutes}
       />
+      <Route
+        path={Routes.locale.chooseLetter}
+        component={LaLetterBuilderChooseLetterStep}
+      />
+      {createLetterStaticPageRoutes(
+        Routes.locale.letterContent,
+        HabitabilityLetterForUserStaticPage
+      )}
+      <Route
+        path={Routes.locale.letterEmail}
+        exact
+        component={HabitabilityLetterEmailToLandlordForUserStaticPage}
+      />
+      {createLetterStaticPageRoutes(
+        Routes.locale.sampleLetterContent,
+        HabitabilitySampleLetterSamplePage
+      )}
+      <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
       <Route component={NotFound} />
     </Switch>
   );

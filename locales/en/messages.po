@@ -439,6 +439,7 @@ msgid "Cite up-to-date legal ordinances in your letter"
 msgstr "Cite up-to-date legal ordinances in your letter"
 
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:39
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:38
 msgid "City"
 msgstr "City"
 
@@ -667,7 +668,7 @@ msgstr "Email"
 
 #: frontend/lib/account-settings/contact-settings.tsx:41
 #: frontend/lib/common-steps/ask-email.tsx:13
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:68
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
 msgid "Email address"
 msgstr "Email address"
 
@@ -1029,7 +1030,7 @@ msgstr "If you know the court name your case is associated with, please provide 
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
 msgstr "If you need to make changes to your name or contact information, please contact <0/>."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:53
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:41
 msgid "If you write checks or transfer money through your bank to pay your rent, use that name here."
 msgstr "If you write checks or transfer money through your bank to pay your rent, use that name here."
 
@@ -1182,10 +1183,12 @@ msgid "Landlord name"
 msgstr "Landlord name"
 
 #: frontend/lib/common-steps/landlord-email.tsx:38
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:41
 msgid "Landlord/management company's email"
 msgstr "Landlord/management company's email"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:51
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:57
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:35
 msgid "Landlord/management company's name"
 msgstr "Landlord/management company's name"
 
@@ -1205,6 +1208,10 @@ msgstr "Lead-based paint"
 #: common-data/issue-choices.ts:192
 msgid "Leaky faucet"
 msgstr "Leaky faucet"
+
+#: frontend/lib/laletterbuilder/components/consent.tsx:8
+msgid "Learn about common situations where sending a letter may not be helpful"
+msgstr "Learn about common situations where sending a letter may not be helpful"
 
 #: frontend/lib/laletterbuilder/about.tsx:32
 #: frontend/lib/norent/about.tsx:57
@@ -1341,7 +1348,7 @@ msgstr "Made by non-profits <0>Right to Counsel NYC Coalition</0>, <1>Housing Ju
 msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 msgstr "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:71
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:72
 msgid "Mailing address"
 msgstr "Mailing address"
 
@@ -2081,6 +2088,7 @@ msgid "Strategic Actions for a Just Economy (SAJE) can contact me to provide add
 msgstr "Strategic Actions for a Just Economy (SAJE) can contact me to provide additional support."
 
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:38
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:37
 msgid "Street address (include unit/suite/floor/apt #)"
 msgstr "Street address (include unit/suite/floor/apt #)"
 
@@ -2385,7 +2393,7 @@ msgstr "We’ve partnered with <0/> to provide additional support once you’ve 
 msgid "We’ve partnered with <0/> to provide additional support."
 msgstr "We’ve partnered with <0/> to provide additional support."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:59
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:60
 msgid "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
 msgstr "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
 
@@ -2463,7 +2471,7 @@ msgstr "When you use our tool, you will be able to preview your filled out form 
 msgid "Where do I find my case's index number?"
 msgstr "Where do I find my case's index number?"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:52
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:40
 msgid "Where do I find this information?"
 msgstr "Where do I find this information?"
 
@@ -2738,7 +2746,8 @@ msgstr "Your landlord or management company's address"
 msgid "Your landlord or management company's email"
 msgstr "Your landlord or management company's email"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:93
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:94
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:21
 msgid "Your landlord or management company's information"
 msgstr "Your landlord or management company's information"
 
@@ -2786,6 +2795,7 @@ msgstr "You’re not alone. Millions of Americans won’t be able to pay rent be
 
 #: frontend/lib/common-steps/ask-national-address.tsx:118
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:41
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:40
 msgid "Zip code"
 msgstr "Zip code"
 

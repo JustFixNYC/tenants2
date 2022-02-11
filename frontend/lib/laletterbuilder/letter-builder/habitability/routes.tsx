@@ -27,6 +27,7 @@ import {
 } from "../../components/useful-components";
 import { IssuesRoutes } from "../../../issues/routes";
 import { LaLetterBuilderLandlordNameAddressEmail } from "../../components/landlord-info";
+import { LaLetterBuilderRiskConsent } from "../../components/consent";
 
 const HabitabilityRoutes: React.FC<{}> = () => (
   <Switch>
@@ -79,6 +80,11 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
           component: LaLetterBuilderAskNationalAddress,
         },
       ]),
+      {
+        path: routes.riskConsent,
+        component: LaLetterBuilderRiskConsent,
+        shouldBeSkipped: isUserLoggedIn,
+      },
       {
         path: routes.createAccount,
         component: LaLetterBuilderCreateAccount,

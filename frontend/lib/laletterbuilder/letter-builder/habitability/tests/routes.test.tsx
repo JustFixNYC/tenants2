@@ -27,7 +27,6 @@ describe("LA letter builder steps", () => {
       "/en/habitability/name",
       "/en/habitability/city",
       "/en/habitability/address/national",
-      "/en/habitability/consent",
       "/en/habitability/create-account",
     ],
   });

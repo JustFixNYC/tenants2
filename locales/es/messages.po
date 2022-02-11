@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-02-04 20:24\n"
+"PO-Revision-Date: 2022-02-11 20:50\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -444,6 +444,7 @@ msgid "Cite up-to-date legal ordinances in your letter"
 msgstr "Cita ordenanzas legales actuales en tu carta"
 
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:39
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:38
 msgid "City"
 msgstr "Ciudad"
 
@@ -562,7 +563,7 @@ msgstr "Estimado dueño/manager del edificio."
 
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:8
 msgid "Decide how to send your letter"
-msgstr ""
+msgstr "Decide how to send your letter"
 
 #: common-data/us-state-choices.ts:72
 msgid "Delaware"
@@ -672,7 +673,7 @@ msgstr "Correo electrónico"
 
 #: frontend/lib/account-settings/contact-settings.tsx:41
 #: frontend/lib/common-steps/ask-email.tsx:13
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:68
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
 msgid "Email address"
 msgstr "Dirección de correo electrónico"
 
@@ -834,23 +835,23 @@ msgstr "Entendido, llévame"
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:15
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:9
 msgid "Habitability"
-msgstr ""
+msgstr "Habitability"
 
 #: common-data/la-letter-builder-letter-choices.ts:17
 msgid "Habitability (CA)"
-msgstr ""
+msgstr "Habitability (CA)"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:14
 msgid "Habitability notice sent on behalf of {0}"
-msgstr ""
+msgstr "Habitability notice sent on behalf of {0}"
 
 #: common-data/la-letter-builder-letter-choices.ts:18
 msgid "Harassment (CA)"
-msgstr ""
+msgstr "Harassment (CA)"
 
 #: common-data/la-letter-builder-letter-choices.ts:19
 msgid "Harassment (LA City/TAHO)"
-msgstr ""
+msgstr "Harassment (LA City/TAHO)"
 
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"
@@ -1034,7 +1035,7 @@ msgstr "Si conoces el nombre de la corte con el que tu caso está asociado, por 
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
 msgstr "Si necesitas cambiar tu nombre o tu información de contacto, ponte en contacto con <0/>."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:53
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:41
 msgid "If you write checks or transfer money through your bank to pay your rent, use that name here."
 msgstr "Usa el nombre al que pagas la renta."
 
@@ -1172,11 +1173,11 @@ msgstr "LaLetterBuilder is a collaboration between JustFix.nyc and legal organiz
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:29
 msgid "LaLetterBuilder.org <0/>sent on behalf of <1/>"
-msgstr ""
+msgstr "LaLetterBuilder.org <0/>sent on behalf of <1/>"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:11
 msgid "Landing page"
-msgstr ""
+msgstr "Landing page"
 
 #: frontend/lib/ui/landlord.tsx:36
 msgid "Landlord address"
@@ -1187,10 +1188,12 @@ msgid "Landlord name"
 msgstr "Nombre del dueño de tu edificio"
 
 #: frontend/lib/common-steps/landlord-email.tsx:38
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:41
 msgid "Landlord/management company's email"
 msgstr "Dirección de correo electrónico del dueño o manager de tu edificio"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:51
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:57
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:35
 msgid "Landlord/management company's name"
 msgstr "Nombre del dueño o manager de tu edificio"
 
@@ -1210,6 +1213,10 @@ msgstr "Pintura a base de plomo"
 #: common-data/issue-choices.ts:192
 msgid "Leaky faucet"
 msgstr "Grifo con fugas"
+
+#: frontend/lib/laletterbuilder/components/consent.tsx:8
+msgid "Learn about common situations where sending a letter may not be helpful"
+msgstr "Learn about common situations where sending a letter may not be helpful"
 
 #: frontend/lib/laletterbuilder/about.tsx:32
 #: frontend/lib/norent/about.tsx:57
@@ -1346,7 +1353,7 @@ msgstr "Fabricado por las organizaciones sin fines de lucro <0>Right to Counsel 
 msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 msgstr "Hecho en NYC con ♥ por el equipo de <0>JustFix.nyc</0>"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:71
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:72
 msgid "Mailing address"
 msgstr "Dirección postal"
 
@@ -1716,7 +1723,7 @@ msgstr "Vista previa de tu carta NoRent.org"
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:44
 msgid "Preview of your letter"
-msgstr ""
+msgstr "Preview of your letter"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:56
 msgid "Preview this declaration as a PDF"
@@ -1824,7 +1831,7 @@ msgstr "Resultados para \"{0}\""
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:23
 msgid "Review your letter"
-msgstr ""
+msgstr "Review your letter"
 
 #: frontend/lib/rh/routes.tsx:213
 msgid "Review your request to the DHCR"
@@ -1840,7 +1847,7 @@ msgstr "Página de Preguntas Frecuentes del Right to Counsel"
 
 #: common-data/la-letter-builder-letter-choices.ts:20
 msgid "Right to Privacy (CA)"
-msgstr ""
+msgstr "Right to Privacy (CA)"
 
 #: frontend/lib/norent/about.tsx:16
 msgid "Right to the City"
@@ -1856,7 +1863,7 @@ msgstr "Agua Oxidada"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:87
 msgid "Sample Habitability letter"
-msgstr ""
+msgstr "Sample Habitability letter"
 
 #: frontend/lib/norent/letter-content.tsx:274
 msgid "Sample NoRent.org letter"
@@ -1873,7 +1880,7 @@ msgstr "Ver todas las preguntas frecuentes"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:9
 msgid "Select a letter to get started"
-msgstr ""
+msgstr "Select a letter to get started"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:69
 msgid "Send"
@@ -2086,6 +2093,7 @@ msgid "Strategic Actions for a Just Economy (SAJE) can contact me to provide add
 msgstr "Acciones Estratégicas para una Economía Justa (SAJE) puede ponerse en contacto conmigo para proporcionarme apoyo adicional."
 
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:38
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:37
 msgid "Street address (include unit/suite/floor/apt #)"
 msgstr "Dirección (incluye unidad/suite/piso/apt #)"
 
@@ -2390,7 +2398,7 @@ msgstr "Nos hemos aliado con <0/> para proporcionar asistencia adicional una vez
 msgid "We’ve partnered with <0/> to provide additional support."
 msgstr "Nos hemos aliado con <0/> para proporcionarte apoyo adicional."
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:59
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:60
 msgid "What contact information do you have for your landlord or building management? <0>We recommend choosing both if you have them.</0>"
 msgstr "¿Qué información de contacto tienes del dueño o manager de tu edificio? <0>Sugerimos que elijas las dos opciones si las tienes.</0>"
 
@@ -2468,7 +2476,7 @@ msgstr "Cuando utilices nuestra herramienta, podrás obtener una vista previa de
 msgid "Where do I find my case's index number?"
 msgstr "¿Dónde encuentro el número de índice de mi caso?"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:52
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:40
 msgid "Where do I find this information?"
 msgstr "¿Dónde encuentro esta información?"
 
@@ -2743,7 +2751,8 @@ msgstr "La dirección del dueño o manager de tu edificio"
 msgid "Your landlord or management company's email"
 msgstr "La dirección de correo electrónico del dueño o manager de tu edificio"
 
-#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:93
+#: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:94
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:21
 msgid "Your landlord or management company's information"
 msgstr "Los datos del dueño o manager de tu edificio"
 
@@ -2791,6 +2800,7 @@ msgstr "No estás solo. Millones de estadounidenses no podrán pagar la renta po
 
 #: frontend/lib/common-steps/ask-national-address.tsx:118
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:41
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:40
 msgid "Zip code"
 msgstr "Código postal"
 

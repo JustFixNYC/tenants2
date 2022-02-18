@@ -11,7 +11,7 @@ from project import slack, locales
 from project.util.letter_sending import (
     USPS_TRACKING_URL_PREFIX,
     render_multilingual_letter,
-    send_pdf_to_landlord_via_lob,
+    send_letter_via_lob,
 )
 from project.util.site_util import SITE_CHOICES
 from project.util.demo_deployment import is_not_demo_deployment
@@ -36,6 +36,8 @@ NORENT_EMAIL_TO_LANDLORD_URL = "letter-email.txt"
 # email to the user.
 NORENT_EMAIL_TO_USER_URL = "letter-email-to-user.html"
 
+USER_CONFIRMATION_TEXT = "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
+
 logger = logging.getLogger(__name__)
 
 
@@ -46,42 +48,6 @@ def norent_pdf_response(pdf_bytes: bytes) -> FileResponse:
     """
 
     return FileResponse(BytesIO(pdf_bytes), filename="norent-letter.pdf")
-
-
-def send_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> bool:
-    """
-    Mails the NoRent letter to the user's landlord via Lob. Does
-    nothing if the letter has already been sent.
-
-    Returns True if the letter was just sent.
-    """
-
-    if letter.letter_sent_at is not None:
-        logger.info(f"{letter} has already been mailed to the landlord.")
-        return False
-
-    user = letter.user
-
-    response = send_pdf_to_landlord_via_lob(user, pdf_bytes, "No rent letter")
-
-    letter.lob_letter_object = response
-    letter.tracking_number = response["tracking_number"]
-    letter.letter_sent_at = timezone.now()
-    letter.save()
-
-    user.send_sms_async(
-        _(
-            "%(name)s you've sent your letter of non-payment of rent. "
-            "You can track the delivery of your letter using "
-            "USPS Tracking: %(url)s."
-        )
-        % {
-            "name": user.full_legal_name,
-            "url": USPS_TRACKING_URL_PREFIX + letter.tracking_number,
-        }
-    )
-
-    return True
 
 
 def email_letter_to_landlord(letter: models.Letter, pdf_bytes: bytes) -> bool:
@@ -168,7 +134,12 @@ def send_letter(letter: models.Letter):
         email_letter_to_landlord(letter, pdf_bytes)
 
     if ld.address_lines_for_mailing:
-        send_letter_via_lob(letter, pdf_bytes)
+        send_letter_via_lob(
+            letter,
+            pdf_bytes,
+            sms_text=USER_CONFIRMATION_TEXT,
+            letter_description="No rent letter",
+        )
 
     if user.email:
         email_react_rendered_content_with_attachment(

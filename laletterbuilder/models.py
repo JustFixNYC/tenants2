@@ -18,13 +18,8 @@ class Letter(LocalizedHTMLLetter):
         ordering = ["-created_at"]
 
     user = models.ForeignKey(
-        JustfixUser, on_delete=models.CASCADE, related_name="la_letter_builder_letters"
+        JustfixUser, on_delete=models.CASCADE, related_name="laletterbuilder_letters"
     )
-
-    html_content = models.TextField(
-        help_text=("The HTML content of the letter at the time it was sent, in " "English.")
-    )
-
 
 class HabitabilityLetter(Letter):
     def __str__(self):

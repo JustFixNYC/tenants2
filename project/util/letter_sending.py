@@ -7,6 +7,7 @@ import PyPDF2
 from users.models import JustfixUser
 from io import BytesIO
 from project.util.lob_models_util import LocalizedHTMLLetter
+from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 
@@ -68,3 +69,37 @@ def render_multilingual_letter(letter: LocalizedHTMLLetter) -> bytes:
         localized_pdf_bytes = render_pdf_bytes(letter.localized_html_content)
         pdf_bytes = _merge_pdfs([pdf_bytes, localized_pdf_bytes])
     return pdf_bytes
+
+
+def send_letter_via_lob(
+    letter: LocalizedHTMLLetter, pdf_bytes: bytes, sms_text: str, letter_description: str
+) -> bool:
+    """
+    Mails the letter to the user's landlord via Lob. Does
+    nothing if the letter has already been sent.
+
+    Returns True if the letter was just sent.
+    """
+
+    if letter.letter_sent_at is not None:
+        logger.info(f"{letter} has already been mailed to the landlord.")
+        return False
+
+    user = letter.user
+
+    response = send_pdf_to_landlord_via_lob(user, pdf_bytes, letter_description)
+
+    letter.lob_letter_object = response
+    letter.tracking_number = response["tracking_number"]
+    letter.letter_sent_at = timezone.now()
+    letter.save()
+
+    user.send_sms_async(
+        _(sms_text)
+        % {
+            "name": user.full_legal_name,
+            "url": USPS_TRACKING_URL_PREFIX + letter.tracking_number,
+        }
+    )
+
+    return True

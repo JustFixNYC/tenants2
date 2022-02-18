@@ -32,7 +32,12 @@ def test_nothing_is_emailed_if_already_emailed(settings, mailoutbox):
 
 def test_nothing_is_mailed_if_already_sent():
     letter = Letter(letter_sent_at=timezone.now())
-    assert send_letter_via_lob(letter, b"blah") is False
+    assert (
+        send_letter_via_lob(
+            letter, b"blah", sms_text="norent blah", letter_description="norent letter"
+        )
+        is False
+    )
 
 
 class TestCreateLetter:

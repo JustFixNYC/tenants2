@@ -7,6 +7,8 @@ class MailItem(models.Model, SendableViaLobMixin):
     """
     A piece of mail (e.g., a letter or declaration) that is ready to be sent,
     or has already been sent.
+
+    Used for EvictionFree, NoRent, LALetterBuilder
     """
 
     class Meta:
@@ -39,4 +41,42 @@ class MailItem(models.Model, SendableViaLobMixin):
         max_length=100,
         blank=True,
         help_text="The USPS tracking number for the mail item.",
+    )
+
+
+class LocalizedHTMLLetter(MailItem):
+    """
+    A mail item for products in multiple languages.
+
+    Used for NoRent and LA Letter Builder
+    """
+    class Meta:
+        abstract = True
+
+    html_content = models.TextField(
+        help_text=("The HTML content of the letter at the time it was sent, in " "English.")
+    )
+
+    localized_html_content = models.TextField(
+        help_text=(
+            "The HTML content of the letter at the time it was sent, in "
+            "the user's locale at the time they sent it. If the user's "
+            "locale is English, this will be blank (since the English "
+            "version is already stored in another field)."
+        ),
+        blank=True,
+    )
+
+    letter_sent_at = models.DateTimeField(
+        null=True, blank=True, help_text="When the letter was mailed."
+    )
+
+    letter_emailed_at = models.DateTimeField(
+        null=True, blank=True, help_text="When the letter was e-mailed."
+    )
+
+    fully_processed_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When the letter was fully processed, i.e. sent to all relevant parties.",
     )

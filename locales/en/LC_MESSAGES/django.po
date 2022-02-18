@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-29 19:23+0000\n"
+"POT-Creation-Date: 2022-02-18 21:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,11 +90,6 @@ msgstr ""
 #: norent/forms.py:65
 #, python-format
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
-msgstr ""
-
-#: norent/letter_sending.py:112
-#, python-format
-msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
 msgstr ""
 
 #: norent/schema.py:236

@@ -23,7 +23,7 @@ $jf-alt-title-family: "Suisse Int'l Mono", "Courier New", Courier, monospace;
 @import "../_progress.scss";
 @import "../_dev.scss";
 @import "../_forms.scss";
-@import "../norent/forms-overrides.scss";
+@import "./forms-overrides.scss";
 @import "../_buttons.scss";
 @import "./_button-overrides.scss";
 @import "../_big-list.scss";

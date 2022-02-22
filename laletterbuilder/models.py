@@ -21,6 +21,7 @@ class Letter(LocalizedHTMLLetter):
         JustfixUser, on_delete=models.CASCADE, related_name="laletterbuilder_letters"
     )
 
+
 class HabitabilityLetter(Letter):
     def __str__(self):
         if not self.pk:

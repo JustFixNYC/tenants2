@@ -50,6 +50,7 @@ class LocalizedHTMLLetter(MailItem):
 
     Used for NoRent and LA Letter Builder
     """
+
     class Meta:
         abstract = True
 

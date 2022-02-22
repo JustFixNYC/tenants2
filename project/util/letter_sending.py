@@ -8,6 +8,8 @@ from users.models import JustfixUser
 from io import BytesIO
 from project.util.lob_models_util import LocalizedHTMLLetter
 from django.utils import timezone
+from django.utils.translation import gettext as _
+
 
 logger = logging.getLogger(__name__)
 

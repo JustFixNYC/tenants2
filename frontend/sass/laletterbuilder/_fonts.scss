@@ -1,0 +1,37 @@
+@font-face {
+  font-family: "Degular";
+  font-weight: normal;
+  font-style: normal;
+  src: url("#{$laletterbuilder-root}/fonts/Degular-Medium.woff2")
+      format("woff2"),
+    url("#{$laletterbuilder-root}/fonts/Degular-Medium.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Degular";
+  font-weight: 700;
+  font-style: normal;
+  src: url("#{$laletterbuilder-root}/fonts/Degular-Semibold.woff2")
+      format("woff2"),
+    url("#{$laletterbuilder-root}/fonts/Degular-Semibold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Degular Display";
+  font-weight: normal;
+  font-style: normal;
+  src: url("#{$laletterbuilder-root}/fonts/Degular_Display-Medium.woff2")
+      format("woff2"),
+    url("#{$laletterbuilder-root}/fonts/Degular_Display-Medium.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Suisse Int'l Mono";
+  font-weight: normal;
+  font-style: normal;
+  src: url("#{$laletterbuilder-root}/fonts/SuisseIntlMono-Regular-WebS.woff2")
+      format("woff2"),
+    url("#{$laletterbuilder-root}/fonts/SuisseIntlMono-Regular-WebS.woff")
+      format("woff");
+}

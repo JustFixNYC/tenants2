@@ -18,7 +18,7 @@ $jf-alt-title-family: "Suisse Int'l Mono", "Courier New", Courier, monospace;
 @import "../_a11y.scss";
 @import "../_safe-mode.scss";
 @import "../_modal.scss";
-@import "../norent/_modal-overrides.scss";
+@import "./_modal-overrides.scss";
 @import "../_loading-overlay.scss";
 @import "../_progress.scss";
 @import "../_dev.scss";

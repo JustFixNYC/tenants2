@@ -1,0 +1,20 @@
+.modal-content {
+  background-color: $secondary;
+  border-radius: 2px;
+  p {
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+  }
+  .content {
+    @include tablet {
+      padding: 2.5rem 4rem;
+    }
+    h1.title {
+      font-size: 2.25rem;
+    }
+  }
+  .button {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+}

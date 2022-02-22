@@ -63,6 +63,11 @@ $jf-navbar-content: $secondary;
   padding: 2.25rem 1.5rem;
 }
 
+.jf-norent-builder-page,
+.jf-site-laletterbuilder {
+  background-color: $secondary;
+}
+
 .jf-site-laletterbuilder {
   font-family: $jf-body-family;
   // DEFAULT BODY FONT SPECS:

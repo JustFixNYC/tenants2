@@ -12,10 +12,12 @@ $new-justfix-orange: #ff8139;
 $new-justfix-blue: #5188fe;
 $new-justfix-black: #242323;
 $new-justfix-light-grey: #f4f8f4;
+$new-justfix-light-grey-accent: #faf8f4;
 $justfix-grey: #d4d5d0;
 
 $primary: $new-justfix-black;
 $secondary: $new-justfix-light-grey;
+$secondary-accent: $new-justfix-light-grey-accent; // A slight variation on our secondary color to stand out against a background
 $info: $new-justfix-black; // Color for logo and non-text elements
 $link: $new-justfix-black; // Inline hyperlink color
 $dark: $new-justfix-black; // Primary text color for light backgrounds

@@ -4,6 +4,7 @@ import logging
 from django.http import FileResponse
 from django.utils import timezone
 from django.db import transaction
+from django.utils.translation import gettext as _
 
 from project import slack, locales
 from project.util.letter_sending import (
@@ -33,7 +34,7 @@ NORENT_EMAIL_TO_LANDLORD_URL = "letter-email.txt"
 # email to the user.
 NORENT_EMAIL_TO_USER_URL = "letter-email-to-user.html"
 
-USER_CONFIRMATION_TEXT = (
+USER_CONFIRMATION_TEXT = _(
     "%(name)s you've sent your letter of non-payment of rent."
     "You can track the delivery of your letter using USPS Tracking: %(url)s."
 )

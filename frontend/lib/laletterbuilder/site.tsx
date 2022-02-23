@@ -96,10 +96,6 @@ const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
               : "jf-norent-internal-above-footer-content"
           )}
         >
-          <div className="jf-additional-mobile-navbar">
-            <Navbar userMenuItemsComponent={LaLetterBuilderTopActions} />
-          </div>
-
           <Navbar
             menuItemsComponent={LaLetterBuilderMenuItems}
             brandComponent={LaLetterBuilderBrand}

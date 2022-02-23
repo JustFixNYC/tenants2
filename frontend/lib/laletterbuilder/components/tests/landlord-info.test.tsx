@@ -63,7 +63,9 @@ describe("landlord details page", () => {
         },
       });
 
-    await pal.rt.waitFor(() => pal.rr.getByText(/Home self-inspection/i));
+    await pal.rt.waitFor(() =>
+      pal.rr.getByText(/Landlord\/super access dates/i)
+    );
     const { mock } = pal.appContext.updateSession;
     expect(mock.calls).toHaveLength(1);
     expect(mock.calls[0][0]).toEqual({

@@ -9,7 +9,6 @@ import { AppContext } from "../app-context";
 import { createLinguiCatalogLoader } from "../i18n-lingui";
 import { LoadingOverlayManager } from "../networking/loading-page";
 import { NavbarLanguageDropdown } from "../ui/language-toggle";
-import Navbar from "../ui/navbar";
 import { LaLetterBuilderFooter } from "./components/footer";
 import {
   LaLetterBuilderRouteInfo as Routes,
@@ -18,6 +17,9 @@ import {
 import { LaLetterBuilderRouteComponent } from "./routes";
 
 import type { AppSiteProps } from "../app";
+import { StaticImage } from "../ui/static-image";
+import { getLaLetterBuilderImageSrc } from "./homepage";
+import Navbar from "../ui/navbar";
 
 export const LaLetterBuilderLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(
@@ -35,8 +37,15 @@ function useIsPrimaryPage() {
 
 const LaLetterBuilderBrand: React.FC<{}> = () => {
   return (
-    <Link className="navbar-item" to={Routes.locale.home}>
-      <span className="jf-laletterbuilder-logo">LA Letter Builder</span>
+    <Link
+      className="navbar-item jf-laletterbuilder-logo"
+      to={Routes.locale.home}
+    >
+      <StaticImage
+        ratio="is-128x128"
+        src={getLaLetterBuilderImageSrc("justfix-new-logo")}
+        alt="JustFix"
+      />
     </Link>
   );
 };
@@ -78,12 +87,11 @@ const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
               : "jf-norent-internal-above-footer-content"
           )}
         >
-          <span className={classnames(isPrimaryPage && "jf-white-navbar")}>
-            <Navbar
-              menuItemsComponent={LaLetterBuilderMenuItems}
-              brandComponent={LaLetterBuilderBrand}
-            />
-          </span>
+          <Navbar
+            menuItemsComponent={LaLetterBuilderMenuItems}
+            brandComponent={LaLetterBuilderBrand}
+          />
+
           {!isPrimaryPage && (
             <div className="jf-block-of-color-in-background" />
           )}

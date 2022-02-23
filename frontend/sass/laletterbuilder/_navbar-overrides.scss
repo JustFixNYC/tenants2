@@ -1,0 +1,29 @@
+nav.navbar {
+  background-color: $secondary;
+  border-bottom: 2px solid $primary;
+
+  //OVERRIDES FROM DEFAULT NAVBAR STYLING
+  .container {
+    max-width: unset;
+    .navbar-brand {
+      margin-left: 0;
+    }
+  }
+
+  .navbar-item.jf-laletterbuilder-logo {
+    padding: 1.5rem;
+    text-align: center;
+    border-right: 2px solid $primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include mobile {
+      width: 50%;
+    }
+
+    figure.image {
+      margin-bottom: 0.4rem;
+    }
+  }
+}

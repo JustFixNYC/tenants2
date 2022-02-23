@@ -46,6 +46,7 @@ $jf-navbar-background: $primary;
 $jf-navbar-content: $secondary;
 
 @import "../_navbar.scss";
+@import "./navbar-overrides";
 
 @import "../_demo-deployment-note.scss";
 

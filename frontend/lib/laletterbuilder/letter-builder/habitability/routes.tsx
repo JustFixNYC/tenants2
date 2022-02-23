@@ -138,7 +138,9 @@ const LaLetterBuilderIssuesRoutes = () => (
 );
 
 const HabitabilityPreviewPage = createLaLetterBuilderPreviewPage(
-  LaLetterBuilderRouteInfo.getLocale("en").habitability.letterContent
+  LaLetterBuilderRouteInfo.getLocale("en").habitability.letterContent,
+  HabitabilityLetterEmailToLandlordForUser,
+  HabitabilityLetterTranslation
 );
 
 export default HabitabilityRoutes;

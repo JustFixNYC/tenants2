@@ -1,0 +1,42 @@
+form {
+  .field {
+    .label {
+      font-size: 1.125rem;
+      font-weight: 400;
+    }
+    .control input,
+    .control select,
+    .jf-checkbox-symbol {
+      border: 1px solid $primary;
+      border-radius: 4px;
+    }
+    .control {
+      input,
+      select {
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+        background-color: $secondary;
+        &:not(:focus) {
+          box-shadow: none;
+        }
+      }
+      .jf-autocomplete-open {
+        margin-left: 0;
+      }
+    }
+    .jf-single-checkbox {
+      margin-top: 1rem;
+      padding: 0;
+    }
+    .jf-radio-symbol {
+      box-shadow: 0 0 0 2px $white, 0 0 0 3px $grey-light;
+    }
+  }
+  .jf-related-text-field-with-checkbox {
+    // Override current field position offset
+    div.field:last-child {
+      margin-top: -1.25rem;
+      margin-bottom: 0.75rem;
+    }
+  }
+}

@@ -50,6 +50,15 @@ const LaLetterBuilderBrand: React.FC<{}> = () => {
   );
 };
 
+const LaLetterBuilderTopActions: React.FC<{}> = () => (
+  <>
+    <NavbarLanguageDropdown />
+    <Link className="navbar-item" to={Routes.locale.habitability.phoneNumber}>
+      <Trans>Log in</Trans>
+    </Link>
+  </>
+);
+
 const LaLetterBuilderMenuItems: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   return (
@@ -87,14 +96,16 @@ const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
               : "jf-norent-internal-above-footer-content"
           )}
         >
+          <div className="jf-additional-mobile-navbar">
+            <Navbar userMenuItemsComponent={LaLetterBuilderTopActions} />
+          </div>
+
           <Navbar
             menuItemsComponent={LaLetterBuilderMenuItems}
             brandComponent={LaLetterBuilderBrand}
+            dropdownMenuLabel="Menu"
           />
 
-          {!isPrimaryPage && (
-            <div className="jf-block-of-color-in-background" />
-          )}
           <div
             ref={ref}
             data-jf-is-noninteractive

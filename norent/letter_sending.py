@@ -1,13 +1,16 @@
-from typing import Any, Dict, List
+from typing import List
 from io import BytesIO
 import logging
 from django.http import FileResponse
 from django.utils import timezone
-from django.utils.translation import gettext as _
 from django.db import transaction
-import PyPDF2
+from django.utils.translation import gettext as _
 
-from project import slack, locales, common_data
+from project import slack, locales
+from project.util.letter_sending import (
+    render_multilingual_letter,
+    send_letter_via_lob,
+)
 from project.util.site_util import SITE_CHOICES
 from project.util.demo_deployment import is_not_demo_deployment
 from frontend.static_content import (
@@ -16,8 +19,6 @@ from frontend.static_content import (
     ContentType,
 )
 from users.models import JustfixUser
-from loc.views import render_pdf_bytes
-from project.util import lob_api
 from . import models
 
 
@@ -33,8 +34,10 @@ NORENT_EMAIL_TO_LANDLORD_URL = "letter-email.txt"
 # email to the user.
 NORENT_EMAIL_TO_USER_URL = "letter-email-to-user.html"
 
-# The URL prefix for USPS certified letter tracking.
-USPS_TRACKING_URL_PREFIX = common_data.load_json("loc.json")["USPS_TRACKING_URL_PREFIX"]
+USER_CONFIRMATION_TEXT = _(
+    "%(name)s you've sent your letter of non-payment of rent. "
+    "You can track the delivery of your letter using USPS Tracking: %(url)s."
+)
 
 logger = logging.getLogger(__name__)
 
@@ -46,80 +49,6 @@ def norent_pdf_response(pdf_bytes: bytes) -> FileResponse:
     """
 
     return FileResponse(BytesIO(pdf_bytes), filename="norent-letter.pdf")
-
-
-def send_pdf_to_landlord_via_lob(
-    user: JustfixUser, pdf_bytes: bytes, description: str
-) -> Dict[str, Any]:
-    """
-    Mail the given PDF to the given user's landlord using USPS certified
-    mail, via Lob.  Assumes that the user has a landlord with a mailing
-    address.
-
-    Returns the response from the Lob API.
-    """
-
-    ld = user.landlord_details
-    assert ld.address_lines_for_mailing
-    ll_addr_details = ld.get_or_create_address_details_model()
-    landlord_verification = lob_api.verify_address(**ll_addr_details.as_lob_params())
-    user_verification = lob_api.verify_address(**user.onboarding_info.as_lob_params())
-
-    logger.info(
-        f"Sending {description} to landlord with {landlord_verification['deliverability']} "
-        f"landlord address."
-    )
-
-    return lob_api.mail_certified_letter(
-        description=description,
-        to_address={
-            "name": ld.name,
-            **lob_api.verification_to_inline_address(landlord_verification),
-        },
-        from_address={
-            "name": user.full_legal_name,
-            **lob_api.verification_to_inline_address(user_verification),
-        },
-        file=BytesIO(pdf_bytes),
-        color=False,
-        double_sided=False,
-    )
-
-
-def send_letter_via_lob(letter: models.Letter, pdf_bytes: bytes) -> bool:
-    """
-    Mails the NoRent letter to the user's landlord via Lob. Does
-    nothing if the letter has already been sent.
-
-    Returns True if the letter was just sent.
-    """
-
-    if letter.letter_sent_at is not None:
-        logger.info(f"{letter} has already been mailed to the landlord.")
-        return False
-
-    user = letter.user
-
-    response = send_pdf_to_landlord_via_lob(user, pdf_bytes, "No rent letter")
-
-    letter.lob_letter_object = response
-    letter.tracking_number = response["tracking_number"]
-    letter.letter_sent_at = timezone.now()
-    letter.save()
-
-    user.send_sms_async(
-        _(
-            "%(name)s you've sent your letter of non-payment of rent. "
-            "You can track the delivery of your letter using "
-            "USPS Tracking: %(url)s."
-        )
-        % {
-            "name": user.full_legal_name,
-            "url": USPS_TRACKING_URL_PREFIX + letter.tracking_number,
-        }
-    )
-
-    return True
 
 
 def email_letter_to_landlord(letter: models.Letter, pdf_bytes: bytes) -> bool:
@@ -186,23 +115,6 @@ def create_letter(user: JustfixUser, rps: List[models.RentPeriod]) -> models.Let
     return letter
 
 
-def _merge_pdfs(pdfs: List[bytes]) -> bytes:
-    merger = PyPDF2.PdfFileMerger()
-    for pdf_bytes in pdfs:
-        merger.append(PyPDF2.PdfFileReader(BytesIO(pdf_bytes)))
-    outfile = BytesIO()
-    merger.write(outfile)
-    return outfile.getvalue()
-
-
-def render_multilingual_letter(letter: models.Letter) -> bytes:
-    pdf_bytes = render_pdf_bytes(letter.html_content)
-    if letter.localized_html_content:
-        localized_pdf_bytes = render_pdf_bytes(letter.localized_html_content)
-        pdf_bytes = _merge_pdfs([pdf_bytes, localized_pdf_bytes])
-    return pdf_bytes
-
-
 def send_letter(letter: models.Letter):
     """
     Send the given letter using whatever information is populated
@@ -223,7 +135,12 @@ def send_letter(letter: models.Letter):
         email_letter_to_landlord(letter, pdf_bytes)
 
     if ld.address_lines_for_mailing:
-        send_letter_via_lob(letter, pdf_bytes)
+        send_letter_via_lob(
+            letter,
+            pdf_bytes,
+            sms_text=USER_CONFIRMATION_TEXT,
+            letter_description="No rent letter",
+        )
 
     if user.email:
         email_react_rendered_content_with_attachment(

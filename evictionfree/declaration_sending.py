@@ -61,7 +61,7 @@ def create_declaration(user: JustfixUser) -> SubmittedHardshipDeclaration:
 
 def render_declaration(decl: SubmittedHardshipDeclaration) -> bytes:
     from loc.views import render_pdf_bytes
-    from norent.letter_sending import _merge_pdfs
+    from project.util.letter_sending import _merge_pdfs
 
     v = hardship_declaration.HardshipDeclarationVariables(**decl.declaration_variables)
     form_pdf_bytes = hardship_declaration.fill_hardship_pdf(v, decl.locale)
@@ -113,8 +113,7 @@ def send_declaration_via_lob(decl: SubmittedHardshipDeclaration, pdf_bytes: byte
 
     Returns True if the declaration was just sent.
     """
-
-    from norent.letter_sending import send_pdf_to_landlord_via_lob, USPS_TRACKING_URL_PREFIX
+    from project.util.letter_sending import send_pdf_to_landlord_via_lob, USPS_TRACKING_URL_PREFIX
 
     if decl.mailed_at is not None:
         logger.info(f"{decl} has already been mailed to the landlord.")

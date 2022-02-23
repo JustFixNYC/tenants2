@@ -1,0 +1,28 @@
+footer .container {
+  padding: 2.5rem 0.75rem;
+
+  .content {
+    p {
+      font-size: 0.875rem;
+      line-height: 0.875rem;
+      margin: 0;
+    }
+
+    figure.image {
+      margin: 0;
+      max-width: 200px;
+    }
+
+    .is-divider {
+      margin-bottom: 1rem;
+    }
+
+    // Bottom outbound links:
+    .is-uppercase a {
+      font-size: 0.875rem;
+      text-decoration: none;
+      font-weight: 400;
+      font-family: $jf-alt-title-family;
+    }
+  }
+}

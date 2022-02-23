@@ -91,13 +91,13 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
         shouldBeSkipped: isUserLoggedIn,
       },
       {
+        path: routes.issues.prefix,
+        component: LaLetterBuilderIssuesRoutes,
+      },
+      {
         path: routes.landlordInfo,
         exact: true,
         component: LaLetterBuilderLandlordNameAddressEmail,
-      },
-      {
-        path: routes.issues.prefix,
-        component: LaLetterBuilderIssuesRoutes,
       },
       {
         path: routes.accessDates,
@@ -132,8 +132,8 @@ export const HabitabilityProgressRoutes = buildProgressRoutesComponent(
 const LaLetterBuilderIssuesRoutes = () => (
   <IssuesRoutes
     routes={LaLetterBuilderRouteInfo.locale.habitability.issues}
-    toBack={LaLetterBuilderRouteInfo.locale.habitability.landlordInfo}
-    toNext={LaLetterBuilderRouteInfo.locale.habitability.accessDates}
+    toBack={LaLetterBuilderRouteInfo.locale.habitability.riskConsent}
+    toNext={LaLetterBuilderRouteInfo.locale.habitability.landlordInfo}
   ></IssuesRoutes>
 );
 

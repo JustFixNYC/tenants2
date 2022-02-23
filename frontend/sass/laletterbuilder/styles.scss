@@ -53,22 +53,9 @@ $jf-navbar-content: $secondary;
 
 @import "../norent/_primary_pages.scss";
 
-.jf-laletterbuilder-logo {
-  font-weight: 600;
-  font-family: $jf-title-family;
-  letter-spacing: 0;
-}
-
-.jf-norent-builder-page {
-  padding: 2.25rem 1.5rem;
-}
-
-.jf-norent-builder-page,
+// SITE-WIDE STYLE DEFAULTS
 .jf-site-laletterbuilder {
   background-color: $secondary;
-}
-
-.jf-site-laletterbuilder {
   font-family: $jf-body-family;
   // DEFAULT BODY FONT SPECS:
   font-size: 1.2rem;
@@ -97,4 +84,16 @@ $jf-navbar-content: $secondary;
     font-size: 1.5rem;
     line-height: 1.75rem;
   }
+}
+
+.jf-laletterbuilder-logo {
+  font-weight: 600;
+  font-family: $jf-title-family;
+  letter-spacing: 0;
+}
+
+// NORENT STYLING OVERRIDES:
+.jf-norent-builder-page {
+  padding: 2.25rem 1.5rem;
+  background-color: $secondary;
 }

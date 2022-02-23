@@ -105,3 +105,9 @@ def send_letter_via_lob(
     )
 
     return True
+
+
+def does_user_have_ll_mailing_addr_or_email(user) -> bool:
+    return hasattr(user, "landlord_details") and (
+        user.landlord_details.address_lines_for_mailing or user.landlord_details.email
+    )

@@ -12,10 +12,6 @@ import {
 } from "../../ui/cross-language";
 import { OutboundLink } from "../../ui/outbound-link";
 import Page from "../../ui/page";
-import {
-  HabitabilityLetterEmailToLandlordForUser,
-  HabitabilityLetterTranslation,
-} from "../letter-builder/habitability/habitability-letter-content";
 
 const Microcopy: React.FC<{ children: React.ReactNode }> = (props) => (
   <p className="is-uppercase is-size-7">{props.children}</p>

@@ -140,7 +140,7 @@ export const HabitabilityLetterForUserStaticPage: React.FC<{
       <HabitabilityLetterStaticPage
         {...lcProps}
         isPdf={isPdf}
-        title={li18n._(t`Your NoRent.org letter`)}
+        title={li18n._(t`Your habitability letter`)}
       />
     )}
   />

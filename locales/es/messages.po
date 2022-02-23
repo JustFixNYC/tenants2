@@ -345,6 +345,10 @@ msgstr "Crear mi carta"
 msgid "Build power in numbers"
 msgstr "Construye poder común"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:31
+msgid "Build your Letter"
+msgstr ""
+
 #: frontend/lib/laletterbuilder/letter-builder/welcome.tsx:10
 #: frontend/lib/norent/letter-builder/welcome.tsx:9
 msgid "Build your letter"

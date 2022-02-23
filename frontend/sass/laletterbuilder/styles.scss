@@ -92,7 +92,31 @@ $jf-navbar-content: $secondary;
   letter-spacing: 0;
 }
 
-// NORENT STYLING OVERRIDES:
+// PROGRESS BAR STYLING OVERRIDES
+.jf-progress-title-wrapper {
+  .jf-page-steps-title.title {
+    font-size: 1.125rem;
+    font-family: $jf-body-family;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+
+    // Ooof! We unfortunately need to override some rules marked as "important"
+    &.has-text-centered {
+      text-align: left !important;
+    }
+    &.has-text-grey {
+      color: $primary !important;
+    }
+  }
+  progress {
+    border: 1px solid $primary;
+  }
+  progress::-webkit-progress-bar {
+    background: $secondary;
+  }
+}
+
+// NORENT STYLING OVERRIDES
 .jf-norent-builder-page {
   padding: 2.25rem 1.5rem;
   background-color: $secondary;

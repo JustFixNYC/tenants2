@@ -4,11 +4,11 @@
 // where this CSS file will be when the site is deployed. (Yes, this is the
 // CSS for the LaLetterBuilder site, but it inherits most of its styling from
 // NoRent at the time of this writing.)
-$norent-root: "../norent";
+$laletterbuilder-root: "../laletterbuilder";
 
-$jf-body-family: "Open Sans", "Segoe UI", Tahoma, sans-serif;
-$jf-title-family: "Montserrat Black", sans-serif;
-$jf-alt-title-family: "Montserrat Bold", sans-serif;
+$jf-body-family: "Degular", Arial, Helvetica, sans-serif;
+$jf-title-family: "Degular Display", Arial, Helvetica, sans-serif;
+$jf-alt-title-family: "Suisse Int'l Mono", "Courier New", Courier, monospace;
 
 @import "../_util.scss";
 @import "./_bulma-overrides.scss";
@@ -18,14 +18,14 @@ $jf-alt-title-family: "Montserrat Bold", sans-serif;
 @import "../_a11y.scss";
 @import "../_safe-mode.scss";
 @import "../_modal.scss";
-@import "../norent/_modal-overrides.scss";
+@import "./_modal-overrides.scss";
 @import "../_loading-overlay.scss";
 @import "../_progress.scss";
 @import "../_dev.scss";
 @import "../_forms.scss";
-@import "../norent/forms-overrides.scss";
+@import "./forms-overrides.scss";
 @import "../_buttons.scss";
-@import "../norent/_button-overrides.scss";
+@import "./_button-overrides.scss";
 @import "../_big-list.scss";
 @import "../_animations.scss";
 @import "../_footer.scss";
@@ -39,24 +39,61 @@ $jf-alt-title-family: "Montserrat Bold", sans-serif;
 @import "../_accordion.scss";
 @import "../_issues.scss";
 
-@import "../norent/_fonts.scss";
+@import "./_fonts.scss";
 
 // These variables define the background and content colors for the nav-bar
-$jf-navbar-background: $white;
-$jf-navbar-content: $black;
+$jf-navbar-background: $primary;
+$jf-navbar-content: $secondary;
 
 @import "../_navbar.scss";
-@import "../norent/_navbar-overrides.scss";
 
 @import "../_demo-deployment-note.scss";
 
 @import "../norent/_misc.scss";
 
 @import "../norent/_primary_pages.scss";
-@import "../norent/_letter-builder.scss";
+
+// SITE-WIDE STYLE DEFAULTS
+.jf-site-laletterbuilder {
+  background-color: $secondary;
+  font-family: $jf-body-family;
+  // DEFAULT BODY FONT SPECS:
+  font-size: 1.2rem;
+  line-height: 1.44rem;
+  letter-spacing: 0.01rem;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: $jf-title-family;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    line-height: 2.25rem;
+    letter-spacing: 0.03rem;
+  }
+  h2 {
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+  }
+  p {
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+  }
+}
 
 .jf-laletterbuilder-logo {
   font-weight: 600;
   font-family: $jf-title-family;
   letter-spacing: 0;
+}
+
+// NORENT STYLING OVERRIDES:
+.jf-norent-builder-page {
+  padding: 2.25rem 1.5rem;
+  background-color: $secondary;
 }

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-23 18:58+0000\n"
+"POT-Creation-Date: 2022-02-23 19:00+0000\n"
 "PO-Revision-Date: 2021-12-07 22:06\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -94,7 +94,7 @@ msgstr "¡%(city)s, %(state_name)s no existe!"
 #: norent/letter_sending.py:38
 #, fuzzy, python-format
 #| msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
-msgid "%(name)s you've sent your letter of non-payment of rent.You can track the delivery of your letter using USPS Tracking: %(url)s."
+msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
 msgstr "%(name)s has enviado tu carta de no pago de renta. Puedes seguir la entrega de tu carta usando USPS Tracking: %(url)s."
 
 #: norent/schema.py:236

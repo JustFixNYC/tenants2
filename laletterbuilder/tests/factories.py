@@ -1,7 +1,7 @@
 import factory
 from users.tests.factories import UserFactory
 from loc.models import LandlordDetails
-from models import HabitabilityLetter
+from laletterbuilder.models import HabitabilityLetter
 
 
 class LandlordDetailsFactory(factory.django.DjangoModelFactory):

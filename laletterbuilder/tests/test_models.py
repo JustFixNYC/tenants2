@@ -1,5 +1,5 @@
 from laletterbuilder.models import HabitabilityLetter
-from factories import HabitabilityLetterFactory
+from .factories import HabitabilityLetterFactory
 
 
 class TestHabitabilityLetter:

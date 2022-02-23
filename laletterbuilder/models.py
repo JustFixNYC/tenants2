@@ -10,7 +10,6 @@ LETTER_TYPE_CHOICES = common_data.Choices.from_file("la-letter-builder-letter-ch
 class Letter(LocalizedHTMLLetter):
     """
     A LA Letter Builder letter that's ready to be sent, or has already been sent.
-    It has at least x information
     """
 
     class Meta:

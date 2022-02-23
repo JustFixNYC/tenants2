@@ -50,15 +50,6 @@ const LaLetterBuilderBrand: React.FC<{}> = () => {
   );
 };
 
-const LaLetterBuilderTopActions: React.FC<{}> = () => (
-  <>
-    <NavbarLanguageDropdown />
-    <Link className="navbar-item" to={Routes.locale.habitability.phoneNumber}>
-      <Trans>Log in</Trans>
-    </Link>
-  </>
-);
-
 const LaLetterBuilderMenuItems: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   return (

@@ -134,7 +134,9 @@ const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
 };
 
 export function createLaLetterBuilderPreviewPage(
-  englishVersionOfLetterContent: LetterContent
+  englishVersionOfLetterContent: LetterContent,
+  emailContent: React.FC<{}>,
+  letterTranslation: React.FC<{}>
 ) {
   return MiddleProgressStep((props) => {
     const { session } = useContext(AppContext);
@@ -143,8 +145,8 @@ export function createLaLetterBuilderPreviewPage(
       <LetterPreviewPage
         title="LA Letter builder title"
         letterContent={englishVersionOfLetterContent}
-        emailContent={HabitabilityLetterEmailToLandlordForUser}
-        letterTranslation={HabitabilityLetterTranslation}
+        emailContent={emailContent}
+        letterTranslation={letterTranslation}
         session={session}
         prevStep={props.prevStep}
         nextStep={props.nextStep}

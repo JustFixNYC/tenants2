@@ -97,4 +97,18 @@ $jf-navbar-content: $secondary;
 .jf-norent-builder-page {
   padding: 2.25rem 1.5rem;
   background-color: $secondary;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+$navbar-height: 5rem;
+$footer-offset: 1rem;
+
+.jf-norent-internal-above-footer-content {
+  min-height: calc(100vh - #{$navbar-height});
+  @include tablet {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    min-height: calc(100vh - 8rem - #{$navbar-height} - #{$footer-offset});
+  }
 }

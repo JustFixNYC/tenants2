@@ -1,3 +1,8 @@
+// OVERRIDES DEFAULT BODY PADDING TO ACCOMMODATE TALLER NAVBAR
+.has-navbar-fixed-top.jf-site-laletterbuilder {
+  padding-top: 5rem;
+}
+
 nav.navbar {
   background-color: $secondary;
   border-bottom: 2px solid $primary;

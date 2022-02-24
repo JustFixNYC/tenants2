@@ -131,6 +131,61 @@ $jf-navbar-content: $secondary;
   }
 }
 
+// ISSUE CHECKLIST CUSTOMIZATIONS
+
+.jf-laletterbuilder-issues-list {
+  p:first-child {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid $primary;
+  }
+  .jf-accordion-item {
+    margin-bottom: 1rem;
+    details {
+      margin-bottom: 0;
+      summary {
+        font-size: 1.125rem;
+        padding: 0 0 1rem 0;
+        margin: 0;
+        border-bottom: 1px solid $primary;
+        &:focus {
+          outline-offset: 5px;
+        }
+        // Fix bug where scrollbars appear on accordion titles
+        .media-content {
+          overflow-x: unset;
+        }
+      }
+
+      .jf-checkbox {
+        .jf-checkbox-symbol {
+          width: 100%;
+          position: absolute;
+          border: 1px solid $primary;
+          min-height: 2.8rem;
+          border-radius: 4px;
+        }
+        // Styling of the check mark symbol itself:
+        input:checked + .jf-checkbox-symbol {
+          background-position: 98%;
+        }
+        .jf-label-text {
+          margin: 0.3em 0.6em 0.3em 0;
+          font-size: 0.875rem;
+          height: 0.8rem;
+          padding: 1rem;
+          z-index: 5;
+          color: $primary;
+        }
+
+        input:checked + .jf-label-text {
+          color: $secondary;
+        }
+      }
+    }
+  }
+}
+
 // NORENT STYLING OVERRIDES
 
 .jf-norent-builder-page {
@@ -187,4 +242,10 @@ ol.is-marginless {
   &.jf-letter-translation .message-body {
     background-color: white;
   }
+}
+
+.is-divider {
+  color: $primary;
+  border: 1px solid $primary;
+  margin: 1rem 0;
 }

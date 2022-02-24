@@ -55,6 +55,7 @@ import { Modal } from "../ui/modal";
 import { UpdateBrowserStorage, useBrowserStorage } from "../browser-storage";
 import { NoScriptFallback } from "../ui/progressive-enhancement";
 import { getQuerystringVar } from "../util/querystring";
+import { Accordion } from "../ui/accordion";
 
 const checkSvg = require("../svg/check-solid.svg") as JSX.Element;
 
@@ -398,6 +399,7 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
         This <strong>issue checklist</strong> will be sent to your landlord.
       </>
     );
+    const useListStyle = this.props.useListStyleIssueChecklist;
     return (
       <Page title="Home self-inspection" withHeading>
         <div>
@@ -412,14 +414,47 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
               <CovidRiskMessage /> <br />{" "}
             </>
           </NoScriptFallback>
-          {groupByTwo(toDjangoChoices(IssueAreaChoices, labels)).map(
-            ([a, b], i) => (
-              <div className="columns is-tablet" key={i}>
-                {this.renderColumnForArea(...a)}
-                {b && this.renderColumnForArea(...b)}
-              </div>
-            )
-          )}
+          {useListStyle
+            ? toDjangoChoices(IssueAreaChoices, labels).map(
+                ([area, areaLabel], i) => (
+                  <div className="jf-laletterbuilder-issues-list" key={i}>
+                    <p>{areaLabel}</p>
+                    {issueChoicesForArea(area).map(([issue, issueLabel], i) => (
+                      <Accordion
+                        question={issueLabel}
+                        key={i}
+                        questionClassName="has-text-primary"
+                      >
+                        {IssueAreaChoices.map((issueLocation, i) => (
+                          // TODO: Replace this checkbox with a form field that will save the result to the session!
+                          <label className="checkbox jf-checkbox" key={i}>
+                            <input
+                              type="checkbox"
+                              name="issues"
+                              id={`issues_${issueLocation}`}
+                              aria-invalid="false"
+                              value={issueLocation}
+                            />{" "}
+                            <span className="jf-checkbox-symbol"></span>{" "}
+                            <span className="jf-label-text">
+                              {getIssueAreaChoiceLabels()[issueLocation]}
+                            </span>
+                          </label>
+                        ))}
+                      </Accordion>
+                    ))}
+                    <br />
+                  </div>
+                )
+              )
+            : groupByTwo(toDjangoChoices(IssueAreaChoices, labels)).map(
+                ([a, b], i) => (
+                  <div className="columns is-tablet" key={i}>
+                    {this.renderColumnForArea(...a)}
+                    {b && this.renderColumnForArea(...b)}
+                  </div>
+                )
+              )}
           <br />
           <ProgressButtons>
             <Link to={this.props.toBack} className="button is-light is-medium">
@@ -440,26 +475,37 @@ type IssuesRoutesProps = {
   toBack: string;
   toNext: string;
   withModal?: boolean;
+  /**
+   * If true, issue list will show as one large list of checkboxes, with accordian
+   * dropdowns for each sub-category of issues.
+   *
+   * If false or undefined, issue list will use the default structure where the
+   * user selects an area box from a grid to start marking issues.
+   */
+  useListStyleIssueChecklist?: boolean;
 };
 
 export function IssuesRoutes(props: IssuesRoutesProps): JSX.Element {
-  const { routes } = props;
+  const { routes, useListStyleIssueChecklist } = props;
   return (
     <Switch>
       <Route
         path={routes.home}
         exact
         render={() => <IssuesHome {...props} />}
+        useListStyleIssueChecklist={useListStyleIssueChecklist}
       />
       <Route
         path={routes.modal}
         exact
         render={() => <IssuesHome {...props} withModal={true} />}
       />
-      <Route
-        path={routes.area.parameterizedRoute}
-        render={(ctx) => <IssuesArea {...ctx} toHome={routes.home} />}
-      />
+      {!useListStyleIssueChecklist && (
+        <Route
+          path={routes.area.parameterizedRoute}
+          render={(ctx) => <IssuesArea {...ctx} toHome={routes.home} />}
+        />
+      )}
     </Switch>
   );
 }

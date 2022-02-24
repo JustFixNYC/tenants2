@@ -137,6 +137,7 @@ const LaLetterBuilderIssuesRoutes = () => (
     routes={LaLetterBuilderRouteInfo.locale.habitability.issues}
     toBack={LaLetterBuilderRouteInfo.locale.habitability.riskConsent}
     toNext={LaLetterBuilderRouteInfo.locale.habitability.landlordInfo}
+    useListStyleIssueChecklist
   ></IssuesRoutes>
 );
 

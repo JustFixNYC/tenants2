@@ -13,7 +13,7 @@ from users.tests.factories import UserFactory
 from laletterbuilder.tests.factories import LandlordDetailsFactory
 from project.util.testing_util import one_field_err
 import project.locales
-from laletterbuilder.models import Letter
+from laletterbuilder.models import HabitabilityLetter
 
 
 DEFAULT_LANDLORD_DETAILS_INPUT = {
@@ -254,7 +254,8 @@ class TestLaLetterBuilderSendLetter:
         OnboardingInfoFactory(user=self.user)
         assert self.execute()["errors"] == []
 
-        letter = Letter.objects.get(user=self.graphql_client.request.user)
+        # TODO: add tests for all the other kinds of letters too
+        letter = HabitabilityLetter.objects.get(user=self.graphql_client.request.user)
         assert letter.locale == "es"
         assert (
             "LETTER TEXT" in letter.html_content
@@ -262,27 +263,6 @@ class TestLaLetterBuilderSendLetter:
         assert "Boop Jones" in letter.html_content
         assert 'lang="en"' in letter.html_content
         assert 'lang="es"' in letter.localized_html_content
-        assert letter.letter_sent_at is not None
-        assert letter.tracking_number == mocklob.sample_letter["tracking_number"]
-        assert letter.fully_processed_at is not None
 
-        assert len(mailoutbox) == 2
-        ll_mail = mailoutbox[0]
-        assert ll_mail.to == ["landlordo@calrissian.net"]
-        assert "letter attached" in ll_mail.body
-        assert "Boop Jones" in ll_mail.body
-        assert "sent on behalf" in ll_mail.subject
-        assert len(ll_mail.attachments) == 1
-        assert letter.letter_emailed_at is not None
-
-        user_mail = mailoutbox[1]
-        assert user_mail.to == ["boop@jones.net"]
-        assert "https://example.com/es/faqs" in user_mail.body
-        assert "Hola Boop" in user_mail.body
-        assert "Tu carta de NoRent y pasos siguientes importantes" in user_mail.subject
-
-        assert len(smsoutbox) == 1
-        assert "Boop Jones" in smsoutbox[0].body
-        assert "USPS" in smsoutbox[0].body
-
-        assert len(user_mail.attachments) == 1
+        # TODO: add tests for landlord email and user email after implementing
+        # (see NoRent test_schema.py)

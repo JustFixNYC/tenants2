@@ -7,7 +7,6 @@ from frontend.static_content import (
 from project.util.site_util import SITE_CHOICES
 from project import locales
 from django.db import transaction
-from django.utils import timezone
 
 
 # The URL, relative to the localized site root, that renders the LA Letter builder
@@ -47,7 +46,8 @@ def create_letter(user: JustfixUser) -> models.Letter:
         ).html
 
     with transaction.atomic():
-        letter = models.Letter(
+        # TODO: Make this work for any type of letter
+        letter = models.HabitabilityLetter(
             user=user,
             locale=user.locale,
             html_content=html_content,
@@ -69,6 +69,4 @@ def create_and_send_letter(user: JustfixUser):
 
 
 def send_letter(letter: models.Letter):
-
-    letter.fully_processed_at = timezone.now()
-    letter.save()
+    pass

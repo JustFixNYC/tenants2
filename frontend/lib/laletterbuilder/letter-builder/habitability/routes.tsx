@@ -55,12 +55,13 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
   return {
     label: li18n._(t`Build your Letter`),
     toLatestStep: routes.latestStep,
-    welcomeSteps: [],
-    stepsToFillOut: [
+    welcomeSteps: [
       ...createStartAccountOrLoginSteps(
         routes,
         LaLetterBuilderRouteInfo.locale.home
       ),
+    ],
+    stepsToFillOut: [
       ...skipStepsIf(isUserLoggedIn, [
         {
           path: routes.name,
@@ -131,7 +132,7 @@ export const HabitabilityProgressRoutes = buildProgressRoutesComponent(
 const LaLetterBuilderIssuesRoutes = () => (
   <IssuesRoutes
     routes={LaLetterBuilderRouteInfo.locale.habitability.issues}
-    toBack={LaLetterBuilderRouteInfo.locale.habitability.riskConsent}
+    toBack={LaLetterBuilderRouteInfo.locale.home} // TODO: change this to something after signin
     toNext={LaLetterBuilderRouteInfo.locale.habitability.landlordInfo}
   ></IssuesRoutes>
 );

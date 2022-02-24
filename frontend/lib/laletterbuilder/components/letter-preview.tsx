@@ -12,10 +12,6 @@ import {
 } from "../../ui/cross-language";
 import { OutboundLink } from "../../ui/outbound-link";
 import Page from "../../ui/page";
-import {
-  HabitabilityLetterEmailToLandlordForUser,
-  HabitabilityLetterTranslation,
-} from "../letter-builder/habitability/habitability-letter-content";
 
 const Microcopy: React.FC<{ children: React.ReactNode }> = (props) => (
   <p className="is-uppercase is-size-7">{props.children}</p>
@@ -135,7 +131,9 @@ const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
 };
 
 export function createLaLetterBuilderPreviewPage(
-  englishVersionOfLetterContent: LetterContent
+  englishVersionOfLetterContent: LetterContent,
+  emailContent: React.FC<{}>,
+  letterTranslation: React.FC<{}>
 ) {
   return MiddleProgressStep((props) => {
     const { session } = useContext(AppContext);
@@ -144,8 +142,8 @@ export function createLaLetterBuilderPreviewPage(
       <LetterPreviewPage
         title="LA Letter builder title"
         letterContent={englishVersionOfLetterContent}
-        emailContent={HabitabilityLetterEmailToLandlordForUser}
-        letterTranslation={HabitabilityLetterTranslation}
+        emailContent={emailContent}
+        letterTranslation={letterTranslation}
         session={session}
         prevStep={props.prevStep}
         nextStep={props.nextStep}

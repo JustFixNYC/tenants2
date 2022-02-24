@@ -1,5 +1,7 @@
 import pytest
 
+from django.contrib.auth.models import AnonymousUser
+from onboarding.tests.factories import OnboardingInfoFactory
 from users.models import JustfixUser
 from project.schema_base import (
     get_last_queried_phone_number,
@@ -9,6 +11,9 @@ from project.schema_base import (
 from onboarding.scaffolding import update_scaffolding, SCAFFOLDING_SESSION_KEY
 from users.tests.factories import UserFactory
 from laletterbuilder.tests.factories import LandlordDetailsFactory
+from project.util.testing_util import one_field_err
+import project.locales
+from laletterbuilder.models import HabitabilityLetter
 
 
 DEFAULT_LANDLORD_DETAILS_INPUT = {
@@ -183,3 +188,81 @@ class TestLaLetterBuilderCreateAccount:
 
         assert get_last_queried_phone_number(request) is None
         assert SCAFFOLDING_SESSION_KEY not in request.session
+
+
+class TestLaLetterBuilderSendLetter:
+    QUERY = """
+    mutation {
+        laLetterBuilderSendLetter(input: {}) {
+            errors { field, messages }
+        }
+    }
+    """
+
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, graphql_client, db):
+        self.user = UserFactory(email="boop@jones.net")
+        graphql_client.request.user = self.user
+        self.graphql_client = graphql_client
+
+    def create_landlord_details(self):
+        LandlordDetailsFactory(user=self.user, email="landlordo@calrissian.net")
+
+    def execute(self):
+        res = self.graphql_client.execute(self.QUERY)
+        return res["data"]["laLetterBuilderSendLetter"]
+
+    def test_it_requires_login(self):
+        self.graphql_client.request.user = AnonymousUser()
+        assert self.execute()["errors"] == one_field_err(
+            "You do not have permission to use this form!"
+        )
+
+    def test_it_raises_err_when_no_onboarding_info_exists(self):
+        assert self.execute()["errors"] == one_field_err(
+            "You haven't provided any account details yet!"
+        )
+
+    def test_it_raises_err_when_no_landlord_details_exist(self):
+        OnboardingInfoFactory(user=self.user)
+        assert self.execute()["errors"] == one_field_err(
+            "You haven't provided any landlord details yet!"
+        )
+
+    def test_it_raises_err_when_used_on_wrong_site(self):
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
+        assert self.execute()["errors"] == one_field_err(
+            "This form can only be used from the LA Letter Builder site."
+        )
+
+    def test_it_creates_letter(
+        self,
+        allow_lambda_http,
+        use_laletterbuilder_site,
+        requests_mock,
+        mailoutbox,
+        smsoutbox,
+        settings,
+        mocklob,
+    ):
+        settings.IS_DEMO_DEPLOYMENT = False
+        settings.LANGUAGES = project.locales.ALL.choices
+        self.user.locale = "es"
+        self.user.save()
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
+        assert self.execute()["errors"] == []
+
+        # TODO: add tests for all the other kinds of letters too
+        letter = HabitabilityLetter.objects.get(user=self.graphql_client.request.user)
+        assert letter.locale == "es"
+        assert (
+            "LETTER TEXT" in letter.html_content
+        )  # TODO: change this when we get real text in there
+        assert "Boop Jones" in letter.html_content
+        assert 'lang="en"' in letter.html_content
+        assert 'lang="es"' in letter.localized_html_content
+
+        # TODO: add tests for landlord email and user email after implementing
+        # (see NoRent test_schema.py)

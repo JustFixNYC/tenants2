@@ -44,12 +44,6 @@ export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
                 passwordProps={ctx.fieldPropsFor("password")}
                 confirmPasswordProps={ctx.fieldPropsFor("confirmPassword")}
               />
-              <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
-                <Trans>
-                  Yes, JustFix.nyc can text me to follow up about my housing
-                  issues.
-                </Trans>
-              </CheckboxFormField>
               <CheckboxFormField {...ctx.fieldPropsFor("agreeToTerms")}>
                 I agree to the{" "}
                 <ModalLink
@@ -62,6 +56,12 @@ export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
                   LaLetterBuilder.org terms and conditions
                 </ModalLink>
                 .
+              </CheckboxFormField>
+              <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
+                <Trans>
+                  Yes, JustFix.nyc can text me to follow up about my housing
+                  issues.
+                </Trans>
               </CheckboxFormField>
               <ProgressButtons
                 isLoading={ctx.isLoading}

@@ -61,3 +61,12 @@
 .button.is-light {
   @include button-variant($secondary-accent);
 }
+
+.button.is-text {
+  padding: 0;
+  color: $primary;
+
+  &.is-small {
+    font-size: 0.875rem;
+  }
+}

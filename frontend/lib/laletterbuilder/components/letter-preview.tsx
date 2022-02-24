@@ -106,6 +106,7 @@ const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
               Here’s a preview of the email that will be sent on your behalf:
             </Trans>
           </p>
+          <br />
           <ForeignLanguageOnly>
             <InYourLanguageMicrocopy
               additionalContent={
@@ -119,7 +120,7 @@ const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
               {props.session.landlordDetails?.email &&
                 `<${props.session.landlordDetails?.email}>`}
             </div>
-            <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
+            <div className="message-body has-text-left">
               <EmailContent />
             </div>
           </article>

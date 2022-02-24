@@ -31,6 +31,14 @@ form {
     .jf-radio-symbol {
       box-shadow: 0 0 0 2px $white, 0 0 0 3px $grey-light;
     }
+    .jf-label-text,
+    .jf-label-text .subtitle {
+      font-size: 0.875rem;
+      line-height: 0.875rem;
+      a {
+        text-decoration: underline;
+      }
+    }
   }
   .jf-related-text-field-with-checkbox {
     // Override current field position offset

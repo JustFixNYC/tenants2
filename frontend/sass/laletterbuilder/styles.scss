@@ -35,7 +35,6 @@ $jf-alt-title-family: "Suisse Int'l Mono", "Courier New", Courier, monospace;
 @import "../_helpers.scss";
 @import "../_language-toggle.scss";
 @import "../_email.scss";
-@import "../norent/_email-overrides.scss";
 @import "../_accordion.scss";
 @import "../_issues.scss";
 
@@ -72,7 +71,9 @@ $jf-navbar-content: $secondary;
     font-family: $jf-title-family;
   }
 
-  h1 {
+  h1,
+  h1.title,
+  .content h1.title {
     font-size: 2.25rem;
     line-height: 2.25rem;
     letter-spacing: 0.03rem;
@@ -81,9 +82,22 @@ $jf-navbar-content: $secondary;
     font-size: 1.8rem;
     line-height: 1.8rem;
   }
-  p {
+  p,
+  .subtitle {
     font-size: 1.5rem;
     line-height: 1.75rem;
+
+    &.is-size-6,
+    &.is-6 {
+      line-height: 1rem;
+      font-size: 1rem;
+    }
+
+    &.is-size-7,
+    &.is-7 {
+      line-height: 0.875rem;
+      font-size: 0.875rem;
+    }
   }
 }
 
@@ -118,6 +132,7 @@ $jf-navbar-content: $secondary;
 }
 
 // NORENT STYLING OVERRIDES
+
 .jf-norent-builder-page {
   padding: 2.25rem 1.5rem;
   background-color: $secondary;
@@ -134,5 +149,40 @@ $footer-offset: 1rem;
     margin-top: 4rem;
     margin-bottom: 4rem;
     min-height: calc(100vh - 8rem - #{$navbar-height} - #{$footer-offset});
+  }
+}
+
+ol.is-marginless {
+  padding-left: 1.2rem;
+}
+
+.jf-accordion-item img {
+  filter: grayscale(100%) brightness(0.1);
+}
+
+.box {
+  color: $primary;
+}
+
+.content .jf-letter-preview {
+  box-shadow: none;
+  border: 1px solid $primary;
+}
+
+.message {
+  border: 1px solid $primary;
+
+  .message-header {
+    background-color: $primary;
+    color: $secondary;
+  }
+  .message-body {
+    background-color: $secondary;
+    color: $primary;
+    padding: 1.5rem;
+  }
+
+  &.jf-letter-translation .message-body {
+    background-color: white;
   }
 }

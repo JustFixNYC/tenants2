@@ -29,7 +29,7 @@ $jf-alt-title-family: "Suisse Int'l Mono", "Courier New", Courier, monospace;
 @import "../_big-list.scss";
 @import "../_animations.scss";
 @import "../_footer.scss";
-@import "../norent/_footer-overrides.scss";
+@import "./_footer-overrides.scss";
 @import "../_letter-preview.scss";
 @import "../_autocomplete.scss";
 @import "../_helpers.scss";
@@ -46,6 +46,7 @@ $jf-navbar-background: $primary;
 $jf-navbar-content: $secondary;
 
 @import "../_navbar.scss";
+@import "./navbar-overrides";
 
 @import "../_demo-deployment-note.scss";
 
@@ -120,4 +121,18 @@ $jf-navbar-content: $secondary;
 .jf-norent-builder-page {
   padding: 2.25rem 1.5rem;
   background-color: $secondary;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+$navbar-height: 5rem;
+$footer-offset: 1rem;
+
+.jf-norent-internal-above-footer-content {
+  min-height: calc(100vh - #{$navbar-height});
+  @include tablet {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    min-height: calc(100vh - 8rem - #{$navbar-height} - #{$footer-offset});
+  }
 }

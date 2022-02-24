@@ -1151,6 +1151,10 @@ msgstr "¡Únete a nuestra <0/>lista de distribución!"
 msgid "Join the tenant movement"
 msgstr "Únete al movimiento de los inquilinos"
 
+#: frontend/lib/laletterbuilder/components/footer.tsx:15
+msgid "JustFix and SAJE are registered 501(c)(3) nonprofit organizations."
+msgstr ""
+
 #: frontend/lib/ui/footer.tsx:27
 msgid "JustFix.nyc is a registered 501(c)(3) nonprofit organization."
 msgstr "JustFix.nyc es una organización registrada 501(c)(3) sin fines de lucro."
@@ -1179,7 +1183,7 @@ msgstr "LaLetterBuilder is a collaboration between JustFix.nyc and legal organiz
 msgid "LaLetterBuilder.org <0/>sent on behalf of <1/>"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/homepage.tsx:11
+#: frontend/lib/laletterbuilder/homepage.tsx:14
 msgid "Landing page"
 msgstr ""
 
@@ -1733,6 +1737,7 @@ msgstr ""
 msgid "Preview this declaration as a PDF"
 msgstr "Vista previa de esta declaración como PDF"
 
+#: frontend/lib/laletterbuilder/components/footer.tsx:29
 #: frontend/lib/ui/privacy-info-modal.tsx:30
 msgid "Privacy Policy"
 msgstr "Política de Privacidad"
@@ -2130,6 +2135,7 @@ msgstr "Los inquilinos afectados por la crisis del COVID-19 están protegidos de
 msgid "Tennessee"
 msgstr "Tennessee"
 
+#: frontend/lib/laletterbuilder/components/footer.tsx:39
 #: frontend/lib/ui/privacy-info-modal.tsx:31
 msgid "Terms of Use"
 msgstr "Términos de Uso"
@@ -2177,7 +2183,7 @@ msgstr "Este edificio es propiedad de la <0>NYC Housing Authority (NYCHA)</0>."
 msgid "This information seems wrong. Can I change it?"
 msgstr "Esta información parece incorrecta. ¿Puedo cambiarla?"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:17
+#: frontend/lib/laletterbuilder/homepage.tsx:20
 msgid "This is a test localization message for LaLetterBuilder."
 msgstr "Este es un mensaje de localización de prueba para LaLetterBuilder."
 

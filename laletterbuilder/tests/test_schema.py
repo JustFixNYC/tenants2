@@ -236,7 +236,7 @@ class TestLaLetterBuilderSendLetter:
             "This form can only be used from the LA Letter Builder site."
         )
 
-    def test_it_works(
+    def test_it_creates_letter(
         self,
         allow_lambda_http,
         use_laletterbuilder_site,

@@ -19,7 +19,6 @@ import {
 } from "./habitability-letter-content";
 import { createLaLetterBuilderPreviewPage } from "../../components/letter-preview";
 import { LaLetterBuilderSendOptions } from "../send-options";
-import { LaLetterBuilderWelcome } from "../welcome";
 import {
   LaLetterBuilderAskName,
   LaLetterBuilderAskCityState,
@@ -56,15 +55,12 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
   return {
     label: li18n._(t`Build your Letter`),
     toLatestStep: routes.latestStep,
-    welcomeSteps: [
-      {
-        path: routes.welcome,
-        exact: true,
-        component: LaLetterBuilderWelcome,
-      },
-      ...createStartAccountOrLoginSteps(routes),
-    ],
+    welcomeSteps: [],
     stepsToFillOut: [
+      ...createStartAccountOrLoginSteps(
+        routes,
+        LaLetterBuilderRouteInfo.locale.home
+      ),
       ...skipStepsIf(isUserLoggedIn, [
         {
           path: routes.name,

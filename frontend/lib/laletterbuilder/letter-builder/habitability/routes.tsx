@@ -30,6 +30,8 @@ import {
 import { IssuesRoutes } from "../../../issues/routes";
 import { LaLetterBuilderLandlordNameAddressEmail } from "../../components/landlord-info";
 import { LaLetterBuilderRiskConsent } from "../../components/consent";
+import { t } from "@lingui/macro";
+import { li18n } from "../../../i18n-lingui";
 
 const HabitabilityRoutes: React.FC<{}> = () => (
   <Switch>
@@ -54,6 +56,7 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = LaLetterBuilderRouteInfo.locale.habitability;
 
   return {
+    label: li18n._(t`Build your Letter`),
     toLatestStep: routes.latestStep,
     welcomeSteps: [
       {

@@ -14,7 +14,6 @@ export function createHabitabilityRouteInfo(prefix: string) {
   return {
     [ROUTE_PREFIX]: prefix,
     latestStep: prefix,
-    welcome: `${prefix}/welcome`,
     ...createStartAccountOrLoginRouteInfo(prefix),
     name: `${prefix}/name`,
     city: `${prefix}/city`,

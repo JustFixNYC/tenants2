@@ -24,7 +24,23 @@
         @include outline-focus();
       }
       .media .media-right {
-        margin-top: 0.15rem;
+        .image {
+          margin-top: 0.15rem;
+        }
+        .jf-accordion-close-text-label {
+          display: none;
+        }
+        .jf-accordion-open-text-label {
+          display: block;
+        }
+      }
+    }
+    &[open] summary .media .media-right {
+      .jf-accordion-close-text-label {
+        display: block;
+      }
+      .jf-accordion-open-text-label {
+        display: none;
       }
     }
   }

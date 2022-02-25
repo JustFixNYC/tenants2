@@ -63,6 +63,7 @@ class LaIssuesHome extends React.Component<LaIssuesHomeProps> {
     const labels = getLaIssueAreaChoiceLabels();
     return (
       <Page title="Select which repairs are needed" withHeading>
+        <br />
         <div>
           {toDjangoChoices(LaIssueAreaChoices, labels).map(
             ([area, areaLabel], i) => (

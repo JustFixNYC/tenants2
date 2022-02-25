@@ -57,14 +57,13 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
   return {
     label: li18n._(t`Build your Letter`),
     toLatestStep: routes.latestStep,
-    welcomeSteps: [
-      ...createStartAccountOrLoginSteps(
-        routes,
-        LaLetterBuilderRouteInfo.locale.home
-      ),
-    ],
+    welcomeSteps: [],
     stepsToFillOut: [
       ...skipStepsIf(isUserLoggedIn, [
+        ...createStartAccountOrLoginSteps(
+          routes,
+          LaLetterBuilderRouteInfo.locale.home
+        ),
         {
           path: routes.name,
           exact: true,
@@ -81,17 +80,15 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
           // TODO: add something that short circuits if the user isn't in LA
           component: LaLetterBuilderAskNationalAddress,
         },
+        {
+          path: routes.riskConsent,
+          component: LaLetterBuilderRiskConsent,
+        },
+        {
+          path: routes.createAccount,
+          component: LaLetterBuilderCreateAccount,
+        },
       ]),
-      {
-        path: routes.riskConsent,
-        component: LaLetterBuilderRiskConsent,
-        shouldBeSkipped: isUserLoggedIn,
-      },
-      {
-        path: routes.createAccount,
-        component: LaLetterBuilderCreateAccount,
-        shouldBeSkipped: isUserLoggedIn,
-      },
       {
         path: routes.issues.prefix,
         component: LaLetterBuilderIssuesRoutes,
@@ -134,7 +131,7 @@ export const HabitabilityProgressRoutes = buildProgressRoutesComponent(
 const LaLetterBuilderIssuesRoutes = () => (
   <IssuesRoutes
     routes={LaLetterBuilderRouteInfo.locale.habitability.issues}
-    toBack={LaLetterBuilderRouteInfo.locale.home} // TODO: change this to something after signin
+    toBack={LaLetterBuilderRouteInfo.locale.home}
     toNext={LaLetterBuilderRouteInfo.locale.habitability.landlordInfo}
   ></IssuesRoutes>
 );

@@ -155,6 +155,11 @@ $jf-navbar-content: $secondary;
         .media-content {
           overflow-x: unset;
         }
+        .media-right span {
+          text-decoration: underline;
+          font-size: 0.875rem;
+          font-family: $jf-alt-title-family;
+        }
       }
 
       .jf-checkbox {

@@ -424,6 +424,7 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
                         question={issueLabel}
                         key={i}
                         questionClassName="has-text-primary"
+                        textLabelsForToggle={["Open", "Close"]}
                       >
                         {IssueAreaChoices.map((issueLocation, i) => (
                           // TODO: Replace this checkbox with a form field that will save the result to the session!

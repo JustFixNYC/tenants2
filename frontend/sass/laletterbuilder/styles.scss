@@ -178,7 +178,7 @@ $jf-navbar-content: $secondary;
           color: $primary;
         }
 
-        input:checked + .jf-label-text {
+        input:checked ~ .jf-label-text {
           color: $secondary;
         }
       }

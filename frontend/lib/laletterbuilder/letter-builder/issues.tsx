@@ -99,25 +99,16 @@ type LaIssuesRoutesProps = {
   toBack: string;
   toNext: string;
   withModal?: boolean;
-  /**
-   * If true, issue list will show as one large list of checkboxes, with accordian
-   * dropdowns for each sub-category of issues.
-   *
-   * If false or undefined, issue list will use the default structure where the
-   * user selects an area box from a grid to start marking issues.
-   */
-  useListStyleIssueChecklist?: boolean;
 };
 
 export function LaIssuesRoutes(props: LaIssuesRoutesProps): JSX.Element {
-  const { routes, useListStyleIssueChecklist } = props;
+  const { routes } = props;
   return (
     <Switch>
       <Route
         path={routes.home}
         exact
         render={() => <LaIssuesHome {...props} />}
-        useListStyleIssueChecklist={useListStyleIssueChecklist}
       />
       <Route
         path={routes.modal}

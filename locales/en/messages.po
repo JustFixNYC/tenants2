@@ -243,7 +243,7 @@ msgstr "Automatically fill in your landlord's information based on your address 
 msgid "Available in English and Spanish."
 msgstr "Available in English and Spanish."
 
-#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:48
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:43
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
 msgstr "Back"
@@ -353,11 +353,10 @@ msgstr "Build my letter"
 msgid "Build power in numbers"
 msgstr "Build power in numbers"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:31
+#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:30
 msgid "Build your Letter"
 msgstr "Build your Letter"
 
-#: frontend/lib/laletterbuilder/letter-builder/welcome.tsx:10
 #: frontend/lib/norent/letter-builder/welcome.tsx:9
 msgid "Build your letter"
 msgstr "Build your letter"
@@ -484,7 +483,7 @@ msgstr "Click here to join MHAction’s movement to hold corporate community own
 msgid "Click here to learn more about our privacy policy."
 msgstr "Click here to learn more about our privacy policy."
 
-#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:32
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:27
 msgid "Close"
 msgstr "Close"
 
@@ -706,7 +705,7 @@ msgstr "Email"
 #: frontend/lib/account-settings/contact-settings.tsx:41
 #: frontend/lib/common-steps/ask-email.tsx:13
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
-#: frontend/lib/laletterbuilder/components/create-account.tsx:26
+#: frontend/lib/laletterbuilder/components/create-account.tsx:27
 msgid "Email address"
 msgstr "Email address"
 
@@ -865,7 +864,7 @@ msgstr "Got it!"
 msgid "Got it, take me there"
 msgstr "Got it, take me there"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:15
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:16
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:9
 msgid "Habitability"
 msgstr "Habitability"
@@ -1557,8 +1556,7 @@ msgid "New password"
 msgstr "New password"
 
 #: frontend/lib/common-steps/welcome.tsx:45
-#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:51
-#: frontend/lib/laletterbuilder/letter-builder/welcome.tsx:15
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:46
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
 msgid "Next"
@@ -1657,11 +1655,7 @@ msgstr "Oops! A network error occurred. Try again later."
 msgid "Oops! That email is invalid."
 msgstr "Oops! That email is invalid."
 
-#: frontend/lib/laletterbuilder/components/create-account.tsx:26
-msgid "Optional"
-msgstr "Optional"
-
-#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:32
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:27
 msgid "Open"
 msgstr "Open"
 
@@ -1955,7 +1949,7 @@ msgstr "See more FAQs"
 msgid "Select a letter to get started"
 msgstr "Select a letter to get started"
 
-#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:27
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:22
 msgid "Select which repairs are needed"
 msgstr "Select which repairs are needed"
 
@@ -2004,7 +1998,7 @@ msgid "Separate letters for each month starting in September when you couldn't p
 msgstr "Separate letters for each month starting in September when you couldn't pay rent in full."
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:17
-#: frontend/lib/laletterbuilder/components/create-account.tsx:17
+#: frontend/lib/laletterbuilder/components/create-account.tsx:18
 #: frontend/lib/norent/letter-builder/create-account.tsx:19
 msgid "Set up an account"
 msgstr "Set up an account"
@@ -2654,7 +2648,7 @@ msgstr "Wyoming"
 msgid "Yes"
 msgstr "Yes"
 
-#: frontend/lib/laletterbuilder/components/create-account.tsx:37
+#: frontend/lib/laletterbuilder/components/create-account.tsx:38
 #: frontend/lib/norent/letter-builder/create-account.tsx:37
 msgid "Yes, JustFix.nyc can text me to follow up about my housing issues."
 msgstr "Yes, JustFix.nyc can text me to follow up about my housing issues."

@@ -16,6 +16,7 @@ import {
   LaLetterBuilderCreateAccountMutation,
 } from "../../queries/LaLetterBuilderCreateAccountMutation";
 import { CreatePasswordFields } from "../../common-steps/create-password";
+import { optionalizeLabel } from "../../forms/optionalize-label";
 
 export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
   (props) => {
@@ -44,8 +45,7 @@ export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
               <TextualFormField
                 type="email"
                 {...ctx.fieldPropsFor("email")}
-                label={li18n._(t`Email address`)}
-                labelHint={li18n._(t`Optional`)}
+                label={optionalizeLabel(li18n._(t`Email address`))}
               />
               <CreatePasswordFields
                 passwordProps={ctx.fieldPropsFor("password")}

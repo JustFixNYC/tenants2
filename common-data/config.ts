@@ -19,10 +19,26 @@ const config: CommonDataConfig = {
       filterOut: /^(LANDLORD__|PUBLIC_AREAS__ILLEGAL_APARTMENTS|HOME__COVID_SANITATION_REQUIRED|HOME__(FRONT_DOOR|DOOR_LOCK|DOORBELL|BUZZER)_BROKEN|KITCHEN__(REFRIGERATOR|STOVE)_BROKEN)/,
     },
     {
+      jsonFilename: "issue-choices-laletterbuilder.json",
+      typeName: "LaIssueChoice",
+      exportLabels: true,
+      internationalizeLabels: true,
+    },
+    {
       jsonFilename: "issue-area-choices.json",
       typeName: "IssueAreaChoice",
       exportLabels: true,
       filterOut: ["LANDLORD"],
+    },
+    {
+      jsonFilename: "issue-area-choices-laletterbuilder.json",
+      typeName: "LaIssueAreaChoice",
+      exportLabels: true,
+    },
+    {
+      jsonFilename: "issue-room-choices-laletterbuilder.json",
+      typeName: "LaIssueRoomChoice",
+      exportLabels: true,
     },
     {
       jsonFilename: "borough-choices.json",

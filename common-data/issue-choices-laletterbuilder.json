@@ -1,0 +1,9 @@
+[
+  ["HEALTH__MOLD", "Mold"],
+  ["HEALTH__PEELING_PAINT", "Peeling paint"],
+  ["HEALTH__RODENT_INFESTATION", "Rodent infestation"],
+  ["UTILITIES__DEFECTIVE_ELECTRICITY", "Defective electricity"],
+  ["UTILITIES__WATER_LEAK", "Water leak"],
+  ["BUILDING_AND_SAFETY__HOLES", "Holes"],
+  ["BUILDING_AND_SAFETY__BROKEN_LOCKS", "Broken locks"]
+]

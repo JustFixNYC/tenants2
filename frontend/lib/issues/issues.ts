@@ -6,6 +6,12 @@ import {
   IssueChoices,
   getIssueChoiceLabels,
 } from "../../../common-data/issue-choices";
+import { LaIssueAreaChoice } from "../../../common-data/issue-area-choices-laletterbuilder";
+import {
+  getLaIssueChoiceLabels,
+  LaIssueChoice,
+  LaIssueChoices,
+} from "../../../common-data/issue-choices-laletterbuilder";
 
 type CustomIssue = AllSessionInfo_customIssuesV2;
 
@@ -43,6 +49,17 @@ export function issuesForArea(
 export function issueChoicesForArea(area: IssueAreaChoice): DjangoChoices {
   const labels = getIssueChoiceLabels();
   return IssueChoices.filter((choice) => issueArea(choice) === area).map(
+    (choice) => [choice, labels[choice]] as [string, string]
+  );
+}
+
+export function laIssueArea(issue: LaIssueChoice): LaIssueAreaChoice {
+  return issue.split("__")[0] as LaIssueAreaChoice;
+}
+
+export function laIssueChoicesForArea(area: LaIssueAreaChoice): DjangoChoices {
+  const labels = getLaIssueChoiceLabels();
+  return LaIssueChoices.filter((choice) => laIssueArea(choice) === area).map(
     (choice) => [choice, labels[choice]] as [string, string]
   );
 }

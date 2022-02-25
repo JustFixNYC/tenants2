@@ -24,7 +24,8 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
         />
         <div>
           <Link
-            to={LaLetterBuilderRouteInfo.locale.habitability.latestStep} // TODO: make this different for each button
+            // TODO: this currently always goes to /phone/ask, make it not do that if the user is logged in
+            to={LaLetterBuilderRouteInfo.locale.habitability.latestStep}
             className="button jf-is-next-button is-primary is-medium"
           >
             {li18n._(t`Habitability`)}

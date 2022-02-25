@@ -6,10 +6,11 @@ from onboarding.models import OnboardingInfo
 from project.forms import SetPasswordForm
 from project.util import lob_api
 
+
 class CreateAccount(SetPasswordForm, forms.ModelForm):
     class Meta:
         model = OnboardingInfo
-        fields = ("can_we_sms","email")
+        fields = ("can_we_sms", "email")
 
     agree_to_terms = forms.BooleanField(required=True)
     email = forms.EmailField(required=False)

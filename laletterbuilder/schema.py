@@ -42,7 +42,7 @@ class LaLetterBuilderCreateAccount(BaseCreateAccount):
             f"We'll be sending you notifications from this phone number.",
         )
         pass
-    
+
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         request = info.context

@@ -138,7 +138,7 @@ class TestLaLetterBuilderCreateAccount:
     def setup_fixture(self, db, graphql_client):
         self.graphql_client = graphql_client
 
-    def execute(self, input = INPUT_WITH_EMAIL):
+    def execute(self, input=INPUT_WITH_EMAIL):
         return self.graphql_client.execute(
             """
             mutation Create($input: LaLetterBuilderCreateAccountInput!) {

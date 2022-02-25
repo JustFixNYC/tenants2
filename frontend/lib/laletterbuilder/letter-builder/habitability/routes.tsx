@@ -27,11 +27,11 @@ import {
   LaLetterBuilderAskCityState,
   LaLetterBuilderAskNationalAddress,
 } from "../../components/useful-components";
-import { IssuesRoutes } from "../../../issues/routes";
 import { LaLetterBuilderLandlordNameAddressEmail } from "../../components/landlord-info";
 import { LaLetterBuilderRiskConsent } from "../../components/consent";
 import { t } from "@lingui/macro";
 import { li18n } from "../../../i18n-lingui";
+import { LaIssuesRoutes } from "../issues";
 
 const HabitabilityRoutes: React.FC<{}> = () => (
   <Switch>
@@ -135,12 +135,11 @@ export const HabitabilityProgressRoutes = buildProgressRoutesComponent(
 );
 
 const LaLetterBuilderIssuesRoutes = () => (
-  <IssuesRoutes
+  <LaIssuesRoutes
     routes={LaLetterBuilderRouteInfo.locale.habitability.issues}
     toBack={LaLetterBuilderRouteInfo.locale.habitability.riskConsent}
     toNext={LaLetterBuilderRouteInfo.locale.habitability.landlordInfo}
-    useListStyleIssueChecklist
-  ></IssuesRoutes>
+  ></LaIssuesRoutes>
 );
 
 const HabitabilityPreviewPage = createLaLetterBuilderPreviewPage(

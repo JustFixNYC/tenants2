@@ -6,12 +6,6 @@ import {
   IssueChoices,
   getIssueChoiceLabels,
 } from "../../../common-data/issue-choices";
-import { LaIssueAreaChoice } from "../../../common-data/issue-area-choices-laletterbuilder";
-import {
-  getLaIssueChoiceLabels,
-  LaIssueChoice,
-  LaIssueChoices,
-} from "../../../common-data/issue-choices-laletterbuilder";
 
 type CustomIssue = AllSessionInfo_customIssuesV2;
 

@@ -1,23 +1,10 @@
 import React from "react";
-import {
-  allCapsToSlug,
-  DjangoChoices,
-  slugToAllCaps,
-  toDjangoChoices,
-} from "../../common-data";
+import { DjangoChoices, toDjangoChoices } from "../../common-data";
 import Page from "../../ui/page";
 import { Switch, Route } from "react-router";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../app-context";
 import { ProgressButtons } from "../../ui/buttons";
-import {
-  IssueAreaChoice,
-  isIssueAreaChoice,
-} from "../../../../common-data/issue-area-choices";
-import { Modal } from "../../ui/modal";
-import { UpdateBrowserStorage } from "../../browser-storage";
-import { NoScriptFallback } from "../../ui/progressive-enhancement";
-import { getQuerystringVar } from "../../util/querystring";
 import { Accordion } from "../../ui/accordion";
 import {
   getLaIssueAreaChoiceLabels,
@@ -64,84 +51,19 @@ function LinkToNextStep(props: { toNext: string }): JSX.Element {
   );
 }
 
-type IssuesHomeProps = IssuesRoutesProps;
+type LaIssuesHomeProps = LaIssuesRoutesProps;
 
-const CovidRiskMessage = () => (
-  <>
-    <p>
-      <strong className="has-text-danger">Warning: </strong>
-      Please be aware that letting a repair-worker into your home to make
-      repairs may increase exposure to the COVID-19 virus.
-    </p>
-    <p>
-      In order to follow social distancing guidelines and to limit exposure, we
-      recommend only asking for repairs{" "}
-      <strong>in the case of an emergency</strong> such as if you have no heat,
-      no hot water, or no gas.
-    </p>
-  </>
-);
-
-function CovidRiskModal(props: { routes: IssuesRouteInfo }): JSX.Element {
-  return (
-    <Modal
-      title="Social distancing and repairs"
-      withHeading
-      onCloseGoTo={(loc) => {
-        const slug = getQuerystringVar(loc.search, "area") || "";
-        let area = slugToAllCaps(slug) as IssueAreaChoice;
-        if (!isIssueAreaChoice(area)) {
-          area = "HOME";
-        }
-        const url = props.routes.area.create(allCapsToSlug(area));
-        return url;
-      }}
-      render={(ctx) => (
-        <>
-          <CovidRiskMessage />
-          <div className="has-text-centered">
-            <Link
-              className={`button is-primary is-medium is-danger`}
-              {...ctx.getLinkCloseProps()}
-            >
-              I understand the risk
-            </Link>
-          </div>
-          <UpdateBrowserStorage hasViewedCovidRiskModal={true} />
-        </>
-      )}
-    />
-  );
-}
-
-class IssuesHome extends React.Component<IssuesHomeProps> {
-  constructor(props: IssuesHomeProps) {
+class LaIssuesHome extends React.Component<LaIssuesHomeProps> {
+  constructor(props: LaIssuesHomeProps) {
     super(props);
     this.state = { searchText: "" };
   }
 
   render() {
     const labels = getLaIssueAreaChoiceLabels();
-    const introContent = this.props.introContent || (
-      <>
-        This <strong>issue checklist</strong> will be sent to your landlord.
-      </>
-    );
-
     return (
-      <Page title="Home self-inspection" withHeading>
+      <Page title="Select which repairs are needed" withHeading>
         <div>
-          <p className="subtitle is-6">
-            Please go room-by-room and select all of the issues that you are
-            experiencing. {introContent}{" "}
-            <strong>Make sure to be thorough.</strong>
-          </p>
-          <NoScriptFallback>
-            <>
-              {" "}
-              <CovidRiskMessage /> <br />{" "}
-            </>
-          </NoScriptFallback>
           {toDjangoChoices(LaIssueAreaChoices, labels).map(
             ([area, areaLabel], i) => (
               <div className="jf-laletterbuilder-issues-list" key={i}>
@@ -183,13 +105,12 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
             <LinkToNextStep toNext={this.props.toNext} />
           </ProgressButtons>
         </div>
-        {this.props.withModal && <CovidRiskModal routes={this.props.routes} />}
       </Page>
     );
   }
 }
 
-type IssuesRoutesProps = {
+type LaIssuesRoutesProps = {
   routes: IssuesRouteInfo;
   introContent?: string | JSX.Element;
   toBack: string;
@@ -205,20 +126,20 @@ type IssuesRoutesProps = {
   useListStyleIssueChecklist?: boolean;
 };
 
-export function IssuesRoutes(props: IssuesRoutesProps): JSX.Element {
+export function LaIssuesRoutes(props: LaIssuesRoutesProps): JSX.Element {
   const { routes, useListStyleIssueChecklist } = props;
   return (
     <Switch>
       <Route
         path={routes.home}
         exact
-        render={() => <IssuesHome {...props} />}
+        render={() => <LaIssuesHome {...props} />}
         useListStyleIssueChecklist={useListStyleIssueChecklist}
       />
       <Route
         path={routes.modal}
         exact
-        render={() => <IssuesHome {...props} withModal={true} />}
+        render={() => <LaIssuesHome {...props} withModal={true} />}
       />
     </Switch>
   );

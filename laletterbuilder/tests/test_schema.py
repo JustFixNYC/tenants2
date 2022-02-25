@@ -1,3 +1,4 @@
+from typing import Dict
 import pytest
 
 from django.contrib.auth.models import AnonymousUser
@@ -129,7 +130,7 @@ class TestLaLetterBuilderCreateAccount:
         "canWeSms": True,
     }
 
-    INPUT_WITH_EMAIL = {
+    INPUT_WITH_EMAIL: Dict[str, any] = {
         **INPUT_WITHOUT_EMAIL,
         "email": "zanet@zones.com",
     }

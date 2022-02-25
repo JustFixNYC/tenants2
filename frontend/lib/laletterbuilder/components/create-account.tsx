@@ -2,7 +2,7 @@ import React from "react";
 import Page from "../../ui/page";
 import { ProgressButtons } from "../../ui/buttons";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import { CheckboxFormField } from "../../forms/form-fields";
+import { CheckboxFormField, TextualFormField } from "../../forms/form-fields";
 import { ModalLink } from "../../ui/modal";
 import { LaLetterBuilderRouteInfo } from "../route-info";
 import { PrivacyInfoModal } from "../../ui/privacy-info-modal";
@@ -32,6 +32,7 @@ export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
           initialState={{
             ...BlankLaLetterBuilderCreateAccountInput,
             canWeSms: true,
+            email: "",
           }}
           onSuccess={() =>
             trackSignup(OnboardingInfoSignupIntent.LALETTERBUILDER)
@@ -40,6 +41,12 @@ export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
         >
           {(ctx) => (
             <>
+              <TextualFormField
+                type="email"
+                {...ctx.fieldPropsFor("email")}
+                label={li18n._(t`Email address`)}
+                labelHint={li18n._(t`Optional`)}
+              />
               <CreatePasswordFields
                 passwordProps={ctx.fieldPropsFor("password")}
                 confirmPasswordProps={ctx.fieldPropsFor("confirmPassword")}

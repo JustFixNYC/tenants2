@@ -2,7 +2,17 @@ from django import forms
 from loc import models as loc_models
 
 from loc.forms import validate_non_stupid_name
+from onboarding.models import OnboardingInfo
+from project.forms import SetPasswordForm
 from project.util import lob_api
+
+class CreateAccount(SetPasswordForm, forms.ModelForm):
+    class Meta:
+        model = OnboardingInfo
+        fields = ("can_we_sms","email")
+
+    agree_to_terms = forms.BooleanField(required=True)
+    email = forms.EmailField(required=False)
 
 
 class LandlordDetailsForm(forms.ModelForm):

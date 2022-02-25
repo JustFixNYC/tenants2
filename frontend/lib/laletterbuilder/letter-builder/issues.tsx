@@ -34,77 +34,70 @@ function laIssueChoicesForArea(area: LaIssueAreaChoice): DjangoChoices {
   );
 }
 
-type LaIssuesHomeProps = LaIssuesRoutesProps;
+type LaIssuesPage = LaIssuesRoutesProps;
 
-class LaIssuesHome extends React.Component<LaIssuesHomeProps> {
-  constructor(props: LaIssuesHomeProps) {
-    super(props);
-    this.state = { searchText: "" };
-  }
-
-  render() {
-    const labels = getLaIssueAreaChoiceLabels();
-    return (
-      <Page title={li18n._(t`Select which repairs are needed`)} withHeading>
+const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
+  const labels = getLaIssueAreaChoiceLabels();
+  return (
+    <Page title={li18n._(t`Select which repairs are needed`)} withHeading>
+      <br />
+      <div>
+        {toDjangoChoices(LaIssueAreaChoices, labels).map(
+          ([area, areaLabel], i) => (
+            <div className="jf-laletterbuilder-issues-list" key={i}>
+              <p>{areaLabel}</p>
+              {laIssueChoicesForArea(area).map(([issue, issueLabel], i) => (
+                <Accordion
+                  question={issueLabel}
+                  key={i}
+                  questionClassName="has-text-primary"
+                  textLabelsForToggle={[li18n._(t`Open`), li18n._(t`Close`)]}
+                >
+                  {LaIssueRoomChoices.map((issueLocation, i) => (
+                    // TODO: Replace this checkbox with a form field that will save the result to the session!
+                    <label className="checkbox jf-checkbox" key={i}>
+                      <input
+                        type="checkbox"
+                        name="issues"
+                        id={`issues_${issueLocation}`}
+                        aria-invalid="false"
+                        value={issueLocation}
+                      />{" "}
+                      <span className="jf-checkbox-symbol"></span>{" "}
+                      <span className="jf-label-text">
+                        {getLaIssueRoomChoiceLabels()[issueLocation]}
+                      </span>
+                    </label>
+                  ))}
+                </Accordion>
+              ))}
+              <br />
+            </div>
+          )
+        )}
         <br />
-        <div>
-          {toDjangoChoices(LaIssueAreaChoices, labels).map(
-            ([area, areaLabel], i) => (
-              <div className="jf-laletterbuilder-issues-list" key={i}>
-                <p>{areaLabel}</p>
-                {laIssueChoicesForArea(area).map(([issue, issueLabel], i) => (
-                  <Accordion
-                    question={issueLabel}
-                    key={i}
-                    questionClassName="has-text-primary"
-                    textLabelsForToggle={[li18n._(t`Open`), li18n._(t`Close`)]}
-                  >
-                    {LaIssueRoomChoices.map((issueLocation, i) => (
-                      // TODO: Replace this checkbox with a form field that will save the result to the session!
-                      <label className="checkbox jf-checkbox" key={i}>
-                        <input
-                          type="checkbox"
-                          name="issues"
-                          id={`issues_${issueLocation}`}
-                          aria-invalid="false"
-                          value={issueLocation}
-                        />{" "}
-                        <span className="jf-checkbox-symbol"></span>{" "}
-                        <span className="jf-label-text">
-                          {getLaIssueRoomChoiceLabels()[issueLocation]}
-                        </span>
-                      </label>
-                    ))}
-                  </Accordion>
-                ))}
-                <br />
-              </div>
-            )
-          )}
-          <br />
-          <ProgressButtons>
-            <Link to={this.props.toBack} className="button is-light is-medium">
-              <Trans>Back</Trans>
-            </Link>
-            <Link
-              to={this.props.toNext}
-              className="button jf-is-next-button is-primary is-medium"
-            >
-              <Trans>Next</Trans>
-            </Link>
-            {/* TODO: Once the form submission is implemented above, 
+        <ProgressButtons>
+          <Link to={props.toBack} className="button is-light is-medium">
+            <Trans>Back</Trans>
+          </Link>
+          <Link
+            to={props.toNext}
+            className="button jf-is-next-button is-primary is-medium"
+          >
+            <Trans>Next</Trans>
+          </Link>
+          {/* TODO: Once the form submission is implemented above, 
             we may be able to use this component for the next step button, which
             becomes visible only when 1 or more issues are recorded in the session:
 
             <IssuesLinkToNextStep toNext={this.props.toNext} /> 
 
             */}
-          </ProgressButtons>
-        </div>
-      </Page>
-    );
-  }
-}
+        </ProgressButtons>
+      </div>
+    </Page>
+  );
+};
 
 type LaIssuesRoutesProps = {
   routes: IssuesRouteInfo;
@@ -121,12 +114,12 @@ export function LaIssuesRoutes(props: LaIssuesRoutesProps): JSX.Element {
       <Route
         path={routes.home}
         exact
-        render={() => <LaIssuesHome {...props} />}
+        render={() => <LaIssuesPage {...props} />}
       />
       <Route
         path={routes.modal}
         exact
-        render={() => <LaIssuesHome {...props} withModal={true} />}
+        render={() => <LaIssuesPage {...props} withModal={true} />}
       />
     </Switch>
   );

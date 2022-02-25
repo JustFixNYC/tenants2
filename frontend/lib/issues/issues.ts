@@ -52,14 +52,3 @@ export function issueChoicesForArea(area: IssueAreaChoice): DjangoChoices {
     (choice) => [choice, labels[choice]] as [string, string]
   );
 }
-
-export function laIssueArea(issue: LaIssueChoice): LaIssueAreaChoice {
-  return issue.split("__")[0] as LaIssueAreaChoice;
-}
-
-export function laIssueChoicesForArea(area: LaIssueAreaChoice): DjangoChoices {
-  const labels = getLaIssueChoiceLabels();
-  return LaIssueChoices.filter((choice) => laIssueArea(choice) === area).map(
-    (choice) => [choice, labels[choice]] as [string, string]
-  );
-}

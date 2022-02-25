@@ -46,7 +46,7 @@ class LaLetterBuilderCreateAccount(BaseCreateAccount):
     @classmethod
     def perform_mutate(cls, form, info: ResolveInfo):
         """
-        Overloading BaseCreateAccounts to get email from this form rather than an earlier step
+        Overloading BaseCreateAccount to get email from this form rather than an earlier step
         """
         request = info.context
         allinfo = cls.get_previous_step_info(request)

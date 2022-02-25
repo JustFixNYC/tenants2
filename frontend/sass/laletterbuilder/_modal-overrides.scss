@@ -1,6 +1,8 @@
 .modal-content {
-  background-color: $secondary;
   border-radius: 2px;
+  .box {
+    background-color: $secondary;
+  }
   p {
     font-size: 1.5rem;
     line-height: 1.75rem;

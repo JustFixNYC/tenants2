@@ -12,21 +12,23 @@ export const Accordion = (props: {
   extraClassName?: string;
   /** When set to true, the accordion is open on initial view. */
   isExpanded?: boolean;
+  /** When defined, this tuple of text replaces the toggle icon with two words,
+   * the first word is the text label for opening the accordion and the second is for closing.
+   **/
+  textLabelsForToggle?: [string, string];
 }) => {
   const extraClassName = props.extraClassName ?? "jf-space-below-2rem";
+  const { isExpanded, questionClassName, textLabelsForToggle } = props;
 
   return (
     <div className={`jf-accordion-item ${extraClassName}`}>
-      <details
-        className={`has-text-left ${extraClassName}`}
-        open={props.isExpanded}
-      >
+      <details className={`has-text-left ${extraClassName}`} open={isExpanded}>
         <summary>
           <div className="media">
             <div className="media-content">
               <span
                 className={
-                  props.questionClassName ??
+                  questionClassName ??
                   "is-size-6 has-text-primary jf-has-text-underline"
                 }
               >
@@ -34,7 +36,18 @@ export const Accordion = (props: {
               </span>
             </div>
             <div className="media-right">
-              <ChevronIcon />
+              {textLabelsForToggle ? (
+                <>
+                  <span className="jf-accordion-open-text-label">
+                    {textLabelsForToggle[0]}
+                  </span>
+                  <span className="jf-accordion-close-text-label">
+                    {textLabelsForToggle[1]}
+                  </span>
+                </>
+              ) : (
+                <ChevronIcon />
+              )}
             </div>
           </div>
         </summary>

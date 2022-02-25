@@ -33,7 +33,6 @@ import {
   issuesForArea,
   areaIssueCount,
   customIssuesForArea,
-  laIssueChoicesForArea,
 } from "./issues";
 import ISSUE_AREA_SVGS from "../svg/issues";
 import { assertNotUndefined } from "@justfixnyc/util";
@@ -41,6 +40,7 @@ import {
   IssueAreaChoice,
   isIssueAreaChoice,
   getIssueAreaChoiceLabels,
+  IssueAreaChoices,
 } from "../../../common-data/issue-area-choices";
 import { IssueChoice } from "../../../common-data/issue-choices";
 import {
@@ -55,15 +55,6 @@ import { Modal } from "../ui/modal";
 import { UpdateBrowserStorage, useBrowserStorage } from "../browser-storage";
 import { NoScriptFallback } from "../ui/progressive-enhancement";
 import { getQuerystringVar } from "../util/querystring";
-import { Accordion } from "../ui/accordion";
-import {
-  getLaIssueAreaChoiceLabels,
-  LaIssueAreaChoices,
-} from "../../../common-data/issue-area-choices-laletterbuilder";
-import {
-  getLaIssueRoomChoiceLabels,
-  LaIssueRoomChoices,
-} from "../../../common-data/issue-room-choices-laletterbuilder";
 
 const checkSvg = require("../svg/check-solid.svg") as JSX.Element;
 
@@ -401,13 +392,12 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
   }
 
   render() {
-    const labels = getLaIssueAreaChoiceLabels();
+    const labels = getIssueAreaChoiceLabels();
     const introContent = this.props.introContent || (
       <>
         This <strong>issue checklist</strong> will be sent to your landlord.
       </>
     );
-
     return (
       <Page title="Home self-inspection" withHeading>
         <div>
@@ -422,36 +412,11 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
               <CovidRiskMessage /> <br />{" "}
             </>
           </NoScriptFallback>
-          {toDjangoChoices(LaIssueAreaChoices, labels).map(
-            ([area, areaLabel], i) => (
-              <div className="jf-laletterbuilder-issues-list" key={i}>
-                <p>{areaLabel}</p>
-                {laIssueChoicesForArea(area).map(([issue, issueLabel], i) => (
-                  <Accordion
-                    question={issueLabel}
-                    key={i}
-                    questionClassName="has-text-primary"
-                    textLabelsForToggle={["Open", "Close"]}
-                  >
-                    {LaIssueRoomChoices.map((issueLocation, i) => (
-                      // TODO: Replace this checkbox with a form field that will save the result to the session!
-                      <label className="checkbox jf-checkbox" key={i}>
-                        <input
-                          type="checkbox"
-                          name="issues"
-                          id={`issues_${issueLocation}`}
-                          aria-invalid="false"
-                          value={issueLocation}
-                        />{" "}
-                        <span className="jf-checkbox-symbol"></span>{" "}
-                        <span className="jf-label-text">
-                          {getLaIssueRoomChoiceLabels()[issueLocation]}
-                        </span>
-                      </label>
-                    ))}
-                  </Accordion>
-                ))}
-                <br />
+          {groupByTwo(toDjangoChoices(IssueAreaChoices, labels)).map(
+            ([a, b], i) => (
+              <div className="columns is-tablet" key={i}>
+                {this.renderColumnForArea(...a)}
+                {b && this.renderColumnForArea(...b)}
               </div>
             )
           )}
@@ -475,37 +440,26 @@ type IssuesRoutesProps = {
   toBack: string;
   toNext: string;
   withModal?: boolean;
-  /**
-   * If true, issue list will show as one large list of checkboxes, with accordian
-   * dropdowns for each sub-category of issues.
-   *
-   * If false or undefined, issue list will use the default structure where the
-   * user selects an area box from a grid to start marking issues.
-   */
-  useListStyleIssueChecklist?: boolean;
 };
 
 export function IssuesRoutes(props: IssuesRoutesProps): JSX.Element {
-  const { routes, useListStyleIssueChecklist } = props;
+  const { routes } = props;
   return (
     <Switch>
       <Route
         path={routes.home}
         exact
         render={() => <IssuesHome {...props} />}
-        useListStyleIssueChecklist={useListStyleIssueChecklist}
       />
       <Route
         path={routes.modal}
         exact
         render={() => <IssuesHome {...props} withModal={true} />}
       />
-      {!useListStyleIssueChecklist && (
-        <Route
-          path={routes.area.parameterizedRoute}
-          render={(ctx) => <IssuesArea {...ctx} toHome={routes.home} />}
-        />
-      )}
+      <Route
+        path={routes.area.parameterizedRoute}
+        render={(ctx) => <IssuesArea {...ctx} toHome={routes.home} />}
+      />
     </Switch>
   );
 }

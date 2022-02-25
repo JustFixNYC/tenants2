@@ -16,6 +16,8 @@ import {
   HabitabilityLetterForUserStaticPage,
   HabitabilityLetterEmailToLandlordForUserStaticPage,
   HabitabilitySampleLetterSamplePage,
+  HabitabilityLetterEmailToLandlordForUser,
+  HabitabilityLetterTranslation,
 } from "./habitability-letter-content";
 import { createLaLetterBuilderPreviewPage } from "../../components/letter-preview";
 import { LaLetterBuilderSendOptions } from "../send-options";
@@ -142,7 +144,9 @@ const LaLetterBuilderIssuesRoutes = () => (
 );
 
 const HabitabilityPreviewPage = createLaLetterBuilderPreviewPage(
-  LaLetterBuilderRouteInfo.getLocale("en").habitability.letterContent
+  LaLetterBuilderRouteInfo.getLocale("en").habitability.letterContent,
+  HabitabilityLetterEmailToLandlordForUser,
+  HabitabilityLetterTranslation
 );
 
 export default HabitabilityRoutes;

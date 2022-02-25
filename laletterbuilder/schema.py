@@ -1,5 +1,9 @@
 from typing import Any, Dict
 from django.http import HttpRequest
+from laletterbuilder import letter_sending
+from onboarding.schema_util import mutation_requires_onboarding
+from project.util.letter_sending import does_user_have_ll_mailing_addr_or_email
+from project.util.session_mutation import SessionFormMutation
 from users.models import JustfixUser
 from project import schema_registry
 from onboarding.models import SIGNUP_INTENT_CHOICES
@@ -10,7 +14,7 @@ from loc import forms as loc_forms
 from . import forms
 import graphene
 from graphql import ResolveInfo
-from project.util import lob_api
+from project.util import lob_api, site_util
 from loc import models as loc_models
 
 
@@ -67,3 +71,33 @@ class LandlordNameAddressEmail(OneToOneUserModelFormMutation):
         return cls.mutation_success(
             is_undeliverable=lob_api.is_address_undeliverable(**ld.as_lob_params())
         )
+
+
+@schema_registry.register_mutation
+class LaLetterBuilderSendLetter(SessionFormMutation):
+    """
+    Send the user's letter
+    """
+
+    login_required = True
+
+    @classmethod
+    @mutation_requires_onboarding
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        user = request.user
+        assert user.is_authenticated
+
+        if not does_user_have_ll_mailing_addr_or_email(user):
+            return cls.make_and_log_error(info, "You haven't provided any landlord details yet!")
+
+        site_type = site_util.get_site_type(site_util.get_site_from_request_or_default(request))
+
+        if site_type != site_util.SITE_CHOICES.LALETTERBUILDER:
+            return cls.make_and_log_error(
+                info, "This form can only be used from the LA Letter Builder site."
+            )
+
+        letter_sending.create_and_send_letter(request.user)
+
+        return cls.mutation_success()

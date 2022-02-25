@@ -20,7 +20,8 @@ import {
   LaIssueChoice,
   LaIssueChoices,
 } from "../../../../common-data/issue-choices-laletterbuilder";
-import { LinkToNextStep } from "../../issues/routes";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../../i18n-lingui";
 
 function laIssueArea(issue: LaIssueChoice): LaIssueAreaChoice {
   return issue.split("__")[0] as LaIssueAreaChoice;
@@ -44,7 +45,7 @@ class LaIssuesHome extends React.Component<LaIssuesHomeProps> {
   render() {
     const labels = getLaIssueAreaChoiceLabels();
     return (
-      <Page title="Select which repairs are needed" withHeading>
+      <Page title={li18n._(t`Select which repairs are needed`)} withHeading>
         <br />
         <div>
           {toDjangoChoices(LaIssueAreaChoices, labels).map(
@@ -56,7 +57,7 @@ class LaIssuesHome extends React.Component<LaIssuesHomeProps> {
                     question={issueLabel}
                     key={i}
                     questionClassName="has-text-primary"
-                    textLabelsForToggle={["Open", "Close"]}
+                    textLabelsForToggle={[li18n._(t`Open`), li18n._(t`Close`)]}
                   >
                     {LaIssueRoomChoices.map((issueLocation, i) => (
                       // TODO: Replace this checkbox with a form field that will save the result to the session!
@@ -83,9 +84,21 @@ class LaIssuesHome extends React.Component<LaIssuesHomeProps> {
           <br />
           <ProgressButtons>
             <Link to={this.props.toBack} className="button is-light is-medium">
-              Back
+              <Trans>Back</Trans>
             </Link>
-            <LinkToNextStep toNext={this.props.toNext} />
+            <Link
+              to={this.props.toNext}
+              className="button jf-is-next-button is-primary is-medium"
+            >
+              <Trans>Next</Trans>
+            </Link>
+            {/* TODO: Once the form submission is implemented above, 
+            we may be able to use this component for the next step button, which
+            becomes visible only when 1 or more issues are recorded in the session:
+
+            <LinkToNextStep toNext={this.props.toNext} /> 
+
+            */}
           </ProgressButtons>
         </div>
       </Page>

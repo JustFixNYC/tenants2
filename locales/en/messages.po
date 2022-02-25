@@ -243,6 +243,7 @@ msgstr "Automatically fill in your landlord's information based on your address 
 msgid "Available in English and Spanish."
 msgstr "Available in English and Spanish."
 
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:48
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
 msgstr "Back"
@@ -482,6 +483,10 @@ msgstr "Click here to join MHAction’s movement to hold corporate community own
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:59
 msgid "Click here to learn more about our privacy policy."
 msgstr "Click here to learn more about our privacy policy."
+
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:32
+msgid "Close"
+msgstr "Close"
 
 #: common-data/issue-choices.ts:143
 msgid "Cockroaches"
@@ -1551,6 +1556,7 @@ msgid "New password"
 msgstr "New password"
 
 #: frontend/lib/common-steps/welcome.tsx:45
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:51
 #: frontend/lib/laletterbuilder/letter-builder/welcome.tsx:15
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
@@ -1649,6 +1655,10 @@ msgstr "Oops! A network error occurred. Try again later."
 #: frontend/lib/norent/components/subscribe.tsx:37
 msgid "Oops! That email is invalid."
 msgstr "Oops! That email is invalid."
+
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:32
+msgid "Open"
+msgstr "Open"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:289
 msgid "Order rent history"
@@ -1939,6 +1949,10 @@ msgstr "See more FAQs"
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:9
 msgid "Select a letter to get started"
 msgstr "Select a letter to get started"
+
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:27
+msgid "Select which repairs are needed"
+msgstr "Select which repairs are needed"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:69
 msgid "Send"

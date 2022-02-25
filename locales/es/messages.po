@@ -248,6 +248,7 @@ msgstr "Rellena automáticamente la información del dueño de tu edificio en ba
 msgid "Available in English and Spanish."
 msgstr "Disponible en Inglés y Español."
 
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:48
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
 msgstr "Atrás"
@@ -487,6 +488,10 @@ msgstr "Haga clic aquí para unirte al movimiento de MH Action y hacer que los p
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:59
 msgid "Click here to learn more about our privacy policy."
 msgstr "Haga clic aquí para obtener más información sobre nuestra política de privacidad."
+
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:32
+msgid "Close"
+msgstr ""
 
 #: common-data/issue-choices.ts:143
 msgid "Cockroaches"
@@ -1556,6 +1561,7 @@ msgid "New password"
 msgstr "Contraseña nueva"
 
 #: frontend/lib/common-steps/welcome.tsx:45
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:51
 #: frontend/lib/laletterbuilder/letter-builder/welcome.tsx:15
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
@@ -1654,6 +1660,10 @@ msgstr "¡Vaya! Hubo un error en la red. Inténtalo más tarde."
 #: frontend/lib/norent/components/subscribe.tsx:37
 msgid "Oops! That email is invalid."
 msgstr "¡Vaya! Ese correo electrónico no es válido."
+
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:32
+msgid "Open"
+msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:289
 msgid "Order rent history"
@@ -1943,6 +1953,10 @@ msgstr "Ver todas las preguntas frecuentes"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:9
 msgid "Select a letter to get started"
+msgstr ""
+
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:27
+msgid "Select which repairs are needed"
 msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:69

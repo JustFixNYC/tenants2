@@ -24,7 +24,7 @@ msgstr ""
 msgid "(Name of your language) translation"
 msgstr "Traducción en español"
 
-#: frontend/lib/laletterbuilder/components/letter-preview.tsx:64
+#: frontend/lib/laletterbuilder/components/letter-preview.tsx:65
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:123
 msgid "(Note: the email will be sent in English)"
 msgstr "(Nota: tenga en cuenta que el correo electrónico se enviará en inglés)"
@@ -678,6 +678,7 @@ msgstr "Correo electrónico"
 #: frontend/lib/account-settings/contact-settings.tsx:41
 #: frontend/lib/common-steps/ask-email.tsx:13
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
+#: frontend/lib/laletterbuilder/components/create-account.tsx:26
 msgid "Email address"
 msgstr "Dirección de correo electrónico"
 
@@ -1310,13 +1311,13 @@ msgstr "Con apoyo local"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
 #: frontend/lib/evictionfree/site.tsx:99
-#: frontend/lib/laletterbuilder/site.tsx:36
+#: frontend/lib/laletterbuilder/site.tsx:38
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Iniciar sesión"
 
 #: frontend/lib/evictionfree/site.tsx:97
-#: frontend/lib/laletterbuilder/site.tsx:34
+#: frontend/lib/laletterbuilder/site.tsx:36
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:14
 msgid "Log out"
@@ -1369,7 +1370,7 @@ msgstr "Dirección postal"
 msgid "Maine"
 msgstr "Maine"
 
-#: frontend/lib/laletterbuilder/components/letter-preview.tsx:78
+#: frontend/lib/laletterbuilder/components/letter-preview.tsx:79
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:137
 msgid "Make sure all the information above is correct."
 msgstr "Asegúrate de que la información sea la correcta."
@@ -1605,6 +1606,10 @@ msgstr "¡Vaya! Hubo un error en la red. Inténtalo más tarde."
 #: frontend/lib/norent/components/subscribe.tsx:37
 msgid "Oops! That email is invalid."
 msgstr "¡Vaya! Ese correo electrónico no es válido."
+
+#: frontend/lib/laletterbuilder/components/create-account.tsx:26
+msgid "Optional"
+msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:289
 msgid "Order rent history"
@@ -2216,7 +2221,7 @@ msgstr "Para participar en la organización y en la lucha para #StopEvictions (p
 msgid "To learn more about what to do next, check out our FAQ page: {faqURL}"
 msgstr "Para saber más sobre qué hacer a continuación, consulta nuestra página de preguntas frecuentes: {faqURL}"
 
-#: frontend/lib/laletterbuilder/components/letter-preview.tsx:68
+#: frontend/lib/laletterbuilder/components/letter-preview.tsx:69
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:127
 msgid "To:"
 msgstr "A:"
@@ -2578,7 +2583,7 @@ msgstr "Wyoming"
 msgid "Yes"
 msgstr "Si"
 
-#: frontend/lib/laletterbuilder/components/create-account.tsx:28
+#: frontend/lib/laletterbuilder/components/create-account.tsx:37
 #: frontend/lib/norent/letter-builder/create-account.tsx:37
 msgid "Yes, JustFix.nyc can text me to follow up about my housing issues."
 msgstr "Sí, JustFix.nyc puede enviarme mensajes de texto para hacer un seguimiento de mis problemas de vivienda."

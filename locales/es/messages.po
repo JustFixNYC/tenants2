@@ -248,7 +248,7 @@ msgstr "Rellena automáticamente la información del dueño de tu edificio en ba
 msgid "Available in English and Spanish."
 msgstr "Disponible en Inglés y Español."
 
-#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:48
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:43
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
 msgstr "Atrás"
@@ -358,11 +358,10 @@ msgstr "Crear mi carta"
 msgid "Build power in numbers"
 msgstr "Construye poder común"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:31
+#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:30
 msgid "Build your Letter"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/welcome.tsx:10
 #: frontend/lib/norent/letter-builder/welcome.tsx:9
 msgid "Build your letter"
 msgstr "Crea tu carta"
@@ -489,7 +488,7 @@ msgstr "Haga clic aquí para unirte al movimiento de MH Action y hacer que los p
 msgid "Click here to learn more about our privacy policy."
 msgstr "Haga clic aquí para obtener más información sobre nuestra política de privacidad."
 
-#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:32
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:27
 msgid "Close"
 msgstr ""
 
@@ -711,6 +710,7 @@ msgstr "Correo electrónico"
 #: frontend/lib/account-settings/contact-settings.tsx:41
 #: frontend/lib/common-steps/ask-email.tsx:13
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
+#: frontend/lib/laletterbuilder/components/create-account.tsx:27
 msgid "Email address"
 msgstr "Dirección de correo electrónico"
 
@@ -869,7 +869,7 @@ msgstr "¡Entendido!"
 msgid "Got it, take me there"
 msgstr "Entendido, llévame"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:15
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:16
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:9
 msgid "Habitability"
 msgstr ""
@@ -1561,8 +1561,7 @@ msgid "New password"
 msgstr "Contraseña nueva"
 
 #: frontend/lib/common-steps/welcome.tsx:45
-#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:51
-#: frontend/lib/laletterbuilder/letter-builder/welcome.tsx:15
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:46
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
 msgid "Next"
@@ -1661,7 +1660,7 @@ msgstr "¡Vaya! Hubo un error en la red. Inténtalo más tarde."
 msgid "Oops! That email is invalid."
 msgstr "¡Vaya! Ese correo electrónico no es válido."
 
-#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:32
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:27
 msgid "Open"
 msgstr ""
 
@@ -1955,7 +1954,7 @@ msgstr "Ver todas las preguntas frecuentes"
 msgid "Select a letter to get started"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:27
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:22
 msgid "Select which repairs are needed"
 msgstr ""
 
@@ -2004,7 +2003,7 @@ msgid "Separate letters for each month starting in September when you couldn't p
 msgstr "Cartas separadas para cada mes a partir de septiembre, cuando no pudiste pagar la renta en su totalidad."
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:17
-#: frontend/lib/laletterbuilder/components/create-account.tsx:17
+#: frontend/lib/laletterbuilder/components/create-account.tsx:18
 #: frontend/lib/norent/letter-builder/create-account.tsx:19
 msgid "Set up an account"
 msgstr "Configura tu cuenta"
@@ -2654,7 +2653,7 @@ msgstr "Wyoming"
 msgid "Yes"
 msgstr "Si"
 
-#: frontend/lib/laletterbuilder/components/create-account.tsx:36
+#: frontend/lib/laletterbuilder/components/create-account.tsx:38
 #: frontend/lib/norent/letter-builder/create-account.tsx:37
 msgid "Yes, JustFix.nyc can text me to follow up about my housing issues."
 msgstr "Sí, JustFix.nyc puede enviarme mensajes de texto para hacer un seguimiento de mis problemas de vivienda."

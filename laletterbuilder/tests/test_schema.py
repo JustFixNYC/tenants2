@@ -1,3 +1,4 @@
+from typing import Dict
 import pytest
 
 from django.contrib.auth.models import AnonymousUser
@@ -116,24 +117,29 @@ class TestLaLetterBuilderCreateAccount:
         "preferred_first_name": "bip",
         "city": "Los Angeles",
         "state": "CA",
-        "email": "zanet@zones.com",
         "street": "1200 Bingy Bingy Way",
         "apt_number": "5A",
         "zip_code": "12345",
+    }
+
+    INPUT_WITHOUT_EMAIL = {
+        "password": "blarg1234",
+        "confirmPassword": "blarg1234",
+        "email": "",
+        "agreeToTerms": True,
+        "canWeSms": True,
+    }
+
+    INPUT_WITH_EMAIL: Dict[str, object] = {
+        **INPUT_WITHOUT_EMAIL,
+        "email": "zanet@zones.com",
     }
 
     @pytest.fixture(autouse=True)
     def setup_fixture(self, db, graphql_client):
         self.graphql_client = graphql_client
 
-    def execute(self):
-        input = {
-            "password": "blarg1234",
-            "confirmPassword": "blarg1234",
-            "agreeToTerms": True,
-            "canWeSms": True,
-        }
-
+    def execute(self, input=INPUT_WITH_EMAIL):
         return self.graphql_client.execute(
             """
             mutation Create($input: LaLetterBuilderCreateAccountInput!) {
@@ -188,6 +194,15 @@ class TestLaLetterBuilderCreateAccount:
 
         assert get_last_queried_phone_number(request) is None
         assert SCAFFOLDING_SESSION_KEY not in request.session
+
+    def test_it_creates_account_without_email_required(self, smsoutbox, mailoutbox):
+        request = self.graphql_client.request
+        self.populate_phone_number()
+        update_scaffolding(request, self.LA_SCAFFOLDING)
+        assert SCAFFOLDING_SESSION_KEY in request.session
+        assert self.execute(self.INPUT_WITHOUT_EMAIL)["errors"] == []
+        user = JustfixUser.objects.get(phone_number="5551234567")
+        assert user.email == ""
 
 
 class TestLaLetterBuilderSendLetter:

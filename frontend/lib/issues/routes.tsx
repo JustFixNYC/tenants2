@@ -285,7 +285,7 @@ function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
   );
 }
 
-function LinkToNextStep(props: { toNext: string }): JSX.Element {
+export function LinkToNextStep(props: { toNext: string }): JSX.Element {
   return (
     <AppContext.Consumer>
       {(ctx) => {

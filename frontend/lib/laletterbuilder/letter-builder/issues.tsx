@@ -3,7 +3,6 @@ import { DjangoChoices, toDjangoChoices } from "../../common-data";
 import Page from "../../ui/page";
 import { Switch, Route } from "react-router";
 import { Link } from "react-router-dom";
-import { AppContext } from "../../app-context";
 import { ProgressButtons } from "../../ui/buttons";
 import { Accordion } from "../../ui/accordion";
 import {
@@ -21,6 +20,7 @@ import {
   LaIssueChoice,
   LaIssueChoices,
 } from "../../../../common-data/issue-choices-laletterbuilder";
+import { LinkToNextStep } from "../../issues/routes";
 
 function laIssueArea(issue: LaIssueChoice): LaIssueAreaChoice {
   return issue.split("__")[0] as LaIssueAreaChoice;
@@ -30,24 +30,6 @@ function laIssueChoicesForArea(area: LaIssueAreaChoice): DjangoChoices {
   const labels = getLaIssueChoiceLabels();
   return LaIssueChoices.filter((choice) => laIssueArea(choice) === area).map(
     (choice) => [choice, labels[choice]] as [string, string]
-  );
-}
-
-function LinkToNextStep(props: { toNext: string }): JSX.Element {
-  return (
-    <AppContext.Consumer>
-      {(ctx) => {
-        if (ctx.session.issues.length || ctx.session.customIssuesV2?.length) {
-          return (
-            <Link to={props.toNext} className="button is-primary is-medium">
-              Next
-            </Link>
-          );
-        } else {
-          return null;
-        }
-      }}
-    </AppContext.Consumer>
   );
 }
 

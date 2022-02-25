@@ -96,7 +96,7 @@ class LaIssuesHome extends React.Component<LaIssuesHomeProps> {
             we may be able to use this component for the next step button, which
             becomes visible only when 1 or more issues are recorded in the session:
 
-            <LinkToNextStep toNext={this.props.toNext} /> 
+            <IssuesLinkToNextStep toNext={this.props.toNext} /> 
 
             */}
           </ProgressButtons>

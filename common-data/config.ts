@@ -34,11 +34,13 @@ const config: CommonDataConfig = {
       jsonFilename: "issue-area-choices-laletterbuilder.json",
       typeName: "LaIssueAreaChoice",
       exportLabels: true,
+      internationalizeLabels: true,
     },
     {
       jsonFilename: "issue-room-choices-laletterbuilder.json",
       typeName: "LaIssueRoomChoice",
       exportLabels: true,
+      internationalizeLabels: true,
     },
     {
       jsonFilename: "borough-choices.json",

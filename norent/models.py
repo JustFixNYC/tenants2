@@ -1,7 +1,7 @@
 from typing import Optional, List
 import datetime
 from django.db import models
-from project.util.lob_models_util import MailItem
+from project.util.lob_models_util import LocalizedHTMLLetter
 from users.models import JustfixUser
 
 
@@ -96,7 +96,7 @@ class UpcomingLetterRentPeriod(models.Model):
     )
 
 
-class Letter(MailItem):
+class Letter(LocalizedHTMLLetter):
     """
     A no rent letter that is ready to be sent, or has already been sent.
     """
@@ -107,34 +107,6 @@ class Letter(MailItem):
     user = models.ForeignKey(JustfixUser, on_delete=models.CASCADE, related_name="norent_letters")
 
     rent_periods = models.ManyToManyField(RentPeriod)
-
-    html_content = models.TextField(
-        help_text=("The HTML content of the letter at the time it was sent, in " "English.")
-    )
-
-    localized_html_content = models.TextField(
-        help_text=(
-            "The HTML content of the letter at the time it was sent, in "
-            "the user's locale at the time they sent it. If the user's "
-            "locale is English, this will be blank (since the English "
-            "version is already stored in another field)."
-        ),
-        blank=True,
-    )
-
-    letter_sent_at = models.DateTimeField(
-        null=True, blank=True, help_text="When the letter was mailed."
-    )
-
-    letter_emailed_at = models.DateTimeField(
-        null=True, blank=True, help_text="When the letter was e-mailed."
-    )
-
-    fully_processed_at = models.DateTimeField(
-        null=True,
-        blank=True,
-        help_text="When the letter was fully processed, i.e. sent to all relevant parties.",
-    )
 
     @property
     def latest_rent_period(self) -> Optional["RentPeriod"]:

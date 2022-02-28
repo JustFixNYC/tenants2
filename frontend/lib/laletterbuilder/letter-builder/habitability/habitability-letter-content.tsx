@@ -70,7 +70,7 @@ export const HabitabilityLetterEmailToLandlord: React.FC<BaseLetterContentProps>
 export const HabitabilityLetterTranslation: React.FC<{}> = () => {
   return (
     <article className="message jf-letter-translation">
-      <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
+      <div className="message-body has-text-left">
         <TransformSession
           transformer={getHabitabilityLetterContentPropsFromSession}
         >
@@ -140,7 +140,7 @@ export const HabitabilityLetterForUserStaticPage: React.FC<{
       <HabitabilityLetterStaticPage
         {...lcProps}
         isPdf={isPdf}
-        title={li18n._(t`Your NoRent.org letter`)}
+        title={li18n._(t`Your habitability letter`)}
       />
     )}
   />

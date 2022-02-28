@@ -7,6 +7,15 @@ import { Link } from "react-router-dom";
 
 import { LaLetterBuilderRouteInfo as Routes } from "./route-info";
 
+type LaLetterBuilderImageType = "png" | "svg";
+
+export function getLaLetterBuilderImageSrc(
+  name: string,
+  type?: LaLetterBuilderImageType
+) {
+  return `frontend/img/laletterbuilder/${name}.${type || "svg"}`;
+}
+
 export const LaLetterBuilderHomepage: React.FC<{}> = () => (
   <Page title="" className="content">
     <section className="hero is-fullheight-with-navbar">

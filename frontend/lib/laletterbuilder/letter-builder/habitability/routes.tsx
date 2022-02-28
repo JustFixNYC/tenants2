@@ -1,7 +1,5 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import { shouldSkipLandlordEmailStep } from "../../../common-steps/landlord-email";
-import { shouldSkipLandlordMailingAddressStep } from "../../../common-steps/landlord-mailing-address";
 import AccessDatesPage from "../../../loc/access-dates";
 import {
   ProgressRoutesProps,
@@ -18,19 +16,21 @@ import {
   HabitabilityLetterForUserStaticPage,
   HabitabilityLetterEmailToLandlordForUserStaticPage,
   HabitabilitySampleLetterSamplePage,
+  HabitabilityLetterEmailToLandlordForUser,
+  HabitabilityLetterTranslation,
 } from "./habitability-letter-content";
 import { createLaLetterBuilderPreviewPage } from "../../components/letter-preview";
 import { LaLetterBuilderSendOptions } from "../send-options";
-import { LaLetterBuilderWelcome } from "../welcome";
 import {
   LaLetterBuilderAskName,
   LaLetterBuilderAskCityState,
   LaLetterBuilderAskNationalAddress,
-  LaLetterBuilderLandlordNameAndContactTypes,
-  LaLetterBuilderLandlordEmail,
-  LaLetterBuilderLandlordMailingAddress,
 } from "../../components/useful-components";
-import { IssuesRoutes } from "../../../issues/routes";
+import { LaLetterBuilderLandlordNameAddressEmail } from "../../components/landlord-info";
+import { LaLetterBuilderRiskConsent } from "../../components/consent";
+import { t } from "@lingui/macro";
+import { li18n } from "../../../i18n-lingui";
+import { LaIssuesRoutes } from "../issues";
 
 const HabitabilityRoutes: React.FC<{}> = () => (
   <Switch>
@@ -55,17 +55,15 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = LaLetterBuilderRouteInfo.locale.habitability;
 
   return {
+    label: li18n._(t`Build your Letter`),
     toLatestStep: routes.latestStep,
-    welcomeSteps: [
-      {
-        path: routes.welcome,
-        exact: true,
-        component: LaLetterBuilderWelcome,
-      },
-      ...createStartAccountOrLoginSteps(routes),
-    ],
+    welcomeSteps: [],
     stepsToFillOut: [
       ...skipStepsIf(isUserLoggedIn, [
+        ...createStartAccountOrLoginSteps(
+          routes,
+          LaLetterBuilderRouteInfo.locale.home
+        ),
         {
           path: routes.name,
           exact: true,
@@ -82,32 +80,23 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
           // TODO: add something that short circuits if the user isn't in LA
           component: LaLetterBuilderAskNationalAddress,
         },
+        {
+          path: routes.riskConsent,
+          component: LaLetterBuilderRiskConsent,
+        },
+        {
+          path: routes.createAccount,
+          component: LaLetterBuilderCreateAccount,
+        },
       ]),
-      {
-        path: routes.createAccount,
-        component: LaLetterBuilderCreateAccount,
-        shouldBeSkipped: isUserLoggedIn,
-      },
-      {
-        path: routes.landlordName,
-        exact: true,
-        component: LaLetterBuilderLandlordNameAndContactTypes,
-      },
-      {
-        path: routes.landlordEmail,
-        exact: true,
-        shouldBeSkipped: shouldSkipLandlordEmailStep,
-        component: LaLetterBuilderLandlordEmail,
-      },
-      {
-        path: routes.landlordAddress,
-        exact: false,
-        shouldBeSkipped: shouldSkipLandlordMailingAddressStep,
-        component: LaLetterBuilderLandlordMailingAddress,
-      },
       {
         path: routes.issues.prefix,
         component: LaLetterBuilderIssuesRoutes,
+      },
+      {
+        path: routes.landlordInfo,
+        exact: true,
+        component: LaLetterBuilderLandlordNameAddressEmail,
       },
       {
         path: routes.accessDates,
@@ -140,15 +129,17 @@ export const HabitabilityProgressRoutes = buildProgressRoutesComponent(
 );
 
 const LaLetterBuilderIssuesRoutes = () => (
-  <IssuesRoutes
+  <LaIssuesRoutes
     routes={LaLetterBuilderRouteInfo.locale.habitability.issues}
-    toBack={LaLetterBuilderRouteInfo.locale.habitability.landlordAddress}
-    toNext={LaLetterBuilderRouteInfo.locale.habitability.accessDates}
-  ></IssuesRoutes>
+    toBack={LaLetterBuilderRouteInfo.locale.home}
+    toNext={LaLetterBuilderRouteInfo.locale.habitability.landlordInfo}
+  ></LaIssuesRoutes>
 );
 
 const HabitabilityPreviewPage = createLaLetterBuilderPreviewPage(
-  LaLetterBuilderRouteInfo.getLocale("en").habitability.letterContent
+  LaLetterBuilderRouteInfo.getLocale("en").habitability.letterContent,
+  HabitabilityLetterEmailToLandlordForUser,
+  HabitabilityLetterTranslation
 );
 
 export default HabitabilityRoutes;

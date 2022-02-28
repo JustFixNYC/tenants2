@@ -22,11 +22,12 @@ describe("LA letter builder steps", () => {
         city: "Los Angeles",
         state: "CA",
       }),
+    startingAtStep: "/en/habitability/phone/ask",
     expectSteps: [
-      "/en/habitability/phone/ask",
       "/en/habitability/name",
       "/en/habitability/city",
       "/en/habitability/address/national",
+      "/en/habitability/consent",
       "/en/habitability/create-account",
     ],
   });
@@ -40,10 +41,8 @@ tester.defineTest({
   }),
   startingAtStep: "/en/habitability/create-account",
   expectSteps: [
-    "/en/habitability/landlord/name",
-    "/en/habitability/landlord/email",
-    "/en/habitability/landlord/address",
     "/en/habitability/issues",
+    "/en/habitability/landlord/info",
     "/en/habitability/access-dates",
     "/en/habitability/preview",
     "/en/habitability/sending",

@@ -1,0 +1,50 @@
+// OVERRIDES DEFAULT BODY PADDING TO ACCOMMODATE TALLER NAVBAR
+.has-navbar-fixed-top.jf-site-laletterbuilder {
+  padding-top: 5rem;
+}
+
+nav.navbar {
+  background-color: $secondary;
+  border-bottom: 2px solid $primary;
+
+  .navbar-item.jf-laletterbuilder-logo,
+  .navbar-burger {
+    padding: 1.5rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    @include mobile {
+      width: 50%;
+    }
+
+    figure.image {
+      margin-bottom: 0.4rem;
+    }
+  }
+
+  .jf-navbar-label {
+    display: none;
+  }
+
+  .navbar-item.jf-laletterbuilder-logo {
+    border-right: 2px solid $primary;
+  }
+
+  .navbar-burger {
+    color: $primary;
+    text-decoration: underline;
+    min-width: 150px;
+  }
+
+  //OVERRIDES FROM DEFAULT NAVBAR STYLING
+  .container {
+    max-width: unset;
+    .navbar-brand {
+      margin-left: 0;
+      align-items: center;
+    }
+  }
+}

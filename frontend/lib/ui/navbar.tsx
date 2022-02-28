@@ -28,6 +28,13 @@ export type NavbarProps = AppContextType & {
   menuItemsComponent?: React.ComponentType<{}>;
 
   /**
+   * A label for the navbar dropdown menu.
+   *
+   * If undefined, the dropdown menu will be a simple hamburger icon.
+   */
+  dropdownMenuLabel?: string;
+
+  /**
    * A component to render any menu items for the "user menu",
    * which is a menu for user account-related actions at the
    * very end of the navbar.
@@ -158,7 +165,8 @@ class NavbarWithoutAppContext extends React.Component<
   }
 
   renderNavbarBrand(): JSX.Element {
-    const { navbarLabel } = this.props.server;
+    const { dropdownMenuLabel, server } = this.props;
+    const { navbarLabel } = server;
     const { state } = this;
     const Brand = this.props.brandComponent;
 
@@ -179,9 +187,13 @@ class NavbarWithoutAppContext extends React.Component<
           aria-label="menu"
           onToggle={this.toggleHamburger}
         >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
+          {dropdownMenuLabel || (
+            <>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </>
+          )}
         </AriaExpandableButton>
       </div>
     );

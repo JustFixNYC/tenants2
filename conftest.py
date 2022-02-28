@@ -322,6 +322,17 @@ def use_evictionfree_site(db):
 
 
 @pytest.fixture
+def use_laletterbuilder_site(db):
+    """
+    Set the default site as being the LaLetterBuilder site.
+    """
+
+    site = Site.objects.get(pk=1)
+    site.name = "LaLetterBuilder.org"
+    site.save()
+
+
+@pytest.fixture
 def mocklob(settings, requests_mock):
     """
     Enable Lob integration and provide mocks to simulate Lob functionality.

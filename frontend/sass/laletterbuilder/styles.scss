@@ -4,11 +4,11 @@
 // where this CSS file will be when the site is deployed. (Yes, this is the
 // CSS for the LaLetterBuilder site, but it inherits most of its styling from
 // NoRent at the time of this writing.)
-$norent-root: "../norent";
+$laletterbuilder-root: "../laletterbuilder";
 
-$jf-body-family: "Open Sans", "Segoe UI", Tahoma, sans-serif;
-$jf-title-family: "Montserrat Black", sans-serif;
-$jf-alt-title-family: "Montserrat Bold", sans-serif;
+$jf-body-family: "Degular", Arial, Helvetica, sans-serif;
+$jf-title-family: "Degular Display", Arial, Helvetica, sans-serif;
+$jf-alt-title-family: "Suisse Int'l Mono", "Courier New", Courier, monospace;
 
 @import "../_util.scss";
 @import "./_bulma-overrides.scss";
@@ -18,45 +18,238 @@ $jf-alt-title-family: "Montserrat Bold", sans-serif;
 @import "../_a11y.scss";
 @import "../_safe-mode.scss";
 @import "../_modal.scss";
-@import "../norent/_modal-overrides.scss";
+@import "./_modal-overrides.scss";
 @import "../_loading-overlay.scss";
 @import "../_progress.scss";
 @import "../_dev.scss";
 @import "../_forms.scss";
-@import "../norent/forms-overrides.scss";
+@import "./forms-overrides.scss";
 @import "../_buttons.scss";
-@import "../norent/_button-overrides.scss";
+@import "./_button-overrides.scss";
 @import "../_big-list.scss";
 @import "../_animations.scss";
 @import "../_footer.scss";
-@import "../norent/_footer-overrides.scss";
+@import "./_footer-overrides.scss";
 @import "../_letter-preview.scss";
 @import "../_autocomplete.scss";
 @import "../_helpers.scss";
 @import "../_language-toggle.scss";
 @import "../_email.scss";
-@import "../norent/_email-overrides.scss";
 @import "../_accordion.scss";
 @import "../_issues.scss";
 
-@import "../norent/_fonts.scss";
+@import "./_fonts.scss";
 
 // These variables define the background and content colors for the nav-bar
-$jf-navbar-background: $white;
-$jf-navbar-content: $black;
+$jf-navbar-background: $primary;
+$jf-navbar-content: $secondary;
 
 @import "../_navbar.scss";
-@import "../norent/_navbar-overrides.scss";
+@import "./navbar-overrides";
 
 @import "../_demo-deployment-note.scss";
 
 @import "../norent/_misc.scss";
 
 @import "../norent/_primary_pages.scss";
-@import "../norent/_letter-builder.scss";
+
+// SITE-WIDE STYLE DEFAULTS
+.jf-site-laletterbuilder {
+  background-color: $secondary;
+  font-family: $jf-body-family;
+  // DEFAULT BODY FONT SPECS:
+  font-size: 1.2rem;
+  line-height: 1.44rem;
+  letter-spacing: 0.01rem;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: $jf-title-family;
+  }
+
+  h1,
+  h1.title,
+  .content h1.title {
+    font-size: 2.25rem;
+    line-height: 2.25rem;
+    letter-spacing: 0.03rem;
+  }
+  h2 {
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+  }
+  p,
+  .subtitle {
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+
+    &.is-size-6,
+    &.is-6 {
+      line-height: 1rem;
+      font-size: 1rem;
+    }
+
+    &.is-size-7,
+    &.is-7 {
+      line-height: 0.875rem;
+      font-size: 0.875rem;
+    }
+  }
+}
 
 .jf-laletterbuilder-logo {
   font-weight: 600;
   font-family: $jf-title-family;
   letter-spacing: 0;
+}
+
+// PROGRESS BAR STYLING OVERRIDES
+.jf-progress-title-wrapper {
+  .jf-page-steps-title.title {
+    font-size: 1.125rem;
+    font-family: $jf-body-family;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+
+    // Ooof! We unfortunately need to override some rules marked as "important"
+    &.has-text-centered {
+      text-align: left !important;
+    }
+    &.has-text-grey {
+      color: $primary !important;
+    }
+  }
+  progress {
+    border: 1px solid $primary;
+  }
+  progress::-webkit-progress-bar {
+    background: $secondary;
+  }
+}
+
+// ISSUE CHECKLIST CUSTOMIZATIONS
+
+.jf-laletterbuilder-issues-list {
+  p:first-child {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid $primary;
+  }
+  .jf-accordion-item {
+    margin-bottom: 1rem;
+    details {
+      margin-bottom: 0;
+      summary {
+        font-size: 1.125rem;
+        padding: 0 0 1rem 0;
+        margin: 0;
+        border-bottom: 1px solid $primary;
+        &:focus {
+          outline-offset: 5px;
+        }
+        // Fix bug where scrollbars appear on accordion titles
+        .media-content {
+          overflow-x: unset;
+        }
+        .media-right span {
+          text-decoration: underline;
+          font-size: 0.875rem;
+          font-family: $jf-alt-title-family;
+        }
+      }
+
+      .jf-checkbox {
+        .jf-checkbox-symbol {
+          width: 100%;
+          position: absolute;
+          border: 1px solid $primary;
+          min-height: 2.8rem;
+          border-radius: 4px;
+        }
+        // Styling of the check mark symbol itself:
+        input:checked + .jf-checkbox-symbol {
+          background-position: 98%;
+        }
+        .jf-label-text {
+          margin: 0.3em 0.6em 0.3em 0;
+          font-size: 0.875rem;
+          height: 0.8rem;
+          padding: 1rem;
+          z-index: 5;
+          color: $primary;
+        }
+
+        input:checked ~ .jf-label-text {
+          color: $secondary;
+        }
+      }
+    }
+  }
+}
+
+// NORENT STYLING OVERRIDES
+
+.jf-norent-builder-page {
+  padding: 2.25rem 1.5rem;
+  background-color: $secondary;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+$navbar-height: 5rem;
+$footer-offset: 1rem;
+
+.jf-norent-internal-above-footer-content {
+  min-height: calc(100vh - #{$navbar-height});
+  @include tablet {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    min-height: calc(100vh - 8rem - #{$navbar-height} - #{$footer-offset});
+  }
+}
+
+ol.is-marginless {
+  padding-left: 1.2rem;
+}
+
+.jf-accordion-item img {
+  // Our default chevron icon on accordion dropdowns is blue
+  // Let's make the color match up with the scheme of this site
+  filter: grayscale(100%) brightness(0.1);
+}
+
+.box {
+  color: $primary;
+}
+
+.content .jf-letter-preview {
+  box-shadow: none;
+  border: 1px solid $primary;
+}
+
+.message {
+  border: 1px solid $primary;
+
+  .message-header {
+    background-color: $primary;
+    color: $secondary;
+  }
+  .message-body {
+    background-color: $secondary;
+    color: $primary;
+    padding: 1.5rem;
+  }
+
+  &.jf-letter-translation .message-body {
+    background-color: white;
+  }
+}
+
+.is-divider {
+  border: 1px solid $primary;
+  margin: 1rem 0;
 }

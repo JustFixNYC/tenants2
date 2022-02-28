@@ -285,7 +285,7 @@ function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
   );
 }
 
-function LinkToNextStep(props: { toNext: string }): JSX.Element {
+export function IssuesLinkToNextStep(props: { toNext: string }): JSX.Element {
   return (
     <AppContext.Consumer>
       {(ctx) => {
@@ -425,7 +425,7 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
             <Link to={this.props.toBack} className="button is-light is-medium">
               Back
             </Link>
-            <LinkToNextStep toNext={this.props.toNext} />
+            <IssuesLinkToNextStep toNext={this.props.toNext} />
           </ProgressButtons>
         </div>
         {this.props.withModal && <CovidRiskModal routes={this.props.routes} />}

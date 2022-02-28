@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-01-14 19:29\n"
+"PO-Revision-Date: 2022-02-25 21:42\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -591,7 +591,11 @@ msgstr "Estimado dueño/manager del edificio."
 
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:8
 msgid "Decide how to send your letter"
-msgstr ""
+msgstr "Decide how to send your letter"
+
+#: common-data/issue-choices-laletterbuilder.ts:23
+msgid "Defective electricity"
+msgstr "Defective electricity"
 
 #: common-data/issue-choices-laletterbuilder.ts:23
 msgid "Defective electricity"
@@ -872,15 +876,19 @@ msgstr "Entendido, llévame"
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:16
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:9
 msgid "Habitability"
-msgstr ""
+msgstr "Habitability"
 
 #: common-data/la-letter-builder-letter-choices.ts:17
 msgid "Habitability (CA)"
-msgstr ""
+msgstr "Habitability (CA)"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:14
 msgid "Habitability notice sent on behalf of {0}"
-msgstr ""
+msgstr "Habitability notice sent on behalf of {0}"
+
+#: common-data/issue-room-choices-laletterbuilder.ts:24
+msgid "Hallway"
+msgstr "Hallway"
 
 #: common-data/issue-room-choices-laletterbuilder.ts:24
 msgid "Hallway"
@@ -888,11 +896,11 @@ msgstr ""
 
 #: common-data/la-letter-builder-letter-choices.ts:18
 msgid "Harassment (CA)"
-msgstr ""
+msgstr "Harassment (CA)"
 
 #: common-data/la-letter-builder-letter-choices.ts:19
 msgid "Harassment (LA City/TAHO)"
-msgstr ""
+msgstr "Harassment (LA City/TAHO)"
 
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"
@@ -1230,11 +1238,11 @@ msgstr "LaLetterBuilder is a collaboration between JustFix.nyc and legal organiz
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:29
 msgid "LaLetterBuilder.org <0/>sent on behalf of <1/>"
-msgstr ""
+msgstr "LaLetterBuilder.org <0/>sent on behalf of <1/>"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:14
 msgid "Landing page"
-msgstr ""
+msgstr "Landing page"
 
 #: frontend/lib/ui/landlord.tsx:36
 msgid "Landlord address"
@@ -1790,7 +1798,7 @@ msgstr "Vista previa de tu carta NoRent.org"
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:43
 msgid "Preview of your letter"
-msgstr ""
+msgstr "Preview of your letter"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:56
 msgid "Preview this declaration as a PDF"
@@ -1899,7 +1907,7 @@ msgstr "Resultados para \"{0}\""
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:22
 msgid "Review your letter"
-msgstr ""
+msgstr "Review your letter"
 
 #: frontend/lib/rh/routes.tsx:213
 msgid "Review your request to the DHCR"
@@ -1915,7 +1923,7 @@ msgstr "Página de Preguntas Frecuentes del Right to Counsel"
 
 #: common-data/la-letter-builder-letter-choices.ts:20
 msgid "Right to Privacy (CA)"
-msgstr ""
+msgstr "Right to Privacy (CA)"
 
 #: frontend/lib/norent/about.tsx:16
 msgid "Right to the City"
@@ -1935,7 +1943,7 @@ msgstr "Agua Oxidada"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:87
 msgid "Sample Habitability letter"
-msgstr ""
+msgstr "Sample Habitability letter"
 
 #: frontend/lib/norent/letter-content.tsx:274
 msgid "Sample NoRent.org letter"
@@ -1952,7 +1960,11 @@ msgstr "Ver todas las preguntas frecuentes"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:9
 msgid "Select a letter to get started"
-msgstr ""
+msgstr "Select a letter to get started"
+
+#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:22
+msgid "Select which repairs are needed"
+msgstr "Select which repairs are needed"
 
 #: frontend/lib/laletterbuilder/letter-builder/issues.tsx:22
 msgid "Select which repairs are needed"
@@ -2910,8 +2922,7 @@ msgstr "eviction free nyc, eviction free ny, penuria, declaración, desalojo, de
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:157
 msgid "evictionFree.canLandlordChallengeDeclarationFaq"
-msgstr ""
-"<0>SI. ESTO ES NUEVO. Ahora, el casero tiene derecho a impugnar la validez de la declaración de dificultades de un inquilino. Para hacer esto, el casero puede presentar una moción ante la corte, declarando que no cree que el inquilino tenga las dificultades que reclamó en su Declaración de Dificultades. Si ocurre esto, la Corte concederá una audiencia para determinar la validez de la declaración de dificultades del inquilino y el inquilino deberá mostrar prueba de las dificultades que reclamó en su Declaración. En NYC, <1>inquilinos tienen el derecho a un abogado a través de Right to Counsel para estas audiencias</1>.</0><2>\n"
+msgstr "<0>SI. ESTO ES NUEVO. Ahora, el casero tiene derecho a impugnar la validez de la declaración de dificultades de un inquilino. Para hacer esto, el casero puede presentar una moción ante la corte, declarando que no cree que el inquilino tenga las dificultades que reclamó en su Declaración de Dificultades. Si ocurre esto, la Corte concederá una audiencia para determinar la validez de la declaración de dificultades del inquilino y el inquilino deberá mostrar prueba de las dificultades que reclamó en su Declaración. En NYC, <1>inquilinos tienen el derecho a un abogado a través de Right to Counsel para estas audiencias</1>.</0><2>\n"
 "Si la corte decide que el inquilino demostró su reclamo por dificultades, entonces su caso/desalojo permanecerá en pausa hasta al menos el {0}. La corte instruirá a las partes que soliciten ERAP si parece que el inquilino es elegible y aún no ha presentado esa solicitud.</2><3>Si la corte decide que el inquilino NO está experimentando dificultades, entonces su caso y desalojo pueden proceder.</3>"
 
 #: frontend/lib/evictionfree/about.tsx:45
@@ -3000,8 +3011,7 @@ msgstr "Además, entiendo que los honorarios, multas o intereses legales por imp
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:37
 msgid "evictionfree.legalAgreementCheckboxOnLandlordChallenge"
-msgstr ""
-"Además, entiendo que mi casero puede solicitar una audiencia para retar el presente\n"
+msgstr "Además, entiendo que mi casero puede solicitar una audiencia para retar el presente\n"
 "certificado de penuria y tendré la oportunidad de participar en todo procedimiento\n"
 "de tenencia inmobiliaria."
 
@@ -3123,7 +3133,7 @@ msgstr "Utilizaremos esta información para:<0><1>Acceder a tu cuenta actual</1>
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:16
 msgid "laletterbuilder.emailToLandlordBody"
-msgstr ""
+msgstr "<0>Por favor vea la carta adjunta de <1/>. </0><2>Para documentar las comunicaciones y evitar malentendidos, por favor corresponda con <3/> por correo electrónico a <4>{0}</4> o por correo ordinario en lugar de una llamada telefónica o una visita en persona. </2>"
 
 #: frontend/lib/laletterbuilder/about.tsx:54
 msgid "laletterbuilder.explanationAboutWhyWeMadeThisSite"
@@ -3131,7 +3141,7 @@ msgstr "We made this site because xyz"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:80
 msgid "laletterbuilder.habitability.intro"
-msgstr ""
+msgstr "LETTER TEXT"
 
 #: frontend/lib/laletterbuilder/about.tsx:72
 msgid "laletterbuilder.madeByBlurb"
@@ -3329,3 +3339,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

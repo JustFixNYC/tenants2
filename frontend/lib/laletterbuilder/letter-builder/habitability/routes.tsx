@@ -10,7 +10,7 @@ import { createStartAccountOrLoginSteps } from "../../../start-account-or-login/
 import { createLetterStaticPageRoutes } from "../../../static-page/routes";
 import { isUserLoggedIn } from "../../../util/session-predicates";
 import { LaLetterBuilderRouteInfo } from "../../route-info";
-import { LaLetterBuilderConfirmation } from "../confirmation";
+import { LaLetterBuilderMyLetters } from "../my-letters";
 import { LaLetterBuilderCreateAccount } from "../../components/create-account";
 import {
   HabitabilityLetterForUserStaticPage,
@@ -90,6 +90,11 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
         },
       ]),
       {
+        path: routes.myLetters,
+        exact: true,
+        component: LaLetterBuilderMyLetters,
+      },
+      {
         path: routes.issues.prefix,
         component: LaLetterBuilderIssuesRoutes,
       },
@@ -118,7 +123,7 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
       {
         path: routes.confirmation,
         exact: true,
-        component: LaLetterBuilderConfirmation,
+        component: LaLetterBuilderMyLetters,
       },
     ],
   };

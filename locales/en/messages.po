@@ -2126,6 +2126,10 @@ msgstr "South Dakota"
 msgid "Start"
 msgstr "Start"
 
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:12
+msgid "Start a habitability letter"
+msgstr "Start a habitability letter"
+
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:258
 msgid "Start a legal case for repairs and/or harassment"
 msgstr "Start a legal case for repairs and/or harassment"

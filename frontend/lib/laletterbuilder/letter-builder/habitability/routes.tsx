@@ -56,6 +56,7 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
 
   return {
     label: li18n._(t`Build your Letter`),
+    introProgressSection: ["Create your Account", 10],
     toLatestStep: routes.latestStep,
     welcomeSteps: [],
     stepsToFillOut: [

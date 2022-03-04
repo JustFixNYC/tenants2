@@ -51,6 +51,16 @@ export type ProgressRoutesProps = ProgressStepDefaults & {
    * and so on. We won't display a progress bar for these.
    */
   confirmationSteps: ProgressStepRoute[];
+
+  /**
+   * When defined, this relabels the progress bar with a new label for a certain
+   * number of steps at the start of the `stepsToFillOut` list.
+   *
+   * The two array elements are defined as follows:
+   * - first element is the label for this introductory section of the progress steps
+   * - second element is the number of steps this introductory section accounts for
+   */
+  introProgressSection?: [string, number];
 };
 
 export function getAllSteps(props: ProgressRoutesProps): ProgressStepRoute[] {
@@ -101,6 +111,7 @@ function generateRoutes(props: ProgressRoutesProps): JSX.Element[] {
           <RouteProgressBar
             label={props.label}
             steps={props.stepsToFillOut}
+            introProgressSection={props.introProgressSection}
             outerSteps={allSteps}
             defaults={props}
           />

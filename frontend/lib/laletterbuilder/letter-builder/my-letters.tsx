@@ -15,8 +15,7 @@ export const LaLetterBuilderMyLetters: React.FC<ProgressStepProps> = (
       <p>Your Letters</p>
       <div>
         <Link
-          // TODO: this currently always goes to /phone/ask, make it not do that if the user is logged in
-          to={LaLetterBuilderRouteInfo.locale.habitability.latestStep}
+          to={LaLetterBuilderRouteInfo.locale.habitability.issues.prefix}
           className="button jf-is-next-button is-primary is-medium"
         >
           {li18n._(t`Start a habitability letter`)}

@@ -575,6 +575,10 @@ msgstr "Cracked walls"
 msgid "Create a password"
 msgstr "Create a password"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:31
+msgid "Create an Account"
+msgstr "Create an Account"
+
 #. salutation of formal letter
 #: frontend/lib/util/letter-content-util.tsx:48
 msgid "Dear <0/>,"

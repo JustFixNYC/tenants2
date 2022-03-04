@@ -1,9 +1,16 @@
 [
-  ["HEALTH__MOLD", "Mold"],
-  ["HEALTH__PEELING_PAINT", "Peeling paint"],
-  ["HEALTH__RODENT_INFESTATION", "Rodent infestation"],
-  ["UTILITIES__DEFECTIVE_ELECTRICITY", "Defective electricity"],
-  ["UTILITIES__WATER_LEAK", "Water leak"],
-  ["BUILDING_AND_SAFETY__HOLES", "Holes"],
-  ["BUILDING_AND_SAFETY__BROKEN_LOCKS", "Broken locks"]
+  ["HEALTH__MOLD__BEDROOM", "Mold"],
+  ["HEALTH__MOLD__KITCHEN", "Mold"],
+  ["HEALTH__PEELING_PAINT__BEDROOM", "Peeling paint"],
+  ["HEALTH__PEELING_PAINT__KITCHEN", "Peeling paint"],
+  ["HEALTH__RODENT_INFESTATION__BEDROOM", "Rodent infestation"],
+  ["HEALTH__RODENT_INFESTATION__KITCHEN", "Rodent infestation"],
+  ["UTILITIES__DEFECTIVE_ELECTRICITY__BEDROOM", "Defective electricity"],
+  ["UTILITIES__DEFECTIVE_ELECTRICITY__KITCHEN", "Defective electricity"],
+  ["UTILITIES__WATER_LEAK__BEDROOM", "Water leak"],
+  ["UTILITIES__WATER_LEAK__KITCHEN", "Water leak"],
+  ["BUILDING_AND_SAFETY__HOLES__BEDROOM", "Holes"],
+  ["BUILDING_AND_SAFETY__HOLES__KITCHEN", "Holes"],
+  ["BUILDING_AND_SAFETY__BROKEN_LOCKS__BEDROOM", "Broken locks"],
+  ["BUILDING_AND_SAFETY__BROKEN_LOCKS__KITCHEN", "Broken locks"]
 ]

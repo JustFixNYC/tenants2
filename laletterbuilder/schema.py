@@ -1,6 +1,7 @@
 from typing import Any, Dict
 from django.http import HttpRequest
-from laletterbuilder import letter_sending
+from django.db import transaction
+from laletterbuilder import letter_sending, models
 from onboarding.scaffolding import purge_scaffolding
 from onboarding.schema import complete_onboarding
 from onboarding.schema_util import mutation_requires_onboarding
@@ -133,4 +134,25 @@ class LaLetterBuilderSendLetter(SessionFormMutation):
 
         letter_sending.create_and_send_letter(request.user)
 
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class LaLetterBuilderIssuesMutation(SessionFormMutation):
+    """
+    Save the user's issues on their letter
+    """
+
+    @classmethod
+    @mutation_requires_onboarding
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        user = request.user
+        assert user.is_authenticated
+
+        # letter = query for a user's most recent habitability letter once we have a letter created upon a user clicking ""
+        with transaction.atomic():
+            models.LaIssue.objects.set_issues_for_letter(
+                letter, form.base_form.cleaned_data["issues"]
+            )
         return cls.mutation_success()

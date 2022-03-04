@@ -173,7 +173,6 @@ class RouteProgressBarWithoutRouter extends React.Component<
     const { isTransitionEnabled } = this.state;
     let numSteps = props.steps.length;
     let currStep = this.getStep(location.pathname);
-    let pct = Math.floor((currStep / numSteps) * 100);
     let prevStep = this.state.prevStep;
 
     if (currStep !== this.state.currStep) {
@@ -187,26 +186,30 @@ class RouteProgressBarWithoutRouter extends React.Component<
 
     let flowLabel = label;
 
-    // Set default Step Label
-    let stepLabel = li18n._(t`Step ${currStep} of ${numSteps}`);
+    let currStepInSection, numStepsInSection;
 
-    // Override Step Label if we have an intro progress section to account for
+    // Redefine current and total step count if we have an intro progress section to account for
     if (!!introProgressSection) {
       const introLabel = introProgressSection[0];
       const numIntroSteps = introProgressSection[1];
       if (this.state.currStep < numIntroSteps) {
         flowLabel = introLabel;
-        stepLabel = li18n._(t`Step ${currStep} of ${numIntroSteps}`);
-        pct = Math.floor((currStep / numIntroSteps) * 100);
+        numStepsInSection = numIntroSteps;
       } else {
-        stepLabel = li18n._(
-          t`Step ${currStep - numIntroSteps + 1} of ${numSteps - numIntroSteps}`
-        );
-        pct = Math.floor(
-          ((currStep + 1 - numIntroSteps) / (numSteps - numIntroSteps)) * 100
-        );
+        currStepInSection = currStep - numIntroSteps + 1;
+        numStepsInSection = numSteps - numIntroSteps;
       }
     }
+
+    let pct = Math.floor(
+      ((currStepInSection || currStep) / (numStepsInSection || numSteps)) * 100
+    );
+
+    let stepLabel = li18n._(
+      t`Step ${currStepInSection || currStep} of ${
+        numStepsInSection || numSteps
+      }`
+    );
 
     return (
       <React.Fragment>

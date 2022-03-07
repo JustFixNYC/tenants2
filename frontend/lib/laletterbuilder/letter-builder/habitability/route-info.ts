@@ -24,6 +24,7 @@ export function createHabitabilityRouteInfo(prefix: string) {
     riskConsent: `${prefix}/consent`,
     createAccount: `${prefix}/create-account`,
     createAccountTermsModal: `${prefix}/create-account/terms-modal`,
+    myLetters: `${prefix}/my-letters`,
     landlordInfo: `${prefix}/landlord/info`,
     landlordAddressConfirmModal: `${prefix}/landlord/info/confirm-address-modal`,
     issues: createIssuesRouteInfo(`${prefix}/issues`),

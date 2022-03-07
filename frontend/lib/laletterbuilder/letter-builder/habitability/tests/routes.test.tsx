@@ -1,7 +1,16 @@
 import { ProgressRoutesTester } from "../../../../progress/tests/progress-routes-tester";
 import { newSb } from "../../../../tests/session-builder";
 import { PhoneNumberAccountStatus } from "../../../../queries/globalTypes";
-import { getHabitabilityProgressRoutesProps } from "../routes";
+import HabitabilityRoutes, {
+  getHabitabilityProgressRoutesProps,
+} from "../routes";
+import { AppTesterPal } from "../../../../tests/app-tester-pal";
+import React from "react";
+import { LaLetterBuilderRouteInfo } from "../../../route-info";
+import {
+  BlankLaLetterBuilderCreateAccountInput,
+  LaLetterBuilderCreateAccountMutation,
+} from "../../../../queries/LaLetterBuilderCreateAccountMutation";
 
 const tester = new ProgressRoutesTester(
   getHabitabilityProgressRoutesProps(),
@@ -22,7 +31,6 @@ describe("LA letter builder steps", () => {
         city: "Los Angeles",
         state: "CA",
       }),
-    startingAtStep: "/en/habitability/phone/ask",
     expectSteps: [
       "/en/habitability/name",
       "/en/habitability/city",
@@ -39,7 +47,6 @@ tester.defineTest({
     hasLandlordEmailAddress: true,
     hasLandlordMailingAddress: true,
   }),
-  startingAtStep: "/en/habitability/create-account",
   expectSteps: [
     "/en/habitability/my-letters",
     "/en/habitability/issues",
@@ -49,4 +56,83 @@ tester.defineTest({
     "/en/habitability/sending",
     "/en/habitability/confirmation",
   ],
+});
+
+/**tester.defineTest({
+  it: "lets users create a new account",
+  usingSession: sb.withQueriedPhoneNumber(PhoneNumberAccountStatus.NO_ACCOUNT),
+  .withOnboardingScaffolding({
+      city: "Los Angeles",
+      state: "CA",
+      zipCode: "90210",
+      isInLosAngeles: true,
+    }), startingAtStep:
+    "/en/habitability/consent",
+  expectSteps: [
+    {
+      url: "/en/habitability/create-account",
+      test: (pal) => {
+        pal.ensureLinkGoesTo("Back", "/en/habitability/consent");
+      },
+    },
+    "/en/habitability/my-letters",
+  ],
+});*/
+
+describe("create account back and forth", () => {
+  it("goes to consent if you click back", async () => {
+    const pal = new AppTesterPal(<HabitabilityRoutes />, {
+      url: LaLetterBuilderRouteInfo.locale.habitability.createAccount,
+      updateSession: true,
+      session: sb
+        .withQueriedPhoneNumber(PhoneNumberAccountStatus.NO_ACCOUNT)
+        .withOnboardingScaffolding({
+          city: "Los Angeles",
+          state: "CA",
+        }).value,
+    });
+    pal.ensureLinkGoesTo(/Back/, "/en/habitability/consent");
+  });
+
+  it("goes to the my letters page after submission", async () => {
+    const pal = new AppTesterPal(<HabitabilityRoutes />, {
+      url: LaLetterBuilderRouteInfo.locale.habitability.createAccount,
+      updateSession: true,
+      session: sb
+        .withQueriedPhoneNumber(PhoneNumberAccountStatus.NO_ACCOUNT)
+        .withOnboardingScaffolding({
+          city: "Los Angeles",
+          state: "CA",
+        }).value,
+    });
+    const email = "boopsy@boopmail.com";
+    const password = "blar";
+    const confirmPassword = "blar";
+    const canWeSms = true;
+    const agreeToTerms = true;
+
+    pal.fillFormFields([
+      [/Email address \(optional\)/, email],
+      [/Create a password/, password],
+      [/Please confirm your password/, confirmPassword],
+    ]);
+    pal.clickRadioOrCheckbox(/I agree to the/i);
+    pal.clickButtonOrLink("Next");
+    pal
+      .withFormMutation(LaLetterBuilderCreateAccountMutation)
+      .expect({
+        email,
+        password,
+        confirmPassword,
+        canWeSms,
+        agreeToTerms,
+      })
+      .respondWith({
+        errors: [],
+        session: null, // this is a big object. do we need it?
+      });
+    await pal.waitForLocation(
+      LaLetterBuilderRouteInfo.locale.habitability.myLetters
+    );
+  });
 });

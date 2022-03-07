@@ -8,9 +8,12 @@ import { AppTesterPal } from "../../../../tests/app-tester-pal";
 import React from "react";
 import { LaLetterBuilderRouteInfo } from "../../../route-info";
 import {
-  BlankLaLetterBuilderCreateAccountInput,
   LaLetterBuilderCreateAccountMutation,
+  LaLetterBuilderCreateAccountMutation_output,
 } from "../../../../queries/LaLetterBuilderCreateAccountMutation";
+import { override } from "../../../../tests/util";
+import { BlankAllSessionInfo } from "../../../../queries/AllSessionInfo";
+import { BlankOnboardingScaffolding } from "../../../../queries/OnboardingScaffolding";
 
 const tester = new ProgressRoutesTester(
   getHabitabilityProgressRoutesProps(),
@@ -79,7 +82,7 @@ tester.defineTest({
   ],
 });*/
 
-describe("create account back and forth", () => {
+describe("create account back and next", () => {
   it("goes to consent if you click back", async () => {
     const pal = new AppTesterPal(<HabitabilityRoutes />, {
       url: LaLetterBuilderRouteInfo.locale.habitability.createAccount,
@@ -127,12 +130,15 @@ describe("create account back and forth", () => {
         canWeSms,
         agreeToTerms,
       })
-      .respondWith({
-        errors: [],
-        session: null, // this is a big object. do we need it?
+      .respondWithSuccess({
+        session: override(BlankAllSessionInfo, {
+          onboardingScaffolding: override(BlankOnboardingScaffolding, {
+            city: "Los Angeles",
+            state: "CA",
+          }),
+        }),
       });
-    await pal.waitForLocation(
-      LaLetterBuilderRouteInfo.locale.habitability.myLetters
-    );
+
+    await pal.waitForLocation("/en/habitability/my-letters");
   });
 });

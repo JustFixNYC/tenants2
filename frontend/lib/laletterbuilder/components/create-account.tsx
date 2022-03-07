@@ -33,7 +33,6 @@ export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
           initialState={{
             ...BlankLaLetterBuilderCreateAccountInput,
             canWeSms: true,
-            email: "",
           }}
           onSuccess={() =>
             trackSignup(OnboardingInfoSignupIntent.LALETTERBUILDER)

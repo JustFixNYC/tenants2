@@ -6,10 +6,15 @@
 nav.navbar {
   background-color: $secondary;
   border-bottom: 2px solid $primary;
+  height: 70px;
+
+  &.is-fixed-top:not(:first-child) {
+    top: 70px;
+  }
 
   .navbar-item.jf-laletterbuilder-logo,
   .navbar-burger {
-    padding: 1.5rem;
+    padding: 1.24rem 1.5rem;
     text-align: center;
     display: flex;
     align-items: center;
@@ -22,6 +27,8 @@ nav.navbar {
 
     figure.image {
       margin-bottom: 0.4rem;
+      width: 120px;
+      height: 120px;
     }
   }
 

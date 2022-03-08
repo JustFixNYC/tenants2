@@ -87,6 +87,12 @@ const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
               : "jf-norent-internal-above-footer-content"
           )}
         >
+          <nav className="navbar is-fixed-top has-background-dark">
+            <div className="container">
+              <NavbarLanguageDropdown />
+            </div>
+          </nav>
+
           <Navbar
             menuItemsComponent={LaLetterBuilderMenuItems}
             brandComponent={LaLetterBuilderBrand}

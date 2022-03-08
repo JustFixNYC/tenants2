@@ -557,6 +557,10 @@ msgstr "Continuar"
 msgid "Continue anyway"
 msgstr "Aún así continuar"
 
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:16
+msgid "Continue my letter"
+msgstr ""
+
 #: frontend/lib/evictionfree/declaration-builder/error-pages.tsx:11
 msgid "Continue to the confirmation page for information about the declaration you sent and next steps you can take."
 msgstr "Continúa a la página de confirmación para obtener información sobre la declaración que has enviado y los siguientes pasos que puedes tomar."
@@ -1515,7 +1519,7 @@ msgstr "Movement Law Lab"
 msgid "Must be at least 8 characters. Can't be all numbers."
 msgstr "Debe tener por lo menos 8 letras. No se puede usar solo números."
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:8
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:12
 msgid "My letters"
 msgstr ""
 
@@ -2135,7 +2139,7 @@ msgstr "Dakota del Sur"
 msgid "Start"
 msgstr "Iniciar"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:12
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:18
 msgid "Start a habitability letter"
 msgstr ""
 

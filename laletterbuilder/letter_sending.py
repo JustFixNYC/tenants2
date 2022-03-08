@@ -68,5 +68,4 @@ def send_letter(letter: models.Letter):
         letter.full_clean()
         letter.save()
 
-
     # TODO: add actual sending code (model after norent/letter_sending)

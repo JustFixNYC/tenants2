@@ -105,12 +105,14 @@ class LandlordNameAddressEmail(OneToOneUserModelFormMutation):
             is_undeliverable=lob_api.is_address_undeliverable(**ld.as_lob_params())
         )
 
+
 @schema_registry.register_mutation
 class LaLetterBuilderCreateLetter(SessionFormMutation):
     """
     Create a blank letter object for the user. This enables saving repairs info, etc. on a letter object
     instead of the user object, which is needed in case the user has multiple letters in progress.
     """
+
     login_required = True
 
     @classmethod
@@ -128,7 +130,6 @@ class LaLetterBuilderCreateLetter(SessionFormMutation):
         letter_sending.create_letter(user)
 
         return cls.mutation_success()
-
 
 
 @schema_registry.register_mutation
@@ -156,7 +157,7 @@ class LaLetterBuilderSendLetter(SessionFormMutation):
                 info, "This form can only be used from the LA Letter Builder site."
             )
         # Query for the user's most recent letter of a certain type
-        # letter = 
-        #letter_sending.send_letter(letter)
+        # letter =
+        # letter_sending.send_letter(letter)
 
         return cls.mutation_success()

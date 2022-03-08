@@ -1510,6 +1510,10 @@ msgstr "Movement Law Lab"
 msgid "Must be at least 8 characters. Can't be all numbers."
 msgstr "Must be at least 8 characters. Can't be all numbers."
 
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:8
+msgid "My letters"
+msgstr "My letters"
+
 #: frontend/lib/evictionfree/faqs.tsx:24
 msgid "Navigating these laws is confusing. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
 msgstr "Navigating these laws is confusing. Here are a few <0>frequently asked questions</0> from people who have used our tool:"

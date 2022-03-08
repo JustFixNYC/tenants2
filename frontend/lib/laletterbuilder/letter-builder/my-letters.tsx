@@ -11,7 +11,7 @@ export const LaLetterBuilderMyLetters: React.FC<ProgressStepProps> = (
   props
 ) => {
   return (
-    <Page title="My letters" withHeading="big" className="content">
+    <Page title={li18n._(t`My letters`)} withHeading="big" className="content">
       <p>Your Letters</p>
       <div>
         <Link

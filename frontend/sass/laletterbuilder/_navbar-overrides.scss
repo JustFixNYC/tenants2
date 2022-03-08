@@ -12,6 +12,14 @@ nav.navbar {
     top: 70px;
   }
 
+  &:first-child .container {
+    > .navbar-item {
+      @include mobile {
+        width: 50%;
+      }
+    }
+  }
+
   .navbar-item.jf-laletterbuilder-logo,
   .navbar-burger {
     padding: 1.24rem 1.5rem;

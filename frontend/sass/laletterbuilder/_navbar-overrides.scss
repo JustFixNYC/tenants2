@@ -1,21 +1,23 @@
 // OVERRIDES DEFAULT BODY PADDING TO ACCOMMODATE TALLER NAVBAR
 .has-navbar-fixed-top.jf-site-laletterbuilder {
-  padding-top: 5rem;
-}
+  padding-top: $jf-navbar-height;
 
-$navbar-height: 70px;
+  @include mobile {
+    padding-top: calc(#{$jf-navbar-height * 2});
+  }
+}
 
 nav.navbar {
   background-color: $secondary;
   border-bottom: 2px solid $primary;
-  height: $navbar-height;
+  height: $jf-navbar-height;
 
   .jf-navbar-label {
     display: none;
   }
 
   .navbar-brand {
-    height: $navbar-height;
+    height: $jf-navbar-height;
   }
 
   .navbar-item.jf-laletterbuilder-logo,
@@ -40,7 +42,7 @@ nav.navbar {
 
   &.is-fixed-top:not(:first-child) {
     @include mobile {
-      top: $navbar-height;
+      top: $jf-navbar-height;
       z-index: 10;
     }
   }

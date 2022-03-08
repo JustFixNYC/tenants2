@@ -43,6 +43,7 @@ $jf-alt-title-family: "Suisse Int'l Mono", "Courier New", Courier, monospace;
 // These variables define the background and content colors for the nav-bar
 $jf-navbar-background: $primary;
 $jf-navbar-content: $secondary;
+$jf-navbar-height: 70px;
 
 @import "../_navbar.scss";
 @import "./navbar-overrides";
@@ -200,15 +201,14 @@ $jf-navbar-content: $secondary;
   border-radius: 0;
 }
 
-$navbar-height: 5rem;
 $footer-offset: 1rem;
 
 .jf-norent-internal-above-footer-content {
-  min-height: calc(100vh - #{$navbar-height});
+  min-height: calc(100vh - #{$jf-navbar-height * 2});
   @include tablet {
     margin-top: 4rem;
     margin-bottom: 4rem;
-    min-height: calc(100vh - 8rem - #{$navbar-height} - #{$footer-offset});
+    min-height: calc(100vh - 8rem - #{$jf-navbar-height} - #{$footer-offset});
   }
 }
 

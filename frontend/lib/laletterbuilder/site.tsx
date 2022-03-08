@@ -60,7 +60,7 @@ const LaLetterBuilderSignInButton: React.FC<{}> = () => {
         src={getLaLetterBuilderImageSrc("person")}
         alt=""
       />
-      <Trans>Log out</Trans>
+      <Trans>Sign out</Trans>
       <HeaderArrowIcon />
     </Link>
   ) : (
@@ -70,7 +70,7 @@ const LaLetterBuilderSignInButton: React.FC<{}> = () => {
         src={getLaLetterBuilderImageSrc("person")}
         alt=""
       />
-      <Trans>Log in</Trans>
+      <Trans>Sign in</Trans>
       <HeaderArrowIcon />
     </Link>
   );

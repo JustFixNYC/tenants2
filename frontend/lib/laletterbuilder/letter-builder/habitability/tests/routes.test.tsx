@@ -61,27 +61,6 @@ tester.defineTest({
   ],
 });
 
-/**tester.defineTest({
-  it: "lets users create a new account",
-  usingSession: sb.withQueriedPhoneNumber(PhoneNumberAccountStatus.NO_ACCOUNT),
-  .withOnboardingScaffolding({
-      city: "Los Angeles",
-      state: "CA",
-      zipCode: "90210",
-      isInLosAngeles: true,
-    }), startingAtStep:
-    "/en/habitability/consent",
-  expectSteps: [
-    {
-      url: "/en/habitability/create-account",
-      test: (pal) => {
-        pal.ensureLinkGoesTo("Back", "/en/habitability/consent");
-      },
-    },
-    "/en/habitability/my-letters",
-  ],
-});*/
-
 describe("create account back and next", () => {
   it("goes to consent if you click back", async () => {
     const pal = new AppTesterPal(<HabitabilityRoutes />, {

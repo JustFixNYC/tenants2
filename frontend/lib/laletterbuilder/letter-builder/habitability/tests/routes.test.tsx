@@ -7,10 +7,7 @@ import HabitabilityRoutes, {
 import { AppTesterPal } from "../../../../tests/app-tester-pal";
 import React from "react";
 import { LaLetterBuilderRouteInfo } from "../../../route-info";
-import {
-  LaLetterBuilderCreateAccountMutation,
-  LaLetterBuilderCreateAccountMutation_output,
-} from "../../../../queries/LaLetterBuilderCreateAccountMutation";
+import { LaLetterBuilderCreateAccountMutation } from "../../../../queries/LaLetterBuilderCreateAccountMutation";
 import { override } from "../../../../tests/util";
 import { BlankAllSessionInfo } from "../../../../queries/AllSessionInfo";
 import { BlankOnboardingScaffolding } from "../../../../queries/OnboardingScaffolding";

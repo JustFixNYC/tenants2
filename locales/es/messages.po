@@ -1369,7 +1369,7 @@ msgid "Log in"
 msgstr "Iniciar sesión"
 
 #: frontend/lib/evictionfree/site.tsx:97
-#: frontend/lib/laletterbuilder/site.tsx:36
+#: frontend/lib/laletterbuilder/site.tsx:34
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:14
 msgid "Log out"
@@ -2063,10 +2063,12 @@ msgid "Shower: wall tiles missing"
 msgstr "Ducha: faltan baldosas"
 
 #: frontend/lib/justfix-navbar.tsx:24
+#: frontend/lib/laletterbuilder/site.tsx:52
 msgid "Sign in"
 msgstr "Iniciar sesión"
 
 #: frontend/lib/justfix-navbar.tsx:38
+#: frontend/lib/laletterbuilder/site.tsx:50
 msgid "Sign out"
 msgstr "Cerrar sesión"
 

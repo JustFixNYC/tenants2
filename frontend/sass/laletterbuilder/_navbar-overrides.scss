@@ -107,7 +107,7 @@ nav.navbar {
     }
     // On the top mobile navbar, only show the first set of options for the dropdown,
     // hiding all of the other default dropdown options (like the dev menu)
-    .navbar-menu .navbar-end .navbar-item.has-dropdown:not(:first-child) {
+    .navbar-menu .navbar-end .navbar-item:not(:first-child) {
       display: none;
     }
   }

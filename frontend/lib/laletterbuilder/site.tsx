@@ -86,14 +86,14 @@ const LaLetterBuilderMenuItems: React.FC<{}> = () => {
       <span className="is-hidden-mobile">
         {session.phoneNumber ? (
           <Link className="navbar-item" to={Routes.locale.logout}>
-            <Trans>Log out</Trans>
+            <Trans>Sign out</Trans>
           </Link>
         ) : (
           <Link
             className="navbar-item"
             to={Routes.locale.habitability.phoneNumber}
           >
-            <Trans>Log in</Trans>
+            <Trans>Sign in</Trans>
           </Link>
         )}
       </span>

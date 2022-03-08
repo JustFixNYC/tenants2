@@ -71,19 +71,23 @@ const LaLetterBuilderMenuItems: React.FC<{}> = () => {
       <Link className="navbar-item" to={Routes.locale.habitability.latestStep}>
         Build my letter
       </Link>
-      {session.phoneNumber ? (
-        <Link className="navbar-item" to={Routes.locale.logout}>
-          <Trans>Log out</Trans>
-        </Link>
-      ) : (
-        <Link
-          className="navbar-item"
-          to={Routes.locale.habitability.phoneNumber}
-        >
-          <Trans>Log in</Trans>
-        </Link>
-      )}
-      <NavbarLanguageDropdown />
+      <span className="is-hidden-mobile">
+        {session.phoneNumber ? (
+          <Link className="navbar-item" to={Routes.locale.logout}>
+            <Trans>Log out</Trans>
+          </Link>
+        ) : (
+          <Link
+            className="navbar-item"
+            to={Routes.locale.habitability.phoneNumber}
+          >
+            <Trans>Log in</Trans>
+          </Link>
+        )}
+      </span>
+      <span className="is-hidden-mobile">
+        <NavbarLanguageDropdown />
+      </span>
     </>
   );
 };
@@ -102,11 +106,13 @@ const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
               : "jf-norent-internal-above-footer-content"
           )}
         >
-          <Navbar
-            menuItemsComponent={NavbarLanguageDropdown}
-            brandComponent={LaLetterBuilderSignInButton}
-            dropdownMenuLabel={LANGUAGE_NAMES[activeLocale]}
-          />
+          <div className="is-hidden-tablet">
+            <Navbar
+              menuItemsComponent={NavbarLanguageDropdown}
+              brandComponent={LaLetterBuilderSignInButton}
+              dropdownMenuLabel={LANGUAGE_NAMES[activeLocale]}
+            />
+          </div>
           <Navbar
             menuItemsComponent={LaLetterBuilderMenuItems}
             brandComponent={LaLetterBuilderBrand}

@@ -53,8 +53,10 @@ nav.navbar {
   }
 
   &.is-fixed-top:not(:first-child) {
-    top: 70px;
-    z-index: 10;
+    @include mobile {
+      top: 70px;
+      z-index: 10;
+    }
 
     .navbar-item.jf-laletterbuilder-logo {
       border-right: 2px solid $primary;

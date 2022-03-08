@@ -55,10 +55,20 @@ const LaLetterBuilderSignInButton: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   return session.phoneNumber ? (
     <Link className="navbar-item" to={Routes.locale.logout}>
+      <StaticImage
+        ratio="is-24x24"
+        src={getLaLetterBuilderImageSrc("person")}
+        alt=""
+      />
       <Trans>Log out</Trans>
     </Link>
   ) : (
     <Link className="navbar-item" to={Routes.locale.habitability.phoneNumber}>
+      <StaticImage
+        ratio="is-24x24"
+        src={getLaLetterBuilderImageSrc("person")}
+        alt=""
+      />
       <Trans>Log in</Trans>
     </Link>
   );
@@ -110,7 +120,16 @@ const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
             <Navbar
               menuItemsComponent={NavbarLanguageDropdown}
               brandComponent={LaLetterBuilderSignInButton}
-              dropdownMenuLabel={LANGUAGE_NAMES[activeLocale]}
+              dropdownMenuLabel={
+                <>
+                  <StaticImage
+                    ratio="is-24x24"
+                    src={getLaLetterBuilderImageSrc("globe")}
+                    alt=""
+                  />
+                  {LANGUAGE_NAMES[activeLocale]}
+                </>
+              }
             />
           </div>
           <Navbar

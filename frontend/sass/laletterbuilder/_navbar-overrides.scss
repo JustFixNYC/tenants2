@@ -30,12 +30,12 @@ nav.navbar {
     @include mobile {
       width: 50%;
     }
+  }
 
-    figure.image {
-      margin-bottom: 0.4rem;
-      width: 120px;
-      height: 120px;
-    }
+  .navbar-item.jf-laletterbuilder-logo figure.image {
+    margin-bottom: 0.4rem;
+    width: 120px;
+    height: 120px;
   }
 
   &.is-fixed-top:not(:first-child) {
@@ -80,11 +80,16 @@ nav.navbar {
         justify-content: left;
 
         font-family: $jf-alt-title-family;
+        font-size: 0.875rem;
         text-decoration: none;
         text-transform: uppercase;
 
         @include mobile {
           width: 50%;
+        }
+
+        figure.image {
+          margin-right: 0.5rem;
         }
       }
     }

@@ -24,8 +24,25 @@ LALETTERBUILDER_EMAIL_TO_USER_URL = "letter-email-to-user.html"
 
 def create_letter(user: JustfixUser) -> models.Letter:
     """
-    Create a Letter model and set its PDF HTML content.
+    Create a blank Letter model. HTML content is required but it will be trivial until
+    the user sends the letter.
     """
+
+    with transaction.atomic():
+        # TODO: Make this work for any type of letter
+        letter = models.HabitabilityLetter(
+            user=user,
+            locale=user.locale,
+            html_content="<>",
+        )
+        letter.full_clean()
+        letter.save()
+
+    return letter
+
+
+def send_letter(letter: models.Letter):
+    user = letter.user
 
     html_content = react_render(
         SITE_CHOICES.LALETTERBUILDER,
@@ -46,27 +63,10 @@ def create_letter(user: JustfixUser) -> models.Letter:
         ).html
 
     with transaction.atomic():
-        # TODO: Make this work for any type of letter
-        letter = models.HabitabilityLetter(
-            user=user,
-            locale=user.locale,
-            html_content=html_content,
-            localized_html_content=localized_html_content,
-        )
+        letter.html_content = html_content
+        letter.localized_html_content = localized_html_content
         letter.full_clean()
         letter.save()
 
-    return letter
 
-
-def create_and_send_letter(user: JustfixUser):
-    """
-    Create a Letter model and send it.
-    """
-
-    letter = create_letter(user)
-    send_letter(letter)
-
-
-def send_letter(letter: models.Letter):
-    pass
+    # TODO: add actual sending code (model after norent/letter_sending)

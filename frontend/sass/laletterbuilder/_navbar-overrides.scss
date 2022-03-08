@@ -80,6 +80,7 @@ nav.navbar {
         align-self: flex-end;
         align-items: end;
         justify-content: left;
+        height: fit-content;
 
         font-family: $jf-alt-title-family;
         font-size: 0.875rem;
@@ -93,6 +94,15 @@ nav.navbar {
         figure.image {
           margin-right: 0.5rem;
         }
+
+        .jf-laletterbuilder-header-arrow-icon figure.image {
+          height: 12px;
+          width: 12px;
+          margin: 3px 7px;
+        }
+      }
+      .navbar-item .jf-laletterbuilder-header-arrow-icon figure.image img {
+        transform: rotate(-90deg);
       }
     }
     // On the top mobile navbar, only show the first set of options for the dropdown,

@@ -61,6 +61,7 @@ const LaLetterBuilderSignInButton: React.FC<{}> = () => {
         alt=""
       />
       <Trans>Log out</Trans>
+      <HeaderArrowIcon />
     </Link>
   ) : (
     <Link className="navbar-item" to={Routes.locale.habitability.phoneNumber}>
@@ -70,6 +71,7 @@ const LaLetterBuilderSignInButton: React.FC<{}> = () => {
         alt=""
       />
       <Trans>Log in</Trans>
+      <HeaderArrowIcon />
     </Link>
   );
 };
@@ -102,6 +104,16 @@ const LaLetterBuilderMenuItems: React.FC<{}> = () => {
   );
 };
 
+const HeaderArrowIcon = () => (
+  <div className="jf-laletterbuilder-header-arrow-icon">
+    <StaticImage
+      ratio="is-16x16"
+      src={getLaLetterBuilderImageSrc("header-arrow")}
+      alt=""
+    />
+  </div>
+);
+
 const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
     const isPrimaryPage = useIsPrimaryPage();
@@ -128,6 +140,7 @@ const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
                     alt=""
                   />
                   {LANGUAGE_NAMES[activeLocale]}
+                  <HeaderArrowIcon />
                 </>
               }
             />

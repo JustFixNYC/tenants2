@@ -12,6 +12,7 @@ nav.navbar {
   border-bottom: 2px solid $primary;
   height: $jf-navbar-height;
 
+  // TODO: Figure out a placement for the "Demo" label on the LA Letter Builder site
   .jf-navbar-label {
     display: none;
   }

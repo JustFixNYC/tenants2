@@ -3,13 +3,19 @@
   padding-top: 5rem;
 }
 
+$navbar-height: 70px;
+
 nav.navbar {
   background-color: $secondary;
   border-bottom: 2px solid $primary;
-  height: 70px;
+  height: $navbar-height;
 
   .jf-navbar-label {
     display: none;
+  }
+
+  .navbar-brand {
+    height: $navbar-height;
   }
 
   .navbar-item.jf-laletterbuilder-logo,
@@ -54,7 +60,7 @@ nav.navbar {
 
   &.is-fixed-top:not(:first-child) {
     @include mobile {
-      top: 70px;
+      top: $navbar-height;
       z-index: 10;
     }
 

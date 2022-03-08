@@ -3,12 +3,13 @@ import React, { useContext } from "react";
 import { useLocation, Route, Link } from "react-router-dom";
 
 import { Trans } from "@lingui/macro";
+import i18n from "../i18n";
 import loadable from "@loadable/component";
 
 import { AppContext } from "../app-context";
 import { createLinguiCatalogLoader } from "../i18n-lingui";
 import { LoadingOverlayManager } from "../networking/loading-page";
-import { NavbarLanguageDropdown } from "../ui/language-toggle";
+import { LANGUAGE_NAMES, NavbarLanguageDropdown } from "../ui/language-toggle";
 import { LaLetterBuilderFooter } from "./components/footer";
 import {
   LaLetterBuilderRouteInfo as Routes,
@@ -50,6 +51,19 @@ const LaLetterBuilderBrand: React.FC<{}> = () => {
   );
 };
 
+const LaLetterBuilderSignInButton: React.FC<{}> = () => {
+  const { session } = useContext(AppContext);
+  return session.phoneNumber ? (
+    <Link className="navbar-item" to={Routes.locale.logout}>
+      <Trans>Log out</Trans>
+    </Link>
+  ) : (
+    <Link className="navbar-item" to={Routes.locale.habitability.phoneNumber}>
+      <Trans>Log in</Trans>
+    </Link>
+  );
+};
+
 const LaLetterBuilderMenuItems: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   return (
@@ -77,6 +91,7 @@ const LaLetterBuilderMenuItems: React.FC<{}> = () => {
 const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
     const isPrimaryPage = useIsPrimaryPage();
+    const activeLocale = i18n.locale;
 
     return (
       <LaLetterBuilderLinguiI18n>
@@ -87,12 +102,11 @@ const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
               : "jf-norent-internal-above-footer-content"
           )}
         >
-          <nav className="navbar is-fixed-top has-background-dark">
-            <div className="container">
-              <NavbarLanguageDropdown />
-            </div>
-          </nav>
-
+          <Navbar
+            menuItemsComponent={NavbarLanguageDropdown}
+            brandComponent={LaLetterBuilderSignInButton}
+            dropdownMenuLabel={LANGUAGE_NAMES[activeLocale]}
+          />
           <Navbar
             menuItemsComponent={LaLetterBuilderMenuItems}
             brandComponent={LaLetterBuilderBrand}

@@ -8,16 +8,8 @@ nav.navbar {
   border-bottom: 2px solid $primary;
   height: 70px;
 
-  &.is-fixed-top:not(:first-child) {
-    top: 70px;
-  }
-
-  &:first-child .container {
-    > .navbar-item {
-      @include mobile {
-        width: 50%;
-      }
-    }
+  .jf-navbar-label {
+    display: none;
   }
 
   .navbar-item.jf-laletterbuilder-logo,
@@ -40,18 +32,39 @@ nav.navbar {
     }
   }
 
-  .jf-navbar-label {
-    display: none;
+  &:first-child {
+    background-color: $primary;
+    .container {
+      > .navbar-brand {
+        flex-direction: row-reverse;
+        color: $secondary;
+        .navbar-item {
+          @include mobile {
+            width: 50%;
+          }
+        }
+      }
+      // On the top mobile navbar, only show the first set of options for the dropdown,
+      // hiding all of the other default dropdown options (like the dev menu)
+      .navbar-menu .navbar-end .navbar-item.has-dropdown:not(:first-child) {
+        display: none;
+      }
+    }
   }
 
-  .navbar-item.jf-laletterbuilder-logo {
-    border-right: 2px solid $primary;
-  }
+  &.is-fixed-top:not(:first-child) {
+    top: 70px;
+    z-index: 10;
 
-  .navbar-burger {
-    color: $primary;
-    text-decoration: underline;
-    min-width: 150px;
+    .navbar-item.jf-laletterbuilder-logo {
+      border-right: 2px solid $primary;
+    }
+
+    .navbar-burger {
+      color: $primary;
+      text-decoration: underline;
+      min-width: 150px;
+    }
   }
 
   //OVERRIDES FROM DEFAULT NAVBAR STYLING

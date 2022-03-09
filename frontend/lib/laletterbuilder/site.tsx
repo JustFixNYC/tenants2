@@ -128,7 +128,7 @@ const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
               : "jf-norent-internal-above-footer-content"
           )}
         >
-          <div className="jf-laletterbuilder-second-nav is-hidden-tablet">
+          <div className="jf-laletterbuilder-top-nav is-hidden-tablet">
             <Navbar
               menuItemsComponent={NavbarLanguageDropdown}
               brandComponent={LaLetterBuilderSignInButton}

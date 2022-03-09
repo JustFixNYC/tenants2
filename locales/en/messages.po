@@ -1358,13 +1358,11 @@ msgstr "Locally supported"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
 #: frontend/lib/evictionfree/site.tsx:99
-#: frontend/lib/laletterbuilder/site.tsx:38
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Log in"
 
 #: frontend/lib/evictionfree/site.tsx:97
-#: frontend/lib/laletterbuilder/site.tsx:36
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:14
 msgid "Log out"
@@ -2058,10 +2056,14 @@ msgid "Shower: wall tiles missing"
 msgstr "Shower: wall tiles missing"
 
 #: frontend/lib/justfix-navbar.tsx:24
+#: frontend/lib/laletterbuilder/site.tsx:38
+#: frontend/lib/laletterbuilder/site.tsx:52
 msgid "Sign in"
 msgstr "Sign in"
 
 #: frontend/lib/justfix-navbar.tsx:38
+#: frontend/lib/laletterbuilder/site.tsx:34
+#: frontend/lib/laletterbuilder/site.tsx:50
 msgid "Sign out"
 msgstr "Sign out"
 

@@ -32,6 +32,7 @@ describe("LA letter builder steps", () => {
         state: "CA",
       }),
     expectSteps: [
+      "/en/habitability/phone/ask",
       "/en/habitability/name",
       "/en/habitability/city",
       "/en/habitability/address/national",

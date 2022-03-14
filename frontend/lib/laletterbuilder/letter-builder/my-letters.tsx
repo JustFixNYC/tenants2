@@ -37,6 +37,8 @@ export const WelcomeMyLetters: React.FC<ProgressStepProps> = (props) => {
     <WelcomePage
       {...props}
       title={li18n._(t`My letters`)}
+      // We need a Welcome page for navigation back from the first flow step
+      // to work, but always skip it.
       hasFlowBeenCompleted={true}
     >
       <MyLettersContent />

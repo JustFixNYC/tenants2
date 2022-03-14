@@ -10,7 +10,7 @@ import { createStartAccountOrLoginSteps } from "../../../start-account-or-login/
 import { createLetterStaticPageRoutes } from "../../../static-page/routes";
 import { isUserLoggedIn } from "../../../util/session-predicates";
 import { LaLetterBuilderRouteInfo } from "../../route-info";
-import { LaLetterBuilderMyLetters } from "../my-letters";
+import { LaLetterBuilderMyLetters, WelcomeMyLetters } from "../my-letters";
 import { LaLetterBuilderCreateAccount } from "../../components/create-account";
 import {
   HabitabilityLetterForUserStaticPage,
@@ -57,13 +57,16 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
   return {
     label: li18n._(t`Build your Letter`),
     toLatestStep: routes.latestStep,
-    welcomeSteps: [],
+    welcomeSteps: [
+      {
+        path: routes.welcome,
+        exact: true,
+        component: WelcomeMyLetters,
+      },
+    ],
     stepsToFillOut: [
       ...skipStepsIf(isUserLoggedIn, [
-        ...createStartAccountOrLoginSteps(
-          routes,
-          LaLetterBuilderRouteInfo.locale.home
-        ),
+        ...createStartAccountOrLoginSteps(routes),
         {
           path: routes.name,
           exact: true,

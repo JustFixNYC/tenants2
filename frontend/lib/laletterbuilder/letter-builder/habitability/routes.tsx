@@ -53,12 +53,39 @@ const HabitabilityRoutes: React.FC<{}> = () => (
 
 export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = LaLetterBuilderRouteInfo.locale.habitability;
+  const createAccountOrLoginSteps = [
+    ...createStartAccountOrLoginSteps(routes),
+    {
+      path: routes.name,
+      exact: true,
+      component: LaLetterBuilderAskName,
+    },
+    {
+      path: routes.city,
+      exact: false,
+      component: LaLetterBuilderAskCityState,
+    },
+    {
+      path: routes.nationalAddress,
+      exact: false,
+      // TODO: add something that short circuits if the user isn't in LA
+      component: LaLetterBuilderAskNationalAddress,
+    },
+    {
+      path: routes.riskConsent,
+      component: LaLetterBuilderRiskConsent,
+    },
+    {
+      path: routes.createAccount,
+      component: LaLetterBuilderCreateAccount,
+    },
+  ];
 
   return {
     label: li18n._(t`Build your Letter`),
     introProgressSection: {
       label: li18n._(t`Create an Account`),
-      num_steps: 10,
+      num_steps: createAccountOrLoginSteps.length,
     },
     toLatestStep: routes.latestStep,
     welcomeSteps: [
@@ -69,33 +96,7 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
       },
     ],
     stepsToFillOut: [
-      ...skipStepsIf(isUserLoggedIn, [
-        ...createStartAccountOrLoginSteps(routes),
-        {
-          path: routes.name,
-          exact: true,
-          component: LaLetterBuilderAskName,
-        },
-        {
-          path: routes.city,
-          exact: false,
-          component: LaLetterBuilderAskCityState,
-        },
-        {
-          path: routes.nationalAddress,
-          exact: false,
-          // TODO: add something that short circuits if the user isn't in LA
-          component: LaLetterBuilderAskNationalAddress,
-        },
-        {
-          path: routes.riskConsent,
-          component: LaLetterBuilderRiskConsent,
-        },
-        {
-          path: routes.createAccount,
-          component: LaLetterBuilderCreateAccount,
-        },
-      ]),
+      ...skipStepsIf(isUserLoggedIn, [...createAccountOrLoginSteps]),
       {
         path: routes.myLetters,
         exact: true,

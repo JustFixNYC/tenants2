@@ -197,11 +197,11 @@ class RouteProgressBarWithoutRouter extends React.Component<
     if (!!introProgressSection) {
       const introLabel = introProgressSection.label;
       const numIntroSteps = introProgressSection.num_steps;
-      if (this.state.currStep < numIntroSteps) {
+      if (this.state.currStep <= numIntroSteps) {
         flowLabel = introLabel;
         numStepsInSection = numIntroSteps;
       } else {
-        currStepInSection = currStep - numIntroSteps + 1;
+        currStepInSection = currStep - numIntroSteps;
         numStepsInSection = numSteps - numIntroSteps;
       }
     }

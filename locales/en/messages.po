@@ -575,7 +575,7 @@ msgstr "Cracked walls"
 msgid "Create a password"
 msgstr "Create a password"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:31
+#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:32
 msgid "Create an Account"
 msgstr "Create an Account"
 

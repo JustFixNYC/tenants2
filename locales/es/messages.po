@@ -580,7 +580,7 @@ msgstr "Paredes Agrietadas"
 msgid "Create a password"
 msgstr "Crea una contraseña"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:31
+#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:32
 msgid "Create an Account"
 msgstr ""
 

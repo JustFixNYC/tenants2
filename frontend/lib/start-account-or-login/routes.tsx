@@ -24,21 +24,16 @@ export type StartAccountOrLoginProps = MiddleProgressStepProps & {
  * the `route-info.ts` file in the same directory as this file.
  *
  * @param routes
- * @param {string} alternateWelcomeRoute Some apps (like LA Letter Builder)
- * don't have an explicit welcome screen, and so the login steps are the first
- * steps in the routes list. In this case you need to specify a route
- * (e.g. /en/home/) to go to when a user clicks "back" from the first login step.
  */
 export function createStartAccountOrLoginSteps(
-  routes: StartAccountOrLoginRouteInfo,
-  alternateWelcomeRoute?: string
+  routes: StartAccountOrLoginRouteInfo
 ): ProgressStepRoute[] {
   const wrap = (Component: React.ComponentType<StartAccountOrLoginProps>) => {
     return (props: ProgressStepProps) => (
       <Component
         {...props}
         routes={routes}
-        prevStep={alternateWelcomeRoute || assertNotNull(props.prevStep)}
+        prevStep={assertNotNull(props.prevStep)}
         nextStep={assertNotNull(props.nextStep)}
       />
     );

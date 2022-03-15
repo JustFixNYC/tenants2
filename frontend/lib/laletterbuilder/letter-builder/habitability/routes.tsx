@@ -10,7 +10,7 @@ import { createStartAccountOrLoginSteps } from "../../../start-account-or-login/
 import { createLetterStaticPageRoutes } from "../../../static-page/routes";
 import { isUserLoggedIn } from "../../../util/session-predicates";
 import { LaLetterBuilderRouteInfo } from "../../route-info";
-import { LaLetterBuilderConfirmation } from "../confirmation";
+import { LaLetterBuilderMyLetters, WelcomeMyLetters } from "../my-letters";
 import { LaLetterBuilderCreateAccount } from "../../components/create-account";
 import {
   HabitabilityLetterForUserStaticPage,
@@ -58,13 +58,16 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
     label: li18n._(t`Build your Letter`),
     introProgressSection: [li18n._(t`Create an Account`), 10],
     toLatestStep: routes.latestStep,
-    welcomeSteps: [],
+    welcomeSteps: [
+      {
+        path: routes.welcome,
+        exact: true,
+        component: WelcomeMyLetters,
+      },
+    ],
     stepsToFillOut: [
       ...skipStepsIf(isUserLoggedIn, [
-        ...createStartAccountOrLoginSteps(
-          routes,
-          LaLetterBuilderRouteInfo.locale.home
-        ),
+        ...createStartAccountOrLoginSteps(routes),
         {
           path: routes.name,
           exact: true,
@@ -90,6 +93,11 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
           component: LaLetterBuilderCreateAccount,
         },
       ]),
+      {
+        path: routes.myLetters,
+        exact: true,
+        component: LaLetterBuilderMyLetters,
+      },
       {
         path: routes.issues.prefix,
         component: LaLetterBuilderIssuesRoutes,
@@ -119,7 +127,7 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
       {
         path: routes.confirmation,
         exact: true,
-        component: LaLetterBuilderConfirmation,
+        component: LaLetterBuilderMyLetters,
       },
     ],
   };

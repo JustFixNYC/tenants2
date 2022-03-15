@@ -2,7 +2,7 @@ import React from "react";
 
 import { RedirectToLatestStep } from "./progress-redirection";
 import { Switch, Route } from "react-router";
-import { RouteProgressBar } from "./progress-bar";
+import { RouteProgressBar, IntroProgressSection } from "./progress-bar";
 import {
   createStepRoute,
   ProgressStepRoute,
@@ -60,7 +60,7 @@ export type ProgressRoutesProps = ProgressStepDefaults & {
    * - first element is the label for this introductory section of the progress steps
    * - second element is the number of steps this introductory section accounts for
    */
-  introProgressSection?: [string, number];
+  introProgressSection?: IntroProgressSection;
 };
 
 export function getAllSteps(props: ProgressRoutesProps): ProgressStepRoute[] {

@@ -122,7 +122,7 @@ interface RouteProgressBarProps extends RouteComponentProps<any> {
   introProgressSection?: IntroProgressSection;
 }
 
-interface IntroProgressSection {
+export interface IntroProgressSection {
   label: string;
   num_steps: number;
 }

@@ -1512,7 +1512,8 @@ msgstr "Movement Law Lab"
 msgid "Must be at least 8 characters. Can't be all numbers."
 msgstr "Must be at least 8 characters. Can't be all numbers."
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:8
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:9
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:22
 msgid "My letters"
 msgstr "My letters"
 
@@ -2136,7 +2137,7 @@ msgstr "South Dakota"
 msgid "Start"
 msgstr "Start"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:12
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:17
 msgid "Start a habitability letter"
 msgstr "Start a habitability letter"
 

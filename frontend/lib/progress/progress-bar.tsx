@@ -119,7 +119,12 @@ interface RouteProgressBarProps extends RouteComponentProps<any> {
    * - first element is the label for this introductory section of the progress steps
    * - second element is the number of steps this introductory section accounts for
    */
-  introProgressSection?: [string, number];
+  introProgressSection?: IntroProgressSection;
+}
+
+interface IntroProgressSection {
+  label: string;
+  num_steps: number;
 }
 
 interface RouteProgressBarState {
@@ -190,8 +195,8 @@ class RouteProgressBarWithoutRouter extends React.Component<
 
     // Redefine current and total step count if we have an intro progress section to account for
     if (!!introProgressSection) {
-      const introLabel = introProgressSection[0];
-      const numIntroSteps = introProgressSection[1];
+      const introLabel = introProgressSection.label;
+      const numIntroSteps = introProgressSection.num_steps;
       if (this.state.currStep < numIntroSteps) {
         flowLabel = introLabel;
         numStepsInSection = numIntroSteps;

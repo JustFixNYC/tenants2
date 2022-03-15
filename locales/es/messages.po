@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-03-09 19:26\n"
+"PO-Revision-Date: 2022-03-15 19:07\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -579,6 +579,10 @@ msgstr "Paredes Agrietadas"
 #: frontend/lib/common-steps/create-password.tsx:10
 msgid "Create a password"
 msgstr "Crea una contraseña"
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:32
+msgid "Create an Account"
+msgstr "Create an Account"
 
 #. salutation of formal letter
 #: frontend/lib/util/letter-content-util.tsx:48
@@ -1513,7 +1517,8 @@ msgstr "Movement Law Lab"
 msgid "Must be at least 8 characters. Can't be all numbers."
 msgstr "Debe tener por lo menos 8 letras. No se puede usar solo números."
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:8
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:9
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:22
 msgid "My letters"
 msgstr "My letters"
 
@@ -2137,7 +2142,7 @@ msgstr "Dakota del Sur"
 msgid "Start"
 msgstr "Iniciar"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:12
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:17
 msgid "Start a habitability letter"
 msgstr "Start a habitability letter"
 
@@ -2161,9 +2166,9 @@ msgstr "Corte de vivienda de Staten Island:"
 msgid "States with Limited Protections"
 msgstr "Estados con Protecciones Limitadas"
 
-#: frontend/lib/progress/progress-bar.tsx:112
-msgid "Step {currStep} of {numSteps}"
-msgstr "Paso {currStep} de {numSteps}"
+#: frontend/lib/progress/progress-bar.tsx:127
+msgid "Step {0} of {1}"
+msgstr "Step {0} of {1}"
 
 #: common-data/issue-choices.ts:190
 msgid "Stove not working"

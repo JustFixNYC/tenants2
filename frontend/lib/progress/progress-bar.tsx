@@ -110,6 +110,21 @@ interface RouteProgressBarProps extends RouteComponentProps<any> {
 
   /** Defaults to apply to every step. */
   defaults?: ProgressStepDefaults;
+
+  /**
+   * When defined, this relabels the progress bar with a new label for a certain
+   * number of steps at the start of the `stepsToFillOut` list.
+   *
+   * The two array elements are defined as follows:
+   * - first element is the label for this introductory section of the progress steps
+   * - second element is the number of steps this introductory section accounts for
+   */
+  introProgressSection?: IntroProgressSection;
+}
+
+export interface IntroProgressSection {
+  label: string;
+  num_steps: number;
 }
 
 interface RouteProgressBarState {
@@ -159,11 +174,10 @@ class RouteProgressBarWithoutRouter extends React.Component<
 
   render() {
     const { props } = this;
-    const { location } = props;
+    const { location, introProgressSection, label } = props;
     const { isTransitionEnabled } = this.state;
     let numSteps = props.steps.length;
     let currStep = this.getStep(location.pathname);
-    const pct = Math.floor((currStep / numSteps) * 100);
     let prevStep = this.state.prevStep;
 
     if (currStep !== this.state.currStep) {
@@ -174,15 +188,41 @@ class RouteProgressBarWithoutRouter extends React.Component<
 
     let directionClass =
       currStep >= prevStep ? "jf-progress-forward" : "jf-progress-backward";
-    const stepLabel = li18n._(t`Step ${currStep} of ${numSteps}`);
+
+    let flowLabel = label;
+
+    let currStepInSection, numStepsInSection;
+
+    // Redefine current and total step count if we have an intro progress section to account for
+    if (!!introProgressSection) {
+      const introLabel = introProgressSection.label;
+      const numIntroSteps = introProgressSection.num_steps;
+      if (this.state.currStep < numIntroSteps) {
+        flowLabel = introLabel;
+        numStepsInSection = numIntroSteps;
+      } else {
+        currStepInSection = currStep - numIntroSteps + 1;
+        numStepsInSection = numSteps - numIntroSteps;
+      }
+    }
+
+    let pct = Math.floor(
+      ((currStepInSection || currStep) / (numStepsInSection || numSteps)) * 100
+    );
+
+    let stepLabel = li18n._(
+      t`Step ${currStepInSection || currStep} of ${
+        numStepsInSection || numSteps
+      }`
+    );
 
     return (
       <React.Fragment>
         {!this.props.hideBar && (
           <ProgressBar pct={pct}>
-            {this.props.label && (
+            {flowLabel && (
               <h6 className="jf-page-steps-title title is-6 has-text-grey has-text-centered">
-                {props.label}: {stepLabel}
+                {flowLabel}: {stepLabel}
               </h6>
             )}
           </ProgressBar>

@@ -575,6 +575,10 @@ msgstr "Cracked walls"
 msgid "Create a password"
 msgstr "Create a password"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:32
+msgid "Create an Account"
+msgstr "Create an Account"
+
 #. salutation of formal letter
 #: frontend/lib/util/letter-content-util.tsx:48
 msgid "Dear <0/>,"
@@ -1508,7 +1512,8 @@ msgstr "Movement Law Lab"
 msgid "Must be at least 8 characters. Can't be all numbers."
 msgstr "Must be at least 8 characters. Can't be all numbers."
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:8
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:9
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:22
 msgid "My letters"
 msgstr "My letters"
 
@@ -2132,7 +2137,7 @@ msgstr "South Dakota"
 msgid "Start"
 msgstr "Start"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:12
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:17
 msgid "Start a habitability letter"
 msgstr "Start a habitability letter"
 
@@ -2156,9 +2161,9 @@ msgstr "Staten Island Housing Court:"
 msgid "States with Limited Protections"
 msgstr "States with Limited Protections"
 
-#: frontend/lib/progress/progress-bar.tsx:112
-msgid "Step {currStep} of {numSteps}"
-msgstr "Step {currStep} of {numSteps}"
+#: frontend/lib/progress/progress-bar.tsx:127
+msgid "Step {0} of {1}"
+msgstr "Step {0} of {1}"
 
 #: common-data/issue-choices.ts:190
 msgid "Stove not working"

@@ -32,7 +32,7 @@ export type NavbarProps = AppContextType & {
    *
    * If undefined, the dropdown menu will be a simple hamburger icon.
    */
-  dropdownMenuLabel?: string;
+  dropdownMenuLabel?: string | JSX.Element;
 
   /**
    * A component to render any menu items for the "user menu",

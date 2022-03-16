@@ -3,12 +3,13 @@ import React, { useContext } from "react";
 import { useLocation, Route, Link } from "react-router-dom";
 
 import { Trans } from "@lingui/macro";
+import i18n from "../i18n";
 import loadable from "@loadable/component";
 
 import { AppContext } from "../app-context";
 import { createLinguiCatalogLoader } from "../i18n-lingui";
 import { LoadingOverlayManager } from "../networking/loading-page";
-import { NavbarLanguageDropdown } from "../ui/language-toggle";
+import { LANGUAGE_NAMES, NavbarLanguageDropdown } from "../ui/language-toggle";
 import { LaLetterBuilderFooter } from "./components/footer";
 import {
   LaLetterBuilderRouteInfo as Routes,
@@ -50,6 +51,31 @@ const LaLetterBuilderBrand: React.FC<{}> = () => {
   );
 };
 
+const LaLetterBuilderSignInButton: React.FC<{}> = () => {
+  const { session } = useContext(AppContext);
+  return session.phoneNumber ? (
+    <Link className="navbar-item" to={Routes.locale.logout}>
+      <StaticImage
+        ratio="is-24x24"
+        src={getLaLetterBuilderImageSrc("person")}
+        alt=""
+      />
+      <Trans>Sign out</Trans>
+      <HeaderArrowIcon />
+    </Link>
+  ) : (
+    <Link className="navbar-item" to={Routes.locale.habitability.phoneNumber}>
+      <StaticImage
+        ratio="is-24x24"
+        src={getLaLetterBuilderImageSrc("person")}
+        alt=""
+      />
+      <Trans>Sign in</Trans>
+      <HeaderArrowIcon />
+    </Link>
+  );
+};
+
 const LaLetterBuilderMenuItems: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
   return (
@@ -57,26 +83,41 @@ const LaLetterBuilderMenuItems: React.FC<{}> = () => {
       <Link className="navbar-item" to={Routes.locale.habitability.latestStep}>
         Build my letter
       </Link>
-      {session.phoneNumber ? (
-        <Link className="navbar-item" to={Routes.locale.logout}>
-          <Trans>Log out</Trans>
-        </Link>
-      ) : (
-        <Link
-          className="navbar-item"
-          to={Routes.locale.habitability.phoneNumber}
-        >
-          <Trans>Log in</Trans>
-        </Link>
-      )}
-      <NavbarLanguageDropdown />
+      <span className="is-hidden-mobile">
+        {session.phoneNumber ? (
+          <Link className="navbar-item" to={Routes.locale.logout}>
+            <Trans>Sign out</Trans>
+          </Link>
+        ) : (
+          <Link
+            className="navbar-item"
+            to={Routes.locale.habitability.phoneNumber}
+          >
+            <Trans>Sign in</Trans>
+          </Link>
+        )}
+      </span>
+      <span className="is-hidden-mobile">
+        <NavbarLanguageDropdown />
+      </span>
     </>
   );
 };
 
+const HeaderArrowIcon = () => (
+  <div className="jf-laletterbuilder-header-arrow-icon">
+    <StaticImage
+      ratio="is-16x16"
+      src={getLaLetterBuilderImageSrc("header-arrow")}
+      alt=""
+    />
+  </div>
+);
+
 const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
     const isPrimaryPage = useIsPrimaryPage();
+    const activeLocale = i18n.locale;
 
     return (
       <LaLetterBuilderLinguiI18n>
@@ -87,6 +128,23 @@ const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
               : "jf-norent-internal-above-footer-content"
           )}
         >
+          <div className="jf-laletterbuilder-top-nav is-hidden-tablet">
+            <Navbar
+              menuItemsComponent={NavbarLanguageDropdown}
+              brandComponent={LaLetterBuilderSignInButton}
+              dropdownMenuLabel={
+                <>
+                  <StaticImage
+                    ratio="is-24x24"
+                    src={getLaLetterBuilderImageSrc("globe")}
+                    alt=""
+                  />
+                  {LANGUAGE_NAMES[activeLocale]}
+                  <HeaderArrowIcon />
+                </>
+              }
+            />
+          </div>
           <Navbar
             menuItemsComponent={LaLetterBuilderMenuItems}
             brandComponent={LaLetterBuilderBrand}

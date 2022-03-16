@@ -10,7 +10,7 @@ import { createStartAccountOrLoginSteps } from "../../../start-account-or-login/
 import { createLetterStaticPageRoutes } from "../../../static-page/routes";
 import { isUserLoggedIn } from "../../../util/session-predicates";
 import { LaLetterBuilderRouteInfo } from "../../route-info";
-import { LaLetterBuilderMyLetters } from "../my-letters";
+import { LaLetterBuilderMyLetters, WelcomeMyLetters } from "../my-letters";
 import { LaLetterBuilderCreateAccount } from "../../components/create-account";
 import {
   HabitabilityLetterForUserStaticPage,
@@ -53,42 +53,50 @@ const HabitabilityRoutes: React.FC<{}> = () => (
 
 export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = LaLetterBuilderRouteInfo.locale.habitability;
+  const createAccountOrLoginSteps = [
+    ...createStartAccountOrLoginSteps(routes),
+    {
+      path: routes.name,
+      exact: true,
+      component: LaLetterBuilderAskName,
+    },
+    {
+      path: routes.city,
+      exact: false,
+      component: LaLetterBuilderAskCityState,
+    },
+    {
+      path: routes.nationalAddress,
+      exact: false,
+      // TODO: add something that short circuits if the user isn't in LA
+      component: LaLetterBuilderAskNationalAddress,
+    },
+    {
+      path: routes.riskConsent,
+      component: LaLetterBuilderRiskConsent,
+    },
+    {
+      path: routes.createAccount,
+      component: LaLetterBuilderCreateAccount,
+    },
+  ];
 
   return {
     label: li18n._(t`Build your Letter`),
+    introProgressSection: {
+      label: li18n._(t`Create an Account`),
+      num_steps: createAccountOrLoginSteps.length,
+    },
     toLatestStep: routes.latestStep,
-    welcomeSteps: [],
+    welcomeSteps: [
+      {
+        path: routes.welcome,
+        exact: true,
+        component: WelcomeMyLetters,
+      },
+    ],
     stepsToFillOut: [
-      ...skipStepsIf(isUserLoggedIn, [
-        ...createStartAccountOrLoginSteps(
-          routes,
-          LaLetterBuilderRouteInfo.locale.home
-        ),
-        {
-          path: routes.name,
-          exact: true,
-          component: LaLetterBuilderAskName,
-        },
-        {
-          path: routes.city,
-          exact: false,
-          component: LaLetterBuilderAskCityState,
-        },
-        {
-          path: routes.nationalAddress,
-          exact: false,
-          // TODO: add something that short circuits if the user isn't in LA
-          component: LaLetterBuilderAskNationalAddress,
-        },
-        {
-          path: routes.riskConsent,
-          component: LaLetterBuilderRiskConsent,
-        },
-        {
-          path: routes.createAccount,
-          component: LaLetterBuilderCreateAccount,
-        },
-      ]),
+      ...skipStepsIf(isUserLoggedIn, [...createAccountOrLoginSteps]),
       {
         path: routes.myLetters,
         exact: true,

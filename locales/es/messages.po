@@ -584,6 +584,10 @@ msgstr "Paredes Agrietadas"
 msgid "Create a password"
 msgstr "Crea una contraseña"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:32
+msgid "Create an Account"
+msgstr ""
+
 #. salutation of formal letter
 #: frontend/lib/util/letter-content-util.tsx:48
 msgid "Dear <0/>,"
@@ -1367,13 +1371,11 @@ msgstr "Con apoyo local"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
 #: frontend/lib/evictionfree/site.tsx:99
-#: frontend/lib/laletterbuilder/site.tsx:38
 #: frontend/lib/norent/site.tsx:42
 msgid "Log in"
 msgstr "Iniciar sesión"
 
 #: frontend/lib/evictionfree/site.tsx:97
-#: frontend/lib/laletterbuilder/site.tsx:36
 #: frontend/lib/norent/site.tsx:40
 #: frontend/lib/pages/logout-alt-page.tsx:14
 msgid "Log out"
@@ -1519,7 +1521,8 @@ msgstr "Movement Law Lab"
 msgid "Must be at least 8 characters. Can't be all numbers."
 msgstr "Debe tener por lo menos 8 letras. No se puede usar solo números."
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:12
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:9
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:22
 msgid "My letters"
 msgstr ""
 
@@ -2067,10 +2070,14 @@ msgid "Shower: wall tiles missing"
 msgstr "Ducha: faltan baldosas"
 
 #: frontend/lib/justfix-navbar.tsx:24
+#: frontend/lib/laletterbuilder/site.tsx:38
+#: frontend/lib/laletterbuilder/site.tsx:52
 msgid "Sign in"
 msgstr "Iniciar sesión"
 
 #: frontend/lib/justfix-navbar.tsx:38
+#: frontend/lib/laletterbuilder/site.tsx:34
+#: frontend/lib/laletterbuilder/site.tsx:50
 msgid "Sign out"
 msgstr "Cerrar sesión"
 
@@ -2139,7 +2146,7 @@ msgstr "Dakota del Sur"
 msgid "Start"
 msgstr "Iniciar"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:18
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:17
 msgid "Start a habitability letter"
 msgstr ""
 
@@ -2163,9 +2170,9 @@ msgstr "Corte de vivienda de Staten Island:"
 msgid "States with Limited Protections"
 msgstr "Estados con Protecciones Limitadas"
 
-#: frontend/lib/progress/progress-bar.tsx:112
-msgid "Step {currStep} of {numSteps}"
-msgstr "Paso {currStep} de {numSteps}"
+#: frontend/lib/progress/progress-bar.tsx:127
+msgid "Step {0} of {1}"
+msgstr ""
 
 #: common-data/issue-choices.ts:190
 msgid "Stove not working"

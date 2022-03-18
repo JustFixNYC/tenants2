@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-03-15 19:07\n"
+"PO-Revision-Date: 2022-03-18 19:36\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -556,6 +556,10 @@ msgstr "Continuar"
 #: frontend/lib/rh/routes.tsx:208
 msgid "Continue anyway"
 msgstr "Aún así continuar"
+
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:16
+msgid "Continue my letter"
+msgstr "Continue my letter"
 
 #: frontend/lib/evictionfree/declaration-builder/error-pages.tsx:11
 msgid "Continue to the confirmation page for information about the declaration you sent and next steps you can take."

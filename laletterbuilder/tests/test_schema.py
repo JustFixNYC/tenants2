@@ -358,14 +358,3 @@ class TestLaLetterBuilderCreateLetter:
 
         # TODO: add tests for user email after implementing
         # (see NoRent test_schema.py)
-
-
-class TestHasHabitabilityLetterInProgress:
-    @pytest.fixture(autouse=True)
-    def setup_fixture(self, graphql_client, db):
-        self.user = UserFactory(email="boop@jones.net")
-        graphql_client.request.user = self.user
-        self.graphql_client = graphql_client
-
-    def findsNoLetterForNewUsers(self):
-        assert not HabitabilityLetter.objects.filter(user=self.graphql_client.request.user).exists()

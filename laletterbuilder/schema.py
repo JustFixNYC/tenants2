@@ -13,13 +13,16 @@ from project import schema_registry
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from norent.schema import BaseCreateAccount
 from laletterbuilder.forms import CreateAccount
-from project.util.model_form_util import OneToOneUserModelFormMutation
-from loc import forms as loc_forms
+from project.util.model_form_util import (
+    OneToOneUserModelFormMutation,
+)
 from . import forms
 import graphene
 from graphql import ResolveInfo
 from project.util import lob_api, site_util
 from loc import models as loc_models
+from . import models
+from graphene_django.types import DjangoObjectType
 
 
 @schema_registry.register_mutation
@@ -93,7 +96,7 @@ class LandlordNameAddressEmail(OneToOneUserModelFormMutation):
         return result
 
     @classmethod
-    def perform_mutate(cls, form: loc_forms.AccessDatesForm, info: ResolveInfo):
+    def perform_mutate(cls, form: forms.LandlordDetailsForm, info: ResolveInfo):
         ld = form.save(commit=False)
         # Because this has been changed via GraphQL, assume it has been
         # edited by a user; mark it as being no longer automatically
@@ -104,6 +107,33 @@ class LandlordNameAddressEmail(OneToOneUserModelFormMutation):
         return cls.mutation_success(
             is_undeliverable=lob_api.is_address_undeliverable(**ld.as_lob_params())
         )
+
+
+@schema_registry.register_mutation
+class LaLetterBuilderCreateLetter(SessionFormMutation):
+    """
+    Create a blank letter object for the user. This enables saving repairs info, etc. on a letter
+    object instead of the user object, which is needed in case the user has multiple letters in
+    progress.
+    """
+
+    login_required = True
+
+    @classmethod
+    @mutation_requires_onboarding
+    def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+        user = request.user
+        assert user.is_authenticated
+
+        site_type = site_util.get_site_type(site_util.get_site_from_request_or_default(request))
+        if site_type != site_util.SITE_CHOICES.LALETTERBUILDER:
+            return cls.make_and_log_error(
+                info, "This form can only be used from the LA Letter Builder site."
+            )
+        letter_sending.create_letter(user)
+
+        return cls.mutation_success()
 
 
 @schema_registry.register_mutation
@@ -130,7 +160,54 @@ class LaLetterBuilderSendLetter(SessionFormMutation):
             return cls.make_and_log_error(
                 info, "This form can only be used from the LA Letter Builder site."
             )
-
-        letter_sending.create_and_send_letter(request.user)
+        letter = models.HabitabilityLetter.objects.get(
+            user=request.user, letter_sent_at=None, letter_emailed_at=None
+        )
+        letter_sending.send_letter(letter)
 
         return cls.mutation_success()
+
+
+class HabitabilityLetterType(DjangoObjectType):
+    class Meta:
+        model = models.HabitabilityLetter
+        exclude_fields = ("user", "id")
+
+
+@schema_registry.register_session_info
+class LaLetterBuilderSessionInfo:
+
+    has_habitability_letter_in_progress = graphene.Boolean(
+        description=(
+            "Whether a user has started a habitability letter. "
+            "If true, that means the user has clicked Start Letter "
+            "on the MyLetters page."
+        ),
+    )
+
+    def resolve_has_habitability_letter_in_progress(self, info: ResolveInfo):
+        request = info.context
+        if not request.user.is_authenticated:
+            return False
+        return models.HabitabilityLetter.objects.filter(
+            user=request.user, letter_sent_at=None, letter_emailed_at=None
+        ).exists()
+
+    """
+    habitability_letter_details = graphene.Field(
+        HabitabilityLetterType,
+        description=(
+            "Details for an in-progress habitability letter. "
+            "If the user has not started one by clicking Start Letter on the MyLetters page, "
+            "this will be null."
+        ),
+    )
+
+    def resolve_habitability_letter_details(self, info: ResolveInfo):
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        return models.HabitabilityLetter.objects.filter(
+            user=request.user,
+        ).first()
+    """

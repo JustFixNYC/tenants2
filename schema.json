@@ -1882,6 +1882,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "Whether a user has started a habitability letter. If true, that means the user has clicked Start Letter on the MyLetters page.",
+              "isDeprecated": false,
+              "name": "hasHabitabilityLetterInProgress",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
               "name": "issues",
@@ -6173,7 +6185,7 @@
                 }
               ],
               "deprecationReason": null,
-              "description": "\nCreate a blank letter object for the user. This enables saving repairs info, etc. on a letter object\ninstead of the user object, which is needed in case the user has multiple letters in progress.\n",
+              "description": "\nCreate a blank letter object for the user. This enables saving repairs info, etc. on a letter\nobject instead of the user object, which is needed in case the user has multiple letters in\nprogress.\n",
               "isDeprecated": false,
               "name": "laLetterBuilderCreateLetter",
               "type": {
@@ -12262,7 +12274,7 @@
           "possibleTypes": null
         },
         {
-          "description": "Create a blank letter object for the user. This enables saving repairs info, etc. on a letter object\ninstead of the user object, which is needed in case the user has multiple letters in progress.",
+          "description": "Create a blank letter object for the user. This enables saving repairs info, etc. on a letter\nobject instead of the user object, which is needed in case the user has multiple letters in\nprogress.",
           "enumValues": null,
           "fields": [
             {

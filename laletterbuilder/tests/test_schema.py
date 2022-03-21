@@ -206,10 +206,10 @@ class TestLaLetterBuilderCreateAccount:
 
 
 class TestLaLetterBuilderSendLetter:
-    QUERY = """
-    mutation {
-        laLetterBuilderSendLetter(input: {}) {
-            errors { field, messages }
+    SEND_QUERY = """
+    mutation laLetterBuilderSendLetter($input: LaLetterBuilderSendLetterInput!) {
+        output: laLetterBuilderSendLetter(input: $input) {
+            errors { field, messages },
         }
     }
     """
@@ -223,9 +223,12 @@ class TestLaLetterBuilderSendLetter:
     def create_landlord_details(self):
         LandlordDetailsFactory(user=self.user, email="landlordo@calrissian.net")
 
-    def execute(self):
-        res = self.graphql_client.execute(self.QUERY)
-        return res["data"]["laLetterBuilderSendLetter"]
+    def execute(self, input={}):
+        res = self.graphql_client.execute(
+            self.SEND_QUERY,
+            variables={"input": input},
+        )
+        return res["data"]["output"]
 
     def test_it_requires_login(self):
         self.graphql_client.request.user = AnonymousUser()
@@ -251,33 +254,107 @@ class TestLaLetterBuilderSendLetter:
             "This form can only be used from the LA Letter Builder site."
         )
 
-    def test_it_creates_letter(
+    def test_it_sends_letter(
         self,
+        settings,
         allow_lambda_http,
         use_laletterbuilder_site,
         requests_mock,
         mailoutbox,
         smsoutbox,
-        settings,
         mocklob,
     ):
+        user = self.graphql_client.request.user
         settings.IS_DEMO_DEPLOYMENT = False
         settings.LANGUAGES = project.locales.ALL.choices
         self.user.locale = "es"
         self.user.save()
         self.create_landlord_details()
         OnboardingInfoFactory(user=self.user)
+        letter_obj = HabitabilityLetter(user=user, locale="es", html_content="<test/>")
+        letter_obj.save()
+
+        blank_letter = HabitabilityLetter.objects.get(
+            user=user, letter_sent_at=None, letter_emailed_at=None
+        )
+        assert blank_letter.html_content == "<test/>"
+
+        # Send the letter
+        assert self.execute()["errors"] == []
+
+        sent_letter = HabitabilityLetter.objects.get(user=self.graphql_client.request.user)
+        assert (
+            "LETTER TEXT" in sent_letter.html_content
+        )  # TODO: change this when we get real text in there
+        assert "Boop Jones" in sent_letter.html_content
+        assert 'lang="en"' in sent_letter.html_content
+        assert 'lang="es"' in sent_letter.localized_html_content
+
+        # TODO: add tests for landlord email and user email after implementing
+        # (see NoRent test_schema.py)
+
+        # TODO: add test for actual letter being sent, slack message being sent, etc.
+
+
+class TestLaLetterBuilderCreateLetter:
+    QUERY = """
+        mutation LaLetterBuilderCreateLetterMutation($input: LaLetterBuilderCreateLetterInput!) {
+            output: laLetterBuilderCreateLetter(input: $input) {
+                errors { field, messages },
+            }
+        }
+    """
+
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, graphql_client, db):
+        self.user = UserFactory(email="boop@jones.net")
+        graphql_client.request.user = self.user
+        self.graphql_client = graphql_client
+
+    def execute(self, input={}):
+        res = self.graphql_client.execute(
+            self.QUERY,
+            variables={"input": input},
+        )
+        return res["data"]["output"]
+
+    def test_it_requires_login(self):
+        self.graphql_client.request.user = AnonymousUser()
+        assert self.execute()["errors"] == one_field_err(
+            "You do not have permission to use this form!"
+        )
+
+    def test_it_raises_err_when_no_onboarding_info_exists(self):
+        assert self.execute()["errors"] == one_field_err(
+            "You haven't provided any account details yet!"
+        )
+
+    def test_it_raises_err_when_used_on_wrong_site(self):
+        OnboardingInfoFactory(user=self.user)
+        assert self.execute()["errors"] == one_field_err(
+            "This form can only be used from the LA Letter Builder site."
+        )
+
+    def test_it_creates_letter(
+        self,
+        settings,
+        use_laletterbuilder_site,
+    ):
+        settings.IS_DEMO_DEPLOYMENT = False
+        settings.LANGUAGES = project.locales.ALL.choices
+        self.user.locale = "es"
+        self.user.save()
+        OnboardingInfoFactory(user=self.user)
+
+        assert not HabitabilityLetter.objects.filter(user=self.graphql_client.request.user).exists()
+
+        # Create the letter
         assert self.execute()["errors"] == []
 
         # TODO: add tests for all the other kinds of letters too
         letter = HabitabilityLetter.objects.get(user=self.graphql_client.request.user)
         assert letter.locale == "es"
-        assert (
-            "LETTER TEXT" in letter.html_content
-        )  # TODO: change this when we get real text in there
-        assert "Boop Jones" in letter.html_content
-        assert 'lang="en"' in letter.html_content
-        assert 'lang="es"' in letter.localized_html_content
+        assert letter.html_content == "<>"
 
-        # TODO: add tests for landlord email and user email after implementing
+        # TODO: add tests for user email after implementing
         # (see NoRent test_schema.py)

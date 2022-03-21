@@ -31,6 +31,18 @@ fragment AllSessionInfo on SessionInfo {
     updatedAt
   },
   hasHabitabilityLetterInProgress,
+  habitabilityLetterInProgress {
+    createdAt,
+    updatedAt,
+    locale,
+    lobLetterObject,
+    trackingNumber,
+    htmlContent,
+    localizedHtmlContent,
+    letterSentAt,
+    letterEmailedAt,
+    fullyProcessedAt
+  },
   issues,
   customIssuesV2 {
     id,

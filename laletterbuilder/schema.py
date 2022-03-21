@@ -22,7 +22,6 @@ import graphene
 from graphql import ResolveInfo
 from project.util import lob_api, site_util
 from loc import models as loc_models
-from . import models
 from graphene_django.types import DjangoObjectType
 
 
@@ -170,7 +169,7 @@ class LaLetterBuilderSendLetter(SessionFormMutation):
 
 
 @schema_registry.register_mutation
-class LaLetterBuilderIssuesMutation(SessionFormMutation):
+class LaLetterBuilderIssues(SessionFormMutation):
     """
     Save the user's issues on their letter
     """
@@ -182,7 +181,9 @@ class LaLetterBuilderIssuesMutation(SessionFormMutation):
         user = request.user
         assert user.is_authenticated
 
-        # letter = query for a user's most recent habitability letter once we have a letter created upon a user clicking ""
+        letter = models.HabitabilityLetter.objects.filter(
+            user=user, letter_sent_at=None, letter_emailed_at=None
+        )
         with transaction.atomic():
             models.LaIssue.objects.set_issues_for_letter(
                 letter, form.base_form.cleaned_data["issues"]
@@ -207,6 +208,15 @@ class LaLetterBuilderSessionInfo:
         ),
     )
 
+    habitability_letter_in_progress = graphene.Field(
+        HabitabilityLetterType,
+        description=(
+            "The currently in-progress letter that has not been sent yet. "
+            "If a user only has already-sent letters or has not ever started "
+            "a habitability letter, this will be null."
+        ),
+    )
+
     def resolve_has_habitability_letter_in_progress(self, info: ResolveInfo):
         request = info.context
         if not request.user.is_authenticated:
@@ -214,3 +224,11 @@ class LaLetterBuilderSessionInfo:
         return models.HabitabilityLetter.objects.filter(
             user=request.user, letter_sent_at=None, letter_emailed_at=None
         ).exists()
+
+    def resolve_habitability_letter_in_progress(self, info: ResolveInfo):
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        return models.HabitabilityLetter.objects.filter(
+            user=request.user, letter_sent_at=None, letter_emailed_at=None
+        )

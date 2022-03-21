@@ -26,8 +26,8 @@ import { li18n } from "../../i18n-lingui";
 import { MultiCheckboxFormField } from "../../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { IssuesLinkToNextStep } from "../../issues/routes";
-import { IssueAreaV2Mutation } from "../../queries/IssueAreaV2Mutation";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
+import { LaLetterBuilderIssuesMutation } from "../../queries/LaLetterBuilderIssuesMutation";
 
 type LaIssueName = "MOLD" | "PEELING_PAINT";
 
@@ -55,7 +55,8 @@ function laIssueChoicesForCategory(
 function laRoomChoicesForIssue(issue: string): DjangoChoices {
   const labels = getLaIssueRoomChoiceLabels();
   return LaIssueChoices.filter((choice) => laIssue(choice) === issue).map(
-    (choice) => [choice, labels[laIssueRoom(choice)]] as [string, string]
+    (choice) =>
+      [choice as string, labels[laIssueRoom(choice)]] as [string, string]
   );
 }
 
@@ -73,7 +74,7 @@ const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
       <div>
         <SessionUpdatingFormSubmitter
           confirmNavIfChanged
-          mutation={IssueAreaV2Mutation}
+          mutation={LaLetterBuilderIssuesMutation}
           initialState={getInitialState}
         >
           {(ctx) => (

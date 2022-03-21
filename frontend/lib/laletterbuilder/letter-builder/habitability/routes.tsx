@@ -108,7 +108,7 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
       },
       {
         path: routes.landlordInfo,
-        exact: true,
+        exact: false,
         component: LaLetterBuilderLandlordNameAddressEmail,
       },
       {

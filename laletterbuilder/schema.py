@@ -208,15 +208,6 @@ class LaLetterBuilderSessionInfo:
         ),
     )
 
-    habitability_letter_in_progress = graphene.Field(
-        HabitabilityLetterType,
-        description=(
-            "The currently in-progress letter that has not been sent yet. "
-            "If a user only has already-sent letters or has not ever started "
-            "a habitability letter, this will be null."
-        ),
-    )
-
     def resolve_has_habitability_letter_in_progress(self, info: ResolveInfo):
         request = info.context
         if not request.user.is_authenticated:
@@ -224,11 +215,3 @@ class LaLetterBuilderSessionInfo:
         return models.HabitabilityLetter.objects.filter(
             user=request.user, letter_sent_at=None, letter_emailed_at=None
         ).exists()
-
-    def resolve_habitability_letter_in_progress(self, info: ResolveInfo):
-        request = info.context
-        if not request.user.is_authenticated:
-            return None
-        return models.HabitabilityLetter.objects.filter(
-            user=request.user, letter_sent_at=None, letter_emailed_at=None
-        )

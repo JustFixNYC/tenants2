@@ -31,32 +31,44 @@ import { LaLetterBuilderIssuesMutation } from "../../queries/LaLetterBuilderIssu
 
 type LaIssueName = "MOLD" | "PEELING_PAINT";
 
-function laIssueCategory(issue: LaIssueChoice): LaIssueCategoryChoice {
+function getCategory(issue: LaIssueChoice): LaIssueCategoryChoice {
   return issue.split("__")[0] as LaIssueCategoryChoice;
 }
 
-function laIssue(issue: LaIssueChoice): LaIssueName {
+function getIssue(issue: LaIssueChoice): LaIssueName {
   return issue.split("__")[1] as LaIssueName;
 }
 
-function laIssueRoom(issue: LaIssueChoice): LaIssueRoomChoice {
+function getRoom(issue: LaIssueChoice): LaIssueRoomChoice {
   return issue.split("__")[2] as LaIssueRoomChoice;
 }
 
-function laIssueChoicesForCategory(
-  category: LaIssueCategoryChoice
-): DjangoChoices {
+function laIssueChoicesForCategory(category: LaIssueCategoryChoice) {
   const labels = getLaIssueChoiceLabels();
-  return LaIssueChoices.filter(
-    (choice) => laIssueCategory(choice) === category
-  ).map((choice) => [choice, labels[choice]] as [string, string]);
+  // We only want to show one of each issue type (e.g. Mold) as dropdown labels.
+  function dedupByIssue(array: LaIssueChoice[]) {
+    var mySet = new Set();
+    return array.filter(function (choice) {
+      var key = getIssue(choice);
+      var isNew = !mySet.has(key);
+      if (isNew) mySet.add(key);
+      return isNew;
+    });
+  }
+  return dedupByIssue(LaIssueChoices)
+    .filter((choice) => getCategory(choice) === category)
+    .map((choice) => [choice, labels[choice]]);
+  /*.reduce(
+      (unique, item) =>
+        unique.includes(item[0]) ? unique : [...unique, item[0]],
+      []
+    );*/
 }
 
 function laRoomChoicesForIssue(issue: string): DjangoChoices {
   const labels = getLaIssueRoomChoiceLabels();
-  return LaIssueChoices.filter((choice) => laIssue(choice) === issue).map(
-    (choice) =>
-      [choice as string, labels[laIssueRoom(choice)]] as [string, string]
+  return LaIssueChoices.filter((choice) => getIssue(choice) === issue).map(
+    (choice) => [choice as string, labels[getRoom(choice)]] as [string, string]
   );
 }
 

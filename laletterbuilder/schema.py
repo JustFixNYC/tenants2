@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, List
 from django.http import HttpRequest
 from django.db import transaction
 from laletterbuilder import letter_sending, models
@@ -13,11 +13,10 @@ from users.email_verify import send_verification_email_async
 from project import schema_registry
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from norent.schema import BaseCreateAccount
-from laletterbuilder.forms import CreateAccount
+from laletterbuilder.forms import CreateAccount, HabitabilityIssuesForm, LandlordDetailsForm
 from project.util.model_form_util import (
     OneToOneUserModelFormMutation,
 )
-from . import forms
 import graphene
 from graphql import ResolveInfo
 from project.util import lob_api, site_util
@@ -76,7 +75,7 @@ class LaLetterBuilderCreateAccount(BaseCreateAccount):
 @schema_registry.register_mutation
 class LandlordNameAddressEmail(OneToOneUserModelFormMutation):
     class Meta:
-        form_class = forms.LandlordDetailsForm
+        form_class = LandlordDetailsForm
 
     is_undeliverable = graphene.Boolean(
         description=(
@@ -96,7 +95,7 @@ class LandlordNameAddressEmail(OneToOneUserModelFormMutation):
         return result
 
     @classmethod
-    def perform_mutate(cls, form: forms.LandlordDetailsForm, info: ResolveInfo):
+    def perform_mutate(cls, form: LandlordDetailsForm, info: ResolveInfo):
         ld = form.save(commit=False)
         # Because this has been changed via GraphQL, assume it has been
         # edited by a user; mark it as being no longer automatically
@@ -174,6 +173,9 @@ class LaLetterBuilderIssues(SessionFormMutation):
     Save the user's issues on their letter
     """
 
+    class Meta:
+        form_class = HabitabilityIssuesForm
+
     @classmethod
     @mutation_requires_onboarding
     def perform_mutate(cls, form, info: ResolveInfo):
@@ -207,6 +209,19 @@ class LaLetterBuilderSessionInfo:
             "on the MyLetters page."
         ),
     )
+
+    issues = graphene.List(graphene.NonNull(graphene.String), required=True)
+
+    def resolve_issues(self, info: ResolveInfo) -> List[str]:
+        user = info.context.user
+        if not user.is_authenticated:
+            return []
+
+        letter = models.HabitabilityLetter.objects.filter(
+            user=user, letter_sent_at=None, letter_emailed_at=None
+        )  # TODO: save this in the session instead of fetching it every time?
+
+        return models.LaIssue.objects.get_issues_for_letter(letter)
 
     def resolve_has_habitability_letter_in_progress(self, info: ResolveInfo):
         request = info.context

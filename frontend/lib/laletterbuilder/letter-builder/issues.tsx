@@ -43,7 +43,9 @@ function getRoom(issue: LaIssueChoice): LaIssueRoomChoice {
   return issue.split("__")[2] as LaIssueRoomChoice;
 }
 
-function laIssueChoicesForCategory(category: LaIssueCategoryChoice) {
+function laIssueChoicesForCategory(
+  category: LaIssueCategoryChoice
+): [LaIssueChoice, string][] {
   const labels = getLaIssueChoiceLabels();
   // We only want to show one of each issue type (e.g. Mold) as dropdown labels.
   function dedupByIssue(array: LaIssueChoice[]) {
@@ -57,19 +59,14 @@ function laIssueChoicesForCategory(category: LaIssueCategoryChoice) {
   }
   return dedupByIssue(LaIssueChoices)
     .filter((choice) => getCategory(choice) === category)
-    .map((choice) => [choice, labels[choice]]);
-  /*.reduce(
-      (unique, item) =>
-        unique.includes(item[0]) ? unique : [...unique, item[0]],
-      []
-    );*/
+    .map((choice) => [choice as LaIssueChoice, labels[choice]]);
 }
 
 function laRoomChoicesForIssue(issue: string): DjangoChoices {
   const labels = getLaIssueRoomChoiceLabels();
-  return LaIssueChoices.filter((choice) => getIssue(choice) === issue).map(
-    (choice) => [choice as string, labels[getRoom(choice)]] as [string, string]
-  );
+  return LaIssueChoices.filter(
+    (choice) => getIssue(choice) === issue
+  ).map((choice) => [choice, labels[getRoom(choice)]]);
 }
 
 type LaIssuesPage = LaIssuesRoutesProps;
@@ -109,26 +106,8 @@ const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                           <MultiCheckboxFormField
                             {...ctx.fieldPropsFor("issues")}
                             label={""}
-                            choices={laRoomChoicesForIssue(issue)}
+                            choices={laRoomChoicesForIssue(getIssue(issue))}
                           />
-                          {/** 
-                    {LaIssueRoomChoices.map((issueLocation, i) => (
-                      // TODO: Replace this checkbox with a form field that will save the result to the session!
-                      <label className="checkbox jf-checkbox" key={i}>
-                        <input
-                          type="checkbox"
-                          name="issues"
-                          id={`issues_${issueLocation}`}
-                          aria-invalid="false"
-                          value={issueLocation}
-                        />{" "}
-                        <span className="jf-checkbox-symbol"></span>{" "}
-                        <span className="jf-label-text">
-                          {getLaIssueRoomChoiceLabels()[issueLocation]}
-                        </span>
-                      </label>
-                    ))}
-                    */}
                         </Accordion>
                       )
                     )}
@@ -137,12 +116,7 @@ const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                 )
               )}
               <br />
-              <ProgressButtons>
-                <Link to={props.toBack} className="button is-light is-medium">
-                  Back
-                </Link>
-                <IssuesLinkToNextStep toNext={props.toNext} />
-              </ProgressButtons>
+              <ProgressButtons isLoading={ctx.isLoading} back={props.toBack} />
             </>
           )}
         </SessionUpdatingFormSubmitter>

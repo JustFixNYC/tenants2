@@ -11,7 +11,7 @@ from project.schema_base import (
 )
 from onboarding.scaffolding import update_scaffolding, SCAFFOLDING_SESSION_KEY
 from users.tests.factories import UserFactory
-from laletterbuilder.tests.factories import LandlordDetailsFactory
+from laletterbuilder.tests.factories import HabitabilityLetterFactory, LandlordDetailsFactory
 from project.util.testing_util import one_field_err
 import project.locales
 from laletterbuilder.models import HabitabilityLetter
@@ -358,3 +358,78 @@ class TestLaLetterBuilderCreateLetter:
 
         # TODO: add tests for user email after implementing
         # (see NoRent test_schema.py)
+
+
+class TestLaLetterBuilderIssuesMutation:
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, graphql_client, db):
+        self.user = UserFactory(email="boop@jones.net")
+        graphql_client.request.user = self.user
+        self.graphql_client = graphql_client
+
+    def execute(self, input={}):
+        return self.graphql_client.execute(
+            """
+            mutation MyMutation($input: LaLetterBuilderIssuesInput!) {
+                laLetterBuilderIssues(input: $input) {
+                    errors {
+                        field
+                        messages
+                    }
+                    session {
+                        issues
+                    }
+                }
+            }
+            """,
+            variables={"input": input},
+        )["data"]["laLetterBuilderIssues"]
+
+    def test_it_requires_login(self):
+        self.graphql_client.request.user = AnonymousUser()
+        result = self.execute({"issues": ["HEALTH__MOLD__BEDROOM"]})
+        assert result["errors"] == [
+            {"field": "__all__", "messages": ["You do not have permission to use this form!"]}
+        ]
+
+    def test_it_raises_err_when_no_onboarding_info_exists(self):
+        result = self.execute({"issues": ["HEALTH__MOLD__BEDROOM"]})
+        assert result["errors"] == [
+            {"field": "__all__", "messages": ["You haven't provided any account details yet!"]}
+        ]
+
+    def test_it_raises_err_when_no_letter_exists(self):
+        OnboardingInfoFactory(user=self.user)
+        result = self.execute(
+            {
+                "issues": ["HEALTH__MOLD__BEDROOM"],
+            }
+        )
+        assert result["errors"] is not []
+
+    def test_it_saves_new_issues_and_deletes_old_ones(self):
+        OnboardingInfoFactory(user=self.user)
+        HabitabilityLetterFactory(user=self.user)
+
+        result = self.execute(
+            {
+                "issues": ["HEALTH__MOLD__BEDROOM"],
+            }
+        )
+        assert result["errors"] == []
+        assert result["session"]["issues"] == ["HEALTH__MOLD__BEDROOM"]
+
+        result = self.execute(
+            {
+                "issues": [],
+            }
+        )
+        assert result["errors"] == []
+        assert result["session"]["issues"] == []
+
+
+"""
+    def test_issues_is_empty_when_unauthenticated(graphql_client):
+        result = graphql_client.execute("query { session { issues } }")
+        assert result["data"]["session"]["issues"] == []
+"""

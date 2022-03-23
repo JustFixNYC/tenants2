@@ -186,9 +186,10 @@ class LaLetterBuilderIssues(SessionFormMutation):
         letter = models.HabitabilityLetter.objects.filter(
             user=user, letter_sent_at=None, letter_emailed_at=None
         )
+        assert letter is not None
         with transaction.atomic():
             models.LaIssue.objects.set_issues_for_letter(
-                letter, form.base_form.cleaned_data["issues"]
+                letter, form.cleaned_data["issues"]
             )
         return cls.mutation_success()
 

@@ -51,7 +51,6 @@ const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                   question={issueLabel}
                   key={i}
                   questionClassName="has-text-primary"
-                  textLabelsForToggle={[li18n._(t`Open`), li18n._(t`Close`)]}
                 >
                   {LaIssueRoomChoices.map((issueLocation, i) => (
                     // TODO: Replace this checkbox with a form field that will save the result to the session!

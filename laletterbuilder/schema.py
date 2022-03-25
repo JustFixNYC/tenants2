@@ -142,6 +142,8 @@ class LaLetterBuilderSendLetter(SessionFormMutation):
     Send the user's letter
     """
 
+    # TODO: add a form here
+
     login_required = True
 
     @classmethod
@@ -160,6 +162,10 @@ class LaLetterBuilderSendLetter(SessionFormMutation):
             return cls.make_and_log_error(
                 info, "This form can only be used from the LA Letter Builder site."
             )
+
+        # TODO: Get user's preference for mailing
+
+        # Send the letter
         letter = models.HabitabilityLetter.objects.get(
             user=request.user, letter_sent_at=None, letter_emailed_at=None
         )
@@ -192,22 +198,3 @@ class LaLetterBuilderSessionInfo:
         return models.HabitabilityLetter.objects.filter(
             user=request.user, letter_sent_at=None, letter_emailed_at=None
         ).exists()
-
-    """
-    habitability_letter_details = graphene.Field(
-        HabitabilityLetterType,
-        description=(
-            "Details for an in-progress habitability letter. "
-            "If the user has not started one by clicking Start Letter on the MyLetters page, "
-            "this will be null."
-        ),
-    )
-
-    def resolve_habitability_letter_details(self, info: ResolveInfo):
-        request = info.context
-        if not request.user.is_authenticated:
-            return None
-        return models.HabitabilityLetter.objects.filter(
-            user=request.user,
-        ).first()
-    """

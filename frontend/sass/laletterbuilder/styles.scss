@@ -192,6 +192,37 @@ $jf-navbar-height: 70px;
   }
 }
 
+// CHOOSE LETTER STYLING OVERRIDES
+
+.jf-la-letter-card {
+  border: 1px solid #242323;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  max-width: 654px;
+
+  .h2 {
+    font-family: $jf-body-family;
+    font-weight: 400;
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+  }
+  .jf-card-text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 100%;
+  }
+  .jf-card-button {
+    margin-top: 32px;
+    margin-bottom: 32px;
+  }
+}
+
 // NORENT STYLING OVERRIDES
 
 .jf-norent-builder-page {

@@ -103,6 +103,9 @@ const NameAddressEmailForm: React.FC<
             label={optionalizeLabel(
               li18n._(t`Landlord/management company's email`)
             )}
+            labelHint={li18n._(
+              t`If you add your landlord's email, we will email them a copy of your letter.`
+            )}
           />
           <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
         </>

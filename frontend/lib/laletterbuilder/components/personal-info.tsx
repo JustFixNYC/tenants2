@@ -13,11 +13,13 @@ export const LaLetterBuilderAskCityState = LaLetterBuilderOnboardingStep(
   (props) => (
     <AskCityState
       {...props}
+      forState="CA"
       confirmModalRoute={
-        LaLetterBuilderRouteInfo.locale.habitability.cityConfirmModal // pass in this as a prop instead
+        // pass in this as a prop instead to accommodate multiple letter types
+        LaLetterBuilderRouteInfo.locale.habitability.cityConfirmModal
       }
     >
-      <p>must be California</p>
+      <p>This tool is only for California residents.</p>
     </AskCityState>
   )
 );

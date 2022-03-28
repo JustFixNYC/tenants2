@@ -30,7 +30,7 @@ export const LaLetterBuilderLandlordNameAddressEmail = MiddleProgressStep(
         LaLetterBuilderRouteInfo.locale.habitability.landlordAddressConfirmModal
       }
     >
-      <p> Example content here</p>
+      <p>This should be the person or company you send your rent to.</p>
     </LandlordNameAddressEmail>
   )
 );

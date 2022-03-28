@@ -668,6 +668,10 @@ msgstr "Puerta no funciona"
 msgid "Doorbell not working"
 msgstr "El timbre de la casa no funciona"
 
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:23
+msgid "Download and send myself"
+msgstr ""
+
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:223
 msgid "Download completed declaration"
 msgstr "Descargar declaración completada"
@@ -710,7 +714,7 @@ msgstr "Correo electrónico"
 #: frontend/lib/account-settings/contact-settings.tsx:41
 #: frontend/lib/common-steps/ask-email.tsx:13
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
-#: frontend/lib/laletterbuilder/components/create-account.tsx:27
+#: frontend/lib/laletterbuilder/components/create-account.tsx:29
 msgid "Email address"
 msgstr "Dirección de correo electrónico"
 
@@ -1345,6 +1349,10 @@ msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información y rec
 msgid "Letter Builder"
 msgstr "Generador de cartas"
 
+#: frontend/lib/laletterbuilder/components/create-account.tsx:21
+msgid "Let’s set you up with an account. An account will enable you to save your information and download copies of your letters."
+msgstr ""
+
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:20
 msgid "Let’s set you up with an account. An account will enable you to save your information, download your declaration, and more."
 msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información, bajarte tu declaración, y más."
@@ -1636,6 +1644,10 @@ msgstr "Dakota del Norte"
 #: frontend/lib/norent/the-letter.tsx:19
 msgid "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
 msgstr "No poder pagar la renta debido al COVID-19 no es nada de lo que avergonzarse. Nuestro generador de cartas hace que sea fácil enviarle una carta al dueño de tu edificio para avisarle."
+
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:27
+msgid "Not sure yet? If you need more time to decide, you can always come back later. We've saved your work."
+msgstr ""
 
 #: frontend/lib/norent/letter-content.tsx:66
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
@@ -1976,6 +1988,10 @@ msgstr "Enviar otra carta"
 #: frontend/lib/start-account-or-login/verify-password.tsx:46
 msgid "Send code"
 msgstr "Enviar código"
+
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:12
+msgid "Send for me"
+msgstr ""
 
 #: frontend/lib/evictionfree/homepage.tsx:77
 msgid "Send your form by USPS Certified Mail for free to your landlord"
@@ -2438,6 +2454,10 @@ msgstr "Incluiremos esta información en tu formulario de declaración de penuri
 msgid "We'll need to add your case's index number to your declaration."
 msgstr "Tendremos que añadir el número de índice de tu caso a tu declaración."
 
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:15
+msgid "We'll send your letter for you via certified mail in 1-2 business days, at no cost to you."
+msgstr ""
+
 #: frontend/lib/norent/letter-builder/ask-email.tsx:10
 msgid "We'll use this information to email you a copy of your letter."
 msgstr "Utilizaremos esta información para enviarte una copia de tu carta."
@@ -2668,7 +2688,7 @@ msgstr "Wyoming"
 msgid "Yes"
 msgstr "Si"
 
-#: frontend/lib/laletterbuilder/components/create-account.tsx:38
+#: frontend/lib/laletterbuilder/components/create-account.tsx:40
 #: frontend/lib/norent/letter-builder/create-account.tsx:37
 msgid "Yes, JustFix.nyc can text me to follow up about my housing issues."
 msgstr "Sí, JustFix.nyc puede enviarme mensajes de texto para hacer un seguimiento de mis problemas de vivienda."

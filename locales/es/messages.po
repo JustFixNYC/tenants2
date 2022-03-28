@@ -358,7 +358,7 @@ msgstr "Crear mi carta"
 msgid "Build power in numbers"
 msgstr "Construye poder común"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:30
+#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:57
 msgid "Build your Letter"
 msgstr ""
 
@@ -488,10 +488,6 @@ msgstr "Haga clic aquí para unirte al movimiento de MH Action y hacer que los p
 msgid "Click here to learn more about our privacy policy."
 msgstr "Haga clic aquí para obtener más información sobre nuestra política de privacidad."
 
-#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:27
-msgid "Close"
-msgstr ""
-
 #: common-data/issue-choices.ts:143
 msgid "Cockroaches"
 msgstr "Cucarachas"
@@ -557,7 +553,7 @@ msgstr "Continuar"
 msgid "Continue anyway"
 msgstr "Aún así continuar"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:16
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:24
 msgid "Continue my letter"
 msgstr ""
 
@@ -584,7 +580,7 @@ msgstr "Paredes Agrietadas"
 msgid "Create a password"
 msgstr "Crea una contraseña"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:32
+#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:59
 msgid "Create an Account"
 msgstr ""
 
@@ -596,10 +592,6 @@ msgstr "Estimado/a <0/>,"
 #: frontend/lib/norent/homepage.tsx:251
 msgid "Dear Landlord/Management."
 msgstr "Estimado dueño/manager del edificio."
-
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:8
-msgid "Decide how to send your letter"
-msgstr "Decide how to send your letter"
 
 #: common-data/issue-choices-laletterbuilder.ts:23
 msgid "Defective electricity"
@@ -1068,6 +1060,10 @@ msgstr "Tengo miedo. ¿Qué sucede si el dueño de mi edificio toma represalias?
 msgid "Idaho"
 msgstr "Idaho"
 
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:41
+msgid "If you add your landlord's email, we will email them a copy of your letter."
+msgstr ""
+
 #: frontend/lib/start-account-or-login/verify-phone-number.tsx:25
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 msgstr "Si no recibiste un código, comprueba tu correo electrónico. Si no lo encuentras, por favor envía un correo electrónico a <0/>."
@@ -1521,8 +1517,8 @@ msgstr "Movement Law Lab"
 msgid "Must be at least 8 characters. Can't be all numbers."
 msgstr "Debe tener por lo menos 8 letras. No se puede usar solo números."
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:9
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:22
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:13
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:32
 msgid "My letters"
 msgstr ""
 
@@ -1670,10 +1666,6 @@ msgstr "¡Vaya! Hubo un error en la red. Inténtalo más tarde."
 #: frontend/lib/norent/components/subscribe.tsx:37
 msgid "Oops! That email is invalid."
 msgstr "¡Vaya! Ese correo electrónico no es válido."
-
-#: frontend/lib/laletterbuilder/letter-builder/issues.tsx:27
-msgid "Open"
-msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:289
 msgid "Order rent history"
@@ -2146,7 +2138,7 @@ msgstr "Dakota del Sur"
 msgid "Start"
 msgstr "Iniciar"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:17
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:26
 msgid "Start a habitability letter"
 msgstr ""
 
@@ -2660,6 +2652,10 @@ msgstr "Wisconsin"
 #: frontend/lib/evictionfree/homepage.tsx:60
 msgid "With this free tool, you can"
 msgstr "Con esta herramienta gratuita, puedes"
+
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:8
+msgid "Would you like us to send the letter for you for free?"
+msgstr ""
 
 #: common-data/us-state-choices.ts:116
 msgid "Wyoming"

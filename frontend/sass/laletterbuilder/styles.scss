@@ -195,31 +195,46 @@ $jf-navbar-height: 70px;
 // CHOOSE LETTER STYLING OVERRIDES
 
 .jf-la-letter-card {
-  border: 1px solid #242323;
+  border: 1px solid $new-justfix-black;
   box-sizing: border-box;
   border-radius: 4px;
-  padding: 24px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 24px;
-  margin-bottom: 24px;
   max-width: 654px;
 
-  .h2 {
-    font-family: $jf-body-family;
-    font-weight: 400;
-    font-size: 1.8rem;
-    line-height: 1.8rem;
+  .content {
+    padding: 24px 24px 0px 24px;
+    margin-bottom: 0px;
+
+    h2 {
+      font-family: $jf-body-family;
+      font-weight: 400;
+      font-size: 1.8rem;
+      line-height: 1.8rem;
+    }
+
+    .jf-card-text {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 100%;
+    }
+    .jf-card-button {
+      margin-top: 32px;
+      margin-bottom: 32px;
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
-  .jf-card-text {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 100%;
+  hr {
+    margin: 5px 0px 5px 0px;
+    background-color: black;
+    color: black;
+    height: 1px;
   }
-  .jf-card-button {
-    margin-top: 32px;
-    margin-bottom: 32px;
+  .information-needed {
+    padding: 16px 24px;
   }
 }
 

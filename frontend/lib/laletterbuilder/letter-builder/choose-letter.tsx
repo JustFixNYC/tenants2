@@ -10,6 +10,7 @@ import { SimpleClearAnonymousSessionButton } from "../../forms/clear-anonymous-s
 import { LaLetterBuilderRouteInfo } from "../route-info";
 import { OutboundLink } from "../../ui/outbound-link";
 import classnames from "classnames";
+import { Accordion } from "../../ui/accordion";
 
 export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
   props
@@ -29,6 +30,7 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
           className: "button is-primary is-medium",
           text: li18n._(t`Start a letter`),
         }}
+        information={"notice to repair information needed"}
       />
       <LetterCard
         title="Right to Privacy"
@@ -41,6 +43,7 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
           className: "button is-light is-medium",
           text: li18n._(t`Go to letter`),
         }}
+        information={"right to privacy information needed"}
       />
       <LetterCard
         title="Harassment"
@@ -52,6 +55,7 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
           className: "button is-light is-medium",
           text: li18n._(t`Go to letter`),
         }}
+        information={"harassment information needed"}
       />
       <LetterCard
         title="Private Right of Action"
@@ -63,6 +67,7 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
           className: "button is-light is-medium",
           text: li18n._(t`Go to letter`),
         }}
+        information={"private right of action information needed"}
       />
       <div className="buttons jf-two-buttons">
         <SimpleClearAnonymousSessionButton
@@ -86,16 +91,21 @@ type LetterCardProps = {
   text: string;
   badge?: JSX.Element;
   buttonProps: LetterCardButtonProps;
+  information: string;
 };
 
 const LetterCard: React.FC<LetterCardProps> = (props) => {
   return (
     <>
       <div className="jf-la-letter-card">
-        <h2 className="jf-card-title">{props.title}</h2>
-        <div className="jf-la-letter-time">{props.time_mins} mins</div>
-        {props.text}
-        <CallToAction {...props.buttonProps} />
+        <div className="content">
+          <h2>{props.title}</h2>
+          <div className="jf-la-letter-time">{props.time_mins} mins</div>
+          {props.text}
+          <CallToAction {...props.buttonProps} />
+        </div>
+        <hr />
+        <InformationNeeded information={props.information} />
       </div>
     </>
   );
@@ -120,5 +130,17 @@ function CallToAction({ to, text, className }: LetterCardButtonProps) {
     >
       {content}
     </OutboundLink>
+  );
+}
+
+type InformationNeededProps = {
+  information: string;
+};
+
+function InformationNeeded({ information }: InformationNeededProps) {
+  return (
+    <Accordion question={"What information will I need?"} questionClassName="">
+      {information}
+    </Accordion>
   );
 }

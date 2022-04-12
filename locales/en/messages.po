@@ -848,6 +848,12 @@ msgstr "Give us feedback"
 msgid "Go back"
 msgstr "Go back"
 
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:22
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:27
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:32
+msgid "Go to letter"
+msgstr "Go to letter"
+
 #: frontend/lib/norent/letter-builder/confirmation.tsx:192
 msgid "Go to website"
 msgstr "Go to website"
@@ -868,7 +874,6 @@ msgstr "Got it!"
 msgid "Got it, take me there"
 msgstr "Got it, take me there"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:16
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:9
 msgid "Habitability"
 msgstr "Habitability"
@@ -1960,7 +1965,7 @@ msgstr "Search address"
 msgid "See more FAQs"
 msgstr "See more FAQs"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:9
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:12
 msgid "Select a letter to get started"
 msgstr "Select a letter to get started"
 
@@ -2156,6 +2161,10 @@ msgstr "Start a habitability letter"
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:258
 msgid "Start a legal case for repairs and/or harassment"
 msgstr "Start a legal case for repairs and/or harassment"
+
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:16
+msgid "Start a letter"
+msgstr "Start a letter"
 
 #: frontend/lib/rh/routes.tsx:68
 msgid "Start my request"

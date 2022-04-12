@@ -233,8 +233,14 @@ $jf-navbar-height: 70px;
     color: black;
     height: 1px;
   }
-  .information-needed {
-    padding: 16px 24px;
+
+  // Other places, we want the tap target to spill over the sides of the item. Not here.
+  .jf-accordion-item {
+    margin: 0px;
+  }
+  // Since this accordion is contained within another object, we don't need extra space at the bottom.
+  .jf-space-below-2rem {
+    margin-bottom: 0px;
   }
 }
 

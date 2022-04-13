@@ -32,7 +32,7 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
           className: "button is-primary is-medium",
           text: li18n._(t`Start a letter`),
         }}
-        information={li18n._(t`notice to repair information needed`)}
+        information={repairsInformationNeeded}
       />
       <LetterCard
         title={li18n._(t`Right to Privacy`)}
@@ -45,7 +45,7 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
           className: "button is-light is-medium",
           text: li18n._(t`Go to letter`),
         }}
-        information={li18n._(t`right to privacy information needed`)}
+        information={violationInformationNeeded}
       />
       <LetterCard
         title={li18n._(t`Harassment`)}
@@ -59,7 +59,7 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
           className: "button is-light is-medium",
           text: li18n._(t`Go to letter`),
         }}
-        information={li18n._(t`harassment information needed`)}
+        information={violationInformationNeeded}
       />
       <LetterCard
         title={li18n._(t`Private Right of Action`)}
@@ -73,7 +73,7 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
           className: "button is-light is-medium",
           text: li18n._(t`Go to letter`),
         }}
-        information={li18n._(t`private right of action information needed`)}
+        information={violationInformationNeeded}
       />
       <div className="buttons jf-two-buttons">
         <SimpleClearAnonymousSessionButton
@@ -83,6 +83,20 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
     </Page>
   );
 };
+
+const repairsInformationNeeded = [
+  li18n._(t`Your contact details`),
+  li18n._(t`Your landlord's contact details`),
+  li18n._(t`An idea of all the repairs needed in your home`),
+  li18n._(t`Dates and time you'll be available for repairs`),
+];
+
+const violationInformationNeeded = [
+  li18n._(t`Your contact details`),
+  li18n._(t`Your landlord's contact details`),
+  li18n._(t`Dates that the violation occurred`),
+  li18n._(t`Details about the violation`),
+];
 
 type LetterCardButtonProps = {
   to: string;
@@ -96,7 +110,7 @@ type LetterCardProps = {
   text: string;
   badge?: JSX.Element;
   buttonProps: LetterCardButtonProps;
-  information: string;
+  information: string[];
 };
 
 const LetterCard: React.FC<LetterCardProps> = (props) => {
@@ -139,13 +153,15 @@ function CallToAction({ to, text, className }: LetterCardButtonProps) {
 }
 
 type InformationNeededProps = {
-  information: string;
+  information: string[];
 };
 
 function InformationNeeded({ information }: InformationNeededProps) {
+  const listItems = information.map((item, i) => <li key={i}>{item}</li>);
   return (
     <Accordion question={"What information will I need?"} questionClassName="">
-      {information}
+      <ul>{listItems}</ul>
+      <br />
     </Accordion>
   );
 }

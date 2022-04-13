@@ -6,18 +6,9 @@
 // NoRent at the time of this writing.)
 $laletterbuilder-root: "../laletterbuilder";
 
-$jf-body-family: "Degular",
-Arial,
-Helvetica,
-sans-serif;
-$jf-title-family: "Degular Display",
-Arial,
-Helvetica,
-sans-serif;
-$jf-alt-title-family: "Suisse Int'l Mono",
-"Courier New",
-Courier,
-monospace;
+$jf-body-family: "Degular", Arial, Helvetica, sans-serif;
+$jf-title-family: "Degular Display", Arial, Helvetica, sans-serif;
+$jf-alt-title-family: "Suisse Int'l Mono", "Courier New", Courier, monospace;
 
 @import "../_util.scss";
 @import "./_bulma-overrides.scss";
@@ -193,7 +184,7 @@ $jf-navbar-height: 70px;
         }
 
         // Styling of the check mark symbol itself:
-        input:checked+.jf-checkbox-symbol {
+        input:checked + .jf-checkbox-symbol {
           background-position: 98%;
         }
 
@@ -206,7 +197,7 @@ $jf-navbar-height: 70px;
           color: $primary;
         }
 
-        input:checked~.jf-label-text {
+        input:checked ~ .jf-label-text {
           color: $secondary;
         }
       }
@@ -279,7 +270,6 @@ $jf-navbar-height: 70px;
       margin-bottom: 0;
 
       summary {
-
         // Fix bug where scrollbars appear on accordion titles
         .media-content {
           overflow-x: unset;

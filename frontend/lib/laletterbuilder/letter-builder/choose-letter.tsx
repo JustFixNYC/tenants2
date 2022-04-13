@@ -11,6 +11,8 @@ import { LaLetterBuilderRouteInfo } from "../route-info";
 import { OutboundLink } from "../../ui/outbound-link";
 import classnames from "classnames";
 import { Accordion } from "../../ui/accordion";
+import { StaticImage } from "../../ui/static-image";
+import { getLaLetterBuilderImageSrc } from "../homepage";
 
 export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
   props
@@ -119,7 +121,16 @@ const LetterCard: React.FC<LetterCardProps> = (props) => {
       <div className="jf-la-letter-card">
         <div className="content">
           <h2>{props.title}</h2>
-          <div className="jf-la-letter-time">{props.time_mins} mins</div>
+          <div className="jf-la-letter-time">
+            <div className="jf-clock-icon">
+              <StaticImage
+                ratio="is-16x16"
+                src={getLaLetterBuilderImageSrc("clock")}
+                alt={li18n._(t`Estimated time to complete`)}
+              />
+            </div>
+            {props.time_mins} mins
+          </div>
           {props.text}
           <CallToAction {...props.buttonProps} />
         </div>

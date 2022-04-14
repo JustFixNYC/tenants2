@@ -45,6 +45,10 @@ $jf-navbar-background: $primary;
 $jf-navbar-content: $secondary;
 $jf-navbar-height: 70px;
 
+// These are LA Letter Builder specific colors.
+$la-letter-builder-beige: #efe9dc;
+$la-letter-builder-base-background: #faf9f4;
+
 @import "../_navbar.scss";
 @import "./navbar-overrides";
 
@@ -56,7 +60,7 @@ $jf-navbar-height: 70px;
 
 // SITE-WIDE STYLE DEFAULTS
 .jf-site-laletterbuilder {
-  background-color: $secondary;
+  background-color: $la-letter-builder-base-background;
   font-family: $jf-body-family;
   // DEFAULT BODY FONT SPECS:
   font-size: 1.2rem;
@@ -101,6 +105,10 @@ $jf-navbar-height: 70px;
       line-height: 0.875rem;
       font-size: 0.875rem;
     }
+  }
+
+  .jf-laletterbuilder-landing-section-secondary {
+    background-color: $la-letter-builder-beige;
   }
 }
 

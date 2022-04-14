@@ -6,6 +6,7 @@ import Page from "../ui/page";
 import { Link } from "react-router-dom";
 
 import { LaLetterBuilderRouteInfo as Routes } from "./route-info";
+import { CenteredPrimaryButtonLink } from "../ui/buttons";
 
 type LaLetterBuilderImageType = "png" | "svg";
 
@@ -22,27 +23,26 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
           <h1 className="title is-spaced has-text-info">
-            <Trans>Landing page</Trans>
+            <Trans>As an LA resident, you have a right to safe housing.</Trans>
           </h1>
           <br />
-          <p>This website is under construction.</p>
-          <p>
-            <small>
-              <Trans>
-                This is a test localization message for LaLetterBuilder.
-              </Trans>
-            </small>
+          <p className="subtitle">
+            <Trans>
+              Exercise your tenant rights. Send a free letter of complaint to
+              your landlord in minutes.
+            </Trans>
           </p>
+          <br />
           <p>
-            <Link
-              className="button is-light is-medium"
-              to={Routes.locale.chooseLetter}
-            >
-              See which letter is right for me
-            </Link>
+            <CenteredPrimaryButtonLink to={Routes.locale.chooseLetter}>
+              <Trans>See which letter is right for me</Trans>
+            </CenteredPrimaryButtonLink>
           </p>
         </div>
       </div>
+    </section>
+    <section className="jf-laletterbuilder-landing-section-secondary">
+      EXAMPLE NEXT SECTION
     </section>
   </Page>
 );

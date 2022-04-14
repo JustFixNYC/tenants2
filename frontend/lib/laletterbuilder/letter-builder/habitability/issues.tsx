@@ -1,27 +1,27 @@
 import React from "react";
-import { DjangoChoices, toDjangoChoices } from "../../common-data";
-import Page from "../../ui/page";
+import { DjangoChoices, toDjangoChoices } from "../../../common-data";
+import Page from "../../../ui/page";
 import { Switch, Route } from "react-router";
 import { Link } from "react-router-dom";
-import { ProgressButtons } from "../../ui/buttons";
-import { Accordion } from "../../ui/accordion";
+import { ProgressButtons } from "../../../ui/buttons";
+import { Accordion } from "../../../ui/accordion";
 import {
   getLaIssueAreaChoiceLabels,
   LaIssueAreaChoice,
   LaIssueAreaChoices,
-} from "../../../../common-data/issue-area-choices-laletterbuilder";
+} from "../../../../../common-data/issue-area-choices-laletterbuilder";
 import {
   getLaIssueRoomChoiceLabels,
   LaIssueRoomChoices,
-} from "../../../../common-data/issue-room-choices-laletterbuilder";
-import { IssuesRouteInfo } from "../../issues/route-info";
+} from "../../../../../common-data/issue-room-choices-laletterbuilder";
+import { IssuesRouteInfo } from "../../../issues/route-info";
 import {
   getLaIssueChoiceLabels,
   LaIssueChoice,
   LaIssueChoices,
-} from "../../../../common-data/issue-choices-laletterbuilder";
+} from "../../../../../common-data/issue-choices-laletterbuilder";
 import { Trans, t } from "@lingui/macro";
-import { li18n } from "../../i18n-lingui";
+import { li18n } from "../../../i18n-lingui";
 
 function laIssueArea(issue: LaIssueChoice): LaIssueAreaChoice {
   return issue.split("__")[0] as LaIssueAreaChoice;

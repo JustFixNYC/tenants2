@@ -30,7 +30,7 @@ import { LaLetterBuilderLandlordNameAddressEmail } from "../../components/landlo
 import { LaLetterBuilderRiskConsent } from "../../components/consent";
 import { t } from "@lingui/macro";
 import { li18n } from "../../../i18n-lingui";
-import { LaIssuesRoutes } from "../issues";
+import { LaIssuesRoutes } from "./issues";
 
 const HabitabilityRoutes: React.FC<{}> = () => (
   <Switch>

@@ -97,10 +97,6 @@ const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                           question={issueLabel}
                           key={i}
                           questionClassName="has-text-primary"
-                          textLabelsForToggle={[
-                            li18n._(t`Open`),
-                            li18n._(t`Close`),
-                          ]}
                         >
                           <MultiCheckboxFormField
                             {...ctx.fieldPropsFor("issues")}

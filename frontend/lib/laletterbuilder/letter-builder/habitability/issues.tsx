@@ -1,33 +1,32 @@
 import React from "react";
-import { DjangoChoices, toDjangoChoices } from "../../common-data";
-import Page from "../../ui/page";
+import { DjangoChoices, toDjangoChoices } from "../../../common-data";
+import Page from "../../../ui/page";
 import { Switch, Route } from "react-router";
 import { Link } from "react-router-dom";
-import { ProgressButtons } from "../../ui/buttons";
-import { Accordion } from "../../ui/accordion";
+import { ProgressButtons } from "../../../ui/buttons";
+import { Accordion } from "../../../ui/accordion";
 import {
   getLaIssueCategoryChoiceLabels,
   LaIssueCategoryChoice,
   LaIssueCategoryChoices,
-} from "../../../../common-data/issue-category-choices-laletterbuilder";
+} from "../../../../../common-data/issue-category-choices-laletterbuilder";
 import {
   getLaIssueRoomChoiceLabels,
   LaIssueRoomChoice,
   LaIssueRoomChoices,
-} from "../../../../common-data/issue-room-choices-laletterbuilder";
-import { IssuesRouteInfo } from "../../issues/route-info";
+} from "../../../../../common-data/issue-room-choices-laletterbuilder";
+import { IssuesRouteInfo } from "../../../issues/route-info";
 import {
   getLaIssueChoiceLabels,
   LaIssueChoice,
   LaIssueChoices,
-} from "../../../../common-data/issue-choices-laletterbuilder";
+} from "../../../../../common-data/issue-choices-laletterbuilder";
 import { Trans, t } from "@lingui/macro";
-import { li18n } from "../../i18n-lingui";
-import { MultiCheckboxFormField } from "../../forms/form-fields";
-import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import { IssuesLinkToNextStep } from "../../issues/routes";
-import { AllSessionInfo } from "../../queries/AllSessionInfo";
-import { LaLetterBuilderIssuesMutation } from "../../queries/LaLetterBuilderIssuesMutation";
+import { li18n } from "../../../i18n-lingui";
+import { MultiCheckboxFormField } from "../../../forms/form-fields";
+import { SessionUpdatingFormSubmitter } from "../../../forms/session-updating-form-submitter";
+import { AllSessionInfo } from "../../../queries/AllSessionInfo";
+import { LaLetterBuilderIssuesMutation } from "../../../queries/LaLetterBuilderIssuesMutation";
 
 type LaIssueName = "MOLD" | "PEELING_PAINT";
 

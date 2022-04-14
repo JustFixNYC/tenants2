@@ -24,8 +24,10 @@ export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
       <Page title={li18n._(t`Set up an account`)} withHeading="big">
         <div className="content">
           <p>
-            Let’s set you up with an account. An account will enable you to save
-            your information, download your declaration, and more.
+            <Trans>
+              Let’s set you up with an account. An account will enable you to
+              save your information and download copies of your letters.
+            </Trans>
           </p>
         </div>
         <SessionUpdatingFormSubmitter

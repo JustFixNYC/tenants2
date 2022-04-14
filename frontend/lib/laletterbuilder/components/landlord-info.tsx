@@ -30,7 +30,7 @@ export const LaLetterBuilderLandlordNameAddressEmail = MiddleProgressStep(
         LaLetterBuilderRouteInfo.locale.habitability.landlordAddressConfirmModal
       }
     >
-      <p> Example content here</p>
+      <p>This should be the person or company you send your rent to.</p>
     </LandlordNameAddressEmail>
   )
 );
@@ -102,6 +102,9 @@ const NameAddressEmailForm: React.FC<
             {...ctx.fieldPropsFor("email")}
             label={optionalizeLabel(
               li18n._(t`Landlord/management company's email`)
+            )}
+            labelHint={li18n._(
+              t`If you add your landlord's email, we will email them a copy of your letter.`
             )}
           />
           <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />

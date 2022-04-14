@@ -27,7 +27,7 @@ export function createHabitabilityRouteInfo(prefix: string) {
     createAccountTermsModal: `${prefix}/create-account/terms-modal`,
     myLetters: `${prefix}/my-letters`,
     landlordInfo: `${prefix}/landlord/info`,
-    landlordAddressConfirmModal: `${prefix}/landlord/info/confirm-address-modal`,
+    landlordAddressConfirmModal: `${prefix}/landlord/info/confirm-modal`,
     issues: createIssuesRouteInfo(`${prefix}/issues`),
     accessDates: `${prefix}/access-dates`,
     preview: `${prefix}/preview`,

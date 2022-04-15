@@ -67,5 +67,48 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
         </div>
       </div>
     </section>
+    <section className="jf-laletterbuilder-landing-section-tertiary">
+      <div className="hero-body">
+        <div className="container jf-has-text-centered-tablet">
+          <h2 className="is-spaced">
+            <Trans>How it works</Trans>
+          </h2>
+          <div className="letter-step">
+            <p className="subtitle">
+              <Trans>Build your letter</Trans>
+            </p>
+            <label>
+              <Trans>
+                Answer some basic questions about your situation, and we will
+                automatically build a letter for you.
+              </Trans>
+            </label>
+          </div>
+          <div className="letter-step">
+            <p className="subtitle">
+              <Trans>Send for free</Trans>
+            </p>
+            <label>
+              <Trans>
+                We will send the letter to your landlord or property manager for
+                free via certified mail. Or you can opt to print and mail it
+                yourself.
+              </Trans>
+            </label>
+          </div>
+          <div className="letter-step">
+            <p className="subtitle">
+              <Trans>Follow up</Trans>
+            </p>
+            <label>
+              <Trans>
+                We'll check in with you via text message, see if your situation
+                improved and offer next steps.
+              </Trans>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
   </Page>
 );

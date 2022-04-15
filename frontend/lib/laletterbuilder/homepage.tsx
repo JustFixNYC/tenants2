@@ -1,12 +1,15 @@
 import React from "react";
 
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 
 import Page from "../ui/page";
 
 import { LaLetterBuilderRouteInfo as Routes } from "./route-info";
 import { CenteredPrimaryButtonLink } from "../ui/buttons";
 import { StaticImage } from "../ui/static-image";
+import { Accordion } from "../ui/accordion";
+import { li18n } from "../i18n-lingui";
+import { OutboundLink } from "../ui/outbound-link";
 
 type LaLetterBuilderImageType = "png" | "svg";
 
@@ -19,7 +22,7 @@ export function getLaLetterBuilderImageSrc(
 
 export const LaLetterBuilderHomepage: React.FC<{}> = () => (
   <Page title="" className="content">
-    <section className="hero is-fullheight-with-navbar">
+    <section className="hero is-fullheight-with-navbar jf-laletterbuilder-landing-section-primary">
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
           <h1 className="title is-spaced has-text-info">
@@ -73,7 +76,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
           <h2 className="is-spaced">
             <Trans>How it works</Trans>
           </h2>
-          <div className="letter-step">
+          <div className="text-section">
             <p className="subtitle">
               <Trans>Build your letter</Trans>
             </p>
@@ -84,7 +87,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
               </Trans>
             </label>
           </div>
-          <div className="letter-step">
+          <div className="text-section">
             <p className="subtitle">
               <Trans>Send for free</Trans>
             </p>
@@ -96,7 +99,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
               </Trans>
             </label>
           </div>
-          <div className="letter-step">
+          <div className="text-section">
             <p className="subtitle">
               <Trans>Follow up</Trans>
             </p>
@@ -107,6 +110,71 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
               </Trans>
             </label>
           </div>
+        </div>
+      </div>
+    </section>
+    <section className="jf-laletterbuilder-landing-section-primary">
+      <div className="hero-body">
+        <div className="container jf-has-text-centered-tablet">
+          <h2 className="is-spaced">
+            <Trans>Frequently asked questions</Trans>
+          </h2>
+          <Accordion
+            question={li18n._(t`What situations does the tool cover?`)}
+          >
+            Example answer here
+          </Accordion>
+        </div>
+      </div>
+    </section>
+    <section className="jf-laletterbuilder-landing-section-secondary">
+      <div className="hero-body">
+        <div className="container jf-has-text-centered-tablet">
+          <h2 className="is-spaced">
+            <Trans>Additional resources</Trans>
+          </h2>
+
+          <p className="subtitle">
+            <Trans>Get involved in your community</Trans>
+          </p>
+          <div className="text-section">
+            <label>
+              <Trans>
+                Attend SAJE's Tenant Action Clinic to learn more about your
+                rights.
+              </Trans>
+            </label>
+          </div>
+
+          <div className="text-section">
+            <label>
+              <Trans>
+                Volunteer with SAJE and help other members of your community
+                defend their rights as tenants.
+              </Trans>
+            </label>
+          </div>
+          <p className="subtitle">
+            <Trans>Other tools</Trans>
+          </p>
+          <p>
+            <OutboundLink
+              href="https://www.stayhousedla.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              StayHoused LA
+            </OutboundLink>
+          </p>
+          <p>
+            <OutboundLink
+              href="https://housing.lacity.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LA Housing Department
+            </OutboundLink>
+          </p>
         </div>
       </div>
     </section>

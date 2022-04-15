@@ -107,10 +107,20 @@ $la-letter-builder-white: #faf8f4;
     }
   }
 
+  .jf-laletterbuilder-landing-section-primary {
+    background-color: $la-letter-builder-white;
+  }
+
   .jf-laletterbuilder-landing-section-secondary {
     background-color: $la-letter-builder-beige;
     figure {
       margin: 0rem;
+    }
+    .text-section {
+      margin-top: 1rem;
+    }
+    .text-section:last-of-type {
+      margin-bottom: 2rem;
     }
   }
 
@@ -123,8 +133,11 @@ $la-letter-builder-white: #faf8f4;
     .subtitle {
       color: $la-letter-builder-white;
     }
-    .letter-step {
+    .text-section {
       margin-top: 2rem;
+    }
+    .text-section:last-of-type {
+      margin-bottom: 2rem;
     }
   }
 }

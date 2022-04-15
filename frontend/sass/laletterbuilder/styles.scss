@@ -47,7 +47,7 @@ $jf-navbar-height: 70px;
 
 // These are LA Letter Builder specific colors.
 $la-letter-builder-beige: #efe9dc;
-$la-letter-builder-base-background: #faf9f4;
+$la-letter-builder-base-background: #faf8f4;
 
 @import "../_navbar.scss";
 @import "./navbar-overrides";
@@ -109,6 +109,9 @@ $la-letter-builder-base-background: #faf9f4;
 
   .jf-laletterbuilder-landing-section-secondary {
     background-color: $la-letter-builder-beige;
+    figure {
+      margin: 0em;
+    }
   }
 }
 

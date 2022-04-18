@@ -3252,8 +3252,8 @@ msgid "laletterbuilder.habitability.consequences"
 msgstr ""
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:81
-msgid "laletterbuilder.habitability.intro"
-msgstr "LETTER TEXT"
+msgid "laletterbuilder.habitability.intro-1"
+msgstr ""
 
 #: frontend/lib/laletterbuilder/about.tsx:72
 msgid "laletterbuilder.madeByBlurb"

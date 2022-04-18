@@ -3242,7 +3242,7 @@ msgid "laletterbuilder.habitability.consequences"
 msgstr "You have 10 business days from the date of this letter to address the repairs outlined. If the repairs are not initiated and/or completed within this reasonable timeframe, I will have to report my habitability issues to the Los Angeles Housing and Community Investment Department (HCID), the Los Angeles Department of Public Health/(LADPH) and the Department of Building and Safety (LADBS)."
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:81
-msgid "laletterbuilder.habitability.intro"
+msgid "laletterbuilder.habitability.intro-1"
 msgstr "This letter is to notify you that I need the following repairs in my home referenced below and/or in the public areas of the building:"
 
 #: frontend/lib/laletterbuilder/about.tsx:72

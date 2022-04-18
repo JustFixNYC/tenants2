@@ -154,7 +154,7 @@ const LetterBody: React.FC<HabitabilityLetterContentProps> = (props) => {
   return (
     <>
       <p>
-        <Trans id="laletterbuilder.habitability.intro">
+        <Trans id="laletterbuilder.habitability.intro-1">
           This letter is to notify you that I need the following repairs in my
           home referenced below and/or in the public areas of the building:
         </Trans>

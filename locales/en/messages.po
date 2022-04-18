@@ -902,7 +902,7 @@ msgstr "Got it!"
 msgid "Got it, take me there"
 msgstr "Got it, take me there"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:9
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:10
 msgid "Habitability"
 msgstr "Habitability"
 
@@ -910,7 +910,7 @@ msgstr "Habitability"
 msgid "Habitability (CA)"
 msgstr "Habitability (CA)"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:14
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:15
 msgid "Habitability notice sent on behalf of {0}"
 msgstr "Habitability notice sent on behalf of {0}"
 
@@ -1268,7 +1268,7 @@ msgstr "Know your rights"
 msgid "LaLetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
 msgstr "LaLetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:29
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:30
 msgid "LaLetterBuilder.org <0/>sent on behalf of <1/>"
 msgstr "LaLetterBuilder.org <0/>sent on behalf of <1/>"
 
@@ -1992,7 +1992,7 @@ msgstr "Rodent infestation"
 msgid "Rusty water"
 msgstr "Rusty water"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:87
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:129
 msgid "Sample Habitability letter"
 msgstr "Sample Habitability letter"
 
@@ -2895,7 +2895,7 @@ msgstr "Your declaration is ready to send!"
 msgid "Your email address"
 msgstr "Your email address"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:76
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:77
 msgid "Your habitability letter"
 msgstr "Your habitability letter"
 
@@ -3217,7 +3217,7 @@ msgstr "<0>If your apartment is currently rent stabilized, or has been at any po
 msgid "justfix.whyIsPhoneNumberNeeded"
 msgstr "We’ll use this information to either:<0><1>Log you into your existing account</1><2>Match with a pre-existing account </2><3>Sign you up for a new account.</3></0><4/>An account will allow you to return to our tools at any point in the process without having to start from the beginning, download any documents you complete, and be notified of relevant changes to policies that affect you."
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:16
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:17
 msgid "laletterbuilder.emailToLandlordBody"
 msgstr "<0>Please see letter attached from <1/>. </0><2>In order to document communications and avoid misunderstandings, please correspond with <3/> via email at <4>{0}</4> or mail rather than a phone call or in-person visit.</2>"
 
@@ -3225,9 +3225,25 @@ msgstr "<0>Please see letter attached from <1/>. </0><2>In order to document com
 msgid "laletterbuilder.explanationAboutWhyWeMadeThisSite"
 msgstr "We made this site because xyz"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:80
-msgid "laletterbuilder.habitability.intro"
-msgstr "LETTER TEXT"
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:95
+msgid "laletterbuilder.habitability.access-intro"
+msgstr "Below are dates that I am available to be at my home to let in a repair worker. Please contact me (using the information provided at the top of this letter) in order to make arrangements."
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:90
+msgid "laletterbuilder.habitability.access-title"
+msgstr "Available access dates"
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:102
+msgid "laletterbuilder.habitability.access-warning"
+msgstr "Be advised that you are required by law to provide a <0>24-hour written notice of intent</0> to enter the unit to make repairs pursuant California Civil Code 1954. Anyone coming to perform a repair inspection and/or repairs should arrive on the date and time mutually agreed upon."
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:115
+msgid "laletterbuilder.habitability.consequences"
+msgstr "You have 10 business days from the date of this letter to address the repairs outlined. If the repairs are not initiated and/or completed within this reasonable timeframe, I will have to report my habitability issues to the Los Angeles Housing and Community Investment Department (HCID), the Los Angeles Department of Public Health/(LADPH) and the Department of Building and Safety (LADBS)."
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:81
+msgid "laletterbuilder.habitability.intro-1"
+msgstr "This letter is to notify you that I need the following repairs in my home referenced below and/or in the public areas of the building:"
 
 #: frontend/lib/laletterbuilder/about.tsx:72
 msgid "laletterbuilder.madeByBlurb"

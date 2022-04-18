@@ -1,5 +1,5 @@
 from django import forms
-from laletterbuilder.models import ISSUE_CHOICES
+from laletterbuilder.models import LA_ISSUE_CHOICES
 from loc import models as loc_models
 
 from loc.forms import validate_non_stupid_name
@@ -48,7 +48,7 @@ class HabitabilityIssuesForm(forms.Form):
 
     issues = forms.MultipleChoiceField(
         required=False,
-        choices=ISSUE_CHOICES.choices,
+        choices=LA_ISSUE_CHOICES.choices,
         help_text=(
             "The issues to set. Any issues not listed, but in the same area, will be " "removed."
         ),

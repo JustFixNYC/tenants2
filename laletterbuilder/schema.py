@@ -182,6 +182,8 @@ class LaLetterBuilderIssues(SessionFormMutation):
     class Meta:
         form_class = HabitabilityIssuesForm
 
+    login_required = True
+
     @classmethod
     @mutation_requires_onboarding
     def perform_mutate(cls, form, info: ResolveInfo):
@@ -189,14 +191,29 @@ class LaLetterBuilderIssues(SessionFormMutation):
         user = request.user
         assert user.is_authenticated
 
-        letter = models.HabitabilityLetter.objects.filter(
+        print("issues: ", form.cleaned_data["issues"])
+
+        # Get most recent unsent letter. This relies on there
+        # only being one unsent habitability letter at a time.
+        letters = models.HabitabilityLetter.objects.filter(
             user=user, letter_sent_at=None, letter_emailed_at=None
         )
-        assert letter is not None
-        with transaction.atomic():
-            models.LaIssue.objects.set_issues_for_letter(
-                letter, form.cleaned_data["issues"]
+        if not letters:
+            cls.log(info, f"Could not find an unsent habitability letter for user {user}")
+            return cls.make_error(f"Could not find an unsent habitability letter for user {user}")
+        if len(letters) > 1:
+            cls.log(
+                info,
+                f"Found multiple unsent habitability letters for {user}. "
+                + f"There should only ever be one.",
             )
+            return cls.make_error(
+                f"Found multiple unsent habitability letters for {user}. "
+                + f"There should only ever be one."
+            )
+        letter = letters[0]
+        with transaction.atomic():
+            models.LaIssue.objects.set_issues_for_letter(letter, form.cleaned_data["issues"])
         return cls.mutation_success()
 
 

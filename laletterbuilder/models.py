@@ -1,13 +1,12 @@
 from typing import List
-from project import common_data
+from project.common_data import Choices
 from project.util.lob_models_util import LocalizedHTMLLetter
 from users.models import JustfixUser
 from django.db import models, transaction
-from project.common_data import Choices
 
 
-LETTER_TYPE_CHOICES = common_data.Choices.from_file("la-letter-builder-letter-choices.json")
-ISSUE_CHOICES = Choices.from_file("issue-choices-laletterbuilder.json")
+LETTER_TYPE_CHOICES = Choices.from_file("la-letter-builder-letter-choices.json")
+LA_ISSUE_CHOICES = Choices.from_file("issue-choices-laletterbuilder.json")
 VALUE_MAXLEN = 60
 
 
@@ -32,16 +31,22 @@ class HabitabilityLetter(Letter):
         return f"{self.user.full_legal_name}'s Habitability LA Letter Builder letter"
 
 
+def ensure_issue_is_valid(value: str):
+    LA_ISSUE_CHOICES.validate_choices(value)
+
+
 class LaIssueManager(models.Manager):
     """
-    LAIssues are associated with the Letter rather than the User, to allow a user to have
-    multiple letters in progress or to have multiple letter types with different Issues.
-    That's why these models are different from the LOC issue models.
+    LaIssues are associated with the Letter rather than the User, to hypothetically
+    allow a user to have multiple letters in progress.
+    That's why these models are different from the NYLOC issue models.
     """
 
     @transaction.atomic
     def set_issues_for_letter(self, letter: Letter, issues: List[str]):
         issues_set = set(issues)
+
+        print("issues set: ", issues_set)
 
         # Delete existing issues if they're not in the new list
         curr_models = list(self.filter(letter=letter))
@@ -53,11 +58,15 @@ class LaIssueManager(models.Manager):
         values_that_already_exist = set(
             model.value for model in curr_models if model.value in issues_set
         )
+        print("values_that_already_exist: ", [str(model) for model in values_that_already_exist])
+
         models_to_create = [
             LaIssue(letter=letter, value=value)
             for value in issues_set
             if value not in values_that_already_exist
         ]
+        print("models to create: ", [str(model) for model in models_to_create])
+
         for model in models_to_create:
             model.full_clean()
             model.save()
@@ -84,8 +93,16 @@ class LaIssue(models.Model):
 
     value = models.CharField(
         max_length=VALUE_MAXLEN,
-        choices=ISSUE_CHOICES.choices,
+        choices=LA_ISSUE_CHOICES.choices,
         help_text="The issue the letter is reporting.",
     )
 
     objects = LaIssueManager()
+
+    def __str__(self):
+        if not self.pk:
+            return super().__str__()
+        return f"Issue: {self.value}"
+
+    def clean(self):
+        ensure_issue_is_valid(self.value)

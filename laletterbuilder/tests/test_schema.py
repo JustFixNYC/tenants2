@@ -398,16 +398,36 @@ class TestLaLetterBuilderIssuesMutation:
             {"field": "__all__", "messages": ["You haven't provided any account details yet!"]}
         ]
 
+    @pytest.mark.django_db
     def test_it_raises_err_when_no_letter_exists(self):
         OnboardingInfoFactory(user=self.user)
-        result = self.execute(
+        result = self.execute({"issues": ["HEALTH__MOLD__BEDROOM"]})
+        assert result["errors"] == [
             {
-                "issues": ["HEALTH__MOLD__BEDROOM"],
+                "field": "__all__",
+                "messages": ["Could not find an unsent habitability letter for user boop"],
             }
-        )
-        assert result["errors"] is not []
+        ]
 
-    def test_it_saves_new_issues_and_deletes_old_ones(self):
+    @pytest.mark.django_db
+    def test_it_raises_err_when_multiple_unsent_letter_exists(self):
+        OnboardingInfoFactory(user=self.user)
+        HabitabilityLetterFactory(user=self.user)
+        HabitabilityLetterFactory(user=self.user)
+
+        result = self.execute({"issues": ["HEALTH__MOLD__BEDROOM"]})
+        assert result["errors"] == [
+            {
+                "field": "__all__",
+                "messages": [
+                    "Found multiple unsent habitability letters for boop. "
+                    + "There should only ever be one."
+                ],
+            }
+        ]
+
+    @pytest.mark.django_db
+    def test_it_saves_new_issues_and_deletes_old_ones(self, db):
         OnboardingInfoFactory(user=self.user)
         HabitabilityLetterFactory(user=self.user)
 

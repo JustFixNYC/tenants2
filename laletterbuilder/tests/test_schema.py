@@ -254,6 +254,7 @@ class TestLaLetterBuilderSendLetter:
             "This form can only be used from the LA Letter Builder site."
         )
 
+    @pytest.mark.django_db
     def test_it_sends_letter(
         self,
         settings,
@@ -263,6 +264,7 @@ class TestLaLetterBuilderSendLetter:
         mailoutbox,
         smsoutbox,
         mocklob,
+        db,
     ):
         user = self.graphql_client.request.user
         settings.IS_DEMO_DEPLOYMENT = False
@@ -377,7 +379,7 @@ class TestLaLetterBuilderIssuesMutation:
                         messages
                     }
                     session {
-                        issues
+                        laIssues
                     }
                 }
             }
@@ -387,13 +389,13 @@ class TestLaLetterBuilderIssuesMutation:
 
     def test_it_requires_login(self):
         self.graphql_client.request.user = AnonymousUser()
-        result = self.execute({"issues": ["HEALTH__MOLD__BEDROOM"]})
+        result = self.execute({"laIssues": ["HEALTH__MOLD__BEDROOM"]})
         assert result["errors"] == [
             {"field": "__all__", "messages": ["You do not have permission to use this form!"]}
         ]
 
     def test_it_raises_err_when_no_onboarding_info_exists(self):
-        result = self.execute({"issues": ["HEALTH__MOLD__BEDROOM"]})
+        result = self.execute({"laIssues": ["HEALTH__MOLD__BEDROOM"]})
         assert result["errors"] == [
             {"field": "__all__", "messages": ["You haven't provided any account details yet!"]}
         ]
@@ -401,7 +403,7 @@ class TestLaLetterBuilderIssuesMutation:
     @pytest.mark.django_db
     def test_it_raises_err_when_no_letter_exists(self):
         OnboardingInfoFactory(user=self.user)
-        result = self.execute({"issues": ["HEALTH__MOLD__BEDROOM"]})
+        result = self.execute({"laIssues": ["HEALTH__MOLD__BEDROOM"]})
         assert result["errors"] == [
             {
                 "field": "__all__",
@@ -415,7 +417,7 @@ class TestLaLetterBuilderIssuesMutation:
         HabitabilityLetterFactory(user=self.user)
         HabitabilityLetterFactory(user=self.user)
 
-        result = self.execute({"issues": ["HEALTH__MOLD__BEDROOM"]})
+        result = self.execute({"laIssues": ["HEALTH__MOLD__BEDROOM"]})
         assert result["errors"] == [
             {
                 "field": "__all__",
@@ -431,25 +433,22 @@ class TestLaLetterBuilderIssuesMutation:
         OnboardingInfoFactory(user=self.user)
         HabitabilityLetterFactory(user=self.user)
 
-        result = self.execute({"issues": ["HEALTH__MOLD__BEDROOM"]})
+        result = self.execute({"laIssues": ["HEALTH__MOLD__BEDROOM"]})
         print(result)
 
         assert result["errors"] == []
-        assert result["session"]["issues"] == ["HEALTH__MOLD__BEDROOM"]
+        assert result["session"]["laIssues"] == ["HEALTH__MOLD__BEDROOM"]
 
-        """
         result = self.execute(
             {
-                "issues": [],
+                "laIssues": [],
             }
         )
         assert result["errors"] == []
-        assert result["session"]["issues"] == []
-        """
+        assert result["session"]["laIssues"] == []
 
-
-"""
-    def test_issues_is_empty_when_unauthenticated(graphql_client):
-        result = graphql_client.execute("query { session { issues } }")
-        assert result["data"]["session"]["issues"] == []
-"""
+    @pytest.mark.django_db
+    def test_issues_is_empty_when_unauthenticated(self, db):
+        result = self.graphql_client.execute("query { session { laIssues } }")
+        # assert result["errors"] ==
+        assert result["data"]["session"]["laIssues"] == []

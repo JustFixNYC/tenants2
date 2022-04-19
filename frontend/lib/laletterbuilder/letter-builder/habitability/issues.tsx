@@ -12,7 +12,6 @@ import {
 import {
   getLaIssueRoomChoiceLabels,
   LaIssueRoomChoice,
-  LaIssueRoomChoices,
 } from "../../../../../common-data/issue-room-choices-laletterbuilder";
 
 import {
@@ -20,7 +19,7 @@ import {
   LaIssueChoice,
   LaIssueChoices,
 } from "../../../../../common-data/issue-choices-laletterbuilder";
-import { Trans, t } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { li18n } from "../../../i18n-lingui";
 import { MultiCheckboxFormField } from "../../../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../../../forms/session-updating-form-submitter";
@@ -74,7 +73,7 @@ const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
   const labels = getLaIssueCategoryChoiceLabels();
 
   const getInitialState = (session: AllSessionInfo) => ({
-    issues: session.laIssues as LaIssueChoice[],
+    laIssues: session.laIssues as LaIssueChoice[],
   });
   return (
     <Page title={li18n._(t`Select which repairs are needed`)} withHeading>
@@ -100,7 +99,7 @@ const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                           questionClassName="has-text-primary"
                         >
                           <MultiCheckboxFormField
-                            {...ctx.fieldPropsFor("issues")}
+                            {...ctx.fieldPropsFor("laIssues")}
                             label={""}
                             choices={laRoomChoicesForIssue(getIssue(issue))}
                           />

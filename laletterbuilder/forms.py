@@ -46,10 +46,8 @@ class LandlordDetailsForm(forms.ModelForm):
 
 class HabitabilityIssuesForm(forms.Form):
 
-    issues = forms.MultipleChoiceField(
+    la_issues = forms.MultipleChoiceField(
         required=False,
         choices=LA_ISSUE_CHOICES.choices,
-        help_text=(
-            "The issues to set. Any issues not listed, but in the same area, will be " "removed."
-        ),
+        help_text=("The issues to set. Any issues not listed will be removed."),
     )

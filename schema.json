@@ -12395,7 +12395,7 @@
             {
               "defaultValue": null,
               "description": null,
-              "name": "issues",
+              "name": "laIssues",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,

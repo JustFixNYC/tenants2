@@ -83,7 +83,7 @@ class LaIssue(models.Model):
     letter = models.ForeignKey(
         HabitabilityLetter,
         on_delete=models.CASCADE,
-        related_name="issues",
+        related_name="laletterbuilder_laissue",
         help_text="The letter reporting the issue.",
     )
 

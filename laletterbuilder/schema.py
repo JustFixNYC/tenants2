@@ -206,16 +206,16 @@ class LaLetterBuilderIssues(SessionFormMutation):
             if len(letters) > 1:
                 cls.log(
                     info,
-                    f"Found multiple unsent habitability letters for {user}: "
-                    + f"{letters}. There should only ever be one.",
+                    f"Found multiple unsent habitability letters for {user}. "
+                    + "There should only ever be one.",
                 )
                 return cls.make_error(
-                    f"Found multiple unsent habitability letters for {user}: "
-                    + f"{letters}. There should only ever be one."
+                    f"Found multiple unsent habitability letters for {user}. "
+                    + "There should only ever be one."
                 )
             letter = letters[0]
 
-            models.LaIssue.objects.set_issues_for_letter(letter, form.cleaned_data["issues"])
+            models.LaIssue.objects.set_issues_for_letter(letter, form.cleaned_data["la_issues"])
 
         return cls.mutation_success()
 
@@ -248,9 +248,7 @@ class LaLetterBuilderSessionInfo:
             user=user, letter_sent_at=None, letter_emailed_at=None
         )  # TODO: save this in the session instead of fetching it every time?
         if not letters:
-            # This should never happen - users should always have to create a letter before
-            # coming to this page
-            raise ObjectDoesNotExist(f"Zero unsent habitability letters returned for {user}")
+            return []
         if len(letters) > 1:
             # This should never happen - users should not be able to create more than
             # one habitability letter at a time

@@ -46,8 +46,6 @@ class LaIssueManager(models.Manager):
     def set_issues_for_letter(self, letter: Letter, issues: List[str]):
         issues_set = set(issues)
 
-        print("issues set: ", issues_set)
-
         # Delete existing issues if they're not in the new list
         curr_models = list(self.filter(letter=letter))
         models_to_delete = [model for model in curr_models if model.value not in issues_set]
@@ -58,21 +56,19 @@ class LaIssueManager(models.Manager):
         values_that_already_exist = set(
             model.value for model in curr_models if model.value in issues_set
         )
-        print("values_that_already_exist: ", [str(model) for model in values_that_already_exist])
 
         models_to_create = [
             LaIssue(letter=letter, value=value)
             for value in issues_set
             if value not in values_that_already_exist
         ]
-        print("models to create: ", [str(model) for model in models_to_create])
 
         for model in models_to_create:
             model.full_clean()
             model.save()
 
     def get_issues_for_letter(self, letter: Letter) -> List[str]:
-        return [issue.value for issue in self.filter(letter=letter)]
+        return [issue.value for issue in list(self.filter(letter=letter))]
 
 
 class LaIssue(models.Model):

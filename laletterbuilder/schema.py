@@ -22,6 +22,7 @@ from graphql import ResolveInfo
 from project.util import lob_api, site_util
 from loc import models as loc_models
 from graphene_django.types import DjangoObjectType
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 
 @schema_registry.register_mutation
@@ -193,27 +194,33 @@ class LaLetterBuilderIssues(SessionFormMutation):
 
         print("issues: ", form.cleaned_data["issues"])
 
-        # Get most recent unsent letter. This relies on there
-        # only being one unsent habitability letter at a time.
-        letters = models.HabitabilityLetter.objects.filter(
-            user=user, letter_sent_at=None, letter_emailed_at=None
-        )
-        if not letters:
-            cls.log(info, f"Could not find an unsent habitability letter for user {user}")
-            return cls.make_error(f"Could not find an unsent habitability letter for user {user}")
-        if len(letters) > 1:
-            cls.log(
-                info,
-                f"Found multiple unsent habitability letters for {user}. "
-                + f"There should only ever be one.",
-            )
-            return cls.make_error(
-                f"Found multiple unsent habitability letters for {user}. "
-                + f"There should only ever be one."
-            )
-        letter = letters[0]
         with transaction.atomic():
+            # Get most recent unsent letter. This relies on there
+            # only being one unsent habitability letter at a time.
+            letters = models.HabitabilityLetter.objects.filter(
+                user=user, letter_sent_at=None, letter_emailed_at=None
+            )
+            if not letters:
+                cls.log(info, f"Could not find an unsent habitability letter for user {user}")
+                return cls.make_error(
+                    f"Could not find an unsent habitability letter for user {user}"
+                )
+            if len(letters) > 1:
+                cls.log(
+                    info,
+                    f"Found multiple unsent habitability letters for {user}: "
+                    + f"{letters}. There should only ever be one.",
+                )
+                return cls.make_error(
+                    f"Found multiple unsent habitability letters for {user}: "
+                    + f"{letters}. There should only ever be one."
+                )
+            letter = letters[0]
+
             models.LaIssue.objects.set_issues_for_letter(letter, form.cleaned_data["issues"])
+
+            print("GET ISSUES FOR LETTER: ")
+            print(models.LaIssue.objects.get_issues_for_letter(letter))
         return cls.mutation_success()
 
 
@@ -234,17 +241,27 @@ class LaLetterBuilderSessionInfo:
         ),
     )
 
-    issues = graphene.List(graphene.NonNull(graphene.String), required=True)
+    la_issues = graphene.List(graphene.NonNull(graphene.String), required=True)
 
-    def resolve_issues(self, info: ResolveInfo) -> List[str]:
+    def resolve_la_issues(self, info: ResolveInfo) -> List[str]:
         user = info.context.user
         if not user.is_authenticated:
             return []
 
-        letter = models.HabitabilityLetter.objects.filter(
+        letters = models.HabitabilityLetter.objects.filter(
             user=user, letter_sent_at=None, letter_emailed_at=None
         )  # TODO: save this in the session instead of fetching it every time?
-
+        if not letters:
+            # This should never happen - users should always have to create a letter before
+            # coming to this page
+            raise ObjectDoesNotExist(f"Zero unsent habitability letters returned for {user}")
+        if len(letters) > 1:
+            # This should never happen - users should not be able to create more than
+            # one habitability letter at a time
+            raise MultipleObjectsReturned(
+                f"{len(letters)} unsent habitability letters returned for {user}"
+            )
+        letter = letters[0]
         return models.LaIssue.objects.get_issues_for_letter(letter)
 
     def resolve_has_habitability_letter_in_progress(self, info: ResolveInfo):

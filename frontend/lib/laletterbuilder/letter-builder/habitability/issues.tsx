@@ -2,7 +2,6 @@ import React from "react";
 import { DjangoChoices, toDjangoChoices } from "../../../common-data";
 import Page from "../../../ui/page";
 import { Switch, Route } from "react-router";
-import { Link } from "react-router-dom";
 import { ProgressButtons } from "../../../ui/buttons";
 import { Accordion } from "../../../ui/accordion";
 import {
@@ -15,7 +14,7 @@ import {
   LaIssueRoomChoice,
   LaIssueRoomChoices,
 } from "../../../../../common-data/issue-room-choices-laletterbuilder";
-import { IssuesRouteInfo } from "../../../issues/route-info";
+
 import {
   getLaIssueChoiceLabels,
   LaIssueChoice,
@@ -27,6 +26,7 @@ import { MultiCheckboxFormField } from "../../../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../../../forms/session-updating-form-submitter";
 import { AllSessionInfo } from "../../../queries/AllSessionInfo";
 import { LaLetterBuilderIssuesMutation } from "../../../queries/LaLetterBuilderIssuesMutation";
+import { ROUTE_PREFIX } from "../../../util/route-util";
 
 type LaIssueName = "MOLD" | "PEELING_PAINT";
 
@@ -74,7 +74,7 @@ const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
   const labels = getLaIssueCategoryChoiceLabels();
 
   const getInitialState = (session: AllSessionInfo) => ({
-    issues: session.issues as LaIssueChoice[],
+    issues: session.laIssues as LaIssueChoice[],
   });
   return (
     <Page title={li18n._(t`Select which repairs are needed`)} withHeading>
@@ -84,6 +84,7 @@ const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
           confirmNavIfChanged
           mutation={LaLetterBuilderIssuesMutation}
           initialState={getInitialState}
+          onSuccessRedirect={props.toNext}
         >
           {(ctx) => (
             <>
@@ -121,12 +122,23 @@ const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
 };
 
 type LaIssuesRoutesProps = {
-  routes: IssuesRouteInfo;
+  routes: LaIssuesRouteInfo;
   introContent?: string | JSX.Element;
   toBack: string;
   toNext: string;
-  withModal?: boolean;
 };
+
+type LaIssuesRouteInfo = {
+  [ROUTE_PREFIX]: string;
+  home: string;
+};
+
+export function createLaIssuesRouteInfo(prefix: string): LaIssuesRouteInfo {
+  return {
+    [ROUTE_PREFIX]: prefix,
+    home: prefix,
+  };
+}
 
 export function LaIssuesRoutes(props: LaIssuesRoutesProps): JSX.Element {
   const { routes } = props;
@@ -136,11 +148,6 @@ export function LaIssuesRoutes(props: LaIssuesRoutesProps): JSX.Element {
         path={routes.home}
         exact
         render={() => <LaIssuesPage {...props} />}
-      />
-      <Route
-        path={routes.modal}
-        exact
-        render={() => <LaIssuesPage {...props} withModal={true} />}
       />
     </Switch>
   );

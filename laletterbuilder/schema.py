@@ -192,8 +192,6 @@ class LaLetterBuilderIssues(SessionFormMutation):
         user = request.user
         assert user.is_authenticated
 
-        print("issues: ", form.cleaned_data["issues"])
-
         with transaction.atomic():
             # Get most recent unsent letter. This relies on there
             # only being one unsent habitability letter at a time.
@@ -219,8 +217,6 @@ class LaLetterBuilderIssues(SessionFormMutation):
 
             models.LaIssue.objects.set_issues_for_letter(letter, form.cleaned_data["issues"])
 
-            print("GET ISSUES FOR LETTER: ")
-            print(models.LaIssue.objects.get_issues_for_letter(letter))
         return cls.mutation_success()
 
 

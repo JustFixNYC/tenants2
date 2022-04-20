@@ -268,7 +268,6 @@ msgstr "Rellena automáticamente la información del dueño de tu edificio en ba
 msgid "Available in English and Spanish."
 msgstr "Disponible en Inglés y Español."
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:43
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
 msgstr "Atrás"
@@ -960,12 +959,12 @@ msgstr "Correo certificado gratuito"
 msgid "Frequently Asked Questions"
 msgstr "Preguntas Frecuentes"
 
-#: common-data/issue-room-choices-laletterbuilder.ts:49
-msgid "Front door"
-
 #: frontend/lib/laletterbuilder/homepage.tsx:103
 msgid "Frequently asked questions"
 msgstr ""
+
+#: common-data/issue-room-choices-laletterbuilder.ts:49
+msgid "Front door"
 
 #: common-data/issue-choices.ts:152
 msgid "Front door not working"
@@ -1756,7 +1755,6 @@ msgid "New password"
 msgstr "Contraseña nueva"
 
 #: frontend/lib/common-steps/welcome.tsx:45
-#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:46
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
 msgid "Next"
@@ -2200,7 +2198,7 @@ msgstr ""
 msgid "Select a letter to get started"
 msgstr "Select a letter to get started"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:22
+#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:51
 msgid "Select which repairs are needed"
 msgstr ""
 

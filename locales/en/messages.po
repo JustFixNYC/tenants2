@@ -263,7 +263,6 @@ msgstr "Automatically fill in your landlord's information based on your address 
 msgid "Available in English and Spanish."
 msgstr "Available in English and Spanish."
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:43
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
 msgstr "Back"
@@ -955,13 +954,13 @@ msgstr "Free Certified Mail"
 msgid "Frequently Asked Questions"
 msgstr "Frequently Asked Questions"
 
-#: common-data/issue-room-choices-laletterbuilder.ts:49
-msgid "Front door"
-msgstr "Front door"
-
 #: frontend/lib/laletterbuilder/homepage.tsx:103
 msgid "Frequently asked questions"
 msgstr "Frequently asked questions"
+
+#: common-data/issue-room-choices-laletterbuilder.ts:49
+msgid "Front door"
+msgstr "Front door"
 
 #: common-data/issue-choices.ts:152
 msgid "Front door not working"
@@ -1752,7 +1751,6 @@ msgid "New password"
 msgstr "New password"
 
 #: frontend/lib/common-steps/welcome.tsx:45
-#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:46
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
 msgid "Next"

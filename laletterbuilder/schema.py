@@ -22,7 +22,7 @@ from graphql import ResolveInfo
 from project.util import lob_api, site_util
 from loc import models as loc_models
 from graphene_django.types import DjangoObjectType
-from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+from django.core.exceptions import MultipleObjectsReturned
 
 
 @schema_registry.register_mutation

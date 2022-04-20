@@ -1307,6 +1307,10 @@ msgstr ""
 msgid "Know your rights"
 msgstr "Conoce tus derechos"
 
+#: frontend/lib/laletterbuilder/homepage.tsx:13
+msgid "LA Letter Builder Homepage"
+msgstr ""
+
 #: frontend/lib/laletterbuilder/about.tsx:99
 msgid "LaLetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
 msgstr "LaLetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."

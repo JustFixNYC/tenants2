@@ -7,7 +7,7 @@ from django.db import models, transaction
 
 LETTER_TYPE_CHOICES = Choices.from_file("la-letter-builder-letter-choices.json")
 LA_ISSUE_CHOICES = Choices.from_file("issue-choices-laletterbuilder.json")
-VALUE_MAXLEN = 60
+VALUE_MAXLEN = 100
 
 
 class Letter(LocalizedHTMLLetter):

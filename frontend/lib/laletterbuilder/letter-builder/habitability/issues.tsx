@@ -27,14 +27,12 @@ import { AllSessionInfo } from "../../../queries/AllSessionInfo";
 import { LaLetterBuilderIssuesMutation } from "../../../queries/LaLetterBuilderIssuesMutation";
 import { ROUTE_PREFIX } from "../../../util/route-util";
 
-type LaIssueName = "MOLD" | "PEELING_PAINT";
-
 function getCategory(issue: LaIssueChoice): LaIssueCategoryChoice {
   return issue.split("__")[0] as LaIssueCategoryChoice;
 }
 
-function getIssue(issue: LaIssueChoice): LaIssueName {
-  return issue.split("__")[1] as LaIssueName;
+function getIssue(issue: LaIssueChoice) {
+  return issue.split("__")[1];
 }
 
 function getRoom(issue: LaIssueChoice): LaIssueRoomChoice {

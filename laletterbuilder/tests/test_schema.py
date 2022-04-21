@@ -434,7 +434,6 @@ class TestLaLetterBuilderIssuesMutation:
         HabitabilityLetterFactory(user=self.user)
 
         result = self.execute({"laIssues": ["HEALTH__MOLD__BEDROOM"]})
-        print(result)
 
         assert result["errors"] == []
         assert result["session"]["laIssues"] == ["HEALTH__MOLD__BEDROOM"]
@@ -450,5 +449,4 @@ class TestLaLetterBuilderIssuesMutation:
     @pytest.mark.django_db
     def test_issues_is_empty_when_unauthenticated(self, db):
         result = self.graphql_client.execute("query { session { laIssues } }")
-        # assert result["errors"] ==
         assert result["data"]["session"]["laIssues"] == []

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-04-20 16:52\n"
+"PO-Revision-Date: 2022-04-25 18:34\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -268,10 +268,13 @@ msgstr "Rellena automáticamente la información del dueño de tu edificio en ba
 msgid "Available in English and Spanish."
 msgstr "Disponible en Inglés y Español."
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:43
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
 msgstr "Atrás"
+
+#: common-data/issue-room-choices-laletterbuilder.ts:50
+msgid "Back door"
+msgstr "Back door"
 
 #: frontend/lib/norent/faqs.tsx:96
 msgid "Back to top"
@@ -288,7 +291,7 @@ msgstr "Prohibir desalojos"
 msgid "Baseboards defective"
 msgstr "Zócalo defectuoso"
 
-#: common-data/issue-room-choices-laletterbuilder.ts:22
+#: common-data/issue-room-choices-laletterbuilder.ts:37
 msgid "Bathroom"
 msgstr "Bathroom"
 
@@ -316,7 +319,7 @@ msgstr "Bañera: grifo con fugas"
 msgid "Bathtub: pipes leaking"
 msgstr "Bañera: tuberías con fugas"
 
-#: common-data/issue-room-choices-laletterbuilder.ts:20
+#: common-data/issue-room-choices-laletterbuilder.ts:34
 msgid "Bedroom"
 msgstr "Bedroom"
 
@@ -333,9 +336,28 @@ msgstr "Antes de enviar tu carta, revisémosla para asegurarnos de que toda la i
 msgid "Benefit from the eviction protections that local elected officials have put in place, by notifying your landlord of your inability to pay rent for reasons related to COVID-19"
 msgstr "Aprovecha las protecciones de desalojo en tu estado notificando al dueño de tu edificio de que no puedes pagar la renta por razones relacionadas con el COVID-19"
 
-#: common-data/issue-choices-laletterbuilder.ts:26
-msgid "Broken locks"
-msgstr "Broken locks"
+#: common-data/issue-room-choices-laletterbuilder.ts:43
+msgid "Broken"
+msgstr "Broken"
+
+#: common-data/issue-choices-laletterbuilder.ts:197
+#: common-data/issue-choices-laletterbuilder.ts:198
+#: common-data/issue-choices-laletterbuilder.ts:199
+#: common-data/issue-choices-laletterbuilder.ts:200
+#: common-data/issue-choices-laletterbuilder.ts:201
+#: common-data/issue-choices-laletterbuilder.ts:202
+#: common-data/issue-choices-laletterbuilder.ts:203
+#: common-data/issue-choices-laletterbuilder.ts:204
+msgid "Broken/defective windows"
+msgstr "Broken/defective windows"
+
+#: common-data/issue-choices-laletterbuilder.ts:205
+#: common-data/issue-choices-laletterbuilder.ts:206
+#: common-data/issue-choices-laletterbuilder.ts:207
+#: common-data/issue-choices-laletterbuilder.ts:208
+#: common-data/issue-choices-laletterbuilder.ts:209
+msgid "Broken/insecure locks"
+msgstr "Broken/insecure locks"
 
 #: common-data/issue-choices.ts:262
 msgid "Broken/no smoke/Co2 detector"
@@ -353,6 +375,14 @@ msgstr "Corte de vivienda de Brooklyn:"
 msgid "Browse the FAQs"
 msgstr "Explora las preguntas frecuentes"
 
+#: common-data/issue-choices-laletterbuilder.ts:140
+#: common-data/issue-choices-laletterbuilder.ts:141
+#: common-data/issue-choices-laletterbuilder.ts:142
+#: common-data/issue-choices-laletterbuilder.ts:143
+#: common-data/issue-choices-laletterbuilder.ts:144
+#: common-data/issue-choices-laletterbuilder.ts:145
+#: common-data/issue-choices-laletterbuilder.ts:146
+#: common-data/issue-choices-laletterbuilder.ts:147
 #: common-data/issue-choices.ts:259
 msgid "Bug infestation"
 msgstr "Infestación de insectos"
@@ -388,8 +418,21 @@ msgid "Build your letter"
 msgstr "Crea tu carta"
 
 #: common-data/issue-area-choices-laletterbuilder.ts:18
+#: common-data/issue-category-choices-laletterbuilder.ts:18
 msgid "Building and safety"
 msgstr "Building and safety"
+
+#: common-data/issue-room-choices-laletterbuilder.ts:53
+msgid "Building exit"
+msgstr "Building exit"
+
+#: common-data/issue-room-choices-laletterbuilder.ts:51
+msgid "Building main entrance"
+msgstr "Building main entrance"
+
+#: common-data/issue-room-choices-laletterbuilder.ts:52
+msgid "Building parking entrance"
+msgstr "Building parking entrance"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:212
 msgid "Buildings in your landlord's portfolio are located in {0, plural, one {one zip code.} other {# zip codes.}}"
@@ -525,7 +568,7 @@ msgstr "Colorado"
 msgid "Come back next month to send another letter if you still can't pay rent."
 msgstr "Vuelve el mes que viene para enviar otra carta si todavía no puedes pagar la renta."
 
-#: common-data/issue-room-choices-laletterbuilder.ts:26
+#: common-data/issue-room-choices-laletterbuilder.ts:40
 msgid "Common areas"
 msgstr "Common areas"
 
@@ -626,9 +669,27 @@ msgstr "Estimado/a <0/>,"
 msgid "Dear Landlord/Management."
 msgstr "Estimado dueño/manager del edificio."
 
-#: common-data/issue-choices-laletterbuilder.ts:23
+#: common-data/issue-choices-laletterbuilder.ts:159
+#: common-data/issue-choices-laletterbuilder.ts:160
+#: common-data/issue-choices-laletterbuilder.ts:161
+#: common-data/issue-choices-laletterbuilder.ts:162
+#: common-data/issue-choices-laletterbuilder.ts:163
+#: common-data/issue-choices-laletterbuilder.ts:164
+#: common-data/issue-choices-laletterbuilder.ts:165
+#: common-data/issue-choices-laletterbuilder.ts:166
 msgid "Defective electricity"
 msgstr "Defective electricity"
+
+#: common-data/issue-choices-laletterbuilder.ts:176
+#: common-data/issue-choices-laletterbuilder.ts:177
+#: common-data/issue-choices-laletterbuilder.ts:178
+#: common-data/issue-choices-laletterbuilder.ts:179
+#: common-data/issue-choices-laletterbuilder.ts:180
+#: common-data/issue-choices-laletterbuilder.ts:181
+#: common-data/issue-choices-laletterbuilder.ts:182
+#: common-data/issue-choices-laletterbuilder.ts:183
+msgid "Defective plumbing"
+msgstr "Defective plumbing"
 
 #: common-data/us-state-choices.ts:72
 msgid "Delaware"
@@ -650,7 +711,7 @@ msgstr "Detalles sobre tu última carta"
 msgid "Developed with <0>Law Help Interactive</0>"
 msgstr "Desarrollado con <0>Law Help Interactive</0>"
 
-#: common-data/issue-room-choices-laletterbuilder.ts:23
+#: common-data/issue-room-choices-laletterbuilder.ts:36
 msgid "Dining room"
 msgstr "Dining room"
 
@@ -745,6 +806,10 @@ msgstr "INTRODUCE TU CORREO ELECTRÓNICO"
 msgid "Electric wiring exposed"
 msgstr "Alambrado Eléctrico Expuesto"
 
+#: common-data/issue-room-choices-laletterbuilder.ts:47
+msgid "Electricity"
+msgstr "Electricity"
+
 #: common-data/issue-choices.ts:171
 #: common-data/issue-choices.ts:186
 #: common-data/issue-choices.ts:210
@@ -831,6 +896,14 @@ msgstr "Grifos No Instalados"
 msgid "Faucets not working"
 msgstr "Grifos No Funcionan"
 
+#: common-data/issue-choices-laletterbuilder.ts:210
+#: common-data/issue-choices-laletterbuilder.ts:211
+#: common-data/issue-choices-laletterbuilder.ts:212
+#: common-data/issue-choices-laletterbuilder.ts:213
+#: common-data/issue-choices-laletterbuilder.ts:214
+msgid "Faulty doors"
+msgstr "Faulty doors"
+
 #: frontend/lib/evictionfree/homepage.tsx:42
 #: frontend/lib/evictionfree/site.tsx:79
 #: frontend/lib/evictionfree/site.tsx:83
@@ -848,6 +921,10 @@ msgstr "Más información"
 #: frontend/lib/rh/routes.tsx:120
 msgid "First name"
 msgstr "Nombre"
+
+#: common-data/issue-room-choices-laletterbuilder.ts:54
+msgid "Floor level"
+msgstr "Floor level"
 
 #: common-data/issue-choices.ts:150
 msgid "Floor sags"
@@ -886,6 +963,10 @@ msgstr "Preguntas Frecuentes"
 msgid "Frequently asked questions"
 msgstr "Frequently asked questions"
 
+#: common-data/issue-room-choices-laletterbuilder.ts:49
+msgid "Front door"
+msgstr "Front door"
+
 #: common-data/issue-choices.ts:152
 msgid "Front door not working"
 msgstr "Puerta principal no funciona"
@@ -893,6 +974,10 @@ msgstr "Puerta principal no funciona"
 #: common-data/issue-choices.ts:261
 msgid "Fumes/smoke entering apartment"
 msgstr "Vapores/Humo Entrando en Casa"
+
+#: common-data/issue-room-choices-laletterbuilder.ts:46
+msgid "Gas"
+msgstr "Gas"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:100
 msgid "Gather documentation"
@@ -956,7 +1041,7 @@ msgstr "Habitability (CA)"
 msgid "Habitability notice sent on behalf of {0}"
 msgstr "Habitability notice sent on behalf of {0}"
 
-#: common-data/issue-room-choices-laletterbuilder.ts:24
+#: common-data/issue-room-choices-laletterbuilder.ts:38
 msgid "Hallway"
 msgstr "Hallway"
 
@@ -977,6 +1062,7 @@ msgid "Hawaii"
 msgstr "Hawaii"
 
 #: common-data/issue-area-choices-laletterbuilder.ts:16
+#: common-data/issue-category-choices-laletterbuilder.ts:16
 msgid "Health"
 msgstr "Health"
 
@@ -1039,7 +1125,14 @@ msgstr "Esto es lo que puedes hacer con <0>NoRent</0>"
 msgid "Highly recommended."
 msgstr "Altamente recomendable."
 
-#: common-data/issue-choices-laletterbuilder.ts:25
+#: common-data/issue-choices-laletterbuilder.ts:189
+#: common-data/issue-choices-laletterbuilder.ts:190
+#: common-data/issue-choices-laletterbuilder.ts:191
+#: common-data/issue-choices-laletterbuilder.ts:192
+#: common-data/issue-choices-laletterbuilder.ts:193
+#: common-data/issue-choices-laletterbuilder.ts:194
+#: common-data/issue-choices-laletterbuilder.ts:195
+#: common-data/issue-choices-laletterbuilder.ts:196
 msgid "Holes"
 msgstr "Holes"
 
@@ -1299,7 +1392,7 @@ msgstr "Kansas"
 msgid "Kentucky"
 msgstr "Kentucky"
 
-#: common-data/issue-room-choices-laletterbuilder.ts:25
+#: common-data/issue-room-choices-laletterbuilder.ts:39
 msgid "Kitchen"
 msgstr "Kitchen"
 
@@ -1345,6 +1438,10 @@ msgstr "Idioma:"
 #: frontend/lib/rh/routes.tsx:123
 msgid "Last name"
 msgstr "Apellido"
+
+#: common-data/issue-room-choices-laletterbuilder.ts:48
+msgid "Laundry room"
+msgstr "Laundry room"
 
 #: common-data/issue-choices.ts:156
 msgid "Lead-based paint"
@@ -1441,7 +1538,7 @@ msgstr "Configuremos tu cuenta. Esto te permitirá guardar tu información, baja
 msgid "List of groups who can help you apply for ERAP"
 msgstr "Lista de grupos que pueden ayudarte a solicitar el ERAP"
 
-#: common-data/issue-room-choices-laletterbuilder.ts:21
+#: common-data/issue-room-choices-laletterbuilder.ts:35
 msgid "Living room"
 msgstr "Living room"
 
@@ -1561,7 +1658,14 @@ msgstr "Misuri"
 msgid "Mobile/Manufactured Home Residents"
 msgstr "Residentes de Casas Prefabricadas o Móviles"
 
-#: common-data/issue-choices-laletterbuilder.ts:20
+#: common-data/issue-choices-laletterbuilder.ts:116
+#: common-data/issue-choices-laletterbuilder.ts:117
+#: common-data/issue-choices-laletterbuilder.ts:118
+#: common-data/issue-choices-laletterbuilder.ts:119
+#: common-data/issue-choices-laletterbuilder.ts:120
+#: common-data/issue-choices-laletterbuilder.ts:121
+#: common-data/issue-choices-laletterbuilder.ts:122
+#: common-data/issue-choices-laletterbuilder.ts:123
 #: common-data/issue-choices.ts:158
 msgid "Mold"
 msgstr "Moho"
@@ -1652,7 +1756,6 @@ msgid "New password"
 msgstr "Contraseña nueva"
 
 #: frontend/lib/common-steps/welcome.tsx:45
-#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:46
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
 msgid "Next"
@@ -1679,6 +1782,11 @@ msgstr "Sin gas"
 msgid "No heat"
 msgstr "Sin calefacción"
 
+#: common-data/issue-choices-laletterbuilder.ts:184
+#: common-data/issue-choices-laletterbuilder.ts:185
+#: common-data/issue-choices-laletterbuilder.ts:186
+#: common-data/issue-choices-laletterbuilder.ts:187
+#: common-data/issue-choices-laletterbuilder.ts:188
 #: common-data/issue-choices.ts:146
 #: common-data/issue-choices.ts:254
 msgid "No hot water"
@@ -1717,9 +1825,17 @@ msgstr "Carolina del Norte"
 msgid "North Dakota"
 msgstr "Dakota del Norte"
 
+#: common-data/issue-room-choices-laletterbuilder.ts:42
+msgid "Not applicable"
+msgstr "Not applicable"
+
 #: frontend/lib/norent/the-letter.tsx:19
 msgid "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. Our letter builder makes it easy to send a letter to your landlord."
 msgstr "No poder pagar la renta debido al COVID-19 no es nada de lo que avergonzarse. Nuestro generador de cartas hace que sea fácil enviarle una carta al dueño de tu edificio para avisarle."
+
+#: common-data/issue-room-choices-laletterbuilder.ts:44
+msgid "Not enough"
+msgstr "Not enough"
 
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:27
 msgid "Not sure yet? If you need more time to decide, you can always come back later. We've saved your work."
@@ -1767,6 +1883,10 @@ msgstr "Pedir Historial de Renta"
 msgid "Oregon"
 msgstr "Oregón"
 
+#: common-data/issue-room-choices-laletterbuilder.ts:41
+msgid "Other"
+msgstr "Other"
+
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:109
 msgid "Other important resources:"
 msgstr "Otros recursos importantes:"
@@ -1812,7 +1932,14 @@ msgstr "Pintura Atrasada (cada 3 años)"
 msgid "Password"
 msgstr "Contraseña"
 
-#: common-data/issue-choices-laletterbuilder.ts:21
+#: common-data/issue-choices-laletterbuilder.ts:124
+#: common-data/issue-choices-laletterbuilder.ts:125
+#: common-data/issue-choices-laletterbuilder.ts:126
+#: common-data/issue-choices-laletterbuilder.ts:127
+#: common-data/issue-choices-laletterbuilder.ts:128
+#: common-data/issue-choices-laletterbuilder.ts:129
+#: common-data/issue-choices-laletterbuilder.ts:130
+#: common-data/issue-choices-laletterbuilder.ts:131
 #: common-data/issue-choices.ts:159
 #: common-data/issue-choices.ts:176
 #: common-data/issue-choices.ts:200
@@ -2032,7 +2159,14 @@ msgstr "Right to the City"
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Permito que Right to the City se ponga en contacto conmigo para proporcionarme apoyo adicional."
 
-#: common-data/issue-choices-laletterbuilder.ts:22
+#: common-data/issue-choices-laletterbuilder.ts:132
+#: common-data/issue-choices-laletterbuilder.ts:133
+#: common-data/issue-choices-laletterbuilder.ts:134
+#: common-data/issue-choices-laletterbuilder.ts:135
+#: common-data/issue-choices-laletterbuilder.ts:136
+#: common-data/issue-choices-laletterbuilder.ts:137
+#: common-data/issue-choices-laletterbuilder.ts:138
+#: common-data/issue-choices-laletterbuilder.ts:139
 msgid "Rodent infestation"
 msgstr "Rodent infestation"
 
@@ -2065,7 +2199,7 @@ msgstr "See which letter is right for me"
 msgid "Select a letter to get started"
 msgstr "Select a letter to get started"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:22
+#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:51
 msgid "Select which repairs are needed"
 msgstr "Select which repairs are needed"
 
@@ -2233,6 +2367,17 @@ msgstr "Lavabo: tuberías con fugas"
 #: common-data/issue-choices.ts:149
 msgid "Smoke detector not working"
 msgstr "Detector de humo no funciona"
+
+#: common-data/issue-choices-laletterbuilder.ts:148
+#: common-data/issue-choices-laletterbuilder.ts:149
+#: common-data/issue-choices-laletterbuilder.ts:150
+#: common-data/issue-choices-laletterbuilder.ts:151
+#: common-data/issue-choices-laletterbuilder.ts:152
+#: common-data/issue-choices-laletterbuilder.ts:153
+#: common-data/issue-choices-laletterbuilder.ts:154
+#: common-data/issue-choices-laletterbuilder.ts:155
+msgid "Smoke or carbon monoxide detector"
+msgstr "Smoke or carbon monoxide detector"
 
 #: frontend/lib/pages/not-found.tsx:15
 msgid "Sorry, the page you are looking for doesn't seem to exist."
@@ -2431,6 +2576,12 @@ msgstr "Inodoro con Fugas"
 msgid "Toilet not working"
 msgstr "Inodoro No Funciona"
 
+#: common-data/issue-choices-laletterbuilder.ts:156
+#: common-data/issue-choices-laletterbuilder.ts:157
+#: common-data/issue-choices-laletterbuilder.ts:158
+msgid "Trash cans"
+msgstr "Trash cans"
+
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:157
 msgid "USPS Certified Mail"
 msgstr "Correo Certificado de USPS"
@@ -2460,13 +2611,28 @@ msgstr "Número de apartamento/unidad/lote/suite"
 msgid "Unrecognized address"
 msgstr "Dirección no reconocida"
 
+#: common-data/issue-choices-laletterbuilder.ts:215
+#: common-data/issue-choices-laletterbuilder.ts:216
+#: common-data/issue-choices-laletterbuilder.ts:217
+#: common-data/issue-choices-laletterbuilder.ts:218
+msgid "Unsafe/broken stairs and/or railing"
+msgstr "Unsafe/broken stairs and/or railing"
+
 #: common-data/us-state-choices.ts:110
 msgid "Utah"
 msgstr "Utah"
 
 #: common-data/issue-area-choices-laletterbuilder.ts:17
+#: common-data/issue-category-choices-laletterbuilder.ts:17
 msgid "Utilities"
 msgstr "Utilities"
+
+#: common-data/issue-choices-laletterbuilder.ts:167
+#: common-data/issue-choices-laletterbuilder.ts:168
+#: common-data/issue-choices-laletterbuilder.ts:169
+#: common-data/issue-choices-laletterbuilder.ts:170
+msgid "Utilities shut off"
+msgstr "Utilities shut off"
 
 #: common-data/issue-choices.ts:157
 msgid "Vacate order issued"
@@ -2529,6 +2695,10 @@ msgstr "Lavadora no funciona"
 msgid "Washington"
 msgstr "Washington"
 
+#: common-data/issue-room-choices-laletterbuilder.ts:45
+msgid "Water"
+msgstr "Water"
+
 #: common-data/issue-choices.ts:162
 #: common-data/issue-choices.ts:175
 #: common-data/issue-choices.ts:199
@@ -2536,7 +2706,11 @@ msgstr "Washington"
 msgid "Water damage"
 msgstr "Daño Por Agua"
 
-#: common-data/issue-choices-laletterbuilder.ts:24
+#: common-data/issue-choices-laletterbuilder.ts:171
+#: common-data/issue-choices-laletterbuilder.ts:172
+#: common-data/issue-choices-laletterbuilder.ts:173
+#: common-data/issue-choices-laletterbuilder.ts:174
+#: common-data/issue-choices-laletterbuilder.ts:175
 msgid "Water leak"
 msgstr "Water leak"
 

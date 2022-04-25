@@ -56,6 +56,10 @@ nav.navbar {
     color: $primary;
     text-decoration: underline;
     min-width: 150px;
+
+    @include desktop {
+      display: none;
+    }
   }
 
   .navbar-item,

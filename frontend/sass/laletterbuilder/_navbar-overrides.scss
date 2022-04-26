@@ -56,6 +56,20 @@ nav.navbar {
     color: $primary;
     text-decoration: underline;
     min-width: 150px;
+
+    @include desktop {
+      display: none;
+    }
+  }
+
+  .navbar-item,
+  .navbar-link {
+    color: $primary;
+    height: 100%;
+  }
+
+  .navbar-link::after {
+    border-color: $primary;
   }
 
   //OVERRIDES FROM DEFAULT NAVBAR STYLING

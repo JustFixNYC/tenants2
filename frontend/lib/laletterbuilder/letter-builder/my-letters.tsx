@@ -33,12 +33,14 @@ const MyLettersContent: React.FC = (props) => {
         <div className="my-letters-box">
           <h3>Habitability letter</h3>
           <p>In progress</p>
-          <Link
-            to={LaLetterBuilderRouteInfo.locale.habitability.issues.prefix}
-            className="button jf-is-next-button is-primary is-medium"
-          >
-            {li18n._(t`Continue my letter`)}
-          </Link>
+          <div className="start-letter-button">
+            <Link
+              to={LaLetterBuilderRouteInfo.locale.habitability.issues.prefix}
+              className="button jf-is-next-button is-primary is-medium"
+            >
+              {li18n._(t`Continue my letter`)}
+            </Link>
+          </div>
         </div>
       ) : (
         <SessionUpdatingFormSubmitter

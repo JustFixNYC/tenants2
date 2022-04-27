@@ -317,6 +317,30 @@ $la-letter-builder-white: #faf8f4;
   }
 }
 
+// MY LETTERS STYLING OVERRIDES
+.jf-my-letters {
+  .my-letters-box {
+    border: 1px solid $primary;
+    box-sizing: border-box;
+    border-radius: 0.25rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.5rem;
+    max-width: 40.875rem;
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+  }
+
+  .start-letter-button {
+    margin-top: 1.25rem;
+  }
+
+  .new-letter-button {
+    margin-top: 2.8125rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 // NORENT STYLING OVERRIDES
 
 .jf-norent-builder-page {

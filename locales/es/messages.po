@@ -617,7 +617,7 @@ msgstr "Continuar"
 msgid "Continue anyway"
 msgstr "Aún así continuar"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:24
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:28
 msgid "Continue my letter"
 msgstr ""
 
@@ -639,6 +639,10 @@ msgstr "Lavabo agrietado"
 #: common-data/issue-choices.ts:216
 msgid "Cracked walls"
 msgstr "Paredes Agrietadas"
+
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:41
+msgid "Create a new letter"
+msgstr ""
 
 #: frontend/lib/common-steps/create-password.tsx:10
 msgid "Create a password"
@@ -1509,6 +1513,10 @@ msgstr "Verificado legalmente"
 msgid "Let's get to know you."
 msgstr "Conozcámonos."
 
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:35
+msgid "Let's go"
+msgstr ""
+
 #: frontend/lib/start-account-or-login/set-password.tsx:15
 msgid "Let's set you up with a new password, so you can easily login again."
 msgstr "Configuremos una nueva contraseña, para que puedas volver fácilmente."
@@ -1705,7 +1713,7 @@ msgid "Must be at least 8 characters. Can't be all numbers."
 msgstr "Debe tener por lo menos 8 letras. No se puede usar solo números."
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:13
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:32
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:46
 msgid "My letters"
 msgstr ""
 
@@ -2397,10 +2405,6 @@ msgstr "Dakota del Sur"
 #: frontend/lib/common-steps/welcome.tsx:45
 msgid "Start"
 msgstr "Iniciar"
-
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:26
-msgid "Start a habitability letter"
-msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:258
 msgid "Start a legal case for repairs and/or harassment"

@@ -6,12 +6,12 @@
   letter-spacing: 0.01rem;
   text-transform: uppercase;
 
-  @if $color == $secondary-accent {
+  @if $color == $secondary {
     color: $primary;
     border: 1px solid $primary;
   } @else {
-    color: $secondary-accent;
-    border: 1px solid $secondary-accent;
+    color: $secondary;
+    border: 1px solid $secondary;
   }
 
   border-radius: 5rem;
@@ -43,10 +43,10 @@
   }
   &:active,
   &.active {
-    @if $color == $secondary-accent {
+    @if $color == $secondary {
       color: $primary;
     } @else {
-      color: $secondary-accent;
+      color: $secondary;
     }
     border-style: solid;
     background-color: $color;
@@ -59,7 +59,7 @@
 }
 
 .button.is-light {
-  @include button-variant($secondary-accent);
+  @include button-variant($secondary);
 }
 
 .button.is-text {

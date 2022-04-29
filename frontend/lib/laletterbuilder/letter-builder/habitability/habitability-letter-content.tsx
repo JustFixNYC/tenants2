@@ -15,9 +15,20 @@ import {
 } from "../../../util/letter-content-util";
 import { TransformSession } from "../../../util/transform-session";
 import { friendlyUTCDate } from "../../../util/date-util";
+import {
+  getLaIssueChoiceLabels,
+  LaIssueChoice,
+} from "../../../../../common-data/issue-choices-laletterbuilder";
+import { getLaIssueRoomChoiceLabels } from "../../../../../common-data/issue-room-choices-laletterbuilder";
+import { getIssue, getRoom } from "./issues";
 
+type Issue = {
+  issueLabel: string;
+  roomLabels: string[];
+};
 export type HabitabilityLetterContentProps = BaseLetterContentProps & {
   accessDates: GraphQLDate[];
+  issues: Issue[];
 };
 
 const LetterTitle: React.FC<HabitabilityLetterContentProps> = (props) => (
@@ -130,6 +141,7 @@ export function getHabitabilityLetterContentPropsFromSession(
   const props: HabitabilityLetterContentProps = {
     ...baseProps,
     accessDates: session.accessDates,
+    issues: getIssuesFromSession(session.laIssues as LaIssueChoice[]),
   };
 
   return props;
@@ -159,8 +171,7 @@ const LetterBody: React.FC<HabitabilityLetterContentProps> = (props) => {
           home referenced below and/or in the public areas of the building:
         </Trans>
       </p>
-      <h2>Repairs required</h2>
-      ADD REPAIRS HERE
+      <RepairIssues {...props} />
       <div className="jf-avoid-page-breaks-within">
         <h2>
           <Trans id="laletterbuilder.habitability.access-title">
@@ -203,11 +214,67 @@ const LetterBody: React.FC<HabitabilityLetterContentProps> = (props) => {
   );
 };
 
+const RepairIssues: React.FC<HabitabilityLetterContentProps> = (props) => {
+  return (
+    <section>
+      <h2>Repairs required</h2>
+      {props.issues.map(({ issueLabel, roomLabels }, i) => (
+        <>
+          <p>HELLO</p>
+          <p>
+            {i}. {issueLabel}
+            {roomLabels}
+          </p>
+        </>
+      ))}
+    </section>
+  );
+};
+
+function getIssuesFromSession(sessionIssues: LaIssueChoice[]): Issue[] {
+  const result: Issue[] = [];
+  const issuesDict = groupChoicesByIssue(sessionIssues);
+
+  function groupChoicesByIssue(
+    sessionIssues: LaIssueChoice[]
+  ): { [issue: string]: LaIssueChoice[] } {
+    let dict: { [issue: string]: LaIssueChoice[] } = {};
+    for (let issue of sessionIssues) {
+      const issueName = getIssue(issue);
+      if (!dict.hasOwnProperty(getIssue(issue))) {
+        dict[issueName] = [];
+      } else {
+        dict[issueName].push(issue);
+      }
+    }
+    return dict;
+  }
+
+  const issueLabelTable = getLaIssueChoiceLabels();
+  const roomLabelTable = getLaIssueRoomChoiceLabels();
+  for (let key in issuesDict) {
+    const choiceList = issuesDict[key];
+    result.push({
+      issueLabel: issueLabelTable[choiceList[0]],
+      roomLabels: choiceList.map((choice) => roomLabelTable[getRoom(choice)]),
+    });
+  }
+
+  return result;
+}
+
+/**
+ * Used for tests
+ */
 export const habitabilitySampleLetterProps: HabitabilityLetterContentProps = {
   ...baseSampleLetterProps,
   accessDates: ["2022-05-01", "2023-05-02"],
+  issues: [{ issueLabel: "Peeling paint", roomLabels: ["Bedroom", "Kitchen"] }],
 };
 
+/**
+ * Used for tests
+ */
 export const HabitabilitySampleLetterSamplePage: React.FC<{
   isPdf: boolean;
 }> = ({ isPdf }) => {

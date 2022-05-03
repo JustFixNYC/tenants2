@@ -33,26 +33,37 @@ export type NorentLetterContentProps = BaseLetterContentProps & {
 const componentizeHelper = makeStringHelperFC<NorentLetterContentProps>();
 
 const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
-  <letter.Title>
+  <>
     {props.state === "CA" ? (
-      <Trans>
-        <span className="is-uppercase">
-          Declaration of Financial Impacts Related to COVID-19
-        </span>
-        <letter.TitleNewline />
-        As required under section VI.A.1 of the January 25, 2022 Resolution of
-        the Board of Supervisors of the County of Los Angeles Further Amending
-        and Restating the County of Los Angeles COVID-19 Tenant Protections
-        Resolution
-      </Trans>
+      <>
+        <letter.Title>
+          <Trans>
+            <span className="is-uppercase">
+              Declaration of Financial Impacts Related to COVID-19
+            </span>
+          </Trans>
+        </letter.Title>
+        <Trans>
+          <p>
+            As required under section VI.A.1 of the January 25, 2022 Resolution
+            of the Board of Supervisors of the County of Los Angeles Further
+            Amending and Restating the County of Los Angeles COVID-19 Tenant
+            Protections Resolution
+          </p>
+        </Trans>
+      </>
     ) : (
-      <Trans>
-        <span className="is-uppercase">Notice of COVID-19 impact on rent</span>
-        <letter.TitleNewline />
-        at <letter.AddressLine {...props} />
-      </Trans>
+      <letter.Title>
+        <Trans>
+          <span className="is-uppercase">
+            Notice of COVID-19 impact on rent
+          </span>
+          <letter.TitleNewline />
+          at <letter.AddressLine {...props} />
+        </Trans>
+      </letter.Title>
     )}
-  </letter.Title>
+  </>
 );
 
 const SinglePaymentDate = componentizeHelper((props) =>

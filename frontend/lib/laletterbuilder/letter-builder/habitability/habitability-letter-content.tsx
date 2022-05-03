@@ -215,22 +215,44 @@ const LetterBody: React.FC<HabitabilityLetterContentProps> = (props) => {
 };
 
 const RepairIssues: React.FC<HabitabilityLetterContentProps> = (props) => {
-  return (
+  const comp = (
     <section>
-      <h2>Repairs required</h2>
-      {props.issues.map(({ issueLabel, roomLabels }, i) => (
-        <>
-          <p>HELLO</p>
-          <p>
-            {i}. {issueLabel}
-            {roomLabels}
-          </p>
-        </>
-      ))}
+      <Trans>
+        <h2>Repairs required</h2>
+      </Trans>
+      <ol>
+        {props.issues.map(({ issueLabel, roomLabels }, i) => (
+          <li key={i}>
+            <Trans>
+              <b>{issueLabel}</b>
+            </Trans>
+            <ul>
+              {roomLabels.map((roomLabel, j) => (
+                <li key={j}>
+                  <Trans>{roomLabel}</Trans>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ol>
     </section>
   );
+  return comp;
 };
 
+/**
+ * Reformats the repair issues from
+ * ["HEALTH_MOLD_KITCHEN", "HEALTH_MOLD_BEDROOM"]
+ * to
+ * [
+ *    {
+ *      issueLabel: "Mold",
+ *      roomLabels: ["Kitchen", "Bedroom"]
+ *    }
+ * ]
+ * for easier display.
+ */
 function getIssuesFromSession(sessionIssues: LaIssueChoice[]): Issue[] {
   const result: Issue[] = [];
   const issuesDict = groupChoicesByIssue(sessionIssues);
@@ -242,7 +264,7 @@ function getIssuesFromSession(sessionIssues: LaIssueChoice[]): Issue[] {
     for (let issue of sessionIssues) {
       const issueName = getIssue(issue);
       if (!dict.hasOwnProperty(getIssue(issue))) {
-        dict[issueName] = [];
+        dict[issueName] = [issue];
       } else {
         dict[issueName].push(issue);
       }
@@ -259,7 +281,6 @@ function getIssuesFromSession(sessionIssues: LaIssueChoice[]): Issue[] {
       roomLabels: choiceList.map((choice) => roomLabelTable[getRoom(choice)]),
     });
   }
-
   return result;
 }
 

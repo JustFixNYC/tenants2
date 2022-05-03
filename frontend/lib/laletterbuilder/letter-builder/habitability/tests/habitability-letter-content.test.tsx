@@ -19,6 +19,7 @@ describe("<HabitabilityContent>", () => {
     );
     expect(pal.rr.container).toMatchSnapshot();
   });
+
   it("includes issues and rooms", () => {
     const pal = new ReactTestingLibraryPal(
       (
@@ -28,9 +29,11 @@ describe("<HabitabilityContent>", () => {
         />
       )
     );
-    pal.rr.findByText("1. Peeling paint");
-    pal.rr.findByText("Bedroom\nKitchen");
+    expect(pal.rr.getAllByText("{roomLabel}")).toHaveLength(2);
+    expect(pal.rr.getAllByText("{issueLabel}")).toHaveLength(1);
   });
+
+  it("translates into spanish", () => {});
 });
 
 const filledUser = newSb().withLoggedInJustfixUser().withLandlordDetails();

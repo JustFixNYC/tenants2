@@ -136,7 +136,7 @@ export const StateWithProtectionsContent: ProtectionsContentComponent = (
     <p>{props.lawForBuilder.textOfLegislation}</p>
     {props.lawForBuilder.textOfLegislation?.includes("California") && (
       <p>
-        <Trans>
+        <Trans id="norent.letter.lacountydisclaimer2022">
           <b>Disclaimer</b>: For <b>April, May, and June 2022</b>, this tool
           will only be effective for tenants who live in the{" "}
           <b>City of LA, Pasadena, Beverly Hills, and Maywood</b> with its own

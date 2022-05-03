@@ -43,7 +43,7 @@ const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
             </span>
           </Trans>
         </letter.Title>
-        <Trans>
+        <Trans id="norent.letter.sectionvia1LACounty">
           <p>
             As required under section VI.A.1 of the January 25, 2022 Resolution
             of the Board of Supervisors of the County of Los Angeles Further

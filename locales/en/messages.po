@@ -48,17 +48,9 @@ msgstr "8 Minutes"
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> makes use of a <1/> and <2/>, which you can review."
 
-#: frontend/lib/norent/letter-content.tsx:23
-msgid "<0>As required under section VI.A.1 of the January 25, 2022 Resolution of the Board of Supervisors of the County of Los Angeles Further Amending and Restating the County of Los Angeles COVID-19 Tenant Protections Resolution</0>"
-msgstr "<0>As required under section VI.A.1 of the January 25, 2022 Resolution of the Board of Supervisors of the County of Los Angeles Further Amending and Restating the County of Los Angeles COVID-19 Tenant Protections Resolution</0>"
-
 #: frontend/lib/norent/letter-content.tsx:17
 msgid "<0>Declaration of Financial Impacts Related to COVID-19</0>"
 msgstr "<0>Declaration of Financial Impacts Related to COVID-19</0>"
-
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:91
-msgid "<0>Disclaimer</0>: For <1>April, May, and June 2022</1>, this tool will only be effective for tenants who live in the <2>City of LA, Pasadena, Beverly Hills, and Maywood</2> with its own non payment protection. If you live in another jurisdiction please check back around July 1, 2022 to continue to use this tool. If you have received an unlawful detainer or have questions about your rights as a tenant please contact <3/>."
-msgstr "<0>Disclaimer</0>: For <1>April, May, and June 2022</1>, this tool will only be effective for tenants who live in the <2>City of LA, Pasadena, Beverly Hills, and Maywood</2> with its own non payment protection. If you live in another jurisdiction please check back around July 1, 2022 to continue to use this tool. If you have received an unlawful detainer or have questions about your rights as a tenant please contact <3/>."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:405
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
@@ -3585,6 +3577,14 @@ msgstr "<0>Congress passed the CARES Act on March 27, 2020 (Public Law 116-136).
 #: frontend/lib/norent/letter-content.tsx:212
 msgid "norent.letter.floridaAddition"
 msgstr "I have suffered a loss of employment, diminished wages or business income, or other monetary loss realized during the Florida State of Emergency directly impacting my ability to make rent payments."
+
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:91
+msgid "norent.letter.lacountydisclaimer2022"
+msgstr "<0>Disclaimer</0>: For <1>April, May, and June 2022</1>, this tool will only be effective for tenants who live in the <2>City of LA, Pasadena, Beverly Hills, and Maywood</2> with its own non payment protection. If you live in another jurisdiction please check back around July 1, 2022 to continue to use this tool. If you have received an unlawful detainer or have questions about your rights as a tenant please contact <3/>."
+
+#: frontend/lib/norent/letter-content.tsx:23
+msgid "norent.letter.sectionvia1LACounty"
+msgstr "<0>As required under section VI.A.1 of the January 25, 2022 Resolution of the Board of Supervisors of the County of Los Angeles Further Amending and Restating the County of Los Angeles COVID-19 Tenant Protections Resolution</0>"
 
 #: frontend/lib/norent/letter-content.tsx:164
 msgid "norent.letter.v1NonPayment"

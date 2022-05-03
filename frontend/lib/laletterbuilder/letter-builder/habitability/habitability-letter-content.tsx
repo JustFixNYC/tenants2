@@ -257,21 +257,6 @@ function getIssuesFromSession(sessionIssues: LaIssueChoice[]): Issue[] {
   const result: Issue[] = [];
   const issuesDict = groupChoicesByIssue(sessionIssues);
 
-  function groupChoicesByIssue(
-    sessionIssues: LaIssueChoice[]
-  ): { [issue: string]: LaIssueChoice[] } {
-    let dict: { [issue: string]: LaIssueChoice[] } = {};
-    for (let issue of sessionIssues) {
-      const issueName = getIssue(issue);
-      if (!dict.hasOwnProperty(getIssue(issue))) {
-        dict[issueName] = [issue];
-      } else {
-        dict[issueName].push(issue);
-      }
-    }
-    return dict;
-  }
-
   const issueLabelTable = getLaIssueChoiceLabels();
   const roomLabelTable = getLaIssueRoomChoiceLabels();
   for (let key in issuesDict) {
@@ -282,6 +267,30 @@ function getIssuesFromSession(sessionIssues: LaIssueChoice[]): Issue[] {
     });
   }
   return result;
+}
+
+/**
+ * Takes a string[] and creates a dict like:
+ * {
+ *   "Mold": ["HEALTH_MOLD_KITCHEN", "HEALTH_MOLD_BATHROOM"]
+ * }
+ * as an interim step to creating the dict with display labels.
+ * @param sessionIssues
+ * @returns
+ */
+function groupChoicesByIssue(
+  sessionIssues: LaIssueChoice[]
+): { [issue: string]: LaIssueChoice[] } {
+  let dict: { [issue: string]: LaIssueChoice[] } = {};
+  for (let issue of sessionIssues) {
+    const issueName = getIssue(issue);
+    if (!dict.hasOwnProperty(getIssue(issue))) {
+      dict[issueName] = [issue];
+    } else {
+      dict[issueName].push(issue);
+    }
+  }
+  return dict;
 }
 
 /**

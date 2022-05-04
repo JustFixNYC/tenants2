@@ -12,15 +12,10 @@ export type StateLocalizedResources = Partial<
 export const STATE_LOCALIZED_RESOURCES: StateLocalizedResources = {
   CA: [
     {
-      children: (
-        <Trans>
-          Apply for Rental Assistance. Qualifying renters are eligible for 100%
-          of rent and utilities owed.
-        </Trans>
-      ),
+      children: <Trans>Contact StayHoused LA</Trans>,
       hrefs: {
-        en: "https://housing.ca.gov/covid_rr/index.html",
-        es: "https://housing.ca.gov/covid_rr/index_esp.html",
+        en: "https://www.stayhousedla.org/",
+        es: "https://www.stayhousedla.org/es",
       },
     },
   ],

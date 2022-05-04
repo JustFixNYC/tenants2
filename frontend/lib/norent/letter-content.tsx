@@ -35,23 +35,13 @@ const componentizeHelper = makeStringHelperFC<NorentLetterContentProps>();
 const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
   <>
     {props.state === "CA" ? (
-      <>
-        <letter.Title>
-          <Trans>
-            <span className="is-uppercase">
-              Declaration of Financial Impacts Related to COVID-19
-            </span>
-          </Trans>
-        </letter.Title>
-        <Trans id="norent.letter.sectionvia1LACounty">
-          <p>
-            As required under section VI.A.1 of the January 25, 2022 Resolution
-            of the Board of Supervisors of the County of Los Angeles Further
-            Amending and Restating the County of Los Angeles COVID-19 Tenant
-            Protections Resolution
-          </p>
+      <letter.Title>
+        <Trans>
+          <span className="is-uppercase">
+            Declaration of Financial Impacts Related to COVID-19
+          </span>
         </Trans>
-      </>
+      </letter.Title>
     ) : (
       <letter.Title>
         <Trans>

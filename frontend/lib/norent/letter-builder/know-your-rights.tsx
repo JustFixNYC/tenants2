@@ -137,8 +137,8 @@ export const StateWithProtectionsContent: ProtectionsContentComponent = (
     {props.lawForBuilder.textOfLegislation?.includes("California") && (
       <p>
         <Trans id="norent.letter.lacountydisclaimer2022">
-          <b>Disclaimer</b>: For <b>April, May, and June 2022</b>, this tool
-          will only be effective for tenants who live in the{" "}
+          Because of this new law, for <b>April, May, and June 2022</b>, this
+          tool will only be effective for tenants who live in the{" "}
           <b>City of LA, Pasadena, Beverly Hills, and Maywood</b> with its own
           non payment protection. If you live in another jurisdiction please
           check back around July 1, 2022 to continue to use this tool. If you

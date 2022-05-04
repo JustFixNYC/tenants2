@@ -1,6 +1,6 @@
 import { getRentNonpaymentChoices } from "../rent-periods";
 
-it("works CA letters with months after september 2021", () => {
+it("attaches a caveat for CA letters with months after september 2021", () => {
   expect(
     getRentNonpaymentChoices([
       { paymentDate: "2021-9-01" },
@@ -9,7 +9,7 @@ it("works CA letters with months after september 2021", () => {
     ])
   ).toEqual([
     ["2021-9-01", "September 2021"],
-    ["2021-10-01", "October 2021"],
-    ["2021-11-01", "November 2021"],
+    ["2021-10-01", "October 2021 (only for City of Los Angeles residents)"],
+    ["2021-11-01", "November 2021 (only for City of Los Angeles residents)"],
   ]);
 });

@@ -33,27 +33,24 @@ export type NorentLetterContentProps = BaseLetterContentProps & {
 const componentizeHelper = makeStringHelperFC<NorentLetterContentProps>();
 
 const LetterTitle: React.FC<NorentLetterContentProps> = (props) => (
-  <>
+  <letter.Title>
     {props.state === "CA" ? (
-      <letter.Title>
-        <Trans>
-          <span className="is-uppercase">
-            Declaration of Financial Impacts Related to COVID-19
-          </span>
-        </Trans>
-      </letter.Title>
+      <Trans>
+        <span className="is-uppercase">
+          Declaration of COVID-19 Related Financial Distress
+        </span>
+        <letter.TitleNewline />
+        Compliant with Code of Civil Procedure Section 1179.02, AB832, COVID-19
+        Tenant Relief Act
+      </Trans>
     ) : (
-      <letter.Title>
-        <Trans>
-          <span className="is-uppercase">
-            Notice of COVID-19 impact on rent
-          </span>
-          <letter.TitleNewline />
-          at <letter.AddressLine {...props} />
-        </Trans>
-      </letter.Title>
+      <Trans>
+        <span className="is-uppercase">Notice of COVID-19 impact on rent</span>
+        <letter.TitleNewline />
+        at <letter.AddressLine {...props} />
+      </Trans>
     )}
-  </>
+  </letter.Title>
 );
 
 const SinglePaymentDate = componentizeHelper((props) =>
@@ -145,62 +142,50 @@ export const NorentLetterEmailToLandlord: React.FC<BaseLetterContentProps> = (
 
 const LetterBodyCalifornia: React.FC<NorentLetterContentProps> = (props) => {
   return (
-    <Trans id="norent.letterBodyCaliforniaLaCountyVIA1">
+    <Trans id="norent.letterBodyCaliforniaAB832">
       <p>
         This declaration letter is in regards to rent payment for the following
         months:
       </p>
       <PaymentDateList dates={props.paymentDates} />
       <p>
-        I am unable to pay the above months' rent due to a Financial Impact
-        Related to COVID-19. I hereby certify that I have one of the following
-        Financial Impacts:
+        I am currently unable to pay my rent or other financial obligations
+        under the lease in full because of one or more of the following:
       </p>
       <ol>
+        <li>Loss of income caused by the COVID-19 pandemic.</li>
         <li>
-          Substantial loss of household income caused by the COVID-19 pandemic;
+          Increased out-of-pocket expenses directly related to performing
+          essential work during the COVID-19 pandemic.
         </li>
-        <li>Loss of revenue or business due to business closure;</li>
-        <li>Increased costs;</li>
         <li>
-          Reduced revenues or other similar reasons impacting my ability to pay
-          rent due;
+          Increased expenses directly related to health impacts of the COVID-19
+          pandemic.
         </li>
-        <li>Loss of compensable hours of work or wages, or layoffs; or</li>
-        <li>Extraordinary out-of-pocket medical expenses.</li>
+        <li>
+          Childcare responsibilities or responsibilities to care for an elderly,
+          disabled, or sick family member directly related to the COVID-19
+          pandemic that limit my ability to earn income.
+        </li>
+        <li>
+          Increased costs for childcare or attending to an elderly, disabled, or
+          sick family member directly related to the COVID-19 pandemic.
+        </li>
+        <li>
+          Other circumstances related to the COVID-19 pandemic that have reduced
+          my income or increased my expenses.
+        </li>
       </ol>
       <p>
-        The Financial Impact was related to COVID-19 in one or more of the
-        following ways:
+        Any public assistance, including unemployment insurance, pandemic
+        unemployment assistance, state disability insurance (SDI), or paid
+        family leave, that I have received since the start of the COVID-19
+        pandemic does not fully make up for my loss of income and/or increased
+        expenses.
       </p>
-      <ol>
-        <li>
-          A suspected or confirmed case of COVID-19, or caring for a household
-          or family member who has a suspected or confirmed case of COVID-19;
-        </li>
-        <li>
-          Lay-off, loss of compensable work hours, or other reduction or loss of
-          income or revenue resulting from a business closure or other economic
-          or employer impacts related to COVID-19;
-        </li>
-        <li>
-          Compliance with an order or recommendation of the County’s Health
-          Officer to stay at home, self-quarantine, or avoid congregating with
-          others during the state of emergency;
-        </li>
-        <li>
-          Extraordinary out-of-pocket medical expenses related to the diagnosis
-          of, testing for, and/or treatment of COVID-19; or
-        </li>
-        <li>
-          Childcare needs arising from school closures in response to COVID-19.
-        </li>
-      </ol>
       <p className="jf-avoid-page-breaks-after">
-        This notice is being provided within seven (7) days of when the above
-        months' rent was due. Or, if this notice is being provided later than
-        seven (7) days after that date, extenuating circumstances exist which
-        prevented me from providing this notice sooner.
+        I declare under penalty of perjury under the laws of the State of
+        California that the foregoing is true and correct.
       </p>
     </Trans>
   );

@@ -3585,7 +3585,7 @@ msgstr "He sufrido una pérdida de empleo, salarios o ingresos durante el estado
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:91
 msgid "norent.letter.lacountydisclaimer2022"
-msgstr ""
+msgstr "Para los meses de abril, mayo y junio 2022, esta pagina solo será efectiva para inquilinos que viven en las ciudades de LA, Pasadena, Beverly Hills, y Maywood con protecciones de falta de pago de renta. Si vive en otra ciudad, por favor revise esta herramienta el 1 de julio 2022 para continuar a usarla. Si ha recibido una orden de desalojo o tiene preguntas sobre sus derechos de inquilino, por favor comuníquese con Stay Housed LA."
 
 #: frontend/lib/norent/letter-content.tsx:154
 msgid "norent.letter.v1NonPayment"

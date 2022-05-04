@@ -28,10 +28,6 @@ msgstr "(Note: the email will be sent in English)"
 msgid "(Note: the request will be sent in English)"
 msgstr "(Note: the request will be sent in English)"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:23
-msgid "(only for City of Los Angeles residents)"
-msgstr "(only for City of Los Angeles residents)"
-
 #: frontend/lib/forms/optionalize-label.ts:7
 msgid "(optional)"
 msgstr "(optional)"
@@ -48,9 +44,9 @@ msgstr "8 Minutes"
 msgid "<0/> makes use of a <1/> and <2/>, which you can review."
 msgstr "<0/> makes use of a <1/> and <2/>, which you can review."
 
-#: frontend/lib/norent/letter-content.tsx:15
-msgid "<0>Declaration of COVID-19 Related Financial Distress</0><1/>Compliant with Code of Civil Procedure Section 1179.02, AB832, COVID-19 Tenant Relief Act"
-msgstr "<0>Declaration of COVID-19 Related Financial Distress</0><1/>Compliant with Code of Civil Procedure Section 1179.02, AB832, COVID-19 Tenant Relief Act"
+#: frontend/lib/norent/letter-content.tsx:16
+msgid "<0>Declaration of Financial Impacts Related to COVID-19</0>"
+msgstr "<0>Declaration of Financial Impacts Related to COVID-19</0>"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:405
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
@@ -90,7 +86,7 @@ msgstr "<0>Notice of COVID-19 impact on rent</0><1/>at <2/>"
 msgid "<0>To</0><1/><2>From</2><3/>"
 msgstr "<0>To</0><1/><2>From</2><3/>"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:48
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:39
 msgid "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
 msgstr "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
 
@@ -225,10 +221,6 @@ msgstr "Apartment number"
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:104
 msgid "Apply for ERAP Online"
 msgstr "Apply for ERAP Online"
-
-#: frontend/lib/norent/data/state-localized-resources.tsx:6
-msgid "Apply for Rental Assistance. Qualifying renters are eligible for 100% of rent and utilities owed."
-msgstr "Apply for Rental Assistance. Qualifying renters are eligible for 100% of rent and utilities owed."
 
 #: frontend/lib/pages/logout-alt-page.tsx:16
 msgid "Are you sure you want to log out?"
@@ -468,7 +460,7 @@ msgstr "Can't pay rent?"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:25
+#: frontend/lib/norent/data/state-localized-resources.tsx:22
 msgid "Cancel Rent Campaign"
 msgstr "Cancel Rent Campaign"
 
@@ -595,6 +587,10 @@ msgstr "Connecticut"
 #: frontend/lib/norent/data/faqs-content.tsx:10
 msgid "Connecting With Others"
 msgstr "Connecting With Others"
+
+#: frontend/lib/norent/data/state-localized-resources.tsx:6
+msgid "Contact StayHoused LA"
+msgstr "Contact StayHoused LA"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:40
 #: frontend/lib/norent/letter-builder/confirmation.tsx:140
@@ -856,7 +852,7 @@ msgstr "Estimated time to complete"
 msgid "Eviction Free NY has been suspended"
 msgstr "Eviction Free NY has been suspended"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:18
+#: frontend/lib/norent/data/state-localized-resources.tsx:15
 msgid "Eviction Moratorium updates"
 msgstr "Eviction Moratorium updates"
 
@@ -1334,7 +1330,7 @@ msgstr "It doesn't seem like this property is required to register with HPD. You
 msgid "It looks like your apartment may be rent stabilized"
 msgstr "It looks like your apartment may be rent stabilized"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:37
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:28
 msgid "It's important to notify your landlord of all months when you couldn't pay rent in full."
 msgstr "It's important to notify your landlord of all months when you couldn't pay rent in full."
 
@@ -1395,7 +1391,7 @@ msgstr "Kentucky"
 msgid "Kitchen"
 msgstr "Kitchen"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:113
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:129
 msgid "Know your rights"
 msgstr "Know your rights"
 
@@ -1684,11 +1680,11 @@ msgstr "Mold on walls"
 msgid "Montana"
 msgstr "Montana"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:46
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:37
 msgid "Months of rent non-payment"
 msgstr "Months of rent non-payment"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:35
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:26
 msgid "Months you're missing rent payments"
 msgstr "Months you're missing rent payments"
 
@@ -1812,7 +1808,7 @@ msgstr "No smoke detector"
 msgid "No. Unfortunately, these protections only apply to residents of New York State."
 msgstr "No. Unfortunately, these protections only apply to residents of New York State."
 
-#: frontend/lib/norent/letter-content.tsx:81
+#: frontend/lib/norent/letter-content.tsx:84
 msgid "NoRent.org <0/>sent on behalf of <1/>"
 msgstr "NoRent.org <0/>sent on behalf of <1/>"
 
@@ -1844,7 +1840,7 @@ msgstr "Not enough"
 msgid "Not sure yet? If you need more time to decide, you can always come back later. We've saved your work."
 msgstr "Not sure yet? If you need more time to decide, you can always come back later. We've saved your work."
 
-#: frontend/lib/norent/letter-content.tsx:66
+#: frontend/lib/norent/letter-content.tsx:69
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 msgstr "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 
@@ -1974,7 +1970,7 @@ msgstr "Photo credits:"
 msgid "Pipes leaking"
 msgstr "Pipes leaking"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:104
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:120
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Please <0>go back and choose a state</0>."
 
@@ -2090,7 +2086,7 @@ msgstr "Rent History"
 msgid "Rent Strike 2020: A Resource List"
 msgstr "Rent Strike 2020: A Resource List"
 
-#: frontend/lib/norent/data/state-localized-resources.tsx:33
+#: frontend/lib/norent/data/state-localized-resources.tsx:30
 msgid "Rent Strike Organizing"
 msgstr "Rent Strike Organizing"
 
@@ -2158,7 +2154,7 @@ msgstr "Right to Privacy (CA)"
 msgid "Right to the City"
 msgstr "Right to the City"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:128
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:144
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Right to the City Alliance can contact me to provide additional support."
 
@@ -2181,7 +2177,7 @@ msgstr "Rusty water"
 msgid "Sample Habitability letter"
 msgstr "Sample Habitability letter"
 
-#: frontend/lib/norent/letter-content.tsx:274
+#: frontend/lib/norent/letter-content.tsx:289
 msgid "Sample NoRent.org letter"
 msgstr "Sample NoRent.org letter"
 
@@ -2465,11 +2461,11 @@ msgstr "Take action"
 msgid "Tenant Rights"
 msgstr "Tenant Rights"
 
-#: frontend/lib/norent/letter-content.tsx:35
+#: frontend/lib/norent/letter-content.tsx:38
 msgid "Tenants adversely affected by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
 msgstr "Tenants adversely affected by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
 
-#: frontend/lib/norent/letter-content.tsx:38
+#: frontend/lib/norent/letter-content.tsx:41
 msgid "Tenants impacted by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
 msgstr "Tenants impacted by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
 
@@ -2799,7 +2795,7 @@ msgstr "We’ll use this information to pull the most up-to-date ordinances that
 msgid "We’ll use this to reference the latest policies that protect your rights as a tenant."
 msgstr "We’ll use this to reference the latest policies that protect your rights as a tenant."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:90
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:105
 msgid "We’ve partnered with <0/> to provide additional support once you’ve sent your letter."
 msgstr "We’ve partnered with <0/> to provide additional support once you’ve sent your letter."
 
@@ -2919,7 +2915,7 @@ msgstr "Who is not protected by NY's COVID-19 Tenant Protection Laws?"
 msgid "Who we are"
 msgstr "Who we are"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:47
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:38
 msgid "Why aren't all months listed?"
 msgstr "Why aren't all months listed?"
 
@@ -3054,7 +3050,7 @@ msgstr "You haven't completed previous steps. Please <0>go back</0>."
 msgid "You most recently sent a letter on {0}."
 msgstr "You most recently sent a letter on {0}."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:115
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:131
 msgid "You're in <0>{stateName}</0>"
 msgstr "You're in <0>{stateName}</0>"
 
@@ -3087,7 +3083,7 @@ msgstr "Your Letter Is Ready To Send!"
 msgid "Your NoRent letter and important next steps"
 msgstr "Your NoRent letter and important next steps"
 
-#: frontend/lib/norent/letter-content.tsx:267
+#: frontend/lib/norent/letter-content.tsx:282
 msgid "Your NoRent.org letter"
 msgstr "Your NoRent.org letter"
 
@@ -3518,7 +3514,7 @@ msgstr "On or before 6/30/2021 you must decide whether to pay 25% of the rent fo
 msgid "norent.emailBodyTemplateForSharingNoRent"
 msgstr "I used www.norent.org to tell my landlord that I'm unable to pay this month's rent. This free tool helps you build and send a letter to your landlord, cites legal protections in your state, and connects you to other people in your community working to #cancelrent"
 
-#: frontend/lib/norent/letter-content.tsx:68
+#: frontend/lib/norent/letter-content.tsx:71
 msgid "norent.emailToLandlordBody_v2"
 msgstr "<0>Please see letter attached from <1/>. </0><2>In order to document communications and avoid misunderstandings, please correspond with <3/> via email at <4>{0}</4> or mail rather than a phone call or in-person visit.</2>"
 
@@ -3570,33 +3566,37 @@ msgstr "<0><1/></0><2>Also know that you’re not alone. In states without evict
 msgid "norent.introductionToLetterBuilderSteps"
 msgstr "In order to benefit from the eviction protections that local elected officials have put in place, you should notify your landlord of your non-payment for reasons related to COVID-19. <0>In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense.</0>"
 
-#: frontend/lib/norent/letter-content.tsx:194
+#: frontend/lib/norent/letter-content.tsx:209
 msgid "norent.letter.conclusion"
 msgstr "<0>Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are also protected from eviction for non-payment or any other reason until August 23, 2020. Please let me know right away if you believe this property is not covered by the CARES Act and explain why the property is not covered.</0><1>In order to document our communication and to avoid misunderstandings, please reply to me via mail or text rather than a call or visit.</1><2>Thank you for your understanding and cooperation.</2>"
 
-#: frontend/lib/norent/letter-content.tsx:187
+#: frontend/lib/norent/letter-content.tsx:202
 msgid "norent.letter.floridaAddition"
 msgstr "I have suffered a loss of employment, diminished wages or business income, or other monetary loss realized during the Florida State of Emergency directly impacting my ability to make rent payments."
 
-#: frontend/lib/norent/letter-content.tsx:139
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:91
+msgid "norent.letter.lacountydisclaimer2022"
+msgstr "Because of this new law, for <0>April, May, and June 2022</0>, this tool will only be effective for tenants who live in the <1>City of LA, Pasadena, Beverly Hills, and Maywood</1> with its own non payment protection. If you live in another jurisdiction please check back around July 1, 2022 to continue to use this tool. If you have received an unlawful detainer or have questions about your rights as a tenant please contact <2/>."
+
+#: frontend/lib/norent/letter-content.tsx:154
 msgid "norent.letter.v1NonPayment"
 msgstr "This letter is to notify you that I will be unable to pay rent starting on <0/> and until further notice due to loss of income, increased expenses, and/or other financial circumstances related to COVID-19."
 
-#: frontend/lib/norent/letter-content.tsx:147
+#: frontend/lib/norent/letter-content.tsx:162
 msgid "norent.letter.v1NonPayment_multipleDates"
 msgstr "This letter is to notify you that I will be unable to pay rent for the following months and until further notice due to loss of income, increased expenses, and/or other financial circumstances related to COVID-19:"
 
-#: frontend/lib/norent/letter-content.tsx:168
+#: frontend/lib/norent/letter-content.tsx:183
 msgid "norent.letter.v2Hardship"
 msgstr "This letter is to notify you that I have experienced a loss of income, increased expenses and/or other financial circumstances related to the pandemic. Until further notice, the COVID-19 emergency may impact my ability to pay rent. I am not waiving my right to assert any other defenses."
 
-#: frontend/lib/norent/letter-content.tsx:178
+#: frontend/lib/norent/letter-content.tsx:193
 msgid "norent.letter.v3FewProtections"
 msgstr "This letter is to advise you of protections in place for tenants in {0}. I am not waiving my right to assert any other defenses."
 
-#: frontend/lib/norent/letter-content.tsx:88
-msgid "norent.letterBodyCaliforniaAB832"
-msgstr "<0>This declaration letter is in regards to rent payment for the following months:</0><1/><2>I am currently unable to pay my rent or other financial obligations under the lease in full because of one or more of the following:</2><3><4>Loss of income caused by the COVID-19 pandemic.</4><5>Increased out-of-pocket expenses directly related to performing essential work during the COVID-19 pandemic.</5><6>Increased expenses directly related to health impacts of the COVID-19 pandemic.</6><7>Childcare responsibilities or responsibilities to care for an elderly, disabled, or sick family member directly related to the COVID-19 pandemic that limit my ability to earn income.</7><8>Increased costs for childcare or attending to an elderly, disabled, or sick family member directly related to the COVID-19 pandemic.</8><9>Other circumstances related to the COVID-19 pandemic that have reduced my income or increased my expenses.</9></3><10>Any public assistance, including unemployment insurance, pandemic unemployment assistance, state disability insurance (SDI), or paid family leave, that I have received since the start of the COVID-19 pandemic does not fully make up for my loss of income and/or increased expenses.</10><11>I declare under penalty of perjury under the laws of the State of California that the foregoing is true and correct.</11>"
+#: frontend/lib/norent/letter-content.tsx:91
+msgid "norent.letterBodyCaliforniaLaCountyVIA1"
+msgstr "<0>This declaration letter is in regards to rent payment for the following months:</0><1/><2>I am unable to pay the above months' rent due to a Financial Impact Related to COVID-19. I hereby certify that I have one of the following Financial Impacts:</2><3><4>Substantial loss of household income caused by the COVID-19 pandemic;</4><5>Loss of revenue or business due to business closure;</5><6>Increased costs;</6><7>Reduced revenues or other similar reasons impacting my ability to pay rent due;</7><8>Loss of compensable hours of work or wages, or layoffs; or</8><9>Extraordinary out-of-pocket medical expenses.</9></3><10>The Financial Impact was related to COVID-19 in one or more of the following ways:</10><11><12>A suspected or confirmed case of COVID-19, or caring for a household or family member who has a suspected or confirmed case of COVID-19;</12><13>Lay-off, loss of compensable work hours, or other reduction or loss of income or revenue resulting from a business closure or other economic or employer impacts related to COVID-19;</13><14>Compliance with an order or recommendation of the County’s Health Officer to stay at home, self-quarantine, or avoid congregating with others during the state of emergency;</14><15>Extraordinary out-of-pocket medical expenses related to the diagnosis of, testing for, and/or treatment of COVID-19; or</15><16>Childcare needs arising from school closures in response to COVID-19.</16></11><17>This notice is being provided within seven (7) days of when the above months' rent was due. Or, if this notice is being provided later than seven (7) days after that date, extenuating circumstances exist which prevented me from providing this notice sooner.</17>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:47
 msgid "norent.listOfSuggestedNonpaymentDocumentation"

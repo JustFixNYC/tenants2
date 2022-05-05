@@ -39,3 +39,8 @@ checks:
     # to have lots of return statements than a lot of
     # nested ifs.
     enabled: false
+  file-lines:
+    # Many of our typescript files are actually longer than the
+    # 250 lines CodeClimate recommends; this unfairly penalizes
+    # newer files and isn't that helpful anyway.
+    enabled: false

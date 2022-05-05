@@ -90,6 +90,10 @@ msgstr "<0>NoRent</0> <1>cartas de enviadas por inquilinos en todo Estados Unido
 msgid "<0>Notice of COVID-19 impact on rent</0><1/>at <2/>"
 msgstr "<0>Aviso de impacto del COVID-19 en la renta</0><1/>en <2/>"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:130
+msgid "<0>Repairs required</0>"
+msgstr ""
+
 #. heading of formal letter
 #: frontend/lib/util/letter-content-util.tsx:40
 msgid "<0>To</0><1/><2>From</2><3/>"
@@ -417,7 +421,6 @@ msgstr ""
 msgid "Build your letter"
 msgstr "Crea tu carta"
 
-#: common-data/issue-area-choices-laletterbuilder.ts:18
 #: common-data/issue-category-choices-laletterbuilder.ts:18
 msgid "Building and safety"
 msgstr ""
@@ -1032,7 +1035,7 @@ msgstr "¡Entendido!"
 msgid "Got it, take me there"
 msgstr "Entendido, llévame"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:10
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:13
 msgid "Habitability"
 msgstr "Habitability"
 
@@ -1040,7 +1043,7 @@ msgstr "Habitability"
 msgid "Habitability (CA)"
 msgstr "Habitability (CA)"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:15
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:18
 msgid "Habitability notice sent on behalf of {0}"
 msgstr "Habitability notice sent on behalf of {0}"
 
@@ -1064,7 +1067,6 @@ msgstr "Harassment (LA City/TAHO)"
 msgid "Hawaii"
 msgstr "Hawaii"
 
-#: common-data/issue-area-choices-laletterbuilder.ts:16
 #: common-data/issue-category-choices-laletterbuilder.ts:16
 msgid "Health"
 msgstr ""
@@ -1411,7 +1413,7 @@ msgstr ""
 msgid "LaLetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
 msgstr "LaLetterBuilder is a collaboration between JustFix.nyc and legal organizations and housing rights non-profits in Los Angeles."
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:30
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:33
 msgid "LaLetterBuilder.org <0/>sent on behalf of <1/>"
 msgstr "LaLetterBuilder.org <0/>sent on behalf of <1/>"
 
@@ -2181,7 +2183,7 @@ msgstr ""
 msgid "Rusty water"
 msgstr "Agua Oxidada"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:129
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:201
 msgid "Sample Habitability letter"
 msgstr "Sample Habitability letter"
 
@@ -2625,7 +2627,6 @@ msgstr ""
 msgid "Utah"
 msgstr "Utah"
 
-#: common-data/issue-area-choices-laletterbuilder.ts:17
 #: common-data/issue-category-choices-laletterbuilder.ts:17
 msgid "Utilities"
 msgstr ""
@@ -3144,7 +3145,7 @@ msgstr "¡Tu declaración está lista para enviar!"
 msgid "Your email address"
 msgstr "Tu dirección de correo electrónico"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:77
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:80
 msgid "Your habitability letter"
 msgstr ""
 
@@ -3471,7 +3472,7 @@ msgstr "<0>Si tu apartamento es actualmente de renta estabilizada, o lo ha sido 
 msgid "justfix.whyIsPhoneNumberNeeded"
 msgstr "Utilizaremos esta información para:<0><1>Acceder a tu cuenta actual</1><2>Comprobar si coincide con una cuenta preexistente </2><3>Abrirte una cuenta nueva.</3></0><4/>Una cuenta te permitirá volver a nuestras herramientas en cualquier punto del proceso sin tener que empezar desde el principio, descargar cualquier documentos que hayas completado, y recibir notificaciones sobre cambios relevantes a políticas que te afecten."
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:17
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:20
 msgid "laletterbuilder.emailToLandlordBody"
 msgstr "<0>Por favor vea la carta adjunta de <1/>. </0><2>Para documentar las comunicaciones y evitar malentendidos, por favor corresponda con <3/> por correo electrónico a <4>{0}</4> o por correo ordinario en lugar de una llamada telefónica o una visita en persona. </2>"
 
@@ -3479,23 +3480,23 @@ msgstr "<0>Por favor vea la carta adjunta de <1/>. </0><2>Para documentar las co
 msgid "laletterbuilder.explanationAboutWhyWeMadeThisSite"
 msgstr "We made this site because xyz"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:95
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:97
 msgid "laletterbuilder.habitability.access-intro"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:90
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:92
 msgid "laletterbuilder.habitability.access-title"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:102
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:104
 msgid "laletterbuilder.habitability.access-warning"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:115
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:117
 msgid "laletterbuilder.habitability.consequences"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:81
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:84
 msgid "laletterbuilder.habitability.intro-1"
 msgstr ""
 

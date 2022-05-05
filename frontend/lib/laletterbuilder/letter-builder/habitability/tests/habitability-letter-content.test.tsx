@@ -29,8 +29,9 @@ describe("<HabitabilityContent>", () => {
         />
       )
     );
-    expect(pal.rr.getAllByText("{roomLabel}")).toHaveLength(2);
-    expect(pal.rr.getAllByText("{issueLabel}")).toHaveLength(1);
+    pal.rr.getByText("Peeling paint");
+    pal.rr.getByText("Bedroom");
+    pal.rr.getByText("Bathroom");
   });
 
   it("translates into spanish", () => {});

@@ -112,10 +112,6 @@ msgstr "<0>Sí, este es un sitio web gratuito creado por organizaciones sin fine
 msgid "<0>Your account is set up.</0><1>We do not currently recommend sending this notice of non-payment to your landlord. <2/></1>"
 msgstr "<0>Tu cuenta está configurada.</0><1>Actualmente, no recomendamos enviar esta notificación de falta de pago al dueño o manager de tu edificio. <2/></1>"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:135
-msgid "<0>{issueLabel}</0>"
-msgstr ""
-
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:40
 msgid "A PDF of your form is attached to this email. Please save a copy for your records."
 msgstr "Adjunto a este correo electrónico encontrarás un PDF de tu formulario. Conserva una copia para tus archivos."
@@ -2187,7 +2183,7 @@ msgstr ""
 msgid "Rusty water"
 msgstr "Agua Oxidada"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:205
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:201
 msgid "Sample Habitability letter"
 msgstr "Sample Habitability letter"
 
@@ -3696,10 +3692,6 @@ msgstr "{0} (en inglés)"
 #: frontend/lib/forms/chars-remaining.tsx:18
 msgid "{remaining, plural, one {1 character remaining} other {# characters remaining}}"
 msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caracteres}}"
-
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:140
-msgid "{roomLabel}"
-msgstr ""
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."

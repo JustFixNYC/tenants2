@@ -223,14 +223,10 @@ const RepairIssues: React.FC<HabitabilityLetterContentProps> = (props) => {
       <ol>
         {props.issues.map(({ issueLabel, roomLabels }, i) => (
           <li key={i}>
-            <Trans>
-              <b>{issueLabel}</b>
-            </Trans>
+            <b>{issueLabel}</b>
             <ul>
               {roomLabels.map((roomLabel, j) => (
-                <li key={j}>
-                  <Trans>{roomLabel}</Trans>
-                </li>
+                <li key={j}>{roomLabel}</li>
               ))}
             </ul>
           </li>

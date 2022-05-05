@@ -31,7 +31,7 @@ describe("<HabitabilityContent>", () => {
     );
     pal.rr.getByText("Peeling paint");
     pal.rr.getByText("Bedroom");
-    pal.rr.getByText("Bathroom");
+    pal.rr.getByText("Kitchen");
   });
 
   it("translates into spanish", () => {});

@@ -61,14 +61,14 @@ exports[`<HabitabilityContent> renders 1`] = `
       <ol>
         <li>
           <b>
-            {issueLabel}
+            Peeling paint
           </b>
           <ul>
             <li>
-              {roomLabel}
+              Bedroom
             </li>
             <li>
-              {roomLabel}
+              Kitchen
             </li>
           </ul>
         </li>

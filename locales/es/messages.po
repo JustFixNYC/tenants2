@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-05-10 14:50\n"
+"PO-Revision-Date: 2022-05-10 15:19\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -51,7 +51,7 @@ msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
 #: frontend/lib/norent/letter-content.tsx:16
 msgid "<0>Declaration of Financial Impacts Related to COVID-19</0>"
-msgstr "<0>Declaration of Financial Impacts Related to COVID-19</0>"
+msgstr "<0>Declaración de Impactos Financieros Relacionados con Covid-19</0>"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:405
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
@@ -598,7 +598,7 @@ msgstr "Poniéndose en contacto con otros"
 
 #: frontend/lib/norent/data/state-localized-resources.tsx:6
 msgid "Contact StayHoused LA"
-msgstr "Contact StayHoused LA"
+msgstr "Ponte en contacto con StayHoused LA"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:40
 #: frontend/lib/norent/letter-builder/confirmation.tsx:140
@@ -3585,7 +3585,7 @@ msgstr "He sufrido una pérdida de empleo, salarios o ingresos durante el estado
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:91
 msgid "norent.letter.lacountydisclaimer2022"
-msgstr "Because of this new law, for <0>April, May, and June 2022</0>, this tool will only be effective for tenants who live in the <1>City of LA, Pasadena, Beverly Hills, and Maywood</1> with its own non payment protection. If you live in another jurisdiction please check back around July 1, 2022 to continue to use this tool. If you have received an unlawful detainer or have questions about your rights as a tenant please contact <2/>."
+msgstr "Para los meses de <0>abril, mayo y junio 2022</0>, esta pagina solo será efectiva para inquilinos que viven en las ciudades de <1>LA, Pasadena, Beverly Hills, y Maywood</1> con protecciones de falta de pago de renta. Si vive en otra ciudad, por favor revise esta herramienta el 1 de julio 2022 para continuar a usarla. Si ha recibido una orden de desalojo o tiene preguntas sobre sus derechos de inquilino, por favor comuníquese con <2/>."
 
 #: frontend/lib/norent/letter-content.tsx:154
 msgid "norent.letter.v1NonPayment"
@@ -3605,7 +3605,8 @@ msgstr "Esta carta es para informarle de las protecciones para inquilinos existe
 
 #: frontend/lib/norent/letter-content.tsx:91
 msgid "norent.letterBodyCaliforniaLaCountyVIA1"
-msgstr "<0>This declaration letter is in regards to rent payment for the following months:</0><1/><2>I am unable to pay the above months' rent due to a Financial Impact Related to COVID-19. I hereby certify that I have one of the following Financial Impacts:</2><3><4>Substantial loss of household income caused by the COVID-19 pandemic;</4><5>Loss of revenue or business due to business closure;</5><6>Increased costs;</6><7>Reduced revenues or other similar reasons impacting my ability to pay rent due;</7><8>Loss of compensable hours of work or wages, or layoffs; or</8><9>Extraordinary out-of-pocket medical expenses.</9></3><10>The Financial Impact was related to COVID-19 in one or more of the following ways:</10><11><12>A suspected or confirmed case of COVID-19, or caring for a household or family member who has a suspected or confirmed case of COVID-19;</12><13>Lay-off, loss of compensable work hours, or other reduction or loss of income or revenue resulting from a business closure or other economic or employer impacts related to COVID-19;</13><14>Compliance with an order or recommendation of the County’s Health Officer to stay at home, self-quarantine, or avoid congregating with others during the state of emergency;</14><15>Extraordinary out-of-pocket medical expenses related to the diagnosis of, testing for, and/or treatment of COVID-19; or</15><16>Childcare needs arising from school closures in response to COVID-19.</16></11><17>This notice is being provided within seven (7) days of when the above months' rent was due. Or, if this notice is being provided later than seven (7) days after that date, extenuating circumstances exist which prevented me from providing this notice sooner.</17>"
+msgstr "<0>Esta carta de declaración se refiere al pago del alquiler durante los meses siguientes:</0><1/><2>Actualmente no puedo pagar mi alquiler u otras obligaciones financieras en virtud del contrato de arrendamiento en su totalidad debido a uno o más de los siguientes:</2><3><4>Pérdida sustancial de ingresos del hogar causada por la pandemia de COVID-19;</4><5>Pérdida de ingresos o negocios debido al cierre del negocio;</5><6>Aumento de los costos;</6><7>Ingresos reducidos u otras razones similares que afectan mi capacidad para pagar el alquiler adeudado;</7><8>Pérdida de horas de trabajo o salarios compensables, o despidos; o</8><9>Gastos médicos extraordinarios de bolsillo.</9></3><10>Tengo un impacto financiero relacionado con COVID-19 de una o más de las siguientes maneras:</10><11><12>Un caso sospechoso o confirmado de COVID-19, o el cuidado de un miembro del hogar o \n"
+"familiar que tiene un caso sospechoso o confirmado de COVID-19;</12><13>Despido, pérdida de horas de trabajo compensables u otra reducción o pérdida de ingresos o ingresos resultante del cierre de una empresa u otros impactos económicos o del empleador relacionados con COVID-19;</13><14>Cumplimiento de una orden o recomendación del Funcionario de Salud del Condado de quedarse en casa, ponerse en cuarentena o evitar congregarse con otras personas durante el estado de emergencia;</14><15>Gastos médicos extraordinarios de su bolsillo relacionados con el diagnóstico, la prueba y/o el tratamiento de COVID-19; o or</15><16>Necesidades de cuidado infantil derivadas del cierre de escuelas en respuesta a COVID-19.</16></11><17>Este aviso se proporciona dentro de los siete (7) días posteriores a la fecha de vencimiento del alquiler del mes anterior. O, si este aviso se proporciona después de siete (7) días después de esa fecha, existen circunstancias atenuantes que me impidieron proporcionar este aviso antes.</17>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:47
 msgid "norent.listOfSuggestedNonpaymentDocumentation"

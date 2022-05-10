@@ -134,6 +134,24 @@ export const StateWithProtectionsContent: ProtectionsContentComponent = (
 ) => (
   <>
     <p>{props.lawForBuilder.textOfLegislation}</p>
+    {props.lawForBuilder.textOfLegislation?.includes("California") && (
+      <p>
+        <Trans id="norent.letter.lacountydisclaimer2022">
+          Because of this new law, for <b>April, May, and June 2022</b>, this
+          tool will only be effective for tenants who live in the{" "}
+          <b>City of LA, Pasadena, Beverly Hills, and Maywood</b> with its own
+          non payment protection. If you live in another jurisdiction please
+          check back around July 1, 2022 to continue to use this tool. If you
+          have received an unlawful detainer or have questions about your rights
+          as a tenant please contact{" "}
+          <PartnerLink
+            organizationName="Stay Housed LA"
+            organizationWebsiteLink="https://www.stayhousedla.org/es/referral"
+          />
+          .
+        </Trans>
+      </p>
+    )}
     {props.links && <StateLocalResources links={props.links} />}
     <p>
       <Trans>

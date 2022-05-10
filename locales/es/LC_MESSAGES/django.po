@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-23 19:00+0000\n"
-"PO-Revision-Date: 2022-02-23 19:10\n"
+"PO-Revision-Date: 2022-03-09 19:26\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -198,3 +198,4 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 #: project/util/phone_number.py:70
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
+

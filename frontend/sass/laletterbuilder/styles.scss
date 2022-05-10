@@ -43,6 +43,7 @@ $jf-alt-title-family: "Suisse Int'l Mono", "Courier New", Courier, monospace;
 // These variables define the background and content colors for the nav-bar
 $jf-navbar-background: $primary;
 $jf-navbar-content: $secondary;
+$jf-navbar-height: 70px;
 
 @import "../_navbar.scss";
 @import "./navbar-overrides";
@@ -78,10 +79,12 @@ $jf-navbar-content: $secondary;
     line-height: 2.25rem;
     letter-spacing: 0.03rem;
   }
+
   h2 {
     font-size: 1.8rem;
     line-height: 1.8rem;
   }
+
   p,
   .subtitle {
     font-size: 1.5rem;
@@ -97,6 +100,40 @@ $jf-navbar-content: $secondary;
     &.is-7 {
       line-height: 0.875rem;
       font-size: 0.875rem;
+    }
+  }
+
+  .jf-laletterbuilder-landing-section-primary {
+    background-color: $secondary;
+  }
+
+  .jf-laletterbuilder-landing-section-secondary {
+    background-color: $secondary-accent;
+    figure {
+      margin: 0rem;
+    }
+    .text-section {
+      margin-top: 1rem;
+    }
+    .text-section:last-of-type {
+      margin-bottom: 2rem;
+    }
+  }
+
+  .jf-laletterbuilder-landing-section-tertiary {
+    background-color: $primary;
+    color: $secondary;
+    h2 {
+      color: $secondary;
+    }
+    .subtitle {
+      color: $secondary;
+    }
+    .text-section {
+      margin-top: 2rem;
+    }
+    .text-section:last-of-type {
+      margin-bottom: 2rem;
     }
   }
 }
@@ -119,13 +156,16 @@ $jf-navbar-content: $secondary;
     &.has-text-centered {
       text-align: left !important;
     }
+
     &.has-text-grey {
       color: $primary !important;
     }
   }
+
   progress {
     border: 1px solid $primary;
   }
+
   progress::-webkit-progress-bar {
     background: $secondary;
   }
@@ -139,22 +179,28 @@ $jf-navbar-content: $secondary;
     margin-bottom: 1rem;
     border-bottom: 1px solid $primary;
   }
+
   .jf-accordion-item {
     margin-bottom: 1rem;
+
     details {
       margin-bottom: 0;
+
       summary {
         font-size: 1.125rem;
         padding: 0 0 1rem 0;
         margin: 0;
         border-bottom: 1px solid $primary;
+
         &:focus {
           outline-offset: 5px;
         }
+
         // Fix bug where scrollbars appear on accordion titles
         .media-content {
           overflow-x: unset;
         }
+
         .media-right span {
           text-decoration: underline;
           font-size: 0.875rem;
@@ -170,10 +216,12 @@ $jf-navbar-content: $secondary;
           min-height: 2.8rem;
           border-radius: 4px;
         }
+
         // Styling of the check mark symbol itself:
         input:checked + .jf-checkbox-symbol {
           background-position: 98%;
         }
+
         .jf-label-text {
           margin: 0.3em 0.6em 0.3em 0;
           font-size: 0.875rem;
@@ -191,6 +239,104 @@ $jf-navbar-content: $secondary;
   }
 }
 
+// CHOOSE LETTER STYLING OVERRIDES
+
+.jf-la-letter-card {
+  border: 0.063rem solid $new-justfix-black;
+  box-sizing: border-box;
+  border-radius: 0.25rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1.5rem;
+  max-width: 40.875rem;
+
+  .content {
+    padding: 1.5rem 1.5rem 0rem 1.5rem;
+    margin-bottom: 0rem;
+
+    h2 {
+      font-family: $jf-body-family;
+      font-weight: 400;
+      font-size: 1.8rem;
+      line-height: 1.8rem;
+    }
+
+    .jf-card-text {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 1.125rem;
+      line-height: 100%;
+    }
+
+    .jf-card-button {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .jf-la-letter-time {
+      margin: 0em;
+
+      .jf-clock-icon {
+        float: left;
+
+        .image {
+          margin: 0.2rem;
+        }
+      }
+    }
+  }
+
+  hr {
+    margin: 1rem 0px 1rem 0px;
+    background-color: black;
+    color: black;
+    height: 0.063rem;
+  }
+
+  // Other places, we want the tap target to spill over the sides of the item. Not here.
+  .jf-accordion-item {
+    margin: 0rem;
+
+    details {
+      // Since this accordion is contained within another object, we don't need extra space at the bottom.
+      margin-bottom: 0;
+
+      summary {
+        // Fix bug where scrollbars appear on accordion titles
+        .media-content {
+          overflow-x: unset;
+        }
+      }
+    }
+  }
+}
+
+// MY LETTERS STYLING OVERRIDES
+.jf-my-letters {
+  .my-letters-box {
+    border: 1px solid $primary;
+    box-sizing: border-box;
+    border-radius: 0.25rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.5rem;
+    max-width: 40.875rem;
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+  }
+
+  .start-letter-button {
+    margin-top: 1.25rem;
+  }
+
+  .new-letter-button {
+    margin-top: 2.8125rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 // NORENT STYLING OVERRIDES
 
 .jf-norent-builder-page {
@@ -200,15 +346,15 @@ $jf-navbar-content: $secondary;
   border-radius: 0;
 }
 
-$navbar-height: 5rem;
 $footer-offset: 1rem;
 
 .jf-norent-internal-above-footer-content {
-  min-height: calc(100vh - #{$navbar-height});
+  min-height: calc(100vh - #{$jf-navbar-height * 2});
+
   @include tablet {
     margin-top: 4rem;
     margin-bottom: 4rem;
-    min-height: calc(100vh - 8rem - #{$navbar-height} - #{$footer-offset});
+    min-height: calc(100vh - 8rem - #{$jf-navbar-height} - #{$footer-offset});
   }
 }
 
@@ -238,6 +384,7 @@ ol.is-marginless {
     background-color: $primary;
     color: $secondary;
   }
+
   .message-body {
     background-color: $secondary;
     color: $primary;

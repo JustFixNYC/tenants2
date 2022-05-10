@@ -429,6 +429,18 @@ msgstr "Building main entrance"
 msgid "Building parking entrance"
 msgstr "Building parking entrance"
 
+#: common-data/issue-room-choices-laletterbuilder.ts:53
+msgid "Building exit"
+msgstr ""
+
+#: common-data/issue-room-choices-laletterbuilder.ts:51
+msgid "Building main entrance"
+msgstr ""
+
+#: common-data/issue-room-choices-laletterbuilder.ts:52
+msgid "Building parking entrance"
+msgstr ""
+
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:212
 msgid "Buildings in your landlord's portfolio are located in {0, plural, one {one zip code.} other {# zip codes.}}"
 msgstr "Los edificios en el portafolio del dueño de tu edificio se encuentran en {0, plural, one {un código postal.} other {# código postales.}}"
@@ -693,6 +705,17 @@ msgstr "Defective electricity"
 #: common-data/issue-choices-laletterbuilder.ts:183
 msgid "Defective plumbing"
 msgstr "Defective plumbing"
+
+#: common-data/issue-choices-laletterbuilder.ts:176
+#: common-data/issue-choices-laletterbuilder.ts:177
+#: common-data/issue-choices-laletterbuilder.ts:178
+#: common-data/issue-choices-laletterbuilder.ts:179
+#: common-data/issue-choices-laletterbuilder.ts:180
+#: common-data/issue-choices-laletterbuilder.ts:181
+#: common-data/issue-choices-laletterbuilder.ts:182
+#: common-data/issue-choices-laletterbuilder.ts:183
+msgid "Defective plumbing"
+msgstr ""
 
 #: common-data/us-state-choices.ts:72
 msgid "Delaware"
@@ -1051,6 +1074,10 @@ msgstr "Hallway"
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:26
 msgid "Harassment"
 msgstr "Harassment"
+
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:26
+msgid "Harassment"
+msgstr ""
 
 #: common-data/la-letter-builder-letter-choices.ts:18
 msgid "Harassment (CA)"
@@ -2635,6 +2662,13 @@ msgstr "Utilities"
 msgid "Utilities shut off"
 msgstr "Utilities shut off"
 
+#: common-data/issue-choices-laletterbuilder.ts:167
+#: common-data/issue-choices-laletterbuilder.ts:168
+#: common-data/issue-choices-laletterbuilder.ts:169
+#: common-data/issue-choices-laletterbuilder.ts:170
+msgid "Utilities shut off"
+msgstr ""
+
 #: common-data/issue-choices.ts:157
 msgid "Vacate order issued"
 msgstr "Orden de vacío emitida"
@@ -2718,6 +2752,10 @@ msgstr "Water leak"
 #: frontend/lib/laletterbuilder/homepage.tsx:42
 msgid "We built the LA Letter Builder with lawyers and non-profit tenants rights organizations in Los Angeles to ensure that your letter gives you the most protections."
 msgstr "We built the LA Letter Builder with lawyers and non-profit tenants rights organizations in Los Angeles to ensure that your letter gives you the most protections."
+
+#: frontend/lib/laletterbuilder/homepage.tsx:42
+msgid "We built the LA Letter Builder with lawyers and non-profit tenants rights organizations in Los Angeles to ensure that your letter gives you the most protections."
+msgstr ""
 
 #: frontend/lib/norent/homepage.tsx:170
 msgid "We make it easy to notify your landlord by email or by certified mail for free."

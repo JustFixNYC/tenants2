@@ -1,4 +1,5 @@
 from django import forms
+from laletterbuilder.models import LA_ISSUE_CHOICES
 from loc import models as loc_models
 
 from loc.forms import validate_non_stupid_name
@@ -41,3 +42,12 @@ class LandlordDetailsForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in ["name", "primary_line", "city", "state", "zip_code"]:
             self.fields[field].required = True
+
+
+class HabitabilityIssuesForm(forms.Form):
+
+    la_issues = forms.MultipleChoiceField(
+        required=False,
+        choices=LA_ISSUE_CHOICES.choices,
+        help_text=("The issues to set. Any issues not listed will be removed."),
+    )

@@ -8,7 +8,7 @@ import {
 import { newSb } from "../../../../tests/session-builder";
 
 describe("<HabitabilityContent>", () => {
-  it("works", () => {
+  it("renders", () => {
     const pal = new ReactTestingLibraryPal(
       (
         <HabitabilityLetterContent
@@ -19,6 +19,22 @@ describe("<HabitabilityContent>", () => {
     );
     expect(pal.rr.container).toMatchSnapshot();
   });
+
+  it("includes issues and rooms", () => {
+    const pal = new ReactTestingLibraryPal(
+      (
+        <HabitabilityLetterContent
+          {...habitabilitySampleLetterProps}
+          todaysDate="2020-06-10"
+        />
+      )
+    );
+    pal.rr.getByText("Peeling paint");
+    pal.rr.getByText("Bedroom");
+    pal.rr.getByText("Kitchen");
+  });
+
+  it("translates into spanish", () => {});
 });
 
 const filledUser = newSb().withLoggedInJustfixUser().withLandlordDetails();

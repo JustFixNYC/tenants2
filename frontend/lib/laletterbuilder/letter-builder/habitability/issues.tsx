@@ -31,11 +31,11 @@ function getCategory(issue: LaIssueChoice): LaIssueCategoryChoice {
   return issue.split("__")[0] as LaIssueCategoryChoice;
 }
 
-function getIssue(issue: LaIssueChoice) {
+export function getIssue(issue: LaIssueChoice) {
   return issue.split("__")[1];
 }
 
-function getRoom(issue: LaIssueChoice): LaIssueRoomChoice {
+export function getRoom(issue: LaIssueChoice): LaIssueRoomChoice {
   return issue.split("__")[2] as LaIssueRoomChoice;
 }
 

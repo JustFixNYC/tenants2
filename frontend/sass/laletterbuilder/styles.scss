@@ -103,10 +103,12 @@ $jf-navbar-height: 70px;
     }
   }
 
+  .jf-laletterbuilder-section-primary,
   .jf-laletterbuilder-landing-section-primary {
     background-color: $secondary;
   }
 
+  .jf-laletterbuilder-section-secondary,
   .jf-laletterbuilder-landing-section-secondary {
     background-color: $secondary-accent;
     figure {
@@ -136,6 +138,11 @@ $jf-navbar-height: 70px;
       margin-bottom: 2rem;
     }
   }
+}
+
+.jf-laletterbuilder-section-primary,
+.jf-laletterbuilder-section-secondary {
+  padding: 2.25rem 1.5rem;
 }
 
 .jf-laletterbuilder-logo {

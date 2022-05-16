@@ -21,68 +21,78 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
     <Page
       title={li18n._(t`Select a letter to get started`)}
       className="content"
-      withHeading="small"
     >
-      <LetterCard
-        title={li18n._(t`Notice to Repair`)}
-        time_mins={15}
-        text={li18n._(
-          t`Document repairs needed in your home, and send a formal request to your landlord`
-        )}
-        buttonProps={{
-          to: LaLetterBuilderRouteInfo.locale.habitability.latestStep,
-          className: "button is-primary is-medium",
-          text: li18n._(t`Start a letter`),
-        }}
-        information={repairsInformationNeeded}
-      />
-      <LetterCard
-        title={li18n._(t`Right to Privacy`)}
-        time_mins={15}
-        text={li18n._(t`Your landlord can't enter your unit whenever they want. Create a formal request 
-        which asks your landlord to follow proper protocol and respect your right to privacy.`)}
-        buttonProps={{
-          to:
-            "https://justfix.formstack.com/forms/saje_right_to_privacy_letter_builder_form",
-          className: "button is-light is-medium",
-          text: li18n._(t`Go to letter`),
-        }}
-        information={violationInformationNeeded}
-      />
-      <LetterCard
-        title={li18n._(t`Harassment`)}
-        time_mins={10}
-        text={li18n._(
-          t`Document the harassment you and your family are experiencing and send a notice to your landlord.`
-        )}
-        buttonProps={{
-          to:
-            "https://justfix.formstack.com/forms/saje_anti_harassment_letter_builder_form",
-          className: "button is-light is-medium",
-          text: li18n._(t`Go to letter`),
-        }}
-        information={violationInformationNeeded}
-      />
-      <LetterCard
-        title={li18n._(t`Private Right of Action`)}
-        time_mins={10}
-        text={li18n._(
-          t`The City of LA allows residential tenants to sue for violations of COVID-19 renter protections. Take the first step by documenting violations and notifying your landlord.`
-        )}
-        buttonProps={{
-          to:
-            "https://justfix.formstack.com/forms/saje_la_city_private_right_of_action_letter_builder_form",
-          className: "button is-light is-medium",
-          text: li18n._(t`Go to letter`),
-        }}
-        information={violationInformationNeeded}
-      />
-      <div className="buttons jf-two-buttons">
-        <SimpleClearAnonymousSessionButton
-          label="Back"
-          to={LaLetterBuilderRouteInfo.locale.home}
+      <section className="jf-laletterbuilder-section-primary">
+        <h1>{li18n._(t`Select a letter to get started`)}</h1>
+        <LetterCard
+          title={li18n._(t`Notice to Repair`)}
+          time_mins={15}
+          text={li18n._(
+            t`Document repairs needed in your home, and send a formal request to your landlord`
+          )}
+          buttonProps={{
+            to: LaLetterBuilderRouteInfo.locale.habitability.latestStep,
+            className: "button is-primary is-medium",
+            text: li18n._(t`Start a letter`),
+          }}
+          information={repairsInformationNeeded}
         />
-      </div>
+      </section>
+      <section className="jf-laletterbuilder-section-secondary">
+        <p>{li18n._(t`We're working on adding more letters.`)}</p>
+        <p className="subtitle">
+          {li18n._(
+            t`Until then here are some other forms you can fill in and mail yourself.`
+          )}
+        </p>
+        <LetterCard
+          title={li18n._(t`Right to Privacy`)}
+          time_mins={15}
+          text={li18n._(t`Your landlord can't enter your unit whenever they want. Create a formal request
+          which asks your landlord to follow proper protocol and respect your right to privacy.`)}
+          buttonProps={{
+            to:
+              "https://justfix.formstack.com/forms/saje_right_to_privacy_letter_builder_form",
+            className: "button is-light is-medium",
+            text: li18n._(t`Go to form`),
+          }}
+          information={violationInformationNeeded}
+        />
+        <LetterCard
+          title={li18n._(t`Harassment`)}
+          time_mins={10}
+          text={li18n._(
+            t`Document the harassment you and your family are experiencing and send a notice to your landlord.`
+          )}
+          buttonProps={{
+            to:
+              "https://justfix.formstack.com/forms/saje_anti_harassment_letter_builder_form",
+            className: "button is-light is-medium",
+            text: li18n._(t`Go to form`),
+          }}
+          information={violationInformationNeeded}
+        />
+        <LetterCard
+          title={li18n._(t`Private Right of Action`)}
+          time_mins={10}
+          text={li18n._(
+            t`The City of LA allows residential tenants to sue for violations of COVID-19 renter protections. Take the first step by documenting violations and notifying your landlord.`
+          )}
+          buttonProps={{
+            to:
+              "https://justfix.formstack.com/forms/saje_la_city_private_right_of_action_letter_builder_form",
+            className: "button is-light is-medium",
+            text: li18n._(t`Go to form`),
+          }}
+          information={violationInformationNeeded}
+        />
+        <div className="buttons jf-two-buttons">
+          <SimpleClearAnonymousSessionButton
+            label="Back"
+            to={LaLetterBuilderRouteInfo.locale.home}
+          />
+        </div>
+      </section>
     </Page>
   );
 };

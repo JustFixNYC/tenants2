@@ -79,6 +79,7 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
       />
       <div className="buttons jf-two-buttons">
         <SimpleClearAnonymousSessionButton
+          label="Back"
           to={LaLetterBuilderRouteInfo.locale.home}
         />
       </div>

@@ -24,16 +24,19 @@ export type StartAccountOrLoginProps = MiddleProgressStepProps & {
  * the `route-info.ts` file in the same directory as this file.
  *
  * @param routes
+ * @param backRoute an alternate destination for the "back" button if not the
+ * prior step in the progress bar
  */
 export function createStartAccountOrLoginSteps(
-  routes: StartAccountOrLoginRouteInfo
+  routes: StartAccountOrLoginRouteInfo,
+  backRoute?: string
 ): ProgressStepRoute[] {
   const wrap = (Component: React.ComponentType<StartAccountOrLoginProps>) => {
     return (props: ProgressStepProps) => (
       <Component
         {...props}
         routes={routes}
-        prevStep={assertNotNull(props.prevStep)}
+        prevStep={assertNotNull(backRoute || props.prevStep)}
         nextStep={assertNotNull(props.nextStep)}
       />
     );

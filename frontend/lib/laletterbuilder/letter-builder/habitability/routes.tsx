@@ -54,7 +54,10 @@ const HabitabilityRoutes: React.FC<{}> = () => (
 export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = LaLetterBuilderRouteInfo.locale.habitability;
   const createAccountOrLoginSteps = [
-    ...createStartAccountOrLoginSteps(routes),
+    ...createStartAccountOrLoginSteps(
+      routes,
+      LaLetterBuilderRouteInfo.locale.chooseLetter
+    ),
     {
       path: routes.name,
       exact: true,

@@ -3,16 +3,16 @@ import React from "react";
 import Page from "../../../ui/page";
 import { SessionUpdatingFormSubmitter } from "../../../forms/session-updating-form-submitter";
 import { TextualFormField } from "../../../forms/form-fields";
-import {
-  AccessDatesMutation,
-  BlankAccessDatesInput,
-} from "../../../queries/AccessDatesMutation";
-import { AccessDatesInput } from "../../../queries/globalTypes";
+import { LaLetterBuilderAccessDatesInput } from "../../../queries/globalTypes";
 import { ProgressButtons } from "../../../ui/buttons";
 import { dateAsISO, addDays } from "../../../util/date-util";
 
 import validation from "../../../../../common-data/access-dates-validation.json";
 import { MiddleProgressStep } from "../../../progress/progress-step-route";
+import {
+  BlankLaLetterBuilderAccessDatesInput,
+  LaLetterBuilderAccessDatesMutation,
+} from "../../../queries/LaLetterBuilderAccessDatesMutation";
 
 /**
  * The minimum number of days from today that the first access date
@@ -29,9 +29,9 @@ const DEFAULT_FIRST_DATE_DAYS = MIN_DAYS;
 export function getInitialState(
   accessDates: string[],
   now: Date = new Date()
-): AccessDatesInput {
-  const result: AccessDatesInput = {
-    ...BlankAccessDatesInput,
+): LaLetterBuilderAccessDatesInput {
+  const result: LaLetterBuilderAccessDatesInput = {
+    ...BlankLaLetterBuilderAccessDatesInput,
     date1: dateAsISO(addDays(now, DEFAULT_FIRST_DATE_DAYS)),
   };
   accessDates.forEach((date, i) => {
@@ -54,8 +54,8 @@ const AccessDatesPage = MiddleProgressStep((props) => {
           delivered.
         </p>
         <SessionUpdatingFormSubmitter
-          mutation={AccessDatesMutation}
-          initialState={(session) => getInitialState(session.accessDates)}
+          mutation={LaLetterBuilderAccessDatesMutation}
+          initialState={(session) => getInitialState(session.laAccessDates)}
           onSuccessRedirect={props.nextStep}
         >
           {(ctx) => (
@@ -67,13 +67,13 @@ const AccessDatesPage = MiddleProgressStep((props) => {
                 required
                 {...ctx.fieldPropsFor("date1")}
               />
-              <TextualFormField
+              {/* <TextualFormField
                 label={`Access start time for first date (times must be between 9am and 5pm)`}
                 type="time"
                 // min={minDate}
                 required
                 {...ctx.fieldPropsFor("start_time1")}
-              />
+              /> */}
               <TextualFormField
                 label="Second access date (optional)"
                 type="date"

@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import AccessDatesPage from "../../../loc/access-dates";
+import AccessDatesPage from "./access-dates";
 import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,

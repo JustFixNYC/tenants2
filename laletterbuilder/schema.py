@@ -13,7 +13,12 @@ from users.email_verify import send_verification_email_async
 from project import schema_registry
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from norent.schema import BaseCreateAccount
-from laletterbuilder.forms import CreateAccount, HabitabilityIssuesForm, LandlordDetailsForm
+from laletterbuilder.forms import (
+    CreateAccount,
+    HabitabilityIssuesForm,
+    LandlordDetailsForm,
+    LaAccessDatesForm,
+)
 from project.util.model_form_util import (
     OneToOneUserModelFormMutation,
 )
@@ -24,6 +29,25 @@ from loc import models as loc_models
 from graphene_django.types import DjangoObjectType
 from django.core.exceptions import MultipleObjectsReturned
 
+
+def get_latest_unsent_habitability_letter_for_user(user: JustfixUser) -> models.HabitabilityLetter:
+    """
+    Get most recent unsent letter. This relies on there only being one
+    unsent habitability letter at a time.
+    """
+    with transaction.atomic():
+        letters = models.HabitabilityLetter.objects.filter(
+            user=user, letter_sent_at=None, letter_emailed_at=None
+        )  # TODO: save this in the session instead of fetching it every time?
+        if not letters:
+            return []
+        if len(letters) > 1:
+            # This should never happen - users should not be able to create more than
+            # one habitability letter at a time
+            raise MultipleObjectsReturned(
+                f"{len(letters)} unsent habitability letters returned for {user}"
+            )
+    return letters[0]
 
 @schema_registry.register_mutation
 class LaLetterBuilderCreateAccount(BaseCreateAccount):
@@ -193,27 +217,7 @@ class LaLetterBuilderIssues(SessionFormMutation):
         assert user.is_authenticated
 
         with transaction.atomic():
-            # Get most recent unsent letter. This relies on there
-            # only being one unsent habitability letter at a time.
-            letters = models.HabitabilityLetter.objects.filter(
-                user=user, letter_sent_at=None, letter_emailed_at=None
-            )
-            if not letters:
-                cls.log(info, f"Could not find an unsent habitability letter for user {user}")
-                return cls.make_error(
-                    f"Could not find an unsent habitability letter for user {user}"
-                )
-            if len(letters) > 1:
-                cls.log(
-                    info,
-                    f"Found multiple unsent habitability letters for {user}. "
-                    + "There should only ever be one.",
-                )
-                return cls.make_error(
-                    f"Found multiple unsent habitability letters for {user}. "
-                    + "There should only ever be one."
-                )
-            letter = letters[0]
+            letter = get_latest_unsent_habitability_letter_for_user(user)
 
             models.LaIssue.objects.set_issues_for_letter(letter, form.cleaned_data["la_issues"])
 
@@ -224,6 +228,12 @@ class HabitabilityLetterType(DjangoObjectType):
     class Meta:
         model = models.HabitabilityLetter
         exclude_fields = ("user", "id")
+
+
+class LaAccessDateType(DjangoObjectType):
+    class Meta:
+        model = models.LaAccessDate
+        exclude_fields = ("letter", "id")
 
 
 @schema_registry.register_session_info
@@ -238,12 +248,9 @@ class LaLetterBuilderSessionInfo:
     )
 
     la_issues = graphene.List(graphene.NonNull(graphene.String), required=True)
+    la_access_dates = graphene.List(LaAccessDateType, required=True)
 
-    def resolve_la_issues(self, info: ResolveInfo) -> List[str]:
-        user = info.context.user
-        if not user.is_authenticated:
-            return []
-
+    def get_latest_unsent_habitability_letter_for_user(self, user) -> models.HabitabilityLetter:
         letters = models.HabitabilityLetter.objects.filter(
             user=user, letter_sent_at=None, letter_emailed_at=None
         )  # TODO: save this in the session instead of fetching it every time?
@@ -255,7 +262,15 @@ class LaLetterBuilderSessionInfo:
             raise MultipleObjectsReturned(
                 f"{len(letters)} unsent habitability letters returned for {user}"
             )
-        letter = letters[0]
+        return letters[0]
+
+    def resolve_la_issues(self, info: ResolveInfo) -> List[str]:
+        user = info.context.user
+        if not user.is_authenticated:
+            return []
+
+        letter = self.get_latest_unsent_habitability_letter_for_user(user)
+
         return models.LaIssue.objects.get_issues_for_letter(letter)
 
     def resolve_has_habitability_letter_in_progress(self, info: ResolveInfo):
@@ -265,3 +280,37 @@ class LaLetterBuilderSessionInfo:
         return models.HabitabilityLetter.objects.filter(
             user=request.user, letter_sent_at=None, letter_emailed_at=None
         ).exists()
+
+    def resolve_la_access_dates(self, info: ResolveInfo):
+        user = info.context.user
+        if not user.is_authenticated:
+            return []
+
+        letter = self.get_latest_unsent_habitability_letter_for_user(user)
+
+        return models.LaAccessDate.objects.get_for_letter(letter)
+
+
+@schema_registry.register_mutation
+class LaLetterBuilderAccessDates(SessionFormMutation):
+    """
+    Save the user's access dates and times on their letter
+    """
+    class Meta:
+        form_class = LaAccessDatesForm
+
+    login_required = True
+
+    @classmethod
+    @mutation_requires_onboarding
+    def perform_mutate(cls, form: LaAccessDatesForm, info: ResolveInfo):
+        request = info.context
+        user = request.user
+        assert user.is_authenticated
+
+        letter = get_latest_unsent_habitability_letter_for_user(user)
+
+        # TODO: this should be the combined cleaned function (see forms.py)
+        models.LaAccessDate.objects.set_for_letter(letter, form.get_cleaned_dates())
+
+        return cls.mutation_success()

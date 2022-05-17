@@ -1,8 +1,10 @@
-from typing import List
+from typing import List, NamedTuple
+from datetime import datetime
 from project.common_data import Choices
 from project.util.lob_models_util import LocalizedHTMLLetter
 from users.models import JustfixUser
 from django.db import models, transaction
+
 
 
 LETTER_TYPE_CHOICES = Choices.from_file("la-letter-builder-letter-choices.json")
@@ -102,3 +104,45 @@ class LaIssue(models.Model):
 
     def clean(self):
         ensure_issue_is_valid(self.value)
+
+
+class LaAccessDateManager(models.Manager):
+    @transaction.atomic
+    def set_for_letter(self, letter: HabitabilityLetter, dates):
+        self.filter(letter=letter).delete()
+        self.bulk_create(
+            [
+                LaAccessDate(
+                    letter=letter,
+                    date=date.date,
+                    start_time=date.start_time,
+                    # end_time=date.end_time,
+                )
+                for date in dates
+            ]
+        )
+
+    def get_for_letter(self, letter: HabitabilityLetter) -> List[datetime.date]:
+        return [ad.date for ad in letter.access_dates.all()] # (ad.date, ad.time)
+
+
+class LaAccessDate(models.Model):
+    class Meta:
+        unique_together = ("letter", "date") # , "start_time", "end_time"
+
+    letter = models.ForeignKey(
+        HabitabilityLetter,
+        on_delete=models.CASCADE,
+        related_name="access_dates",
+        help_text="The letter for which access dates are set.",
+    )
+
+    date = models.DateField(help_text="The date on which the user's dwelling will be accessible.")
+    # start_time = models.TimeField(
+    #     help_text="The start time at which the user's dwelling will be accessible."
+    # )
+    # end_time = models.TimeField(
+    #     help_text="The end time at which the user's dwelling will be accessible."
+    # )
+
+    objects = LaAccessDateManager()

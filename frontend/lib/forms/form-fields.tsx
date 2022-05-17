@@ -365,6 +365,7 @@ export type TextualInputType =
   | "text"
   | "password"
   | "date"
+  | "time"
   | "tel"
   | "number"
   | "email";

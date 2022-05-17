@@ -197,7 +197,7 @@ msgstr "All set! Thanks for subscribing!"
 msgid "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
 msgstr "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:44
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:53
 msgid "An idea of all the repairs needed in your home"
 msgstr "An idea of all the repairs needed in your home"
 
@@ -650,11 +650,11 @@ msgstr "Create an Account"
 msgid "Created by"
 msgstr "Created by"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:45
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:54
 msgid "Dates and time you'll be available for repairs"
 msgstr "Dates and time you'll be available for repairs"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:50
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:59
 msgid "Dates that the violation occurred"
 msgstr "Dates that the violation occurred"
 
@@ -693,7 +693,7 @@ msgstr "Defective plumbing"
 msgid "Delaware"
 msgstr "Delaware"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:51
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:60
 msgid "Details about the violation"
 msgstr "Details about the violation"
 
@@ -745,11 +745,11 @@ msgstr "Do you live in {0}, {1}?"
 msgid "Do you still want to mail to:"
 msgstr "Do you still want to mail to:"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:15
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:17
 msgid "Document repairs needed in your home, and send a formal request to your landlord"
 msgstr "Document repairs needed in your home, and send a formal request to your landlord"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:26
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:34
 msgid "Document the harassment you and your family are experiencing and send a notice to your landlord."
 msgstr "Document the harassment you and your family are experiencing and send a notice to your landlord."
 
@@ -847,7 +847,7 @@ msgstr "Enter your address to see some recommended actions."
 msgid "Establish your defense"
 msgstr "Establish your defense"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:60
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:69
 msgid "Estimated time to complete"
 msgstr "Estimated time to complete"
 
@@ -1001,11 +1001,11 @@ msgstr "Give us feedback"
 msgid "Go back"
 msgstr "Go back"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:24
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:29
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:34
-msgid "Go to letter"
-msgstr "Go to letter"
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:32
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:37
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:42
+msgid "Go to form"
+msgstr "Go to form"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:192
 msgid "Go to website"
@@ -1043,7 +1043,7 @@ msgstr "Habitability notice sent on behalf of {0}"
 msgid "Hallway"
 msgstr "Hallway"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:26
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:34
 msgid "Harassment"
 msgstr "Harassment"
 
@@ -1846,7 +1846,7 @@ msgstr "Not sure yet? If you need more time to decide, you can always come back 
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 msgstr "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:15
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:17
 msgid "Notice to Repair"
 msgstr "Notice to Repair"
 
@@ -2028,7 +2028,7 @@ msgstr "Preview this declaration as a PDF"
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:31
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:39
 msgid "Private Right of Action"
 msgstr "Private Right of Action"
 
@@ -2144,7 +2144,7 @@ msgstr "Rhode Island"
 msgid "Right to Counsel's FAQ page"
 msgstr "Right to Counsel's FAQ page"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:20
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:28
 msgid "Right to Privacy"
 msgstr "Right to Privacy"
 
@@ -2197,6 +2197,7 @@ msgid "See which letter is right for me"
 msgstr "See which letter is right for me"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:14
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:16
 msgid "Select a letter to get started"
 msgstr "Select a letter to get started"
 
@@ -2404,7 +2405,7 @@ msgstr "Start"
 msgid "Start a legal case for repairs and/or harassment"
 msgstr "Start a legal case for repairs and/or harassment"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:18
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:20
 msgid "Start a letter"
 msgstr "Start a letter"
 
@@ -2484,7 +2485,7 @@ msgstr "Terms of Use"
 msgid "Texas"
 msgstr "Texas"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:31
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:39
 msgid "The City of LA allows residential tenants to sue for violations of COVID-19 renter protections. Take the first step by documenting violations and notifying your landlord."
 msgstr "The City of LA allows residential tenants to sue for violations of COVID-19 renter protections. Take the first step by documenting violations and notifying your landlord."
 
@@ -2614,6 +2615,10 @@ msgstr "Unrecognized address"
 #: common-data/issue-choices-laletterbuilder.ts:218
 msgid "Unsafe/broken stairs and/or railing"
 msgstr "Unsafe/broken stairs and/or railing"
+
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:26
+msgid "Until then here are some other forms you can fill in and mail yourself."
+msgstr "Until then here are some other forms you can fill in and mail yourself."
 
 #: common-data/us-state-choices.ts:110
 msgid "Utah"
@@ -2770,6 +2775,10 @@ msgstr "We'll use this information to send your hardship declaration form."
 #: frontend/lib/norent/letter-builder/landlord-name-and-contact-types.tsx:7
 msgid "We'll use this information to send your letter."
 msgstr "We'll use this information to send your letter."
+
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:24
+msgid "We're working on adding more letters."
+msgstr "We're working on adding more letters."
 
 #: frontend/lib/start-account-or-login/verify-phone-number.tsx:14
 msgid "We've just sent you a text message containing a verification code. Please enter it below."
@@ -3120,8 +3129,8 @@ msgstr "Your case's court name"
 msgid "Your case's index number"
 msgstr "Your case's index number"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:42
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:48
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:51
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:57
 msgid "Your contact details"
 msgstr "Your contact details"
 
@@ -3153,9 +3162,9 @@ msgstr "Your index number can be found at the top of Postcard or Notice of Petit
 msgid "Your landlord"
 msgstr "Your landlord"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:20
-msgid "Your landlord can't enter your unit whenever they want. Create a formal request  which asks your landlord to follow proper protocol and respect your right to privacy."
-msgstr "Your landlord can't enter your unit whenever they want. Create a formal request  which asks your landlord to follow proper protocol and respect your right to privacy."
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:28
+msgid "Your landlord can't enter your unit whenever they want. Create a formal request which asks your landlord to follow proper protocol and respect your right to privacy."
+msgstr "Your landlord can't enter your unit whenever they want. Create a formal request which asks your landlord to follow proper protocol and respect your right to privacy."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:208
 msgid "Your landlord is associated with {buildings, plural, one {one building} other {# buildings}}."
@@ -3186,8 +3195,8 @@ msgstr "Your landlord or management company's information"
 msgid "Your landlord owns {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit.} other {# units.}}"
 msgstr "Your landlord owns {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit.} other {# units.}}"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:43
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:49
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:52
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:58
 msgid "Your landlord's contact details"
 msgstr "Your landlord's contact details"
 

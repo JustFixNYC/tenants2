@@ -61,4 +61,5 @@ export const getLaLetterBuilderJumpToTopOfPageRoutes = () => [
 
 export const getLaLetterBuilderRoutesForPrimaryPages = () => [
   LaLetterBuilderRouteInfo.locale.home,
+  LaLetterBuilderRouteInfo.locale.chooseLetter,
 ];

@@ -1,5 +1,5 @@
 footer .container {
-  padding: 2.5rem 0.75rem;
+  padding: $spacing-08 $spacing-04;
 
   .content {
     p {
@@ -14,7 +14,7 @@ footer .container {
     }
 
     .is-divider {
-      margin-bottom: 1rem;
+      margin-bottom: $spacing-05;
       border: 1px solid $secondary;
     }
 

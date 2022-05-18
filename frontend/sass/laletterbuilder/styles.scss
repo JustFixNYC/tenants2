@@ -10,6 +10,8 @@ $jf-body-family: "Degular", Arial, Helvetica, sans-serif;
 $jf-title-family: "Degular Display", Arial, Helvetica, sans-serif;
 $jf-alt-title-family: "Suisse Int'l Mono", "Courier New", Courier, monospace;
 
+@import "./variables.scss";
+
 @import "../_util.scss";
 @import "./_bulma-overrides.scss";
 @import "../../../node_modules/bulma/bulma.sass";
@@ -115,10 +117,10 @@ $jf-navbar-height: 70px;
       margin: 0rem;
     }
     .text-section {
-      margin-top: 1rem;
+      margin-top: $spacing-05;
     }
     .text-section:last-of-type {
-      margin-bottom: 2rem;
+      margin-bottom: $spacing-07;
     }
   }
 
@@ -132,17 +134,17 @@ $jf-navbar-height: 70px;
       color: $secondary;
     }
     .text-section {
-      margin-top: 2rem;
+      margin-top: $spacing-07;
     }
     .text-section:last-of-type {
-      margin-bottom: 2rem;
+      margin-bottom: $spacing-07;
     }
   }
 }
 
 .jf-laletterbuilder-section-primary,
 .jf-laletterbuilder-section-secondary {
-  padding: 2.25rem 1.5rem;
+  padding: $spacing-07 $spacing-06;
 }
 
 .jf-laletterbuilder-logo {
@@ -157,7 +159,7 @@ $jf-navbar-height: 70px;
     font-size: 1.125rem;
     font-family: $jf-body-family;
     font-weight: 400;
-    margin-bottom: 0.5rem;
+    margin-bottom: $spacing-03;
 
     // Ooof! We unfortunately need to override some rules marked as "important"
     &.has-text-centered {
@@ -182,20 +184,20 @@ $jf-navbar-height: 70px;
 
 .jf-laletterbuilder-issues-list {
   p:first-child {
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
+    padding-bottom: $spacing-05;
+    margin-bottom: $spacing-05;
     border-bottom: 1px solid $primary;
   }
 
   .jf-accordion-item {
-    margin-bottom: 1rem;
+    margin-bottom: $spacing-05;
 
     details {
       margin-bottom: 0;
 
       summary {
         font-size: 1.125rem;
-        padding: 0 0 1rem 0;
+        padding: 0 0 $spacing-05 0;
         margin: 0;
         border-bottom: 1px solid $primary;
 
@@ -230,10 +232,10 @@ $jf-navbar-height: 70px;
         }
 
         .jf-label-text {
-          margin: 0.3em 0.6em 0.3em 0;
+          margin: $spacing-02 $spacing-03 $spacing-02 0;
           font-size: 0.875rem;
           height: 0.8rem;
-          padding: 1rem;
+          padding: $spacing-05;
           z-index: 5;
           color: $primary;
         }
@@ -254,11 +256,11 @@ $jf-navbar-height: 70px;
   border-radius: 0.25rem;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 1.5rem;
+  margin-top: $spacing-09;
   max-width: 40.875rem;
 
   .content {
-    padding: 1.5rem 1.5rem 0rem 1.5rem;
+    padding: $spacing-06 $spacing-06 0 $spacing-06;
     margin-bottom: 0rem;
 
     h2 {
@@ -276,20 +278,20 @@ $jf-navbar-height: 70px;
     }
 
     .jf-card-button {
-      margin-top: 2rem;
-      margin-bottom: 2rem;
+      margin-top: $spacing-07;
+      margin-bottom: $spacing-07;
       margin-left: auto;
       margin-right: auto;
     }
 
     .jf-la-letter-time {
-      margin: 0em;
+      margin: 0;
 
       .jf-clock-icon {
         float: left;
 
         .image {
-          margin: 0.2rem;
+          margin: $spacing-02;
         }
       }
     }
@@ -328,17 +330,17 @@ $jf-navbar-height: 70px;
     border-radius: 0.25rem;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 1.5rem;
+    margin-top: $spacing-06;
     max-width: 40.875rem;
-    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+    padding: $spacing-06;
   }
 
   .start-letter-button {
-    margin-top: 1.25rem;
+    margin-top: $spacing-07;
   }
 
   .new-letter-button {
-    margin-top: 2.8125rem;
+    margin-top: $spacing-07;
     margin-left: auto;
     margin-right: auto;
   }
@@ -347,7 +349,7 @@ $jf-navbar-height: 70px;
 // NORENT STYLING OVERRIDES
 
 .jf-norent-builder-page {
-  padding: 2.25rem 1.5rem;
+  padding: $spacing-07 $spacing-06;
   background-color: $secondary;
   box-shadow: none;
   border-radius: 0;
@@ -359,14 +361,14 @@ $footer-offset: 1rem;
   min-height: calc(100vh - #{$jf-navbar-height * 2});
 
   @include tablet {
-    margin-top: 4rem;
-    margin-bottom: 4rem;
+    margin-top: $spacing-10;
+    margin-bottom: $spacing-10;
     min-height: calc(100vh - 8rem - #{$jf-navbar-height} - #{$footer-offset});
   }
 }
 
 ol.is-marginless {
-  padding-left: 1.2rem;
+  padding-left: $spacing-05;
 }
 
 .jf-accordion-item img {
@@ -395,7 +397,7 @@ ol.is-marginless {
   .message-body {
     background-color: $secondary;
     color: $primary;
-    padding: 1.5rem;
+    padding: $spacing-06;
   }
 
   &.jf-letter-translation .message-body {
@@ -405,5 +407,5 @@ ol.is-marginless {
 
 .is-divider {
   border: 1px solid $primary;
-  margin: 1rem 0;
+  margin: $spacing-05 0;
 }

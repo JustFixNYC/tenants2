@@ -9,8 +9,8 @@
     p,
     summary {
       // Have border extend beyond element boundary for a better looking focus border
-      padding: 1rem;
-      margin: 0 -1rem;
+      padding: 0.5em 0.75rem;
+      margin: 0 -0.75rem;
     }
     summary {
       // Make question box feel clickable to user

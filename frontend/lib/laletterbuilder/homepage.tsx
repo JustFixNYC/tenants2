@@ -115,7 +115,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
     </section>
     <section className="jf-laletterbuilder-landing-section-primary">
       <div className="hero-body">
-        <div className="jf-laletterbuilder-issues-list container jf-has-text-centered-tablet">
+        <div className="jf-accordion-list-large container jf-has-text-centered-tablet">
           <h2 className="is-spaced">
             <Trans>Frequently asked questions</Trans>
           </h2>

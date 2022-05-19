@@ -10,7 +10,7 @@ $jf-body-family: "Degular", Arial, Helvetica, sans-serif;
 $jf-title-family: "Degular Display", Arial, Helvetica, sans-serif;
 $jf-alt-title-family: "Suisse Int'l Mono", "Courier New", Courier, monospace;
 
-@import "./spacing.scss";
+@import "./_spacing.scss";
 
 @import "../_util.scss";
 @import "./_bulma-overrides.scss";

@@ -15,10 +15,7 @@
   }
 
   border-radius: 5rem;
-  padding: 1.25rem 1.75rem;
-  &.jf-is-next-button {
-    padding: 1.25rem 2.5rem;
-  }
+  padding: $spacing-06 $spacing-07;
 
   height: fit-content;
   // IE support:

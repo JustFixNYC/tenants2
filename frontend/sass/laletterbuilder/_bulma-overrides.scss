@@ -26,11 +26,11 @@ $light: $justfix-grey; // Secondary background color for buttons (i.e. Cancel bu
 $danger: $new-justfix-orange; // Color for error messages
 
 // BUTTONS:
-$button-padding-vertical: 2rem;
-$button-padding-horizontal: 4rem;
+$button-padding-vertical: $spacing-07;
+$button-padding-horizontal: $spacing-10;
 
 // MESSAGES:
-$message-body-padding: 3rem;
+$message-body-padding: $spacing-09;
 $message-body-border-width: 0px;
 
 // CONTENT:

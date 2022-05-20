@@ -23,7 +23,7 @@ nav.navbar {
 
   .navbar-item.jf-laletterbuilder-logo,
   .navbar-burger {
-    padding: 1.24rem 1.5rem;
+    padding: $spacing-06;
     text-align: center;
     display: flex;
     align-items: center;
@@ -36,7 +36,7 @@ nav.navbar {
   }
 
   .navbar-item.jf-laletterbuilder-logo figure.image {
-    margin-bottom: 0.4rem;
+    margin-bottom: $spacing-03;
     width: 120px;
     height: 120px;
   }
@@ -89,7 +89,7 @@ nav.navbar {
       flex-direction: row-reverse;
       .navbar-burger,
       .navbar-item {
-        padding: 0.75rem;
+        padding: $spacing-04;
         color: $secondary;
         text-align: left;
         align-self: flex-end;
@@ -107,7 +107,7 @@ nav.navbar {
         }
 
         figure.image {
-          margin-right: 0.5rem;
+          margin-right: $spacing-03;
         }
 
         .jf-laletterbuilder-header-arrow-icon figure.image {

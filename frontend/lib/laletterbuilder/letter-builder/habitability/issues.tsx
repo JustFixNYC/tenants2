@@ -87,7 +87,7 @@ const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
             <>
               {toDjangoChoices(LaIssueCategoryChoices, labels).map(
                 ([category, categoryLabel], i) => (
-                  <div className="jf-laletterbuilder-issues-list" key={i}>
+                  <div className="jf-accordion-list-large" key={i}>
                     <p>{categoryLabel}</p>
                     {laIssueChoicesForCategory(category).map(
                       ([issue, issueLabel], i) => (

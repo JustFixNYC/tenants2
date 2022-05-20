@@ -115,12 +115,13 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
     </section>
     <section className="jf-laletterbuilder-landing-section-primary">
       <div className="hero-body">
-        <div className="container jf-has-text-centered-tablet">
+        <div className="jf-accordion-list-large container jf-has-text-centered-tablet">
           <h2 className="is-spaced">
             <Trans>Frequently asked questions</Trans>
           </h2>
           <Accordion
             question={li18n._(t`What situations does the tool cover?`)}
+            questionClassName="has-text-primary"
           >
             Example answer here
           </Accordion>

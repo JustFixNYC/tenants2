@@ -32,8 +32,8 @@ LALETTERBUILDER_EMAIL_TO_LANDLORD_URL = "letter-email.txt"
 # email to the user.
 LALETTERBUILDER_EMAIL_TO_USER_URL = "letter-email-to-user.html"
 
-USER_CONFIRMATION_TEXT = "%(name)s you've sent your %(lettertype)s letter. \
-    You can track the delivery of your letter using USPS Tracking: %(url)s."
+USER_CONFIRMATION_TEXT = "%%(name)s you've sent your %(letter_type)s letter. \
+    You can track the delivery of your letter using USPS Tracking: %%(url)s."
 
 logger = logging.getLogger(__name__)
 
@@ -93,7 +93,6 @@ def create_letter(user: JustfixUser) -> models.Letter:
 
 def send_letter(letter: models.Letter):
     user = letter.user
-    ld = user.landlord_details
 
     html_content = react_render(
         SITE_CHOICES.LALETTERBUILDER,
@@ -115,6 +114,7 @@ def send_letter(letter: models.Letter):
 
     pdf_bytes = render_multilingual_letter(letter)
     letter_type = letter.get_letter_type()  # TODO: localize this somewhere
+    ld = user.landlord_details
 
     # TODO: fill in user pref
     if ld.email:

@@ -9,7 +9,6 @@ import logging
 from django.http import FileResponse
 from django.utils import timezone
 from django.db import transaction
-from django.utils.translation import gettext
 
 from users.models import JustfixUser
 from frontend.static_content import (
@@ -137,7 +136,7 @@ def send_letter(letter: models.Letter):
             LALETTERBUILDER_EMAIL_TO_USER_URL,
             is_html_email=True,
             recipients=[user.email],
-            attachment=laletterbuilder_pdf_response(pdf_bytes),
+            attachment=laletterbuilder_pdf_response(pdf_bytes, letter_type),
             # Use the user's preferred locale, since they will be the one
             # reading it.
             locale=user.locale,

@@ -1,9 +1,7 @@
 from django.utils import timezone
 import pytest
-import laletterbuilder.letter_sending
 
 from users.tests.factories import UserFactory
-from project.util.testing_util import Blob
 from .factories import HabitabilityLetterFactory, LandlordDetailsFactory
 from laletterbuilder.letter_sending import (
     email_letter_to_landlord,

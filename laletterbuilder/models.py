@@ -3,6 +3,7 @@ from project.common_data import Choices
 from project.util.lob_models_util import LocalizedHTMLLetter
 from users.models import JustfixUser
 from django.db import models, transaction
+from abc import abstractmethod
 
 
 LETTER_TYPE_CHOICES = Choices.from_file("la-letter-builder-letter-choices.json")
@@ -23,6 +24,10 @@ class Letter(LocalizedHTMLLetter):
         JustfixUser, on_delete=models.CASCADE, related_name="laletterbuilder_letters"
     )
 
+    @abstractmethod
+    def get_letter_type(self) -> str:
+        ...
+
 
 class HabitabilityLetter(Letter):
     def __str__(self):
@@ -30,6 +35,8 @@ class HabitabilityLetter(Letter):
             return super().__str__()
         return f"{self.user.full_legal_name}'s Habitability LA Letter Builder letter"
 
+    def get_letter_type(self) -> str:
+        return LETTER_TYPE_CHOICES.HABITABILITY
 
 def ensure_issue_is_valid(value: str):
     LA_ISSUE_CHOICES.validate_choices(value)

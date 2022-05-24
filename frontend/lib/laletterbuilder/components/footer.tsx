@@ -10,20 +10,27 @@ export const LaLetterBuilderFooter: React.FC<{}> = () => (
   <footer className="has-background-dark">
     <div className="container">
       <div className="columns">
-        <div className="column is-8">
+        <div className="column is-8 is-offset-2">
           <div className="content">
-            <LegalDisclaimer website="LaLetterBuilder.org" />
-            <StaticImage
-              ratio="is-3by1"
-              src={getLaLetterBuilderImageSrc("justfix-saje-combined-logo")}
-              alt="JustFix SAJE"
-            />
-            <p>
-              <Trans>
-                JustFix and SAJE are registered 501(c)(3) nonprofit
-                organizations.
-              </Trans>
-            </p>
+            <div className="columns">
+              {/* TODO: change this to match our final URL decision */}
+              <div className="column is-6">
+                <LegalDisclaimer website="LaLetterBuilder.org" />
+              </div>
+              <div className="column is-6">
+                <StaticImage
+                  className="jf-laletterbuilder-footer-logo"
+                  src={getLaLetterBuilderImageSrc("justfix-saje-combined-logo")}
+                  alt="JustFix SAJE"
+                />
+                <p>
+                  <Trans>
+                    JustFix and SAJE are registered 501(c)(3) nonprofit
+                    organizations.
+                  </Trans>
+                </p>
+              </div>
+            </div>
             <br />
             <div className="is-divider"></div>
             <span className="is-uppercase">

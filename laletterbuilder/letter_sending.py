@@ -38,6 +38,7 @@ USER_CONFIRMATION_TEXT = "%(name)s you've sent your %(lettertype)s letter. \
 
 logger = logging.getLogger(__name__)
 
+
 def laletterbuilder_pdf_response(pdf_bytes: bytes, letter_type: str) -> FileResponse:
     """
     Creates a FileResponse for the given PDF bytes and an
@@ -57,7 +58,7 @@ def email_letter_to_landlord(letter: models.Letter, pdf_bytes: bytes):
     if is_not_demo_deployment(f"emailing {letter} to landlord"):
         letter_type = letter.get_letter_type()
         email_react_rendered_content_with_attachment(
-            SITE_CHOICES.NORENT,
+            SITE_CHOICES.LALETTERBUILDER,
             letter.user,
             LALETTERBUILDER_EMAIL_TO_LANDLORD_URL,
             recipients=[ld.email],
@@ -90,6 +91,7 @@ def create_letter(user: JustfixUser) -> models.Letter:
 
     return letter
 
+
 def send_letter(letter: models.Letter):
     user = letter.user
     ld = user.landlord_details
@@ -113,16 +115,14 @@ def send_letter(letter: models.Letter):
         ).html
 
     pdf_bytes = render_multilingual_letter(letter)
-    letter_type = letter.get_letter_type() # TODO: localize this somewhere
+    letter_type = letter.get_letter_type()  # TODO: localize this somewhere
 
     # TODO: fill in user pref
     if ld.email:
         email_letter_to_landlord(letter, pdf_bytes)
 
     if ld.address_lines_for_mailing:
-        sms_text = USER_CONFIRMATION_TEXT % {
-            "letter_type": letter_type
-        }
+        sms_text = USER_CONFIRMATION_TEXT % {"letter_type": letter_type}
         send_letter_via_lob(
             letter,
             pdf_bytes,

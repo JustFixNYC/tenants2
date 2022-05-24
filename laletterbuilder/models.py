@@ -38,6 +38,7 @@ class HabitabilityLetter(Letter):
     def get_letter_type(self) -> str:
         return LETTER_TYPE_CHOICES.HABITABILITY
 
+
 def ensure_issue_is_valid(value: str):
     LA_ISSUE_CHOICES.validate_choices(value)
 

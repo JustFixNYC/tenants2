@@ -32,9 +32,6 @@ LALETTERBUILDER_EMAIL_TO_LANDLORD_URL = "letter-email.txt"
 # email to the user.
 LALETTERBUILDER_EMAIL_TO_USER_URL = "letter-email-to-user.html"
 
-USER_CONFIRMATION_TEXT = "%%(name)s you've sent your %(letter_type)s letter. \
-    You can track the delivery of your letter using USPS Tracking: %%(url)s."
-
 logger = logging.getLogger(__name__)
 
 
@@ -121,26 +118,26 @@ def send_letter(letter: models.Letter):
         email_letter_to_landlord(letter, pdf_bytes)
 
     if ld.address_lines_for_mailing:
-        sms_text = USER_CONFIRMATION_TEXT % {"letter_type": letter_type}
         send_letter_via_lob(
             letter,
             pdf_bytes,
-            sms_text=sms_text,
             letter_description=f"{letter_type} letter",
         )
 
     if user.email:
-        email_react_rendered_content_with_attachment(
-            SITE_CHOICES.LALETTERBUILDER,
-            user,
-            LALETTERBUILDER_EMAIL_TO_USER_URL,
-            is_html_email=True,
-            recipients=[user.email],
-            attachment=laletterbuilder_pdf_response(pdf_bytes, letter_type),
-            # Use the user's preferred locale, since they will be the one
-            # reading it.
-            locale=user.locale,
-        )
+        pass
+        # TODO: add letter-email-to-user page on the front end
+        # email_react_rendered_content_with_attachment(
+        #     SITE_CHOICES.LALETTERBUILDER,
+        #     user,
+        #     LALETTERBUILDER_EMAIL_TO_USER_URL,
+        #     is_html_email=True,
+        #     recipients=[user.email],
+        #     attachment=laletterbuilder_pdf_response(pdf_bytes, letter_type),
+        #     # Use the user's preferred locale, since they will be the one
+        #     # reading it.
+        #     locale=user.locale,
+        # )
 
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.best_first_name, href=user.admin_url)} "

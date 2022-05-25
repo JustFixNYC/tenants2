@@ -34,7 +34,6 @@ def test_nothing_is_mailed_if_already_sent(settings):
         send_letter_via_lob(
             letter,
             b"blah",
-            sms_text="laletterbuilder blah",
             letter_description="laletterbuilder letter",
         )
         is False

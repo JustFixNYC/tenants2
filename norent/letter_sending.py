@@ -136,10 +136,7 @@ def send_letter(letter: models.Letter):
 
     if ld.address_lines_for_mailing:
         send_letter_via_lob(
-            letter,
-            pdf_bytes,
-            letter_description="No rent letter",
-            sms_text=USER_CONFIRMATION_TEXT
+            letter, pdf_bytes, letter_description="No rent letter", sms_text=USER_CONFIRMATION_TEXT
         )
 
     if user.email:

@@ -58,6 +58,13 @@ const LoadableRentalHistoryRoutes = loadable(
   }
 );
 
+const LoadableLaLetterBuilderRoutes = loadable(
+  () => friendlyLoad(import("./laletterbuilder/site")), // Change this to routes, but need to rewrite routes
+  {
+    fallback: <LoadingPage />,
+  }
+);
+
 const LoadableDevRoutes = loadable(() => friendlyLoad(import("./dev/routes")), {
   fallback: <LoadingPage />,
 });
@@ -149,6 +156,10 @@ export const JustfixRouteComponent: React.FC<RouteComponentProps> = (props) => {
       <Route
         path={JustfixRoutes.locale.rh.prefix}
         component={LoadableRentalHistoryRoutes}
+      />
+      <Route
+        path={JustfixRoutes.locale.laletterbuilder.prefix}
+        component={LoadableLaLetterBuilderRoutes}
       />
       <Route path={JustfixRoutes.dev.prefix} component={LoadableDevRoutes} />
       <PLRoute

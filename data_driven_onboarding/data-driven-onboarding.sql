@@ -9,10 +9,23 @@ with Total_Res_Units as(
         bbl -- is this necessary?
     from pluto_19v2
     where bbl= %(bbl)s
-    ),
+),
+
+-- table of information about all properties associated with a a BBL, using
+-- the new WOWZA portfolio mapping algorithm. This replaces the previous 
+-- get_assoc_addrs_from_bbl() function
+Assoc_Bldgs as (
+    select bldgs.* 
+    from wow.wow_bldgs as bldgs
+    where bldgs.bbl in (
+        select unnest(bbls) 
+        from wow.wow_portfolios
+        where %(bbl)s = any(bbls) 
+    )
+),
     
--- sum of res units in associated portfolio (get_assoc_addrs_from_bbl)
--- count of buildings in associated portfolio (get_assoc_addrs_from_bbl) 
+-- sum of res units in associated portfolio (Assoc_Bldgs)
+-- count of buildings in associated portfolio (Assoc_Bldgs) 
 Count_Of_Assoc_Bldgs as (
     select    
         case 
@@ -23,7 +36,7 @@ Count_Of_Assoc_Bldgs as (
         count (distinct zip) filter (where bbl is not null) as NumberOfAssociatedZips,
         sum(unitsres) as NumberOfResUnitsinPortfolio,
         sum(evictions) as NumberOfEvictionsinPortfolio
-    from get_assoc_addrs_from_bbl(%(bbl)s) 
+    from Assoc_Bldgs 
     group by (Enteredbbl)
 ),
 
@@ -35,7 +48,7 @@ Major_Boro_Of_Assoc_Bldgs as (
         end as Enteredbbl,
         boro,
         count(*) filter (where bbl is not null) NumberOfAssocBldgs
-    from get_assoc_addrs_from_bbl(%(bbl)s) 
+    from Assoc_Bldgs
     group by (Enteredbbl, boro)
     order by NumberOfAssocBldgs desc
     limit 1
@@ -98,7 +111,7 @@ violation_lengths_for_portfolio as(
             select
                 bbl
             from 
-                get_assoc_addrs_from_bbl(%(bbl)s)
+                Assoc_Bldgs
         )
 ),
 
@@ -177,29 +190,29 @@ select
     HPDV.ClassCTotal as hpd_open_class_c_violation_count,
     
     -- number of associated buildings from portfolio
-    -- drawn from function get_assoc_addrs_from_bbl
+    -- drawn from Assoc_Bldgs
     -- will return null if value is unknown or if there are no associated buildings 
     A.NumberOfAssociatedBuildings as associated_building_count,
     
     -- number of distinct zip codes of associated buildings from portfolio
-    -- drawn from function get_assoc_addrs_from_bbl
+    -- drawn from Assoc_Bldgs
     -- will return null if value is unknown or if there are no associated buildings 
     A.NumberOfAssociatedZips as associated_zip_count,
 
     -- number of residential units in portfolio
-    -- drawn from function get_assoc_addrs_from_bbl
+    -- drawn from Assoc_Bldgs
     -- will return null if value is unknown or if there are no associated buildings 
     A.NumberOfResUnitsinPortfolio as portfolio_unit_count,
     
     --number of evictions from associated buildings in portfolio
     A.NumberOfEvictionsinPortfolio as number_of_evictions_from_portfolio,
     -- the most common borough for buildings in the portfolio
-    -- drawn from function get_assoc_addrs_from_bbl
+    -- drawn from Assoc_Bldgs
     -- will return null if value is unknown or if there are no associated buildings 
     MB.boro as portfolio_top_borough,
     
     -- the number of buildings in the portfolio's most common borough
-    -- drawn from function get_assoc_addrs_from_bbl
+    -- drawn from Assoc_Bldgs
     -- will return null if value is unknown or if there are no associated buildings 
     MB.NumberOfAssocBldgs as number_of_bldgs_in_portfolio_top_borough,
 

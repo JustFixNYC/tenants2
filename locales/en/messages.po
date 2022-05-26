@@ -3166,6 +3166,10 @@ msgstr "Your landlord"
 msgid "Your landlord can't enter your unit whenever they want. Create a formal request which asks your landlord to follow proper protocol and respect your right to privacy."
 msgstr "Your landlord can't enter your unit whenever they want. Create a formal request which asks your landlord to follow proper protocol and respect your right to privacy."
 
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:149
+msgid "Your landlord is associated with {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit.} other {# units.}}"
+msgstr "Your landlord is associated with {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit.} other {# units.}}"
+
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:208
 msgid "Your landlord is associated with {buildings, plural, one {one building} other {# buildings}}."
 msgstr "Your landlord is associated with {buildings, plural, one {one building} other {# buildings}}."
@@ -3190,10 +3194,6 @@ msgstr "Your landlord or management company's email"
 #: frontend/lib/laletterbuilder/components/landlord-info.tsx:21
 msgid "Your landlord or management company's information"
 msgstr "Your landlord or management company's information"
-
-#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:149
-msgid "Your landlord owns {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit.} other {# units.}}"
-msgstr "Your landlord owns {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit.} other {# units.}}"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:52
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:58

@@ -25,8 +25,7 @@ class LandlordDetailsForm(forms.ModelForm):
             "primary_line",
             "city",
             "state",
-            "zip_code",
-            "email",
+            "zip_code"
         )
 
     name = forms.CharField(
@@ -51,3 +50,13 @@ class HabitabilityIssuesForm(forms.Form):
         choices=LA_ISSUE_CHOICES.choices,
         help_text=("The issues to set. Any issues not listed will be removed."),
     )
+
+
+class SendOptionsForm(forms.Form):
+    class Meta:
+        model = loc_models.LandlordDetails
+        fields = (
+            "email"
+        )
+
+    mail_for_me = forms.BooleanField(required=True)

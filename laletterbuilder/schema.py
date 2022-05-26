@@ -13,7 +13,12 @@ from users.email_verify import send_verification_email_async
 from project import schema_registry
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from norent.schema import BaseCreateAccount
-from laletterbuilder.forms import CreateAccount, HabitabilityIssuesForm, LandlordDetailsForm
+from laletterbuilder.forms import (
+    CreateAccount,
+    HabitabilityIssuesForm,
+    LandlordDetailsForm,
+    SendOptionsForm,
+)
 from project.util.model_form_util import (
     OneToOneUserModelFormMutation,
 )
@@ -74,7 +79,7 @@ class LaLetterBuilderCreateAccount(BaseCreateAccount):
 
 
 @schema_registry.register_mutation
-class LandlordNameAddressEmail(OneToOneUserModelFormMutation):
+class LandlordNameAddress(OneToOneUserModelFormMutation):
     class Meta:
         form_class = LandlordDetailsForm
 
@@ -89,6 +94,7 @@ class LandlordNameAddressEmail(OneToOneUserModelFormMutation):
     @classmethod
     def resolve(cls, parent, info: ResolveInfo):
         result = super().resolve(parent, info)
+        # TODO: maybe can remove this if case?
         if result is None:
             user = info.context.user
             if user.is_authenticated:
@@ -217,6 +223,24 @@ class LaLetterBuilderIssues(SessionFormMutation):
 
             models.LaIssue.objects.set_issues_for_letter(letter, form.cleaned_data["la_issues"])
 
+        return cls.mutation_success()
+
+
+@schema_registry.register_mutation
+class LaLetterBuilderSendOptions(SessionFormMutation):
+    class Meta:
+        form_class = SendOptionsForm
+
+    login_required = True
+
+    @classmethod
+    def resolve(cls, parent, info: ResolveInfo):
+        return super().resolve(parent, info)
+
+    @classmethod
+    @mutation_requires_onboarding
+    def perform_mutate(cls, form, info: ResolveInfo):
+        send_options = form.save()
         return cls.mutation_success()
 
 

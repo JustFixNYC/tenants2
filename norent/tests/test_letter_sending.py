@@ -34,7 +34,7 @@ def test_nothing_is_mailed_if_already_sent():
     letter = Letter(letter_sent_at=timezone.now())
     assert (
         send_letter_via_lob(
-            letter, b"blah", sms_text="norent blah", letter_description="norent letter"
+            letter, b"blah", letter_description="norent letter", sms_text="norent blah"
         )
         is False
     )

@@ -74,7 +74,7 @@ def render_multilingual_letter(letter: LocalizedHTMLLetter) -> bytes:
 
 
 def send_letter_via_lob(
-    letter: LocalizedHTMLLetter, pdf_bytes: bytes, sms_text: str, letter_description: str
+    letter: LocalizedHTMLLetter, pdf_bytes: bytes, letter_description: str, sms_text: str = None
 ) -> bool:
     """
     Mails the letter to the user's landlord via Lob. Does
@@ -96,13 +96,14 @@ def send_letter_via_lob(
     letter.letter_sent_at = timezone.now()
     letter.save()
 
-    user.send_sms_async(
-        _(sms_text)
-        % {
-            "name": user.full_legal_name,
-            "url": USPS_TRACKING_URL_PREFIX + letter.tracking_number,
-        }
-    )
+    if sms_text:
+        user.send_sms_async(
+            _(sms_text)
+            % {
+                "name": user.full_legal_name,
+                "url": USPS_TRACKING_URL_PREFIX + letter.tracking_number,
+            }
+        )
 
     return True
 

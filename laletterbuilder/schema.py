@@ -240,7 +240,34 @@ class LaLetterBuilderSendOptions(SessionFormMutation):
     @classmethod
     @mutation_requires_onboarding
     def perform_mutate(cls, form, info: ResolveInfo):
-        send_options = form.save()
+        # Get most recent unsent letter. This relies on there
+        # only being one unsent habitability letter at a time.
+        # TODO: copied from LaLetterBuilderIssues, refactor to shared function in session
+        with transaction.atomic():
+            user = info.context.user
+            letters = models.HabitabilityLetter.objects.filter(
+                user=user, letter_sent_at=None, letter_emailed_at=None
+            )
+            if not letters:
+                cls.log(info, f"Could not find an unsent habitability letter for user {user}")
+                return cls.make_error(
+                    f"Could not find an unsent habitability letter for user {user}"
+                )
+            if len(letters) > 1:
+                cls.log(
+                    info,
+                    f"Found multiple unsent habitability letters for {user}. "
+                    + "There should only ever be one.",
+                )
+                return cls.make_error(
+                    f"Found multiple unsent habitability letters for {user}. "
+                    + "There should only ever be one."
+                )
+            letter = letters[0]
+            letter.mail_choice = form.cleaned_data["mail_choice"]
+            letter.save()
+
+            form.save()
         return cls.mutation_success()
 
 

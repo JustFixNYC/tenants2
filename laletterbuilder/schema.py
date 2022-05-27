@@ -267,7 +267,9 @@ class LaLetterBuilderSendOptions(SessionFormMutation):
             letter.mail_choice = form.cleaned_data["mail_choice"]
             letter.save()
 
-            form.save()
+            landlord_details = loc_models.LandlordDetails.objects.get(user=user)
+            landlord_details.email = form.cleaned_data["email"]
+            landlord_details.save()
         return cls.mutation_success()
 
 

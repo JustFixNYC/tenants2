@@ -4,7 +4,7 @@ import { li18n } from "../../i18n-lingui";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { TextualFormField, RadiosFormField } from "../../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import { ProgressButtonsAsLinks } from "../../ui/buttons";
+import { ProgressButtons } from "../../ui/buttons";
 import {
   BlankLaLetterBuilderSendOptionsInput,
   LaLetterBuilderSendOptionsMutation,
@@ -73,10 +73,7 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
                 li18n._(t`Landlord/management company's email`)
               )}
             />
-            <ProgressButtonsAsLinks
-              back={props.prevStep}
-              next={props.nextStep}
-            />{" "}
+            <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />{" "}
           </>
         )}
       </SessionUpdatingFormSubmitter>

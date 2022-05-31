@@ -23,12 +23,4 @@ describe("HabitabilityLetterEmailToUserBody", () => {
     });
     expect(pal.rr.container).toMatchSnapshot();
   });
-
-  it("works with NJ users", () => {
-    const pal = new AppTesterPal(<HabitabilityLetterEmailToUserBody />, {
-      session: newSb().withLoggedInNewJerseyUser().withMailedNorentLetter()
-        .value,
-    });
-    expect(pal.rr.container).toMatchSnapshot();
-  });
 });

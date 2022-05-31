@@ -1918,6 +1918,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "The latest habitability letter sent by the user. If the user has never sent a letter or is not logged in, this will be null.",
+              "isDeprecated": false,
+              "name": "habitabilityLatestLetter",
+              "type": {
+                "kind": "OBJECT",
+                "name": "HabitabilityLetterType",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
               "name": "issues",
@@ -3532,6 +3544,73 @@
           "interfaces": null,
           "kind": "ENUM",
           "name": "LetterRequestMailChoice",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "createdAt",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The USPS tracking number for the mail item.",
+              "isDeprecated": false,
+              "name": "trackingNumber",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "When the letter was mailed.",
+              "isDeprecated": false,
+              "name": "letterSentAt",
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "When the letter was fully processed, i.e. sent to all relevant parties.",
+              "isDeprecated": false,
+              "name": "fullyProcessedAt",
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "HabitabilityLetterType",
           "possibleTypes": null
         },
         {

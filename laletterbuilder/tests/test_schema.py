@@ -10,7 +10,7 @@ from project.schema_base import (
     PhoneNumberAccountStatus,
 )
 from onboarding.scaffolding import update_scaffolding, SCAFFOLDING_SESSION_KEY
-from users.tests.factories import UserFactory
+from users.tests.factories import SecondUserFactory, UserFactory
 from laletterbuilder.tests.factories import HabitabilityLetterFactory, LandlordDetailsFactory
 from project.util.testing_util import one_field_err
 import project.locales
@@ -450,3 +450,27 @@ class TestLaLetterBuilderIssuesMutation:
     def test_issues_is_empty_when_unauthenticated(self, db):
         result = self.graphql_client.execute("query { session { laIssues } }")
         assert result["data"]["session"]["laIssues"] == []
+
+
+class TestHabitabilityLatestLetter:
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, graphql_client, db):
+        self.letter = HabitabilityLetterFactory(tracking_number="abcd")
+        self.graphql_client = graphql_client
+
+    def execute(self):
+        res = self.graphql_client.execute(
+            "query { session { habitabilityLatestLetter { trackingNumber }} }"
+        )
+        return res["data"]["session"]["habitabilityLatestLetter"]
+
+    def test_it_returns_none_if_not_logged_in(self):
+        assert self.execute() is None
+
+    def test_it_returns_none_if_no_letters_exist_for_user(self):
+        self.graphql_client.request.user = SecondUserFactory()
+        assert self.execute() is None
+
+    def test_it_returns_letter_if_one_exists_for_user(self):
+        self.graphql_client.request.user = self.letter.user
+        assert self.execute()["trackingNumber"] == "abcd"

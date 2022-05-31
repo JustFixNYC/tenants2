@@ -126,18 +126,17 @@ def send_letter(letter: models.Letter):
 
     if user.email:
         pass
-        # TODO: add letter-email-to-user page on the front end
-        # email_react_rendered_content_with_attachment(
-        #     SITE_CHOICES.LALETTERBUILDER,
-        #     user,
-        #     LALETTERBUILDER_EMAIL_TO_USER_URL,
-        #     is_html_email=True,
-        #     recipients=[user.email],
-        #     attachment=laletterbuilder_pdf_response(pdf_bytes, letter_type),
-        #     # Use the user's preferred locale, since they will be the one
-        #     # reading it.
-        #     locale=user.locale,
-        # )
+        email_react_rendered_content_with_attachment(
+            SITE_CHOICES.LALETTERBUILDER,
+            user,
+            LALETTERBUILDER_EMAIL_TO_USER_URL,
+            is_html_email=True,
+            recipients=[user.email],
+            attachment=laletterbuilder_pdf_response(pdf_bytes, letter_type),
+            # Use the user's preferred locale, since they will be the one
+            # reading it.
+            locale=user.locale,
+        )
 
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.best_first_name, href=user.admin_url)} "

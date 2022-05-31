@@ -192,6 +192,17 @@ export class SessionBuilder {
     });
   }
 
+  withMailedHabitabilityLetter(): SessionBuilder {
+    return this.with({
+      habitabilityLatestLetter: {
+        trackingNumber: "1234",
+        letterSentAt: "2020-03-13T19:41:09+00:00",
+        createdAt: "2020-03-13T19:41:09+00:00",
+        fullyProcessedAt: "2020-03-13T19:41:09+00:00",
+      },
+    });
+  }
+
   withHardshipDeclarationDetails(
     hdd: Partial<HardshipDeclarationDetails> = {}
   ): SessionBuilder {

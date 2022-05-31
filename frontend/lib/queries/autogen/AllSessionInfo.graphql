@@ -32,6 +32,12 @@ fragment AllSessionInfo on SessionInfo {
   },
   hasHabitabilityLetterInProgress,
   laIssues,
+  habitabilityLatestLetter {
+    createdAt,
+    trackingNumber,
+    letterSentAt,
+    fullyProcessedAt
+  },
   issues,
   customIssuesV2 {
     id,

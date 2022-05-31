@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-05-10 15:28\n"
+"PO-Revision-Date: 2022-05-26 23:09\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1015,7 +1015,7 @@ msgstr "Atrás"
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:37
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:42
 msgid "Go to form"
-msgstr ""
+msgstr "Go to form"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:192
 msgid "Go to website"
@@ -2632,7 +2632,7 @@ msgstr "Unsafe/broken stairs and/or railing"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:26
 msgid "Until then here are some other forms you can fill in and mail yourself."
-msgstr ""
+msgstr "Until then here are some other forms you can fill in and mail yourself."
 
 #: common-data/us-state-choices.ts:110
 msgid "Utah"
@@ -2792,7 +2792,7 @@ msgstr "Utilizaremos esta información para enviar tu carta."
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:24
 msgid "We're working on adding more letters."
-msgstr ""
+msgstr "We're working on adding more letters."
 
 #: frontend/lib/start-account-or-login/verify-phone-number.tsx:14
 msgid "We've just sent you a text message containing a verification code. Please enter it below."
@@ -3178,7 +3178,11 @@ msgstr "el dueño de tu edificio"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:28
 msgid "Your landlord can't enter your unit whenever they want. Create a formal request which asks your landlord to follow proper protocol and respect your right to privacy."
-msgstr ""
+msgstr "Your landlord can't enter your unit whenever they want. Create a formal request which asks your landlord to follow proper protocol and respect your right to privacy."
+
+#: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:149
+msgid "Your landlord is associated with {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit.} other {# units.}}"
+msgstr "Your landlord is associated with {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit.} other {# units.}}"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:149
 msgid "Your landlord is associated with {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit.} other {# units.}}"

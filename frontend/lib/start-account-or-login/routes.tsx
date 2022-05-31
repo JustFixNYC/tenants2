@@ -22,16 +22,21 @@ export type StartAccountOrLoginProps = MiddleProgressStepProps & {
  * This function defines all routes within Account Creation/Login flow.
  * To find the map of each route to its corresponding URL path, check out
  * the `route-info.ts` file in the same directory as this file.
+ *
+ * @param routes
+ * @param backRoute an alternate destination for the "back" button if not the
+ * prior step in the progress bar
  */
 export function createStartAccountOrLoginSteps(
-  routes: StartAccountOrLoginRouteInfo
+  routes: StartAccountOrLoginRouteInfo,
+  backRoute?: string
 ): ProgressStepRoute[] {
   const wrap = (Component: React.ComponentType<StartAccountOrLoginProps>) => {
     return (props: ProgressStepProps) => (
       <Component
         {...props}
         routes={routes}
-        prevStep={assertNotNull(props.prevStep)}
+        prevStep={assertNotNull(backRoute || props.prevStep)}
         nextStep={assertNotNull(props.nextStep)}
       />
     );

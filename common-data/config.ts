@@ -25,6 +25,24 @@ const config: CommonDataConfig = {
       filterOut: ["LANDLORD"],
     },
     {
+      jsonFilename: "issue-choices-laletterbuilder.json",
+      typeName: "LaIssueChoice",
+      exportLabels: true,
+      internationalizeLabels: true,
+    },
+    {
+      jsonFilename: "issue-category-choices-laletterbuilder.json",
+      typeName: "LaIssueCategoryChoice",
+      exportLabels: true,
+      internationalizeLabels: true,
+    },
+    {
+      jsonFilename: "issue-room-choices-laletterbuilder.json",
+      typeName: "LaIssueRoomChoice",
+      exportLabels: true,
+      internationalizeLabels: true,
+    },
+    {
       jsonFilename: "borough-choices.json",
       typeName: "BoroughChoice",
       exportLabels: true,

@@ -1,0 +1,23 @@
+[
+  ["BEDROOM", "Bedroom"],
+  ["LIVING_ROOM", "Living room"],
+  ["DINING_ROOM", "Dining room"],
+  ["BATHROOM", "Bathroom"],
+  ["HALLWAY", "Hallway"],
+  ["KITCHEN", "Kitchen"],
+  ["COMMON_AREAS", "Common areas"],
+  ["OTHER", "Other"],
+  ["NA", "Not applicable"],
+  ["BROKEN", "Broken"],
+  ["NOT_ENOUGH", "Not enough"],
+  ["WATER", "Water"],
+  ["GAS", "Gas"],
+  ["ELECTRICITY", "Electricity"],
+  ["LAUNDRY_ROOM", "Laundry room"],
+  ["FRONT_DOOR", "Front door"],
+  ["BACK_DOOR", "Back door"],
+  ["BUILDING_MAIN_ENTRANCE", "Building main entrance"],
+  ["BUILDING_PARKING_ENTRANCE", "Building parking entrance"],
+  ["BUILDING_EXIT", "Building exit"],
+  ["FLOOR_LEVEL", "Floor level"]
+]

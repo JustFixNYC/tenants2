@@ -30,6 +30,8 @@ fragment AllSessionInfo on SessionInfo {
     letterSentAt,
     updatedAt
   },
+  hasHabitabilityLetterInProgress,
+  laIssues,
   issues,
   customIssuesV2 {
     id,

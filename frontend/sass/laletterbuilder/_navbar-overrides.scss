@@ -1,0 +1,133 @@
+// OVERRIDES DEFAULT BODY PADDING TO ACCOMMODATE TALLER NAVBAR
+.has-navbar-fixed-top.jf-site-laletterbuilder {
+  padding-top: $jf-navbar-height;
+
+  @include mobile {
+    padding-top: calc(#{$jf-navbar-height * 2});
+  }
+}
+
+nav.navbar {
+  background-color: $secondary;
+  border-bottom: 2px solid $primary;
+  height: $jf-navbar-height;
+
+  // TODO: Figure out a placement for the "Demo" label on the LA Letter Builder site
+  .jf-navbar-label {
+    display: none;
+  }
+
+  .navbar-brand {
+    height: $jf-navbar-height;
+  }
+
+  .navbar-item.jf-laletterbuilder-logo,
+  .navbar-burger {
+    padding: $spacing-06;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    @include mobile {
+      width: 50%;
+    }
+  }
+
+  .navbar-item.jf-laletterbuilder-logo figure.image {
+    margin-bottom: $spacing-03;
+    width: 120px;
+    height: 120px;
+  }
+
+  &.is-fixed-top:not(:first-child) {
+    @include mobile {
+      top: $jf-navbar-height;
+      z-index: 10;
+    }
+  }
+
+  .navbar-item.jf-laletterbuilder-logo {
+    border-right: 2px solid $primary;
+  }
+
+  .navbar-burger {
+    color: $primary;
+    text-decoration: underline;
+    min-width: 150px;
+
+    @include desktop {
+      display: none;
+    }
+  }
+
+  .navbar-item,
+  .navbar-link {
+    color: $primary;
+    height: 100%;
+  }
+
+  .navbar-link::after {
+    border-color: $primary;
+  }
+
+  //OVERRIDES FROM DEFAULT NAVBAR STYLING
+  .container {
+    max-width: unset;
+    .navbar-brand {
+      margin-left: 0;
+      align-items: center;
+    }
+  }
+}
+
+.jf-laletterbuilder-top-nav > nav.navbar {
+  background-color: $primary;
+  .container {
+    > .navbar-brand {
+      flex-direction: row-reverse;
+      .navbar-burger,
+      .navbar-item {
+        padding: $spacing-04;
+        color: $secondary;
+        text-align: left;
+        align-self: flex-end;
+        align-items: end;
+        justify-content: left;
+        height: fit-content;
+
+        font-family: $jf-alt-title-family;
+        font-size: 0.875rem;
+        text-decoration: none;
+        text-transform: uppercase;
+
+        @include mobile {
+          width: 50%;
+        }
+
+        figure.image {
+          margin-right: $spacing-03;
+        }
+
+        .jf-laletterbuilder-header-arrow-icon figure.image {
+          height: 12px;
+          width: 12px;
+          margin: 3px 7px;
+        }
+      }
+      .navbar-item .jf-laletterbuilder-header-arrow-icon figure.image img {
+        transform: rotate(-90deg);
+      }
+    }
+    // On the top mobile navbar, only show the first set of options for the dropdown,
+    // hiding all of the other default dropdown options (like the dev menu)
+    .navbar-menu {
+      font-family: $jf-alt-title-family;
+      text-transform: uppercase;
+      .navbar-end .navbar-item:not(:first-child) {
+        display: none;
+      }
+    }
+  }
+}

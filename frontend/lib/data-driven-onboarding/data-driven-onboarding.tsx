@@ -269,7 +269,7 @@ const useBuildingIntroCard: ActionCardPropsCreator = (
       ? [
           data.associatedBuildingCount && data.portfolioUnitCount && (
             <Trans>
-              Your landlord owns{" "}
+              Your landlord is associated with{" "}
               <Plural
                 value={data.associatedBuildingCount}
                 one="one building"

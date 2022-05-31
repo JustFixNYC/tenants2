@@ -21,7 +21,9 @@ import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { MiddleProgressStepProps } from "../progress/progress-step-route";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 
-const ConfirmAddressModal: React.FC<{ nextStep: string }> = ({ nextStep }) => {
+export const ConfirmAddressModal: React.FC<{ nextStep: string }> = ({
+  nextStep,
+}) => {
   const { landlordDetails } = useContext(AppContext).session;
 
   return (

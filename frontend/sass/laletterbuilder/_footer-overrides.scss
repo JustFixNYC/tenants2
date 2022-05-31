@@ -1,0 +1,29 @@
+footer .container {
+  padding: $spacing-08 $spacing-04;
+
+  .content {
+    p {
+      font-size: 0.875rem;
+      line-height: 0.875rem;
+      margin: 0;
+    }
+
+    figure.image {
+      margin: 0;
+      max-width: 200px;
+    }
+
+    .is-divider {
+      margin-bottom: $spacing-05;
+      border: 1px solid $secondary;
+    }
+
+    // Bottom outbound links:
+    .is-uppercase a {
+      font-size: 0.875rem;
+      text-decoration: none;
+      font-weight: 400;
+      font-family: $jf-alt-title-family;
+    }
+  }
+}

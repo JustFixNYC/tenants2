@@ -1,0 +1,22 @@
+.modal-content {
+  border-radius: 2px;
+  .box {
+    background-color: $secondary;
+  }
+  p {
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+  }
+  .content {
+    @include tablet {
+      padding: $spacing-08 $spacing-10;
+    }
+    h1.title {
+      font-size: 2.25rem;
+    }
+  }
+  .button {
+    padding-left: $spacing-09;
+    padding-right: $spacing-09;
+  }
+}

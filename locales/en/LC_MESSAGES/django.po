@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-29 19:23+0000\n"
+"POT-Creation-Date: 2022-02-23 19:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,22 +23,22 @@ msgstr ""
 msgid "%(name)s, your eviction protection form has been emailed to your landlord."
 msgstr ""
 
-#: evictionfree/declaration_sending.py:133
+#: evictionfree/declaration_sending.py:132
 #, python-format
 msgid "%(name)s, a hard copy of your eviction protection form has been mailed to your landlord via USPS mail. You can track the delivery of your hard copy form using USPS Tracking: %(url)s."
 msgstr ""
 
-#: evictionfree/declaration_sending.py:176
+#: evictionfree/declaration_sending.py:175
 #, python-format
 msgid "%(name)s, your eviction protection form has been emailed to your local housing court."
 msgstr ""
 
-#: evictionfree/declaration_sending.py:249
+#: evictionfree/declaration_sending.py:248
 #, python-format
 msgid "%(name)s, you can download a PDF of your completed declaration form by logging back into your account: %(url)s."
 msgstr ""
 
-#: evictionfree/declaration_sending.py:257
+#: evictionfree/declaration_sending.py:256
 #, python-format
 msgid "For more information about New York’s eviction protections and your rights as a tenant, visit %(url)s. To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
 msgstr ""
@@ -92,7 +92,7 @@ msgstr ""
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
 msgstr ""
 
-#: norent/letter_sending.py:112
+#: norent/letter_sending.py:38
 #, python-format
 msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
 msgstr ""

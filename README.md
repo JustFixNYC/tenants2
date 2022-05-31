@@ -280,8 +280,8 @@ You can alternatively develop the app via [Docker][], which
 means you don't have to install any dependencies. However,
 Docker takes a bit of time to learn how to use.
 
-After you install Docker on your machine, open up `Preferences > Resources > Advanced`
-and make sure you give it at least 4 GB of memory to play with.
+After you install Docker on your machine, open up `Settings(gear icon) > Resources > Advanced`
+and make sure you give it at least 8 GB of memory to play with.
 If you don't, you might get an out-of-memory error when attempting
 to build and/or run the Docker image.
 

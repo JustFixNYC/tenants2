@@ -12,10 +12,6 @@ import {
 } from "../../ui/cross-language";
 import { OutboundLink } from "../../ui/outbound-link";
 import Page from "../../ui/page";
-import {
-  HabitabilityLetterEmailToLandlordForUser,
-  HabitabilityLetterTranslation,
-} from "../letter-builder/habitability/habitability-letter-content";
 
 const Microcopy: React.FC<{ children: React.ReactNode }> = (props) => (
   <p className="is-uppercase is-size-7">{props.children}</p>
@@ -106,6 +102,7 @@ const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
               Here’s a preview of the email that will be sent on your behalf:
             </Trans>
           </p>
+          <br />
           <ForeignLanguageOnly>
             <InYourLanguageMicrocopy
               additionalContent={
@@ -119,7 +116,7 @@ const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
               {props.session.landlordDetails?.email &&
                 `<${props.session.landlordDetails?.email}>`}
             </div>
-            <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">
+            <div className="message-body has-text-left">
               <EmailContent />
             </div>
           </article>
@@ -134,7 +131,9 @@ const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
 };
 
 export function createLaLetterBuilderPreviewPage(
-  englishVersionOfLetterContent: LetterContent
+  englishVersionOfLetterContent: LetterContent,
+  emailContent: React.FC<{}>,
+  letterTranslation: React.FC<{}>
 ) {
   return MiddleProgressStep((props) => {
     const { session } = useContext(AppContext);
@@ -143,8 +142,8 @@ export function createLaLetterBuilderPreviewPage(
       <LetterPreviewPage
         title="LA Letter builder title"
         letterContent={englishVersionOfLetterContent}
-        emailContent={HabitabilityLetterEmailToLandlordForUser}
-        letterTranslation={HabitabilityLetterTranslation}
+        emailContent={emailContent}
+        letterTranslation={letterTranslation}
         session={session}
         prevStep={props.prevStep}
         nextStep={props.nextStep}

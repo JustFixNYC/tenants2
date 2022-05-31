@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<HabitabilityContent> works 1`] = `
+exports[`<HabitabilityContent> renders 1`] = `
 <div>
   <h1
     class="has-text-right"
@@ -52,7 +52,51 @@ exports[`<HabitabilityContent> works 1`] = `
       ,
     </p>
     <p>
-      laletterbuilder.habitability.intro
+      laletterbuilder.habitability.intro-1
+    </p>
+    <section>
+      <h2>
+        Repairs required
+      </h2>
+      <ol>
+        <li>
+          <b>
+            Peeling paint
+          </b>
+          <ul>
+            <li>
+              Bedroom
+            </li>
+            <li>
+              Kitchen
+            </li>
+          </ul>
+        </li>
+      </ol>
+    </section>
+    <div
+      class="jf-avoid-page-breaks-within"
+    >
+      <h2>
+        laletterbuilder.habitability.access-title
+      </h2>
+      <p>
+        laletterbuilder.habitability.access-intro
+      </p>
+      <p>
+        laletterbuilder.habitability.access-warning
+      </p>
+      <ul>
+        <li>
+          Sunday, May 1, 2022
+        </li>
+        <li>
+          Tuesday, May 2, 2023
+        </li>
+      </ul>
+    </div>
+    <p>
+      laletterbuilder.habitability.consequences
     </p>
     <p
       class="jf-signature"
@@ -66,12 +110,14 @@ exports[`<HabitabilityContent> works 1`] = `
 </div>
 `;
 
-exports[`getLocContentPropsFromSession() returns expected value when user is logged in 1`] = `
+exports[`getHabitabilityContentPropsFromSession() returns expected value when user is logged in 1`] = `
 Object {
+  "accessDates": Array [],
   "aptNumber": "",
   "city": "Brooklyn",
   "email": "boop@jones.net",
   "firstName": "Boop",
+  "issues": Array [],
   "landlordAddress": "123 Cloud City Drive
 Bespin, NY 12345",
   "landlordEmail": "landlordo@calrissian.net",

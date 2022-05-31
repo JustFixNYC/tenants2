@@ -9,6 +9,16 @@ exports[`HabitabilityLetterEmailToUserBody works with LA users 1`] = `
     You've sent your Notice To Repair letter. Attached to this email is a PDF copy for your records.
   </p>
   <p>
+    You can also track the delivery of your letter using USPS Tracking:
+     
+    <a
+      data-jf-show-href-only-in-plaintext="true"
+      href="https://tools.usps.com/go/TrackConfirmAction?tLabels=1234"
+    >
+      1234
+    </a>
+  </p>
+  <p>
     You can contact Strategic Actions for a Just Economy (SAJE) - a 501c3 non-profit organization in South Los Angeles.
   </p>
   <blockquote>
@@ -20,17 +30,6 @@ exports[`HabitabilityLetterEmailToUserBody works with LA users 1`] = `
     <strong>
       Strategic Actions for a Just Economy (SAJE) is available for phone calls at (213) 745-9961, Monday-Friday from 10:00am-6:00pm.
     </strong>
-  </p>
-</div>
-`;
-
-exports[`HabitabilityLetterEmailToUserBody works with SF users 1`] = `
-<div>
-  <p>
-    Hello Boop,
-  </p>
-  <p>
-    You've sent your Notice To Repair letter. Attached to this email is a PDF copy for your records.
   </p>
 </div>
 `;

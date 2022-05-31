@@ -10,16 +10,9 @@ beforeAll(preloadLingui(LaLetterBuilderLinguiI18n));
 describe("HabitabilityLetterEmailToUserBody", () => {
   it("works with LA users", () => {
     const pal = new AppTesterPal(<HabitabilityLetterEmailToUserBody />, {
-      session: newSb().withLoggedInLosAngelesUser().withMailedNorentLetter()
-        .value,
-    });
-    expect(pal.rr.container).toMatchSnapshot();
-  });
-
-  it("works with SF users", () => {
-    const pal = new AppTesterPal(<HabitabilityLetterEmailToUserBody />, {
-      session: newSb().withLoggedInSanFranciscoUser().withMailedNorentLetter()
-        .value,
+      session: newSb()
+        .withLoggedInLosAngelesUser()
+        .withMailedHabitabilityLetter().value,
     });
     expect(pal.rr.container).toMatchSnapshot();
   });

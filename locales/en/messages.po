@@ -56,6 +56,10 @@ msgstr "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter y
 msgid "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1>"
 msgstr "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1>"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:9
+msgid "<0>Hello {0},</0><1>You've sent your Notice To Repair letter. Attached to this email is a PDF copy for your records.</1>"
+msgstr "<0>Hello {0},</0><1>You've sent your Notice To Repair letter. Attached to this email is a PDF copy for your records.</1>"
+
 #: frontend/lib/norent/data/faqs-content.tsx:389
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
 msgstr "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
@@ -1369,7 +1373,7 @@ msgstr "Join our <0/>mailing list"
 msgid "Join the tenant movement"
 msgstr "Join the tenant movement"
 
-#: frontend/lib/laletterbuilder/components/footer.tsx:15
+#: frontend/lib/laletterbuilder/components/footer.tsx:20
 msgid "JustFix and SAJE are registered 501(c)(3) nonprofit organizations."
 msgstr "JustFix and SAJE are registered 501(c)(3) nonprofit organizations."
 
@@ -2023,7 +2027,7 @@ msgstr "Preview of your letter"
 msgid "Preview this declaration as a PDF"
 msgstr "Preview this declaration as a PDF"
 
-#: frontend/lib/laletterbuilder/components/footer.tsx:29
+#: frontend/lib/laletterbuilder/components/footer.tsx:36
 #: frontend/lib/ui/privacy-info-modal.tsx:30
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
@@ -2476,7 +2480,7 @@ msgstr "Tenants impacted by the COVID-19 crisis are protected from eviction for 
 msgid "Tennessee"
 msgstr "Tennessee"
 
-#: frontend/lib/laletterbuilder/components/footer.tsx:39
+#: frontend/lib/laletterbuilder/components/footer.tsx:46
 #: frontend/lib/ui/privacy-info-modal.tsx:31
 msgid "Terms of Use"
 msgstr "Terms of Use"
@@ -3020,10 +3024,12 @@ msgstr "You already have an account"
 msgid "You can"
 msgstr "You can"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:17
 #: frontend/lib/norent/letter-email-to-user.tsx:263
 msgid "You can also track the delivery of your letter using USPS Tracking:"
 msgstr "You can also track the delivery of your letter using USPS Tracking:"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:26
 #: frontend/lib/norent/letter-email-to-user.tsx:134
 msgid "You can contact Strategic Actions for a Just Economy (SAJE) - a 501c3 non-profit organization in South Los Angeles."
 msgstr "You can contact Strategic Actions for a Just Economy (SAJE) - a 501c3 non-profit organization in South Los Angeles."
@@ -3096,6 +3102,10 @@ msgstr "Your NoRent letter and important next steps"
 #: frontend/lib/norent/letter-content.tsx:282
 msgid "Your NoRent.org letter"
 msgstr "Your NoRent.org letter"
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:69
+msgid "Your Notice to Repair letter and important next steps"
+msgstr "Your Notice to Repair letter and important next steps"
 
 #: frontend/lib/rh/routes.tsx:273
 msgid "Your Rent History has been requested from the New York State DHCR!"
@@ -3624,6 +3634,7 @@ msgstr "NoRent.org is made by <0>JustFix.nyc</0>, a non-profit organization that
 msgid "norent.outlineOfLetterBuilderSteps"
 msgstr "<0>In the next few steps, we’ll build your letter using the following information. Have this information on hand if possible:</0><1><2><3>your phone number, email address, and residence</3></2><4><5>your landlord or management company’s mailing and/or email address</5></4></1>"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:33
 #: frontend/lib/norent/letter-email-to-user.tsx:141
 msgid "norent.sajeBlockQuote"
 msgstr "Since 1996 SAJE has been a force for economic justice in our community focusing on tenant rights, healthy housing, and equitable development. SAJE believes that the fate of city neighborhoods should be decided by those who dwell there, and convenes with other organizations to ensure this occurs in a manner that is fair, replicable, and sustainable. Housing is a human right."
@@ -3632,6 +3643,7 @@ msgstr "Since 1996 SAJE has been a force for economic justice in our community f
 msgid "norent.sajeFacebookLive"
 msgstr "<0>SAJE is also hosting Tenant Rights Q&A every Wednesday on Facebook Live:</0><1><2>English 11am-12pm</2><3>Spanish 12:30pm-1:30pm</3></1>"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:46
 #: frontend/lib/norent/letter-email-to-user.tsx:154
 msgid "norent.sajePhoneCalls"
 msgstr "Strategic Actions for a Just Economy (SAJE) is available for phone calls at (213) 745-9961, Monday-Friday from 10:00am-6:00pm."

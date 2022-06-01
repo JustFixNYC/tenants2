@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-06-01 16:23\n"
+"PO-Revision-Date: 2022-06-01 20:09\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -60,6 +60,10 @@ msgstr "<0>Herramientas gratuitas para luchar por un hogar seguro y saludable</0
 #: frontend/lib/norent/letter-email-to-user.tsx:255
 msgid "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1>"
 msgstr "<0>Hola {0},</0><1>Has enviado tu carta de NoRent. Aquí tienes una copia PDF para tus archivos adjunta a este correo electrónico.</1>"
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:9
+msgid "<0>Hello {0},</0><1>You've sent your Notice To Repair letter. Attached to this email is a PDF copy for your records.</1>"
+msgstr "<0>Hello {0},</0><1>You've sent your Notice To Repair letter. Attached to this email is a PDF copy for your records.</1>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:389
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
@@ -3023,10 +3027,12 @@ msgstr "Ya tienes una cuenta"
 msgid "You can"
 msgstr "Puedes"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:17
 #: frontend/lib/norent/letter-email-to-user.tsx:263
 msgid "You can also track the delivery of your letter using USPS Tracking:"
 msgstr "También puede seguir la entrega de su carta usando USPS Tracking:"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:26
 #: frontend/lib/norent/letter-email-to-user.tsx:134
 msgid "You can contact Strategic Actions for a Just Economy (SAJE) - a 501c3 non-profit organization in South Los Angeles."
 msgstr "Puedes contactar Acciones Estratégicas para una Economía Justa (SAJE) - una organización sin fines de lucro 501c3 en el sur de Los Angeles."
@@ -3099,6 +3105,10 @@ msgstr "Tu carta de NoRent y pasos siguientes importantes"
 #: frontend/lib/norent/letter-content.tsx:282
 msgid "Your NoRent.org letter"
 msgstr "Tu carta de NoRent.org"
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:69
+msgid "Your Notice to Repair letter and important next steps"
+msgstr "Your Notice to Repair letter and important next steps"
 
 #: frontend/lib/rh/routes.tsx:273
 msgid "Your Rent History has been requested from the New York State DHCR!"
@@ -3626,6 +3636,7 @@ msgstr "NoRent.org fue creado por <0>JustFix.nyc</0>, una organización sin fine
 msgid "norent.outlineOfLetterBuilderSteps"
 msgstr "<0>En los próximos pasos, construiremos tu carta utilizando la siguiente información. Si puedes, ten esta información a mano:</0><1><2><3>tu número de teléfono, dirección de correo electrónico y dirección postal</3></2><4><5>la dirección postal del dueño o manager de tu edificio y/o su dirección de correo electrónico</5></4></1>"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:33
 #: frontend/lib/norent/letter-email-to-user.tsx:141
 msgid "norent.sajeBlockQuote"
 msgstr "Desde 1996, SAJE ha sido una fuerza para la justicia económica en nuestra comunidad, centrándose en los derechos de los inquilinos, la vivienda saludable y el desarrollo equitativo. Creemos que el destino de los vecindarios de la ciudad debe ser decidido por quienes viven allí, y nos reunimos con otras organizaciones para garantizar que esto ocurra de manera justa, replicable y sostenible. La vivienda es un derecho humano."
@@ -3634,6 +3645,7 @@ msgstr "Desde 1996, SAJE ha sido una fuerza para la justicia económica en nuest
 msgid "norent.sajeFacebookLive"
 msgstr "<0>SAJE también ofrece todos los miércoles sesiones de preguntas y respuestas en Facebook Live:</0><1><2>Inglés 11am-12pm</2><3>Español 12:30pm-1:30pm</3></1>"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:46
 #: frontend/lib/norent/letter-email-to-user.tsx:154
 msgid "norent.sajePhoneCalls"
 msgstr "Acciones Estratégicas para una Economía Justa (SAJE) está disponible para llamadas telefónicas en el (213) 745-9961, de lunes a viernes de 10:00am-6:00pm."

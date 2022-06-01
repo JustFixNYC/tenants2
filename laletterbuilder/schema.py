@@ -276,7 +276,13 @@ class LaLetterBuilderSendOptions(SessionFormMutation):
 class HabitabilityLetterType(DjangoObjectType):
     class Meta:
         model = models.HabitabilityLetter
-        only_fields = ("tracking_number", "letter_sent_at", "created_at", "fully_processed_at")
+        only_fields = (
+            "tracking_number",
+            "letter_sent_at",
+            "created_at",
+            "fully_processed_at",
+            "mail_choice",
+        )
 
 
 @schema_registry.register_session_info

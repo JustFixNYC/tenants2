@@ -3605,12 +3605,51 @@
                 "name": "DateTime",
                 "ofType": null
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "How the letter will be mailed.",
+              "isDeprecated": false,
+              "name": "mailChoice",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "HabitabilityLetterMailChoice",
+                  "ofType": null
+                }
+              }
             }
           ],
           "inputFields": null,
           "interfaces": [],
           "kind": "OBJECT",
           "name": "HabitabilityLetterType",
+          "possibleTypes": null
+        },
+        {
+          "description": "An enumeration.",
+          "enumValues": [
+            {
+              "deprecationReason": null,
+              "description": "Mail for me",
+              "isDeprecated": false,
+              "name": "WE_WILL_MAIL"
+            },
+            {
+              "deprecationReason": null,
+              "description": "Send myself",
+              "isDeprecated": false,
+              "name": "USER_WILL_MAIL"
+            }
+          ],
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "ENUM",
+          "name": "HabitabilityLetterMailChoice",
           "possibleTypes": null
         },
         {

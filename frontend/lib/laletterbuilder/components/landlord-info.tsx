@@ -18,7 +18,6 @@ import {
   BlankLandlordNameAddressInput,
   LandlordNameAddressMutation,
 } from "../../queries/LandlordNameAddressMutation";
-import { optionalizeLabel } from "../../forms/optionalize-label";
 import { exactSubsetOrDefault } from "../../util/util";
 import { WhereDoIFindLandlordInfo } from "../../common-steps/landlord-name-and-contact-types";
 

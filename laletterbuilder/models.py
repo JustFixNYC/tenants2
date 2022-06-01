@@ -36,6 +36,7 @@ class Letter(LocalizedHTMLLetter):
     def get_letter_type(self) -> str:
         ...
 
+
 class HabitabilityLetter(Letter):
     def __str__(self):
         if not self.pk:

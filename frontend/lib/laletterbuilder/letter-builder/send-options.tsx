@@ -5,10 +5,7 @@ import { MiddleProgressStep } from "../../progress/progress-step-route";
 import { TextualFormField, RadiosFormField } from "../../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { ProgressButtons } from "../../ui/buttons";
-import {
-  BlankLaLetterBuilderSendOptionsInput,
-  LaLetterBuilderSendOptionsMutation,
-} from "../../queries/LaLetterBuilderSendOptionsMutation";
+import { LaLetterBuilderSendOptionsMutation } from "../../queries/LaLetterBuilderSendOptionsMutation";
 import {
   LaMailingChoice,
   LaMailingChoices,
@@ -28,7 +25,10 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
       <SessionUpdatingFormSubmitter
         mutation={LaLetterBuilderSendOptionsMutation}
         initialState={(s) => ({
-          mailChoice: "WE_WILL_MAIL" as LaMailingChoice,
+          // Default in letter is WE_WILL_MAIL, letter should always exist at this point
+          mailChoice:
+            s.habitabilityLatestLetter?.mailChoice ||
+            ("WE_WILL_MAIL" as LaMailingChoice),
           email: s.landlordDetails?.email || "",
         })}
         onSuccessRedirect={() => props.nextStep}

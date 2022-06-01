@@ -23,7 +23,6 @@ DEFAULT_LANDLORD_DETAILS_INPUT = {
     "city": "",
     "state": "",
     "zipCode": "",
-    "email": "",
 }
 
 EXAMPLE_LANDLORD_DETAILS_INPUT = {
@@ -32,7 +31,6 @@ EXAMPLE_LANDLORD_DETAILS_INPUT = {
     "city": "Somewhere",
     "state": "NY",
     "zipCode": "11299",
-    "email": "boop@boop.com",
 }
 
 
@@ -40,8 +38,8 @@ def execute_ld_mutation(graphql_client, **input):
     input = {**DEFAULT_LANDLORD_DETAILS_INPUT, **input}
     return graphql_client.execute(
         """
-        mutation MyMutation($input: LandlordNameAddressEmailInput!) {
-            output: landlordNameAddressEmail(input: $input) {
+        mutation MyMutation($input: LandlordNameAddressInput!) {
+            output: landlordNameAddress(input: $input) {
                 errors {
                     field
                     messages
@@ -54,7 +52,6 @@ def execute_ld_mutation(graphql_client, **input):
                         city
                         state
                         zipCode
-                        email
                     }
                 }
             }
@@ -66,7 +63,7 @@ def execute_ld_mutation(graphql_client, **input):
 
 class TestLaLetterBuilderLandlordInfo:
     @pytest.mark.django_db
-    def test_landlord_name_address_email_creates_details(self, graphql_client):
+    def test_landlord_name_address_creates_details(self, graphql_client):
         graphql_client.request.user = UserFactory()
         ld_1 = EXAMPLE_LANDLORD_DETAILS_INPUT
         result = execute_ld_mutation(graphql_client, **ld_1)
@@ -75,7 +72,7 @@ class TestLaLetterBuilderLandlordInfo:
         assert result["session"]["landlordDetails"] == ld_1
 
     @pytest.mark.django_db
-    def test_landlord_name_address_email_requires_fields(self, graphql_client):
+    def test_landlord_name_address_requires_fields(self, graphql_client):
         graphql_client.request.user = UserFactory()
         errors = execute_ld_mutation(graphql_client)["errors"]
         expected_errors = 5
@@ -357,6 +354,7 @@ class TestLaLetterBuilderCreateLetter:
         letter = HabitabilityLetter.objects.get(user=self.graphql_client.request.user)
         assert letter.locale == "es"
         assert letter.html_content == "<>"
+        assert letter.mail_choice == "WE_WILL_MAIL"
 
         # TODO: add tests for user email after implementing
         # (see NoRent test_schema.py)
@@ -474,3 +472,49 @@ class TestHabitabilityLatestLetter:
     def test_it_returns_letter_if_one_exists_for_user(self):
         self.graphql_client.request.user = self.letter.user
         assert self.execute()["trackingNumber"] == "abcd"
+
+
+class TestLaLetterBuilderSendOptionsMutation:
+    @pytest.fixture(autouse=True)
+    def setup_fixture(self, graphql_client, db):
+        self.user = UserFactory(email="boop2@jones.net")
+        graphql_client.request.user = self.user
+        self.graphql_client = graphql_client
+
+    def execute(self, input):
+        return self.graphql_client.execute(
+            """
+            mutation MyMutation($input: LaLetterBuilderSendOptionsInput!) {
+                output: laLetterBuilderSendOptions(input: $input) {
+                    errors {
+                        field
+                        messages
+                    }
+                    session {
+                        habitabilityLatestLetter {
+                            mailChoice
+                        }
+                        landlordDetails {
+                            email
+                        }
+                    }
+                }
+            }
+            """,
+            variables={"input": input},
+        )["data"]["output"]
+
+    @pytest.mark.django_db
+    def test_it_saves_landlord_email_and_mail_choice(self, db):
+        OnboardingInfoFactory(user=self.user)
+        HabitabilityLetterFactory(user=self.user)
+        LandlordDetailsFactory(user=self.user)
+
+        result = self.execute({
+            "email": "landlord@boop.com",
+            "mailChoice": "USER_WILL_MAIL",
+        })
+
+        assert result["errors"] == []
+        assert result["session"]["landlordDetails"]["email"] == "landlord@boop.com"
+        assert result["session"]["habitabilityLatestLetter"]["mailChoice"] == "USER_WILL_MAIL"

@@ -69,6 +69,23 @@ def email_letter_to_landlord(letter: models.Letter, pdf_bytes: bytes):
     return True
 
 
+def email_letter_to_user(letter: models.Letter, pdf_bytes: bytes):
+    if is_not_demo_deployment(f"emailing {letter} to user"):
+        letter_type = letter.get_letter_type()
+        email_react_rendered_content_with_attachment(
+            SITE_CHOICES.LALETTERBUILDER,
+            letter.user,
+            LALETTERBUILDER_EMAIL_TO_USER_URL,
+            is_html_email=True,
+            recipients=[letter.user.email],
+            attachment=laletterbuilder_pdf_response(pdf_bytes, letter_type),
+            # Use the user's preferred locale, since they will be the one
+            # reading it.
+            locale=letter.user.locale,
+        )
+    return True
+
+
 def create_letter(user: JustfixUser) -> models.Letter:
     """
     Create a blank Letter model. HTML content is required but it will be trivial until
@@ -125,19 +142,7 @@ def send_letter(letter: models.Letter):
         )
 
     if user.email:
-        pass
-        # TODO: add letter-email-to-user page on the front end
-        # email_react_rendered_content_with_attachment(
-        #     SITE_CHOICES.LALETTERBUILDER,
-        #     user,
-        #     LALETTERBUILDER_EMAIL_TO_USER_URL,
-        #     is_html_email=True,
-        #     recipients=[user.email],
-        #     attachment=laletterbuilder_pdf_response(pdf_bytes, letter_type),
-        #     # Use the user's preferred locale, since they will be the one
-        #     # reading it.
-        #     locale=user.locale,
-        # )
+        email_letter_to_user(letter, pdf_bytes)
 
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.best_first_name, href=user.admin_url)} "

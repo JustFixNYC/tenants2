@@ -223,7 +223,7 @@ class LaLetterBuilderIssues(SessionFormMutation):
 class HabitabilityLetterType(DjangoObjectType):
     class Meta:
         model = models.HabitabilityLetter
-        exclude_fields = ("user", "id")
+        only_fields = ("tracking_number", "letter_sent_at", "created_at", "fully_processed_at")
 
 
 @schema_registry.register_session_info
@@ -238,6 +238,14 @@ class LaLetterBuilderSessionInfo:
     )
 
     la_issues = graphene.List(graphene.NonNull(graphene.String), required=True)
+
+    habitability_latest_letter = graphene.Field(
+        HabitabilityLetterType,
+        description=(
+            "The latest habitability letter sent by the user. If the user has never "
+            "sent a letter or is not logged in, this will be null."
+        ),
+    )
 
     def resolve_la_issues(self, info: ResolveInfo) -> List[str]:
         user = info.context.user
@@ -265,3 +273,9 @@ class LaLetterBuilderSessionInfo:
         return models.HabitabilityLetter.objects.filter(
             user=request.user, letter_sent_at=None, letter_emailed_at=None
         ).exists()
+
+    def resolve_habitability_latest_letter(self, info: ResolveInfo):
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        return models.HabitabilityLetter.objects.filter(user=request.user).first()

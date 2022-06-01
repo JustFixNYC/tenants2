@@ -20,13 +20,7 @@ class CreateAccount(SetPasswordForm, forms.ModelForm):
 class LandlordDetailsForm(forms.ModelForm):
     class Meta:
         model = loc_models.LandlordDetails
-        fields = (
-            "name",
-            "primary_line",
-            "city",
-            "state",
-            "zip_code"
-        )
+        fields = ("name", "primary_line", "city", "state", "zip_code")
 
     name = forms.CharField(
         # Our model's limits are more lax than that of Lob's API, so
@@ -55,8 +49,6 @@ class HabitabilityIssuesForm(forms.Form):
 class SendOptionsForm(forms.ModelForm):
     class Meta:
         model = loc_models.LandlordDetails
-        fields = (
-            "email",
-        )
+        fields = ("email",)
 
     mail_choice = forms.ChoiceField(required=True, choices=LA_MAILING_CHOICES.choices)

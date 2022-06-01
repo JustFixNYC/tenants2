@@ -522,7 +522,7 @@ msgid "Cite up-to-date legal ordinances in your letter"
 msgstr "Cite up-to-date legal ordinances in your letter"
 
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:39
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:38
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:37
 msgid "City"
 msgstr "City"
 
@@ -776,7 +776,7 @@ msgstr "Door not working"
 msgid "Doorbell not working"
 msgstr "Doorbell not working"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:23
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:40
 msgid "Download and send myself"
 msgstr "Download and send myself"
 
@@ -1233,10 +1233,6 @@ msgstr "I'm scared. What happens if my landlord retaliates?"
 msgid "Idaho"
 msgstr "Idaho"
 
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:41
-msgid "If you add your landlord's email, we will email them a copy of your letter."
-msgstr "If you add your landlord's email, we will email them a copy of your letter."
-
 #: frontend/lib/start-account-or-login/verify-phone-number.tsx:25
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 msgstr "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
@@ -1422,12 +1418,12 @@ msgid "Landlord name"
 msgstr "Landlord name"
 
 #: frontend/lib/common-steps/landlord-email.tsx:38
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:41
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:49
 msgid "Landlord/management company's email"
 msgstr "Landlord/management company's email"
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:57
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:35
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:34
 msgid "Landlord/management company's name"
 msgstr "Landlord/management company's name"
 
@@ -1600,6 +1596,10 @@ msgstr "Made by non-profits <0>Right to Counsel NYC Coalition</0>, <1>Housing Ju
 #: frontend/lib/ui/footer.tsx:36
 msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 msgstr "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
+
+#: common-data/laletterbuilder-mailing-choices.ts:15
+msgid "Mail for me"
+msgstr "Mail for me"
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:72
 msgid "Mailing address"
@@ -1841,7 +1841,7 @@ msgstr "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. 
 msgid "Not enough"
 msgstr "Not enough"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:27
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:44
 msgid "Not sure yet? If you need more time to decide, you can always come back later. We've saved your work."
 msgstr "Not sure yet? If you need more time to decide, you can always come back later. We've saved your work."
 
@@ -2203,6 +2203,10 @@ msgstr "See which letter is right for me"
 msgid "Select a letter to get started"
 msgstr "Select a letter to get started"
 
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:26
+msgid "Select a mailing method"
+msgstr "Select a mailing method"
+
 #: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:51
 msgid "Select which repairs are needed"
 msgstr "Select which repairs are needed"
@@ -2227,9 +2231,13 @@ msgstr "Send code"
 msgid "Send for free"
 msgstr "Send for free"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:12
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:29
 msgid "Send for me"
 msgstr "Send for me"
+
+#: common-data/laletterbuilder-mailing-choices.ts:16
+msgid "Send myself"
+msgstr "Send myself"
 
 #: frontend/lib/evictionfree/homepage.tsx:77
 msgid "Send your form by USPS Certified Mail for free to your landlord"
@@ -2445,7 +2453,7 @@ msgid "Strategic Actions for a Just Economy (SAJE) can contact me to provide add
 msgstr "Strategic Actions for a Just Economy (SAJE) can contact me to provide additional support."
 
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:38
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:37
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:36
 msgid "Street address (include unit/suite/floor/apt #)"
 msgstr "Street address (include unit/suite/floor/apt #)"
 
@@ -2751,7 +2759,7 @@ msgstr "We'll include this information in your hardship declaration form."
 msgid "We'll need to add your case's index number to your declaration."
 msgstr "We'll need to add your case's index number to your declaration."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:15
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:32
 msgid "We'll send your letter for you via certified mail in 1-2 business days, at no cost to you."
 msgstr "We'll send your letter for you via certified mail in 1-2 business days, at no cost to you."
 
@@ -2978,7 +2986,7 @@ msgstr "Wisconsin"
 msgid "With this free tool, you can"
 msgstr "With this free tool, you can"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:8
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:14
 msgid "Would you like us to send the letter for you for free?"
 msgstr "Would you like us to send the letter for you for free?"
 
@@ -3199,7 +3207,7 @@ msgid "Your landlord or management company's email"
 msgstr "Your landlord or management company's email"
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:94
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:21
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:20
 msgid "Your landlord or management company's information"
 msgstr "Your landlord or management company's information"
 
@@ -3248,7 +3256,7 @@ msgstr "You’re not alone. Millions of Americans won’t be able to pay rent be
 
 #: frontend/lib/common-steps/ask-national-address.tsx:118
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:41
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:40
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:39
 msgid "Zip code"
 msgstr "Zip code"
 

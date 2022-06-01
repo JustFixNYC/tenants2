@@ -527,7 +527,7 @@ msgid "Cite up-to-date legal ordinances in your letter"
 msgstr "Cita ordenanzas legales actuales en tu carta"
 
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:39
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:38
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:37
 msgid "City"
 msgstr "Ciudad"
 
@@ -781,7 +781,7 @@ msgstr "Puerta no funciona"
 msgid "Doorbell not working"
 msgstr "El timbre de la casa no funciona"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:23
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:40
 msgid "Download and send myself"
 msgstr "Download and send myself"
 
@@ -1238,10 +1238,6 @@ msgstr "Tengo miedo. ¿Qué sucede si el dueño de mi edificio toma represalias?
 msgid "Idaho"
 msgstr "Idaho"
 
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:41
-msgid "If you add your landlord's email, we will email them a copy of your letter."
-msgstr "If you add your landlord's email, we will email them a copy of your letter."
-
 #: frontend/lib/start-account-or-login/verify-phone-number.tsx:25
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
 msgstr "Si no recibiste un código, comprueba tu correo electrónico. Si no lo encuentras, por favor envía un correo electrónico a <0/>."
@@ -1427,12 +1423,12 @@ msgid "Landlord name"
 msgstr "Nombre del dueño de tu edificio"
 
 #: frontend/lib/common-steps/landlord-email.tsx:38
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:41
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:49
 msgid "Landlord/management company's email"
 msgstr "Dirección de correo electrónico del dueño o manager de tu edificio"
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:57
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:35
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:34
 msgid "Landlord/management company's name"
 msgstr "Nombre del dueño o manager de tu edificio"
 
@@ -1605,6 +1601,10 @@ msgstr "Fabricado por las organizaciones sin fines de lucro <0>Right to Counsel 
 #: frontend/lib/ui/footer.tsx:36
 msgid "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 msgstr "Hecho en NYC con ♥ por el equipo de <0>JustFix.nyc</0>"
+
+#: common-data/laletterbuilder-mailing-choices.ts:15
+msgid "Mail for me"
+msgstr ""
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:72
 msgid "Mailing address"
@@ -1846,7 +1846,7 @@ msgstr "No poder pagar la renta debido al COVID-19 no es nada de lo que avergonz
 msgid "Not enough"
 msgstr "Not enough"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:27
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:44
 msgid "Not sure yet? If you need more time to decide, you can always come back later. We've saved your work."
 msgstr "Not sure yet? If you need more time to decide, you can always come back later. We've saved your work."
 
@@ -2208,6 +2208,10 @@ msgstr "See which letter is right for me"
 msgid "Select a letter to get started"
 msgstr "Select a letter to get started"
 
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:26
+msgid "Select a mailing method"
+msgstr ""
+
 #: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:51
 msgid "Select which repairs are needed"
 msgstr "Select which repairs are needed"
@@ -2232,9 +2236,13 @@ msgstr "Enviar código"
 msgid "Send for free"
 msgstr "Send for free"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:12
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:29
 msgid "Send for me"
 msgstr "Send for me"
+
+#: common-data/laletterbuilder-mailing-choices.ts:16
+msgid "Send myself"
+msgstr ""
 
 #: frontend/lib/evictionfree/homepage.tsx:77
 msgid "Send your form by USPS Certified Mail for free to your landlord"
@@ -2450,7 +2458,7 @@ msgid "Strategic Actions for a Just Economy (SAJE) can contact me to provide add
 msgstr "Acciones Estratégicas para una Economía Justa (SAJE) puede ponerse en contacto conmigo para proporcionarme apoyo adicional."
 
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:38
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:37
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:36
 msgid "Street address (include unit/suite/floor/apt #)"
 msgstr "Dirección (incluye unidad/suite/piso/apt #)"
 
@@ -2756,7 +2764,7 @@ msgstr "Incluiremos esta información en tu formulario de declaración de penuri
 msgid "We'll need to add your case's index number to your declaration."
 msgstr "Tendremos que añadir el número de índice de tu caso a tu declaración."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:15
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:32
 msgid "We'll send your letter for you via certified mail in 1-2 business days, at no cost to you."
 msgstr "We'll send your letter for you via certified mail in 1-2 business days, at no cost to you."
 
@@ -2983,7 +2991,7 @@ msgstr "Wisconsin"
 msgid "With this free tool, you can"
 msgstr "Con esta herramienta gratuita, puedes"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:8
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:14
 msgid "Would you like us to send the letter for you for free?"
 msgstr "Would you like us to send the letter for you for free?"
 
@@ -3204,7 +3212,7 @@ msgid "Your landlord or management company's email"
 msgstr "La dirección de correo electrónico del dueño o manager de tu edificio"
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:94
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:21
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:20
 msgid "Your landlord or management company's information"
 msgstr "Los datos del dueño o manager de tu edificio"
 
@@ -3253,7 +3261,7 @@ msgstr "No estás solo. Millones de estadounidenses no podrán pagar la renta po
 
 #: frontend/lib/common-steps/ask-national-address.tsx:118
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:41
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:40
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:39
 msgid "Zip code"
 msgstr "Código postal"
 

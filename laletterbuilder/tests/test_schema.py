@@ -510,10 +510,12 @@ class TestLaLetterBuilderSendOptionsMutation:
         HabitabilityLetterFactory(user=self.user)
         LandlordDetailsFactory(user=self.user)
 
-        result = self.execute({
-            "email": "landlord@boop.com",
-            "mailChoice": "USER_WILL_MAIL",
-        })
+        result = self.execute(
+            {
+                "email": "landlord@boop.com",
+                "mailChoice": "USER_WILL_MAIL",
+            }
+        )
 
         assert result["errors"] == []
         assert result["session"]["landlordDetails"]["email"] == "landlord@boop.com"

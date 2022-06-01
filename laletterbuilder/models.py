@@ -29,7 +29,7 @@ class Letter(LocalizedHTMLLetter):
         max_length=30,
         choices=LA_MAILING_CHOICES.choices,
         help_text="How the letter will be mailed.",
-        default=LA_MAILING_CHOICES.WE_WILL_MAIL
+        default=LA_MAILING_CHOICES.WE_WILL_MAIL,
     )
 
     @abstractmethod

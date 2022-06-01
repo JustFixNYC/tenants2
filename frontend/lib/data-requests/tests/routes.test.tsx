@@ -27,6 +27,6 @@ describe("Data requests", () => {
           csvUrl: "http://boop",
         },
       });
-    waitFor(() => pal.rr.getByText(/blargh/));
+    await waitFor(() => pal.rr.getByText(/blargh/));
   });
 });

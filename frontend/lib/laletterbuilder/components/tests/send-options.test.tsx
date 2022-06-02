@@ -13,7 +13,7 @@ import { override } from "../../../tests/util";
 const sb = newSb().withLoggedInJustfixUser();
 
 const blankHabitabilityLetter = {
-  trackingNumber: "1234",
+  trackingNumber: "",
   letterSentAt: "",
   fullyProcessedAt: "",
   createdAt: "2020-03-13T19:41:09+00:00",
@@ -55,10 +55,7 @@ describe("send options page", () => {
         session: override(BlankAllSessionInfo, {
           landlordDetails: { ...BlankLandlordDetailsType, email },
           habitabilityLatestLetter: {
-            trackingNumber: "1234",
-            letterSentAt: "",
-            fullyProcessedAt: "",
-            createdAt: "2020-03-13T19:41:09+00:00",
+            ...blankHabitabilityLetter,
             mailChoice: HabitabilityLetterMailChoice.USER_WILL_MAIL,
           },
         }),

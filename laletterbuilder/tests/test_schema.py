@@ -496,6 +496,8 @@ class TestLaLetterBuilderSendOptionsMutation:
                         }
                         landlordDetails {
                             email
+                            name
+                            zipCode
                         }
                     }
                 }
@@ -517,6 +519,12 @@ class TestLaLetterBuilderSendOptionsMutation:
             }
         )
 
+        # Check that there are no errors
         assert result["errors"] == []
+
+        # Check that changes from our mutation are saved
         assert result["session"]["landlordDetails"]["email"] == "landlord@boop.com"
         assert result["session"]["habitabilityLatestLetter"]["mailChoice"] == "USER_WILL_MAIL"
+
+        # Check that no other landlord details are modified
+        assert result["session"]["landlordDetails"]["name"] == "Landlordo Calrissian"

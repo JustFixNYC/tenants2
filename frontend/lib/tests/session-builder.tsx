@@ -9,6 +9,7 @@ import {
   PhoneNumberAccountStatus,
   Borough,
   CustomIssueArea,
+  HabitabilityLetterMailChoice,
 } from "../queries/globalTypes";
 import { IssueChoice } from "../../../common-data/issue-choices";
 import { IssueAreaChoice } from "../../../common-data/issue-area-choices";
@@ -199,6 +200,7 @@ export class SessionBuilder {
         letterSentAt: "2020-03-13T19:41:09+00:00",
         createdAt: "2020-03-13T19:41:09+00:00",
         fullyProcessedAt: "2020-03-13T19:41:09+00:00",
+        mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
       },
     });
   }

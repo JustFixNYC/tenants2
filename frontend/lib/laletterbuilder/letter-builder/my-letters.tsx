@@ -23,46 +23,11 @@ export const LaLetterBuilderMyLetters: React.FC<ProgressStepProps> = (
 };
 
 const MyLettersContent: React.FC = (props) => {
-  const { session } = useContext(AppContext);
-  const { hasHabitabilityLetterInProgress } = session;
   return (
     <div className="jf-my-letters">
       <p className="subtitle">See all your finished and unfinished letters</p>
 
-      {hasHabitabilityLetterInProgress ? (
-        <div className="my-letters-box">
-          <h3>Habitability letter</h3>
-          <p>In progress</p>
-          <div className="start-letter-button">
-            <Link
-              to={LaLetterBuilderRouteInfo.locale.habitability.issues.prefix}
-              className="button jf-is-next-button is-primary is-medium"
-            >
-              {li18n._(t`Continue my letter`)}
-            </Link>
-          </div>
-        </div>
-      ) : (
-        <SessionUpdatingFormSubmitter
-          mutation={LaLetterBuilderCreateLetterMutation}
-          initialState={{}}
-          onSuccessRedirect={
-            LaLetterBuilderRouteInfo.locale.habitability.issues.prefix
-          }
-        >
-          {(sessionCtx) => (
-            <div className="my-letters-box">
-              <p>Start your habitability letter</p>
-              <div className="start-letter-button">
-                <NextButton
-                  isLoading={sessionCtx.isLoading}
-                  label={li18n._(t`Let's go`)}
-                />
-              </div>
-            </div>
-          )}
-        </SessionUpdatingFormSubmitter>
-      )}
+      <CreateOrContinueLetter />
 
       <Link
         to={LaLetterBuilderRouteInfo.locale.chooseLetter}
@@ -71,6 +36,55 @@ const MyLettersContent: React.FC = (props) => {
         {li18n._(t`Create a new letter`)}
       </Link>
     </div>
+  );
+};
+
+const CreateOrContinueLetter: React.FC = (props) => {
+  const { session } = useContext(AppContext);
+
+  return (
+    <SessionUpdatingFormSubmitter
+      mutation={LaLetterBuilderCreateLetterMutation}
+      initialState={{}}
+      onSuccessRedirect={
+        LaLetterBuilderRouteInfo.locale.habitability.issues.prefix
+      }
+    >
+      {(sessionCtx) => (
+        <>
+          <div
+            className="my-letters-box"
+            // Hidden if there is a letter in progress
+            hidden={!!session.hasHabitabilityLetterInProgress}
+          >
+            <p>Start your habitability letter</p>
+            <div className="start-letter-button">
+              <NextButton
+                isLoading={sessionCtx.isLoading}
+                label={li18n._(t`Let's go`)}
+              />
+            </div>
+          </div>
+
+          <div
+            className="my-letters-box"
+            // Hidden if there is no letter in progress
+            hidden={!session.hasHabitabilityLetterInProgress}
+          >
+            <h3>Habitability letter</h3>
+            <p>In progress</p>
+            <div className="start-letter-button">
+              <Link
+                to={LaLetterBuilderRouteInfo.locale.habitability.issues.prefix}
+                className="button jf-is-next-button is-primary is-medium"
+              >
+                {li18n._(t`Continue my letter`)}
+              </Link>
+            </div>
+          </div>
+        </>
+      )}
+    </SessionUpdatingFormSubmitter>
   );
 };
 

@@ -8,6 +8,7 @@ import HabitabilityRoutes from "../habitability/routes";
 import { LaLetterBuilderCreateLetterMutation } from "../../../queries/LaLetterBuilderCreateLetterMutation";
 import { BlankAllSessionInfo } from "../../../queries/AllSessionInfo";
 import { override } from "../../../tests/util";
+import { HabitabilityLetterMailChoice } from "../../../queries/globalTypes";
 
 const sb = newSb().withLoggedInJustfixUser();
 
@@ -51,6 +52,7 @@ describe("my letters page", () => {
             trackingNumber: "",
             letterSentAt: "",
             fullyProcessedAt: "",
+            mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
           },
           hasHabitabilityLetterInProgress: true,
         }),

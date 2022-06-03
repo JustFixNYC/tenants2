@@ -32,6 +32,7 @@ export function createHabitabilityRouteInfo(prefix: string) {
     accessDates: `${prefix}/access-dates`,
     preview: `${prefix}/preview`,
     sending: `${prefix}/sending`,
+    sendConfirmModal: `${prefix}/sending/confirm-modal`,
     confirmation: `${prefix}/confirmation`,
 
     /** The letter content for the user's own data (HTML and PDF versions). */

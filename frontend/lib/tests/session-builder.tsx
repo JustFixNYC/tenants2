@@ -213,6 +213,7 @@ export class SessionBuilder {
         letterSentAt: "",
         createdAt: "2020-03-13T19:41:09+00:00",
         fullyProcessedAt: "",
+        mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
       },
       hasHabitabilityLetterInProgress: true,
     });

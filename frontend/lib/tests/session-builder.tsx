@@ -200,6 +200,19 @@ export class SessionBuilder {
         createdAt: "2020-03-13T19:41:09+00:00",
         fullyProcessedAt: "2020-03-13T19:41:09+00:00",
       },
+      hasHabitabilityLetterInProgress: true,
+    });
+  }
+
+  withHabitabilityLetterInProgress(): SessionBuilder {
+    return this.with({
+      habitabilityLatestLetter: {
+        trackingNumber: "",
+        letterSentAt: "",
+        createdAt: "2020-03-13T19:41:09+00:00",
+        fullyProcessedAt: "",
+      },
+      hasHabitabilityLetterInProgress: true,
     });
   }
 

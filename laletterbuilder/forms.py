@@ -1,5 +1,5 @@
 from django import forms
-from laletterbuilder.models import LA_ISSUE_CHOICES
+from laletterbuilder.models import LA_ISSUE_CHOICES, LA_MAILING_CHOICES
 from loc import models as loc_models
 
 from loc.forms import validate_non_stupid_name
@@ -20,14 +20,7 @@ class CreateAccount(SetPasswordForm, forms.ModelForm):
 class LandlordDetailsForm(forms.ModelForm):
     class Meta:
         model = loc_models.LandlordDetails
-        fields = (
-            "name",
-            "primary_line",
-            "city",
-            "state",
-            "zip_code",
-            "email",
-        )
+        fields = ("name", "primary_line", "city", "state", "zip_code")
 
     name = forms.CharField(
         # Our model's limits are more lax than that of Lob's API, so
@@ -51,3 +44,11 @@ class HabitabilityIssuesForm(forms.Form):
         choices=LA_ISSUE_CHOICES.choices,
         help_text=("The issues to set. Any issues not listed will be removed."),
     )
+
+
+class SendOptionsForm(forms.ModelForm):
+    class Meta:
+        model = loc_models.LandlordDetails
+        fields = ("email",)
+
+    mail_choice = forms.ChoiceField(required=True, choices=LA_MAILING_CHOICES.choices)

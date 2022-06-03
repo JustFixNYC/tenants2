@@ -113,7 +113,10 @@ sessionFields = ["landlordDetails"]
 [mutations.letterRequest]
 sessionFields = ["letterRequest"]
 
-[mutations.landlordNameAddressEmail]
+[mutations.landlordNameAddress]
+sessionFields = ["landlordDetails"]
+
+[mutations.laLetterBuilderSendOptions]
 sessionFields = ["landlordDetails"]
 
 [mutations.generateHpActionPdf]

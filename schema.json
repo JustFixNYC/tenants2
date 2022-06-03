@@ -3605,12 +3605,51 @@
                 "name": "DateTime",
                 "ofType": null
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "How the letter will be mailed.",
+              "isDeprecated": false,
+              "name": "mailChoice",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "HabitabilityLetterMailChoice",
+                  "ofType": null
+                }
+              }
             }
           ],
           "inputFields": null,
           "interfaces": [],
           "kind": "OBJECT",
           "name": "HabitabilityLetterType",
+          "possibleTypes": null
+        },
+        {
+          "description": "An enumeration.",
+          "enumValues": [
+            {
+              "deprecationReason": null,
+              "description": "Mail for me",
+              "isDeprecated": false,
+              "name": "WE_WILL_MAIL"
+            },
+            {
+              "deprecationReason": null,
+              "description": "Send myself",
+              "isDeprecated": false,
+              "name": "USER_WILL_MAIL"
+            }
+          ],
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "ENUM",
+          "name": "HabitabilityLetterMailChoice",
           "possibleTypes": null
         },
         {
@@ -6188,7 +6227,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "LandlordNameAddressEmailInput",
+                      "name": "LandlordNameAddressInput",
                       "ofType": null
                     }
                   }
@@ -6197,13 +6236,13 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "landlordNameAddressEmail",
+              "name": "landlordNameAddress",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "LandlordNameAddressEmailPayload",
+                  "name": "LandlordNameAddressPayload",
                   "ofType": null
                 }
               }
@@ -6235,6 +6274,37 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "LandlordDetailsV2Payload",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "input",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "LaLetterBuilderSendOptionsInput",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "laLetterBuilderSendOptions",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "LaLetterBuilderSendOptionsPayload",
                   "ofType": null
                 }
               }
@@ -12057,7 +12127,7 @@
           "inputFields": null,
           "interfaces": [],
           "kind": "OBJECT",
-          "name": "LandlordNameAddressEmailPayload",
+          "name": "LandlordNameAddressPayload",
           "possibleTypes": null
         },
         {
@@ -12137,20 +12207,6 @@
             },
             {
               "defaultValue": null,
-              "description": "The landlord's email address.",
-              "name": "email",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
               "description": null,
               "name": "clientMutationId",
               "type": {
@@ -12162,7 +12218,7 @@
           ],
           "interfaces": null,
           "kind": "INPUT_OBJECT",
-          "name": "LandlordNameAddressEmailInput",
+          "name": "LandlordNameAddressInput",
           "possibleTypes": null
         },
         {
@@ -12325,6 +12381,114 @@
           "interfaces": null,
           "kind": "INPUT_OBJECT",
           "name": "LandlordDetailsV2Input",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "A list of validation errors in the form, if any. If the form was valid, this list will be empty.",
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "StrictFormFieldErrorType",
+                      "ofType": null
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "session",
+              "type": {
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "LaLetterBuilderSendOptionsPayload",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": "The landlord's email address.",
+              "name": "email",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "mailChoice",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "clientMutationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "LaLetterBuilderSendOptionsInput",
           "possibleTypes": null
         },
         {

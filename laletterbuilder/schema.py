@@ -13,7 +13,12 @@ from users.email_verify import send_verification_email_async
 from project import schema_registry
 from onboarding.models import SIGNUP_INTENT_CHOICES
 from norent.schema import BaseCreateAccount
-from laletterbuilder.forms import CreateAccount, HabitabilityIssuesForm, LandlordDetailsForm
+from laletterbuilder.forms import (
+    CreateAccount,
+    HabitabilityIssuesForm,
+    LandlordDetailsForm,
+    SendOptionsForm,
+)
 from project.util.model_form_util import (
     OneToOneUserModelFormMutation,
 )
@@ -74,7 +79,7 @@ class LaLetterBuilderCreateAccount(BaseCreateAccount):
 
 
 @schema_registry.register_mutation
-class LandlordNameAddressEmail(OneToOneUserModelFormMutation):
+class LandlordNameAddress(OneToOneUserModelFormMutation):
     class Meta:
         form_class = LandlordDetailsForm
 
@@ -89,6 +94,7 @@ class LandlordNameAddressEmail(OneToOneUserModelFormMutation):
     @classmethod
     def resolve(cls, parent, info: ResolveInfo):
         result = super().resolve(parent, info)
+        # TODO: maybe can remove this if case?
         if result is None:
             user = info.context.user
             if user.is_authenticated:
@@ -220,10 +226,63 @@ class LaLetterBuilderIssues(SessionFormMutation):
         return cls.mutation_success()
 
 
+@schema_registry.register_mutation
+class LaLetterBuilderSendOptions(SessionFormMutation):
+    class Meta:
+        form_class = SendOptionsForm
+
+    login_required = True
+
+    @classmethod
+    def resolve(cls, parent, info: ResolveInfo):
+        return super().resolve(parent, info)
+
+    @classmethod
+    @mutation_requires_onboarding
+    def perform_mutate(cls, form, info: ResolveInfo):
+        # Get most recent unsent letter. This relies on there
+        # only being one unsent habitability letter at a time.
+        # TODO: copied from LaLetterBuilderIssues, refactor to shared function in session
+        with transaction.atomic():
+            user = info.context.user
+            letters = models.HabitabilityLetter.objects.filter(
+                user=user, letter_sent_at=None, letter_emailed_at=None
+            )
+            if not letters:
+                cls.log(info, f"Could not find an unsent habitability letter for user {user}")
+                return cls.make_error(
+                    f"Could not find an unsent habitability letter for user {user}"
+                )
+            if len(letters) > 1:
+                cls.log(
+                    info,
+                    f"Found multiple unsent habitability letters for {user}. "
+                    + "There should only ever be one.",
+                )
+                return cls.make_error(
+                    f"Found multiple unsent habitability letters for {user}. "
+                    + "There should only ever be one."
+                )
+            letter = letters[0]
+            letter.mail_choice = form.cleaned_data["mail_choice"]
+            letter.save()
+
+            landlord_details = loc_models.LandlordDetails.objects.get(user=user)
+            landlord_details.email = form.cleaned_data["email"]
+            landlord_details.save()
+        return cls.mutation_success()
+
+
 class HabitabilityLetterType(DjangoObjectType):
     class Meta:
         model = models.HabitabilityLetter
-        only_fields = ("tracking_number", "letter_sent_at", "created_at", "fully_processed_at")
+        only_fields = (
+            "tracking_number",
+            "letter_sent_at",
+            "created_at",
+            "fully_processed_at",
+            "mail_choice",
+        )
 
 
 @schema_registry.register_session_info

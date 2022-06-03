@@ -26,7 +26,7 @@ import {
   LaLetterBuilderAskCityState,
   LaLetterBuilderAskNationalAddress,
 } from "../../components/personal-info";
-import { LaLetterBuilderLandlordNameAddressEmail } from "../../components/landlord-info";
+import { LaLetterBuilderLandlordNameAddress } from "../../components/landlord-info";
 import { LaLetterBuilderRiskConsent } from "../../components/consent";
 import { t } from "@lingui/macro";
 import { li18n } from "../../../i18n-lingui";
@@ -112,7 +112,7 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
       {
         path: routes.landlordInfo,
         exact: false,
-        component: LaLetterBuilderLandlordNameAddressEmail,
+        component: LaLetterBuilderLandlordNameAddress,
       },
       {
         path: routes.accessDates,

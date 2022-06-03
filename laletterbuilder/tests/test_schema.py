@@ -528,3 +528,32 @@ class TestLaLetterBuilderSendOptionsMutation:
 
         # Check that no other landlord details are modified
         assert result["session"]["landlordDetails"]["name"] == "Landlordo Calrissian"
+
+    @pytest.mark.django_db
+    def test_it_preserves_other_landlord_details(self, db):
+        ld_1 = EXAMPLE_LANDLORD_DETAILS_INPUT
+        result = execute_ld_mutation(self.graphql_client, **ld_1)
+
+        assert result["errors"] == []
+        assert result["isUndeliverable"] is None
+        assert result["session"]["landlordDetails"] == ld_1
+
+        OnboardingInfoFactory(user=self.user)
+        HabitabilityLetterFactory(user=self.user)
+
+        result = self.execute(
+            {
+                "email": "landlord@boop.com",
+                "mailChoice": "WE_WILL_MAIL",
+            }
+        )
+
+        # Check that there are no errors
+        assert result["errors"] == []
+
+        # Check that changes from our mutation are saved
+        assert result["session"]["landlordDetails"]["email"] == "landlord@boop.com"
+
+        # Check that no other landlord details are modified
+        assert result["session"]["landlordDetails"]["name"] == "Boop Jones"
+        assert result["session"]["landlordDetails"]["zipCode"] == "11299"

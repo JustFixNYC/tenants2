@@ -52,36 +52,32 @@ const CreateOrContinueLetter: React.FC = (props) => {
     >
       {(sessionCtx) => (
         <>
-          <div
-            className="my-letters-box"
-            // Hidden if there is a letter in progress
-            hidden={!!session.hasHabitabilityLetterInProgress}
-          >
-            <p>Start your habitability letter</p>
-            <div className="start-letter-button">
-              <NextButton
-                isLoading={sessionCtx.isLoading}
-                label={li18n._(t`Let's go`)}
-              />
+          {session.hasHabitabilityLetterInProgress ? (
+            <div className="my-letters-box">
+              <h3>Habitability letter</h3>
+              <p>In progress</p>
+              <div className="start-letter-button">
+                <Link
+                  to={
+                    LaLetterBuilderRouteInfo.locale.habitability.issues.prefix
+                  }
+                  className="button jf-is-next-button is-primary is-medium"
+                >
+                  {li18n._(t`Continue my letter`)}
+                </Link>
+              </div>
             </div>
-          </div>
-
-          <div
-            className="my-letters-box"
-            // Hidden if there is no letter in progress
-            hidden={!session.hasHabitabilityLetterInProgress}
-          >
-            <h3>Habitability letter</h3>
-            <p>In progress</p>
-            <div className="start-letter-button">
-              <Link
-                to={LaLetterBuilderRouteInfo.locale.habitability.issues.prefix}
-                className="button jf-is-next-button is-primary is-medium"
-              >
-                {li18n._(t`Continue my letter`)}
-              </Link>
+          ) : (
+            <div className="my-letters-box">
+              <p>Start your habitability letter</p>
+              <div className="start-letter-button">
+                <NextButton
+                  isLoading={sessionCtx.isLoading}
+                  label={li18n._(t`Let's go`)}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </>
       )}
     </SessionUpdatingFormSubmitter>

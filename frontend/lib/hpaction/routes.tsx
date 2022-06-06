@@ -89,8 +89,8 @@ function HPActionSplash(): JSX.Element {
     >
       <Disclaimer />
       <p>
-        Welcome to JustFix! This website will guide you through the process
-        of starting an <strong>HP Action</strong> proceeding.
+        Welcome to JustFix! This website will guide you through the process of
+        starting an <strong>HP Action</strong> proceeding.
       </p>
       <p>
         An <strong>HP Action</strong> is a legal case you can bring against your

@@ -68,8 +68,7 @@ export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
               </CheckboxFormField>
               <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
                 <Trans>
-                  Yes, JustFix can text me to follow up about my housing
-                  issues.
+                  Yes, JustFix can text me to follow up about my housing issues.
                 </Trans>
               </CheckboxFormField>
               <ProgressButtons

@@ -404,8 +404,9 @@ export const ServiceInstructionsContent: React.FC<ServiceInstructionsProps> = (
         </p>
         <ExampleImage
           src={WHO_TO_SERVE_EXAMPLE_IMG_SRC[toCaseType(props)]}
-          alt={`Close-up of form identifying where information on who to serve is located for ${CASE_TYPE_NAMES[toCaseType(props)]
-            } cases`}
+          alt={`Close-up of form identifying where information on who to serve is located for ${
+            CASE_TYPE_NAMES[toCaseType(props)]
+          } cases`}
           preamble="You will find their address information here:"
           className="jf-has-border"
         />

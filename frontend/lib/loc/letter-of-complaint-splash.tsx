@@ -109,7 +109,7 @@ export function LocSplash(): JSX.Element {
 
       <section className="section section--fullwidth">
         <h2 className="title is-spaced has-text-centered">
-          Hear from tenants who have used JustFix.nyc
+          Hear from tenants who have used JustFix
         </h2>
         <div className="tile is-ancestor">
           <div className="tile is-parent is-6">
@@ -125,7 +125,7 @@ export function LocSplash(): JSX.Element {
                 </div>
                 <p className="subtitle has-text-centered is-spaced">
                   They were terrific because their letter got results that mine
-                  didn’t. The letters from JustFix.nyc got my landlord to do the
+                  didn’t. The letters from JustFix got my landlord to do the
                   work. Now anytime I call, my landlord gets things done.
                 </p>
                 <p className="title has-text-centered is-5">
@@ -148,7 +148,7 @@ export function LocSplash(): JSX.Element {
                 <p className="subtitle has-text-centered is-spaced">
                   I like that you texted me to check in on my status. You all
                   were the first online advocacy group I’ve seen that was
-                  accessible and easy to use. JustFix.nyc’s digital platform has
+                  accessible and easy to use. JustFix’s digital platform has
                   definitely been a game changer.
                 </p>
                 <p className="title has-text-centered is-5">
@@ -165,18 +165,18 @@ export function LocSplash(): JSX.Element {
           About our nonprofit organization
         </h2>
         <p className="subtitle">
-          JustFix.nyc co-designs and builds tools for tenants, housing
+          JustFix co-designs and builds tools for tenants, housing
           organizers, and legal advocates fighting displacement in New York
           City. We encourage tenants to take action and fight for safe and
           healthy homes. Want to know more?{" "}
-          <OutboundLink href="https://www.justfix.nyc/our-mission">
+          <OutboundLink href="https://www.justfix.org/our-mission">
             Visit our website.
           </OutboundLink>
         </p>
         <div className="notification is-warning">
           <p className="subtitle">
             <strong>Disclaimer:</strong> The information contained in
-            JustFix.nyc does not constitute legal advice and must not be used as
+            JustFix does not constitute legal advice and must not be used as
             a substitute for the advice of a lawyer qualified to give advice on
             legal issues pertaining to housing. We can help direct you to free
             and/or low-cost legal services as necessary.

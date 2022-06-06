@@ -97,7 +97,7 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
               <StaticImage
                 ratio="is-square"
                 src={getEFImageSrc("rtc", "png")}
-                alt="JustFix.nyc"
+                alt="JustFix"
               />
             </OutboundLink>
             <p className="subtitle is-size-5">
@@ -120,7 +120,7 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
               <StaticImage
                 ratio="is-square"
                 src={getNorentImageSrc("hj4a", "png")}
-                alt="JustFix.nyc"
+                alt="JustFix"
               />
             </OutboundLink>
             <p className="subtitle is-size-5">
@@ -140,13 +140,13 @@ export const EvictionFreeAboutPage: React.FC<{}> = () => (
               <StaticImage
                 ratio="is-3by1"
                 src={getNorentImageSrc("justfix")}
-                alt="JustFix.nyc"
+                alt="JustFix"
               />
             </LocalizedOutboundLink>
             <p className="subtitle is-size-5">
               <Trans id="evictionfree.justfixBlurb1">
                 <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
-                  JustFix.nyc
+                  JustFix
                 </LocalizedOutboundLink>{" "}
                 co-designs and builds tools for tenants, housing organizers, and
                 legal advocates fighting displacement in New York City. Our

@@ -8,8 +8,8 @@ import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 
 export const DEFAULT_PRIVACY_POLICY_URL =
-  "https://www.justfix.nyc/privacy-policy";
-export const DEFAULT_TERMS_OF_USE_URL = "https://www.justfix.nyc/terms-of-use";
+  "https://www.justfix.org/privacy-policy";
+export const DEFAULT_TERMS_OF_USE_URL = "https://www.justfix.org/terms-of-use";
 
 function getURLforSite(baseURL: string, site: SiteChoice): string {
   switch (site) {

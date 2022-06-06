@@ -298,7 +298,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     NAVBAR_LABEL: str = ""
 
     # The base url for outbound links to Who Owns What.
-    WOW_ORIGIN: str = "https://whoownswhat.justfix.nyc"
+    WOW_ORIGIN: str = "https://whoownswhat.justfix.org"
 
     # The base url for outbound links to Eviction Free NYC.
     EFNYC_ORIGIN: str = "https://www.evictionfreenyc.org"

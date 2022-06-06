@@ -37,8 +37,8 @@ export const LaLetterBuilderFooter: React.FC<{}> = () => (
               <LocalizedOutboundLink
                 // TODO: UPDATE THESE LINKS TO NEW LA LETTER BUILDER SPECIFIC PAGES
                 hrefs={{
-                  en: "https://www.justfix.nyc/en/privacy-policy-norent",
-                  es: "https://www.justfix.nyc/es/privacy-policy-norent",
+                  en: "https://www.justfix.org/en/privacy-policy-norent",
+                  es: "https://www.justfix.org/es/privacy-policy-norent",
                 }}
               >
                 <Trans>Privacy Policy</Trans>
@@ -48,8 +48,8 @@ export const LaLetterBuilderFooter: React.FC<{}> = () => (
               <LocalizedOutboundLink
                 // TODO: UPDATE THESE LINKS TO NEW LA LETTER BUILDER SPECIFIC PAGES
                 hrefs={{
-                  en: "https://www.justfix.nyc/en/terms-of-use-norent/",
-                  es: "https://www.justfix.nyc/es/terms-of-use-norent/",
+                  en: "https://www.justfix.org/en/terms-of-use-norent/",
+                  es: "https://www.justfix.org/es/terms-of-use-norent/",
                 }}
               >
                 <Trans>Terms of Use</Trans>

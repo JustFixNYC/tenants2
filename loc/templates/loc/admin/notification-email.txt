@@ -47,7 +47,7 @@ Then, make any necessary edits to the user via the admin UI:
 
 Once you're done editing, do the following:
 
-  1. Select a "Mail choice" of "Yes, have JustFix.nyc mail this letter for me"
+  1. Select a "Mail choice" of "Yes, have JustFix mail this letter for me"
      in the aforementioned admin UI (it should be near the bottom of the page).
 
   2. Select "Save and continue editing" at the bottom of the page.

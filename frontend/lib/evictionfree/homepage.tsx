@@ -17,8 +17,8 @@ export const MESSAGE_QS = "msg=on";
 export const RTC_WEBSITE_URL = "https://www.righttocounselnyc.org/";
 export const HJ4A_SOCIAL_URL = "https://twitter.com/housing4allNY";
 export const JUSTFIX_WEBSITE_URLS = {
-  en: "https://www.justfix.nyc/en/",
-  es: "https://www.justfix.nyc/es/",
+  en: "https://www.justfix.org/en/",
+  es: "https://www.justfix.org/es/",
 };
 export const HARDSHIP_DECLARATION_FORM_URLS = {
   en:
@@ -47,14 +47,12 @@ export function getEFImageSrc(
 const SocialShareContent = {
   tweet: t(
     "evictionfree.tweetTemplateForSharingFromHomepage1"
-  )`You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until ${getEvictionMoratoriumEndDate()}. Check it out here: ${
-    getGlobalAppServerInfo().originURL
+  )`You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until ${getEvictionMoratoriumEndDate()}. Check it out here: ${getGlobalAppServerInfo().originURL
   } #EvictionFreeNY via @JustFixNYC @RTCNYC @housing4allNY`,
   emailSubject: t`Protect yourself from eviction in New York State`,
   emailBody: t(
     "evictionfree.emailBodyTemplateForSharingFromHomepage1"
-  )`On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until ${getEvictionMoratoriumEndDate()}. Check it out here: ${
-    getGlobalAppServerInfo().originURL
+  )`On December 28, 2020, New York State passed legislation that protects tenants from eviction due to lost income or COVID-19 health risks. In order to get protected, you must fill out a hardship declaration form and send it to your landlord and/or the courts. You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until ${getEvictionMoratoriumEndDate()}. Check it out here: ${getGlobalAppServerInfo().originURL
   }`,
 };
 
@@ -155,7 +153,7 @@ const EvictionFreeTopLevelContent = () => (
                   </OutboundLink>
                   , and{" "}
                   <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
-                    JustFix.nyc
+                    JustFix
                   </LocalizedOutboundLink>
                 </Trans>
               </p>
@@ -263,7 +261,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
                   </OutboundLink>
                   , and{" "}
                   <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
-                    JustFix.nyc
+                    JustFix
                   </LocalizedOutboundLink>{" "}
                   as part of the larger tenant movement across the state.
                 </Trans>

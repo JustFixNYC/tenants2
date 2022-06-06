@@ -13,7 +13,7 @@ export const EvictionFreeEmailDisclaimer: React.FC<{
 }> = ({ fullLegalName }) => (
   <small>
     Note: {fullLegalName} is submitting the attached Hardship Declaration to the
-    Court using this JustFix.nyc email address. This email address is used
+    Court using this JustFix email address. This email address is used
     solely for the purpose of submitting the Hardship Declaration and receiving
     confirmation of its receipt. This email address is not the Declarant's own
     email address and should not be used to communicate with the Declarant for

@@ -31,7 +31,7 @@ const NorentSocialShareContent: SocialShareContent = {
   tweet: t(
     "norent.tweetTemplateForSharingNoRent"
   )`No idea how you'll pay rent this month? Tell your landlord with norent.org from @JustFixNYC. This free tool sends a certified letter informing them of your protections. Join the #cancelrent movement at norent.org.`,
-  emailSubject: t`I just used JustFix.nyc's new free tool to tell my landlord I can't pay rent`,
+  emailSubject: t`I just used JustFix's new free tool to tell my landlord I can't pay rent`,
   emailBody: t(
     "norent.emailBodyTemplateForSharingNoRent"
   )`I used www.norent.org to tell my landlord that I'm unable to pay this month's rent. This free tool helps you build and send a letter to your landlord, cites legal protections in your state, and connects you to other people in your community working to #cancelrent`,
@@ -64,9 +64,9 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
   const legalAidLink = isInLA
     ? "https://www.stayhousedla.org/"
     : (state &&
-        getNorentMetadataForUSState(state)?.legalAid
-          ?.localLegalAidProviderLink) ||
-      NATIONAL_LEGAL_AID_URL;
+      getNorentMetadataForUSState(state)?.legalAid
+        ?.localLegalAidProviderLink) ||
+    NATIONAL_LEGAL_AID_URL;
 
   return (
     <Page
@@ -266,7 +266,7 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
       </h2>
       <p>
         <Trans>
-          This tool is provided by JustFix.nyc. We’re a non-profit that creates
+          This tool is provided by JustFix. We’re a non-profit that creates
           tools for tenants and the housing rights movement. We always want
           feedback to improve our tools.
         </Trans>

@@ -89,7 +89,7 @@ function HPActionSplash(): JSX.Element {
     >
       <Disclaimer />
       <p>
-        Welcome to JustFix.nyc! This website will guide you through the process
+        Welcome to JustFix! This website will guide you through the process
         of starting an <strong>HP Action</strong> proceeding.
       </p>
       <p>
@@ -276,14 +276,14 @@ const HPActionConfirmation = withAppContext((props: AppContextType) => {
         </li>
         <li>
           <OutboundLink
-            href="https://www.justfix.nyc/en/learn?utm_source=tenantplatform&utm_medium=hp"
+            href="https://www.justfix.org/en/learn?utm_source=tenantplatform&utm_medium=hp"
             target="_blank"
           >
-            JustFix.nyc's Learning Center
+            JustFix's Learning Center
           </OutboundLink>{" "}
           (
           <OutboundLink
-            href="https://www.justfix.nyc/es/learn?utm_source=tenantplatform&utm_medium=hp"
+            href="https://www.justfix.org/es/learn?utm_source=tenantplatform&utm_medium=hp"
             target="_blank"
           >
             en español

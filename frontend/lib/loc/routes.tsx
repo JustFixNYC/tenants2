@@ -33,7 +33,7 @@ export const Welcome: React.FC<ProgressStepProps> = (props) => {
     <Page title="Let's start your letter!">
       <div className="content">
         <h1 className="title">
-          Hi {bestFirstName}, welcome to JustFix.nyc! Let's start your Letter of
+          Hi {bestFirstName}, welcome to JustFix! Let's start your Letter of
           Complaint.
         </h1>
         <p>

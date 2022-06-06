@@ -64,9 +64,9 @@ export const NorentConfirmation = NorentRequireLoginStep(() => {
   const legalAidLink = isInLA
     ? "https://www.stayhousedla.org/"
     : (state &&
-      getNorentMetadataForUSState(state)?.legalAid
-        ?.localLegalAidProviderLink) ||
-    NATIONAL_LEGAL_AID_URL;
+        getNorentMetadataForUSState(state)?.legalAid
+          ?.localLegalAidProviderLink) ||
+      NATIONAL_LEGAL_AID_URL;
 
   return (
     <Page

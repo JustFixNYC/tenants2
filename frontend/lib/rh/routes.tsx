@@ -233,16 +233,16 @@ const RentalHistoryForm = MiddleProgressStep((props) => {
 
 type RentStab =
   | {
-    kind: "NotRentStabilized";
-  }
+      kind: "NotRentStabilized";
+    }
   | {
-    kind: "Unknown";
-  }
+      kind: "Unknown";
+    }
   | {
-    kind: "RentStabilized";
-    latestYear: string;
-    latestUnitCount: number;
-  };
+      kind: "RentStabilized";
+      latestYear: string;
+      latestUnitCount: number;
+    };
 
 /**
  * Turn our session info into an algebraic type that's easier to

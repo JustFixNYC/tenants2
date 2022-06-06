@@ -187,8 +187,8 @@ export const LandlordPageContent: React.FC<LandlordPageContentProps> = ({
       intro = (
         <p>
           <Trans>
-            You have chosen to overwrite the landlord recommended by
-            JustFix. Please provide your own details below, or{" "}
+            You have chosen to overwrite the landlord recommended by JustFix.
+            Please provide your own details below, or{" "}
             <Link to={FORCE_RECOMMENDED_SEARCH}>
               use the recommended landlord "{recommendedLandlord.name}"
             </Link>

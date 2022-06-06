@@ -22,8 +22,8 @@ export const NorentLogo = (props: {
         props.color === "white"
           ? "logo-white"
           : props.color === "dark"
-            ? "logo-dark"
-            : "logo"
+          ? "logo-dark"
+          : "logo"
       )}
       alt={props.children || "NoRent"}
     />

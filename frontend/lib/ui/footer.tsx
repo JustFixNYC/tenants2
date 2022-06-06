@@ -9,7 +9,7 @@ import { FooterLanguageToggle } from "./language-toggle";
 const CreditForLHI = (props: { pathname?: string }) =>
   /* Include credit for LHI only on ehp routes */
   props.pathname?.startsWith(JustfixRoutes.locale.ehp[ROUTE_PREFIX]) ||
-    props.pathname?.startsWith(JustfixRoutes.locale.hp[ROUTE_PREFIX]) ? (
+  props.pathname?.startsWith(JustfixRoutes.locale.hp[ROUTE_PREFIX]) ? (
     <p>
       <Trans>
         Developed with{" "}

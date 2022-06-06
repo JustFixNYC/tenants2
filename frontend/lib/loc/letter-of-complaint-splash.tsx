@@ -165,19 +165,19 @@ export function LocSplash(): JSX.Element {
           About our nonprofit organization
         </h2>
         <p className="subtitle">
-          JustFix co-designs and builds tools for tenants, housing
-          organizers, and legal advocates fighting displacement in New York
-          City. We encourage tenants to take action and fight for safe and
-          healthy homes. Want to know more?{" "}
+          JustFix co-designs and builds tools for tenants, housing organizers,
+          and legal advocates fighting displacement in New York City. We
+          encourage tenants to take action and fight for safe and healthy homes.
+          Want to know more?{" "}
           <OutboundLink href="https://www.justfix.org/our-mission">
             Visit our website.
           </OutboundLink>
         </p>
         <div className="notification is-warning">
           <p className="subtitle">
-            <strong>Disclaimer:</strong> The information contained in
-            JustFix does not constitute legal advice and must not be used as
-            a substitute for the advice of a lawyer qualified to give advice on
+            <strong>Disclaimer:</strong> The information contained in JustFix
+            does not constitute legal advice and must not be used as a
+            substitute for the advice of a lawyer qualified to give advice on
             legal issues pertaining to housing. We can help direct you to free
             and/or low-cost legal services as necessary.
           </p>

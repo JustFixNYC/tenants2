@@ -37,13 +37,13 @@ const socialMediaShareOutLinks = (content: SocialShareContent) => [
     name: "facebook",
     url: getGlobalAppServerInfo().facebookAppId
       ? `https://www.facebook.com/dialog/share` +
-      `?app_id=${encodeURIComponent(
-        getGlobalAppServerInfo().facebookAppId
-      )}` +
-      `&display=popup&href=${getGlobalAppServerInfo().originURL}` +
-      `&redirect_uri=https%3A%2F%2Fwww.facebook.com%2F`
+        `?app_id=${encodeURIComponent(
+          getGlobalAppServerInfo().facebookAppId
+        )}` +
+        `&display=popup&href=${getGlobalAppServerInfo().originURL}` +
+        `&redirect_uri=https%3A%2F%2Fwww.facebook.com%2F`
       : `https://www.facebook.com/sharer/sharer.php` +
-      `?u=${encodeURI(getGlobalAppServerInfo().originURL)}`,
+        `?u=${encodeURI(getGlobalAppServerInfo().originURL)}`,
   },
   {
     name: "email",

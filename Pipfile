@@ -49,7 +49,7 @@ django-sql-dashboard = "==1.0.1"
 
 # As of 2021-02-01, this *cannot* be version 2.x because docusign-esign is
 # incompatible with it: https://github.com/docusign/docusign-python-client/issues/94
-pyjwt = "==1.7.1"
+pyjwt = "==2.4.0"
 
 [requires]
 python_version = "3.8.2"

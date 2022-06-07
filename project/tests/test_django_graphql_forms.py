@@ -365,29 +365,23 @@ def test_convert_post_data_to_input_works_with_date_fields():
     class DateForm(forms.Form):
         date1 = forms.DateField()
 
-    assert (
-        convert_post_data_to_input(
-            DateForm,
-            qdict(
-                {
-                    "date1": ["2018-09-23"],
-                }
-            ),
-        )
-        == {"date1": "2018-09-23"}
-    )
+    assert convert_post_data_to_input(
+        DateForm,
+        qdict(
+            {
+                "date1": ["2018-09-23"],
+            }
+        ),
+    ) == {"date1": "2018-09-23"}
 
-    assert (
-        convert_post_data_to_input(
-            DateForm,
-            qdict(
-                {
-                    "date1": ["I AM NOT A DATE"],
-                }
-            ),
-        )
-        == {"date1": "I AM NOT A DATE"}
-    )
+    assert convert_post_data_to_input(
+        DateForm,
+        qdict(
+            {
+                "date1": ["I AM NOT A DATE"],
+            }
+        ),
+    ) == {"date1": "I AM NOT A DATE"}
 
     assert convert_post_data_to_input(DateForm, qdict()) == {"date1": None}
 
@@ -396,29 +390,23 @@ def test_convert_post_data_to_input_works_with_char_fields_and_excludes():
     class CharForm(forms.Form):
         some_field = forms.CharField()
 
-    assert (
-        convert_post_data_to_input(
-            CharForm,
-            qdict(
-                {
-                    "someField": ["boop"],
-                }
-            ),
-        )
-        == {"someField": "boop"}
-    )
+    assert convert_post_data_to_input(
+        CharForm,
+        qdict(
+            {
+                "someField": ["boop"],
+            }
+        ),
+    ) == {"someField": "boop"}
 
-    assert (
-        convert_post_data_to_input(
-            CharForm,
-            qdict(
-                {
-                    "someField": [""],
-                }
-            ),
-        )
-        == {"someField": ""}
-    )
+    assert convert_post_data_to_input(
+        CharForm,
+        qdict(
+            {
+                "someField": [""],
+            }
+        ),
+    ) == {"someField": ""}
 
     assert convert_post_data_to_input(CharForm, qdict()) == {"someField": None}
 
@@ -495,29 +483,23 @@ class TestConvertPostDataToFormData:
         )
 
     def test_it_works_with_required_fields(self):
-        assert (
-            self.convert(
-                qdict(
-                    {
-                        "field1": ["5"],
-                        "field2": ["6"],
-                    }
-                )
+        assert self.convert(
+            qdict(
+                {
+                    "field1": ["5"],
+                    "field2": ["6"],
+                }
             )
-            == {"field_1": ["5"], "field2": ["6"]}
-        )
+        ) == {"field_1": ["5"], "field2": ["6"]}
 
     def test_it_works_with_optional_fields(self):
-        assert (
-            self.convert(
-                qdict(
-                    {
-                        "boolField": ["on"],
-                    }
-                )
+        assert self.convert(
+            qdict(
+                {
+                    "boolField": ["on"],
+                }
             )
-            == {"bool_field": ["on"]}
-        )
+        ) == {"bool_field": ["on"]}
 
 
 class TestConvertPostDataToFormsetData:

@@ -90,12 +90,9 @@ def test_csp_works_on_static_assets(client, staticfiles):
 def test_merge_csp_updates_works():
     m = CSPHashingMiddleware(lambda request: None)
     assert m._merge_csp_updates([]) == {}
-    assert (
-        m._merge_csp_updates(
-            [
-                {"script-src": "https://boop"},
-                {"script-src": ["https://bap", "https://goo"]},
-            ]
-        )
-        == {"script-src": ["'self'", "https://boop", "https://bap", "https://goo"]}
-    )
+    assert m._merge_csp_updates(
+        [
+            {"script-src": "https://boop"},
+            {"script-src": ["https://bap", "https://goo"]},
+        ]
+    ) == {"script-src": ["'self'", "https://boop", "https://bap", "https://goo"]}

@@ -34,7 +34,7 @@ export function getRentNonpaymentChoices(
   ]);
 }
 
-export const NorentRentPeriods = NorentNotSentLetterStep((props) => {
+export const NorentRentPeriodsWithModal = NorentNotSentLetterStep((props) => {
   const { session } = useContext(AppContext);
 
   return (
@@ -61,6 +61,56 @@ export const NorentRentPeriods = NorentNotSentLetterStep((props) => {
           </>
         )}
       />
+      <p>
+        <Trans>
+          It's important to notify your landlord of all months when you couldn't
+          pay rent in full.
+        </Trans>
+      </p>
+      <SessionUpdatingFormSubmitter
+        mutation={NorentSetUpcomingLetterRentPeriodsMutation}
+        initialState={(s) => ({
+          rentPeriods: getCurrentRentNonpaymentPeriods(s),
+        })}
+        onSuccessRedirect={props.nextStep}
+      >
+        {(ctx) => (
+          <>
+            <MultiCheckboxFormField
+              {...ctx.fieldPropsFor("rentPeriods")}
+              label={li18n._(t`Months of rent non-payment`)}
+              choices={getRentNonpaymentChoices(
+                session.norentAvailableRentPeriods
+              )}
+            />
+            {session.norentLatestLetter && (
+              <Accordion question={li18n._(t`Why aren't all months listed?`)}>
+                <Trans>
+                  <p>
+                    We aren't including months that you have already informed
+                    your landlord about in previous letters.
+                  </p>
+                </Trans>
+              </Accordion>
+            )}
+
+            <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
+          </>
+        )}
+      </SessionUpdatingFormSubmitter>
+    </Page>
+  );
+});
+
+export const NorentRentPeriods = NorentNotSentLetterStep((props) => {
+  const { session } = useContext(AppContext);
+
+  return (
+    <Page
+      title={li18n._(t`Months you're missing rent payments`)}
+      withHeading="big"
+      className="content"
+    >
       <p>
         <Trans>
           It's important to notify your landlord of all months when you couldn't

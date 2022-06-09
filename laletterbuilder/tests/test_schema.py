@@ -434,7 +434,9 @@ class TestLaLetterBuilderIssuesMutation:
         result = self.execute({"laIssues": ["HEALTH__MOLD__BEDROOM", "HEALTH__MOLD__BATHROOM"]})
 
         assert result["errors"] == []
-        assert result["session"]["laIssues"] == ["HEALTH__MOLD__BEDROOM", "HEALTH__MOLD__BATHROOM"]
+        assert set(result["session"]["laIssues"]) == set(
+            ["HEALTH__MOLD__BEDROOM", "HEALTH__MOLD__BATHROOM"]
+        )
 
         result = self.execute(
             {
@@ -457,7 +459,6 @@ class TestLaLetterBuilderIssuesMutation:
         assert result["errors"] == [
             {"field": "__all__", "messages": ["Please select at least one repair issue."]}
         ]
-        assert result["session"]["laIssues"] == []
 
     @pytest.mark.django_db
     def test_issues_is_empty_when_unauthenticated(self, db):

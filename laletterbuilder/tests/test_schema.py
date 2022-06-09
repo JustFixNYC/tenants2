@@ -431,17 +431,32 @@ class TestLaLetterBuilderIssuesMutation:
         OnboardingInfoFactory(user=self.user)
         HabitabilityLetterFactory(user=self.user)
 
-        result = self.execute({"laIssues": ["HEALTH__MOLD__BEDROOM"]})
+        result = self.execute({"laIssues": ["HEALTH__MOLD__BEDROOM", "HEALTH__MOLD__BATHROOM"]})
 
         assert result["errors"] == []
-        assert result["session"]["laIssues"] == ["HEALTH__MOLD__BEDROOM"]
+        assert result["session"]["laIssues"] == ["HEALTH__MOLD__BEDROOM", "HEALTH__MOLD__BATHROOM"]
+
+        result = self.execute(
+            {
+                "laIssues": ["HEALTH__MOLD__KITCHEN"],
+            }
+        )
+        assert result["errors"] == []
+        assert result["session"]["laIssues"] == ["HEALTH__MOLD__KITCHEN"]
+
+    @pytest.mark.django_db
+    def test_it_errors_on_empty_issues(self, db):
+        OnboardingInfoFactory(user=self.user)
+        HabitabilityLetterFactory(user=self.user)
 
         result = self.execute(
             {
                 "laIssues": [],
             }
         )
-        assert result["errors"] == []
+        assert result["errors"] == [
+            {"field": "__all__", "messages": ["Please select at least one repair issue."]}
+        ]
         assert result["session"]["laIssues"] == []
 
     @pytest.mark.django_db

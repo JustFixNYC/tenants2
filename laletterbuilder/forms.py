@@ -1,4 +1,3 @@
-from typing import List
 from django import forms
 from laletterbuilder.models import LA_ISSUE_CHOICES, LA_MAILING_CHOICES
 from loc import models as loc_models
@@ -40,19 +39,19 @@ class LandlordDetailsForm(forms.ModelForm):
             self.fields[field].required = True
 
 
-def validate_at_least_one_issue(issues: List):
-    if not issues:
-        raise ValidationError(_("Please select at least one repair issue."), code="invalid")
-
-
 class HabitabilityIssuesForm(forms.Form):
 
     la_issues = forms.MultipleChoiceField(
         required=False,
         choices=LA_ISSUE_CHOICES.choices,
-        validators=[validate_at_least_one_issue],
         help_text=("The issues to set. Any issues not listed will be removed."),
     )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        issues = cleaned_data.get("la_issues")
+        if not issues:
+            raise ValidationError(_("Please select at least one repair issue."))
 
 
 class SendOptionsForm(forms.ModelForm):

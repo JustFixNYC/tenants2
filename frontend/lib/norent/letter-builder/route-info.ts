@@ -37,6 +37,7 @@ export function createNorentLetterBuilderRouteInfo(prefix: string) {
     landlordAddress: `${prefix}/landlord/address`,
     landlordAddressConfirmModal: `${prefix}/landlord/address/confirm-modal`,
     rentPeriods: `${prefix}/rent-periods`,
+    rentPeriodsPostModal: `${prefix}/rent-periods/select-months`,
     preview: `${prefix}/preview`,
     previewSendConfirmModal: `${prefix}/preview/send-confirm-modal`,
     confirmation: `${prefix}/confirmation`,

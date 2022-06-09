@@ -7,13 +7,13 @@ import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-
 import { li18n } from "../../i18n-lingui";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { NorentSetUpcomingLetterRentPeriodsMutation } from "../../queries/NorentSetUpcomingLetterRentPeriodsMutation";
-import { NextButton, ProgressButtons } from "../../ui/buttons";
+import { BackButton, ProgressButtons } from "../../ui/buttons";
 import Page from "../../ui/page";
 import { friendlyUTCMonthAndYear } from "../../util/date-util";
 import { assertNotNull } from "@justfixnyc/util";
 import { NorentNotSentLetterStep } from "./step-decorators";
 import { Accordion } from "../../ui/accordion";
-import { BackOrUpOneDirLevel, Modal } from "../../ui/modal";
+import { Modal } from "../../ui/modal";
 import { Link } from "react-router-dom";
 
 function getCurrentRentNonpaymentPeriods(s: AllSessionInfo): string[] {
@@ -44,12 +44,13 @@ export const NorentRentPeriods = NorentNotSentLetterStep((props) => {
       className="content"
     >
       <Modal
-        title={li18n._(t`Shall we send your letter?`)}
-        onCloseGoTo={BackOrUpOneDirLevel}
+        title={li18n._(t`You need to be income eligible...`)}
+        onCloseGoTo={props.nextStep}
         withHeading
         render={(ctx) => (
           <>
             <div className="has-text-centered">
+              <BackButton to={props.prevStep} />
               <Link
                 className={`button is-primary is-medium is-danger`}
                 {...ctx.getLinkCloseProps()}

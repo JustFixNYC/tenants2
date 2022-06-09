@@ -6,6 +6,8 @@ from loc.forms import validate_non_stupid_name
 from onboarding.models import OnboardingInfo
 from project.forms import SetPasswordForm
 from project.util import lob_api
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext as _
 
 
 class CreateAccount(SetPasswordForm, forms.ModelForm):
@@ -44,6 +46,12 @@ class HabitabilityIssuesForm(forms.Form):
         choices=LA_ISSUE_CHOICES.choices,
         help_text=("The issues to set. Any issues not listed will be removed."),
     )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        issues = cleaned_data.get("la_issues")
+        if not issues:
+            raise ValidationError(_("Please select at least one repair issue."))
 
 
 class SendOptionsForm(forms.ModelForm):

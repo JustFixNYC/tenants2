@@ -36,7 +36,7 @@ describe("LA letter builder steps", () => {
       "/en/habitability/name",
       "/en/habitability/city",
       "/en/habitability/address/national",
-      "/en/habitability/consent",
+      "/en/habitability/review-rights",
       "/en/habitability/create-account",
     ],
   });
@@ -60,7 +60,7 @@ tester.defineTest({
 });
 
 describe("create account back and next", () => {
-  it("goes to consent if you click back", async () => {
+  it("goes to review rights if you click back", async () => {
     const pal = new AppTesterPal(<HabitabilityRoutes />, {
       url: LaLetterBuilderRouteInfo.locale.habitability.createAccount,
       updateSession: true,
@@ -71,7 +71,7 @@ describe("create account back and next", () => {
           state: "CA",
         }).value,
     });
-    pal.ensureLinkGoesTo(/Back/, "/en/habitability/consent");
+    pal.ensureLinkGoesTo(/Back/, "/en/habitability/review-rights");
   });
 
   it("goes to the my letters page after submission", async () => {

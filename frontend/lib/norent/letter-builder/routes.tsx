@@ -37,7 +37,7 @@ import {
 } from "./los-angeles-know-your-rights";
 import { PostSignupNoProtections } from "./post-signup-no-protections";
 import { createCrossSiteAgreeToTermsStep } from "../../pages/cross-site-terms-opt-in";
-import { NorentRentPeriods, NorentRentPeriodsWithModal } from "./rent-periods";
+import { NorentRentPeriods, NorentRentPeriodsKyr } from "./rent-periods";
 import {
   hasNorentLetterBeenSentForAllRentPeriods,
   hasNorentLetterNeverBeenSent,
@@ -164,10 +164,10 @@ export const getNoRentLetterBuilderProgressRoutesProps = (): ProgressRoutesProps
         {
           path: routes.rentPeriods,
           exact: true,
-          component: NorentRentPeriodsWithModal,
+          component: NorentRentPeriodsKyr,
         },
         {
-          path: routes.rentPeriodsPostModal,
+          path: routes.rentPeriodsPostWarning,
           exact: true,
           component: NorentRentPeriods,
         },

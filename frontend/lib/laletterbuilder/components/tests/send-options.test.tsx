@@ -8,7 +8,7 @@ import HabitabilityRoutes from "../../letter-builder/habitability/routes";
 import { LaMailingChoice } from "../../../../../common-data/laletterbuilder-mailing-choices";
 import { HabitabilityLetterMailChoice } from "../../../queries/globalTypes";
 import { BlankAllSessionInfo } from "../../../queries/AllSessionInfo";
-import { nextTick, override } from "../../../tests/util";
+import { override } from "../../../tests/util";
 
 const sb = newSb().withLoggedInJustfixUser();
 

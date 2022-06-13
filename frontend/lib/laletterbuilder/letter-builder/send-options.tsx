@@ -74,6 +74,8 @@ export const ConfirmModal: React.FC<{
   nextStep: string;
 }> = (props) => {
   const { session } = useContext(AppContext);
+
+  // TODO: generalize to other letter types
   const userWillMail =
     session.habitabilityLatestLetter?.mailChoice === "USER_WILL_MAIL";
   const title = userWillMail

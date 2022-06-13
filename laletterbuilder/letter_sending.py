@@ -132,6 +132,7 @@ def send_letter(letter: models.Letter):
     letter_type = letter.get_letter_type()  # TODO: localize this somewhere
     ld = user.landlord_details
 
+    # TODO: check if user wants to email to landlord
     if ld.email:
         email_letter_to_landlord(letter, pdf_bytes)
 

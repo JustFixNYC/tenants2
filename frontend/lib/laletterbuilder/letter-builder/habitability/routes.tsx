@@ -126,7 +126,7 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
       },
       {
         path: routes.sending,
-        exact: true,
+        exact: false,
         component: LaLetterBuilderSendOptions,
       },
     ],

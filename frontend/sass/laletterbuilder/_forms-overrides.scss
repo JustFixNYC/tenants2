@@ -28,8 +28,17 @@ form {
       margin-top: $spacing-05;
       padding: 0;
     }
+    .jf-radio {
+      align-items: flex-start;
+      border: 1px solid $new-justfix-black;
+      border-radius: 4px;
+      padding: $spacing-05 $spacing-03;
+      margin-bottom: $spacing-05;
+    }
     .jf-radio-symbol {
       box-shadow: 0 0 0 2px $white, 0 0 0 3px $grey-light;
+      border: 1px solid $new-justfix-black;
+      margin-top: 0;
     }
     .jf-label-text,
     .jf-label-text .subtitle {

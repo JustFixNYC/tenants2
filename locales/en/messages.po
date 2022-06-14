@@ -115,6 +115,10 @@ msgstr "A PDF of your form is attached to this email. Please save a copy for you
 msgid "A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case."
 msgstr "A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case."
 
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:74
+msgid "A copy will be sent to your email and saved to your account."
+msgstr "A copy will be sent to your email and saved to your account."
+
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:30
 msgid "A hard copy of your form has also been mailed to your landlord via USPS mail. You can also track the delivery of your hard copy form using USPS Tracking:"
 msgstr "A hard copy of your form has also been mailed to your landlord via USPS mail. You can also track the delivery of your hard copy form using USPS Tracking:"
@@ -238,6 +242,10 @@ msgstr "Are you sure you want to log out?"
 msgid "Are you sure you want to proceed with the following address?"
 msgstr "Are you sure you want to proceed with the following address?"
 
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:44
+msgid "Are you sure you want to send yourself?"
+msgstr "Are you sure you want to send yourself?"
+
 #: common-data/us-state-choices.ts:67
 msgid "Arizona"
 msgstr "Arizona"
@@ -263,6 +271,7 @@ msgstr "Automatically fill in your landlord's information based on your address 
 msgid "Available in English and Spanish."
 msgstr "Available in English and Spanish."
 
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:82
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
 msgstr "Back"
@@ -615,7 +624,7 @@ msgstr "Continue"
 msgid "Continue anyway"
 msgstr "Continue anyway"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:28
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:37
 msgid "Continue my letter"
 msgstr "Continue my letter"
 
@@ -638,7 +647,7 @@ msgstr "Cracked sink"
 msgid "Cracked walls"
 msgstr "Cracked walls"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:41
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:24
 msgid "Create a new letter"
 msgstr "Create a new letter"
 
@@ -776,10 +785,6 @@ msgstr "Door not working"
 msgid "Doorbell not working"
 msgstr "Doorbell not working"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:40
-msgid "Download and send myself"
-msgstr "Download and send myself"
-
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:223
 msgid "Download completed declaration"
 msgstr "Download completed declaration"
@@ -829,6 +834,10 @@ msgstr "Email"
 #: frontend/lib/laletterbuilder/components/create-account.tsx:29
 msgid "Email address"
 msgstr "Email address"
+
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:69
+msgid "Email your letter to:"
+msgstr "Email your letter to:"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:21
 #: frontend/lib/evictionfree/data/faqs-content.tsx:35
@@ -1418,7 +1427,7 @@ msgid "Landlord name"
 msgstr "Landlord name"
 
 #: frontend/lib/common-steps/landlord-email.tsx:38
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:49
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:32
 msgid "Landlord/management company's email"
 msgstr "Landlord/management company's email"
 
@@ -1506,7 +1515,7 @@ msgstr "Legally vetted"
 msgid "Let's get to know you."
 msgstr "Let's get to know you."
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:35
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:43
 msgid "Let's go"
 msgstr "Let's go"
 
@@ -1600,6 +1609,10 @@ msgstr "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 #: common-data/laletterbuilder-mailing-choices.ts:15
 msgid "Mail for me"
 msgstr "Mail for me"
+
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:62
+msgid "Mail your letter to:"
+msgstr "Mail your letter to:"
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:72
 msgid "Mailing address"
@@ -1710,7 +1723,7 @@ msgid "Must be at least 8 characters. Can't be all numbers."
 msgstr "Must be at least 8 characters. Can't be all numbers."
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:13
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:46
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:50
 msgid "My letters"
 msgstr "My letters"
 
@@ -1840,10 +1853,6 @@ msgstr "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. 
 #: common-data/issue-room-choices-laletterbuilder.ts:44
 msgid "Not enough"
 msgstr "Not enough"
-
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:44
-msgid "Not sure yet? If you need more time to decide, you can always come back later. We've saved your work."
-msgstr "Not sure yet? If you need more time to decide, you can always come back later. We've saved your work."
 
 #: frontend/lib/norent/letter-content.tsx:69
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
@@ -2203,7 +2212,7 @@ msgstr "See which letter is right for me"
 msgid "Select a letter to get started"
 msgstr "Select a letter to get started"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:26
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:31
 msgid "Select a mailing method"
 msgstr "Select a mailing method"
 
@@ -2231,9 +2240,9 @@ msgstr "Send code"
 msgid "Send for free"
 msgstr "Send for free"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:29
-msgid "Send for me"
-msgstr "Send for me"
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:45
+msgid "Send letter now for free"
+msgstr "Send letter now for free"
 
 #: common-data/laletterbuilder-mailing-choices.ts:16
 msgid "Send myself"
@@ -2738,6 +2747,10 @@ msgstr "We make it easy to notify your landlord by email or by certified mail fo
 msgid "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 msgstr "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:58
+msgid "We will email your letter to:"
+msgstr "We will email your letter to:"
+
 #: frontend/lib/laletterbuilder/homepage.tsx:78
 msgid "We will send the letter to your landlord or property manager for free via certified mail. Or you can opt to print and mail it yourself."
 msgstr "We will send the letter to your landlord or property manager for free via certified mail. Or you can opt to print and mail it yourself."
@@ -2758,10 +2771,6 @@ msgstr "We'll include this information in your hardship declaration form."
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:41
 msgid "We'll need to add your case's index number to your declaration."
 msgstr "We'll need to add your case's index number to your declaration."
-
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:32
-msgid "We'll send your letter for you via certified mail in 1-2 business days, at no cost to you."
-msgstr "We'll send your letter for you via certified mail in 1-2 business days, at no cost to you."
 
 #: frontend/lib/norent/letter-builder/ask-email.tsx:10
 msgid "We'll use this information to email you a copy of your letter."
@@ -2986,7 +2995,7 @@ msgstr "Wisconsin"
 msgid "With this free tool, you can"
 msgstr "With this free tool, you can"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:14
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:19
 msgid "Would you like us to send the letter for you for free?"
 msgstr "Would you like us to send the letter for you for free?"
 
@@ -3071,6 +3080,10 @@ msgstr "You haven't completed previous steps. Please <0>go back</0>."
 #: frontend/lib/norent/letter-builder/menu.tsx:28
 msgid "You most recently sent a letter on {0}."
 msgstr "You most recently sent a letter on {0}."
+
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:53
+msgid "You will need to print your letter and mail it to your landlord or property manager."
+msgstr "You will need to print your letter and mail it to your landlord or property manager."
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:131
 msgid "You're in <0>{stateName}</0>"

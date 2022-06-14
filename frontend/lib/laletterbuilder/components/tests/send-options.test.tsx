@@ -31,7 +31,7 @@ describe("send options page", () => {
     await pal.rr.getByText(/^Send myself/i);
   });
 
-  it("redirects to next step after successful submission", async () => {
+  it("renders modal with email and no landlord address", async () => {
     const pal = new AppTesterPal(<HabitabilityRoutes />, {
       url: LaLetterBuilderRouteInfo.locale.habitability.sending, // TODO: generalize to all letter types
       session: sb.with({
@@ -40,6 +40,14 @@ describe("send options page", () => {
     });
     const email = "boopsy@boopmail.com";
     const mailChoice: LaMailingChoice = "USER_WILL_MAIL";
+
+    const updatedSession = {
+      landlordDetails: { ...BlankLandlordDetailsType, email },
+      habitabilityLatestLetter: {
+        ...blankHabitabilityLetter,
+        mailChoice: HabitabilityLetterMailChoice.USER_WILL_MAIL,
+      },
+    };
 
     pal.clickRadioOrCheckbox(/^Send myself/i);
     pal.fillFormFields([[/email/i, email]]);
@@ -52,18 +60,19 @@ describe("send options page", () => {
       })
       .respondWith({
         errors: [],
-        session: override(BlankAllSessionInfo, {
-          landlordDetails: { ...BlankLandlordDetailsType, email },
-          habitabilityLatestLetter: {
-            ...blankHabitabilityLetter,
-            mailChoice: HabitabilityLetterMailChoice.USER_WILL_MAIL,
-          },
-        }),
+        session: override(BlankAllSessionInfo, updatedSession),
       });
 
+    pal.appContext.session = {
+      ...pal.appContext.session,
+      ...updatedSession,
+    };
+
+    await pal.waitForLocation("/en/habitability/sending/confirm-modal");
     await pal.rt.waitFor(() =>
-      pal.rr.getByText(/See all your finished and unfinished letters/i)
+      pal.getDialogWithLabel(/Are you sure you want to send yourself\?/i)
     );
+
     const { mock } = pal.appContext.updateSession;
     expect(mock.calls).toHaveLength(1);
     expect(mock.calls[0][0]["landlordDetails"]["email"]).toEqual(email);
@@ -72,13 +81,21 @@ describe("send options page", () => {
     );
   });
 
-  it("redirects to next step after successful submission with default mail choice and email (blank)", async () => {
+  it("renders modal with landlord address and no email", async () => {
     const pal = new AppTesterPal(<HabitabilityRoutes />, {
       url: LaLetterBuilderRouteInfo.locale.habitability.sending, // TODO: generalize to all letter types
       session: sb.with({
         landlordDetails: BlankLandlordDetailsType,
       }).value,
     });
+
+    const updatedSession = {
+      landlordDetails: { ...BlankLandlordDetailsType },
+      habitabilityLatestLetter: {
+        ...blankHabitabilityLetter,
+        mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
+      },
+    };
 
     pal.clickButtonOrLink("Next");
     pal
@@ -89,18 +106,19 @@ describe("send options page", () => {
       })
       .respondWith({
         errors: [],
-        session: override(BlankAllSessionInfo, {
-          landlordDetails: { ...BlankLandlordDetailsType },
-          habitabilityLatestLetter: {
-            ...blankHabitabilityLetter,
-            mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
-          },
-        }),
+        session: override(BlankAllSessionInfo, updatedSession),
       });
 
+    pal.appContext.session = {
+      ...pal.appContext.session,
+      ...updatedSession,
+    };
+
+    await pal.waitForLocation("/en/habitability/sending/confirm-modal");
     await pal.rt.waitFor(() =>
-      pal.rr.getByText(/See all your finished and unfinished letters/i)
+      pal.getDialogWithLabel(/Send letter now for free/i)
     );
+
     const { mock } = pal.appContext.updateSession;
     expect(mock.calls).toHaveLength(1);
     expect(mock.calls[0][0]["landlordDetails"]["email"]).toEqual("");

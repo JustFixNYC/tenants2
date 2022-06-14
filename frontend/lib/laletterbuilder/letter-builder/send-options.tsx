@@ -109,15 +109,15 @@ export const ConfirmModal: React.FC<{
               <>
                 <p>
                   <span>
-                    <Trans>Mail your letter to:</Trans>
+                    <Trans>Mail your letter to:</Trans>{" "}
                   </span>
-                  <span>{session.landlordDetails?.name}</span>
+                  <span>{session.landlordDetails?.name}</span>{" "}
                   <span>{session.landlordDetails?.address}</span>
                 </p>
                 {session.landlordDetails?.email && (
                   <p>
                     <span>
-                      <Trans>Email your letter to:</Trans>
+                      <Trans>Email your letter to:</Trans>{" "}
                     </span>
                     <span>{session.landlordDetails.email}</span>
                   </p>

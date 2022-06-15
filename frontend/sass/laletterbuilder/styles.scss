@@ -355,6 +355,35 @@ $jf-navbar-height: 70px;
   }
 }
 
+// SEND OPTIONS STYLING
+.jf-laletterbuilder-mailchoice {
+  display: flex;
+  flex-direction: column;
+
+  > div {
+    margin-bottom: $spacing-03;
+  }
+}
+
+.jf-laletterbuilder-mailchoice-title {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.jf-laletterbuilder-mailchoice-tags > span {
+  display: inline-block;
+  border-radius: 12px;
+  padding: $spacing-02 $spacing-03;
+  margin-right: $spacing-04;
+
+  &:nth-child(1) {
+    background-color: $new-justfix-yellow;
+  }
+  &:nth-child(2) {
+    background-color: $new-justfix-pink;
+  }
+}
+
 // NORENT STYLING OVERRIDES
 
 .jf-norent-builder-page {

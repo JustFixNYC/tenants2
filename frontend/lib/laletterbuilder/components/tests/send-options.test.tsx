@@ -70,7 +70,9 @@ describe("send options page", () => {
 
     await pal.waitForLocation("/en/habitability/sending/confirm-modal");
     await pal.rt.waitFor(() =>
-      pal.getDialogWithLabel(/Are you sure you want to send yourself\?/i)
+      pal.getDialogWithLabel(
+        /Are you sure you want to mail the letter yourself\?/i
+      )
     );
 
     const { mock } = pal.appContext.updateSession;
@@ -116,7 +118,7 @@ describe("send options page", () => {
 
     await pal.waitForLocation("/en/habitability/sending/confirm-modal");
     await pal.rt.waitFor(() =>
-      pal.getDialogWithLabel(/Send letter now for free/i)
+      pal.getDialogWithLabel(/Mail letter now for free/i)
     );
 
     const { mock } = pal.appContext.updateSession;

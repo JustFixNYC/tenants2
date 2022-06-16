@@ -543,7 +543,7 @@ class TestLaLetterBuilderSendOptionsMutation:
         # Check that changes from our mutation are saved
         assert result["session"]["landlordDetails"]["email"] == "landlord@boop.com"
         assert result["session"]["habitabilityLatestLetter"]["mailChoice"] == "USER_WILL_MAIL"
-        assert result["session"]["habitabilityLatestLetter"]["emailToLandlord"] == True
+        assert result["session"]["habitabilityLatestLetter"]["emailToLandlord"] is True
 
         # Check that no other landlord details are modified
         assert result["session"]["landlordDetails"]["name"] == "Landlordo Calrissian"
@@ -600,7 +600,7 @@ class TestLaLetterBuilderSendOptionsMutation:
 
         # Check that changes from our mutation are saved
         assert result["session"]["habitabilityLatestLetter"]["mailChoice"] == "USER_WILL_MAIL"
-        assert result["session"]["habitabilityLatestLetter"]["emailToLandlord"] == False
+        assert result["session"]["habitabilityLatestLetter"]["emailToLandlord"] is False
 
         # Check that the existing landlord email is not overwritten
         assert result["session"]["landlordDetails"]["email"] == "landlord@boop.com"
@@ -630,7 +630,7 @@ class TestLaLetterBuilderSendOptionsMutation:
 
         # Check that changes from our mutation are saved
         assert result["session"]["landlordDetails"]["email"] == "landlord@boop.com"
-        assert result["session"]["habitabilityLatestLetter"]["emailToLandlord"] == True
+        assert result["session"]["habitabilityLatestLetter"]["emailToLandlord"] is True
 
         # Check that no other landlord details are modified
         assert result["session"]["landlordDetails"]["name"] == "Boop Jones"

@@ -33,7 +33,10 @@ class Letter(LocalizedHTMLLetter):
     )
     email_to_landlord = models.BooleanField(
         default=False,
-        help_text="Whether to email a copy of the letter to the landlord. Requires a landlord email to be provided",
+        help_text=(
+            "Whether to email a copy of the letter to the landlord. "
+            "Requires a landlord email to be provided"
+        ),
     )
 
     @abstractmethod

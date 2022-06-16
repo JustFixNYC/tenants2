@@ -70,6 +70,7 @@ class SendOptionsForm(forms.ModelForm):
         if not no_landlord_email and landlord_email == "":
             raise ValidationError(
                 _(
-                    "Please provide a landlord email or indicate that you do not have this information."
+                    "Please provide a landlord email or indicate that you do not "
+                    "have this information."
                 )
             )

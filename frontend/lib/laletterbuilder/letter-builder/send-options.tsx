@@ -5,7 +5,11 @@ import { AppContext } from "../../app-context";
 import { li18n } from "../../i18n-lingui";
 import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
-import { TextualFormField, RadiosFormField } from "../../forms/form-fields";
+import {
+  TextualFormField,
+  RadiosFormField,
+  CheckboxFormField,
+} from "../../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { ProgressButtons, NextButton } from "../../ui/buttons";
 import { LaLetterBuilderSendOptionsMutation } from "../../queries/LaLetterBuilderSendOptionsMutation";
@@ -19,6 +23,8 @@ import { LaLetterBuilderRouteInfo } from "../route-info";
 import Page from "../../ui/page";
 import { optionalizeLabel } from "../../forms/optionalize-label";
 import { twoTuple } from "../../util/util";
+import { EmailPreview } from "../components/letter-preview";
+import { HabitabilityLetterEmailToLandlordForUser } from "./habitability/habitability-letter-content";
 
 interface MailChoiceInfo {
   title: string;
@@ -44,6 +50,8 @@ const MailChoices: { [key: string]: MailChoiceInfo } = {
 };
 
 export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
+  const { session } = useContext(AppContext);
+
   const mailChoiceTuples = LaMailingChoices.map((choice) => {
     const data = MailChoices[choice];
     return twoTuple(
@@ -75,35 +83,59 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
           mailChoice:
             s.habitabilityLatestLetter?.mailChoice ||
             ("WE_WILL_MAIL" as LaMailingChoice),
-          email: s.landlordDetails?.email || "",
+          noLandlordEmail:
+            !s.habitabilityLatestLetter?.emailToLandlord || false,
+          email: "",
         })}
         onSuccessRedirect={
           LaLetterBuilderRouteInfo.locale.habitability.sendConfirmModal
         }
       >
-        {(ctx) => (
-          <>
-            <hr />
-            <h3>Select a mailing method</h3>
-            <RadiosFormField
-              {...ctx.fieldPropsFor("mailChoice")}
-              choices={mailChoiceTuples}
-              label={li18n._(t`Select a mailing method`)}
-              hideVisibleLabel={true}
-            />
-            <h3>
-              <Trans>Email a copy to your landlord or property manager</Trans>
-            </h3>
-            <TextualFormField
-              type="email"
-              {...ctx.fieldPropsFor("email")}
-              label={optionalizeLabel(
-                li18n._(t`Landlord or property manager email`)
+        {(ctx) => {
+          return (
+            <>
+              <hr />
+              <h3>Select a mailing method</h3>
+              <RadiosFormField
+                {...ctx.fieldPropsFor("mailChoice")}
+                choices={mailChoiceTuples}
+                label={li18n._(t`Select a mailing method`)}
+                hideVisibleLabel={true}
+              />
+              <h3>
+                <Trans>Email a copy to your landlord or property manager</Trans>
+              </h3>
+              {session.landlordDetails?.email && (
+                <div className="jf-laletterbuilder-landlord-email">
+                  <span>
+                    {li18n._(t`We found this email address for your landlord:`)}
+                  </span>
+                  <span>{session.landlordDetails.email}</span>
+                </div>
               )}
-            />
-            <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
-          </>
-        )}
+              <TextualFormField
+                type="email"
+                {...ctx.fieldPropsFor("email")}
+                isDisabled={ctx.fieldPropsFor("noLandlordEmail").value}
+                label={optionalizeLabel(
+                  li18n._(t`Landlord or property manager email`)
+                )}
+              />
+              <CheckboxFormField {...ctx.fieldPropsFor("noLandlordEmail")}>
+                <Trans>I don't have this information</Trans>
+              </CheckboxFormField>
+              <EmailPreview
+                emailContent={HabitabilityLetterEmailToLandlordForUser}
+                landlordName={session.landlordDetails?.name}
+                landlordEmail={session.landlordDetails?.email}
+              />
+              <ProgressButtons
+                back={props.prevStep}
+                isLoading={ctx.isLoading}
+              />
+            </>
+          );
+        }}
       </SessionUpdatingFormSubmitter>
       <Route
         path={LaLetterBuilderRouteInfo.locale.habitability.sendConfirmModal}
@@ -121,6 +153,9 @@ export const ConfirmModal: React.FC<{
   // TODO: generalize to other letter types
   const userWillMail =
     session.habitabilityLatestLetter?.mailChoice === "USER_WILL_MAIL";
+  const emailToLandlord =
+    session.habitabilityLatestLetter?.emailToLandlord &&
+    session.landlordDetails?.email;
   const title = userWillMail
     ? li18n._(t`Are you sure you want to mail the letter yourself?`)
     : li18n._(t`Mail letter now for free`);
@@ -142,9 +177,9 @@ export const ConfirmModal: React.FC<{
                     landlord or property manager.
                   </Trans>
                 </p>
-                {session.landlordDetails?.email && (
+                {emailToLandlord && (
                   <p>{`${li18n._(t`We will email your letter to:`)} ${
-                    session.landlordDetails.email
+                    session.landlordDetails!.email
                   }`}</p>
                 )}
               </>
@@ -157,12 +192,12 @@ export const ConfirmModal: React.FC<{
                   <span>{session.landlordDetails?.name}</span>{" "}
                   <span>{session.landlordDetails?.address}</span>
                 </p>
-                {session.landlordDetails?.email && (
+                {emailToLandlord && (
                   <p>
                     <span>
                       <Trans>Email your letter to:</Trans>{" "}
                     </span>
-                    <span>{session.landlordDetails.email}</span>
+                    <span>{session.landlordDetails!.email}</span>
                   </p>
                 )}
               </>

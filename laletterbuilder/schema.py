@@ -264,11 +264,14 @@ class LaLetterBuilderSendOptions(SessionFormMutation):
                     + "There should only ever be one."
                 )
             letter = letters[0]
+
             letter.mail_choice = form.cleaned_data["mail_choice"]
+            letter.email_to_landlord = not form.cleaned_data["no_landlord_email"]
             letter.save()
 
             landlord_details = loc_models.LandlordDetails.objects.get(user=user)
-            landlord_details.email = form.cleaned_data["email"]
+            if form.cleaned_data["email"] != "":
+                landlord_details.email = form.cleaned_data["email"]
             landlord_details.save()
         return cls.mutation_success()
 
@@ -282,6 +285,7 @@ class HabitabilityLetterType(DjangoObjectType):
             "created_at",
             "fully_processed_at",
             "mail_choice",
+            "email_to_landlord",
         )
 
 

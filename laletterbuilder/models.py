@@ -31,6 +31,10 @@ class Letter(LocalizedHTMLLetter):
         help_text="How the letter will be mailed.",
         default=LA_MAILING_CHOICES.WE_WILL_MAIL,
     )
+    email_to_landlord = models.BooleanField(
+        default=False,
+        help_text="Whether to email a copy of the letter to the landlord. Requires a landlord email to be provided",
+    )
 
     @abstractmethod
     def get_letter_type(self) -> str:

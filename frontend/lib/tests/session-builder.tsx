@@ -201,6 +201,7 @@ export class SessionBuilder {
         createdAt: "2020-03-13T19:41:09+00:00",
         fullyProcessedAt: "2020-03-13T19:41:09+00:00",
         mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
+        emailToLandlord: false,
       },
       hasHabitabilityLetterInProgress: true,
     });
@@ -214,6 +215,7 @@ export class SessionBuilder {
         createdAt: "2020-03-13T19:41:09+00:00",
         fullyProcessedAt: "",
         mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
+        emailToLandlord: false,
       },
       hasHabitabilityLetterInProgress: true,
     });

@@ -53,6 +53,7 @@ describe("my letters page", () => {
             letterSentAt: "",
             fullyProcessedAt: "",
             mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
+            emailToLandlord: false,
           },
           hasHabitabilityLetterInProgress: true,
         }),

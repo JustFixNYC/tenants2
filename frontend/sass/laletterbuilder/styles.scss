@@ -10,6 +10,8 @@ $jf-body-family: "Degular", Arial, Helvetica, sans-serif;
 $jf-title-family: "Degular Display", Arial, Helvetica, sans-serif;
 $jf-alt-title-family: "Suisse Int'l Mono", "Courier New", Courier, monospace;
 
+$laletterbuilder-desktop-max-width: 40.875rem;
+
 @import "./_spacing.scss";
 
 @import "../_util.scss";
@@ -257,7 +259,7 @@ $jf-navbar-height: 70px;
   margin-left: auto;
   margin-right: auto;
   margin-top: $spacing-09;
-  max-width: 40.875rem;
+  max-width: $laletterbuilder-desktop-max-width;
 
   .content {
     padding: $spacing-06 $spacing-06 0 $spacing-06;
@@ -325,10 +327,6 @@ $jf-navbar-height: 70px;
 // FOOTER STYLING OVERRIDES
 .jf-laletterbuilder-footer-logo {
   margin: $spacing-03 0;
-
-  @media screen and (min-width: $tablet) {
-    margin-top: 0;
-  }
 }
 
 // MY LETTERS STYLING OVERRIDES
@@ -340,7 +338,7 @@ $jf-navbar-height: 70px;
     margin-left: auto;
     margin-right: auto;
     margin-top: $spacing-06;
-    max-width: 40.875rem;
+    max-width: $laletterbuilder-desktop-max-width;
     padding: $spacing-06;
   }
 
@@ -446,4 +444,24 @@ ol.is-marginless {
 .is-divider {
   border: 1px solid $primary;
   margin: $spacing-05 0;
+}
+
+// DESKTOP STYLE OVERRIDES
+@media screen and (min-width: $tablet) {
+  .jf-laletterbuilder-footer-logo {
+    margin-top: 0;
+  }
+
+  .jf-above-footer-content {
+    .content > section > * {
+      max-width: $laletterbuilder-desktop-max-width;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  .jf-norent-internal-above-footer-content {
+    max-width: $laletterbuilder-desktop-max-width;
+    margin: auto;
+  }
 }

@@ -10,6 +10,7 @@ import { StaticImage } from "../ui/static-image";
 import { Accordion } from "../ui/accordion";
 import { li18n } from "../i18n-lingui";
 import { OutboundLink } from "../ui/outbound-link";
+import { faqContent } from "./faq-content";
 
 type LaLetterBuilderImageType = "png" | "svg";
 
@@ -119,12 +120,15 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
           <h2 className="is-spaced">
             <Trans>Frequently asked questions</Trans>
           </h2>
-          <Accordion
-            question={li18n._(t`What situations does the tool cover?`)}
-            questionClassName="has-text-primary"
-          >
-            Example answer here
-          </Accordion>
+          {faqContent.map((el) => (
+            <Accordion
+              question={el.question}
+              questionClassName="has-text-primary"
+              extraClassName="jf-laletterbuilder-faq-accordion"
+            >
+              {el.answer}
+            </Accordion>
+          ))}
         </div>
       </div>
     </section>

@@ -248,6 +248,20 @@ $jf-navbar-height: 70px;
       }
     }
   }
+
+  // HOMEPAGE FAQ ACCORDION
+  .jf-laletterbuilder-faq-accordion[open] {
+    border-bottom: 1px solid #242323;
+
+    summary {
+      border-bottom: none;
+    }
+
+    summary + span {
+      margin: 1rem 0;
+      display: block;
+    }
+  }
 }
 
 // CHOOSE LETTER STYLING OVERRIDES

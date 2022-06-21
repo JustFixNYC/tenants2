@@ -3586,15 +3586,16 @@ msgstr "This letter is to notify you that I need the following repairs in my hom
 msgid "laletterbuilder.madeByBlurb"
 msgstr "LaLetterBuilder fue creado por <0>JustFix.nyc</0>, una organización sin fines de lucro que co-diseña y construye herramientas para inquilinos, organizadores de viviendas y abogados que luchan contra el desplazamiento en la ciudad de Nueva York."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:22
-msgid "no printing"
-g
 #: frontend/lib/laletterbuilder/components/review-your-rights.tsx:17
 msgid "laletterbuilder.retaliationOptions"
 msgstr ""
 
 #: frontend/lib/laletterbuilder/components/review-your-rights.tsx:11
 msgid "laletterbuilder.reviewTenantRightsIntro"
+msgstr ""
+
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:22
+msgid "no printing"
 msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:215

@@ -3621,6 +3621,22 @@
                   "ofType": null
                 }
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "Whether to email a copy of the letter to the landlord. Requires a landlord email to be provided",
+              "isDeprecated": false,
+              "name": "emailToLandlord",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              }
             }
           ],
           "inputFields": null,
@@ -3640,7 +3656,7 @@
             },
             {
               "deprecationReason": null,
-              "description": "Send myself",
+              "description": "Mail myself",
               "isDeprecated": false,
               "name": "USER_WILL_MAIL"
             }
@@ -12471,6 +12487,20 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "noLandlordEmail",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
                   "ofType": null
                 }
               }

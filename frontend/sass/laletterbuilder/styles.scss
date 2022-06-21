@@ -396,6 +396,18 @@ $jf-navbar-height: 70px;
   }
 }
 
+.jf-laletterbuilder-landlord-email {
+  background-color: $new-justfix-light-grey-accent;
+  padding: $spacing-05;
+  margin-bottom: $spacing-05;
+  border-radius: 4px;
+}
+
+.jf-laletterbuilder-landlord-email > span + span {
+  display: block;
+  margin-top: $spacing-05;
+}
+
 // NORENT STYLING OVERRIDES
 
 .jf-norent-builder-page {

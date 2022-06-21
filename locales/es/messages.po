@@ -413,7 +413,7 @@ msgstr "Crear mi carta"
 msgid "Build power in numbers"
 msgstr "Construye poder común"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:57
+#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:56
 msgid "Build your Letter"
 msgstr "Build your Letter"
 
@@ -660,7 +660,7 @@ msgstr "Create a new letter"
 msgid "Create a password"
 msgstr "Crea una contraseña"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:59
+#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:58
 msgid "Create an Account"
 msgstr "Create an Account"
 
@@ -2473,7 +2473,7 @@ msgstr "Corte de vivienda de Staten Island:"
 msgid "States with Limited Protections"
 msgstr "Estados con Protecciones Limitadas"
 
-#: frontend/lib/progress/progress-bar.tsx:127
+#: frontend/lib/progress/progress-bar.tsx:129
 msgid "Step {0} of {1}"
 msgstr "Step {0} of {1}"
 
@@ -3599,7 +3599,7 @@ msgstr ""
 msgid "laletterbuilder.reviewTenantRightsIntro"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:22
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:24
 msgid "no printing"
 msgstr ""
 

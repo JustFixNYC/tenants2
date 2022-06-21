@@ -13,7 +13,7 @@ export const faqContent: FaqItem[] = [
     question: li18n._(t`When do I need to send a letter to my landlord?`),
     answer: (
       <span>
-        <Trans id="laletterbuilder.faq1">
+        <Trans id="laletterbuilder.faq.whentosend">
           Create a letter to formally request repairs or document harassment
           situations. The letter creates a paper trail of your communication if
           you decide to contact the Los Angeles Housing Department (LAHD).
@@ -28,7 +28,7 @@ export const faqContent: FaqItem[] = [
     // TODO add link to Tenant Action Clinic
     answer: (
       <span>
-        <Trans id="laletterbuilder.faq2">
+        <Trans id="laletterbuilder.faq.whocanhelp">
           Give SAJE a call at (213) 745-9961 and let them know you need help
           creating a letter. You can also attend a Tenant Action Clinic.
         </Trans>
@@ -41,7 +41,7 @@ export const faqContent: FaqItem[] = [
     ),
     answer: (
       <span>
-        <Trans id="laletterbuilder.faq3">
+        <Trans id="laletterbuilder.faq.timesensitive">
           If you live in the City of Los Angeles, call Urgent Repair Program at
           (213) 808-8562. If you live in a non-incorporated area of the County
           of Los Angeles, Call Consumer & Business Affairs at (800) 593-8222.
@@ -55,7 +55,7 @@ export const faqContent: FaqItem[] = [
     ),
     answer: (
       <span>
-        <Trans id="laletterbuilder.faq4">
+        <Trans id="laletterbuilder.faq.retaliation">
           Exercising your tenant rights can be scary. Remember it is within your
           right to ask for repairs and live in a home free of harassment. If
           your landlord is retaliating against you, contact SAJE to speak with a
@@ -68,7 +68,7 @@ export const faqContent: FaqItem[] = [
     question: li18n._(t`I am undocumented. Can I send a letter?`),
     answer: (
       <span>
-        <Trans id="laletterbuilder.faq5">
+        <Trans id="laletterbuilder.faq.undocumented">
           Yes. Your immigration status does not affect your tenant rights.
         </Trans>
       </span>

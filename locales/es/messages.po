@@ -3542,24 +3542,24 @@ msgstr "<0>Por favor vea la carta adjunta de <1/>. </0><2>Para documentar las co
 msgid "laletterbuilder.explanationAboutWhyWeMadeThisSite"
 msgstr "We made this site because xyz"
 
-#: frontend/lib/laletterbuilder/faq-content.tsx:8
-msgid "laletterbuilder.faq1"
-msgstr ""
-
-#: frontend/lib/laletterbuilder/faq-content.tsx:19
-msgid "laletterbuilder.faq2"
+#: frontend/lib/laletterbuilder/faq-content.tsx:38
+msgid "laletterbuilder.faq.retaliation"
 msgstr ""
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:28
-msgid "laletterbuilder.faq3"
-msgstr ""
-
-#: frontend/lib/laletterbuilder/faq-content.tsx:38
-msgid "laletterbuilder.faq4"
+msgid "laletterbuilder.faq.timesensitive"
 msgstr ""
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:49
-msgid "laletterbuilder.faq5"
+msgid "laletterbuilder.faq.undocumented"
+msgstr ""
+
+#: frontend/lib/laletterbuilder/faq-content.tsx:8
+msgid "laletterbuilder.faq.whentosend"
+msgstr ""
+
+#: frontend/lib/laletterbuilder/faq-content.tsx:19
+msgid "laletterbuilder.faq.whocanhelp"
 msgstr ""
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:97

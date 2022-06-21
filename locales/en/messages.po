@@ -3532,25 +3532,25 @@ msgstr "<0>Please see letter attached from <1/>. </0><2>In order to document com
 msgid "laletterbuilder.explanationAboutWhyWeMadeThisSite"
 msgstr "We made this site because xyz"
 
+#: frontend/lib/laletterbuilder/faq-content.tsx:38
+msgid "laletterbuilder.faq.retaliation"
+msgstr "Exercising your tenant rights can be scary. Remember it is within your right to ask for repairs and live in a home free of harassment. If your landlord is retaliating against you, contact SAJE to speak with a housing rights organizer."
+
+#: frontend/lib/laletterbuilder/faq-content.tsx:28
+msgid "laletterbuilder.faq.timesensitive"
+msgstr "If you live in the City of Los Angeles, call Urgent Repair Program at (213) 808-8562. If you live in a non-incorporated area of the County of Los Angeles, Call Consumer & Business Affairs at (800) 593-8222."
+
+#: frontend/lib/laletterbuilder/faq-content.tsx:49
+msgid "laletterbuilder.faq.undocumented"
+msgstr "Yes. Your immigration status does not affect your tenant rights."
+
 #: frontend/lib/laletterbuilder/faq-content.tsx:8
-msgid "laletterbuilder.faq1"
+msgid "laletterbuilder.faq.whentosend"
 msgstr "Create a letter to formally request repairs or document harassment situations. The letter creates a paper trail of your communication if you decide to contact the Los Angeles Housing Department (LAHD)."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:19
-msgid "laletterbuilder.faq2"
+msgid "laletterbuilder.faq.whocanhelp"
 msgstr "Give SAJE a call at (213) 745-9961 and let them know you need help creating a letter. You can also attend a Tenant Action Clinic."
-
-#: frontend/lib/laletterbuilder/faq-content.tsx:28
-msgid "laletterbuilder.faq3"
-msgstr "If you live in the City of Los Angeles, call Urgent Repair Program at (213) 808-8562. If you live in a non-incorporated area of the County of Los Angeles, Call Consumer & Business Affairs at (800) 593-8222."
-
-#: frontend/lib/laletterbuilder/faq-content.tsx:38
-msgid "laletterbuilder.faq4"
-msgstr "Exercising your tenant rights can be scary. Remember it is within your right to ask for repairs and live in a home free of harassment. If your landlord is retaliating against you, contact SAJE to speak with a housing rights organizer."
-
-#: frontend/lib/laletterbuilder/faq-content.tsx:49
-msgid "laletterbuilder.faq5"
-msgstr "Yes. Your immigration status does not affect your tenant rights."
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:97
 msgid "laletterbuilder.habitability.access-intro"

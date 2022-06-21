@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-23 19:00+0000\n"
+"POT-Creation-Date: 2022-06-09 18:08+0000\n"
 "PO-Revision-Date: 2022-03-09 19:26\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -85,6 +85,12 @@ msgstr "Activar modo de compatibilidad"
 #: frontend/templates/frontend/safe_mode_ui.html:33
 msgid "close"
 msgstr "cerrar"
+
+#: laletterbuilder/forms.py:45
+#, fuzzy
+#| msgid "Please choose at least one option."
+msgid "Please select at least one repair issue."
+msgstr "Por favor, escoja al menos una opción."
 
 #: norent/forms.py:65
 #, python-format
@@ -198,4 +204,3 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 #: project/util/phone_number.py:70
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
-

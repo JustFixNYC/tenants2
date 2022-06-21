@@ -53,11 +53,7 @@ const HabitabilityRoutes: React.FC<{}> = () => (
 
 export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
   const routes = LaLetterBuilderRouteInfo.locale.habitability;
-  const createAccountOrLoginSteps = [
-    ...createStartAccountOrLoginSteps(
-      routes,
-      LaLetterBuilderRouteInfo.locale.chooseLetter
-    ),
+  const createAccountSteps = [
     {
       path: routes.name,
       exact: true,
@@ -88,7 +84,7 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
     label: li18n._(t`Build your Letter`),
     introProgressSection: {
       label: li18n._(t`Create an Account`),
-      num_steps: createAccountOrLoginSteps.length,
+      num_steps: createAccountSteps.length,
     },
     toLatestStep: routes.latestStep,
     welcomeSteps: [
@@ -97,13 +93,21 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
         exact: true,
         component: WelcomeMyLetters,
       },
+      ...skipStepsIf(isUserLoggedIn, [
+        ...createStartAccountOrLoginSteps(
+          routes,
+          LaLetterBuilderRouteInfo.locale.chooseLetter
+        ),
+      ]),
     ],
     stepsToFillOut: [
-      ...skipStepsIf(isUserLoggedIn, [...createAccountOrLoginSteps]),
+      ...skipStepsIf(isUserLoggedIn, [...createAccountSteps]),
+
       {
         path: routes.myLetters,
         exact: true,
         component: LaLetterBuilderMyLetters,
+        hideProgressBar: true,
       },
       {
         path: routes.issues.prefix,

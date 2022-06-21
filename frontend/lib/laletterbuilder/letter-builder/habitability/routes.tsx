@@ -27,7 +27,7 @@ import {
   LaLetterBuilderAskNationalAddress,
 } from "../../components/personal-info";
 import { LaLetterBuilderLandlordNameAddress } from "../../components/landlord-info";
-import { LaLetterBuilderRiskConsent } from "../../components/consent";
+import { LaLetterBuilderReviewRights } from "../../components/review-your-rights";
 import { t } from "@lingui/macro";
 import { li18n } from "../../../i18n-lingui";
 import { LaIssuesRoutes } from "./issues";
@@ -75,8 +75,8 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
       component: LaLetterBuilderAskNationalAddress,
     },
     {
-      path: routes.riskConsent,
-      component: LaLetterBuilderRiskConsent,
+      path: routes.reviewRights,
+      component: LaLetterBuilderReviewRights,
     },
     {
       path: routes.createAccount,

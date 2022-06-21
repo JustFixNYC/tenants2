@@ -1476,10 +1476,6 @@ msgstr "Lead-based paint"
 msgid "Leaky faucet"
 msgstr "Leaky faucet"
 
-#: frontend/lib/laletterbuilder/components/consent.tsx:8
-msgid "Learn about common situations where sending a letter may not be helpful"
-msgstr "Learn about common situations where sending a letter may not be helpful"
-
 #: frontend/lib/laletterbuilder/about.tsx:32
 #: frontend/lib/norent/about.tsx:57
 msgid "Learn about why we made this tool, who we are, and who our partners are."
@@ -2173,6 +2169,10 @@ msgstr "Review your letter"
 #: frontend/lib/rh/routes.tsx:213
 msgid "Review your request to the DHCR"
 msgstr "Review your request to the DHCR"
+
+#: frontend/lib/laletterbuilder/components/review-your-rights.tsx:9
+msgid "Review your rights as a tenant"
+msgstr "Review your rights as a tenant"
 
 #: common-data/us-state-choices.ts:105
 msgid "Rhode Island"
@@ -3575,6 +3575,14 @@ msgstr "This letter is to notify you that I need the following repairs in my hom
 #: frontend/lib/laletterbuilder/about.tsx:72
 msgid "laletterbuilder.madeByBlurb"
 msgstr "LaLetterBuilder is made by <0>JustFix.nyc</0>, a non-profit organization that co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City."
+
+#: frontend/lib/laletterbuilder/components/review-your-rights.tsx:17
+msgid "laletterbuilder.retaliationOptions"
+msgstr "If your landlord is retaliating against you for exercising your rights, you can:<0>Attend SAJE's <1>Tenant Action Clinic</1></0><2>Open a complaint with <3>Los Angeles Housing Department (LAHD)</3> if you live in the City of LA or <4>Public Health</4> if you live someplace else in LA County</2>"
+
+#: frontend/lib/laletterbuilder/components/review-your-rights.tsx:11
+msgid "laletterbuilder.reviewTenantRightsIntro"
+msgstr "Tenants have a right to a safe home, without harassment. Sending a letter to notify your landlord is within your rights."
 
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:22
 msgid "no printing"

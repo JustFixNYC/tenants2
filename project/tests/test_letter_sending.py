@@ -10,7 +10,7 @@ class TestRenderMultilingualLetter:
         monkeypatch.setattr(letter_sending, "render_pdf_bytes", self.fake_render_pdf_bytes)
         monkeypatch.setattr(letter_sending, "_merge_pdfs", self.fake_merge_pdfs)
 
-    def fake_render_pdf_bytes(self, html: str):
+    def fake_render_pdf_bytes(self, html: str, css: str = None):
         return bytes(f"FAKE PDF {html}", encoding="ascii")
 
     def fake_merge_pdfs(self, pdfs):

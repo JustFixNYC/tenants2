@@ -28,13 +28,6 @@ const MyLettersContent: React.FC = (props) => {
       <p className="subtitle">See all your finished and unfinished letters</p>
 
       <CreateOrContinueLetter />
-
-      <Link
-        to={LaLetterBuilderRouteInfo.locale.chooseLetter}
-        className="button new-letter-button is-light is-medium "
-      >
-        {li18n._(t`Start letter`)}
-      </Link>
     </div>
   );
 };

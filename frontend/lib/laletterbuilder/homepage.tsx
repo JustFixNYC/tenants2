@@ -120,8 +120,9 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
           <h2 className="is-spaced">
             <Trans>Frequently asked questions</Trans>
           </h2>
-          {faqContent.map((el) => (
+          {faqContent.map((el, i) => (
             <Accordion
+              key={`faq-${i}`}
               question={el.question}
               questionClassName="has-text-primary"
               extraClassName="jf-laletterbuilder-faq-accordion"

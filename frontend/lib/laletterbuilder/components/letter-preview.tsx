@@ -42,7 +42,6 @@ type LetterPreviewProps = {
 };
 
 const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
-  const isMailingLetter = props.session.landlordDetails?.address;
   const LetterTranslation = props.letterTranslation;
   return (
     <Page
@@ -51,43 +50,29 @@ const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
       className="content"
     >
       <p>
-        <Trans>
-          Before you send your letter, let's review what will be sent to make
-          sure all the information is correct.
-        </Trans>
+        <Trans>Make sure all the information is correct.</Trans>
       </p>
-      <>
-        <p>
-          <Trans>Here's a preview of the letter:</Trans>
-        </p>
-        <ForeignLanguageOnly>
-          <InYourLanguageMicrocopy />
-          <LetterTranslation />
-          <Microcopy>
-            <Trans>English version</Trans>
-          </Microcopy>
-        </ForeignLanguageOnly>
-        <LetterPreview
-          title={li18n._(t`Preview of your letter`)}
-          src={props.letterContent.html}
-        />
-        <p>
-          <OutboundLink href={props.letterContent.pdf} target="_blank">
-            <Trans>View this letter as a PDF</Trans>
-          </OutboundLink>
-        </p>
-        {isMailingLetter && (
-          <p>
-            <Trans>
-              We will be mailing this letter on your behalf by USPS certified
-              mail and will be providing a tracking number.
-            </Trans>
-          </p>
-        )}
-      </>
+      <p>
+        <OutboundLink href={props.letterContent.pdf} target="_blank">
+          <Trans>View as PDF (recommended)</Trans>
+        </OutboundLink>
+      </p>
+      <ForeignLanguageOnly>
+        <InYourLanguageMicrocopy />
+        <LetterTranslation />
+        <Microcopy>
+          <Trans>English version</Trans>
+        </Microcopy>
+      </ForeignLanguageOnly>
+      <LetterPreview
+        title={li18n._(t`Preview of your letter`)}
+        src={props.letterContent.html}
+      />
       <br />
       <p>
-        <Trans>Make sure all the information above is correct.</Trans>
+        <Trans>
+          If the information above is not correct, go back to make changes.
+        </Trans>
       </p>
       <ProgressButtonsAsLinks back={props.prevStep} next={props.nextStep} />
     </Page>

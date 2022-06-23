@@ -16,7 +16,7 @@ describe("landlord details page", () => {
         landlordDetails: BlankLandlordDetailsType,
       }).value,
     });
-    pal.rr.getByText(/Your landlord or management company's information/i);
+    pal.rr.getByText(/Landlord or property manager name/i);
     pal.rr.getByText(/Back/);
     pal.rr.getByText(/Next/);
   });

@@ -28,13 +28,6 @@ const MyLettersContent: React.FC = (props) => {
       <p className="subtitle">See all your finished and unfinished letters</p>
 
       <CreateOrContinueLetter />
-
-      <Link
-        to={LaLetterBuilderRouteInfo.locale.chooseLetter}
-        className="button new-letter-button is-light is-medium "
-      >
-        {li18n._(t`Create a new letter`)}
-      </Link>
     </div>
   );
 };
@@ -51,11 +44,15 @@ const CreateOrContinueLetter: React.FC = (props) => {
       }
     >
       {(sessionCtx) => (
-        <>
+        <div className="my-letters-box">
+          <h3>Notice to repair letter</h3>
           {session.hasHabitabilityLetterInProgress ? (
-            <div className="my-letters-box">
-              <h3>Habitability letter</h3>
+            <>
               <p>In progress</p>
+              <p>
+                Document repairs needed in your home, and send a formal request
+                to your landlord
+              </p>
               <div className="start-letter-button">
                 <Link
                   to={
@@ -63,22 +60,22 @@ const CreateOrContinueLetter: React.FC = (props) => {
                   }
                   className="button jf-is-next-button is-primary is-medium"
                 >
-                  {li18n._(t`Continue my letter`)}
+                  {li18n._(t`Continue letter`)}
                 </Link>
               </div>
-            </div>
+            </>
           ) : (
-            <div className="my-letters-box">
-              <p>Start your habitability letter</p>
+            <>
+              <p>Start your letter now</p>
               <div className="start-letter-button">
                 <NextButton
                   isLoading={sessionCtx.isLoading}
-                  label={li18n._(t`Let's go`)}
+                  label={li18n._(t`Start letter`)}
                 />
               </div>
-            </div>
+            </>
           )}
-        </>
+        </div>
       )}
     </SessionUpdatingFormSubmitter>
   );

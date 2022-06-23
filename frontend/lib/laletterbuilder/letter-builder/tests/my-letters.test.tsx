@@ -21,7 +21,7 @@ describe("my letters page", () => {
         session: sb.value,
       }
     );
-    pal.rr.getByText(/Start your habitability letter/i);
+    pal.rr.getByText(/Start letter/i);
   });
 
   it("loads with a letter in progress", () => {
@@ -32,7 +32,7 @@ describe("my letters page", () => {
         session: sb.withHabitabilityLetterInProgress().value,
       }
     );
-    pal.rr.getByText(/Continue my letter/i);
+    pal.rr.getByText(/Continue letter/i);
   });
 
   it("goes to issues step after creating a new letter", async () => {
@@ -41,7 +41,7 @@ describe("my letters page", () => {
       updateSession: true,
       session: sb.value,
     });
-    pal.clickButtonOrLink("Let's go");
+    pal.clickButtonOrLink("Start letter");
     pal
       .withFormMutation(LaLetterBuilderCreateLetterMutation)
       .expect({})
@@ -59,7 +59,7 @@ describe("my letters page", () => {
         }),
       });
     await pal.waitForLocation("/en/habitability/issues");
-    pal.rr.getByText(/Select which repairs/i);
+    pal.rr.getByText(/Select the repairs/i);
   });
 
   it("goes to issues step with letter in progress", async () => {
@@ -68,8 +68,8 @@ describe("my letters page", () => {
       updateSession: true,
       session: sb.withHabitabilityLetterInProgress().value,
     });
-    pal.clickButtonOrLink("Continue my letter");
+    pal.clickButtonOrLink("Continue letter");
     await pal.waitForLocation("/en/habitability/issues");
-    pal.rr.getByText(/Select which repairs/i);
+    pal.rr.getByText(/Select the repairs/i);
   });
 });

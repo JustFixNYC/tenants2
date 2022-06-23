@@ -365,6 +365,15 @@ $jf-navbar-height: 70px;
     margin-left: auto;
     margin-right: auto;
   }
+
+  .jf-laletterbuilder-letter-tracking {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  figure {
+    margin: 0;
+  }
 }
 
 // SEND OPTIONS STYLING

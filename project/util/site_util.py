@@ -127,7 +127,7 @@ def get_site_base_name(site_type: str) -> str:
     """
 
     if site_type == SITE_CHOICES.JUSTFIX:
-        return "JustFix.nyc"
+        return "JustFix"
     elif site_type == SITE_CHOICES.NORENT:
         return "NoRent"
     # See if it's necessary to add EvictionFree or LaLetterBuilder to this
@@ -138,7 +138,7 @@ def get_site_name(site_type: str = SITE_CHOICES.JUSTFIX) -> str:
     """
     Returns the site name. Note that this doesn't actually look at
     Django's current Site object, but rather assumes that we're
-    either JustFix.nyc or NoRent and appends any optional
+    either JustFix or NoRent and appends any optional
     deployment information to it, to ensure that people don't
     confuse it with production.
     """

@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.122.1/containers/docker-existing-dockerfile
 {
-	"name": "JustFix.nyc Tenant Platform VSCode development container",
+	"name": "JustFix Tenant Platform VSCode development container",
 	"context": "../.devcontainer",
 	"dockerFile": "../.devcontainer/Dockerfile",
 

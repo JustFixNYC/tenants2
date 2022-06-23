@@ -1,7 +1,7 @@
 {
   "name": "tenants2",
   "version": "0.0.1",
-  "description": "JustFix.nyc tenants app number two",
+  "description": "JustFix tenants app number two",
   "main": "index.js",
   "scripts": {
     "lingui": "lingui",

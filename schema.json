@@ -1930,6 +1930,30 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "All habitability letters that have been created (sent and unsent) by the user",
+              "isDeprecated": false,
+              "name": "habitabilityLetters",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "HabitabilityLetterType",
+                      "ofType": null
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
               "name": "issues",

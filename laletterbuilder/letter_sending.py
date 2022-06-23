@@ -19,6 +19,8 @@ from frontend.static_content import (
 from project.util.site_util import SITE_CHOICES
 from project import slack, locales
 
+from laletterbuilder.models import LA_MAILING_CHOICES
+
 
 # The URL, relative to the localized site root, that renders the LA Letter builder
 # letter PDF.
@@ -130,11 +132,10 @@ def send_letter(letter: models.Letter):
     letter_type = letter.get_letter_type()  # TODO: localize this somewhere
     ld = user.landlord_details
 
-    # TODO: fill in user pref
-    if ld.email:
+    if ld.email and letter.email_to_landlord:
         email_letter_to_landlord(letter, pdf_bytes)
 
-    if ld.address_lines_for_mailing:
+    if ld.address_lines_for_mailing and letter.mail_choice == LA_MAILING_CHOICES.WE_WILL_MAIL:
         send_letter_via_lob(
             letter,
             pdf_bytes,

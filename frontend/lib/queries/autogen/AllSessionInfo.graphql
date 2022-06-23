@@ -37,7 +37,8 @@ fragment AllSessionInfo on SessionInfo {
     trackingNumber,
     letterSentAt,
     fullyProcessedAt,
-    mailChoice
+    mailChoice,
+    emailToLandlord
   },
   issues,
   customIssuesV2 {

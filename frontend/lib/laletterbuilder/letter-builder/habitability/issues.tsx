@@ -67,7 +67,7 @@ function laRoomChoicesForIssue(issue: string): DjangoChoices {
 
 type LaIssuesPage = LaIssuesRoutesProps;
 
-const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
+export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
   const labels = getLaIssueCategoryChoiceLabels();
 
   const getInitialState = (session: AllSessionInfo) => ({

@@ -27,43 +27,61 @@ describe("send options page", () => {
         landlordDetails: BlankLandlordDetailsType,
       }).value,
     });
-    pal.clickRadioOrCheckbox(/^Send myself/i);
-    await pal.rr.getByText(/^Send myself/i);
+    pal.clickRadioOrCheckbox(/^Mail myself/i);
+    await pal.rr.getByText(/^Mail myself/i);
   });
 
-  it("redirects to next step after successful submission", async () => {
+  it("renders modal with email and no landlord address", async () => {
     const pal = new AppTesterPal(<HabitabilityRoutes />, {
       url: LaLetterBuilderRouteInfo.locale.habitability.sending, // TODO: generalize to all letter types
       session: sb.with({
         landlordDetails: BlankLandlordDetailsType,
+        habitabilityLatestLetter: {
+          ...blankHabitabilityLetter,
+          mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
+          emailToLandlord: true,
+        },
       }).value,
     });
     const email = "boopsy@boopmail.com";
     const mailChoice: LaMailingChoice = "USER_WILL_MAIL";
 
-    pal.clickRadioOrCheckbox(/^Send myself/i);
+    const updatedSession = {
+      landlordDetails: { ...BlankLandlordDetailsType, email },
+      habitabilityLatestLetter: {
+        ...blankHabitabilityLetter,
+        mailChoice: HabitabilityLetterMailChoice.USER_WILL_MAIL,
+        emailToLandlord: true,
+      },
+    };
+
+    pal.clickRadioOrCheckbox(/^Mail myself/i);
     pal.fillFormFields([[/email/i, email]]);
     pal.clickButtonOrLink("Next");
     pal
       .withFormMutation(LaLetterBuilderSendOptionsMutation)
       .expect({
         email,
+        noLandlordEmail: false,
         mailChoice,
       })
       .respondWith({
         errors: [],
-        session: override(BlankAllSessionInfo, {
-          landlordDetails: { ...BlankLandlordDetailsType, email },
-          habitabilityLatestLetter: {
-            ...blankHabitabilityLetter,
-            mailChoice: HabitabilityLetterMailChoice.USER_WILL_MAIL,
-          },
-        }),
+        session: override(BlankAllSessionInfo, updatedSession),
       });
 
+    pal.appContext.session = {
+      ...pal.appContext.session,
+      ...updatedSession,
+    };
+
+    await pal.waitForLocation("/en/habitability/sending/confirm-modal");
     await pal.rt.waitFor(() =>
-      pal.rr.getByText(/See all your finished and unfinished letters/i)
+      pal.getDialogWithLabel(
+        /Are you sure you want to mail the letter yourself\?/i
+      )
     );
+
     const { mock } = pal.appContext.updateSession;
     expect(mock.calls).toHaveLength(1);
     expect(mock.calls[0][0]["landlordDetails"]["email"]).toEqual(email);
@@ -72,35 +90,52 @@ describe("send options page", () => {
     );
   });
 
-  it("redirects to next step after successful submission with default mail choice and email (blank)", async () => {
+  it("renders modal with landlord address and no email", async () => {
     const pal = new AppTesterPal(<HabitabilityRoutes />, {
       url: LaLetterBuilderRouteInfo.locale.habitability.sending, // TODO: generalize to all letter types
       session: sb.with({
         landlordDetails: BlankLandlordDetailsType,
+        habitabilityLatestLetter: {
+          ...blankHabitabilityLetter,
+          mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
+          emailToLandlord: true,
+        },
       }).value,
     });
 
+    const updatedSession = {
+      landlordDetails: { ...BlankLandlordDetailsType },
+      habitabilityLatestLetter: {
+        ...blankHabitabilityLetter,
+        mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
+        emailToLandlord: false,
+      },
+    };
+
+    pal.clickRadioOrCheckbox(/^I don't have this/i);
     pal.clickButtonOrLink("Next");
     pal
       .withFormMutation(LaLetterBuilderSendOptionsMutation)
       .expect({
         email: "",
+        noLandlordEmail: true,
         mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
       })
       .respondWith({
         errors: [],
-        session: override(BlankAllSessionInfo, {
-          landlordDetails: { ...BlankLandlordDetailsType },
-          habitabilityLatestLetter: {
-            ...blankHabitabilityLetter,
-            mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
-          },
-        }),
+        session: override(BlankAllSessionInfo, updatedSession),
       });
 
+    pal.appContext.session = {
+      ...pal.appContext.session,
+      ...updatedSession,
+    };
+
+    await pal.waitForLocation("/en/habitability/sending/confirm-modal");
     await pal.rt.waitFor(() =>
-      pal.rr.getByText(/See all your finished and unfinished letters/i)
+      pal.getDialogWithLabel(/Mail letter now for free/i)
     );
+
     const { mock } = pal.appContext.updateSession;
     expect(mock.calls).toHaveLength(1);
     expect(mock.calls[0][0]["landlordDetails"]["email"]).toEqual("");

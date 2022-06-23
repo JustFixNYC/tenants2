@@ -24,6 +24,6 @@ export type LaMailingChoiceLabels = {
 export function getLaMailingChoiceLabels(): LaMailingChoiceLabels {
   return {
     WE_WILL_MAIL: li18n._(t`Mail for me`),
-    USER_WILL_MAIL: li18n._(t`Send myself`),
+    USER_WILL_MAIL: li18n._(t`Mail myself`),
   };
 }

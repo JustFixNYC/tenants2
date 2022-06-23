@@ -19,7 +19,7 @@ msgstr ""
 msgid "(Name of your language) translation"
 msgstr "(Name of your language) translation"
 
-#: frontend/lib/laletterbuilder/components/letter-preview.tsx:62
+#: frontend/lib/laletterbuilder/components/letter-preview.tsx:48
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:123
 msgid "(Note: the email will be sent in English)"
 msgstr "(Note: the email will be sent in English)"
@@ -139,10 +139,6 @@ msgstr "About"
 msgid "Actions"
 msgstr "Actions"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:116
-msgid "Additional resources"
-msgstr "Additional resources"
-
 #: frontend/lib/common-steps/ask-national-address.tsx:115
 #: frontend/lib/forms/address-and-borough-form-field.tsx:9
 msgid "Address"
@@ -197,21 +193,25 @@ msgstr "Alaska"
 msgid "All set! Thanks for subscribing!"
 msgstr "All set! Thanks for subscribing!"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:53
+msgid "All you need for now are the basics. You can follow up with your landlord or property manager in more detail once they receive your letter."
+msgstr "All you need for now are the basics. You can follow up with your landlord or property manager in more detail once they receive your letter."
+
 #: frontend/lib/evictionfree/site.tsx:125
 msgid "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
 msgstr "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
-
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:53
-msgid "An idea of all the repairs needed in your home"
-msgstr "An idea of all the repairs needed in your home"
 
 #: frontend/lib/norent/homepage.tsx:188
 msgid "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
 msgstr "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
 
-#: frontend/lib/laletterbuilder/homepage.tsx:68
-msgid "Answer some basic questions about your situation, and we will automatically build a letter for you."
-msgstr "Answer some basic questions about your situation, and we will automatically build a letter for you."
+#: frontend/lib/laletterbuilder/homepage.tsx:70
+msgid "Answer some basic questions about your housing situation, and we’ll automatically create a letter for you."
+msgstr "Answer some basic questions about your housing situation, and we’ll automatically create a letter for you."
+
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:33
+msgid "Anti-Harassment"
+msgstr "Anti-Harassment"
 
 #: frontend/lib/evictionfree/faqs.tsx:21
 msgid "Any questions?"
@@ -251,12 +251,12 @@ msgid "Arkansas"
 msgstr "Arkansas"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:19
-msgid "As an LA resident, you have a right to safe housing."
-msgstr "As an LA resident, you have a right to safe housing."
+msgid "As a California resident, you have a right to safe housing"
+msgstr "As a California resident, you have a right to safe housing"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:124
-msgid "Attend SAJE's Tenant Action Clinic to learn more about your rights."
-msgstr "Attend SAJE's Tenant Action Clinic to learn more about your rights."
+#: frontend/lib/laletterbuilder/homepage.tsx:126
+msgid "Attend SAJE’s Tenant Action Clinic if you're faced with a housing problem."
+msgstr "Attend SAJE’s Tenant Action Clinic if you're faced with a housing problem."
 
 #: frontend/lib/evictionfree/homepage.tsx:68
 msgid "Automatically fill in your landlord's information based on your address if you live in New York City"
@@ -267,7 +267,7 @@ msgstr "Automatically fill in your landlord's information based on your address 
 msgid "Available in English and Spanish."
 msgstr "Available in English and Spanish."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:123
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:124
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
 msgstr "Back"
@@ -327,7 +327,6 @@ msgstr "Bedroom"
 msgid "Before you send your hardship declaration form, let's review what will be sent to make sure all the information is correct."
 msgstr "Before you send your hardship declaration form, let's review what will be sent to make sure all the information is correct."
 
-#: frontend/lib/laletterbuilder/components/letter-preview.tsx:22
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:61
 msgid "Before you send your letter, let's review what will be sent to make sure all the information is correct."
 msgstr "Before you send your letter, let's review what will be sent to make sure all the information is correct."
@@ -412,7 +411,7 @@ msgstr "Build power in numbers"
 msgid "Build your Letter"
 msgstr "Build your Letter"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:65
+#: frontend/lib/laletterbuilder/homepage.tsx:67
 #: frontend/lib/norent/letter-builder/welcome.tsx:9
 msgid "Build your letter"
 msgstr "Build your letter"
@@ -531,7 +530,7 @@ msgid "Cite up-to-date legal ordinances in your letter"
 msgstr "Cite up-to-date legal ordinances in your letter"
 
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:39
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:37
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:40
 msgid "City"
 msgstr "City"
 
@@ -624,9 +623,9 @@ msgstr "Continue"
 msgid "Continue anyway"
 msgstr "Continue anyway"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:37
-msgid "Continue my letter"
-msgstr "Continue my letter"
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:41
+msgid "Continue letter"
+msgstr "Continue letter"
 
 #: frontend/lib/evictionfree/declaration-builder/error-pages.tsx:11
 msgid "Continue to the confirmation page for information about the declaration you sent and next steps you can take."
@@ -647,10 +646,6 @@ msgstr "Cracked sink"
 msgid "Cracked walls"
 msgstr "Cracked walls"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:24
-msgid "Create a new letter"
-msgstr "Create a new letter"
-
 #: frontend/lib/common-steps/create-password.tsx:10
 msgid "Create a password"
 msgstr "Create a password"
@@ -659,17 +654,25 @@ msgstr "Create a password"
 msgid "Create an Account"
 msgstr "Create an Account"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:51
+#: frontend/lib/laletterbuilder/homepage.tsx:53
 msgid "Created by"
 msgstr "Created by"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:54
-msgid "Dates and time you'll be available for repairs"
-msgstr "Dates and time you'll be available for repairs"
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:51
+msgid "Dates and times you’ll be available for repairs"
+msgstr "Dates and times you’ll be available for repairs"
+
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:64
+msgid "Dates the COVID-19 renter protections were violated"
+msgstr "Dates the COVID-19 renter protections were violated"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:59
-msgid "Dates that the violation occurred"
-msgstr "Dates that the violation occurred"
+msgid "Dates the harassment occurred"
+msgstr "Dates the harassment occurred"
+
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:55
+msgid "Dates when the landlord tried to access your home"
+msgstr "Dates when the landlord tried to access your home"
 
 #. salutation of formal letter
 #: frontend/lib/util/letter-content-util.tsx:48
@@ -707,8 +710,9 @@ msgid "Delaware"
 msgstr "Delaware"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:60
-msgid "Details about the violation"
-msgstr "Details about the violation"
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:65
+msgid "Details about the events"
+msgstr "Details about the events"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:208
 msgid "Details about your declaration"
@@ -758,11 +762,7 @@ msgstr "Do you live in {0}, {1}?"
 msgid "Do you still want to mail to:"
 msgstr "Do you still want to mail to:"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:17
-msgid "Document repairs needed in your home, and send a formal request to your landlord"
-msgstr "Document repairs needed in your home, and send a formal request to your landlord"
-
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:34
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:33
 msgid "Document the harassment you and your family are experiencing and send a notice to your landlord."
 msgstr "Document the harassment you and your family are experiencing and send a notice to your landlord."
 
@@ -835,11 +835,11 @@ msgstr "Email a copy to your landlord or property manager"
 #: frontend/lib/account-settings/contact-settings.tsx:41
 #: frontend/lib/common-steps/ask-email.tsx:13
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
-#: frontend/lib/laletterbuilder/components/create-account.tsx:29
+#: frontend/lib/laletterbuilder/components/create-account.tsx:30
 msgid "Email address"
 msgstr "Email address"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:115
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:116
 msgid "Email your letter to:"
 msgstr "Email your letter to:"
 
@@ -851,7 +851,7 @@ msgstr "Email your letter to:"
 msgid "Email:"
 msgstr "Email:"
 
-#: frontend/lib/laletterbuilder/components/letter-preview.tsx:35
+#: frontend/lib/laletterbuilder/components/letter-preview.tsx:31
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:99
 msgid "English version"
 msgstr "English version"
@@ -864,7 +864,7 @@ msgstr "Enter your address to see some recommended actions."
 msgid "Establish your defense"
 msgstr "Establish your defense"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:69
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:75
 msgid "Estimated time to complete"
 msgstr "Estimated time to complete"
 
@@ -880,9 +880,9 @@ msgstr "Eviction Moratorium updates"
 msgid "Exercise your rights"
 msgstr "Exercise your rights"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:23
-msgid "Exercise your tenant rights. Send a free letter of complaint to your landlord in minutes."
-msgstr "Exercise your tenant rights. Send a free letter of complaint to your landlord in minutes."
+#: frontend/lib/laletterbuilder/homepage.tsx:25
+msgid "Exercise your tenant rights. Send a free letter to your landlord in minutes."
+msgstr "Exercise your tenant rights. Send a free letter to your landlord in minutes."
 
 #: frontend/lib/rh/routes.tsx:318
 msgid "Explore our other tools"
@@ -933,6 +933,10 @@ msgstr "Fill out your hardship declaration form online"
 msgid "Find out more"
 msgstr "Find out more"
 
+#: frontend/lib/laletterbuilder/components/create-account.tsx:18
+msgid "Finish creating your account"
+msgstr "Finish creating your account"
+
 #: frontend/lib/rh/routes.tsx:120
 msgid "First name"
 msgstr "First name"
@@ -948,10 +952,6 @@ msgstr "Floor sags"
 #: common-data/us-state-choices.ts:74
 msgid "Florida"
 msgstr "Florida"
-
-#: frontend/lib/laletterbuilder/homepage.tsx:88
-msgid "Follow up"
-msgstr "Follow up"
 
 #: frontend/lib/evictionfree/homepage.tsx:169
 msgid "For New York State tenants"
@@ -974,7 +974,7 @@ msgstr "Free Certified Mail"
 msgid "Frequently Asked Questions"
 msgstr "Frequently Asked Questions"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:104
+#: frontend/lib/laletterbuilder/homepage.tsx:106
 msgid "Frequently asked questions"
 msgstr "Frequently asked questions"
 
@@ -1002,9 +1002,13 @@ msgstr "Gather documentation"
 msgid "Georgia"
 msgstr "Georgia"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:120
+#: frontend/lib/laletterbuilder/homepage.tsx:122
 msgid "Get involved in your community"
 msgstr "Get involved in your community"
+
+#: frontend/lib/laletterbuilder/homepage.tsx:135
+msgid "Get involved with SAJE to build power with your neighbors"
+msgstr "Get involved with SAJE to build power with your neighbors"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:208
 msgid "Give feedback"
@@ -1018,9 +1022,9 @@ msgstr "Give us feedback"
 msgid "Go back"
 msgstr "Go back"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:32
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:37
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:42
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:31
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:36
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:41
 msgid "Go to form"
 msgstr "Go to form"
 
@@ -1059,10 +1063,6 @@ msgstr "Habitability notice sent on behalf of {0}"
 #: common-data/issue-room-choices-laletterbuilder.ts:38
 msgid "Hallway"
 msgstr "Hallway"
-
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:34
-msgid "Harassment"
-msgstr "Harassment"
 
 #: common-data/la-letter-builder-letter-choices.ts:18
 msgid "Harassment (CA)"
@@ -1112,7 +1112,6 @@ msgstr "Here is a preview of the request for your Rent History. It includes your
 msgid "Here's a preview of the letter that will be attached in an email to your landlord:"
 msgstr "Here's a preview of the letter that will be attached in an email to your landlord:"
 
-#: frontend/lib/laletterbuilder/components/letter-preview.tsx:29
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:93
 msgid "Here's a preview of the letter:"
 msgstr "Here's a preview of the letter:"
@@ -1191,7 +1190,7 @@ msgstr "How do you want to send your letter?"
 msgid "How does sending this declaration help me?"
 msgstr "How does sending this declaration help me?"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:61
+#: frontend/lib/laletterbuilder/homepage.tsx:63
 #: frontend/lib/norent/homepage.tsx:167
 msgid "How it works"
 msgstr "How it works"
@@ -1255,6 +1254,14 @@ msgstr "I'm scared. What happens if my landlord retaliates?"
 #: common-data/us-state-choices.ts:77
 msgid "Idaho"
 msgstr "Idaho"
+
+#: frontend/lib/laletterbuilder/components/letter-preview.tsx:37
+msgid "If the information above is not correct, go back to make changes."
+msgstr "If the information above is not correct, go back to make changes."
+
+#: frontend/lib/laletterbuilder/components/create-account.tsx:24
+msgid "If you add your email address now, we'll email you a copy of your completed letter."
+msgstr "If you add your email address now, we'll email you a copy of your completed letter."
 
 #: frontend/lib/start-account-or-login/verify-phone-number.tsx:25
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
@@ -1400,6 +1407,10 @@ msgstr "Join the tenant movement"
 msgid "JustFix and SAJE are registered 501(c)(3) nonprofit organizations."
 msgstr "JustFix and SAJE are registered 501(c)(3) nonprofit organizations."
 
+#: frontend/lib/laletterbuilder/components/create-account.tsx:32
+msgid "JustFix can text me to follow up about my housing issues."
+msgstr "JustFix can text me to follow up about my housing issues."
+
 #: frontend/lib/ui/footer.tsx:27
 msgid "JustFix is a registered 501(c)(3) nonprofit organization."
 msgstr "JustFix is a registered 501(c)(3) nonprofit organization."
@@ -1448,14 +1459,28 @@ msgstr "Landlord name"
 msgid "Landlord or property manager email"
 msgstr "Landlord or property manager email"
 
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:37
+msgid "Landlord or property manager name"
+msgstr "Landlord or property manager name"
+
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:52
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:56
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:61
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:66
+msgid "Landlord or property manager’s contact information"
+msgstr "Landlord or property manager’s contact information"
+
 #: frontend/lib/common-steps/landlord-email.tsx:38
 msgid "Landlord/management company's email"
 msgstr "Landlord/management company's email"
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:57
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:34
 msgid "Landlord/management company's name"
 msgstr "Landlord/management company's name"
+
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:28
+msgid "Landlords must give 24-hour written notice to enter your unit. Make a formal request that your landlord respect your right to privacy."
+msgstr "Landlords must give 24-hour written notice to enter your unit. Make a formal request that your landlord respect your right to privacy."
 
 #: frontend/lib/evictionfree/components/footer.tsx:13
 #: frontend/lib/ui/language-toggle.tsx:34
@@ -1523,7 +1548,7 @@ msgstr "Legal first name"
 msgid "Legal last name"
 msgstr "Legal last name"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:39
+#: frontend/lib/laletterbuilder/homepage.tsx:41
 #: frontend/lib/norent/homepage.tsx:125
 msgid "Legally vetted"
 msgstr "Legally vetted"
@@ -1531,10 +1556,6 @@ msgstr "Legally vetted"
 #: frontend/lib/common-steps/ask-name.tsx:14
 msgid "Let's get to know you."
 msgstr "Let's get to know you."
-
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:43
-msgid "Let's go"
-msgstr "Let's go"
 
 #: frontend/lib/start-account-or-login/set-password.tsx:15
 msgid "Let's set you up with a new password, so you can easily login again."
@@ -1547,10 +1568,6 @@ msgstr "Let's set you up with an account. This will enable you to save your info
 #: frontend/lib/norent/data/faqs-content.tsx:8
 msgid "Letter Builder"
 msgstr "Letter Builder"
-
-#: frontend/lib/laletterbuilder/components/create-account.tsx:21
-msgid "Let’s set you up with an account. An account will enable you to save your information and download copies of your letters."
-msgstr "Let’s set you up with an account. An account will enable you to save your information and download copies of your letters."
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:20
 msgid "Let’s set you up with an account. An account will enable you to save your information, download your declaration, and more."
@@ -1623,6 +1640,10 @@ msgstr "Made by non-profits <0>Right to Counsel NYC Coalition</0>, <1>Housing Ju
 msgid "Made with NYC ♥ by the team at <0>JustFix</0>"
 msgstr "Made with NYC ♥ by the team at <0>JustFix</0>"
 
+#: frontend/lib/laletterbuilder/homepage.tsx:78
+msgid "Mail for free"
+msgstr "Mail for free"
+
 #: common-data/laletterbuilder-mailing-choices.ts:15
 msgid "Mail for me"
 msgstr "Mail for me"
@@ -1635,7 +1656,7 @@ msgstr "Mail letter now for free"
 msgid "Mail myself"
 msgstr "Mail myself"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:108
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:109
 msgid "Mail your letter to:"
 msgstr "Mail your letter to:"
 
@@ -1647,10 +1668,13 @@ msgstr "Mailing address"
 msgid "Maine"
 msgstr "Maine"
 
-#: frontend/lib/laletterbuilder/components/letter-preview.tsx:53
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:137
 msgid "Make sure all the information above is correct."
 msgstr "Make sure all the information above is correct."
+
+#: frontend/lib/laletterbuilder/components/letter-preview.tsx:20
+msgid "Make sure all the information is correct."
+msgstr "Make sure all the information is correct."
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:14
 msgid "Manhattan Housing Court:"
@@ -1752,7 +1776,7 @@ msgid "My issue is urgent and time sensitive. What should I do?"
 msgstr "My issue is urgent and time sensitive. What should I do?"
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:13
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:50
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:54
 msgid "My letters"
 msgstr "My letters"
 
@@ -1806,6 +1830,10 @@ msgstr "New password"
 #: frontend/lib/ui/buttons.tsx:48
 msgid "Next"
 msgstr "Next"
+
+#: frontend/lib/laletterbuilder/homepage.tsx:90
+msgid "Next steps"
+msgstr "Next steps"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:31
 #: frontend/lib/forms/yes-no-radios-form-field.tsx:28
@@ -1933,10 +1961,6 @@ msgstr "Other"
 msgid "Other important resources:"
 msgstr "Other important resources:"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:140
-msgid "Other tools"
-msgstr "Other tools"
-
 #: frontend/lib/laletterbuilder/about.tsx:95
 #: frontend/lib/norent/about.tsx:122
 msgid "Our Partners"
@@ -2056,7 +2080,7 @@ msgstr "Preferred first name"
 msgid "Preview of your NoRent.org letter"
 msgstr "Preview of your NoRent.org letter"
 
-#: frontend/lib/laletterbuilder/components/letter-preview.tsx:38
+#: frontend/lib/laletterbuilder/components/letter-preview.tsx:34
 msgid "Preview of your letter"
 msgstr "Preview of your letter"
 
@@ -2069,7 +2093,7 @@ msgstr "Preview this declaration as a PDF"
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:39
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:38
 msgid "Private Right of Action"
 msgstr "Private Right of Action"
 
@@ -2140,6 +2164,10 @@ msgstr "Rent receipts incomplete"
 msgid "Rental Assistance Application Hotline:"
 msgstr "Rental Assistance Application Hotline:"
 
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:50
+msgid "Repairs needed in your home"
+msgstr "Repairs needed in your home"
+
 #: frontend/lib/rh/email-to-dhcr.tsx:22
 msgid "Request for Rent History"
 msgstr "Request for Rent History"
@@ -2164,11 +2192,15 @@ msgstr "Research your landlord"
 msgid "Reset your password"
 msgstr "Reset your password"
 
+#: frontend/lib/laletterbuilder/homepage.tsx:141
+msgid "Resources"
+msgstr "Resources"
+
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:326
 msgid "Results for {0}"
 msgstr "Results for {0}"
 
-#: frontend/lib/laletterbuilder/components/letter-preview.tsx:20
+#: frontend/lib/laletterbuilder/components/letter-preview.tsx:18
 msgid "Review your letter"
 msgstr "Review your letter"
 
@@ -2236,10 +2268,6 @@ msgstr "Search address"
 msgid "See more FAQs"
 msgstr "See more FAQs"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:30
-msgid "See which letter is right for me"
-msgstr "See which letter is right for me"
-
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:14
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:16
 msgid "Select a letter to get started"
@@ -2249,9 +2277,13 @@ msgstr "Select a letter to get started"
 msgid "Select a mailing method"
 msgstr "Select a mailing method"
 
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:20
+msgid "Select letter"
+msgstr "Select letter"
+
 #: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:51
-msgid "Select which repairs are needed"
-msgstr "Select which repairs are needed"
+msgid "Select the repairs you need in your home"
+msgstr "Select the repairs you need in your home"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:69
 msgid "Send"
@@ -2268,10 +2300,6 @@ msgstr "Send another letter"
 #: frontend/lib/start-account-or-login/verify-password.tsx:46
 msgid "Send code"
 msgstr "Send code"
-
-#: frontend/lib/laletterbuilder/homepage.tsx:76
-msgid "Send for free"
-msgstr "Send for free"
 
 #: frontend/lib/evictionfree/homepage.tsx:77
 msgid "Send your form by USPS Certified Mail for free to your landlord"
@@ -2302,7 +2330,6 @@ msgid "Separate letters for each month starting in September when you couldn't p
 msgstr "Separate letters for each month starting in September when you couldn't pay rent in full."
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:17
-#: frontend/lib/laletterbuilder/components/create-account.tsx:18
 #: frontend/lib/norent/letter-builder/create-account.tsx:19
 msgid "Set up an account"
 msgstr "Set up an account"
@@ -2449,9 +2476,10 @@ msgstr "Start"
 msgid "Start a legal case for repairs and/or harassment"
 msgstr "Start a legal case for repairs and/or harassment"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:20
-msgid "Start a letter"
-msgstr "Start a letter"
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:24
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:47
+msgid "Start letter"
+msgstr "Start letter"
 
 #: frontend/lib/rh/routes.tsx:68
 msgid "Start my request"
@@ -2486,8 +2514,11 @@ msgstr "Strategic Actions for a Just Economy"
 msgid "Strategic Actions for a Just Economy (SAJE) can contact me to provide additional support."
 msgstr "Strategic Actions for a Just Economy (SAJE) can contact me to provide additional support."
 
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:39
+msgid "Street address"
+msgstr "Street address"
+
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:38
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:36
 msgid "Street address (include unit/suite/floor/apt #)"
 msgstr "Street address (include unit/suite/floor/apt #)"
 
@@ -2507,6 +2538,10 @@ msgstr "Take action"
 #: frontend/lib/norent/data/faqs-content.tsx:9
 msgid "Tenant Rights"
 msgstr "Tenant Rights"
+
+#: frontend/lib/laletterbuilder/homepage.tsx:118
+msgid "Tenant rights resources"
+msgstr "Tenant rights resources"
 
 #: frontend/lib/norent/letter-content.tsx:38
 msgid "Tenants adversely affected by the COVID-19 crisis are protected from eviction for nonpayment per emergency declaration(s) from:"
@@ -2529,9 +2564,9 @@ msgstr "Terms of Use"
 msgid "Texas"
 msgstr "Texas"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:39
-msgid "The City of LA allows residential tenants to sue for violations of COVID-19 renter protections. Take the first step by documenting violations and notifying your landlord."
-msgstr "The City of LA allows residential tenants to sue for violations of COVID-19 renter protections. Take the first step by documenting violations and notifying your landlord."
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:38
+msgid "The City of LA allows residential tenants to sue for violations of COVID-19 renter protections. Document violations and notify your landlord."
+msgstr "The City of LA allows residential tenants to sue for violations of COVID-19 renter protections. Document violations and notify your landlord."
 
 #: frontend/lib/norent/components/footer.tsx:34
 #: frontend/lib/norent/site.tsx:31
@@ -2601,7 +2636,7 @@ msgstr "To get involved in organizing and the fight to #StopEvictions and #Cance
 msgid "To learn more about what to do next, check out our FAQ page: {faqURL}"
 msgstr "To learn more about what to do next, check out our FAQ page: {faqURL}"
 
-#: frontend/lib/laletterbuilder/components/letter-preview.tsx:66
+#: frontend/lib/laletterbuilder/components/letter-preview.tsx:52
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:127
 msgid "To:"
 msgstr "To:"
@@ -2661,8 +2696,8 @@ msgid "Unsafe/broken stairs and/or railing"
 msgstr "Unsafe/broken stairs and/or railing"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:26
-msgid "Until then here are some other forms you can fill in and mail yourself."
-msgstr "Until then here are some other forms you can fill in and mail yourself."
+msgid "Until then, here are some other forms you can fill, print and mail yourself."
+msgstr "Until then, here are some other forms you can fill, print and mail yourself."
 
 #: common-data/us-state-choices.ts:110
 msgid "Utah"
@@ -2699,15 +2734,22 @@ msgstr "Verify your phone number"
 msgid "Vermont"
 msgstr "Vermont"
 
+#: frontend/lib/laletterbuilder/components/letter-preview.tsx:24
+msgid "View as PDF (recommended)"
+msgstr "View as PDF (recommended)"
+
 #: frontend/lib/norent/letter-builder/menu.tsx:35
 msgid "View details about your last letter"
 msgstr "View details about your last letter"
+
+#: frontend/lib/laletterbuilder/homepage.tsx:32
+msgid "View letters"
+msgstr "View letters"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:144
 msgid "View list of organizations"
 msgstr "View list of organizations"
 
-#: frontend/lib/laletterbuilder/components/letter-preview.tsx:41
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:105
 msgid "View this letter as a PDF"
 msgstr "View this letter as a PDF"
@@ -2719,10 +2761,6 @@ msgstr "Virginia"
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:223
 msgid "Visit Who Owns What"
 msgstr "Visit Who Owns What"
-
-#: frontend/lib/laletterbuilder/homepage.tsx:133
-msgid "Volunteer with SAJE and help other members of your community defend their rights as tenants."
-msgstr "Volunteer with SAJE and help other members of your community defend their rights as tenants."
 
 #: frontend/lib/rh/routes.tsx:51
 msgid "Want to know if your apartment's rent stabilized? Request your <0>Rent History</0> from the NY State DHCR*!"
@@ -2759,9 +2797,9 @@ msgstr "Water damage"
 msgid "Water leak"
 msgstr "Water leak"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:43
-msgid "We built the LA Letter Builder with lawyers and non-profit tenants rights organizations in Los Angeles to ensure that your letter gives you the most protections."
-msgstr "We built the LA Letter Builder with lawyers and non-profit tenants rights organizations in Los Angeles to ensure that your letter gives you the most protections."
+#: frontend/lib/laletterbuilder/homepage.tsx:45
+msgid "We created the [Product Name] with lawyers and non-profit tenant rights organizations to ensure that your letter gives you the most protections."
+msgstr "We created the [Product Name] with lawyers and non-profit tenant rights organizations to ensure that your letter gives you the most protections."
 
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:66
 msgid "We found this email address for your landlord:"
@@ -2771,22 +2809,17 @@ msgstr "We found this email address for your landlord:"
 msgid "We make it easy to notify your landlord by email or by certified mail for free."
 msgstr "We make it easy to notify your landlord by email or by certified mail for free."
 
-#: frontend/lib/laletterbuilder/components/letter-preview.tsx:45
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:99
+msgid "We recommend that you to go back and select “Mail for me”. If you wish to send the letter yourself, continue to see instructions."
+msgstr "We recommend that you to go back and select “Mail for me”. If you wish to send the letter yourself, continue to see instructions."
+
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:109
 msgid "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 msgstr "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:104
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:105
 msgid "We will email your letter to:"
 msgstr "We will email your letter to:"
-
-#: frontend/lib/laletterbuilder/homepage.tsx:79
-msgid "We will send the letter to your landlord or property manager for free via certified mail. Or you can opt to print and mail it yourself."
-msgstr "We will send the letter to your landlord or property manager for free via certified mail. Or you can opt to print and mail it yourself."
-
-#: frontend/lib/laletterbuilder/homepage.tsx:91
-msgid "We'll check in with you via text message, see if your situation improved and offer next steps."
-msgstr "We'll check in with you via text message, see if your situation improved and offer next steps."
 
 #: frontend/lib/norent/letter-builder/ask-national-address.tsx:11
 #: frontend/lib/norent/letter-builder/ask-nyc-address.tsx:9
@@ -2848,6 +2881,14 @@ msgstr "Welcome back!"
 #: common-data/us-state-choices.ts:114
 msgid "West Virginia"
 msgstr "West Virginia"
+
+#: frontend/lib/laletterbuilder/homepage.tsx:93
+msgid "We’ll explain additional actions you can take if your issue isn’t resolved"
+msgstr "We’ll explain additional actions you can take if your issue isn’t resolved"
+
+#: frontend/lib/laletterbuilder/homepage.tsx:81
+msgid "We’ll send your letter to your landlord or property manager for free via certified mail. Or you can opt to print and mail it yourself."
+msgstr "We’ll send your letter to your landlord or property manager for free via certified mail. Or you can opt to print and mail it yourself."
 
 #: frontend/lib/norent/letter-builder/ask-city-state.tsx:8
 msgid "We’ll use this information to pull the most up-to-date ordinances that protect your rights as a tenant in your letter."
@@ -2971,6 +3012,10 @@ msgstr "While you wait for your landlord to respond, gather as much documentatio
 msgid "Who is not protected by NY's COVID-19 Tenant Protection Laws?"
 msgstr "Who is not protected by NY's COVID-19 Tenant Protection Laws?"
 
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:23
+msgid "Who is your landlord or property manager?"
+msgstr "Who is your landlord or property manager?"
+
 #: frontend/lib/evictionfree/about.tsx:76
 #: frontend/lib/laletterbuilder/about.tsx:67
 #: frontend/lib/norent/about.tsx:94
@@ -3028,6 +3073,10 @@ msgstr "Wisconsin"
 msgid "With this free tool, you can"
 msgstr "With this free tool, you can"
 
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:17
+msgid "Write your landlord a letter to formally document your request for repairs."
+msgstr "Write your landlord a letter to formally document your request for repairs."
+
 #: common-data/us-state-choices.ts:116
 msgid "Wyoming"
 msgstr "Wyoming"
@@ -3039,7 +3088,6 @@ msgstr "Wyoming"
 msgid "Yes"
 msgstr "Yes"
 
-#: frontend/lib/laletterbuilder/components/create-account.tsx:40
 #: frontend/lib/norent/letter-builder/create-account.tsx:37
 msgid "Yes, JustFix can text me to follow up about my housing issues."
 msgstr "Yes, JustFix can text me to follow up about my housing issues."
@@ -3109,10 +3157,6 @@ msgstr "You haven't completed previous steps. Please <0>go back</0>."
 #: frontend/lib/norent/letter-builder/menu.tsx:28
 msgid "You most recently sent a letter on {0}."
 msgstr "You most recently sent a letter on {0}."
-
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:99
-msgid "You will need to print your letter and mail it to your landlord or property manager."
-msgstr "You will need to print your letter and mail it to your landlord or property manager."
 
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:29
 msgid "You'll need to download the letter to print and mail yourself."
@@ -3191,11 +3235,6 @@ msgstr "Your case's court name"
 msgid "Your case's index number"
 msgstr "Your case's index number"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:51
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:57
-msgid "Your contact details"
-msgstr "Your contact details"
-
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:76
 msgid "Your declaration form and important next steps"
 msgstr "Your declaration form and important next steps"
@@ -3224,10 +3263,6 @@ msgstr "Your index number can be found at the top of Postcard or Notice of Petit
 msgid "Your landlord"
 msgstr "Your landlord"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:28
-msgid "Your landlord can't enter your unit whenever they want. Create a formal request which asks your landlord to follow proper protocol and respect your right to privacy."
-msgstr "Your landlord can't enter your unit whenever they want. Create a formal request which asks your landlord to follow proper protocol and respect your right to privacy."
-
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:146
 msgid "Your landlord is associated with {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit.} other {# units.}}"
 msgstr "Your landlord is associated with {0, plural, one {one building} other {# buildings}} and {1, plural, one {one unit.} other {# units.}}"
@@ -3253,14 +3288,8 @@ msgid "Your landlord or management company's email"
 msgstr "Your landlord or management company's email"
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:94
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:20
 msgid "Your landlord or management company's information"
 msgstr "Your landlord or management company's information"
-
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:52
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:58
-msgid "Your landlord's contact details"
-msgstr "Your landlord's contact details"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:60
 msgid "Your letter has been mailed to your landlord via USPS Certified Mail. A copy of your letter has also been sent to your email."
@@ -3302,7 +3331,7 @@ msgstr "You’re not alone. Millions of Americans won’t be able to pay rent be
 
 #: frontend/lib/common-steps/ask-national-address.tsx:118
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:41
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:39
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:42
 msgid "Zip code"
 msgstr "Zip code"
 

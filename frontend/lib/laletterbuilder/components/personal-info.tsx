@@ -19,7 +19,7 @@ export const LaLetterBuilderAskCityState = LaLetterBuilderOnboardingStep(
         LaLetterBuilderRouteInfo.locale.habitability.cityConfirmModal
       }
     >
-      <p>This tool is only for California residents.</p>
+      <p>LA Letter Builder is for California residents only.</p>
     </AskCityState>
   )
 );

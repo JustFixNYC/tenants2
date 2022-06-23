@@ -19,7 +19,9 @@ describe("LaLetterBuilderSite", () => {
   it("renders home page", async () => {
     const pal = new AppTesterPal(route, { url: "/en/" });
     await waitFor(() =>
-      pal.rr.getByText(/As an LA resident, you have a right to safe housing./i)
+      pal.rr.getByText(
+        /As a California resident, you have a right to safe housing/i
+      )
     );
   });
 });

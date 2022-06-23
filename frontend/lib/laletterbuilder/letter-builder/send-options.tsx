@@ -173,8 +173,9 @@ export const ConfirmModal: React.FC<{
               <>
                 <p>
                   <Trans>
-                    You will need to print your letter and mail it to your
-                    landlord or property manager.
+                    We recommend that you to go back and select “Mail for me”.
+                    If you wish to send the letter yourself, continue to see
+                    instructions.
                   </Trans>
                 </p>
                 {emailToLandlord && (

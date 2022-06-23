@@ -27,18 +27,20 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
           <h1 className="title is-spaced has-text-info">
-            <Trans>As an LA resident, you have a right to safe housing.</Trans>
+            <Trans>
+              As a California resident, you have a right to safe housing
+            </Trans>
           </h1>
           <br />
           <p className="subtitle">
             <Trans>
-              Exercise your tenant rights. Send a free letter of complaint to
-              your landlord in minutes.
+              Exercise your tenant rights. Send a free letter to your landlord
+              in minutes.
             </Trans>
           </p>
           <br />
           <CenteredPrimaryButtonLink to={Routes.locale.chooseLetter}>
-            <Trans>See which letter is right for me</Trans>
+            <Trans>View letters</Trans>
           </CenteredPrimaryButtonLink>
         </div>
       </div>
@@ -52,9 +54,9 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
           <br />
           <p className="subtitle">
             <Trans>
-              We built the LA Letter Builder with lawyers and non-profit tenants
-              rights organizations in Los Angeles to ensure that your letter
-              gives you the most protections.
+              We created the [Product Name] with lawyers and non-profit tenant
+              rights organizations to ensure that your letter gives you the most
+              protections.
             </Trans>
           </p>
           <br />
@@ -83,18 +85,18 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
             </p>
             <label>
               <Trans>
-                Answer some basic questions about your situation, and we will
-                automatically build a letter for you.
+                Answer some basic questions about your housing situation, and
+                we’ll automatically create a letter for you.
               </Trans>
             </label>
           </div>
           <div className="text-section">
             <p className="subtitle">
-              <Trans>Send for free</Trans>
+              <Trans>Mail for free</Trans>
             </p>
             <label>
               <Trans>
-                We will send the letter to your landlord or property manager for
+                We’ll send your letter to your landlord or property manager for
                 free via certified mail. Or you can opt to print and mail it
                 yourself.
               </Trans>
@@ -102,12 +104,12 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
           </div>
           <div className="text-section">
             <p className="subtitle">
-              <Trans>Follow up</Trans>
+              <Trans>Next steps</Trans>
             </p>
             <label>
               <Trans>
-                We'll check in with you via text message, see if your situation
-                improved and offer next steps.
+                We’ll explain additional actions you can take if your issue
+                isn’t resolved
               </Trans>
             </label>
           </div>
@@ -137,7 +139,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
           <h2 className="is-spaced">
-            <Trans>Additional resources</Trans>
+            <Trans>Tenant rights resources</Trans>
           </h2>
 
           <p className="subtitle">
@@ -146,8 +148,8 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
           <div className="text-section">
             <label>
               <Trans>
-                Attend SAJE's Tenant Action Clinic to learn more about your
-                rights.
+                Attend SAJE’s Tenant Action Clinic if you're faced with a
+                housing problem.
               </Trans>
             </label>
           </div>
@@ -155,13 +157,12 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
           <div className="text-section">
             <label>
               <Trans>
-                Volunteer with SAJE and help other members of your community
-                defend their rights as tenants.
+                Get involved with SAJE to build power with your neighbors
               </Trans>
             </label>
           </div>
           <p className="subtitle">
-            <Trans>Other tools</Trans>
+            <Trans>Resources</Trans>
           </p>
           <p>
             <OutboundLink

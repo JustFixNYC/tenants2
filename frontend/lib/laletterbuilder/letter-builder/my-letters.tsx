@@ -133,7 +133,7 @@ const MyLettersContent: React.FC = (props) => {
         });
         return (
           <CompletedLetterCard
-            key={`processed-letter-${i}`}
+            key={`sent-letter-${i}`}
             link={
               LaLetterBuilderRouteInfo.getLocale("en").habitability
                 .letterContent.pdf

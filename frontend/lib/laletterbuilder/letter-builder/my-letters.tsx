@@ -92,10 +92,10 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
 
 const MyLettersContent: React.FC = (props) => {
   const { session } = useContext(AppContext);
-  const processedLetters = session.habitabilityLetters.filter(
+  const processedLetters = session.habitabilityLetters?.filter(
     (el) => !!el.fullyProcessedAt && !el.letterSentAt
   );
-  const sentLetters = session.habitabilityLetters.filter(
+  const sentLetters = session.habitabilityLetters?.filter(
     (el) => !!el.letterSentAt
   );
 
@@ -105,7 +105,7 @@ const MyLettersContent: React.FC = (props) => {
         <Trans>See all your finished and unfinished letters</Trans>
       </p>
       <CreateOrContinueLetter />
-      {processedLetters.map((el, i) => (
+      {processedLetters?.map((el, i) => (
         <CompletedLetterCard
           key={`processed-letter-${i}`}
           link={
@@ -124,7 +124,7 @@ const MyLettersContent: React.FC = (props) => {
           </p>
         </CompletedLetterCard>
       ))}
-      {sentLetters.map((el, i) => {
+      {sentLetters?.map((el, i) => {
         const sentDate = new Date(el.letterSentAt!);
         const dateString = sentDate.toLocaleDateString("en-US", {
           day: "numeric",

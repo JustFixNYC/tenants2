@@ -315,7 +315,6 @@ class LaLetterBuilderSessionInfo:
         description=(
             "All habitability letters that have been created (sent and unsent) by the user"
         ),
-        required=True,
     )
 
     def resolve_la_issues(self, info: ResolveInfo) -> List[str]:

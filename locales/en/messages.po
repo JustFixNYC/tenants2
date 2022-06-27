@@ -20,7 +20,7 @@ msgid "(Name of your language) translation"
 msgstr "(Name of your language) translation"
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:48
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:123
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:126
 msgid "(Note: the email will be sent in English)"
 msgstr "(Note: the email will be sent in English)"
 
@@ -624,7 +624,7 @@ msgstr "Continue"
 msgid "Continue anyway"
 msgstr "Continue anyway"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:41
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:37
 msgid "Continue letter"
 msgstr "Continue letter"
 
@@ -853,7 +853,7 @@ msgid "Email:"
 msgstr "Email:"
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:31
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:99
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:102
 msgid "English version"
 msgstr "English version"
 
@@ -1113,15 +1113,15 @@ msgstr "Here are a few benefits to sending a letter to your landlord:"
 msgid "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
 msgstr "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:90
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:93
 msgid "Here's a preview of the letter that will be attached in an email to your landlord:"
 msgstr "Here's a preview of the letter that will be attached in an email to your landlord:"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:93
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:96
 msgid "Here's a preview of the letter:"
 msgstr "Here's a preview of the letter:"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:118
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:121
 msgid "Here’s a preview of the email that will be sent on your behalf:"
 msgstr "Here’s a preview of the email that will be sent on your behalf:"
 
@@ -1436,7 +1436,7 @@ msgstr "Kentucky"
 msgid "Kitchen"
 msgstr "Kitchen"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:130
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:134
 msgid "Know your rights"
 msgstr "Know your rights"
 
@@ -1673,7 +1673,7 @@ msgstr "Mailing address"
 msgid "Maine"
 msgstr "Maine"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:137
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:140
 msgid "Make sure all the information above is correct."
 msgstr "Make sure all the information above is correct."
 
@@ -1776,12 +1776,16 @@ msgstr "Movement Law Lab"
 msgid "Must be at least 8 characters. Can't be all numbers."
 msgstr "Must be at least 8 characters. Can't be all numbers."
 
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:29
+msgid "My household income for the selected months is at or below 80 percent of the Area Median Income (AMI)."
+msgstr "My household income for the selected months is at or below 80 percent of the Area Median Income (AMI)."
+
 #: frontend/lib/laletterbuilder/faq-content.tsx:26
 msgid "My issue is urgent and time sensitive. What should I do?"
 msgstr "My issue is urgent and time sensitive. What should I do?"
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:13
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:54
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:50
 msgid "My letters"
 msgstr "My letters"
 
@@ -2042,7 +2046,7 @@ msgstr "Photo credits:"
 msgid "Pipes leaking"
 msgstr "Pipes leaking"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:121
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:125
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Please <0>go back and choose a state</0>."
 
@@ -2237,7 +2241,7 @@ msgstr "Right to Privacy (CA)"
 msgid "Right to the City"
 msgstr "Right to the City"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:145
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:149
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Right to the City Alliance can contact me to provide additional support."
 
@@ -2481,8 +2485,7 @@ msgstr "Start"
 msgid "Start a legal case for repairs and/or harassment"
 msgstr "Start a legal case for repairs and/or harassment"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:24
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:47
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:43
 msgid "Start letter"
 msgstr "Start letter"
 
@@ -2642,7 +2645,7 @@ msgid "To learn more about what to do next, check out our FAQ page: {faqURL}"
 msgstr "To learn more about what to do next, check out our FAQ page: {faqURL}"
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:52
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:127
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:130
 msgid "To:"
 msgstr "To:"
 
@@ -2755,7 +2758,7 @@ msgstr "View letters"
 msgid "View list of organizations"
 msgstr "View list of organizations"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:105
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:108
 msgid "View this letter as a PDF"
 msgstr "View this letter as a PDF"
 
@@ -2818,7 +2821,7 @@ msgstr "We make it easy to notify your landlord by email or by certified mail fo
 msgid "We recommend that you to go back and select “Mail for me”. If you wish to send the letter yourself, continue to see instructions."
 msgstr "We recommend that you to go back and select “Mail for me”. If you wish to send the letter yourself, continue to see instructions."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:109
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:112
 msgid "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 msgstr "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 
@@ -2903,7 +2906,7 @@ msgstr "We’ll use this information to pull the most up-to-date ordinances that
 msgid "We’ll use this to reference the latest policies that protect your rights as a tenant."
 msgstr "We’ll use this to reference the latest policies that protect your rights as a tenant."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:106
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:110
 msgid "We’ve partnered with <0/> to provide additional support once you’ve sent your letter."
 msgstr "We’ve partnered with <0/> to provide additional support once you’ve sent your letter."
 
@@ -3167,7 +3170,7 @@ msgstr "You most recently sent a letter on {0}."
 msgid "You'll need to download the letter to print and mail yourself."
 msgstr "You'll need to download the letter to print and mail yourself."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:132
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:136
 msgid "You're in <0>{stateName}</0>"
 msgstr "You're in <0>{stateName}</0>"
 
@@ -3712,7 +3715,7 @@ msgstr "<0>Congress passed the CARES Act on March 27, 2020 (Public Law 116-136).
 msgid "norent.letter.floridaAddition"
 msgstr "I have suffered a loss of employment, diminished wages or business income, or other monetary loss realized during the Florida State of Emergency directly impacting my ability to make rent payments."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:90
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:94
 msgid "norent.letter.lacountydisclaimer2022v2"
 msgstr "As required under section VI.A.1 of the January 25, 2022 Resolution of the Board of Supervisors of the County of Los Angeles Further Amending and Restating the County of Los Angeles COVID-19 Tenant Protections Resolution: For tenants whose income in a particular month is below 80% of Area Median Income, deliver to your landlord within seven (7) days of your rent being due. If you live in another jurisdiction please check back around July 1, 2022 to continue to use this tool. If you have received an unlawful detainer or have questions about your rights as a tenant please contact <0/>."
 

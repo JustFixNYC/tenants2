@@ -94,7 +94,7 @@ msgstr "<0>Repairs required</0>"
 msgid "<0>To</0><1/><2>From</2><3/>"
 msgstr "<0>To</0><1/><2>From</2><3/>"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:52
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:62
 msgid "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
 msgstr "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
 
@@ -580,6 +580,7 @@ msgid "Community Justice Project"
 msgstr "Community Justice Project"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:33
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:43
 msgid "Confirm"
 msgstr "Confirm"
 
@@ -924,6 +925,10 @@ msgstr "Fill out my form"
 #: frontend/lib/evictionfree/homepage.tsx:65
 msgid "Fill out your hardship declaration form online"
 msgstr "Fill out your hardship declaration form online"
+
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:36
+msgid "Find out if I'm below 80% of AMI"
+msgstr "Find out if I'm below 80% of AMI"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:116
 msgid "Find out more"
@@ -1341,7 +1346,7 @@ msgstr "It doesn't seem like this property is required to register with HPD. You
 msgid "It looks like your apartment may be rent stabilized"
 msgstr "It looks like your apartment may be rent stabilized"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:41
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:51
 msgid "It's important to notify your landlord of all months when you couldn't pay rent in full."
 msgstr "It's important to notify your landlord of all months when you couldn't pay rent in full."
 
@@ -1698,11 +1703,11 @@ msgstr "Mold on walls"
 msgid "Montana"
 msgstr "Montana"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:50
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:60
 msgid "Months of rent non-payment"
 msgstr "Months of rent non-payment"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:39
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:49
 msgid "Months you're missing rent payments"
 msgstr "Months you're missing rent payments"
 
@@ -1721,6 +1726,10 @@ msgstr "Movement Law Lab"
 #: frontend/lib/common-steps/create-password.tsx:6
 msgid "Must be at least 8 characters. Can't be all numbers."
 msgstr "Must be at least 8 characters. Can't be all numbers."
+
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:29
+msgid "My household income for the selected months is at or below 80 percent of the Area Median Income (AMI)."
+msgstr "My household income for the selected months is at or below 80 percent of the Area Median Income (AMI)."
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:13
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:50
@@ -1991,6 +2000,10 @@ msgstr "Please <0>go back and choose a state</0>."
 #: frontend/lib/pages/cross-site-terms-opt-in.tsx:33
 msgid "Please agree to our terms and conditions"
 msgstr "Please agree to our terms and conditions"
+
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:26
+msgid "Please confirm your household income"
+msgstr "Please confirm your household income"
 
 #: frontend/lib/common-steps/create-password.tsx:11
 msgid "Please confirm your password"
@@ -2944,7 +2957,7 @@ msgstr "Who is not protected by NY's COVID-19 Tenant Protection Laws?"
 msgid "Who we are"
 msgstr "Who we are"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:51
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:61
 msgid "Why aren't all months listed?"
 msgstr "Why aren't all months listed?"
 

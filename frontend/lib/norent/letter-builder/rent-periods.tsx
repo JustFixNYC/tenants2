@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import React, { useContext } from "react";
 import { AppContext } from "../../app-context";
 import { DjangoChoices } from "../../common-data";
@@ -14,6 +14,7 @@ import { assertNotNull } from "@justfixnyc/util";
 import { NorentNotSentLetterStep } from "./step-decorators";
 import { Accordion } from "../../ui/accordion";
 import { Link } from "react-router-dom";
+import { OutboundLink } from "../../ui/outbound-link";
 
 function getCurrentRentNonpaymentPeriods(s: AllSessionInfo): string[] {
   const validDates = new Set(
@@ -35,21 +36,30 @@ export function getRentNonpaymentChoices(
 
 export const NorentRentPeriodsKyr = NorentNotSentLetterStep((props) => (
   <Page
-    title="Make sure you are income eligible"
+    title={li18n._(t`Please confirm your household income`)}
     withHeading="big"
     className="content"
   >
-    <h2 className="title">Make sure you are income eligible...</h2>
     <div className="content">
-      <p>Boop boop boop...</p>
+      <p>
+        <Trans>
+          My household income for the selected months is at or below 80 percent
+          of the Area Median Income (AMI).
+        </Trans>
+      </p>
+      <p>
+        <OutboundLink href="https://housing.ca.gov/tenant/eligibilityquiz.html">
+          <Trans>Find out if I'm below 80% of AMI</Trans>
+        </OutboundLink>
+      </p>
     </div>
-    <div className="has-text-centered">
+    <div className="buttons jf-two-buttons">
       <BackButton to={props.prevStep} />
       <Link
         to={props.nextStep}
         className="jf-is-next-button button is-primary is-medium"
       >
-        I understand
+        <Trans>Confirm</Trans>
       </Link>
     </div>
   </Page>

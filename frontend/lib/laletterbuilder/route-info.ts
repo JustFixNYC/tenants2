@@ -1,18 +1,40 @@
+import { createAccountSettingsRouteInfo } from "../account-settings/route-info";
 import { createDevRouteInfo } from "../dev/route-info";
 import {
   createHtmlEmailStaticPageRouteInfo,
   createLetterStaticPageRouteInfo,
 } from "../static-page/routes";
-import { ROUTE_PREFIX, createRoutesForSite } from "../util/route-util";
+import { NEXT, ROUTE_PREFIX, createRoutesForSite } from "../util/route-util";
 import { createHabitabilityRouteInfo } from "./letter-builder/habitability/route-info";
+import History from "history";
 
 function createLocalizedRouteInfo(prefix: string) {
+  const login = `${prefix}/login`;
   return {
     /** The locale prefix, e.g. `/en`. */
     [ROUTE_PREFIX]: prefix,
 
+    /** The login page. */
+    login,
+
+    /** The logout page. */
+    logout: `${prefix}/logout`,
+
+    /** The account settings page. */
+    accountSettings: createAccountSettingsRouteInfo(`${prefix}/account`),
+
     /** The home page. */
     home: `${prefix}/`,
+
+    /**
+     * Create a login link that redirects the user to the given location
+     * after they've logged in.
+     */
+    createLoginLink(next: History.Location): string {
+      return `${login}?${NEXT}=${encodeURIComponent(
+        next.pathname + next.search
+      )}`;
+    },
 
     chooseLetter: `${prefix}/choose-letter`,
 
@@ -21,9 +43,6 @@ function createLocalizedRouteInfo(prefix: string) {
 
     /** The letter content for the user's own data (HTML and PDF versions). */
     letterContent: createLetterStaticPageRouteInfo(`${prefix}/letter`),
-
-    /** The logout page. */
-    logout: `${prefix}/logout`,
 
     /** The about page. */
     about: `${prefix}/about`,

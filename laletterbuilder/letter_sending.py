@@ -34,6 +34,9 @@ LALETTERBUILDER_EMAIL_TO_LANDLORD_URL = "letter-email.txt"
 # email to the user.
 LALETTERBUILDER_EMAIL_TO_USER_URL = "letter-email-to-user.html"
 
+# Set to true when we are ready to test LOB letter sending
+LETTER_SENDING_ENABLED = False
+
 logger = logging.getLogger(__name__)
 
 
@@ -135,7 +138,7 @@ def send_letter(letter: models.Letter):
     if ld.email and letter.email_to_landlord:
         email_letter_to_landlord(letter, pdf_bytes)
 
-    if ld.address_lines_for_mailing and letter.mail_choice == LA_MAILING_CHOICES.WE_WILL_MAIL:
+    if ld.address_lines_for_mailing and letter.mail_choice == LA_MAILING_CHOICES.WE_WILL_MAIL and LETTER_SENDING_ENABLED:
         send_letter_via_lob(
             letter,
             pdf_bytes,

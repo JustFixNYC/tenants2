@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-23 19:00+0000\n"
+"POT-Creation-Date: 2022-06-21 23:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -85,6 +85,14 @@ msgstr ""
 
 #: frontend/templates/frontend/safe_mode_ui.html:33
 msgid "close"
+msgstr ""
+
+#: laletterbuilder/forms.py:54
+msgid "Please select at least one repair issue."
+msgstr ""
+
+#: laletterbuilder/forms.py:73
+msgid "Please provide a landlord email or indicate that you do not have this information."
 msgstr ""
 
 #: norent/forms.py:65

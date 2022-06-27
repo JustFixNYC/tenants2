@@ -21,15 +21,7 @@ import { optionalizeLabel } from "../../forms/optionalize-label";
 export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
   (props) => {
     return (
-      <Page title={li18n._(t`Set up an account`)} withHeading="big">
-        <div className="content">
-          <p>
-            <Trans>
-              Let’s set you up with an account. An account will enable you to
-              save your information and download copies of your letters.
-            </Trans>
-          </p>
-        </div>
+      <Page title={li18n._(t`Finish creating your account`)} withHeading="big">
         <SessionUpdatingFormSubmitter
           mutation={LaLetterBuilderCreateAccountMutation}
           initialState={{
@@ -44,17 +36,30 @@ export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
         >
           {(ctx) => (
             <>
+              <CreatePasswordFields
+                passwordProps={ctx.fieldPropsFor("password")}
+                confirmPasswordProps={ctx.fieldPropsFor("confirmPassword")}
+              />
+              <div className="content">
+                <p>
+                  <Trans>
+                    If you add your email address now, we'll email you a copy of
+                    your completed letter.
+                  </Trans>
+                </p>
+              </div>
               <TextualFormField
                 type="email"
                 {...ctx.fieldPropsFor("email")}
                 label={optionalizeLabel(li18n._(t`Email address`))}
               />
-              <CreatePasswordFields
-                passwordProps={ctx.fieldPropsFor("password")}
-                confirmPasswordProps={ctx.fieldPropsFor("confirmPassword")}
-              />
+              <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
+                <Trans>
+                  JustFix can text me to follow up about my housing issues.
+                </Trans>
+              </CheckboxFormField>
               <CheckboxFormField {...ctx.fieldPropsFor("agreeToTerms")}>
-                I agree to the{" "}
+                I agree to the JustFix{" "}
                 <ModalLink
                   to={
                     LaLetterBuilderRouteInfo.locale.habitability // pass this in instead
@@ -62,15 +67,9 @@ export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
                   }
                   render={() => <PrivacyInfoModal />}
                 >
-                  LaLetterBuilder.org terms and conditions
+                  Terms of Use
                 </ModalLink>
                 .
-              </CheckboxFormField>
-              <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
-                <Trans>
-                  Yes, JustFix.nyc can text me to follow up about my housing
-                  issues.
-                </Trans>
               </CheckboxFormField>
               <ProgressButtons
                 isLoading={ctx.isLoading}

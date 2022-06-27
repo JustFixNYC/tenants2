@@ -5,7 +5,11 @@ import { AppContext } from "../../app-context";
 import { li18n } from "../../i18n-lingui";
 import { Modal, BackOrUpOneDirLevel } from "../../ui/modal";
 import { MiddleProgressStep } from "../../progress/progress-step-route";
-import { TextualFormField, RadiosFormField } from "../../forms/form-fields";
+import {
+  TextualFormField,
+  RadiosFormField,
+  CheckboxFormField,
+} from "../../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
 import { ProgressButtons, NextButton } from "../../ui/buttons";
 import { LaLetterBuilderSendOptionsMutation } from "../../queries/LaLetterBuilderSendOptionsMutation";
@@ -16,14 +20,59 @@ import {
   getLaMailingChoiceLabels,
 } from "../../../../common-data/laletterbuilder-mailing-choices";
 import { LaLetterBuilderRouteInfo } from "../route-info";
-import { toDjangoChoices } from "../../common-data";
 import Page from "../../ui/page";
 import { optionalizeLabel } from "../../forms/optionalize-label";
+import { twoTuple } from "../../util/util";
+import { EmailPreview } from "../components/letter-preview";
+import { HabitabilityLetterEmailToLandlordForUser } from "./habitability/habitability-letter-content";
+
+interface MailChoiceInfo {
+  title: string;
+  description: string;
+  tags?: string[];
+}
+
+const mailChoiceLabels = getLaMailingChoiceLabels();
+const MailChoices: { [key: string]: MailChoiceInfo } = {
+  WE_WILL_MAIL: {
+    title: mailChoiceLabels["WE_WILL_MAIL"],
+    tags: [li18n._(t`free`), li18n._(t`no printing`)],
+    description: li18n._(
+      t`We'll send your letter for you via certified mail in 1-2 business days, at no cost to you.`
+    ),
+  },
+  USER_WILL_MAIL: {
+    title: mailChoiceLabels["USER_WILL_MAIL"],
+    description: li18n._(
+      t`You'll need to download the letter to print and mail yourself.`
+    ),
+  },
+};
 
 export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
+  const { session } = useContext(AppContext);
+
+  const mailChoiceTuples = LaMailingChoices.map((choice) => {
+    const data = MailChoices[choice];
+    return twoTuple(
+      choice,
+      <div className="jf-laletterbuilder-mailchoice">
+        <div className="jf-laletterbuilder-mailchoice-title">{data.title}</div>
+        {data.tags && (
+          <div className="jf-laletterbuilder-mailchoice-tags">
+            {data.tags.map((el, i) => (
+              <span key={i}>{el}</span>
+            ))}
+          </div>
+        )}
+        <div>{data.description}</div>
+      </div>
+    );
+  });
+
   return (
     <Page
-      title={li18n._(t`Would you like us to send the letter for you for free?`)}
+      title={li18n._(t`How do you want to send your letter?`)}
       withHeading="big"
       className="content"
     >
@@ -34,33 +83,59 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
           mailChoice:
             s.habitabilityLatestLetter?.mailChoice ||
             ("WE_WILL_MAIL" as LaMailingChoice),
-          email: s.landlordDetails?.email || "",
+          noLandlordEmail:
+            !s.habitabilityLatestLetter?.emailToLandlord || false,
+          email: "",
         })}
         onSuccessRedirect={
           LaLetterBuilderRouteInfo.locale.habitability.sendConfirmModal
         }
       >
-        {(ctx) => (
-          <>
-            <hr />
-            <RadiosFormField
-              {...ctx.fieldPropsFor("mailChoice")}
-              choices={toDjangoChoices(
-                LaMailingChoices,
-                getLaMailingChoiceLabels()
+        {(ctx) => {
+          return (
+            <>
+              <hr />
+              <h3>Select a mailing method</h3>
+              <RadiosFormField
+                {...ctx.fieldPropsFor("mailChoice")}
+                choices={mailChoiceTuples}
+                label={li18n._(t`Select a mailing method`)}
+                hideVisibleLabel={true}
+              />
+              <h3>
+                <Trans>Email a copy to your landlord or property manager</Trans>
+              </h3>
+              {session.landlordDetails?.email && (
+                <div className="jf-laletterbuilder-landlord-email">
+                  <span>
+                    {li18n._(t`We found this email address for your landlord:`)}
+                  </span>
+                  <span>{session.landlordDetails.email}</span>
+                </div>
               )}
-              label={li18n._(t`Select a mailing method`)}
-            />
-            <TextualFormField
-              type="email"
-              {...ctx.fieldPropsFor("email")}
-              label={optionalizeLabel(
-                li18n._(t`Landlord/management company's email`)
-              )}
-            />
-            <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
-          </>
-        )}
+              <TextualFormField
+                type="email"
+                {...ctx.fieldPropsFor("email")}
+                isDisabled={ctx.fieldPropsFor("noLandlordEmail").value}
+                label={optionalizeLabel(
+                  li18n._(t`Landlord or property manager email`)
+                )}
+              />
+              <CheckboxFormField {...ctx.fieldPropsFor("noLandlordEmail")}>
+                <Trans>I don't have this information</Trans>
+              </CheckboxFormField>
+              <EmailPreview
+                emailContent={HabitabilityLetterEmailToLandlordForUser}
+                landlordName={session.landlordDetails?.name}
+                landlordEmail={session.landlordDetails?.email}
+              />
+              <ProgressButtons
+                back={props.prevStep}
+                isLoading={ctx.isLoading}
+              />
+            </>
+          );
+        }}
       </SessionUpdatingFormSubmitter>
       <Route
         path={LaLetterBuilderRouteInfo.locale.habitability.sendConfirmModal}
@@ -78,9 +153,12 @@ export const ConfirmModal: React.FC<{
   // TODO: generalize to other letter types
   const userWillMail =
     session.habitabilityLatestLetter?.mailChoice === "USER_WILL_MAIL";
+  const emailToLandlord =
+    session.habitabilityLatestLetter?.emailToLandlord &&
+    session.landlordDetails?.email;
   const title = userWillMail
-    ? li18n._(t`Are you sure you want to send yourself?`)
-    : li18n._(t`Send letter now for free`);
+    ? li18n._(t`Are you sure you want to mail the letter yourself?`)
+    : li18n._(t`Mail letter now for free`);
 
   return (
     <Modal title={title} withHeading onCloseGoTo={BackOrUpOneDirLevel}>
@@ -95,13 +173,14 @@ export const ConfirmModal: React.FC<{
               <>
                 <p>
                   <Trans>
-                    You will need to print your letter and mail it to your
-                    landlord or property manager.
+                    We recommend that you to go back and select “Mail for me”.
+                    If you wish to send the letter yourself, continue to see
+                    instructions.
                   </Trans>
                 </p>
-                {session.landlordDetails?.email && (
+                {emailToLandlord && (
                   <p>{`${li18n._(t`We will email your letter to:`)} ${
-                    session.landlordDetails.email
+                    session.landlordDetails!.email
                   }`}</p>
                 )}
               </>
@@ -114,29 +193,24 @@ export const ConfirmModal: React.FC<{
                   <span>{session.landlordDetails?.name}</span>{" "}
                   <span>{session.landlordDetails?.address}</span>
                 </p>
-                {session.landlordDetails?.email && (
+                {emailToLandlord && (
                   <p>
                     <span>
                       <Trans>Email your letter to:</Trans>{" "}
                     </span>
-                    <span>{session.landlordDetails.email}</span>
+                    <span>{session.landlordDetails!.email}</span>
                   </p>
                 )}
-                <p>
-                  <Trans>
-                    A copy will be sent to your email and saved to your account.
-                  </Trans>
-                </p>
               </>
             )}
             <div className="has-text-centered">
               <NextButton
                 isLoading={ctx.isLoading}
-                label={li18n._(userWillMail ? "Send myself" : "Send letter")}
+                label={li18n._(userWillMail ? "Continue" : "Send letter")}
               />
               <Link
                 to={LaLetterBuilderRouteInfo.locale.habitability.sending}
-                className="button is-secondary is-medium jf-is-back-button"
+                className="button is-light"
               >
                 {li18n._(t`Back`)}
               </Link>

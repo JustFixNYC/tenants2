@@ -19,7 +19,7 @@ import {
   LaIssueChoice,
   LaIssueChoices,
 } from "../../../../../common-data/issue-choices-laletterbuilder";
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { li18n } from "../../../i18n-lingui";
 import { MultiCheckboxFormField } from "../../../forms/form-fields";
 import { SessionUpdatingFormSubmitter } from "../../../forms/session-updating-form-submitter";
@@ -67,15 +67,24 @@ function laRoomChoicesForIssue(issue: string): DjangoChoices {
 
 type LaIssuesPage = LaIssuesRoutesProps;
 
-const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
+export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
   const labels = getLaIssueCategoryChoiceLabels();
 
   const getInitialState = (session: AllSessionInfo) => ({
     laIssues: session.laIssues as LaIssueChoice[],
   });
   return (
-    <Page title={li18n._(t`Select which repairs are needed`)} withHeading>
-      <br />
+    <Page
+      title={li18n._(t`Select the repairs you need in your home`)}
+      withHeading
+    >
+      <p>
+        <Trans>
+          All you need for now are the basics. You can follow up with your
+          landlord or property manager in more detail once they receive your
+          letter.
+        </Trans>
+      </p>
       <div>
         <SessionUpdatingFormSubmitter
           confirmNavIfChanged

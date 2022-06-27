@@ -27,8 +27,8 @@ describe("send options page", () => {
         landlordDetails: BlankLandlordDetailsType,
       }).value,
     });
-    pal.clickRadioOrCheckbox(/^Send myself/i);
-    await pal.rr.getByText(/^Send myself/i);
+    pal.clickRadioOrCheckbox(/^Mail myself/i);
+    await pal.rr.getByText(/^Mail myself/i);
   });
 
   it("renders modal with email and no landlord address", async () => {
@@ -36,6 +36,11 @@ describe("send options page", () => {
       url: LaLetterBuilderRouteInfo.locale.habitability.sending, // TODO: generalize to all letter types
       session: sb.with({
         landlordDetails: BlankLandlordDetailsType,
+        habitabilityLatestLetter: {
+          ...blankHabitabilityLetter,
+          mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
+          emailToLandlord: true,
+        },
       }).value,
     });
     const email = "boopsy@boopmail.com";
@@ -46,16 +51,18 @@ describe("send options page", () => {
       habitabilityLatestLetter: {
         ...blankHabitabilityLetter,
         mailChoice: HabitabilityLetterMailChoice.USER_WILL_MAIL,
+        emailToLandlord: true,
       },
     };
 
-    pal.clickRadioOrCheckbox(/^Send myself/i);
+    pal.clickRadioOrCheckbox(/^Mail myself/i);
     pal.fillFormFields([[/email/i, email]]);
     pal.clickButtonOrLink("Next");
     pal
       .withFormMutation(LaLetterBuilderSendOptionsMutation)
       .expect({
         email,
+        noLandlordEmail: false,
         mailChoice,
       })
       .respondWith({
@@ -70,7 +77,9 @@ describe("send options page", () => {
 
     await pal.waitForLocation("/en/habitability/sending/confirm-modal");
     await pal.rt.waitFor(() =>
-      pal.getDialogWithLabel(/Are you sure you want to send yourself\?/i)
+      pal.getDialogWithLabel(
+        /Are you sure you want to mail the letter yourself\?/i
+      )
     );
 
     const { mock } = pal.appContext.updateSession;
@@ -86,6 +95,11 @@ describe("send options page", () => {
       url: LaLetterBuilderRouteInfo.locale.habitability.sending, // TODO: generalize to all letter types
       session: sb.with({
         landlordDetails: BlankLandlordDetailsType,
+        habitabilityLatestLetter: {
+          ...blankHabitabilityLetter,
+          mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
+          emailToLandlord: true,
+        },
       }).value,
     });
 
@@ -94,14 +108,17 @@ describe("send options page", () => {
       habitabilityLatestLetter: {
         ...blankHabitabilityLetter,
         mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
+        emailToLandlord: false,
       },
     };
 
+    pal.clickRadioOrCheckbox(/^I don't have this/i);
     pal.clickButtonOrLink("Next");
     pal
       .withFormMutation(LaLetterBuilderSendOptionsMutation)
       .expect({
         email: "",
+        noLandlordEmail: true,
         mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
       })
       .respondWith({
@@ -116,7 +133,7 @@ describe("send options page", () => {
 
     await pal.waitForLocation("/en/habitability/sending/confirm-modal");
     await pal.rt.waitFor(() =>
-      pal.getDialogWithLabel(/Send letter now for free/i)
+      pal.getDialogWithLabel(/Mail letter now for free/i)
     );
 
     const { mock } = pal.appContext.updateSession;

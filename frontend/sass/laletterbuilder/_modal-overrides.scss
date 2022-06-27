@@ -19,4 +19,13 @@
     padding-left: $spacing-09;
     padding-right: $spacing-09;
   }
+
+  .has-text-centered {
+    display: flex;
+    flex-direction: column;
+
+    .button {
+      margin-bottom: $spacing-05;
+    }
+  }
 }

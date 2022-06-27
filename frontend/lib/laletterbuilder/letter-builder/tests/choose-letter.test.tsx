@@ -29,7 +29,7 @@ describe("choose letter page", () => {
         session: sb.value,
       }
     );
-    pal.clickButtonOrLink("Start a letter");
+    pal.clickButtonOrLink("Select letter");
     await pal.rt.waitFor(() => pal.rr.getByText(/Your phone number/i));
   });
 
@@ -41,7 +41,7 @@ describe("choose letter page", () => {
         session: sb.withLoggedInJustfixUser().value,
       }
     );
-    pal.clickButtonOrLink("Start a letter");
+    pal.clickButtonOrLink("Select letter");
     await pal.rt.waitFor(() => pal.rr.getByText(/My Letters/i));
   });
 });

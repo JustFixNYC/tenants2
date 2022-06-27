@@ -431,18 +431,34 @@ class TestLaLetterBuilderIssuesMutation:
         OnboardingInfoFactory(user=self.user)
         HabitabilityLetterFactory(user=self.user)
 
-        result = self.execute({"laIssues": ["HEALTH__MOLD__BEDROOM"]})
+        result = self.execute({"laIssues": ["HEALTH__MOLD__BEDROOM", "HEALTH__MOLD__BATHROOM"]})
 
         assert result["errors"] == []
-        assert result["session"]["laIssues"] == ["HEALTH__MOLD__BEDROOM"]
+        assert set(result["session"]["laIssues"]) == set(
+            ["HEALTH__MOLD__BEDROOM", "HEALTH__MOLD__BATHROOM"]
+        )
+
+        result = self.execute(
+            {
+                "laIssues": ["HEALTH__MOLD__KITCHEN"],
+            }
+        )
+        assert result["errors"] == []
+        assert result["session"]["laIssues"] == ["HEALTH__MOLD__KITCHEN"]
+
+    @pytest.mark.django_db
+    def test_it_errors_on_empty_issues(self, db):
+        OnboardingInfoFactory(user=self.user)
+        HabitabilityLetterFactory(user=self.user)
 
         result = self.execute(
             {
                 "laIssues": [],
             }
         )
-        assert result["errors"] == []
-        assert result["session"]["laIssues"] == []
+        assert result["errors"] == [
+            {"field": "__all__", "messages": ["Please select at least one repair issue."]}
+        ]
 
     @pytest.mark.django_db
     def test_issues_is_empty_when_unauthenticated(self, db):
@@ -493,6 +509,7 @@ class TestLaLetterBuilderSendOptionsMutation:
                     session {
                         habitabilityLatestLetter {
                             mailChoice
+                            emailToLandlord
                         }
                         landlordDetails {
                             email
@@ -515,6 +532,7 @@ class TestLaLetterBuilderSendOptionsMutation:
         result = self.execute(
             {
                 "email": "landlord@boop.com",
+                "noLandlordEmail": False,
                 "mailChoice": "USER_WILL_MAIL",
             }
         )
@@ -525,9 +543,67 @@ class TestLaLetterBuilderSendOptionsMutation:
         # Check that changes from our mutation are saved
         assert result["session"]["landlordDetails"]["email"] == "landlord@boop.com"
         assert result["session"]["habitabilityLatestLetter"]["mailChoice"] == "USER_WILL_MAIL"
+        assert result["session"]["habitabilityLatestLetter"]["emailToLandlord"] is True
 
         # Check that no other landlord details are modified
         assert result["session"]["landlordDetails"]["name"] == "Landlordo Calrissian"
+
+    @pytest.mark.django_db
+    def test_it_errors_when_no_email_option_provided(self, db):
+        OnboardingInfoFactory(user=self.user)
+        HabitabilityLetterFactory(user=self.user)
+        LandlordDetailsFactory(user=self.user)
+
+        result = self.execute(
+            {
+                "email": "",
+                "noLandlordEmail": False,
+                "mailChoice": "USER_WILL_MAIL",
+            }
+        )
+
+        # Check that there are no errors
+        print(result["errors"])
+        assert len(result["errors"]) == 1
+        assert (
+            result["errors"][0]["messages"][0]
+            == "Please provide a landlord email or indicate that you do not have this information."
+        )
+
+    @pytest.mark.django_db
+    def test_it_preserves_landlord_details_when_email_false(self, db):
+        OnboardingInfoFactory(user=self.user)
+        HabitabilityLetterFactory(user=self.user)
+        LandlordDetailsFactory(user=self.user)
+
+        result = self.execute(
+            {
+                "email": "landlord@boop.com",
+                "noLandlordEmail": False,
+                "mailChoice": "WE_WILL_MAIL",
+            }
+        )
+
+        # Check that there are no errors
+        assert result["errors"] == []
+
+        result = self.execute(
+            {
+                "email": "",
+                "noLandlordEmail": True,
+                "mailChoice": "USER_WILL_MAIL",
+            }
+        )
+
+        # Check that there are no errors
+        assert result["errors"] == []
+
+        # Check that changes from our mutation are saved
+        assert result["session"]["habitabilityLatestLetter"]["mailChoice"] == "USER_WILL_MAIL"
+        assert result["session"]["habitabilityLatestLetter"]["emailToLandlord"] is False
+
+        # Check that the existing landlord email is not overwritten
+        assert result["session"]["landlordDetails"]["email"] == "landlord@boop.com"
 
     @pytest.mark.django_db
     def test_it_preserves_other_landlord_details(self, db):
@@ -544,6 +620,7 @@ class TestLaLetterBuilderSendOptionsMutation:
         result = self.execute(
             {
                 "email": "landlord@boop.com",
+                "noLandlordEmail": False,
                 "mailChoice": "WE_WILL_MAIL",
             }
         )
@@ -553,6 +630,7 @@ class TestLaLetterBuilderSendOptionsMutation:
 
         # Check that changes from our mutation are saved
         assert result["session"]["landlordDetails"]["email"] == "landlord@boop.com"
+        assert result["session"]["habitabilityLatestLetter"]["emailToLandlord"] is True
 
         # Check that no other landlord details are modified
         assert result["session"]["landlordDetails"]["name"] == "Boop Jones"

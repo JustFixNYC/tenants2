@@ -94,7 +94,7 @@ msgstr "<0>Repairs required</0>"
 msgid "<0>To</0><1/><2>From</2><3/>"
 msgstr "<0>To</0><1/><2>From</2><3/>"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:39
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:52
 msgid "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
 msgstr "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
 
@@ -115,7 +115,7 @@ msgstr "A PDF of your form is attached to this email. Please save a copy for you
 msgid "A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case."
 msgstr "A copy of the declaration has also been sent to your local court via email in order to ensure they have it on record if your landlord attempts to initiate an eviction case."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:74
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:75
 msgid "A copy will be sent to your email and saved to your account."
 msgstr "A copy will be sent to your email and saved to your account."
 
@@ -242,7 +242,7 @@ msgstr "Are you sure you want to log out?"
 msgid "Are you sure you want to proceed with the following address?"
 msgstr "Are you sure you want to proceed with the following address?"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:44
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:45
 msgid "Are you sure you want to send yourself?"
 msgstr "Are you sure you want to send yourself?"
 
@@ -271,7 +271,7 @@ msgstr "Automatically fill in your landlord's information based on your address 
 msgid "Available in English and Spanish."
 msgstr "Available in English and Spanish."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:82
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:83
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
 msgstr "Back"
@@ -835,7 +835,7 @@ msgstr "Email"
 msgid "Email address"
 msgstr "Email address"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:69
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:70
 msgid "Email your letter to:"
 msgstr "Email your letter to:"
 
@@ -1341,7 +1341,7 @@ msgstr "It doesn't seem like this property is required to register with HPD. You
 msgid "It looks like your apartment may be rent stabilized"
 msgstr "It looks like your apartment may be rent stabilized"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:28
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:41
 msgid "It's important to notify your landlord of all months when you couldn't pay rent in full."
 msgstr "It's important to notify your landlord of all months when you couldn't pay rent in full."
 
@@ -1402,7 +1402,7 @@ msgstr "Kentucky"
 msgid "Kitchen"
 msgstr "Kitchen"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:129
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:130
 msgid "Know your rights"
 msgstr "Know your rights"
 
@@ -1610,7 +1610,7 @@ msgstr "Made with NYC ♥ by the team at <0>JustFix.nyc</0>"
 msgid "Mail for me"
 msgstr "Mail for me"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:62
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:63
 msgid "Mail your letter to:"
 msgstr "Mail your letter to:"
 
@@ -1698,11 +1698,11 @@ msgstr "Mold on walls"
 msgid "Montana"
 msgstr "Montana"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:37
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:50
 msgid "Months of rent non-payment"
 msgstr "Months of rent non-payment"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:26
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:39
 msgid "Months you're missing rent payments"
 msgstr "Months you're missing rent payments"
 
@@ -1984,7 +1984,7 @@ msgstr "Photo credits:"
 msgid "Pipes leaking"
 msgstr "Pipes leaking"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:120
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:121
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Please <0>go back and choose a state</0>."
 
@@ -2167,7 +2167,7 @@ msgstr "Right to Privacy (CA)"
 msgid "Right to the City"
 msgstr "Right to the City"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:144
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:145
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Right to the City Alliance can contact me to provide additional support."
 
@@ -2240,7 +2240,7 @@ msgstr "Send code"
 msgid "Send for free"
 msgstr "Send for free"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:45
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:46
 msgid "Send letter now for free"
 msgstr "Send letter now for free"
 
@@ -2747,7 +2747,7 @@ msgstr "We make it easy to notify your landlord by email or by certified mail fo
 msgid "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 msgstr "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:58
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:59
 msgid "We will email your letter to:"
 msgstr "We will email your letter to:"
 
@@ -2824,7 +2824,7 @@ msgstr "We’ll use this information to pull the most up-to-date ordinances that
 msgid "We’ll use this to reference the latest policies that protect your rights as a tenant."
 msgstr "We’ll use this to reference the latest policies that protect your rights as a tenant."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:105
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:106
 msgid "We’ve partnered with <0/> to provide additional support once you’ve sent your letter."
 msgstr "We’ve partnered with <0/> to provide additional support once you’ve sent your letter."
 
@@ -2944,7 +2944,7 @@ msgstr "Who is not protected by NY's COVID-19 Tenant Protection Laws?"
 msgid "Who we are"
 msgstr "Who we are"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:38
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:51
 msgid "Why aren't all months listed?"
 msgstr "Why aren't all months listed?"
 
@@ -3081,11 +3081,11 @@ msgstr "You haven't completed previous steps. Please <0>go back</0>."
 msgid "You most recently sent a letter on {0}."
 msgstr "You most recently sent a letter on {0}."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:53
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:54
 msgid "You will need to print your letter and mail it to your landlord or property manager."
 msgstr "You will need to print your letter and mail it to your landlord or property manager."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:131
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:132
 msgid "You're in <0>{stateName}</0>"
 msgstr "You're in <0>{stateName}</0>"
 
@@ -3609,9 +3609,9 @@ msgstr "<0>Congress passed the CARES Act on March 27, 2020 (Public Law 116-136).
 msgid "norent.letter.floridaAddition"
 msgstr "I have suffered a loss of employment, diminished wages or business income, or other monetary loss realized during the Florida State of Emergency directly impacting my ability to make rent payments."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:91
-msgid "norent.letter.lacountydisclaimer2022"
-msgstr "Because of this new law, for <0>April, May, and June 2022</0>, this tool will only be effective for tenants who live in the <1>City of LA, Pasadena, Beverly Hills, and Maywood</1> with its own non payment protection. If you live in another jurisdiction please check back around July 1, 2022 to continue to use this tool. If you have received an unlawful detainer or have questions about your rights as a tenant please contact <2/>."
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:90
+msgid "norent.letter.lacountydisclaimer2022v2"
+msgstr "As required under section VI.A.1 of the January 25, 2022 Resolution of the Board of Supervisors of the County of Los Angeles Further Amending and Restating the County of Los Angeles COVID-19 Tenant Protections Resolution: For tenants whose income in a particular month is below 80% of Area Median Income, deliver to your landlord within seven (7) days of your rent being due. If you live in another jurisdiction please check back around July 1, 2022 to continue to use this tool. If you have received an unlawful detainer or have questions about your rights as a tenant please contact <0/>."
 
 #: frontend/lib/norent/letter-content.tsx:154
 msgid "norent.letter.v1NonPayment"

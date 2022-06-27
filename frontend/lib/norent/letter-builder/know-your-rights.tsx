@@ -133,17 +133,18 @@ export const StateWithProtectionsContent: ProtectionsContentComponent = (
   props
 ) => (
   <>
-    <p>{props.lawForBuilder.textOfLegislation}</p>
-    {props.lawForBuilder.textOfLegislation?.includes("California") && (
+    {props.lawForBuilder.textOfLegislation?.includes("California") ? (
       <p>
-        <Trans id="norent.letter.lacountydisclaimer2022">
-          Because of this new law, for <b>April, May, and June 2022</b>, this
-          tool will only be effective for tenants who live in the{" "}
-          <b>City of LA, Pasadena, Beverly Hills, and Maywood</b> with its own
-          non payment protection. If you live in another jurisdiction please
-          check back around July 1, 2022 to continue to use this tool. If you
-          have received an unlawful detainer or have questions about your rights
-          as a tenant please contact{" "}
+        <Trans id="norent.letter.lacountydisclaimer2022v2">
+          As required under section VI.A.1 of the January 25, 2022 Resolution of
+          the Board of Supervisors of the County of Los Angeles Further Amending
+          and Restating the County of Los Angeles COVID-19 Tenant Protections
+          Resolution: For tenants whose income in a particular month is below
+          80% of Area Median Income, deliver to your landlord within seven (7)
+          days of your rent being due. If you live in another jurisdiction
+          please check back around July 1, 2022 to continue to use this tool. If
+          you have received an unlawful detainer or have questions about your
+          rights as a tenant please contact{" "}
           <PartnerLink
             organizationName="Stay Housed LA"
             organizationWebsiteLink="https://www.stayhousedla.org/es/referral"
@@ -151,6 +152,8 @@ export const StateWithProtectionsContent: ProtectionsContentComponent = (
           .
         </Trans>
       </p>
+    ) : (
+      <p>{props.lawForBuilder.textOfLegislation}</p>
     )}
     {props.links && <StateLocalResources links={props.links} />}
     <p>

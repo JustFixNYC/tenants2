@@ -117,9 +117,12 @@ export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
       {willContainMultipleLetters && (
         <>
           <p>
-            <Trans>
+            <Trans id="norent.letter.noteAboutLetterStructureOnPreview">
               Please note that your declaration letter will be structured as
-              follows to meet the requirements of California's AB832 law:
+              follows to meet the requirements under section VI.A.1 of the
+              January 25, 2022 Resolution of the Board of Supervisors of the
+              County of Los Angeles Further Amending and Restating the County of
+              Los Angeles COVID-19 Tenant Protections Resolution:
             </Trans>
           </p>
           <ol>

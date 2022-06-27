@@ -20,7 +20,7 @@ msgid "(Name of your language) translation"
 msgstr "(Name of your language) translation"
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:65
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:123
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:126
 msgid "(Note: the email will be sent in English)"
 msgstr "(Note: the email will be sent in English)"
 
@@ -849,7 +849,7 @@ msgid "Email:"
 msgstr "Email:"
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:40
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:99
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:102
 msgid "English version"
 msgstr "English version"
 
@@ -1110,17 +1110,17 @@ msgid "Here is a preview of the request for your Rent History. It includes your 
 msgstr "Here is a preview of the request for your Rent History. It includes your address and apartment number so that the DHCR can mail you."
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:31
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:90
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:93
 msgid "Here's a preview of the letter that will be attached in an email to your landlord:"
 msgstr "Here's a preview of the letter that will be attached in an email to your landlord:"
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:34
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:93
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:96
 msgid "Here's a preview of the letter:"
 msgstr "Here's a preview of the letter:"
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:59
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:118
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:121
 msgid "Here’s a preview of the email that will be sent on your behalf:"
 msgstr "Here’s a preview of the email that will be sent on your behalf:"
 
@@ -1628,7 +1628,7 @@ msgid "Maine"
 msgstr "Maine"
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:79
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:137
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:140
 msgid "Make sure all the information above is correct."
 msgstr "Make sure all the information above is correct."
 
@@ -1883,7 +1883,7 @@ msgstr "Ohio"
 msgid "Oklahoma"
 msgstr "Oklahoma"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:75
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:78
 msgid "One letter for the months between March and August when you couldn't pay rent in full."
 msgstr "One letter for the months between March and August when you couldn't pay rent in full."
 
@@ -2017,10 +2017,6 @@ msgstr "Please enter an email address!"
 msgid "Please enter your landlord's name and contact information below. You can find this information on your lease and/or rent receipts."
 msgstr "Please enter your landlord's name and contact information below. You can find this information on your lease and/or rent receipts."
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:68
-msgid "Please note that your declaration letter will be structured as follows to meet the requirements of California's AB832 law:"
-msgstr "Please note that your declaration letter will be structured as follows to meet the requirements of California's AB832 law:"
-
 #: frontend/lib/norent/letter-email-to-user.tsx:215
 msgid "Please read the rest of this email carefully as it contains important information about your next steps."
 msgstr "Please read the rest of this email carefully as it contains important information about your next steps."
@@ -2035,7 +2031,7 @@ msgstr "Please use a number that can receive text messages."
 msgid "Preferred first name"
 msgstr "Preferred first name"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:102
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:105
 #: frontend/lib/norent/the-letter.tsx:92
 msgid "Preview of your NoRent.org letter"
 msgstr "Preview of your NoRent.org letter"
@@ -2285,7 +2281,7 @@ msgstr "Sending a letter to your landlord is a big step. Check out our frequentl
 msgid "Sending a letter to your landlord is a big step. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
 msgstr "Sending a letter to your landlord is a big step. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
 
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:81
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:84
 msgid "Separate letters for each month starting in September when you couldn't pay rent in full."
 msgstr "Separate letters for each month starting in September when you couldn't pay rent in full."
 
@@ -2590,7 +2586,7 @@ msgid "To learn more about what to do next, check out our FAQ page: {faqURL}"
 msgstr "To learn more about what to do next, check out our FAQ page: {faqURL}"
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:69
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:127
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:130
 msgid "To:"
 msgstr "To:"
 
@@ -2696,7 +2692,7 @@ msgid "View list of organizations"
 msgstr "View list of organizations"
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:46
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:105
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:108
 msgid "View this letter as a PDF"
 msgstr "View this letter as a PDF"
 
@@ -2756,7 +2752,7 @@ msgid "We make it easy to notify your landlord by email or by certified mail for
 msgstr "We make it easy to notify your landlord by email or by certified mail for free."
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:50
-#: frontend/lib/norent/letter-builder/letter-preview.tsx:109
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:112
 msgid "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 msgstr "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 
@@ -3625,6 +3621,10 @@ msgstr "I have suffered a loss of employment, diminished wages or business incom
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:90
 msgid "norent.letter.lacountydisclaimer2022v2"
 msgstr "As required under section VI.A.1 of the January 25, 2022 Resolution of the Board of Supervisors of the County of Los Angeles Further Amending and Restating the County of Los Angeles COVID-19 Tenant Protections Resolution: For tenants whose income in a particular month is below 80% of Area Median Income, deliver to your landlord within seven (7) days of your rent being due. If you live in another jurisdiction please check back around July 1, 2022 to continue to use this tool. If you have received an unlawful detainer or have questions about your rights as a tenant please contact <0/>."
+
+#: frontend/lib/norent/letter-builder/letter-preview.tsx:68
+msgid "norent.letter.noteAboutLetterStructureOnPreview"
+msgstr "Please note that your declaration letter will be structured as follows to meet the requirements under section VI.A.1 of the January 25, 2022 Resolution of the Board of Supervisors of the County of Los Angeles Further Amending and Restating the County of Los Angeles COVID-19 Tenant Protections Resolution:"
 
 #: frontend/lib/norent/letter-content.tsx:154
 msgid "norent.letter.v1NonPayment"

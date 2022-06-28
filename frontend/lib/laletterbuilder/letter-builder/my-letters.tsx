@@ -27,11 +27,22 @@ export const LaLetterBuilderMyLetters: React.FC<ProgressStepProps> = (
 };
 
 interface CompletedLetterCardProps {
-  link: string;
+  pdfBytes: string;
 }
 
 const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
-  const { link, children } = props;
+  const { children, pdfBytes } = props;
+
+  const downloadPdf = () => {
+    const bytes = atob(pdfBytes);
+    const byteChars = bytes.split("").map((el, i) => bytes.charCodeAt(i));
+    const pdfBlob = new Blob([new Uint8Array(byteChars)], {
+      type: "application/pdf;base64",
+    });
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    window.open(pdfUrl);
+  };
+
   return (
     <div className="jf-la-letter-card">
       <div className="content">
@@ -44,13 +55,14 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
           <Trans>Notice to repair letter</Trans>
         </h2>
         {children}
-        <OutboundLink
-          href={link}
-          target="_blank"
-          className="button jf-is-next-button is-primary is-medium"
-        >
-          <Trans>Download letter</Trans>
-        </OutboundLink>
+        {pdfBytes && (
+          <button
+            className="button is-primary is-medium jf-is-next-button"
+            onClick={downloadPdf}
+          >
+            <Trans>Download letter</Trans>
+          </button>
+        )}
       </div>
       <hr />
       <Accordion question={"What's next?"} questionClassName="">
@@ -108,10 +120,7 @@ const MyLettersContent: React.FC = (props) => {
       {processedLetters?.map((el, i) => (
         <CompletedLetterCard
           key={`processed-letter-${i}`}
-          link={
-            LaLetterBuilderRouteInfo.getLocale("en").habitability.letterContent
-              .pdf
-          }
+          pdfBytes={el.pdfBase64}
         >
           <h3>
             <Trans>JustFix is preparing your letter</Trans>
@@ -132,13 +141,7 @@ const MyLettersContent: React.FC = (props) => {
           year: "numeric",
         });
         return (
-          <CompletedLetterCard
-            key={`sent-letter-${i}`}
-            link={
-              LaLetterBuilderRouteInfo.getLocale("en").habitability
-                .letterContent.pdf
-            }
-          >
+          <CompletedLetterCard key={`sent-letter-${i}`} pdfBytes={el.pdfBase64}>
             <h3>{`${li18n._(
               t`JustFix sent your letter on`
             )} ${dateString} `}</h3>

@@ -286,6 +286,7 @@ class HabitabilityLetterType(DjangoObjectType):
             "fully_processed_at",
             "mail_choice",
             "email_to_landlord",
+            "pdf_base64",
         )
 
 

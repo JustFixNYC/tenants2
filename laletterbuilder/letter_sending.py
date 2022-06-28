@@ -1,3 +1,4 @@
+import base64
 from project.util.demo_deployment import is_not_demo_deployment
 from project.util.letter_sending import (
     render_multilingual_letter,
@@ -154,6 +155,7 @@ def send_letter(letter: models.Letter):
     with transaction.atomic():
         letter.html_content = html_content
         letter.localized_html_content = localized_html_content
+        letter.pdf_base64 = base64.b64encode(pdf_bytes).decode("utf-8")
         letter.fully_processed_at = timezone.now()
         letter.full_clean()
         letter.save()

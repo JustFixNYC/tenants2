@@ -81,3 +81,10 @@ class LocalizedHTMLLetter(MailItem):
         blank=True,
         help_text="When the letter was fully processed, i.e. sent to all relevant parties.",
     )
+
+    pdf_base64 = models.TextField(
+        help_text=(
+            "A base64 encoded string representing the English content of the letter."
+        ),
+        blank=True,
+    )

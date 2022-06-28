@@ -17,6 +17,7 @@ const blankHabitabilityLetter = {
   letterSentAt: "",
   fullyProcessedAt: "",
   createdAt: "2020-03-13T19:41:09+00:00",
+  pdfBase64: "",
 };
 
 describe("send options page", () => {

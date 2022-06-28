@@ -52,6 +52,7 @@ describe("my letters page", () => {
             trackingNumber: "",
             letterSentAt: "",
             fullyProcessedAt: "",
+            pdfBase64: "",
             mailChoice: HabitabilityLetterMailChoice.WE_WILL_MAIL,
             emailToLandlord: false,
           },

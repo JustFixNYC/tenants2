@@ -37,6 +37,7 @@ fragment AllSessionInfo on SessionInfo {
     trackingNumber,
     letterSentAt,
     fullyProcessedAt,
+    pdfBase64,
     mailChoice,
     emailToLandlord
   },
@@ -45,6 +46,7 @@ fragment AllSessionInfo on SessionInfo {
     trackingNumber,
     letterSentAt,
     fullyProcessedAt,
+    pdfBase64,
     mailChoice,
     emailToLandlord
   },

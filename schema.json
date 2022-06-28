@@ -3629,6 +3629,22 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "A base64 encoded string representing the English content of the letter.",
+              "isDeprecated": false,
+              "name": "pdfBase64",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "How the letter will be mailed.",
               "isDeprecated": false,
               "name": "mailChoice",

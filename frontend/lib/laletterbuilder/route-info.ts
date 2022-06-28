@@ -12,13 +12,12 @@ import {
 import { createHabitabilityRouteInfo } from "./letter-builder/habitability/route-info";
 
 function createLocalizedRouteInfo(prefix: string) {
-  const login = `${prefix}/login`;
   return {
     /** The locale prefix, e.g. `/en`. */
     [ROUTE_PREFIX]: prefix,
 
     /** The login page. */
-    login,
+    login: `${prefix}/login`,
 
     /** The logout page. */
     logout: `${prefix}/logout`,

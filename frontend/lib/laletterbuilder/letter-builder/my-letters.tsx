@@ -139,7 +139,9 @@ const MyLettersContent: React.FC = (props) => {
                 .letterContent.pdf
             }
           >
-            <h3>{`JustFix sent your letter on ${dateString} `}</h3>
+            <h3>{`${li18n._(
+              t`JustFix sent your letter on`
+            )} ${dateString} `}</h3>
             <p className="jf-laletterbuilder-letter-tracking">
               <Trans>USPS tracking number:</Trans>{" "}
               <OutboundLink

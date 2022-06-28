@@ -16,7 +16,7 @@ type CommonLocalizedSiteRoutes = {
   home: string;
 
   /** Create a link to the login page, if the site has one. */
-  createLoginLink?: (next: History.Location) => string;
+  createLoginLink?: (next: History.Location, prefix: string) => string;
 };
 
 /** Common non-localized routes all our sites support. */

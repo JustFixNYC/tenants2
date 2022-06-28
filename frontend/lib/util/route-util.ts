@@ -1,6 +1,7 @@
 import { matchPath } from "react-router-dom";
 import i18n, { makeLocalePathPrefix } from "../i18n";
 import { LocaleChoice } from "../../../common-data/locale-choices";
+import History from "history";
 
 /**
  * Querystring argument for specifying the URL to redirect the
@@ -205,4 +206,13 @@ export function createRoutesForSite<LocalizedRoutes, NonLocalizedRoutes>(
 export function pathWithHash(pathname: string, hashId?: string): string {
   if (!hashId) return pathname;
   return `${pathname}#${hashId}`;
+}
+
+export function createLoginLink(
+  next: History.Location,
+  prefix: string
+): string {
+  return `${prefix}/login?${NEXT}=${encodeURIComponent(
+    next.pathname + next.search
+  )}`;
 }

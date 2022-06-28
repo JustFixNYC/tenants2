@@ -83,8 +83,6 @@ class LocalizedHTMLLetter(MailItem):
     )
 
     pdf_base64 = models.TextField(
-        help_text=(
-            "A base64 encoded string representing the English content of the letter."
-        ),
+        help_text="A base64 encoded string representing the English content of the letter.",
         blank=True,
     )

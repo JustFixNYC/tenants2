@@ -4,9 +4,12 @@ import {
   createHtmlEmailStaticPageRouteInfo,
   createLetterStaticPageRouteInfo,
 } from "../static-page/routes";
-import { NEXT, ROUTE_PREFIX, createRoutesForSite } from "../util/route-util";
+import {
+  ROUTE_PREFIX,
+  createRoutesForSite,
+  createLoginLink,
+} from "../util/route-util";
 import { createHabitabilityRouteInfo } from "./letter-builder/habitability/route-info";
-import History from "history";
 
 function createLocalizedRouteInfo(prefix: string) {
   const login = `${prefix}/login`;
@@ -30,11 +33,7 @@ function createLocalizedRouteInfo(prefix: string) {
      * Create a login link that redirects the user to the given location
      * after they've logged in.
      */
-    createLoginLink(next: History.Location): string {
-      return `${login}?${NEXT}=${encodeURIComponent(
-        next.pathname + next.search
-      )}`;
-    },
+    createLoginLink,
 
     chooseLetter: `${prefix}/choose-letter`,
 

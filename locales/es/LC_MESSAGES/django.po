@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-21 23:28+0000\n"
-"PO-Revision-Date: 2022-06-22 00:48\n"
+"PO-Revision-Date: 2022-06-29 15:20\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -115,8 +115,8 @@ msgstr "Tu dirección parece estar dentro de la ciudad de Nueva York. Por favor,
 
 #: norent/schema.py:451
 #, python-format
-msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
-msgstr "Bienvenido/a %(site_name)s, un producto de JustFix.nyc. Te enviaremos notificaciones desde este número de teléfono."
+msgid "Welcome to %(site_name)s, a product by JustFix. We'll be sending you notifications from this phone number."
+msgstr ""
 
 #: norent/sms_reminders.py:26
 #, python-format

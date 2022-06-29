@@ -25,10 +25,10 @@ export const Footer = (props: { pathname?: string }) => {
         <div className="columns">
           <div className="column is-8">
             <div className="content">
-              <LegalDisclaimer website="JustFix.nyc" />
+              <LegalDisclaimer website="JustFix" />
               <p>
                 <Trans>
-                  JustFix.nyc is a registered 501(c)(3) nonprofit organization.
+                  JustFix is a registered 501(c)(3) nonprofit organization.
                 </Trans>
               </p>
             </div>
@@ -38,7 +38,7 @@ export const Footer = (props: { pathname?: string }) => {
             <p>
               <Trans>
                 Made with NYC ♥ by the team at{" "}
-                <a href="https://justfix.nyc">JustFix.nyc</a>
+                <a href="https://justfix.org">JustFix</a>
               </Trans>
             </p>
             <CreditForLHI pathname={props.pathname} />

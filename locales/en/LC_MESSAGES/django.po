@@ -116,7 +116,7 @@ msgstr ""
 
 #: norent/schema.py:451
 #, python-format
-msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
+msgid "Welcome to %(site_name)s, a product by JustFix. We'll be sending you notifications from this phone number."
 msgstr ""
 
 #: norent/sms_reminders.py:26

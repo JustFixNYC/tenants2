@@ -54,8 +54,7 @@ export const NorentCreateAccount = NorentOnboardingStep((props) => {
             />
             <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
               <Trans>
-                Yes, JustFix.nyc can text me to follow up about my housing
-                issues.
+                Yes, JustFix can text me to follow up about my housing issues.
               </Trans>
             </CheckboxFormField>
             <CheckboxFormField {...ctx.fieldPropsFor("agreeToTerms")}>

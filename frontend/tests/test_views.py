@@ -92,7 +92,7 @@ def test_analytics_are_disabled_for_staff(admin_client):
 def test_index_works_when_not_in_safe_mode(client):
     response = client.get(react_url("/"))
     assert response.status_code == 200
-    assert "JustFix.nyc" in response.context["title_tag"]
+    assert "JustFix" in response.context["title_tag"]
     assert "<nav" in response.context["initial_render"]
 
     html = response.content.decode("utf-8")

@@ -171,7 +171,7 @@ const ServiceInstructionsHeader: React.FC<ServiceInstructionsProps> = (props) =>
         Follow these instructions to serve your HP Action papers on your
         landlord and/or management company. They will guide you through the
         process starting from the moment you submitted your HP Action through
-        JustFix.nyc.
+        JustFix.
       </p>
       <p>PLEASE MAKE SURE TO READ THIS ENTIRE PAGE.</p>
       <hr />
@@ -186,7 +186,7 @@ const ServiceInstructionsHeader: React.FC<ServiceInstructionsProps> = (props) =>
       )}
       <p>Hello {props.firstName},</p>
       <p>
-        This is JustFix.nyc following up with some{" "}
+        This is JustFix following up with some{" "}
         <strong>next steps and instructions</strong> now that you’ve filed an
         “HP Action” case in Housing Court for{" "}
         {CASE_TYPE_NAMES[toCaseType(props)]}.
@@ -202,11 +202,11 @@ const ServiceInstructionsFooter: React.FC<ServiceInstructionsProps> = (props) =>
       <hr />
       <p>
         If you have any further questions, please feel free to email{" "}
-        <EmailLink to={"documents@justfix.nyc"} /> explaining your concerns and
+        <EmailLink to={"documents@justfix.org"} /> explaining your concerns and
         we will be in touch to help.
       </p>
       <p>
-        <strong>The JustFix.nyc Team</strong>
+        <strong>The JustFix Team</strong>
       </p>
     </>
   ) : (
@@ -216,7 +216,7 @@ const ServiceInstructionsFooter: React.FC<ServiceInstructionsProps> = (props) =>
         email and we will be in touch to help.
       </p>
       <p>Kind regards,</p>
-      <p>The JustFix.nyc Team</p>
+      <p>The JustFix Team</p>
     </>
   );
 

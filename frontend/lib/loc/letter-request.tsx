@@ -32,7 +32,7 @@ export const SendConfirmModal = withAppContext(
         render={(ctx) => (
           <>
             <p>
-              JustFix.nyc will send this letter via USPS Certified Mail
+              JustFix will send this letter via USPS Certified Mail
               <sup>&reg;</sup> to your landlord:
             </p>
             <address className="has-text-centered">

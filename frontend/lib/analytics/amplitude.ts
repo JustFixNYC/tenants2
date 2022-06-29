@@ -356,7 +356,7 @@ function findBestPage(pathname: string, mapping: StringMapping): string {
 }
 
 /**
- * Given a URL pathname on the app.justfix.nyc site,
+ * Given a URL pathname on the app.justfix.org site,
  * returns the type of page it refers to, for the
  * purposes of naming Amplitude events.
  */

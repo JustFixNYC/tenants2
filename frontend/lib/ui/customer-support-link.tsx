@@ -1,7 +1,7 @@
 import React from "react";
 import { OutboundLink } from "./outbound-link";
 
-const CUSTOMER_SUPPORT_EMAIL = "support@justfix.nyc";
+const CUSTOMER_SUPPORT_EMAIL = "support@justfix.org";
 
 function EmailLink({ email }: { email: string }) {
   return <OutboundLink href={`mailto:${email}`}>{email}</OutboundLink>;

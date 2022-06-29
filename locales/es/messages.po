@@ -640,7 +640,7 @@ msgstr "Continuar"
 msgid "Continue anyway"
 msgstr "Aún así continuar"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:139
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:140
 msgid "Continue letter"
 msgstr ""
 
@@ -771,7 +771,7 @@ msgstr "¿Aún tengo que pagar la renta?"
 msgid "Do you have a current eviction court case?"
 msgstr "¿Tiene usted un caso de desalojo en curso?"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:110
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:111
 msgid "Do you have another housing issue that you need to address?"
 msgstr ""
 
@@ -783,7 +783,7 @@ msgstr "¿Vives en {0}, {1}?"
 msgid "Do you still want to mail to:"
 msgstr "¿Aún deseas continuar?"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:132
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:133
 msgid "Document repairs needed in your home, and send a formal request to your landlord"
 msgstr ""
 
@@ -1236,11 +1236,11 @@ msgstr "Cómo funciona"
 msgid "I agree to the <0/> terms and conditions."
 msgstr "Acepto los términos y condiciones de <0/>."
 
-#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:37
+#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:36
 msgid "I agree to the <0>Eviction Free NY terms and conditions</0>."
 msgstr "Acepto los <0>términos y condiciones de Eviction Free NY</0>."
 
-#: frontend/lib/norent/letter-builder/create-account.tsx:43
+#: frontend/lib/norent/letter-builder/create-account.tsx:42
 msgid "I agree to the <0>NoRent.org terms and conditions</0>."
 msgstr "Acepto los <0>términos y condiciones de NoRent.org</0>."
 
@@ -1339,7 +1339,7 @@ msgstr "Si aún así quieres crear una cuenta, podemos enviarte noticias en el f
 msgid "Illinois"
 msgstr "Illinois"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:129
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:130
 msgid "In progress"
 msgstr ""
 
@@ -1455,12 +1455,16 @@ msgstr "JustFix and SAJE are registered 501(c)(3) nonprofit organizations."
 msgid "JustFix can text me to follow up about my housing issues."
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:82
+#: frontend/lib/ui/footer.tsx:27
+msgid "JustFix is a registered 501(c)(3) nonprofit organization."
+msgstr ""
+
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:83
 msgid "JustFix is preparing your letter"
 msgstr ""
 
-#: frontend/lib/ui/footer.tsx:27
-msgid "JustFix is a registered 501(c)(3) nonprofit organization."
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:101
+msgid "JustFix sent your letter on"
 msgstr ""
 
 #: frontend/lib/rh/routes.tsx:263
@@ -1832,7 +1836,7 @@ msgid "My issue is urgent and time sensitive. What should I do?"
 msgstr ""
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:17
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:154
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:155
 msgid "My letters"
 msgstr "My letters"
 
@@ -1976,7 +1980,7 @@ msgid "Notice to Repair"
 msgstr "Notice to Repair"
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:27
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:125
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:126
 msgid "Notice to repair letter"
 msgstr ""
 
@@ -2324,7 +2328,7 @@ msgstr "Ejemplar de una carta de NoRent.org"
 msgid "Search address"
 msgstr "Dirección de búsqueda"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:76
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:77
 msgid "See all your finished and unfinished letters"
 msgstr ""
 
@@ -2541,7 +2545,7 @@ msgstr "Iniciar"
 msgid "Start a legal case for repairs and/or harassment"
 msgstr "Empieza un caso legal por arreglos y/o acoso"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:147
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:148
 msgid "Start letter"
 msgstr ""
 
@@ -2549,7 +2553,7 @@ msgstr ""
 msgid "Start my request"
 msgstr "Iniciar mi solicitud"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:144
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:145
 msgid "Start your letter now"
 msgstr ""
 
@@ -2736,7 +2740,7 @@ msgstr "Correo Certificado de USPS"
 msgid "USPS Tracking #:"
 msgstr "Número de Seguimiento USPS:"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:102
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:103
 msgid "USPS tracking number:"
 msgstr ""
 
@@ -2822,7 +2826,7 @@ msgstr ""
 msgid "View list of organizations"
 msgstr "Ver lista de organizaciones"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:115
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:116
 msgid "View other letters"
 msgstr ""
 
@@ -3401,7 +3405,7 @@ msgstr ""
 msgid "Your residence"
 msgstr "Tu hogar"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:85
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:86
 msgid "Your tracking number will appear here once the letter has been sent."
 msgstr ""
 

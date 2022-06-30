@@ -44,7 +44,7 @@ def test_nothing_is_mailed_to_landlord_if_already_sent(settings):
 def test_nothing_is_emailed_to_user_on_demo_deployment(settings, mailoutbox, db):
     settings.IS_DEMO_DEPLOYMENT = True
     letter = HabitabilityLetterFactory()
-    letter.user.email = "notnull@justfix.org"
+    letter.user.email = "notnull@justfix.nyc"
     assert email_letter_to_user(letter, b"blah") is True
     assert len(mailoutbox) == 0
 

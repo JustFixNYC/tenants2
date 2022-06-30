@@ -35,7 +35,7 @@ class TestCreateVerificationCode(BaseTest):
         assert len(key) == 6
 
         assert len(smsoutbox) == 1
-        assert smsoutbox[0].body == f"JustFix here! Your verification code is {key}."
+        assert smsoutbox[0].body == f"JustFix.nyc here! Your verification code is {key}."
 
         assert len(mailoutbox) == 0
 

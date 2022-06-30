@@ -102,7 +102,7 @@ export const createLeaseModals = (
           Good news! As a rent regulated tenant, you likely have extra
           protections against retaliation. Want to find out if you’re being
           overcharged? Order your rent history{" "}
-          <OutboundLink href="https://app.justfix.org/en/rh/splash">
+          <OutboundLink href="https://app.justfix.nyc/en/rh/splash">
             here
           </OutboundLink>
           !
@@ -256,7 +256,7 @@ export const createLeaseLearnMoreModals = (
         <p>
           New York City has many kinds of housing. Learn more by ordering your
           rent history{" "}
-          <OutboundLink href="https://app.justfix.org/en/rh/splash">
+          <OutboundLink href="https://app.justfix.nyc/en/rh/splash">
             here
           </OutboundLink>{" "}
           or reading about{" "}

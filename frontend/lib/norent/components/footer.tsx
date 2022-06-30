@@ -54,7 +54,7 @@ export const NorentFooter: React.FC<{}> = () => (
               <NorentLogo size="is-64x64" color="white">
                 NoRent
               </NorentLogo>{" "}
-              <span>brought to you by JustFix</span>
+              <span>brought to you by JustFix.nyc</span>
             </Trans>
           </div>
         </div>

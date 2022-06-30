@@ -407,12 +407,12 @@ const KYR_LINKS: LocalizedOutboundLinkProps[] = [
     },
   },
   {
-    children: <Trans>JustFix's Learning Center</Trans>,
+    children: <Trans>JustFix.nyc's Learning Center</Trans>,
     hrefs: {
       en:
-        "https://www.justfix.org/en/learn?utm_source=tenantplatform&utm_medium=rh",
+        "https://www.justfix.nyc/en/learn?utm_source=tenantplatform&utm_medium=rh",
       es:
-        "https://www.justfix.org/es/learn?utm_source=tenantplatform&utm_medium=rh",
+        "https://www.justfix.nyc/es/learn?utm_source=tenantplatform&utm_medium=rh",
     },
   },
 ];
@@ -449,9 +449,9 @@ function RentalHistoryConfirmation(): JSX.Element {
           <LocalizedOutboundLink
             hrefs={{
               en:
-                "https://www.justfix.org/en/learn/my-landlord-is-overcharging-me",
+                "https://www.justfix.nyc/en/learn/my-landlord-is-overcharging-me",
               es:
-                "https://www.justfix.org/es/learn/my-landlord-is-overcharging-me",
+                "https://www.justfix.nyc/es/learn/my-landlord-is-overcharging-me",
             }}
           >
             Learning Center article on Rent Overcharge

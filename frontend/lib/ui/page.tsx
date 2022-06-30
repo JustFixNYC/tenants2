@@ -37,7 +37,7 @@ export const SiteName: React.FC<{
 function getSiteBaseName(siteType: SiteChoice): string {
   switch (siteType) {
     case "JUSTFIX":
-      return "JustFix";
+      return "JustFix.nyc";
 
     case "NORENT":
       return "NoRent.org";

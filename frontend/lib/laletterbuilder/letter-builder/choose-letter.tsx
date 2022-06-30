@@ -28,12 +28,12 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
           title={li18n._(t`Notice to Repair`)}
           time_mins={15}
           text={li18n._(
-            t`Document repairs needed in your home, and send a formal request to your landlord`
+            t`Write your landlord a letter to formally document your request for repairs.`
           )}
           buttonProps={{
             to: LaLetterBuilderRouteInfo.locale.habitability.latestStep,
             className: "button is-primary is-medium",
-            text: li18n._(t`Start a letter`),
+            text: li18n._(t`Select letter`),
           }}
           information={repairsInformationNeeded}
         />
@@ -42,24 +42,25 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
         <p>{li18n._(t`We're working on adding more letters.`)}</p>
         <p className="subtitle">
           {li18n._(
-            t`Until then here are some other forms you can fill in and mail yourself.`
+            t`Until then, here are some other forms you can fill, print and mail yourself.`
           )}
         </p>
         <LetterCard
           title={li18n._(t`Right to Privacy`)}
           time_mins={15}
-          text={li18n._(t`Your landlord can't enter your unit whenever they want. Create a formal request
-          which asks your landlord to follow proper protocol and respect your right to privacy.`)}
+          text={li18n._(
+            t`Landlords must give 24-hour written notice to enter your unit. Make a formal request that your landlord respect your right to privacy.`
+          )}
           buttonProps={{
             to:
               "https://justfix.formstack.com/forms/saje_right_to_privacy_letter_builder_form",
             className: "button is-light is-medium",
             text: li18n._(t`Go to form`),
           }}
-          information={violationInformationNeeded}
+          information={privacyInformationNeeded}
         />
         <LetterCard
-          title={li18n._(t`Harassment`)}
+          title={li18n._(t`Anti-Harassment`)}
           time_mins={10}
           text={li18n._(
             t`Document the harassment you and your family are experiencing and send a notice to your landlord.`
@@ -70,13 +71,13 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
             className: "button is-light is-medium",
             text: li18n._(t`Go to form`),
           }}
-          information={violationInformationNeeded}
+          information={harassmentInformationNeeded}
         />
         <LetterCard
           title={li18n._(t`Private Right of Action`)}
           time_mins={10}
           text={li18n._(
-            t`The City of LA allows residential tenants to sue for violations of COVID-19 renter protections. Take the first step by documenting violations and notifying your landlord.`
+            t`The City of LA allows residential tenants to sue for violations of COVID-19 renter protections. Document violations and notify your landlord. `
           )}
           buttonProps={{
             to:
@@ -84,7 +85,7 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
             className: "button is-light is-medium",
             text: li18n._(t`Go to form`),
           }}
-          information={violationInformationNeeded}
+          information={rightOfActionInformationNeeded}
         />
         <div className="buttons jf-two-buttons">
           <SimpleClearAnonymousSessionButton
@@ -98,17 +99,26 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
 };
 
 const repairsInformationNeeded = [
-  li18n._(t`Your contact details`),
-  li18n._(t`Your landlord's contact details`),
-  li18n._(t`An idea of all the repairs needed in your home`),
-  li18n._(t`Dates and time you'll be available for repairs`),
+  li18n._(t`Repairs needed in your home`),
+  li18n._(t`Dates and times you’ll be available for repairs`),
+  li18n._(t`Landlord or property manager’s contact information`),
 ];
 
-const violationInformationNeeded = [
-  li18n._(t`Your contact details`),
-  li18n._(t`Your landlord's contact details`),
-  li18n._(t`Dates that the violation occurred`),
-  li18n._(t`Details about the violation`),
+const privacyInformationNeeded = [
+  li18n._(t`Dates when the landlord tried to access your home`),
+  li18n._(t`Landlord or property manager’s contact information`),
+];
+
+const harassmentInformationNeeded = [
+  li18n._(t`Dates the harassment occurred`),
+  li18n._(t`Details about the events`),
+  li18n._(t`Landlord or property manager’s contact information`),
+];
+
+const rightOfActionInformationNeeded = [
+  li18n._(t`Dates the COVID-19 renter protections were violated`),
+  li18n._(t`Details about the events`),
+  li18n._(t`Landlord or property manager’s contact information`),
 ];
 
 type LetterCardButtonProps = {

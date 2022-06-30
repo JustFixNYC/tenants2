@@ -7,13 +7,13 @@ import { waitFor } from "@testing-library/react";
 describe("NorentSite", () => {
   const route = <Route render={(props) => <NorentSite {...props} />} />;
 
-  it("renders 404 page", () => {
+  it("renders 404 page", async () => {
     const pal = new AppTesterPal(route, { url: "/blarg" });
-    waitFor(() => pal.rr.getByText(/doesn't seem to exist/i));
+    await waitFor(() => pal.rr.getByText(/doesn't seem to exist/i));
   });
 
-  it("renders home page", () => {
+  it("renders home page", async () => {
     const pal = new AppTesterPal(route, { url: "/en/" });
-    waitFor(() => pal.rr.getByText(/Can't pay rent/i));
+    await waitFor(() => pal.rr.getByText(/Can't pay rent/i));
   });
 });

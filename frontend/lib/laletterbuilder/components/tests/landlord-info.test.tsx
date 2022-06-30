@@ -3,7 +3,7 @@ import { BlankLandlordDetailsType } from "../../../queries/LandlordDetailsType";
 import { AppTesterPal } from "../../../tests/app-tester-pal";
 import { LaLetterBuilderRouteInfo } from "../../route-info";
 import { newSb } from "../../../tests/session-builder";
-import { LandlordNameAddressEmailMutation } from "../../../queries/LandlordNameAddressEmailMutation";
+import { LandlordNameAddressMutation } from "../../../queries/LandlordNameAddressMutation";
 import HabitabilityRoutes from "../../letter-builder/habitability/routes";
 
 const sb = newSb().withLoggedInJustfixUser();
@@ -16,7 +16,7 @@ describe("landlord details page", () => {
         landlordDetails: BlankLandlordDetailsType,
       }).value,
     });
-    pal.rr.getByText(/Your landlord or management company's information/i);
+    pal.rr.getByText(/Landlord or property manager name/i);
     pal.rr.getByText(/Back/);
     pal.rr.getByText(/Next/);
   });
@@ -34,7 +34,6 @@ describe("landlord details page", () => {
     const state = "NY";
     const zipCode = "11299";
     const address = `${primaryLine}\n${city}, ${state} ${zipCode}`;
-    const email = "boopsy@boopmail.com";
 
     pal.fillFormFields([
       [/name/i, name],
@@ -42,18 +41,16 @@ describe("landlord details page", () => {
       [/city/i, city],
       [/state/i, state],
       [/zip/i, zipCode],
-      [/email/i, email],
     ]);
     pal.clickButtonOrLink("Next");
     pal
-      .withFormMutation(LandlordNameAddressEmailMutation)
+      .withFormMutation(LandlordNameAddressMutation)
       .expect({
         name,
         primaryLine,
         city,
         state,
         zipCode,
-        email,
       })
       .respondWith({
         isUndeliverable: null,

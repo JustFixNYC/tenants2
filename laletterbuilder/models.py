@@ -8,6 +8,7 @@ from abc import abstractmethod
 
 LETTER_TYPE_CHOICES = Choices.from_file("la-letter-builder-letter-choices.json")
 LA_ISSUE_CHOICES = Choices.from_file("issue-choices-laletterbuilder.json")
+LA_MAILING_CHOICES = Choices.from_file("laletterbuilder-mailing-choices.json")
 VALUE_MAXLEN = 100
 
 
@@ -22,6 +23,20 @@ class Letter(LocalizedHTMLLetter):
 
     user = models.ForeignKey(
         JustfixUser, on_delete=models.CASCADE, related_name="laletterbuilder_letters"
+    )
+
+    mail_choice = models.TextField(
+        max_length=30,
+        choices=LA_MAILING_CHOICES.choices,
+        help_text="How the letter will be mailed.",
+        default=LA_MAILING_CHOICES.WE_WILL_MAIL,
+    )
+    email_to_landlord = models.BooleanField(
+        default=False,
+        help_text=(
+            "Whether to email a copy of the letter to the landlord. "
+            "Requires a landlord email to be provided"
+        ),
     )
 
     @abstractmethod

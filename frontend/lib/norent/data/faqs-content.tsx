@@ -537,44 +537,6 @@ export const getFaqsContent: () => Faq[] = () => [
     answerFull: <NonpaymentDocumentation />,
   },
   {
-    question: li18n._(
-      t`What if I live in a state without an eviction moratorium?`
-    ),
-    category: "States with Limited Protections",
-    answerFull: (
-      <Trans id="norent.instructionsForStatesWithLimitedProtections_v2">
-        <p>
-          <SendCDCDeclarationBlurb />
-        </p>
-        <p>
-          Also know that you’re not alone. In states without eviction
-          moratoriums, it’s important to both protect yourself legally and build
-          collective power with other tenants.
-        </p>
-        <p>
-          First, start by making sure that all communication between you and
-          your landlord is documented in writing. Begin collecting all
-          documentation of any hardships related to COVID-19. If you’re facing
-          an emergency, immediately find legal assistance in your state at{" "}
-          <LawHelpLink />.
-        </p>
-        <p>
-          Next, connect safely with other tenants in your building or home.
-          Start by organizing a means of communicating with one another to find
-          out what issues and needs you share in common. For more resources on
-          forming a tenant union check out <RentStrike2020Link />. You may also
-          connect with local organizing groups affiliated with the national{" "}
-          <RightToTheCityLink />.
-        </p>
-        <p>
-          Finally, join millions of tenants who are working hard to fight for
-          national tenant protections, an immediate rent freeze, and rent
-          suspension. Sign on at <CancelRentLink />.
-        </p>
-      </Trans>
-    ),
-  },
-  {
     question: li18n._(t`How can I document my hardships related to COVID-19?`),
     category: "States with Limited Protections",
     answerFull: <NonpaymentDocumentation />,

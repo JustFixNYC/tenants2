@@ -19,6 +19,8 @@ from frontend.static_content import (
 from project.util.site_util import SITE_CHOICES
 from project import slack, locales
 
+from laletterbuilder.models import LA_MAILING_CHOICES
+
 
 # The URL, relative to the localized site root, that renders the LA Letter builder
 # letter PDF.
@@ -31,6 +33,9 @@ LALETTERBUILDER_EMAIL_TO_LANDLORD_URL = "letter-email.txt"
 # The URL, relative to the localized site root, that renders the LA Letter builder
 # email to the user.
 LALETTERBUILDER_EMAIL_TO_USER_URL = "letter-email-to-user.html"
+
+# Set to true when we are ready to test LOB letter sending
+LETTER_SENDING_ENABLED = True
 
 logger = logging.getLogger(__name__)
 
@@ -66,6 +71,23 @@ def email_letter_to_landlord(letter: models.Letter, pdf_bytes: bytes):
 
     letter.letter_emailed_at = timezone.now()
     letter.save()
+    return True
+
+
+def email_letter_to_user(letter: models.Letter, pdf_bytes: bytes):
+    if is_not_demo_deployment(f"emailing {letter} to user"):
+        letter_type = letter.get_letter_type()
+        email_react_rendered_content_with_attachment(
+            SITE_CHOICES.LALETTERBUILDER,
+            letter.user,
+            LALETTERBUILDER_EMAIL_TO_USER_URL,
+            is_html_email=True,
+            recipients=[letter.user.email],
+            attachment=laletterbuilder_pdf_response(pdf_bytes, letter_type),
+            # Use the user's preferred locale, since they will be the one
+            # reading it.
+            locale=letter.user.locale,
+        )
     return True
 
 
@@ -113,11 +135,14 @@ def send_letter(letter: models.Letter):
     letter_type = letter.get_letter_type()  # TODO: localize this somewhere
     ld = user.landlord_details
 
-    # TODO: fill in user pref
-    if ld.email:
+    if ld.email and letter.email_to_landlord:
         email_letter_to_landlord(letter, pdf_bytes)
 
-    if ld.address_lines_for_mailing:
+    if (
+        ld.address_lines_for_mailing
+        and letter.mail_choice == LA_MAILING_CHOICES.WE_WILL_MAIL
+        and LETTER_SENDING_ENABLED
+    ):
         send_letter_via_lob(
             letter,
             pdf_bytes,
@@ -125,19 +150,7 @@ def send_letter(letter: models.Letter):
         )
 
     if user.email:
-        pass
-        # TODO: add letter-email-to-user page on the front end
-        # email_react_rendered_content_with_attachment(
-        #     SITE_CHOICES.LALETTERBUILDER,
-        #     user,
-        #     LALETTERBUILDER_EMAIL_TO_USER_URL,
-        #     is_html_email=True,
-        #     recipients=[user.email],
-        #     attachment=laletterbuilder_pdf_response(pdf_bytes, letter_type),
-        #     # Use the user's preferred locale, since they will be the one
-        #     # reading it.
-        #     locale=user.locale,
-        # )
+        email_letter_to_user(letter, pdf_bytes)
 
     slack.sendmsg_async(
         f"{slack.hyperlink(text=user.best_first_name, href=user.admin_url)} "

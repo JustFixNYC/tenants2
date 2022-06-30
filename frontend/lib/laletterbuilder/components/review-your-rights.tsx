@@ -1,0 +1,50 @@
+import { t, Trans } from "@lingui/macro";
+import React from "react";
+import { li18n } from "../../i18n-lingui";
+import { ProgressButtonsAsLinks } from "../../ui/buttons";
+import { OutboundLink } from "../../ui/outbound-link";
+import Page from "../../ui/page";
+import { LaLetterBuilderOnboardingStep } from "../letter-builder/step-decorators";
+
+export const LaLetterBuilderReviewRights = LaLetterBuilderOnboardingStep(
+  (props) => {
+    return (
+      <Page
+        title={li18n._(t`Review your rights as a tenant`)}
+        withHeading="big"
+        className="content"
+      >
+        <h3>
+          <Trans id="laletterbuilder.reviewTenantRightsIntro">
+            Tenants have a right to a safe home, without harassment. Sending a
+            letter to notify your landlord is within your rights.
+          </Trans>
+        </h3>
+        <p>
+          <Trans id="laletterbuilder.retaliationOptions">
+            If your landlord is retaliating against you for exercising your
+            rights, you can:
+            <li>
+              Attend SAJE's{" "}
+              <OutboundLink href="https://www.saje.net/what-we-do/tenant-action-clinic/">
+                Tenant Action Clinic
+              </OutboundLink>
+            </li>
+            <li>
+              Open a complaint with{" "}
+              <OutboundLink href="https://housing.lacity.org/residents/file-a-complaint">
+                Los Angeles Housing Department (LAHD)
+              </OutboundLink>{" "}
+              if you live in the City of LA or{" "}
+              <OutboundLink href="http://publichealth.lacounty.gov/eh/about/contact-us.htm#customer-call-center">
+                Public Health
+              </OutboundLink>{" "}
+              if you live someplace else in LA County
+            </li>
+          </Trans>
+        </p>
+        <ProgressButtonsAsLinks back={props.prevStep} next={props.nextStep} />{" "}
+      </Page>
+    );
+  }
+);

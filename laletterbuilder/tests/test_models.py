@@ -1,7 +1,12 @@
 import pytest
 
 from .factories import HabitabilityLetterFactory, LaIssueFactory
-from laletterbuilder.models import LA_ISSUE_CHOICES, VALUE_MAXLEN, HabitabilityLetter
+from laletterbuilder.models import (
+    LA_ISSUE_CHOICES,
+    LA_MAILING_CHOICES,
+    VALUE_MAXLEN,
+    HabitabilityLetter,
+)
 
 
 class TestHabitabilityLetter:
@@ -11,8 +16,18 @@ class TestHabitabilityLetter:
 
     @pytest.mark.django_db
     def test_str_works_on_filled_out_models(self, db):
-        decl = HabitabilityLetterFactory()
-        assert str(decl) == "Boop Jones's Habitability LA Letter Builder letter"
+        letter = HabitabilityLetterFactory()
+        assert str(letter) == "Boop Jones's Habitability LA Letter Builder letter"
+
+    @pytest.mark.django_db
+    def test_default_mail_choice(self, db):
+        letter = HabitabilityLetterFactory()
+        assert str(letter.mail_choice) == LA_MAILING_CHOICES.WE_WILL_MAIL
+
+    @pytest.mark.django_db
+    def test_default_email_to_landlord(self, db):
+        letter = HabitabilityLetterFactory()
+        assert str(letter.email_to_landlord) == "False"
 
 
 class TestHabitabilityIssues:

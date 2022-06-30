@@ -15,42 +15,44 @@ import { DemoDeploymentNote } from "../../ui/demo-deployment-note";
 import Page from "../../ui/page";
 import { LaLetterBuilderRouteInfo } from "../route-info";
 import {
-  BlankLandlordNameAddressEmailInput,
-  LandlordNameAddressEmailMutation,
-} from "../../queries/LandlordNameAddressEmailMutation";
-import { optionalizeLabel } from "../../forms/optionalize-label";
+  BlankLandlordNameAddressInput,
+  LandlordNameAddressMutation,
+} from "../../queries/LandlordNameAddressMutation";
 import { exactSubsetOrDefault } from "../../util/util";
 import { WhereDoIFindLandlordInfo } from "../../common-steps/landlord-name-and-contact-types";
 
-export const LaLetterBuilderLandlordNameAddressEmail = MiddleProgressStep(
+export const LaLetterBuilderLandlordNameAddress = MiddleProgressStep(
   (props) => (
-    <LandlordNameAddressEmail
+    <LandlordNameAddress
       {...props}
       confirmModalRoute={
         LaLetterBuilderRouteInfo.locale.habitability.landlordAddressConfirmModal
       }
     >
-      <p>This should be the person or company you send your rent to.</p>
-    </LandlordNameAddressEmail>
+      <p>
+        This is whoever you send rent to. We'll send your letter directly to
+        them.
+      </p>
+    </LandlordNameAddress>
   )
 );
 
-const LandlordNameAddressEmail: React.FC<
+const LandlordNameAddress: React.FC<
   MiddleProgressStepProps & {
     confirmModalRoute: string;
     children: JSX.Element;
   }
 > = (props) => (
   <Page
-    title={li18n._(t`Your landlord or management company's information`)}
+    title={li18n._(t`Who is your landlord or property manager?`)}
     withHeading="big"
     className="content"
   >
-    <NameAddressEmailForm {...props} />
+    <NameAddressForm {...props} />
   </Page>
 );
 
-const NameAddressEmailForm: React.FC<
+const NameAddressForm: React.FC<
   MiddleProgressStepProps & {
     confirmModalRoute: string;
     children: JSX.Element;
@@ -66,11 +68,11 @@ const NameAddressEmailForm: React.FC<
     </DemoDeploymentNote>
 
     <SessionUpdatingFormSubmitter
-      mutation={LandlordNameAddressEmailMutation}
+      mutation={LandlordNameAddressMutation}
       initialState={(s) => ({
         ...exactSubsetOrDefault(
           s.landlordDetails,
-          BlankLandlordNameAddressEmailInput
+          BlankLandlordNameAddressInput
         ),
       })}
       onSuccessRedirect={(output) =>
@@ -81,12 +83,12 @@ const NameAddressEmailForm: React.FC<
         <>
           <TextualFormField
             {...ctx.fieldPropsFor("name")}
-            label={li18n._(t`Landlord/management company's name`)}
+            label={li18n._(t`Landlord or property manager name`)}
           />
           <WhereDoIFindLandlordInfo />
           <TextualFormField
             {...ctx.fieldPropsFor("primaryLine")}
-            label={li18n._(t`Street address (include unit/suite/floor/apt #)`)}
+            label={li18n._(t`Street address`)}
           />
           <TextualFormField
             {...ctx.fieldPropsFor("city")}
@@ -96,16 +98,6 @@ const NameAddressEmailForm: React.FC<
           <TextualFormField
             {...ctx.fieldPropsFor("zipCode")}
             label={li18n._(t`Zip code`)}
-          />
-          <TextualFormField
-            type="email"
-            {...ctx.fieldPropsFor("email")}
-            label={optionalizeLabel(
-              li18n._(t`Landlord/management company's email`)
-            )}
-            labelHint={li18n._(
-              t`If you add your landlord's email, we will email them a copy of your letter.`
-            )}
           />
           <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
         </>

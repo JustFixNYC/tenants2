@@ -66,9 +66,15 @@ def _merge_pdfs(pdfs: List[bytes]) -> bytes:
 
 
 def render_multilingual_letter(letter: LocalizedHTMLLetter) -> bytes:
-    pdf_bytes = render_pdf_bytes(letter.html_content)
+    page_css = """
+@page {
+    size: Letter;
+    margin: 0.25in;
+}
+"""
+    pdf_bytes = render_pdf_bytes(letter.html_content, page_css)
     if letter.localized_html_content:
-        localized_pdf_bytes = render_pdf_bytes(letter.localized_html_content)
+        localized_pdf_bytes = render_pdf_bytes(letter.localized_html_content, page_css)
         pdf_bytes = _merge_pdfs([pdf_bytes, localized_pdf_bytes])
     return pdf_bytes
 

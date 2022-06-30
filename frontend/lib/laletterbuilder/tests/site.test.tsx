@@ -11,16 +11,16 @@ describe("LaLetterBuilderSite", () => {
     <Route render={(props) => <LaLetterBuilderSite {...props} />} />
   );
 
-  it("renders 404 page", () => {
+  it("renders 404 page", async () => {
     const pal = new AppTesterPal(route, { url: "/blarg" });
-    waitFor(() => pal.rr.getByText(/doesn't seem to exist/i));
+    await waitFor(() => pal.rr.getByText(/doesn't seem to exist/i));
   });
 
-  it("renders home page", () => {
+  it("renders home page", async () => {
     const pal = new AppTesterPal(route, { url: "/en/" });
-    waitFor(() =>
+    await waitFor(() =>
       pal.rr.getByText(
-        /This is a test localization message for LaLetterBuilder/i
+        /As a California resident, you have a right to safe housing/i
       )
     );
   });

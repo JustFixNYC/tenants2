@@ -179,6 +179,7 @@ class RouteProgressBarWithoutRouter extends React.Component<
     let numSteps = props.steps.length;
     let currStep = this.getStep(location.pathname);
     let prevStep = this.state.prevStep;
+    let hideBar = props.steps[currStep - 1]?.hideProgressBar || false;
 
     if (currStep !== this.state.currStep) {
       // We're in the phase while we're rendering but before componentDidUpdate() has been called,
@@ -218,7 +219,7 @@ class RouteProgressBarWithoutRouter extends React.Component<
 
     return (
       <React.Fragment>
-        {!this.props.hideBar && (
+        {!hideBar && (
           <ProgressBar pct={pct}>
             {flowLabel && (
               <h6 className="jf-page-steps-title title is-6 has-text-grey has-text-centered">

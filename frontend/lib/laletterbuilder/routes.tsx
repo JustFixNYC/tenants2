@@ -5,18 +5,24 @@ import loadable from "@loadable/component";
 
 import { LoadingPage, friendlyLoad } from "../networking/loading-page";
 import { AlternativeLogoutPage } from "../pages/logout-alt-page";
+import LoginPage from "../pages/login-page";
 import { NotFound } from "../pages/not-found";
 import { LaLetterBuilderAboutPage } from "./about";
 import { LaLetterBuilderHomepage } from "./homepage";
 import { LaLetterBuilderRouteInfo as Routes } from "./route-info";
 import HabitabilityRoutes from "./letter-builder/habitability/routes";
 import { LaLetterBuilderChooseLetterStep } from "./letter-builder/choose-letter";
-import { createLetterStaticPageRoutes } from "../static-page/routes";
+import {
+  createHtmlEmailStaticPageRoutes,
+  createLetterStaticPageRoutes,
+} from "../static-page/routes";
 import {
   HabitabilityLetterEmailToLandlordForUserStaticPage,
   HabitabilityLetterForUserStaticPage,
   HabitabilitySampleLetterSamplePage,
 } from "./letter-builder/habitability/habitability-letter-content";
+import { HabitabilityLetterEmailToUserStaticPage } from "./letter-builder/habitability/letter-email-to-user";
+import { AccountSettingsRoutes } from "../account-settings/routes";
 
 const LoadableDevRoutes = loadable(
   () => friendlyLoad(import("../dev/routes")),
@@ -35,6 +41,12 @@ export const LaLetterBuilderRouteComponent: React.FC<RouteComponentProps> = (
   return (
     <Switch location={location}>
       <Route path={Routes.dev.prefix} component={LoadableDevRoutes} />
+      <Route path={Routes.locale.login} exact component={LoginPage} />
+      <Route
+        path={Routes.locale.logout}
+        exact
+        component={AlternativeLogoutPage}
+      />
       <Route
         path={Routes.locale.home}
         exact
@@ -46,9 +58,11 @@ export const LaLetterBuilderRouteComponent: React.FC<RouteComponentProps> = (
         component={LaLetterBuilderAboutPage}
       />
       <Route
-        path={Routes.locale.logout}
-        exact
-        component={AlternativeLogoutPage}
+        path={Routes.locale.accountSettings.prefix}
+        exact={false}
+        render={() => (
+          <AccountSettingsRoutes routes={Routes.locale.accountSettings} />
+        )}
       />
       <Route
         path={Routes.locale.habitability.prefix}
@@ -67,6 +81,10 @@ export const LaLetterBuilderRouteComponent: React.FC<RouteComponentProps> = (
         exact
         component={HabitabilityLetterEmailToLandlordForUserStaticPage}
       />
+      {createHtmlEmailStaticPageRoutes(
+        Routes.locale.letterEmailToUser,
+        HabitabilityLetterEmailToUserStaticPage
+      )}
       {createLetterStaticPageRoutes(
         Routes.locale.sampleLetterContent,
         HabitabilitySampleLetterSamplePage

@@ -22,7 +22,7 @@ export function createHabitabilityRouteInfo(prefix: string) {
     nationalAddress: `${prefix}/address/national`,
     nationalAddressConfirmModal: `${prefix}/address/national/confirm-modal`,
     nationalAddressConfirmInvalidModal: `${prefix}/address/national/confirm-invalid-modal`,
-    riskConsent: `${prefix}/consent`,
+    reviewRights: `${prefix}/review-rights`,
     createAccount: `${prefix}/create-account`,
     createAccountTermsModal: `${prefix}/create-account/terms-modal`,
     myLetters: `${prefix}/my-letters`,
@@ -32,6 +32,7 @@ export function createHabitabilityRouteInfo(prefix: string) {
     accessDates: `${prefix}/access-dates`,
     preview: `${prefix}/preview`,
     sending: `${prefix}/sending`,
+    sendConfirmModal: `${prefix}/sending/confirm-modal`,
     confirmation: `${prefix}/confirmation`,
 
     /** The letter content for the user's own data (HTML and PDF versions). */

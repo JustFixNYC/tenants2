@@ -38,6 +38,12 @@ export type BaseProgressStepRoute = {
   shouldBeSkipped?: (session: AllSessionInfo) => boolean;
 
   /**
+   * If true, hide the progress bar for this step. It will still count towards
+   * the number of steps.
+   */
+  hideProgressBar?: boolean;
+
+  /**
    * This indicates that the step is one that future steps should never
    * link back to.
    */

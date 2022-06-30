@@ -129,6 +129,17 @@ const OneOrTwoPartnerLinks = (props: {
   </>
 );
 
+export const AmiCalculatorLink: React.FC = () => (
+  <>
+    <OutboundLink href="https://housing.ca.gov/tenant/eligibilityquiz.html">
+      <Trans>Find out if my household income is below 80% AMI</Trans>{" "}
+    </OutboundLink>
+    <em>
+      <Trans>(use your “gross” or before tax income)</Trans>
+    </em>
+  </>
+);
+
 export const StateWithProtectionsContent: ProtectionsContentComponent = (
   props
 ) => (
@@ -138,24 +149,42 @@ export const StateWithProtectionsContent: ProtectionsContentComponent = (
     so let's override the default legislation text in that case:
     */
       props.lawForBuilder.textOfLegislation?.includes("California") ? (
-        <p>
-          <Trans id="norent.letter.lacountydisclaimer2022v2">
-            As required under section VI.A.1 of the January 25, 2022 Resolution
-            of the Board of Supervisors of the County of Los Angeles Further
-            Amending and Restating the County of Los Angeles COVID-19 Tenant
-            Protections Resolution: For tenants whose income in a particular
-            month is below 80% of Area Median Income, deliver to your landlord
-            within seven (7) days of your rent being due. If you live in another
-            jurisdiction please check back around July 1, 2022 to continue to
-            use this tool. If you have received an unlawful detainer or have
-            questions about your rights as a tenant please contact{" "}
-            <PartnerLink
-              organizationName="Stay Housed LA"
-              organizationWebsiteLink="https://www.stayhousedla.org/es/referral"
-            />
-            .
-          </Trans>
-        </p>
+        <>
+          <p>
+            <Trans id="norent.letter.lacountydisclaimer2022v3">
+              As required under section VI.A.1 of the January 25, 2022
+              Resolution of the Board of Supervisors of the County of Los
+              Angeles Further Amending and Restating the County of Los Angeles
+              COVID-19 Tenant Protections Resolution:
+            </Trans>
+          </p>
+          <p>
+            <Trans>
+              These protections apply to tenants whose household income, in a
+              particular month, is below 80% of Area Median Income (AMI).
+            </Trans>
+          </p>
+          <p>
+            <AmiCalculatorLink />
+          </p>
+          <p>
+            <Trans>
+              Deliver a NoRent letter to your landlord within seven (7) days of
+              your rent being due.
+            </Trans>
+          </p>
+          <p>
+            <Trans>
+              If you have received an unlawful detainer or have questions about
+              your rights as a tenant please contact{" "}
+              <PartnerLink
+                organizationName="Stay Housed LA"
+                organizationWebsiteLink="https://www.stayhousedla.org/es/referral"
+              />
+              .
+            </Trans>
+          </p>
+        </>
       ) : (
         <p>{props.lawForBuilder.textOfLegislation}</p>
       )

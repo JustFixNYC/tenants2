@@ -128,13 +128,13 @@ export const NorentLetterPreviewPage = NorentNotSentLetterStep((props) => {
           <ol>
             <li>
               <Trans>
-                One letter for the months between March and August when you
-                couldn't pay rent in full.
+                One letter for the months between March 2022 and June 2022 when
+                you couldn't pay rent in full.
               </Trans>
             </li>
             <li>
               <Trans>
-                Separate letters for each month starting in September when you
+                Separate letters for each month starting July 2022 when you
                 couldn't pay rent in full.
               </Trans>
             </li>

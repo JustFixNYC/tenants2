@@ -37,6 +37,10 @@ msgstr "(Nota: tenga en cuenta que la solicitud se enviará en inglés)"
 msgid "(optional)"
 msgstr "(opcional)"
 
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:91
+msgid "(use your “gross” or before tax income)"
+msgstr ""
+
 #: frontend/lib/rh/routes.tsx:39
 msgid "*Division of Housing and Community Renewal"
 msgstr "*División de Vivienda y Renovación de la Comunidad"
@@ -99,7 +103,7 @@ msgstr "<0>Repairs required</0>"
 msgid "<0>To</0><1/><2>From</2><3/>"
 msgstr "<0>De</0><1/><2>Hasta</2><3/>"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:62
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:60
 msgid "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
 msgstr "<0>No incluimos meses en los que ya has informado al dueño de tu edificio anteriormente.</0>"
 
@@ -584,7 +588,7 @@ msgid "Community Justice Project"
 msgstr "Community Justice Project"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:33
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:43
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:41
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -714,6 +718,10 @@ msgstr "Defective plumbing"
 #: common-data/us-state-choices.ts:72
 msgid "Delaware"
 msgstr "Delaware"
+
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:120
+msgid "Deliver a NoRent letter to your landlord within seven (7) days of your rent being due."
+msgstr ""
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:60
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:65
@@ -935,8 +943,8 @@ msgstr "Rellena mi formulario"
 msgid "Fill out your hardship declaration form online"
 msgstr "Rellena en línea tu formulario de declaración de penuria"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:36
-msgid "Find out if I'm below 80% of AMI"
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:88
+msgid "Find out if my household income is below 80% AMI"
 msgstr ""
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:116
@@ -1288,6 +1296,10 @@ msgstr "Si tiene preguntas sobre tus derechos como inquilino/a, por favor <0>con
 msgid "If you have received a Notice to Pay Rent or Quit or any other type of eviction notice, sign up for a workshop and/or get legal help at <0>StayHousedLA.org</0>."
 msgstr "Si has recibido un Aviso de Pago de Renta (Notice to Pay Rent en inglés) o un Aviso de Desalojo (Notice to Quit en inglés) o cualquier otro tipo de aviso, inscríbete a un taller y/o consigue ayuda legal en <0>StayHousedLA.org</0>."
 
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:126
+msgid "If you have received an unlawful detainer or have questions about your rights as a tenant please contact <0/>."
+msgstr ""
+
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:61
 msgid "If you know the court name your case is associated with, please provide it below. Otherwise, leave this blank."
 msgstr "Si conoces el nombre de la corte con el que tu caso está asociado, por favor indícalo a continuación. Si no, déjalo en blanco."
@@ -1371,7 +1383,7 @@ msgstr "Parece que esta propiedad no tiene que estar registrada con el HPD. Pued
 msgid "It looks like your apartment may be rent stabilized"
 msgstr "Parece que tu apartamento es de renta estabilizada"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:51
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:49
 msgid "It's important to notify your landlord of all months when you couldn't pay rent in full."
 msgstr "Es importante notificar al dueño o manager de tu edificio de todos los meses cuando no pudiste pagar el alquiler completo."
 
@@ -1440,7 +1452,7 @@ msgstr "Kentucky"
 msgid "Kitchen"
 msgstr "Kitchen"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:134
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:160
 msgid "Know your rights"
 msgstr "Conoce tus derechos"
 
@@ -1756,11 +1768,11 @@ msgstr "Muros Con Moho"
 msgid "Montana"
 msgstr "Montana"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:60
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:58
 msgid "Months of rent non-payment"
 msgstr "Meses de impago de renta"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:49
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:47
 msgid "Months you're missing rent payments"
 msgstr "Meses en que le faltan pagos de renta"
 
@@ -1945,8 +1957,8 @@ msgid "Oklahoma"
 msgstr "Oklahoma"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:78
-msgid "One letter for the months between March and August when you couldn't pay rent in full."
-msgstr "Una carta para los meses entre marzo y agosto cuando no pudiste pagar la renta en su totalidad."
+msgid "One letter for the months between March 2022 and June 2022 when you couldn't pay rent in full."
+msgstr ""
 
 #: frontend/lib/app.tsx:59
 #: frontend/lib/norent/components/subscribe.tsx:47
@@ -2050,7 +2062,7 @@ msgstr "Acreditación de imágenes:"
 msgid "Pipes leaking"
 msgstr "Tuberías con fugas"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:125
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:151
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Por favor <0>vuelve y escoge un estado</0>."
 
@@ -2245,7 +2257,7 @@ msgstr "Right to Privacy (CA)"
 msgid "Right to the City"
 msgstr "Right to the City"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:149
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:175
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Permito que Right to the City se ponga en contacto conmigo para proporcionarme apoyo adicional."
 
@@ -2339,8 +2351,8 @@ msgid "Sending a letter to your landlord is a big step. Here are a few <0>freque
 msgstr "Enviar una carta al dueño de tu edificio es un paso grande. Aquí tienes algunas <0>preguntas frecuentes</0> de las personas que han utilizado nuestra herramienta:"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:84
-msgid "Separate letters for each month starting in September when you couldn't pay rent in full."
-msgstr "Cartas separadas para cada mes a partir de septiembre, cuando no pudiste pagar la renta en su totalidad."
+msgid "Separate letters for each month starting July 2022 when you couldn't pay rent in full."
+msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:17
 #: frontend/lib/norent/letter-builder/create-account.tsx:19
@@ -2606,6 +2618,10 @@ msgstr "La página web a la que quieres acceder solo está disponible en inglés
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:118
 msgid "There {0, plural, one {is one unit} other {are # units}} in your building."
 msgstr "Hay {0, plural, one {una unidad} other {# unidades}} en tu edificio."
+
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:111
+msgid "These protections apply to tenants whose household income, in a particular month, is below 80% of Area Median Income (AMI)."
+msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:278
 msgid "Think your apartment may be rent-stabilized? Request its official records."
@@ -2910,7 +2926,7 @@ msgstr "Utilizaremos esta información para obtener las ordenanzas actuales que 
 msgid "We’ll use this to reference the latest policies that protect your rights as a tenant."
 msgstr "Utilizaremos esta información para citar las políticas actuales que protegen tus derechos como inquilino."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:110
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:136
 msgid "We’ve partnered with <0/> to provide additional support once you’ve sent your letter."
 msgstr "Nos hemos aliado con <0/> para proporcionar asistencia adicional una vez que hayas enviado tu carta."
 
@@ -3030,7 +3046,7 @@ msgstr ""
 msgid "Who we are"
 msgstr "Quiénes somos"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:61
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:59
 msgid "Why aren't all months listed?"
 msgstr "¿Por qué no puedo ver todos los meses?"
 
@@ -3170,7 +3186,7 @@ msgstr "Enviaste una carta en {0}."
 msgid "You'll need to download the letter to print and mail yourself."
 msgstr ""
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:136
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:162
 msgid "You're in <0>{stateName}</0>"
 msgstr "Estás en <0>{stateName}</0>"
 
@@ -3716,8 +3732,8 @@ msgstr "<0>El Congreso aprobó la Ley CARES el 27 de marzo del 2020 (Ley Públic
 msgid "norent.letter.floridaAddition"
 msgstr "He sufrido una pérdida de empleo, salarios o ingresos durante el estado de emergencia de Florida que afecta directamente mi capacidad de hacer pagos de alquiler."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:94
-msgid "norent.letter.lacountydisclaimer2022v2"
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:103
+msgid "norent.letter.lacountydisclaimer2022v3"
 msgstr ""
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:68

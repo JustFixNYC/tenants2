@@ -32,6 +32,10 @@ msgstr "(Note: the request will be sent in English)"
 msgid "(optional)"
 msgstr "(optional)"
 
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:91
+msgid "(use your “gross” or before tax income)"
+msgstr "(use your “gross” or before tax income)"
+
 #: frontend/lib/rh/routes.tsx:39
 msgid "*Division of Housing and Community Renewal"
 msgstr "*Division of Housing and Community Renewal"
@@ -94,7 +98,7 @@ msgstr "<0>Repairs required</0>"
 msgid "<0>To</0><1/><2>From</2><3/>"
 msgstr "<0>To</0><1/><2>From</2><3/>"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:62
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:60
 msgid "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
 msgstr "<0>We aren't including months that you have already informed your landlord about in previous letters.</0>"
 
@@ -579,7 +583,7 @@ msgid "Community Justice Project"
 msgstr "Community Justice Project"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:33
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:43
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:41
 msgid "Confirm"
 msgstr "Confirm"
 
@@ -709,6 +713,10 @@ msgstr "Defective plumbing"
 #: common-data/us-state-choices.ts:72
 msgid "Delaware"
 msgstr "Delaware"
+
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:120
+msgid "Deliver a NoRent letter to your landlord within seven (7) days of your rent being due."
+msgstr "Deliver a NoRent letter to your landlord within seven (7) days of your rent being due."
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:60
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:65
@@ -930,9 +938,9 @@ msgstr "Fill out my form"
 msgid "Fill out your hardship declaration form online"
 msgstr "Fill out your hardship declaration form online"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:36
-msgid "Find out if I'm below 80% of AMI"
-msgstr "Find out if I'm below 80% of AMI"
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:88
+msgid "Find out if my household income is below 80% AMI"
+msgstr "Find out if my household income is below 80% AMI"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:116
 msgid "Find out more"
@@ -1284,6 +1292,10 @@ msgstr "If you have questions about your rights as a tenant, please <0>connect w
 msgid "If you have received a Notice to Pay Rent or Quit or any other type of eviction notice, sign up for a workshop and/or get legal help at <0>StayHousedLA.org</0>."
 msgstr "If you have received a Notice to Pay Rent or Quit or any other type of eviction notice, sign up for a workshop and/or get legal help at <0>StayHousedLA.org</0>."
 
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:126
+msgid "If you have received an unlawful detainer or have questions about your rights as a tenant please contact <0/>."
+msgstr "If you have received an unlawful detainer or have questions about your rights as a tenant please contact <0/>."
+
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:61
 msgid "If you know the court name your case is associated with, please provide it below. Otherwise, leave this blank."
 msgstr "If you know the court name your case is associated with, please provide it below. Otherwise, leave this blank."
@@ -1367,7 +1379,7 @@ msgstr "It doesn't seem like this property is required to register with HPD. You
 msgid "It looks like your apartment may be rent stabilized"
 msgstr "It looks like your apartment may be rent stabilized"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:51
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:49
 msgid "It's important to notify your landlord of all months when you couldn't pay rent in full."
 msgstr "It's important to notify your landlord of all months when you couldn't pay rent in full."
 
@@ -1436,7 +1448,7 @@ msgstr "Kentucky"
 msgid "Kitchen"
 msgstr "Kitchen"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:134
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:160
 msgid "Know your rights"
 msgstr "Know your rights"
 
@@ -1752,11 +1764,11 @@ msgstr "Mold on walls"
 msgid "Montana"
 msgstr "Montana"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:60
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:58
 msgid "Months of rent non-payment"
 msgstr "Months of rent non-payment"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:49
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:47
 msgid "Months you're missing rent payments"
 msgstr "Months you're missing rent payments"
 
@@ -1941,8 +1953,8 @@ msgid "Oklahoma"
 msgstr "Oklahoma"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:78
-msgid "One letter for the months between March and August when you couldn't pay rent in full."
-msgstr "One letter for the months between March and August when you couldn't pay rent in full."
+msgid "One letter for the months between March 2022 and June 2022 when you couldn't pay rent in full."
+msgstr "One letter for the months between March 2022 and June 2022 when you couldn't pay rent in full."
 
 #: frontend/lib/app.tsx:59
 #: frontend/lib/norent/components/subscribe.tsx:47
@@ -2046,7 +2058,7 @@ msgstr "Photo credits:"
 msgid "Pipes leaking"
 msgstr "Pipes leaking"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:125
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:151
 msgid "Please <0>go back and choose a state</0>."
 msgstr "Please <0>go back and choose a state</0>."
 
@@ -2241,7 +2253,7 @@ msgstr "Right to Privacy (CA)"
 msgid "Right to the City"
 msgstr "Right to the City"
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:149
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:175
 msgid "Right to the City Alliance can contact me to provide additional support."
 msgstr "Right to the City Alliance can contact me to provide additional support."
 
@@ -2335,8 +2347,8 @@ msgid "Sending a letter to your landlord is a big step. Here are a few <0>freque
 msgstr "Sending a letter to your landlord is a big step. Here are a few <0>frequently asked questions</0> from people who have used our tool:"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:84
-msgid "Separate letters for each month starting in September when you couldn't pay rent in full."
-msgstr "Separate letters for each month starting in September when you couldn't pay rent in full."
+msgid "Separate letters for each month starting July 2022 when you couldn't pay rent in full."
+msgstr "Separate letters for each month starting July 2022 when you couldn't pay rent in full."
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:17
 #: frontend/lib/norent/letter-builder/create-account.tsx:19
@@ -2602,6 +2614,10 @@ msgstr "The webpage that you want to access is only available in English."
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:118
 msgid "There {0, plural, one {is one unit} other {are # units}} in your building."
 msgstr "There {0, plural, one {is one unit} other {are # units}} in your building."
+
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:111
+msgid "These protections apply to tenants whose household income, in a particular month, is below 80% of Area Median Income (AMI)."
+msgstr "These protections apply to tenants whose household income, in a particular month, is below 80% of Area Median Income (AMI)."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:278
 msgid "Think your apartment may be rent-stabilized? Request its official records."
@@ -2906,7 +2922,7 @@ msgstr "We’ll use this information to pull the most up-to-date ordinances that
 msgid "We’ll use this to reference the latest policies that protect your rights as a tenant."
 msgstr "We’ll use this to reference the latest policies that protect your rights as a tenant."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:110
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:136
 msgid "We’ve partnered with <0/> to provide additional support once you’ve sent your letter."
 msgstr "We’ve partnered with <0/> to provide additional support once you’ve sent your letter."
 
@@ -3026,7 +3042,7 @@ msgstr "Who is your landlord or property manager?"
 msgid "Who we are"
 msgstr "Who we are"
 
-#: frontend/lib/norent/letter-builder/rent-periods.tsx:61
+#: frontend/lib/norent/letter-builder/rent-periods.tsx:59
 msgid "Why aren't all months listed?"
 msgstr "Why aren't all months listed?"
 
@@ -3166,7 +3182,7 @@ msgstr "You most recently sent a letter on {0}."
 msgid "You'll need to download the letter to print and mail yourself."
 msgstr "You'll need to download the letter to print and mail yourself."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:136
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:162
 msgid "You're in <0>{stateName}</0>"
 msgstr "You're in <0>{stateName}</0>"
 
@@ -3707,9 +3723,9 @@ msgstr "<0>Congress passed the CARES Act on March 27, 2020 (Public Law 116-136).
 msgid "norent.letter.floridaAddition"
 msgstr "I have suffered a loss of employment, diminished wages or business income, or other monetary loss realized during the Florida State of Emergency directly impacting my ability to make rent payments."
 
-#: frontend/lib/norent/letter-builder/know-your-rights.tsx:94
-msgid "norent.letter.lacountydisclaimer2022v2"
-msgstr "As required under section VI.A.1 of the January 25, 2022 Resolution of the Board of Supervisors of the County of Los Angeles Further Amending and Restating the County of Los Angeles COVID-19 Tenant Protections Resolution: For tenants whose income in a particular month is below 80% of Area Median Income, deliver to your landlord within seven (7) days of your rent being due. If you live in another jurisdiction please check back around July 1, 2022 to continue to use this tool. If you have received an unlawful detainer or have questions about your rights as a tenant please contact <0/>."
+#: frontend/lib/norent/letter-builder/know-your-rights.tsx:103
+msgid "norent.letter.lacountydisclaimer2022v3"
+msgstr "As required under section VI.A.1 of the January 25, 2022 Resolution of the Board of Supervisors of the County of Los Angeles Further Amending and Restating the County of Los Angeles COVID-19 Tenant Protections Resolution:"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:68
 msgid "norent.letter.noteAboutLetterStructureOnPreview"

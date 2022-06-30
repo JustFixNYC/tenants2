@@ -14,7 +14,7 @@ import { assertNotNull } from "@justfixnyc/util";
 import { NorentNotSentLetterStep } from "./step-decorators";
 import { Accordion } from "../../ui/accordion";
 import { Link } from "react-router-dom";
-import { OutboundLink } from "../../ui/outbound-link";
+import { AmiCalculatorLink } from "./know-your-rights";
 
 function getCurrentRentNonpaymentPeriods(s: AllSessionInfo): string[] {
   const validDates = new Set(
@@ -48,9 +48,7 @@ export const NorentRentPeriodsKyr = NorentNotSentLetterStep((props) => (
         </Trans>
       </p>
       <p>
-        <OutboundLink href="https://housing.ca.gov/tenant/eligibilityquiz.html">
-          <Trans>Find out if I'm below 80% of AMI</Trans>
-        </OutboundLink>
+        <AmiCalculatorLink />
       </p>
     </div>
     <div className="buttons jf-two-buttons">

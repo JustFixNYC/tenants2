@@ -481,14 +481,14 @@ const Confirmation: React.FC<{}> = () => {
         </li>
         <li>
           <OutboundLink
-            href="https://www.justfix.org/en/learn?utm_source=tenantplatform&utm_medium=hp"
+            href="https://www.justfix.nyc/en/learn?utm_source=tenantplatform&utm_medium=hp"
             target="_blank"
           >
-            JustFix's Learning Center
+            JustFix.nyc's Learning Center
           </OutboundLink>{" "}
           (
           <OutboundLink
-            href="https://www.justfix.org/es/learn?utm_source=tenantplatform&utm_medium=hp"
+            href="https://www.justfix.nyc/es/learn?utm_source=tenantplatform&utm_medium=hp"
             target="_blank"
           >
             también en español

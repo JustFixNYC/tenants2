@@ -158,11 +158,11 @@ export const NorentHomePage: React.FC<{}> = () => {
               <Trans>
                 A national tool by non-profit{" "}
                 <OutboundLink
-                  href="https://www.justfix.org/"
+                  href="https://www.justfix.nyc/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  JustFix.org
+                  JustFix.nyc
                 </OutboundLink>
               </Trans>
             </p>

@@ -460,7 +460,7 @@ class OnboardingInfo(models.Model):
         if self.pad_bbl:
             links.append(
                 Hyperlink(
-                    name="Who Owns What", url=f"https://whoownswhat.justfix.org/bbl/{self.pad_bbl}"
+                    name="Who Owns What", url=f"https://whoownswhat.justfix.nyc/bbl/{self.pad_bbl}"
                 )
             )
         if self.pad_bin:

@@ -293,11 +293,11 @@ const knowYourRightsList = (
       </OutboundLink>
     </li>
     <li>
-      <OutboundLink href="https://www.justfix.org/en/learn?utm_source=tenantplatform&utm_medium=loc">
-        JustFix's Learning Center
+      <OutboundLink href="https://www.justfix.nyc/en/learn?utm_source=tenantplatform&utm_medium=loc">
+        JustFix.nyc's Learning Center
       </OutboundLink>{" "}
       (
-      <OutboundLink href="https://www.justfix.org/es/learn?utm_source=tenantplatform&utm_medium=loc">
+      <OutboundLink href="https://www.justfix.nyc/es/learn?utm_source=tenantplatform&utm_medium=loc">
         en español
       </OutboundLink>
       )

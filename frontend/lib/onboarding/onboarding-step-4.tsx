@@ -61,7 +61,7 @@ const ExistingAccountNotification: React.FC<{}> = () => {
 
   return (
     <div className="notification is-info" ref={ref} tabIndex={-1}>
-      <h2 className="subtitle">You may already have a JustFix account.</h2>
+      <h2 className="subtitle">You may already have a JustFix.nyc account.</h2>
       <p>
         If you remember your password, you can{" "}
         <Link to={JustfixRoutes.locale.login}>sign into your account</Link>.
@@ -110,7 +110,7 @@ export default class OnboardingStep4 extends React.Component<
           {...ctx.fieldPropsFor("phoneNumber")}
         />
         <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
-          Yes, JustFix can text me to follow up about my housing issues.
+          Yes, JustFix.nyc can text me to follow up about my housing issues.
         </CheckboxFormField>
         <TextualFormField
           label={optionalizeLabelIf(
@@ -133,7 +133,7 @@ export default class OnboardingStep4 extends React.Component<
             to={routes.step4TermsModal}
             render={() => <PrivacyInfoModal />}
           >
-            JustFix terms and conditions
+            JustFix.nyc terms and conditions
           </ModalLink>
           .
         </CheckboxFormField>

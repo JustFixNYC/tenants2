@@ -42,7 +42,7 @@ def test_mailchimp_err_to_json_err(blob, err_code):
 
 
 class TestSubscribe:
-    def post(self, client, origin="https://www.justfix.org", **kwargs):
+    def post(self, client, origin="https://www.justfix.nyc", **kwargs):
         return client.post(
             SUBSCRIBE_PATH,
             data={**VALID_SUBSCRIBE_ARGS, **kwargs},

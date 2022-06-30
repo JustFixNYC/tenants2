@@ -41,7 +41,7 @@ const RENDER_NODE: RenderNode = {
 
 /**
  * This banner is intended to show right below the navbar on certain pages and is a general
- * overview of how JustFix is adapting to the COVID-19 crisis and Eviction Moratorium.
+ * overview of how JustFix.nyc is adapting to the COVID-19 crisis and Eviction Moratorium.
  */
 
 const MoratoriumBanner: React.FC<{ pathname?: string }> = (props) => {

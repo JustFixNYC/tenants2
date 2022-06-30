@@ -35,7 +35,7 @@ export const JustfixLogo = (props: { isHyperlinked?: boolean }) => {
     <StaticImage
       ratio="is-3by1"
       src={getNorentImageSrc("justfix")}
-      alt="JustFix"
+      alt="JustFix.nyc"
     />
   );
 
@@ -43,7 +43,7 @@ export const JustfixLogo = (props: { isHyperlinked?: boolean }) => {
     <div className="jf-justfix-logo">
       {props.isHyperlinked ? (
         <OutboundLink
-          href="https://www.justfix.org/"
+          href="https://www.justfix.nyc/"
           target="_blank"
           rel="noopener noreferrer"
         >

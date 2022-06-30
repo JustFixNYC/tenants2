@@ -51,7 +51,7 @@ export const NorentHelmet = () => {
     >
       <meta name="description" content={description()} />
       <meta name="keywords" content={keywords()} />
-      <meta name="author" content="JustFix" />
+      <meta name="author" content="JustFix.nyc" />
 
       {server.facebookAppId && (
         <meta property="fb:app_id" content={server.facebookAppId} />

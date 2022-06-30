@@ -79,11 +79,11 @@ class TestGetSiteFromRequestOrDefault:
 
 class TestGetSiteName:
     def test_it_works_when_deployment_name_is_undefined(self):
-        assert get_site_name() == "JustFix"
+        assert get_site_name() == "JustFix.nyc"
 
     @override_settings(NAVBAR_LABEL="DEMO SITE")
     def test_it_works_when_deployment_name_is_defined(self):
-        assert get_site_name() == "JustFix DEMO SITE"
+        assert get_site_name() == "JustFix.nyc DEMO SITE"
 
 
 class TestGetSiteOfType:
@@ -107,7 +107,7 @@ def test_get_site_origin_works(settings):
     "name,expected",
     [
         ["example.com", SITE_CHOICES.JUSTFIX],
-        ["justfix.org", SITE_CHOICES.JUSTFIX],
+        ["justfix.nyc", SITE_CHOICES.JUSTFIX],
         ["my funky site", SITE_CHOICES.JUSTFIX],
         ["", SITE_CHOICES.JUSTFIX],
         ["norent.org", SITE_CHOICES.NORENT],
@@ -125,7 +125,7 @@ def test_get_site_type_works(name, expected):
 @pytest.mark.parametrize(
     "name,expected",
     [
-        [SITE_CHOICES.JUSTFIX, "JustFix"],
+        [SITE_CHOICES.JUSTFIX, "JustFix.nyc"],
         [SITE_CHOICES.NORENT, "NoRent"],
     ],
 )

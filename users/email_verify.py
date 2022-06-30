@@ -73,7 +73,7 @@ def send_verification_email(user_id: int):
     code = signing.dumps(SigningPayload.from_user(user).serialize(), salt=VERIFICATION_SALT)
     qs = urllib.parse.urlencode({"code": code})
     url = f"{absolute_reverse('verify_email')}?{qs}"
-    subject = f"Welcome to JustFix! Please verify your email"
+    subject = f"Welcome to JustFix.nyc! Please verify your email"
     body = render_to_string(
         "users/verification_email_body.txt",
         {

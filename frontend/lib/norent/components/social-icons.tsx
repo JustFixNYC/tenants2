@@ -8,7 +8,7 @@ import { MessageDescriptor } from "@lingui/core";
 import classnames from "classnames";
 
 /**
- * Links to JustFix's main social media pages.
+ * Links to JustFix.nyc's main social media pages.
  */
 const socialMediaPageLinks = [
   { name: "twitter", url: "https://twitter.com/JustFixNYC" },

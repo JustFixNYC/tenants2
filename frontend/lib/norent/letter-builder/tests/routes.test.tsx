@@ -100,7 +100,7 @@ describe("NoRent letter builder steps", () => {
   });
 
   tester.defineTest({
-    it: "works w/ logged-in JustFix user who hasn't yet agreed to terms",
+    it: "works w/ logged-in JustFix.nyc user who hasn't yet agreed to terms",
     usingSession: sb.withLoggedInJustfixUser(),
     expectSteps: [
       "/en/letter/terms",
@@ -110,7 +110,7 @@ describe("NoRent letter builder steps", () => {
   });
 
   tester.defineTest({
-    it: "works w/ logged-in JustFix user who doesn't have email set",
+    it: "works w/ logged-in JustFix.nyc user who doesn't have email set",
     usingSession: sb.withLoggedInJustfixUser().with({ email: "" }),
     expectSteps: [
       "/en/letter/terms",

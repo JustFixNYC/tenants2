@@ -39,7 +39,7 @@ msgstr "(opcional)"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:91
 msgid "(use your “gross” or before tax income)"
-msgstr ""
+msgstr "(utilice su “bruto” o antes de los ingresos fiscales)"
 
 #: frontend/lib/rh/routes.tsx:39
 msgid "*Division of Housing and Community Renewal"
@@ -55,7 +55,7 @@ msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
 #: frontend/lib/norent/letter-content.tsx:16
 msgid "<0>Declaration of Financial Impacts Related to COVID-19</0>"
-msgstr ""
+msgstr "<0>Declaración de Impactos Financieros Relacionados con Covid-19</0>"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:382
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
@@ -615,7 +615,7 @@ msgstr "Poniéndose en contacto con otros"
 
 #: frontend/lib/norent/data/state-localized-resources.tsx:6
 msgid "Contact StayHoused LA"
-msgstr ""
+msgstr "Ponte en contacto con StayHoused LA"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:40
 #: frontend/lib/norent/letter-builder/confirmation.tsx:140
@@ -721,7 +721,7 @@ msgstr "Delaware"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:120
 msgid "Deliver a NoRent letter to your landlord within seven (7) days of your rent being due."
-msgstr ""
+msgstr "Entregar una carda de NoRent a su arrendador dentro de los siete (7) días de la fecha de vencimiento de su alquiler."
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:60
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:65
@@ -945,7 +945,7 @@ msgstr "Rellena en línea tu formulario de declaración de penuria"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:88
 msgid "Find out if my household income is below 80% AMI"
-msgstr ""
+msgstr "Averigua si el ingreso de mi hogar es menos al 80 por ciento del ingreso medio del área"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:116
 msgid "Find out more"
@@ -1299,7 +1299,7 @@ msgstr "Si has recibido un Aviso de Pago de Renta (Notice to Pay Rent en inglés
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:126
 msgid "If you have received an unlawful detainer or have questions about your rights as a tenant please contact <0/>."
-msgstr ""
+msgstr "Si ha recibido un detenedor ilegal o tiene preguntas sobre sus derechos como inquilino, póngase en contacto con <0/>."
 
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:61
 msgid "If you know the court name your case is associated with, please provide it below. Otherwise, leave this blank."
@@ -1795,7 +1795,7 @@ msgstr "Debe tener por lo menos 8 letras. No se puede usar solo números."
 
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:29
 msgid "My household income for the selected months is at or below 80 percent of the Area Median Income (AMI)."
-msgstr ""
+msgstr "El ingreso de mi hogar para los meses seleccionados es igual o menos al 80 por ciento del ingreso medio del área."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:26
 msgid "My issue is urgent and time sensitive. What should I do?"
@@ -1959,7 +1959,7 @@ msgstr "Oklahoma"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:78
 msgid "One letter for the months between March 2022 and June 2022 when you couldn't pay rent in full."
-msgstr ""
+msgstr "Una carta para los meses entre marzo de 2022 y junio de 2022 cuando no pudiste pagar la renta en su totalidad."
 
 #: frontend/lib/app.tsx:59
 #: frontend/lib/norent/components/subscribe.tsx:47
@@ -2073,7 +2073,7 @@ msgstr "Por favor, acepta nuestros términos y condiciones"
 
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:26
 msgid "Please confirm your household income"
-msgstr ""
+msgstr "Por favor confirme sus ingresos del hogar"
 
 #: frontend/lib/common-steps/create-password.tsx:11
 msgid "Please confirm your password"
@@ -2353,7 +2353,7 @@ msgstr "Enviar una carta al dueño de tu edificio es un paso grande. Aquí tiene
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:84
 msgid "Separate letters for each month starting July 2022 when you couldn't pay rent in full."
-msgstr ""
+msgstr "Cartas separadas para cada mes a partir de julio de 2022, cuando no pudiste pagar la renta en su totalidad."
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:17
 #: frontend/lib/norent/letter-builder/create-account.tsx:19
@@ -2622,7 +2622,7 @@ msgstr "Hay {0, plural, one {una unidad} other {# unidades}} en tu edificio."
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:111
 msgid "These protections apply to tenants whose household income, in a particular month, is below 80% of Area Median Income (AMI)."
-msgstr ""
+msgstr "Estas protecciones se aplican a los inquilinos con ingreso doméstico, en un mes en particular, inferior al 80% de ingreso medio del área."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:278
 msgid "Think your apartment may be rent-stabilized? Request its official records."
@@ -3735,11 +3735,11 @@ msgstr "He sufrido una pérdida de empleo, salarios o ingresos durante el estado
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:103
 msgid "norent.letter.lacountydisclaimer2022v3"
-msgstr ""
+msgstr "Según lo requerido en la sección VI.A.1 de la Resolución de la Junta de Supervisores del Condado de Los Ángeles del 25 de enero de 2022, que modifica y reafirma aún más la Resolución de Protección de Inquilinos COVID-19 del Condado de Los Ángeles:"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:68
 msgid "norent.letter.noteAboutLetterStructureOnPreview"
-msgstr ""
+msgstr "Tenga en cuenta que su carta de declaración se estructurará de la forma siguiente para cumplir con los requisitos de la sección VI.A.1 de la Resolución de la Junta de Supervisores del Condado de Los Ángeles del 25 de enero de 2022, que modifica y reafirma aún más la Resolución de Protección de Inquilinos COVID-19 del Condado de Los Ángeles:"
 
 #: frontend/lib/norent/letter-content.tsx:161
 msgid "norent.letter.v1NonPayment"
@@ -3759,7 +3759,7 @@ msgstr "Esta carta es para informarle de las protecciones para inquilinos existe
 
 #: frontend/lib/norent/letter-content.tsx:91
 msgid "norent.letterBodyCaliforniaLaCountyVIA1v2"
-msgstr ""
+msgstr "<0>Según lo requerido en la sección VI.A.1 de la Resolución de la Junta de Supervisores del Condado de Los Ángeles del 25 de enero de 2022, que modifica y reafirma aún más la Resolución de Protección de Inquilinos COVID-19 del Condado de Los Ángeles, esta carta de declaración se refiere al pago de la renta para los meses siguientes:</0><1/><2>El ingreso de mi hogar para el mes anterior es igual o menos al 80 por ciento del ingreso medio del área.</2><3>No puedo pagar el alquiler de los meses anteriores debido a un impacto financiero relacionado con COVID-19. Afirmo que tengo uno de los siguientes Impactos Financieros: </3><4><5>Pérdida sustancial de los ingresos del hogar causada por la pandemia COVID-19; </5><6>Pérdida de ingresos o negocios debido al cierre de negocio; </6><7>Costo aumentado;</7><8>Ingresos reducidos u otras razones similares que afectan a mi capacidad de pagar el alquiler; </8><9>Pérdida de horas de trabajo o salarios compensables, o despidos; o</9><10>Gastos médicos extraordinarios fuera de bolsillo. </10></4><11>El impacto financiero estaba relacionado con COVID-19 de una o más de las siguientes maneras:</11><12><13>Diagnóstico sospechoso o confirmado de COVID-19 o cuidado de mí mismo o de otra persona, como un miembro del hogar sospechoso o confirmado con COVID-19.</13><14>Despido, pérdida de horas, pérdida de ingresos u otra reducción de ingresos como resultado del cierre de negocios u otros impactos económicos o del empleador de COVID-19.</14><15>Cumplimiento de una recomendación del Funcionario de Salud del Condado de quedarse en casa, ponerse en cuarentena o evitar congregarse con otras personas durante el estado de emergencia.</15><16>Gastos médicos extraordinarios de su bolsillo relacionados con el diagnóstico, las pruebas y/o el tratamiento de COVID-19.</16><17>Necesidades de cuidado infantil derivadas del cierre de escuelas relacionadas con COVID-19.</17></12><18>Si recibe este aviso más de siete (7) días después de la fecha de vencimiento de mi alquiler, existen circunstancias atenuantes que me impidieron proporcionar este aviso antes.</18>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:47
 msgid "norent.listOfSuggestedNonpaymentDocumentation"

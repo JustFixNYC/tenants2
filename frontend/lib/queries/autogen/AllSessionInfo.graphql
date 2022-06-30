@@ -40,14 +40,6 @@ fragment AllSessionInfo on SessionInfo {
     mailChoice,
     emailToLandlord
   },
-  habitabilityLetters {
-    createdAt,
-    trackingNumber,
-    letterSentAt,
-    fullyProcessedAt,
-    mailChoice,
-    emailToLandlord
-  },
   issues,
   customIssuesV2 {
     id,

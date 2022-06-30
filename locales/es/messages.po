@@ -202,10 +202,6 @@ msgstr "¡Todo listo! ¡Gracias por suscribirte!"
 msgid "All you need for now are the basics. You can follow up with your landlord or property manager in more detail once they receive your letter."
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:37
-msgid "Allow 14 days for a response"
-msgstr ""
-
 #: frontend/lib/evictionfree/site.tsx:125
 msgid "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
 msgstr "¿Has enviado ya un formulario de declaración de penuria? <0>Inicia tu sesión aquí para descargar tu formulario</0>"
@@ -457,14 +453,6 @@ msgstr "Mapa de huelgas de renta y protección para inquilinos ante la emergenci
 msgid "California"
 msgstr "California"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:56
-msgid "Call LADBS at (213) 473-3231"
-msgstr ""
-
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:49
-msgid "Call LAHD at (866) 557-7368"
-msgstr ""
-
 #: frontend/lib/evictionfree/about.tsx:19
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:60
 msgid "Call the Housing Court Answers hotline at <0>212-962-4795</0>."
@@ -640,7 +628,7 @@ msgstr "Continuar"
 msgid "Continue anyway"
 msgstr "Aún así continuar"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:140
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:41
 msgid "Continue letter"
 msgstr ""
 
@@ -771,10 +759,6 @@ msgstr "¿Aún tengo que pagar la renta?"
 msgid "Do you have a current eviction court case?"
 msgstr "¿Tiene usted un caso de desalojo en curso?"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:111
-msgid "Do you have another housing issue that you need to address?"
-msgstr ""
-
 #: frontend/lib/common-steps/ask-city-state.tsx:18
 msgid "Do you live in {0}, {1}?"
 msgstr "¿Vives en {0}, {1}?"
@@ -782,10 +766,6 @@ msgstr "¿Vives en {0}, {1}?"
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:20
 msgid "Do you still want to mail to:"
 msgstr "¿Aún deseas continuar?"
-
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:133
-msgid "Document repairs needed in your home, and send a formal request to your landlord"
-msgstr ""
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:33
 msgid "Document the harassment you and your family are experiencing and send a notice to your landlord."
@@ -813,10 +793,6 @@ msgstr "El timbre de la casa no funciona"
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:223
 msgid "Download completed declaration"
 msgstr "Descargar declaración completada"
-
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:31
-msgid "Download letter"
-msgstr ""
 
 #: common-data/issue-choices.ts:197
 msgid "Drain stoppage"
@@ -981,14 +957,6 @@ msgstr "Piso hundido"
 #: common-data/us-state-choices.ts:74
 msgid "Florida"
 msgstr "Florida"
-
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:46
-msgid "For LA City residents"
-msgstr ""
-
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:53
-msgid "For LA county residents"
-msgstr ""
 
 #: frontend/lib/evictionfree/homepage.tsx:169
 msgid "For New York State tenants"
@@ -1236,11 +1204,11 @@ msgstr "Cómo funciona"
 msgid "I agree to the <0/> terms and conditions."
 msgstr "Acepto los términos y condiciones de <0/>."
 
-#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:36
+#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:37
 msgid "I agree to the <0>Eviction Free NY terms and conditions</0>."
 msgstr "Acepto los <0>términos y condiciones de Eviction Free NY</0>."
 
-#: frontend/lib/norent/letter-builder/create-account.tsx:42
+#: frontend/lib/norent/letter-builder/create-account.tsx:43
 msgid "I agree to the <0>NoRent.org terms and conditions</0>."
 msgstr "Acepto los <0>términos y condiciones de NoRent.org</0>."
 
@@ -1327,10 +1295,6 @@ msgstr "Si necesitas cambiar tu nombre o tu información de contacto, ponte en c
 msgid "If you write checks or transfer money through your bank to pay your rent, use that name here."
 msgstr "Usa el nombre al que pagas la renta."
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:40
-msgid "If your landlord or property manager doesn’t respond, you should file a complaint."
-msgstr ""
-
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:70
 msgid "If you’d still like to create an account, we can send you updates in the future."
 msgstr "Si aún así quieres crear una cuenta, podemos enviarte noticias en el futuro."
@@ -1338,10 +1302,6 @@ msgstr "Si aún así quieres crear una cuenta, podemos enviarte noticias en el f
 #: common-data/us-state-choices.ts:78
 msgid "Illinois"
 msgstr "Illinois"
-
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:130
-msgid "In progress"
-msgstr ""
 
 #: frontend/lib/norent/the-letter.tsx:69
 msgid "In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense."
@@ -1457,14 +1417,6 @@ msgstr ""
 
 #: frontend/lib/ui/footer.tsx:27
 msgid "JustFix is a registered 501(c)(3) nonprofit organization."
-msgstr ""
-
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:83
-msgid "JustFix is preparing your letter"
-msgstr ""
-
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:101
-msgid "JustFix sent your letter on"
 msgstr ""
 
 #: frontend/lib/rh/routes.tsx:263
@@ -1728,10 +1680,6 @@ msgstr "Asegúrate de que la información sea la correcta."
 msgid "Make sure all the information is correct."
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:62
-msgid "Make sure you keep your schedule clear during the requested access dates:"
-msgstr ""
-
 #: frontend/lib/evictionfree/data/faqs-content.tsx:14
 msgid "Manhattan Housing Court:"
 msgstr "Corte de vivienda de Manhattan:"
@@ -1739,10 +1687,6 @@ msgstr "Corte de vivienda de Manhattan:"
 #: frontend/lib/norent/about.tsx:26
 msgid "Manufactured Housing Action"
 msgstr "Manufactured Housing Action"
-
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:59
-msgid "Mark your calendar"
-msgstr ""
 
 #: common-data/us-state-choices.ts:85
 msgid "Maryland"
@@ -1835,8 +1779,8 @@ msgstr "Debe tener por lo menos 8 letras. No se puede usar solo números."
 msgid "My issue is urgent and time sensitive. What should I do?"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:17
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:155
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:13
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:54
 msgid "My letters"
 msgstr "My letters"
 
@@ -1978,11 +1922,6 @@ msgstr "Aviso de impacto del COVID-19 en la renta enviado en nombre de {0}"
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:17
 msgid "Notice to Repair"
 msgstr "Notice to Repair"
-
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:27
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:126
-msgid "Notice to repair letter"
-msgstr ""
 
 #: frontend/lib/start-account-or-login/verify-password.tsx:59
 msgid "Now we just need your password. This is the same one you’ve used on JustFix."
@@ -2328,10 +2267,6 @@ msgstr "Ejemplar de una carta de NoRent.org"
 msgid "Search address"
 msgstr "Dirección de búsqueda"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:77
-msgid "See all your finished and unfinished letters"
-msgstr ""
-
 #: frontend/lib/evictionfree/faqs.tsx:37
 #: frontend/lib/norent/faqs.tsx:48
 msgid "See more FAQs"
@@ -2545,17 +2480,14 @@ msgstr "Iniciar"
 msgid "Start a legal case for repairs and/or harassment"
 msgstr "Empieza un caso legal por arreglos y/o acoso"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:148
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:24
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:47
 msgid "Start letter"
 msgstr ""
 
 #: frontend/lib/rh/routes.tsx:68
 msgid "Start my request"
 msgstr "Iniciar mi solicitud"
-
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:145
-msgid "Start your letter now"
-msgstr ""
 
 #: frontend/lib/forms/mailing-address-fields.tsx:7
 msgid "State"
@@ -2740,10 +2672,6 @@ msgstr "Correo Certificado de USPS"
 msgid "USPS Tracking #:"
 msgstr "Número de Seguimiento USPS:"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:103
-msgid "USPS tracking number:"
-msgstr ""
-
 #: frontend/lib/evictionfree/declaration-builder/routes.tsx:77
 msgid "Unfortunately, this tool is currently only available to individuals who live in the state of New York."
 msgstr "Desafortunadamente, esta herramienta sólo está disponible actualmente para personas que viven en el estado de Nueva York."
@@ -2825,10 +2753,6 @@ msgstr ""
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:144
 msgid "View list of organizations"
 msgstr "Ver lista de organizaciones"
-
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:116
-msgid "View other letters"
-msgstr ""
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:105
 msgid "View this letter as a PDF"
@@ -3404,10 +3328,6 @@ msgstr ""
 #: frontend/lib/common-steps/ask-nyc-address.tsx:39
 msgid "Your residence"
 msgstr "Tu hogar"
-
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:86
-msgid "Your tracking number will appear here once the letter has been sent."
-msgstr ""
 
 #: frontend/lib/norent/homepage.tsx:93
 msgid "You’re not alone. Millions of Americans won’t be able to pay rent because of COVID‑19. Use our FREE tool to take action by writing a letter to your landlord."

@@ -72,15 +72,4 @@ describe("my letters page", () => {
     await pal.waitForLocation("/en/habitability/issues");
     pal.rr.getByText(/Select the repairs/i);
   });
-
-  it("loads with a mailed letter", () => {
-    const pal = new AppTesterPal(
-      <Route component={LaLetterBuilderRouteComponent} />,
-      {
-        url: LaLetterBuilderRouteInfo.locale.habitability.myLetters,
-        session: sb.withMailedHabitabilityLetter().value,
-      }
-    );
-    pal.rr.getByText(/USPS tracking number/i);
-  });
 });

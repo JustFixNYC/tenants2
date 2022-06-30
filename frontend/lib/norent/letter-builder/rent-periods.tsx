@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import React, { useContext } from "react";
 import { AppContext } from "../../app-context";
 import { DjangoChoices } from "../../common-data";
@@ -7,12 +7,14 @@ import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-
 import { li18n } from "../../i18n-lingui";
 import { AllSessionInfo } from "../../queries/AllSessionInfo";
 import { NorentSetUpcomingLetterRentPeriodsMutation } from "../../queries/NorentSetUpcomingLetterRentPeriodsMutation";
-import { ProgressButtons } from "../../ui/buttons";
+import { BackButton, ProgressButtons } from "../../ui/buttons";
 import Page from "../../ui/page";
 import { friendlyUTCMonthAndYear } from "../../util/date-util";
 import { assertNotNull } from "@justfixnyc/util";
 import { NorentNotSentLetterStep } from "./step-decorators";
 import { Accordion } from "../../ui/accordion";
+import { Link } from "react-router-dom";
+import { AmiCalculatorLink } from "./know-your-rights";
 
 function getCurrentRentNonpaymentPeriods(s: AllSessionInfo): string[] {
   const validDates = new Set(
@@ -31,6 +33,35 @@ export function getRentNonpaymentChoices(
     friendlyUTCMonthAndYear(paymentDate),
   ]);
 }
+
+export const NorentRentPeriodsKyr = NorentNotSentLetterStep((props) => (
+  <Page
+    title={li18n._(t`Please confirm your household income`)}
+    withHeading="big"
+    className="content"
+  >
+    <div className="content">
+      <p>
+        <Trans>
+          My household income for the selected months is at or below 80 percent
+          of the Area Median Income (AMI).
+        </Trans>
+      </p>
+      <p>
+        <AmiCalculatorLink />
+      </p>
+    </div>
+    <div className="buttons jf-two-buttons">
+      <BackButton to={props.prevStep} />
+      <Link
+        to={props.nextStep}
+        className="jf-is-next-button button is-primary is-medium"
+      >
+        <Trans>Confirm</Trans>
+      </Link>
+    </div>
+  </Page>
+));
 
 export const NorentRentPeriods = NorentNotSentLetterStep((props) => {
   const { session } = useContext(AppContext);

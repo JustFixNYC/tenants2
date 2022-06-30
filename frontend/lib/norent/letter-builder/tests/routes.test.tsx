@@ -148,6 +148,7 @@ describe("NoRent letter builder steps", () => {
       "/en/letter/landlord/email",
       "/en/letter/landlord/address",
       "/en/letter/rent-periods",
+      "/en/letter/rent-periods/select-months",
       "/en/letter/preview",
       "/en/letter/confirmation",
     ],

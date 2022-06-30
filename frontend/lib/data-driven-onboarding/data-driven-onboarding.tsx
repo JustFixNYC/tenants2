@@ -24,10 +24,8 @@ import { UpdateBrowserStorage } from "../browser-storage";
 import { Trans, t, Plural } from "@lingui/macro";
 import { EnglishOutboundLink } from "../ui/localized-outbound-link";
 import { li18n } from "../i18n-lingui";
-import { efnycURL } from "../ui/efnyc-link";
 import { fbq } from "../analytics/facebook-pixel";
 import { CovidEhpDisclaimerText } from "../ui/covid-banners";
-import { getEvictionMoratoriumEndDate } from "../evictionfree/homepage";
 
 const CTA_CLASS_NAME = "button is-primary jf-text-wrap";
 
@@ -37,7 +35,6 @@ const PLACEHOLDER_IMG = "frontend/img/96x96.png";
 
 const MAX_RECOMMENDED_ACTIONS = 3;
 
-const EFNYC_PRIORITY = 100;
 const COMPLAINTS_PRIORITY = 40;
 const WOW_PRIORITY = 20;
 const RENT_HISTORY_PRIORITY = 10;
@@ -447,29 +444,6 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
         to: JustfixRoutes.locale.rh.splash,
         gaLabel: "rh",
         text: li18n._(t`Order rent history`),
-      },
-    };
-  },
-  function evictionFreeNy(data): ActionCardProps {
-    const covidMessage = (
-      <Trans id="justfix.ddoEfnycCovidMessage1">
-        You can send a hardship declaration form to your landlord and local
-        courts—putting your eviction case on hold until{" "}
-        {getEvictionMoratoriumEndDate()}.
-      </Trans>
-    );
-    return {
-      title: li18n._(t`Protect yourself from eviction`),
-      priority: EFNYC_PRIORITY,
-      isRecommended:
-        data.isRtcEligible && (data.numberOfEvictionsFromPortfolio || 0) > 0,
-      indicators: [covidMessage],
-      fallbackMessage: covidMessage,
-      imageStaticURL: "frontend/img/ddo/judge.svg",
-      cta: {
-        to: efnycURL(),
-        gaLabel: "efnyc",
-        text: li18n._(t`Learn more`),
       },
     };
   },

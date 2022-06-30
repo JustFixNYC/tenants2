@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-23 19:00+0000\n"
-"PO-Revision-Date: 2022-03-09 19:26\n"
+"POT-Creation-Date: 2022-06-21 23:28+0000\n"
+"PO-Revision-Date: 2022-06-30 14:34\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -85,6 +85,14 @@ msgstr "Activar modo de compatibilidad"
 #: frontend/templates/frontend/safe_mode_ui.html:33
 msgid "close"
 msgstr "cerrar"
+
+#: laletterbuilder/forms.py:54
+msgid "Please select at least one repair issue."
+msgstr ""
+
+#: laletterbuilder/forms.py:73
+msgid "Please provide a landlord email or indicate that you do not have this information."
+msgstr ""
 
 #: norent/forms.py:65
 #, python-format

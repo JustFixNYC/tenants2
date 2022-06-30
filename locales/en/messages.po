@@ -2276,7 +2276,7 @@ msgstr "Rusty water"
 msgid "Sample Habitability letter"
 msgstr "Sample Habitability letter"
 
-#: frontend/lib/norent/letter-content.tsx:289
+#: frontend/lib/norent/letter-content.tsx:296
 msgid "Sample NoRent.org letter"
 msgstr "Sample NoRent.org letter"
 
@@ -3215,7 +3215,7 @@ msgstr "Your Letter Is Ready To Send!"
 msgid "Your NoRent letter and important next steps"
 msgstr "Your NoRent letter and important next steps"
 
-#: frontend/lib/norent/letter-content.tsx:282
+#: frontend/lib/norent/letter-content.tsx:289
 msgid "Your NoRent.org letter"
 msgstr "Your NoRent.org letter"
 
@@ -3715,11 +3715,11 @@ msgstr "<0>Connect to organizers through the <1/>, a national alliance of organi
 msgid "norent.introductionToLetterBuilderSteps"
 msgstr "In order to benefit from the eviction protections that local elected officials have put in place, you should notify your landlord of your non-payment for reasons related to COVID-19. <0>In the event that your landlord tries to evict you, the courts will see this as a proactive step that helps establish your defense.</0>"
 
-#: frontend/lib/norent/letter-content.tsx:209
+#: frontend/lib/norent/letter-content.tsx:216
 msgid "norent.letter.conclusion"
 msgstr "<0>Congress passed the CARES Act on March 27, 2020 (Public Law 116-136). Tenants in covered properties are also protected from eviction for non-payment or any other reason until August 23, 2020. Please let me know right away if you believe this property is not covered by the CARES Act and explain why the property is not covered.</0><1>In order to document our communication and to avoid misunderstandings, please reply to me via mail or text rather than a call or visit.</1><2>Thank you for your understanding and cooperation.</2>"
 
-#: frontend/lib/norent/letter-content.tsx:202
+#: frontend/lib/norent/letter-content.tsx:209
 msgid "norent.letter.floridaAddition"
 msgstr "I have suffered a loss of employment, diminished wages or business income, or other monetary loss realized during the Florida State of Emergency directly impacting my ability to make rent payments."
 
@@ -3731,25 +3731,25 @@ msgstr "As required under section VI.A.1 of the January 25, 2022 Resolution of t
 msgid "norent.letter.noteAboutLetterStructureOnPreview"
 msgstr "Please note that your declaration letter will be structured as follows to meet the requirements under section VI.A.1 of the January 25, 2022 Resolution of the Board of Supervisors of the County of Los Angeles Further Amending and Restating the County of Los Angeles COVID-19 Tenant Protections Resolution:"
 
-#: frontend/lib/norent/letter-content.tsx:154
+#: frontend/lib/norent/letter-content.tsx:161
 msgid "norent.letter.v1NonPayment"
 msgstr "This letter is to notify you that I will be unable to pay rent starting on <0/> and until further notice due to loss of income, increased expenses, and/or other financial circumstances related to COVID-19."
 
-#: frontend/lib/norent/letter-content.tsx:162
+#: frontend/lib/norent/letter-content.tsx:169
 msgid "norent.letter.v1NonPayment_multipleDates"
 msgstr "This letter is to notify you that I will be unable to pay rent for the following months and until further notice due to loss of income, increased expenses, and/or other financial circumstances related to COVID-19:"
 
-#: frontend/lib/norent/letter-content.tsx:183
+#: frontend/lib/norent/letter-content.tsx:190
 msgid "norent.letter.v2Hardship"
 msgstr "This letter is to notify you that I have experienced a loss of income, increased expenses and/or other financial circumstances related to the pandemic. Until further notice, the COVID-19 emergency may impact my ability to pay rent. I am not waiving my right to assert any other defenses."
 
-#: frontend/lib/norent/letter-content.tsx:193
+#: frontend/lib/norent/letter-content.tsx:200
 msgid "norent.letter.v3FewProtections"
 msgstr "This letter is to advise you of protections in place for tenants in {0}. I am not waiving my right to assert any other defenses."
 
 #: frontend/lib/norent/letter-content.tsx:91
-msgid "norent.letterBodyCaliforniaLaCountyVIA1"
-msgstr "<0>This declaration letter is in regards to rent payment for the following months:</0><1/><2>I am unable to pay the above months' rent due to a Financial Impact Related to COVID-19. I hereby certify that I have one of the following Financial Impacts:</2><3><4>Substantial loss of household income caused by the COVID-19 pandemic;</4><5>Loss of revenue or business due to business closure;</5><6>Increased costs;</6><7>Reduced revenues or other similar reasons impacting my ability to pay rent due;</7><8>Loss of compensable hours of work or wages, or layoffs; or</8><9>Extraordinary out-of-pocket medical expenses.</9></3><10>The Financial Impact was related to COVID-19 in one or more of the following ways:</10><11><12>A suspected or confirmed case of COVID-19, or caring for a household or family member who has a suspected or confirmed case of COVID-19;</12><13>Lay-off, loss of compensable work hours, or other reduction or loss of income or revenue resulting from a business closure or other economic or employer impacts related to COVID-19;</13><14>Compliance with an order or recommendation of the County’s Health Officer to stay at home, self-quarantine, or avoid congregating with others during the state of emergency;</14><15>Extraordinary out-of-pocket medical expenses related to the diagnosis of, testing for, and/or treatment of COVID-19; or</15><16>Childcare needs arising from school closures in response to COVID-19.</16></11><17>This notice is being provided within seven (7) days of when the above months' rent was due. Or, if this notice is being provided later than seven (7) days after that date, extenuating circumstances exist which prevented me from providing this notice sooner.</17>"
+msgid "norent.letterBodyCaliforniaLaCountyVIA1v2"
+msgstr "<0>As required under section VI.A.1 of the January 25, 2022 Resolution of the Board of Supervisors of the County of Los Angeles Further Amending and Restating the County of Los Angeles COVID-19 Tenant Protections Resolution, this declaration letter is in regards to rent payment for the following months:</0><1/><2>My household income for the above month is at or below 80 percent of the Area Median Income.</2><3>I am unable to pay the above months' rent due to a Financial Impact Related to COVID-19. I hereby certify that I have one of the following Financial Impacts:</3><4><5>Substantial loss of household income caused by the COVID-19 pandemic;</5><6>Loss of revenue or business due to business closure;</6><7>Increased costs;</7><8>Reduced revenues or other similar reasons impacting my ability to pay rent due;</8><9>Loss of compensable hours of work or wages, or layoffs; or</9><10>Extraordinary out-of-pocket medical expenses.</10></4><11>The Financial Impact was related to COVID-19 in one or more of the following ways:</11><12><13>A suspected or confirmed case of COVID-19, or caring for a household or family member who has a suspected or confirmed case of COVID-19;</13><14>Lay-off, loss of compensable work hours, or other reduction or loss of income or revenue resulting from a business closure or other economic or employer impacts related to COVID-19;</14><15>Compliance with an order or recommendation of the County’s Health Officer to stay at home, self-quarantine, or avoid congregating with others during the state of emergency;</15><16>Extraordinary out-of-pocket medical expenses related to the diagnosis of, testing for, and/or treatment of COVID-19; or</16><17>Childcare needs arising from school closures in response to COVID-19.</17></12><18>This notice is being provided within seven (7) days of when the above months' rent was due. Or, if this notice is being provided later than seven (7) days after that date, extenuating circumstances exist which prevented me from providing this notice sooner.</18>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:47
 msgid "norent.listOfSuggestedNonpaymentDocumentation"

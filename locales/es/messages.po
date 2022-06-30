@@ -2280,7 +2280,7 @@ msgstr "Agua Oxidada"
 msgid "Sample Habitability letter"
 msgstr "Sample Habitability letter"
 
-#: frontend/lib/norent/letter-content.tsx:289
+#: frontend/lib/norent/letter-content.tsx:296
 msgid "Sample NoRent.org letter"
 msgstr "Ejemplar de una carta de NoRent.org"
 
@@ -3219,7 +3219,7 @@ msgstr "¡Tu carta está lista para enviar!"
 msgid "Your NoRent letter and important next steps"
 msgstr "Tu carta de NoRent y pasos siguientes importantes"
 
-#: frontend/lib/norent/letter-content.tsx:282
+#: frontend/lib/norent/letter-content.tsx:289
 msgid "Your NoRent.org letter"
 msgstr "Tu carta de NoRent.org"
 
@@ -3724,11 +3724,11 @@ msgstr "<0> Ponte en contacto con organizadores del movimiento de la vivienda a 
 msgid "norent.introductionToLetterBuilderSteps"
 msgstr "Para que la ley estatal de California de AB3088 te ampare con las protecciones del COVID-19 de no poder pagar la renta, deberías notificar al dueño o manager de tu edificio. <0>En el caso de que intenten desalojarte, las cortes lo verán como un paso proactivo que ayude a establecer tu defensa.</0>"
 
-#: frontend/lib/norent/letter-content.tsx:209
+#: frontend/lib/norent/letter-content.tsx:216
 msgid "norent.letter.conclusion"
 msgstr "<0>El Congreso aprobó la Ley CARES el 27 de marzo del 2020 (Ley Pública 116-136). Los inquilinos que viven en propiedades cubiertas por esta ley, también están protegidos del desalojo por impago o cualquier otra razón hasta el 23 de agosto de 2020. Por favor, hágame saber de inmediato si usted cree que esta vivienda no está cubierta por la ley CARES y explique por qué. </0><1>Para documentar nuestra comunicación y evitar malentendidos, por favor responda por correo electrónico o texto en lugar de una llamada o visita. </1><2>Gracias por su comprensión y cooperación.</2>"
 
-#: frontend/lib/norent/letter-content.tsx:202
+#: frontend/lib/norent/letter-content.tsx:209
 msgid "norent.letter.floridaAddition"
 msgstr "He sufrido una pérdida de empleo, salarios o ingresos durante el estado de emergencia de Florida que afecta directamente mi capacidad de hacer pagos de alquiler."
 
@@ -3740,25 +3740,25 @@ msgstr ""
 msgid "norent.letter.noteAboutLetterStructureOnPreview"
 msgstr ""
 
-#: frontend/lib/norent/letter-content.tsx:154
+#: frontend/lib/norent/letter-content.tsx:161
 msgid "norent.letter.v1NonPayment"
 msgstr "Esta carta es para notificarle que no podré pagar el alquiler a partir del <0/> y hasta nuevo aviso debido a la pérdida de ingresos, gastos adicionales, y/o otras circunstancias financieras relacionadas con el COVID-19."
 
-#: frontend/lib/norent/letter-content.tsx:162
+#: frontend/lib/norent/letter-content.tsx:169
 msgid "norent.letter.v1NonPayment_multipleDates"
 msgstr "Esta carta es para notificarle que no podré pagar la renta durante los meses siguientes y hasta siguiente aviso debido a la pérdida de ingresos, gastos adicioonales, y/o otras circunstancias financieras relacionadas con el COVID-19:"
 
-#: frontend/lib/norent/letter-content.tsx:183
+#: frontend/lib/norent/letter-content.tsx:190
 msgid "norent.letter.v2Hardship"
 msgstr "Esta carta es para notificarle que he tenido una pérdida de ingresos, gastos adicionales y/o otras circunstancias financieras relacionadas con la pandemia. Hasta nuevo aviso, la emergencia del COVID-19 puede afectar mi capacidad de pagar la renta. No renuncio a mi derecho a establecer otras defensas adicionales."
 
-#: frontend/lib/norent/letter-content.tsx:193
+#: frontend/lib/norent/letter-content.tsx:200
 msgid "norent.letter.v3FewProtections"
 msgstr "Esta carta es para informarle de las protecciones para inquilinos existentes en {0}. No renuncio a mi derecho a establecer defensas adicionales."
 
 #: frontend/lib/norent/letter-content.tsx:91
-msgid "norent.letterBodyCaliforniaLaCountyVIA1"
-msgstr "<0>Esta carta de declaración se refiere al pago del alquiler durante los meses siguientes:</0><1/><2>Actualmente no puedo pagar mi alquiler u otras obligaciones financieras en virtud del contrato de arrendamiento en su totalidad debido a uno o más de los siguientes:</2><3><4>Pérdida sustancial de ingresos del hogar causada por la pandemia de COVID-19;</4><5>Pérdida de ingresos o negocios debido al cierre del negocio;</5><6>Aumento de los costos;</6><7>Ingresos reducidos u otras razones similares que afectan mi capacidad para pagar el alquiler adeudado;</7><8>Pérdida de horas de trabajo o salarios compensables, o despidos; o</8><9>Gastos médicos extraordinarios de bolsillo.</9></3><10>Tengo un impacto financiero relacionado con COVID-19 de una o más de las siguientes maneras:</10><11><12>Un caso sospechoso o confirmado de COVID-19, o el cuidado de un miembro del hogar o familiar que tiene un caso sospechoso o confirmado de COVID-19;</12><13>Despido, pérdida de horas de trabajo compensables u otra reducción o pérdida de ingresos o ingresos resultante del cierre de una empresa u otros impactos económicos o del empleador relacionados con COVID-19;</13><14>Cumplimiento de una orden o recomendación del Funcionario de Salud del Condado de quedarse en casa, ponerse en cuarentena o evitar congregarse con otras personas durante el estado de emergencia;</14><15>Gastos médicos extraordinarios de su bolsillo relacionados con el diagnóstico, la prueba y/o el tratamiento de COVID-19; o </15><16>Necesidades de cuidado infantil derivadas del cierre de escuelas en respuesta a COVID-19.</16></11><17>Este aviso se proporciona dentro de los siete (7) días posteriores a la fecha de vencimiento del alquiler del mes anterior. O, si este aviso se proporciona después de siete (7) días después de esa fecha, existen circunstancias atenuantes que me impidieron proporcionar este aviso antes.</17>"
+msgid "norent.letterBodyCaliforniaLaCountyVIA1v2"
+msgstr ""
 
 #: frontend/lib/norent/data/faqs-content.tsx:47
 msgid "norent.listOfSuggestedNonpaymentDocumentation"

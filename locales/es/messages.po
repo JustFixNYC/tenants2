@@ -1175,16 +1175,16 @@ msgstr "Respuestas de la Corte de Vivienda"
 msgid "Housing Justice for All"
 msgstr "Housing Justice for All"
 
-#: frontend/lib/norent/data/faqs-content.tsx:446
+#: frontend/lib/norent/data/faqs-content.tsx:412
 msgid "How can I build collective power with other tenants?"
 msgstr "¿Cómo puedo construir poder colectivo con otros inquilinos?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:340
-#: frontend/lib/norent/data/faqs-content.tsx:441
+#: frontend/lib/norent/data/faqs-content.tsx:407
 msgid "How can I connect with a lawyer?"
 msgstr "¿Cómo puedo ponerme en contacto con un abogado?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:436
+#: frontend/lib/norent/data/faqs-content.tsx:402
 msgid "How can I document my hardships related to COVID-19?"
 msgstr "¿Cómo puedo documentar mis dificultades relacionadas con el COVID-19?"
 
@@ -2960,10 +2960,6 @@ msgstr "¿Qué pasa si tengo más preguntas?"
 msgid "What if I live in a manufactured or mobile home?"
 msgstr "¿Qué sucede si vivo en una casa prefabricada o móvil?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:402
-msgid "What if I live in a state without an eviction moratorium?"
-msgstr "¿Qué sucede si vivo en un estado en donde no existe la moratoria de desalojo?"
-
 #: frontend/lib/norent/letter-email-to-user.tsx:116
 msgid "What if my landlord sends me a notice?"
 msgstr "¿Qué pasa si el dueño o manager de mi edificio me envía un aviso?"
@@ -3707,10 +3703,6 @@ msgstr "<0>Después de enviar esta carta, tu arrendador puede contactarte para p
 #: frontend/lib/norent/data/faqs-content.tsx:128
 msgid "norent.instructionsForConnectingWithOrganizers"
 msgstr "<0> Ponte en contacto con organizadores del movimiento de la vivienda a través de <1/>, una alianza nacional de organizadores que construye el movimiento de inquilinos desde 2007. Puedes unirte a su convocatoria de inquilinos en todo el país para luchar por la condonación de la renta en <2/>.</0>"
-
-#: frontend/lib/norent/data/faqs-content.tsx:404
-msgid "norent.instructionsForStatesWithLimitedProtections_v2"
-msgstr "<0><1/></0><2>También debes saber que no estás solo. En los estados sin moratoria de desalojo es importante protegerse legalmente y construir poder colectivo con otros inquilinos.</2><3> Primero, comienza asegurándote de que toda la comunicación con el dueño de tu edificio esté documentada por escrito. Comienza a recopilar toda la documentación de cualquier dificultad que hayas tenido relacionada con el COVID-19. Si te enfrentas a una emergencia, busca de inmediato ayuda legal en tu estado consultando en <4/>.</3><5> Luego, conéctate de manera segura con otros inquilinos en tu edificio o el lugar en donde vives. Comienza organizando un sistema de comunicación entre vosotros para averiguar qué problemas y necesidades tenéis en común. Para obtener más recursos sobre cómo formar un sindicato de inquilinos, consulta <6/>. También puedes contactar a grupos locales que se estén organizando y que estén afiliados a la alianza nacional <7/>.</5><8> Finalmente, únete a los millones de inquilinos que están trabajando arduamente y luchando por la protección nacional de los inquilinos, la congelación y suspensión inmediatas del alquiler. Súmate a <9/>.</8>"
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:12
 msgid "norent.introductionToLetterBuilderSteps"

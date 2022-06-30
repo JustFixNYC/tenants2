@@ -1170,16 +1170,16 @@ msgstr "Housing Court Answers"
 msgid "Housing Justice for All"
 msgstr "Housing Justice for All"
 
-#: frontend/lib/norent/data/faqs-content.tsx:446
+#: frontend/lib/norent/data/faqs-content.tsx:412
 msgid "How can I build collective power with other tenants?"
 msgstr "How can I build collective power with other tenants?"
 
 #: frontend/lib/norent/data/faqs-content.tsx:340
-#: frontend/lib/norent/data/faqs-content.tsx:441
+#: frontend/lib/norent/data/faqs-content.tsx:407
 msgid "How can I connect with a lawyer?"
 msgstr "How can I connect with a lawyer?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:436
+#: frontend/lib/norent/data/faqs-content.tsx:402
 msgid "How can I document my hardships related to COVID-19?"
 msgstr "How can I document my hardships related to COVID-19?"
 
@@ -2956,10 +2956,6 @@ msgstr "What if I have more questions?"
 msgid "What if I live in a manufactured or mobile home?"
 msgstr "What if I live in a manufactured or mobile home?"
 
-#: frontend/lib/norent/data/faqs-content.tsx:402
-msgid "What if I live in a state without an eviction moratorium?"
-msgstr "What if I live in a state without an eviction moratorium?"
-
 #: frontend/lib/norent/letter-email-to-user.tsx:116
 msgid "What if my landlord sends me a notice?"
 msgstr "What if my landlord sends me a notice?"
@@ -3698,10 +3694,6 @@ msgstr "<0>After you send this letter, your landlord may get in touch with you t
 #: frontend/lib/norent/data/faqs-content.tsx:128
 msgid "norent.instructionsForConnectingWithOrganizers"
 msgstr "<0>Connect to organizers through the <1/>, a national alliance of organizers building the tenant movement since 2007. You can join their call for renters across the country to fight for the cancellation of rent at <2/>.</0>"
-
-#: frontend/lib/norent/data/faqs-content.tsx:404
-msgid "norent.instructionsForStatesWithLimitedProtections_v2"
-msgstr "<0><1/></0><2>Also know that you’re not alone. In states without eviction moratoriums, it’s important to both protect yourself legally and build collective power with other tenants.</2><3>First, start by making sure that all communication between you and your landlord is documented in writing. Begin collecting all documentation of any hardships related to COVID-19. If you’re facing an emergency, immediately find legal assistance in your state at <4/>.</3><5>Next, connect safely with other tenants in your building or home. Start by organizing a means of communicating with one another to find out what issues and needs you share in common. For more resources on forming a tenant union check out <6/>. You may also connect with local organizing groups affiliated with the national <7/>.</5><8>Finally, join millions of tenants who are working hard to fight for national tenant protections, an immediate rent freeze, and rent suspension. Sign on at <9/>.</8>"
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:12
 msgid "norent.introductionToLetterBuilderSteps"

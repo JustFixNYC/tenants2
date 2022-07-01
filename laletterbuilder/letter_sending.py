@@ -35,7 +35,7 @@ LALETTERBUILDER_EMAIL_TO_LANDLORD_URL = "letter-email.txt"
 LALETTERBUILDER_EMAIL_TO_USER_URL = "letter-email-to-user.html"
 
 # Set to true when we are ready to test LOB letter sending
-LETTER_SENDING_ENABLED = True
+LETTER_SENDING_ENABLED = False
 
 logger = logging.getLogger(__name__)
 

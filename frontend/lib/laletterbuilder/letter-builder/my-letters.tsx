@@ -85,7 +85,7 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
               <TextualFormField
                 {...ctx.fieldPropsFor("letterId")}
                 fieldProps={{ className: "is-hidden" }}
-                label={li18n._(t`Hidden letter ID field`)}
+                label="Hidden letter ID field"
               />
             </button>
           )}

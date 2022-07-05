@@ -74,3 +74,14 @@ class SendOptionsForm(forms.ModelForm):
                     "have this information."
                 )
             )
+
+class DownloadLetterPDFForm(forms.Form):
+    letter_id = forms.CharField(
+        required=True,
+        help_text=("Request to fetch the PDF of the letter with this ID as a base64-encoded string"),
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        letter_id = cleaned_data.get("letter_id")
+

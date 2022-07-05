@@ -191,7 +191,10 @@ type InformationNeededProps = {
 function InformationNeeded({ information }: InformationNeededProps) {
   const listItems = information.map((item, i) => <li key={i}>{item}</li>);
   return (
-    <Accordion question={"What information will I need?"} questionClassName="">
+    <Accordion
+      question={li18n._(t`What information will I need?`)}
+      questionClassName=""
+    >
       <ul>{listItems}</ul>
       <br />
     </Accordion>

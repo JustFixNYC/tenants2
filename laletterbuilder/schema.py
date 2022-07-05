@@ -310,6 +310,13 @@ class LaLetterBuilderSessionInfo:
         ),
     )
 
+    habitability_letters = graphene.List(
+        graphene.NonNull(HabitabilityLetterType),
+        description=(
+            "All habitability letters that have been created (sent and unsent) by the user"
+        ),
+    )
+
     def resolve_la_issues(self, info: ResolveInfo) -> List[str]:
         user = info.context.user
         if not user.is_authenticated:
@@ -342,3 +349,9 @@ class LaLetterBuilderSessionInfo:
         if not request.user.is_authenticated:
             return None
         return models.HabitabilityLetter.objects.filter(user=request.user).first()
+
+    def resolve_habitability_letters(self, info: ResolveInfo):
+        request = info.context
+        if not request.user.is_authenticated:
+            return None
+        return models.HabitabilityLetter.objects.filter(user=request.user)

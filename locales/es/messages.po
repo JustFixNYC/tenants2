@@ -3058,6 +3058,10 @@ msgstr "¿Qué sucede si vivo en una casa prefabricada o móvil?"
 msgid "What if my landlord sends me a notice?"
 msgstr "¿Qué pasa si el dueño o manager de mi edificio me envía un aviso?"
 
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:101
+msgid "What information will I need?"
+msgstr ""
+
 #: frontend/lib/evictionfree/data/faqs-content.tsx:242
 msgid "What is the deadline for filling out the declaration?"
 msgstr "¿Cuál es el plazo para completar el formulario de declaración?"
@@ -3077,6 +3081,10 @@ msgstr "¿Cuál es tu municipalidad?"
 #: frontend/lib/norent/data/faqs-content.tsx:397
 msgid "What kind of documentation should I collect to prove I can’t pay rent?"
 msgstr "¿Qué tipo de documentación debo recopilar para demostrar que no puedo pagar la renta?"
+
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:35
+msgid "What's next?"
+msgstr ""
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:6
 msgid "When do I need to send a letter to my landlord?"

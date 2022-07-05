@@ -3053,6 +3053,10 @@ msgstr "What if I live in a manufactured or mobile home?"
 msgid "What if my landlord sends me a notice?"
 msgstr "What if my landlord sends me a notice?"
 
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:101
+msgid "What information will I need?"
+msgstr "What information will I need?"
+
 #: frontend/lib/evictionfree/data/faqs-content.tsx:242
 msgid "What is the deadline for filling out the declaration?"
 msgstr "What is the deadline for filling out the declaration?"
@@ -3072,6 +3076,10 @@ msgstr "What is your borough?"
 #: frontend/lib/norent/data/faqs-content.tsx:397
 msgid "What kind of documentation should I collect to prove I can’t pay rent?"
 msgstr "What kind of documentation should I collect to prove I can’t pay rent?"
+
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:35
+msgid "What's next?"
+msgstr "What's next?"
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:6
 msgid "When do I need to send a letter to my landlord?"

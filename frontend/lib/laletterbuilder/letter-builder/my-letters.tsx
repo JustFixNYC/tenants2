@@ -53,7 +53,7 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
         </OutboundLink>
       </div>
       <hr />
-      <Accordion question={"What's next?"} questionClassName="">
+      <Accordion question={li18n._(t`What's next?`)} questionClassName="">
         <h2>
           <Trans>Allow 14 days for a response</Trans>
         </h2>

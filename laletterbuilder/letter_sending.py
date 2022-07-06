@@ -132,6 +132,11 @@ def send_letter(letter: models.Letter):
             user=user,
         ).html
 
+    with transaction.atomic():
+        letter.html_content = html_content
+        letter.localized_html_content = localized_html_content
+        letter.save()
+
     pdf_bytes = render_multilingual_letter(letter)
     letter_type = letter.get_letter_type()  # TODO: localize this somewhere
     ld = user.landlord_details
@@ -160,8 +165,6 @@ def send_letter(letter: models.Letter):
     )
 
     with transaction.atomic():
-        letter.html_content = html_content
-        letter.localized_html_content = localized_html_content
         letter.pdf_base64 = base64.b64encode(pdf_bytes).decode("utf-8")
         letter.fully_processed_at = timezone.now()
         letter.full_clean()

@@ -13,6 +13,7 @@ import { override } from "../../../tests/util";
 const sb = newSb().withLoggedInJustfixUser();
 
 const blankHabitabilityLetter = {
+  id: "1",
   trackingNumber: "",
   letterSentAt: "",
   fullyProcessedAt: "",

@@ -23,7 +23,7 @@ export function getLaLetterBuilderImageSrc(
 
 export const LaLetterBuilderHomepage: React.FC<{}> = () => (
   <Page title={li18n._(t`LA Letter Builder Homepage`)} className="content">
-    <section className="hero is-fullheight-with-navbar jf-laletterbuilder-landing-section-primary">
+    <section className="hero jf-laletterbuilder-landing-section-primary">
       <div className="hero-body">
         <div className="container jf-has-text-centered-tablet">
           <h1 className="title is-spaced has-text-info">

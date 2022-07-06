@@ -25,7 +25,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
   <Page title={li18n._(t`LA Letter Builder Homepage`)} className="content">
     <section className="hero jf-laletterbuilder-landing-section-primary">
       <div className="hero-body">
-        <div className="container jf-has-text-centered-tablet">
+        <div className="container">
           <h1 className="title is-spaced has-text-info">
             <Trans>
               As a California resident, you have a right to safe housing
@@ -47,7 +47,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
     </section>
     <section className="jf-laletterbuilder-landing-section-secondary">
       <div className="hero-body">
-        <div className="container jf-has-text-centered-tablet">
+        <div className="container">
           <h2 className="is-spaced has-text-info">
             <Trans>Legally vetted</Trans>
           </h2>
@@ -75,7 +75,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
     </section>
     <section className="jf-laletterbuilder-landing-section-tertiary">
       <div className="hero-body">
-        <div className="container jf-has-text-centered-tablet">
+        <div className="container">
           <h2 className="is-spaced">
             <Trans>How it works</Trans>
           </h2>
@@ -118,7 +118,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
     </section>
     <section className="jf-laletterbuilder-landing-section-primary">
       <div className="hero-body">
-        <div className="jf-accordion-list-large container jf-has-text-centered-tablet">
+        <div className="jf-accordion-list-large container">
           <h2 className="is-spaced">
             <Trans>Frequently asked questions</Trans>
           </h2>
@@ -137,7 +137,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
     </section>
     <section className="jf-laletterbuilder-landing-section-secondary">
       <div className="hero-body">
-        <div className="container jf-has-text-centered-tablet">
+        <div className="container">
           <h2 className="is-spaced">
             <Trans>Tenant rights resources</Trans>
           </h2>

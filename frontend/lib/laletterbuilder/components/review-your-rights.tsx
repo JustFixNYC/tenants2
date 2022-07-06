@@ -20,29 +20,35 @@ export const LaLetterBuilderReviewRights = LaLetterBuilderOnboardingStep(
             letter to notify your landlord is within your rights.
           </Trans>
         </h3>
-        <p>
-          <Trans id="laletterbuilder.retaliationOptions">
+        <Trans id="laletterbuilder.retaliationInfo">
+          <p>
             If your landlord is retaliating against you for exercising your
             rights, you can:
+          </p>
+          <ul>
             <li>
-              Attend SAJE's{" "}
-              <OutboundLink href="https://www.saje.net/what-we-do/tenant-action-clinic/">
-                Tenant Action Clinic
-              </OutboundLink>
+              <p>
+                Attend SAJE'S{" "}
+                <OutboundLink href="https://www.saje.net/what-we-do/tenant-action-clinic/">
+                  Tenant Action Clinic
+                </OutboundLink>
+              </p>
             </li>
             <li>
-              Open a complaint with{" "}
-              <OutboundLink href="https://housing.lacity.org/residents/file-a-complaint">
-                Los Angeles Housing Department (LAHD)
-              </OutboundLink>{" "}
-              if you live in the City of LA or{" "}
-              <OutboundLink href="http://publichealth.lacounty.gov/eh/about/contact-us.htm#customer-call-center">
-                Public Health
-              </OutboundLink>{" "}
-              if you live someplace else in LA County
+              <p>
+                File a complaint with{" "}
+                <OutboundLink href="https://housing.lacity.org/residents/file-a-complaint">
+                  Los Angeles Housing Department (LAHD)
+                </OutboundLink>
+                if you live in the City of LA or{" "}
+                <OutboundLink href="http://publichealth.lacounty.gov/eh/about/contact-us.htm#customer-call-center">
+                  Public Health
+                </OutboundLink>{" "}
+                if you live someplace else in LA County
+              </p>
             </li>
-          </Trans>
-        </p>
+          </ul>
+        </Trans>
         <ProgressButtonsAsLinks back={props.prevStep} next={props.nextStep} />{" "}
       </Page>
     );

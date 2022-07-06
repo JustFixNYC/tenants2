@@ -242,7 +242,7 @@ msgstr "Apply for ERAP Online"
 msgid "Are you sure you want to log out?"
 msgstr "Are you sure you want to log out?"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:90
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:92
 msgid "Are you sure you want to mail the letter yourself?"
 msgstr "Are you sure you want to mail the letter yourself?"
 
@@ -275,7 +275,7 @@ msgstr "Automatically fill in your landlord's information based on your address 
 msgid "Available in English and Spanish."
 msgstr "Available in English and Spanish."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:124
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:126
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
 msgstr "Back"
@@ -872,7 +872,7 @@ msgstr "Email a copy to your landlord or property manager"
 msgid "Email address"
 msgstr "Email address"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:116
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:118
 msgid "Email your letter to:"
 msgstr "Email your letter to:"
 
@@ -1086,8 +1086,8 @@ msgid "Good news!"
 msgstr "Good news!"
 
 #: frontend/lib/ui/privacy-info-modal.tsx:64
-msgid "Got it!"
-msgstr "Got it!"
+msgid "Got it"
+msgstr "Got it"
 
 #: frontend/lib/pages/redirect-to-english-page.tsx:15
 msgid "Got it, take me there"
@@ -1260,7 +1260,7 @@ msgstr "I am experiencing financial hardship due to COVID-19."
 msgid "I am undocumented. Can I send a letter?"
 msgstr "I am undocumented. Can I send a letter?"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:72
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:73
 msgid "I don't have this information"
 msgstr "I don't have this information"
 
@@ -1520,7 +1520,7 @@ msgstr "Landlord address"
 msgid "Landlord name"
 msgstr "Landlord name"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:70
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:71
 msgid "Landlord or property manager email"
 msgstr "Landlord or property manager email"
 
@@ -1713,7 +1713,7 @@ msgstr "Mail for free"
 msgid "Mail for me"
 msgstr "Mail for me"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:91
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:93
 msgid "Mail letter now for free"
 msgstr "Mail letter now for free"
 
@@ -1721,7 +1721,7 @@ msgstr "Mail letter now for free"
 msgid "Mail myself"
 msgstr "Mail myself"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:109
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:111
 msgid "Mail your letter to:"
 msgstr "Mail your letter to:"
 
@@ -2170,7 +2170,7 @@ msgstr "Preview of your letter"
 msgid "Preview this declaration as a PDF"
 msgstr "Preview this declaration as a PDF"
 
-#: frontend/lib/laletterbuilder/components/footer.tsx:36
+#: frontend/lib/laletterbuilder/components/footer.tsx:34
 #: frontend/lib/ui/privacy-info-modal.tsx:30
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
@@ -2644,7 +2644,7 @@ msgstr "Tenants impacted by the COVID-19 crisis are protected from eviction for 
 msgid "Tennessee"
 msgstr "Tennessee"
 
-#: frontend/lib/laletterbuilder/components/footer.tsx:46
+#: frontend/lib/laletterbuilder/components/footer.tsx:42
 #: frontend/lib/ui/privacy-info-modal.tsx:31
 msgid "Terms of Use"
 msgstr "Terms of Use"
@@ -2910,7 +2910,7 @@ msgstr "We found this email address for your landlord:"
 msgid "We make it easy to notify your landlord by email or by certified mail for free."
 msgstr "We make it easy to notify your landlord by email or by certified mail for free."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:99
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:101
 msgid "We recommend that you to go back and select “Mail for me”. If you wish to send the letter yourself, continue to see instructions."
 msgstr "We recommend that you to go back and select “Mail for me”. If you wish to send the letter yourself, continue to see instructions."
 
@@ -2918,7 +2918,7 @@ msgstr "We recommend that you to go back and select “Mail for me”. If you wi
 msgid "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 msgstr "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:105
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:107
 msgid "We will email your letter to:"
 msgstr "We will email your letter to:"
 
@@ -3418,12 +3418,12 @@ msgid "Your phone number"
 msgstr "Your phone number"
 
 #: frontend/lib/ui/privacy-info-modal.tsx:33
-msgid "Your privacy is very important to us!"
-msgstr "Your privacy is very important to us!"
+msgid "Your privacy is very important to us"
+msgstr "Your privacy is very important to us"
 
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:54
-msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure."
-msgstr "Your privacy is very important to us! Everything on JustFix.nyc is secure."
+msgid "Your privacy is very important to us. Everything on JustFix.nyc is secure."
+msgstr "Your privacy is very important to us. Everything on JustFix.nyc is secure."
 
 #: frontend/lib/common-steps/ask-national-address.tsx:111
 #: frontend/lib/common-steps/ask-nyc-address.tsx:39
@@ -3634,7 +3634,7 @@ msgstr "Disclaimer: The information in {website} does not constitute legal advic
 
 #: frontend/lib/ui/privacy-info-modal.tsx:35
 msgid "justfix.privacyInfoModalText"
-msgstr "<0>Your privacy is very important to us! Here are some important things to know:</0><1><2>Your personal information is secure.</2><3>We don’t use your personal information for profit or sell it to third parties.</3><4>We use your address to find information about your landlord and your building.</4></1><5>Our Privacy Policy enables sharing anonymized data with approved tenant advocacy organizations exclusively to help further our tenants rights mission. The Privacy Policy contains information regarding what data we collect, how we use it, and the choices you have regarding your personal information. If you’d like to read more, please review our full <6/> and <7/>.</5>"
+msgstr "<0>Your privacy is very important to us. Here are some important things to know:</0><1><2>Your personal information is secure.</2><3>We don’t use your personal information for profit or sell it to third parties.</3><4>We use your address to find information about your landlord and your building.</4></1><5>Our Privacy Policy enables sharing anonymized data with approved tenant advocacy organizations exclusively to help further our tenants rights mission. The Privacy Policy contains information regarding what data we collect, how we use it, and the choices you have regarding your personal information. If you’d like to read more, please review our full <6/> and <7/>.</5>"
 
 #: frontend/lib/rh/routes.tsx:58
 msgid "justfix.rhExplanation"
@@ -3720,9 +3720,9 @@ msgstr "This letter is to notify you that I need the following repairs in my hom
 msgid "laletterbuilder.madeByBlurb"
 msgstr "LaLetterBuilder is made by <0>JustFix.nyc</0>, a non-profit organization that co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City."
 
-#: frontend/lib/laletterbuilder/components/review-your-rights.tsx:17
-msgid "laletterbuilder.retaliationOptions"
-msgstr "If your landlord is retaliating against you for exercising your rights, you can:<0>Attend SAJE's <1>Tenant Action Clinic</1></0><2>Open a complaint with <3>Los Angeles Housing Department (LAHD)</3> if you live in the City of LA or <4>Public Health</4> if you live someplace else in LA County</2>"
+#: frontend/lib/laletterbuilder/components/review-your-rights.tsx:16
+msgid "laletterbuilder.retaliationInfo"
+msgstr "<0>If your landlord is retaliating against you for exercising your rights, you can:</0><1><2><3>Attend SAJE'S <4>Tenant Action Clinic</4></3></2><5><6>File a complaint with <7>Los Angeles Housing Department (LAHD)</7>if you live in the City of LA or <8>Public Health</8> if you live someplace else in LA County</6></5></1>"
 
 #: frontend/lib/laletterbuilder/components/review-your-rights.tsx:11
 msgid "laletterbuilder.reviewTenantRightsIntro"

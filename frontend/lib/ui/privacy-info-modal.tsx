@@ -56,14 +56,14 @@ export const TermsOfUseLink: React.FC<{ text?: string }> = ({ text }) => (
 export function PrivacyInfoModal(props: {}): JSX.Element {
   return (
     <Modal
-      title={li18n._(t`Your privacy is very important to us!`)}
+      title={li18n._(t`Your privacy is very important to us`)}
       onCloseGoTo={BackOrUpOneDirLevel}
       render={(ctx) => (
         <>
           <div className="jf-is-scrollable-if-too-tall">
             <Trans id="justfix.privacyInfoModalText">
               <h5>
-                Your privacy is very important to us! Here are some important
+                Your privacy is very important to us. Here are some important
                 things to know:
               </h5>
               <ul>
@@ -93,7 +93,7 @@ export function PrivacyInfoModal(props: {}): JSX.Element {
               className="button is-primary is-medium"
               {...ctx.getLinkCloseProps()}
             >
-              <Trans>Got it!</Trans>
+              <Trans>Got it</Trans>
             </Link>
           </div>
         </>

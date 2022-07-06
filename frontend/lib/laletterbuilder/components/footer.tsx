@@ -35,10 +35,9 @@ export const LaLetterBuilderFooter: React.FC<{}> = () => (
             <div className="is-divider"></div>
             <span className="is-uppercase">
               <LocalizedOutboundLink
-                // TODO: UPDATE THESE LINKS TO NEW LA LETTER BUILDER SPECIFIC PAGES
                 hrefs={{
-                  en: "https://www.justfix.nyc/en/privacy-policy-norent",
-                  es: "https://www.justfix.nyc/es/privacy-policy-norent",
+                  en: "https://www.justfix.nyc/en/terms-of-use/",
+                  es: "https://www.justfix.nyc/es/terms-of-use/",
                 }}
               >
                 <Trans>Privacy Policy</Trans>
@@ -46,10 +45,9 @@ export const LaLetterBuilderFooter: React.FC<{}> = () => (
             </span>
             <span className="is-pulled-right is-uppercase">
               <LocalizedOutboundLink
-                // TODO: UPDATE THESE LINKS TO NEW LA LETTER BUILDER SPECIFIC PAGES
                 hrefs={{
-                  en: "https://www.justfix.nyc/en/terms-of-use-norent/",
-                  es: "https://www.justfix.nyc/es/terms-of-use-norent/",
+                  en: "https://www.justfix.nyc/en/privacy-policy",
+                  es: "https://www.justfix.nyc/es/privacy-policy",
                 }}
               >
                 <Trans>Terms of Use</Trans>

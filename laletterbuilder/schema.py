@@ -286,9 +286,7 @@ class LaLetterBuilderDownloadPDF(SessionFormMutation):
 
     pdf_base64 = graphene.String(
         required=True,
-        description=(
-            "The letter PDF in base64-encoded form, returned by the mutation."
-        ),
+        description=("The letter PDF in base64-encoded form, returned by the mutation."),
     )
 
     @classmethod
@@ -301,19 +299,20 @@ class LaLetterBuilderDownloadPDF(SessionFormMutation):
         with transaction.atomic():
             user = info.context.user
             letter_id = form.cleaned_data["letter_id"]
-            letters = models.HabitabilityLetter.objects.filter(
-                user=user, id=letter_id
-            )
+            letters = models.HabitabilityLetter.objects.filter(user=user, id=letter_id)
             letter = letters[0]
             if not letter:
                 cls.log(info, f"Could not find habitability letter matching id {letter_id}")
-                return cls.make_error(
-                    f"Could not find habitability letter matching id {letter_id}"
-                )
+                return cls.make_error(f"Could not find habitability letter matching id {letter_id}")
             if not letter.pdf_base64:
-                cls.log(info, f"Could not find PDF bytes for letter with id {letter_id}. Has the letter been fully processed?")
+                cls.log(
+                    info,
+                    f"Could not find PDF bytes for letter with id {letter_id}. \
+                    Has the letter been fully processed?",
+                )
                 return cls.make_error(
-                    f"Could not find PDF bytes for letter with id {letter_id}. Has the letter been fully processed?"
+                    f"Could not find PDF bytes for letter with id {letter_id}. \
+                        Has the letter been fully processed?"
                 )
         return cls.mutation_success(pdf_base64=letter.pdf_base64)
 

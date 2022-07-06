@@ -113,17 +113,19 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
                   <span>{session.landlordDetails.email}</span>
                 </div>
               )}
-              <TextualFormField
-                type="email"
-                {...ctx.fieldPropsFor("email")}
-                isDisabled={ctx.fieldPropsFor("noLandlordEmail").value}
-                label={optionalizeLabel(
-                  li18n._(t`Landlord or property manager email`)
-                )}
-              />
-              <CheckboxFormField {...ctx.fieldPropsFor("noLandlordEmail")}>
-                <Trans>I don't have this information</Trans>
-              </CheckboxFormField>
+              <div className="jf-related-text-field-with-checkbox">
+                <TextualFormField
+                  type="email"
+                  {...ctx.fieldPropsFor("email")}
+                  isDisabled={ctx.fieldPropsFor("noLandlordEmail").value}
+                  label={optionalizeLabel(
+                    li18n._(t`Landlord or property manager email`)
+                  )}
+                />
+                <CheckboxFormField {...ctx.fieldPropsFor("noLandlordEmail")}>
+                  <Trans>I don't have this information</Trans>
+                </CheckboxFormField>
+              </div>
               <EmailPreview
                 emailContent={HabitabilityLetterEmailToLandlordForUser}
                 landlordName={session.landlordDetails?.name}

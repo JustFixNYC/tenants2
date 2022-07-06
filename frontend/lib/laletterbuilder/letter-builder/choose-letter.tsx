@@ -152,7 +152,7 @@ const LetterCard: React.FC<LetterCardProps> = (props) => {
             </div>
             {props.time_mins} mins
           </div>
-          {props.text}
+          <span>{props.text}</span>
           <CallToAction {...props.buttonProps} />
         </div>
         <hr />

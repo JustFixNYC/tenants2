@@ -300,8 +300,6 @@ $jf-navbar-height: 70px;
     .jf-card-button {
       margin-top: $spacing-07;
       margin-bottom: $spacing-07;
-      margin-left: auto;
-      margin-right: auto;
     }
 
     .jf-la-letter-time {
@@ -315,6 +313,11 @@ $jf-navbar-height: 70px;
         }
       }
     }
+
+    > span {
+      display: inline-block;
+      margin-top: $spacing-05;
+    }
   }
 
   hr {
@@ -326,7 +329,7 @@ $jf-navbar-height: 70px;
 
   // Other places, we want the tap target to spill over the sides of the item. Not here.
   .jf-accordion-item {
-    margin: 0rem;
+    margin: 0 0 $spacing-05;
 
     details {
       // Since this accordion is contained within another object, we don't need extra space at the bottom.

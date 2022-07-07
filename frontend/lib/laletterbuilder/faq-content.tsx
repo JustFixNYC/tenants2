@@ -2,6 +2,7 @@ import React from "react";
 
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
+import { OutboundLink } from "../ui/outbound-link";
 
 type FaqItem = {
   question: string;
@@ -25,12 +26,15 @@ export const faqContent: FaqItem[] = [
     question: li18n._(
       t`I’m not comfortable creating a letter on my own. Who can help me?`
     ),
-    // TODO add link to Tenant Action Clinic
     answer: (
       <span>
-        <Trans id="laletterbuilder.faq.whocanhelp">
+        <Trans id="laletterbuilder.faq.whocanhelpv2">
           Give SAJE a call at (213) 745-9961 and let them know you need help
-          creating a letter. You can also attend a Tenant Action Clinic.
+          creating a letter. You can also attend a{" "}
+          <OutboundLink href="https://www.saje.net/what-we-do/tenant-action-clinic/">
+            Tenant Action Clinic
+          </OutboundLink>
+          .
         </Trans>
       </span>
     ),

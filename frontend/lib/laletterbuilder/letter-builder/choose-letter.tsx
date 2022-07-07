@@ -174,6 +174,11 @@ function CallToAction({ to, text, className }: LetterCardButtonProps) {
       className={classnames("jf-card-button", className)}
     >
       {content}
+      <StaticImage
+        ratio="is-16x16"
+        src="frontend/img/external-link.svg"
+        alt=""
+      />
     </OutboundLink>
   );
 }

@@ -142,6 +142,10 @@ $jf-navbar-height: 70px;
       margin-bottom: $spacing-07;
     }
   }
+
+  .hero-body {
+    padding: $spacing-12 $spacing-06;
+  }
 }
 
 .jf-laletterbuilder-section-primary,
@@ -296,8 +300,6 @@ $jf-navbar-height: 70px;
     .jf-card-button {
       margin-top: $spacing-07;
       margin-bottom: $spacing-07;
-      margin-left: auto;
-      margin-right: auto;
     }
 
     .jf-la-letter-time {
@@ -311,6 +313,11 @@ $jf-navbar-height: 70px;
         }
       }
     }
+
+    > span {
+      display: inline-block;
+      margin-top: $spacing-05;
+    }
   }
 
   hr {
@@ -322,7 +329,7 @@ $jf-navbar-height: 70px;
 
   // Other places, we want the tap target to spill over the sides of the item. Not here.
   .jf-accordion-item {
-    margin: 0rem;
+    margin: 0 0 $spacing-05;
 
     details {
       // Since this accordion is contained within another object, we don't need extra space at the bottom.
@@ -442,10 +449,16 @@ ol.is-marginless {
   padding-left: $spacing-05;
 }
 
-.jf-accordion-item img {
-  // Our default chevron icon on accordion dropdowns is blue
-  // Let's make the color match up with the scheme of this site
-  filter: grayscale(100%) brightness(0.1);
+.jf-accordion-item {
+  details summary .media .media-right .image {
+    margin-right: 0;
+  }
+
+  img {
+    // Our default chevron icon on accordion dropdowns is blue
+    // Let's make the color match up with the scheme of this site
+    filter: grayscale(100%) brightness(0.1);
+  }
 }
 
 .box {

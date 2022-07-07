@@ -175,7 +175,7 @@ class OnboardingStep1WithoutContexts extends React.Component<
           component={PrivacyInfoModal}
         />
         <p>
-          Your privacy is very important to us! Everything on JustFix.nyc is
+          Your privacy is very important to us. Everything on JustFix.nyc is
           secure.{" "}
           <Link to={routes.step1AddressModal}>
             Click here to learn more

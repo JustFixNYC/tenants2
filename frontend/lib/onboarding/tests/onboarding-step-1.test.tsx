@@ -37,7 +37,7 @@ describe("onboarding step 1 page", () => {
     const pal = new AppTesterPal(<OnboardingStep1 {...PROPS} />);
     pal.clickButtonOrLink(/Why do you need/i);
     pal.getDialogWithLabel(/Your privacy is very important/i);
-    pal.clickButtonOrLink("Got it!");
+    pal.clickButtonOrLink("Got it");
   });
 
   it("shows signup intent label", () => {

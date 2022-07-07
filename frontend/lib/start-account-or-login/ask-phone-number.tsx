@@ -71,7 +71,7 @@ export const AskPhoneNumber: React.FC<StartAccountOrLoginProps> = (props) => {
               </Accordion>
               <p className="is-size-6">
                 <Trans>
-                  Your privacy is very important to us! Everything on
+                  Your privacy is very important to us. Everything on
                   JustFix.nyc is secure.
                 </Trans>{" "}
                 <ModalLink

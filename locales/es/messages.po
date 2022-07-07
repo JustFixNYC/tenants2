@@ -247,7 +247,7 @@ msgstr "Solicitar ERAP en línea"
 msgid "Are you sure you want to log out?"
 msgstr "¿Estás seguro de que quieres cerrar la sesión?"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:90
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:92
 msgid "Are you sure you want to mail the letter yourself?"
 msgstr ""
 
@@ -280,7 +280,7 @@ msgstr "Rellena automáticamente la información del dueño de tu edificio en ba
 msgid "Available in English and Spanish."
 msgstr "Disponible en Inglés y Español."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:124
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:126
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
 msgstr "Atrás"
@@ -877,7 +877,7 @@ msgstr ""
 msgid "Email address"
 msgstr "Dirección de correo electrónico"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:116
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:118
 msgid "Email your letter to:"
 msgstr ""
 
@@ -1091,8 +1091,8 @@ msgid "Good news!"
 msgstr "¡Buenas noticias!"
 
 #: frontend/lib/ui/privacy-info-modal.tsx:64
-msgid "Got it!"
-msgstr "¡Entendido!"
+msgid "Got it"
+msgstr ""
 
 #: frontend/lib/pages/redirect-to-english-page.tsx:15
 msgid "Got it, take me there"
@@ -1265,7 +1265,7 @@ msgstr "Estoy experimentando dificultades financieras debido al COVID-19."
 msgid "I am undocumented. Can I send a letter?"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:72
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:73
 msgid "I don't have this information"
 msgstr ""
 
@@ -1525,7 +1525,7 @@ msgstr "Dirección de correo del dueño de tu edificio"
 msgid "Landlord name"
 msgstr "Nombre del dueño de tu edificio"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:70
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:71
 msgid "Landlord or property manager email"
 msgstr ""
 
@@ -1718,7 +1718,7 @@ msgstr ""
 msgid "Mail for me"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:91
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:93
 msgid "Mail letter now for free"
 msgstr ""
 
@@ -1726,7 +1726,7 @@ msgstr ""
 msgid "Mail myself"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:109
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:111
 msgid "Mail your letter to:"
 msgstr ""
 
@@ -2175,7 +2175,7 @@ msgstr ""
 msgid "Preview this declaration as a PDF"
 msgstr "Vista previa de esta declaración como PDF"
 
-#: frontend/lib/laletterbuilder/components/footer.tsx:36
+#: frontend/lib/laletterbuilder/components/footer.tsx:34
 #: frontend/lib/ui/privacy-info-modal.tsx:30
 msgid "Privacy Policy"
 msgstr "Política de Privacidad"
@@ -2649,7 +2649,7 @@ msgstr "Los inquilinos afectados por la crisis del COVID-19 están protegidos de
 msgid "Tennessee"
 msgstr "Tennessee"
 
-#: frontend/lib/laletterbuilder/components/footer.tsx:46
+#: frontend/lib/laletterbuilder/components/footer.tsx:42
 #: frontend/lib/ui/privacy-info-modal.tsx:31
 msgid "Terms of Use"
 msgstr "Términos de Uso"
@@ -2915,7 +2915,7 @@ msgstr ""
 msgid "We make it easy to notify your landlord by email or by certified mail for free."
 msgstr "Te facilitamos notificar al dueño de tu edificio por correo electrónico o por correo certificado gratis."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:99
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:101
 msgid "We recommend that you to go back and select “Mail for me”. If you wish to send the letter yourself, continue to see instructions."
 msgstr ""
 
@@ -2923,7 +2923,7 @@ msgstr ""
 msgid "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 msgstr "Enviaremos la carta en tu nombre por correo certificado de USPS y te proporcionaremos un número de seguimiento."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:105
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:107
 msgid "We will email your letter to:"
 msgstr ""
 
@@ -3423,12 +3423,12 @@ msgid "Your phone number"
 msgstr "Tu número de teléfono"
 
 #: frontend/lib/ui/privacy-info-modal.tsx:33
-msgid "Your privacy is very important to us!"
-msgstr "¡Su privacidad es muy importante para nosotros!"
+msgid "Your privacy is very important to us"
+msgstr ""
 
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:54
-msgid "Your privacy is very important to us! Everything on JustFix.nyc is secure."
-msgstr "¡Tu privacidad es muy importante para nosotros! Todo en JustFix.nyc es seguro."
+msgid "Your privacy is very important to us. Everything on JustFix.nyc is secure."
+msgstr ""
 
 #: frontend/lib/common-steps/ask-national-address.tsx:111
 #: frontend/lib/common-steps/ask-nyc-address.tsx:39
@@ -3643,8 +3643,8 @@ msgid "justfix.legalDisclaimer"
 msgstr "Aviso: La información en {website} no constituye asesoramiento jurídico y no debe ser utilizado como sustituto del asesoramiento de un abogado cualificado para asesorar sobre cuestiones jurídicas relativas a la vivienda. Si lo necesitas, podemos ayudar a dirigirte a servicios legales gratuitos."
 
 #: frontend/lib/ui/privacy-info-modal.tsx:35
-msgid "justfix.privacyInfoModalText"
-msgstr "¡<0>Tu privacidad es muy importante para nosotros! Estas son algunas de las cosas más importantes a saber:</0><1><2>Tu información personal está segura. </2><3>No usaremos tu información personal para beneficiarnos ni la venderemos a terceros. </3><4>Utilizaremos tu dirección postal para encontrar datos sobre tu edificio y su dueño. </4></1><5>Nuestra Política de Privacidad permite compartir datos anónimos sólo con organizaciones de defensa de inquilinos autorizadas exclusivamente para ayudar a promover la misión de proteger los derechos de inquilinos. La Política de Privacidad contiene información sobre qué datos recopilamos, cómo la utilizamos y las opciones que tiene respecto a su información personal. Si quieres leer más, por favor revisa nuestra <6/> completa y nuestros <7/>.</5>"
+msgid "justfix.privacyInfoModalTextV2"
+msgstr ""
 
 #: frontend/lib/rh/routes.tsx:58
 msgid "justfix.rhExplanation"
@@ -3730,8 +3730,8 @@ msgstr ""
 msgid "laletterbuilder.madeByBlurb"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/components/review-your-rights.tsx:17
-msgid "laletterbuilder.retaliationOptions"
+#: frontend/lib/laletterbuilder/components/review-your-rights.tsx:16
+msgid "laletterbuilder.retaliationInfo"
 msgstr ""
 
 #: frontend/lib/laletterbuilder/components/review-your-rights.tsx:11

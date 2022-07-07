@@ -209,6 +209,7 @@ export const AskNationalAddress: React.FC<
           <TextualFormField
             {...ctx.fieldPropsFor("zipCode")}
             label={li18n._(t`Zip code`)}
+            maxLength={5}
           />
           <ProgressButtons isLoading={ctx.isLoading} back={props.prevStep} />
         </>

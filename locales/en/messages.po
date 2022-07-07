@@ -3633,7 +3633,7 @@ msgid "justfix.legalDisclaimer"
 msgstr "Disclaimer: The information in {website} does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free legal services if necessary."
 
 #: frontend/lib/ui/privacy-info-modal.tsx:35
-msgid "justfix.privacyInfoModalText"
+msgid "justfix.privacyInfoModalTextV2"
 msgstr "<0>Your privacy is very important to us. Here are some important things to know:</0><1><2>Your personal information is secure.</2><3>We don’t use your personal information for profit or sell it to third parties.</3><4>We use your address to find information about your landlord and your building.</4></1><5>Our Privacy Policy enables sharing anonymized data with approved tenant advocacy organizations exclusively to help further our tenants rights mission. The Privacy Policy contains information regarding what data we collect, how we use it, and the choices you have regarding your personal information. If you’d like to read more, please review our full <6/> and <7/>.</5>"
 
 #: frontend/lib/rh/routes.tsx:58

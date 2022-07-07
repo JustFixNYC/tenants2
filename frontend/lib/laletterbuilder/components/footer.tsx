@@ -36,8 +36,8 @@ export const LaLetterBuilderFooter: React.FC<{}> = () => (
             <span className="is-uppercase">
               <LocalizedOutboundLink
                 hrefs={{
-                  en: "https://www.justfix.nyc/en/terms-of-use/",
-                  es: "https://www.justfix.nyc/es/terms-of-use/",
+                  en: "https://www.justfix.nyc/en/privacy-policy",
+                  es: "https://www.justfix.nyc/es/privacy-policy",
                 }}
               >
                 <Trans>Privacy Policy</Trans>
@@ -46,8 +46,8 @@ export const LaLetterBuilderFooter: React.FC<{}> = () => (
             <span className="is-pulled-right is-uppercase">
               <LocalizedOutboundLink
                 hrefs={{
-                  en: "https://www.justfix.nyc/en/privacy-policy",
-                  es: "https://www.justfix.nyc/es/privacy-policy",
+                  en: "https://www.justfix.nyc/en/terms-of-use/",
+                  es: "https://www.justfix.nyc/es/terms-of-use/",
                 }}
               >
                 <Trans>Terms of Use</Trans>

@@ -61,7 +61,7 @@ export function PrivacyInfoModal(props: {}): JSX.Element {
       render={(ctx) => (
         <>
           <div className="jf-is-scrollable-if-too-tall">
-            <Trans id="justfix.privacyInfoModalText">
+            <Trans id="justfix.privacyInfoModalTextV2">
               <h5>
                 Your privacy is very important to us. Here are some important
                 things to know:

@@ -33,6 +33,7 @@ fragment AllSessionInfo on SessionInfo {
   hasHabitabilityLetterInProgress,
   laIssues,
   habitabilityLatestLetter {
+    id,
     createdAt,
     trackingNumber,
     letterSentAt,
@@ -41,6 +42,7 @@ fragment AllSessionInfo on SessionInfo {
     emailToLandlord
   },
   habitabilityLetters {
+    id,
     createdAt,
     trackingNumber,
     letterSentAt,

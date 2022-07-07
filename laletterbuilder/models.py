@@ -39,6 +39,11 @@ class Letter(LocalizedHTMLLetter):
         ),
     )
 
+    pdf_base64 = models.TextField(
+        help_text="A base64 encoded string representing the English content of the letter.",
+        blank=True,
+    )
+
     @abstractmethod
     def get_letter_type(self) -> str:
         ...

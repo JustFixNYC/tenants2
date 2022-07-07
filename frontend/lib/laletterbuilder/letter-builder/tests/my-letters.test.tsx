@@ -48,6 +48,7 @@ describe("my letters page", () => {
       .respondWithSuccess({
         session: override(BlankAllSessionInfo, {
           habitabilityLatestLetter: {
+            id: "1",
             createdAt: "2020-03-13T19:41:09+00:00",
             trackingNumber: "",
             letterSentAt: "",
@@ -82,5 +83,17 @@ describe("my letters page", () => {
       }
     );
     pal.rr.getByText(/USPS tracking number/i);
+  });
+
+  it("can click download letter button", () => {
+    const pal = new AppTesterPal(
+      <Route component={LaLetterBuilderRouteComponent} />,
+      {
+        url: LaLetterBuilderRouteInfo.locale.habitability.myLetters,
+        session: sb.withMailedHabitabilityLetter().value,
+      }
+    );
+    pal.rr.getByText(/USPS tracking number/i);
+    pal.clickButtonOrLink("Download letter");
   });
 });

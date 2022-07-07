@@ -15,6 +15,13 @@ import { OutboundLink } from "../../ui/outbound-link";
 import { StaticImage } from "../../ui/static-image";
 import { getLaLetterBuilderImageSrc } from "../homepage";
 import { Accordion } from "../../ui/accordion";
+import {
+  LaLetterBuilderDownloadPdfMutation,
+  LaLetterBuilderDownloadPdfMutation_output,
+} from "../../queries/LaLetterBuilderDownloadPdfMutation";
+import { bulmaClasses } from "../../ui/bulma";
+import { TextualFormField } from "../../forms/form-fields";
+import { LaLetterBuilderDownloadPDFInput } from "../../queries/globalTypes";
 
 export const LaLetterBuilderMyLetters: React.FC<ProgressStepProps> = (
   props
@@ -26,12 +33,28 @@ export const LaLetterBuilderMyLetters: React.FC<ProgressStepProps> = (
   );
 };
 
+function downloadLetterPdf(
+  output: LaLetterBuilderDownloadPdfMutation_output,
+  input: LaLetterBuilderDownloadPDFInput
+): string {
+  if (output.pdfBase64) {
+    const bytes = atob(output.pdfBase64);
+    const byteChars = bytes.split("").map((el, i) => bytes.charCodeAt(i));
+    const pdfBlob = new Blob([new Uint8Array(byteChars)], {
+      type: "application/pdf;base64",
+    });
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    window.open(pdfUrl);
+  }
+  return "";
+}
+
 interface CompletedLetterCardProps {
-  link: string;
+  id: string;
 }
 
 const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
-  const { link, children } = props;
+  const { id, children } = props;
   return (
     <div className="jf-la-letter-card">
       <div className="content">
@@ -44,13 +67,29 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
           <Trans>Notice to repair letter</Trans>
         </h2>
         {children}
-        <OutboundLink
-          href={link}
-          target="_blank"
-          className="button jf-is-next-button is-primary is-medium"
+        <SessionUpdatingFormSubmitter
+          mutation={LaLetterBuilderDownloadPdfMutation}
+          initialState={(s) => ({
+            letterId: id,
+          })}
+          onSuccessRedirect={downloadLetterPdf}
         >
-          <Trans>Download letter</Trans>
-        </OutboundLink>
+          {(ctx) => (
+            <button
+              type="submit"
+              className={bulmaClasses("button", "is-primary", {
+                "is-loading": ctx.isLoading,
+              })}
+            >
+              <Trans>Download letter</Trans>
+              <TextualFormField
+                {...ctx.fieldPropsFor("letterId")}
+                fieldProps={{ className: "is-hidden" }}
+                label="Hidden letter ID field"
+              />
+            </button>
+          )}
+        </SessionUpdatingFormSubmitter>
       </div>
       <hr />
       <Accordion question={li18n._(t`What's next?`)} questionClassName="">
@@ -98,7 +137,6 @@ const MyLettersContent: React.FC = (props) => {
   const sentLetters = session.habitabilityLetters?.filter(
     (el) => !!el.letterSentAt
   );
-  console.log(session.habitabilityLetters);
 
   return (
     <div className="jf-my-letters">
@@ -106,13 +144,10 @@ const MyLettersContent: React.FC = (props) => {
         <Trans>See all your finished and unfinished letters</Trans>
       </p>
       <CreateOrContinueLetter />
-      {processedLetters?.map((el, i) => (
+      {processedLetters?.map((letter) => (
         <CompletedLetterCard
-          key={`processed-letter-${i}`}
-          link={
-            LaLetterBuilderRouteInfo.getLocale("en").habitability.letterContent
-              .pdf
-          }
+          key={`processed-letter-${letter.id}`}
+          id={letter.id}
         >
           <h3>
             <Trans>JustFix is preparing your letter</Trans>
@@ -125,31 +160,25 @@ const MyLettersContent: React.FC = (props) => {
           </p>
         </CompletedLetterCard>
       ))}
-      {sentLetters?.map((el, i) => {
-        const sentDate = new Date(el.letterSentAt!);
+      {sentLetters?.map((letter) => {
+        const sentDate = new Date(letter.letterSentAt!);
         const dateString = sentDate.toLocaleDateString("en-US", {
           day: "numeric",
           month: "short",
           year: "numeric",
         });
         return (
-          <CompletedLetterCard
-            key={`sent-letter-${i}`}
-            link={
-              LaLetterBuilderRouteInfo.getLocale("en").habitability
-                .letterContent.pdf
-            }
-          >
+          <CompletedLetterCard key={`sent-letter-${letter.id}`} id={letter.id}>
             <h3>{`${li18n._(
               t`JustFix sent your letter on`
             )} ${dateString} `}</h3>
             <p className="jf-laletterbuilder-letter-tracking">
               <Trans>USPS tracking number:</Trans>{" "}
               <OutboundLink
-                href={`https://tools.usps.com/go/TrackConfirmAction_input?strOrigTrackNum=${el.trackingNumber}`}
+                href={`https://tools.usps.com/go/TrackConfirmAction_input?strOrigTrackNum=${letter.trackingNumber}`}
                 target="_blank"
               >
-                {el.trackingNumber}
+                {letter.trackingNumber}
               </OutboundLink>
             </p>
           </CompletedLetterCard>

@@ -18,6 +18,7 @@ from laletterbuilder.forms import (
     HabitabilityIssuesForm,
     LandlordDetailsForm,
     SendOptionsForm,
+    DownloadLetterPDFForm,
 )
 from project.util.model_form_util import (
     OneToOneUserModelFormMutation,
@@ -276,10 +277,51 @@ class LaLetterBuilderSendOptions(SessionFormMutation):
         return cls.mutation_success()
 
 
+@schema_registry.register_mutation
+class LaLetterBuilderDownloadPDF(SessionFormMutation):
+    class Meta:
+        form_class = DownloadLetterPDFForm
+
+    login_required = True
+
+    pdf_base64 = graphene.String(
+        required=True,
+        description=("The letter PDF in base64-encoded form, returned by the mutation."),
+    )
+
+    @classmethod
+    def resolve(cls, parent, info: ResolveInfo):
+        return super().resolve(parent, info)
+
+    @classmethod
+    @mutation_requires_onboarding
+    def perform_mutate(cls, form, info: ResolveInfo):
+        with transaction.atomic():
+            user = info.context.user
+            letter_id = form.cleaned_data["letter_id"]
+            letters = models.HabitabilityLetter.objects.filter(user=user, id=letter_id)
+            letter = letters[0]
+            if not letter:
+                cls.log(info, f"Could not find habitability letter matching id {letter_id}")
+                return cls.make_error(f"Could not find habitability letter matching id {letter_id}")
+            if not letter.pdf_base64:
+                cls.log(
+                    info,
+                    f"Could not find PDF bytes for letter with id {letter_id}. \
+                    Has the letter been fully processed?",
+                )
+                return cls.make_error(
+                    f"Could not find PDF bytes for letter with id {letter_id}. \
+                        Has the letter been fully processed?"
+                )
+        return cls.mutation_success(pdf_base64=letter.pdf_base64)
+
+
 class HabitabilityLetterType(DjangoObjectType):
     class Meta:
         model = models.HabitabilityLetter
         only_fields = (
+            "id",
             "tracking_number",
             "letter_sent_at",
             "created_at",

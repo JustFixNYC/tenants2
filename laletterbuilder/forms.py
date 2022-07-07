@@ -74,3 +74,12 @@ class SendOptionsForm(forms.ModelForm):
                     "have this information."
                 )
             )
+
+
+class DownloadLetterPDFForm(forms.Form):
+    letter_id = forms.CharField(
+        required=True,
+        help_text=(
+            "Request to fetch the PDF of the letter with this ID as a base64-encoded string"
+        ),
+    )

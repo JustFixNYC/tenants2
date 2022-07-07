@@ -189,6 +189,8 @@ $jf-navbar-height: 70px;
 // ISSUE CHECKLIST CUSTOMIZATIONS
 
 .jf-accordion-list-large {
+  padding-bottom: $spacing-11;
+
   p:first-child {
     padding-bottom: $spacing-05;
     margin-bottom: $spacing-05;
@@ -254,7 +256,7 @@ $jf-navbar-height: 70px;
   }
 
   // HOMEPAGE FAQ ACCORDION
-  .jf-laletterbuilder-faq-accordion[open] {
+  .jf-accordion-item details[open] {
     border-bottom: 1px solid #242323;
 
     summary {
@@ -264,6 +266,10 @@ $jf-navbar-height: 70px;
     summary + span {
       margin: 1rem 0;
       display: block;
+    }
+
+    .control {
+      padding-bottom: $spacing-07;
     }
   }
 }

@@ -127,7 +127,6 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
               key={`faq-${i}`}
               question={el.question}
               questionClassName="has-text-primary"
-              extraClassName="jf-laletterbuilder-faq-accordion"
             >
               {el.answer}
             </Accordion>

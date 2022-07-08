@@ -60,4 +60,11 @@ form {
       margin-bottom: $spacing-04;
     }
   }
+
+  // Form-level error messages
+  .notification.is-danger {
+    padding: $spacing-04 $spacing-05;
+    background-color: $new-justfix-black;
+    border-left: $spacing-04 solid $new-justfix-orange;
+  }
 }

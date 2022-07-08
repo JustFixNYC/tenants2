@@ -3,8 +3,7 @@ import React from "react";
 
 import { LegalDisclaimer } from "../../ui/legal-disclaimer";
 import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
-import { StaticImage } from "../../ui/static-image";
-import { getLaLetterBuilderImageSrc } from "../homepage";
+import { ClickableLogo } from "./clickable-logo";
 
 export const LaLetterBuilderFooter: React.FC<{}> = () => (
   <footer className="has-background-dark">
@@ -16,10 +15,9 @@ export const LaLetterBuilderFooter: React.FC<{}> = () => (
             <LegalDisclaimer website="LaLetterBuilder.org" />
           </div>
           <div className="column is-6">
-            <StaticImage
-              className="jf-laletterbuilder-footer-logo"
-              src={getLaLetterBuilderImageSrc("justfix-saje-combined-logo")}
-              alt="JustFix SAJE"
+            <ClickableLogo
+              imageClassName="jf-laletterbuilder-footer-logo"
+              imageUrl="justfix-saje-combined-logo"
             />
             <p>
               <Trans>

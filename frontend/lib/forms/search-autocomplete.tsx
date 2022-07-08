@@ -283,6 +283,7 @@ class SearchAutocompleteWithFetchGraphQL<
 
     return (
       <div className="field jf-autocomplete-field">
+        {errorHelp}
         {renderLabel(
           this.props.label,
           ds.getLabelProps(),
@@ -295,7 +296,9 @@ class SearchAutocompleteWithFetchGraphQL<
         >
           <AutofocusedInput
             name={this.state.inputName}
-            className="input"
+            className={bulmaClasses("input", {
+              "is-danger": !!this.props.errors,
+            })}
             placeholder={this.props.placeholder}
             autoFocus={this.props.autoFocus}
             {...this.getInputProps(ds)}
@@ -310,7 +313,6 @@ class SearchAutocompleteWithFetchGraphQL<
               results.map((item, i) => this.renderListItem(ds, item, i))}
           </ul>
         </div>
-        {errorHelp}
       </div>
     );
   }

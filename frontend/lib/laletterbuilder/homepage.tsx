@@ -62,9 +62,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
           <br />
           <div className="is-spaced has-text-info">
             <Trans>Created by</Trans>
-            <ClickableLogo
-              imageUrl="justfix-saje-combined-logo-black"
-            />
+            <ClickableLogo imageUrl="justfix-saje-combined-logo-black" />
           </div>
         </div>
       </div>

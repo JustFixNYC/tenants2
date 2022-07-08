@@ -6,7 +6,6 @@ import { li18n } from "../../i18n-lingui";
 import Page from "../../ui/page";
 import { ProgressStepProps } from "../../progress/progress-step-route";
 import { Link } from "react-router-dom";
-import { SimpleClearAnonymousSessionButton } from "../../forms/clear-anonymous-session-button";
 import { LaLetterBuilderRouteInfo } from "../route-info";
 import { OutboundLink } from "../../ui/outbound-link";
 import classnames from "classnames";

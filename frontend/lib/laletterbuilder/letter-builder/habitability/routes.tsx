@@ -151,7 +151,7 @@ export const HabitabilityProgressRoutes = buildProgressRoutesComponent(
 const LaLetterBuilderIssuesRoutes = () => (
   <LaIssuesRoutes
     routes={LaLetterBuilderRouteInfo.locale.habitability.issues}
-    toBack={LaLetterBuilderRouteInfo.locale.home}
+    toBack={LaLetterBuilderRouteInfo.locale.habitability.myLetters}
     toNext={LaLetterBuilderRouteInfo.locale.habitability.landlordInfo}
   ></LaIssuesRoutes>
 );

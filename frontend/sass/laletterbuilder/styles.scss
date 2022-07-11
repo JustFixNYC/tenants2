@@ -528,6 +528,10 @@ ol.is-marginless {
 
 // DESKTOP STYLE OVERRIDES
 @media screen and (min-width: $tablet) {
+  .container {
+    width: unset;
+  }
+
   .jf-laletterbuilder-footer-logo {
     margin-top: 0;
   }

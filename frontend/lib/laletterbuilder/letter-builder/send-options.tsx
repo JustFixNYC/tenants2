@@ -172,7 +172,7 @@ export const ConfirmModal: React.FC<{
         onSuccessRedirect={props.nextStep}
       >
         {(ctx) => (
-          <>
+          <div className="jf-laletterbuilder-send-options-modal">
             {userWillMail ? (
               <>
                 <p>
@@ -183,9 +183,12 @@ export const ConfirmModal: React.FC<{
                   </Trans>
                 </p>
                 {emailToLandlord && (
-                  <p>{`${li18n._(t`We will email your letter to:`)} ${
-                    session.landlordDetails!.email
-                  }`}</p>
+                  <p>
+                    <span>
+                      <Trans>We will email your letter to:</Trans>
+                    </span>
+                    <span>{session.landlordDetails!.email}</span>
+                  </p>
                 )}
               </>
             ) : (
@@ -194,8 +197,9 @@ export const ConfirmModal: React.FC<{
                   <span>
                     <Trans>Mail your letter to:</Trans>{" "}
                   </span>
-                  <span>{session.landlordDetails?.name}</span>{" "}
-                  <span>{session.landlordDetails?.address}</span>
+                  <span>{session.landlordDetails?.name}</span>
+                  <span>{session.landlordDetails?.primaryLine}</span>
+                  <span>{`${session.landlordDetails?.city}, ${session.landlordDetails?.state} ${session.landlordDetails?.zipCode}`}</span>
                 </p>
                 {emailToLandlord && (
                   <p>
@@ -207,6 +211,7 @@ export const ConfirmModal: React.FC<{
                 )}
               </>
             )}
+            <br />
             <div className="has-text-centered">
               <NextButton
                 isLoading={ctx.isLoading}
@@ -219,7 +224,7 @@ export const ConfirmModal: React.FC<{
                 {li18n._(t`Back`)}
               </Link>
             </div>
-          </>
+          </div>
         )}
       </SessionUpdatingFormSubmitter>
     </Modal>

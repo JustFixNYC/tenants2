@@ -1,30 +1,40 @@
-footer .container {
-  padding: $spacing-07 $spacing-06;
+footer {
+  .container {
+    padding: 0;
 
-  .content {
-    p {
-      font-size: 0.875rem;
-      line-height: 0.875rem;
-      margin: 0;
-    }
+    .content {
+      p {
+        font-size: 0.875rem;
+        line-height: 0.875rem;
+        margin: 0;
+      }
 
-    figure.image,
-    .jf-laletterbuilder-combined-logo {
-      margin: 0;
-      max-width: 200px;
-    }
+      figure.image,
+      .jf-laletterbuilder-combined-logo {
+        margin: 0;
+        max-width: 200px;
+      }
 
-    .is-divider {
-      margin-bottom: $spacing-05;
-      border: 1px solid $secondary;
-    }
+      .is-divider {
+        margin-bottom: $spacing-05;
+        border: 1px solid $secondary;
+      }
 
-    // Bottom outbound links:
-    .is-uppercase a {
-      font-size: 0.875rem;
-      text-decoration: none;
-      font-weight: 400;
-      font-family: $jf-alt-title-family;
+      // Bottom outbound links:
+      .is-uppercase a {
+        font-size: 0.875rem;
+        text-decoration: none;
+        font-weight: 400;
+        font-family: $jf-alt-title-family;
+      }
     }
   }
+}
+
+footer .content,
+.jf-laletterbuilder-footer-section {
+  padding: $spacing-07 $spacing-06;
+  max-width: $laletterbuilder-desktop-max-width;
+  margin-left: auto;
+  margin-right: auto;
 }

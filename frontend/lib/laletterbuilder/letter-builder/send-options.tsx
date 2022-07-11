@@ -84,7 +84,9 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
             s.habitabilityLatestLetter?.mailChoice ||
             ("WE_WILL_MAIL" as LaMailingChoice),
           noLandlordEmail:
-            !s.habitabilityLatestLetter?.emailToLandlord || false,
+            s.habitabilityLatestLetter?.emailToLandlord !== null
+              ? !s.habitabilityLatestLetter?.emailToLandlord
+              : false,
           email: "",
         })}
         onSuccessRedirect={

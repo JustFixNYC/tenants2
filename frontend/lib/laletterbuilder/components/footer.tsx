@@ -2,6 +2,7 @@ import { Trans } from "@lingui/macro";
 import React from "react";
 
 import { ClickableLogo } from "./clickable-logo";
+import { FooterLanguageToggle } from "../../ui/language-toggle";
 import { LegalDisclaimer } from "../../ui/legal-disclaimer";
 import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
 import { OutboundLink } from "../../ui/outbound-link";
@@ -26,6 +27,7 @@ export const LaLetterBuilderFooter: React.FC<{}> = () => (
     <footer className="has-background-dark">
       <div className="container">
         <div className="content">
+          <FooterLanguageToggle />
           <div className="columns">
             {/* TODO: change this to match our final URL decision */}
             <div className="column is-6">

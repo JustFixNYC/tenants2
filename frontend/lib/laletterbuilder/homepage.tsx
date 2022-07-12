@@ -9,7 +9,6 @@ import {
   LaLetterBuilderRouteInfo,
   LaLetterBuilderRouteInfo as Routes,
 } from "./route-info";
-import { CenteredPrimaryButtonLink, CenteredButtonLink } from "../ui/buttons";
 import { Accordion } from "../ui/accordion";
 import { li18n } from "../i18n-lingui";
 import { OutboundLink } from "../ui/outbound-link";

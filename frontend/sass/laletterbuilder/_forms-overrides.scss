@@ -34,14 +34,14 @@ form {
     }
     .jf-radio {
       align-items: flex-start;
-      border: 1px solid $new-justfix-black;
+      border: 1px solid $justfix-black;
       border-radius: 4px;
       padding: $spacing-05 $spacing-03;
       margin-bottom: $spacing-05;
     }
     .jf-radio-symbol {
       box-shadow: 0 0 0 2px $white, 0 0 0 3px $grey-light;
-      border: 1px solid $new-justfix-black;
+      border: 1px solid $justfix-black;
       margin-top: 0;
     }
     .jf-label-text,
@@ -64,7 +64,7 @@ form {
   // Form-level error messages
   .notification.is-danger {
     padding: $spacing-04 $spacing-05;
-    background-color: $new-justfix-black;
-    border-left: $spacing-04 solid $new-justfix-orange;
+    background-color: $justfix-black;
+    border-left: $spacing-04 solid $justfix-orange;
   }
 }

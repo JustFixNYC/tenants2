@@ -234,6 +234,7 @@ export class FormSubmitterWithoutRouter<
             latestOutput: output,
             errors: getFormErrors<FormInput>(output.errors),
           });
+          window.scrollTo(0, 0);
         } else {
           this.setState({
             wasSubmittedSuccessfully: true,

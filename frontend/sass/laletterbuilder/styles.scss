@@ -297,7 +297,7 @@ $jf-navbar-height: 70px;
 // CHOOSE LETTER STYLING OVERRIDES
 
 .jf-la-letter-card {
-  border: 0.063rem solid $new-justfix-black;
+  border: 0.063rem solid $justfix-black;
   box-sizing: border-box;
   border-radius: 0.25rem;
   margin-left: auto;
@@ -437,15 +437,15 @@ $jf-navbar-height: 70px;
   margin-right: $spacing-04;
 
   &:nth-child(1) {
-    background-color: $new-justfix-yellow;
+    background-color: $justfix-yellow;
   }
   &:nth-child(2) {
-    background-color: $new-justfix-pink;
+    background-color: $justfix-pink;
   }
 }
 
 .jf-laletterbuilder-landlord-email {
-  background-color: $new-justfix-light-grey-accent;
+  background-color: $secondary-accent;
   padding: $spacing-05;
   margin-bottom: $spacing-05;
   border-radius: 4px;
@@ -454,6 +454,16 @@ $jf-navbar-height: 70px;
 .jf-laletterbuilder-landlord-email > span + span {
   display: block;
   margin-top: $spacing-05;
+}
+
+.jf-laletterbuilder-send-options-modal {
+  p > span {
+    display: block;
+
+    &:not(:first-child) {
+      font-style: italic;
+    }
+  }
 }
 
 // NORENT STYLING OVERRIDES
@@ -528,6 +538,10 @@ ol.is-marginless {
 
 // DESKTOP STYLE OVERRIDES
 @media screen and (min-width: $tablet) {
+  .container {
+    width: unset;
+  }
+
   .jf-laletterbuilder-footer-logo {
     margin-top: 0;
   }

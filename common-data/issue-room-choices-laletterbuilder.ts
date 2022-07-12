@@ -4,7 +4,7 @@
 import { t } from "@lingui/macro";
 import { li18n } from '../frontend/lib/i18n-lingui';
 
-export type LaIssueRoomChoice = "BEDROOM"|"LIVING_ROOM"|"DINING_ROOM"|"BATHROOM"|"HALLWAY"|"KITCHEN"|"COMMON_AREAS"|"OTHER"|"NA"|"BROKEN"|"NOT_ENOUGH"|"WATER"|"GAS"|"ELECTRICITY"|"LAUNDRY_ROOM"|"FRONT_DOOR"|"BACK_DOOR"|"BUILDING_MAIN_ENTRANCE"|"BUILDING_PARKING_ENTRANCE"|"BUILDING_EXIT"|"FLOOR_LEVEL";
+export type LaIssueRoomChoice = "BEDROOM"|"LIVING_ROOM"|"DINING_ROOM"|"BATHROOM"|"HALLWAY"|"KITCHEN"|"COMMON_AREAS"|"OTHER"|"BROKEN"|"NOT_ENOUGH"|"WATER"|"GAS"|"ELECTRICITY"|"LAUNDRY_ROOM"|"FRONT_DOOR"|"BACK_DOOR"|"BUILDING_MAIN_ENTRANCE"|"BUILDING_PARKING_ENTRANCE"|"BUILDING_EXIT"|"FLOOR_LEVEL";
 
 export const LaIssueRoomChoices: LaIssueRoomChoice[] = [
   "BEDROOM",
@@ -15,7 +15,6 @@ export const LaIssueRoomChoices: LaIssueRoomChoice[] = [
   "KITCHEN",
   "COMMON_AREAS",
   "OTHER",
-  "NA",
   "BROKEN",
   "NOT_ENOUGH",
   "WATER",
@@ -48,9 +47,8 @@ export function getLaIssueRoomChoiceLabels(): LaIssueRoomChoiceLabels {
     BATHROOM: li18n._(t`Bathroom`),
     HALLWAY: li18n._(t`Hallway`),
     KITCHEN: li18n._(t`Kitchen`),
-    COMMON_AREAS: li18n._(t`Common areas`),
+    COMMON_AREAS: li18n._(t`Common areas (parking, hallway, etc.)`),
     OTHER: li18n._(t`Other`),
-    NA: li18n._(t`Not applicable`),
     BROKEN: li18n._(t`Broken`),
     NOT_ENOUGH: li18n._(t`Not enough`),
     WATER: li18n._(t`Water`),

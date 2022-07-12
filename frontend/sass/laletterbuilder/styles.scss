@@ -159,6 +159,26 @@ $jf-navbar-height: 70px;
   letter-spacing: 0;
 }
 
+.jf-laletterbuilder-combined-logo {
+  position: relative;
+
+  a {
+    position: absolute;
+    height: 100%;
+    display: block;
+    z-index: 1;
+  }
+
+  a:nth-child(1) {
+    width: 62%;
+  }
+
+  a:nth-child(2) {
+    width: 38%;
+    left: 62%;
+  }
+}
+
 // PROGRESS BAR STYLING OVERRIDES
 .jf-progress-title-wrapper {
   .jf-page-steps-title.title {
@@ -189,6 +209,8 @@ $jf-navbar-height: 70px;
 // ISSUE CHECKLIST CUSTOMIZATIONS
 
 .jf-accordion-list-large {
+  padding-bottom: $spacing-11;
+
   p:first-child {
     padding-bottom: $spacing-05;
     margin-bottom: $spacing-05;
@@ -254,7 +276,7 @@ $jf-navbar-height: 70px;
   }
 
   // HOMEPAGE FAQ ACCORDION
-  .jf-laletterbuilder-faq-accordion[open] {
+  .jf-accordion-item details[open] {
     border-bottom: 1px solid #242323;
 
     summary {
@@ -264,6 +286,10 @@ $jf-navbar-height: 70px;
     summary + span {
       margin: 1rem 0;
       display: block;
+    }
+
+    .control {
+      padding-bottom: $spacing-07;
     }
   }
 }
@@ -300,6 +326,12 @@ $jf-navbar-height: 70px;
     .jf-card-button {
       margin-top: $spacing-07;
       margin-bottom: $spacing-07;
+
+      figure {
+        display: inline-block;
+        top: $spacing-01;
+        margin-left: $spacing-04;
+      }
     }
 
     .jf-la-letter-time {

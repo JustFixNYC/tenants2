@@ -6,11 +6,11 @@ import Page from "../ui/page";
 
 import { LaLetterBuilderRouteInfo as Routes } from "./route-info";
 import { CenteredPrimaryButtonLink } from "../ui/buttons";
-import { StaticImage } from "../ui/static-image";
 import { Accordion } from "../ui/accordion";
 import { li18n } from "../i18n-lingui";
 import { OutboundLink } from "../ui/outbound-link";
 import { faqContent } from "./faq-content";
+import { ClickableLogo } from "./components/clickable-logo";
 
 type LaLetterBuilderImageType = "png" | "svg";
 
@@ -62,13 +62,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
           <br />
           <div className="is-spaced has-text-info">
             <Trans>Created by</Trans>
-            <StaticImage
-              ratio="is-3by1"
-              src={getLaLetterBuilderImageSrc(
-                "justfix-saje-combined-logo-black"
-              )}
-              alt="JustFix SAJE"
-            />
+            <ClickableLogo imageUrl="justfix-saje-combined-logo-black" />
           </div>
         </div>
       </div>
@@ -127,7 +121,6 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => (
               key={`faq-${i}`}
               question={el.question}
               questionClassName="has-text-primary"
-              extraClassName="jf-laletterbuilder-faq-accordion"
             >
               {el.answer}
             </Accordion>

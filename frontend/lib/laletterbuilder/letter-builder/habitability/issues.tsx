@@ -85,6 +85,7 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
           letter.
         </Trans>
       </p>
+      <br />
       <div>
         <SessionUpdatingFormSubmitter
           confirmNavIfChanged
@@ -97,7 +98,8 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
               {toDjangoChoices(LaIssueCategoryChoices, labels).map(
                 ([category, categoryLabel], i) => (
                   <div className="jf-accordion-list-large" key={i}>
-                    <p>{categoryLabel}</p>
+                    <h2>{categoryLabel}</h2>
+                    <br />
                     {laIssueChoicesForCategory(category).map(
                       ([issue, issueLabel], i) => (
                         <Accordion
@@ -113,7 +115,6 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                         </Accordion>
                       )
                     )}
-                    <br />
                   </div>
                 )
               )}

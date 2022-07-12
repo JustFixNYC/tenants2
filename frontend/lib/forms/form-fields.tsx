@@ -114,6 +114,7 @@ export function RadiosFormField(props: RadiosFormFieldProps): JSX.Element {
 
   return (
     <div className="field" role="group" aria-label={ariaLabel}>
+      {errorHelp}
       {!props.hideVisibleLabel && (
         <label className="label" aria-hidden="true">
           {props.label}
@@ -149,7 +150,6 @@ export function RadiosFormField(props: RadiosFormFieldProps): JSX.Element {
           </label>
         ))}
       </div>
-      {errorHelp}
     </div>
   );
 }
@@ -160,6 +160,7 @@ export function SelectFormField(props: ChoiceFormFieldProps): JSX.Element {
 
   return (
     <div className="field">
+      {errorHelp}
       <label htmlFor={props.id} className="label">
         {props.label}
       </label>
@@ -187,7 +188,6 @@ export function SelectFormField(props: ChoiceFormFieldProps): JSX.Element {
           </select>
         </div>
       </div>
-      {errorHelp}
     </div>
   );
 }
@@ -253,6 +253,7 @@ export function MultiCheckboxFormField(
 
   return (
     <div className="field" role="group" aria-label={ariaLabel}>
+      {errorHelp}
       <label className="label" aria-hidden="true">
         {props.label}
       </label>
@@ -269,7 +270,6 @@ export function MultiCheckboxFormField(
           )
         )}
       </div>
-      {errorHelp}
     </div>
   );
 }
@@ -280,16 +280,28 @@ export interface BooleanFormFieldProps extends BaseFormFieldProps<boolean> {
 
 export type CheckboxViewProps = InputProps & {
   id: string;
+  contentBeforeLabel?: any;
   contentAfterLabel?: any;
   children: any;
+  errors?: any;
 };
 
 export function CheckboxView(props: CheckboxViewProps) {
-  const { children, contentAfterLabel, ...inputProps } = props;
+  const {
+    children,
+    contentBeforeLabel,
+    contentAfterLabel,
+    errors,
+    ...inputProps
+  } = props;
 
   return (
     <div className="field">
-      <label htmlFor={inputProps.id} className="checkbox jf-single-checkbox">
+      {contentBeforeLabel}
+      <label
+        htmlFor={inputProps.id}
+        className={`checkbox jf-single-checkbox ${!!errors ? "is-danger" : ""}`}
+      >
         <input type="checkbox" {...inputProps} />{" "}
         <span className="jf-checkbox-symbol" />{" "}
         <span className="jf-label-text">
@@ -305,14 +317,6 @@ export function CheckboxFormField(
   props: BooleanFormFieldProps & { extraContentAfterLabel?: JSX.Element }
 ): JSX.Element {
   const { errorHelp } = formatErrors(props);
-  const contentAfterLabel = props.extraContentAfterLabel ? (
-    <>
-      {errorHelp}
-      {props.extraContentAfterLabel}
-    </>
-  ) : (
-    errorHelp
-  );
 
   return (
     <CheckboxView
@@ -322,7 +326,9 @@ export function CheckboxFormField(
       aria-invalid={ariaBool(!!props.errors)}
       disabled={props.isDisabled}
       onChange={(e) => props.onChange(e.target.checked)}
-      contentAfterLabel={contentAfterLabel}
+      contentBeforeLabel={errorHelp}
+      contentAfterLabel={props.extraContentAfterLabel}
+      errors={props.errors}
     >
       {props.children}
     </CheckboxView>
@@ -423,6 +429,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
 
   return (
     <div className="field" {...props.fieldProps}>
+      {errorHelp}
       {renderLabel(
         props.label,
         { htmlFor: props.id },
@@ -449,7 +456,6 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
         {type === "date" && <DateClear {...props} />}
       </div>
       {props.help && <p className="help">{props.help}</p>}
-      {errorHelp}
     </div>
   );
 }
@@ -463,6 +469,7 @@ export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
 
   return (
     <div className="field" {...props.fieldProps}>
+      {errorHelp}
       {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
       <div className="control">
         <textarea
@@ -480,7 +487,6 @@ export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
           onChange={(e) => props.onChange(e.target.value)}
         />
       </div>
-      {errorHelp}
     </div>
   );
 }

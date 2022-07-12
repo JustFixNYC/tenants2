@@ -6,7 +6,6 @@ import { li18n } from "../../i18n-lingui";
 import Page from "../../ui/page";
 import { ProgressStepProps } from "../../progress/progress-step-route";
 import { Link } from "react-router-dom";
-import { SimpleClearAnonymousSessionButton } from "../../forms/clear-anonymous-session-button";
 import { LaLetterBuilderRouteInfo } from "../route-info";
 import { OutboundLink } from "../../ui/outbound-link";
 import classnames from "classnames";
@@ -87,12 +86,6 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
           }}
           information={rightOfActionInformationNeeded}
         />
-        <div className="buttons jf-two-buttons">
-          <SimpleClearAnonymousSessionButton
-            label="Back"
-            to={LaLetterBuilderRouteInfo.locale.home}
-          />
-        </div>
       </section>
     </Page>
   );
@@ -180,6 +173,11 @@ function CallToAction({ to, text, className }: LetterCardButtonProps) {
       className={classnames("jf-card-button", className)}
     >
       {content}
+      <StaticImage
+        ratio="is-16x16"
+        src="frontend/img/external-link.svg"
+        alt=""
+      />
     </OutboundLink>
   );
 }

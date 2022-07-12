@@ -133,3 +133,32 @@ fieldset {
   text-decoration: underline;
   font-size: smaller;
 }
+
+form .field {
+  .control {
+    input,
+    select {
+      &.is-danger,
+      &:not(:focus).is-danger {
+        border: 3px solid $danger;
+      }
+    }
+  }
+
+  .jf-single-checkbox.is-danger .jf-checkbox-symbol {
+    border: 3px solid $danger;
+  }
+
+  p.help.is-danger {
+    color: #000;
+    font-size: 0.875rem;
+    line-height: 0.875rem;
+    margin-bottom: 0.25rem;
+
+    &::before {
+      content: "•";
+      color: $danger;
+      margin: 0 0.25rem 0 -0.5rem;
+    }
+  }
+}

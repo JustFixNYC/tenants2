@@ -6,6 +6,7 @@ import { FooterLanguageToggle } from "../../ui/language-toggle";
 import { LegalDisclaimer } from "../../ui/legal-disclaimer";
 import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
 import { OutboundLink } from "../../ui/outbound-link";
+import { PhoneNumber } from "./phone-number";
 
 export const LaLetterBuilderFooter: React.FC<{}> = () => (
   <>
@@ -16,7 +17,8 @@ export const LaLetterBuilderFooter: React.FC<{}> = () => (
         </h2>
         <label>
           <Trans>
-            Contact SAJE at (213) 745-9961 or attend the{" "}
+            Contact SAJE at <PhoneNumber number="(213) 745-9961" /> or attend
+            the{" "}
             <OutboundLink href="https://www.saje.net/what-we-do/tenant-action-clinic/">
               Tenant Action Clinic
             </OutboundLink>

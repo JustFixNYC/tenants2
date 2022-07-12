@@ -22,6 +22,7 @@ import {
 import { bulmaClasses } from "../../ui/bulma";
 import { TextualFormField } from "../../forms/form-fields";
 import { LaLetterBuilderDownloadPDFInput } from "../../queries/globalTypes";
+import { PhoneNumber } from "../components/phone-number";
 
 export const LaLetterBuilderMyLetters: React.FC<ProgressStepProps> = (
   props
@@ -106,14 +107,18 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
           <Trans>For LA City residents</Trans>
         </span>
         <p>
-          <Trans>Call LAHD at (866) 557-7368</Trans>
+          <Trans>
+            Call LAHD at <PhoneNumber number="(866) 557-7368" />
+          </Trans>
         </p>
 
         <span>
           <Trans>For LA county residents</Trans>
         </span>
         <p>
-          <Trans>Call LADBS at (213) 473-3231</Trans>
+          <Trans>
+            Call LADBS at <PhoneNumber number="(213) 473-3231" />
+          </Trans>
         </p>
         <h2>
           <Trans>Mark your calendar</Trans>

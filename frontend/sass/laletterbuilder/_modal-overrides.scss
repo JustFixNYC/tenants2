@@ -28,4 +28,12 @@
       margin-bottom: $spacing-05;
     }
   }
+
+  .jf-two-buttons {
+    flex-direction: column-reverse;
+
+    > .button {
+      width: 100%;
+    }
+  }
 }

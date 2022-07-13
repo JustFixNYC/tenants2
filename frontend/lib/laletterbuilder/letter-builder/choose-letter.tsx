@@ -35,6 +35,10 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
             text: li18n._(t`Select letter`),
           }}
           information={repairsInformationNeeded}
+          tags={[
+            { label: li18n._(t`free`), className: "is-yellow" },
+            { label: li18n._(t`no printing`), className: "is-pink" },
+          ]}
         />
       </section>
       <section className="jf-laletterbuilder-section-secondary">
@@ -114,6 +118,11 @@ const rightOfActionInformationNeeded = [
   li18n._(t`Landlord or property manager’s contact information`),
 ];
 
+export interface TagInfo {
+  label: string;
+  className?: string;
+}
+
 type LetterCardButtonProps = {
   to: string;
   text: string;
@@ -127,6 +136,7 @@ type LetterCardProps = {
   badge?: JSX.Element;
   buttonProps: LetterCardButtonProps;
   information: string[];
+  tags?: TagInfo[];
 };
 
 const LetterCard: React.FC<LetterCardProps> = (props) => {
@@ -134,6 +144,15 @@ const LetterCard: React.FC<LetterCardProps> = (props) => {
     <>
       <div className="jf-la-letter-card">
         <div className="content">
+          {props.tags && (
+            <div className="jf-la-letter-card-tags">
+              {props.tags.map((tag, i) => (
+                <span key={`tag-${i}`} className={`tag ${tag.className}`}>
+                  {tag.label}
+                </span>
+              ))}
+            </div>
+          )}
           <h2>{props.title}</h2>
           <div className="jf-la-letter-time">
             <div className="jf-clock-icon">

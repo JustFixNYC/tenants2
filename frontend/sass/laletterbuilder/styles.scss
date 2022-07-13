@@ -12,6 +12,7 @@ $jf-alt-title-family: "Suisse Int'l Mono", "Courier New", Courier, monospace;
 
 $laletterbuilder-desktop-max-width: 40.875rem;
 
+@import "./_fonts.scss";
 @import "./_spacing.scss";
 
 @import "../_util.scss";
@@ -41,8 +42,7 @@ $laletterbuilder-desktop-max-width: 40.875rem;
 @import "../_email.scss";
 @import "../_accordion.scss";
 @import "../_issues.scss";
-
-@import "./_fonts.scss";
+@import "./_tag-overrides.scss";
 
 // These variables define the background and content colors for the nav-bar
 $jf-navbar-background: $primary;
@@ -314,6 +314,7 @@ $jf-navbar-height: 70px;
       font-weight: 400;
       font-size: 1.8rem;
       line-height: 1.8rem;
+      margin-top: $spacing-05;
     }
 
     .jf-card-text {
@@ -428,20 +429,6 @@ $jf-navbar-height: 70px;
 .jf-laletterbuilder-mailchoice-title {
   font-size: 18px;
   font-weight: 400;
-}
-
-.jf-laletterbuilder-mailchoice-tags > span {
-  display: inline-block;
-  border-radius: 12px;
-  padding: $spacing-02 $spacing-03;
-  margin-right: $spacing-04;
-
-  &:nth-child(1) {
-    background-color: $justfix-yellow;
-  }
-  &:nth-child(2) {
-    background-color: $justfix-pink;
-  }
 }
 
 .jf-laletterbuilder-landlord-email {

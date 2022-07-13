@@ -25,18 +25,22 @@ import { optionalizeLabel } from "../../forms/optionalize-label";
 import { twoTuple } from "../../util/util";
 import { EmailPreview } from "../components/letter-preview";
 import { HabitabilityLetterEmailToLandlordForUser } from "./habitability/habitability-letter-content";
+import { TagInfo } from "./choose-letter";
 
 interface MailChoiceInfo {
   title: string;
   description: string;
-  tags?: string[];
+  tags?: TagInfo[];
 }
 
 const mailChoiceLabels = getLaMailingChoiceLabels();
 const MailChoices: { [key: string]: MailChoiceInfo } = {
   WE_WILL_MAIL: {
     title: mailChoiceLabels["WE_WILL_MAIL"],
-    tags: [li18n._(t`free`), li18n._(t`no printing`)],
+    tags: [
+      { label: li18n._(t`free`), className: "is-yellow" },
+      { label: li18n._(t`no printing`), className: "is-pink" },
+    ],
     description: li18n._(
       t`We'll send your letter for you via certified mail in 1-2 business days, at no cost to you.`
     ),
@@ -61,7 +65,9 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
         {data.tags && (
           <div className="jf-laletterbuilder-mailchoice-tags">
             {data.tags.map((el, i) => (
-              <span key={i}>{el}</span>
+              <span key={i} className={`tag ${el.className}`}>
+                {el.label}
+              </span>
             ))}
           </div>
         )}

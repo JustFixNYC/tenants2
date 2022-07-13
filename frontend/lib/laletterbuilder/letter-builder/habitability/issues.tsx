@@ -101,19 +101,38 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                     <h2>{categoryLabel}</h2>
                     <br />
                     {laIssueChoicesForCategory(category).map(
-                      ([issue, issueLabel], i) => (
-                        <Accordion
-                          question={issueLabel}
-                          key={i}
-                          questionClassName="has-text-primary"
-                        >
-                          <MultiCheckboxFormField
-                            {...ctx.fieldPropsFor("laIssues")}
-                            label={""}
-                            choices={laRoomChoicesForIssue(getIssue(issue))}
-                          />
-                        </Accordion>
-                      )
+                      ([issue, issueLabel], i) => {
+                        const selectedIssues = ctx.fieldPropsFor("laIssues")
+                          .value;
+                        const choices = laRoomChoicesForIssue(getIssue(issue));
+                        const count = choices.reduce(
+                          (prev, current) =>
+                            prev +
+                            (selectedIssues.indexOf(current[0]) >= 0 ? 1 : 0),
+                          0
+                        );
+                        const question = (
+                          <>
+                            <span>{issueLabel}</span>
+                            {!!count && (
+                              <span className="tag is-black">{`${count} selected`}</span>
+                            )}
+                          </>
+                        );
+                        return (
+                          <Accordion
+                            question={question}
+                            key={i}
+                            questionClassName="has-text-primary"
+                          >
+                            <MultiCheckboxFormField
+                              {...ctx.fieldPropsFor("laIssues")}
+                              label={""}
+                              choices={choices}
+                            />
+                          </Accordion>
+                        );
+                      }
                     )}
                   </div>
                 )

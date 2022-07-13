@@ -66,6 +66,10 @@ nav.navbar {
   .navbar-link {
     color: $primary;
     height: 100%;
+
+    &:focus {
+      outline-color: $primary;
+    }
   }
 
   .navbar-link::after {

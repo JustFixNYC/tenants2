@@ -41,8 +41,12 @@ form {
     }
     .jf-radio-symbol {
       box-shadow: 0 0 0 2px $white, 0 0 0 3px $grey-light;
-      border: 1px solid $justfix-black;
+      border: 3px solid $justfix-white;
+      box-shadow: 0 0 0 1px $justfix-black;
       margin-top: 0;
+    }
+    input:focus + .jf-radio-symbol {
+      outline-color: $justfix-black;
     }
     .jf-label-text,
     .jf-label-text .subtitle {

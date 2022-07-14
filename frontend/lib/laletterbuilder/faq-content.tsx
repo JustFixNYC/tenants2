@@ -29,7 +29,7 @@ export const faqContent: FaqItem[] = [
     ),
     answer: (
       <span>
-        <Trans id="laletterbuilder.faq.whocanhelpv2">
+        <Trans id="laletterbuilder.faq.whocanhelp">
           Give SAJE a call at <PhoneNumber number="(213) 745-9961" /> and let
           them know you need help creating a letter. You can also attend a{" "}
           <OutboundLink href="https://www.saje.net/what-we-do/tenant-action-clinic/">

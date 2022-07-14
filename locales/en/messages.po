@@ -3698,7 +3698,7 @@ msgid "laletterbuilder.faq.whentosend"
 msgstr "Create a letter to formally request repairs or document harassment situations. The letter creates a paper trail of your communication if you decide to contact the Los Angeles Housing Department (LAHD)."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:20
-msgid "laletterbuilder.faq.whocanhelpv2"
+msgid "laletterbuilder.faq.whocanhelp"
 msgstr "Give SAJE a call at <0/> and let them know you need help creating a letter. You can also attend a <1>Tenant Action Clinic</1>."
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:97

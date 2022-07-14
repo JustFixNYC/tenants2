@@ -3708,7 +3708,7 @@ msgid "laletterbuilder.faq.whentosend"
 msgstr ""
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:20
-msgid "laletterbuilder.faq.whocanhelpv2"
+msgid "laletterbuilder.faq.whocanhelp"
 msgstr ""
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:97

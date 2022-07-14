@@ -7,8 +7,6 @@ import { LaLetterBuilderRouteInfo } from "../route-info";
 import { li18n } from "../../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
-import { LaLetterBuilderCreateLetterMutation } from "../../queries/LaLetterBuilderCreateLetterMutation";
-import { NextButton } from "../../ui/buttons";
 import { WelcomePage } from "../../common-steps/welcome";
 import { AppContext } from "../../app-context";
 import { OutboundLink } from "../../ui/outbound-link";
@@ -21,8 +19,12 @@ import {
 } from "../../queries/LaLetterBuilderDownloadPdfMutation";
 import { bulmaClasses } from "../../ui/bulma";
 import { TextualFormField } from "../../forms/form-fields";
-import { LaLetterBuilderDownloadPDFInput } from "../../queries/globalTypes";
+import {
+  HabitabilityLetterMailChoice,
+  LaLetterBuilderDownloadPDFInput,
+} from "../../queries/globalTypes";
 import { PhoneNumber } from "../components/phone-number";
+import { CreateLetterCard } from "./choose-letter";
 
 export const LaLetterBuilderMyLetters: React.FC<ProgressStepProps> = (
   props
@@ -137,18 +139,24 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
 const MyLettersContent: React.FC = (props) => {
   const { session } = useContext(AppContext);
   const processedLetters = session.habitabilityLetters?.filter(
-    (el) => !!el.fullyProcessedAt && !el.letterSentAt
+    (el) =>
+      !!el.fullyProcessedAt &&
+      !el.letterSentAt &&
+      el.mailChoice == HabitabilityLetterMailChoice.WE_WILL_MAIL
   );
   const sentLetters = session.habitabilityLetters?.filter(
-    (el) => !!el.letterSentAt
+    (el) =>
+      !!el.letterSentAt ||
+      el.mailChoice == HabitabilityLetterMailChoice.USER_WILL_MAIL
   );
 
   return (
     <div className="jf-my-letters">
-      <p className="subtitle">
-        <Trans>See all your finished and unfinished letters</Trans>
-      </p>
-      <CreateOrContinueLetter />
+      {(!!processedLetters?.length || !!sentLetters?.length) && (
+        <h2>
+          <Trans>Sent</Trans>
+        </h2>
+      )}
       {processedLetters?.map((letter) => (
         <CompletedLetterCard
           key={`processed-letter-${letter.id}`}
@@ -174,92 +182,83 @@ const MyLettersContent: React.FC = (props) => {
         });
         return (
           <CompletedLetterCard key={`sent-letter-${letter.id}`} id={letter.id}>
-            <h3>{`${li18n._(
-              t`JustFix sent your letter on`
-            )} ${dateString} `}</h3>
-            <p className="jf-laletterbuilder-letter-tracking">
-              <Trans>USPS tracking number:</Trans>{" "}
-              <OutboundLink
-                href={`https://tools.usps.com/go/TrackConfirmAction_input?strOrigTrackNum=${letter.trackingNumber}`}
-                target="_blank"
-              >
-                {letter.trackingNumber}
-              </OutboundLink>
-            </p>
+            {letter.mailChoice ==
+            HabitabilityLetterMailChoice.USER_WILL_MAIL ? (
+              <h3>{`${li18n._(
+                t`You downloaded this letter on ${dateString} to print and send yourself.`
+              )}`}</h3>
+            ) : (
+              <>
+                <h3>{`${li18n._(
+                  t`JustFix sent your letter on`
+                )} ${dateString} `}</h3>
+                <p className="jf-laletterbuilder-letter-tracking">
+                  <Trans>USPS tracking number:</Trans>{" "}
+                  <OutboundLink
+                    href={`https://tools.usps.com/go/TrackConfirmAction_input?strOrigTrackNum=${letter.trackingNumber}`}
+                    target="_blank"
+                  >
+                    {letter.trackingNumber}
+                  </OutboundLink>
+                </p>
+              </>
+            )}
           </CompletedLetterCard>
         );
       })}
-      <h3>
-        <Trans>
-          Do you have another housing issue that you need to address?
-        </Trans>
-      </h3>
-      <Link to={LaLetterBuilderRouteInfo.locale.chooseLetter}>
-        <Trans>View other letters</Trans>
-      </Link>
-    </div>
-  );
-};
 
-const CreateOrContinueLetter: React.FC = (props) => {
-  const { session } = useContext(AppContext);
-
-  return (
-    <SessionUpdatingFormSubmitter
-      mutation={LaLetterBuilderCreateLetterMutation}
-      initialState={{}}
-      onSuccessRedirect={
-        LaLetterBuilderRouteInfo.locale.habitability.issues.prefix
-      }
-    >
-      {(sessionCtx) => (
-        <div className="my-letters-box">
-          <StaticImage
-            ratio="is-32x32"
-            src={getLaLetterBuilderImageSrc("repair-tools")}
-            alt=""
-          />
-          <h3>
-            <Trans>Notice to repair letter</Trans>
-          </h3>
-          {session.hasHabitabilityLetterInProgress ? (
-            <>
-              <p>
-                <Trans>In progress</Trans>
-              </p>
-              <p>
-                <Trans>
-                  Document repairs needed in your home, and send a formal
-                  request to your landlord
-                </Trans>
-              </p>
-              <div className="start-letter-button">
-                <Link
-                  to={
-                    LaLetterBuilderRouteInfo.locale.habitability.issues.prefix
-                  }
-                  className="button jf-is-next-button is-primary is-medium"
-                >
-                  {li18n._(t`Continue letter`)}
-                </Link>
-              </div>
-            </>
-          ) : (
-            <>
-              <p>
-                <Trans>Start your letter now</Trans>
-              </p>
-              <div className="start-letter-button">
-                <NextButton
-                  isLoading={sessionCtx.isLoading}
-                  label={li18n._(t`Start letter`)}
-                />
-              </div>
-            </>
-          )}
-        </div>
+      {session.hasHabitabilityLetterInProgress && (
+        <>
+          <h2>
+            <Trans>In progress</Trans>
+          </h2>
+          <div className="my-letters-box">
+            <StaticImage
+              ratio="is-32x32"
+              src={getLaLetterBuilderImageSrc("repair-tools")}
+              alt=""
+            />
+            <h3>
+              <Trans>Notice to repair letter</Trans>
+            </h3>
+            <p>
+              <Trans>In progress</Trans>
+            </p>
+            <p>
+              <Trans>
+                Document repairs needed in your home, and send a formal request
+                to your landlord
+              </Trans>
+            </p>
+            <div className="start-letter-button">
+              <Link
+                to={LaLetterBuilderRouteInfo.locale.habitability.issues.prefix}
+                className="button jf-is-next-button is-primary is-medium"
+              >
+                {li18n._(t`Continue letter`)}
+              </Link>
+            </div>
+          </div>
+        </>
       )}
-    </SessionUpdatingFormSubmitter>
+      <h2>
+        <Trans>Start a new letter</Trans>
+      </h2>
+      {!session.habitabilityLetters?.length ? (
+        <CreateLetterCard />
+      ) : (
+        <>
+          <p>
+            <Trans>
+              Do you have another housing issue that you need to address?
+            </Trans>
+          </p>
+          <Link to={LaLetterBuilderRouteInfo.locale.chooseLetter}>
+            <Trans>View other letters</Trans>
+          </Link>
+        </>
+      )}
+    </div>
   );
 };
 

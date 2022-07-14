@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 
 import { li18n } from "../../i18n-lingui";
 import Page from "../../ui/page";
@@ -12,6 +12,10 @@ import classnames from "classnames";
 import { Accordion } from "../../ui/accordion";
 import { StaticImage } from "../../ui/static-image";
 import { getLaLetterBuilderImageSrc } from "../homepage";
+import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-submitter";
+import { LaLetterBuilderCreateLetterMutation } from "../../queries/LaLetterBuilderCreateLetterMutation";
+import { NextButton } from "../../ui/buttons";
+import { AppContext } from "../../app-context";
 
 export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
   props
@@ -23,23 +27,7 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
     >
       <section className="jf-laletterbuilder-section-primary">
         <h1>{li18n._(t`Select a letter to get started`)}</h1>
-        <LetterCard
-          title={li18n._(t`Notice to Repair`)}
-          time_mins={15}
-          text={li18n._(
-            t`Write your landlord a letter to formally document your request for repairs.`
-          )}
-          buttonProps={{
-            to: LaLetterBuilderRouteInfo.locale.habitability.latestStep,
-            className: "button is-primary is-medium",
-            text: li18n._(t`Select letter`),
-          }}
-          information={repairsInformationNeeded}
-          tags={[
-            { label: li18n._(t`free`), className: "is-yellow" },
-            { label: li18n._(t`no printing`), className: "is-pink" },
-          ]}
-        />
+        <CreateLetterCard />
       </section>
       <section className="jf-laletterbuilder-section-secondary">
         <p>{li18n._(t`We're working on adding more letters.`)}</p>
@@ -134,7 +122,7 @@ type LetterCardProps = {
   time_mins: number;
   text: string;
   badge?: JSX.Element;
-  buttonProps: LetterCardButtonProps;
+  buttonProps?: LetterCardButtonProps;
   information: string[];
   tags?: TagInfo[];
 };
@@ -165,7 +153,8 @@ const LetterCard: React.FC<LetterCardProps> = (props) => {
             {props.time_mins} mins
           </div>
           <span>{props.text}</span>
-          <CallToAction {...props.buttonProps} />
+          {props.buttonProps && <CallToAction {...props.buttonProps} />}
+          {props.children}
         </div>
         <hr />
         <InformationNeeded information={props.information} />
@@ -205,7 +194,7 @@ type InformationNeededProps = {
   information: string[];
 };
 
-function InformationNeeded({ information }: InformationNeededProps) {
+export function InformationNeeded({ information }: InformationNeededProps) {
   const listItems = information.map((item, i) => <li key={i}>{item}</li>);
   return (
     <Accordion
@@ -217,3 +206,54 @@ function InformationNeeded({ information }: InformationNeededProps) {
     </Accordion>
   );
 }
+
+const createLetterTags = [
+  { label: li18n._(t`free`), className: "is-yellow" },
+  { label: li18n._(t`no printing`), className: "is-pink" },
+];
+
+export const CreateLetterCard: React.FC = (props) => {
+  const { session } = useContext(AppContext);
+  const createNewLetter =
+    !!session.phoneNumber && !session.hasHabitabilityLetterInProgress;
+
+  return (
+    <SessionUpdatingFormSubmitter
+      mutation={LaLetterBuilderCreateLetterMutation}
+      initialState={{}}
+      onSuccessRedirect={
+        LaLetterBuilderRouteInfo.locale.habitability.issues.prefix
+      }
+    >
+      {(sessionCtx) => (
+        <LetterCard
+          title={li18n._(t`Notice to repair`)}
+          time_mins={15}
+          text={li18n._(
+            t`Write your landlord a letter to formally document your request for repairs.`
+          )}
+          tags={createLetterTags}
+          information={repairsInformationNeeded}
+          buttonProps={
+            !createNewLetter
+              ? {
+                  to: LaLetterBuilderRouteInfo.locale.habitability.latestStep,
+                  className: "button jf-is-next-button is-primary is-medium",
+                  text: li18n._(t`Start letter`),
+                }
+              : undefined
+          }
+        >
+          {createNewLetter && (
+            <div className="start-letter-button jf-card-button">
+              <NextButton
+                isLoading={sessionCtx.isLoading}
+                label={li18n._(t`Start letter`)}
+              />
+            </div>
+          )}
+        </LetterCard>
+      )}
+    </SessionUpdatingFormSubmitter>
+  );
+};

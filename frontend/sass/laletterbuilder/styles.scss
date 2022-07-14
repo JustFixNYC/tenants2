@@ -219,6 +219,7 @@ $jf-navbar-height: 70px;
 
   .jf-accordion-item {
     margin-bottom: $spacing-05;
+    padding: 0 $spacing-06;
 
     details {
       margin-bottom: 0;
@@ -302,8 +303,11 @@ $jf-navbar-height: 70px;
   border-radius: 0.25rem;
   margin-left: auto;
   margin-right: auto;
-  margin-top: $spacing-09;
   max-width: $laletterbuilder-desktop-max-width;
+
+  + .jf-la-letter-card {
+    margin-top: $spacing-09;
+  }
 
   .content {
     padding: $spacing-06 $spacing-06 0 $spacing-06;
@@ -375,6 +379,12 @@ $jf-navbar-height: 70px;
         }
       }
     }
+  }
+}
+
+.jf-la-letter-card-tags {
+  > span:first-child {
+    margin-left: 0;
   }
 }
 

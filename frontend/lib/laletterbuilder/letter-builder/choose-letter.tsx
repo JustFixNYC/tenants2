@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 
 import { li18n } from "../../i18n-lingui";
 import Page from "../../ui/page";

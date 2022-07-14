@@ -225,6 +225,18 @@ const MultiCheckboxFormFieldCheckbox: React.FC<
   const [choice, label] = props.choice;
   const id = `${props.id}_${choice}`;
 
+  const onChange = (e: any) =>
+    props.onChange(toggleChoice(choice, e.target.checked, props.value));
+  const onKeyPress = (e: any) => {
+    const target = e.target;
+    if (e.key === "Enter" && target) {
+      e.stopPropagation();
+      e.preventDefault();
+      target.checked = !target.checked;
+      onChange(e);
+    }
+  };
+
   return (
     <label htmlFor={id} className="checkbox jf-checkbox" key={choice}>
       <input
@@ -235,9 +247,8 @@ const MultiCheckboxFormFieldCheckbox: React.FC<
         checked={props.value.indexOf(choice) !== -1}
         aria-invalid={ariaBool(!!props.errors)}
         disabled={props.isDisabled}
-        onChange={(e) =>
-          props.onChange(toggleChoice(choice, e.target.checked, props.value))
-        }
+        onChange={onChange}
+        onKeyPress={onKeyPress}
       />{" "}
       <span className="jf-checkbox-symbol" />{" "}
       <span className="jf-label-text">{label}</span>
@@ -295,6 +306,16 @@ export function CheckboxView(props: CheckboxViewProps) {
     ...inputProps
   } = props;
 
+  const onKeyPress = (e: any) => {
+    const target = e.target;
+    if (e.key === "Enter" && target) {
+      e.stopPropagation();
+      e.preventDefault();
+      target.checked = !target.checked;
+      props.onChange?.(e);
+    }
+  };
+
   return (
     <div className="field">
       {contentBeforeLabel}
@@ -302,7 +323,7 @@ export function CheckboxView(props: CheckboxViewProps) {
         htmlFor={inputProps.id}
         className={`checkbox jf-single-checkbox ${!!errors ? "is-danger" : ""}`}
       >
-        <input type="checkbox" {...inputProps} />{" "}
+        <input type="checkbox" onKeyPress={onKeyPress} {...inputProps} />{" "}
         <span className="jf-checkbox-symbol" />{" "}
         <span className="jf-label-text">
           <span className="subtitle is-5">{props.children}</span>

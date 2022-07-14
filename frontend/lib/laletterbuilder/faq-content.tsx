@@ -3,6 +3,7 @@ import React from "react";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
 import { OutboundLink } from "../ui/outbound-link";
+import { PhoneNumber } from "./components/phone-number";
 
 type FaqItem = {
   question: string;
@@ -28,9 +29,9 @@ export const faqContent: FaqItem[] = [
     ),
     answer: (
       <span>
-        <Trans id="laletterbuilder.faq.whocanhelpv2">
-          Give SAJE a call at (213) 745-9961 and let them know you need help
-          creating a letter. You can also attend a{" "}
+        <Trans id="laletterbuilder.faq.whocanhelp">
+          Give SAJE a call at <PhoneNumber number="(213) 745-9961" /> and let
+          them know you need help creating a letter. You can also attend a{" "}
           <OutboundLink href="https://www.saje.net/what-we-do/tenant-action-clinic/">
             Tenant Action Clinic
           </OutboundLink>

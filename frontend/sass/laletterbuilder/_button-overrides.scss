@@ -21,8 +21,8 @@
   padding: $spacing-06 $spacing-07;
 
   height: fit-content;
-  // IE support:
-  display: table;
+  // LALOC specific
+  display: inline-block;
   flex: none;
   box-shadow: 0.25rem 0.25rem 0rem $justfix-grey-light;
   max-width: 100%;

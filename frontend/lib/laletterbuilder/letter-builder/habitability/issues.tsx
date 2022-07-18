@@ -26,6 +26,8 @@ import { SessionUpdatingFormSubmitter } from "../../../forms/session-updating-fo
 import { AllSessionInfo } from "../../../queries/AllSessionInfo";
 import { LaLetterBuilderIssuesMutation } from "../../../queries/LaLetterBuilderIssuesMutation";
 import { ROUTE_PREFIX } from "../../../util/route-util";
+import { PhoneNumber } from "../../components/phone-number";
+import { OutboundLink } from "../../../ui/outbound-link";
 
 function getCategory(issue: LaIssueChoice): LaIssueCategoryChoice {
   return issue.split("__")[0] as LaIssueCategoryChoice;
@@ -137,6 +139,36 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                   </div>
                 )
               )}
+              <Accordion
+                question={li18n._(t`What if a repair I need is not listed?`)}
+                extraClassName=""
+              >
+                <div className="content">
+                  <Trans id="laletterbuilder.issues.repairNotListed">
+                    The Notice to Repair letter will formally document your
+                    request for repairs. Once you arrange access dates that work
+                    for everyone, you can inform the landlord or property
+                    manager about any other repairs you need.
+                  </Trans>
+                </div>
+              </Accordion>
+              <Accordion
+                question={li18n._(
+                  t`Where can I add more details about the issues in my home?`
+                )}
+                extraClassName=""
+              >
+                <div className="content">
+                  <Trans id="laletterbuilder.issues.addRepairDetails">
+                    You can share more details with your landlord if they
+                    respond, or with{" "}
+                    <OutboundLink href="https://housing.lacity.org/residents/file-a-complaint">
+                      LAHD
+                    </OutboundLink>{" "}
+                    at <PhoneNumber number="(866) 557-7368" />.
+                  </Trans>
+                </div>
+              </Accordion>
               <br />
               <ProgressButtons isLoading={ctx.isLoading} back={props.toBack} />
             </>

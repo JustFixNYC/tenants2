@@ -202,7 +202,7 @@ msgstr "Alaska"
 msgid "All set! Thanks for subscribing!"
 msgstr "¡Todo listo! ¡Gracias por suscribirte!"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:53
+#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:55
 msgid "All you need for now are the basics. You can follow up with your landlord or property manager in more detail once they receive your letter."
 msgstr ""
 
@@ -247,7 +247,7 @@ msgstr "Solicitar ERAP en línea"
 msgid "Are you sure you want to log out?"
 msgstr "¿Estás seguro de que quieres cerrar la sesión?"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:99
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:105
 msgid "Are you sure you want to mail the letter yourself?"
 msgstr ""
 
@@ -268,7 +268,7 @@ msgid "As a California resident, you have a right to safe housing"
 msgstr ""
 
 #: frontend/lib/laletterbuilder/homepage.tsx:138
-msgid "Attend SAJE’s Tenant Action Clinic if you're faced with a housing problem."
+msgid "Attend SAJE’s <0>Tenant Action Clinic</0> if you're faced with a housing problem."
 msgstr ""
 
 #: frontend/lib/evictionfree/homepage.tsx:68
@@ -280,7 +280,7 @@ msgstr "Rellena automáticamente la información del dueño de tu edificio en ba
 msgid "Available in English and Spanish."
 msgstr "Disponible en Inglés y Español."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:140
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:146
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
 msgstr "Atrás"
@@ -880,7 +880,7 @@ msgstr ""
 msgid "Email address"
 msgstr "Dirección de correo electrónico"
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:131
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:137
 msgid "Email your letter to:"
 msgstr ""
 
@@ -1058,7 +1058,7 @@ msgstr "Georgia"
 msgid "Get involved in your community"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/homepage.tsx:147
+#: frontend/lib/laletterbuilder/homepage.tsx:150
 msgid "Get involved with SAJE to build power with your neighbors"
 msgstr ""
 
@@ -1241,6 +1241,10 @@ msgstr "¿Cómo puedo documentar mis dificultades relacionadas con el COVID-19?"
 msgid "How do I organize with other tenants in my building, block, or neighborhood?"
 msgstr "¿Cómo me organizo con otros inquilinos de mi edificio, cuadra o vecindario?"
 
+#: frontend/lib/common-steps/ask-name.tsx:42
+msgid "How do you protect my personal information?"
+msgstr ""
+
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:49
 msgid "How do you want to send your letter?"
 msgstr ""
@@ -1274,7 +1278,7 @@ msgstr "Estoy experimentando dificultades financieras debido al COVID-19."
 msgid "I am undocumented. Can I send a letter?"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:80
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:86
 msgid "I don't have this information"
 msgstr ""
 
@@ -1286,7 +1290,7 @@ msgstr "He perdido mi contraseña"
 msgid "I have a current eviction case in NYC. How do I connect with a lawyer?"
 msgstr "Tengo un caso en curso de desalojo en Nueva York. ¿Cómo puedo conectarme con un abogado?"
 
-#: frontend/lib/forms/apt-number-form-fields.tsx:15
+#: frontend/lib/forms/apt-number-form-fields.tsx:21
 msgid "I have no apartment number"
 msgstr "No tengo ningún número de apartamento"
 
@@ -1447,7 +1451,7 @@ msgstr "Puede ser que el dueño de tu edificio tome represalias tras recibir tu 
 msgid "It’s unlikely that your apartment is rent stabilized"
 msgstr "Es poco probable que tu apartamento sea de renta estabilizada"
 
-#: frontend/lib/common-steps/ask-name.tsx:11
+#: frontend/lib/common-steps/ask-name.tsx:13
 msgid "It’s your first time here!"
 msgstr "¡Es la primera vez que estás aquí!"
 
@@ -1539,7 +1543,7 @@ msgstr "Nombre del dueño de tu edificio"
 msgid "Landlord or property manager email"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:37
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:38
 msgid "Landlord or property manager name"
 msgstr ""
 
@@ -1617,13 +1621,13 @@ msgid "Legal Protections"
 msgstr "Protecciones jurídicas"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:43
-#: frontend/lib/common-steps/ask-name.tsx:29
+#: frontend/lib/common-steps/ask-name.tsx:31
 #: frontend/lib/onboarding/onboarding-step-1.tsx:89
 msgid "Legal first name"
 msgstr "Primer nombre legal"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:44
-#: frontend/lib/common-steps/ask-name.tsx:30
+#: frontend/lib/common-steps/ask-name.tsx:32
 #: frontend/lib/onboarding/onboarding-step-1.tsx:92
 msgid "Legal last name"
 msgstr "Apellido legal"
@@ -1633,7 +1637,7 @@ msgstr "Apellido legal"
 msgid "Legally vetted"
 msgstr "Verificado legalmente"
 
-#: frontend/lib/common-steps/ask-name.tsx:14
+#: frontend/lib/common-steps/ask-name.tsx:16
 msgid "Let's get to know you."
 msgstr "Conozcámonos."
 
@@ -1728,7 +1732,7 @@ msgstr ""
 msgid "Mail for me"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:100
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:106
 msgid "Mail letter now for free"
 msgstr ""
 
@@ -1736,7 +1740,7 @@ msgstr ""
 msgid "Mail myself"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:123
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:129
 msgid "Mail your letter to:"
 msgstr ""
 
@@ -2161,7 +2165,7 @@ msgid "Please use a number that can receive text messages."
 msgstr ""
 
 #: frontend/lib/account-settings/about-you-settings.tsx:24
-#: frontend/lib/common-steps/ask-name.tsx:31
+#: frontend/lib/common-steps/ask-name.tsx:33
 #: frontend/lib/onboarding/onboarding-step-1.tsx:95
 msgid "Preferred first name"
 msgstr "Nombre de preferencia"
@@ -2283,7 +2287,7 @@ msgstr "Investiga al dueño de tu edificio"
 msgid "Reset your password"
 msgstr "Cambia tu contraseña"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:153
+#: frontend/lib/laletterbuilder/homepage.tsx:156
 msgid "Resources"
 msgstr ""
 
@@ -2367,7 +2371,7 @@ msgstr ""
 msgid "Select a mailing method"
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:51
+#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:53
 msgid "Select the repairs you need in your home"
 msgstr ""
 
@@ -2917,7 +2921,7 @@ msgstr ""
 msgid "We make it easy to notify your landlord by email or by certified mail for free."
 msgstr "Te facilitamos notificar al dueño de tu edificio por correo electrónico o por correo certificado gratis."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:108
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:114
 msgid "We recommend that you to go back and select “Mail for me”. If you wish to send the letter yourself, continue to see instructions."
 msgstr ""
 
@@ -2925,7 +2929,7 @@ msgstr ""
 msgid "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
 msgstr "Enviaremos la carta en tu nombre por correo certificado de USPS y te proporcionaremos un número de seguimiento."
 
-#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:116
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:122
 msgid "We will email your letter to:"
 msgstr ""
 
@@ -3056,6 +3060,10 @@ msgstr "¿Qué pasa si tengo más preguntas?"
 msgid "What if I live in a manufactured or mobile home?"
 msgstr "¿Qué sucede si vivo en una casa prefabricada o móvil?"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:83
+msgid "What if a repair I need is not listed?"
+msgstr ""
+
 #: frontend/lib/norent/letter-email-to-user.tsx:116
 msgid "What if my landlord sends me a notice?"
 msgstr "¿Qué pasa si el dueño o manager de mi edificio me envía un aviso?"
@@ -3096,9 +3104,17 @@ msgstr ""
 msgid "When you use our tool, you will be able to preview your filled out form before sending it. You can also view a blank copy of the Hardship Declaration form."
 msgstr "Cuando utilices nuestra herramienta, podrás obtener una vista previa de tu formulario completo antes de enviarlo. También puedes ver una copia en blanco del formulario de Declaración de Dificultades."
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:93
+msgid "Where can I add more details about the issues in my home?"
+msgstr ""
+
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:47
 msgid "Where do I find my case's index number?"
 msgstr "¿Dónde encuentro el número de índice de mi caso?"
+
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:43
+msgid "Where do I find this information about my landlord or property manager?"
+msgstr ""
 
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:40
 msgid "Where do I find this information?"
@@ -3124,7 +3140,7 @@ msgstr "Mientras esperas a que el dueño de tu edificio conteste, recopila toda 
 msgid "Who is not protected by NY's COVID-19 Tenant Protection Laws?"
 msgstr "¿Quién no está protegido por las leyes de protección de inquilinos COVID-19 de Nueva York?"
 
-#: frontend/lib/laletterbuilder/components/landlord-info.tsx:23
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:24
 msgid "Who is your landlord or property manager?"
 msgstr ""
 
@@ -3137,6 +3153,10 @@ msgstr "Quiénes somos"
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:59
 msgid "Why aren't all months listed?"
 msgstr "¿Por qué no puedo ver todos los meses?"
+
+#: frontend/lib/common-steps/ask-name.tsx:34
+msgid "Why do I need to create an account?"
+msgstr ""
 
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:38
 msgid "Why do you need this information?"
@@ -3645,6 +3665,10 @@ msgstr "A partir de junio de 2021, La Corte de Vivienda ha impedido que los inqu
 msgid "justfix.ddoLocCovidMessage"
 msgstr "¿El dueño de tu edificio no contesta? ¡Puedes tomar acción gratis para pedir arreglos! Debido a la crisis de salud por el Covid-19, te recomendamos que sólo pidas arreglos en caso de emergencia, para que puedas mantener la salud limitando cuántas personas entran a tu hogar."
 
+#: frontend/lib/common-steps/ask-name.tsx:44
+msgid "justfix.howIsPersonalInfoProtected"
+msgstr ""
+
 #: frontend/lib/ui/legal-disclaimer.tsx:4
 msgid "justfix.legalDisclaimer"
 msgstr "Aviso: La información en {website} no constituye asesoramiento jurídico y no debe ser utilizado como sustituto del asesoramiento de un abogado cualificado para asesorar sobre cuestiones jurídicas relativas a la vivienda. Si lo necesitas, podemos ayudar a dirigirte a servicios legales gratuitos."
@@ -3680,6 +3704,10 @@ msgstr "<0>Si tu apartamento nunca ha sido de renta estabilizada:</0> no recibir
 #: frontend/lib/rh/routes.tsx:279
 msgid "justfix.rhWhatHappensNext"
 msgstr "<0>Si tu apartamento es actualmente de renta estabilizada, o lo ha sido en cualquier momento en el pasado:</0> deberías recibir tu historial de alquiler por correo en aproximadamente una semana. Tu historial de alquiler es un documento importante que muestra los alquileres registrados en tu apartamento desde 1984. Puedes aprender más sobre ello y cómo puede ayudarte a averiguar si estás pagando de más en el <1>la guía de alquiler de recargos de estabilidad de Met Council on Housing</1> o consultando nuestro artículo del <2>Centro de Aprendizaje a cerca de Sobrecargos</2>."
+
+#: frontend/lib/common-steps/ask-name.tsx:36
+msgid "justfix.whyIsAccountNeeded"
+msgstr ""
 
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:39
 msgid "justfix.whyIsPhoneNumberNeeded"
@@ -3731,6 +3759,18 @@ msgstr ""
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:84
 msgid "laletterbuilder.habitability.intro-1"
+msgstr ""
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:95
+msgid "laletterbuilder.issues.addRepairDetails"
+msgstr ""
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:85
+msgid "laletterbuilder.issues.repairNotListed"
+msgstr ""
+
+#: frontend/lib/laletterbuilder/components/landlord-info.tsx:45
+msgid "laletterbuilder.landlord.whereToFindInfo"
 msgstr ""
 
 #: frontend/lib/laletterbuilder/about.tsx:72

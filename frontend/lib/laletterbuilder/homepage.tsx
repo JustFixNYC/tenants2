@@ -173,8 +173,11 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
             <div className="text-section">
               <label>
                 <Trans>
-                  Attend SAJE’s Tenant Action Clinic if you're faced with a
-                  housing problem.
+                  Attend SAJE’s{" "}
+                  <OutboundLink href="https://www.saje.net/what-we-do/tenant-action-clinic/">
+                    Tenant Action Clinic
+                  </OutboundLink>{" "}
+                  if you're faced with a housing problem.
                 </Trans>
               </label>
             </div>

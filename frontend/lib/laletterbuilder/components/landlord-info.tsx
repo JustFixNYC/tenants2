@@ -19,7 +19,6 @@ import {
   LandlordNameAddressMutation,
 } from "../../queries/LandlordNameAddressMutation";
 import { exactSubsetOrDefault } from "../../util/util";
-import { WhereDoIFindLandlordInfo } from "../../common-steps/landlord-name-and-contact-types";
 import { Accordion } from "../../ui/accordion";
 import { OutboundLink } from "../../ui/outbound-link";
 

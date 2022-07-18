@@ -499,6 +499,10 @@ ol.is-marginless {
     // Let's make the color match up with the scheme of this site
     filter: grayscale(100%) brightness(0.1);
   }
+
+  .tag {
+    margin: 0 0.5rem 0;
+  }
 }
 
 .box {

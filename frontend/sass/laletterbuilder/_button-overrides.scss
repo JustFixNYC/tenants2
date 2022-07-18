@@ -55,7 +55,8 @@
 
     border-style: solid;
     background-color: $color;
-    box-shadow: inset 0rem 0.25rem 0rem $justfix-grey-light;
+    // LALOC-specific
+    box-shadow: 0rem -0.25rem 0rem $justfix-grey-light;
   }
 }
 

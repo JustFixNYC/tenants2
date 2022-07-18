@@ -121,7 +121,7 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
                   <span>{session.landlordDetails.email}</span>
                 </div>
               )}
-              <div className="jf-related-text-field-with-checkbox">
+              <div className="jf-related-text-field-with-checkbox jf-space-below-2rem">
                 <TextualFormField
                   type="email"
                   {...ctx.fieldPropsFor("email")}
@@ -130,7 +130,16 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
                     li18n._(t`Landlord or property manager email`)
                   )}
                 />
-                <CheckboxFormField {...ctx.fieldPropsFor("noLandlordEmail")}>
+                <CheckboxFormField
+                  {...ctx.fieldPropsFor("noLandlordEmail")}
+                  onChange={(checked) => {
+                    // When this checkbox is checked, we erase the entered email
+                    if (checked) {
+                      ctx.fieldPropsFor("email").onChange("");
+                    }
+                    ctx.fieldPropsFor("noLandlordEmail").onChange(checked);
+                  }}
+                >
                   <Trans>I don't have this information</Trans>
                 </CheckboxFormField>
               </div>

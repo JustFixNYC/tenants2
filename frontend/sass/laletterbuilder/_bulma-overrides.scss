@@ -18,11 +18,12 @@ $justfix-blue: #5188ff;
 
 $transparent: rgba(0, 0, 0, 0);
 
-$new-justfix-light-grey-accent: #efe9dc;
+$justfix-grey-400: #9a9898;
+$justfix-grey-light-accent: #efe9dc;
 
 $primary: $justfix-black;
 $secondary: $justfix-white;
-$secondary-accent: $new-justfix-light-grey-accent; // A slight variation on our secondary color to stand out against a background
+$secondary-accent: $justfix-grey-light-accent; // A slight variation on our secondary color to stand out against a background
 $info: $justfix-black; // Color for logo and non-text elements
 $link: $justfix-black; // Inline hyperlink color
 $dark: $justfix-black; // Primary text color for light backgrounds

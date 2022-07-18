@@ -146,6 +146,12 @@ $jf-navbar-height: 70px;
   .hero-body {
     padding: $spacing-12 $spacing-06;
   }
+
+  .has-background-dark {
+    .content a:not(.button):hover {
+      color: $justfix-grey-400;
+    }
+  }
 }
 
 .jf-laletterbuilder-section-primary,

@@ -146,6 +146,12 @@ $jf-navbar-height: 70px;
   .hero-body {
     padding: $spacing-12 $spacing-06;
   }
+
+  .has-background-dark {
+    .content a:not(.button):hover {
+      color: $justfix-grey-400;
+    }
+  }
 }
 
 .jf-laletterbuilder-section-primary,
@@ -388,11 +394,6 @@ $jf-navbar-height: 70px;
   }
 }
 
-// FOOTER STYLING OVERRIDES
-.jf-laletterbuilder-footer-logo {
-  margin: $spacing-03 0;
-}
-
 // MY LETTERS STYLING OVERRIDES
 .jf-my-letters {
   .my-letters-box {
@@ -497,6 +498,10 @@ ol.is-marginless {
     // Our default chevron icon on accordion dropdowns is blue
     // Let's make the color match up with the scheme of this site
     filter: grayscale(100%) brightness(0.1);
+  }
+
+  .tag {
+    margin: 0 0.5rem 0;
   }
 }
 

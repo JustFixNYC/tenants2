@@ -15,6 +15,9 @@
   // this is 12px/0.75rem in mocks, but it looks too sqaure - not sure how/why
   border-radius: 1rem;
 
+  // LALOC-specific
+  box-sizing: border-box;
+
   &.is-yellow {
     background: $justfix-yellow;
   }

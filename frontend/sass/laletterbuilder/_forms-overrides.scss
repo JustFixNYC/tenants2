@@ -9,6 +9,11 @@ form {
     .jf-checkbox-symbol {
       border: 1px solid $primary;
       border-radius: 4px;
+
+      &:disabled {
+        border-color: $justfix-grey-dark;
+        background-color: $justfix-grey-50;
+      }
     }
     .control {
       input,

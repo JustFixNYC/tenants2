@@ -11,7 +11,7 @@ import { PhoneNumber } from "./phone-number";
 export const LaLetterBuilderFooter: React.FC<{}> = () => (
   <>
     <section className="jf-laletterbuilder-footer-section">
-      <div className="content">
+      <div>
         <h2>
           <Trans>Support</Trans>
         </h2>
@@ -33,14 +33,14 @@ export const LaLetterBuilderFooter: React.FC<{}> = () => (
           <div className="columns">
             {/* TODO: change this to match our final URL decision */}
             <div className="column is-6">
-              <LegalDisclaimer website="LaLetterBuilder.org" />
+              <LegalDisclaimer website="LaLetterBuilder.org" className="is-small" />
             </div>
             <div className="column is-6">
               <ClickableLogo
                 imageClassName="jf-laletterbuilder-footer-logo"
                 imageUrl="justfix-saje-combined-logo"
               />
-              <p>
+              <p className="is-small">
                 <Trans>
                   JustFix and SAJE are registered 501(c)(3) nonprofit
                   organizations.

@@ -62,9 +62,9 @@ export const AskNameStep: React.FC<MiddleProgressStepProps> = (props) => {
               extraClassName=""
             >
               <div className="content">
-                <Trans id="justfix.howIsPersonalInfoProtected">
+                <Trans id="justfix.howIsPersonalInfoProtectedV2">
                   Everything on JustFix is secure. We don’t use your personal
-                  information for profit or sell it to third parties. See our
+                  information for profit or sell it to third parties. See our{" "}
                   <TermsOfUseLink />.
                 </Trans>
               </div>

@@ -76,17 +76,17 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
     laIssues: session.laIssues as LaIssueChoice[],
   });
   return (
-    <Page
-      title={li18n._(t`Select the repairs you need in your home`)}
-      withHeading
-    >
-      <p>
+    <Page title={li18n._(t`Select the repairs you need in your home`)}>
+      <h1>
+        <Trans>Select the repairs you need in your home</Trans>
+      </h1>
+      <h3>
         <Trans>
           All you need for now are the basics. You can follow up with your
           landlord or property manager in more detail once they receive your
           letter.
         </Trans>
-      </p>
+      </h3>
       <br />
       <div>
         <SessionUpdatingFormSubmitter
@@ -125,7 +125,7 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                           <Accordion
                             question={question}
                             key={i}
-                            questionClassName="has-text-primary"
+                            questionClassName=""
                           >
                             <MultiCheckboxFormField
                               {...ctx.fieldPropsFor("laIssues")}
@@ -139,9 +139,13 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                   </div>
                 )
               )}
+              <h2>
+                <Trans>Common questions</Trans>
+              </h2>
               <Accordion
                 question={li18n._(t`What if a repair I need is not listed?`)}
                 extraClassName=""
+                questionClassName=""
               >
                 <div className="content">
                   <Trans id="laletterbuilder.issues.repairNotListed">
@@ -157,6 +161,7 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                   t`Where can I add more details about the issues in my home?`
                 )}
                 extraClassName=""
+                questionClassName=""
               >
                 <div className="content">
                   <Trans id="laletterbuilder.issues.addRepairDetails">

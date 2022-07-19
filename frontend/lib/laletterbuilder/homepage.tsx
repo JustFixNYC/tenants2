@@ -30,22 +30,22 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
 
   return (
-    <Page title={li18n._(t`LA Letter Builder Homepage`)} className="content">
+    <Page title={li18n._(t`LA Letter Builder Homepage`)}>
       <section className="hero jf-laletterbuilder-landing-section-primary">
         <div className="hero-body">
           <div className="container">
-            <h1 className="title is-spaced has-text-info">
+            <h1>
               <Trans>
                 As a California resident, you have a right to safe housing
               </Trans>
             </h1>
             <br />
-            <p className="subtitle">
+            <h3>
               <Trans>
                 Exercise your tenant rights. Send a free letter to your landlord
                 in minutes.
               </Trans>
-            </p>
+            </h3>
             <br />
             {!!session.phoneNumber ? (
               <>
@@ -55,6 +55,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
                 >
                   <Trans>My letters</Trans>
                 </Link>
+                <br />
                 <br />
                 <Link
                   className={`${bulmaClasses(
@@ -80,20 +81,22 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
       <section className="jf-laletterbuilder-landing-section-secondary">
         <div className="hero-body">
           <div className="container">
-            <h2 className="is-spaced has-text-info">
+            <h2>
               <Trans>Legally vetted</Trans>
             </h2>
             <br />
-            <p className="subtitle">
+            <h3>
               <Trans>
                 We created the [Product Name] with lawyers and non-profit tenant
                 rights organizations to ensure that your letter gives you the
                 most protections.
               </Trans>
-            </p>
+            </h3>
             <br />
-            <div className="is-spaced has-text-info">
-              <Trans>Created by</Trans>
+            <div>
+              <h2>
+                <Trans>Created by</Trans>
+              </h2>
               <ClickableLogo imageUrl="justfix-saje-combined-logo-black" />
             </div>
           </div>
@@ -102,13 +105,13 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
       <section className="jf-laletterbuilder-landing-section-tertiary">
         <div className="hero-body">
           <div className="container">
-            <h2 className="is-spaced">
+            <h2>
               <Trans>How it works</Trans>
             </h2>
             <div className="text-section">
-              <p className="subtitle">
+              <h3>
                 <Trans>Build your letter</Trans>
-              </p>
+              </h3>
               <label>
                 <Trans>
                   Answer some basic questions about your housing situation, and
@@ -117,9 +120,9 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
               </label>
             </div>
             <div className="text-section">
-              <p className="subtitle">
+              <h3>
                 <Trans>Mail for free</Trans>
-              </p>
+              </h3>
               <label>
                 <Trans>
                   We’ll send your letter to your landlord or property manager
@@ -129,9 +132,9 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
               </label>
             </div>
             <div className="text-section">
-              <p className="subtitle">
+              <h3>
                 <Trans>Next steps</Trans>
-              </p>
+              </h3>
               <label>
                 <Trans>
                   We’ll explain additional actions you can take if your issue
@@ -152,7 +155,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
               <Accordion
                 key={`faq-${i}`}
                 question={el.question}
-                questionClassName="has-text-primary"
+                questionClassName=""
               >
                 {el.answer}
               </Accordion>
@@ -167,9 +170,9 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
               <Trans>Tenant rights resources</Trans>
             </h2>
 
-            <p className="subtitle">
+            <h3>
               <Trans>Get involved in your community</Trans>
-            </p>
+            </h3>
             <div className="text-section">
               <label>
                 <Trans>
@@ -189,9 +192,9 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
                 </Trans>
               </label>
             </div>
-            <p className="subtitle">
+            <h3>
               <Trans>Resources</Trans>
-            </p>
+            </h3>
             <p>
               <OutboundLink
                 href="https://www.stayhousedla.org/"

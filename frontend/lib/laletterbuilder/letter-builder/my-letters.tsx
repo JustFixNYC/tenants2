@@ -30,7 +30,7 @@ export const LaLetterBuilderMyLetters: React.FC<ProgressStepProps> = (
   props
 ) => {
   return (
-    <Page title={li18n._(t`My letters`)} withHeading="big" className="content">
+    <Page title={li18n._(t`My letters`)} withHeading="big">
       <MyLettersContent />
     </Page>
   );
@@ -60,7 +60,7 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
   const { id, children } = props;
   return (
     <div className="jf-la-letter-card">
-      <div className="content">
+      <div>
         <StaticImage
           ratio="is-32x32"
           src={getLaLetterBuilderImageSrc("repair-tools")}
@@ -105,7 +105,7 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
             file a complaint.
           </Trans>
         </p>
-        <span>
+        <span className="is-small">
           <Trans>For LA City residents</Trans>
         </span>
         <p>
@@ -113,8 +113,7 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
             Call LAHD at <PhoneNumber number="(866) 557-7368" />
           </Trans>
         </p>
-
-        <span>
+        <span className="is-small">
           <Trans>For LA county residents</Trans>
         </span>
         <p>
@@ -218,24 +217,18 @@ const MyLettersContent: React.FC = (props) => {
               src={getLaLetterBuilderImageSrc("repair-tools")}
               alt=""
             />
-            <h3>
+            <h2>
               <Trans>Notice to repair letter</Trans>
-            </h3>
-            <p>
+            </h2>
+            <h3>
               <Trans>In progress</Trans>
-            </p>
-            <p>
-              <Trans>
-                Document repairs needed in your home, and send a formal request
-                to your landlord
-              </Trans>
-            </p>
+            </h3>
             <div className="start-letter-button">
               <Link
                 to={LaLetterBuilderRouteInfo.locale.habitability.issues.prefix}
                 className="button jf-is-next-button is-primary is-medium"
               >
-                {li18n._(t`Continue letter`)}
+                {li18n._(t`View letter`)}
               </Link>
             </div>
           </div>
@@ -244,20 +237,15 @@ const MyLettersContent: React.FC = (props) => {
       <h2>
         <Trans>Start a new letter</Trans>
       </h2>
-      {!session.habitabilityLetters?.length ? (
-        <CreateLetterCard />
-      ) : (
-        <>
-          <p>
-            <Trans>
-              Do you have another housing issue that you need to address?
-            </Trans>
-          </p>
-          <Link to={LaLetterBuilderRouteInfo.locale.chooseLetter}>
-            <Trans>View other letters</Trans>
-          </Link>
-        </>
-      )}
+      {!session.habitabilityLetters?.length && <CreateLetterCard />}
+      <p>
+        <Trans>
+          Do you have another housing issue that you need to address?
+        </Trans>
+      </p>
+      <Link to={LaLetterBuilderRouteInfo.locale.chooseLetter}>
+        <Trans>View other letters</Trans>
+      </Link>
     </div>
   );
 };

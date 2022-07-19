@@ -4,8 +4,6 @@ footer {
 
     .content {
       p {
-        font-size: 0.875rem;
-        line-height: 0.875rem;
         margin: 0;
       }
 
@@ -21,10 +19,7 @@ footer {
 
       // Bottom outbound links:
       .is-uppercase a {
-        font-size: 0.875rem;
-        text-decoration: none;
-        font-weight: 400;
-        font-family: $jf-alt-title-family;
+        @include mobile-eyebrow();
       }
     }
   }
@@ -35,7 +30,7 @@ footer {
 }
 
 footer .content,
-.jf-laletterbuilder-footer-section .content {
+.jf-laletterbuilder-footer-section > div {
   padding: $spacing-07 $spacing-06;
   max-width: $laletterbuilder-desktop-max-width;
   margin-left: auto;

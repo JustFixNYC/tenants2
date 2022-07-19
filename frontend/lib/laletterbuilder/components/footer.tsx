@@ -33,7 +33,10 @@ export const LaLetterBuilderFooter: React.FC<{}> = () => (
           <div className="columns">
             {/* TODO: change this to match our final URL decision */}
             <div className="column is-6">
-              <LegalDisclaimer website="LaLetterBuilder.org" className="is-small" />
+              <LegalDisclaimer
+                website="LaLetterBuilder.org"
+                className="is-small"
+              />
             </div>
             <div className="column is-6">
               <ClickableLogo

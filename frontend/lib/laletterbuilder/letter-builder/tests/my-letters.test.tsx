@@ -32,7 +32,7 @@ describe("my letters page", () => {
         session: sb.withHabitabilityLetterInProgress().value,
       }
     );
-    pal.rr.getByText(/Continue letter/i);
+    pal.rr.getByText(/View letter/i);
   });
 
   it("goes to issues step after creating a new letter", async () => {
@@ -69,7 +69,7 @@ describe("my letters page", () => {
       updateSession: true,
       session: sb.withHabitabilityLetterInProgress().value,
     });
-    pal.clickButtonOrLink("Continue letter");
+    pal.clickButtonOrLink("View letter");
     await pal.waitForLocation("/en/habitability/issues");
     pal.rr.getByText(/Select the repairs/i);
   });

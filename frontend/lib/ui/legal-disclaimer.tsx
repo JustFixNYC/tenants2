@@ -1,7 +1,10 @@
 import React from "react";
 import { Trans } from "@lingui/macro";
 
-export const LegalDisclaimer: React.FC<{ website: string, className?: string }> = ({ website, className }) => (
+export const LegalDisclaimer: React.FC<{
+  website: string;
+  className?: string;
+}> = ({ website, className }) => (
   <p className={className || ""}>
     <Trans id="justfix.legalDisclaimer">
       Disclaimer: The information in {website} does not constitute legal advice

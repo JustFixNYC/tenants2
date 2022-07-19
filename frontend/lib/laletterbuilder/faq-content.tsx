@@ -72,7 +72,7 @@ export const faqContent: FaqItem[] = [
   {
     question: li18n._(t`I am undocumented. Can I send a letter?`),
     answer: (
-      <span className="is-small" >
+      <span className="is-small">
         <Trans id="laletterbuilder.faq.undocumented">
           Yes. Your immigration status does not affect your tenant rights.
         </Trans>

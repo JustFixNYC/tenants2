@@ -27,6 +27,11 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
     >
       <section className="jf-laletterbuilder-section-primary">
         <h1>{li18n._(t`Select a letter to get started`)}</h1>
+        <h3>
+          {li18n._(
+            t`Use our tool to create a letter and we can mail it for free.`
+          )}
+        </h3>
         <CreateLetterCard />
       </section>
       <section className="jf-laletterbuilder-section-secondary">
@@ -141,7 +146,7 @@ const LetterCard: React.FC<LetterCardProps> = (props) => {
               ))}
             </div>
           )}
-          <h2>{props.title}</h2>
+          <h3>{props.title}</h3>
           <div className="jf-la-letter-time">
             <div className="jf-clock-icon">
               <StaticImage
@@ -150,9 +155,12 @@ const LetterCard: React.FC<LetterCardProps> = (props) => {
                 alt={li18n._(t`Estimated time to complete`)}
               />
             </div>
-            {props.time_mins} mins
+            <span className="is-small">{props.time_mins} mins</span>
           </div>
           <span>{props.text}</span>
+          <span className="is-small">
+            {li18n._(t`California residents only`)}
+          </span>
           {props.buttonProps && <CallToAction {...props.buttonProps} />}
           {props.children}
         </div>
@@ -199,7 +207,7 @@ export function InformationNeeded({ information }: InformationNeededProps) {
   return (
     <Accordion
       question={li18n._(t`What information will I need?`)}
-      questionClassName=""
+      questionClassName="is-small"
     >
       <ul>{listItems}</ul>
       <br />
@@ -227,7 +235,7 @@ export const CreateLetterCard: React.FC = (props) => {
     >
       {(sessionCtx) => (
         <LetterCard
-          title={li18n._(t`Notice to repair`)}
+          title={li18n._(t`Notice to Repair`)}
           time_mins={15}
           text={li18n._(
             t`Write your landlord a letter to formally document your request for repairs.`

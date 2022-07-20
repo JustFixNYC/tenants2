@@ -21,7 +21,6 @@ import {
 } from "../../../../common-data/laletterbuilder-mailing-choices";
 import { LaLetterBuilderRouteInfo } from "../route-info";
 import Page from "../../ui/page";
-import { optionalizeLabel } from "../../forms/optionalize-label";
 import { twoTuple } from "../../util/util";
 import { EmailPreview } from "../components/letter-preview";
 import { HabitabilityLetterEmailToLandlordForUser } from "./habitability/habitability-letter-content";
@@ -71,7 +70,7 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
             ))}
           </div>
         )}
-        <div>{data.description}</div>
+        <p className="is-small">{data.description}</p>
       </div>
     );
   });
@@ -80,7 +79,6 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
     <Page
       title={li18n._(t`How do you want to send your letter?`)}
       withHeading="big"
-      className="content"
     >
       <SessionUpdatingFormSubmitter
         mutation={LaLetterBuilderSendOptionsMutation}
@@ -108,6 +106,7 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
                 {...ctx.fieldPropsFor("mailChoice")}
                 choices={mailChoiceTuples}
                 label={li18n._(t`Select a mailing method`)}
+                labelClassName=""
                 hideVisibleLabel={true}
               />
               <h3>
@@ -126,9 +125,7 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
                   type="email"
                   {...ctx.fieldPropsFor("email")}
                   isDisabled={ctx.fieldPropsFor("noLandlordEmail").value}
-                  label={optionalizeLabel(
-                    li18n._(t`Landlord or property manager email`)
-                  )}
+                  label={li18n._(t`Landlord or property manager email`)}
                 />
                 <CheckboxFormField
                   {...ctx.fieldPropsFor("noLandlordEmail")}
@@ -139,10 +136,19 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
                     }
                     ctx.fieldPropsFor("noLandlordEmail").onChange(checked);
                   }}
+                  labelClassName=""
                 >
                   <Trans>I don't have this information</Trans>
                 </CheckboxFormField>
               </div>
+              {ctx.fieldPropsFor("noLandlordEmail").value && (
+                <p className="is-small">
+                  <Trans>
+                    If your landlord or property manager normally contact you by
+                    email, we recommend adding their email address above.
+                  </Trans>
+                </p>
+              )}
               <EmailPreview
                 emailContent={HabitabilityLetterEmailToLandlordForUser}
                 landlordName={session.landlordDetails?.name}
@@ -152,6 +158,11 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
                 back={props.prevStep}
                 isLoading={ctx.isLoading}
               />
+              <p className="is-small">
+                <Trans>
+                  Not sure yet? You can sign back in later to send your letter.
+                </Trans>
+              </p>
             </>
           );
         }}
@@ -180,7 +191,7 @@ export const ConfirmModal: React.FC<{
     : li18n._(t`Mail letter now for free`);
 
   return (
-    <Modal title={title} withHeading onCloseGoTo={BackOrUpOneDirLevel}>
+    <Modal title={title} onCloseGoTo={BackOrUpOneDirLevel}>
       <SessionUpdatingFormSubmitter
         mutation={LaLetterBuilderSendLetterMutation}
         initialState={{}}
@@ -188,6 +199,7 @@ export const ConfirmModal: React.FC<{
       >
         {(ctx) => (
           <div className="jf-laletterbuilder-send-options-modal">
+            <h1>{title}</h1>
             {userWillMail ? (
               <>
                 <p>

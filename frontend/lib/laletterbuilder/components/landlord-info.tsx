@@ -30,10 +30,10 @@ export const LaLetterBuilderLandlordNameAddress = MiddleProgressStep(
         LaLetterBuilderRouteInfo.locale.habitability.landlordAddressConfirmModal
       }
     >
-      <p>
+      <h3>
         This is whoever you send rent to. We'll send your letter directly to
         them.
-      </p>
+      </h3>
     </LandlordNameAddress>
   )
 );
@@ -47,7 +47,6 @@ const LandlordNameAddress: React.FC<
   <Page
     title={li18n._(t`Who is your landlord or property manager?`)}
     withHeading="big"
-    className="content"
   >
     <NameAddressForm {...props} />
   </Page>
@@ -104,6 +103,7 @@ const NameAddressForm: React.FC<
               t`Where do I find this information about my landlord or property manager?`
             )}
             extraClassName=""
+            questionClassName=""
           >
             <div className="content">
               <Trans id="laletterbuilder.landlord.whereToFindInfo">

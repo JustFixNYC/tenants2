@@ -105,6 +105,7 @@ export type RadiosFormFieldProps = ChoiceFormFieldProps & {
    * and does not need to be repeated.
    */
   hideVisibleLabel?: boolean;
+  labelClassName?: string;
 };
 
 /** A JSX component that encapsulates a set of radio buttons. */
@@ -145,7 +146,15 @@ export function RadiosFormField(props: RadiosFormFieldProps): JSX.Element {
             />{" "}
             <span className="jf-radio-symbol" />{" "}
             <span className="jf-label-text">
-              <span className="subtitle is-5">{label}</span>
+              <span
+                className={
+                  props.labelClassName !== undefined
+                    ? props.labelClassName
+                    : "subtitle is-5"
+                }
+              >
+                {label}
+              </span>
             </span>
           </label>
         ))}
@@ -293,6 +302,7 @@ export type CheckboxViewProps = InputProps & {
   id: string;
   contentBeforeLabel?: any;
   contentAfterLabel?: any;
+  labelClassName?: string;
   children: any;
   errors?: any;
 };
@@ -302,6 +312,7 @@ export function CheckboxView(props: CheckboxViewProps) {
     children,
     contentBeforeLabel,
     contentAfterLabel,
+    labelClassName,
     errors,
     ...inputProps
   } = props;
@@ -326,7 +337,13 @@ export function CheckboxView(props: CheckboxViewProps) {
         <input type="checkbox" onKeyPress={onKeyPress} {...inputProps} />{" "}
         <span className="jf-checkbox-symbol" />{" "}
         <span className="jf-label-text">
-          <span className="subtitle is-5">{props.children}</span>
+          <span
+            className={
+              labelClassName !== undefined ? labelClassName : "subtitle is-5"
+            }
+          >
+            {props.children}
+          </span>
         </span>
       </label>
       {contentAfterLabel}
@@ -335,7 +352,10 @@ export function CheckboxView(props: CheckboxViewProps) {
 }
 
 export function CheckboxFormField(
-  props: BooleanFormFieldProps & { extraContentAfterLabel?: JSX.Element }
+  props: BooleanFormFieldProps & {
+    extraContentAfterLabel?: JSX.Element;
+    labelClassName?: string;
+  }
 ): JSX.Element {
   const { errorHelp } = formatErrors(props);
 
@@ -349,6 +369,7 @@ export function CheckboxFormField(
       onChange={(e) => props.onChange(e.target.checked)}
       contentBeforeLabel={errorHelp}
       contentAfterLabel={props.extraContentAfterLabel}
+      labelClassName={props.labelClassName}
       errors={props.errors}
     >
       {props.children}

@@ -44,14 +44,10 @@ type LetterPreviewProps = {
 const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
   const LetterTranslation = props.letterTranslation;
   return (
-    <Page
-      title={li18n._(t`Review your letter`)}
-      withHeading="big"
-      className="content"
-    >
-      <p>
+    <Page title={li18n._(t`Review your letter`)} withHeading="big">
+      <h3>
         <Trans>Make sure all the information is correct.</Trans>
-      </p>
+      </h3>
       <p>
         <OutboundLink href={props.letterContent.pdf} target="_blank">
           <Trans>View as PDF (recommended)</Trans>

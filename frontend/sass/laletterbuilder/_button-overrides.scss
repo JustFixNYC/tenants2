@@ -2,8 +2,7 @@
 // Override of Standard Mixin:
 @mixin button-variant($color: $justfix-black) {
   background-color: $color;
-  // @include mobile-eyebrow();
-  font-family: $jf-alt-title-family;
+  @include mobile-eyebrow();
   font-size: 0.875rem;
   line-height: 115%;
   letter-spacing: 0.03em;

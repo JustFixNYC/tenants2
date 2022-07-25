@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import React from "react";
 import { useContext } from "react";
 import { AppContext } from "../app-context";
@@ -23,7 +23,9 @@ const PhoneNumberField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   return (
     <>
       {sec.heading}
-      <p>This will be used to associate your information with you.</p>
+      <p>
+        <Trans>Used for logging in to your account</Trans>
+      </p>
       <EditableInfo
         {...sec}
         readonlyContent={formatPhoneNumber(phoneNumber)}
@@ -61,7 +63,9 @@ const EmailAddressField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   return (
     <>
       {sec.heading}
-      <p>Where we will send you your documents.</p>
+      <p>
+        <Trans>Where we will send you your documents.</Trans>
+      </p>
       <EditableInfo {...sec} readonlyContent={email} path={routes.email}>
         <SessionUpdatingFormSubmitter
           mutation={NorentEmailMutation}

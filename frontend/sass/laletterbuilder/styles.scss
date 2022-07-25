@@ -379,6 +379,23 @@ $jf-navbar-height: 70px;
   }
 }
 
+
+// ACCOUNT SETTINGS STYLE OVERRIDES
+
+.jf-account-settings-h2 {
+  padding-bottom: $spacing-03;
+  border-bottom: 1px solid $justfix-black;
+}
+
+.jf-account-settings-h3 {
+  margin-top: $spacing-07;
+}
+
+.button + .jf-account-settings-h2 {
+  margin-top: $spacing-12;
+}
+
+
 // NORENT STYLING OVERRIDES
 
 .jf-norent-builder-page {

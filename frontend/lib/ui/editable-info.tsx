@@ -102,7 +102,15 @@ export const EditableInfo: React.FC<EditableInfoProps> = (props) => {
     props.children
   ) : (
     <>
-      <div className="jf-editable-info">{props.readonlyContent}</div>
+      {typeof props.readonlyContent == "string" ? (
+        <input
+          disabled
+          className="input jf-editable-info"
+          value={props.readonlyContent}
+        />
+      ) : (
+        <div className="jf-editable-info">{props.readonlyContent}</div>
+      )}
       <EditLink
         {...props}
         autoFocus={autoFocusEditLink}

@@ -25,7 +25,7 @@ export function makeAccountSettingsSection(
       },
     }),
     heading: (
-      <h3 className="is-uppercase is-size-5" id={hashId}>
+      <h3 id={hashId} className="jf-account-settings-h3">
         {name}
       </h3>
     ),

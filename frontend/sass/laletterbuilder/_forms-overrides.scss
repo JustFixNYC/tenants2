@@ -81,3 +81,19 @@ form {
 input:focus + .jf-checkbox-symbol {
   outline-color: $primary;
 }
+
+input.jf-editable-info {
+  border: 1px solid $primary;
+  border-radius: 4px;
+  margin-bottom: $spacing-03;
+  background-color: $secondary;
+
+  &:disabled {
+    border-color: $justfix-grey-dark;
+    background-color: $justfix-grey-50;
+  }
+
+  &:not(:focus) {
+    box-shadow: none;
+  }
+}

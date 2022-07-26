@@ -873,7 +873,7 @@ msgstr "Correo electrónico"
 msgid "Email a copy to your landlord or property manager"
 msgstr ""
 
-#: frontend/lib/account-settings/contact-settings.tsx:41
+#: frontend/lib/account-settings/contact-settings.tsx:45
 #: frontend/lib/common-steps/ask-email.tsx:13
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
 #: frontend/lib/laletterbuilder/components/create-account.tsx:30
@@ -1624,13 +1624,13 @@ msgstr "Aprender más."
 msgid "Legal Protections"
 msgstr "Protecciones jurídicas"
 
-#: frontend/lib/account-settings/about-you-settings.tsx:43
+#: frontend/lib/account-settings/about-you-settings.tsx:49
 #: frontend/lib/common-steps/ask-name.tsx:31
 #: frontend/lib/onboarding/onboarding-step-1.tsx:89
 msgid "Legal first name"
 msgstr "Primer nombre legal"
 
-#: frontend/lib/account-settings/about-you-settings.tsx:44
+#: frontend/lib/account-settings/about-you-settings.tsx:50
 #: frontend/lib/common-steps/ask-name.tsx:32
 #: frontend/lib/onboarding/onboarding-step-1.tsx:92
 msgid "Legal last name"
@@ -2124,7 +2124,7 @@ msgstr "Pintura Escamada/Pelada"
 msgid "Pennsylvania"
 msgstr "Pensilvania"
 
-#: frontend/lib/account-settings/contact-settings.tsx:24
+#: frontend/lib/account-settings/contact-settings.tsx:26
 #: frontend/lib/rh/routes.tsx:128
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:36
 #: frontend/lib/start-account-or-login/verify-password.tsx:40
@@ -2168,11 +2168,11 @@ msgstr "Por favor, proporciona el nombre del dueño de tu edificio así como su 
 msgid "Please read the rest of this email carefully as it contains important information about your next steps."
 msgstr "Por favor, lee atentamente el resto del correo electrónico ya que contiene información importante sobre tus próximos pasos."
 
-#: frontend/lib/account-settings/contact-settings.tsx:24
+#: frontend/lib/account-settings/contact-settings.tsx:26
 msgid "Please use a number that can receive text messages."
 msgstr ""
 
-#: frontend/lib/account-settings/about-you-settings.tsx:24
+#: frontend/lib/account-settings/about-you-settings.tsx:26
 #: frontend/lib/common-steps/ask-name.tsx:33
 #: frontend/lib/onboarding/onboarding-step-1.tsx:95
 msgid "Preferred first name"
@@ -2693,6 +2693,14 @@ msgstr "Esta información no sustituye el asesoramiento legal directo sobre tu s
 msgid "The majority of your landlord's properties are concentrated in {0}."
 msgstr "La mayoría de las propiedades del dueño de tu edificio se concentran en {0}."
 
+#: frontend/lib/account-settings/about-you-settings.tsx:39
+msgid "The name used in letters to your landlord and legal documents"
+msgstr ""
+
+#: frontend/lib/account-settings/about-you-settings.tsx:19
+msgid "The name you'd like to be called."
+msgstr ""
+
 #: frontend/lib/evictionfree/homepage.tsx:181
 msgid "The protections outlined by NY state law apply to you regardless of immigration status."
 msgstr "Las protecciones que la ley del estado de Nueva York te proporcionan te aplican independientemente de tu estado migratorio."
@@ -2819,6 +2827,10 @@ msgstr ""
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:21
 msgid "Use our tool to create a letter and we can mail it for free."
+msgstr ""
+
+#: frontend/lib/account-settings/contact-settings.tsx:21
+msgid "Used for logging in to your account"
 msgstr ""
 
 #: common-data/us-state-choices.ts:110
@@ -3140,6 +3152,10 @@ msgstr "¿Dónde encuentro esta información?"
 #: frontend/lib/common-steps/ask-city-state.tsx:25
 msgid "Where do you live?"
 msgstr "¿Dónde vives?"
+
+#: frontend/lib/account-settings/contact-settings.tsx:40
+msgid "Where we will send you your documents."
+msgstr ""
 
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:28
 msgid "Whether it's your first time here, or you're a returning user, let's start with your number."

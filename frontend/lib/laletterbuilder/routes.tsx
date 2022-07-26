@@ -22,7 +22,7 @@ import {
   HabitabilitySampleLetterSamplePage,
 } from "./letter-builder/habitability/habitability-letter-content";
 import { HabitabilityLetterEmailToUserStaticPage } from "./letter-builder/habitability/letter-email-to-user";
-import { AccountSettingsRoutes } from "../account-settings/routes";
+import { LaLetterBuilderAccountSettings } from "./components/account-settings";
 
 const LoadableDevRoutes = loadable(
   () => friendlyLoad(import("../dev/routes")),
@@ -61,7 +61,9 @@ export const LaLetterBuilderRouteComponent: React.FC<RouteComponentProps> = (
         path={Routes.locale.accountSettings.prefix}
         exact={false}
         render={() => (
-          <AccountSettingsRoutes routes={Routes.locale.accountSettings} />
+          <LaLetterBuilderAccountSettings
+            routes={Routes.locale.accountSettings}
+          />
         )}
       />
       <Route

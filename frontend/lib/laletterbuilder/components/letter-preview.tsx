@@ -44,11 +44,14 @@ type LetterPreviewProps = {
 const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
   const LetterTranslation = props.letterTranslation;
   return (
-    <Page title={li18n._(t`Review your letter`)} withHeading="big">
-      <h3>
+    <Page title={li18n._(t`Review your letter`)}>
+      <h1>
+        <Trans>Review your letter</Trans>
+      </h1>
+      <h3 className="mt-5">
         <Trans>Make sure all the information is correct.</Trans>
       </h3>
-      <p>
+      <p className="mt-5 mb-5">
         <OutboundLink href={props.letterContent.pdf} target="_blank">
           <Trans>View as PDF (recommended)</Trans>
         </OutboundLink>
@@ -64,8 +67,7 @@ const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
         title={li18n._(t`Preview of your letter`)}
         src={props.letterContent.html}
       />
-      <br />
-      <p>
+      <p className="mt-6">
         <Trans>
           If the information above is not correct, go back to make changes.
         </Trans>

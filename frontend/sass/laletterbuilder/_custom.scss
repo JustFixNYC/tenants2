@@ -1,0 +1,93 @@
+@import "_spacing.scss";
+
+// SPACING HELPER CLASSES OVERRIDES:
+// These rules customize the spacing helpers defined in `spacing.sass` in the Bulma package
+
+.is-marginless {
+  margin: 0 !important;
+}
+
+.is-paddingless {
+  padding: 0 !important;
+}
+
+$spacing-shortcuts: (
+  "margin": "m",
+  "padding": "p",
+);
+$spacing-directions: (
+  "top": "t",
+  "right": "r",
+  "bottom": "b",
+  "left": "l",
+);
+$spacing-horizontal: "x";
+$spacing-vertical: "y";
+$spacing-values: (
+  "0": 0,
+  "1": $spacing-01,
+  "2": $spacing-02,
+  "3": $spacing-03,
+  "4": $spacing-04,
+  "5": $spacing-05,
+  "6": $spacing-06,
+  "7": $spacing-07,
+  "8": $spacing-08,
+  "9": $spacing-09,
+  "10": $spacing-10,
+  "11": $spacing-11,
+  "12": $spacing-12,
+  "13": $spacing-13,
+  "auto": auto,
+);
+
+@each $property, $shortcut in $spacing-shortcuts {
+  @each $name, $value in $spacing-values {
+    // All directions
+    .#{$shortcut}-#{$name} {
+      #{$property}: $value;
+    }
+    .#{$shortcut}-#{$name}-mobile {
+      @include mobile {
+        #{$property}: $value !important;
+      }
+    }
+    // Cardinal directions
+    @each $direction, $suffix in $spacing-directions {
+      .#{$shortcut}#{$suffix}-#{$name} {
+        #{$property}-#{$direction}: $value !important;
+      }
+      .#{$shortcut}#{$suffix}-#{$name}-mobile {
+        @include mobile {
+          #{$property}-#{$direction}: $value !important;
+        }
+      }
+    }
+    // Horizontal axis
+    @if $spacing-horizontal != null {
+      .#{$shortcut}#{$spacing-horizontal}-#{$name} {
+        #{$property}-left: $value;
+        #{$property}-right: $value;
+      }
+      .#{$shortcut}#{$spacing-horizontal}-#{$name}-mobile {
+        @include mobile {
+          #{$property}-left: $value !important;
+          #{$property}-right: $value !important;
+        }
+      }
+    }
+    // Vertical axis
+    @if $spacing-vertical != null {
+      .#{$shortcut}#{$spacing-vertical}-#{$name} {
+        #{$property}-top: $value;
+        #{$property}-bottom: $value;
+      }
+      .#{$shortcut}#{$spacing-vertical}-#{$name}-mobile {
+        @include mobile {
+          #{$property}-top: $value !important;
+          #{$property}-bottom: $value !important;
+        }
+      }
+    }
+  }
+}

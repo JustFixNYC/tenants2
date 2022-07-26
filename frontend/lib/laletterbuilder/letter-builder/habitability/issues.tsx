@@ -77,7 +77,7 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
   });
   return (
     <Page title={li18n._(t`Select the repairs you need in your home`)}>
-      <h1>
+      <h1 className="mb-5">
         <Trans>Select the repairs you need in your home</Trans>
       </h1>
       <h3>
@@ -87,7 +87,6 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
           letter.
         </Trans>
       </h3>
-      <br />
       <div>
         <SessionUpdatingFormSubmitter
           confirmNavIfChanged
@@ -99,9 +98,10 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
             <>
               {toDjangoChoices(LaIssueCategoryChoices, labels).map(
                 ([category, categoryLabel], i) => (
-                  <div className="jf-accordion-list-large" key={i}>
-                    <h2>{categoryLabel}</h2>
-                    <br />
+                  <div className="jf-accordion-list-large mt-11" key={i}>
+                    <h2 className="jf-laletterbuilder-issue-category pb-4 mb-5">
+                      {categoryLabel}
+                    </h2>
                     {laIssueChoicesForCategory(category).map(
                       ([issue, issueLabel], i) => {
                         const selectedIssues = ctx.fieldPropsFor("laIssues")
@@ -139,7 +139,7 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                   </div>
                 )
               )}
-              <h2>
+              <h2 className="mt-11">
                 <Trans>Common questions</Trans>
               </h2>
               <Accordion

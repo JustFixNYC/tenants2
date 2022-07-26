@@ -45,6 +45,8 @@ form {
       margin-bottom: $spacing-05;
     }
     .jf-radio-symbol {
+      min-width: $spacing-05;
+      min-height: $spacing-05;
       border: 3px solid $secondary;
       box-shadow: 0 0 0 1px $primary;
       margin-top: 0;

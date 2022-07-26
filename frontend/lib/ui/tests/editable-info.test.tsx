@@ -19,12 +19,12 @@ describe("EditableInfo", () => {
         </MemoryRouter>
       )
     );
-    pal.rr.getByText("read-only thing");
+    pal.rr.getByDisplayValue("read-only thing");
     const editBtn = pal.rr.getByLabelText("Edit Thing");
     editBtn.click();
     pal.rr.getByText("editable thing");
     const cancelBtn = pal.rr.getByText("Cancel");
     cancelBtn.click();
-    pal.rr.getByText("read-only thing");
+    pal.rr.getByDisplayValue("read-only thing");
   });
 });

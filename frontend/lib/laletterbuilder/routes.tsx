@@ -61,7 +61,9 @@ export const LaLetterBuilderRouteComponent: React.FC<RouteComponentProps> = (
         path={Routes.locale.accountSettings.prefix}
         exact={false}
         render={() => (
-          <LaLetterBuilderAccountSettings routes={Routes.locale.accountSettings} />
+          <LaLetterBuilderAccountSettings
+            routes={Routes.locale.accountSettings}
+          />
         )}
       />
       <Route

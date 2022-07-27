@@ -1262,11 +1262,11 @@ msgstr "Cómo funciona"
 msgid "I agree to the <0/> terms and conditions."
 msgstr "Acepto los términos y condiciones de <0/>."
 
-#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:37
+#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:36
 msgid "I agree to the <0>Eviction Free NY terms and conditions</0>."
 msgstr "Acepto los <0>términos y condiciones de Eviction Free NY</0>."
 
-#: frontend/lib/norent/letter-builder/create-account.tsx:43
+#: frontend/lib/norent/letter-builder/create-account.tsx:42
 msgid "I agree to the <0>NoRent.org terms and conditions</0>."
 msgstr "Acepto los <0>términos y condiciones de NoRent.org</0>."
 
@@ -1491,16 +1491,16 @@ msgstr ""
 msgid "JustFix can text me to follow up about my housing issues."
 msgstr ""
 
+#: frontend/lib/ui/footer.tsx:27
+msgid "JustFix is a registered 501(c)(3) nonprofit organization."
+msgstr ""
+
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:110
 msgid "JustFix is preparing your letter"
 msgstr ""
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:129
 msgid "JustFix sent your letter on"
-msgstr ""
-
-#: frontend/lib/ui/footer.tsx:27
-msgid "JustFix is a registered 501(c)(3) nonprofit organization."
 msgstr ""
 
 #: frontend/lib/rh/routes.tsx:263
@@ -3604,7 +3604,7 @@ msgstr "Para beneficiarte de las protecciones de desalojo que han puesto en marc
 
 #: frontend/lib/evictionfree/about.tsx:118
 msgid "evictionfree.justfixBlurb1"
-msgstr "<0>JustFix.nyc</0> codiseña y construye herramientas para inquilinos, organizadores del vivienda y abogados que luchan contra el desplazamiento en la ciudad de Nueva York. Nuestra misión es galvanizar un movimiento de inquilinos del siglo XXI que trabaje en favor de la vivienda para todos, y creemos que el poder de los datos y la tecnología debe ser accesible para quienes luchan en esta lucha."
+msgstr "<0>JustFix</0> codiseña y construye herramientas para inquilinos, organizadores del vivienda y abogados que luchan contra el desplazamiento en la ciudad de Nueva York. Nuestra misión es galvanizar un movimiento de inquilinos del siglo XXI que trabaje en favor de la vivienda para todos, y creemos que el poder de los datos y la tecnología debe ser accesible para quienes luchan en esta lucha."
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:43
 msgid "evictionfree.landlordRetaliationWarning"
@@ -3667,7 +3667,7 @@ msgstr "Puedes utilizar este sitio web para enviar un formulario de declaración
 
 #: frontend/lib/evictionfree/homepage.tsx:202
 msgid "evictionfree.whoBuildThisTool"
-msgstr "Nuestra herramienta gratuita fue construida por la <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, y <2>JustFix.nyc</2> como parte del movimiento de inquilinos en todo el estado."
+msgstr "Nuestra herramienta gratuita fue construida por la <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, y <2>JustFix</2> como parte del movimiento de inquilinos en todo el estado."
 
 #: frontend/lib/evictionfree/homepage.tsx:172
 msgid "evictionfree.whoHasRightToSubmitForm"
@@ -3692,7 +3692,7 @@ msgstr "Si recibes documentos relacionados con el alquiler desde una dirección 
 
 #: frontend/lib/ui/covid-banners.tsx:91
 msgid "justfix.ddoEhpaDeactivatedMessage"
-msgstr "A partir de junio de 2021, La Corte de Vivienda ha impedido que los inquilinos demanden a sus dueños a través de la herramienta HP Action de JustFix.nyc. Para aprender cómo presentar una Acción de HP ahora, lee nuestra <0>artículo de Medium</0>. Para aprender más acera de Acciones de HP y encontrar una lista de proveedores legales, visita <1>Housing Court Answers</1>."
+msgstr "A partir de junio de 2021, La Corte de Vivienda ha impedido que los inquilinos demanden a sus dueños a través de la herramienta HP Action de JustFix. Para aprender cómo presentar una Acción de HP ahora, lee nuestra <0>artículo de Medium</0>. Para aprender más acera de Acciones de HP y encontrar una lista de proveedores legales, visita <1>Housing Court Answers</1>."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:229
 msgid "justfix.ddoLocCovidMessage"
@@ -3941,7 +3941,7 @@ msgstr "Hemos trabajado con la organización sin fines de lucro, <0>SAJE</0> par
 
 #: frontend/lib/norent/about.tsx:99
 msgid "norent.madeByBlurb"
-msgstr "NoRent.org fue creado por <0>JustFix.nyc</0>, una organización sin fines de lucro que co-diseña y construye herramientas para inquilinos, organizadores de viviendas y abogados que luchan contra el desplazamiento en la ciudad de Nueva York."
+msgstr "NoRent.org fue creado por <0>JustFix</0>, una organización sin fines de lucro que co-diseña y construye herramientas para inquilinos, organizadores de viviendas y abogados que luchan contra el desplazamiento en la ciudad de Nueva York."
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:23
 msgid "norent.outlineOfLetterBuilderSteps"

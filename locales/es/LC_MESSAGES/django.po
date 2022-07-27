@@ -107,9 +107,9 @@ msgstr "Tu dirección parece estar dentro de la ciudad de Nueva York. Por favor,
 
 #: norent/schema.py:451
 #, fuzzy, python-format
-#| msgid "Welcome to %(site_name)s, a product by JustFix.nyc. We'll be sending you notifications from this phone number."
+#| msgid "Welcome to %(site_name)s, a product by JustFix. We'll be sending you notifications from this phone number."
 msgid "Welcome to %(site_name)s, a product by JustFix. We'll be sending you notifications from this phone number."
-msgstr "Bienvenido/a %(site_name)s, un producto de JustFix.nyc. Te enviaremos notificaciones desde este número de teléfono."
+msgstr "Bienvenido/a %(site_name)s, un producto de JustFix. Te enviaremos notificaciones desde este número de teléfono."
 
 #: norent/sms_reminders.py:26
 #, python-format

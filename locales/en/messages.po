@@ -1257,11 +1257,11 @@ msgstr "How it works"
 msgid "I agree to the <0/> terms and conditions."
 msgstr "I agree to the <0/> terms and conditions."
 
-#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:37
+#: frontend/lib/evictionfree/declaration-builder/create-account.tsx:36
 msgid "I agree to the <0>Eviction Free NY terms and conditions</0>."
 msgstr "I agree to the <0>Eviction Free NY terms and conditions</0>."
 
-#: frontend/lib/norent/letter-builder/create-account.tsx:43
+#: frontend/lib/norent/letter-builder/create-account.tsx:42
 msgid "I agree to the <0>NoRent.org terms and conditions</0>."
 msgstr "I agree to the <0>NoRent.org terms and conditions</0>."
 
@@ -1486,6 +1486,10 @@ msgstr "JustFix and SAJE are registered 501(c)(3) nonprofit organizations."
 msgid "JustFix can text me to follow up about my housing issues."
 msgstr "JustFix can text me to follow up about my housing issues."
 
+#: frontend/lib/ui/footer.tsx:27
+msgid "JustFix is a registered 501(c)(3) nonprofit organization."
+msgstr "JustFix is a registered 501(c)(3) nonprofit organization."
+
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:110
 msgid "JustFix is preparing your letter"
 msgstr "JustFix is preparing your letter"
@@ -1493,10 +1497,6 @@ msgstr "JustFix is preparing your letter"
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:129
 msgid "JustFix sent your letter on"
 msgstr "JustFix sent your letter on"
-
-#: frontend/lib/ui/footer.tsx:27
-msgid "JustFix is a registered 501(c)(3) nonprofit organization."
-msgstr "JustFix is a registered 501(c)(3) nonprofit organization."
 
 #: frontend/lib/rh/routes.tsx:263
 msgid "JustFix's Learning Center"

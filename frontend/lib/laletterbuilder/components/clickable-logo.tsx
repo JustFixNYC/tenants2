@@ -17,7 +17,7 @@ export const ClickableLogo: React.FC<ClickableLogoProps> = (props) => {
   return (
     <div className="jf-laletterbuilder-combined-logo">
       <OutboundLink
-        href="https://www.justfix.nyc/"
+        href="https://www.justfix.org/"
         aria-label={li18n._(t`Go to JustFix homepage`)}
       />
       <OutboundLink

@@ -6,7 +6,7 @@ const ChevronIcon = () => (
 );
 
 export const Accordion = (props: {
-  question: string;
+  question: string | JSX.Element;
   children: React.ReactNode;
   questionClassName?: string;
   extraClassName?: string;

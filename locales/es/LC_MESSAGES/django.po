@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-21 23:28+0000\n"
-"PO-Revision-Date: 2022-03-09 19:26\n"
+"POT-Creation-Date: 2021-10-08 16:00+0000\n"
+"PO-Revision-Date: 2022-06-30 21:02\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -14,30 +14,30 @@ msgstr ""
 "X-Crowdin-Project: tenants2\n"
 "X-Crowdin-Project-ID: 402800\n"
 "X-Crowdin-Language: es-ES\n"
-"X-Crowdin-File: /master/locales/en/LC_MESSAGES/django.po\n"
-"X-Crowdin-File-ID: 53\n"
+"X-Crowdin-File: /[JustFixNYC.tenants2] master/locales/en/LC_MESSAGES/django.po\n"
+"X-Crowdin-File-ID: 42\n"
 
 #: evictionfree/declaration_sending.py:100
 #, python-format
 msgid "%(name)s, your eviction protection form has been emailed to your landlord."
 msgstr "%(name)s, tu formulario de protección contra el desalojo ha sido enviado por correo electrónico al dueño de tu edificio."
 
-#: evictionfree/declaration_sending.py:132
+#: evictionfree/declaration_sending.py:133
 #, python-format
 msgid "%(name)s, a hard copy of your eviction protection form has been mailed to your landlord via USPS mail. You can track the delivery of your hard copy form using USPS Tracking: %(url)s."
 msgstr "%(name)s, también se le envió una copia impresa de tu formulario al dueño de tu edificio por correo postal de USPS. Puedes dar seguimiento a la entrega de tu formulario impreso utilizando la herramienta de seguimiento de correspondencia de USPS: %(url)s."
 
-#: evictionfree/declaration_sending.py:175
+#: evictionfree/declaration_sending.py:176
 #, python-format
 msgid "%(name)s, your eviction protection form has been emailed to your local housing court."
 msgstr "%(name)s, tu formulario de protección contra el desalojo ha sido enviado por correo electrónico a la corte de vivienda local."
 
-#: evictionfree/declaration_sending.py:248
+#: evictionfree/declaration_sending.py:249
 #, python-format
 msgid "%(name)s, you can download a PDF of your completed declaration form by logging back into your account: %(url)s."
 msgstr "%(name)s, también puedes bajarte un PDF de tu formulario de declaración regresando a tu cuenta: %(url)s."
 
-#: evictionfree/declaration_sending.py:256
+#: evictionfree/declaration_sending.py:257
 #, python-format
 msgid "For more information about New York’s eviction protections and your rights as a tenant, visit %(url)s. To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
 msgstr "Para obtener más información sobre las protecciones de desalojo de Nueva York y tus derechos como inquilino, visita %(url)s. Para participar en la organización y en la lucha para #StopEvictions (parar los desalojos) y #CancelRent (cancelar la renta), síguenos en Twitter: @RTCNYC y @ housing4allNY."
@@ -86,22 +86,12 @@ msgstr "Activar modo de compatibilidad"
 msgid "close"
 msgstr "cerrar"
 
-#: laletterbuilder/forms.py:54
-#, fuzzy
-#| msgid "Please choose at least one option."
-msgid "Please select at least one repair issue."
-msgstr "Por favor, escoja al menos una opción."
-
-#: laletterbuilder/forms.py:73
-msgid "Please provide a landlord email or indicate that you do not have this information."
-msgstr ""
-
 #: norent/forms.py:65
 #, python-format
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
 msgstr "¡%(city)s, %(state_name)s no existe!"
 
-#: norent/letter_sending.py:38
+#: norent/letter_sending.py:112
 #, python-format
 msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
 msgstr "%(name)s has enviado tu carta de no pago de renta. Puedes seguir la entrega de tu carta usando USPS Tracking: %(url)s."
@@ -209,3 +199,4 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 #: project/util/phone_number.py:70
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
+

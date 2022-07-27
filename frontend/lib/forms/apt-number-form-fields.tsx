@@ -35,8 +35,18 @@ export const AptNumberFormFields: React.FC<AptNumberFieldsProps> = (props) => {
         label={props.aptNumberLabel || li18n._(t`Apartment number`)}
         autoComplete="address-line2 street-address"
         {...props.aptNumberProps}
+        isDisabled={!!props.noAptNumberProps.value}
       />
-      <CheckboxFormField {...props.noAptNumberProps}>
+      <CheckboxFormField
+        {...props.noAptNumberProps}
+        onChange={(checked) => {
+          // When this checkbox is checked, we erase the entered email
+          if (checked) {
+            props.aptNumberProps.onChange("");
+          }
+          props.noAptNumberProps.onChange(checked);
+        }}
+      >
         <Trans>I have no apartment number</Trans>
       </CheckboxFormField>
     </div>

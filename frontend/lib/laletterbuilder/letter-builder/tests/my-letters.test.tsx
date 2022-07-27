@@ -32,7 +32,7 @@ describe("my letters page", () => {
         session: sb.withHabitabilityLetterInProgress().value,
       }
     );
-    pal.rr.getByText(/Continue letter/i);
+    pal.rr.getByText(/View letter/i);
   });
 
   it("goes to issues step after creating a new letter", async () => {
@@ -48,6 +48,7 @@ describe("my letters page", () => {
       .respondWithSuccess({
         session: override(BlankAllSessionInfo, {
           habitabilityLatestLetter: {
+            id: "1",
             createdAt: "2020-03-13T19:41:09+00:00",
             trackingNumber: "",
             letterSentAt: "",
@@ -68,8 +69,31 @@ describe("my letters page", () => {
       updateSession: true,
       session: sb.withHabitabilityLetterInProgress().value,
     });
-    pal.clickButtonOrLink("Continue letter");
+    pal.clickButtonOrLink("View letter");
     await pal.waitForLocation("/en/habitability/issues");
     pal.rr.getByText(/Select the repairs/i);
+  });
+
+  it("loads with a mailed letter", () => {
+    const pal = new AppTesterPal(
+      <Route component={LaLetterBuilderRouteComponent} />,
+      {
+        url: LaLetterBuilderRouteInfo.locale.habitability.myLetters,
+        session: sb.withMailedHabitabilityLetter().value,
+      }
+    );
+    pal.rr.getByText(/USPS tracking number/i);
+  });
+
+  it("can click download letter button", () => {
+    const pal = new AppTesterPal(
+      <Route component={LaLetterBuilderRouteComponent} />,
+      {
+        url: LaLetterBuilderRouteInfo.locale.habitability.myLetters,
+        session: sb.withMailedHabitabilityLetter().value,
+      }
+    );
+    pal.rr.getByText(/USPS tracking number/i);
+    pal.clickButtonOrLink("Download letter");
   });
 });

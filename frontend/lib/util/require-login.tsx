@@ -21,7 +21,11 @@ export const RequireLogin: React.FC<{ children: JSX.Element }> = (props) => {
   const next = useLocation();
 
   if (!session.phoneNumber && routes.locale.createLoginLink) {
-    return <Redirect to={routes.locale.createLoginLink(next)} />;
+    return (
+      <Redirect
+        to={routes.locale.createLoginLink(next, routes.locale.prefix)}
+      />
+    );
   }
 
   return props.children;

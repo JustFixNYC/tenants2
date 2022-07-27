@@ -105,6 +105,7 @@ export type RadiosFormFieldProps = ChoiceFormFieldProps & {
    * and does not need to be repeated.
    */
   hideVisibleLabel?: boolean;
+  labelClassName?: string;
 };
 
 /** A JSX component that encapsulates a set of radio buttons. */
@@ -114,6 +115,7 @@ export function RadiosFormField(props: RadiosFormFieldProps): JSX.Element {
 
   return (
     <div className="field" role="group" aria-label={ariaLabel}>
+      {errorHelp}
       {!props.hideVisibleLabel && (
         <label className="label" aria-hidden="true">
           {props.label}
@@ -144,12 +146,19 @@ export function RadiosFormField(props: RadiosFormFieldProps): JSX.Element {
             />{" "}
             <span className="jf-radio-symbol" />{" "}
             <span className="jf-label-text">
-              <span className="subtitle is-5">{label}</span>
+              <span
+                className={
+                  props.labelClassName !== undefined
+                    ? props.labelClassName
+                    : "subtitle is-5"
+                }
+              >
+                {label}
+              </span>
             </span>
           </label>
         ))}
       </div>
-      {errorHelp}
     </div>
   );
 }
@@ -160,6 +169,7 @@ export function SelectFormField(props: ChoiceFormFieldProps): JSX.Element {
 
   return (
     <div className="field">
+      {errorHelp}
       <label htmlFor={props.id} className="label">
         {props.label}
       </label>
@@ -187,7 +197,6 @@ export function SelectFormField(props: ChoiceFormFieldProps): JSX.Element {
           </select>
         </div>
       </div>
-      {errorHelp}
     </div>
   );
 }
@@ -225,6 +234,18 @@ const MultiCheckboxFormFieldCheckbox: React.FC<
   const [choice, label] = props.choice;
   const id = `${props.id}_${choice}`;
 
+  const onChange = (e: any) =>
+    props.onChange(toggleChoice(choice, e.target.checked, props.value));
+  const onKeyPress = (e: any) => {
+    const target = e.target;
+    if (e.key === "Enter" && target) {
+      e.stopPropagation();
+      e.preventDefault();
+      target.checked = !target.checked;
+      onChange(e);
+    }
+  };
+
   return (
     <label htmlFor={id} className="checkbox jf-checkbox" key={choice}>
       <input
@@ -235,9 +256,8 @@ const MultiCheckboxFormFieldCheckbox: React.FC<
         checked={props.value.indexOf(choice) !== -1}
         aria-invalid={ariaBool(!!props.errors)}
         disabled={props.isDisabled}
-        onChange={(e) =>
-          props.onChange(toggleChoice(choice, e.target.checked, props.value))
-        }
+        onChange={onChange}
+        onKeyPress={onKeyPress}
       />{" "}
       <span className="jf-checkbox-symbol" />{" "}
       <span className="jf-label-text">{label}</span>
@@ -253,6 +273,7 @@ export function MultiCheckboxFormField(
 
   return (
     <div className="field" role="group" aria-label={ariaLabel}>
+      {errorHelp}
       <label className="label" aria-hidden="true">
         {props.label}
       </label>
@@ -269,7 +290,6 @@ export function MultiCheckboxFormField(
           )
         )}
       </div>
-      {errorHelp}
     </div>
   );
 }
@@ -280,20 +300,50 @@ export interface BooleanFormFieldProps extends BaseFormFieldProps<boolean> {
 
 export type CheckboxViewProps = InputProps & {
   id: string;
+  contentBeforeLabel?: any;
   contentAfterLabel?: any;
+  labelClassName?: string;
   children: any;
+  errors?: any;
 };
 
 export function CheckboxView(props: CheckboxViewProps) {
-  const { children, contentAfterLabel, ...inputProps } = props;
+  const {
+    children,
+    contentBeforeLabel,
+    contentAfterLabel,
+    labelClassName,
+    errors,
+    ...inputProps
+  } = props;
+
+  const onKeyPress = (e: any) => {
+    const target = e.target;
+    if (e.key === "Enter" && target) {
+      e.stopPropagation();
+      e.preventDefault();
+      target.checked = !target.checked;
+      props.onChange?.(e);
+    }
+  };
 
   return (
     <div className="field">
-      <label htmlFor={inputProps.id} className="checkbox jf-single-checkbox">
-        <input type="checkbox" {...inputProps} />{" "}
+      {contentBeforeLabel}
+      <label
+        htmlFor={inputProps.id}
+        className={`checkbox jf-single-checkbox ${!!errors ? "is-danger" : ""}`}
+      >
+        <input type="checkbox" onKeyPress={onKeyPress} {...inputProps} />{" "}
         <span className="jf-checkbox-symbol" />{" "}
         <span className="jf-label-text">
-          <span className="subtitle is-5">{props.children}</span>
+          <span
+            className={
+              labelClassName !== undefined ? labelClassName : "subtitle is-5"
+            }
+          >
+            {props.children}
+          </span>
         </span>
       </label>
       {contentAfterLabel}
@@ -302,17 +352,12 @@ export function CheckboxView(props: CheckboxViewProps) {
 }
 
 export function CheckboxFormField(
-  props: BooleanFormFieldProps & { extraContentAfterLabel?: JSX.Element }
+  props: BooleanFormFieldProps & {
+    extraContentAfterLabel?: JSX.Element;
+    labelClassName?: string;
+  }
 ): JSX.Element {
   const { errorHelp } = formatErrors(props);
-  const contentAfterLabel = props.extraContentAfterLabel ? (
-    <>
-      {errorHelp}
-      {props.extraContentAfterLabel}
-    </>
-  ) : (
-    errorHelp
-  );
 
   return (
     <CheckboxView
@@ -322,7 +367,10 @@ export function CheckboxFormField(
       aria-invalid={ariaBool(!!props.errors)}
       disabled={props.isDisabled}
       onChange={(e) => props.onChange(e.target.checked)}
-      contentAfterLabel={contentAfterLabel}
+      contentBeforeLabel={errorHelp}
+      contentAfterLabel={props.extraContentAfterLabel}
+      labelClassName={props.labelClassName}
+      errors={props.errors}
     >
       {props.children}
     </CheckboxView>
@@ -423,6 +471,7 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
 
   return (
     <div className="field" {...props.fieldProps}>
+      {errorHelp}
       {renderLabel(
         props.label,
         { htmlFor: props.id },
@@ -449,7 +498,6 @@ export function TextualFormField(props: TextualFormFieldProps): JSX.Element {
         {type === "date" && <DateClear {...props} />}
       </div>
       {props.help && <p className="help">{props.help}</p>}
-      {errorHelp}
     </div>
   );
 }
@@ -463,6 +511,7 @@ export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
 
   return (
     <div className="field" {...props.fieldProps}>
+      {errorHelp}
       {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
       <div className="control">
         <textarea
@@ -480,7 +529,6 @@ export function TextareaFormField(props: TextualFormFieldProps): JSX.Element {
           onChange={(e) => props.onChange(e.target.value)}
         />
       </div>
-      {errorHelp}
     </div>
   );
 }

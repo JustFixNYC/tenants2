@@ -100,6 +100,7 @@ export class CurrencyFormField extends React.Component<
 
     return (
       <div className="field">
+        {errorHelp}
         {renderLabel(props.label, { htmlFor: props.id }, props.renderLabel)}
         <div className="control jf-currency">
           <input
@@ -120,7 +121,6 @@ export class CurrencyFormField extends React.Component<
           />
           <span className="jf-currency-symbol">$</span>
         </div>
-        {errorHelp}
       </div>
     );
   }

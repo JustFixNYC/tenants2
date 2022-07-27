@@ -27,7 +27,7 @@ class TestHabitabilityLetter:
     @pytest.mark.django_db
     def test_default_email_to_landlord(self, db):
         letter = HabitabilityLetterFactory()
-        assert str(letter.email_to_landlord) == "False"
+        assert str(letter.email_to_landlord) == "None"
 
 
 class TestHabitabilityIssues:

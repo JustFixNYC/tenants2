@@ -145,12 +145,19 @@ export const NorentLetterEmailToLandlord: React.FC<BaseLetterContentProps> = (
 
 const LetterBodyCalifornia: React.FC<NorentLetterContentProps> = (props) => {
   return (
-    <Trans id="norent.letterBodyCaliforniaLaCountyVIA1">
+    <Trans id="norent.letterBodyCaliforniaLaCountyVIA1v2">
       <p>
-        This declaration letter is in regards to rent payment for the following
-        months:
+        As required under section VI.A.1 of the January 25, 2022 Resolution of
+        the Board of Supervisors of the County of Los Angeles Further Amending
+        and Restating the County of Los Angeles COVID-19 Tenant Protections
+        Resolution, this declaration letter is in regards to rent payment for
+        the following months:
       </p>
       <PaymentDateList dates={props.paymentDates} />
+      <p>
+        My household income for the above month is at or below 80 percent of the
+        Area Median Income.
+      </p>
       <p>
         I am unable to pay the above months' rent due to a Financial Impact
         Related to COVID-19. I hereby certify that I have one of the following

@@ -64,9 +64,12 @@ const LoginPage = withAppContext(
       props.server.originURL
     );
 
+    // Once we have migrated to the same styling for the tenant platform and
+    // LALOC, remove the box entirely.
+    let useBox = appContext.server.siteType != "LALETTERBUILDER";
     return (
       <Page title="Sign in">
-        <div className="box">
+        <div className={`${useBox ? "box" : ""}`}>
           <h1 className="title">Sign in</h1>
           <LoginForm next={next} />
           <br />

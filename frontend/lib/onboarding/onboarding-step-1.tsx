@@ -93,10 +93,10 @@ function toStep1Input(
   return exactSubsetOrDefault(
     s.onboardingScaffolding
       ? {
-          ...s.onboardingScaffolding,
-          address: s.onboardingScaffolding.street,
-          ...createAptNumberFormInput(s.onboardingScaffolding.aptNumber),
-        }
+        ...s.onboardingScaffolding,
+        address: s.onboardingScaffolding.street,
+        ...createAptNumberFormInput(s.onboardingScaffolding.aptNumber),
+      }
       : null,
     BlankOnboardingStep1V2Input
   );
@@ -175,7 +175,8 @@ class OnboardingStep1WithoutContexts extends React.Component<
           component={PrivacyInfoModal}
         />
         <p>
-          Your privacy is very important to us! Everything on JustFix is secure.{" "}
+          Your privacy is very important to us. Everything on JustFix is
+          secure.{" "}
           <Link to={routes.step1AddressModal}>
             Click here to learn more
             <span className="jf-sr-only"> about our privacy policy</span>

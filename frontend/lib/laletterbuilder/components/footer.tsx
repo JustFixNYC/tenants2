@@ -1,63 +1,80 @@
 import { Trans } from "@lingui/macro";
 import React from "react";
 
+import { ClickableLogo } from "./clickable-logo";
+import { FooterLanguageToggle } from "../../ui/language-toggle";
 import { LegalDisclaimer } from "../../ui/legal-disclaimer";
 import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
-import { StaticImage } from "../../ui/static-image";
-import { getLaLetterBuilderImageSrc } from "../homepage";
+import { OutboundLink } from "../../ui/outbound-link";
+import { PhoneNumber } from "./phone-number";
 
 export const LaLetterBuilderFooter: React.FC<{}> = () => (
-  <footer className="has-background-dark">
-    <div className="container">
-      <div className="columns">
-        <div className="column is-8 is-offset-2">
-          <div className="content">
-            <div className="columns">
-              {/* TODO: change this to match our final URL decision */}
-              <div className="column is-6">
-                <LegalDisclaimer website="LaLetterBuilder.org" />
-              </div>
-              <div className="column is-6">
-                <StaticImage
-                  className="jf-laletterbuilder-footer-logo"
-                  src={getLaLetterBuilderImageSrc("justfix-saje-combined-logo")}
-                  alt="JustFix SAJE"
-                />
-                <p>
-                  <Trans>
-                    JustFix and SAJE are registered 501(c)(3) nonprofit
-                    organizations.
-                  </Trans>
-                </p>
-              </div>
+  <>
+    <section className="jf-laletterbuilder-footer-section">
+      <div>
+        <h2>
+          <Trans>Support</Trans>
+        </h2>
+        <label>
+          <Trans>
+            Contact SAJE at <PhoneNumber number="(213) 745-9961" /> or attend
+            the{" "}
+            <OutboundLink href="https://www.saje.net/what-we-do/tenant-action-clinic/">
+              Tenant Action Clinic
+            </OutboundLink>
+          </Trans>
+        </label>
+      </div>
+    </section>
+    <footer className="has-background-dark">
+      <div className="container">
+        <div className="content">
+          <FooterLanguageToggle />
+          <div className="columns">
+            {/* TODO: change this to match our final URL decision */}
+            <div className="column is-6">
+              <LegalDisclaimer
+                website="LaLetterBuilder.org"
+                className="is-small"
+              />
             </div>
-            <br />
-            <div className="is-divider"></div>
-            <span className="is-uppercase">
-              <LocalizedOutboundLink
-                // TODO: UPDATE THESE LINKS TO NEW LA LETTER BUILDER SPECIFIC PAGES
-                hrefs={{
-                  en: "https://www.justfix.org/en/privacy-policy-norent",
-                  es: "https://www.justfix.org/es/privacy-policy-norent",
-                }}
-              >
-                <Trans>Privacy Policy</Trans>
-              </LocalizedOutboundLink>
-            </span>
-            <span className="is-pulled-right is-uppercase">
-              <LocalizedOutboundLink
-                // TODO: UPDATE THESE LINKS TO NEW LA LETTER BUILDER SPECIFIC PAGES
-                hrefs={{
-                  en: "https://www.justfix.org/en/terms-of-use-norent/",
-                  es: "https://www.justfix.org/es/terms-of-use-norent/",
-                }}
-              >
-                <Trans>Terms of Use</Trans>
-              </LocalizedOutboundLink>
-            </span>
+            <div className="column is-6">
+              <ClickableLogo
+                imageClassName="jf-laletterbuilder-footer-logo"
+                imageUrl="justfix-saje-combined-logo"
+              />
+              <p className="is-small">
+                <Trans>
+                  JustFix and SAJE are registered 501(c)(3) nonprofit
+                  organizations.
+                </Trans>
+              </p>
+            </div>
           </div>
+          <br />
+          <div className="is-divider"></div>
+          <span className="is-uppercase">
+            <LocalizedOutboundLink
+              hrefs={{
+                en: "https://www.justfix.org/en/privacy-policy",
+                es: "https://www.justfix.org/es/privacy-policy",
+              }}
+            >
+              <Trans>Privacy Policy</Trans>
+            </LocalizedOutboundLink>
+          </span>
+          <span className="is-pulled-right is-uppercase">
+            <LocalizedOutboundLink
+              hrefs={{
+                en: "https://www.justfix.org/en/terms-of-use/",
+                es: "https://www.justfix.org/es/terms-of-use/",
+              }}
+            >
+              <Trans>Terms of Use</Trans>
+            </LocalizedOutboundLink>
+          </span>
         </div>
       </div>
-    </div>
-  </footer>
+    </footer>
+  </>
 );

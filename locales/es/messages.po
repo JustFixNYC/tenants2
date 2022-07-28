@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-07-28 09:43\n"
+"PO-Revision-Date: 2022-07-28 11:46\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1057,7 +1057,7 @@ msgstr "Georgia"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:137
 msgid "Get involved in your community"
-msgstr "Get involved in your community"
+msgstr "Participa en tu comunidad"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:153
 msgid "Get involved with SAJE to build power with your neighbors"
@@ -1087,7 +1087,7 @@ msgstr "Ir a la página de inicio de SAJE"
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:38
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:43
 msgid "Go to form"
-msgstr "Go to form"
+msgstr "Ir al formulario"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:192
 msgid "Go to website"
@@ -1111,15 +1111,15 @@ msgstr "Entendido, llévame"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:13
 msgid "Habitability"
-msgstr "Habitability"
+msgstr "Habitabilidad"
 
 #: common-data/la-letter-builder-letter-choices.ts:17
 msgid "Habitability (CA)"
-msgstr "Habitability (CA)"
+msgstr "Habitabilidad (CA)"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:18
 msgid "Habitability notice sent on behalf of {0}"
-msgstr "Habitability notice sent on behalf of {0}"
+msgstr "Aviso de habitabilidad enviado en nombre de {0}"
 
 #: common-data/issue-room-choices-laletterbuilder.ts:37
 msgid "Hallway"

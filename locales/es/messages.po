@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-07-28 06:46\n"
+"PO-Revision-Date: 2022-07-28 07:45\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -3488,7 +3488,7 @@ msgstr "Tu privacidad es importante para nosotros"
 
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:54
 msgid "Your privacy is very important to us. Everything on JustFix.nyc is secure."
-msgstr "Your privacy is very important to us. Everything on JustFix.nyc is secure."
+msgstr "Tu privacidad es muy importante para nosotros. Todo en JustFix.nyc es seguro."
 
 #: frontend/lib/common-steps/ask-national-address.tsx:111
 #: frontend/lib/common-steps/ask-nyc-address.tsx:39
@@ -3497,7 +3497,7 @@ msgstr "Tu hogar"
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:113
 msgid "Your tracking number will appear here once the letter has been sent."
-msgstr "Your tracking number will appear here once the letter has been sent."
+msgstr "Tu número de rastreo aparecerá aquí una vez que la carta haya sido enviada."
 
 #: frontend/lib/norent/homepage.tsx:93
 msgid "You’re not alone. Millions of Americans won’t be able to pay rent because of COVID‑19. Use our FREE tool to take action by writing a letter to your landlord."
@@ -3699,7 +3699,7 @@ msgstr "¿El dueño de tu edificio no contesta? ¡Puedes tomar acción gratis pa
 
 #: frontend/lib/common-steps/ask-name.tsx:44
 msgid "justfix.howIsPersonalInfoProtectedV2"
-msgstr "Everything on JustFix is secure. We don’t use your personal information for profit or sell it to third parties. See our <0/>."
+msgstr "Todo en JustFix es seguro. No usamos tu información personal con fines de lucro ni la vendemos a terceros. Ve nuestra <0/>."
 
 #: frontend/lib/ui/legal-disclaimer.tsx:4
 msgid "justfix.legalDisclaimer"
@@ -3739,7 +3739,7 @@ msgstr "<0>Si tu apartamento es actualmente de renta estabilizada, o lo ha sido 
 
 #: frontend/lib/common-steps/ask-name.tsx:36
 msgid "justfix.whyIsAccountNeeded"
-msgstr "An account allows you to securely create, send and access letters that help you exercise your tenant rights."
+msgstr "Una cuenta te permite crear, enviar y acceder de forma segura a las cartas que te ayuden a ejercer tus derechos de inquilino."
 
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:39
 msgid "justfix.whyIsPhoneNumberNeeded"
@@ -3771,7 +3771,7 @@ msgstr "Create a letter to formally request repairs or document harassment situa
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:20
 msgid "laletterbuilder.faq.whocanhelp"
-msgstr "Give SAJE a call at <0/> and let them know you need help creating a letter. You can also attend a <1>Tenant Action Clinic</1>."
+msgstr "Dale a SAJE una llamada al <0/> y hazles saber que necesitas ayuda para crear una carta. También puedes asistir a una <1>Clínica de acción del inquilino</1>."
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:97
 msgid "laletterbuilder.habitability.access-intro"
@@ -3795,15 +3795,15 @@ msgstr "This letter is to notify you that I need the following repairs in my hom
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:101
 msgid "laletterbuilder.issues.addRepairDetails"
-msgstr "You can share more details with your landlord if they respond, or with <0>LAHD</0> at <1/>."
+msgstr "Puedes compartir más detalles con tu propietario si responde, o con <0>LAHD</0> en <1/>."
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:91
 msgid "laletterbuilder.issues.repairNotListed"
-msgstr "The Notice to Repair letter will formally document your request for repairs. Once you arrange access dates that work for everyone, you can inform the landlord or property manager about any other repairs you need."
+msgstr "La carta de Aviso a reparar documentará formalmente tu solicitud de reparación. Una vez que organices fechas de acceso que funcionen para todos, puedes informarle al propietario o administrador de la propiedad sobre cualquier otra reparación que necesites."
 
 #: frontend/lib/laletterbuilder/components/landlord-info.tsx:45
 msgid "laletterbuilder.landlord.whereToFindInfo"
-msgstr "By law your landlord is required to provide contact information. If you’re unable to get this information, attend the <0>Tenant Action Clinic</0> to get help."
+msgstr "Por ley, el propietario debe proporcionar información de contacto. Si no puedes obtener esta información, asiste a la <0>Clínica de acción del inquilino</0> para obtener ayuda."
 
 #: frontend/lib/laletterbuilder/about.tsx:72
 msgid "laletterbuilder.madeByBlurb"
@@ -3811,7 +3811,7 @@ msgstr "LaLetterBuilder is made by <0>JustFix.nyc</0>, a non-profit organization
 
 #: frontend/lib/laletterbuilder/components/review-your-rights.tsx:17
 msgid "laletterbuilder.retaliationInfo"
-msgstr "<0>If your landlord is retaliating against you for exercising your rights, you can:</0><1><2><3>Attend SAJE'S <4>Tenant Action Clinic</4></3></2><5><6>File a complaint with <7>Los Angeles Housing Department (LAHD)</7>if you live in the City of LA or <8>Public Health</8> if you live someplace else in LA County</6></5></1>"
+msgstr "<0>Si tu propietario está tomando represalias contra ti por ejercer tus derechos, puedes:</0><1><2><3>Asistir a la <4>Clínica de acción de inquilinos de SAJE</4></3></2><6>Presentar una queja con <7>el Departamento de Vivienda de Los Ángeles (Los Angeles Housing Department, LAHD)</7>si vives en la Ciudad de Los Ángeles o con <8>Salud Pública</8> si vives en el Condado de Los Ángeles </6></5></5></1>"
 
 #: frontend/lib/laletterbuilder/components/review-your-rights.tsx:11
 msgid "laletterbuilder.reviewTenantRightsIntro"

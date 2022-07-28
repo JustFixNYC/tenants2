@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-21 23:28+0000\n"
-"PO-Revision-Date: 2022-07-07 15:51\n"
+"PO-Revision-Date: 2022-07-28 07:45\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -88,11 +88,11 @@ msgstr "cerrar"
 
 #: laletterbuilder/forms.py:54
 msgid "Please select at least one repair issue."
-msgstr ""
+msgstr "Por favor selecciona al menos un problema de reparación."
 
 #: laletterbuilder/forms.py:73
 msgid "Please provide a landlord email or indicate that you do not have this information."
-msgstr ""
+msgstr "Por favor, proporciona un correo electrónico de propietario o indica que no tienes esta información."
 
 #: norent/forms.py:65
 #, python-format

@@ -12,7 +12,7 @@ export const LaLetterBuilderFooter: React.FC<{}> = () => (
   <>
     <section className="jf-laletterbuilder-footer-section">
       <div>
-        <h2>
+        <h2 className="mb-3">
           <Trans>Support</Trans>
         </h2>
         <label>
@@ -28,9 +28,9 @@ export const LaLetterBuilderFooter: React.FC<{}> = () => (
     </section>
     <footer className="has-background-dark">
       <div className="container">
-        <div className="content">
+        <div className="content pb-9">
           <FooterLanguageToggle />
-          <div className="columns">
+          <div className="columns mt-6 mb-0">
             {/* TODO: change this to match our final URL decision */}
             <div className="column is-6">
               <LegalDisclaimer

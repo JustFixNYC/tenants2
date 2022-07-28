@@ -30,7 +30,10 @@ export const LaLetterBuilderMyLetters: React.FC<ProgressStepProps> = (
   props
 ) => {
   return (
-    <Page title={li18n._(t`My letters`)} withHeading="big">
+    <Page title={li18n._(t`My letters`)}>
+      <h1 className="mb-6">
+        <Trans>My letters</Trans>
+      </h1>
       <MyLettersContent />
     </Page>
   );
@@ -60,13 +63,13 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
   const { id, children } = props;
   return (
     <div className="jf-la-letter-card">
-      <div>
+      <div className="p-6">
         <StaticImage
           ratio="is-32x32"
           src={getLaLetterBuilderImageSrc("repair-tools")}
           alt=""
         />
-        <h2>
+        <h2 className="mt-5 mb-3">
           <Trans>Notice to repair letter</Trans>
         </h2>
         {children}
@@ -80,9 +83,9 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
           {(ctx) => (
             <button
               type="submit"
-              className={bulmaClasses("button", "is-primary", {
+              className={`${bulmaClasses("button", "is-primary", {
                 "is-loading": ctx.isLoading,
-              })}
+              })} mt-7`}
             >
               <Trans>Download letter</Trans>
               <TextualFormField
@@ -152,8 +155,8 @@ const MyLettersContent: React.FC = (props) => {
   return (
     <div className="jf-my-letters">
       {(!!processedLetters?.length || !!sentLetters?.length) && (
-        <h2>
-          <Trans>Sent</Trans>
+        <h2 className="mb-3">
+          <Trans>Completed</Trans>
         </h2>
       )}
       {processedLetters?.map((letter) => (
@@ -161,10 +164,10 @@ const MyLettersContent: React.FC = (props) => {
           key={`processed-letter-${letter.id}`}
           id={letter.id}
         >
-          <h3>
+          <h3 className="mb-3">
             <Trans>JustFix is preparing your letter</Trans>
           </h3>
-          <p>
+          <p className="is-small">
             <Trans>
               Your tracking number will appear here once the letter has been
               sent.
@@ -191,7 +194,7 @@ const MyLettersContent: React.FC = (props) => {
                 <h3>{`${li18n._(
                   t`JustFix sent your letter on`
                 )} ${dateString} `}</h3>
-                <p className="jf-laletterbuilder-letter-tracking">
+                <p className="jf-laletterbuilder-letter-tracking is-small">
                   <Trans>USPS tracking number:</Trans>{" "}
                   <OutboundLink
                     href={`https://tools.usps.com/go/TrackConfirmAction_input?strOrigTrackNum=${letter.trackingNumber}`}
@@ -208,16 +211,16 @@ const MyLettersContent: React.FC = (props) => {
 
       {session.hasHabitabilityLetterInProgress && (
         <>
-          <h2>
+          <h2 className="mt-9">
             <Trans>In progress</Trans>
           </h2>
-          <div className="my-letters-box">
+          <div className="my-letters-box mb-9">
             <StaticImage
               ratio="is-32x32"
               src={getLaLetterBuilderImageSrc("repair-tools")}
               alt=""
             />
-            <h2>
+            <h2 className="mt-5 mb-3">
               <Trans>Notice to repair letter</Trans>
             </h2>
             <h3>
@@ -234,11 +237,11 @@ const MyLettersContent: React.FC = (props) => {
           </div>
         </>
       )}
-      <h2>
+      <h2 className="mb-5 mt-9">
         <Trans>Start a new letter</Trans>
       </h2>
       {!session.habitabilityLetters?.length && <CreateLetterCard />}
-      <p>
+      <p className="mt-5 mb-5">
         <Trans>
           Do you have another housing issue that you need to address?
         </Trans>

@@ -76,10 +76,10 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
   });
 
   return (
-    <Page
-      title={li18n._(t`How do you want to send your letter?`)}
-      withHeading="big"
-    >
+    <Page title={li18n._(t`How do you want to send your letter?`)}>
+      <h1 className="mb-9">
+        <Trans>How do you want to send your letter?</Trans>
+      </h1>
       <SessionUpdatingFormSubmitter
         mutation={LaLetterBuilderSendOptionsMutation}
         initialState={(s) => ({
@@ -100,8 +100,7 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
         {(ctx) => {
           return (
             <>
-              <hr />
-              <h3>Select a mailing method</h3>
+              <h3 className="mb-5">Select a mailing method</h3>
               <RadiosFormField
                 {...ctx.fieldPropsFor("mailChoice")}
                 choices={mailChoiceTuples}
@@ -109,18 +108,18 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
                 labelClassName=""
                 hideVisibleLabel={true}
               />
-              <h3>
+              <h3 className="mt-10">
                 <Trans>Email a copy to your landlord or property manager</Trans>
               </h3>
               {session.landlordDetails?.email && (
-                <div className="jf-laletterbuilder-landlord-email">
+                <div className="jf-laletterbuilder-landlord-email mb-5 mt-5">
                   <span>
                     {li18n._(t`We found this email address for your landlord:`)}
                   </span>
                   <span>{session.landlordDetails.email}</span>
                 </div>
               )}
-              <div className="jf-related-text-field-with-checkbox jf-space-below-2rem">
+              <div className="jf-related-text-field-with-checkbox mt-5 mb-7">
                 <TextualFormField
                   type="email"
                   {...ctx.fieldPropsFor("email")}
@@ -142,7 +141,7 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
                 </CheckboxFormField>
               </div>
               {ctx.fieldPropsFor("noLandlordEmail").value && (
-                <p className="is-small">
+                <p className="is-small mb-7">
                   <Trans>
                     If your landlord or property manager normally contact you by
                     email, we recommend adding their email address above.

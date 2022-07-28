@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-07-26 15:00\n"
+"PO-Revision-Date: 2022-07-28 05:15\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -208,7 +208,7 @@ msgstr "All you need for now are the basics. You can follow up with your landlor
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:60
 msgid "Allow 14 days for a response"
-msgstr "Allow 14 days for a response"
+msgstr "Permite 14 días para recibir una respuesta"
 
 #: frontend/lib/evictionfree/site.tsx:125
 msgid "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
@@ -269,7 +269,8 @@ msgstr "As a California resident, you have a right to safe housing"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:141
 msgid "Attend SAJE’s <0>Tenant Action Clinic</0> if you're faced with a housing problem."
-msgstr "Attend SAJE’s <0>Tenant Action Clinic</0> if you're faced with a housing problem."
+msgstr "Asiste a la <0>Clínica de acción de inquilinos</0> de SAJE si enfrentas un problema de vivienda.\n"
+"CONTEXTREQUEST"
 
 #: frontend/lib/evictionfree/homepage.tsx:68
 msgid "Automatically fill in your landlord's information based on your address if you live in New York City"
@@ -460,7 +461,7 @@ msgstr "California"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:85
 msgid "California residents only"
-msgstr "California residents only"
+msgstr "Sólo residentes de California"
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:80
 msgid "Call LADBS at <0/>"

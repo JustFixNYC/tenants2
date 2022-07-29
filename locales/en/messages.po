@@ -1491,7 +1491,7 @@ msgstr "JustFix can text me to follow up about my housing issues."
 msgid "JustFix is a registered 501(c)(3) nonprofit organization."
 msgstr "JustFix is a registered 501(c)(3) nonprofit organization."
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:110
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:113
 msgid "JustFix is preparing your letter"
 msgstr "JustFix is preparing your letter"
 

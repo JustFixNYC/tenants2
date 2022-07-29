@@ -84,7 +84,7 @@ msgstr "<0>No, puedes utilizar este sitio web para enviar una carta al dueño de
 
 #: frontend/lib/norent/components/footer.tsx:51
 msgid "<0>NoRent</0> <1>brought to you by JustFix</1>"
-msgstr ""
+msgstr "<0>NoRent</0> <1>es proporcionado por JustFix</1>"
 
 #: frontend/lib/norent/components/letter-counter.tsx:15
 msgid "<0>NoRent</0> <1>letters sent by tenants across the USA</1><2>Since April 2020</2>"
@@ -130,7 +130,7 @@ msgstr "También se le envió una copia impresa de tu formulario al dueño de tu
 
 #: frontend/lib/norent/homepage.tsx:103
 msgid "A national tool by non-profit <0>JustFix.org</0>"
-msgstr ""
+msgstr "Una herramienta nacional por <0>JustFix.org</0>, organización sin fines de lucro"
 
 #: frontend/lib/evictionfree/about.tsx:36
 #: frontend/lib/evictionfree/about.tsx:41
@@ -1297,7 +1297,7 @@ msgstr "No tengo ningún número de apartamento"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:24
 msgid "I just used JustFix's new free tool to tell my landlord I can't pay rent"
-msgstr ""
+msgstr "Acabo de usar la nueva herramienta gratuita de JustFix para decirle a mi arrendador que no puedo pagar la renta"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:267
 msgid "I live in another state that isn’t New York. Is this tool for me?"
@@ -1494,7 +1494,7 @@ msgstr ""
 
 #: frontend/lib/ui/footer.tsx:27
 msgid "JustFix is a registered 501(c)(3) nonprofit organization."
-msgstr ""
+msgstr "JustFix es una organización registrada 501(c)(3) sin fines de lucro."
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:113
 msgid "JustFix is preparing your letter"
@@ -1506,7 +1506,7 @@ msgstr ""
 
 #: frontend/lib/rh/routes.tsx:263
 msgid "JustFix's Learning Center"
-msgstr ""
+msgstr "Centro de Aprendizaje de JustFix"
 
 #: common-data/us-state-choices.ts:81
 msgid "Kansas"
@@ -1723,11 +1723,11 @@ msgstr "Luisiana"
 
 #: frontend/lib/evictionfree/homepage.tsx:104
 msgid "Made by non-profits <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, and <2>JustFix</2>"
-msgstr ""
+msgstr "Fabricado por las organizaciones sin fines de lucro <0>Right to Counsel NYC Coalition</0>, <1>Housing Justice for All</1>, y <2>JustFix</2>"
 
 #: frontend/lib/ui/footer.tsx:36
 msgid "Made with NYC ♥ by the team at <0>JustFix</0>"
-msgstr ""
+msgstr "Hecho en NYC con ♥ por el equipo de <0>JustFix</0>"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:87
 msgid "Mail for free"
@@ -1990,7 +1990,7 @@ msgstr "NoRent.org <0/>enviado en nombre de <1/>"
 
 #: frontend/lib/norent/about.tsx:126
 msgid "NoRent.org is a collaboration between JustFix and legal organizations and housing rights non-profits across the nation."
-msgstr ""
+msgstr "NoRent.org es una colaboración entre JustFix, organizaciones legales y organizaciones sin fines de lucro en todo Estados Unidos (EEUU)."
 
 #: common-data/us-state-choices.ts:98
 msgid "North Carolina"
@@ -2027,7 +2027,7 @@ msgstr ""
 
 #: frontend/lib/start-account-or-login/verify-password.tsx:59
 msgid "Now we just need your password. This is the same one you’ve used on JustFix."
-msgstr ""
+msgstr "Ahora sólo necesitamos tu contraseña. Esta es la misma que usas en JustFix."
 
 #: common-data/us-state-choices.ts:100
 msgid "Ohio"
@@ -2744,7 +2744,7 @@ msgstr "Este servicio es gratuito, seguro y confidencial."
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:200
 msgid "This tool is provided by JustFix. We’re a non-profit that creates tools for tenants and the housing rights movement. We always want feedback to improve our tools."
-msgstr ""
+msgstr "Esta herramienta te la trae JustFix. Somos una organización sin fines de lucro que crea herramientas para inquilinos y el movimiento de derechos de la vivienda. Siempre nos interesa tu opinión para mejorar nuestras herramientas."
 
 #: frontend/lib/start-account-or-login/verify-password.tsx:30
 msgid "To begin the password reset process, we'll text you a verification code."
@@ -3256,11 +3256,11 @@ msgstr "Si"
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:37
 msgid "Yes, JustFix can text me to follow up about my housing issues."
-msgstr ""
+msgstr "Sí, JustFix puede enviarme mensajes de texto para hacer un seguimiento de mis problemas de vivienda."
 
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:30
 msgid "Yes, Right to Counsel NYC Coalition, Housing Justice for All, and JustFix can text me to follow up about my housing issues."
-msgstr ""
+msgstr "Sí, Right to Counsel NYC Coalition, Housing Justice for All, y JustFix pueden enviarme un mensaje de texto para hacer un seguimiento de mis asuntos de vivienda."
 
 #: frontend/lib/pages/logout-alt-page.tsx:26
 msgid "Yes, Sign Out"
@@ -3318,7 +3318,7 @@ msgstr ""
 
 #: frontend/lib/ui/landlord.tsx:81
 msgid "You have chosen to overwrite the landlord recommended by JustFix. Please provide your own details below, or <0>use the recommended landlord \"{0}\"</0>."
-msgstr ""
+msgstr "Has elegido sustituir la información recomendada por JustFix sobre el dueño de tu edificio. Por favor proporciona tu propia información a continuación, o <0>usa el dueño recomendado\"{0}\"</0>."
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:48
 msgid "You haven't completed previous steps. Please <0>go back</0>."

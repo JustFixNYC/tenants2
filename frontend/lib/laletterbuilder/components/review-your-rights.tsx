@@ -9,11 +9,11 @@ import { LaLetterBuilderOnboardingStep } from "../letter-builder/step-decorators
 export const LaLetterBuilderReviewRights = LaLetterBuilderOnboardingStep(
   (props) => {
     return (
-      <Page
-        title={li18n._(t`Review your rights as a tenant`)}
-        withHeading="big"
-      >
-        <h3>
+      <Page title={li18n._(t`Review your rights as a tenant`)}>
+        <h1 className="mb-8">
+          <Trans>Review your rights as a tenant</Trans>
+        </h1>
+        <h3 className="mb-7">
           <Trans id="laletterbuilder.reviewTenantRightsIntro">
             Tenants have a right to a safe home, without harassment. Sending a
             letter to notify your landlord is within your rights.

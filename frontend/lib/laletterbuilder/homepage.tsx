@@ -34,29 +34,29 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
       <section className="hero jf-laletterbuilder-landing-section-primary">
         <div className="hero-body">
           <div className="container">
-            <h1>
+            <h1 className="mb-5">
               <Trans>
                 As a California resident, you have a right to safe housing
               </Trans>
             </h1>
-            <br />
-            <h3>
+            <h3 className="mb-7">
               <Trans>
                 Exercise your tenant rights. Send a free letter to your landlord
                 in minutes.
               </Trans>
             </h3>
-            <br />
             {!!session.phoneNumber ? (
               <>
                 <Link
-                  className={bulmaClasses("button", "is-primary", "is-large")}
+                  className={`${bulmaClasses(
+                    "button",
+                    "is-primary",
+                    "is-large"
+                  )} mb-5`}
                   to={LaLetterBuilderRouteInfo.locale.habitability.myLetters}
                 >
                   <Trans>My letters</Trans>
                 </Link>
-                <br />
-                <br />
                 <Link
                   className={`${bulmaClasses(
                     "button",
@@ -69,7 +69,11 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
               </>
             ) : (
               <Link
-                className={bulmaClasses("button", "is-primary", "is-large")}
+                className={`${bulmaClasses(
+                  "button",
+                  "is-primary",
+                  "is-large"
+                )} mb-7`}
                 to={Routes.locale.chooseLetter}
               >
                 <Trans>View letters</Trans>
@@ -81,18 +85,16 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
       <section className="jf-laletterbuilder-landing-section-secondary">
         <div className="hero-body">
           <div className="container">
-            <h2>
+            <h2 className="mb-3">
               <Trans>Legally vetted</Trans>
             </h2>
-            <br />
-            <h3>
+            <h3 className="mb-10">
               <Trans>
                 We created the [Product Name] with lawyers and non-profit tenant
                 rights organizations to ensure that your letter gives you the
                 most protections.
               </Trans>
             </h3>
-            <br />
             <div>
               <h2>
                 <Trans>Created by</Trans>
@@ -105,14 +107,14 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
       <section className="jf-laletterbuilder-landing-section-tertiary">
         <div className="hero-body">
           <div className="container">
-            <h2>
+            <h2 className="mb-7">
               <Trans>How it works</Trans>
             </h2>
             <div className="text-section">
-              <h3>
+              <h3 className="mb-3">
                 <Trans>Build your letter</Trans>
               </h3>
-              <label>
+              <label className="mb-6">
                 <Trans>
                   Answer some basic questions about your housing situation, and
                   we’ll automatically create a letter for you.
@@ -120,10 +122,10 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
               </label>
             </div>
             <div className="text-section">
-              <h3>
+              <h3 className="mb-3">
                 <Trans>Mail for free</Trans>
               </h3>
-              <label>
+              <label className="mb-6">
                 <Trans>
                   We’ll send your letter to your landlord or property manager
                   for free via certified mail. Or you can opt to print and mail
@@ -132,7 +134,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
               </label>
             </div>
             <div className="text-section">
-              <h3>
+              <h3 className="mb-3">
                 <Trans>Next steps</Trans>
               </h3>
               <label>
@@ -148,7 +150,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
       <section className="jf-laletterbuilder-landing-section-primary">
         <div className="hero-body">
           <div className="jf-accordion-list-large container">
-            <h2 className="is-spaced">
+            <h2 className="mb-7">
               <Trans>Frequently asked questions</Trans>
             </h2>
             {faqContent.map((el, i) => (
@@ -166,14 +168,13 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
       <section className="jf-laletterbuilder-landing-section-secondary">
         <div className="hero-body">
           <div className="container">
-            <h2 className="is-spaced">
+            <h2 className="mb-7">
               <Trans>Tenant rights resources</Trans>
             </h2>
-
-            <h3>
+            <h3 className="mb-3">
               <Trans>Get involved in your community</Trans>
             </h3>
-            <div className="text-section">
+            <div className="text-section mb-10">
               <label>
                 <Trans>
                   Attend SAJE’s{" "}
@@ -181,21 +182,15 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
                     Tenant Action Clinic
                   </OutboundLink>{" "}
                   if you're faced with a housing problem.
-                </Trans>
-              </label>
-            </div>
-
-            <div className="text-section">
-              <label>
-                <Trans>
+                  <br />
                   Get involved with SAJE to build power with your neighbors
                 </Trans>
               </label>
             </div>
-            <h3>
+            <h3 className="mb-3">
               <Trans>Resources</Trans>
             </h3>
-            <p>
+            <p className="mb-6">
               <OutboundLink
                 href="https://www.stayhousedla.org/"
                 target="_blank"

@@ -14,6 +14,7 @@ export type BulmaImageClass =
   | "is-1by1"
   | "is-1by2"
   | "is-1by3"
+  | "is-12x12"
   | "is-24x24"
   | "is-2by1"
   | "is-2by3"

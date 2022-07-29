@@ -3548,7 +3548,7 @@
           "enumValues": [
             {
               "deprecationReason": null,
-              "description": "Yes, have JustFix.nyc mail this letter for me.",
+              "description": "Yes, have JustFix mail this letter for me.",
               "isDeprecated": false,
               "name": "WE_WILL_MAIL"
             },

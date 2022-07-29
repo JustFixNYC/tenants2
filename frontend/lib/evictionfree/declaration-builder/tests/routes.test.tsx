@@ -59,7 +59,7 @@ tester.defineTest({
 });
 
 tester.defineTest({
-  it: "works w/ logged-in JustFix.nyc user who hasn't yet agreed to terms",
+  it: "works w/ logged-in JustFix user who hasn't yet agreed to terms",
   usingSession: sb.withLoggedInJustfixUser(),
   expectSteps: ["/en/declaration/terms", "/en/declaration/hardship-situation"],
 });

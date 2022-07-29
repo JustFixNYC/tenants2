@@ -17,8 +17,8 @@ export const MESSAGE_QS = "msg=on";
 export const RTC_WEBSITE_URL = "https://www.righttocounselnyc.org/";
 export const HJ4A_SOCIAL_URL = "https://twitter.com/housing4allNY";
 export const JUSTFIX_WEBSITE_URLS = {
-  en: "https://www.justfix.nyc/en/",
-  es: "https://www.justfix.nyc/es/",
+  en: "https://www.justfix.org/en/",
+  es: "https://www.justfix.org/es/",
 };
 export const HARDSHIP_DECLARATION_FORM_URLS = {
   en:
@@ -155,7 +155,7 @@ const EvictionFreeTopLevelContent = () => (
                   </OutboundLink>
                   , and{" "}
                   <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
-                    JustFix.nyc
+                    JustFix
                   </LocalizedOutboundLink>
                 </Trans>
               </p>
@@ -263,7 +263,7 @@ export const EvictionFreeHomePage: React.FC<{}> = () => (
                   </OutboundLink>
                   , and{" "}
                   <LocalizedOutboundLink hrefs={JUSTFIX_WEBSITE_URLS}>
-                    JustFix.nyc
+                    JustFix
                   </LocalizedOutboundLink>{" "}
                   as part of the larger tenant movement across the state.
                 </Trans>

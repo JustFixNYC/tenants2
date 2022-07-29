@@ -125,11 +125,11 @@ export const NorentAboutPage: React.FC<{}> = () => (
               NoRent.org is made by{" "}
               <OutboundLink
                 className="has-text-weight-normal"
-                href="https://www.justfix.nyc/"
+                href="https://www.justfix.org/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                JustFix.nyc
+                JustFix
               </OutboundLink>
               , a non-profit organization that co-designs and builds tools for
               tenants, housing organizers, and legal advocates fighting
@@ -139,7 +139,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
           <br />
           <OutboundLink
             className="is-size-5 has-text-weight-normal"
-            href="https://www.justfix.nyc/our-mission"
+            href="https://www.justfix.org/our-mission"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -159,7 +159,7 @@ export const NorentAboutPage: React.FC<{}> = () => (
           <br />
           <p className="subtitle is-size-5">
             <Trans>
-              NoRent.org is a collaboration between JustFix.nyc and legal
+              NoRent.org is a collaboration between JustFix and legal
               organizations and housing rights non-profits across the nation.
             </Trans>
           </p>

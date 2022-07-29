@@ -448,7 +448,7 @@ class NorentCreateAccount(BaseCreateAccount):
     def perform_post_onboarding(cls, form, request: HttpRequest, user: JustfixUser):
         user.send_sms_async(
             _(
-                "Welcome to %(site_name)s, a product by JustFix.nyc. "
+                "Welcome to %(site_name)s, a product by JustFix. "
                 "We'll be sending you notifications from this phone number."
             )
             % {"site_name": site_util.get_site_name("NORENT")}

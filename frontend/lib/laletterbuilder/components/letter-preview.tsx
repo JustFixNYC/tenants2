@@ -12,6 +12,7 @@ import {
 } from "../../ui/cross-language";
 import { OutboundLink } from "../../ui/outbound-link";
 import Page from "../../ui/page";
+import ResponsiveElement from "./responsive-element";
 
 const Microcopy: React.FC<{ children: React.ReactNode }> = (props) => (
   <p className="is-uppercase is-size-7">{props.children}</p>
@@ -45,12 +46,12 @@ const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
   const LetterTranslation = props.letterTranslation;
   return (
     <Page title={li18n._(t`Review your letter`)}>
-      <h1>
+      <ResponsiveElement desktop="h3" touch="h1">
         <Trans>Review your letter</Trans>
-      </h1>
-      <h3 className="mt-5">
+      </ResponsiveElement>
+      <ResponsiveElement className="mt-5" desktop="h4" touch="h3">
         <Trans>Make sure all the information is correct.</Trans>
-      </h3>
+      </ResponsiveElement>
       <p className="mt-5 mb-5">
         <OutboundLink href={props.letterContent.pdf} target="_blank">
           <Trans>View as PDF (recommended)</Trans>

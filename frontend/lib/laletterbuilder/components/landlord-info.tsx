@@ -21,6 +21,7 @@ import {
 import { exactSubsetOrDefault } from "../../util/util";
 import { Accordion } from "../../ui/accordion";
 import { OutboundLink } from "../../ui/outbound-link";
+import ResponsiveElement from "./responsive-element";
 
 export const LaLetterBuilderLandlordNameAddress = MiddleProgressStep(
   (props) => (
@@ -30,10 +31,10 @@ export const LaLetterBuilderLandlordNameAddress = MiddleProgressStep(
         LaLetterBuilderRouteInfo.locale.habitability.landlordAddressConfirmModal
       }
     >
-      <h3 className="mt-3 mb-9">
+      <ResponsiveElement className="mt-3 mb-9" desktop="h4" touch="h3">
         This is whoever you send rent to. We'll send your letter directly to
         them.
-      </h3>
+      </ResponsiveElement>
     </LandlordNameAddress>
   )
 );
@@ -45,9 +46,9 @@ const LandlordNameAddress: React.FC<
   }
 > = (props) => (
   <Page title={li18n._(t`Who is your landlord or property manager?`)}>
-    <h1>
+    <ResponsiveElement desktop="h3" touch="h1">
       <Trans>Who is your landlord or property manager?</Trans>
-    </h1>
+    </ResponsiveElement>
     <NameAddressForm {...props} />
   </Page>
 );

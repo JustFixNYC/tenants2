@@ -25,6 +25,7 @@ import { twoTuple } from "../../util/util";
 import { EmailPreview } from "../components/letter-preview";
 import { HabitabilityLetterEmailToLandlordForUser } from "./habitability/habitability-letter-content";
 import { TagInfo } from "./choose-letter";
+import ResponsiveElement from "../components/responsive-element";
 
 interface MailChoiceInfo {
   title: string;
@@ -77,9 +78,9 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
 
   return (
     <Page title={li18n._(t`How do you want to send your letter?`)}>
-      <h1 className="mb-9">
+      <ResponsiveElement className="mb-9" desktop="h3" touch="h1">
         <Trans>How do you want to send your letter?</Trans>
-      </h1>
+      </ResponsiveElement>
       <SessionUpdatingFormSubmitter
         mutation={LaLetterBuilderSendOptionsMutation}
         initialState={(s) => ({
@@ -100,7 +101,9 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
         {(ctx) => {
           return (
             <>
-              <h3 className="mb-5">Select a mailing method</h3>
+              <ResponsiveElement className="mb-5" desktop="h4" touch="h3">
+                Select a mailing method
+              </ResponsiveElement>
               <RadiosFormField
                 {...ctx.fieldPropsFor("mailChoice")}
                 choices={mailChoiceTuples}
@@ -108,9 +111,9 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
                 labelClassName=""
                 hideVisibleLabel={true}
               />
-              <h3 className="mt-10">
+              <ResponsiveElement className="mt-10" desktop="h4" touch="h3">
                 <Trans>Email a copy to your landlord or property manager</Trans>
-              </h3>
+              </ResponsiveElement>
               {session.landlordDetails?.email && (
                 <div className="jf-laletterbuilder-landlord-email mb-5 mt-5">
                   <span>
@@ -198,7 +201,9 @@ export const ConfirmModal: React.FC<{
       >
         {(ctx) => (
           <div className="jf-laletterbuilder-send-options-modal">
-            <h1>{title}</h1>
+            <ResponsiveElement desktop="h3" touch="h1">
+              {title}
+            </ResponsiveElement>
             {userWillMail ? (
               <>
                 <p>

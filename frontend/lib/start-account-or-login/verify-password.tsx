@@ -99,18 +99,12 @@ export const VerifyPassword: React.FC<StartAccountOrLoginProps> = ({
       >
         {(ctx) => (
           <>
-            {session.lastQueriedPhoneNumber ? (
-              <HiddenFormField {...ctx.fieldPropsFor("phoneNumber")} />
-            ) : (
-              <>
-                <br />
-                <PhoneNumberFormField
-                  {...ctx.fieldPropsFor("phoneNumber")}
-                  label={li18n._(t`Phone number`)}
-                />
-              </>
-            )}
-
+            <br />
+            <PhoneNumberFormField
+              {...ctx.fieldPropsFor("phoneNumber")}
+              label={li18n._(t`Phone number`)}
+              isDisabled={!!session.lastQueriedPhoneNumber}
+            />
             <TextualFormField
               label={li18n._(t`Password`)}
               type="password"

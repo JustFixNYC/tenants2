@@ -5,20 +5,21 @@ import { ProgressButtonsAsLinks } from "../../ui/buttons";
 import { OutboundLink } from "../../ui/outbound-link";
 import Page from "../../ui/page";
 import { LaLetterBuilderOnboardingStep } from "../letter-builder/step-decorators";
+import ResponsiveElement from "./responsive-element";
 
 export const LaLetterBuilderReviewRights = LaLetterBuilderOnboardingStep(
   (props) => {
     return (
       <Page title={li18n._(t`Review your rights as a tenant`)}>
-        <h1 className="mb-8">
+        <ResponsiveElement className="mb-8" desktop="h3" touch="h1">
           <Trans>Review your rights as a tenant</Trans>
-        </h1>
-        <h3 className="mb-7">
+        </ResponsiveElement>
+        <ResponsiveElement className="mb-7" desktop="h4" touch="h3">
           <Trans id="laletterbuilder.reviewTenantRightsIntro">
             Tenants have a right to a safe home, without harassment. Sending a
             letter to notify your landlord is within your rights.
           </Trans>
-        </h3>
+        </ResponsiveElement>
         <div className="content">
           <Trans id="laletterbuilder.retaliationInfo">
             <p>

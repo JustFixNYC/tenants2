@@ -159,7 +159,8 @@ $body-color: $justfix-black;
 
   .title.is-2,
   h2 {
-    @include desktop-h2();
+    // LALOC uses mobile H2 styles on desktop
+    @include mobile-h2();
   }
 
   .title.is-3,

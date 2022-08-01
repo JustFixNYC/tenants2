@@ -16,6 +16,7 @@ import { SessionUpdatingFormSubmitter } from "../../forms/session-updating-form-
 import { LaLetterBuilderCreateLetterMutation } from "../../queries/LaLetterBuilderCreateLetterMutation";
 import { NextButton } from "../../ui/buttons";
 import { AppContext } from "../../app-context";
+import ResponsiveElement from "../components/responsive-element";
 
 export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
   props
@@ -23,18 +24,20 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
   return (
     <Page title={li18n._(t`Select a letter to get started`)}>
       <section className="jf-laletterbuilder-section-primary">
-        <h1 className="mb-5">{li18n._(t`Select a letter to get started`)}</h1>
-        <h3 className="mb-7">
+        <ResponsiveElement className="mb-5" desktop="h3" touch="h1">
+          {li18n._(t`Select a letter to get started`)}
+        </ResponsiveElement>
+        <ResponsiveElement className="mb-7" desktop="h4" touch="h3">
           {li18n._(
             t`Use our tool to create a letter and we can mail it for free.`
           )}
-        </h3>
+        </ResponsiveElement>
         <CreateLetterCard />
       </section>
       <section className="jf-laletterbuilder-section-secondary">
-        <h3 className="mb-5">
+        <ResponsiveElement className="mb-5" desktop="h2" touch="h3">
           {li18n._(t`We're working on adding more letters.`)}
-        </h3>
+        </ResponsiveElement>
         <p className="mb-8">
           {li18n._(
             t`Until then, here are some other forms you can fill, print and mail yourself.`
@@ -145,7 +148,9 @@ const LetterCard: React.FC<LetterCardProps> = (props) => {
               ))}
             </div>
           )}
-          <h3>{props.title}</h3>
+          <ResponsiveElement desktop="h4" touch="h3">
+            {props.title}
+          </ResponsiveElement>
           <div className="jf-la-letter-time mb-5">
             <div className="jf-clock-icon">
               <StaticImage

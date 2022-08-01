@@ -13,7 +13,7 @@ describe("review your rights page", () => {
       url: LaLetterBuilderRouteInfo.locale.habitability.reviewRights, // TODO: generalize to all letter types
       session: sb.value,
     });
-    pal.rr.getByText(/Review your rights as a tenant/i);
+    pal.rr.getAllByText(/Review your rights as a tenant/i);
     pal.rr.getByText(/Back/);
     pal.rr.getByText(/Next/);
   });

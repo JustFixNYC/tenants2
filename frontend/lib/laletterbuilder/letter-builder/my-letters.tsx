@@ -25,15 +25,16 @@ import {
 } from "../../queries/globalTypes";
 import { PhoneNumber } from "../components/phone-number";
 import { CreateLetterCard } from "./choose-letter";
+import ResponsiveElement from "../components/responsive-element";
 
 export const LaLetterBuilderMyLetters: React.FC<ProgressStepProps> = (
   props
 ) => {
   return (
     <Page title={li18n._(t`My letters`)}>
-      <h1 className="mb-6">
+      <ResponsiveElement className="mb-6" desktop="h3" touch="h1">
         <Trans>My letters</Trans>
-      </h1>
+      </ResponsiveElement>
       <MyLettersContent />
     </Page>
   );
@@ -153,7 +154,7 @@ const MyLettersContent: React.FC = (props) => {
   );
 
   return (
-    <div className="jf-my-letters">
+    <div className="jf-my-letters mb-7">
       {(!!processedLetters?.length || !!sentLetters?.length) && (
         <h2 className="mb-3">
           <Trans>Completed</Trans>
@@ -164,9 +165,9 @@ const MyLettersContent: React.FC = (props) => {
           key={`processed-letter-${letter.id}`}
           id={letter.id}
         >
-          <h3 className="mb-3">
+          <ResponsiveElement className="mb-3" desktop="h4" touch="h3">
             <Trans>JustFix is preparing your letter</Trans>
-          </h3>
+          </ResponsiveElement>
           <p className="is-small">
             <Trans>
               Your tracking number will appear here once the letter has been
@@ -186,14 +187,22 @@ const MyLettersContent: React.FC = (props) => {
           <CompletedLetterCard key={`sent-letter-${letter.id}`} id={letter.id}>
             {letter.mailChoice ==
             HabitabilityLetterMailChoice.USER_WILL_MAIL ? (
-              <h3>{`${li18n._(
+              <ResponsiveElement
+                className="mb-3"
+                desktop="h4"
+                touch="h3"
+              >{`${li18n._(
                 t`You downloaded this letter on ${dateString} to print and send yourself.`
-              )}`}</h3>
+              )}`}</ResponsiveElement>
             ) : (
               <>
-                <h3>{`${li18n._(
+                <ResponsiveElement
+                  className="mb-3"
+                  desktop="h4"
+                  touch="h3"
+                >{`${li18n._(
                   t`JustFix sent your letter on`
-                )} ${dateString} `}</h3>
+                )} ${dateString} `}</ResponsiveElement>
                 <p className="jf-laletterbuilder-letter-tracking is-small">
                   <Trans>USPS tracking number:</Trans>{" "}
                   <OutboundLink
@@ -223,9 +232,9 @@ const MyLettersContent: React.FC = (props) => {
             <h2 className="mt-5 mb-3">
               <Trans>Notice to repair letter</Trans>
             </h2>
-            <h3>
+            <ResponsiveElement desktop="h4" touch="h3">
               <Trans>In progress</Trans>
-            </h3>
+            </ResponsiveElement>
             <div className="start-letter-button">
               <Link
                 to={LaLetterBuilderRouteInfo.locale.habitability.issues.prefix}
@@ -237,11 +246,11 @@ const MyLettersContent: React.FC = (props) => {
           </div>
         </>
       )}
-      <h2 className="mb-5 mt-9">
+      <h2 className="mb-3 mt-9">
         <Trans>Start a new letter</Trans>
       </h2>
       {!session.habitabilityLetters?.length && <CreateLetterCard />}
-      <p className="mt-5 mb-5">
+      <p className="mb-5">
         <Trans>
           Do you have another housing issue that you need to address?
         </Trans>

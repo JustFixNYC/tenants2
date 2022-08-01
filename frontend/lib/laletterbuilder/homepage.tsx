@@ -16,6 +16,7 @@ import { faqContent } from "./faq-content";
 import { ClickableLogo } from "./components/clickable-logo";
 import { Link } from "react-router-dom";
 import { bulmaClasses } from "../ui/bulma";
+import ResponsiveElement from "./components/responsive-element";
 
 type LaLetterBuilderImageType = "png" | "svg";
 
@@ -34,38 +35,42 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
       <section className="hero jf-laletterbuilder-landing-section-primary">
         <div className="hero-body">
           <div className="container">
-            <h1 className="mb-5">
+            <ResponsiveElement className="mb-5" desktop="h3" touch="h1">
               <Trans>
                 As a California resident, you have a right to safe housing
               </Trans>
-            </h1>
-            <h3 className="mb-7">
+            </ResponsiveElement>
+            <ResponsiveElement className="mb-7" desktop="h4" touch="h3">
               <Trans>
                 Exercise your tenant rights. Send a free letter to your landlord
                 in minutes.
               </Trans>
-            </h3>
+            </ResponsiveElement>
             {!!session.phoneNumber ? (
               <>
-                <Link
-                  className={`${bulmaClasses(
-                    "button",
-                    "is-primary",
-                    "is-large"
-                  )} mb-5`}
-                  to={LaLetterBuilderRouteInfo.locale.habitability.myLetters}
-                >
-                  <Trans>My letters</Trans>
-                </Link>
-                <Link
-                  className={`${bulmaClasses(
-                    "button",
-                    "is-large"
-                  )}  is-secondary`}
-                  to={Routes.locale.chooseLetter}
-                >
-                  <Trans>Create a new letter</Trans>
-                </Link>
+                <div>
+                  <Link
+                    className={`${bulmaClasses(
+                      "button",
+                      "is-primary",
+                      "is-large"
+                    )} mb-5`}
+                    to={LaLetterBuilderRouteInfo.locale.habitability.myLetters}
+                  >
+                    <Trans>My letters</Trans>
+                  </Link>
+                </div>
+                <div>
+                  <Link
+                    className={`${bulmaClasses(
+                      "button",
+                      "is-large"
+                    )}  is-secondary`}
+                    to={Routes.locale.chooseLetter}
+                  >
+                    <Trans>Create a new letter</Trans>
+                  </Link>
+                </div>
               </>
             ) : (
               <Link
@@ -88,13 +93,13 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
             <h2 className="mb-3">
               <Trans>Legally vetted</Trans>
             </h2>
-            <h3 className="mb-10">
+            <ResponsiveElement className="mb-10" desktop="h4" touch="h3">
               <Trans>
                 We created the [Product Name] with lawyers and non-profit tenant
                 rights organizations to ensure that your letter gives you the
                 most protections.
               </Trans>
-            </h3>
+            </ResponsiveElement>
             <div>
               <h2>
                 <Trans>Created by</Trans>
@@ -111,9 +116,9 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
               <Trans>How it works</Trans>
             </h2>
             <div className="text-section">
-              <h3 className="mb-3">
+              <ResponsiveElement className="mb-3" desktop="h4" touch="h3">
                 <Trans>Build your letter</Trans>
-              </h3>
+              </ResponsiveElement>
               <label className="mb-6">
                 <Trans>
                   Answer some basic questions about your housing situation, and
@@ -122,9 +127,9 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
               </label>
             </div>
             <div className="text-section">
-              <h3 className="mb-3">
+              <ResponsiveElement className="mb-3" desktop="h4" touch="h3">
                 <Trans>Mail for free</Trans>
-              </h3>
+              </ResponsiveElement>
               <label className="mb-6">
                 <Trans>
                   We’ll send your letter to your landlord or property manager
@@ -134,9 +139,9 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
               </label>
             </div>
             <div className="text-section">
-              <h3 className="mb-3">
+              <ResponsiveElement className="mb-3" desktop="h4" touch="h3">
                 <Trans>Next steps</Trans>
-              </h3>
+              </ResponsiveElement>
               <label>
                 <Trans>
                   We’ll explain additional actions you can take if your issue
@@ -171,9 +176,9 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
             <h2 className="mb-7">
               <Trans>Tenant rights resources</Trans>
             </h2>
-            <h3 className="mb-3">
+            <ResponsiveElement className="mb-3" desktop="h4" touch="h3">
               <Trans>Get involved in your community</Trans>
-            </h3>
+            </ResponsiveElement>
             <div className="text-section mb-10">
               <label>
                 <Trans>
@@ -187,9 +192,9 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
                 </Trans>
               </label>
             </div>
-            <h3 className="mb-3">
+            <ResponsiveElement className="mb-3" desktop="h4" touch="h3">
               <Trans>Resources</Trans>
-            </h3>
+            </ResponsiveElement>
             <p className="mb-6">
               <OutboundLink
                 href="https://www.stayhousedla.org/"

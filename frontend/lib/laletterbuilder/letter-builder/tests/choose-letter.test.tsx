@@ -22,7 +22,7 @@ describe("choose letter page", () => {
         session: sb.value,
       }
     );
-    pal.rr.getByText(/Notice to repair/i);
+    pal.rr.getAllByText(/Notice to repair/i);
   });
 
   it("redirects to phone number with logged out user", async () => {
@@ -65,7 +65,7 @@ describe("choose letter page", () => {
         }),
       });
     await pal.waitForLocation("/en/habitability/issues");
-    pal.rr.getByText(/Select the repairs/i);
+    pal.rr.getAllByText(/Select the repairs/i);
   });
 
   it("redirects to my letters with logged in user and letter in progress", async () => {
@@ -79,6 +79,6 @@ describe("choose letter page", () => {
     );
     pal.clickButtonOrLink("Start letter");
     await pal.waitForLocation("/en/habitability/my-letters");
-    await pal.rt.waitFor(() => pal.rr.getByText(/My letters/i));
+    await pal.rt.waitFor(() => pal.rr.getAllByText(/My letters/i));
   });
 });

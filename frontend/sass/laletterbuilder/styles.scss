@@ -127,6 +127,10 @@ $jf-navbar-height: 70px;
     width: 38%;
     left: 62%;
   }
+
+  @include desktop {
+    max-width: 256px;
+  }
 }
 
 // PROGRESS BAR STYLING OVERRIDES
@@ -464,8 +468,10 @@ ol.is-marginless {
     margin-top: 0;
   }
 
-  .jf-above-footer-content {
-    .content > section > * {
+  .jf-laletterbuilder-landing-section-primary,
+  .jf-laletterbuilder-landing-section-secondary,
+  .jf-laletterbuilder-landing-section-tertiary {
+    & > * {
       max-width: $laletterbuilder-desktop-max-width;
       margin-left: auto;
       margin-right: auto;

@@ -28,6 +28,7 @@ import { LaLetterBuilderIssuesMutation } from "../../../queries/LaLetterBuilderI
 import { ROUTE_PREFIX } from "../../../util/route-util";
 import { PhoneNumber } from "../../components/phone-number";
 import { OutboundLink } from "../../../ui/outbound-link";
+import ResponsiveElement from "../../components/responsive-element";
 
 function getCategory(issue: LaIssueChoice): LaIssueCategoryChoice {
   return issue.split("__")[0] as LaIssueCategoryChoice;
@@ -77,16 +78,16 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
   });
   return (
     <Page title={li18n._(t`Select the repairs you need in your home`)}>
-      <h1 className="mb-5">
+      <ResponsiveElement className="mb-5" desktop="h3" touch="h1">
         <Trans>Select the repairs you need in your home</Trans>
-      </h1>
-      <h3>
+      </ResponsiveElement>
+      <ResponsiveElement desktop="h4" touch="h3">
         <Trans>
           All you need for now are the basics. You can follow up with your
           landlord or property manager in more detail once they receive your
           letter.
         </Trans>
-      </h3>
+      </ResponsiveElement>
       <div>
         <SessionUpdatingFormSubmitter
           confirmNavIfChanged

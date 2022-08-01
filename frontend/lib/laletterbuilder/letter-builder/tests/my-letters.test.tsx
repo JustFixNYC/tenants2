@@ -60,7 +60,7 @@ describe("my letters page", () => {
         }),
       });
     await pal.waitForLocation("/en/habitability/issues");
-    pal.rr.getByText(/Select the repairs/i);
+    pal.rr.getAllByText(/Select the repairs/i);
   });
 
   it("goes to issues step with letter in progress", async () => {
@@ -71,7 +71,7 @@ describe("my letters page", () => {
     });
     pal.clickButtonOrLink("View letter");
     await pal.waitForLocation("/en/habitability/issues");
-    pal.rr.getByText(/Select the repairs/i);
+    pal.rr.getAllByText(/Select the repairs/i);
   });
 
   it("loads with a mailed letter", () => {

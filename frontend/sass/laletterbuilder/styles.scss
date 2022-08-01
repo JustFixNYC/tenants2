@@ -102,6 +102,10 @@ $jf-navbar-height: 70px;
       font-size: 2em;
     }
   }
+
+  a:hover {
+    color: $justfix-grey-dark;
+  }
 }
 
 .jf-laletterbuilder-section-primary,
@@ -185,6 +189,10 @@ $jf-navbar-height: 70px;
         .media-right span {
           text-decoration: underline;
         }
+      }
+
+      &:hover summary {
+        color: $justfix-grey-dark;
       }
 
       .jf-checkbox {

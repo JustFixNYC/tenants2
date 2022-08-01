@@ -102,7 +102,7 @@ export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
           return (
             <>
               <ResponsiveElement className="mb-5" desktop="h4" touch="h3">
-                <Trans>Select a mailing method</Trans> 
+                <Trans>Select a mailing method</Trans>
               </ResponsiveElement>
               <RadiosFormField
                 {...ctx.fieldPropsFor("mailChoice")}

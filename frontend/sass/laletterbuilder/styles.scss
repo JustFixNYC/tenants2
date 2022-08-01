@@ -178,9 +178,8 @@ $jf-navbar-height: 70px;
       margin-bottom: 0;
 
       summary {
-        padding: 0 0 $spacing-05 0;
+        padding: 0;
         margin: 0;
-        border-bottom: 1px solid $primary;
 
         &:focus {
           outline-offset: 5px;
@@ -193,6 +192,14 @@ $jf-navbar-height: 70px;
 
       &:hover summary {
         color: $justfix-grey-dark;
+      }
+
+      &::after {
+        content: " ";
+        display: block;
+        width: 100%;
+        margin-top: 1rem;
+        border-bottom: 1px solid $primary;
       }
 
       .jf-checkbox {
@@ -226,12 +233,6 @@ $jf-navbar-height: 70px;
 
   // HOMEPAGE FAQ ACCORDION
   .jf-accordion-item details[open] {
-    border-bottom: 1px solid #242323;
-
-    summary {
-      border-bottom: none;
-    }
-
     summary + span {
       margin: 1rem 0;
       display: block;
@@ -420,6 +421,7 @@ ol.is-marginless {
 .jf-accordion-item {
   details summary {
     padding: $spacing-03;
+    margin: 0 (-$spacing-03);
 
     .media .media-right .image {
       margin-right: 0;

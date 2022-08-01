@@ -26,6 +26,7 @@ import {
 import { PhoneNumber } from "../components/phone-number";
 import { CreateLetterCard } from "./choose-letter";
 import ResponsiveElement from "../components/responsive-element";
+import { friendlyUTCDate } from "../../util/date-util";
 
 export const LaLetterBuilderMyLetters: React.FC<ProgressStepProps> = (
   props
@@ -58,10 +59,11 @@ function downloadLetterPdf(
 
 interface CompletedLetterCardProps {
   id: string;
+  dates: string[];
 }
 
 const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
-  const { id, children } = props;
+  const { id, dates, children } = props;
   return (
     <div className="jf-la-letter-card">
       <div className="p-6">
@@ -134,6 +136,11 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
             dates:
           </Trans>
         </p>
+        <ul>
+          {dates.map((date, i) => (
+            <li key={i}>{friendlyUTCDate(date)}</li>
+          ))}
+        </ul>
       </Accordion>
     </div>
   );
@@ -164,6 +171,7 @@ const MyLettersContent: React.FC = (props) => {
         <CompletedLetterCard
           key={`processed-letter-${letter.id}`}
           id={letter.id}
+          dates={session.accessDates}
         >
           <ResponsiveElement className="mb-3" desktop="h4" touch="h3">
             <Trans>JustFix is preparing your letter</Trans>
@@ -187,7 +195,11 @@ const MyLettersContent: React.FC = (props) => {
           year: "numeric",
         });
         return (
-          <CompletedLetterCard key={`sent-letter-${letter.id}`} id={letter.id}>
+          <CompletedLetterCard
+            key={`sent-letter-${letter.id}`}
+            id={letter.id}
+            dates={session.accessDates}
+          >
             {letter.mailChoice ==
             HabitabilityLetterMailChoice.USER_WILL_MAIL ? (
               <ResponsiveElement

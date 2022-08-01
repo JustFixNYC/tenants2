@@ -177,7 +177,10 @@ const MyLettersContent: React.FC = (props) => {
         </CompletedLetterCard>
       ))}
       {sentLetters?.map((letter) => {
-        const sentDate = new Date(letter.letterSentAt!);
+        const sentDate =
+          letter.mailChoice == "USER_WILL_MAIL"
+            ? new Date(letter.fullyProcessedAt!)
+            : new Date(letter.letterSentAt!);
         const dateString = sentDate.toLocaleDateString("en-US", {
           day: "numeric",
           month: "short",

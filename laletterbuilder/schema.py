@@ -174,7 +174,7 @@ class LaLetterBuilderSendLetter(SessionFormMutation):
 
         # Send the letter
         letter = models.HabitabilityLetter.objects.get(
-            user=request.user, letter_sent_at=None, letter_emailed_at=None
+            user=request.user, letter_sent_at=None, letter_emailed_at=None, fully_processed_at=None
         )
         letter_sending.send_letter(letter)
 
@@ -203,7 +203,7 @@ class LaLetterBuilderIssues(SessionFormMutation):
             # Get most recent unsent letter. This relies on there
             # only being one unsent habitability letter at a time.
             letters = models.HabitabilityLetter.objects.filter(
-                user=user, letter_sent_at=None, letter_emailed_at=None
+                user=user, letter_sent_at=None, letter_emailed_at=None, fully_processed_at=None
             )
             if not letters:
                 cls.log(info, f"Could not find an unsent habitability letter for user {user}")
@@ -247,7 +247,7 @@ class LaLetterBuilderSendOptions(SessionFormMutation):
         with transaction.atomic():
             user = info.context.user
             letters = models.HabitabilityLetter.objects.filter(
-                user=user, letter_sent_at=None, letter_emailed_at=None
+                user=user, letter_sent_at=None, letter_emailed_at=None, fully_processed_at=None
             )
             if not letters:
                 cls.log(info, f"Could not find an unsent habitability letter for user {user}")
@@ -365,7 +365,7 @@ class LaLetterBuilderSessionInfo:
             return []
 
         letters = models.HabitabilityLetter.objects.filter(
-            user=user, letter_sent_at=None, letter_emailed_at=None
+            user=user, letter_sent_at=None, letter_emailed_at=None, fully_processed_at=None
         )  # TODO: save this in the session instead of fetching it every time?
         if not letters:
             return []
@@ -383,7 +383,7 @@ class LaLetterBuilderSessionInfo:
         if not request.user.is_authenticated:
             return False
         return models.HabitabilityLetter.objects.filter(
-            user=request.user, letter_sent_at=None, letter_emailed_at=None
+            user=request.user, letter_sent_at=None, letter_emailed_at=None, fully_processed_at=None
         ).exists()
 
     def resolve_habitability_latest_letter(self, info: ResolveInfo):

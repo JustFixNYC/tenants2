@@ -187,12 +187,20 @@ const MyLettersContent: React.FC = (props) => {
           <CompletedLetterCard key={`sent-letter-${letter.id}`} id={letter.id}>
             {letter.mailChoice ==
             HabitabilityLetterMailChoice.USER_WILL_MAIL ? (
-              <ResponsiveElement desktop="h4" touch="h3">{`${li18n._(
+              <ResponsiveElement
+                className="mb-3"
+                desktop="h4"
+                touch="h3"
+              >{`${li18n._(
                 t`You downloaded this letter on ${dateString} to print and send yourself.`
               )}`}</ResponsiveElement>
             ) : (
               <>
-                <ResponsiveElement desktop="h4" touch="h3">{`${li18n._(
+                <ResponsiveElement
+                  className="mb-3"
+                  desktop="h4"
+                  touch="h3"
+                >{`${li18n._(
                   t`JustFix sent your letter on`
                 )} ${dateString} `}</ResponsiveElement>
                 <p className="jf-laletterbuilder-letter-tracking is-small">

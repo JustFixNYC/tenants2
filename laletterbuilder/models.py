@@ -32,11 +32,17 @@ class Letter(LocalizedHTMLLetter):
         default=LA_MAILING_CHOICES.WE_WILL_MAIL,
     )
     email_to_landlord = models.BooleanField(
-        default=False,
+        null=True,
+        blank=True,
         help_text=(
             "Whether to email a copy of the letter to the landlord. "
             "Requires a landlord email to be provided"
         ),
+    )
+
+    pdf_base64 = models.TextField(
+        help_text="A base64 encoded string representing the English content of the letter.",
+        blank=True,
     )
 
     @abstractmethod

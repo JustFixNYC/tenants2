@@ -6,7 +6,6 @@
   ["HEALTH__MOLD__KITCHEN", "Mold"],
   ["HEALTH__MOLD__HALLWAY", "Mold"],
   ["HEALTH__MOLD__COMMON_AREAS", "Mold"],
-  ["HEALTH__MOLD__NA", "Mold"],
 
   ["HEALTH__PEELING_PAINT__BEDROOM", "Peeling paint"],
   ["HEALTH__PEELING_PAINT__LIVING_ROOM", "Peeling paint"],
@@ -15,7 +14,6 @@
   ["HEALTH__PEELING_PAINT__KITCHEN", "Peeling paint"],
   ["HEALTH__PEELING_PAINT__HALLWAY", "Peeling paint"],
   ["HEALTH__PEELING_PAINT__COMMON_AREAS", "Peeling paint"],
-  ["HEALTH__PEELING_PAINT__NA", "Peeling paint"],
 
   ["HEALTH__RODENT_INFESTATION__BEDROOM", "Rodent infestation"],
   ["HEALTH__RODENT_INFESTATION__LIVING_ROOM", "Rodent infestation"],
@@ -24,7 +22,6 @@
   ["HEALTH__RODENT_INFESTATION__KITCHEN", "Rodent infestation"],
   ["HEALTH__RODENT_INFESTATION__HALLWAY", "Rodent infestation"],
   ["HEALTH__RODENT_INFESTATION__COMMON_AREAS", "Rodent infestation"],
-  ["HEALTH__RODENT_INFESTATION__NA", "Rodent infestation"],
 
   ["HEALTH__BUG_INFESTATION__BEDROOM", "Bug infestation"],
   ["HEALTH__BUG_INFESTATION__LIVING_ROOM", "Bug infestation"],
@@ -33,7 +30,6 @@
   ["HEALTH__BUG_INFESTATION__KITCHEN", "Bug infestation"],
   ["HEALTH__BUG_INFESTATION__HALLWAY", "Bug infestation"],
   ["HEALTH__BUG_INFESTATION__COMMON_AREAS", "Bug infestation"],
-  ["HEALTH__BUG_INFESTATION__NA", "Bug infestation"],
 
   ["HEALTH__SMOKE_CO2_DETECTOR__BEDROOM", "Smoke or carbon monoxide detector"],
   [
@@ -51,7 +47,6 @@
     "HEALTH__SMOKE_CO2_DETECTOR__COMMON_AREAS",
     "Smoke or carbon monoxide detector"
   ],
-  ["HEALTH__SMOKE_CO2_DETECTOR__NA", "Smoke or carbon monoxide detector"],
 
   ["HEALTH__TRASH_CANS__BROKEN", "Trash cans"],
   ["HEALTH__TRASH_CANS__NOT_ENOUGH", "Trash cans"],
@@ -64,7 +59,6 @@
   ["UTILITIES__DEFECTIVE_ELECTRICITY__KITCHEN", "Defective electricity"],
   ["UTILITIES__DEFECTIVE_ELECTRICITY__HALLWAY", "Defective electricity"],
   ["UTILITIES__DEFECTIVE_ELECTRICITY__COMMON_AREAS", "Defective electricity"],
-  ["UTILITIES__DEFECTIVE_ELECTRICITY__NA", "Defective electricity"],
 
   ["UTILITIES__SHUT_OFF__WATER", "Utilities shut off"],
   ["UTILITIES__SHUT_OFF__GAS", "Utilities shut off"],
@@ -75,7 +69,6 @@
   ["UTILITIES__WATER_LEAK__KITCHEN", "Water leak"],
   ["UTILITIES__WATER_LEAK__LAUNDRY_ROOM", "Water leak"],
   ["UTILITIES__WATER_LEAK__COMMON_AREAS", "Water leak"],
-  ["UTILITIES__WATER_LEAK__NA", "Water leak"],
 
   ["UTILITIES__DEFECTIVE_PLUMBING__BEDROOM", "Defective plumbing"],
   ["UTILITIES__DEFECTIVE_PLUMBING__LIVING_ROOM", "Defective plumbing"],
@@ -84,13 +77,11 @@
   ["UTILITIES__DEFECTIVE_PLUMBING__KITCHEN", "Defective plumbing"],
   ["UTILITIES__DEFECTIVE_PLUMBING__HALLWAY", "Defective plumbing"],
   ["UTILITIES__DEFECTIVE_PLUMBING__COMMON_AREAS", "Defective plumbing"],
-  ["UTILITIES__DEFECTIVE_PLUMBING__NA", "Defective plumbing"],
 
   ["UTILITIES__NO_HOT_WATER__BATHROOM", "No hot water"],
   ["UTILITIES__NO_HOT_WATER__KITCHEN", "No hot water"],
   ["UTILITIES__NO_HOT_WATER__LAUNDRY_ROOM", "No hot water"],
   ["UTILITIES__NO_HOT_WATER__COMMON_AREAS", "No hot water"],
-  ["UTILITIES__NO_HOT_WATER__NA", "No hot water"],
 
   ["BUILDING_AND_SAFETY__HOLES__BEDROOM", "Holes"],
   ["BUILDING_AND_SAFETY__HOLES__LIVING_ROOM", "Holes"],
@@ -99,7 +90,6 @@
   ["BUILDING_AND_SAFETY__HOLES__KITCHEN", "Holes"],
   ["BUILDING_AND_SAFETY__HOLES__HALLWAY", "Holes"],
   ["BUILDING_AND_SAFETY__HOLES__COMMON_AREAS", "Holes"],
-  ["BUILDING_AND_SAFETY__HOLES__NA", "Holes"],
 
   ["BUILDING_AND_SAFETY__BROKEN_WINDOWS__BEDROOM", "Broken/defective windows"],
   [
@@ -117,7 +107,6 @@
     "BUILDING_AND_SAFETY__BROKEN_WINDOWS__COMMON_AREAS",
     "Broken/defective windows"
   ],
-  ["BUILDING_AND_SAFETY__BROKEN_WINDOWS__NA", "Broken/defective windows"],
 
   ["BUILDING_AND_SAFETY__INSECURE_LOCKS__FRONT_DOOR", "Broken/insecure locks"],
   ["BUILDING_AND_SAFETY__INSECURE_LOCKS__BACK_DOOR", "Broken/insecure locks"],
@@ -129,7 +118,6 @@
     "BUILDING_AND_SAFETY__INSECURE_LOCKS__BUILDING_PARKING_ENTRANCE",
     "Broken/insecure locks"
   ],
-  ["BUILDING_AND_SAFETY__INSECURE_LOCKS__NA", "Broken/insecure locks"],
 
   ["BUILDING_AND_SAFETY__FAULTY_DOORS__FRONT_DOOR", "Faulty doors"],
   ["BUILDING_AND_SAFETY__FAULTY_DOORS__BACK_DOOR", "Faulty doors"],
@@ -138,7 +126,6 @@
     "BUILDING_AND_SAFETY__FAULTY_DOORS__BUILDING_PARKING_ENTRANCE",
     "Faulty doors"
   ],
-  ["BUILDING_AND_SAFETY__FAULTY_DOORS__NA", "Faulty doors"],
 
   [
     "BUILDING_AND_SAFETY__UNSAFE_STAIRS__BUILDING_MAIN_ENTRANCE",

@@ -1,3 +1,4 @@
+import base64
 from project.util.demo_deployment import is_not_demo_deployment
 from project.util.letter_sending import (
     render_multilingual_letter,
@@ -35,7 +36,7 @@ LALETTERBUILDER_EMAIL_TO_LANDLORD_URL = "letter-email.txt"
 LALETTERBUILDER_EMAIL_TO_USER_URL = "letter-email-to-user.html"
 
 # Set to true when we are ready to test LOB letter sending
-LETTER_SENDING_ENABLED = True
+LETTER_SENDING_ENABLED = False
 
 logger = logging.getLogger(__name__)
 
@@ -131,6 +132,11 @@ def send_letter(letter: models.Letter):
             user=user,
         ).html
 
+    with transaction.atomic():
+        letter.html_content = html_content
+        letter.localized_html_content = localized_html_content
+        letter.save()
+
     pdf_bytes = render_multilingual_letter(letter)
     letter_type = letter.get_letter_type()  # TODO: localize this somewhere
     ld = user.landlord_details
@@ -159,8 +165,7 @@ def send_letter(letter: models.Letter):
     )
 
     with transaction.atomic():
-        letter.html_content = html_content
-        letter.localized_html_content = localized_html_content
+        letter.pdf_base64 = base64.b64encode(pdf_bytes).decode("utf-8")
         letter.fully_processed_at = timezone.now()
         letter.full_clean()
         letter.save()

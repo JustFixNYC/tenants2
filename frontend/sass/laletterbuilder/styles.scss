@@ -6,17 +6,16 @@
 // NoRent at the time of this writing.)
 $laletterbuilder-root: "../laletterbuilder";
 
-$jf-body-family: "Degular", Arial, Helvetica, sans-serif;
-$jf-title-family: "Degular Display", Arial, Helvetica, sans-serif;
-$jf-alt-title-family: "Suisse Int'l Mono", "Courier New", Courier, monospace;
-
 $laletterbuilder-desktop-max-width: 40.875rem;
 
 @import "./_spacing.scss";
-
-@import "../_util.scss";
 @import "./_bulma-overrides.scss";
 @import "../../../node_modules/bulma/bulma.sass";
+@import "./_custom.scss";
+
+@import "./_fonts.scss";
+
+@import "../_util.scss";
 @import "../../../node_modules/bulma-divider/dist/css/bulma-divider.sass";
 @import "../_supertiny.scss";
 @import "../_a11y.scss";
@@ -41,8 +40,7 @@ $laletterbuilder-desktop-max-width: 40.875rem;
 @import "../_email.scss";
 @import "../_accordion.scss";
 @import "../_issues.scss";
-
-@import "./_fonts.scss";
+@import "./_tag-overrides.scss";
 
 // These variables define the background and content colors for the nav-bar
 $jf-navbar-background: $primary;
@@ -61,51 +59,6 @@ $jf-navbar-height: 70px;
 // SITE-WIDE STYLE DEFAULTS
 .jf-site-laletterbuilder {
   background-color: $secondary;
-  font-family: $jf-body-family;
-  // DEFAULT BODY FONT SPECS:
-  font-size: 1.2rem;
-  line-height: 1.44rem;
-  letter-spacing: 0.01rem;
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: $jf-title-family;
-  }
-
-  h1,
-  h1.title,
-  .content h1.title {
-    font-size: 2.25rem;
-    line-height: 2.25rem;
-    letter-spacing: 0.03rem;
-  }
-
-  h2 {
-    font-size: 1.8rem;
-    line-height: 1.8rem;
-  }
-
-  p,
-  .subtitle {
-    font-size: 1.5rem;
-    line-height: 1.75rem;
-
-    &.is-size-6,
-    &.is-6 {
-      line-height: 1rem;
-      font-size: 1rem;
-    }
-
-    &.is-size-7,
-    &.is-7 {
-      line-height: 0.875rem;
-      font-size: 0.875rem;
-    }
-  }
 
   .jf-laletterbuilder-section-primary,
   .jf-laletterbuilder-landing-section-primary {
@@ -117,12 +70,6 @@ $jf-navbar-height: 70px;
     background-color: $secondary-accent;
     figure {
       margin: 0rem;
-    }
-    .text-section {
-      margin-top: $spacing-05;
-    }
-    .text-section:last-of-type {
-      margin-bottom: $spacing-07;
     }
   }
 
@@ -138,8 +85,21 @@ $jf-navbar-height: 70px;
     .text-section {
       margin-top: $spacing-07;
     }
-    .text-section:last-of-type {
-      margin-bottom: $spacing-07;
+  }
+
+  .hero-body {
+    padding: $spacing-10 $spacing-06;
+  }
+
+  .has-background-dark {
+    .content a:not(.button):hover {
+      color: $justfix-grey-400;
+    }
+  }
+
+  .modal-content {
+    .content h1.title {
+      font-size: 2em;
     }
   }
 }
@@ -149,18 +109,30 @@ $jf-navbar-height: 70px;
   padding: $spacing-07 $spacing-06;
 }
 
-.jf-laletterbuilder-logo {
-  font-weight: 600;
-  font-family: $jf-title-family;
-  letter-spacing: 0;
+.jf-laletterbuilder-combined-logo {
+  position: relative;
+
+  a {
+    position: absolute;
+    height: 100%;
+    display: block;
+    z-index: 1;
+  }
+
+  a:nth-child(1) {
+    width: 62%;
+  }
+
+  a:nth-child(2) {
+    width: 38%;
+    left: 62%;
+  }
 }
 
 // PROGRESS BAR STYLING OVERRIDES
 .jf-progress-title-wrapper {
   .jf-page-steps-title.title {
-    font-size: 1.125rem;
-    font-family: $jf-body-family;
-    font-weight: 400;
+    @include body-standard();
     margin-bottom: $spacing-03;
 
     // Ooof! We unfortunately need to override some rules marked as "important"
@@ -198,7 +170,6 @@ $jf-navbar-height: 70px;
       margin-bottom: 0;
 
       summary {
-        font-size: 1.125rem;
         padding: 0 0 $spacing-05 0;
         margin: 0;
         border-bottom: 1px solid $primary;
@@ -207,15 +178,8 @@ $jf-navbar-height: 70px;
           outline-offset: 5px;
         }
 
-        // Fix bug where scrollbars appear on accordion titles
-        .media-content {
-          overflow-x: unset;
-        }
-
         .media-right span {
           text-decoration: underline;
-          font-size: 0.875rem;
-          font-family: $jf-alt-title-family;
         }
       }
 
@@ -235,7 +199,6 @@ $jf-navbar-height: 70px;
 
         .jf-label-text {
           margin: $spacing-02 $spacing-03 $spacing-02 0;
-          font-size: 0.875rem;
           height: 0.8rem;
           padding: $spacing-05;
           z-index: 5;
@@ -250,7 +213,7 @@ $jf-navbar-height: 70px;
   }
 
   // HOMEPAGE FAQ ACCORDION
-  .jf-laletterbuilder-faq-accordion[open] {
+  .jf-accordion-item details[open] {
     border-bottom: 1px solid #242323;
 
     summary {
@@ -261,60 +224,44 @@ $jf-navbar-height: 70px;
       margin: 1rem 0;
       display: block;
     }
+
+    .control {
+      padding-bottom: $spacing-07;
+    }
   }
+}
+
+.jf-laletterbuilder-issue-category {
+  border-bottom: 1px solid $primary;
+}
+
+// Fix bug where scrollbars appear on accordion titles
+.jf-accordion-item summary .media-content {
+  overflow-x: unset;
 }
 
 // CHOOSE LETTER STYLING OVERRIDES
 
 .jf-la-letter-card {
-  border: 0.063rem solid $new-justfix-black;
+  border: 0.063rem solid $primary;
   box-sizing: border-box;
   border-radius: 0.25rem;
   margin-left: auto;
   margin-right: auto;
-  margin-top: $spacing-09;
   max-width: $laletterbuilder-desktop-max-width;
 
-  .content {
-    padding: $spacing-06 $spacing-06 0 $spacing-06;
-    margin-bottom: 0rem;
+  + .jf-la-letter-card {
+    margin-top: $spacing-05;
+  }
 
-    h2 {
-      font-family: $jf-body-family;
-      font-weight: 400;
-      font-size: 1.8rem;
-      line-height: 1.8rem;
-    }
-
-    .jf-card-text {
-      font-style: normal;
-      font-weight: 400;
-      font-size: 1.125rem;
-      line-height: 100%;
-    }
-
-    .jf-card-button {
-      margin-top: $spacing-07;
-      margin-bottom: $spacing-07;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .jf-la-letter-time {
-      margin: 0;
-
-      .jf-clock-icon {
-        float: left;
-
-        .image {
-          margin: $spacing-02;
-        }
-      }
-    }
+  .jf-clock-icon {
+    float: left;
+    margin-top: 0.4rem;
+    margin-right: $spacing-02;
   }
 
   hr {
-    margin: 1rem 0px 1rem 0px;
+    margin: $spacing-05 0px $spacing-03 0px;
     background-color: black;
     color: black;
     height: 0.063rem;
@@ -322,25 +269,35 @@ $jf-navbar-height: 70px;
 
   // Other places, we want the tap target to spill over the sides of the item. Not here.
   .jf-accordion-item {
-    margin: 0rem;
+    margin: 0 $spacing-05 $spacing-05;
 
     details {
       // Since this accordion is contained within another object, we don't need extra space at the bottom.
       margin-bottom: 0;
+    }
+  }
 
-      summary {
-        // Fix bug where scrollbars appear on accordion titles
-        .media-content {
-          overflow-x: unset;
-        }
-      }
+  .button {
+    figure {
+      display: inline-block;
+      margin-left: $spacing-03;
+    }
+  }
+
+  ul > li {
+    margin-left: $spacing-05;
+
+    &::before {
+      content: "▪";
+      margin: 0 $spacing-03 0 (-$spacing-05);
     }
   }
 }
 
-// FOOTER STYLING OVERRIDES
-.jf-laletterbuilder-footer-logo {
-  margin: $spacing-03 0;
+.jf-la-letter-card-tags {
+  > span:first-child {
+    margin-left: 0;
+  }
 }
 
 // MY LETTERS STYLING OVERRIDES
@@ -365,6 +322,15 @@ $jf-navbar-height: 70px;
     margin-left: auto;
     margin-right: auto;
   }
+
+  .jf-laletterbuilder-letter-tracking {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  figure {
+    margin: 0;
+  }
 }
 
 // SEND OPTIONS STYLING
@@ -377,27 +343,8 @@ $jf-navbar-height: 70px;
   }
 }
 
-.jf-laletterbuilder-mailchoice-title {
-  font-size: 18px;
-  font-weight: 400;
-}
-
-.jf-laletterbuilder-mailchoice-tags > span {
-  display: inline-block;
-  border-radius: 12px;
-  padding: $spacing-02 $spacing-03;
-  margin-right: $spacing-04;
-
-  &:nth-child(1) {
-    background-color: $new-justfix-yellow;
-  }
-  &:nth-child(2) {
-    background-color: $new-justfix-pink;
-  }
-}
-
 .jf-laletterbuilder-landlord-email {
-  background-color: $new-justfix-light-grey-accent;
+  background-color: $secondary-accent;
   padding: $spacing-05;
   margin-bottom: $spacing-05;
   border-radius: 4px;
@@ -406,6 +353,31 @@ $jf-navbar-height: 70px;
 .jf-laletterbuilder-landlord-email > span + span {
   display: block;
   margin-top: $spacing-05;
+}
+
+.jf-laletterbuilder-send-options-modal {
+  p > span {
+    display: block;
+
+    &:not(:first-child) {
+      font-style: italic;
+    }
+  }
+}
+
+// ACCOUNT SETTINGS STYLE OVERRIDES
+
+.jf-account-settings-h2 {
+  padding-bottom: $spacing-03;
+  border-bottom: 1px solid $justfix-black;
+}
+
+.jf-account-settings-h3 {
+  margin-top: $spacing-07;
+}
+
+.button + .jf-account-settings-h2 {
+  margin-top: $spacing-12;
 }
 
 // NORENT STYLING OVERRIDES
@@ -433,17 +405,27 @@ ol.is-marginless {
   padding-left: $spacing-05;
 }
 
-.jf-accordion-item img {
-  // Our default chevron icon on accordion dropdowns is blue
-  // Let's make the color match up with the scheme of this site
-  filter: grayscale(100%) brightness(0.1);
+.jf-accordion-item {
+  details summary {
+    padding: $spacing-03;
+
+    .media .media-right .image {
+      margin-right: 0;
+    }
+  }
+
+  img {
+    // Our default chevron icon on accordion dropdowns is blue
+    // Let's make the color match up with the scheme of this site
+    filter: grayscale(100%) brightness(0.1);
+  }
 }
 
 .box {
   color: $primary;
 }
 
-.content .jf-letter-preview {
+.jf-letter-preview {
   box-shadow: none;
   border: 1px solid $primary;
 }
@@ -474,6 +456,10 @@ ol.is-marginless {
 
 // DESKTOP STYLE OVERRIDES
 @media screen and (min-width: $tablet) {
+  .container {
+    width: unset;
+  }
+
   .jf-laletterbuilder-footer-logo {
     margin-top: 0;
   }

@@ -8,8 +8,8 @@ import { li18n } from "../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 
 export const DEFAULT_PRIVACY_POLICY_URL =
-  "https://www.justfix.nyc/privacy-policy";
-export const DEFAULT_TERMS_OF_USE_URL = "https://www.justfix.nyc/terms-of-use";
+  "https://www.justfix.org/privacy-policy";
+export const DEFAULT_TERMS_OF_USE_URL = "https://www.justfix.org/terms-of-use";
 
 function getURLforSite(baseURL: string, site: SiteChoice): string {
   switch (site) {
@@ -56,14 +56,14 @@ export const TermsOfUseLink: React.FC<{ text?: string }> = ({ text }) => (
 export function PrivacyInfoModal(props: {}): JSX.Element {
   return (
     <Modal
-      title={li18n._(t`Your privacy is very important to us!`)}
+      title={li18n._(t`Your privacy is very important to us`)}
       onCloseGoTo={BackOrUpOneDirLevel}
       render={(ctx) => (
         <>
           <div className="jf-is-scrollable-if-too-tall">
-            <Trans id="justfix.privacyInfoModalText">
+            <Trans id="justfix.privacyInfoModalTextV2">
               <h5>
-                Your privacy is very important to us! Here are some important
+                Your privacy is very important to us. Here are some important
                 things to know:
               </h5>
               <ul>
@@ -93,7 +93,7 @@ export function PrivacyInfoModal(props: {}): JSX.Element {
               className="button is-primary is-medium"
               {...ctx.getLinkCloseProps()}
             >
-              <Trans>Got it!</Trans>
+              <Trans>Got it</Trans>
             </Link>
           </div>
         </>

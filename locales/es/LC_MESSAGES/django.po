@@ -114,9 +114,10 @@ msgid "Your address appears to be within New York City. Please go back and enter
 msgstr "Tu dirección parece estar dentro de la ciudad de Nueva York. Por favor, vuelve atrás para introducir \"New York City\" como tu ciudad."
 
 #: norent/schema.py:451
-#, python-format
+#, fuzzy, python-format
+#| msgid "Welcome to %(site_name)s, a product by JustFix. We'll be sending you notifications from this phone number."
 msgid "Welcome to %(site_name)s, a product by JustFix. We'll be sending you notifications from this phone number."
-msgstr ""
+msgstr "Bienvenido/a %(site_name)s, un producto de JustFix. Te enviaremos notificaciones desde este número de teléfono."
 
 #: norent/sms_reminders.py:26
 #, python-format

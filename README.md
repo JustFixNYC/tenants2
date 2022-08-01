@@ -2,7 +2,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/de475123649c132f858b/maintainability)](https://codeclimate.com/github/JustFixNYC/tenants2/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/de475123649c132f858b/test_coverage)](https://codeclimate.com/github/JustFixNYC/tenants2/test_coverage)
 
-This is the JustFix.nyc Tenant Platform.
+This is the JustFix Tenant Platform.
 
 In addition to this README, please feel free to consult the
 [project wiki][], which contains details on the project's

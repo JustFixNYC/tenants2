@@ -100,11 +100,11 @@ export const LaLetterBuilderAboutPage: React.FC<{}> = () => (
               LaLetterBuilder is made by{" "}
               <OutboundLink
                 className="has-text-weight-normal"
-                href="https://www.justfix.nyc/"
+                href="https://www.justfix.org/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                JustFix.nyc
+                JustFix
               </OutboundLink>
               , a non-profit organization that co-designs and builds tools for
               tenants, housing organizers, and legal advocates fighting
@@ -114,7 +114,7 @@ export const LaLetterBuilderAboutPage: React.FC<{}> = () => (
           <br />
           <OutboundLink
             className="is-size-5 has-text-weight-normal"
-            href="https://www.justfix.nyc/our-mission"
+            href="https://www.justfix.org/our-mission"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -134,7 +134,7 @@ export const LaLetterBuilderAboutPage: React.FC<{}> = () => (
           <br />
           <p className="subtitle is-size-5">
             <Trans>
-              LaLetterBuilder is a collaboration between JustFix.nyc and legal
+              LaLetterBuilder is a collaboration between JustFix and legal
               organizations and housing rights non-profits in Los Angeles.
             </Trans>
           </p>

@@ -26,6 +26,8 @@ import { SessionUpdatingFormSubmitter } from "../../../forms/session-updating-fo
 import { AllSessionInfo } from "../../../queries/AllSessionInfo";
 import { LaLetterBuilderIssuesMutation } from "../../../queries/LaLetterBuilderIssuesMutation";
 import { ROUTE_PREFIX } from "../../../util/route-util";
+import { PhoneNumber } from "../../components/phone-number";
+import { OutboundLink } from "../../../ui/outbound-link";
 
 function getCategory(issue: LaIssueChoice): LaIssueCategoryChoice {
   return issue.split("__")[0] as LaIssueCategoryChoice;
@@ -74,17 +76,17 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
     laIssues: session.laIssues as LaIssueChoice[],
   });
   return (
-    <Page
-      title={li18n._(t`Select the repairs you need in your home`)}
-      withHeading
-    >
-      <p>
+    <Page title={li18n._(t`Select the repairs you need in your home`)}>
+      <h1 className="mb-5">
+        <Trans>Select the repairs you need in your home</Trans>
+      </h1>
+      <h3>
         <Trans>
           All you need for now are the basics. You can follow up with your
           landlord or property manager in more detail once they receive your
           letter.
         </Trans>
-      </p>
+      </h3>
       <div>
         <SessionUpdatingFormSubmitter
           confirmNavIfChanged
@@ -96,27 +98,82 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
             <>
               {toDjangoChoices(LaIssueCategoryChoices, labels).map(
                 ([category, categoryLabel], i) => (
-                  <div className="jf-accordion-list-large" key={i}>
-                    <p>{categoryLabel}</p>
+                  <div className="jf-accordion-list-large mt-11" key={i}>
+                    <h2 className="jf-laletterbuilder-issue-category pb-4 mb-5">
+                      {categoryLabel}
+                    </h2>
                     {laIssueChoicesForCategory(category).map(
-                      ([issue, issueLabel], i) => (
-                        <Accordion
-                          question={issueLabel}
-                          key={i}
-                          questionClassName="has-text-primary"
-                        >
-                          <MultiCheckboxFormField
-                            {...ctx.fieldPropsFor("laIssues")}
-                            label={""}
-                            choices={laRoomChoicesForIssue(getIssue(issue))}
-                          />
-                        </Accordion>
-                      )
+                      ([issue, issueLabel], i) => {
+                        const selectedIssues = ctx.fieldPropsFor("laIssues")
+                          .value;
+                        const choices = laRoomChoicesForIssue(getIssue(issue));
+                        const count = choices.reduce(
+                          (prev, current) =>
+                            prev +
+                            (selectedIssues.indexOf(current[0]) >= 0 ? 1 : 0),
+                          0
+                        );
+                        const question = (
+                          <>
+                            <span>{issueLabel}</span>
+                            {!!count && (
+                              <span className="tag is-black">{`${count} selected`}</span>
+                            )}
+                          </>
+                        );
+                        return (
+                          <Accordion
+                            question={question}
+                            key={i}
+                            questionClassName=""
+                          >
+                            <MultiCheckboxFormField
+                              {...ctx.fieldPropsFor("laIssues")}
+                              label={""}
+                              choices={choices}
+                            />
+                          </Accordion>
+                        );
+                      }
                     )}
-                    <br />
                   </div>
                 )
               )}
+              <h2 className="mt-11">
+                <Trans>Common questions</Trans>
+              </h2>
+              <Accordion
+                question={li18n._(t`What if a repair I need is not listed?`)}
+                extraClassName=""
+                questionClassName=""
+              >
+                <div className="content">
+                  <Trans id="laletterbuilder.issues.repairNotListed">
+                    The Notice to Repair letter will formally document your
+                    request for repairs. Once you arrange access dates that work
+                    for everyone, you can inform the landlord or property
+                    manager about any other repairs you need.
+                  </Trans>
+                </div>
+              </Accordion>
+              <Accordion
+                question={li18n._(
+                  t`Where can I add more details about the issues in my home?`
+                )}
+                extraClassName=""
+                questionClassName=""
+              >
+                <div className="content">
+                  <Trans id="laletterbuilder.issues.addRepairDetails">
+                    You can share more details with your landlord if they
+                    respond, or with{" "}
+                    <OutboundLink href="https://housing.lacity.org/residents/file-a-complaint">
+                      LAHD
+                    </OutboundLink>{" "}
+                    at <PhoneNumber number="(866) 557-7368" />.
+                  </Trans>
+                </div>
+              </Accordion>
               <br />
               <ProgressButtons isLoading={ctx.isLoading} back={props.toBack} />
             </>

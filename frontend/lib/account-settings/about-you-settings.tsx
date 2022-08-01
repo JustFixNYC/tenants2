@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import React from "react";
 import { useContext } from "react";
 import { AppContext } from "../app-context";
@@ -15,14 +15,16 @@ const PreferredNameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   const { session } = useContext(AppContext);
   const sec = makeAccountSettingsSection(
     routes,
-    "Preferred First Name (optional)",
+    "Preferred first name (optional)",
     "preferredName"
   );
 
   return (
     <>
       {sec.heading}
-      <p>The name you'd like people to call you by.</p>
+      <p>
+        <Trans>The name you'd like to be called.</Trans>
+      </p>
       <EditableInfo
         {...sec}
         readonlyContent={session.preferredFirstName || ""}
@@ -53,12 +55,16 @@ const PreferredNameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
 
 const LegalNameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   const { session } = useContext(AppContext);
-  const sec = makeAccountSettingsSection(routes, "Legal Name", "legalname");
+  const sec = makeAccountSettingsSection(routes, "Legal name", "legalname");
 
   return (
     <>
       {sec.heading}
-      <p>This will be used in letters to your landlord or court documents.</p>
+      <p>
+        <Trans>
+          The name used in letters to your landlord and legal documents
+        </Trans>
+      </p>
       <EditableInfo
         {...sec}
         readonlyContent={`${session.firstName} ${session.lastName}`}

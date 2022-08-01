@@ -1,29 +1,33 @@
 // Fallbacks taken from:
 // http://melchoyce.github.io/fontstacks/examples/open-sans.html
 
-// FONTS:
-$family-sans-serif: $jf-body-family;
-
 // COLORS:
-$new-justfix-green: #19a551;
-$new-justfix-pink: #ffa0c7;
-$new-justfix-yellow: #ffba33;
-$new-justfix-orange: #ff8139;
-$new-justfix-blue: #5188fe;
-$new-justfix-black: #242323;
-$new-justfix-light-grey: #faf8f4;
-$new-justfix-light-grey-accent: #efe9dc;
-$justfix-grey: #d4d5d0;
+$justfix-black: #242323;
+$justfix-white: #faf8f4;
+$justfix-grey-dark: #676565;
+$justfix-grey-light: #d4d5d0;
 
-$primary: $new-justfix-black;
-$secondary: $new-justfix-light-grey;
-$secondary-accent: $new-justfix-light-grey-accent; // A slight variation on our secondary color to stand out against a background
-$info: $new-justfix-black; // Color for logo and non-text elements
-$link: $new-justfix-black; // Inline hyperlink color
-$dark: $new-justfix-black; // Primary text color for light backgrounds
-$grey-light: $new-justfix-light-grey; // Secondary text color for dark backgrounds
-$light: $justfix-grey; // Secondary background color for buttons (i.e. Cancel buttons)
-$danger: $new-justfix-orange; // Color for error messages
+$justfix-green: #1aa551;
+$justfix-pink: #ffa0c7;
+$justfix-yellow: #ffba33;
+$justfix-orange: #ff813a;
+$justfix-blue: #5188ff;
+
+$transparent: rgba(0, 0, 0, 0);
+
+$justfix-grey-400: #9a9898;
+$justfix-grey-50: #f2f2f2;
+$justfix-grey-light-accent: #efe9dc;
+
+$primary: $justfix-black;
+$secondary: $justfix-white;
+$secondary-accent: $justfix-grey-light-accent; // A slight variation on our secondary color to stand out against a background
+$info: $justfix-black; // Color for logo and non-text elements
+$link: $justfix-black; // Inline hyperlink color
+$dark: $justfix-black; // Primary text color for light backgrounds
+$grey-light: $justfix-white; // Secondary text color for dark backgrounds
+$light: $justfix-grey-light; // Secondary background color for buttons (i.e. Cancel buttons)
+$danger: $justfix-orange; // Color for error messages
 
 // BUTTONS:
 $button-padding-vertical: $spacing-07;

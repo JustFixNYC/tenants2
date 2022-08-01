@@ -33,7 +33,7 @@ def get_tag_for_source(source: SubscribeSource) -> str:
 
 def get_client() -> MailChimp:
     headers = requests.utils.default_headers()
-    headers["User-Agent"] = "JustFix.nyc Tenant Platform"
+    headers["User-Agent"] = "JustFix Tenant Platform"
     return MailChimp(mc_api=settings.MAILCHIMP_API_KEY, request_headers=headers)
 
 

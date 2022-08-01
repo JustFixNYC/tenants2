@@ -33,6 +33,16 @@ fragment AllSessionInfo on SessionInfo {
   hasHabitabilityLetterInProgress,
   laIssues,
   habitabilityLatestLetter {
+    id,
+    createdAt,
+    trackingNumber,
+    letterSentAt,
+    fullyProcessedAt,
+    mailChoice,
+    emailToLandlord
+  },
+  habitabilityLetters {
+    id,
     createdAt,
     trackingNumber,
     letterSentAt,

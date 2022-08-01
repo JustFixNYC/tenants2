@@ -66,6 +66,10 @@ nav.navbar {
   .navbar-link {
     color: $primary;
     height: 100%;
+
+    &:focus {
+      outline-color: $primary;
+    }
   }
 
   .navbar-link::after {
@@ -97,8 +101,7 @@ nav.navbar {
         justify-content: left;
         height: fit-content;
 
-        font-family: $jf-alt-title-family;
-        font-size: 0.875rem;
+        @include mobile-eyebrow();
         text-decoration: none;
         text-transform: uppercase;
 
@@ -123,7 +126,7 @@ nav.navbar {
     // On the top mobile navbar, only show the first set of options for the dropdown,
     // hiding all of the other default dropdown options (like the dev menu)
     .navbar-menu {
-      font-family: $jf-alt-title-family;
+      @include mobile-eyebrow();
       text-transform: uppercase;
       .navbar-end .navbar-item:not(:first-child) {
         display: none;

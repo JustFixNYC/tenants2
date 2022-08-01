@@ -277,10 +277,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
 
     # Default email address to use for various automated correspondence
     # from the site manager(s).
-    DEFAULT_FROM_EMAIL = "JustFix.nyc no-reply <no-reply@justfix.nyc>"
+    DEFAULT_FROM_EMAIL = "JustFix no-reply <no-reply@justfix.nyc>"
 
     # The email address used for court documents (e.g. HP Actions).
-    COURT_DOCUMENTS_EMAIL: str = "JustFix.nyc <documents@justfix.nyc>"
+    COURT_DOCUMENTS_EMAIL: str = "JustFix <documents@justfix.nyc>"
 
     # The email address used for LOC notifications. If blank (the default),
     # no LOC notifications will be sent.
@@ -293,12 +293,12 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     DHCR_EMAIL_RECIPIENT_ADDRESSES: str = "rentinfo@nyshcr.org"
 
     # An optional label to show in the site's navbar and other communications,
-    # next to "JustFix.nyc". This can be useful to e.g. distinguish a production
+    # next to "JustFix". This can be useful to e.g. distinguish a production
     # deployment from a staging one.
     NAVBAR_LABEL: str = ""
 
     # The base url for outbound links to Who Owns What.
-    WOW_ORIGIN: str = "https://whoownswhat.justfix.nyc"
+    WOW_ORIGIN: str = "https://whoownswhat.justfix.org"
 
     # The base url for outbound links to Eviction Free NYC.
     EFNYC_ORIGIN: str = "https://www.evictionfreenyc.org"
@@ -396,7 +396,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # `%(id)s` string can be used to substitute in a unique identifier
     # that will allow us to relate any replies to the declaration/user
     # it corresponds to.
-    EVICTIONFREE_REPLY_TO_EMAIL: str = "JustFix.nyc <efnyreplies+%(id)s@justfix.nyc>"
+    EVICTIONFREE_REPLY_TO_EMAIL: str = "JustFix <efnyreplies+%(id)s@justfix.nyc>"
 
     # The origin of the NYC GeoSearch API.
     NYC_GEOSEARCH_ORIGIN: str = "https://geosearch.planninglabs.nyc"
@@ -406,7 +406,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     #
     # If empty, Contentful integration will be disabled.
     #
-    # By default, this is set to retrieve JustFix.nyc's publicly-available
+    # By default, this is set to retrieve JustFix's publicly-available
     # common strings.
     CONTENTFUL_SPACE_ID: str = "markmr2gi204"
 
@@ -415,7 +415,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     #
     # If empty, Contentful integration will be disabled.
     #
-    # By default, this is set to retrieve JustFix.nyc's publicly-available
+    # By default, this is set to retrieve JustFix's publicly-available
     # common strings.
     CONTENTFUL_ACCESS_TOKEN: str = "Fli_OMdKgUFw6tEX3uv6HqvptuG6A6jn9bZVPlHZj8E"
 

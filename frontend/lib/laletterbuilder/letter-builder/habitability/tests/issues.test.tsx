@@ -20,6 +20,6 @@ describe("issues page", () => {
         session: sb.value,
       }
     );
-    pal.rr.getByText(/Select the repairs you need in your home/i);
+    pal.rr.getAllByText(/Select the repairs you need in your home/i);
   });
 });

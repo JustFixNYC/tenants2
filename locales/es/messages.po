@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-08-02 10:44\n"
+"PO-Revision-Date: 2022-08-02 12:24\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -912,7 +912,7 @@ msgstr "Establece tu defensa"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:86
 msgid "Estimated time to complete"
-msgstr "Estimated time to complete"
+msgstr "Tiempo estimado para completar"
 
 #: frontend/lib/evictionfree/site.tsx:105
 msgid "Eviction Free NY has been suspended"
@@ -928,7 +928,7 @@ msgstr "Ejercita tus derechos"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:29
 msgid "Exercise your tenant rights. Send a free letter to your landlord in minutes."
-msgstr "Exercise your tenant rights. Send a free letter to your landlord in minutes."
+msgstr "Ejercita tus derechos de inquilino. Envía una carta gratuita a tu propietario en minutos."
 
 #: frontend/lib/rh/routes.tsx:318
 msgid "Explore our other tools"
@@ -1123,15 +1123,15 @@ msgstr "Aviso de habitabilidad enviado en nombre de {0}"
 
 #: common-data/issue-room-choices-laletterbuilder.ts:37
 msgid "Hallway"
-msgstr "Hallway"
+msgstr "Pasillo"
 
 #: common-data/la-letter-builder-letter-choices.ts:18
 msgid "Harassment (CA)"
-msgstr "Harassment (CA)"
+msgstr "Acoso (CA)"
 
 #: common-data/la-letter-builder-letter-choices.ts:19
 msgid "Harassment (LA City/TAHO)"
-msgstr "Harassment (LA City/TAHO)"
+msgstr "Acoso (Ciudad de Los Ángeles/TAHO)"
 
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"
@@ -1139,7 +1139,7 @@ msgstr "Hawaii"
 
 #: common-data/issue-category-choices-laletterbuilder.ts:16
 msgid "Health"
-msgstr "Health"
+msgstr "Salud"
 
 #: frontend/lib/tests/i18n-lingui.test.tsx:19
 #: frontend/lib/tests/i18n-lingui.test.tsx:25
@@ -1205,7 +1205,7 @@ msgstr "Altamente recomendable."
 #: common-data/issue-choices-laletterbuilder.ts:172
 #: common-data/issue-choices-laletterbuilder.ts:173
 msgid "Holes"
-msgstr "Holes"
+msgstr "Agujeros"
 
 #: frontend/lib/justfix-navbar.tsx:14
 #: frontend/lib/norent/site.tsx:50
@@ -1249,7 +1249,7 @@ msgstr "¿Cómo protegen mis datos personales?"
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:49
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:51
 msgid "How do you want to send your letter?"
-msgstr "How do you want to send your letter?"
+msgstr "¿Cómo deseas enviar tu carta?"
 
 #: frontend/lib/norent/letter-email-to-user.tsx:71
 msgid "How does sending this declaration help me?"
@@ -1278,11 +1278,11 @@ msgstr "Estoy experimentando dificultades financieras debido al COVID-19."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:52
 msgid "I am undocumented. Can I send a letter?"
-msgstr "I am undocumented. Can I send a letter?"
+msgstr "Soy indocumentado. ¿Puedo enviar una carta?"
 
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:90
 msgid "I don't have this information"
-msgstr "I don't have this information"
+msgstr "No tengo esta información"
 
 #: frontend/lib/start-account-or-login/verify-password.tsx:75
 msgid "I forgot my password"
@@ -1322,11 +1322,11 @@ msgstr "Idaho"
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:40
 msgid "If the information above is not correct, go back to make changes."
-msgstr "If the information above is not correct, go back to make changes."
+msgstr "Si la información anterior no está correcta, regresa para hacer cambios."
 
 #: frontend/lib/laletterbuilder/components/create-account.tsx:24
 msgid "If you add your email address now, we'll email you a copy of your completed letter."
-msgstr "If you add your email address now, we'll email you a copy of your completed letter."
+msgstr "Si añades tu dirección de correo electrónico ahora, te enviaremos una copia de tu carta completada."
 
 #: frontend/lib/start-account-or-login/verify-phone-number.tsx:25
 msgid "If you didn't receive a code, try checking your email. If it's not in there either, please email <0/>."
@@ -1463,7 +1463,7 @@ msgstr "¡Es la primera vez que estás aquí!"
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:18
 msgid "I’m not comfortable creating a letter on my own. Who can help me?"
-msgstr "I’m not comfortable creating a letter on my own. Who can help me?"
+msgstr "No me siento cómodo en crear una carta por mi cuenta. ¿Quién puede ayudarme?"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:145
 msgid "I’m undocumented. Can I use this tool?"
@@ -1487,11 +1487,11 @@ msgstr "Únete al movimiento de los inquilinos"
 
 #: frontend/lib/laletterbuilder/components/footer.tsx:38
 msgid "JustFix and SAJE are registered 501(c)(3) nonprofit organizations."
-msgstr "JustFix and SAJE are registered 501(c)(3) nonprofit organizations."
+msgstr "JustFix y SAJE son organizaciones registradas bajo organizaciones sin fines de lucro 501(c)(3)."
 
 #: frontend/lib/laletterbuilder/components/create-account.tsx:32
 msgid "JustFix can text me to follow up about my housing issues."
-msgstr "JustFix can text me to follow up about my housing issues."
+msgstr "JustFix puede enviarme un mensaje de texto sobre mis problemas de vivienda."
 
 #: frontend/lib/ui/footer.tsx:27
 msgid "JustFix is a registered 501(c)(3) nonprofit organization."
@@ -1519,7 +1519,7 @@ msgstr "Kentucky"
 
 #: common-data/issue-room-choices-laletterbuilder.ts:38
 msgid "Kitchen"
-msgstr "Kitchen"
+msgstr "Cocina"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:160
 msgid "Know your rights"
@@ -1527,7 +1527,7 @@ msgstr "Conoce tus derechos"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:19
 msgid "LA Letter Builder Homepage"
-msgstr "LA Letter Builder Homepage"
+msgstr "Página Principal del Constructor de Cartas LA"
 
 #: frontend/lib/laletterbuilder/about.tsx:99
 msgid "LaLetterBuilder is a collaboration between JustFix and legal organizations and housing rights non-profits in Los Angeles."

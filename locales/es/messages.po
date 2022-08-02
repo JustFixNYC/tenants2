@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-08-01 21:51\n"
+"PO-Revision-Date: 2022-08-02 10:44\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -67,7 +67,8 @@ msgstr "<0>Hola {0},</0><1>Has enviado tu carta de NoRent. Aquí tienes una copi
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:9
 msgid "<0>Hello {0},</0><1>You've sent your Notice To Repair letter. Attached to this email is a PDF copy for your records.</1>"
-msgstr "<0>Hello {0},</0><1>You've sent your Notice To Repair letter. Attached to this email is a PDF copy for your records.</1>"
+msgstr "<0>Hola {0},</0><1>Has enviado tu carta del Aviso para reparar. Adjunto a este correo electrónica está una copia en PDF para tus archivos.</1>\n"
+"CONTEXTREQUEST"
 
 #: frontend/lib/norent/data/faqs-content.tsx:389
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
@@ -360,14 +361,14 @@ msgstr "Quebrado"
 #: common-data/issue-choices-laletterbuilder.ts:179
 #: common-data/issue-choices-laletterbuilder.ts:180
 msgid "Broken/defective windows"
-msgstr "Broken/defective windows"
+msgstr "Ventanas quebradas/defectuosas"
 
 #: common-data/issue-choices-laletterbuilder.ts:181
 #: common-data/issue-choices-laletterbuilder.ts:182
 #: common-data/issue-choices-laletterbuilder.ts:183
 #: common-data/issue-choices-laletterbuilder.ts:184
 msgid "Broken/insecure locks"
-msgstr "Broken/insecure locks"
+msgstr "Seguros quebrados/defectuosos"
 
 #: common-data/issue-choices.ts:262
 msgid "Broken/no smoke/Co2 detector"

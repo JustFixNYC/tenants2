@@ -22,6 +22,7 @@ import { exactSubsetOrDefault } from "../../util/util";
 import { Accordion } from "../../ui/accordion";
 import { OutboundLink } from "../../ui/outbound-link";
 import ResponsiveElement from "./responsive-element";
+import { logEvent } from "../../analytics/util";
 
 export const LaLetterBuilderLandlordNameAddress = MiddleProgressStep(
   (props) => (
@@ -105,6 +106,12 @@ const NameAddressForm: React.FC<
             )}
             extraClassName=""
             questionClassName=""
+            onClick={(isExpanded) =>
+              logEvent("ui.accordion.click", {
+                label: "find-landlord-info",
+                isExpanded,
+              })
+            }
           >
             <div className="content">
               <Trans id="laletterbuilder.landlord.whereToFindInfo">

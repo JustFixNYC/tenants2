@@ -27,6 +27,8 @@ import { PhoneNumber } from "../components/phone-number";
 import { CreateLetterCard } from "./choose-letter";
 import ResponsiveElement from "../components/responsive-element";
 import { friendlyUTCDate } from "../../util/date-util";
+import { logEvent } from "../../analytics/util";
+import { LetterChoice } from "../../../../common-data/la-letter-builder-letter-choices";
 
 export const LaLetterBuilderMyLetters: React.FC<ProgressStepProps> = (
   props
@@ -46,6 +48,10 @@ function downloadLetterPdf(
   input: LaLetterBuilderDownloadPDFInput
 ): string {
   if (output.pdfBase64) {
+    logEvent("latenants.letter.download", {
+      letterType: "HABITABILITY" as LetterChoice,
+      letterId: input.letterId,
+    });
     const bytes = atob(output.pdfBase64);
     const byteChars = bytes.split("").map((el, i) => bytes.charCodeAt(i));
     const pdfBlob = new Blob([new Uint8Array(byteChars)], {
@@ -101,7 +107,16 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
         </SessionUpdatingFormSubmitter>
       </div>
       <hr />
-      <Accordion question={li18n._(t`What's next?`)} questionClassName="">
+      <Accordion
+        question={li18n._(t`What's next?`)}
+        questionClassName=""
+        onClick={(isExpanded) =>
+          logEvent("ui.accordion.click", {
+            label: "after-letter-sent-info",
+            isExpanded,
+          })
+        }
+      >
         <h2>
           <Trans>Allow 14 days for a response</Trans>
         </h2>

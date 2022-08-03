@@ -26,6 +26,8 @@ import { EmailPreview } from "../components/letter-preview";
 import { HabitabilityLetterEmailToLandlordForUser } from "./habitability/habitability-letter-content";
 import { TagInfo } from "./choose-letter";
 import ResponsiveElement from "../components/responsive-element";
+import { logEvent } from "../../analytics/util";
+import { LetterChoice } from "../../../../common-data/la-letter-builder-letter-choices";
 
 interface MailChoiceInfo {
   title: string;
@@ -183,11 +185,10 @@ export const ConfirmModal: React.FC<{
   const { session } = useContext(AppContext);
 
   // TODO: generalize to other letter types
-  const userWillMail =
-    session.habitabilityLatestLetter?.mailChoice === "USER_WILL_MAIL";
+  const letter = session.habitabilityLatestLetter;
+  const userWillMail = letter?.mailChoice === "USER_WILL_MAIL";
   const emailToLandlord =
-    session.habitabilityLatestLetter?.emailToLandlord &&
-    session.landlordDetails?.email;
+    letter?.emailToLandlord && session.landlordDetails?.email;
   const title = userWillMail
     ? li18n._(t`Are you sure you want to mail the letter yourself?`)
     : li18n._(t`Mail letter now for free`);
@@ -197,7 +198,16 @@ export const ConfirmModal: React.FC<{
       <SessionUpdatingFormSubmitter
         mutation={LaLetterBuilderSendLetterMutation}
         initialState={{}}
-        onSuccessRedirect={props.nextStep}
+        onSuccessRedirect={() => {
+          logEvent("latenants.letter.send", {
+            letterType: "HABITABILITY" as LetterChoice,
+            letterId: letter?.id,
+            mailChoice: letter?.mailChoice,
+            emailToLandlord: letter?.emailToLandlord,
+            emailSelf: session.isEmailVerified,
+          });
+          return props.nextStep;
+        }}
       >
         {(ctx) => (
           <div className="jf-laletterbuilder-send-options-modal">

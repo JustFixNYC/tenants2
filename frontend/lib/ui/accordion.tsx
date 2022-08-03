@@ -16,13 +16,22 @@ export const Accordion = (props: {
    * the first word is the text label for opening the accordion and the second is for closing.
    **/
   textLabelsForToggle?: [string, string];
+  onClick?: (isExpanded?: boolean) => void;
 }) => {
   const extraClassName = props.extraClassName ?? "jf-space-below-2rem";
-  const { isExpanded, questionClassName, textLabelsForToggle } = props;
+  const { isExpanded, questionClassName, textLabelsForToggle, onClick } = props;
+
+  const handleClick = (e: any) => {
+    onClick?.(!e.currentTarget.hasAttribute("open"));
+  };
 
   return (
     <div className={`jf-accordion-item ${extraClassName}`}>
-      <details className={`has-text-left ${extraClassName}`} open={isExpanded}>
+      <details
+        className={`has-text-left ${extraClassName}`}
+        open={isExpanded}
+        onClick={handleClick}
+      >
         <summary>
           <div className="media">
             <div className="media-content">

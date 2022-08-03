@@ -212,6 +212,11 @@ export interface MultiChoiceFormFieldProps
   extends BaseFormFieldProps<string[]> {
   choices: MultiChoiceFormFieldItem[];
   label: string;
+  onChange: (
+    choices: string[],
+    selectedChoice?: string,
+    checked?: boolean
+  ) => void;
 }
 
 export function toggleChoice(
@@ -235,7 +240,11 @@ const MultiCheckboxFormFieldCheckbox: React.FC<
   const id = `${props.id}_${choice}`;
 
   const onChange = (e: any) =>
-    props.onChange(toggleChoice(choice, e.target.checked, props.value));
+    props.onChange(
+      toggleChoice(choice, e.target.checked, props.value),
+      choice,
+      e.target.checked
+    );
   const onKeyPress = (e: any) => {
     const target = e.target;
     if (e.key === "Enter" && target) {

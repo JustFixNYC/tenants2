@@ -57,7 +57,9 @@ def get_site_type(site: Site) -> str:
         return SITE_CHOICES.NORENT
     elif re.match(r".*evictionfree.*", site.name, re.IGNORECASE):
         return SITE_CHOICES.EVICTIONFREE
-    elif re.match(r".*laletterbuilder.*", site.name, re.IGNORECASE):
+    elif re.match(r".*laletterbuilder.*", site.name, re.IGNORECASE) or re.match(
+        r".*latenants.*", site.name, re.IGNORECASE
+    ):
         return SITE_CHOICES.LALETTERBUILDER
     return SITE_CHOICES.JUSTFIX
 

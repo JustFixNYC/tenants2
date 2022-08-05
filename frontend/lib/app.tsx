@@ -210,6 +210,7 @@ export class AppWithoutRouter extends React.Component<
     if (this.jumpToTopOfPageRoutes.has(pathname)) {
       jumpToTopOfPage();
     } else {
+      // setTimeout(() => smoothlyScrollToTopOfPage(), 400)
       smoothlyScrollToTopOfPage();
     }
   }

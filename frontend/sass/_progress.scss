@@ -1,6 +1,6 @@
 // This value must be mirrored in our JS by a
 // similarly-named constant, JF_PROGRESS_TRANSITION_MS.
-$jf-progress-transition-ms: 1000ms;
+$jf-progress-transition-ms: 2000ms;
 
 .jf-progress-title-wrapper {
   margin-bottom: 2.5rem;
@@ -19,25 +19,25 @@ $jf-progress-transition-ms: 1000ms;
 
   .jf-progress-step-enter {
     position: absolute;
-    transition: transform $jf-progress-transition-ms,
-      opacity $jf-progress-transition-ms;
+    // transition: transform $jf-progress-transition-ms,
+    //   opacity $jf-progress-transition-ms ease-in;
     top: 0;
     left: 0;
-    transform: translate(100%);
+    // transform: translate(100%);
     opacity: 0;
     width: 100%;
   }
 
   .jf-progress-step-enter.jf-progress-step-enter-active {
-    transform: translate(0);
+    // transform: translate(0);
     opacity: 1;
   }
 
   .jf-progress-step-exit {
     position: relative;
-    transition: transform $jf-progress-transition-ms,
-      opacity $jf-progress-transition-ms;
-    transform: translate(0);
+    // transition: transform $jf-progress-transition-ms,
+    //   opacity $jf-progress-transition-ms ease-out;
+    // transform: translate(0);
     opacity: 1;
     width: 100%;
   }
@@ -48,21 +48,28 @@ $jf-progress-transition-ms: 1000ms;
 }
 
 .jf-progress-forward {
-  .jf-progress-step-enter {
-    transform: translate(100%);
+  .jf-progress-step-enter.jf-progress-step-enter-active {
+    // transform: translate(100%);
+    transition: opacity 2500ms ease-in;
   }
 
-  .jf-progress-step-exit-active {
-    transform: translate(-100%);
+  .jf-progress-step-exit {
+    transition: opacity 500ms;
   }
+
+  // .jf-progress-step-exit-active {
+  //   transform: translate(-100%);
+  // }
 }
 
 .jf-progress-backward {
-  .jf-progress-step-enter {
-    transform: translate(-100%);
+  .jf-progress-step-enter.jf-progress-step-enter-active {
+    // transform: translate(-100%);
+    transition: opacity 2500ms ease-in;
   }
 
   .jf-progress-step-exit-active {
-    transform: translate(100%);
+    // transform: translate(100%);
+    transition: opacity 500ms;
   }
 }

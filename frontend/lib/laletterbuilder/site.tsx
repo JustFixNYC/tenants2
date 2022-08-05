@@ -119,6 +119,7 @@ const HeaderArrowIcon = () => (
 
 const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
+    const { session } = useContext(AppContext);
     const isPrimaryPage = useIsPrimaryPage();
     const activeLocale = i18n.locale;
 
@@ -128,7 +129,8 @@ const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
           className={classnames(
             isPrimaryPage
               ? "jf-above-footer-content"
-              : "jf-norent-internal-above-footer-content"
+              : "jf-norent-internal-above-footer-content",
+            session.isSafeModeEnabled ? "jf-safe-mode" : ""
           )}
         >
           <div className="jf-laletterbuilder-top-nav is-touch">

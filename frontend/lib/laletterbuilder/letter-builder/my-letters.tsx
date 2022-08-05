@@ -66,10 +66,11 @@ function downloadLetterPdf(
 interface CompletedLetterCardProps {
   id: string;
   dates: string[];
+  isSafeModeEnabled?: boolean;
 }
 
 const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
-  const { id, dates, children } = props;
+  const { id, dates, children, isSafeModeEnabled } = props;
   return (
     <div className="jf-la-letter-card">
       <div className="p-6">
@@ -82,29 +83,31 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
           <Trans>Notice to repair letter</Trans>
         </h2>
         {children}
-        <SessionUpdatingFormSubmitter
-          mutation={LaLetterBuilderDownloadPdfMutation}
-          initialState={(s) => ({
-            letterId: id,
-          })}
-          onSuccessRedirect={downloadLetterPdf}
-        >
-          {(ctx) => (
-            <button
-              type="submit"
-              className={`${bulmaClasses("button", "is-primary", {
-                "is-loading": ctx.isLoading,
-              })} mt-7`}
-            >
-              <Trans>Download letter</Trans>
-              <TextualFormField
-                {...ctx.fieldPropsFor("letterId")}
-                fieldProps={{ className: "is-hidden" }}
-                label="Hidden letter ID field"
-              />
-            </button>
-          )}
-        </SessionUpdatingFormSubmitter>
+        {!isSafeModeEnabled && (
+          <SessionUpdatingFormSubmitter
+            mutation={LaLetterBuilderDownloadPdfMutation}
+            initialState={(s) => ({
+              letterId: id,
+            })}
+            onSuccessRedirect={downloadLetterPdf}
+          >
+            {(ctx) => (
+              <button
+                type="submit"
+                className={`${bulmaClasses("button", "is-primary", {
+                  "is-loading": ctx.isLoading,
+                })} mt-7`}
+              >
+                <Trans>Download letter</Trans>
+                <TextualFormField
+                  {...ctx.fieldPropsFor("letterId")}
+                  fieldProps={{ className: "is-hidden" }}
+                  label="Hidden letter ID field"
+                />
+              </button>
+            )}
+          </SessionUpdatingFormSubmitter>
+        )}
       </div>
       <hr />
       <Accordion
@@ -187,6 +190,7 @@ const MyLettersContent: React.FC = (props) => {
           key={`processed-letter-${letter.id}`}
           id={letter.id}
           dates={session.accessDates}
+          isSafeModeEnabled={session.isSafeModeEnabled}
         >
           <ResponsiveElement className="mb-3" desktop="h4" touch="h3">
             <Trans>JustFix is preparing your letter</Trans>
@@ -214,6 +218,7 @@ const MyLettersContent: React.FC = (props) => {
             key={`sent-letter-${letter.id}`}
             id={letter.id}
             dates={session.accessDates}
+            isSafeModeEnabled={session.isSafeModeEnabled}
           >
             {letter.mailChoice ==
             HabitabilityLetterMailChoice.USER_WILL_MAIL ? (

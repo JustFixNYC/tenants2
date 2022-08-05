@@ -134,3 +134,11 @@ nav.navbar {
     }
   }
 }
+
+// SAFE MODE OVERRIDES
+
+.jf-safe-mode {
+  nav.navbar {
+    height: unset;
+  }
+}

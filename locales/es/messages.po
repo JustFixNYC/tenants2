@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-08-02 12:24\n"
+"PO-Revision-Date: 2022-08-08 18:48\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1533,10 +1533,6 @@ msgstr "Página Principal del Constructor de Cartas LA"
 msgid "LaLetterBuilder is a collaboration between JustFix and legal organizations and housing rights non-profits in Los Angeles."
 msgstr "LaLetterBuilder is a collaboration between JustFix and legal organizations and housing rights non-profits in Los Angeles."
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:33
-msgid "LaLetterBuilder.org <0/>sent on behalf of <1/>"
-msgstr "LaLetterBuilder.org <0/>sent on behalf of <1/>"
-
 #: frontend/lib/ui/landlord.tsx:36
 msgid "Landlord address"
 msgstr "Dirección de correo del dueño de tu edificio"
@@ -2380,6 +2376,7 @@ msgstr "Ver todas las preguntas frecuentes"
 msgid "Select a letter to get started"
 msgstr "Select a letter to get started"
 
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:69
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:71
 msgid "Select a mailing method"
 msgstr "Select a mailing method"
@@ -3817,6 +3814,10 @@ msgstr "<0>Si tu propietario está tomando represalias contra ti por ejercer tus
 #: frontend/lib/laletterbuilder/components/review-your-rights.tsx:15
 msgid "laletterbuilder.reviewTenantRightsIntro"
 msgstr "Tenants have a right to a safe home, without harassment. Sending a letter to notify your landlord is within your rights."
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:33
+msgid "latenants.justfix.org <0/>sent on behalf of <1/>"
+msgstr "latenants.justfix.org <0/>sent on behalf of <1/>"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:123
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:26

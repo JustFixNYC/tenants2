@@ -1532,10 +1532,6 @@ msgstr ""
 msgid "LaLetterBuilder is a collaboration between JustFix and legal organizations and housing rights non-profits in Los Angeles."
 msgstr ""
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:33
-msgid "LaLetterBuilder.org <0/>sent on behalf of <1/>"
-msgstr ""
-
 #: frontend/lib/ui/landlord.tsx:36
 msgid "Landlord address"
 msgstr "Dirección de correo del dueño de tu edificio"
@@ -2379,6 +2375,7 @@ msgstr "Ver todas las preguntas frecuentes"
 msgid "Select a letter to get started"
 msgstr ""
 
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:69
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:71
 msgid "Select a mailing method"
 msgstr ""
@@ -3817,6 +3814,10 @@ msgstr ""
 
 #: frontend/lib/laletterbuilder/components/review-your-rights.tsx:15
 msgid "laletterbuilder.reviewTenantRightsIntro"
+msgstr ""
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:33
+msgid "latenants.justfix.org <0/>sent on behalf of <1/>"
 msgstr ""
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:123

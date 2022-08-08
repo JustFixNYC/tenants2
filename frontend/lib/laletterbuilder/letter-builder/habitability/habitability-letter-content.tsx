@@ -74,7 +74,7 @@ export const HabitabilityLetterEmailToLandlord: React.FC<BaseLetterContentProps>
     <letter.Regards />
     <p>
       <Trans>
-        LaLetterBuilder.org <br />
+        latenants.justfix.org <br />
         sent on behalf of <letter.FullLegalName {...props} />
       </Trans>
     </p>

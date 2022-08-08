@@ -328,7 +328,7 @@ def use_laletterbuilder_site(db):
     """
 
     site = Site.objects.get(pk=1)
-    site.name = "LaLetterBuilder.org"
+    site.name = "LaTenants.org"
     site.save()
 
 

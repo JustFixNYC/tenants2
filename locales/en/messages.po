@@ -1527,10 +1527,6 @@ msgstr "LA Letter Builder Homepage"
 msgid "LaLetterBuilder is a collaboration between JustFix and legal organizations and housing rights non-profits in Los Angeles."
 msgstr "LaLetterBuilder is a collaboration between JustFix and legal organizations and housing rights non-profits in Los Angeles."
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:33
-msgid "LaLetterBuilder.org <0/>sent on behalf of <1/>"
-msgstr "LaLetterBuilder.org <0/>sent on behalf of <1/>"
-
 #: frontend/lib/ui/landlord.tsx:36
 msgid "Landlord address"
 msgstr "Landlord address"
@@ -2374,6 +2370,7 @@ msgstr "See more FAQs"
 msgid "Select a letter to get started"
 msgstr "Select a letter to get started"
 
+#: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:69
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:71
 msgid "Select a mailing method"
 msgstr "Select a mailing method"
@@ -3808,6 +3805,10 @@ msgstr "<0>If your landlord is retaliating against you for exercising your right
 #: frontend/lib/laletterbuilder/components/review-your-rights.tsx:15
 msgid "laletterbuilder.reviewTenantRightsIntro"
 msgstr "Tenants have a right to a safe home, without harassment. Sending a letter to notify your landlord is within your rights."
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:33
+msgid "latenants.justfix.org <0/>sent on behalf of <1/>"
+msgstr "latenants.justfix.org <0/>sent on behalf of <1/>"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:123
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:26

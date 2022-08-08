@@ -147,6 +147,13 @@ export interface JustfixAmplitudeAPI {
   getInstance(): JustfixAmplitudeClient;
 }
 
+export type AmplitudeEvent =
+  | "ui.accordion.click"
+  | "latenants.issue.click"
+  | "latenants.letter.create"
+  | "latenants.letter.download"
+  | "latenants.letter.send";
+
 declare global {
   interface Window {
     amplitude: JustfixAmplitudeAPI | undefined;
@@ -291,6 +298,17 @@ export function logAmplitudeOutboundLinkClick(href: string) {
 }
 
 /**
+ * Log a general event in Amplitude.
+ */
+export function logAmplitudeEvent(name: AmplitudeEvent, data?: any) {
+  const amplitudeData = {
+    ...getPageInfo(window.location.pathname),
+    ...data,
+  };
+  getAmplitude()?.logEvent(name, amplitudeData);
+}
+
+/**
  * Log a form submission event in Amplitude.
  *
  * If the form submission contains errors, the event
@@ -405,6 +423,23 @@ function getLaLetterBuilderPageType(pathname: string): string {
   const r = LaLetterBuilderRouteInfo.locale;
   return findBestPage(pathname, {
     [r.home]: "letter builder",
+    [r.chooseLetter]: "choose letter",
+    [r.logout]: "logout",
+    [r.accountSettings.prefix]: "account settings",
+    [r.habitability.prefix]: "habitability letter",
+    [r.habitability.name]: "user name",
+    [r.habitability.city]: "user city",
+    [r.habitability.nationalAddress]: "user adddress",
+    [r.habitability.reviewRights]: "user review rights",
+    [r.habitability.createAccount]: "user create account",
+    [r.habitability.myLetters]: "habitability my letters",
+    [r.habitability.issues.prefix]: "habitability issues",
+    [r.habitability.landlordInfo]: "habitability landlord info",
+    [r.habitability.accessDates]: "habitability access dates",
+    [r.habitability.preview]: "habitability letter preview",
+    [r.habitability.sending]: "habitability send options",
+    [r.habitability.sendConfirmModal]:
+      "habitability send options confirm modal",
   });
 }
 

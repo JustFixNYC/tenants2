@@ -17,6 +17,7 @@ import { ClickableLogo } from "./components/clickable-logo";
 import { Link } from "react-router-dom";
 import { bulmaClasses } from "../ui/bulma";
 import ResponsiveElement from "./components/responsive-element";
+import { logEvent } from "../analytics/util";
 
 type LaLetterBuilderImageType = "png" | "svg";
 
@@ -163,6 +164,12 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
                 key={`faq-${i}`}
                 question={el.question}
                 questionClassName=""
+                onClick={(isExpanded) =>
+                  logEvent("ui.accordion.click", {
+                    label: el.question,
+                    isExpanded,
+                  })
+                }
               >
                 {el.answer}
               </Accordion>

@@ -17,6 +17,8 @@ import { LaLetterBuilderCreateLetterMutation } from "../../queries/LaLetterBuild
 import { NextButton } from "../../ui/buttons";
 import { AppContext } from "../../app-context";
 import ResponsiveElement from "../components/responsive-element";
+import { logEvent } from "../../analytics/util";
+import { LetterChoice } from "../../../../common-data/la-letter-builder-letter-choices";
 
 export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
   props
@@ -169,7 +171,10 @@ const LetterCard: React.FC<LetterCardProps> = (props) => {
           {props.children}
         </div>
         <hr />
-        <InformationNeeded information={props.information} />
+        <InformationNeeded
+          id={props.title.toLowerCase()}
+          information={props.information}
+        />
       </div>
     </>
   );
@@ -203,15 +208,22 @@ function CallToAction({ to, text, className }: LetterCardButtonProps) {
 }
 
 type InformationNeededProps = {
+  id: string;
   information: string[];
 };
 
-export function InformationNeeded({ information }: InformationNeededProps) {
+export function InformationNeeded({ id, information }: InformationNeededProps) {
   const listItems = information.map((item, i) => <li key={i}>{item}</li>);
   return (
     <Accordion
       question={li18n._(t`What information will I need?`)}
       questionClassName="is-small"
+      onClick={(isExpanded) =>
+        logEvent("ui.accordion.click", {
+          label: `${id}-info-needed`,
+          isExpanded,
+        })
+      }
     >
       <ul>{listItems}</ul>
     </Accordion>
@@ -232,9 +244,12 @@ export const CreateLetterCard: React.FC = (props) => {
     <SessionUpdatingFormSubmitter
       mutation={LaLetterBuilderCreateLetterMutation}
       initialState={{}}
-      onSuccessRedirect={
-        LaLetterBuilderRouteInfo.locale.habitability.issues.prefix
-      }
+      onSuccessRedirect={() => {
+        logEvent("latenants.letter.create", {
+          letterType: "HABITABILITY" as LetterChoice,
+        });
+        return LaLetterBuilderRouteInfo.locale.habitability.issues.prefix;
+      }}
     >
       {(sessionCtx) => (
         <LetterCard

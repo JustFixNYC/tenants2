@@ -29,6 +29,8 @@ import { ROUTE_PREFIX } from "../../../util/route-util";
 import { PhoneNumber } from "../../components/phone-number";
 import { OutboundLink } from "../../../ui/outbound-link";
 import ResponsiveElement from "../../components/responsive-element";
+import { logEvent } from "../../../analytics/util";
+import { LetterChoice } from "../../../../../common-data/la-letter-builder-letter-choices";
 
 function getCategory(issue: LaIssueChoice): LaIssueCategoryChoice {
   return issue.split("__")[0] as LaIssueCategoryChoice;
@@ -132,6 +134,14 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                               {...ctx.fieldPropsFor("laIssues")}
                               label={""}
                               choices={choices}
+                              onChange={(choices, selectedChoice, checked) => {
+                                logEvent("latenants.issue.click", {
+                                  letterType: "HABITABILITY" as LetterChoice,
+                                  issueName: selectedChoice,
+                                  isChecked: checked,
+                                });
+                                ctx.fieldPropsFor("laIssues").onChange(choices);
+                              }}
                             />
                           </Accordion>
                         );

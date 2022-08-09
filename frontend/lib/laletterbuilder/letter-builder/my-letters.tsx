@@ -101,6 +101,7 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
                 <Trans>Download letter</Trans>
                 <TextualFormField
                   {...ctx.fieldPropsFor("letterId")}
+                  id={`letterId-${id}`}
                   fieldProps={{ className: "is-hidden" }}
                   label="Hidden letter ID field"
                 />

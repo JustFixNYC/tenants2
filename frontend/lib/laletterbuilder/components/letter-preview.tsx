@@ -118,7 +118,7 @@ export function createLaLetterBuilderPreviewPage(
 
     return (
       <LetterPreviewPage
-        title="LA Letter builder title"
+        title="LA Tenant Action Center - Notice to Repair"
         letterContent={englishVersionOfLetterContent}
         emailContent={emailContent}
         letterTranslation={letterTranslation}

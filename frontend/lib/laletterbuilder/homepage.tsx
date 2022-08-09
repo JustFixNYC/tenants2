@@ -32,7 +32,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
 
   return (
-    <Page title={li18n._(t`LA Letter Builder Homepage`)}>
+    <Page title={li18n._(t`LA Tenant Action Center`)}>
       <section className="hero jf-laletterbuilder-landing-section-primary">
         <div className="hero-body">
           <div className="container">
@@ -96,9 +96,9 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
             </h2>
             <ResponsiveElement className="mb-10" desktop="h4" touch="h3">
               <Trans>
-                We created the [Product Name] with lawyers and non-profit tenant
-                rights organizations to ensure that your letter gives you the
-                most protections.
+                We created the LA Tenant Action Center with lawyers and
+                non-profit tenant rights organizations to ensure that your
+                letter gives you the most protections.
               </Trans>
             </ResponsiveElement>
             <div>

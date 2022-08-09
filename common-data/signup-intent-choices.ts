@@ -29,6 +29,6 @@ export function getSignupIntentLabels(): SignupIntentLabels {
     EHP: "Emergency HP Action",
     NORENT: "No rent letter",
     EVICTIONFREE: "Eviction free",
-    LALETTERBUILDER: "LA Letter Builder",
+    LALETTERBUILDER: "LA Tenant Action Center",
   };
 }

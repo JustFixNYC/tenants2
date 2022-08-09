@@ -3097,7 +3097,7 @@
             },
             {
               "deprecationReason": null,
-              "description": "LA Letter Builder",
+              "description": "LA Tenant Action Center",
               "isDeprecated": false,
               "name": "LALETTERBUILDER"
             }

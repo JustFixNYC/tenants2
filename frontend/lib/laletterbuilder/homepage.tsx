@@ -186,7 +186,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
             <ResponsiveElement className="mb-3" desktop="h4" touch="h3">
               <Trans>Get involved in your community</Trans>
             </ResponsiveElement>
-            <div className="text-section mb-10">
+            <div className="text-section mb-7 mb-10-mobile">
               <label>
                 <Trans>
                   Attend SAJE’s{" "}

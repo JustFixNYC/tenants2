@@ -282,11 +282,19 @@ $jf-navbar-height: 70px;
 
   // Other places, we want the tap target to spill over the sides of the item. Not here.
   .jf-accordion-item {
-    margin: 0 $spacing-05 $spacing-05;
+    margin: 0 0 $spacing-03;
+
+    @include desktop {
+      margin-left: $spacing-04;
+    }
 
     details {
       // Since this accordion is contained within another object, we don't need extra space at the bottom.
       margin-bottom: 0;
+    }
+
+    details[open] {
+      margin-bottom: $spacing-05;
     }
   }
 
@@ -478,8 +486,11 @@ ol.is-marginless {
     margin-top: 0;
   }
 
+  .jf-laletterbuilder-section-primary,
   .jf-laletterbuilder-landing-section-primary,
+  .jf-laletterbuilder-section-secondary,
   .jf-laletterbuilder-landing-section-secondary,
+  .jf-laletterbuilder-section-tertiary,
   .jf-laletterbuilder-landing-section-tertiary {
     & > * {
       max-width: $laletterbuilder-desktop-max-width;

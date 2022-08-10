@@ -6,7 +6,7 @@ exports[`<HabitabilityContent> renders 1`] = `
     class="has-text-right"
     style="white-space: pre-wrap;"
   >
-    Habitability
+    Notice to Repair
   </h1>
   <div
     class="jf-page-break-after"

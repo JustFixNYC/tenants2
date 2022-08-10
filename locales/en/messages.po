@@ -1103,17 +1103,9 @@ msgstr "Got it"
 msgid "Got it, take me there"
 msgstr "Got it, take me there"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:13
-msgid "Habitability"
-msgstr "Habitability"
-
 #: common-data/la-letter-builder-letter-choices.ts:17
 msgid "Habitability (CA)"
 msgstr "Habitability (CA)"
-
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:18
-msgid "Habitability notice sent on behalf of {0}"
-msgstr "Habitability notice sent on behalf of {0}"
 
 #: common-data/issue-room-choices-laletterbuilder.ts:37
 msgid "Hallway"
@@ -1854,6 +1846,10 @@ msgstr "More resources"
 msgid "Movement Law Lab"
 msgstr "Movement Law Lab"
 
+#: frontend/lib/loc/access-dates.tsx:38
+msgid "Must be at least 14 days from today."
+msgstr "Must be at least 14 days from today."
+
 #: frontend/lib/common-steps/create-password.tsx:6
 msgid "Must be at least 8 characters. Can't be all numbers."
 msgstr "Must be at least 8 characters. Can't be all numbers."
@@ -2003,11 +1999,16 @@ msgstr "Not enough"
 msgid "Not sure yet? You can sign back in later to send your letter."
 msgstr "Not sure yet? You can sign back in later to send your letter."
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:18
+msgid "Note to repair sent on behalf of {0}"
+msgstr "Note to repair sent on behalf of {0}"
+
 #: frontend/lib/norent/letter-content.tsx:69
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 msgstr "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:138
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:13
 msgid "Notice to Repair"
 msgstr "Notice to Repair"
 
@@ -2348,13 +2349,13 @@ msgstr "Rodent infestation"
 msgid "Rusty water"
 msgstr "Rusty water"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:201
-msgid "Sample Habitability letter"
-msgstr "Sample Habitability letter"
-
 #: frontend/lib/norent/letter-content.tsx:296
 msgid "Sample NoRent.org letter"
 msgstr "Sample NoRent.org letter"
+
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:201
+msgid "Sample Notice to Repair letter"
+msgstr "Sample Notice to Repair letter"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:395
 msgid "Search address"
@@ -2374,6 +2375,10 @@ msgstr "Select a letter to get started"
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:72
 msgid "Select a mailing method"
 msgstr "Select a mailing method"
+
+#: frontend/lib/loc/access-dates.tsx:33
+msgid "Select at least one date when you'll be available for repairs"
+msgstr "Select at least one date when you'll be available for repairs"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:55
 #: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:57
@@ -2861,8 +2866,8 @@ msgid "Vermont"
 msgstr "Vermont"
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:28
-msgid "View as PDF (recommended)"
-msgstr "View as PDF (recommended)"
+msgid "View as PDF"
+msgstr "View as PDF"
 
 #: frontend/lib/norent/letter-builder/menu.tsx:35
 msgid "View details about your last letter"
@@ -3361,6 +3366,10 @@ msgstr "Your NoRent letter and important next steps"
 msgid "Your NoRent.org letter"
 msgstr "Your NoRent.org letter"
 
+#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:80
+msgid "Your Notice to Repair letter"
+msgstr "Your Notice to Repair letter"
+
 #: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:69
 msgid "Your Notice to Repair letter and important next steps"
 msgstr "Your Notice to Repair letter and important next steps"
@@ -3408,10 +3417,6 @@ msgstr "Your declaration is ready to send!"
 #: frontend/lib/common-steps/ask-email.tsx:18
 msgid "Your email address"
 msgstr "Your email address"
-
-#: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:80
-msgid "Your habitability letter"
-msgstr "Your habitability letter"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:185
 msgid "Your hardship declaration form has been sent to your landlord via {0}."

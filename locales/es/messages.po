@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-08-09 21:01\n"
+"PO-Revision-Date: 2022-08-10 17:35\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1544,18 +1544,18 @@ msgstr "Nombre del dueño de tu edificio"
 
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:83
 msgid "Landlord or property manager email"
-msgstr "Landlord or property manager email"
+msgstr "Correo electrónico del dueño o administrador de propiedades"
 
 #: frontend/lib/laletterbuilder/components/landlord-info.tsx:43
 msgid "Landlord or property manager name"
-msgstr "Landlord or property manager name"
+msgstr "Nombre del dueño o administrador de propiedades"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:57
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:61
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:66
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:71
 msgid "Landlord or property manager’s contact information"
-msgstr "Landlord or property manager’s contact information"
+msgstr "Información de contacto del dueño o del administrador de la propiedad"
 
 #: frontend/lib/common-steps/landlord-email.tsx:38
 msgid "Landlord/management company's email"
@@ -1567,7 +1567,7 @@ msgstr "Nombre del dueño o manager de tu edificio"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:36
 msgid "Landlords must give 24-hour written notice to enter your unit. Make a formal request that your landlord respect your right to privacy."
-msgstr "Landlords must give 24-hour written notice to enter your unit. Make a formal request that your landlord respect your right to privacy."
+msgstr "Los dueños deben notificar por escrito 24 horas antes de entrar a su unidad. Haga una solicitud formal para que su dueño respete su derecho a la privacidad."
 
 #: frontend/lib/evictionfree/components/footer.tsx:13
 #: frontend/lib/ui/language-toggle.tsx:34
@@ -1580,7 +1580,7 @@ msgstr "Apellido"
 
 #: common-data/issue-room-choices-laletterbuilder.ts:46
 msgid "Laundry room"
-msgstr "Laundry room"
+msgstr "Lavanderia"
 
 #: common-data/issue-choices.ts:156
 msgid "Lead-based paint"
@@ -1670,7 +1670,7 @@ msgstr "Lista de grupos que pueden ayudarte a solicitar el ERAP"
 
 #: common-data/issue-room-choices-laletterbuilder.ts:34
 msgid "Living room"
-msgstr "Living room"
+msgstr "Sala"
 
 #: frontend/lib/norent/homepage.tsx:293
 msgid "Locally supported"
@@ -1729,7 +1729,7 @@ msgstr "Hecho en NYC con ♥ por el equipo de <0>JustFix</0>"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:93
 msgid "Mail for free"
-msgstr "Mail for free"
+msgstr "Enviar por correo gratis"
 
 #: common-data/laletterbuilder-mailing-choices.ts:15
 msgid "Mail for me"

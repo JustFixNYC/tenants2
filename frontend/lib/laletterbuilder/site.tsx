@@ -100,9 +100,11 @@ const LaLetterBuilderMenuItems: React.FC<{}> = () => {
       <span className="is-hidden-mobile">
         <NavbarLanguageDropdown />
       </span>
-      <Link className="navbar-item" to={Routes.locale.accountSettings.home}>
-        Account settings
-      </Link>
+      {session.phoneNumber && (
+        <Link className="navbar-item" to={Routes.locale.accountSettings.home}>
+          Account settings
+        </Link>
+      )}
     </>
   );
 };

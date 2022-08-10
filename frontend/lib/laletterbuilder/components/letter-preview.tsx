@@ -54,7 +54,7 @@ const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
       </ResponsiveElement>
       <p className="mt-5 mb-5">
         <OutboundLink href={props.letterContent.pdf} target="_blank">
-          <Trans>View as PDF (recommended)</Trans>
+          <Trans>View as PDF</Trans>
         </OutboundLink>
       </p>
       <ForeignLanguageOnly>

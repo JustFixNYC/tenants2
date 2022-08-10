@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-08-10 18:36\n"
+"PO-Revision-Date: 2022-08-10 18:55\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2976,7 +2976,7 @@ msgstr "Tendremos que añadir el número de índice de tu caso a tu declaración
 
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:29
 msgid "We'll send your letter for you via certified mail in 1-2 business days, at no cost to you."
-msgstr "We'll send your letter for you via certified mail in 1-2 business days, at no cost to you."
+msgstr "Le enviaremos su carta por correo certificado en 1-2 días laborables, sin costo alguno para usted."
 
 #: frontend/lib/norent/letter-builder/ask-email.tsx:10
 msgid "We'll use this information to email you a copy of your letter."
@@ -3003,7 +3003,7 @@ msgstr "Utilizaremos esta información para enviar tu carta."
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:31
 msgid "We're working on adding more letters."
-msgstr "We're working on adding more letters."
+msgstr "Estamos trabajando en añadir más cartas."
 
 #: frontend/lib/start-account-or-login/verify-phone-number.tsx:14
 msgid "We've just sent you a text message containing a verification code. Please enter it below."
@@ -3418,7 +3418,7 @@ msgstr "Tu dirección de correo electrónico"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:80
 msgid "Your habitability letter"
-msgstr "Your habitability letter"
+msgstr "Su carta de habitabilidad"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:185
 msgid "Your hardship declaration form has been sent to your landlord via {0}."
@@ -3680,7 +3680,7 @@ msgstr "Si un casero afirma que un inquilino es una molestia, es decir, afirma q
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:126
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:26
 msgid "free"
-msgstr "free"
+msgstr "gratis"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:163
 msgid "justfix.DdoMayNeedHpdRegistration"
@@ -3752,23 +3752,23 @@ msgstr "<0>Por favor vea la carta adjunta de <1/>. </0><2>Para documentar las co
 
 #: frontend/lib/laletterbuilder/about.tsx:54
 msgid "laletterbuilder.explanationAboutWhyWeMadeThisSite"
-msgstr "We made this site because xyz"
+msgstr "Hicimos este sitio porque xyz"
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:43
 msgid "laletterbuilder.faq.retaliation"
-msgstr "Exercising your tenant rights can be scary. Remember it is within your right to ask for repairs and live in a home free of harassment. If your landlord is retaliating against you, contact SAJE to speak with a housing rights organizer."
+msgstr "Ejercer sus derechos de inquilino puede dar miedo. Recuerde que está en su derecho de pedir reparaciones y vivir en un hogar libre de acoso. Si su casero toma represalias contra usted, póngase en contacto con SAJE para hablar con un organizador de derechos de vivienda."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:33
 msgid "laletterbuilder.faq.timesensitive"
-msgstr "If you live in the City of Los Angeles, call Urgent Repair Program at (213) 808-8562. If you live in a non-incorporated area of the County of Los Angeles, Call Consumer & Business Affairs at (800) 593-8222."
+msgstr "Si vives en la Ciudad de Los Angeles, llama al Programa de Reparación Urgente al (213) 808-8562. Si usted vive en un área no incorporada del Condado de Los Angeles, llame a Consumer & Business Affairs al (800) 593-8222."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:54
 msgid "laletterbuilder.faq.undocumented"
-msgstr "Yes. Your immigration status does not affect your tenant rights."
+msgstr "Sí. Su estado de inmigración no afecta sus derechos de inquilino."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:10
 msgid "laletterbuilder.faq.whentosend"
-msgstr "Create a letter to formally request repairs or document harassment situations. The letter creates a paper trail of your communication if you decide to contact the Los Angeles Housing Department (LAHD)."
+msgstr "Cree una carta para solicitar formalmente reparaciones o documentar situaciones de acoso. La carta crea un historial de su comunicación si decide ponerse en contacto con el Departamento de Vivienda de Los Ángeles (LAHD)."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:20
 msgid "laletterbuilder.faq.whocanhelp"
@@ -3784,15 +3784,15 @@ msgstr "Fechas de acceso disponibles"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:104
 msgid "laletterbuilder.habitability.access-warning"
-msgstr "Be advised that you are required by law to provide a <0>24-hour written notice of intent</0> to enter the unit to make repairs pursuant California Civil Code 1954. Anyone coming to perform a repair inspection and/or repairs should arrive on the date and time mutually agreed upon."
+msgstr "Tenga en cuenta que usted está obligado por ley a proporcionar un aviso de intenciones <0>24 horas antes por escrito</0> para entrar en la unidad para hacer reparaciones de acuerdo con el Código Civil de California 1954. Cualquier persona que venga a realizar una inspección y/o reparación debe llegar en la fecha y hora que se acuerde mutuamente."
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:117
 msgid "laletterbuilder.habitability.consequences"
-msgstr "You have 10 business days from the date of this letter to address the repairs outlined. If the repairs are not initiated and/or completed within this reasonable timeframe, I will have to report my habitability issues to the Los Angeles Housing and Community Investment Department (HCID), the Los Angeles Department of Public Health/(LADPH) and the Department of Building and Safety (LADBS)."
+msgstr "Usted tiene 10 días laborales a partir de la fecha de esta carta para atender las reparaciones indicadas. Si las reparaciones no se inician y/o completan dentro de este plazo razonable, tendré que reportar mis problemas de habitabilidad al Departamento de Vivienda e Inversión Comunitaria de Los Ángeles (HCID), al Departamento de Salud Pública de Los Ángeles/(LADPH) y al Departamento de Construcción y Seguridad (LADBS)."
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:84
 msgid "laletterbuilder.habitability.intro-1"
-msgstr "This letter is to notify you that I need the following repairs in my home referenced below and/or in the public areas of the building:"
+msgstr "Esta carta es para notificarle que necesito las siguientes reparaciones en mi casa a continuación y/o en las áreas públicas del edificio:"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:110
 msgid "laletterbuilder.issues.addRepairDetails"
@@ -3816,7 +3816,7 @@ msgstr "<0>Si tu propietario está tomando represalias contra ti por ejercer tus
 
 #: frontend/lib/laletterbuilder/components/review-your-rights.tsx:15
 msgid "laletterbuilder.reviewTenantRightsIntro"
-msgstr "Tenants have a right to a safe home, without harassment. Sending a letter to notify your landlord is within your rights."
+msgstr "Los inquilinos tienen derecho a una casa segura, sin acoso. Enviar una carta para notificar a su dueño está dentro de sus derechos."
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:33
 msgid "latenants.justfix.org <0/>sent on behalf of <1/>"

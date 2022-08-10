@@ -33,7 +33,7 @@ export type HabitabilityLetterContentProps = BaseLetterContentProps & {
 
 const LetterTitle: React.FC<HabitabilityLetterContentProps> = (props) => (
   <letter.Title>
-    <Trans>Habitability</Trans>
+    <Trans>Notice to Repair</Trans>
   </letter.Title>
 );
 
@@ -54,7 +54,7 @@ export const HabitabilityLetterEmailToLandlord: React.FC<BaseLetterContentProps>
   <>
     <EmailSubject
       value={li18n._(
-        t`Habitability notice sent on behalf of ${letter.getFullLegalName(
+        t`Note to repair sent on behalf of ${letter.getFullLegalName(
           props
         )}`
       )}
@@ -156,7 +156,7 @@ export const HabitabilityLetterForUserStaticPage: React.FC<{
       <HabitabilityLetterStaticPage
         {...lcProps}
         isPdf={isPdf}
-        title={li18n._(t`Your habitability letter`)}
+        title={li18n._(t`Your Notice to Repair letter`)}
       />
     )}
   />
@@ -310,7 +310,7 @@ export const HabitabilitySampleLetterSamplePage: React.FC<{
   return (
     <HabitabilityLetterStaticPage
       {...props}
-      title={li18n._(t`Sample Habitability letter`)}
+      title={li18n._(t`Sample Notice to Repair letter`)}
       isPdf={isPdf}
     />
   );

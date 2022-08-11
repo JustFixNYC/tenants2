@@ -61,7 +61,9 @@ describe("landlord details page", () => {
       });
 
     await pal.rt.waitFor(() =>
-      pal.rr.getByText(/Select at least one date when you'll be available for repairs/i)
+      pal.rr.getByText(
+        /Select at least one date when you'll be available for repairs/i
+      )
     );
     const { mock } = pal.appContext.updateSession;
     expect(mock.calls).toHaveLength(1);

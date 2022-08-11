@@ -54,9 +54,7 @@ export const HabitabilityLetterEmailToLandlord: React.FC<BaseLetterContentProps>
   <>
     <EmailSubject
       value={li18n._(
-        t`Note to repair sent on behalf of ${letter.getFullLegalName(
-          props
-        )}`
+        t`Note to repair sent on behalf of ${letter.getFullLegalName(props)}`
       )}
     />
     <letter.DearLandlord {...props} />

@@ -14,7 +14,7 @@ describe("access dates page", () => {
       session: newSb().withLoggedInJustfixUser().value,
     });
 
-    pal.fillFormFields([[/Date/i, "2018-01-02"]]);
+    pal.fillFirstFormField([/Date/i, "2018-01-02"]);
     pal.clickButtonOrLink("Next");
     pal.withFormMutation(AccessDatesMutation).respondWith({
       errors: [],

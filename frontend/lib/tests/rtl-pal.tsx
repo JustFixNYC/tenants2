@@ -90,6 +90,17 @@ export default class ReactTestingLibraryPal {
     ) as FormFieldElement;
   }
 
+  /**
+   * Return the first form field (e.g. an <input> or <select>) from the
+   * render result that matches.
+   */
+  getFirstFormField(label: string | RegExp): FormFieldElement {
+    return this.getByLabelTextAndSelector(
+      label,
+      "input, select, textarea"
+    ) as FormFieldElement;
+  }
+
   /** Send a keyDown event to the given form field with the give key code. */
   keyDownOnFormField(label: string | RegExp, keyCode: number) {
     return rt.fireEvent.keyDown(this.getFormField(label), { keyCode });
@@ -101,6 +112,19 @@ export default class ReactTestingLibraryPal {
       const input = this.getFormField(matcher);
       rt.fireEvent.change(input, { target: { value } });
     });
+  }
+
+  /** Fill out a form field in the render result. */
+  fillFirstFormField(fill: FormFieldFill) {
+    const [matcher, value] = fill;
+    const matches = this.rr.getAllByLabelText(matcher);
+    if (matches.length === 0) {
+      throw queryHelpers.getElementError(
+        `Could not find element with label text "${matcher}"`,
+        this.rr.container
+      );
+    }
+    rt.fireEvent.change(matches[0], { target: { value } });
   }
 
   /** Retrieve a modal dialog with the given label in the render result. */

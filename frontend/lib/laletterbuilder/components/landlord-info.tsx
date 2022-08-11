@@ -105,7 +105,7 @@ const NameAddressForm: React.FC<
               t`Where do I find this information about my landlord or property manager?`
             )}
             extraClassName=""
-            questionClassName=""
+            questionClassName="is-size-6 jf-has-text-underline"
             onClick={(isExpanded) =>
               logEvent("ui.accordion.click", {
                 label: "find-landlord-info",

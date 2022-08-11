@@ -113,7 +113,7 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
       <hr />
       <Accordion
         question={li18n._(t`What's next?`)}
-        questionClassName=""
+        questionClassName="is-size-6 jf-has-text-underline"
         onClick={(isExpanded) =>
           logEvent("ui.accordion.click", {
             label: "after-letter-sent-info",

@@ -190,10 +190,6 @@ $jf-navbar-height: 70px;
         }
       }
 
-      &:hover summary {
-        color: $justfix-grey-dark;
-      }
-
       &::after {
         content: " ";
         display: block;
@@ -464,6 +460,12 @@ ol.is-marginless {
     .media .media-right .image {
       margin-right: 0;
     }
+  }
+
+  &:hover summary,
+  &:hover summary .has-text-primary {
+    color: $justfix-grey-dark !important;
+    text-decoration-color: $justfix-grey-dark !important;
   }
 
   img {

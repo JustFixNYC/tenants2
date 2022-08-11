@@ -321,6 +321,27 @@ $jf-navbar-height: 70px;
   }
 }
 
+// ACCESS DATES STYLING OVERRIDES
+.jf-landlord-access-dates {
+  h1.title {
+    @include desktop {
+      @include desktop-h3();
+    }
+    @include mobile {
+      @include mobile-h1();
+    }
+  }
+
+  p.subtitle.is-6 {
+    @include desktop {
+      @include desktop-h4();
+    }
+    @include mobile {
+      @include mobile-h3();
+    }
+  }
+}
+
 // MY LETTERS STYLING OVERRIDES
 .jf-my-letters {
   .my-letters-box {

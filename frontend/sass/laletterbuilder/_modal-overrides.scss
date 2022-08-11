@@ -3,7 +3,7 @@
   .box {
     background-color: $secondary;
   }
-  .content {
+  > .content {
     @include tablet {
       padding: $spacing-08 $spacing-10;
     }

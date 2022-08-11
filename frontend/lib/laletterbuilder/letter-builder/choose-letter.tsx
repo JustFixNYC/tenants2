@@ -130,6 +130,7 @@ type LetterCardProps = {
   title: string;
   time_mins: number;
   text: string;
+  className?: string;
   badge?: JSX.Element;
   buttonProps?: LetterCardButtonProps;
   information: string[];
@@ -139,7 +140,7 @@ type LetterCardProps = {
 const LetterCard: React.FC<LetterCardProps> = (props) => {
   return (
     <>
-      <div className="jf-la-letter-card">
+      <div className={`jf-la-letter-card ${props.className}`}>
         <div className="m-6">
           {props.tags && (
             <div className="jf-la-letter-card-tags mb-1">
@@ -235,8 +236,14 @@ const createLetterTags = [
   { label: li18n._(t`no printing`), className: "is-pink" },
 ];
 
-export const CreateLetterCard: React.FC = (props) => {
+type CreateLetterCardProps = {
+  className?: string;
+};
+
+export const CreateLetterCard: React.FC<CreateLetterCardProps> = (props) => {
   const { session } = useContext(AppContext);
+  const { className } = props;
+
   const createNewLetter =
     !!session.phoneNumber && !session.hasHabitabilityLetterInProgress;
 
@@ -258,6 +265,7 @@ export const CreateLetterCard: React.FC = (props) => {
           text={li18n._(
             t`Write your landlord a letter to formally document your request for repairs.`
           )}
+          className={className}
           tags={createLetterTags}
           information={repairsInformationNeeded}
           buttonProps={

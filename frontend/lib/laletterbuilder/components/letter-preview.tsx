@@ -15,7 +15,7 @@ import Page from "../../ui/page";
 import ResponsiveElement from "./responsive-element";
 
 const Microcopy: React.FC<{ children: React.ReactNode }> = (props) => (
-  <p className="is-uppercase is-size-7">{props.children}</p>
+  <p className="eyebrow is-small mb-5">{props.children}</p>
 );
 
 export const InYourLanguageMicrocopy: React.FC<{
@@ -49,14 +49,9 @@ const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
       <ResponsiveElement desktop="h3" touch="h1">
         <Trans>Review your letter</Trans>
       </ResponsiveElement>
-      <ResponsiveElement className="mt-5" desktop="h4" touch="h3">
+      <ResponsiveElement className="mt-5 mb-5" desktop="h4" touch="h3">
         <Trans>Make sure all the information is correct.</Trans>
       </ResponsiveElement>
-      <p className="mt-5 mb-5">
-        <OutboundLink href={props.letterContent.pdf} target="_blank">
-          <Trans>View as PDF</Trans>
-        </OutboundLink>
-      </p>
       <ForeignLanguageOnly>
         <InYourLanguageMicrocopy />
         <LetterTranslation />
@@ -68,6 +63,11 @@ const LetterPreviewPage: React.FC<LetterPreviewProps> = (props) => {
         title={li18n._(t`Preview of your letter`)}
         src={props.letterContent.html}
       />
+      <p className="mb-5">
+        <OutboundLink href={props.letterContent.pdf} target="_blank">
+          <Trans>View as PDF</Trans>
+        </OutboundLink>
+      </p>
       <p className="mt-6">
         <Trans>
           If the information above is not correct, go back to make changes.

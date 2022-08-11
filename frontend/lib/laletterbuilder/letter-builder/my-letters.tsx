@@ -285,7 +285,9 @@ const MyLettersContent: React.FC = (props) => {
       <h2 className="mb-3 mt-9">
         <Trans>Start a new letter</Trans>
       </h2>
-      {!session.habitabilityLetters?.length && <CreateLetterCard />}
+      {!session.habitabilityLetters?.length && (
+        <CreateLetterCard className="mb-9" />
+      )}
       <p className="mb-5">
         <Trans>
           Do you have another housing issue that you need to address?

@@ -156,7 +156,7 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
               <Accordion
                 question={li18n._(t`What if a repair I need is not listed?`)}
                 extraClassName=""
-                questionClassName=""
+                questionClassName="is-size-6 jf-has-text-underline"
               >
                 <div className="content">
                   <Trans id="laletterbuilder.issues.repairNotListed">
@@ -172,7 +172,7 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                   t`Where can I add more details about the issues in my home?`
                 )}
                 extraClassName=""
-                questionClassName=""
+                questionClassName="is-size-6 jf-has-text-underline"
               >
                 <div className="content">
                   <Trans id="laletterbuilder.issues.addRepairDetails">

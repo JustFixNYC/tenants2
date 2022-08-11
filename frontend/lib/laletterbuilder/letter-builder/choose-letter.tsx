@@ -217,7 +217,7 @@ export function InformationNeeded({ id, information }: InformationNeededProps) {
   return (
     <Accordion
       question={li18n._(t`What information will I need?`)}
-      questionClassName="is-small"
+      questionClassName="is-size-6 jf-has-text-underline"
       onClick={(isExpanded) =>
         logEvent("ui.accordion.click", {
           label: `${id}-info-needed`,

@@ -416,6 +416,15 @@ $jf-navbar-height: 70px;
 
 .jf-account-settings-h3 {
   margin-top: $spacing-07;
+  margin-bottom: $spacing-03;
+
+  @include tablet {
+    @include desktop-h4();
+  }
+}
+
+.jf-account-settings-h3 + p {
+  margin-bottom: $spacing-04;
 }
 
 .button + .jf-account-settings-h2 {
@@ -485,6 +494,10 @@ ol.is-marginless {
     background-color: $secondary;
     color: $primary;
     padding: $spacing-06;
+
+    > p:not(:last-child) {
+      margin-bottom: $spacing-05;
+    }
   }
 
   &.jf-letter-translation .message-body {

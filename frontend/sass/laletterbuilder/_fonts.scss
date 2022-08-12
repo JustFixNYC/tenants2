@@ -26,9 +26,9 @@
   font-family: "Degular Display";
   font-weight: normal;
   font-style: normal;
-  src: url("#{$laletterbuilder-root}/fonts/Degular_Display-Medium.woff2")
+  src: url("#{$laletterbuilder-root}/font/Degular_Display-Medium.woff2")
       format("woff2"),
-    url("#{$laletterbuilder-root}/fonts/Degular_Display-Medium.woff")
+    url("#{$laletterbuilder-root}/font/Degular_Display-Medium.woff")
       format("woff");
 }
 
@@ -36,9 +36,9 @@
   font-family: "Suisse Int'l Mono";
   font-weight: normal;
   font-style: normal;
-  src: url("#{$laletterbuilder-root}/fonts/SuisseIntlMono-Regular-WebS.woff2")
+  src: url("#{$laletterbuilder-root}/font/SuisseIntlMono-Regular-WebS.woff2")
       format("woff2"),
-    url("#{$laletterbuilder-root}/fonts/SuisseIntlMono-Regular-WebS.woff")
+    url("#{$laletterbuilder-root}/font/SuisseIntlMono-Regular-WebS.woff")
       format("woff");
 }
 
@@ -255,7 +255,8 @@ $body-color: $justfix-black;
   }
 
   .title.is-1,
-  h1 {
+  h1,
+  div.content h1.title {
     @include mobile-h1();
   }
 

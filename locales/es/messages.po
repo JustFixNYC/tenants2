@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-08-11 19:27\n"
+"PO-Revision-Date: 2022-08-12 19:04\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1854,7 +1854,7 @@ msgstr "Movement Law Lab"
 
 #: frontend/lib/loc/access-dates.tsx:38
 msgid "Must be at least 14 days from today."
-msgstr "Must be at least 14 days from today."
+msgstr "Debe tener al menos 14 días a partir de hoy."
 
 #: frontend/lib/common-steps/create-password.tsx:6
 msgid "Must be at least 8 characters. Can't be all numbers."
@@ -2007,7 +2007,7 @@ msgstr "¿Aún no estás seguro? Puedes volver a ingresar después para enviar t
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:18
 msgid "Note to repair sent on behalf of {0}"
-msgstr "Note to repair sent on behalf of {0}"
+msgstr "Aviso a reparar enviado en nombre de {0}"
 
 #: frontend/lib/norent/letter-content.tsx:69
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
@@ -2361,7 +2361,7 @@ msgstr "Ejemplar de una carta de NoRent.org"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:201
 msgid "Sample Notice to Repair letter"
-msgstr "Sample Notice to Repair letter"
+msgstr "Letra de Aviso a Reparar de Ejemplo"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:395
 msgid "Search address"
@@ -2384,7 +2384,7 @@ msgstr "Selecciona un método de envío"
 
 #: frontend/lib/loc/access-dates.tsx:33
 msgid "Select at least one date when you'll be available for repairs"
-msgstr "Select at least one date when you'll be available for repairs"
+msgstr "Selecciona al menos una fecha cuando estés disponible para reparaciones"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:55
 #: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:57
@@ -2873,7 +2873,7 @@ msgstr "Vermont"
 
 #: frontend/lib/laletterbuilder/components/letter-preview.tsx:28
 msgid "View as PDF"
-msgstr "View as PDF"
+msgstr "Ver como PDF"
 
 #: frontend/lib/norent/letter-builder/menu.tsx:35
 msgid "View details about your last letter"
@@ -3374,7 +3374,7 @@ msgstr "Tu carta de NoRent.org"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:80
 msgid "Your Notice to Repair letter"
-msgstr "Your Notice to Repair letter"
+msgstr "Su carta de Aviso para Reparar"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:69
 msgid "Your Notice to Repair letter and important next steps"

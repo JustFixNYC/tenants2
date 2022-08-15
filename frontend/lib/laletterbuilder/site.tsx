@@ -21,6 +21,7 @@ import type { AppSiteProps } from "../app";
 import { StaticImage } from "../ui/static-image";
 import { getLaLetterBuilderImageSrc } from "./homepage";
 import Navbar from "../ui/navbar";
+import { Helmet } from "react-helmet-async";
 
 export const LaLetterBuilderLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(
@@ -121,12 +122,23 @@ const HeaderArrowIcon = () => (
 
 const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
-    const { session } = useContext(AppContext);
+    const { session, server } = useContext(AppContext);
     const isPrimaryPage = useIsPrimaryPage();
     const activeLocale = i18n.locale;
 
     return (
       <LaLetterBuilderLinguiI18n>
+        {!server.isDemoDeployment && !session.isStaff && (
+          <Helmet>
+            <script
+              async
+              src="https://www.googletagmanager.com/gtag/js?id=G-XZ8F9J2RWJ"
+            ></script>
+            <script>
+              {`window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-XZ8F9J2RWJ');`}
+            </script>
+          </Helmet>
+        )}
         <section
           className={classnames(
             isPrimaryPage

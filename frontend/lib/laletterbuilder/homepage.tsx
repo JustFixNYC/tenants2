@@ -12,7 +12,7 @@ import {
 import { Accordion } from "../ui/accordion";
 import { li18n } from "../i18n-lingui";
 import { OutboundLink } from "../ui/outbound-link";
-import { faqContent } from "./faq-content";
+import { getFaqContent } from "./faq-content";
 import { ClickableLogo } from "./components/clickable-logo";
 import { Link } from "react-router-dom";
 import { bulmaClasses } from "../ui/bulma";
@@ -30,6 +30,7 @@ export function getLaLetterBuilderImageSrc(
 
 export const LaLetterBuilderHomepage: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
+  const faqContent = getFaqContent();
 
   return (
     <Page title={li18n._(t`LA Tenant Action Center`)}>

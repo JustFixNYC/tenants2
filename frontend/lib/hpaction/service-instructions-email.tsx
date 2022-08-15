@@ -202,7 +202,7 @@ const ServiceInstructionsFooter: React.FC<ServiceInstructionsProps> = (props) =>
       <hr />
       <p>
         If you have any further questions, please feel free to email{" "}
-        <EmailLink to={"documents@justfix.nyc"} /> explaining your concerns and
+        <EmailLink to={"documents@justfix.org"} /> explaining your concerns and
         we will be in touch to help.
       </p>
       <p>

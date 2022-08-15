@@ -277,17 +277,17 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
 
     # Default email address to use for various automated correspondence
     # from the site manager(s).
-    DEFAULT_FROM_EMAIL = "JustFix no-reply <no-reply@justfix.nyc>"
+    DEFAULT_FROM_EMAIL = "JustFix no-reply <no-reply@justfix.org>"
 
     # The email address used for court documents (e.g. HP Actions).
-    COURT_DOCUMENTS_EMAIL: str = "JustFix <documents@justfix.nyc>"
+    COURT_DOCUMENTS_EMAIL: str = "JustFix <documents@justfix.org>"
 
     # The email address used for LOC notifications. If blank (the default),
     # no LOC notifications will be sent.
     LOC_EMAIL: str = ""
 
     # Sender email address used to send a user's rental history request.
-    DHCR_EMAIL_SENDER_ADDRESS: str = "support@justfix.nyc"
+    DHCR_EMAIL_SENDER_ADDRESS: str = "support@justfix.org"
 
     # Recipient email addresses that we send a user's rental history request to.
     DHCR_EMAIL_RECIPIENT_ADDRESSES: str = "rentinfo@nyshcr.org"
@@ -396,7 +396,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # `%(id)s` string can be used to substitute in a unique identifier
     # that will allow us to relate any replies to the declaration/user
     # it corresponds to.
-    EVICTIONFREE_REPLY_TO_EMAIL: str = "JustFix <efnyreplies+%(id)s@justfix.nyc>"
+    EVICTIONFREE_REPLY_TO_EMAIL: str = "JustFix <efnyreplies+%(id)s@justfix.org>"
 
     # The origin of the NYC GeoSearch API.
     NYC_GEOSEARCH_ORIGIN: str = "https://geosearch.planninglabs.nyc"

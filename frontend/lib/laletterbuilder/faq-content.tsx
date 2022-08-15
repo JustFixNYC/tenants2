@@ -10,7 +10,7 @@ type FaqItem = {
   answer: JSX.Element;
 };
 
-export const faqContent: FaqItem[] = [
+export const getFaqContent: () => FaqItem[] = () => [
   {
     question: li18n._(t`When do I need to send a letter to my landlord?`),
     answer: (

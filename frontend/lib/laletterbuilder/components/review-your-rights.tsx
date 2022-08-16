@@ -2,6 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import React from "react";
 import { li18n } from "../../i18n-lingui";
 import { ProgressButtonsAsLinks } from "../../ui/buttons";
+import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
 import { OutboundLink } from "../../ui/outbound-link";
 import Page from "../../ui/page";
 import { LaLetterBuilderOnboardingStep } from "../letter-builder/step-decorators";
@@ -30,9 +31,16 @@ export const LaLetterBuilderReviewRights = LaLetterBuilderOnboardingStep(
               <li>
                 <p>
                   Attend SAJE'S{" "}
-                  <OutboundLink href="https://www.saje.net/what-we-do/tenant-action-clinic/">
+                  <LocalizedOutboundLink
+                    hrefs={{
+                      en:
+                        "https://www.saje.net/what-we-do/tenant-action-clinic/",
+                      es:
+                        "https://espanol.saje.net/que-hacemos/clinica-de-accion-de-inquilinos/",
+                    }}
+                  >
                     Tenant Action Clinic
-                  </OutboundLink>
+                  </LocalizedOutboundLink>
                 </p>
               </li>
               <li>

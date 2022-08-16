@@ -82,7 +82,7 @@ const LaLetterBuilderMenuItems: React.FC<{}> = () => {
   return (
     <>
       <Link className="navbar-item" to={Routes.locale.habitability.latestStep}>
-        Build my letter
+        <Trans>Build my letter</Trans>
       </Link>
       <span className="is-hidden-mobile">
         {session.phoneNumber ? (

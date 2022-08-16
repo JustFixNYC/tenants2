@@ -16,7 +16,11 @@ import { assertNotNull } from "@justfixnyc/util";
 import { makeAccountSettingsSection, WithAccountSettingsProps } from "./util";
 
 const PhoneNumberField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
-  const sec = makeAccountSettingsSection(routes, "Phone number", "phone");
+  const sec = makeAccountSettingsSection(
+    routes,
+    li18n._(t`Phone number`),
+    "phone"
+  );
   const { session } = useContext(AppContext);
   const phoneNumber = assertNotNull(session.phoneNumber);
 
@@ -56,7 +60,11 @@ const PhoneNumberField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
 };
 
 const EmailAddressField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
-  const sec = makeAccountSettingsSection(routes, "Email address", "email");
+  const sec = makeAccountSettingsSection(
+    routes,
+    li18n._(t`Email address`),
+    "email"
+  );
   const { session } = useContext(AppContext);
   const email = assertNotNull(session.email);
 

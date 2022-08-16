@@ -57,7 +57,7 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
             className: "button is-light is-medium mb-3",
             text: li18n._(t`Go to form`),
           }}
-          information={privacyInformationNeeded}
+          information={privacyInformationNeeded()}
         />
         <LetterCard
           title={li18n._(t`Anti-Harassment`)}
@@ -71,7 +71,7 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
             className: "button is-light is-medium mb-3",
             text: li18n._(t`Go to form`),
           }}
-          information={harassmentInformationNeeded}
+          information={harassmentInformationNeeded()}
         />
         <LetterCard
           title={li18n._(t`Private Right of Action`)}
@@ -85,31 +85,31 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
             className: "button is-light is-medium mb-3",
             text: li18n._(t`Go to form`),
           }}
-          information={rightOfActionInformationNeeded}
+          information={rightOfActionInformationNeeded()}
         />
       </section>
     </Page>
   );
 };
 
-const repairsInformationNeeded = [
+const repairsInformationNeeded = () => [
   li18n._(t`Repairs needed in your home`),
   li18n._(t`Dates and times you’ll be available for repairs`),
   li18n._(t`Landlord or property manager’s contact information`),
 ];
 
-const privacyInformationNeeded = [
+const privacyInformationNeeded = () => [
   li18n._(t`Dates when the landlord tried to access your home`),
   li18n._(t`Landlord or property manager’s contact information`),
 ];
 
-const harassmentInformationNeeded = [
+const harassmentInformationNeeded = () => [
   li18n._(t`Dates the harassment occurred`),
   li18n._(t`Details about the events`),
   li18n._(t`Landlord or property manager’s contact information`),
 ];
 
-const rightOfActionInformationNeeded = [
+const rightOfActionInformationNeeded = () => [
   li18n._(t`Dates the COVID-19 renter protections were violated`),
   li18n._(t`Details about the events`),
   li18n._(t`Landlord or property manager’s contact information`),
@@ -267,7 +267,7 @@ export const CreateLetterCard: React.FC<CreateLetterCardProps> = (props) => {
           )}
           className={className}
           tags={createLetterTags}
-          information={repairsInformationNeeded}
+          information={repairsInformationNeeded()}
           buttonProps={
             !createNewLetter
               ? {

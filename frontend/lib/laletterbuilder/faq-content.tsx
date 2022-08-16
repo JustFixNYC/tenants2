@@ -2,8 +2,8 @@ import React from "react";
 
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
-import { OutboundLink } from "../ui/outbound-link";
 import { PhoneNumber } from "./components/phone-number";
+import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 
 type FaqItem = {
   question: string;
@@ -18,7 +18,8 @@ export const getFaqContent: () => FaqItem[] = () => [
         <Trans id="laletterbuilder.faq.whentosend">
           Create a letter to formally request repairs or document harassment
           situations. The letter creates a paper trail of your communication if
-          you decide to contact the Los Angeles Housing Department (LAHD).
+          you decide to contact the Los Angeles Housing Department (LAHD) or the
+          appropriate department.
         </Trans>
       </span>
     ),
@@ -32,9 +33,15 @@ export const getFaqContent: () => FaqItem[] = () => [
         <Trans id="laletterbuilder.faq.whocanhelp">
           Give SAJE a call at <PhoneNumber number="(213) 745-9961" /> and let
           them know you need help creating a letter. You can also attend a{" "}
-          <OutboundLink href="https://www.saje.net/what-we-do/tenant-action-clinic/">
+          <LocalizedOutboundLink
+            hrefs={{
+              en: "https://www.saje.net/what-we-do/tenant-action-clinic/",
+              es:
+                "https://espanol.saje.net/que-hacemos/clinica-de-accion-de-inquilinos/",
+            }}
+          >
             Tenant Action Clinic
-          </OutboundLink>
+          </LocalizedOutboundLink>
           .
         </Trans>
       </span>
@@ -48,8 +55,9 @@ export const getFaqContent: () => FaqItem[] = () => [
       <span className="is-small">
         <Trans id="laletterbuilder.faq.timesensitive">
           If you live in the City of Los Angeles, call Urgent Repair Program at
-          (213) 808-8562. If you live in a non-incorporated area of the County
-          of Los Angeles, Call Consumer & Business Affairs at (800) 593-8222.
+          <PhoneNumber number="(213) 808-8562" />. If you live in a
+          non-incorporated area of the County of Los Angeles, Call Consumer &
+          Business Affairs at <PhoneNumber number="(800) 593-8222" />.
         </Trans>
       </span>
     ),
@@ -63,8 +71,17 @@ export const getFaqContent: () => FaqItem[] = () => [
         <Trans id="laletterbuilder.faq.retaliation">
           Exercising your tenant rights can be scary. Remember it is within your
           right to ask for repairs and live in a home free of harassment. If
-          your landlord is retaliating against you, contact SAJE to speak with a
-          housing rights organizer.
+          your landlord is retaliating against you,{" "}
+          <LocalizedOutboundLink
+            hrefs={{
+              en: "https://www.saje.net/what-we-do/tenant-action-clinic/",
+              es:
+                "https://espanol.saje.net/que-hacemos/clinica-de-accion-de-inquilinos/",
+            }}
+          >
+            contact SAJE
+          </LocalizedOutboundLink>{" "}
+          to speak with a housing rights organizer.
         </Trans>
       </span>
     ),

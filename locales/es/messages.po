@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-08-12 19:04\n"
+"PO-Revision-Date: 2022-08-16 19:08\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -67,8 +67,7 @@ msgstr "<0>Hola {0},</0><1>Has enviado tu carta de NoRent. Aquí tienes una copi
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:9
 msgid "<0>Hello {0},</0><1>You've sent your Notice To Repair letter. Attached to this email is a PDF copy for your records.</1>"
-msgstr ""
-"<0>Hola {0},</0><1>Has enviado tu carta del Aviso para reparar. Adjunto a este correo electrónica está una copia en PDF para tus archivos.</1>\n"
+msgstr "<0>Hola {0},</0><1>Has enviado tu carta del Aviso para reparar. Adjunto a este correo electrónica está una copia en PDF para tus archivos.</1>\n"
 "CONTEXTREQUEST"
 
 #: frontend/lib/norent/data/faqs-content.tsx:389
@@ -1644,7 +1643,7 @@ msgstr "Apellido legal"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:35
 msgid "Legal name"
-msgstr ""
+msgstr "Legal name"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:58
 #: frontend/lib/norent/homepage.tsx:125
@@ -2045,7 +2044,7 @@ msgstr "Carta de aviso de reparación"
 
 #: frontend/lib/start-account-or-login/verify-password.tsx:59
 msgid "Now we just need your password. This is the same one you’ve used on JustFix or NoRent."
-msgstr ""
+msgstr "Now we just need your password. This is the same one you’ve used on JustFix or NoRent."
 
 #: common-data/us-state-choices.ts:100
 msgid "Ohio"
@@ -2201,7 +2200,7 @@ msgstr "Nombre de preferencia"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:15
 msgid "Preferred first name (optional)"
-msgstr ""
+msgstr "Preferred first name (optional)"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:105
 #: frontend/lib/norent/the-letter.tsx:92
@@ -3555,8 +3554,7 @@ msgstr "eviction free nyc, eviction free ny, penuria, declaración, desalojo, de
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:157
 msgid "evictionFree.canLandlordChallengeDeclarationFaq"
-msgstr ""
-"<0>SI. ESTO ES NUEVO. Ahora, el casero tiene derecho a impugnar la validez de la declaración de dificultades de un inquilino. Para hacer esto, el casero puede presentar una moción ante la corte, declarando que no cree que el inquilino tenga las dificultades que reclamó en su Declaración de Dificultades. Si ocurre esto, la Corte concederá una audiencia para determinar la validez de la declaración de dificultades del inquilino y el inquilino deberá mostrar prueba de las dificultades que reclamó en su Declaración. En NYC, <1>inquilinos tienen el derecho a un abogado a través de Right to Counsel para estas audiencias</1>.</0><2>\n"
+msgstr "<0>SI. ESTO ES NUEVO. Ahora, el casero tiene derecho a impugnar la validez de la declaración de dificultades de un inquilino. Para hacer esto, el casero puede presentar una moción ante la corte, declarando que no cree que el inquilino tenga las dificultades que reclamó en su Declaración de Dificultades. Si ocurre esto, la Corte concederá una audiencia para determinar la validez de la declaración de dificultades del inquilino y el inquilino deberá mostrar prueba de las dificultades que reclamó en su Declaración. En NYC, <1>inquilinos tienen el derecho a un abogado a través de Right to Counsel para estas audiencias</1>.</0><2>\n"
 "Si la corte decide que el inquilino demostró su reclamo por dificultades, entonces su caso/desalojo permanecerá en pausa hasta al menos el {0}. La corte instruirá a las partes que soliciten ERAP si parece que el inquilino es elegible y aún no ha presentado esa solicitud.</2><3>Si la corte decide que el inquilino NO está experimentando dificultades, entonces su caso y desalojo pueden proceder.</3>"
 
 #: frontend/lib/evictionfree/about.tsx:45
@@ -3645,8 +3643,7 @@ msgstr "Además, entiendo que los honorarios, multas o intereses legales por imp
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:37
 msgid "evictionfree.legalAgreementCheckboxOnLandlordChallenge"
-msgstr ""
-"Además, entiendo que mi casero puede solicitar una audiencia para retar el presente\n"
+msgstr "Además, entiendo que mi casero puede solicitar una audiencia para retar el presente\n"
 "certificado de penuria y tendré la oportunidad de participar en todo procedimiento\n"
 "de tenencia inmobiliaria."
 
@@ -3785,11 +3782,11 @@ msgstr "Hicimos este sitio porque xyz"
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:48
 msgid "laletterbuilder.faq.retaliation"
-msgstr "Ejercer sus derechos de inquilino puede dar miedo. Recuerde que está en su derecho de pedir reparaciones y vivir en un hogar libre de acoso. Si su casero toma represalias contra usted, póngase en contacto con SAJE para hablar con un organizador de derechos de vivienda."
+msgstr "Exercising your tenant rights can be scary. Remember it is within your right to ask for repairs and live in a home free of harassment. If your landlord is retaliating against you, <0>contact SAJE</0> to speak with a housing rights organizer."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:37
 msgid "laletterbuilder.faq.timesensitive"
-msgstr ""
+msgstr "If you live in the City of Los Angeles, call Urgent Repair Program at<0/>. If you live in a non-incorporated area of the County of Los Angeles, Call Consumer & Business Affairs at <1/>."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:65
 msgid "laletterbuilder.faq.undocumented"
@@ -3797,11 +3794,11 @@ msgstr "Sí. Su estado de inmigración no afecta sus derechos de inquilino."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:10
 msgid "laletterbuilder.faq.whentosend"
-msgstr "Cree una carta para solicitar formalmente reparaciones o documentar situaciones de acoso. La carta crea un historial de su comunicación si decide ponerse en contacto con el Departamento de Vivienda de Los Ángeles (LAHD)."
+msgstr "Create a letter to formally request repairs or document harassment situations. The letter creates a paper trail of your communication if you decide to contact the Los Angeles Housing Department (LAHD) or the appropriate department."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:21
 msgid "laletterbuilder.faq.whocanhelp"
-msgstr ""
+msgstr "Dale a SAJE una llamada al <0/> y hazles saber que necesitas ayuda para crear una carta. También puedes asistir a una <1>Clínica de acción del inquilino</1>."
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:97
 msgid "laletterbuilder.habitability.access-intro"
@@ -4054,3 +4051,4 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+

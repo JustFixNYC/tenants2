@@ -20,9 +20,9 @@ import {
 } from "../../queries/LandlordNameAddressMutation";
 import { exactSubsetOrDefault } from "../../util/util";
 import { Accordion } from "../../ui/accordion";
-import { OutboundLink } from "../../ui/outbound-link";
 import ResponsiveElement from "./responsive-element";
 import { logEvent } from "../../analytics/util";
+import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
 
 export const LaLetterBuilderLandlordNameAddress = MiddleProgressStep(
   (props) => (
@@ -117,9 +117,15 @@ const NameAddressForm: React.FC<
               <Trans id="laletterbuilder.landlord.whereToFindInfo">
                 By law your landlord is required to provide contact information.
                 If you’re unable to get this information, attend the{" "}
-                <OutboundLink href="https://www.saje.net/what-we-do/tenant-action-clinic/">
+                <LocalizedOutboundLink
+                  hrefs={{
+                    en: "https://www.saje.net/what-we-do/tenant-action-clinic/",
+                    es:
+                      "https://espanol.saje.net/que-hacemos/clinica-de-accion-de-inquilinos/",
+                  }}
+                >
                   Tenant Action Clinic
-                </OutboundLink>{" "}
+                </LocalizedOutboundLink>{" "}
                 to get help.
               </Trans>
             </div>

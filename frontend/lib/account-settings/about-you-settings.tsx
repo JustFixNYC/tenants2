@@ -15,7 +15,7 @@ const PreferredNameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   const { session } = useContext(AppContext);
   const sec = makeAccountSettingsSection(
     routes,
-    "Preferred first name (optional)",
+    li18n._(t`Preferred first name (optional)`),
     "preferredName"
   );
 
@@ -55,7 +55,11 @@ const PreferredNameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
 
 const LegalNameField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   const { session } = useContext(AppContext);
-  const sec = makeAccountSettingsSection(routes, "Legal name", "legalname");
+  const sec = makeAccountSettingsSection(
+    routes,
+    li18n._(t`Legal name`),
+    "legalname"
+  );
 
   return (
     <>

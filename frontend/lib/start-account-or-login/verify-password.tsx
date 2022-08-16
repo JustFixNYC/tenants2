@@ -84,7 +84,7 @@ export const VerifyPassword: React.FC<StartAccountOrLoginProps> = ({
         <p>
           <Trans>
             Now we just need your password. This is the same one you’ve used on
-            JustFix.
+            JustFix or NoRent.
           </Trans>
         </p>
       </div>

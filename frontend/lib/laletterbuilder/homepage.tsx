@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import { bulmaClasses } from "../ui/bulma";
 import ResponsiveElement from "./components/responsive-element";
 import { logEvent } from "../analytics/util";
+import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 
 type LaLetterBuilderImageType = "png" | "svg";
 
@@ -191,9 +192,16 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
               <label>
                 <Trans>
                   Attend SAJE’s{" "}
-                  <OutboundLink href="https://www.saje.net/what-we-do/tenant-action-clinic/">
+                  <LocalizedOutboundLink
+                    hrefs={{
+                      en:
+                        "https://www.saje.net/what-we-do/tenant-action-clinic/",
+                      es:
+                        "https://espanol.saje.net/que-hacemos/clinica-de-accion-de-inquilinos/",
+                    }}
+                  >
                     Tenant Action Clinic
-                  </OutboundLink>{" "}
+                  </LocalizedOutboundLink>{" "}
                   if you're faced with a housing problem.
                   <br />
                   Get involved with SAJE to build power with your neighbors

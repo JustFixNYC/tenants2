@@ -102,7 +102,9 @@ export const ContactAccountSettings: React.FC<WithAccountSettingsProps> = (
 ) => {
   return (
     <>
-      <h2 className="jf-account-settings-h2">Contact</h2>
+      <h2 className="jf-account-settings-h2">
+        <Trans>Contact</Trans>
+      </h2>
       <PhoneNumberField {...props} />
       <EmailAddressField {...props} />
     </>

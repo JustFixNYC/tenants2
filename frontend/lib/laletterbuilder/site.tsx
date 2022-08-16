@@ -103,7 +103,7 @@ const LaLetterBuilderMenuItems: React.FC<{}> = () => {
       </span>
       {session.phoneNumber && (
         <Link className="navbar-item" to={Routes.locale.accountSettings.home}>
-          Account settings
+          <Trans>Account settings</Trans>
         </Link>
       )}
     </>

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-08-16 19:08\n"
+"PO-Revision-Date: 2022-08-16 21:11\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -67,8 +67,7 @@ msgstr "<0>Hola {0},</0><1>Has enviado tu carta de NoRent. Aquí tienes una copi
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:9
 msgid "<0>Hello {0},</0><1>You've sent your Notice To Repair letter. Attached to this email is a PDF copy for your records.</1>"
-msgstr "<0>Hola {0},</0><1>Has enviado tu carta del Aviso para reparar. Adjunto a este correo electrónica está una copia en PDF para tus archivos.</1>\n"
-"CONTEXTREQUEST"
+msgstr "<0>Hola {0},</0><1>Has enviado tu carta del Aviso para reparar. Adjunto a este correo electrónica está una copia en PDF para tus archivos.</1>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:389
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
@@ -147,12 +146,12 @@ msgstr "Acerca de"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:60
 msgid "About you"
-msgstr ""
+msgstr "About you"
 
 #: frontend/lib/laletterbuilder/components/account-settings.tsx:12
 #: frontend/lib/laletterbuilder/site.tsx:60
 msgid "Account settings"
-msgstr ""
+msgstr "Account settings"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:338
 msgid "Actions"
@@ -647,7 +646,7 @@ msgstr "Poniéndose en contacto con otros"
 
 #: frontend/lib/account-settings/contact-settings.tsx:55
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #: frontend/lib/laletterbuilder/components/footer.tsx:15
 msgid "Contact SAJE at <0/> or attend the <1>Tenant Action Clinic</1>"
@@ -898,7 +897,7 @@ msgstr "Enviar una copia por correo electrónico al dueño o administrador de pr
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
 #: frontend/lib/laletterbuilder/components/create-account.tsx:30
 msgid "Email address"
-msgstr "Dirección de correo electrónico"
+msgstr "Correo electrónico"
 
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:165
 msgid "Email your letter to:"
@@ -1643,7 +1642,7 @@ msgstr "Apellido legal"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:35
 msgid "Legal name"
-msgstr "Legal name"
+msgstr "Nombre legal"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:58
 #: frontend/lib/norent/homepage.tsx:125
@@ -2044,7 +2043,7 @@ msgstr "Carta de aviso de reparación"
 
 #: frontend/lib/start-account-or-login/verify-password.tsx:59
 msgid "Now we just need your password. This is the same one you’ve used on JustFix or NoRent."
-msgstr "Now we just need your password. This is the same one you’ve used on JustFix or NoRent."
+msgstr "Ahora sólo necesitamos tu contraseña. Esta es la misma que usas en JustFix o Norent."
 
 #: common-data/us-state-choices.ts:100
 msgid "Ohio"
@@ -2200,7 +2199,7 @@ msgstr "Nombre de preferencia"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:15
 msgid "Preferred first name (optional)"
-msgstr "Preferred first name (optional)"
+msgstr "Nombre preferido (opcional)"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:105
 #: frontend/lib/norent/the-letter.tsx:92
@@ -3782,11 +3781,11 @@ msgstr "Hicimos este sitio porque xyz"
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:48
 msgid "laletterbuilder.faq.retaliation"
-msgstr "Exercising your tenant rights can be scary. Remember it is within your right to ask for repairs and live in a home free of harassment. If your landlord is retaliating against you, <0>contact SAJE</0> to speak with a housing rights organizer."
+msgstr "Ejercer sus derechos de inquilino puede dar miedo. Recuerde que está en su derecho de pedir reparaciones y vivir en un hogar libre de acoso. Si su casero toma represalias contra usted, <0>póngase en contacto con SAJE</0> para hablar con un organizador de derechos de vivienda."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:37
 msgid "laletterbuilder.faq.timesensitive"
-msgstr "If you live in the City of Los Angeles, call Urgent Repair Program at<0/>. If you live in a non-incorporated area of the County of Los Angeles, Call Consumer & Business Affairs at <1/>."
+msgstr "Si vives en la Ciudad de Los Angeles, llama al Programa de Reparación Urgente al <0/>. Si usted vive en un área no incorporada del Condado de Los Angeles, llame a Consumer & Business Affairs al <1/>."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:65
 msgid "laletterbuilder.faq.undocumented"
@@ -3794,7 +3793,7 @@ msgstr "Sí. Su estado de inmigración no afecta sus derechos de inquilino."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:10
 msgid "laletterbuilder.faq.whentosend"
-msgstr "Create a letter to formally request repairs or document harassment situations. The letter creates a paper trail of your communication if you decide to contact the Los Angeles Housing Department (LAHD) or the appropriate department."
+msgstr "Cree una carta para solicitar formalmente reparaciones o documentar situaciones de acoso. La carta crea un historial de su comunicación si decide ponerse en contacto con el Departamento de Vivienda de Los Ángeles (LAHD) o el departamento correspondiente."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:21
 msgid "laletterbuilder.faq.whocanhelp"

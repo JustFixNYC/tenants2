@@ -139,6 +139,15 @@ msgstr "A national tool by non-profit <0>JustFix.org</0>"
 msgid "About"
 msgstr "About"
 
+#: frontend/lib/account-settings/about-you-settings.tsx:60
+msgid "About you"
+msgstr "About you"
+
+#: frontend/lib/laletterbuilder/components/account-settings.tsx:12
+#: frontend/lib/laletterbuilder/site.tsx:60
+msgid "Account settings"
+msgstr "Account settings"
+
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:338
 msgid "Actions"
 msgstr "Actions"
@@ -629,6 +638,10 @@ msgstr "Connecticut"
 #: frontend/lib/norent/data/faqs-content.tsx:10
 msgid "Connecting With Others"
 msgstr "Connecting With Others"
+
+#: frontend/lib/account-settings/contact-settings.tsx:55
+msgid "Contact"
+msgstr "Contact"
 
 #: frontend/lib/laletterbuilder/components/footer.tsx:15
 msgid "Contact SAJE at <0/> or attend the <1>Tenant Action Clinic</1>"

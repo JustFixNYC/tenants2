@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-08-16 21:11\n"
+"PO-Revision-Date: 2022-08-17 21:07\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -151,7 +151,7 @@ msgstr "About you"
 #: frontend/lib/laletterbuilder/components/account-settings.tsx:12
 #: frontend/lib/laletterbuilder/site.tsx:60
 msgid "Account settings"
-msgstr "Account settings"
+msgstr "Detalles de la cuenta"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:338
 msgid "Actions"
@@ -646,7 +646,7 @@ msgstr "Poniéndose en contacto con otros"
 
 #: frontend/lib/account-settings/contact-settings.tsx:55
 msgid "Contact"
-msgstr "Contact"
+msgstr "Contacta"
 
 #: frontend/lib/laletterbuilder/components/footer.tsx:15
 msgid "Contact SAJE at <0/> or attend the <1>Tenant Action Clinic</1>"

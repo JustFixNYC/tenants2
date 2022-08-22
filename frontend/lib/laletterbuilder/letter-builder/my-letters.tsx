@@ -121,32 +121,32 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
           })
         }
       >
-        <h2>
+        <h2 className="mt-6">
           <Trans>Allow 14 days for a response</Trans>
         </h2>
-        <p>
+        <span className="is-block mt-3">
           <Trans>
             If your landlord or property manager doesn’t respond, you should
             file a complaint.
           </Trans>
-        </p>
-        <span className="is-small">
+        </span>
+        <span className="is-small is-block mt-5 mb-1">
           <Trans>For LA City residents</Trans>
         </span>
-        <p>
+        <span>
           <Trans>
             Call LAHD at <PhoneNumber number="(866) 557-7368" />
           </Trans>
-        </p>
-        <span className="is-small">
+        </span>
+        <span className="is-small is-block mt-5 mb-1">
           <Trans>For LA county residents</Trans>
         </span>
-        <p>
+        <span>
           <Trans>
             Call LADBS at <PhoneNumber number="(213) 473-3231" />
           </Trans>
-        </p>
-        <h2>
+        </span>
+        <h2 className="mt-6">
           <Trans>Mark your calendar</Trans>
         </h2>
         <p>

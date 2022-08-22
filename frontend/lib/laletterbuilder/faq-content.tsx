@@ -91,7 +91,8 @@ export const getFaqContent: () => FaqItem[] = () => [
     answer: (
       <span className="is-small">
         <Trans id="laletterbuilder.faq.undocumented">
-          Yes. Your immigration status does not affect your tenant rights.
+          Yes, you can send a letter. Your immigration status does not affect
+          your tenant rights.
         </Trans>
       </span>
     ),

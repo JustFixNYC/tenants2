@@ -3777,11 +3777,11 @@ msgstr "Exercising your tenant rights can be scary. Remember it is within your r
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:37
 msgid "laletterbuilder.faq.timesensitive"
-msgstr "If you live in the City of Los Angeles, call Urgent Repair Program at<0/>. If you live in a non-incorporated area of the County of Los Angeles, Call Consumer & Business Affairs at <1/>."
+msgstr "If you live in the City of Los Angeles, call Urgent Repair Program at <0/>. If you live in a non-incorporated area of the County of Los Angeles, Call Consumer & Business Affairs at <1/>."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:65
 msgid "laletterbuilder.faq.undocumented"
-msgstr "Yes. Your immigration status does not affect your tenant rights."
+msgstr "Yes, you can send a letter. Your immigration status does not affect your tenant rights."
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:10
 msgid "laletterbuilder.faq.whentosend"

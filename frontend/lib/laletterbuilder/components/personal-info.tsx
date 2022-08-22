@@ -19,7 +19,7 @@ export const LaLetterBuilderAskCityState = LaLetterBuilderOnboardingStep(
         LaLetterBuilderRouteInfo.locale.habitability.cityConfirmModal
       }
     >
-      <p>LA Letter Builder is for California residents only.</p>
+      <p>LA Tenant Action Center is for California residents only.</p>
     </AskCityState>
   )
 );

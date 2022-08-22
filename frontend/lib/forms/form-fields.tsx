@@ -125,7 +125,9 @@ export function RadiosFormField(props: RadiosFormFieldProps): JSX.Element {
         {props.choices.map(([choice, label], i) => (
           <label
             htmlFor={idFor(choice)}
-            className="radio jf-radio"
+            className={`radio jf-radio ${
+              props.value === choice ? "checked" : ""
+            }`}
             key={choice}
           >
             <AutofocusedInput

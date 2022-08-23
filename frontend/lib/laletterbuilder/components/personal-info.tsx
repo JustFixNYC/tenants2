@@ -5,6 +5,7 @@ import { AskNameStep } from "../../common-steps/ask-name";
 import { AskNationalAddress } from "../../common-steps/ask-national-address";
 import { LaLetterBuilderRouteInfo } from "../route-info";
 import { LaLetterBuilderOnboardingStep } from "../letter-builder/step-decorators";
+import { Trans } from "@lingui/macro";
 
 export const LaLetterBuilderAskName = LaLetterBuilderOnboardingStep(
   AskNameStep
@@ -19,7 +20,9 @@ export const LaLetterBuilderAskCityState = LaLetterBuilderOnboardingStep(
         LaLetterBuilderRouteInfo.locale.habitability.cityConfirmModal
       }
     >
-      <p>LA Tenant Action Center is for California residents only.</p>
+      <p>
+        <Trans>LA Tenant Action Center is for California residents only.</Trans>
+      </p>
     </AskCityState>
   )
 );

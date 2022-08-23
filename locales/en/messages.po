@@ -1530,6 +1530,10 @@ msgstr "Know your rights"
 msgid "LA Tenant Action Center"
 msgstr "LA Tenant Action Center"
 
+#: frontend/lib/laletterbuilder/components/personal-info.tsx:13
+msgid "LA Tenant Action Center is for California residents only."
+msgstr "LA Tenant Action Center is for California residents only."
+
 #: frontend/lib/laletterbuilder/about.tsx:99
 msgid "LaLetterBuilder is a collaboration between JustFix and legal organizations and housing rights non-profits in Los Angeles."
 msgstr "LaLetterBuilder is a collaboration between JustFix and legal organizations and housing rights non-profits in Los Angeles."

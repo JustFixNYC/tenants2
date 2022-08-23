@@ -43,6 +43,10 @@ form {
       border-radius: 4px;
       padding: $spacing-05 $spacing-03;
       margin-bottom: $spacing-05;
+
+      &.checked {
+        border-width: 2px;
+      }
     }
     .jf-radio-symbol {
       min-width: $spacing-05;

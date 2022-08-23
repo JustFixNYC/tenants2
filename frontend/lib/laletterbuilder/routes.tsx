@@ -7,7 +7,6 @@ import { LoadingPage, friendlyLoad } from "../networking/loading-page";
 import { AlternativeLogoutPage } from "../pages/logout-alt-page";
 import LoginPage from "../pages/login-page";
 import { NotFound } from "../pages/not-found";
-import { LaLetterBuilderAboutPage } from "./about";
 import { LaLetterBuilderHomepage } from "./homepage";
 import { LaLetterBuilderRouteInfo as Routes } from "./route-info";
 import HabitabilityRoutes from "./letter-builder/habitability/routes";
@@ -51,11 +50,6 @@ export const LaLetterBuilderRouteComponent: React.FC<RouteComponentProps> = (
         path={Routes.locale.home}
         exact
         component={LaLetterBuilderHomepage}
-      />
-      <Route
-        path={Routes.locale.about}
-        exact
-        component={LaLetterBuilderAboutPage}
       />
       <Route
         path={Routes.locale.accountSettings.prefix}

@@ -54,7 +54,7 @@ export const getFaqContent: () => FaqItem[] = () => [
     answer: (
       <span className="is-small">
         <Trans id="laletterbuilder.faq.timesensitive">
-          If you live in the City of Los Angeles, call Urgent Repair Program at
+          If you live in the City of Los Angeles, call Urgent Repair Program at{" "}
           <PhoneNumber number="(213) 808-8562" />. If you live in a
           non-incorporated area of the County of Los Angeles, Call Consumer &
           Business Affairs at <PhoneNumber number="(800) 593-8222" />.
@@ -91,7 +91,8 @@ export const getFaqContent: () => FaqItem[] = () => [
     answer: (
       <span className="is-small">
         <Trans id="laletterbuilder.faq.undocumented">
-          Yes. Your immigration status does not affect your tenant rights.
+          Yes, you can send a letter. Your immigration status does not affect
+          your tenant rights.
         </Trans>
       </span>
     ),

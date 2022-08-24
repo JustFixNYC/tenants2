@@ -59,6 +59,8 @@ ROLES["Outreach Coordinators"] = set(
         *ModelPermissions("norent", "rentperiod").only(add=True, change=True),
         *ModelPermissions("norent", "letter").all,
         "norent.change_norentuser",
+        *ModelPermissions("laletterbuilder", "habitabilityletter").all,
+        "laletterbuilder.change_laletterbuilderuser",
         "rh.view_rentalhistoryrequest",
         VIEW_TEXT_MESSAGE_PERMISSION,
         *ModelPermissions("evictionfree", "submittedhardshipdeclaration").all,

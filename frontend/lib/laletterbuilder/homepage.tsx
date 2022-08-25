@@ -91,7 +91,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
         </div>
       </section>
       <section className="jf-laletterbuilder-landing-section-secondary">
-        <div className="hero-body">
+        <div className="hero-body pb-8">
           <div className="container">
             <h2 className="mb-3">
               <Trans>Legally vetted</Trans>
@@ -108,6 +108,24 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
                 <Trans>Created by</Trans>
               </h2>
               <ClickableLogo imageUrl="justfix-saje-combined-logo-black" />
+            </div>
+            <div>
+              <h4 className="mt-5 mb-5">
+                <Trans>
+                  <OutboundLink href="https://www.justfix.org/">
+                    JustFix
+                  </OutboundLink>{" "}
+                  builds tools for tenants, housing organizers, and legal
+                  advocates.
+                </Trans>
+              </h4>
+              <h4>
+                <Trans>
+                  <OutboundLink href="https://www.saje.net/">SAJE</OutboundLink>{" "}
+                  empowers tenants in Los Angeles to fight for their homes and
+                  communities.
+                </Trans>
+              </h4>
             </div>
           </div>
         </div>

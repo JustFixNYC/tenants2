@@ -85,7 +85,7 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
       </ResponsiveElement>
       <ResponsiveElement desktop="h4" touch="h3">
         <Trans>
-          All you need for now are the basics. You can follow up with your
+          Start with the general area of repairs. You can follow up with your
           landlord or property manager in more detail once they receive your
           letter.
         </Trans>
@@ -159,11 +159,15 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                 questionClassName="is-size-6 jf-has-text-underline"
               >
                 <div className="content">
-                  <Trans id="laletterbuilder.issues.repairNotListed">
-                    The Notice to Repair letter will formally document your
-                    request for repairs. Once you arrange access dates that work
-                    for everyone, you can inform the landlord or property
-                    manager about any other repairs you need.
+                  <Trans id="laletterbuilder.issues.repairNotListedv2">
+                    The Notice of Repair letter will formally document your
+                    request for repairs. If you have additional repair needs
+                    beyond what is on this repair check list it is important to
+                    maintain a proper paper trail. Only contact your landlord or
+                    property management company through email, text messages, or
+                    through certified mail. If you do decide to call your
+                    landlord/ property manager we recommend emailing or texting
+                    them details of the conversation afterwards.
                   </Trans>
                 </div>
               </Accordion>
@@ -175,9 +179,10 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                 questionClassName="is-size-6 jf-has-text-underline"
               >
                 <div className="content">
-                  <Trans id="laletterbuilder.issues.addRepairDetails">
-                    You can share more details with your landlord if they
-                    respond, or with{" "}
+                  <Trans id="laletterbuilder.issues.addRepairDetailsv2">
+                    You can share more details with your landlord or property
+                    management company through email, text messages, or through
+                    certified mail. If the repair issue is urgent contact{" "}
                     <OutboundLink href="https://housing.lacity.org/residents/file-a-complaint">
                       LAHD
                     </OutboundLink>{" "}

@@ -13,7 +13,8 @@ import { dateAsISO, addDays } from "../util/date-util";
 
 import validation from "../../../common-data/access-dates-validation.json";
 import { MiddleProgressStep } from "../progress/progress-step-route";
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 /**
  * The minimum number of days from today that the first access date
@@ -62,20 +63,20 @@ const AccessDatesPage = MiddleProgressStep((props) => {
           {(ctx) => (
             <>
               <TextualFormField
-                label={`Date`}
+                label={li18n._(t`Date`)}
                 type="date"
                 min={minDate}
                 required
                 {...ctx.fieldPropsFor("date1")}
               />
               <TextualFormField
-                label="Date (optional)"
+                label={li18n._(t`Date (optional)`)}
                 type="date"
                 min={minDate}
                 {...ctx.fieldPropsFor("date2")}
               />
               <TextualFormField
-                label="Date (optional)"
+                label={li18n._(t`Date (optional)`)}
                 type="date"
                 min={minDate}
                 {...ctx.fieldPropsFor("date3")}

@@ -2,12 +2,12 @@ import classnames from "classnames";
 import React, { useContext } from "react";
 import { useLocation, Route, Link } from "react-router-dom";
 
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import i18n from "../i18n";
 import loadable from "@loadable/component";
 
 import { AppContext } from "../app-context";
-import { createLinguiCatalogLoader } from "../i18n-lingui";
+import { createLinguiCatalogLoader, li18n } from "../i18n-lingui";
 import { LoadingOverlayManager } from "../networking/loading-page";
 import { LANGUAGE_NAMES, NavbarLanguageDropdown } from "../ui/language-toggle";
 import { LaLetterBuilderFooter } from "./components/footer";
@@ -167,7 +167,7 @@ const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
           <Navbar
             menuItemsComponent={LaLetterBuilderMenuItems}
             brandComponent={LaLetterBuilderBrand}
-            dropdownMenuLabel="Menu"
+            dropdownMenuLabel={li18n._(t`Menu`)}
           />
 
           <div

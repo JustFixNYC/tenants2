@@ -162,7 +162,9 @@ const LetterCard: React.FC<LetterCardProps> = (props) => {
                 alt={li18n._(t`Estimated time to complete`)}
               />
             </div>
-            <span className="is-small">{props.time_mins} mins</span>
+            <span className="is-small">
+              `${li18n._(t`${props.time_mins} mins`)}`
+            </span>
           </div>
           <p className="mb-3">{props.text}</p>
           <p className="is-small mb-6">
@@ -231,7 +233,7 @@ export function InformationNeeded({ id, information }: InformationNeededProps) {
   );
 }
 
-const createLetterTags = [
+const createLetterTags = () => [
   { label: li18n._(t`free`), className: "is-yellow" },
   { label: li18n._(t`no printing`), className: "is-pink" },
 ];
@@ -266,7 +268,7 @@ export const CreateLetterCard: React.FC<CreateLetterCardProps> = (props) => {
             t`Write your landlord a letter to formally document your request for repairs.`
           )}
           className={className}
-          tags={createLetterTags}
+          tags={createLetterTags()}
           information={repairsInformationNeeded()}
           buttonProps={
             !createNewLetter

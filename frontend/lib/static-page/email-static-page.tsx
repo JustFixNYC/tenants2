@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { StaticPage } from "./static-page";
 import { getAppStaticContext } from "../app-static-context";
 import { withRouter, RouteComponentProps } from "react-router-dom";
+import { Trans } from "@lingui/macro";
 
 export type EmailStaticPageOptions = {
   isHtmlEmail?: boolean;
@@ -34,7 +35,11 @@ export const EmailSubject = withRouter(
       return null;
     }
 
-    return <p className="jf-email-subject">Subject: {props.value}</p>;
+    return (
+      <p className="jf-email-subject">
+        <Trans>Subject: {props.value}</Trans>
+      </p>
+    );
   }
 );
 

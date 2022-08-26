@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/macro";
 import React, { useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AppLocationDescriptor, makeAppLocation } from "../app-location";
@@ -26,7 +27,7 @@ const EditLink: React.FC<{
       aria-label={ariaLabel}
       ref={ref}
     >
-      Edit
+      <Trans>Edit</Trans>
     </Link>
   );
 };
@@ -135,10 +136,10 @@ export const SaveCancelButtons: React.FC<{
           "is-loading": isLoading,
         })}
       >
-        Save
+        <Trans>Save</Trans>
       </button>{" "}
       <Link to={homeLocation} className="button is-light">
-        Cancel
+        <Trans>Cancel</Trans>
       </Link>
     </>
   );

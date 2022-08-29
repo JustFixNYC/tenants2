@@ -112,6 +112,14 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # in the header metatags for the site.
     FACEBOOK_APP_ID: str = ""
 
+    # The Facebook Pixel ID for the LATAC app.
+    # If empty (the default), Facebook Pixel is disabled.
+    LATAC_FACEBOOK_PIXEL_ID: str = ""
+
+    # The Google Tag Manager ID for the LATAC app.
+    # If empty (the default), Google Tag Manager is disabled.
+    LATAC_GTM_ID: str = ""
+
     # The Amplitude API key. If empty (the default), Amplitude integration
     # will be disabled.
     AMPLITUDE_API_KEY: str = ""

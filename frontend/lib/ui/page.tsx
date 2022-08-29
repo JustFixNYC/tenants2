@@ -46,8 +46,7 @@ function getSiteBaseName(siteType: SiteChoice): string {
       return "Eviction Free NY";
 
     case "LALETTERBUILDER":
-      // May need to change this later based on the final domain name.
-      return "LaLetterBuilder";
+      return "LA Tenant Action Center";
   }
 }
 

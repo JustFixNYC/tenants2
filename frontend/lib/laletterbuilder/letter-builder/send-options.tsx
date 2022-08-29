@@ -28,6 +28,7 @@ import { TagInfo } from "./choose-letter";
 import ResponsiveElement from "../components/responsive-element";
 import { logEvent } from "../../analytics/util";
 import { LetterChoice } from "../../../../common-data/la-letter-builder-letter-choices";
+import { fbq } from "../../analytics/facebook-pixel";
 
 interface MailChoiceInfo {
   title: string;
@@ -208,6 +209,8 @@ export const ConfirmModal: React.FC<{
             emailToLandlord: letter?.emailToLandlord,
             emailSelf: session.isEmailVerified,
           });
+          fbq("trackCustom", "LaHabitabilityLetterSent");
+
           return props.nextStep;
         }}
       >

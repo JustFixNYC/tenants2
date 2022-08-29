@@ -17,6 +17,12 @@ export interface FacebookPixelAPI {
    * a Data-Driven Onboarding (DDO) search.
    */
   (cmd: "trackCustom", event: "DDOSearch"): void;
+
+  /**
+   * Track a custom event indicating that the user has sent a
+   * habitability letter from the LA Tenant Action Center
+   */
+  (cmd: "trackCustom", event: "LaHabitabilityLetterSent"): void;
 }
 
 declare global {

@@ -177,6 +177,20 @@ export interface AppServerInfo {
   facebookAppId: string;
 
   /**
+   * An optional "Facebook Pixel ID" for the LATAC Facebook pixel configuration
+   * If empty (the default), there will be no reference to a Facebook Pixel
+   * in the header metatags for the site.
+   */
+  latacFacebookPixelId: string;
+
+  /**
+   * An optional "Google Tag Manager ID" for the LATAC
+   * If empty (the default), there will be no reference to the Google Tag Manager
+   * in the header metatags for the site.
+   */
+  latacGtmId: string;
+
+  /**
    * The URL that is the origin of the NYC GeoSearch API endpoint to use.
    */
   nycGeoSearchOrigin: string;

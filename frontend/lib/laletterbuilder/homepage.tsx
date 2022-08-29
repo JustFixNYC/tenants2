@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { t, Trans } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 
 import Page from "../ui/page";
 
@@ -10,7 +10,6 @@ import {
   LaLetterBuilderRouteInfo as Routes,
 } from "./route-info";
 import { Accordion } from "../ui/accordion";
-import { li18n } from "../i18n-lingui";
 import { OutboundLink } from "../ui/outbound-link";
 import { getFaqContent } from "./faq-content";
 import { ClickableLogo } from "./components/clickable-logo";
@@ -34,7 +33,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
   const faqContent = getFaqContent();
 
   return (
-    <Page title={li18n._(t`LA Tenant Action Center`)}>
+    <Page title="">
       <section className="hero jf-laletterbuilder-landing-section-primary">
         <div className="hero-body">
           <div className="container">

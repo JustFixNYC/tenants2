@@ -130,13 +130,23 @@ const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
       <LaLetterBuilderLinguiI18n>
         {!server.isDemoDeployment && !session.isStaff && (
           <Helmet>
-            <script
-              async
-              src="https://www.googletagmanager.com/gtag/js?id=G-XZ8F9J2RWJ"
-            ></script>
-            <script>
-              {`window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-XZ8F9J2RWJ');`}
-            </script>
+            {server.latacGtmId && (
+              <>
+                <script
+                  async
+                  src={`https://www.googletagmanager.com/gtag/js?id=${server.latacGtmId}`}
+                ></script>
+                <script>
+                  {`window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-XZ8F9J2RWJ');`}
+                </script>
+              </>
+            )}
+            {server.latacFacebookPixelId && (
+              <meta
+                name="facebook-domain-verification"
+                content={server.latacFacebookPixelId}
+              />
+            )}
           </Helmet>
         )}
         <section

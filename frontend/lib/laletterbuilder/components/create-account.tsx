@@ -59,17 +59,19 @@ export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
                 </Trans>
               </CheckboxFormField>
               <CheckboxFormField {...ctx.fieldPropsFor("agreeToTerms")}>
-                I agree to the JustFix{" "}
-                <ModalLink
-                  to={
-                    LaLetterBuilderRouteInfo.locale.habitability // pass this in instead
-                      .createAccountTermsModal
-                  }
-                  render={() => <PrivacyInfoModal />}
-                >
-                  Terms of Use
-                </ModalLink>
-                .
+                <Trans>
+                  I agree to the JustFix{" "}
+                  <ModalLink
+                    to={
+                      LaLetterBuilderRouteInfo.locale.habitability // pass this in instead
+                        .createAccountTermsModal
+                    }
+                    render={() => <PrivacyInfoModal />}
+                  >
+                    Terms of Use
+                  </ModalLink>
+                  .
+                </Trans>
               </CheckboxFormField>
               <ProgressButtons
                 isLoading={ctx.isLoading}

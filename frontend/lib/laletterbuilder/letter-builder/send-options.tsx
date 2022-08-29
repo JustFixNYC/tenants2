@@ -36,30 +36,32 @@ interface MailChoiceInfo {
 }
 
 const mailChoiceLabels = getLaMailingChoiceLabels();
-const MailChoices: { [key: string]: MailChoiceInfo } = {
-  WE_WILL_MAIL: {
-    title: mailChoiceLabels["WE_WILL_MAIL"],
-    tags: [
-      { label: li18n._(t`free`), className: "is-yellow" },
-      { label: li18n._(t`no printing`), className: "is-pink" },
-    ],
-    description: li18n._(
-      t`We'll send your letter for you via certified mail in 1-2 business days, at no cost to you.`
-    ),
-  },
-  USER_WILL_MAIL: {
-    title: mailChoiceLabels["USER_WILL_MAIL"],
-    description: li18n._(
-      t`You'll need to download the letter to print and mail yourself.`
-    ),
-  },
+const mailChoices: () => { [key: string]: MailChoiceInfo } = () => {
+  return {
+    WE_WILL_MAIL: {
+      title: mailChoiceLabels["WE_WILL_MAIL"],
+      tags: [
+        { label: li18n._(t`free`), className: "is-yellow" },
+        { label: li18n._(t`no printing`), className: "is-pink" },
+      ],
+      description: li18n._(
+        t`We'll send your letter for you via certified mail in 1-2 business days, at no cost to you.`
+      ),
+    },
+    USER_WILL_MAIL: {
+      title: mailChoiceLabels["USER_WILL_MAIL"],
+      description: li18n._(
+        t`You'll need to download the letter to print and mail yourself.`
+      ),
+    },
+  };
 };
 
 export const LaLetterBuilderSendOptions = MiddleProgressStep((props) => {
   const { session } = useContext(AppContext);
 
   const mailChoiceTuples = LaMailingChoices.map((choice) => {
-    const data = MailChoices[choice];
+    const data = mailChoices()[choice];
     return twoTuple(
       choice,
       <div className="jf-laletterbuilder-mailchoice">

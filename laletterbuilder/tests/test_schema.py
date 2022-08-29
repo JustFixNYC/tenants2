@@ -283,7 +283,8 @@ class TestLaLetterBuilderSendLetter:
 
         sent_letter = HabitabilityLetter.objects.get(user=self.graphql_client.request.user)
         assert (
-            "repairs in my home" in sent_letter.html_content
+            "the conditions listed below may be dangerous to my family and me"
+            in sent_letter.html_content
         )  # TODO: change this when we get real text in there
         assert "Boop Jones" in sent_letter.html_content
         assert 'lang="en"' in sent_letter.html_content

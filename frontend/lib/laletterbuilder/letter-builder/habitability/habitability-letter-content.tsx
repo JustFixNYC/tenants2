@@ -58,17 +58,31 @@ export const HabitabilityLetterEmailToLandlord: React.FC<BaseLetterContentProps>
       )}
     />
     <letter.DearLandlord {...props} />
-    <Trans id="laletterbuilder.emailToLandlordBody">
-      <p>
-        Please see letter attached from <letter.FullLegalName {...props} />.{" "}
-      </p>
-      <p>
-        In order to document communications and avoid misunderstandings, please
-        correspond with <letter.FullLegalName {...props} /> via email at{" "}
-        <span style={{ textDecoration: "underline" }}>{props.email}</span> or
-        mail rather than a phone call or in-person visit.
-      </p>
-    </Trans>
+    {props?.email ? (
+      <Trans id="laletterbuilder.emailToLandlordBody">
+        <p>
+          Please see letter attached from <letter.FullLegalName {...props} />.
+        </p>
+        <p>
+          In order to document communications and avoid misunderstandings,
+          please correspond with <letter.FullLegalName {...props} /> via email
+          at <span style={{ textDecoration: "underline" }}>{props.email}</span>{" "}
+          or mail rather than a phone call or in-person visit.
+        </p>
+      </Trans>
+    ) : (
+      <Trans id="laletterbuilder.emailToLandlordBodyNoEmail">
+        <p>
+          Please see letter attached from <letter.FullLegalName {...props} />.
+        </p>
+        <p>
+          In order to document communications and avoid misunderstandings,
+          please correspond with <letter.FullLegalName {...props} /> via mail
+          rather than a phone call or in-person visit.
+        </p>
+      </Trans>
+    )}
+
     <letter.Regards />
     <p>
       <Trans>
@@ -164,9 +178,10 @@ const LetterBody: React.FC<HabitabilityLetterContentProps> = (props) => {
   return (
     <>
       <p>
-        <Trans id="laletterbuilder.habitability.intro-1">
-          This letter is to notify you that I need the following repairs in my
-          home referenced below and/or in the public areas of the building:
+        <Trans id="laletterbuilder.habitability.intro">
+          NOTICE IS HEREBY GIVEN that the conditions listed below may be
+          dangerous to my family and me. We did not cause the conditions. Please
+          repair the conditions as soon as possible.
         </Trans>
       </p>
       <RepairIssues {...props} />
@@ -199,13 +214,13 @@ const LetterBody: React.FC<HabitabilityLetterContentProps> = (props) => {
         </ul>
       </div>
       <p>
-        <Trans id="laletterbuilder.habitability.consequences">
+        <Trans id="laletterbuilder.habitability.consequences-2">
           You have 10 business days from the date of this letter to address the
-          repairs outlined. If the repairs are not initiated and/or completed
-          within this reasonable timeframe, I will have to report my
-          habitability issues to the Los Angeles Housing and Community
-          Investment Department (HCID), the Los Angeles Department of Public
-          Health/(LADPH) and the Department of Building and Safety (LADBS).
+          repairs outlined. If you do not respond within a reasonable time, as
+          you are required to do under Civil Code Sections 1941 and 1941.1, I
+          will report it to the Los Angeles Housing and Community Investment
+          Department (HCID), the Los Angeles Department of Public Health/(LADPH)
+          and the Department of Building and Safety (LADBS).
         </Trans>
       </p>
     </>

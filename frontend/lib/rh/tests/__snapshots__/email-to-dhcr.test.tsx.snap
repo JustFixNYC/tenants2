@@ -5,8 +5,7 @@ exports[`email to dhcr renders 1`] = `
   <p
     class="jf-email-subject"
   >
-    Subject: 
-    Request for Rent History
+    Subject: Request for Rent History
   </p>
   <p>
     DHCR administrator,

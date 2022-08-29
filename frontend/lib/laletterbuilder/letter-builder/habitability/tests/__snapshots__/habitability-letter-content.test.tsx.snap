@@ -52,7 +52,7 @@ exports[`<HabitabilityContent> renders 1`] = `
       ,
     </p>
     <p>
-      laletterbuilder.habitability.intro-1
+      laletterbuilder.habitability.intro
     </p>
     <section>
       <h2>
@@ -96,7 +96,7 @@ exports[`<HabitabilityContent> renders 1`] = `
       </ul>
     </div>
     <p>
-      laletterbuilder.habitability.consequences
+      laletterbuilder.habitability.consequences-2
     </p>
     <p
       class="jf-signature"

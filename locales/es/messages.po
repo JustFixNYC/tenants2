@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-08-29 14:06\n"
+"PO-Revision-Date: 2022-08-30 14:45\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -79,7 +79,7 @@ msgstr "<0>Si te enfrentas a una emergencia, puede encontrar asistencia legal ad
 
 #: frontend/lib/laletterbuilder/homepage.tsx:75
 msgid "<0>JustFix</0> builds tools for tenants, housing organizers, and legal advocates."
-msgstr "<0>JustFix</0> builds tools for tenants, housing organizers, and legal advocates."
+msgstr "<0>JustFix</0> construye herramientas para inquilinos, organizadores de viviendas y defensores legales."
 
 #: frontend/lib/norent/data/faqs-content.tsx:192
 #: frontend/lib/norent/data/faqs-content.tsx:200
@@ -104,7 +104,7 @@ msgstr "<0>Se requieren reparaciones</0>"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:84
 msgid "<0>SAJE</0> empowers tenants in Los Angeles to fight for their homes and communities."
-msgstr "<0>SAJE</0> empowers tenants in Los Angeles to fight for their homes and communities."
+msgstr "<0>SAJE</0> empodera a los inquilinos en Los Ángeles luchar por sus hogares y comunidades."
 
 #. heading of formal letter
 #: frontend/lib/util/letter-content-util.tsx:40
@@ -154,7 +154,7 @@ msgstr "Acerca de"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:60
 msgid "About you"
-msgstr "About you"
+msgstr "Sobre usted"
 
 #: frontend/lib/laletterbuilder/components/account-settings.tsx:12
 #: frontend/lib/laletterbuilder/site.tsx:60
@@ -410,7 +410,7 @@ msgstr "Infestación de insectos"
 #: common-data/issue-choices-laletterbuilder.ts:129
 #: common-data/issue-choices-laletterbuilder.ts:130
 msgid "Bug infestation (roaches, bedbugs, ... )"
-msgstr "Bug infestation (roaches, bedbugs, ... )"
+msgstr "Infección de bichos (cucarachas, chinches, ... )"
 
 #: frontend/lib/evictionfree/homepage.tsx:233
 msgid "Build Tenant Power"
@@ -717,12 +717,12 @@ msgstr "Creada por"
 
 #: frontend/lib/loc/access-dates.tsx:43
 msgid "Date"
-msgstr "Date"
+msgstr "Fecha"
 
 #: frontend/lib/loc/access-dates.tsx:44
 #: frontend/lib/loc/access-dates.tsx:45
 msgid "Date (optional)"
-msgstr "Date (optional)"
+msgstr "Fecha (opcional)"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:56
 msgid "Dates and times you’ll be available for repairs"
@@ -883,7 +883,7 @@ msgstr "INTRODUCE TU CORREO ELECTRÓNICO"
 
 #: frontend/lib/ui/editable-info.tsx:16
 msgid "Edit"
-msgstr "Edit"
+msgstr "Editar"
 
 #: common-data/issue-choices.ts:172
 #: common-data/issue-choices.ts:187
@@ -1301,7 +1301,7 @@ msgstr "Acepto los <0>términos y condiciones de NoRent.org</0>."
 
 #: frontend/lib/laletterbuilder/components/create-account.tsx:37
 msgid "I agree to the JustFix <0>Terms of Use</0>."
-msgstr "I agree to the JustFix <0>Terms of Use</0>."
+msgstr "Estoy de acuerdo con los JustFix <0>Términos de uso</0>."
 
 #: frontend/lib/evictionfree/declaration-builder/covid-impact.tsx:93
 msgid "I am experiencing financial hardship due to COVID-19."
@@ -1558,7 +1558,7 @@ msgstr "Conoce tus derechos"
 
 #: frontend/lib/laletterbuilder/components/personal-info.tsx:13
 msgid "LA Tenant Action Center is for California residents only."
-msgstr "LA Tenant Action Center is for California residents only."
+msgstr "El Centro de Acción del Inquilino de LA es solo para residentes de California."
 
 #: frontend/lib/laletterbuilder/about.tsx:99
 msgid "LaLetterBuilder is a collaboration between JustFix and legal organizations and housing rights non-profits in Los Angeles."
@@ -1823,7 +1823,7 @@ msgstr "Massachusetts"
 
 #: frontend/lib/laletterbuilder/site.tsx:88
 msgid "Menu"
-msgstr "Menu"
+msgstr "Menú"
 
 #: frontend/lib/rh/routes.tsx:251
 msgid "Met Council on Housing"
@@ -2401,7 +2401,7 @@ msgstr "Permito que Right to the City se ponga en contacto conmigo para proporci
 #: common-data/issue-choices-laletterbuilder.ts:122
 #: common-data/issue-choices-laletterbuilder.ts:123
 msgid "Rodent infestation (mice, rats, ... )"
-msgstr "Rodent infestation (mice, rats, ... )"
+msgstr "Infestación de roedores (ratones, ratas, ... )"
 
 #: common-data/issue-choices.ts:256
 msgid "Rusty water"
@@ -2417,7 +2417,7 @@ msgstr "Letra de Aviso a Reparar de Ejemplo"
 
 #: frontend/lib/ui/editable-info.tsx:52
 msgid "Save"
-msgstr "Save"
+msgstr "Guardar"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:395
 msgid "Search address"

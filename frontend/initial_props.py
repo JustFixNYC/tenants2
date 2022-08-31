@@ -66,6 +66,8 @@ def create_initial_props_for_lambda(
             "enableWipLocales": settings.ENABLE_WIP_LOCALES,
             "debug": settings.DEBUG,
             "facebookAppId": settings.FACEBOOK_APP_ID,
+            "latacFacebookPixelId": settings.LATAC_FACEBOOK_PIXEL_ID,
+            "latacGtmId": settings.LATAC_GTM_ID,
             "nycGeoSearchOrigin": settings.NYC_GEOSEARCH_ORIGIN,
             "contentfulCommonStrings": contentful.get_common_strings(),
             "extraDevLinks": [

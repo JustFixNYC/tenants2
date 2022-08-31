@@ -30,6 +30,7 @@ def get_user_tabs() -> List["UserTab"]:
     from hpaction.admin import HPUser
     from evictionfree.admin import EvictionFreeUser
     from norent.admin import NorentUser
+    from laletterbuilder.admin import LaletterbuilderUser
 
     return [
         UserTab(JustfixUser, "General", "General user details"),
@@ -42,6 +43,9 @@ def get_user_tabs() -> List["UserTab"]:
             action_progress.EVICTIONFREE_PROGRESS,
         ),
         UserTab(NorentUser, "NoRent", "NoRent.org details", action_progress.NORENT_PROGRESS),
+        UserTab(
+            LaletterbuilderUser, "LATAC", "LA TAC details", action_progress.LALETTERBUILDER_PROGRESS
+        ),
     ]
 
 

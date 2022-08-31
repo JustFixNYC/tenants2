@@ -6,6 +6,7 @@ from onboarding.models import SIGNUP_INTENT_CHOICES
 from loc.models import AccessDate
 from hpaction.models import HP_DOCUSIGN_STATUS_CHOICES, DocusignEnvelope
 from norent.models import Letter as NorentLetter
+from laletterbuilder.models import HabitabilityLetter
 
 
 NOT_STARTED = "NOT_STARTED"
@@ -75,6 +76,21 @@ EVICTIONFREE_PROGRESS = ProgressAnnotation(
     ),
 )
 
-PROGRESS_ANNOTATIONS = [LOC_PROGRESS, EHP_PROGRESS, NORENT_PROGRESS, EVICTIONFREE_PROGRESS]
+LALETTERBUILDER_PROGRESS = ProgressAnnotation(
+    "laletterbuilder_progress",
+    Case(
+        When(Exists(HabitabilityLetter.objects.filter(user=OuterRef("pk"))), then=Value(COMPLETE)),
+        When(onboarding_info__agreed_to_laletterbuilder_terms=True, then=Value(IN_PROGRESS)),
+        default=Value(NOT_STARTED),
+    ),
+)
+
+PROGRESS_ANNOTATIONS = [
+    LOC_PROGRESS,
+    EHP_PROGRESS,
+    NORENT_PROGRESS,
+    EVICTIONFREE_PROGRESS,
+    LALETTERBUILDER_PROGRESS,
+]
 
 # TODO: Add a progress annotation for LALOC

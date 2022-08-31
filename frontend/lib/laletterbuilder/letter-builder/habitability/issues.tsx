@@ -179,14 +179,19 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                 questionClassName="is-size-6 jf-has-text-underline"
               >
                 <div className="content">
-                  <Trans id="laletterbuilder.issues.addRepairDetailsv2">
+                  <Trans id="laletterbuilder.issues.addRepairDetails">
                     You can share more details with your landlord or property
                     management company through email, text messages, or through
                     certified mail. If the repair issue is urgent contact{" "}
                     <OutboundLink href="https://housing.lacity.org/residents/file-a-complaint">
                       LAHD
                     </OutboundLink>{" "}
-                    at <PhoneNumber number="(866) 557-7368" />.
+                    at <PhoneNumber number="(866) 557-7368" />. If you do not
+                    live in the City of LA, visit{" "}
+                    <OutboundLink href="https://dpw.lacounty.gov/building-and-safety/">
+                      the LA County Department of Public Works
+                    </OutboundLink>{" "}
+                    for more information.
                   </Trans>
                 </div>
               </Accordion>

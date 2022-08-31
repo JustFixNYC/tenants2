@@ -143,7 +143,11 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
         </span>
         <span>
           <Trans>
-            Call LADBS at <PhoneNumber number="(213) 473-3231" />
+            Call LADBS at <PhoneNumber number="(213) 473-3231" /> or visit{" "}
+            <OutboundLink href="https://dpw.lacounty.gov/building-and-safety/">
+              the LA County Department of Public Works
+            </OutboundLink>{" "}
+            for more information
           </Trans>
         </span>
         <h2 className="mt-6">

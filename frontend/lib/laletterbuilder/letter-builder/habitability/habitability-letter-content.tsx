@@ -214,12 +214,12 @@ const LetterBody: React.FC<HabitabilityLetterContentProps> = (props) => {
         </ul>
       </div>
       <p>
-        <Trans id="laletterbuilder.habitability.consequences-2">
+        <Trans id="laletterbuilder.habitability.consequences">
           You have 10 business days from the date of this letter to address the
           repairs outlined. If you do not respond within a reasonable time, as
           you are required to do under Civil Code Sections 1941 and 1941.1, I
           will report it to the Los Angeles Housing and Community Investment
-          Department (HCID), the Los Angeles Department of Public Health/(LADPH)
+          Department (LAHD), the Los Angeles Department of Public Health/(LADPH)
           and the Department of Building and Safety (LADBS).
         </Trans>
       </p>

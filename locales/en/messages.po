@@ -475,8 +475,8 @@ msgid "California residents only"
 msgstr "California residents only"
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:93
-msgid "Call LADBS at <0/>"
-msgstr "Call LADBS at <0/>"
+msgid "Call LADBS at <0/> or visit <1>the LA County Department of Public Works</1> for more information"
+msgstr "Call LADBS at <0/> or visit <1>the LA County Department of Public Works</1> for more information"
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:85
 msgid "Call LAHD at <0/>"
@@ -617,7 +617,7 @@ msgstr "Common questions"
 msgid "Community Justice Project"
 msgstr "Community Justice Project"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:122
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:126
 msgid "Completed"
 msgstr "Completed"
 
@@ -817,7 +817,7 @@ msgstr "Do I still have to pay my rent?"
 msgid "Do you have a current eviction court case?"
 msgstr "Do you have a current eviction court case?"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:182
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:186
 msgid "Do you have another housing issue that you need to address?"
 msgstr "Do you have another housing issue that you need to address?"
 
@@ -1402,8 +1402,8 @@ msgstr "If you’d still like to create an account, we can send you updates in t
 msgid "Illinois"
 msgstr "Illinois"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:160
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:168
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:164
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:172
 msgid "In progress"
 msgstr "In progress"
 
@@ -1523,11 +1523,11 @@ msgstr "JustFix can text me to follow up about my housing issues."
 msgid "JustFix is a registered 501(c)(3) nonprofit organization."
 msgstr "JustFix is a registered 501(c)(3) nonprofit organization."
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:126
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:130
 msgid "JustFix is preparing your letter"
 msgstr "JustFix is preparing your letter"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:147
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:151
 msgid "JustFix sent your letter on"
 msgstr "JustFix sent your letter on"
 
@@ -1792,7 +1792,7 @@ msgstr "Make sure all the information above is correct."
 msgid "Make sure all the information is correct."
 msgstr "Make sure all the information is correct."
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:101
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:105
 msgid "Make sure you keep your schedule clear during the requested access dates:"
 msgstr "Make sure you keep your schedule clear during the requested access dates:"
 
@@ -1804,7 +1804,7 @@ msgstr "Manhattan Housing Court:"
 msgid "Manufactured Housing Action"
 msgstr "Manufactured Housing Action"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:98
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:102
 msgid "Mark your calendar"
 msgstr "Mark your calendar"
 
@@ -1913,7 +1913,7 @@ msgstr "My issue is urgent and time sensitive. What should I do?"
 #: frontend/lib/laletterbuilder/homepage.tsx:39
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:24
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:26
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:192
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:196
 msgid "My letters"
 msgstr "My letters"
 
@@ -2061,7 +2061,7 @@ msgid "Notice to Repair"
 msgstr "Notice to Repair"
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:53
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:165
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:169
 msgid "Notice to repair letter"
 msgstr "Notice to repair letter"
 
@@ -2632,7 +2632,7 @@ msgstr "Start"
 msgid "Start a legal case for repairs and/or harassment"
 msgstr "Start a legal case for repairs and/or harassment"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:178
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:182
 msgid "Start a new letter"
 msgstr "Start a new letter"
 
@@ -2852,7 +2852,7 @@ msgstr "USPS Certified Mail"
 msgid "USPS Tracking #:"
 msgstr "USPS Tracking #:"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:149
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:153
 msgid "USPS tracking number:"
 msgstr "USPS tracking number:"
 
@@ -2938,7 +2938,7 @@ msgstr "View as PDF"
 msgid "View details about your last letter"
 msgstr "View details about your last letter"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:172
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:176
 msgid "View letter"
 msgstr "View letter"
 
@@ -2950,7 +2950,7 @@ msgstr "View letters"
 msgid "View list of organizations"
 msgstr "View list of organizations"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:187
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:191
 msgid "View other letters"
 msgstr "View other letters"
 
@@ -3374,7 +3374,7 @@ msgstr "You can't send any more letters"
 msgid "You don't live in New York"
 msgstr "You don't live in New York"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:146
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:150
 msgid "You downloaded this letter on {dateString} to print and send yourself."
 msgstr "You downloaded this letter on {dateString} to print and send yourself."
 
@@ -3557,7 +3557,7 @@ msgstr "Your privacy is very important to us. Everything on JustFix is secure."
 msgid "Your residence"
 msgstr "Your residence"
 
-#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:129
+#: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:133
 msgid "Your tracking number will appear here once the letter has been sent."
 msgstr "Your tracking number will appear here once the letter has been sent."
 
@@ -3849,16 +3849,16 @@ msgid "laletterbuilder.habitability.access-warning"
 msgstr "Be advised that you are required by law to provide a <0>24-hour written notice of intent</0> to enter the unit to make repairs pursuant California Civil Code 1954. Anyone coming to perform a repair inspection and/or repairs should arrive on the date and time mutually agreed upon."
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:128
-msgid "laletterbuilder.habitability.consequences-2"
-msgstr "You have 10 business days from the date of this letter to address the repairs outlined. If you do not respond within a reasonable time, as you are required to do under Civil Code Sections 1941 and 1941.1, I will report it to the Los Angeles Housing and Community Investment Department (HCID), the Los Angeles Department of Public Health/(LADPH) and the Department of Building and Safety (LADBS)."
+msgid "laletterbuilder.habitability.consequences"
+msgstr "You have 10 business days from the date of this letter to address the repairs outlined. If you do not respond within a reasonable time, as you are required to do under Civil Code Sections 1941 and 1941.1, I will report it to the Los Angeles Housing and Community Investment Department (LAHD), the Los Angeles Department of Public Health/(LADPH) and the Department of Building and Safety (LADBS)."
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:94
 msgid "laletterbuilder.habitability.intro"
 msgstr "NOTICE IS HEREBY GIVEN that the conditions listed below may be dangerous to my family and me. We did not cause the conditions. Please repair the conditions as soon as possible."
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:114
-msgid "laletterbuilder.issues.addRepairDetailsv2"
-msgstr "You can share more details with your landlord or property management company through email, text messages, or through certified mail. If the repair issue is urgent contact <0>LAHD</0> at <1/>."
+msgid "laletterbuilder.issues.addRepairDetails"
+msgstr "You can share more details with your landlord or property management company through email, text messages, or through certified mail. If the repair issue is urgent contact <0>LAHD</0> at <1/>. If you do not live in the City of LA, visit <2>the LA County Department of Public Works</2> for more information."
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:100
 msgid "laletterbuilder.issues.repairNotListedv2"

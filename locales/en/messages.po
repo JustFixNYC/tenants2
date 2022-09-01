@@ -3884,6 +3884,10 @@ msgstr "Tenants have a right to a safe home, without harassment. Sending a lette
 msgid "latenants.justfix.org <0/>sent on behalf of <1/>"
 msgstr "latenants.justfix.org <0/>sent on behalf of <1/>"
 
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:90
+msgid "mins"
+msgstr "mins"
+
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:129
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:29
 msgid "no printing"
@@ -4079,10 +4083,6 @@ msgstr "pay rent, rent, can't pay rent, june rent, june 1"
 #: frontend/lib/ui/localized-outbound-link.tsx:44
 msgid "{0} (in English)"
 msgstr "{0} (in English)"
-
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:90
-msgid "{0} mins"
-msgstr "{0} mins"
 
 #: frontend/lib/forms/chars-remaining.tsx:18
 msgid "{remaining, plural, one {1 character remaining} other {# characters remaining}}"

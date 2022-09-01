@@ -3594,7 +3594,8 @@ msgstr "eviction free nyc, eviction free ny, penuria, declaración, desalojo, de
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:157
 msgid "evictionFree.canLandlordChallengeDeclarationFaq"
-msgstr "<0>SI. ESTO ES NUEVO. Ahora, el casero tiene derecho a impugnar la validez de la declaración de dificultades de un inquilino. Para hacer esto, el casero puede presentar una moción ante la corte, declarando que no cree que el inquilino tenga las dificultades que reclamó en su Declaración de Dificultades. Si ocurre esto, la Corte concederá una audiencia para determinar la validez de la declaración de dificultades del inquilino y el inquilino deberá mostrar prueba de las dificultades que reclamó en su Declaración. En NYC, <1>inquilinos tienen el derecho a un abogado a través de Right to Counsel para estas audiencias</1>.</0><2>\n"
+msgstr ""
+"<0>SI. ESTO ES NUEVO. Ahora, el casero tiene derecho a impugnar la validez de la declaración de dificultades de un inquilino. Para hacer esto, el casero puede presentar una moción ante la corte, declarando que no cree que el inquilino tenga las dificultades que reclamó en su Declaración de Dificultades. Si ocurre esto, la Corte concederá una audiencia para determinar la validez de la declaración de dificultades del inquilino y el inquilino deberá mostrar prueba de las dificultades que reclamó en su Declaración. En NYC, <1>inquilinos tienen el derecho a un abogado a través de Right to Counsel para estas audiencias</1>.</0><2>\n"
 "Si la corte decide que el inquilino demostró su reclamo por dificultades, entonces su caso/desalojo permanecerá en pausa hasta al menos el {0}. La corte instruirá a las partes que soliciten ERAP si parece que el inquilino es elegible y aún no ha presentado esa solicitud.</2><3>Si la corte decide que el inquilino NO está experimentando dificultades, entonces su caso y desalojo pueden proceder.</3>"
 
 #: frontend/lib/evictionfree/about.tsx:45
@@ -3683,7 +3684,8 @@ msgstr "Además, entiendo que los honorarios, multas o intereses legales por imp
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:37
 msgid "evictionfree.legalAgreementCheckboxOnLandlordChallenge"
-msgstr "Además, entiendo que mi casero puede solicitar una audiencia para retar el presente\n"
+msgstr ""
+"Además, entiendo que mi casero puede solicitar una audiencia para retar el presente\n"
 "certificado de penuria y tendré la oportunidad de participar en todo procedimiento\n"
 "de tenencia inmobiliaria."
 
@@ -3892,6 +3894,10 @@ msgstr "Los inquilinos tienen derecho a una casa segura, sin acoso. Enviar una c
 msgid "latenants.justfix.org <0/>sent on behalf of <1/>"
 msgstr "latenants.justfix.org <0/>enviado en nombre de <1/>"
 
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:90
+msgid "mins"
+msgstr ""
+
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:129
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:29
 msgid "no printing"
@@ -4088,10 +4094,6 @@ msgstr "pagar la renta, renta, no puedo pagar la renta, renta de junio, 1 de jun
 msgid "{0} (in English)"
 msgstr "{0} (en inglés)"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:90
-msgid "{0} mins"
-msgstr "{0} mins"
-
 #: frontend/lib/forms/chars-remaining.tsx:18
 msgid "{remaining, plural, one {1 character remaining} other {# characters remaining}}"
 msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caracteres}}"
@@ -4099,4 +4101,3 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

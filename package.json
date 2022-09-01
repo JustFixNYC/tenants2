@@ -47,7 +47,7 @@
     "type": "git",
     "url": "git+https://github.com/justfixnyc/tenants2.git"
   },
-  "author": "Atul Varma <atul@justfix.nyc>",
+  "author": "JustFix <dev@justfix.org>",
   "license": "ISC",
   "engines": {
     "node": ">=10.0.0"

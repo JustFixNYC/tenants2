@@ -163,7 +163,7 @@ const LetterCard: React.FC<LetterCardProps> = (props) => {
               />
             </div>
             <span className="is-small">
-              `${li18n._(t`${props.time_mins} mins`)}`
+              {`${props.time_mins} ${li18n._(t`mins`)}`}
             </span>
           </div>
           <p className="mb-3">{props.text}</p>

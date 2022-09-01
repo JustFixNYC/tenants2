@@ -85,6 +85,7 @@ def get_all_data_downloads() -> List[DataDownload]:
     from partnerships import admin_data_downloads as partnership_stats
     from norent import admin_data_downloads as norent_stats
     from evictionfree import admin_data_downloads as evictionfree_stats
+    from laletterbuilder import admin_data_downloads as laletterbuilder_stats
 
     return [
         *userstats.DATA_DOWNLOADS,
@@ -93,6 +94,7 @@ def get_all_data_downloads() -> List[DataDownload]:
         *partnership_stats.DATA_DOWNLOADS,
         *norent_stats.DATA_DOWNLOADS,
         *evictionfree_stats.DATA_DOWNLOADS,
+        *laletterbuilder_stats.DATA_DOWNLOADS,
         *sandefur_data.DATA_DOWNLOADS,
     ]
 

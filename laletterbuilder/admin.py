@@ -146,14 +146,14 @@ class LaletterbuilderUserAdmin(UserProxyAdmin):
                     Count(
                         "laletterbuilder_letters",
                         distinct=True,
-                        filter=(Q(norent_letters__letter_sent_at__isnull=False)),
+                        filter=(Q(laletterbuilder_letters__letter_sent_at__isnull=False)),
                     )
                 ),
                 LETTERS_EMAILED: (
                     Count(
                         "laletterbuilder_letters",
                         distinct=True,
-                        filter=(Q(norent_letters__letter_emailed_at__isnull=False)),
+                        filter=(Q(laletterbuilder_letters__letter_emailed_at__isnull=False)),
                     )
                 ),
             }

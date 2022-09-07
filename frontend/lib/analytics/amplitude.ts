@@ -422,11 +422,9 @@ function getEvictionFreePageType(pathname: string): string {
 function getLaLetterBuilderPageType(pathname: string): string {
   const r = LaLetterBuilderRouteInfo.locale;
   return findBestPage(pathname, {
-    [r.home]: "letter builder",
     [r.chooseLetter]: "choose letter",
     [r.logout]: "logout",
     [r.accountSettings.prefix]: "account settings",
-    [r.habitability.prefix]: "habitability letter",
     [r.habitability.name]: "user name",
     [r.habitability.city]: "user city",
     [r.habitability.nationalAddress]: "user adddress",
@@ -440,6 +438,8 @@ function getLaLetterBuilderPageType(pathname: string): string {
     [r.habitability.sending]: "habitability send options",
     [r.habitability.sendConfirmModal]:
       "habitability send options confirm modal",
+    [r.habitability.prefix]: "habitability letter",
+    [r.home]: "letter builder",
   });
 }
 

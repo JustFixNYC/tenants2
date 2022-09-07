@@ -89,6 +89,7 @@ export function NextButton(props: {
   isFullWidth?: boolean;
   isLoading: boolean;
   label?: string;
+  onClick?: () => void;
 }): JSX.Element {
   return (
     <button
@@ -105,6 +106,7 @@ export function NextButton(props: {
           }
         )
       }
+      onClick={props.onClick}
     >
       {props.label || li18n._(t`Next`)}
     </button>

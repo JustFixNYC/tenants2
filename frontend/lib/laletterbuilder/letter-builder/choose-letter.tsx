@@ -253,12 +253,9 @@ export const CreateLetterCard: React.FC<CreateLetterCardProps> = (props) => {
     <SessionUpdatingFormSubmitter
       mutation={LaLetterBuilderCreateLetterMutation}
       initialState={{}}
-      onSuccessRedirect={() => {
-        logEvent("latenants.letter.create", {
-          letterType: "HABITABILITY" as LetterChoice,
-        });
-        return LaLetterBuilderRouteInfo.locale.habitability.issues.prefix;
-      }}
+      onSuccessRedirect={
+        LaLetterBuilderRouteInfo.locale.habitability.issues.prefix
+      }
     >
       {(sessionCtx) => (
         <LetterCard
@@ -286,6 +283,11 @@ export const CreateLetterCard: React.FC<CreateLetterCardProps> = (props) => {
               <NextButton
                 isLoading={sessionCtx.isLoading}
                 label={li18n._(t`Start letter`)}
+                onClick={() => {
+                  logEvent("latenants.letter.create", {
+                    letterType: "HABITABILITY" as LetterChoice,
+                  });
+                }}
               />
             </div>
           )}

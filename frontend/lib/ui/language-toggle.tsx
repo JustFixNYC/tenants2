@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import { Trans } from "@lingui/macro";
 import { NavbarDropdown } from "./navbar";
 import { getGlobalSiteRoutes } from "../global-site-routes";
+import { logEvent } from "../analytics/util";
 
 /**
  * Names of languages in the language itself.
@@ -35,7 +36,11 @@ export const SwitchLanguage: React.FC<{
   // Note that this is an <a> rather than a <Link>, because changing
   // the locale requires a full page refresh.
   return (
-    <a href={pathname} className={props.className}>
+    <a
+      href={pathname}
+      className={props.className}
+      onClick={() => logEvent("ui.language.click", { locale })}
+    >
       {langName}
     </a>
   );

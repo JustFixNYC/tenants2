@@ -149,6 +149,7 @@ export interface JustfixAmplitudeAPI {
 
 export type AmplitudeEvent =
   | "ui.accordion.click"
+  | "ui.language.click"
   | "latenants.issue.click"
   | "latenants.letter.create"
   | "latenants.letter.download"

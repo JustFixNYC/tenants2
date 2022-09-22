@@ -317,6 +317,7 @@ export class AppWithoutRouter extends React.Component<
     if (this.state.session.userId !== null) {
       this.handleLogin();
     }
+    trackPageView(this.props.location.pathname);
     logAmplitudePageView(this.props.location.pathname);
   }
 

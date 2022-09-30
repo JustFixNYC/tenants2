@@ -1,4 +1,7 @@
 [
   ["SAFE_MODE_ENABLE", "Enable compatibility mode"],
-  ["SAFE_MODE_DISABLE", "Disable compatibility mode"]
+  ["SAFE_MODE_DISABLE", "Disable compatibility mode"],
+  ["LATENANTS_LETTER_CREATE", "LA TAC create letter"],
+  ["LATENANTS_LETTER_SEND", "LA TAC send letter"],
+  ["LATENANTS_LETTER_DOWNLOAD", "LA TAC download letter"]
 ]

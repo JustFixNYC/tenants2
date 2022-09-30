@@ -230,7 +230,7 @@ msgstr "Answer a few questions about yourself and your landlord or management co
 msgid "Answer some basic questions about your housing situation, and we’ll automatically create a letter for you."
 msgstr "Answer some basic questions about your housing situation, and we’ll automatically create a letter for you."
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:41
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:36
 msgid "Anti-Harassment"
 msgstr "Anti-Harassment"
 
@@ -829,7 +829,7 @@ msgstr "Do you live in {0}, {1}?"
 msgid "Do you still want to mail to:"
 msgstr "Do you still want to mail to:"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:41
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:36
 msgid "Document the harassment you and your family are experiencing and send a notice to your landlord."
 msgstr "Document the harassment you and your family are experiencing and send a notice to your landlord."
 
@@ -1590,12 +1590,12 @@ msgstr "Landlord/management company's email"
 msgid "Landlord/management company's name"
 msgstr "Landlord/management company's name"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:36
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:41
 msgid "Landlords must give 24-hour written notice to enter your unit. Make a formal request that your landlord respect your right to privacy."
 msgstr "Landlords must give 24-hour written notice to enter your unit. Make a formal request that your landlord respect your right to privacy."
 
 #: frontend/lib/evictionfree/components/footer.tsx:13
-#: frontend/lib/ui/language-toggle.tsx:34
+#: frontend/lib/ui/language-toggle.tsx:35
 msgid "Language:"
 msgstr "Language:"
 
@@ -2055,7 +2055,7 @@ msgstr "Note to repair sent on behalf of {0}"
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 msgstr "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:141
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:136
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:13
 msgid "Notice to Repair"
 msgstr "Notice to Repair"
@@ -2372,7 +2372,7 @@ msgstr "Rhode Island"
 msgid "Right to Counsel's FAQ page"
 msgstr "Right to Counsel's FAQ page"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:36
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:41
 msgid "Right to Privacy"
 msgstr "Right to Privacy"
 
@@ -2636,8 +2636,8 @@ msgstr "Start a legal case for repairs and/or harassment"
 msgid "Start a new letter"
 msgstr "Start a new letter"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:145
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:149
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:140
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:144
 msgid "Start letter"
 msgstr "Start letter"
 
@@ -3301,7 +3301,7 @@ msgstr "Wisconsin"
 msgid "With this free tool, you can"
 msgstr "With this free tool, you can"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:141
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:136
 msgid "Write your landlord a letter to formally document your request for repairs."
 msgstr "Write your landlord a letter to formally document your request for repairs."
 

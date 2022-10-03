@@ -1,6 +1,7 @@
 from typing import Any, Dict, List
 from django.http import HttpRequest
 from django.db import transaction
+from amplitude.models import LoggedEvent
 from laletterbuilder import letter_sending, models
 from onboarding.scaffolding import purge_scaffolding
 from onboarding.schema import complete_onboarding
@@ -139,6 +140,9 @@ class LaLetterBuilderCreateLetter(SessionFormMutation):
                 info, "This form can only be used from the LA Letter Builder site."
             )
         letter_sending.create_letter(user)
+        LoggedEvent.objects.create_for_request(
+            request, kind=LoggedEvent.CHOICES.LATENANTS_LETTER_CREATE
+        )
 
         return cls.mutation_success()
 
@@ -177,6 +181,9 @@ class LaLetterBuilderSendLetter(SessionFormMutation):
             user=request.user, letter_sent_at=None, letter_emailed_at=None, fully_processed_at=None
         )
         letter_sending.send_letter(letter)
+        LoggedEvent.objects.create_for_request(
+            request, kind=LoggedEvent.CHOICES.LATENANTS_LETTER_SEND
+        )
 
         return cls.mutation_success()
 
@@ -296,6 +303,8 @@ class LaLetterBuilderDownloadPDF(SessionFormMutation):
     @classmethod
     @mutation_requires_onboarding
     def perform_mutate(cls, form, info: ResolveInfo):
+        request = info.context
+
         with transaction.atomic():
             user = info.context.user
             letter_id = form.cleaned_data["letter_id"]
@@ -314,6 +323,9 @@ class LaLetterBuilderDownloadPDF(SessionFormMutation):
                     f"Could not find PDF bytes for letter with id {letter_id}. \
                         Has the letter been fully processed?"
                 )
+            LoggedEvent.objects.create_for_request(
+                request, kind=LoggedEvent.CHOICES.LATENANTS_LETTER_DOWNLOAD
+            )
         return cls.mutation_success(pdf_base64=letter.pdf_base64)
 
 

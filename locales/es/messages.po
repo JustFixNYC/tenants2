@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-09-02 19:46\n"
+"PO-Revision-Date: 2022-10-03 20:14\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -236,7 +236,6 @@ msgid "Answer some basic questions about your housing situation, and we’ll aut
 msgstr "Contesta algunas preguntas básicas sobre su situación de vivienda y crearemos automáticamente una carta para usted."
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:36
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:75
 msgid "Anti-Harassment"
 msgstr "Antiacoso"
 
@@ -840,7 +839,6 @@ msgid "Do you still want to mail to:"
 msgstr "¿Aún deseas continuar?"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:36
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:78
 msgid "Document the harassment you and your family are experiencing and send a notice to your landlord."
 msgstr "Documenta el acoso que su y su familia están experimentando y envía un aviso a su dueño."
 
@@ -1601,7 +1599,6 @@ msgid "Landlord/management company's name"
 msgstr "Nombre del dueño o manager de tu edificio"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:41
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:90
 msgid "Landlords must give 24-hour written notice to enter your unit. Make a formal request that your landlord respect your right to privacy."
 msgstr "Los dueños deben notificar por escrito 24 horas antes de entrar a su unidad. Haga una solicitud formal para que su dueño respete su derecho a la privacidad."
 
@@ -2065,7 +2062,7 @@ msgstr "Aviso a reparar enviado en nombre de {0}"
 msgid "Notice of COVID-19 impact on Rent sent on behalf of {0}"
 msgstr "Aviso de impacto del COVID-19 en la renta enviado en nombre de {0}"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:171
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:136
 #: frontend/lib/laletterbuilder/letter-builder/habitability/habitability-letter-content.tsx:13
 msgid "Notice to Repair"
 msgstr "Aviso a reparar"
@@ -2384,7 +2381,6 @@ msgid "Right to Counsel's FAQ page"
 msgstr "Página de Preguntas Frecuentes del Right to Counsel"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:41
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:87
 msgid "Right to Privacy"
 msgstr "Derecho a la privacidad"
 
@@ -2648,8 +2644,8 @@ msgstr "Empieza un caso legal por arreglos y/o acoso"
 msgid "Start a new letter"
 msgstr "Crear una nueva carta"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:180
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:186
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:140
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:144
 msgid "Start letter"
 msgstr "Iniciar su carta"
 
@@ -3314,7 +3310,7 @@ msgstr "Wisconsin"
 msgid "With this free tool, you can"
 msgstr "Con esta herramienta gratuita, puedes"
 
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:171
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:136
 msgid "Write your landlord a letter to formally document your request for repairs."
 msgstr "Escriba al dueño una carta para documentar formalmente su solicitud de reparaciones."
 

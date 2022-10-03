@@ -46,20 +46,6 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
           )}
         </p>
         <LetterCard
-          title={li18n._(t`Right to Privacy`)}
-          time_mins={15}
-          text={li18n._(
-            t`Landlords must give 24-hour written notice to enter your unit. Make a formal request that your landlord respect your right to privacy.`
-          )}
-          buttonProps={{
-            to:
-              "https://justfix.formstack.com/forms/saje_right_to_privacy_letter_builder_form",
-            className: "button is-light is-medium mb-3",
-            text: li18n._(t`Go to form`),
-          }}
-          information={privacyInformationNeeded()}
-        />
-        <LetterCard
           title={li18n._(t`Anti-Harassment`)}
           time_mins={10}
           text={li18n._(
@@ -72,6 +58,20 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
             text: li18n._(t`Go to form`),
           }}
           information={harassmentInformationNeeded()}
+        />
+        <LetterCard
+          title={li18n._(t`Right to Privacy`)}
+          time_mins={15}
+          text={li18n._(
+            t`Landlords must give 24-hour written notice to enter your unit. Make a formal request that your landlord respect your right to privacy.`
+          )}
+          buttonProps={{
+            to:
+              "https://justfix.formstack.com/forms/saje_right_to_privacy_letter_builder_form",
+            className: "button is-light is-medium mb-3",
+            text: li18n._(t`Go to form`),
+          }}
+          information={privacyInformationNeeded()}
         />
         <LetterCard
           title={li18n._(t`Private Right of Action`)}

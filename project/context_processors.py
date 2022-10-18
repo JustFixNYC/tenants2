@@ -147,6 +147,7 @@ class GoogleTagManagerSnippet(JsSnippetContextProcessor):
         ],
         "SCRIPT_SRC": [
             GTM_ORIGIN,
+            "https://www.googleadservices.com",
             # Our GTM injects YouTube's iframe API: https://stackoverflow.com/q/37384775
             "https://www.youtube.com",
             "https://s.ytimg.com",

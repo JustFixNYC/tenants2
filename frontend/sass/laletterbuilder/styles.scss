@@ -71,6 +71,9 @@ $jf-navbar-height: 70px;
     figure {
       margin: 0rem;
     }
+    .text-section {
+      margin-top: $spacing-07;
+    }
   }
 
   .jf-laletterbuilder-landing-section-tertiary {
@@ -82,13 +85,10 @@ $jf-navbar-height: 70px;
     .subtitle {
       color: $secondary;
     }
-    .text-section {
-      margin-top: $spacing-07;
-    }
   }
 
   .hero-body {
-    padding: $spacing-10 $spacing-06;
+    padding: $spacing-07 $spacing-06 $spacing-08;
   }
 
   .has-background-dark {
@@ -259,10 +259,6 @@ $jf-navbar-height: 70px;
   margin-right: auto;
   max-width: $laletterbuilder-desktop-max-width;
 
-  + .jf-la-letter-card {
-    margin-top: $spacing-05;
-  }
-
   .jf-clock-icon {
     float: left;
     margin-top: 0.4rem;
@@ -317,6 +313,10 @@ $jf-navbar-height: 70px;
   }
 }
 
+.jf-la-formstack-card {
+  margin-top: $spacing-06;
+}
+
 // ACCESS DATES STYLING OVERRIDES
 .jf-landlord-access-dates {
   h1.title {
@@ -368,6 +368,10 @@ $jf-navbar-height: 70px;
 
   figure {
     margin: 0;
+  }
+
+  .jf-la-letter-card + .jf-la-letter-card {
+    margin-top: $spacing-05;
   }
 }
 

@@ -68,7 +68,7 @@ describe("choose letter page", () => {
     pal.rr.getAllByText(/Select the repairs/i);
   });
 
-  it("redirects to my letters with logged in user and letter in progress", async () => {
+  it("redirects to issues with logged in user and letter in progress", async () => {
     const pal = new AppTesterPal(
       <Route component={LaLetterBuilderRouteComponent} />,
       {
@@ -78,7 +78,7 @@ describe("choose letter page", () => {
       }
     );
     pal.clickButtonOrLink("Start letter");
-    await pal.waitForLocation("/en/habitability/my-letters");
-    await pal.rt.waitFor(() => pal.rr.getAllByText(/My letters/i));
+    await pal.waitForLocation("/en/habitability/issues");
+    await pal.rt.waitFor(() => pal.rr.getAllByText(/Select the repairs/i));
   });
 });

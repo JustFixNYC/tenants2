@@ -115,6 +115,54 @@ const rightOfActionInformationNeeded = () => [
   li18n._(t`Landlord or property manager’s contact information`),
 ];
 
+export const formstackCardsInfo: LetterCardProps[] = [
+  {
+    title: li18n._(t`Anti-Harassment`),
+    className: "jf-la-formstack-card",
+    time_mins: 10,
+    text: li18n._(
+      t`Document the harassment you and your family are experiencing and send a notice to your landlord.`
+    ),
+    buttonProps: {
+      to:
+        "https://justfix.formstack.com/forms/saje_anti_harassment_letter_builder_form",
+      className: "button is-light is-medium mb-3",
+      text: li18n._(t`Go to form`),
+    },
+    information: harassmentInformationNeeded(),
+  },
+  {
+    title: li18n._(t`Right to Privacy`),
+    className: "jf-la-formstack-card",
+    time_mins: 15,
+    text: li18n._(
+      t`Landlords must give 24-hour written notice to enter your unit. Make a formal request that your landlord respect your right to privacy.`
+    ),
+    buttonProps: {
+      to:
+        "https://justfix.formstack.com/forms/saje_right_to_privacy_letter_builder_form",
+      className: "button is-light is-medium mb-3",
+      text: li18n._(t`Go to form`),
+    },
+    information: privacyInformationNeeded(),
+  },
+  {
+    title: li18n._(t`Private Right of Action`),
+    className: "jf-la-formstack-card",
+    time_mins: 10,
+    text: li18n._(
+      t`The City of LA allows residential tenants to sue for violations of COVID-19 renter protections. Document violations and notify your landlord. `
+    ),
+    buttonProps: {
+      to:
+        "https://justfix.formstack.com/forms/saje_la_city_private_right_of_action_letter_builder_form",
+      className: "button is-light is-medium mb-3",
+      text: li18n._(t`Go to form`),
+    },
+    information: rightOfActionInformationNeeded(),
+  },
+];
+
 export interface TagInfo {
   label: string;
   className?: string;
@@ -137,7 +185,7 @@ type LetterCardProps = {
   tags?: TagInfo[];
 };
 
-const LetterCard: React.FC<LetterCardProps> = (props) => {
+export const LetterCard: React.FC<LetterCardProps> = (props) => {
   return (
     <>
       <div className={`jf-la-letter-card ${props.className}`}>
@@ -243,9 +291,28 @@ type CreateLetterCardProps = {
 };
 
 export const CreateLetterCard: React.FC<CreateLetterCardProps> = (props) => {
-  const { session } = useContext(AppContext);
   const { className } = props;
 
+  return (
+    <LetterCard
+      title={li18n._(t`Notice to Repair`)}
+      time_mins={15}
+      text={li18n._(
+        t`Write your landlord a letter to formally document your request for repairs.`
+      )}
+      className={className}
+      tags={createLetterTags()}
+      information={repairsInformationNeeded()}
+    >
+      <StartLetterButton />
+    </LetterCard>
+  );
+};
+
+export const StartLetterButton: React.FC<{ className?: string }> = ({
+  className,
+}) => {
+  const { session } = useContext(AppContext);
   const createNewLetter =
     !!session.phoneNumber && !session.hasHabitabilityLetterInProgress;
 
@@ -257,42 +324,32 @@ export const CreateLetterCard: React.FC<CreateLetterCardProps> = (props) => {
         LaLetterBuilderRouteInfo.locale.habitability.issues.prefix
       }
     >
-      {(sessionCtx) => (
-        <LetterCard
-          title={li18n._(t`Notice to Repair`)}
-          time_mins={15}
-          text={li18n._(
-            t`Write your landlord a letter to formally document your request for repairs.`
-          )}
-          className={className}
-          tags={createLetterTags()}
-          information={repairsInformationNeeded()}
-          buttonProps={
-            !createNewLetter
-              ? {
-                  to: LaLetterBuilderRouteInfo.locale.habitability.latestStep,
-                  className:
-                    "button jf-is-next-button is-primary is-medium mb-3",
-                  text: li18n._(t`Start letter`),
-                }
-              : undefined
-          }
-        >
-          {createNewLetter && (
-            <div className="start-letter-button jf-card-button">
-              <NextButton
-                isLoading={sessionCtx.isLoading}
-                label={li18n._(t`Start letter`)}
-                onClick={() => {
-                  logEvent("latenants.letter.create", {
-                    letterType: "HABITABILITY" as LetterChoice,
-                  });
-                }}
-              />
-            </div>
-          )}
-        </LetterCard>
-      )}
+      {(sessionCtx) =>
+        createNewLetter ? (
+          <div
+            className={`start-letter-button jf-card-button ${className || ""}`}
+          >
+            <NextButton
+              isLoading={sessionCtx.isLoading}
+              label={li18n._(t`Start letter`)}
+              onClick={() => {
+                logEvent("latenants.letter.create", {
+                  letterType: "HABITABILITY" as LetterChoice,
+                });
+              }}
+            />
+          </div>
+        ) : (
+          <Link
+            to={LaLetterBuilderRouteInfo.locale.habitability.latestStep}
+            className={`button jf-is-next-button is-primary is-medium mb-3 ${
+              className || ""
+            }`}
+          >
+            {li18n._(t`Start letter`)}
+          </Link>
+        )
+      }
     </SessionUpdatingFormSubmitter>
   );
 };

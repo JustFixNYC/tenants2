@@ -58,25 +58,30 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
       path: routes.name,
       exact: true,
       component: LaLetterBuilderAskName,
+      shouldBeSkipped: isUserLoggedIn,
     },
     {
       path: routes.city,
       exact: false,
       component: LaLetterBuilderAskCityState,
+      shouldBeSkipped: isUserLoggedIn,
     },
     {
       path: routes.nationalAddress,
       exact: false,
       // TODO: add something that short circuits if the user isn't in LA
       component: LaLetterBuilderAskNationalAddress,
+      shouldBeSkipped: isUserLoggedIn,
     },
     {
       path: routes.reviewRights,
       component: LaLetterBuilderReviewRights,
+      shouldBeSkipped: isUserLoggedIn,
     },
     {
       path: routes.createAccount,
       component: LaLetterBuilderCreateAccount,
+      shouldBeSkipped: isUserLoggedIn,
     },
   ];
 
@@ -92,11 +97,12 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
         path: routes.welcome,
         exact: true,
         component: WelcomeMyLetters,
+        isComplete: (s) => !!s.phoneNumber,
       },
       ...skipStepsIf(isUserLoggedIn, [
         ...createStartAccountOrLoginSteps(
           routes,
-          LaLetterBuilderRouteInfo.locale.chooseLetter
+          LaLetterBuilderRouteInfo.locale.home
         ),
       ]),
     ],
@@ -108,6 +114,7 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
         exact: true,
         component: LaLetterBuilderMyLetters,
         hideProgressBar: true,
+        isComplete: (s) => !!s.phoneNumber,
       },
       {
         path: routes.issues.prefix,

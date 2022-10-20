@@ -1,23 +1,21 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { Trans } from "@lingui/macro";
 
 import Page from "../ui/page";
 
-import { AppContext } from "../app-context";
-import {
-  LaLetterBuilderRouteInfo,
-  LaLetterBuilderRouteInfo as Routes,
-} from "./route-info";
 import { Accordion } from "../ui/accordion";
 import { OutboundLink } from "../ui/outbound-link";
 import { getFaqContent } from "./faq-content";
-import { ClickableLogo } from "./components/clickable-logo";
-import { Link } from "react-router-dom";
-import { bulmaClasses } from "../ui/bulma";
 import ResponsiveElement from "./components/responsive-element";
 import { logEvent } from "../analytics/util";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
+import {
+  CreateLetterCard,
+  formstackCardsInfo,
+  LetterCard,
+  StartLetterButton,
+} from "./letter-builder/choose-letter";
 
 type LaLetterBuilderImageType = "png" | "svg";
 
@@ -29,7 +27,6 @@ export function getLaLetterBuilderImageSrc(
 }
 
 export const LaLetterBuilderHomepage: React.FC<{}> = () => {
-  const { session } = useContext(AppContext);
   const faqContent = getFaqContent();
 
   return (
@@ -44,92 +41,16 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
             </ResponsiveElement>
             <ResponsiveElement className="mb-7" desktop="h4" touch="h3">
               <Trans>
-                Exercise your tenant rights. Send a free letter to your landlord
-                in minutes.
+                Do you need repairs in your home? Take action by creating a{" "}
+                <em>Notice to Repair</em> letter. We’ll send it to your landlord
+                for free.
               </Trans>
             </ResponsiveElement>
-            {!!session.phoneNumber ? (
-              <>
-                <div>
-                  <Link
-                    className={`${bulmaClasses(
-                      "button",
-                      "is-primary",
-                      "is-large"
-                    )} mb-5`}
-                    to={LaLetterBuilderRouteInfo.locale.habitability.myLetters}
-                  >
-                    <Trans>My letters</Trans>
-                  </Link>
-                </div>
-                <div>
-                  <Link
-                    className={`${bulmaClasses(
-                      "button",
-                      "is-large"
-                    )}  is-secondary`}
-                    to={Routes.locale.chooseLetter}
-                  >
-                    <Trans>Create a new letter</Trans>
-                  </Link>
-                </div>
-              </>
-            ) : (
-              <Link
-                className={`${bulmaClasses(
-                  "button",
-                  "is-primary",
-                  "is-large"
-                )} mb-7`}
-                to={Routes.locale.chooseLetter}
-              >
-                <Trans>View letters</Trans>
-              </Link>
-            )}
+            <CreateLetterCard />
           </div>
         </div>
       </section>
       <section className="jf-laletterbuilder-landing-section-secondary">
-        <div className="hero-body pb-8">
-          <div className="container">
-            <h2 className="mb-3">
-              <Trans>Legally vetted</Trans>
-            </h2>
-            <ResponsiveElement className="mb-10" desktop="h4" touch="h3">
-              <Trans>
-                We created the LA Tenant Action Center with lawyers and
-                non-profit tenant rights organizations to ensure that your
-                letter gives you the most protections.
-              </Trans>
-            </ResponsiveElement>
-            <div>
-              <h2>
-                <Trans>Created by</Trans>
-              </h2>
-              <ClickableLogo imageUrl="justfix-saje-combined-logo-black" />
-            </div>
-            <div>
-              <h4 className="mt-5 mb-5">
-                <Trans>
-                  <OutboundLink href="https://www.justfix.org/">
-                    JustFix
-                  </OutboundLink>{" "}
-                  builds tools for tenants, housing organizers, and legal
-                  advocates.
-                </Trans>
-              </h4>
-              <h4>
-                <Trans>
-                  <OutboundLink href="https://www.saje.net/">SAJE</OutboundLink>{" "}
-                  empowers tenants in Los Angeles to fight for their homes and
-                  communities.
-                </Trans>
-              </h4>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="jf-laletterbuilder-landing-section-tertiary">
         <div className="hero-body">
           <div className="container">
             <h2 className="mb-7">
@@ -193,10 +114,71 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
                 {el.answer}
               </Accordion>
             ))}
+            <StartLetterButton className="mt-5" />
+          </div>
+        </div>
+      </section>
+      <section className="jf-laletterbuilder-landing-section-tertiary">
+        <div className="hero-body pb-8">
+          <div className="container">
+            <h2 className="mb-3">
+              <Trans>Legally vetted</Trans>
+            </h2>
+            <h4 className="mb-6">
+              <Trans>
+                We created the LA Tenant Action Center with lawyers and
+                non-profit tenant rights organizations to ensure that your
+                letter gives you the most protections.
+              </Trans>
+            </h4>
+            <div>
+              <h2 className="mb-3">
+                <Trans>Created by</Trans>
+              </h2>
+            </div>
+            <div>
+              <h4 className="mb-5">
+                <Trans>
+                  <OutboundLink href="https://www.justfix.org/">
+                    JustFix
+                  </OutboundLink>{" "}
+                  builds tools for tenants, housing organizers, and legal
+                  advocates.
+                </Trans>
+              </h4>
+              <h4>
+                <Trans>
+                  <OutboundLink href="https://www.saje.net/">SAJE</OutboundLink>{" "}
+                  empowers tenants in Los Angeles to fight for their homes and
+                  communities.
+                </Trans>
+              </h4>
+            </div>
           </div>
         </div>
       </section>
       <section className="jf-laletterbuilder-landing-section-secondary">
+        <div className="hero-body">
+          <div className="container">
+            <ResponsiveElement className="mb-5" desktop="h4" touch="h3">
+              <Trans>
+                Are you experiencing other issues in your home? Here are other
+                forms to take action with to assert your rights.
+              </Trans>
+            </ResponsiveElement>
+            <label className="mb-6">
+              <Trans>
+                Unlike the Notice to Repair, you’ll have to print and mail these
+                forms yourself.
+              </Trans>
+            </label>
+            {formstackCardsInfo.map((card) => (
+              <LetterCard key={card.title} {...card} />
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="jf-laletterbuilder-landing-section-primary">
         <div className="hero-body">
           <div className="container">
             <h2 className="mb-7">
@@ -220,6 +202,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
                     Tenant Action Clinic
                   </LocalizedOutboundLink>{" "}
                   if you're faced with a housing problem.
+                  <br />
                   <br />
                   Get involved with SAJE to build power with your neighbors
                 </Trans>

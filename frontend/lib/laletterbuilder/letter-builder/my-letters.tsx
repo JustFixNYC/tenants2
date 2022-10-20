@@ -297,7 +297,7 @@ const MyLettersContent: React.FC = (props) => {
           Do you have another housing issue that you need to address?
         </Trans>
       </p>
-      <Link to={LaLetterBuilderRouteInfo.locale.chooseLetter}>
+      <Link to={LaLetterBuilderRouteInfo.locale.home}>
         <Trans>View other letters</Trans>
       </Link>
     </div>

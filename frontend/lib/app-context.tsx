@@ -184,6 +184,13 @@ export interface AppServerInfo {
   latacFacebookPixelId: string;
 
   /**
+   * An optional "Facebook Pixel ID" for the latenants.org Facebook pixel configuration
+   * If empty (the default), there will be no reference to a Facebook Pixel
+   * in the header metatags for the site.
+   */
+   latacLatenantsFacebookPixelId: string;
+
+  /**
    * An optional "Google Tag Manager ID" for the LATAC
    * If empty (the default), there will be no reference to the Google Tag Manager
    * in the header metatags for the site.

@@ -147,6 +147,12 @@ const LaLetterBuilderSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
                 content={server.latacFacebookPixelId}
               />
             )}
+            {server.latacLatenantsFacebookPixelId && (
+              <meta
+                name="facebook-domain-verification"
+                content={server.latacLatenantsFacebookPixelId}
+              />
+            )}
           </Helmet>
         )}
         <section

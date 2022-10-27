@@ -188,7 +188,7 @@ export interface AppServerInfo {
    * If empty (the default), there will be no reference to a Facebook Pixel
    * in the header metatags for the site.
    */
-   latacLatenantsFacebookPixelId: string;
+  latacLatenantsFacebookPixelId: string;
 
   /**
    * An optional "Google Tag Manager ID" for the LATAC

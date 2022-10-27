@@ -72,7 +72,7 @@ msgstr "<0>If your landlord is trying to illegally evict you, reach out to legal
 msgid "<0>If you’re facing an emergency, you can find further legal assistance in your state at <1/>.</0>"
 msgstr "<0>If you’re facing an emergency, you can find further legal assistance in your state at <1/>.</0>"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:115
+#: frontend/lib/laletterbuilder/homepage.tsx:116
 msgid "<0>JustFix</0> builds tools for tenants, housing organizers, and legal advocates."
 msgstr "<0>JustFix</0> builds tools for tenants, housing organizers, and legal advocates."
 
@@ -97,7 +97,7 @@ msgstr "<0>Notice of COVID-19 impact on rent</0><1/>at <2/>"
 msgid "<0>Repairs required</0>"
 msgstr "<0>Repairs required</0>"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:124
+#: frontend/lib/laletterbuilder/homepage.tsx:125
 msgid "<0>SAJE</0> empowers tenants in Los Angeles to fight for their homes and communities."
 msgstr "<0>SAJE</0> empowers tenants in Los Angeles to fight for their homes and communities."
 
@@ -226,7 +226,7 @@ msgstr "Already submitted a hardship declaration form? <0>Log in here to downloa
 msgid "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
 msgstr "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
 
-#: frontend/lib/laletterbuilder/homepage.tsx:47
+#: frontend/lib/laletterbuilder/homepage.tsx:48
 msgid "Answer some basic questions about your housing situation, and we’ll automatically create a letter for you."
 msgstr "Answer some basic questions about your housing situation, and we’ll automatically create a letter for you."
 
@@ -252,9 +252,9 @@ msgstr "Apartment number"
 msgid "Apply for ERAP Online"
 msgstr "Apply for ERAP Online"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:138
-msgid "Are you experiencing other issues in your home? Here are other forms to take action with to assert your rights."
-msgstr "Are you experiencing other issues in your home? Here are other forms to take action with to assert your rights."
+#: frontend/lib/laletterbuilder/homepage.tsx:139
+msgid "Are you experiencing other issues in your home? Take action with these forms."
+msgstr "Are you experiencing other issues in your home? Take action with these forms."
 
 #: frontend/lib/pages/logout-alt-page.tsx:16
 msgid "Are you sure you want to log out?"
@@ -276,11 +276,11 @@ msgstr "Arizona"
 msgid "Arkansas"
 msgstr "Arkansas"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:21
+#: frontend/lib/laletterbuilder/homepage.tsx:22
 msgid "As a California resident, you have a right to safe housing"
 msgstr "As a California resident, you have a right to safe housing"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:164
+#: frontend/lib/laletterbuilder/homepage.tsx:165
 msgid "Attend SAJE’s <0>Tenant Action Clinic</0> if you're faced with a housing problem.<1/><2/>Get involved with SAJE to build power with your neighbors"
 msgstr "Attend SAJE’s <0>Tenant Action Clinic</0> if you're faced with a housing problem.<1/><2/>Get involved with SAJE to build power with your neighbors"
 
@@ -434,11 +434,11 @@ msgstr "Build my letter"
 msgid "Build power in numbers"
 msgstr "Build power in numbers"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:56
+#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:61
 msgid "Build your Letter"
 msgstr "Build your Letter"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:44
+#: frontend/lib/laletterbuilder/homepage.tsx:45
 #: frontend/lib/norent/letter-builder/welcome.tsx:9
 msgid "Build your letter"
 msgstr "Build your letter"
@@ -703,11 +703,11 @@ msgstr "Cracked walls"
 msgid "Create a password"
 msgstr "Create a password"
 
-#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:58
+#: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:63
 msgid "Create an Account"
 msgstr "Create an Account"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:110
+#: frontend/lib/laletterbuilder/homepage.tsx:111
 msgid "Created by"
 msgstr "Created by"
 
@@ -826,7 +826,7 @@ msgstr "Do you have another housing issue that you need to address?"
 msgid "Do you live in {0}, {1}?"
 msgstr "Do you live in {0}, {1}?"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:26
+#: frontend/lib/laletterbuilder/homepage.tsx:27
 msgid "Do you need repairs in your home? Take action by creating a <0>Notice to Repair</0> letter. We’ll send it to your landlord for free."
 msgstr "Do you need repairs in your home? Take action by creating a <0>Notice to Repair</0> letter. We’ll send it to your landlord for free."
 
@@ -1063,7 +1063,7 @@ msgstr "Free Certified Mail"
 msgid "Frequently Asked Questions"
 msgstr "Frequently Asked Questions"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:83
+#: frontend/lib/laletterbuilder/homepage.tsx:84
 msgid "Frequently asked questions"
 msgstr "Frequently asked questions"
 
@@ -1091,7 +1091,7 @@ msgstr "Gather documentation"
 msgid "Georgia"
 msgstr "Georgia"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:160
+#: frontend/lib/laletterbuilder/homepage.tsx:161
 msgid "Get involved in your community"
 msgstr "Get involved in your community"
 
@@ -1282,7 +1282,7 @@ msgstr "How do you want to send your letter?"
 msgid "How does sending this declaration help me?"
 msgstr "How does sending this declaration help me?"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:40
+#: frontend/lib/laletterbuilder/homepage.tsx:41
 #: frontend/lib/norent/homepage.tsx:167
 msgid "How it works"
 msgstr "How it works"
@@ -1670,7 +1670,7 @@ msgstr "Legal last name"
 msgid "Legal name"
 msgstr "Legal name"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:99
+#: frontend/lib/laletterbuilder/homepage.tsx:100
 #: frontend/lib/norent/homepage.tsx:125
 msgid "Legally vetted"
 msgstr "Legally vetted"
@@ -1762,7 +1762,7 @@ msgstr "Made by non-profits <0>Right to Counsel NYC Coalition</0>, <1>Housing Ju
 msgid "Made with NYC ♥ by the team at <0>JustFix</0>"
 msgstr "Made with NYC ♥ by the team at <0>JustFix</0>"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:55
+#: frontend/lib/laletterbuilder/homepage.tsx:56
 msgid "Mail for free"
 msgstr "Mail for free"
 
@@ -1822,7 +1822,7 @@ msgstr "Maryland"
 msgid "Massachusetts"
 msgstr "Massachusetts"
 
-#: frontend/lib/laletterbuilder/site.tsx:91
+#: frontend/lib/laletterbuilder/site.tsx:92
 msgid "Menu"
 msgstr "Menu"
 
@@ -1973,7 +1973,7 @@ msgstr "New password"
 msgid "Next"
 msgstr "Next"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:67
+#: frontend/lib/laletterbuilder/homepage.tsx:68
 msgid "Next steps"
 msgstr "Next steps"
 
@@ -2348,7 +2348,7 @@ msgstr "Research your landlord"
 msgid "Reset your password"
 msgstr "Reset your password"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:180
+#: frontend/lib/laletterbuilder/homepage.tsx:181
 msgid "Resources"
 msgstr "Resources"
 
@@ -2448,6 +2448,10 @@ msgstr "Select at least one date when you'll be available for repairs"
 #: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:57
 msgid "Select the repairs you need in your home"
 msgstr "Select the repairs you need in your home"
+
+#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:171
+msgid "Select the repairs you need. We’ll create a formal letter for your landlord that documents your legal right to repairs."
+msgstr "Select the repairs you need. We’ll create a formal letter for your landlord that documents your legal right to repairs."
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:69
 msgid "Send"
@@ -2718,7 +2722,7 @@ msgstr "Take action"
 msgid "Tenant Rights"
 msgstr "Tenant Rights"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:157
+#: frontend/lib/laletterbuilder/homepage.tsx:158
 msgid "Tenant rights resources"
 msgstr "Tenant rights resources"
 
@@ -2880,7 +2884,7 @@ msgstr "Unfortunately, we do not currently recommend sending this notice of non-
 msgid "Unit/apt/lot/suite number"
 msgstr "Unit/apt/lot/suite number"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:144
+#: frontend/lib/laletterbuilder/homepage.tsx:145
 msgid "Unlike the Notice to Repair, you’ll have to print and mail these forms yourself."
 msgstr "Unlike the Notice to Repair, you’ll have to print and mail these forms yourself."
 
@@ -3008,7 +3012,7 @@ msgstr "Water damage"
 msgid "Water leak"
 msgstr "Water leak"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:102
+#: frontend/lib/laletterbuilder/homepage.tsx:103
 msgid "We created the LA Tenant Action Center with lawyers and non-profit tenant rights organizations to ensure that your letter gives you the most protections."
 msgstr "We created the LA Tenant Action Center with lawyers and non-profit tenant rights organizations to ensure that your letter gives you the most protections."
 
@@ -3093,11 +3097,11 @@ msgstr "Welcome back!"
 msgid "West Virginia"
 msgstr "West Virginia"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:70
+#: frontend/lib/laletterbuilder/homepage.tsx:71
 msgid "We’ll explain additional actions you can take if your issue isn’t resolved"
 msgstr "We’ll explain additional actions you can take if your issue isn’t resolved"
 
-#: frontend/lib/laletterbuilder/homepage.tsx:58
+#: frontend/lib/laletterbuilder/homepage.tsx:59
 msgid "We’ll send your letter to your landlord or property manager for free via certified mail. Or you can opt to print and mail it yourself."
 msgstr "We’ll send your letter to your landlord or property manager for free via certified mail. Or you can opt to print and mail it yourself."
 
@@ -3308,10 +3312,6 @@ msgstr "Wisconsin"
 #: frontend/lib/evictionfree/homepage.tsx:60
 msgid "With this free tool, you can"
 msgstr "With this free tool, you can"
-
-#: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:171
-msgid "Write your landlord a letter to formally document your request for repairs."
-msgstr "Write your landlord a letter to formally document your request for repairs."
 
 #: common-data/us-state-choices.ts:116
 msgid "Wyoming"

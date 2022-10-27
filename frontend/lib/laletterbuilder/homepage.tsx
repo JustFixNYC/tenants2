@@ -28,7 +28,7 @@ export function getLaLetterBuilderImageSrc(
 
 export const LaLetterBuilderHomepage: React.FC<{}> = () => {
   const faqContent = getFaqContent();
-  const formstackCardsInfo = getFormstackCardsInfo()
+  const formstackCardsInfo = getFormstackCardsInfo();
 
   return (
     <Page title="">

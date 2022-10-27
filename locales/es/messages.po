@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-10-21 20:25\n"
+"PO-Revision-Date: 2022-10-27 15:27\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -259,7 +259,7 @@ msgstr "Solicitar ERAP en línea"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:138
 msgid "Are you experiencing other issues in your home? Here are other forms to take action with to assert your rights."
-msgstr "Are you experiencing other issues in your home? Here are other forms to take action with to assert your rights."
+msgstr "¿Tiene otros problemas en su casa? Aquí tienes otros formularios con los que puedes actuar para hacer valer sus derechos."
 
 #: frontend/lib/pages/logout-alt-page.tsx:16
 msgid "Are you sure you want to log out?"
@@ -287,7 +287,7 @@ msgstr "Como residente de California, tienes derecho a una vivienda segura"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:164
 msgid "Attend SAJE’s <0>Tenant Action Clinic</0> if you're faced with a housing problem.<1/><2/>Get involved with SAJE to build power with your neighbors"
-msgstr "Attend SAJE’s <0>Tenant Action Clinic</0> if you're faced with a housing problem.<1/><2/>Get involved with SAJE to build power with your neighbors"
+msgstr "Asiste a <0>Clínica de Acción de Inquilino</0> de SAJE si se enfrenta a un problema de vivienda.<1/><2/> Involúcrase con SAJE para construir poder con sus vecinos"
 
 #: frontend/lib/evictionfree/homepage.tsx:68
 msgid "Automatically fill in your landlord's information based on your address if you live in New York City"
@@ -833,7 +833,7 @@ msgstr "¿Vives en {0}, {1}?"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:26
 msgid "Do you need repairs in your home? Take action by creating a <0>Notice to Repair</0> letter. We’ll send it to your landlord for free."
-msgstr "Do you need repairs in your home? Take action by creating a <0>Notice to Repair</0> letter. We’ll send it to your landlord for free."
+msgstr "¿Necesita reparaciones en su casa? Actúa creando una carta de <0>Aviso de Reparación</0>. Se la enviaremos a su dueño de forma gratuita."
 
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:20
 msgid "Do you still want to mail to:"
@@ -2887,7 +2887,7 @@ msgstr "Número de apartamento/unidad/lote/suite"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:144
 msgid "Unlike the Notice to Repair, you’ll have to print and mail these forms yourself."
-msgstr "Unlike the Notice to Repair, you’ll have to print and mail these forms yourself."
+msgstr "A diferencia del Aviso de Reparación, tendrá que imprimir y enviar estos formularios usted mismo."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:352
 msgid "Unrecognized address"

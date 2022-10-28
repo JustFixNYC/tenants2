@@ -115,7 +115,7 @@ const rightOfActionInformationNeeded = () => [
   li18n._(t`Landlord or property manager’s contact information`),
 ];
 
-export const formstackCardsInfo: LetterCardProps[] = [
+export const getFormstackCardsInfo: () => LetterCardProps[] = () => [
   {
     title: li18n._(t`Anti-Harassment`),
     className: "jf-la-formstack-card",
@@ -298,7 +298,7 @@ export const CreateLetterCard: React.FC<CreateLetterCardProps> = (props) => {
       title={li18n._(t`Notice to Repair`)}
       time_mins={15}
       text={li18n._(
-        t`Write your landlord a letter to formally document your request for repairs.`
+        t`Select the repairs you need. We’ll create a formal letter for your landlord that documents your legal right to repairs.`
       )}
       className={className}
       tags={createLetterTags()}

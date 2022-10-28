@@ -12,7 +12,7 @@ import { logEvent } from "../analytics/util";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 import {
   CreateLetterCard,
-  formstackCardsInfo,
+  getFormstackCardsInfo,
   LetterCard,
   StartLetterButton,
 } from "./letter-builder/choose-letter";
@@ -28,6 +28,7 @@ export function getLaLetterBuilderImageSrc(
 
 export const LaLetterBuilderHomepage: React.FC<{}> = () => {
   const faqContent = getFaqContent();
+  const formstackCardsInfo = getFormstackCardsInfo();
 
   return (
     <Page title="">
@@ -162,8 +163,8 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
           <div className="container">
             <ResponsiveElement className="mb-5" desktop="h4" touch="h3">
               <Trans>
-                Are you experiencing other issues in your home? Here are other
-                forms to take action with to assert your rights.
+                Are you experiencing other issues in your home? Take action with
+                these forms.
               </Trans>
             </ResponsiveElement>
             <label className="mb-6">

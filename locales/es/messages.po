@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-10-31 16:28\n"
+"PO-Revision-Date: 2022-10-31 16:30\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -259,7 +259,7 @@ msgstr "Solicitar ERAP en línea"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:139
 msgid "Are you experiencing other issues in your home? Take action with these forms."
-msgstr "Are you experiencing other issues in your home? Take action with these forms."
+msgstr "¿Tiene otros problemas en su casa? Aquí tienes otros formularios con los que puedes actuar para hacer valer sus derechos."
 
 #: frontend/lib/pages/logout-alt-page.tsx:16
 msgid "Are you sure you want to log out?"

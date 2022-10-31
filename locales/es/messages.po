@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-10-28 16:48\n"
+"PO-Revision-Date: 2022-10-31 16:28\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2456,7 +2456,7 @@ msgstr "Seleccione las reparaciones que necesita en su hogar"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:171
 msgid "Select the repairs you need. We’ll create a formal letter for your landlord that documents your legal right to repairs."
-msgstr "Select the repairs you need. We’ll create a formal letter for your landlord that documents your legal right to repairs."
+msgstr "Selecciona las reparaciones que necesitas. Crearemos una carta formal para su dueño que documente su derecho legal a las reparaciones."
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:69
 msgid "Send"

@@ -87,7 +87,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
               <label>
                 <Trans>
                   We’ll explain additional actions you can take if your issue
-                  isn’t resolved
+                  isn’t resolved.
                 </Trans>
               </label>
             </div>

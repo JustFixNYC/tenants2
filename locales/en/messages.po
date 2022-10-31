@@ -3098,8 +3098,8 @@ msgid "West Virginia"
 msgstr "West Virginia"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:71
-msgid "We’ll explain additional actions you can take if your issue isn’t resolved"
-msgstr "We’ll explain additional actions you can take if your issue isn’t resolved"
+msgid "We’ll explain additional actions you can take if your issue isn’t resolved."
+msgstr "We’ll explain additional actions you can take if your issue isn’t resolved."
 
 #: frontend/lib/laletterbuilder/homepage.tsx:59
 msgid "We’ll send your letter to your landlord or property manager for free via certified mail. Or you can opt to print and mail it yourself."

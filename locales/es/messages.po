@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-11-01 18:00\n"
+"PO-Revision-Date: 2022-11-01 18:33\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -3104,7 +3104,7 @@ msgstr "Virginia Occidental"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:71
 msgid "We’ll explain additional actions you can take if your issue isn’t resolved."
-msgstr "We’ll explain additional actions you can take if your issue isn’t resolved."
+msgstr "Le explicaremos otras medidas que puede tomar si su problema no se resuelve."
 
 #: frontend/lib/laletterbuilder/homepage.tsx:59
 msgid "We’ll send your letter to your landlord or property manager for free via certified mail. Or you can opt to print and mail it yourself."

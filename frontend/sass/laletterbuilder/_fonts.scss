@@ -23,6 +23,15 @@
 }
 
 @font-face {
+  font-family: "Degular";
+  font-weight: 600;
+  font-style: normal;
+  src: url("#{$laletterbuilder-root}/font/Degular-Semibold.woff2")
+      format("woff2"),
+    url("#{$laletterbuilder-root}/font/Degular-Semibold.woff") format("woff");
+}
+
+@font-face {
   font-family: "Degular Display";
   font-weight: normal;
   font-style: normal;

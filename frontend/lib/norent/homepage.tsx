@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { LetterCounter } from "./components/letter-counter";
 import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
+import { NorentDeprecationWarning } from "./letter-builder/welcome";
 
 type NorentImageType = "png" | "svg";
 
@@ -151,6 +152,7 @@ export const NorentHomePage: React.FC<{}> = () => {
                 by writing a letter to your landlord.
               </Trans>
             </p>
+            <NorentDeprecationWarning />
             <br />
             <BuildMyLetterButton isHiddenMobile />
             <br />
@@ -320,9 +322,9 @@ export const NorentHomePage: React.FC<{}> = () => {
                 <Trans>Here’s a preview of what the letter looks like:</Trans>
               </h3>
               <br />
-              {/* NOTE: 
-              The content for this letter preview intentionally does not make use of our <LetterPreview> component. 
-              Here, the designer wanted a descriptive element getting across the concept, 
+              {/* NOTE:
+              The content for this letter preview intentionally does not make use of our <LetterPreview> component.
+              Here, the designer wanted a descriptive element getting across the concept,
               rather than a detailed example of what an actual letter looks like. */}
               <article className="message">
                 <div className="message-body has-background-grey-lighter has-text-left has-text-weight-light">

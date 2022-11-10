@@ -5,6 +5,22 @@ import { hasNorentLetterBeenSent } from "./step-decorators";
 import { li18n } from "../../i18n-lingui";
 import { t, Trans } from "@lingui/macro";
 import { WelcomePage } from "../../common-steps/welcome";
+import { OutboundLink } from "../../ui/outbound-link";
+
+export const NorentDeprecationWarning = () => {
+  return (
+    <p className="jf-norent-warning has-background-white-ter">
+      <Trans id="norent.deprecation">
+        As of <strong>December 1st, 2022</strong>, NoRent.org will longer send
+        letters. Please visit{" "}
+        <OutboundLink href="https://www.stayhousedla.org/">
+          Stay Housed L.A.
+        </OutboundLink>{" "}
+        for updates on eviction protections in Los Angeles.
+      </Trans>
+    </p>
+  );
+};
 
 export const NorentLbWelcome: React.FC<ProgressStepProps> = (props) => {
   const { session } = useContext(AppContext);
@@ -45,6 +61,7 @@ export const NorentLbWelcome: React.FC<ProgressStepProps> = (props) => {
             </li>
           </ul>
         </Trans>
+        <NorentDeprecationWarning />
       </>
     </WelcomePage>
   );

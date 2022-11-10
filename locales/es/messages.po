@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-11-10 19:14\n"
+"PO-Revision-Date: 2022-11-10 19:15\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -3923,7 +3923,7 @@ msgstr "<0>Una \"moratoria de desalojo\" puede significar algo diferente en cada
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:10
 msgid "norent.deprecation"
-msgstr "As of <0>December 1st, 2022</0>, NoRent.org will longer send letters. Please visit <1>Stay Housed L.A.</1> for updates on eviction protections in Los Angeles."
+msgstr "A partir del <0>1 de Diciembre 2022</0>, NoRent.Org no podrá enviar cartas por correo. Por favor visite <1>Stay Housed L.A.</1> para actualizaciones sobre protecciones para inquilinos en Los Ángeles."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:95
 msgid "norent.doINeedToSendAB832LetterEveryMonth"

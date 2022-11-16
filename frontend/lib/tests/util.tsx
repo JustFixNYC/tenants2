@@ -77,7 +77,6 @@ export const FakeServerInfo: Readonly<AppServerInfo> = {
   enableWipLocales: false,
   facebookAppId: "",
   latacFacebookPixelId: "",
-  latacLatenantsFacebookPixelId: "",
   latacGtmId: "",
   nycGeoSearchOrigin: "https://myfunky.geosearch.nyc",
   contentfulCommonStrings: null,

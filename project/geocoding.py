@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Any, List, Optional
 import logging
 import pydantic
 import requests
@@ -127,6 +127,17 @@ def _promote_same_borough(search_text: str, features: List[Feature]) -> List[Fea
     return new_features
 
 
+def _geosearch_v2_to_v1(features: List[Any]):
+    for f in features:
+        try:
+            f["properties"]["pad_bbl"] = f["properties"]["addendum"]["pad"]["bbl"]
+            f["properties"]["pad_bin"] = f["properties"]["addendum"]["pad"]["bin"]
+        except KeyError:
+            pass
+
+    return features
+
+
 def search(text: str) -> Optional[List[Feature]]:
     """
     Retrieves geo search results for the given search
@@ -148,7 +159,10 @@ def search(text: str) -> Optional[List[Feature]]:
         )
         if response.status_code != 200:
             raise Exception(f"Expected 200 response, got {response.status_code}")
-        features = [Feature(**kwargs) for kwargs in response.json()["features"]]
+        # Restructure the V2 Geosearch API response to the V1 format
+        # https://github.com/JustFixNYC/who-owns-what/issues/666
+        json_features = _geosearch_v2_to_v1(response.json()["features"])
+        features = [Feature(**kwargs) for kwargs in json_features]
     except pydantic.ValidationError:
         logger.exception(
             f"Validation error processing response from {settings.GEOCODING_SEARCH_URL} "

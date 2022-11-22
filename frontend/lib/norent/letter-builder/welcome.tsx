@@ -11,8 +11,8 @@ export const NorentDeprecationWarning = () => {
   return (
     <p className="jf-norent-warning has-background-white-ter">
       <Trans id="norent.deprecation">
-        As of <strong>December 1st, 2022</strong>, NoRent.org will longer send
-        letters. Please visit{" "}
+        Starting <strong>December 1st, 2022</strong>, NoRent.org will longer
+        send letters. Please visit{" "}
         <OutboundLink href="https://www.stayhousedla.org/">
           Stay Housed L.A.
         </OutboundLink>{" "}

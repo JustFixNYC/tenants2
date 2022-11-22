@@ -3915,7 +3915,7 @@ msgstr "<0>An “eviction moratorium” can mean something different in every ju
 
 #: frontend/lib/norent/letter-builder/welcome.tsx:10
 msgid "norent.deprecation"
-msgstr "As of <0>December 1st, 2022</0>, NoRent.org will longer send letters. Please visit <1>Stay Housed L.A.</1> for updates on eviction protections in Los Angeles."
+msgstr "Starting <0>December 1st, 2022</0>, NoRent.org will longer send letters. Please visit <1>Stay Housed L.A.</1> for updates on eviction protections in Los Angeles."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:95
 msgid "norent.doINeedToSendAB832LetterEveryMonth"

@@ -170,6 +170,12 @@ export interface AppServerInfo {
   isEfnySuspended: boolean;
 
   /**
+   * Whether or not the NoRent site is deprecated (JustFix can no
+   * longer support due to changes in legislation).
+   */
+   isNorentDeprecated: boolean;
+
+  /**
    * An optional "Facebook App ID" for the an associated organization's Facebook page.
    * If empty (the default), there will be no reference to a Facebook App ID
    * in the header metatags for the site.

@@ -371,6 +371,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # new hardship declaration form or completing one in progress.
     IS_EFNY_SUSPENDED: bool = False
 
+    # Whether or not the NoRent site is deprecated, meaning
+    # that users can no longer send letters or view the site.
+    IS_NORENT_DEPRECATED: bool = False
+
     # Whether or not to enable localizations that are still
     # works-in-progress (WIPs), i.e. only partially localized.
     ENABLE_WIP_LOCALES: bool = False

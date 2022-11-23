@@ -8,7 +8,7 @@ import { Route, Link } from "react-router-dom";
 import { LoadingOverlayManager } from "../networking/loading-page";
 import loadable from "@loadable/component";
 import classnames from "classnames";
-import { AppContext } from "../app-context";
+import { AppContext, getGlobalAppServerInfo } from "../app-context";
 import { NorentFooter } from "./components/footer";
 import Navbar from "../ui/navbar";
 import { NorentLogo } from "./components/logo";
@@ -18,6 +18,9 @@ import { LocalizedNationalMetadataProvider } from "./letter-builder/national-met
 import { createLinguiCatalogLoader, li18n } from "../i18n-lingui";
 import { NavbarLanguageDropdown } from "../ui/language-toggle";
 import { NorentRouteComponent } from "./routes";
+import { Modal } from "../ui/modal";
+import { OutboundLink } from "../ui/outbound-link";
+import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 
 function getRoutesForPrimaryPages() {
   return new Set(getNorentRoutesForPrimaryPages());
@@ -58,6 +61,33 @@ const NorentMenuItems: React.FC<{}> = () => {
   );
 };
 
+export const NorentDeprecationModal = () => (
+  <Modal title={li18n._(t`NoRent.org has been deprecated`)} onCloseGoTo="">
+    <div className="jf-is-scrollable-if-too-tall has-text-centered">
+      <p>
+        <Trans id="norent.deprecation">
+          As of <strong>December 1st, 2022</strong>, NoRent.org no longer sends
+          letters. Please visit{" "}
+          <OutboundLink href="https://www.stayhousedla.org/">
+            Stay Housed L.A.
+          </OutboundLink>{" "}
+          for updates on eviction protections in Los Angeles.
+        </Trans>
+      </p>
+      <br />
+      <LocalizedOutboundLink
+        className="button is-primary is-large jf-is-extra-wide jf-build-my-declaration-btn"
+        hrefs={{
+          en: "https://www.saje.net/resources/norent-la/",
+          es: "https://espanol.saje.net/recursos/norent-la/",
+        }}
+      >
+        <Trans>Learn more</Trans>
+      </LocalizedOutboundLink>
+    </div>
+  </Modal>
+);
+
 const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
   (props, ref) => {
     const isPrimaryPage = getRoutesForPrimaryPages().has(
@@ -73,8 +103,14 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
         />
       </Link>
     );
+
+    const siteIsDeprecated = getGlobalAppServerInfo().isNorentDeprecated;
+
     return (
       <NorentLinguiI18n>
+        {siteIsDeprecated && (
+          <NorentDeprecationModal />
+        )}
         <section
           className={classnames(
             isPrimaryPage

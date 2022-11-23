@@ -108,9 +108,7 @@ const NorentSite = React.forwardRef<HTMLDivElement, AppSiteProps>(
 
     return (
       <NorentLinguiI18n>
-        {siteIsDeprecated && (
-          <NorentDeprecationModal />
-        )}
+        {siteIsDeprecated && <NorentDeprecationModal />}
         <section
           className={classnames(
             isPrimaryPage

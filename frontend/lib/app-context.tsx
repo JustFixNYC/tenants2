@@ -173,7 +173,7 @@ export interface AppServerInfo {
    * Whether or not the NoRent site is deprecated (JustFix can no
    * longer support due to changes in legislation).
    */
-   isNorentDeprecated: boolean;
+  isNorentDeprecated: boolean;
 
   /**
    * An optional "Facebook App ID" for the an associated organization's Facebook page.

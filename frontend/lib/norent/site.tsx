@@ -65,7 +65,7 @@ export const NorentDeprecationModal = () => (
   <Modal title={li18n._(t`NoRent.org has been deprecated`)} onCloseGoTo="">
     <div className="jf-is-scrollable-if-too-tall has-text-centered">
       <p>
-        <Trans id="norent.deprecation">
+        <Trans id="norent.deprecationModal">
           As of <strong>December 1st, 2022</strong>, NoRent.org no longer sends
           letters. Please visit{" "}
           <OutboundLink href="https://www.stayhousedla.org/">

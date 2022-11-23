@@ -148,7 +148,7 @@ msgstr "Una herramienta nacional por <0>JustFix.org</0>, organización sin fines
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
 #: frontend/lib/norent/components/footer.tsx:40
-#: frontend/lib/norent/site.tsx:37
+#: frontend/lib/norent/site.tsx:40
 msgid "About"
 msgstr "Acerca de"
 
@@ -426,7 +426,7 @@ msgid "Build a letter using our free letter builder"
 msgstr "Crea una carta con nuestro generador de cartas gratis"
 
 #: frontend/lib/norent/components/footer.tsx:31
-#: frontend/lib/norent/site.tsx:28
+#: frontend/lib/norent/site.tsx:31
 msgid "Build my Letter"
 msgstr "Crear mi carta"
 
@@ -982,7 +982,7 @@ msgstr "Preguntas Frecuentes"
 
 #: frontend/lib/evictionfree/site.tsx:91
 #: frontend/lib/norent/components/footer.tsx:37
-#: frontend/lib/norent/site.tsx:34
+#: frontend/lib/norent/site.tsx:37
 msgid "Faqs"
 msgstr "Preguntas frecuentes"
 
@@ -1240,7 +1240,7 @@ msgid "Holes"
 msgstr "Agujeros"
 
 #: frontend/lib/justfix-navbar.tsx:14
-#: frontend/lib/norent/site.tsx:50
+#: frontend/lib/norent/site.tsx:74
 msgid "Homepage"
 msgstr "Página Principal"
 
@@ -1638,6 +1638,7 @@ msgstr "Aprende Sobre Tu Alquiler"
 #: frontend/lib/evictionfree/site.tsx:120
 #: frontend/lib/laletterbuilder/about.tsx:41
 #: frontend/lib/norent/about.tsx:66
+#: frontend/lib/norent/site.tsx:67
 #: frontend/lib/norent/the-letter.tsx:29
 msgid "Learn more"
 msgstr "Aprender más"
@@ -1718,12 +1719,12 @@ msgstr "Con apoyo local"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
 #: frontend/lib/evictionfree/site.tsx:99
-#: frontend/lib/norent/site.tsx:42
+#: frontend/lib/norent/site.tsx:45
 msgid "Log in"
 msgstr "Iniciar sesión"
 
 #: frontend/lib/evictionfree/site.tsx:97
-#: frontend/lib/norent/site.tsx:40
+#: frontend/lib/norent/site.tsx:43
 #: frontend/lib/pages/logout-alt-page.tsx:14
 msgid "Log out"
 msgstr "Cerrar sesión"
@@ -1827,7 +1828,7 @@ msgstr "Maryland"
 msgid "Massachusetts"
 msgstr "Massachusetts"
 
-#: frontend/lib/laletterbuilder/site.tsx:92
+#: frontend/lib/laletterbuilder/site.tsx:91
 msgid "Menu"
 msgstr "Menú"
 
@@ -2032,6 +2033,10 @@ msgstr "No. Desafortunadamente, estas protecciones solo se aplican a los residen
 #: frontend/lib/norent/letter-content.tsx:84
 msgid "NoRent.org <0/>sent on behalf of <1/>"
 msgstr "NoRent.org <0/>enviado en nombre de <1/>"
+
+#: frontend/lib/norent/site.tsx:50
+msgid "NoRent.org has been deprecated"
+msgstr ""
 
 #: frontend/lib/norent/about.tsx:126
 msgid "NoRent.org is a collaboration between JustFix and legal organizations and housing rights non-profits across the nation."
@@ -2758,7 +2763,7 @@ msgid "The City of LA allows residential tenants to sue for violations of COVID-
 msgstr "La Ciudad de LA permite a los inquilinos residenciales demandar por violaciones de las protecciones de arrendamiento COVID-19. Documente las violaciones y notifique a su dueño."
 
 #: frontend/lib/norent/components/footer.tsx:34
-#: frontend/lib/norent/site.tsx:31
+#: frontend/lib/norent/site.tsx:34
 #: frontend/lib/norent/the-letter.tsx:10
 #: frontend/lib/norent/the-letter.tsx:15
 msgid "The Letter"
@@ -3602,7 +3607,8 @@ msgstr "eviction free nyc, eviction free ny, penuria, declaración, desalojo, de
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:157
 msgid "evictionFree.canLandlordChallengeDeclarationFaq"
-msgstr "<0>SI. ESTO ES NUEVO. Ahora, el casero tiene derecho a impugnar la validez de la declaración de dificultades de un inquilino. Para hacer esto, el casero puede presentar una moción ante la corte, declarando que no cree que el inquilino tenga las dificultades que reclamó en su Declaración de Dificultades. Si ocurre esto, la Corte concederá una audiencia para determinar la validez de la declaración de dificultades del inquilino y el inquilino deberá mostrar prueba de las dificultades que reclamó en su Declaración. En NYC, <1>inquilinos tienen el derecho a un abogado a través de Right to Counsel para estas audiencias</1>.</0><2>\n"
+msgstr ""
+"<0>SI. ESTO ES NUEVO. Ahora, el casero tiene derecho a impugnar la validez de la declaración de dificultades de un inquilino. Para hacer esto, el casero puede presentar una moción ante la corte, declarando que no cree que el inquilino tenga las dificultades que reclamó en su Declaración de Dificultades. Si ocurre esto, la Corte concederá una audiencia para determinar la validez de la declaración de dificultades del inquilino y el inquilino deberá mostrar prueba de las dificultades que reclamó en su Declaración. En NYC, <1>inquilinos tienen el derecho a un abogado a través de Right to Counsel para estas audiencias</1>.</0><2>\n"
 "Si la corte decide que el inquilino demostró su reclamo por dificultades, entonces su caso/desalojo permanecerá en pausa hasta al menos el {0}. La corte instruirá a las partes que soliciten ERAP si parece que el inquilino es elegible y aún no ha presentado esa solicitud.</2><3>Si la corte decide que el inquilino NO está experimentando dificultades, entonces su caso y desalojo pueden proceder.</3>"
 
 #: frontend/lib/evictionfree/about.tsx:45
@@ -3691,7 +3697,8 @@ msgstr "Además, entiendo que los honorarios, multas o intereses legales por imp
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:37
 msgid "evictionfree.legalAgreementCheckboxOnLandlordChallenge"
-msgstr "Además, entiendo que mi casero puede solicitar una audiencia para retar el presente\n"
+msgstr ""
+"Además, entiendo que mi casero puede solicitar una audiencia para retar el presente\n"
 "certificado de penuria y tendré la oportunidad de participar en todo procedimiento\n"
 "de tenencia inmobiliaria."
 
@@ -3925,6 +3932,10 @@ msgstr "<0>Una \"moratoria de desalojo\" puede significar algo diferente en cada
 msgid "norent.deprecation"
 msgstr "A partir del <0>1 de Diciembre 2022</0>, NoRent.Org no podrá enviar cartas por correo. Por favor visite <1>Stay Housed L.A.</1> para actualizaciones sobre protecciones para inquilinos en Los Ángeles."
 
+#: frontend/lib/norent/site.tsx:53
+msgid "norent.deprecationModal"
+msgstr ""
+
 #: frontend/lib/norent/letter-email-to-user.tsx:95
 msgid "norent.doINeedToSendAB832LetterEveryMonth"
 msgstr "Si. Siga estas instrucciones incluso si ha enviado una carta a su propietario cada mes que no ha pagado renta. Y envíe una nueva declaración por cada mes en el futuro (hasta septiembre de 2021)."
@@ -4111,4 +4122,3 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

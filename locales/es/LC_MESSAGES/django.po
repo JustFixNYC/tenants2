@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-21 23:28+0000\n"
+"POT-Creation-Date: 2022-11-23 19:58+0000\n"
 "PO-Revision-Date: 2022-08-10 18:59\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -104,16 +104,22 @@ msgstr "¡%(city)s, %(state_name)s no existe!"
 msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
 msgstr "%(name)s has enviado tu carta de no pago de renta. Puedes seguir la entrega de tu carta usando USPS Tracking: %(url)s."
 
-#: norent/schema.py:236
+#: norent/schema.py:237
 #, python-format
 msgid "Please enter a valid ZIP code for %(state_name)s."
 msgstr "Por favor, introduzca un código postal válido para %(state_name)s."
 
-#: norent/schema.py:243
+#: norent/schema.py:244
 msgid "Your address appears to be within New York City. Please go back and enter \"New York City\" as your city."
 msgstr "Tu dirección parece estar dentro de la ciudad de Nueva York. Por favor, vuelve atrás para introducir \"New York City\" como tu ciudad."
 
-#: norent/schema.py:451
+#: norent/schema.py:340
+#, fuzzy
+#| msgid "This tool has been suspended! Please reload the page for more details."
+msgid "This tool has been deprecated! Please reload the page for more details."
+msgstr "¡Esta herramienta ha sido suspendida! Por favor, recarga la página para más detalles."
+
+#: norent/schema.py:459
 #, python-format
 msgid "Welcome to %(site_name)s, a product by JustFix. We'll be sending you notifications from this phone number."
 msgstr ""
@@ -206,4 +212,3 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 #: project/util/phone_number.py:70
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
-

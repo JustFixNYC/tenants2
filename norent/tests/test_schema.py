@@ -1,4 +1,5 @@
 import pytest
+import freezegun
 from django.contrib.auth.models import AnonymousUser
 
 from project.util.testing_util import one_field_err
@@ -800,6 +801,17 @@ class TestNorentSendLetterV2:
         assert self.execute()["errors"] == one_field_err(
             "This form can only be used from the NoRent site."
         )
+
+    def test_it_shows_deprecation_message(self, settings):
+        settings.IS_NORENT_DEPRECATED = True
+        UpcomingLetterRentPeriodFactory(user=self.user)
+        self.create_landlord_details()
+        OnboardingInfoFactory(user=self.user)
+
+        with freezegun.freeze_time("2022-12-01"):
+            assert self.execute()["errors"] == one_field_err(
+                "This tool has been deprecated! Please reload the page for more details."
+            )
 
     def test_it_works(
         self,

@@ -16,4 +16,14 @@ describe("NorentSite", () => {
     const pal = new AppTesterPal(route, { url: "/en/" });
     await waitFor(() => pal.rr.getByText(/Can't pay rent/i));
   });
+
+  it("renders special text on home page when NoRent is deprecated", async () => {
+    const pal = new AppTesterPal(route, {
+      url: "/en/",
+      server: { isNorentDeprecated: true },
+    });
+    await waitFor(() =>
+      pal.getDialogWithLabel(/NoRent.org has been deprecated/i)
+    );
+  });
 });

@@ -3,6 +3,7 @@ from typing import Optional, Dict, Any, Tuple
 import datetime
 
 from django.http.request import HttpRequest
+from django.conf import settings
 from users.models import JustfixUser
 import graphene
 from graphql import ResolveInfo
@@ -332,6 +333,13 @@ class NorentSendLetterV2(SessionFormMutation):
     @classmethod
     @mutation_requires_onboarding
     def perform_mutate(cls, form, info: ResolveInfo):
+        # If NoRent is deprecated, reject this request and tell the user to reload their browser,
+        # so that they'll be given more details on why the tool was discontinued.
+        if settings.IS_NORENT_DEPRECATED:
+            return cls.make_error(
+                _("This tool has been deprecated! Please reload the page for more details.")
+            )
+
         request = info.context
         user = request.user
         assert user.is_authenticated

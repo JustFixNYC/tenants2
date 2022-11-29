@@ -17,10 +17,15 @@ BOROUGH_MAX_LENGTH = 20
 # if/where they are formally specified.
 BOROUGH_GID_TO_CHOICE = {
     "whosonfirst:borough:1": BOROUGH_CHOICES.MANHATTAN,
+    "whosonfirst:borough:421205771": BOROUGH_CHOICES.MANHATTAN,
     "whosonfirst:borough:2": BOROUGH_CHOICES.BRONX,
+    "whosonfirst:borough:421205773": BOROUGH_CHOICES.BRONX,
     "whosonfirst:borough:3": BOROUGH_CHOICES.BROOKLYN,
+    "whosonfirst:borough:421205765": BOROUGH_CHOICES.BROOKLYN,
     "whosonfirst:borough:4": BOROUGH_CHOICES.QUEENS,
+    "whosonfirst:borough:421205767": BOROUGH_CHOICES.QUEENS,
     "whosonfirst:borough:5": BOROUGH_CHOICES.STATEN_ISLAND,
+    "whosonfirst:borough:421205775": BOROUGH_CHOICES.STATEN_ISLAND,
 }
 
 BOROUGH_FIELD_KWARGS = {

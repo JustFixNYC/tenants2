@@ -164,3 +164,10 @@ $jf-logo-height-desktop: 90px;
   margin-top: 1.25rem;
   border-radius: 4px;
 }
+
+.jf-norent-deprecated {
+  max-height: 80vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1em;
+}

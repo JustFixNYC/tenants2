@@ -114,8 +114,6 @@ msgid "Your address appears to be within New York City. Please go back and enter
 msgstr "Tu dirección parece estar dentro de la ciudad de Nueva York. Por favor, vuelve atrás para introducir \"New York City\" como tu ciudad."
 
 #: norent/schema.py:340
-#, fuzzy
-#| msgid "This tool has been suspended! Please reload the page for more details."
 msgid "This tool has been deprecated! Please reload the page for more details."
 msgstr "¡Esta herramienta ha sido suspendida! Por favor, recarga la página para más detalles."
 
@@ -212,3 +210,4 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 #: project/util/phone_number.py:70
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
 msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
+

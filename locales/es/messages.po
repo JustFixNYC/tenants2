@@ -148,7 +148,7 @@ msgstr "Una herramienta nacional por <0>JustFix.org</0>, organización sin fines
 #: frontend/lib/norent/about.tsx:48
 #: frontend/lib/norent/about.tsx:53
 #: frontend/lib/norent/components/footer.tsx:40
-#: frontend/lib/norent/site.tsx:40
+#: frontend/lib/norent/site.tsx:39
 msgid "About"
 msgstr "Acerca de"
 
@@ -222,6 +222,10 @@ msgstr "¡Todo listo! ¡Gracias por suscribirte!"
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:73
 msgid "Allow 14 days for a response"
 msgstr "Permite 14 días para recibir una respuesta"
+
+#: frontend/lib/norent/site.tsx:68
+msgid "Already submitted a NoRent letter, and want a copy of it? Please email <0>info@saje.net</0> with the subject line: “NoRent”"
+msgstr ""
 
 #: frontend/lib/evictionfree/site.tsx:125
 msgid "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
@@ -426,7 +430,7 @@ msgid "Build a letter using our free letter builder"
 msgstr "Crea una carta con nuestro generador de cartas gratis"
 
 #: frontend/lib/norent/components/footer.tsx:31
-#: frontend/lib/norent/site.tsx:31
+#: frontend/lib/norent/site.tsx:30
 msgid "Build my Letter"
 msgstr "Crear mi carta"
 
@@ -982,7 +986,7 @@ msgstr "Preguntas Frecuentes"
 
 #: frontend/lib/evictionfree/site.tsx:91
 #: frontend/lib/norent/components/footer.tsx:37
-#: frontend/lib/norent/site.tsx:37
+#: frontend/lib/norent/site.tsx:36
 msgid "Faqs"
 msgstr "Preguntas frecuentes"
 
@@ -1240,7 +1244,7 @@ msgid "Holes"
 msgstr "Agujeros"
 
 #: frontend/lib/justfix-navbar.tsx:14
-#: frontend/lib/norent/site.tsx:74
+#: frontend/lib/norent/site.tsx:81
 msgid "Homepage"
 msgstr "Página Principal"
 
@@ -1638,7 +1642,7 @@ msgstr "Aprende Sobre Tu Alquiler"
 #: frontend/lib/evictionfree/site.tsx:120
 #: frontend/lib/laletterbuilder/about.tsx:41
 #: frontend/lib/norent/about.tsx:66
-#: frontend/lib/norent/site.tsx:67
+#: frontend/lib/norent/site.tsx:63
 #: frontend/lib/norent/the-letter.tsx:29
 msgid "Learn more"
 msgstr "Aprender más"
@@ -1719,12 +1723,12 @@ msgstr "Con apoyo local"
 
 #: frontend/lib/common-steps/error-pages.tsx:28
 #: frontend/lib/evictionfree/site.tsx:99
-#: frontend/lib/norent/site.tsx:45
+#: frontend/lib/norent/site.tsx:44
 msgid "Log in"
 msgstr "Iniciar sesión"
 
 #: frontend/lib/evictionfree/site.tsx:97
-#: frontend/lib/norent/site.tsx:43
+#: frontend/lib/norent/site.tsx:42
 #: frontend/lib/pages/logout-alt-page.tsx:14
 msgid "Log out"
 msgstr "Cerrar sesión"
@@ -2034,7 +2038,7 @@ msgstr "No. Desafortunadamente, estas protecciones solo se aplican a los residen
 msgid "NoRent.org <0/>sent on behalf of <1/>"
 msgstr "NoRent.org <0/>enviado en nombre de <1/>"
 
-#: frontend/lib/norent/site.tsx:50
+#: frontend/lib/norent/site.tsx:49
 msgid "NoRent.org has been deprecated"
 msgstr ""
 
@@ -2763,7 +2767,7 @@ msgid "The City of LA allows residential tenants to sue for violations of COVID-
 msgstr "La Ciudad de LA permite a los inquilinos residenciales demandar por violaciones de las protecciones de arrendamiento COVID-19. Documente las violaciones y notifique a su dueño."
 
 #: frontend/lib/norent/components/footer.tsx:34
-#: frontend/lib/norent/site.tsx:34
+#: frontend/lib/norent/site.tsx:33
 #: frontend/lib/norent/the-letter.tsx:10
 #: frontend/lib/norent/the-letter.tsx:15
 msgid "The Letter"
@@ -3932,8 +3936,8 @@ msgstr "<0>Una \"moratoria de desalojo\" puede significar algo diferente en cada
 msgid "norent.deprecation"
 msgstr ""
 
-#: frontend/lib/norent/site.tsx:53
-msgid "norent.deprecationModal"
+#: frontend/lib/norent/site.tsx:52
+msgid "norent.deprecationModal2"
 msgstr ""
 
 #: frontend/lib/norent/letter-email-to-user.tsx:95

@@ -20,7 +20,6 @@ import { NavbarLanguageDropdown } from "../ui/language-toggle";
 import { NorentRouteComponent } from "./routes";
 import { Modal } from "../ui/modal";
 import { OutboundLink } from "../ui/outbound-link";
-import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 
 function getRoutesForPrimaryPages() {
   return new Set(getNorentRoutesForPrimaryPages());
@@ -63,27 +62,35 @@ const NorentMenuItems: React.FC<{}> = () => {
 
 export const NorentDeprecationModal = () => (
   <Modal title={li18n._(t`NoRent.org has been deprecated`)} onCloseGoTo="">
-    <div className="jf-is-scrollable-if-too-tall has-text-centered">
+    <div className="has-text-centered jf-norent-deprecated">
       <p>
-        <Trans id="norent.deprecationModal">
-          As of <strong>December 1st, 2022</strong>, NoRent.org no longer sends
-          letters. Please visit{" "}
-          <OutboundLink href="https://www.stayhousedla.org/">
-            Stay Housed L.A.
+        <Trans id="norent.deprecationModal2">
+          Starting <strong>December 1st, 2022</strong>, NoRent.org no longer
+          sends declaration letters. Please visit{" "}
+          <OutboundLink href="https://app.justfix.org/s/norent-saje">
+            SAJE’s Tenant Action Clinic’s Resources
           </OutboundLink>{" "}
-          for updates on eviction protections in Los Angeles.
+          for additional tenant’s rights information.
         </Trans>
       </p>
       <br />
-      <LocalizedOutboundLink
+      <OutboundLink
         className="button is-primary is-large jf-is-extra-wide jf-build-my-declaration-btn"
-        hrefs={{
-          en: "https://www.saje.net/resources/norent-la/",
-          es: "https://espanol.saje.net/recursos/norent-la/",
-        }}
+        href="https://app.justfix.org/s/norent-saje"
       >
         <Trans>Learn more</Trans>
-      </LocalizedOutboundLink>
+      </OutboundLink>
+      <br />
+      <br />
+      <p className="is-size-6">
+        <Trans>
+          Already submitted a NoRent letter, and want a copy of it? Please email{" "}
+          <OutboundLink href="mailto:info@saje.net?subject=NoRent">
+            info@saje.net
+          </OutboundLink>{" "}
+          with the subject line: “NoRent”
+        </Trans>
+      </p>
     </div>
   </Modal>
 );

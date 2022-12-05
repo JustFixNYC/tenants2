@@ -1408,10 +1408,10 @@
     cross-fetch "^3.1.4"
     yargs "^17.0.1"
 
-"@justfixnyc/geosearch-requester@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@justfixnyc/geosearch-requester/-/geosearch-requester-0.4.0.tgz#3bf36996eddcc9545d2f8a6793bb14ccaa0016d7"
-  integrity sha512-kZZCq2M9HEzXz9rDxZOIqMY9c9jua7WCD1X9K+MMksvj6E21YuUl3zeChXtc+tHk4jFZbpcv1TR59lgS7MGrow==
+"@justfixnyc/geosearch-requester@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@justfixnyc/geosearch-requester/-/geosearch-requester-1.0.0.tgz#7677fdde3e80eb1b4fcffacfa1621fbff783705d"
+  integrity sha512-apPtPi1U78ac59bw2PrC84JaTXQJxNyWBfq3g8BcjdQ0RQ1L0Hd4WEL79ctjjYsRYHE1wY5qSa6JNvEgWRvKYg==
 
 "@justfixnyc/react-aria-modal@5.1.0":
   version "5.1.0"

@@ -56,7 +56,7 @@ export function GeoAutocomplete(props: GeoAutocompleteProps) {
 
 function getAutocompleteUrl(): string {
   const origin = getGlobalAppServerInfo().nycGeoSearchOrigin;
-  return `${origin}/v1/autocomplete`;
+  return `${origin}/v2/autocomplete`;
 }
 
 const geoAutocompleteHelpers: SearchAutocompleteHelpers<

@@ -107,7 +107,7 @@ export const FakeGeoResults: any = {
   features: [
     {
       properties: {
-        borough_gid: "whosonfirst:borough:1",
+        borough_gid: "whosonfirst:borough:421205771",
         name: "150 COURT STREET",
       },
     },

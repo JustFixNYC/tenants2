@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-12-07 20:50\n"
+"PO-Revision-Date: 2022-12-07 21:03\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -222,10 +222,6 @@ msgstr "¡Todo listo! ¡Gracias por suscribirte!"
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:73
 msgid "Allow 14 days for a response"
 msgstr "Permite 14 días para recibir una respuesta"
-
-#: frontend/lib/norent/site.tsx:68
-msgid "Already submitted a NoRent letter, and want a copy of it? Please email <0>info@saje.net</0> with the subject line: “NoRent”"
-msgstr "¿Ya ha enviado una carta de NoRent, y quiere una copia? Por favor, envíe un correo electrónico a <0>info@saje.net</0> con el asunto: \"NoRent\""
 
 #: frontend/lib/evictionfree/site.tsx:125
 msgid "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
@@ -1244,7 +1240,7 @@ msgid "Holes"
 msgstr "Agujeros"
 
 #: frontend/lib/justfix-navbar.tsx:14
-#: frontend/lib/norent/site.tsx:81
+#: frontend/lib/norent/site.tsx:79
 msgid "Homepage"
 msgstr "Página Principal"
 
@@ -1375,6 +1371,10 @@ msgstr "Si no recibiste un código, comprueba tu correo electrónico. Si no lo e
 #: frontend/lib/rh/routes.tsx:312
 msgid "If you have more questions, please email us at <0/>."
 msgstr "Si tienes más preguntas, por favor envíanos un correo electrónico a <0/>."
+
+#: frontend/lib/norent/site.tsx:68
+msgid "If you have questions about your NoRent letter(s), contact <0>SAJE</0>."
+msgstr "If you have questions about your NoRent letter(s), contact <0>SAJE</0>."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:184
 msgid "If you have questions about your rights as a tenant, please <0>connect with Tenants Together</0> or find an attorney at <1>Law Help California</1>."
@@ -3935,8 +3935,8 @@ msgid "norent.deprecation"
 msgstr "A partir del <0>1 de diciembre de 2022</0>, NoRent.org ya no enviará cartas de declaración. Por favor, visite <1>Stay Housed L.A.</1> para obtener información adicional sobre sus derechos de inquilino."
 
 #: frontend/lib/norent/site.tsx:52
-msgid "norent.deprecationModal2"
-msgstr "A partir del <0>1 de diciembre de 2022</0>, NoRent.org ya no enviará cartas de declaración. Por favor, visite <1>los recursos de la Clínica de Acción del Inquilino de SAJE</1> para obtener información adicional sobre sus derechos de inquilino."
+msgid "norent.deprecationModal"
+msgstr "Starting <0>December 1st, 2022</0>, NoRent.org no longer sends declaration letters. Please visit <1>SAJE’s Tenant Action Clinic’s Resources</1> for additional tenant’s rights information."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:95
 msgid "norent.doINeedToSendAB832LetterEveryMonth"

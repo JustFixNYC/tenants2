@@ -218,10 +218,6 @@ msgstr "All set! Thanks for subscribing!"
 msgid "Allow 14 days for a response"
 msgstr "Allow 14 days for a response"
 
-#: frontend/lib/norent/site.tsx:68
-msgid "Already submitted a NoRent letter, and want a copy of it? Please email <0>info@saje.net</0> with the subject line: “NoRent”"
-msgstr "Already submitted a NoRent letter, and want a copy of it? Please email <0>info@saje.net</0> with the subject line: “NoRent”"
-
 #: frontend/lib/evictionfree/site.tsx:125
 msgid "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
 msgstr "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
@@ -1239,7 +1235,7 @@ msgid "Holes"
 msgstr "Holes"
 
 #: frontend/lib/justfix-navbar.tsx:14
-#: frontend/lib/norent/site.tsx:81
+#: frontend/lib/norent/site.tsx:79
 msgid "Homepage"
 msgstr "Homepage"
 
@@ -1370,6 +1366,10 @@ msgstr "If you didn't receive a code, try checking your email. If it's not in th
 #: frontend/lib/rh/routes.tsx:312
 msgid "If you have more questions, please email us at <0/>."
 msgstr "If you have more questions, please email us at <0/>."
+
+#: frontend/lib/norent/site.tsx:68
+msgid "If you have questions about your NoRent letter(s), contact <0>SAJE</0>."
+msgstr "If you have questions about your NoRent letter(s), contact <0>SAJE</0>."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:184
 msgid "If you have questions about your rights as a tenant, please <0>connect with Tenants Together</0> or find an attorney at <1>Law Help California</1>."
@@ -3927,7 +3927,7 @@ msgid "norent.deprecation"
 msgstr "Starting <0>December 1st, 2022</0>, NoRent.org will longer send letters. Please visit <1>Stay Housed L.A.</1> for updates on eviction protections in Los Angeles."
 
 #: frontend/lib/norent/site.tsx:52
-msgid "norent.deprecationModal2"
+msgid "norent.deprecationModal"
 msgstr "Starting <0>December 1st, 2022</0>, NoRent.org no longer sends declaration letters. Please visit <1>SAJE’s Tenant Action Clinic’s Resources</1> for additional tenant’s rights information."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:95

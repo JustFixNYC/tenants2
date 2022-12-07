@@ -64,7 +64,7 @@ export const NorentDeprecationModal = () => (
   <Modal title={li18n._(t`NoRent.org has been deprecated`)} onCloseGoTo="">
     <div className="has-text-centered jf-norent-deprecated">
       <p>
-        <Trans id="norent.deprecationModal2">
+        <Trans id="norent.deprecationModal">
           Starting <strong>December 1st, 2022</strong>, NoRent.org no longer
           sends declaration letters. Please visit{" "}
           <OutboundLink href="https://app.justfix.org/s/norent-saje">
@@ -84,11 +84,9 @@ export const NorentDeprecationModal = () => (
       <br />
       <p className="is-size-6">
         <Trans>
-          Already submitted a NoRent letter, and want a copy of it? Please email{" "}
-          <OutboundLink href="mailto:info@saje.net?subject=NoRent">
-            info@saje.net
-          </OutboundLink>{" "}
-          with the subject line: “NoRent”
+          If you have questions about your NoRent letter(s), contact{" "}
+          <OutboundLink href="https://www.saje.net/contact/">SAJE</OutboundLink>
+          .
         </Trans>
       </p>
     </div>

@@ -223,10 +223,6 @@ msgstr "¡Todo listo! ¡Gracias por suscribirte!"
 msgid "Allow 14 days for a response"
 msgstr "Permite 14 días para recibir una respuesta"
 
-#: frontend/lib/norent/site.tsx:68
-msgid "Already submitted a NoRent letter, and want a copy of it? Please email <0>info@saje.net</0> with the subject line: “NoRent”"
-msgstr "¿Ya ha enviado una carta de NoRent, y quiere una copia? Por favor, envíe un correo electrónico a <0>info@saje.net</0> con el asunto: \"NoRent\""
-
 #: frontend/lib/evictionfree/site.tsx:125
 msgid "Already submitted a hardship declaration form? <0>Log in here to download your form</0>"
 msgstr "¿Has enviado ya un formulario de declaración de penuria? <0>Inicia su sesión aquí para descargar su formulario</0>"
@@ -1244,7 +1240,7 @@ msgid "Holes"
 msgstr "Agujeros"
 
 #: frontend/lib/justfix-navbar.tsx:14
-#: frontend/lib/norent/site.tsx:81
+#: frontend/lib/norent/site.tsx:79
 msgid "Homepage"
 msgstr "Página Principal"
 
@@ -1375,6 +1371,10 @@ msgstr "Si no recibiste un código, comprueba tu correo electrónico. Si no lo e
 #: frontend/lib/rh/routes.tsx:312
 msgid "If you have more questions, please email us at <0/>."
 msgstr "Si tienes más preguntas, por favor envíanos un correo electrónico a <0/>."
+
+#: frontend/lib/norent/site.tsx:68
+msgid "If you have questions about your NoRent letter(s), contact <0>SAJE</0>."
+msgstr ""
 
 #: frontend/lib/norent/letter-email-to-user.tsx:184
 msgid "If you have questions about your rights as a tenant, please <0>connect with Tenants Together</0> or find an attorney at <1>Law Help California</1>."
@@ -3611,7 +3611,8 @@ msgstr "eviction free nyc, eviction free ny, penuria, declaración, desalojo, de
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:157
 msgid "evictionFree.canLandlordChallengeDeclarationFaq"
-msgstr "<0>SI. ESTO ES NUEVO. Ahora, el casero tiene derecho a impugnar la validez de la declaración de dificultades de un inquilino. Para hacer esto, el casero puede presentar una moción ante la corte, declarando que no cree que el inquilino tenga las dificultades que reclamó en su Declaración de Dificultades. Si ocurre esto, la Corte concederá una audiencia para determinar la validez de la declaración de dificultades del inquilino y el inquilino deberá mostrar prueba de las dificultades que reclamó en su Declaración. En NYC, <1>inquilinos tienen el derecho a un abogado a través de Right to Counsel para estas audiencias</1>.</0><2>\n"
+msgstr ""
+"<0>SI. ESTO ES NUEVO. Ahora, el casero tiene derecho a impugnar la validez de la declaración de dificultades de un inquilino. Para hacer esto, el casero puede presentar una moción ante la corte, declarando que no cree que el inquilino tenga las dificultades que reclamó en su Declaración de Dificultades. Si ocurre esto, la Corte concederá una audiencia para determinar la validez de la declaración de dificultades del inquilino y el inquilino deberá mostrar prueba de las dificultades que reclamó en su Declaración. En NYC, <1>inquilinos tienen el derecho a un abogado a través de Right to Counsel para estas audiencias</1>.</0><2>\n"
 "Si la corte decide que el inquilino demostró su reclamo por dificultades, entonces su caso/desalojo permanecerá en pausa hasta al menos el {0}. La corte instruirá a las partes que soliciten ERAP si parece que el inquilino es elegible y aún no ha presentado esa solicitud.</2><3>Si la corte decide que el inquilino NO está experimentando dificultades, entonces su caso y desalojo pueden proceder.</3>"
 
 #: frontend/lib/evictionfree/about.tsx:45
@@ -3700,7 +3701,8 @@ msgstr "Además, entiendo que los honorarios, multas o intereses legales por imp
 
 #: frontend/lib/evictionfree/declaration-builder/agree-to-legal-terms.tsx:37
 msgid "evictionfree.legalAgreementCheckboxOnLandlordChallenge"
-msgstr "Además, entiendo que mi casero puede solicitar una audiencia para retar el presente\n"
+msgstr ""
+"Además, entiendo que mi casero puede solicitar una audiencia para retar el presente\n"
 "certificado de penuria y tendré la oportunidad de participar en todo procedimiento\n"
 "de tenencia inmobiliaria."
 
@@ -3935,8 +3937,8 @@ msgid "norent.deprecation"
 msgstr "A partir del <0>1 de diciembre de 2022</0>, NoRent.org ya no enviará cartas de declaración. Por favor, visite <1>Stay Housed L.A.</1> para obtener información adicional sobre sus derechos de inquilino."
 
 #: frontend/lib/norent/site.tsx:52
-msgid "norent.deprecationModal2"
-msgstr "A partir del <0>1 de diciembre de 2022</0>, NoRent.org ya no enviará cartas de declaración. Por favor, visite <1>los recursos de la Clínica de Acción del Inquilino de SAJE</1> para obtener información adicional sobre sus derechos de inquilino."
+msgid "norent.deprecationModal"
+msgstr ""
 
 #: frontend/lib/norent/letter-email-to-user.tsx:95
 msgid "norent.doINeedToSendAB832LetterEveryMonth"
@@ -4124,4 +4126,3 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
-

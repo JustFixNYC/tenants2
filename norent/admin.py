@@ -24,6 +24,7 @@ class LetterInline(admin.StackedInline, SendableViaLobAdminMixin):
         "letter_emailed_at",
         "letter_sent_at",
         "lob_integration",
+        "html_content",
     ]
     readonly_fields = fields
 

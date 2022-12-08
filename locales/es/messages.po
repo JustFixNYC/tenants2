@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-12-07 21:03\n"
+"PO-Revision-Date: 2022-12-08 21:07\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -3936,7 +3936,7 @@ msgstr "A partir del <0>1 de diciembre de 2022</0>, NoRent.org ya no enviará ca
 
 #: frontend/lib/norent/site.tsx:52
 msgid "norent.deprecationModal"
-msgstr "Starting <0>December 1st, 2022</0>, NoRent.org no longer sends declaration letters. Please visit <1>SAJE’s Tenant Action Clinic’s Resources</1> for additional tenant’s rights information."
+msgstr "A partir del <0>1 de diciembre de 2022</0>, NoRent.org ya no enviará cartas de declaración. Por favor, visite <1>los recursos de la Clínica de Acción del Inquilino de SAJE</1> para obtener información adicional sobre sus derechos de inquilino."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:95
 msgid "norent.doINeedToSendAB832LetterEveryMonth"

@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-12-08 21:07\n"
+"PO-Revision-Date: 2022-12-12 20:15\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1374,7 +1374,7 @@ msgstr "Si tienes más preguntas, por favor envíanos un correo electrónico a <
 
 #: frontend/lib/norent/site.tsx:68
 msgid "If you have questions about your NoRent letter(s), contact <0>SAJE</0>."
-msgstr "If you have questions about your NoRent letter(s), contact <0>SAJE</0>."
+msgstr "Si tiene preguntas sobre tu(s) carta(s) NoRent, póngase en contacto <0>SAJE</0>."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:184
 msgid "If you have questions about your rights as a tenant, please <0>connect with Tenants Together</0> or find an attorney at <1>Law Help California</1>."

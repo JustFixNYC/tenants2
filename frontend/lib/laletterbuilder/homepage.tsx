@@ -12,8 +12,6 @@ import { logEvent } from "../analytics/util";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 import {
   CreateLetterCard,
-  getFormstackCardsInfo,
-  LetterCard,
   StartLetterButton,
 } from "./letter-builder/choose-letter";
 
@@ -28,23 +26,22 @@ export function getLaLetterBuilderImageSrc(
 
 export const LaLetterBuilderHomepage: React.FC<{}> = () => {
   const faqContent = getFaqContent();
-  const formstackCardsInfo = getFormstackCardsInfo();
 
   return (
     <Page title="">
       <section className="hero jf-laletterbuilder-landing-section-primary">
         <div className="hero-body">
           <div className="container">
+            <h2 className="mb-5">
+              <Trans>For LA residents</Trans>
+            </h2>
             <ResponsiveElement className="mb-5" desktop="h3" touch="h1">
-              <Trans>
-                As a California resident, you have a right to safe housing
-              </Trans>
+              <Trans>Need Repairs in Your home? Take action today</Trans>
             </ResponsiveElement>
             <ResponsiveElement className="mb-7" desktop="h4" touch="h3">
               <Trans>
-                Do you need repairs in your home? Take action by creating a{" "}
-                <em>Notice to Repair</em> letter. We’ll send it to your landlord
-                for free.
+                This is a free tool that notifies your landlord of repair issues
+                via USPS Certified Mail®. This service is free and secure.
               </Trans>
             </ResponsiveElement>
             <CreateLetterCard />
@@ -159,27 +156,6 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
         </div>
       </section>
       <section className="jf-laletterbuilder-landing-section-secondary">
-        <div className="hero-body">
-          <div className="container">
-            <ResponsiveElement className="mb-5" desktop="h4" touch="h3">
-              <Trans>
-                Are you experiencing other issues in your home? Take action with
-                these forms.
-              </Trans>
-            </ResponsiveElement>
-            <label className="mb-6">
-              <Trans>
-                Unlike the Notice to Repair, you’ll have to print and mail these
-                forms yourself.
-              </Trans>
-            </label>
-            {formstackCardsInfo.map((card) => (
-              <LetterCard key={card.title} {...card} />
-            ))}
-          </div>
-        </div>
-      </section>
-      <section className="jf-laletterbuilder-landing-section-primary">
         <div className="hero-body">
           <div className="container">
             <h2 className="mb-7">

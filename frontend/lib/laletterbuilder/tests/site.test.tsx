@@ -19,9 +19,7 @@ describe("LaLetterBuilderSite", () => {
   it("renders home page", async () => {
     const pal = new AppTesterPal(route, { url: "/en/" });
     await waitFor(() =>
-      pal.rr.getAllByText(
-        /As a California resident, you have a right to safe housing/i
-      )
+      pal.rr.getAllByText(/Need Repairs in Your home\? Take action today/i)
     );
   });
 });

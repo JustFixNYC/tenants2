@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Trans } from "@lingui/macro";
 
@@ -14,6 +14,7 @@ import {
   CreateLetterCard,
   StartLetterButton,
 } from "./letter-builder/choose-letter";
+import { AppContext } from "../app-context";
 
 type LaLetterBuilderImageType = "png" | "svg";
 
@@ -25,6 +26,7 @@ export function getLaLetterBuilderImageSrc(
 }
 
 export const LaLetterBuilderHomepage: React.FC<{}> = () => {
+  const { session } = useContext(AppContext);
   const faqContent = getFaqContent();
 
   return (
@@ -44,7 +46,7 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
                 via USPS Certified Mail®. This service is free and secure.
               </Trans>
             </ResponsiveElement>
-            <CreateLetterCard />
+            <CreateLetterCard showMyLettersButton={!!session.phoneNumber} />
           </div>
         </div>
       </section>

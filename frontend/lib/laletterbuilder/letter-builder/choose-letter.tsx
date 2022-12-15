@@ -214,10 +214,7 @@ export const LetterCard: React.FC<LetterCardProps> = (props) => {
               {`${props.time_mins} ${li18n._(t`mins`)}`}
             </span>
           </div>
-          <p className="mb-3">{props.text}</p>
-          <p className="is-small mb-6">
-            {li18n._(t`California residents only`)}
-          </p>
+          <p className="mb-5">{props.text}</p>
           {props.buttonProps && <CallToAction {...props.buttonProps} />}
           {props.children}
         </div>
@@ -298,7 +295,7 @@ export const CreateLetterCard: React.FC<CreateLetterCardProps> = (props) => {
       title={li18n._(t`Notice to Repair`)}
       time_mins={15}
       text={li18n._(
-        t`Select the repairs you need. We’ll create a formal letter for your landlord that documents your legal right to repairs.`
+        t`Select the repairs you need and we’ll create your legally vetted letter.`
       )}
       className={className}
       tags={createLetterTags()}
@@ -342,7 +339,7 @@ export const StartLetterButton: React.FC<{ className?: string }> = ({
         ) : (
           <Link
             to={LaLetterBuilderRouteInfo.locale.habitability.latestStep}
-            className={`button jf-is-next-button is-primary is-medium mb-3 ${
+            className={`button jf-is-next-button is-primary is-medium ${
               className || ""
             }`}
           >

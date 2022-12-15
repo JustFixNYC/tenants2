@@ -272,7 +272,7 @@ const MyLettersContent: React.FC = (props) => {
             <h2 className="mt-5 mb-3">
               <Trans>Notice to repair letter</Trans>
             </h2>
-            <ResponsiveElement desktop="h4" touch="h3">
+            <ResponsiveElement desktop="h4" touch="h3" className="mb-5">
               <Trans>In progress</Trans>
             </ResponsiveElement>
             <div className="start-letter-button">
@@ -286,20 +286,14 @@ const MyLettersContent: React.FC = (props) => {
           </div>
         </>
       )}
-      <h2 className="mb-3 mt-9">
-        <Trans>Start a new letter</Trans>
-      </h2>
       {!session.habitabilityLetters?.length && (
-        <CreateLetterCard className="mb-9" />
+        <>
+          <h2 className="mb-3 mt-9">
+            <Trans>Start a new letter</Trans>
+          </h2>
+          <CreateLetterCard className="mb-9" />
+        </>
       )}
-      <p className="mb-5">
-        <Trans>
-          Do you have another housing issue that you need to address?
-        </Trans>
-      </p>
-      <Link to={LaLetterBuilderRouteInfo.locale.home}>
-        <Trans>View other letters</Trans>
-      </Link>
     </div>
   );
 };

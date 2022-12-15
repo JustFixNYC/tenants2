@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 
 import { li18n } from "../../i18n-lingui";
 import Page from "../../ui/page";
@@ -19,6 +19,7 @@ import { AppContext } from "../../app-context";
 import ResponsiveElement from "../components/responsive-element";
 import { logEvent } from "../../analytics/util";
 import { LetterChoice } from "../../../../common-data/la-letter-builder-letter-choices";
+import { bulmaClasses } from "../../ui/bulma";
 
 export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
   props
@@ -285,10 +286,11 @@ const createLetterTags = () => [
 
 type CreateLetterCardProps = {
   className?: string;
+  showMyLettersButton?: boolean;
 };
 
 export const CreateLetterCard: React.FC<CreateLetterCardProps> = (props) => {
-  const { className } = props;
+  const { className, showMyLettersButton } = props;
 
   return (
     <LetterCard
@@ -302,6 +304,14 @@ export const CreateLetterCard: React.FC<CreateLetterCardProps> = (props) => {
       information={repairsInformationNeeded()}
     >
       <StartLetterButton />
+      {showMyLettersButton && (
+        <Link
+          className={`${bulmaClasses("button", "is-large")} is-secondary mt-5`}
+          to={LaLetterBuilderRouteInfo.locale.habitability.myLetters}
+        >
+          <Trans>My letters</Trans>
+        </Link>
+      )}
     </LetterCard>
   );
 };

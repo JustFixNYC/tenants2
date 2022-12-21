@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-12-21 18:44\n"
+"PO-Revision-Date: 2022-12-21 21:31\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -1927,7 +1927,7 @@ msgstr "Nebraska"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:26
 msgid "Need Repairs in Your home? Take action today"
-msgstr "Need Repairs in Your home? Take action today"
+msgstr "¿Necesitas reparaciones en tu hogar? Toma acción hoy"
 
 #: frontend/lib/evictionfree/about.tsx:15
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:57
@@ -2449,7 +2449,7 @@ msgstr "Selecciona al menos una fecha cuando estés disponible para reparaciones
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:169
 msgid "Select the repairs you need and we’ll create your legally vetted letter."
-msgstr "Select the repairs you need and we’ll create your legally vetted letter."
+msgstr "Seleccione las reparaciones que necesita y crearemos su carta verificado legalmente."
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:55
 #: frontend/lib/laletterbuilder/letter-builder/habitability/issues.tsx:57
@@ -2808,7 +2808,7 @@ msgstr "Esta información parece incorrecta. ¿Puedo cambiarla?"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:29
 msgid "This is a free tool that notifies your landlord of repair issues via USPS Certified Mail®. This service is free and secure."
-msgstr "This is a free tool that notifies your landlord of repair issues via USPS Certified Mail®. This service is free and secure."
+msgstr "Esta es una herramienta gratuita que notifica a su dueño de problemas de reparación a través de USPS Certified Mail®. Este servicio es gratuito y seguro."
 
 #: frontend/lib/common-steps/landlord-email.tsx:20
 msgid "This is optional."

@@ -1,4 +1,3 @@
-import { string } from "fp-ts";
 import { getFunctionProperty } from "../util/util";
 
 /**

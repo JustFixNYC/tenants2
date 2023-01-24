@@ -141,7 +141,13 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                                   issueName: selectedChoice,
                                   isChecked: checked,
                                 });
-                                ga("send", "event", "latenants", "issue-click", `${selectedChoice}-${checked}`);
+                                ga(
+                                  "send",
+                                  "event",
+                                  "latenants",
+                                  "issue-click",
+                                  `${selectedChoice}-${checked}`
+                                );
                                 ctx.fieldPropsFor("laIssues").onChange(choices);
                               }}
                             />

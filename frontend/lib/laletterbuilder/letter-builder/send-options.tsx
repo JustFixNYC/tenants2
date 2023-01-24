@@ -27,6 +27,7 @@ import { HabitabilityLetterEmailToLandlordForUser } from "./habitability/habitab
 import { TagInfo } from "./choose-letter";
 import ResponsiveElement from "../components/responsive-element";
 import { logEvent } from "../../analytics/util";
+import { ga } from "../../analytics/google-analytics";
 import { LetterChoice } from "../../../../common-data/la-letter-builder-letter-choices";
 import { fbq } from "../../analytics/facebook-pixel";
 
@@ -210,7 +211,10 @@ export const ConfirmModal: React.FC<{
             emailSelf: session.isEmailVerified,
           });
           fbq("trackCustom", "LaHabitabilityLetterSent");
-
+          ga("send", "event", "latenants", "letter-send", letter?.mailChoice);
+          if (letter?.emailToLandlord) {
+            ga("send", "event", "latenants", "letter-email");
+          }
           return props.nextStep;
         }}
       >

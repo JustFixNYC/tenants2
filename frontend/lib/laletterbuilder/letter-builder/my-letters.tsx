@@ -28,6 +28,7 @@ import { CreateLetterCard } from "./choose-letter";
 import ResponsiveElement from "../components/responsive-element";
 import { friendlyUTCDate } from "../../util/date-util";
 import { logEvent } from "../../analytics/util";
+import { ga } from "../../analytics/google-analytics";
 import { LetterChoice } from "../../../../common-data/la-letter-builder-letter-choices";
 
 export const LaLetterBuilderMyLetters: React.FC<ProgressStepProps> = (
@@ -52,6 +53,7 @@ function downloadLetterPdf(
       letterType: "HABITABILITY" as LetterChoice,
       letterId: input.letterId,
     });
+    ga("send", "event", "latenants", "letter-download");
     const bytes = atob(output.pdfBase64);
     const byteChars = bytes.split("").map((el, i) => bytes.charCodeAt(i));
     const pdfBlob = new Blob([new Uint8Array(byteChars)], {
@@ -114,12 +116,19 @@ const CompletedLetterCard: React.FC<CompletedLetterCardProps> = (props) => {
       <Accordion
         question={li18n._(t`What's next?`)}
         questionClassName="is-size-6 jf-has-text-underline"
-        onClick={(isExpanded) =>
+        onClick={(isExpanded) => {
           logEvent("ui.accordion.click", {
             label: "after-letter-sent-info",
             isExpanded,
-          })
-        }
+          });
+          ga(
+            "send",
+            "event",
+            "accordion",
+            isExpanded ? "show" : "hide",
+            "after-letter-sent-info"
+          );
+        }}
       >
         <h2 className="mt-6">
           <Trans>Allow 14 days for a response</Trans>

@@ -22,6 +22,7 @@ import { exactSubsetOrDefault } from "../../util/util";
 import { Accordion } from "../../ui/accordion";
 import ResponsiveElement from "./responsive-element";
 import { logEvent } from "../../analytics/util";
+import { ga } from "../../analytics/google-analytics";
 import { LocalizedOutboundLink } from "../../ui/localized-outbound-link";
 
 export const LaLetterBuilderLandlordNameAddress = MiddleProgressStep(
@@ -106,12 +107,19 @@ const NameAddressForm: React.FC<
             )}
             extraClassName=""
             questionClassName="is-size-6 jf-has-text-underline"
-            onClick={(isExpanded) =>
+            onClick={(isExpanded) => {
               logEvent("ui.accordion.click", {
                 label: "find-landlord-info",
                 isExpanded,
-              })
-            }
+              });
+              ga(
+                "send",
+                "event",
+                "accordion",
+                isExpanded ? "show" : "hide",
+                "find-landlord-info"
+              );
+            }}
           >
             <div className="content">
               <Trans id="laletterbuilder.landlord.whereToFindInfo">

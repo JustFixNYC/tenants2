@@ -9,6 +9,7 @@ import { OutboundLink } from "../ui/outbound-link";
 import { getFaqContent } from "./faq-content";
 import ResponsiveElement from "./components/responsive-element";
 import { logEvent } from "../analytics/util";
+import { ga } from "../analytics/google-analytics";
 import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
 import {
   CreateLetterCard,
@@ -104,12 +105,19 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
                 key={`faq-${i}`}
                 question={el.question}
                 questionClassName=""
-                onClick={(isExpanded) =>
+                onClick={(isExpanded) => {
                   logEvent("ui.accordion.click", {
                     label: el.question,
                     isExpanded,
-                  })
-                }
+                  });
+                  ga(
+                    "send",
+                    "event",
+                    "accordion",
+                    isExpanded ? "show" : "hide",
+                    el.question
+                  );
+                }}
               >
                 {el.answer}
               </Accordion>

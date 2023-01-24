@@ -1,3 +1,4 @@
+import { string } from "fp-ts";
 import { getFunctionProperty } from "../util/util";
 
 /**
@@ -181,6 +182,37 @@ export interface GoogleAnalyticsAPI {
     eventCategory: "form-success",
     formId: string,
     redirectURL?: string
+  ): void;
+
+  /**
+   * A custom event for the LA TAC letter creation flow
+   *
+   * @param eventLabel Additional information for the event
+   */
+  (
+    cmd: "send",
+    hitType: "event",
+    eventCategory: "latenants",
+    eventAction:
+      | "letter-create"
+      | "letter-download"
+      | "letter-send"
+      | "letter-email"
+      | "issue-click",
+    eventLabel?: string
+  ): void;
+
+  /**
+   * A custom event for the LA TAC accordions
+   *
+   * @param eventLabel Label or unique identifier for the accordion
+   */
+  (
+    cmd: "send",
+    hitType: "event",
+    eventCategory: "accordion",
+    eventAction: "show" | "hide",
+    eventLabel: string
   ): void;
 }
 

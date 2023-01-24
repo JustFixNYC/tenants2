@@ -18,6 +18,7 @@ import { NextButton } from "../../ui/buttons";
 import { AppContext } from "../../app-context";
 import ResponsiveElement from "../components/responsive-element";
 import { logEvent } from "../../analytics/util";
+import { ga } from "../../analytics/google-analytics";
 import { LetterChoice } from "../../../../common-data/la-letter-builder-letter-choices";
 import { bulmaClasses } from "../../ui/bulma";
 
@@ -267,12 +268,19 @@ export function InformationNeeded({ id, information }: InformationNeededProps) {
     <Accordion
       question={li18n._(t`What information will I need?`)}
       questionClassName="is-size-6 jf-has-text-underline"
-      onClick={(isExpanded) =>
+      onClick={(isExpanded) => {
         logEvent("ui.accordion.click", {
           label: `${id}-info-needed`,
           isExpanded,
-        })
-      }
+        });
+        ga(
+          "send",
+          "event",
+          "accordion",
+          isExpanded ? "show" : "hide",
+          `${id}-info-needed`
+        );
+      }}
     >
       <ul>{listItems}</ul>
     </Accordion>
@@ -343,6 +351,7 @@ export const StartLetterButton: React.FC<{ className?: string }> = ({
                 logEvent("latenants.letter.create", {
                   letterType: "HABITABILITY" as LetterChoice,
                 });
+                ga("send", "event", "latenants", "letter-create");
               }}
             />
           </div>

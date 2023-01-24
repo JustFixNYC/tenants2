@@ -30,6 +30,7 @@ import { PhoneNumber } from "../../components/phone-number";
 import { OutboundLink } from "../../../ui/outbound-link";
 import ResponsiveElement from "../../components/responsive-element";
 import { logEvent } from "../../../analytics/util";
+import { ga } from "../../../analytics/google-analytics";
 import { LetterChoice } from "../../../../../common-data/la-letter-builder-letter-choices";
 
 function getCategory(issue: LaIssueChoice): LaIssueCategoryChoice {
@@ -140,6 +141,7 @@ export const LaIssuesPage: React.FC<LaIssuesPage> = (props) => {
                                   issueName: selectedChoice,
                                   isChecked: checked,
                                 });
+                                ga("send", "event", "latenants", "issue-click", `${selectedChoice}-${checked}`);
                                 ctx.fieldPropsFor("laIssues").onChange(choices);
                               }}
                             />

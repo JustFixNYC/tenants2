@@ -111,7 +111,17 @@ class GoogleAnalyticsSnippet(JsSnippetContextProcessor):
 
     GA_ORIGIN = "https://www.google-analytics.com"
 
-    csp_updates = {"IMG_SRC": GA_ORIGIN, "SCRIPT_SRC": GA_ORIGIN, "CONNECT_SRC": GA_ORIGIN}
+    csp_updates = {
+        "IMG_SRC": GA_ORIGIN,
+        "SCRIPT_SRC": [
+            GA_ORIGIN,
+            "https://analytics.google.com",
+        ],
+        "CONNECT_SRC": [
+            GA_ORIGIN,
+            "https://stats.g.doubleclick.net",
+        ],
+    }
 
     def is_enabled(self):
         return settings.GA_TRACKING_ID

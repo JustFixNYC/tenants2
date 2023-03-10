@@ -110,16 +110,20 @@ class GoogleAnalyticsSnippet(JsSnippetContextProcessor):
     var_name = "GA_SNIPPET"
 
     GA_ORIGIN = "https://www.google-analytics.com"
+    GA_ORIGIN2 = "https://analytics.google.com"
+    DOUBLECLICK_ORIGIN = "https://stats.g.doubleclick.net"
 
     csp_updates = {
         "IMG_SRC": GA_ORIGIN,
         "SCRIPT_SRC": [
             GA_ORIGIN,
-            "https://analytics.google.com",
+            GA_ORIGIN2,
+            DOUBLECLICK_ORIGIN,
         ],
         "CONNECT_SRC": [
             GA_ORIGIN,
-            "https://stats.g.doubleclick.net",
+            GA_ORIGIN2,
+            DOUBLECLICK_ORIGIN,
         ],
     }
 

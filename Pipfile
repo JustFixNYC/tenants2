@@ -43,7 +43,7 @@ celery = "==4.3.0"
 django-celery-results = "==1.1.2"
 dj-email-url = "==0.2.0"
 docusign-esign = "==3.7.1"
-pypdf2 = "==1.26.0"
+pypdf2 = "==1.27.9"
 mailchimp3 = "==3.0.14"
 django-sql-dashboard = "==1.0.1"
 

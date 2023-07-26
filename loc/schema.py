@@ -1,3 +1,4 @@
+import os
 from typing import List
 from graphql import ResolveInfo
 import graphene
@@ -7,7 +8,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from project.util.session_mutation import SessionFormMutation
 from project.util.model_form_util import OneToOneUserModelFormMutation
 from project.util.email_attachment import EmailAttachmentMutation
-from project.util.site_util import get_site_name
+from project.util.site_util import absolutify_url
 from project.util.graphql_mailing_address import GraphQLMailingAddress
 from project import slack, schema_registry, common_data
 from project.util import lob_api
@@ -101,12 +102,15 @@ class LetterRequest(OneToOneUserModelFormMutation):
     def perform_mutate(cls, form: forms.LetterRequestForm, info: ResolveInfo):
         request = info.context
         lr = form.save()
+        url = absolutify_url("/loc/confirmation")
+
         if lr.mail_choice == "WE_WILL_MAIL":
             sync_user_with_airtable(request.user)
             lr.user.send_sms_async(
-                f"{get_site_name()} here - we've received your request and will "
-                f"update you once the letter has been sent. "
-                f"Please allow for 1-2 business days to process.",
+                f"We’re getting your Letter of Complaint ready to mail to your landlord. "
+                f"We’ll text you a tracking link soon. "
+                f"{os.linesep}"
+                f"See letter: {url}"
             )
             tasks.send_admin_notification_for_letter.delay(lr.id)
         slack.sendmsg_async(

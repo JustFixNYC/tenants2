@@ -1,3 +1,4 @@
+import os
 from typing import List, Optional, Dict
 import datetime
 from django.db import models, transaction
@@ -403,17 +404,14 @@ class LetterRequest(BaseLetterRequest):
     def _on_tracking_number_changed(self):
         if not self.tracking_number:
             return
-        self.user.chain_sms_async(
-            [
-                (
-                    f"{get_site_name()} here - "
-                    f"We've mailed the letter of complaint to your landlord. "
-                    f"You can track its progress here: {self.usps_tracking_url} "
-                    f"(link may take a day to update)"
-                ),
-                f"We'll follow up in about a week to see how things are going.",
-            ]
+        self.user.send_sms_async
+        (
+            f"We mailed your Letter of Complaint to your landlord. "
+            f"Track your letter: {self.usps_tracking_url} "
+            f"{os.linesep}"
+            f"Link may take a few days to update. "
         )
+
         self.user.trigger_followup_campaign_async("LOC")
 
     def save(self, *args, **kwargs):

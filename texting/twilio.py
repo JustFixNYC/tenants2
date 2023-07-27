@@ -241,8 +241,7 @@ def chain_sms_async(
     tasks: List[Any] = []
     media_substr = "media_url="
     for body in bodies:
-        # bit jank but unless i rework the whole chaining system theres not a good way ?
-        if body.find(media_substr):
+        if media_substr in body:
             media_url = body.split(media_substr)[1]
             sig = task.si(phone_number, body, media_url)
         else:

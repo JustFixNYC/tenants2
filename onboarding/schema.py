@@ -140,10 +140,8 @@ class OnboardingStep4Base(SessionFormMutation):
                     f"We’ll text updates about your letter. "
                     f"Reply HELP for help and STOP to opt out."
                 ),
-                (
-                    f"Tap to add us to your contacts. Email support@justfix.org for assistance. "
-                    f"media_url={contact_card_url}"
-                ),
+                (f"media_url={contact_card_url}"),
+                (f"Tap to add us to your contacts. Email support@justfix.org for assistance. "),
             ]
         )
 

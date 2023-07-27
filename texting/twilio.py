@@ -198,7 +198,6 @@ def send_sms(
                 msg = client.messages.create(
                     to=tendigit_to_e164(phone_number),
                     from_=tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
-                    body=body,
                     media_url=media_url,
                 )
             else:
@@ -243,7 +242,7 @@ def chain_sms_async(
     for body in bodies:
         if media_substr in body:
             media_url = body.split(media_substr)[1]
-            sig = task.si(phone_number, body, media_url)
+            sig = task.si(phone_number, "", media_url)
         else:
             sig = task.si(phone_number, body)
         if tasks:

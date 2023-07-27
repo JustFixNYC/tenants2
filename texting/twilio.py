@@ -199,7 +199,7 @@ def send_sms(
                     to=tendigit_to_e164(phone_number),
                     from_=tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
                     body=body,
-                    mediaUrl=media_url,
+                    media_url=media_url,
                 )
             else:
                 msg = client.messages.create(

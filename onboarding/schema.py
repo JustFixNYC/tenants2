@@ -129,16 +129,20 @@ class OnboardingStep4Base(SessionFormMutation):
         allinfo["state"] = "NY"
         allinfo["agreed_to_justfix_terms"] = True
         user = complete_onboarding(request, info=allinfo, password=password)
+        contact_card_url = (
+            "https://justfix-tenants2-staticfiles-dev.s3.amazonaws.com/onboarding/JustFix.vcf"
+        )
 
         user.chain_sms_async(
             [
                 (
-                    f"Hi {user.best_first_name}, welcome to {get_site_name()}!"
-                    f"We’ll text updates about your letter. Reply HELP for help and STOP to opt out."
+                    f"Hi {user.best_first_name}, welcome to {get_site_name()}! "
+                    f"We’ll text updates about your letter. "
+                    f"Reply HELP for help and STOP to opt out."
                 ),
                 (
-                    f"Tap to add us to your contacts. Email support@justfix.org for assistance.",
-                    f"media_url=https://justfix-tenants2-staticfiles-dev.s3.amazonaws.com/onboarding/JustFix.vcf",
+                    f"Tap to add us to your contacts. Email support@justfix.org for assistance. "
+                    f"media_url={contact_card_url}"
                 ),
             ]
         )

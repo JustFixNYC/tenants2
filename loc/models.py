@@ -10,7 +10,7 @@ from django.conf import settings
 from project.common_data import Choices
 from project.util import phone_number as pn
 from project.util.mailing_address import MailingAddress
-from project.util.site_util import absolute_reverse, get_site_name
+from project.util.site_util import absolute_reverse
 from project.util.instance_change_tracker import InstanceChangeTracker
 from users.models import JustfixUser
 from .landlord_lookup import lookup_landlord

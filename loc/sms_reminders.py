@@ -2,7 +2,7 @@ import datetime
 import os
 from django.utils import timezone
 
-from project.util.site_util import absolutify_url, get_site_name
+from project.util.site_util import absolutify_url
 from texting.models import REMINDERS
 from texting.sms_reminder import SmsReminder
 from onboarding.models import SIGNUP_INTENT_CHOICES

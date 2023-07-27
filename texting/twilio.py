@@ -167,7 +167,6 @@ def _handle_twilio_err(
 def send_sms(
     phone_number: str,
     body: str,
-    media_url=None,
     fail_silently=False,
     ignore_invalid_phone_number=True,
 ) -> SendSmsResult:
@@ -193,20 +192,13 @@ def send_sms(
                 logger.info(f"Phone number {phone_number} is invalid, not sending SMS.")
                 return SendSmsResult(err_code=TWILIO_INVALID_TO_NUMBER_ERR)
         client = get_client()
+
         try:
-            if media_url is not None:
-                msg = client.messages.create(
-                    to=tendigit_to_e164(phone_number),
-                    from_=tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
-                    media_url=media_url,
-                )
-            else:
-                msg = client.messages.create(
-                    to=tendigit_to_e164(phone_number),
-                    from_=tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
-                    body=body,
-                )
-            logger.info(f"Sent Twilio message with sid {msg.sid}.")
+            msg = client.messages.create(
+                to=tendigit_to_e164(phone_number),
+                from_=tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
+                body=body,
+            )
             return SendSmsResult(sid=msg.sid)
         except Exception as e:
             result = _handle_twilio_err(e, phone_number, fail_silently, ignore_invalid_phone_number)
@@ -238,13 +230,9 @@ def chain_sms_async(
 
     task = get_task_for_function(send_sms)
     tasks: List[Any] = []
-    media_substr = "media_url="
+
     for body in bodies:
-        if media_substr in body:
-            media_url = body.split(media_substr)[1]
-            sig = task.si(phone_number, "", media_url)
-        else:
-            sig = task.si(phone_number, body)
+        sig = task.si(phone_number, body)
         if tasks:
             sig = sig.set(countdown=seconds_between_messages)
         tasks.append(sig)

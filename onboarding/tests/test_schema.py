@@ -151,7 +151,7 @@ def test_onboarding_works(graphql_client, smsoutbox, mailoutbox):
     assert oi.agreed_to_norent_terms is False
     assert len(smsoutbox) == 1
     assert smsoutbox[0].to == "+15551234567"
-    assert "Welcome to JustFix, bip" in smsoutbox[0].body
+    assert "Hi bip, welcome to JustFix!" in smsoutbox[0].body
     assert len(mailoutbox) == 1
     assert "verify your email" in mailoutbox[0].subject
 

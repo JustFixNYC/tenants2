@@ -404,12 +404,14 @@ class LetterRequest(BaseLetterRequest):
     def _on_tracking_number_changed(self):
         if not self.tracking_number:
             return
-        self.user.send_sms_async
-        (
-            f"We mailed your Letter of Complaint to your landlord. "
-            f"Track your letter: {self.usps_tracking_url} "
-            f"{os.linesep}"
-            f"Link may take a few days to update. "
+        self.user.chain_sms_async(
+            [
+                (
+                    f"We mailed your Letter of Complaint to your landlord. "
+                    f"Track your letter: {self.usps_tracking_url} "
+                ),
+                f"Link may take a few days to update. ",
+            ]
         )
 
         self.user.trigger_followup_campaign_async("LOC")

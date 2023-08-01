@@ -1,4 +1,3 @@
-import os
 from typing import List, Optional, Dict
 import datetime
 from django.db import models, transaction

@@ -1,7 +1,8 @@
 import datetime
+import os
 from django.utils import timezone
 
-from project.util.site_util import absolutify_url, get_site_name
+from project.util.site_util import absolutify_url
 from texting.models import REMINDERS
 from texting.sms_reminder import SmsReminder
 from onboarding.models import SIGNUP_INTENT_CHOICES
@@ -25,12 +26,12 @@ class LocReminder(SmsReminder):
         )
 
     def get_sms_text(self, user):
-        url = absolutify_url("/")
+        url = absolutify_url("/loc/issues")
         return (
-            f"Hey {user.best_first_name}! "
-            f"Don't forget that you can use {get_site_name()} to address "
-            f"repair issues in your apartment. "
-            f"Follow this link to continue: {url}"
+            f"You started a Letter of Complaint about repair issues in your home. "
+            f"Complete your letter and we’ll mail it to your landlord for free. "
+            f"{os.linesep}"
+            f"Log in: {url}"
         )
 
 

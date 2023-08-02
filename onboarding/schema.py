@@ -131,9 +131,11 @@ class OnboardingStep4Base(SessionFormMutation):
         user = complete_onboarding(request, info=allinfo, password=password)
 
         user.send_sms_async(
-            f"Welcome to {get_site_name()}, {user.best_first_name}! "
-            f"We'll be sending you notifications from this phone number.",
+            f"Hi {user.best_first_name}, welcome to {get_site_name()}! "
+            f"We’ll text updates about your letter. "
+            f"Reply HELP for help and STOP to opt out."
         )
+
         if user.email:
             send_verification_email_async(user.pk)
 

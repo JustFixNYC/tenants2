@@ -192,13 +192,13 @@ def send_sms(
                 logger.info(f"Phone number {phone_number} is invalid, not sending SMS.")
                 return SendSmsResult(err_code=TWILIO_INVALID_TO_NUMBER_ERR)
         client = get_client()
+
         try:
             msg = client.messages.create(
                 to=tendigit_to_e164(phone_number),
                 from_=tendigit_to_e164(settings.TWILIO_PHONE_NUMBER),
                 body=body,
             )
-            logger.info(f"Sent Twilio message with sid {msg.sid}.")
             return SendSmsResult(sid=msg.sid)
         except Exception as e:
             result = _handle_twilio_err(e, phone_number, fail_silently, ignore_invalid_phone_number)
@@ -230,6 +230,7 @@ def chain_sms_async(
 
     task = get_task_for_function(send_sms)
     tasks: List[Any] = []
+
     for body in bodies:
         sig = task.si(phone_number, body)
         if tasks:

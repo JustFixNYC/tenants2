@@ -244,7 +244,7 @@ def test_letter_request_works(graphql_client, smsoutbox, allow_lambda_http, mail
     # Ensure we text them if they want us to mail the letter *and* they gave us
     # permission to SMS during onboarding.
     assert len(smsoutbox) == 1
-    assert "received your request" in smsoutbox[0].body
+    assert "We’ll text you a tracking link soon" in smsoutbox[0].body
 
     smsoutbox[:] = []
 

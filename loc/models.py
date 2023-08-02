@@ -9,7 +9,7 @@ from django.conf import settings
 from project.common_data import Choices
 from project.util import phone_number as pn
 from project.util.mailing_address import MailingAddress
-from project.util.site_util import absolute_reverse, get_site_name
+from project.util.site_util import absolute_reverse
 from project.util.instance_change_tracker import InstanceChangeTracker
 from users.models import JustfixUser
 from .landlord_lookup import lookup_landlord
@@ -406,14 +406,13 @@ class LetterRequest(BaseLetterRequest):
         self.user.chain_sms_async(
             [
                 (
-                    f"{get_site_name()} here - "
-                    f"We've mailed the letter of complaint to your landlord. "
-                    f"You can track its progress here: {self.usps_tracking_url} "
-                    f"(link may take a day to update)"
+                    f"We mailed your Letter of Complaint to your landlord. "
+                    f"Track your letter: {self.usps_tracking_url} "
                 ),
-                f"We'll follow up in about a week to see how things are going.",
+                f"Link may take a few days to update. ",
             ]
         )
+
         self.user.trigger_followup_campaign_async("LOC")
 
     def save(self, *args, **kwargs):

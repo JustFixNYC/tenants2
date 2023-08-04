@@ -221,7 +221,6 @@ workflows:
       - deploy:
           requires:
             - test
-            - lint
           filters:
             branches:
               only:

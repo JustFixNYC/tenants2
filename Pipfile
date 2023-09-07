@@ -18,7 +18,7 @@ black = "==22.3.0"
 debugpy = "==1.2.1"
 
 [packages]
-django = "==3.2.19"
+django = "==3.2.13"
 whitenoise = "==5.2.0"
 dj-database-url = "==0.5.0"
 django-csp = "==3.7"

@@ -156,7 +156,7 @@
     "toml": "^3.0.0",
     "typescript": "4.2.3",
     "uglify-js": "3.13.3",
-    "webpack": "5.76.0",
+    "webpack": "5.35.1",
     "webpack-cli": "4.6.0",
     "webpack-node-externals": "3.0.0"
   }

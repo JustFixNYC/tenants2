@@ -158,7 +158,9 @@ def search(text: str) -> Optional[List[Feature]]:
             settings.GEOCODING_SEARCH_URL, {"text": text}, timeout=settings.GEOCODING_TIMEOUT
         )
         if response.status_code != 200:
-            raise Exception(f"Expected 200 response, got {response.status_code}")
+            logger.exception(f"Expected 200 response, got {response.status_code}")
+            features: List[Feature] = []
+            return features
         # Restructure the V2 Geosearch API response to the V1 format
         # https://github.com/JustFixNYC/who-owns-what/issues/666
         json_features = _geosearch_v2_to_v1(response.json()["features"])

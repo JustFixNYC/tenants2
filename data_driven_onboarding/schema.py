@@ -66,6 +66,8 @@ logger = logging.getLogger(__name__)
 
 class DDOSuggestionsResult(graphene.ObjectType):
     # This information is obtained from geocoding.
+    error_msg = graphene.String(description="Error encountered during geocoding.")
+
     full_address = graphene.String(required=True, description="The full address of the location.")
 
     bbl = graphene.String(
@@ -242,7 +244,7 @@ class DDOQuery:
             return None
         features = geocoding.search(get_geocoding_search_text(address, borough))
         if not features:
-            return None
+            return DDOSuggestionsResult(error_msg="geosearch service unavailable")
         props = features[0].properties
         row = cached_run_ddo_sql_query(props.pad_bbl)
         if not row:

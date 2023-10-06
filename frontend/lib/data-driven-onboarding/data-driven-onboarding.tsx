@@ -535,7 +535,16 @@ export function DataDrivenOnboardingResults(props: DDOData) {
 function Results(props: { address: string; output: DDOData | null }) {
   let content = null;
   const queryFormResultFocusProps = useQueryFormResultFocusProps();
-  if (props.output) {
+  if (props.output.errorMsg) {
+    content = (
+      <>
+        <PageTitle title={li18n._(t`Unsuccessful address lookup`)} />
+        <h3 {...queryFormResultFocusProps}>
+          <Trans>Sorry, there was a network error while verifying your address.</Trans>
+        </h3>
+      </>
+    );
+  } else if (props.output) {
     content = <DataDrivenOnboardingResults {...props.output} />;
   } else if (props.address.trim()) {
     content = (

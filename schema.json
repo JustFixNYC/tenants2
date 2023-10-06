@@ -1315,6 +1315,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "Error encountered during geocoding.",
+              "isDeprecated": false,
+              "name": "errorMsg",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "The full address of the location.",
               "isDeprecated": false,
               "name": "fullAddress",

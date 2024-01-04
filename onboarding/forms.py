@@ -86,7 +86,15 @@ class OnboardingStep1Form(AptNumberWithConfirmationForm, AddressAndBoroughFormMi
     last_name = forms.CharField(max_length=150)
 
 
-class OnboardingStep1V2Form(OnboardingStep1Form):
+class OnboardingStep1V2Form(forms.Form):
+    class Meta:
+        model = OnboardingInfo
+        fields = ("first_name", "last_name", "preferred_first_name")
+
+    first_name = forms.CharField(max_length=30)
+
+    last_name = forms.CharField(max_length=150)
+
     preferred_first_name = forms.CharField(
         max_length=150,
         required=False,
@@ -96,6 +104,10 @@ class OnboardingStep1V2Form(OnboardingStep1Form):
         ),
     )
 
+class OnboardingStep2Form(AptNumberWithConfirmationForm, AddressAndBoroughFormMixin):
+    class Meta:
+        model = OnboardingInfo
+        fields = ("address", "borough", "aptNumber", "noAptNumber")
 
 def get_boolean_field(name: str):
     """

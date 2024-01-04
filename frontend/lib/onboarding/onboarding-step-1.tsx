@@ -41,29 +41,29 @@ import { li18n } from "../i18n-lingui";
 import { t } from "@lingui/macro";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 
-function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
-  return (label, labelProps) => (
-    <div className="level is-marginless is-mobile">
-      <div className="level-left">
-        <div className="level-item is-marginless">
-          {defaultLabelRenderer(label, labelProps)}
-        </div>
-      </div>
-      <div className="level-right">
-        <div className="level-item is-marginless">
-          <Link to={toStep1AddressModal} className="is-size-7">
-            Why do you need my address?
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-}
+// function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
+//   return (label, labelProps) => (
+//     <div className="level is-marginless is-mobile">
+//       <div className="level-left">
+//         <div className="level-item is-marginless">
+//           {defaultLabelRenderer(label, labelProps)}
+//         </div>
+//       </div>
+//       <div className="level-right">
+//         <div className="level-item is-marginless">
+//           <Link to={toStep1AddressModal} className="is-size-7">
+//             Why do you need my address?
+//           </Link>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
 
-function Step1ConfirmAddressModal(props: { toStep3: string }): JSX.Element {
-  const addrInfo = toStep1Input(useContext(AppContext).session);
-  return <ConfirmAddressModal nextStep={props.toStep3} {...addrInfo} />;
-}
+// function Step1ConfirmAddressModal(props: { toStep3: string }): JSX.Element {
+//   const addrInfo = toStep1Input(useContext(AppContext).session);
+//   return <ConfirmAddressModal nextStep={props.toStep3} {...addrInfo} />;
+// }
 
 const ReferralInfo: React.FC<{}> = () => {
   const { session } = useContext(AppContext);
@@ -91,13 +91,7 @@ function toStep1Input(
   s: Pick<AllSessionInfo, "onboardingScaffolding">
 ): OnboardingStep1V2Input {
   return exactSubsetOrDefault(
-    s.onboardingScaffolding
-      ? {
-          ...s.onboardingScaffolding,
-          address: s.onboardingScaffolding.street,
-          ...createAptNumberFormInput(s.onboardingScaffolding.aptNumber),
-        }
-      : null,
+    s.onboardingScaffolding,
     BlankOnboardingStep1V2Input
   );
 }
@@ -116,9 +110,9 @@ class OnboardingStep1WithoutContexts extends React.Component<
   readonly cancelControlRef: React.RefObject<
     HTMLDivElement
   > = React.createRef();
-  private readonly renderAddressLabel = createAddressLabeler(
-    this.props.routes.step1AddressModal
-  );
+  // private readonly renderAddressLabel = createAddressLabeler(
+  //   this.props.routes.step1AddressModal
+  // );
 
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
@@ -157,7 +151,7 @@ class OnboardingStep1WithoutContexts extends React.Component<
             />
           </div>
         </div>
-        <AddressAndBoroughField
+        {/* <AddressAndBoroughField
           disableProgressiveEnhancement={
             this.props.disableProgressiveEnhancement
           }
@@ -182,7 +176,7 @@ class OnboardingStep1WithoutContexts extends React.Component<
           </Link>
           .
         </p>
-        <br />
+        <br /> */}
         {this.renderFormButtons(ctx.isLoading)}
         <ReferralInfo />
       </React.Fragment>
@@ -202,17 +196,8 @@ class OnboardingStep1WithoutContexts extends React.Component<
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep1V2Mutation}
             initialState={toStep1Input}
-            updateInitialStateInBrowser={updateAddressFromBrowserStorage}
-            onSuccessRedirect={(output, input) =>
-              redirectToAddressConfirmationOrNextStep({
-                input,
-                resolved: assertNotNull(
-                  toStep1Input(assertNotNull(output.session))
-                ),
-                nextStep: routes.step3,
-                confirmation: routes.step1ConfirmAddressModal,
-              })
-            }
+            //updateInitialStateInBrowser={updateAddressFromBrowserStorage}
+            onSuccessRedirect={routes.step2}
           >
             {this.renderForm}
           </SessionUpdatingFormSubmitter>
@@ -226,11 +211,11 @@ class OnboardingStep1WithoutContexts extends React.Component<
           }
           label="Cancel"
         />
-        <Route
+        {/* <Route
           path={routes.step1ConfirmAddressModal}
           exact
           render={() => <Step1ConfirmAddressModal toStep3={routes.step3} />}
-        />
+        /> */}
       </Page>
     );
   }

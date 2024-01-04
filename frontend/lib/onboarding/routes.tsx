@@ -39,6 +39,10 @@ export default class OnboardingRoutes extends React.Component<
         ),
       },
       {
+        path: routes.step2,
+        render: () => <OnboardingStep2 routes={routes} />,
+      },
+      {
         path: routes.step3,
         render: () => <OnboardingStep3 routes={routes} />,
       },

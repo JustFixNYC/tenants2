@@ -38,6 +38,11 @@ logger = logging.getLogger(__name__)
 class OnboardingStep1V2(OnboardingScaffoldingMutation):
     class Meta:
         form_class = forms.OnboardingStep1V2Form
+
+@schema_registry.register_mutation
+class OnboardingStep2(OnboardingScaffoldingMutation):
+    class Meta:
+        form_class = forms.OnboardingStep2Form
         exclude = ["no_apt_number"]
 
 

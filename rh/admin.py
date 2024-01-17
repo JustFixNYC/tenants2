@@ -13,7 +13,7 @@ class RentalHistoryRequestAdmin(admin.ModelAdmin):
         "last_name",
         "address",
         "borough",
-        "referral"
+        "referral",
     ]
 
     ordering = ["created_at"]

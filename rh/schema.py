@@ -20,6 +20,7 @@ import project.locales
 from frontend.static_content import react_render_email
 from rapidpro.followup_campaigns import trigger_followup_campaign_async
 from loc.landlord_lookup import lookup_bbl_and_bin_and_full_address
+from partnerships import referral
 
 RENT_STAB_INFO_SESSION_KEY = "rh_rent_stab_v1"
 
@@ -131,6 +132,7 @@ class RhSendEmail(SessionFormMutation):
             address_verified=scf.address_verified,
             borough=scf.borough,
             zipcode=scf.zip_code,
+            referral=referral.get_partner(request),
         )
         rhr.set_user(request.user)
         rhr.full_clean()

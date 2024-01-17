@@ -49,6 +49,7 @@ import {
   AllSessionInfo,
   AllSessionInfo_rentStabInfo,
 } from "../queries/AllSessionInfo";
+import { OutboundLink } from "../ui/outbound-link";
 
 const RH_ICON = "frontend/img/ddo/rent.svg";
 
@@ -64,6 +65,29 @@ const DhcrFootnote = () => (
     </div>
   </div>
 );
+
+const ReferralInfo: React.FC<{}> = () => {
+  const appCtx = useContext(AppContext);
+  const { session } = appCtx;
+
+  if (session.activePartnerReferral) {
+    const { name, website } = session.activePartnerReferral;
+    return (
+      <>
+        <br />
+        <p className="is-size-7">
+          <strong>Note:</strong> your information will also be shared with our
+          partner organization{" "}
+          <OutboundLink href={website}>{name}</OutboundLink>. If you don't want
+          this, you can click the "Cancel" button above and start this process
+          over.
+        </p>
+      </>
+    );
+  }
+
+  return null;
+};
 
 function RentalHistorySplash(): JSX.Element {
   return (
@@ -222,6 +246,7 @@ const RentalHistoryForm = MiddleProgressStep((props) => {
         portalRef={cancelControlRef}
         label={li18n._(t`Cancel request`)}
       />
+      <ReferralInfo />
       <Route
         path={JustfixRoutes.locale.rh.formAddressModal}
         exact

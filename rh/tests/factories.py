@@ -14,3 +14,4 @@ class RentalHistoryRequestFactory(factory.django.DjangoModelFactory):
     address = "123 Funky Way"
     borough = "MANHATTAN"
     address_verified = False
+    referral = None

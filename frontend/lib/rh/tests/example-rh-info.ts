@@ -1,6 +1,8 @@
 import { newSb } from "../../tests/session-builder";
 
-export const exampleRentalHistoryInfo = newSb().withOnboardingScaffolding({
+const sb = newSb();
+
+export const exampleRentalHistoryInfo = sb.withOnboardingScaffolding({
   firstName: "boop",
   lastName: "jones",
   street: "150 DOOMBRINGER STREET",
@@ -9,3 +11,5 @@ export const exampleRentalHistoryInfo = newSb().withOnboardingScaffolding({
   borough: "MANHATTAN",
   zipCode: "10001",
 });
+
+export const exampleRhWithReferral = exampleRentalHistoryInfo.withActivePartnerReferral();

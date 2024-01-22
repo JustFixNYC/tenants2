@@ -18,7 +18,10 @@ import {
   Borough,
 } from "../../queries/globalTypes";
 import { BlankOnboardingInfo } from "../../queries/OnboardingInfo";
-import { exampleRentalHistoryInfo } from "./example-rh-info";
+import {
+  exampleRentalHistoryInfo,
+  exampleRhWithReferral,
+} from "./example-rh-info";
 import { preloadLingui } from "../../tests/lingui-preloader";
 import { ClearAnonymousSessionMutation } from "../../queries/ClearAnonymousSessionMutation";
 
@@ -96,6 +99,16 @@ describe("Rental history frontend", () => {
       "Phone number"
     ) as HTMLInputElement;
     expect(inputPhone.value).toEqual("(212) 000-0000");
+
+    pal.clickButtonOrLink("Cancel request");
+    pal.withFormMutation(ClearAnonymousSessionMutation).expect({});
+  });
+
+  it("deletes partner org referral on clicking cancel", () => {
+    const pal = new AppTesterPal(<RentalHistoryRoutes />, {
+      url: JustfixRoutes.locale.rh.form,
+      session: exampleRhWithReferral.value,
+    });
 
     pal.clickButtonOrLink("Cancel request");
     pal.withFormMutation(ClearAnonymousSessionMutation).expect({});

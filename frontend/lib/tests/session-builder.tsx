@@ -273,6 +273,16 @@ export class SessionBuilder {
       lastQueriedPhoneNumberAccountStatus: status,
     });
   }
+
+  withActivePartnerReferral(): SessionBuilder {
+    return this.with({
+      activePartnerReferral: {
+        name: "Beep Council on Habitat",
+        slug: "bch",
+        website: "beepbeep.com",
+      },
+    });
+  }
 }
 
 /**

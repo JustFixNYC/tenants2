@@ -299,7 +299,7 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
 
     # Recipient email addresses that we send a user's rental history request to.
     DHCR_EMAIL_RECIPIENT_ADDRESSES: str = "orarecords@hcr.ny.gov"
-    
+
     # An optional label to show in the site's navbar and other communications,
     # next to "JustFix". This can be useful to e.g. distinguish a production
     # deployment from a staging one.

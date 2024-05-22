@@ -28,12 +28,7 @@ import {
 } from "../forms/form-fields";
 import { NextButton, BackButton, ProgressButtons } from "../ui/buttons";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
-import {
-  issueChoicesForArea,
-  issuesForArea,
-  areaIssueCount,
-  customIssuesForArea,
-} from "./issues";
+import { issueChoicesForArea, issuesForArea, areaIssueCount } from "./issues";
 import ISSUE_AREA_SVGS from "../svg/issues";
 import { assertNotUndefined } from "@justfixnyc/util";
 import {
@@ -51,10 +46,6 @@ import { FormContext } from "../forms/form-context";
 import { Formset } from "../forms/formset";
 import { FormsetItem, formsetItemProps } from "../forms/formset-item";
 import { TextualFieldWithCharsRemaining } from "../forms/chars-remaining";
-import { Modal } from "../ui/modal";
-import { UpdateBrowserStorage, useBrowserStorage } from "../browser-storage";
-import { NoScriptFallback } from "../ui/progressive-enhancement";
-import { getQuerystringVar } from "../util/querystring";
 
 const checkSvg = require("../svg/check-solid.svg") as JSX.Element;
 
@@ -147,11 +138,11 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
           choices={choices}
         />
         <br />
-        <p>
+        {/* <p>
           Don't see your issues listed? You can add up to{" "}
           {MAX_CUSTOM_ISSUES_PER_AREA} additional issues below.
         </p>
-        <br />
+        <br /> */}
         <Formset
           {...ctx.formsetPropsFor("customIssues")}
           maxNum={MAX_CUSTOM_ISSUES_PER_AREA}
@@ -164,7 +155,10 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
                 {...ciCtx.fieldPropsFor("description")}
                 maxLength={CUSTOM_ISSUE_MAX_LENGTH}
                 fieldProps={{
-                  style: { maxWidth: `${CUSTOM_ISSUE_MAX_LENGTH}em` },
+                  style: {
+                    maxWidth: `${CUSTOM_ISSUE_MAX_LENGTH}em`,
+                    display: "none",
+                  },
                 }}
                 label={`Custom issue #${i + 1} (optional)`}
               />
@@ -194,13 +188,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
     const getInitialState = (session: AllSessionInfo): IssueAreaV2Input => ({
       area,
       issues: issuesForArea(area, session.issues as IssueChoice[]),
-      customIssues: customIssuesForArea(area, session.customIssuesV2 || []).map(
-        (ci) => ({
-          description: ci.description,
-          id: ci.id,
-          DELETE: false,
-        })
-      ),
+      customIssues: [],
     });
     const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
     return (
@@ -239,7 +227,6 @@ type IssueAreaLinkProps = {
 
 function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
   const { area, label } = props;
-  const [{ hasViewedCovidRiskModal }] = useBrowserStorage();
 
   return (
     <AppContext.Consumer>
@@ -250,21 +237,15 @@ function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
           ctx.session.customIssuesV2 || []
         );
         const url = props.routes.area.create(allCapsToSlug(area));
-        const modalUrl = props.routes.modal;
         const actionLabel = count === 0 ? "Add issues" : "Add or remove issues";
         const title = `${actionLabel} for ${label}`;
         const issueLabel = getIssueLabel(count);
         const ariaLabel = `${title} (${issueLabel})`;
         const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
-        const inSafeMode = ctx.session.isSafeModeEnabled;
 
         return (
           <Link
-            to={
-              !hasViewedCovidRiskModal && !inSafeMode
-                ? modalUrl + "?area=" + allCapsToSlug(area)
-                : url
-            }
+            to={url}
             className={classnames(
               "jf-issue-area-link",
               "notification",
@@ -329,54 +310,6 @@ export function groupByTwo<T>(arr: T[]): [T, T | null][] {
 
 type IssuesHomeProps = IssuesRoutesProps;
 
-const CovidRiskMessage = () => (
-  <>
-    <p>
-      <strong className="has-text-danger">Warning: </strong>
-      Please be aware that letting a repair-worker into your home to make
-      repairs may increase exposure to the COVID-19 virus.
-    </p>
-    <p>
-      In order to follow social distancing guidelines and to limit exposure, we
-      recommend only asking for repairs{" "}
-      <strong>in the case of an emergency</strong> such as if you have no heat,
-      no hot water, or no gas.
-    </p>
-  </>
-);
-
-function CovidRiskModal(props: { routes: IssuesRouteInfo }): JSX.Element {
-  return (
-    <Modal
-      title="Social distancing and repairs"
-      withHeading
-      onCloseGoTo={(loc) => {
-        const slug = getQuerystringVar(loc.search, "area") || "";
-        let area = slugToAllCaps(slug) as IssueAreaChoice;
-        if (!isIssueAreaChoice(area)) {
-          area = "HOME";
-        }
-        const url = props.routes.area.create(allCapsToSlug(area));
-        return url;
-      }}
-      render={(ctx) => (
-        <>
-          <CovidRiskMessage />
-          <div className="has-text-centered">
-            <Link
-              className={`button is-primary is-medium is-danger`}
-              {...ctx.getLinkCloseProps()}
-            >
-              I understand the risk
-            </Link>
-          </div>
-          <UpdateBrowserStorage hasViewedCovidRiskModal={true} />
-        </>
-      )}
-    />
-  );
-}
-
 class IssuesHome extends React.Component<IssuesHomeProps> {
   constructor(props: IssuesHomeProps) {
     super(props);
@@ -406,12 +339,6 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
             experiencing. {introContent}{" "}
             <strong>Make sure to be thorough.</strong>
           </p>
-          <NoScriptFallback>
-            <>
-              {" "}
-              <CovidRiskMessage /> <br />{" "}
-            </>
-          </NoScriptFallback>
           {groupByTwo(toDjangoChoices(IssueAreaChoices, labels)).map(
             ([a, b], i) => (
               <div className="columns is-tablet" key={i}>
@@ -428,7 +355,6 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
             <IssuesLinkToNextStep toNext={this.props.toNext} />
           </ProgressButtons>
         </div>
-        {this.props.withModal && <CovidRiskModal routes={this.props.routes} />}
       </Page>
     );
   }

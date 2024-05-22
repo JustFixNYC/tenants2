@@ -111,16 +111,8 @@ const Requirements: React.FC<LocContentProps> = (props) => (
   <div className="jf-avoid-page-breaks-within">
     <h2>Requirements</h2>
     <p>
-      In order to keep my household safe, I request that anyone entering my home
-      to make repairs follow sanitation guidelines from the Center for Disease
-      Control (CDC), including washing their hands before entering, wearing
-      gloves, a mask, and shoe coverings, and practicing physical distancing
-      (keeping 6 feet of distance between me and anyone else in my household).
-    </p>
-    <p>
-      Additionally, I request that you provide the name and contact information
-      for any repair worker assigned to my home at least 24 hours prior to their
-      arrival.
+      I request that you provide the name and contact information for any repair
+      worker assigned to my home at least 24 hours prior to their arrival.
     </p>
     {hasHeatIssues(props.issues) && (
       <p>

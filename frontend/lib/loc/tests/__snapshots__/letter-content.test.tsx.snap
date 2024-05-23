@@ -103,10 +103,7 @@ exports[`<LocContent> works 1`] = `
       Requirements
     </h2>
     <p>
-      In order to keep my household safe, I request that anyone entering my home to make repairs follow sanitation guidelines from the Center for Disease Control (CDC), including washing their hands before entering, wearing gloves, a mask, and shoe coverings, and practicing physical distancing (keeping 6 feet of distance between me and anyone else in my household).
-    </p>
-    <p>
-      Additionally, I request that you provide the name and contact information for any repair worker assigned to my home at least 24 hours prior to their arrival.
+      I request that you provide the name and contact information for any repair worker assigned to my home at least 24 hours prior to their arrival.
     </p>
     <p>
       Please be advised that the lack of Heat and/or Hot Water constitutes an emergency under the NYC Housing Maintenance Code, Title 27, Chapter 2. Failure to address these repairs will result in an escalation of this issue, and I may exercise my right to file an Emergency HP Action through the NYC Housing Court system.

@@ -14,7 +14,6 @@ import {
 import { LocSplash } from "./letter-of-complaint-splash";
 import { GetStartedButton } from "../ui/get-started-button";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
-import { CovidRiskBanner } from "../ui/covid-banners";
 import ReliefAttemptsPage from "../onboarding/relief-attempts";
 import { isUserNycha } from "../util/nycha";
 import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-routes";
@@ -51,7 +50,6 @@ export const Welcome: React.FC<ProgressStepProps> = (props) => {
             via USPS Certified Mail<sup>&reg;</sup>.
           </li>
         </ol>
-        <CovidRiskBanner />
         <GetStartedButton
           to={assertNotNull(props.nextStep)}
           intent={OnboardingInfoSignupIntent.LOC}

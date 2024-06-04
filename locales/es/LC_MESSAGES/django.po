@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-23 19:58+0000\n"
-"PO-Revision-Date: 2022-11-30 21:17\n"
+"POT-Creation-Date: 2024-06-04 19:29+0000\n"
+"PO-Revision-Date: 2024-06-04 21:49\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -185,7 +185,7 @@ msgstr "Aquí %(site_name)s! Tu código de verificación es %(code)s."
 msgid "Hello world"
 msgstr "Hola mundo"
 
-#: project/util/address_form_fields.py:72
+#: project/util/address_form_fields.py:77
 msgid "The address provided is invalid."
 msgstr "La dirección proporcionada no es válida."
 

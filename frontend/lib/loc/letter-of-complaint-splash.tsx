@@ -7,8 +7,10 @@ import { BigList } from "../ui/big-list";
 import { OutboundLink } from "../ui/outbound-link";
 import { GetStartedButton } from "../ui/get-started-button";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
+import { ProgressStepProps } from "../progress/progress-step-route";
+import { assertNotNull } from "@justfixnyc/util";
 
-export function LocSplash(): JSX.Element {
+export const LocSplash: React.FC<ProgressStepProps> = (props) => {
   return (
     <Page className="jf-loc-landing-page" title="Letter of Complaint">
       <section className="hero is-light">
@@ -33,16 +35,12 @@ export function LocSplash(): JSX.Element {
               . This service is free and secure.
             </p>
             <GetStartedButton
-              to={JustfixRoutes.locale.locOnboarding.latestStep}
+              to={assertNotNull(props.nextStep)}
               intent={OnboardingInfoSignupIntent.LOC}
               pageType="splash"
             >
               Start my free letter
             </GetStartedButton>
-            <p className="jf-secondary-cta">
-              Already have an account?{" "}
-              <Link to={JustfixRoutes.locale.login}>Sign in</Link>
-            </p>
           </div>
         </div>
       </section>
@@ -185,4 +183,4 @@ export function LocSplash(): JSX.Element {
       </section>
     </Page>
   );
-}
+};

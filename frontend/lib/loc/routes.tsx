@@ -17,12 +17,22 @@ import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
 import ReliefAttemptsPage from "../onboarding/relief-attempts";
 import { isUserNycha } from "../util/nycha";
 import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-routes";
-import { ProgressStepProps } from "../progress/progress-step-route";
+import {
+  MiddleProgressStep,
+  ProgressStepProps,
+} from "../progress/progress-step-route";
 import { assertNotNull } from "@justfixnyc/util";
 import { Switch, Route } from "react-router-dom";
 import { LocSamplePage, LocForUserPage } from "./letter-content";
 import { createLetterStaticPageRoutes } from "../static-page/routes";
-import { NycUsersOnly } from "../pages/nyc-users-only";
+// import { NycUsersOnly } from "../pages/nyc-users-only";
+import { createStartAccountOrLoginSteps } from "../start-account-or-login/routes";
+import { skipStepsIf } from "../progress/skip-steps-if";
+import { isUserLoggedIn } from "../util/session-predicates";
+import { AskNameStep } from "../common-steps/ask-name";
+import { AskNycAddress } from "../common-steps/ask-nyc-address";
+import { AskEmail } from "../common-steps/ask-email";
+import { BackButton, ProgressButtonsAsLinks } from "../ui/buttons";
 
 export const Welcome: React.FC<ProgressStepProps> = (props) => {
   const session = useContext(AppContext).session;
@@ -86,26 +96,85 @@ const LetterOfComplaintIssuesRoutes = () => (
   />
 );
 
+const LocAskNameStep = MiddleProgressStep(AskNameStep);
+
+const LocAskNycAddress = MiddleProgressStep((props) => (
+  <AskNycAddress
+    {...props}
+    confirmModalRoute={JustfixRoutes.locale.loc.nycAddressConfirmModal}
+  >
+    <p>TODO: Explain stuff here!</p>
+  </AskNycAddress>
+));
+
+const LocAskEmail = MiddleProgressStep((props) => (
+  <AskEmail {...props} isOptional>
+    <p>TODO: Explain stuff here!</p>
+  </AskEmail>
+));
+
+const LocAskLeaseType = MiddleProgressStep((props) => (
+  <Page title="Your housing type" withHeading="big">
+    <p>TODO: Ask about housing type here!</p>
+    <ProgressButtonsAsLinks back={props.prevStep} next={props.nextStep} />
+  </Page>
+));
+
+const LocCreateAccount = MiddleProgressStep((props) => (
+  <Page title="Set up an account" withHeading="big" className="content">
+    <p>TODO: Ask for password here!</p>
+    <BackButton to={props.prevStep} />
+  </Page>
+));
+
 export const getLOCProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: JustfixRoutes.locale.loc.latestStep,
   label: "Letter of Complaint",
-  defaultWrapContent: NycUsersOnly,
+  // defaultWrapContent: NycUsersOnly,
   welcomeSteps: [
     {
       path: JustfixRoutes.locale.loc.splash,
       wrapContent: false,
       exact: true,
       component: LocSplash,
-      isComplete: (s) => !!s.phoneNumber,
+      // isComplete: (s) => !!s.phoneNumber,
     },
+    ...createStartAccountOrLoginSteps(JustfixRoutes.locale.loc),
+  ],
+  stepsToFillOut: [
+    ...createJustfixCrossSiteVisitorSteps(JustfixRoutes.locale.loc),
+    ...skipStepsIf(isUserLoggedIn, [
+      {
+        path: JustfixRoutes.locale.loc.name,
+        exact: true,
+        component: LocAskNameStep,
+      },
+      {
+        path: JustfixRoutes.locale.loc.nycAddress,
+        exact: false,
+        component: LocAskNycAddress,
+      },
+      {
+        path: JustfixRoutes.locale.loc.leaseType,
+        exact: true,
+        component: LocAskLeaseType,
+      },
+      {
+        path: JustfixRoutes.locale.loc.email,
+        exact: true,
+        component: LocAskEmail,
+      },
+      {
+        path: JustfixRoutes.locale.loc.createAccount,
+        exact: false,
+        component: LocCreateAccount,
+      },
+    ]),
     {
       path: JustfixRoutes.locale.loc.welcome,
       exact: true,
       component: Welcome,
     },
-  ],
-  stepsToFillOut: [
-    ...createJustfixCrossSiteVisitorSteps(JustfixRoutes.locale.loc),
     {
       path: JustfixRoutes.locale.loc.issues.prefix,
       component: LetterOfComplaintIssuesRoutes,

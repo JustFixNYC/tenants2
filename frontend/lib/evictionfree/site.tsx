@@ -25,7 +25,7 @@ import {
 } from "../../../common-data/evictionfree-unsupported-locale-choices";
 import { SwitchToUnsupportedLanguage } from "./unsupported-locale";
 import { Modal } from "../ui/modal";
-import { LocalizedOutboundLink } from "../ui/localized-outbound-link";
+import { EnglishOutboundLink } from "../ui/localized-outbound-link";
 
 export const EvictionFreeLinguiI18n = createLinguiCatalogLoader({
   en: loadable.lib(
@@ -174,21 +174,19 @@ export const EvictionFreeSuspendedModal = () => (
         <Trans id="evictionfree.toolSuspensionMessage">
           As of January 15, 2022, tenants in New York State are no longer
           protected from eviction after submitting a declaration of hardship.
-          However, you still have other options to protect yourself and your
-          neighbors!
         </Trans>
       </p>
       <br />
-      <LocalizedOutboundLink
-        className="button is-primary is-large jf-is-extra-wide jf-build-my-declaration-btn"
-        hrefs={{
-          en:
-            "https://www.righttocounselnyc.org/eviction_protections_during_covid",
-          es: "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
-        }}
-      >
-        <Trans>Learn more</Trans>
-      </LocalizedOutboundLink>
+      <p>
+        Are you facing an eviction in NYC?
+        <br />
+        <EnglishOutboundLink
+          className="button is-primary jf-build-my-declaration-btn"
+          href="https://www.righttocounselnyc.org/eviction_protections_during_covid"
+        >
+          Find Help
+        </EnglishOutboundLink>
+      </p>
       <br />
       <br />
       <p className="is-size-6">

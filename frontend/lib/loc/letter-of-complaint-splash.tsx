@@ -7,43 +7,197 @@ import { BigList } from "../ui/big-list";
 import { OutboundLink } from "../ui/outbound-link";
 import { GetStartedButton } from "../ui/get-started-button";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
+import { IconLink } from "../ui/icon";
+import {
+  LeaseLearnMoreModal,
+  LeaseModalInfo,
+} from "../onboarding/onboarding-step-3";
+import { OnboardingRouteInfo } from "../onboarding/route-info";
+
+type HousingTypeFormProps = {
+  housingType: string;
+  setHousingType: (value: string) => void;
+};
+
+const HousingTypeForm: React.FC<HousingTypeFormProps> = ({
+  housingType,
+  setHousingType,
+}) => {
+  const routes = JustfixRoutes.locale.locOnboarding;
+  const leaseModals = createLeaseLearnMoreModals(routes);
+
+  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setHousingType(event.target.value);
+    window.sessionStorage.setItem("housingType", event.target.value);
+  };
+
+  return (
+    <form className="housing-type-container">
+      {leaseModals.map(({ leaseType, route }) => (
+        <div key={leaseType} className="housing-type-selection">
+          <input
+            type="radio"
+            id={leaseType.toLowerCase()}
+            name="housing-type"
+            value={leaseType}
+            checked={housingType === leaseType}
+            onChange={handleRadioChange}
+          />
+          <label htmlFor={leaseType.toLowerCase()}>
+            {leaseType === "NYCHA" && "NYCHA/Public Housing"}
+            {leaseType === "OTHER_AFFORDABLE" &&
+              "Affordable Housing (other than rent stabilized)"}
+            {leaseType === "NOT_SURE" && "I'm not sure"}
+            {(leaseType === "RENT_STABILIZED" ||
+              leaseType === "RENT_CONTROLLED" ||
+              leaseType === "MARKET_RATE") &&
+              leaseType.charAt(0).toUpperCase() +
+                leaseType.toLowerCase().replace("_", " ").slice(1)}
+          </label>
+          <IconLink
+            type="info"
+            title={`Learn more about ${leaseType.toLowerCase()} leases`}
+            to={route}
+          />
+        </div>
+      ))}
+    </form>
+  );
+};
+
+const createLeaseLearnMoreModals = (
+  routes: OnboardingRouteInfo
+): LeaseModalInfo[] => [
+  {
+    route: routes.step3LearnMoreModals.rentStabilized,
+    leaseType: "RENT_STABILIZED",
+    component: () => (
+      <LeaseLearnMoreModal title="What is Rent Stabilized Housing?">
+        <p>
+          Housing in buildings built before January 1, 1974 with six or more
+          units, including Single Room Occupancy (“SRO”) hotels and rooming
+          houses.
+        </p>
+        <p>
+          All apartments in buildings that receive a tax abatement such as J-51,
+          421a, and 421g are also stabilized.
+        </p>
+      </LeaseLearnMoreModal>
+    ),
+  },
+  {
+    route: routes.step3LearnMoreModals.rentControlled,
+    leaseType: "RENT_CONTROLLED",
+    component: () => (
+      <LeaseLearnMoreModal title="What is Rent Controlled Housing?">
+        <p>
+          This is a rare kind of housing! Buildings that had three or more
+          residential units before February 1, 1947, where the tenant or
+          immediate family member has been continuously living in the apartment
+          since July 1, 1971.
+        </p>
+      </LeaseLearnMoreModal>
+    ),
+  },
+  {
+    route: routes.step3LearnMoreModals.marketRate,
+    leaseType: "MARKET_RATE",
+    component: () => (
+      <LeaseLearnMoreModal title="What is Market Rate Housing?">
+        <p>
+          Market rate tenants typically live in buildings of fewer than six (6)
+          units, newer buildings, or formerly rent stabilized apartments that a
+          landlord deregulated before 2019.
+        </p>
+      </LeaseLearnMoreModal>
+    ),
+  },
+  {
+    route: routes.step3LearnMoreModals.NYCHA,
+    leaseType: "NYCHA",
+    component: () => (
+      <LeaseLearnMoreModal title="What is NYCHA or Public Housing?">
+        <p>
+          Federally-funded affordable housing developments owned by the
+          government.
+        </p>
+      </LeaseLearnMoreModal>
+    ),
+  },
+  {
+    route: routes.step3LearnMoreModals.otherAffordable,
+    leaseType: "OTHER_AFFORDABLE",
+    component: () => (
+      <LeaseLearnMoreModal title="What is Affordable Housing (other than rent stabilized)?">
+        <p>
+          New York City has many forms of affordable housing. Some common types
+          include Mitchell Lama, Project-Based Section 8 buildings (also known
+          as HUD), LIHTC, HDFC rentals, and others.
+        </p>
+      </LeaseLearnMoreModal>
+    ),
+  },
+  {
+    route: routes.step3LearnMoreModals.notSure,
+    leaseType: "NOT_SURE",
+    component: () => (
+      <LeaseLearnMoreModal title="Don’t know what type of housing you live in?">
+        <p>
+          New York City has many kinds of housing. Learn more by ordering your
+          rent history{" "}
+          <OutboundLink href="https://app.justfix.org/en/rh/splash">
+            here
+          </OutboundLink>{" "}
+          or reading about{" "}
+          <OutboundLink href="https://rentguidelinesboard.cityofnewyork.us/resources/faqs/rent-stabilization/">
+            rent regulation
+          </OutboundLink>
+          .
+        </p>
+      </LeaseLearnMoreModal>
+    ),
+  },
+];
 
 export function LocSplash(): JSX.Element {
+  const [housingType, setHousingType] = React.useState("");
+
+  React.useEffect(() => {
+    window.sessionStorage.removeItem("housingType");
+  }, []);
+
   return (
     <Page className="jf-loc-landing-page" title="Letter of Complaint">
       <section className="hero is-light">
         <div className="hero-body">
-          <div className="has-text-centered">
-            <div className="jf-loc-image">
-              <StaticImage
-                ratio="is-2by1"
-                src="frontend/img/letter-of-complaint.svg"
-                alt=""
-              />
-            </div>
-            <h1 className="title is-spaced">
-              Need Repairs in Your Apartment? Take action today!
-            </h1>
-            <p className="subtitle">
-              This is a free tool that notifies your landlord of repair issues
-              via{" "}
-              <b>
-                USPS Certified Mail<sup>&reg;</sup>
-              </b>
-              . This service is free and secure.
-            </p>
-            <GetStartedButton
-              to={JustfixRoutes.locale.locOnboarding.latestStep}
-              intent={OnboardingInfoSignupIntent.LOC}
-              pageType="splash"
-            >
-              Start my free letter
-            </GetStartedButton>
-            <p className="jf-secondary-cta">
-              Already have an account?{" "}
-              <Link to={JustfixRoutes.locale.login}>Sign in</Link>
-            </p>
-          </div>
+          <h1 className="title is-spaced">
+            Need repairs in your home?
+            <br />
+            Take action today!
+          </h1>
+          <p className="subtitle">
+            Create a letter that notifies your landlord of repair issues via
+            USPS Certified Mail<sup>&reg;</sup>. This service is free, secure,
+            and legally vetted.
+            <br />
+            <br />
+            Select your housing type to get started:
+          </p>
+          <HousingTypeForm
+            housingType={housingType}
+            setHousingType={setHousingType}
+          />
+          <GetStartedButton
+            to={JustfixRoutes.locale.locOnboarding.latestStep}
+            intent={OnboardingInfoSignupIntent.LOC}
+            pageType="splash"
+          >
+            Start my free letter
+          </GetStartedButton>
+          <p className="jf-secondary-cta has-text-centered">
+            Already have an account?
+            <Link to={JustfixRoutes.locale.login}>Sign in</Link>
+          </p>
         </div>
       </section>
 

@@ -148,7 +148,7 @@ export function LocSplash(): JSX.Element {
             Start my free letter
           </GetStartedButton>
           <p className="jf-secondary-cta has-text-centered">
-            Already have an account?
+            Already have an account?{" "}
             <Link to={JustfixRoutes.locale.login}>Sign in</Link>
           </p>
         </div>

@@ -66,7 +66,7 @@
         }
       }
 
-      /* Tooltip container */
+      /* Tooltip CSS largely taken from https://www.w3schools.com/css/css_tooltip.asp */
       .tooltip {
         position: relative;
         display: flex;
@@ -121,6 +121,10 @@
           border-color: transparent black transparent transparent;
         }
       }
+    }
+
+    .button {
+      margin-top: 1rem;
     }
   }
 }

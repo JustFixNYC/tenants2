@@ -166,9 +166,10 @@ function toStep3Input(s: AllSessionInfo): OnboardingStep3Input {
   const scf = s.onboardingScaffolding;
   if (!scf) return BlankOnboardingStep3Input;
 
-  const housingTypeFromSession =
-    window.sessionStorage.getItem("housingType") || "";
-
+  let housingTypeFromSession = "";
+  if (typeof window !== "undefined") {
+    housingTypeFromSession = window.sessionStorage.getItem("housingType") || "";
+  }
   return exactSubsetOrDefault(
     {
       ...scf,
@@ -357,9 +358,13 @@ export default class OnboardingStep3 extends React.Component<
   }
 
   render() {
-    const housingTypeFromSession = window.sessionStorage.getItem("housingType");
+    let housingTypeFromSession = "";
+    if (typeof window !== "undefined") {
+      housingTypeFromSession =
+        window.sessionStorage.getItem("housingType") || "";
+    }
 
-    if (housingTypeFromSession) {
+    if (housingTypeFromSession !== "") {
       const housingTypeDiv = document.querySelector(
         'div[aria-label="Housing type"]'
       ) as HTMLElement;

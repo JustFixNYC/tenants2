@@ -7,12 +7,8 @@ import { BigList } from "../ui/big-list";
 import { OutboundLink } from "../ui/outbound-link";
 import { GetStartedButton } from "../ui/get-started-button";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
-import { IconLink } from "../ui/icon";
-import {
-  LeaseLearnMoreModal,
-  LeaseModalInfo,
-} from "../onboarding/onboarding-step-3";
-import { OnboardingRouteInfo } from "../onboarding/route-info";
+import { Icon } from "../ui/icon";
+import { LeaseChoice } from "../../../common-data/lease-choices";
 
 type HousingTypeFormProps = {
   housingType: string;
@@ -23,8 +19,7 @@ const HousingTypeForm: React.FC<HousingTypeFormProps> = ({
   housingType,
   setHousingType,
 }) => {
-  const routes = JustfixRoutes.locale.locOnboarding;
-  const leaseModals = createLeaseLearnMoreModals(routes);
+  const leaseModals = createLeaseLearnMoreModals();
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setHousingType(event.target.value);
@@ -33,7 +28,7 @@ const HousingTypeForm: React.FC<HousingTypeFormProps> = ({
 
   return (
     <form className="housing-type-container">
-      {leaseModals.map(({ leaseType, route }) => (
+      {leaseModals.map(({ title, leaseType, leaseInfo }) => (
         <div key={leaseType} className="housing-type-selection">
           <input
             type="radio"
@@ -43,118 +38,76 @@ const HousingTypeForm: React.FC<HousingTypeFormProps> = ({
             checked={housingType === leaseType}
             onChange={handleRadioChange}
           />
-          <label htmlFor={leaseType.toLowerCase()}>
-            {leaseType === "NYCHA" && "NYCHA/Public Housing"}
-            {leaseType === "OTHER_AFFORDABLE" &&
-              "Affordable Housing (other than rent stabilized)"}
-            {leaseType === "NOT_SURE" && "I'm not sure"}
-            {(leaseType === "RENT_STABILIZED" ||
-              leaseType === "RENT_CONTROLLED" ||
-              leaseType === "MARKET_RATE") &&
-              leaseType.charAt(0).toUpperCase() +
-                leaseType.toLowerCase().replace("_", " ").slice(1)}
-          </label>
-          <IconLink
-            type="info"
-            title={`Learn more about ${leaseType.toLowerCase()} leases`}
-            to={route}
-          />
+          <label htmlFor={leaseType.toLowerCase()}>{title}</label>
+          <div className="tooltip">
+            <Icon type="info" />
+            <span className="tooltiptext">{leaseInfo}</span>
+          </div>
         </div>
       ))}
     </form>
   );
 };
 
-const createLeaseLearnMoreModals = (
-  routes: OnboardingRouteInfo
-): LeaseModalInfo[] => [
+export type LeaseMoreInfo = {
+  title: string;
+  leaseType: LeaseChoice;
+  leaseInfo: string | JSX.Element;
+};
+
+const createLeaseLearnMoreModals = (): LeaseMoreInfo[] => [
   {
-    route: routes.step3LearnMoreModals.rentStabilized,
+    title: "Rent Stabilized",
     leaseType: "RENT_STABILIZED",
-    component: () => (
-      <LeaseLearnMoreModal title="What is Rent Stabilized Housing?">
-        <p>
-          Housing in buildings built before January 1, 1974 with six or more
-          units, including Single Room Occupancy (“SRO”) hotels and rooming
-          houses.
-        </p>
-        <p>
-          All apartments in buildings that receive a tax abatement such as J-51,
-          421a, and 421g are also stabilized.
-        </p>
-      </LeaseLearnMoreModal>
-    ),
+    leaseInfo:
+      "Housing in buildings built before January 1, 1974 with six or more \
+          units, including Single Room Occupancy (“SRO”) hotels and rooming \
+          houses. All apartments in buildings that receive a tax abatement such as J-51, \
+          421a, and 421g are also stabilized.",
   },
   {
-    route: routes.step3LearnMoreModals.rentControlled,
+    title: "Rent Controlled",
     leaseType: "RENT_CONTROLLED",
-    component: () => (
-      <LeaseLearnMoreModal title="What is Rent Controlled Housing?">
-        <p>
-          This is a rare kind of housing! Buildings that had three or more
-          residential units before February 1, 1947, where the tenant or
-          immediate family member has been continuously living in the apartment
-          since July 1, 1971.
-        </p>
-      </LeaseLearnMoreModal>
-    ),
+    leaseInfo:
+      "This is a rare kind of housing! Buildings that had three or more \
+          residential units before February 1, 1947, where the tenant or \
+          immediate family member has been continuously living in the apartment \
+          since July 1, 1971.",
   },
   {
-    route: routes.step3LearnMoreModals.marketRate,
+    title: "Market Rate",
     leaseType: "MARKET_RATE",
-    component: () => (
-      <LeaseLearnMoreModal title="What is Market Rate Housing?">
-        <p>
-          Market rate tenants typically live in buildings of fewer than six (6)
-          units, newer buildings, or formerly rent stabilized apartments that a
-          landlord deregulated before 2019.
-        </p>
-      </LeaseLearnMoreModal>
-    ),
+    leaseInfo:
+      "Market rate tenants typically live in buildings of fewer than six (6)\
+          units, newer buildings, or formerly rent stabilized apartments that a\
+          landlord deregulated before 2019.",
   },
   {
-    route: routes.step3LearnMoreModals.NYCHA,
+    title: "NYCHA/Public Housing",
     leaseType: "NYCHA",
-    component: () => (
-      <LeaseLearnMoreModal title="What is NYCHA or Public Housing?">
-        <p>
-          Federally-funded affordable housing developments owned by the
-          government.
-        </p>
-      </LeaseLearnMoreModal>
-    ),
+    leaseInfo:
+      "Federally-funded affordable housing developments owned by the government.",
   },
   {
-    route: routes.step3LearnMoreModals.otherAffordable,
+    title: "Affordable Housing (other than rent stabilized)",
     leaseType: "OTHER_AFFORDABLE",
-    component: () => (
-      <LeaseLearnMoreModal title="What is Affordable Housing (other than rent stabilized)?">
-        <p>
-          New York City has many forms of affordable housing. Some common types
-          include Mitchell Lama, Project-Based Section 8 buildings (also known
-          as HUD), LIHTC, HDFC rentals, and others.
-        </p>
-      </LeaseLearnMoreModal>
-    ),
+    leaseInfo:
+      "New York City has many forms of affordable housing. Some common types\
+          include Mitchell Lama, Project-Based Section 8 buildings (also known\
+          as HUD), LIHTC, HDFC rentals, and others.",
   },
   {
-    route: routes.step3LearnMoreModals.notSure,
+    title: "I'm not sure",
     leaseType: "NOT_SURE",
-    component: () => (
-      <LeaseLearnMoreModal title="Don’t know what type of housing you live in?">
-        <p>
-          New York City has many kinds of housing. Learn more by ordering your
-          rent history{" "}
-          <OutboundLink href="https://app.justfix.org/en/rh/splash">
-            here
-          </OutboundLink>{" "}
-          or reading about{" "}
-          <OutboundLink href="https://rentguidelinesboard.cityofnewyork.us/resources/faqs/rent-stabilization/">
-            rent regulation
-          </OutboundLink>
-          .
-        </p>
-      </LeaseLearnMoreModal>
+    leaseInfo: (
+      <>
+        Don’t know what type of housing you live in? Learn more by ordering your
+        rent history <a href="https://app.justfix.org/en/rh/splash">here</a> or
+        reading about{" "}
+        <a href="https://rentguidelinesboard.cityofnewyork.us/resources/faqs/rent-stabilization/">
+          rent regulation.
+        </a>
+      </>
     ),
   },
 ];

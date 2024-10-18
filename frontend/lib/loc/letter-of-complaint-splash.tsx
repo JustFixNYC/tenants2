@@ -9,6 +9,7 @@ import { GetStartedButton } from "../ui/get-started-button";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
 import { Icon } from "../ui/icon";
 import { LeaseChoice } from "../../../common-data/lease-choices";
+import classnames from "classnames";
 
 type HousingTypeFormProps = {
   housingType: string;
@@ -39,7 +40,12 @@ const HousingTypeForm: React.FC<HousingTypeFormProps> = ({
             onChange={handleRadioChange}
           />
           <label htmlFor={leaseType.toLowerCase()}>{title}</label>
-          <div className="tooltip">
+          <div
+            className={classnames(
+              "tooltip",
+              `tooltip_${leaseType.toLowerCase()}`
+            )}
+          >
             <Icon type="info" />
             <span className="tooltiptext">{leaseInfo}</span>
           </div>

@@ -27,3 +27,9 @@ export function isUserNycha(session: AllSessionInfo): boolean {
     ? session.onboardingInfo.leaseType === LeaseType.NYCHA
     : false;
 }
+
+export function isUserNonNycha(session: AllSessionInfo): boolean {
+  return session.onboardingInfo
+    ? session.onboardingInfo.leaseType !== LeaseType.NYCHA
+    : false;
+}

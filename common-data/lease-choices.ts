@@ -30,7 +30,7 @@ export function getLeaseChoiceLabels(): LeaseChoiceLabels {
     RENT_CONTROLLED: "Rent Controlled",
     OTHER_AFFORDABLE: "Affordable housing (other than rent-stabilized)",
     MARKET_RATE: "Market Rate",
-    NYCHA: "NYCHA/Public Housing",
+    NYCHA: "NYCHA/Public Housing (includes RAD/PACT)",
     NOT_SURE: "I'm not sure",
     NO_LEASE: "I don't have a lease",
     RENT_STABILIZED_OR_CONTROLLED: "Either Rent Stabilized or Rent Controlled (legacy option)",

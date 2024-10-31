@@ -225,6 +225,7 @@ workflows:
           filters:
             branches:
               only:
+                - nycha-work-order
                 - master
   only_deploy:
     jobs:

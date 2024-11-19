@@ -30,6 +30,8 @@ services:
     environment:
       - POSTGRES_DB=justfix
       - POSTGRES_USER=justfix
+    ports:
+      - "127.0.0.1:5432:5432"
 volumes:
   node-modules:
   unused-node-modules:

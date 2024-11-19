@@ -311,6 +311,9 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # The base url for outbound links to Eviction Free NYC.
     EFNYC_ORIGIN: str = "https://www.evictionfreenyc.org"
 
+    # The base url for cors policy for Good Cause Eviction screener.
+    GCE_ORIGIN: str = "http://localhost:5173"
+
     # Whether to use the lambda HTTP server. If false, we'll use a separate
     # subprocess for each server-side rendering request, otherwise we'll
     # use a long-lived HTTP server.
@@ -430,6 +433,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # By default, this is set to retrieve JustFix's publicly-available
     # common strings.
     CONTENTFUL_ACCESS_TOKEN: str = "Fli_OMdKgUFw6tEX3uv6HqvptuG6A6jn9bZVPlHZj8E"
+
+    # Token to authorize API requests from our standalone Good Cause Eviction
+    # screener website to record user responses/results of the screener flow.
+    GCE_API_TOKEN: str = ""
 
 
 class JustfixBuildPipelineDefaults(JustfixEnvironment):

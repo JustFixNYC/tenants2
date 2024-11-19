@@ -35,19 +35,29 @@ class GoodCauseEvictionScreenerResponse(models.Model):
     bbl: str = models.CharField(
         help_text="The zero-padded borough, block and lot (BBL) number for the search address property.",
         max_length=10,  # One for the borough, 5 for the block, 4 for the lot.
+        # blank=True,
+        # null=True,
     )
 
     house_number: str = models.TextField(
-        help_text="The house number part of street address for the search address property."
+        help_text="The house number part of street address for the search address property.",
+        blank=True,
+        null=True,
     )
     street_name: str = models.TextField(
-        help_text="The street name part of street address for the search address property."
+        help_text="The street name part of street address for the search address property.",
+        blank=True,
+        null=True,
     )
     borough: str = models.CharField(
-        help_text="The borough of the search address property.", **BOROUGH_FIELD_KWARGS
+        help_text="The borough of the search address property.", **BOROUGH_FIELD_KWARGS,
+        blank=True,
+        null=True,
     )
     zipcode: str = models.CharField(
-        help_text="The ZIP code the search address property.", max_length=5
+        help_text="The ZIP code the search address property.", max_length=5,
+        blank=True,
+        null=True,
     )
 
     address_confirmed: bool = models.BooleanField(
@@ -96,6 +106,13 @@ class GoodCauseEvictionScreenerResponse(models.Model):
         null=True,
         blank=True,
     )
+    # result_criteria: List[str] = ArrayField(
+    #     help_text="Any eligibility criteria that the user needs to take next steps to confirm.",
+    #     base_field=models.TextField(choices=NEXT_STEPS.choices, null=True, blank=True),
+    #     null=True,
+    #     blank=True,
+    # )
+    # TODO: decide between field for each, or json of {critera: determination}
     result_next_steps: List[str] = ArrayField(
         help_text="Any eligibility criteria that the user needs to take next steps to confirm.",
         base_field=models.TextField(choices=NEXT_STEPS.choices, null=True, blank=True),

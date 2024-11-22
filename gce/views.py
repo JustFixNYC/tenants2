@@ -34,7 +34,7 @@ def upload(request):
 
     try:
         if not data.id:
-            gcer = GoodCauseEvictionScreenerResponse(**data.dict(exclude_none=True))
+            gcer = GoodCauseEvictionScreenerResponse(**exclude_none_dict(data))
             gcer.full_clean()
             gcer.save()
 
@@ -90,8 +90,13 @@ class GcePostData(pydantic.BaseModel):
     result_criteria: Optional[Dict[str, Any]]
 
 
+# We're still on pydantic v1 so can't use Model.dict(exclude_none=True)
+def exclude_none_dict(model):
+    return {k: v for k, v in model.dict().items() if v is not None}
+
+
 def update_gce_record(gcer: GoodCauseEvictionScreenerResponse, data: GcePostData):
-    for key, value in data.dict(exclude_none=True).items():
+    for key, value in exclude_none_dict(data).items():
         # TODO: Should we allow updates of the form response?
         if key == "result_coverage":
             col_name = (

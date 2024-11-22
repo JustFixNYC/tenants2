@@ -1,5 +1,6 @@
 import json
 import pydantic
+import logging
 from decimal import Decimal
 from typing import Any, Dict, Optional
 from django.conf import settings
@@ -9,6 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from gce.util import apply_cors_policy, authorize_with_token
 from gce.models import GoodCauseEvictionScreenerResponse
+
+logger = logging.getLogger(__name__)
 
 
 @csrf_exempt
@@ -49,6 +52,7 @@ def upload(request):
         # logging will work if we aren't accessing it from the front end.
         # I haven't really looked into this but make that's what's
         # happening on frontend/views.py#68
+        logger.error(e)
 
         return JsonResponse(
             {"error": "An internal server error occurred"},

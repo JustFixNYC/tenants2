@@ -1,4 +1,3 @@
-from typing import Any, Dict
 from django import forms
 from django.http import JsonResponse
 from django.core.validators import RegexValidator

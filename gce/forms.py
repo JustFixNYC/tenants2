@@ -1,40 +1,36 @@
-from typing import Dict
+from typing import Any, Dict
 from django import forms
-import pydantic
 from django.http import JsonResponse
 from django.core.validators import RegexValidator
-from django.core.exceptions import ValidationError
 
 from gce.models import GoodCauseEvictionScreenerResponse
+
+# Haven't been able to get this to work for validation. form.cleaned_data always
+# returns the data with all fields as the default null/empty value. If we can
+# figure out a different option for validation this whole file can be deleted
+
 
 class GceScreenerResponseForm(forms.ModelForm):
     class Meta:
         model = GoodCauseEvictionScreenerResponse
-        fields = ['id', 'bbl', 'house_number']
-        
-# class GceScreenerResponseForm(forms.Form):
-#     id = forms.IntegerField(required=False)
-#     bbl = forms.CharField(required=False)
-#     #     validators=[
-#     #         RegexValidator(
-#     #             r"^[1-5]\d\d\d\d\d\d\d\d\d$",
-#     #             message="This should be a 10-digit padded BBL.",
-#     #         )
-#     #     ],
-#     #     required=False
-#     # )
-#     house_number = forms.CharField(required=False)
-#     street_name = forms.CharField(required=False)
-#     borough = forms.CharField(required=False)
-#     zipcode = forms.CharField(required=False)
+        fields = ["id", "bbl", "house_number"]
 
-class GcePostData(pydantic.BaseModel):
-    id: int
-    bbl: str
-    house_number: str
-    street_name: str
-    borough: str
-    zipcode: str
+
+class GceScreenerResponseForm2(forms.Form):
+    id = forms.IntegerField(required=False)
+    bbl = forms.CharField(
+        validators=[
+            RegexValidator(
+                r"^[1-5]\d\d\d\d\d\d\d\d\d$",
+                message="This should be a 10-digit padded BBL.",
+            )
+        ],
+        required=False,
+    )
+    house_number = forms.CharField(required=False)
+    street_name = forms.CharField(required=False)
+    borough = forms.CharField(required=False)
+    zipcode = forms.CharField(required=False)
 
 
 class InvalidFormError(Exception):
@@ -50,7 +46,8 @@ class InvalidFormError(Exception):
             status=400,
         )
 
-def get_validated_form_data(data) -> GcePostData:
+
+def get_validated_form_data(data):
     form = GceScreenerResponseForm(data)
     if not form.is_valid():
         raise InvalidFormError(form)

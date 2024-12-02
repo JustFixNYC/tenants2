@@ -82,7 +82,6 @@ def exclude_none_dict(model):
 
 def update_gce_record(gcer: GoodCauseEvictionScreenerResponse, data: GcePostData):
     for key, value in exclude_none_dict(data).items():
-        # TODO: Should we allow updates of the form response?
         if key == "result_coverage":
             col_name = (
                 "result_coverage_initial"

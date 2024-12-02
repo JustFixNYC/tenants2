@@ -108,26 +108,6 @@ class GoodCauseEvictionScreenerResponse(models.Model):
         null=True,
     )
 
-    # TODO: still need to decide what the user flow is going to be for the next step guide
-    # pages and what info users will provide. This would be the most simple version
-
-    # result_portfolio_size_confirmed: bool = models.BooleanField(
-    #     help_text=(
-    #       "Whether or not the user confirmed that their portfolio size is greater than 10 units "
-    #       "on the next step page"
-    #     ),
-    #     blank=True,
-    #     null=True,
-    # )
-
-    # result_rent_stabilized_confirmed: bool = models.BooleanField(
-    #     help_text=(
-    #       "Whether or not the user confirmed that they are rent stabilized on the next step page"
-    #     ),
-    #     blank=True,
-    #     null=True,
-    # )
-
     result_coverage_final: str = models.TextField(
         help_text=(
             "The final GCE coverage result taking into account any confirmed "

@@ -26,20 +26,13 @@ def upload(request):
 
     authorize_with_token(request, "bearer", settings.GCE_API_TOKEN)
 
-    # This always returns empty/null values from form.cleaned_data, not sure why
-    # data = get_validated_form_data(request.POST)
-
-    # For now just getting the raw data and using pydantic
-    data = GcePostData(**json.loads(request.body.decode("utf-8")))
-
     try:
+        data = GcePostData(**json.loads(request.body.decode("utf-8")))
+
         if not data.id:
             gcer = GoodCauseEvictionScreenerResponse(**exclude_none_dict(data))
             gcer.full_clean()
             gcer.save()
-
-            # TODO: Decide if we want slack notifications, might be nice and seems easy to add
-            # slack.sendmsg_async(get_slack_notify_text(gcer), is_safe=True)
 
         else:
             gcer = GoodCauseEvictionScreenerResponse.objects.get(id=data.id)
@@ -47,11 +40,6 @@ def upload(request):
             gcer.save()
 
     except Exception as e:
-        # TODO: We might need to handle rollbar ourselves.
-        # Not sure if the general tenants2 solution for server error
-        # logging will work if we aren't accessing it from the front end.
-        # I haven't really looked into this but make that's what's
-        # happening on frontend/views.py#68
         logger.error(e)
 
         return JsonResponse(
@@ -69,9 +57,6 @@ def upload(request):
     )
 
 
-# Currently trying this as an alternative to forms.py for validation. But I
-# don't know that it raises error if it fails validation, seems to just replace
-# with null, so that won't work..
 class GcePostData(pydantic.BaseModel):
     id: Optional[int]
     bbl: Optional[str]

@@ -1,28 +1,8 @@
-from decimal import Decimal
 from django.db import models
 
-from hpaction.models import CURRENCY_KWARGS
 from project.common_data import Choices
 from project.util.address_form_fields import BOROUGH_FIELD_KWARGS
 
-YES_NO_UNSURE = Choices([("YES", "Yes"), ("NO", "No"), ("UNSURE", "I'm not sure")])
-SUBSIDY = Choices(
-    [
-        ("NYCHA", "NYCHA or RAD/PACT"),
-        ("SUBSIDIZED", "Subsidized housing"),
-        ("NONE", "None of these"),
-        ("UNSURE", "I'm not sure"),
-    ]
-)
-BEDROOMS = Choices(
-    [
-        ("STUDIO", "Studio"),
-        ("1", "1 Bedroom"),
-        ("2", "3 Bedroom"),
-        ("4", "3 Bedroom"),
-        ("4+", "4+ Bedroom"),
-    ]
-)
 COVERAGE = Choices(
     [
         ("COVERED", "Covered by GCE"),
@@ -30,12 +10,13 @@ COVERAGE = Choices(
         ("UNKNOWN", "Unknown if covered by GCE"),
     ]
 )
-NEXT_STEPS = Choices(
-    [("RENT_STABILIZED", "Rent stabilization"), ("PORTFOLIO_SIZE", "Portfolio size")]
-)
 
 
 class GoodCauseEvictionScreenerResponse(models.Model):
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
 
     bbl: str = models.CharField(
         max_length=10,  # One for the borough, 5 for the block, 4 for the lot.
@@ -67,26 +48,13 @@ class GoodCauseEvictionScreenerResponse(models.Model):
         null=True,
     )
 
-    form_bedrooms: str = models.TextField(choices=BEDROOMS.choices, null=True, blank=True)
-
-    form_rent: Decimal = models.DecimalField(**CURRENCY_KWARGS, null=True, blank=True)
-
-    form_owner_occupied: str = models.TextField(
-        choices=YES_NO_UNSURE.choices, null=True, blank=True
-    )
-
-    form_rent_stab: str = models.TextField(
-        help_text="User response to form question about subsidy status.",
-        choices=YES_NO_UNSURE.choices,
-        null=True,
+    form_answers_initial = models.JSONField(
+        help_text=(
+            "The initial set of user responses to the survey form saved on submission, before "
+            "taking and necessary next steps to confirm criteria."
+        ),
         blank=True,
-    )
-
-    form_subsidy: str = models.TextField(
-        help_text="User response to form question about subsidy status.",
-        choices=SUBSIDY.choices,
         null=True,
-        blank=True,
     )
 
     result_coverage_initial: str = models.TextField(
@@ -103,6 +71,15 @@ class GoodCauseEvictionScreenerResponse(models.Model):
         help_text=(
             "An object with each GCE criteria and the initial eligibility determination "
             "(eligible, ineligible, unknown), before taking any next steps to confirm criteria."
+        ),
+        blank=True,
+        null=True,
+    )
+
+    form_answers_final = models.JSONField(
+        help_text=(
+            "The final set of user responses to the survey form saved on submission, after "
+            "taking any necessary next steps to confirm criteria."
         ),
         blank=True,
         null=True,

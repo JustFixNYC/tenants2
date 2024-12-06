@@ -2,7 +2,7 @@ import functools
 import logging
 import json
 import re
-from pydantic import BaseModel, validator
+import pydantic
 from pydantic.error_wrappers import ValidationError
 from django.conf import settings
 from django.http import JsonResponse
@@ -20,7 +20,7 @@ Coverage = Literal["COVERED", "NOT_COVERED", "UNKNOWN"]
 YesNoUnsure = Literal["YES", "NO", "UNSURE"]
 
 
-class FormAnswers(BaseModel):
+class FormAnswers(pydantic.BaseModel):
     bedrooms: Literal["STUDIO", "1", "2", "3", "4+"]
     rent: Decimal
     owner_occupied: YesNoUnsure
@@ -29,7 +29,7 @@ class FormAnswers(BaseModel):
     portfolio_size: Optional[YesNoUnsure]
 
 
-class GcePostData(BaseModel):
+class GcePostData(pydantic.BaseModel):
     id: Optional[int]
     bbl: Optional[str]
     house_number: Optional[str]
@@ -42,16 +42,14 @@ class GcePostData(BaseModel):
     result_coverage: Optional[Coverage]
     result_criteria: Optional[Dict[str, Any]]
 
-    # Still on v1 so can't use Optional[Annotated[str, Field(pattern="")]
     # Mypy is not recognizing "validator" as import
-    @validator("bbl")  # type: ignore
+    @pydantic.validator("bbl")  # type: ignore
     def bbl_must_match_pattern(cls, v):
         pattern = re.compile(r"^[1-5]\d{9}$")
         if not bool(pattern.match(v)):
             raise ValueError("BBL must be 10-digit zero padded string")
         return v
 
-    # We're still on pydantic v1 so can't use Model.dict(exclude_none=True)
     def dict_exclude_none(self):
         return {k: v for k, v in self.dict().items() if v is not None}
 
@@ -59,11 +57,13 @@ class GcePostData(BaseModel):
 def validate_data(request):
     try:
         data = GcePostData(**json.loads(request.body.decode("utf-8")))
-    except (AssertionError, ValidationError) as e:
+    except ValidationError as e:
         if getattr(e, "errors"):
             raise DataValidationError(e.errors())
         else:
             raise DataValidationError(getattr(e, "msg"))
+    except AssertionError as e:
+        raise DataValidationError(getattr(e, "msg"))
     return data
 
 

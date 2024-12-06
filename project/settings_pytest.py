@@ -107,6 +107,7 @@ ENABLE_EMERGENCY_HP_ACTION = True
 
 GCE_API_TOKEN = "boop"
 
+
 class NotActuallyFileStorage:
     def __init__(self):
         raise Exception(

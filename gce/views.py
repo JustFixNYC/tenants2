@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 
-from gce.util import GcePostData, api, authorize_with_token, validate_data
+from gce.util import GcePostData, api, authorize_with_token, validate_data, validate_origin
 from gce.models import GoodCauseEvictionScreenerResponse
 
 
@@ -15,6 +15,8 @@ def upload(request):
     The POST endpoint used to record user responses from the standalone Good
     Cause Eviction screener tool.
     """
+    validate_origin(request)
+
     if request.method == "OPTIONS":
         return HttpResponse(status=200)
 

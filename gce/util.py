@@ -2,11 +2,12 @@ import functools
 import logging
 import json
 import re
-from pydantic import BaseModel, validator, ValidationError
+from pydantic import BaseModel, validator
+from pydantic.error_wrappers import ValidationError
 from django.conf import settings
 from django.http import JsonResponse
 from decimal import Decimal
-from typing import Any, Dict, Literal, Optional
+from typing import Any, Dict, Literal, Optional, Set
 from gce.models import GoodCauseEvictionScreenerResponse
 
 logger = logging.getLogger(__name__)
@@ -42,7 +43,8 @@ class GcePostData(BaseModel):
     result_criteria: Optional[Dict[str, Any]]
 
     # Still on v1 so can't use Optional[Annotated[str, Field(pattern="")]
-    @validator("bbl")
+    # Mypy is not recognizing "validator" as import
+    @validator("bbl")  # type: ignore
     def bbl_must_match_pattern(cls, v):
         pattern = re.compile(r"^[1-5]\d{9}$")
         if not bool(pattern.match(v)):
@@ -58,7 +60,10 @@ def validate_data(request):
     try:
         data = GcePostData(**json.loads(request.body.decode("utf-8")))
     except (AssertionError, ValidationError) as e:
-        raise DataValidationError(e.errors())
+        if getattr(e, "errors"):
+            raise DataValidationError(e.errors())
+        else:
+            raise DataValidationError(getattr(e, "msg"))
     return data
 
 
@@ -112,6 +117,37 @@ class AuthorizationError(Exception):
         )
 
 
+class InvalidOriginError(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+
+    def as_json_response(self):
+        return JsonResponse(
+            {
+                "error": "Invalid origin",
+                "details": self.msg,
+            },
+            status=403,
+        )
+
+
+def is_origin_valid(origin: str, valid_origins: Set[str]) -> bool:
+    if "*" in valid_origins:
+        return True
+    return origin in valid_origins
+
+
+def validate_origin(request):
+    origin: str = request.META.get("HTTP_ORIGIN", "")
+    host_origin = request.build_absolute_uri("/")[:-1]
+    valid_origins = set([settings.GCE_ORIGIN, host_origin])
+    print(origin)
+    print(host_origin)
+    print(valid_origins)
+    if not is_origin_valid(origin, valid_origins):
+        raise InvalidOriginError(f"{origin} is not a valid origin")
+
+
 def apply_cors_policy(response):
     response["Access-Control-Allow-Origin"] = settings.GCE_ORIGIN
     response["Access-Control-Allow-Methods"] = "OPTIONS,POST"
@@ -130,7 +166,7 @@ def api(fn):
         request.is_api_request = True
         try:
             response = fn(request, *args, **kwargs)
-        except (DataValidationError, AuthorizationError) as e:
+        except (DataValidationError, AuthorizationError, InvalidOriginError) as e:
             logger.error(e)
             response = e.as_json_response()
         except GoodCauseEvictionScreenerResponse.DoesNotExist as e:

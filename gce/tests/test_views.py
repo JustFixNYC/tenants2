@@ -66,8 +66,14 @@ def create_new_gce_record():
     return gcer, user_id
 
 
-def authorized_request(client, settings, post_data):
-    return client.post("/gce/upload", json.dumps(post_data), **base_headers(settings))
+def authorized_request(client, settings, post_data, **kawrgs):
+    return client.post(
+        "/gce/upload",
+        json.dumps(post_data),
+        HTTP_ORIGIN=settings.GCE_ORIGIN,
+        **base_headers(settings),
+        **kawrgs,
+    )
 
 
 def get_gcer_by_id(id):
@@ -75,15 +81,15 @@ def get_gcer_by_id(id):
 
 
 @pytest.mark.django_db
-def test_unauthorized_request_fails(client):
-    res = client.post("/gce/upload")
+def test_unauthorized_request_fails(client, settings):
+    res = client.post("/gce/upload", HTTP_ORIGIN=settings.GCE_ORIGIN)
     assert res.status_code == 401
     assert res.json()["error"] == "Unauthorized request"
 
 
 @pytest.mark.django_db
 def test_initial_post_creates_record(client, settings):
-    res = client.post("/gce/upload", json.dumps(DATA_STEP_1), **base_headers(settings))
+    res = authorized_request(client, settings, DATA_STEP_1)
     assert res.status_code == 200
     assert res["Content-Type"] == "application/json"
     data = res.json()
@@ -138,9 +144,21 @@ def test_initial_preserved_final_updates(client, settings):
     gcer.refresh_from_db()
     assert gcer.result_coverage_initial == initial_data["result_coverage"]
 
-    res_final = client.post("/gce/upload", json.dumps(final_data), **base_headers(settings))
+    res_final = authorized_request(client, settings, final_data)
     assert res_final.status_code == 200
 
     gcer.refresh_from_db()
     assert gcer.result_coverage_initial == initial_data["result_coverage"]
     assert gcer.result_coverage_final == final_data["result_coverage"]
+
+
+@pytest.mark.django_db
+def test_invalid_origin_fails(client, settings):
+    res = client.post(
+        "/gce/upload",
+        json.dumps(DATA_STEP_1),
+        **base_headers(settings),
+        HTTP_ORIGIN="https://example.com",
+    )
+    assert res.status_code == 403
+    assert res.json()["error"] == "Invalid origin"

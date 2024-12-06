@@ -100,7 +100,7 @@ def test_subsequent_post_updates_record(client, settings):
     assert res.json() == user_id
 
     gcer.refresh_from_db()
-    assert gcer.address_confirmed == True
+    assert gcer.address_confirmed is True
     assert gcer.updated_at > gcer.created_at
 
 

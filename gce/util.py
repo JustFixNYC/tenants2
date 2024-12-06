@@ -6,7 +6,6 @@ import pydantic
 from pydantic.error_wrappers import ValidationError
 from django.conf import settings
 from django.http import JsonResponse
-from decimal import Decimal
 from typing import Any, Dict, Literal, Optional, Set
 from gce.models import GoodCauseEvictionScreenerResponse
 
@@ -22,7 +21,7 @@ YesNoUnsure = Literal["YES", "NO", "UNSURE"]
 
 class FormAnswers(pydantic.BaseModel):
     bedrooms: Literal["STUDIO", "1", "2", "3", "4+"]
-    rent: Decimal
+    rent: float
     owner_occupied: YesNoUnsure
     rent_stab: YesNoUnsure
     subsidy: Literal["NYCHA", "SUBSIDIZED", "NONE", "UNSURE"]
@@ -141,9 +140,6 @@ def validate_origin(request):
     origin: str = request.META.get("HTTP_ORIGIN", "")
     host_origin = request.build_absolute_uri("/")[:-1]
     valid_origins = set([settings.GCE_ORIGIN, host_origin])
-    print(origin)
-    print(host_origin)
-    print(valid_origins)
     if not is_origin_valid(origin, valid_origins):
         raise InvalidOriginError(f"{origin} is not a valid origin")
 

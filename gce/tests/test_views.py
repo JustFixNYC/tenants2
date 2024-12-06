@@ -19,7 +19,32 @@ DATA_STEP_1 = {
     "zipcode": "12345",
 }
 
-DATA_STEP_2 = {"address_confirmed": "true"}
+DATA_STEP_2 = {
+    "address_confirmed": "true",
+    "nycdb_results": {"test": "structure of json not enforced, so not included"},
+}
+
+DATA_STEP_3 = {
+    "form_answers": {
+        "bedrooms": "STUDIO",
+        "rent": 1000.50,
+        "owner_occupied": "YES",
+        "rent_stab": "NO",
+        "subsidy": "UNSURE",
+    }
+}
+
+DATA_STEP_4 = {
+    "result_coverage": "UNKNOWN",
+    "result_criteria": {
+        "rent": "COVERED",
+        "rent_stab": "NOT_COVERED",
+        "building_class": "COVERED",
+        "c_of_o": "COVERED",
+        "subsidy": "COVERED",
+        "portfolio_size": "UNKNOWN",
+    },
+}
 
 INVALID_DATA = {
     "bbl": "X",
@@ -108,6 +133,29 @@ def test_subsequent_post_updates_record(client, settings):
     gcer.refresh_from_db()
     assert gcer.address_confirmed is True
     assert gcer.updated_at > gcer.created_at
+
+
+@pytest.mark.django_db
+def test_valid_data_works(client, settings):
+    res = authorized_request(client, settings, {**DATA_STEP_1})
+    assert res.status_code == 200
+    user = res.json()
+
+    res = authorized_request(client, settings, {**DATA_STEP_2, **user})
+    assert res.status_code == 200
+
+    res = authorized_request(client, settings, {**DATA_STEP_3, **user})
+    assert res.status_code == 200
+
+    res = authorized_request(client, settings, {**DATA_STEP_4, **user})
+    assert res.status_code == 200
+
+    gcer = get_gcer_by_id(user["id"])
+
+    for field in GoodCauseEvictionScreenerResponse._meta.get_fields():
+        if not field.null and field.name != "id":
+            value = getattr(gcer, field.name)
+            assert value is not None
 
 
 @pytest.mark.django_db

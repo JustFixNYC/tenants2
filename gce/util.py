@@ -28,6 +28,15 @@ class FormAnswers(pydantic.BaseModel):
     portfolio_size: Optional[YesNoUnsure]
 
 
+class ResultCriteria(pydantic.BaseModel):
+    rent: Coverage
+    rent_stab: Coverage
+    building_class: Coverage
+    c_of_o: Coverage
+    subsidy: Coverage
+    portfolio_size: Coverage
+
+
 class GcePostData(pydantic.BaseModel):
     id: Optional[int]
     bbl: Optional[str]
@@ -39,7 +48,7 @@ class GcePostData(pydantic.BaseModel):
     nycdb_results: Optional[Dict[str, Any]]
     form_answers: Optional[FormAnswers]
     result_coverage: Optional[Coverage]
-    result_criteria: Optional[Dict[str, Any]]
+    result_criteria: Optional[ResultCriteria]
 
     # Mypy is not recognizing "validator" as import
     @pydantic.validator("bbl")  # type: ignore

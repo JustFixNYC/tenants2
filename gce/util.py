@@ -16,6 +16,8 @@ Boroughs = Literal["MANHATTAN", "BRONX", "BROOKLYN", "QUEENS", "STATEN_ISLAND"]
 
 Coverage = Literal["COVERED", "NOT_COVERED", "UNKNOWN"]
 
+Eligibility = Literal["ELIGIBLE", "INELIGIBLE", "UNKNOWN"]
+
 YesNoUnsure = Literal["YES", "NO", "UNSURE"]
 
 
@@ -29,12 +31,12 @@ class FormAnswers(pydantic.BaseModel):
 
 
 class ResultCriteria(pydantic.BaseModel):
-    rent: Coverage
-    rent_stab: Coverage
-    building_class: Coverage
-    c_of_o: Coverage
-    subsidy: Coverage
-    portfolio_size: Coverage
+    rent: Eligibility
+    rent_stab: Eligibility
+    building_class: Eligibility
+    c_of_o: Eligibility
+    subsidy: Eligibility
+    portfolio_size: Eligibility
 
 
 class GcePostData(pydantic.BaseModel):

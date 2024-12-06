@@ -37,11 +37,11 @@ DATA_STEP_3 = {
 DATA_STEP_4 = {
     "result_coverage": "UNKNOWN",
     "result_criteria": {
-        "rent": "COVERED",
-        "rent_stab": "NOT_COVERED",
-        "building_class": "COVERED",
-        "c_of_o": "COVERED",
-        "subsidy": "COVERED",
+        "rent": "ELIGIBLE",
+        "rent_stab": "INELIGIBLE",
+        "building_class": "ELIGIBLE",
+        "c_of_o": "ELIGIBLE",
+        "subsidy": "ELIGIBLE",
         "portfolio_size": "UNKNOWN",
     },
 }

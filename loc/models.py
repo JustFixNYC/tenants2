@@ -65,6 +65,16 @@ class AccessDate(models.Model):
     objects = AccessDateManager()
 
 
+class WorkOrder(models.Model):
+    user = models.ForeignKey(
+        JustfixUser,
+        on_delete=models.CASCADE,
+        related_name="work_order",
+        help_text="The user whose dwelling this access date this is for.",
+    )
+
+    ticket_number = models.CharField(blank=True, max_length=10, help_text="NYCHA work order ticket number")
+
 class LandlordDetails(MailingAddress):
     """
     This represents the landlord details for a user's address, either

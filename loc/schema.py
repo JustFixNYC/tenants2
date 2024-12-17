@@ -50,7 +50,17 @@ class AccessDates(SessionFormMutation):
         models.AccessDate.objects.set_for_user(request.user, form.get_cleaned_dates())
         return cls.mutation_success()
 
+@schema_registry.register_mutation
+class WorkOrderTickets(SessionFormMutation):
+    class Meta: 
+        form_class = forms.WorkOrderForm
 
+    @classmethod
+    def perform_mutate(cls, form: forms.WorkOrderForm, info: ResolveInfo):    
+        request = info.context
+        models.WorkOrder.objects.set_for_user(request.user)
+        return cls.mutation_success()
+        
 @schema_registry.register_mutation
 class LandlordDetailsV2(OneToOneUserModelFormMutation):
     class Meta:
@@ -166,6 +176,9 @@ class LetterRequestType(DjangoObjectType):
 @schema_registry.register_session_info
 class LocSessionInfo:
     access_dates = graphene.List(graphene.NonNull(graphene.types.String), required=True)
+    # add work order tickets here to session 
+    # add work order resolver
+    work_order =  graphene.List(graphene.NonNull(graphene.types.String))
     landlord_details = graphene.Field(LandlordDetailsType, resolver=LandlordDetailsV2.resolve)
     letter_request = graphene.Field(LetterRequestType, resolver=LetterRequest.resolve)
 

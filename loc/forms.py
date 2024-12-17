@@ -54,6 +54,15 @@ class AccessDatesForm(forms.Form):
         return result
 
 
+class WorkOrderForm(forms.Form):
+    # pass in validators=
+    ticket_number = forms.CharField(label="Work order ticket", max_length=10)
+    
+    def clean(self):
+        super().clean()
+
+
+
 def validate_non_stupid_name(name: str):
     if name.lower().startswith("united states"):
         # This is super weird; we've had at least two users somehow

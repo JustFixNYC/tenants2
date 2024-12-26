@@ -52,6 +52,13 @@ class AddressDetailsAdmin(admin.ModelAdmin):
     has_delete_permission = never_has_permission
 
 
+class WorkOrderInline(admin.TabularInline):
+    model = models.WorkOrder
+    verbose_name = "Letter of complaint work order ticket"
+    verbose_name_plural = "Letter of complaint work order tickets"
+    extra = 1
+
+
 class AccessDateInline(admin.TabularInline):
     model = models.AccessDate
     verbose_name = "Letter of complaint access date"
@@ -251,6 +258,7 @@ class LOCUserAdmin(UserProxyAdmin):
         IssueInline,
         CustomIssueInline,
         AccessDateInline,
+        WorkOrderInline,
         LandlordDetailsInline,
         LetterRequestInline,
         ArchivedLetterRequestInline,

@@ -1860,7 +1860,7 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "workOrder",
+              "name": "workOrderTickets",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -7564,11 +7564,19 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "session",
+              "name": "ticketNumbers",
               "type": {
-                "kind": "OBJECT",
-                "name": "SessionInfo",
-                "ofType": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
               }
             },
             {
@@ -7711,15 +7719,23 @@
           "inputFields": [
             {
               "defaultValue": null,
-              "description": "",
-              "name": "ticketNumber",
+              "description": null,
+              "name": "ticketNumbers",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "TicketNumbersWorkOrderFormFormSetInput",
+                      "ofType": null
+                    }
+                  }
                 }
               }
             },
@@ -7737,6 +7753,31 @@
           "interfaces": null,
           "kind": "INPUT_OBJECT",
           "name": "WorkOrderTicketsInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "ticketNumber",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "TicketNumbersWorkOrderFormFormSetInput",
           "possibleTypes": null
         },
         {

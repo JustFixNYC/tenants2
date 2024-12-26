@@ -1,4 +1,5 @@
 import datetime
+import re
 from typing import List
 import pydantic
 from django import forms
@@ -55,12 +56,22 @@ class AccessDatesForm(forms.Form):
 
 
 class WorkOrderForm(forms.Form):
-    # pass in validators=
-    ticket_number = forms.CharField(label="Work order ticket", max_length=10)
-    
+    ticket_number = forms.CharField(label="Work order ticket", max_length=10, required=False)
+
     def clean(self):
+        ticket_number = self.cleaned_data.get("ticket_number")
+        if ticket_number and re.search(r"[^a-zA-Z0-9]", ticket_number):
+            raise ValidationError("Ticket number must not contain special characters.")
+
         super().clean()
 
+
+class WorkOrderFormFormset(forms.BaseFormSet):
+    def get_cleaned_data(self):
+        result = []
+        for i in self.cleaned_data:
+            result.append(i["ticket_number"])
+        return result
 
 
 def validate_non_stupid_name(name: str):

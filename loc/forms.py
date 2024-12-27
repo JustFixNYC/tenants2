@@ -61,7 +61,7 @@ class WorkOrderForm(forms.Form):
     def clean(self):
         ticket_number = self.cleaned_data.get("ticket_number")
         if ticket_number and re.search(r"[^a-zA-Z0-9]", ticket_number):
-            raise ValidationError("Ticket number must not contain special characters.")
+            raise ValidationError("Ticket number must only contain alphanumeric values.")
 
         super().clean()
 

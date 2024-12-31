@@ -7564,19 +7564,11 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "ticketNumbers",
+              "name": "session",
               "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                }
+                "kind": "OBJECT",
+                "name": "SessionInfo",
+                "ofType": null
               }
             },
             {
@@ -7719,6 +7711,20 @@
           "inputFields": [
             {
               "defaultValue": null,
+              "description": "",
+              "name": "noTicket",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
               "description": null,
               "name": "ticketNumbers",
               "type": {
@@ -7732,7 +7738,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "TicketNumbersWorkOrderFormFormSetInput",
+                      "name": "TicketNumbersTicketNumberFormFormSetInput",
                       "ofType": null
                     }
                   }
@@ -7777,7 +7783,7 @@
           ],
           "interfaces": null,
           "kind": "INPUT_OBJECT",
-          "name": "TicketNumbersWorkOrderFormFormSetInput",
+          "name": "TicketNumbersTicketNumberFormFormSetInput",
           "possibleTypes": null
         },
         {

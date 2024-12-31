@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
@@ -7,39 +7,31 @@ import { TextualFormField, CheckboxFormField } from "../forms/form-fields";
 import { ProgressButtons } from "../ui/buttons";
 import { MiddleProgressStep } from "../progress/progress-step-route";
 import { Formset } from "../forms/formset";
-import { FetchMutationInfo } from "../forms/forms-graphql";
-import { WithServerFormFieldErrors } from "../forms/form-errors";
+import { WorkOrderTicketsInput } from "../queries/globalTypes";
 
-// type TicketNumbers = {
-//   ticketNumber: string;
-// };
+const MAX_TICKETS: number = 10;
 
-// type WorkorderTicketInput = {
-//   ticketNumbers: TicketNumbers[];
-// };
-
-// type WorkOrderTicketOutput = WithServerFormFieldErrors & {
-//   ticketNumbers: string[] | null;
-// };
-
-// export type WorkOrderTicketFormProps = {
-//   mutation: FetchMutationInfo<WorkorderTicketInput, WorkOrderTicketOutput>;
-// };
-
-const MAXIMUM_TICKETS = 10;
-
-function labelForTicketNumbers(i: number): string {
-  let word: string = "Work order ticket number";
-  return i > 0 ? word + ` #${i + 1}` : word;
+function ticketNumberLabel(i: number): string {
+  let label: string = "Work order ticket number";
+  return i > 0 ? label + ` #${i + 1}` : label;
 }
 
-function getInitialState(ticketNumbers: []) {
-  return ticketNumbers.map((item) => ({ ticketNumber: item }));
+function getInitialState(
+  ticketNumbers: string[] | null
+): WorkOrderTicketsInput {
+  if (!ticketNumbers) {
+    return {
+      ticketNumbers: [],
+      noTicket: false, // so that checkbox is not selected on load
+    };
+  }
+  return {
+    ticketNumbers: ticketNumbers.map((item) => ({ ticketNumber: item })),
+    noTicket: ticketNumbers.length == 0,
+  };
 }
 
 const WorkOrdersPage = MiddleProgressStep((props) => {
-  const [checked, setChecked] = useState(false);
-
   return (
     <Page title="Work order repairs ticket">
       <div>
@@ -50,46 +42,38 @@ const WorkOrdersPage = MiddleProgressStep((props) => {
         </p>
         <SessionUpdatingFormSubmitter
           mutation={WorkOrderTicketsMutation}
-          initialState={(session) => ({
-            ticketNumbers: getInitialState(session.workOrderTickets) || [],
-          })}
+          initialState={(session) => getInitialState(session.workOrderTickets)}
           onSuccessRedirect={props.nextStep}
         >
           {(ctx) => (
             <>
               <Formset
                 {...ctx.formsetPropsFor("ticketNumbers")}
-                maxNum={MAXIMUM_TICKETS}
+                maxNum={MAX_TICKETS}
                 emptyForm={{ ticketNumber: "" }}
               >
                 {(formsetCtx, i) => (
                   <TextualFormField
-                    label={labelForTicketNumbers(i)}
+                    label={ticketNumberLabel(i)}
                     {...formsetCtx.fieldPropsFor("ticketNumber")}
-                    isDisabled={checked}
+                    isDisabled={ctx.options.currentState.noTicket}
                   />
                 )}
               </Formset>
+              {ctx.options.currentState.ticketNumbers.length == MAX_TICKETS && (
+                <p>
+                  The maximum number of tickets you can enter is {MAX_TICKETS}.
+                </p>
+              )}
               <CheckboxFormField
-                // when this fieldprop is passed in, the checkbox is automatically checked lol. why?
-                // {...ctx.fieldPropsFor("ticketNumbers")}
-                onChange={(checked) => {
-                  // When this checkbox is checked, we erase the work order ticket numbers
-                  if (checked) {
-                    ctx.options.currentState.ticketNumbers = [];
-                  }
-                  setChecked(checked);
+                {...ctx.fieldPropsFor("noTicket")}
+                onChange={(value) => {
+                  ctx.options.setField("noTicket", value);
+                  ctx.options.setField("ticketNumbers", []);
                 }}
               >
                 I don't have a ticket number
               </CheckboxFormField>
-              {ctx.options.currentState.ticketNumbers.length ==
-                MAXIMUM_TICKETS && (
-                <p>
-                  The maximum number of tickets you can enter is{" "}
-                  {MAXIMUM_TICKETS}.
-                </p>
-              )}
               <ProgressButtons
                 back={props.prevStep}
                 isLoading={ctx.isLoading}

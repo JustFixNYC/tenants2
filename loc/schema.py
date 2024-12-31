@@ -22,7 +22,7 @@ from .landlord_info_mutation import (
 from airtable.sync import sync_user as sync_user_with_airtable
 
 MAX_RECIPIENTS = common_data.load_json("email-attachment-validation.json")["maxRecipients"]
-MAX_TICKET_NUMBERS = 10
+MAX_TICKETS = 10
 
 
 @schema_registry.register_mutation
@@ -55,27 +55,33 @@ class AccessDates(SessionFormMutation):
 
 
 @schema_registry.register_mutation
-class WorkOrderTickets(DjangoFormMutation):
+class WorkOrderTickets(SessionFormMutation):
     login_required = True
 
     class Meta:
+        form_class = forms.WorkOrderForm
         formset_classes = {
             "ticket_numbers": formset_factory(
-                forms.WorkOrderForm,
-                max_num=MAX_TICKET_NUMBERS,
+                forms.TicketNumberForm,
+                max_num=MAX_TICKETS,
                 validate_max=True,
-                formset=forms.WorkOrderFormFormset,
+                formset=forms.TicketNumberFormset,
             )
         }
 
-    ticket_numbers = graphene.List(graphene.NonNull(graphene.String))
-
     @classmethod
-    def perform_mutate(cls, form: forms.WorkOrderForm, info: ResolveInfo):
+    def perform_mutate(cls, form: forms.TicketNumberForm, info: ResolveInfo):
         request = info.context
-        ticket_numbers = form.formsets["ticket_numbers"].get_cleaned_data()
+        no_ticket = form.base_form.cleaned_data["no_ticket"]
+        ticket_numbers = form.formsets["ticket_numbers"].get_cleaned_data(
+            is_no_ticket_number_checked=no_ticket
+        )
+        if not ticket_numbers and not no_ticket:
+            return cls.make_error(
+                "Enter at least 1 ticket number or select `I don't have a ticket number.`"
+            )
         models.WorkOrder.objects.set_for_user(request.user, ticket_numbers)
-        return cls(errors=[], ticket_numbers=ticket_numbers)
+        return cls.mutation_success()
 
 
 @schema_registry.register_mutation

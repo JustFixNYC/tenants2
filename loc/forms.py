@@ -56,21 +56,30 @@ class AccessDatesForm(forms.Form):
 
 
 class WorkOrderForm(forms.Form):
-    ticket_number = forms.CharField(label="Work order ticket", max_length=10, required=False)
+    # For NYCHA or RAD/PACT users only
+    no_ticket = forms.BooleanField(required=False)
 
+
+class TicketNumberForm(forms.Form):
+    # For NYCHA or RAD/PACT users only
+    ticket_number = forms.CharField(label="Work order ticket number", max_length=10, required=False)
+
+
+class TicketNumberFormset(forms.BaseFormSet):
     def clean(self):
-        ticket_number = self.cleaned_data.get("ticket_number")
-        if ticket_number and re.search(r"[^a-zA-Z0-9]", ticket_number):
-            raise ValidationError("Ticket number must only contain alphanumeric values.")
-
         super().clean()
+        forms = self.forms
+        for form in forms:
+            ticket_number = form.cleaned_data.get("ticket_number")
+            if ticket_number and re.search(r"[^a-zA-Z0-9]", ticket_number):
+                raise ValidationError("Ticket numbers must only contain letters and numbers. No special characters are allowed.")
 
-
-class WorkOrderFormFormset(forms.BaseFormSet):
-    def get_cleaned_data(self):
+    def get_cleaned_data(self, is_no_ticket_number_checked):
         result = []
         for i in self.cleaned_data:
             result.append(i["ticket_number"])
+        if not is_no_ticket_number_checked and not result:
+            return []
         return result
 
 

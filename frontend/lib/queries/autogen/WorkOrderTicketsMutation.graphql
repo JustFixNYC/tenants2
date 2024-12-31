@@ -2,6 +2,8 @@
 mutation WorkOrderTicketsMutation($input: WorkOrderTicketsInput!) {
   output: workOrderTickets(input: $input) {
     errors { ...ExtendedFormFieldErrors },
-    ticketNumbers
+    session {
+      workOrderTickets
+    }
   }
 }

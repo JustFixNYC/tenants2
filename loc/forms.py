@@ -77,8 +77,8 @@ class TicketNumberFormset(forms.BaseFormSet):
     def get_cleaned_data(self, is_no_ticket_number_checked):
         result = []
         for i in self.cleaned_data:
-            # ignore empty fields
-            if i["ticket_number"]:
+            if "ticket_number" in i and i["ticket_number"]:
+                # ignore empty fields
                 result.append(i["ticket_number"])
         if not is_no_ticket_number_checked and not result:
             return []

@@ -20,6 +20,7 @@ import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { issuesForArea, customIssuesForArea } from "../issues/issues";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
 import { TransformSession } from "../util/transform-session";
+import { LeaseType } from "../queries/globalTypes";
 
 const HEAT_ISSUE_CHOICES = new Set<IssueChoice>([
   "HOME__NO_HEAT",
@@ -41,7 +42,7 @@ type LocContentProps = BaseLetterContentProps & {
   issues: AreaIssues[];
   accessDates: GraphQLDate[];
   hasCalled311: boolean | null;
-  workOrderTickets: string[] | null;
+  workOrderTickets?: string[] | null;
 };
 
 const LetterTitle: React.FC<LocContentProps> = (props) => (
@@ -255,13 +256,21 @@ export function getLocContentPropsFromSession(
     return null;
   }
 
-  return {
+  const sessionProps = {
     ...baseProps,
     issues: getIssuesFromSession(session),
     accessDates: session.accessDates,
     hasCalled311: onb.hasCalled311,
-    workOrderTickets: session.workOrderTickets,
   };
+
+  if (onb.leaseType === LeaseType.NYCHA) {
+    return {
+      ...sessionProps,
+      workOrderTickets: session.workOrderTickets,
+    };
+  }
+
+  return sessionProps;
 }
 
 export const LocForUserPage: React.FC<{ isPdf: boolean }> = ({ isPdf }) => (
@@ -289,7 +298,6 @@ export const locSampleProps: LocContentProps = {
   ],
   accessDates: ["2020-05-01", "2020-05-02"],
   hasCalled311: true,
-  workOrderTickets: ["BOOPBOOP"],
 };
 
 export const LocSamplePage: React.FC<{ isPdf: boolean }> = ({ isPdf }) => {

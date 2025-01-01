@@ -69,15 +69,18 @@ class TicketNumberFormset(forms.BaseFormSet):
     def clean(self):
         super().clean()
         forms = self.forms
+        counter = 0
         for form in forms:
             ticket_number = form.cleaned_data.get("ticket_number")
             if ticket_number and re.search(r"[^a-zA-Z0-9]", ticket_number):
-                raise ValidationError("Ticket numbers must only contain letters and numbers. No special characters are allowed.")
+                raise ValidationError("Ticket numbers may only contain letters and numbers")
 
     def get_cleaned_data(self, is_no_ticket_number_checked):
         result = []
         for i in self.cleaned_data:
-            result.append(i["ticket_number"])
+            # ignore empty fields
+            if i["ticket_number"]:
+                result.append(i["ticket_number"])
         if not is_no_ticket_number_checked and not result:
             return []
         return result

@@ -5,7 +5,6 @@ import graphene
 from graphene_django.types import DjangoObjectType
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.forms import formset_factory
-from project.util.django_graphql_forms import DjangoFormMutation
 
 from project.util.session_mutation import SessionFormMutation
 from project.util.model_form_util import OneToOneUserModelFormMutation

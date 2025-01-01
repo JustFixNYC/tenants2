@@ -69,7 +69,6 @@ class TicketNumberFormset(forms.BaseFormSet):
     def clean(self):
         super().clean()
         forms = self.forms
-        counter = 0
         for form in forms:
             ticket_number = form.cleaned_data.get("ticket_number")
             if ticket_number and re.search(r"[^a-zA-Z0-9]", ticket_number):

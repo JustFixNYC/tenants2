@@ -160,7 +160,7 @@ const LetterBody: React.FC<LocContentProps> = (props) => (
     {props.accessDates.length > 0 && <AccessDates {...props} />}
     <Requirements {...props} />
     {props.hasCalled311 && <PreviousReliefAttempts />}
-    {props.workOrderTickets?.length && <WorkOrderTickets {...props} />}
+    {!!props.workOrderTickets?.length && <WorkOrderTickets {...props} />}
   </>
 );
 

@@ -47,6 +47,7 @@ DATA_STEP_4 = {
 }
 
 INVALID_DATA = {
+    "phone_number": "123",
     "bbl": "X",
     "address_confirmed": "X",
     "form_answers": {
@@ -60,6 +61,10 @@ INVALID_DATA = {
 }
 
 INVALID_ERRORS = [
+    {
+        "loc": ["phone_number"],
+        "msg": "U.S. phone numbers must be 10 digits.",
+    },
     {
         "loc": ["bbl"],
         "msg": "BBL must be 10-digit zero padded string",

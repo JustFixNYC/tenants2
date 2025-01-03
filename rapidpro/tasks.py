@@ -1,3 +1,5 @@
+from typing import Optional
+
 from celery import shared_task
 from temba_client.exceptions import TembaHttpError
 
@@ -11,7 +13,11 @@ from .followup_campaigns import DjangoSettingsFollowupCampaigns
 # versions of the codebase which never supplied this argument.
 @shared_task(bind=True, retry_backoff=True, default_retry_delay=30 * 60)
 def trigger_followup_campaign(
-    self, full_preferred_name: str, phone_number: str, campaign_name: str, locale: str = "en"
+    self,
+    full_preferred_name: Optional[str],
+    phone_number: str,
+    campaign_name: str,
+    locale: str = "en",
 ):
     client = get_client_from_settings()
     campaign = DjangoSettingsFollowupCampaigns.get_campaign(campaign_name)

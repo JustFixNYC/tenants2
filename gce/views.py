@@ -34,6 +34,9 @@ def upload(request):
         update_gce_record(gcer, data)
         gcer.save()
 
+    if data.phone_number:
+        gcer.trigger_followup_campaign_async()
+
     return JsonResponse(
         {"id": gcer.pk},
         content_type="application/json",

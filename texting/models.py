@@ -48,11 +48,11 @@ def join_words(*words: Optional[str]) -> str:
 class PhoneNumberLookupManager(models.Manager):
     def get_or_lookup(self, phone_number: str) -> Optional["PhoneNumberLookup"]:
         """
-        Attept to retrieve the PhoneNumberLookup with the given phone number.
+        Attempt to retrieve the PhoneNumberLookup with the given phone number.
         If one doesn't exist, attempt to contact Twilio to validate the number
         and obtain carrier information about it.
 
-        Return None if Twilio integration is disabled or a network error occured.
+        Return None if Twilio integration is disabled or a network error occurred.
         """
 
         from .twilio import is_phone_number_valid

@@ -12,36 +12,57 @@ import { EmailLetterMutation } from "../queries/EmailLetterMutation";
 import { BigList } from "../ui/big-list";
 import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc";
 import { renderSuccessHeading } from "../ui/success-heading";
+import { isUserNycha } from "../util/nycha";
 
 const DownloadLetterLink = (props: { locPdfURL: string }) => (
   <PdfLink href={props.locPdfURL} label="Download letter" />
 );
 
-const getCommonMailNextSteps = () => [
+const getCommonMailNextSteps = (isUserNycha: boolean) => [
   <li>
     <p>
-      Once received, your landlord should contact you to schedule time to make
-      repairs for the access dates you provided.
+      Once received, your {isUserNycha ? "management" : "landlord"} should
+      contact you to schedule time to make repairs for the access dates you
+      provided.
     </p>
   </li>,
   <li>
-    While you wait, you should <strong>document your issues with photos</strong>{" "}
-    and <strong>call 311 to request an HPD inspection.</strong>
+    {isUserNycha ? (
+      <p>
+        If you have mold, moisture, or leaks, contact the independent
+        court-ordered <strong>Ombudsperson’s Call Center (OCC)</strong> at{" "}
+        <OutboundLink href={"tel:+18883417152"}>1-888-341-7152</OutboundLink> or{" "}
+        <OutboundLink href={"https://ombnyc.com/"} target="_blank">
+          ombnyc.com
+        </OutboundLink>
+        . They will advocate on your behalf to management to get your
+        moisture-related repairs completed.
+      </p>
+    ) : (
+      <p>
+        While you wait, you should{" "}
+        <strong>document your issues with photos</strong> and{" "}
+        <strong>call 311 to request an HPD inspection.</strong>
+      </p>
+    )}
   </li>,
 ];
 
-const getCommonWeMailNextSteps = () => [
-  ...getCommonMailNextSteps(),
+const getCommonWeMailNextSteps = (isUserNycha: boolean) => [
+  ...getCommonMailNextSteps(isUserNycha),
   <li>
-    We will continue to follow up with you via text message. If your landlord
+    We will continue to follow up with you via text message. If your{" "}
+    {isUserNycha ? "management" : "landlord"}
     does not follow through, you now have better legal standing to sue your
-    landlord. <strong>This is called an HP Action proceeding.</strong>
+    {isUserNycha ? "management" : "landlord"}.{" "}
+    <strong>This is called an HP Action proceeding.</strong>
   </li>,
 ];
 
 function WeMailedLetterStatus(props: {
   letterRequest: AllSessionInfo_letterRequest;
   locPdfURL: string;
+  isUserNycha: boolean;
 }): JSX.Element {
   const { letterSentAt, trackingNumber } = props.letterRequest;
   const url = `${USPS_TRACKING_URL_PREFIX}${trackingNumber}`;
@@ -67,7 +88,7 @@ function WeMailedLetterStatus(props: {
       </p>
       <DownloadLetterLink {...props} />
       <h2>What happens next?</h2>
-      <BigList children={[...getCommonWeMailNextSteps()]} />
+      <BigList children={[...getCommonWeMailNextSteps(props.isUserNycha)]} />
     </>
   );
 }
@@ -75,9 +96,9 @@ function WeMailedLetterStatus(props: {
 function WeWillMailLetterStatus(props: {
   letterRequest: AllSessionInfo_letterRequest;
   locPdfURL: string;
+  isUserNycha: boolean;
 }): JSX.Element {
   const dateStr = friendlyDate(new Date(props.letterRequest.updatedAt));
-
   return (
     <>
       <p>
@@ -101,14 +122,17 @@ function WeWillMailLetterStatus(props: {
               and provide a tracking number via text message.
             </p>
           </li>,
-          ...getCommonWeMailNextSteps(),
+          ...getCommonWeMailNextSteps(props.isUserNycha),
         ]}
       />
     </>
   );
 }
 
-function UserWillMailLetterStatus(props: { locPdfURL: string }): JSX.Element {
+function UserWillMailLetterStatus(props: {
+  locPdfURL: string;
+  isUserNycha: boolean;
+}): JSX.Element {
   return (
     <>
       <p>Here is a link to a PDF of your saved letter:</p>
@@ -120,10 +144,11 @@ function UserWillMailLetterStatus(props: { locPdfURL: string }): JSX.Element {
             <p>
               Print out your letter and{" "}
               <strong>mail it via Certified Mail</strong> - this allows you to
-              prove that it was sent to your landlord.
+              prove that it was sent to your{" "}
+              {props.isUserNycha ? "management" : "landlord"}.
             </p>
           </li>,
-          ...getCommonMailNextSteps(),
+          ...getCommonMailNextSteps(props.isUserNycha),
         ]}
       />
     </>
@@ -163,7 +188,10 @@ const knowYourRightsList = (
 const LetterConfirmation = withAppContext(
   (props: AppContextType): JSX.Element => {
     const { letterRequest } = props.session;
-    const letterStatusProps = { locPdfURL: props.server.finishedLocPdfURL };
+    const letterStatusProps = {
+      locPdfURL: props.server.finishedLocPdfURL,
+      isUserNycha: isUserNycha(props.session),
+    };
     let letterConfirmationPageTitle, letterStatus;
 
     if (letterRequest && letterRequest.trackingNumber) {

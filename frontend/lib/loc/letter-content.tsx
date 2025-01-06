@@ -20,6 +20,7 @@ import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { issuesForArea, customIssuesForArea } from "../issues/issues";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
 import { TransformSession } from "../util/transform-session";
+import { LeaseType } from "../queries/globalTypes";
 
 const HEAT_ISSUE_CHOICES = new Set<IssueChoice>([
   "HOME__NO_HEAT",
@@ -41,6 +42,7 @@ type LocContentProps = BaseLetterContentProps & {
   issues: AreaIssues[];
   accessDates: GraphQLDate[];
   hasCalled311: boolean | null;
+  workOrderTickets?: string[] | null;
 };
 
 const LetterTitle: React.FC<LocContentProps> = (props) => (
@@ -99,6 +101,21 @@ const AccessDates: React.FC<LocContentProps> = (props) => (
   </div>
 );
 
+const WorkOrderTickets: React.FC<LocContentProps> = (props) => (
+  <div className="jf-avoid-page-breaks-within">
+    <h2>Work Order Repair Tickets</h2>
+    <p>
+      I have documented these issues in the past by submitting work tickets to
+      management. I've included at least one work ticket(s) for your reference:
+    </p>
+    <ul>
+      {props.workOrderTickets?.map((ticket) => (
+        <li key={ticket}>{ticket}</li>
+      ))}
+    </ul>
+  </div>
+);
+
 function hasHeatIssues(issues: AreaIssues[]): boolean {
   return issues.some((areaIssues) =>
     areaIssues.issues.some(
@@ -143,6 +160,7 @@ const LetterBody: React.FC<LocContentProps> = (props) => (
     {props.accessDates.length > 0 && <AccessDates {...props} />}
     <Requirements {...props} />
     {props.hasCalled311 && <PreviousReliefAttempts />}
+    {!!props.workOrderTickets?.length && <WorkOrderTickets {...props} />}
   </>
 );
 
@@ -238,12 +256,21 @@ export function getLocContentPropsFromSession(
     return null;
   }
 
-  return {
+  const sessionProps = {
     ...baseProps,
     issues: getIssuesFromSession(session),
     accessDates: session.accessDates,
     hasCalled311: onb.hasCalled311,
   };
+
+  if (onb.leaseType === LeaseType.NYCHA) {
+    return {
+      ...sessionProps,
+      workOrderTickets: session.workOrderTickets,
+    };
+  }
+
+  return sessionProps;
 }
 
 export const LocForUserPage: React.FC<{ isPdf: boolean }> = ({ isPdf }) => (

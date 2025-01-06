@@ -1,4 +1,5 @@
 import datetime
+import re
 from typing import List
 import pydantic
 from django import forms
@@ -51,6 +52,36 @@ class AccessDatesForm(forms.Form):
             date = cleaned_data.get(f"date{i + 1}")
             if date is not None:
                 result.append(date)
+        return result
+
+
+class WorkOrderForm(forms.Form):
+    # For NYCHA or RAD/PACT users only
+    no_ticket = forms.BooleanField(required=False)
+
+
+class TicketNumberForm(forms.Form):
+    # For NYCHA or RAD/PACT users only
+    ticket_number = forms.CharField(label="Work order ticket number", max_length=10, required=False)
+
+
+class TicketNumberFormset(forms.BaseFormSet):
+    def clean(self):
+        super().clean()
+        forms = self.forms
+        for form in forms:
+            ticket_number = form.cleaned_data.get("ticket_number")
+            if ticket_number and re.search(r"[^a-zA-Z0-9]", ticket_number):
+                raise ValidationError("Ticket numbers may only contain letters and numbers")
+
+    def get_cleaned_data(self, is_no_ticket_number_checked):
+        result = []
+        for i in self.cleaned_data:
+            if "ticket_number" in i and i["ticket_number"]:
+                # ignore empty fields
+                result.append(i["ticket_number"])
+        if not is_no_ticket_number_checked and not result:
+            return []
         return result
 
 

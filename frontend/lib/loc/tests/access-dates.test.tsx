@@ -28,6 +28,27 @@ describe("access dates page", () => {
   });
 });
 
+describe("access dates page", () => {
+  it("redirects NYCHA users to Work Order step after successful submission", async () => {
+    const pal = new AppTesterPal(<LetterOfComplaintRoutes />, {
+      url: JustfixRoutes.locale.loc.accessDates,
+      session: newSb().withLoggedInNychaJustfixUser().value,
+    });
+
+    pal.fillFirstFormField([/Date/i, "2018-01-02"]);
+    pal.clickButtonOrLink("Next");
+    pal.withFormMutation(AccessDatesMutation).respondWith({
+      errors: [],
+      session: { accessDates: ["2018-01-02"] },
+    });
+
+    await pal.rt.waitFor(() => pal.rr.getByText(/Work order repairs ticket/i));
+    const { mock } = pal.appContext.updateSession;
+    expect(mock.calls).toHaveLength(1);
+    expect(mock.calls[0][0]).toEqual({ accessDates: ["2018-01-02"] });
+  });
+});
+
 test("getInitialState() works", () => {
   const BLANK = { date1: "", date2: "", date3: "" };
   const date1 = "2018-01-02";

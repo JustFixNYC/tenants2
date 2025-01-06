@@ -1,7 +1,15 @@
+import pytest
 from datetime import date, timedelta
 from freezegun import freeze_time
 
-from loc.forms import AccessDatesForm, LetterRequestForm, LandlordDetailsFormV2
+from django.forms import formset_factory
+from loc.forms import (
+    AccessDatesForm,
+    LetterRequestForm,
+    LandlordDetailsFormV2,
+    TicketNumberForm,
+    TicketNumberFormset,
+)
 from loc.models import LetterRequest, LOC_CHANGE_LEEWAY
 from .factories import create_user_with_all_info
 
@@ -43,6 +51,77 @@ def test_get_cleaned_dates_works():
     form.full_clean()
     assert form.errors == {}
     assert form.get_cleaned_dates() == [date(2018, 1, 1), date(2019, 2, 2)]
+
+
+def test_valid_ticket_number():
+    form = TicketNumberForm(data={"ticket_number": "ABC123"})
+    assert form.is_valid() is True
+    assert form.cleaned_data["ticket_number"] == "ABC123"
+
+
+@pytest.fixture
+def ticket_number_formset():
+    return formset_factory(TicketNumberForm, formset=TicketNumberFormset)
+
+
+def test_ticket_number_formset_valid(ticket_number_formset):
+    formset = ticket_number_formset(
+        data={
+            "form-TOTAL_FORMS": "2",
+            "form-INITIAL_FORMS": "0",
+            "form-MIN_NUM_FORMS": "0",
+            "form-MAX_NUM_FORMS": "1000",
+            "form-0-ticket_number": "ABC123",
+            "form-1-ticket_number": "DEF456",
+        }
+    )
+    assert formset.is_valid()
+
+
+def test_ticket_number_formset_invalid_special_characters(ticket_number_formset):
+    formset = ticket_number_formset(
+        data={
+            "form-TOTAL_FORMS": "2",
+            "form-INITIAL_FORMS": "0",
+            "form-MIN_NUM_FORMS": "0",
+            "form-MAX_NUM_FORMS": "1000",
+            "form-0-ticket_number": "ABC@123",
+            "form-1-ticket_number": "DEF456",
+        }
+    )
+    assert not formset.is_valid()
+
+
+def test_get_cleaned_data_with_valid_ticket_numbers(ticket_number_formset):
+    formset = ticket_number_formset(
+        data={
+            "form-TOTAL_FORMS": "2",
+            "form-INITIAL_FORMS": "0",
+            "form-MIN_NUM_FORMS": "0",
+            "form-MAX_NUM_FORMS": "1000",
+            "form-0-ticket_number": "ABC123",
+            "form-1-ticket_number": "DEF456",
+        }
+    )
+    assert formset.is_valid()
+    cleaned_data = formset.get_cleaned_data(is_no_ticket_number_checked=False)
+    assert cleaned_data == ["ABC123", "DEF456"]
+
+
+def test_get_cleaned_data_with_empty_ticket_number(ticket_number_formset):
+    formset = ticket_number_formset(
+        data={
+            "form-TOTAL_FORMS": "2",
+            "form-INITIAL_FORMS": "0",
+            "form-MIN_NUM_FORMS": "0",
+            "form-MAX_NUM_FORMS": "1000",
+            "form-0-ticket_number": "",
+            "form-1-ticket_number": "ABC123",
+        }
+    )
+    assert formset.is_valid()
+    cleaned_data = formset.get_cleaned_data(is_no_ticket_number_checked=False)
+    assert cleaned_data == ["ABC123"]
 
 
 def save_letter_request_form(

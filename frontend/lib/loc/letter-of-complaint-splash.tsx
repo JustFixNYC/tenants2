@@ -89,7 +89,7 @@ const createLeaseLearnMoreModals = (): LeaseMoreInfo[] => [
           landlord deregulated before 2019.",
   },
   {
-    title: "NYCHA/Public Housing",
+    title: "NYCHA/Public Housing (includes RAD/PACT)",
     leaseType: "NYCHA",
     leaseInfo:
       "Federally-funded affordable housing developments owned by the government.",

@@ -40,7 +40,7 @@ export class BaseFormContext<FormInput> {
    */
   protected readonly fieldPropsRequested = new Set<string>();
 
-  constructor(protected readonly options: BaseFormContextOptions<FormInput>) {
+  constructor(readonly options: BaseFormContextOptions<FormInput>) {
     this.isLoading = options.isLoading;
   }
 

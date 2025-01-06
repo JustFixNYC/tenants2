@@ -15,7 +15,7 @@ import { LocSplash } from "./letter-of-complaint-splash";
 import { GetStartedButton } from "../ui/get-started-button";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
 import ReliefAttemptsPage from "../onboarding/relief-attempts";
-import { isUserNycha } from "../util/nycha";
+import { isUserNonNycha, isUserNycha } from "../util/nycha";
 import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-routes";
 import { ProgressStepProps } from "../progress/progress-step-route";
 import { assertNotNull } from "@justfixnyc/util";
@@ -23,6 +23,7 @@ import { Switch, Route } from "react-router-dom";
 import { LocSamplePage, LocForUserPage } from "./letter-content";
 import { createLetterStaticPageRoutes } from "../static-page/routes";
 import { NycUsersOnly } from "../pages/nyc-users-only";
+import WorkOrdersPage from "./work-orders";
 
 export const Welcome: React.FC<ProgressStepProps> = (props) => {
   const session = useContext(AppContext).session;
@@ -119,6 +120,11 @@ export const getLOCProgressRoutesProps = (): ProgressRoutesProps => ({
       path: JustfixRoutes.locale.loc.reliefAttempts,
       component: ReliefAttemptsPage,
       shouldBeSkipped: isUserNycha,
+    },
+    {
+      path: JustfixRoutes.locale.loc.workOrders,
+      component: WorkOrdersPage,
+      shouldBeSkipped: isUserNonNycha,
     },
     {
       path: JustfixRoutes.locale.loc.yourLandlord,

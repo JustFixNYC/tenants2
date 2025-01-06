@@ -233,7 +233,7 @@ export const createLeaseLearnMoreModals = (
     route: routes.step3LearnMoreModals.NYCHA,
     leaseType: "NYCHA",
     component: () => (
-      <LeaseLearnMoreModal title="What is NYCHA or Public Housing?">
+      <LeaseLearnMoreModal title="What is NYCHA, Public Housing, and RAD/PACT?">
         <p>
           Federally-funded affordable housing developments owned by the
           government.

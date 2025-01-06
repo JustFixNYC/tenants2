@@ -23,6 +23,7 @@ export function createLetterOfComplaintRouteInfo(prefix: string) {
     issues: createIssuesRouteInfo(`${prefix}/issues`),
     accessDates: `${prefix}/access-dates`,
     reliefAttempts: `${prefix}/relief-attempts`,
+    workOrders: `${prefix}/work-orders`,
     yourLandlord: `${prefix}/your-landlord`,
     preview: `${prefix}/preview`,
     previewSendConfirmModal: `${prefix}/preview/send-confirm-modal`,

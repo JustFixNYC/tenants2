@@ -23,6 +23,7 @@ fragment AllSessionInfo on SessionInfo {
   norentLettersSent,
   norentUpcomingLetterRentPeriods,
   accessDates,
+  workOrderTickets,
   landlordDetails { ...LandlordDetailsType },
   letterRequest {
     mailChoice,

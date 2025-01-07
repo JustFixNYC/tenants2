@@ -21,7 +21,6 @@ import { issuesForArea, customIssuesForArea } from "../issues/issues";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
 import { TransformSession } from "../util/transform-session";
 import { LeaseType } from "../queries/globalTypes";
-import { isUserNycha } from "../util/nycha";
 
 const HEAT_ISSUE_CHOICES = new Set<IssueChoice>([
   "HOME__NO_HEAT",

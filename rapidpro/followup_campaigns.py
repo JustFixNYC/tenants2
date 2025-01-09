@@ -107,7 +107,11 @@ class FollowupCampaign(NamedTuple):
         )
 
     def add_contact(
-        self, client: TembaClient, full_preferred_name: str, phone_number: str, locale: str
+        self,
+        client: TembaClient,
+        full_preferred_name: Optional[str],
+        phone_number: str,
+        locale: str,
     ):
         """
         Add the given contact to the follow-up campaign, creating a new RapidPro contact
@@ -138,7 +142,7 @@ class FollowupCampaign(NamedTuple):
 
 
 def trigger_followup_campaign_async(
-    full_preferred_name: str, phone_number: str, campaign_name: str, locale: str
+    full_preferred_name: Optional[str], phone_number: str, campaign_name: str, locale: str
 ):
     """
     Add the given contact to the given follow-up campaign from Django settings, e.g.:

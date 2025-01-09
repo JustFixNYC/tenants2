@@ -1,7 +1,9 @@
+import logging
 from django.db import models
 
 from project.common_data import Choices
 from project.util.address_form_fields import BOROUGH_FIELD_KWARGS
+from project.util import phone_number as pn
 
 COVERAGE = Choices(
     [
@@ -14,9 +16,16 @@ COVERAGE = Choices(
 
 class GoodCauseEvictionScreenerResponse(models.Model):
 
+    RAPIDPRO_CAMPAIGN = "GCE"
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     updated_at = models.DateTimeField(auto_now=True)
+
+    phone_number = models.CharField(
+        blank=True,
+        **pn.get_model_field_kwargs(),
+    )
 
     bbl: str = models.CharField(
         max_length=10,  # One for the borough, 5 for the block, 4 for the lot.
@@ -103,3 +112,21 @@ class GoodCauseEvictionScreenerResponse(models.Model):
         blank=True,
         null=True,
     )
+
+    def trigger_followup_campaign_async(self) -> None:
+        if not self.phone_number:
+            return
+
+        from rapidpro import followup_campaigns as fc
+
+        fc.ensure_followup_campaign_exists(self.RAPIDPRO_CAMPAIGN)
+
+        logging.info(
+            f"Triggering rapidpro campaign '{self.RAPIDPRO_CAMPAIGN}' on user " f"{self.pk}."
+        )
+        fc.trigger_followup_campaign_async(
+            None,  # We aren't collecting names
+            self.phone_number,
+            self.RAPIDPRO_CAMPAIGN,
+            locale="en",  # We don't support other languages for GCE yet
+        )

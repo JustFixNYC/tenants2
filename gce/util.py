@@ -2,12 +2,17 @@ import functools
 import logging
 import json
 import re
+from typing import Any, Dict, Literal, Optional, Set
+
 import pydantic
-from pydantic.error_wrappers import ValidationError
 from django.conf import settings
 from django.http import JsonResponse
-from typing import Any, Dict, Literal, Optional, Set
+import pydantic.error_wrappers as pde
+import django.core.exceptions as dje
+
+
 from gce.models import GoodCauseEvictionScreenerResponse
+from project.util import phone_number as pn
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +46,7 @@ class ResultCriteria(pydantic.BaseModel):
 
 class GcePostData(pydantic.BaseModel):
     id: Optional[int]
+    phone_number: Optional[str]
     bbl: Optional[str]
     house_number: Optional[str]
     street_name: Optional[str]
@@ -60,6 +66,15 @@ class GcePostData(pydantic.BaseModel):
             raise ValueError("BBL must be 10-digit zero padded string")
         return v
 
+    @pydantic.validator("phone_number")  # type: ignore
+    def phone_number_must_be_valid(cls, v):
+        try:
+            pn.validate_phone_number(v)
+        except dje.ValidationError as e:
+            # Avoid mixing pydantic and django versions of ValidationError
+            raise ValueError(getattr(e, "message"))
+        return v
+
     def dict_exclude_none(self):
         return {k: v for k, v in self.dict().items() if v is not None}
 
@@ -67,7 +82,7 @@ class GcePostData(pydantic.BaseModel):
 def validate_data(request):
     try:
         data = GcePostData(**json.loads(request.body.decode("utf-8")))
-    except ValidationError as e:
+    except pde.ValidationError as e:
         if getattr(e, "errors"):
             raise DataValidationError(e.errors())
         else:

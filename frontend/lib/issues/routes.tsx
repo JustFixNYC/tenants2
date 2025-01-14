@@ -431,7 +431,6 @@ type IssuesRoutesProps = {
 
 export function IssuesRoutes(props: IssuesRoutesProps): JSX.Element {
   const { routes } = props;
-  // const [{ isUserNycha }] = useBrowserStorage();
 
   return (
     <Switch>

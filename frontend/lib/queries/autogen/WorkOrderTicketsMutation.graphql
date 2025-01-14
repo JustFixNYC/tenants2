@@ -3,7 +3,8 @@ mutation WorkOrderTicketsMutation($input: WorkOrderTicketsInput!) {
   output: workOrderTickets(input: $input) {
     errors { ...ExtendedFormFieldErrors },
     session {
-      workOrderTickets
+      workOrderTickets,
+      hasSeenWorkOrderPage
     }
   }
 }

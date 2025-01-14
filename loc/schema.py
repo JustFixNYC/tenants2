@@ -22,6 +22,7 @@ from airtable.sync import sync_user as sync_user_with_airtable
 
 MAX_RECIPIENTS = common_data.load_json("email-attachment-validation.json")["maxRecipients"]
 MAX_TICKETS = 10
+HAS_SEEN_WORK_ORDER_PAGE_KEY = "HAS_SEEN_WORK_ORDER_PAGE"
 
 
 @schema_registry.register_mutation
@@ -71,15 +72,18 @@ class WorkOrderTickets(SessionFormMutation):
     @classmethod
     def perform_mutate(cls, form: forms.TicketNumberForm, info: ResolveInfo):
         request = info.context
-        no_ticket = form.base_form.cleaned_data["no_ticket"]
-        ticket_numbers = form.formsets["ticket_numbers"].get_cleaned_data(
-            is_no_ticket_number_checked=no_ticket
+        work_order_form: forms.WorkOrderForm = form.base_form
+        ticket_numbers_formset: forms.TicketNumberFormset = form.formsets["ticket_numbers"]
+        no_ticket_selected = work_order_form.cleaned_data["no_ticket"]
+        ticket_numbers = ticket_numbers_formset.get_cleaned_data(
+            is_no_ticket_number_checked=no_ticket_selected
         )
-        if not ticket_numbers and not no_ticket:
+        if not ticket_numbers and not no_ticket_selected:
             return cls.make_error(
                 "Enter at least 1 ticket number or select `I don't have a ticket number.`"
             )
         models.WorkOrder.objects.set_for_user(request.user, ticket_numbers)
+        request.session[HAS_SEEN_WORK_ORDER_PAGE_KEY] = True
         return cls.mutation_success()
 
 
@@ -198,7 +202,8 @@ class LetterRequestType(DjangoObjectType):
 @schema_registry.register_session_info
 class LocSessionInfo:
     access_dates = graphene.List(graphene.NonNull(graphene.types.String), required=True)
-    work_order_tickets = graphene.List(graphene.NonNull(graphene.types.String))
+    work_order_tickets = graphene.List(graphene.NonNull(graphene.types.String), required=True)
+    has_seen_work_order_page = graphene.Boolean()
     landlord_details = graphene.Field(LandlordDetailsType, resolver=LandlordDetailsV2.resolve)
     letter_request = graphene.Field(LetterRequestType, resolver=LetterRequest.resolve)
 
@@ -213,6 +218,11 @@ class LocSessionInfo:
         if not user.is_authenticated:
             return []
         return models.WorkOrder.objects.get_for_user(user)
+
+    def resolve_has_seen_work_order_page(self, info: ResolveInfo) -> bool:
+        request = info.context
+        # used for handling the default state of the form
+        return request.session.get(HAS_SEEN_WORK_ORDER_PAGE_KEY, False)
 
 
 class LetterStyles(graphene.ObjectType):

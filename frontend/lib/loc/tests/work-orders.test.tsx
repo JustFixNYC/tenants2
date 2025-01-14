@@ -17,13 +17,16 @@ describe("work order tickets page", () => {
     pal.clickButtonOrLink("Next");
     pal.withFormMutation(WorkOrderTicketsMutation).respondWith({
       errors: [],
-      session: { workOrderTickets: ["ABCDE12345"] },
+      session: { workOrderTickets: ["ABCDE12345"], hasSeenWorkOrderPage: null },
     });
 
     await pal.rt.waitFor(() => pal.rr.getByText(/Landlord information/i));
     const { mock } = pal.appContext.updateSession;
     expect(mock.calls).toHaveLength(1);
-    expect(mock.calls[0][0]).toEqual({ workOrderTickets: ["ABCDE12345"] });
+    expect(mock.calls[0][0]).toEqual({
+      hasSeenWorkOrderPage: null,
+      workOrderTickets: ["ABCDE12345"],
+    });
   });
 });
 
@@ -38,13 +41,16 @@ describe("work order tickets page", () => {
 
     pal.withFormMutation(WorkOrderTicketsMutation).respondWith({
       errors: [],
-      session: { workOrderTickets: [] },
+      session: { workOrderTickets: [], hasSeenWorkOrderPage: true },
     });
 
     await pal.rt.waitFor(() => pal.rr.getByText(/Landlord information/i));
     const { mock } = pal.appContext.updateSession;
     expect(mock.calls).toHaveLength(1);
-    expect(mock.calls[0][0]).toEqual({ workOrderTickets: [] });
+    expect(mock.calls[0][0]).toEqual({
+      hasSeenWorkOrderPage: true,
+      workOrderTickets: [],
+    });
   });
 });
 

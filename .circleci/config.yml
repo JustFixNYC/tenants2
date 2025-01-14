@@ -29,8 +29,8 @@ jobs:
             # We need to save the Git LFS cache directory to save bandwidth, because GitHub only
             # allows for 1 GB download of anything stored in Git LFS per month.
             - .git/lfs
-      - restore_cache: &restore_pipenv_cache
-          # https://circleci.com/docs/2.0/caching/#pip-python
+      - restore_cache:
+          &restore_pipenv_cache # https://circleci.com/docs/2.0/caching/#pip-python
           name: Restore Pipenv cache
           keys:
             # when lock file changes, use increasingly general patterns to restore cache
@@ -41,15 +41,15 @@ jobs:
       - run: &install_python_deps
           name: Install Python dependencies
           command: |
-             pipenv sync --dev
-             pipenv run pip install -r requirements.production.txt
+            pipenv sync --dev
+            pipenv run pip install -r requirements.production.txt
       - save_cache:
           name: Save Pipenv cache
           key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "requirements.production.txt" }}
           paths:
             - ".venv"
-      - restore_cache: &restore_yarn_cache
-          # https://circleci.com/docs/2.0/caching/#yarn-node
+      - restore_cache:
+          &restore_yarn_cache # https://circleci.com/docs/2.0/caching/#yarn-node
           name: Restore Yarn cache
           keys:
             # when lock file changes, use increasingly general patterns to restore cache
@@ -59,14 +59,14 @@ jobs:
       - run: &install_node_deps
           name: Install Node dependencies
           command: |
-             # Print out yarn's cache dir for debugging purposes.
-             yarn cache dir
+            # Print out yarn's cache dir for debugging purposes.
+            yarn cache dir
 
-             # This will ensure that 'npm prepare' scripts on dependencies are run.
-             # For more details, see: https://stackoverflow.com/a/52767310
-             yarn config set unsafe-perm true
+            # This will ensure that 'npm prepare' scripts on dependencies are run.
+            # For more details, see: https://stackoverflow.com/a/52767310
+            yarn config set unsafe-perm true
 
-             yarn install --frozen-lockfile
+            yarn install --frozen-lockfile
       - save_cache:
           name: Save Yarn cache
           paths:
@@ -225,7 +225,6 @@ workflows:
           filters:
             branches:
               only:
-                - nycha-mold-moisture
                 - master
   only_deploy:
     jobs:

@@ -29,6 +29,36 @@ const HEAT_ISSUE_CHOICES = new Set<IssueChoice>([
   "PUBLIC_AREAS__NO_HOT_WATER",
 ]);
 
+const MOLD_MOISTURE_ISSUE_CHOICES = new Set<IssueChoice>([
+  "HOME__MOLD",
+  "BEDROOMS__PAINT",
+  "BEDROOMS__MOLD_ON_WALLS",
+  "BEDROOMS__WATER_DAMAGE",
+  "BEDROOMS__CEILING_LEAKING",
+  "KITCHEN__MOLD",
+  "KITCHEN__WATER",
+  "KITCHEN__PAINT",
+  "KITCHEN__CEILING_LEAKING",
+  "KITCHEN__FAUCET_LEAKING",
+  "KITCHEN__PIPES",
+  "LIVING_ROOM__MOLD",
+  "LIVING_ROOM__WATER",
+  "LIVING_ROOM__PAINT",
+  "LIVING_ROOM__CEILING_LEAKING",
+  "BATHROOMS__MOLD",
+  "BATHROOMS__WATER",
+  "BATHROOMS__PAINT",
+  "BATHROOMS__CEILING_LEAKING",
+  "BATHROOMS__TOILET_LEAKING",
+  "BATHROOMS__SINK_FAUCET_LEAKING",
+  "BATHROOMS__SINK_PIPES",
+  "BATHROOMS__TUB_FAUCET_LEAKING",
+  "BATHROOMS__TUB_PIPES",
+  "BATHROOMS__SHOWER_MOLD",
+  "BATHROOMS__SHOWER_NO_FAUCET",
+  "PUBLIC_AREAS__PAINT",
+]);
+
 type Issue =
   | { kind: "choice"; choice: IssueChoice }
   | { kind: "custom"; value: string };
@@ -43,6 +73,7 @@ type LocContentProps = BaseLetterContentProps & {
   accessDates: GraphQLDate[];
   hasCalled311: boolean | null;
   workOrderTickets?: string[] | null;
+  isUserNycha?: boolean;
 };
 
 const LetterTitle: React.FC<LocContentProps> = (props) => (
@@ -116,10 +147,63 @@ const WorkOrderTickets: React.FC<LocContentProps> = (props) => (
   </div>
 );
 
+const MoldMoistureMandate: React.FC<LocContentProps> = (props) => {
+  const areaLabels = getIssueAreaChoiceLabels();
+  const issueLabels = getIssueChoiceLabels();
+
+  return (
+    <>
+      <p>
+        I have identified the following issues related to mold, leaks or
+        associated repairs:
+      </p>
+      {props.issues.map((areaIssues) => (
+        <React.Fragment key={areaIssues.area}>
+          {areaIssues.issues.some(
+            (issue) =>
+              issue.kind === "choice" &&
+              MOLD_MOISTURE_ISSUE_CHOICES.has(issue.choice)
+          ) && (
+            <div>
+              <h3>{areaLabels[areaIssues.area]}</h3>
+              <ul>
+                {areaIssues.issues
+                  .filter(
+                    (issue) =>
+                      issue.kind === "choice" &&
+                      MOLD_MOISTURE_ISSUE_CHOICES.has(issue.choice)
+                  )
+                  .map((issue, i) => (
+                    <li key={i}>
+                      {issue.kind === "choice" && issueLabels[issue.choice]}
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          )}
+        </React.Fragment>
+      ))}
+      <p>
+        NYCHA or RAD-PACT management is under a court mandate to remediate these
+        issues in a timely manner.
+      </p>
+    </>
+  );
+};
+
 function hasHeatIssues(issues: AreaIssues[]): boolean {
   return issues.some((areaIssues) =>
     areaIssues.issues.some(
       (issue) => issue.kind == "choice" && HEAT_ISSUE_CHOICES.has(issue.choice)
+    )
+  );
+}
+
+function meetsMoldMoistureMandate(issues: AreaIssues[]): boolean {
+  return issues.some((areaIssues) =>
+    areaIssues.issues.some(
+      (issue) =>
+        issue.kind == "choice" && MOLD_MOISTURE_ISSUE_CHOICES.has(issue.choice)
     )
   );
 }
@@ -139,6 +223,9 @@ const Requirements: React.FC<LocContentProps> = (props) => (
         issue, and I may exercise my right to file an Emergency HP Action
         through the NYC Housing Court system.
       </p>
+    )}
+    {!!props.isUserNycha && meetsMoldMoistureMandate(props.issues) && (
+      <MoldMoistureMandate {...props} />
     )}
   </div>
 );
@@ -267,6 +354,7 @@ export function getLocContentPropsFromSession(
     return {
       ...sessionProps,
       workOrderTickets: session.workOrderTickets,
+      isUserNycha: true,
     };
   }
 

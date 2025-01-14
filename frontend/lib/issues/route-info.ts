@@ -17,7 +17,7 @@ export function createIssuesRouteInfo(prefix: string): IssuesRouteInfo {
   return {
     [ROUTE_PREFIX]: prefix,
     home: prefix,
-    modal: `${prefix}/covid-risk-modal`,
+    modal: `${prefix}/mold-moisture-modal`,
     area: {
       parameterizedRoute: `${prefix}/:area`,
       create: (area: string) => `${prefix}/${area}`,

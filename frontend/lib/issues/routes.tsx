@@ -46,6 +46,8 @@ import { FormContext } from "../forms/form-context";
 import { Formset } from "../forms/formset";
 import { FormsetItem, formsetItemProps } from "../forms/formset-item";
 import { TextualFieldWithCharsRemaining } from "../forms/chars-remaining";
+import { Modal } from "../ui/modal";
+import { OutboundLink } from "../ui/outbound-link";
 
 const checkSvg = require("../svg/check-solid.svg") as JSX.Element;
 
@@ -310,6 +312,35 @@ export function groupByTwo<T>(arr: T[]): [T, T | null][] {
 
 type IssuesHomeProps = IssuesRoutesProps;
 
+const MoldMoistureMessage = () => (
+  <>
+    <p>
+      NYCHA is under a court order to remediate problems with mold and moisture
+      in their buildings. This includes peeling paint.
+    </p>
+    <ol type="1">
+      <li>
+        How to report mold issues through NYCHA’s{" "}
+        <OutboundLink
+          href={"https://www.nyc.gov/site/nycha/residents/mold-busters.page"}
+          target="_blank"
+        >
+          Mold Busters program.
+        </OutboundLink>
+      </li>
+      <li>
+        For additional support with mold, moisture, and leak repair issues,
+        contact the independent court-ordered Ombudsperson’s Call Center at{" "}
+        <OutboundLink href={"tel:+18883417152"}>1-888-341-7152</OutboundLink> or{" "}
+        <OutboundLink href={"https://ombnyc.com/"} target="_blank">
+          ombnyc.com
+        </OutboundLink>
+      </li>
+    </ol>
+    <p>We’ll provide this information again after you complete your letter.</p>
+  </>
+);
+
 class IssuesHome extends React.Component<IssuesHomeProps> {
   constructor(props: IssuesHomeProps) {
     super(props);
@@ -331,6 +362,14 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
         This <strong>issue checklist</strong> will be sent to your landlord.
       </>
     );
+
+    let housingTypeFromSession = "";
+    if (typeof window !== "undefined") {
+      housingTypeFromSession =
+        window.sessionStorage.getItem("housingType") || "";
+    }
+    const isUserNycha = housingTypeFromSession === "NYCHA";
+
     return (
       <Page title="Home self-inspection" withHeading>
         <div>
@@ -352,9 +391,31 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
             <Link to={this.props.toBack} className="button is-light is-medium">
               Back
             </Link>
-            <IssuesLinkToNextStep toNext={this.props.toNext} />
+            <IssuesLinkToNextStep
+              toNext={isUserNycha ? this.props.routes.modal : this.props.toNext}
+            />
           </ProgressButtons>
         </div>
+        {this.props.withModal && isUserNycha && (
+          <Modal
+            title="Mold and Moisture"
+            withHeading
+            onCloseGoTo={this.props.toNext}
+            render={(ctx) => (
+              <>
+                <MoldMoistureMessage />
+                <div className="has-text-centered">
+                  <Link
+                    className={`button is-primary is-medium`}
+                    {...ctx.getLinkCloseProps()}
+                  >
+                    Got it
+                  </Link>
+                </div>
+              </>
+            )}
+          />
+        )}
       </Page>
     );
   }
@@ -370,6 +431,7 @@ type IssuesRoutesProps = {
 
 export function IssuesRoutes(props: IssuesRoutesProps): JSX.Element {
   const { routes } = props;
+
   return (
     <Switch>
       <Route
@@ -377,11 +439,13 @@ export function IssuesRoutes(props: IssuesRoutesProps): JSX.Element {
         exact
         render={() => <IssuesHome {...props} />}
       />
+
       <Route
         path={routes.modal}
         exact
         render={() => <IssuesHome {...props} withModal={true} />}
       />
+
       <Route
         path={routes.area.parameterizedRoute}
         render={(ctx) => <IssuesArea {...ctx} toHome={routes.home} />}

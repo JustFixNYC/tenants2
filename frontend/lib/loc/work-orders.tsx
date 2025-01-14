@@ -17,17 +17,12 @@ function ticketNumberLabel(i: number): string {
 }
 
 function getInitialState(
-  ticketNumbers: string[] | null
+  ticketNumbers: string[],
+  hasSeenWorkOrderPage: boolean | null
 ): WorkOrderTicketsInput {
-  if (!ticketNumbers) {
-    return {
-      ticketNumbers: [],
-      noTicket: false, // so that checkbox is not selected on load
-    };
-  }
   return {
-    ticketNumbers: ticketNumbers.map((item) => ({ ticketNumber: item })),
-    noTicket: ticketNumbers.length == 0,
+    ticketNumbers: ticketNumbers?.map((item) => ({ ticketNumber: item })) ?? [],
+    noTicket: hasSeenWorkOrderPage ? ticketNumbers?.length == 0 : false,
   };
 }
 
@@ -42,7 +37,12 @@ const WorkOrdersPage = MiddleProgressStep((props) => {
         </p>
         <SessionUpdatingFormSubmitter
           mutation={WorkOrderTicketsMutation}
-          initialState={(session) => getInitialState(session.workOrderTickets)}
+          initialState={(session) =>
+            getInitialState(
+              session.workOrderTickets,
+              session.hasSeenWorkOrderPage
+            )
+          }
           onSuccessRedirect={props.nextStep}
         >
           {(ctx) => (

@@ -15,7 +15,6 @@ def upload(request):
     The POST endpoint used to record user responses from the standalone Good
     Cause Eviction screener tool.
     """
-    validate_origin(request)
 
     if request.method == "OPTIONS":
         return HttpResponse(status=200)

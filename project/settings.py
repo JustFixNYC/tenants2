@@ -445,6 +445,21 @@ GEOCODING_TIMEOUT = 8
 
 GCE_API_TOKEN = env.GCE_API_TOKEN
 
+GCE_CORS_ALLOWED_ORIGINS = [
+    "https://gce-screener.netlify.app",
+    "https://demo-gce-screener.netlify.app",
+    "https://goodcausenyc.org",
+    "https://goodcauseny.org",
+    "http://0.0.0.0:3000",
+]
+
+GCE_CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"https://deploy-preview-(?:\d{1,4})--gce-screener\.netlify\.app",
+    r"https://deploy-preview-(?:\d{1,4})--demo-gce-screener\.netlify\.app",
+    r"https://([A-Za-z0-9\-\_]+)--gce-screener\.netlify\.app",
+    r"https://([A-Za-z0-9\-\_]+)--demo-gce-screener\.netlify\.app",
+]
+
 CONTENTFUL_SPACE_ID = env.CONTENTFUL_SPACE_ID
 
 CONTENTFUL_ACCESS_TOKEN = env.CONTENTFUL_ACCESS_TOKEN

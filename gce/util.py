@@ -156,22 +156,31 @@ class InvalidOriginError(Exception):
         )
 
 
-def is_origin_valid(origin: str, valid_origins: Set[str]) -> bool:
+def is_valid_origin(request):
+    origin: str = request.META.get("HTTP_ORIGIN", "")
+    host_origin = request.build_absolute_uri("/")[:-1]
+    valid_origins = set(settings.GCE_CORS_ALLOWED_ORIGINS + [host_origin])
     if "*" in valid_origins:
         return True
-    return origin in valid_origins
+    if origin in valid_origins:
+        return True
+    for pattern in settings.GCE_CORS_ALLOWED_ORIGIN_REGEXES:
+        if re.match(pattern, origin):
+            return True
+    return False
 
 
 def validate_origin(request):
     origin: str = request.META.get("HTTP_ORIGIN", "")
-    host_origin = request.build_absolute_uri("/")[:-1]
-    valid_origins = set([settings.GCE_ORIGIN, host_origin])
-    if not is_origin_valid(origin, valid_origins):
+    if not is_valid_origin(request):
         raise InvalidOriginError(f"{origin} is not a valid origin")
 
 
-def apply_cors_policy(response):
-    response["Access-Control-Allow-Origin"] = settings.GCE_ORIGIN
+def apply_cors_policy(request, response):
+    origin: str = request.META.get("HTTP_ORIGIN", "")
+    response["Access-Control-Allow-Origin"] = (
+        origin if is_valid_origin(request) else settings.GCE_ORIGIN
+    )
     response["Access-Control-Allow-Methods"] = "OPTIONS,POST"
     response["Access-Control-Max-Age"] = "1000"
     response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Authorization"
@@ -187,6 +196,7 @@ def api(fn):
     def wrapper(request, *args, **kwargs):
         request.is_api_request = True
         try:
+            validate_origin(request)
             response = fn(request, *args, **kwargs)
         except (DataValidationError, AuthorizationError, InvalidOriginError) as e:
             logger.error(e)
@@ -205,6 +215,6 @@ def api(fn):
                 content_type="application/json",
                 status=500,
             )
-        return apply_cors_policy(response)
+        return apply_cors_policy(request, response)
 
     return wrapper

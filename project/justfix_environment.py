@@ -311,8 +311,8 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # The base url for outbound links to Eviction Free NYC.
     EFNYC_ORIGIN: str = "https://www.evictionfreenyc.org"
 
-    # The base url for cors policy for Good Cause Eviction screener.
-    GCE_ORIGIN: str = "https://gce-screener.netlify.app"
+    # The base url for outbound links to Good Cause NYC.
+    GCE_ORIGIN: str = "https://goodcausenyc.org"
 
     # Whether to use the lambda HTTP server. If false, we'll use a separate
     # subprocess for each server-side rendering request, otherwise we'll

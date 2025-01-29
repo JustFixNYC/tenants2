@@ -215,3 +215,14 @@ def test_invalid_origin_fails(client, settings):
     )
     assert res.status_code == 403
     assert res.json()["error"] == "Invalid origin"
+
+
+@pytest.mark.django_db
+def test_valid_origin_works(client, settings):
+    res = client.post(
+        "/gce/upload",
+        json.dumps(DATA_STEP_1),
+        **base_headers(settings),
+        HTTP_ORIGIN="https://deploy-preview-89--demo-gce-screener.netlify.app",
+    )
+    assert res.status_code == 200

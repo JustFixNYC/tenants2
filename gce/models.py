@@ -7,9 +7,9 @@ from project.util import phone_number as pn
 
 COVERAGE = Choices(
     [
-        ("COVERED", "Covered by GCE"),
-        ("NOT_COVERED", "Not covered by GCE"),
-        ("UNKNOWN", "Unknown if covered by GCE"),
+        ("COVERED", "Covered by Good Cause"),
+        ("NOT_COVERED", "Not covered by Good Cause"),
+        ("UNKNOWN", "Unknown if covered by Good Cause"),
     ]
 )
 

@@ -46,6 +46,11 @@
         width: 24px;
         height: 24px;
         flex-shrink: 0;
+        cursor: pointer;
+      }
+
+      label {
+        cursor: pointer;
       }
 
       /* Tooltip CSS largely taken from https://www.w3schools.com/css/css_tooltip.asp */

@@ -17,6 +17,7 @@ import { BulmaClassName } from "../ui/bulma";
 import { MiddleProgressStep } from "../progress/progress-step-route";
 import { LetterPreview } from "../static-page/letter-preview";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
+import { isUserNycha } from "../util/nycha";
 
 const UNKNOWN_LANDLORD = { name: "", address: "" };
 
@@ -33,7 +34,8 @@ export const SendConfirmModal = withAppContext(
           <>
             <p>
               JustFix will send this letter via USPS Certified Mail
-              <sup>&reg;</sup> to your landlord:
+              <sup>&reg;</sup> to{" "}
+              {isUserNycha(props.session) ? "management" : "your landlord"}:
             </p>
             <address className="has-text-centered">
               {landlord.name || "UNKNOWN LANDLORD"}

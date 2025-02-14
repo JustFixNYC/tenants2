@@ -21,7 +21,7 @@ const DownloadLetterLink = (props: { locPdfURL: string }) => (
 const getCommonMailNextSteps = (isUserNycha: boolean) => [
   <li>
     <p>
-      Once received, your {isUserNycha ? "management" : "landlord"} should
+      Once received, {isUserNycha ? "management" : "your landlord"} should
       contact you to schedule time to make repairs for the access dates you
       provided.
     </p>
@@ -51,10 +51,10 @@ const getCommonMailNextSteps = (isUserNycha: boolean) => [
 const getCommonWeMailNextSteps = (isUserNycha: boolean) => [
   ...getCommonMailNextSteps(isUserNycha),
   <li>
-    We will continue to follow up with you via text message. If your{" "}
-    {isUserNycha ? "management" : "landlord"}
-    does not follow through, you now have better legal standing to sue your
-    {isUserNycha ? "management" : "landlord"}.{" "}
+    We will continue to follow up with you via text message. If{" "}
+    {isUserNycha ? "management" : "your landlord"} does not follow through, you
+    now have better legal standing to sue{" "}
+    {isUserNycha ? "management" : "your landlord"}.{" "}
     <strong>This is called an HP Action proceeding.</strong>
   </li>,
 ];
@@ -144,8 +144,8 @@ function UserWillMailLetterStatus(props: {
             <p>
               Print out your letter and{" "}
               <strong>mail it via Certified Mail</strong> - this allows you to
-              prove that it was sent to your{" "}
-              {props.isUserNycha ? "management" : "landlord"}.
+              prove that it was sent to{" "}
+              {props.isUserNycha ? "management" : "your landlord"}.
             </p>
           </li>,
           ...getCommonMailNextSteps(props.isUserNycha),
@@ -227,8 +227,8 @@ const LetterConfirmation = withAppContext(
       >
         {letterStatus}
         <h2>
-          Email a copy of your letter to yourself, someone you trust, or your
-          landlord.
+          Email a copy of your letter to yourself, someone you trust, or{" "}
+          {isUserNycha(props.session) ? "management" : "your landlord"}.
         </h2>
         <EmailAttachmentForm mutation={EmailLetterMutation} noun="letter" />
         <h2>Want to read more about your rights?</h2>

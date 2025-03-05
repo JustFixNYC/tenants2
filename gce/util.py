@@ -84,15 +84,15 @@ def validate_data(request):
         data = GcePostData(**json.loads(request.body.decode("utf-8")))
     except pde.ValidationError as e:
         if getattr(e, "errors"):
-            raise DataValidationErrorTest(e.errors())
+            raise DataValidationError(e.errors())
         else:
-            raise DataValidationErrorTest(getattr(e, "msg"))
+            raise DataValidationError(getattr(e, "msg"))
     except AssertionError as e:
-        raise DataValidationErrorTest(getattr(e, "msg"))
+        raise DataValidationError(getattr(e, "msg"))
     return data
 
 
-class DataValidationErrorTest(Exception):
+class DataValidationError(Exception):
     def __init__(self, errors):
         self.errors = errors
 
@@ -201,7 +201,7 @@ def api(fn):
         try:
             validate_origin(request)
             response = fn(request, *args, **kwargs)
-        except (DataValidationErrorTest, AuthorizationError, InvalidOriginError) as e:
+        except (DataValidationError, AuthorizationError, InvalidOriginError) as e:
             logger.error(str(e))
             response = e.as_json_response()
         except GoodCauseEvictionScreenerResponse.DoesNotExist as e:

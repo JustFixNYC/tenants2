@@ -451,6 +451,8 @@ GCE_CORS_ALLOWED_ORIGINS = [
     "https://goodcausenyc.org",
     "https://goodcauseny.org",
     "http://0.0.0.0:3000",
+    "http://0.0.0.0:5173",
+    "http://localhost:5173",
 ]
 
 GCE_CORS_ALLOWED_ORIGIN_REGEXES = [

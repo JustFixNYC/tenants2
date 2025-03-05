@@ -29,7 +29,7 @@ YesNoUnsure = Literal["YES", "NO", "UNSURE"]
 class FormAnswers(pydantic.BaseModel):
     bedrooms: Literal["STUDIO", "1", "2", "3", "4+"]
     rent: float
-    owner_occupied: YesNoUnsure
+    owner_occupied: Optional[YesNoUnsure]
     rent_stab: YesNoUnsure
     subsidy: Literal["NYCHA", "SUBSIDIZED", "NONE", "UNSURE"]
     portfolio_size: Optional[YesNoUnsure]
@@ -84,17 +84,20 @@ def validate_data(request):
         data = GcePostData(**json.loads(request.body.decode("utf-8")))
     except pde.ValidationError as e:
         if getattr(e, "errors"):
-            raise DataValidationError(e.errors())
+            raise DataValidationErrorTest(e.errors())
         else:
-            raise DataValidationError(getattr(e, "msg"))
+            raise DataValidationErrorTest(getattr(e, "msg"))
     except AssertionError as e:
-        raise DataValidationError(getattr(e, "msg"))
+        raise DataValidationErrorTest(getattr(e, "msg"))
     return data
 
 
-class DataValidationError(Exception):
+class DataValidationErrorTest(Exception):
     def __init__(self, errors):
         self.errors = errors
+
+    def __str__(self):
+        return f"GCE: Invalid POST data. {json.dumps(self.errors)}"
 
     def as_json_response(self):
         return JsonResponse(
@@ -198,8 +201,8 @@ def api(fn):
         try:
             validate_origin(request)
             response = fn(request, *args, **kwargs)
-        except (DataValidationError, AuthorizationError, InvalidOriginError) as e:
-            logger.error(e)
+        except (DataValidationErrorTest, AuthorizationError, InvalidOriginError) as e:
+            logger.error(str(e))
             response = e.as_json_response()
         except GoodCauseEvictionScreenerResponse.DoesNotExist as e:
             logger.error(e)

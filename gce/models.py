@@ -10,6 +10,9 @@ COVERAGE = Choices(
         ("COVERED", "Covered by Good Cause"),
         ("NOT_COVERED", "Not covered by Good Cause"),
         ("UNKNOWN", "Unknown if covered by Good Cause"),
+        ("RENT_STABILIZED", "Rent stabilized, not covered by Good Cause"),
+        ("NYCHA", "NYCHA, not covered by Good Cause"),
+        ("SUBSIDIZED", "Subsidized, not covered by Good Cause"),
     ]
 )
 

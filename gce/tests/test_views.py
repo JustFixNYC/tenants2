@@ -83,7 +83,10 @@ INVALID_ERRORS = [
     },
     {
         "loc": ["result_coverage"],
-        "msg": "unexpected value; permitted: 'COVERED', 'NOT_COVERED', 'UNKNOWN'",
+        "msg": (
+            "unexpected value; permitted: 'COVERED', 'NOT_COVERED', 'UNKNOWN', "
+            "'RENT_STABILIZED', 'NYCHA', 'SUBSIDIZED'"
+        ),
     },
 ]
 

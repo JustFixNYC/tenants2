@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 Boroughs = Literal["MANHATTAN", "BRONX", "BROOKLYN", "QUEENS", "STATEN_ISLAND"]
 
-Coverage = Literal["COVERED", "NOT_COVERED", "UNKNOWN"]
+Coverage = Literal["COVERED", "NOT_COVERED", "UNKNOWN", "RENT_STABILIZED", "NYCHA", "SUBSIDIZED"]
 
 Eligibility = Literal["ELIGIBLE", "INELIGIBLE", "UNKNOWN"]
 

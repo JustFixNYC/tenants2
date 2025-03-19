@@ -21,7 +21,7 @@ Boroughs = Literal["MANHATTAN", "BRONX", "BROOKLYN", "QUEENS", "STATEN_ISLAND"]
 
 Coverage = Literal["COVERED", "NOT_COVERED", "UNKNOWN"]
 
-Eligibility = Literal["ELIGIBLE", "INELIGIBLE", "UNKNOWN"]
+Eligibility = Literal["ELIGIBLE", "INELIGIBLE", "UNKNOWN", "OTHER_PROTECTION"]
 
 YesNoUnsure = Literal["YES", "NO", "UNSURE"]
 

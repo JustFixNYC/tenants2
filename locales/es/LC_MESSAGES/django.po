@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-06-04 19:29+0000\n"
-"PO-Revision-Date: 2024-06-04 21:49\n"
+"PO-Revision-Date: 2025-03-19 15:52\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -120,7 +120,7 @@ msgstr "¡Esta herramienta ha sido suspendida! Por favor, recarga la página par
 #: norent/schema.py:459
 #, python-format
 msgid "Welcome to %(site_name)s, a product by JustFix. We'll be sending you notifications from this phone number."
-msgstr ""
+msgstr "Bienvenido/a %(site_name)s, un producto por JustFix. Te enviaremos notificaciones desde este número de teléfono."
 
 #: norent/sms_reminders.py:26
 #, python-format

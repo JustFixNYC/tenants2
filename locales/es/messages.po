@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-03-07 18:26\n"
+"PO-Revision-Date: 2025-03-19 15:52\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -225,7 +225,7 @@ msgstr "Permite 14 días para recibir una respuesta"
 
 #: frontend/lib/evictionfree/site.tsx:114
 msgid "Already submitted a hardship declaration form?<0/><1>Log in here to download your copy</1>"
-msgstr "Already submitted a hardship declaration form?<0/><1>Log in here to download your copy</1>"
+msgstr "¿Has enviado ya un formulario de declaración de dificultades económicas? <0/><1>Inicia sesión aquí para descargar tu copia</1>"
 
 #: frontend/lib/norent/homepage.tsx:190
 msgid "Answer a few questions about yourself and your landlord or management company. It'll take no more than 8 minutes."
@@ -993,7 +993,7 @@ msgstr "Rellena en línea tu formulario de declaración de penuria"
 
 #: frontend/lib/evictionfree/site.tsx:130
 msgid "Find help"
-msgstr "Find help"
+msgstr "Buscar ayuda"
 
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:88
 msgid "Find out if my household income is below 80% AMI"
@@ -2028,7 +2028,7 @@ msgstr "NoRent.org <0/>enviado en nombre de <1/>"
 
 #: frontend/lib/norent/site.tsx:49
 msgid "NoRent.org has been deprecated"
-msgstr "NoRent.org has been deprecated"
+msgstr "NoRent.org ha dejado de ser utilizado"
 
 #: frontend/lib/norent/about.tsx:126
 msgid "NoRent.org is a collaboration between JustFix and legal organizations and housing rights non-profits across the nation."
@@ -3895,7 +3895,7 @@ msgstr "latenants.justfix.org <0/>enviado en nombre de <1/>"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:130
 msgid "mins"
-msgstr "mins"
+msgstr "minutos"
 
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:169
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:30

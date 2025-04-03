@@ -24,7 +24,10 @@ def upload(request):
     data = validate_data(request)
 
     if not data.id:
-        gcer = GoodCauseEvictionScreenerResponse(**data.dict_exclude_none())
+        # This is usually from home page, but in some cases it could be a direct
+        # link from results with no user id
+        gcer = GoodCauseEvictionScreenerResponse(**data.dict_required_only())
+        update_gce_record(gcer, data)
         gcer.full_clean()
         gcer.save()
 

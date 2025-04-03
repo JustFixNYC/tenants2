@@ -78,6 +78,16 @@ class GcePostData(pydantic.BaseModel):
     def dict_exclude_none(self):
         return {k: v for k, v in self.dict().items() if v is not None}
 
+    def dict_required_only(self):
+        required_fields = [
+            "bbl",
+            "house_number",
+            "street_name",
+            "borough",
+            "zipcode",
+        ]
+        return {k: v for k, v in self.dict().items() if v is not None and k in required_fields}
+
 
 def validate_data(request):
     try:

@@ -46,6 +46,8 @@ DATA_STEP_4 = {
     },
 }
 
+DATA_PHONE_ONLY = {"phone_number": "2125555555"}
+
 INVALID_DATA = {
     "phone_number": "123",
     "bbl": "X",
@@ -156,6 +158,9 @@ def test_valid_data_works(client, settings):
     assert res.status_code == 200
 
     res = authorized_request(client, settings, {**DATA_STEP_4, **user})
+    assert res.status_code == 200
+
+    res = authorized_request(client, settings, {**DATA_PHONE_ONLY, **user})
     assert res.status_code == 200
 
     gcer = get_gcer_by_id(user["id"])

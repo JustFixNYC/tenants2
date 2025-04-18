@@ -36,15 +36,16 @@ class GoodCauseEvictionScreenerResponse(models.Model):
             "The zero-padded borough, block and lot (BBL) number for the "
             "search address property."
         ),
+        blank=True,
     )
 
-    house_number: str = models.TextField()
+    house_number: str = models.TextField(blank=True)
 
-    street_name: str = models.TextField()
+    street_name: str = models.TextField(blank=True)
 
-    borough: str = models.CharField(**BOROUGH_FIELD_KWARGS)
+    borough: str = models.CharField(blank=True, **BOROUGH_FIELD_KWARGS)
 
-    zipcode: str = models.CharField(max_length=5)
+    zipcode: str = models.CharField(max_length=5, blank=True)
 
     address_confirmed: bool = models.BooleanField(
         help_text="Whether the user has clicked to confirm the search address is correct.",

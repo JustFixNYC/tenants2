@@ -26,15 +26,13 @@ def upload(request):
     if not data.id:
         # This is usually from home page, but in some cases it could be a direct
         # link from results or a standalone page with no user id
-        gcer = GoodCauseEvictionScreenerResponse(**data.dict_exclude_none())
-        update_gce_record(gcer, data)
-        gcer.full_clean()
-        gcer.save()
-
+        gcer = GoodCauseEvictionScreenerResponse()
     else:
         gcer = GoodCauseEvictionScreenerResponse.objects.get(id=data.id)
-        update_gce_record(gcer, data)
-        gcer.save()
+
+    update_gce_record(gcer, data)
+    gcer.full_clean()
+    gcer.save()
 
     if data.phone_number:
         gcer.trigger_followup_campaign_async()

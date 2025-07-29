@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Dict, Any
 
 from celery import shared_task
 from temba_client.exceptions import TembaHttpError
@@ -18,6 +18,7 @@ def trigger_followup_campaign(
     phone_number: str,
     campaign_name: str,
     locale: str = "en",
+    custom_fields: Optional[Dict[str, Any]] = None,
 ):
     client = get_client_from_settings()
     campaign = DjangoSettingsFollowupCampaigns.get_campaign(campaign_name)
@@ -26,6 +27,8 @@ def trigger_followup_campaign(
     assert campaign is not None
 
     try:
-        campaign.add_contact(client, full_preferred_name, phone_number, locale=locale)
+        campaign.add_contact(
+            client, full_preferred_name, phone_number, locale=locale, custom_fields=custom_fields
+        )
     except TembaHttpError as e:
         raise self.retry(exc=e)

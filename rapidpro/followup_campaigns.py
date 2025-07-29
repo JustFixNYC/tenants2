@@ -1,6 +1,6 @@
 import datetime
 import logging
-from typing import NamedTuple, Optional, List
+from typing import NamedTuple, Optional, List, Dict, Any
 from django.conf import settings
 from temba_client.v2 import TembaClient
 from temba_client.v2.types import Contact
@@ -83,7 +83,9 @@ class FollowupCampaign(NamedTuple):
         get_group(client, self.group_name)
         get_field(client, self.field_key)
 
-    def add_to_group_and_update_date_field(self, client: TembaClient, contact: Contact):
+    def add_to_group_and_update_date_field(
+        self, client: TembaClient, contact: Contact, custom_fields: Optional[Dict[str, Any]] = None
+    ):
         """
         Add the given contact to the follow-up campaign's group, setting the campaign's
         field key to the current date and time.
@@ -100,10 +102,18 @@ class FollowupCampaign(NamedTuple):
             )
             return
 
+        fields_to_update = {
+            **contact.fields,
+            self.field_key: format_iso8601(datetime.datetime.now()),
+        }
+
+        if custom_fields:
+            fields_to_update.update(custom_fields)
+
         client.update_contact(
             contact,
             groups=[*contact.groups, get_group(client, self.group_name)],
-            fields={**contact.fields, self.field_key: format_iso8601(datetime.datetime.now())},
+            fields=fields_to_update,
         )
 
     def add_contact(
@@ -112,6 +122,7 @@ class FollowupCampaign(NamedTuple):
         full_preferred_name: Optional[str],
         phone_number: str,
         locale: str,
+        custom_fields: Optional[Dict[str, Any]] = None,
     ):
         """
         Add the given contact to the follow-up campaign, creating a new RapidPro contact
@@ -121,7 +132,7 @@ class FollowupCampaign(NamedTuple):
         """
 
         contact = get_or_create_contact(client, full_preferred_name, phone_number, locale=locale)
-        self.add_to_group_and_update_date_field(client, contact)
+        self.add_to_group_and_update_date_field(client, contact, custom_fields)
 
     @classmethod
     def from_string(cls, value: str) -> Optional["FollowupCampaign"]:
@@ -142,7 +153,11 @@ class FollowupCampaign(NamedTuple):
 
 
 def trigger_followup_campaign_async(
-    full_preferred_name: Optional[str], phone_number: str, campaign_name: str, locale: str
+    full_preferred_name: Optional[str],
+    phone_number: str,
+    campaign_name: str,
+    locale: str,
+    custom_fields: Optional[Dict[str, Any]] = None,
 ):
     """
     Add the given contact to the given follow-up campaign from Django settings, e.g.:
@@ -158,7 +173,7 @@ def trigger_followup_campaign_async(
         from . import tasks
 
         tasks.trigger_followup_campaign.delay(
-            full_preferred_name, phone_number, campaign_name, locale
+            full_preferred_name, phone_number, campaign_name, locale, custom_fields
         )
 
 

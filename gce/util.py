@@ -57,6 +57,7 @@ class GcePostData(pydantic.BaseModel):
     form_answers: Optional[FormAnswers]
     result_coverage: Optional[Coverage]
     result_criteria: Optional[ResultCriteria]
+    result_url: Optional[str]  # New field for the result URL
 
     # Mypy is not recognizing "validator" as import
     @pydantic.validator("bbl")  # type: ignore

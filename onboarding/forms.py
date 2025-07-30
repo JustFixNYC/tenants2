@@ -155,7 +155,7 @@ class PublicAssistanceForm(forms.ModelForm):
     )
 
 
-class BaseOnboardingStep4Form(SetPasswordForm, forms.ModelForm):
+class BaseOnboardingStep4Form(forms.ModelForm):
     class Meta:
         model = OnboardingInfo
         fields = ("can_we_sms", "signup_intent")

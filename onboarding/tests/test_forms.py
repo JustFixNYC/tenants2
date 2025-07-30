@@ -25,8 +25,6 @@ STEP_4_FORM_DATA = {
     "phone_number": "555-123-4567",
     "can_we_sms": True,
     "signup_intent": "LOC",
-    "password": "iamasuperstrongpassword#@$reowN@#rokeNER",
-    "confirm_password": "iamasuperstrongpassword#@$reowN@#rokeNER",
     "agree_to_terms": True,
 }
 
@@ -52,15 +50,6 @@ def test_onboarding_step_4_form_requires_agreeing_to_terms():
 
 
 @pytest.mark.django_db
-def test_onboarding_step_4_form_fails_on_mismatched_passwords():
-    form = OnboardingStep4Form(
-        data={**STEP_4_FORM_DATA, "confirm_password": "i do not match the password"}
-    )
-    form.full_clean()
-    assert form.errors == {"__all__": ["Passwords do not match!"]}
-
-
-@pytest.mark.django_db
 def test_onboarding_step_4_form_does_not_require_sms_permission():
     form = OnboardingStep4Form(data={**STEP_4_FORM_DATA, "can_we_sms": False})
     form.full_clean()
@@ -77,24 +66,12 @@ def test_onboarding_step_4_form_fails_on_existing_phone_number():
 
 @pytest.mark.django_db
 def test_onboarding_step_4_v2_form_fails_on_existing_email():
-    JustfixUser.objects.create_user(username="blah", email="boop@jones.com")
+    user = JustfixUser.objects.create_user(
+        username="boop", email="boop@jones.com", password="123"
+    )
     form = OnboardingStep4FormVersion2(data=STEP_4_V2_FORM_DATA)
     form.full_clean()
     assert form.errors == {"email": ["A user with that email address already exists."]}
-
-
-@pytest.mark.django_db
-def test_onboarding_step_4_form_validates_passwords():
-    form = OnboardingStep4Form(
-        data={**STEP_4_FORM_DATA, "password": "test", "confirm_password": "test"}
-    )
-    form.full_clean()
-    assert form.errors == {
-        "password": [
-            "This password is too short. It must contain at least 8 characters.",
-            "This password is too common.",
-        ]
-    }
 
 
 @enable_fake_geocoding

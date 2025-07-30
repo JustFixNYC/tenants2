@@ -64,16 +64,29 @@ def pick_model_fields(model, **kwargs):
 
 def complete_onboarding(request, info, password: Optional[str]) -> JustfixUser:
     with transaction.atomic():
-        user = JustfixUser.objects.create_user(
-            username=JustfixUser.objects.generate_random_username(),
-            first_name=info["first_name"],
-            last_name=info["last_name"],
-            preferred_first_name=info.get("preferred_first_name", ""),
-            email=info["email"],
-            phone_number=info["phone_number"],
-            password=password,
-            locale=translation.get_language_from_request(request, check_path=True),
-        )
+        # If no password provided, create user with unusable password
+        if password is None:
+            user = JustfixUser.objects.create_user(
+                username=JustfixUser.objects.generate_random_username(),
+                first_name=info["first_name"],
+                last_name=info["last_name"],
+                preferred_first_name=info.get("preferred_first_name", ""),
+                email=info["email"],
+                phone_number=info["phone_number"],
+                password=None,  # This will create an unusable password
+                locale=translation.get_language_from_request(request, check_path=True),
+            )
+        else:
+            user = JustfixUser.objects.create_user(
+                username=JustfixUser.objects.generate_random_username(),
+                first_name=info["first_name"],
+                last_name=info["last_name"],
+                preferred_first_name=info.get("preferred_first_name", ""),
+                email=info["email"],
+                phone_number=info["phone_number"],
+                password=password,
+                locale=translation.get_language_from_request(request, check_path=True),
+            )
 
         oi = OnboardingInfo(user=user, **pick_model_fields(OnboardingInfo, **info))
         oi.full_clean()
@@ -124,15 +137,14 @@ class OnboardingStep4Base(SessionFormMutation):
             cls.log(info, "User has not completed previous steps, aborting mutation.")
             return cls.make_error("You haven't completed all the previous steps yet.")
         allinfo.update(form.cleaned_data)
-        password = form.cleaned_data["password"] or None
         allinfo["email"] = form.cleaned_data.get("email", "")
         allinfo["state"] = "NY"
         allinfo["agreed_to_justfix_terms"] = True
-        user = complete_onboarding(request, info=allinfo, password=password)
+        user = complete_onboarding(request, info=allinfo, password=None)
 
         user.send_sms_async(
             f"Hi {user.best_first_name}, welcome to {get_site_name()}! "
-            f"We’ll text updates about your letter. "
+            f"We'll text updates about your letter. "
             f"Reply HELP for help and STOP to opt out."
         )
 

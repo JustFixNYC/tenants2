@@ -19,7 +19,8 @@ COVERAGE = Choices(
 
 class GoodCauseEvictionScreenerResponse(models.Model):
 
-    RAPIDPRO_CAMPAIGN = "GCE"
+    # Default campaign without result_url
+    RAPIDPRO_CAMPAIGN = "GCE_RENT_CALCULATOR"
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -130,20 +131,21 @@ class GoodCauseEvictionScreenerResponse(models.Model):
 
         from rapidpro import followup_campaigns as fc
 
-        fc.ensure_followup_campaign_exists(self.RAPIDPRO_CAMPAIGN)
-
-        logging.info(
-            f"Triggering rapidpro campaign '{self.RAPIDPRO_CAMPAIGN}' on user " f"{self.pk}."
-        )
-
         custom_fields = {}
+        campaign = self.RAPIDPRO_CAMPAIGN
+
         if self.result_url:
             custom_fields["result_url"] = self.result_url
+            campaign = "GCE_RESULTS"
+
+        fc.ensure_followup_campaign_exists(campaign)
+
+        logging.info(f"Triggering rapidpro campaign '{campaign}' on user " f"{self.pk}.")
 
         fc.trigger_followup_campaign_async(
             None,  # We aren't collecting names
             self.phone_number,
-            self.RAPIDPRO_CAMPAIGN,
+            campaign,
             locale="en",  # We don't support other languages for GCE yet
             custom_fields=custom_fields,
         )

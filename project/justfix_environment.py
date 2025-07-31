@@ -339,10 +339,21 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # follow-up campaign will be disabled.
     RAPIDPRO_FOLLOWUP_CAMPAIGN_EHP: str = ""
 
+    # Good Cause NYC follow ups are broken out into two campaigns:
+    # 1. GCE_RENT_CALCULATOR: Triggered by phone number submission on rent calcultor page.
+    #    No custom fields.
+    # 2. GCE_RESULTS: Triggered by phone number submission on results page.
+    #    Custom field: result_url.
+
     # The RapidPro group name and date field key, separated by a comma, that
-    # trigger the follow-up campaign for Good Cause (Eviction) NYC. If empty, this
-    # follow-up campaign will be disabled.
-    RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE: str = ""
+    # trigger the follow-up campaign for Good Cause NYC rent calculator.
+    # If empty, this follow-up campaign will be disabled.
+    RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE_RENT_CALCULATOR: str = ""
+
+    # The RapidPro group name and date field key, separated by a comma, that
+    # trigger the follow-up campaign for Good Cause NYC results.
+    # If empty, this follow-up campaign will be disabled.
+    RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE_RESULTS: str = ""
 
     # The DocuSign account ID to use. Leaving this empty disables DocuSign
     # integration.

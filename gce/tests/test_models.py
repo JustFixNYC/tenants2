@@ -15,7 +15,7 @@ class TestTriggerFollowupCampaign:
         gcer = GoodCauseEvictionScreenerResponse(bbl="1234567890", phone_number="2125551234")
         gcer.trigger_followup_campaign_async()
         self.trigger.assert_called_once_with(
-            None, "2125551234", "GCE", locale="en", custom_fields={}
+            None, "2125551234", "GCE_RENT_CALCULATOR", locale="en", custom_fields={}
         )
 
     def test_it_triggers_followup_campaign_if_user_has_phone_number_and_result_url(self, db):
@@ -26,7 +26,7 @@ class TestTriggerFollowupCampaign:
         self.trigger.assert_called_once_with(
             None,
             "2125551234",
-            "GCE",
+            "GCE_RESULTS",
             locale="en",
             custom_fields={"result_url": "https://goodcausenyc.org"},
         )

@@ -340,8 +340,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     RAPIDPRO_FOLLOWUP_CAMPAIGN_EHP: str = ""
 
     # Good Cause NYC follow ups are broken out into two campaigns:
-    # 1. GCE_RENT_CALCULATOR: Triggered by phone number submission on rent calcultor page. No custom fields.
-    # 2. GCE_RESULTS: Triggered by phone number submission on results page. Custom field: result_url.
+    # 1. GCE_RENT_CALCULATOR: Triggered by phone number submission on rent calcultor page.
+    #    No custom fields.
+    # 2. GCE_RESULTS: Triggered by phone number submission on results page.
+    #    Custom field: result_url.
 
     # The RapidPro group name and date field key, separated by a comma, that
     # trigger the follow-up campaign for Good Cause NYC rent calculator.

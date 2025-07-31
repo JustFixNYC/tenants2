@@ -117,6 +117,13 @@ class GoodCauseEvictionScreenerResponse(models.Model):
         null=True,
     )
 
+    result_url = models.URLField(
+        help_text="URL to the detailed results page for this GCE screener response.",
+        blank=True,
+        null=True,
+        max_length=600,  # Increased from default 200 to accommodate longer result links, ~450 chars
+    )
+
     def trigger_followup_campaign_async(self) -> None:
         if not self.phone_number:
             return
@@ -128,9 +135,15 @@ class GoodCauseEvictionScreenerResponse(models.Model):
         logging.info(
             f"Triggering rapidpro campaign '{self.RAPIDPRO_CAMPAIGN}' on user " f"{self.pk}."
         )
+
+        custom_fields = {}
+        if self.result_url:
+            custom_fields["result_url"] = self.result_url
+
         fc.trigger_followup_campaign_async(
             None,  # We aren't collecting names
             self.phone_number,
             self.RAPIDPRO_CAMPAIGN,
             locale="en",  # We don't support other languages for GCE yet
+            custom_fields=custom_fields,
         )

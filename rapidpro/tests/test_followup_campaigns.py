@@ -101,7 +101,7 @@ class TestTriggerFollowupCampaignAsync:
         settings.RAPIDPRO_FOLLOWUP_CAMPAIGN_RH = "Boop Group,date_of_boop"
         settings.RAPIDPRO_API_TOKEN = "blorp"
         trigger_followup_campaign_async("Boop Jones", "5551234567", "RH", "en")
-        tasks_trigger.delay.assert_called_once_with("Boop Jones", "5551234567", "RH", "en")
+        tasks_trigger.delay.assert_called_once_with("Boop Jones", "5551234567", "RH", "en", None)
 
     def test_task_works(self, settings, monkeypatch):
         settings.RAPIDPRO_FOLLOWUP_CAMPAIGN_RH = "Boop Group,date_of_boop"
@@ -114,7 +114,7 @@ class TestTriggerFollowupCampaignAsync:
         dsfc.get_campaign.assert_called_once_with("RH")
         campaign.add_contact.assert_called_once()
         assert campaign.add_contact.call_args.args[1:] == ("Boop Jones", "5551234567")
-        assert campaign.add_contact.call_args.kwargs == {"locale": "en"}
+        assert campaign.add_contact.call_args.kwargs == {"locale": "en", "custom_fields": None}
 
     def test_task_retries_on_api_errors(self, settings, monkeypatch):
         settings.RAPIDPRO_FOLLOWUP_CAMPAIGN_RH = "Boop Group,date_of_boop"

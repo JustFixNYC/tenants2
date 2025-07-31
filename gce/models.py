@@ -19,7 +19,6 @@ COVERAGE = Choices(
 
 class GoodCauseEvictionScreenerResponse(models.Model):
 
-    # RAPIDPRO_CAMPAIGN = "GCE"
     # Default campaign without result_url
     RAPIDPRO_CAMPAIGN = "GCE_RENT_CALCULATOR"
 

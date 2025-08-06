@@ -169,6 +169,7 @@ INSTALLED_APPS = [
     "shortlinks",
     "laletterbuilder.apps.LaLetterBuilderConfig",
     "gce.apps.GoodCauseEvictionScreenerConfig",
+    "efnyc.apps.EfnycConfig",
 ]
 
 MIDDLEWARE = [
@@ -461,6 +462,22 @@ GCE_CORS_ALLOWED_ORIGIN_REGEXES = [
     r"https://([A-Za-z0-9\-\_]+)--gce-screener\.netlify\.app",
     r"https://([A-Za-z0-9\-\_]+)--demo-gce-screener\.netlify\.app",
 ]
+
+EFNYC_API_TOKEN = env.EFNYC_API_TOKEN
+
+EFNYC_CORS_ALLOWED_ORIGINS = [
+    "https://evictionfreenyc.org",
+    "https://evictionfreenyc.netlify.app",
+    "https://master--evictionfreenyc.netlify.app",
+    "http://localhost:8001",
+    "http://127.0.0.1:8001",
+]
+
+EFNYC_CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"https://deploy-preview-(?:\d{1,4})--evictionfreenyc\.netlify\.app",
+]
+
+
 
 CONTENTFUL_SPACE_ID = env.CONTENTFUL_SPACE_ID
 

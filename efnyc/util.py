@@ -115,10 +115,6 @@ def is_valid_origin(request):
     host_origin = request.build_absolute_uri("/")[:-1]
     valid_origins = set(getattr(settings, "EFNYC_CORS_ALLOWED_ORIGINS", []) + [host_origin])
 
-    # Allow requests without Origin header (like curl requests)
-    if not origin:
-        return True
-
     if "*" in valid_origins:
         return True
     if origin in valid_origins:

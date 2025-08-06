@@ -113,18 +113,19 @@ class InvalidOriginError(Exception):
 def is_valid_origin(request):
     origin: str = request.META.get("HTTP_ORIGIN", "")
     host_origin = request.build_absolute_uri("/")[:-1]
-    valid_origins = set(getattr(settings, 'EFNYC_CORS_ALLOWED_ORIGINS', []) + [host_origin])
-    
+    valid_origins = set(getattr(settings, "EFNYC_CORS_ALLOWED_ORIGINS", []) + [host_origin])
+
     # Allow requests without Origin header (like curl requests)
     if not origin:
         return True
-    
+
     if "*" in valid_origins:
         return True
     if origin in valid_origins:
         return True
-    for pattern in getattr(settings, 'EFNYC_CORS_ALLOWED_ORIGIN_REGEXES', []):
+    for pattern in getattr(settings, "EFNYC_CORS_ALLOWED_ORIGIN_REGEXES", []):
         import re
+
         if re.match(pattern, origin):
             return True
     return False
@@ -139,7 +140,7 @@ def validate_origin(request):
 def apply_cors_policy(request, response):
     origin: str = request.META.get("HTTP_ORIGIN", "")
     response["Access-Control-Allow-Origin"] = (
-        origin if is_valid_origin(request) else getattr(settings, 'EFNYC_ORIGIN', '*')
+        origin if is_valid_origin(request) else getattr(settings, "EFNYC_ORIGIN", "*")
     )
     response["Access-Control-Allow-Methods"] = "OPTIONS,POST"
     response["Access-Control-Max-Age"] = "1000"
@@ -177,4 +178,4 @@ def api(fn):
             )
         return apply_cors_policy(request, response)
 
-    return wrapper 
+    return wrapper

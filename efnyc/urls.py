@@ -7,4 +7,4 @@ app_name = "efnyc"
 
 urlpatterns = [
     path("upload", views.upload, name="upload"),
-] 
+]

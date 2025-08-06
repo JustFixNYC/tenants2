@@ -15,4 +15,4 @@ class EfnycPhoneNumberAdmin(admin.ModelAdmin):
 
     has_add_permission = never_has_permission
     has_change_permission = never_has_permission
-    has_delete_permission = never_has_permission 
+    has_delete_permission = never_has_permission

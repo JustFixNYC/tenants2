@@ -11,13 +11,9 @@ def base_headers(settings):
     }
 
 
-VALID_PHONE_DATA = {
-    "phone_number": "2125551234"
-}
+VALID_PHONE_DATA = {"phone_number": "2125551234"}
 
-INVALID_PHONE_DATA = {
-    "phone_number": "123"
-}
+INVALID_PHONE_DATA = {"phone_number": "123"}
 
 
 def authorized_request(client, settings, post_data, **kwargs):
@@ -40,7 +36,7 @@ def test_upload_phone_number_success(client, settings):
     assert res["Content-Type"] == "application/json"
     data = res.json()
     assert "id" in data
-    
+
     # Verify the record was created
     record = get_efnyc_record_by_id(data["id"])
     assert record.phone_number == "2125551234"
@@ -58,9 +54,7 @@ def test_upload_invalid_phone_number(client, settings):
 def test_upload_unauthorized(client, settings):
     # Test upload without authorization
     res = client.post(
-        "/efnyc/upload",
-        json.dumps(VALID_PHONE_DATA),
-        content_type="application/json"
+        "/efnyc/upload", json.dumps(VALID_PHONE_DATA), content_type="application/json"
     )
     assert res.status_code == 401
     assert res.json()["error"] == "Unauthorized request"
@@ -73,7 +67,7 @@ def test_upload_wrong_token(client, settings):
         "/efnyc/upload",
         json.dumps(VALID_PHONE_DATA),
         content_type="application/json",
-        HTTP_AUTHORIZATION="Bearer wrong_token"
+        HTTP_AUTHORIZATION="Bearer wrong_token",
     )
     assert res.status_code == 401
     assert res.json()["error"] == "Unauthorized request"
@@ -83,4 +77,4 @@ def test_upload_wrong_token(client, settings):
 def test_options_request(client):
     # Test OPTIONS request for CORS
     res = client.options("/efnyc/upload")
-    assert res.status_code == 200 
+    assert res.status_code == 200

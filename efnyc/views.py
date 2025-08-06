@@ -25,9 +25,9 @@ def upload(request):
     authorize_with_token(request, "bearer", settings.EFNYC_API_TOKEN)
 
     data = validate_data(request)
-    
+
     efnyc_record = EfnycPhoneNumber()
-    
+
     update_efnyc_record(efnyc_record, data)
 
     efnyc_record.full_clean()
@@ -45,4 +45,4 @@ def update_efnyc_record(efnyc_record: EfnycPhoneNumber, data: EfnycPostData):
         if hasattr(efnyc_record, key):
             setattr(efnyc_record, key, value)
         else:
-            logger.warning(f"EFNYC update - No attribute '{key}' on EfnycPhoneNumber model") 
+            logger.warning(f"EFNYC update - No attribute '{key}' on EfnycPhoneNumber model")

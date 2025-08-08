@@ -46,7 +46,8 @@ def get_slack_notify_text(rhr: models.RentalHistoryRequest) -> str:
 def run_rent_stab_sql_query(bbl: str) -> Optional[Dict[str, Any]]:
     sql_query = """
         select uc2007, uc2008, uc2009, uc2010, uc2011, uc2012, uc2013,
-             uc2014, uc2015, uc2016, uc2017, uc2018, uc2019, uc2020, uc2021, uc2022
+             uc2014, uc2015, uc2016, uc2017, uc2018, uc2019, uc2020,
+             uc2021, uc2022, uc2023
         from rentstab
         full join rentstab_v2 using(ucbbl)
         where ucbbl = %(bbl)s

@@ -20,6 +20,7 @@ def authorized_request(client, settings, post_data, **kwargs):
     return client.post(
         "/efnyc/upload",
         json.dumps(post_data),
+        HTTP_ORIGIN=settings.EFNYC_ORIGIN,
         **base_headers(settings),
         **kwargs,
     )
@@ -54,7 +55,10 @@ def test_upload_invalid_phone_number(client, settings):
 def test_upload_unauthorized(client, settings):
     # Test upload without authorization
     res = client.post(
-        "/efnyc/upload", json.dumps(VALID_PHONE_DATA), content_type="application/json"
+        "/efnyc/upload",
+        json.dumps(VALID_PHONE_DATA),
+        content_type="application/json",
+        HTTP_ORIGIN=settings.EFNYC_ORIGIN,
     )
     assert res.status_code == 401
     assert res.json()["error"] == "Unauthorized request"
@@ -68,13 +72,14 @@ def test_upload_wrong_token(client, settings):
         json.dumps(VALID_PHONE_DATA),
         content_type="application/json",
         HTTP_AUTHORIZATION="Bearer wrong_token",
+        HTTP_ORIGIN=settings.EFNYC_ORIGIN,
     )
     assert res.status_code == 401
     assert res.json()["error"] == "Unauthorized request"
 
 
 @pytest.mark.django_db
-def test_options_request(client):
+def test_options_request(client, settings):
     # Test OPTIONS request for CORS
-    res = client.options("/efnyc/upload")
+    res = client.options("/efnyc/upload", HTTP_ORIGIN=settings.EFNYC_ORIGIN)
     assert res.status_code == 200

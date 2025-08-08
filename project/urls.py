@@ -50,6 +50,7 @@ urlpatterns = [
     path("nycx/", include("nycx.urls")),
     path("s/", include("shortlinks.urls")),
     path("gce/", include("gce.urls")),
+    path("efnyc/", include("efnyc.urls")),
     re_path(r"^en-(?:US|us)\/.*$", redirect_en_us),
     re_path(r"^unsupported-locale\/.*$", frontend.views.react_rendered_view),
 ]

@@ -454,6 +454,9 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # screener website to record user responses/results of the screener flow.
     GCE_API_TOKEN: str = ""
 
+    # Token to authorize API requests from the EFNYC site to upload phone numbers
+    EFNYC_API_TOKEN: str = ""
+
 
 class JustfixBuildPipelineDefaults(JustfixEnvironment):
     """

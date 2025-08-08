@@ -104,9 +104,15 @@ NAVBAR_LABEL = ""
 WOW_ORIGIN = "https://demo-whoownswhat.herokuapp.com"
 EFNYC_ORIGIN = "https://demo-efnyc.netlify.com"
 
+EFNYC_CORS_ALLOWED_ORIGINS = [
+    "https://demo-efnyc.netlify.com",
+]
+
 ENABLE_EMERGENCY_HP_ACTION = True
 
 GCE_API_TOKEN = "boop"
+
+EFNYC_API_TOKEN = "boop"
 
 
 class NotActuallyFileStorage:

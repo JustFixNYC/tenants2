@@ -467,6 +467,7 @@ EFNYC_API_TOKEN = env.EFNYC_API_TOKEN
 
 EFNYC_CORS_ALLOWED_ORIGINS = [
     "https://evictionfreenyc.org",
+    "https://www.evictionfreenyc.org",
     "https://evictionfreenyc.netlify.app",
     "https://master--evictionfreenyc.netlify.app",
     "http://localhost:8001",

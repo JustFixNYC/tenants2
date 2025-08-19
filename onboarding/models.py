@@ -252,6 +252,14 @@ class OnboardingInfo(models.Model):
         ),
     )
 
+    agreed_to_lettersender_terms = models.BooleanField(
+        default=False,
+        help_text=(
+            "Whether the user has agreed to the Letter Sender terms "
+            "of service and privacy policy."
+        ),
+    )
+
     can_receive_rttc_comms = models.BooleanField(
         null=True,
         blank=True,

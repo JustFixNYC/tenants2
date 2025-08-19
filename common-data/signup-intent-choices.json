@@ -4,5 +4,6 @@
   ["EHP", "Emergency HP Action"],
   ["NORENT", "No rent letter"],
   ["EVICTIONFREE", "Eviction free"],
-  ["LALETTERBUILDER", "LA Tenant Action Center"]
+  ["LALETTERBUILDER", "LA Tenant Action Center"],
+  ["LETTERSENDER", "GCE Letter Sender"]
 ]

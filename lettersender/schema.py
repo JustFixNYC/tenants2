@@ -1,4 +1,3 @@
-
 from lettersender.forms import CreateAccount
 from norent.schema import BaseCreateAccount
 from onboarding.models import SIGNUP_INTENT_CHOICES
@@ -67,4 +66,3 @@ class LetterSenderCreateAccount(BaseCreateAccount):
         purge_scaffolding(request)
 
         return cls.mutation_success()
-

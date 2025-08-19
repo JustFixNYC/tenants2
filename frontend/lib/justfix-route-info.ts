@@ -45,6 +45,7 @@ export function getSignupIntentOnboardingInfo(
     case OnboardingInfoSignupIntent.NORENT:
     case OnboardingInfoSignupIntent.EVICTIONFREE:
     case OnboardingInfoSignupIntent.LALETTERBUILDER:
+    case OnboardingInfoSignupIntent.LETTERSENDER:
     // TODO: Actually figure out something to do here, instead of just
     // falling through to LOC.
 

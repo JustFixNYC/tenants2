@@ -38,6 +38,7 @@ class GCELetterPostData(pydantic.BaseModel):
     ll_apt_no: Optional[str]
     ll_borough: str
     ll_zipcode: str
+    html_content: str
 
     # Mypy is not recognizing "validator" as import
     @pydantic.validator("bbl")  # type: ignore
@@ -165,7 +166,7 @@ def apply_cors_policy(request, response):
     response["Access-Control-Allow-Origin"] = (
         origin if is_valid_origin(request) else settings.GCE_ORIGIN
     )
-    response["Access-Control-Allow-Methods"] = "OPTIONS,POST"
+    response["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET"
     response["Access-Control-Max-Age"] = "1000"
     response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Authorization"
     return response

@@ -1,3 +1,4 @@
+import hashlib
 from django.db import models
 
 # from typing import List
@@ -87,10 +88,17 @@ class GCELetter(BaseLetterRequest):
 
     # cc_emails: List[str] = ArrayField(models.EmailField(max_length=20), blank=True, default=list,help_text="List of additional emails to include when email the letter to the user.")
 
+    hash: str = models.CharField(max_length=64, unique=True, null=True, blank=True)
+
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.__tracker = InstanceChangeTracker(self, ["mail_choice", "html_content"])
         self.__tracking_number_tracker = InstanceChangeTracker(self, ["tracking_number"])
+
+    def save(self, *args, **kwargs):
+        orig_data = str(self.pk).encode("utf-8")
+        self.hash = hashlib.sha256(orig_data).hexdigest()
+        super().save(*args, **kwargs)
 
     @property
     def will_we_mail(self) -> bool:

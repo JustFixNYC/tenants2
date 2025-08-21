@@ -455,6 +455,7 @@ GCE_CORS_ALLOWED_ORIGINS = [
     "http://0.0.0.0:3000",
     "http://0.0.0.0:5173",
     "http://localhost:5173",
+    "",  # localhost:8000
 ]
 
 GCE_CORS_ALLOWED_ORIGIN_REGEXES = [

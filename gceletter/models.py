@@ -96,9 +96,10 @@ class GCELetter(BaseLetterRequest):
         self.__tracking_number_tracker = InstanceChangeTracker(self, ["tracking_number"])
 
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         orig_data = str(self.pk).encode("utf-8")
         self.hash = hashlib.sha256(orig_data).hexdigest()
-        super().save(*args, **kwargs)
+        super().save(update_fields=["hash"])
 
     @property
     def will_we_mail(self) -> bool:

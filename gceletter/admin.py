@@ -8,13 +8,15 @@ from .models import GCELetter
 class GCELetterAdmin(admin.ModelAdmin):
     list_display = [
         "created_at",
-        "phone_number",
-        "bbl",
-        "first_name",
-        "house_number",
-        "street_name",
-        "borough",
+        "mail_choice"
+        # "phone_number",
+        # "bbl",
+        # "first_name",
+        # "house_number",
+        # "street_name",
+        # "borough",
     ]
+    # TODO: add user and landlord details, see evictionfree/admin for example
 
     ordering = ["created_at"]
 

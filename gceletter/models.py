@@ -1,4 +1,5 @@
 import hashlib
+from typing import List
 from django.db import models
 
 # from typing import List
@@ -8,6 +9,7 @@ from loc.models import LOC_MAILING_CHOICES, BaseLetterRequest
 from project.util.address_form_fields import BOROUGH_FIELD_KWARGS
 from project.util import phone_number as pn
 from project.util.instance_change_tracker import InstanceChangeTracker
+from project.util.mailing_address import MailingAddress
 from project.util.site_util import absolute_reverse
 
 
@@ -19,73 +21,6 @@ class GCELetter(BaseLetterRequest):
 
     updated_at = models.DateTimeField(auto_now=True)
 
-    first_name: str = models.CharField(
-        max_length=100, blank=True, help_text="The user's first/given name."
-    )
-
-    last_name: str = models.CharField(
-        max_length=100, blank=True, help_text="The user's last/family name."
-    )
-
-    phone_number: str = models.CharField(blank=True, **pn.get_model_field_kwargs())
-
-    email: str = models.EmailField(help_text="The user's email address.")
-
-    bbl: str = models.CharField(
-        max_length=10,  # One for the borough, 5 for the block, 4 for the lot.
-        help_text=(
-            "The zero-padded borough, block and lot (BBL) number for the "
-            "user's home address property."
-        ),
-        blank=True,
-    )
-
-    house_number: str = models.TextField(
-        blank=True, help_text="The user's home address house number."
-    )
-
-    street_name: str = models.TextField(
-        blank=True, help_text="The user's home address street name."
-    )
-
-    apt_no: str = models.TextField(
-        blank=True, help_text="The user's home address apartment number (address line 2)."
-    )
-
-    borough: str = models.CharField(
-        blank=True, **BOROUGH_FIELD_KWARGS, help_text="The user's home address borough."
-    )
-
-    zipcode: str = models.CharField(
-        max_length=5, blank=True, help_text="The user's home address zipcode."
-    )
-
-    ll_full_name: str = models.CharField(
-        max_length=100, blank=True, help_text="The user's landlord's full name."
-    )
-
-    ll_email: str = models.EmailField(help_text="The user's email address.")
-
-    ll_house_number: str = models.TextField(
-        blank=True, help_text="The user's landlord's address house number."
-    )
-
-    ll_street_name: str = models.TextField(
-        blank=True, help_text="The user's landlord's address street name."
-    )
-
-    ll_apt_no: str = models.TextField(
-        blank=True, help_text="The user's landlord's address apartment number (address line 2)."
-    )
-
-    ll_borough: str = models.CharField(
-        blank=True, **BOROUGH_FIELD_KWARGS, help_text="The user's landlord's address borough."
-    )
-
-    ll_zipcode: str = models.CharField(
-        max_length=5, blank=True, help_text="The user's landlord's address zipcode."
-    )
-
     # cc_emails: List[str] = ArrayField(models.EmailField(max_length=20), blank=True, default=list,help_text="List of additional emails to include when email the letter to the user.")
 
     hash: str = models.CharField(max_length=64, unique=True, null=True, blank=True)
@@ -95,11 +30,34 @@ class GCELetter(BaseLetterRequest):
         self.__tracker = InstanceChangeTracker(self, ["mail_choice", "html_content"])
         self.__tracking_number_tracker = InstanceChangeTracker(self, ["tracking_number"])
 
+    def _on_tracking_number_changed(self):
+        if not self.tracking_number:
+            return
+        # self.user.chain_sms_async(
+        #     [
+        #         (
+        #             f"We mailed your Letter of Complaint to your landlord. "
+        #             f"Track your letter: {self.usps_tracking_url} "
+        #         ),
+        #         f"Link may take a few days to update. ",
+        #     ]
+        # )
+
+        # self.user.trigger_followup_campaign_async("LOC")
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+
         orig_data = str(self.pk).encode("utf-8")
         self.hash = hashlib.sha256(orig_data).hexdigest()
         super().save(update_fields=["hash"])
+
+        self.__tracker.set_to_unchanged()
+
+        if self.__tracking_number_tracker.has_changed():
+            self._on_tracking_number_changed()
+
+        self.__tracking_number_tracker.set_to_unchanged()
 
     @property
     def will_we_mail(self) -> bool:
@@ -132,3 +90,87 @@ class GCELetter(BaseLetterRequest):
     # See loc/email_letter.py for emailing letter to user and landlord
 
     # See gce/models.py for adding user to textit followup campaign
+
+
+class UserDetails(MailingAddress):
+    """
+    This represents the user's details for a GCE letter.
+    """
+
+    letter = models.OneToOneField(
+        GCELetter,
+        on_delete=models.CASCADE,
+        related_name="user_details",
+        help_text="The GCE letter this user is sending to their landlord.",
+    )
+
+    first_name: str = models.CharField(
+        max_length=100, blank=True, help_text="The user's first/given name."
+    )
+
+    last_name: str = models.CharField(
+        max_length=100, blank=True, help_text="The user's last/family name."
+    )
+
+    phone_number: str = models.CharField(blank=True, **pn.get_model_field_kwargs())
+
+    email: str = models.EmailField(help_text="The user's email address.")
+
+    bbl: str = models.CharField(
+        max_length=10,  # One for the borough, 5 for the block, 4 for the lot.
+        help_text=(
+            "The zero-padded borough, block and lot (BBL) number for the "
+            "user's home address property."
+        ),
+        blank=True,
+    )
+
+    urbanization = models.CharField(
+        max_length=80,
+        null=True,
+        blank=True,
+        help_text="Optional. Only used for addresses in Puerto Rico.",
+    )
+
+    @property
+    def full_name(self) -> str:
+        """
+        The user's full name (first/given and last/family).
+        """
+
+        return f"{self.first_name} {self.last_name}"
+
+
+class LandlordDetails(MailingAddress):
+    """
+    This represents the landlord details for a user's GCE letter.
+    """
+
+    letter = models.OneToOneField(
+        GCELetter,
+        on_delete=models.CASCADE,
+        related_name="landlord_details",
+        help_text="The GCE letter being sent to this landlord.",
+    )
+
+    name = models.CharField(blank=True, max_length=100, help_text="The landlord's name.")
+
+    email = models.EmailField(
+        blank=True,
+        help_text="The landlord's email address.",
+    )
+
+    is_looked_up = models.BooleanField(
+        default=False,
+        help_text=(
+            "Whether the name and address was looked up automatically, "
+            "or manually entered by the user."
+        ),
+    )
+
+    urbanization = models.CharField(
+        max_length=80,
+        null=True,
+        blank=True,
+        help_text="Optional. Only used for addresses in Puerto Rico.",
+    )

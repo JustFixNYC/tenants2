@@ -3,7 +3,7 @@ import logging
 import json
 import re
 import pydantic
-from typing import Literal, Optional
+from typing import List, Literal, Optional
 from django.conf import settings
 from django.http import JsonResponse
 import pydantic.error_wrappers as pde
@@ -19,26 +19,37 @@ logger = logging.getLogger(__name__)
 Boroughs = Literal["MANHATTAN", "BRONX", "BROOKLYN", "QUEENS", "STATEN_ISLAND"]
 
 
-class GCELetterPostData(pydantic.BaseModel):
+class BaseModelDict(pydantic.BaseModel):
+    # Our older version of pydantic is lacking some of the helpful methods for
+    # getting a dict from the model
+    def to_dict(self, exclude: List[str] = [], include: List[str] = [], exclude_none: bool = False):
+        if exclude and include:
+            raise ValueError("Can't provide arguments for both 'include' and 'exclude'")
+
+        def predicate(key, value):
+            if exclude_none and value is None:
+                return False
+            if exclude:
+                return False if key in exclude else True
+            if include:
+                return True if key in include else False
+            return True
+
+        return {k: v for k, v in self.dict().items() if predicate(k, v)}
+
+
+class UserDetailsData(BaseModelDict):
     first_name: str
     last_name: str
-    phone_number: str
     email: str
+    phone_number: str
+    primary_line: str
+    secondary_line: Optional[str]
+    urbanization: Optional[str]
+    city: str
+    state: str
+    zip_code: str
     bbl: str
-    house_number: str
-    street_name: str
-    apt_no: Optional[str]
-    borough: str
-    zipcode: str
-    mail_choice: str
-    ll_full_name: str
-    ll_email: str
-    ll_house_number: str
-    ll_street_name: str
-    ll_apt_no: Optional[str]
-    ll_borough: str
-    ll_zipcode: str
-    html_content: str
 
     # Mypy is not recognizing "validator" as import
     @pydantic.validator("bbl")  # type: ignore
@@ -57,8 +68,23 @@ class GCELetterPostData(pydantic.BaseModel):
             raise ValueError(getattr(e, "message"))
         return v
 
-    def dict_exclude_none(self):
-        return {k: v for k, v in self.dict().items() if v is not None}
+
+class LandlordDetailsData(BaseModelDict):
+    name: str
+    email: str
+    primary_line: str
+    secondary_line: Optional[str]
+    urbanization: Optional[str]
+    city: str
+    state: str
+    zip_code: str
+
+
+class GCELetterPostData(BaseModelDict):
+    user_details: UserDetailsData
+    landlord_details: LandlordDetailsData
+    mail_choice: str
+    html_content: str
 
 
 def validate_data(request):

@@ -32,6 +32,27 @@ fragment AllSessionInfo on SessionInfo {
     letterSentAt,
     updatedAt
   },
+  hasGceLetterInProgress,
+  gceIssues,
+  overchargeDetails,
+  gceLatestLetter {
+    id,
+    createdAt,
+    trackingNumber,
+    letterSentAt,
+    fullyProcessedAt,
+    mailChoice,
+    emailToLandlord
+  },
+  gceLetters {
+    id,
+    createdAt,
+    trackingNumber,
+    letterSentAt,
+    fullyProcessedAt,
+    mailChoice,
+    emailToLandlord
+  },
   hasHabitabilityLetterInProgress,
   laIssues,
   habitabilityLatestLetter {

@@ -1,0 +1,32 @@
+.modal-content {
+  border-radius: 2px;
+  .box {
+    background-color: $secondary;
+  }
+  > .content {
+    @include tablet {
+      padding: $spacing-08 $spacing-10;
+    }
+  }
+  .button {
+    padding-left: $spacing-09;
+    padding-right: $spacing-09;
+  }
+
+  .has-text-centered {
+    display: flex;
+    flex-direction: column;
+
+    .button {
+      margin-bottom: $spacing-05;
+    }
+  }
+
+  .jf-two-buttons {
+    flex-direction: column-reverse;
+
+    > .button {
+      width: 100%;
+    }
+  }
+}

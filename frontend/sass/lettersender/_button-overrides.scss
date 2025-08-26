@@ -1,0 +1,102 @@
+// https://github.com/JustFixNYC/justfix-website/blob/rebrand/src/styles/_design-system.scss
+// Override of Standard Mixin:
+@mixin button-variant($color: $justfix-black) {
+  background-color: $color;
+  @include mobile-eyebrow();
+  font-size: 0.875rem;
+  line-height: 115%;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+
+  @if $color ==$justfix-white {
+    color: $justfix-black;
+    border: 0.0625rem solid $justfix-black;
+  } @else {
+    color: $justfix-white;
+    border: 0.0625rem solid $justfix-white;
+  }
+
+  border-radius: 6.25rem;
+  padding: $spacing-06 $spacing-07;
+
+  height: fit-content;
+  // LALOC specific
+  display: inline-block;
+  flex: none;
+  box-shadow: 0.25rem 0.25rem 0rem $justfix-grey-light;
+  max-width: 100%;
+  white-space: normal;
+  word-wrap: break-word;
+  text-decoration: none;
+
+  transition: all 0.1s linear;
+  transform: translateX(0rem);
+
+  &:focus,
+  &:hover {
+    border-color: initial;
+    background-color: $color;
+  }
+
+  &:hover {
+    transition: all 0.1s linear;
+    box-shadow: 0rem 0.4375rem 0rem 0rem $justfix-grey-light;
+    transform: translateX(0.4375rem);
+  }
+
+  &:active,
+  &.active {
+    @if $color == $justfix-white {
+      color: $justfix-black;
+    } @else {
+      color: $justfix-white;
+    }
+
+    border-style: solid;
+    background-color: $color;
+    // LALOC-specific
+    box-shadow: 0rem -0.25rem 0rem $justfix-grey-light;
+  }
+}
+
+.button.is-primary,
+.button.is-primary:not(.is-outlined) {
+  @include button-variant($justfix-black);
+}
+
+.button.jf-is-back-button, // LALOC-specific
+.button.is-light, // LALOC-specific
+.button.is-secondary,
+.button.is-secondary:not(.is-outlined) {
+  @include button-variant($justfix-white);
+}
+
+.button.is-text {
+  padding: 0;
+  color: $justfix-black;
+}
+
+.buttons.has-addons {
+  width: fit-content;
+  border-radius: 0.25rem;
+  border: 1px solid $justfix-white;
+
+  .button {
+    margin: 0;
+    text-decoration: none;
+    background-color: $justfix-black;
+    color: $justfix-white;
+
+    &:focus,
+    &:hover,
+    &.is-selected {
+      background-color: $justfix-white;
+      color: $justfix-black;
+      transition: all 0.1s linear;
+    }
+
+    &.is-selected {
+      pointer-events: none;
+    }
+  }
+}

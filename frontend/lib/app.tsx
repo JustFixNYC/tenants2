@@ -49,6 +49,7 @@ import { t } from "@lingui/macro";
 import { getNorentJumpToTopOfPageRoutes } from "./norent/route-info";
 import { getEvictionFreeJumpToTopOfPageRoutes } from "./evictionfree/route-info";
 import { getLaLetterBuilderJumpToTopOfPageRoutes } from "./laletterbuilder/route-info";
+import { getLaLetterBuilderJumpToTopOfPageRoutes as getLetterSenderJumpToTopOfPageRoutes } from "./lettersender/route-info";
 import { AppLocationState } from "./app-location";
 
 // Note that these don't need any special fallback loading screens
@@ -60,6 +61,9 @@ const LoadableNorentSite = loadable(() => import("./norent/site"));
 const LoadableEvictionFreeSite = loadable(() => import("./evictionfree/site"));
 const LoadableLaLetterBuilderSite = loadable(() =>
   import("./laletterbuilder/site")
+);
+const LoadableLetterSenderSite = loadable(() =>
+  import("./lettersender/site")
 );
 
 export type AppSiteProps = RouteComponentProps & {
@@ -128,7 +132,8 @@ export class AppWithoutRouter extends React.Component<
     this.jumpToTopOfPageRoutes = new Set(
       ...getNorentJumpToTopOfPageRoutes(),
       ...getEvictionFreeJumpToTopOfPageRoutes(),
-      ...getLaLetterBuilderJumpToTopOfPageRoutes()
+      ...getLaLetterBuilderJumpToTopOfPageRoutes(),
+      ...getLetterSenderJumpToTopOfPageRoutes()
     );
   }
 
@@ -374,6 +379,8 @@ export class AppWithoutRouter extends React.Component<
         return LoadableEvictionFreeSite;
       case "LALETTERBUILDER":
         return LoadableLaLetterBuilderSite;
+      case "LETTERSENDER":
+        return LoadableLetterSenderSite;
     }
   }
 

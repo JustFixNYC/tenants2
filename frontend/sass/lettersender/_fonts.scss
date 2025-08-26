@@ -1,0 +1,308 @@
+// MEDIA:
+
+@mixin mobile {
+  @media screen and (max-width: $desktop) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media screen and (min-width: $desktop) {
+    @content;
+  }
+}
+
+// FONTS:
+
+@font-face {
+  font-family: "Degular";
+  font-weight: normal;
+  font-style: normal;
+  src: url("#{$laletterbuilder-root}/font/Degular-Medium.woff2") format("woff2"),
+    url("#{$laletterbuilder-root}/font/Degular-Medium.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Degular";
+  font-weight: 600;
+  font-style: normal;
+  src: url("#{$laletterbuilder-root}/font/Degular-Semibold.woff2")
+      format("woff2"),
+    url("#{$laletterbuilder-root}/font/Degular-Semibold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Degular Display";
+  font-weight: normal;
+  font-style: normal;
+  src: url("#{$laletterbuilder-root}/font/Degular_Display-Medium.woff2")
+      format("woff2"),
+    url("#{$laletterbuilder-root}/font/Degular_Display-Medium.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Suisse Int'l Mono";
+  font-weight: normal;
+  font-style: normal;
+  src: url("#{$laletterbuilder-root}/font/SuisseIntlMono-Regular-WebS.woff2")
+      format("woff2"),
+    url("#{$laletterbuilder-root}/font/SuisseIntlMono-Regular-WebS.woff")
+      format("woff");
+}
+
+$body-font: "Degular", Arial, Helvetica, sans-serif;
+$title-font: "Degular Display", Arial, Helvetica, sans-serif;
+$eyebrow-font: "Suisse Int'l Mono", "Courier New", Courier, monospace;
+
+$family-primary: $body-font;
+
+// TYPOGRAPHY:
+
+// Default text color:
+$title-color: $justfix-black;
+$body-color: $justfix-black;
+
+@mixin body-standard {
+  font-family: $body-font;
+  font-size: 1.125rem;
+  line-height: 100%;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0.01rem;
+}
+
+@mixin link {
+  color: inherit;
+  font-size: inherit;
+  text-decoration: underline;
+
+  &.no-underline {
+    text-decoration: none;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: underline;
+  }
+}
+
+// TYPOGRAPHY-DESKTOP:
+@mixin desktop-h1 {
+  @include body-standard();
+  font-family: $title-font;
+  font-size: 6rem;
+  letter-spacing: 0.03em;
+}
+
+@mixin desktop-h2 {
+  @include body-standard();
+  font-family: $title-font;
+  font-size: 4rem;
+  line-height: 90%;
+  letter-spacing: 0.03em;
+}
+
+@mixin desktop-h3 {
+  @include body-standard();
+  font-weight: 600;
+  font-size: 2.25rem;
+}
+
+@mixin desktop-h4 {
+  @include body-standard();
+  font-size: 1.5rem;
+  line-height: 120%;
+}
+
+@mixin desktop-text-small {
+  @include body-standard();
+  font-size: 0.875rem;
+}
+
+@mixin desktop-text-small-bold {
+  @include body-standard();
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+@mixin desktop-eyebrow {
+  @include body-standard();
+  font-family: $eyebrow-font;
+  line-height: 115%;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+@mixin desktop-eyebrow-small {
+  @include desktop-eyebrow();
+  font-size: 1rem;
+}
+
+@mixin desktop-typography {
+  body,
+  p,
+  a,
+  span {
+    @include body-standard();
+
+    &.is-small {
+      @include desktop-text-small();
+    }
+
+    &.is-bold {
+      @include desktop-text-small-bold();
+    }
+  }
+
+  a,
+  .link {
+    @include link();
+  }
+
+  .title.is-1,
+  h1 {
+    @include desktop-h1();
+  }
+
+  .title.is-2,
+  h2 {
+    // LALOC uses mobile H2 styles on desktop
+    @include mobile-h2();
+  }
+
+  .title.is-3,
+  h3 {
+    @include desktop-h3();
+  }
+
+  .title.is-4,
+  h4 {
+    @include desktop-h4();
+  }
+
+  .eyebrow {
+    @include desktop-eyebrow();
+
+    &.is-small {
+      @include desktop-eyebrow-small();
+    }
+  }
+}
+
+// TYPOGRAPHY-MOBILE:
+
+@mixin mobile-h1 {
+  @include body-standard();
+  font-weight: 600;
+  font-size: 2.25rem;
+}
+
+@mixin mobile-h2 {
+  @include body-standard();
+  font-weight: 600;
+  font-size: 1.125rem;
+  letter-spacing: 0.02em;
+  font-variant: all-small-caps;
+}
+
+@mixin mobile-h3 {
+  @include body-standard();
+  font-size: 1.5rem;
+  line-height: 110%;
+}
+
+@mixin mobile-eyebrow {
+  @include body-standard();
+  font-family: $eyebrow-font;
+  font-size: 0.875rem;
+  line-height: 115%;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+@mixin mobile-text-small {
+  @include body-standard();
+  font-size: 0.875rem;
+}
+
+@mixin mobile-text-small-bold {
+  @include mobile-text-small();
+  font-weight: 600;
+}
+
+@mixin mobile-text-small-link {
+  @include mobile-text-small();
+  @include link();
+  line-height: 115%;
+}
+
+@mixin mobile-typography {
+  body,
+  p,
+  a,
+  span {
+    @include body-standard();
+
+    &.is-small {
+      @include mobile-text-small();
+
+      &.is-bold {
+        @include mobile-text-small-bold();
+      }
+    }
+
+    &.is-large {
+      @include mobile-h3();
+    }
+  }
+
+  a,
+  .link {
+    @include link();
+  }
+
+  .title.is-1,
+  h1,
+  div.content h1.title {
+    @include mobile-h1();
+  }
+
+  .title.is-2,
+  h2 {
+    @include mobile-h2();
+  }
+
+  .title.is-3,
+  h3 {
+    @include mobile-h3();
+  }
+
+  .title.is-4,
+  h4 {
+    @include body-standard();
+  }
+
+  .eyebrow {
+    @include mobile-eyebrow();
+  }
+}
+
+@include desktop() {
+  @include desktop-typography();
+}
+
+@include mobile() {
+  @include mobile-typography();
+}
+
+// LALOC-specific (for bulma)
+$family-sans-serif: $body-font;
+$jf-body-family: $body-font;
+$jf-title-family: $title-font;
+$jf-alt-title-family: $eyebrow-font;
+
+.has-text-primary {
+  color: $primary;
+}

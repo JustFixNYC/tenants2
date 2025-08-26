@@ -1,0 +1,48 @@
+// PILLS:
+
+.tag,
+.tag:not(body) {
+  // @include mobile-text-small-bold;
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  letter-spacing: 0.02rem;
+  text-transform: uppercase;
+  padding: 0.25rem 0.5rem;
+  margin: 0.25rem;
+  gap: 0.625rem;
+
+  // LALOC specific
+  height: unset;
+  line-height: 0.875rem;
+
+  // this is 12px/0.75rem in mocks, but it looks too sqaure - not sure how/why
+  border-radius: 1rem;
+
+  // LALOC-specific
+  box-sizing: border-box;
+
+  &.is-yellow {
+    background: $justfix-yellow;
+  }
+
+  &.is-blue {
+    background: $justfix-blue;
+  }
+
+  &.is-pink {
+    background: $justfix-pink;
+  }
+
+  // LALOC specific
+  &.is-black {
+    color: $justfix-white;
+    background: $justfix-black;
+  }
+
+  &.is-empty {
+    background: none;
+    border: 0.0625rem solid $justfix-black;
+    box-sizing: border-box;
+  }
+}

@@ -170,6 +170,7 @@ INSTALLED_APPS = [
     "laletterbuilder.apps.LaLetterBuilderConfig",
     "gce.apps.GoodCauseEvictionScreenerConfig",
     "efnyc.apps.EfnycConfig",
+    "lettersender.apps.LetterSenderConfig",
 ]
 
 MIDDLEWARE = [

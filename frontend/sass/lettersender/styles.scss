@@ -1,0 +1,540 @@
+@charset "utf-8";
+
+// This is where the LetterSender-related static assets will be, relative to
+// where this CSS file will be when the site is deployed.
+$lettersender-root: "../lettersender";
+
+$lettersender-desktop-max-width: 40.875rem;
+
+@import "./_spacing.scss";
+@import "./_bulma-overrides.scss";
+@import "../../../node_modules/bulma/bulma.sass";
+@import "./_custom.scss";
+
+@import "./_fonts.scss";
+
+@import "../_util.scss";
+@import "../../../node_modules/bulma-divider/dist/css/bulma-divider.sass";
+@import "../_supertiny.scss";
+@import "../_a11y.scss";
+@import "../_safe-mode.scss";
+@import "../_modal.scss";
+@import "./_modal-overrides.scss";
+@import "../_loading-overlay.scss";
+@import "../_progress.scss";
+@import "../_dev.scss";
+@import "../_forms.scss";
+@import "./forms-overrides.scss";
+@import "../_buttons.scss";
+@import "./_button-overrides.scss";
+@import "../_big-list.scss";
+@import "../_animations.scss";
+@import "../_footer.scss";
+@import "./_footer-overrides.scss";
+@import "../_letter-preview.scss";
+@import "../_autocomplete.scss";
+@import "../_helpers.scss";
+@import "../_language-toggle.scss";
+@import "../_email.scss";
+@import "../_accordion.scss";
+@import "../_issues.scss";
+@import "./_tag-overrides.scss";
+
+// These variables define the background and content colors for the nav-bar
+$jf-navbar-background: $primary;
+$jf-navbar-content: $secondary;
+$jf-navbar-height: 70px;
+
+@import "../_navbar.scss";
+@import "./navbar-overrides";
+
+@import "../_demo-deployment-note.scss";
+
+@import "../norent/_misc.scss";
+
+@import "../norent/_primary_pages.scss";
+
+// SITE-WIDE STYLE DEFAULTS
+.jf-site-lettersender {
+  background-color: $secondary;
+
+  .jf-lettersender-section-primary,
+  .jf-lettersender-landing-section-primary {
+    background-color: $secondary;
+  }
+
+  .jf-lettersender-section-secondary,
+  .jf-lettersender-landing-section-secondary {
+    background-color: $secondary-accent;
+    figure {
+      margin: 0rem;
+    }
+    .text-section {
+      margin-top: $spacing-07;
+    }
+  }
+
+  .jf-lettersender-landing-section-tertiary {
+    background-color: $primary;
+    color: $secondary;
+    h2 {
+      color: $secondary;
+    }
+    .subtitle {
+      color: $secondary;
+    }
+  }
+
+  .hero-body {
+    padding: $spacing-07 $spacing-06 $spacing-08;
+  }
+
+  .has-background-dark {
+    .content a:not(.button):hover {
+      color: $justfix-grey-400;
+    }
+  }
+
+  .modal-content {
+    .content h1.title {
+      font-size: 2em;
+    }
+  }
+
+  a:hover {
+    color: $justfix-grey-dark;
+  }
+}
+
+.jf-lettersender-section-primary,
+.jf-lettersender-section-secondary {
+  padding: $spacing-07 $spacing-06;
+}
+
+.jf-lettersender-combined-logo {
+  position: relative;
+
+  a {
+    position: absolute;
+    height: 100%;
+    display: block;
+    z-index: 1;
+  }
+
+  a:nth-child(1) {
+    width: 62%;
+  }
+
+  a:nth-child(2) {
+    width: 38%;
+    left: 62%;
+  }
+
+  @include desktop {
+    max-width: 256px;
+  }
+}
+
+// PROGRESS BAR STYLING OVERRIDES
+.jf-progress-title-wrapper {
+  .jf-page-steps-title.title {
+    @include body-standard();
+    margin-bottom: $spacing-03;
+
+    // Ooof! We unfortunately need to override some rules marked as "important"
+    &.has-text-centered {
+      text-align: left !important;
+    }
+
+    &.has-text-grey {
+      color: $primary !important;
+    }
+  }
+
+  progress {
+    border: 1px solid $primary;
+  }
+
+  progress::-webkit-progress-bar {
+    background: $secondary;
+  }
+}
+
+// ISSUE CHECKLIST CUSTOMIZATIONS
+
+.jf-accordion-list-large {
+  p:first-child {
+    padding-bottom: $spacing-05;
+    margin-bottom: $spacing-05;
+    border-bottom: 1px solid $primary;
+  }
+
+  .jf-accordion-item {
+    margin-bottom: $spacing-05;
+
+    details {
+      margin-bottom: 0;
+
+      summary {
+        padding: 0;
+        margin: 0;
+
+        &:focus {
+          outline-offset: 5px;
+        }
+
+        .media-right span {
+          text-decoration: underline;
+        }
+      }
+
+      &::after {
+        content: " ";
+        display: block;
+        width: 100%;
+        margin-top: 1rem;
+        border-bottom: 1px solid $primary;
+      }
+
+      .jf-checkbox {
+        .jf-checkbox-symbol {
+          width: 100%;
+          position: absolute;
+          border: 1px solid $primary;
+          min-height: 2.8rem;
+          border-radius: 4px;
+        }
+
+        // Styling of the check mark symbol itself:
+        input:checked + .jf-checkbox-symbol {
+          background-position: 98%;
+        }
+
+        .jf-label-text {
+          margin: $spacing-02 $spacing-03 $spacing-02 0;
+          height: 0.8rem;
+          padding: $spacing-05;
+          z-index: 5;
+          color: $primary;
+        }
+
+        input:checked ~ .jf-label-text {
+          color: $secondary;
+        }
+      }
+    }
+  }
+
+  // HOMEPAGE FAQ ACCORDION
+  .jf-accordion-item details[open] {
+    summary + span {
+      margin: 1rem 0;
+      display: block;
+    }
+
+    .control {
+      padding-bottom: $spacing-07;
+    }
+  }
+}
+
+.jf-lettersender-issue-category {
+  border-bottom: 1px solid $primary;
+}
+
+// Fix bug where scrollbars appear on accordion titles
+.jf-accordion-item summary .media-content {
+  overflow-x: unset;
+}
+
+// CHOOSE LETTER STYLING OVERRIDES
+
+.jf-la-letter-card {
+  border: 0.063rem solid $primary;
+  box-sizing: border-box;
+  border-radius: 0.25rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: $lettersender-desktop-max-width;
+
+  .jf-clock-icon {
+    float: left;
+    margin-top: 0.4rem;
+    margin-right: $spacing-02;
+  }
+
+  hr {
+    margin: $spacing-05 0px $spacing-03 0px;
+    background-color: black;
+    color: black;
+    height: 0.063rem;
+  }
+
+  // Other places, we want the tap target to spill over the sides of the item. Not here.
+  .jf-accordion-item {
+    margin: 0 0 $spacing-03;
+
+    @include desktop {
+      margin-left: $spacing-04;
+    }
+
+    details {
+      // Since this accordion is contained within another object, we don't need extra space at the bottom.
+      margin-bottom: 0;
+    }
+
+    details[open] {
+      margin-bottom: $spacing-05;
+    }
+  }
+
+  .button {
+    figure {
+      display: inline-block;
+      margin-left: $spacing-03;
+    }
+  }
+
+  ul > li {
+    margin-left: $spacing-05;
+
+    &::before {
+      content: "▪";
+      margin: 0 $spacing-03 0 (-$spacing-05);
+    }
+  }
+}
+
+.jf-la-letter-card-tags {
+  > span:first-child {
+    margin-left: 0;
+  }
+}
+
+.jf-la-formstack-card {
+  margin-top: $spacing-06;
+}
+
+// ACCESS DATES STYLING OVERRIDES
+.jf-landlord-access-dates {
+  h1.title {
+    @include desktop {
+      @include desktop-h3();
+    }
+    @include mobile {
+      @include mobile-h1();
+    }
+  }
+
+  p.subtitle.is-6 {
+    @include desktop {
+      @include desktop-h4();
+    }
+    @include mobile {
+      @include mobile-h3();
+    }
+  }
+}
+
+// MY LETTERS STYLING OVERRIDES
+.jf-my-letters {
+  .my-letters-box {
+    border: 1px solid $primary;
+    box-sizing: border-box;
+    border-radius: 0.25rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: $spacing-06;
+    max-width: $lettersender-desktop-max-width;
+    padding: $spacing-06;
+  }
+
+  .new-letter-button {
+    margin-top: $spacing-07;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .jf-lettersender-letter-tracking {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  figure {
+    margin: 0;
+  }
+
+  .jf-la-letter-card + .jf-la-letter-card {
+    margin-top: $spacing-05;
+  }
+}
+
+// SEND OPTIONS STYLING
+.jf-lettersender-mailchoice {
+  display: flex;
+  flex-direction: column;
+
+  > div {
+    margin-bottom: $spacing-03;
+  }
+}
+
+.jf-lettersender-landlord-email {
+  background-color: $secondary-accent;
+  padding: $spacing-05;
+  margin-bottom: $spacing-05;
+  border-radius: 4px;
+}
+
+.jf-lettersender-landlord-email > span + span {
+  display: block;
+  margin-top: $spacing-05;
+}
+
+.jf-lettersender-send-options-modal {
+  p > span {
+    display: block;
+
+    &:not(:first-child) {
+      font-style: italic;
+    }
+  }
+}
+
+// ACCOUNT SETTINGS STYLE OVERRIDES
+
+.jf-account-settings-h2 {
+  padding-bottom: $spacing-03;
+  border-bottom: 1px solid $justfix-black;
+}
+
+.jf-account-settings-h3 {
+  margin-top: $spacing-07;
+  margin-bottom: $spacing-03;
+
+  @include tablet {
+    @include desktop-h4();
+  }
+}
+
+.jf-account-settings-h3 + p {
+  margin-bottom: $spacing-04;
+}
+
+.button + .jf-account-settings-h2 {
+  margin-top: $spacing-12;
+}
+
+// NORENT STYLING OVERRIDES
+
+.jf-norent-builder-page {
+  padding: $spacing-07 $spacing-06;
+  background-color: $secondary;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+$footer-offset: 1rem;
+
+.jf-norent-internal-above-footer-content {
+  min-height: calc(100vh - #{$jf-navbar-height * 2});
+
+  @include tablet {
+    margin-top: $spacing-10;
+    margin-bottom: $spacing-10;
+    min-height: calc(100vh - 8rem - #{$jf-navbar-height} - #{$footer-offset});
+  }
+}
+
+ol.is-marginless {
+  padding-left: $spacing-05;
+}
+
+.jf-accordion-item {
+  details summary {
+    padding: $spacing-03;
+    margin: 0 (-$spacing-03);
+
+    .media .media-right .image {
+      margin-right: 0;
+    }
+  }
+
+  &:hover summary,
+  &:hover summary .has-text-primary {
+    color: $justfix-grey-dark !important;
+    text-decoration-color: $justfix-grey-dark !important;
+  }
+
+  img {
+    // Our default chevron icon on accordion dropdowns is blue
+    // Let's make the color match up with the scheme of this site
+    filter: grayscale(100%) brightness(0.1);
+  }
+}
+
+.box {
+  color: $primary;
+}
+
+.jf-letter-preview {
+  box-shadow: none;
+  border: 1px solid $primary;
+}
+
+.message {
+  border: 1px solid $primary;
+
+  .message-header {
+    background-color: $primary;
+    color: $secondary;
+  }
+
+  .message-body {
+    background-color: $secondary;
+    color: $primary;
+    padding: $spacing-06;
+
+    > p:not(:last-child) {
+      margin-bottom: $spacing-05;
+    }
+  }
+
+  &.jf-letter-translation .message-body {
+    background-color: white;
+  }
+}
+
+.is-divider {
+  border: 1px solid $primary;
+  margin: $spacing-05 0;
+}
+
+// DESKTOP STYLE OVERRIDES
+@media screen and (min-width: $tablet) {
+  .container {
+    width: unset;
+  }
+
+  .jf-lettersender-footer-logo {
+    margin-top: 0;
+  }
+
+  .jf-lettersender-section-primary,
+  .jf-lettersender-landing-section-primary,
+  .jf-lettersender-section-secondary,
+  .jf-lettersender-landing-section-secondary,
+  .jf-lettersender-section-tertiary,
+  .jf-lettersender-landing-section-tertiary {
+    & > * {
+      max-width: $lettersender-desktop-max-width;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  .jf-norent-internal-above-footer-content {
+    max-width: $lettersender-desktop-max-width;
+    margin: auto;
+  }
+}

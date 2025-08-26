@@ -61,6 +61,8 @@ def get_site_type(site: Site) -> str:
         r".*latenants.*", site.name, re.IGNORECASE
     ):
         return SITE_CHOICES.LALETTERBUILDER
+    elif re.match(r".*lettersender.*", site.name, re.IGNORECASE):
+        return SITE_CHOICES.LETTERSENDER
     return SITE_CHOICES.JUSTFIX
 
 

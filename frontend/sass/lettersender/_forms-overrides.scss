@@ -1,0 +1,105 @@
+form {
+  .field {
+    .label {
+      font-size: 1.125rem;
+      font-weight: 400;
+    }
+    .control input,
+    .control select,
+    .jf-checkbox-symbol {
+      border: 1px solid $primary;
+      border-radius: 4px;
+
+      &:disabled {
+        border-color: $justfix-grey-dark;
+        background-color: $justfix-grey-50;
+      }
+    }
+    .control {
+      input,
+      select {
+        border-radius: 4px;
+        margin-bottom: $spacing-03;
+        background-color: $secondary;
+        &:not(:focus) {
+          box-shadow: none;
+        }
+      }
+      .jf-autocomplete-open {
+        margin-left: 0;
+      }
+    }
+    .jf-single-checkbox {
+      margin-top: $spacing-05;
+      padding: 0;
+
+      &.is-danger {
+        margin-top: $spacing-02;
+      }
+    }
+    .jf-radio {
+      align-items: flex-start;
+      border: 1px solid $primary;
+      border-radius: 4px;
+      padding: $spacing-05 $spacing-03;
+      margin-bottom: $spacing-05;
+
+      &.checked {
+        border-width: 2px;
+      }
+    }
+    .jf-radio-symbol {
+      min-width: $spacing-05;
+      min-height: $spacing-05;
+      border: 3px solid $secondary;
+      box-shadow: 0 0 0 1px $primary;
+      margin-top: 0;
+    }
+    input:focus + .jf-radio-symbol {
+      outline-color: $primary;
+    }
+    .jf-label-text,
+    .jf-label-text .subtitle {
+      font-size: 0.875rem;
+      line-height: 0.875rem;
+      a {
+        text-decoration: underline;
+      }
+    }
+  }
+  .jf-related-text-field-with-checkbox {
+    // Override current field position offset
+    div.field:last-child {
+      margin-top: -($spacing-05);
+      margin-bottom: $spacing-04;
+    }
+  }
+
+  // Form-level error messages
+  .notification.is-danger {
+    padding: $spacing-04 $spacing-05;
+    background-color: $primary;
+    border-left: $spacing-04 solid $justfix-orange;
+  }
+}
+
+// Accessibility
+input:focus + .jf-checkbox-symbol {
+  outline-color: $primary;
+}
+
+input.jf-editable-info {
+  border: 1px solid $primary;
+  border-radius: 4px;
+  margin-bottom: $spacing-03;
+  background-color: $secondary;
+
+  &:disabled {
+    border-color: $justfix-grey-dark;
+    background-color: $justfix-grey-50;
+  }
+
+  &:not(:focus) {
+    box-shadow: none;
+  }
+}

@@ -161,6 +161,8 @@ sessionFields = ["onboardingInfo"]
 
 [mutations."laLetterBuilder.*"]
 
+[mutations."letterSender.*"]
+
 [mutations.phoneNumber]
 
 [mutations.leaseType]

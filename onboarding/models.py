@@ -252,6 +252,8 @@ class OnboardingInfo(models.Model):
         ),
     )
 
+
+
     can_receive_rttc_comms = models.BooleanField(
         null=True,
         blank=True,

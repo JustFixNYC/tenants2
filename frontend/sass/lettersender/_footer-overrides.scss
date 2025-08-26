@@ -1,0 +1,42 @@
+footer {
+  .container {
+    padding: 0;
+
+    .content {
+      p {
+        margin: 0;
+      }
+
+      figure.image,
+      .jf-laletterbuilder-combined-logo {
+        margin: 0 0 $spacing-05;
+      }
+
+      .is-divider {
+        margin-bottom: $spacing-05;
+        border: 1px solid $secondary;
+      }
+
+      // Bottom outbound links:
+      .is-uppercase a {
+        @include mobile-eyebrow();
+      }
+    }
+  }
+}
+
+.jf-laletterbuilder-footer-logo {
+  margin: $spacing-03 0;
+}
+
+footer .content,
+.jf-laletterbuilder-footer-section > div {
+  padding: $spacing-07 $spacing-06;
+  max-width: $laletterbuilder-desktop-max-width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.jf-norent-internal-above-footer-content + .jf-laletterbuilder-footer-section {
+  background-color: $secondary-accent;
+}

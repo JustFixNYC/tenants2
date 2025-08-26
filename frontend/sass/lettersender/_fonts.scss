@@ -18,36 +18,34 @@
   font-family: "Degular";
   font-weight: normal;
   font-style: normal;
-  src: url("#{$laletterbuilder-root}/font/Degular-Medium.woff2") format("woff2"),
-    url("#{$laletterbuilder-root}/font/Degular-Medium.woff") format("woff");
+  src: url("#{$lettersender-root}/font/Degular-Medium.woff2") format("woff2"),
+    url("#{$lettersender-root}/font/Degular-Medium.woff") format("woff");
 }
 
 @font-face {
   font-family: "Degular";
   font-weight: 600;
   font-style: normal;
-  src: url("#{$laletterbuilder-root}/font/Degular-Semibold.woff2")
-      format("woff2"),
-    url("#{$laletterbuilder-root}/font/Degular-Semibold.woff") format("woff");
+  src: url("#{$lettersender-root}/font/Degular-Semibold.woff2") format("woff2"),
+    url("#{$lettersender-root}/font/Degular-Semibold.woff") format("woff");
 }
 
 @font-face {
   font-family: "Degular Display";
   font-weight: normal;
   font-style: normal;
-  src: url("#{$laletterbuilder-root}/font/Degular_Display-Medium.woff2")
+  src: url("#{$lettersender-root}/font/Degular_Display-Medium.woff2")
       format("woff2"),
-    url("#{$laletterbuilder-root}/font/Degular_Display-Medium.woff")
-      format("woff");
+    url("#{$lettersender-root}/font/Degular_Display-Medium.woff") format("woff");
 }
 
 @font-face {
   font-family: "Suisse Int'l Mono";
   font-weight: normal;
   font-style: normal;
-  src: url("#{$laletterbuilder-root}/font/SuisseIntlMono-Regular-WebS.woff2")
+  src: url("#{$lettersender-root}/font/SuisseIntlMono-Regular-WebS.woff2")
       format("woff2"),
-    url("#{$laletterbuilder-root}/font/SuisseIntlMono-Regular-WebS.woff")
+    url("#{$lettersender-root}/font/SuisseIntlMono-Regular-WebS.woff")
       format("woff");
 }
 

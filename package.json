@@ -30,6 +30,8 @@
     "sass_evictionfree:watch": "yarn sass_evictionfree --watch",
     "sass_laletterbuilder": "node-sass-chokidar frontend/sass/laletterbuilder/styles.scss frontend/static/frontend/styles-laletterbuilder.css --source-map frontend/static/frontend/styles-laletterbuilder.css.map --source-map-contents --output-style compressed",
     "sass_laletterbuilder:watch": "yarn sass_laletterbuilder --watch",
+    "sass_lettersender": "node-sass-chokidar frontend/sass/lettersender/styles.scss frontend/static/frontend/styles-lettersender.css --source-map frontend/static/frontend/styles-lettersender.css.map --source-map-contents --output-style compressed",
+    "sass_lettersender:watch": "yarn sass_lettersender --watch",
     "sass": "node-sass-chokidar frontend/sass/styles.scss frontend/static/frontend/styles.css --source-map frontend/static/frontend/styles.css.map --source-map-contents --output-style compressed",
     "sass:watch": "yarn sass --watch",
     "graphql": "python manage.py graphql_schema && yarn querybuilder",
@@ -39,8 +41,8 @@
     "webpack:watch": "webpack --watch",
     "safe_mode_snippet": "uglifyjs frontend/safe_mode/safe-mode.js -o frontend/safe_mode/safe-mode.min.js",
     "safe_mode_snippet:watch": "node frontend/safe_mode/watcher.js",
-    "build": "yarn lingui:compile && yarn querybuilder && yarn sass && yarn sass_norent && yarn sass_evictionfree && yarn sass_laletterbuilder && yarn webpack && yarn safe_mode_snippet",
-    "start": "yarn lingui:compile && yarn querybuilder && yarn sass && yarn sass_norent && yarn sass_evictionfree && yarn sass_laletterbuilder && concurrently --kill-others \"yarn webpack:watch\" \"yarn sass:watch\" \"yarn sass_norent:watch\" \"yarn sass_evictionfree:watch\" \"yarn sass_laletterbuilder:watch\" \"yarn querybuilder:watch\" \"yarn safe_mode_snippet:watch\"",
+    "build": "yarn lingui:compile && yarn querybuilder && yarn sass && yarn sass_norent && yarn sass_evictionfree && yarn sass_laletterbuilder && yarn sass_lettersender && yarn webpack && yarn safe_mode_snippet",
+    "start": "yarn lingui:compile && yarn querybuilder && yarn sass && yarn sass_norent && yarn sass_evictionfree && yarn sass_laletterbuilder && yarn sass_lettersender && concurrently --kill-others \"yarn webpack:watch\" \"yarn sass:watch\" \"yarn sass_norent:watch\" \"yarn sass_evictionfree:watch\" \"yarn sass_laletterbuilder:watch\" \"yarn sass_lettersender:watch\" \"yarn querybuilder:watch\" \"yarn safe_mode_snippet:watch\"",
     "server:start": "yarn django:compilemessages && python -m debugpy --listen 0.0.0.0:5678 manage.py runserver"
   },
   "repository": {

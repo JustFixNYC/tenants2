@@ -65,11 +65,29 @@ class GCELetter(LocalizedHTMLLetter):
     # TODO: add @property for admin_pdf_url and admin_url so they can be linked
     # in slack messages logging new letters in case we need to manually check
     # them on the admin dashboard.
+
+    @property
+    def admin_pdf_url(self) -> str:
+        """
+        A link where an administrative/staff user can view the
+        letter of complaint as a PDF.
+
+        If we don't have enough information to generate such a link,
+        this will be an empty string.
+        """
+
+        if self.pk is None:
+            return ""
+        return absolute_reverse("gceletter:gce_letter_pdf", kwargs={"hash": self.hash})
+
     @property
     def admin_url(self):
         return absolute_reverse("admin:gceletter_gceletter_change", args=[self.pk])
 
     # TODO: Add method for adding user to textit followup campaign, see GCE
+
+    def __str__(self):
+        return f"{self.user_details.full_name}'s GCE Letter ({self.created_at.date()})"
 
 
 class UserDetails(MailingAddress):
@@ -121,6 +139,9 @@ class UserDetails(MailingAddress):
 
         return f"{self.first_name} {self.last_name}"
 
+    def __str__(self):
+        return f"{self.full_name} / {self.phone_number}"
+
 
 class LandlordDetails(MailingAddress):
     """
@@ -155,3 +176,6 @@ class LandlordDetails(MailingAddress):
         blank=True,
         help_text="Optional. Only used for addresses in Puerto Rico.",
     )
+
+    def __str__(self):
+        return f"{self.name}: {'/'.join(self.address_lines_for_mailing)}"

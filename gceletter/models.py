@@ -1,63 +1,58 @@
 import hashlib
-from typing import List
 from django.db import models
 
-# from typing import List
-# from django.contrib.postgres.fields import ArrayField
-
-from loc.models import LOC_MAILING_CHOICES, BaseLetterRequest
-from project.util.address_form_fields import BOROUGH_FIELD_KWARGS
+from project.common_data import Choices
 from project.util import phone_number as pn
-from project.util.instance_change_tracker import InstanceChangeTracker
+from project.util.lob_models_util import LocalizedHTMLLetter
 from project.util.mailing_address import MailingAddress
 from project.util.site_util import absolute_reverse
 
+GCELETTER_MAILING_CHOICES = Choices.from_file("gceletter-mailing-choices.json")
 
-class GCELetter(BaseLetterRequest):
-    # Inherited LOC-specific field we don't need
-    rejection_reason = None
 
-    created_at = models.DateTimeField(auto_now_add=True)
+class GCELetter(LocalizedHTMLLetter):
+    """
+    A Good Cause Eviction letter that is automatically sent at the same time it's created.
+    """
 
-    updated_at = models.DateTimeField(auto_now=True)
+    class Meta:
+        ordering = ["-created_at"]
 
-    # cc_emails: List[str] = ArrayField(models.EmailField(max_length=20), blank=True, default=list,help_text="List of additional emails to include when email the letter to the user.")
+    # Type hints for 1:1 relationships
+    user_details: "UserDetails"
+    landlord_details: "LandlordDetails"
 
+    mail_choice = models.TextField(
+        max_length=30,
+        choices=GCELETTER_MAILING_CHOICES.choices,
+        help_text="How the letter will be mailed.",
+        default=GCELETTER_MAILING_CHOICES.WE_WILL_MAIL,
+    )
+
+    email_to_landlord = models.BooleanField(
+        null=True,
+        blank=True,
+        help_text=(
+            "Whether to email a copy of the letter to the landlord. "
+            "Requires a landlord email to be provided"
+        ),
+    )
+
+    pdf_base64 = models.TextField(
+        help_text="A base64 encoded string representing the English content of the letter.",
+        blank=True,
+    )
+
+    # TODO: Decide if this quick experiment with creating unique urls for pdf
+    # with hash makes sense as an alternative to full account for accessing past
+    # letters, and sort out how it would work if there are multiple letters
     hash: str = models.CharField(max_length=64, unique=True, null=True, blank=True)
-
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self.__tracker = InstanceChangeTracker(self, ["mail_choice", "html_content"])
-        self.__tracking_number_tracker = InstanceChangeTracker(self, ["tracking_number"])
-
-    def _on_tracking_number_changed(self):
-        if not self.tracking_number:
-            return
-        # self.user.chain_sms_async(
-        #     [
-        #         (
-        #             f"We mailed your Letter of Complaint to your landlord. "
-        #             f"Track your letter: {self.usps_tracking_url} "
-        #         ),
-        #         f"Link may take a few days to update. ",
-        #     ]
-        # )
-
-        # self.user.trigger_followup_campaign_async("LOC")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-
         orig_data = str(self.pk).encode("utf-8")
         self.hash = hashlib.sha256(orig_data).hexdigest()
         super().save(update_fields=["hash"])
-
-        self.__tracker.set_to_unchanged()
-
-        if self.__tracking_number_tracker.has_changed():
-            self._on_tracking_number_changed()
-
-        self.__tracking_number_tracker.set_to_unchanged()
 
     @property
     def will_we_mail(self) -> bool:
@@ -65,31 +60,16 @@ class GCELetter(BaseLetterRequest):
         Whether or not the user wants us to mail the letter for them.
         """
 
-        return self.mail_choice == LOC_MAILING_CHOICES.WE_WILL_MAIL
+        return self.mail_choice == GCELETTER_MAILING_CHOICES.WE_WILL_MAIL
 
+    # TODO: add @property for admin_pdf_url and admin_url so they can be linked
+    # in slack messages logging new letters in case we need to manually check
+    # them on the admin dashboard.
     @property
-    def admin_pdf_url(self) -> str:
-        """
-        A link where an administrative/staff user can view the
-        letter of complaint as a PDF.
+    def admin_url(self):
+        return absolute_reverse("admin:gceletter_gceletter_change", args=[self.pk])
 
-        If we don't have enough information to generate such a link,
-        this will be an empty string.
-        """
-
-        if self.pk is None:
-            return ""
-        return absolute_reverse("loc_for_user", kwargs={"user_id": self.user.pk})
-
-    # See loc/admin_views.py for LOB processes, can add methods here and call
-    # from ./views.py upon letter request. We might also want to consider adding
-    # a separate endpoint just for the address verification via lob so we can
-    # check the deliverability of landlord address immediately on that step so
-    # they can correct if necessary before proceeding.
-
-    # See loc/email_letter.py for emailing letter to user and landlord
-
-    # See gce/models.py for adding user to textit followup campaign
+    # TODO: Add method for adding user to textit followup campaign, see GCE
 
 
 class UserDetails(MailingAddress):
@@ -104,6 +84,7 @@ class UserDetails(MailingAddress):
         help_text="The GCE letter this user is sending to their landlord.",
     )
 
+    # TODO: Decide if we want to add a "preferred name" field like with LOC
     first_name: str = models.CharField(
         max_length=100, blank=True, help_text="The user's first/given name."
     )

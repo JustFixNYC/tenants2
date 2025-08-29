@@ -38,17 +38,20 @@ class BaseModelDict(pydantic.BaseModel):
         return {k: v for k, v in self.dict().items() if predicate(k, v)}
 
 
-class UserDetailsData(BaseModelDict):
-    first_name: str
-    last_name: str
-    email: str
-    phone_number: str
+class LOBAddress(BaseModelDict):
     primary_line: str
     secondary_line: Optional[str]
     urbanization: Optional[str]
     city: str
     state: str
     zip_code: str
+
+
+class UserDetailsData(LOBAddress):
+    first_name: str
+    last_name: str
+    email: str
+    phone_number: str
     bbl: str
 
     # Mypy is not recognizing "validator" as import
@@ -69,27 +72,22 @@ class UserDetailsData(BaseModelDict):
         return v
 
 
-class LandlordDetailsData(BaseModelDict):
+class LandlordDetailsData(LOBAddress):
     name: str
     email: str
-    primary_line: str
-    secondary_line: Optional[str]
-    urbanization: Optional[str]
-    city: str
-    state: str
-    zip_code: str
 
 
 class GCELetterPostData(BaseModelDict):
     user_details: UserDetailsData
     landlord_details: LandlordDetailsData
     mail_choice: str
+    email_to_landlord: bool
     html_content: str
 
 
-def validate_data(request):
+def validate_data(request, cls):
     try:
-        data = GCELetterPostData(**json.loads(request.body.decode("utf-8")))
+        data = cls(**json.loads(request.body.decode("utf-8")))
     except pde.ValidationError as e:
         if getattr(e, "errors"):
             raise DataValidationError(e.errors())

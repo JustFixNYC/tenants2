@@ -1,4 +1,5 @@
 import hashlib
+import logging
 from django.db import models
 
 from project.common_data import Choices
@@ -17,6 +18,9 @@ class GCELetter(LocalizedHTMLLetter):
 
     class Meta:
         ordering = ["-created_at"]
+
+    # Default campaign for confirmation
+    RAPIDPRO_CAMPAIGN = "GCE_LETTER"
 
     # Type hints for 1:1 relationships
     user_details: "UserDetails"
@@ -88,6 +92,31 @@ class GCELetter(LocalizedHTMLLetter):
 
     def __str__(self):
         return f"{self.user_details.full_name}'s GCE Letter ({self.created_at.date()})"
+
+    def trigger_followup_campaign_async(self) -> None:
+        ud = self.user_details
+        if not ud.phone_number:
+            return
+
+        from rapidpro import followup_campaigns as fc
+
+        custom_fields = {}
+        campaign = self.RAPIDPRO_CAMPAIGN
+
+        if self.tracking_number:
+            custom_fields["gce_letter_tracking_number"] = self.tracking_number
+
+        fc.ensure_followup_campaign_exists(campaign)
+
+        logging.info(f"Triggering rapidpro campaign '{campaign}' on user " f"{self.pk}.")
+
+        fc.trigger_followup_campaign_async(
+            ud.full_name,
+            ud.phone_number,
+            campaign,
+            locale=self.locale,
+            custom_fields=custom_fields,
+        )
 
 
 class UserDetails(MailingAddress):

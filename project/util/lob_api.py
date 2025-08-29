@@ -205,7 +205,7 @@ def verification_to_inline_address(verification: Dict[str, Any]) -> Dict[str, An
 def get_address_from_verification(verification: Dict[str, Any]) -> str:
     """
     Given a Lob verification object, return the human-readable
-    address it represnts.
+    address it represents.
     """
 
     v = verification

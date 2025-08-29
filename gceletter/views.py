@@ -5,8 +5,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.forms.models import model_to_dict
 
 from gceletter.letter_sending import gceletter_pdf_response, render_pdf_bytes, send_letter
-from gceletter.util import api, authorize_with_token, validate_data
+from gceletter.util import GCELetterPostData, LOBAddress, api, authorize_with_token, validate_data
 from gceletter.models import GCELetter, LandlordDetails, UserDetails
+from project.util.lob_api import verify_address
 
 
 @csrf_exempt
@@ -23,7 +24,7 @@ def upload(request):
 
     authorize_with_token(request, "bearer", settings.GCE_API_TOKEN)
 
-    data = validate_data(request)
+    data = validate_data(request, GCELetterPostData)
 
     letter_data = data.to_dict(exclude=["user_details", "landlord_details"])
     letter = GCELetter.objects.create(**letter_data)
@@ -35,6 +36,8 @@ def upload(request):
     ud = UserDetails.objects.create(**user_data)
 
     send_letter(letter)
+
+    letter.trigger_followup_campaign_async()
 
     return JsonResponse(
         {
@@ -97,6 +100,28 @@ def get_letter_link(request):
                 "url": request.build_absolute_uri(f"/gceletter/{letter.hash}/good-cause-letter.pdf")
             },
         },
+        content_type="application/json",
+        status=200,
+    )
+
+
+@csrf_exempt
+@require_http_methods(["OPTIONS", "POST"])
+@api
+def lob_verify_address(request):
+    """
+    For a given address check the deliverability with LOB API
+    """
+
+    if request.method == "OPTIONS":
+        return HttpResponse(status=200)
+
+    data = validate_data(request, LOBAddress)
+
+    verification = verify_address(**data.to_dict())
+
+    return JsonResponse(
+        verification,
         content_type="application/json",
         status=200,
     )

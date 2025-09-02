@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 from django.http import HttpRequest
 from django.db import transaction
 from amplitude.models import LoggedEvent
@@ -45,6 +45,56 @@ class LetterSenderCreateAccount(BaseCreateAccount):
     @classmethod
     def update_onboarding_info(cls, form, info: Dict[str, Any]):
         info["agreed_to_lettersender_terms"] = True
+
+    @classmethod
+    def get_previous_step_info(cls, request) -> Optional[Dict[str, Any]]:
+        """
+        Override BaseCreateAccount to handle NYC addresses properly.
+        For NYC addresses, we check for borough instead of city.
+        """
+        from onboarding.scaffolding import get_scaffolding
+        from project.schema_base import get_last_queried_phone_number
+        from norent.schema import are_all_truthy
+        
+        scf = get_scaffolding(request)
+        phone_number = get_last_queried_phone_number(request)
+        
+        if cls.require_email and not scf.email:
+            return None
+            
+        # Check for either city/state (non-NYC) or borough/state (NYC)
+        has_address_info = (
+            (scf.city and scf.state) or  # Non-NYC address
+            (scf.borough and scf.state)  # NYC address
+        )
+        
+        if not are_all_truthy(phone_number, scf.first_name, scf.last_name) or not has_address_info:
+            return None
+            
+        assert cls.signup_intent, "signup_intent must be set on class!"
+        info: Dict[str, Any] = {
+            "phone_number": phone_number,
+            "first_name": scf.first_name,
+            "last_name": scf.last_name,
+            "preferred_first_name": scf.preferred_first_name,
+            "state": scf.state,
+            "email": scf.email,
+            "signup_intent": cls.signup_intent,
+            "can_receive_rttc_comms": scf.can_receive_rttc_comms,
+            "can_receive_saje_comms": scf.can_receive_saje_comms,
+        }
+        
+        # Handle NYC vs non-NYC addresses
+        if scf.borough:
+            # NYC address
+            info["non_nyc_city"] = ""
+            info["zipcode"] = scf.zip_code
+        else:
+            # Non-NYC address
+            info["non_nyc_city"] = scf.city
+            info["zipcode"] = scf.zip_code
+            
+        return info
 
     @classmethod
     def perform_post_onboarding(cls, form, request: HttpRequest, user: JustfixUser):

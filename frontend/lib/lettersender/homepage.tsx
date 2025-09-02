@@ -15,6 +15,9 @@ import {
   StartLetterButton,
 } from "./letter-builder/choose-letter";
 import { AppContext } from "../app-context";
+import { LaLetterBuilderRouteInfo } from "./route-info";
+import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
+import { GetStartedButton } from "../ui/get-started-button";
 
 type LaLetterBuilderImageType = "png" | "svg";
 
@@ -84,10 +87,19 @@ export const LaLetterBuilderHomepage: React.FC<{}> = () => {
               </ResponsiveElement>
               <label>
                 <Trans>
-                  We’ll explain additional actions you can take if your issue
-                  isn’t resolved.
+                  We'll explain additional actions you can take if your issue
+                  isn't resolved.
                 </Trans>
               </label>
+            </div>
+            <div className="has-text-centered mt-6">
+              <GetStartedButton
+                to={LaLetterBuilderRouteInfo.locale.onboarding.latestStep}
+                intent={OnboardingInfoSignupIntent.LALETTERBUILDER}
+                pageType="splash"
+              >
+                <Trans>Start my free letter</Trans>
+              </GetStartedButton>
             </div>
           </div>
         </div>

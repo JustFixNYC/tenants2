@@ -29,9 +29,7 @@ export const LaLetterBuilderCreateAccount = LaLetterBuilderOnboardingStep(
             canWeSms: true,
             email: "",
           }}
-          onSuccess={() =>
-            trackSignup(OnboardingInfoSignupIntent.LALETTERBUILDER)
-          }
+          onSuccess={() => trackSignup(OnboardingInfoSignupIntent.LETTERSENDER)}
           onSuccessRedirect={props.nextStep}
         >
           {(ctx) => (

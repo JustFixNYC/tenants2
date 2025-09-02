@@ -10,6 +10,7 @@ import {
   createLoginLink,
 } from "../util/route-util";
 import { createHabitabilityRouteInfo } from "./letter-builder/habitability/route-info";
+import { createOnboardingRouteInfo } from "../onboarding/route-info";
 
 function createLocalizedRouteInfo(prefix: string) {
   return {
@@ -39,6 +40,9 @@ function createLocalizedRouteInfo(prefix: string) {
     /** Habitability Letter flow */
     habitability: createHabitabilityRouteInfo(`${prefix}/habitability`),
 
+    /** The onboarding flow for LA Letter Builder */
+    onboarding: createOnboardingRouteInfo(`${prefix}/onboarding`),
+
     /** The letter content for the user's own data (HTML and PDF versions). */
     letterContent: createLetterStaticPageRouteInfo(`${prefix}/letter`),
 
@@ -58,6 +62,10 @@ function createLocalizedRouteInfo(prefix: string) {
       `${prefix}/sample-letter`
     ),
   };
+}
+
+export function createLaLetterBuilderRouteInfo(prefix: string) {
+  return createLocalizedRouteInfo(prefix);
 }
 
 export const LaLetterBuilderRouteInfo = createRoutesForSite(

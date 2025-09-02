@@ -21,17 +21,31 @@ import {
 } from "./habitability-letter-content";
 import { createLaLetterBuilderPreviewPage } from "../../components/letter-preview";
 import { LaLetterBuilderSendOptions } from "../send-options";
-import {
-  LaLetterBuilderAskName,
-  LaLetterBuilderAskCityState,
-  LaLetterBuilderAskNationalAddress,
-} from "../../components/personal-info";
+import { LaLetterBuilderAskName } from "../../components/personal-info";
+import { AskNycAddress } from "../../../common-steps/ask-nyc-address";
 import { LaLetterBuilderLandlordNameAddress } from "../../components/landlord-info";
-import { LaLetterBuilderReviewRights } from "../../components/review-your-rights";
 import { t } from "@lingui/macro";
 import { li18n } from "../../../i18n-lingui";
 import { LaIssuesRoutes } from "./issues";
 import { OverchargePage } from "./overcharge";
+
+const LetterSenderAskNycAddress: React.FC<any> = (props) => (
+  <AskNycAddress
+    {...props}
+    nextStep={LaLetterBuilderRouteInfo.locale.habitability.createAccount}
+    confirmModalRoute={
+      LaLetterBuilderRouteInfo.locale.habitability.nycAddressConfirmModal
+    }
+  >
+    <div>
+      <h2>What is your NYC address?</h2>
+      <p>
+        Please provide your current NYC address where you're experiencing
+        habitability issues.
+      </p>
+    </div>
+  </AskNycAddress>
+);
 
 const HabitabilityRoutes: React.FC<{}> = () => (
   <Switch>
@@ -62,21 +76,9 @@ export const getHabitabilityProgressRoutesProps = (): ProgressRoutesProps => {
       shouldBeSkipped: isUserLoggedIn,
     },
     {
-      path: routes.city,
+      path: routes.nycAddress,
       exact: false,
-      component: LaLetterBuilderAskCityState,
-      shouldBeSkipped: isUserLoggedIn,
-    },
-    {
-      path: routes.nationalAddress,
-      exact: false,
-      // TODO: add something that short circuits if the user isn't in LA
-      component: LaLetterBuilderAskNationalAddress,
-      shouldBeSkipped: isUserLoggedIn,
-    },
-    {
-      path: routes.reviewRights,
-      component: LaLetterBuilderReviewRights,
+      component: LetterSenderAskNycAddress,
       shouldBeSkipped: isUserLoggedIn,
     },
     {

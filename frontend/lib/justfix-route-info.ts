@@ -18,6 +18,7 @@ import { createPasswordResetRouteInfo } from "./password-reset/route-info";
 import { createEmergencyHPActionRouteInfo } from "./hpaction/emergency/route-info";
 import { createAccountSettingsRouteInfo } from "./account-settings/route-info";
 import { adminRouteInfo } from "./admin/route-info";
+import { createLaLetterBuilderRouteInfo } from "./laletterbuilder/route-info";
 
 /**
  * Metadata about signup intents.
@@ -44,9 +45,20 @@ export function getSignupIntentOnboardingInfo(
   switch (intent) {
     case OnboardingInfoSignupIntent.NORENT:
     case OnboardingInfoSignupIntent.EVICTIONFREE:
+      // TODO: Actually figure out something to do here, instead of just
+      // falling through to LOC.
+      return {
+        preOnboarding: JustfixRoutes.locale.loc.splash,
+        postOnboarding: JustfixRoutes.locale.loc.latestStep,
+        onboarding: JustfixRoutes.locale.locOnboarding,
+      };
+
     case OnboardingInfoSignupIntent.LALETTERBUILDER:
-    // TODO: Actually figure out something to do here, instead of just
-    // falling through to LOC.
+      return {
+        preOnboarding: JustfixRoutes.locale.laletterbuilder.home,
+        postOnboarding: JustfixRoutes.locale.laletterbuilder.chooseLetter,
+        onboarding: JustfixRoutes.locale.laletterbuilder.onboarding,
+      };
 
     case OnboardingInfoSignupIntent.LOC:
       return {
@@ -130,6 +142,11 @@ function createLocalizedRouteInfo(prefix: string) {
 
     /** Legacy experimental data-driven onboarding. */
     legacyDataDrivenOnboarding: `${prefix}/ddo`,
+
+    /** The La Letter Builder flow. */
+    laletterbuilder: createLaLetterBuilderRouteInfo(
+      `${prefix}/laletterbuilder`
+    ),
   };
 }
 

@@ -22,6 +22,8 @@ import {
 } from "./letter-builder/habitability/habitability-letter-content";
 import { HabitabilityLetterEmailToUserStaticPage } from "./letter-builder/habitability/letter-email-to-user";
 import { LaLetterBuilderAccountSettings } from "./components/account-settings";
+import OnboardingRoutes from "../onboarding/routes";
+import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
 
 const LoadableDevRoutes = loadable(
   () => friendlyLoad(import("../dev/routes")),
@@ -57,6 +59,17 @@ export const LaLetterBuilderRouteComponent: React.FC<RouteComponentProps> = (
         render={() => (
           <LaLetterBuilderAccountSettings
             routes={Routes.locale.accountSettings}
+          />
+        )}
+      />
+      <Route
+        path={Routes.locale.onboarding.prefix}
+        render={() => (
+          <OnboardingRoutes
+            routes={Routes.locale.onboarding}
+            toCancel={Routes.locale.home}
+            toSuccess={Routes.locale.chooseLetter}
+            signupIntent={OnboardingInfoSignupIntent.LETTERSENDER}
           />
         )}
       />

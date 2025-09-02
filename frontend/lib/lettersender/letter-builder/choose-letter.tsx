@@ -21,6 +21,8 @@ import { logEvent } from "../../analytics/util";
 import { ga } from "../../analytics/google-analytics";
 import { LetterChoice } from "../../../../common-data/la-letter-builder-letter-choices";
 import { bulmaClasses } from "../../ui/bulma";
+import { OnboardingInfoSignupIntent } from "../../queries/globalTypes";
+import { GetStartedButton } from "../../ui/get-started-button";
 
 export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
   props
@@ -37,6 +39,15 @@ export const LaLetterBuilderChooseLetterStep: React.FC<ProgressStepProps> = (
           )}
         </ResponsiveElement>
         <CreateLetterCard />
+        <div className="has-text-centered mt-6">
+          <GetStartedButton
+            to={LaLetterBuilderRouteInfo.locale.onboarding.latestStep}
+            intent={OnboardingInfoSignupIntent.LALETTERBUILDER}
+            pageType="splash"
+          >
+            {li18n._(t`Start my free letter`)}
+          </GetStartedButton>
+        </div>
       </section>
       <section className="jf-lettersender-section-secondary">
         <ResponsiveElement className="mb-5" desktop="h2" touch="h3">
@@ -330,6 +341,19 @@ export const StartLetterButton: React.FC<{ className?: string }> = ({
   const { session } = useContext(AppContext);
   const createNewLetter =
     !!session.phoneNumber && !session.hasHabitabilityLetterInProgress;
+
+  // If user doesn't have a phone number, redirect to onboarding
+  if (!session.phoneNumber) {
+    return (
+      <GetStartedButton
+        to={LaLetterBuilderRouteInfo.locale.onboarding.latestStep}
+        intent={OnboardingInfoSignupIntent.LALETTERBUILDER}
+        pageType="splash"
+      >
+        {li18n._(t`Start letter`)}
+      </GetStartedButton>
+    );
+  }
 
   return (
     <SessionUpdatingFormSubmitter

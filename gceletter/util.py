@@ -44,7 +44,8 @@ class LOBAddressData(BaseModelDict):
     state: str
     zip_code: str
 
-    @pydantic.root_validator(allow_reuse=True)
+    # Mypy is not recognizing either validator as an import
+    @pydantic.root_validator(allow_reuse=True)  # type: ignore
     def urbanization_required_for_pr(cls, values):
         if values.get("state") == "PR" and values.get("urbanization") is None:
             raise ValueError("Urbanization field is required when state is Puerto Rico")
@@ -67,7 +68,6 @@ class UserDetailsData(LOBAddressData):
     phone_number: str
     bbl: str
 
-    # Mypy is not recognizing "validator" as import
     @pydantic.validator("bbl")  # type: ignore
     def bbl_must_match_pattern(cls, v):
         pattern = re.compile(r"^[1-5]\d{9}$")
@@ -98,7 +98,7 @@ class GCELetterPostData(BaseModelDict):
     html_content: str
 
 
-def validate_data(data: Dict[str, any], cls: pydantic.BaseModel):
+def validate_data(data: Dict[str, str], cls):
     try:
         data = cls(**data)
     except pde.ValidationError as e:

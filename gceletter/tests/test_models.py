@@ -35,7 +35,7 @@ class TestTriggerFollowupCampaign:
         letter.trigger_followup_campaign_async()
         ud = SAMPLE_POST_DATA["user_details"]
         self.trigger.assert_called_once_with(
-            f"{ud["first_name"]} {ud["last_name"]}",
+            f"{ud['first_name']} {ud['last_name']}",
             ud["phone_number"],
             letter.RAPIDPRO_CAMPAIGN,
             locale="en",

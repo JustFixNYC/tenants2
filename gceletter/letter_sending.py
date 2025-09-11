@@ -28,8 +28,6 @@ def render_pdf_bytes(html: str, css: str = None) -> bytes:
 
     font_config = FontConfiguration()
 
-    # see loc/views.py render_pdf_bytes() for adding stylesheets
-
     return weasyprint.HTML(string=html).write_pdf(font_config=font_config)
 
 

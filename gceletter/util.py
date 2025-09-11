@@ -3,7 +3,7 @@ import logging
 import json
 import re
 import pydantic
-from typing import List, Literal, Optional
+from typing import Dict, List, Literal, Optional
 from django.conf import settings
 from django.http import JsonResponse
 import pydantic.error_wrappers as pde
@@ -38,7 +38,7 @@ class BaseModelDict(pydantic.BaseModel):
         return {k: v for k, v in self.dict().items() if predicate(k, v)}
 
 
-class LOBAddress(BaseModelDict):
+class LOBAddressData(BaseModelDict):
     primary_line: str
     secondary_line: Optional[str]
     urbanization: Optional[str]
@@ -46,8 +46,23 @@ class LOBAddress(BaseModelDict):
     state: str
     zip_code: str
 
+    @pydantic.root_validator(allow_reuse=True)
+    def urbanization_required_for_pr(cls, values):
+        if values.get("state") == "PR" and values.get("urbanization") is None:
+            raise ValueError("Urbanization field is required when state is Puerto Rico")
+        return values
 
-class UserDetailsData(LOBAddress):
+    @pydantic.validator("zip_code")  # type: ignore
+    def zip_code_valid_format(cls, v):
+        match = re.match(r"^[0-9]{5}(?:-[0-9]{4})?$", v)
+        if not match:
+            raise ValueError(
+                "Zip Code must be valid 5 digit ZIP or or ZIP+4 format (eg. '12345-1234')"
+            )
+        return v
+
+
+class UserDetailsData(LOBAddressData):
     first_name: str
     last_name: str
     email: str
@@ -72,9 +87,9 @@ class UserDetailsData(LOBAddress):
         return v
 
 
-class LandlordDetailsData(LOBAddress):
+class LandlordDetailsData(LOBAddressData):
     name: str
-    email: str
+    email: Optional[str]
 
 
 class GCELetterPostData(BaseModelDict):
@@ -85,9 +100,9 @@ class GCELetterPostData(BaseModelDict):
     html_content: str
 
 
-def validate_data(request, cls):
+def validate_data(data: Dict[str, any], cls: pydantic.BaseModel):
     try:
-        data = cls(**json.loads(request.body.decode("utf-8")))
+        data = cls(**data)
     except pde.ValidationError as e:
         if getattr(e, "errors"):
             raise DataValidationError(e.errors())
@@ -96,6 +111,11 @@ def validate_data(request, cls):
     except AssertionError as e:
         raise DataValidationError(getattr(e, "msg"))
     return data
+
+
+def validate_request_data(request, cls):
+    data = json.loads(request.body.decode("utf-8"))
+    return validate_data(data, cls)
 
 
 class DataValidationError(Exception):
@@ -210,13 +230,6 @@ def api(fn):
         except (DataValidationError, AuthorizationError, InvalidOriginError) as e:
             logger.error(str(e))
             response = e.as_json_response()
-        except GCELetter.DoesNotExist as e:
-            logger.error(e)
-            return JsonResponse(
-                {"error": "User does not exist"},
-                content_type="application/json",
-                status=500,
-            )
         except Exception as e:
             logger.error(e)
             response = JsonResponse(

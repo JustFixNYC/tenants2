@@ -33,9 +33,10 @@ class TestTriggerFollowupCampaign:
         letter, _, _ = create_model_objects(SAMPLE_POST_DATA)
         letter.tracking_number = "fake_12345"
         letter.trigger_followup_campaign_async()
+        ud = SAMPLE_POST_DATA["user_details"]
         self.trigger.assert_called_once_with(
-            f"{SAMPLE_POST_DATA['user_details']['first_name']} {SAMPLE_POST_DATA['user_details']['last_name']}",
-            SAMPLE_POST_DATA["user_details"]["phone_number"],
+            f"{ud["first_name"]} {ud["last_name"]}",
+            ud["phone_number"],
             letter.RAPIDPRO_CAMPAIGN,
             locale="en",
             custom_fields={"gce_letter_tracking_number": "fake_12345"},

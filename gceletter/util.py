@@ -9,8 +9,6 @@ from django.http import JsonResponse
 import pydantic.error_wrappers as pde
 import django.core.exceptions as dje
 
-
-from gceletter.models import GCELetter
 from project.util import phone_number as pn
 
 logger = logging.getLogger(__name__)

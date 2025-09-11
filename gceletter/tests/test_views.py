@@ -2,7 +2,7 @@ import pytest
 import json
 from gceletter.tests.sample_data import SAMPLE_POST_DATA
 
-from gceletter.models import GCELetter, LandlordDetails, UserDetails
+from gceletter.models import GCELetter
 
 
 def base_headers(settings):

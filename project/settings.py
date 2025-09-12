@@ -169,7 +169,7 @@ INSTALLED_APPS = [
     "shortlinks",
     "laletterbuilder.apps.LaLetterBuilderConfig",
     "gce.apps.GoodCauseEvictionScreenerConfig",
-    "gceletter.apps.GCELetterConfig",
+    "lettergce.apps.LetterGCEConfig",
     "efnyc.apps.EfnycConfig",
 ]
 

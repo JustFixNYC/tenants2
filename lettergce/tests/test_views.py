@@ -1,8 +1,7 @@
 import pytest
 import json
-from gceletter.tests.sample_data import SAMPLE_POST_DATA
-
-from gceletter.models import GCELetter
+from lettergce.tests.sample_data import SAMPLE_POST_DATA
+from lettergce.models import LetterGCE
 
 
 def base_headers(settings):
@@ -14,7 +13,7 @@ def base_headers(settings):
 
 def authorized_request(client, settings, post_data, **kawrgs):
     return client.post(
-        "/gceletter/send-letter",
+        "/lettergce/send-letter",
         json.dumps(post_data),
         HTTP_ORIGIN=settings.GCE_ORIGIN,
         **base_headers(settings),
@@ -23,12 +22,12 @@ def authorized_request(client, settings, post_data, **kawrgs):
 
 
 def get_letter_by_phone(phone_number):
-    return GCELetter.objects.get(user_details__phone_number=phone_number)
+    return LetterGCE.objects.get(user_details__phone_number=phone_number)
 
 
 @pytest.mark.django_db
 def test_unauthorized_request_fails(client, settings):
-    res = client.post("/gceletter/send-letter", HTTP_ORIGIN=settings.GCE_ORIGIN)
+    res = client.post("/lettergce/send-letter", HTTP_ORIGIN=settings.GCE_ORIGIN)
     assert res.status_code == 401
     assert res.json()["error"] == "Unauthorized request"
 

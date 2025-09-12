@@ -36,8 +36,8 @@ class LandlordDetailsInLine(admin.StackedInline):
     has_add_permission = never_has_permission
 
 
-@admin.register(models.GCELetter)
-class GCELetterAdmin(admin.ModelAdmin):
+@admin.register(models.LetterGCE)
+class LetterGCEAdmin(admin.ModelAdmin):
     inlines = (
         UserDetailsInLine,
         LandlordDetailsInLine,

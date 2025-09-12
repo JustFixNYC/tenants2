@@ -90,7 +90,7 @@ class LandlordDetailsData(LOBAddressData):
     email: Optional[str]
 
 
-class GCELetterPostData(BaseModelDict):
+class LetterGCEPostData(BaseModelDict):
     user_details: UserDetailsData
     landlord_details: LandlordDetailsData
     mail_choice: str
@@ -121,7 +121,7 @@ class DataValidationError(Exception):
         self.errors = errors
 
     def __str__(self):
-        return f"GCELetter: Invalid POST data. {json.dumps(self.errors)}"
+        return f"LetterGCE: Invalid POST data. {json.dumps(self.errors)}"
 
     def as_json_response(self):
         return JsonResponse(

@@ -1,6 +1,6 @@
-from gceletter.tests.sample_data import ADDRESS_DATA, LANDLORD_DATA, USER_DATA
+from lettergce.tests.sample_data import ADDRESS_DATA, LANDLORD_DATA, USER_DATA
 import pytest
-from gceletter.util import (
+from lettergce.util import (
     DataValidationError,
     LOBAddressData,
     LandlordDetailsData,

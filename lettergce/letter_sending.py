@@ -10,7 +10,7 @@ from texting import twilio
 from project import slack
 from project.util import lob_api
 from frontend.static_content import Email
-from gceletter.models import GCELetter
+from lettergce.models import LetterGCE
 from project.util.demo_deployment import is_not_demo_deployment
 from project.util.email_attachment import email_file_response_as_attachment
 from project.util.html_to_text import html_to_text
@@ -31,7 +31,7 @@ def render_pdf_bytes(html: str, css: str = None) -> bytes:
     return weasyprint.HTML(string=html).write_pdf(font_config=font_config)
 
 
-def gceletter_pdf_response(pdf_bytes: bytes) -> FileResponse:
+def lettergce_pdf_response(pdf_bytes: bytes) -> FileResponse:
     """
     Creates a FileResponse for the given PDF bytes and an
     appropriate filename for the GCE letter.
@@ -40,7 +40,7 @@ def gceletter_pdf_response(pdf_bytes: bytes) -> FileResponse:
     return FileResponse(BytesIO(pdf_bytes), filename=f"good-cause-letter.pdf")
 
 
-def email_letter_to_user(letter: GCELetter, pdf_bytes: bytes):
+def email_letter_to_user(letter: LetterGCE, pdf_bytes: bytes):
     ud = letter.landlord_details
     assert ud.email
 
@@ -50,7 +50,7 @@ def email_letter_to_user(letter: GCELetter, pdf_bytes: bytes):
             body=html_to_text(letter.html_content),
             html_body=letter.html_content,
         )
-        attachment = gceletter_pdf_response(pdf_bytes)
+        attachment = lettergce_pdf_response(pdf_bytes)
         email_file_response_as_attachment(
             subject=email.subject,
             body=email.body,
@@ -62,7 +62,7 @@ def email_letter_to_user(letter: GCELetter, pdf_bytes: bytes):
     return True
 
 
-def email_letter_to_landlord(letter: GCELetter, pdf_bytes: bytes):
+def email_letter_to_landlord(letter: LetterGCE, pdf_bytes: bytes):
     if letter.letter_emailed_at is not None:
         logger.info(f"{letter} has already been emailed to the landlord.")
         return False
@@ -75,7 +75,7 @@ def email_letter_to_landlord(letter: GCELetter, pdf_bytes: bytes):
             body=html_to_text(letter.html_content),
             html_body=letter.html_content,
         )
-        attachment = gceletter_pdf_response(pdf_bytes)
+        attachment = lettergce_pdf_response(pdf_bytes)
         email_file_response_as_attachment(
             subject=email.subject,
             body=email.body,
@@ -89,7 +89,7 @@ def email_letter_to_landlord(letter: GCELetter, pdf_bytes: bytes):
     return True
 
 
-def send_letter_via_lob(letter: GCELetter, pdf_bytes: bytes, letter_description: str) -> bool:
+def send_letter_via_lob(letter: LetterGCE, pdf_bytes: bytes, letter_description: str) -> bool:
     """
     Mails the letter to the user's landlord via Lob. Does
     nothing if the letter has already been sent.
@@ -119,7 +119,7 @@ def send_letter_via_lob(letter: GCELetter, pdf_bytes: bytes, letter_description:
 
 
 def send_pdf_to_landlord_via_lob(
-    letter: GCELetter, pdf_bytes: bytes, description: str
+    letter: LetterGCE, pdf_bytes: bytes, description: str
 ) -> Dict[str, Any]:
     """
     Mail the given PDF to the given user's landlord using USPS certified
@@ -156,7 +156,7 @@ def send_pdf_to_landlord_via_lob(
     )
 
 
-def send_letter(letter: GCELetter):
+def send_letter(letter: LetterGCE):
     ud = letter.user_details
     ld = letter.landlord_details
 

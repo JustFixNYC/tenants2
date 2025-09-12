@@ -8,10 +8,10 @@ from project.util.lob_models_util import LocalizedHTMLLetter
 from project.util.mailing_address import MailingAddress
 from project.util.site_util import absolute_reverse
 
-GCELETTER_MAILING_CHOICES = Choices.from_file("gceletter-mailing-choices.json")
+LETTERGCE_MAILING_CHOICES = Choices.from_file("lettergce-mailing-choices.json")
 
 
-class GCELetter(LocalizedHTMLLetter):
+class LetterGCE(LocalizedHTMLLetter):
     """
     A Good Cause Eviction letter that is automatically sent at the same time it's created.
     """
@@ -28,9 +28,9 @@ class GCELetter(LocalizedHTMLLetter):
 
     mail_choice = models.TextField(
         max_length=30,
-        choices=GCELETTER_MAILING_CHOICES.choices,
+        choices=LETTERGCE_MAILING_CHOICES.choices,
         help_text="How the letter will be mailed.",
-        default=GCELETTER_MAILING_CHOICES.WE_WILL_MAIL,
+        default=LETTERGCE_MAILING_CHOICES.WE_WILL_MAIL,
     )
 
     email_to_landlord = models.BooleanField(
@@ -64,7 +64,7 @@ class GCELetter(LocalizedHTMLLetter):
         Whether or not the user wants us to mail the letter for them.
         """
 
-        return self.mail_choice == GCELETTER_MAILING_CHOICES.WE_WILL_MAIL
+        return self.mail_choice == LETTERGCE_MAILING_CHOICES.WE_WILL_MAIL
 
     # TODO: add @property for admin_pdf_url and admin_url so they can be linked
     # in slack messages logging new letters in case we need to manually check
@@ -82,11 +82,11 @@ class GCELetter(LocalizedHTMLLetter):
 
         if self.pk is None:
             return ""
-        return absolute_reverse("gceletter:gce_letter_pdf", kwargs={"hash": self.hash})
+        return absolute_reverse("lettergce:gce_letter_pdf", kwargs={"hash": self.hash})
 
     @property
     def admin_url(self):
-        return absolute_reverse("admin:gceletter_gceletter_change", args=[self.pk])
+        return absolute_reverse("admin:lettergce_lettergce_change", args=[self.pk])
 
     # TODO: Add method for adding user to textit followup campaign, see GCE
 
@@ -125,7 +125,7 @@ class UserDetails(MailingAddress):
     """
 
     letter = models.OneToOneField(
-        GCELetter,
+        LetterGCE,
         on_delete=models.CASCADE,
         related_name="user_details",
         help_text="The GCE letter this user is sending to their landlord.",
@@ -178,7 +178,7 @@ class LandlordDetails(MailingAddress):
     """
 
     letter = models.OneToOneField(
-        GCELetter,
+        LetterGCE,
         on_delete=models.CASCADE,
         related_name="landlord_details",
         help_text="The GCE letter being sent to this landlord.",

@@ -1,16 +1,16 @@
 import pytest
 from typing import Tuple
 from unittest.mock import MagicMock
-from gceletter.util import GCELetterPostData
-from gceletter.models import GCELetter, LandlordDetails, UserDetails
-from gceletter.tests.sample_data import SAMPLE_POST_DATA
+from lettergce.util import LetterGCEPostData
+from lettergce.models import LetterGCE, LandlordDetails, UserDetails
+from lettergce.tests.sample_data import SAMPLE_POST_DATA
 
 
-def create_model_objects(post_data) -> Tuple[GCELetter, LandlordDetails, UserDetails]:
-    data = GCELetterPostData(**post_data)
+def create_model_objects(post_data) -> Tuple[LetterGCE, LandlordDetails, UserDetails]:
+    data = LetterGCEPostData(**post_data)
 
     letter_data = data.to_dict(exclude=["user_details", "landlord_details"])
-    letter = GCELetter.objects.create(**letter_data)
+    letter = LetterGCE.objects.create(**letter_data)
 
     landlord_data = {**data.landlord_details.to_dict(), "letter": letter}
     ld = LandlordDetails.objects.create(**landlord_data)

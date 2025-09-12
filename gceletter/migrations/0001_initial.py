@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='LetterGCE',
+            name='GCELetter',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(help_text="The user's email address.", max_length=254)),
                 ('bbl', models.CharField(blank=True, help_text="The zero-padded borough, block and lot (BBL) number for the user's home address property.", max_length=10)),
                 ('urbanization', models.CharField(blank=True, help_text='Optional. Only used for addresses in Puerto Rico.', max_length=80, null=True)),
-                ('letter', models.OneToOneField(help_text='The GCE letter this user is sending to their landlord.', on_delete=django.db.models.deletion.CASCADE, related_name='user_details', to='lettergce.lettergce')),
+                ('letter', models.OneToOneField(help_text='The GCE letter this user is sending to their landlord.', on_delete=django.db.models.deletion.CASCADE, related_name='user_details', to='gceletter.gceletter')),
             ],
             options={
                 'abstract': False,
@@ -73,7 +73,7 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(blank=True, help_text="The landlord's email address.", max_length=254)),
                 ('is_looked_up', models.BooleanField(default=False, help_text='Whether the name and address was looked up automatically, or manually entered by the user.')),
                 ('urbanization', models.CharField(blank=True, help_text='Optional. Only used for addresses in Puerto Rico.', max_length=80, null=True)),
-                ('letter', models.OneToOneField(help_text='The GCE letter being sent to this landlord.', on_delete=django.db.models.deletion.CASCADE, related_name='landlord_details', to='lettergce.lettergce')),
+                ('letter', models.OneToOneField(help_text='The GCE letter being sent to this landlord.', on_delete=django.db.models.deletion.CASCADE, related_name='landlord_details', to='gceletter.gceletter')),
             ],
             options={
                 'abstract': False,

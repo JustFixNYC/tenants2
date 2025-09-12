@@ -4,15 +4,15 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.forms.models import model_to_dict
 
-from lettergce.letter_sending import lettergce_pdf_response, render_pdf_bytes, send_letter
-from lettergce.util import (
-    LetterGCEPostData,
+from gceletter.letter_sending import gceletter_pdf_response, render_pdf_bytes, send_letter
+from gceletter.util import (
+    GCELetterPostData,
     LOBAddressData,
     api,
     authorize_with_token,
     validate_request_data,
 )
-from lettergce.models import LetterGCE, LandlordDetails, UserDetails
+from gceletter.models import GCELetter, LandlordDetails, UserDetails
 from project.util.lob_api import verify_address
 
 
@@ -30,10 +30,10 @@ def submit_letter(request):
 
     authorize_with_token(request, "bearer", settings.GCE_API_TOKEN)
 
-    data = validate_request_data(request, LetterGCEPostData)
+    data = validate_request_data(request, GCELetterPostData)
 
     letter_data = data.to_dict(exclude=["user_details", "landlord_details"])
-    letter = LetterGCE.objects.create(**letter_data)
+    letter = GCELetter.objects.create(**letter_data)
 
     landlord_data = {**data.landlord_details.to_dict(), "letter": letter}
     ld = LandlordDetails.objects.create(**landlord_data)
@@ -72,12 +72,12 @@ def gce_letter_pdf(request, hash):
     if request.method == "OPTIONS":
         return HttpResponse(status=200)
 
-    letter = LetterGCE.objects.filter(hash=hash).order_by("-created_at").first()
+    letter = GCELetter.objects.filter(hash=hash).order_by("-created_at").first()
 
     if not letter:
         return HttpResponse(status=404)
 
-    return lettergce_pdf_response(render_pdf_bytes(letter.html_content))
+    return gceletter_pdf_response(render_pdf_bytes(letter.html_content))
 
 
 @csrf_exempt
@@ -94,7 +94,7 @@ def get_letter_link(request):
 
     phone = request.GET.get("phone")
 
-    letter = LetterGCE.objects.filter(phone_number=phone).order_by("-created_at").first()
+    letter = GCELetter.objects.filter(phone_number=phone).order_by("-created_at").first()
 
     if not letter:
         return HttpResponse(status=404)
@@ -103,7 +103,7 @@ def get_letter_link(request):
         {
             "error": None,
             "data": {
-                "url": request.build_absolute_uri(f"/lettergce/{letter.hash}/good-cause-letter.pdf")
+                "url": request.build_absolute_uri(f"/gceletter/{letter.hash}/good-cause-letter.pdf")
             },
         },
         content_type="application/json",

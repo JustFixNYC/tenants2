@@ -1,5 +1,5 @@
-from gceletter.tests.sample_data import ADDRESS_DATA, LANDLORD_DATA, USER_DATA
 import pytest
+from gceletter.tests.sample_data import ADDRESS_DATA, LANDLORD_DATA, USER_DATA
 from gceletter.util import (
     DataValidationError,
     LOBAddressData,
@@ -42,7 +42,6 @@ class TestLandlordDetailsValidation:
         validate_data(LANDLORD_DATA, LandlordDetailsData)
 
     def test_missing_name_fails(self):
-        test_data = LANDLORD_DATA
-        del test_data["name"]
+        test_data = {k: v for k, v in LANDLORD_DATA.items() if k != "name"}
         with pytest.raises(DataValidationError, match="field required"):
             validate_data(test_data, LandlordDetailsData)

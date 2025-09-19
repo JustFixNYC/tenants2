@@ -162,7 +162,7 @@ def send_letter(letter: GCELetter):
 
     pdf_bytes = render_pdf_bytes(letter.html_content)
 
-    errors = {}
+    errors: Dict[str, Any] = {}
 
     if ld.email and letter.email_to_landlord:
         try:

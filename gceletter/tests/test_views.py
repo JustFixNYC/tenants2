@@ -1,3 +1,4 @@
+from typing import Any, Dict
 import pytest
 import json
 from gceletter.tests.sample_data import SAMPLE_POST_DATA
@@ -59,7 +60,11 @@ def test_default_errors_response(client, settings):
 
 @pytest.mark.django_db
 def test_skipped_send_subtasks_response(client, settings):
-    post_data = {**SAMPLE_POST_DATA, "email_to_landlord": False, "mail_choice": "USER_WILL_MAIL"}
+    post_data: Dict[str, Any] = {
+        **SAMPLE_POST_DATA,
+        "email_to_landlord": False,
+        "mail_choice": "USER_WILL_MAIL",
+    }
     post_data["user_details"]["email"] = None
     res = authorized_request(client, settings, post_data)
     errors = res.json()["errors"]

@@ -41,19 +41,21 @@ def submit_letter(request):
     user_data = {**data.user_details.to_dict(), "letter": letter}
     ud = UserDetails.objects.create(**user_data)
 
-    send_letter(letter)
+    errors = send_letter(letter)
 
-    letter.trigger_followup_campaign_async()
+    try:
+        letter.trigger_followup_campaign_async()
+        errors["textit_campaign"] = {"error": False}
+    except Exception as e:
+        errors["textit_campaign"] = {"error": True, "message": str(e)}
 
     return JsonResponse(
         {
-            "error": None,
+            "errors": errors,
             "data": {
-                "user_details": model_to_dict(ud),
-                "landlord_details": model_to_dict(ld),
-                "letter": model_to_dict(letter),
+                "tracking_number": letter.tracking_number,
+                "letter_pdf": letter.pdf_base64,
             },
-            "pdf_content": letter.pdf_base64,
         },
         content_type="application/json",
         status=200,

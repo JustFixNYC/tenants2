@@ -162,18 +162,32 @@ def send_letter(letter: GCELetter):
 
     pdf_bytes = render_pdf_bytes(letter.html_content)
 
+    errors = {}
+
     if ld.email and letter.email_to_landlord:
-        email_letter_to_landlord(letter, pdf_bytes)
+        try:
+            email_letter_to_landlord(letter, pdf_bytes)
+            errors["landlord_email"] = {"error": False}
+        except Exception as e:
+            errors["landlord_email"] = {"error": True, "message": str(e)}
 
     if ld.address_lines_for_mailing and letter.will_we_mail and LETTER_SENDING_ENABLED:
-        send_letter_via_lob(
-            letter,
-            pdf_bytes,
-            letter_description="Good Cause letter",
-        )
+        try:
+            send_letter_via_lob(
+                letter,
+                pdf_bytes,
+                letter_description="Good Cause letter",
+            )
+            errors["letter_mail"] = {"error": False}
+        except Exception as e:
+            errors["letter_mail"] = {"error": True, "message": str(e)}
 
     if ud.email:
-        email_letter_to_user(letter, pdf_bytes)
+        try:
+            email_letter_to_user(letter, pdf_bytes)
+            errors["user_email"] = {"error": False}
+        except Exception as e:
+            errors["user_email"] = {"error": True, "message": str(e)}
 
     slack.sendmsg_async(
         f"{slack.hyperlink(text=ud.first_name, href=letter.admin_url)} "
@@ -186,3 +200,5 @@ def send_letter(letter: GCELetter):
         letter.fully_processed_at = timezone.now()
         letter.full_clean()
         letter.save()
+
+    return errors

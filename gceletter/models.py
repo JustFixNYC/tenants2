@@ -153,6 +153,17 @@ class UserDetails(MailingAddress):
         blank=True,
     )
 
+    # NOTE: secondary_line & urbanization are already in the inherited class, but are
+    # missing the "null=True" option despite the help text stating that they are
+    # optional. I'm hesitant to change the model that LOC/LATAC use, so for now
+    # just redefining in the user and landlord models here
+    secondary_line = models.CharField(
+        max_length=64,
+        null=True,
+        blank=True,
+        help_text='Optional. Usually the second line of the address, e.g. "Suite 2"',
+    )
+
     urbanization = models.CharField(
         max_length=80,
         null=True,
@@ -198,6 +209,13 @@ class LandlordDetails(MailingAddress):
             "Whether the name and address was looked up automatically, "
             "or manually entered by the user."
         ),
+    )
+
+    secondary_line = models.CharField(
+        max_length=64,
+        null=True,
+        blank=True,
+        help_text='Optional. Usually the second line of the address, e.g. "Suite 2"',
     )
 
     urbanization = models.CharField(

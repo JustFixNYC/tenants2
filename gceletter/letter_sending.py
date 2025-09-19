@@ -17,7 +17,7 @@ from project.util.html_to_text import html_to_text
 from project.util.letter_sending import USPS_TRACKING_URL_PREFIX
 
 # Set to true when we are ready to test LOB letter sending
-LETTER_SENDING_ENABLED = False
+LETTER_SENDING_ENABLED = True
 
 logger = logging.getLogger(__name__)
 

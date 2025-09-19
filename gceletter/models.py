@@ -142,7 +142,7 @@ class UserDetails(MailingAddress):
 
     phone_number: str = models.CharField(blank=True, **pn.get_model_field_kwargs())
 
-    email: str = models.EmailField(help_text="The user's email address.")
+    email: str = models.EmailField(blank=True, null=True, help_text="The user's email address.")
 
     bbl: str = models.CharField(
         max_length=10,  # One for the borough, 5 for the block, 4 for the lot.

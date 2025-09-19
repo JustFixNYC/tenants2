@@ -1,5 +1,5 @@
 import pytest
-from gceletter.tests.sample_data import ADDRESS_DATA, LANDLORD_DATA, USER_DATA
+from gceletter.tests.sample_data import MOCK_DELIVERABLE_ADDRESS_DATA, LANDLORD_DATA, USER_DATA
 from gceletter.util import (
     DataValidationError,
     LOBAddressData,
@@ -11,21 +11,21 @@ from gceletter.util import (
 
 class TestLOBAddressValidation:
     def test_valid_lob_address_works(self):
-        LOBAddressData(**ADDRESS_DATA)
+        LOBAddressData(**MOCK_DELIVERABLE_ADDRESS_DATA)
 
     def test_missing_required_field_fails(self):
-        test_data = ADDRESS_DATA
+        test_data = MOCK_DELIVERABLE_ADDRESS_DATA
         del test_data["primary_line"]
         with pytest.raises(DataValidationError, match="field required"):
             validate_data(test_data, LOBAddressData)
 
     def test_invalid_zipcode_fails(self):
         with pytest.raises(DataValidationError, match="Zip Code must be valid"):
-            validate_data({**ADDRESS_DATA, "zip_code": "abc"}, LOBAddressData)
+            validate_data({**MOCK_DELIVERABLE_ADDRESS_DATA, "zip_code": "abc"}, LOBAddressData)
 
     def test_missing_urbanization_for_pr_fails(self):
         with pytest.raises(DataValidationError, match="Urbanization field is required"):
-            validate_data({**ADDRESS_DATA, "state": "PR"}, LOBAddressData)
+            validate_data({**MOCK_DELIVERABLE_ADDRESS_DATA, "state": "PR"}, LOBAddressData)
 
 
 class TestUserDetailsValidation:

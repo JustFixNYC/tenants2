@@ -1,7 +1,7 @@
 from typing import Any, Dict
 
 
-ADDRESS_DATA: Dict[str, str] = {
+MOCK_DELIVERABLE_ADDRESS_DATA: Dict[str, str] = {
     "primary_line": "deliverable",
     "secondary_line": "Apt 1",
     "city": "BROOKLYN",
@@ -10,7 +10,7 @@ ADDRESS_DATA: Dict[str, str] = {
 }
 
 USER_DATA: Dict[str, str] = {
-    **ADDRESS_DATA,
+    **MOCK_DELIVERABLE_ADDRESS_DATA,
     "first_name": "Jane",
     "last_name": "Doe",
     "phone_number": "3475551234",
@@ -19,7 +19,7 @@ USER_DATA: Dict[str, str] = {
 }
 
 LANDLORD_DATA: Dict[str, str] = {
-    **ADDRESS_DATA,
+    **MOCK_DELIVERABLE_ADDRESS_DATA,
     "name": "John Doe",
     "email": "john@landlord.org",
 }

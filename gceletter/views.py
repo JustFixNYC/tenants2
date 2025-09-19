@@ -2,7 +2,6 @@ from django.conf import settings
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
-from django.forms.models import model_to_dict
 
 from gceletter.letter_sending import gceletter_pdf_response, render_pdf_bytes, send_letter
 from gceletter.util import (
@@ -53,6 +52,8 @@ def submit_letter(request):
         {
             "errors": errors,
             "data": {
+                "landlord_email": ld.email,
+                "user_email": ud.email,
                 "tracking_number": letter.tracking_number,
                 "letter_pdf": letter.pdf_base64,
             },

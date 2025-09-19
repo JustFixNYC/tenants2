@@ -1,3 +1,4 @@
+from typing import Any, Dict
 import pytest
 import json
 
@@ -11,7 +12,7 @@ def base_headers(settings):
     }
 
 
-DATA_STEP_1 = {
+DATA_STEP_1: Dict[str, str] = {
     "bbl": "1234567890",
     "house_number": "123",
     "street_name": "MAIN ST",
@@ -19,12 +20,12 @@ DATA_STEP_1 = {
     "zipcode": "12345",
 }
 
-DATA_STEP_2 = {
+DATA_STEP_2: Dict[str, Any] = {
     "address_confirmed": "true",
     "nycdb_results": {"test": "structure of json not enforced, so not included"},
 }
 
-DATA_STEP_3 = {
+DATA_STEP_3: Dict[str, Any] = {
     "form_answers": {
         "bedrooms": "STUDIO",
         "rent": 1000.50,
@@ -34,7 +35,7 @@ DATA_STEP_3 = {
     }
 }
 
-DATA_STEP_4 = {
+DATA_STEP_4: Dict[str, Any] = {
     "result_coverage": "UNKNOWN",
     "result_criteria": {
         "rent": "ELIGIBLE",

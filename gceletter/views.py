@@ -5,7 +5,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.forms.models import model_to_dict
 
 from gceletter.letter_sending import gceletter_pdf_response, render_pdf_bytes, send_letter
-from gceletter.util import GCELetterPostData, LOBAddress, api, authorize_with_token, validate_data
+from gceletter.util import (
+    GCELetterPostData,
+    LOBAddressData,
+    api,
+    authorize_with_token,
+    validate_request_data,
+)
 from gceletter.models import GCELetter, LandlordDetails, UserDetails
 from project.util.lob_api import verify_address
 
@@ -13,7 +19,7 @@ from project.util.lob_api import verify_address
 @csrf_exempt
 @require_http_methods(["OPTIONS", "POST"])
 @api
-def upload(request):
+def submit_letter(request):
     """
     The POST endpoint used to create and send a GCE letter from the standalone
     Good Cause Eviction Letter Sender frontend.
@@ -24,7 +30,7 @@ def upload(request):
 
     authorize_with_token(request, "bearer", settings.GCE_API_TOKEN)
 
-    data = validate_data(request, GCELetterPostData)
+    data = validate_request_data(request, GCELetterPostData)
 
     letter_data = data.to_dict(exclude=["user_details", "landlord_details"])
     letter = GCELetter.objects.create(**letter_data)
@@ -116,7 +122,7 @@ def lob_verify_address(request):
     if request.method == "OPTIONS":
         return HttpResponse(status=200)
 
-    data = validate_data(request, LOBAddress)
+    data = validate_request_data(request, LOBAddressData)
 
     verification = verify_address(**data.to_dict())
 

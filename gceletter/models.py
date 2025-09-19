@@ -188,6 +188,7 @@ class LandlordDetails(MailingAddress):
 
     email = models.EmailField(
         blank=True,
+        null=True,
         help_text="The landlord's email address.",
     )
 

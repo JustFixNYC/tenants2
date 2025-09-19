@@ -2,7 +2,6 @@ from django.conf import settings
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
-from django.forms.models import model_to_dict
 
 from gceletter.letter_sending import gceletter_pdf_response, render_pdf_bytes, send_letter
 from gceletter.util import (
@@ -41,19 +40,24 @@ def submit_letter(request):
     user_data = {**data.user_details.to_dict(), "letter": letter}
     ud = UserDetails.objects.create(**user_data)
 
-    send_letter(letter)
+    errors = send_letter(letter)
 
-    letter.trigger_followup_campaign_async()
+    try:
+        letter.trigger_followup_campaign_async()
+        errors["textit_campaign"] = {"error": False}
+    except Exception as e:
+        errors["textit_campaign"] = {"error": True, "message": str(e)}
 
     return JsonResponse(
         {
-            "error": None,
+            "errors": errors,
             "data": {
-                "user_details": model_to_dict(ud),
-                "landlord_details": model_to_dict(ld),
-                "letter": model_to_dict(letter),
+                "landlord_email": ld.email,
+                "user_email": ud.email,
+                "user_phone_number": ud.phone_number,
+                "tracking_number": letter.tracking_number,
+                "letter_pdf": letter.pdf_base64,
             },
-            "pdf_content": letter.pdf_base64,
         },
         content_type="application/json",
         status=200,

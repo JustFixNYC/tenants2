@@ -64,7 +64,7 @@ class LOBAddressData(BaseModelDict):
 class UserDetailsData(LOBAddressData):
     first_name: str
     last_name: str
-    email: str
+    email: Optional[str]
     phone_number: str
     bbl: str
 

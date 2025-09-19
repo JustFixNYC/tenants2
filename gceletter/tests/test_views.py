@@ -50,11 +50,11 @@ def test_default_errors_response(client, settings):
     res = authorized_request(client, settings, SAMPLE_POST_DATA)
     assert res.status_code == 200
     errors = res.json()["errors"]
-    assert errors["landlord_email"]["error"] == False
-    assert errors["user_email"]["error"] == False
-    assert errors["textit_campaign"]["error"] == False
+    assert errors["landlord_email"]["error"] is False
+    assert errors["user_email"]["error"] is False
+    assert errors["textit_campaign"]["error"] is False
     # TODO: getting lob test error "No mock address: POST https://api.lob.com/v1/us_verifications"
-    assert errors["letter_mail"]["error"] == True
+    assert errors["letter_mail"]["error"] is True
 
 
 @pytest.mark.django_db

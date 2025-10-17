@@ -54,9 +54,12 @@ def submit_letter(request):
             "data": {
                 "landlord_email": ld.email,
                 "user_email": ud.email,
+                "extra_emails": letter.extra_emails,
                 "user_phone_number": ud.phone_number,
                 "tracking_number": letter.tracking_number,
                 "letter_pdf": letter.pdf_base64,
+                "reason": letter.reason,
+                "good_cause_given": letter.good_cause_given,
             },
         },
         content_type="application/json",

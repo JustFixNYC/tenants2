@@ -29,5 +29,8 @@ SAMPLE_POST_DATA: Dict[str, Any] = {
     "landlord_details": LANDLORD_DATA,
     "mail_choice": "WE_WILL_MAIL",
     "email_to_landlord": "true",
+    "reason": "NON_RENEWAL",
+    "good_cause_given": "false",
+    "extra_emails": ["one@example.com", "two@example.com"],
     "html_content": "<!DOCTYPE html><html>TEST</html>",
 }

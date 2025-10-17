@@ -34,10 +34,22 @@ class TestTriggerFollowupCampaign:
         letter.tracking_number = "fake_12345"
         letter.trigger_followup_campaign_async()
         ud = SAMPLE_POST_DATA["user_details"]
+        ld = SAMPLE_POST_DATA["landlord_details"]
         self.trigger.assert_called_once_with(
             f"{ud['first_name']} {ud['last_name']}",
             ud["phone_number"],
             letter.RAPIDPRO_CAMPAIGN,
             locale="en",
-            custom_fields={"gce_letter_tracking_number": "fake_12345"},
+            custom_fields={
+                "gce_letter_tracking_number": "fake_12345",
+                "gce_letter_reason": SAMPLE_POST_DATA["reason"],
+                "gce_letter_email_to_landlord": SAMPLE_POST_DATA["email_to_landlord"].upper(),
+                "gce_letter_mail_choice": SAMPLE_POST_DATA["mail_choice"],
+                "gce_letter_landlord_name": ld["name"],
+                "gce_letter_landlord_address": (
+                    ld["primary_line"] + " " + ld["secondary_line"]
+                    if ld["secondary_line"]
+                    else "" + f"{ld['city']}, {ld['state']} {ld['zip_code']}"
+                ),
+            },
         )

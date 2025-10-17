@@ -1,6 +1,8 @@
 import hashlib
 import logging
 from django.db import models
+from typing import List
+from django.contrib.postgres.fields import ArrayField
 
 from project.common_data import Choices
 from project.util import phone_number as pn
@@ -9,6 +11,7 @@ from project.util.mailing_address import MailingAddress
 from project.util.site_util import absolute_reverse
 
 GCELETTER_MAILING_CHOICES = Choices.from_file("gceletter-mailing-choices.json")
+GCELETTER_REASON_CHOICES = Choices.from_file("gceletter-reason-choices.json")
 
 
 class GCELetter(LocalizedHTMLLetter):
@@ -40,6 +43,29 @@ class GCELetter(LocalizedHTMLLetter):
             "Whether to email a copy of the letter to the landlord. "
             "Requires a landlord email to be provided"
         ),
+    )
+
+    reason = models.TextField(
+        max_length=30,
+        choices=GCELETTER_REASON_CHOICES.choices,
+        help_text="How the letter will be mailed.",
+        blank=True,
+        null=True,
+    )
+
+    good_cause_given = models.BooleanField(
+        null=True,
+        blank=True,
+        help_text=(
+            "Whether the landlord initially provided a 'good cause' justification for not offering a lease renewal"
+        ),
+    )
+
+    extra_emails: List[str] = ArrayField(
+        models.EmailField(max_length=20),
+        blank=True,
+        null=True,
+        help_text="List of additional emails to send a copy of the letter.",
     )
 
     pdf_base64 = models.TextField(
@@ -95,6 +121,7 @@ class GCELetter(LocalizedHTMLLetter):
 
     def trigger_followup_campaign_async(self) -> None:
         ud = self.user_details
+        ld = self.landlord_details
         if not ud.phone_number:
             return
 
@@ -103,12 +130,23 @@ class GCELetter(LocalizedHTMLLetter):
         custom_fields = {}
         campaign = self.RAPIDPRO_CAMPAIGN
 
-        if self.tracking_number:
-            custom_fields["gce_letter_tracking_number"] = self.tracking_number
+        custom_fields["gce_letter_tracking_number"] = self.tracking_number
+        custom_fields["gce_letter_hash"] = self.hash
+        custom_fields["gce_letter_reason"] = self.reason
+        custom_fields["gce_letter_email_to_landlord"] = str(self.email_to_landlord).upper()
+        custom_fields["gce_letter_mail_choice"] = self.mail_choice
+        custom_fields["gce_letter_landlord_name"] = ld.name
+        landlord_address = (
+            ld.primary_line + " " + ld.secondary_line
+            if ld.secondary_line
+            else "" + f"{ld.city}, {ld.state} {ld.zip_code}"
+        )
+
+        custom_fields["gce_letter_landlord_address"] = landlord_address
 
         fc.ensure_followup_campaign_exists(campaign)
 
-        logging.info(f"Triggering rapidpro campaign '{campaign}' on user " f"{self.pk}.")
+        logging.info(f"Triggering rapidpro campaign '{campaign}' on user {self.pk}.")
 
         fc.trigger_followup_campaign_async(
             ud.full_name,

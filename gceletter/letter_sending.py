@@ -62,6 +62,31 @@ def email_letter_to_user(letter: GCELetter, pdf_bytes: bytes):
     return True
 
 
+def email_letter_to_others(letter: GCELetter, pdf_bytes: bytes):
+    if letter.letter_emailed_at is not None:
+        logger.info(f"{letter} has already been emailed to the others.")
+        return False
+    assert letter.extra_emails
+
+    if is_not_demo_deployment(f"emailing {letter} to others"):
+        for other_email in letter.extra_emails:
+            email = Email(
+                subject="test gce letter email",
+                body=html_to_text(letter.html_content),
+                html_body=letter.html_content,
+            )
+            attachment = gceletter_pdf_response(pdf_bytes)
+            email_file_response_as_attachment(
+                subject=email.subject,
+                body=email.body,
+                html_body=email.html_body,
+                recipients=[other_email],
+                attachment=attachment,
+            )
+
+    return True
+
+
 def email_letter_to_landlord(letter: GCELetter, pdf_bytes: bytes):
     if letter.letter_emailed_at is not None:
         logger.info(f"{letter} has already been emailed to the landlord.")
@@ -188,6 +213,13 @@ def send_letter(letter: GCELetter):
             errors["user_email"] = {"error": False}
         except Exception as e:
             errors["user_email"] = {"error": True, "message": str(e)}
+
+    if letter.extra_emails:
+        try:
+            email_letter_to_others(letter, pdf_bytes)
+            errors["extra_emails"] = {"error": False}
+        except Exception as e:
+            errors["extra_emails"] = {"error": True, "message": str(e)}
 
     slack.sendmsg_async(
         f"{slack.hyperlink(text=ud.first_name, href=letter.admin_url)} "

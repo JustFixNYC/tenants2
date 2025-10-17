@@ -1,4 +1,7 @@
 [
-  ["PLANNED_INCREASE", "Landlord plans to increase the rent above the reasonable standard."],
+  [
+    "PLANNED_INCREASE",
+    "Landlord plans to increase the rent above the reasonable standard."
+  ],
   ["NON_RENEWAL", "Landlord plans to not offer a lease renewal."]
 ]

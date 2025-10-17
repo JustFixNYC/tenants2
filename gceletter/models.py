@@ -57,7 +57,8 @@ class GCELetter(LocalizedHTMLLetter):
         null=True,
         blank=True,
         help_text=(
-            "Whether the landlord initially provided a 'good cause' justification for not offering a lease renewal"
+            "Whether the landlord initially provided a 'good cause' justification"
+            " for not offering a lease renewal"
         ),
     )
 

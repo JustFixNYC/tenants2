@@ -48,7 +48,7 @@ class GCELetter(LocalizedHTMLLetter):
     reason = models.TextField(
         max_length=30,
         choices=GCELETTER_REASON_CHOICES.choices,
-        help_text="How the letter will be mailed.",
+        help_text="Selected reason for sending the letter (e.g. lease non-renewal, rent increase)",
         blank=True,
         null=True,
     )

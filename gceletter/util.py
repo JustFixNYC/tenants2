@@ -97,7 +97,6 @@ class GCELetterPostData(BaseModelDict):
     reason: str
     good_cause_given: Optional[bool]
     extra_emails: Optional[List[str]]
-    email_to_landlord: bool
     html_content: str
 
 

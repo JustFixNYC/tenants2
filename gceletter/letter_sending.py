@@ -189,7 +189,7 @@ def send_letter(letter: GCELetter):
 
     errors: Dict[str, Any] = {}
 
-    if ld.email and letter.email_to_landlord:
+    if ld.email:
         try:
             email_letter_to_landlord(letter, pdf_bytes)
             errors["landlord_email"] = {"error": False}

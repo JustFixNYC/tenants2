@@ -44,7 +44,7 @@ class TestTriggerFollowupCampaign:
                 "gce_letter_tracking_number": "fake_12345",
                 "gce_letter_hash": letter.hash,
                 "gce_letter_reason": SAMPLE_POST_DATA["reason"],
-                "gce_letter_email_to_landlord": SAMPLE_POST_DATA["email_to_landlord"].upper(),
+                "gce_letter_email_to_landlord": str(bool(ld["email"])).upper(),
                 "gce_letter_mail_choice": SAMPLE_POST_DATA["mail_choice"],
                 "gce_letter_landlord_name": ld["name"],
                 "gce_letter_landlord_address": (

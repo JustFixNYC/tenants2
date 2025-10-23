@@ -45,8 +45,9 @@ class GCELetterAdmin(admin.ModelAdmin):
     list_display = [
         "user_details",
         "landlord_details",
+        "reason",
+        "good_cause_given",
         "mail_choice",
-        "email_to_landlord",
         "created_at",
         "letter_emailed_at",
         "letter_sent_at",
@@ -55,8 +56,9 @@ class GCELetterAdmin(admin.ModelAdmin):
 
     fields = [
         "locale",
+        "reason",
+        "good_cause_given",
         "mail_choice",
-        "email_to_landlord",
         "created_at",
         "letter_emailed_at",
         "letter_sent_at",

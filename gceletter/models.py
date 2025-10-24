@@ -36,15 +36,6 @@ class GCELetter(LocalizedHTMLLetter):
         default=GCELETTER_MAILING_CHOICES.WE_WILL_MAIL,
     )
 
-    email_to_landlord = models.BooleanField(
-        null=True,
-        blank=True,
-        help_text=(
-            "Whether to email a copy of the letter to the landlord. "
-            "Requires a landlord email to be provided"
-        ),
-    )
-
     reason = models.TextField(
         max_length=30,
         choices=GCELETTER_REASON_CHOICES.choices,
@@ -134,7 +125,7 @@ class GCELetter(LocalizedHTMLLetter):
         custom_fields["gce_letter_tracking_number"] = self.tracking_number
         custom_fields["gce_letter_hash"] = self.hash
         custom_fields["gce_letter_reason"] = self.reason
-        custom_fields["gce_letter_email_to_landlord"] = str(self.email_to_landlord).upper()
+        custom_fields["gce_letter_email_to_landlord"] = str(bool(ld.email)).upper()
         custom_fields["gce_letter_mail_choice"] = self.mail_choice
         custom_fields["gce_letter_landlord_name"] = ld.name
         landlord_address = (

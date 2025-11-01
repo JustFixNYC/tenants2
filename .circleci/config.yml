@@ -207,7 +207,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - circle-ci-blobless
   only_deploy:
     jobs:
       - deploy:

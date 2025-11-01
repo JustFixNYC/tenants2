@@ -97,7 +97,7 @@ jobs:
           POSTGRES_USER: justfix
     steps:
       - checkout:
-          method: blobless
+          method: full
       - restore_cache:
           name: Restore Git LFS cache
           key: gitlfs-build

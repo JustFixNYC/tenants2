@@ -15,7 +15,8 @@ jobs:
           ENABLE_WEBPACK_CONTENT_HASH: yup
           GIT_LFS_SKIP_SMUDGE: 1
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - restore_cache:
           name: Restore Git LFS cache
           key: gitlfs-build
@@ -95,7 +96,8 @@ jobs:
           POSTGRES_DB: justfix
           POSTGRES_USER: justfix
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - restore_cache:
           name: Restore Git LFS cache
           key: gitlfs-build
@@ -161,7 +163,8 @@ jobs:
             curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo env os=debian dist=bullseye bash
             sudo apt-get install git-lfs
             git lfs install
-      - checkout
+      - checkout:
+          method: blobless
       - restore_cache:
           key: gitlfs-deploy
       - shell:

@@ -15,7 +15,8 @@ jobs:
           ENABLE_WEBPACK_CONTENT_HASH: yup
           GIT_LFS_SKIP_SMUDGE: 1
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - restore_cache:
           name: Restore Git LFS cache
           key: gitlfs-build
@@ -95,7 +96,8 @@ jobs:
           POSTGRES_DB: justfix
           POSTGRES_USER: justfix
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - restore_cache:
           name: Restore Git LFS cache
           key: gitlfs-build
@@ -111,12 +113,6 @@ jobs:
       - run:
           <<: *install_node_deps
       - run:
-          name: CodeClimate before-build
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-            ./cc-test-reporter before-build
-      - run:
           name: Run tests
           command: |
             node --version
@@ -128,21 +124,6 @@ jobs:
             yarn build
             yarn test --runInBand
             pipenv run "pytest" --cov=. --cov-report xml:./coverage/python/coverage.xml
-      - run:
-          name: CodeClimate combine and upload coverage
-          command: |
-            # Format the various coverage reports
-            ./cc-test-reporter format-coverage -t lcov -o coverage/codeclimate.jest.json coverage/jest/lcov.info
-            ./cc-test-reporter format-coverage -t coverage.py -o coverage/codeclimate.python.json coverage/python/coverage.xml
-            # Combine the test coverage reports
-            ./cc-test-reporter sum-coverage coverage/codeclimate.*.json
-            # Attempt to submit the coverage report, but don't fail the build if this fails (`|| true`)
-            ./cc-test-reporter upload-coverage --debug || true
-      - store_test_results:
-          path: test-results
-      - store_artifacts:
-          path: test-results
-          destination: tr1
   deploy:
     working_directory: ~/tenants2_deploy
     docker:
@@ -161,7 +142,8 @@ jobs:
             curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo env os=debian dist=bullseye bash
             sudo apt-get install git-lfs
             git lfs install
-      - checkout
+      - checkout:
+          method: blobless
       - restore_cache:
           key: gitlfs-deploy
       - shell:

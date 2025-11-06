@@ -108,7 +108,7 @@ def email_letter_to_landlord(letter: GCELetter, pdf_bytes: bytes):
             body=email.body,
             html_body=email.html_body,
             recipients=[ld.email],
-            cc=[ud.email] if letter.cc_user else None,
+            cc=[ud.email] if letter.cc_user and ud.email else None,
             attachment=attachment,
         )
 

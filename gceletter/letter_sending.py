@@ -5,7 +5,6 @@ from typing import Any, Dict
 from django.http.response import FileResponse
 from django.utils import timezone
 from django.db import transaction
-from django.forms.models import model_to_dict
 
 from texting import twilio
 from project import slack

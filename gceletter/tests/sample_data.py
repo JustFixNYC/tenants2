@@ -31,5 +31,6 @@ SAMPLE_POST_DATA: Dict[str, Any] = {
     "reason": "NON_RENEWAL",
     "good_cause_given": "false",
     "extra_emails": ["one@example.com", "two@example.com"],
+    "cc_user": "true",
     "html_content": "<!DOCTYPE html><html>TEST</html>",
 }

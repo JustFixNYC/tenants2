@@ -56,6 +56,7 @@ def submit_letter(request):
                 "user_email": ud.email,
                 "extra_emails": letter.extra_emails,
                 "user_phone_number": ud.phone_number,
+                "mail_choice": letter.mail_choice,
                 "tracking_number": letter.tracking_number,
                 "letter_pdf": letter.pdf_base64,
                 "reason": letter.reason,

@@ -53,10 +53,17 @@ class GCELetter(LocalizedHTMLLetter):
         ),
     )
 
+    cc_user = models.BooleanField(
+        null=True,
+        blank=True,
+        help_text="Whether the user should be cc'd on the email to the landlord",
+    )
+
     extra_emails: List[str] = ArrayField(
-        models.EmailField(max_length=20),
+        models.EmailField(blank=True, null=True, name="extra_email"),
         blank=True,
         null=True,
+        name="extra_emails",
         help_text="List of additional emails to send a copy of the letter.",
     )
 

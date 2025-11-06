@@ -15,7 +15,8 @@ jobs:
           ENABLE_WEBPACK_CONTENT_HASH: yup
           GIT_LFS_SKIP_SMUDGE: 1
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - restore_cache:
           name: Restore Git LFS cache
           key: gitlfs-build
@@ -95,7 +96,8 @@ jobs:
           POSTGRES_DB: justfix
           POSTGRES_USER: justfix
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - restore_cache:
           name: Restore Git LFS cache
           key: gitlfs-build
@@ -122,11 +124,6 @@ jobs:
             yarn build
             yarn test --runInBand
             pipenv run "pytest" --cov=. --cov-report xml:./coverage/python/coverage.xml
-      - store_test_results:
-          path: test-results
-      - store_artifacts:
-          path: test-results
-          destination: tr1
   deploy:
     working_directory: ~/tenants2_deploy
     docker:
@@ -145,7 +142,8 @@ jobs:
             curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo env os=debian dist=bullseye bash
             sudo apt-get install git-lfs
             git lfs install
-      - checkout
+      - checkout:
+          method: blobless
       - restore_cache:
           key: gitlfs-deploy
       - shell:

@@ -5,6 +5,7 @@ from typing import Any, Dict
 from django.http.response import FileResponse
 from django.utils import timezone
 from django.db import transaction
+from django.forms.models import model_to_dict
 
 from texting import twilio
 from project import slack
@@ -41,12 +42,12 @@ def gceletter_pdf_response(pdf_bytes: bytes) -> FileResponse:
 
 
 def email_letter_to_user(letter: GCELetter, pdf_bytes: bytes):
-    ud = letter.landlord_details
+    ud = letter.user_details
     assert ud.email
 
     if is_not_demo_deployment(f"emailing {letter} to user"):
         email = Email(
-            subject="test gce letter email",
+            subject="gce letter test: to user",
             body=html_to_text(letter.html_content),
             html_body=letter.html_content,
         )
@@ -66,12 +67,12 @@ def email_letter_to_others(letter: GCELetter, pdf_bytes: bytes):
     if letter.letter_emailed_at is not None:
         logger.info(f"{letter} has already been emailed to the others.")
         return False
-    assert letter.extra_emails
+    assert len(letter.extra_emails)
 
     if is_not_demo_deployment(f"emailing {letter} to others"):
         for other_email in letter.extra_emails:
             email = Email(
-                subject="test gce letter email",
+                subject="gce letter test: to others",
                 body=html_to_text(letter.html_content),
                 html_body=letter.html_content,
             )
@@ -92,11 +93,12 @@ def email_letter_to_landlord(letter: GCELetter, pdf_bytes: bytes):
         logger.info(f"{letter} has already been emailed to the landlord.")
         return False
     ld = letter.landlord_details
+    ud = letter.user_details
     assert ld.email
 
     if is_not_demo_deployment(f"emailing {letter} to landlord"):
         email = Email(
-            subject="test gce letter email",
+            subject="gce letter test: to landlord",
             body=html_to_text(letter.html_content),
             html_body=letter.html_content,
         )
@@ -106,11 +108,10 @@ def email_letter_to_landlord(letter: GCELetter, pdf_bytes: bytes):
             body=email.body,
             html_body=email.html_body,
             recipients=[ld.email],
+            cc=[ud.email] if letter.cc_user else None,
             attachment=attachment,
         )
 
-    letter.letter_emailed_at = timezone.now()
-    letter.save()
     return True
 
 
@@ -214,7 +215,7 @@ def send_letter(letter: GCELetter):
         except Exception as e:
             errors["user_email"] = {"error": True, "message": str(e)}
 
-    if letter.extra_emails:
+    if len(letter.extra_emails):
         try:
             email_letter_to_others(letter, pdf_bytes)
             errors["extra_emails"] = {"error": False}
@@ -228,6 +229,7 @@ def send_letter(letter: GCELetter):
     )
 
     with transaction.atomic():
+        letter.letter_emailed_at = timezone.now()
         letter.pdf_base64 = base64.b64encode(pdf_bytes).decode("utf-8")
         letter.fully_processed_at = timezone.now()
         letter.full_clean()

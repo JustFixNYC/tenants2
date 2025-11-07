@@ -355,6 +355,11 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # If empty, this follow-up campaign will be disabled.
     RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE_RESULTS: str = ""
 
+    # The RapidPro group name and date field key, separated by a comma, that
+    # trigger the follow-up campaign for Good Cause NYC letter sender.
+    # If empty, this follow-up campaign will be disabled.
+    RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE_LETTER: str = ""
+
     # The DocuSign account ID to use. Leaving this empty disables DocuSign
     # integration.
     DOCUSIGN_ACCOUNT_ID: str = ""

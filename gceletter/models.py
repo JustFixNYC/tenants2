@@ -268,7 +268,7 @@ class LandlordDetails(MailingAddress):
 
 class ComingSoonNotifyContacts(models.Model):
     # campaign with no events so we can send broadcast at launch
-    RAPIDPRO_CAMPAIGN = "GCELETTER_COMING_SOON"
+    RAPIDPRO_CAMPAIGN = "GCE_LETTER_COMING_SOON"
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -295,5 +295,5 @@ class ComingSoonNotifyContacts(models.Model):
             None,  # We aren't collecting names
             self.phone_number,
             campaign,
-            locale=self.locale,
+            locale="en",
         )

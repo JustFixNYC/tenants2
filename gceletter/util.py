@@ -36,6 +36,19 @@ class BaseModelDict(pydantic.BaseModel):
         return {k: v for k, v in self.dict().items() if predicate(k, v)}
 
 
+class PhoneNumberData(BaseModelDict):
+    phone_number: str
+
+    @pydantic.validator("phone_number")  # type: ignore
+    def phone_number_must_be_valid(cls, v):
+        try:
+            pn.validate_phone_number(v)
+        except dje.ValidationError as e:
+            # Avoid mixing pydantic and django versions of ValidationError
+            raise ValueError(getattr(e, "message"))
+        return v
+
+
 class LOBAddressData(BaseModelDict):
     primary_line: str
     secondary_line: Optional[str]
@@ -61,11 +74,10 @@ class LOBAddressData(BaseModelDict):
         return v
 
 
-class UserDetailsData(LOBAddressData):
+class UserDetailsData(LOBAddressData, PhoneNumberData):
     first_name: str
     last_name: str
     email: Optional[str]
-    phone_number: str
     bbl: str
 
     @pydantic.validator("bbl")  # type: ignore
@@ -73,15 +85,6 @@ class UserDetailsData(LOBAddressData):
         pattern = re.compile(r"^[1-5]\d{9}$")
         if not bool(pattern.match(v)):
             raise ValueError("BBL must be 10-digit zero padded string")
-        return v
-
-    @pydantic.validator("phone_number")  # type: ignore
-    def phone_number_must_be_valid(cls, v):
-        try:
-            pn.validate_phone_number(v)
-        except dje.ValidationError as e:
-            # Avoid mixing pydantic and django versions of ValidationError
-            raise ValueError(getattr(e, "message"))
         return v
 
 

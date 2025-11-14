@@ -7,11 +7,12 @@ from gceletter.letter_sending import gceletter_pdf_response, render_pdf_bytes, s
 from gceletter.util import (
     GCELetterPostData,
     LOBAddressData,
+    PhoneNumberData,
     api,
     authorize_with_token,
     validate_request_data,
 )
-from gceletter.models import GCELetter, LandlordDetails, UserDetails
+from gceletter.models import ComingSoonNotifyContacts, GCELetter, LandlordDetails, UserDetails
 from project.util.lob_api import verify_address
 
 
@@ -136,6 +137,36 @@ def lob_verify_address(request):
 
     return JsonResponse(
         verification,
+        content_type="application/json",
+        status=200,
+    )
+
+
+@csrf_exempt
+@require_http_methods(["OPTIONS", "POST"])
+@api
+def coming_soon_subscribe(request):
+    """
+    The POST endpoint used on the temporary "coming soon" page to sign up to get
+    a text message when the Good Cause Eviction Letter Sender launches.
+    """
+
+    if request.method == "OPTIONS":
+        return HttpResponse(status=200)
+
+    authorize_with_token(request, "bearer", settings.GCE_API_TOKEN)
+
+    data = validate_request_data(request, PhoneNumberData)
+
+    contact = ComingSoonNotifyContacts.objects.create(**data.to_dict())
+
+    contact.full_clean()
+    contact.save()
+
+    contact.trigger_followup_campaign_async()
+
+    return JsonResponse(
+        {"success": True},
         content_type="application/json",
         status=200,
     )

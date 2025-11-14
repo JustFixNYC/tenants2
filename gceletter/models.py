@@ -264,3 +264,36 @@ class LandlordDetails(MailingAddress):
 
     def __str__(self):
         return f"{self.name}: {'/'.join(self.address_lines_for_mailing)}"
+
+
+class ComingSoonNotifyContacts(models.Model):
+    # campaign with no events so we can send broadcast at launch
+    RAPIDPRO_CAMPAIGN = "GCE_LETTER_COMING_SOON"
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    phone_number = models.CharField(
+        blank=True,
+        **pn.get_model_field_kwargs(),
+    )
+
+    def trigger_followup_campaign_async(self) -> None:
+        if not self.phone_number:
+            return
+
+        from rapidpro import followup_campaigns as fc
+
+        campaign = self.RAPIDPRO_CAMPAIGN
+
+        fc.ensure_followup_campaign_exists(campaign)
+
+        logging.info(f"Triggering rapidpro campaign '{campaign}' on user {self.pk}.")
+
+        fc.trigger_followup_campaign_async(
+            None,  # We aren't collecting names
+            self.phone_number,
+            campaign,
+            locale="en",
+        )

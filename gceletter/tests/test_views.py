@@ -13,6 +13,7 @@ def base_headers(settings):
     }
 
 
+# TODO: add url argument to test other endpoints
 def authorized_request(client, settings, post_data, **kawrgs):
     return client.post(
         "/gceletter/send-letter",
@@ -71,3 +72,16 @@ def test_skipped_send_subtasks_response(client, settings):
     assert "landlord_email" not in errors
     assert "letter_mail" not in errors
     assert "user_email" not in errors
+
+
+@pytest.mark.django_db
+def test_coming_soon_subscribe_works(client, settings):
+    post_data = {"phone_number": "2125551212"}
+    res = authorized_request(client, settings, post_data)
+    res = client.post(
+        "/gceletter/coming-soon-subscribe",
+        json.dumps(post_data),
+        HTTP_ORIGIN=settings.GCE_ORIGIN,
+        **base_headers(settings),
+    )
+    assert res.status_code == 200

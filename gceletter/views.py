@@ -6,7 +6,6 @@ from django.views.decorators.csrf import csrf_exempt
 from gceletter.letter_sending import gceletter_pdf_response, render_pdf_bytes, send_letter
 from gceletter.util import (
     GCELetterPostData,
-    LOBAddressData,
     LOBVerifyAddressData,
     PhoneNumberData,
     api,

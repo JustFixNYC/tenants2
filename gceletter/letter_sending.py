@@ -1,10 +1,12 @@
 import base64
 import logging
+import textwrap
 from io import BytesIO
-from typing import Any, Dict
+from typing import Any, Dict, Literal
 from django.http.response import FileResponse
 from django.utils import timezone
 from django.db import transaction
+from django.conf import settings
 
 from texting import twilio
 from project import slack
@@ -41,15 +43,73 @@ def gceletter_pdf_response(pdf_bytes: bytes) -> FileResponse:
     return FileResponse(BytesIO(pdf_bytes), filename=f"good-cause-letter.pdf")
 
 
+def get_email_subject_body(type: Literal["user", "landlord", "others"], letter: GCELetter) -> str:
+    ud = letter.user_details
+
+    def link(href: str, text: str) -> str:
+        return f"<a href='{href}' rel='noopener noreferrer'>{text}</a>"
+
+    letter_reason = "rent increase" if letter.reason == "PLANNED_INCREASE" else "lease renewal"
+
+    if type == "user":
+        subject = "Your Good Cause letter"
+        body = f"""
+        Hello {ud.full_name},
+        <br/><br/>
+        A PDF copy of your letter is attached for your records. \
+        You may want to save or print it for your files.
+        <br/><br/>
+        While you wait for your landlord to get back to you, \
+        {link(
+            f"{settings.GCE_ORIGIN}/letter/next_steps", 
+            "learn more about next steps you can take."
+        )}
+        <br/><br/>
+        -JustFix
+        <br/><br/>
+        {link(settings.GCE_ORIGIN, "Good Cause NYC")} is a project of \
+        {link("https://housingjusticeforall.org/","Housing Justice for All")} & \
+        {link("https://justfix.org/", "JustFix")}. This message was sent from \
+        an automated address that cannot receive replies.
+        """
+    elif type == "landlord":
+        subject = f"{ud.full_name} has sent you a Good Cause letter"
+        body = f"""
+        Hello,
+        <br/><br/>
+        {ud.full_name} has sent you a letter regarding a {letter_reason} \
+        in the context of New York’s Good Cause Eviction law.
+        <br/><br/>
+        A PDF copy of the letter is attached.
+        <br/><br/>
+        This message was sent from an automated address that cannot receive replies.
+        """
+    elif "others":
+        subject = f"{ud.full_name} has shared their Good Cause letter with you"
+        body = f"""
+        Hello,
+        <br/><br/>
+        {ud.full_name} has sent a letter to their landlord regarding a {letter_reason} \
+        in the context of New York’s Good Cause Eviction law.
+        <br/><br/>
+        They’ve chosen to share a PDF copy of that letter with you. You can find \
+        it attached for your reference.
+        <br/><br/>
+        This message was sent from an automated address that cannot receive replies.
+        """
+    return subject, textwrap.dedent(body)
+
+
 def email_letter_to_user(letter: GCELetter, pdf_bytes: bytes):
     ud = letter.user_details
     assert ud.email
 
     if True:  # is_not_demo_deployment(f"emailing {letter} to user"):
+        subject, body = get_email_subject_body("user", letter)
         email = Email(
-            subject="gce letter test: to user",
-            body=html_to_text(letter.html_content),
-            html_body=letter.html_content,
+            subject=subject,
+            body=html_to_text(body),
+            html_body=body,
         )
         attachment = gceletter_pdf_response(pdf_bytes)
         email_file_response_as_attachment(
@@ -71,11 +131,12 @@ def email_letter_to_others(letter: GCELetter, pdf_bytes: bytes):
 
     # TODO: temporarily enabling email sending even on demo for internal QA
     if True:  # is_not_demo_deployment(f"emailing {letter} to others"):
+        subject, body = get_email_subject_body("others", letter)
         for other_email in letter.extra_emails:
             email = Email(
-                subject="gce letter test: to others",
-                body=html_to_text(letter.html_content),
-                html_body=letter.html_content,
+                subject=subject,
+                body=html_to_text(body),
+                html_body=body,
             )
             attachment = gceletter_pdf_response(pdf_bytes)
             email_file_response_as_attachment(
@@ -98,10 +159,11 @@ def email_letter_to_landlord(letter: GCELetter, pdf_bytes: bytes):
     assert ld.email
 
     if True:  # is_not_demo_deployment(f"emailing {letter} to landlord"):
+        subject, body = get_email_subject_body("landlord", letter)
         email = Email(
-            subject="gce letter test: to landlord",
-            body=html_to_text(letter.html_content),
-            html_body=letter.html_content,
+            subject=subject,
+            body=html_to_text(body),
+            html_body=body,
         )
         attachment = gceletter_pdf_response(pdf_bytes)
         email_file_response_as_attachment(

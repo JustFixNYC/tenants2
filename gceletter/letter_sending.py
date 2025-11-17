@@ -61,7 +61,7 @@ def get_email_subject_body(type: Literal["user", "landlord", "others"], letter: 
         <br/><br/>
         While you wait for your landlord to get back to you, \
         {link(
-            f"{settings.GCE_ORIGIN}/letter/next_steps", 
+            f"{settings.GCE_ORIGIN}/letter/next_steps",
             "learn more about next steps you can take."
         )}
         <br/><br/>

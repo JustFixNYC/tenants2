@@ -2,7 +2,7 @@ import base64
 import logging
 import textwrap
 from io import BytesIO
-from typing import Any, Dict, Literal
+from typing import Any, Dict, Literal, Tuple
 from django.http.response import FileResponse
 from django.utils import timezone
 from django.db import transaction
@@ -43,7 +43,9 @@ def gceletter_pdf_response(pdf_bytes: bytes) -> FileResponse:
     return FileResponse(BytesIO(pdf_bytes), filename=f"good-cause-letter.pdf")
 
 
-def get_email_subject_body(type: Literal["user", "landlord", "others"], letter: GCELetter) -> str:
+def get_email_subject_body(
+    type: Literal["user", "landlord", "others"], letter: GCELetter
+) -> Tuple[str, str]:
     ud = letter.user_details
 
     def link(href: str, text: str) -> str:

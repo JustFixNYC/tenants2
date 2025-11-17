@@ -104,6 +104,32 @@ class GCELetterPostData(BaseModelDict):
     html_content: str
 
 
+class LOBVerifyAddressData(LOBAddressData):
+    city: Optional[str]
+    state: Optional[str]
+    zip_code: Optional[str]
+
+    @pydantic.root_validator(allow_reuse=True)  # type: ignore
+    def require_zip_or_city_state(cls, values):
+        if values.get("zip_code") is None and (
+            values.get("city") is None and values.get("state") is None
+        ):
+            raise ValueError("If city and state are missing then zip is required.")
+        return values
+
+    # Overwrite inherited class to allow missing zip
+    @pydantic.validator("zip_code")  # type: ignore
+    def zip_code_valid_format(cls, v):
+        if not v:
+            return v
+        match = re.match(r"^[0-9]{5}(?:-[0-9]{4})?$", v)
+        if not match:
+            raise ValueError(
+                "Zip Code must be valid 5 digit ZIP or or ZIP+4 format (eg. '12345-1234')"
+            )
+        return v
+
+
 def validate_data(data: Dict[str, str], cls):
     try:
         data = cls(**data)

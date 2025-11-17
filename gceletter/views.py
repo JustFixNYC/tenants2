@@ -7,6 +7,7 @@ from gceletter.letter_sending import gceletter_pdf_response, render_pdf_bytes, s
 from gceletter.util import (
     GCELetterPostData,
     LOBAddressData,
+    LOBVerifyAddressData,
     PhoneNumberData,
     api,
     authorize_with_token,
@@ -131,7 +132,7 @@ def lob_verify_address(request):
     if request.method == "OPTIONS":
         return HttpResponse(status=200)
 
-    data = validate_request_data(request, LOBAddressData)
+    data = validate_request_data(request, LOBVerifyAddressData)
 
     verification = verify_address(**data.to_dict())
 

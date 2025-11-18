@@ -13,6 +13,8 @@ from project.util.site_util import absolute_reverse
 GCELETTER_MAILING_CHOICES = Choices.from_file("gceletter-mailing-choices.json")
 GCELETTER_REASON_CHOICES = Choices.from_file("gceletter-reason-choices.json")
 
+GCE_LETTER_FILENAME = "good-cause-letter"
+
 
 class GCELetter(LocalizedHTMLLetter):
     """
@@ -113,7 +115,9 @@ class GCELetter(LocalizedHTMLLetter):
     def admin_url(self):
         return absolute_reverse("admin:gceletter_gceletter_change", args=[self.pk])
 
-    # TODO: Add method for adding user to textit followup campaign, see GCE
+    @property
+    def letter_hash_url(self) -> str:
+        return f"{self._meta.app_label}/{self.hash}/{GCE_LETTER_FILENAME}.pdf"
 
     def __str__(self):
         return f"{self.user_details.full_name}'s GCE Letter ({self.created_at.date()})"

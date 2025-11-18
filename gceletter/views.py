@@ -60,6 +60,7 @@ def submit_letter(request):
                 "mail_choice": letter.mail_choice,
                 "tracking_number": letter.tracking_number,
                 "letter_pdf": letter.pdf_base64,
+                "letter_url": letter.letter_hash_url,
                 "reason": letter.reason,
                 "good_cause_given": letter.good_cause_given,
             },

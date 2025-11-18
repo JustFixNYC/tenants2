@@ -115,7 +115,7 @@ class LOBVerifyAddressData(BaseModelDict):
     @pydantic.root_validator(allow_reuse=True)  # type: ignore
     def require_zip_or_city_state(cls, values):
         if values.get("zip_code") is None and (
-            values.get("city") is None and values.get("state") is None
+            values.get("city") is None or values.get("state") is None
         ):
             raise ValueError("If city and state are missing then zip is required.")
         return values

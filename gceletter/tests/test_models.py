@@ -50,7 +50,7 @@ class TestTriggerFollowupCampaign:
                 "gce_letter_landlord_address": (
                     ld["primary_line"]
                     + (" " + ld["secondary_line"] if ld["secondary_line"] else "")
-                    + f"{ld['city']}, {ld['state']} {ld['zip_code']}"
+                    + f" {ld['city']}, {ld['state']} {ld['zip_code']}"
                 ),
             },
         )

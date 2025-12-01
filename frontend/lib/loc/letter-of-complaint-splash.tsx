@@ -163,10 +163,9 @@ export function LocSplash(): JSX.Element {
       <section className="section">
         <div className="content">
           <h2 className="title is-spaced has-text-centered">How It Works</h2>
-          <figure className="image">
+          <figure className="image is-16by9">
             <iframe
-              width="100%"
-              height="500"
+              className="has-ratio"
               src="https://www.youtube.com/embed/hg64IsJl0O4?si=DCSpveNLTFzlid2C"
               title="YouTube video player"
               frameBorder="0"

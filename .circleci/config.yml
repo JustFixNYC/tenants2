@@ -170,11 +170,11 @@ jobs:
               # We actually want to use the development instance as our cache,
               # because it's very likely we're just deploying the same image
               # it's already running.
-              export CACHE_FROM=registry.heroku.com/tenants2-dev/web:latest
+              export CACHE_FROM=""
             else
               # This should be the Heroku app name of our development instance.
               heroku git:remote -a tenants2-dev
-              export CACHE_FROM=self
+              export CACHE_FROM=""
             fi
             python deploy.py selfcheck
             python deploy.py heroku -r heroku --cache-from=${CACHE_FROM}

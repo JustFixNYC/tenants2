@@ -166,11 +166,11 @@ export function LocSplash(): JSX.Element {
           <figure className="image is-16by9">
             <iframe
               className="has-ratio"
-              width="640"
-              height="360"
-              src="https://www.youtube.com/embed/hg64IsJl0O4"
+              src="https://www.youtube.com/embed/hg64IsJl0O4?si=DCSpveNLTFzlid2C"
+              title="YouTube video player"
               frameBorder="0"
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
             ></iframe>
           </figure>

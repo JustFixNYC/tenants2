@@ -79,10 +79,10 @@
 
         /* Tooltip text position: below info icon */
         @include mobile {
-          width: 300px;
+          width: 250px;
           top: 100%;
           left: 50%;
-          margin-left: -150px; /* Use half of the width to center the tooltip */
+          margin-left: -125px; /* Use half of the width to center the tooltip */
         }
 
         a {
@@ -107,6 +107,12 @@
           border-color: transparent black transparent transparent;
         }
       }
+
+      .tooltip_nycha .tooltiptext {
+        @include mobile {
+          margin-left: -175px;
+        }
+      }
     }
 
     .button {
@@ -123,6 +129,7 @@
 
         label {
           margin-top: -8px;
+          max-width: 200px;
         }
 
         .tooltip {

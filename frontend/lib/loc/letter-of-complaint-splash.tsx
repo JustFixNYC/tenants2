@@ -120,9 +120,19 @@ const createLeaseLearnMoreModals = (): LeaseMoreInfo[] => [
 
 export function LocSplash(): JSX.Element {
   const [housingType, setHousingType] = React.useState("");
+  const [isSafari, setIsSafari] = React.useState(false);
 
   React.useEffect(() => {
     window.sessionStorage.removeItem("housingType");
+    // Detect Safari browser to hide YouTube video embed while Error 153 (Video Player Configuration Error) persists.
+    // User agent sniffing is not recommended. Once Youtube fixes the issue, remove this
+    // Logic: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Browser_detection_using_the_user_agent#browser_name_and_version
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isSafariBrowser =
+      userAgent.indexOf("safari") > -1 &&
+      userAgent.indexOf("chrome") === -1 &&
+      userAgent.indexOf("chromium") === -1;
+    setIsSafari(isSafariBrowser);
   }, []);
 
   return (
@@ -163,17 +173,19 @@ export function LocSplash(): JSX.Element {
       <section className="section">
         <div className="content">
           <h2 className="title is-spaced has-text-centered">How It Works</h2>
-          <figure className="image is-16by9">
-            <iframe
-              className="has-ratio"
-              src="https://www.youtube.com/embed/hg64IsJl0O4?si=DCSpveNLTFzlid2C"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            ></iframe>
-          </figure>
+          {!isSafari && (
+            <figure className="image is-16by9">
+              <iframe
+                className="has-ratio"
+                src="https://www.youtube.com/embed/hg64IsJl0O4?si=DCSpveNLTFzlid2C"
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+            </figure>
+          )}
           <BigList itemClassName="title is-5">
             <li>
               Customize our lawyer-approved letter template to choose the

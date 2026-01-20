@@ -1,5 +1,5 @@
 import os
-from typing import List
+from typing import List, Optional
 from graphql import ResolveInfo
 import graphene
 from graphene_django.types import DjangoObjectType
@@ -206,6 +206,7 @@ class LocSessionInfo:
     has_seen_work_order_page = graphene.Boolean()
     landlord_details = graphene.Field(LandlordDetailsType, resolver=LandlordDetailsV2.resolve)
     letter_request = graphene.Field(LetterRequestType, resolver=LetterRequest.resolve)
+    referral_code = graphene.String(description="The active LOC referral code, if any")
 
     def resolve_access_dates(self, info: ResolveInfo):
         user = info.context.user
@@ -223,6 +224,10 @@ class LocSessionInfo:
         request = info.context
         # used for handling the default state of the form
         return request.session.get(HAS_SEEN_WORK_ORDER_PAGE_KEY, False)
+
+    def resolve_referral_code(self, info: ResolveInfo) -> Optional[str]:
+        from . import referral as loc_referral
+        return loc_referral.get_referral_code(info.context)
 
 
 class LetterStyles(graphene.ObjectType):

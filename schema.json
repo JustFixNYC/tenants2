@@ -1918,6 +1918,18 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "The active LOC referral code, if any",
+              "isDeprecated": false,
+              "name": "referralCode",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "Whether a user has started a habitability letter. If true, that means the user has clicked Start Letter on the MyLetters page.",
               "isDeprecated": false,
               "name": "hasHabitabilityLetterInProgress",

@@ -12,4 +12,5 @@ urlpatterns = [
         name="loc_for_user",
     ),
     re_path(r"^example\.(html|pdf)$", views.example_doc, name="loc_example"),
+    path(r"splash-<str:referral_code>", views.activate_referral, name="loc_referral_splash"),
 ]

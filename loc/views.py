@@ -2,7 +2,7 @@ from typing import Dict, Any, List, Optional
 import datetime
 from pathlib import Path, PurePosixPath
 from io import BytesIO
-from django.http import FileResponse, HttpResponse, HttpRequest, Http404
+from django.http import FileResponse, HttpResponse, HttpRequest, Http404, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
@@ -13,6 +13,7 @@ from django.views.decorators.clickjacking import xframe_options_sameorigin
 from twofactor.decorators import twofactor_required
 from users.models import JustfixUser, VIEW_LETTER_REQUEST_PERMISSION
 from .models import does_user_have_finished_loc
+from . import referral
 
 
 MY_DIR = Path(__file__).parent.resolve()
@@ -159,6 +160,24 @@ def render_finished_loc_pdf_for_user_or_404(request, user: JustfixUser):
 @login_required
 def finished_loc_pdf(request):
     return render_finished_loc_pdf_for_user_or_404(request, request.user)
+
+
+def activate_referral(request: HttpRequest, referral_code: str):
+    """
+    Activate a referral code for LOC splash pages.
+    Sets the referral code in the session and redirects to the regular splash page.
+    """
+    # Validate that the referral code exists
+    if not referral.get_landlord_details_for_referral(referral_code):
+        raise Http404(f"Referral code '{referral_code}' not found")
+    
+    referral.set_referral_code(request, referral_code)
+    # Redirect to the regular splash page using the success URL utility
+    # which handles locale-aware redirects
+    from project.util.success_url import get_success_url
+    # Construct the redirect URL - this will be handled by frontend routing
+    redirect_url = get_success_url(request, default="/loc/splash")
+    return HttpResponseRedirect(redirect_url)
 
 
 def react_render_loc_html(user, locale: str, html_comment: str = "") -> str:

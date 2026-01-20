@@ -79,6 +79,28 @@ def complete_onboarding(request, info, password: Optional[str]) -> JustfixUser:
         oi.full_clean()
         oi.save()
 
+        # Check for LOC referral code and pre-fill landlord details if applicable
+        if oi.signup_intent == SIGNUP_INTENT_CHOICES.LOC:
+            from loc import referral as loc_referral
+            referral_code = loc_referral.get_referral_code(request)
+            if referral_code:
+                landlord_details = loc_referral.get_landlord_details_for_referral(referral_code)
+                if landlord_details:
+                    from loc import models as loc_models
+                    ld = loc_models.LandlordDetails._get_or_create_for_user(user)
+                    ld.name = landlord_details.get("name", "")
+                    ld.primary_line = landlord_details.get("primary_line", "")
+                    ld.city = landlord_details.get("city", "")
+                    ld.state = landlord_details.get("state", "")
+                    ld.zip_code = landlord_details.get("zip_code", "")
+                    ld.email = landlord_details.get("email", "")
+                    ld.phone_number = landlord_details.get("phone_number", "")
+                    ld.is_looked_up = False
+                    ld.save()
+                    # Clear the referral code from session after use
+                    if loc_referral.LOC_REFERRAL_SESSION_KEY in request.session:
+                        del request.session[loc_referral.LOC_REFERRAL_SESSION_KEY]
+
     partner = referral.get_partner(request)
     via = ""
     if partner:

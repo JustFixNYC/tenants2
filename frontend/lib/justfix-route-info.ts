@@ -17,6 +17,7 @@ import { createRentalHistoryRouteInfo } from "./rh/route-info";
 import { createPasswordResetRouteInfo } from "./password-reset/route-info";
 import { createEmergencyHPActionRouteInfo } from "./hpaction/emergency/route-info";
 import { createAccountSettingsRouteInfo } from "./account-settings/route-info";
+import { createLaLetterBuilderLocalizedRouteInfo } from "./laletterbuilder/route-info";
 import { adminRouteInfo } from "./admin/route-info";
 
 /**
@@ -124,6 +125,10 @@ function createLocalizedRouteInfo(prefix: string) {
     /** The Rental History flow. */
 
     rh: createRentalHistoryRouteInfo(`${prefix}/rh`),
+
+    laletterbuilder: createLaLetterBuilderLocalizedRouteInfo(
+      `${prefix}/laletterbuilder`
+    ),
 
     /** The data requests portal.  */
     dataRequests: createDataRequestsRouteInfo(`${prefix}/data-requests`),

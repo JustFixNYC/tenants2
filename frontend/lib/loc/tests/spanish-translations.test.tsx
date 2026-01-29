@@ -43,8 +43,7 @@ describe("LOC Spanish translations", () => {
       });
 
       await waitFor(() => {
-        // TODO update with new translation strings once crowdin is updated
-        expect(pal.rr.container.textContent).not.toMatch(/loc\.\w+/);
+        pal.rr.getByText(/Por qué enviar una Carta de Queja/i);
       });
     });
   });

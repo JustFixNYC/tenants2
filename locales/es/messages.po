@@ -3665,7 +3665,7 @@ msgstr "¿Por qué necesitáis esta información?"
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:176
 #: frontend/lib/loc/routes.tsx:66
 msgid "Why mail a Letter of Complaint?"
-msgstr ""
+msgstr "¿Por qué enviar una Carta de Queja?"
 
 #: frontend/lib/norent/the-letter.tsx:41
 msgid "Why send a letter"

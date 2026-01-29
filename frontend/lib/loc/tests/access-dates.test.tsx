@@ -2,10 +2,13 @@ import React from "react";
 
 import { getInitialState } from "../access-dates";
 import JustfixRoutes from "../../justfix-route-info";
-import LetterOfComplaintRoutes from "../routes";
+import LetterOfComplaintRoutes, { LocLinguiI18n } from "../routes";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { AccessDatesMutation } from "../../queries/AccessDatesMutation";
 import { newSb } from "../../tests/session-builder";
+import { preloadLingui } from "../../tests/lingui-preloader";
+
+beforeAll(preloadLingui(LocLinguiI18n));
 
 describe("access dates page", () => {
   it("redirects to next step after successful submission", async () => {

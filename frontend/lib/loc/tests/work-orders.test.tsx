@@ -1,10 +1,13 @@
 import React from "react";
 
 import JustfixRoutes from "../../justfix-route-info";
-import LetterOfComplaintRoutes from "../routes";
+import LetterOfComplaintRoutes, { LocLinguiI18n } from "../routes";
 import { AppTesterPal } from "../../tests/app-tester-pal";
 import { newSb } from "../../tests/session-builder";
 import { WorkOrderTicketsMutation } from "../../queries/WorkOrderTicketsMutation";
+import { preloadLingui } from "../../tests/lingui-preloader";
+
+beforeAll(preloadLingui(LocLinguiI18n));
 
 describe("work order tickets page", () => {
   it("redirects to next step after submitting valid work order tickets", async () => {

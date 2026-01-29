@@ -13,10 +13,16 @@ import { LandlordPageContent, RecommendedLandlordInfo } from "../ui/landlord";
 import { LocLandlordInfoMutation } from "../queries/LocLandlordInfoMutation";
 import { BlankLandlordLandlordDetailsFormFormSetInput } from "../queries/HpaLandlordInfoMutation";
 import { SingletonFormset } from "../forms/formset";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 export const LandlordDetailsPage = MiddleProgressStep((props) => {
   return (
-    <Page title="Landlord information" withHeading className="content">
+    <Page
+      title={li18n._(t`Landlord information`)}
+      withHeading
+      className="content"
+    >
       <QueryLoader
         query={RecommendedLocLandlord}
         input={null}
@@ -27,13 +33,15 @@ export const LandlordDetailsPage = MiddleProgressStep((props) => {
               <>
                 <RecommendedLandlordInfo {...props} />
                 <p>
-                  We will use this address to ensure your landlord receives your
-                  letter. If you feel strongly that this information is
-                  incorrect or incomplete, however, you can{" "}
-                  <Link to={props.forceManualHref}>
-                    provide your own details
-                  </Link>
-                  .
+                  <Trans>
+                    We will use this address to ensure your landlord receives
+                    your letter. If you feel strongly that this information is
+                    incorrect or incomplete, however, you can{" "}
+                    <Link to={props.forceManualHref}>
+                      provide your own details
+                    </Link>
+                    .
+                  </Trans>
                 </p>
               </>
             )}
@@ -60,28 +68,28 @@ export const LandlordDetailsPage = MiddleProgressStep((props) => {
                         <div className={useRecommended ? "is-hidden" : ""}>
                           <TextualFormField
                             {...formsetCtx.fieldPropsFor("name")}
-                            label="Landlord name"
+                            label={li18n._(t`Landlord name`)}
                           />
                           <TextualFormField
                             {...formsetCtx.fieldPropsFor("primaryLine")}
-                            label="Street address"
+                            label={li18n._(t`Street address`)}
                           />
                           <TextualFormField
                             {...formsetCtx.fieldPropsFor("city")}
-                            label="City"
+                            label={li18n._(t`City`)}
                           />
                           <USStateFormField
                             {...formsetCtx.fieldPropsFor("state")}
                           />
                           <TextualFormField
                             {...formsetCtx.fieldPropsFor("zipCode")}
-                            label="Zip code"
+                            label={li18n._(t`Zip code`)}
                           />
                         </div>
                       )}
                     </SingletonFormset>
                     <ProgressButtons
-                      nextLabel="Preview letter"
+                      nextLabel={li18n._(t`Preview letter`)}
                       back={toUnforcedHref || props.prevStep}
                       isLoading={ctx.isLoading}
                     />

@@ -1,6 +1,9 @@
-import { getLOCProgressRoutesProps } from "../routes";
+import { getLOCProgressRoutesProps, LocLinguiI18n } from "../routes";
 import JustfixRoutes from "../../justfix-route-info";
 import { ProgressRoutesTester } from "../../progress/tests/progress-routes-tester";
+import { preloadLingui } from "../../tests/lingui-preloader";
+
+beforeAll(preloadLingui(LocLinguiI18n));
 
 const tester = new ProgressRoutesTester(
   getLOCProgressRoutesProps(),

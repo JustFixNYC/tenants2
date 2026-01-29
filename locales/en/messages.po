@@ -15,16 +15,16 @@ msgstr ""
 "Plural-Forms: \n"
 
 #: frontend/lib/loc/letter-content.tsx:233
-msgid "\"A\" Violation\""
-msgstr "\"A\" Violation\""
+msgid "\"A\" Violation:"
+msgstr "\"A\" Violation:"
 
 #: frontend/lib/loc/letter-content.tsx:225
 msgid "\"B\" Violation:"
 msgstr "\"B\" Violation:"
 
 #: frontend/lib/loc/letter-content.tsx:214
-msgid "\"C\" Violation"
-msgstr "\"C\" Violation"
+msgid "\"C\" Violation:"
+msgstr "\"C\" Violation:"
 
 #: frontend/lib/loc/letter-content.tsx:236
 msgid "$10-$50 one-time penalty per violation"

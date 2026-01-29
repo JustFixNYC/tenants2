@@ -20,7 +20,7 @@ msgstr ""
 "X-Crowdin-File-ID: 51\n"
 
 #: frontend/lib/loc/letter-content.tsx:233
-msgid "\"A\" Violation\""
+msgid "\"A\" Violation:"
 msgstr ""
 
 #: frontend/lib/loc/letter-content.tsx:225
@@ -28,7 +28,7 @@ msgid "\"B\" Violation:"
 msgstr ""
 
 #: frontend/lib/loc/letter-content.tsx:214
-msgid "\"C\" Violation"
+msgid "\"C\" Violation:"
 msgstr ""
 
 #: frontend/lib/loc/letter-content.tsx:236

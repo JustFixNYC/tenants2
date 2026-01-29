@@ -90,24 +90,28 @@ export const JustfixRouteComponent: React.FC<RouteComponentProps> = (props) => {
         exact
         component={LoadableDataDrivenOnboardingPage}
       />
-      <PLRoute path={JustfixRoutes.locale.help} component={HelpPage} />
+      <Route path={JustfixRoutes.locale.help} component={HelpPage} />
       <Route
         path={JustfixRoutes.locale.legacyDataDrivenOnboarding}
         exact
         component={createRedirectWithSearch(JustfixRoutes.locale.home)}
       />
-      <PLRoute path={JustfixRoutes.locale.login} exact component={LoginPage} />
+      <Route
+        path={JustfixRoutes.locale.login}
+        exact
+        component={LoginPage}
+      />
       <Route
         path={JustfixRoutes.admin.prefix}
         component={LoadableAdminRoutes}
       />
-      <PLRoute
+      <Route
         path={JustfixRoutes.locale.logout}
         exact
         component={LogoutPage}
       />
-      {toPLRoute(getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC))}
-      <PLRoute
+      {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC)}
+      <Route
         path={JustfixRoutes.locale.loc.prefix}
         component={LoadableLetterOfComplaintRoutes}
       />
@@ -151,11 +155,11 @@ export const JustfixRouteComponent: React.FC<RouteComponentProps> = (props) => {
         component={LoadableRentalHistoryRoutes}
       />
       <Route path={JustfixRoutes.dev.prefix} component={LoadableDevRoutes} />
-      <PLRoute
+      <Route
         path={JustfixRoutes.locale.dataRequests.prefix}
         component={LoadableDataRequestsRoutes}
       />
-      <PLRoute
+      <Route
         path={JustfixRoutes.locale.passwordReset.prefix}
         component={LoadablePasswordResetRoutes}
       />

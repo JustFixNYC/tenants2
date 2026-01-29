@@ -40,8 +40,9 @@ const BACKEND_EXTRACT_CMD = "yarn django:makemessages";
 
 /**
  * The maximum preferred length of a message id.
+ * Increased from 175 to accommodate longer LOC messages w/ inclusion of Spanish translations.
  */
-const MAX_ID_LENGTH = 175;
+const MAX_ID_LENGTH = 400;
 
 /**
  * This encapsulates our criteria for splitting up Lingui's
@@ -79,6 +80,14 @@ const SPLIT_CHUNK_CONFIGS: MessageCatalogSplitterChunkConfig[] = [
   {
     name: "rh",
     test: (s) => s.startsWith("frontend/lib/rh/"),
+  },
+  /**
+   * Any strings that are *only* present in the loc directory
+   * will go into their own chunk.
+   */
+  {
+    name: "loc",
+    test: (s) => s.startsWith("frontend/lib/loc/"),
   },
   /**
    * Everything else goes into a separate chunk.

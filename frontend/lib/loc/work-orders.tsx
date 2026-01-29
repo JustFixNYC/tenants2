@@ -69,7 +69,8 @@ const WorkOrdersPage = MiddleProgressStep((props) => {
               {ctx.options.currentState.ticketNumbers.length == MAX_TICKETS && (
                 <p>
                   <Trans>
-                    The maximum number of tickets you can enter is {MAX_TICKETS}.
+                    The maximum number of tickets you can enter is {MAX_TICKETS}
+                    .
                   </Trans>
                 </p>
               )}

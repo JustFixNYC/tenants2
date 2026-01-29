@@ -18,7 +18,11 @@ import { li18n } from "../i18n-lingui";
 
 export const LandlordDetailsPage = MiddleProgressStep((props) => {
   return (
-    <Page title={li18n._(t`Landlord information`)} withHeading className="content">
+    <Page
+      title={li18n._(t`Landlord information`)}
+      withHeading
+      className="content"
+    >
       <QueryLoader
         query={RecommendedLocLandlord}
         input={null}
@@ -30,8 +34,8 @@ export const LandlordDetailsPage = MiddleProgressStep((props) => {
                 <RecommendedLandlordInfo {...props} />
                 <p>
                   <Trans>
-                    We will use this address to ensure your landlord receives your
-                    letter. If you feel strongly that this information is
+                    We will use this address to ensure your landlord receives
+                    your letter. If you feel strongly that this information is
                     incorrect or incomplete, however, you can{" "}
                     <Link to={props.forceManualHref}>
                       provide your own details

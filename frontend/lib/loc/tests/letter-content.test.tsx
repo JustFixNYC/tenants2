@@ -6,7 +6,10 @@ import {
   getLocContentPropsFromSession,
 } from "../letter-content";
 import { newSb } from "../../tests/session-builder";
-import { preloadLingui, PreloadedLinguiI18nProvider } from "../../tests/lingui-preloader";
+import {
+  preloadLingui,
+  PreloadedLinguiI18nProvider,
+} from "../../tests/lingui-preloader";
 import { LocLinguiI18n } from "../routes";
 
 beforeAll(preloadLingui(LocLinguiI18n));
@@ -14,9 +17,11 @@ beforeAll(preloadLingui(LocLinguiI18n));
 describe("<LocContent>", () => {
   it("works", () => {
     const pal = new ReactTestingLibraryPal(
-      <PreloadedLinguiI18nProvider>
-        <LocContent {...locSampleProps} todaysDate="2020-06-10" />
-      </PreloadedLinguiI18nProvider>
+      (
+        <PreloadedLinguiI18nProvider>
+          <LocContent {...locSampleProps} todaysDate="2020-06-10" />
+        </PreloadedLinguiI18nProvider>
+      )
     );
     expect(pal.rr.container).toMatchSnapshot();
   });

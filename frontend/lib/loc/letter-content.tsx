@@ -154,7 +154,8 @@ const WorkOrderTickets: React.FC<LocContentProps> = (props) => (
     <p>
       <Trans>
         I have documented these issues in the past by submitting work tickets to
-        management. I've included at least one work ticket(s) for your reference:
+        management. I've included at least one work ticket(s) for your
+        reference:
       </Trans>
     </p>
     <ul>
@@ -205,8 +206,8 @@ const MoldMoistureMandate: React.FC<LocContentProps> = (props) => {
       ))}
       <p>
         <Trans>
-          NYCHA or RAD-PACT management is under a court mandate to remediate these
-          issues in a timely manner.
+          NYCHA or RAD-PACT management is under a court mandate to remediate
+          these issues in a timely manner.
         </Trans>
       </p>
     </>
@@ -237,17 +238,18 @@ const Requirements: React.FC<LocContentProps> = (props) => (
     </h2>
     <p>
       <Trans>
-        I request that you provide the name and contact information for any repair
-        worker assigned to my home at least 24 hours prior to their arrival.
+        I request that you provide the name and contact information for any
+        repair worker assigned to my home at least 24 hours prior to their
+        arrival.
       </Trans>
     </p>
     {hasHeatIssues(props.issues) && (
       <p>
         <Trans>
-          Please be advised that the lack of Heat and/or Hot Water constitutes an
-          emergency under the NYC Housing Maintenance Code, Title 27, Chapter 2.
-          Failure to address these repairs will result in an escalation of this
-          issue, and I may exercise my right to file an Emergency HP Action
+          Please be advised that the lack of Heat and/or Hot Water constitutes
+          an emergency under the NYC Housing Maintenance Code, Title 27, Chapter
+          2. Failure to address these repairs will result in an escalation of
+          this issue, and I may exercise my right to file an Emergency HP Action
           through the NYC Housing Court system.
         </Trans>
       </p>
@@ -266,8 +268,8 @@ const PreviousReliefAttempts: React.FC<{}> = () => (
     <p>
       <Trans>
         I have already contacted 311 on several occasions, but the issue has not
-        been resolved. In the meantime, I have recorded evidence of the violations
-        should legal action be necessary.
+        been resolved. In the meantime, I have recorded evidence of the
+        violations should legal action be necessary.
       </Trans>
     </p>
   </div>
@@ -291,9 +293,9 @@ const LetterConclusion: React.FC<LocContentProps> = (props) => (
       </h2>
       <p>
         <Trans>
-          Pursuant to NYC Admin Code § 27-2115 an order of civil penalties for all
-          existing violations for which the time to correct has expired is as
-          follows:
+          Pursuant to NYC Admin Code § 27-2115 an order of civil penalties for
+          all existing violations for which the time to correct has expired is
+          as follows:
         </Trans>
       </p>
       <dl>
@@ -312,7 +314,9 @@ const LetterConclusion: React.FC<LocContentProps> = (props) => (
           <Trans>"B" Violation:</Trans>
         </dt>
         <dd>
-          <Trans>$25-$100 one-time penalty per violation plus $10 per day</Trans>
+          <Trans>
+            $25-$100 one-time penalty per violation plus $10 per day
+          </Trans>
         </dd>
         <dt>
           <Trans>"A" Violation"</Trans>

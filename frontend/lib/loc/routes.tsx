@@ -62,8 +62,8 @@ export const Welcome: React.FC<ProgressStepProps> = (props) => {
           </li>
           <li>
             <Trans>
-              Review your Letter of Complaint and we will send it to your landlord
-              via USPS Certified Mail<sup>&reg;</sup>.
+              Review your Letter of Complaint and we will send it to your
+              landlord via USPS Certified Mail<sup>&reg;</sup>.
             </Trans>
           </li>
         </ol>
@@ -91,9 +91,9 @@ export const Welcome: React.FC<ProgressStepProps> = (props) => {
               legal case.
             </strong>{" "}
             If your landlord has been unresponsive to your requests to make
-            repairs, a letter is a <strong>great tactic to start</strong>. Through
-            USPS Certified Mail<sup>&reg;</sup>, you will have an official record
-            of the requests you've made to your landlord.
+            repairs, a letter is a <strong>great tactic to start</strong>.
+            Through USPS Certified Mail<sup>&reg;</sup>, you will have an
+            official record of the requests you've made to your landlord.
           </Trans>
         </p>
       </div>

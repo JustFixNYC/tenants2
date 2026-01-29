@@ -154,7 +154,10 @@ export function LocSplash(): JSX.Element {
   }, []);
 
   return (
-    <Page className="jf-loc-landing-page" title={li18n._(t`Letter of Complaint`)}>
+    <Page
+      className="jf-loc-landing-page"
+      title={li18n._(t`Letter of Complaint`)}
+    >
       <section className="hero is-light">
         <div className="hero-body">
           <h1 className="title is-spaced">
@@ -263,9 +266,10 @@ export function LocSplash(): JSX.Element {
             </strong>{" "}
             If your landlord has already been unresponsive to your requests to
             make repairs, a letter is a <strong>great tactic to start</strong>.
-            Through USPS Certified Mail<sup>&reg;</sup>, you will have an official
-            record of the requests you've made to your landlord. Our nonprofit{" "}
-            <strong>covers the cost</strong> of mailing this letter for you!
+            Through USPS Certified Mail<sup>&reg;</sup>, you will have an
+            official record of the requests you've made to your landlord. Our
+            nonprofit <strong>covers the cost</strong> of mailing this letter
+            for you!
           </Trans>
         </p>
       </section>
@@ -288,9 +292,9 @@ export function LocSplash(): JSX.Element {
                 </div>
                 <p className="subtitle has-text-centered is-spaced">
                   <Trans>
-                    They were terrific because their letter got results that mine
-                    didn't. The letters from JustFix got my landlord to do the
-                    work. Now anytime I call, my landlord gets things done.
+                    They were terrific because their letter got results that
+                    mine didn't. The letters from JustFix got my landlord to do
+                    the work. Now anytime I call, my landlord gets things done.
                   </Trans>
                 </p>
                 <p className="title has-text-centered is-5">
@@ -339,8 +343,8 @@ export function LocSplash(): JSX.Element {
           <Trans>
             JustFix co-designs and builds tools for tenants, housing organizers,
             and legal advocates fighting displacement in New York City. We
-            encourage tenants to take action and fight for safe and healthy homes.
-            Want to know more?{" "}
+            encourage tenants to take action and fight for safe and healthy
+            homes. Want to know more?{" "}
             <OutboundLink href="https://www.justfix.org/our-mission">
               Visit our website.
             </OutboundLink>

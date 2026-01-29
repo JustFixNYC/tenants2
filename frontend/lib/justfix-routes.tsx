@@ -96,20 +96,12 @@ export const JustfixRouteComponent: React.FC<RouteComponentProps> = (props) => {
         exact
         component={createRedirectWithSearch(JustfixRoutes.locale.home)}
       />
-      <Route
-        path={JustfixRoutes.locale.login}
-        exact
-        component={LoginPage}
-      />
+      <Route path={JustfixRoutes.locale.login} exact component={LoginPage} />
       <Route
         path={JustfixRoutes.admin.prefix}
         component={LoadableAdminRoutes}
       />
-      <Route
-        path={JustfixRoutes.locale.logout}
-        exact
-        component={LogoutPage}
-      />
+      <Route path={JustfixRoutes.locale.logout} exact component={LogoutPage} />
       {getOnboardingRouteForIntent(OnboardingInfoSignupIntent.LOC)}
       <Route
         path={JustfixRoutes.locale.loc.prefix}

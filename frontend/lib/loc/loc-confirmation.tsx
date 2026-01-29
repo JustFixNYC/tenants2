@@ -13,36 +13,51 @@ import { BigList } from "../ui/big-list";
 import { USPS_TRACKING_URL_PREFIX } from "../../../common-data/loc";
 import { renderSuccessHeading } from "../ui/success-heading";
 import { isUserNycha } from "../util/nycha";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 const DownloadLetterLink = (props: { locPdfURL: string }) => (
-  <PdfLink href={props.locPdfURL} label="Download letter" />
+  <PdfLink href={props.locPdfURL} label={li18n._(t`Download letter`)} />
 );
 
 const getCommonMailNextSteps = (isUserNycha: boolean) => [
   <li>
     <p>
-      Once received, {isUserNycha ? "management" : "your landlord"} should
-      contact you to schedule time to make repairs for the access dates you
-      provided.
+      {isUserNycha ? (
+        <Trans>
+          Once received, management should contact you to schedule time to make
+          repairs for the access dates you provided.
+        </Trans>
+      ) : (
+        <Trans>
+          Once received, your landlord should contact you to schedule time to
+          make repairs for the access dates you provided.
+        </Trans>
+      )}
     </p>
   </li>,
   <li>
     {isUserNycha ? (
       <p>
-        If you have mold, moisture, or leaks, contact the independent
-        court-ordered <strong>Ombudsperson’s Call Center (OCC)</strong> at{" "}
-        <OutboundLink href={"tel:+18883417152"}>1-888-341-7152</OutboundLink> or{" "}
-        <OutboundLink href={"https://ombnyc.com/"} target="_blank">
-          ombnyc.com
-        </OutboundLink>
-        . They will advocate on your behalf to management to get your
-        moisture-related repairs completed.
+        <Trans>
+          If you have mold, moisture, or leaks, contact the independent
+          court-ordered <strong>Ombudsperson's Call Center (OCC)</strong> at{" "}
+          <OutboundLink href={"tel:+18883417152"}>1-888-341-7152</OutboundLink>{" "}
+          or{" "}
+          <OutboundLink href={"https://ombnyc.com/"} target="_blank">
+            ombnyc.com
+          </OutboundLink>
+          . They will advocate on your behalf to management to get your
+          moisture-related repairs completed.
+        </Trans>
       </p>
     ) : (
       <p>
-        While you wait, you should{" "}
-        <strong>document your issues with photos</strong> and{" "}
-        <strong>call 311 to request an HPD inspection.</strong>
+        <Trans>
+          While you wait, you should{" "}
+          <strong>document your issues with photos</strong> and{" "}
+          <strong>call 311 to request an HPD inspection.</strong>
+        </Trans>
       </p>
     )}
   </li>,
@@ -51,11 +66,20 @@ const getCommonMailNextSteps = (isUserNycha: boolean) => [
 const getCommonWeMailNextSteps = (isUserNycha: boolean) => [
   ...getCommonMailNextSteps(isUserNycha),
   <li>
-    We will continue to follow up with you via text message. If{" "}
-    {isUserNycha ? "management" : "your landlord"} does not follow through, you
-    now have better legal standing to sue{" "}
-    {isUserNycha ? "management" : "your landlord"}.{" "}
-    <strong>This is called an HP Action proceeding.</strong>
+    {isUserNycha ? (
+      <Trans>
+        We will continue to follow up with you via text message. If management
+        does not follow through, you now have better legal standing to sue
+        management. <strong>This is called an HP Action proceeding.</strong>
+      </Trans>
+    ) : (
+      <Trans>
+        We will continue to follow up with you via text message. If your
+        landlord does not follow through, you now have better legal standing to
+        sue your landlord.{" "}
+        <strong>This is called an HP Action proceeding.</strong>
+      </Trans>
+    )}
   </li>,
 ];
 
@@ -70,24 +94,30 @@ function WeMailedLetterStatus(props: {
   return (
     <>
       <p>
-        We sent your letter of complaint
-        {letterSentAt && (
-          <>
-            {" "}
-            on <strong>{friendlyDate(new Date(letterSentAt))}</strong>
-          </>
-        )}
-        !
+        <Trans>
+          We sent your letter of complaint
+          {letterSentAt && (
+            <>
+              {" "}
+              on <strong>{friendlyDate(new Date(letterSentAt))}</strong>
+            </>
+          )}
+          !
+        </Trans>
       </p>
       <p>
-        Your{" "}
-        <b>
-          USPS Certified Mail<sup>&reg;</sup>
-        </b>{" "}
-        tracking number is <a href={url}>{trackingNumber}</a>.
+        <Trans>
+          Your{" "}
+          <b>
+            USPS Certified Mail<sup>&reg;</sup>
+          </b>{" "}
+          tracking number is <a href={url}>{trackingNumber}</a>.
+        </Trans>
       </p>
       <DownloadLetterLink {...props} />
-      <h2>What happens next?</h2>
+      <h2>
+        <Trans>What happens next?</Trans>
+      </h2>
       <BigList children={[...getCommonWeMailNextSteps(props.isUserNycha)]} />
     </>
   );
@@ -102,24 +132,30 @@ function WeWillMailLetterStatus(props: {
   return (
     <>
       <p>
-        We've received your request to mail a letter of complaint on{" "}
-        <strong>{dateStr}</strong>. We'll text you a link to your{" "}
-        <b>
-          USPS Certified Mail<sup>&reg;</sup>
-        </b>{" "}
-        tracking number once we have it.
+        <Trans>
+          We've received your request to mail a letter of complaint on{" "}
+          <strong>{dateStr}</strong>. We'll text you a link to your{" "}
+          <b>
+            USPS Certified Mail<sup>&reg;</sup>
+          </b>{" "}
+          tracking number once we have it.
+        </Trans>
       </p>
       <DownloadLetterLink {...props} />
-      <h2>What happens next?</h2>
+      <h2>
+        <Trans>What happens next?</Trans>
+      </h2>
       <BigList
         children={[
           <li>
             <p>
-              We’ll mail your letter via{" "}
-              <b>
-                USPS Certified Mail<sup>&reg;</sup>
-              </b>{" "}
-              and provide a tracking number via text message.
+              <Trans>
+                We'll mail your letter via{" "}
+                <b>
+                  USPS Certified Mail<sup>&reg;</sup>
+                </b>{" "}
+                and provide a tracking number via text message.
+              </Trans>
             </p>
           </li>,
           ...getCommonWeMailNextSteps(props.isUserNycha),
@@ -135,17 +171,30 @@ function UserWillMailLetterStatus(props: {
 }): JSX.Element {
   return (
     <>
-      <p>Here is a link to a PDF of your saved letter:</p>
+      <p>
+        <Trans>Here is a link to a PDF of your saved letter:</Trans>
+      </p>
       <DownloadLetterLink {...props} />
-      <h2>What happens next?</h2>
+      <h2>
+        <Trans>What happens next?</Trans>
+      </h2>
       <BigList
         children={[
           <li>
             <p>
-              Print out your letter and{" "}
-              <strong>mail it via Certified Mail</strong> - this allows you to
-              prove that it was sent to{" "}
-              {props.isUserNycha ? "management" : "your landlord"}.
+              {props.isUserNycha ? (
+                <Trans>
+                  Print out your letter and{" "}
+                  <strong>mail it via Certified Mail</strong> - this allows you
+                  to prove that it was sent to management.
+                </Trans>
+              ) : (
+                <Trans>
+                  Print out your letter and{" "}
+                  <strong>mail it via Certified Mail</strong> - this allows you
+                  to prove that it was sent to your landlord.
+                </Trans>
+              )}
             </p>
           </li>,
           ...getCommonMailNextSteps(props.isUserNycha),
@@ -163,7 +212,7 @@ const knowYourRightsList = (
       </OutboundLink>{" "}
       (
       <OutboundLink href="https://www.metcouncilonhousing.org/help-answers/how-to-get-repairs-spanish/">
-        en español
+        <Trans>en español</Trans>
       </OutboundLink>
       )
     </li>
@@ -174,11 +223,11 @@ const knowYourRightsList = (
     </li>
     <li>
       <OutboundLink href="https://www.justfix.org/en/learn?utm_source=tenantplatform&utm_medium=loc">
-        JustFix's Learning Center
+        <Trans>JustFix's Learning Center</Trans>
       </OutboundLink>{" "}
       (
       <OutboundLink href="https://www.justfix.org/es/learn?utm_source=tenantplatform&utm_medium=loc">
-        en español
+        <Trans>en español</Trans>
       </OutboundLink>
       )
     </li>
@@ -195,7 +244,9 @@ const LetterConfirmation = withAppContext(
     let letterConfirmationPageTitle, letterStatus;
 
     if (letterRequest && letterRequest.trackingNumber) {
-      letterConfirmationPageTitle = "Your Letter of Complaint has been sent!";
+      letterConfirmationPageTitle = li18n._(
+        t`Your Letter of Complaint has been sent!`
+      );
       letterStatus = (
         <WeMailedLetterStatus
           letterRequest={letterRequest}
@@ -206,7 +257,9 @@ const LetterConfirmation = withAppContext(
       letterRequest &&
       letterRequest.mailChoice === LetterRequestMailChoice.WE_WILL_MAIL
     ) {
-      letterConfirmationPageTitle = "Your Letter of Complaint is being sent!";
+      letterConfirmationPageTitle = li18n._(
+        t`Your Letter of Complaint is being sent!`
+      );
       letterStatus = (
         <WeWillMailLetterStatus
           letterRequest={letterRequest}
@@ -214,8 +267,9 @@ const LetterConfirmation = withAppContext(
         />
       );
     } else {
-      letterConfirmationPageTitle =
-        "Your Letter of Complaint has been created!";
+      letterConfirmationPageTitle = li18n._(
+        t`Your Letter of Complaint has been created!`
+      );
       letterStatus = <UserWillMailLetterStatus {...letterStatusProps} />;
     }
 
@@ -227,11 +281,25 @@ const LetterConfirmation = withAppContext(
       >
         {letterStatus}
         <h2>
-          Email a copy of your letter to yourself, someone you trust, or{" "}
-          {isUserNycha(props.session) ? "management" : "your landlord"}.
+          {isUserNycha(props.session) ? (
+            <Trans>
+              Email a copy of your letter to yourself, someone you trust, or
+              management.
+            </Trans>
+          ) : (
+            <Trans>
+              Email a copy of your letter to yourself, someone you trust, or
+              your landlord.
+            </Trans>
+          )}
         </h2>
-        <EmailAttachmentForm mutation={EmailLetterMutation} noun="letter" />
-        <h2>Want to read more about your rights?</h2>
+        <EmailAttachmentForm
+          mutation={EmailLetterMutation}
+          noun={li18n._(t`letter`)}
+        />
+        <h2>
+          <Trans>Want to read more about your rights?</Trans>
+        </h2>
         {knowYourRightsList}
       </Page>
     );

@@ -21,6 +21,8 @@ import { issuesForArea, customIssuesForArea } from "../issues/issues";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
 import { TransformSession } from "../util/transform-session";
 import { LeaseType } from "../queries/globalTypes";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 const HEAT_ISSUE_CHOICES = new Set<IssueChoice>([
   "HOME__NO_HEAT",
@@ -78,9 +80,13 @@ type LocContentProps = BaseLetterContentProps & {
 
 const LetterTitle: React.FC<LocContentProps> = (props) => (
   <letter.Title>
-    <span className="is-uppercase">Request for repairs</span>
+    <span className="is-uppercase">
+      <Trans>Request for repairs</Trans>
+    </span>
     <letter.TitleNewline />
-    at <letter.AddressLine {...props} />
+    <Trans>
+      at <letter.AddressLine {...props} />
+    </Trans>
   </letter.Title>
 );
 
@@ -91,11 +97,15 @@ const AreaIssues: React.FC<LocContentProps> = (props) => {
   return (
     <>
       <p>
-        I need the following repairs in my home referenced below and/or in the
-        common areas of the building:
+        <Trans>
+          I need the following repairs in my home referenced below and/or in the
+          common areas of the building:
+        </Trans>
       </p>
 
-      <h2>Repairs required</h2>
+      <h2>
+        <Trans>Repairs required</Trans>
+      </h2>
 
       {props.issues.map((areaIssues) => (
         <React.Fragment key={areaIssues.area}>
@@ -117,12 +127,16 @@ const AreaIssues: React.FC<LocContentProps> = (props) => {
 
 const AccessDates: React.FC<LocContentProps> = (props) => (
   <div className="jf-avoid-page-breaks-within">
-    <h2>Available access dates</h2>
+    <h2>
+      <Trans>Available access dates</Trans>
+    </h2>
     <p>
-      Below are dates that I am available to be at my home to let in a repair
-      worker. Please contact me (using the information provided at the top of
-      this letter) in order to make arrangements with me{" "}
-      <strong>at least 24 hours in advance</strong>.
+      <Trans>
+        Below are dates that I am available to be at my home to let in a repair
+        worker. Please contact me (using the information provided at the top of
+        this letter) in order to make arrangements with me{" "}
+        <strong>at least 24 hours in advance</strong>.
+      </Trans>
     </p>
     <ul>
       {props.accessDates.map((date) => (
@@ -134,10 +148,15 @@ const AccessDates: React.FC<LocContentProps> = (props) => (
 
 const WorkOrderTickets: React.FC<LocContentProps> = (props) => (
   <div className="jf-avoid-page-breaks-within">
-    <h2>Work Order Repair Tickets</h2>
+    <h2>
+      <Trans>Work Order Repair Tickets</Trans>
+    </h2>
     <p>
-      I have documented these issues in the past by submitting work tickets to
-      management. I've included at least one work ticket(s) for your reference:
+      <Trans>
+        I have documented these issues in the past by submitting work tickets to
+        management. I've included at least one work ticket(s) for your
+        reference:
+      </Trans>
     </p>
     <ul>
       {props.workOrderTickets?.map((ticket) => (
@@ -154,8 +173,10 @@ const MoldMoistureMandate: React.FC<LocContentProps> = (props) => {
   return (
     <>
       <p>
-        I have identified the following issues related to mold, leaks or
-        associated repairs:
+        <Trans>
+          I have identified the following issues related to mold, leaks or
+          associated repairs:
+        </Trans>
       </p>
       {props.issues.map((areaIssues) => (
         <React.Fragment key={areaIssues.area}>
@@ -184,8 +205,10 @@ const MoldMoistureMandate: React.FC<LocContentProps> = (props) => {
         </React.Fragment>
       ))}
       <p>
-        NYCHA or RAD-PACT management is under a court mandate to remediate these
-        issues in a timely manner.
+        <Trans>
+          NYCHA or RAD-PACT management is under a court mandate to remediate
+          these issues in a timely manner.
+        </Trans>
       </p>
     </>
   );
@@ -210,18 +233,25 @@ function meetsMoldMoistureMandate(issues: AreaIssues[]): boolean {
 
 const Requirements: React.FC<LocContentProps> = (props) => (
   <div className="jf-avoid-page-breaks-within">
-    <h2>Requirements</h2>
+    <h2>
+      <Trans>Requirements</Trans>
+    </h2>
     <p>
-      I request that you provide the name and contact information for any repair
-      worker assigned to my home at least 24 hours prior to their arrival.
+      <Trans>
+        I request that you provide the name and contact information for any
+        repair worker assigned to my home at least 24 hours prior to their
+        arrival.
+      </Trans>
     </p>
     {hasHeatIssues(props.issues) && (
       <p>
-        Please be advised that the lack of Heat and/or Hot Water constitutes an
-        emergency under the NYC Housing Maintenance Code, Title 27, Chapter 2.
-        Failure to address these repairs will result in an escalation of this
-        issue, and I may exercise my right to file an Emergency HP Action
-        through the NYC Housing Court system.
+        <Trans>
+          Please be advised that the lack of Heat and/or Hot Water constitutes
+          an emergency under the NYC Housing Maintenance Code, Title 27, Chapter
+          2. Failure to address these repairs will result in an escalation of
+          this issue, and I may exercise my right to file an Emergency HP Action
+          through the NYC Housing Court system.
+        </Trans>
       </p>
     )}
     {!!props.isUserNycha && meetsMoldMoistureMandate(props.issues) && (
@@ -232,11 +262,15 @@ const Requirements: React.FC<LocContentProps> = (props) => (
 
 const PreviousReliefAttempts: React.FC<{}> = () => (
   <div className="jf-avoid-page-breaks-within">
-    <h2>Previous Attempts for Relief</h2>
+    <h2>
+      <Trans>Previous Attempts for Relief</Trans>
+    </h2>
     <p>
-      I have already contacted 311 on several occasions, but the issue has not
-      been resolved. In the meantime, I have recorded evidence of the violations
-      should legal action be necessary.
+      <Trans>
+        I have already contacted 311 on several occasions, but the issue has not
+        been resolved. In the meantime, I have recorded evidence of the
+        violations should legal action be necessary.
+      </Trans>
     </p>
   </div>
 );
@@ -254,35 +288,57 @@ const LetterBody: React.FC<LocContentProps> = (props) => (
 const LetterConclusion: React.FC<LocContentProps> = (props) => (
   <>
     <div className="jf-avoid-page-breaks-within">
-      <h2>Civil penalties</h2>
+      <h2>
+        <Trans>Civil penalties</Trans>
+      </h2>
       <p>
-        Pursuant to NYC Admin Code § 27-2115 an order of civil penalties for all
-        existing violations for which the time to correct has expired is as
-        follows:
+        <Trans>
+          Pursuant to NYC Admin Code § 27-2115 an order of civil penalties for
+          all existing violations for which the time to correct has expired is
+          as follows:
+        </Trans>
       </p>
       <dl>
-        <dt>“C” Violation</dt>
+        <dt>
+          <Trans>"C" Violation</Trans>
+        </dt>
         <dd>
-          $50 per day per violation (if 1-5 units)
-          <br />
-          $50-$150 one-time penalty per violation plus $125 per day (5 or more
-          units)
+          <Trans>
+            $50 per day per violation (if 1-5 units)
+            <br />
+            $50-$150 one-time penalty per violation plus $125 per day (5 or more
+            units)
+          </Trans>
         </dd>
-        <dt>“B” Violation:</dt>
-        <dd>$25-$100 one-time penalty per violation plus $10 per day</dd>
-        <dt>“A” Violation”</dt>
-        <dd>$10-$50 one-time penalty per violation</dd>
+        <dt>
+          <Trans>"B" Violation:</Trans>
+        </dt>
+        <dd>
+          <Trans>
+            $25-$100 one-time penalty per violation plus $10 per day
+          </Trans>
+        </dd>
+        <dt>
+          <Trans>"A" Violation"</Trans>
+        </dt>
+        <dd>
+          <Trans>$10-$50 one-time penalty per violation</Trans>
+        </dd>
       </dl>
     </div>
     <div className="jf-avoid-page-breaks-within">
       <p>
-        According to the NYC Admin Code § 27-2115, a civil penalty is also
-        issued where a person willfully makes a false certification of
-        correction of a violation per violation falsely certified.
+        <Trans>
+          According to the NYC Admin Code § 27-2115, a civil penalty is also
+          issued where a person willfully makes a false certification of
+          correction of a violation per violation falsely certified.
+        </Trans>
       </p>
       <p>
-        Please contact me as soon as possible to arrange a time to have these
-        repairs made at {formatPhoneNumber(props.phoneNumber)}.
+        <Trans>
+          Please contact me as soon as possible to arrange a time to have these
+          repairs made at {formatPhoneNumber(props.phoneNumber)}.
+        </Trans>
       </p>
       <letter.Regards>
         <br />
@@ -367,7 +423,7 @@ export const LocForUserPage: React.FC<{ isPdf: boolean }> = ({ isPdf }) => (
       <LocStaticPage
         {...props}
         isPdf={isPdf}
-        title="Your Letter of Complaint"
+        title={li18n._(t`Your Letter of Complaint`)}
       />
     )}
   </TransformSession>
@@ -392,7 +448,7 @@ export const LocSamplePage: React.FC<{ isPdf: boolean }> = ({ isPdf }) => {
   return (
     <LocStaticPage
       {...locSampleProps}
-      title="Sample Letter of Complaint"
+      title={li18n._(t`Sample Letter of Complaint`)}
       isPdf={isPdf}
     />
   );

@@ -8,11 +8,13 @@ import { ProgressButtons } from "../ui/buttons";
 import { MiddleProgressStep } from "../progress/progress-step-route";
 import { Formset } from "../forms/formset";
 import { WorkOrderTicketsInput } from "../queries/globalTypes";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 const MAX_TICKETS: number = 10;
 
 function ticketNumberLabel(i: number): string {
-  let label: string = "Work order ticket number";
+  let label: string = li18n._(t`Work order ticket number`);
   return i > 0 ? label + ` #${i + 1}` : label;
 }
 
@@ -28,12 +30,16 @@ function getInitialState(
 
 const WorkOrdersPage = MiddleProgressStep((props) => {
   return (
-    <Page title="Work order repairs ticket">
+    <Page title={li18n._(t`Work order repairs ticket`)}>
       <div>
-        <h1 className="title is-4 is-spaced">Work order repairs ticket</h1>
+        <h1 className="title is-4 is-spaced">
+          <Trans>Work order repairs ticket</Trans>
+        </h1>
         <p className="subtitle is-6">
-          Enter at least one work ticket number. We’ll include these in your
-          letter so management can see the issues you’ve already reported.{" "}
+          <Trans>
+            Enter at least one work ticket number. We'll include these in your
+            letter so management can see the issues you've already reported.
+          </Trans>
         </p>
         <SessionUpdatingFormSubmitter
           mutation={WorkOrderTicketsMutation}
@@ -62,7 +68,10 @@ const WorkOrdersPage = MiddleProgressStep((props) => {
               </Formset>
               {ctx.options.currentState.ticketNumbers.length == MAX_TICKETS && (
                 <p>
-                  The maximum number of tickets you can enter is {MAX_TICKETS}.
+                  <Trans>
+                    The maximum number of tickets you can enter is {MAX_TICKETS}
+                    .
+                  </Trans>
                 </p>
               )}
               <CheckboxFormField
@@ -72,7 +81,7 @@ const WorkOrdersPage = MiddleProgressStep((props) => {
                   ctx.options.setField("ticketNumbers", []);
                 }}
               >
-                I don't have a ticket number
+                <Trans>I don't have a ticket number</Trans>
               </CheckboxFormField>
               <ProgressButtons
                 back={props.prevStep}

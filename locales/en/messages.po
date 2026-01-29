@@ -14,27 +14,27 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: frontend/lib/loc/letter-content.tsx:229
+#: frontend/lib/loc/letter-content.tsx:233
 msgid "\"A\" Violation\""
 msgstr "\"A\" Violation\""
 
-#: frontend/lib/loc/letter-content.tsx:223
+#: frontend/lib/loc/letter-content.tsx:225
 msgid "\"B\" Violation:"
 msgstr "\"B\" Violation:"
 
-#: frontend/lib/loc/letter-content.tsx:212
+#: frontend/lib/loc/letter-content.tsx:214
 msgid "\"C\" Violation"
 msgstr "\"C\" Violation"
 
-#: frontend/lib/loc/letter-content.tsx:232
+#: frontend/lib/loc/letter-content.tsx:236
 msgid "$10-$50 one-time penalty per violation"
 msgstr "$10-$50 one-time penalty per violation"
 
-#: frontend/lib/loc/letter-content.tsx:226
+#: frontend/lib/loc/letter-content.tsx:228
 msgid "$25-$100 one-time penalty per violation plus $10 per day"
 msgstr "$25-$100 one-time penalty per violation plus $10 per day"
 
-#: frontend/lib/loc/letter-content.tsx:215
+#: frontend/lib/loc/letter-content.tsx:217
 msgid "$50 per day per violation (if 1-5 units)<0/>$50-$150 one-time penalty per violation plus $125 per day (5 or more units)"
 msgstr "$50 per day per violation (if 1-5 units)<0/>$50-$150 one-time penalty per violation plus $125 per day (5 or more units)"
 
@@ -76,7 +76,7 @@ msgstr "<0/> makes use of a <1/> and <2/>, which you can review."
 msgid "<0>Declaration of Financial Impacts Related to COVID-19</0>"
 msgstr "<0>Declaration of Financial Impacts Related to COVID-19</0>"
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:268
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:269
 msgid "<0>Disclaimer:</0> The information contained in JustFix does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free and/or low-cost legal services as necessary."
 msgstr "<0>Disclaimer:</0> The information contained in JustFix does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free and/or low-cost legal services as necessary."
 
@@ -183,7 +183,7 @@ msgstr "A national tool by non-profit <0>JustFix.org</0>"
 msgid "About"
 msgstr "About"
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:253
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:254
 msgid "About our nonprofit organization"
 msgstr "About our nonprofit organization"
 
@@ -191,7 +191,7 @@ msgstr "About our nonprofit organization"
 msgid "About you"
 msgstr "About you"
 
-#: frontend/lib/loc/letter-content.tsx:238
+#: frontend/lib/loc/letter-content.tsx:242
 msgid "According to the NYC Admin Code § 27-2115, a civil penalty is also issued where a person willfully makes a false certification of correction of a violation per violation falsely certified."
 msgstr "According to the NYC Admin Code § 27-2115, a civil penalty is also issued where a person willfully makes a false certification of correction of a violation per violation falsely certified."
 
@@ -635,7 +635,7 @@ msgstr "City and state"
 msgid "City/township/borough"
 msgstr "City/township/borough"
 
-#: frontend/lib/loc/letter-content.tsx:201
+#: frontend/lib/loc/letter-content.tsx:203
 msgid "Civil penalties"
 msgstr "Civil penalties"
 
@@ -1263,7 +1263,7 @@ msgstr "Hawaii"
 msgid "Health"
 msgstr "Health"
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:202
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:203
 msgid "Hear from tenants who have used JustFix"
 msgstr "Hear from tenants who have used JustFix"
 
@@ -1430,7 +1430,7 @@ msgstr "I am experiencing financial hardship due to COVID-19."
 msgid "I am undocumented. Can I send a letter?"
 msgstr "I am undocumented. Can I send a letter?"
 
-#: frontend/lib/loc/work-orders.tsx:49
+#: frontend/lib/loc/work-orders.tsx:50
 msgid "I don't have a ticket number"
 msgstr "I don't have a ticket number"
 
@@ -1446,7 +1446,7 @@ msgstr "I forgot my password"
 msgid "I have a current eviction case in NYC. How do I connect with a lawyer?"
 msgstr "I have a current eviction case in NYC. How do I connect with a lawyer?"
 
-#: frontend/lib/loc/letter-content.tsx:181
+#: frontend/lib/loc/letter-content.tsx:183
 msgid "I have already contacted 311 on several occasions, but the issue has not been resolved. In the meantime, I have recorded evidence of the violations should legal action be necessary."
 msgstr "I have already contacted 311 on several occasions, but the issue has not been resolved. In the meantime, I have recorded evidence of the violations should legal action be necessary."
 
@@ -1454,7 +1454,7 @@ msgstr "I have already contacted 311 on several occasions, but the issue has not
 msgid "I have documented these issues in the past by submitting work tickets to management. I've included at least one work ticket(s) for your reference:"
 msgstr "I have documented these issues in the past by submitting work tickets to management. I've included at least one work ticket(s) for your reference:"
 
-#: frontend/lib/loc/letter-content.tsx:122
+#: frontend/lib/loc/letter-content.tsx:123
 msgid "I have identified the following issues related to mold, leaks or associated repairs:"
 msgstr "I have identified the following issues related to mold, leaks or associated repairs:"
 
@@ -1466,7 +1466,7 @@ msgstr "I have no apartment number"
 msgid "I just used JustFix's new free tool to tell my landlord I can't pay rent"
 msgstr "I just used JustFix's new free tool to tell my landlord I can't pay rent"
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:233
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:234
 msgid "I like that you texted me to check in on my status. You all were the first online advocacy group I've seen that was accessible and easy to use. JustFix's digital platform has definitely been a game changer."
 msgstr "I like that you texted me to check in on my status. You all were the first online advocacy group I've seen that was accessible and easy to use. JustFix's digital platform has definitely been a game changer."
 
@@ -1478,7 +1478,7 @@ msgstr "I live in another state that isn’t New York. Is this tool for me?"
 msgid "I need the following repairs in my home referenced below and/or in the common areas of the building:"
 msgstr "I need the following repairs in my home referenced below and/or in the common areas of the building:"
 
-#: frontend/lib/loc/letter-content.tsx:160
+#: frontend/lib/loc/letter-content.tsx:161
 msgid "I request that you provide the name and contact information for any repair worker assigned to my home at least 24 hours prior to their arrival."
 msgstr "I request that you provide the name and contact information for any repair worker assigned to my home at least 24 hours prior to their arrival."
 
@@ -1687,7 +1687,7 @@ msgstr "JustFix and SAJE are registered 501(c)(3) nonprofit organizations."
 msgid "JustFix can text me to follow up about my housing issues."
 msgstr "JustFix can text me to follow up about my housing issues."
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:256
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:257
 msgid "JustFix co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City. We encourage tenants to take action and fight for safe and healthy homes. Want to know more? <0>Visit our website.</0>"
 msgstr "JustFix co-designs and builds tools for tenants, housing organizers, and legal advocates fighting displacement in New York City. We encourage tenants to take action and fight for safe and healthy homes. Want to know more? <0>Visit our website.</0>"
 
@@ -2121,7 +2121,7 @@ msgstr "My issue is urgent and time sensitive. What should I do?"
 msgid "My letters"
 msgstr "My letters"
 
-#: frontend/lib/loc/letter-content.tsx:142
+#: frontend/lib/loc/letter-content.tsx:143
 msgid "NYCHA or RAD-PACT management is under a court mandate to remediate these issues in a timely manner."
 msgstr "NYCHA or RAD-PACT management is under a court mandate to remediate these issues in a timely manner."
 
@@ -2423,7 +2423,7 @@ msgstr "Please <0>go back and choose a state</0>."
 msgid "Please agree to our terms and conditions"
 msgstr "Please agree to our terms and conditions"
 
-#: frontend/lib/loc/letter-content.tsx:166
+#: frontend/lib/loc/letter-content.tsx:168
 msgid "Please be advised that the lack of Heat and/or Hot Water constitutes an emergency under the NYC Housing Maintenance Code, Title 27, Chapter 2. Failure to address these repairs will result in an escalation of this issue, and I may exercise my right to file an Emergency HP Action through the NYC Housing Court system."
 msgstr "Please be advised that the lack of Heat and/or Hot Water constitutes an emergency under the NYC Housing Maintenance Code, Title 27, Chapter 2. Failure to address these repairs will result in an escalation of this issue, and I may exercise my right to file an Emergency HP Action through the NYC Housing Court system."
 
@@ -2435,7 +2435,7 @@ msgstr "Please confirm your household income"
 msgid "Please confirm your password"
 msgstr "Please confirm your password"
 
-#: frontend/lib/loc/letter-content.tsx:245
+#: frontend/lib/loc/letter-content.tsx:249
 msgid "Please contact me as soon as possible to arrange a time to have these repairs made at {0}."
 msgstr "Please contact me as soon as possible to arrange a time to have these repairs made at {0}."
 
@@ -2486,7 +2486,7 @@ msgstr "Preview of your letter of complaint"
 msgid "Preview this declaration as a PDF"
 msgstr "Preview this declaration as a PDF"
 
-#: frontend/lib/loc/letter-content.tsx:178
+#: frontend/lib/loc/letter-content.tsx:180
 msgid "Previous Attempts for Relief"
 msgstr "Previous Attempts for Relief"
 
@@ -2523,7 +2523,7 @@ msgstr "Protect yourself from eviction in New York State"
 msgid "Puerto Rico"
 msgstr "Puerto Rico"
 
-#: frontend/lib/loc/letter-content.tsx:204
+#: frontend/lib/loc/letter-content.tsx:206
 msgid "Pursuant to NYC Admin Code § 27-2115 an order of civil penalties for all existing violations for which the time to correct has expired is as follows:"
 msgstr "Pursuant to NYC Admin Code § 27-2115 an order of civil penalties for all existing violations for which the time to correct has expired is as follows:"
 
@@ -2615,7 +2615,7 @@ msgstr "Request your Rent History"
 msgid "Request your apartment's Rent History from the DHCR"
 msgstr "Request your apartment's Rent History from the DHCR"
 
-#: frontend/lib/loc/letter-content.tsx:157
+#: frontend/lib/loc/letter-content.tsx:158
 msgid "Requirements"
 msgstr "Requirements"
 
@@ -2697,7 +2697,7 @@ msgstr "Rodent infestation (mice, rats, ... )"
 msgid "Rusty water"
 msgstr "Rusty water"
 
-#: frontend/lib/loc/letter-content.tsx:309
+#: frontend/lib/loc/letter-content.tsx:313
 msgid "Sample Letter of Complaint"
 msgstr "Sample Letter of Complaint"
 
@@ -2978,11 +2978,11 @@ msgstr "States with Limited Protections"
 msgid "Step {0} of {1}"
 msgstr "Step {0} of {1}"
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:230
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:231
 msgid "Steven photo"
 msgstr "Steven photo"
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:241
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:242
 msgid "Steven, 36 years old <0/> East New York"
 msgstr "Steven, 36 years old <0/> East New York"
 
@@ -3079,8 +3079,8 @@ msgid "The majority of your landlord's properties are concentrated in {0}."
 msgstr "The majority of your landlord's properties are concentrated in {0}."
 
 #: frontend/lib/loc/work-orders.tsx:41
-msgid "The maximum number of tickets you can enter is {MAX_TICKETS}."
-msgstr "The maximum number of tickets you can enter is {MAX_TICKETS}."
+msgid "The maximum number of tickets you can enter is {MAX_TICKETS} ."
+msgstr "The maximum number of tickets you can enter is {MAX_TICKETS} ."
 
 #: frontend/lib/account-settings/about-you-settings.tsx:39
 msgid "The name used in letters to your landlord and legal documents"
@@ -3106,7 +3106,7 @@ msgstr "There {0, plural, one {is one unit} other {are # units}} in your buildin
 msgid "These protections apply to tenants whose household income, in a particular month, is below 80% of Area Median Income (AMI)."
 msgstr "These protections apply to tenants whose household income, in a particular month, is below 80% of Area Median Income (AMI)."
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:212
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:213
 msgid "They were terrific because their letter got results that mine didn't. The letters from JustFix got my landlord to do the work. Now anytime I call, my landlord gets things done."
 msgstr "They were terrific because their letter got results that mine didn't. The letters from JustFix got my landlord to do the work. Now anytime I call, my landlord gets things done."
 
@@ -3281,11 +3281,11 @@ msgstr "Verify your phone number"
 msgid "Vermont"
 msgstr "Vermont"
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:209
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:210
 msgid "Veronica photo"
 msgstr "Veronica photo"
 
-#: frontend/lib/loc/letter-of-complaint-splash.tsx:219
+#: frontend/lib/loc/letter-of-complaint-splash.tsx:220
 msgid "Veronica, 45 years old <0/> Hamilton Heights"
 msgstr "Veronica, 45 years old <0/> Hamilton Heights"
 
@@ -3841,7 +3841,7 @@ msgstr "Your Hardship Declaration form has been emailed to:"
 msgid "Your Letter Is Ready To Send!"
 msgstr "Your Letter Is Ready To Send!"
 
-#: frontend/lib/loc/letter-content.tsx:297
+#: frontend/lib/loc/letter-content.tsx:301
 msgid "Your Letter of Complaint"
 msgstr "Your Letter of Complaint"
 

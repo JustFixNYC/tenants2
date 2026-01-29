@@ -18,6 +18,8 @@ import { MiddleProgressStep } from "../progress/progress-step-route";
 import { LetterPreview } from "../static-page/letter-preview";
 import { DemoDeploymentNote } from "../ui/demo-deployment-note";
 import { isUserNycha } from "../util/nycha";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 const UNKNOWN_LANDLORD = { name: "", address: "" };
 
@@ -27,30 +29,34 @@ export const SendConfirmModal = withAppContext(
 
     return (
       <Modal
-        title="Your Letter Is Ready To Send!"
+        title={li18n._(t`Your Letter Is Ready To Send!`)}
         withHeading
         onCloseGoTo={BackOrUpOneDirLevel}
         render={(ctx) => (
           <>
             <p>
-              JustFix will send this letter via USPS Certified Mail
-              <sup>&reg;</sup> to{" "}
-              {isUserNycha(props.session) ? "management" : "your landlord"}:
+              <Trans>
+                JustFix will send this letter via USPS Certified Mail
+                <sup>&reg;</sup> to{" "}
+                {isUserNycha(props.session) ? "management" : "your landlord"}:
+              </Trans>
             </p>
             <address className="has-text-centered">
-              {landlord.name || "UNKNOWN LANDLORD"}
+              {landlord.name || li18n._(t`UNKNOWN LANDLORD`)}
               <br />
-              {landlord.address || "UNKNOWN ADDRESS"}
+              {landlord.address || li18n._(t`UNKNOWN ADDRESS`)}
             </address>
             <br />
             <p>
-              After this step, you cannot go back to make changes. But don't
-              worry, we'll explain what to do next.
+              <Trans>
+                After this step, you cannot go back to make changes. But don't
+                worry, we'll explain what to do next.
+              </Trans>
             </p>
             <div className="has-text-centered">
               <FormAsButton
                 mailChoice={LetterRequestMailChoice.WE_WILL_MAIL}
-                label="Confirm"
+                label={li18n._(t`Confirm`)}
                 buttonClass="is-success"
                 nextStep={props.nextStep}
               />
@@ -95,24 +101,30 @@ function FormAsButton(props: FormAsButtonProps): JSX.Element {
 
 const LocPreview = withAppContext((props) => (
   <LetterPreview
-    title="Preview of your letter of complaint"
-    src={JustfixRoutes.locale.loc.letterContent.html}
+    title={li18n._(t`Preview of your letter of complaint`)}
+    src={JustfixRoutes.getLocale("en").loc.letterContent.html}
   />
 ));
 
 const LetterRequestPage = MiddleProgressStep(({ prevStep, nextStep }) => {
   return (
-    <Page title="Review the Letter of Complaint">
-      <h1 className="title is-4 is-spaced">Review the Letter of Complaint</h1>
+    <Page title={li18n._(t`Review the Letter of Complaint`)}>
+      <h1 className="title is-4 is-spaced">
+        <Trans>Review the Letter of Complaint</Trans>
+      </h1>
       <p className="subtitle is-6">
-        Here is a preview of the letter for you to review. It includes the
-        repair issues you selected from the issue checklist.
+        <Trans>
+          Here is a preview of the letter for you to review. It includes the
+          repair issues you selected from the issue checklist.
+        </Trans>
       </p>
       <LocPreview />
       <DemoDeploymentNote>
         <p>
-          This demo site <strong>will not send</strong> a real letter to your
-          landlord.
+          <Trans>
+            This demo site <strong>will not send</strong> a real letter to your
+            landlord.
+          </Trans>
         </p>
       </DemoDeploymentNote>
       <div className="has-text-centered is-grouped">
@@ -121,18 +133,18 @@ const LetterRequestPage = MiddleProgressStep(({ prevStep, nextStep }) => {
           className="button is-primary is-medium"
           render={() => <SendConfirmModal nextStep={nextStep} />}
         >
-          Mail my letter
+          <Trans>Mail my letter</Trans>
         </ModalLink>
         <div className="buttons jf-two-buttons jf-two-buttons--vertical">
           <BackButton
             to={prevStep}
             buttonClass="is-text"
-            label="Go back and edit"
+            label={li18n._(t`Go back and edit`)}
           />
           <FormAsButton
             mailChoice={LetterRequestMailChoice.USER_WILL_MAIL}
             buttonClass="is-text"
-            label="I want to mail this myself."
+            label={li18n._(t`I want to mail this myself.`)}
             nextStep={nextStep}
           />
         </div>

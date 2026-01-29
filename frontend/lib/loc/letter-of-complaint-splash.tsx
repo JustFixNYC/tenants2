@@ -10,6 +10,8 @@ import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
 import { Icon } from "../ui/icon";
 import { LeaseChoice } from "../../../common-data/lease-choices";
 import classnames from "classnames";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 type HousingTypeFormProps = {
   housingType: string;
@@ -63,57 +65,73 @@ export type LeaseMoreInfo = {
 
 const createLeaseLearnMoreModals = (): LeaseMoreInfo[] => [
   {
-    title: "Rent Stabilized",
+    title: li18n._(t`Rent Stabilized`),
     leaseType: "RENT_STABILIZED",
-    leaseInfo:
-      "Housing in buildings built before January 1, 1974 with six or more \
-          units, including Single Room Occupancy (“SRO”) hotels and rooming \
-          houses. All apartments in buildings that receive a tax abatement such as J-51, \
-          421a, and 421g are also stabilized.",
+    leaseInfo: (
+      <Trans>
+        Housing in buildings built before January 1, 1974 with six or more
+        units, including Single Room Occupancy ("SRO") hotels and rooming
+        houses. All apartments in buildings that receive a tax abatement such as
+        J-51, 421a, and 421g are also stabilized.
+      </Trans>
+    ),
   },
   {
-    title: "Rent Controlled",
+    title: li18n._(t`Rent Controlled`),
     leaseType: "RENT_CONTROLLED",
-    leaseInfo:
-      "This is a rare kind of housing! Buildings that had three or more \
-          residential units before February 1, 1947, where the tenant or \
-          immediate family member has been continuously living in the apartment \
-          since July 1, 1971.",
+    leaseInfo: (
+      <Trans>
+        This is a rare kind of housing! Buildings that had three or more
+        residential units before February 1, 1947, where the tenant or immediate
+        family member has been continuously living in the apartment since July
+        1, 1971.
+      </Trans>
+    ),
   },
   {
-    title: "Market Rate",
+    title: li18n._(t`Market Rate`),
     leaseType: "MARKET_RATE",
-    leaseInfo:
-      "Market rate tenants typically live in buildings of fewer than six (6)\
-          units, newer buildings, or formerly rent stabilized apartments that a\
-          landlord deregulated before 2019.",
+    leaseInfo: (
+      <Trans>
+        Market rate tenants typically live in buildings of fewer than six (6)
+        units, newer buildings, or formerly rent stabilized apartments that a
+        landlord deregulated before 2019.
+      </Trans>
+    ),
   },
   {
-    title: "NYCHA/Public Housing (includes RAD/PACT)",
+    title: li18n._(t`NYCHA/Public Housing (includes RAD/PACT)`),
     leaseType: "NYCHA",
-    leaseInfo:
-      "Federally-funded affordable housing developments owned by the government.",
+    leaseInfo: (
+      <Trans>
+        Federally-funded affordable housing developments owned by the
+        government.
+      </Trans>
+    ),
   },
   {
-    title: "Affordable Housing (other than rent stabilized)",
+    title: li18n._(t`Affordable Housing (other than rent stabilized)`),
     leaseType: "OTHER_AFFORDABLE",
-    leaseInfo:
-      "New York City has many forms of affordable housing. Some common types\
-          include Mitchell Lama, Project-Based Section 8 buildings (also known\
-          as HUD), LIHTC, HDFC rentals, and others.",
+    leaseInfo: (
+      <Trans>
+        New York City has many forms of affordable housing. Some common types
+        include Mitchell Lama, Project-Based Section 8 buildings (also known as
+        HUD), LIHTC, HDFC rentals, and others.
+      </Trans>
+    ),
   },
   {
-    title: "I'm not sure",
+    title: li18n._(t`I'm not sure`),
     leaseType: "NOT_SURE",
     leaseInfo: (
-      <>
-        Don’t know what type of housing you live in? Learn more by ordering your
+      <Trans>
+        Don't know what type of housing you live in? Learn more by ordering your
         rent history <a href="https://app.justfix.org/en/rh/splash">here</a> or
         reading about{" "}
         <a href="https://rentguidelinesboard.cityofnewyork.us/resources/faqs/rent-stabilization/">
           rent regulation.
         </a>
-      </>
+      </Trans>
     ),
   },
 ];
@@ -136,21 +154,25 @@ export function LocSplash(): JSX.Element {
   }, []);
 
   return (
-    <Page className="jf-loc-landing-page" title="Letter of Complaint">
+    <Page className="jf-loc-landing-page" title={li18n._(t`Letter of Complaint`)}>
       <section className="hero is-light">
         <div className="hero-body">
           <h1 className="title is-spaced">
-            Need repairs in your home?
-            <br />
-            Take action today!
+            <Trans>
+              Need repairs in your home?
+              <br />
+              Take action today!
+            </Trans>
           </h1>
           <p className="subtitle">
-            Create a letter that notifies your landlord of repair issues via
-            USPS Certified Mail<sup>&reg;</sup>. This service is free, secure,
-            and legally vetted.
+            <Trans>
+              Create a letter that notifies your landlord of repair issues via
+              USPS Certified Mail<sup>&reg;</sup>. This service is free, secure,
+              and legally vetted.
+            </Trans>
             <br />
             <br />
-            Select your housing type to get started:
+            <Trans>Select your housing type to get started:</Trans>
           </p>
           <HousingTypeForm
             housingType={housingType}
@@ -161,18 +183,22 @@ export function LocSplash(): JSX.Element {
             intent={OnboardingInfoSignupIntent.LOC}
             pageType="splash"
           >
-            Start my free letter
+            <Trans>Start my free letter</Trans>
           </GetStartedButton>
           <p className="jf-secondary-cta has-text-centered">
-            Already have an account?{" "}
-            <Link to={JustfixRoutes.locale.login}>Sign in</Link>
+            <Trans>
+              Already have an account?{" "}
+              <Link to={JustfixRoutes.locale.login}>Sign in</Link>
+            </Trans>
           </p>
         </div>
       </section>
 
       <section className="section">
         <div className="content">
-          <h2 className="title is-spaced has-text-centered">How It Works</h2>
+          <h2 className="title is-spaced has-text-centered">
+            <Trans>How It Works</Trans>
+          </h2>
           {!isSafari && (
             <figure className="image is-16by9">
               <iframe
@@ -188,16 +214,24 @@ export function LocSplash(): JSX.Element {
           )}
           <BigList itemClassName="title is-5">
             <li>
-              Customize our lawyer-approved letter template to choose the
-              repairs you need in your home and/or building.
+              <Trans>
+                Customize our lawyer-approved letter template to choose the
+                repairs you need in your home and/or building.
+              </Trans>
             </li>
             <li>
-              We mail your letter via USPS Certified Mail
-              <sup>&reg;</sup> - for free!
+              <Trans>
+                We mail your letter via USPS Certified Mail
+                <sup>&reg;</sup> - for free!
+              </Trans>
             </li>
-            <li>Wait for your landlord to contact you directly.</li>
             <li>
-              We'll text you to see how things are going after a few weeks.
+              <Trans>Wait for your landlord to contact you directly.</Trans>
+            </li>
+            <li>
+              <Trans>
+                We'll text you to see how things are going after a few weeks.
+              </Trans>
             </li>
           </BigList>
           <GetStartedButton
@@ -205,36 +239,40 @@ export function LocSplash(): JSX.Element {
             intent={OnboardingInfoSignupIntent.LOC}
             pageType="splash"
           >
-            Start my free letter
+            <Trans>Start my free letter</Trans>
           </GetStartedButton>
         </div>
       </section>
 
       <section className="section">
         <h2 className="title is-spaced has-text-centered">
-          Why mail a Letter of Complaint?
+          <Trans>Why mail a Letter of Complaint?</Trans>
         </h2>
         <p className="subtitle">
-          Your landlord is responsible for keeping your home and building safe
-          and livable at all times. This is called the{" "}
-          <strong>Warranty of Habitability</strong>.
+          <Trans>
+            Your landlord is responsible for keeping your home and building safe
+            and livable at all times. This is called the{" "}
+            <strong>Warranty of Habitability</strong>.
+          </Trans>
         </p>
         <p className="subtitle">
-          <strong>
-            Having a record of notifying your landlord makes for a stronger
-            legal case.
-          </strong>{" "}
-          If your landlord has already been unresponsive to your requests to
-          make repairs, a letter is a <strong>great tactic to start</strong>.
-          Through USPS Certified Mail<sup>&reg;</sup>, you will have an official
-          record of the requests you’ve made to your landlord. Our nonprofit{" "}
-          <strong>covers the cost</strong> of mailing this letter for you!
+          <Trans>
+            <strong>
+              Having a record of notifying your landlord makes for a stronger
+              legal case.
+            </strong>{" "}
+            If your landlord has already been unresponsive to your requests to
+            make repairs, a letter is a <strong>great tactic to start</strong>.
+            Through USPS Certified Mail<sup>&reg;</sup>, you will have an official
+            record of the requests you've made to your landlord. Our nonprofit{" "}
+            <strong>covers the cost</strong> of mailing this letter for you!
+          </Trans>
         </p>
       </section>
 
       <section className="section section--fullwidth">
         <h2 className="title is-spaced has-text-centered">
-          Hear from tenants who have used JustFix
+          <Trans>Hear from tenants who have used JustFix</Trans>
         </h2>
         <div className="tile is-ancestor">
           <div className="tile is-parent is-6">
@@ -245,16 +283,20 @@ export function LocSplash(): JSX.Element {
                     ratio="is-square"
                     className="is-rounded"
                     src="frontend/img/veronica.jpg"
-                    alt="Veronica photo"
+                    alt={li18n._(t`Veronica photo`)}
                   />
                 </div>
                 <p className="subtitle has-text-centered is-spaced">
-                  They were terrific because their letter got results that mine
-                  didn’t. The letters from JustFix got my landlord to do the
-                  work. Now anytime I call, my landlord gets things done.
+                  <Trans>
+                    They were terrific because their letter got results that mine
+                    didn't. The letters from JustFix got my landlord to do the
+                    work. Now anytime I call, my landlord gets things done.
+                  </Trans>
                 </p>
                 <p className="title has-text-centered is-5">
-                  Veronica, 45 years old <br /> Hamilton Heights
+                  <Trans>
+                    Veronica, 45 years old <br /> Hamilton Heights
+                  </Trans>
                 </p>
               </div>
             </div>
@@ -267,17 +309,21 @@ export function LocSplash(): JSX.Element {
                     ratio="is-square"
                     className="is-rounded"
                     src="frontend/img/steven.png"
-                    alt="Steven photo"
+                    alt={li18n._(t`Steven photo`)}
                   />
                 </div>
                 <p className="subtitle has-text-centered is-spaced">
-                  I like that you texted me to check in on my status. You all
-                  were the first online advocacy group I’ve seen that was
-                  accessible and easy to use. JustFix’s digital platform has
-                  definitely been a game changer.
+                  <Trans>
+                    I like that you texted me to check in on my status. You all
+                    were the first online advocacy group I've seen that was
+                    accessible and easy to use. JustFix's digital platform has
+                    definitely been a game changer.
+                  </Trans>
                 </p>
                 <p className="title has-text-centered is-5">
-                  Steven, 36 years old <br /> East New York
+                  <Trans>
+                    Steven, 36 years old <br /> East New York
+                  </Trans>
                 </p>
               </div>
             </div>
@@ -287,24 +333,28 @@ export function LocSplash(): JSX.Element {
 
       <section className="section">
         <h2 className="title is-spaced has-text-centered">
-          About our nonprofit organization
+          <Trans>About our nonprofit organization</Trans>
         </h2>
         <p className="subtitle">
-          JustFix co-designs and builds tools for tenants, housing organizers,
-          and legal advocates fighting displacement in New York City. We
-          encourage tenants to take action and fight for safe and healthy homes.
-          Want to know more?{" "}
-          <OutboundLink href="https://www.justfix.org/our-mission">
-            Visit our website.
-          </OutboundLink>
+          <Trans>
+            JustFix co-designs and builds tools for tenants, housing organizers,
+            and legal advocates fighting displacement in New York City. We
+            encourage tenants to take action and fight for safe and healthy homes.
+            Want to know more?{" "}
+            <OutboundLink href="https://www.justfix.org/our-mission">
+              Visit our website.
+            </OutboundLink>
+          </Trans>
         </p>
         <div className="notification is-warning">
           <p className="subtitle">
-            <strong>Disclaimer:</strong> The information contained in JustFix
-            does not constitute legal advice and must not be used as a
-            substitute for the advice of a lawyer qualified to give advice on
-            legal issues pertaining to housing. We can help direct you to free
-            and/or low-cost legal services as necessary.
+            <Trans>
+              <strong>Disclaimer:</strong> The information contained in JustFix
+              does not constitute legal advice and must not be used as a
+              substitute for the advice of a lawyer qualified to give advice on
+              legal issues pertaining to housing. We can help direct you to free
+              and/or low-cost legal services as necessary.
+            </Trans>
           </p>
         </div>
       </section>

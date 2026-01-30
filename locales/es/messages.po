@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-01-30 21:14\n"
+"PO-Revision-Date: 2026-01-30 21:36\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -166,7 +166,7 @@ msgstr "Acerca de"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:254
 msgid "About our nonprofit organization"
-msgstr "About our nonprofit organization"
+msgstr "Acerca de nuestra organización sin fines de lucro"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:60
 msgid "About you"

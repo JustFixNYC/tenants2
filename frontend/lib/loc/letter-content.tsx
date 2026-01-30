@@ -300,7 +300,7 @@ const LetterConclusion: React.FC<LocContentProps> = (props) => (
       </p>
       <dl>
         <dt>
-          <Trans>"C" Violation</Trans>
+          <Trans>"C" Violation:</Trans>
         </dt>
         <dd>
           <Trans>
@@ -319,7 +319,7 @@ const LetterConclusion: React.FC<LocContentProps> = (props) => (
           </Trans>
         </dd>
         <dt>
-          <Trans>"A" Violation"</Trans>
+          <Trans>"A" Violation:</Trans>
         </dt>
         <dd>
           <Trans>$10-$50 one-time penalty per violation</Trans>

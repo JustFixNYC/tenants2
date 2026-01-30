@@ -80,7 +80,8 @@ exports[`<LocContent> works 1`] = `
       Available access dates
     </h2>
     <p>
-      Below are dates that I am available to be at my home to let in a repair worker. Please contact me (using the information provided at the top of this letter) in order to make arrangements with me 
+      Below are dates that I am available to be at my home to let in a repair worker. Please contact me (using the information provided at the top of this letter) in order to make arrangements with me
+       
       <strong>
         at least 24 hours in advance
       </strong>
@@ -129,7 +130,7 @@ exports[`<LocContent> works 1`] = `
     </p>
     <dl>
       <dt>
-        "C" Violation:
+        "C" Violation
       </dt>
       <dd>
         $50 per day per violation (if 1-5 units)
@@ -143,7 +144,7 @@ exports[`<LocContent> works 1`] = `
         $25-$100 one-time penalty per violation plus $10 per day
       </dd>
       <dt>
-        "A" Violation:
+        "A" Violation"
       </dt>
       <dd>
         $10-$50 one-time penalty per violation
@@ -157,7 +158,9 @@ exports[`<LocContent> works 1`] = `
       According to the NYC Admin Code § 27-2115, a civil penalty is also issued where a person willfully makes a false certification of correction of a violation per violation falsely certified.
     </p>
     <p>
-      Please contact me as soon as possible to arrange a time to have these repairs made at (555) 123-4567.
+      Please contact me as soon as possible to arrange a time to have these repairs made at 
+      (555) 123-4567
+      .
     </p>
     <p
       class="jf-signature"

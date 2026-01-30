@@ -14,30 +14,6 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: frontend/lib/loc/letter-content.tsx:233
-msgid "\"A\" Violation:"
-msgstr "\"A\" Violation:"
-
-#: frontend/lib/loc/letter-content.tsx:225
-msgid "\"B\" Violation:"
-msgstr "\"B\" Violation:"
-
-#: frontend/lib/loc/letter-content.tsx:214
-msgid "\"C\" Violation:"
-msgstr "\"C\" Violation:"
-
-#: frontend/lib/loc/letter-content.tsx:236
-msgid "$10-$50 one-time penalty per violation"
-msgstr "$10-$50 one-time penalty per violation"
-
-#: frontend/lib/loc/letter-content.tsx:228
-msgid "$25-$100 one-time penalty per violation plus $10 per day"
-msgstr "$25-$100 one-time penalty per violation plus $10 per day"
-
-#: frontend/lib/loc/letter-content.tsx:217
-msgid "$50 per day per violation (if 1-5 units)<0/>$50-$150 one-time penalty per violation plus $125 per day (5 or more units)"
-msgstr "$50 per day per violation (if 1-5 units)<0/>$50-$150 one-time penalty per violation plus $125 per day (5 or more units)"
-
 #. This is used when showing the translation of English content in the user's language. It should be localized to use the name of the language itself, e.g. 'Spanish translation'.
 #: frontend/lib/ui/cross-language.tsx:8
 msgid "(Name of your language) translation"
@@ -191,10 +167,6 @@ msgstr "About our nonprofit organization"
 msgid "About you"
 msgstr "About you"
 
-#: frontend/lib/loc/letter-content.tsx:242
-msgid "According to the NYC Admin Code § 27-2115, a civil penalty is also issued where a person willfully makes a false certification of correction of a violation per violation falsely certified."
-msgstr "According to the NYC Admin Code § 27-2115, a civil penalty is also issued where a person willfully makes a false certification of correction of a violation per violation falsely certified."
-
 #: frontend/lib/laletterbuilder/components/account-settings.tsx:12
 #: frontend/lib/laletterbuilder/site.tsx:60
 msgid "Account settings"
@@ -336,10 +308,6 @@ msgstr "Attend SAJE’s <0>Tenant Action Clinic</0> if you're faced with a housi
 msgid "Automatically fill in your landlord's information based on your address if you live in New York City"
 msgstr "Automatically fill in your landlord's information based on your address if you live in New York City"
 
-#: frontend/lib/loc/letter-content.tsx:86
-msgid "Available access dates"
-msgstr "Available access dates"
-
 #: frontend/lib/evictionfree/about.tsx:31
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:70
 msgid "Available in English and Spanish."
@@ -408,10 +376,6 @@ msgstr "Before you send your hardship declaration form, let's review what will b
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:61
 msgid "Before you send your letter, let's review what will be sent to make sure all the information is correct."
 msgstr "Before you send your letter, let's review what will be sent to make sure all the information is correct."
-
-#: frontend/lib/loc/letter-content.tsx:89
-msgid "Below are dates that I am available to be at my home to let in a repair worker. Please contact me (using the information provided at the top of this letter) in order to make arrangements with me <0>at least 24 hours in advance</0>."
-msgstr "Below are dates that I am available to be at my home to let in a repair worker. Please contact me (using the information provided at the top of this letter) in order to make arrangements with me <0>at least 24 hours in advance</0>."
 
 #: frontend/lib/norent/the-letter.tsx:56
 msgid "Benefit from the eviction protections that local elected officials have put in place, by notifying your landlord of your inability to pay rent for reasons related to COVID-19"
@@ -638,10 +602,6 @@ msgstr "City and state"
 #: frontend/lib/forms/city-and-state-form-field.tsx:15
 msgid "City/township/borough"
 msgstr "City/township/borough"
-
-#: frontend/lib/loc/letter-content.tsx:203
-msgid "Civil penalties"
-msgstr "Civil penalties"
 
 #: frontend/lib/norent/data/faqs-content.tsx:44
 msgid "Click here to join MHAction’s movement"
@@ -1450,18 +1410,6 @@ msgstr "I forgot my password"
 msgid "I have a current eviction case in NYC. How do I connect with a lawyer?"
 msgstr "I have a current eviction case in NYC. How do I connect with a lawyer?"
 
-#: frontend/lib/loc/letter-content.tsx:183
-msgid "I have already contacted 311 on several occasions, but the issue has not been resolved. In the meantime, I have recorded evidence of the violations should legal action be necessary."
-msgstr "I have already contacted 311 on several occasions, but the issue has not been resolved. In the meantime, I have recorded evidence of the violations should legal action be necessary."
-
-#: frontend/lib/loc/letter-content.tsx:107
-msgid "I have documented these issues in the past by submitting work tickets to management. I've included at least one work ticket(s) for your reference:"
-msgstr "I have documented these issues in the past by submitting work tickets to management. I've included at least one work ticket(s) for your reference:"
-
-#: frontend/lib/loc/letter-content.tsx:123
-msgid "I have identified the following issues related to mold, leaks or associated repairs:"
-msgstr "I have identified the following issues related to mold, leaks or associated repairs:"
-
 #: frontend/lib/forms/apt-number-form-fields.tsx:21
 msgid "I have no apartment number"
 msgstr "I have no apartment number"
@@ -1477,14 +1425,6 @@ msgstr "I like that you texted me to check in on my status. You all were the fir
 #: frontend/lib/evictionfree/data/faqs-content.tsx:267
 msgid "I live in another state that isn’t New York. Is this tool for me?"
 msgstr "I live in another state that isn’t New York. Is this tool for me?"
-
-#: frontend/lib/loc/letter-content.tsx:62
-msgid "I need the following repairs in my home referenced below and/or in the common areas of the building:"
-msgstr "I need the following repairs in my home referenced below and/or in the common areas of the building:"
-
-#: frontend/lib/loc/letter-content.tsx:161
-msgid "I request that you provide the name and contact information for any repair worker assigned to my home at least 24 hours prior to their arrival."
-msgstr "I request that you provide the name and contact information for any repair worker assigned to my home at least 24 hours prior to their arrival."
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:63
 msgid "I understand I am signing and submitting this form under penalty of law. I know it is against the law to make a statement on this form that I know is false."
@@ -2125,10 +2065,6 @@ msgstr "My issue is urgent and time sensitive. What should I do?"
 msgid "My letters"
 msgstr "My letters"
 
-#: frontend/lib/loc/letter-content.tsx:143
-msgid "NYCHA or RAD-PACT management is under a court mandate to remediate these issues in a timely manner."
-msgstr "NYCHA or RAD-PACT management is under a court mandate to remediate these issues in a timely manner."
-
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:62
 msgid "NYCHA/Public Housing (includes RAD/PACT)"
 msgstr "NYCHA/Public Housing (includes RAD/PACT)"
@@ -2427,10 +2363,6 @@ msgstr "Please <0>go back and choose a state</0>."
 msgid "Please agree to our terms and conditions"
 msgstr "Please agree to our terms and conditions"
 
-#: frontend/lib/loc/letter-content.tsx:168
-msgid "Please be advised that the lack of Heat and/or Hot Water constitutes an emergency under the NYC Housing Maintenance Code, Title 27, Chapter 2. Failure to address these repairs will result in an escalation of this issue, and I may exercise my right to file an Emergency HP Action through the NYC Housing Court system."
-msgstr "Please be advised that the lack of Heat and/or Hot Water constitutes an emergency under the NYC Housing Maintenance Code, Title 27, Chapter 2. Failure to address these repairs will result in an escalation of this issue, and I may exercise my right to file an Emergency HP Action through the NYC Housing Court system."
-
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:26
 msgid "Please confirm your household income"
 msgstr "Please confirm your household income"
@@ -2438,10 +2370,6 @@ msgstr "Please confirm your household income"
 #: frontend/lib/common-steps/create-password.tsx:11
 msgid "Please confirm your password"
 msgstr "Please confirm your password"
-
-#: frontend/lib/loc/letter-content.tsx:249
-msgid "Please contact me as soon as possible to arrange a time to have these repairs made at {0}."
-msgstr "Please contact me as soon as possible to arrange a time to have these repairs made at {0}."
 
 #: frontend/lib/norent/components/subscribe.tsx:19
 msgid "Please enter an email address!"
@@ -2490,10 +2418,6 @@ msgstr "Preview of your letter of complaint"
 msgid "Preview this declaration as a PDF"
 msgstr "Preview this declaration as a PDF"
 
-#: frontend/lib/loc/letter-content.tsx:180
-msgid "Previous Attempts for Relief"
-msgstr "Previous Attempts for Relief"
-
 #: frontend/lib/loc/loc-confirmation.tsx:141
 msgid "Print out your letter and <0>mail it via Certified Mail</0> - this allows you to prove that it was sent to management."
 msgstr "Print out your letter and <0>mail it via Certified Mail</0> - this allows you to prove that it was sent to management."
@@ -2526,10 +2450,6 @@ msgstr "Protect yourself from eviction in New York State"
 #: common-data/us-state-choices.ts:104
 msgid "Puerto Rico"
 msgstr "Puerto Rico"
-
-#: frontend/lib/loc/letter-content.tsx:206
-msgid "Pursuant to NYC Admin Code § 27-2115 an order of civil penalties for all existing violations for which the time to correct has expired is as follows:"
-msgstr "Pursuant to NYC Admin Code § 27-2115 an order of civil penalties for all existing violations for which the time to correct has expired is as follows:"
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:56
 msgid "Queens Housing Court:"
@@ -2595,17 +2515,9 @@ msgstr "Rental Assistance Application Hotline:"
 msgid "Repairs needed in your home"
 msgstr "Repairs needed in your home"
 
-#: frontend/lib/loc/letter-content.tsx:69
-msgid "Repairs required"
-msgstr "Repairs required"
-
 #: frontend/lib/rh/email-to-dhcr.tsx:22
 msgid "Request for Rent History"
 msgstr "Request for Rent History"
-
-#: frontend/lib/loc/letter-content.tsx:50
-msgid "Request for repairs"
-msgstr "Request for repairs"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:233
 msgid "Request repairs from your landlord"
@@ -2618,10 +2530,6 @@ msgstr "Request your Rent History"
 #: frontend/lib/rh/routes.tsx:129
 msgid "Request your apartment's Rent History from the DHCR"
 msgstr "Request your apartment's Rent History from the DHCR"
-
-#: frontend/lib/loc/letter-content.tsx:158
-msgid "Requirements"
-msgstr "Requirements"
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:201
 msgid "Research your landlord"
@@ -2700,10 +2608,6 @@ msgstr "Rodent infestation (mice, rats, ... )"
 #: common-data/issue-choices.ts:255
 msgid "Rusty water"
 msgstr "Rusty water"
-
-#: frontend/lib/loc/letter-content.tsx:313
-msgid "Sample Letter of Complaint"
-msgstr "Sample Letter of Complaint"
 
 #: frontend/lib/norent/letter-content.tsx:296
 msgid "Sample NoRent.org letter"
@@ -3709,10 +3613,6 @@ msgstr "Wisconsin"
 msgid "With this free tool, you can"
 msgstr "With this free tool, you can"
 
-#: frontend/lib/loc/letter-content.tsx:104
-msgid "Work Order Repair Tickets"
-msgstr "Work Order Repair Tickets"
-
 #: frontend/lib/loc/work-orders.tsx:24
 #: frontend/lib/loc/work-orders.tsx:27
 msgid "Work order repairs ticket"
@@ -3844,10 +3744,6 @@ msgstr "Your Hardship Declaration form has been emailed to:"
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:59
 msgid "Your Letter Is Ready To Send!"
 msgstr "Your Letter Is Ready To Send!"
-
-#: frontend/lib/loc/letter-content.tsx:301
-msgid "Your Letter of Complaint"
-msgstr "Your Letter of Complaint"
 
 #: frontend/lib/loc/loc-confirmation.tsx:200
 msgid "Your Letter of Complaint has been created!"
@@ -4018,10 +3914,6 @@ msgstr "Zip code"
 #: frontend/lib/norent/letter-builder/know-your-rights.tsx:82
 msgid "and"
 msgstr "and"
-
-#: frontend/lib/loc/letter-content.tsx:53
-msgid "at <0/>"
-msgstr "at <0/>"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:156
 msgid "email"

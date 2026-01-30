@@ -129,7 +129,7 @@ exports[`<LocContent> works 1`] = `
     </p>
     <dl>
       <dt>
-        "C" Violation
+        "C" Violation:
       </dt>
       <dd>
         $50 per day per violation (if 1-5 units)
@@ -143,7 +143,7 @@ exports[`<LocContent> works 1`] = `
         $25-$100 one-time penalty per violation plus $10 per day
       </dd>
       <dt>
-        "A" Violation"
+        "A" Violation:
       </dt>
       <dd>
         $10-$50 one-time penalty per violation

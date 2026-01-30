@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-01-30 21:40\n"
+"PO-Revision-Date: 2026-01-30 21:43\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -392,7 +392,7 @@ msgstr "Quebrado"
 
 #: common-data/issue-choices.ts:268
 msgid "Broken elevator"
-msgstr "Broken elevator"
+msgstr "Elevador roto"
 
 #: common-data/issue-choices-laletterbuilder.ts:174
 #: common-data/issue-choices-laletterbuilder.ts:175

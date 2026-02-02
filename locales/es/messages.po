@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-02-02 15:39\n"
+"PO-Revision-Date: 2026-02-02 15:52\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -67,11 +67,11 @@ msgstr "<0>Herramientas gratuitas para luchar por un hogar seguro y saludable</0
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:186
 msgid "<0>Having a record of notifying your landlord makes for a stronger legal case.</0> If your landlord has already been unresponsive to your requests to make repairs, a letter is a <1>great tactic to start</1>. Through USPS Certified Mail<2>®</2>, you will have an official record of the requests you've made to your landlord. Our nonprofit <3>covers the cost</3> of mailing this letter for you!"
-msgstr "<0>Having a record of notifying your landlord makes for a stronger legal case.</0> If your landlord has already been unresponsive to your requests to make repairs, a letter is a <1>great tactic to start</1>. Through USPS Certified Mail<2>®</2>, you will have an official record of the requests you've made to your landlord. Our nonprofit <3>covers the cost</3> of mailing this letter for you!"
+msgstr "<0>Tener un registro de las notificaciones enviadas al propietario refuerza tu caso legal.</0> Si el propietario no ha respondido a tus solicitudes de reparación, una carta es una <1>excelente táctica para comenzar</1>. A través del servicio USPS Certified Mail<2>®</2>, tendrás un registro oficial de las solicitudes que le has enviado al propietario. ¡Nuestra organización sin fines de lucro <3>cubre el costo</3> del envío de esta carta por ti!"
 
 #: frontend/lib/loc/routes.tsx:76
 msgid "<0>Having a record of notifying your landlord makes for a stronger legal case.</0> If your landlord has been unresponsive to your requests to make repairs, a letter is a <1>great tactic to start</1>. Through USPS Certified Mail<2>®</2>, you will have an official record of the requests you've made to your landlord."
-msgstr "<0>Having a record of notifying your landlord makes for a stronger legal case.</0> If your landlord has been unresponsive to your requests to make repairs, a letter is a <1>great tactic to start</1>. Through USPS Certified Mail<2>®</2>, you will have an official record of the requests you've made to your landlord."
+msgstr "<0>Tener un registro de las notificaciones enviadas al propietario refuerza tu posición legal.</0> Si el propietario no ha respondido a tus solicitudes de reparación, una carta es una <1>buena táctica para empezar</1>. A través del servicio USPS Certified Mail<2>®</2>, tendrás un registro oficial de las solicitudes que has realizado al propietario."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:255
 msgid "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1>"
@@ -196,7 +196,7 @@ msgstr "Dirección:"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:70
 msgid "Affordable Housing (other than rent stabilized)"
-msgstr "Affordable Housing (other than rent stabilized)"
+msgstr "Vivienda asequible (distinta de la vivienda de renta estabilizada)"
 
 #: frontend/lib/norent/data/faqs-content.tsx:11
 msgid "After Sending Your Letter"
@@ -212,7 +212,7 @@ msgstr "Después de enviar tu carta, podemos conectarte con <0>grupos locales</0
 
 #: frontend/lib/loc/letter-request.tsx:35
 msgid "After this step, you cannot go back to make changes. But don't worry, we'll explain what to do next."
-msgstr "After this step, you cannot go back to make changes. But don't worry, we'll explain what to do next."
+msgstr "Después de este paso, no puedes volver a hacer cambios. Pero no te preocupes, te explicaremos qué hacer después de enviar la carta."
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:23
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:20
@@ -249,7 +249,7 @@ msgstr "Permite 14 días para recibir una respuesta"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:130
 msgid "Already have an account? <0>Sign in</0>"
-msgstr "Already have an account? <0>Sign in</0>"
+msgstr "¿Ya tienes una cuenta? <0>Inicia sesión</0>"
 
 #: frontend/lib/evictionfree/site.tsx:114
 msgid "Already submitted a hardship declaration form?<0/><1>Log in here to download your copy</1>"

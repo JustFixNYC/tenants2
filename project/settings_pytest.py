@@ -49,6 +49,7 @@ RAPIDPRO_FOLLOWUP_CAMPAIGN_RH = ""
 RAPIDPRO_FOLLOWUP_CAMPAIGN_LOC = ""
 RAPIDPRO_FOLLOWUP_CAMPAIGN_HP = ""
 RAPIDPRO_FOLLOWUP_CAMPAIGN_EHP = ""
+RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE = ""
 LOB_SECRET_API_KEY = ""
 LOB_PUBLISHABLE_API_KEY = ""
 DOCUSIGN_ACCOUNT_ID = ""
@@ -71,7 +72,7 @@ CELERY_TASK_ALWAYS_EAGER = True
 
 DEBUG_DATA_DIR = ""
 
-DHCR_EMAIL_SENDER_ADDRESS = "support@justfix.org"
+DHCR_EMAIL_SENDER_ADDRESS = "rhrequest@justfix.org"
 DHCR_EMAIL_RECIPIENT_ADDRESSES = ["boop@fakedhcr.org"]
 
 email_config = dj_email_url.parse("dummy:")
@@ -103,7 +104,15 @@ NAVBAR_LABEL = ""
 WOW_ORIGIN = "https://demo-whoownswhat.herokuapp.com"
 EFNYC_ORIGIN = "https://demo-efnyc.netlify.com"
 
+EFNYC_CORS_ALLOWED_ORIGINS = [
+    "https://demo-efnyc.netlify.com",
+]
+
 ENABLE_EMERGENCY_HP_ACTION = True
+
+GCE_API_TOKEN = "boop"
+
+EFNYC_API_TOKEN = "boop"
 
 
 class NotActuallyFileStorage:

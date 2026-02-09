@@ -370,13 +370,10 @@ const ACTION_CARDS: ActionCardPropsCreator[] = [
     };
   },
   function letterOfComplaint(data): ActionCardProps {
-    // Default content temporarily implemented during COVID-19 Outbreak
     const covidMessage = (
       <Trans id="justfix.ddoLocCovidMessage">
         Landlord not responding? You can take action for free to request
-        repairs! Due to the Covid-19 health crisis, we recommend requesting
-        repairs only in the case of an emergency so you can stay safe and
-        healthy by limiting how many people enter your home.
+        repairs!
       </Trans>
     );
     return {

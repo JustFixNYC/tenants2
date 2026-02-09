@@ -20,6 +20,7 @@ import project.locales
 from frontend.static_content import react_render_email
 from rapidpro.followup_campaigns import trigger_followup_campaign_async
 from loc.landlord_lookup import lookup_bbl_and_bin_and_full_address
+from partnerships import referral
 
 RENT_STAB_INFO_SESSION_KEY = "rh_rent_stab_v1"
 
@@ -35,13 +36,18 @@ def get_slack_notify_text(rhr: models.RentalHistoryRequest) -> str:
         user_text = slack.hyperlink(text=rhr.user.best_first_name, href=rhr.user.admin_url)
     else:
         user_text = slack.escape(rhr.first_name)
+
+    if rhr.referral:
+        return f"{user_text} has requested {rh_link} via {rhr.referral}!"
+
     return f"{user_text} has requested {rh_link}!"
 
 
 def run_rent_stab_sql_query(bbl: str) -> Optional[Dict[str, Any]]:
     sql_query = """
         select uc2007, uc2008, uc2009, uc2010, uc2011, uc2012, uc2013,
-             uc2014, uc2015, uc2016, uc2017, uc2018, uc2019, uc2020
+             uc2014, uc2015, uc2016, uc2017, uc2018, uc2019, uc2020,
+             uc2021, uc2022, uc2023
         from rentstab
         full join rentstab_v2 using(ucbbl)
         where ucbbl = %(bbl)s
@@ -131,6 +137,7 @@ class RhSendEmail(SessionFormMutation):
             address_verified=scf.address_verified,
             borough=scf.borough,
             zipcode=scf.zip_code,
+            referral=referral.get_partner(request),
         )
         rhr.set_user(request.user)
         rhr.full_clean()

@@ -15,9 +15,6 @@ export type BrowserStorageSchema = BaseBrowserStorageSchema & {
 
   /** The latest borough a user entered in the app. */
   latestBorough?: string;
-
-  /** Whether or not a user has viewed the COVID-19 Risk modal on the LOC issues page */
-  hasViewedCovidRiskModal?: boolean;
 };
 
 const DEFAULT_BROWSER_STORAGE: BrowserStorageSchema = {

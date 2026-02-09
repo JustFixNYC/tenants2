@@ -7,6 +7,7 @@ from rh.tests.factories import RentalHistoryRequestFactory
 from rh.schema import get_slack_notify_text
 from rh.models import RentalHistoryRequest
 from rh.tests.test_utils import EXAMPLE_RENT_STAB_DATA
+from partnerships.tests.factories import PartnerOrgFactory
 
 VALID_RH_DATA = {
     "firstName": "Boop",
@@ -166,4 +167,13 @@ class TestGetSlackNotifyText:
         assert get_slack_notify_text(rhr) == (
             f"Glorp &amp; Blorp has requested "
             f"<https://example.com/admin/rh/rentalhistoryrequest/{rhr.pk}/change/|rent history>!"
+        )
+
+    def test_it_works_for_referrals(self, db):
+        referral = PartnerOrgFactory(name="Met Council on Housing", slug="mch")
+        rhr = RentalHistoryRequestFactory(user=None, first_name="Peep", referral=referral)
+        assert get_slack_notify_text(rhr) == (
+            f"Peep has requested "
+            f"<https://example.com/admin/rh/rentalhistoryrequest/{rhr.pk}/change/|rent history> "
+            f"via Met Council on Housing (mch)!"
         )

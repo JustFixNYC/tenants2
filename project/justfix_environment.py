@@ -295,10 +295,10 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     LOC_EMAIL: str = ""
 
     # Sender email address used to send a user's rental history request.
-    DHCR_EMAIL_SENDER_ADDRESS: str = "support@justfix.org"
+    DHCR_EMAIL_SENDER_ADDRESS: str = "rhrequest@justfix.org"
 
     # Recipient email addresses that we send a user's rental history request to.
-    DHCR_EMAIL_RECIPIENT_ADDRESSES: str = "rentinfo@nyshcr.org"
+    DHCR_EMAIL_RECIPIENT_ADDRESSES: str = "orarecords@hcr.ny.gov"
 
     # An optional label to show in the site's navbar and other communications,
     # next to "JustFix". This can be useful to e.g. distinguish a production
@@ -310,6 +310,9 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
 
     # The base url for outbound links to Eviction Free NYC.
     EFNYC_ORIGIN: str = "https://www.evictionfreenyc.org"
+
+    # The base url for outbound links to Good Cause NYC.
+    GCE_ORIGIN: str = "https://goodcausenyc.org"
 
     # Whether to use the lambda HTTP server. If false, we'll use a separate
     # subprocess for each server-side rendering request, otherwise we'll
@@ -335,6 +338,33 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # trigger the follow-up campaign for Emergency HP Action. If empty, this
     # follow-up campaign will be disabled.
     RAPIDPRO_FOLLOWUP_CAMPAIGN_EHP: str = ""
+
+    # Good Cause NYC follow ups are broken out into two campaigns:
+    # 1. GCE_RENT_CALCULATOR: Triggered by phone number submission on rent calcultor page.
+    #    No custom fields.
+    # 2. GCE_RESULTS: Triggered by phone number submission on results page.
+    #    Custom field: result_url.
+
+    # The RapidPro group name and date field key, separated by a comma, that
+    # trigger the follow-up campaign for Good Cause NYC rent calculator.
+    # If empty, this follow-up campaign will be disabled.
+    RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE_RENT_CALCULATOR: str = ""
+
+    # The RapidPro group name and date field key, separated by a comma, that
+    # trigger the follow-up campaign for Good Cause NYC results.
+    # If empty, this follow-up campaign will be disabled.
+    RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE_RESULTS: str = ""
+
+    # The RapidPro group name and date field key, separated by a comma, that
+    # trigger the follow-up campaign for Good Cause NYC letter sender.
+    # If empty, this follow-up campaign will be disabled.
+    RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE_LETTER: str = ""
+
+    # The RapidPro group name and date field key, separated by a comma, that
+    # trigger the temporary campaign for user that sign up to be notified when
+    # Good Cause NYC letter sender launches. If empty, this follow-up campaign
+    # will be disabled.
+    RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE_LETTER_COMING_SOON: str = ""
 
     # The DocuSign account ID to use. Leaving this empty disables DocuSign
     # integration.
@@ -430,6 +460,13 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # By default, this is set to retrieve JustFix's publicly-available
     # common strings.
     CONTENTFUL_ACCESS_TOKEN: str = "Fli_OMdKgUFw6tEX3uv6HqvptuG6A6jn9bZVPlHZj8E"
+
+    # Token to authorize API requests from our standalone Good Cause Eviction
+    # screener website to record user responses/results of the screener flow.
+    GCE_API_TOKEN: str = ""
+
+    # Token to authorize API requests from the EFNYC site to upload phone numbers
+    EFNYC_API_TOKEN: str = ""
 
 
 class JustfixBuildPipelineDefaults(JustfixEnvironment):

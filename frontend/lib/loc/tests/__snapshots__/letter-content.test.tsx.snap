@@ -103,10 +103,7 @@ exports[`<LocContent> works 1`] = `
       Requirements
     </h2>
     <p>
-      In order to keep my household safe, I request that anyone entering my home to make repairs follow sanitation guidelines from the Center for Disease Control (CDC), including washing their hands before entering, wearing gloves, a mask, and shoe coverings, and practicing physical distancing (keeping 6 feet of distance between me and anyone else in my household).
-    </p>
-    <p>
-      Additionally, I request that you provide the name and contact information for any repair worker assigned to my home at least 24 hours prior to their arrival.
+      I request that you provide the name and contact information for any repair worker assigned to my home at least 24 hours prior to their arrival.
     </p>
     <p>
       Please be advised that the lack of Heat and/or Hot Water constitutes an emergency under the NYC Housing Maintenance Code, Title 27, Chapter 2. Failure to address these repairs will result in an escalation of this issue, and I may exercise my right to file an Emergency HP Action through the NYC Housing Court system.
@@ -133,7 +130,7 @@ exports[`<LocContent> works 1`] = `
     </p>
     <dl>
       <dt>
-        “C” Violation
+        "C" Violation
       </dt>
       <dd>
         $50 per day per violation (if 1-5 units)
@@ -141,13 +138,13 @@ exports[`<LocContent> works 1`] = `
         $50-$150 one-time penalty per violation plus $125 per day (5 or more units)
       </dd>
       <dt>
-        “B” Violation:
+        "B" Violation:
       </dt>
       <dd>
         $25-$100 one-time penalty per violation plus $10 per day
       </dd>
       <dt>
-        “A” Violation”
+        "A" Violation"
       </dt>
       <dd>
         $10-$50 one-time penalty per violation

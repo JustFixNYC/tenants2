@@ -9,6 +9,7 @@ from onboarding.tests.factories import OnboardingInfoFactory
 from loc.models import (
     AddressDetails,
     AccessDate,
+    WorkOrder,
     LetterRequest,
     ArchivedLetterRequest,
     LandlordDetails,
@@ -19,7 +20,12 @@ from .test_landlord_lookup import (
     mock_lookup_failure,
     enable_fake_landlord_lookup,
 )
-from .factories import create_user_with_all_info, LetterRequestFactory, LandlordDetailsV2Factory
+from .factories import (
+    create_user_with_all_info,
+    create_nycha_user_with_all_info,
+    LetterRequestFactory,
+    LandlordDetailsV2Factory,
+)
 
 WE_WILL_MAIL = LOC_MAILING_CHOICES.WE_WILL_MAIL
 USER_WILL_MAIL = LOC_MAILING_CHOICES.USER_WILL_MAIL
@@ -33,6 +39,50 @@ def test_set_for_user_works():
 
     AccessDate.objects.set_for_user(user, [date(2011, 2, 2)])
     assert AccessDate.objects.get_for_user(user) == [date(2011, 2, 2)]
+
+
+@pytest.fixture
+def user(db):
+    return UserFactory.create()
+
+
+@pytest.fixture
+def ticket_numbers():
+    return ["ABC123", "DEF456", "GHI789"]
+
+
+@pytest.mark.django_db
+def test_set_for_user_creates_work_orders(user, ticket_numbers):
+    """Test that `set_for_user` creates work orders for a user."""
+    WorkOrder.objects.set_for_user(user, ticket_numbers)
+    work_orders = WorkOrder.objects.filter(user=user)
+    assert sorted([wo.ticket_number for wo in work_orders]) == sorted(ticket_numbers)
+
+
+@pytest.mark.django_db
+def test_set_for_user_replaces_existing_work_orders(user, ticket_numbers):
+    initial_ticket_numbers = ["OLD001", "OLD002"]
+    WorkOrder.objects.set_for_user(user, initial_ticket_numbers)
+    # Replace with new ticket numbers
+    WorkOrder.objects.set_for_user(user, ticket_numbers)
+    retrieved_ticket_numbers = WorkOrder.objects.get_for_user(user)
+    assert sorted(retrieved_ticket_numbers) == sorted(ticket_numbers)
+
+
+@pytest.mark.django_db
+def test_set_for_user_with_empty_ticket_numbers(user, ticket_numbers):
+    """Test that `set_for_user` deletes all work orders when ticket_numbers is empty."""
+    WorkOrder.objects.set_for_user(user, ticket_numbers)
+    # Call again with an empty list
+    WorkOrder.objects.set_for_user(user, [])
+    assert len(WorkOrder.objects.get_for_user(user)) == 0
+
+
+@pytest.mark.django_db
+def test_get_for_user_works(user, ticket_numbers):
+    WorkOrder.objects.set_for_user(user, ticket_numbers)
+    retrieved_ticket_numbers = WorkOrder.objects.get_for_user(user)
+    assert sorted(retrieved_ticket_numbers) == sorted(ticket_numbers)
 
 
 def test_letter_request_str_works_when_fields_are_not_set():
@@ -184,6 +234,9 @@ class TestLetterRequestClean:
 
     def test_it_works_when_user_has_all_info(self):
         self.make(create_user_with_all_info()).clean()
+
+    def test_it_works_when_nycha_user_has_all_info(self):
+        self.make(create_nycha_user_with_all_info()).clean()
 
     def test_it_raises_error_when_no_landlord_info_exists(self):
         with pytest.raises(ValidationError, match="contact information for your landlord"):

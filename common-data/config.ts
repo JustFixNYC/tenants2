@@ -16,7 +16,7 @@ const config: CommonDataConfig = {
       typeName: "IssueChoice",
       exportLabels: true,
       internationalizeLabels: true,
-      filterOut: /^(LANDLORD__|PUBLIC_AREAS__ILLEGAL_APARTMENTS|HOME__COVID_SANITATION_REQUIRED|HOME__(FRONT_DOOR|DOOR_LOCK|DOORBELL|BUZZER)_BROKEN|KITCHEN__(REFRIGERATOR|STOVE)_BROKEN)/,
+      filterOut: /^(LANDLORD__|PUBLIC_AREAS__ILLEGAL_APARTMENTS|HOME__(FRONT_DOOR|DOOR_LOCK|DOORBELL|BUZZER)_BROKEN|KITCHEN__(REFRIGERATOR|STOVE)_BROKEN)/,
     },
     {
       jsonFilename: "issue-area-choices.json",

@@ -1,6 +1,7 @@
 from django.db import models
 
 from users.models import JustfixUser
+from partnerships.models import PartnerOrg
 from project.util import phone_number as pn
 from project.util.address_form_fields import ADDRESS_FIELD_KWARGS, BOROUGH_FIELD_KWARGS
 
@@ -15,6 +16,14 @@ class RentalHistoryRequest(models.Model):
     address_verified = models.BooleanField()
     borough = models.CharField(**BOROUGH_FIELD_KWARGS)
     zipcode = models.CharField(max_length=5, blank=True)
+    referral = models.ForeignKey(
+        PartnerOrg,
+        db_column="referral",
+        to_field="name",
+        on_delete=models.DO_NOTHING,
+        blank=True,
+        null=True,
+    )
     user = models.ForeignKey(
         JustfixUser,
         on_delete=models.SET_NULL,

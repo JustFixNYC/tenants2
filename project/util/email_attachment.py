@@ -19,11 +19,17 @@ def email_file_response_as_attachment(
     attachment: FileResponse,
     html_body: Optional[str] = None,
     headers: Optional[Dict[str, str]] = None,
+    cc: Optional[List[str]] = None,
 ) -> None:
+    """
+    Send a separate email, with an attachment, to each of the recipients.
+    """
     attachment_bytes = attachment.getvalue()
 
     for recipient in recipients:
-        msg = EmailMultiAlternatives(subject=subject, body=body, to=[recipient], headers=headers)
+        msg = EmailMultiAlternatives(
+            subject=subject, body=body, to=[recipient], headers=headers, cc=cc
+        )
         headers = headers or {}
         if html_body:
             msg.attach_alternative(html_body, "text/html")

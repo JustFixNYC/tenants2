@@ -10,6 +10,7 @@ import {
   Borough,
   CustomIssueArea,
   HabitabilityLetterMailChoice,
+  LeaseType,
 } from "../queries/globalTypes";
 import { IssueChoice } from "../../../common-data/issue-choices";
 import { IssueAreaChoice } from "../../../common-data/issue-area-choices";
@@ -100,6 +101,19 @@ export class SessionBuilder {
       zipcode: "11201",
       fullMailingAddress: "150 Court St\nBrooklyn, NY 11201",
       agreedToJustfixTerms: true,
+    });
+  }
+
+  withLoggedInNychaJustfixUser(): SessionBuilder {
+    return this.withLoggedInUser().withOnboardingInfo({
+      address: "150 Court St",
+      borough: Borough.BROOKLYN,
+      city: "Brooklyn",
+      state: "NY",
+      zipcode: "11201",
+      fullMailingAddress: "150 Court St\nBrooklyn, NY 11201",
+      agreedToJustfixTerms: true,
+      leaseType: LeaseType.NYCHA,
     });
   }
 
@@ -271,6 +285,16 @@ export class SessionBuilder {
     return this.with({
       lastQueriedPhoneNumber: "5551234567",
       lastQueriedPhoneNumberAccountStatus: status,
+    });
+  }
+
+  withActivePartnerReferral(): SessionBuilder {
+    return this.with({
+      activePartnerReferral: {
+        name: "Beep Council on Habitat",
+        slug: "bch",
+        website: "beepbeep.com",
+      },
     });
   }
 }

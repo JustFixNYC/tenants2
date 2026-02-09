@@ -1,5 +1,4 @@
 [
-  ["HOME__COVID_SANITATION_REQUIRED", "Needs cleaning due to COVID-19"],
   ["HOME__MICE", "Mice"],
   ["HOME__RATS", "Rats"],
   ["HOME__COCKROACHES", "Cockroaches"],
@@ -115,7 +114,6 @@
   ["BATHROOMS__SHOWER_FAUCET_LEAKING", "Shower: low water pressure"],
   ["BATHROOMS__SHOWER_NO_FAUCET", "Shower: leaky shower head"],
   ["BATHROOMS__SHOWER_DRAIN", "Shower: drain stoppage"],
-  ["PUBLIC_AREAS__COVID_SANITATION_REQUIRED", "Needs cleaning due to COVID-19"],
   ["PUBLIC_AREAS__PAINTING_OVERDUE", "Painting overdue (3 years)"],
   ["PUBLIC_AREAS__PAINT", "Peeling/flaking paint"],
   ["PUBLIC_AREAS__NO_HEAT", "No heat"],
@@ -135,6 +133,7 @@
   ["PUBLIC_AREAS__NO_SUPER", "Inadequate/no super service"],
   ["PUBLIC_AREAS__RENT_RECEIPTS", "No rent receipts given"],
   ["PUBLIC_AREAS__INCOMPLETE_RENT_RECEIPTS", "Rent receipts incomplete"],
+  ["PUBLIC_AREAS__ELEVATOR_BROKEN", "Broken elevator"],
   ["LANDLORD__RETALIATION", "Retaliation for seeking repair"],
   ["LANDLORD__RENT", "Not receiving rent receipts"],
   ["LANDLORD__NO_LEASE", "No lease"],

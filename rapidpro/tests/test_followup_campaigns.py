@@ -55,6 +55,19 @@ class TestFollowupCampaign:
             fields={"fake_field": "blah", "date_of_boop": "2018-01-02T00:00:00.000000Z"},
         )
 
+    def test_add_contact_works_without_name(self):
+        contact = Contact.create(groups=["FAKE ARG GROUP"], fields={"fake_field": "blah"})
+        client, _ = make_client_mocks("get_contacts", contact)
+        mock_query(client, "get_groups", "FAKE BOOP GROUP")
+        campaign = FollowupCampaign("Boop Group", "date_of_boop")
+        with freeze_time("2018-01-02"):
+            campaign.add_contact(client, None, "5551234567", "en")
+        client.update_contact.assert_called_once_with(
+            contact,
+            groups=["FAKE ARG GROUP", "FAKE BOOP GROUP"],
+            fields={"fake_field": "blah", "date_of_boop": "2018-01-02T00:00:00.000000Z"},
+        )
+
     def test_wont_add_contact_to_group_if_they_have_blocked_or_stopped_us(self):
         contact = Contact.create(
             groups=["FAKE ARG GROUP"], fields={"fake_field": "blah"}, blocked=True
@@ -88,7 +101,7 @@ class TestTriggerFollowupCampaignAsync:
         settings.RAPIDPRO_FOLLOWUP_CAMPAIGN_RH = "Boop Group,date_of_boop"
         settings.RAPIDPRO_API_TOKEN = "blorp"
         trigger_followup_campaign_async("Boop Jones", "5551234567", "RH", "en")
-        tasks_trigger.delay.assert_called_once_with("Boop Jones", "5551234567", "RH", "en")
+        tasks_trigger.delay.assert_called_once_with("Boop Jones", "5551234567", "RH", "en", None)
 
     def test_task_works(self, settings, monkeypatch):
         settings.RAPIDPRO_FOLLOWUP_CAMPAIGN_RH = "Boop Group,date_of_boop"
@@ -101,7 +114,7 @@ class TestTriggerFollowupCampaignAsync:
         dsfc.get_campaign.assert_called_once_with("RH")
         campaign.add_contact.assert_called_once()
         assert campaign.add_contact.call_args.args[1:] == ("Boop Jones", "5551234567")
-        assert campaign.add_contact.call_args.kwargs == {"locale": "en"}
+        assert campaign.add_contact.call_args.kwargs == {"locale": "en", "custom_fields": None}
 
     def test_task_retries_on_api_errors(self, settings, monkeypatch):
         settings.RAPIDPRO_FOLLOWUP_CAMPAIGN_RH = "Boop Group,date_of_boop"

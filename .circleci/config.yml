@@ -15,7 +15,8 @@ jobs:
           ENABLE_WEBPACK_CONTENT_HASH: yup
           GIT_LFS_SKIP_SMUDGE: 1
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - restore_cache:
           name: Restore Git LFS cache
           key: gitlfs-build
@@ -29,8 +30,8 @@ jobs:
             # We need to save the Git LFS cache directory to save bandwidth, because GitHub only
             # allows for 1 GB download of anything stored in Git LFS per month.
             - .git/lfs
-      - restore_cache: &restore_pipenv_cache
-          # https://circleci.com/docs/2.0/caching/#pip-python
+      - restore_cache:
+          &restore_pipenv_cache # https://circleci.com/docs/2.0/caching/#pip-python
           name: Restore Pipenv cache
           keys:
             # when lock file changes, use increasingly general patterns to restore cache
@@ -41,15 +42,15 @@ jobs:
       - run: &install_python_deps
           name: Install Python dependencies
           command: |
-             pipenv sync --dev
-             pipenv run pip install -r requirements.production.txt
+            pipenv sync --dev
+            pipenv run pip install -r requirements.production.txt
       - save_cache:
           name: Save Pipenv cache
           key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}-{{ checksum "requirements.production.txt" }}
           paths:
             - ".venv"
-      - restore_cache: &restore_yarn_cache
-          # https://circleci.com/docs/2.0/caching/#yarn-node
+      - restore_cache:
+          &restore_yarn_cache # https://circleci.com/docs/2.0/caching/#yarn-node
           name: Restore Yarn cache
           keys:
             # when lock file changes, use increasingly general patterns to restore cache
@@ -59,14 +60,14 @@ jobs:
       - run: &install_node_deps
           name: Install Node dependencies
           command: |
-             # Print out yarn's cache dir for debugging purposes.
-             yarn cache dir
+            # Print out yarn's cache dir for debugging purposes.
+            yarn cache dir
 
-             # This will ensure that 'npm prepare' scripts on dependencies are run.
-             # For more details, see: https://stackoverflow.com/a/52767310
-             yarn config set unsafe-perm true
+            # This will ensure that 'npm prepare' scripts on dependencies are run.
+            # For more details, see: https://stackoverflow.com/a/52767310
+            yarn config set unsafe-perm true
 
-             yarn install --frozen-lockfile
+            yarn install --frozen-lockfile
       - save_cache:
           name: Save Yarn cache
           paths:
@@ -95,7 +96,8 @@ jobs:
           POSTGRES_DB: justfix
           POSTGRES_USER: justfix
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - restore_cache:
           name: Restore Git LFS cache
           key: gitlfs-build
@@ -111,12 +113,6 @@ jobs:
       - run:
           <<: *install_node_deps
       - run:
-          name: CodeClimate before-build
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-            ./cc-test-reporter before-build
-      - run:
           name: Run tests
           command: |
             node --version
@@ -128,21 +124,6 @@ jobs:
             yarn build
             yarn test --runInBand
             pipenv run "pytest" --cov=. --cov-report xml:./coverage/python/coverage.xml
-      - run:
-          name: CodeClimate combine and upload coverage
-          command: |
-            # Format the various coverage reports
-            ./cc-test-reporter format-coverage -t lcov -o coverage/codeclimate.jest.json coverage/jest/lcov.info
-            ./cc-test-reporter format-coverage -t coverage.py -o coverage/codeclimate.python.json coverage/python/coverage.xml
-            # Combine the test coverage reports
-            ./cc-test-reporter sum-coverage coverage/codeclimate.*.json
-            # Attempt to submit the coverage report, but don't fail the build if this fails (`|| true`)
-            ./cc-test-reporter upload-coverage --debug || true
-      - store_test_results:
-          path: test-results
-      - store_artifacts:
-          path: test-results
-          destination: tr1
   deploy:
     working_directory: ~/tenants2_deploy
     docker:
@@ -161,7 +142,8 @@ jobs:
             curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo env os=debian dist=bullseye bash
             sudo apt-get install git-lfs
             git lfs install
-      - checkout
+      - checkout:
+          method: blobless
       - restore_cache:
           key: gitlfs-deploy
       - shell:
@@ -188,11 +170,11 @@ jobs:
               # We actually want to use the development instance as our cache,
               # because it's very likely we're just deploying the same image
               # it's already running.
-              export CACHE_FROM=registry.heroku.com/tenants2-dev/web:latest
+              export CACHE_FROM=""
             else
               # This should be the Heroku app name of our development instance.
               heroku git:remote -a tenants2-dev
-              export CACHE_FROM=self
+              export CACHE_FROM=""
             fi
             python deploy.py selfcheck
             python deploy.py heroku -r heroku --cache-from=${CACHE_FROM}

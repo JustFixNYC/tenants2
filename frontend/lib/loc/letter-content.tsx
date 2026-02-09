@@ -20,12 +20,43 @@ import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { issuesForArea, customIssuesForArea } from "../issues/issues";
 import { formatPhoneNumber } from "../forms/phone-number-form-field";
 import { TransformSession } from "../util/transform-session";
+import { LeaseType } from "../queries/globalTypes";
 
 const HEAT_ISSUE_CHOICES = new Set<IssueChoice>([
   "HOME__NO_HEAT",
   "HOME__NO_HOT_WATER",
   "PUBLIC_AREAS__NO_HEAT",
   "PUBLIC_AREAS__NO_HOT_WATER",
+]);
+
+const MOLD_MOISTURE_ISSUE_CHOICES = new Set<IssueChoice>([
+  "HOME__MOLD",
+  "BEDROOMS__PAINT",
+  "BEDROOMS__MOLD_ON_WALLS",
+  "BEDROOMS__WATER_DAMAGE",
+  "BEDROOMS__CEILING_LEAKING",
+  "KITCHEN__MOLD",
+  "KITCHEN__WATER",
+  "KITCHEN__PAINT",
+  "KITCHEN__CEILING_LEAKING",
+  "KITCHEN__FAUCET_LEAKING",
+  "KITCHEN__PIPES",
+  "LIVING_ROOM__MOLD",
+  "LIVING_ROOM__WATER",
+  "LIVING_ROOM__PAINT",
+  "LIVING_ROOM__CEILING_LEAKING",
+  "BATHROOMS__MOLD",
+  "BATHROOMS__WATER",
+  "BATHROOMS__PAINT",
+  "BATHROOMS__CEILING_LEAKING",
+  "BATHROOMS__TOILET_LEAKING",
+  "BATHROOMS__SINK_FAUCET_LEAKING",
+  "BATHROOMS__SINK_PIPES",
+  "BATHROOMS__TUB_FAUCET_LEAKING",
+  "BATHROOMS__TUB_PIPES",
+  "BATHROOMS__SHOWER_MOLD",
+  "BATHROOMS__SHOWER_NO_FAUCET",
+  "PUBLIC_AREAS__PAINT",
 ]);
 
 type Issue =
@@ -41,13 +72,17 @@ type LocContentProps = BaseLetterContentProps & {
   issues: AreaIssues[];
   accessDates: GraphQLDate[];
   hasCalled311: boolean | null;
+  workOrderTickets?: string[] | null;
+  isUserNycha?: boolean;
 };
 
 const LetterTitle: React.FC<LocContentProps> = (props) => (
   <letter.Title>
     <span className="is-uppercase">Request for repairs</span>
     <letter.TitleNewline />
-    at <letter.AddressLine {...props} />
+    <>
+      at <letter.AddressLine {...props} />
+    </>
   </letter.Title>
 );
 
@@ -99,6 +134,65 @@ const AccessDates: React.FC<LocContentProps> = (props) => (
   </div>
 );
 
+const WorkOrderTickets: React.FC<LocContentProps> = (props) => (
+  <div className="jf-avoid-page-breaks-within">
+    <h2>Work Order Repair Tickets</h2>
+    <p>
+      I have documented these issues in the past by submitting work tickets to
+      management. I've included at least one work ticket(s) for your reference:
+    </p>
+    <ul>
+      {props.workOrderTickets?.map((ticket) => (
+        <li key={ticket}>{ticket}</li>
+      ))}
+    </ul>
+  </div>
+);
+
+const MoldMoistureMandate: React.FC<LocContentProps> = (props) => {
+  const areaLabels = getIssueAreaChoiceLabels();
+  const issueLabels = getIssueChoiceLabels();
+
+  return (
+    <>
+      <p>
+        I have identified the following issues related to mold, leaks or
+        associated repairs:
+      </p>
+      {props.issues.map((areaIssues) => (
+        <React.Fragment key={areaIssues.area}>
+          {areaIssues.issues.some(
+            (issue) =>
+              issue.kind === "choice" &&
+              MOLD_MOISTURE_ISSUE_CHOICES.has(issue.choice)
+          ) && (
+            <div>
+              <h3>{areaLabels[areaIssues.area]}</h3>
+              <ul>
+                {areaIssues.issues
+                  .filter(
+                    (issue) =>
+                      issue.kind === "choice" &&
+                      MOLD_MOISTURE_ISSUE_CHOICES.has(issue.choice)
+                  )
+                  .map((issue, i) => (
+                    <li key={i}>
+                      {issue.kind === "choice" && issueLabels[issue.choice]}
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          )}
+        </React.Fragment>
+      ))}
+      <p>
+        NYCHA or RAD-PACT management is under a court mandate to remediate these
+        issues in a timely manner.
+      </p>
+    </>
+  );
+};
+
 function hasHeatIssues(issues: AreaIssues[]): boolean {
   return issues.some((areaIssues) =>
     areaIssues.issues.some(
@@ -107,20 +201,21 @@ function hasHeatIssues(issues: AreaIssues[]): boolean {
   );
 }
 
+function meetsMoldMoistureMandate(issues: AreaIssues[]): boolean {
+  return issues.some((areaIssues) =>
+    areaIssues.issues.some(
+      (issue) =>
+        issue.kind == "choice" && MOLD_MOISTURE_ISSUE_CHOICES.has(issue.choice)
+    )
+  );
+}
+
 const Requirements: React.FC<LocContentProps> = (props) => (
   <div className="jf-avoid-page-breaks-within">
     <h2>Requirements</h2>
     <p>
-      In order to keep my household safe, I request that anyone entering my home
-      to make repairs follow sanitation guidelines from the Center for Disease
-      Control (CDC), including washing their hands before entering, wearing
-      gloves, a mask, and shoe coverings, and practicing physical distancing
-      (keeping 6 feet of distance between me and anyone else in my household).
-    </p>
-    <p>
-      Additionally, I request that you provide the name and contact information
-      for any repair worker assigned to my home at least 24 hours prior to their
-      arrival.
+      I request that you provide the name and contact information for any repair
+      worker assigned to my home at least 24 hours prior to their arrival.
     </p>
     {hasHeatIssues(props.issues) && (
       <p>
@@ -130,6 +225,9 @@ const Requirements: React.FC<LocContentProps> = (props) => (
         issue, and I may exercise my right to file an Emergency HP Action
         through the NYC Housing Court system.
       </p>
+    )}
+    {!!props.isUserNycha && meetsMoldMoistureMandate(props.issues) && (
+      <MoldMoistureMandate {...props} />
     )}
   </div>
 );
@@ -151,6 +249,7 @@ const LetterBody: React.FC<LocContentProps> = (props) => (
     {props.accessDates.length > 0 && <AccessDates {...props} />}
     <Requirements {...props} />
     {props.hasCalled311 && <PreviousReliefAttempts />}
+    {!!props.workOrderTickets?.length && <WorkOrderTickets {...props} />}
   </>
 );
 
@@ -164,16 +263,16 @@ const LetterConclusion: React.FC<LocContentProps> = (props) => (
         follows:
       </p>
       <dl>
-        <dt>“C” Violation</dt>
+        <dt>"C" Violation</dt>
         <dd>
           $50 per day per violation (if 1-5 units)
           <br />
           $50-$150 one-time penalty per violation plus $125 per day (5 or more
           units)
         </dd>
-        <dt>“B” Violation:</dt>
+        <dt>"B" Violation:</dt>
         <dd>$25-$100 one-time penalty per violation plus $10 per day</dd>
-        <dt>“A” Violation”</dt>
+        <dt>"A" Violation"</dt>
         <dd>$10-$50 one-time penalty per violation</dd>
       </dl>
     </div>
@@ -246,12 +345,22 @@ export function getLocContentPropsFromSession(
     return null;
   }
 
-  return {
+  const sessionProps = {
     ...baseProps,
     issues: getIssuesFromSession(session),
     accessDates: session.accessDates,
     hasCalled311: onb.hasCalled311,
   };
+
+  if (onb.leaseType === LeaseType.NYCHA) {
+    return {
+      ...sessionProps,
+      workOrderTickets: session.workOrderTickets,
+      isUserNycha: true,
+    };
+  }
+
+  return sessionProps;
 }
 
 export const LocForUserPage: React.FC<{ isPdf: boolean }> = ({ isPdf }) => (

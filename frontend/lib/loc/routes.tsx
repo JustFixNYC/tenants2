@@ -14,9 +14,8 @@ import {
 import { LocSplash } from "./letter-of-complaint-splash";
 import { GetStartedButton } from "../ui/get-started-button";
 import { OnboardingInfoSignupIntent } from "../queries/globalTypes";
-import { CovidRiskBanner } from "../ui/covid-banners";
 import ReliefAttemptsPage from "../onboarding/relief-attempts";
-import { isUserNycha } from "../util/nycha";
+import { isUserNonNycha, isUserNycha } from "../util/nycha";
 import { createJustfixCrossSiteVisitorSteps } from "../justfix-cross-site-visitor-routes";
 import { ProgressStepProps } from "../progress/progress-step-route";
 import { assertNotNull } from "@justfixnyc/util";
@@ -24,56 +23,78 @@ import { Switch, Route } from "react-router-dom";
 import { LocSamplePage, LocForUserPage } from "./letter-content";
 import { createLetterStaticPageRoutes } from "../static-page/routes";
 import { NycUsersOnly } from "../pages/nyc-users-only";
+import WorkOrdersPage from "./work-orders";
+import { Trans, t } from "@lingui/macro";
+import { li18n, createLinguiCatalogLoader } from "../i18n-lingui";
+import loadable from "@loadable/component";
+
+export const LocLinguiI18n = createLinguiCatalogLoader({
+  en: loadable.lib(() => import("../../../locales/en/loc.chunk") as any),
+  es: loadable.lib(() => import("../../../locales/es/loc.chunk") as any),
+});
 
 export const Welcome: React.FC<ProgressStepProps> = (props) => {
   const session = useContext(AppContext).session;
   const bestFirstName = session.preferredFirstName || session.firstName;
 
   return (
-    <Page title="Let's start your letter!">
+    <Page title={li18n._(t`Let's start your letter!`)}>
       <div className="content">
         <h1 className="title">
-          Hi {bestFirstName}, welcome to JustFix! Let's start your Letter of
-          Complaint.
+          <Trans>
+            Hi {bestFirstName}, welcome to JustFix! Let's start your Letter of
+            Complaint.
+          </Trans>
         </h1>
         <p>
-          We're going to help you create a customized Letter of Complaint that
-          highlights the issues in your home that need repair.{" "}
-          <strong>This will take about 5 minutes.</strong>
+          <Trans>
+            We're going to help you create a customized Letter of Complaint that
+            highlights the issues in your home that need repair.{" "}
+            <strong>This will take about 5 minutes.</strong>
+          </Trans>
         </p>
         <ol className="has-text-left">
           <li>
-            First, conduct a <strong>self-inspection of your home</strong> to
-            document all the issues that need repair.
+            <Trans>
+              First, conduct a <strong>self-inspection of your home</strong> to
+              document all the issues that need repair.
+            </Trans>
           </li>
           <li>
-            Review your Letter of Complaint and we will send it to your landlord
-            via USPS Certified Mail<sup>&reg;</sup>.
+            <Trans>
+              Review your Letter of Complaint and we will send it to your
+              landlord via USPS Certified Mail<sup>&reg;</sup>.
+            </Trans>
           </li>
         </ol>
-        <CovidRiskBanner />
         <GetStartedButton
           to={assertNotNull(props.nextStep)}
           intent={OnboardingInfoSignupIntent.LOC}
           pageType="welcome"
         >
-          Start my free letter
+          <Trans>Start my free letter</Trans>
         </GetStartedButton>
-        <h2>Why mail a Letter of Complaint?</h2>
+        <h2>
+          <Trans>Why mail a Letter of Complaint?</Trans>
+        </h2>
         <p>
-          Your landlord is responsible for keeping your home and building safe
-          and livable at all times. This is called the{" "}
-          <strong>Warranty of Habitability</strong>.
+          <Trans>
+            Your landlord is responsible for keeping your home and building safe
+            and livable at all times. This is called the{" "}
+            <strong>Warranty of Habitability</strong>.
+          </Trans>
         </p>
         <p>
-          <strong>
-            Having a record of notifying your landlord makes for a stronger
-            legal case.
-          </strong>{" "}
-          If your landlord has been unresponsive to your requests to make
-          repairs, a letter is a <strong>great tactic to start</strong>. Through
-          USPS Certified Mail<sup>&reg;</sup>, you will have an official record
-          of the requests you’ve made to your landlord.
+          <Trans>
+            <strong>
+              Having a record of notifying your landlord makes for a stronger
+              legal case.
+            </strong>{" "}
+            If your landlord has been unresponsive to your requests to make
+            repairs, a letter is a <strong>great tactic to start</strong>.
+            Through USPS Certified Mail<sup>&reg;</sup>, you will have an
+            official record of the requests you've made to your landlord.
+          </Trans>
         </p>
       </div>
     </Page>
@@ -90,7 +111,7 @@ const LetterOfComplaintIssuesRoutes = () => (
 
 export const getLOCProgressRoutesProps = (): ProgressRoutesProps => ({
   toLatestStep: JustfixRoutes.locale.loc.latestStep,
-  label: "Letter of Complaint",
+  label: li18n._(t`Letter of Complaint`),
   defaultWrapContent: NycUsersOnly,
   welcomeSteps: [
     {
@@ -123,6 +144,11 @@ export const getLOCProgressRoutesProps = (): ProgressRoutesProps => ({
       shouldBeSkipped: isUserNycha,
     },
     {
+      path: JustfixRoutes.locale.loc.workOrders,
+      component: WorkOrdersPage,
+      shouldBeSkipped: isUserNonNycha,
+    },
+    {
       path: JustfixRoutes.locale.loc.yourLandlord,
       exact: true,
       component: LandlordDetailsPage,
@@ -146,7 +172,7 @@ const LetterOfComplaintProgressRoutes = buildProgressRoutesComponent(
   getLOCProgressRoutesProps
 );
 
-const LetterOfComplaintRoutes: React.FC<{}> = () => (
+const LetterOfComplaintRoutesWithoutI18n: React.FC<{}> = () => (
   <Switch>
     {createLetterStaticPageRoutes(
       JustfixRoutes.locale.loc.sampleLetterContent,
@@ -158,6 +184,12 @@ const LetterOfComplaintRoutes: React.FC<{}> = () => (
     )}
     <Route component={LetterOfComplaintProgressRoutes} />
   </Switch>
+);
+
+const LetterOfComplaintRoutes: React.FC<{}> = () => (
+  <LocLinguiI18n>
+    <LetterOfComplaintRoutesWithoutI18n />
+  </LocLinguiI18n>
 );
 
 export default LetterOfComplaintRoutes;

@@ -174,31 +174,30 @@ export const EvictionFreeSuspendedModal = () => (
         <Trans id="evictionfree.toolSuspensionMessage">
           As of January 15, 2022, tenants in New York State are no longer
           protected from eviction after submitting a declaration of hardship.
-          However, you still have other options to protect yourself and your
-          neighbors!
         </Trans>
       </p>
-      <br />
-      <LocalizedOutboundLink
-        className="button is-primary is-large jf-is-extra-wide jf-build-my-declaration-btn"
-        hrefs={{
-          en:
-            "https://www.righttocounselnyc.org/eviction_protections_during_covid",
-          es: "https://www.righttocounselnyc.org/protecciones_contra_desalojos",
-        }}
-      >
-        <Trans>Learn more</Trans>
-      </LocalizedOutboundLink>
-      <br />
-      <br />
       <p className="is-size-6">
         <Trans>
-          Already submitted a hardship declaration form?{" "}
+          Already submitted a hardship declaration form?
+          <br />
           <Link to={Routes.locale.login}>
-            Log in here to download your form
+            Log in here to download your copy
           </Link>
         </Trans>
       </p>
+      <hr></hr>
+      <p>
+        Are you facing an eviction in NYC?
+        <br /> You may have a right to a free lawyer.
+      </p>
+      <LocalizedOutboundLink
+        className="button is-primary is-large jf-is-extra-wide jf-build-my-declaration-btn"
+        hrefs={{
+          en: "https://www.evictionfreenyc.org/",
+        }}
+      >
+        <Trans>Find help</Trans>
+      </LocalizedOutboundLink>
     </div>
   </Modal>
 );

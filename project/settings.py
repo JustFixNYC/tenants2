@@ -112,6 +112,7 @@ EVICTIONFREE_REPLY_TO_EMAIL = env.EVICTIONFREE_REPLY_TO_EMAIL
 NAVBAR_LABEL = env.NAVBAR_LABEL
 WOW_ORIGIN = env.WOW_ORIGIN
 EFNYC_ORIGIN = env.EFNYC_ORIGIN
+GCE_ORIGIN = env.GCE_ORIGIN
 
 IS_EFNY_SUSPENDED = env.IS_EFNY_SUSPENDED
 IS_NORENT_DEPRECATED = env.IS_NORENT_DEPRECATED
@@ -167,6 +168,9 @@ INSTALLED_APPS = [
     "nycx",
     "shortlinks",
     "laletterbuilder.apps.LaLetterBuilderConfig",
+    "gce.apps.GoodCauseEvictionScreenerConfig",
+    "gceletter.apps.GCELetterConfig",
+    "efnyc.apps.EfnycConfig",
 ]
 
 MIDDLEWARE = [
@@ -441,6 +445,42 @@ GEOCODING_SEARCH_URL = f"{NYC_GEOSEARCH_ORIGIN}/v2/search"
 
 GEOCODING_TIMEOUT = 8
 
+GCE_API_TOKEN = env.GCE_API_TOKEN
+
+GCE_CORS_ALLOWED_ORIGINS = [
+    "https://gce-screener.netlify.app",
+    "https://demo-gce-screener.netlify.app",
+    "https://goodcausenyc.org",
+    "https://goodcauseny.org",
+    "http://0.0.0.0:3000",
+    "http://0.0.0.0:5173",
+    "http://localhost:5173",
+    "",  # localhost:8000
+]
+
+GCE_CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"https://deploy-preview-(?:\d{1,4})--gce-screener\.netlify\.app",
+    r"https://deploy-preview-(?:\d{1,4})--demo-gce-screener\.netlify\.app",
+    r"https://([A-Za-z0-9\-\_]+)--gce-screener\.netlify\.app",
+    r"https://([A-Za-z0-9\-\_]+)--demo-gce-screener\.netlify\.app",
+]
+
+EFNYC_API_TOKEN = env.EFNYC_API_TOKEN
+
+EFNYC_CORS_ALLOWED_ORIGINS = [
+    "https://evictionfreenyc.org",
+    "https://www.evictionfreenyc.org",
+    "https://evictionfreenyc.netlify.app",
+    "https://master--evictionfreenyc.netlify.app",
+    "http://localhost:8001",
+    "http://127.0.0.1:8001",
+]
+
+EFNYC_CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"https://deploy-preview-(?:\d{1,4})--evictionfreenyc\.netlify\.app",
+]
+
+
 CONTENTFUL_SPACE_ID = env.CONTENTFUL_SPACE_ID
 
 CONTENTFUL_ACCESS_TOKEN = env.CONTENTFUL_ACCESS_TOKEN
@@ -509,6 +549,12 @@ RAPIDPRO_FOLLOWUP_CAMPAIGN_RH = env.RAPIDPRO_FOLLOWUP_CAMPAIGN_RH
 RAPIDPRO_FOLLOWUP_CAMPAIGN_LOC = env.RAPIDPRO_FOLLOWUP_CAMPAIGN_LOC
 RAPIDPRO_FOLLOWUP_CAMPAIGN_HP = env.RAPIDPRO_FOLLOWUP_CAMPAIGN_HP
 RAPIDPRO_FOLLOWUP_CAMPAIGN_EHP = env.RAPIDPRO_FOLLOWUP_CAMPAIGN_EHP
+RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE_RENT_CALCULATOR = env.RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE_RENT_CALCULATOR
+RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE_RESULTS = env.RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE_RESULTS
+RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE_LETTER = env.RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE_LETTER
+RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE_LETTER_COMING_SOON = (
+    env.RAPIDPRO_FOLLOWUP_CAMPAIGN_GCE_LETTER_COMING_SOON
+)
 
 LOB_SECRET_API_KEY = env.LOB_SECRET_API_KEY
 

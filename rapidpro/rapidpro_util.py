@@ -44,7 +44,7 @@ def get_field(client: TembaClient, key: str) -> Field:
 
 
 def get_or_create_contact(
-    client: TembaClient, name: str, phone_number: str, locale: str
+    client: TembaClient, name: Optional[str], phone_number: str, locale: str
 ) -> Contact:
     """
     Retrieve the contact with the given phone number, creating them (and providing the

@@ -84,7 +84,7 @@ export function LeaseLearnMoreModal(props: {
   );
 }
 
-type LeaseModalInfo = {
+export type LeaseModalInfo = {
   route: string;
   leaseType: LeaseChoice;
   component: () => JSX.Element;
@@ -165,9 +165,15 @@ export const createLeaseModals = (
 function toStep3Input(s: AllSessionInfo): OnboardingStep3Input {
   const scf = s.onboardingScaffolding;
   if (!scf) return BlankOnboardingStep3Input;
+
+  let housingTypeFromSession = "";
+  if (typeof window !== "undefined") {
+    housingTypeFromSession = window.sessionStorage.getItem("housingType") || "";
+  }
   return exactSubsetOrDefault(
     {
       ...scf,
+      leaseType: housingTypeFromSession,
       receivesPublicAssistance: optionalBooleanToYesNoChoice(
         scf.receivesPublicAssistance
       ),
@@ -227,7 +233,7 @@ export const createLeaseLearnMoreModals = (
     route: routes.step3LearnMoreModals.NYCHA,
     leaseType: "NYCHA",
     component: () => (
-      <LeaseLearnMoreModal title="What is NYCHA or Public Housing?">
+      <LeaseLearnMoreModal title="What is NYCHA, Public Housing, and RAD/PACT?">
         <p>
           Federally-funded affordable housing developments owned by the
           government.
@@ -338,9 +344,13 @@ export default class OnboardingStep3 extends React.Component<
   }
 
   getSuccessRedirect(leaseType: string): string {
-    for (let info of this.leaseModals) {
-      if (info.leaseType === leaseType) {
-        return info.route;
+    const housingTypeFromSession = window.sessionStorage.getItem("housingType");
+
+    if (!housingTypeFromSession) {
+      for (let info of this.leaseModals) {
+        if (info.leaseType === leaseType) {
+          return info.route;
+        }
       }
     }
 
@@ -348,15 +358,34 @@ export default class OnboardingStep3 extends React.Component<
   }
 
   render() {
+    let housingTypeFromSession = "";
+    if (typeof window !== "undefined") {
+      housingTypeFromSession =
+        window.sessionStorage.getItem("housingType") || "";
+    }
+
+    if (housingTypeFromSession !== "") {
+      const housingTypeDiv = document.querySelector(
+        'div[aria-label="Housing type"]'
+      ) as HTMLElement;
+      if (housingTypeDiv) {
+        housingTypeDiv.style.display = "none";
+      }
+    }
+
     return (
       <Page title="What type of housing do you live in?">
         <div>
-          <h1 className="title is-4 is-spaced">
-            What type of housing do you live in?
-          </h1>
-          <p className="subtitle is-6">
-            Your rights vary depending on what type of housing you live in.
-          </p>
+          {!housingTypeFromSession && (
+            <h1 className="title is-4 is-spaced">
+              What type of housing do you live in?
+            </h1>
+          )}
+          {!housingTypeFromSession && (
+            <p className="subtitle is-6">
+              Your rights vary depending on what type of housing you live in.
+            </p>
+          )}
           <SessionUpdatingFormSubmitter
             mutation={OnboardingStep3Mutation}
             initialState={toStep3Input}

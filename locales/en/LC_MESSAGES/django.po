@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-04 19:29+0000\n"
+"POT-Creation-Date: 2026-02-13 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -95,6 +95,10 @@ msgstr ""
 msgid "Please provide a landlord email or indicate that you do not have this information."
 msgstr ""
 
+#: loc/schema.py:84
+msgid "Enter at least 1 ticket number or select `I don't have a ticket number.`"
+msgstr ""
+
 #: norent/forms.py:65
 #, python-format
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
@@ -149,6 +153,10 @@ msgstr ""
 
 #: onboarding/forms.py:68
 msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox."
+msgstr ""
+
+#: onboarding/schema.py:126
+msgid "You haven't completed all the previous steps yet."
 msgstr ""
 
 #: onboarding/schema_util.py:16

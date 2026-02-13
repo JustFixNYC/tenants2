@@ -29,7 +29,7 @@ import {
 } from "../ui/address-confirmation";
 import { ClearAnonymousSessionButton } from "../forms/clear-anonymous-session-button";
 import { updateAddressFromBrowserStorage } from "../browser-storage";
-import { getSignupIntentLabels } from "../../../common-data/signup-intent-choices";
+import { getSignupIntentLabels } from "../util/signup-intent-choices";
 import { PrivacyInfoModal } from "../ui/privacy-info-modal";
 import {
   createAptNumberFormInput,
@@ -38,7 +38,7 @@ import {
 import { OutboundLink } from "../ui/outbound-link";
 import { optionalizeLabel } from "../forms/optionalize-label";
 import { li18n } from "../i18n-lingui";
-import { t } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 
 function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
@@ -52,7 +52,7 @@ function createAddressLabeler(toStep1AddressModal: string): LabelRenderer {
       <div className="level-right">
         <div className="level-item is-marginless">
           <Link to={toStep1AddressModal} className="is-size-7">
-            Why do you need my address?
+            <Trans>Why do you need my address?</Trans>
           </Link>
         </div>
       </div>
@@ -74,11 +74,13 @@ const ReferralInfo: React.FC<{}> = () => {
       <>
         <br />
         <p className="is-size-7">
-          <strong>Note:</strong> your information will also be shared with our
-          partner organization{" "}
-          <OutboundLink href={website}>{name}</OutboundLink>. If you don't want
-          this, you can click the "Cancel" button above and start this process
-          over.
+          <Trans>
+            <strong>Note:</strong> your information will also be shared with our
+            partner organization{" "}
+            <OutboundLink href={website}>{name}</OutboundLink>. If you don't
+            want this, you can click the "Cancel" button above and start this
+            process over.
+          </Trans>
         </p>
       </>
     );
@@ -175,12 +177,15 @@ class OnboardingStep1WithoutContexts extends React.Component<
           component={PrivacyInfoModal}
         />
         <p>
-          Your privacy is very important to us. Everything on JustFix is secure.{" "}
-          <Link to={routes.step1AddressModal}>
-            Click here to learn more
-            <span className="jf-sr-only"> about our privacy policy</span>
-          </Link>
-          .
+          <Trans>
+            Your privacy is very important to us. Everything on JustFix is
+            secure.{" "}
+            <Link to={routes.step1AddressModal}>
+              Click here to learn more
+              <span className="jf-sr-only"> about our privacy policy</span>
+            </Link>
+            .
+          </Trans>
         </p>
         <br />
         {this.renderFormButtons(ctx.isLoading)}
@@ -195,7 +200,9 @@ class OnboardingStep1WithoutContexts extends React.Component<
 
     return (
       <Page
-        title={`Create an account to get started with your ${actionLabel}!`}
+        title={li18n._(
+          t`Create an account to get started with your ${actionLabel}!`
+        )}
         withHeading
       >
         <div>
@@ -224,7 +231,7 @@ class OnboardingStep1WithoutContexts extends React.Component<
           disableProgressiveEnhancement={
             this.props.disableProgressiveEnhancement
           }
-          label="Cancel"
+          label={li18n._(t`Cancel`)}
         />
         <Route
           path={routes.step1ConfirmAddressModal}

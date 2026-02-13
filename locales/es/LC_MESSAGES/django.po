@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-04 19:29+0000\n"
+"POT-Creation-Date: 2026-02-13 15:01+0000\n"
 "PO-Revision-Date: 2026-01-30 21:14\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -94,6 +94,10 @@ msgstr "Por favor selecciona al menos un problema de reparación."
 msgid "Please provide a landlord email or indicate that you do not have this information."
 msgstr "Por favor, proporciona un correo electrónico de propietario o indica que no tienes esta información."
 
+#: loc/schema.py:84
+msgid "Enter at least 1 ticket number or select `I don't have a ticket number.`"
+msgstr ""
+
 #: norent/forms.py:65
 #, python-format
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
@@ -149,6 +153,10 @@ msgstr "Por favor proporcione un número de apartamento o marque la casilla \"No
 #: onboarding/forms.py:68
 msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox."
 msgstr "Por favor proporcione un número de apartamento o marque la casilla \"No tengo ningún número de apartamento\"."
+
+#: onboarding/schema.py:126
+msgid "You haven't completed all the previous steps yet."
+msgstr ""
 
 #: onboarding/schema_util.py:16
 msgid "You haven't provided any account details yet!"

@@ -5,6 +5,7 @@ import graphene
 from graphene_django.types import DjangoObjectType
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.forms import formset_factory
+from django.utils.translation import gettext as _
 
 from project.util.session_mutation import SessionFormMutation
 from project.util.model_form_util import OneToOneUserModelFormMutation
@@ -80,7 +81,7 @@ class WorkOrderTickets(SessionFormMutation):
         )
         if not ticket_numbers and not no_ticket_selected:
             return cls.make_error(
-                "Enter at least 1 ticket number or select `I don't have a ticket number.`"
+                _("Enter at least 1 ticket number or select `I don't have a ticket number.`")
             )
         models.WorkOrder.objects.set_for_user(request.user, ticket_numbers)
         request.session[HAS_SEEN_WORK_ORDER_PAGE_KEY] = True

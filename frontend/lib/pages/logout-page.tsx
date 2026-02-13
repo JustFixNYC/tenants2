@@ -1,4 +1,6 @@
 import React from "react";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 import Page from "../ui/page";
 import { Link } from "react-router-dom";
@@ -10,16 +12,17 @@ import { withAppContext, AppContextType } from "../app-context";
 import { UnimpersonateWidget } from "../ui/impersonation";
 
 export const LogoutPage = withAppContext((props: AppContextType) => {
+  const displayName =
+    props.session.preferredFirstName ||
+    props.session.firstName ||
+    props.session.phoneNumber;
+
   if (props.session.phoneNumber) {
     return (
-      <Page title="Sign out">
+      <Page title={li18n._(t`Sign out`)}>
         <div className="box">
           <h1 className="title">
-            Are you sure you want to sign out,{" "}
-            {props.session.preferredFirstName ||
-              props.session.firstName ||
-              props.session.phoneNumber}
-            ?
+            <Trans>Are you sure you want to sign out, {displayName}?</Trans>
           </h1>
           <SessionUpdatingFormSubmitter
             mutation={LogoutMutation}
@@ -28,7 +31,10 @@ export const LogoutPage = withAppContext((props: AppContextType) => {
             onSuccessRedirect={JustfixRoutes.locale.logout}
           >
             {(ctx) => (
-              <NextButton isLoading={ctx.isLoading} label="Yes, sign out" />
+              <NextButton
+                isLoading={ctx.isLoading}
+                label={li18n._(t`Yes, sign out`)}
+              />
             )}
           </SessionUpdatingFormSubmitter>
           <UnimpersonateWidget />
@@ -37,10 +43,14 @@ export const LogoutPage = withAppContext((props: AppContextType) => {
     );
   } else {
     return (
-      <Page title="Signed out">
-        <h1 className="title">You are now signed out.</h1>
+      <Page title={li18n._(t`Signed out`)}>
+        <h1 className="title">
+          <Trans>You are now signed out.</Trans>
+        </h1>
         <p>
-          <Link to={JustfixRoutes.locale.login}>Sign back in</Link>
+          <Link to={JustfixRoutes.locale.login}>
+            <Trans>Sign back in</Trans>
+          </Link>
         </p>
       </Page>
     );

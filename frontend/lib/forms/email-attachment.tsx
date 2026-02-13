@@ -1,4 +1,6 @@
 import React from "react";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 import { LegacyFormSubmitter } from "./legacy-form-submitter";
 import { PageTitle } from "../ui/page";
 import { Formset } from "./formset";
@@ -29,8 +31,9 @@ export type EmailAttachmentFormProps = {
 const EMPTY_FORM: EmailAttachmentInput = { recipients: [] };
 
 function labelForRecipient(i: number): string {
-  const label = `Email address for recipient #${i + 1}`;
-  return i === 0 ? label : `${label} (optional)`;
+  const recipientNum = i + 1;
+  const label = li18n._(t`Email address for recipient #${recipientNum}`);
+  return i === 0 ? label : li18n._(t`${label} (optional)`);
 }
 
 function SuccessMessage(props: { text: string }) {
@@ -44,6 +47,7 @@ function SuccessMessage(props: { text: string }) {
 
 export function EmailAttachmentForm(props: EmailAttachmentFormProps) {
   const { noun } = props;
+  const max = maxRecipients;
 
   return (
     <LegacyFormSubmitter
@@ -59,15 +63,19 @@ export function EmailAttachmentForm(props: EmailAttachmentFormProps) {
           <>
             {wasSentTo && (
               <SuccessMessage
-                text={`Got it! We're sending your ${noun} to ${wasSentTo.join(
-                  ", "
-                )}.`}
+                text={li18n._(
+                  t`Got it! We're sending your ${noun} to ${wasSentTo.join(
+                    ", "
+                  )}.`
+                )}
               />
             )}
             <div className={wasSentTo ? "is-hidden" : ""}>
               <p>
-                You can use the form below if you'd like us to email your {noun}{" "}
-                to up to {maxRecipients} addresses.
+                <Trans>
+                  You can use the form below if you'd like us to email your{" "}
+                  {noun} to up to {max} addresses.
+                </Trans>
               </p>
               <DemoDeploymentNote>
                 <p>
@@ -90,7 +98,7 @@ export function EmailAttachmentForm(props: EmailAttachmentFormProps) {
               </Formset>
               <NextButton
                 isLoading={ctx.isLoading}
-                label={`Email ${noun}`}
+                label={li18n._(t`Email ${noun}`)}
                 buttonClass="is-light"
               />
             </div>

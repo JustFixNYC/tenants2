@@ -1,12 +1,14 @@
 import React from "react";
 import { useContext } from "react";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 import { Route } from "react-router-dom";
 import {
-  getLeaseChoiceLabels,
   isLeaseChoice,
   LeaseChoice,
   LeaseChoices,
 } from "../../../common-data/lease-choices";
+import { getLeaseChoiceLabels } from "../util/lease-choices";
 import { AppContext } from "../app-context";
 import { toDjangoChoices } from "../common-data";
 import { AddressAndBoroughField } from "../forms/address-and-borough-form-field";
@@ -30,10 +32,10 @@ import { EditableInfo, SaveCancelButtons } from "../ui/editable-info";
 import { assertNotNull } from "@justfixnyc/util";
 import { makeAccountSettingsSection, WithAccountSettingsProps } from "./util";
 import {
-  HOUSING_TYPE_FIELD_LABEL,
-  PUBLIC_ASSISTANCE_SECTION_LABEL,
-  PUBLIC_ASSISTANCE_QUESTION_TEXT,
-  PUBLIC_ASSISTANCE_SECTION_DESCRIPTION,
+  getHousingTypeFieldLabel,
+  getPublicAssistanceSectionLabel,
+  getPublicAssistanceQuestionText,
+  getPublicAssistanceSectionDescription,
 } from "../util/housing-type";
 import { LeaseType } from "../queries/globalTypes";
 
@@ -42,7 +44,7 @@ const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
 }) => {
   const sec = makeAccountSettingsSection(
     routes,
-    PUBLIC_ASSISTANCE_SECTION_LABEL,
+    getPublicAssistanceSectionLabel(),
     "public-assistance"
   );
   const { session } = useContext(AppContext);
@@ -52,7 +54,7 @@ const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
   return (
     <>
       {sec.heading}
-      <p>{PUBLIC_ASSISTANCE_SECTION_DESCRIPTION}</p>
+      <p>{getPublicAssistanceSectionDescription()}</p>
       <EditableInfo
         {...sec}
         readonlyContent={valueLabel}
@@ -71,7 +73,7 @@ const PublicAssistanceField: React.FC<WithAccountSettingsProps> = ({
                 {...ctx.fieldPropsFor("receivesPublicAssistance")}
                 autoFocus
                 hideVisibleLabel
-                label={PUBLIC_ASSISTANCE_QUESTION_TEXT}
+                label={getPublicAssistanceQuestionText()}
               />
               <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>
@@ -108,7 +110,7 @@ function filterLeaseChoices(
 const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
   const sec = makeAccountSettingsSection(
     routes,
-    HOUSING_TYPE_FIELD_LABEL,
+    getHousingTypeFieldLabel(),
     "lease"
     // Route will stay "lease" even though all other user-facing strings have been changed to
     // "housing type" to preserve backwards compatibility.
@@ -141,7 +143,7 @@ const LeaseTypeField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
                 {...ctx.fieldPropsFor("leaseType")}
                 autoFocus
                 choices={choices}
-                label={HOUSING_TYPE_FIELD_LABEL}
+                label={getHousingTypeFieldLabel()}
               />
               <SaveCancelButtons isLoading={ctx.isLoading} {...sec} />
             </>
@@ -161,7 +163,11 @@ const OurConfirmAddressModal: React.FC<{ homeLink: string }> = ({
 };
 
 const NycAddressField: React.FC<WithAccountSettingsProps> = ({ routes }) => {
-  const sec = makeAccountSettingsSection(routes, "Your address", "address");
+  const sec = makeAccountSettingsSection(
+    routes,
+    li18n._(t`Your address`),
+    "address"
+  );
   const oi = assertNotNull(useContext(AppContext).session.onboardingInfo);
 
   return (
@@ -221,7 +227,9 @@ export const NycAddressAccountSettings: React.FC<WithAccountSettingsProps> = (
 ) => {
   return (
     <>
-      <h2 className="jf-account-settings-h2">Address</h2>
+      <h2 className="jf-account-settings-h2">
+        <Trans>Address</Trans>
+      </h2>
       <NycAddressField {...props} />
       <LeaseTypeField {...props} />
       <PublicAssistanceField {...props} />

@@ -1,9 +1,6 @@
 import { t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
-import {
-  SignupIntent,
-  SignupIntentLabels,
-} from "../../../common-data/signup-intent-choices";
+import { SignupIntentLabels } from "../../../common-data/signup-intent-choices";
 
 /**
  * Returns translated signup intent labels.

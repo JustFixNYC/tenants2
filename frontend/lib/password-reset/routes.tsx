@@ -140,7 +140,9 @@ function Confirm(props: {}) {
         <Trans>Set your new password</Trans>
       </h1>
       <p className="subtitle is-6">
-        <Trans>Hooray! The final step is to provide us with a new password.</Trans>
+        <Trans>
+          Hooray! The final step is to provide us with a new password.
+        </Trans>
       </p>
       <LegacyFormSubmitter
         mutation={PasswordResetConfirmMutation}

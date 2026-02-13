@@ -21,10 +21,7 @@ import { Modal, BackOrUpOneDirLevel } from "../ui/modal";
 import { exactSubsetOrDefault, twoTuple } from "../util/util";
 import { glueToLastWord } from "../ui/word-glue";
 import { OnboardingRouteInfo } from "./route-info";
-import {
-  LeaseChoices,
-  LeaseChoice,
-} from "../../../common-data/lease-choices";
+import { LeaseChoices, LeaseChoice } from "../../../common-data/lease-choices";
 import { FormContext } from "../forms/form-context";
 import {
   getHousingTypeFieldLabel,
@@ -220,9 +217,7 @@ export const createLeaseLearnMoreModals = (
     route: routes.step3LearnMoreModals.rentStabilized,
     leaseType: "RENT_STABILIZED",
     component: () => (
-      <LeaseLearnMoreModal
-        title={li18n._(t`What is Rent Stabilized Housing?`)}
-      >
+      <LeaseLearnMoreModal title={li18n._(t`What is Rent Stabilized Housing?`)}>
         <p>
           <Trans>
             Housing in buildings built before January 1, 1974 with six or more

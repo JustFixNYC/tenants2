@@ -18,7 +18,11 @@ export const AccountSettingsRoutes: React.FC<WithAccountSettingsProps> = (
   return (
     <Route path={props.routes.prefix}>
       <RequireLogin>
-        <Page title={li18n._(t`Account settings`)} withHeading="big" className="content">
+        <Page
+          title={li18n._(t`Account settings`)}
+          withHeading="big"
+          className="content"
+        >
           <AboutYouAccountSettings {...props} />
           <ContactAccountSettings {...props} />
           {session.onboardingInfo?.borough && (

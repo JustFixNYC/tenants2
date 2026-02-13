@@ -48,7 +48,10 @@ export class LoginForm extends React.Component<LoginFormProps> {
               {...ctx.fieldPropsFor("password")}
             />
             <div className="field">
-              <NextButton isLoading={ctx.isLoading} label={li18n._(t`Sign in`)} />
+              <NextButton
+                isLoading={ctx.isLoading}
+                label={li18n._(t`Sign in`)}
+              />
             </div>
           </React.Fragment>
         )}

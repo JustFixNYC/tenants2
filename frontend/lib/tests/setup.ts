@@ -22,6 +22,7 @@ if (typeof window !== "undefined") {
   // doesn't support it, and throws an exception when
   // it's called. So we'll just stub it out.
   window.scroll = jest.fn();
+  window.scrollTo = jest.fn();
 }
 
 const originalLog = console.log;

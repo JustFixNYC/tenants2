@@ -47,6 +47,7 @@ function SuccessMessage(props: { text: string }) {
 
 export function EmailAttachmentForm(props: EmailAttachmentFormProps) {
   const { noun } = props;
+  const max = maxRecipients;
 
   return (
     <LegacyFormSubmitter
@@ -73,7 +74,7 @@ export function EmailAttachmentForm(props: EmailAttachmentFormProps) {
               <p>
                 <Trans>
                   You can use the form below if you'd like us to email your{" "}
-                  {noun} to up to {maxRecipients} addresses.
+                  {noun} to up to {max} addresses.
                 </Trans>
               </p>
               <DemoDeploymentNote>

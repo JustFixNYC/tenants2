@@ -1,9 +1,6 @@
 import { t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
-import {
-  IssueAreaChoice,
-  IssueAreaChoiceLabels,
-} from "../../../common-data/issue-area-choices";
+import { IssueAreaChoiceLabels } from "../../../common-data/issue-area-choices";
 
 /**
  * Returns translated issue area choice labels.

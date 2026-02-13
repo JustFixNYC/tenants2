@@ -1,4 +1,6 @@
 import React from "react";
+import { t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 import { OnboardingRouteInfo } from "./route-info";
 import { Route, Switch } from "react-router";
 import OnboardingStep1 from "./onboarding-step-1";
@@ -71,7 +73,7 @@ export default class OnboardingRoutes extends React.Component<
           <Route
             render={() => (
               <RouteProgressBar
-                label="Create an Account"
+                label={li18n._(t`Create an Account`)}
                 steps={this.onboardingSteps}
               />
             )}

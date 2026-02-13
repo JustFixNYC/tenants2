@@ -1,5 +1,7 @@
 import React from "react";
 import classnames from "classnames";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 import {
   allCapsToSlug,
   DjangoChoice,
@@ -59,14 +61,15 @@ type IssuesAreaPropsWithCtx = IssuesRouteAreaProps & {
  * Category headings that will appear immediately above
  * certain issues.
  */
-const CATEGORY_HEADINGS: Map<IssueChoice, string> = new Map([
-  ["BATHROOMS__MOLD", "General"],
-  ["BATHROOMS__SINK", "Sink"],
-  ["BATHROOMS__TUB", "Bathtub"],
-  ["BATHROOMS__SHOWER_MOLD", "Shower"],
-]);
-
-const CATEGORY_HEADING_CLASS = "title is-6 jf-issue-category-heading";
+function getCategoryHeading(choice: IssueChoice): string | undefined {
+  const headings: Partial<Record<IssueChoice, string>> = {
+    BATHROOMS__MOLD: li18n._(t`General`),
+    BATHROOMS__SINK: li18n._(t`Sink`),
+    BATHROOMS__TUB: li18n._(t`Bathtub`),
+    BATHROOMS__SHOWER_MOLD: li18n._(t`Shower`),
+  };
+  return headings[choice];
+}
 
 /**
  * If a choice's label is of the form `<Category>: <Problem>`, e.g.
@@ -99,11 +102,11 @@ function categorizeChoices(choices: DjangoChoices): MultiChoiceFormFieldItem[] {
   const result: MultiChoiceFormFieldItem[] = [];
 
   for (let [choice, label] of choices) {
-    const heading = CATEGORY_HEADINGS.get(choice as any);
+    const heading = getCategoryHeading(choice as IssueChoice);
     if (heading) {
       result.push(
         <div
-          className={CATEGORY_HEADING_CLASS}
+          className="title is-6 jf-issue-category-heading"
           key={`before_${choice}_heading`}
         >
           {heading}
@@ -124,7 +127,7 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
   ): JSX.Element {
     const choices = categorizeChoices(issueChoicesForArea(area));
     const hasSubsections = choices.some((c) => !Array.isArray(c));
-    let label = "Select your issues";
+    let label = li18n._(t`Select your issues`);
 
     if (hasSubsections) {
       label = "";
@@ -133,7 +136,11 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
     return (
       <React.Fragment>
         <HiddenFormField {...ctx.fieldPropsFor("area")} />
-        {hasSubsections && <p>Select your issues.</p>}
+        {hasSubsections && (
+          <p>
+            <Trans>Select your issues.</Trans>
+          </p>
+        )}
         <MultiCheckboxFormField
           {...ctx.fieldPropsFor("issues")}
           label={label}
@@ -175,8 +182,11 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
   renderFormButtons(isLoading: boolean): JSX.Element {
     return (
       <ProgressButtons>
-        <BackButton to={this.props.toHome} label="Cancel and go back" />
-        <NextButton isLoading={isLoading} label="Save" />
+        <BackButton
+          to={this.props.toHome}
+          label={li18n._(t`Cancel and go back`)}
+        />
+        <NextButton isLoading={isLoading} label={li18n._(t`Save`)} />
       </ProgressButtons>
     );
   }
@@ -194,10 +204,10 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
     });
     const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
     return (
-      <Page title={`${label} - Issue checklist`}>
+      <Page title={li18n._(t`${label} - Issue checklist`)}>
         <div>
           <h1 className="title is-4 jf-issue-area">
-            {svg} {label} issues
+            {svg} <Trans>{label} issues</Trans>
           </h1>
           <SessionUpdatingFormSubmitter
             confirmNavIfChanged
@@ -215,10 +225,10 @@ export class IssuesArea extends React.Component<IssuesAreaPropsWithCtx> {
 
 export function getIssueLabel(count: number): string {
   return count === 0
-    ? "No issues reported"
+    ? li18n._(t`No issues reported`)
     : count === 1
-    ? "One issue reported"
-    : `${count} issues reported`;
+    ? li18n._(t`One issue reported`)
+    : li18n._(t`${count} issues reported`);
 }
 
 type IssueAreaLinkProps = {
@@ -239,10 +249,13 @@ function IssueAreaLink(props: IssueAreaLinkProps): JSX.Element {
           ctx.session.customIssuesV2 || []
         );
         const url = props.routes.area.create(allCapsToSlug(area));
-        const actionLabel = count === 0 ? "Add issues" : "Add or remove issues";
-        const title = `${actionLabel} for ${label}`;
+        const actionLabel =
+          count === 0
+            ? li18n._(t`Add issues`)
+            : li18n._(t`Add or remove issues`);
+        const title = li18n._(t`${actionLabel} for ${label}`);
         const issueLabel = getIssueLabel(count);
-        const ariaLabel = `${title} (${issueLabel})`;
+        const ariaLabel = li18n._(t`${title} (${issueLabel})`);
         const svg = assertNotUndefined(ISSUE_AREA_SVGS[area]);
 
         return (
@@ -275,7 +288,7 @@ export function IssuesLinkToNextStep(props: { toNext: string }): JSX.Element {
         if (ctx.session.issues.length || ctx.session.customIssuesV2?.length) {
           return (
             <Link to={props.toNext} className="button is-primary is-medium">
-              Next
+              <Trans>Next</Trans>
             </Link>
           );
         } else {
@@ -315,29 +328,40 @@ type IssuesHomeProps = IssuesRoutesProps;
 const MoldMoistureMessage = () => (
   <>
     <p>
-      NYCHA is under a court order to remediate problems with mold and moisture
-      in their buildings. This includes peeling paint.
+      <Trans>
+        NYCHA is under a court order to remediate problems with mold and
+        moisture in their buildings. This includes peeling paint.
+      </Trans>
     </p>
     <ol type="1">
       <li>
-        How to report mold issues through NYCHA’s{" "}
-        <OutboundLink
-          href={"https://www.nyc.gov/site/nycha/residents/mold-busters.page"}
-          target="_blank"
-        >
-          Mold Busters program.
-        </OutboundLink>
+        <Trans>
+          How to report mold issues through NYCHA's{" "}
+          <OutboundLink
+            href={"https://www.nyc.gov/site/nycha/residents/mold-busters.page"}
+            target="_blank"
+          >
+            Mold Busters program.
+          </OutboundLink>
+        </Trans>
       </li>
       <li>
-        For additional support with mold, moisture, and leak repair issues,
-        contact the independent court-ordered Ombudsperson’s Call Center at{" "}
-        <OutboundLink href={"tel:+18883417152"}>1-888-341-7152</OutboundLink> or{" "}
-        <OutboundLink href={"https://ombnyc.com/"} target="_blank">
-          ombnyc.com
-        </OutboundLink>
+        <Trans>
+          For additional support with mold, moisture, and leak repair issues,
+          contact the independent court-ordered Ombudsperson's Call Center at{" "}
+          <OutboundLink href={"tel:+18883417152"}>1-888-341-7152</OutboundLink>{" "}
+          or{" "}
+          <OutboundLink href={"https://ombnyc.com/"} target="_blank">
+            ombnyc.com
+          </OutboundLink>
+        </Trans>
       </li>
     </ol>
-    <p>We’ll provide this information again after you complete your letter.</p>
+    <p>
+      <Trans>
+        We'll provide this information again after you complete your letter.
+      </Trans>
+    </p>
   </>
 );
 
@@ -358,9 +382,9 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
   render() {
     const labels = getIssueAreaChoiceLabels();
     const introContent = this.props.introContent || (
-      <>
+      <Trans>
         This <strong>issue checklist</strong> will be sent to your landlord.
-      </>
+      </Trans>
     );
 
     let housingTypeFromSession = "";
@@ -371,12 +395,17 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
     const isUserNycha = housingTypeFromSession === "NYCHA";
 
     return (
-      <Page title="Home self-inspection" withHeading>
+      <Page title={li18n._(t`Home self-inspection`)} withHeading>
         <div>
           <p className="subtitle is-6">
-            Please go room-by-room and select all of the issues that you are
-            experiencing. {introContent}{" "}
-            <strong>Make sure to be thorough.</strong>
+            <Trans>
+              Please go room-by-room and select all of the issues that you are
+              experiencing.
+            </Trans>{" "}
+            {introContent}{" "}
+            <strong>
+              <Trans>Make sure to be thorough.</Trans>
+            </strong>
           </p>
           {groupByTwo(toDjangoChoices(IssueAreaChoices, labels)).map(
             ([a, b], i) => (
@@ -389,7 +418,7 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
           <br />
           <ProgressButtons>
             <Link to={this.props.toBack} className="button is-light is-medium">
-              Back
+              <Trans>Back</Trans>
             </Link>
             <IssuesLinkToNextStep
               toNext={isUserNycha ? this.props.routes.modal : this.props.toNext}
@@ -398,7 +427,7 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
         </div>
         {this.props.withModal && isUserNycha && (
           <Modal
-            title="Mold and Moisture"
+            title={li18n._(t`Mold and Moisture`)}
             withHeading
             onCloseGoTo={this.props.toNext}
             render={(ctx) => (
@@ -409,7 +438,7 @@ class IssuesHome extends React.Component<IssuesHomeProps> {
                     className={`button is-primary is-medium`}
                     {...ctx.getLinkCloseProps()}
                   >
-                    Got it
+                    <Trans>Got it</Trans>
                   </Link>
                 </div>
               </>

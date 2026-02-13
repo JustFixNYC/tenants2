@@ -106,6 +106,10 @@ msgstr "<0>NoRent</0> <1>es proporcionado por JustFix</1>"
 msgid "<0>NoRent</0> <1>letters sent by tenants across the USA</1><2>Since April 2020</2>"
 msgstr "<0>NoRent</0> <1>cartas de enviadas por inquilinos en todo Estados Unidos (EEUU)</1><2>Desde Abril del 2020</2>"
 
+#: frontend/lib/onboarding/onboarding-step-1.tsx:56
+msgid "<0>Note:</0> your information will also be shared with our partner organization <1>{name}</1>. If you don't want this, you can click the \"Cancel\" button above and start this process over."
+msgstr ""
+
 #: frontend/lib/norent/letter-content.tsx:22
 msgid "<0>Notice of COVID-19 impact on rent</0><1/>at <2/>"
 msgstr "<0>Aviso de impacto del COVID-19 en la renta</0><1/>en <2/>"
@@ -172,6 +176,7 @@ msgstr "Acerca de nuestra organización sin fines de lucro"
 msgid "About you"
 msgstr "Sobre usted"
 
+#: frontend/lib/justfix-navbar.tsx:35
 #: frontend/lib/laletterbuilder/components/account-settings.tsx:12
 #: frontend/lib/laletterbuilder/site.tsx:60
 msgid "Account settings"
@@ -181,6 +186,15 @@ msgstr "Detalles de la cuenta"
 msgid "Actions"
 msgstr "Acciones"
 
+#: frontend/lib/issues/routes.tsx:165
+msgid "Add issues"
+msgstr ""
+
+#: frontend/lib/issues/routes.tsx:166
+msgid "Add or remove issues"
+msgstr ""
+
+#: frontend/lib/account-settings/nyc-address-settings.tsx:121
 #: frontend/lib/common-steps/ask-national-address.tsx:115
 #: frontend/lib/forms/address-and-borough-form-field.tsx:9
 msgid "Address"
@@ -318,6 +332,7 @@ msgstr "Rellena automáticamente la información del dueño de tu edificio en ba
 msgid "Available in English and Spanish."
 msgstr "Disponible en Inglés y Español."
 
+#: frontend/lib/issues/routes.tsx:288
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:183
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
@@ -345,6 +360,10 @@ msgstr "Zócalo defectuoso"
 #: common-data/issue-room-choices-laletterbuilder.ts:36
 msgid "Bathroom"
 msgstr "Baño"
+
+#: frontend/lib/issues/routes.tsx:41
+msgid "Bathtub"
+msgstr ""
 
 #: common-data/issue-choices.ts:237
 msgid "Bathtub: cracked tub"
@@ -536,6 +555,7 @@ msgid "Can't pay rent?"
 msgstr "¿No puedes pagar la renta?"
 
 #: frontend/lib/forms/clear-anonymous-session-button.tsx:9
+#: frontend/lib/onboarding/onboarding-step-1.tsx:134
 #: frontend/lib/ui/editable-info.tsx:55
 msgid "Cancel"
 msgstr "Cancelar"
@@ -543,6 +563,10 @@ msgstr "Cancelar"
 #: frontend/lib/norent/data/state-localized-resources.tsx:22
 msgid "Cancel Rent Campaign"
 msgstr "Campaña para la Anulación de la Renta"
+
+#: frontend/lib/issues/routes.tsx:120
+msgid "Cancel and go back"
+msgstr ""
 
 #: frontend/lib/rh/routes.tsx:154
 msgid "Cancel request"
@@ -696,9 +720,14 @@ msgstr "Ponte en contacto con StayHoused LA"
 msgid "Contact a lawyer if your landlord retaliates"
 msgstr "Ponte en contacto con un abogado si el dueño de tu edificio toma represalias"
 
+#: frontend/lib/onboarding/onboarding-step-4.tsx:103
+msgid "Contact information"
+msgstr ""
+
 #: frontend/lib/common-steps/error-pages.tsx:19
 #: frontend/lib/evictionfree/declaration-builder/error-pages.tsx:18
 #: frontend/lib/norent/letter-builder/error-pages.tsx:20
+#: frontend/lib/onboarding/onboarding-step-4.tsx:99
 #: frontend/lib/rh/routes.tsx:228
 msgid "Continue"
 msgstr "Continuar"
@@ -735,8 +764,13 @@ msgid "Create a password"
 msgstr "Crea una contraseña"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:63
+#: frontend/lib/onboarding/routes.tsx:38
 msgid "Create an Account"
 msgstr "Crear una cuenta"
+
+#: frontend/lib/onboarding/onboarding-step-1.tsx:122
+msgid "Create an account to get started with your {actionLabel}!"
+msgstr ""
 
 #: frontend/lib/laletterbuilder/homepage.tsx:116
 msgid "Created by"
@@ -857,6 +891,10 @@ msgstr "¿Tiene usted un caso de desalojo en curso?"
 msgid "Do you live in {0}, {1}?"
 msgstr "¿Vives en {0}, {1}?"
 
+#: frontend/lib/util/housing-type.ts:4
+msgid "Do you receive a housing voucher or subsidy (Section 8 Voucher, FHEPS, CITYFHEPS, HASA, etc.)?"
+msgstr ""
+
 #: frontend/lib/common-steps/landlord-mailing-address.tsx:20
 msgid "Do you still want to mail to:"
 msgstr "¿Aún deseas continuar?"
@@ -958,12 +996,21 @@ msgstr "Enviar una copia por correo electrónico al dueño o administrador de pr
 #: frontend/lib/common-steps/ask-email.tsx:13
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:69
 #: frontend/lib/laletterbuilder/components/create-account.tsx:30
+#: frontend/lib/onboarding/onboarding-step-4.tsx:85
 msgid "Email address"
 msgstr "Correo electrónico"
+
+#: frontend/lib/forms/email-attachment.tsx:14
+msgid "Email address for recipient #{recipientNum}"
+msgstr ""
 
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:174
 msgid "Email your letter to:"
 msgstr "Enviar su carta por correo electrónico a:"
+
+#: frontend/lib/forms/email-attachment.tsx:48
+msgid "Email {noun}"
+msgstr ""
 
 #: frontend/lib/evictionfree/data/faqs-content.tsx:21
 #: frontend/lib/evictionfree/data/faqs-content.tsx:35
@@ -1106,6 +1153,14 @@ msgstr "Para residentes de Los Ángeles"
 msgid "For New York State tenants"
 msgstr "Para los inquilinos del estado de Nueva York"
 
+#: frontend/lib/issues/routes.tsx:234
+msgid "For additional support with mold, moisture, and leak repair issues, contact the independent court-ordered Ombudsperson's Call Center at <0>1-888-341-7152</0> or <1>ombnyc.com</1>"
+msgstr ""
+
+#: frontend/lib/util/housing-type.ts:5
+msgid "For example, Section 8 Voucher, FHEPS, CITYFHEPS, HASA, etc."
+msgstr ""
+
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:54
 msgid "For more information about New York’s eviction protections and your rights as a tenant, check out our FAQ on the <0>Right to Counsel website</0>."
 msgstr "Para obtener más información sobre las protecciones de desalojo de Nueva York y tus derechos como inquilino, consulta nuestras preguntas frecuentes en <0>el sitio web de Right to Counsel</0>."
@@ -1146,6 +1201,10 @@ msgstr "Gas"
 #: frontend/lib/norent/letter-builder/confirmation.tsx:100
 msgid "Gather documentation"
 msgstr "Recopila documentación"
+
+#: frontend/lib/issues/routes.tsx:39
+msgid "General"
+msgstr ""
 
 #: common-data/us-state-choices.ts:75
 msgid "Georgia"
@@ -1200,9 +1259,14 @@ msgstr "Hacer huelga de renta"
 msgid "Good news!"
 msgstr "¡Buenas noticias!"
 
+#: frontend/lib/issues/routes.tsx:297
 #: frontend/lib/ui/privacy-info-modal.tsx:64
 msgid "Got it"
 msgstr "Entendido"
+
+#: frontend/lib/forms/email-attachment.tsx:32
+msgid "Got it! We're sending your {noun} to {0}."
+msgstr ""
 
 #: frontend/lib/pages/redirect-to-english-page.tsx:15
 msgid "Got it, take me there"
@@ -1314,6 +1378,10 @@ msgstr "Altamente recomendable."
 msgid "Holes"
 msgstr "Agujeros"
 
+#: frontend/lib/issues/routes.tsx:272
+msgid "Home self-inspection"
+msgstr ""
+
 #: frontend/lib/justfix-navbar.tsx:14
 #: frontend/lib/norent/site.tsx:79
 msgid "Homepage"
@@ -1335,6 +1403,14 @@ msgstr "Housing Justice for All"
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:35
 msgid "Housing in buildings built before January 1, 1974 with six or more units, including Single Room Occupancy (\"SRO\") hotels and rooming houses. All apartments in buildings that receive a tax abatement such as J-51, 421a, and 421g are also stabilized."
 msgstr "Viviendas en edificios construidos antes del 1 de enero de 1974 con seis o más unidades, incluidos los hoteles de habitaciones individuales («SRO») y las pensiones. Todos los apartamentos de los edificios que se benefician de una reducción fiscal, como J-51, 421a y 421g, también están estabilizados."
+
+#: frontend/lib/util/housing-type.ts:3
+msgid "Housing type"
+msgstr ""
+
+#: frontend/lib/util/housing-type.ts:6
+msgid "Housing voucher?"
+msgstr ""
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:141
 msgid "How It Works"
@@ -1375,6 +1451,10 @@ msgstr "¿Por qué me sirve de ayuda enviar esta declaración?"
 msgid "How it works"
 msgstr "Cómo funciona"
 
+#: frontend/lib/issues/routes.tsx:226
+msgid "How to report mold issues through NYCHA's <0>Mold Busters program.</0>"
+msgstr ""
+
 #: frontend/lib/pages/cross-site-terms-opt-in.tsx:47
 msgid "I agree to the <0/> terms and conditions."
 msgstr "Acepto los términos y condiciones de <0/>."
@@ -1382,6 +1462,10 @@ msgstr "Acepto los términos y condiciones de <0/>."
 #: frontend/lib/evictionfree/declaration-builder/create-account.tsx:36
 msgid "I agree to the <0>Eviction Free NY terms and conditions</0>."
 msgstr "Acepto los <0>términos y condiciones de Eviction Free NY</0>."
+
+#: frontend/lib/onboarding/onboarding-step-4.tsx:91
+msgid "I agree to the <0>JustFix terms and conditions</0>."
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:42
 msgid "I agree to the <0>NoRent.org terms and conditions</0>."
@@ -1499,9 +1583,17 @@ msgstr "Si conoces el nombre de la corte con el que tu caso está asociado, por 
 msgid "If you need to make changes to your name or contact information, please contact <0/>."
 msgstr "Si necesitas cambiar tu nombre o tu información de contacto, ponte en contacto con <0/>."
 
+#: frontend/lib/onboarding/onboarding-step-4.tsx:45
+msgid "If you remember your password, you can <0>sign into your account</0>."
+msgstr ""
+
 #: frontend/lib/common-steps/landlord-name-and-contact-types.tsx:41
 msgid "If you write checks or transfer money through your bank to pay your rent, use that name here."
 msgstr "Usa el nombre al que pagas la renta."
+
+#: frontend/lib/onboarding/onboarding-step-4.tsx:52
+msgid "If you're not sure if you have an account, or if you've forgotten your password, you can <0>try resetting your password</0>."
+msgstr ""
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:81
 msgid "If your landlord or property manager doesn’t respond, you should file a complaint."
@@ -1782,13 +1874,13 @@ msgstr "Protecciones jurídicas"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:49
 #: frontend/lib/common-steps/ask-name.tsx:31
-#: frontend/lib/onboarding/onboarding-step-1.tsx:89
+#: frontend/lib/onboarding/onboarding-step-1.tsx:91
 msgid "Legal first name"
 msgstr "Primer nombre legal"
 
 #: frontend/lib/account-settings/about-you-settings.tsx:50
 #: frontend/lib/common-steps/ask-name.tsx:32
-#: frontend/lib/onboarding/onboarding-step-1.tsx:92
+#: frontend/lib/onboarding/onboarding-step-1.tsx:94
 msgid "Legal last name"
 msgstr "Apellido legal"
 
@@ -1937,6 +2029,10 @@ msgstr "Asegúrate de que la información sea la correcta."
 msgid "Make sure all the information is correct."
 msgstr "Asegúrate de que la información sea la correcta."
 
+#: frontend/lib/issues/routes.tsx:279
+msgid "Make sure to be thorough."
+msgstr ""
+
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:110
 msgid "Make sure you keep your schedule clear during the requested access dates:"
 msgstr "Asegúrate de fijar un espacio en tu agenda durante las fechas de acceso solicitadas:"
@@ -2016,6 +2112,10 @@ msgstr "Residentes de Casas Prefabricadas o Móviles"
 msgid "Mold"
 msgstr "Moho"
 
+#: frontend/lib/issues/routes.tsx:293
+msgid "Mold and Moisture"
+msgstr ""
+
 #: common-data/issue-choices.ts:161
 #: common-data/issue-choices.ts:174
 #: common-data/issue-choices.ts:198
@@ -2069,6 +2169,10 @@ msgstr "Mi problema es urgente y sensible al tiempo. ¿Qué debo hacer?"
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:195
 msgid "My letters"
 msgstr "Mis cartas"
+
+#: frontend/lib/issues/routes.tsx:219
+msgid "NYCHA is under a court order to remediate problems with mold and moisture in their buildings. This includes peeling paint."
+msgstr ""
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:62
 msgid "NYCHA/Public Housing (includes RAD/PACT)"
@@ -2128,6 +2232,7 @@ msgid "New password"
 msgstr "Contraseña nueva"
 
 #: frontend/lib/common-steps/welcome.tsx:45
+#: frontend/lib/issues/routes.tsx:187
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
 msgid "Next"
@@ -2166,6 +2271,10 @@ msgstr "Sin calefacción"
 #: common-data/issue-choices.ts:253
 msgid "No hot water"
 msgstr "Sin agua caliente"
+
+#: frontend/lib/issues/routes.tsx:153
+msgid "No issues reported"
+msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:159
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:178
@@ -2253,6 +2362,10 @@ msgstr "Una vez recibida, la dirección se pondrá en contacto contigo para prog
 #: frontend/lib/loc/loc-confirmation.tsx:23
 msgid "Once received, your landlord should contact you to schedule time to make repairs for the access dates you provided."
 msgstr "Una vez recibida, tu arrendador debería ponerse en contacto contigo para programar una fecha para realizar las reparaciones en las fechas de acceso que has proporcionado."
+
+#: frontend/lib/issues/routes.tsx:155
+msgid "One issue reported"
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:78
 msgid "One letter for the months between March 2022 and June 2022 when you couldn't pay rent in full."
@@ -2345,6 +2458,7 @@ msgstr "Pensilvania"
 
 #: frontend/lib/account-settings/contact-settings.tsx:15
 #: frontend/lib/account-settings/contact-settings.tsx:26
+#: frontend/lib/onboarding/onboarding-step-4.tsx:79
 #: frontend/lib/rh/routes.tsx:147
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:36
 #: frontend/lib/start-account-or-login/verify-password.tsx:40
@@ -2384,17 +2498,22 @@ msgstr "Por favor, ¡introduzca una dirección de correo electrónico!"
 msgid "Please enter your landlord's name and contact information below. You can find this information on your lease and/or rent receipts."
 msgstr "Por favor, proporciona el nombre del dueño de tu edificio así como su información de contacto. Puedes encontrar esta información en tu contrato de arrendamiento y/o tus recibos de alquiler."
 
+#: frontend/lib/issues/routes.tsx:275
+msgid "Please go room-by-room and select all of the issues that you are experiencing."
+msgstr ""
+
 #: frontend/lib/norent/letter-email-to-user.tsx:215
 msgid "Please read the rest of this email carefully as it contains important information about your next steps."
 msgstr "Por favor, lee atentamente el resto del correo electrónico ya que contiene información importante sobre tus próximos pasos."
 
 #: frontend/lib/account-settings/contact-settings.tsx:26
+#: frontend/lib/onboarding/onboarding-step-4.tsx:79
 msgid "Please use a number that can receive text messages."
 msgstr "Por favor, usa un número que pueda recibir mensajes de texto."
 
 #: frontend/lib/account-settings/about-you-settings.tsx:26
 #: frontend/lib/common-steps/ask-name.tsx:33
-#: frontend/lib/onboarding/onboarding-step-1.tsx:95
+#: frontend/lib/onboarding/onboarding-step-1.tsx:97
 msgid "Preferred first name"
 msgstr "Nombre de preferencia"
 
@@ -2622,6 +2741,7 @@ msgstr "Ejemplar de una carta de NoRent.org"
 msgid "Sample Notice to Repair letter"
 msgstr "Letra de Aviso a Reparar de Ejemplo"
 
+#: frontend/lib/issues/routes.tsx:121
 #: frontend/lib/ui/editable-info.tsx:52
 msgid "Save"
 msgstr "Guardar"
@@ -2661,6 +2781,14 @@ msgstr "Seleccione las reparaciones que necesita en su hogar"
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:123
 msgid "Select your housing type to get started:"
 msgstr "Selecciona tu tipo de vivienda para empezar:"
+
+#: frontend/lib/issues/routes.tsx:89
+msgid "Select your issues"
+msgstr ""
+
+#: frontend/lib/issues/routes.tsx:96
+msgid "Select your issues."
+msgstr ""
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:69
 msgid "Send"
@@ -2733,6 +2861,10 @@ msgstr "¿Quieres que enviemos tu carta?"
 msgid "Share this tool"
 msgstr "Compartir esta herramienta"
 
+#: frontend/lib/issues/routes.tsx:42
+msgid "Shower"
+msgstr ""
+
 #: common-data/issue-choices.ts:249
 msgid "Shower: drain stoppage"
 msgstr "Ducha: desagüe atascado"
@@ -2785,6 +2917,10 @@ msgstr "Regístrate o inicia una sesión en tu cuenta para acceder a nuestra her
 #: frontend/lib/util/letter-content-util.tsx:53
 msgid "Signed,"
 msgstr "Firmado,"
+
+#: frontend/lib/issues/routes.tsx:40
+msgid "Sink"
+msgstr ""
 
 #: common-data/issue-choices.ts:230
 msgid "Sink: cracked sink"
@@ -3026,6 +3162,10 @@ msgstr "Fueron fantásticos porque su carta obtuvo resultados que la mía no con
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:275
 msgid "Think your apartment may be rent-stabilized? Request its official records."
 msgstr "¿Crees que tu apartamento puede ser de renta estabilizada? Solicita el registro oficial."
+
+#: frontend/lib/issues/routes.tsx:263
+msgid "This <0>issue checklist</0> will be sent to your landlord."
+msgstr ""
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:138
 msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
@@ -3330,6 +3470,10 @@ msgstr "Enviaremos tu carta por <0>USPS Certified Mail<1>®</1></0> y te proporc
 msgid "We'll need to add your case's index number to your declaration."
 msgstr "Tendremos que añadir el número de índice de tu caso a tu declaración."
 
+#: frontend/lib/issues/routes.tsx:246
+msgid "We'll provide this information again after you complete your letter."
+msgstr ""
+
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:32
 msgid "We'll send your letter for you via certified mail in 1-2 business days, at no cost to you."
 msgstr "Le enviaremos su carta por correo certificado en 1-2 días laborables, sin costo alguno para usted."
@@ -3566,6 +3710,10 @@ msgstr "¿Por qué no puedo ver todos los meses?"
 msgid "Why do I need to create an account?"
 msgstr "¿Por qué necesito crear una cuenta?"
 
+#: frontend/lib/onboarding/onboarding-step-1.tsx:39
+msgid "Why do you need my address?"
+msgstr ""
+
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:38
 msgid "Why do you need this information?"
 msgstr "¿Por qué necesitáis esta información?"
@@ -3639,6 +3787,7 @@ msgid "Yes"
 msgstr "Si"
 
 #: frontend/lib/norent/letter-builder/create-account.tsx:37
+#: frontend/lib/onboarding/onboarding-step-4.tsx:81
 msgid "Yes, JustFix can text me to follow up about my housing issues."
 msgstr "Sí, JustFix puede enviarme mensajes de texto para hacer un seguimiento de mis problemas de vivienda."
 
@@ -3680,6 +3829,10 @@ msgstr "Puedes contactar Acciones Estratégicas para una Economía Justa (SAJE) 
 msgid "You can send an additional letter for other months when you couldn't pay rent."
 msgstr "Puedes enviar otra carta para indicar los demás meses en que no hayas podido pagar la renta."
 
+#: frontend/lib/forms/email-attachment.tsx:35
+msgid "You can use the form below if you'd like us to email your {noun} to up to {maxRecipients} addresses."
+msgstr ""
+
 #: frontend/lib/evictionfree/homepage.tsx:92
 msgid "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until {0}"
 msgstr "Puedes utilizar este sitio web para enviar un formulario de declaración de penurias al dueño de tu edificio y a los tribunales locales — deteniendo tu caso de desalojo hasta el {0}"
@@ -3707,6 +3860,10 @@ msgstr "Has elegido sustituir la información recomendada por JustFix sobre el d
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:48
 msgid "You haven't completed previous steps. Please <0>go back</0>."
 msgstr "No has completado los pasos anteriores. Por favor <0>vuelve atrás</0>."
+
+#: frontend/lib/onboarding/onboarding-step-4.tsx:42
+msgid "You may already have a JustFix account."
+msgstr ""
 
 #: frontend/lib/norent/letter-builder/menu.tsx:28
 msgid "You most recently sent a letter on {0}."
@@ -3786,6 +3943,10 @@ msgstr "¡Tu Historial de Alquiler ha sido solicitado al DHCR del estado de Nuev
 msgid "Your account is set up"
 msgstr "¡Tu cuenta está lista!"
 
+#: frontend/lib/account-settings/nyc-address-settings.tsx:89
+msgid "Your address"
+msgstr ""
+
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:268
 msgid "Your apartment may be rent stabilized."
 msgstr "Tu apartamento es de renta estabilizada."
@@ -3809,6 +3970,10 @@ msgstr "Nombre de la corte de tu caso"
 #: frontend/lib/evictionfree/declaration-builder/index-number.tsx:46
 msgid "Your case's index number"
 msgstr "Número de índice de tu caso"
+
+#: frontend/lib/onboarding/onboarding-step-4.tsx:106
+msgid "Your contact information"
+msgstr ""
 
 #: frontend/lib/evictionfree/declaration-email-to-user.tsx:76
 msgid "Your declaration form and important next steps"
@@ -3895,6 +4060,10 @@ msgstr "Tu privacidad es importante para nosotros"
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:54
 msgid "Your privacy is very important to us. Everything on JustFix is secure."
 msgstr "Su privacidad es muy importante para nosotros. Todo en JustFix es seguro."
+
+#: frontend/lib/onboarding/onboarding-step-1.tsx:104
+msgid "Your privacy is very important to us. Everything on JustFix is secure. <0>Click here to learn more<1> about our privacy policy</1></0>."
+msgstr ""
 
 #: frontend/lib/common-steps/ask-national-address.tsx:111
 #: frontend/lib/common-steps/ask-nyc-address.tsx:39
@@ -4451,6 +4620,26 @@ msgstr "pagar la renta, renta, no puedo pagar la renta, renta de junio, 1 de jun
 msgid "{0} (in English)"
 msgstr "{0} (en inglés)"
 
+#: frontend/lib/issues/routes.tsx:167
+msgid "{actionLabel} for {label}"
+msgstr ""
+
+#: frontend/lib/issues/routes.tsx:156
+msgid "{count} issues reported"
+msgstr ""
+
+#: frontend/lib/forms/email-attachment.tsx:15
+msgid "{label} (optional)"
+msgstr ""
+
+#: frontend/lib/issues/routes.tsx:136
+msgid "{label} - Issue checklist"
+msgstr ""
+
+#: frontend/lib/issues/routes.tsx:139
+msgid "{label} issues"
+msgstr ""
+
 #: frontend/lib/forms/chars-remaining.tsx:18
 msgid "{remaining, plural, one {1 character remaining} other {# characters remaining}}"
 msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caracteres}}"
@@ -4458,3 +4647,7 @@ msgstr "{remaining, plural, one {queda sólo 1 carácter} other {quedan # caract
 #: frontend/lib/norent/letter-builder/confirmation.tsx:111
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} requiere documentación específica para apoyar tu carta al dueño de tu edificio."
+
+#: frontend/lib/issues/routes.tsx:169
+msgid "{title} ({issueLabel})"
+msgstr ""

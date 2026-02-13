@@ -56,7 +56,7 @@ const JustfixUserMenuItems: React.FC<{}> = () => {
         className="navbar-item"
         to={JustfixRoutes.locale.accountSettings.home}
       >
-        Account settings
+        <Trans>Account settings</Trans>
       </Link>
       <Link className="navbar-item" to={JustfixRoutes.locale.logout}>
         <Trans>Sign out</Trans>

@@ -1,4 +1,6 @@
 import React, { useRef } from "react";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 import {
   OnboardingInfoSignupIntent,
   OnboardingStep4Version2Input as OnboardingStep4Input,
@@ -61,19 +63,25 @@ const ExistingAccountNotification: React.FC<{}> = () => {
 
   return (
     <div className="notification is-info" ref={ref} tabIndex={-1}>
-      <h2 className="subtitle">You may already have a JustFix account.</h2>
+      <h2 className="subtitle">
+        <Trans>You may already have a JustFix account.</Trans>
+      </h2>
       <p>
-        If you remember your password, you can{" "}
-        <Link to={JustfixRoutes.locale.login}>sign into your account</Link>.
+        <Trans>
+          If you remember your password, you can{" "}
+          <Link to={JustfixRoutes.locale.login}>sign into your account</Link>.
+        </Trans>
       </p>
       <br />
       <p>
-        If you're not sure if you have an account, or if you've forgotten your
-        password, you can{" "}
-        <Link to={JustfixRoutes.locale.passwordReset.start}>
-          try resetting your password
-        </Link>
-        .
+        <Trans>
+          If you're not sure if you have an account, or if you've forgotten your
+          password, you can{" "}
+          <Link to={JustfixRoutes.locale.passwordReset.start}>
+            try resetting your password
+          </Link>
+          .
+        </Trans>
       </p>
     </div>
   );
@@ -105,16 +113,20 @@ export default class OnboardingStep4 extends React.Component<
           <ExistingAccountNotification />
         )}
         <PhoneNumberFormField
-          label="Phone number"
-          labelHint="Please use a number that can receive text messages."
+          label={li18n._(t`Phone number`)}
+          labelHint={li18n._(
+            t`Please use a number that can receive text messages.`
+          )}
           {...ctx.fieldPropsFor("phoneNumber")}
         />
         <CheckboxFormField {...ctx.fieldPropsFor("canWeSms")}>
-          Yes, JustFix can text me to follow up about my housing issues.
+          <Trans>
+            Yes, JustFix can text me to follow up about my housing issues.
+          </Trans>
         </CheckboxFormField>
         <TextualFormField
           label={optionalizeLabelIf(
-            "Email address",
+            li18n._(t`Email address`),
             isEmailOptionalForIntent(signupIntent)
           )}
           type="email"
@@ -128,19 +140,21 @@ export default class OnboardingStep4 extends React.Component<
         />
 
         <CheckboxFormField {...ctx.fieldPropsFor("agreeToTerms")}>
-          I agree to the{" "}
-          <ModalLink
-            to={routes.step4TermsModal}
-            render={() => <PrivacyInfoModal />}
-          >
-            JustFix terms and conditions
-          </ModalLink>
-          .
+          <Trans>
+            I agree to the{" "}
+            <ModalLink
+              to={routes.step4TermsModal}
+              render={() => <PrivacyInfoModal />}
+            >
+              JustFix terms and conditions
+            </ModalLink>
+            .
+          </Trans>
         </CheckboxFormField>
         <ProgressButtons
           back={routes.step3}
           isLoading={ctx.isLoading}
-          nextLabel="Continue"
+          nextLabel={li18n._(t`Continue`)}
         />
       </React.Fragment>
     );
@@ -148,9 +162,11 @@ export default class OnboardingStep4 extends React.Component<
 
   render() {
     return (
-      <Page title="Contact information">
+      <Page title={li18n._(t`Contact information`)}>
         <div>
-          <h1 className="title is-4">Your contact information</h1>
+          <h1 className="title is-4">
+            <Trans>Your contact information</Trans>
+          </h1>
           <SessionUpdatingFormSubmitter
             mutation={getMutationForIntent(this.props.signupIntent)}
             initialState={this.blankInitialState}

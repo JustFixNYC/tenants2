@@ -27,9 +27,10 @@ import {
 } from "../../../common-data/lease-choices";
 import { FormContext } from "../forms/form-context";
 import {
-  HOUSING_TYPE_FIELD_LABEL,
-  PUBLIC_ASSISTANCE_QUESTION_TEXT,
+  getHousingTypeFieldLabel,
+  getPublicAssistanceQuestionText,
 } from "../util/housing-type";
+import { li18n } from "../i18n-lingui";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { OutboundLink } from "../ui/outbound-link";
 
@@ -329,11 +330,11 @@ export default class OnboardingStep3 extends React.Component<
         <RadiosFormField
           {...ctx.fieldPropsFor("leaseType")}
           choices={this.leaseChoicesWithInfo}
-          label={HOUSING_TYPE_FIELD_LABEL}
+          label={getHousingTypeFieldLabel()}
         />
         <YesNoRadiosFormField
           {...ctx.fieldPropsFor("receivesPublicAssistance")}
-          label={PUBLIC_ASSISTANCE_QUESTION_TEXT}
+          label={getPublicAssistanceQuestionText()}
         />
         <ProgressButtons
           back={this.props.routes.step1}

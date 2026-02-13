@@ -715,7 +715,7 @@ msgstr "Completado"
 msgid "Confirm"
 msgstr "Confirmar"
 
-#: frontend/lib/password-reset/routes.tsx:103
+#: frontend/lib/password-reset/routes.tsx:105
 #: frontend/lib/start-account-or-login/set-password.tsx:22
 msgid "Confirm your new password"
 msgstr "Confirma tu nueva contraseña"
@@ -1055,7 +1055,7 @@ msgstr ""
 msgid "Email your letter to:"
 msgstr "Enviar su carta por correo electrónico a:"
 
-#: frontend/lib/forms/email-attachment.tsx:48
+#: frontend/lib/forms/email-attachment.tsx:49
 msgid "Email {noun}"
 msgstr ""
 
@@ -1328,7 +1328,7 @@ msgstr "Entendido"
 msgid "Got it!"
 msgstr ""
 
-#: frontend/lib/forms/email-attachment.tsx:32
+#: frontend/lib/forms/email-attachment.tsx:33
 msgid "Got it! We're sending your {noun} to {0}."
 msgstr ""
 
@@ -2358,7 +2358,7 @@ msgstr "La ciudad de Nueva York cuenta con muchas formas de vivienda asequible. 
 msgid "New York City has many kinds of housing. Learn more by ordering your rent history <0>here</0> or reading about <1>rent regulation</1>."
 msgstr ""
 
-#: frontend/lib/password-reset/routes.tsx:102
+#: frontend/lib/password-reset/routes.tsx:104
 #: frontend/lib/start-account-or-login/set-password.tsx:21
 msgid "New password"
 msgstr "Contraseña nueva"
@@ -4045,7 +4045,7 @@ msgstr "También puede seguir la entrega de su carta usando USPS Tracking:"
 msgid "You can contact Strategic Actions for a Just Economy (SAJE) - a 501c3 non-profit organization in South Los Angeles."
 msgstr "Puedes contactar Acciones Estratégicas para una Economía Justa (SAJE) - una organización sin fines de lucro 501c3 en el sur de Los Angeles."
 
-#: frontend/lib/password-reset/routes.tsx:116
+#: frontend/lib/password-reset/routes.tsx:118
 msgid "You can now <0>log in with your new password</0>."
 msgstr ""
 
@@ -4053,8 +4053,8 @@ msgstr ""
 msgid "You can send an additional letter for other months when you couldn't pay rent."
 msgstr "Puedes enviar otra carta para indicar los demás meses en que no hayas podido pagar la renta."
 
-#: frontend/lib/forms/email-attachment.tsx:35
-msgid "You can use the form below if you'd like us to email your {noun} to up to {maxRecipients} addresses."
+#: frontend/lib/forms/email-attachment.tsx:36
+msgid "You can use the form below if you'd like us to email your {noun} to up to {max} addresses."
 msgstr ""
 
 #: frontend/lib/evictionfree/homepage.tsx:92
@@ -4273,8 +4273,8 @@ msgstr "Tu carta fue enviada el {0}."
 msgid "Your local housing court"
 msgstr "la corte de vivienda local"
 
-#: frontend/lib/password-reset/routes.tsx:111
 #: frontend/lib/password-reset/routes.tsx:113
+#: frontend/lib/password-reset/routes.tsx:115
 msgid "Your password has been reset!"
 msgstr ""
 

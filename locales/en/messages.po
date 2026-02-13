@@ -710,7 +710,7 @@ msgstr "Completed"
 msgid "Confirm"
 msgstr "Confirm"
 
-#: frontend/lib/password-reset/routes.tsx:103
+#: frontend/lib/password-reset/routes.tsx:105
 #: frontend/lib/start-account-or-login/set-password.tsx:22
 msgid "Confirm your new password"
 msgstr "Confirm your new password"
@@ -1050,7 +1050,7 @@ msgstr "Email address for recipient #{recipientNum}"
 msgid "Email your letter to:"
 msgstr "Email your letter to:"
 
-#: frontend/lib/forms/email-attachment.tsx:48
+#: frontend/lib/forms/email-attachment.tsx:49
 msgid "Email {noun}"
 msgstr "Email {noun}"
 
@@ -1323,7 +1323,7 @@ msgstr "Got it"
 msgid "Got it!"
 msgstr "Got it!"
 
-#: frontend/lib/forms/email-attachment.tsx:32
+#: frontend/lib/forms/email-attachment.tsx:33
 msgid "Got it! We're sending your {noun} to {0}."
 msgstr "Got it! We're sending your {noun} to {0}."
 
@@ -2353,7 +2353,7 @@ msgstr "New York City has many forms of affordable housing. Some common types in
 msgid "New York City has many kinds of housing. Learn more by ordering your rent history <0>here</0> or reading about <1>rent regulation</1>."
 msgstr "New York City has many kinds of housing. Learn more by ordering your rent history <0>here</0> or reading about <1>rent regulation</1>."
 
-#: frontend/lib/password-reset/routes.tsx:102
+#: frontend/lib/password-reset/routes.tsx:104
 #: frontend/lib/start-account-or-login/set-password.tsx:21
 msgid "New password"
 msgstr "New password"
@@ -4040,7 +4040,7 @@ msgstr "You can also track the delivery of your letter using USPS Tracking:"
 msgid "You can contact Strategic Actions for a Just Economy (SAJE) - a 501c3 non-profit organization in South Los Angeles."
 msgstr "You can contact Strategic Actions for a Just Economy (SAJE) - a 501c3 non-profit organization in South Los Angeles."
 
-#: frontend/lib/password-reset/routes.tsx:116
+#: frontend/lib/password-reset/routes.tsx:118
 msgid "You can now <0>log in with your new password</0>."
 msgstr "You can now <0>log in with your new password</0>."
 
@@ -4048,9 +4048,9 @@ msgstr "You can now <0>log in with your new password</0>."
 msgid "You can send an additional letter for other months when you couldn't pay rent."
 msgstr "You can send an additional letter for other months when you couldn't pay rent."
 
-#: frontend/lib/forms/email-attachment.tsx:35
-msgid "You can use the form below if you'd like us to email your {noun} to up to {maxRecipients} addresses."
-msgstr "You can use the form below if you'd like us to email your {noun} to up to {maxRecipients} addresses."
+#: frontend/lib/forms/email-attachment.tsx:36
+msgid "You can use the form below if you'd like us to email your {noun} to up to {max} addresses."
+msgstr "You can use the form below if you'd like us to email your {noun} to up to {max} addresses."
 
 #: frontend/lib/evictionfree/homepage.tsx:92
 msgid "You can use this website to send a hardship declaration form to your landlord and local courts—putting your eviction case on hold until {0}"
@@ -4268,8 +4268,8 @@ msgstr "Your letter was sent on {0}."
 msgid "Your local housing court"
 msgstr "Your local housing court"
 
-#: frontend/lib/password-reset/routes.tsx:111
 #: frontend/lib/password-reset/routes.tsx:113
+#: frontend/lib/password-reset/routes.tsx:115
 msgid "Your password has been reset!"
 msgstr "Your password has been reset!"
 

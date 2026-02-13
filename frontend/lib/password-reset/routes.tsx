@@ -1,4 +1,6 @@
 import React from "react";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 import {
   ProgressRoutesProps,
   buildProgressRoutesComponent,
@@ -27,7 +29,7 @@ import { CustomerSupportLink } from "../ui/customer-support-link";
 function getPasswordResetRoutesProps(): ProgressRoutesProps {
   return {
     toLatestStep: JustfixRoutes.locale.passwordReset.latestStep,
-    label: "Reset your password",
+    label: li18n._(t`Reset your password`),
     welcomeSteps: [],
     stepsToFillOut: [
       {
@@ -58,11 +60,15 @@ function getPasswordResetRoutesProps(): ProgressRoutesProps {
 
 function Start(props: {}) {
   return (
-    <Page title="Having trouble logging in?">
-      <h1 className="title is-4 is-spaced">Having trouble logging in?</h1>
+    <Page title={li18n._(t`Having trouble logging in?`)}>
+      <h1 className="title is-4 is-spaced">
+        <Trans>Having trouble logging in?</Trans>
+      </h1>
       <p className="subtitle is-6">
-        If you're having trouble logging in, we can reset your password. In
-        order to do that, we'll need your phone number.
+        <Trans>
+          If you're having trouble logging in, we can reset your password. In
+          order to do that, we'll need your phone number.
+        </Trans>
       </p>
       <LegacyFormSubmitter
         mutation={PasswordResetMutation}
@@ -72,7 +78,7 @@ function Start(props: {}) {
         {(ctx) => (
           <>
             <PhoneNumberFormField
-              label="Phone number"
+              label={li18n._(t`Phone number`)}
               {...ctx.fieldPropsFor("phoneNumber")}
             />
             <ProgressButtons
@@ -88,11 +94,15 @@ function Start(props: {}) {
 
 function Verify(props: {}) {
   return (
-    <Page title="Verify your phone number">
-      <h1 className="title is-4 is-spaced">Verify your phone number</h1>
+    <Page title={li18n._(t`Verify your phone number`)}>
+      <h1 className="title is-4 is-spaced">
+        <Trans>Verify your phone number</Trans>
+      </h1>
       <p className="subtitle is-6">
-        We've just sent you a text message containing a verification code.
-        Please enter it below.
+        <Trans>
+          We've just sent you a text message containing a verification code.
+          Please enter it below.
+        </Trans>
       </p>
       <LegacyFormSubmitter
         mutation={PasswordResetVerificationCodeMutation}
@@ -102,13 +112,15 @@ function Verify(props: {}) {
         {(ctx) => (
           <>
             <TextualFormField
-              label="Verification code"
+              label={li18n._(t`Verification code`)}
               {...ctx.fieldPropsFor("code")}
             />
             <br />
             <p>
-              If you didn't receive a code, try checking your email. If it's not
-              in there either, please email <CustomerSupportLink />.
+              <Trans>
+                If you didn't receive a code, try checking your email. If it's
+                not in there either, please email <CustomerSupportLink />.
+              </Trans>
             </p>
             <ProgressButtons
               back={JustfixRoutes.locale.passwordReset.start}
@@ -123,10 +135,12 @@ function Verify(props: {}) {
 
 function Confirm(props: {}) {
   return (
-    <Page title="Set your new password">
-      <h1 className="title is-4 is-spaced">Set your new password</h1>
+    <Page title={li18n._(t`Set your new password`)}>
+      <h1 className="title is-4 is-spaced">
+        <Trans>Set your new password</Trans>
+      </h1>
       <p className="subtitle is-6">
-        Hooray! The final step is to provide us with a new password.
+        <Trans>Hooray! The final step is to provide us with a new password.</Trans>
       </p>
       <LegacyFormSubmitter
         mutation={PasswordResetConfirmMutation}
@@ -137,12 +151,12 @@ function Confirm(props: {}) {
           <>
             <TextualFormField
               type="password"
-              label="New password"
+              label={li18n._(t`New password`)}
               {...ctx.fieldPropsFor("password")}
             />
             <TextualFormField
               type="password"
-              label="Confirm your new password"
+              label={li18n._(t`Confirm your new password`)}
               {...ctx.fieldPropsFor("confirmPassword")}
             />
             <br />
@@ -159,14 +173,18 @@ function Confirm(props: {}) {
 
 function Done(props: {}) {
   return (
-    <Page title="Your password has been reset!">
-      <h1 className="title is-4 is-spaced">Your password has been reset!</h1>
+    <Page title={li18n._(t`Your password has been reset!`)}>
+      <h1 className="title is-4 is-spaced">
+        <Trans>Your password has been reset!</Trans>
+      </h1>
       <p className="subtitle is-6">
-        You can now{" "}
-        <Link to={JustfixRoutes.locale.login}>
-          log in with your new password
-        </Link>
-        .
+        <Trans>
+          You can now{" "}
+          <Link to={JustfixRoutes.locale.login}>
+            log in with your new password
+          </Link>
+          .
+        </Trans>
       </p>
     </Page>
   );

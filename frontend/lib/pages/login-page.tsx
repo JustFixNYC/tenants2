@@ -1,4 +1,6 @@
 import React, { useContext } from "react";
+import { Trans, t } from "@lingui/macro";
+import { li18n } from "../i18n-lingui";
 
 import Page from "../ui/page";
 import JustfixRoutes from "../justfix-route-info";
@@ -37,16 +39,16 @@ export class LoginForm extends React.Component<LoginFormProps> {
           <React.Fragment>
             <input type="hidden" name={NEXT} value={this.props.next} />
             <PhoneNumberFormField
-              label="Phone number"
+              label={li18n._(t`Phone number`)}
               {...ctx.fieldPropsFor("phoneNumber")}
             />
             <TextualFormField
-              label="Password"
+              label={li18n._(t`Password`)}
               type="password"
               {...ctx.fieldPropsFor("password")}
             />
             <div className="field">
-              <NextButton isLoading={ctx.isLoading} label="Sign in" />
+              <NextButton isLoading={ctx.isLoading} label={li18n._(t`Sign in`)} />
             </div>
           </React.Fragment>
         )}
@@ -68,25 +70,32 @@ const LoginPage = withAppContext(
     // LALOC, remove the box entirely.
     let useBox = appContext.server.siteType != "LALETTERBUILDER";
     return (
-      <Page title="Sign in">
+      <Page title={li18n._(t`Sign in`)}>
         <div className={`${useBox ? "box" : ""}`}>
-          <h1 className="title">Sign in</h1>
+          <h1 className="title">
+            <Trans>Sign in</Trans>
+          </h1>
           <LoginForm next={next} />
           <br />
           <div className="content">
             <p>
-              If you have trouble logging in, you can{" "}
-              <Link to={JustfixRoutes.locale.passwordReset.start}>
-                reset your password
-              </Link>
-              .
+              <Trans>
+                If you have trouble logging in, you can{" "}
+                <Link to={JustfixRoutes.locale.passwordReset.start}>
+                  reset your password
+                </Link>
+                .
+              </Trans>
             </p>
             <p>
-              Don't have an account yet? You can sign up for one by composing a{" "}
-              <Link to={JustfixRoutes.locale.loc.splash}>
-                Letter of Complaint
-              </Link>
-              !
+              <Trans>
+                Don't have an account yet? You can sign up for one by composing
+                a{" "}
+                <Link to={JustfixRoutes.locale.loc.splash}>
+                  Letter of Complaint
+                </Link>
+                !
+              </Trans>
             </p>
           </div>
         </div>

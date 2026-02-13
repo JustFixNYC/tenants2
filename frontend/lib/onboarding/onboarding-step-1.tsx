@@ -29,7 +29,7 @@ import {
 } from "../ui/address-confirmation";
 import { ClearAnonymousSessionButton } from "../forms/clear-anonymous-session-button";
 import { updateAddressFromBrowserStorage } from "../browser-storage";
-import { getSignupIntentLabels } from "../../../common-data/signup-intent-choices";
+import { getSignupIntentLabels } from "../util/signup-intent-choices";
 import { PrivacyInfoModal } from "../ui/privacy-info-modal";
 import {
   createAptNumberFormInput,

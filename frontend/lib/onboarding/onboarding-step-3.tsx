@@ -1,4 +1,5 @@
 import React from "react";
+import { Trans, t } from "@lingui/macro";
 import { OnboardingStep3Input } from "../queries/globalTypes";
 import Page from "../ui/page";
 import { SessionUpdatingFormSubmitter } from "../forms/session-updating-form-submitter";
@@ -21,7 +22,6 @@ import { exactSubsetOrDefault, twoTuple } from "../util/util";
 import { glueToLastWord } from "../ui/word-glue";
 import { OnboardingRouteInfo } from "./route-info";
 import {
-  getLeaseChoiceLabels,
   LeaseChoices,
   LeaseChoice,
 } from "../../../common-data/lease-choices";
@@ -30,6 +30,7 @@ import {
   getHousingTypeFieldLabel,
   getPublicAssistanceQuestionText,
 } from "../util/housing-type";
+import { getLeaseChoiceLabels } from "../util/lease-choices";
 import { li18n } from "../i18n-lingui";
 import { AllSessionInfo } from "../queries/AllSessionInfo";
 import { OutboundLink } from "../ui/outbound-link";
@@ -52,7 +53,11 @@ export function LeaseInfoModal(props: LeaseInfoModalProps): JSX.Element {
             props.isWarning ? "is-danger" : ""
           }`}
         >
-          {props.isWarning ? "I understand the risk" : "Continue"}
+          {props.isWarning ? (
+            <Trans>I understand the risk</Trans>
+          ) : (
+            <Trans>Continue</Trans>
+          )}
         </Link>
       </div>
     </Modal>
@@ -76,7 +81,7 @@ export function LeaseLearnMoreModal(props: {
               {...ctx.getLinkCloseProps()}
               className="button is-primary is-medium"
             >
-              Got it!
+              <Trans>Got it!</Trans>
             </Link>
           </div>
         </>
@@ -98,15 +103,20 @@ export const createLeaseModals = (
     route: routes.step3RentStabilizedModal,
     leaseType: "RENT_STABILIZED",
     component: () => (
-      <LeaseInfoModal title="Rent stabilized" toNextStep={routes.step4}>
+      <LeaseInfoModal
+        title={li18n._(t`Rent stabilized`)}
+        toNextStep={routes.step4}
+      >
         <p>
-          Good news! As a rent regulated tenant, you likely have extra
-          protections against retaliation. Want to find out if you’re being
-          overcharged? Order your rent history{" "}
-          <OutboundLink href="https://app.justfix.org/en/rh/splash">
-            here
-          </OutboundLink>
-          !
+          <Trans>
+            Good news! As a rent regulated tenant, you likely have extra
+            protections against retaliation. Want to find out if you're being
+            overcharged? Order your rent history{" "}
+            <OutboundLink href="https://app.justfix.org/en/rh/splash">
+              here
+            </OutboundLink>
+            !
+          </Trans>
         </p>
       </LeaseInfoModal>
     ),
@@ -115,20 +125,30 @@ export const createLeaseModals = (
     route: routes.step3MarketRateModal,
     leaseType: "MARKET_RATE",
     component: () => (
-      <LeaseInfoModal title="Market Rate" isWarning toNextStep={routes.step4}>
+      <LeaseInfoModal
+        title={li18n._(t`Market Rate`)}
+        isWarning
+        toNextStep={routes.step4}
+      >
         <p>
-          <strong className="has-text-danger">Know the Risks:</strong> Market
-          tenants have fewer protections against eviction and larger rent
-          increases than rent regulated tenants.{" "}
+          <Trans>
+            <strong className="has-text-danger">Know the Risks:</strong> Market
+            tenants have fewer protections against eviction and larger rent
+            increases than rent regulated tenants.
+          </Trans>
         </p>
         <p>
-          Retaliation is <b>illegal</b> and all New Yorkers are{" "}
-          <b>entitled to repairs</b> but, if you use this tool, your landlord
-          could retaliate by raising the rent or sending a termination notice
-          once your lease ends.
+          <Trans>
+            Retaliation is <b>illegal</b> and all New Yorkers are{" "}
+            <b>entitled to repairs</b> but, if you use this tool, your landlord
+            could retaliate by raising the rent or sending a termination notice
+            once your lease ends.
+          </Trans>
         </p>
         <p>
-          <strong className="has-text-danger">Proceed with caution.</strong>
+          <strong className="has-text-danger">
+            <Trans>Proceed with caution.</Trans>
+          </strong>
         </p>
       </LeaseInfoModal>
     ),
@@ -137,26 +157,36 @@ export const createLeaseModals = (
     route: routes.step3NotSureModal,
     leaseType: "NOT_SURE",
     component: () => (
-      <LeaseInfoModal title="Not sure" isWarning toNextStep={routes.step4}>
+      <LeaseInfoModal
+        title={li18n._(t`Not sure`)}
+        isWarning
+        toNextStep={routes.step4}
+      >
         <p>
-          <strong className="has-text-danger">Know the Risks:</strong> If you
-          aren’t sure about your regulated status, you may want to do more
-          research before using our tools. Non-regulated tenants have fewer
-          protections against eviction and larger rent increases than regulated
-          tenants.{" "}
-          <OutboundLink href="https://rentguidelinesboard.cityofnewyork.us/resources/faqs/">
-            Learn more here
-          </OutboundLink>
-          .
+          <Trans>
+            <strong className="has-text-danger">Know the Risks:</strong> If you
+            aren't sure about your regulated status, you may want to do more
+            research before using our tools. Non-regulated tenants have fewer
+            protections against eviction and larger rent increases than
+            regulated tenants.{" "}
+            <OutboundLink href="https://rentguidelinesboard.cityofnewyork.us/resources/faqs/">
+              Learn more here
+            </OutboundLink>
+            .
+          </Trans>
         </p>
         <p>
-          Retaliation is <b>illegal</b> and all New Yorkers are{" "}
-          <b>entitled to repairs</b> but, if you use this tool, your landlord
-          could retaliate by raising the rent or sending a termination notice
-          once your lease ends.
+          <Trans>
+            Retaliation is <b>illegal</b> and all New Yorkers are{" "}
+            <b>entitled to repairs</b> but, if you use this tool, your landlord
+            could retaliate by raising the rent or sending a termination notice
+            once your lease ends.
+          </Trans>
         </p>
         <p>
-          <strong className="has-text-danger">Proceed with caution.</strong>
+          <strong className="has-text-danger">
+            <Trans>Proceed with caution.</Trans>
+          </strong>
         </p>
       </LeaseInfoModal>
     ),
@@ -190,15 +220,21 @@ export const createLeaseLearnMoreModals = (
     route: routes.step3LearnMoreModals.rentStabilized,
     leaseType: "RENT_STABILIZED",
     component: () => (
-      <LeaseLearnMoreModal title="What is Rent Stabilized Housing?">
+      <LeaseLearnMoreModal
+        title={li18n._(t`What is Rent Stabilized Housing?`)}
+      >
         <p>
-          Housing in buildings built before January 1, 1974 with six or more
-          units, including Single Room Occupancy (“SRO”) hotels and rooming
-          houses.
+          <Trans>
+            Housing in buildings built before January 1, 1974 with six or more
+            units, including Single Room Occupancy ("SRO") hotels and rooming
+            houses.
+          </Trans>
         </p>
         <p>
-          All apartments in buildings that receive a tax abatement such as J-51,
-          421a, and 421g are also stabilized.
+          <Trans>
+            All apartments in buildings that receive a tax abatement such as
+            J-51, 421a, and 421g are also stabilized.
+          </Trans>
         </p>
       </LeaseLearnMoreModal>
     ),
@@ -207,12 +243,14 @@ export const createLeaseLearnMoreModals = (
     route: routes.step3LearnMoreModals.rentControlled,
     leaseType: "RENT_CONTROLLED",
     component: () => (
-      <LeaseLearnMoreModal title="What is Rent Controlled Housing?">
+      <LeaseLearnMoreModal title={li18n._(t`What is Rent Controlled Housing?`)}>
         <p>
-          This is a rare kind of housing! Buildings that had three or more
-          residential units before February 1, 1947, where the tenant or
-          immediate family member has been continuously living in the apartment
-          since July 1, 1971.
+          <Trans>
+            This is a rare kind of housing! Buildings that had three or more
+            residential units before February 1, 1947, where the tenant or
+            immediate family member has been continuously living in the
+            apartment since July 1, 1971.
+          </Trans>
         </p>
       </LeaseLearnMoreModal>
     ),
@@ -221,11 +259,13 @@ export const createLeaseLearnMoreModals = (
     route: routes.step3LearnMoreModals.marketRate,
     leaseType: "MARKET_RATE",
     component: () => (
-      <LeaseLearnMoreModal title="What is Market Rate Housing?">
+      <LeaseLearnMoreModal title={li18n._(t`What is Market Rate Housing?`)}>
         <p>
-          Market rate tenants typically live in buildings of fewer than six (6)
-          units, newer buildings, or formerly rent stabilized apartments that a
-          landlord deregulated before 2019.
+          <Trans>
+            Market rate tenants typically live in buildings of fewer than six
+            (6) units, newer buildings, or formerly rent stabilized apartments
+            that a landlord deregulated before 2019.
+          </Trans>
         </p>
       </LeaseLearnMoreModal>
     ),
@@ -234,10 +274,14 @@ export const createLeaseLearnMoreModals = (
     route: routes.step3LearnMoreModals.NYCHA,
     leaseType: "NYCHA",
     component: () => (
-      <LeaseLearnMoreModal title="What is NYCHA, Public Housing, and RAD/PACT?">
+      <LeaseLearnMoreModal
+        title={li18n._(t`What is NYCHA, Public Housing, and RAD/PACT?`)}
+      >
         <p>
-          Federally-funded affordable housing developments owned by the
-          government.
+          <Trans>
+            Federally-funded affordable housing developments owned by the
+            government.
+          </Trans>
         </p>
       </LeaseLearnMoreModal>
     ),
@@ -246,11 +290,17 @@ export const createLeaseLearnMoreModals = (
     route: routes.step3LearnMoreModals.otherAffordable,
     leaseType: "OTHER_AFFORDABLE",
     component: () => (
-      <LeaseLearnMoreModal title="What is Affordable Housing (other than rent stabilized)?">
+      <LeaseLearnMoreModal
+        title={li18n._(
+          t`What is Affordable Housing (other than rent stabilized)?`
+        )}
+      >
         <p>
-          New York City has many forms of affordable housing. Some common types
-          include Mitchell Lama, Project-Based Section 8 buildings (also known
-          as HUD), LIHTC, HDFC rentals, and others.
+          <Trans>
+            New York City has many forms of affordable housing. Some common
+            types include Mitchell Lama, Project-Based Section 8 buildings (also
+            known as HUD), LIHTC, HDFC rentals, and others.
+          </Trans>
         </p>
       </LeaseLearnMoreModal>
     ),
@@ -259,18 +309,22 @@ export const createLeaseLearnMoreModals = (
     route: routes.step3LearnMoreModals.notSure,
     leaseType: "NOT_SURE",
     component: () => (
-      <LeaseLearnMoreModal title="Don’t know what type of housing you live in?">
+      <LeaseLearnMoreModal
+        title={li18n._(t`Don't know what type of housing you live in?`)}
+      >
         <p>
-          New York City has many kinds of housing. Learn more by ordering your
-          rent history{" "}
-          <OutboundLink href="https://app.justfix.org/en/rh/splash">
-            here
-          </OutboundLink>{" "}
-          or reading about{" "}
-          <OutboundLink href="https://rentguidelinesboard.cityofnewyork.us/resources/faqs/rent-stabilization/">
-            rent regulation
-          </OutboundLink>
-          .
+          <Trans>
+            New York City has many kinds of housing. Learn more by ordering your
+            rent history{" "}
+            <OutboundLink href="https://app.justfix.org/en/rh/splash">
+              here
+            </OutboundLink>{" "}
+            or reading about{" "}
+            <OutboundLink href="https://rentguidelinesboard.cityofnewyork.us/resources/faqs/rent-stabilization/">
+              rent regulation
+            </OutboundLink>
+            .
+          </Trans>
         </p>
       </LeaseLearnMoreModal>
     ),
@@ -309,7 +363,7 @@ export default class OnboardingStep3 extends React.Component<
     ).map((value) => {
       const label = leaseLabels[value];
       const info = leaseLearnMoreModalMap.get(value);
-      const title = `Learn more about ${label} leases`;
+      const title = li18n._(t`Learn more about ${label} leases`);
 
       return twoTuple(
         value,
@@ -375,16 +429,18 @@ export default class OnboardingStep3 extends React.Component<
     }
 
     return (
-      <Page title="What type of housing do you live in?">
+      <Page title={li18n._(t`What type of housing do you live in?`)}>
         <div>
           {!housingTypeFromSession && (
             <h1 className="title is-4 is-spaced">
-              What type of housing do you live in?
+              <Trans>What type of housing do you live in?</Trans>
             </h1>
           )}
           {!housingTypeFromSession && (
             <p className="subtitle is-6">
-              Your rights vary depending on what type of housing you live in.
+              <Trans>
+                Your rights vary depending on what type of housing you live in.
+              </Trans>
             </p>
           )}
           <SessionUpdatingFormSubmitter

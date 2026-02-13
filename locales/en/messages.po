@@ -88,6 +88,14 @@ msgstr "<0>If you’re facing an emergency, you can find further legal assistanc
 msgid "<0>JustFix</0> builds tools for tenants, housing organizers, and legal advocates."
 msgstr "<0>JustFix</0> builds tools for tenants, housing organizers, and legal advocates."
 
+#: frontend/lib/onboarding/onboarding-step-3.tsx:95
+msgid "<0>Know the Risks:</0> If you aren't sure about your regulated status, you may want to do more research before using our tools. Non-regulated tenants have fewer protections against eviction and larger rent increases than regulated tenants. <1>Learn more here</1>."
+msgstr "<0>Know the Risks:</0> If you aren't sure about your regulated status, you may want to do more research before using our tools. Non-regulated tenants have fewer protections against eviction and larger rent increases than regulated tenants. <1>Learn more here</1>."
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:69
+msgid "<0>Know the Risks:</0> Market tenants have fewer protections against eviction and larger rent increases than rent regulated tenants."
+msgstr "<0>Know the Risks:</0> Market tenants have fewer protections against eviction and larger rent increases than rent regulated tenants."
+
 #: frontend/lib/norent/data/faqs-content.tsx:192
 #: frontend/lib/norent/data/faqs-content.tsx:200
 msgid "<0>No, you can use this website to send a letter to your landlord via email or USPS mail. You do not have to pay for the letter to be mailed.</0>"
@@ -181,15 +189,15 @@ msgstr "Account settings"
 msgid "Actions"
 msgstr "Actions"
 
-#: frontend/lib/issues/routes.tsx:165
+#: frontend/lib/issues/routes.tsx:166
 msgid "Add issues"
 msgstr "Add issues"
 
-#: frontend/lib/issues/routes.tsx:166
+#: frontend/lib/issues/routes.tsx:167
 msgid "Add or remove issues"
 msgstr "Add or remove issues"
 
-#: frontend/lib/account-settings/nyc-address-settings.tsx:121
+#: frontend/lib/account-settings/nyc-address-settings.tsx:122
 #: frontend/lib/common-steps/ask-national-address.tsx:115
 #: frontend/lib/forms/address-and-borough-form-field.tsx:9
 msgid "Address"
@@ -207,6 +215,10 @@ msgstr "Address:"
 msgid "Affordable Housing (other than rent stabilized)"
 msgstr "Affordable Housing (other than rent stabilized)"
 
+#: frontend/lib/util/lease-choices.ts:10
+msgid "Affordable housing (other than rent-stabilized)"
+msgstr "Affordable housing (other than rent-stabilized)"
+
 #: frontend/lib/norent/data/faqs-content.tsx:11
 msgid "After Sending Your Letter"
 msgstr "After Sending Your Letter"
@@ -219,7 +231,7 @@ msgstr "After sending your hardship declaration form, connect with local organiz
 msgid "After sending your letter, we can connect you to <0>local groups</0> to organize for greater demands with other tenants."
 msgstr "After sending your letter, we can connect you to <0>local groups</0> to organize for greater demands with other tenants."
 
-#: frontend/lib/loc/letter-request.tsx:35
+#: frontend/lib/loc/letter-request.tsx:37
 msgid "After this step, you cannot go back to make changes. But don't worry, we'll explain what to do next."
 msgstr "After this step, you cannot go back to make changes. But don't worry, we'll explain what to do next."
 
@@ -247,6 +259,10 @@ msgstr "Alas."
 #: common-data/us-state-choices.ts:65
 msgid "Alaska"
 msgstr "Alaska"
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:146
+msgid "All apartments in buildings that receive a tax abatement such as J-51, 421a, and 421g are also stabilized."
+msgstr "All apartments in buildings that receive a tax abatement such as J-51, 421a, and 421g are also stabilized."
 
 #: frontend/lib/norent/components/subscribe.tsx:34
 msgid "All set! Thanks for subscribing!"
@@ -327,7 +343,7 @@ msgstr "Automatically fill in your landlord's information based on your address 
 msgid "Available in English and Spanish."
 msgstr "Available in English and Spanish."
 
-#: frontend/lib/issues/routes.tsx:288
+#: frontend/lib/issues/routes.tsx:292
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:183
 #: frontend/lib/ui/buttons.tsx:38
 msgid "Back"
@@ -356,7 +372,11 @@ msgstr "Baseboards defective"
 msgid "Bathroom"
 msgstr "Bathroom"
 
-#: frontend/lib/issues/routes.tsx:41
+#: frontend/lib/util/issue-area-choices.ts:11
+msgid "Bathrooms"
+msgstr "Bathrooms"
+
+#: frontend/lib/issues/routes.tsx:42
 msgid "Bathtub"
 msgstr "Bathtub"
 
@@ -387,6 +407,10 @@ msgstr "Bathtub: pipes leaking"
 #: common-data/issue-room-choices-laletterbuilder.ts:33
 msgid "Bedroom"
 msgstr "Bedroom"
+
+#: frontend/lib/util/issue-area-choices.ts:8
+msgid "Bedrooms"
+msgstr "Bedrooms"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:41
 msgid "Before you send your hardship declaration form, let's review what will be sent to make sure all the information is correct."
@@ -502,6 +526,10 @@ msgstr "Building main entrance"
 msgid "Building parking entrance"
 msgstr "Building parking entrance"
 
+#: frontend/lib/util/issue-area-choices.ts:13
+msgid "Building-wide"
+msgstr "Building-wide"
+
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:209
 msgid "Buildings in your landlord's portfolio are located in {0, plural, one {one zip code.} other {# zip codes.}}"
 msgstr "Buildings in your landlord's portfolio are located in {0, plural, one {one zip code.} other {# zip codes.}}"
@@ -559,7 +587,7 @@ msgstr "Cancel"
 msgid "Cancel Rent Campaign"
 msgstr "Cancel Rent Campaign"
 
-#: frontend/lib/issues/routes.tsx:120
+#: frontend/lib/issues/routes.tsx:121
 msgid "Cancel and go back"
 msgstr "Cancel and go back"
 
@@ -672,7 +700,7 @@ msgid "Completed"
 msgstr "Completed"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:33
-#: frontend/lib/loc/letter-request.tsx:41
+#: frontend/lib/loc/letter-request.tsx:43
 #: frontend/lib/norent/letter-builder/rent-periods.tsx:41
 msgid "Confirm"
 msgstr "Confirm"
@@ -722,6 +750,7 @@ msgstr "Contact information"
 #: frontend/lib/common-steps/error-pages.tsx:19
 #: frontend/lib/evictionfree/declaration-builder/error-pages.tsx:18
 #: frontend/lib/norent/letter-builder/error-pages.tsx:20
+#: frontend/lib/onboarding/onboarding-step-3.tsx:31
 #: frontend/lib/onboarding/onboarding-step-4.tsx:99
 #: frontend/lib/rh/routes.tsx:228
 msgid "Continue"
@@ -899,6 +928,10 @@ msgstr "Do you still want to mail to:"
 msgid "Document the harassment you and your family are experiencing and send a notice to your landlord."
 msgstr "Document the harassment you and your family are experiencing and send a notice to your landlord."
 
+#: frontend/lib/onboarding/onboarding-step-3.tsx:208
+msgid "Don't know what type of housing you live in?"
+msgstr "Don't know what type of housing you live in?"
+
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:81
 msgid "Don't know what type of housing you live in? Learn more by ordering your rent history <0>here</0> or reading about <1>rent regulation.</1>"
 msgstr "Don't know what type of housing you live in? Learn more by ordering your rent history <0>here</0> or reading about <1>rent regulation.</1>"
@@ -950,6 +983,10 @@ msgstr "ENTER YOUR EMAIL"
 #: frontend/lib/ui/editable-info.tsx:16
 msgid "Edit"
 msgstr "Edit"
+
+#: frontend/lib/util/lease-choices.ts:15
+msgid "Either Rent Stabilized or Rent Controlled (legacy option)"
+msgstr "Either Rent Stabilized or Rent Controlled (legacy option)"
 
 #: common-data/issue-choices.ts:172
 #: common-data/issue-choices.ts:187
@@ -1083,6 +1120,7 @@ msgid "Faulty doors"
 msgstr "Faulty doors"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:64
+#: frontend/lib/onboarding/onboarding-step-3.tsx:185
 msgid "Federally-funded affordable housing developments owned by the government."
 msgstr "Federally-funded affordable housing developments owned by the government."
 
@@ -1148,7 +1186,7 @@ msgstr "For LA residents"
 msgid "For New York State tenants"
 msgstr "For New York State tenants"
 
-#: frontend/lib/issues/routes.tsx:234
+#: frontend/lib/issues/routes.tsx:235
 msgid "For additional support with mold, moisture, and leak repair issues, contact the independent court-ordered Ombudsperson's Call Center at <0>1-888-341-7152</0> or <1>ombnyc.com</1>"
 msgstr "For additional support with mold, moisture, and leak repair issues, contact the independent court-ordered Ombudsperson's Call Center at <0>1-888-341-7152</0> or <1>ombnyc.com</1>"
 
@@ -1197,7 +1235,7 @@ msgstr "Gas"
 msgid "Gather documentation"
 msgstr "Gather documentation"
 
-#: frontend/lib/issues/routes.tsx:39
+#: frontend/lib/issues/routes.tsx:40
 msgid "General"
 msgstr "General"
 
@@ -1221,7 +1259,7 @@ msgstr "Give us feedback"
 msgid "Go back"
 msgstr "Go back"
 
-#: frontend/lib/loc/letter-request.tsx:80
+#: frontend/lib/loc/letter-request.tsx:82
 msgid "Go back and edit"
 msgstr "Go back and edit"
 
@@ -1254,10 +1292,18 @@ msgstr "Going on rent strike"
 msgid "Good news!"
 msgstr "Good news!"
 
-#: frontend/lib/issues/routes.tsx:297
+#: frontend/lib/onboarding/onboarding-step-3.tsx:52
+msgid "Good news! As a rent regulated tenant, you likely have extra protections against retaliation. Want to find out if you're being overcharged? Order your rent history <0>here</0>!"
+msgstr "Good news! As a rent regulated tenant, you likely have extra protections against retaliation. Want to find out if you're being overcharged? Order your rent history <0>here</0>!"
+
+#: frontend/lib/issues/routes.tsx:301
 #: frontend/lib/ui/privacy-info-modal.tsx:64
 msgid "Got it"
 msgstr "Got it"
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:41
+msgid "Got it!"
+msgstr "Got it!"
 
 #: frontend/lib/forms/email-attachment.tsx:32
 msgid "Got it! We're sending your {noun} to {0}."
@@ -1282,6 +1328,10 @@ msgstr "Harassment (CA)"
 #: common-data/la-letter-builder-letter-choices.ts:19
 msgid "Harassment (LA City/TAHO)"
 msgstr "Harassment (LA City/TAHO)"
+
+#: frontend/lib/onboarding/relief-attempts.tsx:30
+msgid "Have you previously called 311 with no results?"
+msgstr "Have you previously called 311 with no results?"
 
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"
@@ -1323,7 +1373,7 @@ msgstr "Here are a few benefits to sending a letter to your landlord:"
 msgid "Here is a link to a PDF of your saved letter:"
 msgstr "Here is a link to a PDF of your saved letter:"
 
-#: frontend/lib/loc/letter-request.tsx:61
+#: frontend/lib/loc/letter-request.tsx:63
 msgid "Here is a preview of the letter for you to review. It includes the repair issues you selected from the issue checklist."
 msgstr "Here is a preview of the letter for you to review. It includes the repair issues you selected from the issue checklist."
 
@@ -1373,9 +1423,13 @@ msgstr "Highly recommended."
 msgid "Holes"
 msgstr "Holes"
 
-#: frontend/lib/issues/routes.tsx:272
+#: frontend/lib/issues/routes.tsx:273
 msgid "Home self-inspection"
 msgstr "Home self-inspection"
+
+#: frontend/lib/util/issue-area-choices.ts:12
+msgid "Home-wide"
+msgstr "Home-wide"
 
 #: frontend/lib/justfix-navbar.tsx:14
 #: frontend/lib/norent/site.tsx:79
@@ -1394,6 +1448,10 @@ msgstr "Housing Court Answers"
 #: frontend/lib/norent/about.tsx:36
 msgid "Housing Justice for All"
 msgstr "Housing Justice for All"
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:139
+msgid "Housing in buildings built before January 1, 1974 with six or more units, including Single Room Occupancy (\"SRO\") hotels and rooming houses."
+msgstr "Housing in buildings built before January 1, 1974 with six or more units, including Single Room Occupancy (\"SRO\") hotels and rooming houses."
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:35
 msgid "Housing in buildings built before January 1, 1974 with six or more units, including Single Room Occupancy (\"SRO\") hotels and rooming houses. All apartments in buildings that receive a tax abatement such as J-51, 421a, and 421g are also stabilized."
@@ -1446,7 +1504,7 @@ msgstr "How does sending this declaration help me?"
 msgid "How it works"
 msgstr "How it works"
 
-#: frontend/lib/issues/routes.tsx:226
+#: frontend/lib/issues/routes.tsx:227
 msgid "How to report mold issues through NYCHA's <0>Mold Busters program.</0>"
 msgstr "How to report mold issues through NYCHA's <0>Mold Busters program.</0>"
 
@@ -1477,6 +1535,10 @@ msgstr "I am experiencing financial hardship due to COVID-19."
 #: frontend/lib/laletterbuilder/faq-content.tsx:63
 msgid "I am undocumented. Can I send a letter?"
 msgstr "I am undocumented. Can I send a letter?"
+
+#: frontend/lib/util/lease-choices.ts:14
+msgid "I don't have a lease"
+msgstr "I don't have a lease"
 
 #: frontend/lib/loc/work-orders.tsx:50
 msgid "I don't have a ticket number"
@@ -1518,11 +1580,16 @@ msgstr "I understand I am signing and submitting this form under penalty of law.
 msgid "I understand that I must comply with all other lawful terms under my tenancy, lease agreement or similar contract."
 msgstr "I understand that I must comply with all other lawful terms under my tenancy, lease agreement or similar contract."
 
-#: frontend/lib/loc/letter-request.tsx:81
+#: frontend/lib/onboarding/onboarding-step-3.tsx:31
+msgid "I understand the risk"
+msgstr "I understand the risk"
+
+#: frontend/lib/loc/letter-request.tsx:83
 msgid "I want to mail this myself."
 msgstr "I want to mail this myself."
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:79
+#: frontend/lib/util/lease-choices.ts:13
 msgid "I'm not sure"
 msgstr "I'm not sure"
 
@@ -1669,6 +1736,10 @@ msgstr "Is this tool right for me?"
 msgid "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 msgstr "It doesn't seem like this property is required to register with HPD. You can learn about the City's registration requirements on <0>HPD's Property Management page</0>."
 
+#: frontend/lib/onboarding/relief-attempts.tsx:17
+msgid "It is encouraged that you call 311 to report housing complaints directly with the City. By calling, you will trigger a formal inspection process that may lead to official violations being issued."
+msgstr "It is encouraged that you call 311 to report housing complaints directly with the City. By calling, you will trigger a formal inspection process that may lead to official violations being issued."
+
 #: frontend/lib/rh/routes.tsx:182
 #: frontend/lib/rh/routes.tsx:189
 msgid "It looks like your apartment may be rent stabilized"
@@ -1740,8 +1811,12 @@ msgid "JustFix sent your letter on"
 msgstr "JustFix sent your letter on"
 
 #: frontend/lib/loc/letter-request.tsx:22
-msgid "JustFix will send this letter via USPS Certified Mail<0>®</0> to {0}:"
-msgstr "JustFix will send this letter via USPS Certified Mail<0>®</0> to {0}:"
+#~ msgid "JustFix will send this letter via USPS Certified Mail<0>®</0> to {0}:"
+#~ msgstr "JustFix will send this letter via USPS Certified Mail<0>®</0> to {0}:"
+
+#: frontend/lib/loc/letter-request.tsx:25
+msgid "JustFix will send this letter via USPS Certified Mail<0>®</0> to {recipient}:"
+msgstr "JustFix will send this letter via USPS Certified Mail<0>®</0> to {recipient}:"
 
 #: frontend/lib/loc/loc-confirmation.tsx:174
 #: frontend/lib/rh/routes.tsx:283
@@ -1757,6 +1832,7 @@ msgid "Kentucky"
 msgstr "Kentucky"
 
 #: common-data/issue-room-choices-laletterbuilder.ts:38
+#: frontend/lib/util/issue-area-choices.ts:9
 msgid "Kitchen"
 msgstr "Kitchen"
 
@@ -1855,6 +1931,10 @@ msgstr "Learn more"
 msgid "Learn more about our mission on our website"
 msgstr "Learn more about our mission on our website"
 
+#: frontend/lib/onboarding/onboarding-step-3.tsx:241
+msgid "Learn more about {label} leases"
+msgstr "Learn more about {label} leases"
+
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:126
 msgid "Learn more on <0/>."
 msgstr "Learn more on <0/>."
@@ -1926,6 +2006,7 @@ msgid "List of groups who can help you apply for ERAP"
 msgstr "List of groups who can help you apply for ERAP"
 
 #: common-data/issue-room-choices-laletterbuilder.ts:34
+#: frontend/lib/util/issue-area-choices.ts:10
 msgid "Living room"
 msgstr "Living room"
 
@@ -1996,7 +2077,7 @@ msgstr "Mail for me"
 msgid "Mail letter now for free"
 msgstr "Mail letter now for free"
 
-#: frontend/lib/loc/letter-request.tsx:77
+#: frontend/lib/loc/letter-request.tsx:79
 msgid "Mail my letter"
 msgstr "Mail my letter"
 
@@ -2024,7 +2105,7 @@ msgstr "Make sure all the information above is correct."
 msgid "Make sure all the information is correct."
 msgstr "Make sure all the information is correct."
 
-#: frontend/lib/issues/routes.tsx:279
+#: frontend/lib/issues/routes.tsx:282
 msgid "Make sure to be thorough."
 msgstr "Make sure to be thorough."
 
@@ -2045,10 +2126,13 @@ msgid "Mark your calendar"
 msgstr "Mark your calendar"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:53
+#: frontend/lib/onboarding/onboarding-step-3.tsx:67
+#: frontend/lib/util/lease-choices.ts:11
 msgid "Market Rate"
 msgstr "Market Rate"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:55
+#: frontend/lib/onboarding/onboarding-step-3.tsx:172
 msgid "Market rate tenants typically live in buildings of fewer than six (6) units, newer buildings, or formerly rent stabilized apartments that a landlord deregulated before 2019."
 msgstr "Market rate tenants typically live in buildings of fewer than six (6) units, newer buildings, or formerly rent stabilized apartments that a landlord deregulated before 2019."
 
@@ -2107,7 +2191,7 @@ msgstr "Mobile/Manufactured Home Residents"
 msgid "Mold"
 msgstr "Mold"
 
-#: frontend/lib/issues/routes.tsx:293
+#: frontend/lib/issues/routes.tsx:297
 msgid "Mold and Moisture"
 msgstr "Mold and Moisture"
 
@@ -2165,11 +2249,12 @@ msgstr "My issue is urgent and time sensitive. What should I do?"
 msgid "My letters"
 msgstr "My letters"
 
-#: frontend/lib/issues/routes.tsx:219
+#: frontend/lib/issues/routes.tsx:220
 msgid "NYCHA is under a court order to remediate problems with mold and moisture in their buildings. This includes peeling paint."
 msgstr "NYCHA is under a court order to remediate problems with mold and moisture in their buildings. This includes peeling paint."
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:62
+#: frontend/lib/util/lease-choices.ts:12
 msgid "NYCHA/Public Housing (includes RAD/PACT)"
 msgstr "NYCHA/Public Housing (includes RAD/PACT)"
 
@@ -2219,15 +2304,20 @@ msgid "New York"
 msgstr "New York"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:72
+#: frontend/lib/onboarding/onboarding-step-3.tsx:197
 msgid "New York City has many forms of affordable housing. Some common types include Mitchell Lama, Project-Based Section 8 buildings (also known as HUD), LIHTC, HDFC rentals, and others."
 msgstr "New York City has many forms of affordable housing. Some common types include Mitchell Lama, Project-Based Section 8 buildings (also known as HUD), LIHTC, HDFC rentals, and others."
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:210
+msgid "New York City has many kinds of housing. Learn more by ordering your rent history <0>here</0> or reading about <1>rent regulation</1>."
+msgstr "New York City has many kinds of housing. Learn more by ordering your rent history <0>here</0> or reading about <1>rent regulation</1>."
 
 #: frontend/lib/start-account-or-login/set-password.tsx:21
 msgid "New password"
 msgstr "New password"
 
 #: frontend/lib/common-steps/welcome.tsx:45
-#: frontend/lib/issues/routes.tsx:187
+#: frontend/lib/issues/routes.tsx:188
 #: frontend/lib/ui/buttons.tsx:30
 #: frontend/lib/ui/buttons.tsx:48
 msgid "Next"
@@ -2267,7 +2357,7 @@ msgstr "No heat"
 msgid "No hot water"
 msgstr "No hot water"
 
-#: frontend/lib/issues/routes.tsx:153
+#: frontend/lib/issues/routes.tsx:154
 msgid "No issues reported"
 msgstr "No issues reported"
 
@@ -2316,6 +2406,10 @@ msgstr "Not being able to pay rent due to COVID-19 is nothing to be ashamed of. 
 msgid "Not enough"
 msgstr "Not enough"
 
+#: frontend/lib/onboarding/onboarding-step-3.tsx:93
+msgid "Not sure"
+msgstr "Not sure"
+
 #: frontend/lib/laletterbuilder/letter-builder/send-options.tsx:107
 msgid "Not sure yet? You can sign back in later to send your letter."
 msgstr "Not sure yet? You can sign back in later to send your letter."
@@ -2358,7 +2452,7 @@ msgstr "Once received, management should contact you to schedule time to make re
 msgid "Once received, your landlord should contact you to schedule time to make repairs for the access dates you provided."
 msgstr "Once received, your landlord should contact you to schedule time to make repairs for the access dates you provided."
 
-#: frontend/lib/issues/routes.tsx:155
+#: frontend/lib/issues/routes.tsx:156
 msgid "One issue reported"
 msgstr "One issue reported"
 
@@ -2493,7 +2587,7 @@ msgstr "Please enter an email address!"
 msgid "Please enter your landlord's name and contact information below. You can find this information on your lease and/or rent receipts."
 msgstr "Please enter your landlord's name and contact information below. You can find this information on your lease and/or rent receipts."
 
-#: frontend/lib/issues/routes.tsx:275
+#: frontend/lib/issues/routes.tsx:276
 msgid "Please go room-by-room and select all of the issues that you are experiencing."
 msgstr "Please go room-by-room and select all of the issues that you are experiencing."
 
@@ -2529,13 +2623,21 @@ msgstr "Preview of your NoRent.org letter"
 msgid "Preview of your letter"
 msgstr "Preview of your letter"
 
-#: frontend/lib/loc/letter-request.tsx:54
+#: frontend/lib/loc/letter-request.tsx:56
 msgid "Preview of your letter of complaint"
 msgstr "Preview of your letter of complaint"
 
 #: frontend/lib/evictionfree/declaration-builder/preview.tsx:56
 msgid "Preview this declaration as a PDF"
 msgstr "Preview this declaration as a PDF"
+
+#: frontend/lib/onboarding/relief-attempts.tsx:11
+msgid "Previous attempts to get help"
+msgstr "Previous attempts to get help"
+
+#: frontend/lib/onboarding/relief-attempts.tsx:14
+msgid "Previous attempts to get official help"
+msgstr "Previous attempts to get official help"
 
 #: frontend/lib/loc/loc-confirmation.tsx:141
 msgid "Print out your letter and <0>mail it via Certified Mail</0> - this allows you to prove that it was sent to management."
@@ -2554,6 +2656,11 @@ msgstr "Privacy Policy"
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:101
 msgid "Private Right of Action"
 msgstr "Private Right of Action"
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:85
+#: frontend/lib/onboarding/onboarding-step-3.tsx:117
+msgid "Proceed with caution."
+msgstr "Proceed with caution."
 
 #: frontend/lib/evictionfree/declaration-builder/welcome.tsx:9
 msgid "Protect yourself from eviction"
@@ -2603,6 +2710,7 @@ msgid "Regards,"
 msgstr "Regards,"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:43
+#: frontend/lib/util/lease-choices.ts:9
 msgid "Rent Controlled"
 msgstr "Rent Controlled"
 
@@ -2611,6 +2719,7 @@ msgid "Rent History"
 msgstr "Rent History"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:33
+#: frontend/lib/util/lease-choices.ts:8
 msgid "Rent Stabilized"
 msgstr "Rent Stabilized"
 
@@ -2625,6 +2734,10 @@ msgstr "Rent Strike Organizing"
 #: common-data/issue-choices.ts:267
 msgid "Rent receipts incomplete"
 msgstr "Rent receipts incomplete"
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:50
+msgid "Rent stabilized"
+msgstr "Rent stabilized"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:118
 msgid "Rental Assistance Application Hotline:"
@@ -2666,8 +2779,13 @@ msgstr "Resources"
 msgid "Results for {0}"
 msgstr "Results for {0}"
 
-#: frontend/lib/loc/letter-request.tsx:56
+#: frontend/lib/onboarding/onboarding-step-3.tsx:76
+#: frontend/lib/onboarding/onboarding-step-3.tsx:108
+msgid "Retaliation is <0>illegal</0> and all New Yorkers are <1>entitled to repairs</1> but, if you use this tool, your landlord could retaliate by raising the rent or sending a termination notice once your lease ends."
+msgstr "Retaliation is <0>illegal</0> and all New Yorkers are <1>entitled to repairs</1> but, if you use this tool, your landlord could retaliate by raising the rent or sending a termination notice once your lease ends."
+
 #: frontend/lib/loc/letter-request.tsx:58
+#: frontend/lib/loc/letter-request.tsx:60
 msgid "Review the Letter of Complaint"
 msgstr "Review the Letter of Complaint"
 
@@ -2736,7 +2854,7 @@ msgstr "Sample NoRent.org letter"
 msgid "Sample Notice to Repair letter"
 msgstr "Sample Notice to Repair letter"
 
-#: frontend/lib/issues/routes.tsx:121
+#: frontend/lib/issues/routes.tsx:122
 #: frontend/lib/ui/editable-info.tsx:52
 msgid "Save"
 msgstr "Save"
@@ -2777,11 +2895,11 @@ msgstr "Select the repairs you need in your home"
 msgid "Select your housing type to get started:"
 msgstr "Select your housing type to get started:"
 
-#: frontend/lib/issues/routes.tsx:89
+#: frontend/lib/issues/routes.tsx:90
 msgid "Select your issues"
 msgstr "Select your issues"
 
-#: frontend/lib/issues/routes.tsx:96
+#: frontend/lib/issues/routes.tsx:97
 msgid "Select your issues."
 msgstr "Select your issues."
 
@@ -2856,7 +2974,7 @@ msgstr "Shall we send your letter?"
 msgid "Share this tool"
 msgstr "Share this tool"
 
-#: frontend/lib/issues/routes.tsx:42
+#: frontend/lib/issues/routes.tsx:43
 msgid "Shower"
 msgstr "Shower"
 
@@ -2913,7 +3031,7 @@ msgstr "Sign up or log in to your account to access our tool."
 msgid "Signed,"
 msgstr "Signed,"
 
-#: frontend/lib/issues/routes.tsx:40
+#: frontend/lib/issues/routes.tsx:41
 msgid "Sink"
 msgstr "Sink"
 
@@ -3158,7 +3276,7 @@ msgstr "They were terrific because their letter got results that mine didn't. Th
 msgid "Think your apartment may be rent-stabilized? Request its official records."
 msgstr "Think your apartment may be rent-stabilized? Request its official records."
 
-#: frontend/lib/issues/routes.tsx:263
+#: frontend/lib/issues/routes.tsx:264
 msgid "This <0>issue checklist</0> will be sent to your landlord."
 msgstr "This <0>issue checklist</0> will be sent to your landlord."
 
@@ -3166,7 +3284,7 @@ msgstr "This <0>issue checklist</0> will be sent to your landlord."
 msgid "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 msgstr "This building is owned by the <0>NYC Housing Authority (NYCHA)</0>."
 
-#: frontend/lib/loc/letter-request.tsx:69
+#: frontend/lib/loc/letter-request.tsx:71
 msgid "This demo site <0>will not send</0> a real letter to your landlord."
 msgstr "This demo site <0>will not send</0> a real letter to your landlord."
 
@@ -3179,6 +3297,7 @@ msgid "This is a free tool that notifies your landlord of repair issues via USPS
 msgstr "This is a free tool that notifies your landlord of repair issues via USPS Certified Mail®. This service is free and secure."
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:45
+#: frontend/lib/onboarding/onboarding-step-3.tsx:158
 msgid "This is a rare kind of housing! Buildings that had three or more residential units before February 1, 1947, where the tenant or immediate family member has been continuously living in the apartment since July 1, 1971."
 msgstr "This is a rare kind of housing! Buildings that had three or more residential units before February 1, 1947, where the tenant or immediate family member has been continuously living in the apartment since July 1, 1971."
 
@@ -3234,11 +3353,11 @@ msgstr "Toilet not working"
 msgid "Trash cans"
 msgstr "Trash cans"
 
-#: frontend/lib/loc/letter-request.tsx:31
+#: frontend/lib/loc/letter-request.tsx:33
 msgid "UNKNOWN ADDRESS"
 msgstr "UNKNOWN ADDRESS"
 
-#: frontend/lib/loc/letter-request.tsx:29
+#: frontend/lib/loc/letter-request.tsx:31
 msgid "UNKNOWN LANDLORD"
 msgstr "UNKNOWN LANDLORD"
 
@@ -3465,7 +3584,7 @@ msgstr "We'll mail your letter via <0>USPS Certified Mail<1>®</1></0> and provi
 msgid "We'll need to add your case's index number to your declaration."
 msgstr "We'll need to add your case's index number to your declaration."
 
-#: frontend/lib/issues/routes.tsx:246
+#: frontend/lib/issues/routes.tsx:247
 msgid "We'll provide this information again after you complete your letter."
 msgstr "We'll provide this information again after you complete your letter."
 
@@ -3610,6 +3729,26 @@ msgstr "What if my landlord sends me a notice?"
 msgid "What information will I need?"
 msgstr "What information will I need?"
 
+#: frontend/lib/onboarding/onboarding-step-3.tsx:195
+msgid "What is Affordable Housing (other than rent stabilized)?"
+msgstr "What is Affordable Housing (other than rent stabilized)?"
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:170
+msgid "What is Market Rate Housing?"
+msgstr "What is Market Rate Housing?"
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:183
+msgid "What is NYCHA, Public Housing, and RAD/PACT?"
+msgstr "What is NYCHA, Public Housing, and RAD/PACT?"
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:156
+msgid "What is Rent Controlled Housing?"
+msgstr "What is Rent Controlled Housing?"
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:137
+msgid "What is Rent Stabilized Housing?"
+msgstr "What is Rent Stabilized Housing?"
+
 #: frontend/lib/evictionfree/data/faqs-content.tsx:242
 msgid "What is the deadline for filling out the declaration?"
 msgstr "What is the deadline for filling out the declaration?"
@@ -3629,6 +3768,11 @@ msgstr "What is your borough?"
 #: frontend/lib/norent/data/faqs-content.tsx:397
 msgid "What kind of documentation should I collect to prove I can’t pay rent?"
 msgstr "What kind of documentation should I collect to prove I can’t pay rent?"
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:277
+#: frontend/lib/onboarding/onboarding-step-3.tsx:280
+msgid "What type of housing do you live in?"
+msgstr "What type of housing do you live in?"
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:70
 msgid "What's next?"
@@ -3897,7 +4041,7 @@ msgstr "Your <0>USPS Certified Mail<1>®</1></0> tracking number is <2>{tracking
 msgid "Your Hardship Declaration form has been emailed to:"
 msgstr "Your Hardship Declaration form has been emailed to:"
 
-#: frontend/lib/loc/letter-request.tsx:20
+#: frontend/lib/loc/letter-request.tsx:23
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:59
 msgid "Your Letter Is Ready To Send!"
 msgstr "Your Letter Is Ready To Send!"
@@ -3938,7 +4082,7 @@ msgstr "Your Rent History has been requested from the New York State DHCR!"
 msgid "Your account is set up"
 msgstr "Your account is set up"
 
-#: frontend/lib/account-settings/nyc-address-settings.tsx:89
+#: frontend/lib/account-settings/nyc-address-settings.tsx:90
 msgid "Your address"
 msgstr "Your address"
 
@@ -4064,6 +4208,10 @@ msgstr "Your privacy is very important to us. Everything on JustFix is secure. <
 #: frontend/lib/common-steps/ask-nyc-address.tsx:39
 msgid "Your residence"
 msgstr "Your residence"
+
+#: frontend/lib/onboarding/onboarding-step-3.tsx:283
+msgid "Your rights vary depending on what type of housing you live in."
+msgstr "Your rights vary depending on what type of housing you live in."
 
 #: frontend/lib/laletterbuilder/letter-builder/my-letters.tsx:138
 msgid "Your tracking number will appear here once the letter has been sent."
@@ -4402,6 +4550,10 @@ msgstr "latenants.justfix.org <0/>sent on behalf of <1/>"
 msgid "letter"
 msgstr "letter"
 
+#: frontend/lib/loc/letter-request.tsx:21
+msgid "management"
+msgstr "management"
+
 #: frontend/lib/laletterbuilder/letter-builder/choose-letter.tsx:130
 msgid "mins"
 msgstr "mins"
@@ -4605,16 +4757,20 @@ msgstr "<0>Yes, you’ll still owe rent after sending the letter because our sta
 msgid "pay rent, rent, can't pay rent, june rent, june 1"
 msgstr "pay rent, rent, can't pay rent, june rent, june 1"
 
+#: frontend/lib/loc/letter-request.tsx:22
+msgid "your landlord"
+msgstr "your landlord"
+
 #. This is used to describe a link to another website that is only available in English.
 #: frontend/lib/ui/localized-outbound-link.tsx:44
 msgid "{0} (in English)"
 msgstr "{0} (in English)"
 
-#: frontend/lib/issues/routes.tsx:167
+#: frontend/lib/issues/routes.tsx:168
 msgid "{actionLabel} for {label}"
 msgstr "{actionLabel} for {label}"
 
-#: frontend/lib/issues/routes.tsx:156
+#: frontend/lib/issues/routes.tsx:157
 msgid "{count} issues reported"
 msgstr "{count} issues reported"
 
@@ -4622,11 +4778,11 @@ msgstr "{count} issues reported"
 msgid "{label} (optional)"
 msgstr "{label} (optional)"
 
-#: frontend/lib/issues/routes.tsx:136
+#: frontend/lib/issues/routes.tsx:137
 msgid "{label} - Issue checklist"
 msgstr "{label} - Issue checklist"
 
-#: frontend/lib/issues/routes.tsx:139
+#: frontend/lib/issues/routes.tsx:140
 msgid "{label} issues"
 msgstr "{label} issues"
 
@@ -4638,6 +4794,6 @@ msgstr "{remaining, plural, one {1 character remaining} other {# characters rema
 msgid "{stateName} has specific documentation requirements to support your letter to your landlord."
 msgstr "{stateName} has specific documentation requirements to support your letter to your landlord."
 
-#: frontend/lib/issues/routes.tsx:169
+#: frontend/lib/issues/routes.tsx:170
 msgid "{title} ({issueLabel})"
 msgstr "{title} ({issueLabel})"

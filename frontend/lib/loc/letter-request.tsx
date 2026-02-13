@@ -26,6 +26,9 @@ const UNKNOWN_LANDLORD = { name: "", address: "" };
 export const SendConfirmModal = withAppContext(
   (props: AppContextType & { nextStep: string }) => {
     const landlord = props.session.landlordDetails || UNKNOWN_LANDLORD;
+    const recipient = isUserNycha(props.session)
+      ? li18n._(t`management`)
+      : li18n._(t`your landlord`);
 
     return (
       <Modal
@@ -37,8 +40,7 @@ export const SendConfirmModal = withAppContext(
             <p>
               <Trans>
                 JustFix will send this letter via USPS Certified Mail
-                <sup>&reg;</sup> to{" "}
-                {isUserNycha(props.session) ? "management" : "your landlord"}:
+                <sup>&reg;</sup> to {recipient}:
               </Trans>
             </p>
             <address className="has-text-centered">

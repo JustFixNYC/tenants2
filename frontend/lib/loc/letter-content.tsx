@@ -8,9 +8,9 @@ import {
 import { createLetterStaticPageWithQuery } from "../static-page/letter-static-page";
 import {
   IssueAreaChoice,
-  getIssueAreaChoiceLabels,
   IssueAreaChoices,
 } from "../../../common-data/issue-area-choices";
+import { getIssueAreaChoiceLabels } from "../util/issue-area-choices";
 import {
   IssueChoice,
   getIssueChoiceLabels,

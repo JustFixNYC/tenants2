@@ -5,6 +5,7 @@ from django.contrib.auth import login
 from django.conf import settings
 from django.http import HttpRequest
 from django.utils import translation
+from django.utils.translation import gettext as _
 import graphene
 from graphql import ResolveInfo
 from graphene_django.types import DjangoObjectType
@@ -122,7 +123,7 @@ class OnboardingStep4Base(SessionFormMutation):
         allinfo = cls.__extract_all_step_session_data(request)
         if allinfo is None:
             cls.log(info, "User has not completed previous steps, aborting mutation.")
-            return cls.make_error("You haven't completed all the previous steps yet.")
+            return cls.make_error(_("You haven't completed all the previous steps yet."))
         allinfo.update(form.cleaned_data)
         password = form.cleaned_data["password"] or None
         allinfo["email"] = form.cleaned_data.get("email", "")

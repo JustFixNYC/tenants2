@@ -36,9 +36,9 @@ import { assertNotUndefined } from "@justfixnyc/util";
 import {
   IssueAreaChoice,
   isIssueAreaChoice,
-  getIssueAreaChoiceLabels,
   IssueAreaChoices,
 } from "../../../common-data/issue-area-choices";
+import { getIssueAreaChoiceLabels } from "../util/issue-area-choices";
 import { IssueChoice } from "../../../common-data/issue-choices";
 import {
   CUSTOM_ISSUE_MAX_LENGTH,

@@ -4,11 +4,11 @@ import { Trans, t } from "@lingui/macro";
 import { li18n } from "../i18n-lingui";
 import { Route } from "react-router-dom";
 import {
-  getLeaseChoiceLabels,
   isLeaseChoice,
   LeaseChoice,
   LeaseChoices,
 } from "../../../common-data/lease-choices";
+import { getLeaseChoiceLabels } from "../util/lease-choices";
 import { AppContext } from "../app-context";
 import { toDjangoChoices } from "../common-data";
 import { AddressAndBoroughField } from "../forms/address-and-borough-form-field";

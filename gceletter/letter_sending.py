@@ -14,7 +14,7 @@ from project.util import lob_api
 from frontend.static_content import Email
 from gceletter.models import GCELetter
 
-# from project.util.demo_deployment import is_not_demo_deployment
+from project.util.demo_deployment import is_not_demo_deployment
 from project.util.email_attachment import email_file_response_as_attachment
 from project.util.html_to_text import html_to_text
 from project.util.letter_sending import USPS_TRACKING_URL_PREFIX
@@ -106,7 +106,7 @@ def email_letter_to_user(letter: GCELetter, pdf_bytes: bytes):
     ud = letter.user_details
     assert ud.email
 
-    if True:  # is_not_demo_deployment(f"emailing {letter} to user"):
+    if is_not_demo_deployment(f"emailing {letter} to user"):
         subject, body = get_email_subject_body("user", letter)
         email = Email(
             subject=subject,
@@ -131,8 +131,7 @@ def email_letter_to_others(letter: GCELetter, pdf_bytes: bytes):
         return False
     assert len(letter.extra_emails)
 
-    # TODO: temporarily enabling email sending even on demo for internal QA
-    if True:  # is_not_demo_deployment(f"emailing {letter} to others"):
+    if is_not_demo_deployment(f"emailing {letter} to others"):
         subject, body = get_email_subject_body("others", letter)
         for other_email in letter.extra_emails:
             email = Email(
@@ -160,7 +159,7 @@ def email_letter_to_landlord(letter: GCELetter, pdf_bytes: bytes):
     ud = letter.user_details
     assert ld.email
 
-    if True:  # is_not_demo_deployment(f"emailing {letter} to landlord"):
+    if is_not_demo_deployment(f"emailing {letter} to landlord"):
         subject, body = get_email_subject_body("landlord", letter)
         email = Email(
             subject=subject,

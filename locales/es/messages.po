@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-02-13 18:06\n"
+"PO-Revision-Date: 2026-02-23 18:16\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -59,7 +59,7 @@ msgstr "<0>Declaración de Impactos Financieros Relacionados con Covid-19</0>"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:269
 msgid "<0>Disclaimer:</0> The information contained in JustFix does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free and/or low-cost legal services as necessary."
-msgstr "<0>Aviso:</0> La información en JustFix no constituye asesoramiento jurídico y no debe ser utilizado como sustituto del asesoramiento de un abogado cualificado para asesorar sobre cuestiones jurídicas relativas a la vivienda. Nosotros podemos ayudarle a dirigirle a servicios legales gratuitos si es necesario."
+msgstr "<0>Aviso:</0> La información disponible en JustFix no constituye asesoramiento jurídico y no debe utilizarse como sustituto del asesoramiento de un abogado cualificado para brindar orientación sobre cuestiones jurídicas relacionadas con la vivienda. Podemos ayudarle a encontrar servicios legales gratuitos y/o de bajo costo si es necesario."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:379
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
@@ -67,11 +67,11 @@ msgstr "<0>Herramientas gratuitas para luchar por un hogar seguro y saludable</0
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:186
 msgid "<0>Having a record of notifying your landlord makes for a stronger legal case.</0> If your landlord has already been unresponsive to your requests to make repairs, a letter is a <1>great tactic to start</1>. Through USPS Certified Mail<2>®</2>, you will have an official record of the requests you've made to your landlord. Our nonprofit <3>covers the cost</3> of mailing this letter for you!"
-msgstr "<0>Tener un registro de las notificaciones enviadas al propietario refuerza tu caso legal.</0> Si el propietario no ha respondido a tus solicitudes de reparación, una carta es una <1>excelente táctica para comenzar</1>. A través del servicio USPS Certified Mail<2>®</2>, tendrás un registro oficial de las solicitudes que le has enviado al propietario. ¡Nuestra organización sin fines de lucro <3>cubre el costo</3> del envío de esta carta por ti!"
+msgstr "<0>Contar con un registro de las notificaciones enviadas a su arrendador refuerza su caso legal.</0> Si su arrendador no ha respondido a sus solicitudes de reparación, enviar una carta es una <1>excelente táctica para comenzar</1>. A través del servicio USPS Certified Mail<2>®</2>, contará con un registro oficial de las solicitudes que le ha enviado a su arrendador. ¡Nuestra organización sin fines de lucro <3>cubre el costo</3> del envío de esta carta por usted!"
 
 #: frontend/lib/loc/routes.tsx:76
 msgid "<0>Having a record of notifying your landlord makes for a stronger legal case.</0> If your landlord has been unresponsive to your requests to make repairs, a letter is a <1>great tactic to start</1>. Through USPS Certified Mail<2>®</2>, you will have an official record of the requests you've made to your landlord."
-msgstr "<0>Tener un registro de las notificaciones enviadas al propietario refuerza tu posición legal.</0> Si el propietario no ha respondido a tus solicitudes de reparación, una carta es una <1>buena táctica para empezar</1>. A través del servicio USPS Certified Mail<2>®</2>, tendrás un registro oficial de las solicitudes que has realizado al propietario."
+msgstr "<0>Contar con un registro de las notificaciones enviadas a su arrendador refuerza su caso legal.</0> Si su arrendador no ha respondido a sus solicitudes de reparación, enviar una carta es una <1>excelente táctica para comenzar</1>. A través del servicio USPS Certified Mail<2>®</2>, contará con un registro oficial de las solicitudes que le ha enviado a su arrendador."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:255
 msgid "<0>Hello {0},</0><1>You've sent your NoRent letter. Attached to this email is a PDF copy for your records.</1>"
@@ -79,7 +79,7 @@ msgstr "<0>Hola {0},</0><1>Has enviado tu carta de NoRent. Aquí tienes una copi
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/letter-email-to-user.tsx:9
 msgid "<0>Hello {0},</0><1>You've sent your Notice To Repair letter. Attached to this email is a PDF copy for your records.</1>"
-msgstr "<0>Hola {0},</0><1>Ha enviado su carta del Aviso para reparar. Adjunto a este correo electrónico está una copia en PDF para sus archivos.</1>"
+msgstr "<0>Hola {0},</0><1>Ha enviado su carta del Aviso de reparación. Adjuntamos a este correo electrónico una copia en PDF para sus archivos.</1>"
 
 #: frontend/lib/norent/data/faqs-content.tsx:389
 msgid "<0>If your landlord is trying to illegally evict you, reach out to legal assistance at <1/> immediately.</0>"
@@ -95,7 +95,7 @@ msgstr "<0>JustFix</0> construye herramientas para inquilinos, organizadores de 
 
 #: frontend/lib/onboarding/onboarding-step-3.tsx:95
 msgid "<0>Know the Risks:</0> If you aren't sure about your regulated status, you may want to do more research before using our tools. Non-regulated tenants have fewer protections against eviction and larger rent increases than regulated tenants. <1>Learn more here</1>."
-msgstr "<0>Conoce los riesgos:</0> si no estás seguro de tu situación regulada, es posible que desees investigar más antes de utilizar nuestras herramientas. Los inquilinos no regulados tienen menos protecciones contra el desalojo y aumentos de alquiler más elevados que los inquilinos regulados. <1>Obtén más información aquí</1>."
+msgstr "<0>Conozca los riesgos:</0> si no está seguro de si su vivienda está sujeta a regulación, le recomendamos investigar un poco más antes de utilizar nuestras herramientas. Los inquilinos no regulados cuentan con menos protecciones contra el desalojo y pueden enfrentar aumentos de alquiler más elevados que los inquilinos regulados. <1>Obtenga más información aquí</1>."
 
 #: frontend/lib/onboarding/onboarding-step-3.tsx:69
 msgid "<0>Know the Risks:</0> Market tenants have fewer protections against eviction and larger rent increases than rent regulated tenants."

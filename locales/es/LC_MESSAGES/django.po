@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-13 15:01+0000\n"
-"PO-Revision-Date: 2026-02-13 18:06\n"
+"PO-Revision-Date: 2026-02-23 18:16\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -88,7 +88,7 @@ msgstr "cerrar"
 
 #: laletterbuilder/forms.py:54
 msgid "Please select at least one repair issue."
-msgstr "Por favor selecciona al menos un problema de reparación."
+msgstr "Seleccione al menos un problema de reparación."
 
 #: laletterbuilder/forms.py:73
 msgid "Please provide a landlord email or indicate that you do not have this information."
@@ -96,7 +96,7 @@ msgstr "Por favor, proporciona un correo electrónico de propietario o indica qu
 
 #: loc/schema.py:84
 msgid "Enter at least 1 ticket number or select `I don't have a ticket number.`"
-msgstr "Introduce al menos un número de ticket o selecciona «No tengo un número de ticket»."
+msgstr "Introduzca al menos un número de ticket o seleccione \"No tengo un número de ticket\"."
 
 #: norent/forms.py:65
 #, python-format
@@ -156,7 +156,7 @@ msgstr "Por favor proporcione un número de apartamento o marque la casilla \"No
 
 #: onboarding/schema.py:126
 msgid "You haven't completed all the previous steps yet."
-msgstr "Aún no has completado todos los pasos anteriores."
+msgstr "Aún no ha completado todos los pasos anteriores."
 
 #: onboarding/schema_util.py:16
 msgid "You haven't provided any account details yet!"

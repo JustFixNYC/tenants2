@@ -9,7 +9,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-02-24 19:07\n"
+"PO-Revision-Date: 2026-02-25 19:10\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -55,11 +55,11 @@ msgstr "<0/> usa una <1/> y unos <2/>, que puedes revisar."
 
 #: frontend/lib/norent/letter-content.tsx:16
 msgid "<0>Declaration of Financial Impacts Related to COVID-19</0>"
-msgstr "<0>Declaración de Impactos Financieros Relacionados con Covid-19</0>"
+msgstr "<0>Declaración de Impactos Financieros Relacionados con el COVID-19</0>"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:269
 msgid "<0>Disclaimer:</0> The information contained in JustFix does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing. We can help direct you to free and/or low-cost legal services as necessary."
-msgstr "<0>Aviso:</0> La información disponible en JustFix no constituye asesoramiento jurídico y no debe utilizarse como sustituto del asesoramiento de un abogado cualificado para brindar orientación sobre cuestiones jurídicas relacionadas con la vivienda. Podemos ayudarle a encontrar servicios legales gratuitos y/o de bajo costo si es necesario."
+msgstr "<0>Descargo de responsabilidad:</0> La información contenida en JustFix no constituye asesoramiento jurídico y no debe utilizarse como sustituto del asesoramiento de un abogado calificado para brindar orientación sobre cuestiones legales relacionadas con la vivienda. Podemos ayudarle a encontrar servicios legales gratuitos y/o de bajo costo, según sea necesario."
 
 #: frontend/lib/data-driven-onboarding/data-driven-onboarding.tsx:379
 msgid "<0>Free tools for you to fight for a safe and healthy home</0><1>Enter your address to learn more.</1>"
@@ -268,7 +268,7 @@ msgstr "Alaska"
 
 #: frontend/lib/onboarding/onboarding-step-3.tsx:146
 msgid "All apartments in buildings that receive a tax abatement such as J-51, 421a, and 421g are also stabilized."
-msgstr "Todos los departamentos de los edificios que se benefician de una reducción impositiva, como J-51, 421a y 421g, también están sujetos a regulación de renta."
+msgstr "Todos los departamentos de los edificios que se benefician de una reducción impositiva, como J-51, 421a y 421g, también están sujetos a una renta estabilizada."
 
 #: frontend/lib/norent/components/subscribe.tsx:34
 msgid "All set! Thanks for subscribing!"
@@ -436,7 +436,7 @@ msgstr "Aprovecha las protecciones de desalojo en tu estado notificando al dueñ
 
 #: common-data/issue-room-choices-laletterbuilder.ts:41
 msgid "Broken"
-msgstr "Quebrado"
+msgstr "Roto"
 
 #: common-data/issue-choices.ts:268
 msgid "Broken elevator"
@@ -513,7 +513,7 @@ msgstr "Construye poder común"
 
 #: frontend/lib/laletterbuilder/letter-builder/habitability/routes.tsx:61
 msgid "Build your Letter"
-msgstr "Genere su Carta"
+msgstr "Genere su carta"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:47
 #: frontend/lib/norent/letter-builder/welcome.tsx:22
@@ -579,7 +579,7 @@ msgstr "¿Es verdad que mi casero puede impugnar la validez de mi declaración d
 
 #: frontend/lib/laletterbuilder/faq-content.tsx:46
 msgid "Can my landlord retaliate against me for sending a letter?"
-msgstr "¿El dueño puede tomar represalias contra mí por enviar una carta?"
+msgstr "¿El arrendador tomar represalias contra mí por enviar una carta?"
 
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:90
 #: frontend/lib/norent/components/helmet.tsx:55
@@ -1317,7 +1317,7 @@ msgstr "¡Buenas noticias!"
 
 #: frontend/lib/onboarding/onboarding-step-3.tsx:52
 msgid "Good news! As a rent regulated tenant, you likely have extra protections against retaliation. Want to find out if you're being overcharged? Order your rent history <0>here</0>!"
-msgstr "¡Buenas noticias! Como inquilino con alquiler regulado, es probable que cuentes con protecciones adicionales contra represalias. ¿Quieres saber si te están cobrando de más? ¡Solicita tu historial de alquiler <0>aquí</0>!"
+msgstr "¡Buenas noticias! Como inquilino con renta regulada, es probable que cuente con protecciones adicionales contra represalias. ¿Quiere saber si le están cobrando de más? ¡Solicite su historial de renta <0>aquí</0>!"
 
 #: frontend/lib/issues/routes.tsx:301
 #: frontend/lib/ui/privacy-info-modal.tsx:64
@@ -1330,7 +1330,7 @@ msgstr "¡Entendido!"
 
 #: frontend/lib/forms/email-attachment.tsx:33
 msgid "Got it! We're sending your {noun} to {0}."
-msgstr "¡Entendido! Estamos enviando tu {noun} a {0}."
+msgstr "¡Entendido! Estamos enviando su {noun} a {0}."
 
 #: frontend/lib/pages/redirect-to-english-page.tsx:15
 msgid "Got it, take me there"
@@ -1358,12 +1358,12 @@ msgstr "Acoso (Ciudad de Los Ángeles/TAHO)"
 
 #: frontend/lib/onboarding/relief-attempts.tsx:30
 msgid "Have you previously called 311 with no results?"
-msgstr "¿Has llamado anteriormente al 311 sin obtener resultados?"
+msgstr "¿Ha llamado anteriormente al 311 sin obtener resultados?"
 
 #: frontend/lib/password-reset/routes.tsx:48
 #: frontend/lib/password-reset/routes.tsx:50
 msgid "Having trouble logging in?"
-msgstr "¿Tienes problemas para iniciar sesión?"
+msgstr "¿Tiene problemas para iniciar sesión?"
 
 #: common-data/us-state-choices.ts:76
 msgid "Hawaii"
@@ -1491,7 +1491,7 @@ msgstr "Viviendas en edificios construidos antes del 1 de enero de 1974 con seis
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:35
 msgid "Housing in buildings built before January 1, 1974 with six or more units, including Single Room Occupancy (\"SRO\") hotels and rooming houses. All apartments in buildings that receive a tax abatement such as J-51, 421a, and 421g are also stabilized."
-msgstr "Viviendas en edificios construidos antes del 1 de enero de 1974 con seis o más unidades, incluidos los hoteles de habitaciones individuales (SRO) y las pensiones. Todos los departamentos de los edificios que se benefician de una reducción impositiva, como J-51, 421a y 421g, también están sujetos a la regulación de renta."
+msgstr "Viviendas en edificios construidos antes del 1 de enero de 1974 con seis o más unidades, incluidos los hoteles de habitaciones individuales (SRO) y las pensiones. Todos los departamentos de los edificios que se benefician de una reducción impositiva, como J-51, 421a y 421g, también están sujetos a una renta estabilizada."
 
 #: frontend/lib/util/housing-type.ts:3
 msgid "Housing type"
@@ -2314,7 +2314,7 @@ msgstr "Nebraska"
 
 #: frontend/lib/laletterbuilder/homepage.tsx:27
 msgid "Need Repairs in Your home? Take action today"
-msgstr "¿Necesitas reparaciones en tu hogar? Toma acción hoy"
+msgstr "¿Necesitas reparaciones en su hogar? Actúe hoy"
 
 #: frontend/lib/evictionfree/about.tsx:15
 #: frontend/lib/evictionfree/declaration-builder/confirmation.tsx:57
@@ -2323,7 +2323,7 @@ msgstr "¿Necesitas apoyo adicional?"
 
 #: frontend/lib/loc/letter-of-complaint-splash.tsx:109
 msgid "Need repairs in your home?<0/>Take action today!"
-msgstr "¿Necesitas reparaciones en tu hogar?<0/>¡Toma acción hoy!"
+msgstr "¿Necesita reparaciones en su hogar?<0/>¡Actúe hoy!"
 
 #: frontend/lib/norent/letter-builder/confirmation.tsx:154
 msgid "Need to send another letter?"
@@ -2356,7 +2356,7 @@ msgstr "La ciudad de Nueva York cuenta con muchas formas de vivienda asequible. 
 
 #: frontend/lib/onboarding/onboarding-step-3.tsx:210
 msgid "New York City has many kinds of housing. Learn more by ordering your rent history <0>here</0> or reading about <1>rent regulation</1>."
-msgstr "La ciudad de Nueva York cuenta con muchos tipos de viviendas. Obtén más información solicitando tu historial de alquiler <0>aquí</0> o leyendo sobre <1>la regulación de los alquileres.</1>"
+msgstr "La ciudad de Nueva York cuenta con muchos tipos de viviendas. Obtenga más información solicitando su historial de renta <0>aquí</0> o leyendo sobre <1>la regulación de la renta</1>."
 
 #: frontend/lib/password-reset/routes.tsx:104
 #: frontend/lib/start-account-or-login/set-password.tsx:21
@@ -2415,7 +2415,7 @@ msgstr "No hay fecha de registro."
 
 #: frontend/lib/util/signup-intent-choices.ts:11
 msgid "No rent letter"
-msgstr "Sin carta de alquiler"
+msgstr "Sin carta de renta"
 
 #: common-data/issue-choices.ts:266
 msgid "No rent receipts given"
@@ -2485,7 +2485,7 @@ msgstr "Carta de aviso de reparación"
 
 #: frontend/lib/start-account-or-login/verify-password.tsx:59
 msgid "Now we just need your password. This is the same one you’ve used on JustFix or NoRent."
-msgstr "Ahora solo necesitamos tu contraseña. Esta es la misma que usas en JustFix o NoRent."
+msgstr "Ahora solo necesitamos su contraseña. Esta es la misma que usa en JustFix o NoRent."
 
 #: common-data/us-state-choices.ts:100
 msgid "Ohio"
@@ -2497,11 +2497,11 @@ msgstr "Oklahoma"
 
 #: frontend/lib/loc/loc-confirmation.tsx:20
 msgid "Once received, management should contact you to schedule time to make repairs for the access dates you provided."
-msgstr "Una vez recibida, la dirección se pondrá en contacto contigo para programar una fecha para realizar las reparaciones en las fechas de acceso que has proporcionado."
+msgstr "Una vez recibida, la dirección se pondrá en contacto con usted para programar una fecha para realizar las reparaciones en las fechas de acceso que ha proporcionado."
 
 #: frontend/lib/loc/loc-confirmation.tsx:23
 msgid "Once received, your landlord should contact you to schedule time to make repairs for the access dates you provided."
-msgstr "Una vez recibida, tu arrendador debería ponerse en contacto contigo para programar una fecha para realizar las reparaciones en las fechas de acceso que has proporcionado."
+msgstr "Una vez recibida, su arrendador debería ponerse en contacto con usted para programar una fecha para realizar las reparaciones en las fechas de acceso que ha proporcionado."
 
 #: frontend/lib/issues/routes.tsx:156
 msgid "One issue reported"
@@ -2643,7 +2643,7 @@ msgstr "Por favor, proporciona el nombre del dueño de tu edificio así como su 
 
 #: frontend/lib/issues/routes.tsx:276
 msgid "Please go room-by-room and select all of the issues that you are experiencing."
-msgstr "Por favor, vaya habitación por habitación y seleccione todos los problemas que está experimentando."
+msgstr "Vaya habitación por habitación y seleccione todos los problemas que está experimentando."
 
 #: frontend/lib/norent/letter-email-to-user.tsx:215
 msgid "Please read the rest of this email carefully as it contains important information about your next steps."
@@ -2652,7 +2652,7 @@ msgstr "Por favor, lee atentamente el resto del correo electrónico ya que conti
 #: frontend/lib/account-settings/contact-settings.tsx:26
 #: frontend/lib/onboarding/onboarding-step-4.tsx:79
 msgid "Please use a number that can receive text messages."
-msgstr "Por favor, usa un número que pueda recibir mensajes de texto."
+msgstr "Use un número al que pueda recibir mensajes de texto."
 
 #: frontend/lib/account-settings/about-you-settings.tsx:26
 #: frontend/lib/common-steps/ask-name.tsx:33
@@ -3617,7 +3617,7 @@ msgstr "Le recomendamos que regrese y seleccione “Enviar en mi nombre”. Si d
 
 #: frontend/lib/loc/loc-confirmation.tsx:71
 msgid "We sent your letter of complaint {0} !"
-msgstr "¡Enviamos su Carta de queja {0}!"
+msgstr "¡Enviamos su Carta de Queja {0}!"
 
 #: frontend/lib/norent/letter-builder/letter-preview.tsx:112
 msgid "We will be mailing this letter on your behalf by USPS certified mail and will be providing a tracking number."
@@ -4276,7 +4276,7 @@ msgstr "la corte de vivienda local"
 #: frontend/lib/password-reset/routes.tsx:113
 #: frontend/lib/password-reset/routes.tsx:115
 msgid "Your password has been reset!"
-msgstr "¡Tu contraseña ha sido restablecida!"
+msgstr "¡Su contraseña ha sido restablecida!"
 
 #: frontend/lib/start-account-or-login/ask-phone-number.tsx:25
 msgid "Your phone number"
@@ -4292,7 +4292,7 @@ msgstr "Su privacidad es muy importante para nosotros. Todo en JustFix es seguro
 
 #: frontend/lib/onboarding/onboarding-step-1.tsx:104
 msgid "Your privacy is very important to us. Everything on JustFix is secure. <0>Click here to learn more<1> about our privacy policy</1></0>."
-msgstr "Su privacidad es muy importante para nosotros. Todo en JustFix es seguro. <0>Haz clic aquí para obtener más información<1> sobre nuestra política de privacidad</1></0>."
+msgstr "Su privacidad es muy importante para nosotros. Todo en JustFix es seguro. <0>Haga clic aquí para obtener más información<1> sobre nuestra política de privacidad</1></0>."
 
 #: frontend/lib/common-steps/ask-national-address.tsx:111
 #: frontend/lib/common-steps/ask-nyc-address.tsx:39

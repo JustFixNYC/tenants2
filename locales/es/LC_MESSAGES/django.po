@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tenants2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-13 15:01+0000\n"
-"PO-Revision-Date: 2026-02-23 18:16\n"
+"PO-Revision-Date: 2026-02-25 19:10\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -20,51 +20,51 @@ msgstr ""
 #: evictionfree/declaration_sending.py:100
 #, python-format
 msgid "%(name)s, your eviction protection form has been emailed to your landlord."
-msgstr "%(name)s, tu formulario de protección contra el desalojo ha sido enviado por correo electrónico al dueño de tu edificio."
+msgstr "%(name)s, su formulario de protección contra el desalojo ha sido enviado por correo electrónico al arrendador de su edificio."
 
 #: evictionfree/declaration_sending.py:132
 #, python-format
 msgid "%(name)s, a hard copy of your eviction protection form has been mailed to your landlord via USPS mail. You can track the delivery of your hard copy form using USPS Tracking: %(url)s."
-msgstr "%(name)s, también se le envió una copia impresa de tu formulario al dueño de tu edificio por correo postal de USPS. Puedes dar seguimiento a la entrega de tu formulario impreso utilizando la herramienta de seguimiento de correspondencia de USPS: %(url)s."
+msgstr "%(name)s, una copia impresa de su formulario de protección contra el desalojo fue enviada por correo postal de USPS a su arrendador. Puede hacer seguimiento de la entrega de su copia impresa usando el sistema de rastreo de USPS: %(url)s."
 
 #: evictionfree/declaration_sending.py:175
 #, python-format
 msgid "%(name)s, your eviction protection form has been emailed to your local housing court."
-msgstr "%(name)s, tu formulario de protección contra el desalojo ha sido enviado por correo electrónico a la corte de vivienda local."
+msgstr "%(name)s, su formulario de protección contra el desalojo ha sido enviado por correo electrónico al tribunal de vivienda local."
 
 #: evictionfree/declaration_sending.py:248
 #, python-format
 msgid "%(name)s, you can download a PDF of your completed declaration form by logging back into your account: %(url)s."
-msgstr "%(name)s, también puedes bajarte un PDF de tu formulario de declaración regresando a tu cuenta: %(url)s."
+msgstr "%(name)s, también puede descargar un PDF de su formulario de declaración regresando a su cuenta: %(url)s."
 
 #: evictionfree/declaration_sending.py:256
 #, python-format
 msgid "For more information about New York’s eviction protections and your rights as a tenant, visit %(url)s. To get involved in organizing and the fight to #StopEvictions and #CancelRent, follow us on Twitter at @RTCNYC and @housing4allNY."
-msgstr "Para obtener más información sobre las protecciones de desalojo de Nueva York y tus derechos como inquilino, visita %(url)s. Para participar en la organización y en la lucha para #StopEvictions (parar los desalojos) y #CancelRent (cancelar la renta), síguenos en Twitter: @RTCNYC y @ housing4allNY."
+msgstr "Para obtener más información sobre las protecciones contra desalojos de Nueva York y sus derechos como inquilino, visite %(url)s. Para participar en la organización y en la lucha para #StopEvictions (parar los desalojos) y #CancelRent (cancelar la renta), síganos en Twitter: @RTCNYC y @ housing4allNY."
 
 #: evictionfree/schema.py:97
 msgid "You have already sent a hardship declaration form!"
-msgstr "¡Ya has enviado un formulario de declaración de penuria!"
+msgstr "¡Ya presentó un formulario de declaración de dificultades económicas!"
 
 #: evictionfree/schema.py:99
 msgid "You haven't provided any landlord details yet!"
-msgstr "¡Aún no has proporcionado detalles sobre el dueño de tu edificio!"
+msgstr "¡Aún no ha proporcionado detalles sobre el arrendador de su edificio!"
 
 #: evictionfree/schema.py:104
 msgid "You must be in the state of New York to use this tool!"
-msgstr "¡Debes estar en el estado de Nueva York para usar esta herramienta!"
+msgstr "¡Debe estar en el estado de Nueva York para usar esta herramienta!"
 
 #: evictionfree/schema.py:112
 msgid "You haven't provided details for your hardship declaration form yet!"
-msgstr "¡Aún no has proporcionado detalles para tu formulario de declaración de penuria!"
+msgstr "¡Aún no ha proporcionado detalles para su formulario de declaración de dificultades económicas!"
 
 #: evictionfree/schema.py:119
 msgid "This form can only be used from the Eviction Free NY site."
-msgstr "Este formulario sólo se puede utilizar desde el sitio web Eviction Free NY."
+msgstr "Este formulario solo se puede utilizar desde el sitio web de NY Eviction Free."
 
 #: evictionfree/schema.py:126
 msgid "This tool has been suspended! Please reload the page for more details."
-msgstr "¡Esta herramienta ha sido suspendida! Por favor, recarga la página para más detalles."
+msgstr "¡Esta herramienta ha sido suspendida! Recargue la página para más detalles."
 
 #: frontend/templates/frontend/safe_mode_ui.html:9
 msgid "This site is currently in <strong>compatibility mode</strong>. For an enhanced experience, you can disable it, but this may cause compatibility issues with your current browser."
@@ -76,7 +76,7 @@ msgstr "Desactivar modo de compatibilidad"
 
 #: frontend/templates/frontend/safe_mode_ui.html:26
 msgid "Having problems using this page? We're sorry for the inconvenience. Activate this site's <strong>compatibility mode</strong> for a better experience."
-msgstr "¿Tienes problemas al usar esta página? Disculpa las molestias. Activa el <strong>modo de compatibilidad</strong> para una experiencia mejor."
+msgstr "¿Tiene problemas al usar esta página? Disculpe las molestias. Active el <strong>modo de compatibilidad</strong> para una mejor experiencia."
 
 #: frontend/templates/frontend/safe_mode_ui.html:29
 msgid "Activate compatibility mode"
@@ -92,7 +92,7 @@ msgstr "Seleccione al menos un problema de reparación."
 
 #: laletterbuilder/forms.py:73
 msgid "Please provide a landlord email or indicate that you do not have this information."
-msgstr "Por favor, proporciona un correo electrónico de propietario o indica que no tienes esta información."
+msgstr "Por favor, proporcione un correo electrónico del arrendador o indique que no tiene esta información."
 
 #: loc/schema.py:84
 msgid "Enter at least 1 ticket number or select `I don't have a ticket number.`"
@@ -101,58 +101,58 @@ msgstr "Introduzca al menos un número de ticket o seleccione \"No tengo un núm
 #: norent/forms.py:65
 #, python-format
 msgid "%(city)s, %(state_name)s doesn't seem to exist!"
-msgstr "¡%(city)s, %(state_name)s no existe!"
+msgstr "¡Parece que%(city)s, %(state_name)s no existe!"
 
 #: norent/letter_sending.py:38
 #, python-format
 msgid "%(name)s you've sent your letter of non-payment of rent. You can track the delivery of your letter using USPS Tracking: %(url)s."
-msgstr "%(name)s has enviado tu carta de no pago de renta. Puedes seguir la entrega de tu carta usando USPS Tracking: %(url)s."
+msgstr "%(name)s, ha enviado su carta por falta de pago de la renta. Puede seguir la entrega de su carta usando el sistema de rastreo de USPS: %(url)s."
 
 #: norent/schema.py:237
 #, python-format
 msgid "Please enter a valid ZIP code for %(state_name)s."
-msgstr "Por favor, introduzca un código postal válido para %(state_name)s."
+msgstr "Introduzca un código postal válido para %(state_name)s."
 
 #: norent/schema.py:244
 msgid "Your address appears to be within New York City. Please go back and enter \"New York City\" as your city."
-msgstr "Tu dirección parece estar dentro de la ciudad de Nueva York. Por favor, vuelve atrás para introducir \"New York City\" como tu ciudad."
+msgstr "Su dirección parece estar dentro de la ciudad de Nueva York. Vuelva hacia atrás para introducir \"New York City\" como su ciudad."
 
 #: norent/schema.py:340
 msgid "This tool has been deprecated! Please reload the page for more details."
-msgstr "¡Esta herramienta ha sido suspendida! Por favor, recarga la página para más detalles."
+msgstr "¡Esta herramienta ha sido suspendida! Recargue la página para más detalles."
 
 #: norent/schema.py:459
 #, python-format
 msgid "Welcome to %(site_name)s, a product by JustFix. We'll be sending you notifications from this phone number."
-msgstr "Bienvenido/a %(site_name)s, un producto por JustFix. Te enviaremos notificaciones desde este número de teléfono."
+msgstr "Bienvenido/a %(site_name)s, un producto por JustFix. Le enviaremos notificaciones desde este número de teléfono."
 
 #: norent/sms_reminders.py:26
 #, python-format
 msgid "%(first_name)s, you've previously created an account on NoRent.org. The California Tenant Relief Act of 2020 was extended by the new law SB91. In order to be protected from eviction, you must send a new declaration letter to your landlord through NoRent.org: %(norentUrl)s"
-msgstr "%(first_name)s, previamente creaste una cuenta en NoRent.org. La Ley de Alivio de Inquilinos de California de 2020 fue ampliada por la nueva ley SB91. Para estar protegido del desalojo, debes enviar una nueva carta de declaración al dueño o manager de tu edificio a través de NoRent.org: %(norentUrl)s"
+msgstr "%(first_name)s, previamente creó una cuenta en NoRent.org. La Ley de Alivio de Inquilinos de California de 2020 fue prorrogada mediante la nueva ley SB91. Para mantener su protección contra el desalojo, debe enviar una nueva carta de declaración a su arrendador o administrador de su edificio a través de NoRent.org: %(norentUrl)s"
 
 #: norent/sms_reminders.py:33
 #, python-format
 msgid "%(first_name)s, you've previously created an account on NoRent.org. The California Tenant Relief Act of 2020 was extended by the new law AB832. In order to be protected from eviction, you must send a new declaration letter to your landlord through NoRent.org: %(norentUrl)s"
-msgstr "%(first_name)s, previamente creaste una cuenta en NoRent.org. La Ley de Alivio de Inquilinos de California de 2020 fue ampliada por la nueva ley AB832. Para estar protegido del desalojo, debes enviar una nueva carta de declaración al dueño o manager de tu edificio a través de NoRent.org: %(norentUrl)s"
+msgstr "%(first_name)s, previamente creó una cuenta en NoRent.org. La Ley de Alivio de Inquilinos de California de 2020 fue prorrogada mediante la nueva ley AB832. Para mantener su protección contra el desalojo, debe enviar una nueva carta de declaración a su arrendador o administrador de su edificio a través de NoRent.org: %(norentUrl)s"
 
 #: norent/sms_reminders.py:40
 #, python-format
 msgid "This is NoRent, texting from a new number. You’ve previously created an account on NoRent.org. On Friday, Oct 1, 2021, California’s statewide protections for tenants unable to pay rent due to COVID-19 (AB832) expired. If you have not submitted a declaration for a month you were unable to pay rent, do so now through NoRent.org: %(norentUrl)s. We also strongly encourage you to apply for government rental assistance through Housing is Key: %(housingIsKeyUrl)s or call 833-430-2122."
-msgstr "Esto es “No Rent,” mandando un mensaje de texto desde un nuevo numero. Previamente, usted ha creado una cuenta con norent.org. El día viernes, el 1 de octubre de 2021, las protecciones en todo el estado de California para los inquilinos que no pueden pagan su renta por COVID-19 (AB 832) expiraron. Si usted no ha enviado su declaración para un mes en que no podía pagar la renta, hay que hacerlo ahora por %(norentUrl)s. También, nosotros le recomendemos fuertemente, que solicite asistencia de la renta del gobierno por Housing is Key: %(housingIsKeyUrl)s o por llamar a 833-430-2122."
+msgstr "Somos NoRent. Le escribimos desde un nuevo número. Usted creó previamente una cuenta en NoRent.org. El viernes 1 de octubre de 2021 vencieron las protecciones estatales de California para inquilinos que no pudieron pagar la renta debido al COVID-19 (AB 832). Si no ha presentado una declaración correspondiente a algún mes en el que no pudo pagar el alquiler, hágalo ahora a través de NoRent.org: %(norentUrl)s. También le recomendamos encarecidamente que solicite asistencia gubernamental para el pago del alquiler a través de Housing is Key: %(housingIsKeyUrl)s o que llame al 833-430-2122."
 
 #: norent/sms_reminders.py:50
 #, python-format
 msgid "%(first_name)s, you've previously created an account on NoRent.org. If you are unable to pay rent next month AND you have a COVID-19 related reason for not paying, we recommend that on or before your rent due date or within 7 days of your rent due date, you send a new AB832 declaration to your landlord through NoRent.org: %(norentUrl)s"
-msgstr "%(first_name)s, previamente creaste una cuenta de usuario en NoRent.org. Si no puedes pagar el alquiler el mes que viene y tienes una razón relacionada con COVID-19 para no pagar, recomendamos que envíes una nueva declaración AB832 al dueño o manager de tu edificio a través de NoRent.org: %(norentUrl)s antes de la fecha de vencimiento de la renta, en el día mismo o dentro de los 7 días siguientes."
+msgstr "%(first_name)s, usted creó previamente una cuenta en NoRent.org. Si no puede pagar la renta el próximo mes y la razón está relacionada con el COVID-19, le recomendamos que, en o antes de la fecha de vencimiento del alquiler, o dentro de los 7 días posteriores a esa fecha, envíe una nueva declaración AB832 a su arrendador a través de NoRent.org: %(norentUrl)s"
 
 #: onboarding/forms.py:60
 msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox (but not both)."
-msgstr "Por favor proporcione un número de apartamento o marque la casilla \"No tengo número de apartamento\" (pero no ambos)."
+msgstr "Proporcione un número de departamento o marque la casilla \"No tengo número de departamento\" (pero no ambos)."
 
 #: onboarding/forms.py:68
 msgid "Please either provide an apartment number or check the \"I have no apartment number\" checkbox."
-msgstr "Por favor proporcione un número de apartamento o marque la casilla \"No tengo ningún número de apartamento\"."
+msgstr "Proporcione un número de departamento o marque la casilla \"No tengo número de departamento\"."
 
 #: onboarding/schema.py:126
 msgid "You haven't completed all the previous steps yet."
@@ -160,11 +160,11 @@ msgstr "Aún no ha completado todos los pasos anteriores."
 
 #: onboarding/schema_util.py:16
 msgid "You haven't provided any account details yet!"
-msgstr "¡Aún no has proporcionado detalles de cuenta!"
+msgstr "¡Aún no ha proporcionado detalles de cuenta!"
 
 #: project/forms.py:14
 msgid "Please choose at least one option."
-msgstr "Por favor, escoja al menos una opción."
+msgstr "Escoja al menos una opción."
 
 #: project/forms.py:105
 msgid "Invalid phone number or password."
@@ -181,17 +181,17 @@ msgstr "¡Las contraseñas no coinciden!"
 #: project/password_reset.py:69
 #, python-format
 msgid "Your %(site_name)s verification code"
-msgstr "Tu código de verificación de %(site_name)s"
+msgstr "Su código de verificación de %(site_name)s"
 
 #: project/password_reset.py:70
 #, python-format
 msgid "%(site_name)s here! Your verification code is %(code)s."
-msgstr "Aquí %(site_name)s! Tu código de verificación es %(code)s."
+msgstr "¡Aquí %(site_name)s! Su código de verificación es %(code)s."
 
 #: project/tests/test_compilemessages.py:6
 #: texting/tests/test_sms_reminder.py:19
 msgid "Hello world"
-msgstr "Hola mundo"
+msgstr "Hola, mundo"
 
 #: project/util/address_form_fields.py:77
 msgid "The address provided is invalid."
@@ -208,7 +208,7 @@ msgstr "Los números de teléfono de Estados Unidos de América deben tener %(ph
 
 #: project/util/phone_number.py:31
 msgid "Phone numbers can only contain digits."
-msgstr "Los números de teléfono sólo pueden contener números."
+msgstr "Los números de teléfono solo pueden contener números."
 
 #: project/util/phone_number.py:36
 #, python-format
@@ -217,5 +217,5 @@ msgstr "%(areacode)s no es un prefijo telefónico válido."
 
 #: project/util/phone_number.py:70
 msgid "This does not look like a U.S. phone number. Please include the area code, e.g. (555) 123-4567."
-msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Por favor, incluye el prefijo telefónico, por ejemplo, (555) 123-4567."
+msgstr "Ese no parece un número de teléfono de los Estados Unidos de América. Incluya el prefijo telefónico, por ejemplo, (555) 123-4567."
 

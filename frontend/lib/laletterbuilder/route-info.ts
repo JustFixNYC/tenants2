@@ -11,7 +11,7 @@ import {
 } from "../util/route-util";
 import { createHabitabilityRouteInfo } from "./letter-builder/habitability/route-info";
 
-function createLocalizedRouteInfo(prefix: string) {
+export function createLaLetterBuilderLocalizedRouteInfo(prefix: string) {
   return {
     /** The locale prefix, e.g. `/en`. */
     [ROUTE_PREFIX]: prefix,
@@ -61,7 +61,7 @@ function createLocalizedRouteInfo(prefix: string) {
 }
 
 export const LaLetterBuilderRouteInfo = createRoutesForSite(
-  createLocalizedRouteInfo,
+  createLaLetterBuilderLocalizedRouteInfo,
   {
     /**
      * Example pages used in integration tests, and other

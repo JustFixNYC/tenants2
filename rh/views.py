@@ -1,4 +1,5 @@
 import json
+import logging
 
 from django.http import HttpRequest, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -7,6 +8,8 @@ from django.views.decorators.http import require_POST
 from .email_dhcr import send_email_to_dhcr
 from .forms import RhForm, RhSendEmail
 from .models import RentalHistoryRequest
+
+logger = logging.getLogger(__name__)
 
 
 def _parse_body(request: HttpRequest) -> dict:
@@ -26,7 +29,12 @@ def submit(request: HttpRequest) -> JsonResponse:
     rhr: RentalHistoryRequest = form.save(commit=False)
     if request.user.is_authenticated:
         rhr.user = request.user
-    rhr.address_verified = False
+    cd = form.cleaned_data
+    rhr.phone_number = cd.get("phone_number", "")
+    rhr.address = cd.get("address", "")
+    rhr.borough = cd.get("borough", "")
+    rhr.zipcode = cd.get("zipcode", "")
+    rhr.address_verified = cd.get("address_verified", False)
     rhr.save()
 
     return JsonResponse({"id": rhr.pk}, status=201)
@@ -44,7 +52,7 @@ def send_email(request: HttpRequest) -> JsonResponse:
     try:
         rhr = RentalHistoryRequest.objects.get(pk=rhr_id)
     except RentalHistoryRequest.DoesNotExist:
-        return JsonResponse({"errors": {"id": ["not found"]}}, status=404)
+        return JsonResponse({"errors": {"id": ["not found"]}}, status=400)
 
     subject = f"Rent history request for {rhr.address}"
     body = (

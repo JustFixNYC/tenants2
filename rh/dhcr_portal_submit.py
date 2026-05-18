@@ -23,10 +23,15 @@ Usage from Python:
 """
 import logging
 import os
+import re
 from dataclasses import dataclass
 from typing import Optional
 
 from .models import RentalHistoryRequest
+
+# Reference number HCR shows on the success page: "#240513-000046"
+# (YYMMDD + 6-digit serial). Captured verbatim without the leading '#'.
+REFERENCE_NUMBER_RE = re.compile(r"#(\d{6}-\d{6})")
 
 logger = logging.getLogger(__name__)
 
@@ -38,6 +43,7 @@ DEFAULT_TIMEOUT_MS = 30_000
 class SubmissionResult:
     success: bool
     dry_run: bool
+    reference_number: Optional[str] = None
     confirmation_text: Optional[str] = None
     error: Optional[str] = None
 
@@ -124,10 +130,15 @@ def submit_via_portal(rhr: RentalHistoryRequest) -> SubmissionResult:
             submit_button.click()
             page.wait_for_load_state("networkidle")
 
+            page.wait_for_selector("text=Your question has been submitted", timeout=DEFAULT_TIMEOUT_MS)
             confirmation = _read_confirmation(page)
+            reference = _extract_reference_number(confirmation)
+            if not reference:
+                logger.warning("DHCR portal: success page reached but no reference number matched")
             return SubmissionResult(
                 success=True,
                 dry_run=False,
+                reference_number=reference,
                 confirmation_text=confirmation,
             )
 
@@ -176,3 +187,16 @@ def _read_confirmation(page) -> str:
         return page.locator("body").inner_text()[:500]
     except Exception:
         return ""
+
+
+def _extract_reference_number(confirmation_text: str) -> Optional[str]:
+    """
+    Pull the HCR reference number out of the success-page text.
+
+    Success page shows: "Use this reference number for follow up: #240513-000046."
+    Returns "240513-000046" (without the leading '#'), or None if not found.
+    """
+    if not confirmation_text:
+        return None
+    m = REFERENCE_NUMBER_RE.search(confirmation_text)
+    return m.group(1) if m else None

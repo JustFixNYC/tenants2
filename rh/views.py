@@ -5,6 +5,7 @@ from django.http import HttpRequest, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
+from .dhcr_portal_submit import submit_via_portal
 from .forms import RhForm
 from .models import RentalHistoryRequest
 
@@ -36,4 +37,16 @@ def submit(request: HttpRequest) -> JsonResponse:
     rhr.address_verified = cd.get("address_verified", False)
     rhr.save()
 
-    return JsonResponse({"id": rhr.pk}, status=201)
+    portal_result = submit_via_portal(rhr)
+    return JsonResponse(
+        {
+            "id": rhr.pk,
+            "portal": {
+                "dry_run": portal_result.dry_run,
+                "success": portal_result.success,
+                "reference_number": portal_result.reference_number,
+                "error": portal_result.error,
+            },
+        },
+        status=201,
+    )

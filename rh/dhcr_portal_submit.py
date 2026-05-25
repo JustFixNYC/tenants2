@@ -80,26 +80,24 @@ def submit_via_portal(rhr: RentalHistoryRequest) -> SubmissionResult:
     )
 
     with sync_playwright() as pw:
-        browser = pw.chromium.launch(headless=headless)
-        context = browser.new_context()
-        page = context.new_page()
-        page.set_default_timeout(DEFAULT_TIMEOUT_MS)
-
+        browser = None
+        context = None
         try:
+            browser = pw.chromium.launch(headless=headless)
+            context = browser.new_context()
+            page = context.new_page()
+            page.set_default_timeout(DEFAULT_TIMEOUT_MS)
+
             page.goto(PORTAL_URL)
 
             # Reason: select "Apartment Rent History" from the dropdown.
             # Field locators are best-guesses against a Microsoft Power Pages
             # portal; verify these against the live DOM before production use.
-            page.get_by_label("Reason", exact=False).select_option(
-                label="Apartment Rent History"
-            )
+            page.get_by_label("Reason", exact=False).select_option(label="Apartment Rent History")
 
             page.get_by_label("First Name", exact=False).fill(rhr.first_name)
             page.get_by_label("Last Name", exact=False).fill(rhr.last_name)
-            page.get_by_label("Email Address", exact=False).fill(
-                _tenant_email(rhr)
-            )
+            page.get_by_label("Email Address", exact=False).fill(_tenant_email(rhr))
             page.get_by_label("Phone", exact=False).fill(rhr.phone_number or "")
 
             # Requestor type: Tenant
@@ -130,7 +128,9 @@ def submit_via_portal(rhr: RentalHistoryRequest) -> SubmissionResult:
             submit_button.click()
             page.wait_for_load_state("networkidle")
 
-            page.wait_for_selector("text=Your question has been submitted", timeout=DEFAULT_TIMEOUT_MS)
+            page.wait_for_selector(
+                "text=Your question has been submitted", timeout=DEFAULT_TIMEOUT_MS
+            )
             confirmation = _read_confirmation(page)
             reference = _extract_reference_number(confirmation)
             if not reference:
@@ -143,16 +143,16 @@ def submit_via_portal(rhr: RentalHistoryRequest) -> SubmissionResult:
             )
 
         except PWTimeout as e:
-            return SubmissionResult(
-                success=False, dry_run=dry_run, error=f"timeout: {e}"
-            )
+            return SubmissionResult(success=False, dry_run=dry_run, error=f"timeout: {e}")
         except Exception as e:
             return SubmissionResult(
                 success=False, dry_run=dry_run, error=f"{type(e).__name__}: {e}"
             )
         finally:
-            context.close()
-            browser.close()
+            if context is not None:
+                context.close()
+            if browser is not None:
+                browser.close()
 
 
 def _tenant_email(rhr: RentalHistoryRequest) -> str:

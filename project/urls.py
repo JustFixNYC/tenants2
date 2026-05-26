@@ -46,6 +46,7 @@ urlpatterns = [
     path("docusign/", include("docusign.urls")),
     path("data-requests/", include("data_requests.urls")),
     path("mailchimp/", include("mailchimp.urls")),
+    path("rh/", include("rh.urls")),
     path("p/", include("partnerships.urls")),
     path("nycx/", include("nycx.urls")),
     path("s/", include("shortlinks.urls")),

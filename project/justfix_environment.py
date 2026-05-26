@@ -300,6 +300,12 @@ class JustfixEnvironment(typed_environ.BaseEnvironment):
     # Recipient email addresses that we send a user's rental history request to.
     DHCR_EMAIL_RECIPIENT_ADDRESSES: str = "orarecords@hcr.ny.gov"
 
+    # The HCR tenant portal form used to submit rent history requests.
+    DHCR_RENT_HISTORY_FORM_URL: str = "https://portal.hcr.ny.gov/app/ask"
+
+    # Playwright timeout, in milliseconds, for submitting the HCR form.
+    DHCR_RENT_HISTORY_FORM_TIMEOUT_MS: int = 30000
+
     # An optional label to show in the site's navbar and other communications,
     # next to "JustFix". This can be useful to e.g. distinguish a production
     # deployment from a staging one.

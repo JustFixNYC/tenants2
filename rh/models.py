@@ -16,6 +16,7 @@ class RentalHistoryRequest(models.Model):
     address_verified = models.BooleanField()
     borough = models.CharField(**BOROUGH_FIELD_KWARGS)
     zipcode = models.CharField(max_length=5, blank=True)
+    dhcr_reference_number = models.CharField(max_length=64, blank=True)
     referral = models.ForeignKey(
         PartnerOrg,
         db_column="referral",

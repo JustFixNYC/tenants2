@@ -67,6 +67,20 @@ def test_valid_payload_calls_portal_with_saved_request(db, client, monkeypatch):
     assert portal.call_args.args[0].pk == rhr.pk
 
 
+def test_valid_payload_saves_portal_reference_number(db, client, monkeypatch):
+    portal = MagicMock(
+        return_value=SubmissionResult(success=True, dry_run=False, reference_number="260518-000018")
+    )
+    monkeypatch.setattr("rh.views.submit_via_portal", portal)
+
+    res = _post(client, VALID_PAYLOAD)
+
+    assert res.status_code == 201
+    assert res.json()["portal"]["reference_number"] == "260518-000018"
+    rhr = RentalHistoryRequest.objects.get()
+    assert rhr.dhcr_reference_number == "260518-000018"
+
+
 def test_portal_returns_error_when_browser_launch_fails(db, monkeypatch):
     """A browser launch failure must be captured in the result, never raised.
 

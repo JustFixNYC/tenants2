@@ -38,6 +38,10 @@ def submit(request: HttpRequest) -> JsonResponse:
     rhr.save()
 
     portal_result = submit_via_portal(rhr)
+    if portal_result.reference_number:
+        rhr.dhcr_reference_number = portal_result.reference_number
+        rhr.save(update_fields=["dhcr_reference_number"])
+
     return JsonResponse(
         {
             "id": rhr.pk,

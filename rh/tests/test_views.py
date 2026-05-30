@@ -23,6 +23,43 @@ def _post(client, payload):
     )
 
 
+def test_requests_returns_local_requests_when_debug_is_enabled(db, client, settings):
+    settings.DEBUG = True
+    RentalHistoryRequestFactory(
+        user=None,
+        first_name="Older",
+        last_name="Tenant",
+        address="1 Old St",
+        dhcr_reference_number="260518-000001",
+    )
+    newer = RentalHistoryRequestFactory(
+        user=None,
+        first_name="Newer",
+        last_name="Tenant",
+        address="2 New St",
+        dhcr_reference_number="260518-000002",
+    )
+
+    res = client.get("/rh/requests")
+
+    assert res.status_code == 200
+    data = res.json()
+    assert len(data["results"]) == 2
+    assert data["results"][0]["id"] == newer.pk
+    assert data["results"][0]["first_name"] == "Newer"
+    assert data["results"][0]["dhcr_reference_number"] == "260518-000002"
+    assert data["results"][0]["phone_number"] == newer.phone_number
+
+
+def test_requests_404s_when_debug_is_disabled(db, client, settings):
+    settings.DEBUG = False
+    settings.SECURE_SSL_REDIRECT = False
+
+    res = client.get("/rh/requests")
+
+    assert res.status_code == 404
+
+
 def test_missing_required_field_returns_400_and_saves_nothing(db, client):
     payload = {k: v for k, v in VALID_PAYLOAD.items() if k != "first_name"}
     res = _post(client, payload)

@@ -443,8 +443,6 @@ const KYR_LINKS: LocalizedOutboundLinkProps[] = [
 ];
 
 function RentalHistoryConfirmation(): JSX.Element {
-  const appContext = useContext(AppContext);
-  const { onboardingInfo } = appContext.session;
   return (
     <Page
       title={li18n._(

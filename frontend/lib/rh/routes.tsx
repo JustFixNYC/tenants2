@@ -443,8 +443,6 @@ const KYR_LINKS: LocalizedOutboundLinkProps[] = [
 ];
 
 function RentalHistoryConfirmation(): JSX.Element {
-  const appContext = useContext(AppContext);
-  const { onboardingInfo } = appContext.session;
   return (
     <Page
       title={li18n._(
@@ -500,12 +498,15 @@ function RentalHistoryConfirmation(): JSX.Element {
           .
         </Trans>
       </p>
-      <Link
-        to={JustfixRoutes.locale.homeWithSearch(onboardingInfo)}
+      <LocalizedOutboundLink
+        hrefs={{
+          en: "https://www.justfix.org/en/",
+          es: "https://www.justfix.org/es/",
+        }}
         className="button is-primary is-medium jf-is-extra-wide"
       >
         <Trans>Explore our other tools</Trans>
-      </Link>
+      </LocalizedOutboundLink>
       <h2>
         <Trans>Want to read more about your rights?</Trans>
       </h2>

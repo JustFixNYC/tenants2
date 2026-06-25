@@ -14,6 +14,7 @@ class RentalHistoryRequestAdmin(admin.ModelAdmin):
         "address",
         "borough",
         "referral",
+        "dhcr_reference_number",
     ]
 
     ordering = ["created_at"]

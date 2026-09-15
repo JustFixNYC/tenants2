@@ -20,7 +20,7 @@ jobs:
       - restore_cache:
           name: Restore Git LFS cache
           key: gitlfs-build
-      - shell:
+      - run:
           name: Pull Git LFS files
           command: git lfs pull
       - save_cache:
@@ -101,7 +101,7 @@ jobs:
       - restore_cache:
           name: Restore Git LFS cache
           key: gitlfs-build
-      - shell:
+      - run:
           name: Pull Git LFS files
           command: git lfs pull
       - restore_cache:
@@ -146,7 +146,7 @@ jobs:
           method: blobless
       - restore_cache:
           key: gitlfs-deploy
-      - shell:
+      - run:
           name: Pull Git LFS files
           command: git lfs pull
       - save_cache:

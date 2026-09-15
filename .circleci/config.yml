@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   lint:
     # Aside from running linters and other things that don't measure
@@ -20,7 +20,7 @@ jobs:
       - restore_cache:
           name: Restore Git LFS cache
           key: gitlfs-build
-      - shell:
+      - run:
           name: Pull Git LFS files
           command: git lfs pull
       - save_cache:
@@ -101,7 +101,7 @@ jobs:
       - restore_cache:
           name: Restore Git LFS cache
           key: gitlfs-build
-      - shell:
+      - run:
           name: Pull Git LFS files
           command: git lfs pull
       - restore_cache:
@@ -146,7 +146,7 @@ jobs:
           method: blobless
       - restore_cache:
           key: gitlfs-deploy
-      - shell:
+      - run:
           name: Pull Git LFS files
           command: git lfs pull
       - save_cache:
@@ -179,39 +179,26 @@ jobs:
             python deploy.py selfcheck
             python deploy.py heroku -r heroku --cache-from=${CACHE_FROM}
 workflows:
-  version: 2
   test_and_deploy:
     jobs:
       - lint:
-          filters:
-            branches:
-              ignore:
-                # This is a bit counter-intuitive, but we've been extremely
-                # diligent about only pushing to production once something
-                # has been verified to pass CI on master. Because of this,
-                # it's wasted effort to run the exact same tests on production
-                # when we push to it, particularly since the merge on
-                # production is a fast-forward merge and therefore represents
-                # the exact same code that's already been tested on master.
-                - production
+          # This is a bit counter-intuitive, but we've been extremely
+          # diligent about only pushing to production once something
+          # has been verified to pass CI on master. Because of this,
+          # it's wasted effort to run the exact same tests on production
+          # when we push to it, particularly since the merge on
+          # production is a fast-forward merge and therefore represents
+          # the exact same code that's already been tested on master.
+          filters: pipeline.git.branch != "production"
       - test:
-          filters:
-            branches:
-              ignore:
-                # See above note on why we're ignoring production here.
-                - production
+          # See above note on why we're ignoring production here.
+          filters: pipeline.git.branch != "production"
       - deploy:
           requires:
             - test
             - lint
-          filters:
-            branches:
-              only:
-                - master
+          filters: pipeline.git.branch == "master"
   only_deploy:
     jobs:
       - deploy:
-          filters:
-            branches:
-              only:
-                - production
+          filters: pipeline.git.branch == "production"

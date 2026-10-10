@@ -34,6 +34,11 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
+# Install Code Climate test reporter so coverage tooling works in the devcontainer
+RUN curl -Ls https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 \
+    -o /usr/local/bin/cc-test-reporter \
+ && chmod +x /usr/local/bin/cc-test-reporter
+
 # ********************************************************
 # * Anything else you want to do like clean up goes here *
 # ********************************************************

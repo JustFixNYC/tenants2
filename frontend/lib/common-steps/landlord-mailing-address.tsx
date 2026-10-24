@@ -48,57 +48,72 @@ const LandlordMailingAddress: React.FC<
     confirmModalRoute: string;
     children: JSX.Element;
   }
-> = (props) => (
-  <Page
-    title={li18n._(t`Your landlord or management company's address`)}
-    withHeading="big"
-    className="content"
-  >
-    {props.children}
-    <DemoDeploymentNote>
-      <p>
-        This demo site <strong>will not send</strong> real mail to your landlord
-        at the address provided below.
-      </p>
-    </DemoDeploymentNote>
-    <SessionUpdatingFormSubmitter
-      mutation={LandlordDetailsV2Mutation}
-      initialState={(session) =>
-        exactSubsetOrDefault(
-          session.landlordDetails,
-          BlankLandlordDetailsV2Input
-        )
-      }
-      onSuccessRedirect={(output) =>
-        output.isUndeliverable ? props.confirmModalRoute : props.nextStep
-      }
+> = (props) => {
+  const { landlordDetails } = useContext(AppContext).session;
+  const needsName = !landlordDetails?.name.trim();
+
+  return (
+    <Page
+      title={li18n._(t`Your landlord or management company's address`)}
+      withHeading="big"
+      className="content"
     >
-      {(ctx) => (
-        <>
-          <HiddenFormField {...ctx.fieldPropsFor("name")} />
-          <TextualFormField
-            {...ctx.fieldPropsFor("primaryLine")}
-            label={li18n._(t`Street address (include unit/suite/floor/apt #)`)}
-          />
-          <TextualFormField
-            {...ctx.fieldPropsFor("city")}
-            label={li18n._(t`City`)}
-          />
-          <USStateFormField {...ctx.fieldPropsFor("state")} />
-          <TextualFormField
-            {...ctx.fieldPropsFor("zipCode")}
-            label={li18n._(t`Zip code`)}
-          />
-          <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
-        </>
-      )}
-    </SessionUpdatingFormSubmitter>
-    <Route
-      path={props.confirmModalRoute}
-      render={() => <ConfirmAddressModal nextStep={props.nextStep} />}
-    />
-  </Page>
-);
+      {props.children}
+      <DemoDeploymentNote>
+        <p>
+          This demo site <strong>will not send</strong> real mail to your
+          landlord at the address provided below.
+        </p>
+      </DemoDeploymentNote>
+      <SessionUpdatingFormSubmitter
+        mutation={LandlordDetailsV2Mutation}
+        initialState={(session) =>
+          exactSubsetOrDefault(
+            session.landlordDetails,
+            BlankLandlordDetailsV2Input
+          )
+        }
+        onSuccessRedirect={(output) =>
+          output.isUndeliverable ? props.confirmModalRoute : props.nextStep
+        }
+      >
+        {(ctx) => (
+          <>
+            {needsName ? (
+              <TextualFormField
+                {...ctx.fieldPropsFor("name")}
+                label={li18n._(t`Landlord/management company's name`)}
+                required
+              />
+            ) : (
+              <HiddenFormField {...ctx.fieldPropsFor("name")} />
+            )}
+            <TextualFormField
+              {...ctx.fieldPropsFor("primaryLine")}
+              label={li18n._(
+                t`Street address (include unit/suite/floor/apt #)`
+              )}
+            />
+            <TextualFormField
+              {...ctx.fieldPropsFor("city")}
+              label={li18n._(t`City`)}
+            />
+            <USStateFormField {...ctx.fieldPropsFor("state")} />
+            <TextualFormField
+              {...ctx.fieldPropsFor("zipCode")}
+              label={li18n._(t`Zip code`)}
+            />
+            <ProgressButtons back={props.prevStep} isLoading={ctx.isLoading} />
+          </>
+        )}
+      </SessionUpdatingFormSubmitter>
+      <Route
+        path={props.confirmModalRoute}
+        render={() => <ConfirmAddressModal nextStep={props.nextStep} />}
+      />
+    </Page>
+  );
+};
 
 export default LandlordMailingAddress;
 

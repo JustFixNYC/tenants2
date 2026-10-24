@@ -130,6 +130,33 @@ describe("ProgressiveEnhancement", () => {
 });
 
 describe("SimpleProgressiveEnhancement", () => {
+  const MultipleChildren = (props: { disabled?: boolean }) => (
+    <SimpleProgressiveEnhancement disabled={props.disabled}>
+      <span>first child</span>
+      <span>second child</span>
+      {null}
+      {"plain text"}
+      {42}
+    </SimpleProgressiveEnhancement>
+  );
+
+  it("renders multiple children without adding a DOM wrapper", () => {
+    const pal = new ReactTestingLibraryPal(<MultipleChildren />);
+    expect(pal.rr.container.children.length).toBe(2);
+    expect(pal.rr.container.textContent).toBe(
+      "first childsecond childplain text42"
+    );
+  });
+
+  it("omits multiple children on the server", () => {
+    expect(ReactDOMServer.renderToStaticMarkup(<MultipleChildren />)).toBe("");
+  });
+
+  it("omits multiple children when disabled", () => {
+    const pal = new ReactTestingLibraryPal(<MultipleChildren disabled />);
+    expect(pal.rr.container.textContent).toBe("");
+  });
+
   it("renders children when enabled", () => {
     const pal = new ReactTestingLibraryPal(
       (

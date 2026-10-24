@@ -142,12 +142,12 @@ export class ProgressiveEnhancement extends React.Component<
  * anything when disabled.
  */
 export function SimpleProgressiveEnhancement(props: {
-  children: JSX.Element;
+  children: React.ReactNode;
   disabled?: boolean;
 }): JSX.Element {
   return (
     <ProgressiveEnhancement
-      renderEnhanced={() => props.children}
+      renderEnhanced={() => <>{props.children}</>}
       disabled={props.disabled}
     />
   );
